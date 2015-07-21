@@ -15,7 +15,7 @@
 {assign var="FIELD_NAME" value=$FIELD_MODEL->get('name')}
 
 <input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="{if $IS_RELATION eq true}1{else}0{/if}" />
-<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="checkbox" name="{$FIELD_MODEL->getFieldName()}"
+<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="checkbox" title="{if $IS_RELATION eq true}1{else}0{/if}"  name="{$FIELD_MODEL->getFieldName()}"
 data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO}'
 {if $FIELD_MODEL->get('fieldvalue') eq true} checked {/if}
 {if $IS_RELATION eq true} disabled="disabled" {/if}

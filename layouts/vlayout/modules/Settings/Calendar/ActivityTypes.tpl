@@ -10,61 +10,64 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid ActivityTypes">
-	<div class="widget_header row-fluid">
-		<div class="span10"><h3>{vtranslate('LBL_ACTIVITY_TYPES', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_ACTIVITY_TYPES_DESCRIPTION', $QUALIFIED_MODULE)}</div>
-		<div class="span2"></div>
+<div class=" ActivityTypes">
+	<div class="widget_header row">
+		<div class="col-md-10"><h3>{vtranslate('LBL_ACTIVITY_TYPES', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_ACTIVITY_TYPES_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+		<div class="col-md-2"></div>
 	</div>
 	<hr>
-	<div class="row-fluid">
-        <div class="contents tabbable">
-			<table class="table table-bordered table-condensed listViewEntriesTable">
-				<thead>
-					<tr class="blockHeader">
-						<th><strong>{vtranslate('LBL_ACTIVITY_NAME',$QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
+	<div class="contents tabbable">
+		<table class="table table-bordered table-condensed listViewEntriesTable">
+			<thead>
+				<tr class="blockHeader">
+					<th><strong>{vtranslate('LBL_ACTIVITY_NAME',$QUALIFIED_MODULE)}</strong></th>
+					<th><strong>{vtranslate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>
+					<th><strong>{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</strong></th>
+					<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
+					<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
+				</tr>
+			</thead>
+			<tbody>
+				{foreach from=$MODULE_MODEL->getCalendarViewTypes() item=item key=key}
+					<tr data-viewtypesid="{$item.id}" data-color="{$item.color}">
+						<td>{vtranslate($item.fieldname,$item.module)}</td>
+						<td>{vtranslate($item.module,$item.module)}</td>
+						<td>
+							<label class="checkbox">
+								<input class="activeType" type="checkbox" name="active" value="1" {if $item.active eq '1'}checked=""{/if}>
+							</label> 
+						</td>
+						<td class="calendarColor" style="background: {$item.color};"></td>
+						<td>
+							<button class="btn btn-default marginLeftZero updateColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+							<button class="btn btn-default generateColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+						</td>
 					</tr>
-				</thead>
-				<tbody>
-					{foreach from=$MODULE_MODEL->getCalendarViewTypes() item=item key=key}
-						<tr data-viewtypesid="{$item.id}" data-color="{$item.color}">
-							<td>{vtranslate($item.fieldname,$item.module)}</td>
-							<td>{vtranslate($item.module,$item.module)}</td>
-							<td>
-								<label class="checkbox">
-									<input class="activeType" type="checkbox" name="active" value="1" {if $item.active eq '1'}checked=""{/if}>
-								</label> 
-							</td>
-							<td class="calendarColor" style="background: {$item.color};"></td>
-							<td>
-								<button class="btn marginLeftZero updateColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>
-							</td>
-						</tr>
-					{/foreach}
-				</tbody>
-			</table>
-		</div>
+				{/foreach}
+			</tbody>
+		</table>
 	</div>
-	<div class="clearfix"></div>
-	<div class="modal editColorContainer hide">
-		<div class="modal-header contentsBackground">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>{vtranslate('LBL_EDIT_COLOR', $QUALIFIED_MODULE)}</h3>
-		</div>
-		<div class="modal-body">
-			<form class="form-horizontal">
-				<input type="hidden" class="selectedColor" value="" />
-				<div class="control-group">
-					<label class="control-label">{vtranslate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</label>
-					<div class="controls">
-						<p class="calendarColorPicker"></p>
-					</div>
+
+	<div class="modal editColorContainer fade" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header contentsBackground">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3 class="modal-title">{vtranslate('LBL_EDIT_COLOR', $QUALIFIED_MODULE)}</h3>
 				</div>
-			</form>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<input type="hidden" class="selectedColor" value="" />
+						<div class="form-group">
+							<label class=" col-sm-3 control-label">{vtranslate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</label>
+							<div class=" col-sm-8 controls">
+								<p class="calendarColorPicker"></p>
+							</div>
+						</div>
+					</form>
+				</div>
+				{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+			</div>
 		</div>
-		{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 	</div>
 {/strip}

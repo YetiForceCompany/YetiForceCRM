@@ -9,20 +9,19 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
-	'Reviewed' => 'Рассмотренно',
+$languageStrings = [
+	'Rejected' => 'Отклонено',
+	'Accepted' => 'Принято',
 	'Created' => 'Создано',
+	'Reviewed' => 'В ожидании решения',
 	'LBL_GENERATE_QUOTES' => 'Создать Предложение',
-	'Accepted'=>'Принято',
 	'Inventory Manager'=>'Ответственный за склад',
 	'LBL_ADD_RECORD' => 'Добавить Предложение',
 	'LBL_EXPORT_TO_PDF'	=>	'Сохранить в PDF:',
 	'LBL_QUOTE_INFORMATION' => 'Информация',
 	'LBL_RECORDS_LIST' => 'Список Предложений',
-	'LBL_SEND_MAIL_PDF'	=>	'Отправить по Почте:',
 	'Quote No'=>'Предложение №',
 	'Quote Stage'=>'Стадия',
-	'Rejected'=>'Отклонено',
 	'SINGLE_Quotes' => 'Предложение',
 	'Valid Till'=>'Действительно до',
     'Shipping' => 'Перевозчик',
@@ -33,8 +32,18 @@ $languageStrings = array(
 	'Form of payment' => 'Форма оплаты',
 	'Transfer' => 'Безнал',
 	'Cash' => 'Наличные',
-);
+	
+	//picklist values
+	'PLL_WAITING_FOR_PREPARATION' => 'В ожидании',
+	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Требуется консультация',
+	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'Требуется встреча',
+	'PLL_WAITING_FOR_CUSTOMERS_REPLY' => 'Ожидание ответа клиента',
+	'PLL_IN_PREPARATION' => 'Подготовка',
+	'PLL_SENT_TO_ORGANIZATION' => 'Отправлено в организацию',
+	'PLL_DECLINED' => 'Отменено',
+	'PLL_ACCEPTED' => 'Принято',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Пожалуйста удалите позиции, которые были удалены из системы.',
-);
+];

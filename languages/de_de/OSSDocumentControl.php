@@ -1,7 +1,7 @@
 <?php
 
-$languageStrings = array(
-	'LBL_VIEW_EDIT2' => 'Add Conditions',
+$languageStrings = [
+	'LBL_VIEW_EDIT2' => 'Konditionen hinzufügen',
 	'OSSProjectTemplates_manual'	=>	'OSS Projekt Vorlagen',
     'LBL_NEW_TPL' => 'Neues Dokument',
 	 'OSSDocumentControl' => 'Dokumentenkontrolle',
@@ -35,8 +35,8 @@ $languageStrings = array(
     
     'NOT_ALLOW_TO_SAVE' => 'Sie können den Datensatz nicht sichern, da die benötigten Dokumente nicht angehängt wurden',
     'LIST_REQ_DOC' => 'Bitte hängen Sie die folgenden Dokumente an',
-);
+];
 
-$jsLanguageStrings = array(
-	'LBL_VIEW_EDIT2' => 'Add Conditions',
-);
+$jsLanguageStrings = [
+	'LBL_VIEW_EDIT2' => 'Konditionen hinzufügen',
+];

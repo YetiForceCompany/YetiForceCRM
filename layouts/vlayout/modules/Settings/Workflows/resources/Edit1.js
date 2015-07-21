@@ -114,12 +114,12 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js",{},{
 						html += '<option selected value='+thisInstance.DateToYMD(date)+'>'+thisInstance.DateToYMD(date)+'</option>';
 					}
 					annualDatesEle.append(html);
-					annualDatesEle.trigger("liszt:updated");
+					annualDatesEle.trigger("chosen:updated");
 				}
 			});
 			var annualDatesEle = jQuery('#annualDates');
 			thisInstance.updateAnnualDates(annualDatesEle);
-			annualDatesEle.trigger("liszt:updated");
+			annualDatesEle.trigger("chosen:updated");
 	},
 
 	removeYearInAnnualWorkflow : function() {

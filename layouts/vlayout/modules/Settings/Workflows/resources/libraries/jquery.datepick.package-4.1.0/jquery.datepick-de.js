@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    German localisation for jQuery Datepicker.
    Written by Milian Wolff (mail@milianw.de). */
 (function($) {

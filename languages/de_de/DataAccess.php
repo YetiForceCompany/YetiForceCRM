@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'DataAccess' => 'Zugriffsberechtigung',
 	'LBL_NONE' => '--Keine--',
 	'Message' => 'Nachricht',
@@ -59,8 +59,8 @@ $languageStrings = array(
 	'Action_validate_mandatory' => 'Überprüfen Sie Pflichtfelder',
 	'Action_Desc_validate_mandatory' => 'Prüfen, ob alle Pflichtfelder in der Schnellerfassung ausgefüllt sind.',
 	//
-	'Action_check_assigneduser' => 'Einschränkung Datensatz Eigentümerwechsel',
-	'Action_Desc_check_assigneduser' => 'Aktion beschränkt die Möglichkeit, Besitzer einer bestimmten Liste zu ändern.',
+	'Action_check_assigneduser' => 'Einschränkung Datensatz Benutzerwechsel',
+	'Action_Desc_check_assigneduser' => 'Aktion beschränkt die Möglichkeit, Benutzer einer bestimmten Liste zu ändern.',
 	'LBL_SELECT_USER_OR_GROUP' => 'Wählen Sie die erlaubten Benutzer oder Gruppen',
 	'LBL_CURRENT_USER' => 'Aktueller Benutzer',
 	//
@@ -68,7 +68,9 @@ $languageStrings = array(
 	'Action_Desc_colorList' => 'Diese Werkzeug färbt die Datensätze zeilenweise ein, die entsprechenden Bedingungen erfüllen. So sind Datensätze mit einer höheren Priorität leichter zu unterscheiden.',
 	'LBL_BACKGROUND_COLOR' => 'Hintergrund Farbe',
 	'LBL_TEXT_COLOR' => 'Text Farbe',
-);
-$jsLanguageStrings = array(
-	'DataAccess' => 'Data Access',
-);
+	'This name already exists' => 'Der Name existiert schon',
+	'LBL_RECORD_DELETED' => 'Record deleted',
+];
+$jsLanguageStrings = [
+	'DataAccess' => 'Datenzugriff',
+];

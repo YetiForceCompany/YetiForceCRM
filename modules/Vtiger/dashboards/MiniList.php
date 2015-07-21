@@ -1,5 +1,5 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,10 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
-class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View {
+ * ********************************************************************************** */
 
-	public function process(Vtiger_Request $request, $widget=NULL) {
+class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
+{
+
+	public function process(Vtiger_Request $request, $widget = NULL)
+	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -21,9 +24,9 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View {
 		} else {
 			$widgetId = $request->get('widgetid');
 		}
-		
+
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
-		if (!$request->has('owner')) 
+		if (!$request->has('owner'))
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		else
 			$owner = $request->get('owner');
@@ -37,20 +40,20 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View {
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('MINILIST_WIDGET_MODEL', $minilistWidgetModel);
 		$viewer->assign('BASE_MODULE', $minilistWidgetModel->getTargetModule());
-		$viewer->assign('SCRIPTS', $this->getHeaderScripts());
-		
+		$viewer->assign('SCRIPTS', $this->getFooterScripts());
+
 		$content = $request->get('content');
-		if(!empty($content)) {
+		if (!empty($content)) {
 			$viewer->view('dashboards/MiniListContents.tpl', $moduleName);
 		} else {
 			$widget->set('title', $minilistWidgetModel->getTitle());
 
 			$viewer->view('dashboards/MiniList.tpl', $moduleName);
 		}
-
 	}
 
-	function getHeaderScripts() {
+	function getFooterScripts()
+	{
 		return $this->checkAndConvertJsScripts(array('modules.Emails.resources.MassEdit'));
 	}
 }

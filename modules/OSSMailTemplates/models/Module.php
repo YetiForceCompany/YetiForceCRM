@@ -1,13 +1,6 @@
 <?php
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
-*************************************************************************************************************************************/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
 class OSSMailTemplates_Module_Model extends Vtiger_Module_Model {
     function getListFiledOfModule($moduleName,$relID = false) {
         $db = PearDatabase::getInstance();
@@ -85,33 +78,23 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model {
         }
         return $specialFunctionList;
     }
-
-    function getListTpl() {
-        $db = PearDatabase::getInstance();
-        $sql = "SELECT vtiger_ossmailtemplates.ossmailtemplatesid as id, "
-                . "vtiger_ossmailtemplates.name as name, vtiger_ossmailtemplates.oss_module_list as module "
-                . "FROM vtiger_ossmailtemplates "
-                . "INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailtemplates.ossmailtemplatesid "
-                . "WHERE vtiger_crmentity.deleted = 0";
-        $result = $db->query($sql, true);
-        $output = array();
-        for ($i = 0; $i < $db->num_rows($result); $i++) {
-            $output[$i]['id'] = $db->query_result($result, $i, 'id');
-            $output[$i]['name'] = $db->query_result($result, $i, 'name');
-            $output[$i]['module'] = $db->query_result($result, $i, 'module');
-        }
-        return $output;
-    }
-
-    function getModuleList() {
-        $db = PearDatabase::getInstance();
-        $sql = "SELECT * FROM vtiger_oss_module_list WHERE presence = 1";
-        $result = $db->query($sql, TRUE);
-        $output = array();
-        for ($i = 0; $i < $db->num_rows($result); $i++) {
-            $output[$i]['name'] = $db->query_result($result, $i, 'oss_module_list');
-            $output[$i]['tr_name'] = vtranslate($output[$i]['name'], $output[$i]['name']);
-        }
-        return $output;
-    }
+	
+    function getTemplates() {
+		$db = PearDatabase::getInstance();
+		$sql = 'SELECT * FROM vtiger_ossmailtemplates AS mail INNER JOIN vtiger_crmentity AS crm ON crm.crmid = mail.ossmailtemplatesid WHERE `deleted` = 0 AND ossmailtemplates_type = ?';
+		$result = $db->pquery($sql,['PLL_MAIL']);
+		$output = [];
+		for ($i = 0; $i < $db->num_rows($result); $i++) {
+			$moduleName = $db->query_result_raw($result, $i, 'oss_module_list');
+			$id = $db->query_result_raw($result, $i, 'ossmailtemplatesid');
+			$name = $db->query_result_raw($result, $i, 'name');
+			$type = $db->query_result_raw($result, $i, 'ossmailtemplates_type');
+			$output[$i]['id'] = $id;
+			$output[$i]['name'] = $name;
+			$output[$i]['module'] = $moduleName;
+			$output[$i]['moduleName'] = vtranslate($moduleName, $moduleName);
+			$output[$i]['type'] = $type;
+		}
+		return $output;
+	}
 }

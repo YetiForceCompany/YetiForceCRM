@@ -8,8 +8,8 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'LBL_MOBILE_CALLLISTENER' => 'Прослушивание соединений',
+$languageStrings = [
+	'LBL_MOBILE_CALLLISTENER' => 'Список Звонков',
 	'MobileApps'	=>	'Мобильные приложения',
 	'LBL_MOBILE_KEYS'	=>	'Мобильные приложения',
 	'LBL_MOBILE_KEYS_DESCRIPTION'	=>	'Создание и управление ключами мобильных приложений',
@@ -28,13 +28,15 @@ $languageStrings = array(
 	'LBL_KEY_HAS_BEEN_REMOVED'	=>	'Ключ успешно удален',
 	'LBL_SUCCESS_SAVE_CHANGES'	=>	'Изменения успешно сохранены',
 	'LBL_ALERT_MOBILE_NO_ACTIVE_TITLE'	=>	'Мобильные приложения отключены',
-	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC'	=>	'Для включения поддержки мобильных приложений, раскомментируйте строку \"mobile\" в файле api/config.php',
+	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC'	=>	'Для включения поддержки мобильных приложений, раскомментируйте строку \"mobile\" в файле config/api.php',
 
  	// Mobile services
 	'LBL_MOBILE_HISTORYCALL'	=>	'Журнал Вызовов',
 	'LBL_MOBILE_PUSHCALL'	=>	'Автоматический набор номера',
-	'LBL_MOBILE_CALLLISTENER' => 'Mobile call listener',
-);
-$jsLanguageStrings = array(
+	'LBL_MOBILE_CALLLISTENER' => 'Список Звонков',
+	
+	'LBL_VIEW_MOBILEKEYS' => 'Ключи Мобильных приложений',
+];
+$jsLanguageStrings = [
 	'Adding a Key'	=>	'Добавить ключ',
-);
+];

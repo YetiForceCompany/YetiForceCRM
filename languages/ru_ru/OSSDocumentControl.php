@@ -10,7 +10,7 @@
  * Contributor(s): 
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_VIEW_EDIT2'	=>	'Добавление условий',
 	'LBL_NEW_TPL'	=>	'Добавить документ',
 	'OSSDocumentControl'	=>	'Менеджер документов',
@@ -42,7 +42,7 @@ $languageStrings = array(
     
 	'NOT_ALLOW_TO_SAVE'	=>	'Вы не можете сохранить запись, так как необходимые документы не прикреплены',
 	'LIST_REQ_DOC'	=>	'Пожалуйста, приложите следующие документы',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'LBL_VIEW_EDIT2'	=>	'Добавление условий',
-);
+];

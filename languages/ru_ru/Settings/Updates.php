@@ -9,15 +9,16 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Updates'	=>	'Обновление',
-	'LBL_YES'	=>	'Да',
-	'LBL_NO'	=>	'Нет',
+	'LBL_YES' => 'Выполнено',
+	'LBL_NO' => 'Не выполнено',
 	'LBL_TIME'	=>	'Дата',
 	'LBL_USER'	=>	'Пользователь',
 	'LBL_FROM_VERSION'	=>	'Версия до обновления',
 	'LBL_TO_VERSION'	=>	'Версия после обновления',
-	'LBL_RESULT'	=>	'Статус',
-	'LBL_UPDATES'	=>	'Обновления',
+	'LBL_RESULT' => 'Состояние',
+	'LBL_UPDATES' => 'Обновление',
 	'LBL_UPDATES_DESCRIPTION'	=>	'История обновлений',
-);
+	'LBL_IMPORT_UPDATE' => 'Загрузить обновление',
+];

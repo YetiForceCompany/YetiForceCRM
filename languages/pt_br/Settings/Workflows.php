@@ -5,9 +5,9 @@
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 06/01/2015 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ADD_CONDITIONS' => 'Adicionar Condições',
 	'ADD_TASKS' => 'Adicionar Tarefas',
 	'Calendar' => 'Tarefa',
@@ -78,7 +78,7 @@ $languageStrings = array(
 	'ON_MODIFY' => 'Todas as vezes que o registro for modificado',
 	'SCHEDULE_WORKFLOW' => 'Agendar Workflow',
 	'ON_SCHEDULE'=>'Agendar',
-        'LBL_RUN_WORKFLOW' => 'Executar Workflow',
+  'LBL_RUN_WORKFLOW' => 'Executar Workflow',
 	'LBL_AT_TIME'=>'Na Hora',
 	'LBL_HOURLY'=>'A cada hora',
 	'LBL_DAILY'=>'Diariamente',
@@ -117,7 +117,7 @@ $languageStrings = array(
 	'Sales stage - Preparing calculations'	=> 'Estágio da Venda - Preparando cálculos',
 	'Sales stage - Preparing quote'	=> 'Estágio da Venda - Preparando Cotação',
 	'Sales stage - Awaiting decision'	=> 'Estágio da Venda - Aguardando decisão',
-	'New comment added to ticket from portal' => 'New comment added to ticket from portal',
+	'New comment added to ticket from portal' => 'Um novo comentário foi adicionado ao Chamado a partir do Portal',
 	'ON_SCHEDULE' => 'Defina uma agenda para execução',
 	'LBL_RUN_WORKFLOW' => 'Frequência de execução:',
 	'LBL_HOURLY' => 'Horária',
@@ -132,17 +132,23 @@ $languageStrings = array(
 	'LBL_CHOOSE_DATE' => 'Escolha data:',
 	'LBL_SELECT_MONTH_AND_DAY' => 'Dia e Mês selecionados:',
 	'LBL_SELECTED_DATES' => 'Datas selecionadas:',
-	'LBL_ACTIVATION_TASKS' => 'Activate Tasks', 
-	'LBL_DEACTIVATION_TASKS' => 'Deactivate Tasks', 
-	'LBL_ALL_TASKS' => 'All Tasks', 
-	'LBL_ACTIVE_TASKS' => 'Active Tasks',
+	'LBL_ACTIVATION_TASKS' => 'Ativar Tarefas',
+	'LBL_DEACTIVATION_TASKS' => 'Desativar Tarefas',
+	'LBL_ALL_TASKS' => 'Todas as Tarefas',
+	'LBL_ACTIVE_TASKS' => 'Tarefas ativas',
+	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Não duplicar registros',
+	'LBL_DUPLICATE_STATUS' => 'Não duplicar se o status variar',
+	'LBL_VALUE_OF_FIELDS' => 'Valor a partir do campo',
+	'LBL_VALUE_OF_SERVER' => 'Valor a partir do Servidor',
+	'LBL_WORKFLOWS_RUN_TIME' => 'Data e tempo de execução do Workflow',
+	'Sales stage - Negotiations' => 'Sales stage - Negotiations',
 	
 	//workflow task
-	'EmailTempleteList' => 'Select a template email to be sent',
-	'Do you send all attachments' => 'Send all attachments?',
-	'Select e-mail address' => 'Select e-mail address',
-	'Send a copy to email' => 'Send a copy to email',
-	
+	'EmailTempleteList' => 'Selecionar um modelo de e-mail para ser enviado',
+	'Do you send all attachments' => 'Enviar todos os anexos?',
+	'Select e-mail address' => 'Selecionar endereço e-mail',
+	'Send a copy to email' => 'Enviar uma cópia por e-mail',
+
 	//workflow task types
 	'Send Mail' => 'Enviar Mensagem',
 	'Invoke Custom Function' => 'Invocar Função Customizada',
@@ -156,13 +162,13 @@ $languageStrings = array(
 	'Update Closed Time' => 'Atualizar Tempo Fechado',
 	'Send Notification' => 'Convites - Enviar Notificação',
 	'Create Address Book' => 'Criar Livro de Endereços',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Os mesmos campos escolhidos mais de uma vez',
 	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Status alterado com Sucesso',
 	'JS_TASK_DELETED_SUCCESSFULLY' => 'Tarefa excluída com Sucesso',
 	'JS_WORKFLOW_SAVED_SUCCESSFULLY' => 'Workflow salvo com Sucesso',
-	'LBL_STATUS_CONFIRMATION' => 'Are you sure you want to change statuses for all Tasks?',
-	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Changing statuses for Tasks...',
-);
+	'LBL_STATUS_CONFIRMATION' => 'Você tem certeza que deseja alterar os status de todas as Tarefas?',
+	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Alterando os status das Tarefas...',
+];

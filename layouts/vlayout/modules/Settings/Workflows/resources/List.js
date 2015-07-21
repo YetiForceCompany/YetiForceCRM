@@ -107,7 +107,7 @@ Settings_Vtiger_List_Js("Settings_Workflows_List_Js",{
 	registerRowClickEvent: function(){
 		var listViewContentDiv = this.getListViewContentContainer();
 		listViewContentDiv.on('click','.listViewEntries',function(e){
-			var editUrl = jQuery(e.currentTarget).find('.icon-pencil').closest('a').attr('href');
+			var editUrl = jQuery(e.currentTarget).find('.glyphicon-pencil').closest('a').attr('href');
 			window.location.href = editUrl;
 		});
 	},

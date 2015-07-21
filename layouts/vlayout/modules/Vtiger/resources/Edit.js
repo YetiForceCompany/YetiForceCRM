@@ -194,7 +194,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 								mapFieldDisplayElement.val(response[value[0]+'_label']).attr('readonly',true);
 								var referenceModulesList = formElement.find('#'+app.getModuleName()+'_editView_fieldName_'+key+'_dropDown');
 								if(referenceModulesList.length > 0){
-									referenceModulesList.val( value[1] ).trigger("liszt:updated");
+									referenceModulesList.val( value[1] ).trigger("chosen:updated");
 								}
 							}
 						}
@@ -440,8 +440,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 			},
 			'open' : function(event,ui) {
 				//To Make the menu come up in the case of quick create
-				jQuery(this).data('autocomplete').menu.element.css('z-index','100001');
-
+				jQuery(this).data('ui-autocomplete').menu.element.css('z-index','100001');
 			}
 		});
 	},
@@ -515,11 +514,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 		}
 
 		var referenceModuleName = this.getReferencedModuleName(container);
-		var quickCreateNode = jQuery('#quickCreateModules').find('[data-name="'+ referenceModuleName +'"]');
-		if(quickCreateNode.length <= 0) {
-			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED'))
-		}
-        quickCreateNode.trigger('click',{'callbackFunction':postQuickCreateSave});
+		Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName,{callbackFunction: postQuickCreateSave});
 	},
 
 	/**
@@ -582,6 +577,8 @@ jQuery.Class("Vtiger_Edit_Js",{
 		var formElement = this.getForm();
 		var account_id = false;
 		var contact_id = false;
+		var lead_id = false;
+		var vendor_id = false;
 		jQuery( "#EditView table td" ).each(function( index ) {
 			var referenceModulesList = false;
 			var relatedField = $( this ).find('[name="popupReferenceModule"]').val();
@@ -591,6 +588,12 @@ jQuery.Class("Vtiger_Edit_Js",{
 			if(relatedField == 'Contacts'){
 				contact_id = $( this ).find('.sourceField').attr("name");
 			}
+			if(relatedField == 'Leads'){
+				lead_id = $( this ).find('.sourceField').attr("name");
+			}
+			if(relatedField == 'Vendors'){
+				vendor_id = $( this ).find('.sourceField').attr("name");
+			}
 			referenceModulesList = $( this ).find('.referenceModulesList');
 			if(referenceModulesList.length > 0 ){
 				$.each( referenceModulesList.find('option'), function( key, data ) {
@@ -599,6 +602,12 @@ jQuery.Class("Vtiger_Edit_Js",{
 					}
 					if(data.value == 'Contacts'){
 						contact_id = jQuery( "#EditView table td" ).eq(index+1).find('.sourceField').attr("name");
+					}
+					if(data.value == 'Leads'){
+						lead_id = jQuery( "#EditView table td" ).eq(index+1).find('.sourceField').attr("name");
+					}
+					if(data.value == 'Vendors'){
+						vendor_id = jQuery( "#EditView table td" ).eq(index+1).find('.sourceField').attr("name");
 					}
 				});
 			}
@@ -649,7 +658,53 @@ jQuery.Class("Vtiger_Edit_Js",{
 				}
 			})
 		}
-		if(contact_id == false && account_id == false) {
+		if(lead_id == false){
+			jQuery( ".copyAddressFromLead").addClass('hide');
+		}else{
+			jQuery('.copyAddressFromLead').on('click',function(e){
+				var element = jQuery(this);
+				var block = element.closest('table');
+				var from = element.data('label');
+				var to = block.data('label');
+				var recordRelativeAccountId = jQuery('[name="'+lead_id+'"]').val();
+				if(recordRelativeAccountId == "" || recordRelativeAccountId == "0"){
+					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS'));
+				} else {
+					var recordRelativeAccountName = jQuery('#'+lead_id+'_display').val();
+					var data = {
+						'record' : recordRelativeAccountId,
+						'selectedName' : recordRelativeAccountName,
+						'source_module': "Leads"
+					}
+					thisInstance.copyAddressDetails(from,to,data,element.closest('table'));
+					element.attr('checked','checked');
+				}
+			})
+		}
+		if(vendor_id == false){
+			jQuery( ".copyAddressFromVendor").addClass('hide');
+		}else{
+			jQuery('.copyAddressFromVendor').on('click',function(e){
+				var element = jQuery(this);
+				var block = element.closest('table');
+				var from = element.data('label');
+				var to = block.data('label');
+				var recordRelativeAccountId = jQuery('[name="'+vendor_id+'"]').val();
+				if(recordRelativeAccountId == "" || recordRelativeAccountId == "0"){
+					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS'));
+				} else {
+					var recordRelativeAccountName = jQuery('#'+vendor_id+'_display').val();
+					var data = {
+						'record' : recordRelativeAccountId,
+						'selectedName' : recordRelativeAccountName,
+						'source_module': "Vendors"
+					}
+					thisInstance.copyAddressDetails(from,to,data,element.closest('table'));
+					element.attr('checked','checked');
+				}
+			})
+		}
+		if(contact_id == false && account_id == false && lead_id == false && vendor_id == false) {
 		    jQuery( ".copyAddressLabel").addClass('hide');
 		}
 		jQuery('.copyAddressFromMain').on('click',function(e){
@@ -819,7 +874,6 @@ jQuery.Class("Vtiger_Edit_Js",{
 		this.registerRecordAccessCheckEvent(container);
 		this.registerEventForPicklistDependencySetup(container);
 		this.registerRecordPreSaveEventEvent(container);
-		this.registerEventForCopyAddress();
 		this.registerReferenceSelectionEvent(container);
 		this.registerMaskFields(container);
 	},
@@ -969,10 +1023,11 @@ jQuery.Class("Vtiger_Edit_Js",{
 			return;
 		}
 
-		var sourcePickListNames = "";
+		var sourcePickListNames = [];
 		for(var i=0;i<sourcePicklists.length;i++){
-			sourcePickListNames += '[name="'+sourcePicklists[i]+'"],';
+			sourcePickListNames.push('[name="'+sourcePicklists[i]+'"]');
 		}
+		sourcePickListNames = sourcePickListNames.join(',');
 		var sourcePickListElements = container.find(sourcePickListNames);
 
 		sourcePickListElements.on('change',function(e){
@@ -1018,7 +1073,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 				})
 				var targetPickListSelectedValue = '';
 				var targetPickListSelectedValue = targetOptions.filter('[selected]').val();
-				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("liszt:updated");
+				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("chosen:updated");
 			})
 		});
 
@@ -1039,8 +1094,8 @@ jQuery.Class("Vtiger_Edit_Js",{
         var row = jQuery('.ckEditorSource').parents('tr');
         var td = jQuery('.ckEditorSource').parent();
         jQuery(row).find('.fieldLabel').remove();
-        jQuery(td).removeClass('span10');
-        jQuery(td).addClass('span12');
+        jQuery(td).removeClass('col-md-10');
+        jQuery(td).addClass('col-md-12');
     },
     
     	/**
@@ -1069,44 +1124,63 @@ jQuery.Class("Vtiger_Edit_Js",{
 	},
 	registerHelpInfo : function(){
 		var form = this.getForm();
-		form.find('.HelpInfoPopover').hover(
-			function () {
-				$(this).popover('show');
-			}, 
-			function () {
-				$(this).popover('hide');
-			}
-		);
+		app.showPopoverElementView(form.find('.HelpInfoPopover'));
 	},
 	registerBlockAnimationEvent : function(){
 		var detailContentsHolder = this.getForm();
-		detailContentsHolder.on('click','.blockToggle',function(e){
-			var currentTarget =  jQuery(e.currentTarget);
+		detailContentsHolder.on('click','.blockHeader',function(e){
+			if(jQuery(e.target).is('input') || jQuery(e.target).is('button') || jQuery(e.target).parents().is('button')){
+				return false;
+			}
+			var currentTarget =  jQuery(e.currentTarget).find('.blockToggle').not('.hide');
 			var blockId = currentTarget.data('id');
 			var closestBlock = currentTarget.closest('.blockContainer');
 			var bodyContents = closestBlock.find('tbody');
 			var data = currentTarget.data();
 			var module = app.getModuleName();
 			var hideHandler = function() {
-				bodyContents.hide('slow');
+				bodyContents.addClass('hide');
 				app.cacheSet(module+'.'+blockId, 0)
 			}
 			var showHandler = function() {
-				bodyContents.show();
+				bodyContents.removeClass('hide');
 				app.cacheSet(module+'.'+blockId, 1)
 			}
-
 			if(data.mode == 'show'){
 				hideHandler();
-				currentTarget.hide();
-				closestBlock.find("[data-mode='hide']").show();
+				currentTarget.addClass('hide');
+				closestBlock.find('[data-mode="hide"]').removeClass('hide');
 			}else{
 				showHandler();
-				currentTarget.hide();
-				closestBlock.find("[data-mode='show']").show();
+				currentTarget.addClass('hide');
+				closestBlock.find("[data-mode='show']").removeClass('hide');
 			}
 		});
 
+	},
+	
+	registerBlockStatusCheckOnLoad : function(){
+		var blocks = this.getForm().find('.blockContainer');
+		var module = app.getModuleName();
+		blocks.each(function(index,block){
+			var currentBlock = jQuery(block);
+			var headerAnimationElement = currentBlock.find('.blockToggle').not('.hide');
+			var bodyContents = currentBlock.find('tbody')
+			var blockId = headerAnimationElement.data('id');
+			var cacheKey = module+'.'+blockId;
+			var value = app.cacheGet(cacheKey, null);
+			if(value != null){
+				if(value == 1){
+					headerAnimationElement.addClass('hide');
+					currentBlock.find("[data-mode='show']").removeClass('hide');
+					bodyContents.removeClass('hide');
+				} else {
+					headerAnimationElement.addClass('hide');
+					currentBlock.find("[data-mode='hide']").removeClass('hide');
+					bodyContents.addClass('hide');
+				}
+			}
+		});
 	},
 	
 	getDataFromOG : function(request, apiData){
@@ -1279,7 +1353,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 				    jQuery(this).parents('table').find('[name^="'+addressType+'"]').val(ui.item.components[key]);
 				}
 			}
-		    }).data("autocomplete")._renderItem = function (ul, item) {
+		    }).data("ui-autocomplete")._renderItem = function (ul, item) {
 			 return jQuery("<li>")
 			     .data("item.autocomplete", item)
 			     .append('<a><img style="width: 24px; height: 24px;" class="alignMiddle" src="layouts/vlayout/skins/images/' 
@@ -1309,16 +1383,18 @@ jQuery.Class("Vtiger_Edit_Js",{
 		}
 		this.registerHelpInfo();
 		this.registerBlockAnimationEvent();
+		this.registerBlockStatusCheckOnLoad();
 		this.registerEventForCkEditor();
 		this.stretchCKEditor();
 		this.registerBasicEvents(this.getForm());
+		this.registerEventForCopyAddress();
 		this.registerEventForImageDelete();
 		this.registerSubmitEvent();
 		this.registerLeavePageWithoutSubmit(editViewForm);
 
 		app.registerEventForDatePickerFields('#EditView');
 		
-		var params = app.validationEngineOptions;
+		var params = app.validationEngineOptionsForRecord;
 		params.onValidationComplete = function(element,valid){
 			if(valid){
 				var ckEditorSource = editViewForm.find('.ckEditorSource');
@@ -1326,15 +1402,17 @@ jQuery.Class("Vtiger_Edit_Js",{
 					var ckEditorSourceId = ckEditorSource.attr('id');
 					var fieldInfo = ckEditorSource.data('fieldinfo');
 					var isMandatory = fieldInfo.mandatory;
-					var CKEditorInstance = CKEDITOR.instances;
-					var ckEditorValue = jQuery.trim(CKEditorInstance[ckEditorSourceId].document.getBody().getText());
-					if(isMandatory && (ckEditorValue.length === 0)){
-						var ckEditorId = 'cke_'+ckEditorSourceId;
-						var message = app.vtranslate('JS_REQUIRED_FIELD');
-						jQuery('#'+ckEditorId).validationEngine('showPrompt', message , 'error','topLeft',true);
-						return false;
-					}else{
-						return valid;
+					var CKEditorInstance = CKEDITOR.instances[ckEditorSourceId];
+					if( jQuery.type( CKEditorInstance ) !== 'undefined' && jQuery.type( CKEditorInstance.document ) === 'object'){
+						var ckEditorValue = jQuery.trim(CKEditorInstance.document.getBody().getText());
+						if(isMandatory && (ckEditorValue.length === 0)){
+							var ckEditorId = 'cke_'+ckEditorSourceId;
+							var message = app.vtranslate('JS_REQUIRED_FIELD');
+							jQuery('#'+ckEditorId).validationEngine('showPrompt', message , 'error','topLeft',true);
+							return false;
+						}else{
+							return valid;
+						}
 					}
 				}
 				return valid;
@@ -1350,8 +1428,9 @@ jQuery.Class("Vtiger_Edit_Js",{
 	getMappingRelatedField : function(sourceField, sourceFieldModule, container){
 		var mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
 		var mappingRelatedModule = JSON.parse(mappingRelatedField);
-		if(!mappingRelatedField)
+		if(typeof mappingRelatedModule[sourceField] != 'undefined' && typeof mappingRelatedModule[sourceField][sourceFieldModule] != 'undefined')
 			return mappingRelatedModule[sourceField][sourceFieldModule];
 		return [];
 	}
 });
+

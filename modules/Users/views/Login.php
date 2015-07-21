@@ -32,7 +32,7 @@ class Users_Login_View extends Vtiger_View_Controller {
 		$headerCssInstances = parent::getHeaderCss($request);
 
 		$cssFileNames = array(
-			'~/layouts/vlayout/skins/login.css',
+			'~layouts/vlayout/skins/login.css',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

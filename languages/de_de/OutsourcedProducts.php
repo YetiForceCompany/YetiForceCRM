@@ -7,20 +7,20 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
-	'LBL_RECORDS_LIST' => 'Liste der Datensätze',
+$languageStrings = [
+	'LBL_RECORDS_LIST' => 'Liste Produkte',
 	'Inactive'	=>	'Inaktiv',
 	'Active'	=>	'Aktiv',
 	// Basic Strings
 	'OutsourcedProducts'        => 'Outsourcing-Produkte',
 	'SINGLE_OutsourcedProducts' => 'Outsourcing-Produkt',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
+	'LBL_ADD_RECORD' => 'Produkt hinzufügen',
 
 	// Blocks
 	'LBL_INFORMATION' => 'Ausgelagerte Produkte',
 
 	//Field Labels
-	'Assigned To' => 'Zugewiesen an',
+	'Assigned To' => 'zuständig',
 	'LBL_RODZAJUMOWY' => 'Art der Vereinbarung',
 	'LBL_osservicesstatus' => 'Status',
 	'Individual Agreement' => 'Individuelle Vereinbarung',
@@ -39,4 +39,4 @@ $languageStrings = array(
 	'Save' => 'Speichern',
 	'Selling proposition'=>'Gelegenheit',
 	'LBL_GENERATE_EXTENSION' => 'Generiere Verlängerung',
-);
+];

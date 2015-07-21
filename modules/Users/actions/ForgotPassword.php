@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 chdir(dirname(__FILE__) . "/../../../");
+require_once 'config/config.php';
+require_once 'config/debug.php';
+require_once 'config/performance.php';
 include_once "include/utils/VtlibUtils.php";
 include_once "include/utils/CommonUtils.php";
 include_once "include/Loader.php";

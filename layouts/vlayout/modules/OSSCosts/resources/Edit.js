@@ -104,12 +104,73 @@ Inventory_Edit_Js("OSSCosts_Edit_Js",{},{
 			thisInstance.quantityChangeActions(lineItemRow);
 		});
 	 },
+
+	addressCostsFieldsMapping : [
+							'buildingnumber',
+							'localnumber',
+							'country',
+							'state',
+							'addresslevel3',
+							'addresslevel4',
+							'city',
+							'addresslevel6',
+							'code',
+							'street',
+							'pobox'
+							],
+
+	/**
+	* Function to copy address between fields
+	* @param strings which accepts value as either odd or even
+	*/
+	copyAddress : function(fromLabel, toLabel, reletedRecord,sourceModule){
+		var status = false;
+		var thisInstance = this;
+		var formElement = this.getForm();
+		var addressMapping = this.addressFieldsMapping;
+		var addressCostMapping = this.addressCostsFieldsMapping;
+		var BlockIds = this.addressFieldsMappingBlockID;
+	
+		from = BlockIds[fromLabel];
+		if(reletedRecord === false || sourceModule === false)
+			from = BlockIds[fromLabel];
+		to = BlockIds[toLabel];
+		for(var key in addressMapping) {
+			var nameElementFrom = addressMapping[key]+from;
+			var nameElementTo = addressCostMapping[key];
+			if(reletedRecord){
+				var fromElement = thisInstance.addressFieldsData[nameElementFrom];
+				var fromElementLable = thisInstance.addressFieldsData[nameElementFrom+'_label'];
+			}else{
+				var fromElement = formElement.find('[name="'+nameElementFrom+'"]').val();
+				var fromElementLable = formElement.find('[name="'+nameElementFrom+'_display"]').val();
+			}			
+			var toElement = formElement.find('[name="'+nameElementTo+'"]');
+			var toElementLable = formElement.find('[name="'+nameElementTo+'_display"]');
+			if(fromElement != '' && fromElement != '0' && fromElement != undefined){
+				if(toElementLable.length > 0)
+					toElementLable.attr('readonly',true);
+				status = true;
+				toElement.val(fromElement);
+				toElementLable.val(fromElementLable);
+			}else{
+				toElement.attr('readonly',false);
+			}
+		}
+		if(status == false){
+			if(sourceModule == "Accounts"){
+				errorMsg = 'JS_SELECTED_ACCOUNT_DOES_NOT_HAVE_AN_ADDRESS';
+			} else if(sourceModule == "Contacts"){
+				errorMsg = 'JS_SELECTED_CONTACT_DOES_NOT_HAVE_AN_ADDRESS';
+			} else {
+				errorMsg = 'JS_DOES_NOT_HAVE_AN_ADDRESS';
+			}
+			Vtiger_Helper_Js.showPnotify(app.vtranslate(errorMsg));
+		}
+	}, 
 	
 	registerEvents: function(){
 		this._super();
 		this.registerQuantityChangeEventHandler();
-		this.registerEventForCopyAddress();
 	}
 });
-
-

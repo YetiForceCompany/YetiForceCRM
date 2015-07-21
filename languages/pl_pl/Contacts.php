@@ -8,8 +8,8 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'Member Of' => 'Powiązane z',
+$languageStrings = [
+	'Member Of' => 'Firma',
 	'Birthdate' => 'Data urodzin',
 	'Contact Id' => 'Numer',
 	'Contact Image' => 'Zdjęcie kontaktu',
@@ -32,6 +32,7 @@ $languageStrings = array(
     'Support Start Date' => 'Data rozpoczęcia wsparcia',
 	'Title' => 'Tytuł',
 	'User List'=>'Lista użytkowników',
+	'Job title' => 'Stanowisko',
 	
 	//Added for Picklist Values
 	'Dr.'=>'dr',
@@ -52,11 +53,17 @@ $languageStrings = array(
 	
 	'Do Not Call' => 'Nie dzwonić',
 	'LBL_LANGUAGE_NOTIFICATIONS' => 'Język powiadomień',
+	'SINGLE_Leads' => 'Lead',
+	'SINGLE_Vendors' => 'Dostawca',
+	'Decision maker' => 'Osoba decyzyjna',
 
 	//Activity Types
 	'End of support for contact' => 'Koniec wsparcia kontaktu',
 	'Birthdays of contacts' => 'Urodziny kontaktów',
-);
+	
+	'LBL_SWITCH_ON_DECISION_MAKER' => 'Decyzyjna',
+	'LBL_SWITCH_OFF_DECISION_MAKER' => 'Wszystkie',
+];
 
-$jsLanguageStrings = array(
- );
+$jsLanguageStrings = [
+ ];

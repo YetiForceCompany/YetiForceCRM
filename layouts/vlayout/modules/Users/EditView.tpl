@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid editViewContainer">
+<div class="editViewContainer">
 	<form class="form-horizontal recordEditView equalSplit" id="EditView" name="EditView" method="post" enctype="multipart/form-data" action="index.php">
 		<input type="hidden" name="module" value="{$MODULE}" />
 		<input type="hidden" name="action" value="Save" />
@@ -23,23 +23,23 @@
 			<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
 		{/if}
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-		<div class="contentHeader row-fluid">
+		<div class="contentHeader row">
 		{assign var=SINGLE_MODULE_NAME value='Single_'|cat:$MODULE}
-			<span class="span8">
+			<span class="col-md-8">
 		{if $RECORD_ID neq ''}
-			<h3 class="span8 marginLeftZero" title='{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} "{$RECORD_STRUCTURE_MODEL->getRecordName()}"'>{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} "{$RECORD_STRUCTURE_MODEL->getRecordName()}"</h3>
+			<h3 class="col-md-8 marginLeftZero" title='{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} "{$RECORD_STRUCTURE_MODEL->getRecordName()}"'>{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} "{$RECORD_STRUCTURE_MODEL->getRecordName()}"</h3>
 		{else}
-			<h3 class="span8 marginLeftZero" title="{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
+			<h3 class="col-md-8 marginLeftZero" title="{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
 		{/if}
 			</span>
-			<span class="span4">
+			<div class="col-md-4">
 				<span class="pull-right" style="padding-right: 15px">
 					<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 					<a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 				</span>
-			</span>
+			</div>
 		</div>
-		<div>
+		<div class="col-md-12">
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				<table class="table table-bordered marginLeftZero">
 				{if $BLOCK_FIELDS|@count gt 0}
@@ -86,7 +86,7 @@
 								{vtranslate('Share calendar users', $MODULE)}
 							</td>
 							<td class="fieldValue {$WIDTHTYPE}">
-                                <select class="select2 row-fluid" id="selectedUsers" name="sharedusers[]" multiple data-placeholder="{vtranslate('LBL_SELECT_USERS',$MODULE)}">
+                                <select class="select2 row" id="selectedUsers" name="sharedusers[]" multiple data-placeholder="{vtranslate('LBL_SELECT_USERS',$MODULE)}">
                                     {foreach key=ID item=USER from=$ALL_USERS}
                                         {if $ID neq $USER_MODEL->get('id')}
                                             <option value="{$ID}" {if array_key_exists($ID, $SHAREDUSERS)} selected {/if}>{$USER->getName()}</option> 

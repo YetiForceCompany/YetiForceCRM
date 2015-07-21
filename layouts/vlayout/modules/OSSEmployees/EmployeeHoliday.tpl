@@ -10,8 +10,8 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="widget_header row-fluid">
-<span class="span8 margin0px"><h4>{vtranslate('LBL_Holidays',$MODULE_NAME)}</h4></span>
+<div class="widget_header row">
+<span class="col-md-8 margin0px"><h4>{vtranslate('LBL_Holidays',$MODULE_NAME)}</h4></span>
 </div>
 <div class="widget_contents">
 							</div>

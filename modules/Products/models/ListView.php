@@ -72,8 +72,15 @@ class Products_ListView_Model extends Vtiger_ListView_Model {
 		} 
 
 		$listQuery = $this->getQuery();
+		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
 		$potential_id = $this->get('potential_id');
-		if( vglobal('inventory_popup_limited_from_potentials') && $potential_id){
+		if( Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit() && Settings_SalesProcesses_Module_Model::isLimitForModule( $request->get('module') ) ){
+			if ( empty($potential_id) ) {
+				$potential_id = $this->get('potentialid');
+				if ($potential_id == '') {
+					$potential_id = -1;
+				}
+			}
 			$newListQuery = '';
 			$explodedListQuery = explode('INNER JOIN',$listQuery);
 			foreach ($explodedListQuery as $key => $value) {

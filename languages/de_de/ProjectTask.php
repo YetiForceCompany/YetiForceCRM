@@ -7,27 +7,28 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectTask' => 'Projektaufgabe',
 	'Project Task' => 'Projektaufgaben',
 	'LBL_ADD_RECORD' => 'Projektaufgabe hinzufügen',
-	'LBL_RECORDS_LIST' => 'Projekt Aufgabenliste',
+	'LBL_RECORDS_LIST' => 'Liste Projektaufgaben',
 	'Worked Hours' => 'Zeit gearbeitet',
 	'Start Date'=>'Startdatum',
 	'Target End Date'=>'Ziel Enddatum',
 	'End Date'=>'Enddatum',
-	'Related to'=>'Verbunden mit',
+	'Related to'=>'Bezogen auf',
 	'Project Task Number'=>'Projekt Aufgabennummer',
 	'description' => 'Beschreibung',
 	'Total time [h]'=>'Gesamtzeit [h]',
 	'Project Task No'=>'Projekt Aufgabennr.',	
 	'Project Task Name'=>'Projekt Aufgabenname',
+	'LBL_ESTIMATED_WORK_TIME' => 'geschätzter Aufwand',
 	// Blocks
 	'LBL_PROJECT_TASK_INFORMATION' => 'Projekt Aufgabendetails',
-	'LBL_PROJECTS_LIST' => 'Projektliste',
-	'LBL_TASKS_LIST' => 'Aufgabenliste',
-	'LBL_MILESTONES_LIST' => 'Meilensteinliste' ,
+	'LBL_PROJECTS_LIST' => 'Liste Projekte',
+	'LBL_TASKS_LIST' => 'Liste Aufgaben',
+	'LBL_MILESTONES_LIST' => 'Liste Meilensteine' ,
    'low'=>'niedrig',
 	'normal'=>'normal',
 	'high'=>'hoch',
@@ -37,4 +38,7 @@ $languageStrings = array(
 	'Completed' => 'Abgeschlossen',
 	'Deferred' => 'Aufgeschoben',
 	'Cancelled' => 'Abgebrochen',
-);
+	'administrative' => 'Intern',
+	'operative' => 'Extern',
+	'other' => 'Gemeinsam',
+];

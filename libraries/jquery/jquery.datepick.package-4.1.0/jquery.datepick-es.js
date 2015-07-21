@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Spanish localisation for jQuery Datepicker.
    Traducido por Vester (xvester@gmail.com). */
 (function($) {

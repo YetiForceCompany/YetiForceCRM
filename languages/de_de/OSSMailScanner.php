@@ -8,7 +8,7 @@
  *  Help/Email			: bok@opensaas.pl
  *  Website				: www.opensaas.pl
  * *******************************************************************************+ */
-$languageStrings = array(
+$languageStrings = [
     'OSSMailScanner' => 'Mail Scanner',
     'OSSMailScanner_manual' => 'Mail Scanner',
     'E-mail Accounts' => 'E-Mail Konten',
@@ -106,31 +106,9 @@ $languageStrings = array(
     'Error' => 'Fehler',
     'email_to_notify' => 'Benachrichtigung per E-Mail',
     'time_to_notify' => 'Benachrichtigunszeit',
-    'LBL_Manual' => 'Dokumentation (PL)',
-    'LBL_ManualLink' => 'https://docs.google.com/document/d/1bl9Vc7ZADSgqHD-MaqLTygD88a2VZWYhQzu4dVq73Ns/edit',
-    'Delete_panel' => 'Das Konfigurationsfenster ist für die Deinstallation des Moduls konzipiert. Modulname: ',
-    'Uninstall' => 'Deinstallieren',
-    'Cancel' => 'Abbrechen',
-	'MSG_DEL_WARN1' => 'Warnung!',
-    'MSG_DEL_WARN2' => 'Wenn Sie das Modul deinstallieren, verlieren Sie alle Daten im CRM die zu diesem Modul gehören. Möglicherweise finden sie noch zugehörige Dateien in: ',
-    'MSG_DEL_PATH1' => ' Smarty/templates/modules/module_name',
-    'MSG_DEL_PATH2' => ' modules/module_name',
-    'MSG_DEL_WARN3' => ' und im Verzeichnis:',
-    'MSG_DEL_WARN4' => 'Wenn Sie das Modul in der Zukunft neu installieren möchten, müssen Sie diese Ordner löschen.',
-    'MSG_DEL_WARN5' => 'Wenn Sie irgendein Problem haben, erreichen Sie uns über unsere E-Mail oder über ein Trouble Ticket auf der Webseite www.opensaas.pl',
-    'MSG_DEL_WARN6' => 'Ihr Team von OpenSaaS Sp. z o.o.',    
-    'LBL_HELP_SETTINGS' => 'Hilfe',
-    'DELETE' => 'Entfernen des Moduls',
-    'HelpDescription' => 'Auf der folgenden Webseite, können Sie Trouble-Tickets und Verbesserungsvorschläge veröffentlichen können oder Modul-Dokumentation nachlesen.',
-    'LBL_TroubleUrl' => 'Modul Webseite',
-    'LBL_OurWebsite' => 'Unsere Webseite',
-    'LBL_UrlLink' => 'http://apps.opensaas.pl',
-	 'LBL_UrlLinkInfo' => 'Sie müssen sich registrieren',
-    'LBL_OurWebsiteLink' => 'http://opensaas.pl',
-    'Uninstall OSSMailScanner module' => 'Entferne Modul OSSMailScanner',
     'StopCron' => 'Scannen manuell stoppen',
     'Manually stopped' => 'Manuell gestoppt',
-    'stop_user' => 'Scanning gestopptvon',
+    'stop_user' => 'Scanning gestoppt von',
 	'Email_Subject' => 'Benachrichtigung: CRON läuft zu lange',
 	'Email_Body' => 'Hallo<br /><br />CRON läuft zu lange. Bitte prüfen, ob das E-Mail-System korrekt funktioniert.<br /> <br /> Viele Grüße Admin',
 	'Email_FromName' => 'YetiForce CRON',
@@ -163,4 +141,6 @@ $languageStrings = array(
 	'No' => 'Nein',
 	'LBL_MAIL_LOGS' => 'E-Mail Logbücher',
 	'Group list' => 'Gruppenliste',
-);
+	'LBL_ACTIVE_MAIL' => 'Active',
+	'LBL_INACTIVE_MAIL' => 'Inactive',
+];

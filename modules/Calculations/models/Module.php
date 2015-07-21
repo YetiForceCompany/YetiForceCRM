@@ -12,5 +12,65 @@ class Calculations_Module_Model extends Inventory_Module_Model{
 	var $modules_fields_ids = Array();
 	var $widget_no_rows = 5;
 
+	public function isSummaryViewSupported() {
+		return true;
+	}
+	
+	function getCalculations(Vtiger_Request $request) {
+		$fromModule = $request->get('fromModule');
+		$record = $request->get('record');
+		$showtype = $request->get('showtype');
+		$rqLimit = $request->get('limit');
+
+		$db = PearDatabase::getInstance();
+		$fields = ['id','name','calculationsstatus'];
+		$limit = 10;
+		$params = [];
+		if(!empty($rqLimit)){
+			$limit = $rqLimit;
+		}
+		if($fromModule =='Accounts'){
+			$fields[] = 'potentialid';
+		}elseif ($fromModule =='Potentials') {
+			$fields[] = 'assigned_user_id';
+		}
+		
+		$calculationConfig = Settings_SalesProcesses_Module_Model::getConfig('calculation');
+		$calculationsStatus = $calculationConfig['calculationsstatus'];
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$module = 'Calculations';
+		$instance = CRMEntity::getInstance($module);
+		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
+		
+		$queryGenerator = new QueryGenerator($module, $currentUser);
+		$queryGenerator->setFields($fields);
+		$sql = $queryGenerator->getQuery();
+		
+		if ($securityParameter != '')
+			$sql.= $securityParameter;
+		
+		$calculationsStatusSearch = implode("','", $calculationsStatus);
+		$showtype = $request->get('showtype');
+		if($showtype == 'archive'){
+			$sql .=	" AND vtiger_calculations.calculationsstatus IN ('$calculationsStatusSearch')";
+		}else{
+			$sql .=	" AND vtiger_calculations.calculationsstatus NOT IN ('$calculationsStatusSearch')";
+		}
+		
+		if($fromModule =='Accounts'){
+			$sql .=	' AND vtiger_calculations.relatedid = ?';
+			$params[] = $record;
+		}elseif ($fromModule =='Potentials') {
+			$sql .=	' AND vtiger_calculations.potentialid = ?';
+			$params[] = $record;
+		}
+		$sql.= ' LIMIT '.$limit;
+
+		$result = $db->pquery($sql, $params);
+		$returnData = array();
+		for($i=0; $i<$db->num_rows($result); $i++) {
+			$returnData[] = $db->query_result_rowdata($result, $i);
+		}
+		return $returnData;
+	}
 }
-?>

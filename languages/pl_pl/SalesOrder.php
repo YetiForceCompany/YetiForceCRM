@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Approved' => 'Zaakceptowana',
 	'AutoCreated'=>'Wymaga weryfikacji',
 	'Created' => 'Wersja robocza',
@@ -24,7 +24,6 @@ $languageStrings = array(
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_EXPORT_TO_PDF' => 'Generuj do PDF',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
-	'LBL_SEND_MAIL_PDF' => 'Wyślij w mailu PDF',
 	'LBL_SO_INFORMATION' => 'Szczegóły zamówienia',
 	'Paid'=>'Zapłacona',
 	'Payment Duration' => 'Termin płatności',
@@ -72,7 +71,7 @@ $languageStrings = array(
 	'last day of +3 months' => 'Ostatni dzień następnego kwartału',
 	// payment duration
 	'payment:+0 day' => 'Data wystawienia faktury',
-	'payment:+1 day' => 'Po jednym dniu',
+	'payment:+1 day' => 'Po 1 dniu',
 	'payment:+7 days' => 'Po 1 tygodniu',
 	'payment:+14 days' => 'Po 2 tygodniach',
 	'payment:+21 days' => 'Po 3 tygodniach',
@@ -91,8 +90,10 @@ $languageStrings = array(
 	'payment:last day of next month' => 'Ostatni dzień następnego miesiąca',
 	'payment:first day of +3 months' => 'Pierwszy dzień następnego kwartału',
 	'payment:last day of +3 months' => 'Ostatni dzień następnego kwartału',
-);
+	'LBL_SERVICE' => 'Usługa',
+	'LBL_PRODUCT' => 'Produkt',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Usuń linię, której produkt/usługa został/a usunięty/a z/w systemie.',
-);
+];

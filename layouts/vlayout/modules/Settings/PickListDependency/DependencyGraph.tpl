@@ -11,7 +11,7 @@
 -->*}
 {strip}
     <div class="accordion">
-        <span><i class="icon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_CONFIGURE_DEPENDENCY_INFO', $QUALIFIED_MODULE)}&nbsp;&nbsp;</span>
+        <span><i class="glyphicon glyphicon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_CONFIGURE_DEPENDENCY_INFO', $QUALIFIED_MODULE)}&nbsp;&nbsp;</span>
         <a class="cursorPointer accordion-heading accordion-toggle" data-toggle="collapse" data-target="#dependencyHelp">{vtranslate('LBL_MORE', $QUALIFIED_MODULE)}..</a>
         <div id="dependencyHelp" class="accordion-body collapse">
             <ul><br><li>{vtranslate('LBL_CONFIGURE_DEPENDENCY_HELP_1', $QUALIFIED_MODULE)}</li><br>
@@ -21,10 +21,10 @@
             </ul>
         </div>
     </div>
-    <div class="row-fluid">
+    <div class="">
         <span class="btn-toolbar">
-            <button class="btn sourceValues" type="button"><strong>{vtranslate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-			<button class="btn unmarkAll" type="button"><strong>{vtranslate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}</strong></button>
+            <button class="btn sourceValues btn-default" type="button"><strong>{vtranslate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
+			<button class="btn unmarkAll btn-default" type="button"><strong>{vtranslate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}</strong></button>
         </span>
     </div>
 	<br>
@@ -38,8 +38,8 @@
     {/foreach}
     <input type="hidden" class="allSourceValues" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($SOURCE_PICKLIST_VALUES))}' />
 
-    <div class="row-fluid depandencyTable">
-        <div class="span2">
+    <div class="row depandencyTable no-margin">
+        <div class="col-md-2">
             <table class="table-condensed themeTableColor" width="100%">
                 <thead>
                     <tr class="blockHeader"><th>{$RECORD_MODEL->getSourceFieldLabel()}</th></tr>
@@ -47,7 +47,7 @@
                 <tbody>
                     {foreach item=TARGET_VALUE from=$TARGET_PICKLIST_VALUES name=targetValuesLoop}
                         <tr>
-                        {if $smarty.foreach.targetValuesLoop.index eq 0}
+							{if $smarty.foreach.targetValuesLoop.index eq 0}
                                 <td class="tableHeading">
                                     {$RECORD_MODEL->getTargetFieldLabel()}
 								</td>
@@ -55,80 +55,86 @@
                         {else}
                         <td></td>
 						</tr>
-                        {/if}
-					{/foreach}
+					{/if}
+				{/foreach}
                 </tbody>
             </table>
         </div>
-        <div class="span10 marginLeftZero dependencyMapping">
+        <div class="col-md-10 marginLeftZero dependencyMapping">
             <table class="table-bordered table-condensed themeTableColor pickListDependencyTable">
                 <thead><tr class="blockHeader">
                         {foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
                             <th data-source-value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_PICKLIST_VALUE)}" style="
-                            {if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('decode_html', $MAPPED_SOURCE_PICKLIST_VALUES))}display: none;{/if}">
-                            {vtranslate($SOURCE_PICKLIST_VALUE, $SELECTED_MODULE)}</th>
-                    {/foreach}</tr>
-            </thead>
-            <tbody>
-                {foreach key=TARGET_INDEX item=TARGET_VALUE from=$TARGET_PICKLIST_VALUES name=targetValuesLoop}
-                    <tr>
-                        {foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
-                            {assign var=targetValues value=$MAPPED_TARGET_PICKLIST_VALUES[Vtiger_Util_Helper::toSafeHTML($SOURCE_PICKLIST_VALUE)]}
+								{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('decode_html', $MAPPED_SOURCE_PICKLIST_VALUES))}display: none;{/if}">
+								{vtranslate($SOURCE_PICKLIST_VALUE, $SELECTED_MODULE)}</th>
+						{/foreach}</tr>
+				</thead>
+				<tbody>
+					{foreach key=TARGET_INDEX item=TARGET_VALUE from=$TARGET_PICKLIST_VALUES name=targetValuesLoop}
+						<tr>
+							{foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
+								{assign var=targetValues value=$MAPPED_TARGET_PICKLIST_VALUES[Vtiger_Util_Helper::toSafeHTML($SOURCE_PICKLIST_VALUE)]}
 
-                            {assign var=SOURCE_INDEX value=$smarty.foreach.mappingIndex.index}
-                            {assign var=IS_SELECTED value=false}
+								{assign var=SOURCE_INDEX value=$smarty.foreach.mappingIndex.index}
+								{assign var=IS_SELECTED value=false}
 
-                            {if empty($targetValues) || in_array($TARGET_VALUE, array_map('decode_html',$targetValues))}
-                                {assign var=IS_SELECTED value=true}
-                            {/if}
-                            <td	data-source-value='{Vtiger_Util_Helper::toSafeHTML($SOURCE_PICKLIST_VALUE)}' data-target-value='{Vtiger_Util_Helper::toSafeHTML($TARGET_VALUE)}'
-                                class="{if $IS_SELECTED}selectedCell {else}unselectedCell {/if} targetValue picklistValueMapping cursorPointer"
-                            {if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('decode_html', $MAPPED_SOURCE_PICKLIST_VALUES))}style="display: none;" {/if}>
-                            {if $IS_SELECTED}
-                                <i class="icon-ok pull-left"></i>
-                            {/if}
-                            {vtranslate($TARGET_VALUE, $SELECTED_MODULE)}
-                        </td>
-                    {/foreach}
-                </tr>
-            {/foreach}
-        </tbody>
-    </table>
-</div>
-</div>
-<div class="modal sourcePicklistValuesModal modalCloneCopy hide">
-    <div class="modal-header contentsBackground">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>{vtranslate('LBL_SELECT_SOURCE_PICKLIST_VALUES', $QUALIFIED_MODULE)}</h3>
-    </div>
-    <div class="modal-body">
-        <table class="row-fluid" cellspacing="0" cellpadding="5">
-            <tr>
-                {foreach key=SOURCE_INDEX item=SOURCE_VALUE from=$SOURCE_PICKLIST_VALUES name=sourceValuesLoop}
-                    {if $smarty.foreach.sourceValuesLoop.index % 3 == 0}
-                    </tr><tr>
-                    {/if}
-                    <td>
-                        <div class="control-group">
-                            <div class="controls row-fluid">
-                                <label class="checkbox"><input type="checkbox" class="sourceValue {Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}"
-                                                               data-source-value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}" value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}" 
-                                    {if empty($MAPPED_VALUES) || in_array($SOURCE_VALUE, array_map('decode_html', $MAPPED_SOURCE_PICKLIST_VALUES))} checked {/if}/>
-                                &nbsp;{vtranslate($SOURCE_VALUE, $SELECTED_MODULE)}</label>
-                        </div>
-                    </div>
-                </td>
-            {/foreach}
-        </tr>
-    </table>
-</div>
-{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
-</div>
-<div class="padding1per">
-    <div class="btn-toolbar  pull-right">
-        <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-        <a type="reset" class="cancelLink cancelDependency" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
-    </div>
-	<br><br>
-</div>
+								{if empty($targetValues) || in_array($TARGET_VALUE, array_map('decode_html',$targetValues))}
+									{assign var=IS_SELECTED value=true}
+								{/if}
+								<td	data-source-value='{Vtiger_Util_Helper::toSafeHTML($SOURCE_PICKLIST_VALUE)}' data-target-value='{Vtiger_Util_Helper::toSafeHTML($TARGET_VALUE)}'
+									class="{if $IS_SELECTED}selectedCell {else}unselectedCell {/if} targetValue picklistValueMapping cursorPointer"
+									{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('decode_html', $MAPPED_SOURCE_PICKLIST_VALUES))}style="display: none;" {/if}>
+									{if $IS_SELECTED}
+										<i class="glyphicon glyphicon-ok pull-left"></i>
+									{/if}
+									{vtranslate($TARGET_VALUE, $SELECTED_MODULE)}
+								</td>
+							{/foreach}
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="modal sourcePicklistValuesModal modalCloneCopy fade" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header contentsBackground">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3 class="modal-title">{vtranslate('LBL_SELECT_SOURCE_PICKLIST_VALUES', $QUALIFIED_MODULE)}</h3>
+				</div>
+				<div class="modal-body">
+					<div class="row no-margin">
+						<table class="col-md-12" cellspacing="0" cellpadding="5">
+							<tr>
+								{foreach key=SOURCE_INDEX item=SOURCE_VALUE from=$SOURCE_PICKLIST_VALUES name=sourceValuesLoop}
+									{if $smarty.foreach.sourceValuesLoop.index % 3 == 0}
+									</tr><tr>
+									{/if}
+									<td>
+										<div class="form-group">
+											<div class="controls checkbox">
+												<label class=""><input type="checkbox" class="sourceValue {Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}"
+																	   data-source-value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}" value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}" 
+																	   {if empty($MAPPED_VALUES) || in_array($SOURCE_VALUE, array_map('decode_html', $MAPPED_SOURCE_PICKLIST_VALUES))} checked {/if}/>
+													&nbsp;{vtranslate($SOURCE_VALUE, $SELECTED_MODULE)}</label>
+											</div>
+										</div>
+									</td>
+								{/foreach}
+							</tr>
+						</table>
+					</div>
+				</div>
+				{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
+			</div>
+		</div>
+	</div>
+	<div class="padding1per">
+		<div class="btn-toolbar  pull-right">
+			<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+			<a type="reset" class="cancelLink cancelDependency btn btn-warning" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+		</div>
+		<br><br>
+	</div>
 {/strip}

@@ -41,7 +41,7 @@ Vtiger_List_Js("Portal_List_Js",{
             if(params.bookmarkName == '' || params.bookmarkUrl == '') {
                 var data = {
                     title : app.vtranslate('JS_MESSAGE'),
-                    text: 'Please enter all mandatory field',
+					text: app.vtranslate('JS_ENTER_MANDATORY_FIELD'),
                     animation: 'show',
                     type: 'error'
                 };
@@ -59,6 +59,7 @@ Vtiger_List_Js("Portal_List_Js",{
                     Vtiger_Helper_Js.showPnotify(params);
                     var url = Portal_List_Js.getDefaultParams();
                     Portal_List_Js.loadListViewContent(url);
+                    app.hideModalWindow();
                 }
             });
         });
@@ -140,7 +141,7 @@ Vtiger_List_Js("Portal_List_Js",{
 			nextPageButton.attr("disabled","disabled");
 		}
 		if(listViewEntriesCount != 0){
-			var pageNumberText = pageStartRange+" "+app.vtranslate('to')+" "+pageEndRange;
+			var pageNumberText = pageStartRange+" ("+pageEndRange+")";
 			pageNumbersTextElem.html(pageNumberText);
 			totalNumberOfRecords.removeClass('hide');
 		} else {

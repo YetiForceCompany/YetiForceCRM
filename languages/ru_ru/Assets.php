@@ -8,7 +8,11 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
+	'PLL_POST_WARRANTY_SUPPORT' => 'Послегарантийное обслуживание',
+	'PLL_WARRANTY_SUPPORT' => 'Гарантийное обслуживание',
+	'PLL_NO_SUPPORT' => 'Нет обслуживания',
+	'PLL_DRAFT' => 'Черновик',
 	'Asset Name'                   => 'Название Актива', 
 	'Asset No'                     => 'Актив №'              , 
 	'Assets'	=>	'Активы',
@@ -16,27 +20,20 @@ $languageStrings = array(
 	'Customer Name'                => 'Название Клиента', 
 	'Date Sold'                    => 'Дата продажи'     , 
 	'Date in Service'              => 'Дата сервиса'     , 
-	'Delivered to Organization'	=>	'Поставляется в организации',
-	'Draft'	=>	'Проект',
-	'In Service'                   => 'Обслуживается'  , 
 	'Invoice Name'                 => 'Счет'                    , 
-	'LBL_ADD_RECORD'               => 'Добавить Актив'                   ,
+	'LBL_ADD_RECORD' => 'Актив',
 	'LBL_ASSET_INFORMATION'        => 'Информация Актива', 
-	'LBL_GENERATE_EXTENSION'	=>	'Создание расширение',
+	'LBL_GENERATE_EXTENSION' => 'Создать Предложение',
 	'LBL_RECORDS_LIST'             => 'Список Активов'                 ,
 	'Notes'                        => 'Примечания'        , 
-	'Out-of-service'               => 'Не обслуживается',
 	'Potential renewal'	=>	'Потенциальная Сделка',
 	'Potential'	=>	'Исходная Сделка',
-	'Realization proceeding'	=>	'Исход реализации',
 	'SINGLE_Assets'                => 'Актив'                , 
 	'Serial Number'                => 'Серийный номер' , 
-	'Shipping Method'              => 'Метод доставки' , 
 	'Shipping Tracking Number'     => 'Номер доставки' , 
-	'Tag Number'                   => 'Номер тега'         , 
 	'Total time [h]'	=>	'Всего времени [ч]',
-	'Warranty proceeding'	=>	'Гарантированный исход',
 	'attentions'	=>	'Внимание',
 	'description'	=>	'Описание',
 	'LBL_ORDER_TIME'	=>	'Время Заказа',
-);
+	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Товары с истекающим сроком',
+];

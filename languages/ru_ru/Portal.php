@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
     'SINGLE_Portal' => 'Наш сайт',
     'Portal' => 'Наши сайты',
     'LBL_RECORD_DELETED_SUCCESSFULLY' => 'Запись успешно удалена',
@@ -28,8 +28,8 @@ $languageStrings = array(
     'LBL_ADD_NEW_BOOKMARK' => 'Добавить новую закладку',
     'LBL_ADD_BOOKMARK' => 'Добавить в закладки',
     'HTTP_ERROR' => 'Сайт, который вы пытаетесь открыть не является безопасным. Если вы хотите просмотреть сайт, то необходимо нажать на блокатор содержимого в адресной строке и включить его.',
-);
+];
 
-$jsLanguageStrings = array(
-    
-);
+$jsLanguageStrings = [
+	'JS_ENTER_MANDATORY_FIELD' => 'Необходимо заполнить обязательные поля',
+];

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_MarginP' => 'Margin Percent',
 	'LBL_Margin' => 'Margin',
 	'LBL_Purchase' => 'Purchase',
@@ -27,16 +27,14 @@ $languageStrings = array(
 	//Field Labels
     'Title' => 'Temat',
 	'Number' => 'Numer kalkulacji',
-	'Parent ID' => 'Nadrzędna kalkulacja',
 	'Related to' => 'Kontrahent',
-	'LBL_SHOW_HIERARCHY' => 'Hierarchia kalkulacji',
 	'Comments' => 'Uwagi',
 	'LBL_TOTAL' => 'Suma',
 	'LBL_GRAND_TOTAL' => 'Suma łącznie',
 	'Potential' => 'Szansa sprzedaży',
 	'Quotes' => 'Oferta',
 	'LBL_RBH' => 'RBH',
-	'CalculationStatus' => 'Status',
+	'CalculationStatus' => 'Etap',
 	'ProductComments' => 'Komentarz',
 	'LBL_PURCHASE' => 'Zakup',
 	'LBL_MARGIN' => 'Marża',
@@ -45,20 +43,33 @@ $languageStrings = array(
 	'Total margin' => 'Suma marży',
 	'Total margin Percentage' => 'Suma marży (%)',
 	'LBL_DATE' => 'Termin',
+	'LBL_CONS' => 'Wady',
+	'LBL_PROS' => 'Zalety',
 	
-	//CalculationStatus
-	'Draft' => 'Wersja robocza',
-	'Waiting for valuation' => 'Oczekuje na wycenę dostawcy',
-	'Waiting for acceptance' => 'Oczekuje na akceptacje wewnętrzną',
-	'Accepted' => 'Zaakceptowana',
-	'Rejected' => 'Anulowana',
+	//pick list values
+	'PLL_DRAFT' => 'Wersja wstępna',
+	'PLL_IN_REALIZATION' => 'W realizacji',
+	'PLL_WAITING_FOR_QUOTATION' => 'Oczekuje na wycenę',
+	'PLL_WAITING_FOR_ACCEPTANCE' => 'Oczekuje na akceptacje',
+	'PLL_ACCEPTED' => 'Zaakceptowano',
+	'PLL_REQUIRES_AMENDMENTS' => 'Wymaga poprawek',
+	'PLL_DIFFICULT_REALIZATION' => 'Utrudniona realizacja',
+	'PLL_DIFFICULT_ORDER' => 'Utrudnione zamówienie',
+	'PLL_DIFFICULT_SHIPMENT' => 'Utrudniona dostawa',
+	'PLL_OUTSOURCED_PARTNER' => 'Partner zewnętrzny',
+	'PLL_HIGH_MARGIN' => 'Wysoka marża',
+	'PLL_EASY_REALIZATION' => 'Prosta realizacja',
+	'PLL_LONGTERM_REALIZATION' => 'Długi czas realizacji',
 	
 	//Yetiforce
-	'LBL_IN_PREPARATION' => 'W przygotowywaniu',
 	'LBL_OBJECTIONS_ARE_RAISED' => 'Zgłoszono zastrzeżenia',
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Brak produktu / usługi',
 	'LBL_THIS' => 'Produkt/usługa (',
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') został/a usunięta, spróbuj zastąpić ją innym produktem/usługą.',
 	'Conversion Rate' => 'Współczynnik konwersji',
 	'Currency' => 'Waluta',
-);
+	'LBL_SERVICE' => 'Usługa',
+	'LBL_PRODUCT' => 'Produkt',
+	'LBL_COMMENT_AREA' => 'Miejsce na Komentarz',
+];
+

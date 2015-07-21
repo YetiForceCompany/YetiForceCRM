@@ -16,18 +16,22 @@
 <input type="hidden" id="start_hour" value="{$CURRENT_USER->get('start_hour')}" />
 <input type="hidden" id="end_hour" value="{$CURRENT_USER->get('end_hour')}" />
 <input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}" />
+<input type="hidden" id="showType" value="current" />
 <style>
 {foreach from=Settings_Calendar_Module_Model::getCalendarConfig('colors') item=ITEM}
-	.calendarColor_{$ITEM.name}{ border: 1px solid {$ITEM.value}; background-color: {$ITEM.value}; }
+	.calCol_{$ITEM.label}{ border: 1px solid {$ITEM.value}!important; }
+	.listCol_{$ITEM.label}{ background: {$ITEM.value}!important; }
 {/foreach}
-
 {foreach from=Settings_Calendar_Module_Model::getUserColors('colors') item=ITEM}
-	.userColor_{$ITEM.id}{ border: 1px solid {$ITEM.color}; background-color: {$ITEM.color}; }
+	.userCol_{$ITEM.id}{ background: {$ITEM.color}!important; }
+{/foreach}
+{foreach from=Vtiger_Module_Model::getAll() item=MODULE}
+	.modIcon_{$MODULE->get('name')}{ background-image: url("layouts/vlayout/skins/images/{$MODULE->get('name')}.png"); }
 {/foreach}
 </style>
-<div class="container-fluid">
-	<div class="row-fluid">
-		<div class="span12">
+<div class="">
+	<div class="row">
+		<div class="col-md-12">
 			<p><!-- Divider --></p>
 			<div id="calendarview"></div>
 		</div>

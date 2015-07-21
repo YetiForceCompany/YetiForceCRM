@@ -107,11 +107,14 @@ class Users_Field_Model extends Vtiger_Field_Model {
 	 * @return <String> - converted display value
 	 */
     public function getDisplayValue($value, $recordId = false) {
-        
-		 if($this->get('uitype') == 32){
+		if ($this->get('uitype') == 32) {
 			return Vtiger_Language_Handler::getLanguageLabel($value);
-		 }
-        return parent::getDisplayValue($value, $recordId);
+		}
+		$fieldName = $this->getFieldName();
+		if (($fieldName == 'currency_decimal_separator' || $fieldName == 'currency_grouping_separator') && ($value == '&nbsp;')) {
+			return vtranslate('LBL_SPACE', 'Users');
+		}
+		return parent::getDisplayValue($value, $recordId);
     }
 
 	/**

@@ -10,6 +10,6 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div id="toggleButton" class="toggleButton"> <i class="icon-chevron-left"></i></div>&nbsp
-	<div id="hideToggle" class="toggleButton hide"> <i class="icon-chevron-right"></i></div>&nbsp
+	<div id="toggleButton" class="toggleButton"> <i class="glyphicon glyphicon-chevron-left"></i></div>&nbsp
+	<div id="hideToggle" class="toggleButton hide"> <i class="glyphicon glyphicon-chevron-right"></i></div>&nbsp
 {/strip}

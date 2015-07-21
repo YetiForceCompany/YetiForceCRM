@@ -22,7 +22,7 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
 
             $this->addLink($moduleName);
             $this->addRelationModue();
-            $this->addWidgetToListView('Project', 'Generuj z szablonu');
+            $this->addWidgetToListView('Project', 'LBL_GENERATE_FROM_TEMPLATE');
             
             $db->query("UPDATE vtiger_tab SET customized=0 WHERE name='$moduleName'");
 
@@ -31,7 +31,7 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
 			$this->removeRecords();
         } else if($eventType == 'module.enabled') {
             $this->addLink($moduleName);
-            $this->addWidgetToListView('Project', 'Generuj z szablonu');
+            $this->addWidgetToListView('Project', 'LBL_GENERATE_FROM_TEMPLATE');
         } else if ($eventType == 'module.preuninstall') {
             // TODO Handle actions when this module is about to be deleted.
         } else if ($eventType == 'module.preupdate') {
@@ -42,7 +42,7 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
     }
 
     private function addLink($moduleName) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
 
         $blockid = $adb->query_result(
                 $adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_OTHER_SETTINGS'", array()), 0, 'blockid');
@@ -50,11 +50,11 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
                         $adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?", array($blockid)), 0, 'sequence') + 1;
         $fieldid = $adb->getUniqueId('vtiger_settings_field');
         $adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Project Templates', '', $moduleName, 'index.php?module=' . $moduleName . '&parent=Settings&view=Index'));
+				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Project Templates', '', 'LBL_PROJECT_TEMPLATES_DESCRIPTION', 'index.php?module=' . $moduleName . '&parent=Settings&view=Index'));
     }
 
     private function addRelationModue() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
 
         $id = $adb->getUniqueID('vtiger_relatedlists');
         $projectTabId = getTabid('Project');
@@ -83,7 +83,7 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
     private function removeRecords() {
         $db = PearDatabase::getInstance();
         
-        $db->query("DELETE FROM vtiger_links WHERE linktype='LISTVIEWSIDEBARWIDGET' AND linklabel='Generuj z szablonu'", true);
+        $db->query("DELETE FROM vtiger_links WHERE linktype='LISTVIEWSIDEBARWIDGET' AND linklabel='LBL_GENERATE_FROM_TEMPLATE'", true);
         $db->query("DELETE FROM `vtiger_settings_field` WHERE `name` = 'Project Templates' AND `linkto` = 'index.php?module=OSSProjectTemplates&parent=Settings&view=Index'", true);
     }
 

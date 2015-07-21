@@ -11,9 +11,9 @@
 -->*}
 {strip}
 <div class="recordNamesList">
-    <div class="row-fluid">
-        <div class="span10">
-            <ul class="nav nav-list">
+    <div class="row">
+        <div class="col-md-10">
+            <ul class="nav list-group">
                 {foreach item=recordsModel from=$RSS_SOURCES}
                 <li>
                     <a href="#" class="rssLink" data-id={$recordsModel->getId()} data-url="{$recordsModel->get('rssurl')}" title="{decode_html($recordsModel->getName())}">{decode_html($recordsModel->getName())}</a>

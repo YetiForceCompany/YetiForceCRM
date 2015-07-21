@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -192,7 +192,6 @@ $labels['revertto']      = 'Tilbakestill til';
 $labels['attach'] = 'Legg ved';
 $labels['attachments'] = 'Vedlegg';
 $labels['upload'] = 'Last opp';
-$labels['uploadprogress'] = '$percent ($current frå $total)';
 $labels['close']  = 'Steng';
 $labels['messageoptions']  = 'Meldingsalternativ';
 $labels['low']     = 'Låg';
@@ -269,7 +268,6 @@ $labels['typehomepage']  = 'Heimeside';
 $labels['typeblog'] = 'Blogg';
 $labels['typeprofile'] = 'Profil';
 $labels['addfield'] = 'Legg til felt...';
-$labels['addcontact'] = 'Legg til ny kontakt';
 $labels['editcontact'] = 'Redigere kontakt';
 $labels['contacts'] = 'Kontakter';
 $labels['contactproperties'] = 'Eigenskapar';
@@ -282,7 +280,6 @@ $labels['rename'] = 'Gi nytt namn';
 $labels['addphoto'] = 'Legg til';
 $labels['replacephoto'] = 'Erstatt';
 $labels['uploadphoto'] = 'Last opp bilete';
-$labels['newcontact']     = 'Opprett nytt kontaktkort';
 $labels['deletecontact']  = 'Slett valde kontaktar';
 $labels['composeto']      = 'Ny melding til';
 $labels['contactsfromto'] = 'Kontaktar $from til $to av $count';
@@ -291,7 +288,6 @@ $labels['export']         = 'Eksport';
 $labels['exportall']      = 'Eksporter alle';
 $labels['exportsel']      = 'Eksporter valde';
 $labels['exportvcards']   = 'Eksporter kontaktar i vCard-format';
-$labels['newcontactgroup'] = 'Lag ny kontaktgruppe';
 $labels['grouprename']    = 'Endre namn på gruppe';
 $labels['groupdelete']    = 'Slett gruppe';
 $labels['groupremoveselected'] = 'Fjern valde kontaktar frå gruppe';
@@ -316,10 +312,6 @@ $labels['preferences'] = 'Innstillingar';
 $labels['userpreferences'] = 'Brukarinnstillingar';
 $labels['editpreferences'] = 'Redigere brukarinnstillingar';
 $labels['identities'] = 'Identitetar';
-$labels['manageidentities'] = 'Administrere identitetar for denne kontoen';
-$labels['newidentity'] = 'Ny identitet';
-$labels['newitem'] = 'Nytt element';
-$labels['edititem'] = 'Redigere element';
 $labels['preferhtml'] = 'Føretrekk HTML';
 $labels['defaultcharset'] = 'Standard karaktersett (charset)';
 $labels['htmlmessage'] = 'HTML-melding';
@@ -353,7 +345,6 @@ $labels['askuser'] = 'spør brukaren';
 $labels['autosend'] = 'send automatisk';
 $labels['autosendknown'] = 'send kvittering til kontaktane mine, ellers spør meg';
 $labels['autosendknownignore'] = 'send kvittering til kontaktane mine, ellers oversjå';
-$labels['ignore'] = 'ignorer';
 $labels['readwhendeleted'] = 'Marker melding som lese ved sletting';
 $labels['flagfordeletion'] = 'Flagg meldinga for sletting i staden for å sletta';
 $labels['skipdeleted'] = 'Ikkje vis sletta epostar';
@@ -413,14 +404,14 @@ $labels['mailtoprotohandler'] = 'Registrer protokollhandsaming for mailto-lenkje
 $labels['forwardmode'] = 'Meldingar vidaresendast';
 $labels['inline'] = 'i teksten';
 $labels['asattachment'] = 'som vedlegg';
-$labels['folder']  = 'Mappe';
-$labels['folders']  = 'Mapper';
-$labels['foldername']  = 'Mappenamn';
-$labels['subscribed']  = 'Abonnert';
+$labels['folder'] = 'Mappe';
+$labels['folders'] = 'Mapper';
+$labels['foldername'] = 'Mappenamn';
+$labels['subscribed'] = 'Abonnert';
 $labels['messagecount'] = 'Meldingar';
-$labels['create']  = 'Opprette';
-$labels['createfolder']  = 'Opprett ny mappe';
-$labels['managefolders']  = 'Mappehandsaming';
+$labels['create'] = 'Opprette';
+$labels['createfolder'] = 'Opprett ny mappe';
+$labels['managefolders'] = 'Mappehandsaming';
 $labels['specialfolders'] = 'Spesialmapper';
 $labels['properties'] = 'Eigenskapar';
 $labels['folderproperties'] = 'Eigenskapar for mappe';
@@ -430,9 +421,9 @@ $labels['info'] = 'Informasjon';
 $labels['getfoldersize'] = 'Klikk for å få mappestørrelse';
 $labels['changesubscription'] = 'Klikk for å endre abonnement';
 $labels['foldertype'] = 'Mappetype';
-$labels['personalfolder']  = 'Privat mappe';
-$labels['otherfolder']  = 'Annan brukar si mappe';
-$labels['sharedfolder']  = 'Offentleg mappe';
+$labels['personalfolder'] = 'Privat mappe';
+$labels['otherfolder'] = 'Annan brukar si mappe';
+$labels['sharedfolder'] = 'Offentleg mappe';
 $labels['sortby'] = 'Sorter etter';
 $labels['sortasc']  = 'Sorter stigande';
 $labels['sortdesc'] = 'Sorter søkkjande';

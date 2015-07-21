@@ -163,8 +163,8 @@ abstract class EntityMeta{
 		foreach($mandatoryFields as $ind=>$field){
 			// dont use empty API as '0'(zero) is a valid value.
 			if( !isset($row[$field]) || $row[$field] === "" || $row[$field] === null ){
-				throw new WebServiceException(WebServiceErrorCode::$MANDFIELDSMISSING,
-						"$field does not have a value");
+				//throw new WebServiceException(WebServiceErrorCode::$MANDFIELDSMISSING,
+				//		"$field does not have a value");
 			}
 		}
 		return $hasMandatory;

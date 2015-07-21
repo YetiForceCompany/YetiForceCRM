@@ -36,7 +36,7 @@ Reports_Edit3_Js("Reports_ChartEdit3_Js",{
 		if(selectedChartType == 'pieChart') {
 			dataFields.attr('multiple', false).select2().select2("val", dataFieldsValue);
 		} else if(dataFieldsValue && dataFieldsValue[0]) {
-			dataFields.attr('multiple', true).select2({maximumSelectionSize: 3, closeOnSelect: false}).select2("val", dataFieldsValue);
+			dataFields.attr('multiple', true).select2({maximumSelectionLength: 3, closeOnSelect: false}).select2("val", dataFieldsValue);
 		}
 
 		if(selectedChartType) {
@@ -67,7 +67,7 @@ Reports_Edit3_Js("Reports_ChartEdit3_Js",{
 			if(chartType == 'pieChart') {
 				dataFields.attr('multiple', false).select2().select2("val", "");
 			} else {
-				dataFields.attr('multiple', true).select2({maximumSelectionSize: 3});
+				dataFields.attr('multiple', true).select2({maximumSelectionLength: 3});
 			}
 			jQuery('input[name=charttype]').val(chartType);
 			jQuery('ul[name=charttab] li.active a').removeClass('contentsBackground backgroundColor');

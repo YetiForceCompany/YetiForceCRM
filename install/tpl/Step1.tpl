@@ -10,15 +10,15 @@
  ********************************************************************************/
 -->*}
 
-<div class="row-fluid main-container">
+<div class="row main-container">
 	<div class="inner-container">
 		<form class="form-horizontal" name="step1" method="post" action="Install.php">
-			<div class="row-fluid">
-				<div class="span9">
+			<div class="row">
+				<div class="col-md-9">
 					<h4>{vtranslate('LBL_WELCOME', 'Install')}</h4>
 				</div>
-				<div class="span3">
-					<select name="lang" class="chzn-select span3" style="width: 250px;">
+				<div class="col-md-3">
+					<select name="lang" class="chzn-select" style="width: 250px;">
 						{foreach key=key item=item from=$LANGUAGES}
 							<option value="{$key}" {if $LANG eq $key}selected{/if}>{$item}</option>
 						{/foreach}
@@ -27,23 +27,21 @@
 			</div>
 			<hr>
 			<input type="hidden" name="mode" value="Step2" />
-			<div class="row-fluid">
-				<div class="span4 welcome-image">
-					<img src="../layouts/vlayout/skins/images/wizard_screen.png" alt="Vtiger Logo"/>
-				</div>
-				<div class="span8">
-					<div class="welcome-div">
-						<h3>{vtranslate('LBL_WELCOME_TO_VTIGER6_SETUP_WIZARD', 'Install')}</h3>
-						{vtranslate('LBL_VTIGER6_SETUP_WIZARD_DESCRIPTION','Install')}
-					</div>
+			<div class="col-md-4 welcome-image">
+				<img src="../layouts/vlayout/skins/images/wizard_screen.png" alt="Vtiger Logo"/>
+			</div>
+			<div class="col-md-8">
+				<div class="welcome-div">
+					<h3>{vtranslate('LBL_WELCOME_TO_VTIGER6_SETUP_WIZARD', 'Install')}</h3>
+					<p>{vtranslate('LBL_VTIGER6_SETUP_WIZARD_DESCRIPTION','Install')}</p>
 				</div>
 			</div>
-			<div class="row-fluid">
+			<div class="row">
 				<div class="button-container">
-					<a href="#" class="btn btn-large btn-primary bt_install">
+					<a href="#" class="btn btn-sm btn-primary bt_install">
 						{vtranslate('LBL_INSTALL_BUTTON','Install')}
 					</a>
-					<a style="" href="#" class="btn btn-large btn-primary bt_migrate">
+					<a style="" href="#" class="btn btn-sm btn-primary bt_migrate">
 						{vtranslate('LBL_MIGRATION','Install')}
 					</a>
 				</div>

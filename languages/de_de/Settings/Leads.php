@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Leads' => 'Leads',
 	'LBL_OPPURTUNITIES' => 'Opportunities',
 	'checkBox' => 'Kontrollkästchen',
@@ -37,11 +37,11 @@ $languageStrings = array(
 	'text' => 'Text',
 	'time' => 'Zeit',
 	'url' => 'Url',
-	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Organization',
-	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'If you mark this option, a person who convers lead to opportunity will become records owner.',
-);
+	'LBL_CONVERSION_TO_ACCOUNT' => 'In Organisation konvertieren',
 
-$jsLanguageStrings = array(
+];
+
+$jsLanguageStrings = [
 	'JS_CANT_MAP' => 'Zuordnung nicht möglich',
 	'JS_checkBox' => 'Kontrollkästchen',
 	'JS_currency' => 'Währung',
@@ -65,6 +65,5 @@ $jsLanguageStrings = array(
 	'JS_url' => 'Url',
 	'JS_WITH' => 'mit',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Feld Zuordnung gespeichert',
-	'JS_CONVERSION_STATE_SUCCES' => 'State saved correct',
-	'JS_CONVERSION_STATE_FAILURE' => 'Failure on saved',
-);
+
+];

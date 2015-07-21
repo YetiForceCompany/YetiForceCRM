@@ -237,7 +237,7 @@ jQuery.Class('Install_Index_Js', {}, {
 				alert(app.vtranslate('LBL_RESOLVE_ERROR'));
 				return false;
 			} else {
-				jQuery('#progressIndicator').show();
+				jQuery('#progressIndicator').removeClass('hide');
 				jQuery('form[name="step5"]').submit().hide();
 			}
 		});
@@ -258,8 +258,7 @@ jQuery.Class('Install_Index_Js', {}, {
 	registerEventForMigration : function() {
 		var step = jQuery('input[name="mode"]').val();
 		if(step == 'mStep3'){
-			jQuery('form').validationEngine();
-			jQuery('#agree').on('click', function() {
+			jQuery('form').on( 'submit', function() {
 				jQuery('#progressIndicator').show();
 				jQuery('#mainContainer').hide();
 			});

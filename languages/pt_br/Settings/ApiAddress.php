@@ -5,12 +5,11 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 08/12/2014 - www.ttcasolucoes.com.br
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
+ * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
- 
-$languageStrings = array(
+
+$languageStrings = [
 	'LBL_SAVE' => 'Save',
 	'ApiAddress' => 'Pesquisar endereço',
 	'LBL_API_ADDRESS' => 'Pesquisar endereço',
@@ -27,10 +26,10 @@ $languageStrings = array(
 	'LBL_GLOBAL_CONFIG' => 'Global configuration',
 	'LBL_SAVE_GLOBAL_SETTINGS' => 'Save the global settings',
 	'LBL_NUMBER_SEARCH_RESULTS' => 'Number of search results',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
     'Invalid API key' => 'Chave da API inválida',
     'JS_ERROR' => 'Erro',
     'JS_LOADING_PLEASE_WAIT' => 'Carregando, por favor aguarde.',
 	'JS_WRONG_NUMBER' => 'Caracteres permitidos: dígitos maior que 1.',
-);
+];

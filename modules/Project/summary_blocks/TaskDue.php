@@ -14,7 +14,7 @@ class TaskDue{
 	public $reference = 'ProjectTask';
 	
 	public function process( $instance ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering TaskDue::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$currentDate = date('Y-m-d');

@@ -9,27 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<style>
-ul > li.blockHeader {
-  padding:5px; 
-  cursor: pointer; 
-  text-align: center; 
-  font-weight: bold; 
-  float:left;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-}
- li.blockHeader:hover{
-  background: white;
-  color:black;
-}
-.blockHeader.active{
-  background: white;
-  color:black;
-}
-.active img{
-  background: #0065a6;
-}
 </style>
 {strip}
 	{$i=0}
@@ -38,52 +17,41 @@ ul > li.blockHeader {
 	{assign var=IS_HIDDEN value=$BLOCK_LIST[$BLOCK_LABEL_KEY]->isHidden()}
 	{if $BLOCK_LABEL_KEY eq 'HEADER'}
 		<div class="">
-			<ul id="tabs" class="nav" style="list-style-type: none;border-radius: 10px;">
-				<li class="{$BLOCK_LABEL_KEY} blockHeader font" style=" margin:0px 10px 0px 10px;" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  src="{vimage_path('arrowDown.png')}" >
-					&nbsp;&nbsp;
-					{vtranslate({$BLOCK_LABEL_KEY}, {$MODULE_NAME})} &nbsp;&nbsp;
-				</li>
-				<li class="CONTENT blockHeader font" style=" margin-right:10px;" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  src="{vimage_path('arrowDown.png')}" >&nbsp;&nbsp;
-					{vtranslate('CONTENT', {$MODULE_NAME})} &nbsp;&nbsp;
-				</li>
-				<li class="FOOTER blockHeader font" style=" margin-right:10px;" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  src="{vimage_path('arrowDown.png')}" >
-					&nbsp;&nbsp;
-					{vtranslate('FOOTER', {$MODULE_NAME})} &nbsp;&nbsp;
-				</li>
-				<li class="CONDITIONS blockHeader font" style="" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  src="{vimage_path('arrowDown.png')}" >
-					&nbsp;&nbsp;
-					{vtranslate('CONDITIONS', {$MODULE})} &nbsp;&nbsp;
-				</li>
-			</ul>
+			<div class="btn-group" data-toggle="buttons">
+				<label class="btn btn-primary" data-block="{$BLOCK_LABEL_KEY}">
+					<input type="checkbox" text="{vtranslate({$BLOCK_LABEL_KEY}, {$MODULE_NAME})}">{vtranslate({$BLOCK_LABEL_KEY}, {$MODULE_NAME})}
+				</label>
+				<label class="btn btn-primary" data-block="CONTENT">
+					<input type="checkbox" text="{vtranslate('CONTENT', {$MODULE_NAME})}">{vtranslate('CONTENT', {$MODULE_NAME})} 
+				</label>
+				<label class="btn btn-primary" data-block="FOOTER">
+					<input type="checkbox" text="{vtranslate('FOOTER', {$MODULE_NAME})}">{vtranslate('FOOTER', {$MODULE_NAME})}
+				</label>
+				<label class="btn btn-primary" data-block="CONDITIONS">
+					<input type="checkbox" text="{vtranslate('CONDITIONS', {$MODULE_NAME})}">{vtranslate('CONDITIONS', {$MODULE_NAME})}
+				</label>
+			</div>
 		</div>
 		<table class="table table-bordered">	
 			<tbody>
 			{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST}
 				<tr>
-				<td id="DOC_{$BLOCK_LABEL_KEY}" style="display: none;" colspan="12" >
-					<iframe id="emailPreview_Content" style="width: 100%;height: 300px;" src="{$URL_{$BLOCK_LABEL_KEY}}" frameborder="0"></iframe>
+				<td id="DOC_{$BLOCK_LABEL_KEY}" class="hide" colspan="12" >
+					<iframe class="pdfPreview_Content" style="width: 100%;height: 300px;" src="{$URL_{$BLOCK_LABEL_KEY}}" frameborder="0"></iframe>
 				</td>
 				</tr>
 				<tr>
-				<td id="DOC_CONTENT" style="display: none;" colspan="12" >
-					<iframe id="emailPreview_Content" style="width: 100%; height: 600px;" src="{$URL_CONTENT}" frameborder="0"></iframe>
+				<td id="DOC_CONTENT" class="hide" colspan="12" >
+					<iframe class="pdfPreview_Content" style="width: 100%; height: 600px;" src="{$URL_CONTENT}" frameborder="0"></iframe>
 				</td>
 				</tr>
 				<tr>
-				<td id="DOC_FOOTER" style="display: none;" colspan="12">
-					<iframe id="emailPreview_Content" style="width: 100%;height: 300px;" src="{$URL_FOOTER}" frameborder="0"></iframe>
+				<td id="DOC_FOOTER" class="hide" colspan="12">
+					<iframe class="pdfPreview_Content" style="width: 100%;height: 300px;" src="{$URL_FOOTER}" frameborder="0"></iframe>
 				</td>
 				</tr>
 				<tr>		
-				<td id="DOC_CONDITIONS" style="display: none;" colspan="12">
+				<td id="DOC_CONDITIONS" class="hide" colspan="12">
 					{include file=vtemplate_path('ConditionsView.tpl',$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS }
 				</td>
 				</tr>
@@ -97,8 +65,8 @@ ul > li.blockHeader {
 				<thead>
 				<tr>
 				<th class="blockHeader" colspan="4">
-						<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if} "  src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}>
-						<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}"  src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}>
+						<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if} " alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}>
+						<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}" alt="{vtranslate('LBL_COLLAPSE_BLOCK')}"  src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}>
 						&nbsp;&nbsp;{vtranslate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}
 				</th>
 				</tr>
@@ -168,9 +136,7 @@ ul > li.blockHeader {
 						{else}
 							 {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 						{/if}
-					 
 					 </span>
-
 				 </td>
 			 {/if}
 
@@ -183,63 +149,3 @@ ul > li.blockHeader {
 	{/if}
 	{/foreach}
 {/strip}
-
-<script type="text/javascript">
-
-
-jQuery(function(){
-
-
-	$('.CONTENT').toggle(function(){
-		$('#DOC_CONTENT').show();
-		$('li.CONTENT').addClass('active');
-		$('li.CONTENT .pngs').show();
-		$('li.CONTENT .pngh').hide();
-	},function(){
-		$('#DOC_CONTENT').hide();
-		$('li.CONTENT').removeClass('active');
-		$('li.CONTENT .pngs').hide();
-		$('li.CONTENT .pngh').show();
-	});	
-	$('.FOOTER').toggle(function(){
-		$('#DOC_FOOTER').show();
-		$('li.FOOTER').addClass('active');
-		$('li.FOOTER .pngs').show();
-		$('li.FOOTER .pngh').hide();
-	},function(){
-		$('#DOC_FOOTER').hide();
-		$('li.FOOTER').removeClass('active');
-		$('li.FOOTER .pngs').hide();
-		$('li.FOOTER .pngh').show();
-	});	
-	$('.HEADER').toggle(function(){
-		$('#DOC_HEADER').show();
-		$('li.HEADER').addClass('active');
-		$('li.HEADER .pngs').show();
-		$('li.HEADER .pngh').hide();
-	},function(){
-		$('#DOC_HEADER').hide();
-		$('li.HEADER').removeClass('active');
-		$('li.HEADER .pngs').hide();
-		$('li.HEADER .pngh').show();
-		
-	});
-	$('.CONDITIONS').toggle(function(){
-		$('#DOC_CONDITIONS').show();
-		$('li.CONDITIONS').addClass('active');
-		$('li.CONDITIONS .pngs').show();
-		$('li.CONDITIONS .pngh').hide();
-	},function(){
-		$('#DOC_CONDITIONS').hide();
-		$('li.CONDITIONS').removeClass('active');
-		$('li.CONDITIONS .pngs').hide();
-		$('li.CONDITIONS .pngh').show();
-		
-	});
-	$('.summaryView').hide();
-	
-});
-
-
-
-</script>

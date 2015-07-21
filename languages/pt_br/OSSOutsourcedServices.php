@@ -5,11 +5,11 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): Brazilian Portuguese Translation - Valmir C. Trindade [valmir@ttcasolucoes.com.br] and Gabriel P. Trindade [gptrind@gmail.com] - 08/12/2014
+ * Contributor(s): Brazilian Portuguese Translation - Valmir C. Trindade and Gabriel P. Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'OSSOutsourcedServices' => 'Serviços de Terceiros',
 	'SINGLE_OSSOutsourcedServices' => 'Serviço de Terceiros',
 	'LBL_INFORMATION' => 'Informação do Bloco',
@@ -20,7 +20,7 @@ $languageStrings = array(
 	'Individual Agreement' => 'Contrato individual',
 	'In service' => 'Em Serviço',
 	'Finished support' => 'Suporte concluído',
-	'Product Name' => 'Nome do produto',
+	'Product Name' => 'Nome Serviço',
 	'Sub Category' => 'Subcategoria',
 	'Category' => 'Categoria',
 	'Date Sold' => 'Data da venda',
@@ -35,4 +35,4 @@ $languageStrings = array(
 	'LBL_GENERATE_EXTENSION' => 'Gerar extensão',
 	'Active' => 'Ativo',
 	'Inactive' => 'Inativo',
-);
+];

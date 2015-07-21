@@ -7,12 +7,12 @@
  *  Help/Email			: bok@opensaas.pl
  *  Website				: www.opensaas.pl
  * *******************************************************************************+ */
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSCosts'        => 'Kosten',
 	'SINGLE_OSSCosts' => 'Kosten',
 	'LBL_ADD_RECORD' => 'Kosten hinzufügen',
-	'LBL_RECORDS_LIST' => 'Kosten',
+	'LBL_RECORDS_LIST' => 'Liste Kosten',
 
 	// Blocks
 	'LBL_INFORMATION' => 'Kundeninformation',
@@ -25,7 +25,7 @@ $languageStrings = array(
 	'Parent ID' => 'übergeordnete Kosten',
 	'Project' => 'Projekt',
 	'HelpDesk' => 'HelpDesk',
-	'Related to' => 'Bezug zu',
+	'Related to' => 'Bezogen auf',
 	'Street' => 'Straße',
 	'Postal Code' => 'Postleitzahl',
 	'City' => 'Ort',
@@ -52,4 +52,5 @@ $languageStrings = array(
 	'Alert_desc' => 'Alle gewählten Optionen ändern Systemdateien. Originaldateien werden vor dem ändern gesichert und beim Abwählen wiederhergestellt.',
 	'Module configuration' => 'Modul Einstellungen',
 	'JS_save_config_info' => 'Einstellungen gespeichert',
-);
+	'SINGLE_Vendors' => 'Lieferant',
+];

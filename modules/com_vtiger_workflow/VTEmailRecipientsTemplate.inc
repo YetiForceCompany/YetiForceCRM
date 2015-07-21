@@ -23,7 +23,6 @@ class VTEmailRecipientsTemplate extends VTSimpleTemplate {
 	}
 
 	protected function useValue($data, $fieldname) {
-		return $data['emailoptout'] == 0;
+		return $data['emailoptout'] == 1;
 	}
 }
-?>

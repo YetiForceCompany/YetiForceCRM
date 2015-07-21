@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    English/Australia localisation for jQuery Datepicker.
    Based on en-GB. */
 (function($) {

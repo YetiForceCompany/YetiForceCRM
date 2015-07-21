@@ -15,7 +15,8 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-help/
 */
-$labels['help'] = 'Segítség';
+$labels['help'] = 'Súgó';
 $labels['about'] = 'Névjegy';
-$labels['license'] = 'Licenc';
+$labels['license'] = 'Licensz';
+$labels['csrfinfo'] = 'Olvass többet a CSRF-ről és arról hogy védünk meg ettöl';
 ?>

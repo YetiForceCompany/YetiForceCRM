@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -190,7 +190,6 @@ $labels['revertto']      = 'Ongedaan maken';
 $labels['attach'] = 'Bijvoegen';
 $labels['attachments'] = 'Bijlagen';
 $labels['upload'] = 'Uploaden';
-$labels['uploadprogress'] = '$percent ($current van $total)';
 $labels['close']  = 'Sluiten';
 $labels['messageoptions']  = 'Opties voor bericht...';
 $labels['low']     = 'Laag';
@@ -221,7 +220,6 @@ $labels['name']         = 'Naam';
 $labels['firstname']    = 'Voornaam';
 $labels['surname']      = 'Achternaam';
 $labels['email']        = 'E-mailadres';
-$labels['addcontact'] = 'Geselecteerde contactpersoon toevoegen';
 $labels['editcontact'] = 'Contactpersoon bewerken';
 $labels['contacts'] = 'Contactpersonen';
 $labels['contactproperties'] = 'Eigenschappen van contactpersoon';
@@ -230,14 +228,12 @@ $labels['cancel'] = 'Annuleren';
 $labels['save']   = 'Opslaan';
 $labels['delete'] = 'Verwijderen';
 $labels['rename'] = 'Hernoemen';
-$labels['newcontact']     = 'Contactpersoon toevoegen';
 $labels['deletecontact']  = 'Verwijder geselecteerde contactpersonen';
 $labels['composeto']      = 'Mail sturen aan';
 $labels['contactsfromto'] = 'Contactpersonen $from - $to van $count';
 $labels['print']          = 'Afdrukken';
 $labels['export']         = 'Exporteren';
 $labels['exportvcards']   = 'Exporteer contactpersonen in vCard formaat';
-$labels['newcontactgroup'] = 'Maak een nieuwe contactgroep';
 $labels['previouspage']   = 'Toon vorige';
 $labels['firstpage']      = 'Toon eerste';
 $labels['nextpage']       = 'Toon volgende';
@@ -255,10 +251,6 @@ $labels['preferences'] = 'Voorkeuren';
 $labels['userpreferences'] = 'Gebruikersvoorkeuren';
 $labels['editpreferences'] = 'Gebruikersvoorkeuren bewerken';
 $labels['identities'] = 'Identiteiten';
-$labels['manageidentities'] = 'Beheer de identiteiten voor deze gebruiker';
-$labels['newidentity'] = 'Nieuwe identiteit';
-$labels['newitem'] = 'Nieuw';
-$labels['edititem'] = 'Bewerken';
 $labels['preferhtml'] = 'Gebruik HTML-opmaak';
 $labels['defaultcharset'] = 'Standaard karakterset';
 $labels['htmlmessage'] = 'HTML-bericht';
@@ -285,7 +277,6 @@ $labels['askuser'] = 'vraag de gebruiker';
 $labels['autosend'] = 'stuur automatisch';
 $labels['autosendknown'] = 'stuur ontvangstbevestiging naar mijn contactpersonen, anders vraag mij';
 $labels['autosendknownignore'] = 'stuur ontvangstbevestiging naar mijn contactpersonen, anders negeer';
-$labels['ignore'] = 'negeer';
 $labels['readwhendeleted'] = 'Bericht na verwijderen als gelezen markeren';
 $labels['flagfordeletion'] = 'Bericht niet verwijderen maar als verwijderd markeren';
 $labels['skipdeleted'] = 'Verwijderde berichten niet tonen';
@@ -327,14 +318,14 @@ $labels['afternseconds']  = 'Na $n seconden';
 $labels['reqmdn'] = 'Vraag altijd een ontvangstbevestiging';
 $labels['reqdsn'] = 'Vraag altijd een Delivery Status Notification';
 $labels['replysamefolder'] = 'Plaats antwoorden in de map van het beantwoorde bericht';
-$labels['folder']  = 'Map';
-$labels['folders']  = 'Mappen';
-$labels['foldername']  = 'Naam';
-$labels['subscribed']  = 'Geabonneerd';
+$labels['folder'] = 'Map';
+$labels['folders'] = 'Mappen';
+$labels['foldername'] = 'Naam';
+$labels['subscribed'] = 'Geabonneerd';
 $labels['messagecount'] = 'Berichten';
-$labels['create']  = 'Aanmaken';
-$labels['createfolder']  = 'Nieuwe map aanmaken';
-$labels['managefolders']  = 'Mappen beheren';
+$labels['create'] = 'Aanmaken';
+$labels['createfolder'] = 'Nieuwe map aanmaken';
+$labels['managefolders'] = 'Mappen beheren';
 $labels['specialfolders'] = 'Speciale mappen';
 $labels['properties'] = 'Eigenschappen';
 $labels['folderproperties'] = 'Eigenschappen van map';

@@ -10,33 +10,33 @@
 -->*}
 {strip}
 	{include file="Header.tpl"|vtemplate_path:$MODULE}
-	<div class="container-fluid page-container">
-		<div class="row-fluid">
-			<div class="span6">
+	<div class=" page-container">
+		<div class="row">
+			<div class="col-md-6">
 				<div class="logo">
 					<img src="{vimage_path('vt1.png')}" alt="Vtiger Logo"/>
 				</div>
 			</div>
-			<div class="span6">
+			<div class="col-md-6">
 				<div class="head pull-right">
 					<h3> {vtranslate('LBL_MIGRATION_WIZARD', $MODULE)}</h3>
 				</div>
 			</div>
 		</div>
-		<div class="row-fluid main-container">
-			<div class="span12 inner-container">
-					<div class="row-fluid">
-						<div class="span10">
+		<div class="row main-container">
+			<div class="col-md-12 inner-container">
+					<div class="row">
+						<div class="col-md-10">
 							<h4> {vtranslate('LBL_MIGRATION_COMPLETED', $MODULE)} </h4> 
 						</div>
 					</div>
 					<hr>
-					<div class="row-fluid">
-						<div class="span4 welcome-image">
+					<div class="row">
+						<div class="col-md-4 welcome-image">
 							<img src="{vimage_path('migration_screen.png')}" alt="Vtiger Logo"/>
 						</div>
-						<div class="span1"></div>
-						<div class="span6">
+						<div class="col-md-1"></div>
+						<div class="col-md-6">
 							<br><br>
 							<h5>{vtranslate('LBL_MIGRATION_COMPLETED_SUCCESSFULLY', $MODULE)}  </h5><br><br>
 								{vtranslate('LBL_RELEASE_NOTES', $MODULE)}<br>
@@ -49,7 +49,7 @@
 	                            &nbsp;&nbsp;<a href="//www.vtiger.com/products/crm/privacy_policy.html" target="_blank"><img src="{vimage_path('linkedin.png')}"></a> 
 								<br><br>
 							<div class="button-container">
-								<input type="button" onclick="window.location.href='index.php'" class="btn btn-large btn-primary" value="Finish"/>
+								<input type="button" onclick="window.location.href='index.php'" class="btn btn-lg btn-primary" value="Finish"/>
 							</div>
 					</div>
 				</div>

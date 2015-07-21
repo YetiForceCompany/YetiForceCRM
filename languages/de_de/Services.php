@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'CRM Applications' => 'CRM Anwendungen',
 	'Software' => 'Software',
 	'Hardware' => 'Hardware',
@@ -24,8 +24,8 @@ $languageStrings = array(
 	// Basic Strings
 	'Services' => 'Dienstleistungen',
 	'SINGLE_Services' => 'Dienstleistung',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
-	'LBL_RECORDS_LIST' => 'Dienstleistungsliste',
+	'LBL_ADD_RECORD' => 'Dienstleistung hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste Dienstleistungen',
 
 	// Blocks
 	'LBL_SERVICE_INFORMATION' => 'Dienstleistungsdetails',
@@ -44,7 +44,8 @@ $languageStrings = array(
 	'Service Active'=>'Aktiv',
 	'Service Category'=>'Kategorie',
 	'Service No'=>'Dienstleistungsnummer',
-	'Owner'=>'Besitzer',
+	'Owner'=>'zuständig',
+	'Share with users' => 'Teilen mit Benutzern',
 	'No of Units'=>'Anzahl der Einheiten',
 	'Commission Rate'=>'Provisionsrate',
 	'Price'=>'Preis',
@@ -60,4 +61,4 @@ $languageStrings = array(
 	'Incidents' => 'Vorfälle',
 	'Sales' => 'Verkauf',
 	'Service' => 'Dienstleistung',
-);
+];

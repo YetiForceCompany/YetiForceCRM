@@ -32,7 +32,7 @@
                 <td nowrap class="{$WIDTHTYPE}">
                     <span class="actions">
                         <span class="actionImages pull-right">
-                            <a href="{$LISTVIEW_ENTRY['link']}" target="_BLANK"><i title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="icon-th-list alignMiddle"></i></a>&nbsp;
+                            <a href="{$LISTVIEW_ENTRY['link']}" target="_BLANK"><i title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></i></a>&nbsp;
                         </span>
                     </span>
                 </td>

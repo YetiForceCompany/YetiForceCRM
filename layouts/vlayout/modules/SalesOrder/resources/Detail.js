@@ -79,13 +79,13 @@ Inventory_Detail_Js("SalesOrder_Detail_Js",{},{
 					relatedField.attr('data-validation-engine','validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]');
 				}
 				if(relatedField.is("select")){
-					relatedField.attr('disabled',false).trigger("liszt:updated");
+					relatedField.attr('disabled',false).trigger("chosen:updated");
 				}else{
 					relatedField.removeAttr('disabled');
 				}
 			}else if(!addValidation){
 				if(relatedField.is("select")){
-					relatedField.attr('disabled',true).trigger("liszt:updated");
+					relatedField.attr('disabled',true).trigger("chosen:updated");
 				}else{
 					relatedField.attr('disabled','disabled');
 				}

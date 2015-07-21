@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -185,7 +185,6 @@ $labels['revertto']      = 'Hverfa til';
 $labels['attach'] = 'Viðhengi';
 $labels['attachments'] = 'Viðhengi';
 $labels['upload'] = 'Hlaða upp';
-$labels['uploadprogress'] = '$percent ($current af $total)';
 $labels['close']  = 'Loka';
 $labels['messageoptions']  = 'Skeytisvalmöguleikar...';
 $labels['low']     = 'Lágt';
@@ -259,7 +258,6 @@ $labels['typehomepage']  = 'Vefur';
 $labels['typeblog'] = 'Blogg';
 $labels['typeprofile'] = 'Mannlýsing';
 $labels['addfield'] = 'Bæta við svæði...';
-$labels['addcontact'] = 'Nýr tengiliður';
 $labels['editcontact'] = 'Lagfæra';
 $labels['contacts'] = 'Tengiliðir';
 $labels['contactproperties'] = 'Eiginleikar';
@@ -271,14 +269,12 @@ $labels['delete'] = 'Eyða';
 $labels['rename'] = 'Endurnefna';
 $labels['addphoto'] = 'Bæta við';
 $labels['replacephoto'] = 'Skipta út';
-$labels['newcontact']     = 'Búa til nýtt nafnspjald';
 $labels['deletecontact']  = 'Eyða völdum tengiliðum';
 $labels['composeto']      = 'Skrifa skeyti til';
 $labels['contactsfromto'] = 'Netföng $from til $to af $count';
 $labels['print']          = 'Prenta';
 $labels['export']         = 'Flytja út';
 $labels['exportvcards']   = 'Flytja út nafnspjöld á vCard formi';
-$labels['newcontactgroup'] = 'Nýr tengiliðahópur';
 $labels['grouprename']    = 'Breyta nafni hóps';
 $labels['groupdelete']    = 'Fjarlægja hóp';
 $labels['previouspage']   = 'Sýna fyrri síðu';
@@ -301,10 +297,6 @@ $labels['preferences'] = 'Stillingar';
 $labels['userpreferences'] = 'Notendastillingar';
 $labels['editpreferences'] = 'Breyta notendastillingum';
 $labels['identities'] = 'Auðkenni';
-$labels['manageidentities'] = 'Stjórna auðkennum þessa reiknings';
-$labels['newidentity'] = 'Nýtt auðkenni';
-$labels['newitem'] = 'Nýtt';
-$labels['edititem'] = 'Breyta';
 $labels['preferhtml'] = 'Vil HTML';
 $labels['defaultcharset'] = 'Venjulegt stafasett';
 $labels['htmlmessage'] = 'HTML skeyti';
@@ -333,7 +325,6 @@ $labels['askuser'] = 'spyrja notanda';
 $labels['autosend'] = 'senda kvittun';
 $labels['autosendknown'] = 'senda kvittun til tengiliða minna, spyrja mig ella';
 $labels['autosendknownignore'] = 'senda kvittun til tengiliða minna, hunsa ella';
-$labels['ignore'] = 'hunsa';
 $labels['readwhendeleted'] = 'Merkja skeyti sem lesið þegar því er hent';
 $labels['flagfordeletion'] = 'Merkja skeyti til eyðingar í stað þess að eyða';
 $labels['skipdeleted'] = 'Ekki sýna eydd skeyti';
@@ -384,14 +375,14 @@ $labels['spellcheckignoresyms'] = 'Hunsa orð með merki';
 $labels['spellcheckignorenums'] = 'Hunsa orð með tölum';
 $labels['spellcheckignorecaps'] = 'Hunsa orð sem eru í hástöfum';
 $labels['addtodict'] = 'Bæta við orðalista';
-$labels['folder']  = 'Mappa';
-$labels['folders']  = 'Möppur';
-$labels['foldername']  = 'Nafn möppu';
-$labels['subscribed']  = 'Valin';
+$labels['folder'] = 'Mappa';
+$labels['folders'] = 'Möppur';
+$labels['foldername'] = 'Nafn möppu';
+$labels['subscribed'] = 'Valin';
 $labels['messagecount'] = 'Skeyti';
-$labels['create']  = 'Búa til';
-$labels['createfolder']  = 'Búa til nýja möppu';
-$labels['managefolders']  = 'Sýsla með möppur';
+$labels['create'] = 'Búa til';
+$labels['createfolder'] = 'Búa til nýja möppu';
+$labels['managefolders'] = 'Sýsla með möppur';
 $labels['specialfolders'] = 'Sérstakar möppur';
 $labels['properties'] = 'Eiginleikar';
 $labels['folderproperties'] = 'Eiginleikar möppu';
@@ -401,9 +392,9 @@ $labels['info'] = 'Upplýsingar';
 $labels['getfoldersize'] = 'Smelltu til að sjá stærð möppu';
 $labels['changesubscription'] = 'Smelltu til að breyta áskrift';
 $labels['foldertype'] = 'Möpputegund';
-$labels['personalfolder']  = 'Einkamappa';
-$labels['otherfolder']  = 'Möppur annara notenda';
-$labels['sharedfolder']  = 'Opin mappa';
+$labels['personalfolder'] = 'Einkamappa';
+$labels['otherfolder'] = 'Möppur annara notenda';
+$labels['sharedfolder'] = 'Opin mappa';
 $labels['sortby'] = 'Raða eftir';
 $labels['sortasc']  = 'Raða vaxandi';
 $labels['sortdesc'] = 'Raða minnkandi';

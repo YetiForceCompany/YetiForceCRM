@@ -196,5 +196,3 @@ class RSSCache {
     }
 
 }
-
-?>

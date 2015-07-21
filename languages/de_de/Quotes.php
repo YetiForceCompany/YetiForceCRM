@@ -7,20 +7,15 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
-	'Reviewed' => 'Reviewed',
-	'Created' => 'Created',
+$languageStrings = [
 	'LBL_GENERATE_QUOTES' => 'Angebote generieren',
-	'Accepted'=>'akzeptiert',
 	'Inventory Manager'=>'Bestandsmanager',
 	'LBL_ADD_RECORD' => 'Neues Angebot',
 	'LBL_EXPORT_TO_PDF' => 'Export als PDF',
 	'LBL_QUOTE_INFORMATION' => 'Angebot',
 	'LBL_RECORDS_LIST' => 'Angebote',
-	'LBL_SEND_MAIL_PDF' => 'Mail mit PDF senden',
 	'Quote No'=>'Angebotsnr.',
 	'Quote Stage'=>'Angebotsstufe',
-	'Rejected'=>'abgelehnt',
 	'SINGLE_Quotes' => 'Angebot',
 	'Valid Till'=>'Ablauf Bindefrist',
    'Shipping' => 'Auslieferung',
@@ -31,9 +26,19 @@ $languageStrings = array(
 	'Form of payment' => 'Zahlungsart',
 	'Transfer' => 'Überweisung',
 	'Cash' => 'Bar',
-);
+	
+	//picklist values
+	'PLL_WAITING_FOR_PREPARATION' => 'Warten auf Zuarbeit',
+	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Interne Klärung erforderlich',
+	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'Externe Klärung erforderlich',
+	'PLL_WAITING_FOR_CUSTOMERS_REPLY' => 'Warten auf Kundenantwort',
+	'PLL_IN_PREPARATION' => 'In Bearbeitung',
+	'PLL_SENT_TO_ORGANIZATION' => 'An Organisation gesendet',
+	'PLL_DECLINED' => 'Abgelehnt',
+	'PLL_ACCEPTED' => 'Angenommen',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Entfernen Sie Posten, die gelöscht wurden',
-);
+];
 

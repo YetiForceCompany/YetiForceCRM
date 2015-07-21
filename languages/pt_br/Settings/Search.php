@@ -5,17 +5,16 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] & Gabriel Porto Trindade [gptrind@gmail.com] - 09-12-2014
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
+ * All Rights Reserved. Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade e Gabriel Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'Search Configuration' => 'Search Configuration',
-	'Search Setup'=>'Search Setup',
+$languageStrings = [
+	'Search Configuration' => 'Configurações Pesquisa',
+	'Search Setup'=>'Configurar Pesquisa',
 	'Search' => 'Procurar configuração',
 	'LBL_Module_desc' => 'Este painel permite a configuração do rótulo para campos uitype10 e para os mecanismos de busca. Estes mecanismos trabalham independentemente - você pode visualizar várias colunas em um campo enquanto procura, mas quando você seleciona um registro, um nome de um rótulo será carregado.',
 	'Module' => 'Módulo',
-	'Table' => 'Tabela',	
+	'Table' => 'Tabela',
 	'LabelFields' => 'Principais colunas para um módulo (incluindo um rótulo para uitype10)',
 	'SearchFields' => 'Colunas para mecanismos de busca',
 	'Tools' => 'Ações',
@@ -26,11 +25,11 @@ $languageStrings = array(
 	'LBL_SAVE_MODULE_SEQUENCE'	=> 'Salvar sequência dos módulos',
 	'LBL_TURN_ON'	=> 'Ligar',
 	'LBL_TURN_OFF'	=> 'Desligar',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Saving changes' => 'Atualização em processo…',
 	'Update labels' => 'Atualizar',
 	'JS_MODULES_SEQUENCE_UPDATED'	=> 'Sequência dos módulos atualizada',
 	'JS_TURN_ON'	=> 'Ligar',
 	'JS_TURN_OFF'	=> 'Desligar',
-);
+];

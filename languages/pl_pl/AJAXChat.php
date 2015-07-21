@@ -1,4 +1,4 @@
 <?php
-$languageStrings = array(
+$languageStrings = [
 	'AJAXChat'  => 'Chat',
-);
+];

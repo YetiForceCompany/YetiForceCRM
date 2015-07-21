@@ -8,13 +8,13 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 21/12/2013 - www.ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
-	'isactive' => 'Active',
-	'password' => 'Password',
-	'username' => 'User Name',
-	'LBL_SEREVER_CONFIG' => 'New Configuration',
-	'LBL_SMS_MAX_CHARACTERS_ALLOWED' => 'SMS max 160 characters allowed',
-	'providertype' => 'Provider',
+$languageStrings = [
+	'providertype' => 'Provedor',
+	'LBL_SMS_MAX_CHARACTERS_ALLOWED' => 'Permitido no máximo 160 caracteres',
+	'LBL_SEREVER_CONFIG' => 'Nova Configuração',
+	'username' => 'Usuário',
+	'password' => 'Senha',
+	'isactive' => 'Ativo',
 	// Basic Strings
 	'LBL_SEND_SMS_TO_SELECTED_NUMBERS' => 'Enviar SMS para os números selecionados',
 	'LBL_STEP_1' => 'Passo 1',
@@ -26,10 +26,10 @@ $languageStrings = array(
 	'LBL_SERVER_CONFIG' => 'Configuração do Servidor' ,
 
 	//DetailView Actions
-	'LBL_CHECK_STATUS' => 'Checar status' , 
+	'LBL_CHECK_STATUS' => 'Checar status' ,
 	'message'=> 'Mensagem',
 
 	//Blocks
 	'LBL_SMSNOTIFIER_INFORMATION'=> 'Informação SMS',
-	'SINGLE_SMSNotifier' => 'Notificador SMS', 
-);
+	'SINGLE_SMSNotifier' => 'Notificador SMS',
+];

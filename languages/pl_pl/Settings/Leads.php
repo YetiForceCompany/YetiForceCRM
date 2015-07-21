@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Leads' => 'Leady',
 	'LBL_OPPURTUNITIES' => 'Szanse sprzedaży',
 	'checkBox' => 'Pole zaznaczenia',
@@ -18,7 +18,7 @@ $languageStrings = array(
 	'email' => 'Pole mailowe',
 	'LBL_ADD_MAPPING' => 'Dodaj mapowanie',
 	'LBL_CONTACTS' => 'Kontakty',
-	'LBL_CONVERT_LEAD_FIELD_MAPPING' => 'Konwertuj mapowanie pól',
+	'LBL_CONVERT_LEAD_FIELD_MAPPING' => 'Zarządzaj mapowaniem pól',
 	'LBL_DELETED_SUCCESSFULLY' => 'Usunięto poprawnie',
 	'LBL_FIELD_LABEL' => 'Nazwa pola',
 	'LBL_FIELD_TYPE' => 'Typ pola',
@@ -33,16 +33,15 @@ $languageStrings = array(
 	'phone' => 'Pole telefonu',
 	'picklist' => 'Pole słownikowe',
 	'skype' => 'Pole Skype',
-	'string' => 'Potel tekstowe (string)',
+	'string' => 'Pole tekstowe (string)',
 	'textArea' => 'Obszar tekstowy',
 	'text' => 'Pole tekstowe',
 	'time' => 'Pole czasu',
 	'url' => 'Adres WWW',
-	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Zaznaczona opcja powoduje, że przy konwertowaniu leada na kontrahenta jako właściciel rekordu ustawiana jest osoba, która dokonała konwersji.',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Konwersja na kontrahenta',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CANT_MAP' => 'Nie można zmapować',
 	'JS_checkBox' => 'Pole zaznaczenia',
 	'JS_currency' => 'Pole waluty',
@@ -66,6 +65,5 @@ $jsLanguageStrings = array(
 	'JS_url' => 'Adres WWW',
 	'JS_WITH' => 'z',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Zapisano mapowanie pól',
-	'JS_CONVERSION_STATE_SUCCES' => 'Stan zapisany pomyślnie',
-	'JS_CONVERSION_STATE_FAILURE' => 'Błąd przy zapisie',
-);
+
+];

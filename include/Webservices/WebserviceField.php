@@ -200,7 +200,7 @@ class WebserviceField{
 		if(isset(WebserviceField::$tableMeta[$this->getTableName()])){
 			$tableFields = WebserviceField::$tableMeta[$this->getTableName()];
 		}else{
-			$dbMetaColumns = $this->pearDB->database->MetaColumns($this->getTableName());
+			$dbMetaColumns = $this->pearDB->getColumnsMeta($this->getTableName());
 			$tableFields = array();
 			foreach ($dbMetaColumns as $key => $dbField) {
 				$tableFields[$dbField->name] = $dbField;
@@ -213,10 +213,10 @@ class WebserviceField{
 		$tableFields = $this->getTableFields();
 		foreach ($tableFields as $fieldName => $dbField) {
 			if(strcmp($fieldName,$this->getColumnName())===0){
-				$this->setNullable(!$dbField->not_null);
-				if($dbField->has_default === true && !$this->explicitDefaultValue){
-					$this->defaultValuePresent = $dbField->has_default;
-					$this->setDefault($dbField->default_value);
+				$this->setNullable(!$dbField->notNull);
+				if($dbField->hasDefault === true && !$this->explicitDefaultValue){
+					$this->defaultValuePresent = $dbField->hasDefault;
+					$this->setDefault($dbField->default);
 				}
 			}
 		}
@@ -265,16 +265,7 @@ class WebserviceField{
 				array_push($referenceTypes,$this->pearDB->query_result($result,$i,"type"));
 			}
 
-			//to handle hardcoding done for Calendar module todo activities.
-			if($this->tabid == 9 && $this->fieldName =='parent_id'){
-				$referenceTypes[] = 'Invoice';
-				$referenceTypes[] = 'Quotes';
-				$referenceTypes[] = 'PurchaseOrder';
-				$referenceTypes[] = 'SalesOrder';
-				$referenceTypes[] = 'Campaigns';
-			}
-
-			global $current_user;
+			$current_user  = vglobal('current_user');
 			$types = vtws_listtypes(null, $current_user);
 			$accessibleTypes = $types['types'];
             //If it is non admin user or the edit and view is there for profile then users module will be accessible

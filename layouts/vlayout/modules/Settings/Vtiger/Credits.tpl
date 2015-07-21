@@ -1,6 +1,6 @@
 {strip}
-	<div class="container-fluid settingsIndexPage">
-		<div class="widget_header row-fluid">
+	<div class="settingsIndexPage">
+		<div class="widget_header ">
 			<h3>YetiForce - {vtranslate('Credits',$MODULE)}</h3>
 		</div>
 		<hr>

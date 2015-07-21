@@ -11,14 +11,14 @@
 -->*}
 {strip}
 	<div class="ruleListContainer">
-		<div class="title row-fluid">
-			<div class="rulehead span6">
+		<div class="title row">
+			<div class="rulehead col-md-6">
 				<!-- Check if the module should the for module to get the translations-->
 				<strong>{vtranslate('LBL_SHARING_RULE', $QUALIFIED_MODULE)}&nbsp;{vtranslate('LBL_FOR', $MODULE)}&nbsp;
 					{if $FOR_MODULE == 'Accounts'}{vtranslate($FOR_MODULE, $QUALIFIED_MODULE)}{else}{vtranslate($FOR_MODULE, $MODULE)}{/if} :</strong>
 			</div>
-			<div class="span6">
-				<button class="btn addButton addCustomRule" type="button" data-url="{$MODULE_MODEL->getCreateRuleUrl()}">
+			<div class="col-md-6">
+				<button class="btn btn-default addButton addCustomRule" type="button" data-url="{$MODULE_MODEL->getCreateRuleUrl()}">
 					<strong>{vtranslate('LBL_ADD_CUSTOM_RULE', $QUALIFIED_MODULE)}</strong></button>
 			</div>
 		</div>
@@ -57,9 +57,9 @@
 							
 							<div class="pull-right actions">
 								<span class="actionImages">
-									<a href="javascript:void(0);" class="edit" data-url="{$RULE_MODEL->getEditViewUrl()}"><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-pencil alignMiddle"></i></a>
+									<a href="javascript:void(0);" class="edit" data-url="{$RULE_MODEL->getEditViewUrl()}"><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
 									<span class="alignMiddle actionImagesAlignment"> <b>|</b></span>
-									<a href="javascript:void(0);" class="delete" data-url="{$RULE_MODEL->getDeleteActionUrl()}"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i></a>
+									<a href="javascript:void(0);" class="delete" data-url="{$RULE_MODEL->getDeleteActionUrl()}"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 								</span>
 							</div>
 							

@@ -14,7 +14,7 @@ require_once 'modules/PickList/PickListUtils.php';
 class Vtiger_DependencyPicklist {
 
 	static function getDependentPicklistFields($module='') {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		if(empty($module)) {
 			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency', array());
@@ -55,7 +55,7 @@ class Vtiger_DependencyPicklist {
 	}
 
 	static function getAvailablePicklists($module) {
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$tabId = getTabid($module);
 
 		$query="select vtiger_field.fieldlabel,vtiger_field.fieldname" .
@@ -76,7 +76,7 @@ class Vtiger_DependencyPicklist {
 	}
 
 	static function savePickListDependencies($module, $dependencyMap) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$tabId = getTabid($module);
 		$sourceField = $dependencyMap['sourcefield'];
 		$targetField = $dependencyMap['targetfield'];
@@ -117,7 +117,7 @@ class Vtiger_DependencyPicklist {
 	}
 
 	static function deletePickListDependencies($module, $sourceField, $targetField) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$tabId = getTabid($module);
 
@@ -126,7 +126,7 @@ class Vtiger_DependencyPicklist {
 	}
 
 	static function getPickListDependency($module, $sourceField, $targetField) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$tabId = getTabid($module);
 		$dependencyMap = array();
@@ -156,7 +156,7 @@ class Vtiger_DependencyPicklist {
 	}
 
 	static function getPicklistDependencyDatasource($module) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$tabId = getTabid($module);
 

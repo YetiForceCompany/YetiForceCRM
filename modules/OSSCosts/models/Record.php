@@ -75,10 +75,10 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 		$limit = $ModuleModel->widget_no_rows;
 		$sql = "SELECT osscosts_no,total FROM vtiger_osscosts INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_osscosts.osscostsid WHERE vtiger_crmentity.deleted=0 AND $field = '$srecord' ORDER BY osscostsid DESC LIMIT $limit";
 		$result = $db->query($sql, true);
-		$return['rows'] = $result->GetArray();
+		$return['rows'] = $adb->fetch_array($result);
 		$sql = "SELECT COUNT(osscostsid) AS count,SUM(total) AS sum FROM vtiger_osscosts INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_osscosts.osscostsid WHERE vtiger_crmentity.deleted=0 AND $field = '$srecord'";
 		$result = $db->query($sql, true);
-		$return['summary'] = $result->GetArray();
+		$return['summary'] = $adb->fetch_array($result);
 		return $return;
 	}
 	function getHierarchy() {
@@ -124,7 +124,7 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 		return $currencyInfo;
 	}
 	function getInventoryCurrencyInfo($module, $id)	{
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
 		$log->debug("Entering into function OSSCosts_Record_Model getInventoryCurrencyInfo($module, $id).");
 
@@ -149,7 +149,7 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 		return $currency_info;
 	}
 	function getInventoryTaxType($module, $id)	{
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
 		$log->debug("Entering into function getInventoryTaxType($module, $id).");
 
@@ -182,31 +182,33 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 		return $taxDetails;
 	}
 	function getProducts() {
+		$numOfCurrencyDecimalPlaces = getCurrencyDecimalPlaces();
 		$relatedProducts = $this->getAssociatedProducts($this->getModuleName(), $this->getEntity());
-		$relatedProducts[1]['final_details']['grandTotal'] = number_format($this->get('hdnGrandTotal'), getCurrencyDecimalPlaces(),'.','');
-		$relatedProducts[1]['final_details']['total_purchase'] = number_format($this->get('total_purchase'), getCurrencyDecimalPlaces(),'.','');
-		$relatedProducts[1]['final_details']['total_margin'] = number_format($this->get('total_margin'), getCurrencyDecimalPlaces(),'.','');
-		$relatedProducts[1]['final_details']['total_marginp'] = number_format($this->get('total_marginp'), getCurrencyDecimalPlaces(),'.','');
+		$relatedProducts[1]['final_details']['grandTotal'] = number_format($this->get('hdnGrandTotal'), $numOfCurrencyDecimalPlaces,'.','');
+		$relatedProducts[1]['final_details']['total_purchase'] = number_format($this->get('total_purchase'), $numOfCurrencyDecimalPlaces,'.','');
+		$relatedProducts[1]['final_details']['total_margin'] = number_format($this->get('total_margin'), $numOfCurrencyDecimalPlaces,'.','');
+		$relatedProducts[1]['final_details']['total_marginp'] = number_format($this->get('total_marginp'), $numOfCurrencyDecimalPlaces,'.','');
 
 		//Updating Pre tax total
 		$preTaxTotal = (float)$relatedProducts[1]['final_details']['hdnSubTotal']
 						- (float)$relatedProducts[1]['final_details']['discountTotal_final'];
 
-		$relatedProducts[1]['final_details']['preTaxTotal'] = number_format($preTaxTotal, getCurrencyDecimalPlaces(),'.','');
+		$relatedProducts[1]['final_details']['preTaxTotal'] = number_format($preTaxTotal, $numOfCurrencyDecimalPlaces,'.','');
 		
 		//Updating Total After Discount
 		$totalAfterDiscount = (float)$relatedProducts[1]['final_details']['hdnSubTotal']
 								- (float)$relatedProducts[1]['final_details']['discountTotal_final'];
 		
-		$relatedProducts[1]['final_details']['totalAfterDiscount'] = number_format($totalAfterDiscount, getCurrencyDecimalPlaces(),'.','');
+		$relatedProducts[1]['final_details']['totalAfterDiscount'] = number_format($totalAfterDiscount, $numOfCurrencyDecimalPlaces,'.','');
 		return $relatedProducts;
 	}
 	function getAssociatedProducts($module,$focus,$seid='')	{
-		global $log;
+		$adb = PearDatabase::getInstance();
+		$current_user = vglobal('current_user');
+		$log = vglobal('log');
+		$theme = vglobal('theme');
 		$log->debug("Entering OSSCosts_Record_Model getAssociatedProducts(".$module.",".get_class($focus).",".$seid."='') method ...");
-		global $adb;
 		$output = '';
-		global $theme,$current_user;
 
 		$no_of_decimal_places = getCurrencyDecimalPlaces();
 		$theme_path="themes/".$theme."/";
@@ -222,7 +224,9 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 						case when vtiger_products.productid != '' then 'Products' else 'Services' end as entitytype,
 									vtiger_inventoryproductrel.listprice,
 									vtiger_inventoryproductrel.description AS product_description,
-									vtiger_inventoryproductrel.*,vtiger_crmentity.deleted
+									vtiger_inventoryproductrel.*,vtiger_crmentity.deleted,
+									vtiger_products.usageunit,
+									vtiger_service.service_usageunit
 									FROM vtiger_inventoryproductrel
 									LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_inventoryproductrel.productid
 									LEFT JOIN vtiger_products
@@ -238,6 +242,7 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 									vtiger_products.productcode,
 									vtiger_products.productname,
 									vtiger_products.unit_price,
+									vtiger_products.usageunit,
 									vtiger_products.qtyinstock,vtiger_crmentity.deleted,
 									vtiger_crmentity.description AS product_description,
 									'Products' AS entitytype
@@ -253,6 +258,7 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 									'NA' AS productcode,
 									vtiger_service.servicename AS productname,
 									vtiger_service.unit_price AS unit_price,
+									vtiger_service.service_usageunit AS usageunit,
 									'NA' AS qtyinstock,vtiger_crmentity.deleted,
 									vtiger_crmentity.description AS product_description,
 									'Services' AS entitytype
@@ -280,6 +286,12 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 			$unitprice=$adb->query_result($result,$i-1,'unit_price');
 			$listprice=$adb->query_result($result,$i-1,'listprice');
 			$entitytype=$adb->query_result($result,$i-1,'entitytype');
+			if ( $entitytype == 'Services' ) {
+				$usageunit=vtranslate($adb->query_result($result,$i-1,'service_usageunit'), $entitytype);
+			}
+			else {
+				$usageunit=vtranslate($adb->query_result($result,$i-1,'usageunit'), $entitytype);
+			}
 			$tax=$adb->query_result($result,$i-1,'tax');
 			
 			if(($deleted) || (!isset($deleted))){
@@ -347,6 +359,7 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 			$product_Detail[$i]['qty'.$i]=decimalFormat($qty);
 			$product_Detail[$i]['listPrice'.$i]=$listprice;
 			$product_Detail[$i]['unitPrice'.$i]=number_format($unitprice, $no_of_decimal_places,'.','');
+			$product_Detail[$i]['usageUnit'.$i]=$usageunit;
 			$product_Detail[$i]['productTotal'.$i]=$productTotal;
 			$product_Detail[$i]['subproduct_ids'.$i]=$subprodid_str;
 			$product_Detail[$i]['subprod_names'.$i]=$subprodname_str;

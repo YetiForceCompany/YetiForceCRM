@@ -28,7 +28,7 @@ class Vtiger_InventoryPDFController {
 	}
 
 	function loadRecord($id) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$this->focus = $focus = CRMEntity::getInstance($this->moduleName);
 		$focus->retrieve_entity_info($id,$this->moduleName);
 		$focus->apply_field_security();
@@ -238,7 +238,7 @@ class Vtiger_InventoryPDFController {
 	}
 
 	function buildHeaderModelColumnLeft() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		// Company information
 		$result = $adb->pquery("SELECT * FROM vtiger_organizationdetails", array());
@@ -355,7 +355,7 @@ class Vtiger_InventoryPDFController {
 	}
 
 	function buildCurrencySymbol() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$currencyId = $this->focus->column_fields['currency_id'];
 		if(!empty($currencyId)) {
 			$result = $adb->pquery("SELECT currency_symbol FROM vtiger_currency_info WHERE id=?", array($currencyId));

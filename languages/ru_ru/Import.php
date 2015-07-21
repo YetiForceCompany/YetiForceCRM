@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ERR_FAILED_TO_LOCK_MODULE'    => 'Не удалось заблокировать модуль для импорта. Пожалуйста, повторите попытку позже',
 	'ERR_IMPORT_INTERRUPTED'       => 'Текущий импорт был прерван. Пожалуйста, повторите попытку позже.',
 	'ERR_UNIMPORTED_RECORDS_EXIST' => 'Есть еще некоторые не импортированные записи в очереди, которые блокируют дальнейший импорт данных. <br>Очистите их, чтобы начать импорт снова',
@@ -78,7 +78,8 @@ $languageStrings = array(
     'Skip' => 'Пропустить',
     'UTF-8' => 'UTF-8',
     'csv' => 'CSV',
-);
+	'LBL_SELECT_FILE' => 'Выберите файл для Импорта',
+];
 
-$jsLanguageStrings = array(
-);
+$jsLanguageStrings = [
+];

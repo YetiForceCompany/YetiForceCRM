@@ -38,7 +38,7 @@ function SaveResult() {
 				function(response) {
 					resp = response['result']['data'];
 					$.each( resp, function( key, object ) {
-						if(object.info){
+						if(typeof object.type != 'undefined'){
 							staus = thisInstnce.executeTask(object)
 						}
 					});
@@ -72,18 +72,13 @@ function SaveResult() {
 		var params = {
 			text: info.text,
 			type: 'info',
-			animation: 'show'
+			animation: 'show',
+			width: 'auto'
 		};
-		if(info.title){
-			params.title = info.title;
+		if(info.ntype){
+			params.type = info.ntype;
 		}
-		if(info.type){
-			params.type = info.type;
-		}
-		if(typeof params.hide === 'undefined'){
-			params.hide = info.hide;
-		}
-
+		params = jQuery.extend(info,params);
 		Vtiger_Helper_Js.showPnotify(params);
 	}
 	this.showQuickCreate = function(moduleName,orgExecuteTaskStatus) {
@@ -122,6 +117,9 @@ function SaveResult() {
 		relatedParams['sourceModule'] = sourceModule;
 		relatedParams['sourceRecord'] = sourceRecord;
 		relatedParams['relationOperation'] = true;
+		if((app.getViewName() == 'Detail' || app.getViewName() == 'Edit') && moduleName == 'OSSTimeControl' ){
+			relatedParams['name'] = jQuery('.recordLabel').attr('title');
+		}
 		quickCreateParams['callbackFunction'] = postQuickCreateSave;
 		quickCreateParams['callbackPostShown'] = preQuickCreateSave;
 		quickCreateParams['data'] = relatedParams;

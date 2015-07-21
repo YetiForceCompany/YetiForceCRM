@@ -53,8 +53,8 @@
 			{/foreach}
 		</table>
 	</div>
-	<div class='row-fluid'>
-		<div class="offset4">
+	<div>
+		<div class="col-md-offset-4">
 			<button type=submit class='btn btn-success'>{vtranslate('LBL_MERGE', $MODULE)}</button>
 		</div>
 	</div>

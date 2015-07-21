@@ -24,7 +24,7 @@
 		<input type='hidden' value="{$PAGING->getPageLimit()}" id='pageLimit'>
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
 	-->
-		{assign var=FILENAME value="RelatedListContents.tpl"}
+		{assign var=FILENAME value="SummaryWidgetsContent.tpl"}
 		{include file=$FILENAME|vtemplate_path:$MODULE RELATED_RECORDS=$RELATED_RECORDS}
 	{elseif $PAGING_MODEL->get('nrt') == 1}
 		<div class="summaryWidgetContainer">
@@ -33,7 +33,7 @@
 	{/if}
 	{assign var=NUMBER_OF_RECORDS value=count($RELATED_RECORDS)}
 	{if $NUMBER_OF_RECORDS >= 5}
-		<div class="row-fluid">
+		<div class="row">
 			<div class="pull-right">
 				<a href="" class="moreRecentRecords cursorPointer" data-label-key="{$RELATED_MODULE_NAME}" >{vtranslate('LBL_MORE',$MODULE_NAME)}</a>
 			</div>

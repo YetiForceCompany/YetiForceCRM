@@ -14,11 +14,11 @@
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 {assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}
 {assign var="TIME_FORMAT" value=$USER_MODEL->get('hour_format')}
-<div class="input-append time">
-    <input id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->get('name')}" type="text" data-format="{$TIME_FORMAT}" class="timepicker-default input-small" value="{$FIELD_VALUE}" name="{$FIELD_MODEL->getFieldName()}"
+<div class="input-group time">
+    <input id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->get('name')}" type="text" data-format="{$TIME_FORMAT}" class="timepicker-default form-control" value="{$FIELD_VALUE}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" name="{$FIELD_MODEL->getFieldName()}"
 	data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"   {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if} />
-    <span class="add-on cursorPointer">
-        <i class="icon-time"></i>
+    <span class="input-group-addon cursorPointer">
+        <span class="glyphicon glyphicon-time"></span>
     </span>
 </div>
 {/strip}

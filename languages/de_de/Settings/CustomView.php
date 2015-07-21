@@ -1,6 +1,6 @@
 <?php
 
-$languageStrings = array(
+$languageStrings = [
 	'CustomView'	=> 'Benutzerdefinierte Ansichten',
 	'LBL_MODULE_DESC'	=> 'Dieses Tool ermöglicht die Erstellung benutzerdefinierter Ansichten für Module. Diese Module müssen Datensätze enthalten und verwenden Standard-Filter im CRM.',
 	'Module'	=> 'Modul',
@@ -12,8 +12,8 @@ $languageStrings = array(
 	'Saving CustomView' => 'Benutzerdefinierte Ansicht wurde gespeichert',
 	'Actions'	=> 'Aktionen',
 	'Edit'	=> 'Bearbeiten',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Saving changes'	=> 'Speichern von Änderungen...',
 	'Update labels'	=> 'Aktualisierung',
-);
+];

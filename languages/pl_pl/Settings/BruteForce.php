@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'BruteForce'  => 'Brute Force',
     'Number of attempts' => 'Liczba prób',
     'Time lock' => 'Czas blokady (minuty)',
@@ -29,13 +29,16 @@ $languageStrings = array(
     'Unblock' => 'Odblokuj',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Użytkownicy dla powiadomień',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Aktywny',
-);
-
-$jsLanguageStrings = array(
+	'LBL_SAVE' => 'Zapisz',
+	'LBL_VIEW_SHOW' => 'Brute Force',
+];
+$jsLanguageStrings = [
     'Could not finnish reaction.' => 'Nie można było dokończyć akcji.',
     'Complete the fields' => 'Uzupełnij pola',
     'LBL_SAVE_SUCCESS' => 'Poprawnie zapisano dane',
     'LBL_FAIL' => 'Nie można było zapisać zmian', 
     'LBL_UNBLOCK_FAIL' => 'Nie udało się odblokować adresu IP',
     'LBL_UNBLOCK_SUCCESS' => 'Odblokowano adres IP',       
-);
+	'JS_WRONG_ATTEMPS_NUMBER' => 'Wprowadziłeś niepoprawny format dla liczby prób, popraw go.',
+	'JS_WRONG_TIME_LOCK_FORMAT' => 'Wprowadziłeś niepoprawny format dla czasu blokady, popraw go.'
+];

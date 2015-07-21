@@ -78,7 +78,7 @@ class OSSMailTemplates extends Vtiger_CRMEntity {
      * @param String Event Type
      */
     function vtlib_handler($moduleName, $eventType) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         if ($eventType == 'module.postinstall') {
 
             $adb->query("UPDATE vtiger_tab SET customized = 0 WHERE name = '$moduleName'", true);

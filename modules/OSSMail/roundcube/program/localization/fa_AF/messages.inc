@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -20,12 +20,15 @@ $messages['loginfailed']  = 'خطا در ورود به سیستم';
 $messages['cookiesdisabled'] = 'جستجوگر شما  cookies را قبول نميکند';
 $messages['sessionerror'] = 'جلسه شما وجود ندارد و يا هم از زمان معين آن گذشته است';
 $messages['storageerror'] = 'وصل شدن به آیمیپ سرور موفق نشد';
+$messages['servererror'] = 'خطای سرور!';
 $messages['servererrormsg'] = 'خطای سرور: $msg';
 $messages['dberror'] = 'خطای پایگاه داده';
 $messages['requesttimedout'] = 'عدم پاسخگویی در زمان مقرر';
 $messages['invalidhost'] = 'نام سرور نامعتبر است';
 $messages['nomessagesfound'] = 'هيچ پيغامی در اين صندوق پستي دريافت نه شد';
 $messages['loggedout'] = 'جلسه شما بصورت مکمل فسخ شده است  خدا حافظ';
+$messages['mailboxempty'] = 'میل باکس خالی است';
+$messages['nomessages'] = 'پیامی وجود ندارد';
 $messages['refreshing'] = 'دوباره سازی....';
 $messages['loading'] = 'در حال بارگزاری...';
 $messages['uploading'] = 'در حال بارگزاری فایل...';
@@ -53,9 +56,11 @@ $messages['deletecontactconfirm']  = 'آيا واقعاً شما ميخواهي�
 $messages['deletemessagesconfirm'] = 'آيا واقعاً شما ميخواهيد که پيغام هاي انتخاب شده را حذف کنيد؟';
 $messages['deletefolderconfirm']  = 'آيا واقعاً شما ميخواهيد که اين پوشه را حذف کنيد؟';
 $messages['purgefolderconfirm']  = 'آيا واقعاً شما ميخواهيد  تمام پيغام های که  در اين پوشه وجود دارد حذف کنيد؟';
+$messages['contactdeleting'] = 'در حال حذف کانتکت(ها)...';
 $messages['groupdeleting'] = 'در حال حذف گروه...';
 $messages['folderdeleting'] = 'در حال حذف پوشه';
 $messages['foldermoving'] = 'در حال انتقال پوشه';
+$messages['foldersubscribing'] = 'در حال عضویت در فولدر...';
 $messages['formincomplete'] = 'فورمه بصورت مکمل خانه پري نه شده است';
 $messages['noemailwarning'] = 'لطفاً يک ايميل ادرس موجود را داخل کنيد';
 $messages['nonamewarning']  = 'لطفاً يک نام وارد کنيد';
@@ -72,6 +77,7 @@ $messages['contactsearchsuccessful'] = '$nr حساب کاربری یافت شد'
 $messages['searchnomatch'] = 'جستجو گر موفق به دریافت هیچ گونه اثری نشد';
 $messages['searching'] = 'در حال جستجو..';
 $messages['checking'] = 'در حال بررسی';
+$messages['stillsearching'] = 'در حال جستجو...';
 $messages['nospellerrors'] = 'هيچ اشتباه املايي را دريافت نه کرد';
 $messages['folderdeleted'] = 'پوشه موفقانه از بين رفت/ حذف گرديد';
 $messages['folderpurged'] = 'محتوای پوشه ها با موفقیت پاک شدند';
@@ -83,6 +89,7 @@ $messages['filesizeerror'] = 'تثبیت شده میباشد$size حجم فای�
 $messages['sourceisreadonly'] = 'اجازه نمامه کود / منبع این آدرس قفط خواندنی است';
 $messages['errorsavingcontact'] = 'ادرس این پیام را حفظکرده نتوانست';
 $messages['movingmessage'] = 'ذر حال انتقال پیام...';
+$messages['markingmessage'] = 'در حال نشانه گذاری پیغام(ها)...';
 $messages['receiptsent'] = 'یک رسید برای ارسال کننده این پیام فرستاده شد.';
 $messages['errorsendingreceipt'] = 'رسيد ارسال شده نتوانست';
 $messages['nodeletelastidentity'] = 'شما این شناخت نامه را حذف کرده نمیتوانید. این آخرین شناخت نامه شما است.';
@@ -93,5 +100,15 @@ $messages['importwait'] = 'در حال وارد کردن لطفا صبر کنی�
 $messages['importconfirm'] = '<b>Successfully imported $inserted contacts, $skipped existing entries skipped</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'اجازه این عملکرد را ندارید';
 $messages['nofromaddress'] = 'بخش ایمیل آدرس در شناخت نامه انتخاب شده مفقود است.';
-$messages['editorwarning'] = 'استفاده از تصحیح کننده متن ساده تمام فرمت و ساختار داده شده را از بین خواهد برد. آیا میخواهید که ادامه بدهید.';
+$messages['smtperror'] = 'خطای SMTP: $msg';
+$messages['contactrestored'] = 'دفتر نشانی(ها) با موفقیت بازیابی شد.';
+$messages['groupdeleted'] = 'گروه با موفقیت حذف شد.';
+$messages['grouprenamed'] = 'تغییر نام گروه با موفقیت انجام شد.';
+$messages['groupcreated'] = 'گروه با موفقیت ایجاد شد';
+$messages['messagedeleted'] = 'پیام(ها) با موفقیت حذف شدند.';
+$messages['messagemoved'] = 'پیام(ها) با موفقیت منتقل شدند.';
+$messages['messagecopied'] = 'پیام(ها) با موفقیت کپی شدند.';
+$messages['messagemarked'] = 'پیام(ها) با موفقیت نشانه گذاری شدند.';
+$messages['namecannotbeempty'] = 'نام نمی تواند خالی باشد.';
+$messages['nametoolong'] = 'نام بسیار طولانی است.';
 ?>

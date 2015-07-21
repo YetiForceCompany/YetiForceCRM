@@ -10,22 +10,22 @@
 -->*}
 {strip}
 {include file="Header.tpl"|vtemplate_path:$MODULE}
-<div class="container-fluid page-container">
-	<div class="row-fluid">
-		<div class="span6">
+<div class=" page-container">
+	<div class="row">
+		<div class="col-md-6">
 			<div class="logo">
 				<img src="{vimage_path('vt1.png')}" alt="Vtiger Logo"/>
 			</div>
 		</div>
-		<div class="span6">
+		<div class="col-md-6">
 			<div class="head pull-right">
 				<h3>{vtranslate('LBL_MIGRATION_WIZARD', $MODULE)}</h3>
 			</div>
 		</div>
 	</div>
-	<div class="row-fluid main-container">
-		<div class="span12 inner-container">
-			<div class="row-fluid">
+	<div class="row main-container">
+		<div class="col-md-12 inner-container">
+			<div class="row">
 				<div id="running" class="alignCenter">
 					<br><br><br><br><br>
 					<h4> {vtranslate('LBL_WAIT',$MODULE)} </h4><br>
@@ -44,7 +44,7 @@
 					<input type="hidden" id="module" name="module" value="Migration">
 					<input type="hidden" id="view" name="view" value="Index">
 					<input type="hidden" name="mode" value="step2">
-					<input type="submit" class="btn btn-large btn-primary" value="Next"/>
+					<input type="submit" class="btn btn-lg btn-primary" value="Next"/>
 				</form>
 			</div>
 		</div>

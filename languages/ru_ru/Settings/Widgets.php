@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Widgets'	=>	'Виджеты',
 	'LBL_MODULE_DESC'	=>	'Модуль управления Виджетами',
 	'Add widget'	=>	'Добавить Виджет',
@@ -30,6 +30,7 @@ $languageStrings = array(
 	'Size'	=>	'Количество колонок',
 	'Label'	=>	'Название',
 	'Add button'	=>	'Кнопка Добавить',
+	'Select button' => 'Кнопка Выбрать',
 	'Limit entries'	=>	'Количество записей',
 	'Columns'	=>	'Количество колонок',
 	'No left margin'	=>	'Без левого поля',
@@ -52,9 +53,9 @@ $languageStrings = array(
 	'Filter info'	=>	'Включить фильтрацию данных по выбранному Фильтру',
 	'None'	=>	'Нет',
 
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Loading data'	=>	'Загрузка...',
 	'Saving changes'	=>	'Сохранение изменений...',
 	'None'	=>	'Нет',
-);
+];

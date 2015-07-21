@@ -1,9 +1,8 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2014-12-03 14:35:12</exporttime>
+<exporttime>2015-05-21 11:46:37</exporttime>
 <name>OSSCosts</name>
 <label>OSSCosts</label>
-<parent>Sales</parent>
 <version>1.0.2</version>
 <dependencies>
 <vtiger_version>6.0.0rc</vtiger_version>
@@ -22,11 +21,21 @@
 <blocks>
 <block>
 <label>LBL_INFORMATION</label>
+<sequence>1</sequence>
+<show_title>0</show_title>
+<visible>0</visible>
+<create_view>0</create_view>
+<edit_view>0</edit_view>
+<detail_view>0</detail_view>
+<display_status>1</display_status>
+<iscustom>0</iscustom>
+<islist></islist>
 <fields>
 <field>
 <fieldname>osscosts_no</fieldname>
 <uitype>4</uitype>
 <columnname>osscosts_no</columnname>
+<columntype>varchar(30)</columntype>
 <tablename>vtiger_osscosts</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Costs_no</fieldlabel>
@@ -40,7 +49,8 @@
 <quickcreatesequence>0</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -48,6 +58,7 @@
 <fieldname>assigned_user_id</fieldname>
 <uitype>53</uitype>
 <columnname>smownerid</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Assigned To</fieldlabel>
@@ -61,7 +72,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -69,6 +81,7 @@
 <fieldname>name</fieldname>
 <uitype>2</uitype>
 <columnname>name</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_osscosts</tablename>
 <generatedtype>2</generatedtype>
 <fieldlabel>Title</fieldlabel>
@@ -82,7 +95,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <entityidentifier>
@@ -94,6 +108,7 @@
 <fieldname>parentid</fieldname>
 <uitype>10</uitype>
 <columnname>parentid</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_osscosts</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Parent ID</fieldlabel>
@@ -107,7 +122,8 @@
 <quickcreatesequence>3</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -118,6 +134,7 @@
 <fieldname>potentialid</fieldname>
 <uitype>10</uitype>
 <columnname>potentialid</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_osscosts</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Potential</fieldlabel>
@@ -131,7 +148,8 @@
 <quickcreatesequence>4</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -142,6 +160,7 @@
 <fieldname>projectid</fieldname>
 <uitype>10</uitype>
 <columnname>projectid</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_osscosts</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Project</fieldlabel>
@@ -155,7 +174,8 @@
 <quickcreatesequence>5</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -166,6 +186,7 @@
 <fieldname>ticketid</fieldname>
 <uitype>10</uitype>
 <columnname>ticketid</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_osscosts</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>HelpDesk</fieldlabel>
@@ -179,7 +200,8 @@
 <quickcreatesequence>6</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -190,6 +212,7 @@
 <fieldname>relategid</fieldname>
 <uitype>10</uitype>
 <columnname>relategid</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_osscosts</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Related to</fieldlabel>
@@ -203,24 +226,57 @@
 <quickcreatesequence>7</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
 <relatedmodule>Accounts</relatedmodule>
-<relatedmodule>Contacts</relatedmodule>
 <relatedmodule>Vendors</relatedmodule>
 </relatedmodules>
+</field>
+<field>
+<fieldname>was_read</fieldname>
+<uitype>56</uitype>
+<columnname>was_read</columnname>
+<columntype>tinyint(1)</columntype>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Was read</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>8</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>C~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>2</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
 </field>
 </fields>
 </block>
 <block>
 <label>LBL_ADDRESS_INFORMATION</label>
+<sequence>2</sequence>
+<show_title>0</show_title>
+<visible>0</visible>
+<create_view>0</create_view>
+<edit_view>0</edit_view>
+<detail_view>0</detail_view>
+<display_status>1</display_status>
+<iscustom>0</iscustom>
+<islist></islist>
 <fields>
 <field>
 <fieldname>street</fieldname>
 <uitype>21</uitype>
 <columnname>street</columnname>
+<columntype>varchar(250)</columntype>
 <tablename>vtiger_osscosts</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Street</fieldlabel>
@@ -234,7 +290,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -242,6 +299,7 @@
 <fieldname>code</fieldname>
 <uitype>1</uitype>
 <columnname>code</columnname>
+<columntype>varchar(40)</columntype>
 <tablename>vtiger_osscosts</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Postal Code</fieldlabel>
@@ -255,7 +313,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -263,6 +322,7 @@
 <fieldname>city</fieldname>
 <uitype>1</uitype>
 <columnname>city</columnname>
+<columntype>varchar(40)</columntype>
 <tablename>vtiger_osscosts</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>City</fieldlabel>
@@ -276,7 +336,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -284,6 +345,7 @@
 <fieldname>country</fieldname>
 <uitype>1</uitype>
 <columnname>country</columnname>
+<columntype>varchar(40)</columntype>
 <tablename>vtiger_osscosts</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Country</fieldlabel>
@@ -297,7 +359,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -305,6 +368,7 @@
 <fieldname>state</fieldname>
 <uitype>1</uitype>
 <columnname>state</columnname>
+<columntype>varchar(40)</columntype>
 <tablename>vtiger_osscosts</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>State</fieldlabel>
@@ -318,7 +382,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -326,11 +391,21 @@
 </block>
 <block>
 <label>LBL_CUSTOM_INFORMATION</label>
+<sequence>3</sequence>
+<show_title>0</show_title>
+<visible>0</visible>
+<create_view>0</create_view>
+<edit_view>0</edit_view>
+<detail_view>0</detail_view>
+<display_status>1</display_status>
+<iscustom>0</iscustom>
+<islist></islist>
 <fields>
 <field>
 <fieldname>createdtime</fieldname>
 <uitype>70</uitype>
 <columnname>createdtime</columnname>
+<columntype>datetime</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Created Time</fieldlabel>
@@ -344,7 +419,8 @@
 <quickcreatesequence>0</quickcreatesequence>
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -352,6 +428,7 @@
 <fieldname>modifiedtime</fieldname>
 <uitype>70</uitype>
 <columnname>modifiedtime</columnname>
+<columntype>datetime</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Modified Time</fieldlabel>
@@ -365,7 +442,8 @@
 <quickcreatesequence>0</quickcreatesequence>
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -373,6 +451,7 @@
 <fieldname>modifiedby</fieldname>
 <uitype>52</uitype>
 <columnname>modifiedby</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Last Modified By</fieldlabel>
@@ -386,7 +465,8 @@
 <quickcreatesequence>0</quickcreatesequence>
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -394,6 +474,7 @@
 <fieldname>total_purchase</fieldname>
 <uitype>7</uitype>
 <columnname>total_purchase</columnname>
+<columntype>decimal(13,2)</columntype>
 <tablename>vtiger_osscosts</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Total Purchase</fieldlabel>
@@ -407,7 +488,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -415,6 +497,7 @@
 <fieldname>total_margin</fieldname>
 <uitype>7</uitype>
 <columnname>total_margin</columnname>
+<columntype>decimal(13,2)</columntype>
 <tablename>vtiger_osscosts</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Total margin</fieldlabel>
@@ -428,7 +511,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -436,6 +520,7 @@
 <fieldname>total_marginp</fieldname>
 <uitype>7</uitype>
 <columnname>total_marginp</columnname>
+<columntype>decimal(13,2)</columntype>
 <tablename>vtiger_osscosts</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Total margin Percentage</fieldlabel>
@@ -449,7 +534,31 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+</field>
+<field>
+<fieldname>closedtime</fieldname>
+<uitype>70</uitype>
+<columnname>closedtime</columnname>
+<columntype>datetime</columntype>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Closed Time</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>7</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>DT~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>2</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -457,11 +566,21 @@
 </block>
 <block>
 <label>LBL_DESCRIPTION_INFORMATION</label>
+<sequence>4</sequence>
+<show_title>0</show_title>
+<visible>0</visible>
+<create_view>0</create_view>
+<edit_view>0</edit_view>
+<detail_view>0</detail_view>
+<display_status>1</display_status>
+<iscustom>0</iscustom>
+<islist></islist>
 <fields>
 <field>
 <fieldname>description</fieldname>
 <uitype>300</uitype>
 <columnname>description</columnname>
+<columntype>text</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Description</fieldlabel>
@@ -475,7 +594,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -483,6 +603,7 @@
 <fieldname>attention</fieldname>
 <uitype>300</uitype>
 <columnname>attention</columnname>
+<columntype>text</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>2</generatedtype>
 <fieldlabel>Attention</fieldlabel>
@@ -496,179 +617,273 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
 </block>
 <block>
-            <label>LBL_PRODUCT_INFORMATION</label>
-            <fields>
-				<field>
-				<fieldname>hdnGrandTotal</fieldname>
-				<uitype>72</uitype>
-				<columnname>total</columnname>
-				<tablename>vtiger_osscosts</tablename>
-				<generatedtype>1</generatedtype>
-				<fieldlabel>Total</fieldlabel>
-				<readonly>1</readonly>
-				<presence>2</presence>
-				<defaultvalue></defaultvalue>
-				<sequence>13</sequence>
-				<maximumlength>100</maximumlength>
-				<typeofdata>N~O</typeofdata>
-				<quickcreate>3</quickcreate>
-				<quickcreatesequence></quickcreatesequence>
-				<displaytype>3</displaytype>
-				<info_type>BAS</info_type>
-				<helpinfo><![CDATA[]]></helpinfo>
-				<masseditable>1</masseditable>
-				</field>
-				<field>
-				<fieldname>hdnSubTotal</fieldname>
-				<uitype>72</uitype>
-				<columnname>subtotal</columnname>
-				<tablename>vtiger_osscosts</tablename>
-				<generatedtype>1</generatedtype>
-				<fieldlabel>Sub Total</fieldlabel>
-				<readonly>1</readonly>
-				<presence>2</presence>
-				<defaultvalue></defaultvalue>
-				<sequence>14</sequence>
-				<maximumlength>100</maximumlength>
-				<typeofdata>N~O</typeofdata>
-				<quickcreate>3</quickcreate>
-				<quickcreatesequence></quickcreatesequence>
-				<displaytype>3</displaytype>
-				<info_type>BAS</info_type>
-				<helpinfo><![CDATA[]]></helpinfo>
-				<masseditable>1</masseditable>
-				</field>
-				<field>
-				<fieldname>hdnTaxType</fieldname>
-				<uitype>16</uitype>
-				<columnname>taxtype</columnname>
-				<tablename>vtiger_osscosts</tablename>
-				<generatedtype>1</generatedtype>
-				<fieldlabel>Tax Type</fieldlabel>
-				<readonly>1</readonly>
-				<presence>2</presence>
-				<defaultvalue></defaultvalue>
-				<sequence>14</sequence>
-				<maximumlength>100</maximumlength>
-				<typeofdata>V~O</typeofdata>
-				<quickcreate>3</quickcreate>
-				<quickcreatesequence></quickcreatesequence>
-				<displaytype>3</displaytype>
-				<info_type>BAS</info_type>
-				<helpinfo><![CDATA[]]></helpinfo>
-				<masseditable>1</masseditable>
-				<picklistvalues>
-				</picklistvalues>
-				</field>
-				<field>
-				<fieldname>hdnDiscountPercent</fieldname>
-				<uitype>1</uitype>
-				<columnname>discount_percent</columnname>
-				<tablename>vtiger_osscosts</tablename>
-				<generatedtype>1</generatedtype>
-				<fieldlabel>Discount Percent</fieldlabel>
-				<readonly>1</readonly>
-				<presence>2</presence>
-				<defaultvalue></defaultvalue>
-				<sequence>14</sequence>
-				<maximumlength>100</maximumlength>
-				<typeofdata>N~O</typeofdata>
-				<quickcreate>3</quickcreate>
-				<quickcreatesequence></quickcreatesequence>
-				<displaytype>3</displaytype>
-				<info_type>BAS</info_type>
-				<helpinfo><![CDATA[]]></helpinfo>
-				<masseditable>1</masseditable>
-				</field>
-				<field>
-				<fieldname>hdnDiscountAmount</fieldname>
-				<uitype>72</uitype>
-				<columnname>discount_amount</columnname>
-				<tablename>vtiger_osscosts</tablename>
-				<generatedtype>1</generatedtype>
-				<fieldlabel>Discount Amount</fieldlabel>
-				<readonly>1</readonly>
-				<presence>0</presence>
-				<defaultvalue></defaultvalue>
-				<sequence>14</sequence>
-				<maximumlength>100</maximumlength>
-				<typeofdata>N~O</typeofdata>
-				<quickcreate>3</quickcreate>
-				<quickcreatesequence></quickcreatesequence>
-				<displaytype>3</displaytype>
-				<info_type>BAS</info_type>
-				<helpinfo><![CDATA[]]></helpinfo>
-				<masseditable>1</masseditable>
-				</field>
-				<field>
-				<fieldname>currency_id</fieldname>
-				<uitype>117</uitype>
-				<columnname>currency_id</columnname>
-				<tablename>vtiger_osscosts</tablename>
-				<generatedtype>1</generatedtype>
-				<fieldlabel>Currency</fieldlabel>
-				<readonly>1</readonly>
-				<presence>2</presence>
-				<defaultvalue>1</defaultvalue>
-				<sequence>20</sequence>
-				<maximumlength>100</maximumlength>
-				<typeofdata>I~O</typeofdata>
-				<quickcreate>3</quickcreate>
-				<quickcreatesequence></quickcreatesequence>
-				<displaytype>3</displaytype>
-				<info_type>BAS</info_type>
-				<helpinfo><![CDATA[]]></helpinfo>
-				<masseditable>1</masseditable>
-				</field>
-				<field>
-				<fieldname>conversion_rate</fieldname>
-				<uitype>1</uitype>
-				<columnname>conversion_rate</columnname>
-				<tablename>vtiger_osscosts</tablename>
-				<generatedtype>1</generatedtype>
-				<fieldlabel>Conversion Rate</fieldlabel>
-				<readonly>1</readonly>
-				<presence>2</presence>
-				<defaultvalue>1</defaultvalue>
-				<sequence>21</sequence>
-				<maximumlength>100</maximumlength>
-				<typeofdata>N~O</typeofdata>
-				<quickcreate>3</quickcreate>
-				<quickcreatesequence></quickcreatesequence>
-				<displaytype>3</displaytype>
-				<info_type>BAS</info_type>
-				<helpinfo><![CDATA[]]></helpinfo>
-				<masseditable>1</masseditable>
-				</field>
-				<field>
-				<fieldname>pre_tax_total</fieldname>
-				<uitype>72</uitype>
-				<columnname>pre_tax_total</columnname>
-				<tablename>vtiger_osscosts</tablename>
-				<generatedtype>1</generatedtype>
-				<fieldlabel>Pre Tax Total</fieldlabel>
-				<readonly>1</readonly>
-				<presence>2</presence>
-				<defaultvalue></defaultvalue>
-				<sequence>23</sequence>
-				<maximumlength>100</maximumlength>
-				<typeofdata>N~O</typeofdata>
-				<quickcreate>1</quickcreate>
-				<quickcreatesequence></quickcreatesequence>
-				<displaytype>3</displaytype>
-				<info_type>BAS</info_type>
-				<helpinfo><![CDATA[]]></helpinfo>
-				<masseditable>1</masseditable>
-				</field>
-            </fields>
-        </block>
+<label>LBL_SHARING_INFORMATION</label>
+<sequence>5</sequence>
+<show_title>0</show_title>
+<visible>0</visible>
+<create_view>0</create_view>
+<edit_view>0</edit_view>
+<detail_view>0</detail_view>
+<display_status>1</display_status>
+<iscustom>1</iscustom>
+<islist></islist>
+<fields>
+<field>
+<fieldname>inheritsharing</fieldname>
+<uitype>56</uitype>
+<columnname>inheritsharing</columnname>
+<columntype>tinyint(1)</columntype>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Copy permissions automatically</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>1</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>C~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+</field>
+<field>
+<fieldname>shownerid</fieldname>
+<uitype>120</uitype>
+<columnname>shownerid</columnname>
+<columntype>set(&#039;1&#039;)</columntype>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Share with users</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>2</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+</field>
+</fields>
+</block>
+<block>
+<label>LBL_PRODUCT_INFORMATION</label>
+<sequence>6</sequence>
+<show_title>0</show_title>
+<visible>0</visible>
+<create_view>0</create_view>
+<edit_view>0</edit_view>
+<detail_view>0</detail_view>
+<display_status>1</display_status>
+<iscustom>0</iscustom>
+<islist></islist>
+<fields>
+<field>
+<fieldname>hdnGrandTotal</fieldname>
+<uitype>72</uitype>
+<columnname>total</columnname>
+<columntype>decimal(25,8)</columntype>
+<tablename>vtiger_osscosts</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Total</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>13</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>N~O</typeofdata>
+<quickcreate>3</quickcreate>
+<quickcreatesequence>0</quickcreatesequence>
+<displaytype>3</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+</field>
+<field>
+<fieldname>hdnSubTotal</fieldname>
+<uitype>72</uitype>
+<columnname>subtotal</columnname>
+<columntype>decimal(25,8)</columntype>
+<tablename>vtiger_osscosts</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Sub Total</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>14</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>N~O</typeofdata>
+<quickcreate>3</quickcreate>
+<quickcreatesequence>0</quickcreatesequence>
+<displaytype>3</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+</field>
+<field>
+<fieldname>hdnTaxType</fieldname>
+<uitype>16</uitype>
+<columnname>taxtype</columnname>
+<columntype>varchar(25)</columntype>
+<tablename>vtiger_osscosts</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Tax Type</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>14</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>3</quickcreate>
+<quickcreatesequence>0</quickcreatesequence>
+<displaytype>3</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+<picklistvalues>
+</picklistvalues>
+</field>
+<field>
+<fieldname>hdnDiscountPercent</fieldname>
+<uitype>1</uitype>
+<columnname>discount_percent</columnname>
+<columntype>decimal(25,3)</columntype>
+<tablename>vtiger_osscosts</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Discount Percent</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>14</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>N~O</typeofdata>
+<quickcreate>3</quickcreate>
+<quickcreatesequence>0</quickcreatesequence>
+<displaytype>3</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+</field>
+<field>
+<fieldname>hdnDiscountAmount</fieldname>
+<uitype>72</uitype>
+<columnname>discount_amount</columnname>
+<columntype>decimal(25,8)</columntype>
+<tablename>vtiger_osscosts</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Discount Amount</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>14</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>N~O</typeofdata>
+<quickcreate>3</quickcreate>
+<quickcreatesequence>0</quickcreatesequence>
+<displaytype>3</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+</field>
+<field>
+<fieldname>currency_id</fieldname>
+<uitype>117</uitype>
+<columnname>currency_id</columnname>
+<columntype>int(19)</columntype>
+<tablename>vtiger_osscosts</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Currency</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue>1</defaultvalue>
+<sequence>20</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>I~O</typeofdata>
+<quickcreate>3</quickcreate>
+<quickcreatesequence>0</quickcreatesequence>
+<displaytype>3</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+</field>
+<field>
+<fieldname>conversion_rate</fieldname>
+<uitype>1</uitype>
+<columnname>conversion_rate</columnname>
+<columntype>decimal(10,3)</columntype>
+<tablename>vtiger_osscosts</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Conversion Rate</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue>1</defaultvalue>
+<sequence>21</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>N~O</typeofdata>
+<quickcreate>3</quickcreate>
+<quickcreatesequence>0</quickcreatesequence>
+<displaytype>3</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+</field>
+<field>
+<fieldname>pre_tax_total</fieldname>
+<uitype>72</uitype>
+<columnname>pre_tax_total</columnname>
+<columntype>decimal(25,8)</columntype>
+<tablename>vtiger_osscosts</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Pre Tax Total</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>23</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>N~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>3</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+</field>
+</fields>
+</block>
 </blocks>
 <customviews>
 <customview>
@@ -727,9 +942,34 @@
 <name><![CDATA[DuplicateRecord]]></name>
 <status>enabled</status>
 </action>
+<action>
+<name><![CDATA[MassEdit]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassDelete]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassAddComment]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassTransferOwnership]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[ReadRecord]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[WorkflowTrigger]]></name>
+<status>enabled</status>
+</action>
 </actions>
 <relatedlists>
 <relatedlist>
+<relatedmodule>Documents</relatedmodule>
 <function>get_attachments</function>
 <label>Documents</label>
 <sequence>1</sequence>
@@ -738,9 +978,60 @@
 <action>ADD</action>
 <action>SELECT</action>
 </actions>
-<relatedmodule>Documents</relatedmodule>
 </relatedlist>
 </relatedlists>
+<inrelatedlists>
+<inrelatedlist>
+<inrelatedmodule>Potentials</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSCosts</label>
+<sequence>23</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>HelpDesk</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSCosts</label>
+<sequence>13</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Project</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSCosts</label>
+<sequence>10</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Accounts</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSCosts</label>
+<sequence>19</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Vendors</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSCosts</label>
+<sequence>6</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+</inrelatedlists>
 <customlinks>
 <customlink>
 <linktype>DETAILVIEWBASIC</linktype>

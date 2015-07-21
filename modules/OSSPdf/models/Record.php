@@ -157,7 +157,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
             if( $field_uitype == 53 || $field_uitype == 52 ) {
                 $robocza = getUserName( $field );
                 if( $robocza == "" ) {
-                    $robocza = fetchGroupName( $field );
+                    $robocza = getGroupName( $field )[0];
                 }
                 $field = $robocza;
             }
@@ -360,7 +360,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
                     $obiekt = new $modulename();
                     $assigned_module = getSalesEntityType( $record );
                     
-                    if($record != 0 && $assigned_module == $modulename) {
+                    if(isRecordExists($record) && $assigned_module == $modulename) {
                         $obiekt->retrieve_entity_info( $record, $modulename );
                     }
                 }
@@ -382,17 +382,17 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
                         $key = $db->query_result( $pobierz_pola, $i, "fieldname" );
                         $value = $obiekt->column_fields[ $key ];
                         ################################################
-                        /// Dla pól z datą
-                        if( in_array( $field_uitype, $ui_datefields ) ) {
+                        /// for date type fields
+                        if( in_array( $field_uitype, $ui_datefields ) && !empty($field) ) {
                             $value = getValidDisplayDate( $value );
                         }
                         ################################################
-                        /// Dla pól z walutami
+                        /// for currency type fields
                         if( in_array( $field_uitype, $ui_currfields ) ) {
                             $currfield = new CurrencyField( $value );
                             $value = $currfield->getDisplayValue();
                         }
-                        //// Dla pola z językiem użytkownika
+                        //// for users language field
                         if( $field_uitype == 27 ) {
                             if( $value == 'I' ) {
                                 $value = getTranslatedString( 'Internal', $modulename );
@@ -623,7 +623,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
         $arrayHeaders = Array();
         
         for ($x=0; $x<$y; $x++) {
-            $fld = $db->field_name($result, $x);
+            $fld = $db->columnMeta($result, $x);
             if(in_array($oReportRun->getLstringforReportHeaders($fld->name), $arrayHeaders)) {
                 $headerLabel = str_replace("_"," ",$fld->name);
                 $arrayHeaders[] = $headerLabel;
@@ -701,7 +701,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
             // END
 
             for ($i=0; $i<$y; $i++) {
-                $fld = $db->field_name($result, $i);
+                $fld = $db->columnMeta($result, $i);
                 $fld_type = $column_definitions[$i]->type;
                 $fieldvalue = getReportFieldValue($oReportRun, $picklistarray, $fld, 
                         $custom_field_values, $i);
@@ -953,7 +953,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
         $report = '<table border="1" cellpadding="2"><tr width="500px" bgcolor="lightgrey">';
         $arrayHeaders = Array();
         for ($x=0; $x<$y; $x++) {
-            $fld = $db->field_name($result, $x);
+            $fld = $db->columnMeta($result, $x);
             if(in_array($oReportRun->getLstringforReportHeaders($fld->name), $arrayHeaders)) {
                 $headerLabel = str_replace("_"," ",$fld->name);
                 $arrayHeaders[] = $headerLabel;
@@ -1031,7 +1031,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
             // END
 
             for ($i=0; $i<$y; $i++) {
-                $fld = $db->field_name($result, $i);
+                $fld = $db->columnMeta($result, $i);
                 $fld_type = $column_definitions[$i]->type;
                 $fieldvalue = getReportFieldValue($oReportRun, $picklistarray, $fld, 
                 $custom_field_values, $i);

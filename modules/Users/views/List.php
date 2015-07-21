@@ -18,8 +18,8 @@ class Users_List_View extends Settings_Vtiger_List_View {
 		}
 	}
     
-	function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		
 		$jsFileNames = array(
 			'layouts.vlayout.modules.Vtiger.resources.List',

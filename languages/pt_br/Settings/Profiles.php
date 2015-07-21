@@ -5,9 +5,9 @@
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - 13/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_VIEW_PRIVILEGE' => 'Visualizar',
 	'LBL_ADD_RECORD' => 'Adicionar Perfil',
 	'LBL_CHOOSE_PROFILES' => 'Escolher Perfis',
@@ -17,7 +17,7 @@ $languageStrings = array(
 	'LBL_DELETE_RECORD' => 'Apagar',
 	'LBL_DESCRIPTION' => 'Descrição',
 	'LBL_DUPLICATE_RECORD' => 'Duplicar',
-	'LBL_DUPLICATES_EXIST' => 'Duplicar Perfil Existente',	
+	'LBL_DUPLICATES_EXIST' => 'Duplicar Perfil Existente',
         'LBL_EDIT_ALL_DESC' => 'Permite editar todas as informações dos módulos',
         'LBL_EDIT_ALL' => 'Editar Tudo',
 	'LBL_EDIT_PRIVILIGES_FOR_THIS_PROFILE' => 'Editar privilégios para este Perfil',
@@ -33,28 +33,39 @@ $languageStrings = array(
 	'LBL_READ_ONLY' => 'Somente Leitura',
 	'LBL_TOOLS' => 'Privilégios para ações e visualização',
 	'LBL_TRANSFER_ROLES_TO_PROFILE' => 'Transferir Funções para Perfil',
-        'LBL_VIEW_ALL_DESC' => 'Permite visualizar todas informações dos módulos',
-        'LBL_VIEW_ALL' => 'Visualizar Tudo',
+  'LBL_VIEW_ALL_DESC' => 'Permite visualizar todas informações dos módulos',
+  'LBL_VIEW_ALL' => 'Visualizar Tudo',
 	'LBL_VIEW_PRVILIGE' => 'Visualizar',
 	'LBL_WRITE' => 'Escrita',
 	'Profiles' => 'Perfis',
 	'SINGLE_Profiles' => 'Perfil',
 	'Name' => 'Nome Perfil',
-   
-        'Import' => 'Importar',
-        'Export' => 'Exportar',
+
+	//Actions
+	'Import' => 'Importar',
+	'Export' => 'Exportar',
 	'Merge'  => 'Mesclar',
-        'ConvertLead' => 'Converter Lead',
-        'DuplicatesHandling' => 'Manipular Duplicados',
-        'ReceiveIncomingCalls' => 'Receber Chamadas',
-        'MakeOutgoingCalls' => 'Realizar Chamadas',
-        'Print' => 'Imprimir',
+	'ConvertLead' => 'Converter Lead',
+	'DuplicatesHandling' => 'Manipular Duplicados',
+	'ReceiveIncomingCalls' => 'Receber Chamadas',
+	'MakeOutgoingCalls' => 'Realizar Chamadas',
+	'Print' => 'Imprimir',
 	'CreateCustomFilter'  => 'Criação filtros customizados',
 	'DuplicateRecord'  => 'Duplicando',
-	'EditableComments'  => 'Edit comments',
+	'EditableComments'  => 'Editar comentários',
 	'TagCloud' => 'Tags cloud',
-);
-
-$jsLanguageStrings = array(
+	'MassEdit' => 'Editar',
+	'MassDelete' => 'Apagar em Massa',
+	'MassAddComment' => 'Adicionar Comentários',
+	'MassComposeEmail' => 'Emails',
+	'MassSendSMS' => 'SMS',
+	'MassTransferOwnership' => 'Transferir propriedade',
+	'MassMoveDocuments' => 'Mover Documentos',
+	'ReadRecord' => 'Ler todas as mudanças realizadas no registro',
+	'WorkflowTrigger' => 'Workflow trigger',
+	'QuickExportToExcel' => 'Quick export to Excel',
+	'CreateDashboardFilter' => 'Create filter widgets',
+];
+$jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Perfil excluído com Sucesso',
-);
+];

@@ -11,41 +11,40 @@ Type: 1 - show quick create mondal
 Class DataAccess_check_task{
     var $config = true;
 	
-    public function process( $ModuleName,$ID,$record_form,$config ) {
+    public function process($ModuleName, $ID, $record_form, $config) {
 		$db = PearDatabase::getInstance();
-		if( !isset($ID)|| $ID == 0 || $ID == '')
-			return Array('save_record' => true );
-		if(is_array($config['status']))
+		if (!isset($ID) || $ID == 0 || $ID == '')
+			return Array('save_record' => true);
+		if (is_array($config['status']))
 			$config['status'] = implode("','", $config['status']);
-		
-		$result = $db->pquery( "SELECT count(*) as num
+
+		$result = $db->pquery("SELECT count(*) as num
 								FROM vtiger_activity 
 								INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid 
-								INNER JOIN vtiger_seactivityrel ON vtiger_seactivityrel.activityid = vtiger_activity.activityid 
 								WHERE vtiger_crmentity.deleted = ? 
 								AND vtiger_activity.activitytype = ? 
-								AND vtiger_activity.status in ('".$config['status']."')
+								AND vtiger_activity.status in ('" . $config['status'] . "')
 								AND vtiger_activity.subject = ?
-								AND vtiger_seactivityrel.crmid = ?", 
-		array( 0, 'Task', $config['name'] , $ID) ,true);
-		
-		if($db->query_result($result, 0, 'num') == 0)
+								AND (vtiger_activity.link = ? OR vtiger_activity.process = ? )", array(0, 'Task', $config['name'], $ID, $ID), true);
+
+		if ($db->query_result($result, 0, 'num') == 0)
 			return Array(
 				'save_record' => false,
-				'type'=>0,
-				'info'=>Array(
-					'text'=> vtranslate($config['message'], 'DataAccess'),
-					'type'=> 'error'
+				'type' => 0,
+				'info' => Array(
+					'text' => vtranslate($config['message'], 'DataAccess'),
+					'type' => 'error'
 				)
 			);
 		else
-			return Array('save_record' => true );
-    }
-    public function getConfig( $id,$module,$baseModule ) {
+			return Array('save_record' => true);
+	}
+
+	public function getConfig( $id,$module,$baseModule ) {
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery( "SELECT * FROM vtiger_taskstatus ORDER BY sortorderid", array() ,true);
 		$fields = array();
-		foreach($result->GetArray() as $row){
+		while ($row = $adb->fetch_array($result)) {
 			array_push($fields, $row['taskstatus'] );
 		}
 		return Array('status'=>$fields);

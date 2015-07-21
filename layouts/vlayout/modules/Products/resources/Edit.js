@@ -242,7 +242,7 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 					progressInstance.hide();
 					var css = {'text-align' : 'left','width':'65%'};
 					var callback = function(data){
-						var params = app.validationEngineOptions;
+						var params = app.validationEngineOptionsForRecord;
 						var form = data.find('#currencyContainer');
 						params.onValidationComplete = function(form, valid){
 							if(valid) {
@@ -291,7 +291,7 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 		jQuery.each(baseCurrency,function(key,val){
 			if(jQuery(val).is(':checked')){
 				var baseCurrencyRow = jQuery(val).closest('tr');
-                if(parseFloat(baseCurrencyRow.find('.convertedPrice').val()) == 0.00) {
+                if(parseFloat(baseCurrencyRow.find('.convertedPrice').val()) == 0) {
                 	baseCurrencyRow.find('.currencyReset').trigger('click');
                 }
 			} else {

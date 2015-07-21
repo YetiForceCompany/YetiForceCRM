@@ -5,44 +5,34 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
-
-	<table width="100%" cellspacing="0" cellpadding="0">
-		<tbody>
-			<tr>
-				<td class="span4">
-					<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), 'OSSMail')}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), 'OSSMail')}</b></div>
-				</td>
-				<td class="span5">
-					<div>
-						<select class="mailUserList" id="mailUserList" name="type" style='width:200px;margin-bottom:0px'>
-							{if count($ACCOUNTSLIST) eq 0}
-								<option value="-">{vtranslate('--None--', $MODULE_NAME)}</option>
-							{else}
-								{foreach from=$ACCOUNTSLIST item=item key=key}
-									<option value="{$item['user_id']}" {if $USER == $item['user_id']}selected{/if}>{$item['username']}</option>
-								{/foreach}
-							{/if}
-						</select>
-					</div>
-				</td>
-				<td class="widgeticons span2" align="right">
-					<div class="box pull-right">
-						{if !$WIDGET->isDefault()}
-							<a name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
-								<i class="icon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REMOVE')}" alt="{vtranslate('LBL_REMOVE')}"></i>
-							</a>
-						{/if}
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td colspan= "3" class="refresh" align="center">
-					<span></span>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-
+	<div class="row">
+		<div class="col-md-8">
+			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), 'OSSMail')}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(),'OSSMail')}</strong></div>
+		</div>
+		<div class="col-md-4">
+			<div class="box pull-right">
+				{if !$WIDGET->isDefault()}
+					<a name="dclose" class="btn btn-xs btn-default widget" data-url="{$WIDGET->getDeleteUrl()}">
+						<span class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REMOVE')}" alt="{vtranslate('LBL_REMOVE')}"></span>
+					</a>
+				{/if}
+			</div>
+		</div>
+	</div>
+	<hr class="widgetHr"/>
+	<div class="row" >
+		<div class="col-md-6 pull-right">
+			<select class="mailUserList form-control input-sm" id="mailUserList" title="{vtranslate('LBL_MAIL_USERS_LIST')}" name="type">
+				{if count($ACCOUNTSLIST) eq 0}
+					<option value="-">{vtranslate('--None--', $MODULE_NAME)}</option>
+				{else}
+					{foreach from=$ACCOUNTSLIST item=item key=key}
+						<option title="{$item['username']}" value="{$item['user_id']}" {if $USER == $item['user_id']}selected{/if}>{$item['username']}</option>
+					{/foreach}
+				{/if}
+			</select>
+		</div>
+	</div>
 </div>
 <div class="dashboardWidgetContent">
 	{include file="dashboards/MailsListContents.tpl"|@vtemplate_path:$MODULE_NAME}

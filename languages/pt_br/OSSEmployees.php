@@ -5,11 +5,11 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 24/10/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 'OSSEmployees' => 'Colaboradores',
 'SINGLE_OSSEmployees' => 'Colaborador',
 'LBL_INFORMATION' => 'Detalhes do Colaborador',
@@ -43,24 +43,16 @@ $languageStrings = array(
 'LBL_SHIPCITY' => 'Cidade',
 'LBL_SHIPSTATE' => 'Estado',
 'LBL_SHIPCOUNTRY' => 'País',
-'Primary' => 'Principal',
-'Secondary' => 'Secundário',
+'Primary' => 'Fundamental',
+'Secondary' => 'Ensino Médio',
 'Higher' => 'Superior',
-'LBL_Member_Of' => 'Membro de',
-'LBL_SHOW_EMPLOYEES_HIERARCHY' => 'Hierarquia Colaborador',
-'Recruiting' => 'Recrutamento',
-'Employee' => 'Colaborador',
+'LBL_Member_Of' => 'Subordinado a',
+'LBL_SHOW_EMPLOYEES_HIERARCHY' => 'Estrutura Hierárquica',
+'Recruiting' => 'Recrutando',
+'Employee' => 'Empregado',
 'Inactive' => 'Inativo',
 'Average daily working time' => 'Tempo médio diário de trabalho',
 
 'LBL_USER_EXISTS' => 'Colaborador já existe',
 
-//widget
-'LBL_Holidays' => 'Férias',
-'LBL_YEAR' => 'Ano:',
-'LBL_Used_Entitled' => 'Utilizada / Direito:',
-'LBL_DAYS' => 'dias',
-'Brak danych' => 'Sem dados',
-
-'LBL_DAYWORKSUM' => 'Tempo de trabalho',
-);
+];

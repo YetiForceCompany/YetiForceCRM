@@ -368,6 +368,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 	 * Function to get complete params
 	 */
 	getCompleteParams : function(){
+		var thisInstance = this;
 		var params = {};
 		params['view'] = this.getView();
 		params['src_module'] = this.getSourceModule();
@@ -381,14 +382,26 @@ jQuery.Class("Vtiger_Popup_Js",{
 		params['related_parent_module'] = this.getRelatedParentModule();
 		params['related_parent_id'] = this.getRelatedParentRecord();
 		params['module'] = app.getModuleName();
-
+		// narrow popup products list to those related to chosen potential
+		var vars = thisInstance.getVarFromUrl();
+		var moduleName = app.getModuleName();
+		if ( typeof vars['potentialid'] != 'undefined' ) {
+			params['potentialid'] = vars['potentialid'];
+		}
 		params['search_params'] = JSON.stringify(this.getListSearchParams());
 		if(this.isMultiSelectMode()) {
 			params['multi_select'] = true;
 		}
 		return params;
 	},
-
+	
+	getVarFromUrl : function() {
+		var vars = {};
+		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+			vars[key] = value;
+		});
+		return vars;
+	},
 	/**
 	 * Function to get Page Records
 	 */
@@ -779,7 +792,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 		var totalNumberOfRecords = jQuery('#totalCount').val();
 		var pageNumberElement = jQuery('.pageNumbersText');
 		var pageRange = pageNumberElement.text();
-		var newPagingInfo = pageRange+" "+app.vtranslate('of')+" "+totalNumberOfRecords;
+		var newPagingInfo = pageRange+" ("+totalNumberOfRecords+")";
 		var listViewEntriesCount = parseInt(jQuery('#noOfEntries').val());
 		if(listViewEntriesCount != 0){
 			jQuery('.pageNumbersText').html(newPagingInfo);
@@ -823,7 +836,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 			nextPageButton.attr("disabled","disabled");
 		}
 		if(listViewEntriesCount != 0){
-			var pageNumberText = pageStartRange+" "+app.vtranslate('to')+" "+pageEndRange;
+			var pageNumberText = pageStartRange+" ("+pageEndRange+")";
 			pageNumbersTextElem.html(pageNumberText);
 			totalNumberOfRecords.removeClass('hide');
 		} else {
@@ -861,7 +874,10 @@ jQuery.Class("Vtiger_Popup_Js",{
 		var thisInstance = this;
 		var popupPageContentsContainer = thisInstance.getPopupPageContainer();
 		var select = popupPageContentsContainer.find('.listViewEntriesTable .select2noactive');
-		select.select2({closeOnSelect:true});
+		var params = {
+			placeholder: app.vtranslate('JS_SELECT_AN_OPTION')
+		};
+		app.showSelect2ElementView(select,params);
 		select.on("change", function(e) { 
 			thisInstance.triggerListSearch();
 		})

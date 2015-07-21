@@ -15,13 +15,13 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-$labels['buttontext'] = 'Archive';
-$labels['buttontitle'] = 'Archiver ce message';
-$labels['archived'] = 'Message archivé avec succès';
+$labels['buttontext'] = 'Archiver';
+$labels['buttontitle'] = 'Archiver ce courriel';
+$labels['archived'] = 'Archivé avec succès';
 $labels['archivedreload'] = 'Archivé avec succès. Recharger la page pour voir les nouveaux dossiers d\'archives.';
-$labels['archiveerror'] = 'Certains messages n\'ont pas pu être archivés.';
-$labels['archivefolder'] = 'Archive';
-$labels['settingstitle'] = 'Archive';
+$labels['archiveerror'] = 'Certains courriels n\'ont pas pu être archivés.';
+$labels['archivefolder'] = 'Archiver';
+$labels['settingstitle'] = 'Archiver';
 $labels['archivetype'] = 'Diviser l\'archive par';
 $labels['archivetypeyear'] = 'Année (ex. Archives/2012)';
 $labels['archivetypemonth'] = 'Mois (ex. Archives/2012/06)';

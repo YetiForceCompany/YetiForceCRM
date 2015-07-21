@@ -9,15 +9,15 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div class="container-fluid">
-		<div class="row-fluid settingsHeader padding1per">
-			<span class="span8">
+	<div class="">
+		<div class="row settingsHeader padding1per">
+			<span class="col-md-8">
 				<span class="font-x-x-large">{vtranslate('LBL_CONVERT_LEAD_FIELD_MAPPING', $QUALIFIED_MODULE)}</span>
 			</span>
-			<span class="span4">
+			<span class="col-md-4">
 				<span class="pull-right">
 					{foreach item=LINK_MODEL from=$MODULE_MODEL->getDetailViewLinks()}
-						<button type="button" class="btn" onclick={$LINK_MODEL->getUrl()}><strong>{vtranslate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}</strong></button>
+						<button type="button" class="btn btn-default" onclick={$LINK_MODEL->getUrl()}><strong>{vtranslate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}</strong></button>
 					{/foreach}
 				</span>
 			</span>
@@ -47,7 +47,7 @@
 									{foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
 										<div class="pull-right actions">
 											<span class="actionImages">
-												<a onclick={$LINK_MODEL->getUrl()}><i title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="icon-trash alignMiddle"></i></a>
+												<a onclick={$LINK_MODEL->getUrl()}><span title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 											</span>
 										</div>
 									{/foreach}

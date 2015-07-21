@@ -22,12 +22,13 @@
 /**
  * Class for output generation
  *
- * @package    Core
+ * @package Webmail
  * @subpackage View
  */
 abstract class rcmail_output extends rcube_output
 {
     const JS_OBJECT_NAME = 'rcmail';
+    const BLANK_GIF      = 'R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7';
 
     public $type = 'html';
     public $ajax_call = false;

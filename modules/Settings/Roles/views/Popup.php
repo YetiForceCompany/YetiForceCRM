@@ -1,23 +1,26 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 
-class Settings_Roles_Popup_View extends Vtiger_Footer_View {
-	
-	public function checkPermission(Vtiger_Request $request) {
+class Settings_Roles_Popup_View extends Vtiger_Footer_View
+{
+
+	public function checkPermission(Vtiger_Request $request)
+	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if(!$currentUser->isAdminUser()) {
+		if (!$currentUser->isAdminUser()) {
 			throw new AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function process (Vtiger_Request $request) {
+	function process(Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -35,8 +38,8 @@ class Settings_Roles_Popup_View extends Vtiger_Footer_View {
 		$viewer->assign('ROOT_ROLE', $rootRole);
 		$viewer->assign('ROLES', $allRoles);
 
-		$viewer->assign('MODULE_NAME',$moduleName);
-		$viewer->assign('COMPANY_LOGO',$companyLogo);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('COMPANY_LOGO', $companyLogo);
 
 		$viewer->view('Popup.tpl', $qualifiedModuleName);
 	}
@@ -46,8 +49,9 @@ class Settings_Roles_Popup_View extends Vtiger_Footer_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	function getFooterScripts(Vtiger_Request $request)
+	{
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(

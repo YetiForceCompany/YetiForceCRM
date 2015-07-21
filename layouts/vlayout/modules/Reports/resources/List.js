@@ -184,9 +184,9 @@ Vtiger_List_Js("Reports_List_Js",{
 		var optionElement = jQuery('#'+optionId);
 		if(optionElement.length > 0){
 			optionElement.replaceWith(constructedOption);
-			customFilter.trigger("liszt:updated");
+			customFilter.trigger("chosen:updated");
 		} else {
-			customFilter.find('#foldersBlock').append(constructedOption).trigger("liszt:updated");
+			customFilter.find('#foldersBlock').append(constructedOption).trigger("chosen:updated");
 		}
 	},
 
@@ -236,7 +236,7 @@ Vtiger_List_Js("Reports_List_Js",{
 					var selectOption = thisInstance.getSelectOptionFromChosenOption(chosenOption);
 					selectOption.remove();
 					var customFilterElement = thisInstance.getFilterSelectElement();
-					customFilterElement.trigger("liszt:updated");
+					customFilterElement.trigger("chosen:updated");
 					var defaultCvid = customFilterElement.find('option:first').val();
 					customFilterElement.select2("val", defaultCvid);
 					customFilterElement.trigger('change');
@@ -257,7 +257,7 @@ Vtiger_List_Js("Reports_List_Js",{
 	registerEditFilterClickEvent : function(){
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
-		listViewFilterBlock.on('mouseup','li i.editFilter',function(event){
+		listViewFilterBlock.on('mouseup','li span.editFilter',function(event){
 			var liElement = jQuery(event.currentTarget).closest('.select2-result-selectable');
 			var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 			var editUrl = currentOptionElement.data('editurl');
@@ -273,7 +273,7 @@ Vtiger_List_Js("Reports_List_Js",{
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
 		//used mouseup event to stop the propagation of customfilter select change event.
-		listViewFilterBlock.on('mouseup','li i.deleteFilter',function(event){
+		listViewFilterBlock.on('mouseup','li span.deleteFilter',function(event){
 			// To close the custom filter Select Element drop down
 			thisInstance.getFilterSelectElement().data('select2').close();
 			var liElement = jQuery(event.currentTarget).closest('.select2-result-selectable');

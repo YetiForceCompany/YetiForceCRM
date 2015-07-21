@@ -17,12 +17,12 @@
 */
 $labels['buttontext'] = 'Arşiv';
 $labels['buttontitle'] = 'Bu postayı arşivle';
-$labels['archived'] = 'Başarıyla arşivlendi';
-$labels['archivedreload'] = 'Başarıyla arşivlendi. Yeni arşiv dosyalarını görmek için sayfayı yenileyin.';
+$labels['archived'] = 'Arşivleme başarılı.';
+$labels['archivedreload'] = 'Arşivleme başarılı. Yeni arşiv dosyalarını görmek için sayfayı yenileyin.';
 $labels['archiveerror'] = 'Bazı mesajlar arşivlenemedi.';
 $labels['archivefolder'] = 'Arşiv';
 $labels['settingstitle'] = 'Arşiv';
-$labels['archivetype'] = 'Arşivi bunla böl';
+$labels['archivetype'] = 'Arşivi bununla böl';
 $labels['archivetypeyear'] = 'Yıl (Arşiv/2012)';
 $labels['archivetypemonth'] = 'Ay(Arşiv/2012/06)';
 $labels['archivetypefolder'] = 'Özgün dosya';

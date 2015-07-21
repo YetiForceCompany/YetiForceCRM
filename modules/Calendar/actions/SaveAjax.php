@@ -13,6 +13,11 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 	public function process(Vtiger_Request $request) {
         $user = Users_Record_Model::getCurrentUserModel();
 
+		$allDay = $request->get('allday');
+		if('on' == $allDay){
+			$request->set('time_start', NULL);
+			$request->set('time_end', NULL);
+		}
 		$recordModel = $this->saveRecord($request);
 
 		$fieldModelList = $recordModel->getModule()->getFields();
@@ -127,9 +132,11 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		if(!empty($startDate)) {
 			//Start Date and Time values
 			$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('time_start'));
-			$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('date_start')." ".$startTime);
-			list($startDate, $startTime) = explode(' ', $startDateTime);
-
+			$startDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('date_start'));
+			if($startTime){
+				$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('date_start')." ".$startTime);
+				list($startDate, $startTime) = explode(' ', $startDateTime);
+			}
 			$recordModel->set('date_start', $startDate);
 			$recordModel->set('time_start', $startTime);
 		}
@@ -168,6 +175,16 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 			}
 			$recordModel->set('visibility', ucfirst($sharedType));
 		}
+		
+        $time = (strtotime($endTime)) - (strtotime($startTime));
+		$diffinSec = (strtotime($endDate)) - (strtotime($startDate));
+		$diff_days = floor($diffinSec / (60 * 60 * 24));
+
+		$hours = ((float) $time / 3600) + ($diff_days * 24);
+		$minutes = ((float) $hours - (int) $hours) * 60;
+
+		$recordModel->set('duration_hours', (int) $hours);
+		$recordModel->set('duration_minutes', round($minutes, 0));
 
 		return $recordModel;
 	}

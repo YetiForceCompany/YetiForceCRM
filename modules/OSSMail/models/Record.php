@@ -1,41 +1,39 @@
 <?php
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
 class OSSMail_Record_Model extends Vtiger_Record_Model {
 	function getAccountsList($user = false, $onlyMy = false, $password = false) {
 		$adb = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$param = array();
+		$param = $users = [];
 		$sql = "SELECT * FROM roundcube_users";
-		if( $password ){
+		$where = false;
+		if ($password) {
 			$where .= " AND password <> ''";
 		}
-		if( $user ){
+		if ($user) {
 			$where .= " AND user_id = ?";
 			$param[] = $user;
 		}
-		if( $onlyMy ){
+		if ($onlyMy) {
 			$where .= " AND crm_user_id = ?";
 			$param[] = $currentUserModel->getId();
-		}	
-		if( $where ){
-			$sql .= ' WHERE'.substr($where, 4);
-		}		
-		$result = $adb->pquery( $sql, $param, true);
-		$Num = $adb->num_rows($result);
-		if($Num == 0){
+		}
+		if ($where) {
+			$sql .= ' WHERE' . substr($where, 4);
+		}
+		$result = $adb->pquery($sql, $param);
+		$num = $adb->num_rows($result);
+		if ($num == 0) {
 			return false;
-		}else{
-			return $result->GetArray();
+		} else {
+			while ($row = $adb->fetch_array($result)) {
+				$users[] = $row;
+			}
+			return $users;
 		}
 	}
+
 	function ComposeEmail($params,$ModuleName) {
 		$_SESSION['POST'] = $params;
 		header('Location: '.self::GetSite_URL().'index.php?module=OSSMail&view=compose');
@@ -48,7 +46,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
             $queryParams[] = $conf_type;
 		}
 		$result = $adb->pquery( "SELECT * FROM vtiger_ossmailscanner_config $sql ORDER BY parameter DESC" ,$queryParams, true);
-		foreach($result->GetArray() as $row){
+		while ($row = $adb->fetch_array($result)) {
 			if($conf_type != '' || $conf_type != false){
 				$return[$row['parameter']] = $row['value'];
 			}else{
@@ -64,8 +62,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		include 'modules/OSSMail/roundcube/config/config.inc.php';
 		return $config;
 	}
-	public static function imap_connect($user , $password , $folder = 'INBOX') {
-		global $log;
+	public static function imap_connect($user , $password , $folder = 'INBOX', $dieOnError = true) {
+		$log = vglobal('log');
 		$log->debug("Entering OSSMail_Record_Model::imap_connect($user , $password , $folder) method ...");
 		$roundcube_config = self::load_roundcube_config();
 		$a_host = parse_url($roundcube_config['default_host']);
@@ -89,28 +87,66 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		}
 		if (empty($port)){ $port = $roundcube_config['default_port'];}
 		if (!$roundcube_config['validate_cert']) { $validatecert = '/novalidate-cert';}
+		if ($roundcube_config['imap_open_add_connection_type']) { $ssl_mode = '/'.$ssl_mode; }else{ $ssl_mode = ''; }
+	
 		imap_timeout(IMAP_OPENTIMEOUT,5);
-		$log->debug("imap_open({".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder, $user , $password) method ...");
-		$mbox = @imap_open("{".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder", $user , $password) OR
+		$log->debug("imap_open({".$host.":".$port."/imap".$ssl_mode.$validatecert."}$folder, $user , $password) method ...");
+		if($dieOnError){
+			$mbox = @imap_open("{".$host.":".$port."/imap".$ssl_mode.$validatecert."}$folder", $user , $password) OR
 			die( self::imap_open_error(imap_last_error()) );
+		}else{
+			$mbox = @imap_open("{".$host.":".$port."/imap".$ssl_mode.$validatecert."}$folder", $user , $password );
+		}
 		$log->debug("Exit OSSMail_Record_Model::imap_connect() method ...");
 		return $mbox;
 	}
 	public static function imap_open_error($error) {
-		global $log;
+		$log = vglobal('log');
 		$log->error("Error OSSMail_Record_Model::imap_connect(): ".$error); 
 		Vtiger_Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner').': '.$error);
 	}
-	public static function getMailBoxmsgInfo($userid = false) {
-		if($userid){
-			$Accounts = self::get_account_detail($userid);
-		}else{
-			$Accounts = self::get_active_email_account();
+	public static function updateMailBoxmsgInfo($users) {
+		$log = vglobal('log');
+		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
+		$adb = PearDatabase::getInstance();
+		if(count ($users) == 0){
+			return FALSE;
 		}
-		if(!$Accounts){return false;}
-		$mbox = self::imap_connect($Accounts[0]['username'] , $Accounts[0]['password']);
-		$mailboxmsginfo = imap_mailboxmsginfo($mbox);
-		return $mailboxmsginfo;
+		$sUsers = implode(',', $users);
+		$result = $adb->pquery( "SELECT count(*) AS num FROM yetiforce_mail_quantities WHERE userid IN (?) AND status = 1;", [$sUsers]);
+		if($adb->query_result_raw($result, 0, 'num') > 0){
+			return FALSE;
+		}
+		$adb->pquery( 'UPDATE yetiforce_mail_quantities SET `status` = ? WHERE userid IN ('.$sUsers.');', [1]);
+		foreach ($users as $user) {
+			$account = self::get_account_detail($user);
+			if ($account !== FALSE) {
+				$result = $adb->pquery( "SELECT count(*) AS num FROM yetiforce_mail_quantities WHERE userid = ?;", [$user]);
+				$mbox = self::imap_connect($account['username'] , $account['password'], 'INBOX', FALSE);
+				if($mbox){
+					$info = imap_mailboxmsginfo($mbox);
+					if($adb->query_result_raw($result, 0, 'num') > 0){
+						$adb->pquery( 'UPDATE yetiforce_mail_quantities SET `num` = ?,`status` = ? WHERE `userid` = ?;', [$info->Unread, 0, $user]);
+					}else{
+						$adb->pquery( 'INSERT INTO yetiforce_mail_quantities (`num`,`userid`) VALUES (?,?);', [$info->Unread, $user]);
+					}
+				}
+			}
+		}
+		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - End');
+		return TRUE;
+	}
+	public static function getMailBoxmsgInfo($users) {
+		$log = vglobal('log');
+		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
+		$adb = PearDatabase::getInstance();
+		$result = $adb->query( 'SELECT * FROM yetiforce_mail_quantities WHERE userid IN ('.implode(',', $users).');');
+		$account = [];
+		for($i = 0; $i < $adb->num_rows($result); $i++){
+			$account[$adb->query_result_raw($result, $i, 'userid')] = $adb->query_result_raw($result, $i, 'num');
+		}
+		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - End');
+		return $account;
 	}
 	public static function get_mail_detail($mbox,$id,$msgno = false) {
 		$return = array();
@@ -158,25 +194,24 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
                 
 		return $return;
 	}
-	public static function get_active_email_account() {
-		return self::get_account_detail(Users_Record_Model::getCurrentUserModel()->get('id'));
-	}
 	public static function get_account_detail($userid) {
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery( "SELECT * FROM roundcube_users where crm_user_id = ?", array($userid) ,true);
+		$result = $adb->pquery("SELECT * FROM roundcube_users where user_id = ?", array($userid));
 		$Num = $adb->num_rows($result);
-		if($Num > 0){
-			return $result->GetArray();
-		}else{
+		if ($Num > 0) {
+			return $adb->raw_query_result_rowdata($result, 0);
+		} else {
 			return false;
 		}
-		
 	}
-	public static function get_account_detail_by_name($name) {
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery( "SELECT * FROM roundcube_users where username = ? ", array($name) ,true);
-		return $result->GetArray();
+
+	public static function get_account_detail_by_name($name)
+	{
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT * FROM roundcube_users where username = ?', [$name]);
+		return $db->fetch_array($result);
 	}
+
 	public static function _decode_text($text) {
 		$data = imap_mime_header_decode($text);
 		$charset = ($data[0]->charset == 'default') ? 'ASCII' : $data[0]->charset;
@@ -338,7 +373,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 					Array($attachid, $userid, $userid, $userid, $setype, $description, $usetime, $usetime, 1, 0));
 				$issaved = self::_SaveAttachmentFile($attachid, $filename, $filecontent);
 				if($issaved) {
-					$document = Vtiger_Module::getInstance('Documents'); //new Documents();
+					require_once 'modules/Documents/Documents.php';
+					$document = new Documents();
 					$document->column_fields['notes_title']      = $filename;
 					$document->column_fields['filename']         = $filename;
 					$document->column_fields['filestatus']       = 1;
@@ -395,15 +431,19 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		return true;
 	}
 	public static function get_default_mailboxes() {
-		$Accounts = self::getAccountsList(false,false,true);
-		$mailboxs = Array();
-		if($Accounts){
-			$mbox = self::imap_connect($Accounts[0]['username'] , $Accounts[0]['password']);
-			$ref = "{".$Accounts[0]['mail_host']."}";
-			$list = imap_list($mbox, $ref , "*");
-			foreach($list as $mailboxname) {
-				$name = str_replace($ref, '', $mailboxname);
-				$mailboxs[$name] = self::convertCharacterEncoding($name, 'UTF-8', 'UTF7-IMAP');
+		$accounts = self::getAccountsList(false,false,true);
+		$mailboxs = [];
+		if($accounts){
+			foreach($accounts as $account) {
+				$mbox = self::imap_connect($account['username'] , $account['password'], 'INBOX', false);
+				if($mbox){
+					$ref = "{".$account['mail_host']."}";
+					$list = imap_list($mbox, $ref , "*");
+					foreach($list as $mailboxname) {
+						$name = str_replace($ref, '', $mailboxname);
+						$mailboxs[$name] = self::convertCharacterEncoding($name, 'UTF-8', 'UTF7-IMAP');
+					}
+				}
 			}
 			return $mailboxs;
 		}else{
@@ -466,33 +506,27 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 	public static function addRelated($params) {
 		$adb = PearDatabase::getInstance();
 		$crmid = $params['crmid'];
-		if($params['rel_new_mod']){
-			$dest = $params['rel_new_mod'];
-			$crmid = $params['rel_new_id'];
-		}else{
-			$dest = 'OSSMailView';
-		}
-		if($params['new_module'] == 'Products'){
+		$newModule = $params['newModule'];
+		$newCrmId = $params['newCrmId'];
+		$mailId = $params['mailId'];
+		
+		if($newModule == 'Products'){
 			$adb->pquery("INSERT INTO vtiger_seproductsrel SET crmid=?, productid=?, setype=?",
-			Array($crmid, $params['new_crmid'], $dest));
-		}else{
+			[$crmid, $newCrmId, $params['mod']]);
+		}elseif($newModule == 'Services'){
 			$adb->pquery("INSERT INTO vtiger_crmentityrel SET crmid=?, module=?, relcrmid=?, relmodule=?",
-			Array($crmid, $dest, $params['new_crmid'], $params['new_module']));
-		}
-		if($params['rcrmid']){
-			$mailID = $params['crmid'];
-			$id = $params['rcrmid'];
-			$module = $params['rmodule'];
-			$adb->pquery("DELETE FROM vtiger_crmentityrel WHERE (crmid = ? AND module = ? AND relcrmid = ?) OR ( crmid = ? AND relcrmid = ? AND relmodule = ?)", array($id, $module, $mailID, $mailID, $id, $module) ,true);
+			[$crmid, $params['mod'], $newCrmId, $newModule]);
+		}else{
+			$adb->pquery("INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?;",  [$mailId, $newCrmId]);
+			$adb->pquery("DELETE FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND crmid = ?", [$mailId, $crmid]);
 		}
 		return vtranslate('Add relationship','OSSMail');
 	}
 	public static function removeRelated($params) {
 		$adb = PearDatabase::getInstance();
-		$mailID = $params['crmid'];
-		$id = $params['rcrmid'];
-		$module = $params['rmodule'];
-		$adb->pquery("DELETE FROM vtiger_crmentityrel WHERE (crmid = ? AND module = ? AND relcrmid = ?) OR ( crmid = ? AND relcrmid = ? AND relmodule = ?)", array($id, $module, $mailID, $mailID, $id, $module) ,true);
+		$mailID = $params['mailId'];
+		$crmid = $params['crmid'];
+		$adb->pquery("DELETE FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND crmid = ?", [$mailID, $crmid]);
 		return vtranslate('Removed relationship','OSSMail');
 	}
 	public static function getViewableData() {
@@ -539,6 +573,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		return array(
 			'product_name'				=> array('label' => 'LBL_RC_product_name',			'fieldType' => 'text'		,'required' => 1),
 			'validate_cert'				=> array('label' => 'LBL_RC_validate_cert',			'fieldType' => 'checkbox'	,'required' => 0),
+			'imap_open_add_connection_type'	=> array('label' => 'LBL_RC_imap_open_add_connection_type',	'fieldType' => 'checkbox'	,'required' => 0),
 			'default_host'				=> array('label' => 'LBL_RC_default_host',			'fieldType' => 'text'		,'required' => 1),
 			'default_port'				=> array('label' => 'LBL_RC_default_port',			'fieldType' => 'int'		,'required' => 1),
 			'smtp_server'				=> array('label' => 'LBL_RC_smtp_server',			'fieldType' => 'text'		,'required' => 1),
@@ -547,12 +582,10 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 			'smtp_port'					=> array('label' => 'LBL_RC_smtp_port',				'fieldType' => 'int'		,'required' => 1),
 			'language'					=> array('label' => 'LBL_RC_language',				'fieldType' => 'picklist' 	,'required' => 1, 'value' => array('ar_SA','az_AZ','be_BE','bg_BG','bn_BD','bs_BA','ca_ES','cs_CZ','cy_GB','da_DK','de_CH','de_DE','el_GR','en_CA','en_GB','en_US','es_419','es_AR','es_ES','et_EE','eu_ES','fa_AF','fa_IR','fi_FI','fr_FR','fy_NL','ga_IE','gl_ES','he_IL','hi_IN','hr_HR','hu_HU','hy_AM','id_ID','is_IS','it_IT','ja_JP','ka_GE','km_KH','ko_KR','lb_LU','lt_LT','lv_LV','mk_MK','ml_IN','mr_IN','ms_MY','nb_NO','ne_NP','nl_BE','nl_NL','nn_NO','pl_PL','pt_BR','pt_PT','ro_RO','ru_RU','si_LK','sk_SK','sl_SI','sq_AL','sr_CS','sv_SE','ta_IN','th_TH','tr_TR','uk_UA','ur_PK','vi_VN','zh_CN','zh_TW') ),
 			'username_domain'			=> array('label' => 'LBL_RC_username_domain',		'fieldType' => 'text'		,'required' => 0),
-			'debug_level'				=> array('label' => 'LBL_RC_debug_level',			'fieldType' => 'int'		,'required' => 1),
 			'skin_logo'					=> array('label' => 'LBL_RC_skin_logo',				'fieldType' => 'text'		,'required' => 1),
 			'ip_check'					=> array('label' => 'LBL_RC_ip_check',				'fieldType' => 'checkbox'	,'required' => 0),
 			'enable_spellcheck'			=> array('label' => 'LBL_RC_enable_spellcheck',		'fieldType' => 'checkbox'	,'required' => 0),
 			'identities_level'			=> array('label' => 'LBL_RC_identities_level',		'fieldType' => 'picklist' 	,'required' => 1, 'value' => array(0,1,2,3,4) ),
-			'smtp_log'					=> array('label' => 'LBL_RC_smtp_log',				'fieldType' => 'checkbox'	,'required' => 0),
 			'session_lifetime'			=> array('label' => 'LBL_RC_session_lifetime',		'fieldType' => 'int'		,'required' => 1),
 		);
 	}
@@ -583,22 +616,5 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		}
 		return $mails;
 	}
-	
-	function getUrlToCompose($module, $record) {
-        if ( !isRecordExists($record) )
-            return false;
-		$recordModel_OSSMailView = Vtiger_Record_Model::getCleanInstance('OSSMailView');
-		$email = $recordModel_OSSMailView->findEmail( $record, $module );
-		$url = '&to='.$email;
-		$InstanceModel = Vtiger_Record_Model::getInstanceById($record, $module);
-		if($module == 'HelpDesk'){
-			$urldata = '&subject='.$InstanceModel->get('ticket_no').' - '.$InstanceModel->get('ticket_title');
-		}elseif($module == 'Potentials'){
-			$urldata = '&subject='.$InstanceModel->get('potential_no').' - '.$InstanceModel->get('potentialname');
-		}elseif($module == 'Project'){
-			$urldata = '&subject='.$InstanceModel->get('project_no').' - '.$InstanceModel->get('projectname');
-		}
-		$url .= $urldata;
-		return $url;
-	}	
+
 }

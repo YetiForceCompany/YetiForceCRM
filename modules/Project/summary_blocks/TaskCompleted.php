@@ -14,7 +14,7 @@ class TaskCompleted{
 	public $reference = 'ProjectTask';
 	
 	public function process( $instance ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering TaskCompleted::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$query ='SELECT COUNT(projecttaskid) as count 

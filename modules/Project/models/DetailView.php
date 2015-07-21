@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Project_DetailView_Model extends Vtiger_DetailView_Model {
@@ -25,6 +26,14 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model {
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'Charts'
+		);
+		$relatedLinks[] = array(
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => vtranslate('LBL_GANTT', $moduleName),
+				'linkurl' => $recordModel->getDetailViewUrl().'&mode=showGantt',
+				'linkicon' => '',
+				'linkKey' => 'LBL_GANTT',
+				'related' => 'Gantt'
 		);
 
 		return $relatedLinks;

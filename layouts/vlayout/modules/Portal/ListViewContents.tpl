@@ -62,7 +62,7 @@
                         <thead>
                             <tr class="listViewHeaders">
                                 <th width="5%">
-                                    <input type="checkbox" id="listViewEntriesMainCheckBox" />
+                                    <input type="checkbox" title="{vtranslate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
                                 </th>
                                 <th nowrap>
                                     <a href="javascript:void(0);" id="portalname" class="portalListViewHeader" 
@@ -86,7 +86,7 @@
                             {foreach item=LISTVIEW_ENTRY key=RECORD_ID from=$LISTVIEW_ENTRIES}
                                 <tr class="listViewEntries" data-id="{$RECORD_ID}" data-recordurl="index.php?module=Portal&view=Detail&record={$RECORD_ID}">
                                     <td width="5%" class="{$WIDTHTYPE}">
-                                        <input type="checkbox" value="{$RECORD_ID}" class="listViewEntriesCheckBox" />
+                                        <input type="checkbox" value="{$RECORD_ID}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox" />
                                     </td>
                                     <td class="listViewEntryValue {$WIDTHTYPE}" nowrap>
                                         <a href="index.php?module=Portal&view=Detail&record={$RECORD_ID}" sl-processed="1">{$LISTVIEW_ENTRY->get('portalname')}</a>
@@ -98,8 +98,8 @@
                                     <td nowrap class="{$WIDTHTYPE}">
                                         <div class="actions pull-right">
                                             <span class="actionImages">
-                                                <i title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-pencil alignMiddle editRecord"></i>&nbsp;
-                                                <i title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle deleteRecord"></i>
+                                                <span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle editRecord"></span>&nbsp;
+                                                <span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteRecord"></span>
                                             </span>
                                         </div>
                                     </td>

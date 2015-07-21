@@ -10,7 +10,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
  
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SAVE'	=>	'Сохранить',
 	'ApiAddress'	=>	'Поиск адресов',
 	'LBL_API_ADDRESS'	=>	'Поиск адресов',
@@ -27,10 +27,10 @@ $languageStrings = array(
 	'LBL_GLOBAL_CONFIG' => 'Основные настройки',
 	'LBL_SAVE_GLOBAL_SETTINGS' => 'Сохранить',
 	'LBL_NUMBER_SEARCH_RESULTS' => 'Количество результатов в поиске',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Invalid API key'	=>	'Неверный ключ приложения',
 	'JS_ERROR'	=>	'Ошибка',
 	'JS_LOADING_PLEASE_WAIT'	=>	'Подождите, идет загрузка...',
 	'JS_WRONG_NUMBER'	=>	'Допустимые символы: цифры больше 1.',
-);
+];

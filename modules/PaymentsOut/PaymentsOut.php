@@ -42,11 +42,11 @@ class PaymentsOut extends Vtiger_CRMEntity {
 	 * Mandatory for Listing (Related listview)
 	 */
 	var $list_fields = array (
-		'LBL_PAYMENTSNO' => array('vtiger_paymentsout', 'paymentsno'),
-		'LBL_PAYMENTSNAME' => array('vtiger_paymentsout', 'paymentsname'),
-		'LBL_PAYMENTSVALUE' => array('vtiger_paymentsout', 'paymentsvalue'),
-		'LBL_PAYMENTSCURRENCY' => array('vtiger_paymentsout', 'paymentscurrency'),
-		'LBL_PAYMENTSSTATUS' => array('vtiger_paymentsout', 'paymentsout_status'),
+		'LBL_PAYMENTSNO' => array('vtiger_paymentsout' => 'paymentsno'),
+		'LBL_PAYMENTSNAME' => array('vtiger_paymentsout' => 'paymentsname'),
+		'LBL_PAYMENTSVALUE' => array('vtiger_paymentsout' => 'paymentsvalue'),
+		'LBL_PAYMENTSCURRENCY' => array('vtiger_paymentsout' => 'paymentscurrency'),
+		'LBL_PAYMENTSSTATUS' => array('vtiger_paymentsout' => 'paymentsout_status'),
 
 );
 	var $list_fields_name = array (
@@ -105,26 +105,11 @@ class PaymentsOut extends Vtiger_CRMEntity {
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
 	function vtlib_handler($modulename, $event_type) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if($event_type == 'module.postinstall') {
 			$ModuleInstance = CRMEntity::getInstance($modulename);
 			$ModuleInstance->setModuleSeqNumber("configure",$modulename,'','1'); 
-			
-			$Instance = Vtiger_Module::getInstance($modulename);
-			$nModule = Vtiger_Module::getInstance('Accounts');
-			if($nModule){
-				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
-			}
-			$nModule = Vtiger_Module::getInstance('Contacts');
-			if($nModule){
-				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
-			}
-			$Instance = Vtiger_Module::getInstance($modulename);
-			$nModule = Vtiger_Module::getInstance('Invoice');
-			if($nModule){
-				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
-			}
-			
+	
 			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
 			if($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';

@@ -5,11 +5,11 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 08-12-2014
+ * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
     'OSSProjectTemplates' => 'Modelo Projeto',
     'SINGLE_MODULE_NAME' => 'Modelo Projeto',
     'LBL_NEW_TPL' => 'Novo Modelo',
@@ -37,7 +37,7 @@ $languageStrings = array(
     'GENERATE_FROM_TPL' => 'Gerar a partir do modelo',
     'GENERATE' => 'Gerar',
     'TPL_LIST' => 'Lista de Modelos',
-    
+
     'NONE' => 'Nada',
     'BASE_ON_RECORD' => 'Base registro',
     'SELECT' => 'Selecionar',
@@ -47,14 +47,14 @@ $languageStrings = array(
     'BASE_ON_PARENT_MODULE' => 'ID registro pai',
     'REMOVE_TPL' => 'Remover modelo',
     'EDIT_TPL' => 'Editar modelo',
-    
-    
-    
+
+
+
     'OSSProjectTemplates_manual' => 'Modelos Projeto OSS',
     'NO_TPL' => 'Nenhum modelo',
-    
+
     'ONLY_WORK_DAY' => 'Somente dias úteis',
     'TPL_VISIBILITY' => 'Quais grupos podem utilizar o modelo',
 		// help
 
-    );
+    ];

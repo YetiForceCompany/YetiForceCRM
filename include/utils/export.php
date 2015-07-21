@@ -82,7 +82,7 @@ if ($allow_exports=='none' || ( $allow_exports=='admin' && ! is_admin($current_u
 */
 function br2nl_vt($str)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering br2nl_vt(".$str.") method ...");
 	$str = preg_replace("/(\r\n)/", " ", $str);
 	$log->debug("Exiting br2nl_vt method ...");
@@ -97,7 +97,7 @@ function br2nl_vt($str)
 function export($type){
     global $log,$list_max_entries_per_page;
     $log->debug("Entering export(".$type.") method ...");
-    global $adb;
+    $adb = PearDatabase::getInstance();
 
     $focus = 0;
     $content = '';
@@ -194,7 +194,7 @@ function export($type){
 		}else{
 			$tablename = getTableNameForField($type,$order_by);
 			$tablename = (($tablename != '')?($tablename."."):'');
-			if( $adb->dbType == "pgsql"){
+			if( $adb->isPostgres()){
 				$query .= ' GROUP BY '.$tablename.$order_by;
 			}
 			$query .= ' ORDER BY '.$tablename.$order_by.' '.$sorder;
@@ -346,7 +346,7 @@ class ExportUtils{
 	 */
 	function getInformationArray($module){
 		require_once 'include/utils/utils.php';
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$tabid = getTabid($module);
 		
 		$result = $adb->pquery("select * from vtiger_field where tabid=?", array($tabid));

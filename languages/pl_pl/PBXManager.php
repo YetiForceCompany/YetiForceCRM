@@ -8,11 +8,11 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	
     //Blocks
     'LBL_PBXMANAGER_INFORMATION' => 'Wezwanie Szczegóły',
-    'LBL_CUSTOM_INFORMATION'=>'Informacje custom',
+    'LBL_CUSTOM_INFORMATION'=>'Informacje dodatkowe',
     
     // list view settings links
     'LBL_SERVER_CONFIGURATION' => 'Konfiguracja dostawcy',
@@ -26,13 +26,19 @@ $languageStrings = array(
   
     // Fields
     'Total Duration' => 'Czas (s)',
-    'Bill Duration'  => 'Bill Czas (s)',
+    'Bill Duration'  => 'Czas trwania (s)',
     'Recording URL' => 'Nagranie',
     'Start Time' => 'Czas rozpoczęcia',
     'Call Status' => 'Status połączenia',
     'Customer Number' => 'Numer klienta',
     'Customer' => 'Klient',
     'User' => 'Użytkownik',
-    'SINGLE_PBXManager' => 'Call Record' ,
+    'SINGLE_PBXManager' => 'Rekord połączenia' ,
+	'Gateway' => 'Brama',
+	'Customer Type' => 'Rodzaj klienta',
+	'Source UUID' => 'Źródło UUID',
+	'End Time' => 'Czas zakończenia',
+	'Direction' => 'Kierunek',
+	'Record Id' => 'Id rekordu',
 
-);
+];

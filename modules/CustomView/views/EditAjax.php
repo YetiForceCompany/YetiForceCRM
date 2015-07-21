@@ -15,6 +15,7 @@ Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View {
 		$moduleName = $request->get('source_module');
 		$module = $request->getModule();
 		$record = $request->get('record');
+		$duplicate = $request->get('duplicate');
                 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
@@ -65,7 +66,9 @@ Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View {
             $viewer->assign('EVENT_RECORD_STRUCTURE', $eventBlocksFields);
         }
 		$viewer->assign('CUSTOMVIEW_MODEL', $customViewModel);
-		$viewer->assign('RECORD_ID', $record);
+		if($duplicate != '1'){
+			$viewer->assign('RECORD_ID', $record);
+		}
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('SOURCE_MODULE',$moduleName);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());

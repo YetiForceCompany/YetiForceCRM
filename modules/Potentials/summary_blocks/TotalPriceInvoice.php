@@ -14,7 +14,7 @@ class TotalPriceInvoice{
 	public $reference = 'Invoice';
 	
     public function process( $instance ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering TotalPriceInvoice::process() method ...");
 		$sum = $instance->get('sum_invoices')== ''? 0: $instance->get('sum_invoices');
 		$log->debug("Exiting TotalPriceInvoice::process() method ...");

@@ -73,7 +73,7 @@ class WSAPP {
 	}
 	
 	function registerCustomWebservices( $operations ) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		foreach($operations as $operation_name => $operation_info) {	
 			$checkres = $adb->pquery("SELECT operationid FROM vtiger_ws_operation WHERE name=?", array($operation_name));
@@ -104,7 +104,7 @@ class WSAPP {
 	}
 
     function registerHandlers(){
-        global $adb;
+        $adb = PearDatabase::getInstance();
 
         $handlerDetails = array();
 

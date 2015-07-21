@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Calendar_Calendar_View extends Vtiger_Index_View {
@@ -24,11 +25,11 @@ class Calendar_Calendar_View extends Vtiger_Index_View {
 		return 'CalendarViewPreProcess.tpl';
 	}
 
-	public function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	public function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = array(
-			'~/libraries/fullcalendar/moment.min.js',
-			'~/libraries/fullcalendar/fullcalendar.js',
+			'~libraries/fullcalendar/moment.min.js',
+			'~libraries/fullcalendar/fullcalendar.js',
 			'modules.Calendar.resources.CalendarView',
 		);
 
@@ -42,8 +43,8 @@ class Calendar_Calendar_View extends Vtiger_Index_View {
 
 
 		$cssFileNames = array(
-			'~/libraries/fullcalendar/fullcalendar.min.css',
-			'~/libraries/fullcalendar/fullcalendarCRM.css',
+			'~libraries/fullcalendar/fullcalendar.min.css',
+			'~libraries/fullcalendar/fullcalendarCRM.css',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
@@ -57,5 +58,12 @@ class Calendar_Calendar_View extends Vtiger_Index_View {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->view('CalendarView.tpl', $request->getModule());
-	}	
+	}
+	function postProcess(Vtiger_Request $request) {
+        $viewer = $this->getViewer ($request);
+		$moduleName = $request->getModule();
+
+		$viewer->view('CalendarViewPostProcess.tpl', $moduleName);
+		parent::postProcess($request);
+    }
 }

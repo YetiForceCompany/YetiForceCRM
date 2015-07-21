@@ -7,8 +7,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
-	'LBL_FIELD_MASK' => 'Field Mask',
+$languageStrings = [
+	'LBL_FIELD_MASK' => 'Feld Maske',
 	'Calendar' => 'Kalender',
 	'Checkbox' => 'Kontrollkästchen',
 	'Currency'=>'Währung',
@@ -88,10 +88,21 @@ $languageStrings = array(
 	'LBL_FIELD_TYPE1' => 'Zusätzlich (z.B. vtiger_accountcf)',
 	'LBL_TREE_TEMPLATE' => 'Vorlage Baumstruktur',
 	'Tree' => 'Baumstruktur',
-	'LBL_FIELD_MASK_INFO' => 'Default masking definitions <br />9: numeric<br />a: alphabetically<br />*: Alphanumeric<br /><br />Example:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
-);
+	'LBL_FIELD_MASK_INFO' => 'Standard Maskendefinition <br />9: numeric<br />a: alphabetically<br />*: Alphanumeric<br /><br />Example:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
+	
+	'LBL_ADD_RELATION' => 'Modulbeziehung hinzufügen',
+	'LBL_RELATION_TYPE' => 'Beziehungstyp',
+	'LBL_RELATION_ACTIONS' => 'Aktionen',
+	'LBL_SOURCE_MODULE' => 'Quellmodul',
+	'LBL_TARGET_MODULE' => 'Zielmodul',
+	'LBL_RELATION_LABLE' => 'Beziehungsname',
+	'PLL_RELATED_LIST' => 'verknüpfte Einträge',
+	'PLL_DEPENDENTS_LIST' => 'abhängige Einträge',
+	'PLL_ADD' => 'Hinzufügen',
+	'PLL_SELECT' => 'Auswählen',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_BLOCK_NAME_EXISTS' => 'Block Name existiert bereits',
 	'JS_BLOCK_SEQUENCE_UPDATED' => 'Block Reihenfolge aktualisiert',
 	'JS_BLOCK_VISIBILITY_HIDE' => 'Block ausblenden aktiviert',
@@ -116,5 +127,5 @@ $jsLanguageStrings = array(
 	'JS_UPDATE_SEQUENCE' => 'Neue Reihenfolge von verbundenen Modulen wurde gespeichert',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Liste der Felder wurde aktualisiert',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Feld darf nicht leer sein',
-);
+];
 

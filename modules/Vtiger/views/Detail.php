@@ -184,8 +184,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 	}
 
 
-	public function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	public function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
@@ -259,7 +259,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		$viewer->assign('RECORD', $recordModel);
         $viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
+		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
@@ -299,6 +299,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('VIEW', $request->get('view'));
 
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$structuredValues = $recordStrucure->getStructure();
@@ -486,11 +487,16 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 			$recordId = $request->get('record');
 			$pageNumber = $request->get('page');
 			$pageLimit = $request->get('limit');
+			$sortOrder = $request->get('sortorder');
+			$orderBy = $request->get('orderby');
+			$type = $request->get('type');
 			if(empty ($pageNumber)) {
 				$pageNumber = 1;
 			}
 			$pagingModel = new Vtiger_Paging_Model();
 			$pagingModel->set('page', $pageNumber);
+			$pagingModel->set('orderby', $orderBy);
+			$pagingModel->set('sortorder', $sortOrder);
 			
 			if(!empty($pageLimit)) {
 				$pagingModel->set('limit', $pageLimit);
@@ -503,7 +509,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 			$recordModel = $this->record->getRecord();
 			$moduleModel = $recordModel->getModule();
 
-			$relatedActivities = $moduleModel->getCalendarActivities('', $pagingModel, 'all', $recordId);
+			$relatedActivities = $moduleModel->getCalendarActivities($type, $pagingModel, 'all', $recordId);
 
 			$viewer = $this->getViewer($request);
 			$viewer->assign('RECORD', $recordModel);
@@ -511,7 +517,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 			$viewer->assign('PAGING_MODEL', $pagingModel);
 			$viewer->assign('PAGE_NUMBER', $pageNumber);
 			$viewer->assign('ACTIVITIES', $relatedActivities);
-
+			$viewer->assign('DATA_TYPE', $type);
 			return $viewer->view('RelatedActivities.tpl', $moduleName, true);
 		}
 	}

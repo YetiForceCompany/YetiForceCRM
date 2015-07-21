@@ -13,26 +13,7 @@
 {assign var=ACCESSIBLE_GROUPS value=$CURRENTUSER->getAccessibleGroups()}
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 <div class="dashboardWidgetHeader">
-	<table width="100%" cellspacing="0" cellpadding="0">
-	<thead>
-		<tr>
-			<th class="span6">
-				<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle())}</b></div>
-			</th>
-			<th class="span5">
-				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
-			</th>
-			<th class="widgeticons" align="right">
-				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
-			</th>
-		</tr>
-		<tr>
-			<th class="span12 refresh" align="center">
-				<span style="position:relative;"></span>
-			</th>
-		</tr>
-	</thead>
-	</table>
+	{include file="dashboards/WidgetHeadeAccessible.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
 <div name="history" class="dashboardWidgetContent">
 	{include file="dashboards/AssignedProjectsTasksContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}

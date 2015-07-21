@@ -22,6 +22,7 @@
 <input type="hidden" id="Operator" value="{$OPERATOR}" />
 <input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}" />
 <input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
+<input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
 <input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
 <input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 <input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
@@ -59,7 +60,7 @@
 		<thead>
 			<tr class="listViewHeaders">
 				<th width="2%">
-					<input type="checkbox" id="listViewEntriesMainCheckBox" />
+					<input type="checkbox" id="listViewEntriesMainCheckBox" title="{vtranslate('LBL_SELECT_ALL')}" />
 				</th>
 				<th width="5%" nowrap>
 					<a href="javascript:void(0);" class="listViewHeaderValues">{vtranslate('LBL_USER_LIST_DETAILS', $MODULE)}</a>
@@ -75,7 +76,7 @@
 		</thead>
 		{if $MODULE_MODEL->isQuickSearchEnabled()}
         <tr>
-            <td></td><td></td>
+            <td><a class="btn btn-default" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="glyphicon glyphicon-search"></span></a></td><td></td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=SEARCH_HEADERS}
 				<td>
 					{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
@@ -84,7 +85,7 @@
 				</td>
 			{/foreach}
 			<td width="5%">
-				<button class="btn" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
+				<button class="btn btn-default" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
 			</td>
         </tr>
         {/if}
@@ -101,22 +102,22 @@
 			<td  width="2%" class="{$WIDTHTYPE}">
 				<input type="hidden" name="deleteActionUrl" value="{$LISTVIEW_ENTRY->getDeleteUrl()}">
 				{if $LISTVIEW_ENTRY->PermissionsToEditView eq true}
-					<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox"/>
+					<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
 				{/if}
 			</td>
 			<td width="5%" class="{$WIDTHTYPE}">
-				<div class='row-fluid'>
+				<div class='row'>
 					{assign var=IMAGE_DETAILS value=$LISTVIEW_ENTRY->getImageDetails()}
 					{foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
-						<div class='span6'>
-							{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-								<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}">
-							{/if}
+						{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
+						<div class='col-md-6'>
+								<img class="list-user-img" src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}">
 						</div>
+						{/if}
 					{/foreach}
 					{if $IMAGE_DETAILS[0]['id'] eq null}
-						<div class='span6'>
-							<img src="{vimage_path('DefaultUserIcon.png')}">
+						<div class='col-md-6'>
+							<img alt="" src="{vimage_path('DefaultUserIcon.png')}">
 						</div>
 					{/if}
 				</div>
@@ -129,16 +130,16 @@
 				{if $LISTVIEW_HEADER@last}
 					<div class="pull-right actions">
 						<span class="actionImages">
-							<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><i title="{vtranslate('LBL_DUPLICATE', $MODULE)}" class="icon-plus alignMiddle"></i></a>&nbsp;
+							<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{vtranslate('LBL_DUPLICATE', $MODULE)}" class="glyphicon glyphicon-plus alignMiddle"></span></a>&nbsp;
 							{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
-								<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-pencil alignMiddle"></i></a>&nbsp;
+								<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
 							{/if}
 							{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->getId() != $USER_MODEL->getId()}
                                                             {if $LISTVIEW_ENTRY->get('status') eq 'Active'}
-                                                                <a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE" class="deleteRecordButton"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i></a>
+                                                                <a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE" class="deleteRecordButton"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
                                                             {else}
-                                                                <a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);"><i title="{vtranslate('LBL_RESTORE', $MODULE)}" class="icon-refresh alignMiddle"></i></a>&nbsp;
-                                                                <a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i></a>
+                                                                <a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);"><span title="{vtranslate('LBL_RESTORE', $MODULE)}" class="glyphicon glyphicon-refresh alignMiddle"></span></a>&nbsp;
+                                                                <a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
                                                             {/if}
 							{/if}
 						</span>

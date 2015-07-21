@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Brutto' => 'Brutto',
 	'SINGLE_OSSTimeControl' => 'Czas pracy',
 	'OSSTimeControl' => 'Czas pracy',
@@ -91,54 +91,29 @@ $languageStrings = array(
 	'PLL_WORKING_TIME' => 'Czas pracy',
 	'PLL_BREAK_TIME' => 'Przerwa w pracy',
 	'PLL_HOLIDAY' => 'Urlop',
-);
-$jsLanguageStrings = array(
-    'MSG_ERROR_NUMBER' => 'Dopuszczalne znaki: [0-9]',
-	'LBL_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
 	
-	//Calendar
-	'JS_ALL_DAY' => 'Całodniowe',
-	'JS_APR' => 'Kwi',
-	'JS_APRIL' => 'Kwiecień',
-	'JS_AUG' => 'Sie',
-	'JS_AUGUST' => 'Sierpień',
-	'JS_DAY' => 'Dzień',
-	'JS_DEC' => 'Gru',
-	'JS_DECEMBER' => 'Grudzień',
-	'JS_FEB' => 'Lut',
-	'JS_FEBRUARY' => 'Luty',
-	'JS_FRIDAY' => 'Piątek',
-	'JS_FRI' => 'Pią',
-	'JS_JAN' => 'Sty',
-	'JS_JANUARY' => 'Styczeń',
-	'JS_JUL' => 'Lip',
-	'JS_JULY' => 'Lipiec',
-	'JS_JUNE' => 'Czerwiec',
-	'JS_JUN' => 'Cze',
-	'JS_MARCH' => 'Marzec',
-	'JS_MAR' => 'Mar',
-	'JS_MAY' => 'Maj',
-	'JS_MAY' => 'Maj',
-	'JS_MONDAY' => 'Poniedziałek',
-	'JS_MON' => 'Pon',
-	'JS_MONTH' => 'Miesiąc',
-	'JS_NOVEMBER' => 'Listopad',
-	'JS_NOV' => 'Lis',
-	'JS_OCTOBER' => 'Październik',
-	'JS_OCT' => 'Paź',
-	'JS_SAT' => 'Sob',
-	'JS_SATURDAY' => 'Sobota',
-	'JS_SEP' => 'Wrz',
-	'JS_SEPTEMBER' => 'Wrzesień',
-	'JS_SUNDAY' => 'Niedziela',
-	'JS_SUN' => 'Nie',
-	'JS_THURSDAY' => 'Czwartek',
-	'JS_THU' => 'Czw',
-	'JS_TODAY' => 'Dzisiaj',
-	'JS_TUESDAY' => 'Wtorek',
-	'JS_TUE' => 'Wto',
-	'JS_WEDNESDAY' => 'Środa',
-	'JS_WED' => 'Śro',
-	'JS_WEEK' => 'Tydzień',
-	'JS_MORE' => 'więcej',
-);
+	//widget
+	'LBL_Holidays' => 'Urlopy',
+	'LBL_YEAR' => 'Rok:',
+	'LBL_Used_Entitled' => 'Wykorzystano / Przysługuje:',
+	'LBL_DAYS' => 'dni',
+	'Brak danych' => 'Brak danych',
+
+	'LBL_DAYWORKSUM' => 'Czas pracy',
+	'LBL_ALLDAYS_INFO' => 'Wszystkie dni',
+	'LBL_WEEKENDDAYS_INFO' => 'Dni weekendowe',
+	'LBL_ECCLESIASTICAL_INFO' => 'Liczba dni które są świętami kościelnymi',
+	'LBL_NATIONAL_INFO' => 'Liczba dni, które są świętami narodowymi',
+	'LBL_WORKEDDAYS_INFO' => 'Ilość dni przepracowanych',
+	'LBL_HOLIDAYDAYS_INFO' => 'Ilość dni urlopowych',
+	'LBL_AVERAGEWORKTIME_INFO' => 'Średni czas pracy',
+	'LBL_AVERAGEBREAKTIME_INFO' => 'Średni czas przerw',
+	'LBL_WORKDAYS_INFO' => 'Dni pracownicze',
+];
+$jsLanguageStrings = [
+    'MSG_ERROR_NUMBER' => 'Dopuszczalne znaki: [0-9]',
+	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
+	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Czas pracy nie może przekraczać 24 godzin',
+	'JS_START_DATE' => 'Czas rozpoczęcia',
+	'JS_END_DATE' => 'Czas zakończenia',
+];

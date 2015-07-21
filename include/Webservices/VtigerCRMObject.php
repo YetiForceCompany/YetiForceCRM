@@ -67,7 +67,7 @@ class VtigerCRMObject{
 		$tid = getTabid($objectName);
 
 		if($tid === false) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 		
 			$sql = "select * from vtiger_tab where name=?;";
 			$params = array($objectName);
@@ -100,7 +100,7 @@ class VtigerCRMObject{
 	}
 	
 	public function read($id){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$error = false;
 		$adb->startTransaction();
@@ -111,39 +111,34 @@ class VtigerCRMObject{
 	}
 	
 	public function create($element){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$error = false;
 		foreach($element as $k=>$v){
 			$this->instance->column_fields[$k] = $v;
 		}
 		
-		$adb->startTransaction();
 		$this->instance->Save($this->getTabName());
-		$error = $adb->hasFailedTransaction();
-		$adb->completeTransaction();
+		$error = $this->instance->db->hasFailedTransaction();
 		return !$error;
 	}
 	
 	public function update($element){
-		
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$error = false;
 		
 		foreach($element as $k=>$v){
 			$this->instance->column_fields[$k] = $v;
 		}
 		
-		$adb->startTransaction();
 		$this->instance->mode = "edit";
 		$this->instance->Save($this->getTabName());
-		$error = $adb->hasFailedTransaction();
-		$adb->completeTransaction();
+		$error = $this->instance->db->hasFailedTransaction();
 		return !$error;
 	}
 	
 	public function revise($element){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$error = false;
 
 		$error = $this->read($this->getObjectId());
@@ -159,17 +154,15 @@ class VtigerCRMObject{
 		foreach($this->instance->column_fields as $key=>$value){
 			$this->instance->column_fields[$key] = decode_html($value);
 		}
-
-                $adb->startTransaction();
+		
 		$this->instance->mode = "edit";
 		$this->instance->Save($this->getTabName());
-		$error = $adb->hasFailedTransaction();
-		$adb->completeTransaction();
+		$error = $this->instance->db->hasFailedTransaction();
 		return !$error;
 	}
 
 	public function delete($id){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$error = false;
 		$adb->startTransaction();
 		DeleteEntity($this->getTabName(), $this->getTabName(), $this->instance, $id,$returnid);
@@ -183,7 +176,7 @@ class VtigerCRMObject{
 	}
 	
 	function exists($id){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$exists = false;
 		$sql = "select * from vtiger_crmentity where crmid=? and deleted=0";
@@ -197,7 +190,7 @@ class VtigerCRMObject{
 	}
 	
 	function getSEType($id){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$seType = null;
 		$sql = "select * from vtiger_crmentity where crmid=? and deleted=0";

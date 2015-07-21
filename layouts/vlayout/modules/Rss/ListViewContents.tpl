@@ -19,16 +19,16 @@
     <div class="feedContainer">
         {if $RECORD}
             <input id="recordId" type="hidden" value="{$RECORD->getId()}">
-            <div class="row-fluid">
+            <div class="row">
                 <span class="btn-toolbar pull-right">
                     <span class="btn-group">
-                        <button id="deleteButton" class="btn">&nbsp;<strong>{vtranslate('LBL_DELETE', $MODULE)}</strong></button>
+                        <button id="deleteButton" class="btn btn-default">&nbsp;<strong>{vtranslate('LBL_DELETE', $MODULE)}</strong></button>
                     </span>
                     <span class="btn-group">
-                        <button id="makeDefaultButton" class="btn">&nbsp;<strong>{vtranslate('LBL_SET_AS_DEFAULT', $MODULE)}</strong></button>
+                        <button id="makeDefaultButton" class="btn btn-default">&nbsp;<strong>{vtranslate('LBL_SET_AS_DEFAULT', $MODULE)}</strong></button>
                     </span>
                 </span>
-                <span class="row-fluid" id="rssFeedHeading">
+                <span class="row" id="rssFeedHeading">
                     <h3> {vtranslate('LBL_FEEDS_LIST_FROM',$MODULE)} : {$RECORD->getName()} </h3>
                 </span>
             </div>
@@ -41,7 +41,7 @@
                     <tr>
                         <td>
                             {assign var=SINGLE_MODULE value="SINGLE_$MODULE"}
-                            {vtranslate('LBL_NO')} {vtranslate($MODULE, $MODULE)} {vtranslate('LBL_FOUND')}. {vtranslate('LBL_CREATE')} <a class="rssAddButton" href="#" data-href="{$QUICK_LINKS['SIDEBARLINK'][0]->getUrl()}">&nbsp;{vtranslate($SINGLE_MODULE, $MODULE)}</a>
+							{vtranslate('LBL_RECORDS_NO_FOUND')}. {vtranslate('LBL_CREATE')}<a class="rssAddButton" href="#" data-href="{$QUICK_LINKS['SIDEBARLINK'][0]->getUrl()}">&nbsp;{vtranslate($SINGLE_MODULE, $MODULE)}</a>
                         </td>
                     </tr>
                 </tbody>

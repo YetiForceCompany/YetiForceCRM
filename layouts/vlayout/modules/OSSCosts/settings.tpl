@@ -21,15 +21,15 @@
 	<div class=" tab-pane active" id="cfg">
 		<div class="alert alert-block alert-info fade in">
 			<button type="button" class="close" data-dismiss="alert">×</button>
-			<h3 class="alert-heading"><i class="icon-info-sign"></i>  {vtranslate('Alert_title', $MODULENAME)}</h3>
+			<h3 class="alert-heading"><i class="glyphicon glyphicon-info-sign"></i>  {vtranslate('Alert_title', $MODULENAME)}</h3>
 			<p>{vtranslate('Alert_desc', $MODULENAME)}</p>
 		</div>	
 		{foreach item=item key=key from=$CONFIG}
-			<div class="row-fluid">
-				<div class="span6">
+			<div class="row">
+				<div class="col-md-6">
 					<h5>{vtranslate($key, $MODULENAME)}</h5>
 				</div>
-				<div class="span6">
+				<div class="col-md-6">
 					<input id="{$key}" name="{$key}" type="checkbox" value="1" {if $item eq 1} checked {/if}/>
 				</div>
 			</div>

@@ -45,7 +45,7 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js',{},{
 
 		//change in to chosen elements
 		app.changeSelectElementView(newRowElement);
-		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected','selected').trigger('liszt:updated').trigger('change');
+		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected','selected').trigger('chosen:updated').trigger('change');
 		return this;
 	},
 
@@ -93,7 +93,7 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js',{},{
                 }
 			}
 		}
-		conditionSelectElement.empty().html(options).trigger("liszt:updated");
+		conditionSelectElement.empty().html(options).trigger("chosen:updated");
 		return conditionSelectElement;
 	},
 
@@ -404,7 +404,7 @@ Vtiger_Field_Js('Vtiger_Boolean_Field_Js',{},{
 Vtiger_Owner_Field_Js('Workflows_Owner_Field_Js',{},{
 
     getUi : function() {
-		var html = '<select class="row-fluid chzn-select" name="'+ this.getName() +'">';
+		var html = '<select class="row chzn-select" name="'+ this.getName() +'">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = this.getValue();
 		for(var optGroup in pickListValues){
@@ -441,14 +441,14 @@ Vtiger_Picklist_Field_Js('Workflows_Picklist_Field_Js',{},{
                         var pickListValue = pickListValues[key];
                         pickListValuesArrayFlip[pickListValue] = key;
                 }
-                var html = '<input type="hidden" class="row-fluid select2" name="'+ this.getName() +'">';
+                var html = '<input type="hidden" class="row select2" name="'+ this.getName() +'">';
                 var selectContainer = jQuery(html).val(pickListValues[selectedOption]);
                 selectContainer.data('tags', tagsArray).data('picklistvalues', pickListValuesArrayFlip);
                 this.addValidationToElement(selectContainer);
                 var fieldsSelect2 = app.showSelect2ElementView(selectContainer, {
                         placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
                         closeOnSelect: true,
-                        maximumSelectionSize: 1
+                        maximumSelectionLength: 1
                 });
                 return selectContainer;
         }

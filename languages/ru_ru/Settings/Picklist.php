@@ -8,7 +8,7 @@
  * All Rights Reserved.
   * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Picklist'	=>	'Редактор списков',
 	'Calendar' => 'Календарь',
 	'LBL_ADD_ITEM_TO' => 'Добавить значение к',
@@ -41,9 +41,10 @@ $languageStrings = array(
 	'LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY' => 'Чтобы удалить несколько элементов удерживайте кнопку Ctrl при выборе элементов',
 	'LBL_VALUES_ASSIGNED_TO_A_ROLE' => 'Значения присвоенные роли',
     'NO_PICKLIST_FIELDS'=> 'отсутствуют выпадающие списки',
-);
+	'LBL_NEW_VALUE' => 'Новое значение',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_ALL_ROLES_SELECTED' => 'Все роли выбраны',
 	'JS_ITEM_ADDED_SUCCESSFULLY' => 'Значение успешно добавлено',
 	'JS_ITEM_RENAMED_SUCCESSFULLY' => 'Значение успешно переименовано',
@@ -57,4 +58,4 @@ $jsLanguageStrings = array(
 	'JS_SPECIAL_CHARACTERS' => 'Специальные символы, такие как',
 	'JS_VALUE_ASSIGNED_SUCCESSFULLY' => 'Значение успешно назначено',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_VALUES' => 'Вы не можете удалить все значения',
-);	
+];	

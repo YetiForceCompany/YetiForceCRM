@@ -9,31 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 class OSSEmployees_Module_Model extends Vtiger_Module_Model {
-	/**
-	 * Function to get the Quick Links for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> List of Vtiger_Link_Model instances
-	 */
-	public function getSideBarLinks($linkParams) {
-		$parentQuickLinks = parent::getSideBarLinks($linkParams);
-	
-		$quickLink = array(
-			'linktype' => 'SIDEBARLINK',
-			'linklabel' => 'LBL_DASHBOARD',
-			'linkurl' => $this->getDashBoardUrl(),
-			'linkicon' => '',
-		);
-	
-		//Check profile permissions for Dashboards
-		$moduleModel = Vtiger_Module_Model::getInstance('Dashboard');
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
-		if($permission) {
-			$parentQuickLinks['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
-		}
-	
-		return $parentQuickLinks;
-	}
+
 	/**
 	 * Function to get list view query for popup window
 	 * @param <String> $sourceModule Parent module
@@ -44,34 +20,6 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model {
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
 		return $listQuery." AND vtiger_ossemployees.employee_status = 'Employee'";
-	}
-	
-	public function getWidgetTimeControl($user, $time) {
-		if(!$time){
-			return array();
-		}
-		$db = PearDatabase::getInstance();
-		$param = array('OSSTimeControl', $user, $time['start'], $time['end'] );
-		$sql = "SELECT SUM(sum_time) AS daytime, due_date FROM vtiger_osstimecontrol
-					INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
-					WHERE vtiger_crmentity.setype = ? AND vtiger_crmentity.smownerid = ? ";
-		$sql .= "AND (vtiger_osstimecontrol.date_start >= ? AND vtiger_osstimecontrol.due_date <= ?) GROUP BY due_date";
-		$result = $db->pquery( $sql, $param );
-		$data = array();
-		$countDays = 0;
-		$average = 0;
-		for($i=0;$i<$db->num_rows( $result );$i++){
-			$due_date = $db->query_result_raw($result, $i, 'due_date');
-			$daytime = $db->query_result_raw($result, $i, 'daytime');
-			$due_date = DateTimeField::convertToUserFormat($due_date);
-			
-			$data[] = array($daytime, $due_date);
-			$countDays++;
-			$average = $average + $daytime;
-		}
-		if($average > 0)
-			$average = $average/$countDays;
-		return array('data' => $data, 'countDays' => $countDays, 'average' => number_format($average, 2, '.', ' '));
 	}
 	
 	function getWorkingDays($startDate, $endDate){
@@ -93,5 +41,17 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model {
 			$working_days = $no_days - $weekends;
 			return $working_days;
 		}
+	}
+
+	function getBarChartColors($chartData){
+		$numSelectedTimeTypes = count($chartData);
+		$i = 0;
+		$colors = array( '#4bb2c5', '#EAA228', '#c5b47f');
+		foreach ($chartData as $key => $value) {
+			$result[$key] = $colors[$i];
+			$i++;
+		}
+		
+		return $result;
 	}
 }

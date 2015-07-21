@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SETUP_WEBFORMS' => 'Ustawienia formularzy internetowych',
 	'LBL_ORDER_TIME'=>'Czas realizacji',
 	'Big Problem'=>'Duży problem',
@@ -26,7 +26,7 @@ $languageStrings = array(
 	'Hi' => 'Witaj',
 	'Hours' => 'Godzin',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
-	'LBL_ALTBODY' => 'To jest treść emaila w formie tekstotwej dla programów pocztowych nie obsługujących HTML',
+	'LBL_ALTBODY' => 'To jest treść emaila w formie tekstowej dla programów pocztowych nie obsługujących HTML',
 	'LBL_CHECK_MAILID' => 'Sprawdź proszę swój email do Portalu Klienta',
 	'LBL_CONVERT_FAQ' => 'Konwertuj na instrukcje',
 	'LBL_COULDNOT_CLOSED' => 'Zgłoszenie nie może być',
@@ -43,7 +43,7 @@ $languageStrings = array(
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	'LBL_REGARDS'=> 'z Poważaniem',
 	'LBL_RELATED_TO' => 'Powiązany z',
-	'LBL_RESPOND'=> 'Odpowiemy na ninjesze zgłoszenie w najbliższym terminie.',
+	'LBL_RESPOND'=> 'Odpowiemy na niniejsze zgłoszenie w najbliższym terminie.',
 	'LBL_RESPONDTO_TICKETID' =>'Odpowiedź na Zgłoszenie o ID',
 	'LBL_RESPONSE_TO_TICKET_NUMBER' =>'Odpowiedź na Zgłoszenie o Numerze',
 	'LBL_SEVERITY' => 'Ważność',
@@ -56,7 +56,7 @@ $languageStrings = array(
 	'LBL_TEAM'=> 'Zespół HelpDesk',
 	'LBL_TICKET_DETAILS' => 'Szczegóły Zgłoszenia',
 	'LBL_TICKET_INFORMATION' => 'Informacje o zgłoszeniu',
-	'LBL_TICKET_NUMBER' => 'Numer zgłoszeian',
+	'LBL_TICKET_NUMBER' => 'Numer zgłoszenia',
 	'LBL_TICKET_RESOLUTION' => 'Informacje o rozwiązaniu zgłoszenia',
 	'LBL_USERNAME' => 'Użytkownik :',
 	'link' => 'Możesz użyć tego linka aby zobaczyć dodane odpowiedzi',
@@ -88,6 +88,9 @@ $languageStrings = array(
 	'Rejected'=>'Odrzucony',
 	'Answered'=>'Udzielono odpowiedzi',
 	'P&S Sold'=>'Produkt/Usługa Sprzedana',
+	'LBL_VIEW_FINDDUPLICATES'=> 'Znajdź duplikaty',
+	'Record Id' => 'Id rekordu',
+	'ticketpriorities' => 'priorytet',
 	
 	//notifications translation 
 	'LBL_NOTICE_WELCOME'=>'Witaj w platformie',
@@ -98,4 +101,4 @@ $languageStrings = array(
 	'LBL_NOTICE_MODIFICATION'=>'Modyfikacja',
 	'LBL_NOTICE_CLOSE'=>'Zamknięto',
 	'LBL_NOTICE_FOOTER'=>'Jeżeli nie chcesz otrzymywać powiadomień z naszego systemu do zarządzania projektów, poinformuj nas o tym wysyłając nam wiadomość na adres <a href="mailto:help@yetiforce.com" target="_blank">help@yetiforce.com</a>. Jeżeli nie jesteś adresatem tej wiadomości poinformuj nas o tym i usuń tą wiadomość.',
-);
+];

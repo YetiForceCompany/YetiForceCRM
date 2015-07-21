@@ -40,7 +40,7 @@ class Mobile {
 	 * Alert management
 	 */
 	static function alert_lookup($handlerPath, $handlerClass) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$check = $adb->pquery("SELECT id FROM vtiger_mobile_alerts WHERE handler_path=? and handler_class=?", array($handlerPath, $handlerClass));
 		if ($adb->num_rows($check)) {
 			return $adb->query_result($check, 0, 'id');
@@ -48,19 +48,19 @@ class Mobile {
 		return false;
 	}
 	static function alert_register($handlerPath, $handlerClass) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if (self::alert_lookup($handlerPath, $handlerClass) === false) {
 			Vtiger_Utils::Log("Registered alert {$handlerClass} [$handlerPath]");
 			$adb->pquery("INSERT INTO vtiger_mobile_alerts (handler_path, handler_class, deleted) VALUES(?,?,?)", array($handlerPath, $handlerClass, 0));
 		}
 	}
 	static function alert_deregister($handlerPath, $handlerClass) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		Vtiger_Utils::Log("De-registered alert {$handlerClass} [$handlerPath]");
 		$adb->pquery("DELETE FROM vtiger_mobile_alerts WHERE handler_path=? AND handler_class=?", array($handlerPath, $handlerClass));
 	}
 	static function alert_markdeleted($handlerPath, $handlerClass, $flag) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery("UPDATE vtiger_mobile_alerts SET deleted=? WHERE handler_path=? AND handler_class=?", array($flag, $handlerPath, $handlerClass));
 	}
 	
@@ -213,7 +213,7 @@ class Mobile_WS_Operation {
 	}
 	
 	function register() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$checkresult = $adb->pquery("SELECT 1 FROM vtiger_ws_operation WHERE name = ?", array($this->opName));
 		if($adb->num_rows($checkresult)) {
 			return;
@@ -227,5 +227,3 @@ class Mobile_WS_Operation {
 		}
 	}
 }
-	
-?>

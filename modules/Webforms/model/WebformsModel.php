@@ -145,7 +145,7 @@ class Webforms_Model {
     }
     
     function getRoundrobinOwnerId() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $roundrobin_userid = vtlib_purify($this->data["roundrobin_userid"]);
         $roundrobin_logic = vtlib_purify($this->data["roundrobin_logic"]);
         $useridList = json_decode($roundrobin_userid,true);
@@ -162,13 +162,13 @@ class Webforms_Model {
 	}
 
 	function generatePublicId($name) {
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$uid = md5(microtime(true) + $name);
 		return $uid;
 	}
 
 	function retrieveFields() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$fieldsResult = $adb->pquery("SELECT * FROM vtiger_webforms_field WHERE webformid=?", array($this->getId()));
 		while ($fieldRow = $adb->fetch_array($fieldsResult)) {
 			$this->addField(new Webforms_Field_Model($fieldRow));
@@ -177,7 +177,7 @@ class Webforms_Model {
 	}
 
 	function save() {
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
 		$isNew = !$this->hasId();
 
@@ -212,7 +212,7 @@ class Webforms_Model {
 	}
 
 	function delete() {
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
 		$adb->pquery("DELETE from vtiger_webforms_field where webformid=?", array($this->getId()));
 		$adb->pquery("DELETE from vtiger_webforms where id=?", array($this->getId()));
@@ -220,7 +220,7 @@ class Webforms_Model {
 	}
 
 	static function retrieveWithPublicId($publicid) {
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
 		$model = false;
 		// Retrieve model and populate information
@@ -233,7 +233,7 @@ class Webforms_Model {
 	}
 
 	static function retrieveWithId($data) {
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
 		$id = $data;
 		$model = false;
@@ -247,7 +247,7 @@ class Webforms_Model {
 	}
 
 	static function listAll() {
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$webforms = array();
 
 		$sql = "SELECT * FROM vtiger_webforms";
@@ -263,7 +263,7 @@ class Webforms_Model {
 	}
 
 	static function isWebformField($webformid, $fieldname) {
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
 		$checkSQL = "SELECT 1 from vtiger_webforms_field where webformid=? AND fieldname=?";
 		$result = $adb->pquery($checkSQL, array($webformid, $fieldname));
@@ -278,7 +278,7 @@ class Webforms_Model {
 	}
 
 	static function isRequired($webformid, $fieldname) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$sql = "SELECT required FROM vtiger_webforms_field where webformid=? AND fieldname=?";
 		$result = $adb->pquery($sql, array($webformid, $fieldname));
 		$required = false;
@@ -307,7 +307,7 @@ class Webforms_Model {
 	}
 
 	static function existWebformWithName($name) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$checkSQL = "SELECT 1 FROM vtiger_webforms WHERE name=?";
 		$check = $adb->pquery($checkSQL, array($name));
 		if ($adb->num_rows($check) > 0) {
@@ -317,7 +317,7 @@ class Webforms_Model {
 	}
 
 	static function isActive($field, $mod) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$tabid = getTabid($mod);
 		$query = 'SELECT 1 FROM vtiger_field WHERE fieldname = ?  AND tabid = ? AND presence IN (0,2)';
 		$res = $adb->pquery($query, array($field, $tabid));

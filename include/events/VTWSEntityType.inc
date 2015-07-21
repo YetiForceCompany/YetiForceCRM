@@ -34,7 +34,7 @@ class VTWSEntityType{
 	}
 	
 	function usingGlobalCurrentUser($entityTypeName){
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		return new VTWSEntityType($entityTypeName, $current_user);
 		
 		
@@ -44,7 +44,7 @@ class VTWSEntityType{
 		return new VTWSEntityType($entityTypeName, $user);
 	}
 	function getTabId(){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if(!isset($this->tabId)){
 			$result = $adb->pquery("select tabid from vtiger_tab where name=?", 
 				array($this->entityTypeName));
@@ -204,4 +204,3 @@ class VTWSFieldType{
 		return $arr;
 	}	
 }
-?>

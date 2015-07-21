@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-vimport('~~/include/Webservices/Custom/ChangePassword.php');
+vimport('~include/Webservices/Custom/ChangePassword.php');
 
 class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 	
@@ -18,6 +18,12 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		$this->exposeMethod('savePassword');
 		$this->exposeMethod('restoreUser');
 		$this->exposeMethod('editPasswords');
+		$this->exposeMethod('updateUserColor');
+		$this->exposeMethod('updateGroupColor');
+		$this->exposeMethod('updateModuleColor');
+		$this->exposeMethod('updateColorForProcesses');
+		$this->exposeMethod('generateColor');
+		$this->exposeMethod('activeColor');
 	}
 
 	public function checkPermission(Vtiger_Request $request) {
@@ -54,6 +60,9 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 			}
 			if($fieldName == 'language') {
 				$displayValue =  Vtiger_Language_Handler::getLanguageLabel($fieldValue);
+			}
+            if (($fieldName == 'currency_decimal_separator' || $fieldName == 'currency_grouping_separator') && ($displayValue == '&nbsp;')) {
+				$displayValue = vtranslate('LBL_SPACE', 'Users');
 			}
 			$result[$fieldName] = array('value' => $fieldValue, 'display_value' => $displayValue);
 		}
@@ -179,4 +188,71 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		$response->setResult(array('message'=>vtranslate('LBL_USER_RESTORED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl));
 		$response->emit();
 	}
+
+	public function updateUserColor(Vtiger_Request $request) {
+		$params = $request->get('params');
+		Users_Colors_Model::updateUserColor($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+		));
+		$response->emit();
+	}
+
+	public function updateGroupColor(Vtiger_Request $request) {
+		$params = $request->get('params');
+		Users_Colors_Model::updateGroupColor($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+		));
+		$response->emit();
+	}
+	public function updateModuleColor(Vtiger_Request $request) {
+		$params = $request->get('params');
+		Users_Colors_Model::updateModuleColor($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+		));
+		$response->emit();
+	}
+
+	public function generateColor(Vtiger_Request $request) {
+		$params = $request->get('params');
+		
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'color' => Users_Colors_Model::generateColor($params),
+			'message' => vtranslate('LBL_GENERATED_COLOR', $request->getModule(false))
+		));
+		$response->emit();
+	}
+
+	public function updateColorForProcesses(Vtiger_Request $request) {
+		$params = $request->get('params');
+		Users_Colors_Model::updateColorForProcesses($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+		));
+		$response->emit();
+	}
+	public function activeColor(Vtiger_Request $request) {
+		$params = $request->get('params');
+		$color = Users_Colors_Model::activeColor($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'color' => $color,
+			'message' => vtranslate('LBL_SAVE_COLOR',$request->getModule(false))
+		));
+		$response->emit();
+	}
+
 }

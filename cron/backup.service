@@ -1,52 +1,11 @@
 <?php
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
 include_once 'include/main/WebUI.php';
 $current_user = Users::getActiveAdminUser();
 
-global $adb, $log;
+$log = vglobal('log');
 $log->info('Cron BackUp - Start backup');
-// Backup database
-Settings_BackUp_Module_Model::cronBackUp();
-
-// Backup fiels
-$newBackup = Settings_BackUp_Module_Model::clearBackupFilesTable();
-$dirs = array_filter(array_merge(glob('*'), glob('.htaccess')));
-$dirs = array_diff($dirs, array( Settings_BackUp_Module_Model::$destDir, 'cache' ));
-$dbDirs = Settings_BackUp_Module_Model::getDirs();
-$newDirs = array();
-$count = 0;
-
-$backUpInfo = Settings_BackUp_Module_Model::getBackUpInfo();
-$sqlFileName = $backUpInfo['file_name'];
-
-$fileName = $sqlFileName.'.files';
-$cron = TRUE;
-
-if ($newBackup) {
-	$log->info('New files backup');
-	foreach ($dirs as $dir) {
-		$dir = str_replace('\\', '/', $dir);
-		if (!isset($dbDirs[$dir])) {
-			$newDirs[] = $dir;
-		}
-		if (!isset($dbDirs[$dir]) || $dbDirs[$dir] == 0) {
-			Settings_BackUp_CreateFileBackUp_Action::zipData($dir, Settings_BackUp_Module_Model::$tempDir.'/'.$fileName.'.zip', 0, $cron ,array() , $fileName);
-		}
-	}
-	Settings_BackUp_Module_Model::addBackupDirs($newDirs);
-}
-
-$dbAccuallyDirs = Settings_BackUp_Module_Model::getDirs();
-foreach ($dirs as $dir) {
-	Settings_BackUp_CreateFileBackUp_Action::zipData($dir, Settings_BackUp_Module_Model::$tempDir.'/'.$fileName.'.zip', 1, $cron, $dbAccuallyDirs, $fileName);
-}
-$zip = new ZipArchive();
-$zip->open( Settings_BackUp_Module_Model::$destDir.'/'.$sqlFileName.'.zip', ZipArchive::CREATE );
-$zip->addFile( Settings_BackUp_Module_Model::$tempDir.'/'.$sqlFileName.'.db.zip', "db.zip" );
-$zip->addFile( Settings_BackUp_Module_Model::$tempDir.'/'.$fileName.'.zip', "files.zip" );
-$zip->close();
-
-Settings_BackUp_Module_Model::setBackUp();
-Settings_BackUp_Module_Model::deleteTmpBackUpContent();
-Settings_BackUp_Module_Model::deleteFile($sqlFileName . '.db.zip');
-Settings_BackUp_Module_Model::deleteFile($fileName . '.zip');
+$backupModel = new Settings_BackUp_Module_Model();
+$backupModel->runBackup();
 $log->info('Cron BackUp - End backup');

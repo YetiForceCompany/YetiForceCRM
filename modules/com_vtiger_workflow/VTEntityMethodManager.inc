@@ -69,4 +69,3 @@ class VTEntityMethodManager{
 		$adb->pquery("DELETE FROM com_vtiger_workflowtasks_entitymethod WHERE module_name = ? and method_name= ?", array($moduleName, $methodName));
 	}
 }
-?>

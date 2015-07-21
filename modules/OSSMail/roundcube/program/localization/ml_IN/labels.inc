@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -229,7 +229,6 @@ $labels['signature'] = 'ഒപ്പ്';
 $labels['htmleditor'] = 'HTML സന്ദേശങ്ങള്‍ രചിക്കുക';
 $labels['serversettings'] = 'സേവകന്റെ ക്രമീകരണങ്ങള്‍';
 $labels['askuser'] = 'എന്നൊടു ചോദിക്കുക';
-$labels['ignore'] = 'അവഗണിക്കുക';
 $labels['always'] = 'എപ്പോഴും';
 $labels['never']  = 'ഒരിക്കലുമില്ല';
 $labels['immediately']  = 'ഉടനടി';
@@ -245,12 +244,12 @@ $labels['newmessageonly'] = 'പുതിയ സന്ദേശം മാത്�
 $labels['afternseconds']  = '$n നിമിഷങ്ങള്‍ കഴിഞ്ഞു്';
 $labels['spellcheckignorenums'] = 'അക്കങ്ങള്‍ ഉള്ള വാക്കുകളെ അവഗണിക്കുക';
 $labels['addtodict'] = 'നിഘണ്ടുവില്‍ ചേര്‍ക്കുക';
-$labels['folders']  = 'ഫോള്‍ഡറുകള്‍';
+$labels['folders'] = 'ഫോള്‍ഡറുകള്‍';
 $labels['properties'] = 'സവിശേഷതകള്‍';
 $labels['info'] = 'വിവരം';
 $labels['getfoldersize'] = 'അറയുടെ വലുപ്പം അരിയാന്‍ ക്ലിക്ക് ചെയ്യുക';
-$labels['personalfolder']  = 'സ്വകാര്യ അറ';
-$labels['sharedfolder']  = 'പൊതു - അറ';
+$labels['personalfolder'] = 'സ്വകാര്യ അറ';
+$labels['sharedfolder'] = 'പൊതു - അറ';
 $labels['support'] = 'സഹായം തേടുക';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';

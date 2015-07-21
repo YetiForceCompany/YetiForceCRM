@@ -31,7 +31,7 @@ class Mobile_WS_Utils {
 	}
 	
 	static function getVersion() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$versionResult = $adb->pquery("SELECT version FROM vtiger_tab WHERE name='Mobile'", array());
 		return $adb->query_result($versionResult, 0, 'version');
 	}
@@ -54,7 +54,7 @@ class Mobile_WS_Utils {
 	static function getEntityModuleWSId($moduleName) {
 		
 		if (!isset(self::$moduleWSIdCache[$moduleName])) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$result = $adb->pquery("SELECT id FROM vtiger_ws_entity WHERE name=?", array($moduleName));
 			if ($result && $adb->num_rows($result)) {
 				self::$moduleWSIdCache[$moduleName] = $adb->query_result($result, 0, 'id');
@@ -64,7 +64,7 @@ class Mobile_WS_Utils {
 	}
 	
 	static function getEntityModuleWSIds($ignoreNonModule = true) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$modulewsids = array();
 		$result = false;
@@ -81,7 +81,7 @@ class Mobile_WS_Utils {
 	}
 	
 	static function getEntityFieldnames($module) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT fieldname FROM vtiger_entityname WHERE modulename=?", array($module));
 		$fieldnames = array();
 		if($result && $adb->num_rows($result)) {
@@ -95,7 +95,7 @@ class Mobile_WS_Utils {
 	}
 	
 	static function getModuleColumnTableByFieldNames($module, $fieldnames) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT fieldname,columnname,tablename FROM vtiger_field WHERE tabid=? AND fieldname IN (".
 			generateQuestionMarks($fieldnames) . ")", array(getTabid($module), $fieldnames)
 		);
@@ -109,7 +109,7 @@ class Mobile_WS_Utils {
 	}
 	
 	static function detectModulenameFromRecordId($wsrecordid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$idComponents = vtws_getIdComponents($wsrecordid);
 		$result = $adb->pquery("SELECT name FROM vtiger_ws_entity WHERE id=?", array($idComponents[0]));
 		if($result && $adb->num_rows($result)) {
@@ -121,7 +121,7 @@ class Mobile_WS_Utils {
 	static $detectFieldnamesToResolveCache = array();
 	
 	static function detectFieldnamesToResolve($module) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		// Cache hit?
 		if(isset(self::$detectFieldnamesToResolveCache[$module])) {
@@ -148,7 +148,7 @@ class Mobile_WS_Utils {
 	static $gatherModuleFieldGroupInfoCache = array();
 	
 	static function gatherModuleFieldGroupInfo($module) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		if($module == 'Events') $module = 'Calendar';
 		
@@ -183,7 +183,7 @@ class Mobile_WS_Utils {
 	}
 	
 	static function documentFoldersInfo() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$folders = $adb->pquery("SELECT `tree`,`name` FROM
 				`vtiger_trees_templates_data` 
 			INNER JOIN `vtiger_field` 
@@ -280,7 +280,7 @@ class Mobile_WS_Utils {
 	}
 	
 	static function getRelatedFunctionHandler($sourceModule, $targetModule) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$relationResult = $adb->pquery("SELECT name FROM vtiger_relatedlists WHERE tabid=? and related_tabid=? and presence=0", array(getTabid($sourceModule), getTabid($targetModule)));
 		$functionName = false;
 		if ($adb->num_rows($relationResult)) $functionName = $adb->query_result($relationResult, 0, 'name');

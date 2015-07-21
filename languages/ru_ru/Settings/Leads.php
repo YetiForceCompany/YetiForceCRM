@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_OPPURTUNITIES' => 'Сделки',
 	'Leads'	=>	'Обращения',
 	'checkBox' => 'Флажок',
@@ -38,11 +38,11 @@ $languageStrings = array(
 	'text' => 'Текст',
 	'time' => 'Время',
 	'url' => 'Ссылка',
-	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Organization',
-	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'If you mark this option, a person who convers lead to opportunity will become records owner.',
-);
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Преобразовать в Контрагента',
 
-$jsLanguageStrings = array(
+];
+
+$jsLanguageStrings = [
 	'JS_None' => 'Нет',
 	'JS_CANT_MAP' => 'Не удается сопоставить поля',
 	'JS_checkBox' => 'Флажок',
@@ -66,6 +66,5 @@ $jsLanguageStrings = array(
 	'JS_url' => 'Ссылка',
 	'JS_WITH' => 'с',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Сохранено',
-	'JS_CONVERSION_STATE_SUCCES' => 'State saved correct',
-	'JS_CONVERSION_STATE_FAILURE' => 'Failure on saved',
-);
+
+];

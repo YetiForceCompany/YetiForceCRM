@@ -8,7 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-vimport('~~/vtlib/Vtiger/Module.php');
+vimport('~vtlib/Vtiger/Module.php');
 
 /**
  * Calendar Module Model Class
@@ -134,14 +134,28 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		}
 
 		$quickWidgets = array();
+		$quickWidgetsRight = array();
 
 		if ($linkParams['ACTION'] == 'Calendar') {
-			$quickWidgets[] = array(
+			$quickWidgetsRight[] = array(
 				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_ACTIVITY_TYPES',
-				'linkurl' => 'module='.$this->get('name').'&view=UsersList&mode=getUsersList',
+				'linklabel' => 'Activity Type',
+				'linkurl' => 'module='.$this->get('name').'&view=RightPanel&mode=getActivityType',
 				'linkicon' => ''
 			);
+			$quickWidgetsRight[] = array(
+				'linktype' => 'SIDEBARWIDGET',
+				'linklabel' => 'LBL_USERS',
+				'linkurl' => 'module='.$this->get('name').'&view=RightPanel&mode=getUsersList',
+				'linkicon' => ''
+			);
+			$quickWidgetsRight[] = array(
+				'linktype' => 'SIDEBARWIDGET',
+				'linklabel' => 'LBL_GROUPS',
+				'linkurl' => 'module='.$this->get('name').'&view=RightPanel&mode=getGroupsList',
+				'linkicon' => ''
+			);
+			
 		}
 
 		if ($linkParams['ACTION'] == 'SharedCalendar') {
@@ -162,6 +176,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 
 		foreach($quickWidgets as $quickWidget) {
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
+		}
+		foreach($quickWidgetsRight as $quickWidgetRight) {
+			$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidgetRight);
 		}
 
 		return $links;
@@ -440,7 +457,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$activityReminder = $currentUserModel->getCurrentUserActivityReminderInSeconds();
 		$recordModels = array();
-
+		$permissionToSendEmail = vtlib_isModuleActive('OSSMail') && Users_Privileges_Model::isPermitted('OSSMail','compose');
+		
 		if($activityReminder != '' ) {
 			$currentTime = time();
 			$date = date('Y-m-d', strtotime("+$activityReminder seconds", $currentTime));
@@ -466,15 +484,12 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 			for($i=0; $i<$rows; $i++) {
 				$recordId = $db->query_result($result, $i, 'recordid');
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
-				$parent_id = $recordModel->get('parent_id');
-				$contact_id = $recordModel->get('contact_id');
-				if( $parent_id != '' ){
-					$url = "index.php?module=OSSMail&view=compose&mod=".Vtiger_Functions::getCRMRecordType($parent_id)."&record=$parent_id";
-				}elseif( $contact_id != '' ){
-					$url = "index.php?module=OSSMail&view=compose&mod=Contacts&record=$contact_id";
+				$link = $recordModel->get('link');
+				if( $link != '' && $link != 0 && $permissionToSendEmail ){
+					$url = "index.php?module=OSSMail&view=compose&mod=".Vtiger_Functions::getCRMRecordType($link)."&record=$link";
 				}
 				if($url != ''){
-					$recordModel->set('mailUrl',"<a href='$url' class='btn btn-info' target='_blank'><i class='icon-envelope icon-white'></i>&nbsp;&nbsp;".vtranslate('LBL_SEND_MAIL')."</a>");
+					$recordModel->set('mailUrl',"<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;".vtranslate('LBL_SEND_MAIL')."</a>");
 				}
 				$recordModels[] = $recordModel;
 			}
@@ -547,7 +562,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	public static function getCalendarTypes(){
 		$calendarConfig = Array(
 			'Task',
-			'Meeting'
+			'Meeting',
+			'Call'
 		);
 		return $calendarConfig;
 	}

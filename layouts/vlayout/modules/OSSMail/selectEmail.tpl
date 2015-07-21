@@ -9,31 +9,35 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<div id="sendEmailContainer" class="modelContainer">
-	<div class="modal-header">
-	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h3 id="myModalLabel">{vtranslate('LBL_SELECT_EMAIL_IDS', 'Emails')}</h3>
-	</div>
-	<div class="modal-body">
-		<div class="padding20">
-			<h4>{vtranslate('LBL_MUTIPLE_EMAIL_SELECT_ONE', 'Vtiger')}</h4>
-		</div>
-		<div class="modal-Fields">
-			{foreach from=$RESP item=item key=key}
-				<div class="control-group">
-					<label class="radio">
-						<div class="row-fluid">
-							<div class="span3"><input style="float: right;" type="radio" name="selectedFields" value="{$item.email}"></div>
-							<div class="span3">{$item.fieldlabel}:</div>
-							<div class="span6">{$item.email}</div>
-						</div>
-					</label>
+<div id="sendEmailContainer" class="modelContainer modal fade" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 class="modal-title" id="myModalLabel">{vtranslate('LBL_SELECT_EMAIL_IDS', 'Emails')}</h3>
+			</div>
+			<div class="modal-body">
+				<div class="padding20">
+					<h4>{vtranslate('LBL_MUTIPLE_EMAIL_SELECT_ONE', 'Vtiger')}</h4>
 				</div>
-			{/foreach}
+				<div class="modal-Fields">
+					{foreach from=$RESP item=item key=key}
+						<div class="form-group">
+							<label class="radio">
+								<div class="row">
+									<div class="col-md-3"><input style="float: right;" type="radio" name="selectedFields" value="{$item.email}"></div>
+									<div class="col-md-3">{$item.fieldlabel}:</div>
+									<div class="col-md-6">{$item.email}</div>
+								</div>
+							</label>
+						</div>
+					{/foreach}
+				</div>
+			</div>	
+			<div class="modal-footer">
+			<button class="btn btn-default" id="closeModal" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_CANCEL', 'Vtiger')}</button>
+			<button class="btn btn-default addButton" id="selectEmail" data-dismiss="modal" aria-hidden="true" >{vtranslate('LBL_SELECT', 'Vtiger')}</button>
+			</div>
 		</div>
-	</div>	
-	<div class="modal-footer">
-	<button class="btn" id="closeModal" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_CANCEL', 'Vtiger')}</button>
-	<button class="btn addButton" id="selectEmail" data-dismiss="modal" aria-hidden="true" >{vtranslate('LBL_SELECT', 'Vtiger')}</button>
 	</div>
 </div>

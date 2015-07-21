@@ -5,13 +5,13 @@
 class OSSPasswords_Detail_View extends Vtiger_Detail_View {
 	protected $record = false;
 
-	public function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	public function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
             'layouts.vlayout.modules.OSSPasswords.resources.gen_pass',
-            'layouts.vlayout.modules.OSSPasswords.resources.ZeroClipboard',
+            'libraries.jquery.ZeroClipboard.ZeroClipboard',
             'layouts.vlayout.modules.OSSPasswords.resources.zClipDetailView'
 		);
 

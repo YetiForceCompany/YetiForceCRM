@@ -18,7 +18,7 @@
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 			<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen">
 			<script type="text/javascript" src="libraries/jquery/jquery.min.js"></script>
-			<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-alert.js"></script>
+			<script type="text/javascript" src="libraries/jquery/jquery-migrate.js"></script>
 			<style>
 				.shadow{
 					-webkit-box-shadow: 3px 3px 14px 0px rgba(50, 50, 50, 0.75);
@@ -27,8 +27,8 @@
 				}
 			</style>
 	</head>
-	<body class="row-fluid">
-		<div style="margin-top: 10px;" class="span6 alert alert-error shadow">
+	<body class="row">
+		<div style="margin-top: 10px;" class="col-md-6 alert alert-warning shadow">
 			<div style="position: relative;" >
 				<div>
 					<h2 class="alert-heading">{vtranslate('LBL_ERROR')}</h2>

@@ -10,4 +10,4 @@
  *************************************************************************************************************************************/
 -->*}
 <span>{vtranslate('BASE_ON_PARENT_MODULE', 'OSSProjectTemplates')}</span>
-<input name='{$FLD_NAME}' id="{$FLD_ID}" value="base_on_parent_module" type="hidden" />
+<input name='{$FLD_NAME}' id="{$FLD_ID}" value="base_on_parent_module" type="hidden" class="form-control input-sm"/>

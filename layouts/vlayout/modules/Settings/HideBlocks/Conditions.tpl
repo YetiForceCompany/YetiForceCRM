@@ -11,22 +11,20 @@
 -->*}
 {strip}
 <div class="targetFieldsTableContainer">
-	<div class="widget_header row-fluid">
+	<div class="widget_header">
 		<h3>{vtranslate('LBL_HIDEBLOCKS', $QUALIFIED_MODULE)}</h3>
 		{vtranslate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 	</div>
 	<hr>
 	{if $MANDATORY_FIELDS}
-		<div class="alert alert-error">
+		<div class="alert alert-warning">
 			{vtranslate('LBL_MANDATORY_FIELDS_EXIST', $QUALIFIED_MODULE)}
 		</div>
 		<br>	
-		<div class="row-fluid">
-			 <div class="pull-right">
-				 <a class="btn btn-danger" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_BACK', $MODULE)}</a>
-			 </div>
-			 <div class="clearfix"></div>
+		<div class="pull-right">
+			<a class="btn btn-danger" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_BACK', $MODULE)}</a>
 		</div>
+		<div class="clearfix"></div>
 	{else}
 		<form method="post" action="index.php">
 			<input type="hidden" name="module" value="{$MODULE}"/>
@@ -43,12 +41,12 @@
 				</div>
 			</div>
 			<br>	
-			<div class="row-fluid">
-				 <div class="pull-right">
-					 <a class="saveLink btn btn-success" ><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></a>
-					 <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_BACK', $MODULE)}</a>
-				 </div>
-				 <div class="clearfix"></div>
+			<div class="row">
+				<div class="pull-right">
+					<a class="saveLink btn btn-success" ><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></a>
+					<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_BACK', $MODULE)}</a>
+				</div>
+				<div class="clearfix"></div>
 			</div>
 		</form>	
 	{/if}

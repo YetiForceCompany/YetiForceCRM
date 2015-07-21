@@ -5,11 +5,10 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 08-12-2014
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
+ * All Rights Reserved. Contributor: Brazilian Portuguese Translation - Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'OSSMailTemplates' => 'Modelos Emails',
     'Blank' => 'Modelos Emails',
     'SINGLE_OSSMailTemplates' => 'Modelos Emails',
@@ -28,7 +27,12 @@ $languageStrings = array(
     'No' => 'Não',
 	'MAIL_TPL_LIST' => 'Selecionar um modelo de e-mail',
 	'LBL_COPY_TO_CLIPBOARD_TITLE' => 'Copiar para a Área de Transferência',
-	
+	'LBL_TYPE' => 'Tipo',
+	'PLL_MODULE' => 'Módulo',
+	'PLL_RECORD' => 'Registro',
+	'PLL_MAIL' => 'Email message',
+	'PLL_LIST' => 'List',
+
 	/// special_functions
 	'CurrentDate' => 'Data Atual',
 	'CurrentDateTime' => 'Data/hora Atual',
@@ -39,11 +43,11 @@ $languageStrings = array(
 	'LogoImage' => 'Logo',
 	'LBL_VALUE' => 'Valor',
 	'LBL_LABEL' => 'Rótulo',
-	'ContactsPortalPass' => 'Customer Portal Password',
-	'LinkToForgotPassword' => 'Link to reset your password',
-);
-$jsLanguageStrings = array(
+	'ContactsPortalPass' => 'Senha Portal Cliente',
+	'LinkToForgotPassword' => 'Link para redefinir sua senha',
+];
+$jsLanguageStrings = [
     'JS_NOTIF_PASS_COPIED' => 'Copiado para a Área de Transferência',
     'JS_NOTIF_PASS_TITLE' => 'Texto',
 
-);
+];

@@ -21,30 +21,28 @@ padding: 0 20px 20px 20px;
 }
 </style>
 {strip}
-    <div class="container-fluid" id="quickCreateEditorContainer">
+    <div class="" id="quickCreateEditorContainer">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
-        <div class="widget_header row-fluid">
-            <div class="span8">
+        <div class="widget_header row">
+            <div class="col-md-8">
                 <h3>{vtranslate('LBL_QUICK_CREATE_EDITOR', $QUALIFIED_MODULE)}</h3>
 				{vtranslate('LBL_QUICK_CREATE_EDITOR_DESCRIPTION', $QUALIFIED_MODULE)}
             </div>
-            <div class="span4">
-                <div class="pull-right">
-                    <select class="select2 span3" name="quickCreateEditorModules">
-                        {foreach key=mouleName item=moduleModel from=$SUPPORTED_MODULES}
-							{if $moduleModel->isPermitted('EditView')}
-								{assign var='quickCreateModule' value=$moduleModel->isQuickCreateSupported()}
-								{assign var='singularLabel' value=$moduleModel->getSingularLabelKey()}
-								{if $singularLabel == 'SINGLE_Calendar'}
-									{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
-								{/if}
-								{if $quickCreateModule == '1'}
-									<option value="{$mouleName}" {if $mouleName eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($singularLabel, $mouleName)}</option>
-								{/if}
+            <div class="pull-right col-md-3 h3">
+				<select class="select2 form-control" name="quickCreateEditorModules">
+					{foreach key=mouleName item=moduleModel from=$SUPPORTED_MODULES}
+						{if $moduleModel->isPermitted('EditView')}
+							{assign var='quickCreateModule' value=$moduleModel->isQuickCreateSupported()}
+							{assign var='singularLabel' value=$moduleModel->getSingularLabelKey()}
+							{if $singularLabel == 'SINGLE_Calendar'}
+								{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
 							{/if}
-                        {/foreach}
-                    </select>
-                </div>
+							{if $quickCreateModule == '1'}
+								<option value="{$mouleName}" {if $mouleName eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($singularLabel, $mouleName)}</option>
+							{/if}
+						{/if}
+					{/foreach}
+				</select>
             </div>
         </div>
         <hr>
@@ -70,28 +68,28 @@ padding: 0 20px 20px 20px;
 								{assign var='MODULE_NAME' value='Tasks'}
 							{/if}
 							<div class="editFieldsTable block marginBottom10px border1px blockSortable"  style="border-radius: 4px 4px 0px 0px;background: white;">
-                                <div class="row-fluid layoutBlockHeader">
-                                    <div class="blockLabel span5 marginLeftZero" style="padding:5px 10px 5px 10px">
+                                <div class="row layoutBlockHeader no-margin">
+                                    <div class="blockLabel col-md-5 marginLeftZero" style="padding:5px 10px 5px 10px">
                                         {vtranslate($MODULE_NAME, $MODULE)}
                                     </div>
                                 </div>
-                                <div class="blockFieldsList row-fluid" style="padding:5px;min-height: 27px">
-                                    <ul name="sortable1" class="connectedSortable span6" style="list-style-type: none; float: left;min-height: 1px;padding:2px;">
+                                <div class="blockFieldsList row no-margin" style="padding:5px;min-height: 27px">
+                                    <ul name="sortable1" class="connectedSortable col-md-6" style="list-style-type: none; float: left;min-height: 1px;padding:2px;">
                                         {foreach  key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=fieldlist}
                                             {assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
                                             {if $smarty.foreach.fieldlist.index % 2 eq 0}
                                                 <li>
                                                     <div class="opacity editFields marginLeftZero border1px"  data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
-                                                        <div class="row-fluid padding1per">
+                                                        <div class="row padding1per">
                                                             {assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-                                                            <span class="span1">&nbsp;
+                                                            <div class="col-md-1">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
                                                                         <img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                                                                     </a>
                                                                 {/if}
-                                                            </span>
-                                                            <div class="span11 marginLeftZero" style="word-wrap: break-word;">
+                                                            </div>
+                                                            <div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
                                                                 <span class="fieldLabel">{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
                                                                 {if $IS_MANDATORY}<span class="redColor">*</span>{/if}</span>
 															</div>
@@ -101,22 +99,22 @@ padding: 0 20px 20px 20px;
 											{/if}
 										{/foreach}
 									</ul>
-									<ul name="sortable2" class="connectedSortable span6" style="list-style-type: none; margin: 0; float: left;min-height: 1px;padding:2px;">
+									<ul name="sortable2" class="connectedSortable col-md-6" style="list-style-type: none; margin: 0; float: left;min-height: 1px;padding:2px;">
 										{foreach item=FIELD_MODEL from=$RECORD_STRUCTURE name=fieldlist1}
 											{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 											{if $smarty.foreach.fieldlist1.index % 2 neq 0}
 												<li>
 													<div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
-														<div class="row-fluid padding1per">
+														<div class="row padding1per">
 															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-															<span class="span1">&nbsp;
+															<span class="col-md-1">&nbsp;
 																{if $FIELD_MODEL->isEditable()}
 																	<a>
 																		<img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 																	</a>
 																{/if}
 															</span>
-															<div class="span11 marginLeftZero" style="word-wrap: break-word;">
+															<div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
 																<span class="fieldLabel">
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>

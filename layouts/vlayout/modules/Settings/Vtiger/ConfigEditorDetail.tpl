@@ -9,13 +9,13 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid" id="ConfigEditorDetails">
+<div class="" id="ConfigEditorDetails">
 	{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
-	<div class="widget_header row-fluid">
-		<div class="span8"><h3>{vtranslate('LBL_CONFIG_EDITOR', $QUALIFIED_MODULE)}</h3></div>
-		<div class="span4">
+	<div class="widget_header row">
+		<div class="col-md-8"><h3>{vtranslate('LBL_CONFIG_EDITOR', $QUALIFIED_MODULE)}</h3></div>
+		<div class="col-md-4">
 			<div class="pull-right">
-				<button class="btn editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
+				<button class="btn btn-default editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
 			</div>
 		</div>
 	</div>

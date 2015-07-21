@@ -19,10 +19,10 @@
             </b>
         </label>
     {else}
-	<div class="row-fluid">
-		<label class="fieldLabel span3"><strong>{vtranslate('LBL_SELECT_PICKLIST_IN',$QUALIFIED_MODULE)}&nbsp;{vtranslate($SELECTED_MODULE_NAME,$QUALIFIED_MODULE)}</strong></label>
-		<div class="span6 fieldValue">
-			<select class="chzn-select" id="modulePickList">
+	<div class="row">
+		<label class="fieldLabel col-md-3"><strong>{vtranslate('LBL_SELECT_PICKLIST_IN',$QUALIFIED_MODULE)}&nbsp;{vtranslate($SELECTED_MODULE_NAME,$QUALIFIED_MODULE)}</strong></label>
+		<div class="col-md-4 fieldValue">
+			<select class="chzn-select form-control" id="modulePickList">
 				<optgroup>
 					{foreach key=PICKLIST_FIELD item=FIELD_MODEL from=$PICKLIST_FIELDS}
 						<option value="{$FIELD_MODEL->getId()}">{vtranslate($FIELD_MODEL->get('label'),$SELECTED_MODULE_NAME)}</option>

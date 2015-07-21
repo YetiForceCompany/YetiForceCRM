@@ -22,6 +22,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model {
 		);
 		return $settingsLinks;
 	}
+	
 	public function isPermitted($actionName) {
 		if($actionName == 'EditView'){
 			return false;
@@ -29,26 +30,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model {
 			return ($this->isActive() && Users_Privileges_Model::isPermitted($this->getName(), $actionName));
 		}
 	}
-	function getSideBarLinks() {
-		$quickLinks = array(
-			array(
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_RECORDS_LIST',
-				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => '',
-			),
-			array(
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_DASHBOARD',
-				'linkurl' => $this->getDashBoardUrl(),
-				'linkicon' => '',
-			),
-		);
-		foreach($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
-		}
-		return $links;
-	}
+	
 	public function getMailCount($owner, $dateFilter) {
 		$db = PearDatabase::getInstance();
 
@@ -69,7 +51,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model {
 			$params[] = $dateFilter['start'] . ' 00:00:00';
 			$params[] = $dateFilter['end'] . ' 23:59:59';
 		}
-//echo '<pre>';print_r($dateFilter);echo '</pre>';	
+
 		$result = $db->pquery('SELECT COUNT(*) count, ossmailview_sendtype FROM vtiger_ossmailview
 						INNER JOIN vtiger_crmentity ON vtiger_ossmailview.ossmailviewid = vtiger_crmentity.crmid
 						AND deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()). $ownerSql . $dateFilterSql . ' GROUP BY ossmailview_sendtype', $params);

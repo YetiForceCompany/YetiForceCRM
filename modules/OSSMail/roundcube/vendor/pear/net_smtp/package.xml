@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.7.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>Net_SMTP</name>
+ <channel>pear.php.net</channel>
+ <summary>An implementation of the SMTP protocol</summary>
+ <description>Provides an implementation of the SMTP protocol using PEAR&apos;s Net_Socket class.</description>
+ <lead>
+  <name>Jon Parise</name>
+  <user>jon</user>
+  <email>jon@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Chuck Hagenbuch</name>
+  <user>chagenbu</user>
+  <email>chuck@horde.org</email>
+  <active>yes</active>
+ </lead>
+ <date>2013-07-04</date>
+ <time>16:00:00</time>
+ <version>
+  <release>1.6.2</release>
+  <api>1.2.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license/3_01.txt">PHP License</license>
+ <notes>- Fix EHLO response handling for HELO-only servers.
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <dir name="docs">
+    <file name="guide.txt" role="doc" />
+   </dir> <!-- /docs -->
+   <dir name="examples">
+    <file name="basic.php" role="doc" />
+   </dir> <!-- /examples -->
+   <dir name="tests">
+    <file name="auth.phpt" role="test" />
+    <file name="basic.phpt" role="test" />
+    <file name="config.php.dist" role="test" />
+    <file name="quotedata.phpt" role="test" />
+   </dir> <!-- /tests -->
+   <file name="Net/SMTP.php" role="php" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.0.5</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.3</min>
+   </pearinstaller>
+   <package>
+    <name>Net_Socket</name>
+    <channel>pear.php.net</channel>
+    <min>1.0.7</min>
+   </package>
+  </required>
+  <optional>
+   <package>
+    <name>Auth_SASL</name>
+    <channel>pear.php.net</channel>
+    <min>1.0.5</min>
+   </package>
+  </optional>
+ </dependencies>
+ <phprelease />
+</package>

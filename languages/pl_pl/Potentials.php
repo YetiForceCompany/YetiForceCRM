@@ -8,13 +8,13 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Amount' => 'Kwota',
 	'Campaign Source' => 'Źródło kampanii',
 	'Existing Business'=>'Wznowiona sprzedaż',
 	'Forecast Amount' => 'Szacowana wartość',
 	'Forecast' => 'Prognoza sprzedaży',
-	'Funnel' => 'Lejek sprzedaży',
+	'Funnel' => 'Szanse wg etapu',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_EXPECTED_CLOSE_DATE_ON' => 'Biznes zamykany',
 	'LBL_OPPORTUNITY_INFORMATION' => 'Szczegóły podstawowe',
@@ -74,13 +74,15 @@ $languageStrings = array(
 	'Total price [Sales Order]' => 'Wartość zamówień',
 	'Total price [Invoice]' => 'Wartość faktur',
 	'Total time [Calculation]'=>'Łączny czas [Kalkulacje]',
-	'Total time [Potential]' => 'Łączny czas<br />[Szansa Sprzedaży]',
-	'Total time [Sales Order]' => 'Łączny czas<br />[Zamówienia]',
-	'Total time [Quotes]' => 'Łączny czas<br />[Oferty]',
-	'Total time [Sum]' => 'Suma<br />[globalna]',
+	'Total time [Potential]' => 'Łączny czas <br />[Szansa Sprzedaży]',
+	'Total time [Sales Order]' => 'Łączny czas <br />[Zamówienia]',
+	'Total time [Quotes]' => 'Łączny czas <br />[Oferty]',
+	'Total time [Sum]' => 'Suma <br />[globalna]',
 	'Total time [h]'=>'Łączny czas [h]',
 	'Potential Name' => 'Nazwa',
 	'LBL_FINANSIAL_SUMMARY' => 'Podsumowanie finansowe',
 	'Average profit sales order' => 'Średnia marża',
-	'Payment balance' => 'Saldo płatności',
-);
+	'PotentialsList'=>'Szanse sprzedaży',
+	'Payment balance' => 'Bilans płatniczy',
+];
+

@@ -8,13 +8,12 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_to' => 'do',
 	'LBL_EXPORT_TO_PDF' => 'Eksportuj do PDF',
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Informacje adresowe',
 	'LBL_VENDORS_ADD_TASK' => 'Dodaj zadanie',
-	'LBL_VENDORS_ADD_EVENT' => 'Dodajtermin',
-	'LBL_SEND_MAIL_PDF' => 'Wyślij PDF',
+	'LBL_VENDORS_ADD_EVENT' => 'Dodaj termin',
 	'300-Sales-Software'=>'300-Sprzedaż-Oprogramowanie',
 	'301-Sales-Hardware'=>'301-Sprzedaż-Sprzęt',
 	'302-Rental-Income'=>'302-Dzierżawa-Przychód',
@@ -35,10 +34,12 @@ $languageStrings = array(
 	'Vendor No' => 'Numer dostawcy',
 	'Vendors' => 'Dostawcy',
 	'Website' => 'Strona internetowa',
-);
+	'LBL_BUILDING_NUMBER' => 'Numer budynku',
+	'LBL_LOCAL_NUMBER' => 'Numer lokalu',
+];
 
-$jsLanguageStrings = array(
-	'LBL_DELETE_CONFIRMATION' => 'Usunięcie tego sprzedawcy usunię również jego powiązane zlecenia. Czy napewno chcesz usunąć tego sprzedawcę?',
+$jsLanguageStrings = [
+	'LBL_DELETE_CONFIRMATION' => 'Usunięcie tego sprzedawcy usunie również jego powiązane zlecenia. Czy napewno chcesz usunąć tego sprzedawcę?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Usunięcie sprzedawcy(ów) usunie również powiązane zlecenia. Czy napewno chcesz usunać wybrane rekordy?',
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Czy na pewno chcesz usunąć?',
-);
+];

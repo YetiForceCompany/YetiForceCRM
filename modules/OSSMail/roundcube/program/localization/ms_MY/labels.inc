@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -186,7 +186,6 @@ $labels['revertto']      = 'Kembali kepada';
 $labels['attach'] = 'Lampirkan';
 $labels['attachments'] = 'Lampiran';
 $labels['upload'] = 'Muat naik';
-$labels['uploadprogress'] = '$percent ($current dari $total)';
 $labels['close']  = 'Tutup';
 $labels['messageoptions']  = 'Opsyen mesej';
 $labels['low']     = 'Rendah';
@@ -215,13 +214,11 @@ $labels['name']         = 'Nama paparan';
 $labels['firstname']    = 'Nama pertama';
 $labels['surname']      = 'Nama akhir';
 $labels['email']        = 'E-Mel';
-$labels['addcontact'] = 'Tambah kontek baru';
 $labels['editcontact'] = 'Ubahsuai Kontek';
 $labels['edit']   = 'Sunting';
 $labels['cancel'] = 'Batal';
 $labels['save']   = 'Simpan';
 $labels['delete'] = 'Padam';
-$labels['newcontact']     = 'Cipta kad kontek baru';
 $labels['deletecontact']  = 'Hapus kontek yang dipilih';
 $labels['composeto']      = 'Karang mel kepada';
 $labels['contactsfromto'] = 'Kontek $from ke $to dari $count';
@@ -238,10 +235,6 @@ $labels['preferences'] = 'Keutamaan';
 $labels['userpreferences'] = 'Keutamaan pengguna';
 $labels['editpreferences'] = 'Sunting keutamaan pengguna';
 $labels['identities'] = 'Identiti';
-$labels['manageidentities'] = 'Urus identiti bagi akaun ini';
-$labels['newidentity'] = 'Identiti baru';
-$labels['newitem'] = 'Butiran baru';
-$labels['edititem'] = 'Ubahsuai butiran';
 $labels['preferhtml'] = 'Papar HTML';
 $labels['htmlmessage'] = 'Mesej HTML';
 $labels['prettydate'] = 'Tarikh-tarikh cantik';
@@ -262,19 +255,18 @@ $labels['mailboxview'] = 'Pandangan kotak Mel';
 $labels['mdnrequests'] = 'Pemberitahuan Pengirim';
 $labels['askuser'] = 'Tanya pengguna';
 $labels['autosend'] = 'Hantar automatik';
-$labels['ignore'] = 'Biarkan';
 $labels['readwhendeleted'] = 'Tanda mesej sebagai dibaca ketika hapus';
 $labels['flagfordeletion'] = 'Tanda mesej untuk pembuangan (tidak delete terus)';
 $labels['autosavedraft']  = 'Simpan draf dengan automatik';
 $labels['never']  = 'tidak pernah';
-$labels['folder']  = 'Kabinet Fail';
-$labels['folders']  = 'Folder';
-$labels['foldername']  = 'Nama Kabinet Fail';
-$labels['subscribed']  = 'Dilanggan';
+$labels['folder'] = 'Kabinet Fail';
+$labels['folders'] = 'Folder';
+$labels['foldername'] = 'Nama Kabinet Fail';
+$labels['subscribed'] = 'Dilanggan';
 $labels['messagecount'] = 'Mesej-mesej';
-$labels['create']  = 'Cipta';
-$labels['createfolder']  = 'Cipta kabinet fail baru';
-$labels['managefolders']  = 'Urus kabinet fail';
+$labels['create'] = 'Cipta';
+$labels['createfolder'] = 'Cipta kabinet fail baru';
+$labels['managefolders'] = 'Urus kabinet fail';
 $labels['sortby'] = 'Susun dengan';
 $labels['sortasc']  = 'Susun menaik';
 $labels['sortdesc'] = 'Susun menurun';

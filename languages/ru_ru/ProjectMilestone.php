@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD'	=>	'Контрольная точка',
 	'LBL_MILESTONES_LIST'	=>	'Контрольные точки',
 	'LBL_PROJECTS_LIST'            => 'Список Проектов',
@@ -21,8 +21,14 @@ $languageStrings = array(
 	'Project Milestone No'         => '№'    , 
 	'Related to'                   => 'Связан с'    , 
 	'SINGLE_ProjectMilestone'      => 'Контрольная точка', 
-	'administrative' => 'Административный',
 	'description' => 'Описание',
-	'operative' => 'Оперативный',
-	'other' => 'Другой',
-);
+	'LBL_PRIORITY' => 'Приоритет',
+	'LBL_PROGRESS' => 'Прогресс',
+	//PICKLIST
+	'PLL_INTERNAL' => 'Внутренний',
+	'PLL_EXTERNAL' => 'Внешний',
+	'PLL_SHARED' => 'Общий',
+	'PLL_LOW' => 'Низкий',
+	'PLL_NORMAL' => 'Нормальный',
+	'PLL_HIGH' => 'Высокий',
+];

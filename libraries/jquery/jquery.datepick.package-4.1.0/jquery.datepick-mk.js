@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Македонски MK localisation for jQuery Datepicker.
    Written by Hajan Selmani
    email: hajan [at] live [dot] com

@@ -9,8 +9,9 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'OSSMail'	=>	'Личная почта',
+$languageStrings = [
+	'action' => 'Действие',
+	'Group list' => 'Группы',
 	'OSSMailScanner'	=>	'Сканер почты',
 	'OSSMailScanner_manual'	=>	'Сканер почты',
 	'E-mail Accounts'	=>	'Настройка пользователей',
@@ -142,5 +143,6 @@ $languageStrings = array(
 	'AccontDeleteOK'	=>	'Удалить пользователя',
 	'No'	=>	'Нет',
 	'LBL_MAIL_LOGS'	=>	'Журнал почты',
-
-);
+	'LBL_ACTIVE_MAIL' => 'Активный',
+	'LBL_INACTIVE_MAIL' => 'Не активный',
+];

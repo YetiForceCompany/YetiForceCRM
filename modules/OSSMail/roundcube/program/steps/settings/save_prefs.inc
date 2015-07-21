@@ -85,11 +85,13 @@ case 'compose':
         'spellcheck_ignore_caps' => isset($_POST['_spellcheck_ignore_caps']) ? true : false,
         'show_sig'           => isset($_POST['_show_sig']) ? intval($_POST['_show_sig']) : 1,
         'reply_mode'         => isset($_POST['_reply_mode']) ? intval($_POST['_reply_mode']) : 0,
+        'sig_below'          => isset($_POST['_sig_below']) ? true : false,
         'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
         'default_font'       => rcube_utils::get_input_value('_default_font', rcube_utils::INPUT_POST),
         'default_font_size'  => rcube_utils::get_input_value('_default_font_size', rcube_utils::INPUT_POST),
         'reply_all_mode'     => intval($_POST['_reply_all_mode']),
         'forward_attachment' => !empty($_POST['_forward_attachment']),
+        'compose_save_localstorage' => intval($_POST['_compose_save_localstorage']),
     );
 
     break;
@@ -121,11 +123,11 @@ case 'server':
 case 'folders':
     $a_user_prefs = array(
         'show_real_foldernames' => isset($_POST['_show_real_foldernames']) ? true : false,
-        'drafts_mbox' => rcube_utils::get_input_value('_drafts_mbox', rcube_utils::INPUT_POST, true),
-        'sent_mbox'   => rcube_utils::get_input_value('_sent_mbox', rcube_utils::INPUT_POST, true),
-        'junk_mbox'   => rcube_utils::get_input_value('_junk_mbox', rcube_utils::INPUT_POST, true),
-        'trash_mbox'  => rcube_utils::get_input_value('_trash_mbox', rcube_utils::INPUT_POST, true),
     );
+
+    foreach (rcube_storage::$folder_types as $type) {
+        $a_user_prefs[$type . '_mbox'] = rcube_utils::get_input_value('_' . $type . '_mbox', rcube_utils::INPUT_POST, true);
+    };
 
     break;
 }
@@ -191,20 +193,14 @@ case 'addressbook':
     break;
 
 case 'folders':
-    // special handling for 'default_folders'
-    if (in_array('default_folders', (array)$CONFIG['dont_override'])) {
-        foreach (array('drafts_mbox','sent_mbox','junk_mbox','trash_mbox') as $p) {
-            $a_user_prefs[$p] = $CONFIG[$p];
-        }
+    $storage  = $RCMAIL->get_storage();
+    $specials = array();
+
+    foreach (rcube_storage::$folder_types as $type) {
+        $specials[$type] = $a_user_prefs[$type . '_mbox'];
     }
-    else {
-        $a_user_prefs['default_folders'] = array('INBOX');
-        foreach (array('drafts_mbox','sent_mbox','junk_mbox','trash_mbox') as $p) {
-            if ($a_user_prefs[$p]) {
-                $a_user_prefs['default_folders'][] = $a_user_prefs[$p];
-            }
-        }
-    }
+
+    $storage->set_special_folders($specials);
 
     break;
 }

@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 var Vtiger_CustomView_Js = {
@@ -81,68 +82,12 @@ var Vtiger_CustomView_Js = {
 	},
 
 	/**
-	 * Function to regiser the event to make the columns list sortable
-	 */
-	makeColumnListSortable : function() {
-		var select2Element = Vtiger_CustomView_Js.getColumnListSelect2Element();
-		//TODO : peform the selection operation in context this might break if you have multi select element in advance filter
-		//The sorting is only available when Select2 is attached to a hidden input field.
-		var chozenChoiceElement = select2Element.find('ul.select2-choices');
-		chozenChoiceElement.sortable({
-                'containment': chozenChoiceElement,
-                start: function() { Vtiger_CustomView_Js.getSelectedColumnsList().select2("onSortStart"); },
-                update: function() { Vtiger_CustomView_Js.getSelectedColumnsList().select2("onSortEnd"); }
-            });
-	},
-
-	/**
-	 * Function which will get the selected columns with order preserved
-	 * @return : array of selected values in order
+	 * Function which will get the selected columns
+	 * @return : array of selected values
 	 */
 	getSelectedColumns : function() {
 		var columnListSelectElement = Vtiger_CustomView_Js.getColumnSelectElement();
-		var select2Element = Vtiger_CustomView_Js.getColumnListSelect2Element();
-
-		var selectedValuesByOrder = new Array();
-		var selectedOptions = columnListSelectElement.find('option:selected');
-
-		var orderedSelect2Options = select2Element.find('li.select2-search-choice').find('div');
-		orderedSelect2Options.each(function(index,element){
-			var chosenOption = jQuery(element);
-			selectedOptions.each(function(optionIndex, domOption){
-				var option = jQuery(domOption);
-				if(option.html() == chosenOption.html()) {
-					selectedValuesByOrder.push(option.val());
-					return false;
-				}
-			});
-		});
-		return selectedValuesByOrder;
-	},
-
-	/**
-	 * Function which will arrange the chosen element choices in order
-	 */
-	arrangeSelectChoicesInOrder : function() {
-		var contentsContainer = Vtiger_CustomView_Js.getContentsContainer();
-		var chosenElement = Vtiger_CustomView_Js.getColumnListSelect2Element();
-		var choicesContainer = chosenElement.find('ul.select2-choices');
-		var choicesList = choicesContainer.find('li.select2-search-choice');
-		var coulmnListSelectElement = Vtiger_CustomView_Js.getColumnSelectElement();
-		var selectedOptions = coulmnListSelectElement.find('option:selected');
-		var selectedOrder = JSON.parse(jQuery('input[name="columnslist"]', contentsContainer).val());
-
-		for(var index=selectedOrder.length ; index > 0 ; index--) {
-			var selectedValue = selectedOrder[index-1];
-			var option = selectedOptions.filter('[value="'+selectedValue+'"]');
-			choicesList.each(function(choiceListIndex,element){
-				var liElement = jQuery(element);
-				if(liElement.find('div').html() == option.html()){
-					choicesContainer.prepend(liElement);
-					return false;
-				}
-			});
-		}
+		return columnListSelectElement.val();
 	},
 
 	saveFilter : function() {
@@ -202,7 +147,7 @@ var Vtiger_CustomView_Js = {
 	 */
 	registerSelect2ElementForColumnsSelection : function() {
 		var selectElement = Vtiger_CustomView_Js.getColumnSelectElement();
-		app.changeSelectElementView(selectElement, 'select2', {maximumSelectionSize: 12,dropdownCss : {'z-index' : 0}});
+		app.changeSelectElementView(selectElement, 'selectize', {plugins: ['drag_drop','remove_button'], maxItems: 12});
 	},
 
 	registerEvents: function(){
@@ -211,29 +156,17 @@ var Vtiger_CustomView_Js = {
 		jQuery('.stndrdFilterDateSelect').datepicker();
 		jQuery('.chzn-select').chosen();
 
-		var select2Element = app.getSelect2ElementFromSelect(Vtiger_CustomView_Js.getColumnSelectElement());
+		//var select2Element = app.getSelect2ElementFromSelect(Vtiger_CustomView_Js.getColumnSelectElement());
+		var select2Element = Vtiger_CustomView_Js.getColumnSelectElement();
+		select2Element.selectize({plugins: ['drag_drop','remove_button']});
 		Vtiger_CustomView_Js.columnListSelect2Element = select2Element;
-
-		//To arrange the chosen choices in the order that is selected
-		Vtiger_CustomView_Js.arrangeSelectChoicesInOrder();
 
 		jQuery("#standardDateFilter").change(function(){
 			Vtiger_CustomView_Js.loadDateFilterValues();
 		});
 
-		Vtiger_CustomView_Js.makeColumnListSortable();
-
 		jQuery("#CustomView").submit(function(e) {
 			var selectElement = Vtiger_CustomView_Js.getColumnSelectElement();
-			var select2Element = app.getSelect2ElementFromSelect(selectElement);
-			var result = Vtiger_MultiSelect_Validator_Js.invokeValidation(selectElement);
-			if(result != true){
-				select2Element.validationEngine('showPrompt', result , 'error','bottomLeft',true);
-				e.preventDefault();
-				return;
-			} else {
-				select2Element.validationEngine('hide');
-			}
             if(jQuery('#viewname').val().length > 40) {
                 var params = {
                     title : app.vtranslate('JS_MESSAGE'),
@@ -257,14 +190,13 @@ var Vtiger_CustomView_Js = {
 			}
 			if(mandatoryFieldsMissing){
 				var result = app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD');
-				select2Element.validationEngine('showPrompt', result , 'error','bottomLeft',true);
+				select2Element.validationEngine('showPrompt', result , 'error','topLeft',true);
 				e.preventDefault();
 				return;
 			} else {
 				select2Element.validationEngine('hide');
 			}
 			//Mandatory Fields validation ends
-
 			var result = jQuery(e.currentTarget).validationEngine('validate');
 			if(result == true){
 				//handled standard filters saved values.
@@ -288,7 +220,6 @@ var Vtiger_CustomView_Js = {
 				app.formAlignmentAfterValidation(jQuery(e.currentTarget));
 			}
 		});
-
 		jQuery('#CustomView').validationEngine(app.validationEngineOptions);
 	}
 }

@@ -23,7 +23,7 @@ global $urlPrefix;
 
 $log = LoggerManager::getLogger('report_type');
 
-global $currentModule;
+$currentModule = vglobal('currentModule');
 global $image_path;
 global $theme;
 $theme_path="themes/".$theme."/";

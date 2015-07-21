@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,7 +22,9 @@ $messages['sessionerror'] = 'Mae\'r sesiwn yn anghywir neu wedi dod i ben.';
 $messages['storageerror'] = 'Methwyd cysylltu a\'r gweinydd storfa.';
 $messages['servererror'] = 'Gwall Gweinydd!';
 $messages['servererrormsg'] = 'Gwall Gweinydd: $msg';
+$messages['connerror'] = 'Gwall Cysylltiad (Methwyd cysylltu a\'r gweinydd)!';
 $messages['dberror'] = 'Gwall Cronfa Ddata!';
+$messages['windowopenerror'] = 'Fe ataliwyd y ffenest naid!';
 $messages['requesttimedout'] = 'Cais wedi dod i derfyn amser';
 $messages['errorreadonly'] = 'Methwyd gweithredu. Mae\'r ffolder yn darllen-yn-unig';
 $messages['errornoperm'] = 'Methwyd gweithredu. Gwrthodwyd caniatad';
@@ -92,6 +94,7 @@ $messages['contactsearchsuccessful'] = 'Canfuwyd $nr cyswllt.';
 $messages['searchnomatch'] = 'Ni gafwyd hyd i unrhyw ganlyniadau chwilio';
 $messages['searching'] = 'Yn chwilio...';
 $messages['checking'] = 'Yn gofyn...';
+$messages['stillsearching'] = 'Dal i chwilio...';
 $messages['nospellerrors'] = 'Ni gafwyd hyd i unrhyw wallau gwirio';
 $messages['folderdeleted'] = 'Dilëwyd y ffolder yn llwyddiannus';
 $messages['foldersubscribed'] = 'Ffolder wedi ei danysgrifio yn llwyddiannus';
@@ -135,7 +138,7 @@ $messages['importmessagesuccess'] = 'Mewnforiwyd $nr neges yn llwyddiannus';
 $messages['importmessageerror'] = 'Methwyd mewnforio! Nid yw\'r ffeil a lwythwyd yn ffeil neges neu blwch ebost dilys';
 $messages['opnotpermitted'] = 'Ni chaniateir y weithred!';
 $messages['nofromaddress'] = 'Cyfeiriad e-bost ar goll yn y personoliaeth a ddewiswyd';
-$messages['editorwarning'] = 'Mi fydd newid i\'r golygydd testun plaen yn golygu byddwch chi\'n colli unrhyw arddulliau yn eich testun. Hoffech chi barhau?';
+$messages['editorwarning'] = 'Fe allai newid math y golygydd testun olygu byddwch yn colli unrhyw arddulliau yn eich testun? Hoffech chi barhau?';
 $messages['httpreceivedencrypterror'] = 'Fe gafwyd gwall angheuol yn y ffurfweddiad. Cysylltwch â\'ch gweinyddwr ar unwaith. <b>Nid oedd yn bosib dangos eich neges.</b>';
 $messages['smtpconnerror'] = 'Gwall SMTP ($code): Methwyd cysylltu a\'r gweinydd';
 $messages['smtpautherror'] = 'Gwall SMTP ($code): Methwyd dilysu\'r cyfrif';
@@ -174,4 +177,14 @@ $messages['parentnotwritable'] = 'Methwyd creu/symud ffolder i\'r ffolder rhiant
 $messages['messagetoobig'] = 'Mae darn y neges yn rhy fawr i\'w brosesu.';
 $messages['attachmentvalidationerror'] = 'RHYBUDD! Mae\'r atodiad yn amheus oherwydd nid yw ei fath yn gymharu\'r gyda\'r math ddatganwyd yn y neges. Os nad ydych yn ymddiried yn y danfonwr, ni ddylech agor hwn yn y porwr oherwydd fe all gynnwys ffeil maleisus.<br></br><em>Disgwylwyd:$expected;canfuwyd:$detected</em>';
 $messages['noscriptwarning'] = 'Rhybudd: Mae\'r gwasanaeth gwebost angen Javascript i weithio! Er mwyn ei ddefnyddio, galluogwch Javascript yng ngosodiadau eich porwr.';
+$messages['messageissent'] = 'Mae\'r neges wedi ei anfon, ond heb ei gadw eto. Hoffech chi ei gadw nawr?';
+$messages['errnotfound'] = 'Ni Ganfuwyd y Ffeil';
+$messages['errnotfoundexplain'] = 'Ni gafwyd hyd i\'r adnodd ofynnwyd amdano';
+$messages['errfailedrequest'] = 'Methodd y cais';
+$messages['errauthorizationfailed'] = 'Methiant Awdurdodi';
+$messages['errunauthorizedexplain'] = 'Methwyd gwirio eich bod wedi\'ch awdurdodi i gael mynediad i\'r gwasanaeth!';
+$messages['errrequestcheckfailed'] = 'Methiant Gwiriad Cais';
+$messages['errcsrfprotectionexplain'] = "Er eich diogelwch, mae mynediad i'r adnodd hwn wedi ei ddiogelu yn erbyn CSRF.\nOs ydych yn gweld hwn, mae'n debyg na wnaethoch chi allgofnodi cyn gadael yr ap gwe.\n\nMae'n rhaid gwirio nawr cyn parhau.";
+$messages['errcontactserveradmin'] = 'Cysylltwch a rheolwr eich gweinydd.';
+$messages['clicktoresumesession'] = 'Cliciwch yma i ail-ddechrau eich sesiwn blaenorol';
 ?>

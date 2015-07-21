@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Serbian localisation for jQuery Datepicker.
    Written by Dejan Dimić. */
 (function($) {

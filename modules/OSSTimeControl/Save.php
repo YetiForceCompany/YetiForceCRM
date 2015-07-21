@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 	function SaveInventory(&$focus, $module, $update_prod_stock='false', $updateDemand='')
 {
-	global $log, $adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$id=$focus->id;
 	$log->debug("Entering into function SaveInventory($module).");
 	//Added to get the convertid
@@ -44,7 +44,6 @@
 		$all_available_taxes = getAllTaxes('available','','edit',$id);
 	}
 	$tot_no_prod = $_REQUEST['totalProductCount'];// przekazuje ilosc dodanych produkow lub usług
-//echo '<pre>';print_r($_REQUEST);echo '</pre>';exit;
 	//If the taxtype is group then retrieve all available taxes, else retrive associated taxes for each product inside loop
 	$prod_seq=1;
 	for($i=1; $i<=$tot_no_prod; $i++)

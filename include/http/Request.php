@@ -171,7 +171,7 @@ class Vtiger_Request {
 		$moduleName = $this->get('module');
 		if(!$raw) {
 			$parentModule = $this->get('parent');
-			if(!empty($parentModule)) {
+			if(!empty($parentModule) && $parentModule == 'Settings') {
 				$moduleName = $parentModule.':'.$moduleName;
 			}
 		}

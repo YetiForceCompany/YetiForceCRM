@@ -8,18 +8,20 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'Services' => 'Service Name',
 	'Potential' => 'Quelle Verkaufschance',
 	'Invoice' => 'Rechnungsnummer',
-'OSSSoldServices' => 'Verkaufte Dienstleistungen',
-'SINGLE_OSSSoldServices' => 'Verkaufte Dienstleistung',
-'LBL_INFORMATION' => 'Informationsblock',
+	'OSSSoldServices' => 'Verkaufte Dienstleistungen',
+	'SINGLE_OSSSoldServices' => 'Verkaufte Dienstleistung',
+	'LBL_INFORMATION' => 'Informationsblock',
+	'LBL_ADD_RECORD' => 'Dienstleistung hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste Dienstleistung',
 
 //fields
 'Invoice number' => 'Rechnungs-Nr.',
 'Number' => 'Nummer',
-'Assigned To' => 'Zuständig',
+'Assigned To' => 'zuständig',
 'LBL_RODZAJUMOWY' => 'Art der Vereinbarung',
 'LBL_ssservicesstatus' => 'Status',
 'Individual Agreement' => 'Individuelle Vereinbarung',
@@ -38,4 +40,4 @@ $languageStrings = array(
 'Potential renewal'=>'Verkaufschance erneuern',
 'LBL_GENERATE_EXTENSION' => 'Erweiterung generieren',
 'LBL_ORDER_TIME'=>'Bestellzeit',
-);
+];

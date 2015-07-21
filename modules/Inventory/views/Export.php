@@ -14,39 +14,25 @@ class Inventory_Export_View extends Vtiger_Export_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	
+	function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
-			'libraries.bootstrap.js.eternicode-bootstrap-datepicker.js.bootstrap-datepicker',
-			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.'.Vtiger_Language_Handler::getShortLanguageName().'.js',
-			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
-            'modules.Vtiger.resources.Header',
-			'modules.Vtiger.resources.Edit',
-			"modules.Inventory.resources.Edit",
-			"modules.$moduleName.resources.Edit",
-			'modules.Vtiger.resources.Popup',
-			"modules.$moduleName.resources.Popup",
-			'modules.Vtiger.resources.Field',
-			"modules.$moduleName.resources.Field",
-			'modules.Vtiger.resources.validator.BaseValidator',
-			'modules.Vtiger.resources.validator.FieldValidator',
-			"modules.$moduleName.resources.validator.FieldValidator",
-			'libraries.jquery.jquery_windowmsg',
-			'modules.Vtiger.resources.BasicSearch',
-			"modules.$moduleName.resources.BasicSearch",
-			'modules.Vtiger.resources.AdvanceFilter',
-			"modules.$moduleName.resources.AdvanceFilter",
-			'modules.Vtiger.resources.SearchAdvanceFilter',
-			"modules.$moduleName.resources.SearchAdvanceFilter",
-			'modules.Vtiger.resources.AdvanceSearch',
-			"modules.$moduleName.resources.AdvanceSearch",
-			'modules.Settings.DataAccess.resources.SaveResult',
-		);
+		//Added to remove the module specific js, as they depend on inventory files
+		$mainEditFile = 'modules.Vtiger.resources.Edit';
+		$moduleEditFile = 'modules.'.$moduleName.'.resources.Edit';
 
+		unset($headerScriptInstances[$mainEditFile]);
+		unset($headerScriptInstances[$moduleEditFile]);
+
+		$jsFileNames = array(
+			$mainEditFile,
+			'modules.Inventory.resources.Edit',
+			$moduleEditFile,
+		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($jsScriptInstances,$headerScriptInstances);
+		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
 }

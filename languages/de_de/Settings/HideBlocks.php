@@ -8,18 +8,17 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'HideBlocks' => 'Hide blocks',
-	'LBL_HIDEBLOCKS' => 'Hide blocks',
-	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Manage which blocks with fields to hide',
+$languageStrings = [
+	'HideBlocks' => 'Block ausblenden',
+	'LBL_HIDEBLOCKS' => 'Block ausblenden',
+	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Verwalte Blocks mit auszublendenden Felder',
 	'LBL_BLOCK_LABEL' => 'Block',
-	'LBL_MODULE' => 'Module',
-	'LBL_ENABLED' => 'Active',
-	'LBL_EDIT_BLOCK' => 'Edit',
-	'LBL_NEW_BLOCK' => 'Create',
+	'LBL_MODULE' => 'Modul',
+	'LBL_ENABLED' => 'Aktiv',
+	'LBL_EDIT_BLOCK' => 'Bearbeiten',
+	'LBL_NEW_BLOCK' => 'Hinzufügen',
 	'LBL_BLOCK' => 'Block',
-	'LBL_ENABLED' => 'Active',
-	'LBL_NEXT' => 'Next',
-	'LBL_VIEW' => 'View',
-	'LBL_MANDATORY_FIELDS_EXIST' => 'This block cannot be hidden because it contains mandatory fields.',
-);
+	'LBL_NEXT' => 'Nächster',
+	'LBL_VIEW' => 'Sicht',
+	'LBL_MANDATORY_FIELDS_EXIST' => 'Dieser Block kann nicht ausgeblendet werden, da er Mussfelder enthält.',
+];

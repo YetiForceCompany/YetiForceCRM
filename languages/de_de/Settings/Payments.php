@@ -9,12 +9,12 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-$languageStrings = array(
-	'Payments' => 'Payments',
+$languageStrings = [
+	'Payments' => 'Zahlungen',
     'LBL_RIGHT_CLICK_COPY' => 'Rechte Maustaste zum kopieren',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_DELETED_SUCCESSFULLY' => 'Erfolgreich gelöscht',
 	'JS_SAVED_SUCCESSFULLY' => 'Erfolgreich gespeichert',
-);	
+];	

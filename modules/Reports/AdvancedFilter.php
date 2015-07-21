@@ -64,7 +64,8 @@ if(isset($_REQUEST["record"]) && $_REQUEST['record']!='')
 
 function getPrimaryColumns_AdvFilterHTML($module,$selected="")
 {
-    global $ogReport, $app_list_strings, $current_language;
+    global $ogReport, $app_list_strings;
+	$current_language = vglobal('current_language');
 	$mod_strings = return_module_language($current_language,$module);
 	$block_listed = array();
     foreach($ogReport->module_list[$module] as $key=>$value)
@@ -116,13 +117,13 @@ function getSecondaryColumns_AdvFilterHTML($module,$selected="")
 {
     global $ogReport;
 	global $app_list_strings;
-    global $current_language;
 
     if($module != "")
     {
     	$secmodule = explode(":",$module);
     	for($i=0;$i < count($secmodule) ;$i++)
-    	{
+    	{	
+			$current_language = vglobal('current_language');
             $mod_strings = return_module_language($current_language,$secmodule[$i]);
             if(vtlib_isModuleActive($secmodule[$i])){
 				$block_listed = array();

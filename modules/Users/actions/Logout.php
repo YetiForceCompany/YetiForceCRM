@@ -15,7 +15,13 @@ class Users_Logout_Action extends Vtiger_Action_Controller {
 	}
 
 	function process(Vtiger_Request $request) {
-		session_regenerate_id(true); // to overcome session id reuse.
+		vimport('~include/events/include.inc');
+		$db = PearDatabase::getInstance();
+		$em = new VTEventsManager($db);
+		$em->initTriggerCache();
+		$em->triggerEvent('user.logout.before', []);
+		
+		Vtiger_Session::regenerateId(true); // to overcome session id reuse.
 		Vtiger_Session::destroy();
 		
 		//Track the logout History

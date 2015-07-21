@@ -29,8 +29,8 @@ require_once 'include/utils/VTCacheUtils.php';
 function send_mail($module,$to_email,$from_name,$from_email,$subject,$contents,$cc='',$bcc='',$attachment='',$emailid='',$logo='', $useGivenFromEmailAddress=false, $attachmentSrc = array())
 {
 
-	global $adb, $log;
-	global $root_directory;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	$root_directory = vglobal('root_directory');
 	global $HELPDESK_SUPPORT_EMAIL_ID, $HELPDESK_SUPPORT_NAME;
 
 	$uploaddir = $root_directory ."/cache/upload/";
@@ -68,7 +68,7 @@ function send_mail($module,$to_email,$from_name,$from_email,$subject,$contents,$
 	}
 
 	if($module != "Calendar")
-		$contents = addSignature($contents,$from_name);
+		//$contents = addSignature($contents,$from_name); //TODO improved during the reconstruction Signature
 
 	$mail = new PHPMailer();
 
@@ -128,7 +128,7 @@ function send_mail($module,$to_email,$from_name,$from_email,$subject,$contents,$
   */
 function getUserEmailId($name,$val)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function getUserEmailId. --- ".$name." = '".$val."'");
 	if($val != '')
 	{
@@ -152,7 +152,7 @@ function getUserEmailId($name,$val)
   */
 function addSignature($contents, $fromname)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function addSignature");
 
     $sign = VTCacheUtils::getUserSignature($fromname);
@@ -191,7 +191,7 @@ function addSignature($contents, $fromname)
   */
 function setMailerProperties($mail,$subject,$contents,$from_email,$from_name,$to_email,$attachment='',$emailid='',$module='',$logo='')
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function setMailerProperties");
 	$CompanyDetails = getCompanyDetails();
 	$logourl = 'storage/Logo/'.$CompanyDetails['logoname'];
@@ -272,7 +272,7 @@ function setMailerProperties($mail,$subject,$contents,$from_email,$from_name,$to
   */
 function setMailServerProperties($mail)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function setMailServerProperties");
 
 	$res = $adb->pquery("select * from vtiger_systems where server_type=?", array('email'));
@@ -389,7 +389,7 @@ function addAllAttachments($mail,$record)
   */
 function setCCAddress($mail,$cc_mod,$cc_val)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the functin setCCAddress");
 
 	if($cc_mod == 'cc')
@@ -417,18 +417,14 @@ function setCCAddress($mail,$cc_mod,$cc_val)
 /**	Function to send the mail which will be called after set all the mail object values
   *	$mail -- reference of the mail object
   */
-function MailSend($mail)
-{
-	global $log;
-         $log->info("Inside of Send Mail function.");
-	if(!$mail->Send())
-	{
-		$log->debug("Error in Mail Sending : Error log = '".$mail->ErrorInfo."'");
+function MailSend($mail){
+	$log = vglobal('log');
+	$log->info("Inside of Send Mail function.");
+	if(!$mail->Send()){
+		$log->error("Error in Mail Sending: '".$mail->ErrorInfo."'");
 		return $mail->ErrorInfo;
-	}
-	else
-	{
-		$log->info("Mail has been sent from the vtigerCRM system : Status : '".$mail->ErrorInfo."'");
+	} else {
+		$log->info("Mail has been sent from the YetiForce system: '".$mail->ErrorInfo."'");
 		return 1;
 	}
 }
@@ -439,7 +435,7 @@ function MailSend($mail)
   */
 function getParentMailId($parentmodule,$parentid)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function getParentMailId. \n parent module and id => ".$parentmodule."&".$parentid);
 
         if($parentmodule == 'Contacts')
@@ -478,12 +474,11 @@ function getMailError($mail,$mail_status,$to)
 	provide_address, mailer_not_supported, execute, instantiate, file_access, file_open, encoding, data_not_accepted, authenticate,
 	connect_host, recipients_failed, from_failed
 	*/
-
-	global $adb;
-	$adb->println("Inside the function getMailError");
+	$log = vglobal('log');
+	$log->info("Inside the function getMailError");
 
 	$msg = array_search($mail_status,$mail->language);
-	$adb->println("Error message ==> ".$msg);
+	$log->info("Error message ==> ".$msg);
 
 	if($msg == 'connect_host')
 	{
@@ -499,11 +494,11 @@ function getMailError($mail,$mail_status,$to)
 	}
 	else
 	{
-		$adb->println("Mail error is not as connect_host or from_failed or recipients_failed");
-		//$error_msg = $msg;
+		$log->info("Mail error is not as connect_host or from_failed or recipients_failed");
+		$error_msg = $msg;
 	}
 
-	$adb->println("return error => ".$error_msg);
+	$log->info("return error => ".$error_msg);
 	return $error_msg;
 }
 
@@ -513,7 +508,7 @@ function getMailError($mail,$mail_status,$to)
   */
 function getMailErrorString($mail_status_str)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside getMailErrorString function.\nMail status string ==> ".$mail_status_str);
 
 	$mail_status_str = trim($mail_status_str,"&&&");
@@ -592,15 +587,15 @@ function parseEmailErrorString($mail_error_str)
 }
 
 function isUserInitiated() {
-	return (($_REQUEST['module'] == 'Emails') &&
-			($_REQUEST['action'] == 'mailsend' || $_REQUEST['action'] == 'Save'));
+	return (( isset($_REQUEST['module']) && $_REQUEST['module'] == 'Emails') &&
+			( isset($_REQUEST['action']) && ($_REQUEST['action'] == 'mailsend' || $_REQUEST['action'] == 'Save')));
 }
 
 /**
  * Function to get the group users Email ids
  */
 function getDefaultAssigneeEmailIds($groupId) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$emails = Array();
 	if($groupId != '') {
 		require_once 'include/utils/GetGroupUsers.php';

@@ -10,9 +10,6 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div id="toggleButton" class="toggleButton" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
-	<i id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}icon-chevron-left{else}icon-chevron-right{/if}"></i>
-</div>&nbsp
 <div style="padding-left: 15px;">
 	<input type="hidden" name="module" value="{$MODULE}" />
 	<table style=" width:90%;margin-left: 5%" cellpadding="5" class="searchUIBasic well">
@@ -57,11 +54,11 @@
 		</tr>
 		<tr>
 			<td align="right" colspan="2">
-				<button name="next" class="create btn"
+				<button name="next" class="create btn btn-default"
 				onclick="location.href='index.php?module={$MODULE}&view=List'" ><strong>{'LBL_FINISH'|@vtranslate:$MODULE}</strong></button>
 			</td>
 			<td align="right" colspan="2">
-				<button name="next" class="delete btn"
+				<button name="next" class="delete btn btn-default"
 					onclick="location.href='index.php?module={$MODULE}&view=Import&mode=undoImport'"><strong>{'LBL_UNDO_LAST_IMPORT'|@vtranslate:$MODULE}</strong>
 				</button>
 			</td>

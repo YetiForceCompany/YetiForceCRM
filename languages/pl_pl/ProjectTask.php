@@ -8,10 +8,10 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectTask' => 'Zadanie projektu',
-	'Project Task' => 'Zdania projektu',
+	'Project Task' => 'Zadania projektu',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	'Start Date'=>'Data rozpoczęcia',
@@ -23,6 +23,7 @@ $languageStrings = array(
 	'Total time [h]'=>'Czas pracy',
 	'Project Task No'=>'Nr',
 	'Project Task Name' => 'Nazwa zadania do projektu',
+	'LBL_ESTIMATED_WORK_TIME' => 'Szacowany czas pracy',
 	// Blocks
 	'LBL_PROJECT_TASK_INFORMATION' => 'Szczegóły zadania',
 	'LBL_PROJECTS_LIST' => 'Lista projektów',
@@ -39,4 +40,7 @@ $languageStrings = array(
 	'Completed' => 'Zakończone',
 	'Deferred' => 'Odroczone',
 	'Cancelled' => 'Anulowane',
-);
+	'administrative' => 'wewnętrzny',
+	'operative' => 'zewnętrzny',
+	'other' => 'wspólny',
+];

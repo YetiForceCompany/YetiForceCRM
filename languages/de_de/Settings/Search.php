@@ -8,8 +8,8 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'Search Configuration' => 'Search Configuration',
+$languageStrings = [
+	'Search Configuration' => 'Such-Konfiguration',
 	'Search Setup' => 'Such-Einstellungen',
 	'Search' => 'Such-Konfiguration',
 	'LBL_Module_desc' => 'In diesem Bereich können Sie Bezeichnungen für uitype10 Felder und Suchmechanismen einstellen. Dieser Mechanismus arbeitet unabhängig - man kann während der Suche viele Spalten in einem Feld zu sehen, aber wenn Sie einen Datensatz auswählen, wird ein Name aus einer Bezeichnung angezeigt.',
@@ -26,13 +26,13 @@ $languageStrings = array(
 	'LBL_SAVE_MODULE_SEQUENCE'	=> 'Modulreihenfolge speichern',
 	'LBL_TURN_ON'	=> 'Einschalten',
 	'LBL_TURN_OFF'	=> 'Ausschalten',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'Saving changes' => 'Speichere Änderungen...',
 	'Update labels' => 'Aktualisiere Beschriftung',
 	'JS_MODULES_SEQUENCE_UPDATED'	=> 'Modulreihenfolge aktualisiert',
 	'JS_TURN_ON'	=> 'Einschalten',
 	'JS_TURN_OFF'	=> 'Ausschalten',
 
-);
+];

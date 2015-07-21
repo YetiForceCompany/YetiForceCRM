@@ -18,6 +18,7 @@ function ApiAddress() {
 		jQuery(table).find('.api_row').hide();
 		
 		if (value) {    
+		    jQuery(table).find('.' + value).removeClass('hide');
 		    jQuery(table).find('.' + value).show();
 		}
 	    });

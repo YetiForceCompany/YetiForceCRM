@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ADD_CONDITIONS' => 'Bedingungen hinzufügen',
 	'ADD_TASKS' => 'Aufgaben hinzufügen',
 	'Calendar' => 'Kalender',
@@ -33,7 +33,7 @@ $languageStrings = array(
 	'LBL_EXAMPLE_RAWTEXT' => 'Rohtext',
 	'LBL_EXECUTE_TASK' => 'Aufgabe ausführen',
 	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
-	'LBL_EXPRESSION' => 'Expression',
+	'LBL_EXPRESSION' => 'Ausdruck',
 	'LBL_FIELD_NAME' => 'Feld',
 	'LBL_FINISH' => 'Ende',
 	'LBL_IN_ACTIVE' => 'Inaktiv',
@@ -117,11 +117,17 @@ $languageStrings = array(
 	'Sales stage - Preparing calculations'	=> 'Verkaufsphase - Vorbereitung Berechnungen',
 	'Sales stage - Preparing quote'	=> 'Verkaufsphase - Vorbereitung Angebot',
 	'Sales stage - Awaiting decision'	=> 'Verkaufsphase - Warten auf Entscheidung',
-	'New comment added to ticket from portal' => 'New comment added to ticket from portal',
+	'New comment added to ticket from portal' => 'Neues Kommentar dem Ticket vom Portal hinzufügen',
 	'LBL_ACTIVATION_TASKS' => 'Aktiviere Aufgaben',
 	'LBL_DEACTIVATION_TASKS' => 'Deaktiviere Aufgaben',
 	'LBL_ALL_TASKS' => 'Alle Aufgaben',
 	'LBL_ACTIVE_TASKS' => 'Aktive Aufgaben',
+	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Kein Datensätze dublizieren',
+	'LBL_DUPLICATE_STATUS' => 'Nicht Duplizieren wenn der Status variiert',
+	'LBL_VALUE_OF_FIELDS' => 'Wert vom Feld',
+	'LBL_VALUE_OF_SERVER' => 'Wert vom Server',
+	'LBL_WORKFLOWS_RUN_TIME' => 'Workflow Laufzeit und Datum',
+	'Sales stage - Negotiations' => 'Sales stage - Negotiations',
 	
 	//workflow task
 	'EmailTempleteList' => ' Wählen Sie eine E-Mail-Vorlage zum versenden',
@@ -142,14 +148,14 @@ $languageStrings = array(
 	'Update Closed Time' => 'Abschluss-Zeit aktualisieren',
 	'Send Notification' => ' Einladung senden',
 	'Create Address Book' => 'E-Mail-Adressbuch generieren',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Dieselben Felder mehr als einmal ausgewählt',
 	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Status erfolgreich geändert',
 	'JS_TASK_DELETED_SUCCESSFULLY' => 'Aufgabe erfolgreich gelöscht',
 	'JS_WORKFLOW_SAVED_SUCCESSFULLY' => 'Workflow erfolgreich gespeichert',
 	'LBL_STATUS_CONFIRMATION' => 'Sind Sie sicher, dass Sie den Status aller Aufgaben ändern möchten?',
 	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Ändere Status für Aufgaben...',
-);
+];
 

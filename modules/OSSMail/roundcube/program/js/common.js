@@ -1,24 +1,35 @@
-/*
- +-----------------------------------------------------------------------+
- | Roundcube common js library                                           |
- |                                                                       |
- | This file is part of the Roundcube web development suite              |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
- |                                                                       |
- | Licensed under the GNU General Public License version 3 or            |
- | any later version with exceptions for skins & plugins.                |
- | See the README file for a full license statement.                     |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
- +-----------------------------------------------------------------------+
-*/
+/**
+ * Roundcube common js library
+ *
+ * This file is part of the Roundcube Webmail client
+ *
+ * @licstart  The following is the entire license notice for the
+ * JavaScript code in this file.
+ *
+ * Copyright (c) 2005-2014, The Roundcube Dev Team
+ *
+ * The JavaScript code in this page is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in this file.
+ */
 
 // Constants
 var CONTROL_KEY = 1;
 var SHIFT_KEY = 2;
 var CONTROL_SHIFT_KEY = 3;
-
 
 /**
  * Default browser check class
@@ -28,8 +39,6 @@ function roundcube_browser()
 {
   var n = navigator;
 
-  this.ver = parseFloat(n.appVersion);
-  this.appver = n.appVersion;
   this.agent = n.userAgent;
   this.agent_lc = n.userAgent.toLowerCase();
   this.name = n.appName;
@@ -53,20 +62,20 @@ function roundcube_browser()
   this.ie = (document.all && !window.opera) || (this.win && this.agent_lc.indexOf('trident/') > 0);
 
   if (this.ie) {
-    this.ie6 = this.appver.indexOf('MSIE 6') > 0;
-    this.ie7 = this.appver.indexOf('MSIE 7') > 0;
-    this.ie8 = this.appver.indexOf('MSIE 8') > 0;
-    this.ie9 = this.appver.indexOf('MSIE 9') > 0;
+    this.ie7 = n.appVersion.indexOf('MSIE 7') > 0;
+    this.ie8 = n.appVersion.indexOf('MSIE 8') > 0;
+    this.ie9 = n.appVersion.indexOf('MSIE 9') > 0;
   }
   else if (window.opera) {
-    this.opera = true;
+    this.opera = true; // Opera < 15
     this.vendver = opera.version();
   }
   else {
     this.chrome = this.agent_lc.indexOf('chrome') > 0;
-    this.safari = !this.chrome && (this.webkit || this.agent_lc.indexOf('safari') > 0);
+    this.opera = this.webkit && this.agent.indexOf(' OPR/') > 0; // Opera >= 15
+    this.safari = !this.chrome && !this.opera && (this.webkit || this.agent_lc.indexOf('safari') > 0);
     this.konq = this.agent_lc.indexOf('konqueror') > 0;
-    this.mz = this.dom && !this.chrome && !this.safari && !this.konq && this.agent.indexOf('Mozilla') >= 0;
+    this.mz = this.dom && !this.chrome && !this.safari && !this.konq && !this.opera && this.agent.indexOf('Mozilla') >= 0;
     this.iphone = this.safari && (this.agent_lc.indexOf('iphone') > 0 || this.agent_lc.indexOf('ipod') > 0);
     this.ipad = this.safari && this.agent_lc.indexOf('ipad') > 0;
   }
@@ -93,7 +102,7 @@ function roundcube_browser()
   this.xmlhttp_test = function()
   {
     var activeX_test = new Function("try{var o=new ActiveXObject('Microsoft.XMLHTTP');return true;}catch(err){return false;}");
-    this.xmlhttp = (window.XMLHttpRequest || (window.ActiveXObject && activeX_test()));
+    this.xmlhttp = window.XMLHttpRequest || (('ActiveXObject' in window) && activeX_test());
     return this.xmlhttp;
   };
 
@@ -213,7 +222,7 @@ add_listener: function(p)
     p.element = document;
 
   if (!p.object._rc_events)
-    p.object._rc_events = [];
+    p.object._rc_events = {};
 
   var key = p.event + '*' + p.method;
   if (!p.object._rc_events[key])
@@ -256,14 +265,40 @@ remove_listener: function(p)
 cancel: function(evt)
 {
   var e = evt ? evt : window.event;
+
   if (e.preventDefault)
     e.preventDefault();
+  else
+    e.returnValue = false;
+
   if (e.stopPropagation)
     e.stopPropagation();
 
   e.cancelBubble = true;
-  e.returnValue = false;
+
   return false;
+},
+
+/**
+ * Determine whether the given event was trigered from keyboard
+ */
+is_keyboard: function(e)
+{
+  return e && (
+      (e.pointerType !== undefined && e.pointerType !== 'mouse') ||       // IE 11+
+      (e.mozInputSource && e.mozInputSource == e.MOZ_SOURCE_KEYBOARD) ||  // Firefox
+      (e.offsetX === 0 && e.offsetY === 0) || // Opera
+      (!e.pageX && (e.pageY || 0) <= 0 && !e.clientX && (e.clientY || 0) <= 0) ||  // others
+      (bw.ie && rcube_event._last_keyboard_event && rcube_event._last_keyboard_event.target == e.target)  // hack for IE <= 10
+    );
+},
+
+/**
+ * Accept event if triggered from keyboard action (e.g. <Enter>)
+ */
+keyboard_only: function(e)
+{
+  return rcube_event.is_keyboard(e) ? true : rcube_event.cancel(e);
 },
 
 touchevent: function(e)
@@ -457,21 +492,25 @@ function urlencode(str)
 function rcube_find_object(id, d)
 {
   var n, f, obj, e;
-  if(!d) d = document;
 
-  if(d.getElementsByName && (e = d.getElementsByName(id)))
+  if (!d) d = document;
+
+  if (d.getElementById)
+    if (obj = d.getElementById(id))
+      return obj;
+
+  if (!obj && d.getElementsByName && (e = d.getElementsByName(id)))
     obj = e[0];
-  if(!obj && d.getElementById)
-    obj = d.getElementById(id);
-  if(!obj && d.all)
+
+  if (!obj && d.all)
     obj = d.all[id];
 
-  if(!obj && d.images.length)
+  if (!obj && d.images.length)
     obj = d.images[id];
 
   if (!obj && d.forms.length) {
     for (f=0; f<d.forms.length; f++) {
-      if(d.forms[f].name == id)
+      if (d.forms[f].name == id)
         obj = d.forms[f];
       else if(d.forms[f].elements[id])
         obj = d.forms[f].elements[id];
@@ -479,7 +518,8 @@ function rcube_find_object(id, d)
   }
 
   if (!obj && d.layers) {
-    if (d.layers[id]) obj = d.layers[id];
+    if (d.layers[id])
+      obj = d.layers[id];
     for (n=0; !obj && n<d.layers.length; n++)
       obj = rcube_find_object(id, d.layers[n].document);
   }
@@ -493,8 +533,8 @@ function rcube_mouse_is_over(ev, obj)
   var mouse = rcube_event.get_mouse_pos(ev),
     pos = $(obj).offset();
 
-  return ((mouse.x >= pos.left) && (mouse.x < (pos.left + obj.offsetWidth)) &&
-    (mouse.y >= pos.top) && (mouse.y < (pos.top + obj.offsetHeight)));
+  return (mouse.x >= pos.left) && (mouse.x < (pos.left + obj.offsetWidth)) &&
+    (mouse.y >= pos.top) && (mouse.y < (pos.top + obj.offsetHeight));
 };
 
 
@@ -506,6 +546,7 @@ function setCookie(name, value, expires, path, domain, secure)
       (path ? "; path=" + path : "") +
       (domain ? "; domain=" + domain : "") +
       (secure ? "; secure" : "");
+
   document.cookie = curCookie;
 };
 
@@ -534,36 +575,6 @@ function getCookie(name)
 // deprecated aliases, to be removed, use rcmail.set_cookie/rcmail.get_cookie
 roundcube_browser.prototype.set_cookie = setCookie;
 roundcube_browser.prototype.get_cookie = getCookie;
-
-// tiny replacement for Firebox functionality
-function rcube_console()
-{
-  this.log = function(msg)
-  {
-    var box = rcube_find_object('dbgconsole');
-
-    if (box) {
-      if (msg.charAt(msg.length-1)=='\n')
-        msg += '--------------------------------------\n';
-      else
-        msg += '\n--------------------------------------\n';
-
-      // Konqueror doesn't allow to just change the value of hidden element
-      if (bw.konq) {
-        box.innerText += msg;
-        box.value = box.innerText;
-      } else
-        box.value += msg;
-    }
-  };
-
-  this.reset = function()
-  {
-    var box = rcube_find_object('dbgconsole');
-    if (box)
-      box.innerText = box.value = '';
-  };
-};
 
 var bw = new roundcube_browser();
 bw.set_html_class();
@@ -602,18 +613,9 @@ if (!String.prototype.startsWith) {
   };
 }
 
-// Make getElementById() case-sensitive on IE
-if (bw.ie) {
-  document._getElementById = document.getElementById;
-  document.getElementById = function(id) {
-    var i = 0, obj = document._getElementById(id);
-
-    if (obj && obj.id != id)
-      while ((obj = document.all[i]) && obj.id != id)
-        i++;
-
-    return obj;
-  }
+// array utility function
+jQuery.last = function(arr) {
+  return arr && arr.length ? arr[arr.length-1] : undefined;
 }
 
 // jQuery plugin to emulate HTML5 placeholder attributes on input elements
@@ -650,6 +652,34 @@ jQuery.fn.placeholder = function(text) {
         elem.blur();
     }
   });
+};
+
+// function to parse query string into an object
+rcube_parse_query = function(query)
+{
+  if (!query)
+    return {};
+
+  var params = {}, e, k, v,
+    re = /([^&=]+)=?([^&]*)/g,
+    decodeRE = /\+/g, // Regex for replacing addition symbol with a space
+    decode = function (str) { return decodeURIComponent(str.replace(decodeRE, ' ')); };
+
+  query = query.replace(/\?/, '');
+
+  while (e = re.exec(query)) {
+    k = decode(e[1]);
+    v = decode(e[2]);
+
+    if (k.substring(k.length - 2) === '[]') {
+      k = k.substring(0, k.length - 2);
+      (params[k] || (params[k] = [])).push(v);
+    }
+    else
+      params[k] = v;
+  }
+
+  return params;
 };
 
 

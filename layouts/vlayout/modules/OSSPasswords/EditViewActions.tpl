@@ -11,7 +11,7 @@
 -->*}
 
 {strip}
-        <div class="contentHeader row-fluid">
+        <div class="contentHeader">
             <div class="pull-right">
                 <button class="btn btn-success" name="save" type="submit" onclick="{$GENERATEONCLICK}; return false;"><strong>{vtranslate($GENERATEPASS, $MODULE)}</strong></button>&nbsp;
 				<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;

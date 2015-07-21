@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -135,7 +135,6 @@ $messages['importmessagesuccess'] = 'Kopierte $nr meldinger';
 $messages['importmessageerror'] = 'Importeringen var mislykket! Den opplastede filen er ikke en gyldig melding, eller er ikke kompatibel med meldingssystemet.';
 $messages['opnotpermitted'] = 'Handling ikke tillatt!';
 $messages['nofromaddress'] = 'E-postadresse mangler i valgt identitet';
-$messages['editorwarning'] = 'Ved å bytte format til ren tekst vil all tekstformatering gå tapt. Ønsker du å fortsette?';
 $messages['httpreceivedencrypterror'] = 'En uopprettelig feil oppsto. Vennligst kontakt systemansvarlig umiddelbart. <b>Din melding kunne ikke sendes.</b>';
 $messages['smtpconnerror'] = 'SMTP-feil ($code): Klarte ikke koble til server';
 $messages['smtpautherror'] = 'SMTP-feil ($code): Pålogging feilet';

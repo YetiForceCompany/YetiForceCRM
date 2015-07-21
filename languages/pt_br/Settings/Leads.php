@@ -5,11 +5,11 @@
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 08/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Leads' => 'Leads',
-	'LBL_OPPORTUNITIES' => 'Opportunities',
+	'LBL_OPPORTUNITIES' => 'Oportunidades',
 	'checkBox' => 'Caixa Seleção',
 	'currency' => 'Moeda',
 	'date' => 'Data',
@@ -37,11 +37,11 @@ $languageStrings = array(
 	'text' => 'Texto',
 	'time' => 'Hora',
 	'url' => 'Url',
-	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Organization',
-	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'If you mark this option, a person who convers lead to opportunity will become records owner.',
-);
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Converter para Organização',
 
-$jsLanguageStrings = array(
+];
+
+$jsLanguageStrings = [
 	'JS_CANT_MAP' => 'Não é possível mapear',
 	'JS_checkBox' => 'Caixa Seleção',
 	'JS_currency' => 'Moeda',
@@ -65,6 +65,5 @@ $jsLanguageStrings = array(
 	'JS_url' => 'Url',
 	'JS_WITH' => 'com',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'O Mapeamento de Campos foi salvo',
-	'JS_CONVERSION_STATE_SUCCES' => 'State saved correct',
-	'JS_CONVERSION_STATE_FAILURE' => 'Failure on saved',
-);
+
+];

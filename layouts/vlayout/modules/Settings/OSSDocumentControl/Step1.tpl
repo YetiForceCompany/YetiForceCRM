@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<div class="row-fluid">
+<div class="row">
     <form class="form-horizontal" method="post" action="index.php">
         <input type="hidden" name="view" value="Edit2" />
         <input type="hidden" name="module" value="{$MODULE_NAME}" />
@@ -22,16 +22,16 @@
             <strong>{vtranslate('LBL_STEP_1',$QUALIFIED_MODULE)}: {vtranslate('LBL_ENTER_BASIC_INFO',$QUALIFIED_MODULE)}</strong>
         </label>
         <br>
-        <div class="control-group">
-            <div class="control-label">
+        <div class="form-group">
+           <label class="col-sm-2 control-label">
                 {vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}
-            </div>
-            <div class="controls">
+            </label>
+            <div class="col-sm-5 controls">
                 {if $MODE eq 'edit'}
-                    <input type='text' disabled='disabled' value="{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}" >
+                    <input type='text' class="form-control" disabled='disabled' value="{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}" >
                     <input type='hidden' name='module_name' value="{$MODULE_MODEL->get('name')}" >
                 {else}
-                    <select class="chzn-select" id="moduleName" name="module_name" required="true" data-placeholder="Select Module...">
+                    <select class="chzn-select form-control" id="moduleName" name="module_name" required="true" data-placeholder="Select Module...">
                         {foreach from=$MODULE_LIST item=item key=key}
                             <option value="{$item}" {if $BASE_INFO['module_name'] eq $item} selected {/if}>{vtranslate($item, $item)}</option>
                         {/foreach}
@@ -39,12 +39,12 @@
                 {/if}
             </div>
         </div>
-        <div class="control-group">
-            <div class="control-label">
+        <div class="form-group">
+           <label class="col-sm-2 control-label">
                 {vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}<span class="redColor">*</span>
-            </div>
-            <div class="controls">
-                <input type="text" name="summary" class="span5" data-validation-engine='validate[required]' value="{$BASE_INFO['summary']}" id="summary" />
+            </label>
+            <div class="col-sm-5 controls">
+                <input type="text" name="summary" class="form-control" data-validation-engine='validate[required]' value="{$BASE_INFO['summary']}" id="summary" />
             </div>
         </div>
     </div>

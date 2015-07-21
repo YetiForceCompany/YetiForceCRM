@@ -5,11 +5,14 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 13-12-2014
+ * Contributor(s): Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
+	'PLL_HOLIDAY' => 'Feriado',
+	'PLL_BREAK_TIME' => 'Parada trabalho',
+	'PLL_WORKING_TIME' => 'Tempo trabalho',
 	'SINGLE_OSSTimeControl' => 'Controle Tempo',
 	'OSSTimeControl' => 'Controle Tempo',
 	'LBL_MAIN_INFORMATION' => 'Informação Básica',
@@ -36,9 +39,9 @@ $languageStrings = array(
 	'According to the Contract' => 'De acordo com o Contrato',
 	'Paid' => 'Pago',
 	'Free' => 'Gratuíto',
-	'LBL_CALENDAR_VIEW' => 'Calendar',
-	'LBL_TIMECONTROL_TYPE' => '__No_Translated__',
-	
+	'LBL_CALENDAR_VIEW' => 'Agenda',
+	'LBL_TIMECONTROL_TYPE' => 'Tipo',
+
 	// Settings
 	'SETTINGS' => 'Configurações',
 	'LBL_HELP_SETTINGS' => 'Ajuda',
@@ -65,7 +68,7 @@ $languageStrings = array(
 	'To approval'=>'Para aprovar',
 	'Accepted'=>'Aceito',
 	'Brutto' => 'Bruto',
-		
+
 	/*  subject  */
 	'Telephone contact'=>'Telefone de contato',
 	'Email contact'=>'Email de contato',
@@ -86,54 +89,29 @@ $languageStrings = array(
 	'Office work'=>'Trabalho Escritório',
 	'Administrative work'=>'Trabalho Administrativo',
 	'Accounting work'=>'Trabalho Contábil',
-);
-$jsLanguageStrings = array(
-	'MSG_ERROR_NUMBER' => 'Caracteres permitidos: [0-9]',
-	'LBL_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
 	
-	//Calendar
-	'JS_ALL_DAY' => 'All-Day',
-	'JS_APR' => 'Apr',
-	'JS_APRIL' => 'April',
-	'JS_AUG' => 'Aug',
-	'JS_AUGUST' => 'August',
-	'JS_DAY' => 'Day',
-	'JS_DEC' => 'Dec',
-	'JS_DECEMBER' => 'December',
-	'JS_FEB' => 'Feb',
-	'JS_FEBRUARY' => 'February',
-	'JS_FRIDAY' => 'Friday',
-	'JS_FRI' => 'Fri',
-	'JS_JAN' => 'Jan',
-	'JS_JANUARY' => 'January',
-	'JS_JUL' => 'Jul',
-	'JS_JULY' => 'July',
-	'JS_JUNE' => 'June',
-	'JS_JUN' => 'Jun',
-	'JS_MARCH' => 'March',
-	'JS_MAR' => 'Mar',
-	'JS_MAY' => 'May',
-	'JS_MAY' => 'May',
-	'JS_MONDAY' => 'Monday',
-	'JS_MON' => 'Mon',
-	'JS_MONTH' => 'Month',
-	'JS_NOVEMBER' => 'November',
-	'JS_NOV' => 'Nov',
-	'JS_OCTOBER' => 'October',
-	'JS_OCT' => 'Oct',
-	'JS_SAT' => 'Sat',
-	'JS_SATURDAY' => 'Saturday',
-	'JS_SEP' => 'Sep',
-	'JS_SEPTEMBER' => 'September',
-	'JS_SUNDAY' => 'Sunday',
-	'JS_SUN' => 'Sun',
-	'JS_THURSDAY' => 'Thursday',
-	'JS_THU' => 'Thu',
-	'JS_TODAY' => 'Today',
-	'JS_TUESDAY' => 'Tuesday',
-	'JS_TUE' => 'Tue',
-	'JS_WEDNESDAY' => 'Wednesday',
-	'JS_WED' => 'Wed',
-	'JS_WEEK' => 'Week',
-	'JS_MORE' => 'More',
-);
+	//widget
+	'LBL_Holidays' => 'Férias',
+	'LBL_YEAR' => 'Ano:',
+	'LBL_Used_Entitled' => 'Utilizada / Direito:',
+	'LBL_DAYS' => 'dias',
+	'Brak danych' => 'Sem dados',
+
+	'LBL_DAYWORKSUM' => 'Tempo de trabalho',
+	'LBL_ALLDAYS_INFO' => 'Todos os dias',
+	'LBL_WEEKENDDAYS_INFO' => 'Fim de semana',
+	'LBL_ECCLESIASTICAL_INFO' => 'Quantidade de dias eclesiásticos',
+	'LBL_NATIONAL_INFO' => 'Quantidade de dias de feriados nacionais',
+	'LBL_WORKEDDAYS_INFO' => 'Quantidade de dias de trabalho',
+	'LBL_HOLIDAYDAYS_INFO' => 'Quantidade de dias de férias',
+	'LBL_AVERAGEWORKTIME_INFO' => 'Tempo médio de trabalho',
+	'LBL_AVERAGEBREAKTIME_INFO' => 'Tempo médio de pausa',
+	'LBL_WORKDAYS_INFO' => 'Dias de trabalho',
+];
+$jsLanguageStrings = [
+	'MSG_ERROR_NUMBER' => 'Caracteres permitidos: [0-9]',
+	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
+	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'O tempo de trabalho não pode execeder 24 horas',
+	'JS_START_DATE' => 'Data Início',
+	'JS_END_DATE' => 'Data Final',
+];

@@ -12,15 +12,15 @@
 {strip}
 	{assign var=IMAGE value=$MODULE_NAME|cat:'48.png'}
 	{if file_exists( vimage_path($IMAGE) )}
-		<span class="span0 spanModuleIcon moduleIcon{$MODULE_NAME}">
+		<span class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 			<span class="moduleIcon">
-				<img src="{vimage_path($IMAGE)}" class="summaryImg" />
+				<img src="{vimage_path($IMAGE)}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"  />
 			</span>
 		</span>
 	{/if}
-	<span class="span8 margin0px">
-		<span class="row-fluid">
-			<h4 class="recordLabel pushDown" title="{$RECORD->getName()}">
+	<div class="col-xs-10 col-sm-9 col-md-8 margin0px">
+		<div>
+			<h4 class="recordLabel pushDown marginbottomZero" title="{$RECORD->getName()}">
 				{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
 					{assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
 						{if $FIELD_MODEL->getPermissions()}
@@ -28,21 +28,21 @@
 						{/if}
 				{/foreach}
 			</h4>
-		</span>
+		</div>
 		{assign var=RELATED_TO value=$RECORD->get('linktoaccountscontacts')}
 		{if !empty($RELATED_TO)}
-		<span class="row-fluid">
+		<div class="paddingLeft5px">
 			<span class="muted">{vtranslate('Related to',$MODULE_NAME)} - </span>
 			{$RECORD->getDisplayValue('linktoaccountscontacts')}
-		</span>
+		</div>
 		{/if}
-		<span class="row-fluid">
+		<div class="paddingLeft5px">
 			<span class="muted">
 				{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				{if $RECORD->get('shownerid') != ''}
 				<br/>{vtranslate('Share with users',$MODULE_NAME)} {$RECORD->getDisplayValue('shownerid')}
 				{/if}
 			</span>
-		</span>
-	</span>
+		</div>
+	</div>
 {/strip}

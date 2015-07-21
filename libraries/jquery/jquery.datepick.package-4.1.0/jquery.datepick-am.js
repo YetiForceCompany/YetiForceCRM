@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Amharic (አማርኛ) localisation for jQuery datepicker.
    Leyu Sisay. */
 (function($) {

@@ -1,0 +1,21 @@
+{
+    "name": "weird-birds/thunderbird_labels",
+    "type": "roundcube-plugin",
+    "keywords": ["mail","labels","tags"],
+    "authors": [
+        {
+            "name": "Michael Kefeder",
+            "homepage": "http://code.google.com/p/rcmail-thunderbird-labels/",
+            "role": "Developer"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://plugins.roundcube.net"
+        }
+    ],
+    "require": {
+        "roundcube/plugin-installer": ">=0.1.3"
+    }
+}

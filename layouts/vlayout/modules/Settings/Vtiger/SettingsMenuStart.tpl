@@ -15,17 +15,17 @@
 {strip}
 {if $LOAD_OLD}
     <div class="bodyContents">
-        <div class="mainContainer row-fluid">
-            <div class="span12">
+        <div class="mainContainer">
+            <div class="col-md-12">
                 <iframe id="ui5frame" src="{$UI5_URL}" width="100%" height="650px" style="border:0;"></iframe>
             </div>
 
 {else}
     <div class="bodyContents">
-        <div class="mainContainer row-fluid">
-            <div class="span2 row-fluid">
+        <div class="mainContainer">
+            <div class="col-md-2">
 				<div>{include file='Sidebar.tpl'|@vtemplate_path:$QUALIFIED_MODULE}</div>
             </div>
-    		<div class="contentsDiv span10 marginLeftZero">
+    		<div class="contentsDiv col-md-10 marginLeftZero">
 {/if}
 {/strip}

@@ -42,8 +42,6 @@ class Inventory_ProductsPopupAjax_View extends Inventory_ProductsPopup_View {
 		$viewer = $this->getViewer ($request);
 
 		$this->initializeListViewContents($request, $viewer);
-		$moduleName = 'Inventory';
-		$viewer->assign('MODULE_NAME',$moduleName);
 		echo $viewer->view('PopupContents.tpl', $moduleName, true);
 	}
 }

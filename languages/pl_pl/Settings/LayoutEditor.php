@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Calendar' => 'Do wykonania',
 	'Checkbox' => 'Pole zaznaczenia',
 	'Currency'=>'Pole walutowe',
@@ -76,19 +76,30 @@ $languageStrings = array(
 	'Related1M' => 'Pole powiązane 1:M',
 	'LBL_DISPLAY_TYPE' => 'Widoczność',
 	'LBL_DISPLAY_TYPE_1' => 'Pole widoczne wszędzie',
-	'LBL_DISPLAY_TYPE_2' => 'Pole widoczne w poglądzie, nie edytowalne',
+	'LBL_DISPLAY_TYPE_2' => 'Pole widoczne w podglądzie, nieedytowalne',
 	'LBL_DISPLAY_TYPE_3' => 'Pole widoczne wyłącznie w widoku listy',
-	'LBL_DISPLAY_TYPE_4' => 'Pole widoczne wyłącznie podczas tworzenia i poglądzie, nie można dokonywać na nim zmian',
-	'LBL_DISPLAY_TYPE_10' => 'Pole widoczne wszędzie, nie edytowalne',
+	'LBL_DISPLAY_TYPE_4' => 'Pole widoczne wyłącznie podczas tworzenia i podglądzie, nie można dokonywać na nim zmian',
+	'LBL_DISPLAY_TYPE_10' => 'Pole widoczne wszędzie, nieedytowalne',
 	'LBL_HELP_INFO' => 'Ikona pomocy',
 	'LBL_GENERATED_TYPE' => 'Systemowe',
 	'LBL_TREE_TEMPLATE' => 'Drzewo',
 	'Tree' => 'Pole drzewa',
 	'LBL_FIELD_MASK' => 'Maska',
 	'LBL_FIELD_MASK_INFO' => 'Domyślnie definicje maskujące<br />9: numeryczny<br />a: alfabetycznie<br />*: Alfanumeryczny<br /><br />Przykład:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
-);
+	
+	'LBL_ADD_RELATION' => 'Dodaj relację',
+	'LBL_RELATION_TYPE' => 'Typ relacji',
+	'LBL_RELATION_ACTIONS' => 'Akcje',
+	'LBL_SOURCE_MODULE' => 'W module',
+	'LBL_TARGET_MODULE' => 'Do modułu',
+	'LBL_RELATION_LABLE' => 'Etykieta',
+	'PLL_RELATED_LIST' => 'Wiele do wielu',
+	'PLL_DEPENDENTS_LIST' => 'Jeden do wielu',
+	'PLL_ADD' => 'Tworzenie',
+	'PLL_SELECT' => 'Wybieranie',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_BLOCK_NAME_EXISTS' => 'Nazwa bloku już istnieje',
 	'JS_BLOCK_SEQUENCE_UPDATED' => 'Kolejność bloków została zaktualizowana',
 	'JS_BLOCK_VISIBILITY_HIDE' => 'Ukrycie bloku włączone',
@@ -113,4 +124,4 @@ $jsLanguageStrings = array(
 	'JS_UPDATE_SEQUENCE' => 'Zapisano nowy układ modułów powiązanych',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Zaktualizowano listę pól',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Pole nie może być puste',
-);
+];

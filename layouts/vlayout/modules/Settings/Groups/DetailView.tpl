@@ -13,57 +13,71 @@
     <div class="detailViewInfo" style="box-shadow:0;margin-top: 0;min-height:500px;">
 		<div class="">
 			<form id="detailView" class="form-horizontal" style="padding-top: 20px;" method="POST">
-				<div class="row-fluid">
-					<h3 class="span6 settingsHeader">
+				<div class="row">
+					<h3 class="col-md-6 settingsHeader">
 						{$RECORD_MODEL->get('groupname')}
 					</h3>
-					<span class="span6">
-						<span class="pull-right">
-							<button class="btn" onclick="window.location.href='{$RECORD_MODEL->getEditViewUrl()}'" type="button">
+					<div class="col-md-6">
+						<div class="pull-right">
+							<button class="btn btn-default" onclick="window.location.href='{$RECORD_MODEL->getEditViewUrl()}'" type="button">
 								<strong>{vtranslate('LBL_EDIT_RECORD', $MODULE)}</strong>
 							</button>
-						</span>
-					</span>
+						</div>
+					</div>
 				</div><hr>
-				<div class="control-group">
-					<span class="control-label">
+				<div class="form-group">
+					<div class="col-md-2 control-label">
 						{vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)} <span class="redColor">*</span>
-					</span>
+					</div>
 					<div class="controls pushDown">
 						<b>{$RECORD_MODEL->getName()}</b>
 					</div>
 				</div>
-				<div class="control-group">
-					<span class="control-label">
+				<div class="form-group">
+					<div class="col-md-2 control-label">
 						{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
-					</span>
+					</div>
 					<div class="controls pushDown">
 						<b>{$RECORD_MODEL->getDescription()}</b>
 					</div>
 				</div>
-				<div class="control-group">
-					<span class="control-label">
-						{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
-					</span>
+				<div class="form-group">
+					<div class="col-md-2 control-label">
+						{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
+					</div>
 					<div class="controls pushDown">
-						<div class="row-fluid">
-						<span class="span3 collectiveGroupMembers">
-							<ul class="nav nav-list">
+						<div class="row">
+						<div class="col-md-9 paddingLRZero">
+							{foreach key=TABID item=MODULE from=$RECORD_MODEL->getModules()}
+								<b>{vtranslate($MODULE,$MODULE)}, </b>
+							{/foreach}
+						</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-2 control-label">
+						{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
+					</div>
+					<div class="col-md-5 controls pushDown">
+						<div class="row">
+						<div class="collectiveGroupMembers">
+							<ul class="nav list-group">
 							{assign var="GROUPS" value=$RECORD_MODEL->getMembers()}
 							{foreach key=GROUP_LABEL item=GROUP_MEMBERS from=$GROUPS}
 								{if !empty($GROUP_MEMBERS)}
-									<li class="row-fluid groupLabel nav-header">
+									<li class="row groupLabel nav-header">
 											{vtranslate($GROUP_LABEL,$QUALIFIED_MODULE)}
 									</li>
 									{foreach item=GROUP_MEMBER_INFO from=$GROUP_MEMBERS}
-										<li class="row-fluid">
+										<li class="">
 											<a href="{$GROUP_MEMBER_INFO->getDetailViewUrl()}">{$GROUP_MEMBER_INFO->get('name')}</a>
 										</li>
 									{/foreach}
 								{/if}
 							{/foreach}
 							</ul>
-						</span>
+						</div>
 						</div>
 					</div>
 				</div>

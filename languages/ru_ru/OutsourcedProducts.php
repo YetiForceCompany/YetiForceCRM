@@ -10,12 +10,12 @@
  * Contributor(s): 
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_RECORDS_LIST' => 'Список',
 	// Basic Strings
 	'OutsourcedProducts'        => 'Аутсорсинг Товаров',
 	'SINGLE_OutsourcedProducts' => 'Аутсорсинг Товаров',
-	'LBL_ADD_RECORD' => 'Добавить Аутсорсинг Товара',
+	'LBL_ADD_RECORD' => 'Товар',
 
 	// Blocks
 	'LBL_INFORMATION' => 'Аутсорсинг Товаров',
@@ -39,7 +39,7 @@ $languageStrings = array(
 	'Number' => 'Номер',
 	'Save' => 'Сохранить',
 	'Selling proposition'=>'Сделка',
-	'LBL_GENERATE_EXTENSION' => 'Создание расширения',
+	'LBL_GENERATE_EXTENSION' => 'Создать Предложение',
 	'Active' => 'Активный',
 	'Inactive' => 'Неактивный',
-);
+];

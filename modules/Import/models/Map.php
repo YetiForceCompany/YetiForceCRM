@@ -80,14 +80,19 @@ class Import_Map_Model extends Vtiger_Base_Model {
 		$columnNames = array_keys($map);
 		$columnValues = array_values($map);
 		if(count($map) > 0) {
-			$db->pquery('INSERT INTO '.self::$tableName.' ('. implode(',',$columnNames).') VALUES ('. generateQuestionMarks($columnValues).')', array($columnValues));
-			$db->updateBlob(self::$tableName,"content","name='". $db->sql_escape_string($this->getValue('name')).
-						"' AND module='".$db->sql_escape_string($this->getValue('module'))."'",$this->getStringifiedContent());
+			$sql = 'INSERT INTO '.self::$tableName.' ('. implode(',',$columnNames).') VALUES ('. generateQuestionMarks($columnValues).')';
+			$db->pquery($sql, [$columnValues]);
+
+			$table = self::$tableName;
+			$column = 'content';
+			$val = $this->getStringifiedContent();
+			$where = 'name='.$db->sql_escape_string($this->getValue('name')).' AND module='.$db->sql_escape_string($this->getValue('module'));
+			$db->updateBlob($table, $column, $val, $where);
 		}
 	}
 
 	public static function getAllByModule($moduleName) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$db = PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT * FROM '.self::$tableName.' WHERE deleted=0 AND module=?', array($moduleName));

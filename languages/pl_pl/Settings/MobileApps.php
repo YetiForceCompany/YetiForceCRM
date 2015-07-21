@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'MobileApps' => 'Aplikacje mobilne',
 	'LBL_MOBILE_KEYS' => 'Klucze aplikacji mobilnych',
 	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Tworzenie i zarządzanie kluczami aplikacji mobilnych',
@@ -26,14 +26,16 @@ $languageStrings = array(
 	'LBL_DUPLICATE_USER_SERVICES' => 'Już został wygenerowany klucz dla tej aplikacji',
 	'LBL_KEY_HAS_BEEN_REMOVED' => 'Klucz został usunięty',
 	'LBL_SUCCESS_SAVE_CHANGES' => 'Zapisano zmiany',
-	'LBL_ALERT_MOBILE_NO_ACTIVE_TITLE' => 'Aplikacja mobilna jest nie aktywna',
-	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC' => 'Aplikacja mobilna nie została jeszcze aktywowana, proszę o włączenie usuługi "mobile" w pliku api/config.php',
+	'LBL_ALERT_MOBILE_NO_ACTIVE_TITLE' => 'Aplikacja mobilna jest nieaktywna',
+	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC' => 'Aplikacja mobilna nie została jeszcze aktywowana, proszę o włączenie usuługi "mobile" w pliku config/api.php',
 	
 	// Mobile services
 	'LBL_MOBILE_HISTORYCALL' => 'Historia wykonanych połączeń',
 	'LBL_MOBILE_PUSHCALL' => 'Wykonywanie popłaczeń',
 	'LBL_MOBILE_CALLLISTENER' => 'Nasłuchiwanie połączeń',
-);
-$jsLanguageStrings = array(
+	
+	'LBL_VIEW_MOBILEKEYS' => 'Klucze aplikacji mobilnych',
+];
+$jsLanguageStrings = [
 	'Adding a Key' => 'Dodawanie klucza',
-);
+];

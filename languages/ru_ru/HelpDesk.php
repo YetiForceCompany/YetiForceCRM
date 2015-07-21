@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Answered'	=>	'Ответил',
 	'Big Problem'                  => 'Большая проблема', 
 	'Closed'                       => 'Закрыто'              , 
@@ -29,7 +29,7 @@ $languageStrings = array(
 	'LBL_COULDNOT_CLOSED' => 'Заявка не может быть',
 	'LBL_CUSTOMER_COMMENTS' => 'Клиент предоставил следующую дополнительную информацию на Ваш ответ:',
 	'LBL_CUSTOMER_PORTAL' => 'на Клиентском Портале - СРОЧНО',
-	'LBL_DETAIL' => 'детали :',
+	'LBL_DETAIL' => 'детали:',
 	'LBL_GIVE_MAILID'	=>	'Пожалуйста, укажите Ваш адрес электронной почты',
 	'LBL_LOGIN_DETAILS' => 'Это Ваши учетные данные Портала',
 	'LBL_LOGIN_REVOKED' => 'Ваш Логин заблокирован. Пожалуйста свяжитесь с Администратором.',
@@ -95,7 +95,10 @@ $languageStrings = array(
 	'reply' => 'Добавлен новый комментарий для заявки ',
     'LBL_SETUP_WEBFORMS'           => 'Установка Веб-Форм',
 	'LBL_ORDER_TIME'	=>	'Время создания Заявки',
-);
+	'LBL_VIEW_FINDDUPLICATES' => 'Найти дубликаты',
+	'Record Id' => 'Номер записи',
+	'ticketpriorities' => 'Приоритет',
+];
 
-$jsLanguageStrings = array(
-);
+$jsLanguageStrings = [
+];

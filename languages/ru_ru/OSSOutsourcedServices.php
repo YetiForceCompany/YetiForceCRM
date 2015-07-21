@@ -9,7 +9,8 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
+	'LBL_ADD_RECORD' => 'Услуга',
 	'OSSOutsourcedServices'	=>	'Аутсорсинг Услуг',
 	'SINGLE_OSSOutsourcedServices'	=>	'Аутсорсинг Услуг',
 	'LBL_INFORMATION'	=>	'Информация',
@@ -20,7 +21,7 @@ $languageStrings = array(
 	'Individual Agreement'	=>	'Индивидуальное соглашение',
 	'In service'	=>	'Поддерживается',
 	'Finished support'	=>	'Поддержка прекращена',
-	'Product Name'	=>	'Название продукта',
+	'Product Name' => 'Название Услуги',
 	'Sub Category'	=>	'Подкатегория',
 	'Category'	=>	'Категория',
 	'Date Sold'	=>	'Дата начала продаж',
@@ -32,7 +33,7 @@ $languageStrings = array(
 	'Number'	=>	'№',
 	'Save'	=>	'Сохранить',
 	'Selling proposition'	=>	'Сделка',
-	'LBL_GENERATE_EXTENSION'	=>	'Создать Сделку',
+	'LBL_GENERATE_EXTENSION' => 'Создать Предложение',
 	'Active'	=>	'Активный',
 	'Inactive'	=>	'Неактивный',
-);
+];

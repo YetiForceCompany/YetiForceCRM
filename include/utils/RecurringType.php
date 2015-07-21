@@ -279,7 +279,7 @@ class RecurringType {
 	}
 
 	function getDisplayRecurringInfo() {
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 
 		$displayRecurringData = array();
 

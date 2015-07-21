@@ -57,65 +57,70 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js",{
 		var filterSelectElement = jQuery('#recordsFilter');
 		if(filterSelectElement.length > 0){
 			app.showSelect2ElementView(filterSelectElement,{
-				formatSelection : function(data){
+				templateSelection : function(data){
 					var resultContainer = jQuery('<span></span>');
 					resultContainer.append(jQuery(jQuery('.filterImage').clone().get(0)).show());
 					resultContainer.append(data.text);
 					return resultContainer;
-				}
+				},
+				customSortOptGroup : true,
+				closeOnSelect : true
 			});
-
 			var select2Instance = filterSelectElement.data('select2');
-			select2Instance.dropdown.append(jQuery('span.filterActionsDiv'));
+			select2Instance.$dropdown.append(jQuery('span.filterActionsDiv'));
 		}
 	},
 	/**
 	 * Function to register change event for custom filter
 	 */
-	
-	registerChangeCustomFilterEvent : function(){
-		var filterSelectElement = jQuery('#recordsFilter');
-		filterSelectElement.change(function(e){
-			var element = jQuery(e.currentTarget);
-			var cvId = element.find('option:selected').data('id');
-			var relatedModuleName = jQuery('.relatedModuleName').val();
-			var params = {
-				'sourceRecord' : jQuery('#recordId').val(),
-				'relatedModule' :relatedModuleName,
-				'viewId' : cvId,
-				'module' : app.getModuleName(),
-				'action': "RelationAjax",
-				'mode' : 'addRelationsFromRelatedModuleViewId'
-			}
-			
-			var progressIndicatorElement = jQuery.progressIndicator({
-				'position' : 'html',
-				'blockInfo' : {
-					'enabled' : true
-				}
-			});
-			AppConnector.request(params).then(
-				function(responseData){
-					progressIndicatorElement.progressIndicator({
-						'mode' : 'hide'
-					})
-					if(responseData != null){
-						var message = app.vtranslate('JS_NO_RECORDS_RELATED_TO_THIS_FILTER');
-						var params = {
-							text: message,
-							type: 'info'
-						};
-						Vtiger_Helper_Js.showMessage(params);
-					} else {
-						Vtiger_Detail_Js.reloadRelatedList();
-					}
-				},
 
-				function(textStatus, errorThrown){
-				}
+	registerChangeCustomFilterEvent: function () {
+		var filterSelectElement = jQuery('#recordsFilter');
+		filterSelectElement.change(function (e) {
+			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER');
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
+				function () {
+					var element = jQuery(e.currentTarget);
+					var cvId = element.find('option:selected').data('id');
+					var relatedModuleName = jQuery('.relatedModuleName').val();
+					var params = {
+						'sourceRecord': jQuery('#recordId').val(),
+						'relatedModule': relatedModuleName,
+						'viewId': cvId,
+						'module': app.getModuleName(),
+						'action': "RelationAjax",
+						'mode': 'addRelationsFromRelatedModuleViewId'
+					}
+
+					var progressIndicatorElement = jQuery.progressIndicator({
+						'position': 'html',
+						'blockInfo': {
+							'enabled': true
+						}
+					});
+					AppConnector.request(params).then(
+						function (responseData) {
+							progressIndicatorElement.progressIndicator({
+								'mode': 'hide'
+							})
+							if (responseData != null) {
+								var message = app.vtranslate('JS_NO_RECORDS_RELATED_TO_THIS_FILTER');
+								var params = {
+									text: message,
+									type: 'info'
+								};
+								Vtiger_Helper_Js.showMessage(params);
+							} else {
+								Vtiger_Detail_Js.reloadRelatedList();
+							}
+						},
+						function (textStatus, errorThrown) {
+						}
+					);
+				},
+				function (error, err) {	}
 			);
-		})
-		
+		});
 	},
 	
 	/**

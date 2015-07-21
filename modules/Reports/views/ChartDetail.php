@@ -138,8 +138,8 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
@@ -153,14 +153,14 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 			"modules.$moduleName.resources.ChartEdit3",
 			"modules.$moduleName.resources.ChartDetail",
 
-			'~/libraries/jquery/jqplot/jquery.jqplot.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.pointLabels.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.highlighter.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.pieRenderer.min.js'
+			'~libraries/jquery/jqplot/jquery.jqplot.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.pointLabels.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.highlighter.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.pieRenderer.min.js'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -177,7 +177,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
 
 		$headerCss = array(
-			'~/libraries/jquery/jqplot/jquery.jqplot.min.css',
+			'~libraries/jquery/jqplot/jquery.jqplot.min.css',
 		);
 		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
 		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances , $cssScripts);

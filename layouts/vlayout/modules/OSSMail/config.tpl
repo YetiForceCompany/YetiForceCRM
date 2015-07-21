@@ -15,30 +15,21 @@
         background-color: #f2dede;
     }
 </style>
-<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs" style="margin: 20px;">
+<ul id="tabs" class="nav nav-tabs" data-tabs="tabs" style="margin: 20px;">
     <li class="active"><a href="#tab_rc_config" data-toggle="tab">{vtranslate('Roundcube config', 'OSSMail')}</a></li>
-	<li><a href="#check_config" data-toggle="tab">{vtranslate('LBL_CHECK_CONFIG', 'OSSMail')}</a></li>
 </ul>
 <div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
     <div class="editViewContainer tab-pane active" id="tab_rc_config">
         <form id="RCConfigEditorForm" class="form-horizontal">
             <table class="">
                 <tbody>
-					<tr>
-						<td><label class="muted pull-right marginRight10px">{vtranslate('Autologon', 'OSSMail')}</label></td>
-						<td><input type="checkbox" name="tab_email_view_Autologon" id="tab_email_view_Autologon" {if $WIDGET_CFG['email_list']['autologon'] eq 'true'} checked {/if}></td>
-					</tr>
-					<tr>
-						<td><label class="muted pull-right marginRight10px">{vtranslate('Time_checking_mail', 'OSSMail')}</label></td>
-						<td><input value="{$WIDGET_CFG['email_list']['time_checking_mail']}" type="text" name="tab_email_view_time_checking_mail" id="tab_email_view_time_checking_mail" ></td>
-					</tr>
                     {assign var=FIELD_DATA value=$RecordModel->getViewableData()}
                     {foreach key=FIELD_NAME item=FIELD_DETAILS from=$RecordModel->getEditableFields()}
                         <tr><td width="40%"><label class="muted pull-right marginRight10px">{vtranslate($FIELD_DETAILS['label'], 'OSSMail')}</label></td>
-                            <td style="border-left: none;" class="row-fluid">
+                            <td style="border-left: none;" class="row">
                                 {if $FIELD_DETAILS['fieldType'] == 'picklist'}
-                                    <span class="span8">
-                                        <select class="select2 row-fluid" name="{$FIELD_NAME}">
+                                    <div class="col-md-8">
+                                        <select class="select2 form-control" name="{$FIELD_NAME}">
                                             {foreach item=row from=$FIELD_DETAILS['value']}
                                                 <option value="{$row}" {if $row == $FIELD_DATA[$FIELD_NAME]} selected {/if}>
 												{if $FIELD_NAME != 'language'}
@@ -49,12 +40,16 @@
 												</option>
                                             {/foreach}
                                         </select>
-                                    </span>
+                                    </div>
                                 {else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
-                                    <input type="hidden" name="{$FIELD_NAME}" value="false" />
-                                    <input type="checkbox" name="{$FIELD_NAME}" value="true" {if $FIELD_DATA[$FIELD_NAME] == 'true'} checked {/if} />
+									<div class="col-sm-8">
+										<input type="hidden" name="{$FIELD_NAME}" value="false" />
+										<input type="checkbox" name="{$FIELD_NAME}" value="true" {if $FIELD_DATA[$FIELD_NAME] == 'true'} checked {/if} />
+									</div>
                                 {else}
-                                    <input class="span8" type="text" name="{$FIELD_NAME}" {if $FIELD_DETAILS['required'] == '1'}required{/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
+									<div class="col-sm-8">
+										<input class="form-control" type="text" name="{$FIELD_NAME}" {if $FIELD_DETAILS['required'] == '1'}required{/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
+									</div>
                                     {if $FIELD_NAME == 'upload_maxsize'}&nbsp;{vtranslate('LBL_MB', 'OSSMail')}{/if}
                                 {/if}</td></tr>
                             {/foreach}
@@ -66,10 +61,7 @@
 
         </form>
     </div>
-    {* check config module *}
-    <div class='editViewContainer tab-pane' id="check_config">
-		<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="{$CCURL}" frameborder="0"> </iframe>		
-    </div>
+    
 </div>
 <script type="text/javascript">
 $('#status').change(function() {
@@ -139,9 +131,6 @@ jQuery("#RCConfigEditorForm").submit(function(event) {
 
 				}
 		);
-		
-		saveWidgetConfig('autologon', jQuery('#tab_email_view_Autologon').is(':checked'), 'email_list');
-		saveWidgetConfig('time_checking_mail', jQuery('#tab_email_view_time_checking_mail').val(), 'email_list');
 	}
 	return event.preventDefault();
 });

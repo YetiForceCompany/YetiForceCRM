@@ -13,7 +13,7 @@ include_once dirname(__FILE__) . '/FetchAllAlerts.php';
 class Mobile_WS_AlertDetailsWithMessage extends Mobile_WS_FetchAllAlerts {
 	
 	function process(Mobile_API_Request $request) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 
 		$response = new Mobile_API_Response();
 

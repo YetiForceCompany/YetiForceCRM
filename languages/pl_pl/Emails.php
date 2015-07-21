@@ -8,7 +8,10 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
+	'Email Flag' => 'Email Flag',
+	'Activtiy Type' => 'Activtiy Type',
+	'Sales Enity Module' => 'Sales Enity Module',
 	'Parent ID' => 'Parent ID',
 	'Owner' => 'Owner',
 	'Access Count' => 'Access Count',
@@ -22,11 +25,14 @@ $languageStrings = array(
 	'LBL_CC' => 'DW',
 	'LBL_COMPOSE_EMAIL' => 'Napisz maila',
 	'LBL_DESCRIPTION' => 'Opis',
-        'LBL_MAIL_DATE'  => 'Data maila', 
+	'LBL_MAIL_DATE'  => 'Data maila', 
 	'LBL_DRAFTED_ON' => 'Sporządzono o',
-        'LBL_DRAFT'=>'Wersja robocza', 
-        'LBL_ATTACHED'=>'Dołączone', 
+	'LBL_DRAFT'=>'Wersja robocza', 
+	'LBL_ATTACHED'=>'Dołączone', 
 	'LBL_EMAIL_INFORMATION' => 'Informacje o e-mail',
+	'Emails_Block1' => 'Email blok 1',
+	'Emails_Block2' => 'Email blok 2',
+	'Emails_Block3' => 'Email blok 3',
 	'LBL_EXCEEDED' => 'Przekroczono',
 	'LBL_FORWARD' => 'Prześlij',
 	'LBL_FROM' => 'Od',
@@ -44,4 +50,4 @@ $languageStrings = array(
 	'LBL_TO' => 'Do',
 	'SINGLE_Emails' => 'Mail',
 	'Time Start' => 'Czas wysłania',
-);
+];

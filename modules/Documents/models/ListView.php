@@ -69,37 +69,44 @@ class Documents_ListView_Model extends Vtiger_ListView_Model {
 		$linkTypes = array('LISTVIEWMASSACTION');
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
-                //Opensource fix to make documents module mass editable
-                if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'EditView')) { 
-                    $massActionLink = array( 
-                                'linktype' => 'LISTVIEWMASSACTION', 
-                                'linklabel' => 'LBL_EDIT', 
-                                'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module='.$moduleModel->get('name').'&view=MassActionAjax&mode=showMassEditForm");', 
-                                'linkicon' => '' 
-                        ); 
-                    $links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink); 
-                } 
+		//Opensource fix to make documents module mass editable
+		$massActionLinks = [];
+		if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassEdit')) { 
+			$massActionLinks[] = array( 
+				'linktype' => 'LISTVIEWMASSACTION', 
+				'linklabel' => 'LBL_EDIT', 
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module='.$moduleModel->get('name').'&view=MassActionAjax&mode=showMassEditForm");', 
+				'linkicon' => '' 
+			);
+		} 
         
-		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
-			$massActionLink = array(
+		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassDelete')) {
+			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleModel->getName() . '&action=MassDelete");',
 				'linkicon' => ''
 			);
-
+		}
+		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassMoveDocuments')) {
+			$massActionLinks[] = array(
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MOVE',
+				'linkurl' => 'javascript:Documents_List_Js.massMove("index.php?module=' . $moduleModel->getName() . '&view=MoveDocuments");',
+				'linkicon' => ''
+			);
+		}
+		if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassTransferOwnership')) {
+			$massActionLinks[] = array(
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module='.$moduleModel->getName().'&view=MassActionAjax&mode=transferOwnership")',
+				'linkicon' => ''
+			);
+		}
+		foreach($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
-
-		$massActionLink = array(
-			'linktype' => 'LISTVIEWMASSACTION',
-			'linklabel' => 'LBL_MOVE',
-			'linkurl' => 'javascript:Documents_List_Js.massMove("index.php?module=' . $moduleModel->getName() . '&view=MoveDocuments");',
-			'linkicon' => ''
-		);
-
-		$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
-
 		return $links;
 	}
 

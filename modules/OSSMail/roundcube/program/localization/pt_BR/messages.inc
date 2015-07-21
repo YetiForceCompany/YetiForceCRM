@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -17,12 +17,14 @@
 */
 $messages['errortitle']  = 'Ocorreu um erro!';
 $messages['loginfailed']  = 'Falha no login';
-$messages['cookiesdisabled'] = 'Seu navegador não aceita cookies';
+$messages['cookiesdisabled'] = 'Seu navegador não aceita cookies.';
 $messages['sessionerror'] = 'A sessão do seu navegador é inválida ou expirou';
 $messages['storageerror'] = 'Falha na conexão com o servidor. Verifique se informou os dados corretamente.';
 $messages['servererror'] = 'Erro no Servidor!';
 $messages['servererrormsg'] = 'Erro no Servidor: $msg';
+$messages['connerror'] = 'Erro de conexão (Falha na comunicação com o servidor)!';
 $messages['dberror'] = 'Erro no banco de dados!';
+$messages['windowopenerror'] = 'A janela popup foi bloqueada!';
 $messages['requesttimedout'] = 'Tempo da requisição esgotado';
 $messages['errorreadonly'] = 'Não foi possível realizar a operação. Pasta somente leitura';
 $messages['errornoperm'] = 'Não foi possível realizar a operação. Acesso negado';
@@ -45,8 +47,8 @@ $messages['messagesent'] = 'Mensagem enviada com sucesso';
 $messages['savingmessage'] = 'Salvando Mensagem...';
 $messages['messagesaved'] = 'Mensagem salva em Rascunhos';
 $messages['successfullysaved'] = 'Salvo com sucesso';
-$messages['savingresponse'] = 'Salvando texto de resposta...';
-$messages['deleteresponseconfirm'] = 'Você realmente deseja apagar este texto de resposta?';
+$messages['savingresponse'] = 'Salvando resposta pré-definida...';
+$messages['deleteresponseconfirm'] = 'Você realmente deseja apagar esta resposta pré-definida?';
 $messages['addedsuccessfully'] = 'Contato incluído com sucesso no catálogo de endereços.';
 $messages['contactexists'] = 'Já existe um contato com esse mesmo e-mail.';
 $messages['contactnameexists'] = 'Já existe um contato com o mesmo nome.';
@@ -92,6 +94,7 @@ $messages['contactsearchsuccessful'] = '$nr contatos encontrados.';
 $messages['searchnomatch'] = 'A pesquisa não encontrou resultados';
 $messages['searching'] = 'Pesquisando...';
 $messages['checking'] = 'Verificando...';
+$messages['stillsearching'] = 'Ainda procurando...';
 $messages['nospellerrors'] = 'Nenhum erro ortográfico encontrado';
 $messages['folderdeleted'] = 'Pasta excluída com sucesso';
 $messages['foldersubscribed'] = 'Pasta ativada com sucesso';
@@ -135,7 +138,7 @@ $messages['importmessagesuccess'] = 'Importação de $nr mensagens com sucesso';
 $messages['importmessageerror'] = 'Falha na importação! O arquivo enviado não é uma mensagem ou caixa postal válida';
 $messages['opnotpermitted'] = 'Operação não permitida!';
 $messages['nofromaddress'] = 'Falta o e-mail na identidade selecionada.';
-$messages['editorwarning'] = 'Mudar para o editor de texto simples elimina toda a formatação de texto. Deseja continuar?';
+$messages['editorwarning'] = 'A mudança do tipo de editor pode causar perda de formatação do texto. Deseja continuar?';
 $messages['httpreceivedencrypterror'] = 'Ocorreu um erro de configuração. Informe ao administrador do sistema imediatamente. <b>Sua mensagem não pode ser enviada.</b>';
 $messages['smtpconnerror'] = 'Erro SMTP ($code): Conexão ao servidor falhou.';
 $messages['smtpautherror'] = 'Erro SMTP ($code): Falha na autenticação.';
@@ -174,4 +177,14 @@ $messages['parentnotwritable'] = 'Sem permissão para criar/mover a pasta dentro
 $messages['messagetoobig'] = 'A mensagem é muito grande para ser processada.';
 $messages['attachmentvalidationerror'] = 'ATENÇÃO! Este anexo é suspeito porque seu tipo não combina com o tipo declarado na mensagem. Se você não confia no remetente, não deveria abri-lo no navegador porque pode conter conteúdo malicioso.<br/><br/><em>Esperado: $expected; encontrado: $detected</em>';
 $messages['noscriptwarning'] = 'Aviso: Este webmail utiliza Javascript, habilite-o nas configurações de seu navegador.';
+$messages['messageissent'] = 'A mensagem já foi enviada, mas ainda não foi salva. Deseja salvar agora?';
+$messages['errnotfound'] = 'Arquivo não encontrado';
+$messages['errnotfoundexplain'] = 'O recurso solicitado não foi encontrado!';
+$messages['errfailedrequest'] = 'Requisição falhou';
+$messages['errauthorizationfailed'] = 'Autorização Falhou';
+$messages['errunauthorizedexplain'] = 'Não é possível verificar se você está autorizado a acessar este serviço!';
+$messages['errrequestcheckfailed'] = 'Falha na verificação da requisição';
+$messages['errcsrfprotectionexplain'] = "Para sua proteção, o acesso a este serviço está seguro contra CSFR.\nSe você está vendo isto, provavelmente não utilizou a opção de sair antes de encerrar a utilização.\n\nSerá necessária interação humana para continuar.";
+$messages['errcontactserveradmin'] = 'Por favor contate o administrador do servidor.';
+$messages['clicktoresumesession'] = 'Clique aqui para continuar sua sessão anterior';
 ?>

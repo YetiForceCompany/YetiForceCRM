@@ -40,7 +40,7 @@ class Mobile_WS_History extends Mobile_WS_FetchRecord {
 	}
 	
 	protected function resolveReferences(&$items, $user) {
-		global $current_user; 
+		$current_user  = vglobal('current_user'); 
 		if (!isset($current_user)) $current_user = $user; /* Required in getEntityFieldNameDisplay */
 		
 		foreach ($items as &$item) {

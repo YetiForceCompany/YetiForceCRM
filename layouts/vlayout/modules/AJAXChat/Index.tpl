@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <link rel="stylesheet" href="{$URLCSS}" type="text/css">
-<div id="AJAXChatBlock">
+<div id="AJAXChatBlock" class="chat-closed">
 	<iframe id="emailPreview_Content" style="width: 100%;height: 600px;" src="{$URL}" frameborder="0"></iframe>
 </div>
 {/strip}

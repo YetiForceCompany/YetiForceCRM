@@ -1,31 +1,34 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Vtiger_MassSave_Action extends Vtiger_Mass_Action {
+class Vtiger_MassSave_Action extends Vtiger_Mass_Action
+{
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
-		if(!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'Save')) {
-			throw new AppException(vtranslate($moduleName).' '.vtranslate('LBL_NOT_ACCESSIBLE'));
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'Save')) {
+			throw new AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordModels = $this->getRecordModelsFromRequest($request);
-		foreach($recordModels as $recordId => $recordModel) {
-			if(Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId)) {
+		foreach ($recordModels as $recordId => $recordModel) {
+			if (Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId)) {
 				$recordModel->save();
 			}
 		}
@@ -40,7 +43,8 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action {
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	function getRecordModelsFromRequest(Vtiger_Request $request) {
+	function getRecordModelsFromRequest(Vtiger_Request $request)
+	{
 
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -48,7 +52,7 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action {
 		$recordModels = array();
 
 		$fieldModelList = $moduleModel->getFields();
-		foreach($recordIds as $recordId) {
+		foreach ($recordIds as $recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
 			$recordModel->set('id', $recordId);
 			$recordModel->set('mode', 'edit');
@@ -56,22 +60,22 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action {
 			foreach ($fieldModelList as $fieldName => $fieldModel) {
 				$fieldValue = $request->get($fieldName, null);
 				$fieldDataType = $fieldModel->getFieldDataType();
-				if($fieldDataType == 'time'){
+				if ($fieldDataType == 'time') {
 					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 				}
-				if(isset($fieldValue) && $fieldValue != null) {
-					if(!is_array($fieldValue)) {
+				if (isset($fieldValue) && $fieldValue != null) {
+					if (!is_array($fieldValue)) {
 						$fieldValue = trim($fieldValue);
 					}
 					$recordModel->set($fieldName, $fieldValue);
 				} else {
-                    $uiType = $fieldModel->get('uitype');
-                    if($uiType == 70) {
-                        $recordModel->set($fieldName, $recordModel->get($fieldName));
-                    }  else {
-                        $uiTypeModel = $fieldModel->getUITypeModel();
-                        $recordModel->set($fieldName, $uiTypeModel->getUserRequestValue($recordModel->get($fieldName)));
-                    }
+					$uiType = $fieldModel->get('uitype');
+					if ($uiType == 70) {
+						$recordModel->set($fieldName, $recordModel->get($fieldName));
+					} else {
+						$uiTypeModel = $fieldModel->getUITypeModel();
+						$recordModel->set($fieldName, $uiTypeModel->getUserRequestValue($recordModel->get($fieldName)));
+					}
 				}
 			}
 			$recordModels[$recordId] = $recordModel;

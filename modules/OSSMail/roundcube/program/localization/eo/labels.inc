@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -191,7 +191,6 @@ $labels['revertto']      = 'Reiru al';
 $labels['attach'] = 'Alfiksu';
 $labels['attachments'] = 'Alfiksaĵoj';
 $labels['upload'] = 'Alŝutu';
-$labels['uploadprogress'] = '$percent ($current de $total)';
 $labels['close']  = 'Fermi';
 $labels['messageoptions']  = 'Mesaĝ-agordoj...';
 $labels['low']     = 'Malalta';
@@ -267,7 +266,6 @@ $labels['typehomepage']  = 'Hejmpaĝo';
 $labels['typeblog'] = 'Blogo';
 $labels['typeprofile'] = 'Profilo';
 $labels['addfield'] = 'Aldonu kampon...';
-$labels['addcontact'] = 'Aldonu kontakton';
 $labels['editcontact'] = 'Redaktu kontakton';
 $labels['contacts'] = 'Kontaktoj';
 $labels['contactproperties'] = 'Kontakt-informoj';
@@ -280,7 +278,6 @@ $labels['rename'] = 'Alinomu';
 $labels['addphoto'] = 'Aldonu';
 $labels['replacephoto'] = 'Anstataŭu';
 $labels['uploadphoto'] = 'Alŝutu bildon';
-$labels['newcontact']     = 'Kreu novan kontakton';
 $labels['deletecontact']  = 'Forigu elektatajn kontaktojn';
 $labels['composeto']      = 'Verku mesaĝon al';
 $labels['contactsfromto'] = 'Kontaktoj ekde $from ĝis $to de $count';
@@ -297,10 +294,6 @@ $labels['preferences'] = 'Preferoj';
 $labels['userpreferences'] = 'Uzant-preferoj';
 $labels['editpreferences'] = 'Redaktu uzant-preferojn';
 $labels['identities'] = 'Identoj';
-$labels['manageidentities'] = 'Administru identojn de ĉi tiu konto';
-$labels['newidentity'] = 'Nova idento';
-$labels['newitem'] = 'Nova ero';
-$labels['edititem'] = 'Redaktu eron';
 $labels['preferhtml'] = 'Montru HTML';
 $labels['htmlmessage'] = 'HTML Mesaĝo';
 $labels['prettydate'] = 'Agrablaj Datoj';
@@ -322,7 +315,6 @@ $labels['mailboxview'] = 'Ricevitujo vido';
 $labels['mdnrequests'] = 'Sendanto-sciigoj';
 $labels['askuser'] = 'demandu';
 $labels['autosend'] = 'sendu aŭtomate';
-$labels['ignore'] = 'malatentu';
 $labels['readwhendeleted'] = 'Marku mesaĝon kiel legita kiam forigata';
 $labels['flagfordeletion'] = 'Marku mesaĝon kiel forigita anstataŭ forigi';
 $labels['showinlineimages'] = 'Montru alfiksitajn bildojn sub la mesaĝo';
@@ -330,14 +322,14 @@ $labels['autosavedraft']  = 'Aŭtomate savu malneton';
 $labels['never']  = 'neniam';
 $labels['messagesdisplaying'] = 'Mesaĝoj vidigante';
 $labels['messagescomposition'] = 'Mesaĝo-verkado';
-$labels['folder']  = 'Dosierujo';
-$labels['folders']  = 'Dosierujoj';
-$labels['foldername']  = 'Dosierujo-nomo';
-$labels['subscribed']  = 'Abonata';
+$labels['folder'] = 'Dosierujo';
+$labels['folders'] = 'Dosierujoj';
+$labels['foldername'] = 'Dosierujo-nomo';
+$labels['subscribed'] = 'Abonata';
 $labels['messagecount'] = 'Mesaĝoj';
-$labels['create']  = 'Krei';
-$labels['createfolder']  = 'Kreu novan dosierujon';
-$labels['managefolders']  = 'Administru dosierujon';
+$labels['create'] = 'Krei';
+$labels['createfolder'] = 'Kreu novan dosierujon';
+$labels['managefolders'] = 'Administru dosierujon';
 $labels['sortby'] = 'Ordigu per';
 $labels['sortasc']  = 'Ordigu kreskante';
 $labels['sortdesc'] = 'Ordigu malkreskante';

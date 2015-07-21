@@ -11,32 +11,6 @@
 class Potentials_Module_Model extends Vtiger_Module_Model {
 
 	/**
-	 * Function to get the Quick Links for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> List of Vtiger_Link_Model instances
-	 */
-	public function getSideBarLinks($linkParams) {
-		$parentQuickLinks = parent::getSideBarLinks($linkParams);
-
-		$quickLink = array(
-			'linktype' => 'SIDEBARLINK',
-			'linklabel' => 'LBL_DASHBOARD',
-			'linkurl' => $this->getDashBoardUrl(),
-			'linkicon' => '',
-		);
-		
-		//Check profile permissions for Dashboards
-		$moduleModel = Vtiger_Module_Model::getInstance('Dashboard');
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
-		if($permission) {
-			$parentQuickLinks['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
-		}
-		
-		return $parentQuickLinks;
-	}
-
-	/**
 	 * Function returns number of Open Potentials in each of the sales stage
 	 * @param <Integer> $owner - userid
 	 * @return <Array>
@@ -61,11 +35,18 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 			$params[] = $dateFilter['start'];
 			$params[] = $dateFilter['end'];
 		}
-
-		$result = $db->pquery('SELECT COUNT(*) count, sales_stage FROM vtiger_potential
-						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
-						AND deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()). $ownerSql . $dateFilterSql . ' AND sales_stage NOT IN ("Closed Won", "Closed Lost")
-							GROUP BY sales_stage ORDER BY count desc', $params);
+		$sql = 'SELECT COUNT(*) AS count, sales_stage FROM vtiger_potential 
+				INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
+				WHERE vtiger_crmentity.deleted = 0 AND vtiger_potential.sales_stage NOT IN ("Closed Won", "Closed Lost")'.$ownerSql . $dateFilterSql;
+		
+		$relatedModuleName = $this->getName();
+		$instance = CRMEntity::getInstance($relatedModuleName);
+		$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName);
+		if ($securityParameter != '')
+			$sql .= $securityParameter;
+		
+		$sql .= ' GROUP BY vtiger_potential.sales_stage ORDER BY count desc';
+		$result = $db->pquery($sql, $params);
 		
 		$response = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
@@ -156,6 +137,23 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		return $data;
 	}
 
+	 /**
+	 * Function returns Top Potentials Header
+	 * 
+	 */
+	function getTopPotentialsHeader() {
+		$headerArray = array('potentialname' => 'Potential Name');
+		$fieldsToDisplay = array('sum_invoices', 'related_to');
+		$moduleModel = Vtiger_Module_Model::getInstance('Potentials');
+		foreach ($fieldsToDisplay as $value) {
+			$fieldInstance = Vtiger_Field_Model::getInstance($value, $moduleModel);
+			if ($fieldInstance->isViewable()) {
+				$headerArray = array_merge($headerArray, array($value => $fieldInstance->label));
+			}
+		}
+		return $headerArray;
+	}
+
 	/**
 	 * Function returns Top Potentials
 	 * @return <Array of Vtiger_Record_Model>
@@ -163,12 +161,22 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 	function getTopPotentials($pagingModel) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
-		$query = "SELECT crmid, sum_invoices, potentialname, related_to FROM vtiger_potential
+        $moduleModel = Vtiger_Module_Model::getInstance('Potentials');
+        $fieldsToDisplay=  array("sum_invoices","related_to");
+         
+        $query = "SELECT crmid , potentialname ";
+		foreach ($fieldsToDisplay as $value) {
+			$fieldInstance = Vtiger_Field_Model::getInstance($value, $moduleModel);
+			if ($fieldInstance->isViewable()) {
+				$query = $query . ', ' . $value;
+			}
+		}
+		$query = $query . ' FROM vtiger_potential
 						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
-							AND deleted = 0 ".Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName())."
+							AND deleted = 0 ' . Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()) . "
 						WHERE sales_stage NOT IN ('Closed Won', 'Closed Lost') AND sum_invoices > 0
-						ORDER BY sum_invoices DESC LIMIT ".$pagingModel->getStartIndex().", ".$pagingModel->getPageLimit()."";
-		$result = $db->pquery($query, array());
+						ORDER BY sum_invoices DESC LIMIT " . $pagingModel->getStartIndex() . ', ' . $pagingModel->getPageLimit();
+		$result = $db->pquery($query, []);
 
 		$models = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
@@ -228,34 +236,36 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 	 * @return <String>
 	 */
 	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false) {
-		if ($functionName === 'get_activities' || $functionName === 'get_history') {
+		if ($functionName === 'get_activities') {
             $userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 			
 			$query = "SELECT CASE WHEN (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name,
 						vtiger_crmentity.*, vtiger_activity.activitytype, vtiger_activity.subject, vtiger_activity.date_start, vtiger_activity.time_start,
-						vtiger_activity.recurringtype, vtiger_activity.due_date, vtiger_activity.time_end, vtiger_activity.visibility, vtiger_seactivityrel.crmid AS parent_id,
+						vtiger_activity.recurringtype, vtiger_activity.due_date, vtiger_activity.time_end, vtiger_activity.visibility,
 						CASE WHEN (vtiger_activity.activitytype = 'Task') THEN (vtiger_activity.status) ELSE (vtiger_activity.eventstatus) END AS status
 						FROM vtiger_activity
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-						LEFT JOIN vtiger_seactivityrel ON vtiger_seactivityrel.activityid = vtiger_activity.activityid
-						LEFT JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
 						LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-						WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.activitytype <> 'Emails'";
-			if($functionName === 'get_activities') {
+						WHERE vtiger_crmentity.deleted = 0";
+			$time = vtlib_purify($_REQUEST['time']);
+			if($time == 'current') {
 				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))
-				OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.eventstatus not in ('','Not Held','Held')))";
-			} else {
-				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status in ('Completed','Deferred'))
-				OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.eventstatus in ('','Not Held','Held')))";
+				OR (vtiger_activity.activitytype not in ('Emails','Task') and vtiger_activity.eventstatus not in ('','Held')))";
 			}
-			$query .= " AND vtiger_seactivityrel.crmid = ".$recordId;
+			if($time == 'history') {
+				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status in ('Completed','Deferred'))
+				OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.eventstatus in ('','Held')))";
+			}
+			$query .= ' AND vtiger_activity.process = '.$recordId;
 			$relatedModuleName = $relatedModule->getName();
 			$query .= $this->getSpecificRelationQuery($relatedModuleName);
-			$nonAdminQuery = $this->getNonAdminAccessControlQueryForRelation($relatedModuleName);
-			if ($nonAdminQuery) {
-				$query = appendFromClauseToQuery($query, $nonAdminQuery);
-			}
+			$instance = CRMEntity::getInstance($relatedModuleName);
+			$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName);
+			if ($securityParameter != '')
+				$query .= $securityParameter;
+		} elseif ($functionName === 'get_mails' && $relatedModule->getName() == 'OSSMailView') {
+			$query = OSSMailView_Record_Model::getMailsQuery($recordId, $relatedModule->getName());
 		} else {
 			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
 		}
@@ -430,5 +440,54 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		$response[4][0] = $recordModel->get('sum_time_all');
 		$response[4][1] = vtranslate('Total time [Sum]', $this->getName());
 		return $response;
+	}
+	
+	function getPotentialsList(Vtiger_Request $request) {
+		$fromModule = $request->get('fromModule');
+		$record = $request->get('record');
+		$showtype = $request->get('showtype');
+		$rqLimit = $request->get('limit');
+
+		$db = PearDatabase::getInstance();
+		$fields = ['id','potentialname','sales_stage','assigned_user_id'];
+		$limit = 10;
+		$params = [];
+		if(!empty($rqLimit)){
+			$limit = $rqLimit;
+		}
+		
+		$potentialConfig = Settings_SalesProcesses_Module_Model::getConfig('potential');
+		$potentialSalesStage = $potentialConfig['salesstage'];
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$module = 'Potentials';
+		$instance = CRMEntity::getInstance($module);
+		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
+		
+		$queryGenerator = new QueryGenerator($module, $currentUser);
+		$queryGenerator->setFields($fields);
+		$sql = $queryGenerator->getQuery();
+		
+		if ($securityParameter != '')
+			$sql.= $securityParameter;
+		
+		$potentialSalesStageSearch = implode("','", $potentialSalesStage);
+		$showtype = $request->get('showtype');
+		if($showtype == 'archive'){
+			$sql .=	" AND vtiger_potential.sales_stage IN ('$potentialSalesStageSearch')";
+		}else{
+			$sql .=	" AND vtiger_potential.sales_stage NOT IN ('$potentialSalesStageSearch')";
+		}
+		
+		$sql .=	' AND vtiger_potential.related_to = ?';
+		$params[] = $record;
+
+		$sql.= ' LIMIT '.$limit;
+
+		$result = $db->pquery($sql, $params);
+		$returnData = array();
+		for($i=0; $i<$db->num_rows($result); $i++) {
+			$returnData[] = $db->query_result_rowdata($result, $i);
+		}
+		return $returnData;
 	}
 }

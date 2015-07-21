@@ -19,7 +19,7 @@ require_once 'include/runtime/Cache.php';
  * $fieldlist = Array(Array('fieldlabel'=>$fieldlabel,'generatedtype'=>$generatedtype,'columnname'=>$columnname,'fieldname'=>$fieldname,'value'=>picklistvalues))
  */
 function getUserFldArray($fld_module,$roleid){
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$user_fld = Array();
 	$tabid = getTabid($fld_module);
 
@@ -56,7 +56,7 @@ function getUserFldArray($fld_module,$roleid){
  * $modules = Array($tabid=>$tablabel,$tabid1=>$tablabel1,$tabid2=>$tablabel2,-------------,$tabidn=>$tablabeln)
  */
 function getPickListModules(){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	// vtlib customization: Ignore disabled modules.
 	$query = 'select distinct vtiger_field.fieldname,vtiger_field.tabid,vtiger_tab.tablabel, vtiger_tab.name as tabname,uitype from vtiger_field inner join vtiger_tab on vtiger_tab.tabid=vtiger_field.tabid where uitype IN (15,33) and vtiger_field.tabid != 29 and vtiger_tab.presence != 1 and vtiger_field.presence in (0,2) order by vtiger_field.tabid ASC';
 	// END
@@ -72,7 +72,7 @@ function getPickListModules(){
  * @return array $role - the roles present in the CRM in the array format
  */
 function getrole2picklist(){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$query = "select rolename,roleid from vtiger_role where roleid not in('H1') order by roleid";
 	$result = $adb->pquery($query, array());
 	while($row = $adb->fetch_array($result)){
@@ -101,14 +101,12 @@ function get_available_module_picklist($picklist_details){
  * @return array $arr - the array containing the picklist values
  */
 function getAllPickListValues($fieldName,$lang = Array() ){
-	global $adb;
-	$sql = 'SELECT * FROM vtiger_'.$adb->sql_escape_string($fieldName);
-	$result = $adb->query($sql);
-	$count = $adb->num_rows($result);
-
-	$arr = array();
-	for($i=0;$i<$count;$i++){
-		$pick_val = decode_html($adb->query_result($result, $i, $fieldName));
+	$db = PearDatabase::getInstance();
+	$result = $db->query('SELECT * FROM vtiger_'.$fieldName);
+	
+	$arr = [];
+	while($row = $db->fetchByAssoc($result)){
+		$pick_val = decode_html($row[$fieldName]);
 		if($lang[$pick_val] != ''){
 			$arr[$pick_val] = $lang[$pick_val];
 		}
@@ -201,9 +199,9 @@ function getAssignedPicklistValues($tableName, $roleid, $adb, $lang=array()){
 			$roleids[] = $role;
 		}
 
-		$sql = "SELECT distinct ".$adb->sql_escape_string($tableName)." FROM ". $adb->sql_escape_string("vtiger_$tableName")
-				. " inner join vtiger_role2picklist on ".$adb->sql_escape_string("vtiger_$tableName").".picklist_valueid=vtiger_role2picklist.picklistvalueid"
-				. " and roleid in (".generateQuestionMarks($roleids).") order by sortid";
+		$sql = 'SELECT distinct '.$adb->sql_escape_string($tableName,true).' FROM '. $adb->sql_escape_string("vtiger_$tableName",true)
+				. ' inner join vtiger_role2picklist on '.$adb->sql_escape_string("vtiger_$tableName",true).'.picklist_valueid=vtiger_role2picklist.picklistvalueid'
+				. ' and roleid in ('.$adb->generateQuestionMarks($roleids).') order by sortid';
 		$result = $adb->pquery($sql, $roleids);
 		$count = $adb->num_rows($result);
 

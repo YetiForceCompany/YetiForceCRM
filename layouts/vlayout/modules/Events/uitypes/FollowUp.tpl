@@ -12,7 +12,6 @@
 {assign var="dateFormat" value=$USER_MODEL->get('date_format')}
 {assign var="currentDate" value=Vtiger_Date_UIType::getDisplayDateValue('')}
 {assign var="time" value=Vtiger_Time_UIType::getDisplayTimeValue(null)}
-{assign var="currentTimeInVtigerFormat" value=Vtiger_Time_UIType::getTimeValueInAMorPM($time)}
 {if $COUNTER eq 2}
 </tr><tr class="">
 	{assign var=COUNTER value=1}
@@ -22,7 +21,7 @@
 {assign var=FOLLOW_UP_LABEL value={vtranslate('LBL_HOLD_FOLLOWUP_ON',$MODULE)}}
 <td class="fieldLabel {if !($SHOW_FOLLOW_UP)}hide {/if}followUpContainer massEditActiveField">
 	<label class="muted pull-right marginRight10px">
-		<input name="followup" type="checkbox"  onchange="if($(this).prop('checked')){ldelim}changevalidator(this,'validate[funcCall[Vtiger_greaterThanDependentField_Validator_Js.invokeValidation]]'){rdelim}else{ldelim}changevalidator(this,'validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]'){rdelim}" class="alignTop" {if $FOLLOW_UP_STATUS} checked{/if}/>
+		<input name="followup" type="checkbox"  onchange="if($(this).prop('checked')){ldelim}changevalidator(this,'validate[funcCall[Vtiger_greaterThanDependentField_Validator_Js.invokeValidation]]'){rdelim}else{ldelim}changevalidator(this,'validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]'){rdelim}" class="alignTop" {if $FOLLOW_UP_STATUS} title="1" {else} title="0"{/if} {if $FOLLOW_UP_STATUS} checked{/if}/>
 		{$FOLLOW_UP_LABEL}
 	</label>
 	<script>	    
@@ -37,20 +36,20 @@
 {$FIELD_INFO['label'] = {$FOLLOW_UP_LABEL}}
 <td class="fieldValue {if !($SHOW_FOLLOW_UP)}hide {/if}followUpContainer massEditActiveField">
 	<div>
-		<div class="input-append row-fluid">
-			<div class="span10 row-fluid date">
-				<input name="followup_date_start" type="text" class="span9 dateField" data-date-format="{$dateFormat}" type="text"  data-fieldinfo= '{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'
-					   value="{if !empty($FOLLOW_UP_DATE)}{$FOLLOW_UP_DATE}{else}{$currentDate}{/if}" data-validation-engine="{if $FOLLOW_UP_STATUS}validate[funcCall[Vtiger_greaterThanDependentField_Validator_Js.invokeValidation]]{else}validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]{/if}" />
-				<span class="add-on"><i class="icon-calendar"></i></span>
+		<div class="input-group row">
+			<div class="col-md-10 row date">
+				<input name="followup_date_start" type="text" class="col-md-9 dateField" data-date-format="{$dateFormat}" type="text"  data-fieldinfo= '{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'
+					   value="{if !empty($FOLLOW_UP_DATE)}{$FOLLOW_UP_DATE}{else}{$currentDate}{/if}" title="{if !empty($FOLLOW_UP_DATE)}{$FOLLOW_UP_DATE}{else}{$currentDate}{/if}" data-validation-engine="{if $FOLLOW_UP_STATUS}validate[funcCall[Vtiger_greaterThanDependentField_Validator_Js.invokeValidation]]{else}validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]{/if}" />
+				<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 			</div>	
 		</div>		
 	</div>
 	<div>
-		<div class="input-append time">		    
-			<input type="text" name="followup_time_start" class="timepicker-default input-small" 
-				   value="{if !empty($FOLLOW_UP_TIME)}{$FOLLOW_UP_TIME}{else}{$currentTimeInVtigerFormat}{/if}" />
-			<span class="add-on cursorPointer">
-				<i class="icon-time"></i>
+		<div class="input-group time">
+			<input type="text" name="followup_time_start" class="timepicker-default input-sm" 
+				   value="{if !empty($FOLLOW_UP_TIME)}{$FOLLOW_UP_TIME}{else}{$time}{/if}" title="{if !empty($FOLLOW_UP_TIME)}{$FOLLOW_UP_TIME}{else}{$time}{/if}"/>
+			<span class="input-group-addon cursorPointer">
+				<span class="glyphicon glyphicon-time"></span>
 			</span>
 		</div>	
 	</div>

@@ -14,8 +14,8 @@
 	{assign var="MODULE_NAME" value=$MODULE->get('name')}
 	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
 	<div class="detailViewContainer">
-		<div class="row-fluid detailViewTitle">
-			<div class="span5">
+		<div class="row detailViewTitle">
+			<div class="col-md-5">
 				<span class="span0">
 					<h3>{$RECORD->getName()}</h3>
 				</span>
@@ -26,12 +26,12 @@
 					  data-summary-url="{$SUMMARY_MODE_URL}" data-full-url="{$FULL_MODE_URL}"  />
 			</div>
 
-			<div class="span7">
+			<div class="col-md-7">
 				<div class="pull-right">
 					<div class="btn-toolbar">
 						{foreach item=DEVAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 						<span class="btn-group">
-							<button class="btn"
+							<button class="btn btn-default"
 								{if $DEVAIL_VIEW_BASIC_LINK->isPageLoadLink()} onclick="window.location.href='{$DEVAIL_VIEW_BASIC_LINK->getUrl()}'"{/if}>
 								<strong>{vtranslate($DEVAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}</strong>
 							</button>
@@ -39,7 +39,7 @@
 						{/foreach}
 						{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
 						<span class="btn-group">
-							<a class="btn dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+							<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
 								<strong>{vtranslate('LBL_MORE',{$MODULE_NAME})}</strong>
 								<span class="caret"></span>
 							</a>
@@ -57,8 +57,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="detailViewInfo row-fluid">
-			<div class="span10 details">
+		<div class="detailViewInfo row">
+			<div class="col-md-10 details">
 				<form id="detailView" method="POST">
 					<div class="contents">
 						{$CONTENTS}

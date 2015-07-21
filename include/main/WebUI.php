@@ -8,13 +8,14 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-
+require_once 'config/debug.php';
+require_once 'config/developer.php';
+require_once 'config/secret_keys.php';
+require_once 'config/performance.php';
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
-
 require_once 'include/Loader.php';
 vimport ('include.runtime.EntryPoint');
-
 class Vtiger_WebUI extends Vtiger_EntryPoint {
 
 	/**
@@ -22,8 +23,14 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 	 * @param Vtiger_Request $request
 	 * @throws AppException
 	 */
-	protected function checkLogin (Vtiger_Request $request) {
+	protected function checkLogin(Vtiger_Request $request) {
 		if (!$this->hasLogin()) {
+			$return_params = $_SERVER['QUERY_STRING'];
+			if ($return_params && !$_SESSION['return_params']) {
+				//Take the url that user would like to redirect after they have successfully logged in.
+				$return_params = urlencode($return_params);
+				Vtiger_Session::set('return_params', $return_params);
+			}
 			header('Location: index.php');
 			throw new AppException('Login is required');
 		}
@@ -87,20 +94,25 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 	}
 
 	function process (Vtiger_Request $request) {
+		vglobal('log', LoggerManager::getLogger('System'));
 		Vtiger_Session::init();
-		
-		// Better place this here as session get initiated
-		//skipping the csrf checking for the forgot(reset) password 
-		if($request->get('mode') != 'reset' && $request->get('action') != 'Login')
-			require_once 'libraries/csrf-magic/csrf-magic.php';
+		$forceSSL = vglobal('forceSSL');
+		if ($forceSSL && !Vtiger_Functions::getBrowserInfo()->https) {
+			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+		}
 
+		// Better place this here as session get initiated
+		//skipping the csrf checking for the forgot(reset) password
+		$csrfProtection = vglobal('csrfProtection');
+		if ($csrfProtection) {
+			if ($request->get('mode') != 'reset' && $request->get('action') != 'Login')
+				require_once 'libraries/csrf-magic/csrf-magic.php';
+		}
 		// TODO - Get rid of global variable $current_user
 		// common utils api called, depend on this variable right now
 		$currentUser = $this->getLogin();
 		vglobal('current_user', $currentUser);
 
-		global $default_language;
-		vglobal('default_language', $default_language);
 		$currentLanguage = Vtiger_Language_Handler::getLanguage();
 		vglobal('current_language',$currentLanguage);
 		$module = $request->getModule();
@@ -160,10 +172,12 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 			$handler = new $handlerClass();
             if ($handler) {
                 vglobal('currentModule', $module);
-                
-                // Ensure handler validates the request
-                $handler->validateRequest($request);
-                
+				$csrfProtection = vglobal('csrfProtection');
+                if ($csrfProtection) {
+					// Ensure handler validates the request
+					$handler->validateRequest($request);
+				}
+
 				if ($handler->loginRequired()) {
 					$this->checkLogin ($request);
 				}
@@ -193,15 +207,19 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 				throw new AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
 			}
 		} catch(Exception $e) {
+			$log = vglobal('log');
 			if ($view) {
 				// Log for developement.
-				error_log($e->getTraceAsString(), E_NOTICE);
+				$log->error($e->getMessage().' => '.$e->getFile().':'.$e->getLine());
 				Vtiger_Functions::throwNewException($e->getMessage());
 			} else {
 				$response = new Vtiger_Response();
 				$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 				$response->setError($e->getMessage());
-				Vtiger_Functions::throwNewException($e->getMessage());
+				$log->error($e->getMessage().' => '.$e->getFile().':'.$e->getLine());
+			}
+			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
+				die($e->getTraceAsString());
 			}
 		}
 

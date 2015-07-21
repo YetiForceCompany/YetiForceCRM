@@ -6,39 +6,40 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 08/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_to' => 'to',
 	'LBL_EXPORT_TO_PDF' => 'Export to PDF',
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Address Information',
 	'LBL_VENDORS_ADD_TASK' => 'Add Task',
 	'LBL_VENDORS_ADD_EVENT' => 'Add Event',
-	'LBL_SEND_MAIL_PDF' => 'Send Mail PDF',
-	'300-Sales-Software' => '300-Vendas-Software' , 
-	'301-Sales-Hardware' => '301-Vendas-Hardware' , 
-	'302-Rental-Income'=> '302-Locação-Renda' , 
-	'303-Interest-Income'=> '303-Juro-Renda', 
-	'304-Sales-Software-Support' => '304-Vendas-Software-Suporte' , 
-	'305-Sales Other'=> '305-Outras Vendas' , 
-	'306-Internet Sales' => '306-Vendas Internet' , 
-	'307-Service-Hardware Labor' => '307-Serviço-Lab Hardware' , 
+	'300-Sales-Software' => '300-Vendas-Software' ,
+	'301-Sales-Hardware' => '301-Vendas-Hardware' ,
+	'302-Rental-Income'=> '302-Locação-Renda' ,
+	'303-Interest-Income'=> '303-Juro-Renda',
+	'304-Sales-Software-Support' => '304-Vendas-Software-Suporte' ,
+	'305-Sales Other'=> '305-Outras Vendas' ,
+	'306-Internet Sales' => '306-Vendas Internet' ,
+	'307-Service-Hardware Labor' => '307-Serviço-Lab Hardware' ,
 	'308-Sales-Books'=> '308-Vendas-Livros' ,
 	'Email' => 'Email',
 	'GL Account' => 'Conta Plano Contas',
 	'LBL_ADD_RECORD' => 'Adicionar Fornecedor',
 	'LBL_RECORDS_LIST' => 'Lista Fornecedores',
-	'LBL_VENDOR_INFORMATION' => 'Detalhes do Fornecedor:', 
+	'LBL_VENDOR_INFORMATION' => 'Detalhes do Fornecedor:',
 	'Phone' => 'Telefone',
-	'SINGLE_Vendors' => 'Fornecedor', 
-	'Vendor Name'=> 'Nome Fornecedor' , 
-	'Vendor No'=> 'Cod. Fornecedor' , 
-	'Vendors'=> 'Fornecedores', 
-	'Website'=> 'Website' , 
-);
+	'SINGLE_Vendors' => 'Fornecedor',
+	'Vendor Name'=> 'Nome Fornecedor' ,
+	'Vendor No'=> 'Cod. Fornecedor' ,
+	'Vendors'=> 'Fornecedores',
+	'Website'=> 'Website' ,
+	'LBL_BUILDING_NUMBER' => 'Número Edifício',
+	'LBL_LOCAL_NUMBER' => 'Número Sala',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_DELETE_CONFIRMATION'=> 'Ao apagar este Fornecedor serão removidos os Pedidos de Compras relacionados. Tem certeza que deseja apagar este Fornecedor?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Ao apagar este(s) Fornecedor(s) serão removidos os Pedidos de Compras relacionados. Tem certeza que deseja apagar os Registros selacionados?',
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'tem certeza que deseja apagar?',
-);
+];

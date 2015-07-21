@@ -8,11 +8,14 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-$languageStrings = array(
-	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Error Move Uploaded File',
+$languageStrings = [
+	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Fehler beim Upload',
 	'ModuleManager' => 'Module Manager',
-	'LBL_IMPORT_MODULE_FROM_FILE' => 'Modul aus Datei importieren',
+	'LBL_IMPORT_MODULE_FROM_FILE' => 'Import Bundle von Datei',
 	'LBL_IMPORT_MODULE' => 'Modul importieren',
+	'LBL_IMPORTED_UPDATE' => 'System wurde erfolgreich aktualisiert.',
+	'LBL_IMPORTED_EXTENSION' => 'Erweiterung wurde erfolgreich installiert.',
+	'LBL_IMPORTED_LANGUAGE' => 'Sprache wude erfolgreich installiert.',
 	'LBL_VTIGER_EXTENSION_STORE' => 'Vtiger Erweiterungs-Shop',
 	'LBL_PUBLISHER' => 'Hersteller',
 	'LBL_LICENSE' => 'Lizenz',
@@ -30,8 +33,11 @@ $languageStrings = array(
 	'LBL_INSTALLATION_LOG' => 'Installationsprotokoll',
 	//Install From file labels
 	'LBL_VERIFY_IMPORT_DETAILS' => 'Import Informationen überprüfen',
-	'LBL_MODULE_NAME' => 'Modul Name',
+	'LBL_MODULE_NAME' => 'Bundle Name',
 	'LBL_REQ_YETIFORCE_VERSION' => 'YetiForce Version',
+	'LBL_MODULE_VERSION' => 'Bundle version',
+	'LBL_UPDATE_FROM_VERSION' => 'From version',
+	'LBL_UPDATE_TO_VERSION' => 'To version',
 	'LBL_LICENSE_ACCEPT_AGREEMENT' => 'Ich akzeptiere die Lizenzvereinbarung.',
 	'LBL_EXISTS'=>'Existiert',
 	'LBL_PROCEED_WITH_IMPORT' => 'Wollen Sie mit dem Import fortfahren?',
@@ -50,6 +56,9 @@ $languageStrings = array(
 	'LBL_ERROR_VERSION' => 'Falsche Version vom Modul, Modulversion ist __MODULEVERSION__ , aber es sollte größer als __CRMVERSION__ sein',
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Modul ist nicht in Standardsprache (__DEFAULTLANGUAGE__) enthalten.',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Fehler, keine Layout Datei',
+	'LBL_IMPORT' => 'Import',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'Upload limit is too small',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'Upload limit is too small (%s) so the file cannot be uploaded to the server. It is recommended to check the system configuration <a href="index.php?parent=Settings&module=ConfReport&view=Index">Sprawdź konfigurację serwera</a>',
 	
 	'LBL_CREATE_MODULE' => 'Modul erstellen',
 	'LBL_CREATING_MODULE' => 'Neues Modul erstellen',
@@ -59,13 +68,13 @@ $languageStrings = array(
 	'LBL_ENTITY_FIELDLABEL' => 'Zugehöriges Feldlabel',
 	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'Der Modulname existiert bereits, bitte anderen Namen wählen',
 	'LBL_INVALID_MODULE_NAME' => 'Fehlerhafter Modulname',
-);
-$jsLanguageStrings = array(
-	'JS_UPDATED_MODULE' => 'Update Successfull',
-	'JS_UPDATE_SUCCESSFULL' => 'Update Successfull',
-	'JS_IMPORTED_MODULE' => 'Install Successfull',
-	'JS_IMPORT_SUCCESSFULL' => 'Install Successfull',
-	'JS_FOR_INSTALLATION' => 'for installation',
-	'JS_CLICK_HERE' => 'Click Here',
-	'JS_ON' => 'On',
-);
+];
+$jsLanguageStrings = [
+	'JS_UPDATED_MODULE' => 'Update Erfolgreich',
+	'JS_UPDATE_SUCCESSFULL' => 'Update Erfolgreich',
+	'JS_IMPORTED_MODULE' => 'Installation Erfolgreich',
+	'JS_IMPORT_SUCCESSFULL' => 'Installation Erfolgreich',
+	'JS_FOR_INSTALLATION' => 'für Installation',
+	'JS_CLICK_HERE' => 'Hier Klicken',
+	'JS_ON' => 'Ein',
+];

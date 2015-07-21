@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'SINGLE_Project' => 'Projekty',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
@@ -66,7 +66,8 @@ $languageStrings = array(
 	'Total time [Tickets]' => 'Łączny czas<br />[Zgłoszenia]',
 	'LBL_SUMMARY' => 'Podsumowanie czasu pracy',
 	'LBL_PROJECTS_LIST' => 'Lista projektów',
-	'Add Project Task' => 'Dodaj zadanie projectu',
+	'Add Project Task' => 'Dodaj zadanie projektu',
+	'LBL_GANTT'=>'Gantt',
 	
 	'low'=>'Niski',
 	'normal'=>'Normalny',
@@ -79,4 +80,4 @@ $languageStrings = array(
 	'completed'=>'Zakończony',
 	'delivered'=>'Dostarczony',
 	'archived'=>'Zarchiwizowany',
-);
+];

@@ -8,15 +8,15 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'OSSMailTemplates' => 'E-Mail-Vorlagen',
     'Blank' => 'E-Mail-Vorlagen',
     'SINGLE_OSSMailTemplates' => 'E-Mail-Vorlage',
-    'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
-    'LBL_RECORDS_LIST' => 'Datensatz-Liste',
+    'LBL_ADD_RECORD' => 'Vorlage hinzufügen',
+    'LBL_RECORDS_LIST' => 'Liste Vorlagen',
     'Name' => 'Name',
     'Module' => 'Modul',
-    'RELATED_MODULE_FIELD' => 'Liste der feldbezogenen Module',
+    'RELATED_MODULE_FIELD' => 'Liste der verknüpften Module',
     'SEPCIAL_FUNCTION' => 'Liste der speziellen Funktionen',
     'MODULE_FIELD' => 'Modul Feld-Liste',
     'LBL_OSSMAILTEMPLATES_INFORMATION' => 'Vorlagendetails & Informationen',
@@ -27,6 +27,11 @@ $languageStrings = array(
     'No' => 'Nein',
 	'MAIL_TPL_LIST' => 'E-Mail-Vorlage auswählen',
 	'LBL_COPY_TO_CLIPBOARD_TITLE' => 'In die Zwischenablage kopieren',
+	'LBL_TYPE' => 'Typ',
+	'PLL_MODULE' => 'Modul',
+	'PLL_RECORD' => 'Datensatz',
+	'PLL_MAIL' => 'Email message',
+	'PLL_LIST' => 'List',
 	
 	/// special_functions
 	'CurrentDate' => 'Aktuelles Datum',
@@ -40,9 +45,9 @@ $languageStrings = array(
 	'LBL_LABEL' => 'Etikett',
 	'ContactsPortalPass' => 'Kundenportal Passwort',
 	'LinkToForgotPassword' => 'Passwort vergessen?',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
     'JS_NOTIF_PASS_COPIED' => 'Kopiert in die Zwischenablage',
     'JS_NOTIF_PASS_TITLE' => 'Text',
 
-);
+];

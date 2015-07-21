@@ -15,7 +15,9 @@ header('Cache-Control: private', false);
 
 //Opensource fix for tracking email access count
 chdir(dirname(__FILE__). '/../../../');
-
+require_once 'config/config.php';
+require_once 'config/debug.php';
+require_once 'config/performance.php';
 require_once 'include/Loader.php';
 require_once 'include/utils/utils.php';
 
@@ -27,7 +29,8 @@ vimport ('include.runtime.Controller');
 class Emails_TrackAccess_Action extends Vtiger_Action_Controller {
 
 	public function process(Vtiger_Request $request) {
-		if (vglobal('application_unique_key') !== $request->get('applicationKey')) {
+		$application_unique_key = vglobal('application_unique_key');
+		if ($application_unique_key !== $request->get('applicationKey')) {
 			exit;
 		}
 

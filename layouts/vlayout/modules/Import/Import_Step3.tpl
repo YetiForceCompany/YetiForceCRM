@@ -13,7 +13,7 @@
 <table width="100%" cellspacing="0" cellpadding="2">
 	<tr> 
 		<td width="8%">
-			<input type="checkbox" class="font-x-small" id="auto_merge" name="auto_merge" onclick="ImportJs.toogleMergeConfiguration();" />
+			<input type="checkbox" class="font-x-small" id="auto_merge" title="{vtranslate('LBL_IMPORT_STEP_3', $MODULE)}" name="auto_merge" onclick="ImportJs.toogleMergeConfiguration();" />
 			<strong>{'LBL_IMPORT_STEP_3'|@vtranslate:$MODULE}:</strong>
 		</td>
 		<td>
@@ -28,12 +28,16 @@
 			<table width="100%" cellspacing="0" cellpadding="5" id="duplicates_merge_configuration" style="display:none;">
 				<tr>
 					<td>
-						<span class="font-x-small">{'LBL_SPECIFY_MERGE_TYPE'|@vtranslate:$MODULE}</span>&nbsp;&nbsp;
-						<select name="merge_type" id="merge_type" class="font-x-small">
-							{foreach key=_MERGE_TYPE item=_MERGE_TYPE_LABEL from=$AUTO_MERGE_TYPES}
-							<option value="{$_MERGE_TYPE}">{$_MERGE_TYPE_LABEL|@vtranslate:$MODULE}</option>
-							{/foreach}
-						</select>
+						<div class="col-md-3 paddingLRZero">
+							<span class="font-x-small">{'LBL_SPECIFY_MERGE_TYPE'|@vtranslate:$MODULE}</span>&nbsp;&nbsp;
+						</div>
+						<div class="col-md-2 paddingLRZero">
+							<select name="merge_type" id="merge_type" class="font-x-small form-control" title="{vtranslate('LBL_SPECIFY_MERGE_TYPE', $MODULE)}">
+								{foreach key=_MERGE_TYPE item=_MERGE_TYPE_LABEL from=$AUTO_MERGE_TYPES}
+								<option value="{$_MERGE_TYPE}">{$_MERGE_TYPE_LABEL|@vtranslate:$MODULE}</option>
+								{/foreach}
+							</select>
+						</div>
 					</td>
 				</tr>
 				<tr>
@@ -43,13 +47,13 @@
 					<td>
 						<table class="calDayHour" cellpadding="5" cellspacing="0">
 							<tr>
-								<td><b>{'LBL_AVAILABLE_FIELDS'|@vtranslate:$MODULE}</b></td>
+								<td><strong>{'LBL_AVAILABLE_FIELDS'|@vtranslate:$MODULE}</strong></td>
 								<td></td>
-								<td><b>{'LBL_SELECTED_FIELDS'|@vtranslate:$MODULE}</b></td>
+								<td><strong>{'LBL_SELECTED_FIELDS'|@vtranslate:$MODULE}</strong></td>
 							</tr>
 							<tr>
 								<td>
-									<select id="available_fields" multiple size="10" name="available_fields" class="txtBox" style="width: 100%">
+									<select id="available_fields" multiple size="10" name="available_fields" title="{vtranslate('LBL_AVAILABLE_FIELDS', $MODULE)}'" class="txtBox" style="width: 100%">
 										{foreach key=_FIELD_NAME item=_FIELD_INFO from=$AVAILABLE_FIELDS}
 										<option value="{$_FIELD_NAME}">{$_FIELD_INFO->getFieldLabelKey()|@vtranslate:$FOR_MODULE}</option>
 										{/foreach}
@@ -63,7 +67,7 @@
 								</td>
 								<td>
 									<input type="hidden" id="merge_fields" size="10" name="merge_fields" value="" />
-									<select id="selected_merge_fields" size="10" name="selected_merge_fields" multiple class="txtBox" style="width: 100%">
+									<select id="selected_merge_fields" size="10" name="selected_merge_fields" title="{vtranslate('lBL_SELECTED_FIELDS', $MODULE)}" multiple class="txtBox" style="width: 100%">
 										{foreach key=_FIELD_NAME item=_FIELD_INFO from=$ENTITY_FIELDS}
 										<option value="{$_FIELD_NAME}">{$_FIELD_INFO->getFieldLabelKey()|@vtranslate:$FOR_MODULE}</option>
 										{/foreach}

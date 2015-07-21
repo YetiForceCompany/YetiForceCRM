@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Updates' => 'Updates',
 	'LBL_YES' => 'Ja',
 	'LBL_NO' => 'Nein',	
@@ -19,4 +19,5 @@ $languageStrings = array(
 	'LBL_RESULT'=>'Status',
 	'LBL_UPDATES' => 'Updates',
 	'LBL_UPDATES_DESCRIPTION' => 'Updates Historie',
-);
+	'LBL_IMPORT_UPDATE' => 'Update hochladen',
+];

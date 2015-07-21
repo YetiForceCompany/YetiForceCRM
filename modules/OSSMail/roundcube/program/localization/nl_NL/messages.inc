@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,7 +22,9 @@ $messages['sessionerror'] = 'Uw sessie is verlopen of ongeldig.';
 $messages['storageerror'] = 'Verbinding met IMAP-server mislukt.';
 $messages['servererror'] = 'Serverfout!';
 $messages['servererrormsg'] = 'Serverfout: $msg';
+$messages['connerror'] = 'Verbindingsfout! (Kon de server niet bereiken)';
 $messages['dberror'] = 'Databasefout!';
+$messages['windowopenerror'] = 'Het popup-venster werd geblokkeerd!';
 $messages['requesttimedout'] = 'Verzoek duurde te lang';
 $messages['errorreadonly'] = 'De bewerking kan niet uitgevoerd worden. Map is alleen-lezen.';
 $messages['errornoperm'] = 'Niet in staat om de bewerking uit te voeren. Toestemming geweigerd.';
@@ -92,6 +94,7 @@ $messages['contactsearchsuccessful'] = '$nr contactpersonen gevonden.';
 $messages['searchnomatch'] = 'Zoekopdracht heeft geen resultaten opgeleverd.';
 $messages['searching'] = 'Zoeken...';
 $messages['checking'] = 'Controleren...';
+$messages['stillsearching'] = 'Nog aan het zoeken...';
 $messages['nospellerrors'] = 'Geen spelfouten gevonden.';
 $messages['folderdeleted'] = 'Map succesvol verwijderd.';
 $messages['foldersubscribed'] = 'Succesvol geabonneerd op map.';
@@ -135,7 +138,7 @@ $messages['importmessagesuccess'] = '$nr berichten succesvol geïmporteerd';
 $messages['importmessageerror'] = 'Importeren mislukt! Het verstuurde bestand is geen geldig bericht of mailboxbestand';
 $messages['opnotpermitted'] = 'Deze bewerking is niet toegestaan!';
 $messages['nofromaddress'] = 'Het e-mailadres ontbreekt in de geselecteerde identiteit.';
-$messages['editorwarning'] = 'Door het overschakelen naar de platte-tekstverwerker gaat alle opmaak verloren. Weet u zeker dat u verder wilt gaan?';
+$messages['editorwarning'] = 'Door te wisselen van type tekstverwerker kan er opmaak verloren gaan. Weet u zeker dat u verder wilt gaan?';
 $messages['httpreceivedencrypterror'] = 'Er is een onherstelbare configuratiefout opgetreden. Neem direct contact op met uw systeembeheerder. <b>Uw bericht kon niet worden verzonden.</b>';
 $messages['smtpconnerror'] = 'SMTP-fout ($code): Verbinding met server mislukt.';
 $messages['smtpautherror'] = 'SMTP-fout ($code): Authenticatie mislukt.';
@@ -174,4 +177,14 @@ $messages['parentnotwritable'] = 'Niet in staat om map aan te maken of verplaats
 $messages['messagetoobig'] = 'Het bericht is te groot om te verwerken.';
 $messages['attachmentvalidationerror'] = 'WAARSCHUWING! Deze bijlage is verdacht omdat het bestandstype niet overeen komt met het bestandstype dat gespecificeerd is in het bericht. Open deze bijlage niet in uw browser als u de afzender niet vertrouwt, aangezien deze bijlage kwaadaardige inhoud kan bevatten.<br /><br /><em>Verwacht: $expected; gevonden: $detected</em>';
 $messages['noscriptwarning'] = 'Waarschuwing: deze webmailapplicatie vereist Javascript! U dient Javascript in te schakelen in uw browserinstellingen wanneer u gebruik wilt maken van deze applicatie.';
+$messages['messageissent'] = 'Het bericht was al verzonden, maar nog niet opgeslagen. Wilt u nu opslaan?';
+$messages['errnotfound'] = 'Bestand niet gevonden';
+$messages['errnotfoundexplain'] = 'De opgevraagde bron werd niet gevonden!';
+$messages['errfailedrequest'] = 'Mislukt verzoek';
+$messages['errauthorizationfailed'] = 'Autoriseren mislukt';
+$messages['errunauthorizedexplain'] = 'Kon niet verifiëren dat u geautoriseerd bent voor toegang tot deze dienst!';
+$messages['errrequestcheckfailed'] = 'Controle verzoek mislukt';
+$messages['errcsrfprotectionexplain'] = "Om u te beschermen, is toegang tot deze bron beveiligd tegen CSRF.\nWanneer u dit ziet, heeft u waarschijnlijk niet uitgelogd voordat u de webapplicatie verliet.\n\nMenselijke interactie is nu vereist om door te gaan.";
+$messages['errcontactserveradmin'] = 'Neem alstublieft contact op met uw systeembeheerder.';
+$messages['clicktoresumesession'] = 'Klik hier om uw vorige sessie te hervatten';
 ?>

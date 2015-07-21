@@ -48,7 +48,7 @@ class Tracker {
     {
         $this->log = LoggerManager::getLogger('Tracker');
 	// $this->db = PearDatabase::getInstance();
-	global $adb;
+	$adb = PearDatabase::getInstance();
         $this->db = $adb;
     }
 
@@ -62,9 +62,9 @@ class Tracker {
      */
     function track_view($user_id, $current_module, $item_id, $item_summary)
     {
-      global $adb;
+      $adb = PearDatabase::getInstance();
       $this->delete_history($user_id, $item_id);
-      global $log;
+      $log = vglobal('log');
 $log->info("in  track view method ".$current_module);
         
 //No genius required. Just add an if case and change the query so that it puts the tracker entry whenever you touch on the DetailView of the required entity
@@ -87,7 +87,7 @@ $log->info("in  track view method ".$current_module);
 				 	$fl[] = "' '";
 				 $fl[] = $c;
 			 }
-			 $fieldsname = $adb->sql_concat($fl);
+			 $fieldsname = $adb->concat($fl);
 		 }	
 		 $query1 = "select $fieldsname as entityname from $tablename where $entityidfield = ?"; 
 		 $result = $adb->pquery($query1, array($item_id));
@@ -147,7 +147,7 @@ $log->info("in  track view method ".$current_module);
 		//echo '<BR>';
 		if($module == "Users")
 		{
-			global $current_user;
+			$current_user  = vglobal('current_user');
 			if(is_admin($current_user))
 			{
 				$per = 'yes';
@@ -202,35 +202,30 @@ $log->info("in  track view method ".$current_module);
  * All Rights Reserved.
  * Contributor(s): ______________________________________..
      */
-    function prune_history($user_id)
-    {
-        global $history_max_viewed;
+    function prune_history($user_id) {
+		global $history_max_viewed;
 
-        // Check to see if the number of items in the list is now greater than the config max.
-        $query = "SELECT count(*) from $this->table_name WHERE user_id='$user_id'";
+		// Check to see if the number of items in the list is now greater than the config max.
+		$query = "SELECT count(*) from $this->table_name WHERE user_id='$user_id'";
 
-        $this->log->debug("About to verify history size: $query");
+		$this->log->debug("About to verify history size: $query");
+		$count = $this->db->getOne($query);
 
-        $count = $this->db->getOne($query);
+		$this->log->debug("history size: (current, max)($count, $history_max_viewed)");
+		while ($count > $history_max_viewed) {
+			// delete the last one.  This assumes that entries are added one at a time.
+			// we should never add a bunch of entries
+			$query = "SELECT * from $this->table_name WHERE user_id='$user_id' ORDER BY id ASC LIMIT 0,1";
+			$this->log->debug("About to try and find oldest item: $query");
+			$result = $this->db->query($query);
 
+			$oldest_item = $this->db->fetchByAssoc($result, -1, false);
+			$query = "DELETE from $this->table_name WHERE id=?";
+			$this->log->debug("About to delete oldest item: ");
 
-        $this->log->debug("history size: (current, max)($count, $history_max_viewed)");
-        while($count > $history_max_viewed)
-        {
-            // delete the last one.  This assumes that entries are added one at a time.
-            // we should never add a bunch of entries
-            $query = "SELECT * from $this->table_name WHERE user_id='$user_id' ORDER BY id ASC";
-            $this->log->debug("About to try and find oldest item: $query");
-            $result =  $this->db->limitQuery($query,0,1);
+			$result = $this->db->pquery($query, array($oldest_item['id']), true);
+			$count--;
+		}
+	}
 
-            $oldest_item = $this->db->fetchByAssoc($result, -1, false);
-            $query = "DELETE from $this->table_name WHERE id=?";
-            $this->log->debug("About to delete oldest item: ");
-
-            $result = $this->db->pquery($query, array($oldest_item['id']), true);
-
-
-            $count--;
-        }
-    }
 }

@@ -25,7 +25,7 @@ class Vtiger_CRMEntity extends CRMEntity {
 	var $special_functions = Array('set_import_assigned_user');
 
 	function __construct() {
-		global $log;
+		$log = vglobal('log');
 		$this->column_fields = getColumnFields(get_class($this));
 		$this->db = new PearDatabase();
 		$this->log = $log;
@@ -81,7 +81,7 @@ class Vtiger_CRMEntity extends CRMEntity {
 					"$this->table_name.$columnname";
 		}
 
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$query .= $this->getNonAdminAccessControlQuery($module,$current_user);
 		$query .= "WHERE vtiger_crmentity.deleted = 0 ".$where;
 		return $query;
@@ -91,7 +91,7 @@ class Vtiger_CRMEntity extends CRMEntity {
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
 	function getListViewSecurityParameter($module) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 

@@ -86,7 +86,7 @@ class Users extends CRMEntity {
     // This is used to retrieve related fields from form posts.
     var $additional_column_fields = Array('reports_to_name');
 
-    var $sortby_fields = Array('status','email1','phone_work','is_admin','user_name','last_name');
+    var $sortby_fields = Array('status','email1','is_admin','user_name','last_name');
 
     // This is the list of vtiger_fields that are in the lists.
     var $list_fields = Array(
@@ -96,8 +96,7 @@ class Users extends CRMEntity {
             'User Name'=>Array('vtiger_users'=>'user_name'),
 			'Status'=>Array('vtiger_users'=>'status'),
 			'Email'=>Array('vtiger_users'=>'email1'),
-            'Admin'=>Array('vtiger_users'=>'is_admin'),
-            'Phone'=>Array('vtiger_users'=>'phone_work')
+            'Admin'=>Array('vtiger_users'=>'is_admin')
     );
     var $list_fields_name = Array(
             'First Name'=>'first_name',
@@ -106,8 +105,7 @@ class Users extends CRMEntity {
             'User Name'=>'user_name',
 			'Status'=>'status',
             'Email'=>'email1',
-            'Admin'=>'is_admin',
-            'Phone'=>'phone_work'
+            'Admin'=>'is_admin'
     );
 
     //Default Fields for Email Templates -- Pavani
@@ -152,7 +150,7 @@ class Users extends CRMEntity {
      * return string  $sorder    - sortorder string either 'ASC' or 'DESC'
      */
     function getSortOrder() {
-        global $log;
+        $log = vglobal('log');
         $log->debug("Entering getSortOrder() method ...");
         if(isset($_REQUEST['sorder']))
             $sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
@@ -167,7 +165,7 @@ class Users extends CRMEntity {
      * return string  $order_by    - fieldname(eg: 'subject')
      */
     function getOrderBy() {
-        global $log;
+        $log = vglobal('log');
         $log->debug("Entering getOrderBy() method ...");
 
         $use_default_order_by = '';
@@ -336,57 +334,64 @@ class Users extends CRMEntity {
      * @param string $user_password - The password of the user to authenticate
      * @return true if the user is authenticated, false otherwise
      */
-    function doLogin($user_password) {
-        global $AUTHCFG;
-        $usr_name = $this->column_fields["user_name"];
+    function doLogin($userPassword) {
+		$userName = $this->column_fields["user_name"];
+		$userid = $this->retrieve_user_id($userName);
+		$this->log->debug("Start of authentication for user: $userName");
+		$result = $this->db->pquery('SELECT * FROM yetiforce_auth');
+		$auth = [];
+		for ($i = 0; $i < $this->db->num_rows($result); $i++) {
+			$row = $this->db->raw_query_result_rowdata($result, $i);
+			$auth[$row['type']][$row['param']] = $row['value'];
+		}
+		if ($auth['ldap']['active'] == 'true') {
+			$this->log->debug('Start LDAP authentication');
+			$users = explode(',', $auth['ldap']['users']);
+			if (in_array($userid, $users)) {
+				$bind = FALSE;
+				$port = $auth['ldap']['port'] == '' ? 389 : $auth['ldap']['port'];
+				$ds = @ldap_connect($auth['ldap']['server'], $port);
+				if (!$ds) {
+					$this->log->error('Error LDAP authentication: Could not connect to LDAP server.');
+				}
+				@ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3); // Try version 3.  Will fail and default to v2.
+				@ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
+				if ($port != 636) {
+					@ldap_start_tls($ds);
+				}
+				$bind = @ldap_bind($ds, $userName.$auth['ldap']['domain'], $userPassword);
+				if (!$bind) {
+					$this->log->error('LDAP authentication: LDAP bind failed.');
+				}
+				return $bind;
+			} else {
+				$this->log->error("$userName user does not belong to the LDAP");
+			}
+			$this->log->debug('End LDAP authentication');
+		}
 
-        switch (strtoupper($AUTHCFG['authType'])) {
-            case 'LDAP':
-                $this->log->debug("Using LDAP authentication");
-                require_once('modules/Users/authTypes/LDAP.php');
-                $result = ldapAuthenticate($this->column_fields["user_name"], $user_password);
-                if ($result == NULL) {
-                    return false;
-                } else {
-                    return true;
-                }
-                break;
+		//Default authentication
+		$this->log->debug('Using integrated/SQL authentication');
+		$query = "SELECT crypt_type, user_name FROM $this->table_name WHERE user_name=?";
+		$result = $this->db->pquery($query,[$userName]);
+		if ($result->rowCount() != 1) {
+			$this->log->error("User not found: $userName");
+			return FALSE;
+		}
+		$cryptType = $this->db->query_result($result, 0, 'crypt_type');
+		$this->column_fields["user_name"] = $this->db->query_result($result, 0, 'user_name');
+		$encryptedPassword = $this->encrypt_password($userPassword, $cryptType);
+		$query = "SELECT 1 from $this->table_name where user_name=? AND user_password=? AND status = ?";
+		$result = $this->db->pquery($query,[$userName, $encryptedPassword, 'Active']);
+		if ($result->rowCount() == 1) {
+			$this->log->debug("Authentication OK. User: $userName");
+			return TRUE;
+		}
+		$this->log->debug("Authentication failed. User: $userName");
+		return FALSE;
+	}
 
-            case 'AD':
-                $this->log->debug("Using Active Directory authentication");
-                require_once('modules/Users/authTypes/adLDAP.php');
-                $adldap = new adLDAP();
-                if ($adldap->authenticate($this->column_fields["user_name"],$user_password)) {
-                    return true;
-                } else {
-                    return false;
-                }
-                break;
-
-            default:
-                $this->log->debug("Using integrated/SQL authentication");
-                $query = "SELECT crypt_type, user_name FROM $this->table_name WHERE user_name=?";
-                $result = $this->db->requirePsSingleResult($query, array($usr_name), false);
-                if (empty($result)) {
-                    return false;
-                }
-                $crypt_type = $this->db->query_result($result, 0, 'crypt_type');
-				$this->column_fields["user_name"] = $this->db->query_result($result, 0, 'user_name');
-                $encrypted_password = $this->encrypt_password($user_password, $crypt_type);
-                $query = "SELECT 1 from $this->table_name where user_name=? AND user_password=? AND status = ?";
-                $result = $this->db->requirePsSingleResult($query, array($usr_name, $encrypted_password, 'Active'), false);
-                if (empty($result)) {
-                    return false;
-                } else {
-                    return true;
-                }
-                break;
-        }
-        return false;
-    }
-
-
-    /**
+	/**
      * Load a user based on the user_name in $this
      * @return -- this if load was successul and null if load failed.
      * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
@@ -450,7 +455,7 @@ class Users extends CRMEntity {
         $crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
 
         // For backward compatability, we need to make sure to handle this case.
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $table_cols = $adb->getColumnNames("vtiger_users");
         if(!in_array("crypt_type", $table_cols)) {
             return $crypt_type;
@@ -485,55 +490,51 @@ class Users extends CRMEntity {
      * Contributor(s): ______________________________________..
      */
     function change_password($user_password, $new_password, $dieOnError = true) {
+		$usr_name = $this->column_fields["user_name"];
+		global $mod_strings;
+		$current_user = vglobal('current_user');
+		$this->log->debug("Starting password change for $usr_name");
 
-        $usr_name = $this->column_fields["user_name"];
-        global $mod_strings;
-        global $current_user;
-        $this->log->debug("Starting password change for $usr_name");
-
-        if( !isset($new_password) || $new_password == "") {
-            $this->error_string = $mod_strings['ERR_PASSWORD_CHANGE_FAILED_1'].$user_name.$mod_strings['ERR_PASSWORD_CHANGE_FAILED_2'];
-            return false;
-        }
-
-        if (!is_admin($current_user)) {
-              #commenting this as the the transaction is already started in vtws_changepassword
-//            $this->db->startTransaction();
-            if(!$this->verifyPassword($user_password)) {
-                $this->log->warn("Incorrect old password for $usr_name");
-                $this->error_string = $mod_strings['ERR_PASSWORD_INCORRECT_OLD'];
-                return false;
-            }
-            if($this->db->hasFailedTransaction()) {
-                if($dieOnError) {
-                    die("error verifying old transaction[".$this->db->database->ErrorNo()."] ".
-                            $this->db->database->ErrorMsg());
-                }
-                return false;
-            }
-        }
+		if (!isset($new_password) || $new_password == "") {
+			$this->error_string = $mod_strings['ERR_PASSWORD_CHANGE_FAILED_1'] . $user_name . $mod_strings['ERR_PASSWORD_CHANGE_FAILED_2'];
+			return false;
+		}
+		
+		if (!is_admin($current_user)) {
+			if (!$this->verifyPassword($user_password)) {
+				$this->log->warn("Incorrect old password for $usr_name");
+				$this->error_string = $mod_strings['ERR_PASSWORD_INCORRECT_OLD'];
+				return false;
+			}
+			if ($this->db->hasFailedTransaction()) {
+				if ($dieOnError) {
+					die("error verifying old transaction[" . $this->db->database->ErrorNo() . "] " .
+							$this->db->database->ErrorMsg());
+				}
+				return false;
+			}
+		}
 
 
-        $user_hash = $this->get_user_hash($new_password);
+		$user_hash = $this->get_user_hash($new_password);
 
-        //set new password
-        $crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
-        $encrypted_new_password = $this->encrypt_password($new_password, $crypt_type);
+		//set new password
+		$crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
+		$encrypted_new_password = $this->encrypt_password($new_password, $crypt_type);
 
-        $query = "UPDATE $this->table_name SET user_password=?, confirm_password=?, user_hash=?, ".
-                "crypt_type=? where id=?";
-          #commenting this as the the transaction is already started in vtws_changepassword
-//        $this->db->startTransaction();
-        $this->db->pquery($query, array($encrypted_new_password, $encrypted_new_password,
-                $user_hash, $crypt_type, $this->id));
-        if($this->db->hasFailedTransaction()) {
-            if($dieOnError) {
-                die("error setting new password: [".$this->db->database->ErrorNo()."] ".
-                        $this->db->database->ErrorMsg());
-            }
-            return false;
-        }
-
+		$query = "UPDATE $this->table_name SET user_password=?, confirm_password=?, user_hash=?, " .
+				"crypt_type=? where id=?";
+		$this->db->startTransaction();
+		$this->db->pquery($query, array($encrypted_new_password, $encrypted_new_password,
+			$user_hash, $crypt_type, $this->id));
+		if ($this->db->hasFailedTransaction()) {
+			if ($dieOnError) {
+				die("error setting new password: [" . $this->db->database->ErrorNo() . "] " .
+						$this->db->database->ErrorMsg());
+			}
+			return false;
+		}
+		$this->db->completeTransaction();
 		// Fill up the post-save state of the instance.
 		if (empty($this->column_fields['user_hash'])) {
 			$this->column_fields['user_hash'] = $user_hash;
@@ -543,10 +544,10 @@ class Users extends CRMEntity {
 		$this->column_fields['confirm_password'] = $encrypted_new_password;
 
 		$this->triggerAfterSaveEventHandlers();
-        return true;
-    }
+		return true;
+	}
 
-    function de_cryption($data) {
+	function de_cryption($data) {
         require_once('include/utils/encryption.php');
         $de_crypt = new Encryption();
         if(isset($data)) {
@@ -588,7 +589,7 @@ class Users extends CRMEntity {
      */
 
     function retrieve_user_id($user_name) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $query = "SELECT id from vtiger_users where user_name=? AND deleted=0";
         $result  =$adb->pquery($query, array($user_name));
         $userid = $adb->query_result($result,0,'id');
@@ -786,7 +787,7 @@ class Users extends CRMEntity {
     }
 
     function createAccessKey() {
-        global $adb,$log;
+        $adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 
         $log->info("Entering Into function createAccessKey()");
         $updateQuery = "update vtiger_users set accesskey=? where id=?";
@@ -800,9 +801,9 @@ class Users extends CRMEntity {
      * @param $module -- module:: Type varchar
      */
     function insertIntoEntityTable($table_name, $module) {
-        global $log;
+        $log = vglobal('log');
         $log->info("function insertIntoEntityTable ".$module.' vtiger_table name ' .$table_name);
-        global $adb, $current_user;
+        $adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
         $insertion_mode = $this->mode;
         //Checkin whether an entry is already is present in the vtiger_table to update
         if($insertion_mode == 'edit') {
@@ -871,8 +872,13 @@ class Users extends CRMEntity {
                     else {
                         $fldvalue = $this->column_fields[$fieldname];
                     }
-                }
-                elseif($uitype == 33) {
+                } elseif ($uitype == 5 || $uitype == 6 || $uitype == 23) {
+					if (isset($current_user->date_format)) {
+						$fldvalue = getValidDBInsertDateValue($this->column_fields[$fieldname]);
+					} else {
+						$fldvalue = $this->column_fields[$fieldname];
+					}
+				}elseif($uitype == 33) {
                     if(is_array($this->column_fields[$fieldname])) {
                         $field_list = implode(' |##| ',$this->column_fields[$fieldname]);
                     }else {
@@ -917,9 +923,9 @@ class Users extends CRMEntity {
                 $languageList = Vtiger_Language::getAll();
                 $languageList = array_keys($languageList);
                 if(!in_array($fldvalue, $languageList) || $fldvalue == '') {
-                    global $default_language;
+					$default_language = vglobal('default_language');
                     if(!empty($default_language) && in_array($default_language, $languageList)) {
-                        $fldvalue = $default_language;
+                        $fldvalue = vglobal('default_language');
                     } else {
                         $fldvalue = $languageList[0];
                     }
@@ -981,7 +987,7 @@ class Users extends CRMEntity {
      * @param $module -- module:: Type varchar
      */
     function insertIntoAttachment($id,$module) {
-        global $log;
+        $log = vglobal('log');
         $log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
         foreach($_FILES as $fileindex => $files) {
@@ -999,7 +1005,7 @@ class Users extends CRMEntity {
      * @param $module -- module:: Type varchar
      */
     function retrieve_entity_info($record, $module) {
-        global $adb,$log;
+        $adb = PearDatabase::getInstance(); 	$log = vglobal('log');
         $log->debug("Entering into retrieve_entity_info($record, $module) method.");
 
         if($record == '') {
@@ -1080,10 +1086,10 @@ class Users extends CRMEntity {
      * @param $file_details -- file details array:: Type array
      */
     function uploadAndSaveFile($id,$module,$file_details) {
-        global $log;
+        $log = vglobal('log');
         $log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
 
-        global $current_user;
+        $current_user  = vglobal('current_user');
         global $upload_badext;
 
         $date_var = date('Y-m-d H:i:s');
@@ -1116,7 +1122,7 @@ class Users extends CRMEntity {
         if($save_file == 'true') {
 
             $sql1 = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?,?,?,?,?,?,?)";
-            $params1 = array($current_id, $current_user->id, $ownerid, $module." Attachment", $this->column_fields['description'], $this->db->formatString("vtiger_crmentity","createdtime",$date_var), $this->db->formatDate($date_var, true));
+            $params1 = array($current_id, $current_user->id, $ownerid, $module." Attachment", $this->column_fields['description'], $this->db->formatDate($date_var,true), $this->db->formatDate($date_var, true));
             $this->db->pquery($sql1, $params1);
 
             $sql2="insert into vtiger_attachments(attachmentsid, name, description, type, path) values(?,?,?,?,?)";
@@ -1148,7 +1154,24 @@ class Users extends CRMEntity {
      *
      */
     function save($module_name) {
-        global $log, $adb;
+        $adb = PearDatabase::getInstance();
+		$log = vglobal('log');
+		
+		//Event triggering code
+		require_once("include/events/include.inc");
+
+		//In Bulk mode stop triggering events
+		if (!self::isBulkSaveMode()) {
+			$em = new VTEventsManager($adb);
+			// Initialize Event trigger cache
+			$em->initTriggerCache();
+			$entityData = VTEntityData::fromCRMEntity($this);
+
+			$em->triggerEvent("vtiger.entity.beforesave.modifiable", $entityData);
+			$em->triggerEvent("vtiger.entity.beforesave", $entityData);
+			$em->triggerEvent("vtiger.entity.beforesave.final", $entityData);
+		}
+		
         if($this->mode != 'edit') {
         	$sql = 'SELECT id FROM vtiger_users WHERE user_name = ? OR email1 = ?';
         	$result = $adb->pquery($sql, array($this->column_fields['user_name'] , $this->column_fields['email1']));
@@ -1160,9 +1183,27 @@ class Users extends CRMEntity {
         	}
         	
         }
+		// update dashboard widgets when changing users role
+		else {
+			$query = 'SELECT `roleid` FROM `vtiger_user2role` WHERE `userid` = ? LIMIT 1;';
+			$oldRoleResult = $adb->pquery($query, [$this->id]);
+			$oldRole = $adb->query_result($oldRoleResult, 0, 'roleid');
+
+			if ( $oldRole != $this->column_fields['roleid'] ) {
+				$query = 'DELETE FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ?;';
+				$adb->pquery($query, [$this->id]);
+			}
+		}
         //Save entity being called with the modulename as parameter
         $this->saveentity($module_name);
 
+		if ($em) {
+			//Event triggering code
+			$em->triggerEvent("vtiger.entity.aftersave", $entityData);
+			$em->triggerEvent("vtiger.entity.aftersave.final", $entityData);
+			//Event triggering code ends
+		}
+		
         // Added for Reminder Popup support
         $query_prev_interval = $adb->pquery("SELECT reminder_interval from vtiger_users where id=?",
                 array($this->id));
@@ -1194,7 +1235,7 @@ class Users extends CRMEntity {
      * @returns the customized home page order in $return_array
      */
     function getHomeStuffOrder($id) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         if(!is_array($this->homeorder_array)) {
             $this->homeorder_array = array('UA', 'PA', 'ALVT','HDB','PLVT','QLTQ','CVLVT','HLT',
                     'GRT','OLTSO','ILTI','MNL','OLTPO','LTFAQ');
@@ -1240,7 +1281,7 @@ class Users extends CRMEntity {
     }
 
     function insertUserdetails($inVal) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $uid=$this->id;
         $s1=$adb->getUniqueID("vtiger_homestuff");
         $visibility=$this->getDefaultHomeModuleVisibility('ALVT',$inVal);
@@ -1368,7 +1409,7 @@ class Users extends CRMEntity {
      */
 	 function saveHomeStuffOrder($id)
 	 {
-        global $log,$adb;
+        $adb = PearDatabase::getInstance(); $log = vglobal('log');
         $log->debug("Entering in function saveHomeOrder($id)");
 
 		 if($this->mode == 'edit')
@@ -1433,7 +1474,7 @@ class Users extends CRMEntity {
      * @param $prev_reminder_interval -- Last Reminder Interval on which the reminder popup's were triggered.
      */
     function resetReminderInterval($prev_reminder_interval) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         if($prev_reminder_interval != $this->column_fields['reminder_interval'] ) {
             unset($_SESSION['next_reminder_interval']);
             unset($_SESSION['next_reminder_time']);
@@ -1473,8 +1514,6 @@ class Users extends CRMEntity {
 
     /** Function to delete an entity with given Id */
     function trash($module, $id) {
-        global $log, $current_user;
-
         $this->mark_deleted($id);
     }
 
@@ -1495,9 +1534,9 @@ class Users extends CRMEntity {
 
 		vtws_transferOwnership($userId, $transformToUserId);
 
-		//delete from user vtiger_table;
-		$sql = "delete from vtiger_users where id=?";
-		$adb->pquery($sql, array($userId));
+		//updating the vtiger_users table;
+		$sql = "UPDATE vtiger_users SET status=?,deleted=? where id=?";
+		$adb->pquery($sql, array('Inactive', true, $userId));
 	}
 
     /**
@@ -1505,7 +1544,7 @@ class Users extends CRMEntity {
      * @param <type> $id
      */
     function mark_deleted($id) {
-        global $log, $current_user, $adb;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
         $date_var = date('Y-m-d H:i:s');
         $query = "UPDATE vtiger_users set status=?,date_modified=?,modified_user_id=? where id=?";
         $adb->pquery($query, array('Inactive', $adb->formatDate($date_var, true),
@@ -1517,7 +1556,7 @@ class Users extends CRMEntity {
      * @return Integer - Active Admin User ID
      */
     public static function getActiveAdminId() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $cache = Vtiger_Cache::getInstance();
 		if($cache->getAdminUserId()){
 			return $cache->getAdminUserId();
@@ -1550,7 +1589,7 @@ class Users extends CRMEntity {
     * @param- $_REQUEST array
     */
     public function setUserPreferences($requestArray) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$updateData = array();
 
 		if (isset($requestArray['about']['phone'])) $updateData['phone_mobile'] = vtlib_purify ($requestArray['about']['phone']);
@@ -1576,7 +1615,7 @@ class Users extends CRMEntity {
 	 * @param- $_FILE array
 	 */
 	public function uploadOrgLogo($requestArray, $fileArray) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$file = $fileArray['file'];
 		$logo_name = $file['name'];
 		$file_size = $file['size'];
@@ -1604,7 +1643,7 @@ class Users extends CRMEntity {
     * @param- $_REQUEST array
     */
 	public function updateBaseCurrency($requestArray) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if (isset ($requestArray['currency_name'])) {
 			$currency_name = vtlib_purify($requestArray['currency_name']);
 
@@ -1643,7 +1682,7 @@ class Users extends CRMEntity {
    }
 
    public function triggerAfterSaveEventHandlers() {
-	   global $adb;
+	   $adb = PearDatabase::getInstance();
 		require_once("include/events/include.inc");
 
 		//In Bulk mode stop triggering events

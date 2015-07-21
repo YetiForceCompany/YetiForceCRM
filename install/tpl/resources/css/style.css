@@ -5,7 +5,6 @@ body{
     font-family: Tahoma, "Trebuchet MS","Lucida Grande",Verdana;
     background: #F5FAEE;/*#f1f6e8;*/
     color : #555;
-    font-size: 80%;
     height: 98%;
 }
 .page-container{
@@ -69,7 +68,7 @@ hr{
     border: 1px solid #ddd;
     margin: 13px 0;
 }
-.row-fluid .group-container{
+.row .group-container{
     background: #eee;
     border: 1px solid #ddd;
     border-radius: 3px;
@@ -196,4 +195,8 @@ hr{
     padding: 5px 10px;
     height: 30px;
     text-align: left;
+}
+.paddingLRZero {
+    padding-left: 0px;
+    padding-right: 0px;
 }

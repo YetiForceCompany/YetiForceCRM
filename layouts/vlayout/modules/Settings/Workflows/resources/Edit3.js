@@ -79,6 +79,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js",{},{
 					thisInstance.registerFillTaskFieldsEvent();
 					thisInstance.registerCheckSelectDateEvent();
 				}
+				progressIndicatorElement.progressIndicator({'mode' : 'hide'})
 				app.showModalWindow(data,function(){
 					if(typeof callBackFunction == 'function') {
 						callBackFunction(data)
@@ -369,7 +370,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js",{},{
 	registerFillTaskFromEmailFieldEvent: function() {
 		jQuery('#saveTask').on('change','#fromEmailOption',function(e) {
 			var currentElement = jQuery(e.currentTarget);
-			var inputElement = currentElement.closest('.row-fluid').find('.fields');
+			var inputElement = currentElement.closest('.row').find('.fields');
 			inputElement.val(currentElement.val());
 		})
 	},
@@ -377,7 +378,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js",{},{
 	registerFillTaskFieldsEvent: function() {
 		jQuery('#saveTask').on('change','.task-fields',function(e) {
 			var currentElement = jQuery(e.currentTarget);
-			var inputElement = currentElement.closest('.row-fluid').find('.fields');
+			var inputElement = currentElement.closest('.row').find('.fields');
 			var oldValue = inputElement.val();
 			var newValue = oldValue+currentElement.val();
 			inputElement.val(newValue);
@@ -521,8 +522,8 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js",{},{
 		if(fieldModel.getType() == 'multipicklist'){
 			fieldName = fieldName+"[]";
 		}
-		fieldSpecificUi.filter('[name="'+ fieldName +'"]').attr('data-value', 'value').addClass('row-fluid');
-		fieldSpecificUi.find('[name="'+ fieldName +'"]').attr('data-value','value').addClass('row-fluid');
+		fieldSpecificUi.filter('[name="'+ fieldName +'"]').attr('data-value', 'value').addClass('row');
+		fieldSpecificUi.find('[name="'+ fieldName +'"]').attr('data-value','value').addClass('row');
 		fieldSpecificUi.filter('[name="valuetype"]').removeAttr('data-validation-engine');
 		fieldSpecificUi.find('[name="valuetype"]').removeAttr('data-validation-engine');
 		
@@ -695,7 +696,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js",{},{
 		var ccLink = jQuery('#ccLink');
 		var bccLink = jQuery('#bccLink');
 		if(ccLink.is(':hidden') && bccLink.is(':hidden')){
-			ccLink.closest('div.row-fluid').addClass('hide');
+			ccLink.closest('div.row').addClass('hide');
 		}
 	},
 

@@ -11,7 +11,7 @@
  *************************************************************************************************************************************/
 -->*}
 {if $ERRORTEXT neq ''}
-	<div class="row-fluid main-container">
+	<div class="row main-container">
 		<div class="inner-container">
 			<div>
 				<h3>{vtranslate('LBL_MIGRATION_ERROR', 'Install')}</h3>
@@ -22,7 +22,7 @@
 		</div>
 		<div class="inner-container">
 			<div>
-				<a class="btn btn-large btn-primary" href="../index.php" >{vtranslate('LBL_BACK','Install')}</a> 
+				<a class="btn btn-sm btn-primary" href="../index.php" >{vtranslate('LBL_BACK','Install')}</a> 
 			</div>
 		</div>
 	</div>

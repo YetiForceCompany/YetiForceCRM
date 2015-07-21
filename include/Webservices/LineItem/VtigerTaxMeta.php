@@ -19,7 +19,7 @@ class VtigerTaxMeta extends VtigerCRMActorMeta {
 		$factory = WebserviceField::fromArray($this->pearDB,array('tablename'=>$tableName));
 		$dbTableFields = $factory->getTableFields();
 		foreach ($dbTableFields as $dbField) {
-			if($dbField->primary_key){
+			if($dbField->primaryKey){
 				if($this->idColumn === null){
 					$this->idColumn = $dbField->name;
 				}else{
@@ -50,4 +50,4 @@ class VtigerTaxMeta extends VtigerCRMActorMeta {
 	}
 
 }
-?>
+

@@ -74,7 +74,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 			var addBlockContainer = contents.find('.addDateWindowModal').clone(true, true);
 
 			var callBackFunction = function(data) {
-				data.find('.addDateWindowModal').removeClass('hide');
+				data.find('.addDateWindowModal').removeClass('hide').show();
 
 				var form = data.find('.addDateWindowForm');
 				jQuery('[name="holidayId"]').val('');
@@ -177,9 +177,10 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 			addBlockContainer.find('[name="holidayId"]').val( dateElement.data('holiday-id') );
 			addBlockContainer.find('[name="holidayDate"]').val( dateElement.data('holiday-date') );
 			addBlockContainer.find('[name="holidayName"]').val( dateElement.data('holiday-name') );
+			addBlockContainer.find('[name="holidayType"]').val( dateElement.data('holiday-type') );
 
 			var callBackFunction = function(data) {
-				data.find('.addDateWindowModal').removeClass('hide');
+				data.find('.addDateWindowModal').removeClass('hide').show();
 
 				var form = data.find('.addDateWindowForm');
 

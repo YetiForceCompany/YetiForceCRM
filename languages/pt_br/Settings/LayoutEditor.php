@@ -5,14 +5,10 @@
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 08/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************/
-$languageStrings = array(
-	'LBL_SELECT_MODULE_TO_ADD' => 'Select item to add module',
-	'LBL_REMOVE_INFO' => 'Click on the Close button to remove the module from the list',
-	'LBL_RELATED_LIST_INFO' => 'Arrange modules per click and drag',
-	'LBL_ADD_MODULE_INFO' => 'Select the remote module, that is to return to the list',
-	'LBL_FIELD_MASK' => 'Field Mask',
+$languageStrings = [
+	'LBL_FIELD_MASK' => 'Mascara Campo',
 	'Calendar' => 'Tarefa',
 	'Checkbox' => 'Caixa Seleção',
 	'Currency'=>'Moeda',
@@ -67,9 +63,9 @@ $languageStrings = array(
 	'Time'=>'Hora',
 	'URL' => 'URL',
     'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Editar módulos relacionados',
-	'LBL_VISIBLE' => 'Visible',
-	'LBL_HIDDEN' => 'Hidden',
-	
+	'LBL_VISIBLE' => 'Visível',
+	'LBL_HIDDEN' => 'Oculto',
+
 	//Yetiforce
 	'LBL_RELATION_VALUES' => 'Módulos selecionados',
 	'LBL_FIELD_NAME' => 'Nome Sistema',
@@ -77,21 +73,32 @@ $languageStrings = array(
 	'Related1M' => 'Campo relacionado 1:M',
 	'Editor' => 'Editor WYSIWYG',
 	'LBL_DISPLAY_TYPE' => 'Tipo de Visão',
-	'LBL_DISPLAY_TYPE_1' => 'Field visible everywhere',
-	'LBL_DISPLAY_TYPE_2' => 'Field visible only in preview, not editable',
-	'LBL_DISPLAY_TYPE_3' => 'Field visible only in list view',
-	'LBL_DISPLAY_TYPE_4' => 'Field visible only during creating and in preview, can not be modified',
-	'LBL_DISPLAY_TYPE_10' => 'Field visible everywhere, not editable',
+	'LBL_DISPLAY_TYPE_1' => 'Campo visível em todos os lugares',
+	'LBL_DISPLAY_TYPE_2' => 'Campo visível somente na visualização, não editável',
+	'LBL_DISPLAY_TYPE_3' => 'Campo visível somente na lista de visualização',
+	'LBL_DISPLAY_TYPE_4' => 'Campo visível somente durante a criação e visualização, não pode ser modificado',
+	'LBL_DISPLAY_TYPE_10' => 'Campo visiável em todos os lugares, não editável',
 	'LBL_HELP_INFO' => 'Ícone Ajuda',
 	'LBL_GENERATED_TYPE' => 'Campo básico',
 	'LBL_FIELD_TYPE0' => 'Básico (ex. vtiger_account)',
 	'LBL_FIELD_TYPE1' => 'Adicional (ex. vtiger_accountcf)',
-	'LBL_TREE_TEMPLATE' => 'Tree',
-	'Tree' => 'Field of trees',
-	'LBL_FIELD_MASK_INFO' => 'Default masking definitions <br />9: numeric<br />a: alphabetically<br />*: Alphanumeric<br /><br />Example:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
-);
+	'LBL_TREE_TEMPLATE' => 'Árvore',
+	'Tree' => 'Campos da árvore',
+	'LBL_FIELD_MASK_INFO' => 'Definição de mascaras padrão <br />9: numérico<br />a: alfabético<br />*: Alfanumérico<br /><br />Examplo:<br />(99) 9999-9999<br />+55 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 
-$jsLanguageStrings = array(
+	'LBL_ADD_RELATION' => 'Adicionar relação',
+	'LBL_RELATION_TYPE' => 'Tipo Relação',
+	'LBL_RELATION_ACTIONS' => 'Ações Relação',
+	'LBL_SOURCE_MODULE' => 'Módulo Fonte',
+	'LBL_TARGET_MODULE' => 'Módulo Alvo',
+	'LBL_RELATION_LABLE' => 'Etiqueta Relação',
+	'PLL_RELATED_LIST' => 'Muitos para muitos',
+	'PLL_DEPENDENTS_LIST' => 'Um para muitos',
+	'PLL_ADD' => 'Adicionar',
+	'PLL_SELECT' => 'Selecionar',
+];
+
+$jsLanguageStrings = [
 	'JS_BLOCK_NAME_EXISTS' => 'Nome do Bloco já existe',
 	'JS_BLOCK_SEQUENCE_UPDATED' => 'Sequência Blocos Atualizada',
 	'JS_BLOCK_VISIBILITY_HIDE' => 'Ocultar Bloco habilitado',
@@ -111,9 +118,9 @@ $jsLanguageStrings = array(
 	'JS_SAVE_THE_CHANGES_TO_UPDATE_FIELD_SEQUENCE' => 'Salvar as mudanças para atualizar a sequência de Campos',
 	'JS_SELECTED_FIELDS_REACTIVATED' => 'Campos Selecionados Reativados',
 	'JS_SPECIAL_CHARACTERS' => 'Caracteres Especiais como',
-	'JS_SAVED_CHANGE_STATUS_1' => 'Related module has been enabled',
-	'JS_SAVED_CHANGE_STATUS_0' => 'Related module has been disabled',
-	'JS_UPDATE_SEQUENCE' => 'New sequence of related modules has been saved',
-	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Field list has been updated',
-	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Field cannot be empty',
-);
+	'JS_SAVED_CHANGE_STATUS_1' => 'Módulo relacionado foi habilitado',
+	'JS_SAVED_CHANGE_STATUS_0' => 'Módulo relacionado foi desabilitado',
+	'JS_UPDATE_SEQUENCE' => 'Nova sequência de módulos relacionados foi salva',
+	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Lista de campos foi atualizada',
+	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'O campo não pode estar vazio',
+];

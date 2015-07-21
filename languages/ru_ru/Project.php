@@ -7,14 +7,15 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
+	'LBL_SUMMARY' => 'Всего рабочего времени',
+	'LBL_PROJECTS_LIST' => 'Список Проектов',
 	'Actual End Date'              => 'Фактическая дата завершения'             , 
 	'Add Project Task'	=>	'Проектная Задача',
-	'HelpDesk'                     => 'Заявка',
 	'LBL_ADD_RECORD'               => 'Добавить Проект'                 , 
 	'LBL_CHARTS'                   => 'Диаграммы'                      , 
+	'LBL_GANTT' => 'Диаграмма',
 	'LBL_DOWNLOAD_FILE'            => 'Скачать файл'               , 
 	'LBL_MILESTONES'               => 'Контрольные точки'                  , 
 	'LBL_MILESTONES_LIST'	=>	'Контрольные точки',
@@ -39,8 +40,6 @@ $languageStrings = array(
 	'Project Name'                 => 'Наименование проекта', 
 	'Project No'                   => '№'              , 
 	'Project Url'                  => 'Ссылка на Проект'                 , 
-	'ProjectMilestone'             => 'Контрольная точка',
-	'ProjectTask'                  => 'Проектная задача',
 	'Related to' => 'Связан с',
 	'SINGLE_Project'               => 'Проект'                  , 
 	'Start Date'                   => 'Дата начала'       , 
@@ -66,4 +65,4 @@ $languageStrings = array(
 	'PLL_INTERNAL' => 'Административное',
 	'PLL_EXTERNAL' => 'Оперативное',
 	'PLL_COMMON' => 'Другое',
-);
+];

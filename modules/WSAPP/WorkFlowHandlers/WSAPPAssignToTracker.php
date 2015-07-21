@@ -20,7 +20,7 @@ class WSAPPAssignToTracker extends VTEventHandler{
 	}
 
 	function handleEvent($eventName, $entityData) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$db = PearDatabase::getInstance();
 		$moduleName = $entityData->getModuleName();
 		

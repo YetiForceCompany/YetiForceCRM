@@ -17,8 +17,8 @@
 <div class="tab-content layoutContent padding20 themeTableColor overflowVisible">
 	<br>
 	<div class="tab-pane active" id="allValuesLayout">	
-		<div class="row-fluid">
-			<div class="span5 marginLeftZero textOverflowEllipsis">
+		<div class="row">
+			<div class="col-md-5 marginLeftZero textOverflowEllipsis">
 				<table id="pickListValuesTable" class="table table-bordered" style="table-layout: fixed">
 					<thead>
 						<tr class="listViewHeaders"><th>{vtranslate($SELECTED_PICKLIST_FIELDMODEL->get('label'),$SELECTED_MODULE_NAME)}&nbsp;{vtranslate('LBL_ITEMS',$QUALIFIED_MODULE)}</th></tr>
@@ -34,20 +34,20 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="span2 row-fluid">
+			<div class="col-md-2 btn-group-vertical" role="group">
 				{if $SELECTED_PICKLIST_FIELDMODEL->isEditable()}
 					{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
-						<button class="btn span10 marginLeftZero" id="assignValue">{vtranslate('LBL_ASSIGN_VALUE',$QUALIFIED_MODULE)}</button><br><br>
+						<button class="btn btn-info" id="assignValue">{vtranslate('LBL_ASSIGN_VALUE',$QUALIFIED_MODULE)}</button>
 					{/if}	
-					<button class="btn span10 marginLeftZero" id="addItem">{vtranslate('LBL_ADD_VALUE',$QUALIFIED_MODULE)}</button><br><br>
-					<button class="btn span10 marginLeftZero" id="renameItem">{vtranslate('LBL_RENAME_VALUE',$QUALIFIED_MODULE)}</button><br><br>
-					<button class="btn btn-danger span10 marginLeftZero"  id="deleteItem">{vtranslate('LBL_DELETE_VALUE',$QUALIFIED_MODULE)}</button><br><br>
+					<button class="btn btn-info" id="addItem">{vtranslate('LBL_ADD_VALUE',$QUALIFIED_MODULE)}</button>
+					<button class="btn btn-info" id="renameItem">{vtranslate('LBL_RENAME_VALUE',$QUALIFIED_MODULE)}</button>
+					<button class="btn btn-danger"  id="deleteItem">{vtranslate('LBL_DELETE_VALUE',$QUALIFIED_MODULE)}</button>
 				{/if}
-				<button class="btn btn-success span10 marginLeftZero" disabled=""  id="saveSequence">{vtranslate('LBL_SAVE_ORDER',$QUALIFIED_MODULE)}</button><br><br>
+				<button class="btn btn-success" disabled=""  id="saveSequence">{vtranslate('LBL_SAVE_ORDER',$QUALIFIED_MODULE)}</button><br><br>
 			</div>
-			<div class="span4">
-				<br><br><br>
-				<div><i class="icon-info-sign"></i>&nbsp;<span>{vtranslate('LBL_DRAG_ITEMS_TO_RESPOSITION',$QUALIFIED_MODULE)}</span></div>
+			<div class="col-md-5">
+				<br>
+				<div><i class="glyphicon glyphicon-info-sign"></i>&nbsp;<span>{vtranslate('LBL_DRAG_ITEMS_TO_RESPOSITION',$QUALIFIED_MODULE)}</span></div>
 				<br><div>&nbsp;&nbsp;{vtranslate('LBL_SELECT_AN_ITEM_TO_RENAME_OR_DELETE',$QUALIFIED_MODULE)}</div> 
 				<br><div>&nbsp;&nbsp;{vtranslate('LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY',$QUALIFIED_MODULE)}</div>
 			</div>	
@@ -56,13 +56,12 @@
 			{include file="CreateView.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
 		</div>
 	</div>
-	<br>
 	{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
 		<div class="tab-pane" id="AssignedToRoleLayout">
-			<div class="row-fluid">
-				<div class="span2 textAlignRight" style="margin-top: 5px">{vtranslate('LBL_ROLE_NAME',$QUALIFIED_MODULE)}</div>
-				<div class="span7">
-					<select id="rolesList" class="select2" name="rolesSelected" style="min-width: 220px" data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
+			<div class="row">
+				<div class="col-md-2 textAlignRight">{vtranslate('LBL_ROLE_NAME',$QUALIFIED_MODULE)}</div>
+				<div class="col-md-4">
+					<select id="rolesList" class="form-control" name="rolesSelected" data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
 						{foreach from=$ROLES_LIST item=ROLE}
 							<option value="{$ROLE->get('roleid')}">{vtranslate($ROLE->get('rolename'), $QUALIFIED_MODULE)}</option>
 						{/foreach}

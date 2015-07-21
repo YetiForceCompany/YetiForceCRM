@@ -34,8 +34,8 @@ class DateTimeField {
 	 * @returns $insert_date -- insert_date :: Type string
 	 */
 	function getDBInsertDateValue($user = null) {
-		global $log;
-		$log->debug("Entering getDBInsertDateValue(" . $this->datetime . ") method ...");
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '('.$this->datetime.')');
 		$value = explode(' ', $this->datetime);
 		if (count($value) == 2) {
 			$value[0] = self::convertToUserFormat($value[0]);
@@ -48,7 +48,7 @@ class DateTimeField {
 		} else {
 			$insert_date = self::convertToDBFormat($value[0]);
 		}
-		$log->debug("Exiting getDBInsertDateValue method ...");
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 		return $insert_date;
 	}
 
@@ -58,11 +58,14 @@ class DateTimeField {
 	 * @return String
 	 */
 	public function getDBInsertDateTimeValue($user = null) {
-		return $this->getDBInsertDateValue($user) . ' ' .
-				$this->getDBInsertTimeValue($user);
+		$log = vglobal('log');
+		$log->debug(__CLASS__ . ':' . __FUNCTION__ );
+		return $this->getDBInsertDateValue($user) . ' ' . $this->getDBInsertTimeValue($user);
 	}
 
-	public function getDisplayDateTimeValue ($user = null) {
+	public function getDisplayDateTimeValue($user = null) {
+		$log = vglobal('log');
+		$log->debug(__CLASS__ . ':' . __FUNCTION__ );
 		return $this->getDisplayDate($user) . ' ' . $this->getDisplayTime($user);
 	}
 
@@ -74,7 +77,8 @@ class DateTimeField {
 	 * @return type
 	 */
 	public static function convertToDBFormat($date, $user = null) {
-		global $current_user;
+		global $current_user, $log;
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ .' '. serialize($date));
 		if(empty($user)) {
 			$user = $current_user;
 		}
@@ -83,8 +87,9 @@ class DateTimeField {
 		if(empty($format)) {
 			$format = 'yyyy-mm-dd';
 		}
-
-		return self::__convertToDBFormat($date, $format);
+		$return = self::__convertToDBFormat($date, $format);
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
+		return $return;
 	}
 
 	/**
@@ -94,8 +99,12 @@ class DateTimeField {
 	 * @return string
 	 */
 	public static function __convertToDBFormat($date, $format) {
-		if(empty($date))
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ .' '. serialize($date).' | '.$format);
+		if(empty($date)){
+			$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 			return $date;
+		}
 		if ($format == '') {
 			$format = 'yyyy-mm-dd';
 		}
@@ -113,15 +122,15 @@ class DateTimeField {
 		}
 
 		if (!$y || !$m || !$d) {
-			if( strpos($date, "-") !== false ){
+			if( strpos($date, '-') !== false ){
 				$separator = '-';
-			}elseif( strpos($date, ".") !== false ){
+			}elseif( strpos($date, '.') !== false ){
 				$separator = '.';
-			}elseif( strpos($date, "/") !== false ){
+			}elseif( strpos($date, '/') !== false ){
 				$separator = '/';
 			}
 			$formatToConvert = str_replace( array('/','.'), array('-','-'), $format);
-			$dateToConvert = str_replace($separator,"-",$date);
+			$dateToConvert = str_replace($separator,'-',$date);
 			switch ( $formatToConvert ){
 				case 'dd-mm-yyyy':	list($d, $m, $y) = explode('-', $dateToConvert);	break;
 				case 'mm-dd-yyyy':	list($m, $d, $y) = explode('-', $dateToConvert); break;
@@ -133,6 +142,7 @@ class DateTimeField {
 		} else {
 			$dbDate = $y . '-' . $m . '-' . $d;
 		}
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 		return $dbDate;
 	}
 
@@ -156,7 +166,7 @@ class DateTimeField {
 	 * @return type
 	 */
 	public static function convertToUserFormat($date, $user = null) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(empty($user)) {
 			$user = $current_user;
 		}
@@ -174,6 +184,8 @@ class DateTimeField {
 	 * @return type
 	 */
 	public static function __convertToUserFormat($date, $format) {
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ .' '. serialize($date).' | '.$format);
 		$date = self::convertToInternalFormat($date);
 		$separator = '-';
 		if( strpos($date[0], "-") !== false ){
@@ -202,6 +214,7 @@ class DateTimeField {
 		} else {
 			$userDate = $date[0];
 		}
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 		return $userDate;
 	}
 
@@ -216,13 +229,14 @@ class DateTimeField {
 	 */
 	public static function convertToUserTimeZone($value, $user = null ) {
 		global $log, $current_user, $default_timezone;
-		$log->debug("Entering convertToUserTimeZone($value) method ...");
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($value) method ...");
 		if(empty($user)) {
 			$user = $current_user;
 		}
 		$timeZone = $user->time_zone ? $user->time_zone : $default_timezone;
-		$log->debug("Exiting convertToUserTimeZone method ...");
-		return DateTimeField::convertTimeZone($value, self::getDBTimeZone(), $timeZone);
+		$return = DateTimeField::convertTimeZone($value, self::getDBTimeZone(), $timeZone);
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
+		return $return;
 	}
 
 	/**
@@ -231,16 +245,21 @@ class DateTimeField {
 	 * @param type $value
 	 * @param Users $user
 	 */
-	public static function convertToDBTimeZone( $value, $user = null ) {
+	public static function convertToDBTimeZone( $value, $user = null, $formatDate = true ) {
 		global $log, $current_user, $default_timezone;
-		$log->debug("Entering convertToDBTimeZone($value) method ...");
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($value)");
 		if(empty($user)) {
 			$user = $current_user;
 		}
 		$timeZone = $user->time_zone ? $user->time_zone : $default_timezone;
-		$value = self::sanitizeDate($value, $user);
-		$log->debug("Exiting convertTimeZone method ...");
-		return DateTimeField::convertTimeZone($value, $timeZone, self::getDBTimeZone() );
+
+		if($formatDate){
+			$value = self::sanitizeDate($value, $user);
+		}
+
+		$return = DateTimeField::convertTimeZone($value, $timeZone, self::getDBTimeZone() );
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
+		return $return;
 	}
 
 	/**
@@ -251,30 +270,31 @@ class DateTimeField {
 	 * @return DateTime
 	 */
 	public static function convertTimeZone($time, $sourceTimeZoneName, $targetTimeZoneName) {
-		global $log;
-		$log->debug("Entering convertTimeZone($time, $sourceTimeZoneName, $targetTimeZoneName) method ...");
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($time, $sourceTimeZoneName, $targetTimeZoneName)");
 		// TODO Caching is causing problem in getting the right date time format in Calendar module.
 		// Need to figure out the root cause for the problem. Till then, disabling caching.
 		//if(empty(self::$cache[$time][$targetTimeZoneName])) {
 			// create datetime object for given time in source timezone
 			$sourceTimeZone = new DateTimeZone($sourceTimeZoneName);
 			if($time == '24:00') $time = '00:00';
-			global $current_user;
+			$current_user  = vglobal('current_user');
 			$format = $current_user->date_format;
 			if(empty($format)) {
 				$format = 'yyyy-mm-dd';
 			}
 			$time = str_replace(".","-",$time);
 			$time = str_replace("/","-",$time);
-			$myDateTime = new DateTime($time, $sourceTimeZone);
 
+			$myDateTime = new DateTime($time, $sourceTimeZone);
+			
 			// convert this to target timezone using the DateTimeZone object
 			$targetTimeZone = new DateTimeZone($targetTimeZoneName);
 			$myDateTime->setTimeZone($targetTimeZone);
 			self::$cache[$time][$targetTimeZoneName] = $myDateTime;
 		//}
 		$myDateTime = self::$cache[$time][$targetTimeZoneName];
-		$log->debug("Exiting convertTimeZone method ...");
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 		return $myDateTime;
 	}
 
@@ -283,10 +303,10 @@ class DateTimeField {
 	 * @returns $insert_date -- insert_date :: Type string
 	 */
 	function getDBInsertTimeValue($user = null) {
-		global $log;
-		$log->debug("Entering getDBInsertTimeValue(" . $this->datetime . ") method ...");
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '('.$this->datetime.')');
 		$date = self::convertToDBTimeZone($this->datetime, $user);
-		$log->debug("Exiting getDBInsertTimeValue method ...");
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 		return $date->format("H:i:s");
 	}
 
@@ -297,8 +317,8 @@ class DateTimeField {
 	 * @return string
 	 */
 	function getDisplayDate( $user = null ) {
-		global $log, $current_user;
-		$log->debug("Entering getDisplayDate(" . $this->datetime . ") method ...");
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '('.$this->datetime.')');
 
 		$date_value = explode(' ',$this->datetime);
 		if ($date_value[1] != '') {
@@ -307,21 +327,16 @@ class DateTimeField {
 		}
 
 		$display_date = self::convertToUserFormat($date_value, $user);
-		$log->debug("Exiting getDisplayDate method ...");
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 		return $display_date;
 	}
 
 	function getDisplayTime( $user = null ) {
-		global $log;
-		$log->debug("Entering getDisplayTime(" . $this->datetime . ") method ...");
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '('.$this->datetime.')');
 		$date = self::convertToUserTimeZone($this->datetime, $user);
 		$time = $date->format("H:i:s");
-		//Convert time to user preferred value
-		$userModel = Users_Privileges_Model::getCurrentUserModel();
-		if($userModel->get('hour_format') == '12'){
-			$time = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
-		}
-		$log->debug("Exiting getDisplayTime method ...");
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 		return $time;
 	}
 
@@ -337,7 +352,7 @@ class DateTimeField {
 	}
 
 	static function getPHPDateFormat( $user = null) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(empty($user)) {
 			$user = $current_user;
 		}
@@ -345,18 +360,22 @@ class DateTimeField {
 	}
 
 	private static function sanitizeDate($value, $user) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(empty($user)) {
 			$user = $current_user;
 		}
-		if(strlen($value) < 6 ){
+		if(strlen($value) < 8 ){
 			return $value;
 		}
+
+		$value = str_replace('T',' ',$value);
 		list($date, $time) = explode(' ', $value);
-		
-		if(!empty($date)) {
+		if(!empty($date) && !in_array($time, ['AM','PM'])) {
 			$date = self::__convertToDBFormat($date, $user->date_format);
-			$value = $date. ' ' .rtrim($time);
+			$value = $date;
+			if(!empty($time)){
+				$value .=  ' ' .rtrim($time);
+			}
 		}
 		return $value;
 	}

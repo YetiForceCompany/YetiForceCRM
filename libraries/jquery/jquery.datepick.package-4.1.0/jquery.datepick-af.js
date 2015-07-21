@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Afrikaans localisation for jQuery Datepicker.
    Written by Renier Pretorius and Ruediger Thiede. */
 (function($) {

@@ -8,11 +8,14 @@
  * All Rights Reserved.
   * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Ошибка загрузки файла',
 	'ModuleManager'	=>	'Менеджер Модулей',
-	'LBL_IMPORT_MODULE_FROM_FILE' => 'Установка модуля из файла',
+	'LBL_IMPORT_MODULE_FROM_FILE' => 'Загрузить Модуль из файла',
 	'LBL_IMPORT_MODULE' => 'Установка модуля',
+	'LBL_IMPORTED_UPDATE' => 'Система успешно обновлена.',
+	'LBL_IMPORTED_EXTENSION' => 'Модуль успешно установлен.',
+	'LBL_IMPORTED_LANGUAGE' => 'Язык успешно установлен.',
 	'LBL_VTIGER_EXTENSION_STORE' => 'Магазин',
 	'LBL_PUBLISHER' => 'Разработчик',
 	'LBL_LICENSE' => 'Лицензия',
@@ -32,6 +35,9 @@ $languageStrings = array(
 	'LBL_VERIFY_IMPORT_DETAILS' => 'Подтвердить',
 	'LBL_MODULE_NAME' => 'Название модуля',
 	'LBL_REQ_YETIFORCE_VERSION' => 'Версия YetiForce',
+	'LBL_MODULE_VERSION' => 'Версия модуля',
+	'LBL_UPDATE_FROM_VERSION' => 'С версии',
+	'LBL_UPDATE_TO_VERSION' => 'До версии',
 	'LBL_LICENSE_ACCEPT_AGREEMENT' => 'Я принимаю лицензионные условия.',
 	'LBL_EXISTS'=>'Существует',
 	'LBL_PROCEED_WITH_IMPORT' => 'Вы хотите продолжить?',
@@ -50,6 +56,9 @@ $languageStrings = array(
 	'LBL_ERROR_VERSION' => 'Некорректная версия модуля.Версия модуля: __MODULEVERSION__ - Версия системы: __CRMVERSION__',
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Модуль не содержит языковые файлы установленного по умолчанию языка системы. Язык системы (__DEFAULTLANGUAGE__).',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Модуль не содержит файлы макета (Шаблона)',
+	'LBL_IMPORT' => 'Импорт',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'Установлен маленький предел для загрузки файла',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'Установлен маленький предел для загрузки файла. Проверьте настройки конфигурации <a href=\"index.php?parent=Settings&module=ConfReport&view=Index\">Конфигурация сервера</a>',
 	
 	'LBL_CREATE_MODULE'	=>	'Создать Модуль',
 	'LBL_CREATING_MODULE'	=>	'Создание нового Модуля',
@@ -59,8 +68,8 @@ $languageStrings = array(
 	'LBL_ENTITY_FIELDLABEL'	=>	'Название Поля',
 	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER'	=>	'Модуль с таким названием уже существует',
 	'LBL_INVALID_MODULE_NAME'	=>	'Неверное название Модуля',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
   'JS_ON' => 'вкл',
   'JS_CLICK_HERE' => 'Нажмите здесь ',
   'JS_FOR_INSTALLATION' => 'для установки',
@@ -68,4 +77,4 @@ $jsLanguageStrings = array(
   'JS_IMPORTED_MODULE' => 'Модуль успешно установлен.',
   'JS_UPDATE_SUCCESSFULL' => 'Обновление успешно',
   'JS_UPDATED_MODULE' => 'Модуль успешно обновлен',
-);
+];

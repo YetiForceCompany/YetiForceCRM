@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Georgian localisation for jQuery Datepicker.
    Andrei Gorbushkin. */
 (function($) {

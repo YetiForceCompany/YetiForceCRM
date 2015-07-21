@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -165,13 +165,11 @@ $labels['name']         = 'Име за приказ';
 $labels['firstname']    = 'Име';
 $labels['surname']      = 'Презиме';
 $labels['email']        = 'Е-пошта';
-$labels['addcontact'] = 'Додај нов контакт';
 $labels['editcontact'] = 'Уреди контакт';
 $labels['edit']   = 'Уреди';
 $labels['cancel'] = 'Откажи';
 $labels['save']   = 'Зачувај';
 $labels['delete'] = 'Избриши';
-$labels['newcontact']     = 'Додај ново име';
 $labels['deletecontact']  = 'Избриши ги следните имиња';
 $labels['composeto']      = 'Напиши порака за';
 $labels['contactsfromto'] = 'Имиња од $from до $to од $count';
@@ -194,10 +192,6 @@ $labels['preferences'] = 'Нагодувања';
 $labels['userpreferences'] = 'Кориснички нагодувања';
 $labels['editpreferences'] = 'Промени кориснички нагодувања';
 $labels['identities'] = 'Идентитети';
-$labels['manageidentities'] = 'Организирај ги идентитетите за овој корисник';
-$labels['newidentity'] = 'Нов идентитет';
-$labels['newitem'] = 'Нов објект';
-$labels['edititem'] = 'Промени објект';
 $labels['preferhtml'] = 'Прикажи во HTML';
 $labels['htmlmessage'] = 'HTML писмо';
 $labels['prettydate'] = 'Убави датуми';
@@ -220,7 +214,6 @@ $labels['mailboxview'] = 'Приказ на поштенското сандач�
 $labels['mdnrequests'] = 'Известувања за праќачот';
 $labels['askuser'] = 'прашај го корисникот';
 $labels['autosend'] = 'испрати автоматски';
-$labels['ignore'] = 'игнорирај';
 $labels['readwhendeleted'] = 'Обележи го писмото како прочитано при бришење';
 $labels['flagfordeletion'] = 'Обележи го писмото за бришење наместо да го избришеш';
 $labels['skipdeleted'] = 'Не ги прикажувај избришаните писма';
@@ -254,14 +247,14 @@ $labels['autoaddsignature'] = 'Автоматски додавај потпис'
 $labels['newmessageonly'] = 'само нови писма';
 $labels['replyandforwardonly'] = 'само одгорови и препраќања';
 $labels['insertsignature'] = 'Вметни потпис';
-$labels['folder']  = 'Папка';
-$labels['folders']  = 'Папки';
-$labels['foldername']  = 'Име на папката';
-$labels['subscribed']  = 'Претплатен';
+$labels['folder'] = 'Папка';
+$labels['folders'] = 'Папки';
+$labels['foldername'] = 'Име на папката';
+$labels['subscribed'] = 'Претплатен';
 $labels['messagecount'] = 'Пораки';
-$labels['create']  = 'Создај';
-$labels['createfolder']  = 'Создај нова папка';
-$labels['managefolders']  = 'Организирање на папки';
+$labels['create'] = 'Создај';
+$labels['createfolder'] = 'Создај нова папка';
+$labels['managefolders'] = 'Организирање на папки';
 $labels['specialfolders'] = 'Специјални папки';
 $labels['sortby'] = 'Сортирај по';
 $labels['sortasc']  = 'Сортирај нагорно';

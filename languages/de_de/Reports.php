@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'PRIMARY_MODULE' => 'Hauptmodul',
 	'Report Name' => 'Berichtsname',
 	'Reports'=>'Berichte',
@@ -36,7 +36,7 @@ $languageStrings = array(
 	'LBL_EXCEEDING_MAXIMUM_LIMIT' => 'Maximale Grenze überschritten',
 	'LBL_FIELD_NAMES' => 'Feldnamen',
 	'LBL_FILTERS' => 'Filter',
-	'LBL_FOLDER_CAN_NOT_BE_DELETED' => 'Das Verzecihnis kann nicht gelöscht werden',
+	'LBL_FOLDER_CAN_NOT_BE_DELETED' => 'Das Verzeichnis kann nicht gelöscht werden',
 	'LBL_FOLDER_DESCRIPTION' => 'Verzeichnisbeschreibung',
 	'LBL_FOLDER_NAME' => 'Verzeichnisname',
 	'LBL_FOLDER_NOT_EMPTY' => 'Verzeichnis nicht leer',
@@ -55,6 +55,7 @@ $languageStrings = array(
 	'LBL_MOVE_REPORT' => 'Bericht verschieben',
 	'LBL_NEXT' => 'Weiter',
 	'LBL_NEXT_TRIGGER_TIME' => 'Nächster Zeitpunkt',
+	'LBL_NO' => 'Kein',	
 	'LBL_NO_OF_RECORDS' => 'Anzahl Datensätze : ',
 	'LBL_ON_THESE_DAYS' => 'An diesen Tagen',
 	'LBL_PRINT_REPORT' => 'Bericht drucken',
@@ -66,7 +67,7 @@ $languageStrings = array(
 	'LBL_REPORT_FOLDER' => 'Berichtsverzeichnis',
 	'LBL_REPORT_NAME' => 'Berichtsname',
 	'LBL_REPORT_PRINT' => 'Drucken',
-	'LBL_REPORTS_LIST' => 'Berichtsliste',
+	'LBL_REPORTS_LIST' => 'Liste Berichte',
 	'LBL_REPORTS' => 'Berichte',
 	'LBL_RUN_REPORT' =>'Bericht ausführen',
 	'LBL_SAME_LEVEL_ROLES' => 'Rollen auf gleicher Ebene',
@@ -88,6 +89,7 @@ $languageStrings = array(
 	'LBL_WRITE_YOUR_DESCRIPTION_HERE' => 'Beschreibung eingeben',
 	'LBL_YEARLY' => 'Jährlich',
 	'LBL_MAIN' => 'Haupt',
+	'LBL_SELECT_REPORT' => 'Bericht wählen',
 
 	//charts labels
 	'LBL_SELECT_CHART_TYPE' => 'Wählen Sie die Diagrammart',
@@ -115,11 +117,12 @@ $languageStrings = array(
     //Schedule Reports - Mail Content
     'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'Dies ist eine automatisch generierte EMail.',
 	'LBL_PIVOT_REPORT' => 'Pivot-Bericht',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CALCULATION_LINE_ITEM_FIELDS_SELECTION_LIMITATION' => 'Limitierung: Zeilenfelder(Listenpreis Rabatt  & Anzahl) können nur verwendet, wenn andere Kalkulationsfelder nicht verwendet werden.',
 	'JS_DUPLICATE_RECORD' => 'Bericht duplizieren',
 	'JS_NO_CHART_DATA_AVAILABLE' => 'Daten sind nicht verfügbar, überprüfen Sie bitte die gewählten Felder',
-);
+];
+
 

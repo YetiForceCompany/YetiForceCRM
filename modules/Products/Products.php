@@ -105,7 +105,7 @@ class Products extends CRMEntity {
 	*/
 	function insertTaxInformation($tablename, $module)
 	{
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering into insertTaxInformation($tablename, $module) method ...");
 		$tax_details = getAllTaxes();
 
@@ -152,7 +152,7 @@ class Products extends CRMEntity {
 	*/
 	function insertPriceInformation($tablename, $module)
 	{
-		global $adb, $log, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user'); $log = vglobal('log');
 		$log->debug("Entering into insertPriceInformation($tablename, $module) method ...");
 		//removed the update of currency_id based on the logged in user's preference : fix 6490
 
@@ -276,7 +276,7 @@ class Products extends CRMEntity {
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_leads($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_leads(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -331,7 +331,7 @@ class Products extends CRMEntity {
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_accounts($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_accounts(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -385,7 +385,7 @@ class Products extends CRMEntity {
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_contacts(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -443,7 +443,7 @@ class Products extends CRMEntity {
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_opportunities($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_opportunities(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -475,7 +475,7 @@ class Products extends CRMEntity {
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
 							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT vtiger_potential.potentialid, vtiger_crmentity.crmid,
-			vtiger_potential.potentialname, vtiger_account.accountname, vtiger_potential.related_to, vtiger_potential.contact_id,
+			vtiger_potential.potentialname, vtiger_account.accountname, vtiger_potential.related_to,
 			vtiger_potential.sales_stage, vtiger_potential.amount, vtiger_potential.closingdate,
 			case when (vtiger_users.user_name not like '') then $userNameSql else
 			vtiger_groups.groupname end as user_name, vtiger_crmentity.smownerid,
@@ -486,7 +486,6 @@ class Products extends CRMEntity {
 			INNER JOIN vtiger_products ON vtiger_seproductsrel.productid = vtiger_products.productid
 			INNER JOIN vtiger_potentialscf ON vtiger_potential.potentialid = vtiger_potentialscf.potentialid
 			LEFT JOIN vtiger_account ON vtiger_potential.related_to = vtiger_account.accountid
-			LEFT JOIN vtiger_contactdetails ON vtiger_potential.contact_id = vtiger_contactdetails.contactid
 			LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			WHERE vtiger_crmentity.deleted = 0 AND vtiger_products.productid = ".$id;
@@ -505,7 +504,7 @@ class Products extends CRMEntity {
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_tickets($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_tickets(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -567,67 +566,12 @@ class Products extends CRMEntity {
 		return $return_value;
 	}
 
-	/**	function used to get the list of activities which are related to the product
-	 *	@param int $id - product id
-	 *	@return array - array which will be returned from the function GetRelatedList
-	 */
-	function get_activities($id)
-	{
-		global $log, $singlepane_view;
-		$log->debug("Entering get_activities(".$id.") method ...");
-		global $app_strings;
-
-		require_once('modules/Calendar/Activity.php');
-
-        	//if($this->column_fields['contact_id']!=0 && $this->column_fields['contact_id']!='')
-        	$focus = new Activity();
-
-		$button = '';
-
-		if($singlepane_view == 'true')
-			$returnset = '&return_module=Products&return_action=DetailView&return_id='.$id;
-		else
-			$returnset = '&return_module=Products&return_action=CallRelatedList&return_id='.$id;
-
-
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
-							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "SELECT vtiger_contactdetails.lastname,
-			vtiger_contactdetails.firstname,
-			vtiger_contactdetails.contactid,
-			vtiger_activity.*,
-			vtiger_seactivityrel.crmid as parent_id,
-			vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
-			vtiger_crmentity.modifiedtime,
-			$userNameSql,
-			vtiger_recurringevents.recurringtype
-			FROM vtiger_activity
-			INNER JOIN vtiger_seactivityrel
-				ON vtiger_seactivityrel.activityid = vtiger_activity.activityid
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid=vtiger_activity.activityid
-			LEFT JOIN vtiger_cntactivityrel
-				ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
-			LEFT JOIN vtiger_contactdetails
-				ON vtiger_contactdetails.contactid = vtiger_cntactivityrel.contactid
-			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid
-			LEFT OUTER JOIN vtiger_recurringevents
-				ON vtiger_recurringevents.activityid = vtiger_activity.activityid
-			LEFT JOIN vtiger_groups
-				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_seactivityrel.crmid=".$id."
-			AND (activitytype != 'Emails')";
-		$log->debug("Exiting get_activities method ...");
-		return GetRelatedList('Products','Calendar',$focus,$query,$button,$returnset);
-	}
-
 	/**	function used to get the list of quotes which are related to the product
 	 *	@param int $id - product id
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_quotes($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_quotes(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -699,7 +643,7 @@ class Products extends CRMEntity {
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_purchase_orders($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_purchase_orders(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -768,7 +712,7 @@ class Products extends CRMEntity {
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_salesorder($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_salesorder(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -841,7 +785,7 @@ class Products extends CRMEntity {
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_invoices($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_invoices(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -964,7 +908,7 @@ class Products extends CRMEntity {
 	 */
 	function product_novendor()
 	{
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering product_novendor() method ...");
 		$query = "SELECT vtiger_products.productname, vtiger_crmentity.deleted
 			FROM vtiger_products
@@ -983,7 +927,7 @@ class Products extends CRMEntity {
 	* returns related Products record in array format
 	*/
 	function get_products($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_products(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -1083,7 +1027,8 @@ class Products extends CRMEntity {
 	 */
 	function create_export_query($where)
 	{
-		global $log, $current_user;
+		$log = vglobal('log');
+		$current_user = vglobal('current_user');
 		$log->debug("Entering create_export_query(".$where.") method ...");
 
 		include("include/utils/ExportUtils.php");
@@ -1115,7 +1060,7 @@ class Products extends CRMEntity {
 	/** Function to check if the product is parent of any other product
 	*/
 	function isparent_check(){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$isparent_query = $adb->pquery(getListQuery("Products")." AND (vtiger_products.productid IN (SELECT productid from vtiger_seproductsrel WHERE vtiger_seproductsrel.productid = ? AND vtiger_seproductsrel.setype='Products'))",array($this->id));
 		$isparent = $adb->num_rows($isparent_query);
 		return $isparent;
@@ -1124,7 +1069,7 @@ class Products extends CRMEntity {
 	/** Function to check if the product is member of other product
 	*/
 	function ismember_check(){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$ismember_query = $adb->pquery(getListQuery("Products")." AND (vtiger_products.productid IN (SELECT crmid from vtiger_seproductsrel WHERE vtiger_seproductsrel.crmid = ? AND vtiger_seproductsrel.setype='Products'))",array($this->id));
 		$ismember = $adb->num_rows($ismember_query);
 		return $ismember;
@@ -1137,7 +1082,7 @@ class Products extends CRMEntity {
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
 	function transferRelatedRecords($module, $transferEntityIds, $entityId) {
-		global $adb,$log;
+		$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("HelpDesk"=>"vtiger_troubletickets","Products"=>"vtiger_seproductsrel","Attachments"=>"vtiger_seattachmentsrel",
@@ -1182,7 +1127,7 @@ class Products extends CRMEntity {
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 	function generateReportsSecQuery($module,$secmodule,$queryplanner) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$matrix = $queryplanner->newDependencyMatrix();
 
 		$matrix->setDependency("vtiger_crmentityProducts",array("vtiger_groupsProducts","vtiger_usersProducts","vtiger_lastModifiedByProducts"));
@@ -1252,7 +1197,7 @@ class Products extends CRMEntity {
 	}
 
 	function deleteProduct2ProductRelation($record,$return_id,$is_parent){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if($is_parent==0){
 			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? AND productid = ?";
 			$adb->pquery($sql, array($record,$return_id));
@@ -1264,7 +1209,7 @@ class Products extends CRMEntity {
 
 	// Function to unlink all the dependent entities of the given Entity by Id
 	function unlinkDependencies($module, $id) {
-		global $log;
+		$log = vglobal('log');
 		//Backup Campaigns-Product Relation
 		$cmp_q = 'SELECT campaignid FROM vtiger_campaign WHERE product_id = ?';
 		$cmp_res = $this->db->pquery($cmp_q, array($id));
@@ -1287,13 +1232,10 @@ class Products extends CRMEntity {
 
 	// Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id) {
-		global $log;
+		$log = vglobal('log');
 		if(empty($return_module) || empty($return_id)) return;
 
-		if($return_module == 'Calendar') {
-			$sql = 'DELETE FROM vtiger_seactivityrel WHERE crmid = ? AND activityid = ?';
-			$this->db->pquery($sql, array($id, $return_id));
-		} elseif($return_module == 'Leads' || $return_module == 'Contacts' || $return_module == 'Potentials') {
+		if($return_module == 'Leads' || $return_module == 'Contacts' || $return_module == 'Potentials') {
 			$sql = 'DELETE FROM vtiger_seproductsrel WHERE productid = ? AND crmid = ?';
 			$this->db->pquery($sql, array($id, $return_id));
 		} elseif($return_module == 'Vendors') {
@@ -1329,4 +1271,3 @@ class Products extends CRMEntity {
 	}
 
 }
-?>

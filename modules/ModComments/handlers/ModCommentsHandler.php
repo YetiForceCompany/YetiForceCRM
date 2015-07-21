@@ -51,6 +51,14 @@ class ModCommentsHandler extends VTEventHandler {
 
 				$relatedToEventHandler->handleEvent($eventName, $entityData, $entityCache);
 				$util->revertUser();
+				/*
+				$eventModuleName = $data->getModuleName();
+				if ($eventModuleName == 'ModComments') {
+					$shownerid[] = $focus->column_fields['shownerid'];
+					$shownerid[] = $focus->column_fields['assigned_user_id'];
+					$data->set('shownerid',$shownerid);
+				}
+				 */
 			}
 		}
 	}

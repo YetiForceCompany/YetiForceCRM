@@ -85,19 +85,27 @@ class RequirementCards extends Vtiger_CRMEntity {
 	var $default_order_by = 'subject';
 	var $default_sort_order='ASC';
 
+	var $fieldsToGenerate = Array(
+		'Calculations'=>Array(
+			'subject'=>'name',
+			'potentialid'=>'potentialid',
+			'accountid'=>'relatedid',
+		),
+	);
+	
 	/**
 	* Invoked when special actions are performed on the module.
 	* @param String Module name
 	* @param String Event Type
 	*/
 	function vtlib_handler($moduleName, $eventType) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
  		if($eventType == 'module.postinstall') {
-
- 			$ModuleInstance = CRMEntity::getInstance('RequirementCards');
-			$ModuleInstance->setModuleSeqNumber("configure",'RequirementCards','RC','1');
+			include_once('vtlib/Vtiger/Module.php'); 
+ 			$moduleInstance = CRMEntity::getInstance('RequirementCards');
+			$moduleInstance->setModuleSeqNumber("configure",'RequirementCards','RC','1');
  			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('RequirementCards'));
-
+			
 			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
 			if($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';

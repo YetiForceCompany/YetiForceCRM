@@ -12,7 +12,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 
 	function getCreateInvoiceUrl() {
 		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
-		return 'index.php?module='.$invoiceModuleModel->getName().'&view='.$invoiceModuleModel->getEditViewName().'&account_id='.$this->get('related_to').'&contact_id='.$this->get('contact_id');
+		return 'index.php?module='.$invoiceModuleModel->getName().'&view='.$invoiceModuleModel->getEditViewName().'&account_id='.$this->get('related_to');
 	}
 
 	/**
@@ -21,7 +21,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 	 */
 	function getCreateEventUrl() {
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-		return $calendarModuleModel->getCreateEventRecordUrl().'&parent_id='.$this->getId();
+		return $calendarModuleModel->getCreateEventRecordUrl().'&process='.$this->getId();
 	}
 
 	/**
@@ -30,7 +30,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 	 */
 	function getCreateTaskUrl() {
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-		return $calendarModuleModel->getCreateTaskRecordUrl().'&parent_id='.$this->getId();
+		return $calendarModuleModel->getCreateTaskRecordUrl().'&process='.$this->getId();
 	}
 
 	/**
@@ -40,7 +40,6 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 	public function getInventoryMappingFields() {
 		return array(
 				array('parentField'=>'related_to', 'inventoryField'=>'account_id', 'defaultValue'=>''),
-				array('parentField'=>'contact_id', 'inventoryField'=>'contact_id', 'defaultValue'=>''),
 		);
 	}
 
@@ -55,7 +54,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 
 
 	public function recalculatePotentials($PotentialsID) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering recalculatePotentials($PotentialsID) method ...");
 		if($PotentialsID == NULL){return false;}
 		$CalculationsStatus = 'Rejected';
@@ -85,7 +84,8 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 	}
 	
 	public function createSalesOpportunitiesFromRecords($from_module, $recordIds) {
-		global $log, $current_user;
+		$log = vglobal('log');
+		$current_user = vglobal('current_user');
 		$log->info("Entering Into createSalesOpportunitiesFromRecords( $from_module, $recordIds )");
 		$db = PearDatabase::getInstance(); 
 		
@@ -96,7 +96,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 			'num' => 'asset_no',
 			'closingdate' => 'dateinservice',
 			'relateProduct' => false,
-			'theSame' => array('potentialname', 'assigned_user_id', 'related_to', 'contact_id', 'forecast_amount'), 
+			'theSame' => array('potentialname', 'assigned_user_id', 'related_to', 'forecast_amount'), 
 			'fixed' => array('sales_stage' => 'Accepted for processing', 'opportunity_type' => 'Existing Business'), 
 		);
 		$modulesSchema['Assets'] = array(
@@ -104,7 +104,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 			'num' => 'asset_no',
 			'closingdate' => 'dateinservice',
 			'relateProduct' => true,
-			'theSame' => array('potentialname', 'assigned_user_id', 'related_to', 'contact_id', 'forecast_amount'), 
+			'theSame' => array('potentialname', 'assigned_user_id', 'related_to', 'forecast_amount'), 
 			'fixed' => array('sales_stage' => 'Accepted for processing', 'opportunity_type' => 'Existing Business'), 
 			'updateField' => array('pot_renewal','vtiger_assets', 'assetsid'), 
 		);
@@ -113,7 +113,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 			'num' => 'osssoldservices_no',
 			'closingdate' => 'dateinservice',
 			'relateProduct' => false,
-			'theSame' => array('potentialname', 'assigned_user_id', 'related_to', 'contact_id', 'forecast_amount'), 
+			'theSame' => array('potentialname', 'assigned_user_id', 'related_to', 'forecast_amount'), 
 			'fixed' => array('sales_stage' => 'Accepted for processing', 'opportunity_type' => 'Existing Business'), 
 		);
 		$modulesSchema['OSSSoldServices'] = array(
@@ -121,7 +121,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 			'num' => 'asset_no',
 			'closingdate' => 'dateinservice',
 			'relateProduct' => true,
-			'theSame' => array('potentialname', 'assigned_user_id', 'related_to', 'contact_id', 'forecast_amount'), 
+			'theSame' => array('potentialname', 'assigned_user_id', 'related_to', 'forecast_amount'), 
 			'fixed' => array('sales_stage' => 'Accepted for processing', 'opportunity_type' => 'Existing Business'), 
 			'updateField' => array('pot_renewal','vtiger_osssoldservices', 'osssoldservicesid'), 
 		);

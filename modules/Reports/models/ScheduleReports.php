@@ -184,7 +184,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 		}
 		vimport('~modules/Report/models/Record.php');
 		$reportRecordModel = Reports_Record_Model::getInstanceById($this->get('reportid'));
-		$currentTime = date('Y-m-d H:i:s');
+		$currentTime = date('Y-m-d.H.i.s');
         Vtiger_Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
 		$reportname = decode_html($reportRecordModel->getName());
         $subject = $reportname;
@@ -293,9 +293,10 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 		$util = new VTWorkflowUtils();
 		$util->adminUser();
 
-		global $currentModule, $current_language;
+		$currentModule = vglobal('currentModule');
+		$current_language = vglobal('current_language');
 		if(empty($currentModule)) $currentModule = 'Reports';
-		if(empty($current_language)) $current_language = 'en_us';
+		if(empty($current_language)) vglobal('current_language','en_us');
 
 		$scheduledReports = self::getScheduledReports();
 		foreach ($scheduledReports as $scheduledReport) {

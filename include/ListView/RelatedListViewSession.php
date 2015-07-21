@@ -25,7 +25,7 @@ class RelatedListViewSession {
 	var $page_view = null;
 
 	function RelatedListViewSession() {
-		global $log,$currentModule;
+		$log = vglobal('log'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering RelatedListViewSession() method ...");
 
 		$this->module = $currentModule;
@@ -33,20 +33,20 @@ class RelatedListViewSession {
 	}
 
 	public static function addRelatedModuleToSession($relationId, $header) {
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 		$_SESSION['relatedlist'][$currentModule][$relationId] = $header;
 		$start = RelatedListViewSession::getRequestStartPage();
 		RelatedListViewSession::saveRelatedModuleStartPage($relationId, $start);
 	}
 
 	public static function removeRelatedModuleFromSession($relationId, $header) {
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 
 		unset($_SESSION['relatedlist'][$currentModule][$relationId]);
 	}
 
 	public static function getRelatedModulesFromSession() {
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 
 		$allRelatedModuleList = isPresentRelatedLists($currentModule);
 		$moduleList = array();
@@ -61,13 +61,13 @@ class RelatedListViewSession {
 	}
 
 	public static function saveRelatedModuleStartPage($relationId, $start) {
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 
 		$_SESSION['rlvs'][$currentModule][$relationId]['start'] = $start;
 	}
 
 	public static function getCurrentPage($relationId) {
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 
 		if(!empty($_SESSION['rlvs'][$currentModule][$relationId]['start'])){
 			return $_SESSION['rlvs'][$currentModule][$relationId]['start'];

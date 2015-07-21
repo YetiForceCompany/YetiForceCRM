@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'PaymentsIn' => 'Wpłaty',
 	'SINGLE_PaymentsIn' => 'Wpłata',
 	'LBL_MAIN_INFORMATION' => 'Podstawowe informacje',
@@ -66,4 +66,4 @@ $languageStrings = array(
 	'Citi' => 'Citi Handlowy',
 	'idea' => 'Idea Bank S.A.',
 	
-);
+];

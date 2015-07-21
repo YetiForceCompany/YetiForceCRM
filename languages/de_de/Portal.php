@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'HTTP_ERROR' => 'Die Website, die Sie versuchen zu öffnen, ist nicht sicher und könnte sich evt. nicht öffnen. Wenn Sie die Webseite trotzdem sehen möchten, klicken Sie auf den Content-Blocker in der Adressleiste und aktivieren Sie es.',
 	'LBL_ADD_BOOKMARK' => 'Lesezeichen hinzufügen',
 	'LBL_ADD_NEW_BOOKMARK' => 'Neues Lesezeichen hinzufügen',
@@ -26,8 +26,8 @@ $languageStrings = array(
 	'LBL_RECORD_DELETED_SUCCESSFULLY' => 'Datensatz erfolgreich gelöscht',
 	'Portal' => 'Unsere Seiten',
 	'SINGLE_Portal' => 'Unsere Seite',
-);
+];
 
-$jsLanguageStrings = array(
-    
-);
+$jsLanguageStrings = [
+	'JS_ENTER_MANDATORY_FIELD' => 'Please enter all mandatory field',
+];

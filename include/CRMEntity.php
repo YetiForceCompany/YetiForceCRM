@@ -51,8 +51,13 @@ class CRMEntity {
 		}
 		// File access security check
 		if (!class_exists($modName)) {
-			checkFileAccessForInclusion("modules/$module/$modName.php");
-			require_once("modules/$module/$modName.php");
+			if (file_exists("custom/modules/$module/$modName.php")) {
+				checkFileAccessForInclusion("custom/modules/$module/$modName.php");
+				require_once("custom/modules/$module/$modName.php");
+			}else{
+				checkFileAccessForInclusion("modules/$module/$modName.php");
+				require_once("modules/$module/$modName.php");
+			}
 		}
 		$focus = new $modName();
 		$focus->moduleName = $module;
@@ -60,7 +65,7 @@ class CRMEntity {
 	}
 
 	function saveentity($module, $fileid = '') {
-		global $current_user, $adb; //$adb added by raju for mass mailing
+		global $adb; //$adb added by raju for mass mailing
 		$insertion_mode = $this->mode;
 
 		$columnFields = $this->column_fields;
@@ -118,12 +123,12 @@ class CRMEntity {
 	 *      return void
 	 */
 	function uploadAndSaveFile($id, $module, $file_details) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
 
-		global $adb, $current_user;
+		global $adb;
 		global $upload_badext;
-
+		$current_user  = vglobal('current_user');
 		$date_var = date("Y-m-d H:i:s");
 
 		//to get the owner id
@@ -216,9 +221,9 @@ class CRMEntity {
 	 * @param $module -- module:: Type varchar
 	 */
 	function insertIntoCrmEntity($module, $fileid = '') {
-		global $adb;
-		global $current_user;
-		global $log;
+		$adb = PearDatabase::getInstance();
+		$current_user  = vglobal('current_user');
+		$log = vglobal('log');
 
 		if ($fileid != '') {
 			$this->id = $fileid;
@@ -226,6 +231,7 @@ class CRMEntity {
 		}
 
 		$date_var = date("Y-m-d H:i:s");
+		$insertion_mode = $this->mode;
 
 		$ownerid = $this->column_fields['assigned_user_id'];
 		if(empty($ownerid)) {
@@ -302,7 +308,7 @@ class CRMEntity {
 
 	// Function which returns the value based on result type (array / ADODB ResultSet)
 	private function resolve_query_result_value($result, $index, $columnname) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if (is_array($result))
 			return $result[$index][$columnname];
 		else
@@ -314,10 +320,10 @@ class CRMEntity {
 	 * @param $module -- module:: Type varchar
 	 */
 	function insertIntoEntityTable($table_name, $module, $fileid = '') {
-		global $log;
+		$log = vglobal('log');
 		global $current_user, $app_strings;
 		$log->info("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$insertion_mode = $this->mode;
 
 		//Checkin whether an entry is already is present in the vtiger_table to update
@@ -401,7 +407,7 @@ class CRMEntity {
 			if (CRMEntity::isBulkSaveMode()) {
 				$cacheresult = array();
 				for ($i = 0; $i < $noofrows; ++$i) {
-					$cacheresult[] = $adb->fetch_array($result);
+					$cacheresult[] = $adb->raw_query_result_rowdata($result,$i);
 				}
 				$_privatecache[$cachekey] = $cacheresult;
 			}
@@ -613,7 +619,7 @@ class CRMEntity {
 	 * The function will delete a record .The id is obtained from the class variable $this->id and the columnname got from $this->tab_name_index[$table_name]
 	 */
 	function deleteRelation($table_name) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$check_query = "select * from $table_name where " . $this->tab_name_index[$table_name] . "=?";
 		$check_result = $adb->pquery($check_query, array($this->id));
 		$num_rows = $adb->num_rows($check_result);
@@ -630,9 +636,9 @@ class CRMEntity {
 	 * returns the 'filename'
 	 */
 	function getOldFileName($notesid) {
-		global $log;
+		$log = vglobal('log');
 		$log->info("in getOldFileName  " . $notesid);
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$query1 = "select * from vtiger_seattachmentsrel where crmid=?";
 		$result = $adb->pquery($query1, array($notesid));
 		$noofrows = $adb->num_rows($result);
@@ -660,7 +666,9 @@ class CRMEntity {
 	 * @param <String> $module - module name
 	 */
 	function retrieve_entity_info($record, $module) {
-		global $adb, $log, $app_strings;
+		$adb = PearDatabase::getInstance();
+		$log = vglobal('log');
+		$app_strings = vglobal('app_strings');
 
 		if(!isset($record)) {
 			throw new AppException(vtranslate('LBL_RECORD_NOT_FOUND')." ($record, $module)");
@@ -679,7 +687,6 @@ class CRMEntity {
 				'vtiger_campaignrelstatus',
 				'vtiger_attachments',
 				//'vtiger_inventoryproductrel',
-				//'vtiger_cntactivityrel',
 				'vtiger_email_track'
 			);
 		}
@@ -790,95 +797,34 @@ class CRMEntity {
 	 * @param $module -- module:: Type varchar
 	 */
 	function save($module_name, $fileid = '') {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("module name is " . $module_name);
 
 		//Event triggering code
 		require_once("include/events/include.inc");
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		//In Bulk mode stop triggering events
-		if(!self::isBulkSaveMode()) {
-		$em = new VTEventsManager($adb);
-		// Initialize Event trigger cache
-		$em->initTriggerCache();
-		$entityData = VTEntityData::fromCRMEntity($this);
+		if (!self::isBulkSaveMode()) {
+			$em = new VTEventsManager($adb);
+			// Initialize Event trigger cache
+			$em->initTriggerCache();
+			$entityData = VTEntityData::fromCRMEntity($this);
 
-		$em->triggerEvent("vtiger.entity.beforesave.modifiable", $entityData);
-		$em->triggerEvent("vtiger.entity.beforesave", $entityData);
-		$em->triggerEvent("vtiger.entity.beforesave.final", $entityData);
+			$em->triggerEvent("vtiger.entity.beforesave.modifiable", $entityData);
+			$em->triggerEvent("vtiger.entity.beforesave", $entityData);
+			$em->triggerEvent("vtiger.entity.beforesave.final", $entityData);
 		}
 		//Event triggering code ends
-
 		//GS Save entity being called with the modulename as parameter
 		$this->saveentity($module_name, $fileid);
 
-
-		if($em) {
-		//Event triggering code
-		$em->triggerEvent("vtiger.entity.aftersave", $entityData);
-		$em->triggerEvent("vtiger.entity.aftersave.final", $entityData);
-		//Event triggering code ends
-	}
-
-	}
-
-	function process_list_query($query, $row_offset, $limit = -1, $max_per_page = -1) {
-		global $list_max_entries_per_page;
-		$this->log->debug("process_list_query: " . $query);
-		if (!empty($limit) && $limit != -1) {
-			$result = & $this->db->limitQuery($query, $row_offset + 0, $limit, true, "Error retrieving $this->object_name list: ");
-		} else {
-			$result = & $this->db->query($query, true, "Error retrieving $this->object_name list: ");
+		if ($em) {
+			//Event triggering code
+			$em->triggerEvent("vtiger.entity.aftersave", $entityData);
+			$em->triggerEvent("vtiger.entity.aftersave.final", $entityData);
+			//Event triggering code ends
 		}
-
-		$list = Array();
-		if ($max_per_page == -1) {
-			$max_per_page = $list_max_entries_per_page;
-		}
-		$rows_found = $this->db->getRowCount($result);
-
-		$this->log->debug("Found $rows_found " . $this->object_name . "s");
-
-		$previous_offset = $row_offset - $max_per_page;
-		$next_offset = $row_offset + $max_per_page;
-
-		if ($rows_found != 0) {
-
-			// We have some data.
-
-			for ($index = $row_offset, $row = $this->db->fetchByAssoc($result, $index); $row && ($index < $row_offset + $max_per_page || $max_per_page == -99); $index++, $row = $this->db->fetchByAssoc($result, $index)) {
-
-
-				foreach ($this->list_fields as $entry) {
-
-					foreach ($entry as $key => $field) { // this will be cycled only once
-						if (isset($row[$field])) {
-							$this->column_fields[$this->list_fields_names[$key]] = $row[$field];
-
-
-							$this->log->debug("$this->object_name({$row['id']}): " . $field . " = " . $this->$field);
-						} else {
-							$this->column_fields[$this->list_fields_names[$key]] = "";
-						}
-					}
-				}
-
-
-				//$this->db->println("here is the bug");
-
-
-				$list[] = clone($this); //added by Richie to support PHP5
-			}
-		}
-
-		$response = Array();
-		$response['list'] = $list;
-		$response['row_count'] = $rows_found;
-		$response['next_offset'] = $next_offset;
-		$response['previous_offset'] = $previous_offset;
-
-		return $response;
 	}
 
 	function process_full_list_query($query) {
@@ -923,7 +869,7 @@ class CRMEntity {
 	 * Contributor(s): ______________________________________..
 	 */
 	function mark_deleted($id) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$date_var = date("Y-m-d H:i:s");
 		$query = "UPDATE vtiger_crmentity set deleted=1,modifiedtime=?,modifiedby=? where crmid=?";
 		$this->db->pquery($query, array($this->db->formatDate($date_var, true), $current_user->id, $id), true, "Error marking record deleted: ");
@@ -968,7 +914,7 @@ class CRMEntity {
 	 * return true or false
 	 */
 	function checkIfCustomTableExists($tablename) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$query = "select * from " . $adb->sql_escape_string($tablename);
 		$result = $this->db->pquery($query, array());
 		$testrow = $this->db->num_fields($result);
@@ -985,7 +931,7 @@ class CRMEntity {
 	 * return the query to fetch the custom vtiger_fields
 	 */
 	function constructCustomQueryAddendum($tablename, $module) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$tabid = getTabid($module);
 		$sql1 = "select columnname,fieldlabel from vtiger_field where generatedtype=2 and tabid=? and vtiger_field.presence in (0,2)";
 		$result = $adb->pquery($sql1, array($tabid));
@@ -1042,7 +988,7 @@ class CRMEntity {
 	 * @return Column value of the field.
 	 */
 	function get_column_value($columnname, $fldvalue, $fieldname, $uitype, $datatype = '') {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering function get_column_value ($columnname, $fldvalue, $fieldname, $uitype, $datatype='')");
 
 		// Added for the fields of uitype '57' which has datatype mismatch in crmentity table and particular entity table
@@ -1133,7 +1079,7 @@ class CRMEntity {
 
 	/** Function to initialize the required fields array for that particular module */
 	function initRequiredFields($module) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$tabid = getTabId($module);
 		$sql = "select * from vtiger_field where tabid= ? and typeofdata like '%M%' and uitype not in ('53','70') and vtiger_field.presence in (0,2)";
@@ -1177,7 +1123,7 @@ class CRMEntity {
 
 	/** Function to unlink all the dependent entities of the given Entity by Id */
 	function unlinkDependencies($module, $id) {
-		global $log;
+		$log = vglobal('log');
 
 		$fieldRes = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
 			SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=?)', array($module));
@@ -1254,7 +1200,7 @@ class CRMEntity {
 
 		//Event triggering code
 		require_once("include/events/include.inc");
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$em = new VTEventsManager($adb);
 
 		// Initialize Event trigger cache
@@ -1310,7 +1256,7 @@ class CRMEntity {
 	 * Function to initialize the sortby fields array
 	 */
 	function initSortByField($module) {
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering function initSortByField ($module)");
 		// Define the columnname's and uitype's which needs to be excluded
 		$exclude_columns = Array('parent_id', 'quoteid', 'vendorid', 'access_count');
@@ -1349,7 +1295,7 @@ class CRMEntity {
 	/* Function to set the Sequence string and sequence number starting value */
 
 	function setModuleSeqNumber($mode, $module, $req_str = '', $req_no = '') {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		//when we configure the invoice number in Settings this will be used
 		if ($mode == "configure" && $req_no != '') {
 			$check = $adb->pquery("select cur_id from vtiger_modentity_num where semodule=? and prefix = ?", array($module, $req_str));
@@ -1401,7 +1347,7 @@ class CRMEntity {
 	/* Function to get the next module sequence number for a given module */
 
 	function getModuleSeqInfo($module) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$check = $adb->pquery("select cur_id,prefix from vtiger_modentity_num where semodule=? and active = 1", array($module));
 		$prefix = $adb->query_result($check, 0, 'prefix');
 		$curid = $adb->query_result($check, 0, 'cur_id');
@@ -1412,7 +1358,7 @@ class CRMEntity {
 
 	/* Function to check if the mod number already exits */
 	function checkModuleSeqNumber($table, $column, $no) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("select " . $adb->sql_escape_string($column) .
 				" from " . $adb->sql_escape_string($table) .
 				" where " . $adb->sql_escape_string($column) . " = ?", array($no));
@@ -1428,7 +1374,7 @@ class CRMEntity {
 	// END
 
 	function updateMissingSeqNumber($module) {
-        global $log, $adb;
+        $adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entered updateMissingSeqNumber function");
 
 		vtlib_setup_modulevars($module, $this);
@@ -1547,7 +1493,7 @@ class CRMEntity {
 			$crmid = $this->id;
 		}
 		if ($crmid) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$result = $adb->pquery("SELECT viewedtime,modifiedtime,smcreatorid,smownerid,modifiedby FROM vtiger_crmentity WHERE crmid=?", Array($crmid));
 			$resinfo = $adb->fetch_array($result);
 
@@ -1591,7 +1537,7 @@ class CRMEntity {
 	}
 
 	function markAsViewed($userid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery("UPDATE vtiger_crmentity set viewedtime=? WHERE crmid=? AND smownerid=?", Array(date('Y-m-d H:i:s', time()), $this->id, $userid));
 	}
 
@@ -1603,7 +1549,7 @@ class CRMEntity {
 	 * @param mixed Integer or Array of related module record number
 	 */
 	function save_related_module($module, $crmid, $with_module, $with_crmid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if (!is_array($with_crmid))
 			$with_crmid = Array($with_crmid);
 		foreach ($with_crmid as $relcrmid) {
@@ -1635,7 +1581,7 @@ class CRMEntity {
 	 * @param mixed Integer or Array of related module record number
 	 */
 	function delete_related_module($module, $crmid, $with_module, $with_crmid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if (!is_array($with_crmid))
 			$with_crmid = Array($with_crmid);
 		foreach ($with_crmid as $relcrmid) {
@@ -1735,7 +1681,7 @@ class CRMEntity {
 	 * From a given Contact/Account if we need to fetch all such dependent trouble tickets, get_dependents_list function can be used.
 	 */
 	function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions = false) {
-		global $currentModule, $app_strings, $singlepane_view, $current_user;
+		$app_strings = vglobal('app_strings'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		
 		$current_module = vtlib_getModuleNameById($cur_tab_id);
 		$related_module = vtlib_getModuleNameById($rel_tab_id);
@@ -1823,7 +1769,7 @@ class CRMEntity {
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
 	function transferRelatedRecords($module, $transferEntityIds, $entityId) {
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 		foreach ($transferEntityIds as $transferId) {
 
@@ -1858,7 +1804,7 @@ class CRMEntity {
 	 */
 
 	function generateReportsQuery($module, $queryPlanner) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$primary = CRMEntity::getInstance($module);
 
 		vtlib_setup_modulevars($module, $primary);
@@ -1960,7 +1906,7 @@ class CRMEntity {
 	 */
 
 	function generateReportsSecQuery($module, $secmodule,$queryPlanner) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$secondary = CRMEntity::getInstance($secmodule);
 
 		vtlib_setup_modulevars($secmodule, $secondary);
@@ -2068,7 +2014,7 @@ class CRMEntity {
 
 	function getListViewSecurityParameter($module) {
 		$tabid = getTabid($module);
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if ($current_user) {
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
@@ -2136,15 +2082,7 @@ class CRMEntity {
 			$instance = self::getInstance($module);
 			$sectableindex = $instance->tab_name_index[$sectablename];
 			$condition = "$table_name.$column_name=$tmpname.$secfieldname";
-            if($pritablename == 'vtiger_seactivityrel') {
-                if($module == "Emails" || $secmodule == "Emails"){
-                    $tmpModule = "Emails";
-                }else{
-                    $tmpModule = "Calendar";
-                }
-                $query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname
-                    AND $tmpname.activityid IN (SELECT crmid FROM vtiger_crmentity WHERE setype='$tmpModule' AND deleted = 0))";
-            } else if($pritablename == 'vtiger_senotesrel') {
+            if($pritablename == 'vtiger_senotesrel') {
                     $query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname
                     AND $tmpname.notesid IN (SELECT crmid FROM vtiger_crmentity WHERE setype='Documents' AND deleted = 0))";
             } else if($pritablename == 'vtiger_inventoryproductrel' && ($module =="Products" || $module =="Services") && ($secmodule == "Invoice" || $secmodule == "SalesOrder" || $secmodule == "PurchaseOrder" || $secmodule == "Quotes")) {
@@ -2184,8 +2122,8 @@ class CRMEntity {
 	 * @param string fieldname - the related to field name
 	 */
 	function add_related_to($module, $fieldname) {
-		global $adb, $imported_ids, $current_user;
-
+		global $adb, $imported_ids;
+		$current_user  = vglobal('current_user');
 		$related_to = $this->column_fields[$fieldname];
 
 		if (empty($related_to)) {
@@ -2300,7 +2238,7 @@ class CRMEntity {
 
 	/** END * */
 	function buildSearchQueryForFieldTypes($uitypes, $value=false) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		if (!is_array($uitypes))
 			$uitypes = array($uitypes);
@@ -2395,8 +2333,8 @@ class CRMEntity {
 		return $query;
 	}
 	function getUserAccessConditionsQuerySR($module, $current_user = false) {
-		if($user == false)
-			global $current_user;
+		if($current_user == false)
+			$current_user  = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 		global $shared_owners;
@@ -2576,18 +2514,11 @@ class CRMEntity {
 	 * Function to track when a new record is linked to a given record
 	 */
 	function trackLinkedInfo($module, $crmid, $with_module, $with_crmid) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$adb = PearDatabase::getInstance();
 		$currentTime = date('Y-m-d H:i:s');
 
 		$adb->pquery('UPDATE vtiger_crmentity SET modifiedtime = ?, modifiedby = ? WHERE crmid = ?', array($currentTime, $current_user->id, $crmid));
-
-		// @Note: We should extend this to event handlers
-		if(vtlib_isModuleActive('ModTracker')) {
-			// Track the time the relation was added
-			require_once 'modules/ModTracker/ModTracker.php';
-			ModTracker::linkRelation($module, $crmid, $with_module, $with_crmid);
-		}
 	}
 
 	/**
@@ -2595,7 +2526,7 @@ class CRMEntity {
 	 * return string  $sorder    - sortorder string either 'ASC' or 'DESC'
 	 */
 	function getSortOrder() {
-		global $log,$currentModule;
+		$log = vglobal('log'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering getSortOrder() method ...");
 		if (isset($_REQUEST['sorder']))
 			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
@@ -2649,18 +2580,11 @@ class CRMEntity {
 	 * Function to track when a record is unlinked to a given record
 	 */
 	function trackUnLinkedInfo($module, $crmid, $with_module, $with_crmid) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$adb = PearDatabase::getInstance();
 		$currentTime = date('Y-m-d H:i:s');
 
 		$adb->pquery('UPDATE vtiger_crmentity SET modifiedtime = ?, modifiedby = ? WHERE crmid = ?', array($currentTime, $current_user->id, $crmid));
-
-		// @Note: We should extend this to event handlers
-		if(vtlib_isModuleActive('ModTracker')) {
-			//Track the time the relation was deleted
-			require_once 'modules/ModTracker/ModTracker.php';
-			ModTracker::unLinkRelation($module, $crmid, $with_module, $with_crmid);
-		}
 	}
 
 	/**

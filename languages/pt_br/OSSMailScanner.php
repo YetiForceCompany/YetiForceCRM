@@ -5,11 +5,11 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
     'OSSMailScanner' => 'Escaner Mensagem',
     'OSSMailScanner_manual' => 'Escaner Mensagem',
     'E-mail Accounts' => 'Contas E-mail',
@@ -107,29 +107,6 @@ $languageStrings = array(
     'Error' => 'Erro',
     'email_to_notify' => 'E-mail de notificação',
     'time_to_notify' => 'Tempo para notificar',
-    'LBL_Manual' => 'Documentação (PL)',
-    'LBL_ManualLink' => 'https://docs.google.com/document/d/1bl9Vc7ZADSgqHD-MaqLTygD88a2VZWYhQzu4dVq73Ns/edit',
-    'Delete_panel' => 'O painel de configuração abaixo é utilizado para apagar o módulo. Nome do módulo: ',
-    'Uninstall' => 'Desisntalar',
-    'Cancel' => 'Cancelar',
-    'MSG_DEL_WARN1' => 'ATENÇÃO!',
-    'MSG_DEL_WARN2' => 'Depois que você desinstalar o módulo, todos os dados do módulo serão perdidos no CRM. Contudo, alguns arquivos ainda poderão ser mantidos em: ',
-    'MSG_DEL_PATH1' => ' Smarty/templates/modules/nome_modulo',
-    'MSG_DEL_PATH2' => ' modules/nome_modulo',
-    'MSG_DEL_WARN3' => ' e na pasta:',
-    'MSG_DEL_WARN4' => 'Se você deseja reinstalar este módulo no futuro, você terá que apagar estas pastas.',
-    'MSG_DEL_WARN5' => 'Se você tem algum problema, poderá nos contatar através do nosso e-mail ou abrir um Chamado em www.opesaas.pl.',
-    'MSG_DEL_WARN6' => 'Respeitosamente, equipe OpenSaaS Sp. z o.o.',
-    'DELETE' => 'Desinstalação do módulo.',
-    'LBL_HELP_SETTINGS' => 'Ajuda',
-    'DELETE' => 'Remoção de módulo',
-    'HelpDescription' => 'Este é nosso site onde você poderá abrir Chamados, propostas de melhorias ou somente ler a documentação dos módulos.',
-    'LBL_TroubleUrl' => 'Site dos módulos',
-    'LBL_OurWebsite' => 'Nosso site',
-    'LBL_UrlLink' => 'http://apps.opensaas.pl',
-    'LBL_UrlLinkInfo' => 'Você precisa registrar uma conta',
-    'LBL_OurWebsiteLink' => 'http://opensaas.pl',
-    'Uninstall OSSMailScanner module' => 'Desinstalar o módulo OSSMailScanner',
     'StopCron' => 'Parar o escaneamento manualmente',
     'Manually stopped' => 'Parado manualmente',
     'stop_user' => 'Escaneamento parou pelo',
@@ -144,9 +121,9 @@ $languageStrings = array(
 	'User' => 'Usuário',
 	'None' => 'Escolher usuário',
 	'User list' => 'Lista dos usuários',
-    'identities_name' => 'Nome identidade', 
-    'identities_adress' => 'Endereço identidade', 
-    'identities_del' => 'Apagar identidade', 
+    'identities_name' => 'Nome identidade',
+    'identities_adress' => 'Endereço identidade',
+    'identities_del' => 'Apagar identidade',
     'show_identities' => 'Exibir identidades',
 	'IMAP_ERROR' => 'Não foi possível conectar o servidor de e-mail',
 	'ERROR_ACTIVE_CRON' => 'Não foi possível ligar o escaneamento, pois CRON está ativo no momento.',
@@ -164,6 +141,7 @@ $languageStrings = array(
 	'AccontDeleteOK' => 'Conta apagada',
 	'No' => 'Não',
 	'LBL_MAIL_LOGS' => 'Log das Mensagens',
-	'Group list' => 'Group list',
-	
-);
+	'Group list' => 'Lista Grupo',
+	'LBL_ACTIVE_MAIL' => 'Ativo',
+	'LBL_INACTIVE_MAIL' => 'Inativo',
+];

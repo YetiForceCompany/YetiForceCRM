@@ -113,24 +113,26 @@
 			return 10;
 		}
 
-		function getWorkflowsForModule($moduleName){
-			$adb=$this->adb;
-			$cache= Vtiger_Cache::getInstance();
-			if($cache->getWorkflowForModule($moduleName)){
+		function getWorkflowsForModule($moduleName, $executionCondition = false) {
+			$adb = $this->adb;
+			$cache = Vtiger_Cache::getInstance();
+			if ($cache->getWorkflowForModule($moduleName)) {
 				return $this->getWorkflowsForResult($cache->getWorkflowForModule($moduleName));
 			} else {
-			//my changes
-			$result=$adb->getColumnNames("com_vtiger_workflows");
-			if(in_array(defaultworkflow,$result)){
-				$result = $adb->pquery("select workflow_id, module_name, summary, test, execution_condition, defaultworkflow, type, filtersavedinnew
-									from com_vtiger_workflows where module_name=?",array($moduleName));
-			}
-			else{
-				$result = $adb->pquery("select workflow_id, module_name, summary, test, execution_condition, type, filtersavedinnew
-									from com_vtiger_workflows where module_name=?",array($moduleName));
-			}
-				$cache->setWorkflowForModule($moduleName,$result);
-			return $this->getWorkflowsForResult($result);
+				$result = $adb->getColumnNames("com_vtiger_workflows");
+				if (in_array(defaultworkflow, $result)) {
+					$sql = 'SELECT workflow_id, module_name, summary, test, execution_condition, defaultworkflow, type, filtersavedinnew FROM com_vtiger_workflows WHERE module_name=?';
+				} else {
+					$sql = 'SELECT workflow_id, module_name, summary, test, execution_condition, type, filtersavedinnew FROM com_vtiger_workflows WHERE module_name=?';
+				}
+				$params[] = $moduleName;
+				if($executionCondition){
+					$params[] = $executionCondition;
+					$sql .= ' AND execution_condition = ?';
+				}
+				$result = $adb->pquery($sql, $params);
+				$cache->setWorkflowForModule($moduleName, $result);
+				return $this->getWorkflowsForResult($result);
 			}
 		}
 
@@ -347,7 +349,7 @@
 		}
 
 		function isCompletedForRecord($recordId) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 
 			$result = $adb->pquery("SELECT * FROM com_vtiger_workflow_activatedonce
 							WHERE entity_id=? and workflow_id=?", array($recordId, $this->id));
@@ -366,14 +368,14 @@
 		}
 
 		function markAsCompletedForRecord($recordId) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 
 			$adb->pquery("INSERT INTO com_vtiger_workflow_activatedonce (entity_id, workflow_id)
 				VALUES (?,?)", array($recordId, $this->id));
 		}
 
 		function performTasks($entityData) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$data = $entityData->getData();
 
 			require_once('modules/com_vtiger_workflow/VTTaskManager.inc');
@@ -450,7 +452,7 @@
 		 * @return type
 		 */
 		function getNextTriggerTime() {
-			global $default_timezone;
+			$default_timezone = vglobal('default_timezone');
 			$admin = Users::getActiveAdminUser();
 			$adminTimeZone = $admin->time_zone;
 			@date_default_timezone_set($adminTimeZone);
@@ -664,4 +666,3 @@
 			return $nextTime;
 		}
 	}
-?>

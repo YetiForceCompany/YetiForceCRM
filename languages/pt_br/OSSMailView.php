@@ -5,11 +5,11 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): pt_BR Translation - Valmir Trindade [valmir@ttcasolucoes.com.br] and Gabriel Porto Trindade [gptrind@gmail.com] - 25-11-2014
+ * Contributor(s): Valmir Carlos Trindade and Gabriel Porto Trindade - Brazilian Language Translation - valmir#ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSMailView'        => 'E-mails Corporativos',
 	'SINGLE_OSSMailView' => 'E-mail Corporativo',
@@ -17,7 +17,7 @@ $languageStrings = array(
 	'LBL_RECORDS_LIST' => 'Lista de e-mails',
 
 	// Blocks
-	'LBL_INFORMATION' => 'Infomação geral',
+	'LBL_INFORMATION' => 'Informação geral',
 
 	//Field Labels
     'relatedid' => 'Relacionado à',
@@ -51,14 +51,18 @@ $languageStrings = array(
 	'List open email'=>'Quando você clicar no botão abrir o',
 	'emailPreviewHeader'=>'Visualizar seus e-mails',
 	'Email_list'=>'E-mail',
-	'Email_list'=>'E-mail',
     'LBL_CREATEMAIL' => 'Enviar e-mail',
     'LBL_OUTCOMING' => 'Saída',
     'LBL_INCOMING' => 'Entrada',
     'LBL_INTERNAL' => 'Interno',
 	'LBL_REPLYALLL' => 'Responder para todos',
 	'LBL_PRINT' => 'Impressão',
-    
+	'Date of receipt' => 'Dados recebidor',
+	'LBL_FORWARD' => 'Avançar',
+	'RC user' => 'RC user',
+	'FromID' => 'Sender Id',
+	'ToID' => 'Receiver Id',
+
 	'LBL_VERIFY' => 'Para verificação',
 	'LBL_REL_MOD' => 'Módulos relacionados',
 	'LBL_BindMailsOK' => 'Marcar e-mails para vincular a próxima ativação das mensagens do CRON a serem gravados',
@@ -69,17 +73,17 @@ $languageStrings = array(
 	'Alert_ChangeType_desc' => 'Todo tipo de e-mail selecionado será mudado, sem a possibilidade de desfazer as altereções.',
 	'LBL_ChangeTypeOK' => 'Mudar tipo de mensagem',
 	'Configuration' => 'Configuração',
-	
+
 	//dashboards
 	'Graf' => 'E-mails Corporativos por Tipo',
-	'Today' => 'Today',
-	'Yesterday' => 'Yesterday',
-	'Current week' => 'Current week',
-	'Previous week' => 'Previous week',	
-	'Current month' => 'Current month',
-	'Previous month' => 'Previous month',
-);
-$jsLanguageStrings = array(
+	'Today' => 'Hoje',
+	'Yesterday' => 'Ontem',
+	'Current week' => 'Semana atual',
+	'Previous week' => 'Semana anterior',
+	'Current month' => 'Mês atual',
+	'Previous month' => 'Mês anterior',
+];
+$jsLanguageStrings = [
 	'From' => 'A partir de',
 	'To' => 'Para',
 	'CC' => 'CC',
@@ -87,5 +91,5 @@ $jsLanguageStrings = array(
 	'Date'=>'Data',
 	'Subject'=>'Assunto',
 	'Content'=>'Conteúdo',
-	'JS_BIND_CONFIRM'=>'Você tem certeza que deseja vingular as mensagens selecionadas?',
-);
+	'JS_BIND_CONFIRM'=>'Você tem certeza que deseja vincular as mensagens selecionadas?',
+];

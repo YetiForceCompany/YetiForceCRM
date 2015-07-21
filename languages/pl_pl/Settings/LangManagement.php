@@ -8,10 +8,10 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'No data available in table' => 'Brak danych w tabeli',
 	'Translations' => 'Tłumaczenia',
-	'Language editor' => 'Editor języka',
+	'Language editor' => 'Edytor języka',
 	'LangManagement'	=> 'Zarządzanie językami',
 	'LBL_Module_desc'	=> 'Narzędzie służy do modyfikacji i zarządzania tłumaczeniami językowymi w całym systemie.',
 	'LBL_TAB_LIST'	=> 'Dostępne języki',
@@ -51,11 +51,18 @@ $languageStrings = array(
 	'Export'	=> 'Eksportuj',
 	'LBL_SHOW_MISSING_TRANSLATIONS'	=> 'Pokaż brakujące tłumaczenia',
 	'LBL_DEFAULT'	=> 'Domyślny',
-);
-$jsLanguageStrings = array(
+	'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES'	=> 'Nie można dokonać zmian',
+	'LBL_EDIT'	=> 'Tworzenie i edycja',
+	'LBL_DETAIL'	=> 'Podgląd',
+	'LBL_QUICKCREATE'	=> 'Szybkie tworzenie',
+	'LBL_SHOW_EMPTY_VALUES'	=> 'Pokaż puste wartości',
+	'LBL_SHOW_IN'	=> 'Pokaż w',
+	'LBL_EDIT_HELP_ICON'	=> 'Ikony pomocy',
+];
+$jsLanguageStrings = [
 	'Translations' => 'Tłumaczenia',
-	'LBL_AreYouSure'	=> 'Czy na perwno chcesz usunąć język?',
-	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Czy na perwno chcesz zmienić język domyślny?',
+	'LBL_AreYouSure'	=> 'Czy na pewno chcesz usunąć język?',
+	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Czy na pewno chcesz zmienić język domyślny?',
 	'JS_DEFAULT'	=> 'Domyślny',
 	'Delete'	=> 'Usuń',
 	'Cancel'	=> 'Anuluj',
@@ -63,4 +70,5 @@ $jsLanguageStrings = array(
 	'No matching records found'	=> 'Nie znaleziono tłumaczenia',
 	'Search'	=> 'Szukaj:',
 	'No data available in table'	=> 'Brak tłumaczeń',
-);
+	'JS_NOTRANSLATION'	=> '--Brak tłumaczenia--',
+];

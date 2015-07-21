@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,7 +22,9 @@ $messages['sessionerror'] = 'Sessio ei kelpaa tai ei ole enää voimassa';
 $messages['storageerror'] = 'Yhteys IMAP-palvelimeen epäonnistui';
 $messages['servererror'] = 'Palvelinvirhe!';
 $messages['servererrormsg'] = 'Palvelinvirhe: $msg';
+$messages['connerror'] = 'Yhteysvirhe, ei yhteyttä palvelimeen!';
 $messages['dberror'] = 'Tietokantavirhe!';
+$messages['windowopenerror'] = 'Ponnahdusikkuna estettiin!';
 $messages['requesttimedout'] = 'Pyyntö aikakatkaistiin';
 $messages['errorreadonly'] = 'Toiminnon suoritus ei onnistu, koska hakemisto on vain lukutilassa.';
 $messages['errornoperm'] = 'Toimintoa ei voitu suorittaa. Ei oikeuksia.';
@@ -92,6 +94,7 @@ $messages['contactsearchsuccessful'] = 'Löydetty $nr yhteystietoa';
 $messages['searchnomatch'] = 'Haku ei tuottanut tuloksia';
 $messages['searching'] = 'Etsitään...';
 $messages['checking'] = 'Tarkistetaan...';
+$messages['stillsearching'] = 'Etsitään edelleen...';
 $messages['nospellerrors'] = 'Kirjoitusvirheitä ei löytynyt.';
 $messages['folderdeleted'] = 'Kansio poistettu onnistuneesti';
 $messages['foldersubscribed'] = 'Kansio tilattu onnistuneesti.';
@@ -126,6 +129,7 @@ $messages['selectimportfile'] = 'Valitse lähetettävä tiedosto';
 $messages['addresswriterror'] = 'Valittuun osoitekirjaan ei voi kirjoittaa';
 $messages['contactaddedtogroup'] = 'Yhteystiedot lisätty ryhmään';
 $messages['contactremovedfromgroup'] = 'Yhteystiedot poistettu ryhmästä';
+$messages['nogroupassignmentschanged'] = 'Ryhmämäärityksiä ei muutettu.';
 $messages['importwait'] = 'Tuodaan, odota...';
 $messages['importformaterror'] = 'Tuonti epäonnistui! Lähetetty tiedosto ei ole kelvollinen tuontitiedosto.';
 $messages['importconfirm'] = '<b>$inserted yhteystietoa tuotu onnistuneesti</b>';
@@ -134,7 +138,7 @@ $messages['importmessagesuccess'] = '$nr viestiä tuotiin onnistuneesti';
 $messages['importmessageerror'] = 'Tuonti epäonnistui! Lähetetty tiedosto ei ole kelvollinen viesti tai mailbox-tiedosto';
 $messages['opnotpermitted'] = 'Toiminto ei ole sallittu!';
 $messages['nofromaddress'] = 'Valittu identiteetti ei sisällä sähköpostiosoitetta';
-$messages['editorwarning'] = 'Vaihtaminen tekstieditoriin aiheuttaa viestin muotoilun katoamisen. Haluatko jatkaa?';
+$messages['editorwarning'] = 'Muokkaintyypin vaihtaminen saattaa aiheuttaa tekstin muotoilun katoamisen. Haluatko jatkaa?';
 $messages['httpreceivedencrypterror'] = 'Vakava virhe asetuksissa. Ota välittömästi yhteys ylläpitoon. <b>Viestiäsi ei voida lähettää.</b>';
 $messages['smtpconnerror'] = 'SMTP-virhe ($code): Palvelimelle yhdistäminen epäonnistui';
 $messages['smtpautherror'] = 'SMTP-virhe ($code): Tunnistus epäonnistui';
@@ -173,4 +177,14 @@ $messages['parentnotwritable'] = 'Kansiota ei voitu siirtää tai luoda valittuu
 $messages['messagetoobig'] = 'Viestiosa on liian suuri prosessoitavaksi.';
 $messages['attachmentvalidationerror'] = 'Varoitus! Tämä liitetiedosto on epäilyttävä, koska se ei vastaa ilmoitettua tiedostotyyppiä. Jos et luoda lähettäjään, älä avaa liitetiedostoa välttääksesi mahdollista vahingollista aineistoa.<br/><br/><em>Odotettu: $expected; löydetty: $detected</em>';
 $messages['noscriptwarning'] = 'Varoitus: Tämä verkkopohjainen sähköpostipalvelu vaatii Javascriptin toimiakseen. Ota Javascript käyttöön selaimesi asetuksista.';
+$messages['messageissent'] = 'Viesti lähetettiin jo, mutta sitä ei vielä tallennettu. Haluatko tallentaa sen nyt?';
+$messages['errnotfound'] = 'Tiedostoa ei löytynyt';
+$messages['errnotfoundexplain'] = 'Pyydettyä resurssia ei löytynyt!';
+$messages['errfailedrequest'] = 'Pyyntö epäonnistui';
+$messages['errauthorizationfailed'] = 'Valtuutus epäonnistui';
+$messages['errunauthorizedexplain'] = 'Tämän palvelun käyttöön vaadittavan valtuutuksen tarkistaminen epäonnistui!';
+$messages['errrequestcheckfailed'] = 'Pyyntötarkistus epäonnistui';
+$messages['errcsrfprotectionexplain'] = "Turvallisuutesi vuoksi tämän resurssin käyttö on suojattu CSRF:ää vastaan.\nJos näet tämän viestin, et luultavasti kirjautunut ulos, ennen kuin poistuit verkkosovelluksesta.\n\nVuorovaikutustasi tarvitaan nyt, jotta voit jatkaa.";
+$messages['errcontactserveradmin'] = 'Ota yhteys palvelimen ylläpitäjään.';
+$messages['clicktoresumesession'] = 'Napsauta tästä palauttaaksesi edellisen istuntosi';
 ?>

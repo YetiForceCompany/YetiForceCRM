@@ -31,6 +31,13 @@ class Vtiger_Session {
 	}
 
 	/**
+	 * Calls session_regenerate_id() if available
+	 */
+	static function regenerateId($deleteOldSessionData = false) {
+		HTTP_Session::regenerateId($deleteOldSessionData);
+	}
+	
+	/**
 	 * Initialize session
 	 */
 	static function init($sessionid = false) {

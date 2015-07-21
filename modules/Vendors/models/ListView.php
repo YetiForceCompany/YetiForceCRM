@@ -16,22 +16,34 @@ class Vendors_ListView_Model extends Vtiger_ListView_Model {
 	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams) {
-		$massActionLinks = parent::getListViewMassActions($linkParams);
-
+		$links = parent::getListViewMassActions($linkParams);
+		$moduleModel = $this->getModule();
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$emailModuleModel = Vtiger_Module_Model::getInstance('Emails');
 
-		if($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
-			$massActionLink = array(
+		$massActionLinks = [];
+		if($currentUserModel->hasModulePermission($emailModuleModel->getId()) && $currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassComposeEmail')) {
+			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendEmail("index.php?module='.$this->getModule()->getName().'&view=MassActionAjax&mode=showComposeEmailForm&step=step1","Emails");',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendEmail("index.php?module='.$moduleModel->getName().'&view=MassActionAjax&mode=showComposeEmailForm&step=step1","Emails");',
 				'linkicon' => ''
 			);
-			$massActionLinks['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
 
-		return $massActionLinks;
+		$SMSNotifierModuleModel = Vtiger_Module_Model::getInstance('SMSNotifier');
+		if(!empty($SMSNotifierModuleModel) && $currentUserModel->hasModulePermission($SMSNotifierModuleModel->getId()) && $currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassSendSMS')) {
+			$massActionLinks[] = array(
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_SEND_SMS',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendSms("index.php?module='.$moduleModel->getName().'&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
+				'linkicon' => ''
+			);
+		}
+
+		foreach($massActionLinks as $massActionLink) {
+			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+		}
+		return $links;
 	}
 }
-?>

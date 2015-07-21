@@ -7,12 +7,12 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'csv' => 'CSV',
 	'UTF-8' => 'UTF-8',
 	'vcf' => 'VCard',
-	'semicolon' => 'semicolon',
-	'comma' => 'comma',
+	'semicolon' => 'Semikolon',
+	'comma' => 'Komma',
 	'ISO-8859-1' => 'ISO-8859-1',
 	'LBL_IMPORT_STEP_1'            => 'Schritt 1'                   , 
 	'LBL_IMPORT_STEP_1_DESCRIPTION' => 'Datei auswählen'                , 
@@ -77,4 +77,6 @@ $languageStrings = array(
 	'Skip'			       => 'Überspringen',
 	'Overwrite'			=> 'Überschreiben',
 	'Merge'				=> 'Zusammenführen',
-);
+	'LBL_SELECT_FILE' => 'Importdatei wählen',
+];
+

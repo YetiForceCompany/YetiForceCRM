@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 08/12/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'SINGLE_ModComments' => 'Comentário',
 	'LBL_RECORDS_LIST' => 'Lista de Comentários',
@@ -25,4 +25,4 @@ $languageStrings = array(
 	'Creator' => 'Criado por',
 	'Related To Comments' => 'Relacionado à',
 
-);
+];

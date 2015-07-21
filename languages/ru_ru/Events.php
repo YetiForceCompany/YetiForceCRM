@@ -7,7 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
+	'Status' => 'Этап',
+	'End Time' => 'Время окончания',
+	'Duration Minutes' => 'Продолжительность в минутах',
+	'No Time' => 'Без времени',
+	'Duration' => 'Продолжительность',
+	'Time Start' => 'Время начала',
 	'Activity Type'                => 'Тип действия'     , 
 	'Busy'	=>	'Занят',
 	'Call'                         => 'Звонок'                , 
@@ -76,9 +82,19 @@ $languageStrings = array(
 	'Yearly'	=>	'Ежегодно',
     'Medium'                       => 'Средний',    
     'Mobile Call'                  => 'Звонок с мобильного',
-	'All day' => '__No_Translated__',
-);
+	'All day' => 'Весь день',
+	'LBL_STATE' => 'Состояние',
+	'PLL_OPAQUE' => 'Занят',
+	'PLL_TRANSPARENT' => 'Доступен',
+	'Relation' => 'Связь',
+	'Process' => 'Процесс',
+	'LBL_REPEAT_EACH_MONTH' => 'Повторять, выбранный день, каждый месяц',
+	'LBL_REPEAT_MONTH_DAY' => 'Пофторять, каждое первое и последнее число месяца',
+	'LBL_REMAIND_DAYS' => 'Повторять, через указанное количество дней',
+	'LBL_REPEAT_FOR' => 'Повторять по:',
+	'LBL_RECURRING_TYPE' => 'Тип повторения',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 
-);
+];

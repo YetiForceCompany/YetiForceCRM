@@ -110,23 +110,11 @@ class OSSSoldServices extends Vtiger_CRMEntity {
      * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
      */
     function vtlib_handler($modulename, $event_type) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
         if($event_type == 'module.postinstall') {
 			$ModuleInstance = CRMEntity::getInstance($modulename);
 			$ModuleInstance->setModuleSeqNumber("configure",$modulename,'US','1'); 
 
-			include_once('vtlib/Vtiger/Module.php'); 
-			// deklaracja modulow do powiazania 
-			$moduleInstance = Vtiger_Module::getInstance($modulename);
-			$docelowy_Module = Vtiger_Module::getInstance('Accounts');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSSoldServices', array('select'),'get_dependents_list');	
-        	$docelowy_Module = Vtiger_Module::getInstance('Contacts');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSSoldServices', array('select'),'get_dependents_list');	
-			$docelowy_Module = Vtiger_Module::getInstance('Potentials');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSSoldServices', array('select'),'get_dependents_list');
-			$docelowy_Module = Vtiger_Module::getInstance('Invoice');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSSoldServices', array('select'),'get_dependents_list');	
-        	
         } else if($event_type == 'module.disabled') {
             // TODO Handle actions when this module is disabled.
         } else if($event_type == 'module.enabled') {
@@ -140,4 +128,3 @@ class OSSSoldServices extends Vtiger_CRMEntity {
         }
     }
 }
-?>

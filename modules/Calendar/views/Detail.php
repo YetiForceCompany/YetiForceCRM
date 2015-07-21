@@ -115,19 +115,6 @@ class Calendar_Detail_View extends Vtiger_Detail_View {
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$structuredValues = $recordStrucure->getStructure();
 		$moduleModel = $recordModel->getModule();
-
-        if ($moduleName == 'Events'){
-            $relatedContacts = $recordModel->getRelatedContactInfo();
-            foreach($relatedContacts as $index=>$contactInfo) {
-                $contactRecordModel = Vtiger_Record_Model::getCleanInstance('Contacts');
-                $contactRecordModel->setId($contactInfo['id']);
-                $contactInfo['_model'] = $contactRecordModel;
-                $relatedContacts[$index] = $contactInfo;
-            }
-        }else{
-            $relatedContacts = array();
-        }
-
 		
 		$viewer = $this->getViewer($request);
 		$viewer->assign('VIEW', $request->get('view'));
@@ -137,7 +124,6 @@ class Calendar_Detail_View extends Vtiger_Detail_View {
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStrucure);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MODULE_NAME', $moduleName);
-        $viewer->assign('RELATED_CONTACTS', $relatedContacts);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('RECURRING_INFORMATION', $recordModel->getRecurringDetails());
 

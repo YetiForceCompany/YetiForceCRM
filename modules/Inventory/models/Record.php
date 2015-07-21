@@ -38,54 +38,25 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 	}
 
 	function getProducts() {
+		$numOfCurrencyDecimalPlaces = getCurrencyDecimalPlaces(); 
 		$relatedProducts = getAssociatedProducts($this->getModuleName(), $this->getEntity());
-		$relatedProducts[1]['final_details']['grandTotal'] = number_format($this->get('hdnGrandTotal'), getCurrencyDecimalPlaces(),'.','');
-		$relatedProducts[1]['final_details']['total_purchase'] = number_format($this->get('total_purchase'), getCurrencyDecimalPlaces(),'.','');
-		$relatedProducts[1]['final_details']['total_margin'] = number_format($this->get('total_margin'), getCurrencyDecimalPlaces(),'.','');
-		$relatedProducts[1]['final_details']['total_marginp'] = number_format($this->get('total_marginp'), getCurrencyDecimalPlaces(),'.','');
+		$relatedProducts[1]['final_details']['grandTotal'] = number_format($this->get('hdnGrandTotal'), $numOfCurrencyDecimalPlaces,'.','');
+		$relatedProducts[1]['final_details']['total_purchase'] = number_format($this->get('total_purchase'), $numOfCurrencyDecimalPlaces,'.','');
+		$relatedProducts[1]['final_details']['total_margin'] = number_format($this->get('total_margin'), $numOfCurrencyDecimalPlaces,'.','');
+		$relatedProducts[1]['final_details']['total_marginp'] = number_format($this->get('total_marginp'), $numOfCurrencyDecimalPlaces,'.','');
 
 		//Updating Pre tax total
 		$preTaxTotal = (float)$relatedProducts[1]['final_details']['hdnSubTotal']
 						- (float)$relatedProducts[1]['final_details']['discountTotal_final'];
 
-		$relatedProducts[1]['final_details']['preTaxTotal'] = number_format($preTaxTotal, getCurrencyDecimalPlaces(),'.','');
+		$relatedProducts[1]['final_details']['preTaxTotal'] = number_format($preTaxTotal, $numOfCurrencyDecimalPlaces,'.','');
 		
 		//Updating Total After Discount
 		$totalAfterDiscount = (float)$relatedProducts[1]['final_details']['hdnSubTotal']
 								- (float)$relatedProducts[1]['final_details']['discountTotal_final'];
 		
-		$relatedProducts[1]['final_details']['totalAfterDiscount'] = number_format($totalAfterDiscount, getCurrencyDecimalPlaces(),'.','');
+		$relatedProducts[1]['final_details']['totalAfterDiscount'] = number_format($totalAfterDiscount, $numOfCurrencyDecimalPlaces,'.','');
 		return $relatedProducts;
-	}
-
-	/**
-	 * Function to set record module field values
-	 * @param parent record model
-	 * @return <Model> returns Vtiger_Record_Model
-	 */
-	function setRecordFieldValues($parentRecordModel) {
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
-		$fieldsList = array_keys($this->getModule()->getFields());
-		$parentFieldsList = array_keys($parentRecordModel->getModule()->getFields());
-
-		$commonFields = array_intersect($fieldsList, $parentFieldsList);	
-		foreach ($commonFields as $fieldName) {
-			if (getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $fieldName) == 0) {
-				$this->set($fieldName, $parentRecordModel->get($fieldName));
-			}
-		}
-		$fieldsToGenerate = $this->getListFieldsToGenerate($parentRecordModel->getModuleName(), $this->getModuleName());
-		foreach ($fieldsToGenerate as $key => $fieldName) {
-			if (getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $key) == 0) {
-				$this->set($fieldName, $parentRecordModel->get($key));
-			}
-		}
-		return $recordModel;
-	}
-	function getListFieldsToGenerate($parentModuleName,$ModuleName) {
-		$module = CRMEntity::getInstance($parentModuleName);
-		return $module->fieldsToGenerate[$ModuleName]?$module->fieldsToGenerate[$ModuleName]:array();
 	}
 
 	/**
@@ -161,10 +132,10 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
     public function getPDFFileName() {
         $moduleName = $this->getModuleName();
 		if ($moduleName == 'Quotes') {
-			vimport("~~/modules/$moduleName/QuotePDFController.php");
+			vimport("~modules/$moduleName/QuotePDFController.php");
 			$controllerClassName = "Vtiger_QuotePDFController";
 		} else {
-			vimport("~~/modules/$moduleName/$moduleName" . "PDFController.php");
+			vimport("~modules/$moduleName/$moduleName" . "PDFController.php");
 			$controllerClassName = "Vtiger_" . $moduleName . "PDFController";
 		}
 

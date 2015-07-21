@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 05/01/2015 - www.ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectTask' => 'Tarefa Projeto',
 	'Project Task' => 'Tarefas Projeto',
@@ -21,8 +21,9 @@ $languageStrings = array(
 	'Project Task Number'=>'Número Tarefa Projeto',
 	'description'=>' Descrição',
 	'Total time [h]'=>'Tempo total [h]',
-	'Project Task No'=>'No. Tarefa Projeto',	
+	'Project Task No'=>'No. Tarefa Projeto',
 	'Project Task Name'=>'Nome Tarefa Projeto',
+	'LBL_ESTIMATED_WORK_TIME' => 'Tempo trabalho estimado',
 	// Blocks
 	'LBL_PROJECT_TASK_INFORMATION' => 'Detalhes Tarefa Projeto',
 	'LBL_PROJECTS_LIST' => 'Lista Projetos',
@@ -31,10 +32,13 @@ $languageStrings = array(
     	'low'=>'baixa',
 	'normal'=>'normal',
 	'high'=>'alta',
-    
+
 	'In Progress' => 'Em Andamento',
 	'Open'=>'Aberto',
 	'Completed' => 'Concluído',
 	'Deferred' => 'Adiado',
 	'Cancelled' => 'Cancelado',
-);
+	'administrative' => 'interno',
+	'operative' => 'externo',
+	'other' => 'compartilhado',
+];

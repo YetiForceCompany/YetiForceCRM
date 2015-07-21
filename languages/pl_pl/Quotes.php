@@ -8,19 +8,18 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'Reviewed' => 'Oczekuje na decyzję',
-	'Created' => 'Utworzona',
-	'Accepted'=>'Zaakceptowana',
+$languageStrings = [
+	//'Reviewed' => 'Oczekuje na decyzję',
+	//'Created' => 'Utworzona',
+	//'Accepted'=>'Zaakceptowana',
 	'Inventory Manager'=>'Zarządzanie Stanem',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_EXPORT_TO_PDF' => 'Generuj do PDF',
 	'LBL_QUOTE_INFORMATION' => 'Szczegóły oferty',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
-	'LBL_SEND_MAIL_PDF' => 'Wyślij mailem PDF',
 	'Quote No'=>'Numer oferty',
 	'Quote Stage'=>'Etap oferty',
-	'Rejected'=>'Odrzucona',
+//	'Rejected'=>'Odrzucona',
 	'SINGLE_Quotes' => 'Oferta',
 	'Valid Till'=>'Data ważności',
     'Shipping' => 'Transport',
@@ -32,8 +31,18 @@ $languageStrings = array(
 	'Form of payment' => 'Forma płatności',
 	'Transfer' => 'Przelew',
 	'Cash' => 'Gotówka',
-);
+	
+	//picklist values
+	'PLL_WAITING_FOR_PREPARATION' => 'Oczekuje na przygotowanie',
+	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Wymaga konsultacji wewnętrznej',
+	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'Wymaga konsultacji zewnętrznej',
+	'PLL_WAITING_FOR_CUSTOMERS_REPLY' => 'Oczekuje na odpowiedź klienta',
+	'PLL_IN_PREPARATION' => 'W trakcie przygotowywania',
+	'PLL_SENT_TO_ORGANIZATION' => 'Wysłana do kontrahenta',
+	'PLL_DECLINED' => 'Odrzucona',
+	'PLL_ACCEPTED' => 'Zaakceptowana',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Usuń linię, której produkt/usługa został/a usunięty/a z/w systemie.',
-);
+];

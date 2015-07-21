@@ -88,7 +88,7 @@ function __vt_time_diff($arr) {
     } else {
 
 		// Added as we need to compare with the values based on the user date format and timezone
-		global $default_timezone;
+		$default_timezone = vglobal('default_timezone');
 
         $time_operand1 = date('Y-m-d H:i:s'); // Current time
 
@@ -262,4 +262,3 @@ class VTFieldExpressionEvaluater{
 		}
 	}
 }
-?>

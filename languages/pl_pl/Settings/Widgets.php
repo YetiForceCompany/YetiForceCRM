@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Widgets'	=> 'Widgety',
 	'LBL_MODULE_DESC'	=> 'Moduł zarządzający widgetami na podsumowaniu.',
 	'Add widget'	=> 'Dodaj widget',
@@ -29,6 +29,7 @@ $languageStrings = array(
 	'Size'	=> 'Koluma',
 	'Label'	=> 'Nazwa',
 	'Add button' => 'Przycisk Dodaj',
+	'Select button' => 'Przycisk Wybierz',
 	'Limit entries'	=> 'Limit wpisów',
 	'Columns'	=> 'Kolumn',
 	'No left margin' => 'Brak lewego marginesu',
@@ -50,9 +51,9 @@ $languageStrings = array(
 	'Filter' => 'Filtrowanie',
 	'Filter info' => 'Czy w widgecie ma być możliwość filtrowania danych według listy wyboru',
 	'None' => 'Brak',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Loading data'	=> 'Ładowanie danych...',
 	'Saving changes'	=> 'Trwa aktualizacja w systemie...',
 	'None' => 'Brak',
-);
+];

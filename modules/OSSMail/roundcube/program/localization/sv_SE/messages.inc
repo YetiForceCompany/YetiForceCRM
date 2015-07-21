@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -19,10 +19,12 @@ $messages['errortitle']  = 'Ett fel uppstod!';
 $messages['loginfailed']  = 'Inloggningen misslyckades';
 $messages['cookiesdisabled'] = 'Din webbläsare accepterar inte cookies';
 $messages['sessionerror'] = 'Din inloggning är felaktig eller har gått ut';
-$messages['storageerror'] = 'Anslutning till IMAP-servern misslyckades';
+$messages['storageerror'] = 'Anslutning till lagringsservern misslyckades.';
 $messages['servererror'] = 'Serverfel!';
 $messages['servererrormsg'] = 'Serverfel: $msg';
+$messages['connerror'] = 'Anslutningsfel (misslyckades att kontakta servern)!';
 $messages['dberror'] = 'Databasfel!';
+$messages['windowopenerror'] = 'Popup-fönstret blockerades!';
 $messages['requesttimedout'] = 'Begäran tog för lång tid';
 $messages['errorreadonly'] = 'Åtgärden kunde inte utföras. Katalogen är skrivskyddad.';
 $messages['errornoperm'] = 'Åtgärden kunde inte utföras. Otillräcklig befogenhet.';
@@ -92,6 +94,7 @@ $messages['contactsearchsuccessful'] = '$nr kontakter hittades.';
 $messages['searchnomatch'] = 'Sökningen gav inget resultat.';
 $messages['searching'] = 'Söker...';
 $messages['checking'] = 'Kontrollerar...';
+$messages['stillsearching'] = 'Söker fortfarande...';
 $messages['nospellerrors'] = 'Inget stavfel hittades.';
 $messages['folderdeleted'] = 'Katalogen togs bort.';
 $messages['foldersubscribed'] = 'Prenumeration på katalog startad.';
@@ -135,7 +138,7 @@ $messages['importmessagesuccess'] = '$nr meddelanden har importerats';
 $messages['importmessageerror'] = 'Importen misslyckades! Filen är inte ett giltigt meddelande eller en brevlåda';
 $messages['opnotpermitted'] = 'Otillåten operation!';
 $messages['nofromaddress'] = 'Adress saknas i den valda identiteten.';
-$messages['editorwarning'] = 'Genom att växla till text-läge går formateringen förlorad. Vill du fortsätta?';
+$messages['editorwarning'] = 'Genom att byta textredigerare kan formateringen av texten gå förlorad. Vill du fortsätta?';
 $messages['httpreceivedencrypterror'] = 'Ett irreparabelt fel har uppstått. Kontakta administratören omgående. <b>Meddelandet kan inte skickas.</b>';
 $messages['smtpconnerror'] = 'SMTP-fel ($code): Anslutning till servern misslyckades.';
 $messages['smtpautherror'] = 'SMTP-fel ($code): Inloggningen misslyckades.';
@@ -174,4 +177,14 @@ $messages['parentnotwritable'] = 'Katalogen kunde inte skapas eller flyttas. Åt
 $messages['messagetoobig'] = 'Meddelandet är alltför stort att behandla.';
 $messages['attachmentvalidationerror'] = 'VARNING! Bilagan misstänks vara av annan typ än vad som anges i meddelandet. Om du inte litar på avsändaren ska du inte öppna bilagan.<br/><br/><em>Angiven typ: $expected; funnen typ: $detected</em>';
 $messages['noscriptwarning'] = 'Varning: Denna webbmailtjänst fungerar inte utan Javascript! Aktivera Javascript i webbläsarens inställningar.';
+$messages['messageissent'] = 'Meddelandet är skickat men har inte sparats ännu. Vill du spara meddelandet nu?';
+$messages['errnotfound'] = 'Filen hittades inte';
+$messages['errnotfoundexplain'] = 'Efterfrågad resurs hittades inte!';
+$messages['errfailedrequest'] = 'Begäran misslyckades';
+$messages['errauthorizationfailed'] = 'Autentiseringen misslyckades';
+$messages['errunauthorizedexplain'] = 'Din behörighet till den här tjänsten kunde inte bekräftas!';
+$messages['errrequestcheckfailed'] = 'Kontroll av begäran misslyckades';
+$messages['errcsrfprotectionexplain'] = "Åtkomst till den här resursen är skyddad mot CSRF.\nDetta visas därför att utloggning från tjänsten inte gjordes korrekt.\n\nEn aktiv handling krävs nu för att fortsätta.";
+$messages['errcontactserveradmin'] = 'Kontakta administratören.';
+$messages['clicktoresumesession'] = 'Klicka här för att återuppta föregående session';
 ?>

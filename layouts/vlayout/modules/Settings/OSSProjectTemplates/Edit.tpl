@@ -45,7 +45,6 @@
                         <a href="index.php?module=OSSProjectTemplates&parent=Settings&view=Index" class="cancelLink">{vtranslate('CANCEL', $MODULE_NAME)}</a>
                     </div>
                     <input type="hidden" name="next_step" value="Step2" />
-        <div class="clearfix"></div>
     </div>
 {/strip}
 

@@ -12,11 +12,11 @@
 {strip}
 <div class="listViewPageDiv">
 	<div class="listViewTopMenuDiv">
-        <div class="row-fluid">
-            <div class="span6">
+        <div class="row">
+            <div class="col-md-6">
                 <h3>{vtranslate($MODULE,$QUALIFIED_MODULE)}</h3>
             </div>
-            <div class="span6">
+            <div class="col-md-6">
                 <b class="pull-right paddingTop10">
                 {if $CRON_RECORD_MODEL->isDisabled() }{vtranslate('LBL_DISABLED',$QUALIFIED_MODULE)}{/if}
                     {if $CRON_RECORD_MODEL->isRunning() }{vtranslate('LBL_RUNNING',$QUALIFIED_MODULE)}{/if}
@@ -38,15 +38,15 @@
             </div>
         </div>
         <hr>
-		<div class="row-fluid">
-			<span class="span4 btn-toolbar">
-				<button class="btn addButton" {if stripos($MODULE_MODEL->getCreateViewUrl(), 'javascript:')===0} onclick="{$MODULE_MODEL->getCreateViewUrl()|substr:strlen('javascript:')};"
+		<div class="row">
+			<div class="col-md-4 btn-toolbar">
+				<button class="btn btn-default addButton" {if stripos($MODULE_MODEL->getCreateViewUrl(), 'javascript:')===0} onclick="{$MODULE_MODEL->getCreateViewUrl()|substr:strlen('javascript:')};"
                         {else} onclick='window.location.href="{$MODULE_MODEL->getCreateViewUrl()}"' {/if}>
-					<i class="icon-plus"></i>&nbsp;
+					<i class="glyphicon glyphicon-plus"></i>&nbsp;
 					<strong>{vtranslate('LBL_NEW', $QUALIFIED_MODULE)} {vtranslate('LBL_WORKFLOW',$QUALIFIED_MODULE)}</strong>
 				</button>
-			</span>
-			<span class="span4 btn-toolbar">
+			</div>
+			<div class="col-md-4 btn-toolbar">
 				<select class="chzn-select" id="moduleFilter" >
 					<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 					{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
@@ -59,12 +59,11 @@
 						</option>
 					{/foreach}
 				</select>
-			</span>
-			<span class="span4 btn-toolbar">
+			</div>
+			<div class="col-md-4 btn-toolbar">
 				{include file='ListViewActions.tpl'|@vtemplate_path}
-			</span>
+			</div>
 		</div>
-		<div class="clearfix"></div>
 	</div>
 	<div class="listViewContentDiv" id="listViewContents">
 {/strip}

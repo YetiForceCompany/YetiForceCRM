@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Cron Job' => 'Задача Планировщика',
 	'CronTasks' => 'Планировщик',
 	'Frequency' => 'Частота',
@@ -31,10 +31,10 @@ $languageStrings = array(
 	'Recommended frequency for RecurringInvoice is 12 hours'	=>	'Рекомендованная частота 15 минут',
 	'Recommended frequency for SendReminder is 15 mins' => 'Рекомендованная частота 15 минут',
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Рекомендованная частота 15 минут',
-);
+];
 
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'FREQUENCY_NUMBER' => 'Частота указывается в целых числах',
 	'FREQUENCY_REQUIRED' => 'Необходимо заполнить поле Частота',
 	'PATH_REQUIRED' => 'Необходимо заполнить поле Путь к Файлу',
@@ -44,4 +44,4 @@ $jsLanguageStrings = array(
 	'Recommended frequency for RecurringInvoice is 12 hours'	=>	'Рекомендованная частота 15 минут',
 	'Recommended frequency for SendReminder is 15 mins' => 'Рекомендованная частота 15 минут',
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Рекомендованная частота 15 минут',
-);
+];

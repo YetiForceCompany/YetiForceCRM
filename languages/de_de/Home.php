@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ALVT' => 'Top Organisationen',
 	'CVLVT' => 'Schlüsselmetrik',
 	'GRT' => 'Meine Gruppenzuordnung',
@@ -22,4 +22,7 @@ $languageStrings = array(
 	'PLVT' => 'Top Chancen',
 	'QLTQ' => 'Top Angebote',
 	'UA' => 'Die nächsten Aktivitäten',
-);
+];
+
+$jsLanguageStrings = [
+];

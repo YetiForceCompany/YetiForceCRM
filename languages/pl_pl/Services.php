@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'Services' => 'Usługi',
 	'SINGLE_Services' => 'Usługa',
@@ -32,7 +32,8 @@ $languageStrings = array(
 	'Service Active'=>'W sprzedaży',
 	'Service Category'=>'Kategoria',
 	'Service No'=>'Numer',
-	'Owner'=>'Własciciel',
+	'Owner'=>'Właściciel rekordu',
+	'Share with users' => 'Współwłaściciele',
 	'No of Units'=>'Liczba jednostek',
 	'Commission Rate'=>'Stawka prowizji',
 	'Price'=>'Cena',
@@ -62,4 +63,4 @@ $languageStrings = array(
 	'Migration' => 'Migracja',
 	'Customization' => 'Dostosowywanie', 
 	'Training' => 'Szkolenie',
-);
+];

@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,7 +22,9 @@ $messages['sessionerror'] = 'Ihre Session ist ungültig oder abgelaufen';
 $messages['storageerror'] = 'Keine Verbindung zum IMAP Server';
 $messages['servererror'] = 'Serverfehler!';
 $messages['servererrormsg'] = 'Serverfehler: $msg';
+$messages['connerror'] = 'Verbindungsfehler (Server nicht erreichbar)!';
 $messages['dberror'] = 'Datenbankfehler!';
+$messages['windowopenerror'] = 'Das Popup-Fenster wurde blockiert!';
 $messages['requesttimedout'] = 'Zeitlimit überschritten';
 $messages['errorreadonly'] = 'Die Aktion kann nicht ausgeführt werden. Der Ordner ist schreibgeschützt.';
 $messages['errornoperm'] = 'Die Aktion kann nicht ausgeführt werden. Zugriff verweigert.';
@@ -92,6 +94,7 @@ $messages['contactsearchsuccessful'] = '$nr Kontakte gefunden.';
 $messages['searchnomatch'] = 'Die Suche lieferte keine Treffer.';
 $messages['searching'] = 'Suche...';
 $messages['checking'] = 'Überprüfung...';
+$messages['stillsearching'] = 'Suche läuft...';
 $messages['nospellerrors'] = 'Keine Rechtschreibfehler gefunden.';
 $messages['folderdeleted'] = 'Der Ordner wurde erfolgreich gelöscht.';
 $messages['foldersubscribed'] = 'Der Ordner wurde erfolgreich abonniert.';
@@ -135,7 +138,7 @@ $messages['importmessagesuccess'] = '$nr Nachricht(n) erfolgreich importiert';
 $messages['importmessageerror'] = 'Import fehlgeschlagen! Die hochgeladene Datei ist keine E-Mail-Nachricht oder Mailbox-Datei.';
 $messages['opnotpermitted'] = 'Operation nicht erlaubt!';
 $messages['nofromaddress'] = 'Fehlende E-Mail-Adresse in ausgewählter Identität.';
-$messages['editorwarning'] = 'Beim Wechseln in den Texteditor gehen alle Textformatierungen verloren. Möchten Sie fortfahren?';
+$messages['editorwarning'] = 'Ein Wechsel des Editors kann zu Verlust der Textformatierungen führen. Wollen Sie fortfahren?';
 $messages['httpreceivedencrypterror'] = 'Ein gravierender Konfigurationsfehler ist aufgetreten. Kontaktieren Sie den Server-Administrator. <b>Die Nachricht wurde nicht gesendet!</b>';
 $messages['smtpconnerror'] = 'SMTP Fehler ($code): Die Verbindung ist fehlgeschlagen.';
 $messages['smtpautherror'] = 'SMTP Fehler ($code): Die Authentisierung ist fehlgeschlagen.';
@@ -174,4 +177,14 @@ $messages['parentnotwritable'] = 'Konnte den Ordner nicht erstellen/verschieben.
 $messages['messagetoobig'] = 'Die Nachricht ist zu gross und kann nicht verarbeitet werden.';
 $messages['attachmentvalidationerror'] = 'WARNUNG! Dieser Anhang ist verdächtig, da sein Dateityp nicht dem entspricht, was in der Nachricht angegeben wird. Wenn Sie dem Absender nicht vertrauen, sollten Sie diesen Anhang nicht im Browser öffnen, da er Ihrem Computer Schaden zuführen könnte. <br/><br/><em>Erwartet: $expected; gefunden: $detected</em>';
 $messages['noscriptwarning'] = 'Achtung! Dieser Webmail-Service erfordert Javascript. Um ihn zu benutzten aktivieren Sie Javascript in ihren Browser-Einstellungen.';
+$messages['messageissent'] = 'Die Nachricht wurde bereits gesendet, aber noch nicht gespeichert. Jetzt speichern?';
+$messages['errnotfound'] = 'Datei nicht gefunden';
+$messages['errnotfoundexplain'] = 'Die angeforderte Ressource wurde nicht gefunden!';
+$messages['errfailedrequest'] = 'Anfrage fehlgeschlagen';
+$messages['errauthorizationfailed'] = 'Autorisierung fehlgeschlagen';
+$messages['errunauthorizedexplain'] = 'Es konnte nicht bestätigt werden, dass Sie berechtigt sind, auf diesen Dienst zuzugreifen!';
+$messages['errrequestcheckfailed'] = 'Anfrageprüfung fehlgeschlagen';
+$messages['errcsrfprotectionexplain'] = "Zu Ihrer Sicherheit wird der Zugriff auf diese Ressource gegen CSRF geschützt.\nWenn Sie dies sehen, haben Sie sich wahrscheinlich vor dem Verlassen der Anwendung nicht abgemeldet.\n\nUm fortzufahren ist eine menschliche Interaktion erforderlich.";
+$messages['errcontactserveradmin'] = 'Bitte kontaktieren Sie Ihren Server-Administrator.';
+$messages['clicktoresumesession'] = 'Klicken Sie hier, um Ihre vorherige Sitzung fortzusetzen';
 ?>

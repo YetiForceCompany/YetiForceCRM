@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
@@ -18,7 +18,7 @@
  +-----------------------------------------------------------------------+
  */
 
-/**
+/*
  *                Washtml, a HTML sanityzer.
  *
  * Copyright (c) 2007 Frederic Motte <fmotte@ubixis.com>
@@ -95,6 +95,7 @@ class rcube_washtml
         'ins', 'label', 'legend', 'li', 'map', 'menu', 'nobr', 'ol', 'p', 'pre', 'q',
         's', 'samp', 'small', 'span', 'strike', 'strong', 'sub', 'sup', 'table',
         'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'tt', 'u', 'ul', 'var', 'wbr', 'img',
+        'video', 'source',
         // form elements
         'button', 'input', 'textarea', 'select', 'option', 'optgroup'
     );
@@ -206,7 +207,7 @@ class rcube_washtml
                         $value .= ' ' . $val;
 
                         // #1488535: Fix size units, so width:800 would be changed to width:800px
-                        if (preg_match('/(left|right|top|bottom|width|height)/i', $cssid)
+                        if (preg_match('/^(left|right|top|bottom|width|height)/i', $cssid)
                             && preg_match('/^[0-9]+$/', $val)
                         ) {
                             $value .= 'px';
@@ -243,10 +244,13 @@ class rcube_washtml
                 $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
             }
             else if ($key == 'style' && ($style = $this->wash_style($value))) {
-                $quot = strpos($style, '"') !== false ? "'" : '"';
-                $t .= ' style=' . $quot . $style . $quot;
+                // replace double quotes to prevent syntax error and XSS issues (#1490227)
+                $t .= ' style="' . str_replace('"', '&quot;', $style) . '"';
             }
-            else if ($key == 'background' || ($key == 'src' && strtolower($node->tagName) == 'img')) { //check tagName anyway
+            else if ($key == 'background'
+                || ($key == 'src' && preg_match('/^(img|source)$/i', $node->tagName))
+                || ($key == 'poster' && strtolower($node->tagName) == 'video')
+            ) {
                 if (($src = $this->config['cid_map'][$value])
                     || ($src = $this->config['cid_map'][$this->config['base_url'].$value])
                 ) {
@@ -374,7 +378,7 @@ class rcube_washtml
         $this->max_nesting_level = (int) @ini_get('xdebug.max_nesting_level');
 
         // Use optimizations if supported
-        if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
+        if (PHP_VERSION_ID >= 50400) {
             @$node->loadHTML($html, LIBXML_PARSEHUGE | LIBXML_COMPACT);
         }
         else {
@@ -399,14 +403,21 @@ class rcube_washtml
     {
         // special replacements (not properly handled by washtml class)
         $html_search = array(
-            '/(<\/nobr>)(\s+)(<nobr>)/i',       // space(s) between <NOBR>
-            '/<title[^>]*>[^<]*<\/title>/i',    // PHP bug #32547 workaround: remove title tag
-            '/^(\0\0\xFE\xFF|\xFF\xFE\0\0|\xFE\xFF|\xFF\xFE|\xEF\xBB\xBF)/',    // byte-order mark (only outlook?)
-            '/<html\s[^>]+>/i',                 // washtml/DOMDocument cannot handle xml namespaces
+            // space(s) between <NOBR>
+            '/(<\/nobr>)(\s+)(<nobr>)/i',
+            // PHP bug #32547 workaround: remove title tag
+            '/<title[^>]*>[^<]*<\/title>/i',
+            // remove <!doctype> before BOM (#1490291)
+            '/<\!doctype[^>]+>[^<]*/im',
+            // byte-order mark (only outlook?)
+            '/^(\0\0\xFE\xFF|\xFF\xFE\0\0|\xFE\xFF|\xFF\xFE|\xEF\xBB\xBF)/',
+            // washtml/DOMDocument cannot handle xml namespaces
+            '/<html\s[^>]+>/i',
         );
 
         $html_replace = array(
             '\\1'.' &nbsp; '.'\\3',
+            '',
             '',
             '',
             '<html>',
@@ -456,7 +467,7 @@ class rcube_washtml
         // Remove invalid HTML comments (#1487759)
         // Don't remove valid conditional comments
         // Don't remove MSOutlook (<!-->) conditional comments (#1489004)
-        $html = preg_replace('/<!--[^->\[\n]+>/', '', $html);
+        $html = preg_replace('/<!--[^-<>\[\n]+>/', '', $html);
 
         // fix broken nested lists
         self::fix_broken_lists($html);

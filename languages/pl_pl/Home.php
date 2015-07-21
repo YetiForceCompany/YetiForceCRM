@@ -8,8 +8,8 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'ALVT' => 'Najlepszi kontrahenci',
+$languageStrings = [
+	'ALVT' => 'Najlepsi kontrahenci',
 	'CVLVT' => 'Tablica',
 	'GRT' => 'Przydzielone do mojej grupy',
 	'HDB' => 'Wykresy strony startowej',
@@ -23,4 +23,6 @@ $languageStrings = array(
 	'PLVT' => 'Najlepsze szanse sprzedaży',
 	'QLTQ' => 'Najlepsze oferty',
 	'UA' => 'Nadchodzące zdarzenia',
-);
+];
+$jsLanguageStrings = [
+];

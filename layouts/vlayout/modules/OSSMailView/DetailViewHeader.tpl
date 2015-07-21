@@ -1,61 +1,7 @@
-{*<!--
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+
 {literal}
 <script>
-var params = {};
-$( document ).ready(function() {
-	params['From'] = $('#from_email').val();
-	params['To'] = $('#to_email').val();
-	params['Cc'] = $('#cc_email').val();
-	params['Subject'] = $('#subject').val();
-
-	$( "#previewReplyAll" ).click(function() {
-		window_open(params,'all');
-	});
-	$( "#previewReply" ).click(function() {
-		window_open(params,'single');
-	});
-});
-function window_open(params,type) {
-	var crm_path = getAbsolutePath();
-	var url = crm_path+'index.php?module=OSSMail&view=compose';
-	if(type == 'single'){
-		url = url + '&to='+params['From'];
-		url = url + '&subject='+params['Subject'];
-	}
-	if(type == 'all'){
-		url = url + '&to='+params['From'];
-		var temp_var = '';
-		if(params['To']){
-			temp_var = params['To'];
-		}
-		if(params['Cc']){
-			if(temp_var){ temp_var += ','; }
-			temp_var += params['Cc'];
-		}
-		if(temp_var){
-			url = url + '&cc='+temp_var;
-		}
-		url = url + '&subject='+params['Subject'];
-	}
-	window.location.href = url;
-	//window.open(url, 'popUpWindow','width=1000,height=650,resizable=0,scrollbars=1');
-}
-function getAbsolutePath() {
-    var loc = window.location;
-    var pathName = loc.pathname.substring(0, loc.pathname.lastIndexOf('/') + 1);
-    return loc.href.substring(0, loc.href.length - ((loc.pathname + loc.search + loc.hash).length - pathName.length));
-}
-
 function printMail(){
     var subject = $('#subject').val();
     var from = $('#from_email').val();
@@ -85,35 +31,41 @@ function printMail(){
 	<input id="createdtime" type="hidden" value="{$RECORD->get('createdtime')}" />
 	<div id="content" style="display: none;">{$RECORD->get('content')}</div>
 	<div class="detailViewContainer">
-		<div class="row-fluid detailViewTitle">
-			<div class="span12">
-				<div class="row-fluid">
-					<div class="span7">
-						<div class="row-fluid">
+		<div class="row detailViewTitle">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="row">
 							{include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
 						</div>
 					</div>
-					<div class="span5">
+					<div class="col-md-6">
 						<div class="pull-right detailViewButtoncontainer">
 							<div class="btn-toolbar">
 							<span class="btn-group">
-								<button style="padding: 4px 7px 1px 7px;" id="previewReplyAll" type="button" name="previewReplyAll" class="btn" data-mode="emailReplyAll">
+								{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
+								<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=replyAll{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
 									<img src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
-								</button>
+								</a>
 							</span>
 							<span class="btn-group">
-								<button style="padding: 4px 7px 1px 7px;" id="previewReply" type="button" name="previewReply" class="btn" data-mode="emailReply">
+								<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=reply{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
 									<img src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
-								</button>
+								</a>
 							</span>
 							<span class="btn-group">
-								<button style="padding: 4px 7px 1px 7px;" id="previewPrint" onclick="printMail();" type="button" name="previewPrint" class="btn " data-mode="previewPrint">
+								<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=forward{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
+									<span class="glyphicon glyphicon-share-alt" alt="{vtranslate('LBL_FORWARD','OSSMailView')}" title="{vtranslate('LBL_FORWARD','OSSMailView')}"></span>
+								</a>
+							</span>
+							<span class="btn-group">
+								<button id="previewPrint" onclick="printMail();" title="{vtranslate('LBL_PRINT','OSSMailView')}" type="button" name="previewPrint" class="btn btn-default" data-mode="previewPrint">
 									<img src="layouts/vlayout/modules/OSSMailView/previewPrint.png" alt="{vtranslate('LBL_PRINT','OSSMailView')}" title="{vtranslate('LBL_PRINT','OSSMailView')}">
 								</button>
 							</span>
 							{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 							<span class="btn-group">
-								<button class="btn" id="{$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
+								<button class="btn btn-default" id="{$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
 									{if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink()}
 										onclick="window.location.href='{$DETAIL_VIEW_BASIC_LINK->getUrl()}'"
 									{else}
@@ -125,8 +77,8 @@ function printMail(){
 							{/foreach}
 							{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
 							<span class="btn-group">
-								<button class="btn dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-									<strong>{vtranslate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<i class="caret"></i>
+								<button class="btn dropdown-toggle btn-default" data-toggle="dropdown" >
+									<strong>{vtranslate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu pull-right">
 									{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
@@ -139,8 +91,8 @@ function printMail(){
 							{/if}
 							{if $DETAILVIEW_LINKS['DETAILVIEWSETTING']|@count gt 0}
 								<span class="btn-group">
-									<button class="btn dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" title="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}"></i>&nbsp;&nbsp;<i class="caret"></i></button>
-									<ul class="listViewSetting dropdown-menu">
+									<button class="btn dropdown-toggle btn-default" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" title="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}"></span>&nbsp;&nbsp;<span class="caret"></span></button>
+									<ul class="listViewSetting dropdown-menu dropdown-menu-right">
 										{foreach item=DETAILVIEW_SETTING from=$DETAILVIEW_LINKS['DETAILVIEWSETTING']}
 											<li><a href={$DETAILVIEW_SETTING->getUrl()}>{vtranslate($DETAILVIEW_SETTING->getLabel(), $MODULE_NAME)}</a></li>
 										{/foreach}
@@ -148,8 +100,8 @@ function printMail(){
 								</span>
 							{/if}
 							<span class="btn-group">
-								<button class="btn" id="detailViewPreviousRecordButton" {if empty($PREVIOUS_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$PREVIOUS_RECORD_URL}'" {/if}><i class="icon-chevron-left"></i></button>
-								<button class="btn" id="detailViewNextRecordButton" {if empty($NEXT_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$NEXT_RECORD_URL}'" {/if}><i class="icon-chevron-right"></i></button>
+								<button class="btn btn-default" id="detailViewPreviousRecordButton" {if empty($PREVIOUS_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$PREVIOUS_RECORD_URL}'" {/if}><span class="glyphicon glyphicon-chevron-left"></span></button>
+								<button class="btn btn-default" id="detailViewNextRecordButton" {if empty($NEXT_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$NEXT_RECORD_URL}'" {/if}><span class="glyphicon glyphicon-chevron-right"></span></button>
 							</span>
 							</div>
 						</div>
@@ -157,8 +109,8 @@ function printMail(){
 				</div>
 			</div>
 		</div>
-		<div class="detailViewInfo row-fluid">
-			<div class="{if $NO_PAGINATION} span12 {else} span10 {/if} details">
+		<div class="detailViewInfo row">
+			<div class="{if $NO_PAGINATION} col-md-12 {else} col-md-10 {/if} details">
 				<form id="detailView" data-name-fields='{ZEND_JSON::encode($MODULE_MODEL->getNameFields())}'>
 					<div class="contents">
 {/strip}

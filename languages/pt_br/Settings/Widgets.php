@@ -5,19 +5,18 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] & Gabriel Porto Trindade [gptrind@gmail.com] - 09/12/2014
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
+ * All Rights Reserved. Contributors: Brazilian Portuguese Translation - Valmir Carlos Trindade e Gabriel Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Widgets'	=> 'Widgets',
-	'LBL_MODULE_DESC'	=> 'Informação do Móodulo',
+	'LBL_MODULE_DESC'	=> 'Informação do Módulo',
 	'Add widget'	=> 'Adicionar Widget',
 	'Type widget'	=> 'Tipo',
 	'LBL_WIDGET_TYPE'	=> 'Selecionar o tipo de Widget',
 	'LBL_SELECT'	=> 'Selecionar',
-	'Summary'	=> 'Fields summary',
-	'SummaryCategory'	=> 'Data summary',
+	'Summary'	=> 'Resumo Campos',
+	'SummaryCategory'	=> 'Resumo Dados',
 	'Comments'	=> 'Comentários',
 	'Updates'	=> 'Atualizações',
 	'Activities'	=> 'Agenda',
@@ -30,6 +29,7 @@ $languageStrings = array(
 	'Size'	=> 'Coluna',
 	'Label'	=> 'Rótulo',
 	'Add button' => 'Adicionar botão',
+	'Select button' => 'Select button',
 	'Limit entries'	=> 'Limite de entradas',
 	'Columns'	=> 'Colunas',
 	'No left margin' => 'Sem margem esquerda',
@@ -52,9 +52,9 @@ $languageStrings = array(
 	'Filter info' => 'Habilitar a filtragem de dados a partir da lista de seleção',
 	'None' => 'Nada',
 
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Loading data'	=> 'Carregando...',
 	'Saving changes'	=> 'Salvando mudanças...',
 	'None' => 'Nada',
-);
+];

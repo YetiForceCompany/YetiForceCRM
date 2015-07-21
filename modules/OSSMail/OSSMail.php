@@ -14,7 +14,7 @@ require_once('include/Tracker.php');
 
 class OSSMail {
     function vtlib_handler($moduleName, $eventType) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
         if ($eventType == 'module.postinstall') {
             $this->turn_on();
             $displayLabel = 'OSSMail';
@@ -26,8 +26,6 @@ class OSSMail {
             $fieldid = $adb->getUniqueId('vtiger_settings_field');
             $adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
 				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Mail', '', 'LBL_OSSMAIL_DESCRIPTION', 'index.php?module=OSSMail&parent=Settings&view=index'));
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'autologon','true'));
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'time_checking_mail','10'));
 			$adb->query("CREATE TABLE IF NOT EXISTS `vtiger_ossmails_logs` (
 					  `id` int(19) NOT NULL AUTO_INCREMENT,
 					  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -56,7 +54,7 @@ class OSSMail {
         } else if ($eventType == 'module.preupdate') {
 
         } else if ($eventType == 'module.postupdate') {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$OSSMail = Vtiger_Module::getInstance('OSSMail');
 			if(version_compare($OSSMail->version, '1.39', '>')) {
 				$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
@@ -73,4 +71,3 @@ class OSSMail {
 		//$OSSMail->deleteLink('HEADERSCRIPT', 'OSSMailJS', 'layouts/vlayout/modules/OSSMail/resources/Global.js');
     }
 }
-?>

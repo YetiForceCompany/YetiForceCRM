@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'DataAccess' => 'Walidacja dostępu',
 	'Message' => 'Komunikat',
 	'LBL_NONE' => '--Brak--',
@@ -50,7 +50,7 @@ $languageStrings = array(
 	//
 	'Action_check_taskstatus' => 'Sprawdź wszystkie zadania podrzędne',
 	'Action_Desc_check_taskstatus' => 'Walidacja czy zostały ukończone wszystkie zadania podrzędne',
-	'Subordinate tasks have not been completed yet' => 'Zdania podrzędne nie zostały zakończone',
+	'Subordinate tasks have not been completed yet' => 'Zadania podrzędne nie zostały zakończone',
 	//
 	'Action_unique_modules_value' => 'Wartość pola jest unikatowa w modułach',
 	'Action_Desc_unique_modules_value' => 'Sprawdz czy wprowadzona wartość pola jest unikatowa w modułach',
@@ -69,7 +69,9 @@ $languageStrings = array(
 	'Action_Desc_colorList' => 'Narzędzie daje możliwość koloryzacji wierszy spełniających odpowiednie warunki. Dzięki temu można wyróżnić rekordy o wyższych priorytetach.',
 	'LBL_BACKGROUND_COLOR' => 'Kolor tła wiersza',
 	'LBL_TEXT_COLOR' => 'Kolor tekstu',
-);
-$jsLanguageStrings = array(
+	'This name already exists' => 'Nazwa jest już zajęta',
+	'LBL_RECORD_DELETED' => 'Rekord usunięty',
+];
+$jsLanguageStrings = [
 	'DataAccess' => 'Data Access',
-);
+];

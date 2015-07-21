@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Webforms'	=>	'Веб-Формы',
 	'SINGLE_Settings:Webforms'	=>	'Веб-Форму',
 	//Basic Field Names
@@ -44,8 +44,8 @@ $languageStrings = array(
 	'LBL_ASSIGN_USERS' => 'Назначить Пользователей',
     'LBL_ASSIGN_ROUND_ROBIN' => 'Назначить',
     'LBL_ROUNDROBIN_USERS_LIST' => 'Пользователи',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_WEBFORM_DELETED_SUCCESSFULLY'	=>	'Веб-Форма успешно удалена',
 	'JS_LOADING_TARGET_MODULE_FIELDS' => 'Загрузка полей модуля',
 	'JS_SELECT_AN_OPTION' => 'Выберите значение',
@@ -54,4 +54,4 @@ $jsLanguageStrings = array(
 	'JS_REFERENCE_FIELDS_CANT_BE_MANDATORY_WITHOUT_OVERRIDE_VALUE' => 'Ссылающиеся поля не могут быть обязательными без перезаписи значения',
 	'JS_TYPE_TO_SEARCH' => 'Искать',
 	'JS_WEBFORM_WITH_THIS_NAME_ALREADY_EXISTS'	=>	'Веб-Форма с данным именем уже существует',
-);
+];

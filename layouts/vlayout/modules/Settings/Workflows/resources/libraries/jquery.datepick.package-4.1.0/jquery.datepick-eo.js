@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Esperanto localisation for jQuery Datepicker.
    Written by Olivier M. (olivierweb@ifrance.com). */
 (function($) {

@@ -8,27 +8,43 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'Quotesenquires' => 'Quotes enquires',
-	'SINGLE_Quotesenquires' => 'Quotes enquires',
+$languageStrings = [
+	'QuotesEnquires' => 'Angebotsanalyse',
+	'SINGLE_QuotesEnquires' => 'Angebotsanalyse',
+	'LBL_ADD_RECORD' => 'Angebotsanalyse hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste Angebotsanalysen', 
 	
 	//BLOCKS
-	'LBL_QUOTESENQUIRES_INFORMATION' => 'Basic information',
-	'LBL_CUSTOM_INFORMATION' => 'Additional Information',
+	'LBL_QUOTESENQUIRES_INFORMATION' => 'Informationen',
+	'LBL_CUSTOM_INFORMATION' => 'Zusätzliche Informationen',
 
 	//FIELDS
-	'LBL_SUBJECT' => 'Subject',
-	'LBL_POTENTIAL' => 'Potential',
-	'LBL_NUMBER' => 'Number',
-	'LBL_CLOSED_TIME' => 'Czas zamknięcia',
-	'Description' => 'Description',
-	'Attention' => 'Attentions',
-	'LBL_REJECTION_REASON' => 'Rejection reason',
+	'LBL_SUBJECT' => 'Bezeichnung',
+	'LBL_POTENTIAL' => 'Verkaufschance',
+	'LBL_NUMBER' => 'Nummer',
+	'Description' => 'Beschreibung',
+	'Attention' => 'Punkte zur Beachtung',
+	'LBL_STAGE' => 'Stufe',
+	'LBL_CONS' => 'Nachteile',
+	'LBL_PROS' => 'Vorteile',
+	'LBL_GENERATE_REQUIREMENTCARDS' => 'Anforderungen stellen',
 
 	//PICKLIST VALUES
-	'Incomplete information' => 'Incomplete information',
-	'QuotesEnquires' => 'Quotes Enquires',
-	'SINGLE_QuotesEnquires' => 'Quote Enquires',
-	'Requirements not met' => 'Requirements not met',
-	'LBL_WAS_READ' => 'Updated',
-);
+	'PLL_NOT_STARTED' => 'Nicht gestartet',
+	'PLL_VERIFICATION' => 'Überprüfung',
+	'PLL_DECLINED' => 'Abgelehnt ',
+	'PLL_ACCEPTED' => 'Angenommeen ',
+	'PLL_LOW_MARGIN' => 'geringer Umsatz',
+	'PLL_UNRELIABLE_CONTRACTOR' => 'Unzuverlässige Organisation',
+	'PLL_UNRELIABLE_PAYMENT' => 'Unzuverlässige Zahlungen',
+	'PLL_NO_DETAILS' => 'Keine Details',
+	'PLL_LACK_OF_COMPETENCE' => 'Kein Know How',
+	'PLL_LACK_OF_TIME' => 'Keine Zeit',
+	'PLL_HIGH_MARGIN' => 'Hoher Umsatz',
+	'PLL_RELIABLE_CONTRACTOR' => 'Zuverlässige Organisation',
+	'PLL_SOLID_PAYMENT' => 'Zuverlässige Zahlungen',
+	'PLL_DETAILED_DESCRIPTION' => 'Detailierte Beschreibung',
+	'PLL_COMPETENT_TEAM' => 'Zuständiges Team',
+	'PLL_EASE_OF_COMMUNICATION' => 'Einfache Kommunikation',
+	'PLL_RECOMMENDABLE' => 'Empfehlenswert',
+];

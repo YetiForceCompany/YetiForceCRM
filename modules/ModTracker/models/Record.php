@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-vimport('~~/modules/ModTracker/core/ModTracker_Basic.php');
+vimport('~modules/ModTracker/core/ModTracker_Basic.php');
 
 class ModTracker_Record_Model extends Vtiger_Record_Model {
 
@@ -145,7 +145,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model {
 	}
 
 	public static function addConvertToAccountRelation($sourceModule, $sourceId, $current_user) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$currentTime = date('Y-m-d H:i:s');
 
 		$id = $adb->getUniqueId('vtiger_modtracker_basic');

@@ -1,5 +1,5 @@
 <?php
-$languageStrings = array(
+$languageStrings = [
 	'Access to record' => 'Zugang zu den Daten',
 	'GlobalPermission' => 'Zugang zu den Daten',
 	'LBL_Module_desc' => 'Hier definieren Sie, welche Profile Zugriff auf alle Datensätze haben, unabhängig von ihrer Rolle',
@@ -10,4 +10,4 @@ $languageStrings = array(
 	'LBL_EDIT_ALL_DESC' => 'Wenn Sie diese Option ankreuzen, kann das Profil in allen Modulen eine Vorschau aller Daten erstellen und bearbeiten.',
 	'LBL_EDIT_ALL' => 'Ermögliche Bearbeitung aller Datensätze.',
 	'LBL_SAVE_OK' => 'Änderungen gespeichert',
-);
+];

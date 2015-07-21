@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Webforms' => 'Formularze WWW',
 	'SINGLE_Settings:Webforms' => 'Formularz WWW',
 	//Basic Field Names
@@ -38,14 +38,14 @@ $languageStrings = array(
 	'LBL_EMBED_THE_FOLLOWING_FORM_IN_YOUR_WEBSITE' => 'Wstaw poniższy formularz na swojej stronie WWW',
 	'LBL_SELECT_VALUE' => 'Wybierz wartość',
 	'LBL_LABEL' => 'Etykieta',
-	'LBL_SAVE_FIELDS_ORDER' => 'Zapisz kolejnośc pól', 
+	'LBL_SAVE_FIELDS_ORDER' => 'Zapisz kolejność pól', 
 	'LBL_HIDDEN' => 'Ukryty',
 	'LBL_ENABLE_TARGET_MODULES_FOR_WEBFORM' => 'Aktywuj moduł dla formularzy WWW',
 	'LBL_ASSIGN_USERS' => 'Przypisanie użytkownika',
     'LBL_ASSIGN_ROUND_ROBIN' => 'Losowe przypisywanie użytkowników',
     'LBL_ROUNDROBIN_USERS_LIST' => 'Losuj z użytkowników',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_WEBFORM_DELETED_SUCCESSFULLY' => 'Formularz WWW usunięty poprawnie',
 	'JS_LOADING_TARGET_MODULE_FIELDS' => 'Ładownie pól z modułu docelowego',
 	'JS_SELECT_AN_OPTION' => 'Wybierz wartość',
@@ -54,4 +54,4 @@ $jsLanguageStrings = array(
 	'JS_REFERENCE_FIELDS_CANT_BE_MANDATORY_WITHOUT_OVERRIDE_VALUE' => 'Pola referencyjne mogę być obowiązkowe bez nadpisanej wartości',
 	'JS_TYPE_TO_SEARCH' => 'Typ wyszukiwania',
 	'JS_WEBFORM_WITH_THIS_NAME_ALREADY_EXISTS' => 'Webform o tej nazwie już istnieje',
-);
+];

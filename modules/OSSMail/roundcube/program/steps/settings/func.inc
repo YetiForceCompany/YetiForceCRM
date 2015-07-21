@@ -44,6 +44,8 @@ $RCMAIL->register_action_map(array(
     'add-response'  => 'edit_response.inc',
     'save-response' => 'edit_response.inc',
     'delete-response' => 'responses.inc',
+    'delete-identity' => 'identities.inc',
+    'upload-display'  => 'upload.inc',
 ));
 
 
@@ -92,9 +94,9 @@ function rcmail_identities_list($attrib)
     }
 
     // get identities list and define 'mail' column
-    $list = $RCMAIL->user->list_identities();
+    $list = $RCMAIL->user->list_emails();
     foreach ($list as $idx => $row) {
-        $list[$idx]['mail'] = trim($row['name'] . ' <' . rcube_utils::idn_to_utf8($row['email']) .'>');
+        $list[$idx]['mail'] = trim($row['name'] . ' <' . rcube_utils::idn_to_utf8($row['email']) . '>');
     }
 
     // get all identites from DB and define list of cols to be displayed
@@ -218,7 +220,7 @@ function rcmail_user_prefs($current = null)
                 foreach (DateTimeZone::listIdentifiers() as $i => $tzs) {
                     try {
                         $tz      = new DateTimeZone($tzs);
-                        $date    = new DateTime('2012-12-21', $tz);
+                        $date    = new DateTime(date('Y') . '-12-21', $tz);
                         $offset  = $date->format('Z') + 45000;
                         $sortkey = sprintf('%06d.%s', $offset, $tzs);
                         $zones[$sortkey] = array($tzs, $date->format('P'));
@@ -332,28 +334,36 @@ function rcmail_user_prefs($current = null)
                     $input    = new html_radiobutton(array('name'=>'_skin'));
 
                     foreach ($skins as $skin) {
-                        $thumbnail = "./skins/$skin/thumbnail.png";
-                        if (!is_file($thumbnail))
-                            $thumbnail = './program/resources/blank.gif';
-
+                        $thumbnail   = "skins/$skin/thumbnail.png";
                         $skinname    = ucfirst($skin);
                         $author_link = $license_link = '';
-                        $meta        = @json_decode(@file_get_contents("./skins/$skin/meta.json"), true);
+                        $meta        = @json_decode(@file_get_contents(INSTALL_PATH . "skins/$skin/meta.json"), true);
 
                         if (is_array($meta) && $meta['name']) {
                             $skinname     = $meta['name'];
                             $author_link  = $meta['url'] ? html::a(array('href' => $meta['url'], 'target' => '_blank'), rcube::Q($meta['author'])) : rcube::Q($meta['author']);
-                            $license_link = $meta['license-url'] ? html::a(array('href' => $meta['license-url'], 'target' => '_blank'), rcube::Q($meta['license'])) : rcube::Q($meta['license']);
+                            $license_link = $meta['license-url'] ? html::a(array('href' => $meta['license-url'], 'target' => '_blank', 'tabindex' => '-1'), rcube::Q($meta['license'])) : rcube::Q($meta['license']);
                         }
 
+                        $img = html::img(array(
+                                'src'     => $thumbnail,
+                                'class'   => 'skinthumbnail',
+                                'alt'     => $skin,
+                                'width'   => 64,
+                                'height'  => 64,
+                                'onerror' => "this.src = rcmail.assets_path('program/resources/blank.gif')",
+                        ));
+
+                        $skinnames[] = mb_strtolower($skinname);
                         $blocks['skin']['options'][$skin]['content'] = html::label(array('class' => 'skinselection'),
                             html::span('skinitem', $input->show($config['skin'], array('value' => $skin, 'id' => $field_id.$skin))) .
-                            html::span('skinitem', html::img(array('src' => $thumbnail, 'class' => 'skinthumbnail', 'alt' => $skin, 'width' => 64, 'height' => 64))) .
+                            html::span('skinitem', $img) .
                             html::span('skinitem', html::span('skinname', rcube::Q($skinname)) . html::br() .
                                 html::span('skinauthor', $author_link ? 'by ' . $author_link : '') . html::br() .
                                 html::span('skinlicense', $license_link ? $RCMAIL->gettext('license').':&nbsp;' . $license_link : ''))
                         );
                     }
+                    array_multisort($blocks['skin']['options'], SORT_ASC, SORT_STRING, $skinnames);
                 }
             }
 
@@ -452,7 +462,7 @@ function rcmail_user_prefs($current = null)
                 $select->add($RCMAIL->gettext('autosend'), 1);
                 $select->add($RCMAIL->gettext('autosendknown'), 3);
                 $select->add($RCMAIL->gettext('autosendknownignore'), 4);
-                $select->add($RCMAIL->gettext('ignore'), 2);
+                $select->add($RCMAIL->gettext('ignorerequest'), 2);
 
                 $blocks['main']['options']['mdn_requests'] = array(
                     'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('mdnrequests'))),
@@ -835,6 +845,20 @@ function rcmail_user_prefs($current = null)
                 );
             }
 
+            if (!isset($no_override['sig_below'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_sig_below';
+                $input    = new html_checkbox(array('name' => '_sig_below', 'id' => $field_id, 'value' => 1));
+
+                $blocks['sig']['options']['sig_below'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('sigbelow'))),
+                    'content' => $input->show($RCMAIL->config->get('sig_below') ? 1 : 0),
+                );
+            }
+
             if (!isset($no_override['strip_existing_sig'])) {
                 if (!$current) {
                     continue 2;
@@ -886,7 +910,7 @@ function rcmail_user_prefs($current = null)
                 $select_default_font->add('', '');
 
                 $fonts = rcmail::font_defs();
-                foreach ($fonts as $fname => $font) {
+                foreach (array_keys($fonts) as $fname) {
                     $select_default_font->add($fname, $fname);
                 }
 
@@ -911,6 +935,20 @@ function rcmail_user_prefs($current = null)
                 $blocks['main']['options']['reply_all_mode'] = array(
                     'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('replyallmode'))),
                     'content' => $select->show(intval($config['reply_all_mode'])),
+                );
+            }
+
+            if (!isset($no_override['compose_save_localstorage'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_compose_save_localstorage';
+                $input    = new html_checkbox(array('name' => '_compose_save_localstorage', 'id' => $field_id, 'value' => 1));
+
+                $blocks['advanced']['options']['compose_save_localstorage'] = array(
+                    'title'    => html::label($field_id, rcube::Q($RCMAIL->gettext('savelocalstorage'))),
+                    'content'  => $input->show($config['compose_save_localstorage']?1:0),
                 );
             }
 
@@ -1035,7 +1073,8 @@ function rcmail_user_prefs($current = null)
             }
 
             // Configure special folders
-            if (!isset($no_override['default_folders']) && $current) {
+            $set = array('drafts_mbox', 'sent_mbox', 'junk_mbox', 'trash_mbox');
+            if ($current && count(array_intersect($no_override, $set)) < 4) {
                 $select = $RCMAIL->folder_selector(array(
                     'noselection'   => '---',
                     'realnames'     => true,
@@ -1043,10 +1082,10 @@ function rcmail_user_prefs($current = null)
                     'folder_filter' => 'mail',
                     'folder_rights' => 'w',
                 ));
-            }
 
-            // #1486114, #1488279, #1489219
-            $onchange = "if ($(this).val() == 'INBOX') $(this).val('')";
+                // #1486114, #1488279, #1489219
+                $onchange = "if ($(this).val() == 'INBOX') $(this).val('')";
+            }
 
             if (!isset($no_override['drafts_mbox'])) {
                 if (!$current) {
@@ -1238,6 +1277,13 @@ function rcmail_user_prefs($current = null)
             $sections[$idx]['blocks'] = $data['blocks'];
     }
 
+    $data = $RCMAIL->plugins->exec_hook('preferences_section_header',
+        array('section' => $sect['id'], 'header' => '', 'current' => $current));
+
+    if(!empty($data['header'])) {
+        $sections[$idx]['header'] = $data['header'];
+    }
+
     return array($sections, $plugin['cols']);
 }
 
@@ -1287,26 +1333,23 @@ function rcmail_update_folder_row($name, $oldname=null, $subscribe=false, $class
 {
     global $RCMAIL, $OUTPUT;
 
-    $default_folders = (array) $RCMAIL->config->get('default_folders');
     $protect_folders = $RCMAIL->config->get('protect_default_folders');
+    $storage         = $RCMAIL->get_storage();
+    $delimiter       = $storage->get_hierarchy_delimiter();
 
-    $storage      = $RCMAIL->get_storage();
-    $delimiter    = $storage->get_hierarchy_delimiter();
     $name_utf8    = rcube_charset::convert($name, 'UTF7-IMAP');
-    $protected    = $protect_folders && in_array($name, $default_folders);
-
+    $protected    = $protect_folders && $storage->is_special_folder($name);
     $foldersplit  = explode($delimiter, $storage->mod_folder($name));
     $level        = count($foldersplit) - 1;
-    $display_name = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level)
-        . rcube::Q($protected ? $RCMAIL->localize_foldername($name) : rcube_charset::convert($foldersplit[$level], 'UTF7-IMAP'));
+    $display_name = $protected ? $RCMAIL->localize_foldername($name) : rcube_charset::convert($foldersplit[$level], 'UTF7-IMAP');
+    $class_name   = trim($class_name . ' mailbox');
 
     if ($oldname === null) {
-        $OUTPUT->command('add_folder_row', $name_utf8, $display_name, $protected, $subscribe,
-            false, $class_name);
+        $OUTPUT->command('add_folder_row', $name, $name_utf8, $display_name, $protected, $subscribe,
+            $class_name);
     }
     else {
-        $OUTPUT->command('replace_folder_row', rcube_charset::convert($oldname, 'UTF7-IMAP'),
-            $name_utf8, $display_name, $protected, $class_name);
+        $OUTPUT->command('replace_folder_row', $oldname, $name, $name_utf8, $display_name, $protected, $class_name);
     }
 }
 
@@ -1324,7 +1367,7 @@ function rcmail_settings_tabs($attrib)
         array('command' => 'preferences', 'type' => 'link', 'label' => 'preferences', 'title' => 'editpreferences'),
         array('command' => 'folders',     'type' => 'link', 'label' => 'folders',     'title' => 'managefolders'),
         array('command' => 'identities',  'type' => 'link', 'label' => 'identities',  'title' => 'manageidentities'),
-        array('command' => 'responses',   'type' => 'link', 'label' => 'responses',   'title' => 'editresponses'),
+        array('command' => 'responses',   'type' => 'link', 'label' => 'responses',   'title' => 'manageresponses'),
     );
 
     // get all identites from DB and define list of cols to be displayed
@@ -1337,7 +1380,7 @@ function rcmail_settings_tabs($attrib)
     $tagname = $attrib['tagname'];
     $tabs    = array();
 
-    foreach ($plugin['actions'] as $k => $action) {
+    foreach ($plugin['actions'] as $action) {
         if (!$action['command'] && !$action['href'] && $action['action']) {
             $action['href'] = $RCMAIL->url(array('_action' => $action['action']));
         }

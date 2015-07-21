@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'csv' => 'CSV',
 	'UTF-8' => 'UTF-8',
 	'vcf' => 'VCard',
@@ -65,8 +65,8 @@ $languageStrings = array(
 	'LBL_CLEAR_DATA' => 'Czyść rekordy do importu',
 	'ERR_UNIMPORTED_RECORDS_EXIST' => 'Nie można zaimportować więcej danych w tej partii. Proszę rozpocząć nowy import.',
 	'ERR_IMPORT_INTERRUPTED' => 'Obecny import został przerwany. Spróbuj ponownie później',
-	'ERR_FAILED_TO_LOCK_MODULE' => 'Nie udało się zablokować importu. Ponownie spróbuj ponownie później.',
-	'LBL_SELECT_SAVED_MAPPING' => 'Wybierz zapiszany szablon mapowania',
+	'ERR_FAILED_TO_LOCK_MODULE' => 'Nie udało się zablokować importu. Spróbuj ponownie później.',
+	'LBL_SELECT_SAVED_MAPPING' => 'Wybierz zapisany szablon mapowania',
 	'LBL_IMPORT_ERROR_LARGE_FILE' => 'Zbyt duży plik do importu ',
 	'LBL_FILE_UPLOAD_FAILED' => 'Błąd ładowania pliku do importu',
 	'LBL_IMPORT_CHANGE_UPLOAD_SIZE' => 'W celu załadowania tego pliku, zmień limit wielkości pliku do',
@@ -79,5 +79,7 @@ $languageStrings = array(
 	'LBL_DETAILS' => 'Szczegóły',
 	'skipped' => 'Pominięte rekordy',
 	'failed' => 'Niepoprawne rekordy',
+	'LBL_SELECT_FILE' => 'Wybierz plik do zaimportowania',
 	
-);
+];
+

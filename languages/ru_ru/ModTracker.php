@@ -10,10 +10,10 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'ModTracker'	=>	'Журнал',
 	'SINGLE_ModTracker' => 'Журнал изменений',
-);
+];
 
-$jsLanguageStrings = array(
-);
+$jsLanguageStrings = [
+];

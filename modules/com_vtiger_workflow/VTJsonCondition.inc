@@ -118,6 +118,18 @@ class VTJsonCondition {
 
 		$condition = $cond['operation'];
 		if(empty($condition)) return false;
+          if ($cond['fieldname'] == 'date_start' || $cond['fieldname'] == 'due_date') {
+			$fieldName = $cond['fieldname'];
+			$dateTimePair = array('date_start' => 'time_start', 'due_date' => 'time_end');
+			if (array_key_exists($dateTimePair[$fieldName], $data)) {
+				$fieldValue = $data[$fieldName] . " " . $data[$dateTimePair[$fieldName]];
+			} else {
+				$fieldValue = $data[$fieldName];
+			}
+			$rawFieldValue = $fieldValue;
+		} else {
+			$fieldValue = $data[$cond['fieldname']];
+		}
 
 		$fieldValue = $data[$cond['fieldname']];
 		$value = trim(html_entity_decode($cond['value']));
@@ -143,13 +155,14 @@ class VTJsonCondition {
 			}
 		}
 
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$handler = vtws_getModuleHandlerFromName($entityData->getModuleName(), $current_user);
 		$moduleFields = $handler->getMeta()->getModuleFields();
 		$fieldInstance = $moduleFields[$cond['fieldname']];
 
 		if($fieldInstance && $fieldInstance->getFieldDataType() == 'datetime') {
 			//Convert the DB Date Time Format to User Date Time Format
+			$rawFieldValue = $fieldValue;
 			$date = new DateTimeField($fieldValue);
 			$fieldValue = $date->getDisplayDateTimeValue();
 			$valueArray = explode(' ', $value);
@@ -342,42 +355,42 @@ class VTJsonCondition {
 				return false;
 
 			case 'less than hours before':
-				if(empty($fieldValue) || empty($value)) {
+				if(empty($rawFieldValue) || empty($value)) {
 					return false;
 				}
 				$currentTime = date('Y-m-d H:i:s');
 				$olderDateTime = date('Y-m-d H:i:s', strtotime('-'.$value.' hours'));
-				if($olderDateTime <= $fieldValue && $fieldValue <= $currentTime) {
+				if($olderDateTime <= $rawFieldValue && $rawFieldValue <= $currentTime) {
 					return true;
 				}
 				return false;
 
 			case 'less than hours later':
-				if(empty($fieldValue) || empty($value)) {
+				if(empty($rawFieldValue) || empty($value)) {
 					return false;
 				}
 				$currentTime = date('Y-m-d H:i:s');
 				$futureDateTime = date('Y-m-d H:i:s', strtotime('+'.$value.' hours'));
-				if($currentTime <= $fieldValue && $fieldValue <= $futureDateTime) {
+				if($currentTime <= $rawFieldValue && $rawFieldValue <= $futureDateTime) {
 					return true;
 				}
 				return false;
 
 			case 'more than hours before':
-				if(empty($fieldValue) || empty($value)) {
+				if(empty($rawFieldValue) || empty($value)) {
 					return false;
 				}
 				$olderDateTime = date('Y-m-d H:i:s', strtotime('-'.$value.' hours'));
-				if($fieldValue <= $olderDateTime) {
+				if($rawFieldValue <= $olderDateTime) {
 					return true;
 				}
 				return false;
 			case 'more than hours later':
-				if(empty($fieldValue) || empty($value)) {
+				if(empty($rawFieldValue) || empty($value)) {
 					return false;
 				}
 				$futureDateTime = date('Y-m-d H:i:s', strtotime('+'.$value.' hours'));
-				if($fieldValue >= $futureDateTime) {
+				if($rawFieldValue >= $futureDateTime) {
 					return true;
 				}
 				return false;
@@ -395,5 +408,3 @@ class VTJsonCondition {
 	}
 
 }
-
-?>

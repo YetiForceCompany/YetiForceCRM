@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
   * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'--None--'                     => '--Нет--'                  , 
 	'300-Sales-Software'           => '300-Продажи-ПО'     , 
 	'301-Sales-Hardware'           => '301-Продажи-Оборудование', 
@@ -29,7 +29,8 @@ $languageStrings = array(
 	'Dozen'                        => 'Дюжина'                , 
 	'Each'                         => 'шт.'                       , 
 	'GL Account'                   => 'Счет в гл.книге' , 
-	'Handler'                      => 'Ответственный за склад', 
+	'Handler' => 'Ответственный',
+	'Share with users' => 'Поделиться с',
 	'Hardware'                     => 'Оборудование'    , 
 	'Hours'                        => 'Часов'                  , 
 	'Impressions'                  => 'Показ'                  , 
@@ -81,4 +82,7 @@ $languageStrings = array(
 	'Usage Unit'                   => 'Единица измерения', 
 	'Vendor PartNo'                => 'Код Поставщика' , 
 	'Website'                      => 'Веб-сайт'             , 
-);
+	'Support Group' => 'Поддержка',
+	'Marketing Group' => 'Маркетинг',
+	'Team Selling' => 'Продажи',
+];

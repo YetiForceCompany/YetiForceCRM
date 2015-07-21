@@ -6,20 +6,17 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_GENERATE_QUOTES' => 'Generate Quotes',
-	'Accepted'=>'Aceita',
 	'Inventory Manager'=>'Almoxarife',
 	'LBL_ADD_RECORD' => 'Adicionar registro',
 	'LBL_EXPORT_TO_PDF' => 'Exporta para PDF',
 	'LBL_QUOTE_INFORMATION' => 'Detalhes da Cotação',
 	'LBL_RECORDS_LIST' => 'Lista de Cotações',
-	'LBL_SEND_MAIL_PDF' => 'Enviar Email com PDF',
 	'Quote No'=>'No. Cotação',
 	'Quote Stage'=>'Estágio da Cotação',
-	'Rejected'=>'Rejeitada',
 	'SINGLE_Quotes' => 'Cotação',
 	'Valid Till'=>'Válida Até',
     'Shipping' => 'Entrega',
@@ -30,12 +27,18 @@ $languageStrings = array(
 	'Form of payment' => 'Forma de pagamento',
 	'Transfer' => 'Transferência',
 	'Cash' => 'Dinheiro',
-	//Missing Quote Stage Item
-	'Created'=>'Criada',
-	'Reviewed'=>'Revisada',
 
-);
+	//picklist values
+	'PLL_WAITING_FOR_PREPARATION' => 'Aguarda preparação',
+	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Necessita Consulta Interna',
+	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'Necessita Consulta Externa',
+	'PLL_WAITING_FOR_CUSTOMERS_REPLY' => 'Aguarda resposta do Cliente',
+	'PLL_IN_PREPARATION' => 'Em preparação',
+	'PLL_SENT_TO_ORGANIZATION' => 'Enviado para Organização',
+	'PLL_DECLINED' => 'Recusada',
+	'PLL_ACCEPTED' => 'Aceita',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Por favor, remova o item da linha que foi exculído',
-);
+];

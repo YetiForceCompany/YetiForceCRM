@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_FIELD_MASK' => 'Маска поля',
 	'LBL_SELECT_MODULE_TO_ADD'	=>	'Выберите модуль',
 	'LBL_ADD_MODULE_INFO'	=>	'Выберите модуль из удаленных модулей, чтобы добавить его к списку',
@@ -78,21 +78,32 @@ $languageStrings = array(
 	'Related1M' => 'Связь - один ко многим',
 	'Editor' => 'Визуальный редактор',
 	'LBL_DISPLAY_TYPE' => 'Тип отображения  ',
-	'LBL_DISPLAY_TYPE_1' => 'Field visible everywhere',
-	'LBL_DISPLAY_TYPE_2' => 'Field visible only in preview, not editable',
-	'LBL_DISPLAY_TYPE_3' => 'Field visible only in list view',
-	'LBL_DISPLAY_TYPE_4' => 'Field visible only during creating and in preview, can not be modified',
-	'LBL_DISPLAY_TYPE_10' => 'Field visible everywhere, not editable',
+	'LBL_DISPLAY_TYPE_1' => 'Поле будет видно везде',
+	'LBL_DISPLAY_TYPE_2' => 'Поле будет видно только в режиме предварительного просмотра, а не в режиме редактирования',
+	'LBL_DISPLAY_TYPE_3' => 'Поле отображается только в виде списка',
+	'LBL_DISPLAY_TYPE_4' => 'Поля будет видно только во время создания и просмотра, не могут быть изменены',
+	'LBL_DISPLAY_TYPE_10' => 'Поле будет видно везде, не редактируемое поле',
 	'LBL_HELP_INFO' => 'Иконка Помощь',
 	'LBL_GENERATED_TYPE' => 'Основное поле',
 	'LBL_FIELD_TYPE0' => 'Системное (Например: vtiger_account)',
 	'LBL_FIELD_TYPE1' => 'Пользовательское (Например: vtiger_accountcf)',
 	'LBL_TREE_TEMPLATE' => 'Выберите шаблон Каталога',
 	'Tree' => 'Каталог',
-	'LBL_FIELD_MASK_INFO' => 'Default masking definitions <br />9: numeric<br />a: alphabetically<br />*: Alphanumeric<br /><br />Example:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
-);
+	'LBL_FIELD_MASK_INFO' => 'Маска по умолчанию <br />9: цифры<br />a: буквы<br />*: цифры и буквы<br /><br />Пример:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
+	
+	'LBL_ADD_RELATION' => 'Добавить связь',
+	'LBL_RELATION_TYPE' => 'Тип связи',
+	'LBL_RELATION_ACTIONS' => 'Действие',
+	'LBL_SOURCE_MODULE' => 'Из модуля',
+	'LBL_TARGET_MODULE' => 'В модуль',
+	'LBL_RELATION_LABLE' => 'Метка',
+	'PLL_RELATED_LIST' => 'Многие ко многим',
+	'PLL_DEPENDENTS_LIST' => 'Один ко многим',
+	'PLL_ADD' => 'Добавление',
+	'PLL_SELECT' => 'Выбор',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_BLOCK_NAME_EXISTS' => 'Блок с таким именем уже существует',
 	'JS_BLOCK_SEQUENCE_UPDATED' => 'Последовательность блоков обновлена',
 	'JS_BLOCK_VISIBILITY_HIDE' => 'Отображение блока выключено',
@@ -117,4 +128,4 @@ $jsLanguageStrings = array(
 	'JS_UPDATE_SEQUENCE' => 'Последовательность сохранена',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Список полей обновлен',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Поле не может быть пустым',
-);
+];

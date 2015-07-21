@@ -34,7 +34,8 @@ require_once 'modules/PickList/DependentPickListUtils.php';
 
 function getConvertSoToInvoice($focus,$so_focus,$soid)
 {
-	global $log,$current_user;
+	$log = vglobal('log');
+	$current_user  = vglobal('current_user');
 	$log->debug("Entering getConvertSoToInvoice(".get_class($focus).",".get_class($so_focus).",".$soid.") method ...");
     $log->info("in getConvertSoToInvoice ".$soid);
     $xyz=array('bill_street','bill_city','bill_code','bill_pobox','bill_country','bill_state','ship_street','ship_city','ship_code','ship_pobox','ship_country','ship_state');
@@ -86,11 +87,11 @@ function getConvertSoToInvoice($focus,$so_focus,$soid)
 
 function getAssociatedProducts($module,$focus,$seid='')
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getAssociatedProducts(".$module.",".get_class($focus).",".$seid."='') method ...");
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$output = '';
-	global $theme,$current_user;
+	global $theme;
 
 	$no_of_decimal_places = getCurrencyDecimalPlaces();
 	$theme_path="themes/".$theme."/";
@@ -110,7 +111,9 @@ function getAssociatedProducts($module,$focus,$seid='')
  		            case when vtiger_products.productid != '' then 'Products' else 'Services' end as entitytype,
  		                        vtiger_inventoryproductrel.listprice,
  		                        vtiger_inventoryproductrel.description AS product_description,
- 		                        vtiger_inventoryproductrel.*,vtiger_crmentity.deleted
+ 		                        vtiger_inventoryproductrel.*,vtiger_crmentity.deleted,
+ 		                        vtiger_products.usageunit,
+ 		                        vtiger_service.service_usageunit
  	                            FROM vtiger_inventoryproductrel
 								LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_inventoryproductrel.productid
  		                        LEFT JOIN vtiger_products
@@ -127,6 +130,7 @@ function getAssociatedProducts($module,$focus,$seid='')
  		                        vtiger_products.productname,
  		                        vtiger_products.productcode,
  		                        vtiger_products.unit_price,
+ 		                        vtiger_products.usageunit,
  		                        vtiger_products.qtyinstock,
  		                        vtiger_seproductsrel.*,vtiger_crmentity.deleted,
  		                        vtiger_crmentity.description AS product_description
@@ -145,6 +149,7 @@ function getAssociatedProducts($module,$focus,$seid='')
  		                        vtiger_products.productcode,
  		                        vtiger_products.productname,
  		                        vtiger_products.unit_price,
+ 		                        vtiger_products.usageunit,
  		                        vtiger_products.qtyinstock,vtiger_crmentity.deleted,
  		                        vtiger_crmentity.description AS product_description,
  		                        'Products' AS entitytype
@@ -162,6 +167,7 @@ function getAssociatedProducts($module,$focus,$seid='')
  		                        'NA' AS productcode,
  		                        vtiger_service.servicename AS productname,
  		                        vtiger_service.unit_price AS unit_price,
+ 		                        vtiger_service.service_usageunit AS usageunit,
  		                        'NA' AS qtyinstock,vtiger_crmentity.deleted,
  		                        vtiger_crmentity.description AS product_description,
  		                       	'Services' AS entitytype
@@ -175,7 +181,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 
 	$result = $adb->pquery($query, $params);
 	$num_rows=$adb->num_rows($result);
-	$finalTaxTotal = '0.00';
+	$finalTaxTotal = '0';
 	for($i=1;$i<=$num_rows;$i++)
 	{
 		$deleted = $adb->query_result($result,$i-1,'deleted');
@@ -189,6 +195,12 @@ function getAssociatedProducts($module,$focus,$seid='')
 		$unitprice=$adb->query_result($result,$i-1,'unit_price');
 		$listprice=$adb->query_result($result,$i-1,'listprice');
 		$entitytype=$adb->query_result($result,$i-1,'entitytype');
+		if ( ($module == 'Quotes' || $module == 'PurchaseOrder' || $module == 'SalesOrder' || $module == 'Invoice') && $entitytype == 'Services' ) {
+			$usageunit=vtranslate($adb->query_result($result,$i-1,'service_usageunit'), $entitytype);
+		}
+		else {
+			$usageunit=vtranslate($adb->query_result($result,$i-1,'usageunit'), $entitytype);
+		}
 		$calculationsid=$adb->query_result($result,$i-1,'calculationsid');
 		$purchase=$adb->query_result($result,$i-1,'purchase');
 		$margin=$adb->query_result($result,$i-1,'margin');
@@ -265,6 +277,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 		$product_Detail[$i]['qty'.$i]=decimalFormat($qty);
 		$product_Detail[$i]['listPrice'.$i]=$listprice;
 		$product_Detail[$i]['unitPrice'.$i]=number_format($unitprice, $no_of_decimal_places,'.','');
+		$product_Detail[$i]['usageUnit'.$i]=$usageunit;
 		$product_Detail[$i]['productTotal'.$i]=$productTotal;
 		$product_Detail[$i]['subproduct_ids'.$i]=$subprodid_str;
 		$product_Detail[$i]['subprod_names'.$i]=$subprodname_str;
@@ -275,7 +288,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 		$discount_percent = decimalFormat($adb->query_result($result,$i-1,'discount_percent'));
 		$discount_amount = $adb->query_result($result,$i-1,'discount_amount');
 		$discount_amount = decimalFormat(number_format($discount_amount, $no_of_decimal_places,'.',''));
-		$discountTotal = '0.00';
+		$discountTotal = '0';
 		//Based on the discount percent or amount we will show the discount details
 
 		//To avoid NaN javascript error, here we assign 0 initially to' %of price' and 'Direct Price reduction'(for Each Product)
@@ -308,8 +321,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 		$product_Detail[$i]['discountTotal'.$i] = $discountTotal;
 		$product_Detail[$i]['totalAfterDiscount'.$i] = $totalAfterDiscount;
 
-		
-		$amount = '0.00';
+		$amount = '0';
 		$tax_details = getTaxDetailsForProduct($hdnProductId,'all');
 		//First we should get all available taxes and then retrieve the corresponding tax values
 		$allTaxes = getAllTaxes('available','','edit',$focus->id);
@@ -318,7 +330,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 		{
 			$tax_name = $tax_details[$tax_count]['taxname'];
 			$tax_label = $tax_details[$tax_count]['taxlabel'];
-			$tax_value = '0.00';
+			$tax_value = '0';
 
 			//condition to avoid this function call when create new PO/SO/Quotes/Invoice from Product module
 			if($focus->id != '')
@@ -365,21 +377,21 @@ function getAssociatedProducts($module,$focus,$seid='')
 
 	//Get the Final Discount, S&H charge, Tax for S&H values
 	//To set the Final Discount details
-	$finalDiscount = '0.00';
+	$finalDiscount = '0';
 	$product_Detail[1]['final_details']['discount_type_final'] = 'zero';
 
-	$subTotal = ($focus->column_fields['hdnSubTotal'] != '')?$focus->column_fields['hdnSubTotal']:'0.00';
+	$subTotal = ($focus->column_fields['hdnSubTotal'] != '')?$focus->column_fields['hdnSubTotal']:'0';
 	$subTotal = number_format($subTotal, $no_of_decimal_places,'.','');
 
 	$product_Detail[1]['final_details']['hdnSubTotal'] = $subTotal;
-	$discountPercent = ($focus->column_fields['hdnDiscountPercent'] != '')?$focus->column_fields['hdnDiscountPercent']:'0.00';
-	$discountAmount = ($focus->column_fields['hdnDiscountAmount'] != '')?$focus->column_fields['hdnDiscountAmount']:'0.00';
+	$discountPercent = ($focus->column_fields['hdnDiscountPercent'] != '')?$focus->column_fields['hdnDiscountPercent']:'0';
+	$discountAmount = ($focus->column_fields['hdnDiscountAmount'] != '')?$focus->column_fields['hdnDiscountAmount']:'0';
     if($discountPercent != '0'){
         $discountAmount = ($product_Detail[1]['final_details']['hdnSubTotal'] * $discountPercent / 100);
     }
 
 	//To avoid NaN javascript error, here we assign 0 initially to' %of price' and 'Direct Price reduction'(For Final Discount)
-	$discount_amount_final = '0.00';
+	$discount_amount_final = '0';
 	$discount_amount_final = number_format($discount_amount_final, $no_of_decimal_places,'.','');
     $product_Detail[1]['final_details']['discount_percentage_final'] = 0;
 	$product_Detail[1]['final_details']['discount_amount_final'] = $discount_amount_final;
@@ -424,7 +436,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 			$tax_percent = $allTaxes[$tax_count]['percentage'];//$adb->query_result($result,0,$tax_name);
 
 		if($tax_percent == '' || $tax_percent == 'NULL')
-			$tax_percent = '0.00';
+			$tax_percent = '0';
 		$taxamount = ($subTotal-$finalDiscount)*$tax_percent/100;
 		$taxamount = number_format($taxamount, $no_of_decimal_places,'.','');
 		$product_Detail[1]['final_details']['taxes'][$tax_count]['taxname'] = $tax_name;
@@ -435,15 +447,12 @@ function getAssociatedProducts($module,$focus,$seid='')
 	$product_Detail[1]['final_details']['tax_totalamount'] = $finalTaxTotal;
 	$product_Detail[1]['final_details']['tax'] = $tax;
 	//To set the grand total
-	$grandTotal = ($focus->column_fields['hdnGrandTotal'] != '')?$focus->column_fields['hdnGrandTotal']:'0.00';
+	$grandTotal = ($focus->column_fields['hdnGrandTotal'] != '')?$focus->column_fields['hdnGrandTotal']:'0';
 	$grandTotal = number_format($grandTotal, $no_of_decimal_places,'.','');
 	$product_Detail[1]['final_details']['grandTotal'] = $grandTotal;
 
-
 	$log->debug("Exiting getAssociatedProducts method ...");
-
 	return $product_Detail;
-
 }
 
 /** This function returns the data type of the vtiger_fields, with vtiger_field label, which is used for javascript validation.
@@ -453,7 +462,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 
 function split_validationdataArray($validationData)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering split_validationdataArray(".$validationData.") method ...");
 	$fieldName = '';
 	$fieldLabel = '';

@@ -61,55 +61,7 @@ class Home_Module_Model extends Vtiger_Module_Model {
 			return $query;	
 		}
 	}
-	/**
-	 * Function returns comments and recent activities across CRM
-	 * @param <Vtiger_Paging_Model> $pagingModel
-	 * @param <String> $type - comments, updates or all
-	 * @return <Array>
-	 */
-	public function getHistory($pagingModel, $type=false) {
-		if(empty($type)) {
-			$type = 'all';
-		}
-		//TODO: need to handle security
-		$comments = array();
-		if($type == 'comments') {
-			$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments'); 
-			if($modCommentsModel->isPermitted('DetailView')){
-				$comments = $this->getComments($pagingModel);
-			}
-			if($type == 'comments') {
-				return $comments;
-			}
-		}
-		//As getComments api is used to get comment infomation,no need of getting
-		//comment information again,so avoiding from modtracker
-		//updateActivityQuery api is used to update a query to fetch a only activity
-		else if($type == 'updates' || $type == 'all' ){
-			$db = PearDatabase::getInstance();
-			$queryforActivity = $this->getActivityQuery($type);
-			$result = $db->pquery('SELECT vtiger_modtracker_basic.*
-					FROM vtiger_modtracker_basic
-					INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
-					AND deleted = 0 ' .  $queryforActivity .'
-					ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?',array($pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
 
-			$history = array();
-			for($i=0; $i<$db->num_rows($result); $i++) {
-				$row = $db->query_result_rowdata($result, $i);
-				$moduleName = $row['module'];
-				$recordId = $row['crmid'];
-				if(Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId)){
-					$modTrackerRecorModel = new ModTracker_Record_Model();
-					$modTrackerRecorModel->setData($row)->setParent($recordId, $moduleName);
-					$time = $modTrackerRecorModel->get('changedon');
-					$history[$time] = $modTrackerRecorModel;
-				}
-			}
-			return $history;
-		}
-		return false;
-	}
 
 	/**
 	 * Function returns the Calendar Events for the module
@@ -127,17 +79,29 @@ class Home_Module_Model extends Vtiger_Module_Model {
 			$user = $currentUser->getId();
 		}
 
+		$orderBy = $pagingModel->getForSql('orderby');
+		$sortOrder = $pagingModel->getForSql('sortorder');
+
+		if (empty($sortOrder) || !in_array($sortOrder, ['asc','desc'])) {
+			$sortOrder = 'ASC';
+		}
+		
+		if (empty($orderBy)) {
+			$orderBy = "date_start $sortOrder, time_start $sortOrder";
+		}else{
+			$orderBy .= ' '.$sortOrder;
+		}
+		
 		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
 		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
 		$instance = CRMEntity::getInstance('Calendar');
 		$UserAccessConditions = $instance->getUserAccessConditionsQuerySR('Calendar');
 		
-		$params = array();
-		$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, 		vtiger_activity.*,vtiger_seactivityrel.crmid as parent_id
+		$params = [];
+		$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_activity.*
 			FROM vtiger_activity
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-			LEFT JOIN vtiger_seactivityrel ON vtiger_seactivityrel.activityid = vtiger_activity.activityid
 			WHERE vtiger_crmentity.deleted=0";
 			$query .= $UserAccessConditions;
 		if ($mode === 'upcoming') {
@@ -165,11 +129,11 @@ class Home_Module_Model extends Vtiger_Module_Model {
 		$accessibleUsers = $currentUser->getAccessibleUsers();
 		$accessibleGroups = $currentUser->getAccessibleGroups();
 		if($user != 'all' && $user != '' && (array_key_exists( $user, $accessibleUsers ) || array_key_exists( $user, $accessibleGroups))) {
-			$query .= " AND vtiger_crmentity.smownerid = ?";
+			$query .= ' AND vtiger_crmentity.smownerid = ?';
 			$params[] = $user;
 		}	
 
-		$query .= " ORDER BY date_start, time_start LIMIT ?, ?";
+		$query .= ' ORDER BY '.$orderBy.' LIMIT ?, ?';
 		$params[] = $pagingModel->getStartIndex();
 		$params[] = $pagingModel->getPageLimit()+1;
 
@@ -182,8 +146,8 @@ class Home_Module_Model extends Vtiger_Module_Model {
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
 			$model->setData($row);
             if($row['activitytype'] == 'Task'){
-                $due_date = $row["due_date"];
-                $dayEndTime = "23:59:59";
+                $due_date = $row['due_date'];
+                $dayEndTime = '23:59:59';
 				
 				$endInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue($due_date." ".$dayEndTime);
                 $EndDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($endInUserFormat);
@@ -327,5 +291,65 @@ class Home_Module_Model extends Vtiger_Module_Model {
 		}
 		
 		return $projecttasks;
+	}
+	
+	/**
+	 * Function returns comments and recent activities across module
+	 * @param <Vtiger_Paging_Model> $pagingModel
+	 * @param <String> $type - comments, updates or all
+	 * @return <Array>
+	 */
+	public function getHistory($pagingModel, $type=false) {
+		if(empty($type)) {
+			$type = 'all';
+		}
+		//TODO: need to handle security
+		$comments = array();
+		if($type == 'all' || $type == 'comments') {
+			$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments'); 
+			if($modCommentsModel->isPermitted('DetailView')){
+				$comments = $this->getComments($pagingModel);
+			}
+			if($type == 'comments') {
+				return $comments;
+			}
+		}
+		//As getComments api is used to get comment infomation,no need of getting
+		//comment information again,so avoiding from modtracker
+		//updateActivityQuery api is used to update a query to fetch a only activity
+		if($type == 'updates' || $type == 'all' ){
+			$db = PearDatabase::getInstance();
+			$queryforActivity = $this->getActivityQuery($type);
+			$result = $db->pquery('SELECT vtiger_modtracker_basic.*
+					FROM vtiger_modtracker_basic
+					INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
+					AND deleted = 0 ' .  $queryforActivity .'
+					ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?',array($pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
+
+			$activites = array();
+			for($i=0; $i<$db->num_rows($result); $i++) {
+				$row = $db->query_result_rowdata($result, $i);
+				$moduleName = $row['module'];
+				$recordId = $row['crmid'];
+				if(Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId)){
+					$modTrackerRecorModel = new ModTracker_Record_Model();
+					$modTrackerRecorModel->setData($row)->setParent($recordId, $moduleName);
+					$time = $modTrackerRecorModel->get('changedon');
+					$activites[$time] = $modTrackerRecorModel;
+				}
+			}
+		}
+		$history = array_merge($activites, $comments);
+
+		$dateTime = array();
+		foreach($history as $time=>$model) {
+			$dateTime[] = $time;
+		}
+
+		if(!empty($history)) {
+			array_multisort($dateTime,SORT_DESC,SORT_STRING,$history);
+			return $history;
+		}
+		return false;
 	}
 }

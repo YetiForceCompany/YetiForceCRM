@@ -10,9 +10,6 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div id="toggleButton" class="toggleButton" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
-	<i id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}icon-chevron-left{else}icon-chevron-right{/if}"></i>
-</div>&nbsp
 <div style="padding-left: 15px;">
     <input type="hidden" name="module" value="{$FOR_MODULE}" />
     <table style=" width:90%;margin-left: 5%  " cellpadding="10" cellspacing="10" class="searchUIBasic well">
@@ -52,7 +49,7 @@
             <td align="right">
                 {if $CUSTOM_ACTIONS neq ''}
                     {foreach key=_LABEL item=_ACTION from=$CUSTOM_ACTIONS}
-                        <button name="{$_LABEL}" onclick="{$_ACTION}" class="create btn "><strong>{$_LABEL|@vtranslate:$MODULE}</strong></button>
+                        <button name="{$_LABEL}" onclick="{$_ACTION}" class="create btn btn-default"><strong>{$_LABEL|@vtranslate:$MODULE}</strong></button>
                             {/foreach}
                         {/if}
                 <button name="goback" onclick="window.history.back()" class="edit btn btn-danger"><strong>{'LBL_GO_BACK'|@vtranslate:$MODULE}</strong></button>

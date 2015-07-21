@@ -9,9 +9,6 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-//ini_set('display_errors', 'Off');
-//error_reporting(0);
-//print_r( $_REQUEST );
 require_once('include/logging.php');
 require_once('include/database/PearDatabase.php');
 require_once('modules/Users/Users.php');
@@ -23,9 +20,10 @@ require_once "modules/OSSPdf/Print.php";
 require_once('modules/OSSPdf/ModulesQueries.php');
 // Set the current language and the language strings, if not already set.
 //setCurrentLanguage();
-global $allow_exports, $app_strings, $adb, $current_user, $current_language, $default_language;
+global $allow_exports, $app_strings, $adb, $current_user;
+$current_language = vglobal('current_language');
 if (!isset($current_language))
-    $current_language = $default_language;
+	$current_language = vglobal('default_language');
 session_start();
 $current_user = new Users();
 if (isset($_SESSION['authenticated_user_id'])) {
@@ -62,7 +60,7 @@ function find_special_functions(&$content, $offset, &$pdf, $module, $id, $tcpdf)
  * Param $exist - number time the file name is repeated.
  */
 function file_exist_fn($filename, $exist) {
-    global $log;
+    $log = vglobal('log');
     $log->debug("Entering file_exist_fn(" . $filename . "," . $exist . ") method ...");
     global $uploaddir;
 
@@ -136,7 +134,7 @@ function find_report_tags(&$content, $offset, &$pdf, $module, $id) {
 # Funkcja do pobrania zawartości danego dokumentu PDF
 # (Dla pojedynczego rekordu CRM
 function TakeContent(&$pdf, $module, $id, $site_URL) {
-    global $adb, $current_user;
+    $adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
     $pdf->AddPage();
     if ($module == 'Calendar') {
         require_once "modules/Calendar/Activity.php";
@@ -299,7 +297,7 @@ function TakeContent(&$pdf, $module, $id, $site_URL) {
 /* ----------------------------------------------------------------- */
 
 function CreateDocument($filepath, $ifattach, $id, $module, &$docid) {
-    global $adb, $current_user;
+    $adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
     $size = filesize($filepath);
     //echo $size;
     require_once( 'modules/Documents/Documents.php' );
@@ -373,9 +371,10 @@ function zipFilesAndDownload($file_names, $archive_file_name, $file_path, $zipna
     if (0 == $onlyGenerate) {
         if ($_REQUEST['return_name'] != "yes") {
             header("Content-type: application/zip");
-            header("Content-Disposition: attachment; filename=$archive_file_name");
+			header("Content-Disposition: attachment; filename=\"$archive_file_name\"");
             header("Pragma: no-cache");
             header("Expires: 0");
+			header('Content-Length: '.file_get_contents($archive_file_name));
             readfile("$archive_file_name");
             exit;
         } elseif ($_REQUEST['return_name'] == "yes") {
@@ -600,7 +599,7 @@ function GeneratePDF($module, &$pdf, $pdf_orientation) {
 }
 
 function Soap_generatePDF($userid) {
-    global $adb, $current_user;
+    $adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
     $_SESSION['type'] = "single";
     $user = new Users();
     $current_user = $user->retrieveCurrentUserInfoFromFile($userid);
@@ -909,13 +908,13 @@ if (!isset($_REQUEST['soap_pdf'])) {
                     header("Content-Disposition: attachment; filename=" . $document_list[0]);
                     header("Pragma: no-cache");
                     header("Expires: 0");
-                    readfile($storage_path . "/" . $document_list[0]);
+                    readfile($storage_path . $document_list[0]);
                     exit;
                 } elseif ($_REQUEST['return_name'] == "yes") {
                     echo $document_list[0];
                 }
             } else {
-                header("Location: index.php?module=OSSMail&view=compose&pdf_path=" . urldecode($storage_path . "/" . $document_list[0]));
+                header("Location: index.php?module=OSSMail&view=compose&pdf_path=" . urldecode($storage_path . $document_list[0]));
             }
         }
     } else {

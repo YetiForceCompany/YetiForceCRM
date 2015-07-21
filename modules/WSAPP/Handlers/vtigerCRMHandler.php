@@ -210,7 +210,7 @@ class vtigerCRMHandler extends SyncHandler {
 
     public function translateTheReferenceFieldIdsToName($records, $module, $user) {
         $db = PearDatabase::getInstance();
-        global $current_user;
+        $current_user  = vglobal('current_user');
         $current_user = $user;
         $handler = vtws_getModuleHandlerFromName($module, $user);
         $meta = $handler->getMeta();

@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 'OSSEmployees' => 'Pracownicy',
 'SINGLE_OSSEmployees' => 'Pracownik',
 'LBL_INFORMATION' => 'Informacje podstawowe',
@@ -35,12 +35,12 @@ $languageStrings = array(
 'LBL_PRIVATEMAIL' => 'Mail prywatny',
 'LBL_STREET' => 'Ulica i nr.',
 'LBL_CODE' => 'Kod pocztowy',
-'LBL_CITY' => 'Miasto',
+'LBL_CITY' => 'Miejscowość',
 'LBL_STATE' => 'Województwo',
 'LBL_COUNTRY' => 'Kraj',
 'LBL_SHIPSTREET' => 'Ulica i nr.',
 'LBL_SHIPCODE' => 'Kod pocztowy',
-'LBL_SHIPCITY' => 'Miasto',
+'LBL_SHIPCITY' => 'Miejscowość',
 'LBL_SHIPSTATE' => 'Województwo',
 'LBL_SHIPCOUNTRY' => 'Kraj',
 'Primary' => 'Podstawowe',
@@ -55,13 +55,5 @@ $languageStrings = array(
 
 'LBL_USER_EXISTS' => 'Pracownik już istnieje',
 
-//widget
-'LBL_Holidays' => 'Urlopy',
-'LBL_YEAR' => 'Rok:',
-'LBL_Used_Entitled' => 'Wykorzystano / Przysługuje:',
-'LBL_DAYS' => 'dni',
-'Brak danych' => 'Brak danych',
 
-'LBL_DAYWORKSUM' => 'Czas pracy',
-
-);
+];

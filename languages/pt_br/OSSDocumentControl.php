@@ -5,21 +5,21 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 24/10/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'LBL_VIEW_EDIT2' => 'Add Conditions',
+$languageStrings = [
+	'LBL_VIEW_EDIT2' => 'Adicionar Condições',
     'LBL_NEW_TPL' => 'Adicionar um novo Documento',
 	'OSSDocumentControl' => 'Controle de Documento',
     'LBL_MODULE_NAME' => 'Nome Módulo',
     'LBL_NO_PROJECT_TPL_ADDED' => 'Nenhum novo documento foi adicionado',
     'TPL' => 'Documentos',
-    
+
     'OSSProjectTemplates_manual' => 'Modelos Projeto OSS',
-    
-    
+
+
     'LBL_CREATING_TPL' => 'Criar um documento',
     'LBL_FILL_BASE_DATA' => 'Informação Básica',
     'ADD_CONDITIONS' => 'Adicionar condições',
@@ -34,17 +34,16 @@ $languageStrings = array(
     'NEXT' => 'Próximo',
     'CANCEL' => 'Cancelar',
     'BACK' => 'Voltar',
-    
+
     'LIST_DOCUMENTS' => 'Lista de documentos',
     'DOC_REQ' => 'Documeto obrigatório',
     'FOLDER' => 'Pasta',
     'ADD_DOCUMENT' => 'Adicionar documento',
     'ATTACHED' => 'Anexado',
-    
+
     'NOT_ALLOW_TO_SAVE' => 'Você não pode salvar o registro proque os documentos obrigatórios não estão em anexo',
     'LIST_REQ_DOC' => 'Por favor, anexe os seguintes documentos',
-);
-
-$jsLanguageStrings = array(
-	'LBL_VIEW_EDIT2' => 'Add Conditions',
-);
+];
+$jsLanguageStrings = [
+	'LBL_VIEW_EDIT2' => 'Adicionar Condições',
+];

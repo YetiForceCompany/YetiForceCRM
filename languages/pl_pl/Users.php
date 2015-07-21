@@ -8,7 +8,8 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
+	'SINGLE_Users' => 'Użytkownik',
 	'Last Name' => 'Nazwisko',
 	'Users' => 'Użytkownicy',
 	'Admin' => 'Administrator',
@@ -40,7 +41,7 @@ $languageStrings = array(
 	'LBL_CHOOSE_BASE_CURRENCY'	=> 'Wybierz walutę podstawowego',
 	'LBL_CHOOSE_DATE_FORMAT'=> 'Wybierz format daty',
 	'LBL_CHOOSE_LANGUAGE'	=> 'Wybierz język',
-	'LBL_CHOOSE_TIMEZONE'	=> 'Wybierz czasową',
+	'LBL_CHOOSE_TIMEZONE'	=> 'Wybierz strefę czasową',
 	'LBL_COMPANY_SIZE'		=> 'Wielkość firmy',
 	'LBL_CONFIRM_PASSWORD' => 'Potwierdź hasło',
 	'LBL_CONNECT_WITH_US' => 'Połącz z nami',
@@ -265,7 +266,6 @@ $languageStrings = array(
     '45 Minutes' => '45 Minut',
    	'1 Hour' => '1 Godzina',
 	'1 Day' => '1 Dzień',
-	'Starting Day of the week' => 'Pierwszy dzień tygodnia',
 	'Calendar Shared Type' => 'Udostępnienie kalendarza',
 	'private' => 'Prywatne',
 	'public' => 'Publiczne',
@@ -274,14 +274,21 @@ $languageStrings = array(
 	'LBL_SELECT_USERS' => 'Wybierz użytkowników',
 	'LBL_MASS_PASSWORD_EDITING' => 'Masowa edycja haseł użytkowników',
 	'LBL_MASS_PWD_EDIT' => 'Masowa edycja haseł',
+	'Meeting' => 'Spotkanie',
+	'Call' => 'Telefon',
+	'Mobile Call' => 'Połączenie',
+	'Planned' => 'Planowane',
+	'Held' => 'Odbyte',
+	'Not Held' => 'Nieodbyte',
 
 	'yyyy-mm-dd' => 'rrrr-mm-dd',
 	'mm-dd-yyyy' => 'mm-dd-rrrr',
 	'dd-mm-yyyy' => 'dd-mm-rrrr',	
 	'Active'=> 'Aktywny',
-	'Inactive'=> 'Nie aktywny',
+	'Inactive'=> 'Nieaktywny',
 	'yes'=> 'Tak',
 	'no'=> 'Nie',
+	'Approval for email'=>'Zgoda na kontakt mailowy',
 
 
 	/* Role */
@@ -298,9 +305,14 @@ $languageStrings = array(
 	"Marketing Department"	=> 'Dział marketingu',
 	" "	=> 'Brak',
 	"LBL_BASIC_EXPORT"	=> 'Eksport podstawowych danych',
-);
+	
+	'LBL_GENERATED_COLOR' => 'Wygenerowano kolor',
+	'LBL_SAVE_COLOR' => 'Zapisano kolor',
+	'LBL_EMAIL' => 'e-mail',
+	'LBL_SPACE' => 'Spacja',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	//Curency seperator validation messages
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
 	'JS_ENTER_CONFIRMATION_PASSWORD'=>'Wpisz potwierdzenie nowego hasła.',
@@ -311,4 +323,5 @@ $jsLanguageStrings = array(
 	'JS_PASSWORD_CHANGE_FAILED_2'=>' niepowodzenie. Nowe hasło musi zostać ustawione.',
 	'JS_PASSWORD_INCORRECT_OLD'=>'Podano niepoprawne stare hasło. Wpisz ponownie.',
 	'JS_REENTER_PASSWORDS'=>'Wpisz hasła ponownie.  Nowe hasło i potwierdzenie hasła nie są identyczne.',
-);
+];
+

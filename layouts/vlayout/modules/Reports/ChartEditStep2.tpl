@@ -1,13 +1,13 @@
 {*<!--
 /*********************************************************************************
-  ** The contents of this file are subject to the vtiger CRM Public License Version 1.1
-   * ("License"); You may not use this file except in compliance with the License
-   * The Original Code is:  vtiger CRM Open Source
-   * The Initial Developer of the Original Code is vtiger.
-   * Portions created by vtiger are Copyright (C) vtiger.
-   * All Rights Reserved.
-  *
- ********************************************************************************/
+** The contents of this file are subject to the vtiger CRM Public License Version 1.1
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+*
+********************************************************************************/
 -->*}
 {strip}
 	<form class="form-horizontal recordEditView" id="chart_report_step2" method="post" action="index.php">
@@ -43,10 +43,10 @@
 				{$RECORD_STRUCTURE[$key] = $BLOCK_FIELDS}
 			{/foreach}
 		{/foreach}
-		<div class="padding1per border1px">
-			<div class="row-fluid">
+		<div class="">
+			<div class="">
 				<h4><strong>{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h4><br>
-				<span class="span10 well contentsBackground">
+				<span class="col-md-12 well contentsBackground">
 					{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
 				</span>
 			</div>

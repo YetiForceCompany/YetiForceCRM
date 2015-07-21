@@ -12,7 +12,7 @@
 {strip}
 	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv">
-			<div class="listViewActionsDiv row-fluid">
+			<div class="listViewActionsDiv row">
             </div>
 		</div>
         <div class="listViewContentDiv" id="listViewContents">

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'CallHistory' => 'Historia połączeń',
 	'SINGLE_CallHistory' => 'Historia połączenia',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
@@ -37,6 +37,7 @@ $languageStrings = Array(
 	'LBL_SUBSCRIBERID' => 'Numer abonenta',
 	'LBL_DESTINATION' => 'Do kogo dzwoniono',
 	'LBL_SOURCE' => 'Źródło rozmowy',
+	'Record Id' => 'Id rekordu',
 	
 	//pick list values
 	'Outgoing missed' => 'Wychodząca nieodebrana',
@@ -45,4 +46,4 @@ $languageStrings = Array(
 	'Missed' => 'Przychodząca nieodebrana',
 	'Voicemail' => 'Przychodząca poczta głosowa',
 	'Call history'	=>	'Call History',
-);
+];

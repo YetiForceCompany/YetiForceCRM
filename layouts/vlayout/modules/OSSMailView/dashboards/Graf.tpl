@@ -91,12 +91,12 @@
 	<table width="100%" cellspacing="0" cellpadding="0">
 	<tbody>
 		<tr>
-			<td class="span8">
+			<td class="col-md-8">
 				<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
 			</td>
-			<td class="span2">
+			<td class="col-md-2">
 				<div>
-					<select class="widgetFilter" id="owner" name="owner" style='width:70px;margin-bottom:0px'>
+					<select class="widgetFilter owner" name="owner" style='width:70px;margin-bottom:0px'>
 						<option value="{$CURRENTUSER->getId()}" >{vtranslate('LBL_MINE')}</option>
 						<option value="all">{vtranslate('LBL_ALL')}</option>
                         {assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
@@ -120,7 +120,7 @@
 					</select>
 				</div>
 			</td>
-			<td class="span2">
+			<td class="col-md-2">
 				<div>
 					<select class="widgetFilter" id="dateFilter" name="dateFilter" style='width:70px;margin-bottom:0px'>
 						<option value="Today" >{vtranslate('Today', $MODULE_NAME)}</option>
@@ -133,23 +133,23 @@
 					</select>
 				</div>
 			</td>
-			<td class="refresh span1" align="right">
+			<td class="refresh col-md-1" align="right">
 				<span style="position:relative;"></span>
 			</td>
-			<td class="widgeticons span4" align="right">
+			<td class="widgeticons col-md-4" align="right">
 				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME SETTING_EXIST=true}
 			</td>
 		</tr>
 	</tbody>
 	</table>
-{*	<div class="row-fluid filterContainer hide" style="position:absolute;z-index:100001">
-		<div class="row-fluid">
-			<span class="span5">
+{*	<div class="row filterContainer hide" style="position:absolute;z-index:100001">
+		<div class="row">
+			<span class="col-md-5">
 				<span class="pull-right">
 					{vtranslate('Expected Close Date', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}
 				</span>
 			</span>
-			<span class="span4">
+			<span class="col-md-4">
 				<input type="text" name="expectedclosedate" class="dateRange widgetFilter" />
 			</span>
 		</div>

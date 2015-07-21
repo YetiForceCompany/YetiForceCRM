@@ -10,25 +10,29 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid">
+<div class="">
 	<br>
-	<div class="row-fluid">
-		<div class="span10"><h3>{vtranslate('LBL_PROFILE_VIEW', $QUALIFIED_MODULE)}</h3></div>
-		<div class="span2">
-			<button class="btn pull-right" type="button" onclick='window.location.href="{$RECORD_MODEL->getEditViewUrl()}"'>{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
+	<div class="row">
+		<div class="col-md-10"><h3>{vtranslate('LBL_PROFILE_VIEW', $QUALIFIED_MODULE)}</h3></div>
+		<div class="col-md-2">
+			<button class="btn btn-default pull-right" type="button" onclick='window.location.href="{$RECORD_MODEL->getEditViewUrl()}"'>{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 		</div>
 	</div>
 	<div class="clearfix"></div>
 	<hr>
 	<div class="profileDetailView">
-		<div class="row-fluid">
-			<div class="row-fluid">
-				<label class="fieldLabel span2 muted"><span class="redColor">*</span>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}: </label>
-				<span class="fieldValue span6" name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}"><strong>{$RECORD_MODEL->getName()}</strong></span>
+		<div>
+			<div class="row">
+				<div class="col-md-12">
+					<label class="fieldLabel col-md-2 muted"><span class="redColor">*</span>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}: </label>
+					<span class="fieldValue col-md-6" name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}"><strong>{$RECORD_MODEL->getName()}</strong></span>
+				</div>
 			</div>
-            <div class="row-fluid">
-				<label class="fieldLabel span2 muted">{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>
-				<span class="fieldValue span8" name="description" id="description"><strong>{$RECORD_MODEL->getDescription()}</strong></span>
+            <div class="row">
+				<div class="col-md-12">
+					<label class="fieldLabel col-md-2 muted">{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>
+					<span class="fieldValue col-md-8" name="description" id="description"><strong>{$RECORD_MODEL->getDescription()}</strong></span>
+				</div>
 			</div><br>
             {assign var="ENABLE_IMAGE_PATH" value="{vimage_path('Enable.png')}"}
             {assign var="DISABLE_IMAGE_PATH" value="{vimage_path('Disable.png')}"}
@@ -37,7 +41,7 @@
                     <img class="alignMiddle" src="{if $RECORD_MODEL->hasGlobalReadPermission()}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />
                     &nbsp;{vtranslate('LBL_VIEW_ALL',$QUALIFIED_MODULE)}
                     <span style="margin-left:25px">
-                        <i class="icon-info-sign"></i>
+                        <i class="glyphicon glyphicon-info-sign"></i>
                         <span style="margin-left:2px">{vtranslate('LBL_VIEW_ALL_DESC',$QUALIFIED_MODULE)}</span>
                     </span>
                 </div>
@@ -45,12 +49,12 @@
                    <img class="alignMiddle" src="{if $RECORD_MODEL->hasGlobalWritePermission()}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />
                    &nbsp;{vtranslate('LBL_EDIT_ALL',$QUALIFIED_MODULE)}
                    <span style="margin-left:30px">
-                        <i class="icon-info-sign"></i>
+                        <i class="glyphicon glyphicon-info-sign"></i>
                         <span style="margin-left:2px">{vtranslate('LBL_EDIT_ALL_DESC',$QUALIFIED_MODULE)}</span>
                     </span>
                 </div>
             </div>
-			<div class="row-fluid">
+			<div>
 				<table class="table table-striped table-bordered">
 					<thead>
 
@@ -94,20 +98,20 @@
 								{/foreach}
 								<td style="border-left: 1px solid #DDD !important;">
 									{if $PROFILE_MODULE->getFields() || $PROFILE_MODULE->isUtilityActionEnabled()}
-										<div class="row-fluid">
-											<span class="span4">&nbsp;</span>
-											<span class="span4"><button type="button" data-handlerfor="fields" data-togglehandler="{$TABID}-fields" class="btn btn-mini" style="padding-right: 20px; padding-left: 20px;">
-													<i class="icon-chevron-down"></i>
+										<div class="row">
+											<span class="col-md-4">&nbsp;</span>
+											<span class="col-md-4"><button type="button" data-handlerfor="fields" data-togglehandler="{$TABID}-fields" class="btn btn-xs btn-default" style="padding-right: 20px; padding-left: 20px;">
+													<i class="glyphicon glyphicon-chevron-down"></i>
 												</button></span>
 										</div>
 									{/if}
 								</td>
 							</tr>
 							<tr class="hide">
-								<td colspan="6" class="row-fluid" style="padding-left: 5%;padding-right: 5%">
-									<div class="row-fluid hide" data-togglecontent="{$TABID}-fields">
+								<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%">
+									<div class="row" data-togglecontent="{$TABID}-fields">
 									{if $PROFILE_MODULE->getFields()}
-										<div class="span12">
+										<div class="col-md-12">
 											<label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_FIELDS',$QUALIFIED_MODULE)}</strong></label>
 											<div class="pull-right">
 												<span class="mini-slider-control ui-slider" data-value="0">
@@ -166,9 +170,9 @@
 							</td>
 						</tr>
 						<tr class="hide">
-							<td colspan="6" class="row-fluid" style="padding-left: 5%;padding-right: 5%">
-								<div class="row-fluid hide" data-togglecontent="{$TABID}-fields">
-								<div class="span12"><label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
+							<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%">
+								<div class="row" data-togglecontent="{$TABID}-fields">
+								<div class="col-md-12"><label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
 								<table class="table table-bordered table-striped">
 								{assign var=UTILITY_ACTION_COUNT value=0}
 								{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=array()}

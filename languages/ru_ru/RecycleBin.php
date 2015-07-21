@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'RecycleBin' => 'Корзина',
 	'LBL_SELECT_MODULE' => 'Выберите Модуль',
 	'LBL_EMPTY_RECYCLEBIN' => 'Очистить Корзину',
@@ -17,12 +17,12 @@ $languageStrings = Array(
 	'LBL_NO_PERMITTED_MODULES' => 'Нет доступных модулей',
 	'LBL_RECORDS_LIST' => 'Список',
 	'LBL_NO_RECORDS_FOUND' => 'Не найдено записей для восстановления в модуле',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_MSG_EMPTY_RB_CONFIRMATION' => 'Вы уверены, что хотите навсегда удалить из базы данных все удаленные записи?', 
 	'JS_LBL_RESTORE_RECORDS_CONFIRMATION' => 'Вы уверены, что хотите восстановить записи?',
     'JS_LBL_RESTORE_RECORD_CONFIRMATION' => 'Вы уверены, что хотите восстановить запись?',
     'JS_RESTORING_RECORDS' => 'Восстановление записей',
     'JS_MASS_DELETE_CONFIRMATION_RB' => 'Вы уверены, что хотите навсегда удалить записи?',
     'JS_DELETE_CONFIRMATION_RB'   => 'Вы уверены, что хотите навсегда удалить запись?',
-);
+];

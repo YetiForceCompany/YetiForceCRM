@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'OSSMailTemplates'	=>	'Шаблоны Почты',
 	'Blank'	=>	'Шаблоны Почты',
 	'SINGLE_OSSMailTemplates'	=>	'Шаблоны Почты',
@@ -28,6 +28,11 @@ $languageStrings = array(
 	'No'	=>	'Нет',
 	'MAIL_TPL_LIST'	=>	'Выберите Шаблон Почты',
 	'LBL_COPY_TO_CLIPBOARD_TITLE'	=>	'Копировать в буфер обмена',
+	'LBL_TYPE' => 'Тип',
+	'PLL_MODULE' => 'Модуль',
+	'PLL_RECORD' => 'Запись',
+	'PLL_MAIL' => 'Сообщение',
+	'PLL_LIST' => 'Список',
 	
 	/// special_functions
 	'CurrentDate'	=>	'Текущая дата',
@@ -41,9 +46,9 @@ $languageStrings = array(
 	'LBL_LABEL'	=>	'Поле',
 	'ContactsPortalPass' => 'Пароль для доступа к Порталу',
 	'LinkToForgotPassword' => 'Восстановить пароль',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_NOTIF_PASS_COPIED'	=>	'Скопировано в буфер обмена',
 	'JS_NOTIF_PASS_TITLE'	=>	'Сообщение',
 
-);
+];

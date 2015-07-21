@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'PRIMARY_MODULE' => 'Podstawowy moduł',
 	'Report Name' => 'Nazwa raportu',
 	'Reports'=>'Raporty',
@@ -70,7 +70,7 @@ $languageStrings = array(
 	'LBL_REPORTS' => 'Lista raportów',
 	'LBL_RUN_REPORT' =>'Uruchom raport',
 	'LBL_SAME_LEVEL_ROLES' => 'Taki sam poziom Roli',
-	'LBL_SCHEDULE_REPORTS' => 'Hormonogram raportów',
+	'LBL_SCHEDULE_REPORTS' => 'Harmonogram raportów',
 	'LBL_SELECT_COLUMNS' => 'Wybierz kolumny',
 	'LBL_SELECTED_DATES' => 'Wybrane daty',
 	'LBL_SELECT_MONTH_AND_DAY' => 'Wybierz miesiąc i dzień',
@@ -88,6 +88,7 @@ $languageStrings = array(
 	'LBL_WRITE_YOUR_DESCRIPTION_HERE' => 'Podaj opis',
 	'LBL_YEARLY' => 'Rocznie',
 	'LBL_MAIN' => 'Główny',
+	'LBL_SELECT_REPORT' => 'Wybierz raport',
 	
 	//charts labels
 	'LBL_SELECT_CHART_TYPE' => 'Wybierz rodzaj wykresu',
@@ -115,10 +116,10 @@ $languageStrings = array(
     //Schedule Reports - Mail Content
     'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'Ten email został wygenerowany automatycznie i wysłany na rzecz harmonogramu raportów.',
 	'LBL_PIVOT_REPORT' => 'Pivot Report',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CALCULATION_LINE_ITEM_FIELDS_SELECTION_LIMITATION' => 'Ograniczenie: Pola (Cena, Rabat i Ilość) mogą zostać użyte tylko gdy inne pola kalkulacji nie są wybrane.',
 	'JS_DUPLICATE_RECORD' => 'Duplikuj raport',
 	'JS_NO_CHART_DATA_AVAILABLE' => 'Dane nie są dostępne, należy sprawdzić wybrane pola',
-);
+];

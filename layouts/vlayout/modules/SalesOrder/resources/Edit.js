@@ -116,7 +116,7 @@ Inventory_Edit_Js("SalesOrder_Edit_Js",{},{
 				form.validationEngine('detach');
 				thisInstance.AddOrRemoveRequiredValidation(fieldsForValidation,addValidation);
 				//For attaching validation back we are using not using attach,because chosen select validation will be missed
-				form.validationEngine(app.validationEngineOptions);
+				form.validationEngine(app.validationEngineOptionsForRecord);
 				//As detach is used on form for detaching validationEngine,it will remove any actions on form submit,
 				//so events that are registered on form submit,need to be registered again after validationengine detach and attach
 				thisInstance.registerSubmitEvent();
@@ -144,13 +144,13 @@ Inventory_Edit_Js("SalesOrder_Edit_Js",{},{
 					relatedField.attr('data-validation-engine','validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]');
 				}
 				if(relatedField.is("select")){
-					relatedField.attr('disabled',false).trigger("liszt:updated");
+					relatedField.attr('disabled',false).trigger("chosen:updated");
 				}else{
 					relatedField.removeAttr('disabled');
 				}
 			}else if(!addValidation){
 				if(relatedField.is("select")){
-					relatedField.attr('disabled',true).trigger("liszt:updated");
+					relatedField.attr('disabled',true).trigger("chosen:updated");
 				}else{
 					relatedField.attr('disabled',"disabled");
 				}
@@ -174,6 +174,7 @@ Inventory_Edit_Js("SalesOrder_Edit_Js",{},{
 			var recordData = responseData[id];
 			var selectedName = recordData.name;
 			var unitPrice = recordData.listprice;
+			var usageUnit = recordData.usageunit;
 			var listPriceValues = recordData.listpricevalues;
 			var taxes = recordData.taxes;
 			if(referenceModule == 'Products') {
@@ -190,6 +191,7 @@ Inventory_Edit_Js("SalesOrder_Edit_Js",{},{
 				jQuery('input.selectedModuleId',parentRow).val(recordId);
 				jQuery('input.lineItemType',parentRow).val(referenceModule);
 				jQuery('input.listPrice',parentRow).val(unitPrice);
+				jQuery('span.usageUnit',parentRow).text(usageUnit);
 				var currencyId = jQuery("#currency_id").val();
 				var listPriceValuesJson  = JSON.stringify(listPriceValues);
 				if(typeof listPriceValues[currencyId]!= 'undefined') {

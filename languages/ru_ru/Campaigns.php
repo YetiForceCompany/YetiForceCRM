@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'--None--'                     => '--Нет--'                  , 
 	'Active'	=>	'Активно',
 	'Actual Cost'                  => 'Затраты'              , 
@@ -56,8 +56,7 @@ $languageStrings = array(
 	'Webinar'                      => 'Семинар'              , 
     'Completed'                    => 'Завершена',
     'Partners'                     => 'Партнеры',
-);
-
-$jsLanguageStrings = array(
-
-);
+];
+$jsLanguageStrings = [
+	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Вы уверены, что хотите добавить эту запись в фильтр?',
+];

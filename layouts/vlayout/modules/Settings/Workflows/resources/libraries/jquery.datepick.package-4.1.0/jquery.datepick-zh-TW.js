@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Traditional Chinese localisation for jQuery Datepicker.
    Written by Ressol (ressol@gmail.com). */
 (function($) {

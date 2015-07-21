@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -159,13 +159,11 @@ $labels['name']         = 'نوم ښوونه';
 $labels['firstname']    = 'نوم';
 $labels['surname']      = 'کورنی نوم';
 $labels['email']        = 'برېښناليک';
-$labels['addcontact'] = 'نوی اړيکلوری ورزيات کړه';
 $labels['editcontact'] = 'اړيکلوري سمون';
 $labels['edit']   = 'سمون';
 $labels['cancel'] = 'لري کول';
 $labels['save']   = 'ساتل';
 $labels['delete'] = 'ړنګول';
-$labels['newcontact']     = 'نوي اړيکلوري کارټ جوړ کړه';
 $labels['deletecontact']  = 'ټاکل شوي اړيکلوري ړنګ کړه';
 $labels['composeto']      = 'ته ليک وليکه';
 $labels['contactsfromto'] = 'له دومره اړيکلورو څخه دومره شمېرل شوي Contacts $from to $to of $count';
@@ -188,10 +186,6 @@ $labels['preferences'] = 'غورونې';
 $labels['userpreferences'] = 'کارن غورونې';
 $labels['editpreferences'] = 'د کارن غورونو سمون';
 $labels['identities'] = 'پېژندنې';
-$labels['manageidentities'] = 'ددې حساب پېژندنو برابرول';
-$labels['newidentity'] = 'نوي پېژندنه';
-$labels['newitem'] = 'نوی توک';
-$labels['edititem'] = 'توک سمون';
 $labels['preferhtml'] = 'ايچ ټي ام ايل ښوون';
 $labels['htmlmessage'] = 'ايچ ټي ام ايل استوزه';
 $labels['prettydate'] = 'په زړه پورې نېټې';
@@ -214,7 +208,6 @@ $labels['mailboxview'] = 'ليکبکس ښکار کړه';
 $labels['mdnrequests'] = 'د استوونکي خبرتياوې';
 $labels['askuser'] = 'له کاروونکي څخه وپوښته';
 $labels['autosend'] = 'په خپلواکه توګه واستوه';
-$labels['ignore'] = 'لرې کړه';
 $labels['readwhendeleted'] = 'په ړنګ شوو کې استوزي د لوستل شوي  په توګه په نښه کړه';
 $labels['flagfordeletion'] = 'استوزه د ړنګ شوي پرځای بېکاره کړه';
 $labels['skipdeleted'] = 'ړنګ شوي استوزي مه ښکاره کوه';
@@ -234,14 +227,14 @@ $labels['2047folding'] = 'Full RFC 2047 (نور)';
 $labels['advancedoptions'] = 'پرمختللي لارې';
 $labels['focusonnewmessage'] = 'فوکاس براوسر کړکۍ په نوي استوزي کې';
 $labels['checkallfolders'] = 'په ټولو پوښيو کې نوي استوزي وګورئ';
-$labels['folder']  = 'پوښۍ';
-$labels['folders']  = 'پوښۍ';
-$labels['foldername']  = 'پوښۍ نوم';
-$labels['subscribed']  = 'ګډ شو';
+$labels['folder'] = 'پوښۍ';
+$labels['folders'] = 'پوښۍ';
+$labels['foldername'] = 'پوښۍ نوم';
+$labels['subscribed'] = 'ګډ شو';
 $labels['messagecount'] = 'استوزي';
-$labels['create']  = 'جوړول، رامنځ ته کول';
-$labels['createfolder']  = 'نوې پوښۍ جوړ کړه';
-$labels['managefolders']  = 'پوښيو څارل';
+$labels['create'] = 'جوړول، رامنځ ته کول';
+$labels['createfolder'] = 'نوې پوښۍ جوړ کړه';
+$labels['managefolders'] = 'پوښيو څارل';
 $labels['specialfolders'] = 'ځانګړي پوښۍۍ';
 $labels['sortby'] = 'اڼل';
 $labels['sortasc']  = 'له پورته نه ښکته خوا ته برابرول';

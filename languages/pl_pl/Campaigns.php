@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Complete' => 'Complete',
 	'Actual Cost' => 'Aktualny koszt kampanii',
 	'Actual Response Count' => 'Aktualna ilość odpowiedzi',
@@ -25,7 +25,7 @@ $languageStrings = array(
 	'Campaign Status' => 'Status kampanii',
 	'Campaign Type' => 'Rodzaj kampanii', 
 	'Cancelled'=>'Anulowana',
-	'Contacted - Never Contact Again' => 'Kontakt bez możliwości daleszego kontaktu',
+	'Contacted - Never Contact Again' => 'Kontakt bez możliwości dalszego kontaktu',
 	'Contacted - Successful' => 'Kontakt zakończony sukcesem',
 	'Contacted - Unsuccessful' => 'Kontakt zakończony porażką',
 	'Direct Mail'=>'Mailing',
@@ -56,4 +56,7 @@ $languageStrings = array(
 	'TargetSize' => 'Rozmiar kampanii',
 	'Telemarketing'=>'Call center',
 	'Webinar'=>'Seminarium',
-);
+];
+$jsLanguageStrings = [
+	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Are you sure you want to add this filter records?.',
+];

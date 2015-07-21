@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'Assets' => 'Bestandsverwaltung',
 	'SINGLE_Assets' => 'Bestand',
@@ -29,20 +29,19 @@ $languageStrings = array(
 	'Notes' => 'Beschreibung',
 
 	/*picklist values*/
-	'In Service'=>'Im Dienst',
-	'Out-of-service'=>'Außer Dienst',
-	'Draft'=>'Entwurf',
-	'Realization proceeding'=>'Realisierung fortfahren',
-	'Warranty proceeding'=>'Garantieverfahren',
-	'Delivered to Organization'=>'Ausgeliefert an Organisation',
+	'PLL_DRAFT'=>'Entwurf',
+	'PLL_WARRANTY_SUPPORT'=>'Gewährleistung',
+	'PLL_POST_WARRANTY_SUPPORT'=>'verlängerte Garantie',
+	'PLL_NO_SUPPORT'=>'Kein Support',
 	
 	//YetiForce
 	'description'=>'Beschreibung',
-	'attentions'=>'Attentions',
+	'attentions'=>'Anforderungen',
 	'BLOCK_INFORMATION_TIME'=>'Zeitinformation',
 	'Total time [h]'=>'Gesamtzeit [h]',
 	'Potential'=>'Verkaufschance',
 	'Potential renewal'=>'Verkaufschance verlängern',
 	'LBL_GENERATE_EXTENSION' => 'Folgeauftrag anlegen',
 	'LBL_ORDER_TIME'=>'Bestellzeit',
-);
+	'LBL_EXPIRING_SOLD_PRODUCTS' => 'abverkaufte Produkte',
+];

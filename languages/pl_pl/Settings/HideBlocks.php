@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'HideBlocks' => 'Ukrywanie bloków',
 	'LBL_HIDEBLOCKS' => 'Ukrywanie bloków',
 	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Zarządzanie ukrywaniem bloków z polami',
@@ -22,4 +22,4 @@ $languageStrings = array(
 	'LBL_NEXT' => 'Dalej',
 	'LBL_VIEW' => 'Widok',
 	'LBL_MANDATORY_FIELDS_EXIST' => 'Nie można ukryć tego bloku ponieważ istnieją w nim pola obowiązkowe.',
-);
+];

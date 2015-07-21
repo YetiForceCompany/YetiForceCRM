@@ -8,9 +8,11 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'Quotesenquires' => 'Запрос Предложения',
-	'SINGLE_Quotesenquires' => 'Запрос Предложения',
+$languageStrings = [
+	'LBL_WAS_READ' => 'Обновлено',
+	'LBL_CLOSED_TIME' => 'Время закрытия',
+	'QuotesEnquires' => 'Запрос Предложения',
+	'SINGLE_QuotesEnquires' => 'Запрос Предложения',
 
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Базовая информация',
@@ -20,15 +22,29 @@ $languageStrings = array(
 	'LBL_SUBJECT' => 'Тема',
 	'LBL_POTENTIAL' => 'Сделка',
 	'LBL_NUMBER' => 'Номер',
-	'LBL_CLOSED_TIME' => 'Время закрытия',
-	'LBL_WAS_READ' => 'Обновлено',
 	'Description' => 'Описание',
 	'Attention' => 'Комментарии',
-	'LBL_REJECTION_REASON' => 'Причина отказа',
+	'LBL_STAGE' => 'Этап',
+	'LBL_CONS' => 'Недостатки',
+	'LBL_PROS' => 'Преимущества',
+	'LBL_GENERATE_REQUIREMENTCARDS' => 'Создание карты запроса',
 
 	//PICKLIST VALUES
-	'Incomplete information' => 'Не достаточно информации',
-	'QuotesEnquires' => 'Запрос Предложения',
-	'SINGLE_QuotesEnquires' => 'Запрос Предложения',
-	'Requirements not met' => 'Требования не выполнены',
-);
+	'PLL_NOT_STARTED' => 'Не начато',
+	'PLL_VERIFICATION' => 'Проверка',
+	'PLL_DECLINED' => 'Отклонено',
+	'PLL_ACCEPTED' => 'Принято',
+	'PLL_LOW_MARGIN' => 'Низкая прибыль',
+	'PLL_UNRELIABLE_CONTRACTOR' => 'Ненадежный контрагент',
+	'PLL_UNRELIABLE_PAYMENT' => 'Ненадежный плательщик',
+	'PLL_NO_DETAILS' => 'Нет информации',
+	'PLL_LACK_OF_COMPETENCE' => 'Недостаточная компетентность',
+	'PLL_LACK_OF_TIME' => 'Нехватка времени',
+	'PLL_HIGH_MARGIN' => 'Высокая прибыль',
+	'PLL_RELIABLE_CONTRACTOR' => 'Надежный контрагент',
+	'PLL_SOLID_PAYMENT' => 'Надежный плательщик',
+	'PLL_DETAILED_DESCRIPTION' => 'Подробное описание',
+	'PLL_COMPETENT_TEAM' => 'Компетентная команда',
+	'PLL_EASE_OF_COMMUNICATION' => 'Легкое общение',
+	'PLL_RECOMMENDABLE' => 'Рекоммендовано',
+];

@@ -25,7 +25,7 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
 		//check profile permissions for Dashboards
-		$moduleModel = Vtiger_Module_Model::getInstance('Dashboard');
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		if($permission) {
@@ -34,9 +34,12 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 		} else {
 			$widgets = array();
 		}
+		
+		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
 		$viewer->assign('MODULE_PERMISSION', $permission);
 		$viewer->assign('WIDGETS', $widgets);
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('MODULE_MODEL', $moduleModel);
 		if($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -53,7 +56,7 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
 		
 		//check profile permissions for Dashboards
-		$moduleModel = Vtiger_Module_Model::getInstance('Dashboard');
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		if($permission) {
@@ -62,9 +65,7 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 			return;
 		}
 
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('WIDGETS', $widgets);
-		$viewer->assign('CURRENT_USER', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('dashboards/DashBoardContents.tpl', $moduleName);
 	}
 
@@ -77,26 +78,31 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	public function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'~/libraries/jquery/gridster/jquery.gridster.min.js',
-			'~/libraries/jquery/jqplot/jquery.jqplot.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
-                        '~/libraries/jquery/jqplot/plugins/jqplot.pieRenderer.min.js',
-                        '~/libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
-                        '~/libraries/jquery/jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.pointLabels.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.funnelRenderer.min.js',
-                        '~/libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.min.js',
+			'~libraries/jquery/gridster/jquery.gridster.min.js',
+			'~libraries/jquery/flot/jquery.flot.min.js',
+			'~libraries/jquery/flot/jquery.flot.pie.min.js',
+			'~libraries/jquery/flot/jquery.flot.stack.min.js',
+			'~libraries/jquery/jqplot/jquery.jqplot.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.pieRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.pointLabels.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.funnelRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.min.js',
 			'modules.Vtiger.resources.DashBoard',
-			'modules.'.$moduleName.'.resources.DashBoard',
-			'modules.Vtiger.resources.dashboards.Widget'
+			'modules.' . $moduleName . '.resources.DashBoard',
+			'modules.Vtiger.resources.dashboards.Widget',
+			'~libraries/fullcalendar/moment.min.js',
+			'~libraries/fullcalendar/fullcalendar.js'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -113,8 +119,10 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
 
 		$headerCss = array(
-			'~/libraries/jquery/gridster/jquery.gridster.min.css',
-			'~/libraries/jquery/jqplot/jquery.jqplot.min.css',
+			'~libraries/jquery/gridster/jquery.gridster.min.css',
+			'~libraries/jquery/jqplot/jquery.jqplot.min.css',
+			'~libraries/fullcalendar/fullcalendar.min.css',
+			'~libraries/fullcalendar/fullcalendarCRM.css'
 		);
 		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
 		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances , $cssScripts);

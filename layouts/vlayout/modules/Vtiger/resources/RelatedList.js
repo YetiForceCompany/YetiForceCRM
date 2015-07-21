@@ -87,11 +87,13 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 		}
 	},
 	
-	showSelectRelationPopup : function(){
+	showSelectRelationPopup : function(extendParams){
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		var popupInstance = Vtiger_Popup_Js.getInstance();
-		popupInstance.show(this.getPopupParams(), function(responseString){
+		var mainParams = this.getPopupParams()
+		$.extend( mainParams, extendParams );
+		popupInstance.show(mainParams, function(responseString){
 				var responseData = JSON.parse(responseString);
 				var relatedIdList = Object.keys(responseData);
 				thisInstance.addRelations(relatedIdList).then(
@@ -138,6 +140,8 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 				aDeferred.reject(textStatus, errorThrown);
 			}
 		);
+		var detail = Vtiger_Detail_Js.getInstance();
+		detail.registerRelatedModulesRecordCount();
 		return aDeferred.promise();
 	},
 
@@ -172,7 +176,8 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 				aDeferred.reject(textStatus, errorThrown);
 			}
 		);
-		thisInstance.loadRelatedList();
+		var detail = Vtiger_Detail_Js.getInstance();
+		detail.registerRelatedModulesRecordCount();
 		return aDeferred.promise();
 	},
 
@@ -348,10 +353,10 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 	/**
 	 * Function to add related record for the module
 	 */
-	addRelatedRecord : function(element , callback){
+	addRelatedRecord: function (element, callback) {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
-		var	referenceModuleName = this.relatedModulename;
+		var referenceModuleName = this.relatedModulename;
 		var parentId = this.getParentId();
 		var parentModule = this.parentModuleName;
 		var quickCreateParams = {};
@@ -360,78 +365,73 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 		var fullFormUrl = element.data('url');
 		relatedParams[relatedField] = parentId;
 		var eliminatedKeys = new Array('view', 'module', 'mode', 'action');
-		
-		var preQuickCreateSave = function(data){
 
-			var index,queryParam,queryParamComponents;
-			
+		var preQuickCreateSave = function (data) {
+			var index, queryParam, queryParamComponents;
+
 			//To handle switch to task tab when click on add task from related list of activities
 			//As this is leading to events tab intially even clicked on add task
-			if(typeof fullFormUrl != 'undefined' && fullFormUrl.indexOf('?')!== -1) {
+			if (typeof fullFormUrl != 'undefined' && fullFormUrl.indexOf('?') !== -1) {
 				var urlSplit = fullFormUrl.split('?');
 				var queryString = urlSplit[1];
 				var queryParameters = queryString.split('&');
-				for(index=0; index<queryParameters.length; index++) {
+				for (index = 0; index < queryParameters.length; index++) {
 					queryParam = queryParameters[index];
 					queryParamComponents = queryParam.split('=');
-					if(queryParamComponents[0] == 'mode' && queryParamComponents[1] == 'Calendar'){
+					if (queryParamComponents[0] == 'mode' && queryParamComponents[1] == 'Calendar') {
 						data.find('a[data-tab-name="Task"]').trigger('click');
 					}
 				}
 			}
-			jQuery('<input type="hidden" name="sourceModule" value="'+parentModule+'" />').appendTo(data);
-			jQuery('<input type="hidden" name="sourceRecord" value="'+parentId+'" />').appendTo(data);
+			jQuery('<input type="hidden" name="sourceModule" value="' + parentModule + '" />').appendTo(data);
+			jQuery('<input type="hidden" name="sourceRecord" value="' + parentId + '" />').appendTo(data);
 			jQuery('<input type="hidden" name="relationOperation" value="true" />').appendTo(data);
-			
-			if(typeof relatedField != "undefined"){
-				var field = data.find('[name="'+relatedField+'"]');
+
+			if (typeof relatedField != "undefined") {
+				var field = data.find('[name="' + relatedField + '"]');
 				//If their is no element with the relatedField name,we are adding hidden element with
 				//name as relatedField name,for saving of record with relation to parent record
-				if(field.length == 0){
-					jQuery('<input type="hidden" name="'+relatedField+'" value="'+parentId+'" />').appendTo(data);
+				if (field.length == 0) {
+					jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(data);
 				}
 			}
-			for(index=0; index<queryParameters.length; index++) {
+			for (index = 0; index < queryParameters.length; index++) {
 				queryParam = queryParameters[index];
 				queryParamComponents = queryParam.split('=');
-				if(jQuery.inArray(queryParamComponents[0], eliminatedKeys) == '-1' && data.find('[name="'+queryParamComponents[0]+'"]').length == 0) {
-					jQuery('<input type="hidden" name="'+queryParamComponents[0]+'" value="'+queryParamComponents[1]+'" />').appendTo(data);
+				if (jQuery.inArray(queryParamComponents[0], eliminatedKeys) == '-1' && data.find('[name="' + queryParamComponents[0] + '"]').length == 0) {
+					jQuery('<input type="hidden" name="' + queryParamComponents[0] + '" value="' + queryParamComponents[1] + '" />').appendTo(data);
 				}
 			}
-                        if(typeof callback !== 'undefined') {
-                            callback();
-                        }
+			if (typeof callback !== 'undefined') {
+				callback();
+			}
 		}
-		var postQuickCreateSave  = function(data) {
+		var postQuickCreateSave = function (data) {
 			thisInstance.loadRelatedList().then(
-				function(data){
-					aDeferred.resolve(data);
-				})
+					function (data) {
+						aDeferred.resolve(data);
+					})
 		}
-		
+
 		//If url contains params then seperate them and make them as relatedParams
-		if(typeof fullFormUrl != 'undefined' && fullFormUrl.indexOf('?')!== -1) {
+		if (typeof fullFormUrl != 'undefined' && fullFormUrl.indexOf('?') !== -1) {
 			var urlSplit = fullFormUrl.split('?');
 			var queryString = urlSplit[1];
 			var queryParameters = queryString.split('&');
-			for(var index=0; index<queryParameters.length; index++) {
+			for (var index = 0; index < queryParameters.length; index++) {
 				var queryParam = queryParameters[index];
 				var queryParamComponents = queryParam.split('=');
-				if(jQuery.inArray(queryParamComponents[0], eliminatedKeys) == '-1') {
+				if (jQuery.inArray(queryParamComponents[0], eliminatedKeys) == '-1') {
 					relatedParams[queryParamComponents[0]] = queryParamComponents[1];
 				}
 			}
 		}
-		
+
 		quickCreateParams['data'] = relatedParams;
 		quickCreateParams['callbackFunction'] = postQuickCreateSave;
 		quickCreateParams['callbackPostShown'] = preQuickCreateSave;
 		quickCreateParams['noCache'] = true;
-		var quickCreateNode = jQuery('#quickCreateModules').find('[data-name="'+ referenceModuleName +'"]');
-		if(quickCreateNode.length <= 0) {
-			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED'))
-		}
-		quickCreateNode.trigger('click',quickCreateParams);
+		Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName,quickCreateParams);
 		return aDeferred.promise();
 	},
 	

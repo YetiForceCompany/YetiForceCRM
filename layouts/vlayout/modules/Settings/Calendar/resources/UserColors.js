@@ -11,6 +11,19 @@ var Settings_UserColors_Js = {
 	initEvants: function() {
 		$('.UserColors .updateColor').click(Settings_UserColors_Js.updateColor);
 		$('.UserColors #update_event').click(Settings_UserColors_Js.updateEvent);
+		$('.UserColors .generateColor').click(Settings_UserColors_Js.generateColor);	
+	},
+	generateColor: function(e) {
+		var target = $(e.currentTarget);
+		var closestTrElement = target.closest('tr');	
+		var params = {
+			'id':closestTrElement.data('id'),
+		}
+		app.saveAjax('generateColor', params).then(function (data) {
+			Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
+			closestTrElement.find('.calendarColor').css('background',data.result.color);
+			closestTrElement.data('color', data.result.color);
+		});
 	},
 	updateColor: function(e) {
 		var target = $(e.currentTarget);
@@ -20,7 +33,7 @@ var Settings_UserColors_Js = {
 		var metod = target.data('metod');
 		
 		var callBackFunction = function(data) {
-			data.find('.editColorContainer').removeClass('hide');
+			data.find('.editColorContainer').removeClass('hide').show();
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val( closestTrElement.data('color') );
 			//register color picker
@@ -59,7 +72,7 @@ var Settings_UserColors_Js = {
 			}
 		}, {'width':'1000px'});
 	},
-	
+
 	updateEvent: function(e) {
 		var progress = $.progressIndicator({
 			'message' : app.vtranslate('Update labels'),
@@ -92,7 +105,7 @@ var Settings_UserColors_Js = {
 		}
 		params.async = false;
 		params.dataType = 'json';
-        AppConnector.request(params).then(
+		AppConnector.request(params).then(
 			function(data) {
 				var response = data['result'];
 				var params = {
@@ -100,14 +113,37 @@ var Settings_UserColors_Js = {
 					animation: 'show',
 					type: 'success'
 				};
+				app.hideModalWindow();
 				Vtiger_Helper_Js.showPnotify(params);
+				return response;
 			},
 			function(data, err) {}
-        );
+		);
+	},
+
+	registerSaveWorkingDays: function(content){
+		var thisInstance = this;
+		content.find('.workignDaysField').change(function(e) {
+			var target = $(e.currentTarget);
+			var params = {};
+			params['type'] = target.data('type');
+			params['param'] = target.attr('name');
+			if(target.attr('type') == 'checkbox'){
+				params['val'] = this.checked;
+			}else{
+				params['val'] = target.val();
+			}
+			app.saveAjax('updateNotWorkingDays', params).then(function (data) {
+				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
+			});
+		});
+
 	},
 	
 	registerEvents : function() {
 		Settings_UserColors_Js.initEvants();
+		var content = $('.workingDaysTable');
+        this.registerSaveWorkingDays(content);
 	}
 }
 $(document).ready(function(){

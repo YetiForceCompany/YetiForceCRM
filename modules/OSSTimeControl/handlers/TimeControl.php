@@ -10,6 +10,11 @@
  *************************************************************************************************************************************/
 class TimeControlHandler extends VTEventHandler {
 	function handleEvent($eventName, $data) {
+		if(!is_object ( $data )){
+			$extendedData = $data;
+			$data = $extendedData['entityData'];
+		}
+		
 		$moduleName = $data->getModuleName();
 		$record_id = $data->getId();
 		switch ($eventName) {
@@ -41,7 +46,7 @@ class TimeControlHandler extends VTEventHandler {
 					OSSTimeControl_Record_Model::recalculatePotentials( $data->get('potentialid') );
 				}
 			break;
-			case 'vtiger.entity.afterunlink':
+			case 'vtiger.entity.unlink.after':
 				if ($moduleName == 'OSSTimeControl') {
 					OSSTimeControl_Record_Model::recalculateTimeOldValues($record_id, $data);
 				}

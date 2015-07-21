@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Answer'                       => 'Antwort'                     , 
 	'Comments'                     => 'Kommentare'                  , 
 	'Draft'                        => 'Entwurf'                     , 
@@ -17,10 +17,10 @@ $languageStrings = array(
 	'LBL_ADD_RECORD'               => 'FAQ hinzufügen'              , 
 	'LBL_COMMENT_INFORMATION'      => 'Kommentar'                   , 
 	'LBL_FAQ_INFORMATION'          => 'Wissensbasis Information'    , 
-	'LBL_RECORDS_LIST'             => 'FAQ-Liste'                   , 
+	'LBL_RECORDS_LIST'             => 'Liste FAQ'                   , 
 	'LBL_SOLUTION'                 => 'Lösung'                     , 
 	'Obsolete'                     => 'veraltet'                    , 
 	'Published'                    => 'veröffentlicht'             , 
 	'Question'                     => 'Frage'                       , 
 	'SINGLE_Faq'                   => 'Wissensbasis'                , 
-);
+];

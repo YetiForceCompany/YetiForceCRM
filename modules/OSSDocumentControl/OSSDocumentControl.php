@@ -90,7 +90,7 @@ class OSSDocumentControl extends Vtiger_CRMEntity {
         if ($eventType == 'module.postinstall') {
             require_once 'modules/OSSDocumentControl/helpers/Tool.php';
             
-            Oss_Tool::addUitype15Field('Documents', 'LBL_NOTE_INFORMATION', array('Brak statusu', 'Sprawdzono'), 'ossdc_status');
+            Oss_Tool::addUitype15Field('Documents', 'LBL_NOTE_INFORMATION', array('None', 'Checked'), 'ossdc_status');
             
             $this->addLink($moduleName);
             $db->query("UPDATE vtiger_tab SET customized=0 WHERE name='$moduleName'");
@@ -117,14 +117,5 @@ class OSSDocumentControl extends Vtiger_CRMEntity {
         $fieldid = $db->getUniqueId('vtiger_settings_field');
         $db->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
 				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Document Control', '', 'LBL_DOCUMENT_CONTROL_DESCRIPTION', 'index.php?module=OSSDocumentControl&parent=Settings&view=Index'));
-        
-        
-        $module = Vtiger_Module::getInstance($moduleName);
-        $module->addLink('HEADERSCRIPT', $moduleName . 'JS', 'layouts/vlayout/modules/OSSDocumentControl/resources/OSSDocumentControlSave.js');
     }
-    
-
-    
-
-
 }

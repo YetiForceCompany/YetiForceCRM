@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Potential Name' => 'Name',
 	'LBL_GENERATING_COMMENT' => 'Chance aus der folgenden generiert:',
 	'LBL_GENERATED_OPPORTUNITIES_INFO' => '%s Verkaufschancen generiert ',
@@ -28,6 +28,7 @@ $languageStrings = array(
 	'New Business'=>'Neugeschäft',
 	'Next Step' => 'Nächster Schritt',
 	'--None--'=>'--Keine--',
+	'Payment balance' => 'Zahlungsbilanz',
 	'Potential No' => 'Verkaufschance Nummer',
 	'Potentials by Stage' => 'Verkaufschance nach Stufe',
 	'Potentials' => 'Verkaufschancen',
@@ -69,10 +70,10 @@ $languageStrings = array(
 	'Orders accepted'=>'Angenomene Aufträge',
 	
     //YetiForce
-	'Total time [Calculation]' => 'Gesamtzeit<br />[Kalkulation]',
-	'Total time [Potential]' => 'Gesamtzeit<br />[Chance]',
-	'Total time [Sales Order]' => '  Gesamtzeit<br />[Aufträge]',
-	'Total time [Quotes]' => ' Gesamtzeit<br />[Angebote]',
+	'Total time [Calculation]' => 'Gesamtzeit <br />[Kalkulation]',
+	'Total time [Potential]' => 'Gesamtzeit <br />[Chance]',
+	'Total time [Sales Order]' => '  Gesamtzeit <br />[Aufträge]',
+	'Total time [Quotes]' => ' Gesamtzeit <br />[Angebote]',
 	'Total time [Sum]' => 'Gesamt <br />[Gesamtsumme]',
 	'Total time [h]'=>'Gesamtzeit [h]',
 	'LBL_FINANSIAL_SUMMARY' => 'Finanzübersicht',
@@ -82,5 +83,5 @@ $languageStrings = array(
 	'Total price [Quotes]' => 'Gesamtwert der Angebote',
 	'Total price [Sales Order]' => 'Gesamtwert der Aufträge',
 	'Total price [Invoice]' => 'Gesamtwert der Rechnungen',
-	'Payment balance' => 'Payment balance',
-);
+	'PotentialsList'=>'Verkaufschancen',
+];

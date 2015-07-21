@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,7 +22,9 @@ $messages['sessionerror'] = 'Vaša relácia nie je platná alebo vypršala jej p
 $messages['storageerror'] = 'Nepodarilo sa spojiť s úložným serverom.';
 $messages['servererror'] = 'Chyba servera!';
 $messages['servererrormsg'] = 'Chyba servera: $msg';
+$messages['connerror'] = 'Chyba pri pripájaní (nepodarilo sa spojiť so serverom)!';
 $messages['dberror'] = 'Chyba databázy!';
+$messages['windowopenerror'] = 'Bolo zablokované vyskakovacie okno!';
 $messages['requesttimedout'] = 'Čas na vykonanie požiadavky uplynul';
 $messages['errorreadonly'] = 'Akciu nemožno vykonať. Priečinok je určený len na čítanie.';
 $messages['errornoperm'] = 'Akciu nemožno vykonať. Prístup bol odmietnutý.';
@@ -92,6 +94,7 @@ $messages['contactsearchsuccessful'] = 'Nájdené kontakty: $nr.';
 $messages['searchnomatch'] = 'Hľadaný výraz sa nenašiel.';
 $messages['searching'] = 'Vyhľadáva sa...';
 $messages['checking'] = 'Kontroluje sa...';
+$messages['stillsearching'] = 'Vyhľadávanie stále prebieha...';
 $messages['nospellerrors'] = 'Pri kontrole pravopisu neboli nájdené chyby.';
 $messages['folderdeleted'] = 'Priečinok bol úspešne vymazaný.';
 $messages['foldersubscribed'] = 'Prihlásenie k priečinku bolo úspešné.';
@@ -135,7 +138,7 @@ $messages['importmessagesuccess'] = 'Počet úspešne naimportovaných správ: $
 $messages['importmessageerror'] = 'Importovanie bolo neúspešné! Odoslaný súbor nie je platným súborom pre importovanie';
 $messages['opnotpermitted'] = 'Táto operácia nie je povolená!';
 $messages['nofromaddress'] = 'Pri vybranej identite chýba e-mailová adresa.';
-$messages['editorwarning'] = 'Prepnutie na editor čistého textu spôsobí stratu formátovania. Naozaj chcete pokračovať?';
+$messages['editorwarning'] = 'Prepnutie druhu editora môže spôsobiť stratu formátovania. Naozaj chcete pokračovať?';
 $messages['httpreceivedencrypterror'] = 'Vyskytla sa vážna chyba v konfigurácii. Ihneď kontaktujte administrátora. <b>Vašu správu nemožno odoslať.</b>';
 $messages['smtpconnerror'] = 'Chyba SMTP ($code): Neúspešné pripojenie k serveru.';
 $messages['smtpautherror'] = 'Chyba SMTP ($code): Neúspešná autentifikácia.';
@@ -174,4 +177,14 @@ $messages['parentnotwritable'] = 'Nemožno vytvoriť/presunúť priečinok do vy
 $messages['messagetoobig'] = 'Časť správy je príliš veľká na spracovanie.';
 $messages['attachmentvalidationerror'] = 'UPOZORNENIE! Táto príloha je podozrivá, pretože jej typ sa nezhoduje s typom uvedeným v správe. Ak odosielateľovi prílohy nedôverujete, nemali by ste prílohu otvárať. Môže totiž obsahovať škodlivý obsah.<br/><br/><em>Očakávaná hodnota: $expected; nájdená hodnota: $detected</em>';
 $messages['noscriptwarning'] = 'Upozornenie: Táto webmailová služba vyžaduje Javascript! Ak ju chcete používať, prosím aktivujte Javascript v nastaveniach svojho prehliadača.';
+$messages['messageissent'] = 'Správa už bola odoslaná, ešte však nebola uložená. Chcete ju uložiť teraz?';
+$messages['errnotfound'] = 'Súbor sa nenašiel';
+$messages['errnotfoundexplain'] = 'Požadovaný zdroj nebol nájdený!';
+$messages['errfailedrequest'] = 'Neúspešná požiadavka';
+$messages['errauthorizationfailed'] = 'Autorizácia bola neúspešná';
+$messages['errunauthorizedexplain'] = 'Nebolo možné overiť vašu autorizáciu na prístup k tejto službe!';
+$messages['errrequestcheckfailed'] = 'Kontrola požiadavky bola neúspešná';
+$messages['errcsrfprotectionexplain'] = "Kvôli vašej bezpečnosti je prístup k tomuto zdroju zabezpečený proti útokom typu CSRF.\nAk vidíte túto správu, pravdepodobne ste sa neodhlásili pred opustením webovej aplikácie.\n\nPre pokračovanie je teraz potrebný zásah človeka.";
+$messages['errcontactserveradmin'] = 'Prosím kontaktujte administrátora servera.';
+$messages['clicktoresumesession'] = 'Ak chcete pokračovať v predchádzajúcej relácii, prosím kliknite sem';
 ?>

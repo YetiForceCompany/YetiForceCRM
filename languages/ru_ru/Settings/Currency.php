@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Currency'	=>	'Валюта',
 	'LBL_ADD_NEW_CURRENCY' => 'Добавить Валюту',
 	'LBL_ADD_RECORD' => 'Добавить Валюту',
@@ -58,7 +58,7 @@ $languageStrings = array(
 	'El Salvador, Colón' 	=> 'El Salvador, Colón',
 	'England, Pounds' 		=> 'England, Pounds',
 	'Estonia, Krooni' 		=> 'Estonia, Krooni',
-	'Euro' 					=> 'Euro',
+	'Euro' => 'Евро',
 	'Falkland Islands, Pounds' => 'Falkland Islands, Pounds',
 	'Fiji, Dollars' => 'Fiji, Dollars',
 	'Ghana, Cedis' 	=> 'Ghana, Cedis',
@@ -117,7 +117,7 @@ $languageStrings = array(
 	'Poland, Zlotych' 		=> 'Poland, Zlotych',
 	'Qatar, Rials'			=> 'Qatar, Rials',
 	'Romania, New Lei' 		=> 'Romania, New Lei',
-	'Russia, Rubles'		=> 'Россия, Рубль',
+	'Russia, Rubles' => 'Российский рубль',
 	'Saint Helena, Pounds' => 'Saint Helena, Pounds',
 	'Saudi Arabia, Riyals' => 'Saudi Arabia, Riyals',
 	'Serbia, Dinars' 		=> 'Serbia, Dinars',
@@ -145,7 +145,7 @@ $languageStrings = array(
 	'United Kingdom, Pounds' => 'United Kingdom, Pounds',
 	'United Republic of Tanzania, Shilling' => 'United Republic OF Tanzania, Shilling',
 	'Uruguay, Pesos' 		=> 'Uruguay, Pesos',
-	'USA, Dollars' 			=> 'USA, Dollars',
+	'USA, Dollars' => 'Доллар',
 	'Uzbekistan, Sums' 		=> 'Uzbekistan, Sums',
 	'Venezuela, Bolivares Fuertes' => 'Venezuela, Bolivares Fuertes',
 	'Vietnam, Dong' 		=> 'Vietnam, Dong',
@@ -156,9 +156,9 @@ $languageStrings = array(
 	'Currency Name' => 'Валюта',
 	'Symbol' => 'Символ',
 	'Conversion Rate' => 'Курс',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CURRENCY_DELETED_SUCCESSFULLY' => 'Валюта успешно удалена',
 	'JS_CURRENCY_DETAILS_SAVED' => 'Данные Валюты сохранены',
-);
+];

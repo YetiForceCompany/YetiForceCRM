@@ -57,9 +57,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			});
 			
 			var callBackFunction = function(data) {
-				data.find('.addBlockDashBoardModal').removeClass('hide');
 				//register all select2 Elements
-				app.showSelect2ElementView(data.find('select'));
+				app.changeSelectElementView(data.find('select'));
 				
 				var form = data.find('.addBlockDashBoardForm');
 				var params = app.validationEngineOptions;
@@ -151,9 +150,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		var contents = jQuery('#layoutDashBoards');
 		var newBlockCloneCopy = contents.find('.newCustomBlockCopy').clone(true, true);
 		newBlockCloneCopy.data('block-id', result['id']).find('.blockLabel span').append(jQuery('<strong>'+result['label']+'</strong>'));
-		newBlockCloneCopy.find('.addCustomField').removeClass('hide');
+		newBlockCloneCopy.find('.addCustomField').removeClass('hide').show();
 		newBlockCloneCopy.find('.specialWidget').data('block-id', result['id']);
-		contents.find('#moduleBlocks').append(newBlockCloneCopy.removeClass('hide newCustomBlockCopy').addClass('editFieldsTable block_'+result['id']).data('code', result['authorized']));
+		contents.find('#moduleBlocks').append(newBlockCloneCopy.removeClass('newCustomBlockCopy hide').addClass('editFieldsTable block_'+result['id']).data('code', result['authorized']));
 	},
 	
 
@@ -181,22 +180,18 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				}
 			});
 			if(jQuery.inArray(selectWidgets.find(':first-child').data('name'),thisInstance.widgetWithFilterUsers) != -1){
-				addFieldContainer.find('.widgetFilter').removeClass('hide').find('select').removeAttr('disabled');
+				addFieldContainer.find('.widgetFilter').removeClass('hide').find('select').removeAttr('disabled').show();
 			}
-			
-			addFieldContainer.removeClass('hide');
 			
 			var callBackFunction = function(data) {
 				//register all select2 Elements
-				app.showSelect2ElementView(data.find('select'));
+				app.changeSelectElementView(data.find('select'),'select2');
 				var elementsToFilter = data.find('.widgetFilter');
 				data.find('select.widgets').on('change', function(){
 					if(jQuery.inArray(jQuery(this).find(':selected').data('name'),thisInstance.widgetWithFilterUsers) != -1){
-						elementsToFilter.removeClass('hide').find('select').select2('destroy').removeAttr('disabled');
-						app.showSelect2ElementView(elementsToFilter.find('select'));
+						elementsToFilter.removeClass('hide').find('select').prop('disabled', false);
 					}else{
-						elementsToFilter.addClass('hide').find('select').select2('destroy').attr('disabled', 'disabled');
-						app.showSelect2ElementView(elementsToFilter.find('select'));
+						elementsToFilter.addClass('hide').find('select').prop('disabled', true);
 					}
 				});
 				
@@ -236,7 +231,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 										app.hideModalWindow();
 										paramsForm['id'] = result['id']
 										paramsForm['status'] = result['status']
-										params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
+										params['text'] = app.vtranslate('JS_WIDGET_ADDED');
 										Settings_Vtiger_Index_Js.showMessage(params);
 										thisInstance.showCustomField(paramsForm);
 									} else {
@@ -286,7 +281,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		if(!result['status'])
 			fieldContainer.find('input[name="limit"]').closest('div').remove();
 		if(typeof result['default_owner'] != 'undefined')
-			fieldContainer.find('.widgetFilterAll').removeClass('hide');
+			fieldContainer.find('.widgetFilterAll').removeClass('hide').show();
 		
 		var block = relatedBlock.find('.blockFieldsList');
 		var sortable1 = block.find('ul[name=sortable1]');
@@ -516,7 +511,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 								app.hideModalWindow();
 								noteBookParams['id'] = widgetId;
 								noteBookParams['label'] = notePadName;
-								params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
+								params['text'] = app.vtranslate('JS_WIDGET_ADDED');
 								Settings_Vtiger_Index_Js.showMessage(params);
 								thisInstance.showCustomField(noteBookParams);
 							}
@@ -553,7 +548,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			var fieldsSelect2 = app.showSelect2ElementView(fieldsSelectDOM, {
 				placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
 				closeOnSelect: true,
-				maximumSelectionSize: 6
+				maximumSelectionLength: 6
 			});
 			var footer = jQuery('.modal-footer', wizardContainer);
 
@@ -585,6 +580,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					filterid: filteridSelect2.val()
 				}).then(function(res){
 					fieldsSelectDOM.empty().html(res).trigger('change');
+					fieldsSelect2.data('select2').$selection.find('.select2-search__field').css('width','100%');
 					fieldsSelect2.closest('tr').show();
 				});
 			});
@@ -618,7 +614,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			if (typeof fields != 'object') fields = [fields];
 			data['fields'] = fields;
 
-			paramsForm = {};
+			var paramsForm = {};
 			paramsForm['data'] = JSON.stringify(data);
 			paramsForm['action'] = 'addWidget';
 			paramsForm['blockid'] = element.data('block-id');;
@@ -640,7 +636,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 						app.hideModalWindow();
 						paramsForm['id'] = result['id'];
 						paramsForm['status'] = result['status'];
-						params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
+						params['text'] = app.vtranslate('JS_WIDGET_ADDED');
 						Settings_Vtiger_Index_Js.showMessage(params);
 						thisInstance.showCustomField(paramsForm);
 					} else {
@@ -766,7 +762,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		var container = jQuery('#widgetsManagementEditorContainer');
 		var contentsDiv = container.closest('.contentsDiv');
 
-		app.showSelect2ElementView(container.find('[name="widgetsManagementEditorModules"]'), {dropdownCss : {'z-index' : 0}});
+		app.changeSelectElementView(container.find('[name="widgetsManagementEditorModules"]'), {dropdownCss : {'z-index' : 0}});
 
 		container.on('change', '[name="widgetsManagementEditorModules"]', function(e) {
 			var currentTarget = jQuery(e.currentTarget);

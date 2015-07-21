@@ -1,26 +1,56 @@
 {if count($DATA2)}
-<div style="width: 80%;  margin: auto; text-align: center; ">
-    {vtranslate('LBL_TOTAL_TIME')}<br/>
-    {vtranslate('LBL_SUMMARY')}<br/>
-			<canvas id="sTP" height="350" width="800"></canvas>
-</div>
-<script>
-	var barChartData = {
-		labels : [{foreach from=$DATA2 item=record key=key name=dataloop}"{strip_tags($record[1])}"{if !$smarty.foreach.dataloop.last},{/if}{/foreach}],
-		datasets : [
-			{
-				fillColor : "rgba(220,220,220,0.5)",
-				strokeColor : "rgba(220,220,220,0.8)",
-				highlightFill: "rgba(220,220,220,0.75)",
-				highlightStroke: "rgba(220,220,220,1)",
-				data : [{foreach from=$DATA2 item=record key=key name=dataloop2}"{$record[0]}"{if !$smarty.foreach.dataloop2.last},{/if}{/foreach}]
-			},		
-		]
-	};
-	$(document).ready(function(){
-        
-		var ctx = document.getElementById("sTP").getContext("2d");
-		window.myBar = new Chart(ctx).Bar(barChartData);
-	});
-</script>
+{literal}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			function generateData() {
+				var jData = $('.timeProjectData').val();
+				var data = JSON.parse(jData);  
+				var chartData = [];
+				for(var index in data) {
+					chartData.push(data[index]);
+					chartData[data[index].id] = data[index];
+				}
+
+				return {'chartData':chartData, 'ticks': data['ticks']};
+			}
+			$(function () {
+				var chartData = generateData();
+				var css_id = "#timeProject";
+				var options = {
+					xaxis: {
+						minTickSize: 0,
+						ticks: false
+					},
+					yaxis: { 
+						min: 0 ,
+						tickDecimals: 0,
+					},
+					series: {
+						bars: {
+							show: true,
+							barWidth: 0.9,
+							dataLabels: false,
+							align: "center",
+							lineWidth: 0
+						},
+						stack: true
+					}
+				};
+				$.plot($(css_id), chartData['chartData'], options);
+		
+			});
+		});
+{/literal}
+	</script>
+	<div style="width: 80%; margin: auto; text-align:center;margin-bottom:20px;">
+		{vtranslate('LBL_TOTAL_TIME')}<br/>
+		{vtranslate('LBL_SUMMARY')}<br/>
+		<input class="timeProjectData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA2))}' />
+		<div id="timeProject" style="height:400px;width:100%;"></div>
+	</div>
+{else}
+	<div class="alert alert-warning">
+		<p>{vtranslate('LBL_TOTAL_TIME')} {vtranslate('LBL_SUMMARY')} </p>
+		{vtranslate('LBL_RECORDS_NO_FOUND')}
+	</div>	
 {/if}

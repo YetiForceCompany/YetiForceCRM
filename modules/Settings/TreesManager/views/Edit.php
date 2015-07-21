@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,17 +7,20 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View {
+ * *********************************************************************************************************************************** */
 
-	public function process(Vtiger_Request $request) {
-		$viewer = $this->getViewer ($request);
+class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
+{
+
+	public function process(Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->get('record');
 		$sourceModuleId = '';
 		$access = 1;
-		if(!empty($record)) {
+		if (!empty($record)) {
 			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($record);
 			$sourceModuleId = $recordModel->get('module');
 			$viewer->assign('MODE', 'edit');
@@ -25,10 +28,9 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View {
 		} else {
 			$recordModel = new Settings_TreesManager_Record_Model();
 			$viewer->assign('MODE', '');
-			$recordModel->set('lastId',0);
+			$recordModel->set('lastId', 0);
 		}
 		$tree = $recordModel->getTree();
-		//echo '<pre>', print_r($tree); echo '</pre>'; exit;
 		$viewer->assign('TREE', Zend_Json::encode($tree));
 		$viewer->assign('LAST_ID', $recordModel->get('lastId'));
 		$viewer->assign('RECORD_MODEL', $recordModel);
@@ -40,14 +42,14 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
-	
-	public function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+
+	public function getFooterScripts(Vtiger_Request $request)
+	{
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'~libraries/jquery/jstree/jquery.jstree.js',
-			'~libraries/jquery/jstree/jquery.hotkeys.js',
+			'~libraries/jquery/jstree/jstree.min.js',
 			"modules.Settings.$moduleName.resources.Edit",
 		);
 
@@ -56,7 +58,8 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View {
 		return $headerScriptInstances;
 	}
 
-	function getHeaderCss(Vtiger_Request $request) {
+	function getHeaderCss(Vtiger_Request $request)
+	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
 		$cssFileNames = array(

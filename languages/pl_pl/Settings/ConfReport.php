@@ -8,14 +8,14 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ConfReport' => 'Konfiguracja serwera',
 	'LBL_CONFIGURATION' => 'Konfiguracja serwera',
 	'LBL_CONFREPORT_DESCRIPTION' => 'Pozwala zweryfikować czy najważniejsze ustawienia serwera są zgodne z zalecanymi.',
 	'LBL_PARAMETER' => 'Parametr',
 	'LBL_VALUE' => 'Aktualna konfiguracja',
 	'LBL_RECOMMENDED' => 'Zalecana konfiguracja',
-	'LBL_FILES_PERMISSIONS' => 'Uprawnienia do plików',
+	'LBL_FILES_PERMISSIONS' => 'Pliki/Foldery',
 	'LBL_FILE' => 'Nazwa',
 	'LBL_PATH' => 'Ścieżka',
 	'LBL_PERMISSION' => 'Dostęp',	
@@ -23,5 +23,25 @@ $languageStrings = array(
 	'LBL_FAILED_PERMISSION' => 'Brak uprawnień',	
 	'On' => 'Włączony',
 	'Off' => 'Wyłączony',
-	'NOT RECOMMENDED' => 'Niezalecany'
-);
+	'NOT RECOMMENDED' => 'Niezalecany',
+	'LBL_YETIFORCE_ENGINE' => 'Niezalecany',
+	'LBL_YETIFORCE_ENGINE' => 'YetiForce Engine',
+	'LBL_CHECK_CONFIG' => 'RoundCube Engine',
+	
+	'LBL_MANDATORY' => 'Obowiązkowe',
+	'LBL_OPTIONAL' => 'Opcjonalne',
+	'LBL_LIBRARY' => 'Wsparcie dla bibliotek',
+	'LBL_INSTALLED' => 'Zainstalowana',
+	'LBL_PDO_SUPPORT'=>'PDO',
+	'LBL_OPEN_SSL'=>'openssl',
+	'LBL_CURL'=>'cURL',
+	'LBL_ZLIB_SUPPORT' => 'Zlib',
+	'LBL_IMAP_SUPPORT' => 'IMAP',
+	'LBL_GD_LIBRARY' => 'GD',
+	'LBL_LDAP_LIBRARY' => 'LDAP',
+	'LBL_PCRE_LIBRARY' => 'PCRE',
+	'LBL_XML_LIBRARY' => 'XML',
+	'LBL_JSON_LIBRARY' => 'JSON',
+	'LBL_SESSION_LIBRARY' => 'SESSION',
+	'LBL_DOM_LIBRARY' => 'DOM',
+];

@@ -18,7 +18,6 @@ class mt940_BGK extends mt940{
 	
 	protected function parseLine($line) {
 		$tag = substr($line, 1, strpos($line, ':', 1)-1);
-		echo '<pre>';print_r($tag);echo '</pre>';
 		$value = trim(substr($line, strpos($line, ':', 1)+1));
 		switch($tag) {
 			case '20':

@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 20/05/2014 - www.ttcasolucoes.com.br
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
         'HTTP_ERROR' => 'O website que você está tentando abrir não é seguro e pode não abrir. Se mesmo assim quiser visualizar a página, então poderá clicar sobre o bloqueador de conteúdo na barra de endereço e habilita-lo.',
 	'LBL_ADD_BOOKMARK' => 'Adicionar Favorito',
 	'LBL_ADD_NEW_BOOKMARK' => 'Adicionar Novo Favorito',
@@ -27,8 +27,8 @@ $languageStrings = array(
 	'LBL_RECORD_DELETED_SUCCESSFULLY' => 'Registro apagado com sucesso',
 	'Portal' => 'Nossos Sites',
 	'SINGLE_Portal' => 'Nosso Site',
-);
+];
 
-$jsLanguageStrings = array(
-    
-);
+$jsLanguageStrings = [
+	'JS_ENTER_MANDATORY_FIELD' => 'Please enter all mandatory field',    
+];

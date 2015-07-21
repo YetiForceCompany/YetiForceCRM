@@ -9,12 +9,12 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-vimport('~~/modules/Calendar/iCal/iCalendar_rfc2445.php');
-vimport('~~/modules/Calendar/iCal/iCalendar_components.php');
-vimport('~~/modules/Calendar/iCal/iCalendar_properties.php');
-vimport('~~/modules/Calendar/iCal/iCalendar_parameters.php');
-vimport('~~/modules/Calendar/iCal/ical-parser-class.php');
-vimport('~~/modules/Calendar/iCalLastImport.php');
+vimport('~modules/Calendar/iCal/iCalendar_rfc2445.php');
+vimport('~modules/Calendar/iCal/iCalendar_components.php');
+vimport('~modules/Calendar/iCal/iCalendar_properties.php');
+vimport('~modules/Calendar/iCal/iCalendar_parameters.php');
+vimport('~modules/Calendar/iCal/ical-parser-class.php');
+vimport('~modules/Calendar/iCalLastImport.php');
 
 class Calendar_Import_View extends Vtiger_Import_View {
 

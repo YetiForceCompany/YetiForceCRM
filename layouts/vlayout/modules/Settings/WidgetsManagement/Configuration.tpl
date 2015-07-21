@@ -1,4 +1,4 @@
-{*/*+***********************************************************************************************************************************
+﻿{*/*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -28,16 +28,16 @@ margin-left: 20px;
 padding: 20px 20px 20px 20px;
 }
 </style>
-<div class="container-fluid" id="widgetsManagementEditorContainer">
+<div class="" id="widgetsManagementEditorContainer">
 		<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
-		<div class="widget_header row-fluid">
-			<div class="span8">
+		<div class="widget_header row">
+			<div class="col-md-10">
 				<h3>{vtranslate('LBL_WIDGETS_MANAGEMENT', $QUALIFIED_MODULE)}</h3>
 				{vtranslate('LBL_WIDGETS_MANAGEMENT_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
-			<div class="span4">
-				<div class="pull-right">
-					<select class="select2 span3" name="widgetsManagementEditorModules">
+			<div class="col-md-2">
+				<div class="col-md-12 pull-right">
+					<select class="chzn-select form-control" name="widgetsManagementEditorModules">
 						{foreach item=mouleName from=$SUPPORTED_MODULES}
 							<option value="{$mouleName}" {if $mouleName eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($mouleName, $QUALIFIED_MODULE)}</option>
 						{/foreach}
@@ -52,7 +52,7 @@ padding: 20px 20px 20px 20px;
 		
 	<div class="tab-pane active" id="layoutDashBoards">
 		<div class="btn-toolbar">
-			<button type="button" class="btn addBlockDashBoard"><i class="icon-plus"></i>&nbsp;{vtranslate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</button>
+			<button type="button" class="btn btn-default addBlockDashBoard"><span class="glyphicon glyphicon-plus"></span>&nbsp;{vtranslate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</button>
 		</div>
 		
 		<div id="moduleBlocks">
@@ -60,58 +60,58 @@ padding: 20px 20px 20px 20px;
 			{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
 				{assign var=AUTHORIZATION_NAME value=$AUTHORIZATION_INFO.name}
 				<div id="block_{$AUTHORIZATION_KEY}" class="editFieldsTable block_{$AUTHORIZATION_KEY} marginBottom10px border1px blockSortable" data-block-id="{$AUTHORIZATION_KEY}" data-sequence="" data-code="{$AUTHORIZATION_INFO.code}" style="border-radius: 4px 4px 0px 0px;background: white;">
-					<div class="row-fluid layoutBlockHeader">
-						<div class="blockLabel span5 padding10 ">
+					<div class="row layoutBlockHeader no-margin">
+						<div class="blockLabel col-md-5 padding10 ">
 							<span class="marginLeft20">
 								<strong>{vtranslate($AUTHORIZATION_NAME, $SELECTED_MODULE_NAME)}</strong>
 							</span>
 						</div>
-						<div class="span6 marginLeftZero" style="float:right !important;">
-							<span class="padding10 pull-right actions">
-								<a href="javascript:void(0)" class="deleteCustomBlock" >
-									<i class="icon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i>
-								</a>
-							</span>
+						<div class="col-md-6 marginLeftZero" style="float:right !important;">
 							<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
 								<div class="btn-group">
-									<button class="btn addCustomField" type="button"><i class="icon-plus"></i>&nbsp;
+									<button class="btn btn-default addCustomField" type="button"><span class="glyphicon glyphicon-plus"></span>&nbsp;
 										<strong>{vtranslate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 									</button>
 								</div>
 								{if $SELECTED_MODULE_NAME eq 'Home'}
 									{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 									<div class="btn-group">
-										<button class="btn addMiniList" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><i class="icon-plus"></i>&nbsp;
+										<button class="btn btn-default addMiniList" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
 											<strong>{vtranslate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
 									{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 									<div class="btn-group">
-										<button class="btn addNotebook" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><i class="icon-plus"></i>&nbsp;
+										<button class="btn btn-default addNotebook" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
 											<strong>{vtranslate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 										</button>
+									</div>
+									<div class="btn-group actions">
+										<a href="javascript:void(0)" class="deleteCustomBlock" >
+											<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
+										</a>
 									</div>
 								{/if}
 							</div>
 						</div>
 						
 					</div>
-					<div class="blockFieldsList blockFieldsSortable row-fluid" style="padding:5px;min-height: 27px">
-						<ul name="sortable1" class="connectedSortable span6" style="list-style-type: none; float: left;min-height: 1px;padding:2px;">
+					<div class="blockFieldsList blockFieldsSortable row" style="padding:5px;min-height: 27px">
+						<ul name="sortable1" class="connectedSortable col-md-6" style="list-style-type: none; float: left;min-height: 1px;padding:2px;">
 							{assign var=WIDGETS_AUTHORIZATION value=$WIDGETS_AUTHORIZATION_INFO.$AUTHORIZATION_KEY}
 							{foreach item=WIDGET_MODEL from=$WIDGETS_AUTHORIZATION name=fieldlist}
 								{assign var=WIDGET_INFO value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('data')))}
 								{assign var=LINKID value=$WIDGET_MODEL->get('linkid')}
 								{if $smarty.foreach.fieldlist.index % 2 eq 0}
-									<li>
+									<li class="col-md-12">
 										<div class="opacity editFieldsWidget marginLeftZero border1px" data-block-id="{$AUTHORIZATION_KEY}" data-field-id="{$WIDGET_MODEL->get('id')}" data-linkid="{$LINKID}" data-sequence="">
-											<div class="row-fluid padding1per">
-												<div class="span10 " style="word-wrap: break-word;">
+											<div class="row padding1per">
+												<div class="col-md-10 " style="word-wrap: break-word;">
 													<span class="fieldLabel marginLeft20">{vtranslate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</span>
 												</div>
 												<span class="btn-group pull-right marginRight20 actions">
 													<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-														<i class="icon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
+														<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 													</a>
 													<div class="basicFieldOperations hide pull-right" style="width : 375px;">
 														<form class="form-horizontal fieldDetailsForm" method="POST">
@@ -120,77 +120,77 @@ padding: 20px 20px 20px 20px;
 																<div class="pull-right"><a href="javascript:void(0)" class='cancel'>X</a></div>
 															</div>
 															<div class="clearfix">
-																<div class="row-fluid" style="padding: 5px; ">
-																	<span class="span3" style="text-align:center">
+																<div class="row" style="padding: 5px; ">
+																	<div class="col-md-3" style="text-align:center">
 																		<input type="checkbox" name="isdefault" class="" {if $WIDGET_MODEL->get('isdefault') eq 1} checked {/if}>
-																	</span>	
-																	<label class="span9 marginTop5 pull-left" >
+																	</div>	
+																	<label class="col-md-9 marginTop5 pull-left" >
 																		&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}&nbsp;
 																	</label>
 																</div>
 																{assign var=WIDGET_SIZE value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('size')))}
-																<div class="row-fluid" style="padding: 5px; ">
-																	<span class="span3" style="text-align:center">
-																		<select class="width span1 pull-left" name="width" >
+																<div class="row" style="padding: 5px; ">
+																	<div class="col-md-3" style="text-align:center">
+																		<select class="width col-md-1 pull-left form-control" name="width" >
 																			{foreach from=$SIZE.width item=item}
 																				<option value="{$item}" {if $WIDGET_SIZE.width eq $item} selected {/if}>{$item}</option>
 																			{/foreach}
 																		</select>
-																	</span>	
-																	<label  class="span9 marginTop5 pull-left" >
+																	</div>	
+																	<label  class="col-md-9 marginTop5 pull-left" >
 																		&nbsp;{vtranslate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
 																	</label>
 																</div>
-																<div class="row-fluid" style="padding: 5px; ">
-																	<span class="span3" style="text-align:center">
-																		<select class="height span1 pull-left" name="height">
+																<div class="row" style="padding: 5px; ">
+																	<div class="col-md-3" style="text-align:center">
+																		<select class="height col-md-1 pull-left form-control" name="height">
 																			{foreach from=$SIZE.height item=item}
 																				<option value="{$item}" {if $WIDGET_SIZE.height eq $item} selected {/if}>{$item}</option>
 																			{/foreach}
 																		</select>
-																	</span>
-																	<label class="span9 marginTop5 pull-left" >
+																	</div>
+																	<label class="col-md-9 marginTop5 pull-left" >
 																		&nbsp;{vtranslate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
 																	</label>	
 																</div>
 																{if in_array($WIDGET_MODEL->get('linklabel'), $TITLE_OF_LIMIT) }
-																<div class="row-fluid" style="padding: 5px; ">
-																	<span class="span3" style="text-align:center">
-																		<input type="text" name="limit" class="span1" value="{$WIDGET_MODEL->get('limit')}" >
-																	</span>
-																	<label class="span9 marginTop5 pull-left" >
+																<div class="row" style="padding: 5px; ">
+																	<div class="col-md-3" style="text-align:center">
+																		<input type="text" name="limit" class="col-md-1 form-control" value="{$WIDGET_MODEL->get('limit')}" >
+																	</div>
+																	<label class="col-md-9 marginTop5 pull-left" >
 																		&nbsp;{vtranslate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}&nbsp;
 																	</label>
 																</div>
 																{/if}
 															</div>
 															{if in_array($WIDGET_MODEL->get('linklabel'),$WIDGETS_WITH_FILTER_USERS)}
-																<div class="row-fluid " style="padding: 0px; border-top:1px solid #dddddd ">
+																<div style="border-top:1px solid #dddddd ">
 																	{assign var=WIDGET_OWNERS value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('owners')))}
-																	<div class="row-fluid" style="padding: 5px; ">
-																		<span class="span5">
-																			<select class="widgetFilter span2" id="owner" name="default_owner">
+																	
+																		<div class="col-md-5">
+																			<select class="widgetFilter col-md-2 form-control" id="owner" name="default_owner">
 																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
 																					<option value="{$OWNER_ID}" {if $WIDGET_OWNERS.default eq $OWNER_ID} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 																				{/foreach}
 																			</select>
-																		</span>
-																		<label class="span7 marginTop5 pull-left" >
+																		</div>
+																		<label class="col-md-7 marginTop5 pull-left" >
 																			&nbsp;{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}&nbsp;
 																		</label>
-																	</div>	
+																	
 																	{if !is_array($WIDGET_OWNERS.available)}
 																		{$WIDGET_OWNERS.available = array($WIDGET_OWNERS.available)}
 																	{/if}
-																	<div class="row-fluid" style="padding: 5px; ">
-																		<span class="span8">
-																			<select class="widgetFilter span3" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
+																	<div>
+																		<div class="col-md-8">
+																			<select class="widgetFilter col-md-3" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
 																					<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 																				{/foreach}
 																			</select>
-																		</span>
-																		<label class="span4 marginTop5 pull-left" >
+																		</div>
+																		<label class="col-md-4 marginTop5 pull-left" >
 																			&nbsp;{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}&nbsp;
 																		</label>
 																	</div>	
@@ -207,7 +207,7 @@ padding: 20px 20px 20px 20px;
 														</form>
 													</div>
 													<a href="javascript:void(0)" class="deleteCustomField" data-field-id="{$WIDGET_MODEL->get('id')}">
-														<i class="icon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i>
+														<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 													</a>
 												</span>
 											</div>
@@ -216,21 +216,21 @@ padding: 20px 20px 20px 20px;
 								{/if}
 							{/foreach}
 						</ul>
-						<ul name="sortable2" class="connectedSortable span6" style="list-style-type: none; margin: 0; float: left;min-height: 1px;padding:2px;">
+						<ul name="sortable2" class="connectedSortable col-md-6" style="list-style-type: none; margin: 0; float: left;min-height: 1px;padding:2px;">
 							{foreach item=WIDGET_MODEL from=$WIDGETS_AUTHORIZATION name=fieldlist1}
 								{assign var=WIDGET_INFO value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('data')))}
 								{assign var=LINKID value=$WIDGET_MODEL->get('linkid')}
 								{if $smarty.foreach.fieldlist1.index % 2 neq 0}
-									<li>
+									<li class="col-md-12">
 										<div class="opacity editFieldsWidget marginLeftZero border1px" data-block-id="{$AUTHORIZATION_KEY}" data-field-id="{$WIDGET_MODEL->get('id')}" data-linkid="{$LINKID}" data-sequence="">
-											<div class="row-fluid padding1per">
-												<div class="span10 " style="">
+											<div class="row padding1per">
+												<div class="col-md-10 " style="">
 													<span class="fieldLabel marginLeft20">{vtranslate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</span>
 													
 												</div>
 												<span class="btn-group pull-right marginRight20 actions">
 													<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-														<i class="icon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
+														<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 													</a>
 													<div class="basicFieldOperations hide pull-right" style="width: 375px;">
 														<form class="form-horizontal fieldDetailsForm" method="POST">
@@ -239,77 +239,77 @@ padding: 20px 20px 20px 20px;
 																<div class="pull-right"><a href="javascript:void(0)" class='cancel'>X</a></div>
 															</div>
 															<div class="clearfix">
-																<div class="row-fluid" style="padding: 5px; ">
-																	<span class="span3" style="text-align:center">
+																<div class="row" style="padding: 5px; ">
+																	<span class="col-md-3" style="text-align:center">
 																		<input type="checkbox" name="isdefault" class="" {if $WIDGET_MODEL->get('isdefault') eq 1} checked {/if}>
 																	</span>	
-																	<label class="span9 marginTop5 pull-left" >
+																	<label class="col-md-9 marginTop5 pull-left" >
 																		&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}&nbsp;
 																	</label>
 																</div>
 																{assign var=WIDGET_SIZE value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('size')))}
-																<div class="row-fluid" style="padding: 5px; ">
-																	<span class="span3" style="text-align:center">
-																		<select class="width span1 pull-left" name="width" >
+																<div class="row" style="padding: 5px; ">
+																	<span class="col-md-3" style="text-align:center">
+																		<select class="width col-md-1 pull-left form-control" name="width" >
 																			{foreach from=$SIZE.width item=item}
 																				<option value="{$item}" {if $WIDGET_SIZE.width eq $item} selected {/if}>{$item}</option>
 																			{/foreach}
 																		</select>
 																	</span>	
-																	<label  class="span9 marginTop5 pull-left" >
+																	<label  class="col-md-9 marginTop5 pull-left" >
 																		&nbsp;{vtranslate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
 																	</label>
 																</div>
-																<div class="row-fluid" style="padding: 5px; ">
-																	<span class="span3" style="text-align:center">
-																		<select class="height span1 pull-left" name="height">
+																<div class="row" style="padding: 5px; ">
+																	<span class="col-md-3" style="text-align:center">
+																		<select class="height col-md-1 pull-left form-control" name="height">
 																			{foreach from=$SIZE.height item=item}
 																				<option value="{$item}" {if $WIDGET_SIZE.height eq $item} selected {/if}>{$item}</option>
 																			{/foreach}
 																		</select>
 																	</span>
-																	<label class="span9 marginTop5 pull-left" >
+																	<label class="col-md-9 marginTop5 pull-left" >
 																		&nbsp;{vtranslate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
 																	</label>	
 																</div>
 																{if in_array($WIDGET_MODEL->get('linklabel'), $TITLE_OF_LIMIT) }
-																<div class="row-fluid" style="padding: 5px; ">
-																	<span class="span3" style="text-align:center">
-																		<input type="text" name="limit" class="span1" value="{$WIDGET_MODEL->get('limit')}" >
+																<div class="row" style="padding: 5px; ">
+																	<span class="col-md-3" style="text-align:center">
+																		<input type="text" name="limit" class="col-md-1 form-control" value="{$WIDGET_MODEL->get('limit')}" >
 																	</span>
-																	<label class="span9 marginTop5 pull-left" >
+																	<label class="col-md-9 marginTop5 pull-left" >
 																		&nbsp;{vtranslate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}&nbsp;
 																	</label>
 																</div>
 																{/if}
 															</div>
 															{if in_array($WIDGET_MODEL->get('linklabel'),$WIDGETS_WITH_FILTER_USERS)}
-																<div class="row-fluid " style="padding: 0px; border-top:1px solid #dddddd ">
+																<div class="row " style="padding: 0px; border-top:1px solid #dddddd ">
 																	{assign var=WIDGET_OWNERS value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('owners')))}
-																	<div class="row-fluid" style="padding: 5px; ">
-																		<span class="span5">
-																			<select class="widgetFilter span2" id="owner" name="default_owner">
+																	
+																		<div class="col-md-5">
+																			<select class="widgetFilter col-md-2 form-control" id="owner" name="default_owner">
 																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
 																					<option value="{$OWNER_ID}" {if $WIDGET_OWNERS.default eq $OWNER_ID} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 																				{/foreach}
 																			</select>
-																		</span>
-																		<label class="span7 marginTop5 pull-left" >
+																		</div>
+																		<label class="col-md-7 marginTop5 pull-left" >
 																			&nbsp;{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}&nbsp;
 																		</label>
-																	</div>	
+																	
 																	{if !is_array($WIDGET_OWNERS.available)}
 																		{$WIDGET_OWNERS.available = array($WIDGET_OWNERS.available)}
 																	{/if}
-																	<div class="row-fluid" style="padding: 5px; ">
-																		<span class="span8">
-																			<select class="widgetFilter span3" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
+																	<div class="">
+																		<span class="col-md-8">
+																			<select class="widgetFilter col-md-3" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
 																					<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 																				{/foreach}
 																			</select>
 																		</span>
-																		<label class="span4 marginTop5 pull-left" >
+																		<label class="col-md-4 marginTop5 pull-left" >
 																			&nbsp;{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}&nbsp;
 																		</label>
 																	</div>	
@@ -326,7 +326,7 @@ padding: 20px 20px 20px 20px;
 														</form>
 													</div>
 													<a href="javascript:void(0)" class="deleteCustomField" data-field-id="{$WIDGET_MODEL->get('id')}">
-														<i class="icon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i>
+														<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 													</a>
 												</span>
 											</div>
@@ -339,21 +339,25 @@ padding: 20px 20px 20px 20px;
 				</div>
 			{/foreach}
 		</div>
-{* copy elements hide *}		
-		<div class="modal addBlockDashBoardModal hide">
+{* copy elements hide *}	
+
+
+		<div class="modal addBlockDashBoardModal fade">
+			<div class="modal-dialog">
+			<div class="modal-content">
 			<div class="modal-header contentsBackground">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>{vtranslate('LBL_ADD_DASHBOARD_BLOCK', $QUALIFIED_MODULE)}</h3>
+				<h3 class="modal-title">{vtranslate('LBL_ADD_DASHBOARD_BLOCK', $QUALIFIED_MODULE)}</h3>
 			</div>
 			<form class="form-horizontal addBlockDashBoardForm">
 				<div class="modal-body">
-					<div class="control-group">
-						<span class="control-label">
+					<div class="form-group">
+						<div class="col-sm-4 control-label">
 							<span>{vtranslate('LBL_CHOISE_AUTHORIZED', $QUALIFIED_MODULE)}</span>
 							<span class="redColor">*</span>
-						</span>
-						<div class="controls">
-							<select class="authorized span3" name="authorized" style="margin-bottom:0px;" >
+						</div>
+						<div class="col-sm-6 controls">
+							<select class="authorized form-control" name="authorized" style="margin-bottom:0px;" >
 								{foreach from=$ALL_AUTHORIZATION item=AUTHORIZED key=AUTHORIZED_CODE}
 									<option value="{$AUTHORIZED_CODE}" data-label="{$AUTHORIZED->get('rolename')}">{vtranslate($AUTHORIZED->get('rolename'),$QUALIFIED_MODULE)}</option>
 								{/foreach}
@@ -364,213 +368,216 @@ padding: 20px 20px 20px 20px;
 				{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
 			</form>
 		</div>
+		</div>
+		</div>
 		
 		<div class="newCustomBlockCopy hide marginBottom10px border1px blockSortable " data-block-id="" data-sequence="" style="border-radius: 4px 4px 0px 0px;background: white">
-			<div class="row-fluid layoutBlockHeader">
-				<div class="blockLabel span5 padding10 ">
+			<div class="row layoutBlockHeader no-margin">
+				<div class="blockLabel col-md-5 padding10 ">
 					<span class="marginLeft20">
 
 					</span>
 				</div>
-				<div class="span6 marginLeftZero" style="float:right !important;">
-					<span class="padding10 pull-right actions">
-						<a href="javascript:void(0)" class="deleteCustomBlock" >
-							<i class="icon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i>
-						</a>
-					</span>
+				<div class="col-md-6 marginLeftZero" style="float:right !important;">
+					
 					<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
 						<div class="btn-group">
-							<button class="btn addCustomField hide" type="button"><i class="icon-plus"></i>&nbsp;
+							<button class="btn btn-default addCustomField hide" type="button"><span class="glyphicon glyphicon-plus"></span>&nbsp;
 								<strong>{vtranslate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 							</button>
 						</div>
 						{if $SELECTED_MODULE_NAME eq 'Home'}
 							{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 							<div class="btn-group">
-								<button class="btn addMiniList specialWidget" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id=""><i class="icon-plus"></i>&nbsp;
+								<button class="btn btn-default addMiniList specialWidget" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
 									<strong>{vtranslate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
 								</button>
 							</div>
 							{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 							<div class="btn-group">
-								<button class="btn addNotebook specialWidget" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id=""><i class="icon-plus"></i>&nbsp;
+								<button class="btn btn-default addNotebook specialWidget" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
 									<strong>{vtranslate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 								</button>
+							</div>
+							<div class="btn-group actions">
+								<a href="javascript:void(0)" class="deleteCustomBlock" >
+									<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
+								</a>
 							</div>
 						{/if}
 					</div>
 				</div>
 			</div>
-			<div class="blockFieldsList row-fluid blockFieldsSortable" style="padding:5px;min-height: 27px">
-				<ul class="connectedSortable span6 ui-sortable" style="list-style-type: none; float: left;min-height:1px;padding:2px;" name="sortable1"></ul>
-				<ul class="connectedSortable span6 ui-sortable" style="list-style-type: none; margin: 0;float: left;min-height:1px;padding:2px;" name="sortable2"></ul>
+			<div class="blockFieldsList row blockFieldsSortable" style="padding:5px;min-height: 27px">
+				<ul class="connectedSortable col-md-6 ui-sortable" style="list-style-type: none; float: left;min-height:1px;padding:2px;" name="sortable1"></ul>
+				<ul class="connectedSortable col-md-6 ui-sortable" style="list-style-type: none; margin: 0;float: left;min-height:1px;padding:2px;" name="sortable2"></ul>
 			</div>
 		</div>
 		
-		<div class="modal createFieldModal hide">
+		<div class="modal createFieldModal fade" tabindex="-1">
+			<div class="modal-dialog">
+			<div class="modal-content">
+			
 			<div class="modal-header contentsBackground">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>{vtranslate('LBL_CREATE_CUSTOM_FIELD', $QUALIFIED_MODULE)}</h3>
+				<h3 class="modal-title">{vtranslate('LBL_CREATE_CUSTOM_FIELD', $QUALIFIED_MODULE)}</h3>
 			</div>
 			<form class="form-horizontal createCustomFieldForm"  method="POST">
 				<div class="modal-body">
-					<div class="control-group">
-						<span class="control-label">
+					<div class="form-group">
+						<div class="col-md-3 control-label">
 							{vtranslate('LBL_SELECT_WIDGET', $QUALIFIED_MODULE)}
-						</span>
-						<div class="controls">
-							<span class="row-fluid">
-								<select class="widgets span9" name="widgets" data-validation-engine="validate[required]"  >
-									{foreach from=$WIDGETS item=WIDGET}
-										{if $WIDGET->getTitle() eq 'Mini List' || $WIDGET->getTitle() eq 'Notebook'}
-											{continue}
-										{/if}
-										<option value="{$WIDGET->get('linkid')}" data-name="{$WIDGET->get('linklabel')}">{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</option>
-									{/foreach}
-								</select>
-							</span>
+						</div>
+						<div class="col-md-8 controls">
+							<select class="widgets form-control" name="widgets" data-validation-engine="validate[required]"  >
+								{foreach from=$WIDGETS item=WIDGET}
+									{if $WIDGET->getTitle() eq 'Mini List' || $WIDGET->getTitle() eq 'Notebook'}
+										{continue}
+									{/if}
+									<option value="{$WIDGET->get('linkid')}" data-name="{$WIDGET->get('linklabel')}">{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</option>
+								{/foreach}
+							</select>
 						</div>
 					</div>
-					<div class="control-group">
-						<span class="control-label">
+					<div class="form-group">
+						<div class="col-sm-3 control-label">
 							{vtranslate('LBL_WIDTH', $QUALIFIED_MODULE)}
-						</span>
-						
-						<select class="width span1 pull-left" name="width" style="margin-left: 10px;" >
-							{foreach from=$SIZE.width item=item}
-								<option value="{$item}" {if $DEFAULTVALUES.width eq $item} selected {/if}>{$item}</option>
-							{/foreach}
-						</select>
-						
-						<span class="control-label" style="width:135px">
+						</div>
+							<div class="col-sm-2">
+								<select class="width form-control pull-left" name="width">
+								{foreach from=$SIZE.width item=item}
+									<option value="{$item}" {if $DEFAULTVALUES.width eq $item} selected {/if}>{$item}</option>
+								{/foreach}
+							</select>
+						</div>
+						<div class="col-sm-3 control-label" style="width:135px">
 							{vtranslate('LBL_HEIGHT', $QUALIFIED_MODULE)}
-						</span>	
-						
-						<select class="height span1 pull-left" name="height"  >
-							{foreach from=$SIZE.height item=item}
-								<option value="{$item}" {if $DEFAULTVALUES.height eq $item} selected {/if}>{$item}</option>
-							{/foreach}
-						</select>
+						</div>	
+						<div class="col-sm-2">
+							<select class="height form-control pull-left" name="height"  >
+								{foreach from=$SIZE.height item=item}
+									<option value="{$item}" {if $DEFAULTVALUES.height eq $item} selected {/if}>{$item}</option>
+								{/foreach}
+							</select>
+						</div>
 					</div>
-					<div class="control-group">
-						<span class="control-label">
+					<div class="form-group">
+						<div class="col-sm-3 control-label">
 							{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}
-						</span>
-						<div class="controls">
+						</div>
+						<div class="col-sm-2 controls">
 							<input type="checkbox" name="isdefault" >
 						</div>
 					</div>
-					<div class="control-group widgetFilter hide">
-						<span class="control-label">
+					<div class="form-group widgetFilter hide">
+						<div class="col-sm-3 control-label">
 							{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
-						</span>
-						<div class="controls">
-							<span class="row-fluid">
-								<select class="span4" id="owner" disabled name="default_owner">
-									{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
-										<option value="{$OWNER_ID}">{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
-									{/foreach}
-								</select>
-							</span>
+						</div>
+						<div class="col-sm-8 controls">
+							<select class="form-control" id="owner" disabled name="default_owner">
+								{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
+									<option value="{$OWNER_ID}">{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+								{/foreach}
+							</select>
 						</div>	
 					</div>	
-					<div class="control-group widgetFilter hide">
-						<span class="control-label">
+					<div class="form-group widgetFilter hide">
+						<div class="col-sm-3 control-label">
 							{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
-						</span>
-						<div class="controls">
-							<span class="row-fluid">
-								<select class="span9 owners_all" multiple="true" disabled name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
-									{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
-										<option value="{$OWNER_ID}" selected>{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
-									{/foreach}
-								</select>
-							</span>
+						</div>
+						<div class="col-sm-8 controls">
+							<select class="form-control owners_all" multiple="true" disabled name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
+								{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
+									<option value="{$OWNER_ID}" selected>{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+								{/foreach}
+							</select>
 						</div>	
 					</div>
 				</div>
 				{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
 			</form>
 		</div>
+		</div>
+		</div>
 		
-		<li class="newCustomFieldCopy hide">
+		<li class="newCustomFieldCopy hide col-md-12">
 			<div class="marginLeftZero border1px" data-field-id="" data-linkid="" data-sequence="">
-				<div class="row-fluid padding1per">
-					<div class="span10 " style="word-wrap: break-word;">
+				<div class="row padding1per">
+					<div class="col-md-10 " style="word-wrap: break-word;">
 						<span class="fieldLabel marginLeft20"></span>
 					</div>
 					<span class="btn-group pull-right marginRight20 actions">
 						<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-							<i class="icon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
+							<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 						</a>
 						<div class="basicFieldOperations hide pull-right" style="width: 375px;">
 							<form class="form-horizontal fieldDetailsForm" method="POST">
 								<div class="modal-header contentsBackground">
 								</div>
 								<div class="clearfix">
-									<div class="row-fluid" style="padding: 5px; ">
-										<span class="span3" style="text-align:center">
+									<div class="row" style="padding: 5px; ">
+										<div class="col-md-3" style="text-align:center">
 											<input type="checkbox" name="isdefault" >
-										</span>	
-										<label class="span9 marginTop5 pull-left" >
+										</div>	
+										<label class="col-md-9 marginTop5 pull-left" >
 											&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}&nbsp;
 										</label>
 									</div>
-									<div class="row-fluid" style="padding: 5px; ">
-										<span class="span3" style="text-align:center">
-											<select class="width span1 pull-left" name="width" >
+									<div class="row" style="padding: 5px; ">
+										<div class="col-md-3" style="text-align:center">
+											<select class="width col-md-1 pull-left form-control" name="width" >
 												{foreach from=$SIZE.width item=item}
 													<option value="{$item}">{$item}</option>
 												{/foreach}
 											</select>
-										</span>	
-										<label  class="span9 marginTop5 pull-left" >
+										</div>	
+										<label  class="col-md-9 marginTop5 pull-left" >
 											&nbsp;{vtranslate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
 										</label>
 									</div>
-									<div class="row-fluid" style="padding: 5px; ">
-										<span class="span3" style="text-align:center">
-											<select class="height span1 pull-left" name="height">
+									<div class="row" style="padding: 5px; ">
+										<div class="col-md-3" style="text-align:center">
+											<select class="height col-md-1 pull-left form-control" name="height">
 												{foreach from=$SIZE.height item=item}
 													<option value="{$item}" >{$item}</option>
 												{/foreach}
 											</select>
-										</span>
-										<label class="span9 marginTop5 pull-left" >
+										</div>
+										<label class="col-md-9 marginTop5 pull-left" >
 											&nbsp;{vtranslate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
 										</label>	
 									</div>
-									<div class="row-fluid" style="padding: 5px; ">
-										<span class="span3" style="text-align:center">
-											<input type="text" name="limit" class="span1" value="10" >
-										</span>
-										<label class="span9 marginTop5 pull-left" >
+									<div class="row" style="padding: 5px; ">
+										<div class="col-md-3" style="text-align:center">
+											<input type="text" name="limit" class="col-md-1 form-control" value="10" >
+										</div>
+										<label class="col-md-9 marginTop5 pull-left" >
 											&nbsp;{vtranslate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}&nbsp;
 										</label>
 									</div>
 								</div>
-								<div class="row-fluid widgetFilterAll hide" style="padding: 0px; border-top:1px solid #dddddd ">
-									<div class="row-fluid" style="padding: 5px; ">
-										<span class="span5">
-											<select class="widgetFilter span2" id="owner" name="default_owner">
+								<div class="row widgetFilterAll hide" style="padding: 0px; border-top:1px solid #dddddd ">
+									<div class="">
+										<div class="col-md-5">
+											<select class="widgetFilter col-md-2 form-control" id="owner" name="default_owner">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
 													<option value="{$OWNER_ID}">{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 												{/foreach}
 											</select>
-										</span>
-										<label class="span7 marginTop5 pull-left" >
+										</div>
+										<label class="col-md-7 marginTop5 pull-left" >
 											&nbsp;{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}&nbsp;
 										</label>
 									</div>	
-									<div class="row-fluid" style="padding: 5px; ">
-										<span class="span8">
-											<select class="widgetFilter span3" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
+									<div class="">
+										<div class="col-md-8">
+											<select class="widgetFilter col-md-3 form-control" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
 													<option value="{$OWNER_ID}" selected>{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 												{/foreach}
 											</select>
-										</span>
-										<label class="span4 marginTop5 pull-left" >
+										</div>
+										<label class="col-md-4 marginTop5 pull-left" >
 											&nbsp;{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}&nbsp;
 										</label>
 									</div>	
@@ -583,7 +590,7 @@ padding: 20px 20px 20px 20px;
 								</div>
 							</form>
 						</div>
-						<a href="javascript:void(0)" class="deleteCustomField" data-field-id=""><i class="icon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i></a>
+						<a href="javascript:void(0)" class="deleteCustomField" data-field-id=""><span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span></a>
 					</span>
 				</div>
 			</div>
@@ -591,4 +598,3 @@ padding: 20px 20px 20px 20px;
 	</div>
 </div>
 </div>
-

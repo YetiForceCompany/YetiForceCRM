@@ -15,14 +15,14 @@ class Leads_LeadsCreated_Dashboard extends Vtiger_IndexAjax_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getFooterScripts(Vtiger_Request $request) {
 
 		$jsFileNames = array(
-//			'~/libraries/jquery/jqplot/plugins/jqplot.cursor.min.js',
-//			'~/libraries/jquery/jqplot/plugins/jqplot.dateAxisRenderer.min.js',
-//			'~/libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.min.js',
-//			'~/libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
-//			'~/libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js'
+//			'~libraries/jquery/jqplot/plugins/jqplot.cursor.min.js',
+//			'~libraries/jquery/jqplot/plugins/jqplot.dateAxisRenderer.min.js',
+//			'~libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.min.js',
+//			'~libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
+//			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js'
 		);
 
 		$headerScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

@@ -10,8 +10,8 @@
  ********************************************************************************/
 -->*}
 <div class='listViewPageDiv'>
-	<div class="row-fluid  listViewActionsDiv">
-		<span class="btn-toolbar span4">
+	<div class="row  listViewActionsDiv">
+		<span class="btn-toolbar col-md-4">
 			<span class="btn-group listViewMassActions">
 				{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS}
 					<span class="btn-group">
@@ -20,8 +20,8 @@
 				{/foreach}
 			</span>
 		</span>
-		<span class='span4'><div class="textAlignCenter"><h3 style='margin-top:2px'>{vtranslate('LBL_DUPLICATE')}  {vtranslate($MODULE, $MODULE)}</h3></div></span>
-		<span class="span4 btn-toolbar">
+		<span class='col-md-4'><div class="textAlignCenter"><h3 style='margin-top:2px'>{vtranslate('LBL_DUPLICATE')}  {vtranslate($MODULE, $MODULE)}</h3></div></span>
+		<span class="col-md-4 btn-toolbar">
 			{include file='ListViewActions.tpl'|@vtemplate_path}
 		</span>
 	</div>

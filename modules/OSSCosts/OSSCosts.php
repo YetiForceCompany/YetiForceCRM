@@ -115,7 +115,7 @@ class OSSCosts extends CRMEntity {
 	*/
 	function vtlib_handler($moduleName, $eventType) {
 		require_once('include/utils/utils.php');
-		global $adb;
+		$adb = PearDatabase::getInstance();
  		if($eventType == 'module.postinstall') {
 			include_once('vtlib/Vtiger/Module.php'); 
 			$myCustomEntity = CRMEntity::getInstance($moduleName);
@@ -129,8 +129,6 @@ class OSSCosts extends CRMEntity {
 			$docelowy_Module = Vtiger_Module::getInstance('Project');
 			$docelowy_Module->setRelatedList($moduleInstance, 'OSSCosts', array('add'),'get_dependents_list');
 			$docelowy_Module = Vtiger_Module::getInstance('Accounts');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSCosts', array('add'),'get_dependents_list');
-			$docelowy_Module = Vtiger_Module::getInstance('Contacts');
 			$docelowy_Module->setRelatedList($moduleInstance, 'OSSCosts', array('add'),'get_dependents_list');
 			$docelowy_Module = Vtiger_Module::getInstance('Vendors');
 			$docelowy_Module->setRelatedList($moduleInstance, 'OSSCosts', array('add'),'get_dependents_list');
@@ -226,7 +224,6 @@ class OSSCosts extends CRMEntity {
 	 */
 	function setRelationTables($secmodule){
 		$rel_tables = array (
-			"Calendar" =>array("vtiger_seactivityrel"=>array("crmid","activityid"),"vtiger_osscosts"=>"osscostsid"),
 			"Documents" => array("vtiger_senotesrel"=>array("crmid","notesid"),"vtiger_osscosts"=>"osscostsid"),
 		);
 		return $rel_tables[$secmodule];
@@ -234,7 +231,7 @@ class OSSCosts extends CRMEntity {
 
 	// Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id) {
-		global $log;
+		$log = vglobal('log');
 		if(empty($return_module) || empty($return_id)) return;
 
 		if($return_module == 'Accounts' || $return_module == 'Contacts' || $return_module == 'Vendors') {
@@ -293,8 +290,8 @@ class OSSCosts extends CRMEntity {
 	* Returns Export OSSCosts Query.
 	*/
 	function create_export_query($where){
-		global $log;
-		global $current_user;
+		$log = vglobal('log');
+		$current_user  = vglobal('current_user');
 		$log->debug("Entering create_export_query(".$where.") method ...");
 		include("include/utils/ExportUtils.php");
 		//To get the Permitted fields query and the permitted fields list
@@ -332,7 +329,10 @@ class OSSCosts extends CRMEntity {
 		return $query;
 	}
 	function getHierarchy($id) {
-		global $log, $adb, $current_user;
+		$adb = PearDatabase::getInstance();
+		$current_user = vglobal('current_user');
+		$log = vglobal('log');
+
         $log->debug("Entering getHierarchy(".$id.") method ...");
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 
@@ -384,7 +384,7 @@ class OSSCosts extends CRMEntity {
 		return $hierarchy;
 	}
 	function __getParentRecord($id, &$parent_accounts, &$encountered_accounts) {
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
         $log->debug("Entering __getParentRecord(".$id.",".$parent_accounts.") method ...");
 		$query = "SELECT parentid FROM vtiger_osscosts " .
 				" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_osscosts.osscostsid" .
@@ -432,7 +432,7 @@ class OSSCosts extends CRMEntity {
 		return $parent_accounts;
 	}
 	function __getChildRecord($id, &$child_accounts, $depth) {
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
         $log->debug("Entering __getChildRecord(".$id.",".$child_accounts.",".$depth.") method ...");
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
 							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
@@ -473,4 +473,3 @@ class OSSCosts extends CRMEntity {
 		return $child_accounts;
 	}
 }
-?>

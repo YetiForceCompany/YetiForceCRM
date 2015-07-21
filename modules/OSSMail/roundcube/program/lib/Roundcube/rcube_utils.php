@@ -103,13 +103,14 @@ class rcube_utils
             }
 
             foreach ($domain_array as $part) {
-                if (!preg_match('/^(([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])|([A-Za-z0-9]))$/', $part)) {
+                if (!preg_match('/^((xn--)?([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])|([A-Za-z0-9]))$/', $part)) {
                     return false;
                 }
             }
 
             // last domain part
-            if (preg_match('/[^a-zA-Z]/', array_pop($domain_array))) {
+            $last_part = array_pop($domain_array);
+            if (strpos($last_part, 'xn--') !== 0 && preg_match('/[^a-zA-Z]/', $last_part)) {
                 return false;
             }
 
@@ -117,17 +118,6 @@ class rcube_utils
 
             if (!$dns_check || !$rcube->config->get('email_dns_check')) {
                 return true;
-            }
-
-            if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && version_compare(PHP_VERSION, '5.3.0', '<')) {
-                $lookup = array();
-                @exec("nslookup -type=MX " . escapeshellarg($domain_part) . " 2>&1", $lookup);
-                foreach ($lookup as $line) {
-                    if (strpos($line, 'MX preference')) {
-                        return true;
-                    }
-                }
-                return false;
             }
 
             // find MX record(s)
@@ -762,12 +752,14 @@ class rcube_utils
      * Improved equivalent to strtotime()
      *
      * @param string $date  Date string
+     * @param object DateTimeZone to use for DateTime object
      *
      * @return int Unix timestamp
      */
-    public static function strtotime($date)
+    public static function strtotime($date, $timezone = null)
     {
         $date = self::clean_datestr($date);
+        $tzname = $timezone ? ' ' . $timezone->getName() : '';
 
         // unix timestamp
         if (is_numeric($date)) {
@@ -776,7 +768,7 @@ class rcube_utils
 
         // if date parsing fails, we have a date in non-rfc format.
         // remove token from the end and try again
-        while ((($ts = @strtotime($date)) === false) || ($ts < 0)) {
+        while ((($ts = @strtotime($date . $tzname)) === false) || ($ts < 0)) {
             $d = explode(' ', $date);
             array_pop($d);
             if (!$d) {
@@ -792,10 +784,11 @@ class rcube_utils
      * Date parsing function that turns the given value into a DateTime object
      *
      * @param string $date  Date string
+     * @param object DateTimeZone to use for DateTime object
      *
      * @return object DateTime instance or false on failure
      */
-    public static function anytodatetime($date)
+    public static function anytodatetime($date, $timezone = null)
     {
         if (is_object($date) && is_a($date, 'DateTime')) {
             return $date;
@@ -807,7 +800,7 @@ class rcube_utils
         // try to parse string with DateTime first
         if (!empty($date)) {
             try {
-                $dt = new DateTime($date);
+                $dt = $timezone ? new DateTime($date, $timezone) : new DateTime($date);
             }
             catch (Exception $e) {
                 // ignore
@@ -815,9 +808,12 @@ class rcube_utils
         }
 
         // try our advanced strtotime() method
-        if (!$dt && ($timestamp = self::strtotime($date))) {
+        if (!$dt && ($timestamp = self::strtotime($date, $timezone))) {
             try {
                 $dt = new DateTime("@".$timestamp);
+                if ($timezone) {
+                    $dt->setTimezone($timezone);
+                }
             }
             catch (Exception $e) {
                 // ignore
@@ -916,26 +912,34 @@ class rcube_utils
      * Split the given string into word tokens
      *
      * @param string Input to tokenize
+     * @param integer Minimum length of a single token
      * @return array List of tokens
      */
-    public static function tokenize_string($str)
+    public static function tokenize_string($str, $minlen = 2)
     {
-        return explode(" ", preg_replace(
-            array('/[\s;\/+-]+/i', '/(\d)[-.\s]+(\d)/', '/\s\w{1,3}\s/u'),
-            array(' ', '\\1\\2', ' '),
-            $str));
+        $expr = array('/[\s;\/+-]+/ui', '/(\d)[-.\s]+(\d)/u');
+        $repl = array(' ', '\\1\\2');
+
+        if ($minlen > 1) {
+            $minlen--;
+            $expr[] = "/(^|\s+)\w{1,$minlen}(\s+|$)/u";
+            $repl[] = ' ';
+        }
+
+        return array_filter(explode(" ", preg_replace($expr, $repl, $str)));
     }
 
     /**
      * Normalize the given string for fulltext search.
-     * Currently only optimized for Latin-1 characters; to be extended
+     * Currently only optimized for ISO-8859-1 and ISO-8859-2 characters; to be extended
      *
      * @param string  Input string (UTF-8)
      * @param boolean True to return list of words as array
+     * @param integer Minimum length of tokens
      *
      * @return mixed  Normalized string or a list of normalized tokens
      */
-    public static function normalize_string($str, $as_array = false)
+    public static function normalize_string($str, $as_array = false, $minlen = 2)
     {
         // replace 4-byte unicode characters with '?' character,
         // these are not supported in default utf-8 charset on mysql,
@@ -947,20 +951,59 @@ class rcube_utils
             . ')/', '?', $str);
 
         // split by words
-        $arr = self::tokenize_string($str);
+        $arr = self::tokenize_string($str, $minlen);
+
+        // detect character set
+        if (utf8_encode(utf8_decode($str)) == $str) {
+            // ISO-8859-1 (or ASCII)
+            preg_match_all('/./u', 'äâàåáãæçéêëèïîìíñöôòøõóüûùúýÿ', $keys);
+            preg_match_all('/./',  'aaaaaaaceeeeiiiinoooooouuuuyy', $values);
+
+            $mapping = array_combine($keys[0], $values[0]);
+            $mapping = array_merge($mapping, array('ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u'));
+        }
+        else if (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-2'), 'ISO-8859-2', 'UTF-8') == $str) {
+            // ISO-8859-2
+            preg_match_all('/./u', 'ąáâäćçčéęëěíîłľĺńňóôöŕřśšşťţůúűüźžżý', $keys);
+            preg_match_all('/./',  'aaaaccceeeeiilllnnooorrsssttuuuuzzzy', $values);
+
+            $mapping = array_combine($keys[0], $values[0]);
+            $mapping = array_merge($mapping, array('ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u'));
+        }
 
         foreach ($arr as $i => $part) {
-            if (utf8_encode(utf8_decode($part)) == $part) {  // is latin-1 ?
-                $arr[$i] = utf8_encode(strtr(strtolower(strtr(utf8_decode($part),
-                    'ÇçäâàåéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙýÝ',
-                    'ccaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy')),
-                    array('ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u')));
+            $part = mb_strtolower($part);
+
+            if (!empty($mapping)) {
+                $part = strtr($part, $mapping);
             }
-            else
-                $arr[$i] = mb_strtolower($part);
+
+            $arr[$i] = $part;
         }
 
         return $as_array ? $arr : join(" ", $arr);
+    }
+
+    /**
+     * Compare two strings for matching words (order not relevant)
+     *
+     * @param string Haystack
+     * @param string Needle
+     * @return boolen True if match, False otherwise
+     */
+    public static function words_match($haystack, $needle)
+    {
+        $a_needle = self::tokenize_string($needle, 1);
+        $haystack = join(" ", self::tokenize_string($haystack, 1));
+
+        $hits = 0;
+        foreach ($a_needle as $w) {
+            if (stripos($haystack, $w) !== false) {
+                $hits++;
+            }
+        }
+
+        return $hits >= count($a_needle);
     }
 
     /**
@@ -1039,7 +1082,6 @@ class rcube_utils
         }
     }
 
-
     /**
      * Find out if the string content means true or false
      *
@@ -1063,7 +1105,67 @@ class rcube_utils
             return (bool) preg_match('!^[a-z]:[\\\\/]!i', $path);
         }
         else {
-            return $path[0] == DIRECTORY_SEPARATOR;
+            return $path[0] == '/';
         }
+    }
+
+    /**
+     * Resolve relative URL
+     *
+     * @param string $url Relative URL
+     *
+     * @return string Absolute URL
+     */
+    public static function resolve_url($url)
+    {
+        // prepend protocol://hostname:port
+        if (!preg_match('|^https?://|', $url)) {
+            $schema       = 'http';
+            $default_port = 80;
+
+            if (self::https_check()) {
+                $schema       = 'https';
+                $default_port = 443;
+            }
+
+            $prefix = $schema . '://' . preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']);
+            if ($_SERVER['SERVER_PORT'] != $default_port) {
+                $prefix .= ':' . $_SERVER['SERVER_PORT'];
+            }
+
+            $url = $prefix . ($url[0] == '/' ? '' : '/') . $url;
+        }
+
+        return $url;
+    }
+
+    /**
+     * Generate a ramdom string
+     *
+     * @param int String length
+     *
+     * @return string The generated random string
+     */
+    public static function random_bytes($length)
+    {
+        if (function_exists('openssl_random_pseudo_bytes')) {
+            $random = openssl_random_pseudo_bytes(ceil($length / 2));
+            $random = bin2hex($random);
+
+            // if the length wasn't even...
+            if ($length < strlen($random)) {
+                $random = substr($random, 0, $length);
+            }
+        }
+        else {
+            $alpha  = 'ABCDEFGHIJKLMNOPQERSTUVXYZabcdefghijklmnopqrtsuvwxyz0123456789+*%&?!$-_=';
+            $random = '';
+
+            for ($i = 0; $i < $length; $i++) {
+                $random .= $alpha[rand(0, strlen($alpha)-1)];
+            }
+        }
+
+        return $random;
     }
 }

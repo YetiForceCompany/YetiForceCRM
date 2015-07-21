@@ -110,11 +110,11 @@ class OutsourcedProducts extends Vtiger_CRMEntity {
 	*/
 	function vtlib_handler($moduleName, $eventType) {
 		require_once('include/utils/utils.php');
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
  		if($eventType == 'module.postinstall') {
 			//Add Assets Module to Customer Portal
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			include_once('vtlib/Vtiger/Module.php');
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
@@ -124,18 +124,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity {
 			Vtiger_Access::setDefaultSharing($AssetsModule);
 
 			//Showing Assets module in the related modules in the More Information Tab
-			$assetInstance = Vtiger_Module::getInstance($moduleName);
-
-			$accountInstance = Vtiger_Module::getInstance('Accounts');
-			$accountInstance->setRelatedlist($assetInstance,$moduleName,array('ADD'),'get_dependents_list');
-
-			$productInstance = Vtiger_Module::getInstance('Products');
-			$productInstance->setRelatedlist($assetInstance,$moduleName,array('ADD'),'get_dependents_list');
-
-			$InvoiceInstance = Vtiger_Module::getInstance('Invoice');
-			$InvoiceInstance->setRelatedlist($assetInstance,$moduleName,array('ADD'),'get_dependents_list');$InvoiceInstance = Vtiger_Module::getInstance('Leads');
-			$InvoiceInstance->setRelatedlist($assetInstance,$moduleName,array('ADD'),'get_dependents_list');
-
+			
 			$result = $adb->pquery("SELECT 1 FROM vtiger_modentity_num WHERE semodule = ? AND active = 1", array($moduleName));
 			if (!($adb->num_rows($result))) {
 				//Initialize module sequence for the module
@@ -160,7 +149,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity {
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
 	function transferRelatedRecords($module, $transferEntityIds, $entityId) {
-		global $adb,$log;
+		$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Documents"=>"vtiger_senotesrel","Attachments"=>"vtiger_seattachmentsrel");
@@ -191,4 +180,3 @@ class OutsourcedProducts extends Vtiger_CRMEntity {
 		$log->debug("Exiting transferRelatedRecords...");
 	}
 }
-?>

@@ -60,7 +60,7 @@ class VtigerCRMActorMeta extends EntityMeta {
 		$factory = WebserviceField::fromArray($this->pearDB,array('tablename'=>$tableName));
 		$dbTableFields = $factory->getTableFields();
 		foreach ($dbTableFields as $dbField) {
-			if($dbField->primary_key){
+			if($dbField->primaryKey){
 				if($this->idColumn === null){
 					$this->idColumn = $dbField->name;
 				}else{
@@ -98,7 +98,7 @@ class VtigerCRMActorMeta extends EntityMeta {
 			$fieldType = $this->getTypeOfDataForType($dbField->type);
 		}
 		$typeOfData = null;
-		if(($dbField->not_null && !$dbField->primary_key) || $dbField->unique_key == 1){
+		if(($dbField->notNull && !$dbField->primaryKey) || $dbField->uniqueKey == 1){
 			$typeOfData = $fieldType.'~M';
 		}else{
 			$typeOfData = $fieldType.'~O';
@@ -319,4 +319,4 @@ class VtigerCRMActorMeta extends EntityMeta {
 		return false;
 	}
 }
-?>
+

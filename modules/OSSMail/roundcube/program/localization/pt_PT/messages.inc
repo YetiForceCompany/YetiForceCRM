@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -16,13 +16,15 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 $messages['errortitle']  = 'Ocorreu um erro!';
-$messages['loginfailed']  = 'O utilizador ou palavra-passe que introduziu não correspondem.';
+$messages['loginfailed']  = 'Falha na autenticação.';
 $messages['cookiesdisabled'] = 'O seu navegador não suporta cookies';
 $messages['sessionerror'] = 'A sua sessão é inválida ou expirou.';
 $messages['storageerror'] = 'A ligação ao servidor IMAP falhou';
 $messages['servererror'] = 'Erro do Servidor!';
 $messages['servererrormsg'] = 'Erro do Servidor: $msg';
+$messages['connerror'] = 'Erro de ligação (Não foi possível alcançar o servidor)!';
 $messages['dberror'] = 'Erro na base de dados!';
+$messages['windowopenerror'] = 'A janela pop-up foi bloqueada!';
 $messages['requesttimedout'] = 'A solicitação expirou';
 $messages['errorreadonly'] = 'Não foi possível efectuar a operação. A pasta é só de leitura.';
 $messages['errornoperm'] = 'Não tem permissões para efectuar esta operação.';
@@ -34,7 +36,7 @@ $messages['nomessagesfound'] = 'Não existem mensagens nesta pasta.';
 $messages['loggedout'] = 'A sua sessão foi encerrada com sucesso. Até breve!';
 $messages['mailboxempty'] = 'A caixa de entrada está vazia';
 $messages['nomessages'] = 'Não existem mensagens';
-$messages['refreshing'] = 'A actualizar...';
+$messages['refreshing'] = 'A atualizar...';
 $messages['loading'] = 'A carregar...';
 $messages['uploading'] = 'A enviar ficheiro...';
 $messages['uploadingmany'] = 'A enviar ficheiros...';
@@ -89,16 +91,17 @@ $messages['nosearchname'] = 'Por favor, insira o nome do contacto ou endereço d
 $messages['notuploadedwarning'] = 'Nem todos os anexos foram ainda enviados. Por favor aguarde ou cancele o envio.';
 $messages['searchsuccessful'] = '$nr mensagens encontradas';
 $messages['contactsearchsuccessful'] = '$nr contactos encontrados.';
-$messages['searchnomatch'] = 'A pesquisa não devolveu resultados';
+$messages['searchnomatch'] = 'A pesquisa não obteve resultados';
 $messages['searching'] = 'A pesquisar...';
 $messages['checking'] = 'A verificar...';
+$messages['stillsearching'] = 'Ainda a procurar...';
 $messages['nospellerrors'] = 'Não foi encontrado nenhum erro ortográfico';
 $messages['folderdeleted'] = 'Pasta eliminada com sucesso';
 $messages['foldersubscribed'] = 'Subscrição da pasta concluída com sucesso';
 $messages['folderunsubscribed'] = 'Subscrição da pasta cancelada com sucesso';
-$messages['folderpurged'] = 'Pasta eliminada com sucesso';
+$messages['folderpurged'] = 'Pasta esvaziada com sucesso';
 $messages['folderexpunged'] = 'Pasta compactada com sucesso.';
-$messages['deletedsuccessfully'] = 'Eliminado com sucesso';
+$messages['deletedsuccessfully'] = 'Eliminado com sucesso.';
 $messages['converting'] = 'A remover a formatação...';
 $messages['messageopenerror'] = 'Não foi possível carregar a mensagem.';
 $messages['fileuploaderror'] = 'Falha ao carregar o ficheiro';
@@ -135,7 +138,7 @@ $messages['importmessagesuccess'] = '$nr mensagens importadas com sucesso';
 $messages['importmessageerror'] = 'A importação falhou! O ficheiro carregado não é um arquivo de caixa de correio ou ficheiro de mensagem válido.';
 $messages['opnotpermitted'] = 'Operação não permitida';
 $messages['nofromaddress'] = 'Falta o endereço de e-mail na identidade seleccionada';
-$messages['editorwarning'] = 'Ao mudar para o editor Plain Text vai perder toda a formação de texto. Deseja continuar?';
+$messages['editorwarning'] = 'Alterar o tipo de editor pode causar a perda da formatação do texto. Deseja continuar?';
 $messages['httpreceivedencrypterror'] = 'Ocorreu um erro fatal de configuração. Contacte o seu Administrador imediatamente. <b>A sua mensagem não pôde ser enviada.</b>';
 $messages['smtpconnerror'] = 'Erro SMTP ($code): A ligação ao servidor falhou.';
 $messages['smtpautherror'] = 'Erro SMTP ($code): A autenticação falhou.';
@@ -174,4 +177,14 @@ $messages['parentnotwritable'] = 'Não é possível criar/mover esta pasta para 
 $messages['messagetoobig'] = 'A mensagem é demasiado grande para ser processada.';
 $messages['attachmentvalidationerror'] = 'ATENÇÃO! Este anexo é suspeito porque o seu tipo não coincide com o tipo declarado na mensagem. Se não confiar no remetente, não o deve abrir no navegador, pois pode ter conteúdos maliciosos.<br/><br/><em>Esperado: $expected; Encontrado: $detected</em>';
 $messages['noscriptwarning'] = 'Aviso: Este serviço de webmail utiliza Javascript! Para o poder utilizar, active o Javascript nas definições do seu navegador.';
+$messages['messageissent'] = 'A mensagem já foi enviada, mas ainda não foi guardada. Deseja guardá-la agora?';
+$messages['errnotfound'] = 'Ficheiro não encontrado';
+$messages['errnotfoundexplain'] = 'O recurso solicitado não foi encontrado!';
+$messages['errfailedrequest'] = 'A solicitação falhou';
+$messages['errauthorizationfailed'] = 'Falha na autorização';
+$messages['errunauthorizedexplain'] = 'Não foi possível verificar se está autorizado a aceder a este serviço!';
+$messages['errrequestcheckfailed'] = 'Falha na verificação da solicitação ';
+$messages['errcsrfprotectionexplain'] = "Para sua protecção, o acesso a este recurso está protegido contra CSRF.\nlf Se está a ver isto, provavelmente não fez logout antes de sair da aplicação web.\n\nAgora, é necessária interacção humana para continuar.";
+$messages['errcontactserveradmin'] = 'Por favor, contacte o administrador do servidor.';
+$messages['clicktoresumesession'] = 'Clique aqui para retomar a sua sessão anterior';
 ?>

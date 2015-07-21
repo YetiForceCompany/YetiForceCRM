@@ -8,7 +8,7 @@
  *  Website				: www.opensaas.pl
  * VERSION YetiForceCRM: 1.1.0 RC
  ********************************************************************************+*/
-$languageStrings = array(
+$languageStrings = [
 	'Language editor'	=>	'Редактор языков',
 	'Translations'	=>	'Редактор языков',
 	'No data available in table'	=>	'Не найдено ни одной записи',
@@ -50,12 +50,20 @@ $languageStrings = array(
 	'LBL_KeyExists'	=>	'Такая языковая переменная уже существует',
 	'Export'	=>	'Экспорт',
 	'LBL_SHOW_MISSING_TRANSLATIONS'	=>	'Показать недостающие переводы',
-	'LBL_DEFAULT'	=> 'Default',
-);
-$jsLanguageStrings = array(
+	'LBL_DEFAULT' => 'По умолчанию',
+	'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES' => 'Не возможно внести изменения',
+	'LBL_EDIT' => 'Изменить',
+	'LBL_DETAIL' => 'Детальный вид',
+	'LBL_QUICKCREATE' => 'Быстрое создание',
+	'LBL_SHOW_EMPTY_VALUES' => 'Показать пустые значения',
+	'LBL_SHOW_IN' => 'Показать в',
+	'LBL_EDIT_HELP_ICON' => 'Иконка справки',
+];
+$jsLanguageStrings = [
+	'JS_NOTRANSLATION' => 'Не найдено ни одной записи',
 	'Language editor'	=>	'Редактор языков',
-	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Are you sure you want to change a default language?',
-	'JS_DEFAULT'	=> 'Default',
+	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT' => 'Вы уверены, что хотите изменить язык, установленный по умолчанию?',
+	'JS_DEFAULT' => 'По умолчанию',
 	'Translations'	=>	'Редактор языков',
 	'No data available in table'	=>	'Не найдено ни одной записи',
 	'LBL_AreYouSure'	=>	'Вы уверены, что хотите удалить этот язык?',
@@ -65,4 +73,4 @@ $jsLanguageStrings = array(
 	'No matching records found'	=>	'Не найдено ни одной записи',
 	'Search'	=>	'Поиск:',
 	
-);
+];

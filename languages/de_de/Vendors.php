@@ -7,27 +7,26 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
-	'LBL_to' => 'to',
-	'LBL_EXPORT_TO_PDF' => 'Export to PDF',
-	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Address Information',
-	'LBL_VENDORS_ADD_TASK' => 'Add Task',
-	'LBL_VENDORS_ADD_EVENT' => 'Add Event',
-	'LBL_SEND_MAIL_PDF' => 'Send Mail PDF',
-	'300-Sales-Software'=>'300-Sales-Software',
-	'301-Sales-Hardware'=>'301-Sales-Hardware',
-	'302-Rental-Income'=>'302-Rental-Income',
-	'303-Interest-Income'=>'303-Interest-Income',
-	'304-Sales-Software-Support'=>'304-Sales-Software-Support',
-	'305-Sales Other'=>'305-Sales Other',
-	'306-Internet Sales'=>'306-Internet Sales',
-	'307-Service-Hardware Labor'=>'307-Service-Hardware Labor',
-	'308-Sales-Books'=>'308-Sales-Books',
+$languageStrings = [
+	'LBL_to' => 'zu',
+	'LBL_EXPORT_TO_PDF' => 'Als PDF exportieren',
+	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Adressinformation',
+	'LBL_VENDORS_ADD_TASK' => 'Aufgabe hinzufügen',
+	'LBL_VENDORS_ADD_EVENT' => 'Ereignis hinzufügen',
+	'300-Sales-Software'=>'300-Verkauf Software',
+	'301-Sales-Hardware'=>'301-Verkauf Hardware',
+	'302-Rental-Income'=>'302-Einnahmen Vermietung',
+	'303-Interest-Income'=>'303-Einnahmen Zinsen',
+	'304-Sales-Software-Support'=>'304-Verkauf Software Support',
+	'305-Sales Other'=>'305-Sales Verkauf Sonstiges',
+	'306-Internet Sales'=>'306-Verkauf Internet',
+	'307-Service-Hardware Labor'=>'307-Serviceleistungen',
+	'308-Sales-Books'=>'308-Verkauf Bücher',
 
 	'Email' => 'Primäre Email',
 	'GL Account' => 'Sachkonto',
 	'LBL_ADD_RECORD' => 'Lieferant hinzufügen',
-	'LBL_RECORDS_LIST' => 'Lieferanten Liste',
+	'LBL_RECORDS_LIST' => 'Liste Lieferanten',
 	'LBL_VENDOR_INFORMATION' => 'Lieferanten Details',
 	'Phone' => 'Primäre Telefonnummer',
 	'SINGLE_Vendors' => 'Lieferant',
@@ -35,10 +34,12 @@ $languageStrings = array(
 	'Vendor No' => 'Lieferanten Nummer',
 	'Vendors' => 'Lieferanten',
 	'Website' => 'Webseite',
-);
+	'LBL_BUILDING_NUMBER' => 'Hausnummer',
+	'LBL_LOCAL_NUMBER' => 'Büronummer',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_DELETE_CONFIRMATION' => 'Löschen dieses Lieferanten, wird auch seine ihm zugehörigen Bestellungen entfernen. Sind Sie sicher, dass Sie diesen Lieferanten löschen möchten?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Löschen dieser Lieferanten, wird auch die ihnen zugehörigen Bestellungen entfernen. Sind Sie sicher, dass Sie die ausgewählten Lieferanten löschen möchten?',
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Sind Sie sicher, dass Sie löschen möchten?',
-);
+];

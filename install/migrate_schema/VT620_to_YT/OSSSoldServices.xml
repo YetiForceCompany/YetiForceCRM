@@ -1,9 +1,8 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-02-10 09:35:25</exporttime>
+<exporttime>2015-05-06 07:45:40</exporttime>
 <name>OSSSoldServices</name>
 <label>OSSSoldServices</label>
-<parent>Databases</parent>
 <version>1.0.2</version>
 <dependencies>
 <vtiger_version>6.0.0</vtiger_version>
@@ -12,21 +11,55 @@
 <tables>
 <table>
 <name>vtiger_osssoldservices</name>
-<sql><![CDATA[DROP TABLE]]></sql>
+<sql><![CDATA[CREATE TABLE `vtiger_osssoldservices` (
+  `osssoldservicesid` int(19) NOT NULL DEFAULT '0',
+  `osssoldservices_no` varchar(255) DEFAULT NULL,
+  `productname` varchar(255) DEFAULT '',
+  `ssservicesstatus` varchar(255) DEFAULT NULL,
+  `pscategory` varchar(255) DEFAULT '',
+  `datesold` date DEFAULT NULL,
+  `dateinservice` date DEFAULT NULL,
+  `invoice` varchar(255) DEFAULT '',
+  `invoiceid` int(19) DEFAULT NULL,
+  `potential` int(19) DEFAULT NULL,
+  `parent_id` int(19) DEFAULT NULL,
+  `pot_renewal` int(19) DEFAULT NULL,
+  `serviceid` int(19) DEFAULT NULL,
+  `ordertime` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`osssoldservicesid`),
+  KEY `parent_id` (`parent_id`),
+  KEY `pot_renewal` (`pot_renewal`),
+  KEY `serviceid` (`serviceid`),
+  CONSTRAINT `fk_1_vtiger_osssoldservices` FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <table>
 <name>vtiger_osssoldservicescf</name>
-<sql><![CDATA[DROP TABLE]]></sql>
+<sql><![CDATA[CREATE TABLE `vtiger_osssoldservicescf` (
+  `osssoldservicesid` int(11) NOT NULL,
+  PRIMARY KEY (`osssoldservicesid`),
+  CONSTRAINT `fk_1_vtiger_osssoldservicescf` FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_osssoldservices` (`osssoldservicesid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 </tables>
 <blocks>
 <block>
 <label>LBL_INFORMATION</label>
+<sequence>1</sequence>
+<show_title>0</show_title>
+<visible>0</visible>
+<create_view>0</create_view>
+<edit_view>0</edit_view>
+<detail_view>0</detail_view>
+<display_status>1</display_status>
+<iscustom>0</iscustom>
+<islist></islist>
 <fields>
 <field>
 <fieldname>productname</fieldname>
 <uitype>2</uitype>
 <columnname>productname</columnname>
+<columntype>varchar(255)</columntype>
 <tablename>vtiger_osssoldservices</tablename>
 <generatedtype>2</generatedtype>
 <fieldlabel>Product Name</fieldlabel>
@@ -40,7 +73,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <entityidentifier>
@@ -52,6 +86,7 @@
 <fieldname>ssservicesstatus</fieldname>
 <uitype>15</uitype>
 <columnname>ssservicesstatus</columnname>
+<columntype>varchar(255)</columntype>
 <tablename>vtiger_osssoldservices</tablename>
 <generatedtype>2</generatedtype>
 <fieldlabel>LBL_ssservicesstatus</fieldlabel>
@@ -62,10 +97,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~O</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence>3</quickcreatesequence>
+<quickcreatesequence>7</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>2</masseditable>
 <summaryfield>1</summaryfield>
 <picklistvalues>
@@ -78,6 +114,7 @@
 <fieldname>pscategory</fieldname>
 <uitype>302</uitype>
 <columnname>pscategory</columnname>
+<columntype>varchar(255)</columntype>
 <tablename>vtiger_osssoldservices</tablename>
 <generatedtype>2</generatedtype>
 <fieldlabel>Category</fieldlabel>
@@ -88,10 +125,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~O</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence>5</quickcreatesequence>
+<quickcreatesequence>9</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -99,6 +137,7 @@
 <fieldname>datesold</fieldname>
 <uitype>5</uitype>
 <columnname>datesold</columnname>
+<columntype>date</columntype>
 <tablename>vtiger_osssoldservices</tablename>
 <generatedtype>2</generatedtype>
 <fieldlabel>Date Sold</fieldlabel>
@@ -109,10 +148,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>D~M</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence>9</quickcreatesequence>
+<quickcreatesequence>5</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -120,6 +160,7 @@
 <fieldname>dateinservice</fieldname>
 <uitype>5</uitype>
 <columnname>dateinservice</columnname>
+<columntype>date</columntype>
 <tablename>vtiger_osssoldservices</tablename>
 <generatedtype>2</generatedtype>
 <fieldlabel>Date in Service</fieldlabel>
@@ -133,7 +174,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -141,6 +183,7 @@
 <fieldname>invoice</fieldname>
 <uitype>1</uitype>
 <columnname>invoice</columnname>
+<columntype>varchar(255)</columntype>
 <tablename>vtiger_osssoldservices</tablename>
 <generatedtype>2</generatedtype>
 <fieldlabel>Invoice</fieldlabel>
@@ -154,7 +197,31 @@
 <quickcreatesequence>0</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+</field>
+<field>
+<fieldname>was_read</fieldname>
+<uitype>56</uitype>
+<columnname>was_read</columnname>
+<columntype>tinyint(1)</columntype>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Was read</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>9</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>C~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>2</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -162,11 +229,21 @@
 </block>
 <block>
 <label>LBL_CUSTOM_INFORMATION</label>
+<sequence>2</sequence>
+<show_title>0</show_title>
+<visible>0</visible>
+<create_view>0</create_view>
+<edit_view>0</edit_view>
+<detail_view>0</detail_view>
+<display_status>1</display_status>
+<iscustom>0</iscustom>
+<islist></islist>
 <fields>
 <field>
 <fieldname>osssoldservices_no</fieldname>
 <uitype>4</uitype>
 <columnname>osssoldservices_no</columnname>
+<columntype>varchar(255)</columntype>
 <tablename>vtiger_osssoldservices</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Number</fieldlabel>
@@ -180,7 +257,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -188,6 +266,7 @@
 <fieldname>assigned_user_id</fieldname>
 <uitype>53</uitype>
 <columnname>smownerid</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Assigned To</fieldlabel>
@@ -198,10 +277,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence>11</quickcreatesequence>
+<quickcreatesequence>2</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -209,6 +289,7 @@
 <fieldname>createdtime</fieldname>
 <uitype>70</uitype>
 <columnname>createdtime</columnname>
+<columntype>datetime</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Created Time</fieldlabel>
@@ -222,7 +303,8 @@
 <quickcreatesequence>0</quickcreatesequence>
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -230,6 +312,7 @@
 <fieldname>modifiedtime</fieldname>
 <uitype>70</uitype>
 <columnname>modifiedtime</columnname>
+<columntype>datetime</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Modified Time</fieldlabel>
@@ -243,7 +326,8 @@
 <quickcreatesequence>0</quickcreatesequence>
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -251,6 +335,7 @@
 <fieldname>modifiedby</fieldname>
 <uitype>52</uitype>
 <columnname>modifiedby</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Last Modified By</fieldlabel>
@@ -264,7 +349,8 @@
 <quickcreatesequence>0</quickcreatesequence>
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -272,6 +358,7 @@
 <fieldname>invoiceid</fieldname>
 <uitype>10</uitype>
 <columnname>invoiceid</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_osssoldservices</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Invoice</fieldlabel>
@@ -282,10 +369,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>I~M</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence>10</quickcreatesequence>
+<quickcreatesequence>3</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -293,33 +381,10 @@
 </relatedmodules>
 </field>
 <field>
-<fieldname>contact</fieldname>
-<uitype>10</uitype>
-<columnname>contact</columnname>
-<tablename>vtiger_osssoldservices</tablename>
-<generatedtype>1</generatedtype>
-<fieldlabel>Contact Name</fieldlabel>
-<readonly>1</readonly>
-<presence>2</presence>
-<defaultvalue></defaultvalue>
-<sequence>2</sequence>
-<maximumlength>100</maximumlength>
-<typeofdata>I~O</typeofdata>
-<quickcreate>2</quickcreate>
-<quickcreatesequence>6</quickcreatesequence>
-<displaytype>1</displaytype>
-<info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
-<masseditable>1</masseditable>
-<summaryfield>0</summaryfield>
-<relatedmodules>
-<relatedmodule>Contacts</relatedmodule>
-</relatedmodules>
-</field>
-<field>
 <fieldname>potential</fieldname>
 <uitype>10</uitype>
 <columnname>potential</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_osssoldservices</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Potentials</fieldlabel>
@@ -333,7 +398,8 @@
 <quickcreatesequence>8</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -344,6 +410,7 @@
 <fieldname>parent_id</fieldname>
 <uitype>10</uitype>
 <columnname>parent_id</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_osssoldservices</tablename>
 <generatedtype>2</generatedtype>
 <fieldlabel>Parent ID</fieldlabel>
@@ -354,22 +421,23 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence>4</quickcreatesequence>
+<quickcreatesequence>6</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <relatedmodules>
 <relatedmodule>Accounts</relatedmodule>
 <relatedmodule>Leads</relatedmodule>
-<relatedmodule>Contacts</relatedmodule>
 </relatedmodules>
 </field>
 <field>
 <fieldname>pot_renewal</fieldname>
 <uitype>10</uitype>
 <columnname>pot_renewal</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_osssoldservices</tablename>
 <generatedtype>2</generatedtype>
 <fieldlabel>Potential renewal</fieldlabel>
@@ -383,7 +451,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -394,6 +463,7 @@
 <fieldname>serviceid</fieldname>
 <uitype>10</uitype>
 <columnname>serviceid</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_osssoldservices</tablename>
 <generatedtype>2</generatedtype>
 <fieldlabel>Services</fieldlabel>
@@ -404,10 +474,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence>2</quickcreatesequence>
+<quickcreatesequence>4</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <relatedmodules>
@@ -418,6 +489,7 @@
 <fieldname>closedtime</fieldname>
 <uitype>70</uitype>
 <columnname>closedtime</columnname>
+<columntype>datetime</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Closed Time</fieldlabel>
@@ -431,7 +503,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -439,6 +512,7 @@
 <fieldname>ordertime</fieldname>
 <uitype>7</uitype>
 <columnname>ordertime</columnname>
+<columntype>decimal(10,2)</columntype>
 <tablename>vtiger_osssoldservices</tablename>
 <generatedtype>2</generatedtype>
 <fieldlabel>LBL_ORDER_TIME</fieldlabel>
@@ -452,7 +526,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -460,11 +535,21 @@
 </block>
 <block>
 <label>LBL_DESCRIPTION_INFORMATION</label>
+<sequence>3</sequence>
+<show_title>0</show_title>
+<visible>0</visible>
+<create_view>0</create_view>
+<edit_view>0</edit_view>
+<detail_view>0</detail_view>
+<display_status>1</display_status>
+<iscustom>0</iscustom>
+<islist></islist>
 <fields>
 <field>
 <fieldname>description</fieldname>
 <uitype>300</uitype>
 <columnname>description</columnname>
+<columntype>text</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Description</fieldlabel>
@@ -478,7 +563,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -486,11 +572,21 @@
 </block>
 <block>
 <label>LBL_SHARING_INFORMATION</label>
+<sequence>4</sequence>
+<show_title>0</show_title>
+<visible>0</visible>
+<create_view>0</create_view>
+<edit_view>0</edit_view>
+<detail_view>0</detail_view>
+<display_status>1</display_status>
+<iscustom>1</iscustom>
+<islist></islist>
 <fields>
 <field>
 <fieldname>inheritsharing</fieldname>
 <uitype>56</uitype>
 <columnname>inheritsharing</columnname>
+<columntype>tinyint(1)</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Copy permissions automatically</fieldlabel>
@@ -504,7 +600,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -512,6 +609,7 @@
 <fieldname>shownerid</fieldname>
 <uitype>120</uitype>
 <columnname>shownerid</columnname>
+<columntype>set(&#039;1&#039;)</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Share with users</fieldlabel>
@@ -525,7 +623,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -593,7 +692,76 @@
 <name><![CDATA[DuplicateRecord]]></name>
 <status>enabled</status>
 </action>
+<action>
+<name><![CDATA[MassEdit]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassDelete]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassAddComment]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassTransferOwnership]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[ReadRecord]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[WorkflowTrigger]]></name>
+<status>enabled</status>
+</action>
 </actions>
+<relatedlists>
+<relatedlist>
+<relatedmodule>Documents</relatedmodule>
+<function>get_attachments</function>
+<label>Documents</label>
+<sequence>1</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+<action>SELECT</action>
+</actions>
+</relatedlist>
+</relatedlists>
+<inrelatedlists>
+<inrelatedlist>
+<inrelatedmodule>Accounts</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSSoldServices</label>
+<sequence>25</sequence>
+<presence>1</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Potentials</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSSoldServices</label>
+<sequence>17</sequence>
+<presence>1</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Invoice</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSSoldServices</label>
+<sequence>6</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+</inrelatedlists>
 <crons>
 </crons>
 </module>

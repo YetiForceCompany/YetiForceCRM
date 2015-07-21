@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Добавить Роль',
 	'LBL_ALL_USERS' => 'Всех пользователей',
 	'LBL_ASSIGN_EXISTING_PRIVILEGES' => 'Прикрепить привилегии из существующих профилей',
@@ -31,9 +31,11 @@ $languageStrings = array(
 	'Roles' => 'Роли',
 	'SINGLE_Roles' => 'Роли',
 	'LBL_USERS_LIST' => 'Список пользователей, принадлежащих к этой роли:',
-);
-
-$jsLanguageStrings = array(
+	'LBL_JUST_ME' => 'Только я',
+	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => 'Enable change of the record owner',
+	'LBL_SEARCH_WITHOUT_PERMISSION' => 'Modules that can be searched without permission',
+];
+$jsLanguageStrings = [
 	'JS_PERMISSION_DENIED' => 'Доступ запрещен',
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Перемещение запрещено',
-);
+];

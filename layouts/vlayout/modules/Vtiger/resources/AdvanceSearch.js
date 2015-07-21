@@ -99,14 +99,15 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 			thisInstance.registerEvents();
 			thisInstance.advanceFilter = new Vtiger_SearchAdvanceFilter_Js(jQuery('.filterContainer',uiData));
 			//align it below the search element
-			uiData.closest('.blockMsg').position({
+			/*uiData.closest('.blockMsg').position({
 				my: "right top",
 				at: "right bottom",
 				of: ".searchElement",
 				using: function(){
 					jQuery("#globalmodal").css({ 'margin-left': '-65px', 'margin-top':'30px'});
 				}
-			});
+			});*/
+			console.log(jQuery('#searchContainer').height())
             if (jQuery('#searchContainer').height() > 200) {
                 app.showScrollBar( jQuery('#searchContainer'), {'height':'400px','railVisible':'true'});
             }
@@ -119,9 +120,9 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 				params.data = data ;
 				params.cb = postLoad;
 				//TODO : put this css as attribute of object so that its easy for maintanace
-				params.css = {'width':'50%','text-align':'left','background-color':'transparent','border-width':'0px'};
+				//params.css = {'width':'50%','text-align':'left','background-color':'transparent','border-width':'0px'};
 				//not showing overlay
-				params.overlayCss = {'opacity':'0.2'};
+				//params.overlayCss = {'opacity':'0.2'};
 				
                 app.showModalWindow(params);
 			},
@@ -142,7 +143,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
       if(value.length > 0 ) {
           var form = this.getFilterForm();
           var labelFieldList = this.getNameFields();
-          if(typeof labelFieldList == 'undefined' || labelFieldList.length == 0) {
+          if(typeof labelFieldList == 'undefined' || labelFieldList == null || labelFieldList.length == 0) {
               return;
           }
           var anyConditionContainer = form.find('.anyConditionContainer');
@@ -155,12 +156,12 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
             var conditionRow = anyConditionContainer.find('.conditionList').find('.conditionRow:last');
             var fieldSelectElemnt = conditionRow.find('select[name="columnname"]');
             fieldSelectElemnt.find('option[data-field-name="'+ labelFieldName +'"]').attr('selected','selected');
-            fieldSelectElemnt.trigger('change').trigger('liszt:updated');
+            fieldSelectElemnt.trigger('change').trigger('chosen:updated');
 
             var comparatorSelectElemnt = conditionRow.find('select[name="comparator"]');
             //select the contains value
             comparatorSelectElemnt.find('option[value="c"]').attr('selected','selected');
-            comparatorSelectElemnt.trigger('liszt:updated');
+            comparatorSelectElemnt.trigger('chosen:updated');
 
             var valueElement = conditionRow.find('[name="value"]');
             valueElement.val(value);
@@ -191,18 +192,12 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var postLoad = function(data) {
-			var blockMsg = jQuery(data).closest('.blockMsg');
-			app.showScrollBar(jQuery(data).find('.contents'));
+			//app.showScrollBar(jQuery(data).find('.contents'));
 			aDeferred.resolve(data);
 		}
-
-		var unblockcd = function(){
-			thisInstance.getContainer().remove();
-		}
-
-		var html = '<div class="row-fluid">'+
-						'<span class="span4 searchHolder"></span>'+
-						'<span class="span8 filterHolder marginLeftZero hide"></span>'+
+		var html = '<div class="row">'+
+						'<span class="col-md-4 searchHolder"></span>'+
+						'<span class="col-md-8 filterHolder marginLeftZero hide"></span>'+
 					'</div>';
 		var jQhtml = jQuery(html);
 		jQuery('.searchHolder',jQhtml).html(data);
@@ -212,9 +207,6 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 		var params = {};
 		params.data = data;
 		params.cb = postLoad;
-		params.css = {'width':'20%','text-align':'left','margin-left':'-100px'};
-		params.overlayCss = {'opacity':'0.2'};
-		params.unblockcb = unblockcd;
 		app.showModalWindow(params);
 
 		return aDeferred.promise();
@@ -283,12 +275,11 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 		this.search().then(function(data){
 			thisInstance.setContainer(thisInstance.getContainer().detach());
 			thisInstance.showSearchResults(data).then(function(modalBlock){
-				var msgContainer = modalBlock.closest('.blockMsg');
+				var msgContainer = modalBlock.closest('#globalmodal');
 				msgContainer.position({
 					my: "left bottom",
-					at: "left bottom",
+					at: "left top",
 					of: "#globalSearchValue",
-					offset: "1 -29"
 				});
 				thisInstance.registerShowFiler();
 				//if the filter already shown , show again
@@ -308,8 +299,8 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 		var searchHolder = jQuery('.searchHolder', modalData);
 		var filterHolder = jQuery('.filterHolder', modalData);
 		filterHolder.removeClass('hide').html(this.getContainer());
-		//searchHolder.removeClass('span12').css('width' , '35%');;
-		modalData.closest('.blockMsg').css('width' , '70%');
+		//searchHolder.removeClass('col-md-12').css('width' , '35%');;
+		modalData.css('width' , '70%');
 	},
 
 	/**

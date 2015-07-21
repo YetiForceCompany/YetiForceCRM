@@ -5,44 +5,45 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
-	'CallHistory' => 'Call history',
-	'SINGLE_CallHistory' => 'Call history',
-	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_RECORDS_LIST' => 'Record list',
-	
+$languageStrings = [
+	'CallHistory' => 'Histórico Chamada',
+	'SINGLE_CallHistory' => 'Histórico Chamada',
+	'LBL_ADD_RECORD' => 'Adicionar registro',
+	'LBL_RECORDS_LIST' => 'Lista Registros',
+
 	//Bloks
-	'LBL_CALLHISTORY_INFORMATION' => 'Call history information',
-	'LBL_CUSTOM_INFORMATION' => 'Additional information',
-	'LBL_PHONE_INFORMATION' => 'Phone information',
-	'LBL_RELATED_INFORMATION' => 'Related information',
-	
+	'LBL_CALLHISTORY_INFORMATION' => 'Informação histórico chamadas',
+	'LBL_CUSTOM_INFORMATION' => 'Informação Adicional',
+	'LBL_PHONE_INFORMATION' => 'Informação Telefone',
+	'LBL_RELATED_INFORMATION' => 'Informação relacionada',
+
 	//Fields
-	'LBL_TYPE' => 'Type',
-	'LBL_FROM_NUMBER' => 'FROM number',
-	'LBL_TO_NUMBER' => 'TO number',
-	'LBL_LOCATION' => 'Location',
-	'LBL_PHONE_CALL_ID' => 'Call ID on telephone',
-	'LBL_DURATION' => 'Call duration time',
+	'LBL_TYPE' => 'Tipo',
+	'LBL_FROM_NUMBER' => 'Número Origem',
+	'LBL_TO_NUMBER' => 'Número Destino',
+	'LBL_LOCATION' => 'Local',
+	'LBL_PHONE_CALL_ID' => 'ID da Chamada Telefônica',
+	'LBL_DURATION' => 'Tempo duração Chamada',
 	'LBL_STATUS' => 'Status',
-	'LBL_START_TIME' => 'Call started',
-	'LBL_END_TIME' => 'Call ended',
-	'LBL_COUNTRY_CODE' => 'Country code',
+	'LBL_START_TIME' => 'Chamada iniciada',
+	'LBL_END_TIME' => 'Chamada concluída',
+	'LBL_COUNTRY_CODE' => 'Código do País',
 	'LBL_IMEI' => 'IMEI',
-	'LBL_IPADDRESS' => 'ID address',
-	'LBL_SIMSERIAL' => 'SIM number',
-	'LBL_SUBSCRIBERID' => 'Subscriber number',
-	'LBL_DESTINATION' => 'Where called',
-	'LBL_SOURCE' => 'Call source',
-	
+	'LBL_IPADDRESS' => 'ID endereço',
+	'LBL_SIMSERIAL' => 'Número SIM',
+	'LBL_SUBSCRIBERID' => 'Número Assinante',
+	'LBL_DESTINATION' => 'Destino Chamada',
+	'LBL_SOURCE' => 'Fonte Chamada',
+	'Record Id' => 'Record Id',
+
 	//pick list values
-	'Outgoing missed' => 'Outgoing missed',
-	'Outgoing received' => 'Outgoing received',
-	'Incoming' => 'Incoming received',
-	'Missed' => 'Incoming missed',
-	'Voicemail' => 'Incoming voicemail',
-	'Call history'	=>	'Call History',
-);
+	'Outgoing missed' => 'Chamada realizada perdida',
+	'Outgoing received' => 'Chamada realizada',
+	'Incoming' => 'Chamada recebida',
+	'Missed' => 'Chamada recebida perdida',
+	'Voicemail' => 'Mensagem por voz recebida',
+	'Call history'	=>	'Histórico Chamada',
+];

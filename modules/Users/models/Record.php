@@ -149,7 +149,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 			$currentUserModel = NULL;
 			if (isset(self::$currentUserModels[$currentUser->id])) {
 				$currentUserModel = self::$currentUserModels[$currentUser->id];
-				if ($currentUser->column_fields['modifiedtime'] != $currentUserModel->get('modifiedtime')) {
+				if ( isset($currentUser->column_fields['modifiedtime']) && $currentUser->column_fields['modifiedtime'] != $currentUserModel->get('modifiedtime')) {
 					$currentUserModel = NULL;
 		}
 			}
@@ -273,7 +273,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 			$users = $this->getAccessibleUsers("",$module);
 		} else {
 			$sharingAccessModel = Settings_SharingAccess_Module_Model::getInstance($module);
-			if($sharingAccessModel->isPrivate()) {
+			if($sharingAccessModel && $sharingAccessModel->isPrivate()) {
 				$users = $this->getAccessibleUsers('private',$module);
 			} else {
 				$users = $this->getAccessibleUsers("",$module);
@@ -295,7 +295,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 			$groups = $this->getAccessibleGroups("",$module);
 		} else {
 			$sharingAccessModel = Settings_SharingAccess_Module_Model::getInstance($module);
-			if($sharingAccessModel->isPrivate()) {
+			if($sharingAccessModel && $sharingAccessModel->isPrivate()) {
 				$groups = $this->getAccessibleGroups('private',$module);
 			} else {
 				$groups = $this->getAccessibleGroups("",$module);
@@ -348,12 +348,14 @@ class Users_Record_Model extends Vtiger_Record_Model {
 		$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
 		$accessibleUser = Vtiger_Cache::get('vtiger-'.$this->getRole().'-'.$currentUserRoleModel->get('allowassignedrecordsto'), 'accessibleusers');
         if(empty($accessibleUser)) {
-			if($currentUserRoleModel->get('allowassignedrecordsto') === '1' || $private == 'Public') {
+			if($currentUserRoleModel->get('allowassignedrecordsto') == '1' || $private == 'Public') {
 				$accessibleUser = get_user_array(false, "ACTIVE", "", $private,$module);
-			} else if($currentUserRoleModel->get('allowassignedrecordsto') === '2'){
+			} else if($currentUserRoleModel->get('allowassignedrecordsto') == '2'){
 				$accessibleUser = $this->getSameLevelUsersWithSubordinates();
-			} else if($currentUserRoleModel->get('allowassignedrecordsto') === '3') {
+			} else if($currentUserRoleModel->get('allowassignedrecordsto') == '3') {
 				$accessibleUser = $this->getRoleBasedSubordinateUsers();
+			} else if($currentUserRoleModel->get('allowassignedrecordsto') == '4') {
+				$accessibleUser[$this->getId()] = $this->getName();
 			}
 			Vtiger_Cache::set('vtiger-'.$this->getRole().'-'.$currentUserRoleModel->get('allowassignedrecordsto'), 'accessibleusers',$accessibleUser);
 		}
@@ -696,4 +698,30 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	public function getDisplayName() {
 		return getFullNameFromArray($this->getModuleName(),$this->getData());
 	}
+	
+	public function getUsersAndGroupForModuleList($module, $view) {
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$db = PearDatabase::getInstance();
+
+		$queryGenerator = new QueryGenerator($module, $currentUser);
+		$queryGenerator->initForCustomViewById($view);
+		$queryGenerator->setFields(['assigned_user_id']);
+		$queryGenerator->addCustomColumn('vtiger_users.first_name');
+		$queryGenerator->addCustomColumn('vtiger_users.last_name');
+		$queryGenerator->addCustomColumn('vtiger_groups.groupname');
+
+		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
+		$result = $db->query($listQuery);
+
+		$users = $group = [];
+		while ($row = $db->fetch_array($result)) {
+			if (isset($row['groupname'])) {
+				$group[$row['smownerid']] = $row['groupname'];
+			} else {
+				$users[$row['smownerid']] = $row['last_name'] . ' ' . $row['first_name'];
+			}
+		}
+		return [ 'users' => $users, 'group' => $group];
+	}
+
 }

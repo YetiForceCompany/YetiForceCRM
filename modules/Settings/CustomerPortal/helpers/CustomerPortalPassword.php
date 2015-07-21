@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -10,9 +9,11 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class CustomerPortalPassword {
+class CustomerPortalPassword
+{
 
-	public static function encryptPassword($userPassword, $userEmail) {
+	public static function encryptPassword($userPassword, $userEmail)
+	{
 
 		$salt = substr($userEmail, 0, 2);
 
@@ -23,15 +24,15 @@ class CustomerPortalPassword {
 		} elseif ($crypt_type == 'BLOWFISH') {
 			$salt = '$2$' . $salt . '$';
 		} elseif ($crypt_type == 'PHP5.3MD5') {
-			$salt = '$1$' . str_pad($salt, 9, '0'); 
+			$salt = '$1$' . str_pad($salt, 9, '0');
 		}
 
 		$encryptedPassword = crypt($userPassword, $salt);
 		return $encryptedPassword;
 	}
-	
-	public static function getCryptType() {
-		return (version_compare(PHP_VERSION, '5.3.0') >= 0)? 'PHP5.3MD5': 'MD5';
-	}
 
+	public static function getCryptType()
+	{
+		return (version_compare(PHP_VERSION, '5.3.0') >= 0) ? 'PHP5.3MD5' : 'MD5';
+	}
 }

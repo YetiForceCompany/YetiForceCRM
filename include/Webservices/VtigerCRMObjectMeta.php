@@ -78,7 +78,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	
 	private function computeAccess(){
 		
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$active = vtlib_isModuleActive($this->getTabName());
 		if($active == false){
@@ -211,7 +211,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	}
 	
 	function hasAssignPrivilege($webserviceId){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		// administrator's have assign privilege
 		if(is_admin($this->user)) return true;
@@ -279,9 +279,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 		if($this->fieldColumnMapping === null){
 			$this->fieldColumnMapping =  array();
 			foreach ($this->moduleFields as $fieldName=>$webserviceField) {
-				if(strcasecmp($webserviceField->getFieldDataType(),'file') !== 0){
-					$this->fieldColumnMapping[$fieldName] = $webserviceField->getColumnName();
-				}
+				$this->fieldColumnMapping[$fieldName] = $webserviceField->getColumnName();
 			}
 			$this->fieldColumnMapping['id'] = $this->idColumn;
 		}
@@ -342,7 +340,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 		$current_user = vtws_preserveGlobal('current_user',$this->user);
 		$theme = vtws_preserveGlobal('theme',$this->user->theme);
 		$default_language = VTWS_PreserveGlobal::getGlobal('default_language');
-		global $current_language;
+		$current_language = vglobal('current_language');
 		if(empty($current_language)) $current_language = $default_language;
 		$current_language = vtws_preserveGlobal('current_language',$current_language);
 		
@@ -370,7 +368,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	
 	private function retrieveMetaForBlock($block){
 		
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$tabid = $this->getTabId();
 		require('user_privileges/user_privileges_'.$this->user->id.'.php');
@@ -423,7 +421,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	}
 	
 	function getObjectEntityName($webserviceId){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$idComponents = vtws_getIdComponents($webserviceId);
 		$id=$idComponents[1];
@@ -454,7 +452,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	}
 	
 	function exists($recordId){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		// Caching user existence value for optimizing repeated reads.
 		// 
@@ -493,7 +491,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	}
 	
 	public function getNameFields(){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$data = getEntityFieldNames(getTabModuleName($this->getEffectiveTabId()));
 		$fieldNames = '';

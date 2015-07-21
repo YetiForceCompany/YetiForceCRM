@@ -31,19 +31,26 @@ Class Calculations_Edit_View extends Inventory_Edit_View {
 			$relatedProducts = $recordModel->getProducts();
 			$viewer->assign('RECORD_ID', $record);
 			$viewer->assign('MODE', 'edit');
-		} elseif ($request->get('salesorder_id') || $request->get('quote_id')) {
+		} elseif ($request->get('salesorder_id') || $request->get('quote_id') || $request->get('reference_id')) {
 			if ($request->get('salesorder_id')) {
 				$referenceId = $request->get('salesorder_id');
-			} else {
+			} else if($request->get('quote_id')) {
 				$referenceId = $request->get('quote_id');
+			} else {
+				$referenceId = $request->get('reference_id');
 			}
-
-			$parentRecordModel = Inventory_Record_Model::getInstanceById($referenceId);
-			$currencyInfo = $parentRecordModel->getCurrencyInfo();
-			$taxes = $parentRecordModel->getProductTaxes();
-			$relatedProducts = $parentRecordModel->getProducts();
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-			$recordModel->setRecordFieldValues($parentRecordModel);
+			if(Vtiger_Functions::getCRMRecordType($referenceId) == 'RequirementCards'){
+				$parentRecordModel = Vtiger_Record_Model::getInstanceById($referenceId);
+				$recordModel->setRecordFieldValues($parentRecordModel);
+				$recordModel->set('requirementcardsid', $referenceId);
+			} else {
+				$parentRecordModel = Inventory_Record_Model::getInstanceById($referenceId);
+				$currencyInfo = $parentRecordModel->getCurrencyInfo();
+				$taxes = $parentRecordModel->getProductTaxes();
+				$relatedProducts = $parentRecordModel->getProducts();
+				$recordModel->setRecordFieldValues($parentRecordModel);
+			}
 		} else {
 			$taxes = Inventory_Module_Model::getAllProductTaxes();
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
@@ -93,7 +100,7 @@ Class Calculations_Edit_View extends Inventory_Edit_View {
 						$relatedRecordModel = Vtiger_Record_Model::getInstanceById($fieldValue, $fieldValueModule);
 						foreach($mappingModule as $fieldDest=>$fieldSource) {
 							$fieldDestModel = $fieldList[$fieldDest];
-							$fieldDestValue = $relatedRecordModel->get($fieldSource);
+							$fieldDestValue = $relatedRecordModel->get($fieldSource[0]);
 							$recordModel->set($fieldDest, $fieldDestModel->getDBInsertValue($fieldDestValue));
 						}
 					}
@@ -152,24 +159,21 @@ Class Calculations_Edit_View extends Inventory_Edit_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
-//echo '<pre>'; //print_r($headerScriptInstances);
+	function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$modulePopUpFile = 'modules.'.$moduleName.'.resources.Popup';
 		$moduleEditFile = 'modules.'.$moduleName.'.resources.Edit';
 		unset($headerScriptInstances[$modulePopUpFile]);
 		unset($headerScriptInstances[$moduleEditFile]);
 
-
 		$jsFileNames = array(
-				'modules.Inventory.resources.Edit',
-				'modules.Inventory.resources.Popup',
-				'layouts.vlayout.modules.Calculations.resources.Edit',
+			'modules.Inventory.resources.Edit',
+			'modules.Inventory.resources.Popup',
+			'layouts.vlayout.modules.Calculations.resources.Edit',
 		);
 		$jsFileNames[] = $moduleEditFile;
 		$jsFileNames[] = $modulePopUpFile;
-		//print_r($headerScriptInstances);exit;
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;

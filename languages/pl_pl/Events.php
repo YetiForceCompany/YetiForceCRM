@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,18 +7,19 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 
 /* NOTE: Should be inline with Calendar language translation but few variations */
 
-$languageStrings = array(
-	'Activity Type'=>'Rodzaj aktywności',
+$languageStrings = [
+	'Activity Type' => 'Rodzaj aktywności',
 	'Busy' => 'Zajęte',
 	'Call' => 'Telefon',
-	'Daily'=>'Dni',
+	'Daily' => 'Dni',
 	'Events' => 'Terminy',
 	'Held' => 'Odbyte',
-	'INVITATION'=>' Zaproszenia ',
+	'Status' => 'Etap',
+	'INVITATION' => ' Zaproszenia ',
 	'LBL_ADD_RECORD' => 'Dodaj termin',
 	'LBL_CALENDAR_VIEW' => 'Kalendarz',
 	'LBL_CREATE_FOLLOWUP_EVENT' => 'Stwórz ponownie termin',
@@ -57,10 +58,10 @@ $languageStrings = array(
 	'LBL_UNTIL' => 'do',
 	'LBL_WEEKS_TYPE' => 'Tygodni',
 	'LBL_YEAR_TYPE' => 'Lat',
-	'Location'=>'Lokalizacja',
+	'Location' => 'Lokalizacja',
 	'Meeting' => 'Spotkanie',
 	'Mobile Call' => 'Połączenie',
-	'Monthly'=>'Miesięcy',
+	'Monthly' => 'Miesięcy',
 	'Not Held' => 'Nieodbyte',
 	'Planned' => 'Planowane',
 	'Private' => 'Prywatny',
@@ -69,17 +70,33 @@ $languageStrings = array(
 	'Send Notification' => 'Wyślij powiadomienie',
 	'Send Reminder' => 'Wyślij przypomnienie',
 	'SINGLE_Events' => 'Termin',
-	'Start Date & Time'=>'Czas rozpoczęcia',
+	'Start Date & Time' => 'Czas rozpoczęcia',
 	'End Date & Time' => 'Czas zakończenia',
-	'Start Date &amp; Time'=>'Czas rozpoczęcia',
+	'Start Date &amp; Time' => 'Czas rozpoczęcia',
 	'End Date &amp; Time' => 'Czas zakończenia',
 	'Visibility' => 'Widoczność',
-	'Weekly'=>'Tygodni',
-	'Yearly'=>'Lat',
-	'LBL_NO_DESCRIPTION'=>'Brak opisu',
+	'Weekly' => 'Tygodni',
+	'Yearly' => 'Lat',
+	'LBL_NO_DESCRIPTION' => 'Brak opisu',
 	'All day' => 'Całodniowe',
 	//Priority picklist values 
-	'High' => 'Wysoki', 
-	'Medium' => 'Średni', 
-	'Low' => 'Niski', 
-);
+	'High' => 'Wysoki',
+	'Medium' => 'Średni',
+	'Low' => 'Niski',
+	'LBL_STATE' => 'Stan',
+	'PLL_OPAQUE' => 'Zajęty',
+	'PLL_TRANSPARENT' => 'Dostępny',
+	'Relation' => 'Powiązanie',
+	'Process' => 'Proces',
+	'LBL_REPEAT_EACH_MONTH' => 'Powtarzaj co wybrany dzień miesiąca',
+	'LBL_REPEAT_MONTH_DAY' => 'Powtarzaj co pierwszy lub ostatni dzień miesiąca',
+	'LBL_REMAIND_DAYS' => 'Przypomnij po wybranej ilości dni',
+	'LBL_REPEAT_FOR' => 'Powtarzaj przez',
+	'LBL_RECURRING_TYPE' => 'Typ powtarzania',
+	'Time Start' => 'Czas rozpoczęcia',
+	'Duration' => 'Czas trwania',
+	'Duration Minutes' => 'Czas trwania w Minutach',
+	'No Time' => 'Brak czasu',
+	'End Time' => 'Czas zakończenia',
+];
+

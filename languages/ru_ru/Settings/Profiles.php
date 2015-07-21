@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_VIEW_PRVILIGE' => 'Просматривать',
 	'LBL_ADD_RECORD' => 'Добавить Профиль',
 	'LBL_CHOOSE_PROFILES' => 'Выбрать профили',
@@ -42,6 +42,7 @@ $languageStrings = array(
 	'SINGLE_Profiles' => 'Профиль',
 	'Name' => 'Название профиля',
 
+	//Actions
 	'Import' => 'Импортировать записи',
 	'Export' => 'Экспортировать записи',
 	'Merge'  => 'Объединять записи',
@@ -53,9 +54,19 @@ $languageStrings = array(
 	'CreateCustomFilter'  => 'Создавать фильтры',
 	'DuplicateRecord'  => 'Дублировать записи',
 	'EditableComments'  => 'Редактировать комментарии',
-	'TagCloud' => 'Tags cloud',
-);
-
-$jsLanguageStrings = array(
+	'TagCloud' => 'Теги',
+	'MassEdit' => 'Массовое редактирование',
+	'MassDelete' => 'Массовое удаление',
+	'MassAddComment' => 'Массовое комментирование',
+	'MassComposeEmail' => 'Массовая рассылка',
+	'MassSendSMS' => 'Массовая отправка SMS',
+	'MassTransferOwnership' => 'Массовое изменение ответственного',
+	'MassMoveDocuments' => 'Массовое перемещение документов',
+	'ReadRecord' => 'Принять все изменения, выполненные в записях',
+	'WorkflowTrigger' => 'Обработчик',
+	'QuickExportToExcel' => 'Quick export to Excel',
+	'CreateDashboardFilter' => 'Create filter widgets',
+];
+$jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Профиль успешно удален',
-);
+];

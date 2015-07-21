@@ -1,16 +1,18 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 
-class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
+class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
+{
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$mode = $request->getMode();
 		if ($mode) {
 			$this->$mode($request);
@@ -19,13 +21,14 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request) {
+	public function preProcess(Vtiger_Request $request)
+	{
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
 
 		$recordId = $request->get('record');
 		$viewer->assign('RECORDID', $recordId);
-		if($recordId) {
+		if ($recordId) {
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
 			$viewer->assign('WORKFLOW_MODEL', $workflowModel);
 		}
@@ -33,7 +36,8 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->view('EditHeader.tpl', $request->getModule(false));
 	}
 
-	public function step1(Vtiger_Request $request) {
+	public function step1(Vtiger_Request $request)
+	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -47,10 +51,10 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 			$viewer->assign('MODE', 'edit');
 		} else {
 			$workflowModel = Settings_Workflows_Record_Model::getCleanInstance($moduleName);
-            $selectedModule = $request->get('source_module');
-            if(!empty($selectedModule)) {
-                $viewer->assign('SELECTED_MODULE', $selectedModule);
-            }
+			$selectedModule = $request->get('source_module');
+			if (!empty($selectedModule)) {
+				$viewer->assign('SELECTED_MODULE', $selectedModule);
+			}
 		}
 		$db = PearDatabase::getInstance();
 		$workflowManager = new VTWorkflowManager($db);
@@ -68,7 +72,8 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->view('Step1.tpl', $qualifiedModuleName);
 	}
 
-	public function step2(Vtiger_Request $request) {
+	public function step2(Vtiger_Request $request)
+	{
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -87,41 +92,40 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 		}
 
 		$requestData = $request->getAll();
-		foreach($requestData as $name=>$value) {			
-			if($name == 'schdayofweek' || $name == 'schdayofmonth' || $name == 'schannualdates') {
-				if(is_string($value)) {	// need to save these as json data
+		foreach ($requestData as $name => $value) {
+			if ($name == 'schdayofweek' || $name == 'schdayofmonth' || $name == 'schannualdates') {
+				if (is_string($value)) { // need to save these as json data
 					$value = array($value);
 				}
 			}
-			if($name == 'summary')
+			if ($name == 'summary')
 				$value = htmlspecialchars($value);
-			$workFlowModel->set($name,$value);
+			$workFlowModel->set($name, $value);
 		}
 		//Added to support advance filters
-		$recordStructureInstance = Settings_Workflows_RecordStructure_Model::getInstanceForWorkFlowModule($workFlowModel,
-																			Settings_Workflows_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);
+		$recordStructureInstance = Settings_Workflows_RecordStructure_Model::getInstanceForWorkFlowModule($workFlowModel, Settings_Workflows_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);
 
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
-        $recordStructure = $recordStructureInstance->getStructure();
-        if(in_array($selectedModuleName,  getInventoryModules())){
-            $itemsBlock = "LBL_ITEM_DETAILS";
-            unset($recordStructure[$itemsBlock]);
-        }
+		$recordStructure = $recordStructureInstance->getStructure();
+		if (in_array($selectedModuleName, getInventoryModules())) {
+			$itemsBlock = "LBL_ITEM_DETAILS";
+			unset($recordStructure[$itemsBlock]);
+		}
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 
-		$viewer->assign('WORKFLOW_MODEL',$workFlowModel);
+		$viewer->assign('WORKFLOW_MODEL', $workFlowModel);
 
 		$viewer->assign('MODULE_MODEL', $selectedModule);
 		$viewer->assign('SELECTED_MODULE_NAME', $selectedModuleName);
 
 		$dateFilters = Vtiger_Field_Model::getDateFilterTypes();
-        foreach($dateFilters as $comparatorKey => $comparatorInfo) {
-            $comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
-            $comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
-            $comparatorInfo['label'] = vtranslate($comparatorInfo['label'], $qualifiedModuleName);
-            $dateFilters[$comparatorKey] = $comparatorInfo;
-        }
-        $viewer->assign('DATE_FILTERS', $dateFilters);
+		foreach ($dateFilters as $comparatorKey => $comparatorInfo) {
+			$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
+			$comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
+			$comparatorInfo['label'] = vtranslate($comparatorInfo['label'], $qualifiedModuleName);
+			$dateFilters[$comparatorKey] = $comparatorInfo;
+		}
+		$viewer->assign('DATE_FILTERS', $dateFilters);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', Settings_Workflows_Field_Model::getAdvancedFilterOptions());
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', Settings_Workflows_Field_Model::getAdvancedFilterOpsByFieldType());
 		$viewer->assign('COLUMNNAME_API', 'getWorkFlowFilterColumnName');
@@ -130,20 +134,21 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('META_VARIABLES', Settings_Workflows_Module_Model::getMetaVariables());
 
 		// Added to show filters only when saved from vtiger6
-		if($workFlowModel->isFilterSavedInNew()) {
+		if ($workFlowModel->isFilterSavedInNew()) {
 			$viewer->assign('ADVANCE_CRITERIA', $workFlowModel->transformToAdvancedFilterCondition());
 		} else {
 			$viewer->assign('ADVANCE_CRITERIA', "");
 		}
 
-		$viewer->assign('IS_FILTER_SAVED_NEW',$workFlowModel->isFilterSavedInNew());
+		$viewer->assign('IS_FILTER_SAVED_NEW', $workFlowModel->isFilterSavedInNew());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 
 		$viewer->view('Step2.tpl', $qualifiedModuleName);
 	}
 
-	function Step3(Vtiger_Request $request) {
+	function Step3(Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -162,18 +167,19 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 
 		$moduleModel = $workFlowModel->getModule();
 		$viewer->assign('TASK_TYPES', Settings_Workflows_TaskType_Model::getAllForModule($moduleModel));
-		$viewer->assign('SOURCE_MODULE',$selectedModuleName);
-		$viewer->assign('RECORD',$recordId);
+		$viewer->assign('SOURCE_MODULE', $selectedModuleName);
+		$viewer->assign('RECORD', $recordId);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('WORKFLOW_MODEL',$workFlowModel);
+		$viewer->assign('WORKFLOW_MODEL', $workFlowModel);
 		$viewer->assign('TASK_LIST', $workFlowModel->getTasks());
-		$viewer->assign('QUALIFIED_MODULE',$qualifiedModuleName);
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 
 		$viewer->view('Step3.tpl', $qualifiedModuleName);
 	}
 
-	public function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	public function getFooterScripts(Vtiger_Request $request)
+	{
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
@@ -186,15 +192,15 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 			'~libraries/jquery/ckeditor/ckeditor.js',
 			"modules.Vtiger.resources.CkEditor",
 			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.js',
-			);
+		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
-        
-          
-	function getHeaderCss(Vtiger_Request $request) {
+
+	function getHeaderCss(Vtiger_Request $request)
+	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
 		$cssFileNames = array(

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSMailView'        => 'Maile',
 	'SINGLE_OSSMailView' => 'Mail firmowy',
@@ -39,17 +39,16 @@ $languageStrings = array(
 	'Trash'  => 'Kosz',
 	'Fromaddress'=>'Od adresy',
 	'Toaddress'=>'Do adresy',
-	'messageid'=>'Message ID',
-	'Reply_to_email'=>'Odpowedz do',
-	'Reply_toaddress'=>'Odpowedz do adresy',
+	'messageid'=>'Id wiadomości',
+	'Reply_to_email'=>'Odpowiedz do',
+	'Reply_toaddress'=>'Odpowiedz do adresy',
 	'Attachments_Exist'=>'Załączniki',
 	'Email_list'=>'Poczta',
-	'Widget list limit'=>'Ilośc wiadomości w bloku',
+	'Widget list limit'=>'Ilość wiadomości w bloku',
 	'_self'=>'tym samym oknie',
 	'_blank'=>'nowym oknie',
 	'List open email'=>'Po kliknięciu na link otwórz w',
 	'emailPreviewHeader'=>'Podgląd wiadomości email',
-	'Email_list'=>'Poczta',
 	'Email_list'=>'Poczta',
     'LBL_CREATEMAIL' => 'Wyślij maila',
     'LBL_OUTCOMING' => 'Wychodzące',
@@ -57,6 +56,11 @@ $languageStrings = array(
     'LBL_INTERNAL' => 'Wewnętrzne',
 	'LBL_REPLYALLL' => 'Odpowiedz wszystkim',
 	'LBL_PRINT' => 'Drukuj',
+	'LBL_FORWARD' => 'Przekaż',
+	'Date of receipt' => 'Data otrzymania',
+	'RC user' => 'RC użytkownika',
+	'FromID' => 'Id nadawcy',
+	'ToID' => 'Id odbiorcy',
     
 	'LBL_VERIFY' => 'Do powiązania',
 	'LBL_REL_MOD' => 'Moduły powiazane',
@@ -78,8 +82,8 @@ $languageStrings = array(
 	'Current month' => 'Aktualny miesiąc',
 	'Previous month' => 'Poprzedni miesiąc',
 	
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'From' => 'Od',
 	'To' => 'Do',
 	'CC' => 'DW',
@@ -87,5 +91,5 @@ $jsLanguageStrings = array(
 	'Date'=>'Data',
 	'Subject'=>'Temat',
 	'Content'=>'Treść',
-	'JS_BIND_CONFIRM'=>'Czy na pewno chcesz powiązać zaznaczone wiadomości ?',
-);
+	'JS_BIND_CONFIRM'=>'Czy na pewno chcesz powiązać zaznaczone wiadomości?',
+];

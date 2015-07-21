@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 26/04/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Adicionar Lista Preços',
 	'LBL_ADD_TO' => 'Adicionar para',
 	'LBL_EDIT_LIST_PRICE'=> 'Editar Lista de Preços' ,
@@ -19,4 +19,4 @@ $languageStrings = array(
 	'PriceBook No' => 'No. Lista Preços' ,
 	'PriceBooks' => 'Listas Preços', 
 	'SINGLE_PriceBooks'=> 'Lista Preço', 
-);
+];

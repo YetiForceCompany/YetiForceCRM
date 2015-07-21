@@ -1,9 +1,15 @@
 {strip}
-	<div class="container-fluid settingsIndexPage">
-		<div class="widget_header row-fluid">
+	<div class="settingsIndexPage">
+		<div class="widget_header">
 			<h3>{vtranslate('LBL_SUMMARY_LICENSE',$MODULE)}</h3>
 		</div>
 		<hr>
-		{include file="licenses/License.html"}
+		<pre>
+			{if $USERLANG eq 'pl_pl'}
+				{include file="licenses/LicensePL.txt"}
+			{else}
+				{include file="licenses/LicenseEN.txt"}
+			{/if}
+		</pre>
 	</div>
 {/strip}

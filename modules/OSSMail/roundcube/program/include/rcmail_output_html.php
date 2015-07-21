@@ -5,7 +5,7 @@
  | program/include/rcmail_output_html.php                                |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2006-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -23,28 +23,30 @@
 /**
  * Class to create HTML page output using a skin template
  *
- * @package    Core
+ * @package Webmail
  * @subpackage View
  */
 class rcmail_output_html extends rcmail_output
 {
     public $type = 'html';
 
-    protected $message = null;
-    protected $js_env = array();
-    protected $js_labels = array();
-    protected $js_commands = array();
-    protected $skin_paths = array();
+    protected $message;
     protected $template_name;
+    protected $js_env       = array();
+    protected $js_labels    = array();
+    protected $js_commands  = array();
+    protected $skin_paths   = array();
     protected $scripts_path = '';
     protected $script_files = array();
-    protected $css_files = array();
-    protected $scripts = array();
+    protected $css_files    = array();
+    protected $scripts      = array();
     protected $default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
     protected $header = '';
     protected $footer = '';
     protected $body = '';
     protected $base_path = '';
+    protected $assets_path;
+    protected $assets_dir = RCUBE_INSTALL_PATH;
     protected $devel_mode = false;
 
     // deprecated names of templates used before 0.5
@@ -58,8 +60,6 @@ class rcmail_output_html extends rcmail_output
 
     /**
      * Constructor
-     *
-     * @todo   Replace $this->config with the real rcube_config object
      */
     public function __construct($task = null, $framed = false)
     {
@@ -67,10 +67,10 @@ class rcmail_output_html extends rcmail_output
 
         $this->devel_mode = $this->config->get('devel_mode');
 
-        //$this->framed = $framed;
         $this->set_env('task', $task);
         $this->set_env('x_frame_options', $this->config->get('x_frame_options', 'sameorigin'));
         $this->set_env('standard_windows', (bool) $this->config->get('standard_windows'));
+        $this->set_env('locale', $_SESSION['language']);
 
         // add cookie info
         $this->set_env('cookie_domain', ini_get('session.cookie_domain'));
@@ -82,12 +82,35 @@ class rcmail_output_html extends rcmail_output
         $this->set_skin($skin);
         $this->set_env('skin', $skin);
 
+        $this->set_assets_path($this->config->get('assets_path'), $this->config->get('assets_dir'));
+
         if (!empty($_REQUEST['_extwin']))
             $this->set_env('extwin', 1);
-        if ($this->framed || !empty($_REQUEST['_framed']))
+        if ($this->framed || $framed)
             $this->set_env('framed', 1);
 
+        $lic = <<<EOF
+/*
+        @licstart  The following is the entire license notice for the 
+        JavaScript code in this page.
+
+        Copyright (C) 2005-2014 The Roundcube Dev Team
+
+        The JavaScript code in this page is free software: you can redistribute
+        it and/or modify it under the terms of the GNU General Public License
+        as published by the Free Software Foundation, either version 3 of
+        the License, or (at your option) any later version.
+
+        The code is distributed WITHOUT ANY WARRANTY; without even the implied
+        warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU GPL for more details.
+
+        @licend  The above is the entire license notice
+        for the JavaScript code in this page.
+*/
+EOF;
         // add common javascripts
+        $this->add_script($lic, 'head_top');
         $this->add_script('var '.self::JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
 
         // don't wait for page onload. Call init at the bottom of the page (delayed)
@@ -123,6 +146,55 @@ class rcmail_output_html extends rcmail_output
         if ($addtojs || isset($this->js_env[$name])) {
             $this->js_env[$name] = $value;
         }
+    }
+
+    /**
+     * Parse and set assets path
+     *
+     * @param string Assets path (relative or absolute URL)
+     */
+    public function set_assets_path($path, $fs_dir = null)
+    {
+        if (empty($path)) {
+            return;
+        }
+
+        $path = rtrim($path, '/') . '/';
+
+        // handle relative assets path
+        if (!preg_match('|^https?://|', $path) && $path[0] != '/') {
+            // save the path to search for asset files later
+            $this->assets_dir = $path;
+
+            $base = preg_replace('/[?#&].*$/', '', $_SERVER['REQUEST_URI']);
+            $base = rtrim($base, '/');
+
+            // remove url token if exists
+            if ($len = intval($this->config->get('use_secure_urls'))) {
+                $_base  = explode('/', $base);
+                $last   = count($_base) - 1;
+                $length = $len > 1 ? $len : 16; // as in rcube::get_secure_url_token()
+
+                // we can't use real token here because it
+                // does not exists in unauthenticated state,
+                // hope this will not produce false-positive matches
+                if ($last > -1 && preg_match('/^[a-f0-9]{' . $length . '}$/', $_base[$last])) {
+                    $path = '../' . $path;
+                }
+            }
+        }
+
+        // set filesystem path for assets
+        if ($fs_dir) {
+            if ($fs_dir[0] != '/') {
+                $fs_dir = realpath(RCUBE_INSTALL_PATH . $fs_dir);
+            }
+            // ensure the path ends with a slash
+            $this->assets_dir = rtrim($fs_dir, '/') . '/';
+        }
+
+        $this->assets_path = $path;
+        $this->set_env('assets_path', $path);
     }
 
     /**
@@ -168,6 +240,8 @@ class rcmail_output_html extends rcmail_output
             $valid = !$skin;
         }
 
+        $skin_path = rtrim($skin_path, '/');
+
         $this->config->set('skin_path', $skin_path);
         $this->base_path = $skin_path;
 
@@ -188,6 +262,14 @@ class rcmail_output_html extends rcmail_output
         // read meta file and check for dependecies
         $meta = @file_get_contents(RCUBE_INSTALL_PATH . $skin_path . '/meta.json');
         $meta = @json_decode($meta, true);
+
+        $meta['path'] = $skin_path;
+        $skin_id = end(explode('/', $skin_path));
+        if (!$meta['name']) {
+            $meta['name'] = $skin_id;
+        }
+        $this->skins[$skin_id] = $meta;
+
         if ($meta['extends']) {
             $path = RCUBE_INSTALL_PATH . 'skins/';
             if (is_dir($path . $meta['extends']) && is_readable($path . $meta['extends'])) {
@@ -222,18 +304,29 @@ class rcmail_output_html extends rcmail_output
      * @param string File name/path to resolve (starting with /)
      * @param string Reference to the base path of the matching skin
      * @param string Additional path to search in
+     *
      * @return mixed Relative path to the requested file or False if not found
      */
     public function get_skin_file($file, &$skin_path = null, $add_path = null)
     {
         $skin_paths = $this->skin_paths;
-        if ($add_path)
+        if ($add_path) {
             array_unshift($skin_paths, $add_path);
+        }
 
         foreach ($skin_paths as $skin_path) {
-            $path = realpath($skin_path . $file);
-            if (is_file($path)) {
+            $path = realpath(RCUBE_INSTALL_PATH . $skin_path . $file);
+
+            if ($path && is_file($path)) {
                 return $skin_path . $file;
+            }
+
+            if ($this->assets_dir != RCUBE_INSTALL_PATH) {
+                $path = realpath($this->assets_dir . $skin_path . $file);
+
+                if ($path && is_file($path)) {
+                    return $skin_path . $file;
+                }
             }
         }
 
@@ -262,9 +355,9 @@ class rcmail_output_html extends rcmail_output
     {
         $cmd = func_get_args();
         if (strpos($cmd[0], 'plugin.') !== false)
-          $this->js_commands[] = array('triggerEvent', $cmd[0], $cmd[1]);
+            $this->js_commands[] = array('triggerEvent', $cmd[0], $cmd[1]);
         else
-          $this->js_commands[] = $cmd;
+            $this->js_commands[] = $cmd;
     }
 
     /**
@@ -274,7 +367,7 @@ class rcmail_output_html extends rcmail_output
     {
         $args = func_get_args();
         if (count($args) == 1 && is_array($args[0]))
-          $args = $args[0];
+            $args = $args[0];
 
         foreach ($args as $name) {
             $this->js_labels[$name] = $this->app->gettext($name);
@@ -315,13 +408,13 @@ class rcmail_output_html extends rcmail_output
     public function reset($all = false)
     {
         $framed = $this->framed;
-        $env = $all ? null : array_intersect_key($this->env, array('extwin'=>1, 'framed'=>1));
+        $env    = $all ? null : array_intersect_key($this->env, array('extwin'=>1, 'framed'=>1));
 
         parent::reset();
 
         // let some env variables survive
-        $this->env = $this->js_env = $env;
-        $this->framed = $framed || $this->env['framed'];
+        $this->env          = $this->js_env = $env;
+        $this->framed       = $framed || $this->env['framed'];
         $this->js_labels    = array();
         $this->js_commands  = array();
         $this->script_files = array();
@@ -339,14 +432,15 @@ class rcmail_output_html extends rcmail_output
     /**
      * Redirect to a certain url
      *
-     * @param mixed $p     Either a string with the action or url parameters as key-value pairs
-     * @param int   $delay Delay in seconds
+     * @param mixed $p      Either a string with the action or url parameters as key-value pairs
+     * @param int   $delay  Delay in seconds
+     * @param bool  $secure Redirect to secure location (see rcmail::url())
      */
-    public function redirect($p = array(), $delay = 1)
+    public function redirect($p = array(), $delay = 1, $secure = false)
     {
         if ($this->env['extwin'])
             $p['extwin'] = 1;
-        $location = $this->app->url($p);
+        $location = $this->app->url($p, false, false, $secure);
         header('Location: ' . $location);
         exit;
     }
@@ -391,29 +485,29 @@ class rcmail_output_html extends rcmail_output
      */
     public function write($template = '')
     {
-        // unlock interface after iframe load
-        $unlock = preg_replace('/[^a-z0-9]/i', '', $_REQUEST['_unlock']);
-        if ($this->framed) {
-            array_unshift($this->js_commands, array('iframe_loaded', $unlock));
-        }
-        else if ($unlock) {
-            array_unshift($this->js_commands, array('hide_message', $unlock));
+        if (!empty($this->script_files)) {
+            $this->set_env('request_token', $this->app->get_request_token());
         }
 
-        if (!empty($this->script_files))
-          $this->set_env('request_token', $this->app->get_request_token());
+        $commands = $this->get_js_commands($framed);
 
-        // write all env variables to client
-        if ($commands = $this->get_js_commands()) {
-            $js = $this->framed ? "if (window.parent) {\n" : '';
-            $js .= $commands . ($this->framed ? ' }' : '');
-            $this->add_script($js, 'head_top');
+        // if all js commands go to parent window we can ignore all
+        // script files and skip rcube_webmail initialization (#1489792)
+        if ($framed) {
+            $this->scripts      = array();
+            $this->script_files = array();
+            $this->header       = '';
+            $this->footer       = '';
         }
+
+        // write all javascript commands
+        $this->add_script($commands, 'head_top');
 
         // send clickjacking protection headers
-        $iframe = $this->framed || !empty($_REQUEST['_framed']);
-        if (!headers_sent() && ($xframe = $this->app->config->get('x_frame_options', 'sameorigin')))
+        $iframe = $this->framed || $this->env['framed'];
+        if (!headers_sent() && ($xframe = $this->app->config->get('x_frame_options', 'sameorigin'))) {
             header('X-Frame-Options: ' . ($iframe && $xframe == 'deny' ? 'sameorigin' : $xframe));
+        }
 
         // call super method
         $this->_write($template, $this->config->get('skin_path'));
@@ -430,18 +524,19 @@ class rcmail_output_html extends rcmail_output
      */
     function parse($name = 'main', $exit = true, $write = true)
     {
-        $plugin    = false;
-        $realname  = $name;
+        $plugin   = false;
+        $realname = $name;
+        $plugin_skin_paths = array();
+
         $this->template_name = $realname;
 
         $temp = explode('.', $name, 2);
         if (count($temp) > 1) {
-            $plugin    = $temp[0];
-            $name      = $temp[1];
-            $skin_dir  = $plugin . '/skins/' . $this->config->get('skin');
+            $plugin   = $temp[0];
+            $name     = $temp[1];
+            $skin_dir = $plugin . '/skins/' . $this->config->get('skin');
 
             // apply skin search escalation list to plugin directory
-            $plugin_skin_paths = array();
             foreach ($this->skin_paths as $skin_path) {
                 $plugin_skin_paths[] = $this->app->plugins->url . $plugin . '/' . $skin_path;
             }
@@ -452,18 +547,18 @@ class rcmail_output_html extends rcmail_output
                 $plugin_skin_paths[] = $this->app->plugins->url . $skin_dir;
             }
 
-            // add plugin skin paths to search list
+            // prepend plugin skin paths to search list
             $this->skin_paths = array_merge($plugin_skin_paths, $this->skin_paths);
         }
 
         // find skin template
         $path = false;
         foreach ($this->skin_paths as $skin_path) {
-            $path = "$skin_path/templates/$name.html";
+            $path = RCUBE_INSTALL_PATH . "$skin_path/templates/$name.html";
 
             // fallback to deprecated template names
             if (!is_readable($path) && $this->deprecated_templates[$realname]) {
-                $path = "$skin_path/templates/" . $this->deprecated_templates[$realname] . ".html";
+                $path = RCUBE_INSTALL_PATH . "$skin_path/templates/" . $this->deprecated_templates[$realname] . ".html";
 
                 if (is_readable($path)) {
                     rcube::raise_error(array(
@@ -489,12 +584,14 @@ class rcmail_output_html extends rcmail_output
         // read template file
         if (!$path || ($templ = @file_get_contents($path)) === false) {
             rcube::raise_error(array(
-                'code' => 501,
+                'code' => 404,
                 'type' => 'php',
                 'line' => __LINE__,
                 'file' => __FILE__,
                 'message' => 'Error loading template for '.$realname
                 ), true, $write);
+
+            $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
             return false;
         }
 
@@ -519,24 +616,14 @@ class rcmail_output_html extends rcmail_output
         $output = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);
         $this->footer = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $this->footer);
 
-        if ($write) {
-            // add debug console
-            if ($realname != 'error' && ($this->config->get('debug_level') & 8)) {
-                $this->add_footer('<div id="console" style="position:absolute;top:5px;left:5px;width:405px;padding:2px;background:white;z-index:9000;display:none">
-                    <a href="#toggle" onclick="con=$(\'#dbgconsole\');con[con.is(\':visible\')?\'hide\':\'show\']();return false">console</a>
-                    <textarea name="console" id="dbgconsole" rows="20" cols="40" style="display:none;width:400px;border:none;font-size:10px" spellcheck="false"></textarea></div>'
-                );
-                $this->add_script(
-                    "if (!window.console || !window.console.log) {\n".
-                    "  window.console = new rcube_console();\n".
-                    "  $('#console').show();\n".
-                    "}", 'foot');
-            }
-            $this->write(trim($output));
-        }
-        else {
+        // remove plugin skin paths from current context
+        $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
+
+        if (!$write) {
             return $output;
         }
+
+        $this->write(trim($output));
 
         if ($exit) {
             exit;
@@ -548,27 +635,60 @@ class rcmail_output_html extends rcmail_output
      *
      * @return string $out
      */
-    protected function get_js_commands()
+    protected function get_js_commands(&$framed = null)
     {
-        $out = '';
+        $out             = '';
+        $parent_commands = 0;
+        $top_commands    = array();
+
+        // these should be always on top,
+        // e.g. hide_message() below depends on env.framed
         if (!$this->framed && !empty($this->js_env)) {
-            $out .= self::JS_OBJECT_NAME . '.set_env('.self::json_serialize($this->js_env).");\n";
+            $top_commands[] = array('set_env', $this->js_env);
         }
         if (!empty($this->js_labels)) {
-            $this->command('add_label', $this->js_labels);
+            $top_commands[] = array('add_label', $this->js_labels);
         }
-        foreach ($this->js_commands as $i => $args) {
+
+        // unlock interface after iframe load
+        $unlock = preg_replace('/[^a-z0-9]/i', '', $_REQUEST['_unlock']);
+        if ($this->framed) {
+            $top_commands[] = array('iframe_loaded', $unlock);
+        }
+        else if ($unlock) {
+            $top_commands[] = array('hide_message', $unlock);
+        }
+
+        $commands = array_merge($top_commands, $this->js_commands);
+
+        foreach ($commands as $i => $args) {
             $method = array_shift($args);
+            $parent = $this->framed || preg_match('/^parent\./', $method);
+
             foreach ($args as $i => $arg) {
                 $args[$i] = self::json_serialize($arg);
             }
-            $parent = $this->framed || preg_match('/^parent\./', $method);
-            $out .= sprintf(
-                "%s.%s(%s);\n",
-                ($parent ? 'if(window.parent && parent.'.self::JS_OBJECT_NAME.') parent.' : '') . self::JS_OBJECT_NAME,
-                preg_replace('/^parent\./', '', $method),
-                implode(',', $args)
-            );
+
+            if ($parent) {
+                $parent_commands++;
+                $method        = preg_replace('/^parent\./', '', $method);
+                $parent_prefix = 'if (window.parent && parent.' . self::JS_OBJECT_NAME . ') parent.';
+                $method        = $parent_prefix . self::JS_OBJECT_NAME . '.' . $method;
+            }
+            else {
+                $method = self::JS_OBJECT_NAME . '.' . $method;
+            }
+
+            $out .= sprintf("%s(%s);\n", $method, implode(',', $args));
+        }
+
+        $framed = $parent_prefix && $parent_commands == count($commands);
+
+        // make the output more compact if all commands go to parent window
+        if ($framed) {
+            $out = "if (window.parent && parent." . self::JS_OBJECT_NAME . ") {\n"
+                . str_replace($parent_prefix, "\tparent.", $out)
+                . "}\n";
         }
 
         return $out;
@@ -584,13 +704,14 @@ class rcmail_output_html extends rcmail_output
     public function abs_url($str, $search_path = false)
     {
         if ($str[0] == '/') {
-            if ($search_path && ($file_url = $this->get_skin_file($str, $skin_path)))
+            if ($search_path && ($file_url = $this->get_skin_file($str, $skin_path))) {
                 return $file_url;
+            }
 
             return $this->base_path . $str;
         }
-        else
-            return $str;
+
+        return $str;
     }
 
     /**
@@ -608,6 +729,21 @@ class rcmail_output_html extends rcmail_output
 
         include RCUBE_INSTALL_PATH . 'program/steps/utils/error.inc';
         exit;
+    }
+
+    /**
+     * Modify path by adding URL prefix if configured
+     */
+    public function asset_url($path)
+    {
+        // iframe content can't be in a different domain
+        // @TODO: check if assests are on a different domain
+
+        if (!$this->assets_path || in_array($path[0], array('?', '/', '.')) || strpos($path, '://')) {
+            return $path;
+        }
+
+        return $this->assets_path . $path;
     }
 
 
@@ -647,7 +783,7 @@ class rcmail_output_html extends rcmail_output
     }
 
     /**
-     * Callback function for preg_replace_callback in write()
+     * Callback function for preg_replace_callback in fix_paths()
      *
      * @return string Parsed string
      */
@@ -670,6 +806,28 @@ class rcmail_output_html extends rcmail_output
     }
 
     /**
+     * Correct paths of asset files according to assets_path
+     */
+    protected function fix_assets_paths($output)
+    {
+        return preg_replace_callback(
+            '!(src|href|background)=(["\']?)([a-z0-9/_.?=-]+)(["\'\s>])!i',
+            array($this, 'assets_callback'), $output);
+    }
+
+    /**
+     * Callback function for preg_replace_callback in fix_assets_paths()
+     *
+     * @return string Parsed string
+     */
+    protected function assets_callback($matches)
+    {
+        $file = $this->asset_url($matches[3]);
+
+        return $matches[1] . '=' . $matches[2] . $file . $matches[4];
+    }
+
+    /**
      * Modify file by adding mtime indicator
      */
     protected function file_mod($file)
@@ -680,12 +838,12 @@ class rcmail_output_html extends rcmail_output
         // use minified file if exists (not in development mode)
         if (!$this->devel_mode && !preg_match('/\.min\.' . $ext . '$/', $file)) {
             $minified_file = substr($file, 0, strlen($ext) * -1) . 'min.' . $ext;
-            if ($fs = @filemtime($minified_file)) {
+            if ($fs = @filemtime($this->assets_dir . $minified_file)) {
                 return $minified_file . '?s=' . $fs;
             }
         }
 
-        if ($fs = @filemtime($file)) {
+        if ($fs = @filemtime($this->assets_dir . $file)) {
             $file .= '?s=' . $fs;
         }
 
@@ -850,6 +1008,14 @@ class rcmail_output_html extends rcmail_output
             return '';
         }
 
+        // localize title and summary attributes
+        if ($command != 'button' && !empty($attrib['title']) && $this->app->text_exists($attrib['title'])) {
+            $attrib['title'] = $this->app->gettext($attrib['title']);
+        }
+        if ($command != 'button' && !empty($attrib['summary']) && $this->app->text_exists($attrib['summary'])) {
+            $attrib['summary'] = $this->app->gettext($attrib['summary']);
+        }
+
         // execute command
         switch ($command) {
             // return a button
@@ -870,16 +1036,16 @@ class rcmail_output_html extends rcmail_output
                     $attrib['name'] = $this->eval_expression($attrib['expression']);
 
                 if ($attrib['name'] || $attrib['command']) {
-                    // @FIXME: 'noshow' is useless, remove?
-                    if ($attrib['noshow']) {
-                        return '';
-                    }
-
                     $vars = $attrib + array('product' => $this->config->get('product_name'));
                     unset($vars['name'], $vars['command']);
 
                     $label   = $this->app->gettext($attrib + array('vars' => $vars));
                     $quoting = !empty($attrib['quoting']) ? strtolower($attrib['quoting']) : (rcube_utils::get_boolean((string)$attrib['html']) ? 'no' : '');
+
+                    // 'noshow' can be used in skins to define new labels
+                    if ($attrib['noshow']) {
+                        return '';
+                    }
 
                     switch ($quoting) {
                         case 'no':
@@ -904,7 +1070,7 @@ class rcmail_output_html extends rcmail_output
                 if (!empty($attrib['skin_path'])) $attrib['skinpath'] = $attrib['skin_path'];
                 if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skinpath'])) {
                     $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);  // set base_path to core skin directory (not plugin's skin)
-                    $path = realpath($path);
+                    $path = realpath(RCUBE_INSTALL_PATH . $path);
                 }
 
                 if (is_readable($path)) {
@@ -1082,7 +1248,8 @@ class rcmail_output_html extends rcmail_output
      */
     public function button($attrib)
     {
-        static $s_button_count = 100;
+        static $s_button_count   = 100;
+        static $disabled_actions = null;
 
         // these commands can be called directly via url
         $a_static_commands = array('compose', 'list', 'preferences', 'folders', 'identities');
@@ -1091,9 +1258,14 @@ class rcmail_output_html extends rcmail_output
             return '';
         }
 
+
         // try to find out the button type
         if ($attrib['type']) {
             $attrib['type'] = strtolower($attrib['type']);
+            if ($pos = strpos($attrib['type'], '-menuitem')) {
+                $attrib['type'] = substr($attrib['type'], 0, -9);
+                $menuitem = true;
+            }
         }
         else {
             $attrib['type'] = ($attrib['image'] || $attrib['imagepas'] || $attrib['imageact']) ? 'image' : 'link';
@@ -1101,8 +1273,21 @@ class rcmail_output_html extends rcmail_output
 
         $command = $attrib['command'];
 
-        if ($attrib['task'])
-          $command = $attrib['task'] . '.' . $command;
+        if ($attrib['task']) {
+            $element = $command = $attrib['task'] . '.' . $command;
+        }
+        else {
+            $element = ($this->env['task'] ? $this->env['task'] . '.' : '') . $command;
+        }
+
+        if ($disabled_actions === null) {
+            $disabled_actions = (array) $this->config->get('disabled_actions');
+        }
+
+        // remove buttons for disabled actions
+        if (in_array($element, $disabled_actions)) {
+            return '';
+        }
 
         if (!$attrib['image']) {
             $attrib['image'] = $attrib['imagepas'] ? $attrib['imagepas'] : $attrib['imageact'];
@@ -1120,6 +1305,17 @@ class rcmail_output_html extends rcmail_output
         }
         if ($attrib['alt']) {
             $attrib['alt'] = html::quote($this->app->gettext($attrib['alt'], $attrib['domain']));
+        }
+
+        // set accessibility attributes
+        if (!$attrib['role']) {
+            $attrib['role'] = 'button';
+        }
+        if (!empty($attrib['class']) && !empty($attrib['classact']) || !empty($attrib['imagepas']) && !empty($attrib['imageact'])) {
+            if (array_key_exists('tabindex', $attrib))
+                $attrib['data-tabindex'] = $attrib['tabindex'];
+            $attrib['tabindex'] = '-1';  // disable button by default
+            $attrib['aria-disabled'] = 'true';
         }
 
         // set title to alt attribute for IE browsers
@@ -1216,12 +1412,17 @@ class rcmail_output_html extends rcmail_output
 
         // generate html code for button
         if ($btn_content) {
-            $attrib_str = html::attrib_string($attrib, array_merge($link_attrib, array('data-*')));
+            $attrib_str = html::attrib_string($attrib, $link_attrib);
             $out = sprintf('<a%s>%s</a>', $attrib_str, $btn_content);
         }
 
         if ($attrib['wrapper']) {
             $out = html::tag($attrib['wrapper'], null, $out);
+        }
+
+        if ($menuitem) {
+            $class = $attrib['menuitem-class'] ? ' class="' . $attrib['menuitem-class'] . '"' : '';
+            $out   = '<li role="menuitem"' . $class . '>' . $out . '</li>';
         }
 
         return $out;
@@ -1306,13 +1507,22 @@ class rcmail_output_html extends rcmail_output
         $output = trim($templ);
 
         if (empty($output)) {
-            $output   = $this->default_template;
+            $output   = html::doctype('html5') . "\n" . $this->default_template;
             $is_empty = true;
         }
 
         // set default page title
         if (empty($this->pagetitle)) {
             $this->pagetitle = 'Roundcube Mail';
+        }
+
+        // declare page language
+        if (!empty($_SESSION['language'])) {
+            $lang = substr($_SESSION['language'], 0, 2);
+            $output = preg_replace('/<html/', '<html lang="' . html::quote($lang) . '"', $output, 1);
+            if (!headers_sent()) {
+                header('Content-Language: ' . $lang);
+            }
         }
 
         // replace specialchars in content
@@ -1412,6 +1622,10 @@ class rcmail_output_html extends rcmail_output
 
         $output = $this->parse_with_globals($this->fix_paths($output));
 
+        if ($this->assets_path) {
+            $output = $this->fix_assets_paths($output);
+        }
+
         // trigger hook with final HTML content to be sent
         $hook = $this->app->plugins->exec_hook("send_page", array('content' => $output));
         if (!$hook['abort']) {
@@ -1440,12 +1654,12 @@ class rcmail_output_html extends rcmail_output
         }
 
         $attrib['name'] = $attrib['id'];
-        $attrib['src'] = $attrib['src'] ? $this->abs_url($attrib['src'], true) : 'program/resources/blank.gif';
+        $attrib['src']  = $attrib['src'] ? $this->abs_url($attrib['src'], true) : 'program/resources/blank.gif';
 
         // register as 'contentframe' object
         if ($is_contentframe || $attrib['contentframe']) {
             $this->set_env('contentframe', $attrib['contentframe'] ? $attrib['contentframe'] : $attrib['name']);
-            $this->set_env('blankpage', $attrib['src']);
+            $this->set_env('blankpage', $this->asset_url($attrib['src']));
         }
 
         return html::iframe($attrib);
@@ -1462,7 +1676,7 @@ class rcmail_output_html extends rcmail_output
      */
     public function form_tag($attrib, $content = null)
     {
-      if ($this->framed || !empty($_REQUEST['_framed'])) {
+      if ($this->framed || $this->env['framed']) {
         $hiddenfield = new html_hiddenfield(array('name' => '_framed', 'value' => '1'));
         $hidden = $hiddenfield->show();
       }
@@ -1502,7 +1716,7 @@ class rcmail_output_html extends rcmail_output
 
         // we already have a <form> tag
         if ($attrib['form']) {
-            if ($this->framed || !empty($_REQUEST['_framed']))
+            if ($this->framed || $this->env['framed'])
                 $hidden->add(array('name' => '_framed', 'value' => '1'));
             return $hidden->show() . $content;
         }
@@ -1657,9 +1871,11 @@ class rcmail_output_html extends rcmail_output
     {
         $images = preg_split('/[\s\t\n,]+/', $attrib['images'], -1, PREG_SPLIT_NO_EMPTY);
         $images = array_map(array($this, 'abs_url'), $images);
+        $images = array_map(array($this, 'asset_url'), $images);
 
-        if (empty($images) || $this->app->task == 'logout')
+        if (empty($images) || $_REQUEST['_task'] == 'logout') {
             return;
+        }
 
         $this->add_script('var images = ' . self::json_serialize($images) .';
             for (var i=0; i<images.length; i++) {

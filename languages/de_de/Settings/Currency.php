@@ -7,17 +7,17 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
-	'Conversion Rate' => 'Conversion Rate',
-	'Currency' => 'Currency',
+$languageStrings = [
+	'Conversion Rate' => 'Umrechnungskurs',
+	'Currency' => 'Währung',
 	'Symbol' => 'Symbol',
-	'Currency Code' => 'Currency Code',
-	'Currency Name' => 'Currency Name',
-	'LBL_ADD_NEW_CURRENCY' => 'Währung hinzufügen',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
+	'Currency Code' => 'Währungsschlüssel',
+	'Currency Name' => 'Name der Währung',
+	'LBL_ADD_NEW_CURRENCY' => 'Neue Währung hinzufügen',
+	'LBL_ADD_RECORD' => 'Währung hinzufügen',
 	'LBL_CURRENCY_CODE' => 'Währungskürzel',
 	'LBL_CURRENCY_NAME' => 'Währungsname',
-	'LBL_CURRENCY_STATUS_DESC' => 'Haken, um Währung als im Programm aktive Währung zu setzen', 
+	'LBL_CURRENCY_STATUS_DESC' => 'aktive Währung (Haken gesetzt)', 
 	'LBL_CURRENCY_SYMBOL' => 'Symbol',
 	'LBL_CURRENT_CURRENCY' => 'Aktuelle Währung',
 	'LBL_EDIT_CURRENCY' => 'Währung bearbeiten',
@@ -155,9 +155,9 @@ $languageStrings = array(
 	'Yemen, Rials'			=> 'Yemen, Rials',
 	'Zambia, Kwacha'		=> 'Zambia, Kwacha',
 	'Zimbabwe Dollars' 		=> 'Zimbabwe Dollars',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CURRENCY_DELETED_SUCCESSFULLY' => 'Währung erfolgreich gelöscht',
 	'JS_CURRENCY_DETAILS_SAVED' => 'Währungsdetails gespeichert',
-);
+];

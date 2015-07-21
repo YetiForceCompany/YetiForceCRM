@@ -12,7 +12,7 @@ $currentPath = dirname(__FILE__);
 $crmPath =  $currentPath . '/../';
 chdir ($crmPath);
 
-require_once 'api/config.php';
+require_once 'config/api.php';
 if(!in_array('mobile',$enabledServices)){
 	die("{'status': 0,'message': 'Mobile - Service is not active'}");
 }
@@ -22,7 +22,7 @@ require_once('include/database/PearDatabase.php');
 require_once('include/logging.php');
 require_once('include/utils/VtlibUtils.php');
 ini_set('error_log',$root_directory.'cache/logs/mobileApps.log');
-global $log,$adb;
+$adb = PearDatabase::getInstance(); $log = vglobal('log');
 $log = &LoggerManager::getLogger('mobileApps');
 $adb = PearDatabase::getInstance();
 $log->info('Start mobile service');

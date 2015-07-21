@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,8 +7,8 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-$languageStrings = array(
+ * *********************************************************************************************************************************** */
+$languageStrings = [
 	'Selected Values' => 'Wybrano wartości',
 	'LBL_ADD_RECORD' => 'Dodaj zależność między słownikami',
 	'PickListDependency' => 'Zależności słownikowe',
@@ -28,13 +28,14 @@ $languageStrings = array(
 	'Module' => 'Moduł',
 	'Source Field' => 'Pole żródłowe',
 	'Target Field' => 'Pole docelowe',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_DEPENDENCY_ATLEAST_ONE_VALUE' => 'Musisz zaznaczyć przynajmniej jedną wartość dla każdej z wartości słownika źródłowego',
 	'JS_DEPENDENCY_DELETED_SUEESSFULLY' => 'Zależność pomyślnie usunięto',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE' => 'Czy na pewno chcesz usunąć tą zależność',
 	'JS_PICKLIST_DEPENDENCY_SAVED' => 'Zależność zapisano poprawnie',
 	'JS_SELECT_SOME_VALUE' => 'Zaznacz jakąś wartość',
 	'JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME' => 'Słownik źródłowy i docelowy nie mogą być tym samym polem',
-);
+	'JS_PICKLIST_DEPENDENCY_NO_SAVED' => 'Nie wprowadzono żadnych zależności. Nie dokonano zapisu.',
+];

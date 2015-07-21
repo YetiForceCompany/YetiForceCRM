@@ -33,10 +33,10 @@ require_once('include/Zend/Json.php');
  * @returns $query -- query:: Type query
  */
 function getListQuery($module, $where = '') {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getListQuery(" . $module . "," . $where . ") method ...");
 
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 	$tab_id = getTabid($module);
@@ -97,7 +97,7 @@ function getListQuery($module, $where = '') {
 			vtiger_potential.related_to, vtiger_potential.potentialname,
 			vtiger_potential.sales_stage, vtiger_potential.amount,
 			vtiger_potential.currency, vtiger_potential.closingdate,
-			vtiger_potential.typeofrevenue, vtiger_potential.contact_id,
+			vtiger_potential.typeofrevenue,
 			vtiger_potentialscf.*
 			FROM vtiger_potential
 			INNER JOIN vtiger_crmentity
@@ -106,8 +106,6 @@ function getListQuery($module, $where = '') {
 				ON vtiger_potentialscf.potentialid = vtiger_potential.potentialid
 			LEFT JOIN vtiger_account
 				ON vtiger_potential.related_to = vtiger_account.accountid
-			LEFT JOIN vtiger_contactdetails
-				ON vtiger_potential.contact_id = vtiger_contactdetails.contactid
 			LEFT JOIN vtiger_campaign
 				ON vtiger_campaign.campaignid = vtiger_potential.campaignid
 			LEFT JOIN vtiger_groups
@@ -210,19 +208,10 @@ function getListQuery($module, $where = '') {
 		Case "Calendar":
 
 			$query = "SELECT vtiger_activity.activityid as act_id,vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype,
-		vtiger_activity.*,
-		vtiger_contactdetails.lastname, vtiger_contactdetails.firstname,
-		vtiger_contactdetails.contactid,
-		vtiger_account.accountid, vtiger_account.accountname
+		vtiger_activity.*
 		FROM vtiger_activity
 		LEFT JOIN vtiger_activitycf
-			ON vtiger_activitycf.activityid = vtiger_activity.activityid
-		LEFT JOIN vtiger_cntactivityrel
-			ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
-		LEFT JOIN vtiger_contactdetails
-			ON vtiger_contactdetails.contactid = vtiger_cntactivityrel.contactid
-		LEFT JOIN vtiger_seactivityrel
-			ON vtiger_seactivityrel.activityid = vtiger_activity.activityid
+			ON vtiger_activitycf.activityid = vtiger_activity.activityidd
 		LEFT OUTER JOIN vtiger_activity_reminder
 			ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid
 		LEFT JOIN vtiger_crmentity
@@ -234,27 +223,7 @@ function getListQuery($module, $where = '') {
 		LEFT JOIN vtiger_users vtiger_users2
 			ON vtiger_crmentity.modifiedby = vtiger_users2.id
 		LEFT JOIN vtiger_groups vtiger_groups2
-			ON vtiger_crmentity.modifiedby = vtiger_groups2.groupid
-		LEFT OUTER JOIN vtiger_account
-			ON vtiger_account.accountid = vtiger_contactdetails.parentid
-		LEFT OUTER JOIN vtiger_leaddetails
-	       		ON vtiger_leaddetails.leadid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_account vtiger_account2
-	        	ON vtiger_account2.accountid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_potential
-	       		ON vtiger_potential.potentialid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_troubletickets
-	       		ON vtiger_troubletickets.ticketid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_salesorder
-			ON vtiger_salesorder.salesorderid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_purchaseorder
-			ON vtiger_purchaseorder.purchaseorderid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_quotes
-			ON vtiger_quotes.quoteid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_invoice
-	                ON vtiger_invoice.invoiceid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_campaign
-		ON vtiger_campaign.campaignid = vtiger_seactivityrel.crmid";
+			ON vtiger_crmentity.modifiedby = vtiger_groups2.groupid";
 
 			//added to fix #5135
 			if (isset($_REQUEST['from_homepage']) && ($_REQUEST['from_homepage'] ==
@@ -264,10 +233,11 @@ function getListQuery($module, $where = '') {
 			}
 			//end
 			$instance = CRMEntity::getInstance($module);
+			$query.=" WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' ";
 			$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $current_user);
 			if($securityParameter != '')
-				$query.= ' AND '.$securityParameter;
-			$query.=" WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' " . $where;
+				$query.= $securityParameter;
+			$query.= ' '.$where;
 			break;
 		Case "Emails":
 			$query = "SELECT DISTINCT vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
@@ -280,10 +250,8 @@ function getListQuery($module, $where = '') {
 				ON vtiger_crmentity.crmid = vtiger_activity.activityid
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_seactivityrel
-				ON vtiger_seactivityrel.activityid = vtiger_activity.activityid
 			LEFT JOIN vtiger_contactdetails
-				ON vtiger_contactdetails.contactid = vtiger_seactivityrel.crmid
+				ON vtiger_contactdetails.contactid = vtiger_activity.link
 			LEFT JOIN vtiger_cntactivityrel
 				ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
 				AND vtiger_cntactivityrel.contactid = vtiger_cntactivityrel.contactid
@@ -352,8 +320,6 @@ function getListQuery($module, $where = '') {
 				ON vtiger_account.accountid = vtiger_quotes.accountid
 			LEFT OUTER JOIN vtiger_potential
 				ON vtiger_potential.potentialid = vtiger_quotes.potentialid
-			LEFT JOIN vtiger_contactdetails
-				ON vtiger_contactdetails.contactid = vtiger_quotes.contactid
 			LEFT JOIN vtiger_groups
 				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_users
@@ -475,7 +441,7 @@ function getListQuery($module, $where = '') {
 			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
 			break;
 		Case "Users":
-			$query = "SELECT id,user_name,first_name,last_name,email1,phone_mobile,phone_work,is_admin,status,
+			$query = "SELECT id,user_name,first_name,last_name,email1,is_admin,status,
 					vtiger_user2role.roleid as roleid,vtiger_role.depth as depth
 				 	FROM vtiger_users
 				 	INNER JOIN vtiger_user2role ON vtiger_users.id = vtiger_user2role.userid
@@ -563,7 +529,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 		related_tabid=?', array($tabid, $relatedTabId));
 	if (empty($relatedListResult))
 		return;
-	$relatedListRow = $adb->fetch_row($relatedListResult);
+	$relatedListRow = $adb->fetchByAssoc($relatedListResult);
 	$header = $relatedListRow['label'];
 	$actions = $relatedListRow['actions'];
 	$functionName = $relatedListRow['name'];
@@ -621,7 +587,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 /* Function to get the Entity Id of a given Entity Name */
 
 function getEntityId($module, $entityName) {
-	global $log, $adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->info("in getEntityId " . $entityName);
 
 	$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";
@@ -653,10 +619,10 @@ function getEntityId($module, $entityName) {
 
 function decode_html($str) {
 	global $default_charset;
-	if(empty($default_charset))
-		$default_charset='UTF-8';
+	if (empty($default_charset))
+		$default_charset = 'UTF-8';
 	// Direct Popup action or Ajax Popup action should be treated the same.
-	if ($_REQUEST['action'] == 'Popup' || $_REQUEST['file'] == 'Popup')
+	if ((isset($_REQUEST['action']) && $_REQUEST['action'] == 'Popup') || (isset($_REQUEST['action']) && $_REQUEST['file'] == 'Popup'))
 		return html_entity_decode($str);
 	else
 		return html_entity_decode($str, ENT_QUOTES, $default_charset);
@@ -695,7 +661,7 @@ function textlength_check($field_val) {
  * @return string $data - the first related module
  */
 function getFirstModule($module, $fieldname) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$sql = "select fieldid, uitype from vtiger_field where tabid=? and fieldname=?";
 	$result = $adb->pquery($sql, array(getTabid($module), $fieldname));
 
@@ -808,7 +774,7 @@ function counterValue() {
 }
 
 function getUsersPasswordInfo(){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$sql = "SELECT user_name, user_hash FROM vtiger_users WHERE deleted=?";
 	$result = $adb->pquery($sql, array(0));
 	$usersList = array();

@@ -517,7 +517,7 @@
 				++$.validationEngine.fieldIdCounter;
 			}
 
-           if (!options.validateNonVisibleFields && (field.is(":hidden") && !options.prettySelect || field.parent().is(":hidden")))
+           if ( (!options.validateNonVisibleFields && (field.is(":hidden") && !options.prettySelect || field.parent().is(":hidden"))) || field.closest('.noValidate').length > 0 )
 				return false;
 
 			var rulesParsing = field.attr(options.validateAttribute);
@@ -689,6 +689,10 @@
 						default:
 							break;
 					}
+				}
+				
+				if (typeof errorMsg == 'string' && options.onBeforePromptType){
+					options.onBeforePromptType(field);
 				}
 				
 				// If it has been specified that validation should end now, break
@@ -2019,6 +2023,7 @@
 		onFieldFailure: false,
 		onSuccess: false,
 		onFailure: false,
+		onBeforePromptType: false,
 		validateAttribute: "class",
 		addSuccessCssClassToField: "",
 		addFailureCssClassToField: "",

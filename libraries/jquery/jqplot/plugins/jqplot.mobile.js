@@ -2,8 +2,8 @@
  * jqplot.jquerymobile plugin
  * jQuery Mobile virtual event support.
  *
- * Version: 1.0.2
- * Revision: 1108
+ * Version: 1.0.8
+ * Revision: 1250
  *
  * Copyright (c) 2011 Takashi Okamoto
  * jqPlot is currently available for use in all personal or commercial projects 

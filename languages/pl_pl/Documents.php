@@ -9,13 +9,13 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Active' => 'Link aktywny',
 	'Document No' => 'Numer dokumentu',
 	'Documents' => 'Dokumenty',
 	'Download Count' => 'Liczba pobrań',
 	'Download Type' => 'Typ pliku',
-	'File Name' => 'Nazwa pliku',
+	'File Name' => 'Nazwa pliku/WWW',
 	'File Size' => 'Rozmiar pliku',
 	'File Type' => 'Typ pliku',
 	'Folder Name' => 'Nazwa katalogu',
@@ -40,7 +40,7 @@ $languageStrings = array(
 	'LBL_FOLDERS_LIST' => 'Lista katalogów',
 	'LBL_INTERNAL' => 'Wewnętrzny',
 	'LBL_MAX_UPLOAD_SIZE' => 'Maksymalny rozmiar pliku',
-	'LBL_MOVE' => 'Przenieś',
+	'LBL_MOVE' => 'Masowa zmiana katalogu',
 	'LBL_NOTE_INFORMATION' => 'Informacje podstawowe',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
@@ -55,9 +55,9 @@ $languageStrings = array(
 	'None' => 'Brak',
 	'Default' => 'Domyślny',
 	'LBL_SELECT_Documents' => 'Wybierz dokument',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_ARE_YOU_SURE_YOU_WANT_TO_MOVE_DOCUMENTS_TO' => 'Czy jesteś pewien, że chcesz przenieść pliki do',
 	'JS_FOLDER' => 'katalog',
 	'JS_FOLDER_IS_NOT_EMPTY' => 'Katalog nie jest pusty',
@@ -66,4 +66,4 @@ $jsLanguageStrings = array(
 	'JS_NOT_ALLOWED' => 'nie są dozwolone',
 	'JS_OPERATION_DENIED' => 'Nie masz uprawnień do tej operacji',
 	'JS_SPECIAL_CHARACTERS' => 'Znaki specjalne: ',
-);
+];

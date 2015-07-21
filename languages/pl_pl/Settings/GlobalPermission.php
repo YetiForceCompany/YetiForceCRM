@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Access to record' => 'Uprawnienia globalne do rekordów',
 	'GlobalPermission' => 'Uprawnienia globalne do rekordów',
 	'LBL_Module_desc' => 'Narzędzie pozwala na ustawienie globalnego dostępu do rekordów (odczyt/modyfikacja) niezależnie od ról.',
@@ -19,4 +19,4 @@ $languageStrings = array(
 	'LBL_EDIT_ALL_DESC' => 'Po zaznaczeniu tej opcji, wszystkie moduły będą miały zaznaczoną opcję: Tworzenie/Edycja',
 	'LBL_EDIT_ALL' => 'Włącz dostęp do edycji wszystkich rekordów',
 	'LBL_SAVE_OK' => 'Zapisano zmianę',
-);
+];

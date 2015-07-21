@@ -9,11 +9,11 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'BruteForce'	=>	'Защита от подбора пароля',
 	'Number of attempts'	=>	'Количество неудачных попыток входа',
 	'Time lock'	=>	'Время блокировки в минутах',
-	'Settings'	=>	'Settings',
+	'Settings' => 'Настройки',
 	'Blocked IP'	=>	'Заблокированные IP адреса',
 	'BruteForce settings'	=>	'Настройка защиты от подбора пароля',
 	'Save'	=>	'Сохранить',
@@ -28,17 +28,18 @@ $languageStrings = array(
 	'Users'	=>	'Пользователь',
 	'Browsers'	=>	'Браузер',
 	'Unblock'	=>	'Разблокирован',
-	'LBL_USERS_FOR_NOTIFICATIONS' => 'Users for notifications',
-	'LBL_BRUTEFORCE_ACTIVE' => 'Active',
-    
-);
-
-$jsLanguageStrings = array(
+	'LBL_USERS_FOR_NOTIFICATIONS' => 'Пользователи для уведомления',
+	'LBL_BRUTEFORCE_ACTIVE' => 'Активный',
+	'LBL_SAVE' => 'Сохранить',
+	'LBL_VIEW_SHOW' => 'Защита от подбора пароля',
+];
+$jsLanguageStrings = [
 	'Could not finnish reaction.'	=>	'Изменения не сохранены',
 	'Complete the fields'	=>	'Заполните поля',
 	'LBL_SAVE_SUCCESS'	=>	'Изменения успешно сохранены',
 	'LBL_FAIL'	=>	'Изменения не сохранены',
 	'LBL_UNBLOCK_FAIL'	=>	'IP адрес не разблокирован',
 	'LBL_UNBLOCK_SUCCESS'	=>	'IP адрес разблокирован',
-    
-);
+	'JS_WRONG_ATTEMPS_NUMBER' => 'Неправильный формат количества попыток',
+	'JS_WRONG_TIME_LOCK_FORMAT' => 'Неправильный формат времени блокировки',
+];

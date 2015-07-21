@@ -8,23 +8,28 @@
  * All Rights Reserved.
  ********************************************************************************/
 
-	require_once("config/config.php");
     /**
     * URL Verfication - Required to overcome Apache mis-configuration and leading to shared setup mode.
     */
 	//Overrides GetRelatedList : used to get related query
 	//TODO : Eliminate below hacking solution
-	include_once 'include/Webservices/Relation.php';
-	include_once 'vtlib/Vtiger/Module.php';
-	include_once 'include/main/WebUI.php';
-	require_once("libraries/HTTP_Session/Session.php");
-	require_once 'include/Webservices/Utils.php';
-	require_once("include/Webservices/State.php");
-	require_once("include/Webservices/OperationManager.php");
-	require_once("include/Webservices/SessionManager.php");
-	require_once("include/Zend/Json.php");
+	require_once('config/config.php');
+	include_once('include/Webservices/Relation.php');
+	include_once('vtlib/Vtiger/Module.php');
+	include_once('include/main/WebUI.php');
+	require_once('libraries/HTTP_Session/Session.php');
+	require_once('include/Webservices/Utils.php');
+	require_once('include/Webservices/State.php');
+	require_once('include/Webservices/OperationManager.php');
+	require_once('include/Webservices/SessionManager.php');
+	require_once('include/Zend/Json.php');
 	require_once('include/logging.php');
 
+	require_once('config/api.php');
+	if(!in_array('webservices',$enabledServices)){
+		die('Webservice - Service is not active');
+	}
+	
 	$API_VERSION = "0.22";
 
 	global $seclog,$log;
@@ -133,4 +138,3 @@
 		writeErrorOutput($operationManager,
 			new WebServiceException(WebServiceErrorCode::$INTERNALERROR,"Unknown Error while processing request"));
 	}
-?>

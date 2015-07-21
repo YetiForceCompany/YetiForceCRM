@@ -8,11 +8,11 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'address' => 'Ulica',
 	'Allows you to Configure Cron Task' => 'Wywołuje okresowo kolejno zdefiniowane zadania w celu automatyzacji procesów w systemie CRM.',
 	'Allows you to manage Webforms' => 'Twórz formularze, które będą zintegrowane z Twoim systemem CRM.',
-	'city' => 'Miasto',
+	'city' => 'Miejscowość',
 	'code'  => 'Kod pocztowy',
 	'Configuration Editor' => 'Ustawienia',
 	'country' => 'Kraj',
@@ -59,7 +59,7 @@ $languageStrings = array(
 	'LBL_EMAIL_TEMPLATE_DESCRIPTION' => 'Zarządzanie szablonami mailowymi',
 	'LBL_ENTER_ANNOUNCEMENT_HERE' => 'Wprowadź wartość ogłoszenia',
 	'LBL_ENTER_TAX_NAME' => 'Wprowadź nazwę dla podatku',
-	'LBL_ENTER_TAX_VALUE' => 'Wprowadź wartośc dla podatku',
+	'LBL_ENTER_TAX_VALUE' => 'Wprowadź wartość dla podatku',
 	'LBL_EXTENSIONS' => 'Rozszerzenia',
 	'LBL_EXTENSIONS_PLACE' => 'Rozszerzenia',
 	'LBL_FIELDFORMULAS_DESCRIPTION' => 'Zarządzaj wyliczeniami pomiędzy polami', //Duplicated key-value pair
@@ -102,7 +102,7 @@ $languageStrings = array(
 	'LBL_MAX' => 'Maksymalnie',
 	'LBL_MAX_TEXT_LENGTH_IN_LISTVIEW' => 'Maksymalna długość tekstu w widoku listy',
 	'LBL_MAX_SEARCH_RESULT'	=> 'Maksymalna liczba wyświetlanych wyników wyszukiwania',
-	'LBL_MAX_UPLOAD_SIZE' => 'Maksymalna wielkość upload-u (Maks. 5MB)',
+	'LBL_MAX_UPLOAD_SIZE' => 'Maksymalna wielkość upload-u',
 	'LBL_MB' => 'MB',
 	'LBL_MENU_DESC' => 'Dostosuj menu określając, które moduły mają być dostępne na pasku głównym a które mają być niewidoczne.',
 	'LBL_MENU_EDITOR' => 'Menu',
@@ -114,7 +114,7 @@ $languageStrings = array(
 	'LBL_NOTIFICATIONS' => 'Powiadomienia',
 	'LBL_OTHER_SETTINGS' => 'Narzędzia',
 	'LBL_OUTGOING_SERVER_DESC' => 'Konfiguruj serwer poczty wychodzącej',
-	'LBL_OUTGOING_SERVER_FROM_FIELD'=>'UWAGA: Jezeli pole Od nie zostanie wpisane wtedy zostanie domyślnie wybrany adres email użytkownika',
+	'LBL_OUTGOING_SERVER_NOTE'=>'UWAGA: Jeżeli pole Od nie zostanie wpisane wtedy zostanie domyślnie wybrany adres email użytkownika',
 	'LBL_OUTGOING_SERVER' => 'Serwer poczty wychodzącej',
 	'LBL_PASSWORD' => 'Hasło',
 	'LBL_PBXMANAGER' => 'Lista połączeń telefonicznych',
@@ -161,7 +161,7 @@ $languageStrings = array(
 	'LBL_UPDATE' => 'Aktualizuj',
 	'LBL_UPDATE_LOGO' => 'Aktualizuj logo',
 	'LBL_UPDATE_MISSING_RECORD_SEQUENCE' => 'Aktualizacja sekwencji numeracji rekordu',
-	'LBL_USE_PREFIX' => 'Używaj prefixu',
+	'LBL_USE_PREFIX' => 'Używaj prefiksu',
 	'LBL_USER_DESCRIPTION' => 'Zarządzaj użytkownikami mającymi dostęp do systemu CRM oraz przydzielaj ich do odpowiedniej roli w strukturze.',
 	'LBL_USER_IP_ADDRESS'=> 'Adres IP', 
 	'LBL_USER_MANAGEMENT' => 'Uprawnienia',
@@ -210,9 +210,11 @@ $languageStrings = array(
 	'OSSCosts'=>'Koszty',
 	'CustomView'	=> 'Widoki',
 	'Widgets'	=> 'Widgety podsumowania rekordu',
+	'LBL_ADDING_ERROR' => 'Błąd przy dodawaniu pola',
+	'LBL_ADDED_COMPANY_FIELD' => 'Dodano pole pomyślnie',
+	'LBL_FIELD_NOT_VALID' => 'Pole musi zawierać tylko litery',
 	
 	/* settings menu */
-	'Menu Manager' => 'Menu',
 	'LBL_QUICK_CREATE_EDITOR' => 'Edytor szybkiego tworzenia',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Moduł umożliwiający zmianę układu ułożenia pól w oknie szybkiego tworzenia rekordów.',
 	'LBL_API_ADDRESS' => 'Wyszukiwarka adresów',
@@ -247,10 +249,36 @@ $languageStrings = array(
 	'LBL_HIDEBLOCKS' => 'Ukrywanie bloków',
 	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Zarządzanie ukrywaniem bloków z polami',
 	'LBL_PUBLIC_HOLIDAY' => 'Publiczne święta',
-	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
+	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => 'Zarządzaj publicznymi świętami',
 	'LBL_CALENDAR_CONFIG' => 'Konfiguracja kalendarza',
-	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
+	'LBL_CALENDAR_CONFIG_DESCRIPTION' => 'Zarządzaj konfiguracją kalendarza',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Konwersja na kontrahenta',
+	'LBL_DAV_KEYS' => 'Klucze aplikacji DAV',
+	'LBL_DAV_KEYS_DESCRIPTION' => 'Tworzenie i zarządzanie kluczami aplikacji DAV',
+	'LBL_AUTOLOGIN' => 'Autologowanie',
+	'LBL_AUTOLOGIN_DESCRIPTION' => 'Konfiguracja automatycznego logowania do modułu poczty',
+	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Konfiguracja ogólna',
+	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => 'Ogólna konfiguracja poczty w systemie',
+	'LBL_SUPPORT_PROCESSES' => 'Procesy wsparcia',
+	'LBL_SUPPORT_PROCESSES_DESCRIPTION' => 'Zarządzaj procesami wsparcia',
+	'LBL_REALIZATION_PROCESSES' => 'Procesy realizacji',
+	'LBL_REALIZATION_PROCESSES_DESCRIPTION' => 'Zarządzaj procesami realizacji',
+	'LBL_FINANCIAL_PROCESSES' => 'Procesy finansowe',
+	'LBL_FINANCIAL_PROCESSES_DESCRIPTION' => 'Zarządzaj finasowymi procesami',
+	'LBL_MARKETING_PROCESSES' => 'Procesy marketingowe',
+	'LBL_MARKETING_PROCESSES_DESCRIPTION' => 'Zarządzaj procesami marketingowymi',
+	'LBL_COLORS' => 'Kolory',
+	'LBL_COLORS_DESCRIPTION' => 'Zarządzaj kolorami',
+	'LBL_MENU_BUILDER' => 'Menu',
+	'LBL_MENU_BUILDER_DESCRIPTION' => 'Dostosuj menu określając, które moduły mają być dostępne na pasku głównym a które mają być niewidoczne',
+	'LBL_AUTHORIZATION' => 'Autoryzacja',
+	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
+	'LBL_OSSPDF_INFO' => 'Zarządzaj ustawieniami pdf',
+	'LBL_BACKUP_DESCRIPTION' => 'Tworzy kopie zapasową plików.',
+	'LBL_SCHEDULER_DESCRIPTION' => 'Zarządzaj harmonogramem',
+	'LBL_OSSMAIL_DESCRIPTION' => 'Zarządzaj klientem poczty',
+	'LBL_PBXMANAGER_DESCRIPTION' => 'Zarządzaj listą połączeń telefonicznych',
+	'Mail Logs' => 'Logi poczty',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',
@@ -260,10 +288,10 @@ $languageStrings = array(
 	'Help Desk Department'	=> 'Dział wsparcia',
 	'Human Resources Department'	=> 'Dział kadr',
 	"Secretary's Office"	=> 'Sekretariat',
-	"Organization"	=> 'Organizacja',
-	"Financial Department"	=> 'Dział finansów',
-	"Production Department"	=> 'Dział produkcji',
-	"Marketing Department"	=> 'Dział marketingu',
+	'Organization'	=> 'Organizacja',
+	'Financial Department'	=> 'Dział finansów',
+	'Production Department'	=> 'Dział produkcji',
+	'Marketing Department'	=> 'Dział marketingu',
     
 	'OSSPassword Configuration'=>'Konfiguracja hasła',
 	'Document Control'=>'Przepływ dokumentów',
@@ -271,11 +299,22 @@ $languageStrings = array(
 	"Credits"	=> 'Współtwórcy',
 	'LBL_PROCESSES' => 'Procesy',
 	'LBL_SALES_PROCESSES' => 'Procesy sprzedażowe',
-	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Zarządzaj procesami sprzedażowymi',
 	'INVENTORYTERMSANDCONDITIONS' => 'Warunki i ustalenia',
-);
+	'LBL_SAVE_CONFIG' => 'Zapisano zmiany',
+	
+	// history
+	'LBL_VIEW_LICENSE' => 'Licencja',
+	'LBL_VIEW_CONFIGEDITORDETAIL' => 'Ustawienia',
+	'LBL_VIEW_TAXINDEX' => 'Podatki',
+	'LBL_VIEW_CUSTOMRECORDNUMBERING' => 'Dostosowanie prefiksów dla rekordów',
+	'LBL_VIEW_TERMSANDCONDITIONSEDIT' => 'Warunki i ustalenia',
+	'LBL_VIEW_COMPANYDETAILS' => 'Dane firmy',
+	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Komunikaty',
+	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Serwer poczty wychodzącej',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_ANNOUNCEMENT_SAVED' => 'Ogłoszenie systemowe zapisano',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Szczegóły konfiguracji zostały zapisane',
 	'JS_CONFIRM_DEFAULT_SETTINGS' => 'Czy jesteś pewien, że chcesz zmienić dane serwera do wartości domyślnych serwera',
@@ -297,4 +336,4 @@ $jsLanguageStrings = array(
 	'LBL_WRONG_IMAGE_TYPE' => 'nie wspierany format pliku',
 	'JS_COLUMN_ADDED' => 'Pole dodane',
 	'JS_COLUMN_EXIST' => 'Bład przy dodaniu pola',
-);
+];

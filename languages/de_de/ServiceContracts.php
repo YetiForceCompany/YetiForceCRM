@@ -8,7 +8,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SUMMARY' => ' Zusammenfassung der Arbeitszeit',
 	'Services'	=>	'Dienstleistungen',
 	'In Progress'	=>	'In Arbeit',
@@ -17,7 +17,7 @@ $languageStrings = array(
 	'Service Contracts' => 'Serviceverträge',
 	'SINGLE_ServiceContracts' => 'Servicevertrag',
 	'LBL_ADD_RECORD' => 'Servicevertrag hinzufügen',
-	'LBL_RECORDS_LIST' => 'Servicevertragsliste',
+	'LBL_RECORDS_LIST' => 'Liste Serviceverträge',
 	// Blocks
 	'LBL_SERVICE_CONTRACT_INFORMATION' => 'Servicevertragsdetails',
 	
@@ -45,7 +45,7 @@ $languageStrings = array(
 	'Complete' => 'Komplett',
 	'Archived' => 'Archiviert',
 	'Due date' => 'Fälligkeitsdatum',
-	'Related to' => 'Verbunden mit',
+	'Related to' => 'Bezogen auf',
 	'Low' => 'Niedrig',
 	'Normal' => 'Normal',
 	'High' => 'Hoch',
@@ -55,4 +55,4 @@ $languageStrings = array(
 	'Days' => 'Tage',
 	'Incidents' => 'Vorfälle'
 
-);
+];

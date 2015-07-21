@@ -21,7 +21,7 @@ class VTEmailTask extends VTTask{
 		return array("subject", "content", "recepient", 'emailcc', 'emailbcc', 'fromEmail');
 	}
 	public function doTask($entity){
-		global $adb, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 		$util = new VTWorkflowUtils();
 		$admin = $util->adminUser();
 		$module = $entity->getModuleName();
@@ -39,28 +39,6 @@ class VTEmailTask extends VTTask{
 			//Storing the details of emails
 			$entityIdDetails = vtws_getIdComponents($entity->getId());
 			$entityId = $entityIdDetails[1];
-			$moduleName = 'Emails';
-			$userId = $current_user->id;
-			$emailFocus = CRMEntity::getInstance($moduleName);
-			$emailFieldValues = array(
-					'assigned_user_id' => $userId,
-					'subject' => $subject,
-					'description' => $content,
-					'from_email' => $from_email,
-					'saved_toid' => $to_email,
-					'ccmail' => $cc,
-					'bccmail' => $bcc,
-					'parent_id' => $entityId."@$userId|",
-					'email_flag' => 'SENT',
-					'activitytype' => $moduleName,
-					'date_start' => date('Y-m-d'),
-					'time_start' => date('H:i:s'),
-					'mode' => '',
-					'id' => ''
-			);
-			$emailFocus->column_fields = $emailFieldValues;
-			$emailFocus->save($moduleName);
-
 
 			//Including email tracking details
 			global $site_URL, $application_unique_key;
@@ -93,7 +71,7 @@ class VTEmailTask extends VTTask{
 	 */
 	public function getContents($entity, $entityCache=false) {
 		if (!$this->contents) {
-			global $adb, $current_user;
+			$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 			$taskContents = array();
 			$entityId = $entity->getId();
 
@@ -146,23 +124,6 @@ class VTEmailTask extends VTTask{
 			$taskContents['fromEmail'] = $fromEmail;
 			$taskContents['fromName'] =	$fromName;
 
-			if ($entity->getModuleName() === 'Events') {
-				$contactId = $entity->get('contact_id');
-				if ($contactId) {
-					$contactIds = '';
-					list($wsId, $recordId) = explode('x', $entityId);
-					$webserviceObject = VtigerWebserviceObject::fromName($adb, 'Contacts');
-
-					$result = $adb->pquery('SELECT contactid FROM vtiger_cntactivityrel WHERE activityid = ?', array($recordId));
-					$numOfRows = $adb->num_rows($result);
-					for($i=0; $i<$numOfRows; $i++) {
-						$contactIds .= vtws_getId($webserviceObject->getEntityId(), $adb->query_result($result, $i, 'contactid')).',';
-					}
-				}
-				$entity->set('contact_id', trim($contactIds, ','));
-				$entityCache->cache[$entityId] = $entity;
-			}
-
 			$et = new VTEmailRecipientsTemplate($this->recepient);
 			$toEmail = $et->render($entityCache, $entityId);
 
@@ -195,4 +156,3 @@ class VTEmailTask extends VTTask{
 		return $this->contents;
 	}
 }
-?>

@@ -94,8 +94,8 @@ class CurrencyField {
 
 		if(!empty($user->currency_grouping_pattern)) {
 			$this->currencyFormat = html_entity_decode($user->currency_grouping_pattern, ENT_QUOTES, $default_charset);
-			$this->currencySeparator = html_entity_decode($user->currency_grouping_separator, ENT_QUOTES, $default_charset);
-			$this->decimalSeparator = html_entity_decode($user->currency_decimal_separator, ENT_QUOTES, $default_charset);
+			$this->currencySeparator = str_replace("\xC2\xA0", ' ', html_entity_decode($user->currency_grouping_separator, ENT_QUOTES, $default_charset));
+			$this->decimalSeparator = str_replace("\xC2\xA0", ' ', html_entity_decode($user->currency_decimal_separator, ENT_QUOTES, $default_charset));
 		}
 
 		if(!empty($user->currency_id)) {
@@ -141,7 +141,7 @@ class CurrencyField {
      * @return Formatted Currency
      */
     public function getDisplayValue($user=null, $skipConversion=false, $skipFormatting=false) {
-        global $current_user;
+        $current_user  = vglobal('current_user');
 		if(empty($user)) {
 			$user = $current_user;
 		}
@@ -177,7 +177,7 @@ class CurrencyField {
      * @return Currency value appended with the currency symbol
      */
 	public static function appendCurrencySymbol($currencyValue, $currencySymbol, $currencySymbolPlacement='') {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(empty($currencySymbolPlacement)) {
 			$currencySymbolPlacement = $current_user->currency_symbol_placement;
 		}
@@ -347,7 +347,7 @@ class CurrencyField {
      * @return Number
      */
     public function getDBInsertedValue($user=null, $skipConversion=false) {
-        global $current_user;
+        $current_user  = vglobal('current_user');
         if(empty($user)) {
             $user = $current_user;
         }
@@ -417,7 +417,7 @@ class CurrencyField {
 	}
 	
 	function currencyDecimalFormat($value, $user = null){
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if (!$user) {
 			$user = $current_user;
 		}
@@ -429,12 +429,20 @@ class CurrencyField {
                  */
                 $value = rtrim($value, '0');
             }
-			$fld_value = explode(decode_html($user->currency_decimal_separator), $value);
-			if(strlen($fld_value[1]) <= 1){
-				if(strlen($fld_value[1]) == 1)
-					return $value = $fld_value[0].$user->currency_decimal_separator.$fld_value[1].'0';
-				else
-					return $value = $fld_value[0].$user->currency_decimal_separator.'00';
+            if($user->currency_decimal_separator == '&nbsp;')
+                $decimalSeperator = ' ';
+            else
+				$decimalSeperator = $user->currency_decimal_separator;
+
+			$fieldValue = explode(decode_html($decimalSeperator), $value);
+			if(strlen($fieldValue[1]) <= 1){
+				if(strlen($fieldValue[1]) == 1) {
+					return $value = $fieldValue[0].$decimalSeperator.$fieldValue[1];
+				} else if (!strlen($fieldValue[1])) {
+					return $value = $fieldValue[0];
+				} else {
+					return $value = $fieldValue[0].$decimalSeperator;
+				}
 			}else{
 				return preg_replace("/(?<=\\.[0-9])[0]+\$/","",$value);
 			}
@@ -443,4 +451,3 @@ class CurrencyField {
 		}
 	}
 }
-?>

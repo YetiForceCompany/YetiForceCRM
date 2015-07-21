@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,7 +22,9 @@ $messages['sessionerror'] = 'Oturumunuz sona ermiş veya hatalı';
 $messages['storageerror'] = 'IMAP sunucusuna bağlanılamadı';
 $messages['servererror'] = 'Sunucu Hatası!';
 $messages['servererrormsg'] = 'Sunucu hatası: $msg';
+$messages['connerror'] = 'Bağlantı Hatası (Sunucuya erişim başarısız oldu)!';
 $messages['dberror'] = 'Veritabanı Hatası!';
+$messages['windowopenerror'] = 'Açılır pencere engellendi!';
 $messages['requesttimedout'] = 'İstek zaman aşımına uğradı';
 $messages['errorreadonly'] = 'İşlem gerçekleştirilemedi. Dizin salt okunabilir';
 $messages['errornoperm'] = 'İşlem gerçekleştirilemedi. İzin verilmedi.';
@@ -92,13 +94,14 @@ $messages['contactsearchsuccessful'] = '$nr kişi bulundu.';
 $messages['searchnomatch'] = 'Aramanıza uygun hiçbir sonuç bulunamadı.';
 $messages['searching'] = 'Aranıyor...';
 $messages['checking'] = 'Denetleniyor...';
+$messages['stillsearching'] = 'Hala arıyor...';
 $messages['nospellerrors'] = 'Yazım hatası bulunamadı.';
-$messages['folderdeleted'] = 'Klasör başarıyla silindi.';
-$messages['foldersubscribed'] = 'Klasöre başarıyla abone olundu.';
-$messages['folderunsubscribed'] = 'Klasör aboneliği başarıyla kaldırıldı.';
-$messages['folderpurged'] = 'Klasör başarıyla sıklaştırıldı.';
-$messages['folderexpunged'] = 'Klasör başarıyla boşaltıldı.';
-$messages['deletedsuccessfully'] = 'Başarıyla silindi.';
+$messages['folderdeleted'] = 'Klasör silindi.';
+$messages['foldersubscribed'] = 'Klasöre abone olundu.';
+$messages['folderunsubscribed'] = 'Klasör aboneliği kaldırıldı.';
+$messages['folderpurged'] = 'Klasör boşaltıldı.';
+$messages['folderexpunged'] = 'Klasör sıkıştırıldı';
+$messages['deletedsuccessfully'] = 'Silindi.';
 $messages['converting'] = 'Postanın biçimlendirmesi kaldırılıyor...';
 $messages['messageopenerror'] = 'Sunucudan posta yüklenemedi.';
 $messages['fileuploaderror'] = 'Dosya yükleme başarısız.';
@@ -135,7 +138,7 @@ $messages['importmessagesuccess'] = '$nr adet mesaj başarıyla içe aktarıldı
 $messages['importmessageerror'] = 'İçe aktarım başarısız. Yüklenen dosya geçerli bir içe aktarım dosyası değil.';
 $messages['opnotpermitted'] = 'Bu işleme izin verilmedi!';
 $messages['nofromaddress'] = 'Seçili kimlikte e-posta adresi yok';
-$messages['editorwarning'] = 'Düz metin düzenleyiciye geçmek, metin üzerindeki bütün biçimlendirmeleri kaldıracak. Devam etmek istiyor musunuz?';
+$messages['editorwarning'] = 'Editör tipini değiştirmek, metin biçimlendirmeyi kaybetmenize sebep olabilir. Devam etmek istiyor musunuz?';
 $messages['httpreceivedencrypterror'] = 'Ayarlarda bir hata oluştu. Sistem yöneticinize haber verin. <b>Postanız gönderilemedi</b>';
 $messages['smtpconnerror'] = 'SMTP Hatası ($code): Sunucuya bağlanılamadı';
 $messages['smtpautherror'] = 'SMTP Hatası ($code): Kimlik doğrulama başarısız oldu';
@@ -174,4 +177,14 @@ $messages['parentnotwritable'] = 'Klasör, seçilen üst klasöre taşınamıyor
 $messages['messagetoobig'] = 'Bu ileti parçası işlenemeyecek kadar büyük.';
 $messages['attachmentvalidationerror'] = 'UYARI! Bu eklenti mesajda belirtilenden farklı olduğu için şüpheli bulundu. Eğer göndericiye güvenmiyorsanız eki web tarayıcısında açmayın. Şüpheli içerik bulunabilir.';
 $messages['noscriptwarning'] = 'Uyarı: Bu e-posta servisi Javascript gerektirmektedir! Servisi kullanabilmek için lütfen web tarayıcınızın ayarlarından Javascript\'i etkinleştiriniz.';
+$messages['messageissent'] = 'Mesaj zaten gönderildi. Fakat kaydedilmedi. Şimdi kaydetmek ister misiniz?';
+$messages['errnotfound'] = 'Dosya bulunamadı.';
+$messages['errnotfoundexplain'] = 'İstenen kaynak bulunamadı!..';
+$messages['errfailedrequest'] = 'Başarısız istek.';
+$messages['errauthorizationfailed'] = 'Yetkilendirme başarısız.';
+$messages['errunauthorizedexplain'] = 'Bu hizmete erişme yetkiniz yok.';
+$messages['errrequestcheckfailed'] = 'Doğrulama başarısız.';
+$messages['errcsrfprotectionexplain'] = "Güvenliğiniz için, CSRF karşı bu kaynağa erişim sabitlenmiştir.\nlfBakınız web uygulaması muhtemelen düzgün kapatılmadı.\n\nŞimdi etkileşimi doğrulayıp devam edin.";
+$messages['errcontactserveradmin'] = 'Sunucu yöneticinize başvurun.';
+$messages['clicktoresumesession'] = 'Önceki oturuma devam etmek için tıklayınız.';
 ?>

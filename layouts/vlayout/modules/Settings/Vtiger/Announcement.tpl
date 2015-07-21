@@ -9,15 +9,15 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid" id="AnnouncementContainer">
-	<div class="widget_header row-fluid">
-		<div class="row-fluid"><h3>{vtranslate('LBL_ANNOUNCEMENTS', $QUALIFIED_MODULE)}</h3></div>
+<div class="" id="AnnouncementContainer">
+	<div class="widget_header">
+		<div class=""><h3>{vtranslate('LBL_ANNOUNCEMENTS', $QUALIFIED_MODULE)}</h3></div>
 	</div>
 	<hr>
 
-    <div class="contents row-fluid">
-        <textarea class="announcementContent textarea-autosize boxSizingBorderBox" rows="3" placeholder="{vtranslate('LBL_ENTER_ANNOUNCEMENT_HERE', $QUALIFIED_MODULE)}" style="width:100%">{$ANNOUNCEMENT->get('announcement')}</textarea>
-        <div class="row-fluid textAlignCenter">
+    <div class="contents">
+        <textarea class="announcementContent textarea-autosize boxSizingBorderBox form-control" rows="3" placeholder="{vtranslate('LBL_ENTER_ANNOUNCEMENT_HERE', $QUALIFIED_MODULE)}" style="width:100%">{$ANNOUNCEMENT->get('announcement')}</textarea>
+        <div class="row textAlignCenter">
 			<br>
             <button class="btn btn-success saveAnnouncement hide"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
         </div>

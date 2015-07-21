@@ -58,20 +58,23 @@ Vtiger_Edit_Js("Documents_Edit_Js", {} ,{
 			for(var index=0; index<oldElementAttributeList.length; index++) {
 				var attributeObject = oldElementAttributeList[index];
 				//Dont update the type attribute
-				if(attributeObject.name=='type' || attributeObject.name == 'value'){
+				if(attributeObject.name=='type' || attributeObject.name == 'value' || attributeObject.name == 'class'){
 					continue;
 				}
 				var value = attributeObject.value
+				var className = '';
 				if(attributeObject.name=='data-fieldinfo') {
 					value = JSON.parse(value);
 					if(thisInstance.isFileLocationExternalType(fileLocationTypeElement)) {
 						value['type'] = 'url';
+						className = 'form-control';
 					}else{
 						value['type'] = 'file';
 					}
 					value = JSON.stringify(value);
 				}
 				newFileNameElement.attr(attributeObject.name, value);
+				newFileNameElement.addClass(className);
 			}
 			fileNameElement.replaceWith(newFileNameElement);
 			var fileNameElementTd = newFileNameElement.closest('td');

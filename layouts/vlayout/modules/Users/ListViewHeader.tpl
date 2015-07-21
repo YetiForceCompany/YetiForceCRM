@@ -10,16 +10,16 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid listViewPageDiv">
-	<div class="widget_header row-fluid">
+<div class=" listViewPageDiv">
+	<div class="widget_header row">
 		<h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>
 	</div>
 	<hr>
-	<div class="row-fluid">
-		<span class="span4 btn-toolbar">
+	<div class="row" style="margin-bottom: 2px;">
+		<div class="col-md-4 btn-toolbar">
             <span class="btn-group listViewMassActions">
                 {if count($LISTVIEW_MASSACTIONS) gt 0 || $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
-                    <button class="btn dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<i class="caret"></i></button>
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
                     <ul class="dropdown-menu">
 						{foreach item="LISTVIEW_MASSACTION" from=$LISTVIEW_MASSACTIONS name=actionCount}
 							<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}"><a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{vtranslate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a></li>
@@ -35,23 +35,23 @@
             </span>
 			{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 			<span class="btn-group">
-			<button class="btn addButton" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
+			<button class="btn btn-default addButton" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
 					{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
-				<i class="icon-plus"></i>&nbsp;
+				<span class="glyphicon glyphicon-plus"></span>&nbsp;
 				<strong>{vtranslate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}</strong>
 			</button>
 			</span>
 			{/foreach}
-		</span>
-        <div class="span4 btn-toolbar">
+		</div>
+        <div class="col-md-4 btn-toolbar">
             <select class="select2" id="usersFilter" name="status" style="min-width:350px;">
                 <option value="Active">{vtranslate('LBL_ACTIVE_USERS', $QUALIFIED_MODULE)}</option>
                 <option value="Inactive">{vtranslate('LBL_INACTIVE_USERS', $QUALIFIED_MODULE)}</option>
             </select>
         </div>
-		<span class="span4 btn-toolbar">
+		<div class="col-md-4 btn-toolbar">
 			{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-		</span>
+		</div>	
 	</div>
 	<div class="listViewContentDiv" id="listViewContents">
 {/strip}

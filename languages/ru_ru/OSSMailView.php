@@ -9,7 +9,13 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
+	'RC user' => 'Пользователь',
+	'ToID' => 'ID получателя',
+	'id' => 'Идентификатор',
+	'mbox' => 'Почтовый ящик',
+	'FromID' => 'ID отправителя',
+	'Treść' => 'Содержание',
 	'Previous month' => 'В прошлом месяце',
 	'Current month' => 'В этом месяце',
 	'Previous week' => 'На прошлой неделе',
@@ -56,13 +62,13 @@ $languageStrings = array(
 	'List open email'	=>	'Выберите, как открывать письмо',
 	'emailPreviewHeader'	=>	'Предварительный просмотр',
 	'Email_list'	=>	'Просмотр почты',
-	'Email_list'	=>	'Просмотр почты',
 	'LBL_CREATEMAIL'	=>	'Написать Письмо',
 	'LBL_OUTCOMING'	=>	'Исходящие',
 	'LBL_INCOMING'	=>	'Входящие',
 	'Internal'	=>	'Внутренний',
 	'LBL_REPLYALLL'	=>	'Ответить всем',
 	'LBL_PRINT'	=>	'Печатать',
+	'LBL_FORWARD' => 'Переслать',
 	'LBL_VERIFY'	=>	'Контроллер',
 	'LBL_REL_MOD'	=>	'Связанный модуль',
 	'LBL_BindMailsOK'	=>	'Помеченные письма на связываются, при следующем запуске обработчика сообщение будет связано с записью',
@@ -73,11 +79,12 @@ $languageStrings = array(
 	'Alert_ChangeType_desc'	=>	'Все виды выбранный адрес электронной почты будет изменен, без возможности отменить изменения.',
 	'LBL_ChangeTypeOK'	=>	'Изменен статус сообщения',
 	'Configuration'	=>	'Настройка просмотра почты',
+	'Date of receipt' => 'Дата поступления',
 	
 	//dashboards
 	'Graf'	=>	'Письма по статусу',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'From'	=>	'От',
 	'To'	=>	'Для',
 	'CC'	=>	'Копия',
@@ -86,4 +93,4 @@ $jsLanguageStrings = array(
 	'Subject'	=>	'Тема',
 	'Content'	=>	'Содержание',
 	'JS_BIND_CONFIRM'	=>	'Вы уверены, что хотите связать выбранные сообщения?',
-);
+];

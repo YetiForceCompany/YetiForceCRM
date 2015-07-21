@@ -33,7 +33,7 @@ class Calendar_RepeatEvents {
 	 * Based on user time format convert the YYYY-MM-DD HH:MM value.
 	 */
 	static function formattime($timeInYMDHIS) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$format_string = 'Y-m-d H:i';
 		switch($current_user->date_format) {
 			case 'dd-mm-yyyy': $format_string = 'd-m-Y H:i'; break;
@@ -129,7 +129,7 @@ class Calendar_RepeatEvents {
 	 * Repeat Activity instance till given limit.
 	 */
 	static function repeat($focus, $recurObj) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$frequency = $recurObj->recur_freq;
 		$repeattype= $recurObj->recur_type;
 		
@@ -173,42 +173,11 @@ class Calendar_RepeatEvents {
 				unset($new_focus->column_fields['sendnotification']);
 			}
 			$new_focus->save('Calendar');
-            $record = $new_focus->id;
-            
-            // add repeat event to contact record
-            if (isset($_REQUEST['contactidlist']) && $_REQUEST['contactidlist'] != '') {
-                //split the string and store in an array
-                $storearray = explode(";", $_REQUEST['contactidlist']);
-                $del_sql = "delete from vtiger_cntactivityrel where activityid=?";
-                $adb->pquery($del_sql, array($record));
-                foreach ($storearray as $id) {
-                    if ($id != '') {
-                        $sql = "insert into vtiger_cntactivityrel values (?,?)";
-                        $adb->pquery($sql, array($id, $record));
-                    }
-                }
-            }
-            
-            //to delete contact relation while editing event
-            if (isset($_REQUEST['deletecntlist']) && $_REQUEST['deletecntlist'] != '' && $_REQUEST['mode'] == 'edit') {
-                //split the string and store it in an array
-                $storearray = explode(";", $_REQUEST['deletecntlist']);
-                foreach ($storearray as $id) {
-                    if ($id != '') {
-                        $sql = "delete from vtiger_cntactivityrel where contactid=? and activityid=?";
-                        $adb->pquery($sql, array($id, $record));
-                    }
-                }
-            }
-            
 		}
 	}
 
 	static function repeatFromRequest($focus) {
-		global $log, $default_charset, $current_user;
 		$recurObj = getrecurringObjValue();
 		self::repeat($focus, $recurObj);
 	}
 }
-
-?>

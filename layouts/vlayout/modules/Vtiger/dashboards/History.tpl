@@ -10,30 +10,26 @@
  ********************************************************************************/
 -->*}
 <div class="dashboardWidgetHeader">
-	<table width="100%" cellspacing="0" cellpadding="0">
-	<thead>
-		<tr>
-			<th class="span4">
-				<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle())}</b></div>
-			</th>
-			<th class="span2">
-				<div>
-					<select class="widgetFilter" id="historyType" name="type" style='width:100px;margin-bottom:0px'>
-						<option value="all" >{vtranslate('LBL_ALL')}</option>
-						{if $COMMENTS_MODULE_MODEL->isPermitted('DetailView')}<option value="comments" >{vtranslate('LBL_COMMENTS')}</option>{/if}
-						<option value="updates" >{vtranslate('LBL_UPDATES')}</option>
-					</select>
-				</div>
-			</th>
-			<th class="refresh span1" align="right">
-				<span style="position:relative;"></span>
-			</th>
-			<th class="widgeticons span5" align="right">
+	<div class="row">
+		<div class="col-md-8">
+			<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
+		</div>
+		<div class="col-md-4">
+			<div class="box pull-right">
 				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
-			</th>
-		</tr>
-	</thead>
-	</table>
+			</div>
+		</div>
+	</div>
+	<hr class="widgetHr"/>
+	<div class="row" >
+		<div class="col-md-6 pull-right">
+			<select class="widgetFilter form-control input-sm" id="historyType" title="{vtranslate('LBL_HISTORY_TYPE')}" name="type">
+				<option title="{vtranslate('LBL_ALL')}" value="all" >{vtranslate('LBL_ALL')}</option>
+				{if $COMMENTS_MODULE_MODEL->isPermitted('DetailView')}<option title="{vtranslate('LBL_COMMENTS')}" value="comments" >{vtranslate('LBL_COMMENTS')}</option>{/if}
+				<option value="updates" title="{vtranslate('LBL_UPDATES')}">{vtranslate('LBL_UPDATES')}</option>
+			</select>
+		</div>
+	</div>
 </div>
 <div class="dashboardWidgetContent">
 	{include file="dashboards/HistoryContents.tpl"|@vtemplate_path:$MODULE_NAME}

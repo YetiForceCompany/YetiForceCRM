@@ -14,13 +14,12 @@
 		<div class="listViewTopMenuDiv">
 			<h3>{vtranslate('LBL_PICKLIST_EDITOR',$QUALIFIED_MODULE)}</h3>
             <hr>
-			<div class="clearfix"></div>
 		</div>
 		<div class="listViewContentDiv" id="listViewContents" style="padding: 1%;">
 			<br>
-			<div class="row-fluid">
-				<label class="fieldLabel span3"><strong>{vtranslate('LBL_SELECT_MODULE',$QUALIFIED_MODULE)} </strong></label>
-				<div class="span6 fieldValue">
+			<div class="row">
+				<label class="fieldLabel col-md-3"><strong>{vtranslate('LBL_SELECT_MODULE',$QUALIFIED_MODULE)} </strong></label>
+				<div class="col-md-4 fieldValue">
 					<select class="chzn-select" id="pickListModules">
 						<optgroup>
 							<option value="">{vtranslate('LBL_SELECT_OPTION',$QUALIFIED_MODULE)}</option>

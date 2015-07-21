@@ -80,7 +80,6 @@ class freetag {
 	 * @access private
 	 * @param string The file path to the installation of ADOdb used.
 	 */ 
-	//var $_ADODB_DIR = 'adodb/';
 
 	/**
 	 * freetag
@@ -100,8 +99,6 @@ class freetag {
 	 * - normalized_valid_chars: Pass a regex-style set of valid characters that you want your tags normalized against. [default: 'a-zA-Z0-9' for alphanumeric]
 	 * - block_multiuser_tag_on_object: Set to 0 in order to allow individual vtiger_users to all tag the same object with the same tag. Default is 1 to only allow one occurence of a tag per object. [default: 1]
 	 * - MAX_TAG_LENGTH: maximum length of normalized tags in chars. [default: 30]
-	 * - ADODB_DIR: directory in which adodb is installed. Change if you don't want to use the bundled version. [default: adodb/]
-	 * - PCONNECT: Whether to use ADODB persistent connections. [default: FALSE]
 	 * 
 	 */ 
 	function freetag($options = NULL) {
@@ -161,7 +158,7 @@ class freetag {
 		if(!isset($tag)) {
 			return false;
 		}		
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$where = "tag = ? ";
 		$params = array($tag);
@@ -181,9 +178,8 @@ class freetag {
         echo $sql;
 		$rs = $adb->pquery($sql, $params) or die("Error: $sql");
 		$retarr = array();
-		while(!$rs->EOF) {
-			$retarr[] = $rs->fields['object_id'];
-			$rs->MoveNext();
+		while ($row = $adb->fetch_array($rs)) {
+			$retarr[] = $row['object_id'];
 		}
 		return $retarr;
 	}
@@ -208,7 +204,7 @@ class freetag {
 		if(!isset($tag)) {
 			return false;
 		}		
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$where = "tag = ? ";
 		$params = array($tag);
@@ -227,9 +223,8 @@ class freetag {
         	//echo $sql;
 		$rs = $adb->pquery($sql, $params) or die("Error: $sql");
 		$retarr = array();
-		while(!$rs->EOF) {
-			$retarr[] = $rs->fields['object_id'];
-			$rs->MoveNext();
+		while ($row = $adb->fetch_array($rs)) {
+			$retarr[] = $row['object_id'];
 		}
 		return $retarr;
 	}
@@ -251,7 +246,7 @@ class freetag {
 		if (!isset($tagArray) || !is_array($tagArray)) {
 			return false;
 		}
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		//$db = &$this->db;
 		$retarr = array();
 		if (count($tagArray) == 0) {
@@ -286,9 +281,8 @@ class freetag {
 			LIMIT $offset, $limit";
 		$this->debug_text("Tag combo: " . join("+", $tagArray) . " SQL: $sql");
 		$rs = $adb->pquery($sql, $params) or die("Error: $sql");
-		while(!$rs->EOF) {
-			$retarr[] = $rs->fields['object_id'];
-			$rs->MoveNext();
+		while ($row = $adb->fetch_array($rs)) {
+			$retarr[] = $row['object_id'];
 		}
 		return $retarr;
 	}
@@ -313,7 +307,7 @@ class freetag {
 		if(!isset($tag_id)) {
 			return false;
 		}		
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$where = "id = ? ";
 		$params = array($tag_id);
@@ -332,9 +326,8 @@ class freetag {
 			LIMIT $offset, $limit ";
 		$rs = $adb->pquery($sql, $params) or die("Error: $sql");
 		$retarr = array();
-		while(!$rs->EOF) {
-			$retarr[] = $rs->fields['object_id'];
-			$rs->MoveNext();
+		while ($row = $adb->fetch_array($rs)) {
+			$retarr[] = $row['object_id'];
 		}
 		return $retarr;
 	}
@@ -379,7 +372,7 @@ class freetag {
 		}
 		$prefix = $this->_table_prefix;
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$sql = "SELECT DISTINCT tag, raw_tag, tagger_id, id
 			FROM ${prefix}freetagged_objects INNER JOIN ${prefix}freetags ON (tag_id = id)
@@ -389,14 +382,13 @@ class freetag {
 			";
 			//echo ' <br><br>get_tags_on_object sql is ' .$sql;
 		$rs = $adb->pquery($sql, $params) or die("Error: $sql");
-		$retarr = array();
-		while(!$rs->EOF) {
-			$retarr[] = array(
-					'tag' => $rs->fields['tag'],
-					'raw_tag' => $rs->fields['raw_tag'],
-					'tagger_id' => $rs->fields['tagger_id']
-					);
-			$rs->MoveNext();
+		$retarr = [];
+		while ($row = $adb->fetch_array($rs)) {
+			$retarr[] = [
+				'tag' => $row['tag'],
+				'raw_tag' => $row['raw_tag'],
+				'tagger_id' => $row['tagger_id']
+			];
 		}
 		return $retarr;
 	}
@@ -422,7 +414,7 @@ class freetag {
 			die("safe_tag argument missing");
 			return false;
 		}
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$normalized_tag = $this->normalize_tag($tag);
 		$prefix = $this->_table_prefix;
@@ -453,8 +445,9 @@ class freetag {
 			FROM ${prefix}freetags 
 			WHERE raw_tag = ? ";
 		$rs = $adb->pquery($sql, array($tag)) or die("Syntax Error: $sql");
-		if(!$rs->EOF) {
-			$tag_id = $rs->fields['id'];
+		$row = $adb->fetch_array($rs);
+		if($row) {
+			$tag_id = $row['id'];
 		} else {
 			// Add new tag! 
 			$tag_id = $adb->getUniqueId('vtiger_freetags');
@@ -524,7 +517,7 @@ class freetag {
 			die("delete_object_tag argument missing");
 			return false;
 		}
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$tag_id = $this->get_raw_tag_id($tag);
 		$prefix = $this->_table_prefix;
 		if($tag_id > 0) {
@@ -552,7 +545,7 @@ class freetag {
 	 * @return boolean Returns true if successful, false otherwise. It will return true if the tagged object does not exist.
 	 */ 
 	function delete_all_object_tags($object_id) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$prefix = $this->_table_prefix;
 		if($object_id > 0) {
 			$sql = "DELETE FROM ${prefix}freetagged_objects
@@ -585,7 +578,7 @@ class freetag {
 			die("delete_all_object_tags_for_user argument missing");
 			return false;
 		}
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$prefix = $this->_table_prefix;
 		if($object_id > 0) {
 
@@ -615,7 +608,7 @@ class freetag {
 			die("get_tag_id argument missing");
 			return false;
 		}
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$prefix = $this->_table_prefix;
 
@@ -643,7 +636,7 @@ class freetag {
 			die("get_tag_id argument missing");
 			return false;
 		}
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$prefix = $this->_table_prefix;
 
 		$sql = "SELECT id FROM ${prefix}freetags
@@ -791,7 +784,7 @@ class freetag {
 	 */
 
 	function get_most_popular_tags($tagger_id = NULL, $offset = 0, $limit = 25) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$params = array();
 		if(isset($tagger_id) && ($tagger_id > 0)) {
 			$tagger_sql = "AND tagger_id = ?";
@@ -811,10 +804,10 @@ class freetag {
 
 		$rs = $adb->pquery($sql, $params) or die("Syntax Error: $sql");
 		$retarr = array();
-		while(!$rs->EOF) {
+		while ($row = $adb->fetch_array($rs)) {
 			$retarr[] = array(
-					'tag' => $rs->fields['tag'],
-					'count' => $rs->fields['count']
+					'tag' => $row['tag'],
+					'count' => $row['count']
 					);
 			$rs->MoveNext();
 		}
@@ -835,7 +828,7 @@ class freetag {
 	 * @return int Returns the count 
 	 */
 	function count_tags($tagger_id = NULL) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$params = array();
 		if(isset($tagger_id) && ($tagger_id > 0)) {
 			$tagger_sql = "AND tagger_id = ?";
@@ -852,8 +845,8 @@ class freetag {
 			";
 
 		$rs = $adb->pquery($sql, $params) or die("Syntax Error: $sql");
-		if(!$rs->EOF) {
-			return $rs->fields['count'];
+		while ($row = $adb->fetch_array($rs)) {
+			return $row['count'];
 		}
 		return false;
 
@@ -946,7 +939,7 @@ class freetag {
 	 */
 
 	function get_tag_cloud_tags($max = 100, $tagger_id = NULL,$module = "",$obj_id = NULL) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$params = array();
 		if(isset($tagger_id) && ($tagger_id > 0)) {
 			$tagger_sql = " AND tagger_id = ?";
@@ -980,10 +973,10 @@ class freetag {
         //echo $sql;
 		$rs = $adb->pquery($sql, $params) or die("Syntax Error: $sql");
 		$retarr = array();
-		while(!$rs->EOF) {
-			$retarr[$rs->fields['tag']] = $rs->fields['quantity'];
-			$retarr1[$rs->fields['tag']] = $rs->fields['tag_id'];
-			$rs->MoveNext();
+		while ($row = $adb->fetch_array($rs)) {
+			$row['tag'] = to_html($row['tag']); 
+			$retarr[$row['tag']] = $row['quantity'];
+			$retarr1[$row['tag']] = $row['tag_id'];
 		}
 		if($retarr) ksort($retarr);
 		if($retarr1) ksort($retarr1);
@@ -1024,7 +1017,7 @@ class freetag {
 		if(!isset($tag)) {
 			return $retarr;
 		}
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		// This query was written using a double join for PHP. If you're trying to eke
 		// additional performance and are running MySQL 4.X, you might want to try a subselect
@@ -1042,11 +1035,9 @@ class freetag {
 			LIMIT 0, ?";
 
 		$rs = $adb->pquery($sql, array($tag, $tag, $max)) or die("Syntax Error: $sql");
-		while(!$rs->EOF) {
-			$retarr[$rs->fields['tag']] = $rs->fields['quantity'];
-			$rs->MoveNext();
+		while ($row = $adb->fetch_array($rs)) {
+			$retarr[$row['tag']] = $row['quantity'];
 		}
-
 		return $retarr;
 	}
 
@@ -1077,7 +1068,7 @@ class freetag {
 	 *
 	 */
 	function similar_objects($object_id, $threshold = 1, $max_objects = 5, $tagger_id = NULL) {
-		global $adb;	
+		$adb = PearDatabase::getInstance();	
 		$retarr = array();
 
 		$object_id = intval($object_id);
@@ -1119,12 +1110,11 @@ class freetag {
 			LIMIT 0, ? ";
 
 		$rs = $adb->pquery($sql, array($tagArray, $threshold, $max_objects)) or die("Syntax Error: $sql, Error: " . $adb->ErrorMsg());
-		while(!$rs->EOF) {
+		while ($row = $adb->fetch_array($rs)) {
 			$retarr[] = array (
-				'object_id' => $rs->fields['object_id'],
-				'strength' => ($rs->fields['num_common_tags'] / $numTags)
+				'object_id' => $row['object_id'],
+				'strength' => ($row['num_common_tags'] / $numTags)
 				);
-			$rs->MoveNext();
 		}
 
 		return $retarr;

@@ -42,27 +42,27 @@
         <input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
         <input type="hidden" name="search_params" value='{ZEND_JSON::encode($SEARCH_PARAMS)}' />
         
-		<div class="row-fluid toEmailField padding10">
-			<span class="span8">
-				<span class="row-fluid">
-					<span class="span2">{vtranslate('LBL_TO',$MODULE)}<span class="redColor">*</span></span>
+		<div class="row toEmailField padding10">
+			<span class="col-md-8">
+				<span class="row">
+					<span class="col-md-2">{vtranslate('LBL_TO',$MODULE)}<span class="redColor">*</span></span>
 					{if !empty($TO)}
 						{assign var=TO_EMAILS value=","|implode:$TO}
 					{/if}
-                    <span class="span9">
-					<input id="emailField" name="toEmail" type="text" class="row-fluid autoComplete sourceField select2"
+                    <span class="col-md-9">
+					<input id="emailField" name="toEmail" type="text" class="row autoComplete sourceField select2"
 					value="{$TO_EMAILS}" data-validation-engine="validate[required, funcCall[Vtiger_To_Email_Validator_Js.invokeValidation]]"
 					data-fieldinfo='{$FIELD_INFO}'
 					{if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if}/>
 				</span>
 			</span>
 			</span>
-			<span class="span4">
-				<span class="row-fluid">
-					<span class="span10">
-						<div class="input-prepend">
+			<span class="col-md-4">
+				<span class="row">
+					<span class="col-md-10">
+						<div class="input-group">
 							<span class="pull-right">
-								<span class="add-on cursorPointer" name="clearToEmailField"><i class="icon-remove-sign" title="{vtranslate('LBL_CLEAR', $MODULE)}"></i></span>
+								<span class="input-group-addon cursorPointer" name="clearToEmailField"><i class="glyphicon glyphicon-remove-sign" title="{vtranslate('LBL_CLEAR', $MODULE)}"></i></span>
 								<select class="chzn-select emailModulesList" style="width:150px;">
 									<optgroup>
 										{foreach item=MODULE_NAME from=$RELATED_MODULES}
@@ -73,61 +73,61 @@
 							</span>
 						</div>
 					</span>
-					<span class="input-append span2 margin0px">
-							<span class="add-on selectEmail cursorPointer"><i class="icon-search" title="{vtranslate('LBL_SELECT', $MODULE)}"></i></span>
+					<span class="input-group col-md-2 margin0px">
+							<span class="input-group-addon selectEmail cursorPointer"><i class="glyphicon glyphicon-search" title="{vtranslate('LBL_SELECT', $MODULE)}"></i></span>
 					</span>
 				</span>
 			</span>
 		</div>
-		<div class="{if empty($CC)}hide {/if} padding10 row-fluid" id="ccContainer">
-			<div class="span8">
-				<div class="row-fluid">
-					<div class="span2">{vtranslate('LBL_CC',$MODULE)}</div>
-					<input class="span9"  data-validation-engine="validate[funcCall[Vtiger_MultiEmails_Validator_Js.invokeValidation]]" type="text" name="cc" value="{if !empty($CC)}{$CC}{/if}"/>
+		<div class="{if empty($CC)}hide {/if} padding10 row" id="ccContainer">
+			<div class="col-md-8">
+				<div class="row">
+					<div class="col-md-2">{vtranslate('LBL_CC',$MODULE)}</div>
+					<input class="col-md-9"  data-validation-engine="validate[funcCall[Vtiger_MultiEmails_Validator_Js.invokeValidation]]" type="text" name="cc" value="{if !empty($CC)}{$CC}{/if}"/>
 				</div>
 			</div>
-			<div class="span4"></div>
+			<div class="col-md-4"></div>
 		</div>
-		<div class="row-fluid {if empty($BCC)}hide {/if} padding10" id="bccContainer">
-			<span class="span8">
-				<span class="row-fluid">
-					<span class="span2">{vtranslate('LBL_BCC',$MODULE)}</span>
-					<input class="span9" data-validation-engine="validate[funcCall[Vtiger_MultiEmails_Validator_Js.invokeValidation]]" type="text" name="bcc" value="{if !empty($BCC)}{$BCC}{/if}"/>
+		<div class="row {if empty($BCC)}hide {/if} padding10" id="bccContainer">
+			<span class="col-md-8">
+				<span class="row">
+					<span class="col-md-2">{vtranslate('LBL_BCC',$MODULE)}</span>
+					<input class="col-md-9" data-validation-engine="validate[funcCall[Vtiger_MultiEmails_Validator_Js.invokeValidation]]" type="text" name="bcc" value="{if !empty($BCC)}{$BCC}{/if}"/>
 				</span>
 			</span>
-			<span class="span4"></span>
+			<span class="col-md-4"></span>
 		</div>
-		<div class="row-fluid {if (!empty($CC)) and (!empty($BCC))} hide {/if} padding10">
-			<span class="span8">
-				<span class="row-fluid">
-					<span class="span2">&nbsp;</span>
-					<span class="span10">
+		<div class="row {if (!empty($CC)) and (!empty($BCC))} hide {/if} padding10">
+			<span class="col-md-8">
+				<span class="row">
+					<span class="col-md-2">&nbsp;</span>
+					<span class="col-md-10">
 						<a class="cursorPointer {if (!empty($CC))}hide{/if}" id="ccLink">{vtranslate('LBL_ADD_CC', $MODULE)}</a>&nbsp;&nbsp;
 						<a class="cursorPointer {if (!empty($BCC))}hide{/if}" id="bccLink">{vtranslate('LBL_ADD_BCC', $MODULE)}</a>
 					</span>
 				</span>
 			</span>
-			<span class="span4"></span>
+			<span class="col-md-4"></span>
 		</div>
-		<div class="row-fluid padding10">
-			<span class="span8">
-				<span class="row-fluid">
-					<span class="span2">{vtranslate('LBL_SUBJECT',$MODULE)}<span class="redColor">*</span></span>
-					<span class="span9">
-                        <input data-validation-engine='validate[required]' class="row-fluid" type="text" name="subject" value="{$SUBJECT}" id="subject" spellcheck="true"/>
+		<div class="row padding10">
+			<span class="col-md-8">
+				<span class="row">
+					<span class="col-md-2">{vtranslate('LBL_SUBJECT',$MODULE)}<span class="redColor">*</span></span>
+					<span class="col-md-9">
+                        <input data-validation-engine='validate[required]' class="row" type="text" name="subject" value="{$SUBJECT}" id="subject" spellcheck="true"/>
                     </span>
 				</span>
 			</span>
-			<span class="span4"></span>
+			<span class="col-md-4"></span>
 		</div>
-		<div class="row-fluid padding10">
-			<span class="span8">
-				<span class="row-fluid">
-					<span class="span2">{vtranslate('LBL_ATTACHMENT',$MODULE)}</span>
-					<span class="span10">
+		<div class="row padding10">
+			<span class="col-md-8">
+				<span class="row">
+					<span class="col-md-2">{vtranslate('LBL_ATTACHMENT',$MODULE)}</span>
+					<span class="col-md-10">
 						<input type="file" id="multiFile" name="file[]"/>&nbsp;
-						<button type="button" class="btn btn-small" id="browseCrm" data-url="{$DOCUMENTS_URL}" title="{vtranslate('LBL_BROWSE_CRM',$MODULE)}">{vtranslate('LBL_BROWSE_CRM',$MODULE)}</button>
-						<div id="attachments" class="row-fluid">
+						<button type="button" class="btn btn-sm btn-default" id="browseCrm" data-url="{$DOCUMENTS_URL}" title="{vtranslate('LBL_BROWSE_CRM',$MODULE)}">{vtranslate('LBL_BROWSE_CRM',$MODULE)}</button>
+						<div id="attachments" class="row">
 							{foreach item=ATTACHMENT from=$ATTACHMENTS}
 								{if ('docid'|array_key_exists:$ATTACHMENT)}
 									{assign var=DOCUMENT_ID value=$ATTACHMENT['docid']}
@@ -146,25 +146,25 @@
 					</span>
 				</span>
 			</span>
-			<span class="span4"></span>
+			<span class="col-md-4"></span>
 		</div>
-		<div class="paddingTop20 row-fluid boxSizingBorderBox">
-			<div class="span8">
+		<div class="paddingTop20 row boxSizingBorderBox">
+			<div class="col-md-8">
 				<div class="btn-toolbar">
-					<span class="btn-group span5 marginLeftZero">
+					<span class="btn-group col-md-5 marginLeftZero">
 						<button class="btn btn-success" id="sendEmail" type="submit" title="{vtranslate('LBL_SEND',$MODULE)}"><strong>{vtranslate('LBL_SEND',$MODULE)}</strong></button>&nbsp;&nbsp;
-						<button type="submit" class="btn" style="" id="saveDraft" title="{vtranslate('LBL_SAVE_AS_DRAFT',$MODULE)}"><strong>{vtranslate('LBL_SAVE_AS_DRAFT',$MODULE)}</strong></button>
+						<button type="submit" class="btn btn-default" style="" id="saveDraft" title="{vtranslate('LBL_SAVE_AS_DRAFT',$MODULE)}"><strong>{vtranslate('LBL_SAVE_AS_DRAFT',$MODULE)}</strong></button>
 						{if !empty($PARENT_EMAIL_ID)}
-							<button type="button" class="btn" id="gotoPreview" title="{vtranslate('LBL_GO_TO_PREVIEW',$MODULE)}" style="margin-left: 5px;"><strong>{vtranslate('LBL_GO_TO_PREVIEW',$MODULE)}</strong></button>
+							<button type="button" class="btn btn-default" id="gotoPreview" title="{vtranslate('LBL_GO_TO_PREVIEW',$MODULE)}" style="margin-left: 5px;"><strong>{vtranslate('LBL_GO_TO_PREVIEW',$MODULE)}</strong></button>
 						{/if}
 					</span>
 					<span  name="progressIndicator" style="height:30px;">&nbsp;</span>
 				</div>
 			</div>
 			{if $MODULE_IS_ACTIVE}
-				<div class="span4">
+				<div class="col-md-4">
 					<span class="btn-toolbar pull-right">
-						<button type="button" class="btn" id="selectEmailTemplate" data-url="{$EMAIL_TEMPLATE_URL}" title="{vtranslate('LBL_SELECT_EMAIL_TEMPLATE',$MODULE)}"><strong>{vtranslate('LBL_SELECT_EMAIL_TEMPLATE',$MODULE)}</strong></button>
+						<button type="button" class="btn btn-default" id="selectEmailTemplate" data-url="{$EMAIL_TEMPLATE_URL}" title="{vtranslate('LBL_SELECT_EMAIL_TEMPLATE',$MODULE)}"><strong>{vtranslate('LBL_SELECT_EMAIL_TEMPLATE',$MODULE)}</strong></button>
 					</span>
 				</div>
 			{/if}

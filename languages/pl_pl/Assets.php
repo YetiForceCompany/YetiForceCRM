@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'Assets'        => 'Produkty sprzedane',
 	'SINGLE_Assets' => 'Produkt sprzedany',
@@ -31,12 +31,10 @@ $languageStrings = array(
 	'LBL_GENERATE_EXTENSION' => 'Generuj przedłużenie',
 
 	/*picklist values*/
-	'In Service'=>'W serwisie',
-	'Out-of-service'=>'Zakończono wsparcie',
-	'Draft'=>'Wersja robocza',
-	'Realization proceeding'=>'Procedura realizacyjna',
-	'Warranty proceeding'=>'Procedura gwarancyjna',
-	'Delivered to Organization'=>'Dostarczony kontrahentowi',
+	'PLL_DRAFT'=>'Wersja robocza',
+	'PLL_NO_SUPPORT'=>'Brak wsparcia',
+	'PLL_POST_WARRANTY_SUPPORT'=>'Wsparcie pogwarancyjne',
+	'PLL_WARRANTY_SUPPORT'=>'Wsparcie gwarancyjne',
 	
 	//YetiForce
 	'description'=>'Opis',
@@ -46,4 +44,5 @@ $languageStrings = array(
 	'Potential'=>'Źródło sprzedaży',
 	'Potential renewal'=>'Odnowienie sprzedaży',
 	'LBL_ORDER_TIME'=>'Czas realizacji',
-);
+	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Wygasające produkty sprzedane',
+];

@@ -48,6 +48,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 	function postProcess(Vtiger_Request $request) {
 		$viewer = $this->getViewer ($request);
 		$moduleName = $this->getModule($request);
+		$viewer->assign('FOOTER_SCRIPTS',$this->getFooterScripts($request));
 		$viewer->view('PopupFooter.tpl', $moduleName);
 	}
 
@@ -56,8 +57,8 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(

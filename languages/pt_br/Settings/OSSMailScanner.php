@@ -1,27 +1,34 @@
 <?php
- /*+********************************************************************************
- *  Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 08-12-2014
- ********************************************************************************+*/
-$languageStrings = array(
-	'OSSMailScanner_manual' => 'Mail Scanner',
-	'OSSMailScanner' => 'Mail Scanner',
-	'Mail Scanner' => 'Mail Scanner',
-    
-);
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ *************************************************************************************************************************************/
+$languageStrings = [
+	'LBL_PAGE_NUMBER' => 'Go to page number',
+	'OSSMailScanner_manual' => 'Escaner Mensagens',
+	'OSSMailScanner' => 'Escaner Mensagem',
+	'Mail Scanner' => 'Escaner Mensagem',
+	
+	'LBL_VIEW_LOGS' => 'Logs Mensagem',
 
-$jsLanguageStrings = array(
+];
+
+$jsLanguageStrings = [
     'start_cron' => 'Cron iniciado',
     'end_cron_ok' => 'As tarefas do Cron foram finalizadas com sucesso',
     'end_cron_error' => 'Ocorreu um erro enquanto o Cron estava sendo executado',
     'JS_mail_error' => 'O email informado está incorreto',
     'JS_time_error' => 'O formato da data informado está incorreto',
     'JS_StopCron' => 'Parar o Cron manualmente',
-    'stop_user' => 'Usuário que parou o escanemento',
+    'stop_user' => 'Usuário que parou o escaneamento',
     'Manually stopped' => 'Parar manualmente',
     'OK' => 'ok',
-    'In progress' => 'Realização W',
-    'whether_remove_an_identity' => 'Quer remover uma identidade',
+    'In progress' => 'Em andamento',
+    'whether_remove_an_identity' => 'Deseja remover uma identidade',
     'removed_identity' => 'Identidade apagada',
-);
-
-
+];

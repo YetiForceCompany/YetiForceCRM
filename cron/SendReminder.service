@@ -2,16 +2,15 @@
 include_once 'include/main/WebUI.php';
 $current_user = Users::getActiveAdminUser();
 
-global $adb, $log;
+$adb = PearDatabase::getInstance(); $log = vglobal('log');
 $log = &LoggerManager::getLogger('SendReminder');
 $log->debug(" Start SendReminder ");
 
-$query="SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_seactivityrel.crmid AS setype, vtiger_activity.*, vtiger_activity_reminder.reminder_time, vtiger_activity_reminder.reminder_sent, vtiger_activity_reminder.recurringid, vtiger_recurringevents.recurringdate, vtiger_crmentity.setype AS crmsetype
+$query="SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_activity.*, vtiger_activity_reminder.reminder_time, vtiger_activity_reminder.reminder_sent, vtiger_activity_reminder.recurringid, vtiger_recurringevents.recurringdate, vtiger_crmentity.setype AS crmsetype
 FROM vtiger_activity 
 INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_activity.activityid 
 INNER JOIN vtiger_activity_reminder ON vtiger_activity.activityid=vtiger_activity_reminder.activity_id 
 LEFT OUTER JOIN vtiger_recurringevents ON vtiger_activity.activityid=vtiger_recurringevents.activityid 
-LEFT OUTER JOIN vtiger_seactivityrel ON vtiger_seactivityrel.activityid = vtiger_activity.activityid 
 WHERE DATE_FORMAT(vtiger_activity.date_start,'%Y-%m-%d, %H:%i:%s') >= '".date('Y-m-d')."' 
 AND vtiger_crmentity.crmid != 0 
 AND vtiger_activity.eventstatus = 'Planned' 

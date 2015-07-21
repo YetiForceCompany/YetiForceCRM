@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Account Name' => 'Nazwa kontrahenta',
 	'Account No' => 'Numer Kontrahenta',
 	'Accounts' => 'Kontrahenci',
@@ -40,7 +40,7 @@ $languageStrings = array(
 	'SIC Code' => 'Numer EKD',
 	'SINGLE_Accounts' => 'Kontrahent',
 	'Ticker Symbol' => 'Symbol giełdowy',
-	'Website' => 'Strona internetowa',
+	'Payment balance' => 'Bilans płatniczy',
 	//OpenSaaS
 	'LBL_CREATING_NEW' => 'Nowy',
 	'Fax' => 'Faks podstawowy',
@@ -63,12 +63,33 @@ $languageStrings = array(
 	'Balance' => 'Saldo księgowe',
 	'Average profit sales order' => 'Średnia marża',
 	'LBL_CONVERTED_FROM_LEAD' => 'Skonwertowany z leada',
-	'Payment balance' => 'Saldo płatności',
-);
+	'LBL_LEGAL_FORM' => 'Forma prawna',
 
-$jsLanguageStrings = array(
+	//PICKLIST VALUES
+	'PLL_NATURAL_PERSON' => 'Osoba fizyczna',
+	'PLL_BUSINESS_ACTIVITY' => 'Działalność gospodarcza', 
+	'PLL_GENERAL_PARTNERSHIP' => 'Spółka jawna',
+	'PLL_PROFESSIONAL_PARTNERSHIP' => 'Spółka partnerska',
+	'PLL_LIMITED_PARTNERSHIP' => 'Spółka komandytowa',
+	'PLL_JOINT_STOCK_PARTNERSHIP' => 'Spółka komandytowo-akcyjna', 
+	'PLL_LIMITED_LIABILITY_COMPANY' => 'Spółka z ograniczoną odpowiedzialnością',
+	'PLL_STOCK_OFFERING_COMPANY' => 'Spółka akcyjna',
+	'PLL_GOVERMENT_ENTERPRISE' => 'Przedsiębiorstwo państwowe',
+	'PLL_ASSOCIATION' => 'Stowarzyszenie',
+	'PLL_COOPERATIVE' => 'Spółdzielnia',
+	'PLL_FOUNDATION' => 'Fundacja',
+	'PLL_EUROPEAN_PARTNERSHIP' => 'Spółka europejska',
+	'PLL_EUROPEAN_ECONOMIC_INTEREST_GROUPING' => 'Europejskie zgrupowanie interesów gospodarczych',
+	'PLL_EUROPEAN_COOPERATIVE' => 'Spółdzielnia europejska', 
+	'PLL_EUROPEAN_PRIVATE_PARTNERSHIP' => 'Europejska spółka prywatna',
+	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'Europejska spółka wzajemna',
+	'PLL_EUROPEAN_ASSOCIATION' => 'Stowarzyszenie europejskie',
+	'PLL_UFCIITS' => 'Przedsiębiorstwo zbiorowego inwestowania w zbywalne papiery wartościowe',
+];
+
+$jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Taki kontrahent istnieje. Czy chcesz utworzyć duplikat?',
 	'LBL_DELETE_CONFIRMATION' => 'Usunięcie tego Kontrahenta usunie również przypisane szanse sprzedaży oraz Oferty. Czy jesteś pewnien, że chcesz usunąć tego Kontrahenta?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Usunięcie tych Kontrahentów usunie również przypisane szanse sprzedaży oraz Oferty. Czy jesteś pewnien, że chcesz usunąć tych Kontrahentów?',
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Czy jesteś pewien że chcesz usunąć rekordy?',
-);
+];

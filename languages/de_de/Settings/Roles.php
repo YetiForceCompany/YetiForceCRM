@@ -7,8 +7,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
+$languageStrings = [
+	'LBL_ADD_RECORD' => 'Rolle hinzufügen',
 	'LBL_ALL_USERS' => 'Alle Benutzer',
 	'LBL_ASSIGN_EXISTING_PRIVILEGES' => 'Vergebe Rechte aus vorhandenen Profilen',
 	'LBL_ASSIGN_NEW_PRIVILEGES' => 'Rechte direkt der Rolle zuweisen',
@@ -30,9 +30,11 @@ $languageStrings = array(
 	'Roles' => 'Rollen',
 	'SINGLE_Roles' => 'Rolle',
 	'LBL_USERS_LIST' => 'Liste der Benutzer, die dieser Rolle angehören:',
-);
-
-$jsLanguageStrings = array(
+	'LBL_JUST_ME' => 'Nur Mich',
+	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => 'Enable change of the record owner',
+	'LBL_SEARCH_WITHOUT_PERMISSION' => 'Modules that can be searched without permission',
+];
+$jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'keine Berechtigungen zum verschieben',
 	'JS_PERMISSION_DENIED' => 'Zugriff verweigert',
-);
+];

@@ -24,7 +24,7 @@ class SalesOrder_BasicAjax_Action extends Vtiger_BasicAjax_Action {
 		$relatedModule = $request->get('module');
 
 		$searchModuleModel = Vtiger_Module_Model::getInstance($searchModule);
-		if( ($searchModule == 'Services' || $searchModule == 'Products') && Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit() ){
+		if( ($searchModule == 'Services' || $searchModule == 'Products') && Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit() && Settings_SalesProcesses_Module_Model::isLimitForModule( 'SalesOrder' ) ){
 			$records = $this->searchRecord( $searchValue, $searchModule, $potentialId );
 		}else{
 			$records = $searchModuleModel->searchRecord($searchValue, $parentRecordId, $parentModuleName, $relatedModule);

@@ -7,7 +7,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
+	'SINGLE_Users' => 'Benutzer',
 	'dd-mm-yyyy' => 'tt-mm-jjjj',
 	'mm-dd-yyyy' => 'mm-tt-jjjj',
 	'yyyy-mm-dd' => 'jjjj-mm-tt',
@@ -288,6 +289,12 @@ $languageStrings = array(
 	'Last 2 Days' => 'Letzte 2 Tage',
 	'Last Week' => 'Letzte Woche',
 	" "	=> 'Keine',
+	'Meeting' => 'Besprechung',
+	'Call' => 'Anruf',
+	'Mobile Call' => 'Mobiler Anruf',
+	'Planned' => 'Geplant',
+	'Held' => 'Stattgefunden',
+	'Not Held' => 'Nicht stattgefunden',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',
@@ -302,11 +309,17 @@ $languageStrings = array(
 	"Production Department"	=> 'Produktion',
 	"Marketing Department"	=> 'Marketing',
 
-	'LBL_MASS_PASSWORD_EDITING' => 'Mass edit of users passwords',
-	'LBL_MASS_PWD_EDIT' => 'Mass edit of passwords',
-);
+	'LBL_MASS_PASSWORD_EDITING' => 'Massenbearbeitung der Benutzer Passwörter',
+	'LBL_MASS_PWD_EDIT' => 'Massenbearbeitung der Passwörter',
+	'Approval for email'=>'Berechtigung zum Senden von Mails',
+	
+	'LBL_GENERATED_COLOR' => 'Farbe generiert',
+	'LBL_SAVE_COLOR' => 'Farbe gesichert',
+	'LBL_EMAIL' => 'E-Mail',
+	'LBL_SPACE' => 'Space',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	//Curency seperator validation messages
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen kann nicht gleich sein',
 	'JS_ENTER_CONFIRMATION_PASSWORD'=>'Bitte Passwort bestätigen',
@@ -317,4 +330,5 @@ $jsLanguageStrings = array(
 	'JS_PASSWORD_CHANGE_FAILED_2'=>' fehlgeschlagen. Das neue Passwort muss festgelegt werden.',
 	'JS_PASSWORD_INCORRECT_OLD'=>'Falsches altes Passwort eingegeben. Passwort Eingabe wiederholen.',
 	'JS_REENTER_PASSWORDS'=>'Bitte geben Sie die Passwörter erneut ein. Das \"Neue Passwort\" und \"Kennwort bestätigen\" -Werte stimmen nicht überein.',
-);
+];
+

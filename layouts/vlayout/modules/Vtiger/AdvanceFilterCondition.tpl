@@ -10,9 +10,9 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="row-fluid conditionRow marginBottom10px">
-	<span class="span4">
-		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row-fluid" name="columnname">
+<div class="row conditionRow marginBottom10px">
+	<span class="col-md-4">
+		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control" name="columnname" title="{vtranslate('LBL_CHOOSE_FIELD')}">
 			<option value="none">{vtranslate('LBL_SELECT_FIELD',$MODULE)}</option>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				<optgroup label='{vtranslate($BLOCK_LABEL, $SOURCE_MODULE)}'>
@@ -116,8 +116,8 @@
 			{/foreach}
 		</select>
 	</span>
-	<span class="span3">
-		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row-fluid" name="comparator">
+	<span class="col-md-3">
+		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control" name="comparator" title="{vtranslate('LBL_COMAPARATOR_TYPE')}">
 			 <option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
 			{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
             {if $FIELD_TYPE eq 'D' || $FIELD_TYPE eq 'DT'}
@@ -133,8 +133,8 @@
 			{/foreach}
 		</select>
 	</span>
-	<span class="span4 fieldUiHolder">
-		<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value" class="row-fluid" type="text" value="{$CONDITION_INFO['value']|escape}" />
+	<span class="col-md-4 fieldUiHolder">
+		<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{vtranslate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}" />
 	</span>
 	<span class="hide">
 		<!-- TODO : see if you need to respect CONDITION_INFO condition or / and  -->
@@ -143,8 +143,8 @@
 		{/if}
 		<input type="hidden" name="column_condition" value="{$CONDITION}" />
 	</span>
-	 <span class="span1">
-		<i class="deleteCondition icon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}"></i>
+	 <span class="col-md-1">
+		<span class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}"></span>
 	</span>
 </div>
 {/strip}

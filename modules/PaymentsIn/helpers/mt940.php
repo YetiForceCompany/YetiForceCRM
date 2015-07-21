@@ -45,12 +45,6 @@ class mt940 {
 		}
 		$xml .= '</mt940>';
 		return $xml;
-	}	
-	
-	public function dump() {
-		echo '<pre>';
-		var_dump($this);
-		echo '</pre>';
 	}
 	
 	protected function createXML($key, $value, $level) {

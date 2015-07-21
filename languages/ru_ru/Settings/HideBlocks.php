@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'HideBlocks' => 'Редактор Блоков',
 	'LBL_HIDEBLOCKS' => 'Редактор Блоков',
 	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Редактор блоков, позволяет настраивать видимость Блоков в записях',
@@ -22,4 +22,4 @@ $languageStrings = array(
 	'LBL_NEXT' => 'Далее',
 	'LBL_VIEW' => 'Отображать в',
 	'LBL_MANDATORY_FIELDS_EXIST' => 'Этот Блок не может быть скрыт, потому что он содержит обязательные поля.',
-);
+];

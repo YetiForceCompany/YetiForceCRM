@@ -8,14 +8,17 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'OSSMailScanner_manual' => 'Skaner mailowy',
 	'OSSMailScanner' => 'Skaner mailowy',
 	'Mail Scanner' => 'Skaner mailowy',
+	
+	'LBL_VIEW_LOGS' => 'Poczta logi',
+    'LBL_PAGE_NUMBER' => 'Przejdź do strony numer',
     
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     'start_cron' => 'Uruchomiono crona',
     'end_cron_ok' => 'Zakończono zadania crona prawidłowo',
     'end_cron_error' => 'Podczas wykonywania crona pojawił się błąd',
@@ -28,6 +31,6 @@ $jsLanguageStrings = array(
     'In progress' => 'W realizacji',
     'whether_remove_an_identity' => 'Czy usunąć tożsamość',
     'removed_identity' => 'Usunięto tożsamość',
-);
+];
 
 

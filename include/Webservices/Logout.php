@@ -8,7 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 function vtws_logout($sessionId,$user){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$sql = "select type from vtiger_ws_operation where name=?";
 	$result = $adb->pquery($sql,array("logout"));
 	$row = $adb->query_result_rowdata($result,0);

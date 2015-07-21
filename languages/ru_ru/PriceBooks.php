@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Добавить Прайс-Лист',
 	'LBL_ADD_TO' => 'Добавить в',
 	'LBL_EDIT_LIST_PRICE' => 'Редактировать Прайс-Лист',
@@ -20,4 +20,4 @@ $languageStrings = array(
 	'PriceBook No' => 'Номер Прайс-Листа',
 	'PriceBooks' => 'Прайс-Листы',
 	'SINGLE_PriceBooks' => 'Прайс-Лист',
-);
+];

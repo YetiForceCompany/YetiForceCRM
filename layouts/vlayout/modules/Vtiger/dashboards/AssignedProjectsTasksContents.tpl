@@ -19,7 +19,7 @@ font-size: 75%;
 	{foreach from=$PROJECTSTASKS key=INDEX item=TASKS}
 	<div>
 		<div class='pull-left'>
-			<image style="margin-left: 4px;" src="{vimage_path('ProjectTask.png')}" width="24px" />&nbsp;&nbsp;
+			<image style="margin-left: 4px;" alt="{vtranslate('ProjectTask')}" src="{vimage_path('ProjectTask.png')}" width="24px" />&nbsp;&nbsp;
 		</div>
 		<div>
 			<div class='pull-left'>
@@ -27,10 +27,10 @@ font-size: 75%;
 				{assign var=ACCOUNT value=$TASKS->get('account')}
 				<a href="{$TASKS->getDetailViewUrl()}">{$TASKS->get('projecttaskname')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGHT:'...'}</a>
 				{if $PROJECT_ID}
-				   <br/><small class='small-a'><b>{$TASKS->getDisplayValue('projectid')}</b></small>
+				   <br/><small class='small-a'><strong>{$TASKS->getDisplayValue('projectid')}</strong></small>
 				{/if}
 				{if $ACCOUNT}
-				   - <small class='small-a'><b>{$ACCOUNT}</b></small>
+				   - <small class='small-a'><strong>{$ACCOUNT}</strong></small>
 				{/if}
 			</div>
 			{assign var=TARGETENDDATE value=$TASKS->get('targetenddate')}

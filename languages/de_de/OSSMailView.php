@@ -7,18 +7,18 @@
  *  Help/Email			: bok@opensaas.pl
  *  Website				: www.opensaas.pl
  ********************************************************************************+*/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSMailView'        => 'Unternehmens-E-Mails',
 	'SINGLE_OSSMailView' => 'Unternehmens-E-Mail',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
-	'LBL_RECORDS_LIST' => 'E-Mail-Liste',
+	'LBL_ADD_RECORD' => 'E-Mail hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste E-Mails',
 
 	// Blocks
 	'LBL_INFORMATION' => 'Allgemeine Information',
 
 	//Field Labels
-   'relatedid' => 'Zuständig',
+	'relatedid' => 'Zuständig',
 	'number' => 'Nummer',
 	'yes' => 'Ja',
 	'no' => 'Nein',
@@ -49,17 +49,20 @@ $languageStrings = array(
 	'List open email'=>'Wenn Sie auf den Knopf drücken öffnen Sie die',
 	'emailPreviewHeader'=>'Vorschau auf Ihre E-Mail',
 	'Email_list'=>'E-Mail',
-	'Email_list'=>'E-Mail',
     'LBL_CREATEMAIL' => 'E-Mail senden',
     'LBL_OUTCOMING' => 'Ausgehend',
     'LBL_INCOMING' => 'Eingehend',
     'LBL_INTERNAL' => 'Intern',
 	'LBL_REPLYALLL' => 'Allen antworten',
 	'LBL_PRINT' => 'Drucken',
-    
+	'Date of receipt' => 'Empfangsdatum',
+    'LBL_FORWARD' => 'Weiterleiten',
+	'RC user' => 'RC user',
+	'FromID' => 'Sender Id',
+	'ToID' => 'Receiver Id',
 
 	'LBL_VERIFY' => 'Zur Überprüfung',
-	'LBL_REL_MOD' => 'Zugehörige Module',
+	'LBL_REL_MOD' => 'Verknüpfte Module',
 	'LBL_BindMailsOK' => 'Zugeordnete E-Mails werden beim nächsten CRON Durchlauf den Datensätzen zugewiesen',
 	'LBL_BindMails' => 'E-Mails zuordnen',
 	'LBL_ChangeType' => 'E-Mail-Typ ändern',
@@ -77,8 +80,8 @@ $languageStrings = array(
 	'Previous week' => 'Letzte Woche',	
 	'Current month' => 'Aktueller Monat',
 	'Previous month' => 'Letzter Monat',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'From' => 'Von',
 	'To' => 'An',
 	'CC' => 'CC',
@@ -87,4 +90,4 @@ $jsLanguageStrings = array(
 	'Subject'=>'Betreff',
 	'Content'=>'Inhalt',
 	'JS_BIND_CONFIRM'=>'Sind Sie sicher, dass Sie die ausgewählten Nachrichten zuordnen möchten?',
-);
+];

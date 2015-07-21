@@ -8,10 +8,10 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'ADD_DOCUMENT' => 'Add document',
-	'LBL_VIEW_EDIT2' => 'Add Conditions',
-	'OSSProjectTemplates_manual' => 'OSS Project Templates',
+$languageStrings = [
+	'ADD_DOCUMENT' => 'Dodaj dokument',
+	'LBL_VIEW_EDIT2' => 'Dodaj warunki',
+	'OSSProjectTemplates_manual' => 'Szablony projektu',
     'LBL_NEW_TPL' => 'Dodaj nowy dokument',
 	'OSSDocumentControl' => 'Przepływ dokumentów',
     'LBL_MODULE_NAME' => 'Nazwa modułu',
@@ -43,8 +43,8 @@ $languageStrings = array(
     'NOT_ALLOW_TO_SAVE' => 'Nie można zapisać rekordu ponieważ wymagane dokumenty nie są dołączone',
     'LIST_REQ_DOC' => 'Dołącz następujące dokumenty',
     'DOC_ORDER' => 'Kolejność',
-);
+];
 
-$jsLanguageStrings = array(
-	'LBL_VIEW_EDIT2' => 'Add Conditions',
-);
+$jsLanguageStrings = [
+	'LBL_VIEW_EDIT2' => 'Dodaj warunki',
+];

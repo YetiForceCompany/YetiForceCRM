@@ -24,19 +24,19 @@
                 <td>{$item['folder_name']}</td>
                 <td>
                     {if $item['is_attach']}
-                        <i class="icon-ok-circle"></i>
+                        <i class="glyphicon glyphicon-ok-circle"></i>
                     {else}
                         <i class="icon-remove-circle"></i>
                     {/if}
                 </td>
-                <td class="span1">
+                <td class="col-md-1">
                     {if $item['is_attach']}
                         {$item['status']}
                     {else}
                         nd
                     {/if}
                 </td>
-                <td><button class="btn btn-primary pull-right add-doc" data-doc-name="{$item['doc_name']}" data-folder="{$item['doc_folder']}" type="button" ><i class="icon-white icon-plus" ></i></button></td>
+                <td><button class="btn btn-primary pull-right add-doc" data-doc-name="{$item['doc_name']}" data-folder="{$item['doc_folder']}" type="button" ><i class="icon-white glyphicon glyphicon-plus" ></i></button></td>
             </tr>
         {/foreach}
     </table>

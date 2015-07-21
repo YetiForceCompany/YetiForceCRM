@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Search Setup' => 'Настройка поиска',
 	'Search Configuration'	=>	'Редактор конфигурации поиска',
 	'Search'	=>	'Редактор конфигурации поиска',
@@ -26,11 +26,11 @@ $languageStrings = array(
 	'LBL_SAVE_MODULE_SEQUENCE'	=>	'Сохранить последовательность модулей',
 	'LBL_TURN_ON'	=>	'Включить',
 	'LBL_TURN_OFF'	=>	'Отключить',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Saving changes'	=>	'Обновление…',
 	'Update labels'	=>	'Обновить',
 	'JS_MODULES_SEQUENCE_UPDATED'	=>	'Последовательность модулей обновлена',
 	'JS_TURN_ON'	=>	'Включить',
 	'JS_TURN_OFF'	=>	'Отключить',
-);
+];

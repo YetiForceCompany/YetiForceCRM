@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'DataAccess'	=>	'Редактор условий',
 	'LBL_NONE' => '--Нет--',
 	'Message' => 'Сообщение',
@@ -70,8 +70,9 @@ $languageStrings = array(
 	'Action_Desc_colorList' => 'Данная опция позволяет выделить записи цветом, по определенным условиям.',
 	'LBL_BACKGROUND_COLOR' => 'Цвет фона',
 	'LBL_TEXT_COLOR' => 'Цвет текста',
-);
-
-$jsLanguageStrings = array(
+	'This name already exists' => 'Такое название уже существует',
+	'LBL_RECORD_DELETED' => 'Запись удалена',
+];
+$jsLanguageStrings = [
 	'DataAccess'	=>	'Редактор условий',
-);
+];

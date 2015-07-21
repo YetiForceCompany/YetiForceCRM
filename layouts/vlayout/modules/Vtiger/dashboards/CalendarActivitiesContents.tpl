@@ -19,29 +19,25 @@ font-size: 75%;
 	<div>
 		<div class='pull-left'>
 			{if $ACTIVITY->get('activitytype') == 'Task'}
-				<image style="margin-left: 4px;" src="{vimage_path('Tasks.png')}" width="24px"/>&nbsp;&nbsp;
+				<image style="margin-left: 4px;" src="{vimage_path('Tasks.png')}" alt="{vtranslate('LBL_TASK')}" width="24px"/>&nbsp;&nbsp;
 			{elseif $ACTIVITY->get('activitytype') == 'Meeting'}
-				<image style="margin-left: 4px;" src="{vimage_path('Meeting.png')}" width="24px" />&nbsp;&nbsp;
+				<image style="margin-left: 4px;" src="{vimage_path('Meeting.png')}" alt="{vtranslate('LBL_METTING')}" width="24px" />&nbsp;&nbsp;
 			{else}
-				<image style="margin-left: 4px;" src="{vimage_path('Call.png')}" width="24px" />&nbsp;&nbsp;
+				<image style="margin-left: 4px;" src="{vimage_path('Call.png')}" alt="{vtranslate('LBL_CALL')}" width="24px" />&nbsp;&nbsp;
 			{/if}
 		</div>
 		<div>
 			<div class='pull-left'>
-				{assign var=PARENT_ID value=$ACTIVITY->get('parent_id')}
-				{assign var=CONTACT_ID value=$ACTIVITY->get('contact_id')}
+				{assign var=LINK value=$ACTIVITY->get('link')}
+				{assign var=PROCESS value=$ACTIVITY->get('process')}
 				{assign var=CONTRACTOR value=$ACTIVITY->get('contractor')}					
 				<a href="{$ACTIVITY->getDetailViewUrl()}">{$ACTIVITY->get('subject')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGHT:'...'}</a>				
 				{if $CONTRACTOR}
-				    <br/><small class='small-a'>{vtranslate('LBL_FOR')} <b>{$ACTIVITY->getDisplayValue('parent_id')}</b></small>, <b><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGHT}</a></small></b>			
-				{else if $PARENT_ID}
-				    <br/><small class='small-a'>{vtranslate('LBL_FOR')} <b>{$ACTIVITY->getDisplayValue('parent_id')}</b></small>					
-				{else if $CONTACT_ID}
-					{if is_array($CONTACT_ID)}
-					    <br/><small class='small-a'>{vtranslate('LBL_FOR')} <b>{implode(',',$CONTACT_ID)}</b></small>
-					{else}
-					    <br/><small class='small-a'>{vtranslate('LBL_FOR')} <b>{$ACTIVITY->getDisplayValue('contact_id')}</b></small>
-					{/if}
+				    <br/><small class='small-a'>{vtranslate('LBL_FOR')} <strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGHT}</a></small></strong>			
+				{else if $LINK}
+				    <br/><small class='small-a'>{vtranslate('LBL_FOR')} <strong>{$ACTIVITY->getDisplayValue('link')}</strong></small>
+				{else if $PROCESS}
+					<br/><small class='small-a'>{vtranslate('LBL_FOR')} <strong>{$ACTIVITY->getDisplayValue('process')}</strong></small>
 				{/if}
 			</div>
 				{assign var=START_DATE value=$ACTIVITY->get('date_start')}
@@ -52,7 +48,7 @@ font-size: 75%;
 			<p class='pull-right muted' style='margin-top:5px;padding-right:5px;'><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME")} {vtranslate('LBL_ACTIVITY_TO')} {Vtiger_Util_Helper::formatDateTimeIntoDayString("$DUE_DATE $DUE_TIME")}">{Vtiger_Util_Helper::formatDateDiffInStrings("$START_DATE $START_TIME")}</small></p>
 			{if $ACTIVITY->get('location') neq '' }
 				<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->get('location'))}" class="pull-right" title="{vtranslate('Location', 'Calendar')}: {$ACTIVITY->get('location')}">
-					<i class="icon-map-marker"></i>&nbsp
+					<span class="icon-map-marker"></span>&nbsp
 				</a>
 			{/if}
 			<div class='clearfix'></div>

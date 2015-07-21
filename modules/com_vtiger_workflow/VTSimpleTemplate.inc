@@ -211,7 +211,7 @@ class VTSimpleTemplate{
 	 * @return <String> $fieldValue
 	 */
 	public function transformToUserFormat($moduleName, $fieldName, $fieldValue) {
-		global $adb, $log, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user'); $log = vglobal('log');
 
 		//getting owner info
 		$referenceId = $this->parent->get('assigned_user_id');
@@ -332,7 +332,7 @@ class VTSimpleTemplate{
 	 * @return <String> $comments
 	 */
 	public function getComments($moduleName, $fieldName, $fieldValue) {
-		global $adb, $log, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user'); $log = vglobal('log');
 
 		$sql = 'SELECT commentcontent FROM vtiger_modcomments WHERE related_to = ? ORDER BY modcommentsid DESC';
 
@@ -357,4 +357,3 @@ class VTSimpleTemplate{
 		return $commentsList;
 	}
 }
-?>

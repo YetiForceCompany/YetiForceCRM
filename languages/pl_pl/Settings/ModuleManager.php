@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Błąd podczas wgrywania plików',
 	'ModuleManager' => 'Zarządzanie Modułami',
 	'LBL_ACCEPT_AND_INSTALL' => 'Akceptuj i instaluj',
@@ -18,6 +18,9 @@ $languageStrings = array(
 	'LBL_FAILED' => 'Niepowodzenie',
 	'LBL_FINISH' => 'Zakończ',
 	'LBL_IMPORTED_MODULE' => 'Moduł został zaimportowany poprawnie.',
+	'LBL_IMPORTED_UPDATE' => 'System został zaktualizowany.',
+	'LBL_IMPORTED_EXTENSION' => 'Rozszerzenie zostało zainstalowane poprawnie.',
+	'LBL_IMPORTED_LANGUAGE' => 'Język został zainstalowany poprawnie.',
 	'LBL_IMPORTING_MODULE' => 'Importowanie modułu',
 	'LBL_IMPORT_MODULE' => 'Dodaj moduł ze strony Vtiger',
 	'LBL_IMPORT_ZIP' => 'Dodaj moduł z pliku',
@@ -28,27 +31,33 @@ $languageStrings = array(
 	'LBL_INVALID_IMPORT_TRY_AGAIN' => ' niepoprawny import, spróbuj ponownie...',
 	'LBL_LICENSE_ACCEPT_AGREEMENT' => 'Akceptuje warunki licencji.',
 	'LBL_LICENSE' => 'Licencja',
-	'LBL_MODULE_NAME' => 'Nazwa modułu',
+	'LBL_MODULE_NAME' => 'Nazwa pakietu',
 	'LBL_NO_LICENSE_PROVIDED' => 'Brak licencji producenta',
-	'LBL_NOT_FOUND' => "Przykro nam, nie ma aktualnie rozszerzeń, dla Twojej wersji systemu CRM",
+	'LBL_NOT_FOUND' => "Przykro nam, nie ma aktualnie rozszerzeń dla Twojej wersji systemu CRM",
 	'LBL_PROCEED_WITH_IMPORT' => 'Czy chcesz kontynuować import?',
 	'LBL_PUBLISHED_ON' => 'Opublikowany przez',
 	'LBL_PUBLISHER' => 'Opublikowane',
 	'LBL_REQ_YETIFORCE_VERSION' => 'Wersja systemu',
+	'LBL_MODULE_VERSION' => 'Wersja pakietu',
+	'LBL_UPDATE_FROM_VERSION' => 'Z wersji',
+	'LBL_UPDATE_TO_VERSION' => 'Do wersji',
 	'LBL_SUCCESSFULL' => 'Sukces',
 	'LBL_UPDATED_MODULE' => ' moduł został zaktualizowany.',
 	'LBL_UPDATE_MODULE_FROM_FILE' => 'Uaktualnij moduł z pliku',
 	'LBL__UPDATING_MODULE' => 'Aktualizacja modułu',
 	'LBL_UPGRADE' => 'Aktualizuj',
 	'LBL_VERIFY_IMPORT_DETAILS' => 'Weryfikacja szczegółów importu',
-	'LBL_VERSION_NOT_SUPPORTED' => 'Wersja modułu nie jest kompatybilna z wersją systemu Vtiger.',
+	'LBL_VERSION_NOT_SUPPORTED' => 'Wersja modułu nie jest kompatybilna z wersją systemu YetiForce.',
 	'LBL_VERSION' => 'Wersja',
 	'LBL_VTIGER_EXTENSION_STORE' => 'Oficjalny sklep z modułami od Vtiger',
-	'LBL_IMPORT_MODULE_FROM_FILE' => 'Importuj moduł z pliku',
+	'LBL_IMPORT_MODULE_FROM_FILE' => 'Importuj pakiet z pliku',
 	'LBL_DELETE_EXIST_DIRECTORY' => 'Instalacja niemożliwa ponieważ istnieje katalog o nazwie modułu, aby kontynuować prosimy usunąć katalog o nazwie instalowanego modułu.',
 	'LBL_ERROR_VERSION' => 'Błędna wersja modułu, wersja modułu __MODULEVERSION__ a powinna być większa niż __CRMVERSION__',
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Moduł nie zawiera domyślnego języka systemu (__DEFAULTLANGUAGE__).',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Brak plików smartów',
+	'LBL_IMPORT' => 'Importuj',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'Za mały limit wysyłania plików',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'Wykryto że limit wysyłania plików jest za mały (%s), przez to nie będzie możliwe wysyłanie większych plików na serwer.  Zalecamy sprawdzenie konfiguracji systemu. <a href="index.php?parent=Settings&module=ConfReport&view=Index">Sprawdź konfigurację serwera</a>',
 	
 	'LBL_CREATE_MODULE' => 'Utwórz moduł',
 	'LBL_CREATING_MODULE' => 'Tworzenie nowego modułu',
@@ -58,8 +67,8 @@ $languageStrings = array(
 	'LBL_ENTITY_FIELDLABEL' => 'Etykieta pola głównego',
 	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'Moduł o takiej nazwie już istnieje',
 	'LBL_INVALID_MODULE_NAME' => 'Błędna nazwa modułu',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_UPDATED_MODULE' => 'Aktualizacja przebiegła pomyślnie.',
 	'JS_UPDATE_SUCCESSFULL' => 'Aktualizacja przebiegła pomyślnie.',
 	'JS_IMPORTED_MODULE' => 'Instalacja przebiegła pomyślnie',
@@ -67,4 +76,4 @@ $jsLanguageStrings = array(
 	'JS_FOR_INSTALLATION' => 'dla instalacji',
 	'JS_CLICK_HERE' => 'Kliknij tutaj',
 	'JS_ON' => 'Na',
-);
+];

@@ -8,7 +8,11 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
+	'Send a copy to email' => 'Копия',
+	'Select e-mail address' => 'Выберите адрес электронной почты',
+	'Do you send all attachments' => 'Отправить все вложения?',
+	'EmailTempleteList' => 'Выберите шаблон электронной почты для отправки',
 	'ADD_CONDITIONS' => 'Фильтры',
 	'ADD_TASKS' => 'Задачи',
 	'Calendar' => 'Календарь',
@@ -22,7 +26,6 @@ $languageStrings = array(
 	'LBL_CANNOT_DELETE_DEFAULT_WORKFLOW' => 'Вы не можете удалить обработчик по умолчанию',
 	'LBL_CREATED_IN_OLD_LOOK_CANNOT_BE_EDITED' => 'Этот обработчик был создан в предыдущей версии. Условия, созданные в предыдущих версиях не могут быть изменены. Вы можете создать новые условия или использовать существующие условия без их изменения.',
 	'LBL_CREATING_WORKFLOW' => 'Создание Обработчика',
-	'LBL_DUE_DATE' => 'Дата Платежа',
 	'LBL_DAYS_START' => 'Активный с',
 	'LBL_DAYS_END' => 'Активен до',
 	'LBL_EDITING_WORKFLOW' => 'Редактирование обработчика',
@@ -95,7 +98,6 @@ $languageStrings = array(
 	'LBL_SELECTED_DATES' => 'Выбранные даты', 
 	'LBL_EXCEEDING_MAXIMUM_LIMIT' => 'Превышен максимальный лимит', 
 	'LBL_NEXT_TRIGGER_TIME' => 'Следующий триггер времени на', 
-	'LBL_MESSAGE' => 'Сообщение', 
 	'Execution Condition' => 'Условие выполнения',
 	'Module' => 'Модуль',
 	'Summary' => 'Итог',
@@ -120,11 +122,17 @@ $languageStrings = array(
 	'Sales stage - Preparing calculations'	=> 'Этап продаж - Подготовка расчетов',
 	'Sales stage - Preparing quote'	=> 'Этап продаж - Подготовка коммерческого предложения',
 	'Sales stage - Awaiting decision'	=> 'Этап продаж - Ожидание решения',
-	'New comment added to ticket from portal' => 'New comment added to ticket from portal',
+	'New comment added to ticket from portal' => 'Новый комментарий добавлен в Заявке в Портале',
 	'LBL_ACTIVATION_TASKS' => 'Активировать Задачу', 
 	'LBL_DEACTIVATION_TASKS' => 'Деактивировать Задачу', 
 	'LBL_ALL_TASKS' => 'Все Задачи', 
 	'LBL_ACTIVE_TASKS' => 'Активные Задачи',
+	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Не дублировать записи',
+	'LBL_DUPLICATE_STATUS' => 'Запретить дублировать записи',
+	'LBL_VALUE_OF_FIELDS' => 'Значение поля',
+	'LBL_VALUE_OF_SERVER' => 'Значение сервера',
+	'LBL_WORKFLOWS_RUN_TIME' => 'Дата и время запуска',
+	'Sales stage - Negotiations' => 'Этап продаж - Переговоры',
 	
 	//workflow task types
 	'Send Mail' => 'Отправить Почту',
@@ -139,13 +147,13 @@ $languageStrings = array(
 	'Update Closed Time' => 'Обновить время Закрытия',
 	'Send Notification' => 'Отправить уведомление Приглашенным',
 	'Create Address Book' => 'Создать адресную книгу',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Статус успешно изменен', 
 	'JS_TASK_DELETED_SUCCESSFULLY' => 'Задача удалена', 
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Некоторые поля выбраны более одного раза',
 	'JS_WORKFLOW_SAVED_SUCCESSFULLY' => 'Обработчик успешно сохранен', 
 	'LBL_STATUS_CONFIRMATION' => 'Вы уверены, что хотите изменить состояние всех Задач?',
 	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Изменение состояния Задач...',
-);
+];

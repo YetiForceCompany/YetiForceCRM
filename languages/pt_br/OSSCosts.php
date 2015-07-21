@@ -5,11 +5,11 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 24/10/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSCosts'        => 'Custos',
 	'SINGLE_OSSCosts' => 'Custo',
@@ -54,4 +54,5 @@ $languageStrings = array(
 	'Alert_desc' => 'Todas as opções abaixo modificam os arquivos do Sistema. Um backup é realizado antes de sobrescrever os arquivos e os originais serão recuperados após remover a seleção.',
 	'Module configuration' => 'Configuração do Módulo',
 	'JS_save_config_info' => 'Configuração salva',
-);
+	'SINGLE_Vendors' => 'Fornecedor',
+];

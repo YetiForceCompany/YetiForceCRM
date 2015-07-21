@@ -12,43 +12,53 @@
 {assign var=FINAL_DETAILS value=$RELATED_PRODUCTS.1.final_details}
 <table class="table table-bordered mergeTables">
     <thead>
-    <th colspan="6" class="detailViewBlockHeader">
+    <th colspan="3" class="detailViewBlockHeader">
 	{vtranslate('LBL_ITEM_DETAILS', $MODULE_NAME)}
+    </th>
+    <th colspan="2" class="detailViewBlockHeader">
+	{assign var=CURRENCY_INFO value=$RECORD->getCurrencyInfo()}
+	{vtranslate('LBL_CURRENCY', $MODULE_NAME)} : {vtranslate($CURRENCY_INFO['currency_name'],$MODULE_NAME)}({$CURRENCY_INFO['currency_symbol']})
+    </th>
+    <th colspan="2" class="detailViewBlockHeader">
+
     </th>
 	</thead>
 	<tbody>
     <tr>
 		<td>
-			<span class="redColor">*</span><b>{vtranslate('LBL_ITEM_NAME',$MODULE_NAME)}</b>
+			<span class="redColor">*</span><strong>{vtranslate('LBL_ITEM_NAME',$MODULE_NAME)}</strong>
 		</td>
 		<td>
-			<b>{vtranslate('LBL_QTY',$MODULE_NAME)}</b>
+			<strong>{vtranslate('LBL_QTY',$MODULE_NAME)}</strong>
 		</td>
 		<td>
-			<b>{vtranslate('LBL_LIST_PRICE',$MODULE_NAME)}</b>
+			<strong>{vtranslate('LBL_UNIT',$MODULE_NAME)}</strong>
 		</td>
 		<td>
-			<b>{vtranslate('LBL_RBH',$MODULE_NAME)}</b>
+			<strong>{vtranslate('LBL_LIST_PRICE',$MODULE_NAME)}</strong>
 		</td>
 		<td>
-			<b>{vtranslate('LBL_TOTAL',$MODULE_NAME)}</b>
+			<strong>{vtranslate('LBL_RBH',$MODULE_NAME)}</strong>
 		</td>
 		<td>
-			<b>{vtranslate('ProductComments',$MODULE_NAME)}</b>
+			<strong>{vtranslate('LBL_TOTAL',$MODULE_NAME)}</strong>
+		</td>
+		<td>
+			<strong>{vtranslate('ProductComments',$MODULE_NAME)}</strong>
 		</td>
     </tr>
     {foreach key=INDEX item=LINE_ITEM_DETAIL from=$RELATED_PRODUCTS}
 	<tr>
 	    <td>
-		<div class="row-fluid">
+		<div>
 		    {$LINE_ITEM_DETAIL["productName$INDEX"]}
 		</div>
 		{if $LINE_ITEM_DETAIL["productDeleted$INDEX"]}
-			<div class="row-fluid redColor deletedItem">
+			<div class="row redColor deletedItem">
 				{if empty($LINE_ITEM_DETAIL["productName$INDEX"])}
-					{vtranslate('LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM',$MODULE)}
+					{vtranslate('LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM',$MODULE_NAME)}
 				{else}
-					{vtranslate('LBL_THIS',$MODULE)} {$LINE_ITEM_DETAIL["entityType$INDEX"]} {vtranslate('LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM',$MODULE)}
+					{vtranslate('LBL_THIS',$MODULE_NAME)} {vtranslate($LINE_ITEM_DETAIL["entityType$INDEX"])} {vtranslate('LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM',$MODULE_NAME)}
 				{/if}
 			</div>
 		{/if}
@@ -67,6 +77,9 @@
 	    <td>
 			{$LINE_ITEM_DETAIL["qty$INDEX"]}
 	    </td>
+		<td>
+			{$LINE_ITEM_DETAIL["usageUnit$INDEX"]}
+		</td>
 	    <td>
 			<div>
 				{$LINE_ITEM_DETAIL["listPrice$INDEX"]}
@@ -105,7 +118,7 @@
 	    <tr>
 			<td width="83%">
 				<span class="pull-right">
-				<b>{vtranslate('LBL_GRAND_TOTAL',$MODULE_NAME)}</b>
+				<strong>{vtranslate('LBL_GRAND_TOTAL',$MODULE_NAME)}</strong>
 				</span>
 			</td>
 			<td>
@@ -117,7 +130,7 @@
 	    <tr>
 			<td width="83%">
 				<span class="pull-right">
-				<b>{vtranslate('Total Purchase',$MODULE_NAME)}</b>
+				<strong>{vtranslate('Total Purchase',$MODULE_NAME)}</strong>
 				</span>
 			</td>
 			<td>
@@ -129,7 +142,7 @@
 	    <tr>
 			<td width="83%">
 				<span class="pull-right">
-				<b>{vtranslate('Total margin',$MODULE_NAME)}</b>
+				<strong>{vtranslate('Total margin',$MODULE_NAME)}</strong>
 				</span>
 			</td>
 			<td>
@@ -141,7 +154,7 @@
 	    <tr>
 			<td width="83%">
 				<span class="pull-right">
-				<b>{vtranslate('Total margin Percentage',$MODULE_NAME)}</b>
+				<strong>{vtranslate('Total margin Percentage',$MODULE_NAME)}</strong>
 				</span>
 			</td>
 			<td>
@@ -151,3 +164,4 @@
 			</td>
 	    </tr>
 	</table>
+	

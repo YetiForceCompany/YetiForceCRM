@@ -193,7 +193,7 @@ class ListViewController {
 				$uitype = $field->getUIType();
 				$rawValue = $this->db->query_result($result, $i, $field->getColumnName());
 
-				if($uitype != 8){
+				if(in_array($uitype,array(15,33,16))){
 					$value = html_entity_decode($rawValue,ENT_QUOTES,$default_charset);
 				} else {
 					$value = $rawValue;
@@ -251,6 +251,9 @@ class ListViewController {
 					if($downloadType == 'E' || $downloadType != 'I') {
 						$value = '--';
 					}
+				} elseif( $module == 'OSSTimeControl' && $fieldName == 'sum_time') {
+					$value = Vtiger_Functions::decimalTimeFormat($value);
+					$value = $value['short'];
 				} elseif ($field->getUIType() == '27') {
 					if ($value == 'I') {
 						$value = getTranslatedString('LBL_INTERNAL',$module);
@@ -318,12 +321,12 @@ class ListViewController {
                     $matchPattern = "^[\w]+:\/\/^";
                     preg_match($matchPattern, $rawValue, $matches);
                     if(!empty ($matches[0])){
-                        $value = '<a class="urlField cursorPointer" href="'.$rawValue.'" target="_blank">'.textlength_check($value).'</a>';
+                        $value = '<a class="urlField cursorPointer" title="'.$rawValue.'" href="'.$rawValue.'" target="_blank">'.textlength_check($value).'</a>';
                     }else{
-                        $value = '<a class="urlField cursorPointer" href="http://'.$rawValue.'" target="_blank">'.textlength_check($value).'</a>';
+                        $value = '<a class="urlField cursorPointer" title="'.$rawValue.'" href="http://'.$rawValue.'" target="_blank">'.textlength_check($value).'</a>';
                     }
 				} elseif ($field->getFieldDataType() == 'email') {
-					global $current_user;
+					$current_user  = vglobal('current_user');
 					if($current_user->internal_mailer == 1){
 						//check added for email link in user detailview
 						$value = "<a class='emailField' onclick=\"Vtiger_Helper_Js.getInternalMailer($recordId,".
@@ -373,7 +376,7 @@ class ListViewController {
 						$value = '<a class="phoneField" data-phoneNumber="'.$phoneNumber.'" record="'.$recordId.'" onclick="Vtiger_Mobile_Js.registerOutboundCall(\''.$phoneNumber.'\', '.$recordId.')">'.textlength_check($value).'</a>';
 						$callUsers = Vtiger_Mobile_Model::getPrivilegesUsers();
 						if($callUsers){
-							$value .= '  <a class="btn btn-mini noLinkBtn" onclick="Vtiger_Mobile_Js.registerOutboundCallToUser(this,\''.$phoneNumber.'\','.$recordId.')" data-placement="right" data-original-title="'.vtranslate('LBL_SELECT_USER_TO_CALL',$module).'" data-content=\'<select class="select sesectedUser" name="sesectedUser">';
+							$value .= '  <a class="btn btn-xs noLinkBtn" onclick="Vtiger_Mobile_Js.registerOutboundCallToUser(this,\''.$phoneNumber.'\','.$recordId.')" data-placement="right" data-original-title="'.vtranslate('LBL_SELECT_USER_TO_CALL',$module).'" data-content=\'<select class="select sesectedUser" name="sesectedUser">';
 							foreach($callUsers as $key => $item) {
 								$value .= '<option value="'.$key.'">'.$item.'</option>';
 							}
@@ -386,7 +389,7 @@ class ListViewController {
 					$referenceFieldInfoList = $this->queryGenerator->getReferenceFieldInfoList();
 					$moduleList = $referenceFieldInfoList[$fieldName];
 					if(count($moduleList) == 1) {
-						$parentModule = $moduleList[0];
+						$parentModule = reset($moduleList);
 					} else {
 						$parentModule = $this->typeList[$value];
 					}

@@ -9,16 +9,19 @@
 *
 ********************************************************************************/
 -->*}
-<div class="modal">
-    <div class="modal-header contentsBackground">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>{vtranslate('SINGLE_'|cat:$MODULE, $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}</h3>
-    </div>
-    <div class="modal-body">
-        <div class="marginBottom10px">{vtranslate('LBL_EMBED_THE_FOLLOWING_FORM_IN_YOUR_WEBSITE', $QUALIFIED_MODULE)}</div>
-        <textarea id="showFormContent" class="input-xxlarge" style="height:400px;min-width: 600px" readonly></textarea>
-        <code>
-            <pre>
+<div class='modelContainer modal fade' tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header contentsBackground">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3 class="modal-title">{vtranslate('SINGLE_'|cat:$MODULE, $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}</h3>
+			</div>
+			<div class="modal-body">
+				<div class="marginBottom10px">{vtranslate('LBL_EMBED_THE_FOLLOWING_FORM_IN_YOUR_WEBSITE', $QUALIFIED_MODULE)}</div>
+				<textarea id="showFormContent" class="input-xxlarge" style="height:400px;min-width: 600px" readonly></textarea>
+				<code>
+					<pre>
+
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 </head>
 <form name="{$RECORD_MODEL->getName()}" action="{$ACTION_PATH}"
@@ -110,13 +113,14 @@
     {/if}
 <input type="submit" value="Submit" ></input>
 </form>
-            </pre>
-        </code>
-        <input type="hidden" name="isCaptchaEnabled" value="{$IS_CAPTCHA_ENABLED}">
-    </div>
-    <div class="modal-footer">
-        <div class=" pull-right cancelLinkContainer">
-            <a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
-        </div>
-    </div>
+					</pre>
+				</code>
+				<input type="hidden" name="isCaptchaEnabled" value="{$IS_CAPTCHA_ENABLED}">
+			</div>
+			<div class="modal-footer">
+				<button type="reset" class="btn btn-warning" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
+			</div>
+		</div>
+	</div>
+</div>
 </div>

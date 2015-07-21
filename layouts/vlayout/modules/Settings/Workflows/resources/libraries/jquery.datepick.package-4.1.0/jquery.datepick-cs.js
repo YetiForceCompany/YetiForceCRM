@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Czech localisation for jQuery Datepicker.
    Written by Tomas Muller (tomas@tomas-muller.net). */
 (function($) {

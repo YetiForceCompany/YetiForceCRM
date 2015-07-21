@@ -53,6 +53,7 @@ require_once('class.soap_server.php');*/
 
 // class variable emulation
 // cf. http://www.webkreator.com/php/techniques/php-static-class-variables.html
+$GLOBALS['_transient']['static']['nusoap_base'] = new stdClass();
 $GLOBALS['_transient']['static']['nusoap_base']->globalDebugLevel = 9;
 global $soap_log;
 $soap_log =& LoggerManager::getLogger('SOAP');

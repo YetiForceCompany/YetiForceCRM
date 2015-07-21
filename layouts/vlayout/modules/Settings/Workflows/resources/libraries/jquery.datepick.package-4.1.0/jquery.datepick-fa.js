@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Persian (Farsi) localisation for jQuery Datepicker.
    Javad Mowlanezhad -- jmowla@gmail.com */
 (function($) {

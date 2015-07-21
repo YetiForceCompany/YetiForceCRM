@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -202,7 +202,6 @@ $labels['responsename'] = 'Ім’я';
 $labels['attach'] = 'Вкласти';
 $labels['attachments'] = 'Вкладені файли';
 $labels['upload'] = 'Вкласти';
-$labels['uploadprogress'] = '$percent ($current з $total)';
 $labels['close']  = 'Закрити';
 $labels['messageoptions']  = 'Налаштування листів';
 $labels['low']     = 'Низький';
@@ -279,7 +278,6 @@ $labels['typehomepage']  = 'Домашня сторінка';
 $labels['typeblog'] = 'Блог';
 $labels['typeprofile'] = 'Профіль';
 $labels['addfield'] = 'Додати поле...';
-$labels['addcontact'] = 'Додати вибрані контакти до списку контактів';
 $labels['editcontact'] = 'Редагувати контакт';
 $labels['contacts'] = 'Контакти';
 $labels['contactproperties'] = 'Властивості контакта';
@@ -292,7 +290,6 @@ $labels['rename'] = 'Перейменувати';
 $labels['addphoto'] = 'Додати';
 $labels['replacephoto'] = 'Замінити';
 $labels['uploadphoto'] = 'Завантажити фотографію';
-$labels['newcontact']     = 'Створити новий контакт';
 $labels['deletecontact']  = 'Видалити вибрані контакти';
 $labels['composeto']      = 'Створити листа для вибранних контактів';
 $labels['contactsfromto'] = 'Контакти  $from - $to / $count';
@@ -301,7 +298,6 @@ $labels['export']         = 'Експортувати';
 $labels['exportall']      = 'Експортувати все';
 $labels['exportsel']      = 'Експортувати виділені';
 $labels['exportvcards']   = 'Експортувати контакти у формат vCard';
-$labels['newcontactgroup'] = 'Створити нову групу контактів';
 $labels['grouprename']    = 'Перейменувати групу';
 $labels['groupdelete']    = 'Видалити групу';
 $labels['groupremoveselected'] = 'Видалити обрані контакти з групи';
@@ -328,10 +324,6 @@ $labels['preferences'] = 'Параметри';
 $labels['userpreferences'] = 'Налаштування користувача';
 $labels['editpreferences'] = 'Редагувати налаштування користувача';
 $labels['identities'] = 'Профілі';
-$labels['manageidentities'] = 'Керування профілями';
-$labels['newidentity'] = 'Новий профіль';
-$labels['newitem'] = 'Новий';
-$labels['edititem'] = 'Редагувати';
 $labels['preferhtml'] = 'Показувати в HTML';
 $labels['defaultcharset'] = 'Кодування за замовчуваннням';
 $labels['htmlmessage'] = 'Лист у HTML';
@@ -365,7 +357,6 @@ $labels['askuser'] = 'запитати користувача';
 $labels['autosend'] = 'відправляти автоматично';
 $labels['autosendknown'] = 'відправити повідомлення моим контактам, в іншому випадку запитати мене';
 $labels['autosendknownignore'] = 'відправити повідомлення моим контактам, в іншому випадку ігнорувати';
-$labels['ignore'] = 'ігнорувати';
 $labels['readwhendeleted'] = 'Позначати як прочитане при видаленні';
 $labels['flagfordeletion'] = 'Позначати для видалення замість видалення';
 $labels['skipdeleted'] = 'Не показувати видалені листи';
@@ -427,14 +418,14 @@ $labels['inline'] = 'у тексті';
 $labels['asattachment'] = 'як вкладення';
 $labels['replyallmode'] = 'Типова дія для кнопки [Відповісти всім]';
 $labels['replyalldefault'] = 'відповісти усім';
-$labels['folder']  = 'Папка';
-$labels['folders']  = 'Папки';
-$labels['foldername']  = 'Назва папки';
-$labels['subscribed']  = 'Підписані';
+$labels['folder'] = 'Папка';
+$labels['folders'] = 'Папки';
+$labels['foldername'] = 'Назва папки';
+$labels['subscribed'] = 'Підписані';
 $labels['messagecount'] = 'Листи';
-$labels['create']  = 'Створити';
-$labels['createfolder']  = 'Створити нову папку';
-$labels['managefolders']  = 'Керування папками';
+$labels['create'] = 'Створити';
+$labels['createfolder'] = 'Створити нову папку';
+$labels['managefolders'] = 'Керування папками';
 $labels['specialfolders'] = 'Особливі папки';
 $labels['properties'] = 'Властивості';
 $labels['folderproperties'] = 'Властивості папки';
@@ -444,9 +435,9 @@ $labels['info'] = 'Інформація';
 $labels['getfoldersize'] = 'Показати розмір папки';
 $labels['changesubscription'] = 'Змінити підписку';
 $labels['foldertype'] = 'Тип каталогу';
-$labels['personalfolder']  = 'Приватний каталог';
-$labels['otherfolder']  = 'Каталог іншого користувача';
-$labels['sharedfolder']  = 'Публічний каталог';
+$labels['personalfolder'] = 'Приватний каталог';
+$labels['otherfolder'] = 'Каталог іншого користувача';
+$labels['sharedfolder'] = 'Публічний каталог';
 $labels['sortby'] = 'Відсортувати за';
 $labels['sortasc']  = 'Сортувати за зростанням';
 $labels['sortdesc'] = 'Сортувати за спаданням';

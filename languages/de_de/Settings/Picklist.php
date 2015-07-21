@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Picklist' => 'Picklist',
 	'Calendar' => 'Kalender',
 	'LBL_ADD_ITEM_TO' => 'Eintrag hinzufügen an',
@@ -40,9 +40,10 @@ $languageStrings = array(
 	'LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY' => 'Um mehrere Elemente zu löschen, während der Auswahl die Strg-Taste drücken',
 	'LBL_VALUES_ASSIGNED_TO_A_ROLE' => 'Einer Rolle zugewiesene Werte',
     'NO_PICKLIST_FIELDS'=> 'hat keine Auswahllisten-Felder',
-);
+	'LBL_NEW_VALUE' => 'New value',
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_ALL_ROLES_SELECTED' => 'Alle Rollen gewählt',
 	'JS_ITEM_ADDED_SUCCESSFULLY' => 'Eintrag erfolgreich hinzugefügt',
 	'JS_ITEM_RENAMED_SUCCESSFULLY' => 'Eintrag erfolgreich umbenannt',
@@ -56,4 +57,4 @@ $jsLanguageStrings = array(
 	'JS_SPECIAL_CHARACTERS' => 'Sonderzeichen wie',
 	'JS_VALUE_ASSIGNED_SUCCESSFULLY' => 'Wert erfolgreich zugewiesen',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_VALUES' => 'Sie können nicht alle Werte löschen',
-);	
+];	

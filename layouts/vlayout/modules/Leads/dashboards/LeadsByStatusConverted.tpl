@@ -13,27 +13,35 @@
 	Vtiger_Barchat_Widget_Js('Vtiger_Leadsbystatusconverted_Widget_Js',{},{});
 </script>
 <div class="dashboardWidgetHeader">
-	{include file="dashboards/WidgetHeader.tpl"|@vtemplate_path:$MODULE_NAME SETTING_EXIST=true}
-	<div class="row-fluid filterContainer hide" style="position:absolute;z-index:100001">
-		<div class="row-fluid">
-			<span class="span5">
-				<span class="pull-right">
-					{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}
-				</span>
-			</span>
-			<span class="span4">
-				<input type="text" name="createdtime" class="dateRange widgetFilter" />
-			</span>	
+	{foreach key=index item=cssModel from=$STYLES}
+		<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
+	{/foreach}
+	{foreach key=index item=jsModel from=$SCRIPTS}
+		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
+	{/foreach}
+	<div class="row">
+		<div class="col-md-8">
+			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
+		</div>
+		<div class="col-md-4">
+			<div class="box pull-right">
+				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
 			</div>
-			<div class="row-fluid">	
-			<span class="span5">
-				<span class="pull-right">
-					{vtranslate('Assigned To', $MODULE_NAME)}
-				</span>
-			</span>
-			<span class="span4">
+		</div>
+	</div>
+	<hr class="widgetHr"/>
+	<div class="row" >
+		<div class="col-sm-6">
+			<div class="input-group input-group-sm">
+				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle margintop3" title="{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}"></span></span>
+				<input type="text" name="createdtime" title="{vtranslate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter form-control width90 textAlignCenter"/>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="input-group input-group-sm">
+				<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle margintop3" title="{vtranslate('Assigned To', $MODULE_NAME)}"></span></span>
 				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
-			</span>
+			</div>
 		</div>
 	</div>
 </div>

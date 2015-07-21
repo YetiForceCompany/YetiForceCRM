@@ -108,7 +108,7 @@ class OSSPasswords extends CRMEntity {
 	/**	Constructor which will set the column_fields in this object
 	 */
 	function __construct() {
-		global $log;
+		$log = vglobal('log');
 		$this->column_fields = getColumnFields(get_class($this));
 		$this->db = PearDatabase::getInstance();
 		$this->log = $log;
@@ -173,7 +173,7 @@ class OSSPasswords extends CRMEntity {
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
 	function getListViewSecurityParameter($module) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 
@@ -219,7 +219,7 @@ class OSSPasswords extends CRMEntity {
 	 */
 	function create_export_query($where)
 	{
-		global $current_user;
+		$current_user  = vglobal('current_user');
 
 		include("include/utils/ExportUtils.php");
 
@@ -312,7 +312,7 @@ class OSSPasswords extends CRMEntity {
 
 	// Function to unlink all the dependent entities of the given Entity by Id
 	function unlinkDependencies($module, $id) {
-		global $log;
+		$log = vglobal('log');
 		parent::unlinkDependencies($module, $id);
 	}
 
@@ -334,34 +334,6 @@ class OSSPasswords extends CRMEntity {
 			//Add OSSPasswords Module to Customer Portal  		
             require_once 'vtlib/Vtiger/Module.php';
 
-			//Showing OSSPasswords module in the related modules in the More Information Tab
-			$OSSPasswordInstance = Vtiger_Module::getInstance('OSSPasswords');
-			$OSSPasswordLabel = 'OSSPasswords';
-
-            $assetInstance = Vtiger_Module::getInstance('Assets');
-			$assetInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-            
-			$accountInstance = Vtiger_Module::getInstance('Accounts');
-			$accountInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-            
-            $contactInstance = Vtiger_Module::getInstance('Contacts');
-			$contactInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-            
-            $leadsInstance = Vtiger_Module::getInstance('Leads');
-			$leadsInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-
-			$productInstance = Vtiger_Module::getInstance('Products');
-			$productInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-            
-            $serviceInstance = Vtiger_Module::getInstance('Services');
-			$serviceInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-
-			$helpdeskInstance = Vtiger_Module::getInstance('HelpDesk');
-			$helpdeskInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-            
-            $vendorInstance = Vtiger_Module::getInstance('Vendors');
-			$vendorInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-            
             // add default oss_passwords configuration
             $adb->pquery( "INSERT INTO vtiger_passwords_config values(?,?,?,?)", array('10', '15', 'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,W,X,Y,Z,0,1,2,3,4,5,6,7,8,9', '0') );
             
@@ -376,7 +348,7 @@ class OSSPasswords extends CRMEntity {
         
             // handler for obscuring password data in "update history"
             $em = new VTEventsManager($adb);
-            $em->registerHandler('vtiger.entity.aftersave.final', 'modules/OSSPasswords/secure.php', $handlerClass);
+            $em->registerHandler('vtiger.entity.aftersave.final', 'modules/OSSPasswords/handlers/secure.php', $handlerClass);
 						            
             // Module icon
             copy( 'modules/OSSPasswords/OSSPasswords.png', 'layouts/vlayout/skins/images/OSSPasswords.png' );
@@ -423,7 +395,7 @@ class OSSPasswords extends CRMEntity {
 				0, 'sequence') + 1;
 			$fieldid = $adb->getUniqueId('vtiger_settings_field');
 			$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid,$sequence,$displayLabel,'migrate.gif','Update configuration file of the application', 
+				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid,$sequence,$displayLabel,'migrate.gif','LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION', 
                 'index.php?module=OSSPasswords&view=ConfigurePass&parent=Settings'));
 		} else {
 			$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array($displayLabel));
@@ -456,4 +428,3 @@ class OSSPasswords extends CRMEntity {
 		}
  	}
 }
-?>

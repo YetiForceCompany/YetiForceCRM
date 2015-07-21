@@ -444,6 +444,7 @@ em {
 }
 .muted {
   color: #999999;
+  padding-left: 10px;
 }
 abbr {
   font-size: 90%;

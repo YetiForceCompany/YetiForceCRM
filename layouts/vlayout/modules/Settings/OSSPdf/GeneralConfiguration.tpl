@@ -21,7 +21,7 @@
     <![endif]-->
 {/literal}
 {$i=1}
-<div class="container-fluid" id="importModules">    
+<div class="" id="importModules">    
     <ul class="nav nav-tabs layoutTabs margin0px" style="border-bottom: 0px;">
         <li class="active"><a data-toggle="tab" href="#general"><strong>{vtranslate('LBL_GeneralConfiguration', 'OSSPdf')}</strong></a></li>
         <li class="relatedListTab"><a data-toggle="tab" href="#function"><strong>{vtranslate('LBL_specialfunctions_config', 'OSSPdf')}</strong></a></li>
@@ -30,7 +30,6 @@
         <div class="tab-pane active" id="general">
             <table align="center" border="0" cellpadding="0" cellspacing="0" width="98%">
                 <tr>
-                    <td valign="top"><img src="{$IMAGE_PATH}showPanelTopLeft.gif"></td>
                     <td class="showPanelBg" style="padding: 10px;" valign="top" width="100%">
                         <br>
                         <div align=center>
@@ -51,7 +50,7 @@
                                 <tr>
                                     <td width="300px">{$module}</td>
                                     <td width="150px">
-                                        <select name="{$name}" class="select2">
+                                        <select name="{$name}" class="chzn-select">
                                             <optgroup label="{vtranslate('default', 'OSSPdf')}">
                                                 <option value="default" {if $SELECTED.$name eq "default"} SELECTED {/if}>{vtranslate('LBL_default', 'OSSPdf')}</option>
                                             <optgroup label="{vtranslate('users', 'OSSPdf')}">
@@ -101,7 +100,6 @@
                             <input id="acceptbutton" type="submit" onmouseover = "pointat();" onmouseout = "pointout();" style="border-color: darkgreen;border-style: solid;border-width: 1px 1px 1px 1px;width:175px;height: 34px;text-align: center;" value="{vtranslate('accept', 'OSSPdf')}">
                         </form>
                     </td>
-                    <td valign="top"><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td>
                 </tr>
             </table>
             <br>
@@ -113,7 +111,6 @@
             {if $IS_ADMIN eq 'true'}
             <table align="center" border="0" cellpadding="0" cellspacing="0" width="98%">
                 <tr>
-                    <td valign="top"><img src="{$IMAGE_PATH}showPanelTopLeft.gif"></td>
                     <td class="showPanelBg" style="padding: 10px;" valign="top" width="100%">
                         <br>
                         <div align=center>
@@ -145,7 +142,7 @@
                                                                     {foreach from=$functions.variables key=name item=variable}
                                                                         <tr heigth="25px"><td width="40%">{$variable.label}</td>
                                                                             <td width="60%">
-                                                                                <select name="{$name}" class="select2">
+                                                                                <select name="{$name}" class="chzn-select">
                                                                                     <option value="TRUE" {if $variable.value eq 'TRUE'} SELECTED {/if}>{vtranslate('LBL_TRUE', 'OSSPdf')}</option>
                                                                                     <option value="FALSE" {if $variable.value eq 'FALSE'} SELECTED {/if}>{vtranslate('LBL_FALSE', 'OSSPdf')}</option>
                                                                                 </select>
@@ -168,7 +165,6 @@
                         </table>
                         <hr />	
                     </td>    
-                    <td valign="top"><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td>
                 </tr>
             </table>
             <br>

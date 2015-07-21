@@ -6,9 +6,13 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 06/01/2015 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation -valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
+	'PRIMARY_MODULE' => 'Módulo Principal',
+	'Report Name' => 'Nome do Relatório',
+	'Reports'=>'Relatórios',
+	'SINGLE_Reports' => 'Relatório',
 	'LBL_ADD_FOLDER' => 'Adicionar Pasta',
 	'LBL_ADD_NEW_FOLDER' => 'Adicionar Novo Grupo',
 	'LBL_ADD_RECORD' => 'Adicionar Relatório',
@@ -18,20 +22,20 @@ $languageStrings = array(
 	'LBL_AVERAGE' => 'Média',
 	'LBL_AVG' => 'MED' ,
 	'LBL_CALCULATION_CONVERSION_MESSAGE' => 'Os cálculos são realizados com base na moeda padrão do seu CRM',
-	'LBL_CALCULATIONS' => 'Cálculos' , 
+	'LBL_CALCULATIONS' => 'Cálculos' ,
 	'LBL_CHOOSE_DATE' => 'Escolher Data',
-	'LBL_COLUMNS' => 'Colunas' , 
+	'LBL_COLUMNS' => 'Colunas' ,
 	'LBL_CREATING_REPORT' => 'Crianado Relatório',
 	'LBL_CUSTOMIZE' => 'Customizar',
 	'LBL_DAILY' => 'Diariamente',
 	'LBL_DENIED_REPORTS' => 'Relatórios Negados',
 	'LBL_DESCENDING' => 'Descendente' ,
-	'LBL_DESCRIPTION' => 'Descrição' , 
+	'LBL_DESCRIPTION' => 'Descrição' ,
 	'LBL_DUPLICATES_EXIST' => 'Duplicado',
 	'LBL_EDITING_REPORT' => 'Editando Relatório',
 	'LBL_EXCEEDING_MAXIMUM_LIMIT' => 'Limite máximo excedido',
 	'LBL_FIELD_NAMES' => 'Nomes Campos',
-	'LBL_FILTERS' => 'Filtros' , 
+	'LBL_FILTERS' => 'Filtros' ,
 	'LBL_FOLDER_CAN_NOT_BE_DELETED' => 'Esta Pasta não pode ser apagada',
 	'LBL_FOLDER_DESCRIPTION' => 'Descrição Pasta',
 	'LBL_FOLDER_NAME' => 'Nome Pasta' ,
@@ -44,7 +48,6 @@ $languageStrings = array(
 	'LBL_HIGHEST_VALUE'=> 'Valor Máximo' ,
 	'LBL_LIMIT_EXCEEDED' => 'São exibidos somente até 1.000 registros. Utilize Exportar para CSV ou Excel para visualizar todos os regitros',
 	'LBL_LOWEST_VALUE' => 'Valor Mínimo' ,
-	'LBL_MAIN' => 'Principal',
 	'LBL_MAX' => 'Max',
 	'LBL_MIN' => 'MIN' ,
 	'LBL_MONTHLY_BY_DATE' => 'Mensal por Data',
@@ -58,17 +61,17 @@ $languageStrings = array(
 	'LBL_RECORDS' => 'Registros',
 	'LBL_REPORT_CSV' => 'Exportar CSV',
 	'LBL_REPORT_DELETE_DENIED' => 'Permissão para apagar Relatório negada',
-	'LBL_REPORT_DETAILS' => 'Detalhes Relatório' , 
+	'LBL_REPORT_DETAILS' => 'Detalhes Relatório' ,
 	'LBL_REPORT_EXPORT_EXCEL' => 'Exportar para Excel',
 	'LBL_REPORT_FOLDER' => 'Pasta Relatório',
-	'LBL_REPORT_NAME' => 'Nome Relatório' , 
+	'LBL_REPORT_NAME' => 'Nome Relatório' ,
 	'LBL_REPORT_PRINT' => 'Imprimir',
 	'LBL_REPORTS_LIST' => 'Lista de Relatórios',
 	'LBL_REPORTS' => 'Lista Relatórios',
 	'LBL_RUN_REPORT' =>'Executar Relatório',
 	'LBL_SAME_LEVEL_ROLES' => 'Mesmo Nível da Função',
 	'LBL_SCHEDULE_REPORTS' => 'Agendar Relatórios',
-	'LBL_SELECT_COLUMNS' => 'Selecionar Colunas', 
+	'LBL_SELECT_COLUMNS' => 'Selecionar Colunas',
 	'LBL_SELECTED_DATES' => 'Datas Selecionadas',
 	'LBL_SELECT_MONTH_AND_DAY' => 'Selecionar Mês e Data',
 	'LBL_SELECT_RECIEPIENTS' => 'Selecionar Destinatários',
@@ -84,10 +87,8 @@ $languageStrings = array(
 	'LBL_WEEKLY' => 'Semanalmente',
 	'LBL_WRITE_YOUR_DESCRIPTION_HERE' => 'Digitar Descrição' ,
 	'LBL_YEARLY' => 'Anualmente',
-	'PRIMARY_MODULE' => 'Módulo Principal',
-	'Report Name' => 'Nome Relatório' ,
-	'Reports'=>'Relatórios',
-	'SINGLE_Reports' => 'Relatório',
+	'LBL_MAIN' => 'Principal',
+	'LBL_SELECT_REPORT' => 'Selecionar Relatório',
 
 	//charts labels
 	'LBL_SELECT_CHART_TYPE' => 'Selecionar tipo de Gráfico',
@@ -115,10 +116,11 @@ $languageStrings = array(
     //Schedule Reports - Mail Content
     'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'Este é um email gerado automaticamente e enviado em função de um relatório agendado.',
 	'LBL_PIVOT_REPORT' => 'Relatório Pivot',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CALCULATION_LINE_ITEM_FIELDS_SELECTION_LIMITATION' => 'Limitação: os campos do Item da linha (Lista de Preço, Desconto & Quantidade) somente podem ser utilizados quando outros campos de cálculo não forem selecionados.',
 	'JS_DUPLICATE_RECORD' => 'Duplicar Relatório',
 	'JS_NO_CHART_DATA_AVAILABLE' => 'Dados não disponíveis, por favor, verifique os campos selecionados',
-);
+];
+

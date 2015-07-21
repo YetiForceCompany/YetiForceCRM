@@ -7,16 +7,41 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
+	'LBL_COLORS_DESCRIPTION' => 'Настройка цветов пользователей',
 	'Users'	=>	'Пользователи',
 	'USER_MAIL_EXIST'	=>	'Пользователь с такой электронной почтой уже существует',
-);
+	'LBL_USERS_COLORS' => 'Цвет пользователей',
+	'LBL_USERS_COLORS_DESCRIPTION' => 'Настройка цвета пользователя',
+	'LBL_UPDATE_COLOR' => 'Изменить цвет',
+	'LBL_COLOR' => 'Цвет',
+	'LBL_GENERATE_COLOR' => 'Генерировать случайный цвет',
+	'LBL_GENERATED_COLOR' => 'Генератор цветов',
+	'LBL_EDIT_COLOR' => 'Редактировать цвет',
+	'LBL_SELECT_COLOR' => 'Выберите цвет:',
+	'LBL_SAVE_COLOR' => 'Сохранить цвет',
+	'LBL_GROUPS_COLORS' => 'Группа цветов',
+	'LBL_GROUP_NAME' => 'Название группы',
+	'LBL_COLORS' => 'Цвета',
+	'LBL_PRIORITY' => 'Приоритет',
+	'LBL_MODULE' => 'Модуль',
 
-$jsLanguageStrings = array(
+	//Auth
+	'LBL_AUTHORIZATION' => 'Авторизация',
+	'LBL_AUTHORIZATION_DESCRIPTION' => 'Настройка способа Авторизации',
+	'LBL_LDAP_AUTH' => 'LDAP',
+	'LBL_ACTIVE_LDAP_AUTH' => 'Авторизация через LDAP',
+	'LBL_LDAP_SERVER' => 'Адрес сервера',
+	'LBL_LDAP_PORT' => 'Порт',
+	'LBL_LDAP_USERS' => 'Автовход пользователя',
+	'LBL_SAVE_CONFIG' => 'Конфигурация успешно сохранена',
+	'LBL_LDAP_DOMAIN' => 'Домен (Автоматически добавляется к логину)',
+	
+	'LBL_VIEW_AUTH' => 'Авторизация',
+	'LBL_VIEW_COLORS' => 'Цвета',
+];
+$jsLanguageStrings = [
 	'JS_USER_MAIL_EXIST'	=>	'Пользователь с такой электронной почтой уже существует',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Разделитель десятичных и тысячных не могут быть одинаковыми',
-);
-
-
+];

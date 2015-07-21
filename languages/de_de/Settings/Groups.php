@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Roles' => 'Rollen',
 	'Users' => 'Benutzer',
 	'LBL_ADD_RECORD' => 'Gruppe hinzufügen',
@@ -23,9 +23,9 @@ $languageStrings = array(
 	'Groups' => 'Gruppen',
 	'Name' => 'Name',
 	'Description' => 'Beschreibung',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP' => 'Bitte wählen Sie mindestens ein Mitglied für eine Gruppe',
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Gruppe erfolgreich gelöscht',
-);
+];

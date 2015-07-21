@@ -28,8 +28,6 @@ class OSSEmployees_GetHoliday_Action extends Vtiger_Action_Controller {
 		$holiday['workDay'] = $recordModel->getHoliday( $id, $year );
 		$holiday['entitlement'] = $recordModel->getHolidaysEntitlement( $id, $year );
 		
-		
-//echo '<pre>' ; print_r($sourceData); echo '</pre>';
 		if ( !$holiday ) {
 			$result = array( 'success' => false, 'message' => vtranslate('LBL_FAILED_TO_IMPORT_INFO', $moduleName) );
 		}

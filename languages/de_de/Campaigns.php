@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Active'	=>	'Aktiv',
 	'Actual Cost'                  => 'aktuelle Kosten'             , 
 	'Actual Response Count'        => 'aktuelle Rücklaufmenge'     , 
@@ -36,11 +36,11 @@ $languageStrings = array(
 	'Expected ROI'                 => 'erwarteter ROI'              , 
 	'Expected Sales Count'         => 'erwartete Verkaufsmenge'     , 
 	'Good'                         => 'gut'                         , 
-	'Inactive'                     => 'inaktiv'                     , 
+	'Inactive'                     => 'Inaktiv'                     , 
 	'LBL_ADD_RECORD' => 'Kampagne hinzufügen',
 	'LBL_CAMPAIGN_INFORMATION'     => 'Kampagnen Information'       , 
 	'LBL_EXPECTATIONS_AND_ACTUALS' => 'Erwartungen & Aktuelles'     , 
-	'LBL_RECORDS_LIST'             => 'Kampagnen-Liste'              , 
+	'LBL_RECORDS_LIST'             => 'Liste Kampagnen'              , 
 	'--None--'                     => '--keine--'                    , 
 	'Num Sent'                     => 'gesendete Anzahl'            , 
 	'Others'                       => 'andere'                      , 
@@ -55,4 +55,7 @@ $languageStrings = array(
 	'TargetSize'                   => 'Größe der Zielgruppe'      , 
 	'Telemarketing'                => 'Telemarketing'               , 
 	'Webinar'                      => 'Webseminar'                   , 
-);
+];
+$jsLanguageStrings = [
+	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Are you sure you want to add this filter records?.',
+];

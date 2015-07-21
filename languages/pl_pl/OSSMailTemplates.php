@@ -8,8 +8,8 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'OSSMailTemplates' => 'Szablony email',
+$languageStrings = [
+	'OSSMailTemplates' => 'Szablony mailowe',
     'Blank' => 'Szablony email',
     'SINGLE_OSSMailTemplates' => 'Szablony email',
     'LBL_ADD_RECORD' => 'Dodaj rekord',
@@ -27,6 +27,11 @@ $languageStrings = array(
     'No' => 'Nie',
 	'MAIL_TPL_LIST' => 'Wybierz szablon e-mail',
 	'LBL_COPY_TO_CLIPBOARD_TITLE' => 'Kopiuj do schowka',
+	'LBL_TYPE' => 'Typ',
+	'PLL_MODULE' => 'Moduł',
+	'PLL_RECORD' => 'Rekord',
+	'PLL_MAIL' => 'Wiadomość mail',
+	'PLL_LIST' => 'Lista',
 	
 	/// special_functions
 	'CurrentDate' => 'Aktualna data',
@@ -40,9 +45,9 @@ $languageStrings = array(
 	'LBL_LABEL' => 'Etykieta',
 	'ContactsPortalPass' => 'Hasło portalu klienta',
 	'LinkToForgotPassword' => 'Adres URL resetowania hasła',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
     'JS_NOTIF_PASS_COPIED' => 'Skopiowano do schowka',
     'JS_NOTIF_PASS_TITLE' => 'Tekst',
 
-);
+];

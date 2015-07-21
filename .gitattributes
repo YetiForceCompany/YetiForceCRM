@@ -1,0 +1,10 @@
+*.php text eol=lf 
+*.js text eol=lf
+*.css text eol=lf
+*.tpl text eol=lf
+*.properties text eol=lf
+*.txt text eol=lf
+*.md text eol=lf
+*.htaccess text eol=lf
+*.service text eol=lf
+*.html text eol=lf

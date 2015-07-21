@@ -5,9 +5,9 @@
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - 26/04/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - valmir@ttcasolucoes.com.br
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Webforms' => 'Webforms',
 	'SINGLE_Settings:Webforms' => 'Webform',
 	//Basic Field Names
@@ -37,14 +37,14 @@ $languageStrings = array(
 	'LBL_EMBED_THE_FOLLOWING_FORM_IN_YOUR_WEBSITE' => 'Insira o seguinte formulário no seu website',
 	'LBL_SELECT_VALUE' => 'Selecionar Valor',
 	'LBL_LABEL' => 'rótulo',
-	'LBL_SAVE_FIELDS_ORDER' => 'Salvar ordem dos campos', 
+	'LBL_SAVE_FIELDS_ORDER' => 'Salvar ordem dos campos',
 	'LBL_HIDDEN' => 'Ocultar',
 	'LBL_ENABLE_TARGET_MODULES_FOR_WEBFORM' => 'Habilitar módulos Alvo para Webform',
 	'LBL_ASSIGN_USERS' => 'Usuário Responsável',
     'LBL_ASSIGN_ROUND_ROBIN' => 'Designar Usuários no Round Robin',
     'LBL_ROUNDROBIN_USERS_LIST' => 'Lista de Usuários Round Robin',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_WEBFORM_DELETED_SUCCESSFULLY' => 'O Webform foi deletado com Sucesso',
 	'JS_LOADING_TARGET_MODULE_FIELDS' => 'Carregando Campos do Módulo Alvo',
 	'JS_SELECT_AN_OPTION' => 'Selecione uma Opção',
@@ -53,4 +53,4 @@ $jsLanguageStrings = array(
 	'JS_REFERENCE_FIELDS_CANT_BE_MANDATORY_WITHOUT_OVERRIDE_VALUE' => 'Campos de referência não podem ser obrigatórios sem sobrescrever o valor',
 	'JS_TYPE_TO_SEARCH' => 'Digite para pesquisa',
 	"JS_WEBFORM_WITH_THIS_NAME_ALREADY_EXISTS" => 'Um Webform com este nome já existe',
-);
+];

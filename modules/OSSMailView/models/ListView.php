@@ -26,13 +26,18 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model {
 	public function getListViewMassActions($linkParams) {
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
-		if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
+		$massActionLinks = [];
+		
+		if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassDelete')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_DELETE',
-				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module='.$moduleModel->get('name').'&action=MassDelete")',
+				'linklabel' => 'LBL_MASS_DELETE',
+				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module='.$moduleModel->get('name').'&action=MassDelete");',
 				'linkicon' => ''
 			);
+		}
+		
+		if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'EditView')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_BindMails',

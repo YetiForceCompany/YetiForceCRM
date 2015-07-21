@@ -11,38 +11,37 @@
 -->*}
 <div style='padding:5px'>
 {if count($MODELS) > 0}
-	<div class='row-fluid'>
-		<div class='span12'>
-			<div class='row-fluid'>
-				<div class='span4'>
-					<b>{vtranslate('Potential Name', $MODULE_NAME)}</b>
-				</div>
-				<div class='span4'>
-					<b>{vtranslate('Amount', $MODULE_NAME)}</b>
-				</div>
-				<div class='span4'>
-					<b>{vtranslate('Related To', $MODULE_NAME)}</b>
-				</div>
-			</div>
-		</div>
-		<hr>
-		{foreach item=MODEL from=$MODELS}
-		<div class='row-fluid'>
-			<div class='span4'>
-				<a href="{$MODEL->getDetailViewUrl()}">{$MODEL->getName()}</a>
-			</div>
-			<div class='span4'>
-				{$MODEL->getDisplayValue('sum_invoices')}
-			</div>
-			<div class='span4'>
-				{$MODEL->getDisplayValue('related_to')}
-			</div>
-		</div>
-		{/foreach}
+	<div class="table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					{foreach item=HEADER from=$MODULE_HEADER}
+						<td>
+							<strong>{vtranslate({$HEADER}, $MODULE_NAME)}</strong>
+						</td>
+					{/foreach}
+				</tr>
+			</thead>
+			<tbody>
+				{foreach item=MODEL from=$MODELS}
+					<tr>
+					{foreach item=HEADER key=KEY_VALUE from=$MODULE_HEADER}
+						<td>
+							{if $KEY_VALUE eq 'potentialname'}
+								<a href="{$MODEL->getDetailViewUrl()}">{$MODEL->getName()}</a>
+							{else}  
+								{$MODEL->getDisplayValue({$KEY_VALUE})}
+							{/if}
+						</td>
+					{/foreach}
+					<tr>
+				{/foreach}
+			</tbody>
+		</table>
 	</div>
 {else}
 	<span class="noDataMsg">
-		{vtranslate('LBL_NO')} {vtranslate($MODULE_NAME, $MODULE_NAME)} {vtranslate('LBL_MATCHED_THIS_CRITERIA')}
+		{vtranslate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
 	</span>
 {/if}
 </div>

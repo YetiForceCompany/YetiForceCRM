@@ -8,20 +8,22 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'Inactive'	=>	'Inaktiv',
 	'Active'	=>	'Aktiv',
-'OSSOutsourcedServices' => 'Outsourcing-Dienste',
-'SINGLE_OSSOutsourcedServices' => 'Outsourcing-Dienst',
-'LBL_INFORMATION' => 'Informationsblock',
+	'OSSOutsourcedServices' => 'Outsourcing-Dienste',
+	'SINGLE_OSSOutsourcedServices' => 'Outsourcing-Dienst',
+	'LBL_INFORMATION' => 'Informationsblock',
+	'LBL_ADD_RECORD' => 'Dienstleistung hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste Dienstleistungen',
 
 //fields
-	'Assigned To' => 'Zugewiesen an',
+	'Assigned To' => 'zuständig',
 'LBL_osservicesstatus' => 'Status',
 'Individual Agreement' => 'Individuelle Vereinbarung',
 'In service' => 'Wird unterstützt',
 'Finished support' => 'Unterstützung beendet',
-'Product Name' => 'Produktname',
+'Product Name' => 'Name Dienstleistung',
 'Sub Category' => 'Unterkategorie',
 'Category' => 'Kategorie',
 'Date Sold' => 'Verkaufsdatum',
@@ -34,4 +36,4 @@ $languageStrings = array(
 'Save' => 'Speichern',
 'Selling proposition'=>'Gelegenheit',
 'LBL_GENERATE_EXTENSION' => 'Generiere Verlängerung',
-);
+];

@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class="editContainer" style="padding-left: 2%;padding-right: 2%">
+    <div id="breadcrumb" class="editContainer" style="padding-left: 2%;padding-right: 2%">
 		<br>
         <h3>
             {if $RECORD_ID eq ''}

@@ -19,14 +19,14 @@
 			3. The email address to which any SMS replies will be sent<br />
 		</div>
 		<br>
-		<div class="row-fluid">
-			<div class="span3">
+		<div class="row">
+			<div class="col-md-3">
 				<a href="http://www.textanywhere.net/static/Products/VTiger_Capabilities.aspx" target="_blank">Help</a>
 			</div>
-			<div class="span3">
+			<div class="col-md-3">
 				<a href="https://www.textapp.net/web/textanywhere/" target="_blank">Account Login</a>
 			</div>
-			<div class="span3">
+			<div class="col-md-3">
 				<a href="https://www.textapp.net/web/textanywhere/Register/Register.aspx" target="_blank">Create Account</a>
 			</div>
 		</div>

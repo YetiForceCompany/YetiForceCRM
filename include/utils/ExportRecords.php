@@ -10,7 +10,7 @@
  ********************************************************************************/
 require_once('include/database/PearDatabase.php');
 require_once('include/utils/utils.php');
-global $app_strings,$mod_strings, $list_max_entries_per_page, $currentModule, $theme, $current_language, $current_user;
+global $app_strings,$mod_strings, $list_max_entries_per_page, $currentModule, $theme;
 
 $smarty = new vtigerCRM_Smarty();
 
@@ -28,12 +28,9 @@ $smarty->assign("MODULELABEL",getTranslatedString($currentModule));
 $smarty->assign("IDSTRING",vtlib_purify($_REQUEST['idstring']));
 $smarty->assign("EXCLUDED_RECORDS",vtlib_purify($_REQUEST['excludedRecords']));
 $smarty->assign("PERPAGE",$list_max_entries_per_page);
-
+$current_user = vglobal('current_user');
 if(!is_admin($current_user) && (isPermitted($currentModule, 'Export') != 'yes')) {	
 	$smarty->display(vtlib_getModuleTemplate('Vtiger','OperationNotPermitted.tpl'));	
 } else {
 	$smarty->display('ExportRecords.tpl');
 }
-
-
-?>

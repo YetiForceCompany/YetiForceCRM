@@ -9,13 +9,17 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'siteUrl'	=>	'Ссылка',
+$languageStrings = [
+	'EXECUTIVE' => 'Executive',
+	'LEGAL' => 'Legal',
+	'LETTER' => 'Letter',
+	'FOLIO' => 'Folio',
+	'Content' => 'Содержание',
 	'Field'	=>	'Поле',
 	'Label'	=>	'Метка',
 	'LBL_ORGANIZATION_VAT'	=>	'НДС',
 	'LBL_RECORDS_LIST'	=>	'Список Шаблонов PDF',
-	'LBL_ADD_RECORD'	=>	'Добавить Шаблон PDF',
+	'LBL_ADD_RECORD' => 'Шаблон PDF',
 	'SINGLE_OSSPdf'	=>	'Шаблон PDF',
 	'OSSPdf'	=>	'Шаблоны PDF',
 	'LBL_NORECORDS_CHECKED'	=>	'Пожалуйста, выберите хотя бы одну запись...',
@@ -98,7 +102,7 @@ $languageStrings = array(
 	'CreateButtons'	=>	'Включение шаблонов в модулях',
 	'LBL_INSERTREPORT'	=>	'Выберите идентификатор отчета',
 	'Landscape'	=>	'Альбомная',
-	'LBL_CHOSENMODULE'	=>	'Только для одной записи:',
+	'LBL_CHOSENMODULE'	=>	'Только для одной записи',
 	'page_break'	=>	'Добавить новую страницу',
 	'amount_in_words'	=>	'Сумма прописью',
 	'error'	=>	'Вы не создавали условий, и не можете редактировать их.',
@@ -111,7 +115,6 @@ $languageStrings = array(
 
 	'LBL_TEMPLATES'	=>	'Выберите шаблон',
 	'LBL_NO_TEMPLATES'	=>	'Нет шаблонов',
-	'remove'	=>	'Удалить',
 	'send_config'	=>	'Подтвердить',
 	'KONFIGURACJA'	=>	'Настройки',
 	'ModuleFieldLabel'	=>	'Текст метки поля модуля',
@@ -340,7 +343,6 @@ $languageStrings = array(
 	'LBL_AND'	=>	'и',
 	'LBL_OR'	=>	'или',
 	'LBL_NONE'	=>	'Нет',
-	'LBL_APPROVE'	=>	'Принято',
 	'LBL_DENY'	=>	'Отклонено',
 	'LBL_EQUALS'	=>	'равно',
 	'LBL_EQUAL_TO'	=>	'равно',
@@ -397,14 +399,18 @@ $languageStrings = array(
 	'Document summary: show tax amount :'	=>	'Итог: Сумма с НДС',
 	'Show document summary :'	=>	'Показать ИТОГ',
 	'LBL_SELECT_OPTION'	=>	'-- Выбрать --',
-);
+	'LBL_SELECT_DATE_TYPE' => 'Выберите тип даты',
+];
 
-$jsLanguageStrings = array(
-	'List'	=>	'Список',
-
+$jsLanguageStrings = [
+	'Current date (yyyy/mm/dd)' => 'Текущая дата (гггг/мм/дд)',
+	'Current date (mm/dd/yyyy)' => 'Текущая дата (мм/дд/гггг)',
+	'Current date (dd/mm/yyyy)' => 'Текущая дата (дд/мм/гггг)',
+	'Current date (yyyy.mm.dd)' => 'Текущая дата (гггг.мм.дд)',
+	'Current date (mm.dd.yyyy)' => 'Текущая дата (мм.дд.гггг)',
+	'Current date (dd.mm.yyyy)' => 'Текущая дата (дд.мм.гггг)',
 	'LBL_NotifPassCopied'	=>	'Скопировано в буфер обмена',
 	'LBL_NotifPassTitle'	=>	'Сообщение',
-
 	'ADD_CONDITIONS'	=>	'Добавить условие',
 	'LBL_CONDITION_ALL'	=>	'Все условия ',
 	'LBL_CONDITION_ALL_DSC'	=>	'(Все условия должны быть выполнены)',
@@ -414,7 +420,6 @@ $jsLanguageStrings = array(
 	'LBL_AND'	=>	'и',
 	'LBL_OR'	=>	'или',
 	'LBL_NONE'	=>	'Нет',
-	'LBL_APPROVE'	=>	'Принято',
 	'LBL_DENY'	=>	'Отклонено',
 	'LBL_EQUALS'	=>	'равно',
 	'LBL_EQUAL_TO'	=>	'равно',
@@ -445,23 +450,6 @@ $jsLanguageStrings = array(
 	'LBL_LESS_THAN_HOURS_LATER'	=>	'меньше часа после',
 	'LBL_MORE_THAN_HOURS_BEFORE'	=>	'больше часа до',
 	'LBL_MORE_THAN_HOURS_LATER'	=>	'больше часа после',
-	'Enable column with positions no. :'	=>	'Номенклатура: Позиция',
-	'Enable column with product name :'	=>	'Номенклатура: Наименование',
-	'Enable column with product`s amount :'	=>	'Номенклатура: Количество',
-	'Enable column with product`s price :'	=>	'Номенклатура: Цена за единицу измерения',
-	'Enable column with product`s net price :'	=>	'Номенклатура: Себестоимость',
-	'Enable column with product`s discount :'	=>	'Номенклатура: Скидка',
-	'Enable column with product`s vat[%] :'	=>	'Номенклатура: НДС [%]',
-	'Enable column with product`s vat amount :'	=>	'Номенклатура: Сумма с НДС',
-	'Enable column with product`s gross'	=>	'Номенклатура: Всего',
-	'Document summary: show shipping costs :'	=>	'Итог: Доставка и Хранение',
-	'Document summary: show shipping tax :'	=>	'Итог: Налог на Доставку и Хранение',
-	'Document summary: show correction :'	=>	'Итог: Корректировка',
-	'Document summary: show amount to pay :'	=>	'Итог: Сумма',
-	'Document summary: show rebate :'	=>	'Итог: Скидка',
-	'Document summary: show tax [%] :'	=>	'Итог: НДС [%]',
-	'Document summary: show tax amount :'	=>	'Итог: Сумма с НДС',
-	'Show document summary :'	=>	'Показать ИТОГ',
 	'Top margin [mm]'	=>	'Верхнее поле (мм)',
 	'Left margin [mm]'	=>	'Левое поле (мм)',
 	'Right margin [mm]'	=>	'Правое поле (мм)',
@@ -470,4 +458,4 @@ $jsLanguageStrings = array(
 	'Current date (dd-mm-yyyy)'	=>	'Текущая дата (дд-мм-гггг)',
 	'Current date (mm-dd-yyyy)'	=>	'Текущая дата (мм-дд-гггг)',
 	'Current date (yyyy-mm-dd)'	=>	'Текущая дата (гггг-мм-дд)',
-);
+];

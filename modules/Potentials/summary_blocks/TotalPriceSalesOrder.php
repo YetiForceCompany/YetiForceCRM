@@ -14,7 +14,7 @@ class TotalPriceSalesOrder{
 	public $reference = 'SalesOrder';
 	
     public function process( $instance ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering TotalPriceSalesOrder::process() method ...");
 		$sum = $instance->get('sum_salesorders')== ''? 0: $instance->get('sum_salesorders');
 		$log->debug("Exiting TotalPriceSalesOrder::process() method ...");

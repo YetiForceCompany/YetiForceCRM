@@ -14,11 +14,6 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-ini_set('html_errors', 1);
-ini_set('display_startup_errors', 1);	
-ini_set( 'display_errors', 'On' ); 
-error_reporting( E_ALL);
-
 $required_php_exts = array(
     'PCRE'      => 'pcre',
     'DOM'       => 'dom',
@@ -46,20 +41,14 @@ $required_libs = array(
 );
 
 $ini_checks = array(
-    'file_uploads'                  => 1,
-    'session.auto_start'            => 0,
-    'zend.ze1_compatibility_mode'   => 0,
     'mbstring.func_overload'        => 0,
     'suhosin.session.encrypt'       => 0,
-    'magic_quotes_runtime'          => 0,
-    'magic_quotes_sybase'           => 0,
 );
 
 $optional_checks = array(
     // required for utils/modcss.inc, should we require this?
     'allow_url_fopen'  => 1,
     'date.timezone'    => '-VALID-',
-    'register_globals' => 0, // #1489157
 );
 
 $source_urls = array(
@@ -95,15 +84,6 @@ $supported_dbs = array(
     'SQL Server (SQLSRV)' => 'pdo_sqlsrv',
     'SQL Server (DBLIB)'  => 'pdo_dblib',
   );
-?>
-<h3>Checking PHP version</h3>
-<?php
-define('MIN_PHP_VERSION', '5.2.1');
-if (version_compare(PHP_VERSION, MIN_PHP_VERSION, '>=')) {
-    echo 'OK - PHP ' . PHP_VERSION . ' detected';
-} else {
-    echo '<span class="redd">ERROR</span> - PHP Version ' . MIN_PHP_VERSION . ' or greater is required ' . PHP_VERSION . ' detected';
-}
 ?>
 <h3>Checking PHP extensions</h3>
 <p class="hint">The following modules/extensions are <em>required</em> to run Roundcube:</p>

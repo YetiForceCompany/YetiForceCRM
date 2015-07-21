@@ -100,7 +100,7 @@ class OSSTimeControl extends Vtiger_CRMEntity {
     function vtlib_handler($modulename, $event_type) {
 		$registerLink = false;
 		$displayLabel = 'Time Control';
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
         if($event_type == 'module.postinstall') {
 
 			$tabid = getTabid($modulename);
@@ -109,30 +109,6 @@ class OSSTimeControl extends Vtiger_CRMEntity {
 			$ModuleInstance->setModuleSeqNumber("configure",$modulename,'TC','1');
 			include_once('vtlib/Vtiger/Module.php'); 
 
-			$moduleInstance = Vtiger_Module::getInstance($modulename);
-			$docelowy_Module = Vtiger_Module::getInstance('Accounts');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
-			$docelowy_Module = Vtiger_Module::getInstance('Contacts');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
-			$docelowy_Module = Vtiger_Module::getInstance('HelpDesk');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
-			$docelowy_Module = Vtiger_Module::getInstance('Project');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
-			$docelowy_Module = Vtiger_Module::getInstance('ProjectTask');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
-			$docelowy_Module = Vtiger_Module::getInstance('ServiceContracts');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
-			$docelowy_Module = Vtiger_Module::getInstance('Assets');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
-			$docelowy_Module = Vtiger_Module::getInstance('SalesOrder');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
-			$docelowy_Module = Vtiger_Module::getInstance('Potentials');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
-			$docelowy_Module = Vtiger_Module::getInstance('Quotes');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
-			$docelowy_Module = Vtiger_Module::getInstance('Leads');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
-		
 			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
 			if($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';

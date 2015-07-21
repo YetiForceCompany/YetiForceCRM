@@ -16,10 +16,11 @@ require_once('include/database/PearDatabase.php');
  */
 function getComboArray($combofieldNames)
 {
-	global $log,$mod_strings;
-        $log->debug("Entering getComboArray(".$combofieldNames.") method ...");
-	global $adb,$current_user;
-        $roleid=$current_user->roleid;
+	global $log, $mod_strings;
+	$log->debug("Entering getComboArray(" . $combofieldNames . ") method ...");
+	global $adb;
+	$current_user = vglobal('current_user');
+	$roleid = $current_user->roleid;
 	$comboFieldArray = Array();
 	foreach ($combofieldNames as $tableName => $arrayName)
 	{
@@ -56,7 +57,7 @@ function getComboArray($combofieldNames)
 }
 function getUniquePicklistID()
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	/*$sql="select id from vtiger_picklistvalues_seq";
 	$picklistvalue_id = $adb->query_result($adb->pquery($sql, array()),0,'id');
 

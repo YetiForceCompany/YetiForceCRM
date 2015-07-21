@@ -34,7 +34,7 @@
         {else}
             <div class="form-group" style="margin-bottom: 8px;">
                 <label for="template" style="text-decoration: underline;">{vtranslate('LBL_TEMPLATES', 'OSSPdf')}:</label>
-            <select class="input-medium select-template" id="template" name="template">
+            <select class="select-template form-control" id="template" name="template">
                 {foreach item=template from=$templates}
                     <option value="{$template.id}">{$template.name}</option>
                 {/foreach}
@@ -44,9 +44,9 @@
         {/if}
     {if $NO_TEMPLATES eq 'yes'}{else}
         <div class="form-group" style="margin-top: 8px;">
-                <img src="layouts/vlayout/modules/OSSPdf/pdf.png" onclick="jQuery('#only_generate').val('0'); check_params();" />
+                <img src="layouts/vlayout/modules/OSSPdf/pdf.png" alt="{vtranslate('LBL_CREATE_PDF')}" onclick="jQuery('#only_generate').val('0'); check_params();" />
         {if $OSS_MILE_EXISTS}
-                <img src="layouts/vlayout/modules/OSSPdf/email.png" onclick="jQuery('#only_generate').val('1'); check_params();" />
+                <img src="layouts/vlayout/modules/OSSPdf/email.png" alt="{vtranslate('LBL_CREATE_PDF_SEND_MAIL')}" onclick="jQuery('#only_generate').val('1'); check_params();" />
         {/if}
         </div>
     {/if}

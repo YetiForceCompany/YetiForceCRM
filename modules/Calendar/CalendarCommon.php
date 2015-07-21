@@ -16,7 +16,7 @@
  */
 function getSharedCalendarId($sharedid)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$query = "SELECT * from vtiger_sharedcalendar where sharedid=?";
 	$result = $adb->pquery($query, array($sharedid));
 	if($adb->num_rows($result)!=0)
@@ -75,9 +75,10 @@ function getaddEventPopupTime($starttime,$endtime,$format)
  */
 function getActivityDetails($description,$user_id,$from='')
 {
-	global $log,$current_user,$current_language;
-	global $adb;
+	$log = vglobal('log'); $current_user = vglobal('current_user');
+	$adb = PearDatabase::getInstance();
 	require_once 'include/utils/utils.php';
+	$current_language = vglobal('current_language');
 	$mod_strings = return_module_language($current_language, 'Calendar');
 	$log->debug("Entering getActivityDetails(".$description.") method ...");
 	$updated = $mod_strings['LBL_UPDATED'];

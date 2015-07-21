@@ -9,13 +9,11 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$mod_strings = Array (
-'WSAPP' => 'WSAPP',
+$mod_strings = [
 
-);
-
+];
 
 
-$languageStrings = array(
-	'WSAPP'	=>	'WSAPP',
-);
+
+$languageStrings = [
+];

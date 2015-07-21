@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Calendar' => 'Calendar',
 	//ActivityTypes
 	'LBL_ACTIVITY_TYPES' => 'Filtry kalendarza',
@@ -28,11 +28,25 @@ $languageStrings = array(
 	'LBL_USER_COLORS' => 'Kolory użytkowników',
 	'LBL_CALENDAR_COLORS' => 'Kolory kalendarza',
 	'LBL_CALENDAR_TYPE' => 'Typ wydarzeń',
-	'LBL_BREAK_TIME' => 'Przewa w pracy',
-	'LBL_HOLIDAY' => 'Urlop',
+	'PLL_BREAK_TIME' => 'Przerwa w pracy',
+	'PLL_HOLIDAY_TIME' => 'Urlop',
 	'LBL_SAVE_CHANGES' => 'Zapisano zmiany',
 	'LBL_UPDATE_EVENT' => 'Aktualizować termin w kalendarzu przy przekładaniu',
-);
-$jsLanguageStrings = array(
+	'LBL_GENERATE_COLOR' => 'Generuj losowy kolor',
+	'LBL_GENERATED_COLOR' => 'Wygenerowano kolor',
+	'LBL_NOTWORKING_DAYS' => 'Dni wolne od pracy',
+	'LBL_NOTWORKEDDAYS_INFO' => 'Lista dni które są dniami wolnymi od pracy',
+	'PLL_MONDAY' => 'Poniedziałek',
+	'PLL_TUESDAY' => 'Wtorek',
+	'PLL_WEDNESDAY' => 'Środa',
+	'PLL_THURSDAY' => 'Czwartek',
+	'PLL_FRIDAY' => 'Piątek',
+	'PLL_SATURDAY' => 'Sobota',
+	'PLL_SUNDAY' => 'Niedziela',
+	
+	'LBL_VIEW_USERCOLORS' => 'Konfiguracja kalendarza',
+	'LBL_VIEW_ACTIVITYTYPES' => 'Filtry kalendarza',
+];
+$jsLanguageStrings = [
 
-);
+];

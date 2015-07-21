@@ -1,0 +1,47 @@
+{
+    "authors": [
+        {
+            "email": "jon@php.net",
+            "name": "Jon Parise",
+            "homepage": "http://www.indelible.org",
+            "role": "Lead"
+        },
+        {
+            "email": "chuck@horde.org",
+            "name": "Chuck Hagenbuch",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Net": "./"
+        }
+    },
+    "description": "An implementation of the SMTP protocol",
+    "keywords": [
+        "smtp",
+        "mail",
+        "email"
+    ],
+    "include-path": [
+        "./"
+    ],
+    "license": "PHP License",
+    "name": "pear/net_smtp",
+    "homepage": "http://pear.github.io/Net_SMTP/",
+    "support": {
+        "issues": "https://github.com/pear/Net_SMTP/issues",
+        "source": "https://github.com/pear/Net_SMTP"
+    },
+    "type": "library",
+    "require": {
+        "pear/pear_exception": "*",
+        "pear/net_socket": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "suggest": {
+        "pear/auth_sasl": "Install optionally via your project's composer.json"
+    }
+}

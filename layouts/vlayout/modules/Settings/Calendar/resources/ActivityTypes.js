@@ -11,6 +11,19 @@ var Settings_ActivityTypes_Js = {
 	initEvants: function() {
 		$('.ActivityTypes .updateColor').click(Settings_ActivityTypes_Js.updateColor);
 		$('.ActivityTypes .activeType').click(Settings_ActivityTypes_Js.updateActiveType);
+		$('.ActivityTypes .generateColor').click(Settings_ActivityTypes_Js.generateColor);	
+	},
+	generateColor: function(e) {
+		var target = $(e.currentTarget);
+		var closestTrElement = target.closest('tr');		
+		var params = {
+			'viewtypesid':closestTrElement.data('viewtypesid'),
+		}
+		app.saveAjax('generateColor', params).then(function (data) {
+			Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
+			closestTrElement.find('.calendarColor').css('background',data.result.color);
+			closestTrElement.data('color', data.result.color);
+		});
 	},
 	updateActiveType: function(e) {
 		var target = $(e.currentTarget);
@@ -27,7 +40,7 @@ var Settings_ActivityTypes_Js = {
 		var clonedContainer = editColorModal.clone(true, true);
 		
 		var callBackFunction = function(data) {
-			data.find('.editColorContainer').removeClass('hide');
+			data.find('.editColorContainer').removeClass('hide').show();
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val( closestTrElement.data('color') );
 			//register color picker

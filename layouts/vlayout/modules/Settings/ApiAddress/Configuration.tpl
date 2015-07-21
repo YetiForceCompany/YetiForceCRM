@@ -9,9 +9,9 @@
 * All Rights Reserved.
 *************************************************************************************************************************************/
 -->*}
-<div class="container-fluid" id="menuEditorContainer">
-    <div class="widget_header row-fluid">
-        <div class="span8">
+<div class="" id="menuEditorContainer">
+    <div class="widget_header row">
+        <div class="col-md-8">
 			<h3>{vtranslate('LBL_API_ADDRESS', $MODULENAME)}</h3>
 			{vtranslate('LBL_API_ADDRESS_DESCRIPTION', $MODULENAME)}
 		</div>
@@ -31,7 +31,7 @@
 					</td>
 					<td>
 						<div style="text-align:center" >
-							<input name="min_lenght" type="text" class="api" value="{$CONFIG['global']['min_lenght']}" style="width:20px; margin:0 auto;">
+							<input name="min_lenght" type="text" class="api form-control" value="{$CONFIG['global']['min_lenght']}" style="margin:0 auto;">
 						</div>
 					</td>
 				</tr>
@@ -43,7 +43,7 @@
 					</td>
 					<td>
 						<div style="text-align:center" >
-							<input name="result_num" type="text" class="api" value="{$CONFIG['global']['result_num']}" style="width:20px; margin:0 auto;">
+							<input name="result_num" type="text" class="api form-control" value="{$CONFIG['global']['result_num']}" style="margin:0 auto;">
 						</div>
 					</td>
 				</tr>
@@ -62,7 +62,7 @@
 						{vtranslate('LBL_CHOOSE_API', $MODULENAME)}
 					</td>
 					<td>
-						<select class="select2" id="change_api" style="width: 200px;">
+						<select class="select2" id="change_api" class="form-control" style="width: 200px;">
 							<option>{vtranslate('LBL_SELECT_OPTION')}</option>
 							{foreach from=$CONFIG item=item key=key}
 								{if $key neq 'global'}
@@ -76,7 +76,7 @@
 				{foreach from=$CONFIG item=item key=key}
 					{if $key neq 'global'}
 					<tr class="hide api_row {$key}">
-						<td colspan="2">
+						<td colspan="2" style="padding-top: 10px;">
 							{include file=vtemplate_path($key|cat:'.tpl', $MODULENAME) API_INFO=$item API_NAME=$key}
 						</td>
 					{/if}

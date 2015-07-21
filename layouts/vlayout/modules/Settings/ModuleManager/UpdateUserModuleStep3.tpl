@@ -10,12 +10,12 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid" id="importModules">
-	<div class="widget_header row-fluid">
+<div class="" id="importModules">
+	<div class="widget_header row">
 		<h3>{vtranslate('LBL_UPDATE_MODULE_FROM_FILE', $QUALIFIED_MODULE)}</h3>
 	</div><hr>
 	<div class="contents">
-		<div class="row-fluid">
+		<div class="row">
 			<div id="vtlib_modulemanager_import_div">
 				<form method="POST" action="index.php">
 					<table class="table table-bordered">

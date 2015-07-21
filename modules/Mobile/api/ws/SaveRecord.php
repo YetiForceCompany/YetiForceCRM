@@ -21,7 +21,7 @@ class Mobile_WS_SaveRecord extends Mobile_WS_FetchRecordWithGrouping {
 	}
 	
 	function process(Mobile_API_Request $request) {
-		global $current_user; // Required for vtws_update API
+		$current_user  = vglobal('current_user'); // Required for vtws_update API
 		$current_user = $this->getActiveUser();
 		
 		$module = $request->get('module');

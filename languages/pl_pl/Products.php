@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Unit Code' => 'Unit Code',
 	'Mf. Country Code' => 'Mf. Country Code',
 	'Manuf. Country' => 'Manuf. Country',
@@ -30,7 +30,8 @@ $languageStrings = array(
 	'Dozen'=>'Tuzin',
 	'Each'=>'Każdy',
 	'GL Account'=>'Konto Księgowe',
-	'Handler'=>'Odpowiedzialny za produkt',
+	'Handler'=>'Właściciel rekordu',
+	'Share with users' => 'Współwłaściciele',
 	'Hardware'=>'Sprzęt',
 	'Hours'=>'Godzin',
 	'Impressions'=>'Nakład',
@@ -42,7 +43,7 @@ $languageStrings = array(
 	'LBL_PRICE' => 'Cena',
 	'LBL_PRICES' => 'Cena produktu',
 	'LBL_PRODUCT_INFORMATION' => 'Szczegóły produktu',
-    'LBL_PRODUCTSMOD_DISABLED' => 'Włącz moduł Produkty, aby zobaczyć produkty',
+	'LBL_PRODUCTSMOD_DISABLED' => 'Włącz moduł Produkty, aby zobaczyć produkty',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	'LBL_RESET_PRICE' => 'Czyszczenie ceny',
 	'LBL_RESET' => 'Czyszczenie',
@@ -61,7 +62,7 @@ $languageStrings = array(
 	'Product No' => 'Numer',
 	'Product Sheet'=>'Dane techniczne',
 	'Products' => 'Produkty',
-	'Qty In Demand'=>'Wymagana ilość w Magazynie',
+	'Qty In Demand'=>'Wymagana ilość w magazynie',
 	'Qty In Stock'=>'Ilość na magazynie',
 	'Qty/Unit'=>'Szt. w opakowaniu',
 	'Reams'=>'Ryza',
@@ -80,4 +81,7 @@ $languageStrings = array(
 	'Website' => 'Strona internetowa',
 	'Service' => 'Usługa',
 	'Sales' => 'Sprzedaż',
-);
+	'Support Group' => 'Wsparcie',
+	'Marketing Group' => 'Marketing',
+	'Team Selling' => 'Sprzedaż',
+];

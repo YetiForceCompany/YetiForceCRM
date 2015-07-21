@@ -173,7 +173,7 @@ class ProjectTask extends CRMEntity {
 			}
 		}
 
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$query .= $this->getNonAdminAccessControlQuery($module,$current_user);
 		$query .= "	WHERE vtiger_crmentity.deleted = 0 ".$where;
 		return $query;
@@ -183,7 +183,7 @@ class ProjectTask extends CRMEntity {
      * Apply security restriction (sharing privilege) query part for List view.
      */
     function getListViewSecurityParameter($module) {
-        global $current_user;
+        $current_user  = vglobal('current_user');
         require('user_privileges/user_privileges_'.$current_user->id.'.php');
         require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 
@@ -229,7 +229,7 @@ class ProjectTask extends CRMEntity {
      */
     function create_export_query($where)
     {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 
 		include("include/utils/ExportUtils.php");
 
@@ -333,7 +333,7 @@ class ProjectTask extends CRMEntity {
      * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
      */
     function vtlib_handler($modulename, $event_type) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
         if($event_type == 'module.postinstall') {
 			$projectTaskResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('ProjectTask'));
 			$projecttaskTabid = $adb->query_result($projectTaskResult, 0, 'tabid');
@@ -427,4 +427,3 @@ class ProjectTask extends CRMEntity {
      */
     //function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
 }
-?>

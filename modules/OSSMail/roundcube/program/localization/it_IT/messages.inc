@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -16,13 +16,15 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 $messages['errortitle']  = 'Si è verificato un errore!';
-$messages['loginfailed']  = 'Impossibile accedere. Utente o password non corretti';
-$messages['cookiesdisabled'] = 'Il tuo browser non accetta i cookies';
-$messages['sessionerror'] = 'Sessione non valida o scaduta';
+$messages['loginfailed']  = 'Accesso fallito.';
+$messages['cookiesdisabled'] = 'Il tuo browser non accetta i cookies.';
+$messages['sessionerror'] = 'Sessione non valida o scaduta.';
 $messages['storageerror'] = 'Impossibile connettersi al server IMAP';
 $messages['servererror'] = 'Errore del server!';
 $messages['servererrormsg'] = 'Errore del server: $msg';
+$messages['connerror'] = 'Errore di connessione (impossibile raggiungere il server)!';
 $messages['dberror'] = 'Errore del database!';
+$messages['windowopenerror'] = 'La finestra di popup è stata bloccata!';
 $messages['requesttimedout'] = 'Richiesta scaduta';
 $messages['errorreadonly'] = 'Impossibile eseguire l\'operazione. Cartella in sola lettura';
 $messages['errornoperm'] = 'Impossibile eseguire l\'operazione. Permesso negato';
@@ -44,7 +46,7 @@ $messages['sendingmessage'] = 'Invio messaggio in corso...';
 $messages['messagesent'] = 'Messaggio inviato correttamente';
 $messages['savingmessage'] = 'Salvataggio messaggio...';
 $messages['messagesaved'] = 'Messaggio salvato in bozze';
-$messages['successfullysaved'] = 'Salvato correttamente';
+$messages['successfullysaved'] = 'Salvato correttamente.';
 $messages['savingresponse'] = 'Salvataggio della risposta...';
 $messages['deleteresponseconfirm'] = 'Sei sicuro di voler eliminare questa risposta?';
 $messages['addedsuccessfully'] = 'Contatto aggiunto alla rubrica';
@@ -92,6 +94,7 @@ $messages['contactsearchsuccessful'] = '$nr contatti trovati';
 $messages['searchnomatch'] = 'La ricerca non ha dato nessun risultato';
 $messages['searching'] = 'Ricerca...';
 $messages['checking'] = 'Controllo...';
+$messages['stillsearching'] = 'Ricercando...';
 $messages['nospellerrors'] = 'Nessun errore ortografico trovato';
 $messages['folderdeleted'] = 'Cartella eliminata';
 $messages['foldersubscribed'] = 'Cartella sottoscritta correttamente';
@@ -135,7 +138,7 @@ $messages['importmessagesuccess'] = 'Importati correttamente $nr messaggi';
 $messages['importmessageerror'] = 'Importazione fallita! Il file caricato non è un messaggio o una casella postale valida.';
 $messages['opnotpermitted'] = 'Operazione non consentita!';
 $messages['nofromaddress'] = 'Indirizzo e-mail mancante nell\'identità selezionata';
-$messages['editorwarning'] = 'Passare all\'editor testuale farà perdere tutte le informazioni di formattazione. Sicuro di voler continuare?';
+$messages['editorwarning'] = 'Cambiare editor potrebbe causare la perdita della formattazione. Si desidera continuare lo stesso?';
 $messages['httpreceivedencrypterror'] = 'Fatale errore di configurazione. Per favore contatta l\'amministratore immediatamente. Il tuo messaggio non può essere inviato.';
 $messages['smtpconnerror'] = 'Errore SMTP ($code): Connessione al server fallita';
 $messages['smtpautherror'] = 'Errore SMTP ($code): Autenticazione fallita';
@@ -174,4 +177,14 @@ $messages['parentnotwritable'] = 'Impossibile creare o muovere la cartella: acce
 $messages['messagetoobig'] = 'La parte del messaggio è troppo grande per essere processata.';
 $messages['attachmentvalidationerror'] = 'ATTENZIONE! Questo allegato è sospetto poiché non rispetta il tipo dichiarato nel messaggio. Se non conosci il mittente, non dovresti aprire l\'allegato nel browser in quanto potrebbe contenere malware.<br/><br/><em>Atteso: $expected; rilevato: $detected</em>';
 $messages['noscriptwarning'] = 'Attenzione: questo servizio di webmail richiede Javascript! Per utilizzarlo abilita Javascript nelle impostazioni del tuo browser.';
+$messages['messageissent'] = 'Questo messaggio è stato già inviato, ma non ancora salvato. Vuoi salvarlo adesso?';
+$messages['errnotfound'] = 'File non trovato';
+$messages['errnotfoundexplain'] = 'La risorsa richiesta non è stata trovata!';
+$messages['errfailedrequest'] = 'Richiesta fallita';
+$messages['errauthorizationfailed'] = 'Autorizzazione fallita';
+$messages['errunauthorizedexplain'] = 'Non è stato possibile verificare la tua autorizzazione all\'accesso per questo servizio!';
+$messages['errrequestcheckfailed'] = 'Il controllo della richiesta è fallito';
+$messages['errcsrfprotectionexplain'] = "Per la tua sicurezza, l'accesso a questa risorsa è protetto contro CSRF.\nSe visualizzi questo messaggio, è probabile che non ti sia scollegato prima di lasciare l'applicazione web.\n\nE' richiesta un'azione di una persona per continuare.";
+$messages['errcontactserveradmin'] = 'Si prega di contattare l\'amministratore del server.';
+$messages['clicktoresumesession'] = 'Clicca qui per riprendere la tua sessione precedente.';
 ?>

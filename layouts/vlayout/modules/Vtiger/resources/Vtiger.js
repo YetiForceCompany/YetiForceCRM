@@ -27,21 +27,19 @@ var Vtiger_Index_Js = {
 
 	registerWidgetsEvents : function() {
 		var widgets = jQuery('div.widgetContainer');
-		widgets.on({
-				shown: function(e) {
-					var widgetContainer = jQuery(e.currentTarget);
-					Vtiger_Index_Js.loadWidgets(widgetContainer);
-					var key = widgetContainer.attr('id');
-					app.cacheSet(key, 1);
-			},
-				hidden: function(e) {
-					var widgetContainer = jQuery(e.currentTarget);
-					var imageEle = widgetContainer.parent().find('.imageElement');
-					var imagePath = imageEle.data('rightimage');
-					imageEle.attr('src',imagePath);
-					var key = widgetContainer.attr('id');
-					app.cacheSet(key, 0);
-			}
+		widgets.on('shown.bs.collapse',function(e){
+			var widgetContainer = jQuery(e.currentTarget);
+			Vtiger_Index_Js.loadWidgets(widgetContainer);
+			var key = widgetContainer.attr('id');
+			app.cacheSet(key, 1);
+		});
+		widgets.on('hidden.bs.collapse',function(e){
+			var widgetContainer = jQuery(e.currentTarget);
+			var imageEle = widgetContainer.parent().find('.imageElement');
+			var imagePath = imageEle.data('rightimage');
+			imageEle.attr('src',imagePath);
+			var key = widgetContainer.attr('id');
+			app.cacheSet(key, 0);
 		});
 	},
 
@@ -52,8 +50,7 @@ var Vtiger_Index_Js = {
 	 */
 	loadWidgets : function(widgetContainer, open) {
 		var message = jQuery('.loadingWidgetMsg').html();
-
-		if(widgetContainer.html() != '') {
+		if(widgetContainer.find('.panel-body').html() != '') {
 			var imageEle = widgetContainer.parent().find('.imageElement');
 			var imagePath = imageEle.data('downimage');
 			imageEle.attr('src',imagePath);
@@ -63,7 +60,6 @@ var Vtiger_Index_Js = {
 
 		widgetContainer.progressIndicator({'message' : message});
 		var url = widgetContainer.data('url');
-
 		var listViewWidgetParams = {
 			"type":"GET", "url":"index.php",
 			"dataType":"html", "data":url
@@ -101,9 +97,7 @@ var Vtiger_Index_Js = {
 					imageEle.attr('src',imagePath);
 				}
 			}
-
 		});
-
 	},
 
 	/**
@@ -199,13 +193,14 @@ var Vtiger_Index_Js = {
 	/**
 	 * Function registers event for Calendar Reminder popups
 	 */
-	registerActivityReminder : function() {
+	registerActivityReminder: function () {
 		var activityReminder = jQuery('#activityReminder').val();
-		activityReminder = activityReminder * 1000;
-		if(activityReminder != '') {
-			var currentTime = new Date().getTime()/1000;
+		if (activityReminder != '') {
+			activityReminder = activityReminder * 1000;
+			var currentTime = new Date().getTime();
 			var nextActivityReminderCheck = app.cacheGet('nextActivityReminderCheckTime', 0);
-			if((currentTime + activityReminder) > nextActivityReminderCheck) {
+
+			if ((currentTime + activityReminder) > nextActivityReminderCheck) {
 				Vtiger_Index_Js.requestReminder(true);
 				setTimeout('Vtiger_Index_Js.requestReminder()', activityReminder);
 				app.cacheSet('nextActivityReminderCheckTime', currentTime + parseInt(activityReminder));
@@ -216,81 +211,44 @@ var Vtiger_Index_Js = {
 	/**
 	 * Function request for reminder popups
 	 */
-	requestReminder : function(typeRemainder) {
-		var url = 'index.php?module=Calendar&action=ActivityReminder&mode=getReminders';
+	requestReminder: function (typeRemainder) {
+		var content = $('.remindersNoticeContainer');
+		var badge = $(".remindersNotice .badge");
+		var url = 'index.php?module=Calendar&view=Reminders';
 		if (typeRemainder) {
 			url += '&type_remainder=true';
-		} 
-		document.notify = [];
-		AppConnector.request(url).then(function(data){
-			if(data.success && data.result) {
-				for(i=0; i< data.result.length; i++) {
-					var record  = data.result[i];
-					Vtiger_Index_Js.showReminderPopup(record);
-				}
+		}
+		AppConnector.request(url).then(function (data) {
+			content.append(data);
+
+			var count = content.find('.panel').length;
+			badge.text(count);
+			badge.removeClass('hide');
+			if (count > 0) {
+				$(".remindersNotice").effect( "pulsate", 1500);
+			} else {
+				badge.addClass('hide');
 			}
+
+			content.find('.reminderAccept').on('click', function (e) {
+				var currentElement = jQuery(e.currentTarget);
+				var recordID = currentElement.closest('.panel').data('record');
+				var url = 'index.php?module=Calendar&action=ActivityReminder&mode=cancelReminder&record=' + recordID;
+				AppConnector.request(url).then(function (data) {
+					currentElement.closest('.panel').hide("slow");
+				});
+			});
+			content.find('.reminderPostpone').on('click', function (e) {
+				var currentElement = jQuery(e.currentTarget);
+				var recordID = currentElement.closest('.panel').data('record');
+				var url = 'index.php?module=Calendar&action=ActivityReminder&mode=postpone&record=' + recordID + '&time=' + currentElement.data('time');
+				AppConnector.request(url).then(function (data) {
+					currentElement.closest('.panel').hide("slow");
+				});
+			});
 		});
 	},
 
-	/**
-	 * Function display the Reminder popup
-	 */
-	showReminderPopup : function(record) {
-		var data_info = '';
-		if(record.contact_id != '' && record.contact_id != undefined){
-			data_info += '<span class="span12">'+app.vtranslate('JS_CONTACT_NAME')+' : <b>'+record.contact_id+'</b></span>';
-		}
-		if(record.parent_id != '' && record.parent_id != undefined){
-			data_info += '<span class="span12">'+app.vtranslate('JS_PARENT_ID')+' : <b>'+record.parent_id+'</b></span>';
-		}
-		if(record.location != '' && record.location != undefined){
-			data_info += '<span class="span12" style="margin-top: 5px;"><a class="btn " target="_blank" href="https://www.google.com/maps/search/'+record.location+'"><i class="icon-map-marker"></i>&nbsp;'+record.location+'</a></span>';
-		}
-		if(record.mailUrl != '' && record.mailUrl != undefined){
-			data_info += '<span class="span12" style="margin-top: 5px;">'+record.mailUrl+'</span>';
-		}
-		
-		var params = {
-			title: '&nbsp;&nbsp;<span style="position: relative; top: 8px;">'+record.activitytype+' - '+
-					'<a target="_blank" href="index.php?module=Calendar&view=Detail&record='+record.id+'">'+record.subject+'</a></span>',
-			text: '<div data-record="'+record.id+'" class="row-fluid calendar_info" style="color:black">\n\
-				<span class="span12">'+app.vtranslate('JS_START_DATE_TIME')+' : '+record.date_start+'</span>\n\
-				<span class="span12">'+app.vtranslate('JS_END_DATE_TIME')+' : '+record.due_date+'</span>'
-				+data_info+
-				'<span class="span12" style="margin-top: 5px;"><button title="' + app.vtranslate('NOTIFICATION_ACCEPTED') + '" class="btn btn-success btn-small reminder_accept"><i class="icon-ok icon-white"></i></button>&nbsp;&nbsp;'+
-				'<button class="btn btn-small btn-primary reminder_postpone" data-time="15m">15'+app.vtranslate('JS_M')+'</button>&nbsp;&nbsp;'+
-				'<button class="btn btn-small btn-primary reminder_postpone" data-time="30m">30'+app.vtranslate('JS_M')+'</button>&nbsp;&nbsp;'+
-				'<button class="btn btn-small btn-primary reminder_postpone" data-time="1h">1'+app.vtranslate('JS_H')+'</button>&nbsp;&nbsp;'+
-				'<button class="btn btn-small btn-primary reminder_postpone" data-time="2h">2'+app.vtranslate('JS_H')+'</button>&nbsp;&nbsp;'+
-				'<button class="btn btn-small btn-primary reminder_postpone" data-time="1d">1'+app.vtranslate('JS_D')+'</button>&nbsp;&nbsp;'+
-				'</div>',
-			addclass:'vtReminder',
-			icon: 'vtReminder-icon',
-			hide:false,
-			closer:false,
-			type:'info',
-			after_open:function(p) {
-				jQuery(p).data('info', record);
-			}
-		};
-		console.log(record);
-		document.notify[record.id] = Vtiger_Helper_Js.showPnotify(params);
-		jQuery('.reminder_accept').on('click', function(e) {
-			var currentElement = jQuery(e.currentTarget);
-			var recordID = currentElement.closest('.calendar_info').data('record');
-			var url = 'index.php?module=Calendar&action=ActivityReminder&mode=cancelReminder&record='+recordID;
-			document.notify[recordID].remove();
-			AppConnector.request(url);
-			
-		});
-		jQuery('.reminder_postpone').on('click', function(e) {
-			var currentElement = jQuery(e.currentTarget);
-			var recordID = currentElement.closest('.calendar_info').data('record');
-			var url = 'index.php?module=Calendar&action=ActivityReminder&mode=postpone&record='+recordID+'&time='+currentElement.data('time');
-			document.notify[recordID].remove();
-			AppConnector.request(url);
-		});	
-	},
 	registerResizeEvent: function(){
 		$(window).resize(function() {
 			if(this.resizeTO) clearTimeout(this.resizeTO);
@@ -386,6 +344,7 @@ var Vtiger_Index_Js = {
 				trigger: 'manual',
 				content: data,
 				animation: false,
+				html: true,
 				placement:  the_placement,
 				template: '<div class="popover popover-tooltip"><div class="arrow"></div><div class="popover-inner"><button name="vtTooltipClose" class="close" style="color:white;opacity:1;font-weight:lighter;position:relative;top:3px;right:3px;">x</button><h3 class="popover-title"></h3><div class="popover-content"><div></div></div></div></div>'
 			});
@@ -423,18 +382,27 @@ var Vtiger_Index_Js = {
 		jQuery('#toggleButton').click(function(e){
 			e.preventDefault();
 			var leftPanel = jQuery('#leftPanel');
-			var rightPanel = jQuery('#rightPanel');
+			var centerContents = jQuery('#centerPanel');
+			var rightPanel = document.getElementById('rightPanel');
 			var tButtonImage = jQuery('#tButtonImage');
 			if (leftPanel.attr('class').indexOf(' hide') == -1) {
                 var leftPanelshow = 1;
 				leftPanel.addClass('hide');
-				rightPanel.removeClass('span10').addClass('span12');
-				tButtonImage.removeClass('icon-chevron-left').addClass("icon-chevron-right");
+				if(rightPanel && jQuery(rightPanel).attr('class').indexOf('hide') == -1){
+					centerContents.removeClass('col-md-8').addClass('col-md-10');
+				}else{
+					centerContents.removeClass('col-md-10').addClass('col-md-12');
+				}
+				tButtonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
 			} else {
                 var leftPanelshow = 0;
 				leftPanel.removeClass('hide');
-				rightPanel.removeClass('span12').addClass('span10');
-				tButtonImage.removeClass('icon-chevron-right').addClass("icon-chevron-left");
+				if(rightPanel && jQuery(rightPanel).attr('class').indexOf('hide') == -1){
+					centerContents.removeClass('col-md-10').addClass('col-md-8');
+				}else{
+					centerContents.removeClass('col-md-12').addClass('col-md-10');
+				}
+				tButtonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
 			}
             var params = {
                 'module' : 'Users',
@@ -443,6 +411,33 @@ var Vtiger_Index_Js = {
                 'showPanel' : leftPanelshow
             }
             AppConnector.request(params);
+		});
+	},
+	registerShowHideRightPanelEvent : function() {
+		jQuery('#toggleRightPanelButton').click(function(e){
+			e.preventDefault();
+			var leftPanel = jQuery('#leftPanel');
+			var centerContents = jQuery('#centerPanel');
+			var rightPanel = jQuery('#rightPanel');
+			var tButtonImage = jQuery('#tRightPanelButtonImage');
+			var leftPanelStatus = leftPanel.attr('class').indexOf(' hide');
+			if (rightPanel.attr('class').indexOf('hide') == -1 ) {
+				rightPanel.addClass('hide');
+				if(leftPanelStatus == -1){
+					centerContents.removeClass('col-md-8').addClass('col-md-10');
+				}else{
+					centerContents.removeClass('col-md-10').addClass('col-md-12');
+				}
+				tButtonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
+			} else {
+				rightPanel.removeClass('hide');
+				if(leftPanelStatus == -1){
+					centerContents.removeClass('col-md-10').addClass('col-md-8');
+				}else{
+					centerContents.removeClass('col-md-12').addClass('col-md-10');
+				}
+				tButtonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
+			}
 		});
 	},
 
@@ -458,6 +453,7 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.registerPostAjaxEvents();
 		Vtiger_Index_Js.changeSkin();
 		Vtiger_Index_Js.registerShowHideLeftPanelEvent();
+		Vtiger_Index_Js.registerShowHideRightPanelEvent();
 		Vtiger_Index_Js.registerResizeEvent();
 	},
 

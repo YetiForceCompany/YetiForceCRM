@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Arabic localisation for jQuery Datepicker.
    Mahmoud Khaled -- mahmoud.khaled@badrit.com
    NOTE: monthNames are the new months names */

@@ -10,31 +10,27 @@
  ********************************************************************************/
 -->*}
 <div class="dashboardWidgetHeader">
-	<table width="100%" cellspacing="0" cellpadding="0">
-	<thead>
-		<tr>
-			<th class="span4">
-				<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle())}</b></div>
-			</th>
-			<th class="span2">
-				<div>
-					<select class="widgetFilter" id="listUpdatedRecordLimit" name="number" style='width:100px;margin-bottom:0px'>
-						<option value="all" >{vtranslate('LBL_ALL')}</option>
-						<option value="10" >10</option>
-						<option value="25" >25</option>
-						<option value="50" >50</option>
-					</select>
-				</div>
-			</th>
-			<th class="refresh span1" align="right">
-				<span style="position:relative;"></span>
-			</th>
-			<th class="widgeticons span5" align="right">
+	<div class="row">
+		<div class="col-md-8">
+			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(),$MODULE_NAME)}</strong></div>
+		</div>
+		<div class="col-md-4">
+			<div class="box pull-right">
 				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
-			</th>
-		</tr>
-	</thead>
-	</table>
+			</div>
+		</div>
+	</div>
+	<hr class="widgetHr"/>
+	<div class="row" >
+		<div class="col-md-6 pull-right">
+			<select class="widgetFilter form-control input-sm" id="listUpdatedRecordLimit" title="{vtranslate('LBL_RECORDS_LIMIT')}" name="number" >
+				<option title="{vtranslate('LBL_ALL')}" value="all" >{vtranslate('LBL_ALL')}</option>
+				<option title="20" value="10" >10</option>
+				<option title="25" value="25" >25</option>
+				<option title="50" value="50" >50</option>
+			</select>
+		</div>
+	</div>
 </div>
 <div class="dashboardWidgetContent">
 	{include file="dashboards/ListUpdatedRecordContents.tpl"|@vtemplate_path:$MODULE_NAME}

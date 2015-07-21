@@ -1,24 +1,56 @@
-{if count($DATA)}
-    
-    <div style="width: 80%; margin: auto; text-align:center;">
+{if count($DATA['chart'])}
+{literal}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			
+			function generateData() {
+				var jData = $('.chartData').val();
+				var data = JSON.parse(jData);   
+				var chartData = [];
+				
+				for(var index in data['chart']) {
+					chartData.push(data['chart'][index]);
+					chartData[data['chart'][index].id] = data['chart'][index];
+				}
+
+				return {'chartData':chartData, 'ticks': data['ticks']};
+			} 
+			$(function () {
+				var chartData = generateData();
+				var css_id = "#timeEmployees";
+				var options = {
+					xaxis: {
+						minTickSize: 0,
+						ticks: false
+					},
+					yaxis: { 
+						min: 0
+					},
+					series: {
+						bars: {
+							show: true,
+							barWidth: .9,
+							dataLabels: false,
+							align: "center",
+							lineWidth: 0
+						},
+						stack: true
+					}
+				};
+				$.plot($(css_id), chartData['chartData'], options);
+			});
+		});
+{/literal}
+	</script>
+	<div style="width: 80%; margin: auto; text-align:center; margin-bottom:20px;">
 		{vtranslate('LBL_TOTAL_TIME')}<br/>
 		{vtranslate('LBL_EMPLOYEE')}<br/>
-        <canvas id="sPTE"  height="350" width="800"></canvas>
-    </div>
-    <script>
-        $('#sPTE').width($('#sPTE').parent().width());
-        var barChartData2 = {
-        labels : [{foreach from=$DATA item=record key=key name=dataloop}"{$record[1]}"{if !$smarty.foreach.dataloop.last},{/if}{/foreach}],
-                datasets : [
-                {       fillColor : "rgba(220,220,220,0.5)", strokeColor : "rgba(220,220,220,0.8)", highlightFill: "rgba(220,220,220,0.75)", highlightStroke: "rgba(220,220,220,1)",
-                        scaleIntegersOnly: true,
-                        data : [{foreach from=$DATA item=record key=key name="dataloop2"}"{$record['time']}"{if !$smarty.foreach.dataloop2.last},{/if}{/foreach}]
-                },
-                ]
-        };
-        	$(document).ready(function(){
-                var ctx2 = document.getElementById("sPTE").getContext("2d");
-                        window.myBar2 = new Chart(ctx2).Bar(barChartData2);
-            });
-    </script>
+		<input class="chartData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}' />
+		<div id="timeEmployees" style="height:400px;width:100%;"></div>
+	</div>
+{else}
+<div class="alert alert-warning">
+	<p>{vtranslate('LBL_TOTAL_TIME')}  {vtranslate('LBL_EMPLOYEE')}</p>
+	{vtranslate('LBL_RECORDS_NO_FOUND')}
+</div>	
 {/if}

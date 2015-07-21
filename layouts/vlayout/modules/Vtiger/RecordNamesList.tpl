@@ -11,9 +11,9 @@
 -->*}
 {strip}
 <div class="recordNamesList">
-	<div class="row-fluid">
+	<div>
 		<div class="">
-			<ul class="nav nav-list">
+			<ul class="nav list-group">
 				{foreach item=recordsModel from=$RECORDS}
 				<li>
 					<a data-id={$recordsModel->getId()} href="{$recordsModel->getDetailViewUrl()}" title="{decode_html($recordsModel->getName())}">{decode_html($recordsModel->getName())}</a>

@@ -13,7 +13,7 @@ require_once('include/utils/utils.php');
 
 class RecurringInvoiceHandler extends VTEventHandler {
 	public function handleEvent($handlerType, $entityData){
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$moduleName = $entityData->getModuleName();
 		if ($moduleName == 'SalesOrder') {
 			$soId = $entityData->getId();

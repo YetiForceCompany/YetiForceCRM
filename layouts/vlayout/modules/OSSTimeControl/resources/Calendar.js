@@ -18,13 +18,23 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 				$(this).css('overflow','hidden');
 			}
 		);
-		app.changeSelectElementView(widgetContainer);
-		//this.registerUserColor();
+		this.registerColorField(widgetContainer.find('#calendarUserList'),'userCol');
+		this.registerColorField(widgetContainer.find('#timecontrolTypes'),'listCol');
 		widgetContainer.find(".refreshCalendar").click(function () {
 			thisInstance.loadCalendarData();
 		});
 	},
-	registerUserColor : function(){
+	registerColorField : function(field, fieldClass){
+		var params = {};
+		params.dropdownCss = {'z-index' : 0};
+		params.formatSelection = function(object,container){
+			var selectedId = object.id;
+			var selectedOptionTag = field.find('option[value="'+selectedId+'"]');
+			container.addClass(fieldClass+'_'+selectedId);
+			var element = '<div>'+selectedOptionTag.text()+'</div>';
+			return element;
+		}
+		app.changeSelectElementView(field, 'select2',params);
 	},
 },{
 	calendarView : false,
@@ -58,9 +68,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 		var defaultFirstHour = jQuery('#start_hour').val();
 		var explodedTime = defaultFirstHour.split(':');
 		defaultFirstHour = explodedTime['0'];
-		
-		//Update event
-		var reminder = jQuery('#update_event').val();
+
 		thisInstance.getCalendarView().fullCalendar({
 			header: {
 				left: 'month,agendaWeek,agendaDay',
@@ -76,24 +84,27 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			editable: true,
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
+			forceEventDuration: true,
 			defaultTimedEventDuration: '01:00:00',
 			eventLimit: true,
-			selectable: true,
-			selectHelper: true,
 			allDaySlot: false,
-			select: function(start, end) {
-				thisInstance.selectDays(start.format(),end.format());
+			dayClick: function(date, jsEvent, view) {
+				thisInstance.selectDay(date.format());
 				thisInstance.getCalendarView().fullCalendar('unselect');
 			},
 			eventDrop: function ( event, delta, revertFunc) {
-				if(reminder != 0){
-					thisInstance.updateEvent(event, delta, revertFunc);
-				}
+				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			eventResize: function (event, delta, revertFunc) {
-				if(reminder != 0){
-					thisInstance.updateEvent(event, delta, revertFunc);
-				}
+				thisInstance.updateEvent(event, delta, revertFunc);
+			},
+			eventRender: function (event, element) {
+				element.find('.fc-info').popover({
+					title: event.title,
+					placement: 'top',
+					html: true,
+					content: '<i class="icon-time"></i> '+app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD HH:mm') + '<br /><i class="icon-time"></i> ' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD HH:mm')
+				});
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
@@ -118,7 +129,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			allDayText: app.vtranslate('JS_ALL_DAY'),
 			eventLimitText: app.vtranslate('JS_MORE')
 		});
-    },
+	},
 	loadCalendarData : function(allEvents) {
 		var progressInstance = jQuery.progressIndicator();
 		var thisInstance = this;
@@ -133,7 +144,10 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 		}
 		if (jQuery('#timecontrolTypes').length > 0) {
 			var types = jQuery('#timecontrolTypes').val();	
+		}else{
+			allEvents = true;
 		}
+
 		if(allEvents == true || types != null){
 			var params = {
 				module: 'OSSTimeControl',
@@ -163,7 +177,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			mode: 'updateEvent',
 			id: event.id,
 			start: start,
-			end: end
+			delta: delta._data
 		}
 		AppConnector.request(params).then(function (response) {
 			if (!response['result']) {
@@ -178,9 +192,9 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			revertFunc();
 		});
 	},
-	selectDays: function (start, end) {
+	selectDay: function (date) {
 		var thisInstance = this;
-		this.getCalendarCreateView().then(function (data) {
+		thisInstance.getCalendarCreateView().then(function (data) {
 			if (data.length <= 0) {
 				return;
 			}
@@ -191,12 +205,35 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			} else {
 				defaultTimeFormat = 'hh:mm tt';
 			}
-			var startDateInstance = Date.parse(start);
+			var startDateInstance = Date.parse(date);
 			var startDateString = app.getDateInVtigerFormat(dateFormat, startDateInstance);
 			var startTimeString = startDateInstance.toString(defaultTimeFormat);
-			var endDateInstance = Date.parse(end);
+			var endDateInstance = Date.parse(date);
 			var endDateString = app.getDateInVtigerFormat(dateFormat, endDateInstance);
-			var endTimeString = endDateInstance.toString(defaultTimeFormat);
+
+					
+			var view = thisInstance.getCalendarView().fullCalendar('getView');
+			if('month' == view.name){	
+				var diffDays = parseInt((endDateInstance - startDateInstance) / (1000 * 60 * 60 * 24)); 
+				if(diffDays >1){
+					var defaultFirstHour = jQuery('#start_hour').val();
+					var explodedTime = defaultFirstHour.split(':');
+					startTimeString = explodedTime['0'];
+
+					var defaultLastHour = jQuery('#end_hour').val();
+					var explodedTime = defaultLastHour.split(':');
+					endTimeString = explodedTime['0'];
+				}else{
+					var now = new Date(); 	
+					var startTimeString = now.toString(defaultTimeFormat);
+					now.setMinutes(now.getMinutes() + 15);
+					var endTimeString = now.toString(defaultTimeFormat);
+				}
+			}else{
+				endDateInstance.setMinutes(endDateInstance.getMinutes() + 30);
+
+				var endTimeString = endDateInstance.toString(defaultTimeFormat);
+			}
 
 			data.find('[name="date_start"]').val(startDateString);
 			data.find('[name="due_date"]').val(endDateString);
@@ -205,19 +242,15 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 
 			var headerInstance = new Vtiger_Header_Js();
 			headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
-				thisInstance.addCalendarEvent(data.result);
+				thisInstance.addCalendarEvent(data.result, dateFormat);
 			}});
 			jQuery('.modal-body').css({'max-height': '500px', 'overflow-y': 'auto'});
 		});
 	},
-	addCalendarEvent : function(calendarDetails) {
-		var isAllowed = this.isAllowedToAddTimeControl();
-		if(isAllowed == false) return;
-		var calendarColor = '';
-		if(calendarDetails.timecontrol_type.value == 'PLL_BREAK_TIME')
-			calendarColor = 'calendarColor_break_time';
-		else if(calendarDetails.timecontrol_type.value == 'PLL_HOLIDAY')
-			calendarColor = 'calendarColor_holiday';
+	addCalendarEvent : function(calendarDetails, dateFormat) {
+		// convert dates to db format
+		calendarDetails.date_start.display_value = app.getDateInDBInsertFormat(dateFormat, calendarDetails.date_start.display_value);
+		calendarDetails.due_date.display_value = app.getDateInDBInsertFormat(dateFormat, calendarDetails.due_date.display_value);
 
 		var eventObject = {};
 		eventObject.id = calendarDetails._recordId;
@@ -228,15 +261,8 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 		var assignedUserId = calendarDetails.assigned_user_id.value;
 		eventObject.end = endDate.toString();
 		eventObject.url = 'index.php?module=OSSTimeControl&view=Detail&record='+calendarDetails._recordId;
-		eventObject.className = 'userColor_'+calendarDetails.assigned_user_id.value+' '+calendarColor;
+		eventObject.className = 'userCol_' + calendarDetails.assigned_user_id.value+' calCol_' + calendarDetails.timecontrol_type.value;
 		this.getCalendarView().fullCalendar('renderEvent',eventObject);
-	},
-	isAllowedToAddTimeControl : function () {
-		if(jQuery('#menubar_quickCreate_OSSTimeControl').length > 0) {
-			return true;
-		} else {
-			return false;
-		}
 	},
 	getCalendarCreateView : function() {
 		var thisInstance = this;
@@ -262,11 +288,10 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 
 	loadCalendarCreateView : function() {
 		var aDeferred  = jQuery.Deferred();
-		var quickCreateCalendarElement = jQuery('#quickCreateModules').find('[data-name="OSSTimeControl"]');
-		var url = quickCreateCalendarElement.data('url');
-		var name = quickCreateCalendarElement.data('name');
-		var headerInstance = new Vtiger_Header_Js();
-		headerInstance.getQuickCreateForm(url,name).then(
+		var moduleName = app.getModuleName();
+		var url = 'index.php?module='+moduleName+'&view=QuickCreateAjax';
+		var headerInstance = Vtiger_Header_Js.getInstance();
+		headerInstance.getQuickCreateForm(url,moduleName).then(
 			function(data){
 				aDeferred.resolve(jQuery(data));
 			},

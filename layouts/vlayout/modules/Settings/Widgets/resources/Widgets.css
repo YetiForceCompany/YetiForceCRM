@@ -14,7 +14,7 @@
 	background: white;
 	border: 1px solid #dddddd;
 }
-.modal-Fields .span7{
+.modal-Fields .col-md-7{
 	margin-bottom: 9px;
 }
 .ui-sortable-helper{
@@ -23,7 +23,7 @@
 	-moz-box-shadow: 0 0 3px -1px #dddddd;
 	box-shadow: 0 0 3px -1px #dddddd;
 }
-.HelpInfoPopover .icon-info-sign{
+.HelpInfoPopover .glyphicon-info-sign{
 	margin-top: 5px;
 	margin-left: 5px;
 }

@@ -6,12 +6,16 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 08/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
-	'Amount' => 'Valor Fechamento', 
-	'Campaign Source'=> 'Fonte Campanha', 
-	'Existing Business'=> 'Negócio Existente', 
+$languageStrings = [
+	'Potential Name' => 'Nome',
+	'LBL_GENERATING_COMMENT' => 'Oportunidade gerada a partir do seguinte:',
+	'LBL_GENERATED_OPPORTUNITIES_INFO' => 'Gerada %s oportunidades de vendas.',
+	'LBL_GENERATED_OPPORTUNITIES_COMPLETED' => 'A geração de oportunidades de vendas foi concluída.',
+	'Amount' => 'Valor',
+	'Campaign Source'=> 'Fonte Campanha',
+	'Existing Business'=> 'Negócio Existente',
 	'Forecast Amount'=> 'Valor Previsto' ,
 	'Forecast' => 'Previsão de Vendas',
 	'Funnel' => 'Funil de Vendas',
@@ -21,22 +25,22 @@ $languageStrings = array(
 	'LBL_RECORDS_LIST' => 'Lista Oportunidades',
 	'LBL_RELATED_CONTACTS' => 'Contatos Relacionados',
 	'LBL_RELATED_PRODUCTS' => 'Produtos Relacionados',
-	'Negotiation/Review' => 'Negociacao' , 
-	'New Business' => 'Novo Negócio' , 
-	'Next Step'=> 'Próximo Passo', 
-	'--None--' => '--Nada--', 
-	'Potential No' => 'No. Oportunidade', 
+	'Negotiation/Review' => 'Negociacao' ,
+	'New Business' => 'Novo Negócio' ,
+	'Next Step'=> 'Próximo Passo',
+	'--None--' => '--Nada--',
+	'Potential No' => 'No. Oportunidade',
 	'Potentials by Stage'=> 'Oportunidades por Estágio',
-	'Potentials' => 'Oportunidade', 
-	'Probability'=> 'Probabilidade', 
-	'Proposal/Price Quote' => 'Proposta', 
+	'Potentials' => 'Oportunidade',
+	'Probability'=> 'Probabilidade',
+	'Proposal/Price Quote' => 'Proposta',
 	'Related To' => 'Nome Organização',
-	'Sales Stage'=> 'Estágio da Venda', 
-	'SINGLE_Potentials'=> 'Oportunidade', 
+	'Sales Stage'=> 'Estágio da Venda',
+	'SINGLE_Potentials'=> 'Oportunidade',
 	'Top Potentials' => 'Principais Oportunidades' ,
 	'Total Revenue'=> 'Receita por Vendedor',
 	'LBL_CHARTS'=>'Gráficos',
-	
+
 	// Picklist sales_stage
 	'Accepted for processing'=>'Aceita processamento',
 	'Data verification'=>'Verificação dados',
@@ -64,7 +68,7 @@ $languageStrings = array(
 	'Orders pending'=>'Pedidos Pendentes',
 	'Orders rejected'=>'Pedidos Rejeitados',
 	'Orders accepted'=>'Pedidos Aceitos',
-	
+
     //YetiForce
 	'Total time [Calculation]'=>'Tempo total<br />[Cálculo]',
 	'Total time [Potential]' => 'Tempo total<br/>[Oportunidade]',
@@ -79,5 +83,7 @@ $languageStrings = array(
 	'Total price [Quotes]' => 'Valor total Cotações',
 	'Total price [Sales Order]' => 'Valor total Pedidos',
 	'Total price [Invoice]' => 'Valor total Faturas',
+	'PotentialsList'=>'Opportunities',
 	'Payment balance' => 'Payment balance',
-);
+];
+

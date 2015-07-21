@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Answer'                       => 'Ответ'                  , 
 	'Comments'                     => 'Комментарии'      , 
 	'Draft'                        => 'Черновик'            , 
@@ -23,4 +23,4 @@ $languageStrings = array(
 	'Published'                    => 'Опубликовано'    , 
 	'Question'                     => 'Вопрос'                , 
 	'SINGLE_Faq'                   => 'ЧаВо'                    , 
-);
+];

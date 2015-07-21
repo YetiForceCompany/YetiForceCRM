@@ -247,7 +247,7 @@ class EmailTemplate {
 	}
 
 	public function isActive($field, $mod) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$tabid = getTabid($mod);
 		$query = 'select * from vtiger_field where fieldname = ?  and tabid = ? and presence in (0,2)';
 		$res = $adb->pquery($query, array($field, $tabid));

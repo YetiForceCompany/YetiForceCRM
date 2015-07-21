@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Dodaj role',
 	'LBL_ALL_USERS' => 'Wszyscy użytkownicy',
 	'LBL_ASSIGN_EXISTING_PRIVILEGES' => 'Przypisz uprawnienia do istniejącej roli',
@@ -31,9 +31,11 @@ $languageStrings = array(
 	'Roles' => 'Role',
 	'SINGLE_Roles' => 'Rola',
 	'LBL_USERS_LIST' => 'Lista użytkowników należących do tej roli:',
-);
-
-$jsLanguageStrings = array(
+	'LBL_JUST_ME' => 'Tylko ja',
+	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => 'Czy może zmieniać własciciela rekordu',
+	'LBL_SEARCH_WITHOUT_PERMISSION' => 'Moduły w których można wyszukiwać bez uprawnień.',
+];
+$jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Brak uprawnień do przeniesienia',
 	'JS_PERMISSION_DENIED' => 'Brak uprawnień',
-);
+];

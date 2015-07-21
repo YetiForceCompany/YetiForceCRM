@@ -24,7 +24,7 @@ class OSSMail_findCrmDetail_Action extends Vtiger_Action_Controller {
 		if(Vtiger_Functions::getModuleId('OSSMailView')){
 			$params['folder'] = urldecode($params['folder']);
 			$account = OSSMail_Record_Model::get_account_detail_by_name($params['username']);
-			$params['user_id'] = $account[0]['user_id'];
+			$params['user_id'] = $account['user_id'];
 			$OSSMailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 			$result = $OSSMailModel->findCrmDetail($params,$metod);
 		}

@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid" id="sharingAccessContainer">
+<div class="" id="sharingAccessContainer">
 	<div class="contents">
 		<form name="EditSharingAccess" action="index.php" method="post" class="form-horizontal" id="EditSharingAccess">
 			<input type="hidden" name="module" value="SharingAccess" />
@@ -19,9 +19,9 @@
 			<input type="hidden" class="dependentModules" value='{ZEND_JSON::encode($DEPENDENT_MODULES)}' />
 			
 			<div>
-				<div class="widget_header row-fluid">
-					<div class="span8"><h3>{vtranslate('LBL_SHARING_ACCESS', $QUALIFIED_MODULE)}</h3></div>
-					<div class="span4">
+				<div class="widget_header row">
+					<div class="col-md-8"><h3>{vtranslate('LBL_SHARING_ACCESS', $QUALIFIED_MODULE)}</h3></div>
+					<div class="col-md-4">
 						<button class="btn btn-success pull-right hide" type="submit" name="saveButton"><strong>{vtranslate('LBL_APPLY_NEW_SHARING_RULES', $QUALIFIED_MODULE)}</strong></button>
 					</div>
 				</div>
@@ -52,29 +52,6 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr data-module-name="Calendar">
-						<td>{'SINGLE_Calendar'|vtranslate:'Calendar'}</td>
-						<td class="">
-							<div><input type="radio" disabled="disabled" /></div>
-						</td>
-						<td class="">
-							<div><input type="radio" disabled="disabled" /></div>
-						</td>
-						<td class="">
-							<div><input type="radio" disabled="disabled" /></div>
-						</td>
-						<td class="">
-							<div><input type="radio" checked="true" disabled="disabled" /></div>
-						</td>
-						<td>
-							<div class="row-fluid">
-								<div class="span3">&nbsp;</div>
-								<div class="span6">
-									<button type="button" class="btn btn-mini vtButton arrowDown row-fluid" disabled="disabled" ><img src="layouts/vlayout/skins/images/Arrow-down.png"></img></button>
-								</div>
-							</div>
-						</td>
-					</tr>
 					{foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
 					<tr data-module-name="{$MODULE_MODEL->get('name')}">
 						<td>
@@ -87,16 +64,16 @@
 						{foreach from=$ALL_ACTIONS key=ACTION_ID item=ACTION_MODEL}
 						<td class="">
 							{if $ACTION_MODEL->isModuleEnabled($MODULE_MODEL)}
-								<div><input type="radio" name="permissions[{$TABID}]" data-action-state="{$ACTION_MODEL->getName()}" value="{$ACTION_ID}"{if $MODULE_MODEL->getPermissionValue() eq $ACTION_ID}checked="true"{/if}></div>
+								<div><input type="radio" name="permissions[{$TABID}]" data-action-state="{$ACTION_MODEL->getName()}" title="{$ACTION_MODEL->getName()|vtranslate:$QUALIFIED_MODULE}" value="{$ACTION_ID}"{if $MODULE_MODEL->getPermissionValue() eq $ACTION_ID}checked="true"{/if}></div>
 							{/if}
 						</td>
 						{/foreach}
 						<td class="triggerCustomSharingAccess">
-							<div class="row-fluid">
-								<div class="span3">&nbsp;</div>
-								<div class="span6">
-									<button type="button" class="btn btn-mini vtButton arrowDown row-fluid" data-handlerfor="fields" data-togglehandler="{$TABID}-rules"><img src="layouts/vlayout/skins/images/Arrow-down.png"></img></button>
-									<button type="button" class="btn btn-mini vtButton arrowUp row-fluid hide" data-handlerfor="fields" data-togglehandler="{$TABID}-rules"><img src="layouts/vlayout/skins/images/Arrow-up.png"></img></button>
+							<div class="row">
+								<div class="col-md-3">&nbsp;</div>
+								<div class="col-md-6">
+									<button type="button" class="btn btn-xs btn-default vtButton arrowDown row" data-handlerfor="fields" data-togglehandler="{$TABID}-rules"><img src="layouts/vlayout/skins/images/Arrow-down.png" alt=""></img></button>
+									<button type="button" class="btn btn-xs btn-default vtButton arrowUp row hide" data-handlerfor="fields" data-togglehandler="{$TABID}-rules"><img src="layouts/vlayout/skins/images/Arrow-up.png" alt=""></img></button>
 								</div>
 							</div>
 						</td>

@@ -36,7 +36,7 @@ class VTCreateEventTask extends VTTask{
 
 	function getAdmin(){
 		$user = Users::getActiveAdminUser();
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$this->originalUser = $current_user;
 		$current_user = $user;
 		return $user;
@@ -46,7 +46,7 @@ class VTCreateEventTask extends VTTask{
 		if(!vtlib_isModuleActive('Calendar')) {
 			return;
 		}
-		global $adb, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 		$userId = $entityData->get('assigned_user_id');
 		if($userId===null){
 			$userId = vtws_getWebserviceEntityId('Users', 1);
@@ -99,21 +99,11 @@ class VTCreateEventTask extends VTTask{
 		$fields['visibility'] = ucfirst($sharedType);
 		
 		$id = $entityData->getId();
-		if($moduleName=='Contacts'){
-			$fields['contact_id'] = $id;
-		}else{
-			$data = vtws_describe('Calendar', $adminUser);
-			$fieldInfo = $data['fields'];
-			foreach($fieldInfo as $field){
-				if($field['name']=='parent_id'){
-					$parentIdField = $field;
-				}
-			}
-			$refersTo = $parentIdField['type']['refersTo'];
-
-			if(in_array($moduleName, $refersTo)){
-				$fields['parent_id'] = $id;
-			}
+		if(in_array($moduleName, ['Accounts','Leads','Contacts','Vendors','OSSEmployees'])){
+			$fields['link'] = $id;
+		}
+		if(in_array($moduleName, ['Campaigns','HelpDesk','Potentials','Project','ServiceContracts'])){
+			$fields['process'] = $id;
 		}
 
 		$event = vtws_create('Events', $fields, $adminUser);
@@ -195,7 +185,7 @@ class VTCreateEventTask extends VTTask{
 			$_REQUEST['createmode'] = '';
 
 		}
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$current_user = $this->originalUser;
 	}
 
@@ -242,4 +232,3 @@ class VTCreateEventTask extends VTTask{
 	}
 
 }
-?>

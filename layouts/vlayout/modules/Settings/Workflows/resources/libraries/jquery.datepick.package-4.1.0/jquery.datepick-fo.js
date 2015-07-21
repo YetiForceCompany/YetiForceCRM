@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Faroese localisation for jQuery Datepicker.
    Written by Sverri Mohr Olsen, sverrimo@gmail.com */
 (function($) {

@@ -1,5 +1,5 @@
 <?php
-/*********************************************************************************
+/* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
  * ("License"); You may not use this file except in compliance with the 
  * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
@@ -11,23 +11,22 @@
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
-********************************************************************************/
+ * ****************************************************************************** */
 include_once('config/version.php');
-
-// Adjust error_reporting favourable to deployment.
-ini_set('display_errors','off');version_compare(PHP_VERSION, '5.4.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT); // PRODUCTION
-//ini_set('display_errors','on'); version_compare(PHP_VERSION, '5.4.0') <= 0 ? error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);   // DEBUGGING
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
-ini_set('memory_limit','512M');
+ini_set('memory_limit', '512M');
+
+// lifetime of session
+ini_set('session.gc_maxlifetime', '21600');
 
 // show or hide calendar, world clock, calculator, chat and CKEditor 
 // Do NOT remove the quotes if you set these to false! 
 $CALENDAR_DISPLAY = 'true';
 $WORLD_CLOCK_DISPLAY = 'true';
 $CALCULATOR_DISPLAY = 'true';
-$CHAT_DISPLAY = 'true'; 
+$CHAT_DISPLAY = 'true';
 $USE_RTE = 'true';
 
 // url for customer portal (Example: https://portal.yetiforce.com/)
@@ -39,16 +38,16 @@ $HELPDESK_SUPPORT_NAME = 'your-support name';
 $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
 
 /* database configuration
-      db_server
-      db_port
-      db_hostname
-      db_username
-      db_password
-      db_name
-*/
+  db_server
+  db_port
+  db_hostname
+  db_username
+  db_password
+  db_name
+ */
 
 $dbconfig['db_server'] = '_DBC_SERVER_';
-$dbconfig['db_port'] = ':_DBC_PORT_';
+$dbconfig['db_port'] = '_DBC_PORT_';
 $dbconfig['db_username'] = '_DBC_USER_';
 $dbconfig['db_password'] = '_DBC_PASS_';
 $dbconfig['db_name'] = '_DBC_NAME_';
@@ -57,31 +56,11 @@ $dbconfig['db_status'] = '_DB_STAT_';
 
 // TODO: test if port is empty
 // TODO: set db_hostname dependending on db_type
-$dbconfig['db_hostname'] = $dbconfig['db_server'].$dbconfig['db_port'];
-
-// log_sql default value = false
-$dbconfig['log_sql'] = false;
-
-// persistent default value = true
-$dbconfigoption['persistent'] = true;
-
-// autofree default value = false
-$dbconfigoption['autofree'] = false;
-
-// debug default value = 0
-$dbconfigoption['debug'] = 0;
-
-// seqname_format default value = '%s_seq'
-$dbconfigoption['seqname_format'] = '%s_seq';
-
-// portability default value = 0
-$dbconfigoption['portability'] = 0;
-
-// ssl default value = false
-$dbconfigoption['ssl'] = false;
+$dbconfig['db_hostname'] = $dbconfig['db_server'] . ':' . $dbconfig['db_port'];
 
 $host_name = $dbconfig['db_hostname'];
 
+// backslash is required at the end of URL
 $site_URL = '_SITE_URL_';
 
 // root directory path
@@ -105,7 +84,6 @@ $upload_disabled = false;
 // maximum file size for uploaded files in bytes also used when uploading import files
 // upload_maxsize default value = 3000000
 $upload_maxsize = 52428800;  // 50MB
-
 // flag to allow export functionality
 // 'all' to allow anyone to use exports 
 // 'admin' to only allow admins to export 
@@ -119,7 +97,7 @@ $upload_badext = array('php', 'php3', 'php4', 'php5', 'pl', 'cgi', 'py', 'asp', 
 
 // full path to include directory including the trailing slash
 // includeDirectory default value = $root_directory..'include/
-$includeDirectory = $root_directory.'include/';
+$includeDirectory = $root_directory . 'include/';
 
 // list_max_entries_per_page default value = 20
 $list_max_entries_per_page = '20';
@@ -199,12 +177,12 @@ $php_max_execution_time = 0;
 $default_timezone = '_TIMEZONE_';
 
 /** If timezone is configured, try to set it */
-if(isset($default_timezone) && function_exists('date_default_timezone_set')) {
+if (isset($default_timezone) && function_exists('date_default_timezone_set')) {
 	@date_default_timezone_set($default_timezone);
 }
 
 // Change of logs directory with PHP errors
-ini_set('error_log',$root_directory.'cache/logs/php_error_log.log');
+ini_set('error_log', $root_directory . 'cache/logs/phpError.log');
 
 // Enable sharing of records?
 $shared_owners = true;
@@ -233,5 +211,26 @@ $MINIMUM_CRON_FREQUENCY = 1;
 //Update the current session id with a newly generated one after login
 $session_regenerate_id = false;
 
-//Would you like to encode passwords for Customer Portal
-$encode_customer_portal_passwords = true;
+$davStorageDir = 'storage/Files';
+$davHistoryDir = 'storage/FilesHistory';
+
+// prod and demo
+$systemMode = 'prod';
+
+// Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.
+$forceSSL = FALSE;
+
+// show record count in tabs related modules
+$showRecordsCount = TRUE;
+
+// Maximum number of records in a mass edition
+$listMaxEntriesMassEdit = 500;
+
+// Enable closing of mondal window by clicking on the background
+$backgroundClosingModal = TRUE;
+
+// Enable CSRF-protection
+$csrfProtection = TRUE;
+
+// Enable encrypt backup, Support from PHP 5.6.x
+$encryptBackup = false;

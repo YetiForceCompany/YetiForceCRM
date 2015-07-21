@@ -144,28 +144,50 @@ class Calendar_Record_Model extends Vtiger_Record_Model {
 	}
 	public function updateReminderPostpone($time) {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_activity_reminder_popup WHERE recordid = ?', array($this->getId()));
-		$row = $db->query_result_rowdata($result, 0);
-		$datatime = $row['date_start'] . ' '. $row['time_start']; 
 		switch ($time) {
 			case '15m':
-				$datatime = date("Y-m-d H:i:s", strtotime("+15 min", strtotime($datatime)) );
+				$datatime = date('Y-m-d H:i:s', strtotime('+15 min') );
 			break;
 			case '30m':
-				$datatime = date("Y-m-d H:i:s", strtotime("+30 min", strtotime($datatime)) );
+				$datatime = date('Y-m-d H:i:s', strtotime('+30 min') );
 			break;
 			case '1h':
-				$datatime = date("Y-m-d H:i:s", strtotime("+60 min", strtotime($datatime)) );
+				$datatime = date('Y-m-d H:i:s', strtotime('+60 min') );
 			break;
 			case '2h':
-				$datatime = date("Y-m-d H:i:s", strtotime("+120 min", strtotime($datatime)) );
+				$datatime = date('Y-m-d H:i:s', strtotime('+120 min') );
 			break;
 			case '1d':
-				$datatime = date("Y-m-d", strtotime("+1 weekday", strtotime($datatime)) ).' '.$row['time_start'];
+				$datatime = date('Y-m-d H:i:s', strtotime('+1 day') );
 			break;
 		}
-		$time_start = date("H:i:s", strtotime($datatime));
-		$date_start = date('Y-m-d', strtotime($datatime));
-		$db->pquery("UPDATE vtiger_activity_reminder_popup set status = ?, date_start = ?, time_start = ? WHERE recordid = ?", array(0, $date_start, $time_start, $this->getId()));
+		$datatimeSTR = strtotime($datatime);
+		$time_start = date('H:i:s', $datatimeSTR);
+		$date_start = date('Y-m-d', $datatimeSTR);
+		$db->pquery('UPDATE vtiger_activity_reminder_popup set status = ?, date_start = ?, time_start = ? WHERE recordid = ?', array(0, $date_start, $time_start, $this->getId()));
+		
+		$result = $db->pquery('SELECT value FROM vtiger_calendar_config WHERE type = ? AND name = ? AND value = ?', array('reminder','update_event',1));
+		if($db->num_rows($result) > 0){
+			//var_dump($result);
+			$query = 'SELECT date_start, time_start, due_date, time_end FROM vtiger_activity WHERE activityid = ?';
+			$result = $db->pquery($query, array($this->getId()));
+			$date_start_record = $db->query_result($result, 0, 'date_start');
+			$time_start_record = $db->query_result($result, 0, 'time_start');
+			$due_date_record = $db->query_result($result, 0, 'due_date');
+			$time_end_record = $db->query_result($result, 0, 'time_end');
+			$duration = strtotime($due_date_record.' '.$time_end_record) - strtotime($date_start_record.' '.$time_start_record);
+			
+			$time_end_record = date('H:i:s', $datatimeSTR+$duration);
+			$due_date_record = date('Y-m-d', $datatimeSTR+$duration);
+			$params = array($date_start, $time_start, $due_date_record, $time_end_record, $this->getId());
+			$db->pquery('UPDATE vtiger_activity set date_start = ?, time_start = ?, due_date = ?, time_end = ? WHERE activityid = ?', $params);
+		}
+	}
+	
+	public function getActivityTypeIcon() {
+		$icon = $this->get('activitytype');
+		if($icon == 'Task')
+			$icon = 'Tasks';
+		return $icon.'.png';
 	}
 }

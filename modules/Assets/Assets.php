@@ -101,7 +101,7 @@ class Assets extends CRMEntity {
 	/**	Constructor which will set the column_fields in this object
 	 */
 	function __construct() {
-		global $log;
+		$log = vglobal('log');
 		$this->column_fields = getColumnFields(get_class($this));
 		$this->db = PearDatabase::getInstance();
 		$this->log = $log;
@@ -166,7 +166,7 @@ class Assets extends CRMEntity {
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
 	function getListViewSecurityParameter($module) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 
@@ -212,7 +212,7 @@ class Assets extends CRMEntity {
 	 */
 	function create_export_query($where)
 	{
-		global $current_user;
+		$current_user  = vglobal('current_user');
 
 		include("include/utils/ExportUtils.php");
 
@@ -341,7 +341,7 @@ class Assets extends CRMEntity {
 
 	// Function to unlink all the dependent entities of the given Entity by Id
 	function unlinkDependencies($module, $id) {
-		global $log;
+		$log = vglobal('log');
 		parent::unlinkDependencies($module, $id);
 	}
 
@@ -352,11 +352,11 @@ class Assets extends CRMEntity {
 	*/
 	function vtlib_handler($moduleName, $eventType) {
 		require_once('include/utils/utils.php');
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
  		if($eventType == 'module.postinstall') {
 			//Add Assets Module to Customer Portal
-			global $adb;
+			$adb = PearDatabase::getInstance();
 
 			$this->addModuleToCustomerPortal();
 
@@ -434,7 +434,7 @@ class Assets extends CRMEntity {
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
 	function transferRelatedRecords($module, $transferEntityIds, $entityId) {
-		global $adb,$log;
+		$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Documents"=>"vtiger_senotesrel","Attachments"=>"vtiger_seattachmentsrel");
@@ -465,4 +465,3 @@ class Assets extends CRMEntity {
 		$log->debug("Exiting transferRelatedRecords...");
 	}
 }
-?>
