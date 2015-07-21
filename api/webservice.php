@@ -10,7 +10,7 @@ require_once 'include/main/WebUI.php';
 require_once 'api/webservice/API.php';
 
 try {
-	$api = new API(new Vtiger_Request($_REQUEST, $_REQUEST));
+	$api = new API();
 	$api->process();
 } catch (APIException $e) {
 	

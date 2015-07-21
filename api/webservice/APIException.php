@@ -26,7 +26,7 @@ class APIException extends Exception
 	private function _requestStatus($code)
 	{
 		$status = [
-			200 => 'OK',
+			200 => 'OK', 
 			401 => 'Unauthorized',
 			403 => 'Forbidden',
 			404 => 'Not Found',

@@ -205,11 +205,13 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		}
 	}
 
-	public static function get_account_detail_by_name($name) {
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery( "SELECT * FROM roundcube_users where username = ? ", array($name) ,true);
-		return $adb->fetch_array($result);
+	public static function get_account_detail_by_name($name)
+	{
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT * FROM roundcube_users where username = ?', [$name]);
+		return $db->fetch_array($result);
 	}
+
 	public static function _decode_text($text) {
 		$data = imap_mime_header_decode($text);
 		$charset = ($data[0]->charset == 'default') ? 'ASCII' : $data[0]->charset;

@@ -12,11 +12,8 @@ class API
 	protected $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE'];
 	protected $modulesPath = 'api/webservice/modules/';
 
-	/**
-	 * Constructor: __construct
-	 * Allow for CORS, assemble and pre-process the data
-	 */
-	public function __construct(Vtiger_Request $request)
+
+	public function __construct()
 	{
 		header("Access-Control-Allow-Orgin: *");
 		header("Access-Control-Allow-Methods: *");
@@ -36,9 +33,12 @@ class API
 		if (!in_array($this->method, $this->acceptableMethods)) {
 			throw new APIException('Invalid Method', 405);
 		}
-		$this->request = $request;
+
+		$this->request = new Vtiger_Request($_REQUEST, $_REQUEST);
+		$this->data = new Vtiger_Request($_REQUEST['data'], $_REQUEST['data']);
 	}
 
+	
 	private function response($data, $status = 200)
 	{
 		header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
@@ -69,14 +69,14 @@ class API
 		if (!class_exists($handlerClass)) {
 			throw new APIException('HANDLER_NOT_FOUND: ' . $handlerClass);
 		}
-		
+
 		$handler = new $handlerClass();
 		$function = 'process';
 		if ($this->request->get('action') != '') {
 			$function = $this->request->get('action');
 		}
-		var_dump($this->request->get('data'));
-		$response = call_user_func_array([$handler, $function], $this->request->get('data'));
+
+		$response = call_user_func_array([$handler, $function], $this->data->getAll());
 		$this->response($response);
 	}
 }

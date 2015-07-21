@@ -1,5 +1,5 @@
 {assign var=MENUS value=$MENU.childs}
-
+{if $MENUS|@count neq 0}
 	<ul class="dropdown-menu" role="menu" aria-hidden="true">
 		{assign var=TABINDEX value=$TABINDEX-1}
 		{foreach key=KEY item=MENU from=$MENUS}
@@ -14,4 +14,4 @@
 			{include file='menu/'|cat:$MENU.type|cat:'.tpl'|@vtemplate_path:$MODULE}
 		{/foreach}
 	</ul>
-
+{/if}

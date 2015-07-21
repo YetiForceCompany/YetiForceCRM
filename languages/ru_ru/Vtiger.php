@@ -1211,10 +1211,16 @@ $languageStrings = [
 	'LBL_CV_GROUP_OTHERS' => 'Shared',
 	'LBL_CV_GROUP_PENDING' => 'Pending',
 	
+<<<<<<< HEAD
 	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'Based on reference fields',
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
 	'LBL_LEGAL_FORM' => 'Юридическая форма',
+=======
+	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'На основании справочных полей',
+	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'На основании связанных модулей',
+	'LBL_TRANSFER_OWNERSHIP_DESC' => 'В зависимости от объема данных, процесс может занять до нескольких минут',
+>>>>>>> 440d3167b4cbccfc9a8200e8c9d5402920dbcf98
 ];
 $jsLanguageStrings = [
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Нельзя выбрать Контакты для Обращений',
@@ -1358,8 +1364,6 @@ $jsLanguageStrings = [
 	'JS_PLEASE_ENTER_VALID_TIME'   => 'Пожалуйста, введите правильное время'     , 
 	'JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS' => 'Пожалуйста, выберите Контрагента для копирования адреса', 
 	'JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS' => 'Пожалуйста, выберите Контакт для копирования адреса', 
-	'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS' => '__UNTRANSLATED__',
-	'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS' => '__UNTRANSLATED__',
 	'JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD' => 'Пожалуйста, выберите хотя бы одно обязательное поле', 
 	'JS_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Пожалуйста, выберите доступные опции', 
 	'JS_PLEASE_SELECT_BASE_CURRENCY_FOR_PRODUCT' => 'Пожалуйста, выберите базовую валюту для продукта',
