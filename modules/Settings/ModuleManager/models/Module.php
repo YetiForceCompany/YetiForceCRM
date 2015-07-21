@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,93 +7,100 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model {
+class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
+{
 
-    public static function getNonVisibleModulesList() {
-        return array('ModTracker','Portal','Users','Mobile','Integration','WSAPP',
-                     'ConfigEditor','FieldFormulas','VtigerBackup','CronTasks','Import' ,'Tooltip',
-                    'CustomerPortal', 'Home');
-    }
+	public static function getNonVisibleModulesList()
+	{
+		return array('ModTracker', 'Portal', 'Users', 'Mobile', 'Integration', 'WSAPP',
+			'ConfigEditor', 'FieldFormulas', 'VtigerBackup', 'CronTasks', 'Import', 'Tooltip',
+			'CustomerPortal', 'Home');
+	}
 
-
-    /**
-     * Function to get the url of new module import
-     */
-    public static function getNewModuleImportUrl() {
+	/**
+	 * Function to get the url of new module import
+	 */
+	public static function getNewModuleImportUrl()
+	{
 		return 'index.php?module=ModuleManager&parent=Settings&view=ModuleImport';
-    }
-	
-	 /**
-     * Function to get the url of new module import 
-     */
-    public static function getUserModuleImportUrl() {
+	}
+
+	/**
+	 * Function to get the url of new module import 
+	 */
+	public static function getUserModuleImportUrl()
+	{
 		return 'index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1';
 	}
-	
+
 	/**
-     * Function to disable a module 
-     * @param type $moduleName - name of the module
-     */
-    public function disableModule($moduleName) {
+	 * Function to disable a module 
+	 * @param type $moduleName - name of the module
+	 */
+	public function disableModule($moduleName)
+	{
 		//Handling events after disable module
 		vtlib_toggleModuleAccess($moduleName, false);
-    }
+	}
 
-    /**
-     * Function to enable the module
-     * @param type $moduleName -- name of the module
-     */
-    public function enableModule($moduleName) {
+	/**
+	 * Function to enable the module
+	 * @param type $moduleName -- name of the module
+	 */
+	public function enableModule($moduleName)
+	{
 		//Handling events after enable module
 		vtlib_toggleModuleAccess($moduleName, true);
-    }
-
+	}
 
 	/**
 	 * Static Function to get the instance of Vtiger Module Model for all the modules
 	 * @return <Array> - List of Vtiger Module Model or sub class instances
 	 */
-	public static function getAll() {
-		 return parent::getAll(array(0,1), self::getNonVisibleModulesList());
+	public static function getAll()
+	{
+		return parent::getAll(array(0, 1), self::getNonVisibleModulesList());
 	}
 
-    /**
-     * Function which will get count of modules
-     * @param <Boolean> $onlyActive - if true get count of only active modules else all the modules
-     * @return <integer> number of modules
-     */
-    public static function getModulesCount($onlyActive = false) {
-        $db = PearDatabase::getInstance();
+	/**
+	 * Function which will get count of modules
+	 * @param <Boolean> $onlyActive - if true get count of only active modules else all the modules
+	 * @return <integer> number of modules
+	 */
+	public static function getModulesCount($onlyActive = false)
+	{
+		$db = PearDatabase::getInstance();
 
-        $query = 'SELECT * FROM vtiger_tab';
+		$query = 'SELECT * FROM vtiger_tab';
 		$params = array();
-		if($onlyActive) {
-            $presence = array(0);
-            $nonVisibleModules = self::getNonVisibleModulesList();
-			$query .= ' WHERE presence IN ('. generateQuestionMarks($presence) .')';
-            $query .= ' AND name NOT IN ('.generateQuestionMarks($nonVisibleModules).')';
-			array_push($params, $presence,$nonVisibleModules);
+		if ($onlyActive) {
+			$presence = array(0);
+			$nonVisibleModules = self::getNonVisibleModulesList();
+			$query .= ' WHERE presence IN (' . generateQuestionMarks($presence) . ')';
+			$query .= ' AND name NOT IN (' . generateQuestionMarks($nonVisibleModules) . ')';
+			array_push($params, $presence, $nonVisibleModules);
 		}
-        $result = $db->pquery($query, $params);
+		$result = $db->pquery($query, $params);
 		return $db->num_rows($result);
-    }
+	}
 
 	/**
 	 * Function that returns all those modules that support Module Sequence Numbering
 	 * @global PearDatabase $db - database connector
 	 * @return <Array of Vtiger_Module_Model>
 	 */
-	public static function getModulesSupportingSequenceNumbering() {
+	public static function getModulesSupportingSequenceNumbering()
+	{
 		$db = PearDatabase::getInstance();
-		$sql="SELECT tabid, name FROM vtiger_tab WHERE isentitytype = 1 AND presence = 0 AND tabid IN
+		$sql = "SELECT tabid, name FROM vtiger_tab WHERE isentitytype = 1 AND presence = 0 AND tabid IN
 			(SELECT DISTINCT tabid FROM vtiger_field WHERE uitype = '4')";
 		$result = $db->pquery($sql, array());
 
 		$moduleModels = array();
-		for($i=0; $i<$db->num_rows($result); ++$i) {
-			$row =  $db->query_result_rowdata($result, $i);
+		for ($i = 0; $i < $db->num_rows($result); ++$i) {
+			$row = $db->query_result_rowdata($result, $i);
 			$moduleModels[$row['name']] = self::getInstanceFromArray($row);
 		}
 		return $moduleModels;
@@ -103,12 +110,14 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model {
 	 * Function to get restricted modules list
 	 * @return <Array> List module names
 	 */
-	public static function getActionsRestrictedModulesList() {
+	public static function getActionsRestrictedModulesList()
+	{
 		return array('Home', 'Emails');
 	}
-	
-	public static function createModule($moduleInformation) {
-		$moduleInformation['entityfieldname']  = strtolower(self::toAlphaNumeric($moduleInformation['entityfieldname']));
+
+	public static function createModule($moduleInformation)
+	{
+		$moduleInformation['entityfieldname'] = strtolower(self::toAlphaNumeric($moduleInformation['entityfieldname']));
 
 		$module = new Vtiger_Module();
 		$module->name = ucfirst($moduleInformation['module_name']);
@@ -117,17 +126,17 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model {
 		$module->initTables();
 
 		$block = new Vtiger_Block();
-		$block->label = 'LBL_'. strtoupper($module->name) . '_INFORMATION';
+		$block->label = 'LBL_' . strtoupper($module->name) . '_INFORMATION';
 		$module->addBlock($block);
 
 		$blockcf = new Vtiger_Block();
 		$blockcf->label = 'LBL_CUSTOM_INFORMATION';
 		$module->addBlock($blockcf);
 
-		$field1  = new Vtiger_Field();
+		$field1 = new Vtiger_Field();
 		$field1->name = $moduleInformation['entityfieldname'];
-		$field1->label= $moduleInformation['entityfieldlabel'];
-		$field1->uitype= 2;
+		$field1->label = $moduleInformation['entityfieldlabel'];
+		$field1->uitype = 2;
 		$field1->column = $field1->name;
 		$field1->columntype = 'VARCHAR(255)';
 		$field1->typeofdata = 'V~M';
@@ -147,22 +156,22 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model {
 
 		$field3 = new Vtiger_Field();
 		$field3->name = 'createdtime';
-		$field3->label= 'Created Time';
+		$field3->label = 'Created Time';
 		$field3->table = 'vtiger_crmentity';
 		$field3->column = 'createdtime';
 		$field3->uitype = 70;
 		$field3->typeofdata = 'DT~O';
-		$field3->displaytype= 2;
+		$field3->displaytype = 2;
 		$block->addField($field3);
 
 		$field4 = new Vtiger_Field();
 		$field4->name = 'modifiedtime';
-		$field4->label= 'Modified Time';
+		$field4->label = 'Modified Time';
 		$field4->table = 'vtiger_crmentity';
 		$field4->column = 'modifiedtime';
 		$field4->uitype = 70;
 		$field4->typeofdata = 'DT~O';
-		$field4->displaytype= 2;
+		$field4->displaytype = 2;
 		$block->addField($field4);
 
 		// Create default custom filter (mandatory)
@@ -185,12 +194,14 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model {
 		// Create files
 		$module->createFiles($field1);
 	}
-	
-	public function toAlphaNumeric($value) {
+
+	public function toAlphaNumeric($value)
+	{
 		return preg_replace("/[^a-zA-Z0-9_]/", "", $value);
 	}
-	
-	public function getUploadDirectory() {
+
+	public function getUploadDirectory()
+	{
 		$uploadDir = 'cache/vtlib';
 		return $uploadDir;
 	}

@@ -1,5 +1,5 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,9 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
-class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View {
-    function __construct() {
+ * ********************************************************************************** */
+
+class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
+{
+
+	function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('updateModuleStatus');
 		$this->exposeMethod('importUserModuleStep3');
@@ -17,114 +21,123 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('checkModuleName');
 		$this->exposeMethod('createModule');
 	}
-    
-    function process(Vtiger_Request $request) {
+
+	function process(Vtiger_Request $request)
+	{
 		$mode = $request->getMode();
-		if(!empty($mode)) {
+		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
 		}
 	}
-    
-    public function updateModuleStatus(Vtiger_Request $request) {
-        $moduleName = $request->get('forModule');
-        $updateStatus = $request->get('updateStatus');
-        
-        $moduleManagerModel = new Settings_ModuleManager_Module_Model();
-        
-        if($updateStatus == 'true') {
-            $moduleManagerModel->enableModule($moduleName);
-        }else{
-            $moduleManagerModel->disableModule($moduleName);
-        }
-        
-        $response = new Vtiger_Response();
+
+	public function updateModuleStatus(Vtiger_Request $request)
+	{
+		$moduleName = $request->get('forModule');
+		$updateStatus = $request->get('updateStatus');
+
+		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
+
+		if ($updateStatus == 'true') {
+			$moduleManagerModel->enableModule($moduleName);
+		} else {
+			$moduleManagerModel->disableModule($moduleName);
+		}
+
+		$response = new Vtiger_Response();
 		$response->emit();
-    }
-    
-    public function importUserModuleStep3(Vtiger_Request $request) {
-        $importModuleName = $request->get('module_import_name');
-        $uploadFile = $request->get('module_import_file');
-        $uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
-        $uploadFileName = "$uploadDir/$uploadFile";
-        checkFileAccess($uploadFileName);
+	}
 
-        $importType = $request->get('module_import_type');
-        if(strtolower($importType) == 'language') {
-                $package = new Vtiger_Language();
-        } else {
-                $package = new Vtiger_Package();
-        }
+	public function importUserModuleStep3(Vtiger_Request $request)
+	{
+		$importModuleName = $request->get('module_import_name');
+		$uploadFile = $request->get('module_import_file');
+		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
+		$uploadFileName = "$uploadDir/$uploadFile";
+		checkFileAccess($uploadFileName);
 
-        $package->import($uploadFileName);
-        checkFileAccessForDeletion($uploadFileName);
-        unlink($uploadFileName);
-        
-        $result = array('success'=>true, 'importModuleName'=> $importModuleName);
-        $response = new Vtiger_Response();
-        $response->setResult($result);
-        $response->emit();
-    }
-    
-    public function updateUserModuleStep3(Vtiger_Request $request){
-        $importModuleName = $request->get('module_import_name');
-        $uploadFile = $request->get('module_import_file');
-        $uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
-        $uploadFileName = "$uploadDir/$uploadFile";
-        checkFileAccess($uploadFileName);
+		$importType = $request->get('module_import_type');
+		if (strtolower($importType) == 'language') {
+			$package = new Vtiger_Language();
+		} else {
+			$package = new Vtiger_Package();
+		}
 
-        $importType = $request->get('module_import_type');
-        if(strtolower($importType) == 'language') {
-                $package = new Vtiger_Language();
-        } else {
-                $package = new Vtiger_Package();
-        }
+		$package->import($uploadFileName);
+		checkFileAccessForDeletion($uploadFileName);
+		unlink($uploadFileName);
 
-        if (strtolower($importType) == 'language') {
-                $package->import($uploadFileName);
-        } else {
-                $package->update(Vtiger_Module::getInstance($importModuleName), $uploadFileName);
-        }
+		$result = array('success' => true, 'importModuleName' => $importModuleName);
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
 
-        checkFileAccessForDeletion($uploadFileName);
-        unlink($uploadFileName);
-        
-        $result = array('success'=>true, 'importModuleName'=> $importModuleName);
-        $response = new Vtiger_Response();
-        $response->setResult($result);
-        $response->emit();
-    }
+	public function updateUserModuleStep3(Vtiger_Request $request)
+	{
+		$importModuleName = $request->get('module_import_name');
+		$uploadFile = $request->get('module_import_file');
+		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
+		$uploadFileName = "$uploadDir/$uploadFile";
+		checkFileAccess($uploadFileName);
 
-	public function validateRequest(Vtiger_Request $request) { 
-        $request->validateWriteAccess(); 
-    } 
-    public function checkModuleName(Vtiger_Request $request){
+		$importType = $request->get('module_import_type');
+		if (strtolower($importType) == 'language') {
+			$package = new Vtiger_Language();
+		} else {
+			$package = new Vtiger_Package();
+		}
+
+		if (strtolower($importType) == 'language') {
+			$package->import($uploadFileName);
+		} else {
+			$package->update(Vtiger_Module::getInstance($importModuleName), $uploadFileName);
+		}
+
+		checkFileAccessForDeletion($uploadFileName);
+		unlink($uploadFileName);
+
+		$result = array('success' => true, 'importModuleName' => $importModuleName);
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	public function validateRequest(Vtiger_Request $request)
+	{
+		$request->validateWriteAccess();
+	}
+
+	public function checkModuleName(Vtiger_Request $request)
+	{
 		$qualifiedModuleName = $request->getModule(false);
-        $moduleName = $request->get('moduleName');
+		$moduleName = $request->get('moduleName');
 		$module = Vtiger_Module::getInstance($moduleName);
 		if ($module) {
-			$result = array('success'=>false, 'text'=> vtranslate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName));
-		}elseif( preg_match('/[^A-Za-z]/i', $moduleName) ){
-			$result = array('success'=>false, 'text'=> vtranslate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName));
-		}else{
-			$result = array('success'=>true);
+			$result = array('success' => false, 'text' => vtranslate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName));
+		} elseif (preg_match('/[^A-Za-z]/i', $moduleName)) {
+			$result = array('success' => false, 'text' => vtranslate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName));
+		} else {
+			$result = array('success' => true);
 		}
-        $response = new Vtiger_Response();
-        $response->setResult($result);
-        $response->emit();
-    }
-    public function createModule(Vtiger_Request $request){
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	public function createModule(Vtiger_Request $request)
+	{
 		$qualifiedModuleName = $request->getModule(false);
-        $formData = $request->get('formData');
-        $moduleManagerModel = new Settings_ModuleManager_Module_Model();
-		$result = array('success'=>true, 'text'=> ucfirst($formData['module_name']) );
+		$formData = $request->get('formData');
+		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
+		$result = array('success' => true, 'text' => ucfirst($formData['module_name']));
 		try {
 			$moduleManagerModel->createModule($formData);
 		} catch (Exception $e) {
-			$result = array('success'=>false,'text'=> $e->getMessage() );
+			$result = array('success' => false, 'text' => $e->getMessage());
 		}
-        $response = new Vtiger_Response();
-        $response->setResult($result);
-        $response->emit();
-    }
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
 }

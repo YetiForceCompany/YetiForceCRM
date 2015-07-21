@@ -8,16 +8,20 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action {
 
-	function __construct() {
+class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
+{
+
+	function __construct()
+	{
 		$this->exposeMethod('changeStatusRelation');
 		$this->exposeMethod('updateSequenceRelatedModule');
 		$this->exposeMethod('updateSelectedFields');
 		$this->exposeMethod('addRelation');
 	}
 
-	public function changeStatusRelation(Vtiger_Request $request) {
+	public function changeStatusRelation(Vtiger_Request $request)
+	{
 		$relationId = $request->get('relationId');
 		$status = $request->get('status');
 		$response = new Vtiger_Response();
@@ -30,7 +34,8 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function updateSequenceRelatedModule(Vtiger_Request $request) {
+	public function updateSequenceRelatedModule(Vtiger_Request $request)
+	{
 		$modules = $request->get('modules');
 		$response = new Vtiger_Response();
 		try {
@@ -42,7 +47,8 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function updateSelectedFields(Vtiger_Request $request) {
+	public function updateSelectedFields(Vtiger_Request $request)
+	{
 		$fields = $request->get('fields');
 		$relationId = $request->get('relationId');
 		$response = new Vtiger_Response();
@@ -55,7 +61,8 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function addRelation(Vtiger_Request $request) {
+	public function addRelation(Vtiger_Request $request)
+	{
 		$source = $request->get('source');
 		$target = $request->get('target');
 		$label = $request->get('label');
@@ -71,8 +78,8 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request) {
+	public function validateRequest(Vtiger_Request $request)
+	{
 		$request->validateWriteAccess();
 	}
-
 }

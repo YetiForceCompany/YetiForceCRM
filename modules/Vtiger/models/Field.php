@@ -274,7 +274,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 			} else {
 				$picklistValues = Vtiger_Util_Helper::getPickListValues($this->getName());
 			}
-			
+
 			$fieldPickListValues = [];
 			foreach ($picklistValues as $value) {
 				$fieldPickListValues[$value] = vtranslate($value, $this->getModuleName());
@@ -413,22 +413,22 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 	public function isActiveReference()
 	{
-		if($this->getFieldDataType() == 'reference'){
+		if ($this->getFieldDataType() == 'reference') {
 			$webserviceField = $this->getWebserviceFieldObject();
 			$referenceList = $webserviceField->getReferenceList();
 			foreach ($referenceList as $key => $module) {
-				if(!vtlib_isModuleActive($module)){
+				if (!vtlib_isModuleActive($module)) {
 					unset($referenceList[$key]);
 				}
 			}
 			$webserviceField->setReferenceList($referenceList);
-			if(count($referenceList) == 0){
+			if (count($referenceList) == 0) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Function to check whether the current field is editable
 	 * @return <Boolean> - true/false

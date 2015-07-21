@@ -1,22 +1,24 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-Class Settings_Groups_Edit_View extends Settings_Vtiger_Index_View {
+Class Settings_Groups_Edit_View extends Settings_Vtiger_Index_View
+{
 
-	public function process(Vtiger_Request $request) {
-		$viewer = $this->getViewer ($request);
+	public function process(Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->get('record');
 
-		if(!empty($record)) {
+		if (!empty($record)) {
 			$recordModel = Settings_Groups_Record_Model::getInstance($record);
 			$viewer->assign('MODE', 'edit');
 		} else {
@@ -38,7 +40,8 @@ Class Settings_Groups_Edit_View extends Settings_Vtiger_Index_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request) {
+	function getFooterScripts(Vtiger_Request $request)
+	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 

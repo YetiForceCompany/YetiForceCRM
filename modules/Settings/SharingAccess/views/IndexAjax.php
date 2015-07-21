@@ -1,31 +1,36 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-Class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_View {
-	function __construct() {
+Class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
+{
+
+	function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('showRules');
 		$this->exposeMethod('editRule');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$mode = $request->get('mode');
-		if(!empty($mode)) {
+		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;
 		}
 	}
 
-	public function showRules(Vtiger_Request $request) {
+	public function showRules(Vtiger_Request $request)
+	{
 
-		$viewer = $this->getViewer ($request);
+		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$forModule = $request->get('for_module');
@@ -43,16 +48,17 @@ Class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_Vi
 		echo $viewer->view('ListRules.tpl', $qualifiedModuleName, true);
 	}
 
-	public function editRule(Vtiger_Request $request) {
+	public function editRule(Vtiger_Request $request)
+	{
 
-		$viewer = $this->getViewer ($request);
+		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
 		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
-		if($ruleId) {
+		if ($ruleId) {
 			$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
 		} else {
 			$ruleModel = new Settings_SharingAccess_Rule_Model();
@@ -75,7 +81,8 @@ Class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_Vi
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request) {
+	function getFooterScripts(Vtiger_Request $request)
+	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
