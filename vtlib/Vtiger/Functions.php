@@ -420,13 +420,17 @@ class Vtiger_Functions
 				$sql = sprintf('SELECT ' . implode(',', array_filter($columns)) . ', %s AS id FROM %s WHERE %s IN (%s)', $idcolumn, $table, $idcolumn, generateQuestionMarks($ids));
 				$result = $adb->pquery($sql, $ids);
 
-				$ModuleInfo = self::getModuleFieldInfos($module);
+				$moduleInfo = self::getModuleFieldInfos($module);
+				$moduleInfoExtend = [];
+				foreach ($moduleInfo as $field => $fieldInfo) {
+					$moduleInfoExtend[$fieldInfo['columnname']] = $fieldInfo;
+				}
 				for ($i = 0; $i < $adb->num_rows($result); $i++) {
 					$row = $adb->raw_query_result_rowdata($result, $i);
 					$label_name = array();
 					$label_search = array();
 					foreach ($columns_name as $columnName) {
-						$fieldObiect = $ModuleInfo[$columnName];
+						$fieldObiect = $moduleInfoExtend[$columnName];
 						if (in_array($fieldObiect['uitype'], array(10, 51, 75, 81)))
 							$label_name[] = Vtiger_Functions::getCRMRecordLabel($row[$columnName]);
 						else
@@ -434,7 +438,7 @@ class Vtiger_Functions
 					}
 					if ($search) {
 						foreach ($columns_search as $columnName) {
-							$fieldObiect = $ModuleInfo[$columnName];
+							$fieldObiect = $moduleInfoExtend[$columnName];
 							if (in_array($fieldObiect['uitype'], array(10, 51, 75, 81)))
 								$label_search[] = Vtiger_Functions::getCRMRecordLabel($row[$columnName]);
 							else

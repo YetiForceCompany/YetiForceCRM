@@ -85,7 +85,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 					'linktype' => 'DETAILVIEWBASIC',
 					'linklabel' => '',
 					'linkurl' => 'Vtiger_Detail_Js.showWorkflowTriggerView(this)',
-					'linkicon' => 'icon-plus-sign',
+					'linkicon' => 'glyphicon glyphicon-plus-sign',
 					'linkhint' => 'BTN_WORKFLOW_TRIGGER',
 				);
 			}

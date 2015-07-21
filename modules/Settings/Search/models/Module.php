@@ -31,10 +31,10 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		return $moduleEntity;
 	}
 
-	public function getFielFromModule()
+	public function getFieldFromModule()
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT * from vtiger_field');
+		$result = $adb->pquery("SELECT * from vtiger_field WHERE uitype NOT IN ('15','16','52','53','56','70','120')");
 		$fields = array();
 		while ($row = $adb->fetch_array($result)) {
 			$fields[$row['tabid']][] = $row;
@@ -81,14 +81,20 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		$entityidfield = $moduleEntity['entityidfield'];
 		$fieldname = $moduleEntity['fieldname'];
 		$searchcolumn = $moduleEntity['searchcolumn'];
-		$ModuleInfo = Vtiger_Functions::getModuleFieldInfos($modulename);
+		$moduleInfo = Vtiger_Functions::getModuleFieldInfos($modulename);
 		$columns_name = explode(',', $fieldname);
 		$columns_search = explode(',', $searchcolumn);
 		$sql_ext = '';
 		$sql_fieldname = '';
 		$sql_searchcolumn = '';
+		
+		$moduleInfoExtend = [];
+		foreach ($moduleInfo as $field => $fieldInfo) {
+			$moduleInfoExtend[$fieldInfo['columnname']] = $fieldInfo;
+		}
+		
 		foreach ($columns_name as $key => $columnName) {
-			$fieldObiect = $ModuleInfo[$columnName];
+			$fieldObiect = $moduleInfoExtend[$columnName];
 			if (in_array($fieldObiect['uitype'], array(10, 51, 75, 81))) {
 				$sql_ext .= " LEFT JOIN (SELECT extj_$key.crmid, extj_$key.label AS ext_$columnName FROM vtiger_crmentity extj_$key) ext_$key ON ext_$key.crmid = " . $fieldObiect['tablename'] . ".$columnName";
 				$sql_fieldname .= ",ext_$columnName";
@@ -97,7 +103,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 			}
 		}
 		foreach ($columns_search as $key => $columnName) {
-			$fieldObiect = $ModuleInfo[$columnName];
+			$fieldObiect = $moduleInfoExtend[$columnName];
 			if (in_array($fieldObiect['uitype'], array(10, 51, 75, 81))) {
 				$sql_ext2 = " LEFT JOIN (SELECT extj_$key.crmid, extj_$key.label AS ext_$columnName FROM vtiger_crmentity extj_$key) ext_$key ON ext_$key.crmid = " . $fieldObiect['tablename'] . ".$columnName";
 				if (!strstr($sql_ext, $sql_ext2)) {
@@ -114,7 +120,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		$sql .= $sql_ext;
 		$sql .= " SET vtiger_crmentity.label = CONCAT_WS(' ' $sql_fieldname), vtiger_crmentity.searchlabel = CONCAT_WS(' ' $sql_searchcolumn)";
 		$sql .= " WHERE vtiger_crmentity.setype = '$modulename'";
-		$adb->query($sql, true);
+		$adb->query($sql);
 	}
 
 	public function updateSequenceNumber($modulesSequence)

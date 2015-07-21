@@ -10,56 +10,56 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class="" id="importModules">
-	<div class="widget_header row">
-		<h3>{vtranslate('LBL_IMPORT_MODULE_FROM_FILE', $QUALIFIED_MODULE)}</h3>
-	</div><hr>
-	<div class="contents">
-		<div class="row">
-			<div id="vtlib_modulemanager_import_div">
-				<form method="POST" action="index.php">
-					<table class="table table-bordered">
-						<thead>
-							<tr class="blockHeader">
-								<th colspan="2"><strong>{vtranslate('LBL_IMPORTING_MODULE',$QUALIFIED_MODULE)}</strong></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr valign=top>
-								<td class='cellText small'>
-									{if $MODULEIMPORT_ERROR}
-										<div class="alert alert-warning">
-											<div class="modal-header">
-												<h3>{vtranslate('LBL_FAILED', $QUALIFIED_MODULE)}</h3>
+	<div class="" id="importModules">
+		<div class="widget_header">
+			<h3>{vtranslate('LBL_IMPORT_MODULE_FROM_FILE', $QUALIFIED_MODULE)}</h3>
+		</div><hr>
+		<div class="contents">
+			<div class="">
+				<div id="vtlib_modulemanager_import_div">
+					<form method="POST" action="index.php">
+						<table class="table table-bordered">
+							<thead>
+								<tr class="blockHeader">
+									<th colspan="2"><strong>{vtranslate('LBL_IMPORTING_MODULE',$QUALIFIED_MODULE)}</strong></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr valign=top>
+									<td class='cellText small'>
+										{if $MODULEIMPORT_ERROR}
+											<div class="alert alert-warning">
+												<div class="modal-header">
+													<h3>{vtranslate('LBL_FAILED', $QUALIFIED_MODULE)}</h3>
+												</div>
+												<div class="modal-body">
+													<p><b>{vtranslate($MODULEIMPORT_ERROR, $QUALIFIED_MODULE)}</b></p>
+												</div>
 											</div>
-											<div class="modal-body">
-												<p><b>{vtranslate($MODULEIMPORT_ERROR, $QUALIFIED_MODULE)}</b></p>
-											</div>
-										</div>
-									{else}
-										{if $IMPORT_MODULE_TYPE eq 'Language'}
-											{vtranslate('LBL_IMPORTED_LANGUAGE', $QUALIFIED_MODULE)}
-										{else if $IMPORT_MODULE_TYPE eq 'extension'}
-											{vtranslate('LBL_IMPORTED_EXTENSION', $QUALIFIED_MODULE)}
-										{else if $IMPORT_MODULE_TYPE eq 'update'}
-											{vtranslate('LBL_IMPORTED_UPDATE', $QUALIFIED_MODULE)}
 										{else}
-											{$IMPORT_MODULE_NAME} {vtranslate('LBL_IMPORTED_MODULE', $QUALIFIED_MODULE)}
+											{if $IMPORT_MODULE_TYPE eq 'Language'}
+												{vtranslate('LBL_IMPORTED_LANGUAGE', $QUALIFIED_MODULE)}
+											{else if $IMPORT_MODULE_TYPE eq 'extension'}
+												{vtranslate('LBL_IMPORTED_EXTENSION', $QUALIFIED_MODULE)}
+											{else if $IMPORT_MODULE_TYPE eq 'update'}
+												{vtranslate('LBL_IMPORTED_UPDATE', $QUALIFIED_MODULE)}
+											{else}
+												{$IMPORT_MODULE_NAME} {vtranslate('LBL_IMPORTED_MODULE', $QUALIFIED_MODULE)}
+											{/if}
 										{/if}
-									{/if}
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<div class="modal-footer">
-						<input type="hidden" name="module" value="ModuleManager">
-						<input type="hidden" name="parent" value="Settings">
-						<input type="hidden" name="view" value="List">
-						<button  class="btn btn-success" type="submit" ><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
-					</div>
-				</form>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="modal-footer">
+							<input type="hidden" name="module" value="ModuleManager">
+							<input type="hidden" name="parent" value="Settings">
+							<input type="hidden" name="view" value="List">
+							<button  class="btn btn-success" type="submit" ><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 {/strip}
