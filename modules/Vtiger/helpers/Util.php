@@ -267,13 +267,11 @@ class Vtiger_Util_Helper {
 
 		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
         $query = 'SELECT '.$primaryKey.', '.$fieldName.' FROM vtiger_'.$fieldName.' order by sortorderid';
-        $values = array();
-        $result = $db->pquery($query, array());
-        $num_rows = $db->num_rows($result);
-        for($i=0; $i<$num_rows; $i++) {
-			//Need to decode the picklist values twice which are saved from old ui
-            $values[$db->query_result($result,$i,$primaryKey)] = decode_html(decode_html($db->query_result($result,$i,$fieldName)));
-        }
+        $values = [];
+        $result = $db->query($query);
+		while ($row = $db->fetch_array($result)) {
+			$values[$row[$primaryKey]] = decode_html(decode_html($row[$fieldName]));
+		}
         $cache->setPicklistValues($fieldName, $values);
         return $values;
     }

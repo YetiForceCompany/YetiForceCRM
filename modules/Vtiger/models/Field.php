@@ -274,6 +274,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 			} else {
 				$picklistValues = Vtiger_Util_Helper::getPickListValues($this->getName());
 			}
+			
+			$fieldPickListValues = [];
 			foreach ($picklistValues as $value) {
 				$fieldPickListValues[$value] = vtranslate($value, $this->getModuleName());
 			}

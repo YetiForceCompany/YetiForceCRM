@@ -87,7 +87,7 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 			$picklist_idcol = $specialNameSpacedPicklists[$fieldName];
 		}
 		// END
-
+		
 		// Add value to picklist now
 		$picklistValues = self::getPicklistValues();
 		$sortid = 0; // TODO To be set per role
@@ -119,36 +119,41 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 	 */
 	function setNoRolePicklistValues($values) {
 		$adb = PearDatabase::getInstance();
-        $pickListName_ids = array('recurring_frequency','payment_duration');
-		$picklist_table = 'vtiger_'.$this->name;
-		$picklist_idcol = $this->name.'id';
-        if(in_array($this->name, $pickListName_ids)){
-           $picklist_idcol =  $this->name.'_id';
+        $pickListNameIDs = array('recurring_frequency','payment_duration');
+		$picklistTable = 'vtiger_'.$this->name;
+		$picklistIDcol = $this->name.'id';
+        if(in_array($this->name, $pickListNameIDs)){
+           $picklistIDcol =  $this->name.'_id';
         }
-		if(!Vtiger_Utils::CheckTable($picklist_table)) {
+		
+		if(!Vtiger_Utils::CheckTable($picklistTable)) {
 			Vtiger_Utils::CreateTable(
-				$picklist_table,
-				"($picklist_idcol INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				$picklistTable,
+				"($picklistIDcol INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				$this->name VARCHAR(200) NOT NULL,
 				sortorderid INT(11),
 				presence INT (11) NOT NULL DEFAULT 1)",
 				true);
-			self::log("Creating table $picklist_table ... DONE");
+			self::log("Creating table $picklistTable ... DONE");
 		}
-
 		// Add value to picklist now
-		
 		$picklistValues = $this->getPicklistValues();
+
 		$sortid = 1;
 		foreach($values as $value) {
 			if(in_array($value, $picklistValues)){
 				continue;
 			}
 			$presence = 1; // 0 - readonly, Refer function in include/ComboUtil.php
-			$new_id = $adb->getUniqueId($picklist_table);
-			$adb->pquery("INSERT INTO $picklist_table($picklist_idcol, $this->name, sortorderid, presence) VALUES(?,?,?,?)",
-				Array($new_id, $value, $sortid, $presence));
-
+			$newId = $adb->getUniqueId($picklistTable);
+			
+			$data = [
+				$picklistIDcol => $newId,
+				$this->name => $value,
+				'sortorderid' => $sortid,
+				'presence' => $presence,
+			];
+			$adb->insert($picklistTable, $data);
 			$sortid = $sortid+1;
 		}
 	}

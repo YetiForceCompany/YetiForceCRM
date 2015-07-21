@@ -187,7 +187,7 @@ class Vtiger_Utils {
 			}
 			$sql .= $suffixTableMeta;
 		}
-		$adb->pquery($sql, array());
+		$adb->query($sql);
 		$adb->dieOnError = $org_dieOnError;	
 	}
 
