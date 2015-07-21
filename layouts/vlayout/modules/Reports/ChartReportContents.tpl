@@ -20,8 +20,8 @@
 		<div id='chartcontent' style="min-height:400px;" ></div>
 		<br>
 		{if $CLICK_THROUGH neq 'true'}
-			<div class='row alert-info' style="padding:20px">
-				<span class='col-md-3 col-md-offset-4'> &nbsp;</span>
+			<div class='row alert alert-info'>
+				<span class='col-md-3'></span>
 				<span class='span alert-info'>
 					<span class="glyphicon glyphicon-info-sign"></span>
 					{vtranslate('LBL_CLICK_THROUGH_NOT_AVAILABLE', $MODULE)}

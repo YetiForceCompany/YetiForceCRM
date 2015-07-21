@@ -236,7 +236,7 @@ reloadLogTable(jQuery('[name="page_num"]').val() - 1);
                 );
     }
     function email_validate(src){
-      var regex = /^[a-zA-Z0-9._-]+@([a-zA-Z0-9.-]+\.)+[a-zA-Z0-9.-]{2,4}$/;
+      var regex = /^[a-zA-Z0-9._-]+@([a-zA-Z0-9.-]+\.)+[a-zA-Z0-9.-]{2,63}$/;
       return regex.test(src);
     }
     function saveWidgetConfig(name, value, type) {

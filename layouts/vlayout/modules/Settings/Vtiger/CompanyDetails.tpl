@@ -19,17 +19,17 @@
 				<div class="col-md-4 btn-group h3 marginbottomZero" role="group">
 					<div class="pull-right ">
 						<button id="addCustomField" class="btn btn-default" type="button">
-						<strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
-					</button>
-					<button id="updateCompanyDetails" class="btn btn-default">{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
+							<strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
+						</button>
+						<button id="updateCompanyDetails" class="btn btn-default">{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
 		<hr>
 		{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
-		<div  id="CompanyDetailsContainer" class="{if !empty($ERROR_MESSAGE)}hide{/if}">
+		<div id="companyDetailsContainer" class="{if !empty($ERROR_MESSAGE)}hide{/if}">
 			<table class="table table-bordered">
 				<thead>
 					<tr class="blockHeader">
@@ -68,97 +68,91 @@
 			</table>
 		</div>
 
-	<form class="form-horizontal {if empty($ERROR_MESSAGE)}hide{/if}"  id="updateCompanyDetailsForm" method="post" action="index.php" enctype="multipart/form-data">
-		<input type="hidden" name="module" value="Vtiger" />
-		<input type="hidden" name="parent" value="Settings" />
-		<input type="hidden" name="action" value="CompanyDetailsSave" />
-		<table class="table table-bordered">
-			<thead>
-				<tr class="blockHeader">
-					<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_LOGO',$QUALIFIED_MODULE)}</strong></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td >
-						<div class="companyLogo" style="max-width: 250px; max-height: 200px;">
-							<img src="{$MODULE_MODEL->getLogoPath()}" class="alignMiddle" />
-						</div>
-					</td>
-					<td>
-						<div>
-							<input type="file" name="logo" id="logoFile" />&nbsp;&nbsp;
-							<span class="alert alert-info pull-right">
-								{vtranslate('LBL_LOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
-							</span>
-							{if !empty($ERROR_MESSAGE)}
-								<br><br><div class="marginLeftZero col-md-9 alert alert-warning">
-									{vtranslate($ERROR_MESSAGE,$QUALIFIED_MODULE)}
+		<form class="form-horizontal {if empty($ERROR_MESSAGE)}hide{/if}"  id="updateCompanyDetailsForm" method="post" action="index.php" enctype="multipart/form-data">
+			<input type="hidden" name="module" value="Vtiger" />
+			<input type="hidden" name="parent" value="Settings" />
+			<input type="hidden" name="action" value="CompanyDetailsSave" />
+			<table class="table table-bordered">
+				<thead>
+					<tr class="blockHeader">
+						<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_LOGO',$QUALIFIED_MODULE)}</strong></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td >
+							<div class="companyLogo" style="max-width: 250px; max-height: 200px;">
+								<img src="{$MODULE_MODEL->getLogoPath()}" class="alignMiddle" />
+							</div>
+						</td>
+						<td>
+							<div>
+								<input type="file" name="logo" id="logoFile" />&nbsp;&nbsp;
+								<span class="alert alert-info pull-right">
+									{vtranslate('LBL_LOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
+								</span>
+								{if !empty($ERROR_MESSAGE)}
+									<br><br><div class="marginLeftZero col-md-9 alert alert-warning">
+										{vtranslate($ERROR_MESSAGE,$QUALIFIED_MODULE)}
+									</div>
+								{/if}
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>	
+			<br><br>	
+			<table class="table table-bordered" >
+				<thead>
+					<tr class="blockHeader">
+						<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_INFORMATION',$QUALIFIED_MODULE)}</strong></th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach from=$MODULE_MODEL->getFields() item=FIELD_TYPE key=FIELD}
+						{if $FIELD neq 'logoname' && $FIELD neq 'logo' }
+							<tr>
+								<td style="width:25%">
+									<div class=" pull-right">
+										{vtranslate($FIELD,$QUALIFIED_MODULE)}{if $FIELD eq 'organizationname'}<span class="redColor">*</span>{/if}
+									</div>
+								</td>
+								<td>	
+									<div class="col-md-5">
+										{if $FIELD eq 'address'}
+											<textarea class="form-control" name="{$FIELD}">{$MODULE_MODEL->get($FIELD)}</textarea>
+										{else}
+											<input class="form-control" type="text" {if $FIELD eq 'organizationname'} data-validation-engine="validate[required]" {/if} class="input-xlarge" name="{$FIELD}" value="{$MODULE_MODEL->get($FIELD)}"/>
+										{/if}
+									</div>
+								</td>	
+							</tr>
+						{/if}
+					{/foreach}
+				</tbody>
+			</table>
+			{include file="ModalFooter.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
+		</form>
+		<div class="addCustomFieldModal modal fade" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</h4>
+					</div>
+					<form class="form-horizontal addCustomBlockForm">
+						<div class="modal-body">
+							<div class="form-group">
+								<div class="col-md-3 control-label" >{vtranslate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</div>
+								<div class="col-md-6 controls">
+									<input type="text" name="fieldName" id="fieldName" class="form-control"/>
 								</div>
-							{/if}
-						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>	
-		<br><br>	
-		<table class="table table-bordered" >
-			<thead>
-				<tr class="blockHeader">
-					<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_INFORMATION',$QUALIFIED_MODULE)}</strong></th>
-				</tr>
-			</thead>
-			<tbody>
-		{foreach from=$MODULE_MODEL->getFields() item=FIELD_TYPE key=FIELD}
-			{if $FIELD neq 'logoname' && $FIELD neq 'logo' }
-				<tr>
-					<td style="width:25%">
-						<div class=" pull-right">
-							{vtranslate($FIELD,$QUALIFIED_MODULE)}{if $FIELD eq 'organizationname'}<span class="redColor">*</span>{/if}
-						</div>
-					</td>
-					<td>	
-						<div class="col-md-5">
-							{if $FIELD eq 'address'}
-								<textarea class="form-control" name="{$FIELD}">{$MODULE_MODEL->get($FIELD)}</textarea>
-							{else}
-								<input class="form-control" type="text" {if $FIELD eq 'organizationname'} data-validation-engine="validate[required]" {/if} class="input-xlarge" name="{$FIELD}" value="{$MODULE_MODEL->get($FIELD)}"/>
-							{/if}
-						</div>
-					</td>	
-				</tr>
-			{/if}
-		{/foreach}
-			</tbody>
-		</table>
-		{include file="ModalFooter.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
-	</form>
-	<div class="addCustomFieldModal">
-		<div class="modal fade" tabindex="-1">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title">{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</h4>
-				</div>
-				<form class="form-horizontal addCustomBlockForm" method="post" action="index.php" >
-					<div class="modal-body">
-						<div class="form-group">
-							<input type="hidden" name="module" value="Vtiger" />
-							<input type="hidden" name="parent" value="Settings" />
-							<input type="hidden" name="action" value="CompanyDetailsFieldSave" />
-							<div class="col-md-3 control-label" >{vtranslate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</div>
-							<div class="col-md-6 controls">
-								<input type="text" name="field name" id="fieldName" class="form-control" data-validation-engine="validate[required,custom[onlyLetterSp]]" />
 							</div>
 						</div>
-					</div>
-					{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
-				</form>
+						{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
+					</form>
+				</div>
 			</div>
 		</div>
-	</div>
-	</div>
-	
 {/strip}
 

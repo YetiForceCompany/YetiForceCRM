@@ -77,12 +77,26 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model {
 		return $relatedIds;
 	}
 
-	public function transferRecordsOwnership($transferOwnerId, $relatedModuleRecordIds) {
+	public function transferRecordsOwnership($module, $transferOwnerId, $relatedModuleRecordIds)
+	{
 		$currentUser = vglobal('current_user');
-
 		$db = PearDatabase::getInstance();
+
 		$query = 'UPDATE vtiger_crmentity SET smownerid = ?, modifiedby = ?, modifiedtime = NOW() WHERE crmid IN (' . $db->generateQuestionMarks($relatedModuleRecordIds) . ')';
 		$db->pquery($query, [$transferOwnerId, $currentUser->id, $relatedModuleRecordIds]);
+
+		vimport('~modules/ModTracker/ModTracker.php');
+		$flag = ModTracker::isTrackingEnabledForModule($module);
+		if ($flag) {
+			foreach ($relatedModuleRecordIds as $record) {
+				$id = $db->getUniqueID('vtiger_modtracker_basic');
+				$query = 'INSERT INTO vtiger_modtracker_basic ( id, whodid,changedon, crmid, module ) SELECT ? , ? , ?, crmid, setype FROM vtiger_crmentity WHERE crmid = ?';
+				$db->pquery($query, [$id, $currentUser->id, date('Y-m-d H:i:s', time()), $record]);
+
+				$query = 'INSERT INTO vtiger_modtracker_detail ( id, fieldname, postvalue , prevalue ) SELECT ? , ? ,? , smownerid FROM vtiger_crmentity WHERE crmid = ?';
+				$db->pquery($query, [$id, 'assigned_user_id', $currentUser->id, $record]);
+			}
+		}
 	}
 
 	public static function getInstance($module) {

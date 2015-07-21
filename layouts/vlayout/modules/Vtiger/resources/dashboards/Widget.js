@@ -7,133 +7,135 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-jQuery.Class('Vtiger_Widget_Js',{
-	widgetPostLoadEvent : 'Vtiget.Dashboard.PostLoad',
-	widgetPostRefereshEvent : 'Vtiger.Dashboard.PostRefresh',
-
-	getInstance : function(container, widgetName, moduleName) {
-		if(typeof moduleName == 'undefined') {
+jQuery.Class('Vtiger_Widget_Js', {
+	widgetPostLoadEvent: 'Vtiget.Dashboard.PostLoad',
+	widgetPostRefereshEvent: 'Vtiger.Dashboard.PostRefresh',
+	getInstance: function (container, widgetName, moduleName) {
+		if (typeof moduleName == 'undefined') {
 			moduleName = app.getModuleName();
 		}
 		var widgetClassName = widgetName.toCamelCase();
-		var moduleClass = window[moduleName+"_"+widgetClassName+"_Widget_Js"];
-		var fallbackClass = window["Vtiger_"+widgetClassName+"_Widget_Js"];
-		var yetiClass = window["YetiForce_"+widgetClassName+"_Widget_Js"];
+		var moduleClass = window[moduleName + "_" + widgetClassName + "_Widget_Js"];
+		var fallbackClass = window["Vtiger_" + widgetClassName + "_Widget_Js"];
+		var yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
 		var basicClass = Vtiger_Widget_Js;
-		if(typeof moduleClass != 'undefined') {
+		if (typeof moduleClass != 'undefined') {
 			var instance = new moduleClass(container);
-		}else if(typeof fallbackClass != 'undefined') {
+		} else if (typeof fallbackClass != 'undefined') {
 			var instance = new fallbackClass(container);
-		}else if(typeof yetiClass != 'undefined') {
+		} else if (typeof yetiClass != 'undefined') {
 			var instance = new yetiClass(container);
 		} else {
 			var instance = new basicClass(container);
 		}
 		return instance;
 	}
-},{
-
-	container : false,
-	plotContainer : false,
-	plotInstance : false,
-	chartData : [],
-
-	init : function (container) {
+}, {
+	container: false,
+	plotContainer: false,
+	plotInstance: false,
+	chartData: [],
+	init: function (container) {
 		this.setContainer(jQuery(container));
 		this.registerWidgetPostLoadEvent(container);
 		this.registerWidgetPostRefreshEvent(container);
 	},
-
-	getContainer : function() {
+	getContainer: function () {
 		return this.container;
 	},
-
-	setContainer : function(element) {
+	setContainer: function (element) {
 		this.container = element;
 		return this;
 	},
-
-	isEmptyData : function() {
+	isEmptyData: function () {
 		var container = this.getContainer();
 		return (container.find('.noDataMsg').length > 0) ? true : false;
 	},
-
-	getUserDateFormat : function() {
+	getUserDateFormat: function () {
 		return jQuery('#userDateFormat').val();
 	},
-
-
-	getPlotContainer : function(useCache) {
-		if(typeof useCache == 'undefined'){
+	getPlotContainer: function (useCache) {
+		if (typeof useCache == 'undefined') {
 			useCache = false;
 		}
-		if(this.plotContainer == false || !useCache) {
+		if (this.plotContainer == false || !useCache) {
 			var container = this.getContainer();
 			this.plotContainer = container.find('.widgetChartContainer');
 		}
 		return this.plotContainer;
 	},
-
-	restrictContentDrag : function(){
-		this.getContainer().on('mousedown.draggable', function(e){
+	restrictContentDrag: function () {
+		this.getContainer().on('mousedown.draggable', function (e) {
 			var element = jQuery(e.target);
 			var isHeaderElement = element.closest('.dashboardWidgetHeader').length > 0 ? true : false;
-			if(isHeaderElement){
+			if (isHeaderElement) {
 				return;
 			}
 			//Stop the event propagation so that drag will not start for contents
 			e.stopPropagation();
 		})
 	},
-
-	convertToDateRangePicketFormat : function(userDateFormat) {
-		switch( userDateFormat ) {
-			case 'yyyy-mm-dd':	return 'yyyy-MM-dd';	break;
-			case 'mm-dd-yyyy':	return 'MM-dd-yyyy';	break;
-			case 'dd-mm-yyyy':	return 'dd-MM-yyyy';	break;
-			case 'yyyy.mm.dd':	return 'yyyy.MM.dd';	break;
-			case 'mm.dd.yyyy':	return 'MM.dd.yyyy';	break;
-			case 'dd.mm.yyyy':	return 'dd.MM.yyyy';	break;
-			case 'yyyy/mm/dd':	return 'yyyy/MM/dd';	break;
-			case 'mm/dd/yyyy':	return 'MM/dd/yyyy';	break;
-			case 'dd/mm/yyyy':	return 'dd/MM/yyyy';	break;
+	convertToDateRangePicketFormat: function (userDateFormat) {
+		switch (userDateFormat) {
+			case 'yyyy-mm-dd':
+				return 'yyyy-MM-dd';
+				break;
+			case 'mm-dd-yyyy':
+				return 'MM-dd-yyyy';
+				break;
+			case 'dd-mm-yyyy':
+				return 'dd-MM-yyyy';
+				break;
+			case 'yyyy.mm.dd':
+				return 'yyyy.MM.dd';
+				break;
+			case 'mm.dd.yyyy':
+				return 'MM.dd.yyyy';
+				break;
+			case 'dd.mm.yyyy':
+				return 'dd.MM.yyyy';
+				break;
+			case 'yyyy/mm/dd':
+				return 'yyyy/MM/dd';
+				break;
+			case 'mm/dd/yyyy':
+				return 'MM/dd/yyyy';
+				break;
+			case 'dd/mm/yyyy':
+				return 'dd/MM/yyyy';
+				break;
 		}
 	},
-
-	generateData : function() {
+	generateData: function () {
 		var thisInstance = this;
 		var container = thisInstance.getContainer();
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
 		var chartData = [];
-		for(var index in data) {
+		for (var index in data) {
 			chartData.push(data[index]);
 			thisInstance.chartData[data[index].id] = data[index];
 		}
-		return {'chartData':chartData};
+		return {'chartData': chartData};
 	},
-	
-	loadChart : function() {
+	loadChart: function () {
 
 	},
-
-	positionNoDataMsg : function() {
+	positionNoDataMsg: function () {
 		var container = this.getContainer();
 		var widgetContentsContainer = container.find('.dashboardWidgetContent');
 		var noDataMsgHolder = widgetContentsContainer.find('.noDataMsg');
 		noDataMsgHolder.position({
-				'my' : 'center center',
-				'at' : 'center center',
-				'of' : widgetContentsContainer
+			'my': 'center center',
+			'at': 'center center',
+			'of': widgetContentsContainer
 		})
 	},
-
-
 	//Place holdet can be extended by child classes and can use this to handle the post load
-	postLoadWidget : function() {
-		if(!this.isEmptyData()) {
+	postLoadWidget: function () {
+		if (!this.isEmptyData()) {
 			this.loadChart();
-		}else{
+		} else {
 			this.positionNoDataMsg();
 		}
 		this.registerSectionClick();
@@ -143,45 +145,41 @@ jQuery.Class('Vtiger_Widget_Js',{
 		app.showBtnSwitch(this.getContainer().find('.switchBtn'));
 		this.registerWidgetSwitch();
 	},
-
-	postRefreshWidget : function() {
-		if(!this.isEmptyData()) {
+	postRefreshWidget: function () {
+		if (!this.isEmptyData()) {
 			this.loadChart();
-		}else{
+		} else {
 			this.positionNoDataMsg();
 		}
 		this.registerSectionClick();
 	},
-
-	registerWidgetSwitch : function() {
-		$('.dashboardContainer .widget_header .switchBtnReload').on('switchChange.bootstrapSwitch', function(e, state) {
+	registerWidgetSwitch: function () {
+		$('.dashboardContainer .widget_header .switchBtnReload').on('switchChange.bootstrapSwitch', function (e, state) {
 			var currentElement = jQuery(e.currentTarget);
 			var dashboardWidgetHeader = currentElement.closest('.dashboardWidgetHeader');
 			var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
 			var url = drefresh.data('url');
 			var urlparams = currentElement.data('urlparams');
-			if(urlparams != ''){
+			if (urlparams != '') {
 				var onval = currentElement.data('on-val');
 				var offval = currentElement.data('off-val');
 
-				url = url.replace('&'+urlparams+'='+onval, '');
-				url = url.replace('&'+urlparams+'='+offval, '');
-				url += '&'+urlparams+'=';
-				if(state)
+				url = url.replace('&' + urlparams + '=' + onval, '');
+				url = url.replace('&' + urlparams + '=' + offval, '');
+				url += '&' + urlparams + '=';
+				if (state)
 					url += onval;
 				else
 					url += offval;
-				drefresh.data('url',url);
+				drefresh.data('url', url);
 				drefresh.click();
 			}
 		});
 	},
-
-	getFilterData : function() {
+	getFilterData: function () {
 		return {};
 	},
-
-	refreshWidget : function() {
+	refreshWidget: function () {
 		var parent = this.getContainer();
 		var element = parent.find('a[name="drefresh"]');
 		var url = element.data('url');
@@ -189,16 +187,16 @@ jQuery.Class('Vtiger_Widget_Js',{
 		var contentContainer = parent.find('.dashboardWidgetContent');
 		var params = url;
 		var widgetFilters = parent.find('.widgetFilter');
-		if(widgetFilters.length > 0) {
+		if (widgetFilters.length > 0) {
 			params = {};
 			params.url = url;
 			params.data = {}
-			widgetFilters.each(function(index, domElement){
+			widgetFilters.each(function (index, domElement) {
 				var widgetFilter = jQuery(domElement);
-				if(widgetFilter.is('.dateRange')){
+				if (widgetFilter.is('.dateRange')) {
 					var dateRangeVal = widgetFilter.val();
 					//If not value exists for date field then dont send the value
-					if(dateRangeVal.length <= 0) {
+					if (dateRangeVal.length <= 0) {
 						return true;
 					}
 					var name = widgetFilter.attr('name');
@@ -206,13 +204,13 @@ jQuery.Class('Vtiger_Widget_Js',{
 					params.data[name] = {};
 					params.data[name].start = dateRangeValComponents[0];
 					params.data[name].end = dateRangeValComponents[1];
-				}else{
+				} else {
 					var filterType = widgetFilter.attr('type');
 					var filterName = widgetFilter.attr('name');
-					if('checkbox' == filterType){
+					if ('checkbox' == filterType) {
 						var filterValue = widgetFilter.is(':checked');
 						params.data[filterName] = filterValue;
-					}else{
+					} else {
 						var filterValue = widgetFilter.val();
 						params.data[filterName] = filterValue;
 					}
@@ -220,8 +218,8 @@ jQuery.Class('Vtiger_Widget_Js',{
 			});
 		}
 		var filterData = this.getFilterData();
-		if(! jQuery.isEmptyObject(filterData)) {
-			if(typeof params == 'string') {
+		if (!jQuery.isEmptyObject(filterData)) {
+			if (typeof params == 'string') {
 				url = params;
 				params = {};
 				params.url = url
@@ -232,102 +230,93 @@ jQuery.Class('Vtiger_Widget_Js',{
 		var refreshContainer = parent.find('.dashboardWidgetContent');
 		refreshContainer.progressIndicator();
 		AppConnector.request(params).then(
-			function(data){
-				refreshContainer.progressIndicator({'mode': 'hide'});
-				contentContainer.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
-			},
-			function(){
-				refreshContainer.progressIndicator({'mode': 'hide'});
-			}
+				function (data) {
+					refreshContainer.progressIndicator({'mode': 'hide'});
+					contentContainer.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
+				},
+				function () {
+					refreshContainer.progressIndicator({'mode': 'hide'});
+				}
 		);
 	},
-
-	registerFilter : function() {
+	registerFilter: function () {
 		var thisInstance = this;
 		var container = this.getContainer();
 		var dateRangeElement = container.find('input.dateRange');
 		var dateChanged = false;
-		if(dateRangeElement.length <= 0) {
+		if (dateRangeElement.length <= 0) {
 			return;
 		}
 		var customParams = {
 			calendars: 3,
 			mode: 'range',
-			className : 'rangeCalendar',
-			onChange: function(formated) {
+			className: 'rangeCalendar',
+			onChange: function (formated) {
 				dateChanged = true;
 				var element = jQuery(this).data('datepicker').el;
 				jQuery(element).val(formated);
 			},
-			onHide : function() {
-				if(dateChanged){
+			onHide: function () {
+				if (dateChanged) {
 					container.find('a[name="drefresh"]').trigger('click');
 					dateChanged = false;
 				}
 			},
-			onBeforeShow : function(elem) {
-				jQuery(elem).css('z-index','3');
+			onBeforeShow: function (elem) {
+				jQuery(elem).css('z-index', '3');
 			}
 		}
-		dateRangeElement.addClass('dateField').attr('data-date-format',thisInstance.getUserDateFormat());
-		app.registerEventForDatePickerFields(dateRangeElement,false,customParams);
+		dateRangeElement.addClass('dateField').attr('data-date-format', thisInstance.getUserDateFormat());
+		app.registerEventForDatePickerFields(dateRangeElement, false, customParams);
 	},
-
-	registerFilterChangeEvent : function() {
-		this.getContainer().on('change', '.widgetFilter', function(e) {
+	registerFilterChangeEvent: function () {
+		this.getContainer().on('change', '.widgetFilter', function (e) {
 			var widgetContainer = jQuery(e.currentTarget).closest('li');
 			widgetContainer.find('a[name="drefresh"]').trigger('click');
 		})
 	},
-
-	registerWidgetPostLoadEvent : function(container) {
+	registerWidgetPostLoadEvent: function (container) {
 		var thisInstance = this;
-		container.on(Vtiger_Widget_Js.widgetPostLoadEvent, function(e) {
+		container.on(Vtiger_Widget_Js.widgetPostLoadEvent, function (e) {
 			thisInstance.postLoadWidget();
 		})
 	},
-
-	registerWidgetPostRefreshEvent : function(container) {
+	registerWidgetPostRefreshEvent: function (container) {
 		var thisInstance = this;
-		container.on(Vtiger_Widget_Js.widgetPostRefereshEvent, function(e) {
+		container.on(Vtiger_Widget_Js.widgetPostRefereshEvent, function (e) {
 			thisInstance.postRefreshWidget();
 		});
 	},
-
-	registerSectionClick : function() {}
+	registerSectionClick: function () {
+	}
 });
 
 Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
-
-	postLoadWidget: function() {
+	postLoadWidget: function () {
 		this._super();
-
 		var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
-		widgetContent.css({height: widgetContent.height()-40});
 		this.registerLoadMore();
 	},
-
-	postRefreshWidget: function() {
+	postRefreshWidget: function () {
 		this._super();
 		this.registerLoadMore();
 	},
-
-	registerLoadMore: function() {
-		var thisInstance  = this;
+	registerLoadMore: function () {
+		var thisInstance = this;
 		var parent = thisInstance.getContainer();
 		var contentContainer = parent.find('.dashboardWidgetContent');
 
 		var loadMoreHandler = contentContainer.find('.load-more');
-		loadMoreHandler.click(function(){
+		loadMoreHandler.click(function () {
 			var parent = thisInstance.getContainer();
 			var element = parent.find('a[name="drefresh"]');
 			var url = element.data('url');
 			var params = url;
 
 			var widgetFilters = parent.find('.widgetFilter');
-			if(widgetFilters.length > 0) {
-				params = { url: url, data: {}};
-				widgetFilters.each(function(index, domElement){
+			if (widgetFilters.length > 0) {
+				params = {url: url, data: {}};
+				widgetFilters.each(function (index, domElement) {
 					var widgetFilter = jQuery(domElement);
 					var filterName = widgetFilter.attr('name');
 					var filterValue = widgetFilter.val();
@@ -336,9 +325,9 @@ Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
 			}
 
 			var filterData = thisInstance.getFilterData();
-			if(! jQuery.isEmptyObject(filterData)) {
-				if(typeof params == 'string') {
-					params = { url: url, data: {}};
+			if (!jQuery.isEmptyObject(filterData)) {
+				if (typeof params == 'string') {
+					params = {url: url, data: {}};
 				}
 				params.data = jQuery.extend(params.data, thisInstance.getFilterData())
 			}
@@ -348,11 +337,11 @@ Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
 
 			var refreshContainer = parent.find('.dashboardWidgetContent');
 			refreshContainer.progressIndicator();
-			AppConnector.request(params).then(function(data){
+			AppConnector.request(params).then(function (data) {
 				refreshContainer.progressIndicator({'mode': 'hide'});
 				loadMoreHandler.replaceWith(data);
 				thisInstance.registerLoadMore();
-			}, function(){
+			}, function () {
 				refreshContainer.progressIndicator({'mode': 'hide'});
 			});
 		});
@@ -361,43 +350,42 @@ Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
 });
 
 
-Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js',{},{
+Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
+	postLoadWidget: function () {
+		this._super();
+		var thisInstance = this;
 
-        postLoadWidget: function() {
-                        this._super();
-                var thisInstance = this;
+		this.getContainer().on('jqplotDataClick', function (ev, gridpos, datapos, neighbor, plot) {
+			var jData = thisInstance.getContainer().find('.widgetData').val();
+			var data = JSON.parse(jData);
+			var linkUrl = data[datapos][3];
+			if (linkUrl)
+				window.location.href = linkUrl;
+		});
 
-                        this.getContainer().on('jqplotDataClick', function(ev, gridpos, datapos, neighbor, plot) {
-                    var jData = thisInstance.getContainer().find('.widgetData').val();
-                                var data = JSON.parse(jData);
-                                var linkUrl = data[datapos][3];
-                                if(linkUrl) window.location.href = linkUrl;
-                        });
-
-                        this.getContainer().on("jqplotDataHighlight", function(evt, seriesIndex, pointIndex, neighbor) {
-                                $('.jqplot-event-canvas').css( 'cursor', 'pointer' );
-                        });
-                        this.getContainer().on("jqplotDataUnhighlight", function(evt, seriesIndex, pointIndex, neighbor) {
-                                $('.jqplot-event-canvas').css( 'cursor', 'auto' );
-                        });
-            },
-
-	loadChart : function() {
+		this.getContainer().on("jqplotDataHighlight", function (evt, seriesIndex, pointIndex, neighbor) {
+			$('.jqplot-event-canvas').css('cursor', 'pointer');
+		});
+		this.getContainer().on("jqplotDataUnhighlight", function (evt, seriesIndex, pointIndex, neighbor) {
+			$('.jqplot-event-canvas').css('cursor', 'auto');
+		});
+	},
+	loadChart: function () {
 		var container = this.getContainer();
 		var data = container.find('.widgetData').val();
 		var labels = new Array();
 		var dataInfo = JSON.parse(data);
-		for(var i=0; i<dataInfo.length; i++) {
+		for (var i = 0; i < dataInfo.length; i++) {
 			labels[i] = dataInfo[i][2];
 			dataInfo[i][1] = parseFloat(dataInfo[i][1]);
 		}
-		this.getPlotContainer(false).jqplot([dataInfo],  {
+		this.getPlotContainer(false).jqplot([dataInfo], {
 			seriesDefaults: {
-				renderer:jQuery.jqplot.FunnelRenderer,
-				rendererOptions:{
+				renderer: jQuery.jqplot.FunnelRenderer,
+				rendererOptions: {
 					sectionMargin: 12,
 					widthRatio: 0.1,
-					showDataLabels:true,
+					showDataLabels: true,
 					dataLabelThreshold: 0,
 					dataLabels: 'value'
 				}
@@ -406,15 +394,13 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js',{},{
 				show: true,
 				location: 'ne',
 				placement: 'outside',
-				labels:labels,
-				xoffset:20
+				labels: labels,
+				xoffset: 20
 			}
 		});
 	},
-
-
-	registerSectionClick : function() {
-		this.getContainer().on('jqplotDataClick', function() {
+	registerSectionClick: function () {
+		this.getContainer().on('jqplotDataClick', function () {
 			var sectionData = arguments[3];
 			var salesStageValue = sectionData[0];
 			//TODO : we need to construct the list url with the sales stage and filters
@@ -425,30 +411,28 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js',{},{
 
 
 
-Vtiger_Widget_Js('Vtiger_Pie_Widget_Js',{},{
-
+Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 	/**
 	 * Function which will give chart related Data
 	 */
-	generateData : function() {
+	generateData: function () {
 		var container = this.getContainer();
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
 		var chartData = [];
-		for(var index in data) {
+		for (var index in data) {
 			var row = data[index];
 			var rowData = [row.last_name, parseFloat(row.sum_invoices), row.id];
 			chartData.push(rowData);
 		}
-		return {'chartData':chartData};
+		return {'chartData': chartData};
 	},
-
-	loadChart : function() {
+	loadChart: function () {
 		var chartData = this.generateData();
 
 		this.getPlotContainer(false).jqplot([chartData['chartData']], {
-			seriesDefaults:{
-				renderer:jQuery.jqplot.PieRenderer,
+			seriesDefaults: {
+				renderer: jQuery.jqplot.PieRenderer,
 				rendererOptions: {
 					showDataLabels: true,
 					dataLabels: 'value'
@@ -458,12 +442,11 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js',{},{
 				show: true,
 				location: 'e'
 			},
-			title : chartData['title']
+			title: chartData['title']
 		});
 	},
-
-	registerSectionClick : function() {
-		this.getPlotContainer().on('jqplotDataClick', function() {
+	registerSectionClick: function () {
+		this.getPlotContainer().on('jqplotDataClick', function () {
 			var sectionData = arguments[3];
 			var assignedUserId = sectionData[2];
 			//TODO : we need to construct the list url with the sales stage and filters
@@ -473,41 +456,40 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js',{},{
 });
 
 
-Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js',{},{
-	generateChartData : function() {
+Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
+	generateChartData: function () {
 		var container = this.getContainer();
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
 		var chartData = [];
 		var xLabels = new Array();
 		var yMaxValue = 0;
-		for(var index in data) {
+		for (var index in data) {
 			var row = data[index];
 			row[0] = parseInt(row[0]);
 			xLabels.push(app.getDecodedValue(row[1]))
 			chartData.push(row[0]);
-			if(parseInt(row[0]) > yMaxValue){
+			if (parseInt(row[0]) > yMaxValue) {
 				yMaxValue = parseInt(row[0]);
 			}
 		}
 		// yMaxValue Should be 25% more than Maximum Value
-		yMaxValue = yMaxValue + 2 + (yMaxValue/100)*25;
-		return {'chartData':[chartData], 'yMaxValue':yMaxValue, 'labels':xLabels};
+		yMaxValue = yMaxValue + 2 + (yMaxValue / 100) * 25;
+		return {'chartData': [chartData], 'yMaxValue': yMaxValue, 'labels': xLabels};
 	},
-
-	loadChart : function() {
+	loadChart: function () {
 		var data = this.generateChartData();
-		this.getPlotContainer(false).jqplot(data['chartData'] , {
+		this.getPlotContainer(false).jqplot(data['chartData'], {
 			title: data['title'],
 			animate: !$.jqplot.use_excanvas,
-			seriesDefaults:{
-				renderer:jQuery.jqplot.BarRenderer,
+			seriesDefaults: {
+				renderer: jQuery.jqplot.BarRenderer,
 				rendererOptions: {
 					showDataLabels: true,
 					dataLabels: 'value',
-					barDirection : 'vertical'
+					barDirection: 'vertical'
 				},
-				pointLabels: {show: true,edgeTolerance: -15}
+				pointLabels: {show: true, edgeTolerance: -15}
 			},
 			axes: {
 				xaxis: {
@@ -519,21 +501,21 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js',{},{
 					}
 				},
 				yaxis: {
-					min:0,
+					min: 0,
 					max: data['yMaxValue'],
 					tickOptions: {
 						formatString: '%d'
 					},
-					pad : 1.2
+					pad: 1.2
 				}
 			},
 			legend: {
-				show		: (data['data_labels']) ? true:false,
-				location	: 'e',
-				placement	: 'outside',
-				showLabels	: (data['data_labels']) ? true:false,
-				showSwatch	: (data['data_labels']) ? true:false,
-				labels		: data['data_labels']
+				show: (data['data_labels']) ? true : false,
+				location: 'e',
+				placement: 'outside',
+				showLabels: (data['data_labels']) ? true : false,
+				showSwatch: (data['data_labels']) ? true : false,
+				labels: data['data_labels']
 			}
 		});
 //		this.getPlotContainer(false).on('jqPlotDataClick', function(){
@@ -547,33 +529,32 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js',{},{
 //	}
 });
 
-Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js',{
-
+Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {
 	/**
 	 * Function which will give char related Data like data , x labels and legend labels as map
 	 */
-	getCharRelatedData : function() {
+	getCharRelatedData: function () {
 		var container = this.getContainer();
 		var data = container.find('.widgetData').val();
 		var users = new Array();
 		var stages = new Array();
 		var count = new Array();
-		for(var i=0; i<data.length;i++) {
-			if($.inArray(data[i].last_name, users) == -1) {
+		for (var i = 0; i < data.length; i++) {
+			if ($.inArray(data[i].last_name, users) == -1) {
 				users.push(data[i].last_name);
 			}
-			if($.inArray(data[i].sales_stage, stages) == -1) {
+			if ($.inArray(data[i].sales_stage, stages) == -1) {
 				stages.push(data[i].sales_stage);
 			}
 		}
 
-		for(j in stages) {
+		for (j in stages) {
 			var salesStageCount = new Array();
-			for(i in users) {
+			for (i in users) {
 				var salesCount = 0;
-				for(var k in data) {
+				for (var k in data) {
 					var userData = data[k];
-					if(userData.sales_stage == stages[j] && userData.last_name == users[i]) {
+					if (userData.sales_stage == stages[j] && userData.last_name == users[i]) {
 						salesCount = parseInt(userData.count);
 						break;
 					}
@@ -583,38 +564,37 @@ Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js',{
 			count.push(salesStageCount);
 		}
 		return {
-			'data' : count,
-			'ticks' : users,
-			'labels' : stages
+			'data': count,
+			'ticks': users,
+			'labels': stages
 		}
 	},
-    
-	loadChart : function(){
+	loadChart: function () {
 		var chartRelatedData = this.getCharRelatedData();
 		var chartData = chartRelatedData.data;
 		var ticks = chartRelatedData.ticks;
 		var labels = chartRelatedData.labels;
-		$.jqplot.CanvasAxisTickRenderer.pt2px=2.4;
-		this.getPlotContainer(false).jqplot( chartData, {
+		$.jqplot.CanvasAxisTickRenderer.pt2px = 2.4;
+		this.getPlotContainer(false).jqplot(chartData, {
 			stackSeries: true,
 			captureRightClick: true,
-			seriesDefaults:{
-				renderer:$.jqplot.BarRenderer,
+			seriesDefaults: {
+				renderer: $.jqplot.BarRenderer,
 				rendererOptions: {
 					// Put a 30 pixel margin between bars.
 					barMargin: 10,
 					// Highlight bars when mouse button pressed.
 					// Disables default highlighting on mouse over.
 					highlightMouseDown: true,
-                    highlightMouseOver : true
-			},
-				pointLabels: {show: true,hideZeros: true}
+					highlightMouseOver: true
+				},
+				pointLabels: {show: true, hideZeros: true}
 			},
 			axes: {
 				xaxis: {
 					renderer: $.jqplot.CategoryAxisRenderer,
-					tickRenderer: $.jqplot.CanvasAxisTickRenderer,					
-					tickOptions: {						
+					tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+					tickOptions: {
 						angle: -45,
 						pt2px: 4.0
 					},
@@ -626,90 +606,84 @@ Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js',{
 					// actual range to prevent data points right on grid boundaries.
 					// Don't want to do that here.
 					padMin: 0,
-					min:0
+					min: 0
 				}
 			},
 			legend: {
 				show: true,
 				location: 'e',
 				placement: 'outside',
-				labels:labels
+				labels: labels
 			}
-	  });
+		});
 	}
 });
 
 // NOTE Widget-class name camel-case convention
 Vtiger_Widget_Js('Vtiger_Minilist_Widget_Js', {}, {
-
-	postLoadWidget: function() {
+	postLoadWidget: function () {
 		app.hideModalWindow();
 		this.restrictContentDrag();
 		this.registerFilterChangeEvent();
 	}
 });
 
-Vtiger_Widget_Js('Vtiger_Tagcloud_Widget_Js',{},{
-
-	postLoadWidget : function() {
+Vtiger_Widget_Js('Vtiger_Tagcloud_Widget_Js', {}, {
+	postLoadWidget: function () {
 		this._super();
 		this.registerTagCloud();
 		this.registerTagClickEvent();
 	},
-
-	registerTagCloud : function() {
+	registerTagCloud: function () {
 		jQuery('#tagCloud').find('a').tagcloud({
 			size: {
-			  start: parseInt('12'),
-			  end: parseInt('30'),
-			  unit: 'px'
+				start: parseInt('12'),
+				end: parseInt('30'),
+				unit: 'px'
 			},
 			color: {
-			  start: "#0266c9",
-			  end: "#759dc4"
+				start: "#0266c9",
+				end: "#759dc4"
 			}
 		});
 	},
-
-	registerChangeEventForModulesList : function() {
-		jQuery('#tagSearchModulesList').on('change',function(e) {
+	registerChangeEventForModulesList: function () {
+		jQuery('#tagSearchModulesList').on('change', function (e) {
 			var modulesSelectElement = jQuery(e.currentTarget);
-			if(modulesSelectElement.val() == 'all'){
+			if (modulesSelectElement.val() == 'all') {
 				jQuery('[name="tagSearchModuleResults"]').removeClass('hide');
-			} else{
+			} else {
 				jQuery('[name="tagSearchModuleResults"]').removeClass('hide');
 				var selectedOptionValue = modulesSelectElement.val();
-				jQuery('[name="tagSearchModuleResults"]').filter(':not(#'+selectedOptionValue+')').addClass('hide');
+				jQuery('[name="tagSearchModuleResults"]').filter(':not(#' + selectedOptionValue + ')').addClass('hide');
 			}
 		});
 	},
-
-	registerTagClickEvent : function(){
+	registerTagClickEvent: function () {
 		var thisInstance = this;
 		var container = this.getContainer();
-		container.on('click','.tagName',function(e) {
+		container.on('click', '.tagName', function (e) {
 			var tagElement = jQuery(e.currentTarget);
 			var tagId = tagElement.data('tagid');
 			var params = {
-				'module' : app.getModuleName(),
-				'view' : 'TagCloudSearchAjax',
-				'tag_id' : tagId,
-				'tag_name' : tagElement.text()
+				'module': app.getModuleName(),
+				'view': 'TagCloudSearchAjax',
+				'tag_id': tagId,
+				'tag_name': tagElement.text()
 			}
 			AppConnector.request(params).then(
-				function(data) {
-					var params = {
-						'data' : data,
-						'css'  : {'min-width' : '40%'}
+					function (data) {
+						var params = {
+							'data': data,
+							'css': {'min-width': '40%'}
+						}
+						app.showModalWindow(params);
+						thisInstance.registerChangeEventForModulesList();
 					}
-					app.showModalWindow(params);
-					thisInstance.registerChangeEventForModulesList();
-				}
 			)
 		});
 	},
-
-	postRefreshWidget : function() {
+	postRefreshWidget: function () {
 		this._super();
 		this.registerTagCloud();
 	}
@@ -717,31 +691,26 @@ Vtiger_Widget_Js('Vtiger_Tagcloud_Widget_Js',{},{
 
 /* Notebook Widget */
 Vtiger_Widget_Js('Vtiger_Notebook_Widget_Js', {
-
 }, {
-
 	// Override widget specific functions.
-	postLoadWidget: function() {
+	postLoadWidget: function () {
 		this.reinitNotebookView();
 	},
-
-	reinitNotebookView: function() {
+	reinitNotebookView: function () {
 		var self = this;
-		app.showScrollBar(jQuery('.dashboard_notebookWidget_viewarea', this.container), {'height':'200px'});
-		jQuery('.dashboard_notebookWidget_edit', this.container).click(function(){
+		app.showScrollBar(jQuery('.dashboard_notebookWidget_viewarea', this.container), {'height': '200px'});
+		jQuery('.dashboard_notebookWidget_edit', this.container).click(function () {
 			self.editNotebookContent();
 		});
-		jQuery('.dashboard_notebookWidget_save', this.container).click(function(){
+		jQuery('.dashboard_notebookWidget_save', this.container).click(function () {
 			self.saveNotebookContent();
 		});
 	},
-
-	editNotebookContent: function() {
+	editNotebookContent: function () {
 		jQuery('.dashboard_notebookWidget_text', this.container).show();
 		jQuery('.dashboard_notebookWidget_view', this.container).hide();
 	},
-
-	saveNotebookContent: function() {
+	saveNotebookContent: function () {
 		var self = this;
 		var textarea = jQuery('.dashboard_notebookWidget_textarea', this.container);
 
@@ -750,7 +719,7 @@ Vtiger_Widget_Js('Vtiger_Notebook_Widget_Js', {
 
 		var refreshContainer = this.container.find('.dashboardWidgetContent');
 		refreshContainer.progressIndicator();
-		AppConnector.request(params).then(function(data) {
+		AppConnector.request(params).then(function (data) {
 			refreshContainer.progressIndicator({'mode': 'hide'});
 			jQuery('.dashboardWidgetContent', self.container).html(data);
 			self.reinitNotebookView();
@@ -758,26 +727,26 @@ Vtiger_Widget_Js('Vtiger_Notebook_Widget_Js', {
 	}
 });
 
-Vtiger_Widget_Js('Vtiger_KpiBarchat_Widget_Js',{},{
-	generateChartData : function() {
+Vtiger_Widget_Js('Vtiger_KpiBarchat_Widget_Js', {}, {
+	generateChartData: function () {
 		var container = this.getContainer();
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
 		var chartData = [];
 		var xLabels = new Array();
 		var yMaxValue = 0;
-		return {'chartData':[[[data['result'],data['all']]]], 'yMaxValue':data['maxValue'], 'labels':''};
+		return {'chartData': [[[data['result'], data['all']]]], 'yMaxValue': data['maxValue'], 'labels': ''};
 	},
-	loadChart : function() {
+	loadChart: function () {
 		var data = this.generateChartData();
-		this.getPlotContainer(false).jqplot(data['chartData'] , {
+		this.getPlotContainer(false).jqplot(data['chartData'], {
 			animate: !$.jqplot.use_excanvas,
-			seriesDefaults:{
-				renderer:jQuery.jqplot.BarRenderer,
+			seriesDefaults: {
+				renderer: jQuery.jqplot.BarRenderer,
 				rendererOptions: {
 					showDataLabels: true,
 					dataLabels: 'value',
-					barDirection : 'horizontal'
+					barDirection: 'horizontal'
 				},
 			},
 			axes: {
@@ -793,15 +762,15 @@ Vtiger_Widget_Js('Vtiger_KpiBarchat_Widget_Js',{},{
 	}
 });
 
-Vtiger_Widget_Js('YetiForce_Pie_Widget_Js',{},{
-	loadChart : function() {
+Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
+	loadChart: function () {
 		var thisInstance = this;
 		var chartData = thisInstance.generateData();
 		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], {
 			series: {
-				pie: { 
+				pie: {
 					show: true,
-					label: { 
+					label: {
 						formatter: thisInstance.getLabelFormat
 					}
 				}
@@ -815,41 +784,42 @@ Vtiger_Widget_Js('YetiForce_Pie_Widget_Js',{},{
 			},
 		});
 	},
-	getLabelFormat : function(label, slice) {
-		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br/>" + slice.data[0][1] + "</div>";	
+	getLabelFormat: function (label, slice) {
+		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br/>" + slice.data[0][1] + "</div>";
 	},
-	registerSectionClick : function() {	
+	registerSectionClick: function () {
 		var thisInstance = this;
 		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
 			if (item) {
-				$(this).css( 'cursor', 'pointer' );
-			}else{
-				$(this).css( 'cursor', 'auto' );
+				$(this).css('cursor', 'pointer');
+			} else {
+				$(this).css('cursor', 'auto');
 			}
 		});
 		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
 			if (item) {
-				if(item.series.links) window.location.href = item.series.links;
+				if (item.series.links)
+					window.location.href = item.series.links;
 			}
 		});
 	}
 });
 
-Vtiger_Widget_Js('YetiForce_Bar_Widget_Js',{},{
-	generateData : function() {
+Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
+	generateData: function () {
 		var thisInstance = this;
 		var container = thisInstance.getContainer();
 		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);	
+		var data = JSON.parse(jData);
 		var chartData = [];
-		for(var index in data['chart']) {
+		for (var index in data['chart']) {
 			chartData.push(data['chart'][index]);
 			thisInstance.chartData[data['chart'][index].id] = data['chart'][index];
 		}
 
-		return {'chartData':chartData, 'ticks': data['ticks'], 'links' : data['links'], 'legend': data['legend']};
+		return {'chartData': chartData, 'ticks': data['ticks'], 'links': data['links'], 'legend': data['legend']};
 	},
-	loadChart : function() {
+	loadChart: function () {
 		var thisInstance = this;
 		var chartData = thisInstance.generateData();
 		var options = {
@@ -857,9 +827,9 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js',{},{
 				minTickSize: 1,
 				ticks: chartData['ticks']
 			},
-			yaxis: { 
-				min: 0 ,
-				 tickDecimals: 0
+			yaxis: {
+				min: 0,
+				tickDecimals: 0
 			},
 			grid: {
 				hoverable: true,
@@ -878,44 +848,44 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js',{},{
 		};
 		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
 	},
-	getLabelFormat : function(label, slice) {
-		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br/>" + slice.data[0][1] + "</div>";	
+	getLabelFormat: function (label, slice) {
+		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br/>" + slice.data[0][1] + "</div>";
 	},
-	registerSectionClick : function() {	
+	registerSectionClick: function () {
 		var thisInstance = this;
 		var chartData = thisInstance.generateData();
 		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
 			if (item) {
-				$(this).css( 'cursor', 'pointer' );
-			}else{
-				$(this).css( 'cursor', 'auto' );
+				$(this).css('cursor', 'pointer');
+			} else {
+				$(this).css('cursor', 'auto');
 			}
 		});
-		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {			
-			if(item) {
-				$(chartData['links']).each(function(){
-					if(item.dataIndex == this[0])
+		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
+			if (item) {
+				$(chartData['links']).each(function () {
+					if (item.dataIndex == this[0])
 						window.location.href = this[1];
 				});
 			}
 		});
 	}
 });
-Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js',{},{
-	calendarView : false,
-	calendarCreateView : false,
+Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
+	calendarView: false,
+	calendarCreateView: false,
 	weekDaysArray: {
-	Sunday: 0, 
-	Monday: 1, 
-	Tuesday: 2, 
-	Wednesday: 3, 
-	Thursday: 4, 
-	Friday: 5, 
-	Saturday: 6
+		Sunday: 0,
+		Monday: 1,
+		Tuesday: 2,
+		Wednesday: 3,
+		Thursday: 4,
+		Friday: 5,
+		Saturday: 6
 	},
 	registerCalendar: function () {
 		var thisInstance = this;
-			userDefaultActivityView = 'month';
+		userDefaultActivityView = 'month';
 
 		//Default time format
 		var userDefaultTimeFormat = jQuery('#time_format').val();
@@ -940,7 +910,6 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js',{},{
 				center: 'prev title next',
 				right: ' '
 			},
-
 			timeFormat: userDefaultTimeFormat,
 			axisFormat: userDefaultTimeFormat,
 			firstHour: defaultFirstHour,
@@ -975,20 +944,20 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js',{},{
 			allDayText: app.vtranslate('JS_ALL_DAY'),
 			eventLimitText: app.vtranslate('JS_MORE')
 		});
-		
+
 		thisInstance.getCalendarView().find("td.fc-day-number")
-		.mouseenter( function () {
-			jQuery('<span class="plus pull-left icon-plus"></span>')
-			.prependTo($( this ))
-		}).mouseleave( function () {
-			$( this ).find(".plus").remove();
+				.mouseenter(function () {
+					jQuery('<span class="plus pull-left icon-plus"></span>')
+							.prependTo($(this))
+				}).mouseleave(function () {
+			$(this).find(".plus").remove();
 		});
 
 		thisInstance.getCalendarView().find("td.fc-day-number").click(function () {
-			var date = $( this ).data('date');
+			var date = $(this).data('date');
 			var params = {noCache: true};
 			params.data = {date_start: date, due_date: date};
-			params.callbackFunction = function() {
+			params.callbackFunction = function () {
 				thisInstance.getCalendarView().closest('.dashboardWidget').find('a[name="drefresh"]').trigger('click');
 			};
 			Vtiger_Header_Js.getInstance().quickCreateModule('Calendar', params);
@@ -1000,10 +969,10 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js',{},{
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
 		var start_date = view.start.format();
 		var end_date = view.end.format();
-		
+
 		var parent = this.getContainer();
 		var user = parent.find('.owner').val();
-		if(user == 'all'){
+		if (user == 'all') {
 			user = '';
 		}
 		var params = {
@@ -1016,15 +985,15 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js',{},{
 			widget: true
 		}
 		AppConnector.request(params).then(function (events) {
-			var height = (thisInstance.getCalendarView().find('.fc-bg :first').height() - thisInstance.getCalendarView().find('.fc-day-number').height())-10;
-			var width = (thisInstance.getCalendarView().find('.fc-day-number').width()/2)-10;
-			for(var i in events.result){
+			var height = (thisInstance.getCalendarView().find('.fc-bg :first').height() - thisInstance.getCalendarView().find('.fc-day-number').height()) - 10;
+			var width = (thisInstance.getCalendarView().find('.fc-day-number').width() / 2) - 10;
+			for (var i in events.result) {
 				events.result[i]['width'] = width;
 				events.result[i]['height'] = height;
 			}
-			thisInstance.getCalendarView().fullCalendar('addEventSource', 
-			events.result
-			);
+			thisInstance.getCalendarView().fullCalendar('addEventSource',
+					events.result
+					);
 		});
 
 	},
@@ -1037,8 +1006,8 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js',{},{
 	getMonthName: function () {
 		var thisInstance = this;
 		var month = thisInstance.getCalendarView().find('.fc-toolbar h2').text();
-		if(month){
-			headerCalendar = container.find('.headerCalendar .month').html('<h3>'+month+'</h3>');
+		if (month) {
+			headerCalendar = container.find('.headerCalendar .month').html('<h3>' + month + '</h3>');
 		}
 	},
 	registerChangeView: function () {
@@ -1046,21 +1015,20 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js',{},{
 		container = this.getContainer();
 		container.find('.fc-toolbar').addClass('hide');
 		var month = container.find('.fc-toolbar h2').text();
-		if(month){
-			headerCalendar = container.find('.headerCalendar').removeClass('hide').find('.month').append('<h3>'+month+'</h3>');
+		if (month) {
+			headerCalendar = container.find('.headerCalendar').removeClass('hide').find('.month').append('<h3>' + month + '</h3>');
 			button = container.find('.headerCalendar button');
-			button.each(function(){
+			button.each(function () {
 				var tag = jQuery(this).data('type');
-				jQuery(this).on('click',function(){
-					thisInstance.getCalendarView().find('.fc-toolbar .'+tag).trigger('click');
+				jQuery(this).on('click', function () {
+					thisInstance.getCalendarView().find('.fc-toolbar .' + tag).trigger('click');
 					thisInstance.loadCalendarData();
 					thisInstance.getMonthName();
 				})
 			})
 		}
 	},
-
-	postLoadWidget : function() {
+	postLoadWidget: function () {
 		this.registerCalendar();
 		this.loadCalendarData(true);
 		this.registerChangeView();

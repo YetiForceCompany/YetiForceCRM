@@ -67,7 +67,7 @@
                         <td>{$row['username']}</td>
                         <td>{$row['mail_host']}</td>
                         <td>
-                            <select style="min-width: 200px; max-width: 500px;" multiple id="function_list_{$row['user_id']}" name="function_list_{$row['user_id']}">
+                            <select class="form-control select2" multiple id="function_list_{$row['user_id']}" name="function_list_{$row['user_id']}">
                                 <optgroup label="{vtranslate('Function_list', 'OSSMailScanner')}">
                                     {foreach item=item from=$EMAILACTIONSLISTNAME}
                                         <option value="{$item[1]}" {if $RECORD_MODEL->compare_vale($row['actions'],$item[1]) } selected="selected"{/if} >{vtranslate($item[0], 'OSSMailScanner')}</option>
@@ -76,7 +76,7 @@
                             </select>
                         </td>
                         <td>
-                            <select id="user_list_{$row['user_id']}" name="user_list_{$row['user_id']}">
+                            <select id="user_list_{$row['user_id']}" name="user_list_{$row['user_id']}" class="form-control select2">
                                 <optgroup label="{vtranslate('User list', 'OSSMailScanner')}">
 									{if $row['crm_user_id'] eq '0'}
 										<option value="0" id="user_list_none">{vtranslate('None', 'OSSMailScanner')}</option>
@@ -166,8 +166,8 @@
             <form class="form-horizontal">
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="inputReceived">{vtranslate('Received', 'OSSMailScanner')}</label>
-                    <div class="col-sm-9 controls">
-                        <select multiple id="folder_inputReceived" name="folder_inputReceived" class="form-control">
+                    <div class="col-sm-6 controls">
+                        <select multiple id="folder_inputReceived" name="folder_inputReceived" class="select2 form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Received'],$key) } selected="selected"{/if} >{$item}</option>
@@ -178,8 +178,8 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="inputSent">{vtranslate('Sent', 'OSSMailScanner')}</label>
-                    <div class="controls col-sm-9">
-                        <select multiple id="folder_inputSent" name="folder_inputSent" class="form-control">
+                    <div class="controls col-sm-6">
+                        <select multiple id="folder_inputSent" name="folder_inputSent" class="select2 form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Sent'],$key) } selected="selected"{/if} >{$item}</option>
@@ -190,8 +190,8 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="inputSpam">{vtranslate('Spam', 'OSSMailScanner')}</label>
-                    <div class="col-sm-9 controls">
-                        <select multiple id="folder_inputSpam" name="folder_inputSpam" class="form-control">
+                    <div class="col-sm-6 controls">
+                        <select multiple id="folder_inputSpam" name="folder_inputSpam" class="select2 form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Spam'],$key) } selected="selected"{/if} >{$item}</option>
@@ -202,8 +202,8 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="inputTrash">{vtranslate('Trash', 'OSSMailScanner')}</label>
-                    <div class="col-sm-9 controls">
-                        <select multiple id="folder_inputTrash" name="folder_inputTrash" class="form-control">
+                    <div class="col-sm-6 controls">
+                        <select multiple id="folder_inputTrash" name="folder_inputTrash" class="select2 form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Trash'],$key) } selected="selected"{/if} >{$item}</option>
@@ -214,8 +214,8 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="inputAll">{vtranslate('All_folder', 'OSSMailScanner')}</label>
-                    <div class="col-sm-9 controls">
-                        <select multiple id="folder_inputAll" name="folder_inputAll" class="form-control">
+                    <div class="col-sm-6 controls">
+                        <select multiple id="folder_inputAll" name="folder_inputAll" class="select2 form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['All'],$key) } selected="selected"{/if} >{$item}</option>
@@ -231,7 +231,7 @@
 		<h3>{vtranslate('Search email configuration', 'OSSMailScanner')}</h3>
         <div class="alert alert-info">{vtranslate('Alert_info_tab_email_search', 'OSSMailScanner')}</div>
         <form class="form-horizontal">
-			<select multiple id="email_search" name="email_search" class="form-control" style="width: 100%;">
+			<select multiple id="email_search" name="email_search" class="select2 form-control">
 				{foreach item=item key=key from=$EMAILSEARCH}
 					{if $last_value neq $item[3]}
 						<optgroup label="{vtranslate($item[3], $item[3])}">
@@ -369,36 +369,28 @@
         
         $(".alert").alert();
         {/literal}{foreach from=$ACCOUNTLIST item=row}{literal}
-        jQuery("#function_list_{/literal}{$row['user_id']}{literal}").select2();
         jQuery("#function_list_{/literal}{$row['user_id']}{literal}").change(function() {
             SaveActions('{/literal}{$row['user_id']}{literal}', jQuery('#function_list_{/literal}{$row['user_id']}{literal}').val());
         });
-        jQuery('#user_list_{/literal}{$row['user_id']}{literal}').select2();
         jQuery("#user_list_{/literal}{$row['user_id']}{literal}").change(function() {
             SaveCRMuser('{/literal}{$row['user_id']}{literal}', jQuery('#user_list_{/literal}{$row['user_id']}{literal}').val());
         });
         {/literal}{/foreach}{literal}
-        jQuery('#folder_inputReceived').select2();
         jQuery("#folder_inputReceived").change(function() {
             saveFolderList('Received', jQuery('#folder_inputReceived').val());
         });
-        jQuery('#folder_inputSent').select2();
         jQuery("#folder_inputSent").change(function() {
             saveFolderList('Sent', jQuery('#folder_inputSent').val());
         });
-        jQuery('#folder_inputAll').select2();
         jQuery("#folder_inputAll").change(function() {
             saveFolderList('All', jQuery('#folder_inputAll').val());
         });
-        jQuery('#folder_inputSpam').select2();
         jQuery("#folder_inputSpam").change(function() {
             saveFolderList('Spam', jQuery('#folder_inputSpam').val());
         });
-        jQuery('#folder_inputTrash').select2();
         jQuery("#folder_inputTrash").change(function() {
             saveFolderList('Trash', jQuery('#folder_inputTrash').val());
         });
-        jQuery('#email_search').select2();
         jQuery("#email_search").change(function() {
             saveEmailSearchList(jQuery('#email_search').val());
         });
@@ -571,7 +563,7 @@
     }
     
     function email_validate(src){
-      var regex = /^[a-zA-Z0-9._-]+@([a-zA-Z0-9.-]+\.)+[a-zA-Z0-9.-]{2,4}$/;
+      var regex = /^[a-zA-Z0-9._-]+@([a-zA-Z0-9.-]+\.)+[a-zA-Z0-9.-]{2,63}$/;
       return regex.test(src);
     }
     

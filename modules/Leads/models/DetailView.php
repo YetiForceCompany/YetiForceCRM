@@ -34,7 +34,7 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 				'linkicon' => 'glyphicon glyphicon-envelope',
 				'linktarget' => $config['target'],
 				'linkPopup' => $config['popup'],
-				'title' => vtranslate('LBL_SEND_EMAIL')
+				'linkhint' => 'LBL_SEND_EMAIL'
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
@@ -45,6 +45,7 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 			if($link->linklabel == 'View History' || $link->linklabel == 'Send SMS') {
 				unset($linkModelList['DETAILVIEW'][$index]);
 			} else if($link->linklabel == 'LBL_SHOW_ACCOUNT_HIERARCHY') {
+				$link->linklabel = 'LBL_SHOW_ACCOUNT_HIERARCHY';
 				$linkURL = 'index.php?module=Accounts&view=AccountHierarchy&record='.$recordId;
 				$link->linkurl = 'javascript:Accounts_Detail_Js.triggerAccountHierarchy("'.$linkURL.'");';
 				unset($linkModelList['DETAILVIEW'][$index]);
@@ -58,18 +59,16 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 		if($currentUserModel->hasModuleActionPermission($CalendarModuleModel->getId(), 'EditView')) {
 			$CalendarActionLinks[] = array(
 					'linktype' => 'DETAILVIEW',
-					'linklabel' => '',
+					'linklabel' => 'LBL_ADD_EVENT',
 					'linkurl' => $recordModel->getCreateEventUrl(),
-					'linkicon' => 'glyphicon glyphicon-time',
-					'title' => vtranslate('LBL_ADD_EVENT')
+					'linkicon' => 'glyphicon glyphicon-time'
 			);
 
 			$CalendarActionLinks[] = array(
 					'linktype' => 'DETAILVIEW',
-					'linklabel' => '',
+					'linklabel' => 'LBL_ADD_TASK',
 					'linkurl' => $recordModel->getCreateTaskUrl(),
-					'linkicon' => 'glyphicon glyphicon-calendar',
-					'title' => vtranslate('LBL_ADD_TASK')
+					'linkicon' => 'glyphicon glyphicon-calendar'
 			);
 		}
 		

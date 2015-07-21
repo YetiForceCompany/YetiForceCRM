@@ -54,7 +54,7 @@
 
 			<input type="hidden" id="{$hdnProductId}" name="{$hdnProductId}" value="{$data.$hdnProductId}" class="selectedModuleId"/>
 			<input type="hidden" id="lineItemType{$row_no}" name="lineItemType{$row_no}" value="{$entityType}" class="lineItemType"/>
-			<div class="input-group input-group-sm">
+			<div class="input-group input-group-sm col-sm-10">
 			<input type="text" id="{$productName}" name="{$productName}" value="{$data.$productName}" class="productName form-control input-sm {if $row_no neq 0} autoComplete {/if}" placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}" data-validation-engine="validate[required]" {if !empty($data.$productName)} disabled="disabled" {/if}/>
 			
 			{if $row_no eq 0}
@@ -92,7 +92,7 @@
 				{/if}
 			</div>
 		{else}
-			<div><br><textarea id="{$comment}" name="{$comment}" title="{vtranslate("Item Comment")}" class="lineItemCommentBox form-control">{$data.$comment}</textarea>
+		<div class="col-sm-10 paddingLRZero"><br><textarea id="{$comment}" name="{$comment}" title="{vtranslate("Item Comment")}" class="lineItemCommentBox form-control">{$data.$comment}</textarea>
 		{/if}
 	</td>
 	<td>
@@ -107,17 +107,17 @@
 	<td>
 		<span id="{$usageUnit}" class="usageUnit">{vtranslate($data.$usageUnit, $entityType)}</span>
 	</td>
-	<td>
-		<div>
+	<td nowrap>
+		<div class="paddingTBZero form-control-static">
 			{if !empty($data.$listPrice)}
 				{assign var="LIST_PRICE_VALUE" value=$data.$listPrice}
 				{$data.$listPrice}
 			{else}
 				{assign var="LIST_PRICE_VALUE" value=0}
 			{/if}
-			<input id="{$listPrice}" name="{$listPrice}" value="{$LIST_PRICE_VALUE}" title="{$LIST_PRICE_VALUE}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="listPrice smallInputBox form-control input-sm" />
+			<input id="{$listPrice}" name="{$listPrice}" value="{$LIST_PRICE_VALUE}" title="{$LIST_PRICE_VALUE}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="listPrice smallInputBox form-control input-sm textAlignRight" />
 		</div>
-		<div>
+		<div class="control-label form-control-static">
 			<span>
 				(-)&nbsp; <strong><a href="javascript:void(0)" class="individualDiscount">{vtranslate('LBL_DISCOUNT',$MODULE)}</a> : </strong>
 			</span>
@@ -168,7 +168,7 @@
 				<button class="btn btn-success discountSave" type="button" name="lineItemActionSave"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 			</div>
 		</div>
-		<div>
+		<div class="control-label form-control-static">
 			<strong>{vtranslate('LBL_TOTAL_AFTER_DISCOUNT',$MODULE)} :</strong>
 		</div>
 		<div class="individualTaxContainer {if $IS_GROUP_TAX_TYPE}hide{/if}">
@@ -214,12 +214,12 @@
 		</span>
 	</td>
 	<td>
-		<div id="productTotal{$row_no}" align="right" class="productTotal">{if $data.$productTotal}{$data.$productTotal}{else}0{/if}</div>
-		<div id="discountTotal{$row_no}" align="right" class="discountTotal">{if $data.$discountTotal}{$data.$discountTotal}{else}0{/if}</div>
-		<div id="totalAfterDiscount{$row_no}" align="right" class="totalAfterDiscount">{if $data.$totalAfterDiscount}{$data.$totalAfterDiscount}{else}0{/if}</div>
-		<div id="taxTotal{$row_no}" align="right" class="productTaxTotal {if $IS_GROUP_TAX_TYPE}hide{/if}">{if $data.$taxTotal}{$data.$taxTotal}{else}0{/if}</div>
+		<div id="productTotal{$row_no}" align="right" class="productTotal col-sm-12 form-control-static">{if $data.$productTotal}{$data.$productTotal}{else}0{/if}</div>
+		<div id="discountTotal{$row_no}" align="right" class="discountTotal col-sm-12 form-control-static">{if $data.$discountTotal}{$data.$discountTotal}{else}0{/if}</div>
+		<div id="totalAfterDiscount{$row_no}" align="right" class="totalAfterDiscount col-sm-12 form-control-static">{if $data.$totalAfterDiscount}{$data.$totalAfterDiscount}{else}0{/if}</div>
+		<div id="taxTotal{$row_no}" align="right" class="productTaxTotal {if $IS_GROUP_TAX_TYPE}hide{/if} col-sm-12 form-control-static">{if $data.$taxTotal}{$data.$taxTotal}{else}0{/if}</div>
 	</td>
 	<td>
-		<span id="netPrice{$row_no}" class="pull-right netPrice">{if $data.$netPrice}{$data.$netPrice}{else}0{/if}</span>
+		<span id="netPrice{$row_no}" class="pull-right netPrice textAlignRight col-sm-12 form-control-static">{if $data.$netPrice}{$data.$netPrice}{else}0{/if}</span>
 	</td>
 	

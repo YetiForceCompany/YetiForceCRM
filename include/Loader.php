@@ -23,20 +23,22 @@ class Vtiger_Loader {
 	 */
 	static function resolveNameToPath($qualifiedName, $fileExtension='php') {
 		$allowedExtensions = array('php', 'js', 'css', 'less');
+		$rootDirectory = vglobal('root_directory');
+		if ($rootDirectory == null)
+			$rootDirectory = __DIR__ .'/..';
 
 		$file = '';
 		if(!in_array($fileExtension, $allowedExtensions)) {
 			return '';
 		}
-		//var_dump($qualifiedName); echo "<br/>";
+
 		// TO handle loading vtiger files
-		
 		if (strpos($qualifiedName, '~') === 0) {
 			$file = str_replace('~', '', $qualifiedName);
-			$file = vglobal('root_directory') . DIRECTORY_SEPARATOR . $file;
+			$file = $rootDirectory . DIRECTORY_SEPARATOR . $file;
 		} else {
 			$file = str_replace('.', DIRECTORY_SEPARATOR, $qualifiedName) . '.' .$fileExtension;
-			$file = vglobal('root_directory') . DIRECTORY_SEPARATOR . $file;
+			$file = $rootDirectory . DIRECTORY_SEPARATOR . $file;
 		}
 		return $file;
 	}

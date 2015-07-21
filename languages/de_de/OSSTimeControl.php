@@ -1,10 +1,9 @@
 <?php
-
 $languageStrings = [
-	'MSG_EDIT_OK'	=>	'Sie haben Änderungen an der Konfiguration vorgenommen.',
-	'Canceled'	=>	'Abgebrochen',
-	'Achieved'	=>	'Erreicht',
-	'name'	=>	'Betreff',
+	'MSG_EDIT_OK' => 'Sie haben Änderungen an der Konfiguration vorgenommen.',
+	'Canceled' => 'Abgebrochen',
+	'Achieved' => 'Erreicht',
+	'name' => 'Betreff',
 	'Accounting work' => 'Fakturierung',
 	'Administrative work' => 'Administration',
 	'Office work' => 'Büro',
@@ -69,15 +68,16 @@ $languageStrings = [
 	'SINGLE_OSSTimeControl' => 'Zeiterfassung',
 	'LBL_CALENDAR_VIEW' => 'Kalender',
 	'LBL_TIMECONTROL_TYPE' => 'Typ',
-	
+	'PLL_HOLIDAY' => 'Holiday',
+	'PLL_BREAK_TIME' => 'Break from work',
+	'PLL_WORKING_TIME' => 'Working time',
 	//widget
-	'LBL_Holidays'	=>	'Ferien',
-	'LBL_YEAR'	=>	'Jahr',
-	'LBL_Used_Entitled'	=>	'verwendet / berechtigt',
-	'LBL_DAYS'	=>	'Tage',
-	'Brak danych'	=>	'Keine Daten',
-
-	'LBL_DAYWORKSUM'	=>	'Arbeitszeit',
+	'LBL_Holidays' => 'Ferien',
+	'LBL_YEAR' => 'Jahr',
+	'LBL_Used_Entitled' => 'verwendet / berechtigt',
+	'LBL_DAYS' => 'Tage',
+	'Brak danych' => 'Keine Daten',
+	'LBL_DAYWORKSUM' => 'Arbeitszeit',
 	'LBL_ALLDAYS_INFO' => 'Alle Tage',
 	'LBL_WEEKENDDAYS_INFO' => 'Wochenende',
 	'LBL_ECCLESIASTICAL_INFO' => 'Anzahl Kirchentage',
@@ -89,8 +89,8 @@ $languageStrings = [
 	'LBL_WORKDAYS_INFO' => 'Arbeitstage',
 ];
 $jsLanguageStrings = [
-	'JS_DATE_SHOULD_BE_GREATER_THAN'	=>	' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
-	'MSG_ERROR_NUMBER'	=>	'Erlaubte Zeichen: [0-9]',
+	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
+	'MSG_ERROR_NUMBER' => 'Erlaubte Zeichen: [0-9]',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Arbeitszeit kann nicht länger als 24 Stunden sein',
 	'JS_START_DATE' => 'Startdatum & Zeit',
 	'JS_END_DATE' => 'Enddatum & Zeit',
