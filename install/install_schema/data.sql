@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.6.17 : Database - yetiforcecrm
+SQLyog Ultimate v12.12 (64 bit)
+MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
 
@@ -1171,7 +1171,7 @@ insert  into `vtiger_currency_grouping_separator_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_currency_info` */
 
-insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł',1.00000,'Active','-11',0);
+insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł','1.00000','Active','-11',0);
 
 /*Data for the table `vtiger_currency_info_seq` */
 
@@ -4308,10 +4308,10 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (71,1271,'currency_id','vtiger_osscosts',1,'117','currency_id','Currency',1,2,'1',100,20,190,3,'I~O',3,0,'BAS',1,'',0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (71,1272,'conversion_rate','vtiger_osscosts',1,'1','conversion_rate','Conversion Rate',1,2,'1',100,21,190,3,'N~O',3,0,'BAS',1,'',0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (71,1273,'pre_tax_total','vtiger_osscosts',1,'72','pre_tax_total','Pre Tax Total',1,2,'',100,23,190,3,'N~O',1,NULL,'BAS',1,'',0,'');
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (7,1276,'verification','vtiger_leaddetails',2,'33','verification','Werification data',1,2,'',100,4,14,1,'V~O',1,NULL,'BAS',1,'',0,'');
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (6,1277,'verification','vtiger_account',2,'33','verification','Werification data',1,2,'',100,2,196,1,'V~O',1,NULL,'BAS',1,'',0,'');
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (4,1278,'verification','vtiger_contactdetails',2,'33','verification','Werification data',1,2,'',100,3,5,1,'V~O',1,NULL,'BAS',1,'',0,'');
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (18,1279,'verification','vtiger_vendor',2,'33','verification','Werification data',1,2,'',100,18,42,1,'V~O',1,NULL,'BAS',1,'',0,'');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (7,1276,'verification','vtiger_leaddetails',2,'33','verification','Verification data',1,2,'',100,4,14,1,'V~O',1,NULL,'BAS',1,'',0,'');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (6,1277,'verification','vtiger_account',2,'33','verification','Verification data',1,2,'',100,2,196,1,'V~O',1,NULL,'BAS',1,'',0,'');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (4,1278,'verification','vtiger_contactdetails',2,'33','verification','Verification data',1,2,'',100,3,5,1,'V~O',1,NULL,'BAS',1,'',0,'');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (18,1279,'verification','vtiger_vendor',2,'33','verification','Verification data',1,2,'',100,18,42,1,'V~O',1,NULL,'BAS',1,'',0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,1280,'calculationsid','vtiger_osstimecontrol',1,'10','calculationsid','Calculations',1,2,'',100,12,129,1,'V~O',1,NULL,'BAS',1,'',0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (2,1281,'sum_time_k','vtiger_potential',2,'7','sum_time_k','Total time [Calculation]',1,2,'',100,8,133,10,'NN~O',1,NULL,'BAS',1,'',0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (70,1282,'total_purchase','vtiger_calculations',1,'72','total_purchase','Total Purchase',1,2,'',100,14,185,3,'NN~O',4,0,'BAS',1,'',0,'');
@@ -5109,9 +5109,9 @@ insert  into `vtiger_inventoryproductrel_seq`(`id`) values (0);
 
 /*Data for the table `vtiger_inventorytaxinfo` */
 
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT',23.000,0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales',8.000,0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service',5.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT','23.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales','8.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service','5.000',0);
 
 /*Data for the table `vtiger_inventorytaxinfo_seq` */
 
@@ -16114,17 +16114,17 @@ insert  into `vtiger_reservations_status_seq`(`id`) values (2);
 
 /*Data for the table `vtiger_role` */
 
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`) values ('H1','Organization','H1',0,1);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`) values ('H10','Sales Department','H1::H2::H10',2,1);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`) values ('H14','Logistics Department','H1::H2::H14',2,1);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`) values ('H18','Project Management Department','H1::H2::H18',2,1);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`) values ('H2','Board of Management','H1::H2',1,1);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`) values ('H22','Help Desk Department','H1::H2::H22',2,1);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`) values ('H26','Human Resources Department','H1::H2::H26',2,1);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`) values ('H3','Secretary\'s Office','H1::H2::H3',2,1);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`) values ('H30','Financial Department','H1::H2::H30',2,1);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`) values ('H34','Production Department','H1::H2::H34',2,1);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`) values ('H6','Marketing Department','H1::H2::H6',2,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`) values ('H1','Organization','H1',0,1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`) values ('H10','Sales Department','H1::H2::H10',2,1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`) values ('H14','Logistics Department','H1::H2::H14',2,1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`) values ('H18','Project Management Department','H1::H2::H18',2,1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`) values ('H2','Board of Management','H1::H2',1,1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`) values ('H22','Help Desk Department','H1::H2::H22',2,1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`) values ('H26','Human Resources Department','H1::H2::H26',2,1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`) values ('H3','Secretary\'s Office','H1::H2::H3',2,1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`) values ('H30','Financial Department','H1::H2::H30',2,1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`) values ('H34','Production Department','H1::H2::H34',2,1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`) values ('H6','Marketing Department','H1::H2::H6',2,1,1);
 
 /*Data for the table `vtiger_role2picklist` */
 

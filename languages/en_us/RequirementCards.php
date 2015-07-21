@@ -9,6 +9,15 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
+	'PLL_VERIFICATION_PROCESS' => 'Verification process',
+	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Internal consultation required',
+	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'External consultation required',
+	'PLL_WAITING_FOR_ANSWER' => 'Waiting for answer',
+	'PLL_INFORMATION_COMPLETING' => 'Information completing',
+	'PLL_CLOSED' => 'Closed',
+	'PLL_DECLINED' => 'Declined',
+	'LBL_RECORDS_LIST' => 'Records List',
+	'LBL_ADD_RECORD' => 'Add record',
 	'RequirementCards' => 'Requirement Cards',
 	'SINGLE_RequirementCards' => 'Requirement Card',
 	
@@ -29,13 +38,6 @@ $languageStrings = [
 
 	//pick list values
 	'PLL_WAITING_FOR_VERIFICATION' => 'Waiting for verification',
-	'PLL_VERIFICATION_PROCESS' => 'Verification process',
-	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Internal consultation required',
-	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'External consultation required',
-	'PLL_WAITING_FOR_ANSWER' => 'Waiting for answer',
-	'PLL_INFORMATION_COMPLETING' => 'Information completing',
-	'PLL_DECLINED' => 'Declined',
-	'PLL_CLOSED' => 'Closed',
 	'PLL_UNTYPICAL_PRODUCT' => 'Untypical product',
 	'PLL_UNTYPICAL_SERVICE' => 'Untypical service',
 	'PLL_UNTYPICAL_FINANCIAL_REQUIREMENTS' => 'Untypical financial requirements',

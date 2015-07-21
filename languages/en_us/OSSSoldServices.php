@@ -10,6 +10,8 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = [
+	'LBL_RECORDS_LIST' => 'Records List',
+	'LBL_ADD_RECORD' => 'Add record',
 	'Services' => 'Services',
 	'Potential' => 'Potential',
 	'Invoice' => 'Invoice',

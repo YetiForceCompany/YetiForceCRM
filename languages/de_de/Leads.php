@@ -8,9 +8,8 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = [
-	'Products' => 'Produkte',
-	'No approval for email' => 'Keine Genehmigung für EMail',
-	'No approval for phone calls' => 'Keine Genehmigung für Anrufe',
+	'LBL_SETUP_WEBFORMS' => 'Webformulare einstellen',
+	'Verification data' => 'Verification data',
 	'Attempted to Contact'         => 'Kontaktierung versucht'      , 
 	'CANNOT_CONVERT'               => 'Umwandlung nicht möglich'   , 
 	'Cold'                         => 'kalt'                        , 

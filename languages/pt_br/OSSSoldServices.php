@@ -10,6 +10,8 @@
  * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = [
+	'LBL_RECORDS_LIST' => 'Records List',
+	'LBL_ADD_RECORD' => 'Add record',
 	'Services' => 'Services',
 	'Potential' => 'Potential',
 	'Invoice' => 'Invoice',

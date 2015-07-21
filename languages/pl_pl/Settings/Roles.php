@@ -32,8 +32,8 @@ $languageStrings = [
 	'SINGLE_Roles' => 'Rola',
 	'LBL_USERS_LIST' => 'Lista użytkowników należących do tej roli:',
 	'LBL_JUST_ME' => 'Tylko ja',
+	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => 'Czy może zmieniać własciciela rekordu',
 ];
-
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Brak uprawnień do przeniesienia',
 	'JS_PERMISSION_DENIED' => 'Brak uprawnień',

@@ -9,6 +9,8 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = [
+	'LBL_SETUP_WEBFORMS' => 'Configurar Webforms',
+	'Verification data' => 'Verification data',
 	'Orders accepted' => 'Pedidos aceitos',
 	'Attempted to Contact' => 'Tentativa Contato' ,
 	'CANNOT_CONVERT' => 'Não pode ser Convertido',

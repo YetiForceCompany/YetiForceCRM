@@ -40,7 +40,6 @@ $languageStrings = [
 	'SIC Code' => 'Cod CNAE',
 	'SINGLE_Accounts' => 'Organização' ,
 	'Ticker Symbol'=> 'Cod. Bolsa',
-	'Website'=> 'Website' ,
 	'Payment balance' => 'Saldo Pagamento',
 	//OpenSaaS
 	'LBL_CREATING_NEW' => 'Novo',
@@ -86,10 +85,6 @@ $languageStrings = [
 	'LBL_CONVERTED_FROM_LEAD' => 'Convertido de Lead',
 	'LBL_LEGAL_FORM' => 'Forma Jurídica',
 	//Missing Fields in Right Bar | Valmir C Trindade
-	'Sales Order'=>'Pedido Vendas',
-	'Activities'=>'Atividades',
-	'Service Contracts'=>'Contratos',
-	'Projects'=>'Projetos',
 ];
 
 $jsLanguageStrings = [

@@ -84,6 +84,7 @@ $languageStrings = [
 	'LBL_SAVE' => 'Zapisz konfigurację',
 	'Mails List' => 'Najnowsze maile',
 	'LBL_NOMAILSLIST' => 'Brak wiadomości mailowych',
+	'To' => 'Do'
 ];
 
 $jsLanguageStrings = [
