@@ -54,7 +54,7 @@ foreach ($config as $optname => $optval) {
 }
 
 // framework constants
-define('RCUBE_VERSION', '1.1.1');
+define('RCUBE_VERSION', '1.1.2');
 define('RCUBE_CHARSET', 'UTF-8');
 
 if (!defined('RCUBE_LIB_DIR')) {
@@ -99,7 +99,7 @@ if (!preg_match($regexp, $path)) {
 spl_autoload_register('rcube_autoload');
 
 // set PEAR error handling (will also load the PEAR main class)
-PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'rcube_pear_error');
+@PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'rcube_pear_error');
 
 
 
