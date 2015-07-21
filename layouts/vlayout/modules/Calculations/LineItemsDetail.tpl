@@ -12,8 +12,15 @@
 {assign var=FINAL_DETAILS value=$RELATED_PRODUCTS.1.final_details}
 <table class="table table-bordered mergeTables">
     <thead>
-    <th colspan="7" class="detailViewBlockHeader">
+    <th colspan="3" class="detailViewBlockHeader">
 	{vtranslate('LBL_ITEM_DETAILS', $MODULE_NAME)}
+    </th>
+    <th colspan="2" class="detailViewBlockHeader">
+	{assign var=CURRENCY_INFO value=$RECORD->getCurrencyInfo()}
+	{vtranslate('LBL_CURRENCY', $MODULE_NAME)} : {vtranslate($CURRENCY_INFO['currency_name'],$MODULE_NAME)}({$CURRENCY_INFO['currency_symbol']})
+    </th>
+    <th colspan="2" class="detailViewBlockHeader">
+
     </th>
 	</thead>
 	<tbody>
