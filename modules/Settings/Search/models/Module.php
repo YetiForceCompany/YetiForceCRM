@@ -31,7 +31,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		return $moduleEntity;
 	}
 
-	public function getFielFromModule()
+	public function getFieldFromModule()
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * from vtiger_field WHERE uitype NOT IN ('15','16','52','53','56','70','120')");
