@@ -114,8 +114,18 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		var relatedList = jQuery('#relatedTabOrder');
 		var container = relatedList.find('.relatedTabModulesList');
 		var ulEle = container.find('ul.relatedModulesList');
-		var select2Element = app.showSelect2ElementView(container.find('.select2_container'));
-		thisInstance.makeColumnListSortable(container);
+		var select2Element = app.showSelectizeElementView(container.find('.select2_container'),{plugins: ['drag_drop','remove_button'],
+			onInitialize: function () {
+				var s = this, children = this.revertSettings.$children;
+				if (children.first().is('optgroup')) {
+					children = children.find('option');
+				}
+				children.each(function () {
+					var data = $(this).data();
+					$.extend(s.options[this.value], data);
+				});
+			}
+		});
 		
 		relatedList.on('click', '.inActiveRelationModule', function(e) {
 			var currentTarget = jQuery(e.currentTarget);
@@ -180,12 +190,12 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 
 	getSelectedFields : function(target) {
 		var selectedFields = [];
-		target.select2('data').map(function (obj) {
+		target.find(':selected').each(function(e){
 			selectedFields.push({
-				id: obj.id, 
-				name: target.find('option[value='+obj.id+']').data('field-name')
+				id: jQuery(this).val(),
+				name: target[0].selectize.options[jQuery(this).val()].fieldName
 			});
-		});
+		})
 		return selectedFields;
 	},
 	
@@ -278,23 +288,21 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	
 	updateSelectedFields : function(target) {
 		var thisInstance = this;
-		var selectedFields = thisInstance.getSelectedFields(target);
+		var selectedFields = thisInstance.getSelectedFields(jQuery(target));
 		var params = {};
-		var relatedModule = target.closest('.relatedModule');
+		var relatedModule = jQuery(target).closest('.relatedModule');
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position' : 'html',
 			'blockInfo' : {
 				'enabled' : true
 			}
 		});
-		
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
 		params['action'] = 'Relation';
 		params['mode'] = 'updateSelectedFields';
 		params['relationId'] = relatedModule.data('relation-id');
 		params['fields'] = selectedFields;
-
 		AppConnector.request(params).then(
 			function(data) {
 				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
@@ -309,26 +317,6 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				Settings_Vtiger_Index_Js.showMessage(params);
 			}
 		);
-	},
-	
-	/**
-	 * Function to regiser the event to make the columns list sortable
-	 */
-	makeColumnListSortable : function(container) {
-		var thisInstance = this;
-		//TODO : peform the selection operation in context this might break if you have multi select element in advance filter
-		//The sorting is only available when Select2 is attached to a hidden input field.
-		var chozenChoiceElement = container.find('ul.select2-choices');
-		chozenChoiceElement.each(function(index,element){
-			var chosenOption = jQuery(element);
-			chosenOption.sortable({
-                'containment': chosenOption,
-                update: function(e, ui) {
-	    			var relatedModule = chosenOption.closest('.relatedModule');
-	    			var selectedFields = thisInstance.updateSelectedFields(container.find('.relatedColumnsList'));
-                }
-            });
-		});
 	},
 
 	/**

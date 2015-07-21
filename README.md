@@ -5,9 +5,13 @@ We design an innovative CRM system that is dedicated for large and medium sized 
 
 Test [YetiForce] (https://test.yetiforce.com/index.php)
 
+[GitMaster] (https://gitmaster.yetiforce.com)
+
+[GitDeveloper] (https://gitdeveloper.yetiforce.com)
+
 Read the [documentation] (https://yetiforce.com/en/documentation.html) to learn more.
 
-Sign up for our [mailing list](https://lists.sourceforge.net/lists/listinfo/yetiforce-mailing).
+Sign up for our [mailing list](https://lists.sourceforge.net/lists/listinfo/yetiforce-mailing). It is dedicated for people/companies which would like to contribute to development of YetiForce. It isn't an appropriate place for regular users of the software.
 
 Follow us on [Twitter](https://twitter.com/YetiForceEN) to get real-time info about new articles and functionalities. 
 
@@ -18,7 +22,7 @@ Below you can see how we improve our project:
 
 #YetiForce 2.1 GA [under development]
 
-2.0 was launched on 21st May 2015 and the following changes are up to 2.0.286 from 2nd July 2015.
+2.0 was launched on 21st May 2015 and the following changes are up to 2.0.345 from 6th July 2015.
 
 
 **Bug Fixes:** 
@@ -36,7 +40,15 @@ Below you can see how we improve our project:
 -	Fixed a bug that appeared during the installation prosess and caused the system to fail.
 -	Fixed a bug that did not allow to add a custom field with 1:M relation
 -	Fixed a bug that appeared after adding a comment to a related module of Contacts.
+-	Fixed a bug that appeared during entering data to the Campaigns Module.
 -	Fixed a bug that appeared in a dropdown while creating/editing menu items. 
+-	Fixed a bug that appeared during adding a new PriceBook.
+-	Fixed a bug that appeared during a transfer of ownership in the FAQs module.
+-	Fixed a bug that appeared during a search for duplicates in Sales Orders and Quotes.
+-	Fixed a bug that appeared during adding of Data Summary widget.
+-	Fixed a bug that appeared during adding of a detail report.
+-	Fixed a bug that appeared during setting rss feed as default.
+-	Fixed a bug that caused that calendar events disappeared after page refresh.
 -	Fixed a bug in the OSSMail module - server configuration display failed when the module was disabled.
 -	Fixed a bug in the list view in Workflow panel.
 -	Fixed a bug that showed a blank page in a related module (Charts) of Projects.
@@ -62,6 +74,7 @@ Below you can see how we improve our project:
 -	Fixed a header in detail view of Contacts.
 -	Fixed workflow responsible for sending emails.
 -	Fixed the Mail Scanner configuration.
+-	Fixed collapse blocks in various locations.
 
 
 **Improvements:**
@@ -79,12 +92,16 @@ Below you can see how we improve our project:
 -	Improved the display of progress bar in the Backup module.
 -	Improved the display of edit window for cron tasks.
 -	Improved the display of buttons in the Calendar.
+-	Improved the display of Groups panel in detail view.
 -	Improved the display of many popups. 
+-	Improved the display of many modal windows.
+-	Improved the display of variables in Brute Force panel.
 -	Improved the global variables.
 -	Improved the titles of buttons in Details view.
 -	Improved the generation of queries for reference fields.
 -	Improved icons of filters.
 -	Improved error reporting during the verification of configuration.
+-	Improved security in converting a Lead. 
 -	Improved privileges in the Calendar.
 -	Improved email content filtering.
 -	Improved backup configuration.
@@ -103,6 +120,8 @@ Below you can see how we improve our project:
 -	Improved the global search.
 -	Improved server configuration check.
 -	Improved 'Change owner" action for a related Calendar module.
+-	Improved import and export view in the Calculations module.
+-	Improved adding of new sharing rules.
 -	Added changes from Vtiger rev. 14461, 14484, 14490, 14501 (6.3.0).
 -	Added omitted fixes that had an influence on records creation.
 -	Added protection when creating records. 
@@ -139,6 +158,7 @@ Below you can see how we improve our project:
 - Added a new type of an email templete. 
 - Added the ability to customize languages, layouts and the main file of a module (overwriting the default language files).
 - Added support for PDO during installation.
+- Added support for php cgi-fcgi (CRON).
 - Added checking of the file upload limit in imported modules.
 - Added library Selectize.
 - Added a function that retrieves a database name.
@@ -146,6 +166,7 @@ Below you can see how we improve our project:
 - Added a new element to the Marketing Processes.
 - Added system filters.
 - Added a possibility to change the access rules in the Calendar.
+- Added a status of email accounts in the Mail Scanner.
 
 
 The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/pl/dokumentacja-programisty/zmiany.html).

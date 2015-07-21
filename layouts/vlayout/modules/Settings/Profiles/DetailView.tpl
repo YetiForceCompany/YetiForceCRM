@@ -21,14 +21,18 @@
 	<div class="clearfix"></div>
 	<hr>
 	<div class="profileDetailView">
-		<div class="row">
+		<div>
 			<div class="row">
-				<label class="fieldLabel col-md-2 muted"><span class="redColor">*</span>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}: </label>
-				<span class="fieldValue col-md-6" name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}"><strong>{$RECORD_MODEL->getName()}</strong></span>
+				<div class="col-md-12">
+					<label class="fieldLabel col-md-2 muted"><span class="redColor">*</span>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}: </label>
+					<span class="fieldValue col-md-6" name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}"><strong>{$RECORD_MODEL->getName()}</strong></span>
+				</div>
 			</div>
             <div class="row">
-				<label class="fieldLabel col-md-2 muted">{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>
-				<span class="fieldValue col-md-8" name="description" id="description"><strong>{$RECORD_MODEL->getDescription()}</strong></span>
+				<div class="col-md-12">
+					<label class="fieldLabel col-md-2 muted">{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>
+					<span class="fieldValue col-md-8" name="description" id="description"><strong>{$RECORD_MODEL->getDescription()}</strong></span>
+				</div>
 			</div><br>
             {assign var="ENABLE_IMAGE_PATH" value="{vimage_path('Enable.png')}"}
             {assign var="DISABLE_IMAGE_PATH" value="{vimage_path('Disable.png')}"}
@@ -50,7 +54,7 @@
                     </span>
                 </div>
             </div>
-			<div class="row">
+			<div>
 				<table class="table table-striped table-bordered">
 					<thead>
 

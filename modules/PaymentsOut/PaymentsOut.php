@@ -42,11 +42,11 @@ class PaymentsOut extends Vtiger_CRMEntity {
 	 * Mandatory for Listing (Related listview)
 	 */
 	var $list_fields = array (
-		'LBL_PAYMENTSNO' => array('vtiger_paymentsout', 'paymentsno'),
-		'LBL_PAYMENTSNAME' => array('vtiger_paymentsout', 'paymentsname'),
-		'LBL_PAYMENTSVALUE' => array('vtiger_paymentsout', 'paymentsvalue'),
-		'LBL_PAYMENTSCURRENCY' => array('vtiger_paymentsout', 'paymentscurrency'),
-		'LBL_PAYMENTSSTATUS' => array('vtiger_paymentsout', 'paymentsout_status'),
+		'LBL_PAYMENTSNO' => array('vtiger_paymentsout' => 'paymentsno'),
+		'LBL_PAYMENTSNAME' => array('vtiger_paymentsout' => 'paymentsname'),
+		'LBL_PAYMENTSVALUE' => array('vtiger_paymentsout' => 'paymentsvalue'),
+		'LBL_PAYMENTSCURRENCY' => array('vtiger_paymentsout' => 'paymentscurrency'),
+		'LBL_PAYMENTSSTATUS' => array('vtiger_paymentsout' => 'paymentsout_status'),
 
 );
 	var $list_fields_name = array (

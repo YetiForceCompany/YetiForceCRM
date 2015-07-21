@@ -176,7 +176,6 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 				aDeferred.reject(textStatus, errorThrown);
 			}
 		);
-		thisInstance.loadRelatedList();
 		var detail = Vtiger_Detail_Js.getInstance();
 		detail.registerRelatedModulesRecordCount();
 		return aDeferred.promise();

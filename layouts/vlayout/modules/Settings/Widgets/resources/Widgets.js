@@ -32,7 +32,9 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 			if(type == 'RelatedModule'){
 				thisInstance.loadFilters(wizardContainer);
 				thisInstance.loadCheckboxs(wizardContainer);
-				wizardContainer.find("select[name='relatedmodule']").change(thisInstance.changeRelatedModule);
+				wizardContainer.find("select[name='relatedmodule']").change(function() {
+					thisInstance.changeRelatedModule();;
+				});
 			}
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			var form = jQuery('form', wizardContainer);
@@ -44,6 +46,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 					'tabid': tabId,
 				});
 				thisInstance.reloadWidgets();
+				app.hideModalWindow();
 			});
 			
 		});
@@ -122,7 +125,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 			params.async = true;
 		}
 		params.dataType = 'json';
-        AppConnector.request(params).then(
+		AppConnector.request(params).then(
 			function(data) {
 				var response = data['result'];
 				var params = {
@@ -136,7 +139,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 			function(data, err) {
 
 			}
-        );
+		);
 	},
 	loadFilters: function(contener) {
 		var filters = JSON.parse(jQuery('#filters').val());
@@ -183,10 +186,10 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 		checkbox_field.select2();
 	},
 	changeRelatedModule: function(e) {
-		var target = $(e.currentTarget);
-		var form = target.closest('.form-modalAddWidget');
-		Settings_Widgets__Js.loadFilters(form);
-		Settings_Widgets__Js.loadCheckboxs(form);
+		var thisInstance = this;
+		var form = jQuery('.form-modalAddWidget');
+		thisInstance.loadFilters(form);
+		thisInstance.loadCheckboxs(form);
 	},
 	registerEvents : function() {
 		var thisInstance = this;
@@ -225,7 +228,9 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 				if(thisInstance.getType() == 'RelatedModule'){
 					thisInstance.loadFilters(wizardContainer);
 					thisInstance.loadCheckboxs(wizardContainer);
-					wizardContainer.find("select[name='relatedmodule']").change(thisInstance.changeRelatedModule);
+					wizardContainer.find("select[name='relatedmodule']").change(function() {
+						thisInstance.changeRelatedModule();
+					});
 				}
 				var form = jQuery('form', wizardContainer);
 				form.submit(function(e){
@@ -242,6 +247,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 						'tabid':$("input[name='tabid']").val(),
 					});
 					thisInstance.reloadWidgets();
+					app.hideModalWindow();
 					progress.progressIndicator({'mode': 'hide'});
 				});
 			});

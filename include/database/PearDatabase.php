@@ -158,11 +158,13 @@ class PearDatabase {
 			$this->rollbackTransaction();
 		}
 		if ($this->dieOnError || $dieOnError) {
-			ob_start();
-			debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-			$trace = ob_get_contents();
-			ob_end_clean();
-			die('Database ERROR: ' . $message . '<pre>' . $trace . '</pre>');
+			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
+				ob_start();
+				debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+				$trace = '<pre>' . ob_get_contents() . '</pre>';
+				ob_end_clean();
+			}
+			die('Database ERROR: ' . $message . $trace);
 		}
 	}
 

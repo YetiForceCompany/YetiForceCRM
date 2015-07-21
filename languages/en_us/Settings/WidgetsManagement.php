@@ -39,5 +39,5 @@ $jsLanguageStrings = [
 	'JS_CUSTOM_BLOCK_DELETED' => 'Block has been deleted successfully',
 	'JS_FIELD_EMPTY' => 'The field cannot be empty',
 	'JS_FILTERS_AVAILABLE' => 'Filters available',
-	'JS_FILTERS_AVAILABLE' => 'Filters available',
+	'JS_WIDGET_ADDED' => 'Widget has been added successfully',
 ];

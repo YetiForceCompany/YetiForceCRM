@@ -118,15 +118,12 @@ class VtigerCRMObject{
 			$this->instance->column_fields[$k] = $v;
 		}
 		
-		$adb->startTransaction();
 		$this->instance->Save($this->getTabName());
-		$error = $adb->hasFailedTransaction();
-		$adb->completeTransaction();
+		$error = $this->instance->db->hasFailedTransaction();
 		return !$error;
 	}
 	
 	public function update($element){
-		
 		$adb = PearDatabase::getInstance();
 		$error = false;
 		
@@ -134,11 +131,9 @@ class VtigerCRMObject{
 			$this->instance->column_fields[$k] = $v;
 		}
 		
-		$adb->startTransaction();
 		$this->instance->mode = "edit";
 		$this->instance->Save($this->getTabName());
-		$error = $adb->hasFailedTransaction();
-		$adb->completeTransaction();
+		$error = $this->instance->db->hasFailedTransaction();
 		return !$error;
 	}
 	
@@ -159,12 +154,10 @@ class VtigerCRMObject{
 		foreach($this->instance->column_fields as $key=>$value){
 			$this->instance->column_fields[$key] = decode_html($value);
 		}
-
-                $adb->startTransaction();
+		
 		$this->instance->mode = "edit";
 		$this->instance->Save($this->getTabName());
-		$error = $adb->hasFailedTransaction();
-		$adb->completeTransaction();
+		$error = $this->instance->db->hasFailedTransaction();
 		return !$error;
 	}
 

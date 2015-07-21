@@ -28,7 +28,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget {
 				$this->Config['field_name'] = $filterArray[2];
 			}
 			if(isset($this->Data['checkbox']) && $this->Data['checkbox'] != '-'){
-				$this->Config['url'] .= '&whereCondition['.$this->Data['checkbox'].']=1';
+				$this->Config['url'] .= '&whereCondition['.getTableNameForField(getTabModuleName($this->Data['relatedmodule']), $this->Data['checkbox']).'.'.$this->Data['checkbox'].']=1';
 				$on = 'LBL_SWITCH_ON_'.strtoupper($this->Data['checkbox']);
 				$translateOn = vtranslate($on,$model->getName());
 				if($on == $translateOn){

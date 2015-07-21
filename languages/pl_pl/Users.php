@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
+	'SINGLE_Users' => 'Użytkownik',
 	'Last Name' => 'Nazwisko',
 	'Users' => 'Użytkownicy',
 	'Admin' => 'Administrator',

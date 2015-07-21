@@ -328,9 +328,23 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		jQuery('#grandTotal').text(grandTotalValue);
 		return this;
 	},
+	
+	setTotalMargin : function(marginTotalValue) {
+		jQuery('#total_margin').text(marginTotalValue);
+		return this;
+	},
 
 	getGrandTotal : function() {
 		return parseFloat(jQuery('#grandTotal').text());
+	},
+	
+	/**
+	 * Function which will get the value of margin
+	 * @params : lineItemRow - row which represents the line item
+	 * @return : string
+	 */
+	getLineItemMargin : function(lineItemRow) {
+		return parseFloat(jQuery('.margin',lineItemRow).val());
 	},
 
     loadRowSequenceNumber: function() {
@@ -798,6 +812,20 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		grandTotal = grandTotal.toFixed(numberOfDecimal);
 		this.setGrandTotal(grandTotal);
 	},
+	
+	calculateTotalMargin : function() {
+		var numberOfDecimal = parseInt(jQuery('.numberOfCurrencyDecimal').val());
+		var thisInstance = this
+		var lineItemTable = this.getLineItemContentsContainer();
+		var totalMarginValue = 0;
+		lineItemTable.find('tr.'+this.rowClass).each(function(index,domElement){
+			var lineItemRow = jQuery(domElement);
+			totalMarginValue += thisInstance.getLineItemMargin(lineItemRow);
+		});
+		
+		var totalMargin = parseFloat(totalMarginValue).toFixed(numberOfDecimal);
+		this.setTotalMargin(totalMargin);
+	},
 
 	registerFinalDiscountShowEvent : function(){
 		var thisInstance = this;
@@ -968,6 +996,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 			this.calculateGroupTax();
 		}
 		this.calculateGrandTotal();
+		this.calculateTotalMargin();
 	},
 
 	/**
@@ -1549,6 +1578,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		jQuery('input.listPrice',lineItemRow).val('0');
 		jQuery('.lineItemCommentBox', lineItemRow).val('');
 		jQuery('.usageUnit', lineItemRow).text('');
+		jQuery('.margin', lineItemRow).val('0');
+		 
 		thisInstance.quantityChangeActions(lineItemRow);
 	},
 

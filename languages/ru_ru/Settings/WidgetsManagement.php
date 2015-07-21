@@ -39,4 +39,5 @@ $jsLanguageStrings = [
 	'JS_CUSTOM_BLOCK_DELETED'	=>	'Блок Виджетов успешно удален',
 	'JS_FIELD_EMPTY'	=>	'Поле не может быть пустым',
 	'JS_FILTERS_AVAILABLE' => 'Доступные фильтры',
+	'JS_WIDGET_ADDED'	=>	'Виджет успешно добавлен',
 ];

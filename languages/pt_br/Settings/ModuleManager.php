@@ -57,8 +57,8 @@ $languageStrings = [
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'O módulo não possui o idioma padrão (__DEFAULTLANGUAGE__).',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Nenhum arquivo',
 	'LBL_IMPORT' => 'Importar',
-	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'Upload limit is too small',
-	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'Upload limit is too small (%s) so the file cannot be uploaded to the server. It is recommended to check the system configuration <a href="index.php?parent=Settings&module=ConfReport&view=Index">Sprawdź konfigurację serwera</a>',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'O limite de upload está muito pequeno',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'O limite de upload está muito pequeno (%s), desta forma o arquivo não pode ser transferido para o Servidor. É recomendável verificar as configurações do Sistema <a href="index.php?parent=Settings&module=ConfReport&view=Index">Verificar Configuração Servidor</a>',
 
 	'LBL_CREATE_MODULE' => 'Criar módulo',
 	'LBL_CREATING_MODULE' => 'Criando novo módulo',

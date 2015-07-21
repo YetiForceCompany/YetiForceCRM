@@ -18,7 +18,7 @@
         </tr>
         <tr>
             <td><strong>{vtranslate('LBL_TOOLS',$MODULE)}</strong></td>
-            <td><strong>{vtranslate('LBL_ITEM_NAME',$MODULE)}</strong></td>
+            <td><span class="redColor">*</span><strong>{vtranslate('LBL_ITEM_NAME',$MODULE)}</strong></td>
             <td><strong>{vtranslate('LBL_QTY',$MODULE)}</strong></td>
             <td><strong>{vtranslate('LBL_UNIT',$MODULE)}</strong></td>
             <td><strong>{vtranslate('LBL_LIST_PRICE',$MODULE)}</strong></td>

@@ -114,9 +114,9 @@ $languageStrings = [
 	'No Time'=>'No Time',
 	
     'Recurrence'=> 'Recurrence',
-    'TASK_PREV' => 'Tasks scheduled for the previous day',
-    'TASK_CUR' => 'Tasks scheduled for today',
-    'TASK_NEXT' => 'Tasks scheduled for tomorrow',
+    'TASK_PREV' => 'Planned for a day before',
+    'TASK_CUR' => 'Planned for a specific day',
+    'TASK_NEXT' => 'Planned for a day after',
 	'LBL_NO_DESCRIPTION'=>'No description',
 	'LBL_IMPORT_ICS_ERROR_NO_RECORD'=>'Wrong ICS file',
 	'LBL_IMPORT_ICS_SUCCESS'=>'Added entry to the calendar',

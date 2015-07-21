@@ -186,7 +186,7 @@ $languageStrings = [
 	'LBL_ADD_SERVICE'=> 'Adicionar Serviço',
 	'LBL_ADD_TASK' => 'Adicionar Tarefa',
 	'LBL_ADD_WIDGET' => 'Adicionar Widget',
-	'LBL_ADD_FILTER' => 'Add widget from filter',
+	'LBL_ADD_FILTER' => 'Adicionar Widget a partir do filtro',
 	'LBL_ADD_YOUR_COMMENT_HERE'=> 'Adicionar seu comentário aqui...',
 	'LBL_ADVANCE_SEARCH' => 'Avançado',
 	'LBL_AFTER'=> 'depois' , //Duplicated key-value pairs
@@ -795,9 +795,9 @@ $languageStrings = [
 	'LBL_SELECT_RELATED_FIELD' => 'Selecione campo do módulo relacionado',
 	'LBL_COMPARISON_VALUE' => 'Valor comparação',
 	'Website' => 'Web Site',
-	'PotentialsList'=>'Opportunities',
-	'PaymentsOut' => 'Payments Out',
-	'PaymentsIn' => 'Payments In',
+	'PotentialsList'=>'Oportunidades',
+	'PaymentsOut' => 'Pagamento',
+	'PaymentsIn' => 'Recebimento',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',
@@ -964,6 +964,8 @@ $languageStrings = [
 	'LBL_MONTHS_CHART' => 'Meses',
 	'LBL_ZOOMING' => 'Zoom',
 	
+	'LBL_FORMAT' => 'Formato',
+	
 	//Filters
 	'LBL_CV_GROUP_MINE' => 'Mine',
 	'LBL_CV_GROUP_SYSTEM' => 'System',
@@ -973,6 +975,7 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'Based on reference fields',
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
+	'LBL_LEGAL_FORM' => 'Forma Jurídica',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
@@ -1056,6 +1059,8 @@ $jsLanguageStrings = [
 	'JS_PLEASE_ENTER_VALID_TIME' => 'Por favor, digite uma hora válida',
 	'JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS' => 'Por favor, selecione uma Organização para copiar o endereço',
 	'JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS' => 'Por favor, selecione um Contato para copiar o endereço',
+	'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS' => '__UNTRANSLATED__',
+	'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS' => '__UNTRANSLATED__',
 	'JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD' => 'Por favor, selecione ao menos um Campo Obrigatório',
 	'JS_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Por favor, selecione ao menos uma opção',
 	'JS_PLEASE_SELECT_BASE_CURRENCY_FOR_PRODUCT' => 'Por favor, selecione a moeda padrão para o Produto',
@@ -1116,7 +1121,7 @@ $jsLanguageStrings = [
 	'JS_CONFIRM_MARK_AS_HELD' => 'Marcar a entrada na Agenda como concluída?',
 	'JS_TODO_MARKED_AS_COMPLETED' => 'Marcada como concluída',
 	'JS_EVENT_MARKED_AS_HELD' => 'Marcada como concluída',
-	'JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD' => 'Future events cannot be marked as complete',
+	'JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD' => 'Os eventos futuros não podem ser marcados como completos',
 	'Generate default PDF'=>'Gerar PDF padrão',
 
 	//Inventory module Translations

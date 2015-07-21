@@ -963,6 +963,7 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'Based on reference fields',
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
+	'LBL_LEGAL_FORM' => 'Legal form',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',
@@ -1046,6 +1047,8 @@ $jsLanguageStrings = [
 	'JS_PLEASE_ENTER_VALID_TIME' => 'Please Enter Valid Time',
 	'JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS' => 'Please select an Organization to copy address',
 	'JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS' => 'Please select a Contact to copy address',
+	'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS' => '__UNTRANSLATED__',
+	'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS' => '__UNTRANSLATED__',
 	'JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD' => 'Please select at least one Mandatory Field',
 	'JS_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Please select at least one option',
 	'JS_PLEASE_SELECT_BASE_CURRENCY_FOR_PRODUCT' => 'Please select base currency for product',
