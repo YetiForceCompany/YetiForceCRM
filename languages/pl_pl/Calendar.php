@@ -175,6 +175,5 @@ $jsLanguageStrings = [
 	'JS_Public' => 'Publiczne',
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Nie można powiązać kontaktów z potencjalnymi klientami',
 	'Mobile Call' => 'Połączenie',
-    'NOTIFICATION_ACCEPTED' => 'Zaakceptuj',
     'JS_CHANGE_ACTIVITY_TIME' => 'Zmień czas zdarzenia na do realizacji lub historię',
 ];

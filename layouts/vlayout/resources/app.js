@@ -104,10 +104,10 @@ var app = {
 			params.placeholder_text_single = ' ' + app.vtranslate('JS_SELECT_AN_OPTION');
 		}
 		selectElement.chosen(params);
-		
-		selectElement.each(function(){
+
+		selectElement.each(function () {
 			var select = $(this);
-			if(select.attr('readonly') == 'readonly' ){
+			if (select.attr('readonly') == 'readonly') {
 				select.on('chosen:updated', function () {
 					if (select.attr('readonly')) {
 						var wasDisabled = select.is(':disabled');
@@ -125,7 +125,7 @@ var app = {
 				select.trigger('chosen:updated');
 			}
 		});
-		
+
 		// Improve the display of default text (placeholder)
 		var chosenSelectConainer = jQuery('.chosen-container-multi .default').css('width', '100%');
 		return chosenSelectConainer;
@@ -360,14 +360,14 @@ var app = {
 			// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog. 
 			$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
 				$(document).off('focusin.bs.modal') // guard against infinite focus loop
-					.on('focusin.bs.modal', $.proxy(function (e) {
-						if ($(e.target).hasClass('select2-search__field')) {
-							return true;
-						}
-						if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
-						  this.$element.trigger('focus')
-						}
-					}, this))
+						.on('focusin.bs.modal', $.proxy(function (e) {
+							if ($(e.target).hasClass('select2-search__field')) {
+								return true;
+							}
+							if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
+								this.$element.trigger('focus')
+							}
+						}, this))
 			};
 
 			container.find('.modal').modal(params);
@@ -772,8 +772,8 @@ var app = {
 	getSelect2ElementFromSelect: function (selectElement) {
 		var selectId = selectElement.attr('id');
 		//since select2 will add s2id_ to the id of select element
-		var select2EleId = "s2id_" + selectId;
-		return jQuery('#' + select2EleId);
+		var select2EleId = 'select2-' + selectId + '-container';
+		return jQuery('#' + select2EleId).closest('.select2-container');
 	},
 	/**
 	 * Function to get the select element from the chosen element

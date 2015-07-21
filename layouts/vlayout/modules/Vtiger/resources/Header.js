@@ -626,6 +626,15 @@ jQuery.Class("Vtiger_Header_Js", {
 			});
 		});
 	},
+	registerReminderNotice: function () {
+		$('#page').before('<div class="remindersNoticeContainer"></div>');
+		var block = $('.remindersNoticeContainer');
+		$('.remindersNotice').click(function () {
+			block.toggleClass("toggled");
+		});
+		block.css('top', $('.commonActionsContainer').height() + 3);
+		block.height($(window).height() - $('footer.navbar-default').height() - $('.commonActionsContainer').height());
+	},
     registerEvents: function() {
         var thisInstance = this;
 		thisInstance.recentPageViews();
@@ -693,6 +702,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		$(document).load(function() {
 			 Vtiger_Header_Js.getInstance().adjustContentHeight();
 		});
+		thisInstance.registerReminderNotice();
     }
 }
 });

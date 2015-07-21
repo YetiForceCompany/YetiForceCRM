@@ -291,7 +291,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model {
 		
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT label, searchlabel, crmid, setype, createdtime FROM vtiger_crmentity crm INNER JOIN vtiger_entityname e ON crm.setype = e.modulename WHERE searchlabel LIKE ? AND turn_off = ? AND crm.deleted = 0';
+		$query = 'SELECT label, searchlabel, crmid, setype, createdtime, smownerid FROM vtiger_crmentity crm INNER JOIN vtiger_entityname e ON crm.setype = e.modulename WHERE searchlabel LIKE ? AND turn_off = ? AND crm.deleted = 0';
 		$params = array("%$searchKey%", 1);
 
 		if($module !== false) {
@@ -312,13 +312,26 @@ class Vtiger_Record_Model extends Vtiger_Base_Model {
 		}
 		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
 
+		$user = Users_Record_Model::getCurrentUserModel();
+		$roleInstance = Settings_Roles_Record_Model::getInstanceById($user->get('roleid'));
+		$searchunpriv = $roleInstance->get('searchunpriv');
+
 		for($i=0, $recordsCount = 0; $i<$noOfRows && $recordsCount<$max_number_search_result; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
 				continue;
 			}
-			if(Users_Privileges_Model::isPermitted($row['setype'], 'DetailView', $row['crmid'])) {
+			$recordPermitted = $permitted = Users_Privileges_Model::isPermitted($row['setype'], 'DetailView', $row['crmid']);
+
+			if(!empty($searchunpriv)){
+				if(in_array($row['setype'],explode(',',$searchunpriv))){
+					$recordPermitted = true;
+				}
+			}
+			
+			if($recordPermitted) {
 				$row['id'] = $row['crmid'];
+				$row['permitted'] = $permitted;
 				$moduleName = $row['setype'];
 				if(!array_key_exists($moduleName, $moduleModels)) {
 					$moduleModels[$moduleName] = Vtiger_Module_Model::getInstance($moduleName);

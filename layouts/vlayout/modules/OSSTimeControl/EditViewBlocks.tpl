@@ -74,7 +74,7 @@
 				{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 
 					{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
-					{if $FIELD_MODEL->get('uitype') eq "20" or $FIELD_MODEL->get('uitype') eq "19"}
+					{if $FIELD_MODEL->get('uitype') eq '20' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '300'}
 						{if $COUNTER eq '1'}
 							<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td></tr><tr>
 							{assign var=COUNTER value=0}

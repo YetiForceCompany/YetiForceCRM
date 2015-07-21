@@ -207,15 +207,19 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 				throw new AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
 			}
 		} catch(Exception $e) {
+			$log = vglobal('log');
 			if ($view) {
 				// Log for developement.
-				error_log($e->getTraceAsString(), E_NOTICE);
+				$log->error($e->getMessage().' => '.$e->getFile().':'.$e->getLine());
 				Vtiger_Functions::throwNewException($e->getMessage());
 			} else {
 				$response = new Vtiger_Response();
 				$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 				$response->setError($e->getMessage());
-				//Vtiger_Functions::throwNewException($e->getMessage());
+				$log->error($e->getMessage().' => '.$e->getFile().':'.$e->getLine());
+			}
+			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
+				die($e->getTraceAsString());
 			}
 		}
 

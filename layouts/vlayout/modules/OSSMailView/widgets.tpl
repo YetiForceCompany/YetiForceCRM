@@ -2,7 +2,7 @@
 
 <div id="mail_btn" style="overflow: auto;">	
 	<span class="pull-right" style="text-align:right;">
-		<a data-url="{$SENDURLDDATA}" data-popup="{$POPUP}" class="btn addButton sendMailBtn"><strong>{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}</strong></a>
+		<a data-url="{$SENDURLDDATA}" data-popup="{$POPUP}" class="btn btn-default addButton sendMailBtn"><strong>{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}</strong></a>
 	</span>
     <span class="pull-right" title="{vtranslate('LBL_ChangeType', 'OSSMailView')}" style="font-weight:normal; font-size:small;">
 		<select name="mail-type" title="{vtranslate('LBL_CHANGE_MAIL_TYPE')}" class="form-control">

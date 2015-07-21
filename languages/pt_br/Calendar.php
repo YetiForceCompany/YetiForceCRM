@@ -186,6 +186,5 @@ $jsLanguageStrings = [
 	'JS_Public' => 'Público',
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Não é possível selecionar Contato relacionado Leads',
 	'Mobile Call' => 'Ligar para Celular',
-    'NOTIFICATION_ACCEPTED' => 'Aceita',
     'JS_CHANGE_ACTIVITY_TIME' => 'Alterar status para: processando ou histórico',
 ];

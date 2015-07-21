@@ -32,6 +32,7 @@ $languageStrings = [
 	'LBL_USERS_LIST' => 'Lista de Usuários pertencentes a esta Função:',
 	'LBL_JUST_ME' => 'Somente eu',
 	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => '__UNTRANSLATED__',
+	'LBL_SEARCH_WITHOUT_PERMISSION' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Não tem Permissão para Mover',

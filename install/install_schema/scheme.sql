@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v12.12 (64 bit)
+SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -6107,6 +6107,7 @@ CREATE TABLE `vtiger_role` (
   `depth` int(19) DEFAULT NULL,
   `allowassignedrecordsto` tinyint(1) NOT NULL DEFAULT '1',
   `changeowner` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `searchunpriv` text,
   PRIMARY KEY (`roleid`),
   KEY `parentrole` (`parentrole`),
   KEY `parentrole_2` (`parentrole`,`depth`),
@@ -7796,6 +7797,14 @@ CREATE TABLE `yetiforce_proc_sales` (
   `param` varchar(30) DEFAULT NULL,
   `value` varchar(200) DEFAULT NULL,
   KEY `type` (`type`,`param`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `yetiforce_proc_tc` */
+
+CREATE TABLE `yetiforce_proc_tc` (
+  `type` varchar(30) DEFAULT NULL,
+  `param` varchar(30) DEFAULT NULL,
+  `value` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_updates` */

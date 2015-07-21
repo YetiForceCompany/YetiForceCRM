@@ -193,13 +193,14 @@ var Vtiger_Index_Js = {
 	/**
 	 * Function registers event for Calendar Reminder popups
 	 */
-	registerActivityReminder : function() {
+	registerActivityReminder: function () {
 		var activityReminder = jQuery('#activityReminder').val();
-		activityReminder = activityReminder * 1000;
-		if(activityReminder != '') {
-			var currentTime = new Date().getTime()/1000;
+		if (activityReminder != '') {
+			activityReminder = activityReminder * 1000;
+			var currentTime = new Date().getTime();
 			var nextActivityReminderCheck = app.cacheGet('nextActivityReminderCheckTime', 0);
-			if((currentTime + activityReminder) > nextActivityReminderCheck) {
+
+			if ((currentTime + activityReminder) > nextActivityReminderCheck) {
 				Vtiger_Index_Js.requestReminder(true);
 				setTimeout('Vtiger_Index_Js.requestReminder()', activityReminder);
 				app.cacheSet('nextActivityReminderCheckTime', currentTime + parseInt(activityReminder));
@@ -210,83 +211,44 @@ var Vtiger_Index_Js = {
 	/**
 	 * Function request for reminder popups
 	 */
-	requestReminder : function(typeRemainder) {
-		var url = 'index.php?module=Calendar&action=ActivityReminder&mode=getReminders';
+	requestReminder: function (typeRemainder) {
+		var content = $('.remindersNoticeContainer');
+		var badge = $(".remindersNotice .badge");
+		var url = 'index.php?module=Calendar&view=Reminders';
 		if (typeRemainder) {
 			url += '&type_remainder=true';
-		} 
-		document.notify = [];
-		AppConnector.request(url).then(function(data){
-			if(data.success && data.result) {
-				for(i=0; i< data.result.length; i++) {
-					var record  = data.result[i];
-					Vtiger_Index_Js.showReminderPopup(record);
-				}
+		}
+		AppConnector.request(url).then(function (data) {
+			content.append(data);
+
+			var count = content.find('.panel').length;
+			badge.text(count);
+			badge.removeClass('hide');
+			if (count > 0) {
+				$(".remindersNotice").effect( "pulsate", 1500);
+			} else {
+				badge.addClass('hide');
 			}
+
+			content.find('.reminderAccept').on('click', function (e) {
+				var currentElement = jQuery(e.currentTarget);
+				var recordID = currentElement.closest('.panel').data('record');
+				var url = 'index.php?module=Calendar&action=ActivityReminder&mode=cancelReminder&record=' + recordID;
+				AppConnector.request(url).then(function (data) {
+					currentElement.closest('.panel').hide("slow");
+				});
+			});
+			content.find('.reminderPostpone').on('click', function (e) {
+				var currentElement = jQuery(e.currentTarget);
+				var recordID = currentElement.closest('.panel').data('record');
+				var url = 'index.php?module=Calendar&action=ActivityReminder&mode=postpone&record=' + recordID + '&time=' + currentElement.data('time');
+				AppConnector.request(url).then(function (data) {
+					currentElement.closest('.panel').hide("slow");
+				});
+			});
 		});
 	},
 
-	/**
-	 * Function display the Reminder popup
-	 */
-	showReminderPopup : function(record) {
-		var data_info = '';
-		if(record.contact_id != '' && record.contact_id != undefined){
-			data_info += '<span class="col-md-12">'+app.vtranslate('JS_CONTACT_NAME')+' : <strong>'+record.contact_id+'</strong></span>';
-		}
-		if(record.link != '0' && record.link != undefined){
-			data_info += '<span class="col-md-12">'+app.vtranslate('JS_RELATION')+' : <strong>'+record.link+'</strong></span>';
-		}
-		if(record.process != '0' && record.process != undefined){
-			data_info += '<span class="col-md-12">'+app.vtranslate('JS_PROCESS')+' : <strong>'+record.process+'</strong></span>';
-		}
-		if(record.location != '' && record.location != undefined){
-			data_info += '<span class="col-md-12" style="margin-top: 5px;"><a class="btn btn-default" target="_blank" href="https://www.google.com/maps/search/'+record.location+'"><i class="icon-map-marker"></i>&nbsp;'+record.location+'</a></span>';
-		}
-		if(record.mailUrl != '' && record.mailUrl != undefined){
-			data_info += '<span class="col-md-12" style="margin-top: 5px;">'+record.mailUrl+'</span>';
-		}
-		
-		var params = {
-			title: '&nbsp;&nbsp;<span style="position: relative; top: 8px;">'+record.activitytype+' - '+
-					'<a target="_blank" href="index.php?module=Calendar&view=Detail&record='+record.id+'">'+record.subject+'</a></span>',
-			text: '<div data-record="'+record.id+'" class="row calendar_info" style="color:black">\n\
-				<span class="col-md-12">'+app.vtranslate('JS_START_DATE_TIME')+' : '+record.date_start+'</span>\n\
-				<span class="col-md-12">'+app.vtranslate('JS_END_DATE_TIME')+' : '+record.due_date+'</span>'
-				+data_info+
-				'<span class="col-md-12" style="margin-top: 5px;"><button title="' + app.vtranslate('NOTIFICATION_ACCEPTED') + '" class="btn btn-success btn-sm reminder_accept"><span class="glyphicon glyphicon-ok icon-white"></span></button>&nbsp;&nbsp;'+
-				'<button class="btn btn-sm btn-primary reminder_postpone" data-time="15m">15'+app.vtranslate('JS_M')+'</button>&nbsp;&nbsp;'+
-				'<button class="btn btn-sm btn-primary reminder_postpone" data-time="30m">30'+app.vtranslate('JS_M')+'</button>&nbsp;&nbsp;'+
-				'<button class="btn btn-sm btn-primary reminder_postpone" data-time="1h">1'+app.vtranslate('JS_H')+'</button>&nbsp;&nbsp;'+
-				'<button class="btn btn-sm btn-primary reminder_postpone" data-time="2h">2'+app.vtranslate('JS_H')+'</button>&nbsp;&nbsp;'+
-				'<button class="btn btn-sm btn-primary reminder_postpone" data-time="1d">1'+app.vtranslate('JS_D')+'</button>&nbsp;&nbsp;'+
-				'</div>',
-			addclass:'vtReminder',
-			icon: 'vtReminder-icon',
-			hide:false,
-			closer:false,
-			type:'info',
-			after_open:function(p) {
-				jQuery(p).data('info', record);
-			}
-		};
-		document.notify[record.id] = Vtiger_Helper_Js.showPnotify(params);
-		jQuery('.reminder_accept').on('click', function(e) {
-			var currentElement = jQuery(e.currentTarget);
-			var recordID = currentElement.closest('.calendar_info').data('record');
-			var url = 'index.php?module=Calendar&action=ActivityReminder&mode=cancelReminder&record='+recordID;
-			document.notify[recordID].remove();
-			AppConnector.request(url);
-			
-		});
-		jQuery('.reminder_postpone').on('click', function(e) {
-			var currentElement = jQuery(e.currentTarget);
-			var recordID = currentElement.closest('.calendar_info').data('record');
-			var url = 'index.php?module=Calendar&action=ActivityReminder&mode=postpone&record='+recordID+'&time='+currentElement.data('time');
-			document.notify[recordID].remove();
-			AppConnector.request(url);
-		});	
-	},
 	registerResizeEvent: function(){
 		$(window).resize(function() {
 			if(this.resizeTO) clearTimeout(this.resizeTO);

@@ -288,6 +288,5 @@ $jsLanguageStrings = [
 	'Mobile Call'	=>	'Звонок с мобильного',
     'JS_RECORD_DELETED' => 'Запись удалена',
 	'JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR'	=>	'Задача добавлена в Ваш календарь',
-	'NOTIFICATION_ACCEPTED'	=>	'Принято',
 	'JS_CHANGE_ACTIVITY_TIME' => 'Изменить статус Календаря: В работе - В ожидании',
 ];

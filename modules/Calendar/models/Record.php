@@ -183,4 +183,11 @@ class Calendar_Record_Model extends Vtiger_Record_Model {
 			$db->pquery('UPDATE vtiger_activity set date_start = ?, time_start = ?, due_date = ?, time_end = ? WHERE activityid = ?', $params);
 		}
 	}
+	
+	public function getActivityTypeIcon() {
+		$icon = $this->get('activitytype');
+		if($icon == 'Task')
+			$icon = 'Tasks';
+		return $icon.'.png';
+	}
 }

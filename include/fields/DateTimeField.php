@@ -245,14 +245,18 @@ class DateTimeField {
 	 * @param type $value
 	 * @param Users $user
 	 */
-	public static function convertToDBTimeZone( $value, $user = null ) {
+	public static function convertToDBTimeZone( $value, $user = null, $formatDate = true ) {
 		global $log, $current_user, $default_timezone;
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($value)");
 		if(empty($user)) {
 			$user = $current_user;
 		}
 		$timeZone = $user->time_zone ? $user->time_zone : $default_timezone;
-		$value = self::sanitizeDate($value, $user);
+
+		if($formatDate){
+			$value = self::sanitizeDate($value, $user);
+		}
+
 		$return = DateTimeField::convertTimeZone($value, $timeZone, self::getDBTimeZone() );
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 		return $return;
@@ -281,8 +285,9 @@ class DateTimeField {
 			}
 			$time = str_replace(".","-",$time);
 			$time = str_replace("/","-",$time);
-			$myDateTime = new DateTime($time, $sourceTimeZone);
 
+			$myDateTime = new DateTime($time, $sourceTimeZone);
+			
 			// convert this to target timezone using the DateTimeZone object
 			$targetTimeZone = new DateTimeZone($targetTimeZoneName);
 			$myDateTime->setTimeZone($targetTimeZone);
@@ -362,11 +367,15 @@ class DateTimeField {
 		if(strlen($value) < 8 ){
 			return $value;
 		}
+
 		$value = str_replace('T',' ',$value);
 		list($date, $time) = explode(' ', $value);
 		if(!empty($date) && !in_array($time, ['AM','PM'])) {
 			$date = self::__convertToDBFormat($date, $user->date_format);
-			$value = $date. ' ' .rtrim($time);
+			$value = $date;
+			if(!empty($time)){
+				$value .=  ' ' .rtrim($time);
+			}
 		}
 		return $value;
 	}

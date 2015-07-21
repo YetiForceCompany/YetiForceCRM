@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -10,7 +9,8 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_Menu_Module_Model {
+class Settings_Menu_Module_Model
+{
 
 	protected $types = [
 		0 => 'Module',
@@ -28,22 +28,26 @@ class Settings_Menu_Module_Model {
 	 * @param <Boolean> true/false
 	 * @return <Settings_Menu_Module_Model>
 	 */
-	public static function getInstance() {
+	public static function getInstance()
+	{
 		$instance = new self();
 		return $instance;
 	}
 
-	public function getMenuTypes($key = false) {
+	public function getMenuTypes($key = false)
+	{
 		if ($key === false)
 			return $this->types;
 		return $this->types[$key];
 	}
 
-	public function getMenuTypeKey($val) {
+	public function getMenuTypeKey($val)
+	{
 		return array_search($val, $this->types);
 	}
 
-	public function getMenuName($row, $settings = false) {
+	public function getMenuName($row, $settings = false)
+	{
 		switch ($row['type']) {
 			case 0: $name = $row['name'];
 				break;
@@ -64,7 +68,7 @@ class Settings_Menu_Module_Model {
 				$data = $adb->raw_query_result_rowdata($result, 0);
 				if ($settings) {
 					$name = Vtiger_Menu_Model::vtranslateMenu($data['entitytype'], $data['entitytype']) . ': ' . vtranslate($data['viewname'], $data['entitytype']);
-				}else{
+				} else {
 					$name = Vtiger_Menu_Model::vtranslateMenu($data['viewname'], $data['entitytype']);
 				}
 				break;
@@ -74,17 +78,18 @@ class Settings_Menu_Module_Model {
 		return $name;
 	}
 
-	public function getMenuUrl($row) {
+	public function getMenuUrl($row)
+	{
 		switch ($row['type']) {
 			case 0:
 				$moduleModel = Vtiger_Module_Model::getInstance($row['module']);
-				$url = $moduleModel->getDefaultUrl().'&parent='.$row['parentid'];
+				$url = $moduleModel->getDefaultUrl() . '&parent=' . $row['parentid'];
 				break;
 			case 1: $url = $row['dataurl'];
 				break;
 			case 4: $url = addslashes($row['dataurl']);
 				break;
-			case 7: $url = 'index.php?module='.$row['name'].'&view=List&viewname='.$row['dataurl'].'&parent='.$row['parentid'];
+			case 7: $url = 'index.php?module=' . $row['name'] . '&view=List&viewname=' . $row['dataurl'] . '&parent=' . $row['parentid'];
 				break;
 			default: $url = null;
 				break;
@@ -92,26 +97,29 @@ class Settings_Menu_Module_Model {
 		return $url;
 	}
 
-	public function getModulesList() {
+	public function getModulesList()
+	{
 		$db = PearDatabase::getInstance();
 		$modules = [];
 		$result = $db->query("SELECT tabid,name FROM vtiger_tab WHERE name NOT "
-				. "IN ('Users','ModComments','Emails') AND ( isentitytype = '1' OR name IN ('Home','Reports','RecycleBin','OSSMail','Portal','Rss') ) ORDER BY name;");
+			. "IN ('Users','ModComments','Emails') AND ( isentitytype = '1' OR name IN ('Home','Reports','RecycleBin','OSSMail','Portal','Rss') ) ORDER BY name;");
 		while ($row = $db->fetch_array($result)) {
 			$modules[] = $row;
 		}
 		return $modules;
 	}
 
-	public function getLastId() {
+	public function getLastId()
+	{
 		$db = PearDatabase::getInstance();
 		$result = $db->query('SELECT MAX(id) AS max FROM yetiforce_menu;');
 		return (int) $db->query_result_raw($result, 0, 'max');
 	}
 
-	public function getCustomViewList() {
+	public function getCustomViewList()
+	{
 		$db = PearDatabase::getInstance();
-		$list = $db->query('SELECT cvid,viewname,entitytype,vtiger_tab.tabid FROM vtiger_customview LEFT JOIN vtiger_tab ON vtiger_tab.name = vtiger_customview.entitytype WHERE status = 1;');
-		return $db->fetch_array($list);
+		$list = $db->query('SELECT cvid,viewname,entitytype,vtiger_tab.tabid FROM vtiger_customview LEFT JOIN vtiger_tab ON vtiger_tab.name = vtiger_customview.entitytype');
+		return $db->getArray($list);
 	}
 }

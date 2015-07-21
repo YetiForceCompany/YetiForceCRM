@@ -173,6 +173,5 @@ $jsLanguageStrings = [
 	'JS_Private' => 'Private',
 	'JS_Public' => 'Public',
 	'Mobile Call' => 'Mobile Call',
-	'NOTIFICATION_ACCEPTED' => 'Accept',
 	'JS_CHANGE_ACTIVITY_TIME' => 'Change status to: for processing or history',
 ];
