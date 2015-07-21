@@ -1217,7 +1217,7 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'На основании справочных полей',
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'На основании связанных модулей',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'В зависимости от объема данных, процесс может занять до нескольких минут',
-	
+	'LBL_LEGAL_FORM' => 'Юридическая форма',
 	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Export to Excel',
 ];
 $jsLanguageStrings = [
@@ -1358,6 +1358,8 @@ $jsLanguageStrings = [
 	'JS_PLEASE_ENTER_VALID_TIME' => 'Пожалуйста, введите правильное время',
 	'JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS' => 'Пожалуйста, выберите Контрагента для копирования адреса',
 	'JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS' => 'Пожалуйста, выберите Контакт для копирования адреса',
+	'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS' => '__UNTRANSLATED__',
+	'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS' => '__UNTRANSLATED__',
 	'JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD' => 'Пожалуйста, выберите хотя бы одно обязательное поле',
 	'JS_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Пожалуйста, выберите доступные опции',
 	'JS_PLEASE_SELECT_BASE_CURRENCY_FOR_PRODUCT' => 'Пожалуйста, выберите базовую валюту для продукта',
