@@ -48,8 +48,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<div class=" pull-right cancelLinkContainer">
-						<a class="cancelLink" href="index.php?module=ModuleManager&parent=Settings&view=List">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+					<div class="col-md-1 pull-right cancelLinkContainer">
+						<a class="cancelLink btn btn-warning" href="index.php?module=ModuleManager&parent=Settings&view=List">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 					</div>
 					<button class="btn btn-success" type="submit" name="saveButton"><strong>{vtranslate('LBL_IMPORT', $QUALIFIED_MODULE)}</strong></button>
 				</div>

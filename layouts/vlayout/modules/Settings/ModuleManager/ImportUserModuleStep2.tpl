@@ -79,7 +79,7 @@
 											{/if}
 										</td>
 										<td>
-											<textarea rows="10" readonly class='row'>{$MODULEIMPORT_LICENSE}</textarea><br>
+											<textarea rows="10" readonly class='form-control'>{$MODULEIMPORT_LICENSE}</textarea><br>
 											{if $MODULEIMPORT_EXISTS neq 'true'}
 												{literal}<input type="checkbox" id="license_agreement" onclick="if(this.form.saveButton){if(this.checked){this.form.saveButton.disabled=false;}else{this.form.saveButton.disabled=true;}}">{/literal}
 												<label for="license_agreement" style="display: inline-block;margin-left: 10px;"> {vtranslate('LBL_LICENSE_ACCEPT_AGREEMENT', $QUALIFIED_MODULE)}</label>
@@ -115,9 +115,9 @@
 								<input type="hidden" name="module_import_name" value="{$MODULEIMPORT_NAME}">
 								<input type="hidden" name="mode" value="importUserModuleStep3">
 								<span class="col-md-6 pull-right">
-									{vtranslate('LBL_PROCEED_WITH_IMPORT', $QUALIFIED_MODULE)}
+									{vtranslate('LBL_PROCEED_WITH_IMPORT', $QUALIFIED_MODULE)}&nbsp;&nbsp;
 									<div class=" pull-right cancelLinkContainer">
-										<a class="cancelLink" type="reset" data-dismiss="modal" onclick="javascript:window.history.back();">{vtranslate('LBL_NO', $MODULE)}</a>
+										<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" onclick="javascript:window.history.back();">{vtranslate('LBL_NO', $MODULE)}</a>
 									</div>
 									<button  class="btn btn-success" type="submit" name="saveButton"
 									{if $need_license_agreement eq 'true'} disabled {/if}><strong>{vtranslate('LBL_YES')}</strong></button>
