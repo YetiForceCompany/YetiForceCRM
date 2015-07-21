@@ -8,9 +8,22 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-class ModComments_Delete_Action extends Vtiger_Delete_Action {
-
-	function checkPermission(Vtiger_Request $request) {
-		throw new AppException('LBL_PERMISSION_DENIED');
+class OSSTimeControl_Double_UIType extends Vtiger_Double_UIType {
+	
+	
+	/**
+	 * Function to get the Display Value, for the current field type with given DB Insert Value
+	 * @param <Object> $value
+	 * @return <Object>
+	 */
+	public function getDisplayValue($value) {
+		if($this->get('field')->getFieldName() == 'sum_time'){
+			$return = Vtiger_Functions::decimalTimeFormat($value);
+			return $return['short'];
+		}else{
+			return decimalFormat($value);
+		}
+		
 	}
+
 }

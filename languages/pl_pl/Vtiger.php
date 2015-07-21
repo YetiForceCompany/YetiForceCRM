@@ -1093,6 +1093,7 @@ $jsLanguageStrings = [
 	'JS_YOU_ARE_IN_PAGE_NUMBER' => 'Jesteś na stronie numer',
 	'JS_YOU_CAN_SELECT_ONLY' => 'Można wybrać tylko',
 	'LBL_DELETE_CONFIRMATION' => 'Czy na pewno chcesz usunąć rekord?', // This is added as duplicate as we need to show different message for different modules. Ex:Accounts has different message
+	'JS_DELETE_CONFIRMATION' => 'Czy na pewno chcesz usunąć powiązanie z tym rekordem? Usunięte zostanie tylko powiązanie, aby usunąć rekord musisz przejść do rekordu i kliknąć usuń.',
 	'LBL_DELETE_USER_CONFIRMATION' => 'Gdy użytkownik zostanie usunięty, użytkownik zostanie oznaczony jako "nieaktywny" i żadne nowe zapisy mogą być przypisane do użytkownika, i użytkownik nie będzie mógł się zalogować. Fakturowanie zatrzyma dla tego użytkownika. Czy na pewno chcesz usunąć?',
 	'LBL_IMAGE_DELETED_SUCCESSFULLY' => 'Zdjęcie zostało pomyślnie usunięte',
 	'LBL_IMAGE_NOT_DELETED' => 'Zdjęcie nie zostało usunięte',
@@ -1183,4 +1184,6 @@ $jsLanguageStrings = [
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Przyszłego wydarzenia nie można oznaczyć jako wykonanego',
 	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'Wprowadzono błędny zakres dat',
 	'JS_STARTED_GENERATING_FILE' => 'Trwa generowanie pliku...',
+	'JS_CAN_NOT_REMOVE_COMMENT' => 'Nie można usuwać komentarzy zawierających odpowiedzi. Usuń wszystkie odpowiedzi aby móc usunąć komentarz.',
+	'LBL_DELETE_COMMENT_CONFIRMATION' => 'Czy na pewno chcesz usunąć komentarz?',
 ];

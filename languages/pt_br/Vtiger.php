@@ -1098,6 +1098,7 @@ $jsLanguageStrings = [
 	'JS_YOU_ARE_IN_PAGE_NUMBER' => 'Você está na página número',
 	'JS_YOU_CAN_SELECT_ONLY' => 'Você pode selecionar somente',
 	'LBL_DELETE_CONFIRMATION' => 'Tem certeza que deseja Apagar?', // This is added as duplicate as we need to show different message for different modules. Ex:Accounts has different message
+	'JS_DELETE_CONFIRMATION' => '__UNTRANSLATED__',
 	'LBL_DELETE_USER_CONFIRMATION' => 'Quando um Usuário é apagado, o mesmo será marcado como "Inativo", nenhum novo registro poderá ser designado para ele e não poderá acessar o Sistema. O faturamento será interrompido para este Usuário. Se desejar reativa-lo, você precisará enviar e-mail para support@vtiger.com. Você tem certeza que deseja apagar?', // UTILIZADO NO VTIGER ON DEMAND
 	'LBL_IMAGE_DELETED_SUCCESSFULLY' => 'A imagem foi apagada com Sucesso',
 	'LBL_IMAGE_NOT_DELETED' => 'A imagem não foi Apagada',
@@ -1186,5 +1187,7 @@ $jsLanguageStrings = [
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Erro desconhecido! Por favor, informe o Administrador',
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Não é pode ser realizado no futuro',
 	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'An incorrect range of dates was entered',
-	'JS_STARTED_GENERATING_FILE' => '__UNTRANSLATED__',
+	'JS_STARTED_GENERATING_FILE' => 'Generating a file',
+	'JS_CAN_NOT_REMOVE_COMMENT' => 'You can\'t delete comments with answers. Delete all the answers in order to delete the comment.',
+	'LBL_DELETE_COMMENT_CONFIRMATION' => 'Are you sure you want to delete the comment?',
 ];

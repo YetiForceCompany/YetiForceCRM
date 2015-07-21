@@ -202,24 +202,24 @@ var app = {
 		} else if (!params.placeholder) {
 			params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 		}
-		$selectElement = selectElement;
-		$selectElement.select2(params)
+		var selectElementNew = selectElement;
+		selectElementNew.select2(params)
 				.on("select2:open", function (e) {
-					if ($selectElement.data('unselecting')) {
-						$selectElement.removeData('unselecting');
+					if (selectElementNew.data('unselecting')) {
+						selectElementNew.removeData('unselecting');
 						setTimeout(function (e) {
-							$selectElement.select2('close');
+							selectElementNew.select2('close');
 						}, 1);
 					}
 					var element = jQuery(e.currentTarget);
 					var instance = element.data('select2');
 					instance.$dropdown.css('z-index', 1000002);
 				}).on("select2:unselect", function (e) {
-			$selectElement.data('unselecting', true);
+			selectElementNew.data('unselecting', true);
 		});
 
 		// Improve the display of default text (placeholder)
-		var instance = $selectElement.data('select2');
+		var instance = selectElementNew.data('select2');
 		if (instance) {
 			instance.$selection.find('.select2-search__field').css('width', '100%');
 		}

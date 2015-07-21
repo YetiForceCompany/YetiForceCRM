@@ -332,7 +332,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 	},
 	getDeleteMessageKey: function () {
-		return 'LBL_DELETE_CONFIRMATION';
+		return 'JS_DELETE_CONFIRMATION';
 	},
 	loadWidgets: function () {
 		var thisInstance = this;
@@ -1809,7 +1809,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var tagId = data.result[1][key];
 			var tagElement = jQuery('#tagsList').find("[data-tagid='" + tagId + "']");
 			if (tagElement.length == 0) {
-				jQuery('#tagsList').prepend('<div class="tag" data-tagname="' + key + '" data-tagid="' + tagId + '"><span class="tagName textOverflowEllipsis"><a class="cursorPointer">' + key + '</a></span><span class="cursorPointer deleteTag"> x</span></div>');
+				jQuery('#tagsList').prepend('<div class="tag btn-info btn-xs pull-right" data-tagname="' + key + '" data-tagid="' + tagId + '"><span class="tagName textOverflowEllipsis"><a class="cursorPointer">' + key + '</a></span><span id="deleteTag" class="glyphicon glyphicon-remove cursorPointer deleteTag" aria-hidden="true"></span></div>');
 			}
 		}
 	},
@@ -2395,6 +2395,36 @@ jQuery.Class("Vtiger_Detail_Js", {
 			commentInfoBlock.find('.commentActionsContainer').hide();
 			editCommentBlock.appendTo(commentInfoBlock).show();
 			app.registerEventForTextAreaFields(jQuery('.commentcontent', commentInfoBlock));
+		});
+		
+		detailContentsHolder.on('click', '.deleteComment', function (e) {
+			thisInstance.removeCommentBlockIfExists();
+			var currentTarget = jQuery(e.currentTarget);
+			var commentInfoBlock = currentTarget.closest('.singleComment');
+			var commentInfoHeader = commentInfoBlock.find('.commentInfoHeader');
+			var deleteUrl = "index.php?module=ModComments&action=DeleteAjax&record=" + commentInfoHeader.data('commentid')
+			var commentDetails = currentTarget.closest('.commentDetails');
+			var relatedComments = commentDetails.find('.commentDetails');
+			var viewThreadBlock = commentDetails.find('.viewThreadBlock');
+			if(relatedComments.length > 0 || viewThreadBlock.length > 0){
+				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CAN_NOT_REMOVE_COMMENT'));
+			}else{
+				Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate('LBL_DELETE_COMMENT_CONFIRMATION')}).then(function (data) {
+					AppConnector.request(deleteUrl).then(
+						function (data) {
+							if (data.success == true) {
+								commentDetails.fadeOut(400, function(){
+									commentDetails.remove();
+								});
+							} else {
+								Vtiger_Helper_Js.showPnotify(data.error.message);
+							}
+						});
+					},
+					function (error, err) {
+					}
+				);
+			}
 		});
 
 		detailContentsHolder.on('click', '.viewThread', function (e) {

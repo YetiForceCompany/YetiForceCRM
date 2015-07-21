@@ -1401,6 +1401,7 @@ $jsLanguageStrings = [
 	'JS_VALUE_SHOULD_NOT_BE_LESS_THAN' => 'Частота любой задачи Планировщика должны быть не меньше',
 	'JS_YOU_CAN_SELECT_ONLY' => 'Вы можете выбрать только',
 	'LBL_DELETE_CONFIRMATION' => 'Вы уверены, что хотите удалить запись?',
+	'JS_DELETE_CONFIRMATION' => '__UNTRANSLATED__',
 	'LBL_DELETE_USER_CONFIRMATION' => 'При удалении пользователя, пользователь будет помечен как «Неактивный» и без возможности создания новых записей и назначения их пользователю, и пользователь не сможет войти в систему. Обслуживание будет остановлено для этого пользователя.Если вам нужно восстановить Удаленного пользователя, вам нужно будет отправить письмо на адрес support@vtiger.com. Вы уверены, что вы хотите удалить?',
 	'LBL_IMAGE_DELETED_SUCCESSFULLY' => 'Изображение успешно удалено',
 	'LBL_IMAGE_NOT_DELETED' => 'Изображение не удалено',
@@ -1520,4 +1521,6 @@ $jsLanguageStrings = [
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Не может быть проведено в будущем',
 	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'An incorrect range of dates was entered',
 	'JS_STARTED_GENERATING_FILE' => 'Generating a file',
+	'JS_CAN_NOT_REMOVE_COMMENT' => 'You can\'t delete comments with answers. Delete all the answers in order to delete the comment.',
+	'LBL_DELETE_COMMENT_CONFIRMATION' => 'Are you sure you want to delete the comment?',
 ];

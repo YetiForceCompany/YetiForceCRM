@@ -8,13 +8,18 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model {
-	public static function getInstance() {
+
+class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
+{
+
+	public static function getInstance()
+	{
 		$instance = new self();
 		return $instance;
 	}
 
-	public static function getConfig($type) {
+	public static function getConfig($type)
+	{
 		$db = PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT * FROM yetiforce_auth WHERE type = ?;', [$type]);
@@ -33,11 +38,12 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model {
 		}
 		return $config;
 	}
-	
-	public static function setConfig($param) {
+
+	public static function setConfig($param)
+	{
 		$db = PearDatabase::getInstance();
 		$value = $param['val'];
-		if(is_array($value)){
+		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
 		$db->pquery('UPDATE yetiforce_auth SET value = ? WHERE type = ? AND param = ?;', [$value, $param['type'], $param['param']]);

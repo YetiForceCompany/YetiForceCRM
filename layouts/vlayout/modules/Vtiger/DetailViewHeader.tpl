@@ -22,7 +22,7 @@
 						</div>
 					</div>
 					<div class="col-md-12 detailViewToolbar paddingLRZero" style="text-align: right;">
-						<div class="col-md-10 pull-left paddingLRZero">
+						<div class="pull-left paddingLRZero col-md-10">
 							<div class="btn-toolbar">
 								{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 									<span class="btn-group {$DETAIL_VIEW_BASIC_LINK->getGrupClassName()}">

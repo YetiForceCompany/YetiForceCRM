@@ -251,6 +251,9 @@ class ListViewController {
 					if($downloadType == 'E' || $downloadType != 'I') {
 						$value = '--';
 					}
+				} elseif( $module == 'OSSTimeControl' && $fieldName == 'sum_time') {
+					$value = Vtiger_Functions::decimalTimeFormat($value);
+					$value = $value['short'];
 				} elseif ($field->getUIType() == '27') {
 					if ($value == 'I') {
 						$value = getTranslatedString('LBL_INTERNAL',$module);

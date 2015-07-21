@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -12,13 +11,15 @@
 /**
  * Vtiger Edit View Record Structure Model
  */
-class Settings_Webforms_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model {
+class Settings_Webforms_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
+{
 
 	/**
 	 * Function to get the values in stuctured format
 	 * @return <array> - values in structure array('block'=>array(fieldinfo));
 	 */
-	public function getStructure() {
+	public function getStructure()
+	{
 		if (!empty($this->structuredValues)) {
 			return $this->structuredValues;
 		}
@@ -42,8 +43,10 @@ class Settings_Webforms_EditRecordStructure_Model extends Vtiger_EditRecordStruc
 								$fieldModel->set('fieldvalue', $defaultValue);
 						}
 						if ($fieldName === 'name') {
-							if ($recordId) $fieldModel->set('readonly', true);
-							else $fieldModel->set('readonly', false);
+							if ($recordId)
+								$fieldModel->set('readonly', true);
+							else
+								$fieldModel->set('readonly', false);
 						}
 						$values[$blockLabel][$fieldName] = $fieldModel;
 					}
@@ -53,5 +56,4 @@ class Settings_Webforms_EditRecordStructure_Model extends Vtiger_EditRecordStruc
 		$this->structuredValues = $values;
 		return $values;
 	}
-
 }

@@ -1012,7 +1012,7 @@ function createRecords($obj) {
 	$focus = CRMEntity::getInstance($moduleName);
 
 	$tableName = Import_Utils_Helper::getDbTableName($obj->user);
-	$sql = 'SELECT * FROM ' . $tableName . ' WHERE status = '. Import_Data_Action::$IMPORT_RECORD_NONE .' GROUP BY subject';
+	$sql = 'SELECT * FROM ' . $tableName . ' WHERE temp_status = '. Import_Data_Action::$IMPORT_RECORD_NONE .' GROUP BY subject';
 
 	if($obj->batchImport) {
 		$importBatchLimit = getImportBatchLimit();
@@ -1035,7 +1035,7 @@ function createRecords($obj) {
 		$fieldData = array();
 		$lineItems = array();
 		$subject = $row['subject'];
-		$sql = 'SELECT * FROM ' . $tableName . ' WHERE status = '. Import_Data_Action::$IMPORT_RECORD_NONE .' AND subject = "'. str_replace("\"", "\\\"", $subject) .'"';
+		$sql = 'SELECT * FROM ' . $tableName . ' WHERE temp_status = '. Import_Data_Action::$IMPORT_RECORD_NONE .' AND subject = "'. str_replace("\"", "\\\"", $subject) .'"';
 		$subjectResult = $adb->query($sql);
 		$count = $adb->num_rows($subjectResult);
 		$subjectRowIDs = array();
@@ -1192,7 +1192,7 @@ function getImportStatusCount($obj) {
 		$noOfRows = $adb->num_rows($result);
 		$statusCount['TOTAL'] = $noOfRows;
 		for($i=0; $i<$noOfRows; ++$i) {
-			$status = $adb->query_result($result, $i, 'status');
+			$status = $adb->query_result($result, $i, 'temp_status');
 			if($obj->getImportRecordStatus('none') == $status) {
 				$statusCount['PENDING']++;
 
@@ -1232,7 +1232,7 @@ function undoLastImport($obj, $user) {
 		$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
 		exit;
 	}
-	$result = $adb->query("SELECT recordid FROM $dbTableName WHERE status = ". Import_Data_Controller::$IMPORT_RECORD_CREATED
+	$result = $adb->query("SELECT recordid FROM $dbTableName WHERE temp_status = ". Import_Data_Controller::$IMPORT_RECORD_CREATED
 			." AND recordid IS NOT NULL GROUP BY subject");
 	$noOfRecords = $adb->num_rows($result);
 	$noOfRecordsDeleted = 0;

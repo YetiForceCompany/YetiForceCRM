@@ -371,7 +371,7 @@ function zipFilesAndDownload($file_names, $archive_file_name, $file_path, $zipna
     if (0 == $onlyGenerate) {
         if ($_REQUEST['return_name'] != "yes") {
             header("Content-type: application/zip");
-            header("Content-Disposition: attachment; filename=$archive_file_name");
+			header("Content-Disposition: attachment; filename=\"$archive_file_name\"");
             header("Pragma: no-cache");
             header("Expires: 0");
 			header('Content-Length: '.file_get_contents($archive_file_name));

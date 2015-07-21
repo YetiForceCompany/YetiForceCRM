@@ -8,60 +8,51 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 jQuery.Class('Settings_LayoutEditor_Js', {
-
 }, {
-	updatedBlockSequence : {},
-
-	reactiveFieldsList : [],
-
-	inActiveFieldsList : false,
-
-	updatedBlockFieldsList : [],
-
-	updatedBlocksList : [],
-
-	blockNamesList : [],
-
+	updatedBlockSequence: {},
+	reactiveFieldsList: [],
+	inActiveFieldsList: false,
+	updatedBlockFieldsList: [],
+	updatedBlocksList: [],
+	blockNamesList: [],
 	/**
 	 * Function to set the inactive fields list used to show the inactive fields
 	 */
-	setInactiveFieldsList : function() {
+	setInactiveFieldsList: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
-                var json = contents.find('.inActiveFieldsArray');
-                if ( 0 < json.length) {
-                    thisInstance.inActiveFieldsList = JSON.parse(json.val());
-                }
+		var json = contents.find('.inActiveFieldsArray');
+		if (0 < json.length) {
+			thisInstance.inActiveFieldsList = JSON.parse(json.val());
+		}
 	},
-
 	/**
 	 * Function to regiser the event to make the blocks sortable
 	 */
-	makeBlocksListSortable : function() {
+	makeBlocksListSortable: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
 		var table = contents.find('.blockSortable');
 		contents.sortable({
-			'containment' : contents,
-			'items' : table,
-			'revert' : true,
-			'tolerance':'pointer',
-			'cursor' : 'move',
-			'update' : function(e, ui) {
+			'containment': contents,
+			'items': table,
+			'revert': true,
+			'tolerance': 'pointer',
+			'cursor': 'move',
+			'update': function (e, ui) {
 				thisInstance.updateBlockSequence();
 			}
 		});
 	},
-
 	/**
 	 * Function which will update block sequence
 	 */
-	updateBlockSequence : function() {
+	updateBlockSequence: function () {
 		var thisInstance = this;
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 
@@ -74,47 +65,45 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['sequence'] = sequence;
 
 		AppConnector.request(params).then(
-			function(data) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				var params = {};
-				params['text'] = app.vtranslate('JS_BLOCK_SEQUENCE_UPDATED');
-				Settings_Vtiger_Index_Js.showMessage(params);
-			},
-			function(error) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					var params = {};
+					params['text'] = app.vtranslate('JS_BLOCK_SEQUENCE_UPDATED');
+					Settings_Vtiger_Index_Js.showMessage(params);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				}
 		);
 	},
-
 	/**
 	 * Function which will arrange the sequence number of blocks
 	 */
-	updateBlocksListByOrder : function() {
+	updateBlocksListByOrder: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
-		contents.find('.editFieldsTable').each(function(index,domElement){
+		contents.find('.editFieldsTable').each(function (index, domElement) {
 			var blockTable = jQuery(domElement);
 			var blockId = blockTable.data('blockId');
 			var actualBlockSequence = blockTable.data('sequence');
-			var expectedBlockSequence = (index+1);
+			var expectedBlockSequence = (index + 1);
 
-			if(expectedBlockSequence != actualBlockSequence) {
+			if (expectedBlockSequence != actualBlockSequence) {
 				blockTable.data('sequence', expectedBlockSequence);
 			}
 			thisInstance.updatedBlockSequence[blockId] = expectedBlockSequence;
 		});
 		return thisInstance.updatedBlockSequence;
 	},
-
 	/**
 	 * Function to register all the relatedList Events
 	 */
-	registerRelatedListEvents : function() {
+	registerRelatedListEvents: function () {
 		var thisInstance = this;
 		var relatedList = jQuery('#relatedTabOrder');
 		var container = relatedList.find('.relatedTabModulesList');
 		var ulEle = container.find('ul.relatedModulesList');
-		var select2Element = app.showSelectizeElementView(container.find('.select2_container'),{plugins: ['drag_drop','remove_button'],
+		var select2Element = app.showSelectizeElementView(container.find('.select2_container'), {plugins: ['drag_drop', 'remove_button'],
 			onInitialize: function () {
 				var s = this, children = this.revertSettings.$children;
 				if (children.first().is('optgroup')) {
@@ -126,71 +115,70 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				});
 			}
 		});
-		
-		relatedList.on('click', '.inActiveRelationModule', function(e) {
+
+		relatedList.on('click', '.inActiveRelationModule', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
 			relatedModule.find('.activeRelationModule').removeClass('hide').show();
 			currentTarget.hide();
-			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'),0);
+			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), 0);
 		})
-		relatedList.on('click', '.activeRelationModule', function(e) {
+		relatedList.on('click', '.activeRelationModule', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
 			relatedModule.find('.inActiveRelationModule').removeClass('hide').show();
 			currentTarget.hide();
-			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'),1);
+			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), 1);
 		})
 		var relatedColumnsList = container.find('.relatedColumnsList');
-		relatedColumnsList.on('change', function(e) {
+		relatedColumnsList.on('change', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
 			var selectedFields = thisInstance.updateSelectedFields(currentTarget);
 		})
-		relatedList.on('click', '.addRelation', function(e) {
+		relatedList.on('click', '.addRelation', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var container = currentTarget.closest('#relatedTabOrder');
 			var contentsDiv = container.closest('.contentsDiv');
 			var addRelationContainer = relatedList.find('.addRelationContainer').clone(true, true);
 
-			var callBackFunction = function(data) {
+			var callBackFunction = function (data) {
 				app.showSelect2ElementView(data.find('select'));
 				data.find('.relLabel').val(data.find('.target option:selected').val());
-				data.on('change', '.target', function(e) {
+				data.on('change', '.target', function (e) {
 					var currentTarget = jQuery(e.currentTarget);
 					data.find('.relLabel').val(currentTarget.find('option:selected').val());
 				})
-				data.on('click', '.addButton', function(e) {
+				data.on('click', '.addButton', function (e) {
 					var form = data.find('form').serializeFormData();
 					var params = {};
 					params['module'] = app.getModuleName();
 					params['parent'] = app.getParentModuleName();
 					params['action'] = 'Relation';
 					params['mode'] = 'addRelation';
-					$.extend( params, form );
+					$.extend(params, form);
 					AppConnector.request(params).then(
-						function(data) {
-							thisInstance.getRelModuleLayoutEditor(container.find('[name="layoutEditorRelModules"]').val()).then(
-								function(data) {
-									contentsDiv.html(data);
-									thisInstance.registerEvents();
-								}
-							);
-						}
+							function (data) {
+								thisInstance.getRelModuleLayoutEditor(container.find('[name="layoutEditorRelModules"]').val()).then(
+										function (data) {
+											contentsDiv.html(data);
+											thisInstance.registerEvents();
+										}
+								);
+							}
 					);
 				});
 			}
-			app.showModalWindow(addRelationContainer,function(data) {
-				if(typeof callBackFunction == 'function') {
+			app.showModalWindow(addRelationContainer, function (data) {
+				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);
 				}
 			});
 		})
 	},
-
-	getSelectedFields : function(target) {
+	getSelectedFields: function (target) {
 		var selectedFields = [];
-		target.find(':selected').each(function(e){
+		target.find(':selected').each(function (e) {
 			selectedFields.push({
 				id: jQuery(this).val(),
 				name: target[0].selectize.options[jQuery(this).val()].fieldName
@@ -198,28 +186,26 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		})
 		return selectedFields;
 	},
-	
 	/**
 	 * Function to regiser the event to make the related modules sortable
 	 */
-	makeRelatedModuleSortable : function() {
+	makeRelatedModuleSortable: function () {
 		var thisInstance = this;
 		var relatedModulesContainer = jQuery('.relatedModulesList');
 		var modulesList = relatedModulesContainer.find('.relatedModule');
 		relatedModulesContainer.sortable({
-			'containment' : relatedModulesContainer,
-			'items' : modulesList,
-			'handle' : ".mainBlockTableLabel",
-			'revert' : true,
-			'tolerance':'pointer',
-			'cursor' : 'move',
-			'update' : function(e, ui) {
+			'containment': relatedModulesContainer,
+			'items': modulesList,
+			'handle': ".mainBlockTableLabel",
+			'revert': true,
+			'tolerance': 'pointer',
+			'cursor': 'move',
+			'update': function (e, ui) {
 				thisInstance.updateSequenceRelatedModule();
 			}
 		});
 	},
-	
-	changeStatusRelatedModule : function(relationId,status) {
+	changeStatusRelatedModule: function (relationId, status) {
 		var thisInstance = this;
 
 		var params = {};
@@ -231,39 +217,38 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['status'] = status;
 
 		AppConnector.request(params).then(
-			function(data) {
-				var params = {};
-				if(status == 1){
-					params['text'] = app.vtranslate('JS_SAVED_CHANGE_STATUS_1');
-				}else{
-					params['text'] = app.vtranslate('JS_SAVED_CHANGE_STATUS_0');
+				function (data) {
+					var params = {};
+					if (status == 1) {
+						params['text'] = app.vtranslate('JS_SAVED_CHANGE_STATUS_1');
+					} else {
+						params['text'] = app.vtranslate('JS_SAVED_CHANGE_STATUS_0');
+					}
+					Settings_Vtiger_Index_Js.showMessage(params);
+				},
+				function (error) {
+					var params = {};
+					params['text'] = error;
+					Settings_Vtiger_Index_Js.showMessage(params);
 				}
-				Settings_Vtiger_Index_Js.showMessage(params);
-			},
-			function(error) {
-				var params = {};
-				params['text'] = error;
-				Settings_Vtiger_Index_Js.showMessage(params);
-			}
 		);
 	},
-	
-	updateSequenceRelatedModule : function() {
+	updateSequenceRelatedModule: function () {
 		var thisInstance = this;
 		var modules = [];
 		var relatedModulesContainer = jQuery('.relatedModulesList');
 		var params = {};
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
-		relatedModulesContainer.find('.relatedModule').each(function(index,domElement) {
+		relatedModulesContainer.find('.relatedModule').each(function (index, domElement) {
 			var relationId = jQuery(domElement).data('relationId');
 			modules.push({relationId: relationId, index: index});
 		});
-		
+
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
 		params['action'] = 'Relation';
@@ -271,30 +256,29 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['modules'] = modules;
 
 		AppConnector.request(params).then(
-			function(data) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				var params = {};
-				params['text'] = app.vtranslate('JS_UPDATE_SEQUENCE');
-				Settings_Vtiger_Index_Js.showMessage(params);
-			},
-			function(error) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				var params = {};
-				params['text'] = error;
-				Settings_Vtiger_Index_Js.showMessage(params);
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					var params = {};
+					params['text'] = app.vtranslate('JS_UPDATE_SEQUENCE');
+					Settings_Vtiger_Index_Js.showMessage(params);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					var params = {};
+					params['text'] = error;
+					Settings_Vtiger_Index_Js.showMessage(params);
+				}
 		);
 	},
-	
-	updateSelectedFields : function(target) {
+	updateSelectedFields: function (target) {
 		var thisInstance = this;
 		var selectedFields = thisInstance.getSelectedFields(jQuery(target));
 		var params = {};
 		var relatedModule = jQuery(target).closest('.relatedModule');
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 		params['module'] = app.getModuleName();
@@ -304,55 +288,53 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['relationId'] = relatedModule.data('relation-id');
 		params['fields'] = selectedFields;
 		AppConnector.request(params).then(
-			function(data) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				var params = {};
-				params['text'] = app.vtranslate('JS_UPDATED_FIELD_LIST_MODULE_RELATED');
-				Settings_Vtiger_Index_Js.showMessage(params);
-			},
-			function(error) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				var params = {};
-				params['text'] = error;
-				Settings_Vtiger_Index_Js.showMessage(params);
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					var params = {};
+					params['text'] = app.vtranslate('JS_UPDATED_FIELD_LIST_MODULE_RELATED');
+					Settings_Vtiger_Index_Js.showMessage(params);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					var params = {};
+					params['text'] = error;
+					Settings_Vtiger_Index_Js.showMessage(params);
+				}
 		);
 	},
-
 	/**
 	 * Function to regiser the event to make the fields sortable
 	 */
-	makeFieldsListSortable : function() {
+	makeFieldsListSortable: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
 		var table = contents.find('.editFieldsTable');
 		table.find('ul[name=sortable1], ul[name=sortable2]').sortable({
-			'containment' : '#moduleBlocks',
-			'revert' : true,
-			'tolerance':'pointer',
-			'cursor' : 'move',
-			'connectWith' : '.connectedSortable',
-			'update' : function(e, ui) {
+			'containment': '#moduleBlocks',
+			'revert': true,
+			'tolerance': 'pointer',
+			'cursor': 'move',
+			'connectWith': '.connectedSortable',
+			'update': function (e, ui) {
 				var currentField = ui['item'];
 				thisInstance.showSaveFieldSequenceButton();
 				thisInstance.createUpdatedBlocksList(currentField);
 				// rearrange the older block fields
-				if(ui.sender) {
+				if (ui.sender) {
 					var olderBlock = ui.sender.closest('.editFieldsTable');
 					thisInstance.reArrangeBlockFields(olderBlock);
 				}
 			}
 		});
 	},
-
 	/**
 	 * Function to show the save button of fieldSequence
 	 */
-	showSaveFieldSequenceButton : function() {
+	showSaveFieldSequenceButton: function () {
 		var thisInstance = this;
 		var layout = jQuery('#detailViewLayout');
 		var saveButton = layout.find('.saveFieldSequence');
-		if(app.isHidden(saveButton)) {
+		if (app.isHidden(saveButton)) {
 			thisInstance.updatedBlocksList = [];
 			thisInstance.updatedBlockFieldsList = [];
 			saveButton.removeClass('hide');
@@ -361,41 +343,38 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			Settings_Vtiger_Index_Js.showMessage(params);
 		}
 	},
-
 	/**
 	 * Function which will hide the saveFieldSequence button
 	 */
-	hideSaveFieldSequenceButton : function() {
+	hideSaveFieldSequenceButton: function () {
 		var layout = jQuery('#detailViewLayout');
 		var saveButton = layout.find('.saveFieldSequence');
 		saveButton.addClass('hide');
 	},
-
 	/**
 	 * Function to create the blocks list which are updated while sorting
 	 */
-	createUpdatedBlocksList : function(currentField) {
+	createUpdatedBlocksList: function (currentField) {
 		var thisInstance = this;
 		var block = currentField.closest('.editFieldsTable');
 		var updatedBlockId = block.data('blockId');
-		if(jQuery.inArray(updatedBlockId, thisInstance.updatedBlocksList) == -1) {
+		if (jQuery.inArray(updatedBlockId, thisInstance.updatedBlocksList) == -1) {
 			thisInstance.updatedBlocksList.push(updatedBlockId);
 		}
 		thisInstance.reArrangeBlockFields(block);
 	},
-
 	/**
 	 * Function that rearranges fields in the block when the fields are moved
 	 * @param <jQuery object> block
 	 */
-	reArrangeBlockFields : function(block) {
+	reArrangeBlockFields: function (block) {
 		// 1.get the containers, 2.compare the length, 3.if uneven then move the last element
 		var leftSideContainer = block.find('ul[name=sortable1]');
 		var rightSideContainer = block.find('ul[name=sortable2]');
-		if(leftSideContainer.children().length < rightSideContainer.children().length) {
+		if (leftSideContainer.children().length < rightSideContainer.children().length) {
 			var lastElementInRightContainer = rightSideContainer.children(':last');
 			leftSideContainer.append(lastElementInRightContainer);
-		} else if(leftSideContainer.children().length > rightSideContainer.children().length+1) {	//greater than 1
+		} else if (leftSideContainer.children().length > rightSideContainer.children().length + 1) {	//greater than 1
 			var lastElementInLeftContainer = leftSideContainer.children(':last');
 			rightSideContainer.append(lastElementInLeftContainer);
 		}
@@ -403,56 +382,54 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	/**
 	 * Function to create the list of updated blocks with all the fields and their sequences
 	 */
-	createUpdatedBlockFieldsList : function() {
+	createUpdatedBlockFieldsList: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
 
-		for(var index in  thisInstance.updatedBlocksList) {
+		for (var index in  thisInstance.updatedBlocksList) {
 			var updatedBlockId = thisInstance.updatedBlocksList[index];
-			var updatedBlock = contents.find('.block_'+updatedBlockId);
+			var updatedBlock = contents.find('.block_' + updatedBlockId);
 			var firstBlockSortFields = updatedBlock.find('ul[name=sortable1]');
 			var editFields = firstBlockSortFields.find('.editFields');
 			var expectedFieldSequence = 1;
-			editFields.each(function(i,domElement){
+			editFields.each(function (i, domElement) {
 				var fieldEle = jQuery(domElement);
 				var fieldId = fieldEle.data('fieldId');
-				thisInstance.updatedBlockFieldsList.push({'fieldid' : fieldId,'sequence' : expectedFieldSequence, 'block' : updatedBlockId});
-				expectedFieldSequence = expectedFieldSequence+2;
+				thisInstance.updatedBlockFieldsList.push({'fieldid': fieldId, 'sequence': expectedFieldSequence, 'block': updatedBlockId});
+				expectedFieldSequence = expectedFieldSequence + 2;
 			});
 			var secondBlockSortFields = updatedBlock.find('ul[name=sortable2]');
 			var secondEditFields = secondBlockSortFields.find('.editFields');
 			var sequenceValue = 2;
-			secondEditFields.each(function(i,domElement){
+			secondEditFields.each(function (i, domElement) {
 				var fieldEle = jQuery(domElement);
 				var fieldId = fieldEle.data('fieldId');
-				thisInstance.updatedBlockFieldsList.push({'fieldid' : fieldId,'sequence' : sequenceValue, 'block' : updatedBlockId});
-				sequenceValue = sequenceValue+2;
+				thisInstance.updatedBlockFieldsList.push({'fieldid': fieldId, 'sequence': sequenceValue, 'block': updatedBlockId});
+				sequenceValue = sequenceValue + 2;
 			});
 		}
 	},
-
 	/**
 	 * Function to register click event for save button of fields sequence
 	 */
-	registerFieldSequenceSaveClick : function() {
+	registerFieldSequenceSaveClick: function () {
 		var thisInstance = this;
 		var layout = jQuery('#detailViewLayout');
-		layout.on('click', '.saveFieldSequence', function() {
+		layout.on('click', '.saveFieldSequence', function () {
 			thisInstance.hideSaveFieldSequenceButton();
 			thisInstance.createUpdatedBlockFieldsList();
 			thisInstance.updateFieldSequence();
 		});
 	},
-
 	/**
 	 * Function will save the field sequences
 	 */
-	updateFieldSequence : function() {
+	updateFieldSequence: function () {
 		var thisInstance = this;
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 		var params = {};
@@ -463,78 +440,76 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['updatedFields'] = thisInstance.updatedBlockFieldsList;
 
 		AppConnector.request(params).then(
-			function(data) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				window.location.reload();
-				var params = {};
-				params['text'] = app.vtranslate('JS_FIELD_SEQUENCE_UPDATED');
-				Settings_Vtiger_Index_Js.showMessage(params);
-			},
-			function(error) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					window.location.reload();
+					var params = {};
+					params['text'] = app.vtranslate('JS_FIELD_SEQUENCE_UPDATED');
+					Settings_Vtiger_Index_Js.showMessage(params);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				}
 		);
 	},
-
 	/**
 	 * Function to register click evnet add custom field button
 	 */
-	registerAddCustomFieldEvent : function() {
+	registerAddCustomFieldEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
-		contents.find('.addCustomField').click(function(e) {
+		contents.find('.addCustomField').click(function (e) {
 			var blockId = jQuery(e.currentTarget).closest('.editFieldsTable').data('blockId');
 			var addFieldContainer = contents.find('.createFieldModal').clone(true, true);
 			addFieldContainer.removeClass('hide').show();
 
-			var callBackFunction = function(data) {
+			var callBackFunction = function (data) {
 				//register all select2 Elements
-				app.showSelect2ElementView(data.find('select'),{ width: '100%' });
+				app.showSelect2ElementView(data.find('select'), {width: '100%'});
 
 				var form = data.find('.createCustomFieldForm');
 				form.attr('id', 'createFieldForm');
-				var select2params = {tags: [],tokenSeparators: [","]}
+				var select2params = {tags: [], tokenSeparators: [","]}
 				app.showSelect2ElementView(form.find('[name="pickListValues"]'), select2params);
 
 				thisInstance.registerFieldTypeChangeEvent(form);
 
 				var params = app.getvalidationEngineOptions(true);
-				params.onValidationComplete = function(form, valid){
-					if(valid) {
-						var fieldTypeValue = jQuery('[name="fieldType"]',form).val();
-						if(fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
-							var pickListValueElement = jQuery('#picklistUi',form);
-							var pickLisValues = pickListValueElement.val();
-							var pickListValuesArray = pickLisValues.split(',');
+				params.onValidationComplete = function (form, valid) {
+					if (valid) {
+						var fieldTypeValue = jQuery('[name="fieldType"]', form).val();
+						if (fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
+							var pickListValueElement = jQuery('#picklistUi', form);
+							var pickListValuesArray = pickListValueElement.val();
 							var pickListValuesArraySize = pickListValuesArray.length;
-							var specialChars = /["]/ ;
-							for(var i=0;i<pickListValuesArray.length;i++) {
+							var specialChars = /["]/;
+							for (var i = 0; i < pickListValuesArray.length; i++) {
 								if (specialChars.test(pickListValuesArray[i])) {
 									var select2Element = app.getSelect2ElementFromSelect(pickListValueElement);
-									var message = app.vtranslate('JS_SPECIAL_CHARACTERS')+' " '+app.vtranslate('JS_NOT_ALLOWED');
-									select2Element.validationEngine('showPrompt', message , 'error','bottomLeft',true);
+									var message = app.vtranslate('JS_SPECIAL_CHARACTERS') + ' " ' + app.vtranslate('JS_NOT_ALLOWED');
+									select2Element.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
 									return false;
 								}
 							}
-							var lowerCasedpickListValuesArray = jQuery.map(pickListValuesArray, function(item, index) {
-																	return item.toLowerCase();
-																});
+							var lowerCasedpickListValuesArray = jQuery.map(pickListValuesArray, function (item, index) {
+								return item.toLowerCase();
+							});
 							var uniqueLowerCasedpickListValuesArray = jQuery.unique(lowerCasedpickListValuesArray);
 							var uniqueLowerCasedpickListValuesArraySize = uniqueLowerCasedpickListValuesArray.length;
-							var arrayDiffSize = pickListValuesArraySize-uniqueLowerCasedpickListValuesArraySize;
-							if(arrayDiffSize > 0) {
+							var arrayDiffSize = pickListValuesArraySize - uniqueLowerCasedpickListValuesArraySize;
+							if (arrayDiffSize > 0) {
 								var select2Element = app.getSelect2ElementFromSelect(pickListValueElement);
 								var message = app.vtranslate('JS_DUPLICATES_VALUES_FOUND');
-								select2Element.validationEngine('showPrompt', message , 'error','bottomLeft',true);
+								select2Element.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
 								return false;
 							}
 
 						}
-						if(fieldTypeValue == 'Tree') {
+						if (fieldTypeValue == 'Tree') {
 							var treeListElement = form.find('select.TreeList');
-							if(treeListElement.val() == '-') {
+							if (treeListElement.val() == '-') {
 								var message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
-								form.find('.select2-container.TreeList').validationEngine('showPrompt', message , 'error','bottomLeft',true);
+								form.find('.select2-container.TreeList').validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
 								return false;
 							}
 
@@ -542,25 +517,25 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 						var saveButton = form.find(':submit');
 						saveButton.attr('disabled', 'disabled');
 						thisInstance.addCustomField(blockId, form).then(
-							function(data) {
-								var result = data['result'];
-								var params = {};
-								if(data['success']) {
-									app.hideModalWindow();
-									params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
-									Settings_Vtiger_Index_Js.showMessage(params);
-									thisInstance.showCustomField(result);
-								} else {
-									var message = data['error']['message'];
-									if(data['error']['code'] != 513){
-										var errorField = form.find('[name="fieldName"]');
-									}else{
-										var errorField = form.find('[name="fieldLabel"]');
+								function (data) {
+									var result = data['result'];
+									var params = {};
+									if (data['success']) {
+										app.hideModalWindow();
+										params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
+										Settings_Vtiger_Index_Js.showMessage(params);
+										thisInstance.showCustomField(result);
+									} else {
+										var message = data['error']['message'];
+										if (data['error']['code'] != 513) {
+											var errorField = form.find('[name="fieldName"]');
+										} else {
+											var errorField = form.find('[name="fieldLabel"]');
+										}
+										errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+										saveButton.removeAttr('disabled');
 									}
-									errorField.validationEngine('showPrompt', message , 'error','topLeft',true);
-									saveButton.removeAttr('disabled');
 								}
-							}
 						);
 					}
 					//To prevent form submit
@@ -569,37 +544,35 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				form.validationEngine(params);
 			}
 
-			app.showModalWindow(addFieldContainer,function(data) {
-				if(typeof callBackFunction == 'function') {
+			app.showModalWindow(addFieldContainer, function (data) {
+				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);
 				}
-			}, {'width':'1000px'});
+			}, {'width': '1000px'});
 		});
 	},
-
 	/**
 	 * Function to create the array of block names list
 	 */
-	setBlocksListArray : function(form) {
+	setBlocksListArray: function (form) {
 		var thisInstance = this;
 		thisInstance.blockNamesList = [];
 		var blocksListSelect = form.find('[name="beforeBlockId"]');
-		blocksListSelect.find('option').each(function(index, ele) {
+		blocksListSelect.find('option').each(function (index, ele) {
 			var option = jQuery(ele);
 			var label = option.data('label');
 			thisInstance.blockNamesList.push(label);
 		})
 	},
-
 	/**
 	 * Function to save the custom field details
 	 */
-	addCustomField : function(blockId, form) {
+	addCustomField: function (blockId, form) {
 		var thisInstance = this;
 		var modalHeader = form.closest('#globalmodal').find('.modal-header h3');
 		var aDeferred = jQuery.Deferred();
 
-		modalHeader.progressIndicator({smallLoadingImage : true, imageContainerCss : {display : 'inline', 'margin-left' : '18%',position : 'absolute'}});
+		modalHeader.progressIndicator({smallLoadingImage: true, imageContainerCss: {display: 'inline', 'margin-left': '18%', position: 'absolute'}});
 
 		var params = form.serializeFormData();
 		params['module'] = app.getModuleName();
@@ -610,35 +583,34 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['sourceModule'] = jQuery('#selectedModuleName').val();
 
 		AppConnector.request(params).then(
-			function(data) {
-				modalHeader.progressIndicator({'mode' : 'hide'});
-				aDeferred.resolve(data);
-			},
-			function(error) {
-				modalHeader.progressIndicator({'mode' : 'hide'});
-				aDeferred.reject(error);
-			}
+				function (data) {
+					modalHeader.progressIndicator({'mode': 'hide'});
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					modalHeader.progressIndicator({'mode': 'hide'});
+					aDeferred.reject(error);
+				}
 		);
 		return aDeferred.promise();
 	},
-
 	/**
 	 * Function to register change event for fieldType while adding custom field
 	 */
-	registerFieldTypeChangeEvent : function(form) {
+	registerFieldTypeChangeEvent: function (form) {
 		var thisInstance = this;
 		var lengthInput = form.find('[name="fieldLength"]');
 
 		//special validators while adding new field
-		var lengthValidator = [{'name' : 'DecimalMaxLength'}];
-		var maxLengthValidator = [{'name' : 'MaxLength'}];
-		var decimalValidator = [{'name' : 'FloatingDigits'}];
+		var lengthValidator = [{'name': 'DecimalMaxLength'}];
+		var maxLengthValidator = [{'name': 'MaxLength'}];
+		var decimalValidator = [{'name': 'FloatingDigits'}];
 
 		//By default add the max length validator
 		lengthInput.data('validator', maxLengthValidator);
 
 		//register the change event for field types
-		form.find('[name="fieldType"]').on('change', function(e) {
+		form.find('[name="fieldType"]').on('change', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var lengthInput = form.find('[name="fieldLength"]');
 			var selectedOption = currentTarget.find('option:selected');
@@ -646,62 +618,61 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			//hide all the elements like length, decimal,picklist
 			form.find('.supportedType').addClass('hide');
 
-			if(selectedOption.data('lengthsupported')) {
+			if (selectedOption.data('lengthsupported')) {
 				form.find('.lengthsupported').removeClass('hide');
 				lengthInput.data('validator', maxLengthValidator);
 			}
 
-			if(selectedOption.data('decimalsupported')) {
+			if (selectedOption.data('decimalsupported')) {
 				var decimalFieldUi = form.find('.decimalsupported');
 				decimalFieldUi.removeClass('hide');
 
 				var decimalInput = decimalFieldUi.find('[name="decimal"]');
 				var maxFloatingDigits = selectedOption.data('maxfloatingdigits');
 
-				if(typeof maxFloatingDigits != "undefined") {
+				if (typeof maxFloatingDigits != "undefined") {
 					decimalInput.data('validator', decimalValidator);
 					lengthInput.data('validator', lengthValidator);
 				}
 
-				if(selectedOption.data('decimalreadonly')) {
+				if (selectedOption.data('decimalreadonly')) {
 					decimalInput.val(maxFloatingDigits).attr('readonly', true);
 				} else {
 					decimalInput.removeAttr('readonly').val('');
 				}
 			}
 
-			if(selectedOption.data('predefinedvalueexists')) {
+			if (selectedOption.data('predefinedvalueexists')) {
 				var pickListUi = form.find('.preDefinedValueExists');
 				pickListUi.removeClass('hide');
 			}
-            if(selectedOption.data('picklistoption')) {
-                var pickListOption = form.find('.picklistOption');
+			if (selectedOption.data('picklistoption')) {
+				var pickListOption = form.find('.picklistOption');
 				pickListOption.removeClass('hide');
-            }
-			if(selectedOption.data('predefinedmodulelist')) {
+			}
+			if (selectedOption.data('predefinedmodulelist')) {
 				var predefinedmodulelist = form.find('.preDefinedModuleList');
 				predefinedmodulelist.removeClass('hide');
 			}
-			if(selectedOption.data('predefinedtreelist')) {
+			if (selectedOption.data('predefinedtreelist')) {
 				var predefinedtreelist = form.find('.preDefinedTreeList');
 				predefinedtreelist.removeClass('hide');
 			}
 		})
 	},
-
 	/**
 	 * Function to add new custom field ui to the list
 	 */
-	showCustomField : function(result) {
+	showCustomField: function (result) {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
-		var relatedBlock = contents.find('.block_'+result['blockid']);
+		var relatedBlock = contents.find('.block_' + result['blockid']);
 		var fieldCopy = contents.find('.newCustomFieldCopy').clone(true, true);
 		var fieldContainer = fieldCopy.find('div.marginLeftZero.border1px');
 		fieldContainer.addClass('opacity editFields').attr('data-field-id', result['id']).attr('data-block-id', result['blockid']);
 		fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
 		fieldContainer.find('.fieldLabel').html(result['label']);
-		if(!result['customField']){
+		if (!result['customField']) {
 			fieldContainer.find('.deleteCustomField').remove();
 		}
 		var block = relatedBlock.find('.blockFieldsList');
@@ -710,7 +681,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		var sortable2 = block.find('ul[name=sortable2]');
 		var length2 = sortable2.children().length;
 		// Deciding where to add the new field
-		if(length1 > length2) {
+		if (length1 > length2) {
 			sortable2.append(fieldCopy.removeClass('hide newCustomFieldCopy'));
 		} else {
 			sortable1.append(fieldCopy.removeClass('hide newCustomFieldCopy'));
@@ -719,44 +690,43 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		thisInstance.setFieldDetails(result, form);
 		thisInstance.makeFieldsListSortable();
 	},
-
 	/**
 	 * Function to set the field info for edit field actions
 	 */
-	setFieldDetails : function(result, form) {
+	setFieldDetails: function (result, form) {
 		var thisInstance = this;
 		//add field label to the field details
-		form.find('.modal-header').html(jQuery('<strong>'+result['label']+'</strong><div class="pull-right"><a href="javascript:void(0)" class="cancel">X</a></div>'));
+		form.find('.modal-header').html(jQuery('<strong>' + result['label'] + '</strong><div class="pull-right"><a href="javascript:void(0)" class="cancel">X</a></div>'));
 
 		var defaultValueUi = form.find('.defaultValueUi');
-		if(result['mandatory']) {
+		if (result['mandatory']) {
 			form.find('[name="mandatory"]').filter(':checkbox').attr('checked', true);
 		}
-		if(result['presence']) {
+		if (result['presence']) {
 			form.find('[name="presence"]').filter(':checkbox').attr('checked', true);
 		}
-		if(result['quickcreate']) {
+		if (result['quickcreate']) {
 			form.find('[name="quickcreate"]').filter(':checkbox').attr('checked', true);
 		}
-		if(result['isQuickCreateDisabled']) {
+		if (result['isQuickCreateDisabled']) {
 			form.find('[name="quickcreate"]').filter(':checkbox').attr('readonly', 'readonly').addClass('optionDisabled');
 		}
-		if(result['isSummaryField']) {
+		if (result['isSummaryField']) {
 			form.find('[name="summaryfield"]').filter(':checkbox').attr('checked', true);
 		}
-		if(result['isSummaryFieldDisabled']) {
+		if (result['isSummaryFieldDisabled']) {
 			form.find('[name="summaryfield"]').filter(':checkbox').attr('readonly', 'readonly').addClass('optionDisabled');
 		}
-		if(result['masseditable']) {
+		if (result['masseditable']) {
 			form.find('[name="masseditable"]').filter(':checkbox').attr('checked', true);
 		}
-		if(result['isMassEditDisabled']) {
+		if (result['isMassEditDisabled']) {
 			form.find('[name="masseditable"]').filter(':checkbox').attr('readonly', 'readonly').addClass('optionDisabled');
 		}
-		if(result['isDefaultValueDisabled']) {
+		if (result['isDefaultValueDisabled']) {
 			form.find('[name="defaultvalue"]').filter(':checkbox').attr('readonly', 'readonly').addClass('optionDisabled');
 		}
-		if(result['defaultvalue']) {
+		if (result['defaultvalue']) {
 			form.find('[name="defaultvalue"]').filter(':checkbox').attr('checked', true);
 			defaultValueUi.removeClass('zeroOpacity');
 		} else {
@@ -771,30 +741,29 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		//Handled Time field UI
 		var timeField = defaultValueUi.find('.timepicker-default');
 		timeField.removeClass('timePicker timepicker-default');
-		timeField.attr('data-toregister','time');
+		timeField.attr('data-toregister', 'time');
 
 		//Handled date field UI
 		var dateField = defaultValueUi.find('.dateField')
 		dateField.removeClass('dateField');
-		dateField.attr('data-toregister','date');
+		dateField.attr('data-toregister', 'date');
 
-		defaultValueUi.find('[data-validation-engine]').attr('data-validation-engine','validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]');
-		defaultValueUi.find('[name*='+result['name']+']').attr('name', 'fieldDefaultValue');
-		defaultValueUi.find('[name="fieldDefaultValue"]').attr('disabled','disabled');
+		defaultValueUi.find('[data-validation-engine]').attr('data-validation-engine', 'validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]');
+		defaultValueUi.find('[name*=' + result['name'] + ']').attr('name', 'fieldDefaultValue');
+		defaultValueUi.find('[name="fieldDefaultValue"]').attr('disabled', 'disabled');
 		defaultValueUi.find('input').addClass('input-medium');
 		defaultValueUi.find('.select2').addClass('row');
 	},
-
 	/**
 	 * Function to register click event for add custom block button
 	 */
-	registerAddCustomBlockEvent : function() {
+	registerAddCustomBlockEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
-		contents.find('.addCustomBlock').click(function(e) {
+		contents.find('.addCustomBlock').click(function (e) {
 			var addBlockContainer = contents.find('.addBlockModal').clone(true, true);
 
-			var callBackFunction = function(data) {
+			var callBackFunction = function (data) {
 				data.find('.addBlockModal').removeClass('hide').show();
 				//register all select2 Elements
 				app.showSelect2ElementView(data.find('select'));
@@ -803,33 +772,33 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				thisInstance.setBlocksListArray(form);
 				var fieldLabel = form.find('[name="label"]');
 				var params = app.validationEngineOptions;
-				params.onValidationComplete = function(form, valid){
-					if(valid) {
+				params.onValidationComplete = function (form, valid) {
+					if (valid) {
 						var formData = form.serializeFormData();
-						if(jQuery.inArray(formData['label'], thisInstance.blockNamesList) == -1) {
+						if (jQuery.inArray(formData['label'], thisInstance.blockNamesList) == -1) {
 							thisInstance.saveBlockDetails(form).then(
-								function(data) {
-									var params = {};
-									if(data['success']) {
-										var result = data['result'];
-										thisInstance.displayNewCustomBlock(result);
-										thisInstance.updateNewSequenceForBlocks(result['sequenceList']);
-										thisInstance.appendNewBlockToBlocksList(result, form);
-										thisInstance.makeFieldsListSortable();
+									function (data) {
+										var params = {};
+										if (data['success']) {
+											var result = data['result'];
+											thisInstance.displayNewCustomBlock(result);
+											thisInstance.updateNewSequenceForBlocks(result['sequenceList']);
+											thisInstance.appendNewBlockToBlocksList(result, form);
+											thisInstance.makeFieldsListSortable();
 
-										params['text'] = app.vtranslate('JS_CUSTOM_BLOCK_ADDED');
-									} else {
-										params['text'] = data['error']['message'];
-										params['type'] = 'error';
+											params['text'] = app.vtranslate('JS_CUSTOM_BLOCK_ADDED');
+										} else {
+											params['text'] = data['error']['message'];
+											params['type'] = 'error';
+										}
+										Settings_Vtiger_Index_Js.showMessage(params);
 									}
-									Settings_Vtiger_Index_Js.showMessage(params);
-								}
 							);
 							app.hideModalWindow();
 							return valid;
 						} else {
 							var result = app.vtranslate('JS_BLOCK_NAME_EXISTS');
-							fieldLabel.validationEngine('showPrompt', result , 'error','topLeft',true);
+							fieldLabel.validationEngine('showPrompt', result, 'error', 'topLeft', true);
 							e.preventDefault();
 							return;
 						}
@@ -837,28 +806,27 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				}
 				form.validationEngine(params);
 
-				form.submit(function(e) {
+				form.submit(function (e) {
 					e.preventDefault();
 				})
 			}
-			app.showModalWindow(addBlockContainer,function(data) {
-				if(typeof callBackFunction == 'function') {
+			app.showModalWindow(addBlockContainer, function (data) {
+				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);
 				}
-			}, {'width':'1000px'});
+			}, {'width': '1000px'});
 		});
 	},
-
 	/**
 	 * Function to save the new custom block details
 	 */
-	saveBlockDetails : function(form) {
+	saveBlockDetails: function (form) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 		var params = form.serializeFormData();
@@ -869,82 +837,77 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['mode'] = 'save';
 
 		AppConnector.request(params).then(
-			function(data) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				aDeferred.resolve(data);
-			},
-			function(error) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				aDeferred.reject(error);
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.reject(error);
+				}
 		);
 		return aDeferred.promise();
 	},
-
 	/**
 	 * Function used to display the new custom block ui after save
 	 */
-	displayNewCustomBlock : function(result) {
+	displayNewCustomBlock: function (result) {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
 		var beforeBlockId = result['beforeBlockId'];
-		var beforeBlock = contents.find('.block_'+beforeBlockId);
+		var beforeBlock = contents.find('.block_' + beforeBlockId);
 
 		var newBlockCloneCopy = contents.find('.newCustomBlockCopy').clone(true, true);
-		newBlockCloneCopy.data('blockId', result['id']).find('.blockLabel').append(jQuery('<strong>'+result['label']+'</strong>'));
+		newBlockCloneCopy.data('blockId', result['id']).find('.blockLabel').append(jQuery('<strong>' + result['label'] + '</strong>'));
 		newBlockCloneCopy.find('.blockVisibility').data('blockId', result['id']);
-		if(result['isAddCustomFieldEnabled']) {
+		if (result['isAddCustomFieldEnabled']) {
 			newBlockCloneCopy.find('.addCustomField').removeClass('hide');
 		}
-		beforeBlock.after(newBlockCloneCopy.removeClass('hide newCustomBlockCopy').addClass('editFieldsTable block_'+result['id']));
+		beforeBlock.after(newBlockCloneCopy.removeClass('hide newCustomBlockCopy').addClass('editFieldsTable block_' + result['id']));
 
-		newBlockCloneCopy.find('.blockFieldsList').sortable({'connectWith' : '.blockFieldsList'});
+		newBlockCloneCopy.find('.blockFieldsList').sortable({'connectWith': '.blockFieldsList'});
 	},
-
 	/**
 	 * Function to update the sequence for all blocks after adding new Block
 	 */
-	updateNewSequenceForBlocks : function(sequenceList) {
+	updateNewSequenceForBlocks: function (sequenceList) {
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
-		jQuery.each(sequenceList, function(blockId, sequence) {
-			contents.find('.block_'+blockId).data('sequence', sequence);
+		jQuery.each(sequenceList, function (blockId, sequence) {
+			contents.find('.block_' + blockId).data('sequence', sequence);
 		});
 	},
-
 	/**
 	 * Function to update the block list with the new block label in the clone container
 	 */
-	appendNewBlockToBlocksList : function(result, form) {
+	appendNewBlockToBlocksList: function (result, form) {
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
 		var hiddenAddBlockModel = contents.find('.addBlockModal');
 		var blocksListSelect = hiddenAddBlockModel.find('[name="beforeBlockId"]');
-		var option = jQuery("<option>",{
-                  		value: result['id'],
-                  		text: result['label']
-            		})
+		var option = jQuery("<option>", {
+			value: result['id'],
+			text: result['label']
+		})
 		blocksListSelect.append(option.attr('data-label', result['label']));
 	},
-
 	/**
 	 * Function to update the block list to remove the deleted custom block label in the clone container
 	 */
-	removeBlockFromBlocksList : function(blockId) {
+	removeBlockFromBlocksList: function (blockId) {
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
 		var hiddenAddBlockModel = contents.find('.addBlockModal');
 		var blocksListSelect = hiddenAddBlockModel.find('[name="beforeBlockId"]');
-		blocksListSelect.find('option[value="'+blockId+'"]').remove();
+		blocksListSelect.find('option[value="' + blockId + '"]').remove();
 	},
-
 	/**
 	 * Function to register the change event for block visibility
 	 */
-	registerBlockVisibilityEvent : function() {
+	registerBlockVisibilityEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
-		contents.on('click', 'li.blockVisibility', function(e) {
+		contents.on('click', 'li.blockVisibility', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var oldDisplayStatus = currentTarget.data('visible');
-			if(oldDisplayStatus == '0') {
+			if (oldDisplayStatus == '0') {
 				currentTarget.find('.glyphicon glyphicon-ok').removeClass('hide');
 				currentTarget.data('visible', '1');
 			} else {
@@ -954,17 +917,16 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			thisInstance.updateBlockStatus(currentTarget);
 		})
 	},
-
 	/**
 	 * Function to save the changed visibility for the block
 	 */
-	updateBlockStatus : function(currentTarget) {
+	updateBlockStatus: function (currentTarget) {
 		var thisInstance = this;
 		var blockStatus = currentTarget.data('visible');
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 		var params = {};
@@ -977,34 +939,33 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['display_status'] = blockStatus;
 
 		AppConnector.request(params).then(
-			function(data) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				var params = {};
-				if(blockStatus == '1') {
-					params['text'] = app.vtranslate('JS_BLOCK_VISIBILITY_SHOW');
-				} else {
-					params['text'] = app.vtranslate('JS_BLOCK_VISIBILITY_HIDE');
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					var params = {};
+					if (blockStatus == '1') {
+						params['text'] = app.vtranslate('JS_BLOCK_VISIBILITY_SHOW');
+					} else {
+						params['text'] = app.vtranslate('JS_BLOCK_VISIBILITY_HIDE');
+					}
+					Settings_Vtiger_Index_Js.showMessage(params);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				}
-				Settings_Vtiger_Index_Js.showMessage(params);
-			},
-			function(error) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-			}
 		);
 	},
-
 	/**
 	 * Function to register the click event for inactive fields list
 	 */
-	registerInactiveFieldsEvent : function() {
+	registerInactiveFieldsEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
-		contents.on('click', 'li.inActiveFields', function(e) {
+		contents.on('click', 'li.inActiveFields', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var currentBlock = currentTarget.closest('.editFieldsTable');
 			var blockId = currentBlock.data('blockId');
 			//If there are no hidden fields, show pnotify
-			if(jQuery.isEmptyObject(thisInstance.inActiveFieldsList[blockId])) {
+			if (jQuery.isEmptyObject(thisInstance.inActiveFieldsList[blockId])) {
 				var params = {};
 				params['text'] = app.vtranslate('JS_NO_HIDDEN_FIELDS_EXISTS');
 				params['type'] = 'error';
@@ -1012,29 +973,28 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			} else {
 				var inActiveFieldsContainer = contents.find('.inactiveFieldsModal').clone(true, true);
 
-				var callBackFunction = function(data) {
+				var callBackFunction = function (data) {
 					data.find('.inactiveFieldsModal').removeClass('hide').show();
 					thisInstance.reactiveFieldsList = [];
 					var form = data.find('.inactiveFieldsForm');
 					thisInstance.showHiddenFields(blockId, form);
 					//register click event for reactivate button in the inactive fields modal
-					data.find('[name="reactivateButton"]').click(function(e) {
+					data.find('[name="reactivateButton"]').click(function (e) {
 						thisInstance.createReactivateFieldslist(blockId, form);
 						thisInstance.reActivateHiddenFields(currentBlock);
 						app.hideModalWindow();
 					});
 				}
 
-				app.showModalWindow(inActiveFieldsContainer,function(data) {
-					if(typeof callBackFunction == 'function') {
+				app.showModalWindow(inActiveFieldsContainer, function (data) {
+					if (typeof callBackFunction == 'function') {
 						callBackFunction(data);
 					}
-				}, {'width':'1000px'});
+				}, {'width': '1000px'});
 			}
 		});
 
 	},
-
 	/**
 	 * Function to show the list of inactive fields in the modal
 	 */
@@ -1046,31 +1006,29 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			form.find('.inActiveList').append(inActiveField);
 		});
 	},
-
 	/**
 	 * Function to create the list of reactivate fields list
 	 */
-	createReactivateFieldslist : function(blockId, form) {
+	createReactivateFieldslist: function (blockId, form) {
 		var thisInstance = this;
-		form.find('.inActiveField').each(function(index,domElement){
+		form.find('.inActiveField').each(function (index, domElement) {
 			var element = jQuery(domElement);
 			var fieldId = element.val();
-			if(element.is(':checked')) {
+			if (element.is(':checked')) {
 				delete thisInstance.inActiveFieldsList[blockId][fieldId];
 				thisInstance.reactiveFieldsList.push(fieldId);
 			}
 		});
 	},
-
 	/**
 	 * Function to unHide the selected fields in the inactive fields modal
 	 */
-	reActivateHiddenFields : function(currentBlock) {
+	reActivateHiddenFields: function (currentBlock) {
 		var thisInstance = this;
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 		var params = {};
@@ -1082,53 +1040,52 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['fieldIdList'] = JSON.stringify(thisInstance.reactiveFieldsList);
 
 		AppConnector.request(params).then(
-			function(data) {
-				for(var index in data.result) {
-					thisInstance.showCustomField(data.result[index]);
+				function (data) {
+					for (var index in data.result) {
+						thisInstance.showCustomField(data.result[index]);
+					}
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					var params = {};
+					params['text'] = app.vtranslate('JS_SELECTED_FIELDS_REACTIVATED');
+					Settings_Vtiger_Index_Js.showMessage(params);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				}
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				var params = {};
-				params['text'] = app.vtranslate('JS_SELECTED_FIELDS_REACTIVATED');
-				Settings_Vtiger_Index_Js.showMessage(params);
-			},
-			function(error) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-			}
 		);
 	},
 	/**
 	 * Function to register the click event for delete custom block
 	 */
-	registerDeleteCustomBlockEvent : function() {
+	registerDeleteCustomBlockEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
 		var table = contents.find('.editFieldsTable');
-		contents.on('click', 'li.deleteCustomBlock', function(e) {
+		contents.on('click', 'li.deleteCustomBlock', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var table = currentTarget.closest('div.editFieldsTable');
 			var blockId = table.data('blockId');
 
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			Vtiger_Helper_Js.showConfirmationBox({'message' : message}).then(
-				function(e) {
-					thisInstance.deleteCustomBlock(blockId);
-				},
-				function(error, err){
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
+					function (e) {
+						thisInstance.deleteCustomBlock(blockId);
+					},
+					function (error, err) {
 
-				}
+					}
 			);
 		});
 	},
-
 	/**
 	 * Function to delete the custom block
 	 */
-	deleteCustomBlock : function(blockId) {
+	deleteCustomBlock: function (blockId) {
 		var thisInstance = this;
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 
@@ -1140,80 +1097,77 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['blockid'] = blockId;
 
 		AppConnector.request(params).then(
-			function(data) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				var params = {};
-				if(data['success']) {
-					thisInstance.removeDeletedBlock(blockId);
-					thisInstance.removeBlockFromBlocksList(blockId);
-					params['text'] = app.vtranslate('JS_CUSTOM_BLOCK_DELETED');
-				} else {
-					params['text'] = data['error']['message'];
-					params['type'] = 'error';
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					var params = {};
+					if (data['success']) {
+						thisInstance.removeDeletedBlock(blockId);
+						thisInstance.removeBlockFromBlocksList(blockId);
+						params['text'] = app.vtranslate('JS_CUSTOM_BLOCK_DELETED');
+					} else {
+						params['text'] = data['error']['message'];
+						params['type'] = 'error';
+					}
+					Settings_Vtiger_Index_Js.showMessage(params);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				}
-				Settings_Vtiger_Index_Js.showMessage(params);
-			},
-			function(error) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-			}
 		);
 	},
-
 	/**
 	 * Function to remove the deleted custom block from the ui
 	 */
-	removeDeletedBlock : function(blockId) {
+	removeDeletedBlock: function (blockId) {
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
-		var deletedTable = contents.find('.block_'+blockId);
+		var deletedTable = contents.find('.block_' + blockId);
 		deletedTable.fadeOut('slow').remove();
 	},
-
 	/**
 	 * Function to register the click event for delete custom field
 	 */
-	registerDeleteCustomFieldEvent : function(contents) {
+	registerDeleteCustomFieldEvent: function (contents) {
 		var thisInstance = this;
-		if(typeof contents == 'undefined') {
+		if (typeof contents == 'undefined') {
 			contents = jQuery('#layoutEditorContainer').find('.contents');
 		}
-		contents.find('a.deleteCustomField').click(function(e) {
+		contents.find('a.deleteCustomField').click(function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var fieldId = currentTarget.data('fieldId');
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			Vtiger_Helper_Js.showConfirmationBox({'message' : message}).then(
-				function(e) {
-					thisInstance.deleteCustomField(fieldId).then(
-						function(data) {
-							var field = currentTarget.closest('div.editFields');
-							var blockId = field.data('blockId');
-							field.parent().fadeOut('slow').remove();
-							var block = jQuery('#block_'+blockId);
-							thisInstance.reArrangeBlockFields(block);
-							var params = {};
-							params['text'] = app.vtranslate('JS_CUSTOM_FIELD_DELETED');
-							Settings_Vtiger_Index_Js.showMessage(params);
-						},function(error, err) {
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
+					function (e) {
+						thisInstance.deleteCustomField(fieldId).then(
+								function (data) {
+									var field = currentTarget.closest('div.editFields');
+									var blockId = field.data('blockId');
+									field.parent().fadeOut('slow').remove();
+									var block = jQuery('#block_' + blockId);
+									thisInstance.reArrangeBlockFields(block);
+									var params = {};
+									params['text'] = app.vtranslate('JS_CUSTOM_FIELD_DELETED');
+									Settings_Vtiger_Index_Js.showMessage(params);
+								}, function (error, err) {
 
 						}
-					);
-				},
-				function(error, err){
+						);
+					},
+					function (error, err) {
 
-				}
+					}
 			);
 		});
 	},
-
 	/**
 	 * Function to delete the custom field
 	 */
-	deleteCustomField : function(fieldId) {
+	deleteCustomField: function (fieldId) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 
@@ -1225,23 +1179,21 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['fieldid'] = fieldId;
 
 		AppConnector.request(params).then(
-			function(data) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				aDeferred.resolve(data);
-			},
-			function(error) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				aDeferred.reject();
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},
-
-
 	/**
 	 * Function to register the click event for save button after edit field details
 	 */
-	registerSaveFieldDetailsEvent : function(form) {
+	registerSaveFieldDetailsEvent: function (form) {
 		var thisInstance = this;
 		var submitButtton = form.find('.saveFieldDetails');
 		var fieldId = submitButtton.data('fieldId');
@@ -1254,78 +1206,77 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		fieldRow.addClass('opacity');
 
 		thisInstance.saveFieldDetails(submitButtton).then(
-			function(data) {
-				var result = data['result'];
-				var fieldLabel = fieldRow.find('.fieldLabel');
-				if(result['presence'] == '1') {
-					fieldRow.parent().fadeOut('slow').remove();
+				function (data) {
+					var result = data['result'];
+					var fieldLabel = fieldRow.find('.fieldLabel');
+					if (result['presence'] == '1') {
+						fieldRow.parent().fadeOut('slow').remove();
 
-					if(jQuery.isEmptyObject(thisInstance.inActiveFieldsList[blockId])) {
-						if(thisInstance.inActiveFieldsList.length == '0') {
-							thisInstance.inActiveFieldsList = {};
+						if (jQuery.isEmptyObject(thisInstance.inActiveFieldsList[blockId])) {
+							if (thisInstance.inActiveFieldsList.length == '0') {
+								thisInstance.inActiveFieldsList = {};
+							}
+							thisInstance.inActiveFieldsList[blockId] = {};
+							thisInstance.inActiveFieldsList[blockId][fieldId] = result['label'];
+						} else {
+							thisInstance.inActiveFieldsList[blockId][fieldId] = result['label'];
 						}
-						thisInstance.inActiveFieldsList[blockId] = {};
-						thisInstance.inActiveFieldsList[blockId][fieldId] = result['label'];
+						thisInstance.reArrangeBlockFields(block);
+					}
+					if (result['mandatory']) {
+						if (fieldLabel.find('.redColor').length == '0') {
+							fieldRow.find('.fieldLabel').append(jQuery('<span class="redColor">*</span>'));
+						}
 					} else {
-						thisInstance.inActiveFieldsList[blockId][fieldId] = result['label'];
+						fieldRow.find('.fieldLabel').find('.redColor').remove();
 					}
-					thisInstance.reArrangeBlockFields(block);
-				}
-				if(result['mandatory']) {
-					if(fieldLabel.find('.redColor').length == '0') {
-						fieldRow.find('.fieldLabel').append(jQuery('<span class="redColor">*</span>'));
-					}
-				} else {
-					fieldRow.find('.fieldLabel').find('.redColor').remove();
-				}
 
-				//updating the hidden container with saved values.
-				var dropDownMenu = form.closest('.dropdown-menu');
-				app.destroyChosenElement(form);
-				var selectElemet = form.find('.defaultValueUi ').find('select');
-				var selectedvalue = selectElemet.val();
-				selectElemet.removeAttr('disabled');
-				selectElemet.find('option').removeAttr('selected');
-				if(selectedvalue != null ){
-					if(typeof(selectElemet.attr('multiple')) == 'undefined'){
-						var encodedSelectedValue = selectedvalue.replace(/"/g, '\\"');
-						selectElemet.find('[value="'+encodedSelectedValue+'"]').attr('selected','selected');
-					} else {
-						for (var i = 0; i < selectedvalue.length; i++) {
-							var encodedSelectedValue = selectedvalue[i].replace(/"/g, '\\"');
-							selectElemet.find('[value="'+encodedSelectedValue+'"]').attr('selected','selected');
+					//updating the hidden container with saved values.
+					var dropDownMenu = form.closest('.dropdown-menu');
+					app.destroyChosenElement(form);
+					var selectElemet = form.find('.defaultValueUi ').find('select');
+					var selectedvalue = selectElemet.val();
+					selectElemet.removeAttr('disabled');
+					selectElemet.find('option').removeAttr('selected');
+					if (selectedvalue != null) {
+						if (typeof (selectElemet.attr('multiple')) == 'undefined') {
+							var encodedSelectedValue = selectedvalue.replace(/"/g, '\\"');
+							selectElemet.find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
+						} else {
+							for (var i = 0; i < selectedvalue.length; i++) {
+								var encodedSelectedValue = selectedvalue[i].replace(/"/g, '\\"');
+								selectElemet.find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
+							}
 						}
 					}
-				}
-				//handled registration of time field
-				var timeFieldElement = form.find('[data-toregister="time"]');
-				if(timeFieldElement.length > 0){
-					app.destroyTimeFields(timeFieldElement);
-				}
-				var basicContents = form.closest('.editFields').find('.basicFieldOperations');
-				basicContents.html(form);
-				dropDownMenu.remove();
-			},
-			function(error, err) {
+					//handled registration of time field
+					var timeFieldElement = form.find('[data-toregister="time"]');
+					if (timeFieldElement.length > 0) {
+						app.destroyTimeFields(timeFieldElement);
+					}
+					var basicContents = form.closest('.editFields').find('.basicFieldOperations');
+					basicContents.html(form);
+					dropDownMenu.remove();
+				},
+				function (error, err) {
 
-			}
-			);
+				}
+		);
 	},
-
 	/**
 	 * Function to save all the field details which are changed
 	 */
-	saveFieldDetails : function(currentTarget) {
+	saveFieldDetails: function (currentTarget) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var form = currentTarget.closest('form.fieldDetailsForm');
 		var fieldId = currentTarget.data('fieldId');
-                var defaultValueField = form.find('[name=fieldDefaultValue]');
-                var defaultValue = defaultValueField.val();
+		var defaultValueField = form.find('[name=fieldDefaultValue]');
+		var defaultValue = defaultValueField.val();
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 
@@ -1338,38 +1289,37 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['sourceModule'] = jQuery('#selectedModuleName').val();
 
 		AppConnector.request(params).then(
-			function(data) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				var params = {};
-				params['text'] = app.vtranslate('JS_FIELD_DETAILS_SAVED');
-				Settings_Vtiger_Index_Js.showMessage(params);
-                                if(defaultValueField.prop("tagName") == 'TEXTAREA') {
-                                        defaultValueField.text(defaultValue);
-                                }
-				aDeferred.resolve(data);
-			},
-			function(error) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				aDeferred.reject();
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					var params = {};
+					params['text'] = app.vtranslate('JS_FIELD_DETAILS_SAVED');
+					Settings_Vtiger_Index_Js.showMessage(params);
+					if (defaultValueField.prop("tagName") == 'TEXTAREA') {
+						defaultValueField.text(defaultValue);
+					}
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},
-
 	/**
 	 * Function to register the cahnge event for mandatory & default checkboxes in edit field details
 	 */
-	registerFieldDetailsChange : function(contents) {
-		if(typeof contents == 'undefined') {
+	registerFieldDetailsChange: function (contents) {
+		if (typeof contents == 'undefined') {
 			contents = jQuery('#layoutEditorContainer').find('.contents');
 		}
-		contents.on('change', '[name="mandatory"]', function(e) {
+		contents.on('change', '[name="mandatory"]', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
-			if(currentTarget.attr('readonly') != 'readonly') {
+			if (currentTarget.attr('readonly') != 'readonly') {
 				var form = currentTarget.closest('.fieldDetailsForm');
 				var quickcreateEle = form.find('[name="quickcreate"]').filter(':checkbox').not('.optionDisabled');
 				var presenceEle = form.find('[name="presence"]').filter(':checkbox').not('.optionDisabled');
-				if(currentTarget.is(':checked')) {
+				if (currentTarget.is(':checked')) {
 					quickcreateEle.attr('checked', true).attr('readonly', 'readonly');
 					presenceEle.attr('checked', true).attr('readonly', 'readonly');
 				} else {
@@ -1379,46 +1329,44 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			}
 		})
 
-		contents.on('change', '[name="defaultvalue"]', function(e) {
+		contents.on('change', '[name="defaultvalue"]', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var defaultValueUi = currentTarget.closest('span').find('.defaultValueUi');
 			var defaultField = defaultValueUi.find('[name="fieldDefaultValue"]');
-			if(currentTarget.is(':checked')) {
+			if (currentTarget.is(':checked')) {
 				defaultValueUi.removeClass('zeroOpacity');
 				defaultField.removeAttr('disabled');
-				if(defaultField.is('select')){
+				if (defaultField.is('select')) {
 					defaultField.trigger("chosen:updated");
 				}
 			} else {
 				defaultField.attr('disabled', 'disabled');
-			//	defaultField.val('');
+				//	defaultField.val('');
 				defaultValueUi.addClass('zeroOpacity');
 			}
 		})
 
 	},
-
 	/**
 	 * Function to register the click event for related modules list tab
 	 */
-	relatedModulesTabClickEvent : function() {
+	relatedModulesTabClickEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
 		var relatedContainer = contents.find('#relatedTabOrder');
 		var relatedTab = contents.find('.relatedListTab');
-		relatedTab.click(function() {
-			if(relatedContainer.find('.relatedTabModulesList').length > 0) {
+		relatedTab.click(function () {
+			if (relatedContainer.find('.relatedTabModulesList').length > 0) {
 
 			} else {
 				thisInstance.showRelatedTabModulesList(relatedContainer);
 			}
 		});
 	},
-
 	/**
 	 * Function to show the related tab modules list in the tab
 	 */
-	showRelatedTabModulesList : function(relatedContainer) {
+	showRelatedTabModulesList: function (relatedContainer) {
 		var thisInstance = this;
 		var params = {};
 		params['module'] = app.getModuleName();
@@ -1428,28 +1376,27 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['mode'] = 'showRelatedListLayout';
 
 		AppConnector.request(params).then(
-			function(data) {
-				relatedContainer.html(data);
-				if(jQuery(data).find('.relatedListContainer').length > 0) {
-					thisInstance.makeRelatedModuleSortable();
-					thisInstance.registerRelatedListEvents();
+				function (data) {
+					relatedContainer.html(data);
+					if (jQuery(data).find('.relatedListContainer').length > 0) {
+						thisInstance.makeRelatedModuleSortable();
+						thisInstance.registerRelatedListEvents();
+					}
+				},
+				function (error) {
 				}
-			},
-			function(error) {
-			}
 		);
 	},
-
 	/**
 	 * Function to get the respective module layout editor through pjax
 	 */
-	getModuleLayoutEditor : function(selectedModule) {
+	getModuleLayoutEditor: function (selectedModule) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 
@@ -1460,25 +1407,24 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['sourceModule'] = selectedModule;
 
 		AppConnector.requestPjax(params).then(
-			function(data) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				aDeferred.resolve(data);
-			},
-			function(error) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				aDeferred.reject();
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},
-        
-	getRelModuleLayoutEditor : function(selectedModule) {
+	getRelModuleLayoutEditor: function (selectedModule) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 
@@ -1490,76 +1436,72 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['sourceModule'] = selectedModule;
 
 		AppConnector.requestPjax(params).then(
-			function(data) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				aDeferred.resolve(data);
-			},
-			function(error) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				aDeferred.reject();
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},
-
 	/**
 	 * Function to register the change event for layout editor modules list
 	 */
-	registerModulesChangeEvent : function() {
+	registerModulesChangeEvent: function () {
 		var thisInstance = this;
 		var container = jQuery('#layoutEditorContainer');
 		var contentsDiv = container.closest('.contentsDiv');
 
 		app.showSelect2ElementView(container.find('[name="layoutEditorModules"]'));
 
-		container.on('change', '[name="layoutEditorModules"]', function(e) {
+		container.on('change', '[name="layoutEditorModules"]', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var selectedModule = currentTarget.val();
 			thisInstance.getModuleLayoutEditor(selectedModule).then(
-				function(data) {
-					contentsDiv.html(data);
-					thisInstance.registerEvents();
-				}
+					function (data) {
+						contentsDiv.html(data);
+						thisInstance.registerEvents();
+					}
 			);
 		});
 
 	},
-	
-    registerRelModulesChangeEvent : function() {
+	registerRelModulesChangeEvent: function () {
 		var thisInstance = this;
 		var container = jQuery('#layoutEditorContainer');
 		var contentsDiv = container.closest('.contentsDiv');
 
 		app.showSelect2ElementView(container.find('[name="layoutEditorRelModules"]'));
 
-		container.on('change', '[name="layoutEditorRelModules"]', function(e) {
+		container.on('change', '[name="layoutEditorRelModules"]', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var selectedModule = currentTarget.val();
 			thisInstance.getRelModuleLayoutEditor(selectedModule).then(
-				function(data) {
-					contentsDiv.html(data);
-					thisInstance.registerEvents();
-				}
+					function (data) {
+						contentsDiv.html(data);
+						thisInstance.registerEvents();
+					}
 			);
 		});
 
 	},
-
 	/**
 	 * Function to register click event for drop-downs in fields list
 	 */
-	avoidDropDownClick : function(dropDownContainer) {
-		dropDownContainer.find('.dropdown-menu').click(function(e) {
+	avoidDropDownClick: function (dropDownContainer) {
+		dropDownContainer.find('.dropdown-menu').click(function (e) {
 			e.stopPropagation();
 		});
 	},
-        
-	registerEditFieldDetailsClick : function(contents) {
+	registerEditFieldDetailsClick: function (contents) {
 		var thisInstance = this;
-		if(typeof contents == 'undefined') {
+		if (typeof contents == 'undefined') {
 			contents = jQuery('#layoutEditorContainer').find('.contents');
 		}
-		contents.find('.editFieldDetails').click(function(e) {
+		contents.find('.editFieldDetails').click(function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var fieldRow = currentTarget.closest('div.editFields');
 			fieldRow.removeClass('opacity');
@@ -1568,53 +1510,53 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			dropDownContainer.find('.dropdown-menu').remove();
 			var dropDown = basicDropDown.clone().removeClass('basicFieldOperations hide').addClass('dropdown-menu');
 			dropDownContainer.append(dropDown);
-			var dropDownMenu  = dropDownContainer.find('.dropdown-menu');
+			var dropDownMenu = dropDownContainer.find('.dropdown-menu');
 			var params = app.getvalidationEngineOptions(true);
 			params.binded = false,
-			params.onValidationComplete = function(form,valid){
-				if(valid) {
-					 if(form.hasClass('fieldDetailsForm')){
-                        thisInstance.registerSaveFieldDetailsEvent(form);
-                    }
-				}
-				return false;
-			}
+					params.onValidationComplete = function (form, valid) {
+						if (valid) {
+							if (form.hasClass('fieldDetailsForm')) {
+								thisInstance.registerSaveFieldDetailsEvent(form);
+							}
+						}
+						return false;
+					}
 			dropDownMenu.find('form').validationEngine(params);
 			var defaultValueUiContainer = basicDropDown.find('.defaultValueUi');
 
 			var popoverTooltipElements = fieldRow.find('.popoverTooltip');
-			if(popoverTooltipElements.length > 0) {
+			if (popoverTooltipElements.length > 0) {
 				app.showPopoverElementView(popoverTooltipElements);
 			}
 			//handled registration of chosen for select element
 			var selectElements = defaultValueUiContainer.find('select');
-			if(selectElements.length > 0) {
+			if (selectElements.length > 0) {
 				dropDownMenu.find('select').addClass('chzn-select');
 				app.changeSelectElementView(dropDownMenu);
 			}
 
 			//handled registration of time field
 			var timeFieldElement = defaultValueUiContainer.find('[data-toregister="time"]');
-			if(timeFieldElement.length > 0){
+			if (timeFieldElement.length > 0) {
 				dropDownMenu.find('[data-toregister="time"]').addClass('timepicker-default timePicker');
 				app.registerEventForTimeFields(dropDownMenu);
 			}
 
 			//handled registration for date fields
-			 var dateField = defaultValueUiContainer.find('[data-toregister="date"]');
-			 if(dateField.length > 0) {
-				 dropDownMenu.find('[data-toregister="date"]').addClass('dateField');
-				 app.registerEventForDatePickerFields(dropDownMenu);
-			 }
+			var dateField = defaultValueUiContainer.find('[data-toregister="date"]');
+			if (dateField.length > 0) {
+				dropDownMenu.find('[data-toregister="date"]').addClass('dateField');
+				app.registerEventForDatePickerFields(dropDownMenu);
+			}
 			thisInstance.avoidDropDownClick(dropDownContainer);
 
-			dropDownMenu.on('change', ':checkbox', function(e) {
+			dropDownMenu.on('change', ':checkbox', function (e) {
 				var currentTarget = jQuery(e.currentTarget);
-				if(currentTarget.attr('readonly') == 'readonly') {
+				if (currentTarget.attr('readonly') == 'readonly') {
 					var status = jQuery(e.currentTarget).is(':checked');
-					if(!status){
-						jQuery(e.currentTarget).attr('checked','checked')
-					}else{
+					if (!status) {
+						jQuery(e.currentTarget).attr('checked', 'checked')
+					} else {
 						jQuery(e.currentTarget).removeAttr('checked');
 					}
 					e.preventDefault();
@@ -1623,41 +1565,40 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 
 			//added for drop down position change
 			var offset = currentTarget.offset(),
-                height = currentTarget.outerHeight(),
-                dropHeight = dropDown.outerHeight(),
-                viewportBottom = $(window).scrollTop() + document.documentElement.clientHeight,
-                dropTop = offset.top + height,
-                enoughRoomBelow = dropTop + dropHeight <= viewportBottom;
-			   if(!enoughRoomBelow) {
-				   dropDown.addClass('bottom-up');
-			   } else {
-				   dropDown.removeClass('bottom-up');
-			   }
+					height = currentTarget.outerHeight(),
+					dropHeight = dropDown.outerHeight(),
+					viewportBottom = $(window).scrollTop() + document.documentElement.clientHeight,
+					dropTop = offset.top + height,
+					enoughRoomBelow = dropTop + dropHeight <= viewportBottom;
+			if (!enoughRoomBelow) {
+				dropDown.addClass('bottom-up');
+			} else {
+				dropDown.removeClass('bottom-up');
+			}
 
-			var callbackFunction = function() {
+			var callbackFunction = function () {
 				fieldRow.addClass('opacity');
 				dropDown.remove();
-                jQuery('body').off('click.dropdown.data-api.layouteditor');
+				jQuery('body').off('click.dropdown.data-api.layouteditor');
 			}
 			thisInstance.addClickOutSideEvent(dropDown, callbackFunction);
-            
-            jQuery('.cancel').click(function(){
-                callbackFunction();
-            });
-			jQuery('body').on('click.dropdown.data-api.layouteditor',function(e){
-                var target = jQuery(e.target);
-                //user clicked on time picker
-                if(target.closest('.ui-timepicker-list').length > 0) {
-                    e.stopPropagation();
-                }
-            })
+
+			jQuery('.cancel').click(function () {
+				callbackFunction();
+			});
+			jQuery('body').on('click.dropdown.data-api.layouteditor', function (e) {
+				var target = jQuery(e.target);
+				//user clicked on time picker
+				if (target.closest('.ui-timepicker-list').length > 0) {
+					e.stopPropagation();
+				}
+			})
 		});
 	},
-
 	/**
 	 * Function to register all the events for blocks
 	 */
-	registerBlockEvents : function() {
+	registerBlockEvents: function () {
 		var thisInstance = this;
 		thisInstance.makeBlocksListSortable();
 		thisInstance.registerAddCustomFieldEvent();
@@ -1665,13 +1606,12 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		thisInstance.registerInactiveFieldsEvent();
 		thisInstance.registerDeleteCustomBlockEvent();
 	},
-
 	/**
 	 * Function to register all the events for fields
 	 */
-	registerFieldEvents : function(contents) {
+	registerFieldEvents: function (contents) {
 		var thisInstance = this;
-		if(typeof contents == 'undefined') {
+		if (typeof contents == 'undefined') {
 			contents = jQuery('#layoutEditorContainer').find('.contents');
 		}
 		app.registerEventForDatePickerFields(contents);
@@ -1683,94 +1623,91 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		thisInstance.registerFieldDetailsChange(contents);
 		thisInstance.registerEditFieldDetailsClick(contents);
 
-		contents.find(':checkbox').change(function(e) {
+		contents.find(':checkbox').change(function (e) {
 			var currentTarget = jQuery(e.currentTarget);
-			if(currentTarget.attr('readonly') == 'readonly') {
+			if (currentTarget.attr('readonly') == 'readonly') {
 				var status = jQuery(e.currentTarget).is(':checked');
-				if(!status){
-					jQuery(e.currentTarget).attr('checked','checked')
-				}else{
+				if (!status) {
+					jQuery(e.currentTarget).attr('checked', 'checked')
+				} else {
 					jQuery(e.currentTarget).removeAttr('checked');
 				}
 				e.preventDefault();
 			}
 		});
 	},
-
-    /*
+	/*
 	 * Function to add clickoutside event on the element - By using outside events plugin
 	 * @params element---On which element you want to apply the click outside event
 	 * @params callbackFunction---This function will contain the actions triggered after clickoutside event
 	 */
-	addClickOutSideEvent : function(element, callbackFunction) {
-		element.one('clickoutside',callbackFunction);
+	addClickOutSideEvent: function (element, callbackFunction) {
+		element.one('clickoutside', callbackFunction);
 	},
-    
 	/**
 	 * register events for layout editor
 	 */
-	registerEvents : function() {
+	registerEvents: function () {
 		var thisInstance = this;
-	
+
 		thisInstance.registerBlockEvents();
 		thisInstance.registerFieldEvents();
 		thisInstance.setInactiveFieldsList();
 		thisInstance.registerAddCustomBlockEvent();
 		thisInstance.registerFieldSequenceSaveClick();
-	
+
 		thisInstance.relatedModulesTabClickEvent();
 		thisInstance.registerModulesChangeEvent();
 		thisInstance.registerRelModulesChangeEvent();
-		
-	    if(1 === jQuery('#relatedTabOrder').length){    
-	    	thisInstance.registerRelatedListEvents();
+
+		if (1 === jQuery('#relatedTabOrder').length) {
+			thisInstance.registerRelatedListEvents();
 			thisInstance.makeRelatedModuleSortable();
-	    }
+		}
 	}
 
 });
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
 	var instance = new Settings_LayoutEditor_Js();
 	instance.registerEvents();
 })
 
-Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_FloatingDigits_Validator_Js",{
-	
+Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_FloatingDigits_Validator_Js", {
 	/**
 	 *Function which invokes field validation
 	 *@param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
-	invokeValidation: function(field, rules, i, options){
+	invokeValidation: function (field, rules, i, options) {
 		var rangeInstance = new Vtiger_FloatingDigits_Validator_Js();
 		rangeInstance.setElement(field);
 		var response = rangeInstance.validate();
-		if(response != true){
+		if (response != true) {
 			return rangeInstance.getError();
 		}
-		
+
 	}
-	
-},{
+
+}, {
 	/**
 	 * Function to validate the decimals length
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
-	validate: function(){
+	validate: function () {
 		var response = this._super();
-		if(response != true){
+		if (response != true) {
 			return response;
-		}else{
+		} else {
 			var fieldValue = this.getFieldValue();
 			if (fieldValue < 2 || fieldValue > 5) {
 				var errorInfo = app.vtranslate('JS_PLEASE_ENTER_NUMBER_IN_RANGE_2TO5');
 				this.setError(errorInfo);
 				return false;
 			}
-			
-			var specialChars = /^[+]/ ;
+
+			var specialChars = /^[+]/;
 			if (specialChars.test(fieldValue)) {
 				var error = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
 				this.setError(error);
@@ -1781,43 +1718,42 @@ Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_FloatingDigits_Validator_
 	}
 });
 
-Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_DecimalMaxLength_Validator_Js",{
-	
+Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_DecimalMaxLength_Validator_Js", {
 	/**
 	 *Function which invokes field validation
 	 *@param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
-	invokeValidation: function(field, rules, i, options){
+	invokeValidation: function (field, rules, i, options) {
 		var rangeInstance = new Vtiger_DecimalMaxLength_Validator_Js();
 		rangeInstance.setElement(field);
 		var response = rangeInstance.validate();
-		if(response != true){
+		if (response != true) {
 			return rangeInstance.getError();
 		}
 	}
-	
-},{
+
+}, {
 	/**
 	 * Function to validate the fieldLength
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
-	validate: function(){
+	validate: function () {
 		var response = this._super();
-		if(response != true){
+		if (response != true) {
 			return response;
-		}else{
+		} else {
 			var fieldValue = this.getFieldValue();
 			var decimalFieldValue = jQuery('#createFieldForm').find('[name="decimal"]').val();
-			var fieldLength = parseInt(64)-parseInt(decimalFieldValue);
+			var fieldLength = parseInt(64) - parseInt(decimalFieldValue);
 			if (fieldValue > fieldLength && !(fieldLength < 0) && fieldLength >= 59) {
-				var errorInfo = app.vtranslate('JS_LENGTH_SHOULD_BE_LESS_THAN_EQUAL_TO')+' '+fieldLength;
+				var errorInfo = app.vtranslate('JS_LENGTH_SHOULD_BE_LESS_THAN_EQUAL_TO') + ' ' + fieldLength;
 				this.setError(errorInfo);
 				return false;
 			}
-			
-			var specialChars = /^[+]/ ;
+
+			var specialChars = /^[+]/;
 			if (specialChars.test(fieldValue)) {
 				var error = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
 				this.setError(error);
@@ -1828,41 +1764,40 @@ Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_DecimalMaxLength_Validato
 	}
 });
 
-Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_MaxLength_Validator_Js",{
-	
+Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_MaxLength_Validator_Js", {
 	/**
 	 *Function which invokes field validation
 	 *@param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
-	invokeValidation: function(field, rules, i, options){
+	invokeValidation: function (field, rules, i, options) {
 		var rangeInstance = new Vtiger_DecimalMaxLength_Validator_Js();
 		rangeInstance.setElement(field);
 		var response = rangeInstance.validate();
-		if(response != true){
+		if (response != true) {
 			return rangeInstance.getError();
 		}
 	}
-	
-},{
+
+}, {
 	/**
 	 * Function to validate the fieldLength
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
-	validate: function(){
+	validate: function () {
 		var response = this._super();
-		if(response != true){
+		if (response != true) {
 			return response;
-		}else{
+		} else {
 			var fieldValue = this.getFieldValue();
 			if (fieldValue > 255) {
-				var errorInfo = app.vtranslate('JS_LENGTH_SHOULD_BE_LESS_THAN_EQUAL_TO')+' 255';
+				var errorInfo = app.vtranslate('JS_LENGTH_SHOULD_BE_LESS_THAN_EQUAL_TO') + ' 255';
 				this.setError(errorInfo);
 				return false;
 			}
-			
-			var specialChars = /^[+]/ ;
+
+			var specialChars = /^[+]/;
 			if (specialChars.test(fieldValue)) {
 				var error = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
 				this.setError(error);
@@ -1873,79 +1808,75 @@ Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_MaxLength_Validator_Js",{
 	}
 });
 
-Vtiger_Base_Validator_Js("Vtiger_FieldLabel_Validator_Js",{
-	
+Vtiger_Base_Validator_Js("Vtiger_FieldLabel_Validator_Js", {
 	/**
 	 *Function which invokes field validation
 	 *@param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
-	invokeValidation: function(field, rules, i, options){
+	invokeValidation: function (field, rules, i, options) {
 		var instance = new Vtiger_FieldLabel_Validator_Js();
 		instance.setElement(field);
 		var response = instance.validate();
-		if(response != true){
+		if (response != true) {
 			return instance.getError();
 		}
 	}
-	
-},{
+
+}, {
 	/**
 	 * Function to validate the field label
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
-	validate: function(){
+	validate: function () {
 		var fieldValue = this.getFieldValue();
 		return this.validateValue(fieldValue);
 	},
-	
-	validateValue : function(fieldValue){
-		var specialChars = /[&\<\>\:\'\"\,\_]/ ;
+	validateValue: function (fieldValue) {
+		var specialChars = /[&\<\>\:\'\"\,\_]/;
 
 		if (specialChars.test(fieldValue)) {
-			var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS')+" & < > ' \" : , _ "+app.vtranslate('JS_NOT_ALLOWED');
+			var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + " & < > ' \" : , _ " + app.vtranslate('JS_NOT_ALLOWED');
 			this.setError(errorInfo);
 			return false;
-		} 
-        return true;
+		}
+		return true;
 	}
 });
 
-Vtiger_Base_Validator_Js("Vtiger_PicklistFieldValues_Validator_Js",{
-	
+Vtiger_Base_Validator_Js("Vtiger_PicklistFieldValues_Validator_Js", {
 	/**
 	 *Function which invokes field validation
 	 *@param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
-	invokeValidation: function(field, rules, i, options){
+	invokeValidation: function (field, rules, i, options) {
 		var instance = new Vtiger_PicklistFieldValues_Validator_Js();
 		instance.setElement(field);
 		var response = instance.validate();
-		if(response != true){
+		if (response != true) {
 			return instance.getError();
 		}
 	}
-	
-},{
+
+}, {
 	/**
 	 * Function to validate the field label
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
-	validate: function(){
+	validate: function () {
 		var fieldValue = this.getFieldValue();
 		return this.validateValue(fieldValue);
 	},
-	
-	validateValue : function(fieldValue){
-		var specialChars = /(\<|\>)/gi ;
+	validateValue: function (fieldValue) {
+		var specialChars = /(\<|\>)/gi;
 		if (specialChars.test(fieldValue)) {
-			var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS')+" < >"+app.vtranslate('JS_NOT_ALLOWED');
+			var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + " < >" + app.vtranslate('JS_NOT_ALLOWED');
 			this.setError(errorInfo);
 			return false;
-		} 
-        return true;
+		}
+		return true;
 	}
 });

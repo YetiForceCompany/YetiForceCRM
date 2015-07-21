@@ -87,7 +87,7 @@ class Documents_Record_Model extends Vtiger_Record_Model {
 					header("Content-type: ".$fileDetails['type']);
 					header("Pragma: public");
 					header("Cache-Control: private");
-					header("Content-Disposition: attachment; filename=$fileName");
+					header("Content-Disposition: attachment; filename=\"$fileName\"");
 					header("Content-Description: PHP Generated Data");
 				}
 			}

@@ -274,6 +274,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 			} else {
 				$picklistValues = Vtiger_Util_Helper::getPickListValues($this->getName());
 			}
+
+			$fieldPickListValues = [];
 			foreach ($picklistValues as $value) {
 				$fieldPickListValues[$value] = vtranslate($value, $this->getModuleName());
 			}
@@ -355,7 +357,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function isViewable()
 	{
-		if (!$this->isViewEnabled()) {
+		if (!$this->isViewEnabled() || !$this->isActiveReference()) {
 			return false;
 		}
 		return true;
@@ -409,6 +411,24 @@ class Vtiger_Field_Model extends Vtiger_Field
 		return ($this->get('summaryfield')) ? true : false;
 	}
 
+	public function isActiveReference()
+	{
+		if ($this->getFieldDataType() == 'reference') {
+			$webserviceField = $this->getWebserviceFieldObject();
+			$referenceList = $webserviceField->getReferenceList();
+			foreach ($referenceList as $key => $module) {
+				if (!vtlib_isModuleActive($module)) {
+					unset($referenceList[$key]);
+				}
+			}
+			$webserviceField->setReferenceList($referenceList);
+			if (count($referenceList) == 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * Function to check whether the current field is editable
 	 * @return <Boolean> - true/false
@@ -417,9 +437,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	{
 		if (!$this->isEditEnabled() || !$this->isViewable() ||
 			( ((int) $this->get('displaytype')) != 1 && ((int) $this->get('displaytype')) != 10 ) ||
-			$this->isReadOnly() == true ||
-			$this->get('uitype') == 4) {
-
+			$this->isReadOnly() == true || $this->get('uitype') == 4) {
 			return false;
 		}
 		return true;

@@ -175,8 +175,8 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 		$fileName = str_replace(' ', '_', decode_html(vtranslate($moduleName, $moduleName)));
 		$exportType = $this->getExportContentType($request);
 
-		header("Content-Disposition:attachment;filename=$fileName.csv");
-		header("Content-Type:$exportType;charset=UTF-8");
+		header("Content-Disposition: attachment; filename=\"$fileName\"");
+		header("Content-Type: $exportType; charset=UTF-8");
 		header("Expires: Mon, 31 Dec 2000 00:00:00 GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Cache-Control: post-check=0, pre-check=0", false);

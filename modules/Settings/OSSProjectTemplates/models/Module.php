@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,90 +7,94 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-class Settings_OSSProjectTemplates_Module_Model extends Settings_Vtiger_Module_Model {
+ * *********************************************************************************************************************************** */
 
-    public function getConfigurationForModule($moduleName) {
+class Settings_OSSProjectTemplates_Module_Model extends Settings_Vtiger_Module_Model
+{
 
-        $path = 'modules/OSSProjectTemplates/config/' . strtolower($moduleName) . '_config.json';
+	public function getConfigurationForModule($moduleName)
+	{
 
-        if (file_exists($path)) {
-            $json = file_get_contents($path);
-            $fieldTab = json_decode($json, TRUE);
-            return $fieldTab;
-        } else {
-            return false;
-        }
-    }
+		$path = 'modules/OSSProjectTemplates/config/' . strtolower($moduleName) . '_config.json';
 
-    public function getListTpl($moduleName, $parentId = 0, $forTpl = false) {
-        $db = PearDatabase::getInstance();
+		if (file_exists($path)) {
+			$json = file_get_contents($path);
+			$fieldTab = json_decode($json, TRUE);
+			return $fieldTab;
+		} else {
+			return false;
+		}
+	}
 
-        $sql = "SELECT * FROM vtiger_oss_project_templates WHERE module = ? AND parent = ?";
-        $result = $db->pquery($sql, array($moduleName, $parentId), true);
+	public function getListTpl($moduleName, $parentId = 0, $forTpl = false)
+	{
+		$db = PearDatabase::getInstance();
 
-        $output = array();
+		$sql = "SELECT * FROM vtiger_oss_project_templates WHERE module = ? AND parent = ?";
+		$result = $db->pquery($sql, array($moduleName, $parentId), true);
 
-        for ($i = 0; $i < $db->num_rows($result); $i++) {
-            $record = $db->raw_query_result_rowdata($result, $i);
-            $idTpl = $record['id_tpl'];
-            $fldName = $record['fld_name'];
-            $output[$idTpl][$fldName] = $record['fld_val'];
-        }
+		$output = array();
 
-        $userProfileList = $this->getCurrentUserProfile();
+		for ($i = 0; $i < $db->num_rows($result); $i++) {
+			$record = $db->raw_query_result_rowdata($result, $i);
+			$idTpl = $record['id_tpl'];
+			$fldName = $record['fld_name'];
+			$output[$idTpl][$fldName] = $record['fld_val'];
+		}
 
-        if (count($output) && $forTpl) {
-            foreach ($output as $key => $value) {
-                $profile = json_decode($output[$key]['oss_project_visibility']);
+		$userProfileList = $this->getCurrentUserProfile();
 
-                if (!is_array($profile)) {
-                    if (!in_array($profile, $userProfileList)) {
-                        unset($output[$key]);
-                    }
-                } else {
-                    $state = array();
-                    
-                    for ($i = 0; $i < count($profile); $i++) {
-                        if (in_array($profile[$i], $userProfileList)) {
-                            $state[] = true;
-                        } else {
-                            $state[] = false;
-                        }
-                    }
-                    
-                    if(!in_array(true, $state)){
-                        unset($output[$key]);
-                    }
-                }
-            }
-        }
-        
-        $menuModelsList = Vtiger_Module_Model::getAll([1]);
-        if(array_key_exists(getTabid('Project'), $menuModelsList)){
-            unset($output);
-        }
+		if (count($output) && $forTpl) {
+			foreach ($output as $key => $value) {
+				$profile = json_decode($output[$key]['oss_project_visibility']);
 
-        return $output;
-    }
+				if (!is_array($profile)) {
+					if (!in_array($profile, $userProfileList)) {
+						unset($output[$key]);
+					}
+				} else {
+					$state = array();
 
-    public function getCurrentUserProfile() {
-        $userModel = Users_Record_Model::getCurrentUserModel();
-        $roleId = $userModel->getRole();
+					for ($i = 0; $i < count($profile); $i++) {
+						if (in_array($profile[$i], $userProfileList)) {
+							$state[] = true;
+						} else {
+							$state[] = false;
+						}
+					}
 
-        $db = PearDatabase::getInstance();
-        $sql = "SELECT p.profileid as id FROM vtiger_profile p LEFT JOIN vtiger_role2profile r ON r.profileid = p.profileid WHERE r.roleid = ?";
-        $params = array($roleId);
-        $result = $db->pquery($sql, $params, true);
+					if (!in_array(true, $state)) {
+						unset($output[$key]);
+					}
+				}
+			}
+		}
 
-        $profileList = array();
+		$menuModelsList = Vtiger_Module_Model::getAll([1]);
+		if (array_key_exists(getTabid('Project'), $menuModelsList)) {
+			unset($output);
+		}
 
-        for ($i = 0; $i < $db->num_rows($result); $i++) {
-            $profileName = $db->query_result($result, $i, 'id');
-            $profileList[] = str_replace('+', '\\+', $profileName);
-        }
+		return $output;
+	}
 
-        return $profileList;
-    }
+	public function getCurrentUserProfile()
+	{
+		$userModel = Users_Record_Model::getCurrentUserModel();
+		$roleId = $userModel->getRole();
 
+		$db = PearDatabase::getInstance();
+		$sql = "SELECT p.profileid as id FROM vtiger_profile p LEFT JOIN vtiger_role2profile r ON r.profileid = p.profileid WHERE r.roleid = ?";
+		$params = array($roleId);
+		$result = $db->pquery($sql, $params, true);
+
+		$profileList = array();
+
+		for ($i = 0; $i < $db->num_rows($result); $i++) {
+			$profileName = $db->query_result($result, $i, 'id');
+			$profileList[] = str_replace('+', '\\+', $profileName);
+		}
+
+		return $profileList;
+	}
 }

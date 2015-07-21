@@ -855,7 +855,7 @@ li.ui-timepicker-selected,
 }
 .detailViewInfo {
 	box-shadow: 0 -4px 4px -4px #959595;
-	margin-top: 10px;
+	margin-top: 5px;
 }
 /*//
 .detailViewInfo .contents {
@@ -3085,18 +3085,6 @@ td.listViewEntryValue .row input {
 .listViewContentDiv {
 	position: relative;
 }
-.tag {
-	float: left; margin-right: 5px;
-	background: #d9edf7;
-	border: 1px solid #eaeaea;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border-radius: 2px;
-	box-shadow: 1px 1px 3px #dddddd;
-	box-sizing: border-box;
-	padding-left: 2px;
-	padding-right: 2px;
-}
 .fieldLabel .pull-right {
 	text-align: right;
 }
@@ -3104,10 +3092,7 @@ td.listViewEntryValue .row input {
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
 	border-radius: 2px;
-	border: 1px solid #eaeaea;
 	width: 80% !important;
-	padding-left: 5px !important;
-	box-shadow: 1px 1px 3px #dddddd;
 }
 #tagRecord {
 	margin-left: 5px !important;
@@ -3376,9 +3361,22 @@ span[name=existingImages] img{
 .activityWidgetContainer .popover{
 	min-width: 240px;
 }
-.quickCreateContent .minWidth150 .chosen-container{
-	min-width: 150px;
-}
 .filterActionImage {
 	margin-left: 8px;
+}
+#tagRecord{
+	line-height: 25px;
+}
+#tagsList .btn-info{
+	margin-left: 5px;
+}
+#tagRecordInput{
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.clearReferenceSelection,.createReferenceRecord {
+	padding: 0px 6px;
+}
+.relatedPopup {
+	padding: 0px 4px;
 }
