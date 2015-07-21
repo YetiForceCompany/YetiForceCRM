@@ -3095,7 +3095,7 @@ insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) 
 
 /*Data for the table `vtiger_def_org_share_seq` */
 
-insert  into `vtiger_def_org_share_seq`(`id`) values (55);
+insert  into `vtiger_def_org_share_seq`(`id`) values (58);
 
 /*Data for the table `vtiger_default_record_view` */
 
