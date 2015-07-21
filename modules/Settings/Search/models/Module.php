@@ -34,7 +34,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 	public function getFielFromModule()
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT * from vtiger_field');
+		$result = $adb->pquery("SELECT * from vtiger_field WHERE uitype NOT IN ('15','16','52','53','56','70','120')");
 		$fields = array();
 		while ($row = $adb->fetch_array($result)) {
 			$fields[$row['tabid']][] = $row;
