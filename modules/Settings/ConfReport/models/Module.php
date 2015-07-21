@@ -227,11 +227,10 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 			$directiveValues['max_allowed_packet']['current'] = Vtiger_Functions::showBytes($maxAllowedPacket);
 		}
 
-		if (ini_get('error_reporting') != $errorReportingValue && ini_get('error_reporting') != 22519)
-			$directiveValues['error_reporting']['status'] = false;
-
-		$error_reporting = stripos(ini_get('error_reporting'), '_') === false ? self::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
-		$directiveValues['error_reporting']['current'] = $error_reporting;
+		$errorReporting = stripos(ini_get('error_reporting'), '_') === false ? self::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
+		if (in_array('E_NOTICE',$errorReporting) || in_array('E_DEPRECATED',$errorReporting) || in_array('E_STRICT',$errorReporting))
+			$directiveValues['error_reporting']['status'] = true;
+		$directiveValues['error_reporting']['current'] = implode(' | ', $errorReporting);
 
 		return $directiveValues;
 	}
@@ -282,7 +281,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 		foreach ($level_names as $level => $name)
 			if (($value & $level) == $level)
 				$levels[] = $name;
-		return implode(' | ', $levels);
+		return $levels;
 	}
 
 }

@@ -108,6 +108,7 @@ $languageStrings = [
     "Attorney General's Office" => "Attorney General's Office",
 	'LBL_RELATION' => 'Relation',
 	'LBL_LEGAL_FORM' => 'Legal form',
+	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => '__UNTRANSLATED__ %s',
 ];
 
 $jsLanguageStrings = [

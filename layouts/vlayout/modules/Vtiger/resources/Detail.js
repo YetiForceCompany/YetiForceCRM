@@ -1940,7 +1940,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerGetAllTagCloudWidgetLoad: function () {
-		thisInstance = this;
+		var thisInstance = this;
 		var params = {
 			module: app.getModuleName(),
 			mode: 'showTags',
@@ -2098,7 +2098,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 		//To Trigger the change on load 
 		sourcePickListElements.trigger('change');
-},
+	},
 	/**
 	 * Function to get child comments
 	 */
@@ -2255,17 +2255,23 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var form = this.getForm();
 		app.showPopoverElementView(form.find('.HelpInfoPopover'));
 	},
+	/**
+	 * Counting the number of records in related modules
+	 * @license licenses/License.html
+	 * @package YetiForce.Detail
+	 * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+	 */
 	registerRelatedModulesRecordCount: function () {
 		var thisInstance = new Vtiger_Detail_Js();
 		$('.related .nav li').each(function (n, item) {
-			var url = $(item).data('url');
 			if ($(item).hasClass('relatedNav') && $(item).data('count') == '1') {
 				var params = {
-					'module': app.getModuleName(),
-					'action': 'RelationAjax',
-					'record': thisInstance.getRecordId(),
-					'relatedModule': $(item).data('reference'),
-					'mode': 'getRelatedListPageCount',
+					module: app.getModuleName(),
+					action: 'RelationAjax',
+					record: thisInstance.getRecordId(),
+					relatedModule: $(item).data('reference'),
+					mode: 'getRelatedListPageCount',
+					tab_label: $(item).data('label-key'),
 				}
 				AppConnector.request(params).then(function (response) {
 					if (response.success) {
@@ -2275,7 +2281,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 			}
 		});
-},
+	},
 	registerEvents: function () {
 		var thisInstance = this;
 		//thisInstance.triggerDisplayTypeEvent();

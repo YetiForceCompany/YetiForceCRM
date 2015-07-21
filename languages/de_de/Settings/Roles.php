@@ -31,8 +31,8 @@ $languageStrings = [
 	'SINGLE_Roles' => 'Rolle',
 	'LBL_USERS_LIST' => 'Liste der Benutzer, die dieser Rolle angehören:',
 	'LBL_JUST_ME' => 'Nur Mich',
-	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => '__UNTRANSLATED__',
-	'LBL_SEARCH_WITHOUT_PERMISSION' => '__UNTRANSLATED__',
+	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => 'Enable change of the record owner',
+	'LBL_SEARCH_WITHOUT_PERMISSION' => 'Modules that can be searched without permission',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'keine Berechtigungen zum verschieben',

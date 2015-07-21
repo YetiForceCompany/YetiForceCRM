@@ -975,6 +975,8 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
 	'LBL_LEGAL_FORM' => 'Rechtsform',
+	
+	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Export to Excel',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
@@ -1058,8 +1060,8 @@ $jsLanguageStrings = [
 	'JS_PLEASE_ENTER_VALID_TIME' => 'Bitte geben Sie eine gültige Zeit ein',
 	'JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS' => 'Bitte wählen Sie eine Organisation aus, um die Adresse zu kopieren',
 	'JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS' => 'Bitte wählen Sie einen Kontakt aus, um die Adresse zu kopieren',
-	'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS' => '__UNTRANSLATED__',
-	'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS' => '__UNTRANSLATED__',
+	'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS' => 'Select a lead to copy address',
+	'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS' => 'Select a vendor to copy address',
 	'JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD' => 'Bitte wählen Sie mindestens ein Pflichtfeld',
 	'JS_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Bitte wählen Sie mindestens eine Option',
 	'JS_PLEASE_SELECT_BASE_CURRENCY_FOR_PRODUCT' => 'Bitte wählen Sie die Basiswährung für das Produkt',
@@ -1189,5 +1191,5 @@ $jsLanguageStrings = [
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Unbekannter Fehler! Bitte benachrichtigen Sie den Administrator.',
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Kann nicht in der Zukunft erstellt werden',
 	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'An incorrect range of dates was entered',
-	
+	'JS_STARTED_GENERATING_FILE' => 'Generating a file',
 ];

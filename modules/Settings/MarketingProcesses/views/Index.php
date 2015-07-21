@@ -21,6 +21,8 @@ class Settings_MarketingProcesses_Index_View extends Settings_Vtiger_Index_View 
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
+		$viewer->assign('LEADS_MODULE_MODEL', Vtiger_Module_Model::getInstance('Leads'));
+		$viewer->assign('ACCOUNTS_MODULE_MODEL', Vtiger_Module_Model::getInstance('Accounts'));
 		$viewer->view('Index.tpl', $qualifiedModule);
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
@@ -31,6 +33,7 @@ class Settings_MarketingProcesses_Index_View extends Settings_Vtiger_Index_View 
 
 		$jsFileNames = array(
 			"modules.Settings.$moduleName.resources.Index",
+			"modules.Settings.Leads.resources.LeadMapping",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

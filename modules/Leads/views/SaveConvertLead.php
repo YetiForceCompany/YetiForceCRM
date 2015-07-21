@@ -34,7 +34,8 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller {
 		$entityValues['transferRelatedRecordsTo'] = $request->get('transferModule');
 		$entityValues['assignedTo'] = vtws_getWebserviceEntityId(vtws_getOwnerType($assignId), $assignId);
 		$entityValues['leadId'] =  vtws_getWebserviceEntityId($request->getModule(), $recordId);
-
+		$createAlways = Vtiger_Processes_Model::getConfig('marketing','conversion','create_always');
+		
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $request->getModule());
 		$convertLeadFields = $recordModel->getConvertLeadFields();
 		$availableModules = array('Accounts', 'Contacts', 'Potentials');
@@ -42,7 +43,6 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller {
 			if(vtlib_isModuleActive($module)&& in_array($module, $modules)) {
 				$entityValues['entities'][$module]['create'] = true;
 				$entityValues['entities'][$module]['name'] = $module;
-				$entityValues['entities'][$module]['create_always'] = Vtiger_Processes_Model::getConfig('marketing','conversion','create_always');
 
 				foreach ($convertLeadFields[$module] as $fieldModel) {
 					$fieldName = $fieldModel->getName();
@@ -62,6 +62,25 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller {
 					$entityValues['entities'][$module][$fieldName] = $fieldValue;
 				}
 			}
+		}
+		try {
+			$results = true;
+			if($createAlways){
+				$leadModel = Vtiger_Module_Model::getCleanInstance($request->getModule());
+				$results = $leadModel->searchAccountsToConvert($recordModel);
+				$entityValues['entities']['Accounts']['convert_to_id'] = $results;
+			}
+			if(!$results){
+				$message = vtranslate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT',$request->getModule(),'');
+				if($currentUser->isAdminUser()){
+					$message = vtranslate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT',$request->getModule(),'<a href="index.php?module=MarketingProcesses&view=Index&parent=Settings"><span class="glyphicon glyphicon-folder-open"></span></a>');
+				}
+				$this->showError($request,'',$message);
+				exit;
+			}
+		} catch(Exception $e) {
+			$this->showError($request, $e);
+			exit;
 		}
 		try {
 			$result = vtws_convertlead($entityValues, $currentUser);
@@ -90,21 +109,23 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller {
 		}
 	}
 
-	function showError($request, $exception=false) {
+	function showError($request, $exception=false,$message = '') {
 		$viewer = $this->getViewer($request);
-		if($exception != false) {
-			$viewer->assign('EXCEPTION', $exception->getMessage());
-		}
-
 		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
+		
+		if($exception != false) {
+			$viewer->assign('EXCEPTION', vtranslate($exception->getMessage(),$moduleName));
+		}elseif($message){
+			$viewer->assign('EXCEPTION', $message);
+		}
 
 		$viewer->assign('CURRENT_USER', $currentUser);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('ConvertLeadError.tpl', $moduleName);
 	}
         
-        public function validateRequest(Vtiger_Request $request) { 
-            $request->validateWriteAccess(); 
-        }
+	public function validateRequest(Vtiger_Request $request) { 
+		$request->validateWriteAccess(); 
+	}
 }

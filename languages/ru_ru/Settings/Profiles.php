@@ -64,6 +64,8 @@ $languageStrings = [
 	'MassMoveDocuments' => 'Массовое перемещение документов',
 	'ReadRecord' => 'Принять все изменения, выполненные в записях',
 	'WorkflowTrigger' => 'Обработчик',
+	'QuickExportToExcel' => 'Quick export to Excel',
+	'CreateDashboardFilter' => 'Create filter widgets',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Профиль успешно удален',

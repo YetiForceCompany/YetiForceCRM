@@ -958,6 +958,8 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
 	'LBL_LEGAL_FORM' => 'Legal form',
+	
+	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Export to Excel',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',
@@ -1041,8 +1043,8 @@ $jsLanguageStrings = [
 	'JS_PLEASE_ENTER_VALID_TIME' => 'Please Enter Valid Time',
 	'JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS' => 'Please select an Organization to copy address',
 	'JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS' => 'Please select a Contact to copy address',
-	'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS' => '__UNTRANSLATED__',
-	'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS' => '__UNTRANSLATED__',
+	'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS' => 'Select a lead to copy address',
+	'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS' => 'Select a vendor to copy address',
 	'JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD' => 'Please select at least one Mandatory Field',
 	'JS_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Please select at least one option',
 	'JS_PLEASE_SELECT_BASE_CURRENCY_FOR_PRODUCT' => 'Please select base currency for product',
@@ -1165,7 +1167,7 @@ $jsLanguageStrings = [
 	'LBL_WED' => 'Wed',
 	'LBL_WEEK' => 'Week',
 	'JS_MORE' => 'More',
-	'JS_TO_REALIZE' => 'Active',
+	'JS_TO_REALIZE' => 'For processing',
 	'JS_HISTORY' => 'History',
 	'JS_NOT_SELECTED_WORKFLOW_TRIGGER' => 'No workflow selected',
 	'JS_STARTED_PERFORM_WORKFLOW' => 'Workflow started',
@@ -1219,4 +1221,5 @@ $jsLanguageStrings = [
 	'JS_ADD_EVENT_TASK' => 'Add Event/To Do',
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Cannot hold future event',
 	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'An incorrect range of dates was entered',
+	'JS_STARTED_GENERATING_FILE' => 'Generating a file',
 ];

@@ -18,7 +18,10 @@ $languageStrings = [
 	'LBL_GROUPS_INFO' => 'Groups with no Assigned To',
 	'LBL_LEAD_STATUS' => 'Statuses indicating end of work with Leads',
 	'LBL_CURRENTUSER_STATUS' => 'Change Assigned To to a user who edits a record',
-	'LBL_CONVERT_LEAD_MERGE' => 'Join converted record with existing account with the same name',
-	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'This option allows system to automatically join converted record with already existing one by accounts name - new account will not be created, instead to existing record data will be transferred from Lead',
+	'LBL_CONVERT_LEAD_MERGE' => '__UNTRANSLATED__',
+	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'This option allows system to automatically join converted record with already existing - new account will not be created, instead to existing record data will be transferred from Lead',
+	'LBL_CONDITION' => 'Add condition',
 ];
-
+$jsLanguageStrings = [
+	'JS_NO_CONDITIONS' => '__UNTRANSLATED__',
+];

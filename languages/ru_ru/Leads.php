@@ -103,6 +103,7 @@ $languageStrings = [
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'Европейское Ограниченное Партнерство',
 	'PLL_EUROPEAN_ASSOCIATION' => 'Европейская ассоциация',
 	'PLL_UFCIITS' => 'Организация Коллективного Инвестирования',
+	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => '__UNTRANSLATED__ %s',
 ];
 
 $jsLanguageStrings = [

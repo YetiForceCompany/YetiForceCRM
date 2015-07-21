@@ -18,24 +18,107 @@
 	<div class="tab-content layoutContent" style="padding-top: 10px;">
 		<div class="tab-pane active" id="conversiontoaccount">
 			{assign var=CONVERSION value=$MODULE_MODEL->getConfig('conversion')}
-			<div class="row">
-				<div class="col-xs-3"><label class="">{vtranslate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</label></div>
-				<div class="col-xs-1"><input class="configField" type="checkbox" data-type="conversion" name="change_owner" value="1"  {if $CONVERSION['change_owner']=='true'}checked=""{/if} /></div>
-				<div class="col-xs-8">
-					<span class="alert alert-info pull-right">
-						{vtranslate('LBL_CONVERSION_TO_ACCOUNT_INFO',$QUALIFIED_MODULE)}
-					</span>
+			<div class="well">
+				<div class="row">
+					<div class="col-xs-3"><label class="">{vtranslate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</label></div>
+					<div class="col-xs-1"><input class="configField" type="checkbox" data-type="conversion" name="change_owner" value="1"  {if $CONVERSION['change_owner']=='true'}checked=""{/if} /></div>
+					<div class="col-xs-8">
+						<span class="alert alert-info pull-right no-margin">
+							{vtranslate('LBL_CONVERSION_TO_ACCOUNT_INFO',$QUALIFIED_MODULE)}
+						</span>
+					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-xs-3"><label class="">{vtranslate('LBL_CONVERT_LEAD_MERGE',$QUALIFIED_MODULE)}</label></div>
-				<div class="col-xs-1"><input class="configField" type="checkbox" data-type="conversion" name="create_always" value="1"  {if $CONVERSION['create_always']=='true'}checked=""{/if} /></div>
-				<div class="col-xs-8">
-					<span class="alert alert-info pull-right">
-						{vtranslate('LBL_CONVERT_LEAD_MERGE_ALERT',$QUALIFIED_MODULE)}
-					</span>
+			<div class="well">
+				<div class="row">
+					<div class="col-xs-3"><label class="">{vtranslate('LBL_CONVERT_LEAD_MERGE',$QUALIFIED_MODULE)}</label></div>
+					<div class="col-xs-1"><input class="configField" type="checkbox" data-type="conversion" name="create_always" value="1"  {if $CONVERSION['create_always']=='true'}checked=""{/if} /></div>
+					<div class="col-xs-8">
+						<span class="alert alert-info pull-right no-margin">
+							{vtranslate('LBL_CONVERT_LEAD_MERGE_ALERT',$QUALIFIED_MODULE)}
+						</span>
+					</div>
 				</div>
-			</div>
+				<div class="mappingTable{if $CONVERSION['create_always']!='true'} hide{/if}">
+					<br>
+					<input class="configField" type="hidden" data-type="conversion" name="mapping" value="">
+					<div class="">
+						<button id="addMapping" class="btn btn-default addButton" type="button">
+							<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate('LBL_CONDITION', $QUALIFIED_MODULE)}</strong>
+						</button>
+						<button id="addMapping" class="pull-right btn btn-success saveMapping" type="button">
+							{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong>
+						</button>
+					</div>
+					<table class="table table-bordered" id="convertLeadMapping">
+						<tbody>
+							<tr class="blockHeader">
+								<th class="blockHeader">{vtranslate('Leads', $QUALIFIED_MODULE)}</th>
+								<th class="blockHeader">{vtranslate('Accounts', $QUALIFIED_MODULE)}</th>
+							</tr>
+							{assign var=MAPPING value=ZEND_JSON::decode($CONVERSION.mapping)}
+							{assign var=LEAD_FIELDS value=$LEADS_MODULE_MODEL->getFields()}
+							{assign var=ACCOUNT_FIELDS value=$ACCOUNTS_MODULE_MODEL->getFields()}
+							{foreach item=MAPPING_ARRAY from=$MAPPING  name="mappingLoop"}
+								<tr class="listViewEntries" sequence-number="{$smarty.foreach.mappingLoop.iteration}">
+									<td>
+										<select class="leadsFields select2 input-sm" name="mapping[{$smarty.foreach.mappingLoop.iteration}][lead]">
+											{foreach key=FIELD_NAME item=FIELD_INFO from=$LEAD_FIELDS}
+												<option value="{$FIELD_NAME}" {if $FIELD_NAME eq key($MAPPING_ARRAY)} selected {/if}>
+														{vtranslate($FIELD_INFO->get('label'), $LEADS_MODULE_MODEL->getName())}
+												</option>
+											{/foreach}
+										</select>
+									</td>
+									<td>
+										<div class="row">
+											<div class="col-xs-11">
+												<select class="accountsFields select2 input-sm" name="mapping[{$smarty.foreach.mappingLoop.iteration}][account]">
+													{foreach key=FIELD_NAME item=FIELD_INFO from=$ACCOUNT_FIELDS}
+														<option {if $FIELD_NAME eq current($MAPPING_ARRAY)} selected {/if} value="{$FIELD_NAME}">
+															{vtranslate($FIELD_INFO->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}
+														</option>
+													{/foreach}
+												</select>
+											</div>
+											<div class="actionImages">
+												<a class='btn'><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteMapping"></span></a>
+											</div>
+										</div>	
+									</td>
+								</tr>
+							{/foreach}
+								<tr class="hide newMapping listViewEntries">
+									<td>
+										<select class="leadsFields newSelect">
+											{foreach key=FIELD_NAME item=FIELD_INFO from=$LEAD_FIELDS}
+												<option value="{$FIELD_NAME}">
+													{vtranslate($FIELD_INFO->get('label'), $LEADS_MODULE_MODEL->getName())}
+												</option>
+											{/foreach}
+										</select>
+									</td>
+									<td>
+										<div class="row">
+											<div class="col-xs-11">
+												<select class="accountsFields newSelect">
+													{foreach key=FIELD_NAME item=FIELD_INFO from=$ACCOUNT_FIELDS}
+														<option value="{$FIELD_NAME}">
+															{vtranslate($FIELD_INFO->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}
+														</option>
+													{/foreach}
+												</select>
+											</div>
+											<div class="actionImages">
+												<a class='btn'><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteMapping"></span></a>
+											</div>
+										</div>	
+									</td>
+								</tr>
+						</tbody>
+					</table>
+				</div>					
+			</div>					
 		</div>
 		<div class='tab-pane' id="lead_configuration">
 			{assign var=LEAD value=$MODULE_MODEL->getConfig('lead')}

@@ -16,7 +16,7 @@
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<link rel="SHORTCUT ICON" href="layouts/vlayout/skins/images/favicon.ico">
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-			<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen">
+			<link rel="stylesheet" href="libraries/bootstrap3/css/bootstrap.css" type="text/css" media="screen">
 			<script type="text/javascript" src="libraries/jquery/jquery.min.js"></script>
 			<script type="text/javascript" src="libraries/jquery/jquery-migrate.js"></script>
 			<style>
@@ -27,8 +27,8 @@
 				}
 			</style>
 	</head>
-	<body class="row">
-		<div style="margin-top: 10px;" class="col-md-6 alert alert-warning shadow">
+	<body class="container">
+		<div style="margin-top: 10px;" class="col-md-12 alert alert-warning shadow">
 			<div style="position: relative;" >
 				<div>
 					<h2 class="alert-heading">{vtranslate('CANNOT_CONVERT', $MODULE)}</h2>
@@ -37,17 +37,17 @@
 							<li>{vtranslate('LBL_LEADS_FIELD_MAPPING_INCOMPLETE', $MODULE)}</li>
 							<li>{vtranslate('LBL_MANDATORY_FIELDS_ARE_EMPTY', $MODULE)}</li>
 							{if $EXCEPTION}
-								<li><strong>{vtranslate($EXCEPTION, $MODULE)}</strong></li>
+								<li><strong>{$EXCEPTION}</strong></li>
 							{/if}
 						</ul>
 					</p>
 					<p class="clearfix"></p>
 					<p class="Buttons pull-right">
 						{if $CURRENT_USER->isAdminUser()}
-							<a class="btn btn-inverse" href='index.php?parent=Settings&module=Leads&view=MappingDetail'>{vtranslate('LBL_LEADS_FIELD_MAPPING', $MODULE)}</a>
+							<a class="btn btn-info" href='index.php?parent=Settings&module=Leads&view=MappingDetail'>{vtranslate('LBL_LEADS_FIELD_MAPPING', $MODULE)}</a>
 						{/if}
 						<a class="btn btn-warning" href="javascript:window.history.back();">{vtranslate('LBL_GO_BACK')}</a>
-						<a class="btn btn-info" href="index.php">{vtranslate('LBL_MAIN_PAGE')}</a>
+						<a class="btn btn-primary" href="index.php">{vtranslate('LBL_MAIN_PAGE')}</a>
 					</p>
 				</div>
 			</div>

@@ -167,7 +167,7 @@ $jsLanguageStrings = [
 	'NoCrmRecord' => 'No messages found. Check if actions are enabled.',
 	'NoFindEmailInRecord' => 'Record does not have email address',
 	'AddFindEmailInRecord' => 'Downloaded email',
-	'StartedDownloadingEmail' => '__UNTRANSLATED__',
+	'StartedDownloadingEmail' => 'Started downloading email',
 	'JS_MAIL_NOT_FOUND_IN_DB' => 'Mail not found in database.',
 	'JS_MANUAL_IMPORT' => 'Manual import',
 ];
