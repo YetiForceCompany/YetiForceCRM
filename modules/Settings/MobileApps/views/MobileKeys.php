@@ -27,7 +27,7 @@ class Settings_MobileApps_MobileKeys_View extends Settings_Vtiger_Index_View{
 		$moduleName = $request->getModule();
 		$jsFileNames = array(
 			"modules.Settings.$moduleName.resources.MenuEditor",
-			"~/libraries/jquery/colorpicker/js/colorpicker.js"
+			'~libraries/jquery/colorpicker/js/colorpicker.js'
 		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -36,7 +36,7 @@ class Settings_MobileApps_MobileKeys_View extends Settings_Vtiger_Index_View{
 	public function getHeaderCss(Vtiger_Request $request) {
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(
-			'~/libraries/jquery/colorpicker/css/colorpicker.css'
+			'~libraries/jquery/colorpicker/css/colorpicker.css'
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

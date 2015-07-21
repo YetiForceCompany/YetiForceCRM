@@ -9,10 +9,10 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-vimport('~~/include/database/PearDatabase.php');
-vimport('~~/include/utils/utils.php');
-vimport('~~/include/utils/UserInfoUtil.php');
-vimport('~~/modules/Vtiger/layout_utils.php');
+vimport('~include/database/PearDatabase.php');
+vimport('~include/utils/utils.php');
+vimport('~include/utils/UserInfoUtil.php');
+vimport('~modules/Vtiger/layout_utils.php');
 
 class OSSPdf_ListViewExportPDFRecords_View extends Vtiger_Index_View {
 

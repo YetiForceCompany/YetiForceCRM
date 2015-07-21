@@ -7,8 +7,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-vimport('~~/modules/Reports/Reports.php');
-vimport('~~/modules/Reports/ReportRun.php');
+vimport('~modules/Reports/Reports.php');
+vimport('~modules/Reports/ReportRun.php');
 require_once('modules/Reports/ReportUtils.php');
 require_once('Report.php');
 

@@ -83,7 +83,7 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View {
 		$headerCssInstances = parent::getHeaderCss($request);
 
 		$cssFileNames = array(
-			'~/libraries/jquery/malihu-custom-scrollbar/css/jquery.mCustomScrollbar.css',
+			'~libraries/jquery/malihu-custom-scrollbar/css/jquery.mCustomScrollbar.css',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

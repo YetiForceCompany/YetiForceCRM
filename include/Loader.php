@@ -8,37 +8,35 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-global $LOADER_FILE_DIR;
-$LOADER_FILE_DIR = dirname(__FILE__);
-
 class Vtiger_Loader {
-	protected static $includeCache = array();
-	protected static $includePathCache = array();
-
+	protected static $includeCache = [];
+	protected static $includePathCache = [];
+	protected static $loaderDirs = [
+		'custom.modules.',
+		'modules.',
+		'admin.modules.',
+	];
 	/**
 	 * Static function to resolve the qualified php filename to absolute path
-	 * @global <String> $LOADER_FILE_DIR
 	 * @param <String> $qualifiedName
 	 * @return <String> Absolute File Name
 	 */
 	static function resolveNameToPath($qualifiedName, $fileExtension='php') {
-		global $LOADER_FILE_DIR;
 		$allowedExtensions = array('php', 'js', 'css', 'less');
 
 		$file = '';
 		if(!in_array($fileExtension, $allowedExtensions)) {
 			return '';
 		}
+		//var_dump($qualifiedName); echo "<br/>";
 		// TO handle loading vtiger files
-		if (strpos($qualifiedName, '~~') === 0) {
-			$file = str_replace('~~', '', $qualifiedName);
-			$file = $LOADER_FILE_DIR . DIRECTORY_SEPARATOR .'..' . DIRECTORY_SEPARATOR . $file;
-		} else if (strpos($qualifiedName, '~') === 0) {
+		
+		if (strpos($qualifiedName, '~') === 0) {
 			$file = str_replace('~', '', $qualifiedName);
-			$file = $LOADER_FILE_DIR . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $file;
+			$file = vglobal('root_directory') . DIRECTORY_SEPARATOR . $file;
 		} else {
 			$file = str_replace('.', DIRECTORY_SEPARATOR, $qualifiedName) . '.' .$fileExtension;
-			$file = $LOADER_FILE_DIR . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $file;
+			$file = vglobal('root_directory') . DIRECTORY_SEPARATOR . $file;
 		}
 		return $file;
 	}
@@ -175,28 +173,20 @@ class Vtiger_Loader {
 		$parts = explode('_', $className);
 		$noOfParts = count($parts);
 		if($noOfParts > 2) {
-			$filePath = 'custom.modules.';
-			// Append modules and sub modules names to the path
-			for($i=0; $i<($noOfParts-2); ++$i) {
-				$filePath .= $parts[$i]. '.';
-			}
-			$fileName = $parts[$noOfParts-2];
-			$fileComponentName = strtolower($parts[$noOfParts-1]).'s';
-			$filePath .= $fileComponentName. '.' .$fileName;
+			foreach (self::$loaderDirs as $filePath) {
+				// Append modules and sub modules names to the path
+				for($i=0; $i<($noOfParts-2); ++$i) {
+					$filePath .= $parts[$i]. '.';
+				}
 
-			if (file_exists(self::resolveNameToPath($filePath))) {
-				return Vtiger_Loader::includeOnce($filePath);
+				$fileName = $parts[$noOfParts-2];
+				$fileComponentName = strtolower($parts[$noOfParts-1]).'s';
+				$filePath .= $fileComponentName. '.' .$fileName;
+
+				if (file_exists(self::resolveNameToPath($filePath))) {
+					return Vtiger_Loader::includeOnce($filePath);
+				}
 			}
-			
-			$filePath = 'modules.';
-			// Append modules and sub modules names to the path
-			for($i=0; $i<($noOfParts-2); ++$i) {
-				$filePath .= $parts[$i]. '.';
-			}
-			$fileName = $parts[$noOfParts-2];
-			$fileComponentName = strtolower($parts[$noOfParts-1]).'s';
-			$filePath .= $fileComponentName. '.' .$fileName;
-            return Vtiger_Loader::includeOnce($filePath);
 		}
 		return false;
 	}

@@ -497,7 +497,7 @@ class Vtiger_Util_Helper {
 	}
 
 	public static function getGroupsIdsForUsers($userId) {
-        vimport('~~/include/utils/GetUserGroups.php');
+        vimport('~include/utils/GetUserGroups.php');
 
         $userGroupInstance = new GetUserGroups();
         $userGroupInstance->getAllUserGroups($userId);

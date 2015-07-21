@@ -74,7 +74,7 @@ Vtiger_Edit_Js("Documents_Edit_Js", {} ,{
 					value = JSON.stringify(value);
 				}
 				newFileNameElement.attr(attributeObject.name, value);
-				newFileNameElement.attr('class', className);
+				newFileNameElement.addClass(className);
 			}
 			fileNameElement.replaceWith(newFileNameElement);
 			var fileNameElementTd = newFileNameElement.closest('td');

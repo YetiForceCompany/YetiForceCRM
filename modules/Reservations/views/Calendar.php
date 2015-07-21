@@ -21,8 +21,8 @@ class Reservations_Calendar_View extends Vtiger_Index_View {
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$jsFileNames = array(
-			'~/libraries/fullcalendar/moment.min.js',
-			'~/libraries/fullcalendar/fullcalendar.js',
+			'~libraries/fullcalendar/moment.min.js',
+			'~libraries/fullcalendar/fullcalendar.js',
 			'modules.'.$moduleName.'.resources.Calendar',
 		);
 
@@ -34,8 +34,8 @@ class Reservations_Calendar_View extends Vtiger_Index_View {
 	public function getHeaderCss(Vtiger_Request $request) {
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(
-			'~/libraries/fullcalendar/fullcalendar.min.css',
-			'~/libraries/fullcalendar/fullcalendarCRM.css',
+			'~libraries/fullcalendar/fullcalendar.min.css',
+			'~libraries/fullcalendar/fullcalendarCRM.css',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

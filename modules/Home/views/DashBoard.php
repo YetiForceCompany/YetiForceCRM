@@ -15,7 +15,7 @@ class Home_DashBoard_View extends Vtiger_DashBoard_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'~/libraries/jquery/boxslider/jqueryBxslider.js'
+			'~libraries/jquery/boxslider/jqueryBxslider.js'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

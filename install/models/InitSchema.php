@@ -33,7 +33,7 @@ class Install_InitSchema_Model {
 		$this->db->pquery("UPDATE vtiger_version SET `current_version` = ? ;", [$YetiForce_current_version]);
 
 		// recalculate all sharing rules for users
-		vimport('~~/include/utils/UserInfoUtil.php');
+		vimport('~include/utils/UserInfoUtil.php');
 		RecalculateSharingRules();
 	}
 

@@ -6,6 +6,8 @@
 	Options +FollowSymLinks
 	RewriteEngine On
 	RewriteRule ^favicon\.(gif|ico|png|jpe?g)$ layouts/vlayout/skins/images/favicon.ico [L,NC]
+	RewriteRule ^api/webservice/(.*)/(.*)$ api/webservice.php?module=$1&action=$2 [QSA,NC,L]
+	RewriteRule ^api/webservice/(.*)$ api/webservice.php?module=$1 [QSA,NC,L]
 
 	#RewriteCond %{HTTPS} off
 	#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}

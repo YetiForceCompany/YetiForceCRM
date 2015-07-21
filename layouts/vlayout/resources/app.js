@@ -241,7 +241,7 @@ var app = {
 		selectElement.popover(params);
 		return selectElement;
 	},
-        
+		
 	/**
 	 * Function to check the maximum selection size of multiselect and update the results
 	 * @params <object> multiSelectElement
@@ -258,7 +258,7 @@ var app = {
 			var data = instance.data()
 			if (jQuery.isArray(data) && data.length >= limit ) {
 				instance.updateResults();
-            }
+			}
 		});
 
 	},
@@ -349,8 +349,8 @@ var app = {
 			jQuery('body').append(container);
 			// TODO Make it better with jQuery.on
 			app.changeSelectElementView(container);
-            //register all select2 Elements
-            app.showSelect2ElementView(container.find('select.select2'));
+			//register all select2 Elements
+			app.showSelect2ElementView(container.find('select.select2'));
 			app.showSelectizeElementView(container.find('select.selectize'));
 			//register date fields event to show mini calendar on click of element
 			app.registerEventForDatePickerFields(container);
@@ -476,6 +476,43 @@ var app = {
 		return date;
 	},
 
+	/*
+	 * Converts user formated date to database format yyyy-mm-dd
+	 */
+	getDateInDBInsertFormat: function(dateFormat, dateString) {
+		var i = 0;
+		var dotMode = '-';
+		if( dateFormat.indexOf("-") != -1 ){ dotMode = '-'; }
+		if( dateFormat.indexOf(".") != -1 ){ dotMode = '.'; }
+		if( dateFormat.indexOf("/") != -1 ){ dotMode = '/'; }
+
+		var dateFormatParts = dateFormat.split(dotMode);
+		var dateParts = dateString.split(dotMode);
+		var day = '';
+		var month = '';
+		var year = '';
+
+		for ( i in dateFormatParts ) {
+			var sectionDate = dateFormatParts[i];
+			
+			switch( sectionDate ) {
+				case 'dd':
+					day = dateParts[i];
+				break;
+				
+				case 'mm':
+					month = dateParts[i];
+				break;
+				
+				case 'yyyy':
+					year = dateParts[i];
+				break;
+			}
+		}
+
+		return year+'-'+month+'-'+day;
+	},
+
 	registerEventForTextAreaFields : function(parentElement) {
 		if(typeof parentElement == 'undefined') {
 			parentElement = jQuery('body');
@@ -540,16 +577,16 @@ var app = {
 			starts: convertedFirstDay,
 			eventName : 'focus',
 			onChange: function(formated){
-                var element = jQuery(this).data('datepicker').el;
-                element = jQuery(element);
-                var datePicker = jQuery('#'+ jQuery(this).data('datepicker').id);
-                var viewDaysElement = datePicker.find('table.datepickerViewDays');
-                //If it is in day mode and the prev value is not eqaul to current value
-                //Second condition is manily useful in places where user navigates to other month
-                if(viewDaysElement.length > 0 && element.val() != formated) {
-                    element.DatePickerHide();
-                    element.blur();
-                }
+				var element = jQuery(this).data('datepicker').el;
+				element = jQuery(element);
+				var datePicker = jQuery('#'+ jQuery(this).data('datepicker').id);
+				var viewDaysElement = datePicker.find('table.datepickerViewDays');
+				//If it is in day mode and the prev value is not eqaul to current value
+				//Second condition is manily useful in places where user navigates to other month
+				if(viewDaysElement.length > 0 && element.val() != formated) {
+					element.DatePickerHide();
+					element.blur();
+				}
 				element.val(formated).trigger('change').focusout();
 			},
 			onBeforeShow: function(formated){
@@ -885,7 +922,7 @@ var app = {
 		if(typeof window[moduleClassName] == 'undefined') {
 			moduleClassName = "Vtiger_"+view+"_Js";
 		}
-        if(typeof window[moduleClassName] != 'undefined') {
+		if(typeof window[moduleClassName] != 'undefined') {
 			return new window[moduleClassName]();
 		}
 	},
@@ -907,31 +944,31 @@ var app = {
 		var yiq = ((r*299)+(g*587)+(b*114))/1000;
 		return (yiq >= 128) ? 'light' : 'dark';
 	},
-    
-    updateRowHeight : function() {
-        var rowType = jQuery('#row_type').val();
-        if(rowType.length <=0 ){
-            //Need to update the row height
-            var widthType = app.cacheGet('widthType', 'mediumWidthType');
-            var serverWidth = widthType;
-            switch(serverWidth) {
-                case 'narrowWidthType' : serverWidth = 'narrow'; break;
-                case 'wideWidthType' : serverWidth = 'wide'; break;
-                default : serverWidth = 'medium';
-            }
+	
+	updateRowHeight : function() {
+		var rowType = jQuery('#row_type').val();
+		if(rowType.length <=0 ){
+			//Need to update the row height
+			var widthType = app.cacheGet('widthType', 'mediumWidthType');
+			var serverWidth = widthType;
+			switch(serverWidth) {
+				case 'narrowWidthType' : serverWidth = 'narrow'; break;
+				case 'wideWidthType' : serverWidth = 'wide'; break;
+				default : serverWidth = 'medium';
+			}
 			var userid = jQuery('#current_user_id').val();
-            var params = {
-                'module' : 'Users',
-                'action' : 'SaveAjax',
-                'record' : userid,
-                'value' : serverWidth,
-                'field' : 'rowheight'
-            };
-            AppConnector.request(params).then(function(){
-                jQuery(rowType).val(serverWidth);
-            });
-        }
-    },
+			var params = {
+				'module' : 'Users',
+				'action' : 'SaveAjax',
+				'record' : userid,
+				'value' : serverWidth,
+				'field' : 'rowheight'
+			};
+			AppConnector.request(params).then(function(){
+				jQuery(rowType).val(serverWidth);
+			});
+		}
+	},
 	
 	getCookie : function(c_name) {
 		var c_value = document.cookie;
@@ -963,28 +1000,28 @@ var app = {
 		var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
 		document.cookie=c_name + "=" + c_value;
 	},
-        
-    getUrlVar : function(varName) {
-        var getVar = function() {
-            var vars = {};
-            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-                vars[key] = value;
-            });
-            return vars;
-        };
+		
+	getUrlVar : function(varName) {
+		var getVar = function() {
+			var vars = {};
+			var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+				vars[key] = value;
+			});
+			return vars;
+		};
 
-        return getVar()[varName];  
-    },
-    
-    getStringDate: function(date) {
-        var d = date.getDate();
-        var m = date.getMonth() + 1;
-        var y = date.getFullYear();
+		return getVar()[varName];  
+	},
+	
+	getStringDate: function(date) {
+		var d = date.getDate();
+		var m = date.getMonth() + 1;
+		var y = date.getFullYear();
 
-        d = (d <= 9) ? ("0" + d) : d;
-        m = (m <= 9) ? ("0" + m) : m;
-        return y + "-" + m + "-" + d;
-    },
+		d = (d <= 9) ? ("0" + d) : d;
+		m = (m <= 9) ? ("0" + m) : m;
+		return y + "-" + m + "-" + d;
+	},
 	
 	formatDate: function(date) {
 		var y = date.getFullYear(),
@@ -996,11 +1033,11 @@ var app = {
 		return y+'-'+this.formatDateZ(m)+'-'+this.formatDateZ(d)+' '+this.formatDateZ(h)+':'+this.formatDateZ(i)+':'+this.formatDateZ(s);
 	},
 	
-    formatDateZ: function(i) {
-        return (i <= 9 ? '0'+i : i);
-    },
+	formatDateZ: function(i) {
+		return (i <= 9 ? '0'+i : i);
+	},
 	
-    saveAjax: function(mode, param) {
+	saveAjax: function(mode, param) {
 		var aDeferred = jQuery.Deferred();
 		var params = {};
 		params['module'] = app.getModuleName();
@@ -1017,7 +1054,7 @@ var app = {
 			}
 		);
 		return aDeferred.promise();
-    },
+	},
 	showBtnSwitch : function(selectElement, params) {
 		if (typeof params == 'undefined') {
 			params = {};
@@ -1056,11 +1093,11 @@ jQuery(document).ready(function(){
 		return  value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
 	}
 
-    // in IE resize option for textarea is not there, so we have to use .resizable() api
-    if(/MSIE/.test(navigator.userAgent) || (/Trident/).test(navigator.userAgent)) {
-        jQuery('textarea').resizable();
-    }
-    
+	// in IE resize option for textarea is not there, so we have to use .resizable() api
+	if(/MSIE/.test(navigator.userAgent) || (/Trident/).test(navigator.userAgent)) {
+		jQuery('textarea').resizable();
+	}
+	
 	// Instantiate Page Controller
 	var pageController = app.getPageController();
 	if(pageController) pageController.registerEvents();

@@ -8,7 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-vimport('~~/include/Webservices/Query.php');
+vimport('~include/Webservices/Query.php');
 
 class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model {
 

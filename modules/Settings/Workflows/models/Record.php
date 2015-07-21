@@ -210,7 +210,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
     public static function getActiveCount() {
 
         $db = PearDatabase::getInstance();
-        vimport('~~/modules/com_vtiger_workflow/VTTaskManager.inc');
+        vimport('~modules/com_vtiger_workflow/VTTaskManager.inc');
         $taskManager = new VTTaskManager($db);
         $taskList = $taskManager->getTasks();
 

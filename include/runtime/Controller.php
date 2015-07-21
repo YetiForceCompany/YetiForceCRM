@@ -197,19 +197,19 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 	 */
 	function getHeaderCss(Vtiger_Request $request){
 		$cssFileNames = array(
-			'~/libraries/bootstrap3/css/bootstrap.css',
-			'~/libraries/jquery/chosen/chosen.css',
-			'~/libraries/jquery/chosen/chosen.bootstrap.css',
-			'~/libraries/jquery/jquery-ui/jquery-ui.css',
-			'~/libraries/jquery/selectize/css/selectize.bootstrap3.css',
-			'~/libraries/jquery/select2/select2.css',
-			'~/libraries/jquery/select2/select2-bootstrap.css',
-			'~/libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css',
-			'~/libraries/jquery/pnotify/pnotify.custom.css',
-			'~/libraries/jquery/datepicker/css/datepicker.css',
-			'~/layouts/vlayout/resources/styles.css',
-			'~/libraries/jquery/timepicker/jquery.timepicker.css',
-			'~/layouts/vlayout/modules/OSSMail/resources/OSSMailBoxInfo.css',
+			'~libraries/bootstrap3/css/bootstrap.css',
+			'~libraries/jquery/chosen/chosen.css',
+			'~libraries/jquery/chosen/chosen.bootstrap.css',
+			'~libraries/jquery/jquery-ui/jquery-ui.css',
+			'~libraries/jquery/selectize/css/selectize.bootstrap3.css',
+			'~libraries/jquery/select2/select2.css',
+			'~libraries/jquery/select2/select2-bootstrap.css',
+			'~libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css',
+			'~libraries/jquery/pnotify/pnotify.custom.css',
+			'~libraries/jquery/datepicker/css/datepicker.css',
+			'~layouts/vlayout/resources/styles.css',
+			'~libraries/jquery/timepicker/jquery.timepicker.css',
+			'~layouts/vlayout/modules/OSSMail/resources/OSSMailBoxInfo.css',
 		);
 		$headerCssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return $headerCssInstances;
@@ -231,31 +231,31 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 	
 	function getFooterScripts(Vtiger_Request $request){
 		$jsFileNames = [
-			'~/libraries/jquery/jquery.blockUI.js',
-			'~/libraries/jquery/chosen/chosen.jquery.js',
-			'~/libraries/jquery/select2/select2.full.js',
-			'~/libraries/jquery/jquery-ui/jquery-ui.js',
-			'~/libraries/jquery/jquery.class.js',
-			'~/libraries/jquery/defunkt-jquery-pjax/jquery.pjax.js',
-			'~/libraries/jquery/jstorage.js',
-			'~/libraries/jquery/autosize/jquery.autosize-min.js',
-			'~/libraries/jquery/rochal-jQuery-slimScroll/jquery.slimscroll.js',
-			'~/libraries/jquery/pnotify/pnotify.custom.js',
-			'~/libraries/jquery/jquery.hoverIntent.minified.js',
-			'~/libraries/bootstrap3/js/bootstrap.js',
-			'~/libraries/bootstrap3/js/bootstrap-switch.js',
-			'~/libraries/bootstrap3/js/bootbox.js',
-			'~/libraries/jquery/selectize/js/selectize.js',
-			'~/layouts/vlayout/resources/jquery.additions.js',
-			'~/layouts/vlayout/resources/app.js',
-			'~/layouts/vlayout/resources/helper.js',
-			'~/layouts/vlayout/resources/Connector.js',
-			'~/layouts/vlayout/resources/ProgressIndicator.js',
-			'~/libraries/jquery/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js',
-			'~/libraries/jquery/datepicker/js/datepicker.js',
-			'~/libraries/jquery/dangrossman-bootstrap-daterangepicker/date.js',
-			'~/libraries/jquery/jquery.ba-outside-events.js',
-			'~/libraries/jquery/jquery.placeholder.js',
+			'~libraries/jquery/jquery.blockUI.js',
+			'~libraries/jquery/chosen/chosen.jquery.js',
+			'~libraries/jquery/select2/select2.full.js',
+			'~libraries/jquery/jquery-ui/jquery-ui.js',
+			'~libraries/jquery/jquery.class.js',
+			'~libraries/jquery/defunkt-jquery-pjax/jquery.pjax.js',
+			'~libraries/jquery/jstorage.js',
+			'~libraries/jquery/autosize/jquery.autosize-min.js',
+			'~libraries/jquery/rochal-jQuery-slimScroll/jquery.slimscroll.js',
+			'~libraries/jquery/pnotify/pnotify.custom.js',
+			'~libraries/jquery/jquery.hoverIntent.minified.js',
+			'~libraries/bootstrap3/js/bootstrap.js',
+			'~libraries/bootstrap3/js/bootstrap-switch.js',
+			'~libraries/bootstrap3/js/bootbox.js',
+			'~libraries/jquery/selectize/js/selectize.js',
+			'~layouts/vlayout/resources/jquery.additions.js',
+			'~layouts/vlayout/resources/app.js',
+			'~layouts/vlayout/resources/helper.js',
+			'~layouts/vlayout/resources/Connector.js',
+			'~layouts/vlayout/resources/ProgressIndicator.js',
+			'~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js',
+			'~libraries/jquery/datepicker/js/datepicker.js',
+			'~libraries/jquery/dangrossman-bootstrap-daterangepicker/date.js',
+			'~libraries/jquery/jquery.ba-outside-events.js',
+			'~libraries/jquery/jquery.placeholder.js',
 		];
 
 		$languageHandlerShortName = Vtiger_Language_Handler::getShortLanguageName();
@@ -275,7 +275,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 
 		$jsScriptInstances = array();
 		foreach($jsFileNames as $jsFileName) {
-			// TODO Handle absolute inclusions (~/...) like in checkAndConvertCssStyles
+			// TODO Handle absolute inclusions (...) like in checkAndConvertCssStyles
 			$jsScript = new Vtiger_JsScript_Model();
 
 			// external javascript source file handling
@@ -291,10 +291,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 				$minjsFileName = str_replace('.js','.min.js', $jsFileName);
 				if (strpos($minjsFileName, '~') === 0) {
 					$minjsFileName = ltrim(ltrim($minjsFileName, '~'), '/');
-					// if ~~ (reference is outside vtiger6 folder)
-					if (substr_count($minjsFileName, "~") == 2) {
-						$minjsFileName = "../" . $minjsFileName;
-					}
 				} else {
 					$minjsFileName = str_replace('.','/', $jsFileName) . '.'.$fileExtension;
 				}
@@ -303,10 +299,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 			}else if(file_exists($completeFilePath)) {
 				if (strpos($jsFileName, '~') === 0) {
 					$filePath = ltrim(ltrim($jsFileName, '~'), '/');
-					// if ~~ (reference is outside vtiger6 folder)
-					if (substr_count($jsFileName, "~") == 2) {
-						$filePath = "../" . $filePath;
-					}
 				} else {
 					$filePath = str_replace('.','/', $jsFileName) . '.'.$fileExtension;
 				}
