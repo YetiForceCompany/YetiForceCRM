@@ -104,7 +104,7 @@ $languageStrings = [
 	"Attorney General's Office" => 'Prokuratura',
 	'LBL_RELATION' => 'Relacja',
 	'LBL_LEGAL_FORM' => 'Forma prawna',
-	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Isnieje co najmniej dwóch kontrahentów spełniających warunki łączenia, przejdź do: (Administracja > Dostosuj moduły > Procesy marketingowe > Konwersja) %s',
+	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Istnieje co najmniej dwóch kontrahentów spełniających warunki łączenia, przejdź do: (Administracja > Procesy > Procesy marketingowe > Konwersja) %s',
 ];
 
 $jsLanguageStrings = [

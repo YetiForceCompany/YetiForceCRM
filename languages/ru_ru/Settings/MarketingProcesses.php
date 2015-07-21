@@ -19,10 +19,10 @@ $languageStrings = [
 	'LBL_GROUPS_INFO' => 'Информация группы',
 	'LBL_LEAD_STATUS' => 'Состояние определяющее закрытие Обращения',
 	'LBL_CURRENTUSER_STATUS' => 'Назначить владельцем лицо вносящее изменение',
-	'LBL_CONVERT_LEAD_MERGE' => '__UNTRANSLATED__',
-	'LBL_CONVERT_LEAD_MERGE_ALERT' => '__UNTRANSLATED__',
+	'LBL_CONVERT_LEAD_MERGE' => 'Link the record meeting specified requirements while converting from Lead to Account',
+	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'This option allows system to automatically join converted record with already existing - new account will not be created, instead to existing record data will be transferred from Lead',
 	'LBL_CONDITION' => 'Добавление условий',
 ];
 $jsLanguageStrings = [
-	'JS_NO_CONDITIONS' => '__UNTRANSLATED__',
+	'JS_NO_CONDITIONS' => 'At least one condition is required',
 ];

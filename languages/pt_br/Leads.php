@@ -104,7 +104,7 @@ $languageStrings = [
 	"Attorney General's Office" => "Escritório da Procuradoria Geral",
 	'LBL_RELATION' => 'Relação',
 	'LBL_LEGAL_FORM' => 'Forma Jurídica',
-	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => '__UNTRANSLATED__ %s',
+	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'At least two accounts meet the requirements for linking, go to : (Administration > Processes > Marketing processes > Conversion) %s',
 ];
 
 $jsLanguageStrings = [

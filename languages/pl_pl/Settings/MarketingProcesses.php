@@ -23,5 +23,5 @@ $languageStrings = [
 	'LBL_CONDITION' => 'Dodaj warunek',
 ];
 $jsLanguageStrings = [
-	'JS_NO_CONDITIONS' => 'Konieczny jest co najmnie jeden warunek.',
+	'JS_NO_CONDITIONS' => 'Konieczny jest co najmniej jeden warunek.',
 ];

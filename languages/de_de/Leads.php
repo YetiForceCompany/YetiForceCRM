@@ -103,7 +103,7 @@ $languageStrings = [
 	'Orders accepted' => 'Aufträge angenommen',
 	'LBL_RELATION' => 'Beziehung',
 	'LBL_LEGAL_FORM' => 'Rechtsform',
-	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => '__UNTRANSLATED__ %s',
+	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'At least two accounts meet the requirements for linking, go to : (Administration > Processes > Marketing processes > Conversion) %s',
 ];
 $jsLanguageStrings = [
 	'JS_SELECT_CONTACTS' => 'Wähle Kontakte zum fortführen',
