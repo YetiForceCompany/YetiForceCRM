@@ -422,24 +422,24 @@ class Vtiger_Functions
 
 				$moduleInfo = self::getModuleFieldInfos($module);
 				$moduleInfoExtend = [];
-				foreach ($moduleInfo as $field => $fieldInfo) {
-					$moduleInfoExtend[$fieldInfo['columnname']] = $fieldInfo;
+				if(count($moduleInfo) > 0){
+					foreach ($moduleInfo as $field => $fieldInfo) {
+						$moduleInfoExtend[$fieldInfo['columnname']] = $fieldInfo;
+					}
 				}
 				for ($i = 0; $i < $adb->num_rows($result); $i++) {
 					$row = $adb->raw_query_result_rowdata($result, $i);
 					$label_name = array();
 					$label_search = array();
 					foreach ($columns_name as $columnName) {
-						$fieldObiect = $moduleInfoExtend[$columnName];
-						if (in_array($fieldObiect['uitype'], array(10, 51, 75, 81)))
+						if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], array(10, 51, 75, 81)))
 							$label_name[] = Vtiger_Functions::getCRMRecordLabel($row[$columnName]);
 						else
 							$label_name[] = $row[$columnName];
 					}
 					if ($search) {
 						foreach ($columns_search as $columnName) {
-							$fieldObiect = $moduleInfoExtend[$columnName];
-							if (in_array($fieldObiect['uitype'], array(10, 51, 75, 81)))
+							if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], array(10, 51, 75, 81)))
 								$label_search[] = Vtiger_Functions::getCRMRecordLabel($row[$columnName]);
 							else
 								$label_search[] = $row[$columnName];
