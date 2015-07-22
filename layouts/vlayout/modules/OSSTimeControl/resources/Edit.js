@@ -7,24 +7,6 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-jQuery(document).ready(function ($) {    
-    // modal is greyed out if z-index is low
-    $("#myModal").css("z-index", "999999999");
-    
-    // Hide modal if "Okay" is pressed
-    $('#myModal .okay-button').click(function() {
-        var disabled = $('#confirm').attr('disabled');
-        if(typeof disabled == 'undefined') {
-            $('#myModal').modal('hide');
-            $('#uninstall #EditView').submit();
-        }
-    });
-    // enable/disable confirm button
-    $('#status').change(function() {
-        $('#confirm').attr('disabled', !this.checked);
-    });
-});
-
 Vtiger_Edit_Js("OSSTimeControl_Edit_Js",{},{
 
 
