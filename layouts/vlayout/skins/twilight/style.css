@@ -3377,3 +3377,6 @@ span[name=existingImages] img{
 .popupContainer .popupModuleName{
 	margin-top: 0;
 }
+.mailRows hr{
+	margin: 0;
+}

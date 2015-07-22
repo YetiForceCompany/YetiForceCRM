@@ -13,34 +13,38 @@
 		</select>
 	</span>
 </div>
-<div class="mailRows">
+<div class="mailRows row pushDown">
 	{foreach from=$RECOLDLIST item=row}
 	<div class="row-fluid mailRow">
-		<div class="span12" style="font-size:x-small;">
+		<div class="col-md-12" style="font-size:x-small;">
 			<div class="pull-right muted" style="font-size:x-small;">
 				<small title="{$row['date']}">{Vtiger_Util_Helper::formatDateDiffInStrings($row['date'])}</small>   
 			</div>
-			<h5 style="margin-left:2%;">{if $row['type'] eq 0}<img src="layouts/vlayout/modules/OSSMailView/wychodzaca.png" />{elseif $row['type'] eq 1}<img src="layouts/vlayout/modules/OSSMailView/przychodzaca.png" />{elseif $row['type'] eq 2} <img src="layouts/vlayout/modules/OSSMailView/wewnetrzna.png" />{/if}{$row['subject']} {if $row['attachments'] eq 1}<img class="pull-right" src="layouts/vlayout/modules/OSSMailView/zalacznik.png" />{/if}<h5>
+			<h5>{if $row['type'] eq 0}<img src="layouts/vlayout/modules/OSSMailView/wychodzaca.png" />{elseif $row['type'] eq 1}<img src="layouts/vlayout/modules/OSSMailView/przychodzaca.png" />{elseif $row['type'] eq 2} <img src="layouts/vlayout/modules/OSSMailView/wewnetrzna.png" />{/if}{$row['subject']} {if $row['attachments'] eq 1}<img class="pull-right" src="layouts/vlayout/modules/OSSMailView/zalacznik.png" />{/if}<h5>
 		</div>
-		<div class="span12">
+		<div class="col-md-12">
 			<div class="pull-right" >
 				<a class="showMailBody" >
-					<i class="body-icon icon-chevron-down"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+					<span class="body-icon glyphicon glyphicon-triangle-bottom"></span>&nbsp;&nbsp;&nbsp;&nbsp;
 				</a>
 			</div>
 			<span class="pull-left" style="font-size:x-small;">{vtranslate('From', 'OSSMailView')}: {$row['from']}</span>
 		</div>
-		<div class="span12" style="font-size:x-small;">
+		<div class="col-md-12" style="font-size:x-small;">
 			{vtranslate('To', 'OSSMailView')}: {$row['to']}
 			<div class="pull-right" >
-				<a onclick="window.open('index.php?module=OSSMail&view=compose&id={$row['id']}&type=reply{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-mini"><img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}"></a>
-				<a onclick="window.open('index.php?module=OSSMail&view=compose&id={$row['id']}&type=replyAll{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-mini"><img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}"></a>
-				<a onclick="window.open('index.php?module=OSSMail&view=compose&id={$row['id']}&type=forward{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-mini"><i class="icon-share-alt"></i></a>
+				<a onclick="window.open('index.php?module=OSSMail&view=compose&id={$row['id']}&type=forward{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-mini pull-right"><span title="{vtranslate('LBL_FORWARD','OSSMailView')}" class="glyphicon glyphicon-share-alt"></span></a>
+				<a onclick="window.open('index.php?module=OSSMail&view=compose&id={$row['id']}&type=replyAll{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-mini pull-right"><img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}"></a>
+				<a onclick="window.open('index.php?module=OSSMail&view=compose&id={$row['id']}&type=reply{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-mini pull-right"><img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}"></a>
 				&nbsp;&nbsp;&nbsp;&nbsp;
 			</div>
 		</div>
-		<div class="span12 defaultMarginP mailBody" style="display: none;">{$row['body']}</div>
-	</div><hr/>
+		<div class="col-md-12 defaultMarginP mailBody" style="display: none;">{$row['body']}</div>
+			<div class="clearfix"></div>
+		<div class="col-md-12">
+			<hr/>
+		</div>
+	</div>
 	{/foreach}
 </div>
 {literal}
