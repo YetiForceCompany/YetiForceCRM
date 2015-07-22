@@ -29,16 +29,9 @@
     </div>
     <div class="row form-inline">
 	{/if}
-		<div class="col-md-2 form-group">
-			{if $MULTI_SELECT}
-				{if !empty($LISTVIEW_ENTRIES)}<button class="select btn btn-default"><strong>{vtranslate('LBL_SELECT', $MODULE)}</strong></button>{/if}
-			{else}
-				&nbsp;
-			{/if}
-		</div>
         <div class="col-md-6 form-group pull-left">
 			{if $POPUPTYPE == 2}
-				<h3>{vtranslate($MODULE_NAME, $MODULE_NAME)}</h3>
+				<h3 class="popupModuleName">{vtranslate($MODULE_NAME, $MODULE_NAME)}</h3>
 			{/if}
             <form class="popupSearchContainer form-inline" onsubmit="return false;" method="POST">
 			{if $POPUPTYPE == 1}
@@ -72,6 +65,13 @@
 			{/if}
             </form>
         </div>
+		<div class="col-md-2 form-group pull-left">
+			{if $MULTI_SELECT}
+				{if !empty($LISTVIEW_ENTRIES)}<button class="select btn btn-default"><strong>{vtranslate('LBL_SELECT', $MODULE)}</strong></button>{/if}
+			{else}
+				&nbsp;
+			{/if}
+		</div>
 		<div class="col-md-4 form-group pull-right">
 			{if $SOURCE_MODULE neq 'PriceBooks' && $SOURCE_FIELD neq 'productsRelatedList'}
 			<div class="popupPaging">

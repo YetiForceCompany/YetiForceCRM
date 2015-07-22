@@ -3380,3 +3380,6 @@ span[name=existingImages] img{
 .relatedPopup {
 	padding: 0px 4px;
 }
+.popupContainer .popupModuleName{
+	margin-top: 0;
+}
