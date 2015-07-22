@@ -8,34 +8,41 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class SqlResultIterator implements Iterator {
+class SqlResultIterator implements Iterator
+{
 
-	function __construct($adb, $result) {
+	function __construct($adb, $result)
+	{
 		$this->result = $result;
 		$this->adb = $adb;
 		$this->pos = 0;
 	}
 
-	public function rewind() {
+	public function rewind()
+	{
 		$this->pos = 0;
 	}
 
-	function valid() {
+	function valid()
+	{
 		$adb = $this->adb;
 		return $this->pos < $adb->num_rows($this->result);
 	}
 
-	public function next() {
+	public function next()
+	{
 		$this->pos+=1;
 	}
 
-	public function current() {
+	public function current()
+	{
 		$adb = $this->adb;
 		$data = $adb->raw_query_result_rowdata($this->result, $this->pos);
 		return new SqlResultIteratorRow($data);
 	}
 
-	public function key() {
+	public function key()
+	{
 		return $this->pos;
 	}
 
@@ -47,7 +54,8 @@ class SqlResultIterator implements Iterator {
 	 * $copyFields specify which fields of the result to copy to the array. 
 	 * If not specified the function will return values for all the fields.
 	 */
-	function toArray($copyFields = null) {
+	function toArray($copyFields = null)
+	{
 		$adb = $this->adb;
 		$this->rewind();
 
@@ -71,21 +79,23 @@ class SqlResultIterator implements Iterator {
 		return $arr;
 		$this->rewind();
 	}
-
 }
 
-class SqlResultIteratorRow {
+class SqlResultIteratorRow
+{
 
-	function __construct($data) {
+	function __construct($data)
+	{
 		$this->data = $data;
 	}
 
-	function get($column) {
+	function get($column)
+	{
 		return $this->data[$column];
 	}
 
-	function __get($column) {
+	function __get($column)
+	{
 		return $this->get($column);
 	}
-
 }

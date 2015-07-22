@@ -1,5 +1,4 @@
 <?php
-
 /* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
  * ("License"); You may not use this file except in compliance with the
@@ -16,7 +15,8 @@
 require_once('include/logging.php');
 require_once('include/runtime/Globals.php');
 
-class PearDatabase {
+class PearDatabase
+{
 
 	protected $database = null;
 	protected $stmt = false;
@@ -53,7 +53,8 @@ class PearDatabase {
 	/**
 	 * Constructor
 	 */
-	function __construct($dbtype = '', $host = '', $dbname = '', $username = '', $passwd = '') {
+	function __construct($dbtype = '', $host = '', $dbname = '', $username = '', $passwd = '')
+	{
 		$this->log = LoggerManager::getLogger('DB');
 		$this->loadDBConfig($dbtype, $host, $dbname, $username, $passwd);
 
@@ -72,7 +73,8 @@ class PearDatabase {
 	/**
 	 * Manage instance usage of this class
 	 */
-	static function &getInstance($dieOnError = true) {
+	static function &getInstance($dieOnError = true)
+	{
 		global $adb;
 
 		if (!isset($adb)) {
@@ -86,7 +88,8 @@ class PearDatabase {
 		return $adb;
 	}
 
-	function connect() {
+	function connect()
+	{
 		$dbconfig = vglobal('dbconfig');
 		// Set DSN 
 		// $this->dbType
@@ -112,7 +115,8 @@ class PearDatabase {
 		}
 	}
 
-	function loadDBConfig($dbtype, $host, $dbname, $username, $passwd) {
+	function loadDBConfig($dbtype, $host, $dbname, $username, $passwd)
+	{
 		$dbconfig = vglobal('dbconfig');
 
 		if ($host == '') {
@@ -132,12 +136,14 @@ class PearDatabase {
 		}
 	}
 
-	function println($msg) {
+	function println($msg)
+	{
 		$this->log($msg);
 		return $msg;
 	}
 
-	function log($message, $type = 'info') {
+	function log($message, $type = 'info')
+	{
 		if (is_array($message)) {
 			$message = print_r($message, true);
 		}
@@ -153,7 +159,8 @@ class PearDatabase {
 		return $message;
 	}
 
-	function checkError($message, $dieOnError = false) {
+	function checkError($message, $dieOnError = false)
+	{
 		if ($this->hasActiveTransaction) {
 			$this->rollbackTransaction();
 		}
@@ -168,56 +175,69 @@ class PearDatabase {
 		}
 	}
 
-	function ErrorMsg() {
+	function ErrorMsg()
+	{
 		$error = $this->database->errorInfo();
 		return $error[2];
 	}
 
-	function isMySQL() {
+	function isMySQL()
+	{
 		return (stripos($this->dbType, 'mysql') === 0);
 	}
 
-	function isOracle() {
+	function isOracle()
+	{
 		return $this->dbType == 'oci8';
 	}
 
-	function isPostgres() {
+	function isPostgres()
+	{
 		return $this->dbType == 'pgsql';
 	}
 
-	function setDieOnError($value) {
+	function setDieOnError($value)
+	{
 		$this->dieOnError = $value;
 	}
 
-	function setDatabaseType($type) {
+	function setDatabaseType($type)
+	{
 		$this->dbType = $type;
 	}
 
-	function setUserName($name) {
+	function setUserName($name)
+	{
 		$this->userName = $name;
 	}
 
-	function setAttribute() {
+	function setAttribute()
+	{
 		$this->database->setAttribute(func_get_args());
 	}
 
-	function setUserPassword($pass) {
+	function setUserPassword($pass)
+	{
 		$this->userPassword = $pass;
 	}
 
-	function setDatabaseName($db) {
+	function setDatabaseName($db)
+	{
 		$this->dbName = $db;
 	}
 
-	function setDatabaseHost($host) {
+	function setDatabaseHost($host)
+	{
 		$this->dbHostName = $host;
 	}
 
-	function getDatabaseName() {
+	function getDatabaseName()
+	{
 		return $this->dbName;
 	}
-	
-	function startTransaction() {
+
+	function startTransaction()
+	{
 		if ($this->hasActiveTransaction) {
 			return false;
 		} else {
@@ -226,16 +246,19 @@ class PearDatabase {
 		}
 	}
 
-	function completeTransaction() {
+	function completeTransaction()
+	{
 		$this->database->commit();
 		$this->hasActiveTransaction = false;
 	}
 
-	function hasFailedTransaction() {
+	function hasFailedTransaction()
+	{
 		return $this->hasFailedTransaction;
 	}
 
-	function rollbackTransaction() {
+	function rollbackTransaction()
+	{
 		if ($this->hasActiveTransaction) {
 			$this->hasFailedTransaction = true;
 			return $this->database->rollback();
@@ -243,38 +266,46 @@ class PearDatabase {
 		return false;
 	}
 
-	function getRowCount(&$result) {
+	function getRowCount(&$result)
+	{
 		return $result->rowCount();
 	}
 
-	function num_rows(&$result) {
+	function num_rows(&$result)
+	{
 		return $result->rowCount();
 	}
 
-	function num_fields(&$result) {
+	function num_fields(&$result)
+	{
 		return $result->columnCount();
 	}
 
-	function fetch_array(&$result) {
+	function fetch_array(&$result)
+	{
 		return $result->fetch(PDO::FETCH_ASSOC);
 	}
 
-	function getSingleValue(&$result) {
+	function getSingleValue(&$result)
+	{
 		return $result->fetchColumn();
 	}
 
-	function getArray(&$result) {
+	function getArray(&$result)
+	{
 		return $result->fetchAll(PDO::FETCH_ASSOC);
 	}
-	
-	function disconnect() {
+
+	function disconnect()
+	{
 		$this->log('Database disconnect');
 		if (isset($this->database)) {
 			unset($this->database);
 		}
 	}
 
-	function query($query, $dieOnError = false, $msg = '') {
+	function query($query, $dieOnError = false, $msg = '')
+	{
 		$this->log('Query: ' . $query);
 		$this->stmt = false;
 		$sqlStartTime = microtime(true);
@@ -289,7 +320,6 @@ class PearDatabase {
 		}
 		return $this->stmt;
 	}
-
 	/* Prepared statement Execution
 	 * @param $sql -- Prepared sql statement
 	 * @param $params -- Parameters for the prepared statement
@@ -297,7 +327,8 @@ class PearDatabase {
 	 * @param $msg -- Error message on query execution failure
 	 */
 
-	function pquery($query, $params = [], $dieOnError = false, $msg = '') {
+	function pquery($query, $params = [], $dieOnError = false, $msg = '')
+	{
 		$this->log('Query: ' . $query);
 		$this->stmt = false;
 		$sqlStartTime = microtime(true);
@@ -318,12 +349,14 @@ class PearDatabase {
 		return $this->stmt;
 	}
 
-	function prepare($query) {
+	function prepare($query)
+	{
 		$this->stmt = $this->database->prepare($query);
 		return $this->stmt;
 	}
 
-	function bind($param, $value, $type = null) {
+	function bind($param, $value, $type = null)
+	{
 		if (is_null($type)) {
 			switch (true) {
 				case is_int($value):
@@ -342,7 +375,8 @@ class PearDatabase {
 		$this->stmt->bindValue($param, $value, $type);
 	}
 
-	function execute() {
+	function execute()
+	{
 		try {
 			$success = $this->stmt->execute($params);
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
@@ -354,7 +388,8 @@ class PearDatabase {
 		return $this->stmt;
 	}
 
-	function insert($table, $data) {
+	function insert($table, $data)
+	{
 		$insert = false;
 		if (!$table) {
 			$this->log('Missing table name', 'error');
@@ -372,24 +407,27 @@ class PearDatabase {
 		}
 		return $insert;
 	}
-	
-	function delete($table, $where = '', $params = []) {
+
+	function delete($table, $where = '', $params = [])
+	{
 		$insert = false;
 		if (!$table) {
 			$this->log('Missing table name', 'error');
 			$this->checkError('Missing table name');
 		} else {
-			if($where != '')
-				$where = 'WHERE '.$where;
+			if ($where != '')
+				$where = 'WHERE ' . $where;
 			$this->pquery("DELETE FROM $table $where", $params);
 		}
 	}
 
-	function query_result(&$result, $row, $col = 0) {
+	function query_result(&$result, $row, $col = 0)
+	{
 		return to_html($this->query_result_raw($result, $row, $col));
 	}
 
-	function query_result_raw(&$result, $row, $col = 0) {
+	function query_result_raw(&$result, $row, $col = 0)
+	{
 		if (!is_object($result)) {
 			$this->log('Result is not an object', 'error');
 			$this->checkError('Result is not an object');
@@ -402,7 +440,8 @@ class PearDatabase {
 	}
 
 	// Function to get particular row from the query result
-	function query_result_rowdata(&$result, $row = 0) {
+	function query_result_rowdata(&$result, $row = 0)
+	{
 		return $this->raw_query_result_rowdata($result, $row);
 	}
 
@@ -418,7 +457,8 @@ class PearDatabase {
 	 * @param $row The row number to fetch. It's default value is 0
 	 *
 	 */
-	function raw_query_result_rowdata(&$result, $row = 0) {
+	function raw_query_result_rowdata(&$result, $row = 0)
+	{
 		if (!is_object($result)) {
 			$this->log('Result is not an object', 'error');
 			$this->checkError('Result is not an object');
@@ -435,7 +475,8 @@ class PearDatabase {
 	 * $input = array(10, 20, array(30, 40), array('key1' => '50', 'key2'=>array(60), 70));
 	 * returns array(10, 20, 30, 40, 50, 60, 70);
 	 */
-	function flatten_array($input, $output = null) {
+	function flatten_array($input, $output = null)
+	{
 		if ($input == null)
 			return null;
 		if ($output == null)
@@ -450,7 +491,8 @@ class PearDatabase {
 		return $output;
 	}
 
-	function getColumnNames($tablename) {
+	function getColumnNames($tablename)
+	{
 		$stmt = $this->database->query("SHOW COLUMNS FROM " . $tablename, PDO::FETCH_OBJ);
 		$columns = [];
 		foreach ($stmt as $col) {
@@ -459,7 +501,8 @@ class PearDatabase {
 		return $columns;
 	}
 
-	function getColumnsMeta($tablename) {
+	function getColumnsMeta($tablename)
+	{
 		$stmt = $this->database->query("SHOW COLUMNS FROM " . $tablename, PDO::FETCH_OBJ);
 		$columns = [];
 		foreach ($stmt as $col) {
@@ -494,17 +537,20 @@ class PearDatabase {
 		return $columns;
 	}
 
-	function updateBlob($table, $column, $val, $where) {
+	function updateBlob($table, $column, $val, $where)
+	{
 		$this->log("Update Blob: $table, $column, $val, $where, $blobtype");
 		$success = $this->pquery("UPDATE $table SET $column=? WHERE $where", [$val]);
 		return $success;
 	}
 
-	function getEmptyBlob() {
+	function getEmptyBlob()
+	{
 		return 'null';
 	}
 
-	function fetchByAssoc(&$result, $rowNum = -1, $encode = true) {
+	function fetchByAssoc(&$result, $rowNum = -1, $encode = true)
+	{
 		if (isset($result) && $rowNum < 0) {
 			$row = $this->fetch_array($result);
 			if ($encode && is_array($row))
@@ -520,7 +566,8 @@ class PearDatabase {
 	}
 
 	//To get a function name with respect to the database type which escapes strings in given text
-	function sql_escape_string($str, $type = false) {
+	function sql_escape_string($str, $type = false)
+	{
 		if ($type) {
 			$search = ["\\", "\0", "\n", "\r", "\x1a", "'", '"'];
 			$replace = ["\\\\", "\\0", "\\n", "\\r", "\Z", "\'", '\"'];
@@ -530,7 +577,8 @@ class PearDatabase {
 		}
 	}
 
-	function getUniqueID($seqname) {
+	function getUniqueID($seqname)
+	{
 		$table = $seqname . '_seq';
 		$result = $this->query("SHOW TABLES LIKE '$table'");
 		if ($result->rowCount() > 0) {
@@ -548,12 +596,14 @@ class PearDatabase {
 	}
 
 	// Function to get the last insert id based on the type of database
-	function getLastInsertID($seqname = '') {
+	function getLastInsertID($seqname = '')
+	{
 		$lastInsertID = $this->database->lastInsertId();
 		return $lastInsertID;
 	}
 
-	function formatDate($datetime, $strip_quotes = false) {
+	function formatDate($datetime, $strip_quotes = false)
+	{
 		/* remove single quotes to use the date as parameter for Prepared statement */
 		if ($strip_quotes == true) {
 			return trim($datetime, "'");
@@ -561,14 +611,16 @@ class PearDatabase {
 		return $datetime;
 	}
 
-	function getOne($sql, $dieOnError = false, $msg = '') {
+	function getOne($sql, $dieOnError = false, $msg = '')
+	{
 		$this->log('getOne: ' . $sql);
 		$result = $this->query($sql, $dieOnError, $msg);
 		$val = $this->getSingleValue($result);
 		return $val;
 	}
 
-	function getFieldsDefinition(&$result) {
+	function getFieldsDefinition(&$result)
+	{
 		$this->log('getFieldsDefinition');
 		$fieldArray = [];
 		if (!isset($result) || empty($result)) {
@@ -585,7 +637,8 @@ class PearDatabase {
 		return $fieldArray;
 	}
 
-	function getFieldsArray(&$result) {
+	function getFieldsArray(&$result)
+	{
 		$this->log('getFieldsArray');
 		$fieldArray = [];
 		if (!isset($result) || empty($result)) {
@@ -601,7 +654,8 @@ class PearDatabase {
 	/**
 	 * Function to generate question marks for a given list of items
 	 */
-	function generateQuestionMarks($items) {
+	function generateQuestionMarks($items)
+	{
 		// array_map will call the function specified in the first parameter for every element of the list in second parameter
 		if (is_array($items)) {
 			return implode(",", array_map("_questionify", $items));
@@ -610,12 +664,14 @@ class PearDatabase {
 		}
 	}
 
-	function concat($list) {
+	function concat($list)
+	{
 		return 'concat(' . implode(',', $list) . ')';
 	}
 
 	// create an IN expression from an array/list
-	function sqlExprDatalist($array) {
+	function sqlExprDatalist($array)
+	{
 		if (!is_array($array)) {
 			$this->log('sqlExprDatalist: not an array', 'error');
 			$this->checkError('sqlExprDatalist: not an array');
@@ -629,13 +685,15 @@ class PearDatabase {
 		return ' ( ' . $l . ' ) ';
 	}
 
-	function getAffectedRowCount(&$result) {
+	function getAffectedRowCount(&$result)
+	{
 		$rows = $result->rowCount();
 		$this->log('getAffectedRowCount: ' . $rows);
 		return $rows;
 	}
 
-	function requireSingleResult($sql, $dieOnError = false, $msg = '', $encode = true) {
+	function requireSingleResult($sql, $dieOnError = false, $msg = '', $encode = true)
+	{
 		$result = $this->query($sql, $dieOnError, $msg);
 
 		if ($this->getRowCount($result) == 1)
@@ -644,11 +702,11 @@ class PearDatabase {
 		$this->checkError('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql, $dieOnError);
 		return '';
 	}
-
 	/* function which extends requireSingleResult api to execute prepared statment
 	 */
 
-	function requirePsSingleResult($sql, $params, $dieOnError = false, $msg = '', $encode = true) {
+	function requirePsSingleResult($sql, $params, $dieOnError = false, $msg = '', $encode = true)
+	{
 		$result = $this->pquery($sql, $params, $dieOnError, $msg);
 
 		if ($this->getRowCount($result) == 1)
@@ -658,7 +716,8 @@ class PearDatabase {
 		return '';
 	}
 
-	function columnMeta(&$result, $col) {
+	function columnMeta(&$result, $col)
+	{
 		$meta = $result->getColumnMeta($col);
 		$column = new stdClass();
 		$column->name = $meta['name'];
@@ -667,7 +726,8 @@ class PearDatabase {
 		return $column;
 	}
 
-	function quote($input, $quote = true, $type = null) {
+	function quote($input, $quote = true, $type = null)
+	{
 		// handle int directly for better performance
 		if ($type == 'integer' || $type == 'int') {
 			return intval($input);
@@ -684,17 +744,17 @@ class PearDatabase {
 
 		$type = isset($map[$type]) ? $map[$type] : PDO::PARAM_STR;
 		if ($quote) {
-			return strtr($this->database->quote($input, $type), array(self::DEFAULT_QUOTE => self::DEFAULT_QUOTE . self::DEFAULT_QUOTE) );
+			return strtr($this->database->quote($input, $type), array(self::DEFAULT_QUOTE => self::DEFAULT_QUOTE . self::DEFAULT_QUOTE));
 		} else {
 			return self::DEFAULT_QUOTE . $input . self::DEFAULT_QUOTE;
 		}
 	}
-
 	/* SQLTime logging */
 
 	protected $logSqlTimeID = false;
 
-	function logSqlTime($startat, $endat, $sql, $params = false) {
+	function logSqlTime($startat, $endat, $sql, $params = false)
+	{
 		if (!PerformancePrefs::getBoolean('SQL_LOG_INCLUDE_CALLER', false)) {
 			return;
 		}
@@ -744,5 +804,4 @@ class PearDatabase {
 		}
 		$this->database->Execute($logsql, array($this->logSqlTimeID, $type, NULL, NULL, implode("\n", $data), $today));
 	}
-
 }
