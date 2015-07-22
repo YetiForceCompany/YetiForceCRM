@@ -1593,6 +1593,10 @@ function getRelationTables($module,$secmodule){
 			$em->triggerEvent('vtiger.entity.unlink.after', $data);
 		}
 	} else {
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->isPermitted($module, 'Delete', $destinationRecordId)) {
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
+		}
 		$focus->trash($module, $destinationRecordId);
 	}
 	$log->debug('Exiting DeleteEntity method ...');

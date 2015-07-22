@@ -1095,6 +1095,10 @@ class CRMEntity {
 	function trash($module, $id) {
 		global $log, $current_user, $adb;
 
+		$recordType = Vtiger_Functions::getCRMRecordType($id);
+		if($recordType != $module){
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
+		}
 		if(!self::isBulkSaveMode()) {
             require_once("include/events/include.inc");
             $em = new VTEventsManager($adb);
