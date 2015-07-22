@@ -79,7 +79,7 @@
                     {foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							<th nowrap {if $HEADER_FIELD@last} colspan="2" {/if}>
                             <a href="javascript:void(0);" class="relatedListHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-fieldname="{$HEADER_FIELD->get('name')}">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
-                                &nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->get('name')}<img class="{$SORT_IMAGE}">{/if}
+                                &nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->get('name')}<span class="{$SORT_IMAGE}"></span>{/if}
                             </a>
                         </th>
                     {/foreach}
