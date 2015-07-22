@@ -358,10 +358,14 @@ class Vtiger_Functions
 		}
 	}
 
+	protected static $ownerRecordLabelCache = [];
 	static function getOwnerRecordLabel($id)
 	{
-		$result = self::getOwnerRecordLabels($id);
-		return $result ? array_shift($result) : NULL;
+		if (!isset(self::$ownerRecordLabelCache[$id])) {
+			$result = self::getOwnerRecordLabels($id);
+			self::$ownerRecordLabelCache[$id] = $result ? array_shift($result) : NULL;
+		}
+		return self::$ownerRecordLabelCache[$id];
 	}
 
 	static function getOwnerRecordLabels($ids)
@@ -1279,5 +1283,15 @@ class Vtiger_Functions
 				break;
 		}
 		return $return;
+	}
+	
+	public static function getInitials($name)
+	{
+		$initial = '';
+		preg_match_all('~\b(\S){1}~', $name, $matches);
+		foreach ($matches[1] as $matche) {
+			$initial .= $matche;
+		}
+		return $initial;
 	}
 }
