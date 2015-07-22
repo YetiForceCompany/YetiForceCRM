@@ -29,10 +29,10 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View {
 		$sortOrder = $request->get('sortorder');
 		if($sortOrder == 'ASC') {
 			$nextSortOrder = 'DESC';
-			$sortImage = 'icon-chevron-down';
+			$sortImage = 'glyphicon glyphicon-chevron-down';
 		} else {
 			$nextSortOrder = 'ASC';
-			$sortImage = 'icon-chevron-up';
+			$sortImage = 'glyphicon glyphicon-chevron-up';
 		}
 		if(empty($orderBy) && empty($sortOrder)) {
 			$relatedInstance = CRMEntity::getInstance($relatedModuleName);

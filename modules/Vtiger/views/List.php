@@ -120,10 +120,10 @@ class Vtiger_List_View extends Vtiger_Index_View {
 		}
 		if($sortOrder == "ASC"){
 			$nextSortOrder = "DESC";
-			$sortImage = "icon-chevron-down";
+			$sortImage = "glyphicon glyphicon-chevron-down";
 		}else{
 			$nextSortOrder = "ASC";
-			$sortImage = "icon-chevron-up";
+			$sortImage = "glyphicon glyphicon-chevron-up";
 		}
 
 		if(empty ($pageNumber)){

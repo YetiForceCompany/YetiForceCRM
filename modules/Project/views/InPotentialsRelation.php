@@ -34,10 +34,10 @@ class Project_InPotentialsRelation_View extends Vtiger_RelatedList_View {
 		}
         if ($sortOrder == 'ASC') {
             $nextSortOrder = 'DESC';
-            $sortImage = 'icon-chevron-down';
+            $sortImage = 'glyphicon glyphicon-chevron-down';
         } else {
             $nextSortOrder = 'ASC';
-            $sortImage = 'icon-chevron-up';
+            $sortImage = 'glyphicon glyphicon-chevron-up';
         }
 		if(empty($orderBy) && empty($sortOrder)) {
 			$relatedInstance = CRMEntity::getInstance($relatedModuleName);
