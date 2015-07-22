@@ -37,5 +37,5 @@ $jsLanguageStrings = [
 	'JS_PICKLIST_DEPENDENCY_SAVED' => 'Dependência de Lista de Opções Salva',
 	'JS_SELECT_SOME_VALUE' => 'Selecionar algum valor',
 	'JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME' => 'Os campos Fonte e Alvo não devem ser os mesmos',
-	'JS_PICKLIST_DEPENDENCY_NO_SAVED' => 'No dependencies were entered. No changes were saved.',
+	'JS_PICKLIST_DEPENDENCY_NO_SAVED' => 'Não foi encontrada nenhuma dependência. Não foi salva nenhuma mudança.',
 ];

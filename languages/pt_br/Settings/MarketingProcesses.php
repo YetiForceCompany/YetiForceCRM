@@ -18,10 +18,10 @@ $languageStrings = [
 	'LBL_GROUPS_INFO' => 'Grupos sem um Responsável',
 	'LBL_LEAD_STATUS' => 'Selecione os status que indicam o final do trabalho com Leads',
 	'LBL_CURRENTUSER_STATUS' => 'Alteração do Responsável para um Usuário que editou um registro',
-	'LBL_CONVERT_LEAD_MERGE' => 'Link the record meeting specified requirements while converting from Lead to Account',
-	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'This option allows system to automatically join converted record with already existing - new account will not be created, instead to existing record data will be transferred from Lead',
+	'LBL_CONVERT_LEAD_MERGE' => 'Vincular os requisitos específicos da reunião enquanto converte o Lead para Conta',
+	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'Esta opção permite que o Sistema associe automaticamente o registro convertido com o já existente - não será criada uma nova Conta, ao invés disso os dados do registro existente serão transferidos a partir do Lead',
 	'LBL_CONDITION' => 'Adiconar condição',
 ];
 $jsLanguageStrings = [
-	'JS_NO_CONDITIONS' => 'At least one condition is required',
+	'JS_NO_CONDITIONS' => 'Pelo menos uma condições é requirida',
 ];
