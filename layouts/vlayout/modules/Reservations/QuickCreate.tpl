@@ -90,7 +90,7 @@
 				</div>
 				<div class="modal-footer quickCreateActions">
 					{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
-						<a class="cancelLink cancelLinkContainer pull-right" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<a class="cancelLink cancelLinkContainer pull-right btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 						<button class="btn btn-success test" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 						<button class="btn btn-default" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>
 				</div>
@@ -103,73 +103,4 @@
 		</div>
 	</div>
 </div>
-<script>
-setTimeout(function(){ 
-	Vtiger_Edit_Js("Reservations_QuickCreate_Js",{},
-	{
-		/*sumHours : function () {	
-			var sumeTime = this.differenceDays();
-			var hours = (Math.round( (sumeTime/3600000) * 100 ) / 100).toFixed(2);
-			return hours
-		},	
-		*/
-		differenceDays : function(){
-			var firstDate = jQuery('input[name="date_start"]');
-			var firstDateFormat = firstDate.data('date-format');
-			var firstDateValue = firstDate.val();
-			var secondDate = jQuery('input[name="due_date"]');
-			var secondDateFormat = secondDate.data('date-format');
-			var secondDateValue = secondDate.val();
-			var firstTime = jQuery('input[name="time_start"]');
-			var secondTime = jQuery('input[name="time_end"]');
-			var firstTimeValue = firstTime.val();
-			var secondTimeValue = secondTime.val();
-			var firstDateTimeValue = firstDateValue + ' ' + firstTimeValue;
-			var secondDateTimeValue = secondDateValue + ' ' + secondTimeValue;
-			var firstDateInstance = Vtiger_Helper_Js.getDateInstance(firstDateTimeValue,firstDateFormat);
-			var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue,secondDateFormat);
-
-			var timeBetweenDates =  secondDateInstance - firstDateInstance;
-			if(timeBetweenDates >= 0){
-				return timeBetweenDates;
-			}
-	        return 'Error';
-		},
-		registerRecordPreSaveEvent : function(){			
-			var differenceDays = this.differenceDays();	
-			/*var sumHours = this.sumHours();
-			
-			if(sumHours > 24){
-				var params = {
-					text: app.vtranslate('JS_HOURS_SHOULD_BE_SMALLER_THAN'),
-					type: 'error'
-				};
-				Vtiger_Helper_Js.showPnotify(params);
-				return false;
-
-			}*/
-
-			if(differenceDays == 'Error'){
-				var params = {
-					text: app.vtranslate('JS_DATE_SHOULD_BE_GREATER_THAN'),
-					type: 'error'
-				};
-				Vtiger_Helper_Js.showPnotify(params);
-				return false;
-			}
-		},
-		registerEvents: function(){
-			this._super();
-			this.registerRecordPreSaveEvent();
-		}	
-	}
-	);	
-	jQuery(document).ready(function(){
-		var currencyInstance = new Reservations_QuickCreate_Js();
-		$( ".btn-success" ).click(function() {
-			currencyInstance.registerRecordPreSaveEvent();
-		});
-	})
-}, 1000);
-</script>
 {/strip}
