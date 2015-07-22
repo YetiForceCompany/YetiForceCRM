@@ -57,4 +57,37 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model {
 	public function getDefaultViewName() {
 		return 'Calendar';
 	}
+	
+	public function getRelatedSummary($query)
+	{
+		$db = PearDatabase::getInstance();
+		$relationQuery = ereg_replace("[ \t\n\r]+", ' ', $query);
+		$position = stripos($relationQuery, ' from ');
+		if ($position) {
+			$split = explode(' FROM ', $relationQuery);
+			$mainQuery = '';
+			for ($i = 1; $i < count($split); $i++) {
+				$mainQuery = $mainQuery . ' FROM ' . $split[$i];
+			}
+		}
+		// Calculate total working time
+		$result = $db->query('SELECT SUM(sum_time) AS sumtime' . $mainQuery);
+		$totalTime = $db->getSingleValue($result);
+
+		// Calculate total working time divided into users
+		$result = $db->query('SELECT SUM(sum_time) AS sumtime, vtiger_crmentity.smownerid' . $mainQuery . ' GROUP BY vtiger_crmentity.smownerid');
+		$userTime = [];
+		$count= 1;
+		while ($row = $db->fetch_array($result)) {
+			$smownerid = Vtiger_Functions::getOwnerRecordLabel($row['smownerid']);
+			
+			$userTime[] = [
+				'name' => [$count, $smownerid], 
+				'initial' => [$count, Vtiger_Functions::getInitials($smownerid)], 
+				'data' => [$count, $row['sumtime']]
+			];
+			$count++;
+		}
+		return ['totalTime' => $totalTime, 'userTime' => $userTime];
+	}
 }
