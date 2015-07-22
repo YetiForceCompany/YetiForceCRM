@@ -69,7 +69,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
 			}
 		});
 	});
-console.log('data.result')
+
 	//Loading list of modules with templates mail
 	jQuery.ajax({
 		type: 'Get',
@@ -79,7 +79,6 @@ console.log('data.result')
 			var modules = [];
 			var tmp = [];
 			var template = [];
-			console.log(data.result)
 			$.each(data.result, function (index, value) {
 				tmp.push({name: value.module, label: value.moduleName});
 				jQuery('#tplmenu #texttplsmenu').append('<li class="' + value.module + '"><a href="#" data-module="' + value.module + '" data-tplid="' + value.id + '" class="active">' + value.name + '</a></li>');
@@ -90,10 +89,6 @@ console.log('data.result')
 					modules.push(value.name);
 				}
 			});
-		},
-		complete : function (data){
-			console.log('data')
-			console.log(data)
 		}
 	});
 
