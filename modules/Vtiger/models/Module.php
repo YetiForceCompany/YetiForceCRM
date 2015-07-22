@@ -1660,21 +1660,41 @@ class Vtiger_Module_Model extends Vtiger_Module
 
 	public function getSourceRelatedFieldToQuickCreate($moduleName, $sourceModule = false, $sourceRecord = false)
 	{
-		$data = array();
+		$data = [];
 		if ($sourceModule && $sourceRecord) {
-			$mapping = array();
-			// [target module][Source module] = ( target field => (source module field, source field) )
-			$mapping['OSSTimeControl']['HelpDesk'] = array('contactid' => array('Contacts', 'contact_id'), 'accountid' => array('Accounts', 'parent_id'));
-			$mapping['OutsourcedProducts']['Potentials'] = array('parent_id' => array('Accounts', 'related_to'));
-			$mapping['Calendar']['Potentials'] = array('link' => array('Accounts', 'related_to'));
 
-			if (!$mapping[$moduleName][$sourceModule])
-				return $data;
+			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 			$recordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
-			foreach ($mapping[$moduleName][$sourceModule] as $fieldName => $relatedField) {
-				$fieldValue = $recordModel->get($relatedField[1]);
-				if ($fieldValue && Vtiger_Functions::getCRMRecordType($fieldValue) == $relatedField[0])
-					$data[$fieldName] = $fieldValue;
+			$relationField = false;
+			$fieldMap = [];
+			$modelFields = $moduleModel->getFields();
+			foreach ($modelFields as $fieldName => $fieldModel) {
+				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+					$referenceList = $fieldModel->getReferenceList();
+					foreach ($referenceList as $referenceModule) {
+						$fieldMap[$referenceModule] = $fieldName;
+					}
+					if (in_array($sourceModule, $referenceList)) {
+						$relationField = $fieldName;
+					}
+				}
+			}
+			$sourceModelFields = $sourceModuleModel->getFields();
+			foreach ($sourceModelFields as $fieldName => $fieldModel) {
+				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+					$referenceList = $fieldModel->getReferenceList();
+					foreach ($referenceList as $referenceModule) {
+						if (isset($fieldMap[$referenceModule])) {
+							$fieldValue = $recordModel->get($fieldName);
+							if ($fieldValue != 0 && Vtiger_Functions::getCRMRecordType($fieldValue) == $referenceModule)
+								$data[$fieldMap[$referenceModule]] = $fieldValue;
+						}
+					}
+				}
+			}
+			if ($relationField) {
+				$data[$relationField] = $sourceRecord;
 			}
 		}
 		return $data;
