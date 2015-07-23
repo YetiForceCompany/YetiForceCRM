@@ -560,6 +560,7 @@ CREATE TABLE `vtiger_account` (
   `average_profit_so` decimal(5,2) DEFAULT NULL,
   `payment_balance` decimal(25,8) DEFAULT NULL,
   `legal_form` varchar(255) DEFAULT NULL,
+  `sum_time` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -2521,7 +2522,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1747 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1748 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
