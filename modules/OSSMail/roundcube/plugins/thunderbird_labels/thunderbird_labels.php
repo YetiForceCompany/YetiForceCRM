@@ -61,8 +61,9 @@ class thunderbird_labels extends rcube_plugin
 					'title' => 'tb_label_button_title',
 					'domain' => $this->ID,
 					'type' => 'link',
-					'content' => ($this->rc->config->get('skin') == 'larry') ? $this->gettext('tb_label_button_label') : ' ', 
-					'class' => ($this->rc->config->get('skin') == 'larry') ? 'button' : 'tb_noclass',
+					'content' => $this->gettext('tb_label_button_label'), 
+					'class' => 'button buttonPas disabled',
+					'classact' => 'button',
 					),
 				'toolbar'
 			);
@@ -168,7 +169,7 @@ class thunderbird_labels extends rcube_plugin
 				'name' => $key,
 				'id' => $key
 			));
-			$select->add(array('thunderbird', 'bullets'), array('thunderbird', 'bullets'));
+			$select->add(array($this->gettext('thunderbird'), $this->gettext('bullets')), array('thunderbird', 'bullets'));
 			$content = $select->show($this->rc->config->get($key));
 			
 			$args['blocks']['tb_label']['options'][$key] = array(
