@@ -208,9 +208,9 @@ $languageStrings = [
 	'Mail' => 'Cliente de Email',
 	'GlobalPermission' => 'Permissão Global',
 	'OSSCosts' => 'Custos',
-	'LBL_ADDING_ERROR' => 'Error in adding a field',
-	'LBL_ADDED_COMPANY_FIELD' => 'Added field',
-	'LBL_FIELD_NOT_VALID' => 'Field must contain only for letters',
+	'LBL_ADDING_ERROR' => 'Erro ao adicionar um campo',
+	'LBL_ADDED_COMPANY_FIELD' => 'Campo adicionado',
+	'LBL_FIELD_NOT_VALID' => 'O campo deve conter somente letras',
 	/* settings menu */
 	'LBL_QUICK_CREATE_EDITOR' => 'Editor Criar Rápido',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'O módulo permite alterar o layout dos campos na janela criar rápido',
@@ -274,7 +274,7 @@ $languageStrings = [
 	'LBL_MARKETING_PROCESSES_DESCRIPTION' => 'Gerenciar Processo Marketing',
 	'LBL_FINANCIAL_PROCESSES_DESCRIPTION' => 'Gerenciar Processo Financeiros',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => 'Gerenciar Configuração Agenda',
-	'Mail Logs' => 'Mail Logs',
+	'Mail Logs' => 'Logs de Mensagens',
 	/* Role */
 	'Board of Management' => 'Conselho de Administração',
 	'Sales Department' => 'Departamento de Vendas',

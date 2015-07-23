@@ -10,9 +10,9 @@
  * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_RECORDS_LIST' => 'Records List',
-	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_ORGANIZATION_VAT' => 'VAT ID',
+	'LBL_RECORDS_LIST' => 'Lista registros',
+	'LBL_ADD_RECORD' => 'Adicionar registro',
+	'LBL_ORGANIZATION_VAT' => 'CNPJ',
 	'LBL_NORECORDS_CHECKED' => 'Você ainda não selecionou um registro',
 	'Enable Numbering' => 'Habilitar numeração página',
 	'LBLEdit' => 'Editar',
@@ -391,19 +391,19 @@ $languageStrings = [
 	'Field' => 'Campo',
 	'Label' => 'Rótulo',
 	'LBL_SELECT_DATE_TYPE' => 'Selecionar tipo data',
-	'FOLIO' => 'Folio',
-	'LETTER' => 'Letter',
+	'FOLIO' => 'Folha',
+	'LETTER' => 'Carta',
 	'LEGAL' => 'Legal',
-	'EXECUTIVE' => 'Executive',
+	'EXECUTIVE' => 'Executivo',
 ];
 
 $jsLanguageStrings = [
-	'Current date (yyyy/mm/dd)' => 'Current date (yyyy/mm/dd)',
-	'Current date (mm/dd/yyyy)' => 'Current date (mm/dd/yyyy)',
-	'Current date (dd/mm/yyyy)' => 'Current date (dd/mm/yyyy)',
-	'Current date (yyyy.mm.dd)' => 'Current date (yyyy.mm.dd)',
-	'Current date (mm.dd.yyyy)' => 'Current date (mm.dd.yyyy)',
-	'Current date (dd.mm.yyyy)' => 'Current date (dd.mm.yyyy)',
+	'Current date (yyyy/mm/dd)' => 'Data atual (yyyy/mm/dd)',
+	'Current date (mm/dd/yyyy)' => 'Data atual (mm/dd/yyyy)',
+	'Current date (dd/mm/yyyy)' => 'Data atual (dd/mm/yyyy)',
+	'Current date (yyyy.mm.dd)' => 'Data atual (yyyy.mm.dd)',
+	'Current date (mm.dd.yyyy)' => 'Data atual (mm.dd.yyyy)',
+	'Current date (dd.mm.yyyy)' => 'Data atual (dd.mm.yyyy)',
 	// notification
 	'LBL_NotifPassCopied' => 'Copiado para Área de Transferência',
 	'LBL_NotifPassTitle' => 'Texto',

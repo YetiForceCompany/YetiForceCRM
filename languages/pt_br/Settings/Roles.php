@@ -31,8 +31,8 @@ $languageStrings = [
 	'SINGLE_Roles' => 'Função',
 	'LBL_USERS_LIST' => 'Lista de Usuários pertencentes a esta Função:',
 	'LBL_JUST_ME' => 'Somente eu',
-	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => 'Enable change of the record owner',
-	'LBL_SEARCH_WITHOUT_PERMISSION' => 'Modules that can be searched without permission',
+	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => 'Permitir mudança do proprietário do registro',
+	'LBL_SEARCH_WITHOUT_PERMISSION' => 'Módulos que podem ser pesquisados sem permissão',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Não tem Permissão para Mover',
