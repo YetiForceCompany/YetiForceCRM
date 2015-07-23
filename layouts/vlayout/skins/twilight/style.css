@@ -3383,3 +3383,6 @@ span[name=existingImages] img{
 .mailRows hr{
 	margin: 0;
 }
+.paddingLeftMd{
+	padding-left: 15px;
+}
