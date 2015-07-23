@@ -29,7 +29,7 @@
 		</div>
 		<div class="row form-inline">
 		{/if}
-		<div class="col-md-6 form-group pull-left">
+		<div class="paddingLeftMd form-group pull-left">
 			{if $POPUPTYPE == 2}
 				<h3 class="popupModuleName">{vtranslate($MODULE_NAME, $MODULE_NAME)}</h3>
 			{/if}

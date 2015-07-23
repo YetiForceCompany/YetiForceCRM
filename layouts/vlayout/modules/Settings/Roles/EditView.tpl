@@ -67,7 +67,7 @@
 								{vtranslate('LBL_JUST_ME',$QUALIFIED_MODULE)}
 							</label>
 						</div>
-				</div>
+					</div>
                 </div><br>
 				<div class="row">
 					<label class="col-md-3"><strong>{vtranslate('LBL_PRIVILEGES',$QUALIFIED_MODULE)}:</strong></label>
@@ -124,9 +124,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="textAlignCenter">
+			<div class="pull-right">
+				<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset">{vtranslate('LBL_CANCEL',$MODULE)}</a>
 				<button class="btn btn-success" type="submit">{vtranslate('LBL_SAVE',$MODULE)}</button>
-				<a class="cancelLink" onclick="javascript:window.history.back();" type="reset">{vtranslate('LBL_CANCEL',$MODULE)}</a>
 			</div>
 			{if count($ROLE_USERS) > 0 }
 				<hr />
