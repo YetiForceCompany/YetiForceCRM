@@ -62,6 +62,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 						//thisInstance.triggerDisplayTypeEvent();
 						Vtiger_Helper_Js.showHorizontalTopScrollBar();
 						jQuery('.pageNumbers', thisInstance.relatedContentContainer).tooltip();
+						jQuery('body').trigger(jQuery.Event('LoadRelatedRecordList.PostLoad'), {response: responseData, params: completeParams});	
 					}
 					aDeferred.resolve(responseData);
 

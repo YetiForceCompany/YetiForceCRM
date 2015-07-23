@@ -668,7 +668,7 @@ jQuery.Class("Vtiger_List_Js", {
 					app.changeSelectElementView(listViewContentsContainer);
 					app.showPopoverElementView(listViewContentsContainer.find('.popoverTooltip'));
 					thisInstance.registerTimeListSearch(listViewContentsContainer);
-
+					jQuery('body').trigger(jQuery.Event('LoadRecordList.PostLoad'), data);
 					thisInstance.registerDateListSearch(listViewContentsContainer);
 					thisInstance.calculatePages().then(function (data) {
 						//thisInstance.triggerDisplayTypeEvent();
