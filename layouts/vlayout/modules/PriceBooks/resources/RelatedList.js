@@ -60,6 +60,8 @@ Vtiger_RelatedList_Js("PriceBooks_RelatedList_Js",{},{
 		params['relinfo'] = JSON.stringify(idList);
 		AppConnector.request(params).then(
 			function(responseData){
+				var detail = Vtiger_Detail_Js.getInstance();
+				detail.registerRelatedModulesRecordCount();
 				aDeferred.resolve(responseData);
 			}
 			);

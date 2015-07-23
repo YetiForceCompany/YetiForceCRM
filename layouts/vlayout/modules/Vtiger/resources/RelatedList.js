@@ -133,6 +133,8 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 
 		AppConnector.request(params).then(
 			function(responseData){
+				var detail = Vtiger_Detail_Js.getInstance();
+				detail.registerRelatedModulesRecordCount();
 				aDeferred.resolve(responseData);
 			},
 
@@ -140,8 +142,6 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 				aDeferred.reject(textStatus, errorThrown);
 			}
 		);
-		var detail = Vtiger_Detail_Js.getInstance();
-		detail.registerRelatedModulesRecordCount();
 		return aDeferred.promise();
 	},
 
@@ -169,6 +169,8 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 
 		AppConnector.request(params).then(
 			function(responseData){
+				var detail = Vtiger_Detail_Js.getInstance();
+				detail.registerRelatedModulesRecordCount();
 				aDeferred.resolve(responseData);
 			},
 
@@ -176,8 +178,7 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 				aDeferred.reject(textStatus, errorThrown);
 			}
 		);
-		var detail = Vtiger_Detail_Js.getInstance();
-		detail.registerRelatedModulesRecordCount();
+		
 		return aDeferred.promise();
 	},
 
