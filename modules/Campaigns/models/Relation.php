@@ -62,4 +62,40 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model {
 			}
 		}
 	}
+	
+	/**
+	 * Function to get relation field for relation module and parent module
+	 * @return Vtiger_Field_Model
+	 */
+	public function getRelationField()
+	{
+		$relationField = $this->get('relationField');
+		if (!$relationField) {
+			$relationField = false;
+			$relationFieldArray = [];
+			$relatedModel = $this->getRelationModuleModel();
+			$parentModule = $this->getParentModuleModel();
+			$relatedModelFields = $relatedModel->getFields();
+
+			foreach ($relatedModelFields as $fieldName => $fieldModel) {
+				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+					$referenceList = $fieldModel->getReferenceList();
+					if (in_array($parentModule->getName(), $referenceList)) {
+						$relationFieldArray[$fieldName] = $fieldModel;
+						if($fieldName != 'modifiedby' && $fieldName != 'created_user_id'){
+							$this->set('relationField', $fieldModel);
+							$relationField = $fieldModel;
+							break;
+						}
+					}
+				}
+			}
+			if(!$relationField && $relationFieldArray){
+				reset($relationFieldArray);
+				$this->set('relationField', current($relationFieldArray));
+				$relationField = current($relationFieldArray);
+			}
+		}
+		return $relationField;
+	}
 }
