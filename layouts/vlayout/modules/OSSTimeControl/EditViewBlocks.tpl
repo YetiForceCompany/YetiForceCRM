@@ -86,7 +86,7 @@
 					{else}
 						{assign var=COUNTER value=$COUNTER+1}
 					{/if}
-					<td class="fieldLabel {$WIDTHTYPE}">
+					<td class="fieldLabel textAlignRight {$WIDTHTYPE}">
 						{if $isReferenceField neq "reference"}<label class="muted pull-right marginRight10px">{/if}
 							{if $FIELD_MODEL->isMandatory() eq true && $isReferenceField neq "reference"} <span class="redColor">*</span> {/if}
 							{if $isReferenceField eq "reference"}
@@ -98,8 +98,8 @@
 									{if !empty($REFERENCED_MODULE_STRUCT)}
 										{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
 									{/if}
+									{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor referenceMandatory">*</span> {/if}
 									<span class="col-xs-10 paddingRightZero pull-right">
-										{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 										<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" style="width:140px;">
 											<optgroup>
 												{foreach key=index item=value from=$REFERENCE_LIST}

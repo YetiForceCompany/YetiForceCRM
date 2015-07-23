@@ -3386,3 +3386,6 @@ span[name=existingImages] img{
 .widget_header div:nth-child(2).btn-toolbar{
 	margin-top: 20px;
 }
+.fieldLabel .referenceMandatory{
+	margin-right: -12px;
+}
