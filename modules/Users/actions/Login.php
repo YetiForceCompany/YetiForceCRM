@@ -27,7 +27,6 @@ class Users_Login_Action extends Vtiger_Action_Controller
 		$username = $request->get('username');
 		$password = $request->get('password');
 		if ($request->get('mode') == 'install') {
-			error_reporting(0);
 			$dirPath = 'install';
 			Users_Module_Model::deleteLangFiles();
 
