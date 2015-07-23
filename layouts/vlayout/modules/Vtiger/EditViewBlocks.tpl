@@ -126,7 +126,7 @@
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<td class="fieldLabel {$WIDTHTYPE}">
+								<td class="fieldLabel textAlignRight {$WIDTHTYPE}">
 									{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 									{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
 									{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
@@ -143,8 +143,8 @@
 												{if !empty($REFERENCED_MODULE_STRUCT)}
 													{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
 												{/if}
+												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor referenceMandatory">*</span> {/if}
 												<span class="col-xs-10 paddingRightZero pull-right">
-													{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 													<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" title="{vtranslate('LBL_RELATED_MODULE_TYPE')}" >
 														<optgroup>
 															{foreach key=index item=value from=$REFERENCE_LIST}
