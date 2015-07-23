@@ -34,6 +34,10 @@ $languageStrings = [
 	'LBL_JUST_ME' => 'Только я',
 	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => 'Enable change of the record owner',
 	'LBL_SEARCH_WITHOUT_PERMISSION' => 'Modules that can be searched without permission',
+	'LBL_BROWSING_OTHER_USERS_GRAPHICAL_CALENDAR' => '__UNTRANSLATED__',
+	'LBL_CLENDAR_ALLO_RECORDS_1' => '__UNTRANSLATED__',
+	'LBL_CLENDAR_ALLO_RECORDS_2' => '__UNTRANSLATED__',
+	'LBL_CLENDAR_ALLO_RECORDS_3' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_PERMISSION_DENIED' => 'Доступ запрещен',

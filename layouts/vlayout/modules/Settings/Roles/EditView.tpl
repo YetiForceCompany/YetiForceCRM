@@ -94,7 +94,7 @@
 					</div>
 				</div>
 				<br>
-				<div class="row"><br>
+				<div class="row">
 					<label class="col-md-3"><strong>{vtranslate('LBL_SEARCH_WITHOUT_PERMISSION',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						{assign var="SEARCH_MODULES" value=explode(',',$RECORD_MODEL->get('searchunpriv'))}
@@ -105,6 +105,30 @@
 						</select>
 					</div>
 				</div>
+				<br>
+				<div class="row">
+					<label class="col-md-3"><strong>{vtranslate('LBL_BROWSING_OTHER_USERS_GRAPHICAL_CALENDAR',$QUALIFIED_MODULE)}:</strong></label>
+					<div class="col-md-7 fieldValue">
+						<div>
+							<label for="calallow1">
+								<input type="radio" id="calallow1" value="1"{if !$RECORD_MODEL->get('clendarallorecords')} checked=""{/if} {if $RECORD_MODEL->get('clendarallorecords') eq '1'} checked="" {/if} name="clendarallorecords" data-handler="new" class="alignTop"/>&nbsp;
+								{vtranslate('LBL_CLENDAR_ALLO_RECORDS_1',$QUALIFIED_MODULE)}
+							</label>
+						</div>
+						<div>
+							<label for="calallow2">
+								<input type="radio" id="calallow2" value="2" {if $RECORD_MODEL->get('clendarallorecords') eq '2'} checked="" {/if} name="clendarallorecords" data-handler="new" class="alignTop"/>&nbsp;
+								{vtranslate('LBL_CLENDAR_ALLO_RECORDS_2',$QUALIFIED_MODULE)}
+							</label>
+						</div>
+                        <div>
+							<label for="calallow3">
+								<input type="radio" id="calallow3" value="3" {if $RECORD_MODEL->get('clendarallorecords') eq '3'} checked="" {/if} name="clendarallorecords" data-handler="new" class="alignTop"/>&nbsp;
+								{vtranslate('LBL_CLENDAR_ALLO_RECORDS_3',$QUALIFIED_MODULE)}
+							</label>
+						</div>
+					</div>
+				</div>	
 				<br>
 				<div class="row padding20px boxSizingBorderBox contentsBackground" data-content-role="new" style="display: none">
 					<div class="fieldValue col-md-12">

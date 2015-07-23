@@ -33,6 +33,10 @@ $languageStrings = [
 	'LBL_JUST_ME' => 'Somente eu',
 	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => 'Permitir mudança do proprietário do registro',
 	'LBL_SEARCH_WITHOUT_PERMISSION' => 'Módulos que podem ser pesquisados sem permissão',
+	'LBL_BROWSING_OTHER_USERS_GRAPHICAL_CALENDAR' => '__UNTRANSLATED__',
+	'LBL_CLENDAR_ALLO_RECORDS_1' => '__UNTRANSLATED__',
+	'LBL_CLENDAR_ALLO_RECORDS_2' => '__UNTRANSLATED__',
+	'LBL_CLENDAR_ALLO_RECORDS_3' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Não tem Permissão para Mover',
