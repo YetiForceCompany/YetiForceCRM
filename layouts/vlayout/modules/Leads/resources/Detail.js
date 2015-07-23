@@ -336,7 +336,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 				}
 		);
 		if (fieldDetailList.field == 'leadstatus') {
-			var btn = jQuery('#Leads_detailView_basicAction_LBL_CONVERT_LEAD').closest(".btn-group");
+			var btn = jQuery('.Leads_detailView_basicAction_').closest(".btn-group");
 			var status = JSON.parse(jQuery('#conversion_available_status').val());
 			if (jQuery.inArray(fieldDetailList.value, status) != -1) {
 				btn.removeClass("hide");
