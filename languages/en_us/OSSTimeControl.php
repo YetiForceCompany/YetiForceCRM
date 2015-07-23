@@ -107,6 +107,8 @@ $languageStrings = [
 	'LBL_AVERAGEWORKTIME_INFO' => 'Average working time',
 	'LBL_AVERAGEBREAKTIME_INFO' => 'Average break time',
 	'LBL_WORKDAYS_INFO' => 'Work days',
+	'LBL_SUM' => 'Sum',
+	'LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS' => 'Working time graph divided into users',
 ];
 $jsLanguageStrings = [
 	'MSG_ERROR_NUMBER' => 'Allowed Characters: [0-9]',
