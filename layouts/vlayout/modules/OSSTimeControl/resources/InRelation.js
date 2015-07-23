@@ -34,6 +34,12 @@ jQuery(document).ready(function ($) {
 							align: "center",
 							//lineWidth: 0
 						},
+						valueLabels: {
+							show: true,
+							showAsHtml: true,
+							align: "center",
+							valign: 'middle',
+						},
 						stack: true
 					}
 				};
