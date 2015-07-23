@@ -124,9 +124,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="textAlignCenter">
+			<div class="pull-right">
+				<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset">{vtranslate('LBL_CANCEL',$MODULE)}</a>
 				<button class="btn btn-success" type="submit">{vtranslate('LBL_SAVE',$MODULE)}</button>
-				<a class="cancelLink" onclick="javascript:window.history.back();" type="reset">{vtranslate('LBL_CANCEL',$MODULE)}</a>
 			</div>
 			{if count($ROLE_USERS) > 0 }
 				<hr />
