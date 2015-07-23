@@ -130,7 +130,7 @@ var Settings_Index_Js = {
 		var layout = jQuery('.SearchFieldsEdit');
 		var saveButton = layout.find('.saveModuleSequence');
 		thisInstance.updatedBlockFieldsList = [];
-		saveButton.removeClass('visibility');
+		saveButton.removeClass('hide');
 	},
 
 	/**
@@ -139,7 +139,7 @@ var Settings_Index_Js = {
 	hideSaveModuleSequenceButton : function() {
 		var layout = jQuery('.SearchFieldsEdit');
 		var saveButton = layout.find('.saveModuleSequence');
-		saveButton.addClass('visibility');
+		saveButton.addClass('hide');
 	},
 	/**
 	 * Function will save the field sequences

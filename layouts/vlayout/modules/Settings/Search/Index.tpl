@@ -28,7 +28,7 @@ min-width: 20px;
 	<hr>
 	<div class="btn-toolbar">
 		<span class="pull-right group-desc ">
-			<button class="btn btn-success saveModuleSequence visibility" type="button">
+			<button class="btn btn-success saveModuleSequence hide" type="button">
 				<strong>{vtranslate('LBL_SAVE_MODULE_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 			</button>
 		</span>
