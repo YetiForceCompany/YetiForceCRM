@@ -1288,10 +1288,8 @@ class Vtiger_Functions
 	public static function getInitials($name)
 	{
 		$initial = '';
-		preg_match_all('~\b(\S){1}~', $name, $matches);
-		foreach ($matches[1] as $matche) {
-			$initial .= $matche;
-		}
+		foreach (explode(' ', $name) as $word)
+			$initial .= strtoupper($word[0]);
 		return $initial;
 	}
 }
