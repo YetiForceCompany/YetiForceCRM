@@ -70,12 +70,13 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model {
 				$mainQuery = $mainQuery . ' FROM ' . $split[$i];
 			}
 		}
+
 		// Calculate total working time
-		$result = $db->query('SELECT SUM(sum_time) AS sumtime' . $mainQuery);
+		$result = $db->query('SELECT SUM(vtiger_osstimecontrol.sum_time) AS sumtime' . $mainQuery);
 		$totalTime = $db->getSingleValue($result);
 
 		// Calculate total working time divided into users
-		$result = $db->query('SELECT SUM(sum_time) AS sumtime, vtiger_crmentity.smownerid' . $mainQuery . ' GROUP BY vtiger_crmentity.smownerid');
+		$result = $db->query('SELECT SUM(vtiger_osstimecontrol.sum_time) AS sumtime, vtiger_crmentity.smownerid' . $mainQuery . ' GROUP BY vtiger_crmentity.smownerid');
 		$userTime = [];
 		$count= 1;
 		while ($row = $db->fetch_array($result)) {
