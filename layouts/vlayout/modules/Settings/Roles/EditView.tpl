@@ -27,7 +27,7 @@
 			<div style="padding:20px;">
 				<div class="row">
 					<div class="col-md-3">
-						<label class=""><strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>: </strong></label>
+						<label class=""><span class="redColor">*</span><strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}: </strong></label>
 					</div>
 					<div class=" col-md-7 ">
 						<input type="text" class="fieldValue form-control" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine='validate[required]'  />

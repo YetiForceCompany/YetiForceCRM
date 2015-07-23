@@ -3133,6 +3133,7 @@ tr.summaryViewEntries, #detailView table {
 }
 table.listViewEntriesTable {
 	font-size: 13px;
+	margin-top: 5px;
 }
 .no-margin{
 	margin: 0;
@@ -3385,4 +3386,7 @@ span[name=existingImages] img{
 }
 .paddingLeftMd{
 	padding-left: 15px;
+}
+.widget_header div:nth-child(2).btn-toolbar{
+	margin-top: 20px;
 }

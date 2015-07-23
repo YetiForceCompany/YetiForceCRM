@@ -27,7 +27,7 @@
 	<input type='hidden' value="{$BACKUP_INFO['id']}" class='backupID'>
 	{assign var=CHECK_CRON value=$BACKUP_MODEL->checkCron()}
 	{assign var=CHECK_MAIL value=$BACKUP_MODEL->checkMail()}
-	<div class="container-fluid" style="margin-top:10px;">
+	<div>
 		<h3>{vtranslate('Backup', $QUALIFIED_MODULE_NAME)}</h3>&nbsp;{vtranslate('LBL_BACKUP_DESCRIPTION', $QUALIFIED_MODULE_NAME)}<hr>
 		{if !extension_loaded('zip')}
 			<div class="alert alert-block alert-danger" style="margin-left: 10px;">
@@ -177,8 +177,8 @@
 			<div class='tab-pane' id="tab_1">
 				<div>
 					<div class="btn-group pull-right">
-						<button class="btn pull-left" id="listViewPreviousPageButton" ><span class="icon-chevron-left"></span></button>
-						<button class="btn pull-left" id="listViewNextPageButton" {if ($NEXT_PAGE eq false) or (ALL_PAGES eq 1)} disabled {/if}><span class="icon-chevron-right"></span></button>
+						<button class="btn btn-default pull-left" id="listViewPreviousPageButton" ><span class="glyphicon glyphicon-chevron-left"></span></button>
+						<button class="btn btn-default pull-left" id="listViewNextPageButton" {if ($NEXT_PAGE eq false) or (ALL_PAGES eq 1)} disabled {/if}><span class="glyphicon glyphicon-chevron-right"></span></button>
 					</div>
 				</div>
 				<br /><br />
@@ -226,8 +226,9 @@
 						<tbody>
 							<tr>
 								<td style="width:25%">
+									<label class="pull-right">{vtranslate('LBL_HOST', $QUALIFIED_MODULE_NAME)}</label>
 									<span class="redColor pull-right">*</span>
-									<label class="pull-right">{vtranslate('LBL_HOST', $QUALIFIED_MODULE_NAME)}</label></td>
+								</td>
 								<td>
 									<div class="col-md-3">
 										<input class="form-control" type="text" value="{$FTP_HOST}" name="host"></input>
@@ -236,8 +237,8 @@
 							</tr>
 							<tr>
 								<td style="width:25%">
-									<span class="redColor pull-right">*</span>
 									<label class="pull-right">{vtranslate('LBL_LOGIN', $QUALIFIED_MODULE_NAME)}</label>
+									<span class="redColor pull-right">*</span>
 								</td>
 								<td>
 									<div class="col-md-3">
@@ -247,8 +248,8 @@
 							</tr>
 							<tr>
 								<td style="width:25%">
-									<span class="redColor pull-right">*</span>
 									<label class="pull-right">{vtranslate('LBL_PASSWORD', $QUALIFIED_MODULE_NAME)}</label>
+									<span class="redColor pull-right">*</span>
 								</td>
 								<td>
 									<div class="col-md-3">
@@ -295,7 +296,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<input class="btn btn-success pull-right" id="saveFtpConfig" value="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}">
+					<button class="btn btn-success pull-right" id="saveFtpConfig" type="button">{vtranslate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</button>
 				</form>
 			</div>
 			<div class="tab-pane" id="tab_3">
