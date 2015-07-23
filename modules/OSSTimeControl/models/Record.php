@@ -31,6 +31,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model {
 	public function recalculateTimeControl($data) {
 		$db = PearDatabase::getInstance();     
 		//$assetsid = $data->get('assetsid');
+		$accountid = $data->get('accountid');
 		$ticketid = $data->get('ticketid');
 		$potentialid=$data->get('potentialid');
 		$projectid = $data->get('projectid');
@@ -40,6 +41,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model {
 		$quoteid = $data->get('quoteid');
 		$calculationsid = $data->get('calculationsid');
 		
+		self::recalculateAccounts($accountid);
 		self::recalculateQuotes($quoteid);
 		self::recalculateSalesOrder($salesorderid);
 		self::recalculateProjectTask($projecttaskid);
@@ -267,10 +269,23 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model {
 		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND ticketid = ?;", 
 			array(0,self::recalculateStatus,$HelpDeskID) , true);
 		$sum_time = number_format($db->query_result( $sum_result, 0, 'sum' ),2);
-		$db->pquery( "UPDATE vtiger_troubletickets SET sum_time = ? WHERE ticketid = ?;",
+		$db->pquery( 'UPDATE vtiger_troubletickets SET sum_time = ? WHERE ticketid = ?;',
 			array($sum_time,$HelpDeskID), true );
 		return $sum_time;
 	}
+	public function recalculateAccounts($accountsID)
+	{
+		if (!self::checkID($accountsID)) {
+			return false;
+		}
+		$db = PearDatabase::getInstance();
+		$sumTime = 0;
+		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND accountid = ?;", [0, self::recalculateStatus, $accountsID]);
+		$sumTime = number_format($db->query_result($sum_result, 0, 'sum'), 2);
+		$db->pquery('UPDATE vtiger_account SET sum_time = ? WHERE accountid = ?;', [$sumTime, $accountsID]);
+		return $sumTime;
+	}
+
 	public function getProjectRelatedIDS($ProjectID) {
 		if( ! self::checkID($ProjectID) ){ return false;}
 		$db = PearDatabase::getInstance(); 

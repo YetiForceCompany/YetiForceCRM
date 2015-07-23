@@ -45,6 +45,9 @@ class TimeControlHandler extends VTEventHandler {
 				if ($moduleName == 'Calculations') {
 					OSSTimeControl_Record_Model::recalculatePotentials( $data->get('potentialid') );
 				}
+				if ($moduleName == 'Accounts') {
+					OSSTimeControl_Record_Model::recalculateAccounts( $data->get('accountid') );
+				}
 			break;
 			case 'vtiger.entity.unlink.after':
 				if ($moduleName == 'OSSTimeControl') {
