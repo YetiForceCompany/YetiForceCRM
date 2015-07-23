@@ -18,30 +18,30 @@
 {if $ISADMIN eq 1}
 
 {if $ERROR|count_characters:true gt 0}
-    <div class="alert alert-warning" style="margin:10px 15px;">
+    <div class="alert alert-warning">
         <strong>{vtranslate('Error', $MODULENAME)}</strong> {vtranslate($ERROR, $MODULENAME)}
     </div>
 {elseif $INFO|count_characters:true gt 0}
-    <div class="alert alert-info" style="margin:10px 15px;">
+    <div class="alert alert-info">
         <strong>{vtranslate('Info', $MODULENAME)}</strong> {vtranslate($INFO, $MODULENAME)}
     </div>
 {elseif $SUCCESS|count_characters:true gt 0}
-    <div class="alert alert-success" style="margin:10px 15px;">
+    <div class="alert alert-success">
         <strong>{vtranslate('Success', $MODULENAME)}</strong> {vtranslate($SUCCESS, $MODULENAME)}
     </div>
 {/if}
 
-<ul id="tabs" class="nav nav-tabs" data-tabs="tabs" style="margin-left:30px;">
+<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#encoding" data-toggle="tab">{vtranslate('Encoding', $MODULENAME)}</a></li>
     <li><a href="#confpass" data-toggle="tab">{vtranslate('LBL_ConfigurePass', $MODULENAME)}</a></li>
 </ul>
-
+<br>
 <div id="my-tab-content" class="tab-content">
     {* encryption configuration *}
     <div class='editViewContainer tab-pane active' id="encoding">
         {* check if the ini file exists *}
         {if $CONFIG neq false}
-            <ul id="pills" class="nav nav-pills" style="margin-left:30px;">
+            <ul id="pills" class="nav nav-pills">
               <li class="active">
                 <a href="#edit" data-toggle="tab">{vtranslate('Edit Password Key', $MODULENAME)}</a>
               </li>
@@ -53,10 +53,6 @@
                         <input type="hidden" name="encrypt" value="edit" />
                         <div class="contentHeader row">
                             <span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('Change Password Key', $MODULENAME)}</span>
-                            <span class="pull-right">
-                                <button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
-                                <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
-                            </span>
                         </div>
 
                         <table class="table table-bordered blockContainer showInlineTable">
@@ -84,10 +80,10 @@
                                 </td>
                             </tr>
                         </table>
-                        <div class="contentHeader row">
+                        <div class="contentHeader">
                             <span class="pull-right">
                                 <button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
-                                <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
+                                <a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
                             </span>
                         </div>
                     </form>
@@ -98,10 +94,6 @@
                         <input type="hidden" name="encrypt" value="stop" />
                         <div class="contentHeader row">
                             <span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('Cancel Encrypting Passwords', $MODULENAME)}</span>
-                            <span class="pull-right">
-                                <button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
-                                <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
-                            </span>
                         </div>
 
                         <table class="table table-bordered blockContainer showInlineTable">
@@ -119,10 +111,10 @@
                                 </td>
                             </tr>
                         </table>
-                        <div class="contentHeader row">
+                        <div class="contentHeader">
                             <span class="pull-right">
                                 <button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
-                                <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
+                                <a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
                             </span>
                         </div>
                     </form>
@@ -133,10 +125,6 @@
                 <input type="hidden" name="encrypt" value="start" />
                 <div class="contentHeader row">
                     <span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('Encrypt Passwords', $MODULENAME)}</span>
-                    <span class="pull-right">
-                        <button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
-                        <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
-                    </span>
                 </div>
 
                 <table class="table table-bordered blockContainer showInlineTable">
@@ -154,10 +142,10 @@
                         </td>
                     </tr>
                 </table>
-                <div class="contentHeader row">
+                <div class="contentHeader">
                     <span class="pull-right">
                         <button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
-                        <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
+                        <a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
                     </span>
                 </div>
             </form>
@@ -169,10 +157,6 @@
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">
         <div class="contentHeader row">
             <span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('LBL_ConfigurePass', $MODULENAME)}</span>
-            <span class="pull-right">
-                <button class="btn btn-success" name="save" value="save" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
-                <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
-            </span>
         </div>
 
         <table class="table table-bordered blockContainer showInlineTable">
@@ -224,10 +208,10 @@
                 </td>
             </tr>
         </table>
-        <div class="contentHeader row">
+        <div class="contentHeader">
             <span class="pull-right">
                 <button class="btn btn-success" name="save" value="save" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
-                <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
+                <a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
             </span>
         </div>
         </form>

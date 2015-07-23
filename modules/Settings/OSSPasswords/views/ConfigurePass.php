@@ -151,7 +151,6 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 				if ($pass_ok && $configKey != false) {
 					// start transaction
-					$adb->pquery('SET autocommit = ?;', array(0), true);
 					$adb->startTransaction();
 
 					// first we are decrypting all the passwords
@@ -178,7 +177,6 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 					// commit transaction
 					$adb->completeTransaction();
-					$adb->pquery('SET autocommit = ?;', array(1), true);
 				}
 			}
 			// stop encrypting passwords

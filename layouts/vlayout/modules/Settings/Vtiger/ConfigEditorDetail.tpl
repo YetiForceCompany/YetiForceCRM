@@ -32,7 +32,7 @@
 			<tbody>
 				{assign var=FIELD_DATA value=$MODEL->getViewableData()}
 				{foreach key=FIELD_NAME item=FIELD_DETAILS from=$MODEL->getEditableFields()}
-					<tr><td width="30%" class="{$WIDTHTYPE}"><label class="muted marginRight10px pull-right">{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
+					<tr><td width="30%" class="{$WIDTHTYPE} textAlignRight"><label class="muted marginRight10px">{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
 						<td style="border-left: none;" class="{$WIDTHTYPE}">
 							<span>{if $FIELD_NAME == 'default_module'}{vtranslate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}
 								{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}{vtranslate($FIELD_DATA[$FIELD_NAME], $QUALIFIED_MODULE)}
