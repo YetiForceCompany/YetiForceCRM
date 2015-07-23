@@ -46,7 +46,6 @@ $languageStrings = [
 	//YetiForce
 	'Recurring Invoice Information' => 'Automatyczne fakturowanie zamówień',
     'Attention' => 'Uwagi',
-    'Total time [h]' => 'Łączny czas [h]',
 	'Form of payment' => 'Forma płatności',
 	'Transfer' => 'Przelew',
 	'Cash' => 'Gotówka',

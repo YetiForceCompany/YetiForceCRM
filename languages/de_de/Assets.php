@@ -38,7 +38,6 @@ $languageStrings = [
 	'description'=>'Beschreibung',
 	'attentions'=>'Anforderungen',
 	'BLOCK_INFORMATION_TIME'=>'Zeitinformation',
-	'Total time [h]'=>'Gesamtzeit [h]',
 	'Potential'=>'Verkaufschance',
 	'Potential renewal'=>'Verkaufschance verlängern',
 	'LBL_GENERATE_EXTENSION' => 'Folgeauftrag anlegen',

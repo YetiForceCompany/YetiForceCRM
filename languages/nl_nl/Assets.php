@@ -39,7 +39,6 @@ $languageStrings = [
 	'description'=>'Description',
 	'attentions'=>'Comments',
 	'BLOCK_INFORMATION_TIME'=>'Information time',
-	'Total time [h]'=>'Total time [h]',
 	'Potential'=>'Source sales',
 	'Potential renewal'=>'Potential renewal',
 	'LBL_GENERATE_EXTENSION' => 'Generate extension',

@@ -74,7 +74,6 @@ $languageStrings = [
 	'Total time [Quotes]' => 'Всего времени <br />[Предложения]',
 	'Total time [Sales Order]' => 'Всего времени <br />[Заказы]',
 	'Total time [Sum]' => 'Итого <br />[Общий итог]',
-	'Total time [h]'=>'Всего времени [ч]',
 	'LBL_GENERATED_OPPORTUNITIES_COMPLETED' => 'Создание сделки завершено',
 	'LBL_GENERATED_OPPORTUNITIES_INFO' => 'Создано сделок %s',
 	'LBL_GENERATING_COMMENT' => 'Возможность генерируется из следующих действий:',

@@ -31,7 +31,6 @@ $languageStrings = [
 	'SINGLE_Assets'                => 'Актив'                , 
 	'Serial Number'                => 'Серийный номер' , 
 	'Shipping Tracking Number'     => 'Номер доставки' , 
-	'Total time [h]'	=>	'Всего времени [ч]',
 	'attentions'	=>	'Внимание',
 	'description'	=>	'Описание',
 	'LBL_ORDER_TIME'	=>	'Время Заказа',

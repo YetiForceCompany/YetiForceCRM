@@ -1146,6 +1146,7 @@ $languageStrings = [
 	'LBL_TASK' => 'Задача',
 	'LBL_METTING' => 'Встреча',
 	'LBL_CALL' => 'Звонок',
+	'Total time [h]' => 'Всего времени [ч]',
 	'LBL_MAIL_USERS_LIST' => 'Список пользователей почты',
 	'LBL_RECORD_SWITCH' => 'Только мои записи и записи которыми я поделился',
 	'LBL_SELECT_USER' => 'Пользователь',

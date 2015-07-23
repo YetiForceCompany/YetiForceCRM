@@ -822,6 +822,7 @@ $languageStrings = [
 	'LBL_COMPARISON_VALUE' => 'Wert vergleichen',
 	'Website' => 'Webseite',
 	'PotentialsList' => 'Verkaufschancen',
+	'Total time [h]' => 'Gesamtzeit [h]',
 	/* industry */
 	'Administration' => 'Verwaltung',
 	'Construction Industry' => 'Baubranche',

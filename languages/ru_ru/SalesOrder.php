@@ -48,7 +48,6 @@ $languageStrings = [
 	'Vendor Terms'                 => 'Условия Поставщика', 
 	'Recurring Invoice Information' => 'Информация периодичного Счета',
 	'Attention' => 'Комментарий',
-	'Total time [h]' => 'Всего времени [ч]',
 	'+1 day' => 'День',
 	'+7 days' => 'Еженедельно',
 	'+14 days' => 'Каждые две недели',

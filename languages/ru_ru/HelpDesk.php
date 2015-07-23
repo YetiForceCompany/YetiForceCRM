@@ -84,7 +84,6 @@ $languageStrings = [
 	'Ticket No'                    => 'Заявка №'            , 
 	'Ticket Title' => 'Наименование заявки',
 	'Title'                        => 'Название'            , 
-	'Total time [h]'	=>	'Всего времени [ч]',
 	'Update History'               => 'Обновить историю', 
 	'Urgent'                       => 'Чрезвычайный'    , 
 	'Wait For Response'            => 'Ожидание ответа', 

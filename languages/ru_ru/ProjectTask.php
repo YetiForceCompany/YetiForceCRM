@@ -31,7 +31,6 @@ $languageStrings = [
 	'SINGLE_ProjectTask'           => 'Проектная задача', 
 	'Start Date'=>'Дата начала',
 	'Target End Date'=>'Планируемая дата завершения',
-	'Total time [h]'=>'Всего времени [ч]',
 	'description' => 'Описание',
 	'high' => 'Высокий',
 	'low' => 'Низкий',
