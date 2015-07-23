@@ -67,7 +67,7 @@
 								{vtranslate('LBL_JUST_ME',$QUALIFIED_MODULE)}
 							</label>
 						</div>
-				</div>
+					</div>
                 </div><br>
 				<div class="row">
 					<label class="col-md-3"><strong>{vtranslate('LBL_PRIVILEGES',$QUALIFIED_MODULE)}:</strong></label>
