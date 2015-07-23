@@ -5,6 +5,9 @@ jQuery(document).ready(function ($) {
 			chart: false,
 			loadChart: function () {
 				var data = $('.sumaryRelatedTimeControl .widgetData').val();
+				if (data == undefined || data == '') {
+					return false;
+				}
 				var jdata = JSON.parse(data);
 				var chartData = [];
 				var ticks = [];
@@ -43,6 +46,7 @@ jQuery(document).ready(function ($) {
 						stack: true
 					}
 				};
+				console.log('plot');
 				$.plot(this.chart, [chartData], options);
 			},
 			registerSwitch: function () {
@@ -63,6 +67,11 @@ jQuery(document).ready(function ($) {
 		var instance = new OSSTimeControl_Calendar_Js();
 		$('div.details div.contents').on('Detail.LoadContents.PostLoad', function (e, data) {
 			if ($(data).hasClass('sumaryRelatedTimeControl')) {
+				instance.registerEvents();
+			}
+		});
+		$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
+			if (data.params.relatedModule == 'OSSTimeControl') {
 				instance.registerEvents();
 			}
 		});
