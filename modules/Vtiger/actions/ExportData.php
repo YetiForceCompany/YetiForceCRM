@@ -172,7 +172,7 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 	function output($request, $headers, $entries)
 	{
 		$moduleName = $request->get('source_module');
-		$fileName = str_replace(' ', '_', decode_html(vtranslate($moduleName, $moduleName)));
+		$fileName = str_replace(' ', '_', decode_html(vtranslate($moduleName, $moduleName))).'.csv';
 		$exportType = $this->getExportContentType($request);
 
 		header("Content-Disposition: attachment; filename=\"$fileName\"");

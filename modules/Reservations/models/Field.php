@@ -31,5 +31,37 @@ class Reservations_Field_Model extends Vtiger_Field_Model {
 		}
 		return parent::getEditViewDisplayValue($value);
 	}
+	
+	/**
+	 * Function returns special validator for fields
+	 * @return <Array>
+	 */
+	function getValidator()
+	{
+		$validator = array();
+		$fieldName = $this->getName();
+
+		switch ($fieldName) {
+			case 'due_date': $funcName = array('name' => 'dateAndTimeGreaterThanDependentField',
+					'params' => ['date_start', 'time_start', 'due_date', 'time_end']);
+				array_push($validator, $funcName);
+				break;
+			case 'date_start': $funcName = array('name' => 'dateAndTimeGreaterThanDependentField',
+					'params' => ['date_start', 'time_start', 'due_date', 'time_end']);
+				array_push($validator, $funcName);
+				break;
+			case 'time_start': $funcName = array('name' => 'dateAndTimeGreaterThanDependentField',
+					'params' => ['date_start', 'time_start', 'due_date', 'time_end']);
+				array_push($validator, $funcName);
+				break;
+			case 'time_end': $funcName = array('name' => 'dateAndTimeGreaterThanDependentField',
+					'params' => ['date_start', 'time_start', 'due_date', 'time_end']);
+				array_push($validator, $funcName);
+				break;
+			default : $validator = parent::getValidator();
+				break;
+		}
+		return $validator;
+	}
 
 }

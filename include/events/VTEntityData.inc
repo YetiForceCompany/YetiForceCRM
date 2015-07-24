@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -13,7 +12,8 @@
 /**
  * A wrapper around CRMEntity instances
  */
-class VTEntityData {
+class VTEntityData
+{
 
 	private $isNew = false;
 
@@ -24,7 +24,8 @@ class VTEntityData {
 	 * @param $entityId The id of the entity to load.
 	 * @return The new entity data object.
 	 */
-	static function fromEntityId($adb, $entityId, $moduleName = '') {
+	static function fromEntityId($adb, $entityId, $moduleName = '')
+	{
 		$obj = new VTEntityData();
 		$obj->entityId = $entityId;
 		if (empty($moduleName)) {
@@ -57,7 +58,8 @@ class VTEntityData {
 	 * @param $userId The id of the entity to load.
 	 * @return The new entity data object.
 	 */
-	static function fromUserId($adb, $userId) {
+	static function fromUserId($adb, $userId)
+	{
 		$obj = new VTEntityData();
 		$obj->entityId = $userId;
 
@@ -79,7 +81,8 @@ class VTEntityData {
 	 * @param $crmEntity The CRMEntity instance.
 	 * @return The new entity data object.
 	 */
-	static function fromCRMEntity($crmEntity) {
+	static function fromCRMEntity($crmEntity)
+	{
 		$obj = new VTEntityData();
 		$obj->focus = $crmEntity;
 		$obj->isNew = !(isset($crmEntity->id) && $crmEntity->id != null);
@@ -91,7 +94,8 @@ class VTEntityData {
 	 *
 	 * @return An array representation of the module data.
 	 */
-	function getData() {
+	function getData()
+	{
 		return $this->focus->column_fields;
 	}
 
@@ -100,7 +104,8 @@ class VTEntityData {
 	 *
 	 * @return The entity id.
 	 */
-	function getId() {
+	function getId()
+	{
 		return $this->focus->id;
 	}
 
@@ -109,7 +114,8 @@ class VTEntityData {
 	 *
 	 * @return The module name.
 	 */
-	function getModuleName() {
+	function getModuleName()
+	{
 		$className = get_class($this->focus);
 		$importModuleMapping = Array(
 			"ImportLead" => "Leads",
@@ -134,11 +140,13 @@ class VTEntityData {
 		return $moduleName;
 	}
 
-	function get($fieldName) {
+	function get($fieldName)
+	{
 		return $this->focus->column_fields[$fieldName];
 	}
 
-	function set($fieldName, $value) {
+	function set($fieldName, $value)
+	{
 		$data = $this->focus->column_fields[$fieldName] = $value;
 	}
 
@@ -147,7 +155,8 @@ class VTEntityData {
 	 * 
 	 * @return True if the object is saved false otherwiser.
 	 */
-	function isSaved() {
+	function isSaved()
+	{
 		return isset($this->focus->id);
 	}
 
@@ -156,8 +165,8 @@ class VTEntityData {
 	 * 
 	 * @return True if the object is new, false otherwise.
 	 */
-	function isNew() {
+	function isNew()
+	{
 		return $this->isNew;
 	}
-
 }

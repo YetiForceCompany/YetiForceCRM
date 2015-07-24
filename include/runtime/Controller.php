@@ -1,32 +1,47 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 
 /**
  * Abstract Controller Class
  */
-abstract class Vtiger_Controller {
+abstract class Vtiger_Controller
+{
 
-	function __construct() {
+	function __construct()
+	{
 		self::setHeaders();
 	}
 
-	function loginRequired() {
+	function loginRequired()
+	{
 		return true;
 	}
 
 	abstract function getViewer(Vtiger_Request $request);
-	abstract function process (Vtiger_Request $request);
-	
-	function validateRequest(Vtiger_Request $request) {}
-	function preProcess(Vtiger_Request $request) {}
-	function postProcess(Vtiger_Request $request) {}
+
+	abstract function process(Vtiger_Request $request);
+
+	function validateRequest(Vtiger_Request $request)
+	{
+		
+	}
+
+	function preProcess(Vtiger_Request $request)
+	{
+		
+	}
+
+	function postProcess(Vtiger_Request $request)
+	{
+		
+	}
 
 	// Control the exposure of methods to be invoked from client (kind-of RPC)
 	protected $exposedMethods = array();
@@ -35,8 +50,9 @@ abstract class Vtiger_Controller {
 	 * Function that will expose methods for external access
 	 * @param <String> $name - method name
 	 */
-	protected function exposeMethod($name) {
-		if(!in_array($name, $this->exposedMethods)) {
+	protected function exposeMethod($name)
+	{
+		if (!in_array($name, $this->exposedMethods)) {
 			$this->exposedMethods[] = $name;
 		}
 	}
@@ -46,8 +62,9 @@ abstract class Vtiger_Controller {
 	 * @param string $name - method name
 	 * @return boolean
 	 */
-	function isMethodExposed($name) {
-		if(in_array($name, $this->exposedMethods)) {
+	function isMethodExposed($name)
+	{
+		if (in_array($name, $this->exposedMethods)) {
 			return true;
 		}
 		return false;
@@ -59,7 +76,8 @@ abstract class Vtiger_Controller {
 	 * @param Vtiger_Request $request
 	 * @throws Exception
 	 */
-	function invokeExposedMethod() {
+	function invokeExposedMethod()
+	{
 		$parameters = func_get_args();
 		$name = array_shift($parameters);
 		if (!empty($name) && $this->isMethodExposed($name)) {
@@ -67,8 +85,9 @@ abstract class Vtiger_Controller {
 		}
 		throw new Exception(vtranslate('LBL_NOT_ACCESSIBLE'));
 	}
-	
-	function setHeaders() {
+
+	function setHeaders()
+	{
 		$browser = Vtiger_Functions::getBrowserInfo();
 		header("Expires: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -86,36 +105,46 @@ abstract class Vtiger_Controller {
 /**
  * Abstract Action Controller Class
  */
-abstract class Vtiger_Action_Controller extends Vtiger_Controller {
-	function __construct() {
+abstract class Vtiger_Action_Controller extends Vtiger_Controller
+{
+
+	function __construct()
+	{
 		parent::__construct();
 	}
 
-	function getViewer(Vtiger_Request $request) {
-		throw new AppException ('Action - implement getViewer - JSONViewer');
+	function getViewer(Vtiger_Request $request)
+	{
+		throw new AppException('Action - implement getViewer - JSONViewer');
 	}
-	
-	function validateRequest(Vtiger_Request $request) {
+
+	function validateRequest(Vtiger_Request $request)
+	{
 		return $request->validateReadAccess();
 	}
 
-	function preProcess(Vtiger_Request $request) {
+	function preProcess(Vtiger_Request $request)
+	{
 		return true;
 	}
 
-	protected function preProcessDisplay(Vtiger_Request $request) {
+	protected function preProcessDisplay(Vtiger_Request $request)
+	{
+		
 	}
 
-	protected function preProcessTplName() {
+	protected function preProcessTplName()
+	{
 		return false;
 	}
 
 	//TODO: need to revisit on this as we are not sure if this is helpful
-	/*function preProcessParentTplName(Vtiger_Request $request) {
-		return false;
-	}*/
+	/* function preProcessParentTplName(Vtiger_Request $request) {
+	  return false;
+	  } */
 
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Vtiger_Request $request)
+	{
 		return true;
 	}
 }
@@ -123,14 +152,17 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller {
 /**
  * Abstract View Controller Class
  */
-abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
+abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
+{
 
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 	}
 
-	function getViewer(Vtiger_Request $request) {
-		if(!$this->viewer) {
+	function getViewer(Vtiger_Request $request)
+	{
+		if (!$this->viewer) {
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('APPTITLE', getTranslatedString('APPTITLE'));
 			$viewer->assign('YETIFORCE_VERSION', vglobal('YetiForce_current_version'));
@@ -139,54 +171,58 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 		return $this->viewer;
 	}
 
-	function getPageTitle(Vtiger_Request $request) {
+	function getPageTitle(Vtiger_Request $request)
+	{
 		$title = $request->getModule();
-		return $title=='Vtiger'?'YetiForce':$title;
+		return $title == 'Vtiger' ? 'YetiForce' : $title;
 	}
 
-	function preProcess(Vtiger_Request $request, $display=true) {
+	function preProcess(Vtiger_Request $request, $display = true)
+	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PAGETITLE', $this->getPageTitle($request));
-		$viewer->assign('HEADER_SCRIPTS',$this->getHeaderScripts($request));
-		$viewer->assign('STYLES',$this->getHeaderCss($request));
+		$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
+		$viewer->assign('STYLES', $this->getHeaderCss($request));
 		$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
 		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 		$viewer->assign('LANGUAGE', $currentUser->get('language'));
-		if($display) {
+		if ($display) {
 			$this->preProcessDisplay($request);
 		}
 	}
 
-	protected function preProcessTplName(Vtiger_Request $request) {
+	protected function preProcessTplName(Vtiger_Request $request)
+	{
 		return 'Header.tpl';
 	}
 
 	//Note : To get the right hook for immediate parent in PHP,
 	// specially in case of deep hierarchy
 	//TODO: Need to revisit this.
-	/*function preProcessParentTplName(Vtiger_Request $request) {
-		return parent::preProcessTplName($request);
-	}*/
+	/* function preProcessParentTplName(Vtiger_Request $request) {
+	  return parent::preProcessTplName($request);
+	  } */
 
-	protected function preProcessDisplay(Vtiger_Request $request) {
+	protected function preProcessDisplay(Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$displayed = $viewer->view($this->preProcessTplName($request), $request->getModule());
-		/*if(!$displayed) {
-			$tplName = $this->preProcessParentTplName($request);
-			if($tplName) {
-				$viewer->view($tplName, $request->getModule());
-			}
-		}*/
+		/* if(!$displayed) {
+		  $tplName = $this->preProcessParentTplName($request);
+		  if($tplName) {
+		  $viewer->view($tplName, $request->getModule());
+		  }
+		  } */
 	}
 
-
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
-		$viewer->assign('FOOTER_SCRIPTS',$this->getFooterScripts($request));
+		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		$viewer->view('Footer.tpl');
 	}
 
@@ -195,7 +231,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 	 * @param Vtiger_Request $request - request model
 	 * @return <array> - array of Vtiger_CssScript_Model
 	 */
-	function getHeaderCss(Vtiger_Request $request){
+	function getHeaderCss(Vtiger_Request $request)
+	{
 		$cssFileNames = array(
 			'~libraries/bootstrap3/css/bootstrap.css',
 			'~libraries/jquery/chosen/chosen.css',
@@ -214,13 +251,14 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 		$headerCssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return $headerCssInstances;
 	}
-	
+
 	/**
 	 * Retrieves headers scripts that need to loaded in the page
 	 * @param Vtiger_Request $request - request model
 	 * @return <array> - array of Vtiger_JsScript_Model
 	 */
-	function getHeaderScripts(Vtiger_Request $request){
+	function getHeaderScripts(Vtiger_Request $request)
+	{
 		$headerScriptInstances = [
 			'libraries.jquery.jquery',
 			'libraries.jquery.jquery-migrate'
@@ -228,8 +266,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 		$jsScriptInstances = $this->checkAndConvertJsScripts($headerScriptInstances);
 		return $jsScriptInstances;
 	}
-	
-	function getFooterScripts(Vtiger_Request $request){
+
+	function getFooterScripts(Vtiger_Request $request)
+	{
 		$jsFileNames = [
 			'~libraries/jquery/jquery.blockUI.js',
 			'~libraries/jquery/chosen/chosen.jquery.js',
@@ -270,55 +309,55 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 		return $jsScriptInstances;
 	}
 
-	function checkAndConvertJsScripts($jsFileNames) {
+	function checkAndConvertJsScripts($jsFileNames)
+	{
 		$fileExtension = 'js';
 
 		$jsScriptInstances = array();
-		foreach($jsFileNames as $jsFileName) {
+		foreach ($jsFileNames as $jsFileName) {
 			// TODO Handle absolute inclusions (...) like in checkAndConvertCssStyles
 			$jsScript = new Vtiger_JsScript_Model();
 
 			// external javascript source file handling
-			if(strpos($jsFileName, 'http://') === 0 || strpos($jsFileName, 'https://') === 0) {
+			if (strpos($jsFileName, 'http://') === 0 || strpos($jsFileName, 'https://') === 0) {
 				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $jsFileName);
 				continue;
 			}
 
 			$completeFilePath = Vtiger_Loader::resolveNameToPath($jsFileName, $fileExtension);
-			$minFilePath = str_replace('.js','.min.js', $completeFilePath);
+			$minFilePath = str_replace('.js', '.min.js', $completeFilePath);
 
-			if(Vtiger_Functions::getMinimizationOptions($fileExtension) && file_exists($minFilePath)) {
-				$minjsFileName = str_replace('.js','.min.js', $jsFileName);
+			if (Vtiger_Functions::getMinimizationOptions($fileExtension) && file_exists($minFilePath)) {
+				$minjsFileName = str_replace('.js', '.min.js', $jsFileName);
 				if (strpos($minjsFileName, '~') === 0) {
 					$minjsFileName = ltrim(ltrim($minjsFileName, '~'), '/');
 				} else {
-					$minjsFileName = str_replace('.','/', $jsFileName) . '.'.$fileExtension;
+					$minjsFileName = str_replace('.', '/', $jsFileName) . '.' . $fileExtension;
 				}
 
 				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $minjsFileName);
-			}else if(file_exists($completeFilePath)) {
+			} else if (file_exists($completeFilePath)) {
 				if (strpos($jsFileName, '~') === 0) {
 					$filePath = ltrim(ltrim($jsFileName, '~'), '/');
 				} else {
-					$filePath = str_replace('.','/', $jsFileName) . '.'.$fileExtension;
+					$filePath = str_replace('.', '/', $jsFileName) . '.' . $fileExtension;
 				}
 
 				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
 			} else {
-				if(Vtiger_Functions::getMinimizationOptions($fileExtension)){
-					$fallBackFilePath = Vtiger_Loader::resolveNameToPath(Vtiger_JavaScript::getBaseJavaScriptPath().'/'.$jsFileName.$min, 'js');
-					if(file_exists($fallBackFilePath)) {
-						$filePath = str_replace('.','/', $jsFileName) . $min. '.js';
+				if (Vtiger_Functions::getMinimizationOptions($fileExtension)) {
+					$fallBackFilePath = Vtiger_Loader::resolveNameToPath(Vtiger_JavaScript::getBaseJavaScriptPath() . '/' . $jsFileName . $min, 'js');
+					if (file_exists($fallBackFilePath)) {
+						$filePath = str_replace('.', '/', $jsFileName) . $min . '.js';
 						$jsScriptInstances[$jsFileName] = $jsScript->set('src', Vtiger_JavaScript::getFilePath($filePath));
 					}
 				}
-				$fallBackFilePath = Vtiger_Loader::resolveNameToPath(Vtiger_JavaScript::getBaseJavaScriptPath().'/'.$jsFileName, 'js');
-				if(file_exists($fallBackFilePath)) {
-					$filePath = str_replace('.','/', $jsFileName) . '.js';
+				$fallBackFilePath = Vtiger_Loader::resolveNameToPath(Vtiger_JavaScript::getBaseJavaScriptPath() . '/' . $jsFileName, 'js');
+				if (file_exists($fallBackFilePath)) {
+					$filePath = str_replace('.', '/', $jsFileName) . '.js';
 					$jsScriptInstances[$jsFileName] = $jsScript->set('src', Vtiger_JavaScript::getFilePath($filePath));
 				}
 			}
-
 		}
 		return $jsScriptInstances;
 	}
@@ -332,32 +371,33 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 	 * First check if $cssFileName exists
 	 * if not, check under layout folder $cssFileName eg:layouts/vlayout/$cssFileName
 	 */
-	function checkAndConvertCssStyles($cssFileNames, $fileExtension='css') {
+	function checkAndConvertCssStyles($cssFileNames, $fileExtension = 'css')
+	{
 		$cssStyleInstances = array();
-		foreach($cssFileNames as $cssFileName) {
+		foreach ($cssFileNames as $cssFileName) {
 			$cssScriptModel = new Vtiger_CssScript_Model();
 
-			if(strpos($cssFileName, 'http://') === 0 || strpos($cssFileName, 'https://') === 0) {
+			if (strpos($cssFileName, 'http://') === 0 || strpos($cssFileName, 'https://') === 0) {
 				$cssStyleInstances[] = $cssScriptModel->set('href', $cssFileName);
 				continue;
 			}
 			$completeFilePath = Vtiger_Loader::resolveNameToPath($cssFileName, $fileExtension);
 			$filePath = NULL;
-			$minFilePath = str_replace('.css','.min.css', $completeFilePath);
-			if(Vtiger_Functions::getMinimizationOptions($fileExtension) &&  file_exists($minFilePath)) {
+			$minFilePath = str_replace('.css', '.min.css', $completeFilePath);
+			if (Vtiger_Functions::getMinimizationOptions($fileExtension) && file_exists($minFilePath)) {
 				if (strpos($cssFileName, '~') === 0) {
-					$minFilePath = str_replace('.css','.min.css', $cssFileName);
+					$minFilePath = str_replace('.css', '.min.css', $cssFileName);
 					$filePath = ltrim(ltrim($minFilePath, '~'), '/');
 					// if ~~ (reference is outside vtiger6 folder)
 					if (substr_count($minFilePath, "~") == 2) {
 						$filePath = "../" . $filePath;
 					}
 				} else {
-					$filePath = str_replace('.','/', $cssFileName) . '.min.'.$fileExtension;
+					$filePath = str_replace('.', '/', $cssFileName) . '.min.' . $fileExtension;
 					$filePath = Vtiger_Theme::getStylePath($filePath);
 				}
-				$cssStyleInstances[] = $cssScriptModel->set('href', $filePath);	
-			}else if(file_exists($completeFilePath)) {
+				$cssStyleInstances[] = $cssScriptModel->set('href', $filePath);
+			} else if (file_exists($completeFilePath)) {
 				if (strpos($cssFileName, '~') === 0) {
 					$filePath = ltrim(ltrim($cssFileName, '~'), '/');
 					// if ~~ (reference is outside vtiger6 folder)
@@ -365,7 +405,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 						$filePath = "../" . $filePath;
 					}
 				} else {
-					$filePath = str_replace('.','/', $cssFileName) . '.'.$fileExtension;
+					$filePath = str_replace('.', '/', $cssFileName) . '.' . $fileExtension;
 					$filePath = Vtiger_Theme::getStylePath($filePath);
 				}
 				$cssStyleInstances[] = $cssScriptModel->set('href', $filePath);
@@ -378,7 +418,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 	 * Function returns the Client side language string
 	 * @param Vtiger_Request $request
 	 */
-	function getJSLanguageStrings(Vtiger_Request $request) {
+	function getJSLanguageStrings(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule(false);
 		return Vtiger_Language_Handler::export($moduleName, 'jsLanguageStrings');
 	}
