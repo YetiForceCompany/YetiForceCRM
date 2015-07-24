@@ -119,7 +119,7 @@ function copy_companydata()
 //var ParticularSave_val = ParticularSave.item(0).options[ ParticularSave.item(0).selectedIndex ].value;
 	if (company.selectedIndex == 1)
 	{
-		$('[id="6"]').val('<img src="' + wartosc + '" style="height: ; width: ;">');
+		$('[id="6"]').val(wartosc);
 	}
 	else
 	{

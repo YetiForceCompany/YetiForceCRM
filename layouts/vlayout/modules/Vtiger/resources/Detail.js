@@ -403,6 +403,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					app.registerEventForTextAreaFields(jQuery(".commentcontent"));
 					jQuery('.commentcontent').autosize();
 					thisInstance.getForm().validationEngine();
+					detailContentsHolder.trigger(jQuery.Event('Detail.LoadContents.PostLoad'), responseData);
 					aDeferred.resolve(responseData);
 				},
 				function () {

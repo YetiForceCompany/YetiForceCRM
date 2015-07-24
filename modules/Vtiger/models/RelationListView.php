@@ -15,6 +15,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	protected $relationModel = false;
 	protected $parentRecordModel = false;
 	protected $relatedModuleModel = false;
+	protected $query = false;
 
 	public function setRelationModel($relation)
 	{
@@ -370,11 +371,14 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	 */
 	public function getRelationQuery()
 	{
+		if(!empty($this->query)){
+			return $this->query;
+		}
 		$relationModel = $this->getRelationModel();
 		if (!empty($relationModel) && $relationModel->get('name') != NULL) {
 			$recordModel = $this->getParentRecordModel();
-			$query = $relationModel->getQuery($recordModel, false, $this);
-			return $query;
+			$this->query = $relationModel->getQuery($recordModel, false, $this);
+			return $this->query;
 		}
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {
@@ -421,8 +425,8 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$query .= $val . ' WHERE ';
 			}
 		}
-		$query = trim($query, "WHERE ");
-		return $query;
+		$this->query = trim($query, "WHERE ");
+		return $this->query;
 	}
 
 	public static function getInstance($parentRecordModel, $relationModuleName, $label = false)

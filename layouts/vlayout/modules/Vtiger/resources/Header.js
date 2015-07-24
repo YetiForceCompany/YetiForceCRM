@@ -615,6 +615,10 @@ jQuery.Class("Vtiger_Header_Js", {
 			};
 		}
 		var url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
+		if (app.getViewName() === 'Detail' || app.getViewName() === 'Edit') {
+			url += '&sourceModule=' + app.getModuleName();
+			url += '&sourceRecord=' + app.getRecordId();
+		}
 		var progress = jQuery.progressIndicator();
 		thisInstance.getQuickCreateForm(url, moduleName, params).then(function (data) {
 			thisInstance.handleQuickCreateData(data, params);

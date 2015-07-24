@@ -538,14 +538,14 @@ Vtiger_Base_Validator_Js("Vtiger_dateAndTimeGreaterThanDependentField_Validator_
 	 */
 	validate: function (dependentFieldList) {
 		var thisInstance = this;
-		var view = jQuery('#view');
-		if (view.length && view.val() != 'Detail') {
-			return true;
-		}
 		var field = this.getElement();
 		var fieldDateTime = '';
 		var fieldDateTimeInstance = [];
 		var contextFormElem = field.closest('form');
+		var view = contextFormElem.attr('name');
+		if (view == 'EditView') {
+			return true;
+		}
 		var j = 0;
 		for (var i = 0; i < dependentFieldList.length; i++) {
 			var dependentField = dependentFieldList[i];
