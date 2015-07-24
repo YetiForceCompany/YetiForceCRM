@@ -10,10 +10,10 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = [
-	'EXECUTIVE' => 'Executive',
-	'LEGAL' => 'Legal',
-	'LETTER' => 'Letter',
-	'FOLIO' => 'Folio',
+	'EXECUTIVE' => 'Исполнительное',
+	'LEGAL' => 'Официальное',
+	'LETTER' => 'Письмо',
+	'FOLIO' => 'Портфолио',
 	'Content' => 'Содержание',
 	'siteUrl' => 'Ссылка',
 	'LBL_NAME_OF_MATERIAL_THE_PRODUCT_PACKAGING' => 'Материал упаковки',
