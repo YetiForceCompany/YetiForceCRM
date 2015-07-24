@@ -3390,7 +3390,7 @@ span[name=existingImages] img{
 	margin-right: -12px;
 }
 .ui-widget-content{
-	padding-left: 1em;
+	padding: .8em;
 }
 .ui-autocomplete .ui-autocomplete-category {
 	font-weight: bold;

@@ -327,10 +327,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$params[] = $module;
 		}
 		$query .= ' ORDER BY sequence ASC, createdtime DESC';
-		if($limit){
-			$query .= ' LIMIT '.$limit;
-		}
-		
+
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);
 
@@ -372,6 +369,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				$recordInstance = new $modelClassName();
 				$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 				$recordsCount++;
+			}
+			if($limit && $limit == $recordsCount){
+				return $matchingRecords;
 			}
 		}
 		return $matchingRecords;

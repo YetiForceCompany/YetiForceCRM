@@ -196,11 +196,17 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View {
 
 		foreach ($matchingRecordsList as $module => $modules) {
 			foreach ($modules as $recordID => $recordModel) {
+				$label = decode_html($recordModel->getName());
+				$label.= ' ('.Vtiger_Functions::getOwnerRecordLabel($recordModel->get('smownerid')).')';
+				if(!$recordModel->get('permitted')){
+					$label.= ' <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>';
+				}
 				$recordsList[] = [
 					'id' => $recordID,
 					'module' => $module,
 					'category' => vtranslate($module,$module),
-					'label' => decode_html($recordModel->getName()),
+					'label' => $label,
+					'permitted' => $recordModel->get('permitted'),
 				];
 			}
 		}

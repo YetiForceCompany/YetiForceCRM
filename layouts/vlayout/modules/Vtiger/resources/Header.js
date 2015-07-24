@@ -496,29 +496,34 @@ jQuery.Class("Vtiger_Header_Js", {
 			}
 		});
 		if (jQuery('#gsAutocomplete').val() == 1) {
-			$.widget("custom.catcomplete", $.ui.autocomplete, {
+			$.widget("custom.gsAutocomplete", $.ui.autocomplete, {
 				_create: function () {
 					this._super();
 					this.widget().menu("option", "items", "> :not(.ui-autocomplete-category)");
 				},
-				_renderMenu: function (ul, items) {
-					var that = this,
-							currentCategory = "";
-					$.each(items, function (index, item) {
+				_renderMenu: function( ul, items ) {
+					var that = this, currentCategory = "";
+					$.each( items, function( index, item ) {
 						var li;
 						if (item.category != currentCategory) {
 							ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
 							currentCategory = item.category;
 						}
-						li = that._renderItemData(ul, item);
-						if (item.category) {
-							li.attr("aria-label", item.category + " : " + item.label);
-						}
+						that._renderItemData( ul, item );
 					});
-				}
+				},
+				_renderItemData: function( ul, item ) {
+					return this._renderItem( ul, item ).data( "ui-autocomplete-item", item );
+				},
+				_renderItem: function (ul, item) {
+					return $("<li>")
+							.data("item.autocomplete", item)
+							.append($("<a></a>")[ this.options.html ? "html" : "text" ](item.label))
+							.appendTo(ul);	
+				},
 			});
-			jQuery('#globalSearchValue').catcomplete({
-				//'delay' : '600',
+			jQuery('#globalSearchValue').gsAutocomplete({
+				html:true,
 				minLength: jQuery('#gsMinLength').val(),
 				source: function (request, response) {
 					var basicSearch = new Vtiger_BasicSearch_Js();
@@ -537,9 +542,13 @@ jQuery.Class("Vtiger_Header_Js", {
 				},
 				select: function (event, ui) {
 					var selectedItemData = ui.item;
-					var url = 'index.php?module=' + selectedItemData.module + '&view=Detail&record=' + selectedItemData.id;
-					console.log(selectedItemData);
-					window.location.href = url;
+					if(selectedItemData.permitted){
+						var url = 'index.php?module=' + selectedItemData.module + '&view=Detail&record=' + selectedItemData.id;
+						window.location.href = url;
+					}
+				},
+				close: function (event, ui) {
+					jQuery('#globalSearchValue').val('');
 				}
 			});
 		}

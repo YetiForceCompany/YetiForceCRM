@@ -18,7 +18,7 @@ jQuery.Class('Vtiger_BasicSearch_Js',{},{
 	// reduce the number of results
 	reduceNumberResults : false,
 	
-	// reduce the number of results
+	// Should the result be in html
 	returnHtml : true,
 	
 	/**
