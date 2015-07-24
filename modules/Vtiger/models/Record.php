@@ -370,7 +370,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 				$recordsCount++;
 			}
-			if($limit && $limit == $recordsCount){
+			if ($limit && $limit == $recordsCount) {
 				return $matchingRecords;
 			}
 		}

@@ -501,29 +501,29 @@ jQuery.Class("Vtiger_Header_Js", {
 					this._super();
 					this.widget().menu("option", "items", "> :not(.ui-autocomplete-category)");
 				},
-				_renderMenu: function( ul, items ) {
+				_renderMenu: function (ul, items) {
 					var that = this, currentCategory = "";
-					$.each( items, function( index, item ) {
+					$.each(items, function (index, item) {
 						var li;
 						if (item.category != currentCategory) {
 							ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
 							currentCategory = item.category;
 						}
-						that._renderItemData( ul, item );
+						that._renderItemData(ul, item);
 					});
 				},
-				_renderItemData: function( ul, item ) {
-					return this._renderItem( ul, item ).data( "ui-autocomplete-item", item );
+				_renderItemData: function (ul, item) {
+					return this._renderItem(ul, item).data("ui-autocomplete-item", item);
 				},
 				_renderItem: function (ul, item) {
 					return $("<li>")
 							.data("item.autocomplete", item)
 							.append($("<a></a>")[ this.options.html ? "html" : "text" ](item.label))
-							.appendTo(ul);	
+							.appendTo(ul);
 				},
 			});
 			jQuery('#globalSearchValue').gsAutocomplete({
-				html:true,
+				html: true,
 				minLength: jQuery('#gsMinLength').val(),
 				source: function (request, response) {
 					var basicSearch = new Vtiger_BasicSearch_Js();
@@ -542,7 +542,7 @@ jQuery.Class("Vtiger_Header_Js", {
 				},
 				select: function (event, ui) {
 					var selectedItemData = ui.item;
-					if(selectedItemData.permitted){
+					if (selectedItemData.permitted) {
 						var url = 'index.php?module=' + selectedItemData.module + '&view=Detail&record=' + selectedItemData.id;
 						window.location.href = url;
 					}
