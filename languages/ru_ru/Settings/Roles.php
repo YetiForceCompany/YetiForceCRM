@@ -34,10 +34,10 @@ $languageStrings = [
 	'LBL_JUST_ME' => 'Только я',
 	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => 'Enable change of the record owner',
 	'LBL_SEARCH_WITHOUT_PERMISSION' => 'Modules that can be searched without permission',
-	'LBL_BROWSING_OTHER_USERS_GRAPHICAL_CALENDAR' => '__UNTRANSLATED__',
-	'LBL_CLENDAR_ALLO_RECORDS_1' => '__UNTRANSLATED__',
-	'LBL_CLENDAR_ALLO_RECORDS_2' => '__UNTRANSLATED__',
-	'LBL_CLENDAR_ALLO_RECORDS_3' => '__UNTRANSLATED__',
+	'LBL_BROWSING_OTHER_USERS_GRAPHICAL_CALENDAR' => 'Whether or not browsing other users\' graphical calendars is possible',
+	'LBL_CLENDAR_ALLO_RECORDS_1' => 'I can only see myself',
+	'LBL_CLENDAR_ALLO_RECORDS_2' => 'I can only see myself and groups',
+	'LBL_CLENDAR_ALLO_RECORDS_3' => 'I can see the users who result from the record list I can access',
 ];
 $jsLanguageStrings = [
 	'JS_PERMISSION_DENIED' => 'Доступ запрещен',

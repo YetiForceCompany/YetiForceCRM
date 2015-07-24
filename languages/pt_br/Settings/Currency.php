@@ -8,8 +8,8 @@
  * Contributor(s): Valmir C. Trindade - Translate to Brazilian Portuguese - valmir@ttcasolucoes.com.br
  *************************************************************************************/
 $languageStrings = [
-	'Conversion Rate' => 'Conversion Rate',
-	'Currency' => 'Currency',
+	'Conversion Rate' => 'Taxa Câmbio',
+	'Currency' => 'Moeda',
 	'Symbol' => 'Símbolo',
 	'Currency Code' => 'Código Moeda',
 	'Currency Name' => 'Nome Moeda',
@@ -160,6 +160,6 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'JS_CURRENCY_DELETED_SUCCESSFULLY' => 'Currency Deleted Successfully',
+	'JS_CURRENCY_DELETED_SUCCESSFULLY' => 'Moeda Apagada com Sucesso',
 	'JS_CURRENCY_DETAILS_SAVED' => 'Detalhes da Moeda Salvo',
 ];
