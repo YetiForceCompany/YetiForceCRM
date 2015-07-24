@@ -234,3 +234,12 @@ $csrfProtection = TRUE;
 
 // Enable encrypt backup, Support from PHP 5.6.x
 $encryptBackup = false;
+
+// autocomplete global search - Whether or not automated search should be turned on"
+$gsAutocomplete = 1; // 0 or 1
+
+// autocomplete global search - The minimum number of characters a user must type before a search is performed. 
+$gsMinLength = 3;
+
+// autocomplete global search - Amount of returned results.
+$gsAmountResponse = 10;

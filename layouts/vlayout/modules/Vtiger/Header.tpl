@@ -43,6 +43,9 @@
 		<input type="hidden" id="userDateFormat" value="{$CURRENT_USER_MODEL->get('date_format')}" />
 		<input type="hidden" id="userTimeFormat" value="{$CURRENT_USER_MODEL->get('hour_format')}" />
 		<input type="hidden" id="backgroundClosingModal" value="{vglobal('backgroundClosingModal')}" />
+		<input type="hidden" id="gsAutocomplete" value="{vglobal('gsAutocomplete')}" />
+		<input type="hidden" id="gsMinLength" value="{vglobal('gsMinLength')}" />
+		<input type="hidden" id="gsAmountResponse" value="{vglobal('gsAmountResponse')}" />
 		<div id="page">
 			<!-- container which holds data temporarly for pjax calls -->
 			<div id="pjaxContainer" class="hide noprint"></div>

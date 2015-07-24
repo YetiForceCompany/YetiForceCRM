@@ -495,6 +495,54 @@ jQuery.Class("Vtiger_Header_Js", {
 				thisInstance.labelSearch(currentTarget);
 			}
 		});
+		if (jQuery('#gsAutocomplete').val() == 1) {
+			$.widget("custom.catcomplete", $.ui.autocomplete, {
+				_create: function () {
+					this._super();
+					this.widget().menu("option", "items", "> :not(.ui-autocomplete-category)");
+				},
+				_renderMenu: function (ul, items) {
+					var that = this,
+							currentCategory = "";
+					$.each(items, function (index, item) {
+						var li;
+						if (item.category != currentCategory) {
+							ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
+							currentCategory = item.category;
+						}
+						li = that._renderItemData(ul, item);
+						if (item.category) {
+							li.attr("aria-label", item.category + " : " + item.label);
+						}
+					});
+				}
+			});
+			jQuery('#globalSearchValue').catcomplete({
+				//'delay' : '600',
+				minLength: jQuery('#gsMinLength').val(),
+				source: function (request, response) {
+					var basicSearch = new Vtiger_BasicSearch_Js();
+					basicSearch.reduceNumberResults = jQuery('#gsAmountResponse').val();
+					basicSearch.returnHtml = false;
+					basicSearch.search(request.term).then(function (data) {
+						var data = jQuery.parseJSON(data);
+						var serverDataFormat = data.result;
+						var reponseDataList = new Array();
+						for (var id in serverDataFormat) {
+							var responseData = serverDataFormat[id];
+							reponseDataList.push(responseData);
+						}
+						response(reponseDataList);
+					});
+				},
+				select: function (event, ui) {
+					var selectedItemData = ui.item;
+					var url = 'index.php?module=' + selectedItemData.module + '&view=Detail&record=' + selectedItemData.id;
+					console.log(selectedItemData);
+					window.location.href = url;
+				}
+			});
+		}
 	},
 	labelSearch: function (currentTarget) {
 		var val = currentTarget.val();

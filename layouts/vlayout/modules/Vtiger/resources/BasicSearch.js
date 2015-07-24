@@ -15,6 +15,12 @@ jQuery.Class('Vtiger_BasicSearch_Js',{},{
 	//stores the module that need to be searched which is selected by the user
 	currentSearchModule : false,
 	
+	// reduce the number of results
+	reduceNumberResults : false,
+	
+	// reduce the number of results
+	returnHtml : true,
+	
 	/**
 	 * Function to get the search module
 	 */
@@ -61,6 +67,8 @@ jQuery.Class('Vtiger_BasicSearch_Js',{},{
 
 		params.view = 'BasicAjax';
 		params.mode = 'showSearchResults';
+		params.limit = this.reduceNumberResults;
+		params.html = this.returnHtml;
 
 		if(typeof params.module == 'undefined') {
 			params.module = app.getModuleName();

@@ -113,7 +113,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View {
 			$isAdvanceSearch = true;
 			$user = Users_Record_Model::getCurrentUserModel();
 			$queryGenerator = new QueryGenerator($moduleName, $user);
-			$queryGenerator->setFields(array('id'));
+			$queryGenerator->setFields(['id']);
           
             vimport('~modules/CustomView/CustomView.php');
             $customView = new CustomView($moduleName);
@@ -158,13 +158,11 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View {
 			$query = $queryGenerator->getQuery();
 			//Remove the ordering for now to improve the speed
 			//$query .= ' ORDER BY createdtime DESC';
-			$result = $db->pquery($query, array());
-			$rows = $db->num_rows($result);
-
-			for($i=0; $i<$rows; ++$i) {
-				$row = $db->query_result_rowdata($result, $i);
+			$result = $db->query($query);
+			while ($row = $db->fetch_array($result)) {
 				$recordInstance = Vtiger_Record_Model::getInstanceById(current($row));
 				$moduleName = $recordInstance->getModuleName();
+				$recordInstance->set('permitted',true);
 				$matchingRecords[$moduleName][current($row)] = $recordInstance;
 			}
 			$viewer->assign('SEARCH_MODULE', $moduleName);
@@ -178,10 +176,10 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View {
 			
 			$viewer->assign('SEARCH_KEY', $searchKey);
 			$viewer->assign('SEARCH_MODULE', $searchModule);
-			$matchingRecords =  Vtiger_Record_Model::getSearchResult($searchKey, $searchModule);
+			$matchingRecords =  Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $request->get('limit'));
 		}
 		
-		$matchingRecordsList = array();
+		$recordsList = $matchingRecordsList = [];
 		if ($matchingRecords[$moduleName]) {
 			$matchingRecordsList[$moduleName] = $matchingRecords[$moduleName];
 		}
@@ -189,10 +187,25 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View {
 			$matchingRecordsList[$module] = $recordModelsList;
 		}
 
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('MATCHING_RECORDS', $matchingRecordsList);
-		$viewer->assign('IS_ADVANCE_SEARCH', $isAdvanceSearch);
+		if($request->get('html') == 'true'){
+			$viewer->assign('MODULE', $moduleName);
+			$viewer->assign('MATCHING_RECORDS', $matchingRecordsList);
+			$viewer->assign('IS_ADVANCE_SEARCH', $isAdvanceSearch);
+			echo $viewer->view('UnifiedSearchResults.tpl', '', true);
+		}
 
-		echo $viewer->view('UnifiedSearchResults.tpl', '', true);
+		foreach ($matchingRecordsList as $module => $modules) {
+			foreach ($modules as $recordID => $recordModel) {
+				$recordsList[] = [
+					'id' => $recordID,
+					'module' => $module,
+					'category' => vtranslate($module,$module),
+					'label' => decode_html($recordModel->getName()),
+				];
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($recordsList);
+		$response->emit();
 	}	
 }
