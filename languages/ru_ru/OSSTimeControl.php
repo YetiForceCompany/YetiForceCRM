@@ -103,6 +103,8 @@ $languageStrings = [
 	'LBL_AVERAGEWORKTIME_INFO' => 'Средняя продолжительность рабочего времени',
 	'LBL_AVERAGEBREAKTIME_INFO' => 'Средняя продолжительность перерыва',
 	'LBL_WORKDAYS_INFO' => 'Рабочих дней',
+	'LBL_SUM' => 'Sum',
+	'LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS' => 'Working time graph divided into users',
 ];
 $jsLanguageStrings = [
 	'MSG_ERROR_NUMBER' => 'Допустимые символы: [0-9]',

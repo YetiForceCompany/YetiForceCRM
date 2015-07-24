@@ -3,5 +3,5 @@
  * that can be found in the following directory: licenses/License.html]} */
 
 $languageStrings = [
-	'Export' => 'Export',
+	'Export' => 'Exportar',
 ];

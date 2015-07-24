@@ -3133,6 +3133,7 @@ tr.summaryViewEntries, #detailView table {
 }
 table.listViewEntriesTable {
 	font-size: 13px;
+	margin-top: 5px;
 }
 .no-margin{
 	margin: 0;
@@ -3200,11 +3201,7 @@ table.dataTable .form-control {
 	padding-left: 5px;
 	padding-right: 5px;
 }
-.calendarRightPanel img.imageElement,.calendarRightPanel .glyphicon-refresh{
-	padding-top: 5px;
-	padding-bottom: 5px;
-	color: #fff
-}
+
 .calendarRightPanel ul li{
 	margin-bottom: 2px;
 	margin-left:5px; 
@@ -3214,8 +3211,8 @@ table.dataTable .form-control {
 	border-radius: 5px;
 }
 .square9 {
-	width: 9px;
-	height: 9px;
+	width: 12px;
+	height: 12px;
 	margin: 4px;
 }
 .panel-dark {
@@ -3382,4 +3379,13 @@ span[name=existingImages] img{
 }
 .mailRows hr{
 	margin: 0;
+}
+.paddingLeftMd{
+	padding-left: 15px;
+}
+.widget_header div:nth-child(2).btn-toolbar{
+	margin-top: 20px;
+}
+.fieldLabel .referenceMandatory{
+	margin-right: -12px;
 }

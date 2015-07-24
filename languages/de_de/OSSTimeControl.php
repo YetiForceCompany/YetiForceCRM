@@ -87,6 +87,8 @@ $languageStrings = [
 	'LBL_AVERAGEWORKTIME_INFO' => 'Durschnittliche Arbeitszeit',
 	'LBL_AVERAGEBREAKTIME_INFO' => 'Durschnittliche Pausenzeit',
 	'LBL_WORKDAYS_INFO' => 'Arbeitstage',
+	'LBL_SUM' => 'Sum',
+	'LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS' => 'Working time graph divided into users',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',

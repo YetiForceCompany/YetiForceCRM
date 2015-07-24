@@ -22,8 +22,21 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
+		$clendarallorecords = $roleInstance->get('clendarallorecords');
+		switch ($clendarallorecords) {
+			case 3:
+				$users = $currentUser->getAccessibleUsers();
+				break;
+			case 1:
+			case 2:
+			default:
+				$users[$currentUser->getId()] = $currentUser->getName();
+				break;
+		}
+
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('ALL_ACTIVEUSER_LIST', $currentUser->getAccessibleUsers());
+		$viewer->assign('ALL_ACTIVEUSER_LIST', $users);
 		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->view('RightPanel.tpl', $moduleName);
 	}
@@ -31,8 +44,20 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
+		$clendarallorecords = $roleInstance->get('clendarallorecords');
+		switch ($clendarallorecords) {
+			case 1:
+				$groups = [];
+				break;
+			case 2:
+			case 3:
+			default:
+				$groups = $currentUser->getAccessibleGroups();
+				break;
+		}
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('ALL_ACTIVEGROUP_LIST', $currentUser->getAccessibleGroups());
+		$viewer->assign('ALL_ACTIVEGROUP_LIST', $groups);
 		$viewer->view('RightPanel.tpl', $moduleName);
 	}
 	function getActivityType(Vtiger_Request $request) {

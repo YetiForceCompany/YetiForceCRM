@@ -20,7 +20,6 @@ $languageStrings = [
 	'Related to'=>'Relacionado a',
 	'Project Task Number'=>'Número Tarefa Projeto',
 	'description'=>' Descrição',
-	'Total time [h]'=>'Tempo total [h]',
 	'Project Task No'=>'No. Tarefa Projeto',
 	'Project Task Name'=>'Nome Tarefa Projeto',
 	'LBL_ESTIMATED_WORK_TIME' => 'Tempo trabalho estimado',

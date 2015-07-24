@@ -11,7 +11,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Records List',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_DENY' => 'Niedozwolone',
 	'WidgetConstraints' => 'Ograniczenia dla wzorca',
 	'FIELD_NAME' => 'Nazwa pola',

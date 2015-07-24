@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_PAGE_NUMBER' => 'Go to page number',
+	'LBL_PAGE_NUMBER' => 'Ir para página número',
 	'OSSMailScanner_manual' => 'Escaner Mensagens',
 	'OSSMailScanner' => 'Escaner Mensagem',
 	'Mail Scanner' => 'Escaner Mensagem',

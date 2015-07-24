@@ -84,7 +84,6 @@ $languageStrings = [
 	'Approval for phone calls'=>'Permissão Chamadas',
 	'LBL_CONVERTED_FROM_LEAD' => 'Convertido de Lead',
 	'LBL_LEGAL_FORM' => 'Forma Jurídica',
-	//Missing Fields in Right Bar | Valmir C Trindade
 ];
 
 $jsLanguageStrings = [

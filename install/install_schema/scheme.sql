@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
+SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -560,6 +560,7 @@ CREATE TABLE `vtiger_account` (
   `average_profit_so` decimal(5,2) DEFAULT NULL,
   `payment_balance` decimal(25,8) DEFAULT NULL,
   `legal_form` varchar(255) DEFAULT NULL,
+  `sum_time` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -2521,7 +2522,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1747 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1748 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6108,6 +6109,7 @@ CREATE TABLE `vtiger_role` (
   `allowassignedrecordsto` tinyint(1) NOT NULL DEFAULT '1',
   `changeowner` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `searchunpriv` text,
+  `clendarallorecords` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`roleid`),
   KEY `parentrole` (`parentrole`),
   KEY `parentrole_2` (`parentrole`,`depth`),

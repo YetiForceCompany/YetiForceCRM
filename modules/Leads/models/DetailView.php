@@ -97,6 +97,7 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
+				'linkclass' => 'btn-info',
 				'linkhint' => vtranslate('LBL_CONVERT_LEAD', $moduleName),
 				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("' . $recordModel->getConvertLeadUrl() . '",this);',
 				'linkicon' => 'glyphicon glyphicon-transfer',

@@ -805,6 +805,7 @@ $languageStrings = [
 	'LBL_LEFT_PANEL_SHOW_HIDE' => 'Lewy panel (ukryj/pokaż)',
 	'LBL_RIGHT_PANEL_SHOW_HIDE' => 'Prawy panel (ukryj/pokaż)',
 	/* YetiForce */
+	'Total time [h]'=>'Łączny czas [h]',
 	'COPY_ADRESS_FROM' => 'Kopiuj adres z:',
 	'LBL_WIDGETS_MANAGMENT' => 'Widżety',
 	'Attention' => 'Uwagi',

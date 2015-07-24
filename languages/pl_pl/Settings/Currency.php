@@ -156,6 +156,8 @@ $languageStrings = [
 	'Yemen, Rials'			=> 'Yemen, Rials',
 	'Zambia, Kwacha'		=> 'Zambia, Kwacha',
 	'Zimbabwe Dollars' 		=> 'Zimbabwe Dollars',
+	'Active' => 'Aktywny',
+	'Inactive' => 'Nieaktywny',
 ];
 
 $jsLanguageStrings = [

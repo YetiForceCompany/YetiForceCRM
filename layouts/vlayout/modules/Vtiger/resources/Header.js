@@ -427,6 +427,7 @@ jQuery.Class("Vtiger_Header_Js", {
 										'name': form.find('[name="module"]').val()
 									});
 								}
+								jQuery('body').trigger(jQuery.Event('QuickCreateSave.PostLoad'), data);
 							},
 							function (error, err) {
 							}
