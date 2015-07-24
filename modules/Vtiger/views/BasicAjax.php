@@ -202,26 +202,26 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$viewer->assign('MATCHING_RECORDS', $matchingRecordsList);
 			$viewer->assign('IS_ADVANCE_SEARCH', $isAdvanceSearch);
 			echo $viewer->view('UnifiedSearchResults.tpl', '', true);
-		}
-
-		foreach ($matchingRecordsList as $module => $modules) {
-			foreach ($modules as $recordID => $recordModel) {
-				$label = decode_html($recordModel->getName());
-				$label.= ' (' . Vtiger_Functions::getOwnerRecordLabel($recordModel->get('smownerid')) . ')';
-				if (!$recordModel->get('permitted')) {
-					$label.= ' <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>';
+		}else{
+			foreach ($matchingRecordsList as $module => $modules) {
+				foreach ($modules as $recordID => $recordModel) {
+					$label = decode_html($recordModel->getName());
+					$label.= ' (' . Vtiger_Functions::getOwnerRecordLabel($recordModel->get('smownerid')) . ')';
+					if (!$recordModel->get('permitted')) {
+						$label.= ' <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>';
+					}
+					$recordsList[] = [
+						'id' => $recordID,
+						'module' => $module,
+						'category' => vtranslate($module, $module),
+						'label' => $label,
+						'permitted' => $recordModel->get('permitted'),
+					];
 				}
-				$recordsList[] = [
-					'id' => $recordID,
-					'module' => $module,
-					'category' => vtranslate($module, $module),
-					'label' => $label,
-					'permitted' => $recordModel->get('permitted'),
-				];
 			}
+			$response = new Vtiger_Response();
+			$response->setResult($recordsList);
+			$response->emit();
 		}
-		$response = new Vtiger_Response();
-		$response->setResult($recordsList);
-		$response->emit();
 	}
 }
