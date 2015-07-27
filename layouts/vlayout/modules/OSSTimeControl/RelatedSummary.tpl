@@ -37,7 +37,7 @@
 					<div class="chartBlock" style="height: 200px;width:100%"></div>
 				</div>
 			</div>
+			<hr />
 		{/if}
 	</div>
-	<hr />
 {/strip}
