@@ -177,7 +177,7 @@
 		<div>
 			<strong>{vtranslate('LBL_TOTAL_AFTER_DISCOUNT',$MODULE)} :</strong>
 		</div>
-		<div class="individualTaxContainer{if $IS_GROUP_TAX_TYPE} hide{/if}">
+		<div class="individualTaxContainer{if $IS_GROUP_TAX_TYPE} hide{/if} control-label form-control-static">
 			(+)&nbsp;<strong><a href="javascript:void(0)" class="individualTax">{vtranslate('LBL_TAX',$MODULE)} </a> : </strong>
 		</div>
 		<span class="taxDivContainer">

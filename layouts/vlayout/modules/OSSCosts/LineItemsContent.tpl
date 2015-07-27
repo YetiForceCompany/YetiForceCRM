@@ -111,7 +111,6 @@
 		<div class="paddingTBZero form-control-static">
 			{if !empty($data.$listPrice)}
 				{assign var="LIST_PRICE_VALUE" value=$data.$listPrice}
-				{$data.$listPrice}
 			{else}
 				{assign var="LIST_PRICE_VALUE" value=0}
 			{/if}
@@ -163,7 +162,7 @@
 			</table>
 			<div class="modal-footer backgroundColor lineItemPopupModalFooter modal-footer-padding">
 				<div class=" pull-right cancelLinkContainer">
-					<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+					<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 				</div>
 				<button class="btn btn-success discountSave" type="button" name="lineItemActionSave"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 			</div>
@@ -171,7 +170,7 @@
 		<div class="control-label form-control-static">
 			<strong>{vtranslate('LBL_TOTAL_AFTER_DISCOUNT',$MODULE)} :</strong>
 		</div>
-		<div class="individualTaxContainer {if $IS_GROUP_TAX_TYPE}hide{/if}">
+		<div class="individualTaxContainer{if $IS_GROUP_TAX_TYPE} hide{/if} control-label form-control-static">
 			(+)&nbsp;<strong><a href="javascript:void(0)" class="individualTax">{vtranslate('LBL_TAX',$MODULE)} </a> : </strong>
 		</div>
 		<span class="taxDivContainer">
@@ -191,12 +190,15 @@
 			   {assign var="taxlabel" value=$tax_data.taxlabel|cat:"_percentage"|cat:$row_no}
 			   {assign var="popup_tax_rowname" value="popup_tax_row"|cat:$row_no}
 			   <tr>
-				<td>
-					<input type="radio" name="tax_option{$row_no}" class="tax_option" value="{$tax_data.taxname}" {if {$data[$tax]} == $tax_data.taxname}checked{/if}>
-				</td>
-				<td>
-					<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" name="{$taxname}" id="{$taxname}" value="{$tax_data.percentage}" class="smallInputBox taxPercentage form-control input-sm" readonly="readonly" />&nbsp;%
-				</td>
+				   <td>
+					<div class="input-group input-group-sm">
+						<span class="input-group-addon">
+							<input type="radio" name="tax_option{$row_no}" class="tax_option" value="{$tax_data.taxname}" {if {$data[$tax]} == $tax_data.taxname}checked{/if}>
+						</span>
+						<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" name="{$taxname}" id="{$taxname}" value="{$tax_data.percentage}" class="smallInputBox taxPercentage form-control input-sm" readonly="readonly" />
+						<span class="input-group-addon">%</span>
+					</div>
+				   </td>
 				<td><div class="textOverflowEllipsis">{$tax_data.taxlabel}</div></td>
 				<td>
 					<input type="text" name="{$popup_tax_rowname}" class="cursorPointer smallInputBox form-control input-sm taxTotal" value="{$tax_data.amount}" readonly />
@@ -204,9 +206,9 @@
 			   </tr>
 			{/foreach}
 			</table>
-			<div class="modal-footer lineItemPopupModalFooter modal-footer-padding">
+			<div class="modal-footer lineItemPopupModalFooter modal-footer-padding backgroundColor">
 				<div class=" pull-right cancelLinkContainer">
-					<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+					<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 				</div>
 				<button class="btn btn-success taxSave" type="button" name="lineItemActionSave"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 			</div>
