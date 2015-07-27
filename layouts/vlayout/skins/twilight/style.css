@@ -3406,4 +3406,6 @@ span[name=existingImages] img{
 	border: none;
 	background: #ebebeb;
 }
-
+.widgetHr{
+	margin-top: 0;
+}

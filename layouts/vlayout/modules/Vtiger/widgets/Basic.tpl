@@ -4,7 +4,7 @@
 			<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
 			<div class="row">
 				<div class="col-md-9">
-					<div class="widgetTitle textOverflowEllipsis"><strong class="moduleColor_{$WIDGET['label']}">{vtranslate($WIDGET['label'],$MODULE_NAME)}</strong></div>
+					<div class="widgetTitle textOverflowEllipsis"><h4 class="moduleColor_{$WIDGET['label']}">{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4></div>
 				</div>
 				<div class="col-md-3">
 					<div class="pull-right">
