@@ -3097,7 +3097,7 @@ insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) 
 
 /*Data for the table `vtiger_def_org_share_seq` */
 
-insert  into `vtiger_def_org_share_seq`(`id`) values (58);
+insert  into `vtiger_def_org_share_seq`(`id`) values (57);
 
 /*Data for the table `vtiger_default_record_view` */
 
@@ -5159,7 +5159,7 @@ insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`seque
 
 /*Data for the table `vtiger_language_seq` */
 
-insert  into `vtiger_language_seq`(`id`) values (5);
+insert  into `vtiger_language_seq`(`id`) values (6);
 
 /*Data for the table `vtiger_lead_view` */
 
@@ -5477,7 +5477,7 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (232);
+insert  into `vtiger_links_seq`(`id`) values (231);
 
 /*Data for the table `vtiger_loginhistory` */
 

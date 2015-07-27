@@ -495,6 +495,62 @@ jQuery.Class("Vtiger_Header_Js", {
 				thisInstance.labelSearch(currentTarget);
 			}
 		});
+		if (jQuery('#gsAutocomplete').val() == 1) {
+			$.widget("custom.gsAutocomplete", $.ui.autocomplete, {
+				_create: function () {
+					this._super();
+					this.widget().menu("option", "items", "> :not(.ui-autocomplete-category)");
+				},
+				_renderMenu: function (ul, items) {
+					var that = this, currentCategory = "";
+					$.each(items, function (index, item) {
+						var li;
+						if (item.category != currentCategory) {
+							ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
+							currentCategory = item.category;
+						}
+						that._renderItemData(ul, item);
+					});
+				},
+				_renderItemData: function (ul, item) {
+					return this._renderItem(ul, item).data("ui-autocomplete-item", item);
+				},
+				_renderItem: function (ul, item) {
+					return $("<li>")
+							.data("item.autocomplete", item)
+							.append($("<a></a>")[ this.options.html ? "html" : "text" ](item.label))
+							.appendTo(ul);
+				},
+			});
+			jQuery('#globalSearchValue').gsAutocomplete({
+				minLength: jQuery('#gsMinLength').val(),
+				source: function (request, response) {
+					var basicSearch = new Vtiger_BasicSearch_Js();
+					basicSearch.reduceNumberResults = jQuery('#gsAmountResponse').val();
+					basicSearch.returnHtml = false;
+					basicSearch.search(request.term).then(function (data) {
+						var data = jQuery.parseJSON(data);
+						var serverDataFormat = data.result;
+						var reponseDataList = new Array();
+						for (var id in serverDataFormat) {
+							var responseData = serverDataFormat[id];
+							reponseDataList.push(responseData);
+						}
+						response(reponseDataList);
+					});
+				},
+				select: function (event, ui) {
+					var selectedItemData = ui.item;
+					if (selectedItemData.permitted) {
+						var url = 'index.php?module=' + selectedItemData.module + '&view=Detail&record=' + selectedItemData.id;
+						window.location.href = url;
+					}
+				},
+				close: function (event, ui) {
+					jQuery('#globalSearchValue').val('');
+				}
+			});
+		}
 	},
 	labelSearch: function (currentTarget) {
 		var val = currentTarget.val();

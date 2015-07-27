@@ -3389,3 +3389,21 @@ span[name=existingImages] img{
 .fieldLabel .referenceMandatory{
 	margin-right: -12px;
 }
+.ui-widget-content{
+	padding: .8em;
+}
+.ui-autocomplete .ui-autocomplete-category {
+	font-weight: bold;
+	line-height: 1.5;
+}
+.ui-autocomplete .ui-autocomplete-category:first-child {
+	margin: .8em 0 .2em;
+}
+.ui-autocomplete .ui-menu-item {
+	padding: .2em .8em;
+}
+.ui-autocomplete .ui-state-focus{
+	border: none;
+	background: #ebebeb;
+}
+

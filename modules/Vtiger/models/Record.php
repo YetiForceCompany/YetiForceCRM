@@ -314,12 +314,11 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 * @param <String> $searchKey
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
-	public static function getSearchResult($searchKey, $module = false)
+	public static function getSearchResult($searchKey, $module = false, $limit = false)
 	{
 		global $max_number_search_result;
 
 		$db = PearDatabase::getInstance();
-
 		$query = 'SELECT label, searchlabel, crmid, setype, createdtime, smownerid FROM vtiger_crmentity crm INNER JOIN vtiger_entityname e ON crm.setype = e.modulename WHERE searchlabel LIKE ? AND turn_off = ? AND crm.deleted = 0';
 		$params = array("%$searchKey%", 1);
 
@@ -370,6 +369,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				$recordInstance = new $modelClassName();
 				$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 				$recordsCount++;
+			}
+			if ($limit && $limit == $recordsCount) {
+				return $matchingRecords;
 			}
 		}
 		return $matchingRecords;

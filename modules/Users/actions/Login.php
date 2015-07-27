@@ -23,16 +23,19 @@ class Users_Login_Action extends Vtiger_Action_Controller
 
 	function process(Vtiger_Request $request)
 	{
-
 		$username = $request->get('username');
 		$password = $request->get('password');
 		if ($request->get('mode') == 'install') {
 			$dirPath = 'install';
 			Users_Module_Model::deleteLangFiles();
-
-			foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirPath, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
-				$path->isDir() ? rmdir($path->getPathname()) : unlink($path->getPathname());
+			$configTemplate = "config/config.template.php";
+			if (file_exists($configTemplate)) {
+				unlink($configTemplate);
 			}
+			if (file_exists($dirPath))
+				foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirPath, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
+					$path->isDir() ? rmdir($path->getPathname()) : unlink($path->getPathname());
+				}
 			rmdir($dirPath);
 		}
 
