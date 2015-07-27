@@ -523,7 +523,6 @@ jQuery.Class("Vtiger_Header_Js", {
 				},
 			});
 			jQuery('#globalSearchValue').gsAutocomplete({
-				html: true,
 				minLength: jQuery('#gsMinLength').val(),
 				source: function (request, response) {
 					var basicSearch = new Vtiger_BasicSearch_Js();
