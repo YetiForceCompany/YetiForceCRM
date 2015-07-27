@@ -321,9 +321,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
-		if($moduleModel->isSummaryViewSupported() && $this->record->widgetsList){
+		if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
 			echo $viewer->view('SummaryViewWidgets.tpl', $moduleName, true);
-		}else{
+		} else {
 			echo $viewer->view('DetailViewSummaryContents.tpl', $moduleName, true);
 		}
 	}
