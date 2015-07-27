@@ -24,114 +24,114 @@
         {assign var="IS_GROUP_TAX_TYPE" value=false}
         {assign var="IS_INDIVIDUAL_TAX_TYPE" value=true}
     {/if}
-    
+
     <input type="hidden" class="numberOfCurrencyDecimal" value="{$USER_MODEL->get('no_of_currency_decimals')}" />
 
     <table class="table table-bordered blockContainer lineItemTable" id="lineItemTab">
         <tr>
             <th colspan="2"><span class="inventoryLineItemHeader">{vtranslate('LBL_ITEM_DETAILS', $MODULE)}</span></th>
             <th colspan="3" class="chznDropDown">
-                <div class="">
-                    <span class="inventoryLineItemHeader">{vtranslate('LBL_CURRENCY', $MODULE)}</span>&nbsp;&nbsp;
-                    {assign var=SELECTED_CURRENCY value=$CURRENCINFO}
-                    {* Lookup the currency information if not yet set - create mode *}
-                    {if $SELECTED_CURRENCY eq ''}
-                        {assign var=USER_CURRENCY_ID value=$USER_MODEL->get('currency_id')}
-                        {foreach item=currency_details from=$CURRENCIES}
-                            {if $currency_details.curid eq $USER_CURRENCY_ID}
-                                {assign var=SELECTED_CURRENCY value=$currency_details}
-                            {/if}
-                        {/foreach}
-                    {/if}
+		<div class="">
+			<span class="inventoryLineItemHeader">{vtranslate('LBL_CURRENCY', $MODULE)}</span>&nbsp;&nbsp;
+			{assign var=SELECTED_CURRENCY value=$CURRENCINFO}
+			{* Lookup the currency information if not yet set - create mode *}
+			{if $SELECTED_CURRENCY eq ''}
+				{assign var=USER_CURRENCY_ID value=$USER_MODEL->get('currency_id')}
+				{foreach item=currency_details from=$CURRENCIES}
+					{if $currency_details.curid eq $USER_CURRENCY_ID}
+						{assign var=SELECTED_CURRENCY value=$currency_details}
+					{/if}
+				{/foreach}
+			{/if}
 
-                    <select class="chzn-select" id="currency_id" name="currency_id" title="{vtranslate('LBL_CURRENCY', $MODULE)}" style="width: 164px;">
-                        {foreach item=currency_details key=count from=$CURRENCIES}
-                            <option value="{$currency_details.curid}" class="textShadowNone" data-conversion-rate="{$currency_details.conversionrate}" {if $SELECTED_CURRENCY.currency_id eq $currency_details.curid} selected {/if}>
-                                {$currency_details.currencylabel|@getTranslatedCurrencyString} ({$currency_details.currencysymbol})
-                            </option>
-                        {/foreach}
-                    </select>
+			<select class="chzn-select" id="currency_id" name="currency_id" title="{vtranslate('LBL_CURRENCY', $MODULE)}" style="width: 164px;">
+				{foreach item=currency_details key=count from=$CURRENCIES}
+					<option value="{$currency_details.curid}" class="textShadowNone" data-conversion-rate="{$currency_details.conversionrate}" {if $SELECTED_CURRENCY.currency_id eq $currency_details.curid} selected {/if}>
+						{$currency_details.currencylabel|@getTranslatedCurrencyString} ({$currency_details.currencysymbol})
+					</option>
+				{/foreach}
+			</select>
 
-                    {assign var="RECORD_CURRENCY_RATE" value=$RECORD_STRUCTURE_MODEL->getRecord()->get('conversion_rate')}
-                    {if $RECORD_CURRENCY_RATE eq ''}
-                        {assign var="RECORD_CURRENCY_RATE" value=$SELECTED_CURRENCY.conversionrate}
-                    {/if}
-                    <input type="hidden" name="conversion_rate" id="conversion_rate" value="{$RECORD_CURRENCY_RATE}" />
-                    <input type="hidden" value="{$SELECTED_CURRENCY.currency_id}" id="prev_selected_currency_id" />
-                    <!-- TODO : To get default currency in even better way than depending on first element -->
-                    <input type="hidden" id="default_currency_id" value="{$CURRENCIES.0.curid}" />
-                </div>
-            </th>
-            <th colspan="3" class="chznDropDown">
-                <div class="">
-                    <div class="inventoryLineItemHeader">
-                        <span class="alignTop">{vtranslate('LBL_TAX_MODE', $MODULE)}</span>
-                    </div>
-                    <select class="chzn-select lineItemTax" id="taxtype" name="taxtype" title="{vtranslate('LBL_TAX_MODE', $MODULE)}" style="width: 164px;">
-                        <OPTION value="individual" {if $IS_INDIVIDUAL_TAX_TYPE}selected{/if}>{vtranslate('LBL_INDIVIDUAL', $MODULE)}</OPTION>
-                        <OPTION value="group" {if $IS_GROUP_TAX_TYPE}selected{/if}>{vtranslate('LBL_GROUP', $MODULE)}</OPTION>
-                    </select>
-                </div>
-            </th>
-        </tr>
-        <tr>
-            <td><strong>{vtranslate('LBL_TOOLS',$MODULE)}</strong></td>
-            <td><span class="redColor">*</span><strong>{vtranslate('LBL_ITEM_NAME',$MODULE)}</strong></td>
-            <td><strong>{vtranslate('LBL_QTY',$MODULE)}</strong></td>
-            <td><strong>{vtranslate('LBL_UNIT',$MODULE)}</strong></td>
-            <td><strong>{vtranslate('LBL_LIST_PRICE',$MODULE)}</strong></td>
-            <td><strong class="pull-right">{vtranslate('LBL_TOTAL',$MODULE)}</strong></td>
-            <td><strong class="pull-right">{vtranslate('LBL_NET_PRICE',$MODULE)}</strong></td>
-			<td><strong class="pull-right">{vtranslate('SINGLE_Calculations','Calculations')}</strong></td>
-        </tr>
-        <tr id="row0" class="hide lineItemCloneCopy noValidate">
-            {include file="LineItemsContent.tpl"|@vtemplate_path:$MODULE row_no=0 data=[]}
-        </tr>
-        {foreach key=row_no item=data from=$RELATED_PRODUCTS}
-            <tr id="row{$row_no}" class="lineItemRow" {if $data["entityType$row_no"] eq 'Products'}data-quantity-in-stock={$data["qtyInStock$row_no"]}{/if}>
-                {include file="LineItemsContent.tpl"|@vtemplate_path:$MODULE row_no=$row_no data=$data}
-            </tr>
-        {/foreach}
-        {if count($RELATED_PRODUCTS) eq 0}
-            <tr id="row1" class="lineItemRow">
-                {include file="LineItemsContent.tpl"|@vtemplate_path:$MODULE row_no=1 data=[]}
-            </tr>
-        {/if}
+			{assign var="RECORD_CURRENCY_RATE" value=$RECORD_STRUCTURE_MODEL->getRecord()->get('conversion_rate')}
+			{if $RECORD_CURRENCY_RATE eq ''}
+				{assign var="RECORD_CURRENCY_RATE" value=$SELECTED_CURRENCY.conversionrate}
+			{/if}
+			<input type="hidden" name="conversion_rate" id="conversion_rate" value="{$RECORD_CURRENCY_RATE}" />
+			<input type="hidden" value="{$SELECTED_CURRENCY.currency_id}" id="prev_selected_currency_id" />
+			<!-- TODO : To get default currency in even better way than depending on first element -->
+			<input type="hidden" id="default_currency_id" value="{$CURRENCIES.0.curid}" />
+		</div>
+	</th>
+	<th colspan="3" class="chznDropDown">
+	<div class="">
+		<div class="inventoryLineItemHeader">
+			<span class="alignTop">{vtranslate('LBL_TAX_MODE', $MODULE)}</span>
+		</div>
+		<select class="chzn-select lineItemTax" id="taxtype" name="taxtype" title="{vtranslate('LBL_TAX_MODE', $MODULE)}" style="width: 164px;">
+			<OPTION value="individual" {if $IS_INDIVIDUAL_TAX_TYPE}selected{/if}>{vtranslate('LBL_INDIVIDUAL', $MODULE)}</OPTION>
+			<OPTION value="group" {if $IS_GROUP_TAX_TYPE}selected{/if}>{vtranslate('LBL_GROUP', $MODULE)}</OPTION>
+		</select>
+	</div>
+</th>
+</tr>
+<tr>
+	<td><strong>{vtranslate('LBL_TOOLS',$MODULE)}</strong></td>
+	<td><span class="redColor">*</span><strong>{vtranslate('LBL_ITEM_NAME',$MODULE)}</strong></td>
+	<td><strong>{vtranslate('LBL_QTY',$MODULE)}</strong></td>
+	<td><strong>{vtranslate('LBL_UNIT',$MODULE)}</strong></td>
+	<td><strong>{vtranslate('LBL_LIST_PRICE',$MODULE)}</strong></td>
+	<td><strong class="pull-right">{vtranslate('LBL_TOTAL',$MODULE)}</strong></td>
+	<td><strong class="pull-right">{vtranslate('LBL_NET_PRICE',$MODULE)}</strong></td>
+	<td><strong class="pull-right">{vtranslate('SINGLE_Calculations','Calculations')}</strong></td>
+</tr>
+<tr id="row0" class="hide lineItemCloneCopy noValidate">
+	{include file="LineItemsContent.tpl"|@vtemplate_path:$MODULE row_no=0 data=[]}
+</tr>
+{foreach key=row_no item=data from=$RELATED_PRODUCTS}
+	<tr id="row{$row_no}" class="lineItemRow" {if $data["entityType$row_no"] eq 'Products'}data-quantity-in-stock={$data["qtyInStock$row_no"]}{/if}>
+		{include file="LineItemsContent.tpl"|@vtemplate_path:$MODULE row_no=$row_no data=$data}
+	</tr>
+{/foreach}
+{if count($RELATED_PRODUCTS) eq 0}
+	<tr id="row1" class="lineItemRow">
+		{include file="LineItemsContent.tpl"|@vtemplate_path:$MODULE row_no=1 data=[]}
+	</tr>
+{/if}
 
-    </table>
+</table>
 
 
-    <div class="verticalBottomSpacing">
-        <div>
-            {if $PRODUCT_ACTIVE eq 'true' && $SERVICE_ACTIVE eq 'true'}
-                <div class="btn-toolbar">
-                    <span class="btn-group">
-                        <button type="button" class="btn btn-default addButton" id="addProduct">
-                            <span class="glyphicon glyphicon-plus"></span><strong>{vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
-                        </button>
-                    </span>
-                    <span class="btn-group">
-                        <button type="button" class="btn btn-default addButton" id="addService">
-                            <span class="glyphicon glyphicon-plus"></span><strong>{vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
-                        </button>
-                    </span>
-                </div>
-            {elseif $PRODUCT_ACTIVE eq 'true'}
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default addButton" id="addProduct">
-                        <span class="glyphicon glyphicon-plus"></span><strong> {vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
-                    </button>
-                </div>
-            {elseif $SERVICE_ACTIVE eq 'true'}
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default addButton" id="addService">
-                        <span class="glyphicon glyphicon-plus icon-white"></span><strong> {vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
-                    </button>
-                </div>
-            {/if}
-        </div>
-    </div>
-		<div class="table-responsive"> 
+<div class="verticalBottomSpacing">
+	<div>
+		{if $PRODUCT_ACTIVE eq 'true' && $SERVICE_ACTIVE eq 'true'}
+			<div class="btn-toolbar">
+				<span class="btn-group">
+					<button type="button" class="btn btn-default addButton" id="addProduct">
+						<span class="glyphicon glyphicon-plus"></span><strong>{vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
+					</button>
+				</span>
+				<span class="btn-group">
+					<button type="button" class="btn btn-default addButton" id="addService">
+						<span class="glyphicon glyphicon-plus"></span><strong>{vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
+					</button>
+				</span>
+			</div>
+		{elseif $PRODUCT_ACTIVE eq 'true'}
+			<div class="btn-group">
+				<button type="button" class="btn btn-default addButton" id="addProduct">
+					<span class="glyphicon glyphicon-plus"></span><strong> {vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
+				</button>
+			</div>
+		{elseif $SERVICE_ACTIVE eq 'true'}
+			<div class="btn-group">
+				<button type="button" class="btn btn-default addButton" id="addService">
+					<span class="glyphicon glyphicon-plus icon-white"></span><strong> {vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
+				</button>
+			</div>
+		{/if}
+	</div>
+</div>
+<div class="table-responsive"> 
     <table class="table table-bordered blockContainer lineItemTable" id="lineItemResult">
 		<tr valign="top">
 			<td width="83%" >
@@ -186,18 +186,18 @@
 										<input type="radio" name="discount_final" class="finalDiscounts" title="{vtranslate('LBL_OF_PRICE',$MODULE)}" data-discount-type="percentage" {if $DISCOUNT_TYPE_FINAL eq 'percentage'}checked{/if} />&nbsp; % {vtranslate('LBL_OF_PRICE',$MODULE)}
 									</div>	
 									<div class="input-group {if $DISCOUNT_TYPE_FINAL neq 'percentage'}hide{/if}"><input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_percentage_final" name="discount_percentage_final" value="{$FINAL.discount_percentage_final}" title="{$FINAL.discount_percentage_final}" class="discount_percentage_final smallInputBox form-control input-sm pull-right discountVal " />
-									<span class="input-group-addon">%</span></div>
+										<span class="input-group-addon">%</span></div>
 								</td>
                             </tr>
                             <tr>
                                 <td><input type="radio" name="discount_final" class="finalDiscounts" data-discount-type="amount" title="{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}" {if $DISCOUNT_TYPE_FINAL eq 'amount'}checked{/if} />&nbsp;{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}
-                                <input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]"  id="discount_amount_final" name="discount_amount_final" value="{$FINAL.discount_amount_final}" title="{$FINAL.discount_amount_final}" class="smallInputBox form-control input-sm pull-right discount_amount_final discountVal {if $DISCOUNT_TYPE_FINAL neq 'amount'}hide{/if}" /></td>
+									<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]"  id="discount_amount_final" name="discount_amount_final" value="{$FINAL.discount_amount_final}" title="{$FINAL.discount_amount_final}" class="smallInputBox form-control input-sm pull-right discount_amount_final discountVal {if $DISCOUNT_TYPE_FINAL neq 'amount'}hide{/if}" /></td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="modal-footer backgroundColor lineItemPopupModalFooter modal-footer-padding">
                         <div class=" pull-right cancelLinkContainer">
-                            <a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                            <a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                         </div>
                         <button class="btn btn-success finalDiscountSave" type="button" name="lineItemActionSave"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
                     </div>
@@ -251,13 +251,13 @@
                         {foreach item=tax_detail name=group_tax_loop key=loop_count from=$TAXES}
                             <tr>
                                 <td class="lineOnTop">
-									 <div class="input-group input-group-sm">
-										 <span class="input-group-addon">
-											 <input type="radio" aria-label="..." name="group_tax_option " class="group_tax_option" value="{$tax_detail.taxname}" title="{$tax_detail.taxname}" {if {$FINAL['tax']} == $tax_detail.taxname}checked{/if}>
-										 </span>
-											 <input type="text" size="5" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" name="{$tax_detail.taxname}_group_percentage" id="group_tax_percentage{$smarty.foreach.group_tax_loop.iteration}" value="{$tax_detail.percentage}" title="{$tax_detail.percentage}" class="smallInputBox form-control input-sm groupTaxPercentage" aria-label="..."/>
-											 <span class="input-group-addon">%</span>
-									 </div>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">
+											<input type="radio" aria-label="..." name="group_tax_option " class="group_tax_option" value="{$tax_detail.taxname}" title="{$tax_detail.taxname}" {if {$FINAL['tax']} == $tax_detail.taxname}checked{/if}>
+										</span>
+										<input type="text" size="5" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" name="{$tax_detail.taxname}_group_percentage" id="group_tax_percentage{$smarty.foreach.group_tax_loop.iteration}" value="{$tax_detail.percentage}" title="{$tax_detail.percentage}" class="smallInputBox form-control input-sm groupTaxPercentage" aria-label="..."/>
+										<span class="input-group-addon">%</span>
+									</div>
                                 </td>
                                 <td class="lineOnTop textAlignCenter"><div class="textOverflowEllipsis">{$tax_detail.taxlabel}</div></td>
                                 <td class="lineOnTop">
@@ -299,10 +299,10 @@
                 </td>
                 <td>
                     {if $MODULE eq 'Invoice'}
-                            <span class="pull-right"><input id="received" name="received" type="text" class="lineItemInputBox form-control input-sm" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}" title="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}"></span>
-                    {else}
+						<span class="pull-right"><input id="received" name="received" type="text" class="lineItemInputBox form-control input-sm" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}" title="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}"></span>
+						{else}
                         <span class="pull-right"><input id="paid" name="paid" type="text" class="lineItemInputBox form-control input-sm" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0{/if}" title="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0{/if}"></span>
-                    {/if}
+						{/if}
                 </td>
             </tr>
 			<!--
@@ -320,8 +320,8 @@
         {/if}
     </table>
 </div>
-    <br>
-    <input type="hidden" name="totalProductCount" id="totalProductCount" value="{$row_no}" />
-    <input type="hidden" name="subtotal" id="subtotal" value="" />
-    <input type="hidden" name="total" id="total" value="" />
+<br>
+<input type="hidden" name="totalProductCount" id="totalProductCount" value="{$row_no}" />
+<input type="hidden" name="subtotal" id="subtotal" value="" />
+<input type="hidden" name="total" id="total" value="" />
 {/strip}
