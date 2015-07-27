@@ -20,7 +20,7 @@
 							{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
 							{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
 							<button style="margin-left: 4px;" class="btn btn-sm pull-right btn-default createRecordFromFilter {if $ADD_BUTTON } hide {/if}" type="button" data-url="{$WIDGET['actionURL']}"
-							{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{Zend_Json::encode($AUTOCOMPLETE_FIELD)}'{/if}>
+									{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{Zend_Json::encode($AUTOCOMPLETE_FIELD)}'{/if}>
 								<span class="glyphicon glyphicon-plus" border="0" title="{vtranslate('LBL_ADD',$MODULE_NAME)}" alt="{vtranslate('LBL_ADD',$MODULE_NAME)}"></span>
 							</button>
 						{/if}
