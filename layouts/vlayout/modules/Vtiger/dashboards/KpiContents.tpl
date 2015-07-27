@@ -25,7 +25,7 @@
 	<div class="widgetChartContainer" style="height:90px;width:90%"></div>
 {else}
 	<span class="noDataMsg">
-		{vtranslate('No data', $MODULE_NAME)}
+		{vtranslate('LBL_NO_DATA', $MODULE_NAME)}
 	</span>
 {/if}
 {/strip}
