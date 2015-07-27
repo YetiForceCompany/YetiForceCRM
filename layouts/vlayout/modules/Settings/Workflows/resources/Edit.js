@@ -217,7 +217,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js",{
 				data.find('.fieldValue').filter(':visible').trigger('focus');
 			}
 			conditionsContainer.find('.clonedPopUp').html(clonedPopupUi);
-			jQuery('.clonedPopupUi').on('shown', function () {
+			jQuery('.clonedPopupUi').on('shown.bs.modal', function () {
 				if(typeof callBackFunction == 'function'){
 					callBackFunction(jQuery('.clonedPopupUi',conditionsContainer));
 				}
