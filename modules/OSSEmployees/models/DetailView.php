@@ -29,30 +29,6 @@ class OSSEmployees_DetailView_Model extends Vtiger_DetailView_Model {
 			}
 			$index++;
 		}
-		
-		
-
 		return $linkModelList;
 	}
-	/*public function getDetailViewRelatedLinks() {
-		$recordModel = $this->getRecord();
-		$moduleName = $recordModel->getModuleName();
-		$relatedLinks = array(array(
-				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('SINGLE_'.$moduleName, $moduleName).' '. vtranslate('LBL_SUMMARY', $moduleName),
-				'linkKey' => 'LBL_RECORD_SUMMARY',
-				'linkurl' => $recordModel->getDetailViewUrl(),
-				'linkicon' => ''
-		));
-
-		$relatedLinksFromParent = parent::getDetailViewRelatedLinks();
-
-		foreach ($relatedLinksFromParent as $link) {
-			array_push($relatedLinks, $link);
-		}
-
-		return $relatedLinks;
-	}
-	*/
-	
 }
