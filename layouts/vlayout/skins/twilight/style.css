@@ -3406,6 +3406,6 @@ span[name=existingImages] img{
 	border: none;
 	background: #ebebeb;
 }
-.headerLinksMails .btn-group{
-	margin-top: 11px;
+.widgetHr{
+	margin-top: 0;
 }
