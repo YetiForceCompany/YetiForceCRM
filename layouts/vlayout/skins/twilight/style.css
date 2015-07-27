@@ -3409,6 +3409,6 @@ span[name=existingImages] img{
 .widgetHr{
 	margin-top: 0;
 }
-.headerLinksMails .ui-state-focus{
+.headerLinksMails .btn-group{
 	margin-top: 11px;
 }
