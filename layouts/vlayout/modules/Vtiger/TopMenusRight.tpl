@@ -85,12 +85,11 @@
 	{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
 	<div class="nav navbar-nav navbar-right headerLinksContainer headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
 		<div class="btn-group">
-			<button type="button" class="btn btn-sm btn-default">
-				<a href="index.php?module=OSSMail&view=index" title="{$MAIN_MAIL.username}">{$ITEM.username}
-					<span class="mail_user_name">{$MAIN_MAIL.username}</span>
-					<span class="noMails_{$MAIN_MAIL.rcuser_id}"></span>
-				</a>
-			</button>
+			<a type="button" class="btn btn-sm btn-default" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=index">
+				{$ITEM.username}
+				<span class="mail_user_name">{$MAIN_MAIL.username}</span>
+				<span class="noMails_{$MAIN_MAIL.rcuser_id}"></span>
+			</a>
 			{if $CONFIG['showMailAccounts']=='true'}
 				<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span class="caret"></span>
