@@ -17,7 +17,7 @@
 				<div class="col-md-4 btn-toolbar">
 					<div class="pull-right"> 
 						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE',$QUALIFIED_MODULE)}</strong></button>
-						<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a> 
+						<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a> 
 					</div>
 				</div> 
 			</div> 
@@ -222,7 +222,7 @@
 													<br>
 													<div class="pull-right">
 														<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE',$MODULE)}</strong></button>
-														<a class="cancelLink" onclick="javascript:window.history.back();" type="reset">Cancel</a>
+														<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 														<br><br>
 													</div>
 												</form>

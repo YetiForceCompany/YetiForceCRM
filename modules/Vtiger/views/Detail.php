@@ -173,7 +173,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			if ($currentUserModel->get('default_record_view') === 'Detail') {
 				$selectedTabLabel = vtranslate('LBL_RECORD_DETAILS', $moduleName);
 			} else {
-				if ($moduleModel->isSummaryViewSupported()) {
+				if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
 					$selectedTabLabel = vtranslate('LBL_RECORD_SUMMARY', $moduleName);
 				} else {
 					$selectedTabLabel = vtranslate('LBL_RECORD_DETAILS', $moduleName);
@@ -321,8 +321,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
-
-		echo $viewer->view('DetailViewSummaryContents.tpl', $moduleName, true);
+		if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
+			echo $viewer->view('SummaryViewWidgets.tpl', $moduleName, true);
+		} else {
+			echo $viewer->view('DetailViewSummaryContents.tpl', $moduleName, true);
+		}
 	}
 
 	/**

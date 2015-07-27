@@ -109,9 +109,10 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$parentModuleModel = $this->getModule();
+		$this->getWidgets();
 		$relatedLinks = array();
 
-		if ($parentModuleModel->isSummaryViewSupported()) {
+		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
 			$relatedLinks = array(array(
 					'linktype' => 'DETAILVIEWTAB',
 					'linklabel' => vtranslate('LBL_RECORD_SUMMARY', $moduleName),
