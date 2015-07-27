@@ -29,10 +29,10 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View {
 	 */
 	public function getLeadsByIndustry($owner,$dateFilter) {
 		$db = PearDatabase::getInstance();
-		$vtigerModel = new Vtiger_Module_Model();
-		$ownerSql = $vtigerModel->getOwnerWhereConditionForDashBoards($owner);
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$module = 'Leads';
+		$moduleModel = Vtiger_Module_Model::getInstance($module);
+		$ownerSql = $moduleModel->getOwnerWhereConditionForDashBoards($owner);
+		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 		if(!empty($ownerSql)) {
