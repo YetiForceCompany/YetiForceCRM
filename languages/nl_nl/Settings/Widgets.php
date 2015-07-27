@@ -57,4 +57,5 @@ $jsLanguageStrings = [
 	'Loading data'	=> 'Loading...',
 	'Saving changes'	=> 'Saving changes...',
 	'None' => 'None',
+	'JS_EDIT_WIDGET' => 'Edit widget',
 ];

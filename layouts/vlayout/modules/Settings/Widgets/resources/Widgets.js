@@ -217,6 +217,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 			var target = $(e.currentTarget);
 			var blockSortable = target.closest('.blockSortable');
 			app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mode=edit&id="+blockSortable.data('id'), function(wizardContainer){
+				jQuery('#massEditHeader.modal-title').text(app.vtranslate('JS_EDIT_WIDGET'));
 				wizardContainer.find('.HelpInfoPopover').hover(
 					function () {
 						$(this).popover('show');
