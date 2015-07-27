@@ -994,7 +994,7 @@ li.ui-timepicker-selected,
   }
 }*/
 .recordEditView .contentHeader {
-	padding: 1.5% 0;
+	padding: 0.5% 0 1% 0;
 }
 .recordEditView .table .fieldLabel,
 .recordEditView .table .fieldValue {
@@ -3383,7 +3383,7 @@ span[name=existingImages] img{
 .paddingLeftMd{
 	padding-left: 15px;
 }
-.widget_header div:nth-child(2).btn-toolbar{
+.widget_header div:nth-child(2).btn-toolbar,.editViewContainer .contentHeader.row div:nth-child(2){
 	margin-top: 20px;
 }
 .fieldLabel .referenceMandatory{

@@ -410,7 +410,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		var taxDiv = '<div class="taxUI validCheck hide" id="tax_div'+rowNumber+'">'+
 			'<table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-nobordered popupTable" id="tax_table'+rowNumber+'">'+
 			   '<tr>'+
-					'<th colspan="2" id="tax_div_title'+rowNumber+'" align="left" ><strong>Set Tax for :</strong></th>'+
+					'<th colspan="2" id="tax_div_title'+rowNumber+'" align="left" ><strong>'+app.vtranslate('JS_SET_TAX_FOR')+'</strong></th>'+
 					'<th colspan="2"><button aria-hidden="true" data-dismiss="modal" class="close closeDiv" type="button">x</button>'+
 						'</th>'+
 			   '</tr>';
@@ -419,14 +419,12 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 				   var taxInfo = taxObj[taxName]
 				   taxDiv += '<tr>'+
 					'<td>' + 
-					'<input type="radio" name="tax_option'+rowNumber+'" class="tax_option" value="'+taxName+'" >' +
-					'</td>' +
-					'<td>'+
-					'<input type="text" name="'+taxName+'_percentage'+rowNumber+'" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="'+taxName+'_percentage'+rowNumber+'" value="'+taxInfo.percentage+'" class="smallInputBox taxPercentage">&nbsp;%'+
+					'<div class="input-group input-group-sm"><span class="input-group-addon"><input type="radio" name="tax_option'+rowNumber+'" class="tax_option" value="'+taxName+'" ></span>' +
+					'<input type="text" name="'+taxName+'_percentage'+rowNumber+'" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="'+taxName+'_percentage'+rowNumber+'" value="'+taxInfo.percentage+'" class="smallInputBox taxPercentage form-control input-sm"><span class="input-group-addon">%</span></div>'+
 					'</td>'+
 					'<td><div class="textOverflowEllipsis">'+taxInfo.label+'</div></td> '+
 					'<td>'+
-					'<input type="text" name="popup_tax_row'+rowNumber+'" class="cursorPointer smallInputBox taxTotal" value="0.0" readonly>'+
+					'<input type="text" name="popup_tax_row'+rowNumber+'" class="cursorPointer smallInputBox taxTotal form-control input-sm" value="0.0" readonly>'+
 					'</td>'+
 				   '</tr>';
 				   loopIterator++;
@@ -436,9 +434,9 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 							'<td>'+app.vtranslate("JS_LBL_NO_TAXES")+'</td>'+
 					      '</tr>';
 		   }
-		taxDiv += '</table><div class="modal-footer lineItemPopupModalFooter modal-footer-padding">'+
+		taxDiv += '</table><div class="modal-footer lineItemPopupModalFooter modal-footer-padding backgroundColor">'+
 				'<div class=" pull-right cancelLinkContainer">'+
-					'<a class="cancelLink" type="reset" data-dismiss="modal">'+app.vtranslate("JS_LBL_CANCEL")+'</a>'+
+					'<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">'+app.vtranslate("JS_LBL_CANCEL")+'</a>'+
 				'</div>'+
 				'<button class="btn btn-success taxSave" type="button" name="lineItemActionSave"><strong>'+app.vtranslate("JS_LBL_SAVE")+'</strong></button>'+
 			'</div></div>';
