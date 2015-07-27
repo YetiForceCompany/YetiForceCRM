@@ -768,7 +768,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 		jQuery('#finalDiscount').on('click', function (e) {
 			var finalDiscountUI = jQuery('#finalDiscountUI');
 			thisInstance.hideLineItemPopup();
-			finalDiscountUI.removeClass('hide').addClass('testest');
+			finalDiscountUI.removeClass('hide');
 		});
 	},
 	registerFinalDiscountChangeEvent: function () {
