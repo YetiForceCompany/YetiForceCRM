@@ -42,7 +42,7 @@ function DataAccessConditions() {
 						thisInstance.fieldHasChanged();
 						thisInstance.comparatorHasChanged();
 						thisInstance.fieldTypeHasChanged();
-						jQuery('select.select2').select2()
+						app.changeSelectElementView(jQuery('#' + type));
 					});
 				});
 			},

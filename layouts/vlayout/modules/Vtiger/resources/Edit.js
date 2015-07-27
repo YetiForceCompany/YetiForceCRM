@@ -398,6 +398,8 @@ jQuery.Class("Vtiger_Edit_Js",{
 				var searchValue = request.term;
 				var params = thisInstance.getReferenceSearchParams(inputElement);
 				params.search_value = searchValue;
+				params.parent_id = app.getRecordId();
+				params.parent_module = app.getModuleName();
 				thisInstance.searchModuleNames(params).then(function(data){
 					var reponseDataList = new Array();
 					var serverDataFormat = data.result

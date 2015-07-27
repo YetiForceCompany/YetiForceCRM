@@ -109,4 +109,21 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 		
 		return $query;
 	}
+	
+	/**
+	 * Function searches the records in the module, if parentId & parentModule
+	 * is given then searches only those records related to them.
+	 * @param <String> $searchValue - Search value
+	 * @param <Integer> $parentId - parent recordId
+	 * @param <String> $parentModule - parent module name
+	 * @return <Array of Vtiger_Record_Model>
+	 */
+	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
+	{
+		$matchingRecords = parent::searchRecord($searchValue, $parentId, $parentModule, $relatedModule);
+		if (!empty($parentId) && !empty($parentModule)) {
+			unset($matchingRecords[$relatedModule][$parentId]);
+		}
+		return $matchingRecords;
+	}
 }

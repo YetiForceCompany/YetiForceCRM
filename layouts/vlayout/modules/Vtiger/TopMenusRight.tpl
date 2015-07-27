@@ -1,5 +1,5 @@
+{strip}
 	{if $PAINTEDICON eq 1}
-		
 		<ul class="settingIcons nav navbar-nav navbar-right">
 			<li class="dropdown">
 				<a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -82,19 +82,32 @@
 {assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
 {assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
 {if $CONFIG['showMailIcon']=='true' && count($AUTOLOGINUSERS) > 0}
-	<ul class="nav navbar-nav navbar-right headerLinksContainer headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
-		<li class="btn-group">
-			{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
-			<a {if $CONFIG['showMailAccounts']=='true'}class="dropdown-toggle mainMail" data-toggle="dropdown" href="#" {else} class="mainMail" href="index.php?module=OSSMail&view=index" {/if} title="{$MAIN_MAIL.username}"><span class="mail_user_name btn-default btn-sm ">{$MAIN_MAIL.username}</span> <span class="noMails_{$MAIN_MAIL.rcuser_id}"></span></a>
+	{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
+	<div class="nav navbar-nav navbar-right headerLinksContainer headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
+		<div class="btn-group">
+			<button type="button" class="btn btn-sm btn-default">
+				<a href="index.php?module=OSSMail&view=index" title="{$MAIN_MAIL.username}">{$ITEM.username}
+					<span class="mail_user_name">{$MAIN_MAIL.username}</span>
+					<span class="noMails_{$MAIN_MAIL.rcuser_id}"></span>
+				</a>
+			</button>
 			{if $CONFIG['showMailAccounts']=='true'}
+				<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="caret"></span>
+					<span class="sr-only">Toggle Dropdown</span>
+				</button>
 				<ul class="dropdown-menu" role="menu">
 					{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
-						<li data-id="{$KEY}" {if $ITEM.active}selested{/if}><a href="#">{$ITEM.username} <span class="noMails"></span></a></li>
+						<li data-id="{$KEY}" {if $ITEM.active}selested{/if}>
+							<a href="#">
+								{$ITEM.username} <span class="noMails"></span>
+							</a>
+						</li>
 					{/foreach}
 				</ul>
 			{/if}
-		</li>
-	</ul>
+		</div>
+	</div>
 {/if}
 <div id="headerLinksCompact" class="hide">
 	<span id="dropdown-headerLinksBig" class="dropdown">
@@ -129,3 +142,4 @@
 		</ul>
 	</span>
 </div>
+{/strip}

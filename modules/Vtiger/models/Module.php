@@ -1090,13 +1090,11 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateValue(date('Y-m-d H:i:s'));
 		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
-		if ($recordId) {
-			if (in_array($this->getName(), ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees'])) {
-				$relationField = 'link';
-			}
-			if (in_array($this->getName(), ['Campaigns', 'HelpDesk', 'Potentials', 'Project', 'ServiceContracts'])) {
-				$relationField = 'process';
-			}
+		if (in_array($this->getName(), ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees'])) {
+			$relationField = 'link';
+		}
+		if (in_array($this->getName(), ['Campaigns', 'HelpDesk', 'Potentials', 'Project', 'ServiceContracts'])) {
+			$relationField = 'process';
 		}
 		$query = "SELECT vtiger_crmentity.crmid, crmentity2.crmid AS parent_id, vtiger_crmentity.description as description, vtiger_crmentity.smownerid, vtiger_crmentity.smcreatorid, vtiger_crmentity.setype, vtiger_activity.* FROM vtiger_activity
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid

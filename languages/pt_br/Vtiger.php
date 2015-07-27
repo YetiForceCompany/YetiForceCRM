@@ -1190,5 +1190,6 @@ $jsLanguageStrings = [
 	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'Foi digitado um intervalo de datas incorreto',
 	'JS_STARTED_GENERATING_FILE' => 'Generando um arquivo',
 	'JS_CAN_NOT_REMOVE_COMMENT' => 'Você não pode apagar Comentários com respostas. Apague todas as respostas para só depois apagar o Comentário.',
-	'LBL_DELETE_COMMENT_CONFIRMATION' => 'Tem certeza que deseja apagar o Comentário?',
+	'JS_DELETE_COMMENT_CONFIRMATION' => 'Tem certeza que deseja apagar o Comentário?',
+	'JS_SET_TAX_FOR' => 'Definir Imposto para',
 ];
