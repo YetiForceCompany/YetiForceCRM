@@ -103,10 +103,11 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model {
 	public function findCrmRecordsByMessage_id($params,$metod){
 		$adb = PearDatabase::getInstance();
 		$id = FALSE;
-		if($params['crmid']){
-			$id = $params['crmid'];
+		$return = [];
+		if(isset($params['crmid']['mailviewid'])){
+			$id = $params['crmid']['mailviewid'];
 		}else{
-			$result = $adb->pquery("SELECT ossmailviewid FROM vtiger_ossmailview WHERE id = ? AND mbox = ?", [$params['uid'], $params['folder']] );
+			$result = $adb->pquery('SELECT ossmailviewid FROM vtiger_ossmailview WHERE id = ? AND mbox = ?', [$params['uid'], $params['folder']] );
 			if($adb->num_rows($result) > 0) {
 				$id = $adb->query_result_raw($result, 0, 'ossmailviewid');
 			}
