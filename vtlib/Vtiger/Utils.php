@@ -256,8 +256,9 @@ class Vtiger_Utils
 	{
 		$adb = PearDatabase::getInstance();
 
-		$create_table = $adb->pquery("SHOW CREATE TABLE $tablename", array());
-		$sql = decode_html($adb->query_result($create_table, 0, 1));
+		$result = $adb->query("SHOW CREATE TABLE $tablename");
+		$createTable = $adb->fetch_array($result);
+		$sql = decode_html($createTable['Create Table']);
 		return $sql;
 	}
 
