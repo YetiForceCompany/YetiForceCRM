@@ -335,16 +335,16 @@ class WebserviceField
 	private function getFieldTypeFromTypeOfData()
 	{
 		switch ($this->fieldType) {
-			case 'T': return "time";
-			case 'D':
-			case 'DT': return "date";
-			case 'E': return "email";
+			case 'T': return 'time';
+			case 'D': return 'date';
+			case 'DT': return 'datetime';
+			case 'E': return 'email';
 			case 'N':
-			case 'NN': return "double";
-			case 'P': return "password";
-			case 'I': return "integer";
+			case 'NN': return 'double';
+			case 'P': return 'password';
+			case 'I': return 'integer';
 			case 'V':
-			default: return "string";
+			default: return 'string';
 		}
 	}
 
@@ -353,7 +353,7 @@ class WebserviceField
 
 		// Cache all the information for futher re-use
 		if (empty(self::$fieldTypeMapping)) {
-			$result = $this->pearDB->pquery("select * from vtiger_ws_fieldtype", array());
+			$result = $this->pearDB->pquery('select * from vtiger_ws_fieldtype', array());
 			while ($resultrow = $this->pearDB->fetch_array($result)) {
 				self::$fieldTypeMapping[$resultrow['uitype']] = $resultrow;
 			}
