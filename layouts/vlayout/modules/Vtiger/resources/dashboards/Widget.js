@@ -985,7 +985,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 
 		thisInstance.getCalendarView().find("td.fc-day-number")
 				.mouseenter(function () {
-					jQuery('<span class="plus pull-left icon-plus"></span>')
+					jQuery('<span class="plus pull-left glyphicon glyphicon-plus"></span>')
 							.prependTo($(this))
 				}).mouseleave(function () {
 			$(this).find(".plus").remove();
