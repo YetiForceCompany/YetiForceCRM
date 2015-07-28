@@ -2357,10 +2357,10 @@ th.htColHeader,
 .btn:focus {
 	outline: 0;
 }
-.btn-primary {
+.reminderPostpone.btn-primary {
 	background: #404952;
 }
-.btn-primary:hover {
+.reminderPostpone.btn-primary:hover {
 	background: #1e2327;
 }
 /*
