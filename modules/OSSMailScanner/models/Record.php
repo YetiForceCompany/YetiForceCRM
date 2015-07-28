@@ -284,7 +284,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				}
 				$get_emails = true;
 			}
-		} else if($msgno < $num_msg) {
+		} else if ($msgno < $num_msg) {
 			$get_emails = true;
 		}
 
@@ -343,7 +343,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		} else {
 			$return = '';
 		}
-		
+
 		$EmailSearchList = self::getEmailSearchList();
 		if (strpos($emails, ',')) {
 			$emails_array = explode(",", $emails);

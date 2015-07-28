@@ -90,10 +90,10 @@ function load_connection(crm_path, gcrm, params, inframe, progressIndicatorEleme
 			related_records.done(function (fcd) {
 				if (data.result !== 'false') {
 					var crmid = 0;
-					if(data.result.id !== undefined){
+					if (data.result.id !== undefined) {
 						crmid = data.result.id;
 					}
-					if(data.result['0_created_Email'] !== undefined ){
+					if (data.result['0_created_Email'] !== undefined) {
 						crmid = data.result['0_created_Email']['created_Email'];
 					}
 					if (crmid === 0) {
