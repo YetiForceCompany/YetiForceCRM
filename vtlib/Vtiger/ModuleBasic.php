@@ -291,13 +291,13 @@ class Vtiger_ModuleBasic
 		if (!$this->basetable)
 			$this->basetable = "vtiger_$lcasemodname";
 		if (!$this->basetableid)
-			$this->basetableid = $lcasemodname . "id";
+			$this->basetableid = $lcasemodname . 'id';
 
 		if (!$this->customtable)
-			$this->customtable = $this->basetable . "cf";
+			$this->customtable = $this->basetable . 'cf';
 
-		Vtiger_Utils::CreateTable($this->basetable, "($this->basetableid INT)", true);
-		Vtiger_Utils::CreateTable($this->customtable, "($this->basetableid INT PRIMARY KEY)", true);
+		Vtiger_Utils::CreateTable($this->basetable, "($this->basetableid int(19) PRIMARY KEY, CONSTRAINT `fk_1_$this->basetable` FOREIGN KEY (`$this->basetableid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE)", true);
+		Vtiger_Utils::CreateTable($this->customtable, "($this->basetableid int(19) PRIMARY KEY, CONSTRAINT `fk_1_$this->customtable` FOREIGN KEY (`$this->basetableid`) REFERENCES `$this->basetable` (`$this->basetableid`) ON DELETE CASCADE)", true);
 	}
 
 	/**
