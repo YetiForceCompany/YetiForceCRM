@@ -134,7 +134,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 					});
 				});
 
-				jQuery('a.cancelLink').on('click', function() {
+				jQuery('.cancelLink').on('click', function() {
 					var progressIndicatorElement = jQuery.progressIndicator({
 						'position' : 'html',
 						'blockInfo' : {
@@ -240,7 +240,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 					});
 				});
 
-				jQuery('a.cancelLink').on('click', function() {
+				jQuery('.cancelLink').on('click', function() {
 					var progressIndicatorElement = jQuery.progressIndicator({
 						'position' : 'html',
 						'blockInfo' : {
