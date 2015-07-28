@@ -26,8 +26,8 @@
 				<div class="modal-body">
 					<h5>{vtranslate('LBL_TRANSFER_OWNERSHIP',$QUALIFIED_MODULE)}</h5>
 					<div class="form-group">
-						<div class="control-label"><span class="redColor">*</span>{vtranslate('LBL_TO_OTHER_ROLE',$QUALIFIED_MODULE)}</div>
-						<div class="controls">
+						<div class="col-md-3"><span class="redColor">*</span>{vtranslate('LBL_TO_OTHER_ROLE',$QUALIFIED_MODULE)}</div>
+						<div class="controls col-md-9">
 							<input id="transfer_record" name="transfer_record" type="hidden" value="" class="sourceField">
 							<div class="input-group">
 								<span class="input-group-addon cursorPointer" id="clearRole">
@@ -44,7 +44,7 @@
 
 					<div class="modal-footer">
 						<div class=" pull-right cancelLinkContainer">
-							<a class="cancelLink" data-dismiss="modal" type="reset">Cancel</a>
+							<a class="cancelLink btn btn-warning" data-dismiss="modal" type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 						</div>
 						<button class="btn btn-success pull-right" type="submit">{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
 					</div>
