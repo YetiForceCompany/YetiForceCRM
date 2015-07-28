@@ -235,7 +235,7 @@ class Vtiger_ModuleBasic
 	{
 		$this->__handleVtigerCoreSchemaChanges();
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("UPDATE vtiger_tab SET version=? WHERE tabid=?", Array($newversion, $this->id));
+		$adb->pquery('UPDATE vtiger_tab SET version=? WHERE tabid=?', Array($newversion, $this->id));
 		$this->version = $newversion;
 		self::log("Updating version to $newversion ... DONE");
 	}
@@ -315,13 +315,13 @@ class Vtiger_ModuleBasic
 				$this->entityidcolumn = $this->basetableid;
 		}
 		if ($this->entityidfield && $this->entityidcolumn) {
-			$result = $adb->pquery("SELECT tabid FROM vtiger_entityname WHERE tablename=? AND tabid=?", array($fieldInstance->table, $this->id));
+			$result = $adb->pquery('SELECT tabid FROM vtiger_entityname WHERE tablename=? AND tabid=?', array($fieldInstance->table, $this->id));
 			if ($adb->num_rows($result) == 0) {
-				$adb->pquery("INSERT INTO vtiger_entityname(tabid, modulename, tablename, fieldname, entityidfield, entityidcolumn, searchcolumn) VALUES(?,?,?,?,?,?,?)", Array($this->id, $this->name, $fieldInstance->table, $fieldInstance->name, $this->entityidfield, $this->entityidcolumn, $this->entityidfield));
-				self::log("Setting entity identifier ... DONE");
+				$adb->pquery('INSERT INTO vtiger_entityname(tabid, modulename, tablename, fieldname, entityidfield, entityidcolumn, searchcolumn) VALUES(?,?,?,?,?,?,?)', Array($this->id, $this->name, $fieldInstance->table, $fieldInstance->name, $this->entityidfield, $this->entityidcolumn, $this->name));
+				self::log('Setting entity identifier ... DONE');
 			} else {
-				$adb->pquery("UPDATE vtiger_entityname SET fieldname=?,entityidfield=?,entityidcolumn=? WHERE tablename=? AND tabid=?", array($fieldInstance->name, $this->entityidfield, $this->entityidcolumn, $fieldInstance->table, $this->id));
-				self::log("Updating entity identifier ... DONE");
+				$adb->pquery('UPDATE vtiger_entityname SET fieldname=?,entityidfield=?,entityidcolumn=? WHERE tablename=? AND tabid=?', array($fieldInstance->name, $this->entityidfield, $this->name, $fieldInstance->table, $this->id));
+				self::log('Updating entity identifier ... DONE');
 			}
 		}
 	}
@@ -332,8 +332,8 @@ class Vtiger_ModuleBasic
 	function unsetEntityIdentifier()
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("DELETE FROM vtiger_entityname WHERE tabid=?", Array($this->id));
-		self::log("Unsetting entity identifier ... DONE");
+		$adb->pquery('DELETE FROM vtiger_entityname WHERE tabid=?', Array($this->id));
+		self::log('Unsetting entity identifier ... DONE');
 	}
 
 	/**
@@ -342,15 +342,15 @@ class Vtiger_ModuleBasic
 	function deleteRelatedLists()
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("DELETE FROM vtiger_relatedlists WHERE tabid=?", Array($this->id));
-		self::log("Deleting related lists ... DONE");
+		$adb->pquery('DELETE FROM vtiger_relatedlists WHERE tabid=?', Array($this->id));
+		self::log('Deleting related lists ... DONE');
 	}
 
 	function deleteInRelatedLists()
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("DELETE FROM vtiger_relatedlists WHERE related_tabid=?", Array($this->id));
-		self::log("Deleting related lists ... DONE");
+		$adb->pquery('DELETE FROM vtiger_relatedlists WHERE related_tabid=?', Array($this->id));
+		self::log('Deleting related lists ... DONE');
 	}
 
 	/**
@@ -359,8 +359,8 @@ class Vtiger_ModuleBasic
 	function deleteLinks()
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("DELETE FROM vtiger_links WHERE tabid=?", Array($this->id));
-		self::log("Deleting links ... DONE");
+		$adb->pquery('DELETE FROM vtiger_links WHERE tabid=?', Array($this->id));
+		self::log('Deleting links ... DONE');
 	}
 
 	/**
