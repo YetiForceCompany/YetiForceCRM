@@ -1,16 +1,15 @@
 {*/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/*}
+* The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+* in compliance with the License.
+* Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+* See the License for the specific language governing rights and limitations under the License.
+* The Original Code is YetiForce.
+* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+* All Rights Reserved.
+*************************************************************************************************************************************/*}
 
- <div class=" supportProcessesContainer" style="margin-top:10px;">
- 	<h3>{vtranslate('LBL_SUPPORT_PROCESSES', $QUALIFIED_MODULE)}</h3>&nbsp;<hr>
-	
+<div class=" supportProcessesContainer" style="margin-top:10px;">
+	<h3>{vtranslate('LBL_SUPPORT_PROCESSES', $QUALIFIED_MODULE)}</h3>&nbsp;<hr>
 	<ul id="tabs" class="nav nav-tabs " data-tabs="tabs">
 		<li class="active"><a href="#general_configuration" data-toggle="tab">{vtranslate('LBL_GENERAL_CONFIGURATION', $QUALIFIED_MODULE)} </a></li>
 		<li><a href="#other" data-toggle="tab">{vtranslate('LBL_OTHER', $QUALIFIED_MODULE)} </a></li>
@@ -38,15 +37,14 @@
 								{foreach  item=ITEM from=$TICKETSTATUS}
 									<option value="{$ITEM['status']}" {if in_array($ITEM['status'], $TICKETSTATUSNOTMODIFY)} selected {/if}  >{$ITEM['statusTranslate']}</option>
 								{/foreach}
-								</select>
+							</select>
 						</td>
 					</tr>
 				</tbody>
 			</table>
-			<button class="btn btn-success saveButton pull-left" type="submit" id='saveConfig' title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" style="margin-top:10px;"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+			<button class="btn btn-success saveButton pull-right" type="submit" id='saveConfig' title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" style="margin-top:10px;"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 		</div>	
 		<div class="tab-pane" id="other">
 		</div>
-	</div>
 	</div>
 </div>

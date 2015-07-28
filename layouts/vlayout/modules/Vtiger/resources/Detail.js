@@ -1422,7 +1422,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 */
 		var formElement = thisInstance.getForm();
 		var formData = formElement.serializeFormData();
-		summaryViewContainer.on('click', '.row .summaryViewEdit', function (e) {
+		summaryViewContainer.off('click').on('click', '.row .summaryViewEdit', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.addClass('hide');
 			var currentTdElement = currentTarget.closest('td.fieldValue');

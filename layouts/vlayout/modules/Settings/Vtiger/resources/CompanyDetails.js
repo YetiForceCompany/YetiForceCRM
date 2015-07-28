@@ -60,7 +60,7 @@ jQuery.Class("Settings_Vtiger_CompanyDetails_Js", {}, {
 					app.hideModalWindow();
 					return true;
 				});
-				jQuery('a.cancelLink').off('click').on('click', function () {
+				jQuery('.cancelLink').off('click').on('click', function () {
 					var progressIndicatorElement = jQuery.progressIndicator({
 						'position': 'html',
 						'blockInfo': {

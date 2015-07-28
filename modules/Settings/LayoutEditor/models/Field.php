@@ -25,6 +25,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$tablename = $this->get('table');
 		$columnname = $this->get('column');
 		$fieldtype = explode("~", $typeofdata);
+		$tabId = $this->getModuleId();
 
 		$focus = CRMEntity::getInstance($fld_module);
 
@@ -58,13 +59,16 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 		//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
 		if ($this->getFieldDataType() == 'picklist' || $this->getFieldDataType() == 'multipicklist') {
-			$adb->query('drop table vtiger_'.$columnname);
-			//To Delete Sequence Table 
-			if (Vtiger_Utils::CheckTable('vtiger_'.$columnname. '_seq')) {
-				$adb->query('drop table vtiger_'.$columnname. '_seq');
+			$result = $adb->pquery('SELECT * FROM `vtiger_field` WHERE `columnname` = ? AND `uitype` IN (?,?,?);', [$columnname, 15, 16, 33]);
+			if (!$adb->num_rows($result)) {
+				$adb->query('drop table vtiger_' . $columnname);
+				//To Delete Sequence Table 
+				if (Vtiger_Utils::CheckTable('vtiger_' . $columnname . '_seq')) {
+					$adb->query('drop table vtiger_' . $columnname . '_seq');
+				}
+				$adb->pquery('delete from vtiger_picklist where name=? ', array($columnname));
 			}
-			$adb->pquery('delete from vtiger_picklist where name=? ', array($columnname));
-			$adb->pquery('delete from vtiger_picklist_dependency where sourcefield=? or targetfield=?', array($columnname, $columnname));
+			$adb->pquery('delete from vtiger_picklist_dependency where `tabid` = ? AND (sourcefield=? or targetfield=?)', array($tabId, $columnname, $columnname));
 		}
 	}
 

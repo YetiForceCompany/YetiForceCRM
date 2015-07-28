@@ -77,7 +77,7 @@ Vtiger_Popup_Js("Product_PriceBooks_Popup_Js",{
 	registerEventForActionsButtons : function(){
 		var thisInstance = this;
 		var popupPageContentsContainer = this.getPopupPageContainer();
-		popupPageContentsContainer.on('click','a.cancelLink',function(e){
+		popupPageContentsContainer.on('click','.cancelLink',function(e){
 			thisInstance.done();
 		})
 	},

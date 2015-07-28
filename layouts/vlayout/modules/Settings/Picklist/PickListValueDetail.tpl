@@ -37,10 +37,10 @@
 			<div class="col-md-2 btn-group-vertical" role="group">
 				{if $SELECTED_PICKLIST_FIELDMODEL->isEditable()}
 					{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
-						<button class="btn btn-info" id="assignValue">{vtranslate('LBL_ASSIGN_VALUE',$QUALIFIED_MODULE)}</button>
+						<button class="btn btn-primary" id="assignValue">{vtranslate('LBL_ASSIGN_VALUE',$QUALIFIED_MODULE)}</button>
 					{/if}	
 					<button class="btn btn-info" id="addItem">{vtranslate('LBL_ADD_VALUE',$QUALIFIED_MODULE)}</button>
-					<button class="btn btn-info" id="renameItem">{vtranslate('LBL_RENAME_VALUE',$QUALIFIED_MODULE)}</button>
+					<button class="btn btn-warning" id="renameItem">{vtranslate('LBL_RENAME_VALUE',$QUALIFIED_MODULE)}</button>
 					<button class="btn btn-danger"  id="deleteItem">{vtranslate('LBL_DELETE_VALUE',$QUALIFIED_MODULE)}</button>
 				{/if}
 				<button class="btn btn-success" disabled=""  id="saveSequence">{vtranslate('LBL_SAVE_ORDER',$QUALIFIED_MODULE)}</button><br><br>

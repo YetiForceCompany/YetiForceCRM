@@ -284,7 +284,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				}
 				$get_emails = true;
 			}
-		} else if($msgno < $num_msg) {
+		} else if ($msgno < $num_msg) {
 			$get_emails = true;
 		}
 
@@ -335,9 +335,15 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
-	public static function findEmail($emails, $module = false, $return_array = true)
+	public static function findEmail($emails, $searchModule = false, $return_array = true)
 	{
 		$adb = PearDatabase::getInstance();
+		if ($return_array) {
+			$return = [];
+		} else {
+			$return = '';
+		}
+
 		$EmailSearchList = self::getEmailSearchList();
 		if (strpos($emails, ',')) {
 			$emails_array = explode(",", $emails);
@@ -351,23 +357,22 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$fields[0] = $EmailSearchList['fields'];
 			}
 			foreach ($fields as $field) {
-				$enable_find = true;
+				$enableFind = true;
 				$row = explode("=", $field);
-				if ($module) {
-					$ModuleId = Vtiger_Functions::getModuleId($module);
-					if ($ModuleId != $row[2]) {
-						$enable_find = false;
+				if ($searchModule) {
+					$moduleId = Vtiger_Functions::getModuleId($searchModule);
+					if ($moduleId != $row[2]) {
+						$enableFind = false;
 					}
-				} else {
-					$enable_find = false;
 				}
-				if ($enable_find) {
+
+				if ($enableFind) {
 					$module = Vtiger_Functions::getModuleName($row[2]);
 					require_once("modules/$module/$module.php");
 					$ModuleObject = new $module();
 					$table_index = $ModuleObject->table_index;
 					foreach ($emails_array as $email) {
-						$result = $adb->pquery("SELECT $table_index FROM " . $row[0] . " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = " . $row[0] . "." . $table_index . " WHERE vtiger_crmentity.deleted = 0  AND " . $row[1] . " = ? ", array($email), true);
+						$result = $adb->pquery("SELECT $table_index FROM " . $row[0] . ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = ' . $row[0] . ".$table_index WHERE vtiger_crmentity.deleted = 0 AND " . $row[1] . ' = ? ', [$email]);
 						for ($i = 0; $i < $adb->num_rows($result); $i++) {
 							$crmid = $adb->query_result($result, $i, $table_index);
 							if ($return_array) {
