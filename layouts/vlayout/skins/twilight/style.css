@@ -3415,7 +3415,9 @@ span[name=existingImages] img{
 .finalDiscountUI,.finalTaxUI{
 	bottom: 5px;
 }
- 
 .sideBarTitle{
-	font-size: 20px
+	font-size: 20px;
+}
+.globalSearchInput{
+	width: 300px;
 }
