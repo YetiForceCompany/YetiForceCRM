@@ -37,6 +37,7 @@
 	php_value	session.gc_maxlifetime		21600
 	php_value	session.gc_divisor			500
 	php_value	session.gc_probability		1
+	php_value	error_log					cache/logs/phpError.log
 </IfModule>
 ########################
 # <FilesMatch "\.(inc|php|php3|php4|php5|php6|phtml|phps)$">
