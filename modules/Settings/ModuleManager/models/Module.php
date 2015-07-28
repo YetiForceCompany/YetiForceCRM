@@ -126,7 +126,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$module->initTables();
 
 		$block = new Vtiger_Block();
-		$block->label = 'LBL_' . strtoupper($module->name) . '_INFORMATION';
+		$block->label = 'LBL_' . $module->name . '_INFORMATION';
 		$module->addBlock($block);
 
 		$blockcf = new Vtiger_Block();
@@ -146,33 +146,43 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 		/** Common fields that should be in every module, linked to vtiger CRM core table */
 		$field2 = new Vtiger_Field();
-		$field2->name = 'assigned_user_id';
-		$field2->label = 'Assigned To';
-		$field2->table = 'vtiger_crmentity';
-		$field2->column = 'smownerid';
-		$field2->uitype = 53;
-		$field2->typeofdata = 'V~M';
+		$field2->name = 'number';
+		$field2->label = 'Numer';
+		$field2->column = 'number';
+		$field2->table = $module->basetable;
+		$field2->uitype = 4;
+		$field2->typeofdata = 'V~O';
+		$field2->columntype = 'varchar(32)';
 		$block->addField($field2);
-
+		
 		$field3 = new Vtiger_Field();
-		$field3->name = 'createdtime';
-		$field3->label = 'Created Time';
+		$field3->name = 'assigned_user_id';
+		$field3->label = 'Assigned To';
 		$field3->table = 'vtiger_crmentity';
-		$field3->column = 'createdtime';
-		$field3->uitype = 70;
-		$field3->typeofdata = 'DT~O';
-		$field3->displaytype = 2;
+		$field3->column = 'smownerid';
+		$field3->uitype = 53;
+		$field3->typeofdata = 'V~M';
 		$block->addField($field3);
 
 		$field4 = new Vtiger_Field();
-		$field4->name = 'modifiedtime';
-		$field4->label = 'Modified Time';
+		$field4->name = 'createdtime';
+		$field4->label = 'Created Time';
 		$field4->table = 'vtiger_crmentity';
-		$field4->column = 'modifiedtime';
+		$field4->column = 'createdtime';
 		$field4->uitype = 70;
 		$field4->typeofdata = 'DT~O';
 		$field4->displaytype = 2;
 		$block->addField($field4);
+
+		$field5 = new Vtiger_Field();
+		$field5->name = 'modifiedtime';
+		$field5->label = 'Modified Time';
+		$field5->table = 'vtiger_crmentity';
+		$field5->column = 'modifiedtime';
+		$field5->uitype = 70;
+		$field5->typeofdata = 'DT~O';
+		$field5->displaytype = 2;
+		$block->addField($field5);
 
 		// Create default custom filter (mandatory)
 		$filter1 = new Vtiger_Filter();
@@ -180,7 +190,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$filter1->isdefault = true;
 		$module->addFilter($filter1);
 		// Add fields to the filter created
-		$filter1->addField($field1)->addField($field2, 1)->addField($field3, 2);
+		$filter1->addField($field1)->addField($field2, 1)->addField($field3, 2)->addField($field4, 2);
 
 		// Set sharing access of this module
 		$module->setDefaultSharing();
@@ -193,6 +203,8 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 		// Create files
 		$module->createFiles($field1);
+		$ModuleInstance = CRMEntity::getInstance($module->name);
+		$ModuleInstance->setModuleSeqNumber('configure',$module->name,'N','1');
 	}
 
 	public function toAlphaNumeric($value)
