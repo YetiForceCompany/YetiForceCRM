@@ -21,6 +21,7 @@ $languageStrings = [
 	'LBL_CONVERT_LEAD_MERGE' => 'Łącz podczas konwersji z Lead na Kontrahenta rekord spełniający określone warunki',
 	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'Ta opcja powoduje, że system automatycznie będzie łączył rekord konwertowany z istniejącym rekordem - nie zostanie utworzony nowe kontrahent, lecz do już istniejącego kontrahenta zostaną przeniesione wszystkie elementy z Leada',
 	'LBL_CONDITION' => 'Dodaj warunek',
+	'MarketingProcesses' => 'Procesy marketingowe',
 ];
 $jsLanguageStrings = [
 	'JS_NO_CONDITIONS' => 'Konieczny jest co najmniej jeden warunek.',

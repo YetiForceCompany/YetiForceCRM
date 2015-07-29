@@ -10,6 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_TIMECONTROL_PROCESSES' => 'Procesy czasu pracy',
+	'TimeControlProcesses' => 'Procesy czasu pracy',
 	'LBL_TIMECONTROL_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_ONEDAY_VALID' => 'Czas pracy ograniczony do 24 godzin',
 	'LBL_TIMEOVERLAP_VALID' => 'Zezwalaj na nakładanie się terminów',

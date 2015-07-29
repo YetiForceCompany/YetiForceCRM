@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'Calendar' => 'Calendar',
+	'Calendar' => 'Kalendarz',
 	//ActivityTypes
 	'LBL_ACTIVITY_TYPES' => 'Filtry kalendarza',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Zarządzanie dostępnymi filtrami zdarzeń w kalendarzu.',

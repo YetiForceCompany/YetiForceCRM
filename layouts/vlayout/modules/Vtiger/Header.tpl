@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html lang="{$HTMLLANG}">
 	<head>
-		<title>{vtranslate($PAGETITLE, $MODULE_NAME)}</title>
+		<title>{vtranslate($PAGETITLE, $QUALIFIED_MODULE)}</title>
 		<link REL="SHORTCUT ICON" HREF="layouts/vlayout/skins/images/favicon.ico">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
