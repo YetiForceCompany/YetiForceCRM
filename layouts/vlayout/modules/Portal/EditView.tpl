@@ -28,24 +28,27 @@
 					<input type="hidden" name="module" value="{$MODULE}" />
 					<input type="hidden" name="action" value="SaveAjax" />
 					<div class="modal-body tabbable">
-						<div class="control-label">
+						
+						<div class="control-label col-md-4">
 							<label>
 								<span class="redColor">*</span>&nbsp;{vtranslate('LBL_BOOKMARK_NAME',$MODULE)}
 							</label>
 						</div>
-						<div class="controls">
-							<input type="text" name="bookmarkName" class="form-control" title="{vtranslate('LBL_BOOKMARK_NAME',$MODULE)}" id="bookmarkName"{if $RECORD} value="{$BOOKMARK_NAME}" {/if} placeholder="{vtranslate('LBL_ENTER_BOOKMARK_NAME', $MODULE)}" />
+						<div class="controls col-md-8">
+							<input type="text" name="bookmarkName" class="form-control marginBottom5" title="{vtranslate('LBL_BOOKMARK_NAME',$MODULE)}" id="bookmarkName"{if $RECORD} value="{$BOOKMARK_NAME}" {/if} placeholder="{vtranslate('LBL_ENTER_BOOKMARK_NAME', $MODULE)}" />
 						</div>
+				
 						<br>
-						<div class="control-label">
+						<div class="control-label col-md-4">
 							<label>
 								<span class="redColor">*</span>&nbsp;{vtranslate('LBL_BOOKMARK_URL',$MODULE)}
 							</label>
 						</div>
-						<div class="controls">
-							<input type="text" name="bookmarkUrl" class="form-control" title="{vtranslate('LBL_BOOKMARK_URL',$MODULE)}" id="bookmarkUrl"{if $RECORD} value="{$BOOKMARK_URL}" {/if} placeholder="{vtranslate('LBL_ENTER_URL', $MODULE)}" />
+						<div class="controls col-md-8">
+							<input type="text" name="bookmarkUrl" class="form-control marginBottom5" title="{vtranslate('LBL_BOOKMARK_URL',$MODULE)}" id="bookmarkUrl"{if $RECORD} value="{$BOOKMARK_URL}" {/if} placeholder="{vtranslate('LBL_ENTER_URL', $MODULE)}" />
 						</div>
 					</div>
+						<div class="clearfix pushDown"></div>
 					{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 				</form>
 			</div>
