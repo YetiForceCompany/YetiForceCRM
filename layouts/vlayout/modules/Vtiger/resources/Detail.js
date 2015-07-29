@@ -848,7 +848,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.sortHandler(element);
 		});
-		
+
 		detailContentsHolder.on('click', 'button.selectRelation', function (e) {
 			var selectedTabElement = thisInstance.getSelectedTab();
 			var relatedModuleName = thisInstance.getRelatedModuleName();
@@ -862,7 +862,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				params = {search_key: restrictionsField.key, search_value: restrictionsField.name};
 			}
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
-			
+
 			relatedController.showSelectRelationPopup(params).then(function (data) {
 				//thisInstance.loadWidgets();
 				var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
@@ -1006,7 +1006,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 			var saveTriggred = false;
 			var preventDefault = false;
-			var saveHandler = function (e) {				
+			var saveHandler = function (e) {
 				var element = jQuery(e.target);
 				if ((element.closest('td').is(currentTdElement))) {
 					return;
@@ -1022,12 +1022,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var fieldInfo = Vtiger_Field_Js.getInstance(fieldElement.data('fieldinfo'));
 				var dateTimeField = [];
 				var dateTime = false;
-				if(editElement.find('[data-fieldinfo]').length == 2){
-					editElement.find('[data-fieldinfo]').each(function(){
+				if (editElement.find('[data-fieldinfo]').length == 2) {
+					editElement.find('[data-fieldinfo]').each(function () {
 						var field = [];
-							field['name'] = jQuery(this).attr('name');
-							field['type'] = jQuery(this).data('fieldinfo').type;
-						if(field['type'] == 'datetime'){
+						field['name'] = jQuery(this).attr('name');
+						field['type'] = jQuery(this).data('fieldinfo').type;
+						if (field['type'] == 'datetime') {
 							dateTime = true;
 						}
 						dateTimeField.push(field);
@@ -1094,7 +1094,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						var multiPicklistFieldName = fieldName.split('[]');
 						fieldName = multiPicklistFieldName[0];
 					}
-					
+
 					fieldNameValueMap["value"] = fieldValue;
 					fieldNameValueMap["field"] = fieldName;
 					fieldNameValueMap = thisInstance.getCustomFieldNameValueMap(fieldNameValueMap);
@@ -1104,7 +1104,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						detailViewValue.removeClass('hide');
 						actionElement.removeClass('hide');
 						var displayValue = postSaveRecordDetails[fieldName].display_value;
-						if(dateTimeField.length && dateTime){
+						if (dateTimeField.length && dateTime) {
 							displayValue = postSaveRecordDetails[dateTimeField[0].name].display_value + ' ' + postSaveRecordDetails[dateTimeField[1].name].display_value;
 						}
 						detailViewValue.html(displayValue);
@@ -2305,6 +2305,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 	registerEvents: function () {
 		var thisInstance = this;
 		//thisInstance.triggerDisplayTypeEvent();
+		var detailContentsHolder = thisInstance.getContentHolder();
+		//register all the events for summary view container
+		this.registerSummaryViewContainerEvents(detailContentsHolder);
 		this.registerHelpInfo();
 		thisInstance.registerSendSmsSubmitEvent();
 		thisInstance.registerAjaxEditEvent();
@@ -2329,13 +2332,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 			return;
 		}
 
-		var detailContentsHolder = thisInstance.getContentHolder();
 		app.registerEventForDatePickerFields(detailContentsHolder);
 		//Attach time picker event to time fields
 		app.registerEventForTimeFields(detailContentsHolder);
 		this.registerSetReadRecord(detailViewContainer);
-		//register all the events for summary view container
-		this.registerSummaryViewContainerEvents(detailContentsHolder);
 		this.registerEventForRelatedList();
 		this.registerEventForRelatedListPagination();
 		thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
