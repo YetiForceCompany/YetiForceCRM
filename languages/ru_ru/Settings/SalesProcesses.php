@@ -22,4 +22,5 @@ $languageStrings = [
 	'LBL_ASSETS' => 'Реализованные товары',
 	'LBL_STATUSES_CLOSED_ASSETS' => 'Статусы, определяющие, что товар реализуется',
 	'LBL_CREATE_POTENTIALS' => 'Заблокировать возможность создания Счетов, организациям у которых нет ответственного',
+	'SalesProcesses' => 'Sales Processes',
 ];
