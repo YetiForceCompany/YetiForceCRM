@@ -87,7 +87,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		for ($i = 0; $i < $rows; $i++) {
 			$row = $entries[$i];
 			if ($i != 0) {
-				$slicedArray = array_slice($row, 2);
+				$slicedArray = array_slice($row, 1);
 				array_walk($temp, 'lower_array');
 				array_walk($slicedArray, 'lower_array');
 				$arrDiff = array_diff($temp, $slicedArray);

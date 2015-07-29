@@ -178,35 +178,38 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 		$targetpath = 'modules/' . $this->name;
 
 		if (!is_file($targetpath)) {
-			mkdir($targetpath);
-
-			$templatepath = 'vtlib/ModuleDir/BaseModule';
-			$moduleFileContents = file_get_contents($templatepath . '/ModuleName.php');
-			$replacevars = array(
-				'ModuleName' => $this->name,
-				'<modulename>' => strtolower($this->name),
-				'<entityfieldlabel>' => $entityField->label,
-				'<entitycolumn>' => $entityField->column,
-				'<entityfieldname>' => $entityField->name,
-			);
-			foreach ($replacevars as $key => $value) {
-				$moduleFileContents = str_replace($key, $value, $moduleFileContents);
+			$templatepath = 'vtlib/ModuleDir/' . $this->type . '/';
+			$flags = FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS;
+			$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($templatepath, $flags), RecursiveIteratorIterator::SELF_FIRST);
+			foreach ($objects as $name => $object) {
+				$targetPath = str_replace($templatepath, '', $name);
+				$targetPath = str_replace('_ModuleName_', $this->name, $targetPath);
+				if (is_dir($name)) {
+					if (!is_dir($targetPath)) {
+						mkdir($targetPath);
+					}
+				} else {
+					$fileContent = file_get_contents($name);
+					$replacevars = [
+						'<ModuleName>' => $this->name,
+						'<ModuleLabel>' => $this->label,
+						'<modulename>' => strtolower($this->name),
+						'<entityfieldlabel>' => $entityField->label,
+						'<entitycolumn>' => $entityField->column,
+						'<entityfieldname>' => $entityField->name,
+					];
+					foreach ($replacevars as $key => $value) {
+						$fileContent = str_replace($key, $value, $fileContent);
+					}
+					file_put_contents($targetPath, $fileContent);
+				}
 			}
-			file_put_contents($targetpath . '/' . $this->name . '.php', $moduleFileContents);
-			$languageFileContents = file_get_contents($templatepath . '/languages/en_us/ModuleName.php');
-			$replacevars = array(
-				'<ModuleName>' => $this->name,
-				'<ModuleLabel>' => $this->label,
-				'<entityfieldlabel>' => $entityField->label,
-				'<entityfieldname>' => $entityField->name,
-			);
-			foreach ($replacevars as $key => $value) {
-				$languageFileContents = str_replace($key, $value, $languageFileContents);
-			}
-			file_put_contents('languages/en_us/' . $this->name . '.php', $languageFileContents);
 			$languages = Users_Module_Model::getLanguagesList();
+			$langFile = 'languages/en_us/' . $this->name . '.php';
 			foreach ($languages as $key => $language) {
-				file_put_contents('languages/' . $key . '/' . $this->name . '.php', $languageFileContents);
+				if ($key != 'en_us') {
+					copy($langFile, 'languages/' . $key . '/' . $this->name . '.php');
+				}
 			}
 		}
 	}
@@ -262,5 +265,3 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 		}
 	}
 }
-
-?>

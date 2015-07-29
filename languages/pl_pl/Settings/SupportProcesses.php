@@ -17,6 +17,7 @@ $languageStrings = [
 	'LBL_TICKET_STATUS_INFO' => 'Statusy oznaczające zamknięcie zgłoszenia',
 	'LBL_SAVE_CONFIG_OK' => 'Pomyślnie zapisano ustawienia.',
 	'LBL_SAVE_CONFIG_ERROR'	=> 'Nie udało się zapisać ustawień.',
+	'SupportProcesses' => 'Procesy wsparcia',
 ];
 
 $jsLanguageStrings = [

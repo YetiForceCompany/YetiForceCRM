@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,13 +7,15 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-function _0_created_Email($user_id, $mail_detail, $folder, $return) {
+ * *********************************************************************************************************************************** */
+
+function _0_created_Email($user_id, $mail_detail, $folder, $return)
+{
 	$folder_group = OSSMailScanner_Record_Model::getConfigFolderList($folder);
 	$adb = PearDatabase::getInstance();
-	$result_user_id = $adb->pquery("SELECT crm_user_id FROM roundcube_users where user_id = ? ", [$user_id]);
+	$result_user_id = $adb->pquery('SELECT crm_user_id FROM roundcube_users where user_id = ? ', [$user_id]);
 	$assigned_user_id = $adb->query_result($result_user_id, 0, 'crm_user_id');
-	$result = $adb->pquery("SELECT ossmailviewid FROM vtiger_ossmailview where uid = ? AND rc_user = ? ", [$mail_detail['message_id'], $user_id]);
+	$result = $adb->pquery('SELECT ossmailviewid FROM vtiger_ossmailview where uid = ? AND rc_user = ? ', [$mail_detail['message_id'], $user_id]);
 
 	if ($adb->num_rows($result) == 0 && $mail_detail['message_id'] != '') {
 		$OSSMailViewInstance = CRMEntity::getInstance('OSSMailView');

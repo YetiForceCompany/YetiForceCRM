@@ -17,6 +17,7 @@ $languageStrings = [
 	'LBL_TICKET_STATUS_INFO' => 'O status do Chamado indica fechamento',
 	'LBL_SAVE_CONFIG_OK' => 'As mudanças foram salvas',
 	'LBL_SAVE_CONFIG_ERROR'	=> 'As mudanças foram salvas.',
+	'SupportProcesses' => 'Processos de Suporte',
 	
 ];
 

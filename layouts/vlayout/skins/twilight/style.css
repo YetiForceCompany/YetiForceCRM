@@ -2357,10 +2357,10 @@ th.htColHeader,
 .btn:focus {
 	outline: 0;
 }
-.btn-primary {
+.reminderPostpone.btn-primary {
 	background: #404952;
 }
-.btn-primary:hover {
+.reminderPostpone.btn-primary:hover {
 	background: #1e2327;
 }
 /*
@@ -2860,6 +2860,7 @@ textarea {
 
 .textOverflowEllipsis {
 	overflow: hidden;
+	padding-bottom: 2px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	//width: 9em;
@@ -3415,7 +3416,9 @@ span[name=existingImages] img{
 .finalDiscountUI,.finalTaxUI{
 	bottom: 5px;
 }
- 
 .sideBarTitle{
-	font-size: 20px
+	font-size: 20px;
+}
+.globalSearchInput{
+	width: 300px;
 }

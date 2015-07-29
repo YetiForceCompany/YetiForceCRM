@@ -14,6 +14,7 @@ $languageStrings = [
 	'LBL_ONEDAY_VALID' => 'Work time limited to 24 hours',
 	'LBL_TIMEOVERLAP_VALID' => 'Allow time overlapping',
 	'LBL_GENERAL_SETTINGS' => 'General settings',
+	'TimeControlProcesses' => 'Time control processes',
 ];
 
 $jsLanguageStrings = [

@@ -33,9 +33,11 @@
                                 {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
                                 {if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
                                     <input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}[]' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
-                                {else}
+                                {elseif in_array($FIELD_MODEL->get('uitype'),['15','16','53','56','120'])}
                                     <input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->get('fieldvalue')}' />
-                                {/if}
+                                {else}
+									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
+								{/if}
                             </span>
                             <span class="summaryViewEdit cursorPointer pull-right">
                                 &nbsp;<span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span>

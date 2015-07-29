@@ -45,7 +45,7 @@
 				{/if}
 				<span class="pull-right">
 					<button class="btn btn-success" type="submit" id="saveBtn1"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-					<a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+					<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</button>
 				</span>
 				<div class="clearfix"></div>
 			</div>

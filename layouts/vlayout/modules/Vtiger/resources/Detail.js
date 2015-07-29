@@ -838,6 +838,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * Function to register Event for Sorting
 	 */
 	registerEventForRelatedList: function () {
+
 		var thisInstance = this;
 		var detailContentsHolder = this.getContentHolder();
 		detailContentsHolder.on('click', '.relatedListHeaderValues', function (e) {
@@ -861,6 +862,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				params = {search_key: restrictionsField.key, search_value: restrictionsField.name};
 			}
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
+
 			relatedController.showSelectRelationPopup(params).then(function (data) {
 				//thisInstance.loadWidgets();
 				var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
@@ -1004,7 +1006,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 			var saveTriggred = false;
 			var preventDefault = false;
-
 			var saveHandler = function (e) {
 				var element = jQuery(e.target);
 				if ((element.closest('td').is(currentTdElement))) {
@@ -1019,7 +1020,19 @@ jQuery.Class("Vtiger_Detail_Js", {
 				//value that need to send to the server
 				var fieldValue = ajaxEditNewValue;
 				var fieldInfo = Vtiger_Field_Js.getInstance(fieldElement.data('fieldinfo'));
-
+				var dateTimeField = [];
+				var dateTime = false;
+				if (editElement.find('[data-fieldinfo]').length == 2) {
+					editElement.find('[data-fieldinfo]').each(function () {
+						var field = [];
+						field['name'] = jQuery(this).attr('name');
+						field['type'] = jQuery(this).data('fieldinfo').type;
+						if (field['type'] == 'datetime') {
+							dateTime = true;
+						}
+						dateTimeField.push(field);
+					})
+				}
 				// Since checkbox will be sending only on and off and not 1 or 0 as currrent value
 				if (fieldElement.is('input:checkbox')) {
 					if (fieldElement.is(':checked')) {
@@ -1054,7 +1067,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 						return
 					}
 					preventDefault = false;
-
 					jQuery(document).off('click', '*', saveHandler);
 					if (!saveTriggred && !preventDefault) {
 						saveTriggred = true;
@@ -1082,6 +1094,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						var multiPicklistFieldName = fieldName.split('[]');
 						fieldName = multiPicklistFieldName[0];
 					}
+
 					fieldNameValueMap["value"] = fieldValue;
 					fieldNameValueMap["field"] = fieldName;
 					fieldNameValueMap = thisInstance.getCustomFieldNameValueMap(fieldNameValueMap);
@@ -1090,7 +1103,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 						currentTdElement.progressIndicator({'mode': 'hide'});
 						detailViewValue.removeClass('hide');
 						actionElement.removeClass('hide');
-						detailViewValue.html(postSaveRecordDetails[fieldName].display_value);
+						var displayValue = postSaveRecordDetails[fieldName].display_value;
+						if (dateTimeField.length && dateTime) {
+							displayValue = postSaveRecordDetails[dateTimeField[0].name].display_value + ' ' + postSaveRecordDetails[dateTimeField[1].name].display_value;
+						}
+						detailViewValue.html(displayValue);
 						fieldElement.trigger(thisInstance.fieldUpdatedEvent, {'old': previousValue, 'new': fieldValue});
 						elementTarget.data('prevValue', ajaxEditNewValue);
 						fieldElement.data('selectedValue', ajaxEditNewValue);
@@ -1110,6 +1127,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							jQuery('.detailViewInfo .related li.active').trigger("click");
 							thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
+							thisInstance.registerEventForRelatedList();
 						} else if (selectedTabElement.data('linkKey') == thisInstance.detailViewDetailsTabLabel) {
 							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 						}
@@ -1422,7 +1440,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 */
 		var formElement = thisInstance.getForm();
 		var formData = formElement.serializeFormData();
-		summaryViewContainer.on('click', '.row .summaryViewEdit', function (e) {
+		summaryViewContainer.off('click').on('click', '.row .summaryViewEdit', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.addClass('hide');
 			var currentTdElement = currentTarget.closest('td.fieldValue');
@@ -2001,6 +2019,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							thisInstance.loadWidgets();
 							thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
+							thisInstance.registerEventForRelatedList();
 						} else if (tabElement.data('linkKey') == thisInstance.detailViewDetailsTabLabel) {
 							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 						}
@@ -2195,6 +2214,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 					animation: 'show'
 				};
 				Vtiger_Helper_Js.showPnotify(params);
+				var relatedTabKey = jQuery('.related li.active');
+				if (relatedTabKey.data('linkKey') == thisInstance.detailViewSummaryTabLabel || relatedTabKey.data('linkKey') == thisInstance.detailViewDetailsTabLabel) {
+					relatedTabKey.trigger('click');
+				}
 			});
 		});
 	},
@@ -2286,6 +2309,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 	registerEvents: function () {
 		var thisInstance = this;
 		//thisInstance.triggerDisplayTypeEvent();
+		var detailContentsHolder = thisInstance.getContentHolder();
+		//register all the events for summary view container
+		this.registerSummaryViewContainerEvents(detailContentsHolder);
 		this.registerHelpInfo();
 		thisInstance.registerSendSmsSubmitEvent();
 		thisInstance.registerAjaxEditEvent();
@@ -2296,8 +2322,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerPhoneFieldClickEvent();
 		this.registerEventForActivityFollowupClickEvent();
 		this.registerEventForMarkAsCompletedClick();
-		this.registerEventForRelatedList();
-		this.registerEventForRelatedListPagination();
 		this.registerEventForAddingRelatedRecord();
 		this.registerEventForEmailsRelatedRecord();
 		this.registerEventForAddingEmailFromRelatedList();
@@ -2312,13 +2336,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 			return;
 		}
 
-		var detailContentsHolder = thisInstance.getContentHolder();
 		app.registerEventForDatePickerFields(detailContentsHolder);
 		//Attach time picker event to time fields
 		app.registerEventForTimeFields(detailContentsHolder);
 		this.registerSetReadRecord(detailViewContainer);
-		//register all the events for summary view container
-		this.registerSummaryViewContainerEvents(detailContentsHolder);
+		this.registerEventForRelatedList();
+		this.registerEventForRelatedListPagination();
 		thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 
 		detailContentsHolder.on('click', '#detailViewNextRecordButton', function (e) {

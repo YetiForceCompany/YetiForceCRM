@@ -54,6 +54,7 @@ $languageStrings = [
 	'LBL_STAGE_7' => 'Czyszczenie danych tymczasowych',
 	'LBL_STAGE_8' => 'Wysyłanie danych na FTP',
 	'LBL_STAGE_9' => 'Kończenie kopii zapasowej',
+	'BackUp' => 'Kopie zapasowe',
 ];
 $jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Pola obowiązkowe nie mogą być puste',

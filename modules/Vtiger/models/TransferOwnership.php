@@ -52,7 +52,7 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 						}
 						$sql = "SELECT vtiger_crmentity.crmid FROM vtiger_crmentity INNER JOIN $tablename ON $tablename.$tabIndex = vtiger_crmentity.crmid
 						WHERE $tablename.$relIndex IN (" . $db->generateQuestionMarks($recordIds) . ")";
-						$result = $db->query($sql, $recordIds);
+						$result = $db->pquery($sql, $recordIds);
 						while ($crmid = $db->getSingleValue($result)) {
 							$relatedIds[] = $crmid;
 						}

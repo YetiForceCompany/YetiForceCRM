@@ -8,13 +8,13 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'<ModuleName>' => '<ModuleLabel>',
 	'SINGLE_<ModuleName>' => '<ModuleLabel>',
 	'<ModuleName> ID' => '<ModuleLabel> ID',
 
 	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
-	'LBL_MODULEBLOCK_INFORMATION' => 'ModuleBlock Information',
+	'LBL_<ModuleName>_INFORMATION' => '<ModuleName> Information',
 
 	'<entityfieldname>' => '<entityfieldlabel>',
-);
+];

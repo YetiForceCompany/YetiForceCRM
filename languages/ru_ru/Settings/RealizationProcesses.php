@@ -17,6 +17,7 @@ $languageStrings = [
 	'LBL_PROJECT_STATUS_INFO' => 'Состояние определяющее закрытие проекта',
 	'LBL_SAVE_CONFIG_OK' => 'Изменения успешно сохранены',
 	'LBL_SAVE_CONFIG_ERROR' => 'Ошибка сохранения изменений',
+	'RealizationProcesses' => 'Realization processes',
 ];
 
 $jsLanguageStrings = [

@@ -47,6 +47,7 @@ class Vtiger_ModuleBasic
 	var $basetableid = false;
 	var $customtable = false;
 	var $grouptable = false;
+	var $type = 'BaseModule';
 
 	const EVENT_MODULE_ENABLED = 'module.enabled';
 	const EVENT_MODULE_DISABLED = 'module.disabled';
@@ -235,7 +236,7 @@ class Vtiger_ModuleBasic
 	{
 		$this->__handleVtigerCoreSchemaChanges();
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("UPDATE vtiger_tab SET version=? WHERE tabid=?", Array($newversion, $this->id));
+		$adb->pquery('UPDATE vtiger_tab SET version=? WHERE tabid=?', Array($newversion, $this->id));
 		$this->version = $newversion;
 		self::log("Updating version to $newversion ... DONE");
 	}
@@ -291,18 +292,20 @@ class Vtiger_ModuleBasic
 		if (!$this->basetable)
 			$this->basetable = "vtiger_$lcasemodname";
 		if (!$this->basetableid)
-			$this->basetableid = $lcasemodname . "id";
+			$this->basetableid = $lcasemodname . 'id';
 
 		if (!$this->customtable)
-			$this->customtable = $this->basetable . "cf";
-		if (!$this->grouptable)
-			$this->grouptable = $this->basetable . "grouprel";
+			$this->customtable = $this->basetable . 'cf';
 
-		Vtiger_Utils::CreateTable($this->basetable, "($this->basetableid INT)", true);
-		Vtiger_Utils::CreateTable($this->customtable, "($this->basetableid INT PRIMARY KEY)", true);
-		if (Vtiger_Version::check('5.0.4', '<=')) {
-			Vtiger_Utils::CreateTable($this->grouptable, "($this->basetableid INT PRIMARY KEY, groupname varchar(100))", true);
+		Vtiger_Utils::CreateTable($this->basetable, "($this->basetableid int(19) PRIMARY KEY, CONSTRAINT `fk_1_$this->basetable` FOREIGN KEY (`$this->basetableid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE)", true);
+		Vtiger_Utils::CreateTable($this->customtable, "($this->basetableid int(19) PRIMARY KEY, CONSTRAINT `fk_1_$this->customtable` FOREIGN KEY (`$this->basetableid`) REFERENCES `$this->basetable` (`$this->basetableid`) ON DELETE CASCADE)", true);
+		if($this->type == 'SupplieModule'){
+			Vtiger_Utils::CreateTable($this->basetable. '_supfield', "(id int(19) AUTO_INCREMENT PRIMARY KEY, columnname varchar(30) NOT NULL,suptype varchar(30) NOT NULL,
+fieldlabel varchar(50) NOT NULL,presence int(1) unsigned NOT NULL DEFAULT '1',defaultvalue varchar(255),sequence int(10) unsigned DEFAULT NULL,
+block int(1) unsigned DEFAULT NULL,displaytype int(1) unsigned DEFAULT NULL)", true);
+			Vtiger_Utils::CreateTable($this->basetable. '_sups', "(id int(19) PRIMARY KEY)", true);
 		}
+		
 	}
 
 	/**
@@ -320,13 +323,13 @@ class Vtiger_ModuleBasic
 				$this->entityidcolumn = $this->basetableid;
 		}
 		if ($this->entityidfield && $this->entityidcolumn) {
-			$result = $adb->pquery("SELECT tabid FROM vtiger_entityname WHERE tablename=? AND tabid=?", array($fieldInstance->table, $this->id));
+			$result = $adb->pquery('SELECT tabid FROM vtiger_entityname WHERE tablename=? AND tabid=?', array($fieldInstance->table, $this->id));
 			if ($adb->num_rows($result) == 0) {
-				$adb->pquery("INSERT INTO vtiger_entityname(tabid, modulename, tablename, fieldname, entityidfield, entityidcolumn, searchcolumn) VALUES(?,?,?,?,?,?,?)", Array($this->id, $this->name, $fieldInstance->table, $fieldInstance->name, $this->entityidfield, $this->entityidcolumn, $this->entityidfield));
-				self::log("Setting entity identifier ... DONE");
+				$adb->pquery('INSERT INTO vtiger_entityname(tabid, modulename, tablename, fieldname, entityidfield, entityidcolumn, searchcolumn) VALUES(?,?,?,?,?,?,?)', Array($this->id, $this->name, $fieldInstance->table, $fieldInstance->name, $this->entityidfield, $this->entityidcolumn, $this->name));
+				self::log('Setting entity identifier ... DONE');
 			} else {
-				$adb->pquery("UPDATE vtiger_entityname SET fieldname=?,entityidfield=?,entityidcolumn=? WHERE tablename=? AND tabid=?", array($fieldInstance->name, $this->entityidfield, $this->entityidcolumn, $fieldInstance->table, $this->id));
-				self::log("Updating entity identifier ... DONE");
+				$adb->pquery('UPDATE vtiger_entityname SET fieldname=?,entityidfield=?,entityidcolumn=? WHERE tablename=? AND tabid=?', array($fieldInstance->name, $this->entityidfield, $this->name, $fieldInstance->table, $this->id));
+				self::log('Updating entity identifier ... DONE');
 			}
 		}
 	}
@@ -337,8 +340,8 @@ class Vtiger_ModuleBasic
 	function unsetEntityIdentifier()
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("DELETE FROM vtiger_entityname WHERE tabid=?", Array($this->id));
-		self::log("Unsetting entity identifier ... DONE");
+		$adb->pquery('DELETE FROM vtiger_entityname WHERE tabid=?', Array($this->id));
+		self::log('Unsetting entity identifier ... DONE');
 	}
 
 	/**
@@ -347,15 +350,15 @@ class Vtiger_ModuleBasic
 	function deleteRelatedLists()
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("DELETE FROM vtiger_relatedlists WHERE tabid=?", Array($this->id));
-		self::log("Deleting related lists ... DONE");
+		$adb->pquery('DELETE FROM vtiger_relatedlists WHERE tabid=?', Array($this->id));
+		self::log('Deleting related lists ... DONE');
 	}
 
 	function deleteInRelatedLists()
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("DELETE FROM vtiger_relatedlists WHERE related_tabid=?", Array($this->id));
-		self::log("Deleting related lists ... DONE");
+		$adb->pquery('DELETE FROM vtiger_relatedlists WHERE related_tabid=?', Array($this->id));
+		self::log('Deleting related lists ... DONE');
 	}
 
 	/**
@@ -364,8 +367,8 @@ class Vtiger_ModuleBasic
 	function deleteLinks()
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("DELETE FROM vtiger_links WHERE tabid=?", Array($this->id));
-		self::log("Deleting links ... DONE");
+		$adb->pquery('DELETE FROM vtiger_links WHERE tabid=?', Array($this->id));
+		self::log('Deleting links ... DONE');
 	}
 
 	/**

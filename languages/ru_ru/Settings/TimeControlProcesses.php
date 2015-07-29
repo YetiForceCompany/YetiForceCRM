@@ -15,6 +15,7 @@ $languageStrings = [
 	'LBL_ONEDAY_VALID' => 'Время работы ограничено до 24 часов',
 	'LBL_TIMEOVERLAP_VALID' => 'Укажите время повторения',
 	'LBL_GENERAL_SETTINGS' => 'Настройки',
+	'TimeControlProcesses' => 'Time control processes',
 ];
 
 $jsLanguageStrings = [

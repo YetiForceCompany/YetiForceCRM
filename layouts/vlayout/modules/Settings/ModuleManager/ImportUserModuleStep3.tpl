@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="" id="importModules">
+	<div id="importModules">
 		<div class="widget_header">
 			<h3>{vtranslate('LBL_IMPORT_MODULE_FROM_FILE', $QUALIFIED_MODULE)}</h3>
 		</div><hr>
@@ -52,10 +52,7 @@
 							</tbody>
 						</table>
 						<div class="modal-footer">
-							<input type="hidden" name="module" value="ModuleManager">
-							<input type="hidden" name="parent" value="Settings">
-							<input type="hidden" name="view" value="List">
-							<button  class="btn btn-success" type="submit" ><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
+							<a href="index.php?module=ModuleManager&parent=Settings&view=List" class="btn btn-success"><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></a>
 						</div>
 					</form>
 				</div>

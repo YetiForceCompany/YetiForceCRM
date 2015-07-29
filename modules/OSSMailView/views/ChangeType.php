@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,13 +7,17 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-class OSSMailView_ChangeType_View extends Vtiger_IndexAjax_View {
-	function process(Vtiger_Request $request) {
+ * *********************************************************************************************************************************** */
+
+class OSSMailView_ChangeType_View extends Vtiger_IndexAjax_View
+{
+
+	function process(Vtiger_Request $request)
+	{
 		$module = $request->getModule();
 		$type_list = OSSMailView_Record_Model::getMailType();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE',$module);
+		$viewer->assign('MODULE', $module);
 		$viewer->assign('TYPE_LIST', $type_list);
 		$viewer->view('ChangeType.tpl', $module);
 	}

@@ -88,11 +88,18 @@ function load_connection(crm_path, gcrm, params, inframe, progressIndicatorEleme
 		var related_records = find_crm_detail(crm_path, 'all', params);
 		getConfig.done(function (cfg) {
 			related_records.done(function (fcd) {
-				if (data.result != 'false') {
-					if (data.result == 0) {
+				if (data.result !== 'false') {
+					var crmid = 0;
+					if (data.result.id !== undefined) {
+						crmid = data.result.id;
+					}
+					if (data.result['0_created_Email'] !== undefined) {
+						crmid = data.result['0_created_Email']['created_Email'];
+					}
+					if (crmid === 0) {
 						load_oss_bar_no_mail(inframe, params);
 					} else {
-						params['crmid'] = data.result;
+						params['crmid'] = crmid;
 						load_oss_bar(inframe, params['crmid'], cfg.result, fcd.result);
 						load_action(inframe, params);
 					}

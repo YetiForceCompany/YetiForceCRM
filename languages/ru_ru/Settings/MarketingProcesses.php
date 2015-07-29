@@ -22,6 +22,7 @@ $languageStrings = [
 	'LBL_CONVERT_LEAD_MERGE' => 'Блокировать создание дублирующихся записей при преобразовании',
 	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'Эта опция позволяет объединять одинаковые данные при обращении, что исключает дублирование записей',
 	'LBL_CONDITION' => 'Добавление условий',
+	'MarketingProcesses' => 'Marketing processes',
 ];
 $jsLanguageStrings = [
 	'JS_NO_CONDITIONS' => 'Выберите как минимум одно условие',

@@ -21,4 +21,5 @@ $languageStrings = [
 	'LBL_ASSETS' => 'Produtos Vendidos',
 	'LBL_STATUSES_CLOSED_ASSETS' => 'Selecione os Status que indicam que o Produto Vendido está fechado',
 	'LBL_CREATE_POTENTIALS' => 'A criação de Oportunidades para Contas/Organizações, na qual o Responsável não é um Usuário, foi bloqueada',
+	'SalesProcesses' => 'Sales Processes',
 ];

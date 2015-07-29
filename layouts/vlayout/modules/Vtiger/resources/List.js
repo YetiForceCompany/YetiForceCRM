@@ -1410,9 +1410,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var liElement = currentElement.find('#createFilter');
 		var createUrl = liElement.data('createurl');
 		Vtiger_CustomView_Js.loadFilterView(createUrl);
-	},
-	
-	
+},
 	/*
 	 * Function to register the click event for duplicate filter
 	 */
@@ -1466,9 +1464,11 @@ jQuery.Class("Vtiger_List_Js", {
 						function (e) {
 							var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 							var deleteUrl = currentOptionElement.data('deleteurl');
-							var newEle = '<form action=' + deleteUrl + ' method="POST">' +
-									'<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>' +
-									'</form>';
+							var newEle = '<form action=' + deleteUrl + ' method="POST">';
+							if (typeof csrfMagicName !== 'undefined') {
+								newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
+							}
+							newEle += '</form>';
 							var formElement = jQuery(newEle);
 							formElement.appendTo('body').submit();
 						},
@@ -1493,9 +1493,11 @@ jQuery.Class("Vtiger_List_Js", {
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
 				var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 				var approveUrl = currentOptionElement.data('approveurl');
-				var newEle = '<form action=' + approveUrl + ' method="POST">' +
-						'<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>' +
-						'</form>';
+				var newEle = '<form action=' + approveUrl + ' method="POST">';
+				if (typeof csrfMagicName !== 'undefined') {
+					newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
+				}
+				newEle += '</form>';
 				var formElement = jQuery(newEle);
 
 				formElement.appendTo('body').submit();

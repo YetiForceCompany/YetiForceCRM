@@ -57,6 +57,7 @@ $languageStrings = [
 	'LBL_STAGE_7' => 'Eliminado dados provisórios',
 	'LBL_STAGE_8' => 'Enviando dado para FTP',
 	'LBL_STAGE_9' => 'Concluindo backup',
+	'BackUp' => 'Backup',
 ];
 $jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Os campos obrigatórios não podem estar vazios',

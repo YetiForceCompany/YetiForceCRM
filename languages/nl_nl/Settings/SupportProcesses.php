@@ -17,7 +17,7 @@ $languageStrings = [
 	'LBL_TICKET_STATUS_INFO' => 'Statuses determining that ticket is closed',
 	'LBL_SAVE_CONFIG_OK' => 'Changes have been saved',
 	'LBL_SAVE_CONFIG_ERROR'	=> 'Changes have been saved.',
-	
+	'SupportProcesses' => 'Support processes',
 ];
 
 $jsLanguageStrings = [
