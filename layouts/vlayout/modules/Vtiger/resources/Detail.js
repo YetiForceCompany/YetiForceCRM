@@ -2214,6 +2214,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 					animation: 'show'
 				};
 				Vtiger_Helper_Js.showPnotify(params);
+				var relatedTabKey = jQuery('.related li.active');
+				if (relatedTabKey.data('linkKey') == thisInstance.detailViewSummaryTabLabel || relatedTabKey.data('linkKey') == thisInstance.detailViewDetailsTabLabel) {
+					relatedTabKey.trigger('click');
+				}
 			});
 		});
 	},
