@@ -16,7 +16,7 @@
 
 	<div class="row">
 		{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders()}
-			<div class="col-sm-{$SPANSIZE}"><strong>{vtranslate($FIELD->get('label'),$BASE_MODULE)}</strong></div>
+			<div class="col-sm-{$SPANSIZE}"><strong>{vtranslate($FIELD->get('label'),$BASE_MODULE)} </strong></div>
 				{/foreach}
 	</div>
 
@@ -34,11 +34,10 @@
 						<a href="{$RECORD->getDetailViewUrl()}" class="pull-right"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>
 						{/if}
 						{if $RECORD->get($FIELD->get('name'))}
-							{$RECORD->get($FIELD->get('name'))}
+							{vtranslate($RECORD->get($FIELD->get('name')), $BASE_MODULE)}
 						{else}
 						&nbsp;
 					{/if}
-
 				</div>
 			{/foreach}
 		</div>
