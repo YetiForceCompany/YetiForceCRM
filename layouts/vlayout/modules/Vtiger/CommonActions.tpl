@@ -59,7 +59,7 @@
 	{if !empty($announcement)}
 		<div class="navbar-form navbar-right">
 			<div class="quickActions">
-				<a href="#"><img class='alignMiddle' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" /></a>
+				<img class='alignMiddle' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
 			</div>	
 		</div>
 	{/if}

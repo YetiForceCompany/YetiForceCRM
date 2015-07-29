@@ -137,19 +137,19 @@ jQuery.Class("Vtiger_Header_Js", {
 		form.submit();
 	},
 	setAnnouncement: function () {
-//        var announcementoff = app.cacheGet('announcement.turnoff' , false);
-//        var announcementBtn = jQuery('#announcementBtn');
-//        var thisInstance = this;
-//        if(announcementoff === true) {
-//            jQuery('#announcement').hide();
-//            announcementBtn.attr('src', app.vimage_path('btnAnnounceOff.png'));
-//            thisInstance.alignContentsContainer('69px',0,'linear');
-//        }
-//        else{
-//            jQuery('#announcement').show();
-//            announcementBtn.attr('src', app.vimage_path('btnAnnounce.png'));
-//            thisInstance.alignContentsContainer('92px',0,'linear');
-//        }
+		var announcementoff = app.cacheGet('announcement.turnoff' , false);
+		var announcementBtn = jQuery('#announcementBtn');
+		var thisInstance = this;
+		if(announcementoff === true) {
+			jQuery('#announcement').hide();
+			announcementBtn.attr('src', app.vimage_path('btnAnnounceOff.png'));
+			thisInstance.alignContentsContainer('69px',0,'linear');
+		}
+		else{
+			jQuery('#announcement').show();
+			announcementBtn.attr('src', app.vimage_path('btnAnnounce.png'));
+			thisInstance.alignContentsContainer('92px',0,'linear');
+		}
 	},
 	registerAnnouncement: function () {
 		var thisInstance = this;
@@ -710,8 +710,8 @@ jQuery.Class("Vtiger_Header_Js", {
 			currentTarget.trigger(pressEvent);
 		});
 		thisInstance.registerAnnouncement();
-		//this.setAnnouncement();
-		jQuery('#announcementBtn').trigger('click');
+		this.setAnnouncement();
+		
 		thisInstance.registerHotKeys();
 		//this.registerCalendarButtonClickEvent();
 		jQuery('#moreMenu').click(function (e) {
