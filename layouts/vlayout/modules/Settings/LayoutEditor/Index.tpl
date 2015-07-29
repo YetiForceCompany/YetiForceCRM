@@ -247,20 +247,22 @@
 																								</span></span>
 																						</span>
 																					{/if}
-																					<hr />
-																					<span>
-																						<label class="checkbox" style="padding-left: 5px;">
-																							{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
-																							{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
-																						</label>
-																						<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
-																							<select name="displaytype" class="form-control">
-																								{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
-																									<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
-																								{/foreach}
-																							</select>
-																						</div>
-																					</span>
+																					{if SysDeveloper::get('CHANGE_VISIBILITY')}
+																						<hr />
+																						<span>
+																							<label class="checkbox" style="padding-left: 5px;">
+																								{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
+																								{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
+																							</label>
+																							<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
+																								<select name="displaytype" class="form-control">
+																									{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
+																										<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
+																									{/foreach}
+																								</select>
+																							</div>
+																						</span>
+																					{/if}
 																					{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
 																						<span>
 																							<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
@@ -440,20 +442,22 @@
 																							</div>
 																						</div>
 																					{/if}
-																					<hr />
-																					<span>
-																						<label class="checkbox" style="padding-left: 5px;">
-																							{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
-																							{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
-																						</label>
-																						<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
-																							<select name="displaytype" class="form-control">
-																								{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
-																									<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
-																								{/foreach}
-																							</select>
-																						</div>
-																					</span>
+																					{if SysDeveloper::get('CHANGE_VISIBILITY')}
+																						<hr />
+																						<span>
+																							<label class="checkbox" style="padding-left: 5px;">
+																								{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
+																								{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
+																							</label>
+																							<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
+																								<select name="displaytype" class="form-control">
+																									{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
+																										<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
+																									{/foreach}
+																								</select>
+																							</div>
+																						</span>
+																					{/if}
 																					{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
 																						<span>
 																							<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
@@ -593,17 +597,19 @@
 																{vtranslate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}</label>
 															<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;"></div>
 														</span>
-														<hr />
-														<span>
-															<label class="checkbox" style="padding-left: 5px;">
-																{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
-																<select name="displaytype" class="form-control">
-																	{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE_LIST}
-																		<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_KEY == '1'} selected {/if}>{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
-																	{/foreach}
-																</select>
-															</label>
-														</span>
+														{if SysDeveloper::get('CHANGE_VISIBILITY')}
+															<hr />
+															<span>
+																<label class="checkbox" style="padding-left: 5px;">
+																	{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
+																	<select name="displaytype" class="form-control">
+																		{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE_LIST}
+																			<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_KEY == '1'} selected {/if}>{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
+																		{/foreach}
+																	</select>
+																</label>
+															</span>
+														{/if}
 														{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
 															<span>
 																<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
