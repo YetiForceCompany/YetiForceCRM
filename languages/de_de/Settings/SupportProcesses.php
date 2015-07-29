@@ -17,4 +17,5 @@ $languageStrings = [
 	'LBL_TICKET_STATUS_INFO' => 'Ticketstatus welcher als geschlossen zählt',
 	'LBL_SAVE_CONFIG_OK' => 'Änderungen wurden gesichert',
 	'LBL_SAVE_CONFIG_ERROR'	=> 'Beim Sichern traten Fehler auf.',
+	'SupportProcesses' => 'Supportprozesse',
 ];
