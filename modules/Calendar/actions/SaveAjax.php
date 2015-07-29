@@ -12,7 +12,6 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 
 	public function process(Vtiger_Request $request) {
         $user = Users_Record_Model::getCurrentUserModel();
-
 		$allDay = $request->get('allday');
 		if('on' == $allDay){
 			$request->set('time_start', NULL);
@@ -34,8 +33,8 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 				$dateComponent = $dateTimeComponents[0];
 				//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 				$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
-				$result[$fieldName]['value'] = $fieldValue;
-				$result[$fieldName]['display_value'] =$dataBaseDateFormatedString;
+				$result[$fieldName]['value'] = $dataBaseDateFormatedString;
+				$result[$fieldName]['display_value'] = $fieldValue;
 			}
 			else if($fieldName == 'due_date') {
 				$timeEnd = $recordModel->get('time_end');
@@ -46,9 +45,8 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 				$dateComponent = $dateTimeComponents[0];
 				//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 				$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
-
-				$result[$fieldName]['value'] = $fieldValue;
-				$result[$fieldName]['display_value'] = $dataBaseDateFormatedString;
+				$result[$fieldName]['value'] = $dataBaseDateFormatedString;
+				$result[$fieldName]['display_value'] = $fieldValue;
 			}
 			else if($fieldName == 'time_end') {
 				$dueDate = $recordModel->get('due_date');
@@ -57,6 +55,10 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
 				$dateTimeComponents = explode(' ',$userDateTimeString);
 	
+				if ($user->get('hour_format') == '12'){
+					$dateTimeComponents[1] = Vtiger_Time_UIType::getTimeValueInAMorPM($dateTimeComponents[1]);
+				}
+				
 				$result[$fieldName]['value'] = $fieldValue;
 				$result[$fieldName]['display_value'] = $dateTimeComponents[1];
 			}
@@ -66,7 +68,11 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 
 				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
 				$dateTimeComponents = explode(' ',$userDateTimeString);
-
+				
+				if ($user->get('hour_format') == '12'){
+					$dateTimeComponents[1] = Vtiger_Time_UIType::getTimeValueInAMorPM($dateTimeComponents[1]);
+				}
+				
 				$result[$fieldName]['value'] = $fieldValue;
 				$result[$fieldName]['display_value'] = $dateTimeComponents[1];
 			}
