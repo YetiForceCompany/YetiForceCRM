@@ -2860,6 +2860,7 @@ textarea {
 
 .textOverflowEllipsis {
 	overflow: hidden;
+	padding-bottom: 2px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	//width: 9em;
