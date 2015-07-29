@@ -838,6 +838,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * Function to register Event for Sorting
 	 */
 	registerEventForRelatedList: function () {
+
 		var thisInstance = this;
 		var detailContentsHolder = this.getContentHolder();
 		detailContentsHolder.on('click', '.relatedListHeaderValues', function (e) {
@@ -847,7 +848,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.sortHandler(element);
 		});
-
+		
 		detailContentsHolder.on('click', 'button.selectRelation', function (e) {
 			var selectedTabElement = thisInstance.getSelectedTab();
 			var relatedModuleName = thisInstance.getRelatedModuleName();
@@ -861,6 +862,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				params = {search_key: restrictionsField.key, search_value: restrictionsField.name};
 			}
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
+			
 			relatedController.showSelectRelationPopup(params).then(function (data) {
 				//thisInstance.loadWidgets();
 				var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
@@ -1125,6 +1127,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							jQuery('.detailViewInfo .related li.active').trigger("click");
 							thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
+							thisInstance.registerEventForRelatedList();
 						} else if (selectedTabElement.data('linkKey') == thisInstance.detailViewDetailsTabLabel) {
 							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 						}
@@ -2016,6 +2019,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							thisInstance.loadWidgets();
 							thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
+							thisInstance.registerEventForRelatedList();
 						} else if (tabElement.data('linkKey') == thisInstance.detailViewDetailsTabLabel) {
 							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 						}
@@ -2311,8 +2315,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerPhoneFieldClickEvent();
 		this.registerEventForActivityFollowupClickEvent();
 		this.registerEventForMarkAsCompletedClick();
-		this.registerEventForRelatedList();
-		this.registerEventForRelatedListPagination();
 		this.registerEventForAddingRelatedRecord();
 		this.registerEventForEmailsRelatedRecord();
 		this.registerEventForAddingEmailFromRelatedList();
@@ -2334,6 +2336,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerSetReadRecord(detailViewContainer);
 		//register all the events for summary view container
 		this.registerSummaryViewContainerEvents(detailContentsHolder);
+		this.registerEventForRelatedList();
+		this.registerEventForRelatedListPagination();
 		thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 
 		detailContentsHolder.on('click', '#detailViewNextRecordButton', function (e) {
