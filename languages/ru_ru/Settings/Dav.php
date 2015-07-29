@@ -31,7 +31,7 @@ $languageStrings = [
 	'LBL_SELECT_TYPE' => 'Тип',
 	'LBL_COUNT_CARD' => 'Количество контактов',
 	'LBL_COUNT_CAL' => 'Количество событий',
-	
+	'Dav' => 'Синхронизация',
 	'LBL_VIEW_KEYS' => 'Синхронизация',
 ];
 $jsLanguageStrings = [
