@@ -1453,7 +1453,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 * Function to handle actions after ajax save in summary view
 		 */
 		summaryViewContainer.on(thisInstance.fieldUpdatedEvent, '.recordDetails', function (e, params) {
-			var updatesWidget = summaryViewContainer.find("[data-name='LBL_UPDATES']");
+			var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
 			thisInstance.loadWidget(updatesWidget);
 		});
 
@@ -1684,7 +1684,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		relatedController.addRelations(relatedModuleRecordId).then(
 				function (data) {
 					var summaryViewContainer = thisInstance.getContentHolder();
-					var updatesWidget = summaryViewContainer.find("[data-name='LBL_UPDATES']");
+					var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
 					if (updatesWidget.length > 0) {
 						thisInstance.loadWidget(updatesWidget);
 					}
@@ -2495,7 +2495,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (!element.is(":disabled")) {
 				var dataObj = thisInstance.saveComment(e);
 				dataObj.then(function () {
-					var commentsContainer = detailContentsHolder.find("[data-name='ModComments']");
+					var commentsContainer = detailContentsHolder.find("[data-type='Comments']");
 					thisInstance.loadWidget(commentsContainer).then(function () {
 						element.removeAttr('disabled');
 					});
