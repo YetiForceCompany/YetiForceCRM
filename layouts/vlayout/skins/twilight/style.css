@@ -3166,7 +3166,8 @@ table.listViewEntriesTable {
 .editViewContainer .recordEditView table.blockContainer tr td.fieldValue {
 	width: 30%;
 }
-.recordEditView[name=QuickCreate] .quickCreateContent table tr td.fieldValue {
+.recordEditView[name=QuickCreate] .quickCreateContent table tr td.fieldValue,
+#massEditContainer .massEditContent table tr td.fieldValue{
 	width: 30%;
 }
 .btn {
@@ -3421,4 +3422,10 @@ span[name=existingImages] img{
 }
 .globalSearchInput{
 	width: 300px;
+}
+#groupsDetailContainer strong{
+	line-height: 21px;
+}
+#addTaskContainer #taskStatus{
+	margin-left: 10px;
 }

@@ -162,6 +162,16 @@ $languageStrings = [
 	'Update Closed Time' => 'Update Closed Time',
 	'Send Notification' => 'Invitees - Send Notification',
 	'Create Address Book' => 'Create Address Book',
+	//workflow add time
+	'Current Date' => 'Current Date',
+	'Current Time' => 'Current time',
+	'System Timezone' => 'System Timezone',
+	'User Timezone' => 'User Timezone',
+	'CRM Detail View URL' => 'CRM Detail View URL',
+	'Portal Detail View URL' => 'Portal Detail View URL',
+	'Site Url' => 'Site Url',
+	'Portal Url' => 'Portal Url',
+	'Record Id' => 'Record Id',
 ];
 
 $jsLanguageStrings = [

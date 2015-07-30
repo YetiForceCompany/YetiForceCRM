@@ -537,11 +537,13 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js",{},{
 		fieldUiHolder.html(fieldSpecificUi);
 
 		if(fieldSpecificUi.is('input.select2')){
+			fieldUiHolder.addClass('paddingLRZero');
 			var tagElements = fieldSpecificUi.data('tags');
 			var params = {tags : tagElements,tokenSeparators: [","]}
 			app.showSelect2ElementView(fieldSpecificUi,params)
 		} else if(fieldSpecificUi.is('select')){
 			if(fieldSpecificUi.hasClass('chzn-select')) {
+				fieldUiHolder.addClass('paddingLRZero');
 				app.changeSelectElementView(fieldSpecificUi)
 			}else{
 				app.showSelect2ElementView(fieldSpecificUi);

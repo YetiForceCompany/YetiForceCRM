@@ -24,5 +24,6 @@ $languageStrings = [
 	'Comment' => 'Komentarz',
 	'Creator' => 'Kreator',
 	'Related To Comments' => 'Powiązany z',
+	'ReasonToEdit' => 'test',
 	
 ];

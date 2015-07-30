@@ -18,7 +18,7 @@
 			<span class="col-md-4">{vtranslate('LBL_TEMPLATES', 'OSSPdf')}</span>
 			<div class="col-md-6 padding-bottom1per">
 				<select class="chzn-select form-control" name="pdf_tpl" data-validation-engine="validate[required]">
-					<option value=""></option>
+					<option value="none">{vtranslate('LBL_SELECT_FIELD',$MODULE)}</option>
 					{foreach from=$PDF_TPL key=key item=item}
 						<option {if $TASK_OBJECT->pdf_tpl eq $item.id}selected{/if} value="{$item.id}">{$item.name}</option>
 					{/foreach}
@@ -29,7 +29,7 @@
 			<span class="col-md-4">{vtranslate('EmailTempleteList', $QUALIFIED_MODULE)}</span>
 			<div class="col-md-6 padding-bottom1per">
 				<select class="chzn-select form-control" name="email_tpl"  data-validation-engine="validate[required]">
-					<option value=""></option>
+					<option value="none">{vtranslate('LBL_SELECT_FIELD',$MODULE)}</option>
 					{foreach from=$MAIL_TPL key=key item=item}
 						<option {if $TASK_OBJECT->email_tpl eq $item.ossmailtemplatesid}selected{/if} value="{$item.ossmailtemplatesid}">{$item.name}</option>
 					{/foreach}

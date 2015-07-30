@@ -12,7 +12,7 @@
             {if $RECORDID eq ''}
                 {vtranslate('LBL_CREATING_WORKFLOW',$QUALIFIED_MODULE)}
             {else}
-                {vtranslate('LBL_EDITING_WORKFLOW',$QUALIFIED_MODULE)} : {$WORKFLOW_MODEL->get('summary')}
+                {vtranslate('LBL_EDITING_WORKFLOW',$QUALIFIED_MODULE)} : {vtranslate($WORKFLOW_MODEL->get('summary'), $QUALIFIED_MODULE)}
             {/if}
         </h3>
         <hr>
