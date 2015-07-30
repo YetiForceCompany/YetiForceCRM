@@ -35,8 +35,8 @@
 								</span>
 								<span class="span">&nbsp;</span>
 								<span class="col-md-3 row">
-									<div class="col-md-3">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</div>
-									<div class="col-md-9">
+									<div class="pull-left">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</div>
+									<div class="pull-left" id="taskStatus">
 										<input type="radio" name="active" class="alignTop" {if $TASK_MODEL->get('status') eq 1} checked="" {/if} value="true">&nbsp;{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<input type="radio" name="active" class="alignTop" {if $TASK_MODEL->get('status') neq 1} checked="" {/if} value="false" />&nbsp;{vtranslate('LBL_IN_ACTIVE',$QUALIFIED_MODULE)}
 									</div>

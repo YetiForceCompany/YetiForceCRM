@@ -978,6 +978,7 @@ $languageStrings = [
 	'LBL_LEGAL_FORM' => 'Rechtsform',
 	
 	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Export to Excel',
+	'ReasonToEdit' => 'Reason to edit',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
