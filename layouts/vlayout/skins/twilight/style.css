@@ -3426,3 +3426,6 @@ span[name=existingImages] img{
 #groupsDetailContainer strong{
 	line-height: 21px;
 }
+#addTaskContainer #taskStatus{
+	margin-left: 10px;
+}
