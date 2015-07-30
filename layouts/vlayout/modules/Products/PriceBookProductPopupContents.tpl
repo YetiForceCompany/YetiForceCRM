@@ -56,8 +56,8 @@
 				</td>
 				{/foreach}
 				<td class="listViewEntryValue {$WIDTHTYPE}">
-					<div class="row">
-						<input type="text" value="{$LISTVIEW_ENTRY->get('unit_price')}" name="listPrice" class="invisible col-md-10 zeroPaddingAndMargin" data-validation-engine="validate[required,funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]"
+					<div>
+						<input type="text" value="{$LISTVIEW_ENTRY->get('unit_price')}" name="listPrice" class="invisible col-md-10 zeroPaddingAndMargin form-control" data-validation-engine="validate[required,funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]"
 							   data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}'/>
 					</div>
 				</td>
@@ -74,7 +74,7 @@
 </div>
 {if $LISTVIEW_ENTRIES_COUNT neq '0'}
     <div class="clearfix form-actions" style="border: 1px solid #DDDDDD;">
-	<a class="cancelLink pull-right">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+	<button class="cancelLink pull-right btn btn-warning" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</button>
 	<button class="btn btn-default addButton select pull-right"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('LBL_ADD_TO_PRICEBOOKS',$MODULE)}</strong></button>
 </div>
 {/if}
