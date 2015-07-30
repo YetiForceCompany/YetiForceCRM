@@ -26,4 +26,6 @@ $enableWebDAV = false;
 
 /* +*********   Webservice config  ********* */
 $showWebserviceError = true;
-
+$encryptDataTransfer = true;
+$privateKey = 'config/private.key';
+$publicKey = 'config/public.key';

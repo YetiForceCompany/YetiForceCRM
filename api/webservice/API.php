@@ -12,7 +12,6 @@ class API
 	protected $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE'];
 	protected $modulesPath = 'api/webservice/modules/';
 
-
 	public function __construct()
 	{
 		header("Access-Control-Allow-Orgin: *");
@@ -33,12 +32,15 @@ class API
 		if (!in_array($this->method, $this->acceptableMethods)) {
 			throw new APIException('Invalid Method', 405);
 		}
+		
+		if (isset($_REQUEST['head']['encrypted']) && $_REQUEST['head']['encrypted']) {
+			$_REQUEST['data'] = $this->decryptData($_REQUEST['data']);
+		}
 
 		$this->request = new Vtiger_Request($_REQUEST, $_REQUEST);
 		$this->data = new Vtiger_Request($_REQUEST['data'], $_REQUEST['data']);
 	}
 
-	
 	private function response($data, $status = 200)
 	{
 		header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
@@ -76,6 +78,31 @@ class API
 			$function = $this->request->get('action');
 		}
 		$response = call_user_func_array([$handler, $function], $this->data->getAll());
-		$this->response(['status' => 1, 'result' => $response]);
+		if (vglobal('encryptDataTransfer')) {
+			$response = $this->encryptData($response);
+		}
+		$this->response([
+			'status' => 1,
+			'encrypted' => vglobal('encryptDataTransfer'),
+			'result' => $response
+		]);
+	}
+
+	public function encryptData($data)
+	{
+		$publicKey = 'file://' . vglobal('root_directory') . vglobal('publicKey');
+		openssl_public_encrypt(json_encode($data), $encrypted, $publicKey);
+		return $encrypted;
+	}
+
+	public function decryptData($data)
+	{
+		$privateKey = 'file://' . vglobal('root_directory') . vglobal('privateKey');
+		if (!$privateKey = openssl_pkey_get_private($privateKey)) {
+			throw new AppException('Private Key failed');
+		}
+		$privateKey = openssl_pkey_get_private($privateKey);
+		openssl_private_decrypt($data, $decrypted, $privateKey);
+		return json_decode($decrypted, 1);
 	}
 }
