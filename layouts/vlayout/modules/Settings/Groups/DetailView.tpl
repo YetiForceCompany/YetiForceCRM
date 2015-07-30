@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-    <div class="detailViewInfo" style="box-shadow:0;margin-top: 0;min-height:500px;">
+    <div class="detailViewInfo" id="groupsDetailContainer" style="box-shadow:0;margin-top: 0;min-height:500px;">
 		<div class="">
 			<form id="detailView" class="form-horizontal" style="padding-top: 20px;" method="POST">
 				<div class="row">
@@ -30,7 +30,7 @@
 						{vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)} <span class="redColor">*</span>
 					</div>
 					<div class="controls pushDown">
-						<b>{$RECORD_MODEL->getName()}</b>
+						<strong>{$RECORD_MODEL->getName()}</strong>
 					</div>
 				</div>
 				<div class="form-group">
@@ -38,7 +38,7 @@
 						{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
 					</div>
 					<div class="controls pushDown">
-						<b>{$RECORD_MODEL->getDescription()}</b>
+						<strong>{$RECORD_MODEL->getDescription()}</strong>
 					</div>
 				</div>
 				<div class="form-group">
@@ -48,8 +48,12 @@
 					<div class="controls pushDown">
 						<div class="row">
 						<div class="col-md-9 paddingLRZero">
-							{foreach key=TABID item=MODULE from=$RECORD_MODEL->getModules()}
-								<b>{vtranslate($MODULE,$MODULE)}, </b>
+							{foreach key=TABID item=MODULE from=$RECORD_MODEL->getModules() name=modules}
+								{if  $smarty.foreach.modules.last}
+									<strong>{vtranslate($MODULE,$MODULE)} </strong>
+								{else}
+									<strong>{vtranslate($MODULE,$MODULE)}, </strong>
+								{/if} 
 							{/foreach}
 						</div>
 						</div>

@@ -3423,3 +3423,6 @@ span[name=existingImages] img{
 .globalSearchInput{
 	width: 300px;
 }
+#groupsDetailContainer strong{
+	line-height: 21px;
+}
