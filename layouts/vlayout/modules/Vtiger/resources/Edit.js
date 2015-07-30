@@ -459,7 +459,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 			var fieldNameElement = parentTdElement.find('.sourceField');
 			var fieldName = fieldNameElement.attr('name');
 			fieldNameElement.val('');
-			parentTdElement.find('#'+fieldName+'_display').removeAttr('readonly').val('');
+			parentTdElement.find('[name="'+fieldName+'_display"]').removeAttr('readonly').val('');
 			element.trigger(Vtiger_Edit_Js.referenceDeSelectionEvent);
 			e.preventDefault();
 		})
