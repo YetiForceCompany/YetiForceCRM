@@ -1220,6 +1220,7 @@ $languageStrings = [
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'В зависимости от объема данных, процесс может занять до нескольких минут',
 	'LBL_LEGAL_FORM' => 'Юридическая форма',
 	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Export to Excel',
+	'ReasonToEdit' => 'Reason to edit',
 ];
 $jsLanguageStrings = [
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Нельзя выбрать Контакты для Обращений',
