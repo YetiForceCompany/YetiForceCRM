@@ -75,8 +75,7 @@ class API
 		if ($this->request->get('action') != '') {
 			$function = $this->request->get('action');
 		}
-
 		$response = call_user_func_array([$handler, $function], $this->data->getAll());
-		$this->response($response);
+		$this->response(['status' => 1, 'result' => $response]);
 	}
 }

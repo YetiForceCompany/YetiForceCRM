@@ -10,6 +10,9 @@ $DEVELOPER_CONFIG =[
 	// Enable minimize CSS files
 	'MINIMIZE_CSS' => true,
 	
+	// Change of fields visibility
+	'CHANGE_VISIBILITY' => false,
+	
 ];
 class SysDeveloper {
 	static function get($key, $defvalue=FALSE) {
