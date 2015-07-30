@@ -334,9 +334,7 @@ class PurchaseOrder extends CRMEntity {
 			$sql_req ='UPDATE vtiger_crmentity SET deleted = 1 WHERE crmid= ?';
 			$this->db->pquery($sql_req, array($id));
 		} else {
-			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
-			$params = array($id, $return_module, $return_id, $id, $return_module, $return_id);
-			$this->db->pquery($sql, $params);
+			parent::unlinkRelationship($id, $return_module, $return_id);
 		}
 	}
 

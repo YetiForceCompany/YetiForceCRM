@@ -344,9 +344,7 @@ class Invoice extends CRMEntity {
 			$relation_query = 'UPDATE vtiger_invoice set salesorderid=? where invoiceid=?';
 			$this->db->pquery($relation_query, array(null,$id));
 		} else {
-			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
-			$params = array($id, $return_module, $return_id, $id, $return_module, $return_id);
-			$this->db->pquery($sql, $params);
+			parent::unlinkRelationship($id, $return_module, $return_id);
 		}
 	}
 
