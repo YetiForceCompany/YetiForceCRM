@@ -1585,7 +1585,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 	 */
 	public function getPopupViewFieldsList($sourceModule = false)
 	{
-		if (!empty($sourceModule)) {
+		if (!empty($sourceModule) && $sourceModule != 'Vtiger') {
 			$parentRecordModel = Vtiger_Module_Model::getInstance($sourceModule);
 			$relationModel = Vtiger_Relation_Model::getInstance($parentRecordModel, $this);
 		}
