@@ -46,6 +46,9 @@ $languageStrings = [
 	
 	'LBL_VIEW_USERCOLORS' => 'Configuração Agenda',
 	'LBL_VIEW_ACTIVITYTYPES' => 'Tipos de Atividade',
+	'Task' => 'Tarefa',
+	'Meeting' => 'Reunião',
+	'Call' => 'Chamada',
 ];
 $jsLanguageStrings = [
 
