@@ -631,7 +631,7 @@ function vtlib_purify($input, $ignore = false)
 
 	static $purified_cache = array();
 	$value = $input;
-
+	
 	if (!is_array($input)) {
 		$md5OfInput = md5($input);
 		if (array_key_exists($md5OfInput, $purified_cache)) {
@@ -639,6 +639,8 @@ function vtlib_purify($input, $ignore = false)
 			//to escape cleaning up again
 			$ignore = true;
 		}
+	}  else {
+		$md5OfInput = md5(json_encode($input));
 	}
 	$use_charset = $default_charset;
 	$use_root_directory = $root_directory;
