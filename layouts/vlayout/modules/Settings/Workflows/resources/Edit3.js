@@ -611,7 +611,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			//If repeatDay radio button is checked then only select2 elements will be enable
 			thisInstance.repeatMonthOptionsChangeHandling();
 		});
-},
+	},
 	/**
 	 * Function which will change the UI styles based on recurring type
 	 * @params - recurringType - which recurringtype is selected
