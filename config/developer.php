@@ -12,18 +12,4 @@ $DEVELOPER_CONFIG =[
 	
 	// Change of fields visibility
 	'CHANGE_VISIBILITY' => false,
-	
 ];
-class SysDeveloper {
-	static function get($key, $defvalue=FALSE) {
-		global $DEVELOPER_CONFIG;
-		if(isset($DEVELOPER_CONFIG[$key])) {
-			return $DEVELOPER_CONFIG[$key];
-		}
-		return $defvalue;
-	}
-	/** Get boolean value */
-	static function getBoolean($key, $defvalue=FALSE) {
-		return self::get($key, $defvalue);
-	}
-}
