@@ -209,7 +209,8 @@ jQuery.Class("Vtiger_Helper_Js", {
 			type: 'error',
 			styling: 'bootstrap3',
 			buttons: {
-				sticker: false
+				sticker: false,
+				labels: {close: app.vtranslate('JS_CLOSE')}
 			}
 		}
 
