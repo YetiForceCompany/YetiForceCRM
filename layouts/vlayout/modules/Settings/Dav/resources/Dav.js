@@ -74,10 +74,14 @@ jQuery.Class('Settings_DAV_Js', {}, {
 			function(data) {
 				var response = data['result'];
 				var params = {
-					text: response['message'],
-					animation: 'show',
-					type: 'success'
+						text: response['message'],
+						animation: 'show',
 				};
+				if(response.success == true){
+					params.type ='success'
+				}else{
+					params.type ='error'
+				}
 				Vtiger_Helper_Js.showPnotify(params);
 				if(reload == true && response.success == true){
 					window.location.reload();

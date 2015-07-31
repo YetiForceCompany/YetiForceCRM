@@ -33,6 +33,7 @@ $languageStrings = [
 	'LBL_COUNT_CAL' => 'Количество событий',
 	'Dav' => 'Синхронизация',
 	'LBL_VIEW_KEYS' => 'Синхронизация',
+	'LBL_DUPLICATE_USER_SERVICES' => 'Ключ для этого приложения уже существует.',
 ];
 $jsLanguageStrings = [
 	'Adding a Key' => 'Добавление ключа',

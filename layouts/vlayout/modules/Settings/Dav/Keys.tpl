@@ -24,7 +24,7 @@
 					<p>{vtranslate('LBL_ALERT_DAV_NO_ACTIVE_DESC', $QUALIFIED_MODULE)}</p>
 				</div>	
 			{/if}
-			<div class="row">
+			<div>
 				<div class="contents tabbable">
 					<table class="table table-bordered table-condensed listViewEntriesTable">
 						<thead>
