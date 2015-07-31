@@ -134,6 +134,7 @@ $languageStrings = [
 	'New comment added to ticket - account' => 'New comment added to ticket - account',
 	'New comment added to ticket - contact' => 'New comment added to ticket - contact',
 	'PaymentsIn - UpdateBalance' => 'PaymentsIn - UpdateBalance',
+	'PaymentsOut - UpdateBalance' => 'PaymentsOut - UpdateBalance',
 	'Invoice - UpdateBalance' => 'Invoice - UpdateBalance',
 	'LBL_ACTIVATION_TASKS' => 'Aktiviere Aufgaben',
 	'LBL_DEACTIVATION_TASKS' => 'Deaktiviere Aufgaben',

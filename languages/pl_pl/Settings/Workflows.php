@@ -118,6 +118,7 @@ $languageStrings = [
 	'New comment added to ticket - contact person' => 'Nowy komentarz dodany do zgłoszenia - osoba kontaktowa',
 	'New comment added to ticket - account' => 'Nowy komentarz dodany do zgłoszenia - kontrahent',
 	'New comment added to ticket - contact' => 'Nowy komentarz dodany do zgłoszenia - kontakt',
+	'PaymentsOut - UpdateBalance' => 'Wypłaty - aktualizuj saldo',
 	'PaymentsIn - UpdateBalance' => 'Wpłaty - aktualizuj saldo',
 	'Invoice - UpdateBalance' => 'Faktura - aktualizuj saldo',
 	'ON_SCHEDULE' => 'Ustal harmonogram wykonywania',
