@@ -30,7 +30,15 @@ $languageStrings = [
 	'LBL_ADD_CRON' => 'Dodaj zadanie',
 	'MODULE' => 'Moduł',
 	'LBL_NAME' => 'Nazwa',
-	'LBL_PATH_TO_FILE' => 'Ścieżka do pliku'
+	'LBL_PATH_TO_FILE' => 'Ścieżka do pliku',
+	'Workflow' => 'Obieg informacji',
+	'RecurringInvoice' => 'Cykliczna faktura',
+	'MailScannerAction' => 'Akcja skanera poczty',
+	'MailScannerVerification' => 'Weryfikacja skanera poczty',
+	'SendReminder' => 'Wyślij przypomnienie',
+	'Scheduled Import' => 'Zaplanowany import',
+	'ScheduleReports' => 'Zaplanuj raporty',
+	'MailScannerBind' => 'Powiąż skaner poczty'
 ];
 
 
