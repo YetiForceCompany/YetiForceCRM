@@ -370,7 +370,7 @@ var app = {
 						}, this))
 			};
 
-			container.find('.modal').modal(params);
+			container.find('.modal:first').modal(params);
 			jQuery('body').append(container);
 			// TODO Make it better with jQuery.on
 			app.changeSelectElementView(container);

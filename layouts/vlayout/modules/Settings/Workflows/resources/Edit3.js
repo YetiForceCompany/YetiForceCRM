@@ -486,8 +486,8 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		if (fieldModel.getType() == 'multipicklist') {
 			fieldName = fieldName + "[]";
 		}
-		fieldSpecificUi.filter('[name="' + fieldName + '"]').attr('data-value', 'value').addClass('row');
-		fieldSpecificUi.find('[name="' + fieldName + '"]').attr('data-value', 'value').addClass('row');
+		fieldSpecificUi.filter('[name="' + fieldName + '"]').attr('data-value', 'value');
+		fieldSpecificUi.find('[name="' + fieldName + '"]').attr('data-value', 'value');
 		fieldSpecificUi.filter('[name="valuetype"]').removeAttr('data-validation-engine');
 		fieldSpecificUi.find('[name="valuetype"]').removeAttr('data-validation-engine');
 
@@ -501,13 +501,11 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		fieldUiHolder.html(fieldSpecificUi);
 
 		if (fieldSpecificUi.is('input.select2')) {
-			fieldUiHolder.addClass('paddingLRZero');
 			var tagElements = fieldSpecificUi.data('tags');
 			var params = {tags: tagElements, tokenSeparators: [","]}
 			app.showSelect2ElementView(fieldSpecificUi, params)
 		} else if (fieldSpecificUi.is('select')) {
 			if (fieldSpecificUi.hasClass('chzn-select')) {
-				fieldUiHolder.addClass('paddingLRZero');
 				app.changeSelectElementView(fieldSpecificUi)
 			} else {
 				app.showSelect2ElementView(fieldSpecificUi);

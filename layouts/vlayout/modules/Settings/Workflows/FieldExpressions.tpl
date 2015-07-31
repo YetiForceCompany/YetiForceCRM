@@ -10,17 +10,17 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="popupUi modal" data-backdrop="false">
+	<div class="popupUi modal fade" data-backdrop="false">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<div class="modal-header">
+					<button type="button" class="close" aria-hidden="true" data-close-modal="modal">×</button>
 					<h3 class="modal-title">{vtranslate('LBL_SET_VALUE',$QUALIFIED_MODULE)}</h3>
 				</div>
 				<div class="modal-body">
 					<div class="row">
 						<span class="col-md-4">
-							<select class="textType">
+							<select class="textType form-control">
 								<optgroup>
 									<option data-ui="textarea" value="rawtext">{vtranslate('LBL_RAW_TEXT',$QUALIFIED_MODULE)}</option>
 									<option data-ui="textarea" value="fieldname">{vtranslate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</option>
@@ -31,7 +31,7 @@
 						<span class="col-md-4 hide useFieldContainer">
 							<span name="{$MODULE_MODEL->get('name')}" class="useFieldElement">
 								{assign var=MODULE_FIELDS value=$MODULE_MODEL->getFields()}
-								<select class="useField" data-placeholder="{vtranslate('LBL_USE_FIELD',$QUALIFIED_MODULE)}">
+								<select class="useField form-control" data-placeholder="{vtranslate('LBL_USE_FIELD',$QUALIFIED_MODULE)}">
 									<option></option>
 									<optgroup>
 										{foreach from=$MODULE_FIELDS item=MODULE_FIELD}
@@ -43,7 +43,7 @@
 							{if $RELATED_MODULE_MODEL neq ''}
 								<span name="{$RELATED_MODULE_MODEL->get('name')}" class="useFieldElement">
 									{assign var=MODULE_FIELDS value=$RELATED_MODULE_MODEL->getFields()}
-									<select class="useField" data-placeholder="{vtranslate('LBL_USE_FIELD',$QUALIFIED_MODULE)}">
+									<select class="useField form-control" data-placeholder="{vtranslate('LBL_USE_FIELD',$QUALIFIED_MODULE)}">
 										<option></option>
 										<optgroup>
 											{foreach from=$MODULE_FIELDS item=MODULE_FIELD}
@@ -55,7 +55,7 @@
 							{/if}
 						</span>
 						<span class="col-md-4 hide useFunctionContainer">
-							<select class="useFunction" data-placeholder="{vtranslate('LBL_USE_FUNCTION',$QUALIFIED_MODULE)}">
+							<select class="useFunction form-control" data-placeholder="{vtranslate('LBL_USE_FUNCTION',$QUALIFIED_MODULE)}">
 								<option></option>
 								<optgroup>
 									{foreach from=$FIELD_EXPRESSIONS key=FIELD_EXPRESSION_VALUE item=FIELD_EXPRESSIONS_KEY}
@@ -86,7 +86,7 @@
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-success" type="button" name="saveButton"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
-					<button class="btn btn-warning cancelLink closeModal" type="button" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
+					<button class="btn btn-warning cancelLink" type="button" data-close-modal="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
 				</div>
 			</div>
 		</div>

@@ -44,16 +44,16 @@
 					<input type="text" class="getPopupUi form-control" readonly="" name="fieldValue" value="{$FIELD_MAP['value']}" />
 					<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']}" />
 				</span>
-				<span class="cursorPointer span">
+				<p class="cursorPointer form-control-static">
 					<i class="alignMiddle deleteCondition glyphicon glyphicon-trash"></i>
-				</span>
+				</p>
 			</div>
 		{/foreach}
 		{include file="FieldExpressions.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
 		</div><br>
 		<div class="row basicAddFieldContainer hide padding-bottom1per">
 			<span class="col-md-4">
-				<select name="fieldname" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}" style="min-width: 250px">
+				<select name="fieldname" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}" class="form-control">
 					<option></option>
 					{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
                         {if !$FIELD_MODEL->isEditable() or $FIELD_MODEL->getFieldDataType() eq 'reference' or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->get('name'),$RESTRICTFIELDS))}
@@ -73,10 +73,10 @@
 			</span>
 			<span class="fieldUiHolder col-md-4 marginLeftZero">
 				<input type="text" class="form-control" readonly="" name="fieldValue" value="" />
-				<input type="hidden" name="valuetype" value="rawtext" />
+				<input type="hidden" name="valuetype" class="form-control" value="rawtext" />
 			</span>
-			<span class="cursorPointer span">
-				<i class="alignMiddle deleteCondition glyphicon glyphicon-trash"></i>
-			</span>
+			<p class="cursorPointer form-control-static">
+				<span class="alignMiddle deleteCondition glyphicon glyphicon-trash"></span>
+			</p>
 		</div>
 		{/strip}

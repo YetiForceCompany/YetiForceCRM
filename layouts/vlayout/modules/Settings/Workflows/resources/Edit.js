@@ -170,7 +170,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js",{
 				} else {
 					value = '';
 				}
-				var clonedDateElement = '<input type="text" class="row dateField fieldValue col-md-4" value="'+value+'" data-date-format="'+dataFormat+'" data-input="true" >'
+				var clonedDateElement = '<input type="text" class="dateField fieldValue col-md-4" value="'+value+'" data-date-format="'+dataFormat+'" data-input="true" >'
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedDateElement);
 			} else if(fieldValueElement.hasClass('time')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui','input');
@@ -179,7 +179,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js",{
 				} else {
 					value = '';
 				}
-				var clonedTimeElement = '<input type="text" class="row timepicker-default fieldValue col-md-4" value="'+value+'" data-input="true" >'
+				var clonedTimeElement = '<input type="text" class="timepicker-default fieldValue col-md-4 form-control" value="'+value+'" data-input="true" >'
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedTimeElement);
 			} else if(fieldValueElement.hasClass('boolean')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui','input');
@@ -188,7 +188,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js",{
 				} else {
 					value = '';
 				}
-				var clonedBooleanElement = '<input type="checkbox" class="row fieldValue col-md-4" value="'+value+'" data-input="true" >';
+				var clonedBooleanElement = '<input type="checkbox" class="fieldValue col-md-4" value="'+value+'" data-input="true" >';
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedBooleanElement);
 				
 				var fieldValue = clonedPopupUi.find('.fieldValueContainer input').val();
@@ -215,6 +215,9 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js",{
 				thisInstance.registerPopUpSaveEvent(data,fieldUiHolder);
 				thisInstance.registerRemoveModalEvent(data);
 				data.find('.fieldValue').filter(':visible').trigger('focus');
+				data.find('[data-close-modal="modal"]').off('click').on('click',function(){
+					jQuery(this).closest('.modal').removeClass('in').css('display','none');
+				})
 			}
 			conditionsContainer.find('.clonedPopUp').html(clonedPopupUi);
 			jQuery('.clonedPopupUi').on('shown.bs.modal', function () {
