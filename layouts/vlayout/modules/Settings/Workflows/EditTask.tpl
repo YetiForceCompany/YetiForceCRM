@@ -57,8 +57,8 @@
 								<div class="col-md-2 checkbox"><label><input type="checkbox" class="alignTop" name="check_select_date" {if $trigger neq null}checked{/if}/>&nbsp;{vtranslate('LBL_EXECUTE_TASK',$QUALIFIED_MODULE)}</label></div>
 								<div class="col-md-10 row {if $trigger neq null}show {else} hide {/if}" id="checkSelectDateContainer">
 									<span class="col-md-2">
-											<input class="form-control" type="text" name="select_date_days" value="{$days}" data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]" >
-										
+										<input class="form-control" type="text" name="select_date_days" value="{$days}" data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]" >
+
 									</span>
 									<span class="control-label pull-left alignMiddle">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
 									<span class="col-md-2 marginLeftZero">
