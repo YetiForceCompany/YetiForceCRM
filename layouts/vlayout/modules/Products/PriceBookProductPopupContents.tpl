@@ -15,6 +15,12 @@
 			&nbsp;
 		</div>
 	</div>
+	{if $LISTVIEW_ENTRIES_COUNT neq '0'}
+		<div class="clearfix form-actions">
+			<button class="cancelLink pull-right btn btn-warning" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</button>
+			<button class="btn btn-default addButton select pull-right"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('LBL_ADD_TO_PRICEBOOKS',$MODULE)}</strong></button>
+		</div>
+	{/if}
 	<div class="popupEntriesDiv relatedContents contents-bottomscroll">
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
@@ -72,10 +78,4 @@
 			</div>
 		{/if}
 	</div>
-	{if $LISTVIEW_ENTRIES_COUNT neq '0'}
-		<div class="clearfix form-actions" style="border: 1px solid #DDDDDD;">
-			<button class="cancelLink pull-right btn btn-warning" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</button>
-			<button class="btn btn-default addButton select pull-right"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('LBL_ADD_TO_PRICEBOOKS',$MODULE)}</strong></button>
-		</div>
-	{/if}
 {/strip}
