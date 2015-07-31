@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'ADD_CONDITIONS' => 'Dodaj warunek',
 	'ADD_TASKS' => 'Dodaj zadania',
@@ -82,26 +82,26 @@ $languageStrings = [
 	'Module' => 'Moduł',
 	'Summary' => 'Podsumowanie',
 	'Workflows' => 'Obieg informacji',
-	'UpdateInventoryProducts On Every Save'	=> 'Uaktualnij zapas produktów dla każdego zapisu',
-	'Workflow for Events when Send Notification is True'	=> 'Obieg informacji dla terminów kiedy wysłane zgłoszenie jest prawdziwe',
-	'Workflow for Calendar Todos when Send Notification is True'	=> 'Obieg informacji dla zadania z kalendarza kiedy wysłane zgłoszenie jest prawdziwe',
-	'Ticket change: Send Email to Record Owner'	=> 'Zmiana zgłoszenia: wyślij maila do właściciela rekordu',
-	'Ticket change: Send Email to Record Contact'	=> 'Zmiana zgłoszenia: wyślij maila do kontaktu',
-	'Update Inventory Products On Every Save'	=> 'Uaktualnij zapas produktów dla każdego zapisu',
-	'Ticket change: Send Email to Record Account'	=> 'Zmiana zgłoszenia: wyślij maila do kontrahenta',
-	'Ticket Closed: Send Email to Record Owner'	=> 'Zgłoszenie zamknięte: wyślij maila do właściciela rekordu',
-	'Ticket Closed: Send Email to Record Contact'	=> 'Zgłoszenie zamknięte: wyślij maila do kontaktu',
-	'Ticket Closed: Send Email to Record Account'	=> 'Zgłoszenie zamknięte: wyślij maila do kontrahenta',
-	'Ticket Creation: Send Email to Record Owner'	=> 'Tworzenie zgłoszenia: wyślij maila do właściciela rekordu',
-	'Ticket Creation: Send Email to Record Contact'	=> 'Tworzenie zgłoszenia: wyślij maila do kontaktu',
-	'Ticket Creation: Send Email to Record Account'	=> 'Tworzenie zgłoszenia: wyślij maila do kontrahenta',
-	'Sales stage - Data verification'	=> 'Proces sprzedażowy - Weryfikacja danych',
-	'Sales stage - Customer internal analysis'	=> 'Proces sprzedażowy - Wewnętrzna analiza Klienta Sales stage',
-	'Sales stage - First contact with customer'	=> 'Proces sprzedażowy - Pierwszy kontakt z Klientem',
-	'Sales stage - Advanced business analysis'	=> 'Proces sprzedażowy - Zaawansowana analiza biznesowa',
-	'Sales stage - Preparing calculations'	=> 'Proces sprzedażowy - Przygotowywanie kalkulacji',
-	'Sales stage - Preparing quote'	=> 'Proces sprzedażowy - Przygotowywanie oferty',
-	'Sales stage - Awaiting decision'	=> 'Proces sprzedażowy - Oczekiwanie na decyzje',
+	'UpdateInventoryProducts On Every Save' => 'Uaktualnij zapas produktów dla każdego zapisu',
+	'Workflow for Events when Send Notification is True' => 'Obieg informacji dla terminów kiedy wysłane zgłoszenie jest prawdziwe',
+	'Workflow for Calendar Todos when Send Notification is True' => 'Obieg informacji dla zadania z kalendarza kiedy wysłane zgłoszenie jest prawdziwe',
+	'Ticket change: Send Email to Record Owner' => 'Zmiana zgłoszenia: wyślij maila do właściciela rekordu',
+	'Ticket change: Send Email to Record Contact' => 'Zmiana zgłoszenia: wyślij maila do kontaktu',
+	'Update Inventory Products On Every Save' => 'Uaktualnij zapas produktów dla każdego zapisu',
+	'Ticket change: Send Email to Record Account' => 'Zmiana zgłoszenia: wyślij maila do kontrahenta',
+	'Ticket Closed: Send Email to Record Owner' => 'Zgłoszenie zamknięte: wyślij maila do właściciela rekordu',
+	'Ticket Closed: Send Email to Record Contact' => 'Zgłoszenie zamknięte: wyślij maila do kontaktu',
+	'Ticket Closed: Send Email to Record Account' => 'Zgłoszenie zamknięte: wyślij maila do kontrahenta',
+	'Ticket Creation: Send Email to Record Owner' => 'Tworzenie zgłoszenia: wyślij maila do właściciela rekordu',
+	'Ticket Creation: Send Email to Record Contact' => 'Tworzenie zgłoszenia: wyślij maila do kontaktu',
+	'Ticket Creation: Send Email to Record Account' => 'Tworzenie zgłoszenia: wyślij maila do kontrahenta',
+	'Sales stage - Data verification' => 'Proces sprzedażowy - Weryfikacja danych',
+	'Sales stage - Customer internal analysis' => 'Proces sprzedażowy - Wewnętrzna analiza Klienta Sales stage',
+	'Sales stage - First contact with customer' => 'Proces sprzedażowy - Pierwszy kontakt z Klientem',
+	'Sales stage - Advanced business analysis' => 'Proces sprzedażowy - Zaawansowana analiza biznesowa',
+	'Sales stage - Preparing calculations' => 'Proces sprzedażowy - Przygotowywanie kalkulacji',
+	'Sales stage - Preparing quote' => 'Proces sprzedażowy - Przygotowywanie oferty',
+	'Sales stage - Awaiting decision' => 'Proces sprzedażowy - Oczekiwanie na decyzje',
 	'New comment added to ticket from portal' => 'Dodano nowy komentarz do zgłoszenia z portalu',
 	'Sales stage - Order and Contract' => 'Proces sprzedażowy - Zamówienie i Umowa',
 	'Sales stage - Verification of documents' => 'Proces sprzedażowy - Weryfikacja dokumentów',
@@ -134,25 +134,23 @@ $languageStrings = [
 	'LBL_CHOOSE_DATE' => 'W określonej dacie:',
 	'LBL_SELECT_MONTH_AND_DAY' => 'Wybierz dni:',
 	'LBL_SELECTED_DATES' => 'Wybrane daty:',
-	'LBL_EXCEEDING_MAXIMUM_LIMIT' => 'Maksymalny limit przekroczony', 
-	'LBL_NEXT_TRIGGER_TIME' => 'Następny czas uruchomienia', 
-	'LBL_ACTIVATION_TASKS' => 'Aktywuj zadania', 
-	'LBL_DEACTIVATION_TASKS' => 'Dezaktywuj zadnia', 
+	'LBL_EXCEEDING_MAXIMUM_LIMIT' => 'Maksymalny limit przekroczony',
+	'LBL_NEXT_TRIGGER_TIME' => 'Następny czas uruchomienia',
+	'LBL_ACTIVATION_TASKS' => 'Aktywuj zadania',
+	'LBL_DEACTIVATION_TASKS' => 'Dezaktywuj zadnia',
 	'LBL_ALL_TASKS' => 'Liczba zadań',
-	'LBL_ACTIVE_TASKS' => 'Aktywnych zadań', 
+	'LBL_ACTIVE_TASKS' => 'Aktywnych zadań',
 	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Nie powielaj rekordów',
 	'LBL_DUPLICATE_STATUS' => 'Nie dubluj jeśli status jest różny',
 	'LBL_VALUE_OF_FIELDS' => 'Wartość z pola',
 	'LBL_VALUE_OF_SERVER' => 'Wartość z serwera',
 	'LBL_WORKFLOWS_RUN_TIME' => 'Data i czas uruchomienia obiegu informacji',
 	'Sales stage - Negotiations' => 'Proces sprzedażowy - Negocjacje',
-	
 	//workflow task
 	'EmailTempleteList' => 'Wybierz szablon maila który ma zostać wysłany',
 	'Do you send all attachments' => 'Czy wysłać wszystkie załączniki ?',
 	'Select e-mail address' => 'Wybierz adres mail',
 	'Send a copy to email' => 'Kopia na adres',
-	
 	//workflow task types
 	'Send Mail' => 'Wyślij maila',
 	'Invoke Custom Function' => 'Uruchom funkcje niestandardowe',
