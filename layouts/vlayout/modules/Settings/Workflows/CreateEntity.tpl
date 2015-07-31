@@ -68,7 +68,7 @@
 							{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 								{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 								<option value="{$FIELD_MODEL->get('name')}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" {if $FIELD_MODEL->get('name') eq $MANDATORY_FIELD_MODEL->get('name')} {assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()} selected=""{/if} data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}' >
-								{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}<span class="redColor">*</span>
+								{vtranslate($FIELD_MODEL->get('label'), $RELATED_MODULE_MODEL->getName())}<span class="redColor">*</span>
 								</option>	
 							{/foreach}
 						</select>
