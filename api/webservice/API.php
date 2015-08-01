@@ -11,6 +11,8 @@ class API
 	protected $method = '';
 	protected $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE'];
 	protected $modulesPath = 'api/webservice/';
+	protected $data = [];
+	protected $request = [];
 	protected $panel = '';
 
 	public function __construct()
@@ -30,16 +32,22 @@ class API
 			}
 		}
 
-		if (!in_array($this->method, $this->acceptableMethods)) {
+		if (!in_array($this->method, $this->acceptableMethods)){
 			throw new APIException('Invalid Method', 405);
 		}
+		
+		if (!isset($_REQUEST['head']) && !isset($_REQUEST['data'])){
+			throw new APIException('Incorrect request', 405);
+		}
 
-		if (isset($_REQUEST['head']['encrypted']) && $_REQUEST['head']['encrypted']) {
+		if (isset($_REQUEST['head']['encrypted']) && $_REQUEST['head']['encrypted']){
 			$_REQUEST['data'] = $this->decryptData($_REQUEST['data']);
 		}
 
 		$this->request = new Vtiger_Request($_REQUEST, $_REQUEST);
-		$this->data = new Vtiger_Request($_REQUEST['data'], $_REQUEST['data']);
+		if (isset($_REQUEST['data'])){
+			$this->data = new Vtiger_Request($_REQUEST['data'], $_REQUEST['data']);
+		}
 	}
 
 	private function response($data, $status = 200)
@@ -64,9 +72,14 @@ class API
 	public function preProcess()
 	{
 		$head = $this->request->get('head');
+
+		if (!isset($head['apiKey'])) {
+			throw new APIException('No API key', 401);
+		}
+		
 		$apiKey = $head['apiKey'];
 		if ($apiKey == '') {
-			throw new APIException('Invalid api key');
+			throw new APIException('Invalid api key', 401);
 		}
 		$this->panel = 'Portal';
 	}
@@ -74,25 +87,31 @@ class API
 	public function process()
 	{
 		$filePath = $this->modulesPath . $this->panel . '/modules/' . $this->request->get('module') . '/' . $this->request->get('action') . '.php';
-		if (!file_exists($filePath)) {
-			throw new APIException('No action found: ' . $filePath);
-		}
-		require_once $filePath;
-		$handlerClass = 'API_' . $this->request->get('module') . '_' . $this->request->get('action');
-		if (!class_exists($handlerClass)) {
-			throw new APIException('HANDLER_NOT_FOUND: ' . $handlerClass);
-		}
-
-		$handler = new $handlerClass();
-		if ($handler->getRequestMethod() != $this->method) {
-			throw new APIException('Invalid request type');
-		}
-
-		if ($this->request->get('action') != '') {
-			$function = $this->request->get('action');
+		if (!file_exists($filePath)){
+			throw new APIException('No action found: ' . $filePath, 405);
 		}
 		
-		$response = call_user_func_array([$handler, $function], $this->data->getAll());
+		require_once $filePath;
+		$handlerClass = 'API_' . $this->request->get('module') . '_' . $this->request->get('action');
+		if (!class_exists($handlerClass)){
+			throw new APIException('HANDLER_NOT_FOUND: ' . $handlerClass);
+		}
+	
+		$handler = new $handlerClass();
+		if ($handler->getRequestMethod() != $this->method){
+			throw new APIException('Invalid request type');
+		}
+		
+		if ($this->request->get('action') != ''){
+			$function = $this->request->get('action');
+		}
+	
+		$data = [];
+		if (is_a($this->data, 'Vtiger_Request')){
+			$data = $this->data->getAll();
+		}
+		
+		$response = call_user_func_array([$handler, $function], $data);
 		if (vglobal('encryptDataTransfer')) {
 			$response = $this->encryptData($response);
 		}
