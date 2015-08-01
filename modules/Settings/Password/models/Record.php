@@ -51,7 +51,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 	public function checkPassword($pass)
 	{
 		$conf = self::getPassDetail();
-		$moduleName = 'Password';
+		$moduleName = 'Settings:Password';
 		if (strlen($pass) > $conf['max_length']) {
 			return vtranslate("Maximum password length", $moduleName) . ' ' . $conf['max_length'] . ' ' . vtranslate("characters", $moduleName);
 		}
