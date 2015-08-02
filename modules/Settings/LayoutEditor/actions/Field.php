@@ -46,11 +46,13 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			->set('presence', $request->get('presence'))
 			->set('quickcreate', $request->get('quickcreate'))
 			->set('summaryfield', $request->get('summaryfield'))
-			->set('displaytype', $request->get('displaytype'))
 			->set('helpinfo', $request->get('helpinfo'))
 			->set('generatedtype', $request->get('generatedtype'))
 			->set('masseditable', $request->get('masseditable'));
 		$defaultValue = $request->get('fieldDefaultValue');
+		if($request->get('displaytype')){
+			$fieldInstance->set('displaytype', $request->get('displaytype'));
+		}
 		if ($fieldInstance->getFieldDataType() == 'date') {
 			$dateInstance = new Vtiger_Date_UIType();
 			$defaultValue = $dateInstance->getDBInsertedValue($defaultValue);
