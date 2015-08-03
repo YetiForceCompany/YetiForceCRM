@@ -42,17 +42,16 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	{
 		$fieldId = $request->get('fieldid');
 		$fieldInstance = Vtiger_Field_Model::getInstance($fieldId);
-		$fieldInstance->updateTypeofDataFromMandatory($request->get('mandatory'))
-			->set('presence', $request->get('presence'))
-			->set('quickcreate', $request->get('quickcreate'))
-			->set('summaryfield', $request->get('summaryfield'))
-			->set('helpinfo', $request->get('helpinfo'))
-			->set('generatedtype', $request->get('generatedtype'))
-			->set('masseditable', $request->get('masseditable'));
-		$defaultValue = $request->get('fieldDefaultValue');
-		if($request->get('displaytype')){
-			$fieldInstance->set('displaytype', $request->get('displaytype'));
+		$fields = ['presence', 'quickcreate', 'summaryfield', 'helpinfo', 'generatedtype', 'masseditable', 'displaytype'];
+		foreach ($request->getAll() as $key => $value) {
+			if ($key == 'mandatory') {
+				$fieldInstance->updateTypeofDataFromMandatory($value);
+			}
+			if (in_array($key, $fields)) {
+				$fieldInstance->set($key, $value);
+			}
 		}
+		$defaultValue = $request->get('fieldDefaultValue');
 		if ($fieldInstance->getFieldDataType() == 'date') {
 			$dateInstance = new Vtiger_Date_UIType();
 			$defaultValue = $dateInstance->getDBInsertedValue($defaultValue);

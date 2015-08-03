@@ -141,7 +141,7 @@
 																						<input type="hidden" name="presence" value="1" />
 																						<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 																							<input type="checkbox" name="presence" {if $FIELD_MODEL->isViewable()} checked {/if}
-																								   {if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} {if $IS_MANDATORY} readonly="readonly" {/if} value="2" />&nbsp;
+																								   {if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} {if $IS_MANDATORY} readonly="readonly" {/if} value="{$FIELD_MODEL->get('presence')}" />&nbsp;
 																							{vtranslate('LBL_ACTIVE', $QUALIFIED_MODULE)}
 																						</label>
 																					</span>
@@ -266,8 +266,8 @@
 																					{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
 																						<span>
 																							<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-																								{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
-																								<input type="checkbox" name="generatedtype" value="1"
+																								&nbsp;{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
+																								<input style="margin-left: -89px;" type="checkbox" name="generatedtype" value="1"
 																									   {if $FIELD_MODEL->get('generatedtype') eq 1} checked {/if} />
 																							</label>
 																						</span>
@@ -342,7 +342,7 @@
 																						<input type="hidden" name="presence" value="1" />
 																						<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 																							<input type="checkbox" name="presence" {if $FIELD_MODEL->isViewable()} checked {/if}
-																								   {if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} {if $IS_MANDATORY} readonly="readonly" {/if} value="2" />&nbsp;
+																								   {if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} {if $IS_MANDATORY} readonly="readonly" {/if} value="{$FIELD_MODEL->get('presence')}" />&nbsp;
 																							{vtranslate('LBL_ACTIVE', $QUALIFIED_MODULE)}
 																						</label>
 																					</span>
@@ -461,8 +461,8 @@
 																					{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
 																						<span>
 																							<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-																								{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
-																								<input type="checkbox" name="generatedtype" value="1"
+																								&nbsp;{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
+																								<input style="margin-left: -89px;" type="checkbox" name="generatedtype" value="1"
 																									   {if $FIELD_MODEL->get('generatedtype') eq 1} checked {/if} />
 																							</label>
 																						</span>
@@ -613,8 +613,8 @@
 														{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
 															<span>
 																<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-																	{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
-																	<input type="checkbox" name="generatedtype" value="1" />
+																	&nbsp;{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
+																	<input style="margin-left: -89px;" type="checkbox" name="generatedtype" value="1" />
 																</label>
 															</span>
 														{/if}
