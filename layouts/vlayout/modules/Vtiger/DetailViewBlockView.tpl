@@ -44,7 +44,7 @@
 										{assign var="COUNTER" value=$COUNTER+1}
 									{/if}
 									<td class="fieldLabel {$WIDTHTYPE}">
-										<label class='muted pull-right marginRight10px'>{vtranslate($tax.taxlabel, $MODULE)}(%)</label>
+										<label class='muted pull-right marginRight10px'>{vtranslate($tax.taxlabel, $MODULE)}&nbsp;(%)</label>
 									</td>
 									<td class="fieldValue {$WIDTHTYPE}">
 										<span class="value">
@@ -93,7 +93,7 @@
 								<label class="muted pull-right marginRight10px">
 									{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
 									{if ($FIELD_MODEL->get('uitype') eq '72') && ($FIELD_MODEL->getName() eq 'unit_price')}
-										({$BASE_CURRENCY_SYMBOL})
+										&nbsp;({$BASE_CURRENCY_SYMBOL})
 									{/if}
 								</label>
 							</td>

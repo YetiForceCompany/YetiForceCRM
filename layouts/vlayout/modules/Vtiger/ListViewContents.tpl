@@ -122,13 +122,6 @@
 									{else}
 										{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
 									{/if}</a>
-								{else if $LISTVIEW_HEADER->get('uitype') eq '72'}
-									{assign var=CURRENCY_SYMBOL_PLACEMENT value={$CURRENT_USER_MODEL->get('currency_symbol_placement')}}
-									{if $CURRENCY_SYMBOL_PLACEMENT eq '1.0$'}
-										{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}{$LISTVIEW_ENTRY->get('currencySymbol')}
-									{else}
-										{$LISTVIEW_ENTRY->get('currencySymbol')}{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-									{/if}
 								{else}
 									{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
 										{decimalFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}

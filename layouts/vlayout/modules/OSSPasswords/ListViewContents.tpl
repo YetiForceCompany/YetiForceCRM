@@ -110,13 +110,6 @@
 			<td class="listViewEntryValue {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" nowrap {if $LISTVIEW_HEADERNAME eq 'password'} id="{$PASS_ID}" {/if}>
 				{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') and $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true }
 					<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</a>
-				{else if $LISTVIEW_HEADER->get('uitype') eq '72'}
-					{assign var=CURRENCY_SYMBOL_PLACEMENT value={$CURRENT_USER_MODEL->get('currency_symbol_placement')}}
-					{if $CURRENCY_SYMBOL_PLACEMENT eq '1.0$'}
-						{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}{$LISTVIEW_ENTRY->get('currencySymbol')}
-					{else}
-						{$LISTVIEW_ENTRY->get('currencySymbol')}{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-					{/if}
 				{else if $LISTVIEW_HEADER->get('uitype') eq '11'}
 					{assign var=PERMISSION value=Vtiger_Mobile_Model::checkPermissionForOutgoingCall()}
 					{if $PERMISSION}

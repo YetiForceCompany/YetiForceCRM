@@ -320,7 +320,7 @@ class ListViewController
 							}
 							$value = CurrencyField::convertToUserFormat($value, null, true);
 							$row['currencySymbol'] = $currencySymbol;
-//							$value = CurrencyField::appendCurrencySymbol($currencyValue, $currencySymbol);
+							$value = CurrencyField::appendCurrencySymbol($value, $currencySymbol);
 						} else {
 							if (!empty($value)) {
 								$value = CurrencyField::convertToUserFormat($value);
