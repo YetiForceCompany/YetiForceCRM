@@ -470,7 +470,7 @@
 																				</div>
 																				<div class="modal-footer" style="padding: 0px;">
 																					<span class="pull-right">
-																						<div class="pull-right"><a href="javascript:void(0)" style="margin: 5px;color:#AA3434;margin-top:10px;" class="cancel">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
+																						<div class="pull-right"><a href="javascript:void(0)" class="cancel btn btn-warning" style="margin: 5px;">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
 																						<button class="btn btn-success saveFieldDetails" data-field-id="{$FIELD_MODEL->get('id')}" type="submit" style="margin: 5px;">
 																							<strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong>
 																						</button>
@@ -619,10 +619,10 @@
 															</span>
 														{/if}
 													</div>
-													<div class="modal-footer">
+													<div class="modal-footer" style="padding: 0px;">
 														<span class="pull-right">
-															<div class="pull-right"><a href="javascript:void(0)" style="margin-top: 5px;margin-left: 10px;color:#AA3434;" class='cancel'>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
-															<button class="btn btn-success saveFieldDetails" data-field-id="" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+															<div class="pull-right"><a href="javascript:void(0)" style="margin: 5px;" class='cancel btn btn-warning'>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
+															<button class="btn btn-success saveFieldDetails" style="margin: 5px;" data-field-id="" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 														</span>
 													</div>
 												</form>
