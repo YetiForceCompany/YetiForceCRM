@@ -324,6 +324,9 @@ class ListViewController
 						} else {
 							if (!empty($value)) {
 								$value = CurrencyField::convertToUserFormat($value);
+								$currencyModal = new CurrencyField($value);
+								$currencyModal->initialize();
+								$value = $currencyModal->appendCurrencySymbol($value, $currencyModal->currencySymbol);
 							}
 						}
 					}
