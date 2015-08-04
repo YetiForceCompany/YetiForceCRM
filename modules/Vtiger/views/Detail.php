@@ -147,8 +147,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-
-		if ($currentUserModel->get('default_record_view') === 'Summary') {
+		$recordId = $request->get('record');
+		$moduleName = $request->getModule();
+		if (!$this->record) {
+			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+		}
+		$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
+		if ($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList) {
 			echo $this->showModuleBasicView($request);
 		} else {
 			echo $this->showModuleDetailView($request);
