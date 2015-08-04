@@ -1446,7 +1446,7 @@ td.fieldValue .input-group {
 #shipping_handling_div {
 	position: absolute;
 	left: 46%;
-	width: 27%;
+	width: 30%;
 	z-index: 500;
 	box-shadow: 1px 0px 7px #dddddd;
 	border-radius: 6px;
