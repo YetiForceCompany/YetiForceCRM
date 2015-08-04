@@ -75,8 +75,8 @@
 	</div>
 	<br>
 	<div class="pull-right">
-		<a class="btn btn-success saveTree"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></a>
-		<a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+		<button class="btn btn-success saveTree"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+		<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 	</div>
 	<div class="clearfix"></div>
 </div>
