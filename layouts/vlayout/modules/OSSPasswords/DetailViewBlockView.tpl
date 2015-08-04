@@ -86,9 +86,6 @@
 				 <td class="fieldLabel" id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 					 <label class="muted pull-right marginRight10px">
 						 {vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
-						 {if ($FIELD_MODEL->get('uitype') eq '72') && ($FIELD_MODEL->getName() eq 'unit_price')}
-							({$BASE_CURRENCY_SYMBOL})
-						{/if}
 					 </label>
 				 </td>
 				 <td class="fieldValue" id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if} {if $FIELD_MODEL->get('name') eq 'password'}onclick="showPasswordQuickEdit('{$smarty.get.record}');" {/if}>

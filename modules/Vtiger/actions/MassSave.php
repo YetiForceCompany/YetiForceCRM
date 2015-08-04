@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_MassSave_Action extends Vtiger_Mass_Action
@@ -74,7 +75,7 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 						$recordModel->set($fieldName, $recordModel->get($fieldName));
 					} else {
 						$uiTypeModel = $fieldModel->getUITypeModel();
-						$recordModel->set($fieldName, $uiTypeModel->getUserRequestValue($recordModel->get($fieldName)));
+						$recordModel->set($fieldName, $uiTypeModel->getUserRequestValue($recordModel->get($fieldName), $recordId));
 					}
 				}
 			}
