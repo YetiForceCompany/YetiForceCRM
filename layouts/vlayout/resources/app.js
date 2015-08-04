@@ -217,12 +217,6 @@ var app = {
 				}).on("select2:unselect", function (e) {
 			selectElementNew.data('unselecting', true);
 		});
-
-		// Improve the display of default text (placeholder)
-		var instance = selectElementNew.data('select2');
-		if (instance) {
-			instance.$selection.find('.select2-search__field').css('width', '100%');
-		}
 		return selectElement;
 	},
 	/**
