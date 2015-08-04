@@ -943,6 +943,10 @@ var app = {
 		if (typeof window[moduleClassName] == 'undefined') {
 			moduleClassName = moduleName + "_" + view + "_Js";
 		}
+		var extendModules = jQuery('#extendModules').val();
+		if (typeof window[moduleClassName] == 'undefined' && extendModules != undefined) {
+			moduleClassName = extendModules + "_" + view + "_Js";
+		}
 		if (typeof window[moduleClassName] == 'undefined') {
 			moduleClassName = "Vtiger_" + view + "_Js";
 		}
