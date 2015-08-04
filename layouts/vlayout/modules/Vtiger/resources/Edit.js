@@ -160,7 +160,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 	},
 
 	setReferenceFieldValue : function(container, params) {
-		var sourceField = container.find('input[class="sourceField"]').attr('name');
+		var sourceField = container.find('input.sourceField').attr('name');
 		var fieldElement = container.find('input[name="'+sourceField+'"]');
 		var sourceFieldDisplay = sourceField+"_display";
 		var fieldDisplayElement = container.find('input[name="'+sourceFieldDisplay+'"]');
