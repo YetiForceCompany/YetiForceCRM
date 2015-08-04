@@ -28,6 +28,7 @@ $languageStrings = [
 	'Project Task Number' => 'Код',
 	'Project Task' => 'Проектные задачи',
 	'Related to' => 'Связан с',
+	'Parent ID' => 'Related task',
 	'SINGLE_ProjectTask' => 'Проектная задача',
 	'Start Date' => 'Дата начала',
 	'Target End Date' => 'Планируемая дата завершения',
