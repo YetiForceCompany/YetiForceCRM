@@ -51,7 +51,7 @@
     <br />
     <div class="pull-right">
         <button class="btn btn-success" id="next_step">{vtranslate('NEXT', $QUALIFIED_MODULE)}</button>
-        <a href="index.php?module={$MODULE_NAME}&parent=Settings&view=Index" class="cancelLink">{vtranslate('CANCEL', $QUALIFIED_MODULE)}</a>
+        <a href="index.php?module={$MODULE_NAME}&parent=Settings&view=Index" class="cancelLink btn btn-warning">{vtranslate('CANCEL', $QUALIFIED_MODULE)}</a>
     </div>
     </form>
 </div> 
