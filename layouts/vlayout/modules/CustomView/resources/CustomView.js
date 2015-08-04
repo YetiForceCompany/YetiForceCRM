@@ -147,20 +147,21 @@ var Vtiger_CustomView_Js = {
 	 */
 	registerSelect2ElementForColumnsSelection : function() {
 		var selectElement = Vtiger_CustomView_Js.getColumnSelectElement();
-		app.changeSelectElementView(selectElement, 'selectize', {plugins: ['drag_drop','remove_button'], maxItems: 12});
+		return app.changeSelectElementView(selectElement, 'selectize', {plugins: ['drag_drop','remove_button'], maxItems: 12});
 	},
 
 	registerEvents: function(){
-		Vtiger_CustomView_Js.registerSelect2ElementForColumnsSelection();
+		var select2Element = Vtiger_CustomView_Js.columnListSelect2Element = Vtiger_CustomView_Js.registerSelect2ElementForColumnsSelection();
 		var contentsContainer = Vtiger_CustomView_Js.getContentsContainer();
 		jQuery('.stndrdFilterDateSelect').datepicker();
 		jQuery('.chzn-select').chosen();
 
-		//var select2Element = app.getSelect2ElementFromSelect(Vtiger_CustomView_Js.getColumnSelectElement());
-		var select2Element = Vtiger_CustomView_Js.getColumnSelectElement();
-		select2Element.selectize({plugins: ['drag_drop','remove_button']});
-		Vtiger_CustomView_Js.columnListSelect2Element = select2Element;
-
+		var selectizeInstance = select2Element[0].selectize;
+		var columnsList = JSON.parse(jQuery('input[name="columnslist"]').val());
+		selectizeInstance.clear();
+		for(i in columnsList){
+			selectizeInstance.addItem(columnsList[i]);
+		}
 		jQuery("#standardDateFilter").change(function(){
 			Vtiger_CustomView_Js.loadDateFilterValues();
 		});
