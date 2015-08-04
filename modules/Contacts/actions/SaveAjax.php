@@ -26,7 +26,7 @@ class Contacts_SaveAjax_Action extends Vtiger_SaveAjax_Action {
                 if ($uiType == 70) {
                     $fieldValue = $recordModel->get($fieldName);
                 } else {
-                    $fieldValue = $fieldModel->getUITypeModel()->getUserRequestValue($recordModel->get($fieldName));
+                    $fieldValue = $fieldModel->getUITypeModel()->getUserRequestValue($recordModel->get($fieldName), $recordId);
                 }
 
                 if ($fieldName === $request->get('field')) {

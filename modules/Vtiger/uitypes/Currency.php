@@ -9,7 +9,7 @@
  *************************************************************************************/
 
 class Vtiger_Currency_UIType extends Vtiger_Base_UIType {
-
+	protected $edit = false;
 	/**
 	 * Function to get the Template name for the current UI Type object
 	 * @return <String> - Template Name
@@ -23,7 +23,8 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType {
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value) {
+	public function getDisplayValue($value, $recordId) {
+		global $default_charset;
 		$uiType = $this->get('field')->get('uitype');
 		if ($value) {
 			if ($uiType == 72) {
@@ -31,6 +32,9 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType {
 				$value = CurrencyField::convertToUserFormat($value, null, true);
 			} else {
 				$value = CurrencyField::convertToUserFormat($value);
+			}
+			if(!$this->edit){
+				$value = $this->getDetailViewDisplayValue($value, $recordId, $uiType);
 			}
 			return $value;
 		}
@@ -42,8 +46,8 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType {
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getUserRequestValue($value) {
-		return $this->getDisplayValue($value);
+	public function getUserRequestValue($value, $recordId) {
+		return $this->getDisplayValue($value, $recordId);
 	}
     
     /**
@@ -87,8 +91,31 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType {
 	 * @return <String>
 	 */
 	public function getEditViewDisplayValue($value) {
-		if(!empty($value))
-			return $this->getDisplayValue($value);
+		if(!empty($value)){
+			$this->edit = true;
+			return $this->getDisplayValue($value, true);
+		}
         return $value;
+	}
+	
+	/**
+	 * Function that converts the Number into Users Currency along with currency symbol
+	 * @param Users $user
+	 * @param Boolean $skipConversion
+	 * @return Formatted Currency
+	 */
+	public function getDetailViewDisplayValue($value, $recordId, $uiType)
+	{
+		$currencyModal = new CurrencyField($value);
+		$currencyModal->initialize();
+		if($uiType == '72' && $recordId){
+			$moduleName = $this->get('field')->getModuleName();
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
+			$currencySymbol = $baseCurrenctDetails['symbol'];
+		}else{
+			$currencySymbol = $currencyModal->currencySymbol;
+		}
+		return $currencyModal->appendCurrencySymbol($value,$currencySymbol);
 	}
 }

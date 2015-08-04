@@ -33,7 +33,7 @@ class SalesOrder_SaveAjax_Action extends Inventory_SaveAjax_Action {
                 if ($uiType == 70) {
                     $fieldValue = $recordModel->get($fieldName);
                 } else {
-					$fieldValue = $fieldModel->getUITypeModel()->getUserRequestValue($recordModel->get($fieldName));
+					$fieldValue = $fieldModel->getUITypeModel()->getUserRequestValue($recordModel->get($fieldName), $recordId);
                 }
 				
 

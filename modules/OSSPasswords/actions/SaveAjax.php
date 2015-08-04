@@ -119,7 +119,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 
 			$fieldModelList = $recordModel->getModule()->getFields();
 			foreach ($fieldModelList as $fieldName => $fieldModel) {
-				$fieldValue = $fieldModel->getUITypeModel()->getUserRequestValue($recordModel->get($fieldName));
+				$fieldValue = $fieldModel->getUITypeModel()->getUserRequestValue($recordModel->get($fieldName), $recordId);
 
 				if ($fieldName === $request->get('field')) {
 					$fieldValue = $request->get('value');
