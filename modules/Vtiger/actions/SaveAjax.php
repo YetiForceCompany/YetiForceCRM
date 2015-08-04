@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
@@ -26,11 +27,10 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 				$recordFieldValue = implode(',', $recordFieldValue);
 			}
 			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordFieldValue);
-			if($fieldModel->getFieldDataType() == 'currency'){
+			if ($fieldModel->getFieldDataType() == 'currency') {
 				$recordFieldValue = $fieldModel->getDBInsertValue($recordFieldValue);
 				$displayValue = Vtiger_Util_Helper::toSafeHTML($fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId()));
-			}
-			elseif($fieldModel->getFieldDataType() !== 'datetime' && $fieldModel->getFieldDataType() !== 'date') {
+			} elseif ($fieldModel->getFieldDataType() !== 'datetime' && $fieldModel->getFieldDataType() !== 'date') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}
 
