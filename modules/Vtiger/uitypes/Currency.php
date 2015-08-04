@@ -28,7 +28,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value, $recordId)
+	public function getDisplayValue($value, $recordId = false)
 	{
 		global $default_charset;
 		$uiType = $this->get('field')->get('uitype');
@@ -104,7 +104,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	{
 		if (!empty($value)) {
 			$this->edit = true;
-			return $this->getDisplayValue($value, true);
+			return $this->getDisplayValue($value);
 		}
 		return $value;
 	}
@@ -119,11 +119,17 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	{
 		$currencyModal = new CurrencyField($value);
 		$currencyModal->initialize();
+
 		if ($uiType == '72' && $recordId) {
 			$moduleName = $this->get('field')->getModuleName();
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
-			$currencySymbol = $baseCurrenctDetails['symbol'];
+			if ($this->get('field')->getName() == 'unit_price') {
+				$currencyId = getProductBaseCurrency($recordId, $moduleName);
+				$cursym_convrate = getCurrencySymbolandCRate($currencyId);
+				$currencySymbol = $cursym_convrate['symbol'];
+			} else {
+				$currencyInfo = getInventoryCurrencyInfo($moduleName, $recordId);
+				$currencySymbol = $currencyInfo['currency_symbol'];
+			}
 		} else {
 			$currencySymbol = $currencyModal->currencySymbol;
 		}
