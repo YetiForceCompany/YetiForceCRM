@@ -506,7 +506,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			}
 			form.validationEngine(params);
 		});
-},
+	},
 	addMiniListWidget: function (element, url) {
 		// 1. Show popup window for selection (module, filter, fields)
 		// 2. Compute the dynamic mini-list widget url
@@ -732,7 +732,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		var contents = jQuery('#layoutDashBoards');
 		var deletedTable = contents.find('.block_' + blockId);
 		deletedTable.fadeOut('slow').remove();
-},
+	},
 	/**
 	 * Function to register the change event for layout editor modules list
 	 */
