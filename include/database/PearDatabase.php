@@ -172,7 +172,7 @@ class PearDatabase
 				if ($query !== false) {
 					$queryInfo .= 'Query: ' . $query . PHP_EOL;
 				}
-				if ($params !== false) {
+				if ($params !== false && $params != NULL) {
 					$queryInfo .= 'Params: ' . implode(',', $params) . PHP_EOL;
 				}
 				$trace = '<pre>' . $queryInfo . ob_get_contents() . '</pre>';
