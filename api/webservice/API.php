@@ -22,7 +22,7 @@ class API
 		header("Access-Control-Allow-Orgin: *");
 		header("Access-Control-Allow-Methods: *");
 		header("Content-Type: application/json");
-		
+
 		$this->method = $_SERVER['REQUEST_METHOD'];
 		if ($this->method == 'POST' && array_key_exists('HTTP_X_HTTP_METHOD', $_SERVER)) {
 			if ($_SERVER['HTTP_X_HTTP_METHOD'] == 'DELETE') {
@@ -40,24 +40,26 @@ class API
 
 		$this->initHeaders();
 
-		if (!isset($_REQUEST['data'])) {
-			//throw new APIException('Incorrect request', 405);
-		}
-
-		if (isset($this->headers['encrypted']) && $this->headers['encrypted']) {
-			$request = $this->decryptData(file_get_contents('php://input'));
+		if (isset($this->headers['encrypted']) && $this->headers['encrypted'] == 1) {
+			$requestData = $this->decryptData(file_get_contents('php://input'));
 		} else {
-			$request = $_POST;
+			$requestData = $_POST;
 		}
 
 		$this->request = new Vtiger_Request($_REQUEST, $_REQUEST);
-		$this->data = new Vtiger_Request($request, $request);
+		$this->data = new Vtiger_Request($requestData, $requestData);
 	}
 
 	private function response($data, $status = 200)
 	{
 		header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
-		echo json_encode($data);
+		header('encrypted: ' . (string) vglobal('encryptDataTransfer'));
+		if (vglobal('encryptDataTransfer')) {
+			$response = $data;
+		} else {
+			$response = json_encode($data);
+		}
+		echo $response;
 	}
 
 	private function _requestStatus($code)
@@ -113,14 +115,15 @@ class API
 		}
 
 		$response = call_user_func_array([$handler, $function], $data);
+		$response = [
+			'status' => 1,
+			'result' => $response
+		];
 		if (vglobal('encryptDataTransfer')) {
 			$response = $this->encryptData($response);
 		}
-		$this->response([
-			'status' => 1,
-			'encrypted' => vglobal('encryptDataTransfer'),
-			'result' => $response
-		]);
+
+		$this->response($response);
 	}
 
 	public function postProcess()
