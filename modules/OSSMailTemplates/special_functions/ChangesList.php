@@ -49,7 +49,7 @@ class ChangesList
 						$oldValue = vtranslate($oldValue, $data['module']);
 						$currentValue = vtranslate($currentValue, $data['module']);
 					}
-					$html .= '<li>Zmieniono <strong>' . vtranslate($fieldlabel, $data['module']) . '</strong> ' . vtranslate('LBL_FROM') . ' <i>' . $oldValue . '</i> ' . vtranslate('LBL_TO') . ' <i>' . $currentValue . '</i></li>';
+					$html .= '<li>' . vtranslate('LBL_CHANGED', $data['module']) . ' <strong>' . vtranslate($fieldlabel, $data['module']) . '</strong> ' . vtranslate('LBL_FROM') . ' <i>' . $oldValue . '</i> ' . vtranslate('LBL_TO') . ' <i>' . $currentValue . '</i></li>';
 				}
 			}
 			$html .= '</ul>';

@@ -1446,7 +1446,7 @@ td.fieldValue .input-group {
 #shipping_handling_div {
 	position: absolute;
 	left: 46%;
-	width: 27%;
+	width: 30%;
 	z-index: 500;
 	box-shadow: 1px 0px 7px #dddddd;
 	border-radius: 6px;
@@ -3167,7 +3167,8 @@ table.listViewEntriesTable {
 	width: 30%;
 }
 .recordEditView[name=QuickCreate] .quickCreateContent table tr td.fieldValue,
-#massEditContainer .massEditContent table tr td.fieldValue{
+#massEditContainer .massEditContent table tr td.fieldValue,
+#tab_accounts td.functionList{
 	width: 30%;
 }
 .btn {
@@ -3428,4 +3429,36 @@ span[name=existingImages] img{
 }
 #addTaskContainer #taskStatus{
 	margin-left: 10px;
+}
+.scanerMailActionsButtons{
+	min-width: 96px;
+}
+.ui-widget-content {
+	border: 1px solid #aaaaaa;
+	background: #ffffff;
+	color: #404040;
+}
+.ui-menu .ui-menu-item a.ui-state-focus,
+.ui-menu .ui-menu-item a.ui-state-active,
+.ui-menu .ui-menu-item a.ui-widget-content{
+	font-weight: bold;
+	margin: 0;
+    background-color: #428BCA;
+    border-color: #357EBD;
+    color: #FFFFFF;
+    display: block;
+}
+.ui-menu .ui-menu-item a {
+	text-decoration: none;
+	display: block;
+	padding: 2px .4em;
+	line-height: 1.5;
+	min-height: 0; /* support: IE7 */
+	font-weight: normal;
+}
+.ui-menu .ui-menu-item {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	list-style:none;
 }

@@ -32,6 +32,7 @@ $languageStrings = [
 	'LBL_COUNT_CAL' => 'Number of events',
 	'LBL_VIEW_KEYS' => 'DAV keys',
 	'Dav' => 'DAV keys',
+	'LBL_DUPLICATE_USER_SERVICES' => 'Key for this application already exists.',
 ];
 $jsLanguageStrings = [
 	'Adding a Key' => 'Add key',

@@ -46,24 +46,3 @@ $DEBUG_CONFIG = [
 	// Log SMTP conversation to cache/logs/smtp or to syslog
 	'ROUNDCUBE_SMTP_DEBUG' => false,
 ];
-
-class SysDebug
-{
-
-	static function get($key, $defvalue = false)
-	{
-		global $DEBUG_CONFIG;
-		if (isset($DEBUG_CONFIG)) {
-			if (isset($DEBUG_CONFIG[$key])) {
-				return $DEBUG_CONFIG[$key];
-			}
-		}
-		return $defvalue;
-	}
-
-	/** Get boolean value */
-	static function getBoolean($key, $defvalue = false)
-	{
-		return self::get($key, $defvalue);
-	}
-}

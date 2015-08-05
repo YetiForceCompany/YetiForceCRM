@@ -141,7 +141,7 @@
 																						<input type="hidden" name="presence" value="1" />
 																						<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 																							<input type="checkbox" name="presence" {if $FIELD_MODEL->isViewable()} checked {/if}
-																								   {if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} {if $IS_MANDATORY} readonly="readonly" {/if} value="2" />&nbsp;
+																								   {if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} {if $IS_MANDATORY} readonly="readonly" {/if} value="{$FIELD_MODEL->get('presence')}" />&nbsp;
 																							{vtranslate('LBL_ACTIVE', $QUALIFIED_MODULE)}
 																						</label>
 																					</span>
@@ -257,7 +257,7 @@
 																							<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
 																								<select name="displaytype" class="form-control">
 																									{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
-																										<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
+																										<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_KEY == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
 																									{/foreach}
 																								</select>
 																							</div>
@@ -266,8 +266,8 @@
 																					{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
 																						<span>
 																							<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-																								{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
-																								<input type="checkbox" name="generatedtype" value="1"
+																								&nbsp;{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
+																								<input style="margin-left: -89px;" type="checkbox" name="generatedtype" value="1"
 																									   {if $FIELD_MODEL->get('generatedtype') eq 1} checked {/if} />
 																							</label>
 																						</span>
@@ -342,7 +342,7 @@
 																						<input type="hidden" name="presence" value="1" />
 																						<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 																							<input type="checkbox" name="presence" {if $FIELD_MODEL->isViewable()} checked {/if}
-																								   {if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} {if $IS_MANDATORY} readonly="readonly" {/if} value="2" />&nbsp;
+																								   {if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} {if $IS_MANDATORY} readonly="readonly" {/if} value="{$FIELD_MODEL->get('presence')}" />&nbsp;
 																							{vtranslate('LBL_ACTIVE', $QUALIFIED_MODULE)}
 																						</label>
 																					</span>
@@ -452,7 +452,7 @@
 																							<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
 																								<select name="displaytype" class="form-control">
 																									{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
-																										<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
+																										<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_KEY == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
 																									{/foreach}
 																								</select>
 																							</div>
@@ -461,8 +461,8 @@
 																					{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
 																						<span>
 																							<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-																								{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
-																								<input type="checkbox" name="generatedtype" value="1"
+																								&nbsp;{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
+																								<input style="margin-left: -89px;" type="checkbox" name="generatedtype" value="1"
 																									   {if $FIELD_MODEL->get('generatedtype') eq 1} checked {/if} />
 																							</label>
 																						</span>
@@ -470,7 +470,7 @@
 																				</div>
 																				<div class="modal-footer" style="padding: 0px;">
 																					<span class="pull-right">
-																						<div class="pull-right"><a href="javascript:void(0)" style="margin: 5px;color:#AA3434;margin-top:10px;" class="cancel">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
+																						<div class="pull-right"><a href="javascript:void(0)" class="cancel btn btn-warning" style="margin: 5px;">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
 																						<button class="btn btn-success saveFieldDetails" data-field-id="{$FIELD_MODEL->get('id')}" type="submit" style="margin: 5px;">
 																							<strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong>
 																						</button>
@@ -613,16 +613,16 @@
 														{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
 															<span>
 																<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-																	{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
-																	<input type="checkbox" name="generatedtype" value="1" />
+																	&nbsp;{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
+																	<input style="margin-left: -89px;" type="checkbox" name="generatedtype" value="1" />
 																</label>
 															</span>
 														{/if}
 													</div>
-													<div class="modal-footer">
+													<div class="modal-footer" style="padding: 0px;">
 														<span class="pull-right">
-															<div class="pull-right"><a href="javascript:void(0)" style="margin-top: 5px;margin-left: 10px;color:#AA3434;" class='cancel'>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
-															<button class="btn btn-success saveFieldDetails" data-field-id="" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+															<div class="pull-right"><a href="javascript:void(0)" style="margin: 5px;" class='cancel btn btn-warning'>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
+															<button class="btn btn-success saveFieldDetails" style="margin: 5px;" data-field-id="" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 														</span>
 													</div>
 												</form>

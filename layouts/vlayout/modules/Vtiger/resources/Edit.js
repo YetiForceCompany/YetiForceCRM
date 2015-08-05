@@ -160,7 +160,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 	},
 
 	setReferenceFieldValue : function(container, params) {
-		var sourceField = container.find('input[class="sourceField"]').attr('name');
+		var sourceField = container.find('input.sourceField').attr('name');
 		var fieldElement = container.find('input[name="'+sourceField+'"]');
 		var sourceFieldDisplay = sourceField+"_display";
 		var fieldDisplayElement = container.find('input[name="'+sourceFieldDisplay+'"]');
@@ -459,7 +459,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 			var fieldNameElement = parentTdElement.find('.sourceField');
 			var fieldName = fieldNameElement.attr('name');
 			fieldNameElement.val('');
-			parentTdElement.find('#'+fieldName+'_display').removeAttr('readonly').val('');
+			parentTdElement.find('[name="'+fieldName+'_display"]').removeAttr('readonly').val('');
 			element.trigger(Vtiger_Edit_Js.referenceDeSelectionEvent);
 			e.preventDefault();
 		})

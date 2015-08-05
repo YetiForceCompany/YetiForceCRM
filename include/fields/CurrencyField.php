@@ -191,10 +191,10 @@ class CurrencyField
 		}
 
 		switch ($currencySymbolPlacement) {
-			case '1.0$' : $returnValue = $currencyValue . $currencySymbol;
+			case '1.0$' : $returnValue = $currencyValue . ' ' . $currencySymbol;
 				break;
 			case '$1.0' :
-			default : $returnValue = $currencySymbol . $currencyValue;
+			default : $returnValue = $currencySymbol . ' ' . $currencyValue;
 		}
 		return $returnValue;
 	}

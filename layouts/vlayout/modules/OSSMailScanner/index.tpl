@@ -66,7 +66,7 @@
                     <tr id="row_account_{$row['user_id']}" style="{cycle values="'',background-color: #f9f9f9"}">
                         <td>{$row['username']}</td>
                         <td>{$row['mail_host']}</td>
-                        <td>
+                        <td class='functionList'>
                             <select class="form-control select2" multiple id="function_list_{$row['user_id']}" name="function_list_{$row['user_id']}">
                                 <optgroup label="{vtranslate('Function_list', 'OSSMailScanner')}">
                                     {foreach item=item from=$EMAILACTIONSLISTNAME}
@@ -93,11 +93,17 @@
                             </select>
                         </td>
 						<td>{vtranslate($row['status'], 'OSSMailScanner')}</td>
-                        <td><button title="{vtranslate('show_identities', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default expand-hide"><i class="glyphicon glyphicon-chevron-down"></i></button>
-							<button title="{vtranslate('delate_accont', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont"><i class="glyphicon glyphicon-trash"></i></button></td>
+                        <td class='scanerMailActionsButtons'>
+							<div class="btn-toolbar">
+								<div class="btn-group">
+									<button title="{vtranslate('show_identities', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default expand-hide"><i class="glyphicon glyphicon-chevron-down"></i></button>
+							<button title="{vtranslate('delate_accont', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont"><i class="glyphicon glyphicon-trash"></i></button>
+								</div>
+							</div>
+						</td>
                     </tr>
                     <tr style="display: none;" data-user-id="{$row['user_id']}">
-                        <td colspan="5">
+                        <td colspan="6">
                             <table class="table">
                                 <tr>
                                     <th style="color: black; background-color: #d3d3d3;">{vtranslate('identities_name', 'OSSMailScanner')}</th>

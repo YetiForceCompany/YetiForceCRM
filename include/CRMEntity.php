@@ -44,13 +44,16 @@ class CRMEntity
 		}
 		return false;
 	}
-
+	protected static $instancesCache = [];
 	static function getInstance($module)
 	{
 		$modName = $module;
 		if ($module == 'Calendar' || $module == 'Events') {
 			$module = 'Calendar';
 			$modName = 'Activity';
+		}
+		if (isset(self::$instancesCache[$modName])) {
+			return self::$instancesCache[$modName];
 		}
 		// File access security check
 		if (!class_exists($modName)) {
@@ -64,6 +67,7 @@ class CRMEntity
 		}
 		$focus = new $modName();
 		$focus->moduleName = $module;
+		self::$instancesCache[$modName] = $focus;
 		return $focus;
 	}
 

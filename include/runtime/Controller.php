@@ -238,8 +238,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/chosen/chosen.css',
 			'~libraries/jquery/chosen/chosen.bootstrap.css',
 			'~libraries/jquery/jquery-ui/jquery-ui.css',
-			'~libraries/jquery/jquery-ui/bootstrap.jquery-ui-custom.css',
-			'~libraries/jquery/jquery-ui/bootstrap.jquery-ui-theme.css',
 			'~libraries/jquery/selectize/css/selectize.bootstrap3.css',
 			'~libraries/jquery/select2/select2.css',
 			'~libraries/jquery/select2/select2-bootstrap.css',

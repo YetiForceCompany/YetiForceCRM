@@ -20,7 +20,7 @@ class APIException extends Exception
 			$message = 'Internal Server Error';
 			$code = 500;
 		}
-		echo json_encode(['status' => 0, 'error' => ['message' => $message, 'code' => $code]]);
+		echo json_encode(['status' => 0, 'encrypted' => 0,  'error' => ['message' => $message, 'code' => $code]]);
 	}
 
 	private function _requestStatus($code)

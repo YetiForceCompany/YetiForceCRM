@@ -990,7 +990,7 @@ function createRecords($obj)
 	$focus = CRMEntity::getInstance($moduleName);
 
 	$tableName = Import_Utils_Helper::getDbTableName($obj->user);
-	$sql = 'SELECT * FROM ' . $tableName . ' WHERE temp_status = ' . Import_Data_Action::$IMPORT_RECORD_NONE . ' GROUP BY subject';
+	$sql = 'SELECT * FROM ' . $tableName . ' WHERE temp_status = ' . Import_Data_Action::$IMPORT_RECORD_NONE;
 
 	if ($obj->batchImport) {
 		$importBatchLimit = getImportBatchLimit();
@@ -1013,7 +1013,9 @@ function createRecords($obj)
 		$fieldData = array();
 		$lineItems = array();
 		$subject = $row['subject'];
-		$sql = 'SELECT * FROM ' . $tableName . ' WHERE temp_status = ' . Import_Data_Action::$IMPORT_RECORD_NONE . ' AND subject = "' . str_replace("\"", "\\\"", $subject) . '"';
+		$sql = 'SELECT * FROM ' . $tableName . ' WHERE temp_status = ' . Import_Data_Action::$IMPORT_RECORD_NONE;
+		if (!empty($subject))
+			$sql .= ' AND subject = "' . str_replace("\"", "\\\"", $subject) . '"';
 		$subjectResult = $adb->query($sql);
 		$count = $adb->num_rows($subjectResult);
 		$subjectRowIDs = array();
@@ -1025,7 +1027,7 @@ function createRecords($obj)
 			} else {
 				$lineItemData = array();
 				foreach ($fieldMapping as $fieldName => $index) {
-					if ($moduleFields[$fieldName]->getTableName() == 'vtiger_inventoryproductrel') {
+					if ($moduleFields[$fieldName]->getTableName() == 'vtiger_inventoryproductrel' || $moduleFields[$fieldName]->getTableName() == 'vtiger_calculationsproductrel') {
 						$lineItemData[$fieldName] = $subjectRow[$fieldName];
 					}
 				}
@@ -1166,7 +1168,7 @@ function getImportStatusCount($obj)
 {
 	$adb = PearDatabase::getInstance();
 	$tableName = Import_Utils_Helper::getDbTableName($obj->user);
-	$result = $adb->query('SELECT temp_status FROM ' . $tableName . ' GROUP BY subject');
+	$result = $adb->query('SELECT temp_status FROM ' . $tableName . ';');
 
 	$statusCount = array('TOTAL' => 0, 'IMPORTED' => 0, 'FAILED' => 0, 'PENDING' => 0,
 		'CREATED' => 0, 'SKIPPED' => 0, 'UPDATED' => 0, 'MERGED' => 0);
@@ -1215,7 +1217,7 @@ function undoLastImport($obj, $user)
 		exit;
 	}
 	$result = $adb->query("SELECT recordid FROM $dbTableName WHERE temp_status = " . Import_Data_Controller::$IMPORT_RECORD_CREATED
-		. " AND recordid IS NOT NULL GROUP BY subject");
+		. " AND recordid IS NOT NULL;");
 	$noOfRecords = $adb->num_rows($result);
 	$noOfRecordsDeleted = 0;
 	for ($i = 0; $i < $noOfRecords; ++$i) {

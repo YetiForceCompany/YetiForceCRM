@@ -1070,6 +1070,8 @@ CREATE TABLE `vtiger_calculations` (
   `quotesenquiresid` int(19) DEFAULT NULL,
   `calculations_cons` text,
   `calculations_pros` text,
+  `subtotal` decimal(25,8) DEFAULT NULL,
+  `pre_tax_total` decimal(25,8) DEFAULT NULL,
   PRIMARY KEY (`calculationsid`),
   KEY `calculations_relatedid_idx` (`relatedid`),
   KEY `osscosts_potentialid_idx` (`potentialid`),
@@ -2522,7 +2524,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1748 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1756 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 

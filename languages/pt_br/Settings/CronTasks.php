@@ -30,6 +30,14 @@ $languageStrings = [
 	'MODULE' => 'Módulo',
 	'LBL_NAME' => 'Nome',
 	'LBL_PATH_TO_FILE' => 'Diretório do arquivo',
+	'Workflow' => 'Workflow',
+	'RecurringInvoice' => 'Recurring Invoice',
+	'MailScannerAction' => 'Mail Scanner Action',
+	'MailScannerVerification' => 'Mail Scanner Verification',
+	'SendReminder' => 'Send Reminder',
+	'Scheduled Import' => 'Scheduled Import',
+	'ScheduleReports' => 'Schedule Reports',
+	'MailScannerBind' => 'Mail Scanner Bind'
 ];
 
 

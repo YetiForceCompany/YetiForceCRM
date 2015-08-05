@@ -908,10 +908,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var currentTarget = jQuery(e.currentTarget);
 			var oldDisplayStatus = currentTarget.data('visible');
 			if (oldDisplayStatus == '0') {
-				currentTarget.find('.glyphicon glyphicon-ok').removeClass('hide');
+				currentTarget.find('.glyphicon-ok').removeClass('hide');
 				currentTarget.data('visible', '1');
 			} else {
-				currentTarget.find('.glyphicon glyphicon-ok').addClass('hide');
+				currentTarget.find('.glyphicon-ok').addClass('hide');
 				currentTarget.data('visible', '0');
 			}
 			thisInstance.updateBlockStatus(currentTarget);

@@ -217,12 +217,6 @@ var app = {
 				}).on("select2:unselect", function (e) {
 			selectElementNew.data('unselecting', true);
 		});
-
-		// Improve the display of default text (placeholder)
-		var instance = selectElementNew.data('select2');
-		if (instance) {
-			instance.$selection.find('.select2-search__field').css('width', '100%');
-		}
 		return selectElement;
 	},
 	/**
@@ -370,7 +364,7 @@ var app = {
 						}, this))
 			};
 
-			container.find('.modal').modal(params);
+			container.find('.modal:first').modal(params);
 			jQuery('body').append(container);
 			// TODO Make it better with jQuery.on
 			app.changeSelectElementView(container);
@@ -942,6 +936,10 @@ var app = {
 		}
 		if (typeof window[moduleClassName] == 'undefined') {
 			moduleClassName = moduleName + "_" + view + "_Js";
+		}
+		var extendModules = jQuery('#extendModules').val();
+		if (typeof window[moduleClassName] == 'undefined' && extendModules != undefined) {
+			moduleClassName = extendModules + "_" + view + "_Js";
 		}
 		if (typeof window[moduleClassName] == 'undefined') {
 			moduleClassName = "Vtiger_" + view + "_Js";

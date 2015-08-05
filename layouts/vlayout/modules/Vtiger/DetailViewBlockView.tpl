@@ -44,7 +44,7 @@
 										{assign var="COUNTER" value=$COUNTER+1}
 									{/if}
 									<td class="fieldLabel {$WIDTHTYPE}">
-										<label class='muted pull-right marginRight10px'>{vtranslate($tax.taxlabel, $MODULE)}(%)</label>
+										<label class='muted pull-right marginRight10px'>{vtranslate($tax.taxlabel, $MODULE)}&nbsp;(%)</label>
 									</td>
 									<td class="fieldValue {$WIDTHTYPE}">
 										<span class="value">
@@ -92,9 +92,6 @@
 									{/if}
 								<label class="muted pull-right marginRight10px">
 									{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
-									{if ($FIELD_MODEL->get('uitype') eq '72') && ($FIELD_MODEL->getName() eq 'unit_price')}
-										({$BASE_CURRENCY_SYMBOL})
-									{/if}
 								</label>
 							</td>
 							<td class="fieldValue {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '300'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
@@ -112,7 +109,7 @@
 										{elseif $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}
 											<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->get('fieldvalue')}' />		
 										{else}
-											<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}' />
+											<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue')))}' />
 											{if $FIELD_MODEL->get('name') eq 'date_start' && $MODULE eq 'Calendar'}
 												<input type="hidden" class="fieldname" value='time_start' data-prev-value='' />
 											{/if}

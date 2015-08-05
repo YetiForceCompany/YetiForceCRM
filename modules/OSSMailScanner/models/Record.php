@@ -350,7 +350,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		} else {
 			$emails_array[0] = $emails;
 		}
-		if ($EmailSearchList != null && $emails != '') {
+		if ($EmailSearchList != null && $emails != '' && !empty($EmailSearchList['fields'])) {
 			if (strpos($EmailSearchList['fields'], ',')) {
 				$fields = explode(",", $EmailSearchList['fields']);
 			} else {

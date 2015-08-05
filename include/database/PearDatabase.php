@@ -159,7 +159,7 @@ class PearDatabase
 		return $message;
 	}
 
-	function checkError($message, $dieOnError = false)
+	function checkError($message, $dieOnError = false, $query = false, $params = false)
 	{
 		if ($this->hasActiveTransaction) {
 			$this->rollbackTransaction();
@@ -168,7 +168,14 @@ class PearDatabase
 			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
 				ob_start();
 				debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-				$trace = '<pre>' . ob_get_contents() . '</pre>';
+				$queryInfo = '';
+				if ($query !== false) {
+					$queryInfo .= 'Query: ' . $query . PHP_EOL;
+				}
+				if ($params !== false && $params != NULL) {
+					$queryInfo .= 'Params: ' . implode(',', $params) . PHP_EOL;
+				}
+				$trace = '<pre>' . $queryInfo . ob_get_contents() . '</pre>';
 				ob_end_clean();
 			}
 			die('Database ERROR: ' . $message . $trace);
@@ -316,7 +323,7 @@ class PearDatabase
 		} catch (Exception $e) {
 			$error = $this->database->errorInfo();
 			$this->log($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage(), 'error');
-			$this->checkError($e->getMessage(), $dieOnError);
+			$this->checkError($e->getMessage(), $dieOnError, $query);
 		}
 		return $this->stmt;
 	}
@@ -344,7 +351,7 @@ class PearDatabase
 		} catch (Exception $e) {
 			$error = $this->database->errorInfo();
 			$this->log($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage(), 'error');
-			$this->checkError($e->getMessage(), $dieOnError);
+			$this->checkError($e->getMessage(), $dieOnError, $query, $params);
 		}
 		return $this->stmt;
 	}
