@@ -29,7 +29,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	{
 		$value = parent::get($key);
 		if ($key === 'content' && $_REQUEST['view'] == 'Detail') {
-			return Vtiger_Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script'), decode_html($value));
+			return Vtiger_Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'base'), decode_html($value));
 		}
 		if ($key === 'uid' || $key === 'content') {
 			return decode_html($value);
@@ -87,7 +87,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				$return[$row['ossmailviewid']]['from'] = ($from == '' && $from) ? $from : $this->limit_text($row['from_email']);
 				$return[$row['ossmailviewid']]['to'] = ($to == '' && $to) ? $to : $this->limit_text($row['to_email']);
 				$return[$row['ossmailviewid']]['type'] = $row['type'];
-				$return[$row['ossmailviewid']]['body'] = Vtiger_Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'head'), decode_html($row['content']));
+				$return[$row['ossmailviewid']]['body'] = Vtiger_Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'head', 'base'), decode_html($row['content']));
 			}
 		}
 		return $return;
