@@ -80,6 +80,7 @@ Vtiger_Detail_Js("Campaigns_Detail_Js",{},{
 	registerEventForRelatedList : function(){
 		var thisInstance = this;
 		var detailContentsHolder = this.getContentHolder();
+		thisInstance.registerEventForAddingRelatedRecord(detailContentsHolder);
 		detailContentsHolder.on('click','.relatedListHeaderValues',function(e){
 			var element = jQuery(e.currentTarget);
 			var selectedTabElement = thisInstance.getSelectedTab();
@@ -216,8 +217,8 @@ Vtiger_Detail_Js("Campaigns_Detail_Js",{},{
 					//Summary tab is clicked
 					if(tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
 						thisInstance.loadWidgets();
-						thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 					}
+					thisInstance.registerBasicEvents();
 				},
 				function (){
 					//TODO : handle error
