@@ -841,6 +841,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 		var thisInstance = this;
 		var detailContentsHolder = this.getContentHolder();
+		thisInstance.registerEventForAddingRelatedRecord(detailContentsHolder);
 		detailContentsHolder.on('click', '.relatedListHeaderValues', function (e) {
 			var element = jQuery(e.currentTarget);
 			var selectedTabElement = thisInstance.getSelectedTab();
@@ -2004,9 +2005,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 					function (data) {
 						thisInstance.deSelectAllrelatedTabs();
 						thisInstance.markTabAsSelected(tabElement);
-						app.registerEventForDatePickerFields(detailContentsHolder);
-						//Attach time picker event to time fields
-						app.registerEventForTimeFields(detailContentsHolder);
 						app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
 						Vtiger_Helper_Js.showHorizontalTopScrollBar();
 						element.progressIndicator({'mode': 'hide'});
@@ -2017,13 +2015,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 						//Summary tab is clicked
 						if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
 							thisInstance.loadWidgets();
-							thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 							thisInstance.registerEventForRelatedList();
 						} else if (tabElement.data('linkKey') == thisInstance.detailViewDetailsTabLabel) {
 							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 						}
-
+						thisInstance.registerBasicEvents();
 						// Let listeners know about page state change.
 						app.notifyPostAjaxReady();
 					},
@@ -2306,82 +2303,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 	},
-	registerEvents: function () {
+	registerCommentEvents: function (detailContentsHolder) {
 		var thisInstance = this;
-		//thisInstance.triggerDisplayTypeEvent();
-		var detailContentsHolder = thisInstance.getContentHolder();
-		//register all the events for summary view container
-		this.registerSummaryViewContainerEvents(detailContentsHolder);
-		this.registerHelpInfo();
-		thisInstance.registerSendSmsSubmitEvent();
-		thisInstance.registerAjaxEditEvent();
-		this.registerRelatedRowClickEvent();
-		this.registerBlockAnimationEvent();
-		this.registerBlockStatusCheckOnLoad();
-		this.registerEmailFieldClickEvent();
-		this.registerPhoneFieldClickEvent();
-		this.registerEventForActivityFollowupClickEvent();
-		this.registerEventForMarkAsCompletedClick();
-		this.registerEventForAddingRelatedRecord();
-		this.registerEventForEmailsRelatedRecord();
-		this.registerEventForAddingEmailFromRelatedList();
-		this.registerPostTagCloudWidgetLoad();
-		this.registerEventForRelatedTabClick();
-		Vtiger_Helper_Js.showHorizontalTopScrollBar();
-		this.registerUrlFieldClickEvent();
-
-		var detailViewContainer = jQuery('div.detailViewContainer');
-		if (detailViewContainer.length <= 0) {
-			// Not detail view page
-			return;
-		}
-
-		app.registerEventForDatePickerFields(detailContentsHolder);
-		//Attach time picker event to time fields
-		app.registerEventForTimeFields(detailContentsHolder);
-		this.registerSetReadRecord(detailViewContainer);
-		this.registerEventForRelatedList();
-		this.registerEventForRelatedListPagination();
-		thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
-
-		detailContentsHolder.on('click', '#detailViewNextRecordButton', function (e) {
-			var selectedTabElement = thisInstance.getSelectedTab();
-			var url = selectedTabElement.data('url');
-			var currentPageNum = thisInstance.getRelatedListCurrentPageNum();
-			var requestedPage = parseInt(currentPageNum) + 1;
-			var nextPageUrl = url + '&page=' + requestedPage;
-			thisInstance.loadContents(nextPageUrl);
-		});
-
-		detailContentsHolder.on('click', '#detailViewPreviousRecordButton', function (e) {
-			var selectedTabElement = thisInstance.getSelectedTab();
-			var url = selectedTabElement.data('url');
-			var currentPageNum = thisInstance.getRelatedListCurrentPageNum();
-			var requestedPage = parseInt(currentPageNum) - 1;
-			var params = {};
-			var nextPageUrl = url + '&page=' + requestedPage;
-			thisInstance.loadContents(nextPageUrl);
-		});
-
-		detailContentsHolder.on('click', 'table.detailview-table td.fieldValue', function (e) {
-			if (jQuery(e.target).closest('a').hasClass('btnNoFastEdit'))
-				return;
-			var currentTdElement = jQuery(e.currentTarget);
-			thisInstance.ajaxEditHandling(currentTdElement);
-		});
-
-		detailContentsHolder.on('click', 'div.recordDetails span.squeezedWell', function (e) {
-			var currentElement = jQuery(e.currentTarget);
-			var relatedLabel = currentElement.data('reference');
-			jQuery('.detailViewInfo .related li[data-reference="' + relatedLabel + '"]').trigger("click");
-		});
-
-		detailContentsHolder.on('click', '.relatedPopup', function (e) {
-			var editViewObj = new Vtiger_Edit_Js();
-			editViewObj.openPopUp(e);
-			return false;
-		});
-
 		detailContentsHolder.on('click', '.addCommentBtn', function (e) {
 			thisInstance.removeCommentBlockIfExists();
 			var addCommentBlock = thisInstance.getCommentBlock();
@@ -2449,45 +2372,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 						}
 				);
 			}
-		});
-
-		detailContentsHolder.on('click', '.viewThread', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var currentTargetParent = currentTarget.parent();
-			var commentActionsBlock = currentTarget.closest('.commentActions');
-			var currentCommentBlock = currentTarget.closest('.commentDetails');
-			var ulElements = currentCommentBlock.find('ul');
-			if (ulElements.length > 0) {
-				ulElements.show();
-				commentActionsBlock.find('.hideThreadBlock').show();
-				currentTargetParent.hide();
-				return;
-			}
-			var commentId = currentTarget.closest('.commentDiv').find('.commentInfoHeader').data('commentid');
-			thisInstance.getChildComments(commentId).then(function (data) {
-				jQuery(data).appendTo(jQuery(e.currentTarget).closest('.commentDetails'));
-				commentActionsBlock.find('.hideThreadBlock').show();
-				currentTargetParent.hide();
-			});
-		});
-
-		detailContentsHolder.on('click', '.hideThread', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var currentTargetParent = currentTarget.parent();
-			var commentActionsBlock = currentTarget.closest('.commentActions');
-			var currentCommentBlock = currentTarget.closest('.commentDetails');
-			currentCommentBlock.find('ul').hide();
-			currentTargetParent.hide();
-			commentActionsBlock.find('.viewThreadBlock').show();
-		});
-
-		detailContentsHolder.on('click', '.detailViewThread', function (e) {
-			var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
-			var commentId = jQuery(e.currentTarget).closest('.singleComment').find('.commentInfoHeader').data('commentid');
-			var commentLoad = function (data) {
-				window.location.href = window.location.href + '#' + commentId;
-			}
-			recentCommentsTab.trigger('click', {'commentid': commentId, 'callback': commentLoad});
 		});
 
 		detailContentsHolder.on('click', '.detailViewSaveComment', function (e) {
@@ -2572,6 +2456,92 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
 			recentCommentsTab.trigger('click');
 		});
+	},
+	registerBasicEvents: function () {
+		var thisInstance = this;
+		var detailContentsHolder = thisInstance.getContentHolder();
+		//register all the events for summary view container
+		this.registerSummaryViewContainerEvents(detailContentsHolder);
+		thisInstance.registerCommentEvents(detailContentsHolder);
+		app.registerEventForDatePickerFields(detailContentsHolder);
+		//Attach time picker event to time fields
+		app.registerEventForTimeFields(detailContentsHolder);
+		detailContentsHolder.on('click', '#detailViewNextRecordButton', function (e) {
+			var selectedTabElement = thisInstance.getSelectedTab();
+			var url = selectedTabElement.data('url');
+			var currentPageNum = thisInstance.getRelatedListCurrentPageNum();
+			var requestedPage = parseInt(currentPageNum) + 1;
+			var nextPageUrl = url + '&page=' + requestedPage;
+			thisInstance.loadContents(nextPageUrl);
+		});
+
+		detailContentsHolder.on('click', '#detailViewPreviousRecordButton', function (e) {
+			var selectedTabElement = thisInstance.getSelectedTab();
+			var url = selectedTabElement.data('url');
+			var currentPageNum = thisInstance.getRelatedListCurrentPageNum();
+			var requestedPage = parseInt(currentPageNum) - 1;
+			var params = {};
+			var nextPageUrl = url + '&page=' + requestedPage;
+			thisInstance.loadContents(nextPageUrl);
+		});
+
+		detailContentsHolder.on('click', 'table.detailview-table td.fieldValue', function (e) {
+			if (jQuery(e.target).closest('a').hasClass('btnNoFastEdit'))
+				return;
+			var currentTdElement = jQuery(e.currentTarget);
+			thisInstance.ajaxEditHandling(currentTdElement);
+		});
+
+		detailContentsHolder.on('click', 'div.recordDetails span.squeezedWell', function (e) {
+			var currentElement = jQuery(e.currentTarget);
+			var relatedLabel = currentElement.data('reference');
+			jQuery('.detailViewInfo .related li[data-reference="' + relatedLabel + '"]').trigger("click");
+		});
+
+		detailContentsHolder.on('click', '.relatedPopup', function (e) {
+			var editViewObj = new Vtiger_Edit_Js();
+			editViewObj.openPopUp(e);
+			return false;
+		});
+
+		detailContentsHolder.on('click', '.viewThread', function (e) {
+			var currentTarget = jQuery(e.currentTarget);
+			var currentTargetParent = currentTarget.parent();
+			var commentActionsBlock = currentTarget.closest('.commentActions');
+			var currentCommentBlock = currentTarget.closest('.commentDetails');
+			var ulElements = currentCommentBlock.find('ul');
+			if (ulElements.length > 0) {
+				ulElements.show();
+				commentActionsBlock.find('.hideThreadBlock').show();
+				currentTargetParent.hide();
+				return;
+			}
+			var commentId = currentTarget.closest('.commentDiv').find('.commentInfoHeader').data('commentid');
+			thisInstance.getChildComments(commentId).then(function (data) {
+				jQuery(data).appendTo(jQuery(e.currentTarget).closest('.commentDetails'));
+				commentActionsBlock.find('.hideThreadBlock').show();
+				currentTargetParent.hide();
+			});
+		});
+
+		detailContentsHolder.on('click', '.hideThread', function (e) {
+			var currentTarget = jQuery(e.currentTarget);
+			var currentTargetParent = currentTarget.parent();
+			var commentActionsBlock = currentTarget.closest('.commentActions');
+			var currentCommentBlock = currentTarget.closest('.commentDetails');
+			currentCommentBlock.find('ul').hide();
+			currentTargetParent.hide();
+			commentActionsBlock.find('.viewThreadBlock').show();
+		});
+
+		detailContentsHolder.on('click', '.detailViewThread', function (e) {
+			var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
+			var commentId = jQuery(e.currentTarget).closest('.singleComment').find('.commentInfoHeader').data('commentid');
+			var commentLoad = function (data) {
+				window.location.href = window.location.href + '#' + commentId;
+			}
+			recentCommentsTab.trigger('click', {'commentid': commentId, 'callback': commentLoad});
+		});
 
 		detailContentsHolder.on('click', '.moreRecentRecords', function (e) {
 			e.preventDefault();
@@ -2620,6 +2590,37 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentActivitiesTab.data('url', url);
 			recentActivitiesTab.trigger('click');
 		});
+	},
+	registerEvents: function () {
+		var thisInstance = this;
+		//thisInstance.triggerDisplayTypeEvent();
+		this.registerHelpInfo();
+		thisInstance.registerSendSmsSubmitEvent();
+		thisInstance.registerAjaxEditEvent();
+		this.registerRelatedRowClickEvent();
+		this.registerBlockAnimationEvent();
+		this.registerBlockStatusCheckOnLoad();
+		this.registerEmailFieldClickEvent();
+		this.registerPhoneFieldClickEvent();
+		this.registerEventForActivityFollowupClickEvent();
+		this.registerEventForMarkAsCompletedClick();
+		this.registerEventForEmailsRelatedRecord();
+		this.registerEventForAddingEmailFromRelatedList();
+		this.registerPostTagCloudWidgetLoad();
+		this.registerEventForRelatedTabClick();
+		Vtiger_Helper_Js.showHorizontalTopScrollBar();
+		this.registerUrlFieldClickEvent();
+
+		var detailViewContainer = jQuery('div.detailViewContainer');
+		if (detailViewContainer.length <= 0) {
+			// Not detail view page
+			return;
+		}
+		this.registerBasicEvents()
+		this.registerSetReadRecord(detailViewContainer);
+		this.registerEventForRelatedList();
+		this.registerEventForRelatedListPagination();
+		thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 
 		thisInstance.getForm().validationEngine(app.validationEngineOptions);
 		thisInstance.loadWidgets();

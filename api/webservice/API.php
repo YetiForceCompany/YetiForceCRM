@@ -10,9 +10,11 @@ class API
 	 */
 	protected $method = '';
 	protected $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE'];
+	protected $acceptableHeaders = ['language', 'version', 'apiKey', 'ip', 'encrypted'];
 	protected $modulesPath = 'api/webservice/';
 	protected $data = [];
 	protected $request = [];
+	protected $headers = [];
 	protected $panel = '';
 
 	public function __construct()
@@ -32,28 +34,32 @@ class API
 			}
 		}
 
-		if (!in_array($this->method, $this->acceptableMethods)){
+		if (!in_array($this->method, $this->acceptableMethods)) {
 			throw new APIException('Invalid Method', 405);
 		}
-		
-		if (!isset($_REQUEST['head']) && !isset($_REQUEST['data'])){
-			throw new APIException('Incorrect request', 405);
-		}
 
-		if (isset($_REQUEST['head']['encrypted']) && $_REQUEST['head']['encrypted']){
-			$_REQUEST['data'] = $this->decryptData($_REQUEST['data']);
+		$this->initHeaders();
+
+		if (isset($this->headers['encrypted']) && $this->headers['encrypted'] == 1) {
+			$requestData = $this->decryptData(file_get_contents('php://input'));
+		} else {
+			$requestData = $_POST;
 		}
 
 		$this->request = new Vtiger_Request($_REQUEST, $_REQUEST);
-		if (isset($_REQUEST['data'])){
-			$this->data = new Vtiger_Request($_REQUEST['data'], $_REQUEST['data']);
-		}
+		$this->data = new Vtiger_Request($requestData, $requestData);
 	}
 
 	private function response($data, $status = 200)
 	{
 		header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
-		echo json_encode($data);
+		header('encrypted: ' . (string) vglobal('encryptDataTransfer'));
+		if (vglobal('encryptDataTransfer')) {
+			$response = $data;
+		} else {
+			$response = json_encode($data);
+		}
+		echo $response;
 	}
 
 	private function _requestStatus($code)
@@ -71,14 +77,11 @@ class API
 
 	public function preProcess()
 	{
-		$head = $this->request->get('head');
-
-		if (!isset($head['apiKey'])) {
+		if (!isset($this->headers['apiKey'])) {
 			throw new APIException('No API key', 401);
 		}
-		
-		$apiKey = $head['apiKey'];
-		if ($apiKey == '') {
+
+		if (!isset($this->headers['apiKey'])) {
 			throw new APIException('Invalid api key', 401);
 		}
 		$this->panel = 'Portal';
@@ -87,39 +90,40 @@ class API
 	public function process()
 	{
 		$filePath = $this->modulesPath . $this->panel . '/modules/' . $this->request->get('module') . '/' . $this->request->get('action') . '.php';
-		if (!file_exists($filePath)){
+		if (!file_exists($filePath)) {
 			throw new APIException('No action found: ' . $filePath, 405);
 		}
-		
+
 		require_once $filePath;
 		$handlerClass = 'API_' . $this->request->get('module') . '_' . $this->request->get('action');
-		if (!class_exists($handlerClass)){
+		if (!class_exists($handlerClass)) {
 			throw new APIException('HANDLER_NOT_FOUND: ' . $handlerClass);
 		}
-	
+
 		$handler = new $handlerClass();
-		if ($handler->getRequestMethod() != $this->method){
+		if ($handler->getRequestMethod() != $this->method) {
 			throw new APIException('Invalid request type');
 		}
-		
-		if ($this->request->get('action') != ''){
+
+		if ($this->request->get('action') != '') {
 			$function = $this->request->get('action');
 		}
-	
+
 		$data = [];
-		if (is_a($this->data, 'Vtiger_Request')){
+		if (is_a($this->data, 'Vtiger_Request')) {
 			$data = $this->data->getAll();
 		}
-		
+
 		$response = call_user_func_array([$handler, $function], $data);
+		$response = [
+			'status' => 1,
+			'result' => $response
+		];
 		if (vglobal('encryptDataTransfer')) {
 			$response = $this->encryptData($response);
 		}
-		$this->response([
-			'status' => 1,
-			'encrypted' => vglobal('encryptDataTransfer'),
-			'result' => $response
-		]);
+
+		$this->response($response);
 	}
 
 	public function postProcess()
@@ -142,6 +146,16 @@ class API
 		}
 		$privateKey = openssl_pkey_get_private($privateKey);
 		openssl_private_decrypt($data, $decrypted, $privateKey);
+
 		return json_decode($decrypted, 1);
+	}
+
+	public function initHeaders()
+	{
+		$headers = apache_request_headers();
+		$result = [];
+		foreach ($this->acceptableHeaders as $value) {
+			$this->headers[$value] = $headers[$value];
+		}
 	}
 }
