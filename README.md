@@ -22,10 +22,20 @@ Below you can see how we improve our project:
 
 #YetiForce 2.1 GA [under development]
 
-2.0 was launched on 21st May 2015 and the following changes are up to 2.0.407 from 8th July 2015.
+2.0 was launched on 21st May 2015 and the following changes are up to 2.0.627 from 27th July 2015.
 
 
-**Bug Fixes:** 
+**Bug Fixes:**
+- Fixed email validation in mail scanner configuration to allow new functional top level domains.
+- Fixed the value of root directory when installing the system.
+- Fixed the Next Page button in the Passwords module.
+- Fixed the "duplicate headers received" error.
+- Fixed relationships in the Campaign module.
+- Fixed adding relationship in Service Contracts module.
+- Fixed seq.
+- Fixed a bug that allowed deleting records without permission.
+- Fixed an option that allows to add records from widgets.
+- Fixed the "Calendar-pending" and "Overdue Activities" widget in dashboard module.
 -	Fixed an option that allows to add records from widgets.
 -	Fixed the generation of PDFs.
 -	Fixed sharing privileges.
@@ -38,7 +48,7 @@ Below you can see how we improve our project:
 -	Fixed a bug that appeared during saving of a field in Company Details.
 -	Fixed a bug that appeared during seving of calculations.
 -	Fixed a bug that appeared during export of invoices to PDF.
--	Fixed a bug that appeared during the installation prosess and caused the system to fail.
+-	Fixed a bug that appeared during the installation process and caused the system to fail.
 -	Fixed a bug that did not allow to add a custom field with 1:M relation
 -	Fixed a bug that appeared after adding a comment to a related module of Contacts.
 -	Fixed a bug that appeared during entering data to the Campaigns Module.
@@ -71,7 +81,7 @@ Below you can see how we improve our project:
 -	Fixed info about the number of records in related modules.
 -	Fixed a relation between Quotes and Calculations.
 -	Fixed the authentication of users.
--	Fixed the abilty to add fields in the 'Company details' panel.
+-	Fixed the ability to add fields in the 'Company details' panel.
 -	Fixed the system installer.
 -	Fixed database connection in the mail module.
 -	Fixed closing of calendar notifications. 
@@ -88,7 +98,36 @@ Below you can see how we improve our project:
 
 
 **Improvements:**
--	Further improvements that allow visually impaired peaople to navigate around the system.
+- Improved appearance of various fields, buttons, labels and icons.
+- Improved existing translations.
+- Improved url validation - it is now a two-step process.
+- Improved the layout of the Reports module.
+- Improved reminders for calendar events.
+- Improved lists selection.
+- Improved the display of all-day dates.
+- Improved mail scanner.
+- Improved the validating function.
+- Improved layout of popups.
+- Improved labels of required fields.
+- Improved the automatic search feature.
+- Improved the appearance of windows mail.
+- Improved the tax popup window in the tax block.
+- Improved the display of some widgets for users without the administrator permissions.
+- Improved the appearance of DataAccess.
+- Added automatic related data loading in quick create.
+- Added the "working times in total" field and related actions.
+- Added some missing handlers in the Users module.
+- Added protection against duplicating the 'click' event in the Company Details panel.
+- Added permission for quick export to Excel.
+- Added bootstrap jquery-ui theme.
+- Added missing icons.
+- Added a function to retrieve initials.
+- Updated the thunderbird_labels plugin.
+- Expanded the error logs.
+- Redesigned listing of users and groups in the calendar.
+- Changed the order of some html elements.
+- Removed an old plugin
+-	Further improvements that allow visually impaired people to navigate around the system.
 -	Moved constant variable assignments out of loop.
 -	Moved excess translations from various modules to one file. 
 -	Updated jQuery to v2.1.4 and jQuery-ui to v1.11.4 and made changes in javascript files.
@@ -126,7 +165,7 @@ Below you can see how we improve our project:
 -	Improved the panel for Language Management.
 -	Improved the export module.
 -	Improved the mechanism responsible for password change.
--	Improved database Contoller.
+-	Improved database Controller.
 -	Improved the global search.
 -	Improved server configuration check.
 -	Improved 'Change owner" action for a related Calendar module.
@@ -151,7 +190,7 @@ Below you can see how we improve our project:
 -	Secured the creation of records in the Calendar.
 -	Changed icon names in database.
 -	Rebuilt the loading of JS files in import and export inventory modules.
--	Bootstrap 3 - fixed the appearance of the products blok.
+-	Bootstrap 3 - fixed the appearance of the products block.
 -	Bootstrap 3 - subsequent amendments.
 -	Bootstrap 3 - amendments in security menu.
 -	Bootstrap 3 - improved security menu.
@@ -168,8 +207,21 @@ Below you can see how we improve our project:
 
 
 **New functionalities:**
-- Added the ability to send emil in a popup window.
-- Added a new type of an email templete. 
+- Added the Dutch language.
+- Added the ability to search for records to which the user has no access.
+- Added the option to display administrators in the list of users ('Assigned To').
+- Added the option to change the record owner.
+- Added the ability to quickly generate an Excel file.
+- Added the possibility to sort the activities in "Upcoming Activity" and "Overdue Activity" widgets.
+- Added duplicate filters.
+- Added the option to search Organizations to merge while converting with Leads.
+- Added the option to remove comments.
+- Added Detail.LoadContents.PostLoad Event.
+- Added automated search in the global search engine.
+- Added the option to delete the configuration template after system installation.
+- Added a history of changes when changing the owner. 
+- Added the ability to send email in a popup window.
+- Added a new type of an email template. 
 - Added the ability to customize languages, layouts and the main file of a module (overwriting the default language files).
 - Added support for PDO during installation.
 - Added support for php cgi-fcgi (CRON).
