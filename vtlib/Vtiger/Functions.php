@@ -1068,7 +1068,7 @@ class Vtiger_Functions
 		}
 	}
 
-	static function removeHtmlTags(array $tag, $html)
+	static function removeHtmlTags(array $tags, $html)
 	{
 		$crmUrl = vglobal($key);
 		$doc = new DOMDocument();
@@ -1078,28 +1078,24 @@ class Vtiger_Functions
 		libxml_clear_errors();
 		libxml_use_internal_errors($previous_value);
 
-		for ($i = 0; $i < count($tag); $i++) {
-			$nodeList = $doc->getElementsByTagName($tag[$i]);
-
-			if ('img' === $tag[$i]) {
-				foreach ($nodeList as $nodeKey => $singleNode) {
-					$htmlNode = $singleNode->ownerDocument->saveHTML($singleNode);
+		foreach ($tags as $tag) {
+			$xPath = new DOMXPath($doc);
+			$nodes = $xPath->query('//' . $tag);
+			for ($i = 0; $i < $nodes->length; $i++) {
+				if ('img' === $tag) {
+					$htmlNode = $nodes->item($i)->ownerDocument->saveHTML($nodes->item($i));
 					$imgDom = new DOMDocument();
 					$imgDom->loadHTML($htmlNode);
 					$xpath = new DOMXPath($imgDom);
 					$src = $xpath->evaluate("string(//img/@src)");
-
-					if (0 !== strpos('index.php', $src) || FALSE === strpos($crmUrl, $src)) {
-						$singleNode->parentNode->removeChild($singleNode);
+					if ($src == '' || 0 !== strpos('index.php', $src) || FALSE === strpos($crmUrl, $src)) {
+						$nodes->item($i)->parentNode->removeChild($nodes->item($i));
 					}
-				}
-			} else {
-				foreach ($nodeList as $nodeKey => $singleNode) {
-					$singleNode->parentNode->removeChild($singleNode);
+				} else {
+					$nodes->item($i)->parentNode->removeChild($nodes->item($i));
 				}
 			}
 		}
-
 		return $doc->saveHTML();
 	}
 

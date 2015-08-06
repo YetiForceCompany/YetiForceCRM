@@ -389,17 +389,17 @@ jQuery.Class("Vtiger_Edit_Js",{
 	registerAutoCompleteFields : function(container) {
 		var thisInstance = this;
 		container.find('input.autoComplete').autocomplete({
-			'delay' : '600',
-			'minLength' : '3',
-			'source' : function(request, response){
+			delay: '600',
+			minLength: '3',
+			source: function(request, response){
 				//element will be array of dom elements
 				//here this refers to auto complete instance
 				var inputElement = jQuery(this.element[0]);
 				var searchValue = request.term;
 				var params = thisInstance.getReferenceSearchParams(inputElement);
 				params.search_value = searchValue;
-				params.parent_id = app.getRecordId();
-				params.parent_module = app.getModuleName();
+				//params.parent_id = app.getRecordId();
+				//params.parent_module = app.getModuleName();
 				thisInstance.searchModuleNames(params).then(function(data){
 					var reponseDataList = new Array();
 					var serverDataFormat = data.result
@@ -417,7 +417,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 					response(reponseDataList);
 				});
 			},
-			'select' : function(event, ui ){
+			select: function(event, ui ){
 				var selectedItemData = ui.item;
 				//To stop selection if no results is selected
 				if(typeof selectedItemData.type != 'undefined' && selectedItemData.type=="no results"){
@@ -433,14 +433,14 @@ jQuery.Class("Vtiger_Edit_Js",{
 
                 fieldElement.trigger(Vtiger_Edit_Js.postReferenceSelectionEvent,{'data':selectedItemData});
 			},
-			'change' : function(event, ui) {
+			change: function(event, ui) {
 				var element = jQuery(this);
 				//if you dont have readonly attribute means the user didnt select the item
 				if(element.attr('readonly')== undefined) {
 					element.closest('td').find('.clearReferenceSelection').trigger('click');
 				}
 			},
-			'open' : function(event,ui) {
+			open: function(event,ui) {
 				//To Make the menu come up in the case of quick create
 				jQuery(this).data('ui-autocomplete').menu.element.css('z-index','100001');
 			}
