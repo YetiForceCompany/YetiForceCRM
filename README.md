@@ -20,7 +20,7 @@ YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow
 Below you can see how we improve our project:
 
 
-#YetiForce 2.1 GA [under development]
+#YetiForce 2.1 GA
 
 2.0 was launched on 21st May 2015 and the following changes are up to 2.0.627 from 27th July 2015.
 

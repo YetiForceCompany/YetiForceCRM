@@ -102,7 +102,7 @@ $languageStrings = [
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'Европейское Ограниченное Партнерство',
 	'PLL_EUROPEAN_ASSOCIATION' => 'Европейская ассоциация',
 	'PLL_UFCIITS' => 'Организация Коллективного Инвестирования',
-	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'At least two accounts meet the requirements for linking, go to : (Administration > Processes > Marketing processes > Conversion) %s',
+	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Как минимум два условия должны быть выполнены, перейдите по ссылке: (Настройка системы &gt; Процессы &gt; Маркетинг &gt; Преобразование) %s',
 ];
 
 $jsLanguageStrings = [

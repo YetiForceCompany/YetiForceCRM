@@ -9,8 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_RECORDS_LIST' => 'Records List',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_RECORDS_LIST' => 'Заявки',
+	'LBL_ADD_RECORD' => 'Добавить Заявку',
 	'RequirementCards' => 'Карточка Заявки',
 	'SINGLE_RequirementCards' => 'Карточка Заявки',
 	

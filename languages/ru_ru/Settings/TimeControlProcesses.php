@@ -9,10 +9,11 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_TIMECONTROL_PROCESSES' => 'Time control processes',
-	'LBL_TIMECONTROL_PROCESSES_DESCRIPTION' => ' ',
-	'LBL_ONEDAY_VALID' => 'Work time limited to 24 hours',
-	'LBL_TIMEOVERLAP_VALID' => 'Allow time overlapping',
+	'TimeControlProcesses' => 'Процесс Учета времени',
+	'LBL_TIMECONTROL_PROCESSES' => 'Процесс Учета времени',
+	'LBL_TIMECONTROL_PROCESSES_DESCRIPTION' => ' Настройка процесса учета рабочего вермени',
+	'LBL_ONEDAY_VALID' => 'Время работы ограничено до 24 часов',
+	'LBL_TIMEOVERLAP_VALID' => 'Укажите время повторения',
 	'LBL_GENERAL_SETTINGS' => 'Настройки',
 	'TimeControlProcesses' => 'Time control processes',
 ];

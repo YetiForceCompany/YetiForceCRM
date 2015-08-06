@@ -22332,7 +22332,6 @@ insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (27,'Quotes'
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (28,'SalesOrder');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (29,'Vendors');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (30,'Users');
-insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (31,'Campaigns');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (31,'Users');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (32,'Accounts');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (32,'Contacts');

@@ -19,11 +19,11 @@ $languageStrings = [
 	'LBL_GROUPS_INFO' => 'Информация группы',
 	'LBL_LEAD_STATUS' => 'Состояние определяющее закрытие Обращения',
 	'LBL_CURRENTUSER_STATUS' => 'Назначить владельцем лицо вносящее изменение',
-	'LBL_CONVERT_LEAD_MERGE' => 'Link the record meeting specified requirements while converting from Lead to Account',
-	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'This option allows system to automatically join converted record with already existing - new account will not be created, instead to existing record data will be transferred from Lead',
+	'LBL_CONVERT_LEAD_MERGE' => 'Блокировать создание дублирующихся записей при преобразовании',
+	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'Эта опция позволяет объединять одинаковые данные при обращении, что исключает дублирование записей',
 	'LBL_CONDITION' => 'Добавление условий',
 	'MarketingProcesses' => 'Marketing processes',
 ];
 $jsLanguageStrings = [
-	'JS_NO_CONDITIONS' => 'At least one condition is required',
+	'JS_NO_CONDITIONS' => 'Выберите как минимум одно условие',
 ];
