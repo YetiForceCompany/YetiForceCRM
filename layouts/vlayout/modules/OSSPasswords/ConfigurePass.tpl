@@ -231,7 +231,7 @@
 					<p><input id="statusRegistration" name="status" type="checkbox" {$REGISTER} value="1" required="required" /> {vtranslate('LBL_START_REGISTER', $MODULENAME)}</p>
 				</div>
 				<div class="modal-footer">
-					<a href="#" class="btn" data-dismiss="modal">{vtranslate('No', $MODULENAME)}</a>
+					<a href="#" class="btn btn-warning" data-dismiss="modal">{vtranslate('No', $MODULENAME)}</a>
 					<a href="#" class="btn btn-danger okay-button" id="confirmRegistration" type="submit" name="uninstall" form="EditView">{vtranslate('Yes', $MODULENAME)}</a>
 				</div>
 			</div>
