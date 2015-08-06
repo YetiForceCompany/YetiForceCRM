@@ -16,8 +16,9 @@
  * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/include/logging.php,v 1.1 2004/08/17 13:23:37 gjayakrishnan Exp $
  * Description:  Kicks off log4php.
  * ****************************************************************************** */
-include_once 'config/debug.php';
+include_once('config/debug.php');
 require_once('config/config.php');
+require_once('include/ConfigUtils.php');
 // Performance Optimization: Configure the log folder
 if (SysDebug::getBoolean('LOG4PHP_DEBUG', false)) {
 	define('LOG4PHP_DIR', 'libraries/log4php.debug');
