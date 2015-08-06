@@ -3462,3 +3462,8 @@ span[name=existingImages] img{
 	width: 100%;
 	list-style:none;
 }
+#layoutEditorButtons{
+	margin-bottom: 10px;
+	margin-top: -10px;
+}
+

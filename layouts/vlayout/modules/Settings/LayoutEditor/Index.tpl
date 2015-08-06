@@ -41,7 +41,7 @@
                     {assign var=IS_BLOCK_SORTABLE value=$SELECTED_MODULE_MODEL->isBlockSortableAllowed()}
                     {assign var=ALL_BLOCK_LABELS value=[]}
                     {if $IS_SORTABLE}
-                        <div class="btn-toolbar">
+                        <div class="btn-toolbar" id="layoutEditorButtons">
                             <button class="btn btn-default addButton addCustomBlock" type="button">
                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;
                                 <strong>{vtranslate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</strong>
