@@ -1423,7 +1423,11 @@ class Vtiger_Module_Model extends Vtiger_Module
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
 	{
-		if (!empty($searchValue) && empty($parentId) && empty($parentModule)) {
+		if (empty($searchValue)) {
+			return [];
+		}
+
+		if (empty($parentId) || empty($parentModule)) {
 			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchValue, $this->getName());
 		} else if ($parentId && $parentModule) {
 			$db = PearDatabase::getInstance();
