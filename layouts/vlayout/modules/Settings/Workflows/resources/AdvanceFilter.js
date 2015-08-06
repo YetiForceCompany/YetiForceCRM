@@ -428,27 +428,4 @@ Vtiger_Owner_Field_Js('Workflows_Owner_Field_Js',{},{
 
 Vtiger_Picklist_Field_Js('Workflows_Picklist_Field_Js',{},{
 
-        getUi : function(){
-                var selectedOption = app.htmlDecode(this.getValue());
-                var pickListValues = this.getPickListValues();
-                var tagsArray = new Array();
-                jQuery.map( pickListValues, function(val, i) {
-                        tagsArray.push(val);
-                });
-                var pickListValuesArrayFlip = {};
-                for(var key in pickListValues){
-                        var pickListValue = pickListValues[key];
-                        pickListValuesArrayFlip[pickListValue] = key;
-                }
-                var html = '<input type="hidden" class="select2" name="'+ this.getName() +'">';
-                var selectContainer = jQuery(html).val(pickListValues[selectedOption]);
-                selectContainer.data('tags', tagsArray).data('picklistvalues', pickListValuesArrayFlip);
-                this.addValidationToElement(selectContainer);
-                var fieldsSelect2 = app.showSelect2ElementView(selectContainer, {
-                        placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
-                        closeOnSelect: true,
-                        maximumSelectionLength: 1
-                });
-                return selectContainer;
-        }
 });

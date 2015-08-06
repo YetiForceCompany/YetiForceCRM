@@ -151,7 +151,7 @@
                                                                     {/foreach}
                                                                 </table>
                                                             </div>
-                                                            <button type="submit" class="btn btn-success">{vtranslate('Save', 'OSSPdf')}</button>
+                                                            <button type="submit" class="btn btn-success pull-right pushDown">{vtranslate('Save', 'OSSPdf')}</button>
                                                         </form>
                                                         <br />
                                                     </div>
