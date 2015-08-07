@@ -15,7 +15,7 @@
 	<div class="row">
 		<div class="col-md-10"><h3>{vtranslate('LBL_PROFILE_VIEW', $QUALIFIED_MODULE)}</h3></div>
 		<div class="col-md-2">
-			<button class="btn btn-default pull-right" type="button" onclick='window.location.href="{$RECORD_MODEL->getEditViewUrl()}"'>{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
+			<button class="btn btn-info pull-right" type="button" onclick='window.location.href="{$RECORD_MODEL->getEditViewUrl()}"'>{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 		</div>
 	</div>
 	<div class="clearfix"></div>
