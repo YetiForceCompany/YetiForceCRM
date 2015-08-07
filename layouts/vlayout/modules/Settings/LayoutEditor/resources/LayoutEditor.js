@@ -979,7 +979,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 					var form = data.find('.inactiveFieldsForm');
 					thisInstance.showHiddenFields(blockId, form);
 					//register click event for reactivate button in the inactive fields modal
-					data.find('[name="reactivateButton"]').click(function (e) {
+					form.submit(function (e) {
 						thisInstance.createReactivateFieldslist(blockId, form);
 						thisInstance.reActivateHiddenFields(currentBlock);
 						app.hideModalWindow();
