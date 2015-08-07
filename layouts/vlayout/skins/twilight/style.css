@@ -3466,4 +3466,6 @@ span[name=existingImages] img{
 	margin-bottom: 10px;
 	margin-top: -10px;
 }
-
+.individualTaxContainer {
+	text-align: left !important;
+}
