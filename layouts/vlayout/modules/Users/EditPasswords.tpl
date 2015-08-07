@@ -39,9 +39,9 @@
 
 						</div>
 					</div>
+					{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+				</form>
 			</div>
 		</div>
-		{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
-	</form>
-</div>
+	</div>
 {/strip}
