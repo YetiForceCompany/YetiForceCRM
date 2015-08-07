@@ -2015,10 +2015,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 						//Summary tab is clicked
 						if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
 							thisInstance.loadWidgets();
-							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
-							thisInstance.registerEventForRelatedList();
-						} else if (tabElement.data('linkKey') == thisInstance.detailViewDetailsTabLabel) {
-							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 						}
 						thisInstance.registerBasicEvents();
 						// Let listeners know about page state change.
@@ -2590,6 +2586,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentActivitiesTab.data('url', url);
 			recentActivitiesTab.trigger('click');
 		});
+		thisInstance.registerEventForRelatedList();
+		thisInstance.registerEventForRelatedListPagination();
 	},
 	registerEvents: function () {
 		var thisInstance = this;
@@ -2618,8 +2616,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 		this.registerBasicEvents()
 		this.registerSetReadRecord(detailViewContainer);
-		this.registerEventForRelatedList();
-		this.registerEventForRelatedListPagination();
 		thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 
 		thisInstance.getForm().validationEngine(app.validationEngineOptions);
