@@ -1,12 +1,12 @@
 <style>
-.blockHeader th{
-    text-align:center !important; 
-    vertical-align:middle !important; 
-}
-.confTable td, label, span{
-    text-align:center !important; 
-    vertical-align:middle !important; 
-}	
+	.blockHeader th{
+		text-align:center !important; 
+		vertical-align:middle !important; 
+	}
+	.confTable td, label, span{
+		text-align:center !important; 
+		vertical-align:middle !important; 
+	}	
 </style>
 <div class="" style="margin-top:10px;">
 	<div class="row">
