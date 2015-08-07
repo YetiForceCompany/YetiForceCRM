@@ -14,6 +14,7 @@ $languageStrings = [
 	'Recommended frequency for RecurringInvoice is 12 hours' => 'Zalecana częstotliwość dla Cykicznej Faktury to 12 godzin',
 	'Recommended frequency for Workflow is 15 mins' => 'Zalecana częstotliwość dla Obiegu Informacji to 15 minut',
 	'Recommended frequency for MailScanner is 15 mins' => 'Zalecana częstotliwość dla Mail Scannera to 15 minut',
+	'Recommended frequency for ScheduleReports is 15 mins' => 'Zalecana częstotliwość dla zaplanowanych raportów to 15 minut',
 	'Cron Job' => 'Zadania wyzwalacza',
 	'CronTasks' => 'Harmonogram',
 	'Frequency' => 'Częstotliwość',

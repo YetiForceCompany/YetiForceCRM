@@ -31,6 +31,7 @@ $languageStrings = [
 	'Recommended frequency for RecurringInvoice is 12 hours' => 'Рекомендованная частота 12 часов',
 	'Recommended frequency for SendReminder is 15 mins' => 'Рекомендованная частота 15 минут',
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Рекомендованная частота 15 минут',
+	'Recommended frequency for ScheduleReports is 15 mins' => 'Recommended frequency for ScheduleReports is 15 mins',
 	'Workflow' => 'Workflow',
 	'RecurringInvoice' => 'Recurring Invoice',
 	'MailScannerAction' => 'Mail Scanner Action',

@@ -13,6 +13,7 @@ $languageStrings = [
 	'Recommended frequency for RecurringInvoice is 12 hours' => 'Die empfohlene Frequenz für wiederholende Rechnungen ist 12 Stunden',
 	'Recommended frequency for Workflow is 15 mins' => 'Die empfohlene Frequenz für Workflows ist 15min',
 	'Recommended frequency for MailScanner is 15 mins' => 'Die empfohlene Frequenz fürden Mailscanner ist 15min',
+	'Recommended frequency for ScheduleReports is 15 mins' => 'Recommended frequency for ScheduleReports is 15 mins',
 	'Cron Job' => 'CRON Aufgabe',
 	'CronTasks' => 'CRON Aufgaben',
 	'Frequency' => 'Frequenz',
