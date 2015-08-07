@@ -238,14 +238,13 @@
 																						</div>
 																					</span>
 																					{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url'])}
-																						<span style="padding-left: 5px;">
+																						<div class="padding1per" style="padding : 0px 10px 0px 25px;">
 																							{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
-																							<span style="margin-left: 26px;display: block;">
-																								<span class="input-group">
-																									<input type="text" class="form-control" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
-																									<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
-																								</span></span>
-																						</span>
+																							<div class="input-group">
+																								<input type="text" class="form-control" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
+																								<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
+																							</div>
+																						</div>
 																					{/if}
 																					{if SysDeveloper::get('CHANGE_VISIBILITY')}
 																						<hr />
@@ -597,6 +596,13 @@
 																{vtranslate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}</label>
 															<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;"></div>
 														</span>
+														<div class="padding1per maskField" style="padding : 0px 10px 0px 25px;">
+																							{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
+																							<div class="input-group">
+																								<input type="text" class="form-control" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
+																								<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
+																							</div>
+																						</div>
 														{if SysDeveloper::get('CHANGE_VISIBILITY')}
 															<hr />
 															<span>
