@@ -80,7 +80,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'error_reporting' => array('prefer' => $errorReportingValue),
 			'output_buffering' => array('prefer' => 'On'),
 			'max_execution_time' => array('prefer' => '600'),
-			'memory_limit' => array('prefer' => '32 MB'),
+			'memory_limit' => array('prefer' => '512 MB'),
 			'safe_mode' => array('prefer' => 'Off'),
 			'display_errors' => array('prefer' => 'Off'),
 			'log_errors' => array('prefer' => 'Off'),
