@@ -24,7 +24,7 @@
                 <div class="col-md-7">
                     <select class="select2 form-control layoutEditorRelModules" name="layoutEditorRelModules">
                         {foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-                            <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $QUALIFIED_MODULE)}</option>
+                            <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
                         {/foreach}
                     </select>
                 </div>
