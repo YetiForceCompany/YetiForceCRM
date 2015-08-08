@@ -979,6 +979,7 @@ $languageStrings = [
 	
 	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Export to Excel',
 	'ReasonToEdit' => 'Reason to edit',
+	'Mails List' => 'Most recent emails',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
