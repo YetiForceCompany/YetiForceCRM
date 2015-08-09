@@ -39,12 +39,12 @@
 				</div>
 				<div class="col-md-4">
 					<span class="row">
-						<span class="col-md-7 pushDown">
+						<div class="col-md-4 pushDown">
 							<span class="pull-right pageNumbers alignTop" data-placement="bottom" data-original-title="" style="margin-top: -5px">
 								{if !empty($RELATED_RECORDS)} {$PAGING->getRecordStartRange()} {vtranslate('LBL_to', $RELATED_MODULE->get('name'))} {$PAGING->getRecordEndRange()}{/if}
 							</span>
-						</span>
-						<span class="col-md-5 pull-right">
+						</div>
+						<div class="col-md-7 pull-right">
 							<span class="btn-group pull-right">
 								<button class="btn btn-default" id="relatedListPreviousPageButton" {if !$PAGING->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
 								<button class="btn btn-default dropdown-toggle" type="button" id="relatedListPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
@@ -66,7 +66,7 @@
 								</ul>
 								<button class="btn btn-default" id="relatedListNextPageButton" {if (!$PAGING->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
 							</span>
-						</span>
+						</div>
 					</span>
 				</div>
 			</div>
