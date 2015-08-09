@@ -18,7 +18,7 @@ $languageStrings = [
 
 	// Blocks
 	'LBL_INFORMATION' => 'General Information',
-
+	'LBL_ORIGN_MESSAGE' => 'Original message',
 	//Field Labels
     'relatedid' => 'Related to',
 	'number' => 'Number',
