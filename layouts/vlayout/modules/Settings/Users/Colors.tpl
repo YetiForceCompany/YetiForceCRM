@@ -108,7 +108,7 @@
 				{foreach from=$TABLES_ALL item=ELEMENTS key=PROCESS}
 					<div class="tab-pane" id="{$PROCESS}">
 						<div class="accordion">
-							{foreach from=$ELEMENTS item=ITEM }
+							{foreach from=$ELEMENTS item=ITEM name=ELEMENT}
 								{if $ITEM eq ''}
 									{continue}
 								{/if}
@@ -122,7 +122,7 @@
 											{vtranslate($ITEM.fieldlabel, $MODULE_NAME)}
 										</a>
 									</div>
-									<div id="{$TABLE}" class="accordion-body collapse">
+									<div id="{$TABLE}" class="accordion-body collapse {if	$smarty.foreach.ELEMENT.index eq 0 } in {/if}">
 										<div class="accordion-inner">
 											<table class="table table-bordered table-condensed listViewEntriesTable" data-fieldname="{$ITEM.fieldname}">
 												<thead>
