@@ -38,9 +38,9 @@
 		<input type="hidden" class="step" value="2" />
 		<div class="well padding1per contentsBackground">
 			<div class="row block padding1per">
-				<div class="padding1per"><strong>{vtranslate('LBL_SELECT_COLUMNS',$MODULE)}({vtranslate('LBL_MAX',$MODULE)} 25)</strong></div>
+				<div class="padding1per"><strong>{vtranslate('LBL_SELECT_COLUMNS',$MODULE)}({vtranslate('LBL_MAX',$MODULE)} 25)</strong><span class="redColor"> *</span></div>
 				<div class="padding1per">
-					<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" id="reportsColumnsList" title="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" class="select2-container col-md-11 columns" multiple="">
+					<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" id="reportsColumnsList" data-validation-engine="validate[required]" title="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" class="select2-container col-md-11 columns" multiple="">
 						{foreach key=PRIMARY_MODULE_NAME item=PRIMARY_MODULE from=$PRIMARY_MODULE_FIELDS}
 							{foreach key=BLOCK_LABEL item=BLOCK from=$PRIMARY_MODULE}
 								<optgroup label='{vtranslate($PRIMARY_MODULE_NAME,$MODULE)}-{vtranslate($BLOCK_LABEL,$PRIMARY_MODULE_NAME)}'>
@@ -128,7 +128,7 @@
 		<div class="pull-right block">
 			<button type="button" class="btn btn-danger backStep"><strong>{vtranslate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button type="submit" class="btn btn-success nextStep"><strong>{vtranslate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
-			<a class="cancelLink" onclick="window.history.back()">{vtranslate('LBL_CANCEL',$MODULE)}</a>
+			<button class="cancelLink btn btn-warning" onclick="window.history.back()">{vtranslate('LBL_CANCEL',$MODULE)}</a>
 		<br>
 		</div>
 		<br><br>

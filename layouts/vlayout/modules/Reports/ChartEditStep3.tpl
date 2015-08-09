@@ -100,7 +100,7 @@
 		<div class="pull-right block padding20px">
 			<button type="button" class="btn btn-danger backStep"><strong>{vtranslate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button type="submit" class="btn btn-success" id="generateReport"><strong>{vtranslate('LBL_GENERATE_CHART',$MODULE)}</strong></button>&nbsp;&nbsp;
-			<a  class="cancelLink" onclick="window.history.back()">{vtranslate('LBL_CANCEL',$MODULE)}</a>&nbsp;&nbsp;
+			<button class="cancelLink btn btn-warning" onclick="window.history.back()">{vtranslate('LBL_CANCEL',$MODULE)}</a>&nbsp;&nbsp;
 			<br>
 		</div>
 	</form>
