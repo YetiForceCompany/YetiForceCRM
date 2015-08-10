@@ -10,7 +10,7 @@ class API
 	 */
 	protected $method = '';
 	protected $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE'];
-	protected $acceptableHeaders = ['language', 'version', 'apiKey', 'ip', 'encrypted'];
+	protected $acceptableHeaders = ['language', 'version', 'apiKey', 'ip', 'encrypted', 'fromUrl'];
 	protected $modulesPath = 'api/webservice/';
 	protected $data = [];
 	protected $request = [];
@@ -50,41 +50,15 @@ class API
 		$this->data = new Vtiger_Request($requestData, $requestData);
 	}
 
-	private function response($data, $status = 200)
-	{
-		header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
-		header('encrypted: ' . (string) vglobal('encryptDataTransfer'));
-		if (vglobal('encryptDataTransfer')) {
-			$response = $data;
-		} else {
-			$response = json_encode($data);
-		}
-		echo $response;
-	}
-
-	private function _requestStatus($code)
-	{
-		$status = [
-			200 => 'OK',
-			401 => 'Unauthorized',
-			403 => 'Forbidden',
-			404 => 'Not Found',
-			405 => 'Method Not Allowed',
-			500 => 'Internal Server Error',
-		];
-		return ($status[$code]) ? $status[$code] : $status[500];
-	}
-
 	public function preProcess()
 	{
-		if (!isset($this->headers['apiKey'])) {
-			throw new APIException('No API key', 401);
-		}
-
-		if (!isset($this->headers['apiKey'])) {
+		if (!$this->validateApiKey($this->headers['apiKey'])) {
 			throw new APIException('Invalid api key', 401);
 		}
-		$this->panel = 'Portal';
+
+		if (!$this->validateFromUrl($this->headers['fromUrl'])) {
+			throw new APIException('Invalid source address', 401);
+		}
 	}
 
 	public function process()
@@ -155,7 +129,52 @@ class API
 		$headers = apache_request_headers();
 		$result = [];
 		foreach ($this->acceptableHeaders as $value) {
+			if (!isset($headers[$value])) {
+				throw new APIException('No parameter: '.$value, 401);
+			}
 			$this->headers[$value] = $headers[$value];
 		}
+	}
+
+	private function response($data, $status = 200)
+	{
+		header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
+		header('encrypted: ' . (string) vglobal('encryptDataTransfer'));
+		if (vglobal('encryptDataTransfer')) {
+			$response = $data;
+		} else {
+			$response = json_encode($data);
+		}
+		echo $response;
+	}
+
+	private function _requestStatus($code)
+	{
+		$status = [
+			200 => 'OK',
+			401 => 'Unauthorized',
+			403 => 'Forbidden',
+			404 => 'Not Found',
+			405 => 'Method Not Allowed',
+			500 => 'Internal Server Error',
+		];
+		return ($status[$code]) ? $status[$code] : $status[500];
+	}
+
+	private function validateApiKey($key)
+	{
+		$this->panel = 'Portal';
+		if ($key != 'n8erhg39rbn48nb438bn') {
+			return false;
+		}
+		return true;
+	}
+
+	private function validateFromUrl($url)
+	{
+		if ($url != 'http://portal2/') {
+			return false;
+		}
+		return true;
 	}
 }
