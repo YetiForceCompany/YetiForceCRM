@@ -73,6 +73,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 	addressDataGM : [],
 	
 	formElement : false,
+	relationOperation : '',
 
 	getForm : function() {
 		if(this.formElement == false){
@@ -160,6 +161,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 	},
 
 	setReferenceFieldValue : function(container, params) {
+		var thisInstance = this;
 		var sourceField = container.find('input.sourceField').attr('name');
 		var fieldElement = container.find('input[name="'+sourceField+'"]');
 		var sourceFieldDisplay = sourceField+"_display";
@@ -184,7 +186,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 				function(data){
 					var response = data['result']['data'];
 					$.each( mappingRelatedField, function( key, value ) {
-						if( response[value[0]] != 0){
+						if( response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)){
 							var mapFieldElement = formElement.find('input[name="'+key+'"]');
 							if(mapFieldElement.length > 0){
 								mapFieldElement.val(response[value[0]]);
@@ -203,7 +205,24 @@ jQuery.Class("Vtiger_Edit_Js",{
 			);
 		}
 	},
-
+	getRelationOperation: function(){
+		if(this.relationOperation === ''){
+			var relationOperation = jQuery('[name="relationOperation"]');
+			if(relationOperation.length){
+				this.relationOperation = relationOperation.val();
+			}else{
+				this.relationOperation = false;
+			}
+		}
+		return this.relationOperation;
+	},
+	getMappingValuesFromUrl: function(key){
+		var relationOperation = this.getRelationOperation();
+		if(relationOperation){
+			return app.getUrlVar(key);
+		}
+		return false;
+	},
 	proceedRegisterEvents : function(){
 		if(jQuery('.recordEditView').length > 0){
 			return true;
