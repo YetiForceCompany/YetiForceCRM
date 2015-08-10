@@ -22,10 +22,36 @@ Below you can see how we improve our project:
 
 #YetiForce 2.1 GA
 
-2.0 was launched on 21st May 2015 and the following changes are up to 2.0.627 from 27th July 2015.
+2.1 was launched on 6st August 2015 and the following changes are up to 2.1.0 from 6th August 2015.
 
 
 **Bug Fixes:**
+- Fixed a bug that caused an email message to appear as “received” instead of “sent”.
+- Fixed a loader bug in “Opportunities” detail view.
+- Fixed display of time (hours) in time-related fields.
+- Fixed a field editor bug.
+- Fixed a bug connected with incorrect date formatting after quick edit.
+- Fixed a bug connected with adding and selecting records.
+- Fixed a bug that prevented ownership transfer.
+- Fixed a bug that prevented deleting filters.
+- Fixed a bug connected with finding duplicates.
+- Fixed quick record creation from settings.
+- Fixed mail scanner.
+- Fixed deleting of related records.
+- Fixed the workflow layout “Invitees – Send – Notification”.
+- Fixed the workflow layout “Send Mail”.
+- Fixed a bug related to comments in Reservations module.
+- Fixed the “Create Event” task in workflow.
+- Fixed “Update Fields” and “Create Entity” tasks in workflow.
+- Fixed a bug related to activating and deactivating fields.
+- Fixed field edition in the “Edit Fields” panel.
+- Fixed display of currency fields.
+- Fixed setting value for reference fields.
+- Fixed an error that caused importing some module records to crash.
+- Fixed exporting Calculations module.
+- Fixed exporting Costs to csv and exporting from csv file.
+- Fixed a bug that prevented users from editing fields in Summary View.
+- Fixed pick lists in the workflow module.
 - Fixed email validation in mail scanner configuration to allow new functional top level domains.
 - Fixed the value of root directory when installing the system.
 - Fixed the Next Page button in the Passwords module.
@@ -98,6 +124,32 @@ Below you can see how we improve our project:
 
 
 **Improvements:**
+- Improved searching for a column name during module installation.
+- Improved error messages in webservice.
+- Improved htaccess.
+- Improved page titles.
+- Improved mass edit view.
+- Improved groups.
+- Improved display inputs and task status in workflows.
+- Improved relations removal.
+- Improved transmission encryption.
+- Improved vtlib_purify for data tables.
+- Improved communication APIs.
+- Improved page controller.
+- Improved select2 elements.
+- Improved MySQL debugging.
+- Improved displaying of currencies.
+- Improved checkError.
+- Improved filtering dangerous html tags.
+- Expanded encryption of data traffic in two directions.
+- Updated Credits.
+- Updated app.min.js.
+- Optimized getInstance CRMEntity.
+- Cleanup in classes.
+- Changed configuration limits.
+- Added a feature to get all currencies.
+- Added a new parameter that allows setting visibility of fields.
+- Redesigned the module builder.
 - Improved appearance of various fields, buttons, labels and icons.
 - Improved existing translations.
 - Improved url validation - it is now a two-step process.
@@ -207,6 +259,7 @@ Below you can see how we improve our project:
 
 
 **New functionalities:**
+- Added additional security to API webservice.
 - Added the Dutch language.
 - Added the ability to search for records to which the user has no access.
 - Added the option to display administrators in the list of users ('Assigned To').
