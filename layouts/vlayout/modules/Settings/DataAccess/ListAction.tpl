@@ -29,7 +29,7 @@
 				</a>
 				{if $item['cf'] != 0}
 					<a href='index.php?module={$MODULE_NAME}&parent=Settings&view=ActionConfig&did={$TPL_ID}&aid={$key}&an={$item['an']}&m={$BASE_MODULE}'  class="pull-right edit_tpl">
-						<span class="glyphicon glyphicon-edit alignMiddle" aria-hidden="true" title="{vtranslate('LBL_EDIT')}"></span>&nbsp;
+						<span class="glyphicon glyphicon-pencil alignMiddle" aria-hidden="true" title="{vtranslate('LBL_EDIT')}"></span>&nbsp;
 					</a>
 				{/if}
 			</td>

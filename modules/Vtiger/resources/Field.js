@@ -272,7 +272,7 @@ Vtiger_Field_Js('Vtiger_Currency_Field_Js', {}, {
 		return this.get('currency_symbol');
 	},
 	getUi: function () {
-		var html = '<div class="input-group row">' +
+		var html = '<div class="input-group">' +
 				'<span class="input-group-addon">' + this.getCurrencySymbol() + '</span>' +
 				'<input type="text" class="form-control" name="' + this.getName() + '" value="' + this.getValue() + '"  />' +
 				'</div>';

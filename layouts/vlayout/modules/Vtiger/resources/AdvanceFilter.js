@@ -186,7 +186,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		var fieldSpecificType = this.getFieldSpecificType(fieldSelected)
 		var conditionList = this.getConditionListFromType(fieldSpecificType);
 		var fieldName = fieldSelected.data('field-name');
-
+		var fieldInfo = fieldSelected.data('fieldinfo');
 		//for none in field name
 		if (typeof conditionList == 'undefined') {
 			conditionList = {};
@@ -195,6 +195,9 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 
 		var options = '';
 		for (var key in conditionList) {
+			if (jQuery.inArray(fieldInfo.type, ['owner', 'picklist', 'multipicklist']) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
+				continue;
+			}
 			//IE Browser consider the prototype properties also, it should consider has own properties only.
 			if (conditionList.hasOwnProperty(key) && !(conditionList[key] == 'om' && fieldName != 'assigned_user_id')) {
 				var conditionValue = conditionList[key];

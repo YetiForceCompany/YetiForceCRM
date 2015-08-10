@@ -43,7 +43,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-md-2 control-label">
-					{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
+					<span class="redColor">*</span> {vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
 				</div>
 				<div class="col-md-6 controls">
 					<select id="modulesList" class="row modules select2 form-control" multiple="true" name="modules[]" data-validation-engine="validate[required]">
@@ -55,7 +55,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-md-2 control-label">
-					{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
+					<span class="redColor">*</span> {vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
 				</div>
 				<div class="col-md-6 controls">
 					<div class="row">
@@ -87,7 +87,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-5">
+				<div class="col-md-5 pull-right">
 					<span class="pull-right">
 						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>

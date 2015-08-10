@@ -675,6 +675,9 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		if (!result['customField']) {
 			fieldContainer.find('.deleteCustomField').remove();
 		}
+		if (jQuery.inArray(result['type'], ['string', 'phone', 'currency', 'url']) == -1) {
+			fieldContainer.find('.maskField').remove();
+		}
 		var block = relatedBlock.find('.blockFieldsList');
 		var sortable1 = block.find('ul[name=sortable1]');
 		var length1 = sortable1.children().length;
@@ -979,10 +982,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 					var form = data.find('.inactiveFieldsForm');
 					thisInstance.showHiddenFields(blockId, form);
 					//register click event for reactivate button in the inactive fields modal
-					data.find('[name="reactivateButton"]').click(function (e) {
+					form.submit(function (e) {
 						thisInstance.createReactivateFieldslist(blockId, form);
 						thisInstance.reActivateHiddenFields(currentBlock);
 						app.hideModalWindow();
+						e.preventDefault();
 					});
 				}
 

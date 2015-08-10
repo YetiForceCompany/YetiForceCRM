@@ -113,7 +113,7 @@ jQuery.Class('Settings_BruteForce_Js', {
 			var params = {
 				text: app.vtranslate('JS_WRONG_ATTEMPS_NUMBER'),
 				animation: 'show',
-				type: 'warning'
+				type: 'error'
 			};
 			Vtiger_Helper_Js.showPnotify(params);
 			result = false;
@@ -122,7 +122,7 @@ jQuery.Class('Settings_BruteForce_Js', {
 			var params = {
 				text: app.vtranslate('JS_WRONG_TIME_LOCK_FORMAT'),
 				animation: 'show',
-				type: 'warning'
+				type: 'error'
 			};
 			Vtiger_Helper_Js.showPnotify(params);
 			result = false;

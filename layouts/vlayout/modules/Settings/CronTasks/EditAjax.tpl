@@ -68,7 +68,9 @@
 							</div>
 						</div>	
 					</div>
-					<div class="alert alert-info">{vtranslate($RECORD_MODEL->get('description'),$QUALIFIED_MODULE)}</div>
+					{if $RECORD_MODEL->get('description') neq ''}
+						<div class="alert alert-info">{vtranslate($RECORD_MODEL->get('description'),$QUALIFIED_MODULE)}</div>
+					{/if}
 				</div>
 				{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 			</form>

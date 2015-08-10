@@ -19,7 +19,7 @@
 					</h3>
 					<div class="col-md-6">
 						<div class="pull-right">
-							<button class="btn btn-default" onclick="window.location.href = '{$RECORD_MODEL->getEditViewUrl()}'" type="button">
+							<button class="btn btn-info" onclick="window.location.href = '{$RECORD_MODEL->getEditViewUrl()}'" type="button">
 								<strong>{vtranslate('LBL_EDIT_RECORD', $MODULE)}</strong>
 							</button>
 						</div>

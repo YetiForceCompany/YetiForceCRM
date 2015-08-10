@@ -20,7 +20,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMailView' AND description =  'OSSMailView'", true);
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
-			'linklabel' => 'Konfiguracja modułu',
+			'linklabel' => 'LBL_MODULE_CONFIGURATION',
 			'linkurl' => 'index.php?module=OSSMailView&parent=Settings&view=index&block=4&fieldid=' . $db->query_result($result, 0, 'fieldid'),
 			'linkicon' => $layoutEditorImagePath
 		);
