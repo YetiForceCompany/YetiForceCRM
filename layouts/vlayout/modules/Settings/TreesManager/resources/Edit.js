@@ -60,11 +60,33 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 				},
 				contextmenu: {
 					items: {
-						create: {"label"	: app.vtranslate('JS_JSTREE_CREATE')},
-						rename: {"label"	: app.vtranslate('JS_JSTREE_RENAME')},
-						remove: {"label"	: app.vtranslate('JS_JSTREE_REMOVE'),
+						create: {
+							"label"	: app.vtranslate('JS_JSTREE_CREATE'),
+							"action" : function (data) {
+								var inst = $.jstree.reference(data.reference);
+									obj = inst.get_node(data.reference);
+									thisInstance.jstreeLastID = thisInstance.jstreeLastID+1;
+								inst.create_node(obj, {
+										id: thisInstance.jstreeLastID,
+										text: app.vtranslate('JS_NEW_ITEM')
+									}, "last", function (new_node) {
+									setTimeout(function () { inst.edit(new_node); },0);
+								});
+							}
+						},
+						rename: {
+							"label"	: app.vtranslate('JS_JSTREE_RENAME'),
+							"action" : function (data) {
+								var inst = $.jstree.reference(data.reference),
+									obj = inst.get_node(data.reference);
+								inst.edit(obj);
+							}
+						},
+						remove: {
+							"label" : app.vtranslate('JS_JSTREE_REMOVE'),
 							action: function (data) {
 								var inst = $.jstree.reference(data.reference);
+								var obj = inst.get_node(data.reference);
 								var id = inst.get_selected();
 								var status = true;
 								$.each(id, function( index, value ) {
@@ -87,9 +109,27 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 						ccp: {
 							label: app.vtranslate('JS_JSTREE_CCP'),
 							submenu: { 
-								cut: {label: app.vtranslate('JS_JSTREE_CUT')},
-								copy: {label: app.vtranslate('JS_JSTREE_COPY')},
-								paste: {label: app.vtranslate('JS_JSTREE_PASTE')},
+								cut: {
+									label: app.vtranslate('JS_JSTREE_CUT'),
+									"action" : function (data) {
+										var inst = $.jstree.reference(data.reference),
+											obj = inst.get_node(data.reference);
+										if(inst.is_selected(obj)) {
+											inst.cut(inst.get_top_selected());
+										}
+										else {
+											inst.cut(obj);
+										}
+									}
+								},
+								paste: {
+									label: app.vtranslate('JS_JSTREE_PASTE'),
+									"action" : function (data) {
+										var inst = $.jstree.reference(data.reference),
+											obj = inst.get_node(data.reference);
+										inst.paste(obj);
+									}
+								},
 							}
 						}
 					}
@@ -102,12 +142,9 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 	deleteItemEvent : function(id,inst) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
-		var treeValues = $('#treeValues').val();
-		var data = JSON.parse(treeValues);
+		var data = inst.get_json();
 		$.each(id, function( index, id ) {
-			data = jQuery.grep(data, function(value) {
-				return value.id != id;
-			});
+			data = thisInstance.checkChildren(id,data);			
 		});
 		if(data.length == 0){
 			Settings_Vtiger_Index_Js.showMessage({text:app.vtranslate('JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS'),type : 'error'})
@@ -122,16 +159,29 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 					data: data
 				},
 			}).bind("loaded.jstree", function (event, data) {
-				$(this).jstree("open_all");	
+				$(this).jstree("open_all");
 			});
 			form.submit(function(e){
-				e.preventDefault();
+				//e.preventDefault();
 				var selected = jstreeInstanceReplace.jstree("get_selected");
 				var replaceIds = $('#replaceIds').val();
 				if(replaceIds == ''){
 					var data = [];
 				}else{
 					var data = JSON.parse(replaceIds);
+				}
+				if(!selected.length){
+					var params = {};
+						params['type'] = 'error';
+						params['text'] = app.vtranslate('JS_NO_ITEM_SELECTED');
+						Settings_Vtiger_Index_Js.showMessage(params);
+					return false;
+				}else if(selected.length > 1){
+					var params = {};
+						params['type'] = 'error';
+						params['text'] = app.vtranslate('JS_ONLY_ONE_ITEM_SELECTED');
+						Settings_Vtiger_Index_Js.showMessage(params);
+					return false;
 				}
 				data = $.merge(data, [{old:id, new:selected}]);
 				$('#replaceIds').val(JSON.stringify(data));
@@ -141,4 +191,17 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 		});
 		return aDeferred.promise();
 	},
+	checkChildren: function(id,data){
+		var thisInstance = this;
+		var dataNew = [];
+		for(var key in data){
+			if(data[key].id != id){
+				if(data[key].children.length){
+					data[key].children = thisInstance.checkChildren(id,data[key].children);
+				}
+				dataNew.push(data[key]);
+			}
+		}
+		return dataNew;
+	}
 });
