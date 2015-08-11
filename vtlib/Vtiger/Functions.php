@@ -1056,15 +1056,18 @@ class Vtiger_Functions
 		return $array;
 	}
 
-	static function throwNewException($Message)
+	static function throwNewException($message)
 	{
 		$request = new Vtiger_Request($_REQUEST);
-		if (!$request->get('action') != '') {
+		if ($request->isAjax()) {
+			$response = new Vtiger_Response();
+			$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+			$response->setError($message);
+			$response->emit();
+		} else {
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('MESSAGE', $Message);
 			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
-		} else {
-			echo $Message;
 		}
 	}
 
