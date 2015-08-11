@@ -558,18 +558,19 @@ class Products_Record_Model extends Vtiger_Record_Model
 	}
 
 	protected static $discountsConfig = false;
+
 	public static function getDiscountsConfig()
 	{
 		if (self::$discountsConfig != false) {
 			return self::$discountsConfig;
 		}
-		
+
 		$db = PearDatabase::getInstance();
 		$config = [];
 		$result = $db->query('SELECT * FROM a_yf_discounts_config');
 		while ($row = $db->fetch_array($result)) {
 			$value = $row['value'];
-			if(in_array($row['param'],['discounts'] )){
+			if (in_array($row['param'], ['discounts'])) {
 				$value = explode(',', $value);
 			}
 			$config[$row['param']] = $value;
@@ -577,11 +578,45 @@ class Products_Record_Model extends Vtiger_Record_Model
 		self::$discountsConfig = $config;
 		return $config;
 	}
+
 	public function getGlobalDiscounts()
 	{
 		$db = PearDatabase::getInstance();
 		$config = [];
-		$result = $db->pquery('SELECT * FROM a_yf_discounts_global WHERE status = ?',[1]);
+		$result = $db->pquery('SELECT * FROM a_yf_discounts_global WHERE status = ?', [1]);
+		while ($row = $db->fetch_array($result)) {
+			$config[$row['name']] = $row['value'];
+		}
+		return $config;
+	}
+	
+	protected static $taxsConfig = false;
+
+	public static function getTaxsConfig()
+	{
+		if (self::$taxsConfig != false) {
+			return self::$taxsConfig;
+		}
+
+		$db = PearDatabase::getInstance();
+		$config = [];
+		$result = $db->query('SELECT * FROM a_yf_taxs_config');
+		while ($row = $db->fetch_array($result)) {
+			$value = $row['value'];
+			if (in_array($row['param'], ['taxs'])) {
+				$value = explode(',', $value);
+			}
+			$config[$row['param']] = $value;
+		}
+		self::$taxsConfig = $config;
+		return $config;
+	}
+
+	public function getGlobalTaxs()
+	{
+		$db = PearDatabase::getInstance();
+		$config = [];
+		$result = $db->pquery('SELECT * FROM a_yf_taxs_global WHERE status = ?', [1]);
 		while ($row = $db->fetch_array($result)) {
 			$config[$row['name']] = $row['value'];
 		}

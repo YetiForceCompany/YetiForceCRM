@@ -12,7 +12,7 @@
 			   class="listPrice smallInputBox form-control input-sm" list-info=""/>
 
 		{assign var=PRICEBOOK_MODULE_MODEL value=Vtiger_Module_Model::getInstance('PriceBooks')}
-		{if $PRICEBOOK_MODULE_MODEL->isPermitted('DetailView')}
+		{if in_array('3',$DISCOUNTS_CONFIG['discounts'])  && $PRICEBOOK_MODULE_MODEL->isPermitted('DetailView')}
 			<span class="input-group-addon">
 				<img src="{vimage_path('PriceBooks.png')}" class="cursorPointer alignMiddle priceBookPopup" data-popup="Popup" data-module-name="PriceBooks" alt="{vtranslate('PriceBooks',$SUPMODULE)}" title="{vtranslate('PriceBooks',$SUPMODULE)}"/>
 			</span>

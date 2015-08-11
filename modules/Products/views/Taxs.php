@@ -1,6 +1,6 @@
 <?php
 
-class Products_Discounts_View extends Vtiger_Index_View
+class Products_Taxs_View extends Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request)
@@ -12,37 +12,32 @@ class Products_Discounts_View extends Vtiger_Index_View
 		$sourceRecord = $request->get('sourceRecord');
 		$isIndividual = $request->get('isIndividual');
 		$totalPrice = $request->get('totalPrice');
-		$accountField = $request->get('accountField');
 
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-		$config = $recordModel->getDiscountsConfig();
-		$groupDiscount = $this->getGroupDiscount($sourceModule, $sourceRecord, $accountField);
+		$config = $recordModel->getTaxsConfig();
+		//$groupDiscount = $this->getGroupTaxs($sourceModule, $sourceRecord);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('GLOBAL_DISCOUNTS', $recordModel->getGlobalDiscounts());
+		$viewer->assign('GLOBAL_TAXS', $recordModel->getGlobalTaxs());
 		$viewer->assign('CURRENCY_SYMBOL', Vtiger_Functions::getCurrencySymbolandRate($currency)['symbol']);
 		$viewer->assign('TOTAL_PRICE', $totalPrice);
 		$viewer->assign('CONFIG', $config);
 		$viewer->assign('AGGREGATION_TYPE', $config['aggregation']);
 		$viewer->assign('AGGREGATION_INPUT_TYPE', $config['aggregation'] == 0 ? 'radio' : 'checkbox');
-		$viewer->assign('GROUP_DISCOUNT', $groupDiscount['discount']);
-		$viewer->assign('ACCOUNT_ID', $groupDiscount['accountid']);
-		$viewer->view('Discounts.tpl', $moduleName);
+		//$viewer->assign('GROUP_TAX', $groupDiscount['discount']);
+		$viewer->view('Taxs.tpl', $moduleName);
 	}
 
-	public function getGroupDiscount($moduleName, $record, $accountField)
+	public function getGroupTaxs($moduleName, $record)
 	{
 		$discount = 0;
-		$discountField = 'discount';
+		$taxField = 'discount';
 
-		if ($accountField != '') {
+		if ($record != '') {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$relationFieldValue = $recordModel->get($accountField);
-			if ($relationFieldValue != 0) {
-				$mainRecordModel = Vtiger_Record_Model::getInstanceById($relationFieldValue, $mainModule);
-				$discount = $mainRecordModel->get($discountField);
-			}
+
 		}
 
 		return ['discount' => $discount, 'accountid' => $relationFieldValue];

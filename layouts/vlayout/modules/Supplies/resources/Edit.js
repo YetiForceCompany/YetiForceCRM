@@ -11,6 +11,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 	lineItemContentsContainer: false,
 	rowClass: 'tr.rowSup',
 	discountMondalFields: ['aggregationType', 'globalDiscount', 'groupCheckbox', 'groupDiscount', 'individualDiscount', 'individualDiscountType'],
+	taxMondalFields: ['aggregationType', 'globalTax', 'groupCheckbox', 'groupTax', 'individualTax'],
 	/**
 	 * Function that is used to get the line item container
 	 * @return : jQuery object
@@ -279,6 +280,50 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		mondal.find('.valuePrices').text(this.parsePrice(valuePrices));
 		mondal.find('.valueDiscount').text(netPriceBeforeDiscount - this.parsePrice(valuePrices));
 	},
+	calculateTax: function (row, mondal) {
+		var netPriceWithoutTax = this.getTotalPrice(row),
+				valuePrices = netPriceWithoutTax,
+				globalTax = 0,
+				groupTax = 0,
+				individualTax = 0,
+				valueTax = 0;
+
+		var taxType = mondal.find('.taxsType').val();
+		if (taxType == '0' || taxType == '1') {
+			if (mondal.find('.activepanel .globalTax').length > 0) {
+				var globalTax = mondal.find('.activepanel .globalTax').val();
+			}
+			if (mondal.find('.activepanel .individualTaxValue').length > 0) {
+				var value = mondal.find('.activepanel .individualTaxValue').val();
+				individualTax = (value / 100) * valuePrices;
+			}
+			if (mondal.find('.activepanel .groupCheckbox').length > 0 && mondal.find('.activepanel .groupCheckbox').prop("checked") == true) {
+				var groupTax = mondal.find('.groupValue').val();
+				groupTax = netPriceWithoutTax * (parseFloat(groupTax) / 100);
+			}
+
+			valuePrices = valuePrices * ((100 + parseFloat(globalTax)) / 100);
+			valuePrices = valuePrices + parseFloat(individualTax);
+			valuePrices = valuePrices + parseFloat(groupTax);
+		} else if (taxType == '2') {
+			mondal.find('.activepanel').each(function (index) {
+				var panel = $(this);
+				if (panel.find('.globalTax').length > 0) {
+					var globalTax = parseFloat(panel.find('.globalTax').val());
+					valuePrices = valuePrices * ((100 + globalTax) / 100);
+				} else if (panel.find('.groupCheckbox').length > 0 && panel.find('.groupCheckbox').prop("checked") == true) {
+					var groupTax = parseFloat(panel.find('.groupValue').val());
+					valuePrices = valuePrices * ((100 + groupTax) / 100);
+				} else if (panel.find('.individualTaxValue').length > 0) {
+					var value = parseFloat(panel.find('.individualTaxValue').val());
+					valuePrices = ((value + 100) / 100) * valuePrices;
+				}
+			});
+		}
+
+		mondal.find('.valuePrices').text(this.parsePrice(valuePrices));
+		mondal.find('.valueTax').text(this.parsePrice(valuePrices - netPriceWithoutTax));
+	},
 	updateRowSequence: function () {
 		var subTable = this.getSupTableContainer();
 		subTable.find(this.rowClass).each(function (index) {
@@ -375,12 +420,10 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		var thisInstance = this;
 
 		for (var id in responseData) {
-			var recordId = id;
 			var recordData = responseData[id];
 			var description = recordData.description;
 			var listPriceValues = recordData.listpricevalues;
 			var listPriceValuesJson = JSON.stringify(listPriceValues);
-			var taxes = recordData.taxes;
 
 			for (var field in recordData) {
 				parentRow.find('input.' + field).val(recordData[field]);
@@ -389,15 +432,10 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			var currencyId = thisInstance.getCurrency();
 			if (typeof listPriceValues[currencyId] !== 'undefined') {
 				thisInstance.setListPriceValue(parentRow, listPriceValues[currencyId]);
-			}else{
-				
 			}
-
 			$('input.listPrice', parentRow).attr('list-info', listPriceValuesJson);
 			$('textarea.commentTextarea', parentRow).val(description);
 
-			//var taxUI = thisInstance.getTaxDiv(taxes, parentRow);
-			//$('.taxDivContainer', parentRow).html(taxUI);
 			thisInstance.showIndividualTax(parentRow);
 		}
 		if (referenceModule === 'Products') {
@@ -424,6 +462,26 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			}
 		});
 		parentRow.find('.discountParam').val(JSON.stringify(info));
+	},
+	saveTaxsParameters: function (parentRow, mondal) {
+		var thisInstance = this;
+		var info = {};
+		var extend = ['aggregationType', 'groupCheckbox', 'individualTaxType'];
+		$.each(thisInstance.taxMondalFields, function (index, param) {
+			if ($.inArray(param, extend) >= 0) {
+				if (mondal.find('[name="' + param + '"]:checked').length > 1) {
+					info[param] = [];
+					mondal.find('[name="' + param + '"]:checked').each(function (index) {
+						info[param].push($(this).val());
+					});
+				} else {
+					info[param] = mondal.find('[name="' + param + '"]:checked').val();
+				}
+			} else {
+				info[param] = mondal.find('[name="' + param + '"]').val();
+			}
+		});
+		parentRow.find('.taxParam').val(JSON.stringify(info));
 	},
 	initDiscountsParameters: function (parentRow, mondal) {
 		var thisInstance = this;
@@ -456,6 +514,38 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		});
 
 		thisInstance.calculateDiscount(parentRow, mondal);
+	},
+	initTaxParameters: function (parentRow, mondal) {
+		var thisInstance = this;
+		var parameters = parentRow.find('.taxParam').val();
+		if (parameters == '') {
+			return;
+		}
+		var parameters = JSON.parse(parameters);
+		$.each(thisInstance.taxMondalFields, function (index, param) {
+			var parameter = parameters[param];
+			var field = mondal.find('[name="' + param + '"]');
+
+			if (field.attr('type') == 'checkbox' || field.attr('type') == 'radio') {
+				var array = parameter;
+				if (!$.isArray(array)) {
+					array = [array];
+				}
+				$.each(array, function (index, arrayValue) {
+					var value = field.filter('[value="' + arrayValue + '"]').prop('checked', true)
+					if (param == 'aggregationType') {
+						value.closest('.panel').find('.panel-body').show();
+						value.closest('.panel').addClass('activepanel');
+					}
+				});
+			} else if (field.prop("tagName") == 'SELECT') {
+				field.find('option[value="' + parameter + '"]').prop('selected', 'selected').change();
+			} else {
+				mondal.find('[name="' + param + '"]').val(parameter);
+			}
+		});
+
+		thisInstance.calculateTax(parentRow, mondal);
 	},
 	registerAddRow: function (container) {
 		var thisInstance = this;
@@ -656,8 +746,8 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			AppConnector.request(params).then(
 					function (data) {
 						app.showModalWindow(data, function (data) {
-							//thisInstance.initTaxParameters(parentRow, $(data));
-							//thisInstance.registerChangeTaxModal(data, parentRow, params);
+							thisInstance.initTaxParameters(parentRow, $(data));
+							thisInstance.registerChangeTaxModal(data, parentRow, params);
 						});
 						progressInstace.hide();
 					},
@@ -669,9 +759,9 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 	},
 	registerChangeTaxModal: function (mondal, parentRow, params) {
 		var thisInstance = this;
-		mondal.on('change', '.individualDiscountType', function (e) {
+		mondal.on('change', '.individualTaxType', function (e) {
 			var element = $(e.currentTarget);
-			mondal.find('.individualDiscountContainer .input-group-addon').text(element.data('symbol'));
+			mondal.find('.individualTaxContainer .input-group-addon').text(element.data('symbol'));
 		});
 		mondal.on('change', '.activeCheckbox[name="aggregationType"]', function (e) {
 			var element = $(e.currentTarget);
@@ -689,14 +779,14 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 				element.closest('.panel').removeClass('activepanel');
 			}
 		});
-		mondal.on('change', '.activeCheckbox, .globalDiscount,.individualDiscountValue,.individualDiscountType,.groupCheckbox', function (e) {
+		mondal.on('change', '.activeCheckbox, .globalTax,.individualTaxValue,.groupCheckbox', function (e) {
 			var element = $(e.currentTarget);
-			thisInstance.calculateDiscount(parentRow, mondal);
+			thisInstance.calculateTax(parentRow, mondal);
 		});
-		mondal.on('click', '.saveDiscount', function (e) {
-			parentRow.find('.discount').val(mondal.find('.valueDiscount').text());
+		mondal.on('click', '.saveTaxs', function (e) {
+			parentRow.find('.tax').val(mondal.find('.valueTax').text());
 			thisInstance.quantityChangeActions(parentRow);
-			thisInstance.saveDiscountsParameters(parentRow, mondal);
+			thisInstance.saveTaxsParameters(parentRow, mondal);
 			app.hideModalWindow();
 		});
 	},
@@ -715,10 +805,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 				}
 			}
 
-			var element = parentRow.find('.rowName .recordLabel');
 			var selectedModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
-			var popupElement = parentRow.find('.rowName .relatedPopup');
-
 			var dataUrl = "index.php?module=" + app.getModuleName() + "&action=GetDetails&record=" + record + "&currency_id=" + thisInstance.getCurrency();
 			AppConnector.request(dataUrl).then(
 					function (data) {

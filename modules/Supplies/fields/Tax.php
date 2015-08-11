@@ -11,11 +11,10 @@ class Supplies_Tax_Field extends Supplies_Basic_Field
 
 	protected $name = 'Tax';
 	protected $defaultLabel = 'LBL_TAX';
-	protected $defaultValue = 'tax';
 	protected $columnname = 'tax';
-	protected $dbType = 'decimal(27,8)';
+	protected $dbType = 'decimal(27,8) DEFAULT \'0\'';
 	protected $customColumn = [
-		'taxtype' => 'int(19)'
+		'taxparam' => 'varchar(255) NOT NULL'
 	];
 	
 	/**

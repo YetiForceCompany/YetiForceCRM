@@ -9,7 +9,7 @@
 class Supplies_Record_Model extends Vtiger_Record_Model
 {
 
-	protected $jsonFields = ['discountparam'];
+	protected $jsonFields = ['discountparam','taxparam'];
 
 	/**
 	 * Save supplie data

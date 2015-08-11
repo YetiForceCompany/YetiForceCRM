@@ -15,6 +15,7 @@ class Supplies_Edit_View extends Vtiger_Edit_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('ACCOUNT_REFERENCE_FIELD', $this->getReferenceField($moduleName));
 		$viewer->assign('DISCOUNTS_CONFIG', Products_Record_Model::getDiscountsConfig());
+		$viewer->assign('TAXS_CONFIG', Products_Record_Model::getTaxsConfig());
 		$viewer->view('TopEditView.tpl', Supplies_Module_Model::getModuleNameForTpl('TopEditView.tpl', $moduleName));
 	}
 	

@@ -14,7 +14,7 @@ class Supplies_Discount_Field extends Supplies_Basic_Field
 	protected $columnname = 'discount';
 	protected $dbType = 'decimal(27,8) DEFAULT \'0\'';
 	protected $customColumn = [
-		'discountparam' => 'varchar(255)'
+		'discountparam' => 'varchar(255) NOT NULL'
 	];
 
 	/**
