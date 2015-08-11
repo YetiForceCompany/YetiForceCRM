@@ -65,15 +65,22 @@ Vtiger_Edit_Js("OSSMailTemplates_Edit_Js", {
 			tpl_module: selectedModule
 		}
 		AppConnector.request(params).then(
-			function(data) {
+			function (data) {
 				if (data.success) {
 					var fieldListSelect = jQuery('[name="oss_fields_list"]'),
-							tabField = data.result;
+						tabField = data.result;
 					fieldListSelect.find('option').remove();
-					jQuery(tabField).each(function(index, item) {
-						jQuery(fieldListSelect).append('<option value="' + item.id + '">' + item.label + '</option>');
-					});
-
+					fieldListSelect.find('optgroup').remove();
+					for (var id in tabField) {
+						var oprgroup = '<optgroup label="' + tabField[id]['blockLabel'] + '">';
+						for (var item in tabField[id]) {
+							if (item != 'blockLabel') {
+								oprgroup += '<option value="' + tabField[id][item]['id'] + '">' + tabField[id][item]['label'] + '</option>';
+							}
+						}
+						oprgroup += '</optgroup>';
+						jQuery(fieldListSelect).append(oprgroup);
+					}
 					fieldListSelect.trigger('chosen:updated');
 				}
 			}
