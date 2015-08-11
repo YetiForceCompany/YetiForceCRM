@@ -827,7 +827,6 @@ $languageStrings = [
 	'Calculations' => 'Kalkulacje',
 	'OSSMailView' => 'Maile',
 	'OSSEmployees' => 'Pracownicy',
-	'CallHistory' => 'Historia połączeń',
 	'HolidaysEntitlement' => 'Roczny wymiar urlopu',
 	'OSSPdf' => 'Lista szablonów PDF',
 	'OSSMailTemplates' => 'Lista szablonów mailowych',

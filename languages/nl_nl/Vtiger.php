@@ -754,7 +754,6 @@ $languageStrings = [
 	'OSSTimeControl' => 'Time Control',
 	'OSSMailView' => 'Emails',
 	'OSSEmployees' => 'Employees',
-	'SINGLE_CallHistory' => 'Call history',
 	'HolidaysEntitlement' => 'Annual holiday entitlement',
 	'Calculations' => 'Calculations',
 	'LBL_SEARCH_MODULE' => 'Search module',

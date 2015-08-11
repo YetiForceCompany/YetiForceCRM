@@ -871,7 +871,6 @@ $languageStrings = [
 	'Notify Owner' => 'Уведомить ответственного',
 	'OSSCosts' => 'Затраты',
 	'OSSEmployees' => 'Сотрудники',
-	'CallHistory'	=>	'Журнал Вызовов',
 	'HolidaysEntitlement' => 'Праздники',
 	'OSSMailTemplates' => 'Шаблоны электронной почты',
 	'OSSMailView' => 'Почта',
