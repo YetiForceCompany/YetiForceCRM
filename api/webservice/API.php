@@ -88,7 +88,12 @@ class API
 			$data = $this->data->getAll();
 		}
 
-		$response = call_user_func_array([$handler, $function], $data);
+		if(is_array($data)){
+			$response = call_user_func_array([$handler, $function], $data);
+		}  else {
+			$response = call_user_func([$handler, $function], $data);
+		}
+		
 		$response = [
 			'status' => 1,
 			'result' => $response
@@ -172,7 +177,7 @@ class API
 
 	private function validateFromUrl($url)
 	{
-		if ($url != 'http://portal2/') {
+		if ($url != 'http://portal2') {
 			return false;
 		}
 		return true;

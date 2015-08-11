@@ -13,10 +13,12 @@ class API_Users_Authentication extends BaseAction
 
 	public function authentication($email, $password)
 	{
-		//throw new APIException('Błedne dane dostępowe');
-
+		if($password != 'test'){
+			throw new APIException('Błedne dane dostępowe');
+		}
+		
 		return [
-			'logged' => false,
+			'logged' => true,
 			'id' => 111,
 			'fullName' => 'Mariusz Krzaczkowski',
 			'email' => 'm.krzaczkowski@yetiforce.com',
