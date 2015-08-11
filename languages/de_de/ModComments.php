@@ -24,5 +24,7 @@ $languageStrings = [
 	'Creator' => 'Ersteller',
 	'Customer' => 'Kunde',
 	'Related To Comments' => 'Bezogen auf',
+	'UserId' => 'UserId',
+	'Customer' => '',
 	
 ];
