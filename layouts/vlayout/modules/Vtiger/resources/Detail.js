@@ -2573,7 +2573,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentActivitiesTab.trigger('click');
 		});
 
-		detailContentsHolder.on('switchChange.bootstrapSwitch', '.relatedContainer .switchBtn', function (e, state) {
+		detailContentsHolder.off('switchChange.bootstrapSwitch').on('switchChange.bootstrapSwitch', '.relatedContainer .switchBtn', function (e, state) {
 			var recentActivitiesTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentActivitiesTabLabel);
 			var url = recentActivitiesTab.data('url');
 			url = url.replace('&time=current', '');
