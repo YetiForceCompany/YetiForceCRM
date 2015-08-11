@@ -122,6 +122,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$module = new Vtiger_Module();
 		$module->name = ucfirst($moduleInformation['module_name']);
 		$module->label = $moduleInformation['module_label'];
+		//$module->type = 'SupplieModule';
 		$module->save();
 		$module->initTables();
 
