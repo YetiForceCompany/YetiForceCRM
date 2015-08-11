@@ -11,10 +11,10 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 		$sql = "select `fieldid`, `fieldlabel`, `uitype`, `block` from vtiger_field where tabid = ? AND presence <> ? AND typeofdata <> ? AND `block` NOT IN (?)";
 		$result = $db->pquery($sql, array($tabid, 1, 'P~M', 0));
 		$output = array();
-		$block = ['blockId'=>'','blockLabel'=>''];
+		$block = ['blockId' => '', 'blockLabel' => ''];
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
 			$blockid = $db->query_result($result, $i, 'block');
-			if($block['blockId'] != $blockid){
+			if ($block['blockId'] != $blockid) {
 				$block['blockId'] = $blockid;
 				$block['blockLabel'] = getBlockName($blockid);
 			}
