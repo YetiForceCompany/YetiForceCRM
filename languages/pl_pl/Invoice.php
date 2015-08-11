@@ -42,6 +42,9 @@ $languageStrings = [
 	'Transfer' => 'Przelew',
 	'Cash' => 'Gotówka',
 	'Payment balance' => 'Saldo płatności',
+	'Received' => 'Odebrane',
+	'Balance' => 'Saldo',
+	'Pre Tax Total' => 'Pre Tax Total',
 ];
 
 $jsLanguageStrings = [
