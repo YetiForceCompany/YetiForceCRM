@@ -776,6 +776,7 @@ $languageStrings = [
 	'OSSTimeControl' => 'Zeiterfassung',
 	'OSSMailView' => 'E-Mails',
 	'OSSEmployees' => 'Mitarbeiter',
+	'SINGLE_CallHistory' => 'Anrufhistorie',
 	'HolidaysEntitlement' => 'Urlaubsanspruch',
 	'Calculations' => 'Kalkulationen',
 	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Suche in Unterkategorien',
