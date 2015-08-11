@@ -965,6 +965,7 @@ $languageStrings = [
 	'Mails List' => 'Most recent emails',
 	'Support Group' => 'Support Group',
 	'Marketing Group' => 'Marketing Group',
+	'LBL_ERROR_IMPORT_IN_DEMO' => 'Demo mode is enabled, the installation of modules is disabled.',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',

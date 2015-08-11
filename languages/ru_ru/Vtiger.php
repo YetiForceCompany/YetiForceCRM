@@ -1223,6 +1223,7 @@ $languageStrings = [
 	'ReasonToEdit' => 'Reason to edit',
 	'Support Group' => 'Support Group',
 	'Marketing Group' => 'Marketing Group',
+	'LBL_ERROR_IMPORT_IN_DEMO' => 'Demo mode is enabled, the installation of modules is disabled.',
 ];
 $jsLanguageStrings = [
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Нельзя выбрать Контакты для Обращений',
