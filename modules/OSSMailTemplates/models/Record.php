@@ -208,7 +208,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		} elseif ($uitype == 53 || $uitype == 52) {
 			$finalValue = Vtiger_Functions::getOwnerRecordLabel($finalValue);
 		} elseif ($uitype == 56) {
-			if (0 === $finalValue) {
+			if (0 == $finalValue) {
 				$finalValue = vtranslate('LBL_NO');
 			} else {
 				$finalValue = vtranslate('LBL_YES');
