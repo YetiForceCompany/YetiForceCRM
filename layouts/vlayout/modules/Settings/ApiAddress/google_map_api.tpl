@@ -8,7 +8,7 @@
 			{vtranslate('LBL_USE_GOOGLE_GEOCODER', $MODULENAME)}: 
 		</td>
 		<td>
-			<div style="text-align:center">
+			<div>
 				<input type="checkbox" name="nominatim" class="api" {if $API_INFO.nominatim } checked {/if}/>
 			</div>
 		</td>
@@ -18,7 +18,7 @@
 			<button type="button" class="btn btn-danger delete" id="delete">{vtranslate('LBL_REMOVE_CONNECTION', $MODULENAME)}</button>
 		</td>
 		<td>
-			<button type="button" class="btn btn-success save" id="save" style="margin:0 auto;">{vtranslate('LBL_SAVE', $MODULENAME)}</button>
+			<button type="button" class="btn btn-success save" id="save" >{vtranslate('LBL_SAVE', $MODULENAME)}</button>
 		</td>
 	</tr>
 	</table>
@@ -27,7 +27,7 @@
 	<tr>
 		<td>
 			<div class="">
-				<input name="key" type="text" class="api form-control" style="margin:0 auto;" placeholder="{vtranslate('LBL_ENTER_KEY_APPLICATION', $MODULENAME)}">
+				<input name="key" type="text" class="api form-control" placeholder="{vtranslate('LBL_ENTER_KEY_APPLICATION', $MODULENAME)}">
 			</div>
 		</td>
 		<td>
@@ -38,7 +38,7 @@
 	</tr>
 	<tr>
 		<td>
-			<button type="button" class="btn btn-success save" id="save" style="margin:0 auto;">{vtranslate('LBL_SAVE', $MODULENAME)}</button>
+			<button type="button" class="btn btn-success save pushDown" id="save">{vtranslate('LBL_SAVE', $MODULENAME)}</button>
 		</td>
 	</tr>
 	</table>
