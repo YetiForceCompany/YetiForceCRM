@@ -300,10 +300,9 @@ class Vtiger_ModuleBasic
 		Vtiger_Utils::CreateTable($this->basetable, "($this->basetableid int(19) PRIMARY KEY, CONSTRAINT `fk_1_$this->basetable` FOREIGN KEY (`$this->basetableid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE)", true);
 		Vtiger_Utils::CreateTable($this->customtable, "($this->basetableid int(19) PRIMARY KEY, CONSTRAINT `fk_1_$this->customtable` FOREIGN KEY (`$this->basetableid`) REFERENCES `$this->basetable` (`$this->basetableid`) ON DELETE CASCADE)", true);
 		if($this->type == 'SupplieModule'){
-			Vtiger_Utils::CreateTable($this->basetable. '_supfield', "(id int(19) AUTO_INCREMENT PRIMARY KEY, columnname varchar(30) NOT NULL,suptype varchar(30) NOT NULL,
-fieldlabel varchar(50) NOT NULL,presence int(1) unsigned NOT NULL DEFAULT '1',defaultvalue varchar(255),sequence int(10) unsigned DEFAULT NULL,
-block int(1) unsigned DEFAULT NULL,displaytype int(1) unsigned DEFAULT NULL)", true);
-			Vtiger_Utils::CreateTable($this->basetable. '_sups', "(id int(19) PRIMARY KEY)", true);
+			Vtiger_Utils::CreateTable($this->basetable. '_supfield', "(id int(19) AUTO_INCREMENT PRIMARY KEY, columnname varchar(30) NOT NULL, label varchar(50) NOT NULL, suptype varchar(30) NOT NULL,presence tinyint(1) unsigned NOT NULL DEFAULT '0',
+				defaultvalue varchar(255),sequence int(10) unsigned NOT NULL, block tinyint(1) unsigned NOT NULL,displaytype tinyint(1) unsigned NOT NULL, params text, colspan tinyint(1) unsigned NOT NULL DEFAULT '1')", true);
+			Vtiger_Utils::CreateTable($this->basetable. '_sups', "(id int(19) PRIMARY KEY,seq int(10),CONSTRAINT `fk_1_$this->basetable` FOREIGN KEY (`id`) REFERENCES `$this->basetable` (`$this->basetableid`) ON DELETE CASCADE)", true);
 		}
 		
 	}
