@@ -15,4 +15,5 @@ $languageStrings = [
 	'LBL_NEWORDERS_INFORMATION' => 'Information',
 	//FIELDS
 	'LBL_SUBJECT' => 'Bezeichnung',
+	'LBL_NUMBER' => 'Nummer'
 ];
