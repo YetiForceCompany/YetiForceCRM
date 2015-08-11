@@ -589,6 +589,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		jQuery(".mainContainer").css(styles);
 		jQuery(".mainContainer > .col-md-2 ").css({'margin-bottom': navBottom + 'px', });
 		jQuery(".contentsDiv").css({'margin-bottom': navBottom + 'px', });
+		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 	},
 	recentPageViews: function () {
 		var maxValues = 20;
