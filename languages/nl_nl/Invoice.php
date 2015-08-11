@@ -44,7 +44,6 @@ $languageStrings = [
 	'Payment balance' => 'Payment balance',
 	'Received' => 'Received',
 	'Balance' => 'Balance',
-	'Pre Tax Total' => 'Pre Tax Total',
 ];
 
 $jsLanguageStrings = [

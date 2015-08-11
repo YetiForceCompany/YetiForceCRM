@@ -978,6 +978,7 @@ $languageStrings = [
 	'Support Group' => 'Support Group',
 	'Marketing Group' => 'Marketing Group',
 	'LBL_ERROR_IMPORT_IN_DEMO' => 'Demo mode is enabled, the installation of modules is disabled.',
+	'Pre Tax Total' => 'Total Antes Imposto',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',

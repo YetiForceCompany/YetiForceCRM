@@ -43,7 +43,6 @@ $languageStrings = [
 	'Cash' => 'Bar',
 	'Received' => 'Empfangen',
 	'Balance' => 'Balance',
-	'Pre Tax Total' => 'Summe vor Steuern',
 ];
 $jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Entfernen Sie Posten, die gelöscht wurden',
