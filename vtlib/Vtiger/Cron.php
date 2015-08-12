@@ -25,7 +25,6 @@ class Vtiger_Cron
 	static $STATUS_RUNNING = 2;
 	static $STATUS_COMPLETED = 3;
 	protected $data;
-	protected $bulkMode = false;
 
 	/**
 	 * Constructor
@@ -170,16 +169,11 @@ class Vtiger_Cron
 	 */
 	function isRunnable()
 	{
-		$runnable = false;
-
-		if (!$this->isDisabled()) {
-			// Take care of last time (end - on success, start - if timedout)
-			// Take care to start the cron im
-			$lastTime = ($this->getLastStart() > 0) ? $this->getLastStart() : $this->getLastEnd();
-			$elapsedTime = time() - $lastTime;
-			$runnable = ($elapsedTime >= ($this->getFrequency() - 60));
-		}
-		return $runnable;
+		// Take care of last time (end - on success, start - if timedout)
+		// Take care to start the cron im
+		$lastTime = ($this->getLastStart() > 0) ? $this->getLastStart() : $this->getLastEnd();
+		$elapsedTime = time() - $lastTime;
+		return ($elapsedTime >= ($this->getFrequency() - 60));
 	}
 
 	/**
@@ -245,7 +239,7 @@ class Vtiger_Cron
 	function markRunning()
 	{
 		$time = time();
-		self::querySilent('UPDATE vtiger_cron_task SET status=?, laststart=?, lastend=? WHERE id=?', array(self::$STATUS_RUNNING, $time, 0, $this->getId()));
+		self::querySilent('UPDATE vtiger_cron_task SET status=?, laststart=? WHERE id=?', array(self::$STATUS_RUNNING, $time, $this->getId()));
 		return $this->set('laststart', $time);
 	}
 
@@ -260,28 +254,19 @@ class Vtiger_Cron
 	}
 
 	/**
-	 * Set the bulkMode flag
-	 */
-	function setBulkMode($mode = null)
-	{
-		$this->bulkMode = $mode;
-	}
-
-	/**
-	 * Is task in bulk mode execution?
-	 */
-	function inBulkMode()
-	{
-		return $this->bulkMode;
-	}
-
-	/**
 	 * Detect if the task was started by never finished.
 	 */
-	function hadTimedout()
+	function hadTimeout()
 	{
-		if ($this->data['lastend'] === 0 && $this->data['laststart'] != 0)
-			return intval($this->data['lastend']);
+		if ($this->getLastEnd() === 0 && $this->getLastStart() != 0) {
+			return true;
+		}
+
+		$maxExecutionTime = intval(ini_get('max_execution_time'));
+		if ($this->getTimeDiff() > $maxExecutionTime) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
