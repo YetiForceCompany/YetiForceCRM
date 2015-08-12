@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v12.12 (64 bit)
+SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -767,6 +767,7 @@ CREATE TABLE `vtiger_activitytype` (
   `presence` int(1) NOT NULL DEFAULT '1',
   `picklist_valueid` int(19) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT NULL,
+  `color` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`activitytypeid`),
   UNIQUE KEY `activitytype_activitytype_idx` (`activitytype`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
@@ -1607,7 +1608,7 @@ CREATE TABLE `vtiger_convertleadmapping` (
   `potentialfid` int(19) DEFAULT NULL,
   `editable` int(19) DEFAULT '1',
   PRIMARY KEY (`cfmid`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentity` */
 
