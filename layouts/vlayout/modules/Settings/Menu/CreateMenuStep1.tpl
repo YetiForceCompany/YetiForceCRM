@@ -37,8 +37,8 @@
 			</div>
 			<div class="modal-footer">
 				<div class="pull-right cancelLinkContainer" style="margin-top:0px;">
-					<a class="btn cancelLink" type="reset" style="margin: auto;" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 					<button class="btn btn-success nextButton" type="submit"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn cancelLink btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 				</div>
 			</div>
 		</div>
