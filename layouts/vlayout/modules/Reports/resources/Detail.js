@@ -55,7 +55,7 @@ Vtiger_Detail_Js("Reports_Detail_Js",{},{
                 AppConnector.request(postData).then(
                     function(data){
                         progressIndicatorElement.progressIndicator({mode:'hide'})
-						Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_SAVE_NOTIFY_OK'), type: 'info'});
+						Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_SAVE_NOTIFY_OK'), type: 'success'});
                         thisInstance.getContentHolder().find('#reportContentsDiv').html(data);
                         Vtiger_Helper_Js.showHorizontalTopScrollBar();
 
