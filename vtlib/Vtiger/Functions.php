@@ -1327,4 +1327,16 @@ class Vtiger_Functions
 
 		return $trace;
 	}
+	
+
+	public function getDiskSpace($dir = '')
+	{
+		if($dir == ''){
+			$dir = vglobal('root_directory');
+		}
+		$total = disk_total_space($dir);
+		$free = disk_free_space($dir);
+		$used = $total - $free;
+		return ['total' => $total,'free' => $free,'used' => $used];
+	}
 }
