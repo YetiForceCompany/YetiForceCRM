@@ -560,11 +560,11 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	}
 	
 	public static function getCalendarTypes(){
-		$calendarConfig = Array(
-			'Task',
-			'Meeting',
-			'Call'
-		);
+		$calendarConfig = ['Task'];
+		$eventConfig = Vtiger_Util_Helper::getPickListValues('activitytype');
+		if(is_array($eventConfig)){
+			$calendarConfig = array_merge($calendarConfig,$eventConfig);
+		}
 		return $calendarConfig;
 	}
 }

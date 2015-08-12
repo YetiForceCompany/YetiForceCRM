@@ -235,7 +235,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 
 	public function updateColorForProcesses(Vtiger_Request $request) {
 		$params = $request->get('params');
-		Users_Colors_Model::updateColorForProcesses($params);
+		Users_Colors_Model::updateColor($params);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,

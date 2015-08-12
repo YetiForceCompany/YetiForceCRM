@@ -18,6 +18,8 @@ var Settings_UserColors_Js = {
 		var closestTrElement = target.closest('tr');	
 		var params = {
 			'id':closestTrElement.data('id'),
+			'table':closestTrElement.data('table'),
+			'field':closestTrElement.data('field'),
 		}
 		app.saveAjax('generateColor', params).then(function (data) {
 			Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
@@ -60,6 +62,8 @@ var Settings_UserColors_Js = {
 				Settings_UserColors_Js.registerSaveEvent(metod,{
 					'color': selectedColor.val(),
 					'id':closestTrElement.data('id'),
+					'table':closestTrElement.data('table'),
+					'field':closestTrElement.data('field'),
 				});
 				closestTrElement.find('.calendarColor').css('background',selectedColor.val());
 				closestTrElement.data('color', selectedColor.val());

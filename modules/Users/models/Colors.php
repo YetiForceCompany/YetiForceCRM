@@ -63,7 +63,7 @@ class Users_Colors_Model extends Vtiger_Record_Model {
 		if('generateGroupColor' == $params['mode'])
 			self::updateGroupColor($params);
 		elseif('generateColorForProcesses' == $params['mode'])
-			self::updateColorForProcesses($params);
+			self::updateColor($params);
 		elseif('generateModuleColor' == $params['mode'])
 			self::updateModuleColor($params);
 		else	
@@ -95,7 +95,7 @@ class Users_Colors_Model extends Vtiger_Record_Model {
 	}
 
 
-	public static function updateColorForProcesses($params){
+	public static function updateColor($params){
 		$adb = PearDatabase::getInstance();
 		$primaryKey = Vtiger_Util_Helper::getPickListId($params['field']);
 		$adb->pquery('UPDATE '.$params['table'].' SET color = ? WHERE '.$primaryKey.' = ?;', array($params['color'], $params['id']));
