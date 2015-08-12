@@ -17,11 +17,11 @@
                 <div class="col-md-8"><h3>{vtranslate('LBL_PBXMANAGER', $QUALIFIED_MODULE)}</h3></div>
                 <div class="col-md-4 btn-toolbar"><div class="pull-right">
                         <button class="btn btn-success saveButton" type="submit" title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-                        <a type="reset" class="cancelLink" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+                        <button type="reset" class="cancelLink btn btn-warning" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
                 </div></div>
         </div>
         <hr>
-        <div class="contents row">
+        <div class="contents">
             <table class="table table-bordered table-condensed themeTableColor">
                     <thead>
                             <tr class="blockHeader">
