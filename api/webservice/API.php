@@ -10,7 +10,7 @@ class API
 	 */
 	protected $method = '';
 	protected $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE'];
-	protected $acceptableHeaders = ['language', 'version', 'apiKey', 'ip', 'encrypted', 'fromUrl'];
+	protected $acceptableHeaders = ['language', 'version', 'apiKey', 'ip', 'encrypted', 'fromUrl', 'sessionID'];
 	protected $modulesPath = 'api/webservice/';
 	protected $data = [];
 	protected $request = [];
