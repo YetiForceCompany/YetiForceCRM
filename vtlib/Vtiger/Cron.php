@@ -265,8 +265,11 @@ class Vtiger_Cron
 		if($maxExecutionTime == 0){
 			$maxExecutionTime = vglobal('maxExecutionCronTime');
 		}
-		$lastEnd = $this->getLastEnd();
-		if (time() > ($lastEnd + $maxExecutionTime)) {
+		$time = $this->getLastEnd();
+		if($time == 0){
+			$time = $this->getLastStart();
+		}
+		if (time() > ($time + $maxExecutionTime)) {
 			return true;
 		}
 		return false;
