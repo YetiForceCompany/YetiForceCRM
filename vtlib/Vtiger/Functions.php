@@ -1314,4 +1314,17 @@ class Vtiger_Functions
 			$initial .= strtoupper($word[0]);
 		return $initial;
 	}
+
+	public function getBacktrace($ignore = 2)
+	{
+		$trace = '';
+		foreach (debug_backtrace() as $k => $v) {
+			if ($k < $ignore) {
+				continue;
+			}
+			$trace .= '#' . ($k - $ignore) . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '() in ' . $v['file'] . '(' . $v['line'] . '): ' . PHP_EOL;
+		}
+
+		return $trace;
+	}
 }
