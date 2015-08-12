@@ -984,6 +984,10 @@ $languageStrings = [
 	'Marketing Group' => 'Marketing Group',
 	'LBL_ERROR_IMPORT_IN_DEMO' => 'Demo mode is enabled, the installation of modules is disabled.',
 	'Pre Tax Total' => 'Summe vor Steuern',
+	'ApiAddress' => 'Address Search',
+	'CustomerPortal' => 'Customer Portal',
+	'ModTracker' => 'Change history',
+	'Password' => 'Passwords',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
