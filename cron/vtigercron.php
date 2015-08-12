@@ -46,6 +46,9 @@ if (PHP_SAPI === "cli" || PHP_SAPI === "cgi-fcgi" || (isset($_SESSION["authentic
 			// and affect the next task. Which need to be handled in this cycle.				
 			if ($cronTask->hadTimeout()) {
 				echo sprintf('%s | %s - Cron task had timedout as it was not completed last time it run' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
+				if(vglobal('unblockedTimeoutCronTasks')){
+					$cronTask->unlockTask();
+				}
 			}
 
 			// Not ready to run yet?

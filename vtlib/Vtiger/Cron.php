@@ -258,12 +258,12 @@ class Vtiger_Cron
 	 */
 	function hadTimeout()
 	{
-		if ($this->getLastEnd() === 0 && $this->getLastStart() != 0) {
-			return true;
+		if (!$this->isRunning()) {
+			return false;
 		}
-
 		$maxExecutionTime = intval(ini_get('max_execution_time'));
-		if ($this->getTimeDiff() > $maxExecutionTime) {
+		$lastEnd = $this->getLastEnd();
+		if (time() > ($lastEnd + $maxExecutionTime)) {
 			return true;
 		}
 		return false;
@@ -413,74 +413,10 @@ class Vtiger_Cron
 		}
 		return $instances;
 	}
-	/*
-	 * Fuction uses to log the cron when it is in running
-	 *  for long time
-	 *  @Params <boolean> Completed - flag when then the cron is completed after long time
-	 */
 
-	public function log($completed = false)
+	function unlockTask()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = self::querySilent('SELECT id,iteration from vtiger_cron_log where start = ? AND name=?', array($this->getLastStart(), $this->getName()));
-		if ($result && $adb->num_rows($result) > 0) {
-			$row = $adb->fetch_array($result);
-			if ($completed) {
-				self::querySilent('UPDATE vtiger_cron_log set status = ?,end = ? where id = ?', array(self::$STATUS_COMPLETED, time(), $row['id']));
-			} else {
-
-				self::querySilent('UPDATE vtiger_cron_log set iteration = ? where id = ?', array($row['iteration'] + 1, $row['id']));
-			}
-		} else {
-			self::querySilent('INSERT INTO vtiger_cron_log (name,start,iteration,status) VALUES(?,?,?,?)', array($this->getName(), $this->getLastStart(), 1, self::$STATUS_RUNNING));
-		}
+		$this->updateStatus(self::$STATUS_ENABLED);
 	}
-	/*
-	 *  Function to verify where the log Mail is sent are not
-	 */
-
-	public function isSentLogMail()
-	{
-		$adb = PearDatabase::getInstance();
-		$result = self::querySilent('SELECT 1 from vtiger_cron_log where start = ? AND name=? AND iteration >= 4 ', array($this->getLastStart(), $this->getName()));
-		if ($result && $adb->num_rows($result)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	/*
-	 *  Function to get number of times a Cron task was skipped due to running state
-	 * 		@returns <int> Iterations
-	 */
-
-	public function getIterations()
-	{
-		$adb = PearDatabase::getInstance();
-		$result = self::querySilent('SELECT iteration from vtiger_cron_log where start = ? AND name=?', array($this->getLastStart(), $this->getName()));
-		if ($result && $adb->num_rows($result)) {
-			$row = $adb->fetch_array($result);
-			return $row['iteration'];
-		}
-	}
-	/*
-	 *  Function to get time to Complete the cron when it take
-	 * 		@returns <string> competed time in hours and mins
-	 */
-
-	public function getCompletedTime()
-	{
-		$adb = PearDatabase::getInstance();
-		$result = self::querySilent('SELECT start,end from vtiger_cron_log where start = ? AND name=?', array($this->getLastStart(), $this->getName()));
-		if ($result && $adb->num_rows($result)) {
-			$row = $adb->fetch_array($result);
-			$duration = $row['end'] - $row['start'];
-			$hours = (int) ($duration / 60);
-			$minutes = $duration - ($hours * 60);
-
-			return "$hours hours and $minutes minutes";
-		}
-	}
+	
 }
-
-?>
