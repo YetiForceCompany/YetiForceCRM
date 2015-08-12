@@ -12,7 +12,7 @@
 {strip}
 	{assign var=MODULE_NAME value="Calendar"}
 	{if count($ACTIVITIES) neq '0'}
-		{foreach item=RECORD key=KEY from=$ACTIVITIES}
+		{foreach item=RECORD key=KEY from=$ACTIVITIES name=activities}
 			{assign var=START_DATE value=$RECORD->get('date_start')}
 			{assign var=START_TIME value=$RECORD->get('time_start')}
 			{assign var=END_DATE value=$RECORD->get('due_date')}
@@ -131,7 +131,9 @@
 				</div>
 			</div>
 		</div>
-		<hr>
+		{if !$smarty.foreach.activities.last}
+			<hr>
+		{/if}
 	{/foreach}
 {else}
 	<div class="summaryWidgetContainer">
