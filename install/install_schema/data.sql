@@ -1,9 +1,8 @@
 /*
-SQLyog Ultimate v12.12 (64 bit)
+SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -16190,6 +16189,8 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (365,4,21,'get_related_list',32,'PurchaseOrder',0,'ADD,SELECT');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (366,23,4,'get_related_list',9,'Contacts',0,'ADD,SELECT');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (367,4,23,'get_related_list',33,'Invoice',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (368,81,4,'get_related_list',2,'Contacts',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (369,82,4,'get_related_list',2,'Contacts',0,'ADD,SELECT');
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
@@ -16197,7 +16198,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 
 /*Data for the table `vtiger_relatedlists_seq` */
 
-insert  into `vtiger_relatedlists_seq`(`id`) values (367);
+insert  into `vtiger_relatedlists_seq`(`id`) values (369);
 
 /*Data for the table `vtiger_relcriteria` */
 
