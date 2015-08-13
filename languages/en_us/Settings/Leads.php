@@ -25,7 +25,7 @@ $languageStrings = [
 	'LBL_MAPPING_WITH_OTHER_MODULES' => 'Mapping with other Modules',
 	'LBL_NONE' => 'None',
 	'LBL_OPPORTUNITIES' => 'Opportunities',
-	'LBL_ORGANIZATIONS' => 'Organizations',
+	'LBL_ORGANIZATIONS' => 'Accounts',
 	'LBL_SAVED_SUCCESSFULLY' => 'Saved Successfully',
 	'multiSelectCombo' => 'Multi-Select Combo Box',
 	'percent' => 'Percent',
@@ -37,7 +37,7 @@ $languageStrings = [
 	'text' => 'String',
 	'time' => 'Time',
 	'url' => 'Url',
-	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Organization',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Account',
 
 ];
 
