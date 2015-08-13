@@ -93,13 +93,17 @@ Vtiger_Detail_Js("Reports_Detail_Js", {}, {
 			var advFilterCondition = thisInstance.calculateValues();
 			var headerContainer = thisInstance.getHeaderContentsHolder();
 			if (type.indexOf("Print") != -1) {
-				var newEle = '<form action=' + href + ' method="POST" target="_blank">' +
-						'<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>' +
-						'<input type="hidden" value="" name="advanced_filter" id="advanced_filter" /></form>';
+				var newEle = '<form action=' + href + ' method="POST" target="_blank">';
+				if (typeof csrfMagicName !== 'undefined') {
+					newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
+				}
+				newEle += '<input type="hidden" value="" name="advanced_filter" id="advanced_filter" /></form>';
 			} else {
-				newEle = '<form action=' + href + ' method="POST">' +
-						'<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>' +
-						'<input type="hidden" value="" name="advanced_filter" id="advanced_filter" /></form>';
+				var newEle = '<form action=' + href + ' method="POST">' ;
+				if (typeof csrfMagicName !== 'undefined') {
+					newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
+				}
+				newEle += '<input type="hidden" value="" name="advanced_filter" id="advanced_filter" /></form>';
 			}
 			var ele = jQuery(newEle);
 			var form = ele.appendTo(headerContainer);
