@@ -76,6 +76,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
+		$weekDays = ['Sunday'=>0, 'Monday'=>1, 'Tuesday'=>2, 'Wednesday'=>3, 'Thursday'=>4, 'Friday'=>5, 'Saturday'=>6];
 
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
 		if(!$reportModel->has('folderid')){
@@ -121,6 +122,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View {
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->assign('ROLES', Settings_Roles_Record_Model::getAll());
+		$viewer->assign('WEEK_START_ID', $weekDays[$currentUserModel->get('dayoftheweek')]);
         $admin = Users::getActiveAdminUser();
 		$viewer->assign('ACTIVE_ADMIN', $admin);
 
