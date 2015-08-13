@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 jQuery.Class("Vtiger_Field_Js", {
 	/**
@@ -312,6 +313,9 @@ Vtiger_Field_Js('Vtiger_Owner_Field_Js', {}, {
 		this.addValidationToElement(selectContainer);
 		return selectContainer;
 	}
+})
+
+Vtiger_Picklist_Field_Js('Vtiger_Modules_Field_Js', {}, {
 })
 
 
