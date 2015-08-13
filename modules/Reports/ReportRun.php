@@ -105,7 +105,7 @@ class ReportRunQueryPlanner
 
 	function requireTable($table, $dependencies = null)
 	{
-		
+
 		if ($this->disablePlanner) {
 			return true;
 		}
@@ -401,7 +401,7 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$header_label = $selectedfields[2]; // Header label to be displayed in the reports table
- 
+
 		list($module, $field) = split("__", $selectedfields[2]);
 		$concatSql = getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
 		$moduleInstance = CRMEntity::getInstance($module);
@@ -410,12 +410,12 @@ class ReportRun extends CRMEntity
 			$field_label_data = split("__", $selectedfields[2]);
 			$module = $field_label_data[0];
 			if ($module != $this->primarymodule) {
-					$columnSQL = "case when (" . $selectedfields[0] . "." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity$module.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
-					$this->queryPlanner->addTable("vtiger_crmentity$module");
+				$columnSQL = "case when (" . $selectedfields[0] . "." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity$module.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
+				$this->queryPlanner->addTable("vtiger_crmentity$module");
 			} else {
 				if ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule) {
 					$columnSQL = "case when ( vtiger_crmentity." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
-				}else{
+				} else {
 					$columnSQL = "case when (" . $selectedfields[0] . "." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
 					$this->queryPlanner->addTable($selectedfields[0]);
 				}
@@ -1711,7 +1711,7 @@ class ReportRun extends CRMEntity
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
-		$query = '';	
+		$query = '';
 		if ($secmodule != '') {
 			$secondarymodule = explode(":", $secmodule);
 			foreach ($secondarymodule as $key => $value) {
@@ -2476,7 +2476,7 @@ class ReportRun extends CRMEntity
 		}
 
 		$reportquery = $this->getReportsQuery($this->primarymodule, $type);
-		
+
 		// If we don't have access to any columns, let us select one column and limit result to shown we have not results
 		// Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4758 - Prasad
 		$allColumnsRestricted = false;
@@ -2523,7 +2523,9 @@ class ReportRun extends CRMEntity
 
 		return $reportquery;
 	}
-	function getHeaderToRaport($adb,$fld,$modules_selected){
+
+	function getHeaderToRaport($adb, $fld, $modules_selected)
+	{
 		list($module, $fieldLabel) = explode('__', $fld->name, 2);
 		$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 		$fieldType = null;
@@ -2548,11 +2550,12 @@ class ReportRun extends CRMEntity
 		$headerLabel = $translatedLabel;
 		if (!empty($this->secondarymodule)) {
 			if ($moduleLabel != '') {
-				$headerLabel = $translatedLabel . ' ['.$moduleLabel.']';
+				$headerLabel = $translatedLabel . ' [' . $moduleLabel . ']';
 			}
 		}
 		return $headerLabel;
 	}
+
 	/** function to get the report output in HTML,PDF,TOTAL,PRINT,PRINTTOTAL formats depends on the argument $outputformat
 	 *  @ param $outputformat : Type String (valid parameters HTML,PDF,TOTAL,PRINT,PRINT_TOTAL)
 	 *  @ param $filtersql : Type String
@@ -2838,7 +2841,7 @@ class ReportRun extends CRMEntity
 					for ($i = 0; $i < $y; $i++) {
 						$fld = $adb->columnMeta($result, $i);
 						$fld_type = $column_definitions[$i]->type;
-						$headerLabel = $this->getHeaderToRaport($adb,$fld,$modules_selected);
+						$headerLabel = $this->getHeaderToRaport($adb, $fld, $modules_selected);
 
 						// Check for role based pick list
 						$temp_val = $fld->name;
@@ -3094,7 +3097,7 @@ class ReportRun extends CRMEntity
 				$arrayHeaders = Array();
 				for ($x = 0; $x < $y - 1; $x++) {
 					$fld = $adb->columnMeta($result, $x);
-					$headerLabel = $this->getHeaderToRaport($adb,$fld,$modules_selected);
+					$headerLabel = $this->getHeaderToRaport($adb, $fld, $modules_selected);
 					$header .= "<th>" . $headerLabel . "</th>";
 				}
 				$noofrows = $adb->num_rows($result);

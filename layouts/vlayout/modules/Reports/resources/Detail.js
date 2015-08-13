@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 Vtiger_Detail_Js("Reports_Detail_Js", {}, {
@@ -99,7 +100,7 @@ Vtiger_Detail_Js("Reports_Detail_Js", {}, {
 				}
 				newEle += '<input type="hidden" value="" name="advanced_filter" id="advanced_filter" /></form>';
 			} else {
-				var newEle = '<form action=' + href + ' method="POST">' ;
+				var newEle = '<form action=' + href + ' method="POST">';
 				if (typeof csrfMagicName !== 'undefined') {
 					newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
 				}
