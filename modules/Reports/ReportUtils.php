@@ -186,6 +186,15 @@ function getReportFieldValue ($report, $picklistArray, $dbField, $valueArray, $f
 	} elseif ($fieldType == 'double') {
         if($current_user->truncate_trailing_zeros == true)
             $fieldvalue = decimalFormat($fieldvalue);
+    } elseif ($fieldType == 'boolean') {
+        if(strtolower($value) === 'yes' || strtolower($value) === 'on' || $value == 1){
+			$fieldvalue = vtranslate('LBL_YES');
+		}else{
+			$fieldvalue = vtranslate('LBL_NO');
+		} 
+    } elseif ($field && $field->getUIType() == 117 && $value != '') {
+		$currencyList = Settings_Currency_Record_Model::getAll();
+		$fieldvalue = $currencyList[$value]->getName() . ' (' . $currencyList[$value]->get('currency_symbol') . ')';
     }
 		
 	if ('vtiger_crmentity' == $dbField->table && false != strpos($dbField->name, 'Share__with__users')) {

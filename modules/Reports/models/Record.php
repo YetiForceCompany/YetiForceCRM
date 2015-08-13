@@ -275,9 +275,8 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 			$fieldLabel  = explode('__', $moduleFieldLabel);
 			$module = $fieldLabel[0];
 			$dbFieldLabel = trim(str_replace(array($module, '__'), " ", $moduleFieldLabel));
-			$translatedFieldLabel = vtranslate($dbFieldLabel, $module);
 			if(CheckFieldPermission($fieldName, $module) == 'true' && $columnName != 'crmid') {
-				$selectedColumns[$translatedFieldLabel] = $column;
+				$selectedColumns[] = $column;
 			}
 		}
 		return $selectedColumns;

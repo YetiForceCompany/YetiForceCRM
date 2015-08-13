@@ -160,7 +160,13 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	 */
 	registerSelect2ElementForReportColumns : function() {
 		var selectElement = this.getReportsColumnsList();
-		app.changeSelectElementView(selectElement, 'select2', {maximumSelectionLength: 25,dropdownCss : {'z-index' : 0}});
+		var selectedFields = JSON.parse(this.getSelectedFields().val());
+		selectElement = app.changeSelectElementView(selectElement, 'selectize', {plugins: ['drag_drop', 'remove_button'], maxItems: 25});
+		var selectizeInstance = selectElement[0].selectize;
+		selectizeInstance.clear();
+		for (i in selectedFields) {
+			selectizeInstance.addItem(selectedFields[i]);
+		}
 	},
 
 	/**
@@ -169,73 +175,8 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	 */
 	getSelectedColumns : function() {
 		var columnListSelectElement = this.getReportsColumnsList();
-		var select2Element = app.getSelect2ElementFromSelect(columnListSelectElement);
-
-		var selectedValuesByOrder = new Array();
-		var selectedOptions = columnListSelectElement.find('option:selected');
-
-		var orderedSelect2Options = select2Element.find('li.select2-search-choice').find('div');
-		orderedSelect2Options.each(function(index,element){
-			var chosenOption = jQuery(element);
-			var choiceElement = chosenOption.closest('.select2-search-choice');
-			var choiceValue = choiceElement.data('select2Data').id;
-			selectedOptions.each(function(optionIndex, domOption){
-				var option = jQuery(domOption);
-				if(option.val() == choiceValue) {
-					selectedValuesByOrder.push(option.val());
-					return false;
-				}
-			});
-		});
+		var selectedValuesByOrder = columnListSelectElement.val();
 		return selectedValuesByOrder;
-	},
-
-	/**
-	 * Function which will arrange the select2 element choices in order
-	 */
-	arrangeSelectChoicesInOrder : function() {
-		var selectElement = this.getReportsColumnsList();
-		var chosenElement = app.getSelect2ElementFromSelect(selectElement);
-		var choicesContainer = chosenElement.find('ul.select2-choices');
-		var choicesList = choicesContainer.find('li.select2-search-choice');
-
-		//var coulmnListSelectElement = Vtiger_CustomView_Js.getColumnSelectElement();
-		var selectedOptions = selectElement.find('option:selected');
-		var selectedOrder = JSON.parse(this.getSelectedFields().val());
-		var selectedOrderKeys = [];
-		for(var key in selectedOrder) {
-			if(selectedOrder.hasOwnProperty(key)){
-				selectedOrderKeys.push(key);
-			}
-		}
-		for(var index=selectedOrderKeys.length ; index > 0 ; index--) {
-			var selectedValue = selectedOrder[selectedOrderKeys[index-1]];
-			var option = selectedOptions.filter('[value="'+selectedValue+'"]');
-			choicesList.each(function(choiceListIndex,element){
-				var liElement = jQuery(element);
-				if(liElement.find('div').html() == option.html()){
-					choicesContainer.prepend(liElement);
-					return false;
-				}
-			});
-		}
-	},
-
-	/**
-	 * Function to regiser the event to make the columns list sortable
-	 */
-	makeColumnListSortable : function() {
-		var thisInstance = this;
-		var selectElement = thisInstance.getReportsColumnsList();
-		var select2Element = app.getSelect2ElementFromSelect(selectElement);
-		//TODO : peform the selection operation in context this might break if you have multi select element in advance filter
-		//The sorting is only available when Select2 is attached to a hidden input field.
-		var chozenChoiceElement = select2Element.find('ul.select2-choices');
-		chozenChoiceElement.sortable({
-                containment: 'parent',
-                start: function() {thisInstance.getSelectedFields().select2("onSortStart");},
-                update: function() {thisInstance.getSelectedFields().select2("onSortEnd");}
-            });
 	},
 
 	/**
@@ -310,8 +251,6 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 		this.reportsColumnsList = false;
 		this.selectedFields = false;
 		this.registerSelect2ElementForReportColumns();
-		this.arrangeSelectChoicesInOrder();
-		this.makeColumnListSortable();
 		this.registerLineItemCalculationLimit();
 		this.registerLineItemCalculationLimitOnLoad();
 		app.changeSelectElementView(container);

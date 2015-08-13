@@ -105,7 +105,7 @@ class ReportRunQueryPlanner
 
 	function requireTable($table, $dependencies = null)
 	{
-
+		
 		if ($this->disablePlanner) {
 			return true;
 		}
@@ -401,19 +401,24 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$header_label = $selectedfields[2]; // Header label to be displayed in the reports table
-
+ 
 		list($module, $field) = split("__", $selectedfields[2]);
 		$concatSql = getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
-
+		$moduleInstance = CRMEntity::getInstance($module);
+		$this->queryPlanner->addTable($moduleInstance->table_name);
 		if ($selectedfields[4] == 'C') {
 			$field_label_data = split("__", $selectedfields[2]);
 			$module = $field_label_data[0];
 			if ($module != $this->primarymodule) {
-				$columnSQL = "case when (" . $selectedfields[0] . "." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity$module.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
-				$this->queryPlanner->addTable("vtiger_crmentity$module");
+					$columnSQL = "case when (" . $selectedfields[0] . "." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity$module.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
+					$this->queryPlanner->addTable("vtiger_crmentity$module");
 			} else {
-				$columnSQL = "case when (" . $selectedfields[0] . "." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
-				$this->queryPlanner->addTable($selectedfields[0]);
+				if ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule) {
+					$columnSQL = "case when ( vtiger_crmentity." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
+				}else{
+					$columnSQL = "case when (" . $selectedfields[0] . "." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
+					$this->queryPlanner->addTable($selectedfields[0]);
+				}
 			}
 		} elseif ($selectedfields[4] == 'D' || $selectedfields[4] == 'DT') {
 			if ($selectedfields[5] == 'Y') {
@@ -1706,7 +1711,7 @@ class ReportRun extends CRMEntity
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
-		$query = '';
+		$query = '';	
 		if ($secmodule != '') {
 			$secondarymodule = explode(":", $secmodule);
 			foreach ($secondarymodule as $key => $value) {
@@ -2403,6 +2408,7 @@ class ReportRun extends CRMEntity
 		} else {
 			if ($module != '') {
 				$focus = CRMEntity::getInstance($module);
+
 				$query = $focus->generateReportsQuery($module, $this->queryPlanner) .
 					$this->getRelatedModulesQuery($module, $this->secondarymodule) .
 					getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
@@ -2470,7 +2476,7 @@ class ReportRun extends CRMEntity
 		}
 
 		$reportquery = $this->getReportsQuery($this->primarymodule, $type);
-
+		
 		// If we don't have access to any columns, let us select one column and limit result to shown we have not results
 		// Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4758 - Prasad
 		$allColumnsRestricted = false;
@@ -2517,7 +2523,36 @@ class ReportRun extends CRMEntity
 
 		return $reportquery;
 	}
+	function getHeaderToRaport($adb,$fld,$modules_selected){
+		list($module, $fieldLabel) = explode('__', $fld->name, 2);
+		$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
+		$fieldType = null;
+		if (!empty($fieldInfo)) {
+			$field = WebserviceField::fromArray($adb, $fieldInfo);
+			$fieldType = $field->getFieldDataType();
+		}
+		if (!empty($fieldInfo)) {
+			$translatedLabel = getTranslatedString($field->getFieldLabelKey(), $module);
+		} else {
+			$fieldLabel = str_replace("__", " ", $fieldLabel);
+			$translatedLabel = getTranslatedString($fieldLabel, $module);
+		}
+		/* STRING TRANSLATION starts */
+		$moduleLabel = '';
+		if (in_array($module, $modules_selected))
+			$moduleLabel = getTranslatedString($module, $module);
 
+		if (empty($translatedLabel)) {
+			$translatedLabel = getTranslatedString(str_replace('__', " ", $fld->name), $module);
+		}
+		$headerLabel = $translatedLabel;
+		if (!empty($this->secondarymodule)) {
+			if ($moduleLabel != '') {
+				$headerLabel = $translatedLabel . ' ['.$moduleLabel.']';
+			}
+		}
+		return $headerLabel;
+	}
 	/** function to get the report output in HTML,PDF,TOTAL,PRINT,PRINTTOTAL formats depends on the argument $outputformat
 	 *  @ param $outputformat : Type String (valid parameters HTML,PDF,TOTAL,PRINT,PRINT_TOTAL)
 	 *  @ param $filtersql : Type String
@@ -2677,7 +2712,7 @@ class ReportRun extends CRMEntity
 					for ($i = 0; $i < $y; $i++) {
 						$fld = $adb->columnMeta($result, $i);
 						$fld_type = $column_definitions[$i]->type;
-						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $i);
+						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $fld->name);
 
 						//check for Roll based pick list
 						$temp_val = $fld->name;
@@ -2787,7 +2822,6 @@ class ReportRun extends CRMEntity
 				return $return_data;
 			}
 		} elseif ($outputformat == "PDF") {
-
 			$sSQL = $this->sGetSQLforReport($this->reportid, $filtersql, $outputformat, false, $startLimit, $endLimit);
 			$result = $adb->pquery($sSQL, array());
 			if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
@@ -2804,37 +2838,11 @@ class ReportRun extends CRMEntity
 					for ($i = 0; $i < $y; $i++) {
 						$fld = $adb->columnMeta($result, $i);
 						$fld_type = $column_definitions[$i]->type;
-						list($module, $fieldLabel) = explode('__', $fld->name, 2);
-						$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
-						$fieldType = null;
-						if (!empty($fieldInfo)) {
-							$field = WebserviceField::fromArray($adb, $fieldInfo);
-							$fieldType = $field->getFieldDataType();
-						}
-						if (!empty($fieldInfo)) {
-							$translatedLabel = getTranslatedString($field->getFieldLabelKey(), $module);
-						} else {
-							$fieldLabel = str_replace("__", " ", $fieldLabel);
-							$translatedLabel = getTranslatedString($fieldLabel, $module);
-						}
-						/* STRING TRANSLATION starts */
-						$moduleLabel = '';
-						if (in_array($module, $modules_selected))
-							$moduleLabel = getTranslatedString($module, $module);
-
-						if (empty($translatedLabel)) {
-							$translatedLabel = getTranslatedString(str_replace('__', " ", $fld->name), $module);
-						}
-						$headerLabel = $translatedLabel;
-						if (!empty($this->secondarymodule)) {
-							if ($moduleLabel != '') {
-								$headerLabel = $moduleLabel . " " . $translatedLabel;
-							}
-						}
+						$headerLabel = $this->getHeaderToRaport($adb,$fld,$modules_selected);
 
 						// Check for role based pick list
 						$temp_val = $fld->name;
-						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $i);
+						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $temp_val);
 
 						if ($fld->name == $this->primarymodule . '__LBL_ACTION' && $fieldvalue != '-') {
 							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&view=Detail&record={$fieldvalue}' target='_blank'>" . getTranslatedString('LBL_VIEW_DETAILS', 'Reports') . "</a>";
@@ -3086,39 +3094,7 @@ class ReportRun extends CRMEntity
 				$arrayHeaders = Array();
 				for ($x = 0; $x < $y - 1; $x++) {
 					$fld = $adb->columnMeta($result, $x);
-					if (in_array($this->getLstringforReportHeaders($fld->name), $arrayHeaders)) {
-						$headerLabel = str_replace("__", " ", $fld->name);
-						$arrayHeaders[] = $headerLabel;
-					} else {
-						$headerLabel = str_replace($modules, " ", $this->getLstringforReportHeaders($fld->name));
-						$headerLabel = str_replace("__", " ", $this->getLstringforReportHeaders($fld->name));
-						$arrayHeaders[] = $headerLabel;
-					}
-					/* STRING TRANSLATION starts */
-					$mod_name = split(' ', $headerLabel, 2);
-					$moduleLabel = '';
-					if (in_array($mod_name[0], $modules_selected)) {
-						$moduleLabel = getTranslatedString($mod_name[0], $mod_name[0]);
-					}
-
-					if (!empty($this->secondarymodule)) {
-						if ($moduleLabel != '') {
-							$headerLabel_tmp = $moduleLabel . " " . getTranslatedString($mod_name[1], $mod_name[0]);
-						} else {
-							$headerLabel_tmp = getTranslatedString($mod_name[0] . " " . $mod_name[1]);
-						}
-					} else {
-						if ($moduleLabel != '') {
-							$headerLabel_tmp = getTranslatedString($mod_name[1], $mod_name[0]);
-						} else {
-							$headerLabel_tmp = getTranslatedString($mod_name[0] . " " . $mod_name[1]);
-						}
-					}
-					if ($headerLabel == $headerLabel_tmp)
-						$headerLabel = getTranslatedString($headerLabel_tmp);
-					else
-						$headerLabel = $headerLabel_tmp;
-					/* STRING TRANSLATION ends */
+					$headerLabel = $this->getHeaderToRaport($adb,$fld,$modules_selected);
 					$header .= "<th>" . $headerLabel . "</th>";
 				}
 				$noofrows = $adb->num_rows($result);
@@ -3154,7 +3130,7 @@ class ReportRun extends CRMEntity
 					for ($i = 0; $i < $y - 1; $i++) {
 						$fld = $adb->columnMeta($result, $i);
 						$fld_type = $column_definitions[$i]->type;
-						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $i);
+						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $fld->name);
 						if (($lastvalue == $fieldvalue) && $this->reporttype == "summary") {
 							if ($this->reporttype == "summary") {
 								$valtemplate .= "<td style='border-top:1px dotted #FFFFFF;'>&nbsp;</td>";
