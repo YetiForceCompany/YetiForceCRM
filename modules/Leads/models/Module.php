@@ -12,25 +12,6 @@ class Leads_Module_Model extends Vtiger_Module_Model
 {
 
 	/**
-	 * Function returns Settings Links
-	 * @return Array
-	 */
-	public function getSettingLinks()
-	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$settingLinks = parent::getSettingLinks();
-
-		if ($currentUserModel->isAdminUser()) {
-			$settingLinks[] = array(
-				'linktype' => 'LISTVIEWSETTING',
-				'linklabel' => 'LBL_CUSTOM_FIELD_MAPPING',
-				'linkurl' => 'index.php?parent=Settings&module=Leads&view=MappingDetail',
-				'linkicon' => '');
-		}
-		return $settingLinks;
-	}
-
-	/**
 	 * Function returns deleted records condition
 	 */
 	public function getDeletedRecordCondition()
