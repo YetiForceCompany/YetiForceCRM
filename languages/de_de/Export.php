@@ -4,4 +4,5 @@
 
 $languageStrings = [
 	'Export' => 'Export',
+	'LBL_INFO_USER_EXPORT_RECORDS' => "It's only possible to export active users",
 ];

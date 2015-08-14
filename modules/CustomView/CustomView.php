@@ -426,8 +426,8 @@ class CustomView extends CRMEntity {
 
 		if($adb->num_rows($result) == 0 && is_numeric($cvid) && $this->customviewmodule != 'Users'){
 			$log->debug("Error !!!: ".vtranslate('LBL_NO_FOUND_VIEW')." ID: $cvid");
-			die(Vtiger_Functions::throwNewException('LBL_NO_FOUND_VIEW'));
-		}else if(!is_numeric($cvid)){
+			die(Vtiger_Functions::throwNewException(vtranslate('LBL_NO_FOUND_VIEW')));
+		}else if(!is_numeric($cvid) && $this->customviewmodule != 'Users'){
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid .'.php' ;
 			if (file_exists($filterDir)) {
 				$handlerClass = Vtiger_Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
@@ -437,7 +437,7 @@ class CustomView extends CRMEntity {
 				}
 			}else{
 				$log->debug("Error !!!: ".vtranslate('LBL_NO_FOUND_VIEW')." Filter: $cvid");
-				die(Vtiger_Functions::throwNewException('LBL_NO_FOUND_VIEW'));
+				die(Vtiger_Functions::throwNewException(vtranslate('LBL_NO_FOUND_VIEW')));
 			}
 		}else{
 			while ($columnrow = $adb->fetch_array($result)) {
