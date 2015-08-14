@@ -17,6 +17,7 @@ $languageStrings = [
 	'LBL_VALUES' => 'Valores',
 	'LBL_GROUPS_INFO' => 'Grupos sem um Responsável',
 	'LBL_LEAD_STATUS' => 'Selecione os status que indicam o final do trabalho com Leads',
+	'LBL_LEAD_CONVERT_STATUS' => 'Statuses that allow for converting Lead to Account',
 	'LBL_CURRENTUSER_STATUS' => 'Alteração do Responsável para um Usuário que editou um registro',
 	'LBL_CONVERT_LEAD_MERGE' => 'Vincular os requisitos específicos da reunião enquanto converte o Lead para Conta',
 	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'Esta opção permite que o Sistema associe automaticamente o registro convertido com o já existente - não será criada uma nova Conta, ao invés disso os dados do registro existente serão transferidos a partir do Lead',
