@@ -62,19 +62,7 @@
 									{/if}	
 								{/foreach}
 							{/if}
-							{if $DETAILVIEW_LINKS['DETAILVIEWSETTING']|@count gt 0}
-								<div class="btn-group">
-									<button class="btn btn-default dropdown-toggle popoverTooltip" data-content="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" title="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}"></span><span class="caret"></span></button>
-									<ul class="dropdown-menu">
-										{foreach item=DETAILVIEW_SETTING from=$DETAILVIEW_LINKS['DETAILVIEWSETTING']}
-											<li><a href={$DETAILVIEW_SETTING->getUrl()} {if $DETAILVIEW_SETTING->linktarget}target="{$DETAILVIEW_SETTING->linktarget}"{/if} 								{if $DETAIL_VIEW_BASIC_LINK->title neq ''}
-												   title="{$DETAILVIEW_SETTING->title}"
-												   {/if}
-													   >{vtranslate($DETAILVIEW_SETTING->getLabel(), $MODULE_NAME)}</a></li>
-												   {/foreach}
-												</ul>
-											</div>
-											{/if}
+
 											</div>
 										</div>
 									</div>

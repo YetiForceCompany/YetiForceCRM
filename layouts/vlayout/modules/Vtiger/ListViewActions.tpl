@@ -44,18 +44,6 @@
 				</span>	
 			</div>
         {/if}
-	{if $LISTVIEW_LINKS['LISTVIEWSETTING']|@count gt 0}
-		<div class="settingsIcon">
-			<span class="pull-right btn-group">
-				<button class="btn btn-default dropdown-toggle" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE)}" title="{vtranslate('LBL_SETTINGS', $MODULE)}"></span>&nbsp;&nbsp;<span class="caret"></span></button>
-				<ul class="dropdown-menu">
-					{foreach item=LISTVIEW_SETTING from=$LISTVIEW_LINKS['LISTVIEWSETTING']}
-						<li><a href={$LISTVIEW_SETTING->getUrl()}>{vtranslate($LISTVIEW_SETTING->getLabel(), $MODULE)}</a></li>
-					{/foreach}
-				</ul>
-			</span>
-		</div>
-	{/if}
 	</div>
 	<div class="clearfix"></div>
 	<input type="hidden" id="recordsCount" value=""/>
