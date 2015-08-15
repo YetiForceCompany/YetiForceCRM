@@ -11,14 +11,14 @@
  * ********************************************************************************** */
 $languageStrings = [
 	'Delivered' => 'Поставляется',
-	'LBL_ADD_RECORD' => 'Добавить Закупку',
+	'LBL_ADD_RECORD' => 'Закупка',
 	'LBL_BALANCE' => 'Баланс',
 	'LBL_COPY_BILLING_ADDRESS' => 'Копировать юридический адрес в фактический',
 	'LBL_COPY_SHIPPING_ADDRESS' => 'Копировать фактический адрес в юридический',
 	'LBL_EXPORT_TO_PDF' => 'Сохранить в PDF:',
 	'LBL_LIST_PRICE' => 'Прайс лист',
 	'LBL_PAID' => 'Оплачено',
-	'LBL_PO_INFORMATION' => 'Закупка',
+	'LBL_PO_INFORMATION' => 'Основная информация',
 	'LBL_RECORDS_LIST' => 'Список Закупок',
 	'List Price' => 'Прайс лист',
 	'PurchaseOrder No' => 'Закупка №',

@@ -9,13 +9,14 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
+	'LBL_ADD_RECORD' => 'Запрос',
 	'LBL_WAS_READ' => 'Обновлено',
 	'LBL_CLOSED_TIME' => 'Время закрытия',
 	'QuotesEnquires' => 'Запрос Предложения',
 	'SINGLE_QuotesEnquires' => 'Запрос Предложения',
 
 	//BLOCKS
-	'LBL_QUOTESENQUIRES_INFORMATION' => 'Базовая информация',
+	'LBL_QUOTESENQUIRES_INFORMATION' => 'Основная информация',
 	'LBL_CUSTOM_INFORMATION' => 'Дополнительная информация',
 	
 	//FIELDS
