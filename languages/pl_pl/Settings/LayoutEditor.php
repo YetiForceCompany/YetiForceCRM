@@ -124,4 +124,5 @@ $jsLanguageStrings = [
 	'JS_UPDATE_SEQUENCE' => 'Zapisano nowy układ modułów powiązanych',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Zaktualizowano listę pól',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Pole nie może być puste',
+	'JS_RESERVED_PICKLIST_NAME' => 'Ta nazwa jest zarezerwowana dla pól słownikowych.'
 ];
