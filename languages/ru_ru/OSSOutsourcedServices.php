@@ -13,7 +13,7 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Услуга',
 	'OSSOutsourcedServices'	=>	'Аутсорсинг Услуг',
 	'SINGLE_OSSOutsourcedServices'	=>	'Аутсорсинг Услуг',
-	'LBL_INFORMATION'	=>	'Информация',
+	'LBL_INFORMATION' => 'Основная информация',
 
 	//fields
 	'Assigned To'	=>	'Ответственный',
