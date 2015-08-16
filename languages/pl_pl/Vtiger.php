@@ -977,6 +977,8 @@ $languageStrings = [
 	'CustomerPortal' => 'Portal klienta',
 	'ModTracker' => 'Historia zmian',
 	'Password' => 'Hasła',
+	'LBL_FIRST' => 'Pierwsza',
+	'LBL_LAST' => 'Ostatnia',
 	
 ];
 $jsLanguageStrings = [

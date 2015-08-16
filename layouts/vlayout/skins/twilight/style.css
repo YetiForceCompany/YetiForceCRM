@@ -3478,3 +3478,21 @@ span[name=existingImages] img{
 	font-weight: normal;
 	min-height: 40px;
 }
+.paginationDiv .pagination{
+	margin: 0;
+}
+.paginationDiv .pagination li{
+	cursor: pointer;
+}
+.paginationDiv .pagination > li > span,
+.paginationDiv .pagination > li > a{
+	padding: 6px 8px;
+}
+.paginationDiv #listViewPageJumpDropDown{
+	left: 192px;
+	top: 80%;
+}
+.paginationDiv .listViewBasicAction.dropdown-menu{
+	width: 35%;
+}
+

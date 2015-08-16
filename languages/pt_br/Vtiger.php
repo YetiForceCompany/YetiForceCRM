@@ -983,6 +983,8 @@ $languageStrings = [
 	'CustomerPortal' => 'Portal do Cliente',
 	'ModTracker' => 'Histórico de alterações',
 	'Password' => 'Senha',
+	'LBL_FIRST' => 'Primeiro',
+	'LBL_LAST' => 'Último',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',

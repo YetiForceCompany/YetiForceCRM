@@ -988,6 +988,8 @@ $languageStrings = [
 	'CustomerPortal' => 'Customer Portal',
 	'ModTracker' => 'Change history',
 	'Password' => 'Passwords',
+	'LBL_FIRST' => 'Erster',
+	'LBL_LAST' => 'Letzter',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
