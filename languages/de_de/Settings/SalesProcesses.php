@@ -21,7 +21,7 @@ $languageStrings = [
 	'LBL_ASSETS' => 'Produktverwaltung',
 	'LBL_STATUSES_CLOSED_ASSETS' => 'Status der die Produktverwaltung als beendet definiert',
 	'LBL_CREATE_POTENTIALS' => 'Anlegen von Verkaufschancen für Organisationen/Kontakte unterbinden, in denen kein User zugeordnet ist',
-	'SalesProcesses' => 'Sales processes',
+	'SalesProcesses' => 'Vetriebsprozesse',
 ];
 
 

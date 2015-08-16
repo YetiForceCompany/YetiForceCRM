@@ -57,5 +57,5 @@ $languageStrings = [
 	'Webinar' => 'Webseminar',
 ];
 $jsLanguageStrings = [
-	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Are you sure you want to add this filter records?',
+	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Wollen Sie die Datensätze des Filters wirklich hinzufügen?',
 ];

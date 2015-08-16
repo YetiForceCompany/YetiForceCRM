@@ -49,7 +49,7 @@ $languageStrings = [
 	'ossdc_status' => 'Status',
 	'Brak statusu' => 'fehlender Status',
 	'Sprawdzono' => 'geprüft',
-	'Default' => 'Default',
+	'Default' => 'Standard',
 	'LBL_SELECT_Documents' => 'Dokument auswählen',
 ];
 $jsLanguageStrings = [

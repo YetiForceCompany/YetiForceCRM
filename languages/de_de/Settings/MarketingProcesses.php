@@ -21,8 +21,8 @@ $languageStrings = [
 	'LBL_CONVERT_LEAD_MERGE' => 'Link the record meeting specified requirements while converting from Lead to Account',
 	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'This option allows system to automatically join converted record with already existing - new account will not be created, instead to existing record data will be transferred from Lead',
 	'LBL_CONDITION' => 'Bedingung hinzufügen',
-	'MarketingProcesses' => 'Marketing processes',
+	'MarketingProcesses' => 'Marketingprozesse',
 ];
 $jsLanguageStrings = [
-	'JS_NO_CONDITIONS' => 'At least one condition is required',
+	'JS_NO_CONDITIONS' => 'Mindestens eine Bedingung ist notwendig',
 ];

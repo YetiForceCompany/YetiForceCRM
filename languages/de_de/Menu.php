@@ -25,5 +25,5 @@ $languageStrings = [
 	'MEN_PRODUCTBASE' => 'Produkt Datenbank',
 	'MEN_LISTS' => 'Listen',
 	'MEN_SERVICESBASE' => 'Service Datenbank',
-	'Menu' => 'Menu',
+	'Menu' => 'Menü',
 ];
