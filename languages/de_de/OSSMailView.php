@@ -57,9 +57,9 @@ $languageStrings = [
 	'LBL_PRINT' => 'Drucken',
 	'Date of receipt' => 'Empfangsdatum',
     'LBL_FORWARD' => 'Weiterleiten',
-	'RC user' => 'RC user',
+	'RC user' => 'RC User',
 	'FromID' => 'Sender Id',
-	'ToID' => 'Receiver Id',
+	'ToID' => 'Empfänger Id',
 
 	'LBL_VERIFY' => 'Zur Überprüfung',
 	'LBL_REL_MOD' => 'Verknüpfte Module',
