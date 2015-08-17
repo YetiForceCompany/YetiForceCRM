@@ -91,7 +91,7 @@ $languageStrings = [
 	'APPTITLE' => 'YetiForce CRM',
 	'Assets' => 'Ativos',
 	'Assigned To' => 'Responsável',
-	'Was read' => 'Updated',
+	'Was read' => 'Atualizado',
 	'BTN_READ_RECORD' => 'Ao clicar neste botão você confirma que leu todas as mudanças realizadas neste registro.',
 	'Billing Address' => 'Endereço Faturamento',
 	'Billing City' => 'Cidade Faturamento',
@@ -186,11 +186,7 @@ $languageStrings = [
 	'LBL_ADD_TASK' => 'Adicionar Tarefa',
 	'LBL_ADD_WIDGET' => 'Adicionar Widget',
 	'LBL_ADD_FILTER' => 'Adicionar Widget a partir do filtro',
-<<<<<<< HEAD
-	'LBL_ADD_YOUR_COMMENT_HERE'=> 'Adicionar seu comentário aqui...',
-=======
 	'LBL_ADD_YOUR_COMMENT_HERE' => 'Adicionar seu comentário aqui...',
->>>>>>> upstream/master
 	'LBL_ADVANCE_SEARCH' => 'Avançado',
 	'LBL_AFTER' => 'depois', //Duplicated key-value pairs
 	'LBL_AGO' => 'atrás',
@@ -802,11 +798,7 @@ $languageStrings = [
 	'LBL_SELECT_RELATED_FIELD' => 'Selecione campo do módulo relacionado',
 	'LBL_COMPARISON_VALUE' => 'Valor comparação',
 	'Website' => 'Web Site',
-<<<<<<< HEAD
-	'PotentialsList'=>'Oportunidades',
-=======
 	'PotentialsList' => 'Oportunidades',
->>>>>>> upstream/master
 	'PaymentsOut' => 'Pagamento',
 	'PaymentsIn' => 'Recebimento',
 	/* industry */
@@ -969,20 +961,6 @@ $languageStrings = [
 	'LBL_DAYS_CHART' => 'Dias',
 	'LBL_MONTHS_CHART' => 'Meses',
 	'LBL_ZOOMING' => 'Zoom',
-<<<<<<< HEAD
-	
-	'LBL_FORMAT' => 'Formato',
-
-	//Filters
-	'LBL_CV_GROUP_MINE' => 'Meu',
-	'LBL_CV_GROUP_SYSTEM' => 'Sistema',
-	'LBL_CV_GROUP_OTHERS' => 'compartilhado',
-	'LBL_CV_GROUP_PENDING' => 'Pendente',
-	
-	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'Baseando nos campos de referência',
-	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Baseado nos módulos relacionados',
-	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Dependendo da quantidade de dados do processo de transferência de propriedade, pode levar vários minutos para concluir',
-=======
 	'LBL_FORMAT' => 'Formato',
 	//Filters
 	'LBL_CV_GROUP_MINE' => 'Meu',
@@ -995,9 +973,8 @@ $languageStrings = [
 	'LBL_LEGAL_FORM' => 'Forma Jurídica',
 	
 	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Exportar para o Excel',
-	'ReasonToEdit' => 'Reason to edit',
-	'Mails List' => 'Most recent emails',
->>>>>>> upstream/master
+	'ReasonToEdit' => 'Motivo para editar',
+	'Mails List' => 'E-mails mais recentes',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
@@ -1144,12 +1121,7 @@ $jsLanguageStrings = [
 	'JS_TODO_MARKED_AS_COMPLETED' => 'Marcada como concluída',
 	'JS_EVENT_MARKED_AS_HELD' => 'Marcada como concluída',
 	'JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD' => 'Os eventos futuros não podem ser marcados como completos',
-<<<<<<< HEAD
-	'Generate default PDF'=>'Gerar PDF padrão',
-
-=======
 	'Generate default PDF' => 'Gerar PDF padrão',
->>>>>>> upstream/master
 	//Inventory module Translations
 	'JS_PLEASE_ENABLE_PRODUCT_OR_SERVICE_MODULE' => 'Por favor, habilite o Módulo de Produto ou Serviço',
 	'LBL_SYNC_BUTTON' => 'Sincronizar',

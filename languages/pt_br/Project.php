@@ -53,8 +53,8 @@ $languageStrings = [
 	'LBL_MORE' => 'mais',
 
 	//PickList
-	'PLL_INTERNAL' => 'internal',
-	'PLL_EXTERNAL' => 'external',
+	'PLL_INTERNAL' => 'interno',
+	'PLL_EXTERNAL' => 'externo',
 	'PLL_COMMON' => 'comum',
 
 	//Summary View Widgets

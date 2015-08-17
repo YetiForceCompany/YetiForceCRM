@@ -9,25 +9,17 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  * ********************************************************************************** */
 $languageStrings = [
-	'LBL_SETUP_WEBFORMS' => 'Configurar Webforms',
-	'Verification data' => 'Verification data',
+	'LBL_SETUP_WEBFORMS' => 'Configurar Web Forms',
+	'Verification data' => 'Verificação de dados',
 	'Orders accepted' => 'Pedidos aceitos',
 	'Attempted to Contact' => 'Tentativa Contato',
 	'CANNOT_CONVERT' => 'Não pode ser Convertido',
 	'Cold' => 'Frio',
-<<<<<<< HEAD
-	'Company'=> 'Organização' ,
+	'Company'=> 'Empresa' ,
 	'Contacted'=> 'Contactado',
 	'Contact in Future'=> 'Contactar no Futuro' ,
 	'Designation'=> 'Título' ,
 	'Dr.'=> 'Dr.',
-=======
-	'Company' => 'Nome Lead',
-	'Contacted' => 'Contactado',
-	'Contact in Future' => 'Contactar no Futuro',
-	'Designation' => 'Título',
-	'Dr.' => 'Dr.',
->>>>>>> upstream/master
 	'Email' => 'E-mail',
 	'Hot' => 'Quente',
 	'Industry' => 'Atividade',
