@@ -10,6 +10,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = [
+	'SINGLE_Users' => 'Пользователь',
 	'yyyy/mm/dd' => 'гггг/мм/дд',
 	'mm/dd/yyyy' => 'мм/дд/гггг',
 	'dd/mm/yyyy' => 'дд/мм/гггг',
@@ -316,8 +317,8 @@ $languageStrings = [
 	
 	'LBL_GENERATED_COLOR' => 'Генерировать цвет',
 	'LBL_SAVE_COLOR' => 'Сохранить цвет',
-	'LBL_EMAIL' => 'e-mail',
-	'LBL_SPACE' => 'Space',
+	'LBL_EMAIL' => 'Почта',
+	'LBL_SPACE' => 'Пробел',
 ];
 
 $jsLanguageStrings = [

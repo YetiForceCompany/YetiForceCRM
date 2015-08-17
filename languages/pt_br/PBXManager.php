@@ -40,5 +40,8 @@ $languageStrings = [
 	'Source UUID' => 'Fonte UUID',
 	'End Time' => 'Hora Final',
 	'Record Id' => 'No. Registro',
+<<<<<<< HEAD
 	'Customer Type' => 'Tipo Cliente',
+=======
+>>>>>>> upstream/master
 ];

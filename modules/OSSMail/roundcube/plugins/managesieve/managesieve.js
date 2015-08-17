@@ -226,7 +226,6 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
   this.set_busy(true);
 
   switch (action) {
-
     // Delete filter row
     case 'del':
       var id = o.id, list = this.filters_list;
@@ -250,8 +249,10 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
         $(this).unbind();
 
         // update row id
-        if (rowid > id)
-          $(this).attr('id', 'rcmrow' + (rowid-1));
+        if (rowid > id) {
+          this.uid = rowid - 1;
+          $(this).attr('id', 'rcmrow' + this.uid);
+        }
       });
       list.init();
 
@@ -580,6 +581,20 @@ rcube_webmail.prototype.managesieve_formbuttons = function(div)
   }
 };
 
+// update vacation addresses field with user identities
+rcube_webmail.prototype.managesieve_vacation_addresses = function(id)
+{
+  var lock = this.set_busy(true, 'loading');
+  this.http_post('plugin.managesieve-action', {_act: 'addresses', _aid: id}, lock);
+};
+
+// update vacation addresses field with user identities
+rcube_webmail.prototype.managesieve_vacation_addresses_update = function(id, addresses)
+{
+  var field = $('#vacation_addresses,#action_addresses' + (id || ''));
+  smart_field_reset(field.get(0), addresses);
+};
+
 function rule_header_select(id)
 {
   var obj = document.getElementById('header' + id),
@@ -799,6 +814,21 @@ function smart_field_row(value, name, idx, size)
   });
 
   return elem;
+}
+
+// Reset and fill the smart list input with new data
+function smart_field_reset(field, data)
+{
+  var id = field.id + '_list',
+    list = data.length ? data : [''];
+    area = $('#' + id);
+
+  area.empty();
+
+  // add input rows
+  $.each(list, function(i, v) {
+    area.append(smart_field_row(v, field.name, i, $(field).data('size')));
+  });
 }
 
 // Register onmouse(leave/enter) events for tips on specified form element

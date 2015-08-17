@@ -24,29 +24,7 @@ $PERFORMANCE_CONFIG = Array(
 	// Compute list view record count while loading listview everytime.
 	// Recommended value false
 	'LISTVIEW_COMPUTE_PAGE_COUNT' => false,
+	
+	// Display administrators in the list of users (Assigned To)
+	'SHOW_ADMINISTRATORS_IN_USERS_LIST' => true,
 );
-/**
- * Performance perference API
- */
-class PerformancePrefs {
-	/**
-	 * Get performance parameter configured value or default one
-	 */
-	static function get($key, $defvalue=false) {
-		global $PERFORMANCE_CONFIG;
-		if(isset($PERFORMANCE_CONFIG)){
-			if(isset($PERFORMANCE_CONFIG[$key])) {
-				return $PERFORMANCE_CONFIG[$key];
-			}
-		}
-		return $defvalue;
-	}
-	/** Get boolean value */
-	static function getBoolean($key, $defvalue=false) {
-		return self::get($key, $defvalue);
-	}
-	/** Get Integer value */
-	static function getInteger($key, $defvalue=false) {
-		return intval(self::get($key, $defvalue));
-	}
-}

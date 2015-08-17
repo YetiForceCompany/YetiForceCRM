@@ -11,7 +11,7 @@
 -->*}
 <div class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
-        <div class="modal-content">
+		<div class="modal-content">
 			<form class="form-modalAddWidget">
 				<input type="hidden" name="wid" value="{$WID}">
 				<input type="hidden" name="type" value="{$TYPE}">
@@ -22,16 +22,14 @@
 				<div class="modal-body">
 					<div class="modal-Fields">
 						<div class="row">
-							<div class="col-md-4">{vtranslate('Type widget', $QUALIFIED_MODULE)}:</div>
-							<div class="col-md-7">
-								{vtranslate($TYPE, $QUALIFIED_MODULE)}
+							<div class="col-md-12">
+								<p class="pull-left" > {vtranslate('Type widget', $QUALIFIED_MODULE)}: </p>
+								<p class="pull-left">&nbsp; {vtranslate($TYPE, $QUALIFIED_MODULE)} </p>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button class="btn btn-success saveButton" data-dismiss="modal" aria-hidden="true" >{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
-				</div>
+				{include file='ModalFooter.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 			</form>
 		</div>
 	</div>

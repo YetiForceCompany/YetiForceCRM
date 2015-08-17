@@ -7,6 +7,7 @@
 {assign var=INFO2 value=$SAVED_DATA['info2']}
 {assign var=LOCKSAVE value=$SAVED_DATA['locksave']}
 {assign var=VAL2FIELD value=$SAVED_DATA['val2field']}
+<div class="col-md-12">
 <div class="row">
 	<div class="col-md-12">
 		<div class="row">
@@ -46,29 +47,35 @@
 				</div>
 			</div>
 			<br/>
-			<div class="row padding-bottom1per">
+			<div class="padding-bottom1per">
 				<h5 class="padding-bottom1per"><strong>{vtranslate('LBL_MESSAGE_LOCK0', 'DataAccess')}:</strong></h5>
 				<input type="text" name="info0" class="marginLeftZero col-md-7" value="{$INFO0}">
-			</div>
-			<div class="row padding-bottom1per">
+			</div><br/>
+			<div class="padding-bottom1per">
 				<h5 class="padding-bottom1per"><strong>{vtranslate('LBL_MESSAGE_LOCK1', 'DataAccess')}:</strong></h5>
 				<input type="text" name="info1" class="marginLeftZero col-md-7" value="{$INFO1}">
-			</div>
-			<div class="row padding-bottom1per messakgeInfo2 {if $VAL2FIELD neq 1}hide{/if}">
+			</div><br/>
+			<div class="padding-bottom1per messakgeInfo2 {if $VAL2FIELD neq 1}hide{/if}">
 				<h5 class="padding-bottom1per"><strong>{vtranslate('LBL_MESSAGE_LOCK2', 'DataAccess')}:</strong></h5>
 				<input type="text" name="info2" class="marginLeftZero col-md-7" value="{$INFO2}">
-			</div>
-			<div class="row padding-bottom1per">
+			</div><br/>
+			<div class="padding-bottom1per">
 				<h5 class="padding-bottom1per"><strong>{vtranslate('LBL_LOCKS_SAVE', 'DataAccess')}:</strong></h5>
-				<label class="radio">
-					<input type="radio" name="locksave" id="locksave1" value="0" {if $LOCKSAVE eq 0}checked{/if}>{vtranslate('LBL_LOCKS_SAVE_LABEL1', 'DataAccess')}
-				</label>
-				<label class="radio">
-					<input type="radio" name="locksave" id="locksave2" value="1" {if $LOCKSAVE eq 1}checked{/if}>{vtranslate('LBL_LOCKS_SAVE_LABEL2', 'DataAccess')}
-				</label>
-				<label class="radio">
-					<input type="radio" name="locksave" id="locksave3" value="2" {if $LOCKSAVE eq 2}checked{/if}>{vtranslate('LBL_LOCKS_SAVE_LABEL3', 'DataAccess')}
-				</label>
+				<div class="radio">
+					<label>
+						<input type="radio" name="locksave" id="locksave1" value="0" {if $LOCKSAVE eq 0}checked{/if}>{vtranslate('LBL_LOCKS_SAVE_LABEL1', 'DataAccess')}
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="locksave" id="locksave2" value="1" {if $LOCKSAVE eq 1}checked{/if}>{vtranslate('LBL_LOCKS_SAVE_LABEL2', 'DataAccess')}
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="locksave" id="locksave3" value="2" {if $LOCKSAVE eq 2}checked{/if}>{vtranslate('LBL_LOCKS_SAVE_LABEL3', 'DataAccess')}
+					</label>
+				</div>
 			</div>
 		</div>
 		<div class="col-md-6 {if $VAL2FIELD neq 1}hide{/if} val2fieldBlock">
@@ -100,7 +107,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div></div>
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	$('#val2field').change(function(){
@@ -116,7 +123,7 @@ jQuery(document).ready(function() {
 			$('#locksave3').attr('disabled', 'disabled');
 			$('.messakgeInfo2').addClass('hide');
 		}
-		$('.val2fieldBlock select').select2();
+		app.showSelect2ElementView($('.val2fieldBlock select'));
 	});
 });
 </script>

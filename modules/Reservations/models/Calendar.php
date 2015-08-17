@@ -8,18 +8,21 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Reservations_Calendar_Model extends Vtiger_Base_Model{
-	public function getEntity() {
+class Reservations_Calendar_Model extends Vtiger_Base_Model
+{
+
+	public function getEntity()
+	{
 		$db = PearDatabase::getInstance();
 		$module = 'Reservations';
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$query = getListQuery($module);
 		$params = array();
-		if($this->get('start') && $this->get('end')){
-			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
+		if ($this->get('start') && $this->get('end')) {
+			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), $currentUser, false);
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
 			$dbStartDate = $dbStartDateOject->format('Y-m-d');
-			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
+			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), $currentUser, false);
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
 			$query.= " AND ((concat(vtiger_reservations.date_start, ' ', vtiger_reservations.time_start) >= ? AND concat(vtiger_reservations.date_start, ' ', vtiger_reservations.time_start) <= ?) OR (concat(vtiger_reservations.due_date, ' ', vtiger_reservations.time_end) >= ? AND concat(vtiger_reservations.due_date, ' ', vtiger_reservations.time_end) <= ?) OR (vtiger_reservations.date_start < ? AND vtiger_reservations.due_date > ?) )";

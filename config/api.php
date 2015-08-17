@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,20 +7,25 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-
+ * *********************************************************************************************************************************** */
+/* +********   active services   *********** */
 //List of active services. To enable you must uncomment the appropriate line.
-$enabledServices = array(
+$enabledServices = [
 	//'mobile',
 	//'yetiportal',
-	//'dav'
+	//'dav',
 	//'webservices',
 	//'mobileModule',
-);
+	//'webservice',
+];
+/* +***************   DAV   **************** */
+$enableBrowser = false;
+$enableCardDAV = true;
+$enableCalDAV = true;
+$enableWebDAV = false;
 
-/*+********   DAV   **********/
-$enableBrowser = FALSE;
-$enableCardDAV = TRUE;
-$enableCalDAV = TRUE;
-$enableWebDAV = FALSE;
-/*+***************************/
+/* +*********   Webservice config  ********* */
+$showWebserviceError = true;
+$encryptDataTransfer = true;
+$privateKey = 'config/private.key';
+$publicKey = 'config/public.key';

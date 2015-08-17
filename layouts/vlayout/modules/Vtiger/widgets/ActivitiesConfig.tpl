@@ -33,6 +33,7 @@
 								<input name="nomargin" class="" type="checkbox" value="1" {if $WIDGETINFO['nomargin'] == 1}checked{/if}/>
 								<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('No left margin', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
 							</div>
+							<div class="clearfix"></div>
 							<div class="col-md-3 marginLeftZero"><label class="">{vtranslate('Limit entries', $QUALIFIED_MODULE)}:</label></div>
 							<div class="col-md-7">
 								<div class="col-xs-3 paddingLRZero">
@@ -43,9 +44,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button class="btn btn-success saveButton" data-dismiss="modal" aria-hidden="true" >{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
-				</div>
+				{include file='ModalFooter.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 			</form>
 		</div>
 	</div>

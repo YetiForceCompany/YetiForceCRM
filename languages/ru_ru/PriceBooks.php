@@ -20,4 +20,6 @@ $languageStrings = [
 	'PriceBook No' => 'Номер Прайс-Листа',
 	'PriceBooks' => 'Прайс-Листы',
 	'SINGLE_PriceBooks' => 'Прайс-Лист',
+	'yes' => 'Да',
+	'no' => 'Нет',
 ];

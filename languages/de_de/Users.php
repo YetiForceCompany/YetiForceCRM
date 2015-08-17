@@ -8,6 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = [
+	'SINGLE_Users' => 'Benutzer',
 	'dd-mm-yyyy' => 'tt-mm-jjjj',
 	'mm-dd-yyyy' => 'mm-tt-jjjj',
 	'yyyy-mm-dd' => 'jjjj-mm-tt',

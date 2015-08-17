@@ -8,15 +8,19 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_PickListDependency_AddDependency_View extends Settings_Vtiger_IndexAjax_View {
-	function __construct() {
+class Settings_PickListDependency_AddDependency_View extends Settings_Vtiger_IndexAjax_View
+{
+
+	function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('GetPickListFields');
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Vtiger_Request $request)
+	{
 		$mode = $request->getMode();
-		if(!empty($mode) && method_exists($this, $mode)) {
+		if (!empty($mode) && method_exists($this, $mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;
 		}
@@ -33,7 +37,8 @@ class Settings_PickListDependency_AddDependency_View extends Settings_Vtiger_Ind
 	 * Function returns the picklist field for a module
 	 * @param Vtiger_Request $request
 	 */
-	function GetPickListFields(Vtiger_Request $request) {
+	function GetPickListFields(Vtiger_Request $request)
+	{
 		$module = $request->get('sourceModule');
 
 		$fieldList = Settings_PickListDependency_Module_Model::getAvailablePicklists($module);
@@ -43,7 +48,8 @@ class Settings_PickListDependency_AddDependency_View extends Settings_Vtiger_Ind
 		$response->emit();
 	}
 
-	function CheckCyclicDependency() {
-
+	function CheckCyclicDependency()
+	{
+		
 	}
 }

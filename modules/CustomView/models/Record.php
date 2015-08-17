@@ -620,6 +620,14 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	public function getDenyUrl() {
 		return 'index.php?module=CustomView&action=Deny&sourceModule='.$this->getModule()->get('name').'&record='.$this->getId();
 	}
+	
+	/**
+	 * Function returns duplicate url
+	 * @return String - duplicate url
+	 */
+	public function getDuplicateUrl() {
+		return 'module=CustomView&view=EditAjax&source_module='.$this->getModule()->get('name').'&record='.$this->getId().'&duplicate=1';
+	}
 
 	/**
 	 *  Functions returns delete url
@@ -901,7 +909,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 						)";
 			$params[] = $currentUser->getId();
 		}
-
+		$sql .= ' ORDER BY setdefault ASC';
+		
 		$result = $db->pquery($sql, $params);
 		$customViews = [];
 		while ($row = $db->fetch_array($result)) {

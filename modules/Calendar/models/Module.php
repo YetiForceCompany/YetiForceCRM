@@ -8,7 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-vimport('~~/vtlib/Vtiger/Module.php');
+vimport('~vtlib/Vtiger/Module.php');
 
 /**
  * Calendar Module Model Class

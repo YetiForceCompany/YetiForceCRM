@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Добавить зависимость списков',
 	'PickListDependency' => 'Редактор зависимостей списков',
@@ -34,8 +34,9 @@ $languageStrings = [
 $jsLanguageStrings = [
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE' => 'Вы уверены,  что хотите удалить эту зависимость списков?',
 	'JS_DEPENDENCY_DELETED_SUEESSFULLY' => 'Зависимость успешно удалена',
-	'JS_PICKLIST_DEPENDENCY_SAVED' => 'Зависимость списков сохранена', 
-	'JS_DEPENDENCY_ATLEAST_ONE_VALUE' => 'Вы должны выбрать по крайней мере одно значение', 
-	'JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME' => 'Исходное и целевое поля не должны совпадать', 
-	'JS_SELECT_SOME_VALUE'         => 'Выберите значение',
+	'JS_PICKLIST_DEPENDENCY_SAVED' => 'Зависимость списков сохранена',
+	'JS_DEPENDENCY_ATLEAST_ONE_VALUE' => 'Вы должны выбрать по крайней мере одно значение',
+	'JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME' => 'Исходное и целевое поля не должны совпадать',
+	'JS_SELECT_SOME_VALUE' => 'Выберите значение',
+	'JS_PICKLIST_DEPENDENCY_NO_SAVED' => 'Услевия не указаны, изменения не сохранены.',
 ];

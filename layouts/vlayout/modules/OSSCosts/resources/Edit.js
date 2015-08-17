@@ -172,6 +172,5 @@ Inventory_Edit_Js("OSSCosts_Edit_Js",{},{
 	registerEvents: function(){
 		this._super();
 		this.registerQuantityChangeEventHandler();
-		this.registerEventForCopyAddress();
 	}
 });

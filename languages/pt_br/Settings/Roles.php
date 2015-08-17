@@ -31,6 +31,12 @@ $languageStrings = [
 	'SINGLE_Roles' => 'Função',
 	'LBL_USERS_LIST' => 'Lista de Usuários pertencentes a esta Função:',
 	'LBL_JUST_ME' => 'Somente eu',
+	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => 'Permitir mudança do proprietário do registro',
+	'LBL_SEARCH_WITHOUT_PERMISSION' => 'Módulos que podem ser pesquisados sem permissão',
+	'LBL_BROWSING_OTHER_USERS_GRAPHICAL_CALENDAR' => 'Whether or not browsing other users\' graphical calendars is possible',
+	'LBL_CLENDAR_ALLO_RECORDS_1' => 'Somente posso me visualizar',
+	'LBL_CLENDAR_ALLO_RECORDS_2' => 'Somente posso me visualizar e grupos',
+	'LBL_CLENDAR_ALLO_RECORDS_3' => 'Posso visualizar os Usuários da lista de registros que tenho permissão para acessar',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Não tem Permissão para Mover',

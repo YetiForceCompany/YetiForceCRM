@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,17 +7,16 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_QUICK_CREATE_MODULE' => 'Быстрое создание',
 	'LBL_SEPARATOR' => 'Разделитель',
 	'LBL_OTHER' => 'Другое',
 	'MEN_VIRTUAL_DESK' => 'Рабочий стол',
-	'MEN_LEADS' => 'Клиенты',
+	'MEN_COMPANIES_CONTACTS' => 'Клиенты',
 	'MEN_SALES' => 'Продажи',
 	'MEN_PROJECTS' => 'Проекты',
 	'MEN_SUPPORT' => 'Поддержка',
-	'MEN_LEADS' => 'Клиенты',
 	'MEN_BOOKKEEPING' => 'Бухгалтерия',
 	'MEN_HUMAN_RESOURCES' => 'Сотрудники',
 	'MEN_SECRETARY' => 'Секретариат',
@@ -25,5 +24,6 @@ $languageStrings = [
 	'MEN_TEAMWORK' => 'Команда',
 	'MEN_PRODUCTBASE' => 'База товаров',
 	'MEN_LISTS' => 'Список',
-	'MEN_SERVICESBASE' => 'База услуг',	'Menu' => 'Меню',
+	'MEN_SERVICESBASE' => 'База услуг',
+	'Menu' => 'Меню',
 ];

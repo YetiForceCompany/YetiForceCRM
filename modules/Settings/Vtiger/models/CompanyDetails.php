@@ -1,69 +1,72 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model {
+class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
+{
 
 	STATIC $logoSupportedFormats = array('jpeg', 'jpg', 'png', 'gif', 'pjpeg', 'x-png');
-
 	var $baseTable = 'vtiger_organizationdetails';
 	var $baseIndex = 'organization_id';
 	var $listFields = array('organizationname');
 	var $nameFields = array('organizationname');
 	var $logoPath = 'storage/Logo/';
-
 	var $fields = array(
-			'organizationname' => 'text',
-			'logoname' => 'text',
-			'logo' => 'file',
-			'address' => 'textarea',
-			'city' => 'text',
-			'state' => 'text',
-			'code'  => 'text',
-			'country' => 'text',
-			'phone' => 'text',
-			'fax' => 'text',
-			'website' => 'text', 
-			'vatid' => 'text' 
+		'organizationname' => 'text',
+		'logoname' => 'text',
+		'logo' => 'file',
+		'address' => 'textarea',
+		'city' => 'text',
+		'state' => 'text',
+		'code' => 'text',
+		'country' => 'text',
+		'phone' => 'text',
+		'fax' => 'text',
+		'website' => 'text',
+		'vatid' => 'text'
 	);
 
 	/**
 	 * Function to get Edit view Url
 	 * @return <String> Url
 	 */
-	public function getEditViewUrl() {
+	public function getEditViewUrl()
+	{
 		return 'index.php?module=Vtiger&parent=Settings&view=CompanyDetailsEdit';
 	}
-	
+
 	/**
 	 * Function to get CompanyDetails Menu item
 	 * @return menu item Model
 	 */
-	public function getMenuItem() {
+	public function getMenuItem()
+	{
 		$menuItem = Settings_Vtiger_MenuItem_Model::getInstance('LBL_COMPANY_DETAILS');
 		return $menuItem;
 	}
-	
+
 	/**
 	 * Function to get Index view Url
 	 * @return <String> URL
 	 */
-	public function getIndexViewUrl() {
+	public function getIndexViewUrl()
+	{
 		$menuItem = $this->getMenuItem();
-		return 'index.php?module=Vtiger&parent=Settings&view=CompanyDetails&block='.$menuItem->get('blockid').'&fieldid='.$menuItem->get('fieldid');
+		return 'index.php?module=Vtiger&parent=Settings&view=CompanyDetails&block=' . $menuItem->get('blockid') . '&fieldid=' . $menuItem->get('fieldid');
 	}
 
 	/**
 	 * Function to get fields
 	 * @return <Array>
 	 */
-	public function getFields() {
+	public function getFields()
+	{
 		return $this->fields;
 	}
 
@@ -71,15 +74,16 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model 
 	 * Function to get Logo path to display
 	 * @return <String> path
 	 */
-	public function getLogoPath() {
+	public function getLogoPath()
+	{
 		$logoPath = $this->logoPath;
 		$handler = @opendir($logoPath);
 		$logoName = $this->get('logoname');
 		if ($logoName && $handler) {
 			while ($file = readdir($handler)) {
-				if($logoName === $file && in_array(str_replace('.', '', strtolower(substr($file, -4))), self::$logoSupportedFormats) && $file != "." && $file!= "..") {
+				if ($logoName === $file && in_array(str_replace('.', '', strtolower(substr($file, -4))), self::$logoSupportedFormats) && $file != "." && $file != "..") {
 					closedir($handler);
-					return $logoPath.$logoName;
+					return $logoPath . $logoName;
 				}
 			}
 		}
@@ -89,17 +93,19 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model 
 	/**
 	 * Function to save the logoinfo
 	 */
-	public function saveLogo() {
-		$uploadDir = vglobal('root_directory'). '/' .$this->logoPath;
-		$logoName = $uploadDir.$_FILES["logo"]["name"];
+	public function saveLogo()
+	{
+		$uploadDir = vglobal('root_directory') . '/' . $this->logoPath;
+		$logoName = $uploadDir . $_FILES["logo"]["name"];
 		move_uploaded_file($_FILES["logo"]["tmp_name"], $logoName);
-		copy($logoName, $uploadDir.'application.ico');
+		copy($logoName, $uploadDir . 'application.ico');
 	}
 
 	/**
 	 * Function to save the Company details
 	 */
-	public function save() {
+	public function save()
+	{
 		$db = PearDatabase::getInstance();
 		$id = $this->get('id');
 		$fieldsList = $this->getFields();
@@ -124,7 +130,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model 
 			foreach ($fieldsList as $fieldName => $fieldType) {
 				$query .= " $fieldName,";
 			}
-			$query .= " organization_id) VALUES (". generateQuestionMarks($params). ", ?)";
+			$query .= " organization_id) VALUES (" . generateQuestionMarks($params) . ", ?)";
 
 			array_push($params, $db->getUniqueID($this->baseTable));
 		}
@@ -135,7 +141,8 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model 
 	 * Function to get the instance of Company details module model
 	 * @return <Settings_Vtiger_CompanyDetais_Model> $moduleModel
 	 */
-	public static function getInstance() {
+	public static function getInstance()
+	{
 		$moduleModel = new self();
 		$db = PearDatabase::getInstance();
 
@@ -148,79 +155,80 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model 
 		$moduleModel->getFields();
 		return $moduleModel;
 	}
-	/** 
-	* @var array(string => string) 
-	*/ 
-	private static $settings = array();  
 
-	/** 
-	* @param string $fieldname 
-	* @return string 
-	*/ 
-	public static function getSetting($fieldname) { 
-		$adb = PearDatabase::getInstance(); 
-		if (!self::$settings) { 
-				self::$settings = $adb->database->GetRow("SELECT * FROM vtiger_organizationdetails"); 
-		} 
-		return self::$settings[$fieldname]; 
+	/**
+	 * @var array(string => string) 
+	 */
+	private static $settings = array();
+
+	/**
+	 * @param string $fieldname 
+	 * @return string 
+	 */
+	public static function getSetting($fieldname)
+	{
+		$adb = PearDatabase::getInstance();
+		if (!self::$settings) {
+			self::$settings = $adb->database->GetRow("SELECT * FROM vtiger_organizationdetails");
+		}
+		return self::$settings[$fieldname];
 	}
 
-	public static function addNewField(Vtiger_Request $request) {
+	public static function addNewField(Vtiger_Request $request)
+	{
 		$log = vglobal('log');
-		$adb = PearDatabase::getInstance();	
-		$newField = self::newFieldValidation($request->get('field_name'));
-	
-		if($newField != FALSE){	
+		$adb = PearDatabase::getInstance();
+		$newField = self::newFieldValidation($request->get('fieldName'));
+		$response = new Vtiger_Response();
+		$moduleName = 'Settings:' . $request->getModule();
+		if ($newField != false) {
 			$query = "SELECT * 
 					FROM information_schema.COLUMNS 
 					WHERE 
 						TABLE_SCHEMA = ? 
 					AND TABLE_NAME = 'vtiger_organizationdetails' 
 					AND COLUMN_NAME = ?";
-		
+
 			$params = array($adb->getDatabaseName(), $newField);
-			$result = $adb->pquery($query, $params);	
-			$rowsNum = $adb->getRowCount($result);			
-					
-			if($rowsNum > 0){
+			$result = $adb->pquery($query, $params);
+			$rowsNum = $adb->getRowCount($result);
+
+			if ($rowsNum > 0) {
+				$response->setResult(array('success' => false, 'message' => vtranslate('LBL_ADDING_ERROR', $moduleName)));
 				$log->info("Settings_Vtiger_SaveCompanyField_Action::process - column $newField exist in table vtiger_organizationdetails");
-				$reloadUrl = 'index.php?parent=Settings&module=Vtiger&view=CompanyDetails&AddField=0';
-			}else{
-				$alterFieldQuery = "ALTER TABLE `vtiger_organizationdetails` ADD $newField VARCHAR(255)";
+			} else {
+				$alterFieldQuery = "ALTER TABLE `vtiger_organizationdetails` ADD `$newField` VARCHAR(255)";
 				$alterFieldResult = $adb->query($alterFieldQuery, $alterFieldParams);
 				$rowsNum = $adb->getRowCount($alterFieldResult);
-				Settings_Vtiger_CompanyDetailsFieldSave_Action::addFieldToModule($newField);	
-				$reloadUrl = 'index.php?parent=Settings&module=Vtiger&view=CompanyDetails&AddField=1';
+				Settings_Vtiger_CompanyDetailsFieldSave_Action::addFieldToModule($newField);
+				$response->setResult(array('success' => true, 'message' => vtranslate('LBL_ADDED_COMPANY_FIELD', $moduleName)));
 				$log->info("Settings_Vtiger_SaveCompanyField_Action::process - add column $newField in table vtiger_organizationdetails");
-			}	
-			
-		}else{
-			$reloadUrl = 'index.php?parent=Settings&module=Vtiger&view=CompanyDetails&AddField=0';
-			$log->info("Settings_Vtiger_SaveCompanyField_Action::process - field not valid");
+			}
+		} else {
+			$response->setResult(array('success' => false, 'message' => vtranslate('LBL_FIELD_NOT_VALID', $moduleName)));
 		}
-		header('Location: ' . $reloadUrl);
+		$response->emit();
 	}
-		
-	public function newFieldValidation($field){
+
+	public function newFieldValidation($field)
+	{
 		$field = trim($field);
 		$field = mysql_escape_string($field);
 		$lenght = strlen($field);
-		$field = str_replace(" ","_", $field);	
+		$field = str_replace(" ", "_", $field);
 		$field = strtolower($field);
-		if('' == $field)
+		if ('' == $field)
 			$result = 'not valid';
 
 		if (preg_match('/[^a-z_A-Z]+/', $field, $matches))
-			$result = 'not valid';		
-		
-		if($lenght > 25)
-			$result = 'not valid';	
-	
-		if($result == 'not valid')
+			$result = 'not valid';
+
+		if ($lenght > 25)
+			$result = 'not valid';
+
+		if ($result == 'not valid')
 			return FALSE;
 		else
 			return $field;
-  	} 
+	}
 }
-
-

@@ -42,11 +42,11 @@ class PaymentsIn extends Vtiger_CRMEntity {
 	 * Mandatory for Listing (Related listview)
 	 */
 	var $list_fields = array (
-		'LBL_PAYMENTSNO' => array('paymentsin', 'paymentsno'),
-		'LBL_PAYMENTSNAME' => array('paymentsin', 'paymentsname'),
-		'LBL_PAYMENTSVALUE' => array('paymentsin', 'paymentsvalue'),
-		'LBL_PAYMENTSCURRENCY' => array('paymentsin', 'paymentscurrency'),
-		'LBL_PAYMENTSSTATUS' => array('paymentsin', 'paymentsin_status'),
+		'LBL_PAYMENTSNO' => array('vtiger_paymentsin'=>'paymentsno'),
+		'LBL_PAYMENTSNAME' => array('vtiger_paymentsin'=>'paymentsname'),
+		'LBL_PAYMENTSVALUE' => array('vtiger_paymentsin'=>'paymentsvalue'),
+		'LBL_PAYMENTSCURRENCY' => array('vtiger_paymentsin'=>'paymentscurrency'),
+		'LBL_PAYMENTSSTATUS' => array('vtiger_paymentsin'=>'paymentsin_status')
 
 );
 	var $list_fields_name = array (
@@ -54,7 +54,7 @@ class PaymentsIn extends Vtiger_CRMEntity {
 		'LBL_PAYMENTSNAME' => 'paymentsname',
 		'LBL_PAYMENTSVALUE' => 'paymentsvalue',
 		'LBL_PAYMENTSCURRENCY' => 'paymentscurrency',
-		'LBL_PAYMENTSSTATUS' => 'paymentsin_status',
+		'LBL_PAYMENTSSTATUS' => 'paymentsin_status'
 
 );
 

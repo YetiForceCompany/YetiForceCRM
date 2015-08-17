@@ -12,7 +12,7 @@ $languageStrings = [
 	'address' => 'Ulica',
 	'Allows you to Configure Cron Task' => 'Wywołuje okresowo kolejno zdefiniowane zadania w celu automatyzacji procesów w systemie CRM.',
 	'Allows you to manage Webforms' => 'Twórz formularze, które będą zintegrowane z Twoim systemem CRM.',
-	'city' => 'Miasto',
+	'city' => 'Miejscowość',
 	'code'  => 'Kod pocztowy',
 	'Configuration Editor' => 'Ustawienia',
 	'country' => 'Kraj',
@@ -102,7 +102,7 @@ $languageStrings = [
 	'LBL_MAX' => 'Maksymalnie',
 	'LBL_MAX_TEXT_LENGTH_IN_LISTVIEW' => 'Maksymalna długość tekstu w widoku listy',
 	'LBL_MAX_SEARCH_RESULT'	=> 'Maksymalna liczba wyświetlanych wyników wyszukiwania',
-	'LBL_MAX_UPLOAD_SIZE' => 'Maksymalna wielkość upload-u (Maks. 5MB)',
+	'LBL_MAX_UPLOAD_SIZE' => 'Maksymalna wielkość upload-u',
 	'LBL_MB' => 'MB',
 	'LBL_MENU_DESC' => 'Dostosuj menu określając, które moduły mają być dostępne na pasku głównym a które mają być niewidoczne.',
 	'LBL_MENU_EDITOR' => 'Menu',
@@ -210,6 +210,9 @@ $languageStrings = [
 	'OSSCosts'=>'Koszty',
 	'CustomView'	=> 'Widoki',
 	'Widgets'	=> 'Widgety podsumowania rekordu',
+	'LBL_ADDING_ERROR' => 'Błąd przy dodawaniu pola',
+	'LBL_ADDED_COMPANY_FIELD' => 'Dodano pole pomyślnie',
+	'LBL_FIELD_NOT_VALID' => 'Pole musi zawierać tylko litery',
 	
 	/* settings menu */
 	'LBL_QUICK_CREATE_EDITOR' => 'Edytor szybkiego tworzenia',

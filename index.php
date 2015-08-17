@@ -13,15 +13,13 @@
 //TODO : Eliminate below hacking solution
 
 $Start_time = microtime(true);
+define('YF_ROOT', __DIR__);
 include_once 'include/RequirementsValidation.php';
 include_once 'include/Webservices/Relation.php';
 include_once 'include/main/WebUI.php';
 include_once 'vtlib/Vtiger/Module.php';
-$rootDirectory = vglobal('root_directory');
-if(empty($root_directory)){
-	$rootDirectory = dirname(__FILE__) . '/';
-}
-session_save_path($rootDirectory.'cache/session');
+
+session_save_path(YF_ROOT.'/cache/session');
 
 $webUI = new Vtiger_WebUI();
 $webUI->process(new Vtiger_Request($_REQUEST, $_REQUEST));

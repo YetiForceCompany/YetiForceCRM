@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,9 +7,13 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-class Settings_TreesManager_List_View extends Settings_Vtiger_List_View {
-	public function preProcess(Vtiger_Request $request, $display=true) {
+ * *********************************************************************************************************************************** */
+
+class Settings_TreesManager_List_View extends Settings_Vtiger_List_View
+{
+
+	public function preProcess(Vtiger_Request $request, $display = true)
+	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SUPPORTED_MODULE_MODELS', Settings_Workflows_Module_Model::getSupportedModules());
 		parent::preProcess($request, $display);

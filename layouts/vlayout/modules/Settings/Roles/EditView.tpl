@@ -24,11 +24,10 @@
 			{if $HAS_PARENT}
 				<input type="hidden" name="parent_roleid" value="{$RECORD_MODEL->getParent()->getId()}">
 			{/if}
-
 			<div style="padding:20px;">
 				<div class="row">
 					<div class="col-md-3">
-						<label class=""><strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>: </strong></label>
+						<label class=""><span class="redColor">*</span><strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}: </strong></label>
 					</div>
 					<div class=" col-md-7 ">
 						<input type="text" class="fieldValue form-control" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine='validate[required]'  />
@@ -68,26 +67,76 @@
 								{vtranslate('LBL_JUST_ME',$QUALIFIED_MODULE)}
 							</label>
 						</div>
-				</div>
+					</div>
                 </div><br>
 				<div class="row">
 					<label class="col-md-3"><strong>{vtranslate('LBL_PRIVILEGES',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						<div class="pull-left">
-							<input type="radio" value="1" {if $PROFILE_DIRECTLY_RELATED_TO_ROLE} checked="" {/if} name="profile_directly_related_to_role" data-handler="new" class="alignTop"/>&nbsp;<span>{vtranslate('LBL_ASSIGN_NEW_PRIVILEGES',$QUALIFIED_MODULE)}</span>
+							<label for="profiledirectly2">
+								<input id="profiledirectly2" type="radio" value="0" {if $PROFILE_DIRECTLY_RELATED_TO_ROLE eq false} checked="" {/if} name="profile_directly_related_to_role" data-handler="existing" class="alignTop"/>&nbsp;<span>{vtranslate('LBL_ASSIGN_EXISTING_PRIVILEGES',$QUALIFIED_MODULE)}</span>
+							</label>
 						</div>
 						<div class="pull-right">
-							<input type="radio" value="0" {if $PROFILE_DIRECTLY_RELATED_TO_ROLE eq false} checked="" {/if} name="profile_directly_related_to_role" data-handler="existing" class="alignTop"/>&nbsp;<span>{vtranslate('LBL_ASSIGN_EXISTING_PRIVILEGES',$QUALIFIED_MODULE)}</span>
+							<label for="profiledirectly1">
+								<input id="profiledirectly1" type="radio" value="1" {if $PROFILE_DIRECTLY_RELATED_TO_ROLE} checked="" {/if} name="profile_directly_related_to_role" data-handler="new" class="alignTop"/>&nbsp;<span>{vtranslate('LBL_ASSIGN_NEW_PRIVILEGES',$QUALIFIED_MODULE)}</span>
+							</label>
 						</div>
 					</div>
 				</div>
+				<br>
+				<div class="row">
+					<label class="col-md-3"><strong>{vtranslate('LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD',$QUALIFIED_MODULE)}:</strong></label>
+					<div class="col-md-7 fieldValue">
+						<div class="pull-left">
+							<input type="checkbox" value="1" {if $RECORD_MODEL->get('changeowner')} checked="" {/if} name="change_owner" class="alignTop"/>
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<label class="col-md-3"><strong>{vtranslate('LBL_SEARCH_WITHOUT_PERMISSION',$QUALIFIED_MODULE)}:</strong></label>
+					<div class="col-md-7 fieldValue">
+						{assign var="SEARCH_MODULES" value=explode(',',$RECORD_MODEL->get('searchunpriv'))}
+						<select id="modulesList" class="row modules select2 form-control" multiple="true" name="searchunpriv[]">
+							{foreach from=Vtiger_Module_Model::getAll([0],[],true) key=TABID item=MODULE_MODEL}
+								<option value="{$MODULE_MODEL->getName()}" {if in_array($MODULE_MODEL->getName(), $SEARCH_MODULES)}selected="true"{/if}>{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}</option>
+							{/foreach}
+						</select>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<label class="col-md-3"><strong>{vtranslate('LBL_BROWSING_OTHER_USERS_GRAPHICAL_CALENDAR',$QUALIFIED_MODULE)}:</strong></label>
+					<div class="col-md-7 fieldValue">
+						<div>
+							<label for="calallow1">
+								<input type="radio" id="calallow1" value="1"{if !$RECORD_MODEL->get('clendarallorecords')} checked=""{/if} {if $RECORD_MODEL->get('clendarallorecords') eq '1'} checked="" {/if} name="clendarallorecords" data-handler="new" class="alignTop"/>&nbsp;
+								{vtranslate('LBL_CLENDAR_ALLO_RECORDS_1',$QUALIFIED_MODULE)}
+							</label>
+						</div>
+						<div>
+							<label for="calallow2">
+								<input type="radio" id="calallow2" value="2" {if $RECORD_MODEL->get('clendarallorecords') eq '2'} checked="" {/if} name="clendarallorecords" data-handler="new" class="alignTop"/>&nbsp;
+								{vtranslate('LBL_CLENDAR_ALLO_RECORDS_2',$QUALIFIED_MODULE)}
+							</label>
+						</div>
+                        <div>
+							<label for="calallow3">
+								<input type="radio" id="calallow3" value="3" {if $RECORD_MODEL->get('clendarallorecords') eq '3'} checked="" {/if} name="clendarallorecords" data-handler="new" class="alignTop"/>&nbsp;
+								{vtranslate('LBL_CLENDAR_ALLO_RECORDS_3',$QUALIFIED_MODULE)}
+							</label>
+						</div>
+					</div>
+				</div>	
 				<br>
 				<div class="row padding20px boxSizingBorderBox contentsBackground" data-content-role="new" style="display: none">
 					<div class="fieldValue col-md-12">
 					</div>
 				</div>
-				<div class="" data-content-role="existing" style="display: none">
-					<div class="fieldValue">
+				<div class="row" data-content-role="existing" style="display: none">
+					<label class="col-md-3"><strong>{vtranslate('LBL_USERS',$QUALIFIED_MODULE)}:</strong></label>
+					<div class="col-md-7 fieldValue">
 						{assign var="ROLE_PROFILES" value=$RECORD_MODEL->getProfiles()}
 						<select class="select2" multiple="true" id="profilesList" name="profiles[]" data-placeholder="{vtranslate('LBL_CHOOSE_PROFILES',$QUALIFIED_MODULE)}" style="width: 800px">
 							{foreach from=$ALL_PROFILES item=PROFILE}
@@ -99,9 +148,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="textAlignCenter">
-				<button class="btn btn-success" type="submit">{vtranslate('LBL_SAVE',$MODULE)}</button>
-				<a class="cancelLink" onclick="javascript:window.history.back();" type="reset">{vtranslate('LBL_CANCEL',$MODULE)}</a>
+			<div class="row">
+				<div class="pull-right">
+					<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset">{vtranslate('LBL_CANCEL',$MODULE)}</a>
+					<button class="btn btn-success" type="submit">{vtranslate('LBL_SAVE',$MODULE)}</button>
+				</div>
 			</div>
 			{if count($ROLE_USERS) > 0 }
 				<hr />

@@ -24,7 +24,7 @@
                 <div class="col-md-7">
                     <select class="select2 form-control layoutEditorRelModules" name="layoutEditorRelModules">
                         {foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-                            <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $QUALIFIED_MODULE)}</option>
+                            <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
                         {/foreach}
                     </select>
                 </div>
@@ -55,8 +55,8 @@
 							<div class="relatedModule mainBlockTable panel panel-default" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
                                 <div class="mainBlockTableHeader panel-heading">
 									<div class="btn-toolbar btn-group-xs pull-right">
-			                        	<button class="btn btn-success inActiveRelationModule {if !$MODULE_MODEL->isActive()}hide{/if}"><i class="glyphicon glyphicon-ok icon-white"></i>&nbsp;&nbsp;<strong>{vtranslate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>&nbsp;
-			                        	<button class="btn btn-danger activeRelationModule {if $MODULE_MODEL->isActive()}hide{/if}"><i class="glyphicon glyphicon-remove icon-white"></i>&nbsp;<strong>{vtranslate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>&nbsp;
+			                        	<button class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} hide{/if}"><i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;<strong>{vtranslate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>&nbsp;
+			                        	<button class="btn btn-danger activeRelationModule{if $MODULE_MODEL->isActive()} hide{/if}"><i class="glyphicon glyphicon-remove"></i>&nbsp;<strong>{vtranslate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>&nbsp;
 										<!-- <button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button> -->
 			                        </div>
 									<h4 class="panel-title">
@@ -73,7 +73,7 @@
 												{foreach item=SELECTED_FIELD from=$SELECTED_FIELDS}
 													{assign var=FIELD_INSTANCE value=$RELATED_MODULE_MODEL->getField($SELECTED_FIELD)}
 													{if $FIELD_INSTANCE}
-														<option value="{$FIELD_INSTANCE->getId()}" data-field-name="{$FIELD_INSTANCE->getFieldName()}" selected>
+														<option value="{$FIELD_INSTANCE->getId()}" data-name="{$FIELD_INSTANCE->getFieldName()}" selected>
 															{vtranslate($FIELD_INSTANCE->get('label'), $RELATED_MODULE_NAME)}
 												  		</option>
 											  		{/if}
@@ -161,7 +161,7 @@
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-success addButton" data-dismiss="modal" aria-hidden="true" >{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
-						<button class="btn btn-default" id="closeModal" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-info" id="closeModal" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}</button>
 					</div>
 				</div>	
 			</div>	

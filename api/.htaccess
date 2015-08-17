@@ -23,3 +23,6 @@ allow from 127.0.0.1
 		php_flag mbstring.func_overload Off
 	</IfModule>
 </Files>
+<IfModule mod_php5.c>
+	php_flag	display_errors				Off
+</IfModule>

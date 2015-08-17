@@ -84,7 +84,6 @@ $languageStrings = [
 	'Urgent' => 'Urgente' ,
 	'Wait For Response'=> 'Aguarda Resposta',
 	'LBL_CHARTS'=>'Gráfico',
-	'Total time [h]'=>'tempo Total [h]',
 	'Rejected'=>'Rejeitado',
 	'Answered'=>'Respondido',
 	'P&S Sold'=>'Produto/Serviço Vendido',

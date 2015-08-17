@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-vimport('~~/modules/SMSNotifier/SMSNotifier.php');
+vimport('~modules/SMSNotifier/SMSNotifier.php');
 
 class SMSNotifier_Record_Model extends Vtiger_Record_Model {
 

@@ -14,7 +14,7 @@
     {assign var=ALL_VALUES value=$FIELD_MODEL->getUITypeModel()->getAllValue()}
     {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
     <div class="">
-        <select class="select2noactive listSearchContributor form-control" title="{vtranslate($FIELD_MODEL->get('label'))}" multiple name="{$FIELD_MODEL->get('name')}"  data-fieldinfo='{$FIELD_INFO|escape}'>
+        <select class="select2noactive listSearchContributor form-control" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" multiple name="{$FIELD_MODEL->get('name')}"  data-fieldinfo='{$FIELD_INFO|escape}'>
         {foreach item=LABEL key=KEY from=$ALL_VALUES}
                 <option value="{$KEY}"  data-parent="{$LABEL[1]}" {if in_array($KEY,$SEARCH_VALUES) && ($KEY neq "") } selected{/if}>{$LABEL[0]}</option>
         {/foreach}

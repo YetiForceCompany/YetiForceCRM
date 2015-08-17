@@ -219,7 +219,15 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
                     $field = '';
                 }
             }
-			
+			if($field_uitype == 69){
+				$recordModel = Vtiger_Record_Model::getInstanceById($recordid, $module);
+				$details = $recordModel->getImageDetails();
+				if(is_array($details[0])){
+					$field = $details[0]['path'].'_'.$details[0]['orgname'];
+				}else{
+					$field = '';
+				}
+			}
             /// For fields with VAT for products
             if( $field_uitype == 83 ) {
                 $pobierz_tax = $db->query("select * from vtiger_producttaxrel where productid = '$recordid'", true);
@@ -432,18 +440,14 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
 
                         /// Dla pola ze zdjęciem użytkownika
                         if( $field_uitype == 105 ) {
-                            include_once( "modules/OSSPdf/small_config.php" );
-                            if( $value != "" ) {
-                                $sql = "SELECT CONCAT(vtiger_attachments.path,vtiger_attachments.attachmentsid,'_',vtiger_users.imagename) AS sciezka FROM vtiger_attachments
-                                INNER JOIN vtiger_salesmanattachmentsrel ON ( vtiger_salesmanattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid )
-                                INNER JOIN vtiger_users ON ( vtiger_users.id = vtiger_salesmanattachmentsrel.smid )
-                                  WHERE vtiger_salesmanattachmentsrel.smid = '$record'";
-                                $pobierz_zdjecie = $db->query( $sql, true );
-                                if( $db->num_rows( $pobierz_zdjecie ) > 0 ) {
-                                    $value = '<img src="'.$site_URL.'/'.$db->query_result( $pobierz_zdjecie,0,"sciezka" ).'" width="'.$UserImage_width.'px" height="'.$UserImage_height.'px"></img>';
-                                }
-
-                            }
+							$recordModel = Users_Record_Model::getInstanceFromUserObject($obiekt);
+							$details = $recordModel->getImageDetails();
+							
+							if(is_array($details[0])){
+								$value = $details[0]['path'].'_'.$details[0]['orgname'];
+							}else{
+								$value = '';
+							}
                         }
                         
                         /// Dla pól typu lista wyboru

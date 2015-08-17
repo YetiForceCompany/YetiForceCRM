@@ -7,8 +7,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-vimport('~~/modules/Reports/Reports.php');
-vimport('~~/modules/Reports/ReportRun.php');
+vimport('~modules/Reports/Reports.php');
+vimport('~modules/Reports/ReportRun.php');
 require_once('modules/Reports/ReportUtils.php');
 require_once('Report.php');
 
@@ -713,7 +713,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 
 		header('Content-Type: application/x-msexcel');
 		header('Content-Length: '.@filesize($tempFileName));
-		header('Content-disposition: attachment; filename="'.$fileName.'"');
+		header("Content-Disposition: attachment; filename=\"$fileName\"");
 
 		$fp = fopen($tempFileName, 'rb');
 		fpassthru($fp);
@@ -740,7 +740,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 
 		header('Content-Type: application/csv');
 		header('Content-Length: '.@filesize($tempFileName));
-		header('Content-disposition: attachment; filename="'.$fileName.'"');
+		header("Content-Disposition: attachment; filename=\"$fileName\"");
 
 		$fp = fopen($tempFileName, 'rb');
 		fpassthru($fp);

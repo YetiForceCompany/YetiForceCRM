@@ -9,6 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
+	'LBL_RECORDS_LIST' => 'Заявки',
+	'LBL_ADD_RECORD' => 'Добавить Заявку',
 	'RequirementCards' => 'Карточка Заявки',
 	'SINGLE_RequirementCards' => 'Карточка Заявки',
 	
@@ -48,15 +50,4 @@ $languageStrings = [
 	'PLL_POSSIBILITY_TO_ADJUST' => 'Возможность регулировки условий',
 	'PLL_NEW_ORGANIZATION_ORDER' => 'Новый порядок в Организации',
 
-	'Incomplete information' => 'Не достаточно информации',
-	'Requirements not met' => 'Требования не выполнены',
-	'Closed' => 'Закрыто',
-	'Declined' => 'Отклонено',
-	'Information completing' => 'Сбор информации',
-	'Waiting for answer' => 'В ожидании ответа',
-	'External consultation required' => 'Требуется выезд',
-	'Internal consultation required' => 'Требуется консультация',
-	'Verification process' => 'Проверяется',
-	'Created' => 'Создано',
-	'LBL_REJECTION_REASON' => 'Причина отказа',
 ];

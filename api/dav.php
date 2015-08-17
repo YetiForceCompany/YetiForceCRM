@@ -1,23 +1,15 @@
 <?php
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
-$currentPath = dirname(__FILE__);
-$crmPath =  $currentPath . '/../';
-chdir ($crmPath);
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-require_once 'config/api.php';
+chdir (__DIR__ . '/../');
+
+require_once('config/api.php');
 if(!in_array('dav',$enabledServices)){
 	die('Dav - Service is not active');
 }
-require_once 'config/debug.php';
-require_once 'config/config.php';
+require_once('config/debug.php');
+require_once('config/config.php');
+require_once('include/ConfigUtils.php');
 ini_set('error_log',$root_directory.'cache/logs/dav.log');
 $baseUri = $_SERVER['SCRIPT_NAME'];
 
@@ -33,7 +25,7 @@ function exception_error_handler($errno, $errstr, $errfile, $errline ) {
 set_error_handler("exception_error_handler");
 */
 // Autoloader
-require_once 'libraries/SabreDAV/autoload.php';
+require_once('libraries/SabreDAV/autoload.php');
 
 // Backends 
 $authBackend      = new Yeti\DAV_Auth_Backend_PDO($pdo);

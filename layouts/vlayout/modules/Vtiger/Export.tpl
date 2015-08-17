@@ -23,7 +23,7 @@
             <input type="hidden" name="operator" value="{$OPERATOR}" />
             <input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
             <input type="hidden" name="search_params" value='{ZEND_JSON::encode($SEARCH_PARAMS)}' />
-            
+
             <div class="">
                 <div class="span">&nbsp;</div>
                 <div class="col-md-8">
@@ -37,30 +37,31 @@
                                         <div class="col-md-8">{vtranslate('LBL_EXPORT_SELECTED_RECORDS',$MODULE)}&nbsp;</div>
                                         <div class="col-md-3"><input type="radio" name="mode" title="{vtranslate('LBL_EXPORT_SELECTED_RECORDS')}" value="ExportSelectedRecords" {if !empty($SELECTED_IDS)} checked="checked" {else} disabled="disabled"{/if}/></div>
                                     </div>
-                                {if empty($SELECTED_IDS)}&nbsp; <span class="redColor">{vtranslate('LBL_NO_RECORD_SELECTED',$MODULE)}</span>{/if}
-                            </div>
-                            <div class="row" style="height:30px">
-                                <div class="col-md-6 textAlignRight row">
-                                    <div class="col-md-8">{vtranslate('LBL_EXPORT_DATA_IN_CURRENT_PAGE',$MODULE)}&nbsp;</div>
-                                    <div class="col-md-3"><input type="radio" name="mode" title="{vtranslate('LBL_EXPORT_DATA_IN_CURRENT_PAGE',$MODULE)}" value="ExportCurrentPage" /></div>
-                                </div>
-                            </div>
-                            <div class="row" style="height:30px">
-                                <div class="col-md-6 textAlignRight row">
-                                    <div class="col-md-8">{vtranslate('LBL_EXPORT_ALL_DATA',$MODULE)}&nbsp;</div>
-                                    <div class="col-md-3"><input type="radio"  name="mode" value="ExportAllData" title="{vtranslate('LBL_EXPORT_ALL_DATA',$MODULE)}" {if empty($SELECTED_IDS)} checked="checked" {/if} /></div>
-                                </div>
-                            </div>
+									{if empty($SELECTED_IDS)}&nbsp; <span class="redColor">{vtranslate('LBL_NO_RECORD_SELECTED',$MODULE)}</span>{/if}
+								</div>
+								<div class="row" style="height:30px">
+									<div class="col-md-6 textAlignRight row">
+										<div class="col-md-8">{vtranslate('LBL_EXPORT_DATA_IN_CURRENT_PAGE',$MODULE)}&nbsp;</div>
+										<div class="col-md-3"><input type="radio" name="mode" title="{vtranslate('LBL_EXPORT_DATA_IN_CURRENT_PAGE',$MODULE)}" value="ExportCurrentPage" /></div>
+									</div>
+								</div>
+								<div class="row" style="height:30px">
+									<div class="col-md-6 textAlignRight row">
+										<div class="col-md-8">{vtranslate('LBL_EXPORT_ALL_DATA',$MODULE)}&nbsp;</div>
+										<div class="col-md-3"><input type="radio"  name="mode" value="ExportAllData" title="{vtranslate('LBL_EXPORT_ALL_DATA',$MODULE)}" {if empty($SELECTED_IDS)} checked="checked" {/if} /></div>
+									</div>
+								</div>
                         </fieldset>
                     </div>
                     <br>
                     <div class="textAlignCenter">
-                        <button class="btn btn-success" type="submit"><strong>{vtranslate($MODULE, $MODULE)}&nbsp;{vtranslate($SOURCE_MODULE, $MODULE)}</strong></button>
-                        <a class="cancelLink" type="reset" onclick='window.history.back()'>{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                        <button class="btn btn-success" type="submit"><strong>{vtranslate($MODULE, $MODULE)}&nbsp;{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</strong></button>
+						&nbsp;&nbsp;
+                        <button class="btn btn-warning" type="reset" onclick='window.history.back()'>{vtranslate('LBL_CANCEL', $MODULE)}</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+	</div>
+</form>
 </div>
 {/strip}

@@ -84,7 +84,6 @@ $languageStrings = [
 	'Urgent'=>'Pilny',
 	'Wait For Response'=>'Oczekuje na odpowiedź',
 	'LBL_CHARTS'=>'Wykresy',
-	'Total time [h]'=>'Łączny czas [h]',
 	'Rejected'=>'Odrzucony',
 	'Answered'=>'Udzielono odpowiedzi',
 	'P&S Sold'=>'Produkt/Usługa Sprzedana',

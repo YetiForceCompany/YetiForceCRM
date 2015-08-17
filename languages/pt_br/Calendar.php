@@ -114,9 +114,9 @@ $languageStrings = [
 	'Duration Minutes'=>'Duração em Minutos',
 	'No Time'=>'Nenhum',
 
-    'TASK_PREV' => 'Tarefas agendadas para o dia anterior',
-    'TASK_CUR' => 'Tarefas agendadas para hoje',
-    'TASK_NEXT' => 'Tarefas agendadas para amanhã',
+    'TASK_PREV' => 'Planejado para um dia antes',
+    'TASK_CUR' => 'Planejado para um dia específico',
+    'TASK_NEXT' => 'Planejado para um dia depois',
 	'LBL_NO_DESCRIPTION'=>'Sem descrição',
 	'LBL_IMPORT_ICS_ERROR_NO_RECORD'=>'Arquivo ICS incorreto',
 	'LBL_IMPORT_ICS_SUCCESS'=>'Entrada adicionada na Agenda',
@@ -139,8 +139,8 @@ $languageStrings = [
 	'LBL_USERS_BLOCK_SHIFT' => 'Exibir ou ocultar tipo bloco de Usuários',
 	'LBL_GROUPS_BLOCK_SHIFT' => 'Exibir ou ocultar tipo bloco Grupos',
 	'LBL_SHIFT_BLOCK' => 'Exibir ou ocultar bloco',
-	'LBL_ON_SWITCH' => 'ON',
-	'LBL_OFF_SWITCH' => 'OFF',
+	'LBL_ON_SWITCH' => 'Ativar',
+	'LBL_OFF_SWITCH' => 'Desativar',
 ];
 
 $jsLanguageStrings = [
@@ -186,6 +186,5 @@ $jsLanguageStrings = [
 	'JS_Public' => 'Público',
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Não é possível selecionar Contato relacionado Leads',
 	'Mobile Call' => 'Ligar para Celular',
-    'NOTIFICATION_ACCEPTED' => 'Aceita',
     'JS_CHANGE_ACTIVITY_TIME' => 'Alterar status para: processando ou histórico',
 ];

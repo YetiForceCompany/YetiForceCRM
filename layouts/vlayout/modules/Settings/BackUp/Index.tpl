@@ -27,7 +27,7 @@
 	<input type='hidden' value="{$BACKUP_INFO['id']}" class='backupID'>
 	{assign var=CHECK_CRON value=$BACKUP_MODEL->checkCron()}
 	{assign var=CHECK_MAIL value=$BACKUP_MODEL->checkMail()}
-	<div class="container-fluid" style="margin-top:10px;">
+	<div>
 		<h3>{vtranslate('Backup', $QUALIFIED_MODULE_NAME)}</h3>&nbsp;{vtranslate('LBL_BACKUP_DESCRIPTION', $QUALIFIED_MODULE_NAME)}<hr>
 		{if !extension_loaded('zip')}
 			<div class="alert alert-block alert-danger" style="margin-left: 10px;">
@@ -53,12 +53,12 @@
 		<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
 			<li class="active"><a href="#tab_0" data-toggle="tab">{vtranslate('LBL_BACKUP_CREATING', $QUALIFIED_MODULE_NAME)}</a></li>
 			<li><a href="#tab_1" data-toggle="tab">{vtranslate('LBL_LOGS', $QUALIFIED_MODULE_NAME)}</a></li>
-			{if function_exists('ftp_connect')}
+				{if function_exists('ftp_connect')}
 				<li><a href="#tab_2" data-toggle="tab">{vtranslate('LBL_FTP_SETTINGS', $QUALIFIED_MODULE_NAME)}</a></li>
-			{/if}
-			{if $CHECK_MAIL}
+				{/if}
+				{if $CHECK_MAIL}
 				<li><a href="#tab_3" data-toggle="tab">{vtranslate('LBL_EMAIL_NOTIFICATIONS', $QUALIFIED_MODULE_NAME)}</a></li>
-			{/if}
+				{/if}
 			<li><a href="#tab_4" data-toggle="tab">{vtranslate('LBL_GENERAL_SETTINGS', $QUALIFIED_MODULE_NAME)}</a></li>
 		</ul>
 		<div id="my-tab-content" class="tab-content layoutContent" style="padding-top: 5px;">
@@ -177,8 +177,8 @@
 			<div class='tab-pane' id="tab_1">
 				<div>
 					<div class="btn-group pull-right">
-						<button class="btn pull-left" id="listViewPreviousPageButton" ><span class="icon-chevron-left"></span></button>
-						<button class="btn pull-left" id="listViewNextPageButton" {if ($NEXT_PAGE eq false) or (ALL_PAGES eq 1)} disabled {/if}><span class="icon-chevron-right"></span></button>
+						<button class="btn btn-default pull-left" id="listViewPreviousPageButton" ><span class="glyphicon glyphicon-chevron-left"></span></button>
+						<button class="btn btn-default pull-left" id="listViewNextPageButton" {if ($NEXT_PAGE eq false) or (ALL_PAGES eq 1)} disabled {/if}><span class="glyphicon glyphicon-chevron-right"></span></button>
 					</div>
 				</div>
 				<br /><br />
@@ -226,8 +226,9 @@
 						<tbody>
 							<tr>
 								<td style="width:25%">
+									<label class="pull-right">{vtranslate('LBL_HOST', $QUALIFIED_MODULE_NAME)}</label>
 									<span class="redColor pull-right">*</span>
-									<label class="pull-right">{vtranslate('LBL_HOST', $QUALIFIED_MODULE_NAME)}</label></td>
+								</td>
 								<td>
 									<div class="col-md-3">
 										<input class="form-control" type="text" value="{$FTP_HOST}" name="host"></input>
@@ -236,8 +237,8 @@
 							</tr>
 							<tr>
 								<td style="width:25%">
-									<span class="redColor pull-right">*</span>
 									<label class="pull-right">{vtranslate('LBL_LOGIN', $QUALIFIED_MODULE_NAME)}</label>
+									<span class="redColor pull-right">*</span>
 								</td>
 								<td>
 									<div class="col-md-3">
@@ -247,8 +248,8 @@
 							</tr>
 							<tr>
 								<td style="width:25%">
-									<span class="redColor pull-right">*</span>
 									<label class="pull-right">{vtranslate('LBL_PASSWORD', $QUALIFIED_MODULE_NAME)}</label>
+									<span class="redColor pull-right">*</span>
 								</td>
 								<td>
 									<div class="col-md-3">
@@ -281,7 +282,7 @@
 								<td style="width:25%"><label class="pull-right">{vtranslate('LBL_ACTIVE', $QUALIFIED_MODULE_NAME)}</label></td>
 								<td>
 									<div class="col-md-3">
-									<input type="checkbox" name="active" {if $FTP_ACTIVE} checked {/if}></input>
+										<input type="checkbox" name="active" {if $FTP_ACTIVE} checked {/if}></input>
 									</div>
 								</td>
 							</tr>
@@ -295,7 +296,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<input class="btn btn-success pull-right" id="saveFtpConfig" value="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}">
+					<button class="btn btn-success pull-right" id="saveFtpConfig" type="button">{vtranslate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</button>
 				</form>
 			</div>
 			<div class="tab-pane" id="tab_3">
@@ -337,13 +338,13 @@
 						<tr>
 							<td><label>{vtranslate('LBL_STORAGEFOLDER_INFO', $QUALIFIED_MODULE)}</label></td>
 							<td>
-								<input class="span1 configField switchBtn" type="checkbox" name="storage_folder" data-type="folder" {if $DIRSFROMCONFIG['storage_folder'] == 'true'}checked{/if} />
+								<input class="span1 configField switchBtn" type="checkbox" name="storage_folder" data-on-text="{vtranslate('LBL_ON', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_OFF', $QUALIFIED_MODULE)}" data-type="folder" {if $DIRSFROMCONFIG['storage_folder'] == 'true'}checked{/if} />
 							</td>
 						</tr>
 						<tr>
 							<td><label>{vtranslate('LBL_BACKUPFOLDER_INFO', $QUALIFIED_MODULE)}</label></td>
 							<td>
-								<input class="span1 configField switchBtn" type="checkbox" name="backup_folder" data-type="folder" {if $DIRSFROMCONFIG['backup_folder'] == 'true'}checked{/if} />
+								<input class="span1 configField switchBtn" type="checkbox" name="backup_folder" data-on-text="{vtranslate('LBL_ON', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_OFF', $QUALIFIED_MODULE)}" data-type="folder" {if $DIRSFROMCONFIG['backup_folder'] == 'true'}checked{/if} />
 							</td>
 						</tr>
 						<tr>
@@ -357,4 +358,4 @@
 			</div>
 		</div>
 	</div>
-	{/strip}
+{/strip}

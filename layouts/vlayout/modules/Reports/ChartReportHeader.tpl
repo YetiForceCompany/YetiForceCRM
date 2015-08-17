@@ -1,38 +1,38 @@
 {*<!--
 /*********************************************************************************
-  ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-   * ("License"); You may not use this file except in compliance with the License
-   * The Original Code is:  vtiger CRM Open Source
-   * The Initial Developer of the Original Code is vtiger.
-   * Portions created by vtiger are Copyright (C) vtiger.
-   * All Rights Reserved.
-  *
- ********************************************************************************/
+** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+*
+********************************************************************************/
 -->*}
 {strip}
 	<div id="toggleButton" class="toggleButton" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
 		<span id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></span>
 	</div>
     <div class="">
-        <div class="row reportsDetailHeader">
+        <div class="reportsDetailHeader">
             <input type="hidden" name="date_filters" data-value='{ZEND_JSON::encode($DATE_FILTERS)}' />
             <div class="reportHeader row">
-                <div class='col-md-8 btn-toolbar'>
+                <div class='col-md-8'>
                     <h3>{$REPORT_MODEL->getName()}</h3>
                 </div>
 
-                <div class='col-md-4'>
+                <div class='col-md-4 h4'>
                     <div class="btn-toolbar pull-right">
                         {if $REPORT_MODEL->isEditable() eq true}
                             <div class="btn-group">
-                                <button onclick='window.location.href="{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-default">
+                                <button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-default">
                                     <strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </button>
                             </div>
                         {/if}
                         <div class="btn-group">
-                            <button onclick='window.location.href="{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-default">
+                            <button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-default">
                                 <strong>{vtranslate('LBL_DUPLICATE',$MODULE)}</strong>
                             </button>
                         </div>
@@ -74,21 +74,20 @@
 						{/foreach}
 					{/foreach}
 					<div>
-						<div>
-							<div class='row'>
-								<span class="col-md-4">
-									<div><span>{vtranslate('LBL_SELECT_GROUP_BY_FIELD', $MODULE)}</span><span class="redColor">*</span></div><br>
-									<div class="row">
-										<select id='groupbyfield' name='groupbyfield' class="col-md-10" data-validation-engine="validate[required]" style='min-width:300px;'></select>
+						<div class="row">
+							<div class='form-inline'>
+								<div class="form-group col-xs-6">
+									<label>{vtranslate('LBL_SELECT_GROUP_BY_FIELD', $MODULE)}<span class="redColor">*</span></label>
+									<div class="col-md-12 paddingLRZero">
+										<select id='groupbyfield' name='groupbyfield' class="form-control" data-validation-engine="validate[required]"></select>
 									</div>
-								</span>
-								<span class="col-md-2">&nbsp;</span>
-								<span class="col-md-4">
-									<div><span>{vtranslate('LBL_SELECT_DATA_FIELD', $MODULE)}</span><span class="redColor">*</span></div><br>
-									<div class="row">
-										<select id='datafields' name='datafields[]' class="col-md-10" data-validation-engine="validate[required]" style='min-width:300px;'>
-									</select></div>
-								</span>
+								</div>
+								<div class="form-group col-xs-6">
+									<label>{vtranslate('LBL_SELECT_DATA_FIELD', $MODULE)}<span class="redColor">*</span></label>
+									<div class="col-md-12 paddingLRZero">
+										<select id='datafields' name='datafields[]' class="form-control" data-validation-engine="validate[required]">
+										</select></div>
+								</div>
 							</div>
 							<br>
 
@@ -96,27 +95,27 @@
 								{include file="chartReportHiddenContents.tpl"|vtemplate_path:$MODULE}
 							</div>
 						</div>
-						<br>
-						<div class='row'>
-							{assign var=filterConditionNotExists value=(count($SELECTED_ADVANCED_FILTER_FIELDS[1]['columns']) eq 0 and count($SELECTED_ADVANCED_FILTER_FIELDS[2]['columns']) eq 0)}
-							<button class="btn btn-default" name="modify_condition" data-val="{$filterConditionNotExists}">
-								<strong>{vtranslate('LBL_MODIFY_CONDITION', $MODULE)}</strong>&nbsp;&nbsp;
-								<span class="{if $filterConditionNotExists eq true} glyphicon glyphicon-chevron-right {else} glyphicon glyphicon-chevron-down {/if}"></span>
-							</button>
-						</div>
-						<br>
-						<div id='filterContainer' class='{if $filterConditionNotExists eq true} hide {/if}'>
-							{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
+						<div class="clearfix">
+							<div class='h3'>
+								{assign var=filterConditionNotExists value=(count($SELECTED_ADVANCED_FILTER_FIELDS[1]['columns']) eq 0 and count($SELECTED_ADVANCED_FILTER_FIELDS[2]['columns']) eq 0)}
+								<button class="btn btn-default" name="modify_condition" data-val="{$filterConditionNotExists}">
+									<strong>{vtranslate('LBL_MODIFY_CONDITION', $MODULE)}</strong>&nbsp;&nbsp;
+									<span class="{if $filterConditionNotExists eq true} glyphicon glyphicon-chevron-right {else} glyphicon glyphicon-chevron-down {/if}"></span>
+								</button>
+							</div>
+							<div id='filterContainer' class='form-group '{if $filterConditionNotExists eq true} style="display: none"{/if}>
+								{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
+							</div>
 						</div>
 					</div>
 					<div class="row textAlignCenter">
 						<button class="btn btn-success generateReport" data-mode="save" value="{vtranslate('LBL_SAVE',$MODULE)}"/>
-							<strong>{vtranslate('LBL_SAVE',$MODULE)}</strong>
+						<strong>{vtranslate('LBL_SAVE',$MODULE)}</strong>
 						</button>
 					</div>
-				</div>
+			</div>
 			</form>
 		</div>
 	</div>
-	<div id="reportContentsDiv">
-{/strip}
+	<div id="reportContentsDiv" class="row">
+	{/strip}

@@ -10,24 +10,24 @@
     *
     ********************************************************************************/
     -->*}
-    {strip}		
-	<div class="tagCloudContainer col-md-2 pull-right" style="margin-top: 4px;">
-		<input type="hidden" id="maxTagLength" value="{$MAX_TAG_LENGTH}" />	
-		<input type="hidden" id="maxTag" value="{if isset($MAX_TAG)}{$MAX_TAG}{else}5{/if}" />	
-		<div class="col-md-2 marginLeftZero " style="min-width: 140px;float: right;">				
-			<input placeholder="{vtranslate('TAG_PLACEHOLDER')}" style="padding: 0px; width: 85%;margin-bottom: 0px;" type="text" title="{vtranslate('TAG_PLACEHOLDER')}" id="tagRecordText"/>
-			<img id="tagRecord" alt="{vtranslate('LBL_ADD_TAG')}" class="cursorPointer" src="layouts/vlayout/skins/images/btnAdd.png" style="width: 10%; margin-left: 1%;vertical-align: middle;"/>		    
+    {strip}	
+		<div id="tagRecordInput" class="input-group col-md-2">
+			<span id="tagRecord" class="glyphicon glyphicon-plus cursorPointer pull-right" aria-hidden="true"></span>
+			<input placeholder="{vtranslate('TAG_PLACEHOLDER')}" type="text" title="{vtranslate('TAG_PLACEHOLDER')}" id="tagRecordText" class="form-control input-sm pull-right"/>
 		</div>
-		<div class="" id="tagsList">
-			{foreach from=$TAGS[1] item=TAG_ID key=TAG_NAME}
-				<div style="" class=" tag" data-tagname="{$TAG_NAME}" data-tagid="{$TAG_ID}">
-					<span class="tagName textOverflowEllipsis">
-						<a class="cursorPointer">{$TAG_NAME}</a>
-					</span>
-					<span class=" deleteTag cursorPointer"> x</span>
-				</div>
-			{/foreach}
+		<div class="col-md-12 pull-right">
+			<input type="hidden" id="maxTagLength" value="{$MAX_TAG_LENGTH}" />	
+			<input type="hidden" id="maxTag" value="{if isset($MAX_TAG)}{$MAX_TAG}{else}5{/if}" />	
+			<div id="tagsList" class="pushDown">
+				{foreach from=$TAGS[1] item=TAG_ID key=TAG_NAME}
+					<div class="btn-info btn-xs pull-right tag" data-tagname="{$TAG_NAME}" data-tagid="{$TAG_ID}">
+						<span class="tagName textOverflowEllipsis">
+							<a class="cursorPointer">{$TAG_NAME}</a>
+						</span>
+						<span id="deleteTag" class="glyphicon glyphicon-remove cursorPointer deleteTag paddingLeft5px" aria-hidden="true"></span>
+					</div>
+				{/foreach}
+			</div>
 		</div>
-	</div>
     {/strip}	
 {/if}

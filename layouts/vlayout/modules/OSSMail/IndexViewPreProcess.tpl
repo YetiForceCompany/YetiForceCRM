@@ -14,4 +14,4 @@
 {include file="BasicHeader.tpl"|vtemplate_path:$MODULE}
 <div class="bodyContents">
 	<div class="mainContainer">
-		<div class=" col-md-12" id="centerPanel">
+		<div>

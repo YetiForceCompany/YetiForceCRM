@@ -5,9 +5,13 @@ We design an innovative CRM system that is dedicated for large and medium sized 
 
 Test [YetiForce] (https://test.yetiforce.com/index.php)
 
+[GitMaster] (https://gitmaster.yetiforce.com)
+
+[GitDeveloper] (https://gitdeveloper.yetiforce.com)
+
 Read the [documentation] (https://yetiforce.com/en/documentation.html) to learn more.
 
-Sign up for our [mailing list](https://lists.sourceforge.net/lists/listinfo/yetiforce-mailing).
+Sign up for our [mailing list](https://lists.sourceforge.net/lists/listinfo/yetiforce-mailing). It is dedicated for people/companies which would like to contribute to development of YetiForce. It isn't an appropriate place for regular users of the software.
 
 Follow us on [Twitter](https://twitter.com/YetiForceEN) to get real-time info about new articles and functionalities. 
 
@@ -16,12 +20,48 @@ YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow
 Below you can see how we improve our project:
 
 
-#YetiForce 2.1 GA [under development]
+#YetiForce 2.1 GA
 
-2.0 was launched on 21st May 2015 and the following changes are up to 2.0.286 from 2nd July 2015.
+2.1 was launched on 6st August 2015 and the following changes are up to 2.1.0 from 6th August 2015.
 
 
-**Bug Fixes:** 
+**Bug Fixes:**
+- Fixed a bug that caused an email message to appear as “received” instead of “sent”.
+- Fixed a loader bug in “Opportunities” detail view.
+- Fixed display of time (hours) in time-related fields.
+- Fixed a field editor bug.
+- Fixed a bug connected with incorrect date formatting after quick edit.
+- Fixed a bug connected with adding and selecting records.
+- Fixed a bug that prevented ownership transfer.
+- Fixed a bug that prevented deleting filters.
+- Fixed a bug connected with finding duplicates.
+- Fixed quick record creation from settings.
+- Fixed mail scanner.
+- Fixed deleting of related records.
+- Fixed the workflow layout “Invitees – Send – Notification”.
+- Fixed the workflow layout “Send Mail”.
+- Fixed a bug related to comments in Reservations module.
+- Fixed the “Create Event” task in workflow.
+- Fixed “Update Fields” and “Create Entity” tasks in workflow.
+- Fixed a bug related to activating and deactivating fields.
+- Fixed field edition in the “Edit Fields” panel.
+- Fixed display of currency fields.
+- Fixed setting value for reference fields.
+- Fixed an error that caused importing some module records to crash.
+- Fixed exporting Calculations module.
+- Fixed exporting Costs to csv and exporting from csv file.
+- Fixed a bug that prevented users from editing fields in Summary View.
+- Fixed pick lists in the workflow module.
+- Fixed email validation in mail scanner configuration to allow new functional top level domains.
+- Fixed the value of root directory when installing the system.
+- Fixed the Next Page button in the Passwords module.
+- Fixed the "duplicate headers received" error.
+- Fixed relationships in the Campaign module.
+- Fixed adding relationship in Service Contracts module.
+- Fixed seq.
+- Fixed a bug that allowed deleting records without permission.
+- Fixed an option that allows to add records from widgets.
+- Fixed the "Calendar-pending" and "Overdue Activities" widget in dashboard module.
 -	Fixed an option that allows to add records from widgets.
 -	Fixed the generation of PDFs.
 -	Fixed sharing privileges.
@@ -32,11 +72,24 @@ Below you can see how we improve our project:
 -	Fixed a bug of not saving an email address to which notifications about backups should be sent.
 -	Fixed a bug of not saving the parameters in General Settings of Backup.
 -	Fixed a bug that appeared during saving of a field in Company Details.
+-	Fixed a bug that appeared during seving of calculations.
 -	Fixed a bug that appeared during export of invoices to PDF.
--	Fixed a bug that appeared during the installation prosess and caused the system to fail.
+-	Fixed a bug that appeared during the installation process and caused the system to fail.
 -	Fixed a bug that did not allow to add a custom field with 1:M relation
 -	Fixed a bug that appeared after adding a comment to a related module of Contacts.
+-	Fixed a bug that appeared during entering data to the Campaigns Module.
 -	Fixed a bug that appeared in a dropdown while creating/editing menu items. 
+-	Fixed a bug that appeared during adding a new PriceBook.
+-	Fixed a bug that appeared during a transfer of ownership in the FAQs module.
+-	Fixed a bug that appeared during a search for duplicates in Sales Orders and Quotes.
+-	Fixed a bug that appeared during adding of Data Summary widget.
+-	Fixed a bug that appeared during adding of a detail report.
+-	Fixed a bug that appeared during setting rss feed as default.
+-	Fixed a bug that appeared during changing 'Language available for" in the Language Management.
+-	Fixed a bug that appeared during changing buttons configuration in the General Configuration of PDF.
+-	Fixed a bug that appeared during deleting related records in the Documents and Opportunities modules.
+-	Fixed a bug that appeared after deleting a product in the Calculations module.
+-	Fixed a bug that caused that calendar events disappeared after page refresh.
 -	Fixed a bug in the OSSMail module - server configuration display failed when the module was disabled.
 -	Fixed a bug in the list view in Workflow panel.
 -	Fixed a bug that showed a blank page in a related module (Charts) of Projects.
@@ -54,7 +107,7 @@ Below you can see how we improve our project:
 -	Fixed info about the number of records in related modules.
 -	Fixed a relation between Quotes and Calculations.
 -	Fixed the authentication of users.
--	Fixed the abilty to add fields in the 'Company details' panel.
+-	Fixed the ability to add fields in the 'Company details' panel.
 -	Fixed the system installer.
 -	Fixed database connection in the mail module.
 -	Fixed closing of calendar notifications. 
@@ -62,10 +115,71 @@ Below you can see how we improve our project:
 -	Fixed a header in detail view of Contacts.
 -	Fixed workflow responsible for sending emails.
 -	Fixed the Mail Scanner configuration.
+-	Fixed collapse blocks in various locations.
+-	Fixed browser compatibility.
+-	Fixed a function responsible for adding widgets. 
+-	Fixed widget privileges after the change of role in users.
+-	Fixed many error messages that appeared twice.
+-	Fixed Quick Create for Costs.
 
 
 **Improvements:**
--	Further improvements that allow visually impaired peaople to navigate around the system.
+- Improved searching for a column name during module installation.
+- Improved error messages in webservice.
+- Improved htaccess.
+- Improved page titles.
+- Improved mass edit view.
+- Improved groups.
+- Improved display inputs and task status in workflows.
+- Improved relations removal.
+- Improved transmission encryption.
+- Improved vtlib_purify for data tables.
+- Improved communication APIs.
+- Improved page controller.
+- Improved select2 elements.
+- Improved MySQL debugging.
+- Improved displaying of currencies.
+- Improved checkError.
+- Improved filtering dangerous html tags.
+- Expanded encryption of data traffic in two directions.
+- Updated Credits.
+- Updated app.min.js.
+- Optimized getInstance CRMEntity.
+- Cleanup in classes.
+- Changed configuration limits.
+- Added a feature to get all currencies.
+- Added a new parameter that allows setting visibility of fields.
+- Redesigned the module builder.
+- Improved appearance of various fields, buttons, labels and icons.
+- Improved existing translations.
+- Improved url validation - it is now a two-step process.
+- Improved the layout of the Reports module.
+- Improved reminders for calendar events.
+- Improved lists selection.
+- Improved the display of all-day dates.
+- Improved mail scanner.
+- Improved the validating function.
+- Improved layout of popups.
+- Improved labels of required fields.
+- Improved the automatic search feature.
+- Improved the appearance of windows mail.
+- Improved the tax popup window in the tax block.
+- Improved the display of some widgets for users without the administrator permissions.
+- Improved the appearance of DataAccess.
+- Added automatic related data loading in quick create.
+- Added the "working times in total" field and related actions.
+- Added some missing handlers in the Users module.
+- Added protection against duplicating the 'click' event in the Company Details panel.
+- Added permission for quick export to Excel.
+- Added bootstrap jquery-ui theme.
+- Added missing icons.
+- Added a function to retrieve initials.
+- Updated the thunderbird_labels plugin.
+- Expanded the error logs.
+- Redesigned listing of users and groups in the calendar.
+- Changed the order of some html elements.
+- Removed an old plugin
+-	Further improvements that allow visually impaired people to navigate around the system.
 -	Moved constant variable assignments out of loop.
 -	Moved excess translations from various modules to one file. 
 -	Updated jQuery to v2.1.4 and jQuery-ui to v1.11.4 and made changes in javascript files.
@@ -79,18 +193,22 @@ Below you can see how we improve our project:
 -	Improved the display of progress bar in the Backup module.
 -	Improved the display of edit window for cron tasks.
 -	Improved the display of buttons in the Calendar.
+-	Improved the display of Groups panel in detail view.
 -	Improved the display of many popups. 
+-	Improved the display of many modal windows.
+-	Improved the display of variables in Brute Force panel.
 -	Improved the global variables.
 -	Improved the titles of buttons in Details view.
 -	Improved the generation of queries for reference fields.
 -	Improved icons of filters.
 -	Improved error reporting during the verification of configuration.
+-	Improved security in converting a Lead. 
 -	Improved privileges in the Calendar.
 -	Improved email content filtering.
 -	Improved backup configuration.
 -	Improved the conversion of a lead.
 -	Improved the validation of modules with Products.
--	Improved loading of data when a related is selected.
+-	Improved loading of data when a related module is selected.
 -	Improved relation handlers.
 -	Improved a select window for modules in quick create.
 -	Improved search of email addresses in the Mail Module.
@@ -99,10 +217,14 @@ Below you can see how we improve our project:
 -	Improved the panel for Language Management.
 -	Improved the export module.
 -	Improved the mechanism responsible for password change.
--	Improved database Contoller.
+-	Improved database Controller.
 -	Improved the global search.
 -	Improved server configuration check.
 -	Improved 'Change owner" action for a related Calendar module.
+-	Improved import and export view in the Calculations module.
+-	Improved adding of new sharing rules.
+-	Improved a list of users and groups in the list of records.
+-	Improved debugging.
 -	Added changes from Vtiger rev. 14461, 14484, 14490, 14501 (6.3.0).
 -	Added omitted fixes that had an influence on records creation.
 -	Added protection when creating records. 
@@ -111,14 +233,16 @@ Below you can see how we improve our project:
 -	Added javascript action for events in the Reservations and Time Control. 
 -	Added an uncompressed file to the Bootbox library. 
 -	Added a 'type' attribute to buttons in headers in edit view.
+-	Added many missing translations.
 -	Added missing buttons for generating random colors in Calendar configuration and Activity configuration panels.
 -	Optimized backup files.
 -	Optimized load scripts.
 -	Expanded the configuration of emails. 
 -	Secured search of records in a list view.
+-	Secured the creation of records in the Calendar.
 -	Changed icon names in database.
 -	Rebuilt the loading of JS files in import and export inventory modules.
--	Bootstrap 3 - fixed the appearance of the products blok.
+-	Bootstrap 3 - fixed the appearance of the products block.
 -	Bootstrap 3 - subsequent amendments.
 -	Bootstrap 3 - amendments in security menu.
 -	Bootstrap 3 - improved security menu.
@@ -135,10 +259,25 @@ Below you can see how we improve our project:
 
 
 **New functionalities:**
-- Added the ability to send emil in a popup window.
-- Added a new type of an email templete. 
+- Added additional security to API webservice.
+- Added the Dutch language.
+- Added the ability to search for records to which the user has no access.
+- Added the option to display administrators in the list of users ('Assigned To').
+- Added the option to change the record owner.
+- Added the ability to quickly generate an Excel file.
+- Added the possibility to sort the activities in "Upcoming Activity" and "Overdue Activity" widgets.
+- Added duplicate filters.
+- Added the option to search Organizations to merge while converting with Leads.
+- Added the option to remove comments.
+- Added Detail.LoadContents.PostLoad Event.
+- Added automated search in the global search engine.
+- Added the option to delete the configuration template after system installation.
+- Added a history of changes when changing the owner. 
+- Added the ability to send email in a popup window.
+- Added a new type of an email template. 
 - Added the ability to customize languages, layouts and the main file of a module (overwriting the default language files).
 - Added support for PDO during installation.
+- Added support for php cgi-fcgi (CRON).
 - Added checking of the file upload limit in imported modules.
 - Added library Selectize.
 - Added a function that retrieves a database name.
@@ -146,6 +285,9 @@ Below you can see how we improve our project:
 - Added a new element to the Marketing Processes.
 - Added system filters.
 - Added a possibility to change the access rules in the Calendar.
+- Added a status of email accounts in the Mail Scanner.
+- Added a functionality responsible for loading of a new web service.
+- Added a configuration for Portal 2.0.
 
 
 The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/pl/dokumentacja-programisty/zmiany.html).

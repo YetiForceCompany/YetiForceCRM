@@ -1,20 +1,20 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-abstract class EntityMeta{
-	
+abstract class EntityMeta
+{
+
 	public static $RETRIEVE = "DetailView";
 	public static $CREATE = "Save";
 	public static $UPDATE = "EditView";
 	public static $DELETE = "Delete";
-	
 	protected $webserviceObject;
 	protected $objectName;
 	protected $objectId;
@@ -24,7 +24,6 @@ abstract class EntityMeta{
 	protected $tableIndexList;
 	protected $defaultTableList;
 	protected $idColumn;
-	
 	protected $userAccessibleColumns;
 	protected $columnTableMapping;
 	protected $fieldColumnMapping;
@@ -33,240 +32,274 @@ abstract class EntityMeta{
 	protected $emailFields;
 	protected $ownerFields;
 	protected $moduleFields = null;
-	
-	protected function EntityMeta($webserviceObject,$user){
+
+	protected function EntityMeta($webserviceObject, $user)
+	{
 		$this->webserviceObject = $webserviceObject;
 		$this->objectName = $this->webserviceObject->getEntityName();
 		$this->objectId = $this->webserviceObject->getEntityId();
-		
+
 		$this->user = $user;
 	}
-	
-	public function getEmailFields(){
-		if($this->emailFields === null){
-			$this->emailFields =  array();
+
+	public function getEmailFields()
+	{
+		if ($this->emailFields === null) {
+			$this->emailFields = array();
 			$moduleFields = $this->getModuleFields();
-			foreach ($moduleFields as $fieldName=>$webserviceField) {
-				if(strcasecmp($webserviceField->getFieldType(),'e') === 0){
+			foreach ($moduleFields as $fieldName => $webserviceField) {
+				if (strcasecmp($webserviceField->getFieldType(), 'e') === 0) {
 					array_push($this->emailFields, $fieldName);
 				}
 			}
 		}
-		
+
 		return $this->emailFields;
 	}
-	
-	public function getFieldColumnMapping(){
-		if($this->fieldColumnMapping === null){
-			$this->fieldColumnMapping =  array();
-			
+
+	public function getFieldColumnMapping()
+	{
+		if ($this->fieldColumnMapping === null) {
+			$this->fieldColumnMapping = array();
+
 			$moduleFields = $this->getModuleFields();
-			foreach ($moduleFields as $fieldName=>$webserviceField) {
+			foreach ($moduleFields as $fieldName => $webserviceField) {
 				$this->fieldColumnMapping[$fieldName] = $webserviceField->getColumnName();
 			}
 			$this->fieldColumnMapping['id'] = $this->idColumn;
 		}
 		return $this->fieldColumnMapping;
 	}
-	
-	public function getMandatoryFields(){
-		if($this->mandatoryFields === null){
-			$this->mandatoryFields =  array();
-			
+
+	public function getMandatoryFields()
+	{
+		if ($this->mandatoryFields === null) {
+			$this->mandatoryFields = array();
+
 			$moduleFields = $this->getModuleFields();
-			foreach ($moduleFields as $fieldName=>$webserviceField) {
-				if($webserviceField->isMandatory() === true){
-					array_push($this->mandatoryFields,$fieldName);
+			foreach ($moduleFields as $fieldName => $webserviceField) {
+				if ($webserviceField->isMandatory() === true) {
+					array_push($this->mandatoryFields, $fieldName);
 				}
 			}
 		}
 		return $this->mandatoryFields;
 	}
-	
-	public function getReferenceFieldDetails(){
-		if($this->referenceFieldDetails === null){
-			$this->referenceFieldDetails =  array();
-			
+
+	public function getReferenceFieldDetails()
+	{
+		if ($this->referenceFieldDetails === null) {
+			$this->referenceFieldDetails = array();
+
 			$moduleFields = $this->getModuleFields();
-			foreach ($moduleFields as $fieldName=>$webserviceField) {
-				if(strcasecmp($webserviceField->getFieldDataType(),'reference') === 0){
+			foreach ($moduleFields as $fieldName => $webserviceField) {
+				if (strcasecmp($webserviceField->getFieldDataType(), 'reference') === 0) {
 					$this->referenceFieldDetails[$fieldName] = $webserviceField->getReferenceList();
 				}
 			}
 		}
 		return $this->referenceFieldDetails;
 	}
-	
-	public function getOwnerFields(){
-		if($this->ownerFields === null){
-			$this->ownerFields =  array();
-			
+
+	public function getOwnerFields()
+	{
+		if ($this->ownerFields === null) {
+			$this->ownerFields = array();
+
 			$moduleFields = $this->getModuleFields();
-			foreach ($moduleFields as $fieldName=>$webserviceField) {
-				if(strcasecmp($webserviceField->getFieldDataType(),'owner') === 0){
+			foreach ($moduleFields as $fieldName => $webserviceField) {
+				if (strcasecmp($webserviceField->getFieldDataType(), 'owner') === 0) {
 					array_push($this->ownerFields, $fieldName);
 				}
 			}
-			sort( $this->ownerFields );
+			sort($this->ownerFields);
 		}
 		return $this->ownerFields;
 	}
-	
-	public function getObectIndexColumn(){
+
+	public function getObectIndexColumn()
+	{
 		return $this->idColumn;
 	}
-	
-	public function getUserAccessibleColumns(){
-		if($this->userAccessibleColumns === null){
-			$this->userAccessibleColumns =  array();
-			
+
+	public function getUserAccessibleColumns()
+	{
+		if ($this->userAccessibleColumns === null) {
+			$this->userAccessibleColumns = array();
+
 			$moduleFields = $this->getModuleFields();
-			foreach ($moduleFields as $fieldName=>$webserviceField) {
-				array_push($this->userAccessibleColumns,$webserviceField->getColumnName());
+			foreach ($moduleFields as $fieldName => $webserviceField) {
+				array_push($this->userAccessibleColumns, $webserviceField->getColumnName());
 			}
-			array_push($this->userAccessibleColumns,$this->idColumn);
+			array_push($this->userAccessibleColumns, $this->idColumn);
 		}
 		return $this->userAccessibleColumns;
 	}
 
-	public function getFieldByColumnName($column){
+	public function getFieldByColumnName($column)
+	{
 		$fields = $this->getModuleFields();
-		foreach ($fields as $fieldName=>$webserviceField) {
-			if($column == $webserviceField->getColumnName()) {
+		foreach ($fields as $fieldName => $webserviceField) {
+			if ($column == $webserviceField->getColumnName()) {
 				return $webserviceField;
 			}
 		}
 		return null;
 	}
-	
-	public function getColumnTableMapping(){
-		if($this->columnTableMapping === null){
-			$this->columnTableMapping =  array();
-			
+
+	public function getColumnTableMapping()
+	{
+		if ($this->columnTableMapping === null) {
+			$this->columnTableMapping = array();
+
 			$moduleFields = $this->getModuleFields();
-			foreach ($moduleFields as $fieldName=>$webserviceField) {
+			foreach ($moduleFields as $fieldName => $webserviceField) {
 				$this->columnTableMapping[$webserviceField->getColumnName()] = $webserviceField->getTableName();
 			}
 			$this->columnTableMapping[$this->idColumn] = $this->baseTable;
 		}
 		return $this->columnTableMapping;
 	}
-	
-	function getUser(){
+
+	function getUser()
+	{
 		return $this->user;
 	}
-	
-	function hasMandatoryFields($row){
-		
+
+	function hasMandatoryFields($row)
+	{
+
 		$mandatoryFields = $this->getMandatoryFields();
 		$hasMandatory = true;
-		foreach($mandatoryFields as $ind=>$field){
+		foreach ($mandatoryFields as $ind => $field) {
 			// dont use empty API as '0'(zero) is a valid value.
-			if( !isset($row[$field]) || $row[$field] === "" || $row[$field] === null ){
-				throw new WebServiceException(WebServiceErrorCode::$MANDFIELDSMISSING,
-						"$field does not have a value");
+			if (!isset($row[$field]) || $row[$field] === "" || $row[$field] === null) {
+				//throw new WebServiceException(WebServiceErrorCode::$MANDFIELDSMISSING,
+				//		"$field does not have a value");
 			}
 		}
 		return $hasMandatory;
-		
 	}
-	public function isUpdateMandatoryFields($element){
-		if(!is_array($element)){
-			throw new WebServiceException(WebServiceErrorCode::$MANDFIELDSMISSING,
-							"Mandatory field does not have a value");
+
+	public function isUpdateMandatoryFields($element)
+	{
+		if (!is_array($element)) {
+			throw new WebServiceException(WebServiceErrorCode::$MANDFIELDSMISSING, "Mandatory field does not have a value");
 		}
 		$mandatoryFields = $this->getMandatoryFields();
 		$updateFields = array_keys($element);
 		$hasMandatory = true;
 		$updateMandatoryFields = array_intersect($updateFields, $mandatoryFields);
-		if(!empty($updateMandatoryFields)){
-			foreach($updateMandatoryFields as $ind=>$field){
+		if (!empty($updateMandatoryFields)) {
+			foreach ($updateMandatoryFields as $ind => $field) {
 				// dont use empty API as '0'(zero) is a valid value.
-				if( !isset($element[$field]) || $element[$field] === "" || $element[$field] === null ){
-					throw new WebServiceException(WebServiceErrorCode::$MANDFIELDSMISSING,
-							"$field does not have a value");
+				if (!isset($element[$field]) || $element[$field] === "" || $element[$field] === null) {
+					throw new WebServiceException(WebServiceErrorCode::$MANDFIELDSMISSING, "$field does not have a value");
 				}
 			}
 		}
 		return $hasMandatory;
 	}
-	
-	public function getModuleFields(){
+
+	public function getModuleFields()
+	{
 		return $this->moduleFields;
 	}
 
-	public function getFieldNameListByType($type) { 
-		$type = strtolower($type); 
-		$typeList = array(); 
-		$moduleFields = $this->getModuleFields(); 
-		foreach ($moduleFields as $fieldName=>$webserviceField) { 
-			if(strcmp($webserviceField->getFieldDataType(),$type) === 0){ 
-				array_push($typeList, $fieldName); 
-			} 
-		} 
-		return $typeList; 
-	}
-
-	public function getFieldListByType($type) {
+	public function getFieldNameListByType($type)
+	{
 		$type = strtolower($type);
 		$typeList = array();
 		$moduleFields = $this->getModuleFields();
-		foreach ($moduleFields as $fieldName=>$webserviceField) {
-			if(strcmp($webserviceField->getFieldDataType(),$type) === 0){
+		foreach ($moduleFields as $fieldName => $webserviceField) {
+			if (strcmp($webserviceField->getFieldDataType(), $type) === 0) {
+				array_push($typeList, $fieldName);
+			}
+		}
+		return $typeList;
+	}
+
+	public function getFieldListByType($type)
+	{
+		$type = strtolower($type);
+		$typeList = array();
+		$moduleFields = $this->getModuleFields();
+		foreach ($moduleFields as $fieldName => $webserviceField) {
+			if (strcmp($webserviceField->getFieldDataType(), $type) === 0) {
 				array_push($typeList, $webserviceField);
 			}
 		}
 		return $typeList;
 	}
-	
-	public function getIdColumn(){
+
+	public function getIdColumn()
+	{
 		return $this->idColumn;
 	}
 
-	public function getEntityBaseTable() {
+	public function getEntityBaseTable()
+	{
 		return $this->baseTable;
 	}
 
-	public function getEntityTableIndexList() {
+	public function getEntityTableIndexList()
+	{
 		return $this->tableIndexList;
 	}
 
-	public function getEntityDefaultTableList() {
+	public function getEntityDefaultTableList()
+	{
 		return $this->defaultTableList;
 	}
 
-	public function getEntityTableList() {
+	public function getEntityTableList()
+	{
 		return $this->tableList;
 	}
 
-	public function getEntityAccessControlQuery(){
+	public function getEntityAccessControlQuery()
+	{
 		$accessControlQuery = '';
 		return $accessControlQuery;
 	}
 
-	public function getEntityDeletedQuery(){
-		if($this->getEntityName() == 'Leads') {
+	public function getEntityDeletedQuery()
+	{
+		if ($this->getEntityName() == 'Leads') {
 			return "vtiger_crmentity.deleted=0 and vtiger_leaddetails.converted=0";
 		}
-		if($this->getEntityName() != "Users"){
+		if ($this->getEntityName() != "Users") {
 			return "vtiger_crmentity.deleted=0";
 		}
 		// not sure whether inactive users should be considered deleted or not.
 		return "vtiger_users.status='Active'";
 	}
 
-	abstract function hasPermission($operation,$webserviceId);
+	abstract function hasPermission($operation, $webserviceId);
+
 	abstract function hasAssignPrivilege($ownerWebserviceId);
+
 	abstract function hasDeleteAccess();
+
 	abstract function hasAccess();
+
 	abstract function hasReadAccess();
+
 	abstract function hasWriteAccess();
+
 	abstract function getEntityName();
+
 	abstract function getEntityId();
+
 	abstract function exists($recordId);
+
 	abstract function getObjectEntityName($webserviceId);
+
 	abstract public function getNameFields();
+
 	abstract public function getName($webserviceId);
+
 	abstract public function isModuleEntity();
 }
+
 ?>

@@ -1,25 +1,27 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
 require_once 'include/events/include.inc';
 
 /**
  * Roles Record Model Class
  */
-class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
+class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
+{
 
 	/**
 	 * Function to get the Id
 	 * @return <Number> Group Id
 	 */
-	public function getId() {
+	public function getId()
+	{
 		return $this->get('groupid');
 	}
 
@@ -28,7 +30,8 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 	 * @param <Number> Group Id
 	 * @return <Settings_Groups_Reord_Model> instance
 	 */
-	public function setId($id) {
+	public function setId($id)
+	{
 		return $this->set('groupid', $id);
 	}
 
@@ -36,7 +39,8 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get the Group Name
 	 * @return <String>
 	 */
-	public function getName() {
+	public function getName()
+	{
 		return $this->get('groupname');
 	}
 
@@ -44,7 +48,8 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get the description of the group
 	 * @return <String>
 	 */
-	public function getDescription() {
+	public function getDescription()
+	{
 		return $this->get('description');
 	}
 
@@ -52,42 +57,47 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get the Edit View Url for the Group
 	 * @return <String>
 	 */
-	public function getEditViewUrl() {
-		return '?module=Groups&parent=Settings&view=Edit&record='.$this->getId();
+	public function getEditViewUrl()
+	{
+		return '?module=Groups&parent=Settings&view=Edit&record=' . $this->getId();
 	}
 
 	/**
 	 * Function to get the Delete Action Url for the current group
 	 * @return <String>
 	 */
-	public function getDeleteActionUrl() {
-		return 'index.php?module=Groups&parent=Settings&view=DeleteAjax&record='.$this->getId();
+	public function getDeleteActionUrl()
+	{
+		return 'index.php?module=Groups&parent=Settings&view=DeleteAjax&record=' . $this->getId();
 	}
-    
-    /**
+
+	/**
 	 * Function to get the Detail Url for the current group
 	 * @return <String>
 	 */
-    public function getDetailViewUrl() {
-        return '?module=Groups&parent=Settings&view=Detail&record='.$this->getId();
-    }
+	public function getDetailViewUrl()
+	{
+		return '?module=Groups&parent=Settings&view=Detail&record=' . $this->getId();
+	}
 
 	/**
 	 * Function to get all the members of the groups
 	 * @return <Array> Settings_Profiles_Record_Model instances
 	 */
-	public function getMembers() {
+	public function getMembers()
+	{
 		if (!$this->members) {
 			$this->members = Settings_Groups_Member_Model::getAllByGroup($this);
 		}
 		return $this->members;
 	}
-	
+
 	/**
 	 * Function to get the Modules
 	 * @return <Array>
 	 */
-	public function getModules() {
+	public function getModules()
+	{
 		if (!$this->modules) {
 			$db = PearDatabase::getInstance();
 
@@ -106,7 +116,8 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 	/**
 	 * Function to save the role
 	 */
-	public function save() {
+	public function save()
+	{
 		$db = PearDatabase::getInstance();
 		$groupId = $this->getId();
 		$mode = 'edit';
@@ -117,7 +128,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 			$groupId = $db->getUniqueId('vtiger_users');
 			$this->setId($groupId);
 		}
-		
+
 		if ($mode == 'edit') {
 			$sql = 'UPDATE vtiger_groups SET groupname=?, description=? WHERE groupid=?';
 			$params = array($this->getName(), $this->getDescription(), $groupId);
@@ -179,7 +190,8 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to recalculate user priviliges files
 	 * @param <Array> $oldUsersList
 	 */
-	public function recalculate($oldUsersList) {
+	public function recalculate($oldUsersList)
+	{
 		$php_max_execution_time = vglobal('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
 		require_once('modules/Users/CreateUserPrivilegeFile.php');
@@ -204,7 +216,8 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 	 * @param <Boolean> $nonAdmin true/false
 	 * @return <Array> Users models list <Users_Record_Model>
 	 */
-	public function getUsersList($nonAdmin = false) {
+	public function getUsersList($nonAdmin = false)
+	{
 		$userIdsList = $usersList = array();
 		$members = $this->getMembers();
 
@@ -257,7 +270,8 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 		return $usersList;
 	}
 
-	protected function transferOwnership($transferToGroup) {
+	protected function transferOwnership($transferToGroup)
+	{
 		$db = PearDatabase::getInstance();
 		$groupId = $this->getId();
 		$transferGroupId = $transferToGroup->getId();
@@ -275,22 +289,23 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 			$params = array($transferGroupId, 'userid', $groupId);
 			$db->pquery($query, $params);
 		}
-		
+
 		//update workflow tasks Assigned User from Deleted Group to Transfer Owner
 		$newOwnerModel = $this->getInstance($transferGroupId);
-		if(!$newOwnerModel){
+		if (!$newOwnerModel) {
 			$newOwnerModel = Users_Record_Model::getInstanceById($transferGroupId, 'Users');
 		}
 		$ownerModel = $this->getInstance($groupId);
 		vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel);
-        vtws_updateWebformsRoundrobinUsersLists($groupId, $transferGroupId);
+		vtws_updateWebformsRoundrobinUsersLists($groupId, $transferGroupId);
 	}
 
 	/**
 	 * Function to delete the group
 	 * @param <Settings_Groups_Record_Model> $transferToGroup
 	 */
-	public function delete($transferToGroup) {
+	public function delete($transferToGroup)
+	{
 		$db = PearDatabase::getInstance();
 		$groupId = $this->getId();
 		$transferGroupId = $transferToGroup->getId();
@@ -321,7 +336,8 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get the list view actions for the record
 	 * @return <Array> - Associate array of Vtiger_Link_Model instances
 	 */
-	public function getRecordLinks() {
+	public function getRecordLinks()
+	{
 
 		$links = array();
 		$recordLinks = array(
@@ -334,7 +350,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'".$this->getDeleteActionUrl()."')",
+				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'" . $this->getDeleteActionUrl() . "')",
 				'linkicon' => 'glyphicon glyphicon-trash'
 			)
 		);
@@ -351,7 +367,8 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 	 * @param <Number> $rowNo
 	 * @return Settings_Groups_Record_Model instance
 	 */
-	public static function getInstanceFromQResult($result, $rowNo) {
+	public static function getInstanceFromQResult($result, $rowNo)
+	{
 		$db = PearDatabase::getInstance();
 		$row = $db->query_result_rowdata($result, $rowNo);
 		$role = new self();
@@ -362,7 +379,8 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get all the groups
 	 * @return <Array> - Array of Settings_Groups_Record_Model instances
 	 */
-	public static function getAll() {
+	public static function getAll()
+	{
 		$db = PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_groups';
@@ -382,7 +400,8 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 	 * @param <Object> $value
 	 * @return Settings_Groups_Record_Model instance, if exists. Null otherwise
 	 */
-	public static function getInstance($value) {
+	public static function getInstance($value)
+	{
 		$db = PearDatabase::getInstance();
 
 		if (Vtiger_Utils::isNumber($value)) {
@@ -397,26 +416,26 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 		}
 		return null;
 	}
-	
 	/* Function to get the instance of the group by Name
-    * @param type $name -- name of the group
-    * @return null/group instance
-    */
-   public static function getInstanceByName($name, $excludedRecordId = array()) {
-       $db = PearDatabase::getInstance();
-       $sql = 'SELECT * FROM vtiger_groups WHERE groupname=?';
-       $params = array($name);
-	   
-       if(!empty($excludedRecordId)){
-           $sql.= ' AND groupid NOT IN ('.generateQuestionMarks($excludedRecordId).')';
-           $params = array_merge($params,$excludedRecordId);
-       }
-	   
-       $result = $db->pquery($sql, $params);
-       if($db->num_rows($result) > 0) {
-		   return self::getInstanceFromQResult($result, 0);
-	   }
-	   return null;
-   }
+	 * @param type $name -- name of the group
+	 * @return null/group instance
+	 */
 
+	public static function getInstanceByName($name, $excludedRecordId = array())
+	{
+		$db = PearDatabase::getInstance();
+		$sql = 'SELECT * FROM vtiger_groups WHERE groupname=?';
+		$params = array($name);
+
+		if (!empty($excludedRecordId)) {
+			$sql.= ' AND groupid NOT IN (' . generateQuestionMarks($excludedRecordId) . ')';
+			$params = array_merge($params, $excludedRecordId);
+		}
+
+		$result = $db->pquery($sql, $params);
+		if ($db->num_rows($result) > 0) {
+			return self::getInstanceFromQResult($result, 0);
+		}
+		return null;
+	}
 }

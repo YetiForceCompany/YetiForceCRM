@@ -235,7 +235,7 @@ Vtiger_Field_Js('Workflows_Field_Js',{},{
 	 * return <String or Jquery> it can return either plain html or jquery object
 	 */
 	getUi : function() {
-		var html = '<input type="text" class="getPopupUi" name="'+ this.getName() +'"  /><input type="hidden" name="valuetype" value="'+this.get('workflow_valuetype')+'" />';
+		var html = '<input type="text" class="getPopupUi form-control" name="'+ this.getName() +'"  /><input type="hidden" name="valuetype" value="'+this.get('workflow_valuetype')+'" />';
 		html = jQuery(html);
 		html.filter('.getPopupUi').val(app.htmlDecode(this.getValue()));
 		return this.addValidationToElement(html);
@@ -278,7 +278,7 @@ Vtiger_Date_Field_Js('Workflows_Date_Field_Js',{},{
 				return this._super();
 			}
 		} else {
-			var html = '<input type="text" class="getPopupUi date" name="'+ this.getName() +'"  data-date-format="'+ this.getDateFormat() +'"  value="'+  this.getValue() + '" />'+ 
+			var html = '<input type="text" class="getPopupUi date form-control" name="'+ this.getName() +'"  data-date-format="'+ this.getDateFormat() +'"  value="'+  this.getValue() + '" />'+ 
 							'<input type="hidden" name="valuetype" value="'+this.get('workflow_valuetype')+'" />' 
 			var element = jQuery(html); 
 			return this.addValidationToElement(element);
@@ -314,7 +314,7 @@ Vtiger_Date_Field_Js('Workflows_Datetime_Field_Js',{},{
 			var html = '<input name="'+ this.getName() +'" type="text" value="'+this.getValue()+'" data-validator="[{name:PositiveNumber}]"><input type="hidden" name="valuetype" value="'+this.get('workflow_valuetype')+'" />';
 			var element = jQuery(html);
 		} else {
-			var html = '<input type="text" class="getPopupUi date" name="'+ this.getName() +'"  data-date-format="'+ this.getDateFormat() +'"  value="'+  this.getValue() + '" />'+
+			var html = '<input type="text" class="getPopupUi date form-control" name="'+ this.getName() +'"  data-date-format="'+ this.getDateFormat() +'"  value="'+  this.getValue() + '" />'+
 						'<input type="hidden" name="valuetype" value="'+this.get('workflow_valuetype')+'" />'
 			var element = jQuery(html);
 		}
@@ -336,7 +336,7 @@ Vtiger_Date_Field_Js('Workflows_Datetime_Field_Js',{},{
 Vtiger_Currency_Field_Js('Workflows_Currency_Field_Js',{},{
 
 	getUi : function() {
-		var html = '<input type="text" class="getPopupUi marginLeftZero" name="'+ this.getName() +'" value="'+  this.getValue() + '"  />'+
+		var html = '<input type="text" class="getPopupUi marginLeftZero form-control" name="'+ this.getName() +'" value="'+  this.getValue() + '"  />'+
 					'<input type="hidden" name="valuetype" value="'+this.get('workflow_valuetype')+'" />';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
@@ -351,7 +351,7 @@ Vtiger_Time_Field_Js('Workflows_Time_Field_Js',{},{
 	 * @return - input text field
 	 */
 	getUi : function() {
-		var html = '<input type="text" class="getPopupUi time" name="'+ this.getName() +'"  value="'+  this.getValue() + '" />'+
+		var html = '<input type="text" class="getPopupUi time form-control" name="'+ this.getName() +'"  value="'+  this.getValue() + '" />'+
 					'<input type="hidden" name="valuetype" value="'+this.get('workflow_valuetype')+'" />';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
@@ -365,7 +365,7 @@ Vtiger_Field_Js('Vtiger_Percentage_Field_Js',{},{
 	 * @return - input percentage field
 	 */
 	getUi : function() {
-		var html = '<input type="text" class="getPopupUi" name="'+ this.getName() +'" value="'+  this.getValue() + '" />'+
+		var html = '<input type="text" class="getPopupUi form-control" name="'+ this.getName() +'" value="'+  this.getValue() + '" />'+
 					'<input type="hidden" name="valuetype" value="'+this.get('workflow_valuetype')+'" />';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
@@ -379,7 +379,7 @@ Vtiger_Field_Js('Vtiger_Text_Field_Js',{},{
 	 * @return - input text field
 	 */
 	getUi : function() {
-		var html = '<input type="text" class="getPopupUi" name="'+ this.getName() +'" value="'+  this.getValue() + '" />'+
+		var html = '<input type="text" class="getPopupUi form-control" name="'+ this.getName() +'" value="'+  this.getValue() + '" />'+
 					'<input type="hidden" name="valuetype" value="'+this.get('workflow_valuetype')+'" />';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
@@ -393,7 +393,7 @@ Vtiger_Field_Js('Vtiger_Boolean_Field_Js',{},{
 	 * @return - input text field
 	 */
 	getUi : function() {
-		var html = '<input type="text" class="getPopupUi boolean" name="'+ this.getName() +'" value="'+  this.getValue() + '" />'+
+		var html = '<input type="text" class="getPopupUi form-control boolean" name="'+ this.getName() +'" value="'+  this.getValue() + '" />'+
 					'<input type="hidden" name="valuetype" value="'+this.get('workflow_valuetype')+'" />';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
@@ -403,7 +403,7 @@ Vtiger_Field_Js('Vtiger_Boolean_Field_Js',{},{
 Vtiger_Owner_Field_Js('Workflows_Owner_Field_Js',{},{
 
     getUi : function() {
-		var html = '<select class="row chzn-select" name="'+ this.getName() +'">';
+		var html = '<select class="chzn-select" name="'+ this.getName() +'">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = this.getValue();
 		for(var optGroup in pickListValues){
@@ -428,27 +428,4 @@ Vtiger_Owner_Field_Js('Workflows_Owner_Field_Js',{},{
 
 Vtiger_Picklist_Field_Js('Workflows_Picklist_Field_Js',{},{
 
-        getUi : function(){
-                var selectedOption = app.htmlDecode(this.getValue());
-                var pickListValues = this.getPickListValues();
-                var tagsArray = new Array();
-                jQuery.map( pickListValues, function(val, i) {
-                        tagsArray.push(val);
-                });
-                var pickListValuesArrayFlip = {};
-                for(var key in pickListValues){
-                        var pickListValue = pickListValues[key];
-                        pickListValuesArrayFlip[pickListValue] = key;
-                }
-                var html = '<input type="hidden" class="row select2" name="'+ this.getName() +'">';
-                var selectContainer = jQuery(html).val(pickListValues[selectedOption]);
-                selectContainer.data('tags', tagsArray).data('picklistvalues', pickListValuesArrayFlip);
-                this.addValidationToElement(selectContainer);
-                var fieldsSelect2 = app.showSelect2ElementView(selectContainer, {
-                        placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
-                        closeOnSelect: true,
-                        maximumSelectionLength: 1
-                });
-                return selectContainer;
-        }
 });

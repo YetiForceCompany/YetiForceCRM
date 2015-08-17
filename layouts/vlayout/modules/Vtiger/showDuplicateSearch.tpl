@@ -44,7 +44,7 @@
 				</div>
 				<div class="modal-footer">
 					<div class="pull-right cancelLinkContainer">
-						<a class="cancelLink" type="reset" data-dismiss="modal" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
 					</div>
 					<button class="btn btn-success" type="submit" disabled="true">
 						<strong>{vtranslate('LBL_FIND_DUPLICATES', $MODULE)}</strong>

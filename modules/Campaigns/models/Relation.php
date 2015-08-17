@@ -1,24 +1,26 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Campaigns_Relation_Model extends Vtiger_Relation_Model {
+class Campaigns_Relation_Model extends Vtiger_Relation_Model
+{
 
 	/**
 	 * Function to get Email enabled modules list for detail view of record
 	 * @return <array> List of modules
 	 */
-	public function getEmailEnabledModulesInfoForDetailView() {
+	public function getEmailEnabledModulesInfoForDetailView()
+	{
 		return array(
-				'Leads' => array('fieldName' => 'leadid', 'tableName' => 'vtiger_campaignleadrel'),
-				'Accounts' => array('fieldName' => 'accountid', 'tableName' => 'vtiger_campaignaccountrel'),
-				'Contacts' => array('fieldName' => 'contactid', 'tableName' => 'vtiger_campaigncontrel')
+			'Leads' => array('fieldName' => 'leadid', 'tableName' => 'vtiger_campaignleadrel'),
+			'Accounts' => array('fieldName' => 'accountid', 'tableName' => 'vtiger_campaignaccountrel'),
+			'Contacts' => array('fieldName' => 'contactid', 'tableName' => 'vtiger_campaigncontrel')
 		);
 	}
 
@@ -26,13 +28,14 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model {
 	 * Function to get Campaigns Relation status values
 	 * @return <array> List of status values
 	 */
-	public function getCampaignRelationStatusValues() {
+	public function getCampaignRelationStatusValues()
+	{
 		$statusValues = array();
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery("SELECT campaignrelstatusid, campaignrelstatus FROM vtiger_campaignrelstatus", array());
 		$numOfRows = $db->num_rows($result);
 
-		for ($i=0; $i<$numOfRows; $i++) {
+		for ($i = 0; $i < $numOfRows; $i++) {
 			$statusValues[$db->query_result($result, $i, 'campaignrelstatusid')] = $db->query_result($result, $i, 'campaignrelstatus');
 		}
 		return $statusValues;
@@ -43,7 +46,8 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model {
 	 * @param <Number> Campaign record id
 	 * @param <array> $statusDetails
 	 */
-	public function updateStatus($sourceRecordId, $statusDetails = array()) {
+	public function updateStatus($sourceRecordId, $statusDetails = array())
+	{
 		if ($sourceRecordId && $statusDetails) {
 			$relatedModuleName = $this->getRelationModuleModel()->getName();
 			$emailEnabledModulesInfo = $this->getEmailEnabledModulesInfoForDetailView();
@@ -61,5 +65,41 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model {
 				$db->pquery($updateQuery, array($sourceRecordId));
 			}
 		}
+	}
+
+	/**
+	 * Function to get relation field for relation module and parent module
+	 * @return Vtiger_Field_Model
+	 */
+	public function getRelationField()
+	{
+		$relationField = $this->get('relationField');
+		if (!$relationField) {
+			$relationField = false;
+			$relationFieldArray = [];
+			$relatedModel = $this->getRelationModuleModel();
+			$parentModule = $this->getParentModuleModel();
+			$relatedModelFields = $relatedModel->getFields();
+
+			foreach ($relatedModelFields as $fieldName => $fieldModel) {
+				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+					$referenceList = $fieldModel->getReferenceList();
+					if (in_array($parentModule->getName(), $referenceList)) {
+						$relationFieldArray[$fieldName] = $fieldModel;
+						if ($fieldName != 'modifiedby' && $fieldName != 'created_user_id') {
+							$this->set('relationField', $fieldModel);
+							$relationField = $fieldModel;
+							break;
+						}
+					}
+				}
+			}
+			if (!$relationField && $relationFieldArray) {
+				reset($relationFieldArray);
+				$this->set('relationField', current($relationFieldArray));
+				$relationField = current($relationFieldArray);
+			}
+		}
+		return $relationField;
 	}
 }

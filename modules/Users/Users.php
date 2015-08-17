@@ -86,7 +86,7 @@ class Users extends CRMEntity {
     // This is used to retrieve related fields from form posts.
     var $additional_column_fields = Array('reports_to_name');
 
-    var $sortby_fields = Array('status','email1','phone_work','is_admin','user_name','last_name');
+    var $sortby_fields = Array('status','email1','is_admin','user_name','last_name');
 
     // This is the list of vtiger_fields that are in the lists.
     var $list_fields = Array(
@@ -96,8 +96,7 @@ class Users extends CRMEntity {
             'User Name'=>Array('vtiger_users'=>'user_name'),
 			'Status'=>Array('vtiger_users'=>'status'),
 			'Email'=>Array('vtiger_users'=>'email1'),
-            'Admin'=>Array('vtiger_users'=>'is_admin'),
-            'Phone'=>Array('vtiger_users'=>'phone_work')
+            'Admin'=>Array('vtiger_users'=>'is_admin')
     );
     var $list_fields_name = Array(
             'First Name'=>'first_name',
@@ -106,8 +105,7 @@ class Users extends CRMEntity {
             'User Name'=>'user_name',
 			'Status'=>'status',
             'Email'=>'email1',
-            'Admin'=>'is_admin',
-            'Phone'=>'phone_work'
+            'Admin'=>'is_admin'
     );
 
     //Default Fields for Email Templates -- Pavani
@@ -1156,7 +1154,24 @@ class Users extends CRMEntity {
      *
      */
     function save($module_name) {
-        $adb = PearDatabase::getInstance(); $log = vglobal('log');
+        $adb = PearDatabase::getInstance();
+		$log = vglobal('log');
+		
+		//Event triggering code
+		require_once("include/events/include.inc");
+
+		//In Bulk mode stop triggering events
+		if (!self::isBulkSaveMode()) {
+			$em = new VTEventsManager($adb);
+			// Initialize Event trigger cache
+			$em->initTriggerCache();
+			$entityData = VTEntityData::fromCRMEntity($this);
+
+			$em->triggerEvent("vtiger.entity.beforesave.modifiable", $entityData);
+			$em->triggerEvent("vtiger.entity.beforesave", $entityData);
+			$em->triggerEvent("vtiger.entity.beforesave.final", $entityData);
+		}
+		
         if($this->mode != 'edit') {
         	$sql = 'SELECT id FROM vtiger_users WHERE user_name = ? OR email1 = ?';
         	$result = $adb->pquery($sql, array($this->column_fields['user_name'] , $this->column_fields['email1']));
@@ -1168,9 +1183,27 @@ class Users extends CRMEntity {
         	}
         	
         }
+		// update dashboard widgets when changing users role
+		else {
+			$query = 'SELECT `roleid` FROM `vtiger_user2role` WHERE `userid` = ? LIMIT 1;';
+			$oldRoleResult = $adb->pquery($query, [$this->id]);
+			$oldRole = $adb->query_result($oldRoleResult, 0, 'roleid');
+
+			if ( $oldRole != $this->column_fields['roleid'] ) {
+				$query = 'DELETE FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ?;';
+				$adb->pquery($query, [$this->id]);
+			}
+		}
         //Save entity being called with the modulename as parameter
         $this->saveentity($module_name);
 
+		if ($em) {
+			//Event triggering code
+			$em->triggerEvent("vtiger.entity.aftersave", $entityData);
+			$em->triggerEvent("vtiger.entity.aftersave.final", $entityData);
+			//Event triggering code ends
+		}
+		
         // Added for Reminder Popup support
         $query_prev_interval = $adb->pquery("SELECT reminder_interval from vtiger_users where id=?",
                 array($this->id));

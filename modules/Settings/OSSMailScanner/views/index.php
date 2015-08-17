@@ -1,10 +1,13 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-class Settings_OSSMailScanner_index_View extends Settings_Vtiger_Index_View {
+
+class Settings_OSSMailScanner_index_View extends Settings_Vtiger_Index_View
+{
 
 	private $prefixesForModules = ['Contacts', 'Leads', 'Potentials', 'Project', 'HelpDesk', 'Accounts', 'Campaigns'];
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$OSSMail_active = Vtiger_Functions::getModuleId('OSSMail');
 		if ($OSSMail_active) {

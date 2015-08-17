@@ -27,9 +27,9 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'~/libraries/jquery/flot/jquery.flot.min.js',
-			'~/libraries/jquery/flot/jquery.flot.resize.js',
-			'~/libraries/jquery/flot/jquery.flot.stack.min.js',
+			'~libraries/jquery/flot/jquery.flot.min.js',
+			'~libraries/jquery/flot/jquery.flot.resize.js',
+			'~libraries/jquery/flot/jquery.flot.stack.min.js',
 
 		);
 

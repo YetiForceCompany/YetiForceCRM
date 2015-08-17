@@ -111,6 +111,7 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View {
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('SOURCE_FIELD', $sourceField);
 		$viewer->assign('SOURCE_RECORD', $sourceRecord);
+		$viewer->assign('MODULE_NAME',$moduleName);
 
 		$viewer->assign('SEARCH_KEY', $searchKey);
 		$viewer->assign('SEARCH_VALUE', $searchValue);

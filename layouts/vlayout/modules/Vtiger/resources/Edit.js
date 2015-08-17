@@ -160,7 +160,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 	},
 
 	setReferenceFieldValue : function(container, params) {
-		var sourceField = container.find('input[class="sourceField"]').attr('name');
+		var sourceField = container.find('input.sourceField').attr('name');
 		var fieldElement = container.find('input[name="'+sourceField+'"]');
 		var sourceFieldDisplay = sourceField+"_display";
 		var fieldDisplayElement = container.find('input[name="'+sourceFieldDisplay+'"]');
@@ -389,15 +389,17 @@ jQuery.Class("Vtiger_Edit_Js",{
 	registerAutoCompleteFields : function(container) {
 		var thisInstance = this;
 		container.find('input.autoComplete').autocomplete({
-			'delay' : '600',
-			'minLength' : '3',
-			'source' : function(request, response){
+			delay: '600',
+			minLength: '3',
+			source: function(request, response){
 				//element will be array of dom elements
 				//here this refers to auto complete instance
 				var inputElement = jQuery(this.element[0]);
 				var searchValue = request.term;
 				var params = thisInstance.getReferenceSearchParams(inputElement);
 				params.search_value = searchValue;
+				//params.parent_id = app.getRecordId();
+				//params.parent_module = app.getModuleName();
 				thisInstance.searchModuleNames(params).then(function(data){
 					var reponseDataList = new Array();
 					var serverDataFormat = data.result
@@ -415,7 +417,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 					response(reponseDataList);
 				});
 			},
-			'select' : function(event, ui ){
+			select: function(event, ui ){
 				var selectedItemData = ui.item;
 				//To stop selection if no results is selected
 				if(typeof selectedItemData.type != 'undefined' && selectedItemData.type=="no results"){
@@ -431,14 +433,14 @@ jQuery.Class("Vtiger_Edit_Js",{
 
                 fieldElement.trigger(Vtiger_Edit_Js.postReferenceSelectionEvent,{'data':selectedItemData});
 			},
-			'change' : function(event, ui) {
+			change: function(event, ui) {
 				var element = jQuery(this);
 				//if you dont have readonly attribute means the user didnt select the item
 				if(element.attr('readonly')== undefined) {
 					element.closest('td').find('.clearReferenceSelection').trigger('click');
 				}
 			},
-			'open' : function(event,ui) {
+			open: function(event,ui) {
 				//To Make the menu come up in the case of quick create
 				jQuery(this).data('ui-autocomplete').menu.element.css('z-index','100001');
 			}
@@ -457,7 +459,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 			var fieldNameElement = parentTdElement.find('.sourceField');
 			var fieldName = fieldNameElement.attr('name');
 			fieldNameElement.val('');
-			parentTdElement.find('#'+fieldName+'_display').removeAttr('readonly').val('');
+			parentTdElement.find('[name="'+fieldName+'_display"]').removeAttr('readonly').val('');
 			element.trigger(Vtiger_Edit_Js.referenceDeSelectionEvent);
 			e.preventDefault();
 		})
@@ -874,7 +876,6 @@ jQuery.Class("Vtiger_Edit_Js",{
 		this.registerRecordAccessCheckEvent(container);
 		this.registerEventForPicklistDependencySetup(container);
 		this.registerRecordPreSaveEventEvent(container);
-		this.registerEventForCopyAddress();
 		this.registerReferenceSelectionEvent(container);
 		this.registerMaskFields(container);
 	},
@@ -1130,7 +1131,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 	registerBlockAnimationEvent : function(){
 		var detailContentsHolder = this.getForm();
 		detailContentsHolder.on('click','.blockHeader',function(e){
-			if(jQuery(e.toElement).is('input') || jQuery(e.toElement).is('button') || jQuery(e.toElement).parents().is('button')){
+			if(jQuery(e.target).is('input') || jQuery(e.target).is('button') || jQuery(e.target).parents().is('button')){
 				return false;
 			}
 			var currentTarget =  jQuery(e.currentTarget).find('.blockToggle').not('.hide');
@@ -1155,12 +1156,6 @@ jQuery.Class("Vtiger_Edit_Js",{
 				showHandler();
 				currentTarget.addClass('hide');
 				closestBlock.find("[data-mode='show']").removeClass('hide');
-			}
-		});
-		detailContentsHolder.on('keypress', '.blockToggle', function (e) {
-			var keycode = (e.keyCode ? e.keyCode : e.which);
-			if (keycode == '13') {
-				$(this).trigger("click");
 			}
 		});
 
@@ -1394,17 +1389,14 @@ jQuery.Class("Vtiger_Edit_Js",{
 		this.registerEventForCkEditor();
 		this.stretchCKEditor();
 		this.registerBasicEvents(this.getForm());
+		this.registerEventForCopyAddress();
 		this.registerEventForImageDelete();
 		this.registerSubmitEvent();
 		this.registerLeavePageWithoutSubmit(editViewForm);
 
 		app.registerEventForDatePickerFields('#EditView');
 		
-		if(jQuery('#javascriptLimited').val()){
-			var params = app.validationEngineOptionsForRecordJSLimited;
-		}else{
-			var params = app.validationEngineOptionsForRecord;
-		}
+		var params = app.validationEngineOptionsForRecord;
 		params.onValidationComplete = function(element,valid){
 			if(valid){
 				var ckEditorSource = editViewForm.find('.ckEditorSource');

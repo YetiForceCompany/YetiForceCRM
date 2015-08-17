@@ -11,16 +11,18 @@
 -->*}
 {strip}
 {assign var=TEMPLATELIST value=OSSMailTemplates_Record_Model::getTempleteList($SOURCE_MODULE)}
-<div class="well" id="VtVTEmailTemplateTaskContainer">
-	<div class="row">
-		<div class="row padding-bottom1per">
-			<span class="col-md-4">{vtranslate('EmailTempleteList', $QUALIFIED_MODULE)}</span>
-			<select class="chzn-select col-md-4" name="template" data-validation-engine='validate[required]'>
+<div class="" id="VtVTEmailTemplateTaskContainer">
+	<div class="">
+		<div class="row">
+			<label class="control-label col-md-4">{vtranslate('EmailTempleteList', $QUALIFIED_MODULE)}</label>
+			<div class="col-md-7">
+				<select class="chzn-select form-control" name="template" data-validation-engine='validate[required]'>
 				<option value="">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 				{foreach from=$TEMPLATELIST key=key item=item}
 					<option {if $TASK_OBJECT->template eq $key}selected=""{/if} value="{$key}">{$item.name}</option>
 				{/foreach}	
 			</select>
+			</div>
 		</div>
 	</div>
 </div>	

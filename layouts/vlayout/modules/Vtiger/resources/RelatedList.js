@@ -8,115 +8,107 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 
-jQuery.Class("Vtiger_RelatedList_Js",{},{
-	
-	selectedRelatedTabElement : false,
-	parentRecordId : false,
-	parentModuleName : false,
-	relatedModulename : false,
-	relatedTabsContainer : false,
-	detailViewContainer : false,
-	relatedContentContainer : false,
-	
-	setSelectedTabElement : function(tabElement) {
+jQuery.Class("Vtiger_RelatedList_Js", {}, {
+	selectedRelatedTabElement: false,
+	parentRecordId: false,
+	parentModuleName: false,
+	relatedModulename: false,
+	relatedTabsContainer: false,
+	detailViewContainer: false,
+	relatedContentContainer: false,
+	setSelectedTabElement: function (tabElement) {
 		this.selectedRelatedTabElement = tabElement;
 	},
-	
-	getSelectedTabElement : function(){
+	getSelectedTabElement: function () {
 		return this.selectedRelatedTabElement;
 	},
-	
-	getParentId : function(){
+	getParentId: function () {
 		return this.parentRecordId;
 	},
-	
-	loadRelatedList : function(params){
+	loadRelatedList: function (params) {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
-		if(typeof this.relatedModulename== "undefined" || this.relatedModulename.length <= 0 ) {
+		if (typeof this.relatedModulename == "undefined" || this.relatedModulename.length <= 0) {
 			return;
 		}
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 		var completeParams = this.getCompleteParams();
 		var activeTabsReference = thisInstance.relatedTabsContainer.find('li.active').data('reference');
 		/*
-		var activeTabsContainer = thisInstance.relatedTabsContainer.find('li.active').data('url');
-		if( activeTabsContainer != undefined){
-			completeParams = activeTabsContainer;
-		}else{
-			jQuery.extend(completeParams,params);
-		}*/
-		jQuery.extend(completeParams,params);
+		 var activeTabsContainer = thisInstance.relatedTabsContainer.find('li.active').data('url');
+		 if( activeTabsContainer != undefined){
+		 completeParams = activeTabsContainer;
+		 }else{
+		 jQuery.extend(completeParams,params);
+		 }*/
+		jQuery.extend(completeParams, params);
 		AppConnector.request(completeParams).then(
-			function(responseData){
-				progressIndicatorElement.progressIndicator({
-					'mode' : 'hide'
-				})
-				var currentInstance = Vtiger_Detail_Js.getInstance();
-				currentInstance.loadWidgets();
-				if(activeTabsReference != 'ProductsAndServices'){
-					thisInstance.relatedTabsContainer.find('li').removeClass('active');
-					thisInstance.selectedRelatedTabElement.addClass('active');
-					thisInstance.relatedContentContainer.html(responseData);
-					responseData = thisInstance.relatedContentContainer.html();
-					//thisInstance.triggerDisplayTypeEvent();
-					Vtiger_Helper_Js.showHorizontalTopScrollBar();
-					jQuery('.pageNumbers',thisInstance.relatedContentContainer).tooltip();
-				}
-				aDeferred.resolve(responseData);
+				function (responseData) {
+					progressIndicatorElement.progressIndicator({
+						'mode': 'hide'
+					})
+					var currentInstance = Vtiger_Detail_Js.getInstance();
+					currentInstance.loadWidgets();
+					if (activeTabsReference != 'ProductsAndServices') {
+						thisInstance.relatedTabsContainer.find('li').removeClass('active');
+						thisInstance.selectedRelatedTabElement.addClass('active');
+						thisInstance.relatedContentContainer.html(responseData);
+						responseData = thisInstance.relatedContentContainer.html();
+						//thisInstance.triggerDisplayTypeEvent();
+						Vtiger_Helper_Js.showHorizontalTopScrollBar();
+						jQuery('.pageNumbers', thisInstance.relatedContentContainer).tooltip();
+						jQuery('body').trigger(jQuery.Event('LoadRelatedRecordList.PostLoad'), {response: responseData, params: completeParams});	
+					}
+					aDeferred.resolve(responseData);
 
-			},
-			
-			function(textStatus, errorThrown){
-				aDeferred.reject(textStatus, errorThrown);
-			}
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				}
 		);
 		return aDeferred.promise();
 	},
-	
-	triggerDisplayTypeEvent : function() {
+	triggerDisplayTypeEvent: function () {
 		var widthType = app.cacheGet('widthType', 'narrowWidthType');
-		if(widthType) {
+		if (widthType) {
 			var elements = jQuery('.listViewEntriesTable').find('td,th');
 			elements.attr('class', widthType);
 		}
 	},
-	
-	showSelectRelationPopup : function(extendParams){
+	showSelectRelationPopup: function (extendParams) {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		var popupInstance = Vtiger_Popup_Js.getInstance();
 		var mainParams = this.getPopupParams()
-		$.extend( mainParams, extendParams );
-		popupInstance.show(mainParams, function(responseString){
-				var responseData = JSON.parse(responseString);
-				var relatedIdList = Object.keys(responseData);
-				thisInstance.addRelations(relatedIdList).then(
-					function(data){
+		$.extend(mainParams, extendParams);
+		popupInstance.show(mainParams, function (responseString) {
+			var responseData = JSON.parse(responseString);
+			var relatedIdList = Object.keys(responseData);
+			thisInstance.addRelations(relatedIdList).then(
+					function (data) {
 						var selectedTab = thisInstance.getSelectedTabElement();
-						if(selectedTab.data('link-key') == 'LBL_RECORD_SUMMARY' ){
+						if (selectedTab.data('link-key') == 'LBL_RECORD_SUMMARY') {
 							var detail = Vtiger_Detail_Js.getInstance();
 							detail.loadWidgets();
-						}else{
+						} else {
 							var relatedCurrentPage = thisInstance.getCurrentPageNum();
-							var params = {'page':relatedCurrentPage};
-							thisInstance.loadRelatedList(params).then(function(data){
+							var params = {'page': relatedCurrentPage};
+							thisInstance.loadRelatedList(params).then(function (data) {
 								aDeferred.resolve(data);
 							});
 						}
 					}
-				);
-			}
+			);
+		}
 		);
 		return aDeferred.promise();
 	},
-
-	addRelations : function(idList){
+	addRelations: function (idList) {
 		var aDeferred = jQuery.Deferred();
 		var sourceRecordId = this.parentRecordId;
 		var sourceModuleName = this.parentModuleName;
@@ -126,37 +118,34 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 		params['mode'] = "addRelation";
 		params['module'] = sourceModuleName;
 		params['action'] = 'RelationAjax';
-		
+
 		params['related_module'] = relatedModuleName;
 		params['src_record'] = sourceRecordId;
 		params['related_record_list'] = JSON.stringify(idList);
 
 		AppConnector.request(params).then(
-			function(responseData){
-				aDeferred.resolve(responseData);
-			},
-
-			function(textStatus, errorThrown){
-				aDeferred.reject(textStatus, errorThrown);
-			}
+				function (responseData) {
+					var detail = Vtiger_Detail_Js.getInstance();
+					detail.registerRelatedModulesRecordCount();
+					aDeferred.resolve(responseData);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				}
 		);
-		var detail = Vtiger_Detail_Js.getInstance();
-		detail.registerRelatedModulesRecordCount();
 		return aDeferred.promise();
 	},
-
-	getPopupParams : function(){
+	getPopupParams: function () {
 		var parameters = {};
 		var parameters = {
-			'module' : this.relatedModulename,
-			'src_module' : this.parentModuleName,
-			'src_record' : this.parentRecordId,
-			'multi_select' : true
+			'module': this.relatedModulename,
+			'src_module': this.parentModuleName,
+			'src_record': this.parentRecordId,
+			'multi_select': true
 		}
 		return parameters;
 	},
-
-	deleteRelation : function(relatedIdList) {
+	deleteRelation: function (relatedIdList) {
 		var aDeferred = jQuery.Deferred();
 		var params = {};
 		params['mode'] = "deleteRelation";
@@ -168,161 +157,147 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 		params['related_record_list'] = JSON.stringify(relatedIdList);
 
 		AppConnector.request(params).then(
-			function(responseData){
-				aDeferred.resolve(responseData);
-			},
-
-			function(textStatus, errorThrown){
-				aDeferred.reject(textStatus, errorThrown);
-			}
+				function (responseData) {
+					var detail = Vtiger_Detail_Js.getInstance();
+					detail.registerRelatedModulesRecordCount();
+					aDeferred.resolve(responseData);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				}
 		);
-		thisInstance.loadRelatedList();
-		var detail = Vtiger_Detail_Js.getInstance();
-		detail.registerRelatedModulesRecordCount();
+
 		return aDeferred.promise();
 	},
-
-	getCurrentPageNum : function() {
-		return jQuery('input[name="currentPageNum"]',this.relatedContentContainer).val();
+	getCurrentPageNum: function () {
+		return jQuery('input[name="currentPageNum"]', this.relatedContentContainer).val();
 	},
-	
-	setCurrentPageNumber : function(pageNumber){
+	setCurrentPageNumber: function (pageNumber) {
 		jQuery('input[name="currentPageNum"]').val(pageNumber);
 	},
-	
 	/**
 	 * Function to get Order by
 	 */
-	getOrderBy : function(){
+	getOrderBy: function () {
 		return jQuery('#orderBy').val();
 	},
-	
 	/**
 	 * Function to get Sort Order
 	 */
-	getSortOrder : function(){
-			return jQuery("#sortOrder").val();
+	getSortOrder: function () {
+		return jQuery("#sortOrder").val();
 	},
-	
-	getCompleteParams : function(){
+	getCompleteParams: function () {
 		var params = {};
 		params['view'] = "Detail";
 		params['module'] = this.parentModuleName;
 		params['record'] = this.getParentId(),
-		params['relatedModule'] = this.relatedModulename,
-		params['sortorder'] =  this.getSortOrder(),
-		params['orderby'] =  this.getOrderBy(),
-		params['page'] = this.getCurrentPageNum();
+				params['relatedModule'] = this.relatedModulename,
+				params['sortorder'] = this.getSortOrder(),
+				params['orderby'] = this.getOrderBy(),
+				params['page'] = this.getCurrentPageNum();
 		params['mode'] = "showRelatedList"
-		
+
 		return params;
 	},
-	
-	
 	/**
 	 * Function to handle Sort
 	 */
-	sortHandler : function(headerElement){
+	sortHandler: function (headerElement) {
 		var aDeferred = jQuery.Deferred();
 		var fieldName = headerElement.data('fieldname');
 		var sortOrderVal = headerElement.data('nextsortorderval');
 		var sortingParams = {
-			"orderby" : fieldName,
-			"sortorder" : sortOrderVal,
-			"tab_label" : this.selectedRelatedTabElement.data('label-key')
+			"orderby": fieldName,
+			"sortorder": sortOrderVal,
+			"tab_label": this.selectedRelatedTabElement.data('label-key')
 		}
 		this.loadRelatedList(sortingParams).then(
-				function(data){
+				function (data) {
 					aDeferred.resolve(data);
 				},
-
-				function(textStatus, errorThrown){
+				function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
 				}
-			);
+		);
 		return aDeferred.promise();
 	},
-	
 	/**
 	 * Function to handle next page navigation
 	 */
-	nextPageHandler : function(){
+	nextPageHandler: function () {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		var pageLimit = jQuery('#pageLimit').val();
 		var noOfEntries = jQuery('#noOfEntries').val();
-		if(noOfEntries == pageLimit){
+		if (noOfEntries == pageLimit) {
 			var pageNumber = this.getCurrentPageNum();
 			var nextPage = parseInt(pageNumber) + 1;
 			var nextPageParams = {
-				'page' : nextPage
+				'page': nextPage
 			}
 			this.loadRelatedList(nextPageParams).then(
-				function(data){
-					thisInstance.setCurrentPageNumber(nextPage);
-					aDeferred.resolve(data);
-				},
-
-				function(textStatus, errorThrown){
-					aDeferred.reject(textStatus, errorThrown);
-				}
+					function (data) {
+						thisInstance.setCurrentPageNumber(nextPage);
+						aDeferred.resolve(data);
+					},
+					function (textStatus, errorThrown) {
+						aDeferred.reject(textStatus, errorThrown);
+					}
 			);
 		}
 		return aDeferred.promise();
 	},
-	
 	/**
 	 * Function to handle next page navigation
 	 */
-	previousPageHandler : function(){
+	previousPageHandler: function () {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var pageNumber = this.getCurrentPageNum();
-		if(pageNumber > 1){
+		if (pageNumber > 1) {
 			var previousPage = parseInt(pageNumber) - 1;
 			var previousPageParams = {
-				'page' : previousPage
+				'page': previousPage
 			}
 			this.loadRelatedList(previousPageParams).then(
-				function(data){
-					thisInstance.setCurrentPageNumber(previousPage);
-					aDeferred.resolve(data);
-				},
-
-				function(textStatus, errorThrown){
-					aDeferred.reject(textStatus, errorThrown);
-				}
+					function (data) {
+						thisInstance.setCurrentPageNumber(previousPage);
+						aDeferred.resolve(data);
+					},
+					function (textStatus, errorThrown) {
+						aDeferred.reject(textStatus, errorThrown);
+					}
 			);
 		}
 		return aDeferred.promise();
 	},
-	
 	/**
 	 * Function to handle page jump in related list
 	 */
-	pageJumpHandler : function(e){
+	pageJumpHandler: function (e) {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
-		if(e.which == 13){
+		if (e.which == 13) {
 			var element = jQuery(e.currentTarget);
 			var response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(element);
-			if(typeof response != "undefined"){
-				element.validationEngine('showPrompt',response,'',"topLeft",true);
+			if (typeof response != "undefined") {
+				element.validationEngine('showPrompt', response, '', "topLeft", true);
 				e.preventDefault();
 			} else {
 				element.validationEngine('hideAll');
 				var jumpToPage = parseInt(element.val());
 				var totalPages = parseInt(jQuery('#totalPageCount').text());
-				if(jumpToPage > totalPages){
+				if (jumpToPage > totalPages) {
 					var error = app.vtranslate('JS_PAGE_NOT_EXIST');
-					element.validationEngine('showPrompt',error,'',"topLeft",true);
+					element.validationEngine('showPrompt', error, '', "topLeft", true);
 				}
 				var invalidFields = element.parent().find('.formError');
-				if(invalidFields.length < 1){
+				if (invalidFields.length < 1) {
 					var currentPage = jQuery('input[name="currentPageNum"]').val();
-					if(jumpToPage == currentPage){
-						var message = app.vtranslate('JS_YOU_ARE_IN_PAGE_NUMBER')+" "+jumpToPage;
+					if (jumpToPage == currentPage) {
+						var message = app.vtranslate('JS_YOU_ARE_IN_PAGE_NUMBER') + " " + jumpToPage;
 						var params = {
 							text: message,
 							type: 'info'
@@ -332,17 +307,16 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 						return false;
 					}
 					var jumptoPageParams = {
-						'page' : jumpToPage
+						'page': jumpToPage
 					}
 					this.loadRelatedList(jumptoPageParams).then(
-						function(data){
-							thisInstance.setCurrentPageNumber(jumpToPage);
-							aDeferred.resolve(data);
-						},
-
-						function(textStatus, errorThrown){
-							aDeferred.reject(textStatus, errorThrown);
-						}
+							function (data) {
+								thisInstance.setCurrentPageNumber(jumpToPage);
+								aDeferred.resolve(data);
+							},
+							function (textStatus, errorThrown) {
+								aDeferred.reject(textStatus, errorThrown);
+							}
 					);
 				} else {
 					e.preventDefault();
@@ -432,151 +406,147 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 		quickCreateParams['callbackFunction'] = postQuickCreateSave;
 		quickCreateParams['callbackPostShown'] = preQuickCreateSave;
 		quickCreateParams['noCache'] = true;
-		Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName,quickCreateParams);
+		Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, quickCreateParams);
 		return aDeferred.promise();
 	},
-	
-	getRelatedPageCount : function(){
+	getRelatedPageCount: function () {
 		var aDeferred = jQuery.Deferred();
 		var params = {};
 		params['action'] = "RelationAjax";
 		params['module'] = this.parentModuleName;
 		params['record'] = this.getParentId(),
-		params['relatedModule'] = this.relatedModulename,
-		params['tab_label'] = this.selectedRelatedTabElement.data('label-key');
+				params['relatedModule'] = this.relatedModulename,
+				params['tab_label'] = this.selectedRelatedTabElement.data('label-key');
 		params['mode'] = "getRelatedListPageCount"
-		
+
 		var element = jQuery('#totalPageCount');
 		var totalCountElem = jQuery('#totalCount');
 		var totalPageNumber = element.text();
-		if(totalPageNumber == ""){
+		if (totalPageNumber == "") {
 			element.progressIndicator({});
 			AppConnector.request(params).then(
-				function(data) {
-					var pageCount = data['result']['page'];
-					var numberOfRecords = data['result']['numberOfRecords'];
-					totalCountElem.val(numberOfRecords);
-					element.text(pageCount);
-					element.progressIndicator({'mode': 'hide'});
-					aDeferred.resolve();
-				},
-				function(error,err){
+					function (data) {
+						var pageCount = data['result']['page'];
+						var numberOfRecords = data['result']['numberOfRecords'];
+						totalCountElem.val(numberOfRecords);
+						element.text(pageCount);
+						element.progressIndicator({'mode': 'hide'});
+						aDeferred.resolve();
+					},
+					function (error, err) {
 
-				}
+					}
 			);
-		}else{
+		} else {
 			aDeferred.resolve();
 		}
 		return aDeferred.promise();
 	},
-    
-    addFollowupEvent : function(e){
-            var elem = jQuery(e.currentTarget);
-			var recordId = elem.closest('tr').data('id');
-            
-            var url = 'index.php?module=Calendar&view=QuickCreateFollowupAjax&record='+recordId;
-            var progressIndicatorInstance = jQuery.progressIndicator({});
-            AppConnector.request(url).then(
-				function(data){
-					if(data){
-                        progressIndicatorInstance.hide();
-                        app.showModalWindow(data, function(data){
-                         var createFollowupForm = data.find('form.followupCreateView');
-                         createFollowupForm.validationEngine(app.validationEngineOptions);
-                         app.registerEventForTimeFields(createFollowupForm);
-                         //Form submit
-                         createFollowupForm.submit(function(event){
-                             var createButton = jQuery(this).find('button.btn-success');
-                             createButton.attr('disabled','disabled');
-                             progressIndicatorInstance = jQuery.progressIndicator({});
-                             event.preventDefault();
-                             var result = createFollowupForm.validationEngine('validate');
-                             if(!result){
-                                 createButton.removeAttr('disabled');
-                                 progressIndicatorInstance.hide();
-                                 return false;
-                             }
-                             var moduleName = jQuery(this).find("[name='module']").val();
-                             var recordId = jQuery(this).find("[name='record']").val();
-                             var followupStartDate = jQuery(this).find("[name='followup_date_start']").val();
-                             var followupStartTime = jQuery(this).find("[name='followup_time_start']").val();
-                             var action = jQuery(this).find("[name='action']").val();
-                             var mode = jQuery(this).find("[name='mode']").val();
-                             var defaultCallDuration = jQuery(this).find("[name='defaultCallDuration']").val();
-                             var defaultOtherEventDuration = jQuery(this).find("[name='defaultOtherEventDuration']").val();
-                             var params = {
-                                            module : moduleName,
-                                            action : action,
-                                            mode : mode,
-                                            record : recordId,
-                                            followup_date_start : followupStartDate,
-                                            followup_time_start : followupStartTime,
-                                            defaultCallDuration : defaultCallDuration,
-                                            defaultOtherEventDuration : defaultOtherEventDuration
-                                        }
-                                        AppConnector.request(params).then(function(data){
-                                            app.hideModalWindow();
-                                            progressIndicatorInstance.hide();
-                                            if(data['result'].created){
-                                                //Update related listview and pagination
-                                                Vtiger_Detail_Js.reloadRelatedList();
-                                            }
-                                        });
-                         });
-                    });
-                    }
-                    else{
-                        progressIndicatorInstance.hide();
-                        Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION',"Calendar"));
-                    }
-				});
-    },
-    
-    markAsCompleted : function(e){
-        var elem = jQuery(e.currentTarget);
-        var recordId = elem.closest('tr').data('id');
-        var message = app.vtranslate('JS_CONFIRM_MARK_AS_HELD');
-            Vtiger_Helper_Js.showConfirmationBox({'message' : message}).then(
-			function(e) {
-                var params = {
-                                module : "Calendar",
-                                action : "SaveFollowupAjax",
-                                mode : "markAsHeldCompleted",
-                                record : recordId
-                            }
-                            AppConnector.request(params).then(function(data){
-                                if(data['error']){
-                                    var param = {text:app.vtranslate('JS_PERMISSION_DENIED')};
-                                    Vtiger_Helper_Js.showPnotify(param);
-                                }
-                                else if(data['result'].valid && data['result'].markedascompleted){
-                                    //Update related listview and pagination
-                                    Vtiger_Detail_Js.reloadRelatedList();
-                                    if(data['result'].activitytype == 'Task')
-                                        var param = {text:app.vtranslate('JS_TODO_MARKED_AS_COMPLETED')};
-                                    else
-                                        var param = {text:app.vtranslate('JS_EVENT_MARKED_AS_HELD')};
-                                    Vtiger_Helper_Js.showMessage(param);
-                                }
-                                else{
-                                    var param = {text:app.vtranslate('JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD')};
-                                    Vtiger_Helper_Js.showPnotify(param);
-                                }
-                            });
-            },
-            function(error, err){
-                return false;
-			});
-    },
+	addFollowupEvent: function (e) {
+		var elem = jQuery(e.currentTarget);
+		var recordId = elem.closest('tr').data('id');
 
-	init : function(parentId, parentModule, selectedRelatedTabElement, relatedModuleName){
+		var url = 'index.php?module=Calendar&view=QuickCreateFollowupAjax&record=' + recordId;
+		var progressIndicatorInstance = jQuery.progressIndicator({});
+		AppConnector.request(url).then(
+				function (data) {
+					if (data) {
+						progressIndicatorInstance.hide();
+						app.showModalWindow(data, function (data) {
+							var createFollowupForm = data.find('form.followupCreateView');
+							createFollowupForm.validationEngine(app.validationEngineOptions);
+							app.registerEventForTimeFields(createFollowupForm);
+							//Form submit
+							createFollowupForm.submit(function (event) {
+								var createButton = jQuery(this).find('button.btn-success');
+								createButton.attr('disabled', 'disabled');
+								progressIndicatorInstance = jQuery.progressIndicator({});
+								event.preventDefault();
+								var result = createFollowupForm.validationEngine('validate');
+								if (!result) {
+									createButton.removeAttr('disabled');
+									progressIndicatorInstance.hide();
+									return false;
+								}
+								var moduleName = jQuery(this).find("[name='module']").val();
+								var recordId = jQuery(this).find("[name='record']").val();
+								var followupStartDate = jQuery(this).find("[name='followup_date_start']").val();
+								var followupStartTime = jQuery(this).find("[name='followup_time_start']").val();
+								var action = jQuery(this).find("[name='action']").val();
+								var mode = jQuery(this).find("[name='mode']").val();
+								var defaultCallDuration = jQuery(this).find("[name='defaultCallDuration']").val();
+								var defaultOtherEventDuration = jQuery(this).find("[name='defaultOtherEventDuration']").val();
+								var params = {
+									module: moduleName,
+									action: action,
+									mode: mode,
+									record: recordId,
+									followup_date_start: followupStartDate,
+									followup_time_start: followupStartTime,
+									defaultCallDuration: defaultCallDuration,
+									defaultOtherEventDuration: defaultOtherEventDuration
+								}
+								AppConnector.request(params).then(function (data) {
+									app.hideModalWindow();
+									progressIndicatorInstance.hide();
+									if (data['result'].created) {
+										//Update related listview and pagination
+										Vtiger_Detail_Js.reloadRelatedList();
+									}
+								});
+							});
+						});
+					}
+					else {
+						progressIndicatorInstance.hide();
+						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION', "Calendar"));
+					}
+				});
+	},
+	markAsCompleted: function (e) {
+		var elem = jQuery(e.currentTarget);
+		var recordId = elem.closest('tr').data('id');
+		var message = app.vtranslate('JS_CONFIRM_MARK_AS_HELD');
+		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
+				function (e) {
+					var params = {
+						module: "Calendar",
+						action: "SaveFollowupAjax",
+						mode: "markAsHeldCompleted",
+						record: recordId
+					}
+					AppConnector.request(params).then(function (data) {
+						if (data['error']) {
+							var param = {text: app.vtranslate('JS_PERMISSION_DENIED')};
+							Vtiger_Helper_Js.showPnotify(param);
+						}
+						else if (data['result'].valid && data['result'].markedascompleted) {
+							//Update related listview and pagination
+							Vtiger_Detail_Js.reloadRelatedList();
+							if (data['result'].activitytype == 'Task')
+								var param = {text: app.vtranslate('JS_TODO_MARKED_AS_COMPLETED')};
+							else
+								var param = {text: app.vtranslate('JS_EVENT_MARKED_AS_HELD')};
+							Vtiger_Helper_Js.showMessage(param);
+						}
+						else {
+							var param = {text: app.vtranslate('JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD')};
+							Vtiger_Helper_Js.showPnotify(param);
+						}
+					});
+				},
+				function (error, err) {
+					return false;
+				});
+	},
+	init: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
 		this.selectedRelatedTabElement = selectedRelatedTabElement,
-		this.parentRecordId = parentId;
+				this.parentRecordId = parentId;
 		this.parentModuleName = parentModule;
 		this.relatedModulename = relatedModuleName;
 		this.relatedTabsContainer = selectedRelatedTabElement.closest('div.related');
 		this.detailViewContainer = this.relatedTabsContainer.closest('div.detailViewContainer');
-		this.relatedContentContainer = jQuery('div.contents',this.detailViewContainer);
+		this.relatedContentContainer = jQuery('div.contents', this.detailViewContainer);
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 	}
 })

@@ -1,0 +1,17 @@
+.valueLabels {
+	font-size:70%;
+	color:black;
+
+}
+div.valueLabelLight {
+	opacity:0.5;
+	background-color: white;
+	border:none;
+	position:absolute;
+	margin-left: -10px;
+}
+div.valueLabel {
+	position:absolute;
+	border:none;
+	margin-left: -10px;
+}

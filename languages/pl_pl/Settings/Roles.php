@@ -32,8 +32,13 @@ $languageStrings = [
 	'SINGLE_Roles' => 'Rola',
 	'LBL_USERS_LIST' => 'Lista użytkowników należących do tej roli:',
 	'LBL_JUST_ME' => 'Tylko ja',
+	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => 'Czy może zmieniać własciciela rekordu',
+	'LBL_SEARCH_WITHOUT_PERMISSION' => 'Moduły w których można wyszukiwać bez uprawnień.',
+	'LBL_BROWSING_OTHER_USERS_GRAPHICAL_CALENDAR' => 'Czy może przeglądać graficzny kalendarz innych użytkowników',
+	'LBL_CLENDAR_ALLO_RECORDS_1' => 'widzę tylko siebie',
+	'LBL_CLENDAR_ALLO_RECORDS_2' => 'widzę tylko siebie i grupy',
+	'LBL_CLENDAR_ALLO_RECORDS_3' => 'widzę tych którzy wynikają z listy rekordów których widzę',
 ];
-
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Brak uprawnień do przeniesienia',
 	'JS_PERMISSION_DENIED' => 'Brak uprawnień',

@@ -10,6 +10,8 @@
  *************************************************************************************************************************************/
 
 $languageStrings = [
+	'LBL_RECORDS_LIST' => 'Lista rekordów',
+	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'Invoice number' => 'Invoice No.',
 	'OSSSoldServices' => 'Usługi sprzedane',
 	'SINGLE_OSSSoldServices' => 'Usługa sprzedana',
