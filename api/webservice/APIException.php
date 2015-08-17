@@ -39,7 +39,7 @@ class APIException extends Exception
 
 function exceptionErrorHandler($errno, $errstr, $errfile, $errline, $errcontext)
 {
-	$msg = $eName . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
+	$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
 	throw new APIException($msg);
 }
-set_error_handler('exceptionErrorHandler', E_ALL);
+set_error_handler('exceptionErrorHandler');
