@@ -95,5 +95,5 @@ $languageStrings = [
 	'LBL_REMAIND_DAYS' => 'Nach einer definierten Anzahl von Tagen',
 	'LBL_REPEAT_FOR' => 'Wiederholen für',
 	'LBL_RECURRING_TYPE' => 'Art der Wiederholung',
-	'Status' => 'State',
+	'Status' => 'Status',
 ];

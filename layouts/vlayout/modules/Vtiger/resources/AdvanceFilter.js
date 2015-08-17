@@ -605,24 +605,21 @@ Vtiger_Field_Js('AdvanceFilter_Field_Js', {}, {
 
 Vtiger_Picklist_Field_Js('AdvanceFilter_Picklist_Field_Js', {}, {
 	getUi: function () {
-		var comparatorSelectedOptionVal = this.get('comparatorElementVal');
-		if (comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal == 'n') {
-			var html = '<select class="select2 row" multiple name="' + this.getName() + '[]">';
-			var pickListValues = this.getPickListValues();
-			var selectedOption = app.htmlDecode(this.getValue());
-			var selectedOptionsArray = selectedOption.split(',')
-			for (var option in pickListValues) {
-				html += '<option value="' + option + '" ';
-				if (jQuery.inArray(option, selectedOptionsArray) != -1) {
-					html += ' selected ';
-				}
-				html += '>' + pickListValues[option] + '</option>';
+		var html = '<select class="select2 row" multiple name="' + this.getName() + '[]">';
+		var pickListValues = this.getPickListValues();
+		var selectedOption = app.htmlDecode(this.getValue());
+		var selectedOptionsArray = selectedOption.split(',')
+		for (var option in pickListValues) {
+			html += '<option value="' + option + '" ';
+			if (jQuery.inArray(option, selectedOptionsArray) != -1) {
+				html += ' selected ';
 			}
-			html += '</select>';
-			var selectContainer = jQuery(html);
-			this.addValidationToElement(selectContainer);
-			return selectContainer;
+			html += '>' + pickListValues[option] + '</option>';
 		}
+		html += '</select>';
+		var selectContainer = jQuery(html);
+		this.addValidationToElement(selectContainer);
+		return selectContainer;
 	}
 });
 
