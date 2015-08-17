@@ -1081,8 +1081,9 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 		
 		jQuery('.pageNumber').on('click', function () {
-			
-			//var aDeferred = jQuery.Deferred();
+			var disabled =  $(this).hasClass("disabled")
+			if(disabled)
+				return false;
 			var pageNumber = $(this).data("id");
 			var orderBy = jQuery('#orderBy').val();
 			var sortOrder = jQuery("#sortOrder").val();
@@ -1099,17 +1100,10 @@ jQuery.Class("Vtiger_List_Js", {
 			thisInstance.getListViewRecords(urlParams).then(
 					function (data) {
 						thisInstance.updatePagination(pageNumber);
-					
-						//aDeferred.resolve();
 					},
 					function (textStatus, errorThrown) {
-						//aDeferred.reject(textStatus, errorThrown);
 					}
 			);
-	
-		//	return aDeferred.promise();
-			
-		
 		});
 
 		jQuery('#listViewPageJump').on('click', function (e) {

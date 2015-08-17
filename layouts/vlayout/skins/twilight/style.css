@@ -3486,7 +3486,7 @@ span[name=existingImages] img{
 }
 .paginationDiv .pagination > li > span,
 .paginationDiv .pagination > li > a{
-	padding: 6px 8px;
+	padding: 8px 8px;
 }
 .paginationDiv #listViewPageJumpDropDown{
 	left: 192px;
