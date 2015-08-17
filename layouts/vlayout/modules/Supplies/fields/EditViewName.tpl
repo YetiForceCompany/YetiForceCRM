@@ -44,8 +44,8 @@
 			<ul>
 			</ul>
 		</div>
-		<div>
-			<textarea name="comment{$ROW_NO}" title="{vtranslate("LBL_ROW_COMMENT",$SUPMODULE)}" class="comment commentTextarea form-control">{$SUP_DATA['comment']}</textarea>
+		<div style="padding: 0;">
+			<textarea name="comment{$ROW_NO}" title="{vtranslate("LBL_ROW_COMMENT",$SUPMODULE)}" id="editView_comment{$ROW_NO}" class="comment commentTextarea form-control {if Supplies_SupField_Model::isWysiwygType($REFERENCE_MODULE)}ckEditorSource ckEditorBasic{/if}">{$SUP_DATA['comment']}</textarea>
 		</div>
 	</div>
 {/strip}

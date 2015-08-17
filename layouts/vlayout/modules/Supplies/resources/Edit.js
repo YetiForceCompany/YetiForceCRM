@@ -547,6 +547,12 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 
 		thisInstance.calculateTax(parentRow, mondal);
 	},
+	loadWysiwyg: function (row, wysiwyg) {
+		var thisInstance = this;
+		if(wysiwyg == '1'){
+			thisInstance.loadCkEditorElement(row.find('.ckEditorSource'));
+		}
+	},
 	registerAddRow: function (container) {
 		var thisInstance = this;
 		var subTable = this.getSupTableContainer();
@@ -556,7 +562,8 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			var sequenceNumber = thisInstance.getNextLineItemRowNumber();
 			var module = $(e.currentTarget).data('module');
 			var field = $(e.currentTarget).data('field');
-
+			var wysiwyg = $(e.currentTarget).data('wysiwyg');
+			
 			var replaced = newRow.html().replace(/_NUM_/g, sequenceNumber);
 			newRow.html(replaced);
 			newRow = newRow.appendTo(subTable.find('tbody'));
@@ -564,6 +571,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			newRow.find('.rowName input[name="popupReferenceModule"]').val(module).data('field', field);
 			thisInstance.initRow();
 			thisInstance.registerAutoCompleteFields(newRow);
+			thisInstance.loadWysiwyg(newRow, wysiwyg);
 		});
 	},
 	registerSortableRow: function () {

@@ -13,9 +13,6 @@ class Supplies_Edit_View extends Vtiger_Edit_View
 		
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('ACCOUNT_REFERENCE_FIELD', $this->getReferenceField($moduleName));
-		$viewer->assign('DISCOUNTS_CONFIG', Products_Record_Model::getDiscountsConfig());
-		$viewer->assign('TAXS_CONFIG', Products_Record_Model::getTaxsConfig());
 		$viewer->view('TopEditView.tpl', Supplies_Module_Model::getModuleNameForTpl('TopEditView.tpl', $moduleName));
 	}
 	
@@ -93,7 +90,11 @@ class Supplies_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
 		
+		// Supplies block
 		$viewer->assign('SUPFIELD_MODEL', Supplies_SupField_Model::getCleanInstance());
+		$viewer->assign('ACCOUNT_REFERENCE_FIELD', $this->getReferenceField($moduleName));
+		$viewer->assign('DISCOUNTS_CONFIG', Products_Record_Model::getDiscountsConfig());
+		$viewer->assign('TAXS_CONFIG', Products_Record_Model::getTaxsConfig());
 		$viewer->view('EditView.tpl', $moduleModel->getModuleNameForTpl('EditView.tpl', $moduleName));
 	}
 
