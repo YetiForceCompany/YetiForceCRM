@@ -2685,10 +2685,12 @@ textarea.col-md-11 {
 	nowrap: nowrap;
 	width: 70%;
 }
+/*
 .bootbox,
 .alert {
 	z-index: 1000023;
 }
+*/
 .chzn-container {
 	vertical-align: middle;
 }
@@ -3468,4 +3470,11 @@ span[name=existingImages] img{
 }
 .individualTaxContainer {
 	text-align: left !important;
+}
+.roundedCorners :not(:first-child) {
+	padding-left: 0;
+}
+.roundedCorners label {
+	font-weight: normal;
+	min-height: 40px;
 }

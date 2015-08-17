@@ -1,9 +1,8 @@
 /*
-SQLyog Ultimate v12.12 (64 bit)
+SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -355,8 +354,8 @@ insert  into `vtiger_activity_view_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_activitytype` */
 
-insert  into `vtiger_activitytype`(`activitytypeid`,`activitytype`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Call',0,12,0);
-insert  into `vtiger_activitytype`(`activitytypeid`,`activitytype`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Meeting',0,13,1);
+insert  into `vtiger_activitytype`(`activitytypeid`,`activitytype`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (1,'Call',0,12,0,'#80B584');
+insert  into `vtiger_activitytype`(`activitytypeid`,`activitytype`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (2,'Meeting',0,13,1,'#FFD500');
 
 /*Data for the table `vtiger_activitytype_seq` */
 
@@ -724,8 +723,6 @@ insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('co
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','holiday','PLL_HOLIDAY_TIME','#00d4f5');
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','work','PLL_WORKING_TIME','#FFD500');
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','Task','Task','#00d4f5');
-insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','Meeting','Meeting','#FFD500');
-insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','Call','Call','#80B584');
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('reminder','update_event','LBL_UPDATE_EVENT','0');
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('info','notworkingdays ','LBL_NOTWORKING_DAYS',NULL);
 
@@ -16190,6 +16187,8 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (365,4,21,'get_related_list',32,'PurchaseOrder',0,'ADD,SELECT');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (366,23,4,'get_related_list',9,'Contacts',0,'ADD,SELECT');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (367,4,23,'get_related_list',33,'Invoice',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (368,81,4,'get_related_list',2,'Contacts',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (369,82,4,'get_related_list',2,'Contacts',0,'ADD,SELECT');
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
@@ -16197,7 +16196,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 
 /*Data for the table `vtiger_relatedlists_seq` */
 
-insert  into `vtiger_relatedlists_seq`(`id`) values (367);
+insert  into `vtiger_relatedlists_seq`(`id`) values (369);
 
 /*Data for the table `vtiger_relcriteria` */
 

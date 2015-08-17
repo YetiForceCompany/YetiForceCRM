@@ -97,8 +97,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_calendar_config WHERE type = ?;", array($type));
 		$rows = $adb->num_rows($result);
-
-		$calendarConfig = Array();
+		$calendarConfig = [];
 		for ($i = 0; $i < $rows; $i++) {
 			$calendar = $adb->query_result_rowdata($result, $i);
 			$calendarConfig[] = array(
@@ -107,13 +106,20 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 				'value' => $calendar['value']
 			);
 		}
+		if ($type == 'colors') {
+			$calendarConfig = array_merge($calendarConfig, self::getPicklistValue());
+		}
 		return $calendarConfig;
 	}
 
 	public static function updateCalendarConfig($params)
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery('UPDATE vtiger_calendar_config SET value = ? WHERE name = ?;', array($params['color'], $params['id']));
+		if ($params['table']) {
+			Users_Colors_Model::updateColor($params);
+		} else {
+			$adb->pquery('UPDATE vtiger_calendar_config SET value = ? WHERE name = ?;', array($params['color'], $params['id']));
+		}
 	}
 
 	public static function updateNotWorkingDays($params)
@@ -138,5 +144,25 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 				$return = explode(';', $row['value']);
 		}
 		return $return;
+	}
+
+	public static function getCalendarColorPicklist()
+	{
+		return $fields = ['activitytype'];
+	}
+
+	public function getPicklistValue()
+	{
+		$keys = ['name', 'label', 'value', 'table', 'field'];
+		$calendarConfig = [];
+		foreach (self::getCalendarColorPicklist() as $picklistName) {
+			$picklistValues = Users_Colors_Model::getValuesFromField($picklistName);
+			foreach ($picklistValues as $picklistValue) {
+				$picklistValue['table'] = 'vtiger_' . $picklistName;
+				$picklistValue['field'] = $picklistName;
+				$calendarConfig[] = array_combine($keys, $picklistValue);
+			}
+		}
+		return $calendarConfig;
 	}
 }

@@ -42,6 +42,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
+		$weekDays = ['Sunday'=>0, 'Monday'=>1, 'Tuesday'=>2, 'Wednesday'=>3, 'Thursday'=>4, 'Friday'=>5, 'Saturday'=>6];
 
 		$recordId = $request->get('record');
 		if ($recordId) {
@@ -69,6 +70,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('CURRENT_USER', $currentUser);
 		$admin = Users::getActiveAdminUser();
 		$viewer->assign('ACTIVE_ADMIN', $admin);
+		$viewer->assign('WEEK_START_ID', $weekDays[$currentUser->get('dayoftheweek')]);
 		$viewer->view('Step1.tpl', $qualifiedModuleName);
 	}
 

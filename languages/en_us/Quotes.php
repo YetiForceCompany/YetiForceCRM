@@ -33,7 +33,7 @@ $languageStrings = [
 	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'External consultation required',
 	'PLL_WAITING_FOR_CUSTOMERS_REPLY' => 'Waiting for customer\'s reply',
 	'PLL_IN_PREPARATION' => 'In preparation',
-	'PLL_SENT_TO_ORGANIZATION' => 'Sent to Organization',
+	'PLL_SENT_TO_ORGANIZATION' => 'Sent to Account',
 	'PLL_DECLINED' => 'Declined',
 	'PLL_ACCEPTED' => 'Accepted',
 ];

@@ -20,7 +20,7 @@ $languageStrings = [
 	'LBL_STATUSES_CLOSED_POTENTIAL' => 'Statuses determining that opportunity is closed',
 	'LBL_ASSETS' => 'Sold products',
 	'LBL_STATUSES_CLOSED_ASSETS' => 'Statuses determining that sold product is closed',
-	'LBL_CREATE_POTENTIALS' => 'Blocked the creation of Opportunities for Accounts/Organizations in which Assigned To is not a user',
+	'LBL_CREATE_POTENTIALS' => 'Blocked the creation of Opportunities for Accounts in which Assigned To is not a user',
 	'SalesProcesses' => 'Sales processes',
 ];
 

@@ -8,6 +8,7 @@
 		</span>
 		<span class="col-md-3"><button class="btn btn-default pull-right addButton createActivity" data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true" type="button"><strong>{vtranslate('LBL_ADD',$MODULE_NAME)}</strong></button></span>
 	</div>
+	<hr class="widgetHr">
 	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
 		<div class="widget_contents">
 		</div>

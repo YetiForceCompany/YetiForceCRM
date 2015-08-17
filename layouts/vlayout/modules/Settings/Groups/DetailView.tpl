@@ -75,7 +75,7 @@
 											</li>
 											{foreach item=GROUP_MEMBER_INFO from=$GROUP_MEMBERS}
 												<li class="">
-													<a href="{$GROUP_MEMBER_INFO->getDetailViewUrl()}">{$GROUP_MEMBER_INFO->get('name')}</a>
+													<a href="{$GROUP_MEMBER_INFO->getDetailViewUrl()}">{vtranslate($GROUP_MEMBER_INFO->get('name'), $QUALIFIED_MODULE)}</a>
 												</li>
 											{/foreach}
 										{/if}

@@ -15,6 +15,7 @@
             <input type="hidden" name="parent" value="Settings" />
             <input type="hidden" class="step" value="1" />
             <input type="hidden" name="record" value="{$RECORDID}" />
+			<input type="hidden" id="weekStartDay" data-value='{$WEEK_START_ID}' />
 
             <div class="padding1per" style="border:1px solid #ccc;">
                 <label>

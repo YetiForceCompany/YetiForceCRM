@@ -30,7 +30,7 @@ $languageStrings = [
 	'Parent letters'				=> 'Letters related to',
 	'Overall dimensions'			=> 'Dimension',
 	'Notes'							=> 'Notes',
-	'Related'						=> 'Organization / Opportunity',
+	'Related'						=> 'Account / Opportunity',
 	'Contact'						=> 'Contact',
 	'Type of document' => 'Document type',
 

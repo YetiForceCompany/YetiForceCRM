@@ -973,6 +973,11 @@ $languageStrings = [
 	'Marketing Group' => 'Grupa marketingowa',
 	'LBL_ERROR_IMPORT_IN_DEMO' => 'Tryb demo jest włączony, instalacja modułów jest zablokowana.',
 	'Pre Tax Total' => 'Suma przed opodatkowaniem',
+	'ApiAddress' => 'Wyszukiwarka adresów',
+	'CustomerPortal' => 'Portal klienta',
+	'ModTracker' => 'Historia zmian',
+	'Password' => 'Hasła',
+	
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',

@@ -209,7 +209,8 @@ Reports_Edit_Js("Reports_Edit1_Js",{},{
 		jQuery('#recipients').chosen();
 		
 		var currentYear = new Date().getFullYear();
-		jQuery('#annualDatePicker').datepick({autoSize: true, multiSelect:100,monthsToShow: [1,2],
+		var weekStartId = jQuery('#weekStartDay').data('value');
+		jQuery('#annualDatePicker').datepick({autoSize: true, firstDay: weekStartId, multiSelect:100,monthsToShow: [1,2],
 				minDate: '01/01/'+currentYear, maxDate: '12/31/'+currentYear,
 				yearRange: currentYear+':'+currentYear,
 				onShow : function() {

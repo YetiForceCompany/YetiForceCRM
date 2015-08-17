@@ -30,7 +30,7 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_CONVERT_LEAD' => 'Convert Lead',
 	'LBL_CONVERT_LEAD_ERROR_TITLE' => 'Modules Disabled',
-	'LBL_CONVERT_LEAD_ERROR' => 'You have to enable either Organization or Contact to convert the Lead',
+	'LBL_CONVERT_LEAD_ERROR' => 'You have to enable either Account or Contact to convert the Lead',
 	'LBL_CUSTOM_FIELD_MAPPING' => 'Edit Field Mapping',
 	'LBL_FOLLOWING_ARE_POSSIBLE_REASONS' => 'Possible reasons include:',
 	'LBL_LEAD_INFORMATION' => 'Lead Details',
@@ -109,6 +109,6 @@ $languageStrings = [
 
 $jsLanguageStrings = [
 	'JS_SELECT_CONTACTS' => 'Select Contacts to proceed',
-	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'Conversion requires selection of Contact or Organization',
-	'JS_SELECT_ORGANIZATION' => 'Select Organization to proceed',
+	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'Conversion requires selection of Contact or Account',
+	'JS_SELECT_ORGANIZATION' => 'Select Account to proceed',
 ];
