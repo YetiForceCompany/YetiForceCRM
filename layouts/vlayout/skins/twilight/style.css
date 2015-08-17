@@ -3495,4 +3495,10 @@ span[name=existingImages] img{
 .paginationDiv .listViewBasicAction.dropdown-menu{
 	width: 35%;
 }
-
+.pageInfo {
+	border: 1px solid #ddd;
+	color: #337AB7;
+	margin-left: 5px;
+	list-style: none;
+	padding: 8px 5px;
+}
