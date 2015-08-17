@@ -20,8 +20,9 @@ YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow
 Below you can see how we improve our project:
 
 
-#YetiForce 2.1 GA
+#YetiForce 2.2 GA
 
+<<<<<<< HEAD
 2.1 was launched on 6st August 2015 and the following changes are up to 2.1.0 from 6th August 2015.
 
 
@@ -150,115 +151,54 @@ Below you can see how we improve our project:
 - Added a feature to get all currencies.
 - Added a new parameter that allows setting visibility of fields.
 - Redesigned the module builder.
-- Improved appearance of various fields, buttons, labels and icons.
-- Improved existing translations.
-- Improved url validation - it is now a two-step process.
-- Improved the layout of the Reports module.
-- Improved reminders for calendar events.
-- Improved lists selection.
-- Improved the display of all-day dates.
-- Improved mail scanner.
-- Improved the validating function.
-- Improved layout of popups.
-- Improved labels of required fields.
-- Improved the automatic search feature.
-- Improved the appearance of windows mail.
-- Improved the tax popup window in the tax block.
-- Improved the display of some widgets for users without the administrator permissions.
-- Improved the appearance of DataAccess.
-- Added automatic related data loading in quick create.
-- Added the "working times in total" field and related actions.
-- Added some missing handlers in the Users module.
-- Added protection against duplicating the 'click' event in the Company Details panel.
-- Added permission for quick export to Excel.
-- Added bootstrap jquery-ui theme.
-- Added missing icons.
-- Added a function to retrieve initials.
-- Updated the thunderbird_labels plugin.
-- Expanded the error logs.
-- Redesigned listing of users and groups in the calendar.
-- Changed the order of some html elements.
-- Removed an old plugin
--	Further improvements that allow visually impaired people to navigate around the system.
--	Moved constant variable assignments out of loop.
--	Moved excess translations from various modules to one file. 
--	Updated jQuery to v2.1.4 and jQuery-ui to v1.11.4 and made changes in javascript files.
--	Updated Bootbox library.
--	Updated DataTables Table jQuery 1.10.7.
--	Updated PNotify library to v2.0.1.
--	Updated jstorage library.
--	Improved the compatibility with PHP version 5.4.
--	Improved the display of text fields.
--	Improved the display of logs in cron.
--	Improved the display of progress bar in the Backup module.
--	Improved the display of edit window for cron tasks.
--	Improved the display of buttons in the Calendar.
--	Improved the display of Groups panel in detail view.
--	Improved the display of many popups. 
--	Improved the display of many modal windows.
--	Improved the display of variables in Brute Force panel.
--	Improved the global variables.
--	Improved the titles of buttons in Details view.
--	Improved the generation of queries for reference fields.
--	Improved icons of filters.
--	Improved error reporting during the verification of configuration.
--	Improved security in converting a Lead. 
--	Improved privileges in the Calendar.
--	Improved email content filtering.
--	Improved backup configuration.
--	Improved the conversion of a lead.
--	Improved the validation of modules with Products.
--	Improved loading of data when a related module is selected.
--	Improved relation handlers.
--	Improved a select window for modules in quick create.
--	Improved search of email addresses in the Mail Module.
--	Improved the layout and functioning of custom views.
--	Improved the loading of unique ID.
--	Improved the panel for Language Management.
--	Improved the export module.
--	Improved the mechanism responsible for password change.
--	Improved database Controller.
--	Improved the global search.
--	Improved server configuration check.
--	Improved 'Change owner" action for a related Calendar module.
--	Improved import and export view in the Calculations module.
--	Improved adding of new sharing rules.
--	Improved a list of users and groups in the list of records.
--	Improved debugging.
--	Added changes from Vtiger rev. 14461, 14484, 14490, 14501 (6.3.0).
--	Added omitted fixes that had an influence on records creation.
--	Added protection when creating records. 
--	Added protection that prevents from double saving when profiles are being saved. 
--	Added validation of mandatory fields in hidden blocks.
--	Added javascript action for events in the Reservations and Time Control. 
--	Added an uncompressed file to the Bootbox library. 
--	Added a 'type' attribute to buttons in headers in edit view.
--	Added many missing translations.
--	Added missing buttons for generating random colors in Calendar configuration and Activity configuration panels.
--	Optimized backup files.
--	Optimized load scripts.
--	Expanded the configuration of emails. 
--	Secured search of records in a list view.
--	Secured the creation of records in the Calendar.
--	Changed icon names in database.
--	Rebuilt the loading of JS files in import and export inventory modules.
--	Bootstrap 3 - fixed the appearance of the products block.
--	Bootstrap 3 - subsequent amendments.
--	Bootstrap 3 - amendments in security menu.
--	Bootstrap 3 - improved security menu.
--	Bootstrap 3 - amendments in the Menu Manager.
--	Bootstrap 3 0 improved the appearance of panels within the configuration - Tools, Processes, Mail, Integration, Access Control blocks.
--	Bootstrap 3 - amendments in company menu. 
--	Bootstrap 3 - improved the display of popups.
--	Bootstrap 3 - amendments of comments in Details view.
--	Bootstrap 3 - removed a row from position name.
--	Bootstrap 3 - improved the Edit view of passwords.
--	Bootstrap 3 - improved the Reports module.
--	Bootstrap 3 - improved styles, fixed show/hide fields in the Calendar module.
+=======
+2.1 was launched on 6th May 2015 and the following changes are up to 2.1.115 from 27th July 2015.
 
+
+**Bug Fixes:**
+- Reverted a change in developer mode.
+- Fixed the display of a button that indicates changes made in a record.
+- Fixed an invalid variable in mail template tickets.
+- Fixed expanding/closing blocks in modules.
+- Fixed a SQL error that occurred when users added a picklist to a module. 
+- Fixed alignment of buttons with longer labels. 
+- Fixed exporting users. 
+- Fixed a bug in mail templates. 
+- Fixed csrfMagic in Reports
+- Fixed report generation.
+- Fixed generation of date time ranges from string type. 
+- Fixed display of new calendar activities. 
+- Fixed a bug that redirected a user to an empty page while creating records in a custom module.
+- Fixed display of the percent field in edit view when using a narrow row height.
+- Fixed scrollbar.
+- Fixed checkboxes in templates.
+- Fixed tree manager.
+- Fixed mass edition. 
+- Fixed creating relationships.
+- Fixed merging duplicate contacts.
+- Fixed a bug that would prevent users from creating new records.
+- Fixed reactivating inactive fields.
+
+
+**Improvements:**
+- Improved pagination display.
+>>>>>>> remotes/origin/developer
+- Improved appearance of various fields, buttons, labels and icons.
+- Changed the name 'Organizations' to 'Accounts'. 
+- Modified the type of accepted files when importing modules.
+- Improved pagination.
+- Improved loading the field list in 'Mail Templates' module. 
+- Many visual improvements.
+- Improvements in API for Portal 2.
+- Improved the getConfig function.
+- Added a new parameter in API.
+- Added required field info.
+- Updated requirements.
+- Removed unnecessary titles. 
 
 
 **New functionalities:**
+<<<<<<< HEAD
 - Added additional security to API webservice.
 - Added the Dutch language.
 - Added the ability to search for records to which the user has no access.
@@ -288,6 +228,9 @@ Below you can see how we improve our project:
 - Added a status of email accounts in the Mail Scanner.
 - Added a functionality responsible for loading of a new web service.
 - Added a configuration for Portal 2.0.
+=======
+- Added 'Many to many' type relation for a Contact in modules: Letters outgoing, Letters incoming.
+>>>>>>> remotes/origin/developer
 
 
 The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/pl/dokumentacja-programisty/zmiany.html).
