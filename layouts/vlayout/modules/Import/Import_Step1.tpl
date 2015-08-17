@@ -20,12 +20,12 @@
 		<td data-import-upload-size="{$IMPORT_UPLOAD_SIZE}" data-import-upload-size-mb="{$IMPORT_UPLOAD_SIZE_MB}">
 			<input type="hidden" name="type" value="csv" />
 			<input type="hidden" name="is_scheduled" value="1" />
-			<input type="file" name="import_file" id="import_file" title="{vtranslate('LBL_SELECT_FILE', $MODULE)}" onchange="ImportJs.checkFileType()"/>
+			<input type="file" name="import_file" id="import_file" title="{vtranslate('LBL_SELECT_FILE', $MODULE)}" accept="{$SUPPORTED_FILE_TYPES_TEXT}" onchange="ImportJs.checkFileType()"/>
 			<!-- input type="hidden" name="userfile_hidden" value=""/ -->
 		</td>
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
-		<td>{'LBL_IMPORT_SUPPORTED_FILE_TYPES'|@vtranslate:$MODULE}</td>
+		<td>{'LBL_IMPORT_SUPPORTED_FILE_TYPES'|@vtranslate:$MODULE}: {$SUPPORTED_FILE_TYPES_TEXT}</td>
 	</tr>
 </table>
