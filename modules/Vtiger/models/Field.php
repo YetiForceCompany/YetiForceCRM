@@ -615,6 +615,13 @@ class Vtiger_Field_Model extends Vtiger_Field
 			$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
 			$this->fieldInfo['picklistvalues'] = $pickListValues;
 		}
+		
+		if ($this->getFieldDataType() == 'modules') {
+			foreach($this->getModulesListValues() as $moduleId=>$module){
+				$modulesList[$module['name']] = $module['label'];
+			}
+			$this->fieldInfo['picklistvalues'] = $modulesList;
+		}
 
 		return $this->fieldInfo;
 	}
