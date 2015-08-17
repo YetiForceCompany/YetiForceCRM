@@ -1091,7 +1091,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	},
 	loadCkEditorElement: function (noteContentElement) {
 		var customConfig = {};
-		if (noteContentElement.css('display') != 'none') {
+		if (noteContentElement.is(':visible')) {
 			noteContentElement.removeAttr('data-validation-engine');
 			if (noteContentElement.hasClass("ckEditorBasic")) {
 				customConfig.toolbar = 'Basic';
