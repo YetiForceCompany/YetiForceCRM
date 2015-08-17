@@ -3504,3 +3504,10 @@ span[name=existingImages] img{
 .listViewEntriesTable .searchField{
 	min-width: 100px;
 }
+.pageInfo {
+	border: 1px solid #ddd;
+	color: #337AB7;
+	margin-left: 5px;
+	list-style: none;
+	padding: 8px 5px;
+}
