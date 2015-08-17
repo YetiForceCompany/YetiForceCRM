@@ -18,6 +18,7 @@ $languageStrings = [
 	'LBL_VALUES' => 'Значение',
 	'LBL_GROUPS_INFO' => 'Информация группы',
 	'LBL_LEAD_STATUS' => 'Состояние определяющее закрытие Обращения',
+	'LBL_LEAD_CONVERT_STATUS' => 'Statuses that allow for converting Lead to Account',
 	'LBL_CURRENTUSER_STATUS' => 'Назначить владельцем лицо вносящее изменение',
 	'LBL_CONVERT_LEAD_MERGE' => 'Блокировать создание дублирующихся записей при преобразовании',
 	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'Эта опция позволяет объединять одинаковые данные при обращении, что исключает дублирование записей',

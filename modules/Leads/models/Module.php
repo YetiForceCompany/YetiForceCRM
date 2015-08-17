@@ -12,25 +12,6 @@ class Leads_Module_Model extends Vtiger_Module_Model
 {
 
 	/**
-	 * Function returns Settings Links
-	 * @return Array
-	 */
-	public function getSettingLinks()
-	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$settingLinks = parent::getSettingLinks();
-
-		if ($currentUserModel->isAdminUser()) {
-			$settingLinks[] = array(
-				'linktype' => 'LISTVIEWSETTING',
-				'linklabel' => 'LBL_CUSTOM_FIELD_MAPPING',
-				'linkurl' => 'index.php?parent=Settings&module=Leads&view=MappingDetail',
-				'linkicon' => '');
-		}
-		return $settingLinks;
-	}
-
-	/**
 	 * Function returns deleted records condition
 	 */
 	public function getDeletedRecordCondition()
@@ -285,5 +266,32 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		}
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return true;
+	}
+
+	/**
+	 * Function that returns status that allow to convert Lead
+	 * @return <Array> array of statuses
+	 */
+	public static function getConversionAvaibleStatuses()
+	{
+		$leadConfig = Settings_MarketingProcesses_Module_Model::getConfig('lead');
+
+		return $leadConfig['convert_status'];
+	}
+
+	/**
+	 * Function that checks if lead record can be converted
+	 * @param <String> $status - lead status
+	 * @return <boolean> if or not allowed to convert
+	 */
+	public static function checkIfAllowedToConvert($status)
+	{
+		$leadConfig = Settings_MarketingProcesses_Module_Model::getConfig('lead');
+
+		if (empty($leadConfig['convert_status'])) {
+			return true;
+		} else {
+			return in_array($status, $leadConfig['convert_status']);
+		}
 	}
 }

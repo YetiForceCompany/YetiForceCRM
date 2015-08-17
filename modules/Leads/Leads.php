@@ -70,7 +70,6 @@ class Leads extends CRMEntity
 	var $default_sort_order = 'DESC';
 	// For Alphabetical search
 	var $def_basicsearch_col = 'company';
-	var $conversion_available_status = array('LBL_LEAD_ACQUIRED');
 
 	//var $groupTable = Array('vtiger_leadgrouprelation','leadid');
 
