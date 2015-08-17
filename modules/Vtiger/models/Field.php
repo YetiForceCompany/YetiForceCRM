@@ -187,6 +187,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$fieldDataType = 'modules';
 			} else if ($uiType == '302') {
 				$fieldDataType = 'tree';
+			} else if ($uiType == '303') {
+				$fieldDataType = 'taxs';
 			} else {
 				$webserviceField = $this->getWebserviceFieldObject();
 				$fieldDataType = $webserviceField->getFieldDataType();
