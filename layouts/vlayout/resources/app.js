@@ -100,7 +100,8 @@ var app = {
 		var moduleName = app.getModuleName();
 		if (selectElement.filter('[multiple]') && moduleName != 'Install') {
 			params.placeholder_text_multiple = ' ' + app.vtranslate('JS_SELECT_SOME_OPTIONS');
-		} else if (moduleName != 'Install') {
+		}
+		if (moduleName != 'Install') {
 			params.placeholder_text_single = ' ' + app.vtranslate('JS_SELECT_AN_OPTION');
 		}
 		selectElement.chosen(params);
