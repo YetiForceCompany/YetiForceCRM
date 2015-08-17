@@ -2588,6 +2588,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 		thisInstance.registerEventForRelatedList();
 		thisInstance.registerEventForRelatedListPagination();
+		this.registerBlockAnimationEvent();
 	},
 	registerEvents: function () {
 		var thisInstance = this;
@@ -2596,7 +2597,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerSendSmsSubmitEvent();
 		thisInstance.registerAjaxEditEvent();
 		this.registerRelatedRowClickEvent();
-		this.registerBlockAnimationEvent();
 		this.registerBlockStatusCheckOnLoad();
 		this.registerEmailFieldClickEvent();
 		this.registerPhoneFieldClickEvent();
