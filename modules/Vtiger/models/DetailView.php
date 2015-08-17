@@ -89,7 +89,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 					'linkhint' => 'BTN_WORKFLOW_TRIGGER',
 				);
 			}
-			if ($recordModel->get('was_read') == 0 && $recordModel->get('assigned_user_id') == $currentUserModel->get('id') && $currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'ReadRecord')) {
+			if ($recordModel->get('assigned_user_id') == $currentUserModel->get('id') && $currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'ReadRecord')) {
 				$detailViewLinks[] = array(
 					'linktype' => 'DETAILVIEWBASIC',
 					'linklabel' => '',
@@ -97,6 +97,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 					'linkicon' => 'glyphicon glyphicon-ok icon-white',
 					'linkclass' => 'btn-success setReadRecord',
 					'linkhint' => 'BTN_READ_RECORD',
+					'linkgrupclass' => $recordModel->get('was_read') == 0 ? '' : 'hide',
 				);
 			}
 			$detailViewLinks[] = array(

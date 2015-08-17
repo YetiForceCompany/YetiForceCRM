@@ -3478,3 +3478,36 @@ span[name=existingImages] img{
 	font-weight: normal;
 	min-height: 40px;
 }
+.paginationDiv .pagination{
+	margin: 0;
+}
+.paginationDiv .pagination li{
+	cursor: pointer;
+}
+.paginationDiv .pagination > li > span,
+.paginationDiv .pagination > li > a{
+	padding: 8px 8px;
+}
+.paginationDiv #listViewPageJumpDropDown{
+	left: 192px;
+	top: 80%;
+}
+.paginationDiv .listViewBasicAction.dropdown-menu{
+	width: 35%;
+}
+.listViewEntriesTable .picklistSearchField{
+	min-width: 150px;
+}
+.listViewEntriesTable .boolenSearchField{
+	min-width: 90px;
+}
+.listViewEntriesTable .searchField{
+	min-width: 100px;
+}
+.pageInfo {
+	border: 1px solid #ddd;
+	color: #337AB7;
+	margin-left: 5px;
+	list-style: none;
+	padding: 8px 5px;
+}

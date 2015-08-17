@@ -215,20 +215,26 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 
-		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
-			if (!$this->listViewCount) {
-				$this->listViewCount = $listViewModel->getListViewCount();
-			}
-			$totalCount = $this->listViewCount;
-			$pageLimit = $pagingModel->getPageLimit();
-			$pageCount = ceil((int) $totalCount / (int) $pageLimit);
-
-			if ($pageCount == 0) {
-				$pageCount = 1;
-			}
-			$viewer->assign('PAGE_COUNT', $pageCount);
-			$viewer->assign('LISTVIEW_COUNT', $totalCount);
+		if (!$this->listViewCount) {
+			$this->listViewCount = $listViewModel->getListViewCount();
 		}
+		$totalCount = $this->listViewCount;
+		$pageLimit = $pagingModel->getPageLimit();
+		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
+
+		if ($pageCount == 0) {
+			$pageCount = 1;
+		}
+
+		$startPaginFrom = $pageNumber - 2;
+		if($pageNumber == $totalCount && 1 !=  $pageNumber)
+			$startPaginFrom = $pageNumber - 4;
+		if($startPaginFrom <= 0 || 1 ==  $pageNumber)
+			$startPaginFrom = 1;
+
+		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('LISTVIEW_COUNT', $totalCount);
+		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('LIST_VIEW_MODEL', $listViewModel);
 		$viewer->assign('GROUPS_IDS', Vtiger_Util_Helper::getGroupsIdsForUsers($currentUser->getId()));
 		$viewer->assign('IS_MODULE_EDITABLE', $listViewModel->getModule()->isPermitted('EditView'));

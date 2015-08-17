@@ -1225,6 +1225,8 @@ $languageStrings = [
 	'Marketing Group' => 'Marketing Group',
 	'LBL_ERROR_IMPORT_IN_DEMO' => 'Demo mode is enabled, the installation of modules is disabled.',
 	'Pre Tax Total' => 'Индивидуальный налог',
+	'LBL_FIRST' => 'Первая',
+	'LBL_LAST' => 'Последняя',
 ];
 $jsLanguageStrings = [
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Нельзя выбрать Контакты для Обращений',
@@ -1409,7 +1411,7 @@ $jsLanguageStrings = [
 	'JS_VALUE_SHOULD_NOT_BE_LESS_THAN' => 'Частота любой задачи Планировщика должны быть не меньше',
 	'JS_YOU_CAN_SELECT_ONLY' => 'Вы можете выбрать только',
 	'LBL_DELETE_CONFIRMATION' => 'Вы уверены, что хотите удалить запись?',
-	'JS_DELETE_CONFIRMATION' => '__UNTRANSLATED__',
+	'JS_DELETE_CONFIRMATION' => 'Are you sure you want to delete the relation to this record? Only the relation will be deleted, in order to delete the record go to the record and click delete.',
 	'LBL_DELETE_USER_CONFIRMATION' => 'При удалении пользователя, пользователь будет помечен как «Неактивный» и без возможности создания новых записей и назначения их пользователю, и пользователь не сможет войти в систему. Обслуживание будет остановлено для этого пользователя.Если вам нужно восстановить Удаленного пользователя, вам нужно будет отправить письмо на адрес support@vtiger.com. Вы уверены, что вы хотите удалить?',
 	'LBL_IMAGE_DELETED_SUCCESSFULLY' => 'Изображение успешно удалено',
 	'LBL_IMAGE_NOT_DELETED' => 'Изображение не удалено',

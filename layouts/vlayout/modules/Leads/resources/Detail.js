@@ -332,6 +332,8 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 
 		AppConnector.request(data).then(
 				function (reponseData) {
+					var readRecord = jQuery('.setReadRecord');
+					readRecord.closest('.btn-group').removeClass('hide');
 					aDeferred.resolve(reponseData);
 				}
 		);
