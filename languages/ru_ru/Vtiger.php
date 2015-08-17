@@ -1221,6 +1221,10 @@ $languageStrings = [
 	'LBL_LEGAL_FORM' => 'Юридическая форма',
 	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Export to Excel',
 	'ReasonToEdit' => 'Reason to edit',
+	'Support Group' => 'Support Group',
+	'Marketing Group' => 'Marketing Group',
+	'LBL_ERROR_IMPORT_IN_DEMO' => 'Demo mode is enabled, the installation of modules is disabled.',
+	'Pre Tax Total' => 'Индивидуальный налог',
 ];
 $jsLanguageStrings = [
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Нельзя выбрать Контакты для Обращений',

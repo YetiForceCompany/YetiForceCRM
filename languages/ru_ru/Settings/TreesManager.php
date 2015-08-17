@@ -36,4 +36,6 @@ $jsLanguageStrings = [
 	'JS_NO_ITEM_SELECTED' => 'Ничего не выбрано',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'Вы не можете удалить все',
 	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'Вы не можете удалять родителя',
+	'JS_NEW_ITEM' => 'New node',
+	'JS_ONLY_ONE_ITEM_SELECTED' => 'Only one item can be selected.',
 ];

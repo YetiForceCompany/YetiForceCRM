@@ -24,5 +24,7 @@ $languageStrings = [
 	'Comment' => 'Comentário',
 	'Creator' => 'Criado por',
 	'Related To Comments' => 'Relacionado à',
+	'UserId' => 'ID Пользователя',
+	'Customer' => 'Cliente',
 
 ];

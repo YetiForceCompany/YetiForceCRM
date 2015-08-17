@@ -969,6 +969,10 @@ $languageStrings = [
 	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Eksport do Excel',
 	'ReasonToEdit' => 'Przyczyna edycji',
 	'Mails List' => 'Najnowsze maile',
+	'Support Group' => 'Grupa wsparcia',
+	'Marketing Group' => 'Grupa marketingowa',
+	'LBL_ERROR_IMPORT_IN_DEMO' => 'Tryb demo jest włączony, instalacja modułów jest zablokowana.',
+	'Pre Tax Total' => 'Suma przed opodatkowaniem',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',

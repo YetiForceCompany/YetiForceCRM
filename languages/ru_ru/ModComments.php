@@ -21,6 +21,8 @@ $languageStrings = [
 	'Comment'                      => 'Комментарий'      , 
 	'Creator'                      => 'Автор'                  , 
 	'Related To Comments'          => 'Относится к Комментарию',
+	'UserId' => 'UserId',
+	'Customer' => 'Клиент',
 ];
 
 $jsLanguageStrings = [

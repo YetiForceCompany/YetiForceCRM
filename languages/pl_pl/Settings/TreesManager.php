@@ -36,4 +36,6 @@ $jsLanguageStrings = [
 	'JS_NO_ITEM_SELECTED' => 'Nie wybrano elementu',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'Nie możesz usunąć wszystkich elementów',
 	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'Nie możesz usunąć elementu rodzica',
+	'JS_NEW_ITEM' => 'Nowy węzeł',
+	'JS_ONLY_ONE_ITEM_SELECTED' => 'Tylko jeden element może być zaznaczony.',
 ];

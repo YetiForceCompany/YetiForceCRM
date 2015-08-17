@@ -239,6 +239,7 @@ jQuery.Class("Vtiger_Helper_Js", {
 		var topScroll = jQuery('.contents-topscroll', container);
 		var bottomScroll = jQuery('.contents-bottomscroll', container);
 
+		jQuery('.bottomscroll-div', container).attr('style', '');
 		jQuery('.topscroll-div', container).css('width', jQuery('.bottomscroll-div', container).outerWidth());
 		jQuery('.bottomscroll-div', container).css('width', jQuery('.topscroll-div', container).outerWidth());
 

@@ -42,6 +42,8 @@ $languageStrings = [
 	'Invoice entered' => 'Заказан',
 	'Potential' => 'Сделка',
 	'Payment balance' => 'Баланс',
+	'Received' => 'Получено',
+	'Balance' => 'Баланс',
 ];
 
 $jsLanguageStrings = [
