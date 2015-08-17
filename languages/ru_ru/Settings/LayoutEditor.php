@@ -128,5 +128,4 @@ $jsLanguageStrings = [
 	'JS_UPDATE_SEQUENCE' => 'Последовательность сохранена',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Список полей обновлен',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Поле не может быть пустым',
-	'JS_RESERVED_PICKLIST_NAME' => 'This picklist name is reserved.'
 ];

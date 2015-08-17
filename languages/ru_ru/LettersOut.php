@@ -15,7 +15,7 @@ $languageStrings = [
 	// Basic Strings
 	'LettersOut' => 'Исходящая корреспонденция',
 	'SINGLE_LettersOut' => 'Исходящая корреспонденция',
-	'LBL_ADD_RECORD' => 'Добавить документ',
+	'LBL_ADD_RECORD' => 'Документ',
 	'LBL_RECORDS_LIST' => 'Список документов',
 
 	// Blocks
