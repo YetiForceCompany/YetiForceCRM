@@ -209,7 +209,9 @@ var app = {
 					if (selectElementNew.data('unselecting')) {
 						selectElementNew.removeData('unselecting');
 						setTimeout(function (e) {
-							selectElementNew.select2('close');
+							selectElementNew.each(function () {
+								jQuery(this).select2('close');
+							});
 						}, 1);
 					}
 					var element = jQuery(e.currentTarget);

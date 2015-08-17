@@ -3495,4 +3495,12 @@ span[name=existingImages] img{
 .paginationDiv .listViewBasicAction.dropdown-menu{
 	width: 35%;
 }
-
+.listViewEntriesTable .picklistSearchField{
+	min-width: 150px;
+}
+.listViewEntriesTable .boolenSearchField{
+	min-width: 90px;
+}
+.listViewEntriesTable .searchField{
+	min-width: 100px;
+}
