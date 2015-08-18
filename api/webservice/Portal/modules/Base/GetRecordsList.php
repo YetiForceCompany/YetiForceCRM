@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Get record list class
  * @package YetiForce.WebserviceAction
@@ -16,13 +15,19 @@ class API_Base_GetRecordsList extends BaseAction
 		$moduleName = $this->api->getModuleName();
 		$user = new Users();
 		$currentUser = $user->retrieveCurrentUserInfoFromFile(Users::getActiveAdminId());
-		
+		vglobal('current_user', $currentUser);
 		$listQuery = '';
 		$queryGenerator = new QueryGenerator($moduleName, $currentUser);
 		$queryGenerator->initForDefaultCustomView();
 		$listQuery = $queryGenerator->getQuery();
-//
+		$db = PearDatabase::getInstance();
+		$listResult = $db->query($listQuery);
+		$records = [];
+		while ($row = $db->fetch_array($listResult)) {
+			$records[] = $row;
+		}
+		//$listQuery = getListQuery('OSSTimeControl', '');
 
-		return ['tttt', $listQuery];
+		return ['tttt', $records];
 	}
 }
