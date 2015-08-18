@@ -28,6 +28,9 @@ $languageStrings = [
 	'isactive' => 'Active',
 	'username' => 'User Name',
 	'password' => 'Password',
+	'api_id' => 'API Id',
+	'from' => 'From',
+	'mo' => ''
 ];
 
 $jsLanguageStrings = [

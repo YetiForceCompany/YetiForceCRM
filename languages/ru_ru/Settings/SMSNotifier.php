@@ -30,6 +30,9 @@ $languageStrings = [
     'LBL_SMS_SENDER'               => 'Отправитель',
     'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Номер счета',
     'Enter new data'               => 'Введите новые данные',
+	'api_id' => 'API Id',
+	'from' => 'From',
+	'mo' => ''
 ];
 
 $jsLanguageStrings = [
