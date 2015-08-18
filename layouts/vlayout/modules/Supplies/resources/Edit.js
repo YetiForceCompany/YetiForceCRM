@@ -27,6 +27,13 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		$('#suppliesRowNo').val(rowNumber + 1);
 		return ++rowNumber;
 	},
+	getAccountId: function () {
+		var accountReferenceField = $('#accountReferenceField').val();
+		if (accountReferenceField != '') {
+			return $('[name="' + accountReferenceField + '"]').val();
+		}
+		return '';
+	},
 	checkDeleteIcon: function () {
 		var subTable = this.getSupTableContainer();
 		if (subTable.find(this.rowClass).length > 1) {
@@ -148,9 +155,20 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 	getTotalPrice: function (row) {
 		return parseFloat($('.totalPriceText', row).text());
 	},
+	getGrossPrice: function (row) {
+		return parseFloat($('.grossPrice', row).val());
+	},
 	getPurchase: function (row) {
 		var qty = this.getQuantityValue(row);
 		return parseFloat($('.purchase', row).val()) * qty;
+	},
+	getSummaryGrossPrice: function () {
+		var thisInstance = this;
+		var price = 0;
+		this.getSupTableContainer().find(this.rowClass).each(function (index) {
+			price += thisInstance.getGrossPrice($(this));
+		});
+		return parseFloat(price);
 	},
 	setListPriceValue: function (row, val) {
 		val = this.parsePrice(val);
@@ -181,7 +199,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 	},
 	quantityChangeActions: function (row) {
 		this.rowCalculations(row);
-		this.sumaryCalculations();
+		this.summaryCalculations();
 	},
 	rowCalculations: function (row) {
 		this.calculateTotalPrice(row);
@@ -195,7 +213,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			thisInstance.quantityChangeActions($(this));
 		});
 	},
-	sumaryCalculations: function (row) {
+	summaryCalculations: function (row) {
 
 	},
 	calculateNetPrice: function (row) {
@@ -340,7 +358,11 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		});
 	},
 	registerSuppliesSaveData: function (container) {
+		var thisInstance = this;
 		container.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
+			if (!thisInstance.checkLimits(container)) {
+				return false;
+			}
 			var table = container.find('#blackSuppliesTable');
 			table.find('[name]').removeAttr('name');
 		});
@@ -383,7 +405,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		var recordId = jQuery('input.sourceField', parentRow).val();
 		var recordModule = parentRow.find('.rowName input[name="popupReferenceModule"]').val();
 		thisInstance.removeSubProducts(parentRow);
-		if (recordId == '0' || $.inArray(recordModule, ['Products','Services']) < 0) {
+		if (recordId == '0' || $.inArray(recordModule, ['Products', 'Services']) < 0) {
 			return false;
 		}
 		if (thisInstance.subProductsCashe[recordId]) {
@@ -391,9 +413,9 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			return false;
 		}
 		var subProrductParams = {
-			'module': "Products",
-			'action': "SubProducts",
-			'record': recordId
+			module: "Products",
+			action: "SubProducts",
+			record: recordId
 		}
 		if (indicator) {
 			var progressInstace = jQuery.progressIndicator();
@@ -559,9 +581,52 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 	},
 	loadWysiwyg: function (row, wysiwyg) {
 		var thisInstance = this;
-		if(wysiwyg == '1'){
+		if (wysiwyg == '1') {
 			thisInstance.loadCkEditorElement(row.find('.ckEditorSource'));
 		}
+	},
+	limitEnableSave: false,
+	checkLimits: function () {
+		var thisInstance = this;
+		var account = thisInstance.getAccountId();
+		var response = true;
+
+		if (account == '' || $('#suppliesLimit').val() == '0' || thisInstance.limitEnableSave) {
+			return true;
+		}
+
+		var params = {}
+		params.data = {
+			module: app.getModuleName(),
+			action: 'CheckLimits',
+			record: account,
+			currency: thisInstance.getCurrency(),
+			price: thisInstance.getSummaryGrossPrice(),
+			limitConfig: $('#suppliesLimit').val(),
+		}
+		params.async = false;
+		params.dataType = 'json';
+		var progressInstace = jQuery.progressIndicator();
+		AppConnector.request(params).then(
+				function (data) {
+					progressInstace.hide();
+					var editViewForm = thisInstance.getForm();
+					if (data.result.status == false) {
+						app.showModalWindow(data.result.html, function (data) {
+							data.find('.enableSave').on('click', function (e, data) {
+								thisInstance.limitEnableSave = true;
+								editViewForm.submit();
+								app.hideModalWindow();
+							});
+						});
+						response = false;
+					}
+				},
+				function (error, err) {
+					progressInstace.hide();
+				}
+		);
+		return response;
 	},
 	registerAddRow: function (container) {
 		var thisInstance = this;
@@ -573,7 +638,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			var module = $(e.currentTarget).data('module');
 			var field = $(e.currentTarget).data('field');
 			var wysiwyg = $(e.currentTarget).data('wysiwyg');
-			
+
 			var replaced = newRow.html().replace(/_NUM_/g, sequenceNumber);
 			newRow.html(replaced);
 			newRow = newRow.appendTo(subTable.find('tbody'));

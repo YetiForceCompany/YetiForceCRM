@@ -51,7 +51,6 @@ class Supplies_GetDetails_Action extends Vtiger_Action_Controller
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$moduleName = $recordModel->getModuleName();
 		if (in_array($moduleName, ['Products', 'Services'])) {
-			//$taxes = $recordModel->getTaxes();
 			$listPriceValues = $recordModel->getListPriceValues($recordModel->getId());
 			$priceDetails = $recordModel->getPriceDetails();
 			foreach ($priceDetails as $currencyDetails) {
@@ -66,7 +65,6 @@ class Supplies_GetDetails_Action extends Vtiger_Action_Controller
 			$recordId => [
 				'id' => $recordId,
 				'name' => decode_html($recordModel->getName()),
-				//'taxes' => $taxes,
 				'price' => $listPrice,
 				'listpricevalues' => $listPriceValues,
 				'description' => decode_html($recordModel->get('description')),

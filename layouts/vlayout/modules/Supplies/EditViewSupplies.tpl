@@ -10,6 +10,7 @@
 
 		<input name="suppliesRowNo" id="suppliesRowNo" type="hidden" value="{count($SUP_RECORD_DATA)}" />
 		<input id="accountReferenceField" type="hidden" value="{$ACCOUNT_REFERENCE_FIELD}" />
+		<input id="suppliesLimit" type="hidden" value="{$MAIN_PARAMS['limit']}" />
 		{if count($FIELDS[0]) neq 0}
 			<table class="table table-bordered blockContainer suppliesItemTable">
 				<thead>
