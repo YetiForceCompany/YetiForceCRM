@@ -10,7 +10,7 @@
 			<select class="select2 globalTax" name="globalTax">
 				{foreach item=VALUE key=NAME from=$GLOBAL_TAXS}
 					<option value="{$VALUE}">
-						{vtranslate($NAME, $SUPMODULE)} - {$VALUE}%
+						{$VALUE}% - {vtranslate($NAME, $SUPMODULE)}
 					</option>
 				{/foreach}
 			</select>

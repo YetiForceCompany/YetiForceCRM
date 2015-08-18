@@ -40,6 +40,21 @@ class Vtiger_Taxs_UIType extends Vtiger_Base_UIType
 		return implode(',', $display);
 	}
 
+	public static function getValues($value)
+	{
+		$values = explode(',', $value);
+		$taxs = self::getTaxs();
+		$display = [];
+
+		foreach ($values as $tax) {
+			if (isset($taxs[$tax])) {
+				$display[$tax] = $taxs[$tax];
+			}
+		}
+
+		return $display;
+	}
+	
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/TaxsFieldSearchView.tpl';

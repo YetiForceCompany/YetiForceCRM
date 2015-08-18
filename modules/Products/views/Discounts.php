@@ -16,7 +16,7 @@ class Products_Discounts_View extends Vtiger_Index_View
 
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$config = $recordModel->getDiscountsConfig();
-		$groupDiscount = $this->getGroupDiscount($sourceModule, $sourceRecord, $accountField);
+		$groupDiscount = $this->getAccountDiscount($sourceModule, $sourceRecord, $accountField);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
@@ -27,24 +27,25 @@ class Products_Discounts_View extends Vtiger_Index_View
 		$viewer->assign('AGGREGATION_TYPE', $config['aggregation']);
 		$viewer->assign('AGGREGATION_INPUT_TYPE', $config['aggregation'] == 0 ? 'radio' : 'checkbox');
 		$viewer->assign('GROUP_DISCOUNT', $groupDiscount['discount']);
-		$viewer->assign('ACCOUNT_ID', $groupDiscount['accountid']);
+		$viewer->assign('ACCOUNT_NAME', $groupDiscount['name']);
 		$viewer->view('Discounts.tpl', $moduleName);
 	}
 
-	public function getGroupDiscount($moduleName, $record, $accountField)
+	public function getAccountDiscount($moduleName, $record, $accountField)
 	{
 		$discount = 0;
 		$discountField = 'discount';
-
+		$name = '';
 		if ($accountField != '') {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$relationFieldValue = $recordModel->get($accountField);
 			if ($relationFieldValue != 0) {
-				$mainRecordModel = Vtiger_Record_Model::getInstanceById($relationFieldValue, $mainModule);
-				$discount = $mainRecordModel->get($discountField);
+				$accountRecordModel = Vtiger_Record_Model::getInstanceById($relationFieldValue);
+				$discount = $accountRecordModel->get($discountField);
+				$name = $accountRecordModel->getName();
 			}
 		}
 
-		return ['discount' => $discount, 'accountid' => $relationFieldValue];
+		return ['discount' => $discount, 'name' => $name];
 	}
 }

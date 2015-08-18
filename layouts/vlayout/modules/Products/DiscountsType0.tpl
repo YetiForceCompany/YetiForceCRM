@@ -10,7 +10,7 @@
 			<select class="select2 globalDiscount" name="globalDiscount">
 				{foreach item=VALUE key=NAME from=$GLOBAL_DISCOUNTS}
 					<option value="{$VALUE}">
-						{vtranslate($NAME, $SUPMODULE)} - {$VALUE}%
+						{$VALUE}% - {vtranslate($NAME, $SUPMODULE)}
 					</option>
 				{/foreach}
 			</select>

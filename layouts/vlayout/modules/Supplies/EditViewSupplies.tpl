@@ -59,7 +59,8 @@
 						{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
 							{assign var="CRMEntity" value=CRMEntity::getInstance($MAIN_MODULE)}
 							<span class="btn-group">
-								<button type="button" data-module="{$MAIN_MODULE}" data-field="{$CRMEntity->table_index}" data-wysiwyg="{Supplies_SupField_Model::isWysiwygType($MAIN_MODULE)}" class="btn btn-default addButton">
+								<button type="button" data-module="{$MAIN_MODULE}" data-field="{$CRMEntity->table_index}" 
+										data-wysiwyg="{Supplies_EditView_Model::isWysiwygType($MAIN_MODULE)}" class="btn btn-default addButton">
 									<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate('LBL_ADD',$SUPMODULE)} {vtranslate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
 								</button>
 							</span>

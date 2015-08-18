@@ -183,20 +183,4 @@ class Supplies_SupField_Model
 		$instance = new self();
 		return $instance;
 	}
-
-	public function isWysiwygType($moduleName)
-	{
-		$cache = Vtiger_Cache::get('SuppliesisWysiwygType', $moduleName);
-		if ($cache) {
-			return $cache;
-		}
-		$return = 0;
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$fieldModel = Vtiger_Field_Model::getInstance('description', $moduleModel);
-		if ($fieldModel && $fieldModel->get('uitype') == '300') {
-			$return = 1;
-		}
-		Vtiger_Cache::set('SuppliesisWysiwygType', $moduleName, $return);
-		return $return;
-	}
 }

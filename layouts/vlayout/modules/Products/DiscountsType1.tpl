@@ -10,7 +10,7 @@
 			<div class="panel-body" style="display: none;">
 				<div>
 					<p>
-						{vtranslate('LBL_DISCOUNT_FOR_ACCOUNT', $SUPMODULE)} {Vtiger_Functions::getCRMRecordLabel($ACCOUNT_ID)}:
+						{vtranslate('LBL_DISCOUNT_FOR_ACCOUNT', $SUPMODULE)} {$ACCOUNT_NAME}:
 					</p>
 					<div class="input-group">
 						<span class="input-group-addon">

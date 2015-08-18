@@ -285,6 +285,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 				valuePrices = netPriceWithoutTax,
 				globalTax = 0,
 				groupTax = 0,
+				regionalTax = 0,
 				individualTax = 0,
 				valueTax = 0;
 
@@ -297,23 +298,31 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 				var value = mondal.find('.activepanel .individualTaxValue').val();
 				individualTax = (value / 100) * valuePrices;
 			}
-			if (mondal.find('.activepanel .groupCheckbox').length > 0 && mondal.find('.activepanel .groupCheckbox').prop("checked") == true) {
-				var groupTax = mondal.find('.groupValue').val();
+			if (mondal.find('.activepanel .groupTax').length > 0) {
+				var groupTax = mondal.find('.groupTax').val();
 				groupTax = netPriceWithoutTax * (parseFloat(groupTax) / 100);
+			}
+			if (mondal.find('.activepanel .regionalTax').length > 0) {
+				var regionalTax = mondal.find('.regionalTax').val();
+				regionalTax = netPriceWithoutTax * (parseFloat(regionalTax) / 100);
 			}
 
 			valuePrices = valuePrices * ((100 + parseFloat(globalTax)) / 100);
 			valuePrices = valuePrices + parseFloat(individualTax);
 			valuePrices = valuePrices + parseFloat(groupTax);
+			valuePrices = valuePrices + parseFloat(regionalTax);
 		} else if (taxType == '2') {
 			mondal.find('.activepanel').each(function (index) {
 				var panel = $(this);
 				if (panel.find('.globalTax').length > 0) {
 					var globalTax = parseFloat(panel.find('.globalTax').val());
 					valuePrices = valuePrices * ((100 + globalTax) / 100);
-				} else if (panel.find('.groupCheckbox').length > 0 && panel.find('.groupCheckbox').prop("checked") == true) {
-					var groupTax = parseFloat(panel.find('.groupValue').val());
+				} else if (panel.find('.groupTax').length > 0) {
+					var groupTax = parseFloat(panel.find('.groupTax').val());
 					valuePrices = valuePrices * ((100 + groupTax) / 100);
+				} else if (panel.find('.regionalTax').length > 0) {
+					var regionalTax = parseFloat(panel.find('.regionalTax').val());
+					valuePrices = valuePrices * ((100 + regionalTax) / 100);
 				} else if (panel.find('.individualTaxValue').length > 0) {
 					var value = parseFloat(panel.find('.individualTaxValue').val());
 					valuePrices = ((value + 100) / 100) * valuePrices;
@@ -372,8 +381,9 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 	loadSubProducts: function (parentRow, indicator) {
 		var thisInstance = this;
 		var recordId = jQuery('input.sourceField', parentRow).val();
+		var recordModule = parentRow.find('.rowName input[name="popupReferenceModule"]').val();
 		thisInstance.removeSubProducts(parentRow);
-		if (recordId == '0') {
+		if (recordId == '0' || $.inArray(recordModule, ['Products','Services']) < 0) {
 			return false;
 		}
 		if (thisInstance.subProductsCashe[recordId]) {
@@ -744,10 +754,12 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 				module: 'Products',
 				view: 'Taxs',
 				record: parentRow.find('.rowName .sourceField').val(),
+				recordModule: parentRow.find('.rowName [name="popupReferenceModule"]').val(),
 				currency: thisInstance.getCurrency(),
 				sourceModule: app.getModuleName(),
 				sourceRecord: app.getRecordId(),
 				totalPrice: thisInstance.getTotalPrice(parentRow),
+				accountField: container.find('#accountReferenceField').val(),
 			}
 
 			var progressInstace = jQuery.progressIndicator();
@@ -787,7 +799,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 				element.closest('.panel').removeClass('activepanel');
 			}
 		});
-		mondal.on('change', '.activeCheckbox, .globalTax,.individualTaxValue,.groupCheckbox', function (e) {
+		mondal.on('change', '.activeCheckbox, .globalTax, .individualTaxValue, .groupTax, .regionalTax', function (e) {
 			var element = $(e.currentTarget);
 			thisInstance.calculateTax(parentRow, mondal);
 		});

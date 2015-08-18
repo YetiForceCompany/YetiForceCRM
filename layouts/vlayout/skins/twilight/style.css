@@ -3469,9 +3469,9 @@ span[name=existingImages] img{
 .individualTaxContainer {
 	text-align: left !important;
 }
-.input-group .autoComplete.form-control{
-	min-width: 100px;
+.suppliesItemTable .input-group{
+	max-width: 200px;
 }
-.rowName .input-group .autoComplete.form-control{
-	min-width: 200px;
+.suppliesItemTable .rowName .input-group{
+	max-width: 400px;
 }
