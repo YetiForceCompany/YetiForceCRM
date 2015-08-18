@@ -189,6 +189,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$fieldDataType = 'tree';
 			} else if ($uiType == '303') {
 				$fieldDataType = 'taxs';
+			} else if ($uiType == '304') {
+				$fieldDataType = 'suppliesLimit';
 			} else {
 				$webserviceField = $this->getWebserviceFieldObject();
 				$fieldDataType = $webserviceField->getFieldDataType();
@@ -596,6 +598,15 @@ class Vtiger_Field_Model extends Vtiger_Field
 			$taxs = $this->getUITypeModel()->getTaxs();
 			if (!empty($taxs)) {
 				$this->fieldInfo['picklistvalues'] = $taxs;
+			} else {
+				$this->fieldInfo['picklistvalues'] = [];
+			}
+		}
+		
+		if ($fieldDataType == 'suppliesLimit') {
+			$limits = $this->getUITypeModel()->getLimits();
+			if (!empty($limits)) {
+				$this->fieldInfo['picklistvalues'] = $limits;
 			} else {
 				$this->fieldInfo['picklistvalues'] = [];
 			}

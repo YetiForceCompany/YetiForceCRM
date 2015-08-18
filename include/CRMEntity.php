@@ -474,7 +474,7 @@ class CRMEntity
 						$field_list = $this->column_fields[$fieldname];
 					}
 					$fldvalue = $field_list;
-				} elseif ($uitype == 303) {
+				} elseif (in_array($uitype, [303, 304])) {
 					if (is_array($this->column_fields[$fieldname])) {
 						$field_list = implode(',', $this->column_fields[$fieldname]);
 					} else {
