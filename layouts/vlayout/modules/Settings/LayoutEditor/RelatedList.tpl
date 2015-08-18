@@ -14,20 +14,23 @@
     <div class="" id="layoutEditorContainer">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <h3>{vtranslate('LBL_REL_MODULE_LAYOUT_EDITOR', $QUALIFIED_MODULE)}</h3>
             </div>
-            <div class="col-md-4 h3">
-				<div class="col-md-5">
-					<button class="btn btn-default addRelation" type="button">{vtranslate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</button>
+            <div class="col-md-6 h3 row">
+				<div class="btn-toolbar row">
+					<div class="btn-group col-xs-5 pull-right paddingLRZero">
+						<select class="select2 form-control layoutEditorRelModules" name="layoutEditorRelModules">
+							{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
+								<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
+							{/foreach}
+						</select>
+					</div>
+					{if SysDeveloper::get('CHANGE_RELATIONS')}
+						<button class="btn btn-default pull-right addRelation" type="button">{vtranslate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-default pull-right addRelation" type="button">{vtranslate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</button>
+					{/if}	
 				</div>
-                <div class="col-md-7">
-                    <select class="select2 form-control layoutEditorRelModules" name="layoutEditorRelModules">
-                        {foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-                            <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
-                        {/foreach}
-                    </select>
-                </div>
             </div>
         </div>
         <hr>
