@@ -8,7 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = [
-	'LBL_to' => 'zu',
+	'LBL_TO_LC' => 'zu',
 	'LBL_EXPORT_TO_PDF' => 'Als PDF exportieren',
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Adressinformation',
 	'LBL_VENDORS_ADD_TASK' => 'Aufgabe hinzufügen',
