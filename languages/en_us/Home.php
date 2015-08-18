@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = [
-	'ALVT' => 'Top Organizations',
+	'ALVT' => 'Top Accounts',
 	'CVLVT' => 'Key Metrics',
 	'GRT' => 'My Group Allocation',
 	'HDB' => 'Home Page Dashboard',

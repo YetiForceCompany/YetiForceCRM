@@ -478,11 +478,18 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				params.onValidationComplete = function (form, valid) {
 					if (valid) {
 						var fieldTypeValue = jQuery('[name="fieldType"]', form).val();
+						var fieldNameValue = jQuery('[name="fieldName"]', form).val();
+						
 						if (fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
 							var pickListValueElement = jQuery('#picklistUi', form);
 							var pickListValuesArray = pickListValueElement.val();
 							var pickListValuesArraySize = pickListValuesArray.length;
 							var specialChars = /["]/;
+							if (fieldNameValue.toLowerCase() === 'status') {
+								var message = app.vtranslate('JS_RESERVED_PICKLIST_NAME');
+								jQuery('[name="fieldName"]', form).validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
+								return false;
+							}
 							for (var i = 0; i < pickListValuesArray.length; i++) {
 								if (specialChars.test(pickListValuesArray[i])) {
 									var select2Element = app.getSelect2ElementFromSelect(pickListValueElement);

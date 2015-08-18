@@ -40,12 +40,13 @@
 			<div class="row block padding1per">
 				<div class="padding1per"><strong>{vtranslate('LBL_SELECT_COLUMNS',$MODULE)}({vtranslate('LBL_MAX',$MODULE)} 25)</strong><span class="redColor"> *</span></div>
 				<div class="padding1per">
-					<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" id="reportsColumnsList" data-validation-engine="validate[required]" title="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" class="select2-container col-md-11 columns" multiple="">
+					<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" id="reportsColumnsList" data-validation-engine="validate[required]" title="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" class="form-control columns" multiple="">
 						{foreach key=PRIMARY_MODULE_NAME item=PRIMARY_MODULE from=$PRIMARY_MODULE_FIELDS}
 							{foreach key=BLOCK_LABEL item=BLOCK from=$PRIMARY_MODULE}
 								<optgroup label='{vtranslate($PRIMARY_MODULE_NAME,$MODULE)}-{vtranslate($BLOCK_LABEL,$PRIMARY_MODULE_NAME)}'>
 								{foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
-									<option value="{$FIELD_KEY}" {if !empty($SELECTED_FIELDS) && in_array($FIELD_KEY,array_map('decode_html',$SELECTED_FIELDS))}selected=""{/if}>{vtranslate($FIELD_LABEL, $PRIMARY_MODULE_NAME)}</option>
+									
+									<option value="{$FIELD_KEY}" {if !empty($SELECTED_FIELDS) && in_array($FIELD_KEY,array_map('decode_html',$SELECTED_FIELDS))}selected{/if}>{vtranslate($FIELD_LABEL, $PRIMARY_MODULE_NAME)}</option>
 								{/foreach}
 								</optgroup>
 							{/foreach}

@@ -599,7 +599,7 @@
 														<div class="padding1per maskField" style="padding : 0px 10px 0px 25px;">
 																							{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
 																							<div class="input-group">
-																								<input type="text" class="form-control" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
+																								<input type="text" class="form-control" name="fieldMask" value="" />
 																								<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
 																							</div>
 																						</div>
@@ -823,7 +823,7 @@
 										<div class="row inActiveList"></div>
 									</div>
 									<div class="modal-footer">
-										<div class=" pull-right col-md-2 cancelLinkContainer">
+										<div class=" pull-right cancelLinkContainer">
 											<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 										</div>
 										<button class="btn btn-success" type="submit" name="reactivateButton">

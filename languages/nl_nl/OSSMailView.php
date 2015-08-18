@@ -11,19 +11,20 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	// Basic Strings
-	'OSSMailView'        => 'Corporate emails',
-	'SINGLE_OSSMailView' => 'Corporate email',
-	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_RECORDS_LIST' => 'List of emails',
+	'OSSMailView'        => 'Zakelijke emails',
+	'SINGLE_OSSMailView' => 'Zakelijk email',
+	'LBL_ADD_RECORD' => 'Invoer toevoegen',
+	'LBL_RECORDS_LIST' => 'Lijst van emails',
 
 	// Blocks
-	'LBL_INFORMATION' => 'General Information',
-	'LBL_ORIGN_MESSAGE' => 'Original message',
+	'LBL_INFORMATION' => 'Algemene informatie',
+	'LBL_ORIGN_MESSAGE' => 'Oorspronkeijke bericht',
+
 	//Field Labels
-    'relatedid' => 'Related to',
-	'number' => 'Number',
-	'yes' => 'Yes',
-	'no' => 'No',
+    'relatedid' => 'Gerelateerd aan',
+	'number' => 'Nummer',
+	'yes' => 'Ja',
+	'no' => 'Nee',
 	'From' => 'From',
 	'To' => 'To',
 	'CC' => 'CC',

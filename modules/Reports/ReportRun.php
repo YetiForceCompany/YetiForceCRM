@@ -404,7 +404,8 @@ class ReportRun extends CRMEntity
 
 		list($module, $field) = split("__", $selectedfields[2]);
 		$concatSql = getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
-
+		$moduleInstance = CRMEntity::getInstance($module);
+		$this->queryPlanner->addTable($moduleInstance->table_name);
 		if ($selectedfields[4] == 'C') {
 			$field_label_data = split("__", $selectedfields[2]);
 			$module = $field_label_data[0];
@@ -412,8 +413,12 @@ class ReportRun extends CRMEntity
 				$columnSQL = "case when (" . $selectedfields[0] . "." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity$module.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
 				$this->queryPlanner->addTable("vtiger_crmentity$module");
 			} else {
-				$columnSQL = "case when (" . $selectedfields[0] . "." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
-				$this->queryPlanner->addTable($selectedfields[0]);
+				if ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule) {
+					$columnSQL = "case when ( vtiger_crmentity." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
+				} else {
+					$columnSQL = "case when (" . $selectedfields[0] . "." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
+					$this->queryPlanner->addTable($selectedfields[0]);
+				}
 			}
 		} elseif ($selectedfields[4] == 'D' || $selectedfields[4] == 'DT') {
 			if ($selectedfields[5] == 'Y') {
@@ -1542,193 +1547,7 @@ class ReportRun extends CRMEntity
 	 */
 	function getStandarFiltersStartAndEndDate($type)
 	{
-		$today = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d"), date("Y")));
-		$todayName = date('l', strtotime($today));
-
-		$tomorrow = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 1, date("Y")));
-		$yesterday = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 1, date("Y")));
-
-		$currentmonth0 = date("Y-m-d", mktime(0, 0, 0, date("m"), "01", date("Y")));
-		$currentmonth1 = date("Y-m-t");
-		$lastmonth0 = date("Y-m-d", mktime(0, 0, 0, date("m") - 1, "01", date("Y")));
-		$lastmonth1 = date("Y-m-t", strtotime("-1 Month"));
-		$nextmonth0 = date("Y-m-d", mktime(0, 0, 0, date("m") + 1, "01", date("Y")));
-		$nextmonth1 = date("Y-m-t", strtotime("+1 Month"));
-
-		// (Last Week) If Today is "Sunday" then "-2 week Sunday" will give before last week Sunday date
-		if ($todayName == "Sunday")
-			$lastweek0 = date("Y-m-d", strtotime("-1 week Sunday"));
-		else
-			$lastweek0 = date("Y-m-d", strtotime("-2 week Sunday"));
-		$lastweek1 = date("Y-m-d", strtotime("-1 week Saturday"));
-
-		// (This Week) If Today is "Sunday" then "-1 week Sunday" will give last week Sunday date
-		if ($todayName == "Sunday")
-			$thisweek0 = date("Y-m-d", strtotime("-0 week Sunday"));
-		else
-			$thisweek0 = date("Y-m-d", strtotime("-1 week Sunday"));
-		$thisweek1 = date("Y-m-d", strtotime("this Saturday"));
-
-		// (Next Week) If Today is "Sunday" then "this Sunday" will give Today's date
-		if ($todayName == "Sunday")
-			$nextweek0 = date("Y-m-d", strtotime("+1 week Sunday"));
-		else
-			$nextweek0 = date("Y-m-d", strtotime("this Sunday"));
-		$nextweek1 = date("Y-m-d", strtotime("+1 week Saturday"));
-
-		$next7days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 6, date("Y")));
-		$next30days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 29, date("Y")));
-		$next60days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 59, date("Y")));
-		$next90days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 89, date("Y")));
-		$next120days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 119, date("Y")));
-
-		$last7days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 6, date("Y")));
-		$last30days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 29, date("Y")));
-		$last60days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 59, date("Y")));
-		$last90days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 89, date("Y")));
-		$last120days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 119, date("Y")));
-
-		$currentFY0 = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y")));
-		$currentFY1 = date("Y-m-t", mktime(0, 0, 0, "12", date("d"), date("Y")));
-		$lastFY0 = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y") - 1));
-		$lastFY1 = date("Y-m-t", mktime(0, 0, 0, "12", date("d"), date("Y") - 1));
-		$nextFY0 = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y") + 1));
-		$nextFY1 = date("Y-m-t", mktime(0, 0, 0, "12", date("d"), date("Y") + 1));
-
-		if (date("m") <= 3) {
-			$cFq = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y")));
-			$cFq1 = date("Y-m-d", mktime(0, 0, 0, "03", "31", date("Y")));
-			$nFq = date("Y-m-d", mktime(0, 0, 0, "04", "01", date("Y")));
-			$nFq1 = date("Y-m-d", mktime(0, 0, 0, "06", "30", date("Y")));
-			$pFq = date("Y-m-d", mktime(0, 0, 0, "10", "01", date("Y") - 1));
-			$pFq1 = date("Y-m-d", mktime(0, 0, 0, "12", "31", date("Y") - 1));
-		} else if (date("m") > 3 and date("m") <= 6) {
-			$pFq = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y")));
-			$pFq1 = date("Y-m-d", mktime(0, 0, 0, "03", "31", date("Y")));
-			$cFq = date("Y-m-d", mktime(0, 0, 0, "04", "01", date("Y")));
-			$cFq1 = date("Y-m-d", mktime(0, 0, 0, "06", "30", date("Y")));
-			$nFq = date("Y-m-d", mktime(0, 0, 0, "07", "01", date("Y")));
-			$nFq1 = date("Y-m-d", mktime(0, 0, 0, "09", "30", date("Y")));
-		} else if (date("m") > 6 and date("m") <= 9) {
-			$nFq = date("Y-m-d", mktime(0, 0, 0, "10", "01", date("Y")));
-			$nFq1 = date("Y-m-d", mktime(0, 0, 0, "12", "31", date("Y")));
-			$pFq = date("Y-m-d", mktime(0, 0, 0, "04", "01", date("Y")));
-			$pFq1 = date("Y-m-d", mktime(0, 0, 0, "06", "30", date("Y")));
-			$cFq = date("Y-m-d", mktime(0, 0, 0, "07", "01", date("Y")));
-			$cFq1 = date("Y-m-d", mktime(0, 0, 0, "09", "30", date("Y")));
-		} else if (date("m") > 9 and date("m") <= 12) {
-			$nFq = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y") + 1));
-			$nFq1 = date("Y-m-d", mktime(0, 0, 0, "03", "31", date("Y") + 1));
-			$pFq = date("Y-m-d", mktime(0, 0, 0, "07", "01", date("Y")));
-			$pFq1 = date("Y-m-d", mktime(0, 0, 0, "09", "30", date("Y")));
-			$cFq = date("Y-m-d", mktime(0, 0, 0, "10", "01", date("Y")));
-			$cFq1 = date("Y-m-d", mktime(0, 0, 0, "12", "31", date("Y")));
-		}
-
-		if ($type == "today") {
-
-			$datevalue[0] = $today;
-			$datevalue[1] = $today;
-		} elseif ($type == "yesterday") {
-
-			$datevalue[0] = $yesterday;
-			$datevalue[1] = $yesterday;
-		} elseif ($type == "tomorrow") {
-
-			$datevalue[0] = $tomorrow;
-			$datevalue[1] = $tomorrow;
-		} elseif ($type == "thisweek") {
-
-			$datevalue[0] = $thisweek0;
-			$datevalue[1] = $thisweek1;
-		} elseif ($type == "lastweek") {
-
-			$datevalue[0] = $lastweek0;
-			$datevalue[1] = $lastweek1;
-		} elseif ($type == "nextweek") {
-
-			$datevalue[0] = $nextweek0;
-			$datevalue[1] = $nextweek1;
-		} elseif ($type == "thismonth") {
-
-			$datevalue[0] = $currentmonth0;
-			$datevalue[1] = $currentmonth1;
-		} elseif ($type == "lastmonth") {
-
-			$datevalue[0] = $lastmonth0;
-			$datevalue[1] = $lastmonth1;
-		} elseif ($type == "nextmonth") {
-
-			$datevalue[0] = $nextmonth0;
-			$datevalue[1] = $nextmonth1;
-		} elseif ($type == "next7days") {
-
-			$datevalue[0] = $today;
-			$datevalue[1] = $next7days;
-		} elseif ($type == "next30days") {
-
-			$datevalue[0] = $today;
-			$datevalue[1] = $next30days;
-		} elseif ($type == "next60days") {
-
-			$datevalue[0] = $today;
-			$datevalue[1] = $next60days;
-		} elseif ($type == "next90days") {
-
-			$datevalue[0] = $today;
-			$datevalue[1] = $next90days;
-		} elseif ($type == "next120days") {
-
-			$datevalue[0] = $today;
-			$datevalue[1] = $next120days;
-		} elseif ($type == "last7days") {
-
-			$datevalue[0] = $last7days;
-			$datevalue[1] = $today;
-		} elseif ($type == "last30days") {
-
-			$datevalue[0] = $last30days;
-			$datevalue[1] = $today;
-		} elseif ($type == "last60days") {
-
-			$datevalue[0] = $last60days;
-			$datevalue[1] = $today;
-		} else if ($type == "last90days") {
-
-			$datevalue[0] = $last90days;
-			$datevalue[1] = $today;
-		} elseif ($type == "last120days") {
-
-			$datevalue[0] = $last120days;
-			$datevalue[1] = $today;
-		} elseif ($type == "thisfy") {
-
-			$datevalue[0] = $currentFY0;
-			$datevalue[1] = $currentFY1;
-		} elseif ($type == "prevfy") {
-
-			$datevalue[0] = $lastFY0;
-			$datevalue[1] = $lastFY1;
-		} elseif ($type == "nextfy") {
-
-			$datevalue[0] = $nextFY0;
-			$datevalue[1] = $nextFY1;
-		} elseif ($type == "nextfq") {
-
-			$datevalue[0] = $nFq;
-			$datevalue[1] = $nFq1;
-		} elseif ($type == "prevfq") {
-
-			$datevalue[0] = $pFq;
-			$datevalue[1] = $pFq1;
-		} elseif ($type == "thisfq") {
-			$datevalue[0] = $cFq;
-			$datevalue[1] = $cFq1;
-		} else {
-			$datevalue[0] = "";
-			$datevalue[1] = "";
-		}
-		return $datevalue;
+		return DateTimeRange::getDateRangeByType($type);
 	}
 
 	function hasGroupingList()
@@ -2589,6 +2408,7 @@ class ReportRun extends CRMEntity
 		} else {
 			if ($module != '') {
 				$focus = CRMEntity::getInstance($module);
+
 				$query = $focus->generateReportsQuery($module, $this->queryPlanner) .
 					$this->getRelatedModulesQuery($module, $this->secondarymodule) .
 					getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
@@ -2702,6 +2522,38 @@ class ReportRun extends CRMEntity
 		$this->queryPlanner->initializeTempTables();
 
 		return $reportquery;
+	}
+
+	function getHeaderToRaport($adb, $fld, $modules_selected)
+	{
+		list($module, $fieldLabel) = explode('__', $fld->name, 2);
+		$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
+		$fieldType = null;
+		if (!empty($fieldInfo)) {
+			$field = WebserviceField::fromArray($adb, $fieldInfo);
+			$fieldType = $field->getFieldDataType();
+		}
+		if (!empty($fieldInfo)) {
+			$translatedLabel = getTranslatedString($field->getFieldLabelKey(), $module);
+		} else {
+			$fieldLabel = str_replace("__", " ", $fieldLabel);
+			$translatedLabel = getTranslatedString($fieldLabel, $module);
+		}
+		/* STRING TRANSLATION starts */
+		$moduleLabel = '';
+		if (in_array($module, $modules_selected))
+			$moduleLabel = getTranslatedString($module, $module);
+
+		if (empty($translatedLabel)) {
+			$translatedLabel = getTranslatedString(str_replace('__', " ", $fld->name), $module);
+		}
+		$headerLabel = $translatedLabel;
+		if (!empty($this->secondarymodule)) {
+			if ($moduleLabel != '') {
+				$headerLabel = $translatedLabel . ' [' . $moduleLabel . ']';
+			}
+		}
+		return $headerLabel;
 	}
 
 	/** function to get the report output in HTML,PDF,TOTAL,PRINT,PRINTTOTAL formats depends on the argument $outputformat
@@ -2863,7 +2715,7 @@ class ReportRun extends CRMEntity
 					for ($i = 0; $i < $y; $i++) {
 						$fld = $adb->columnMeta($result, $i);
 						$fld_type = $column_definitions[$i]->type;
-						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $i);
+						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $fld->name);
 
 						//check for Roll based pick list
 						$temp_val = $fld->name;
@@ -2973,7 +2825,6 @@ class ReportRun extends CRMEntity
 				return $return_data;
 			}
 		} elseif ($outputformat == "PDF") {
-
 			$sSQL = $this->sGetSQLforReport($this->reportid, $filtersql, $outputformat, false, $startLimit, $endLimit);
 			$result = $adb->pquery($sSQL, array());
 			if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
@@ -2990,37 +2841,11 @@ class ReportRun extends CRMEntity
 					for ($i = 0; $i < $y; $i++) {
 						$fld = $adb->columnMeta($result, $i);
 						$fld_type = $column_definitions[$i]->type;
-						list($module, $fieldLabel) = explode('__', $fld->name, 2);
-						$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
-						$fieldType = null;
-						if (!empty($fieldInfo)) {
-							$field = WebserviceField::fromArray($adb, $fieldInfo);
-							$fieldType = $field->getFieldDataType();
-						}
-						if (!empty($fieldInfo)) {
-							$translatedLabel = getTranslatedString($field->getFieldLabelKey(), $module);
-						} else {
-							$fieldLabel = str_replace("__", " ", $fieldLabel);
-							$translatedLabel = getTranslatedString($fieldLabel, $module);
-						}
-						/* STRING TRANSLATION starts */
-						$moduleLabel = '';
-						if (in_array($module, $modules_selected))
-							$moduleLabel = getTranslatedString($module, $module);
-
-						if (empty($translatedLabel)) {
-							$translatedLabel = getTranslatedString(str_replace('__', " ", $fld->name), $module);
-						}
-						$headerLabel = $translatedLabel;
-						if (!empty($this->secondarymodule)) {
-							if ($moduleLabel != '') {
-								$headerLabel = $moduleLabel . " " . $translatedLabel;
-							}
-						}
+						$headerLabel = $this->getHeaderToRaport($adb, $fld, $modules_selected);
 
 						// Check for role based pick list
 						$temp_val = $fld->name;
-						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $i);
+						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $temp_val);
 
 						if ($fld->name == $this->primarymodule . '__LBL_ACTION' && $fieldvalue != '-') {
 							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&view=Detail&record={$fieldvalue}' target='_blank'>" . getTranslatedString('LBL_VIEW_DETAILS', 'Reports') . "</a>";
@@ -3272,39 +3097,7 @@ class ReportRun extends CRMEntity
 				$arrayHeaders = Array();
 				for ($x = 0; $x < $y - 1; $x++) {
 					$fld = $adb->columnMeta($result, $x);
-					if (in_array($this->getLstringforReportHeaders($fld->name), $arrayHeaders)) {
-						$headerLabel = str_replace("__", " ", $fld->name);
-						$arrayHeaders[] = $headerLabel;
-					} else {
-						$headerLabel = str_replace($modules, " ", $this->getLstringforReportHeaders($fld->name));
-						$headerLabel = str_replace("__", " ", $this->getLstringforReportHeaders($fld->name));
-						$arrayHeaders[] = $headerLabel;
-					}
-					/* STRING TRANSLATION starts */
-					$mod_name = split(' ', $headerLabel, 2);
-					$moduleLabel = '';
-					if (in_array($mod_name[0], $modules_selected)) {
-						$moduleLabel = getTranslatedString($mod_name[0], $mod_name[0]);
-					}
-
-					if (!empty($this->secondarymodule)) {
-						if ($moduleLabel != '') {
-							$headerLabel_tmp = $moduleLabel . " " . getTranslatedString($mod_name[1], $mod_name[0]);
-						} else {
-							$headerLabel_tmp = getTranslatedString($mod_name[0] . " " . $mod_name[1]);
-						}
-					} else {
-						if ($moduleLabel != '') {
-							$headerLabel_tmp = getTranslatedString($mod_name[1], $mod_name[0]);
-						} else {
-							$headerLabel_tmp = getTranslatedString($mod_name[0] . " " . $mod_name[1]);
-						}
-					}
-					if ($headerLabel == $headerLabel_tmp)
-						$headerLabel = getTranslatedString($headerLabel_tmp);
-					else
-						$headerLabel = $headerLabel_tmp;
-					/* STRING TRANSLATION ends */
+					$headerLabel = $this->getHeaderToRaport($adb, $fld, $modules_selected);
 					$header .= "<th>" . $headerLabel . "</th>";
 				}
 				$noofrows = $adb->num_rows($result);
@@ -3340,7 +3133,7 @@ class ReportRun extends CRMEntity
 					for ($i = 0; $i < $y - 1; $i++) {
 						$fld = $adb->columnMeta($result, $i);
 						$fld_type = $column_definitions[$i]->type;
-						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $i);
+						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $fld->name);
 						if (($lastvalue == $fieldvalue) && $this->reporttype == "summary") {
 							if ($this->reporttype == "summary") {
 								$valtemplate .= "<td style='border-top:1px dotted #FFFFFF;'>&nbsp;</td>";

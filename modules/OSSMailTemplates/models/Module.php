@@ -8,18 +8,25 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 		$tabid = getTabid($moduleName);
-		$sql = "select fieldid, fieldlabel, uitype from vtiger_field where tabid = ? AND presence <> ? AND typeofdata <> ?";
-		$result = $db->pquery($sql, array($tabid, 1, 'P~M'), true);
+		$sql = "select `fieldid`, `fieldlabel`, `uitype`, `block` from vtiger_field where tabid = ? AND presence <> ? AND typeofdata <> ? AND `block` NOT IN (?)";
+		$result = $db->pquery($sql, array($tabid, 1, 'P~M', 0));
 		$output = array();
+		$block = ['blockId' => '', 'blockLabel' => ''];
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
+			$blockid = $db->query_result($result, $i, 'block');
+			if ($block['blockId'] != $blockid) {
+				$block['blockId'] = $blockid;
+				$block['blockLabel'] = getBlockName($blockid);
+			}
 			if ($relID) {
 				$id = $db->query_result($result, $i, 'fieldid') . '||' . $relID;
 			} else {
 				$id = $db->query_result($result, $i, 'fieldid');
 			}
-			$output[$i]['label'] = vtranslate($db->query_result($result, $i, 'fieldlabel'), $moduleName);
-			$output[$i]['id'] = $id;
-			$output[$i]['uitype '] = $db->query_result($result, $i, 'uitype');
+			$output[$blockid][$i]['label'] = vtranslate($db->query_result($result, $i, 'fieldlabel'), $moduleName);
+			$output[$blockid][$i]['id'] = $id;
+			$output[$blockid][$i]['uitype'] = $db->query_result($result, $i, 'uitype');
+			$output[$blockid]['blockLabel'] = vtranslate($block['blockLabel'], $moduleName);
 		}
 		return $output;
 	}

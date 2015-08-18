@@ -57,6 +57,8 @@ class Calendar_Import_View extends Vtiger_Import_View {
 		$viewer = $this->getViewer($request);
 
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('SUPPORTED_FILE_TYPES', Import_Utils_Helper::getSupportedFileExtensions($moduleName));
+		$viewer->assign('SUPPORTED_FILE_TYPES_TEXT', Import_Utils_Helper::getSupportedFileExtensionsDescription($moduleName));
 		$viewer->view('Import.tpl', $moduleName);
 	}
 

@@ -29,6 +29,7 @@ require_once('include/utils/SearchUtils.php');
 require_once('include/FormValidationUtil.php');
 require_once('include/events/SqlResultIterator.inc');
 require_once('include/fields/DateTimeField.php');
+require_once('include/fields/DateTimeRange.php');
 require_once('include/fields/CurrencyField.php');
 require_once('include/CRMEntity.php');
 require_once 'vtlib/Vtiger/Language.php';

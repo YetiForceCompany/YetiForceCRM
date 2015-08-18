@@ -30,7 +30,7 @@ $languageStrings = [
 	'LBL_RECORDS_LIST'	=>	'Список Писем',
 	// Blocks
 	'LBL_INFORMATION'	=>	'Информация',
-	'LBL_ORIGN_MESSAGE' => 'Original message',
+	'LBL_ORIGN_MESSAGE' => 'Оригинал сообщения',
 	//Field Labels
 	'relatedid'	=>	'Связан с',
 	'number'	=>	'№',

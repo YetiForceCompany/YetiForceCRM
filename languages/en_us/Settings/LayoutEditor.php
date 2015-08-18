@@ -123,4 +123,5 @@ $jsLanguageStrings = [
 	'JS_UPDATE_SEQUENCE' => 'New sequence of related modules has been saved',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Field list has been updated',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Field cannot be empty',
+	'JS_RESERVED_PICKLIST_NAME' => 'This picklist name is reserved.'
 ];

@@ -69,7 +69,7 @@ $languageStrings = [
 	'LBL_BACKGROUND_COLOR' => 'Hintergrund Farbe',
 	'LBL_TEXT_COLOR' => 'Text Farbe',
 	'This name already exists' => 'Der Name existiert schon',
-	'LBL_RECORD_DELETED' => 'Record deleted',
+	'LBL_RECORD_DELETED' => 'Datensatz gelöscht',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Datenzugriff',

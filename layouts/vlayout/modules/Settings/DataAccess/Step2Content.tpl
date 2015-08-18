@@ -157,7 +157,7 @@
 			</div>
 			<br>
 			<div class="pull-right">
-				<button class="btn btn-danger backStep" type="button" onclick="javascript:window.history.back();"><strong>{vtranslate('BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
+				<button class="btn btn-danger backStep" type="button" onclick="javascript:window.history.back();"><strong>{vtranslate('BACK', $QUALIFIED_MODULE)}</strong></button>
 				<button class="btn btn-success" type="submit"><strong>{vtranslate('NEXT', $QUALIFIED_MODULE)}</strong></button>
 				<a class="cancelLink btn btn-warning" href="index.php?module=DataAccess&parent=Settings&view=Index">{vtranslate('CANCEL', $QUALIFIED_MODULE)}</a>
 			</div>

@@ -15,8 +15,8 @@ $languageStrings = [
 	'LBL_RECORDS_LIST'	=>	'Список Вызовов',
 	
 	//Bloks
-	'LBL_CALLHISTORY_INFORMATION'	=>	'Информация',
-	'LBL_CUSTOM_INFORMATION'	=>	'Системная информация',
+	'LBL_CALLHISTORY_INFORMATION' => 'Основная информация',
+	'LBL_CUSTOM_INFORMATION' => 'Дополнительная информация',
 	'LBL_PHONE_INFORMATION'	=>	'Служебная информация',
 	'LBL_RELATED_INFORMATION'	=>	'Контактная информация',
 	

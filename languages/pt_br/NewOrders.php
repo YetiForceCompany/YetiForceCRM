@@ -17,4 +17,5 @@ $languageStrings = [
 
 	//FIELDS
 	'LBL_SUBJECT' => 'Assunto',
+	'LBL_NUMBER' => 'Número'
 ];

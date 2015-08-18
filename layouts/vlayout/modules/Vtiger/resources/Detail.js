@@ -499,6 +499,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 		params.dataType = 'json';
 		AppConnector.request(params).then(
 				function (reponseData) {
+					var readRecord = jQuery('.setReadRecord');
+					readRecord.closest('.btn-group').removeClass('hide');
 					aDeferred.resolve(reponseData);
 				}
 		);
@@ -2190,7 +2192,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var thisInstance = this;
 		detailContentsHolder.on('click', '.setReadRecord', function (e) {
 			var currentElement = jQuery(e.currentTarget);
-			currentElement.hide();
+			currentElement.closest('.btn-group').addClass('hide');
 			jQuery('#Accounts_detailView_fieldValue_was_read').find('.value').text(app.vtranslate('LBL_YES'));
 			var params = {
 				'module': app.getModuleName(),
@@ -2573,7 +2575,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentActivitiesTab.trigger('click');
 		});
 
-		detailContentsHolder.on('switchChange.bootstrapSwitch', '.relatedContainer .switchBtn', function (e, state) {
+		detailContentsHolder.off('switchChange.bootstrapSwitch').on('switchChange.bootstrapSwitch', '.relatedContainer .switchBtn', function (e, state) {
 			var recentActivitiesTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentActivitiesTabLabel);
 			var url = recentActivitiesTab.data('url');
 			url = url.replace('&time=current', '');
@@ -2588,6 +2590,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 		thisInstance.registerEventForRelatedList();
 		thisInstance.registerEventForRelatedListPagination();
+		this.registerBlockAnimationEvent();
 	},
 	registerEvents: function () {
 		var thisInstance = this;
@@ -2596,7 +2599,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerSendSmsSubmitEvent();
 		thisInstance.registerAjaxEditEvent();
 		this.registerRelatedRowClickEvent();
-		this.registerBlockAnimationEvent();
 		this.registerBlockStatusCheckOnLoad();
 		this.registerEmailFieldClickEvent();
 		this.registerPhoneFieldClickEvent();

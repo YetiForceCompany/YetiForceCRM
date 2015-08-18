@@ -18,10 +18,32 @@ class Import_Utils_Helper {
 
 	static $supportedFileEncoding = array('UTF-8'=>'UTF-8', 'ISO-8859-1'=>'ISO-8859-1');
 	static $supportedDelimiters = array(','=>'comma', ';'=>'semicolon');
-	static $supportedFileExtensions = array('csv','vcf');
+	static $supportedFileExtensions = array('csv','vcf','ical');
+	static $supportedFileExtensionsByModule = ['Contacts' => ['csv','vcf'], 'Calendar' => ['csv','ical'], 'Default' => ['csv']];
 
-	public function getSupportedFileExtensions() {
-		return self::$supportedFileExtensions;
+	public function getSupportedFileExtensions($moduleName=null) {
+	 if (!$moduleName) {
+			return self::$supportedFileExtensions;
+		} else {
+			switch ($moduleName) {
+				case 'Contacts':
+				case 'Calendar':
+					return self::$supportedFileExtensionsByModule[$moduleName];
+
+				default:
+					return self::$supportedFileExtensionsByModule['Default'];
+			}
+		}
+	}
+	
+	public function getSupportedFileExtensionsDescription($moduleName) {
+		$supportedFileTypes = self::getSupportedFileExtensions($moduleName);
+		$description = [];
+
+		foreach ($supportedFileTypes as $fileType) {
+			$description[] = '.' . strtoupper($fileType);	
+	}
+		return implode(', ', $description);
 	}
 
 	public function getSupportedFileEncoding() {

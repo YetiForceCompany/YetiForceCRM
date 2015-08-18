@@ -161,7 +161,7 @@
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-success addButton" data-dismiss="modal" aria-hidden="true" >{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
-						<button class="btn btn-info" id="closeModal" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-warning" id="closeModal" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}</button>
 					</div>
 				</div>	
 			</div>	
