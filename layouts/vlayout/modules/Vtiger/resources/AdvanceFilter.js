@@ -200,7 +200,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 				continue;
 			}
 			//IE Browser consider the prototype properties also, it should consider has own properties only.
-			if (conditionList.hasOwnProperty(key) && !(conditionList[key] == 'om' && fieldName != 'assigned_user_id')) {
+			if (conditionList.hasOwnProperty(key) && !(conditionList[key] == 'om' && (fieldName != 'assigned_user_id' && fieldName != 'shownerid'))) {
 				var conditionValue = conditionList[key];
 				var conditionLabel = this.getConditionLabel(conditionValue);
 				options += '<option value="' + conditionValue + '"';
@@ -271,7 +271,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		//remove validation since we dont need validations for all eleements
 		// Both filter and find is used since we dont know whether the element is enclosed in some conainer like currency
 		var fieldName = fieldModel.getName();
-		if (fieldModel.getType() == 'multipicklist') {
+		if (fieldModel.getType() == 'multipicklist' || fieldModel.getType() == 'sharedOwner') {
 			fieldName = fieldName + "[]";
 		}
 		if ((fieldModel.getType() == 'picklist' || fieldModel.getType() == 'owner' || fieldModel.getType() == 'modules') && fieldSpecificUi.is('select')
@@ -456,7 +456,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 							rowValues[field] = jQuery('[name="' + field + '"]', rowElement).val();
 						}
 					}
-				} else if (fieldType == 'picklist' || fieldType == 'multipicklist' || fieldType == 'modules') {
+				} else if (fieldType == 'picklist' || fieldType == 'multipicklist' || fieldType == 'modules' || fieldType == 'sharedOwner') {
 					for (var key in fieldList) {
 						var field = fieldList[key];
 						if (field == 'value' && valueSelectElement.is('input')) {
@@ -480,7 +480,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 							} else {
 								rowValues[field] = value.join(',');
 							}
-						} else if (field == 'value' && valueSelectElement.is('select') && fieldType == 'multipicklist') {
+						} else if (field == 'value' && valueSelectElement.is('select') && (fieldType == 'multipicklist' || fieldType == 'sharedOwner')) {
 							var value = valueSelectElement.val();
 							if (value == null) {
 								rowValues[field] = value;
@@ -596,7 +596,7 @@ Vtiger_Field_Js('AdvanceFilter_Field_Js', {}, {
 		var currentModule = app.getModuleName();
 
 		var type = this.getType();
-		if (type == 'picklist' || type == 'multipicklist' || type == 'owner' || type == 'modules' || type == 'date' || type == 'datetime') {
+		if (type == 'picklist' || type == 'multipicklist' || type == 'owner' || type == 'modules' || type == 'date' || type == 'datetime' || type == 'sharedOwner') {
 			currentModule = 'AdvanceFilter';
 		}
 		return currentModule;
@@ -671,6 +671,9 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 			return selectContainer;
 		}
 	}
+});
+
+Vtiger_Sharedowner_Field_Js('AdvanceFilter_Sharedowner_Field_Js', {}, {
 });
 
 Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {

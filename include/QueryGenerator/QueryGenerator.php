@@ -965,7 +965,7 @@ class QueryGenerator
 		$inEqualityFieldTypes = ['currency', 'percentage', 'double', 'integer', 'number'];
 
 		if (is_string($value) && $this->ignoreComma == false) {
-			$commaSeparatedFieldTypes = array('picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree');
+			$commaSeparatedFieldTypes = array('picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree', 'sharedOwner');
 			if (in_array($field->getFieldDataType(), $commaSeparatedFieldTypes)) {
 				$valueArray = explode(',', $value);
 				if ($field->getFieldDataType() == 'multipicklist' && in_array($operator, array('e', 'n'))) {
@@ -1116,6 +1116,10 @@ class QueryGenerator
 			}
 			if (trim($value) == '' && ($operator == 'om') && in_array($field->getFieldName(), $this->ownerFields)) {
 				$sql[] = " = '" . Users_Record_Model::getCurrentUserModel()->get('id') . "'";
+				continue;
+			}
+			if (trim($value) == '' && ($operator == 'om') && $field->getFieldName() == 'shownerid') {
+				$sql[] = "LIKE '%" . Users_Record_Model::getCurrentUserModel()->get('id') . "%'";
 				continue;
 			}
 			if (trim($value) == '' && ($operator == 'k') &&

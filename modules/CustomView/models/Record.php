@@ -374,7 +374,9 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 						}
 						$advFitlerValue = implode(",",$val);
 					}
-
+					if(in_array($advFilterComparator, ['om'])){
+						$advFitlerValue = '';
+					}
 					$advCriteriaSql = 'INSERT INTO vtiger_cvadvfilter(cvid,columnindex,columnname,comparator,value,groupid,column_condition)
 											values (?,?,?,?,?,?,?)';
 					$advCriteriaParams = array($cvId, $columnIndex, $advFilterColumn, $advFilterComparator, $advFitlerValue, $groupIndex, $advFilterColumnCondition);
