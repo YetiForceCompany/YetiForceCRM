@@ -65,9 +65,8 @@
 							</div> 
 						{/foreach}
 					</div>
+						{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 				</form>
-				<br/>	<br/>	<br/>
-				{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 			</div>
 		</div>
 	</div>
