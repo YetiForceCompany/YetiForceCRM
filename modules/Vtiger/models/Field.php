@@ -592,6 +592,15 @@ class Vtiger_Field_Model extends Vtiger_Field
 			}
 		}
 
+		if ($fieldDataType == 'taxs') {
+			$taxs = $this->getUITypeModel()->getTaxs();
+			if (!empty($taxs)) {
+				$this->fieldInfo['picklistvalues'] = $taxs;
+			} else {
+				$this->fieldInfo['picklistvalues'] = [];
+			}
+		}
+		
 		if ($this->getFieldDataType() == 'date' || $this->getFieldDataType() == 'datetime') {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$this->fieldInfo['date-format'] = $currentUser->get('date_format');

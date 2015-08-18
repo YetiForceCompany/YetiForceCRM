@@ -318,6 +318,9 @@ Vtiger_Field_Js('Vtiger_Owner_Field_Js', {}, {
 Vtiger_Date_Field_Js('Vtiger_Datetime_Field_Js', {}, {
 });
 
+Vtiger_Picklist_Field_Js('Vtiger_Taxs_Field_Js', {}, {
+});
+
 Vtiger_Field_Js('Vtiger_Time_Field_Js', {}, {
 	/**
 	 * Function to get the user date format
