@@ -130,6 +130,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			currentTarget.hide();
 			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), 1);
 		})
+		relatedList.on('click', '.removeRelation', function (e) {
+			var currentTarget = jQuery(e.currentTarget);
+			var relatedModule = currentTarget.closest('.relatedModule');
+			thisInstance.removeRelation(relatedModule);
+		})
 		var relatedColumnsList = container.find('.relatedColumnsList');
 		relatedColumnsList.on('change', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
@@ -232,6 +237,38 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 					Settings_Vtiger_Index_Js.showMessage(params);
 				}
 		);
+	},
+	removeRelation: function (relatedModule) {
+		var thisInstance = this;
+		var message = app.vtranslate('JS_DELETE_RELATION_CONFIRMATION');
+		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
+			function (e) {
+				var params = {};
+				params['module'] = app.getModuleName();
+				params['parent'] = app.getParentModuleName();
+				params['action'] = 'Relation';
+				params['mode'] = 'removeRelation';
+				params['relationId'] = relatedModule.data('relation-id');
+
+				AppConnector.request(params).then(
+						function (data) {
+							var params = {};
+							params['text'] = app.vtranslate('JS_REMOVE_RELATION_OK');
+							relatedModule.remove();
+							Settings_Vtiger_Index_Js.showMessage(params);
+						},
+						function (error) {
+							var params = {
+								text: message,
+								type: 'error'
+							};
+							Settings_Vtiger_Index_Js.showMessage(params);
+						}
+				);
+			},
+			function (error, err) {
+			}
+		)
 	},
 	updateSequenceRelatedModule: function () {
 		var thisInstance = this;
@@ -479,7 +516,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 					if (valid) {
 						var fieldTypeValue = jQuery('[name="fieldType"]', form).val();
 						var fieldNameValue = jQuery('[name="fieldName"]', form).val();
-						
+
 						if (fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
 							var pickListValueElement = jQuery('#picklistUi', form);
 							var pickListValuesArray = pickListValueElement.val();

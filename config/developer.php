@@ -13,6 +13,6 @@ $DEVELOPER_CONFIG =[
 	// Change of fields visibility
 	'CHANGE_VISIBILITY' => false,
 	
-	// Adding relations between modules.
+	// Adding/Deleting relations between modules.
 	'CHANGE_RELATIONS' => false,
 ];

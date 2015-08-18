@@ -87,6 +87,7 @@ $languageStrings = [
 	'LBL_FIELD_MASK_INFO' => 'Default masking definitions <br />9: numeric<br />a: alphabetically<br />*: Alphanumeric<br /><br />Example:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 	
 	'LBL_ADD_RELATION' => 'Add relation',
+	'LBL_REMOVE_RELATION' => 'Remove relation',
 	'LBL_RELATION_TYPE' => 'Relation type',
 	'LBL_RELATION_ACTIONS' => 'Actions',
 	'LBL_SOURCE_MODULE' => 'Source module',
@@ -123,5 +124,7 @@ $jsLanguageStrings = [
 	'JS_UPDATE_SEQUENCE' => 'New sequence of related modules has been saved',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Field list has been updated',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Field cannot be empty',
-	'JS_RESERVED_PICKLIST_NAME' => 'This picklist name is reserved.'
+	'JS_RESERVED_PICKLIST_NAME' => 'This picklist name is reserved.',
+	'JS_REMOVE_RELATION_OK' => 'Successfully deleted a relation.',
+	'JS_DELETE_RELATION_CONFIRMATION' => 'Are you sure you want to delete?',
 ];
