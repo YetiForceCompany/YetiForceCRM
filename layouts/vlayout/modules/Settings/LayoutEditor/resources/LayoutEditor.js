@@ -719,7 +719,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		if (!result['customField']) {
 			fieldContainer.find('.deleteCustomField').remove();
 		}
-		if (jQuery.inArray(result['type'], ['string', 'phone', 'currency', 'url']) == -1) {
+		if (jQuery.inArray(result['type'], ['string', 'phone', 'currency', 'url', 'integer', 'double']) == -1) {
 			fieldContainer.find('.maskField').remove();
 		}
 		var block = relatedBlock.find('.blockFieldsList');
