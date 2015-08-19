@@ -1225,6 +1225,8 @@ jQuery.Class("Vtiger_List_Js", {
 		var cvId = thisInstance.getCurrentCvId();
 		var params = {};
 			params['module'] = app.getModuleName();
+			if('Settings' == app.getParentModuleName())
+				params['parent'] = 'Settings';
 			params['view'] = 'Pagination';
 			params['viewname'] = cvId;
 			params['page'] = pageNumber;
