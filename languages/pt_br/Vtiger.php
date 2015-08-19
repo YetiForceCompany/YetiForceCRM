@@ -985,6 +985,9 @@ $languageStrings = [
 	'Password' => 'Senha',
 	'LBL_FIRST' => 'Primeiro',
 	'LBL_LAST' => 'Último',
+	'LBL_VIEW_EDIT2' => 'Adicionar Condições',
+	'LBL_VIEW_CONFIGURATION' => 'Adicionar Condições',
+	'MEN_LEADS' => 'Empresas',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
