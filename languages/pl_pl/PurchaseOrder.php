@@ -30,6 +30,8 @@ $languageStrings = [
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') został/a usunięta, spróbuj zastąpić ją innym produktem/usługą.',
 	'SINGLE_Vendors' => 'Dostawca',
 	'Delivered' => 'Dostarczono',
+	'Paid' => 'Zapłacono',
+	'Balance' => 'Saldo',
 ];
 
 $jsLanguageStrings = [
