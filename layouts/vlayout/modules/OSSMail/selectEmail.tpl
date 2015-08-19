@@ -19,7 +19,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="container-fluid">
-						<div class="padding20">
+						<div>
 							<h4>{vtranslate('LBL_MUTIPLE_EMAIL_SELECT_ONE', 'Vtiger')}</h4>
 						</div>
 						<div class="modal-Fields">
