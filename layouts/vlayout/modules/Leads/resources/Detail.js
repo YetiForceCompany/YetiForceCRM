@@ -354,7 +354,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		detailContentsHolder.on(thisInstance.fieldUpdatedEvent, "input,select", function (e, params) {
 			var elem = jQuery(e.currentTarget);
 			var fieldName = elem.attr("name");
-			var ajaxnewValue = params.new;
+			var ajaxnewValue = params['new'];
 
 			if (!(jQuery.isEmptyObject(Leads_Detail_Js.cache))) {
 				var sampleCache = jQuery(Leads_Detail_Js.cache);
