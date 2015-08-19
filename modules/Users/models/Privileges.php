@@ -215,7 +215,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		$db->pquery('UPDATE vtiger_crmentity SET shownerid=? WHERE crmid=?', [$shownerid, $record]);
 	}
-	
+
 	/**
 	 * Function to get Shared Owner from record
 	 */
