@@ -28,6 +28,6 @@ class API_Base_GetRecordsList extends BaseAction
 		}
 		//$listQuery = getListQuery('OSSTimeControl', '');
 
-		return ['tttt', $records];
+		return ['headers' => $queryGenerator->getFields(), 'records' => $records,'count'=> 456 ];
 	}
 }
