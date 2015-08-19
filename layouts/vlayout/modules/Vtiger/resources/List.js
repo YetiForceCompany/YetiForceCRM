@@ -1220,14 +1220,25 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to update Pagining status
 	 */
 	updatePagination: function (pageNumber) {
+		pageNumber = typeof pageNumber !== 'undefined' ? pageNumber : 1;
 		var thisInstance = this;
 		var cvId = thisInstance.getCurrentCvId();
 		var params = {};
 			params['module'] = app.getModuleName();
+			if('Settings' == app.getParentModuleName())
+				params['parent'] = 'Settings';
 			params['view'] = 'Pagination';
 			params['viewname'] = cvId;
 			params['page'] = pageNumber;
-			params['mode'] = 'getPagination';		
+			params['mode'] = 'getPagination';
+			var searchValue = this.getAlphabetSearchValue();
+
+			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+				params['search_key'] = this.getAlphabetSearchField();
+				params['search_value'] = searchValue;
+				params['operator'] = "s";
+			}
+			params.search_params = JSON.stringify(this.getListSearchParams());
 			
 			AppConnector.request(params).then( function(data) {
 				jQuery('.paginationDiv').html(data);
@@ -1265,7 +1276,7 @@ jQuery.Class("Vtiger_List_Js", {
 				jQuery('#totalPageCount').text("");
 				thisInstance.getListViewRecords(urlParams).then(function () {
 					thisInstance.ListViewPostOperation();
-					thisInstance.updatePagination();
+					thisInstance.updatePagination(1);
 				});
 				event.stopPropagation();
 			});
@@ -1827,6 +1838,7 @@ jQuery.Class("Vtiger_List_Js", {
 			);
 		});
 	},
+	
 	/**
 	 * Function to show total records count in listview on hover
 	 * of pageNumber text

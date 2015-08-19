@@ -51,7 +51,7 @@ padding: 20px 20px 20px 20px;
 	<div class="tab-content layoutContent paddingNoTop20 themeTableColor overflowVisible">
 		
 	<div class="tab-pane active" id="layoutDashBoards">
-		<div class="btn-toolbar">
+		<div class="btn-toolbar marginBottom10px">
 			<button type="button" class="btn btn-default addBlockDashBoard"><span class="glyphicon glyphicon-plus"></span>&nbsp;{vtranslate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</button>
 		</div>
 		

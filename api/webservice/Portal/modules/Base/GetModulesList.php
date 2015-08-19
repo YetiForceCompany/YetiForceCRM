@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Users authentication action class
+ * Get modules list action class
  * @package YetiForce.WebserviceAction
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>

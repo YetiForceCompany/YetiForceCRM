@@ -282,7 +282,6 @@ Vtiger_Field_Js('Vtiger_Currency_Field_Js', {}, {
 	}
 });
 
-
 Vtiger_Field_Js('Vtiger_Owner_Field_Js', {}, {
 	/**
 	 * Function to get the picklist values
@@ -315,9 +314,11 @@ Vtiger_Field_Js('Vtiger_Owner_Field_Js', {}, {
 	}
 })
 
-Vtiger_Picklist_Field_Js('Vtiger_Modules_Field_Js', {}, {
+Vtiger_Multipicklist_Field_Js('Vtiger_Sharedowner_Field_Js', {}, {
 })
 
+Vtiger_Picklist_Field_Js('Vtiger_Modules_Field_Js', {}, {
+})
 
 Vtiger_Date_Field_Js('Vtiger_Datetime_Field_Js', {}, {
 });

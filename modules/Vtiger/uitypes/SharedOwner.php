@@ -33,17 +33,31 @@ class Vtiger_sharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($values)
 	{
-		if ($values == NULL)
+		if ($values == '')
 			return;
+
 		foreach (Vtiger_Functions::getArrayFromValue($values) as $value) {
-			$userModel = Users_Record_Model::getCleanInstance('Users');
-			$userModel->set('id', $value);
-			$detailViewUrl = $userModel->getDetailViewUrl();
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			if (!$currentUser->isAdminUser()) {
-				return getOwnerName($value);
+			if (Vtiger_Owner_UIType::getOwnerType($value) === 'User') {
+				$userModel = Users_Record_Model::getCleanInstance('Users');
+				$userModel->set('id', $value);
+				$detailViewUrl = $userModel->getDetailViewUrl();
+				$currentUser = Users_Record_Model::getCurrentUserModel();
+				if ($currentUser->isAdminUser()) {
+					$displayvalue[] = '<a href=' . $detailViewUrl . '>' . rtrim(getOwnerName($value)) . '</a>';
+				} else {
+					$displayvalue[] = rtrim(getOwnerName($value));
+				}
+			} else {
+				$currentUser = Users_Record_Model::getCurrentUserModel();
+				if ($currentUser->isAdminUser()) {
+					$recordModel = new Settings_Groups_Record_Model();
+					$recordModel->set('groupid', $value);
+					$detailViewUrl = $recordModel->getDetailViewUrl();
+					$displayvalue[] = '<a href=' . $detailViewUrl . '>' . rtrim(getOwnerName($value)) . '</a>';
+				} else {
+					$displayvalue[] = rtrim(getOwnerName($value));
+				}
 			}
-			$displayvalue[] = "<a href=" . $detailViewUrl . ">" . rtrim(getOwnerName($value)) . "</a>";
 		}
 		$displayvalue = implode(', ', $displayvalue);
 		return $displayvalue;

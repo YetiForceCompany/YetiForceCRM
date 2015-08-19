@@ -211,37 +211,9 @@ class Users_Privileges_Model extends Users_Record_Model
 			$userid = [$userid];
 		}
 		if ($userid) {
-			foreach ($userid as $key => $user) {
-				$shownerid .= $user . ',';
-			}
-			$shownerid = rtrim($shownerid, ',');
-		} else {
-			$shownerid = NULL;
+			$shownerid = implode(',', $userid);
 		}
-		$db->pquery('UPDATE vtiger_crmentity SET shownerid=? WHERE crmid=?', array($shownerid, $record));
-	}
-
-	/**
-	 * Function to set Shared Owner
-	 */
-	public function setAllSharedOwner($userid, $delete = false)
-	{
-		$log = vglobal('log');
-		$log->info("Entering Into fn setAllSharedOwner($userid, $delete)");
-		$db = PearDatabase::getInstance();
-		$allSharedOwner = self::getAllSharedOwner();
-		if ($delete) {
-			foreach ($allSharedOwner as $key => $user) {
-				if ($user == $userid) {
-					unset($allSharedOwner[$key]);
-				}
-			}
-		} else {
-			$allSharedOwner[] = $userid;
-		}
-		$allSharedOwner = implode("','", array_unique($allSharedOwner));
-		$db->query("ALTER TABLE vtiger_crmentity CHANGE `shownerid` `shownerid` SET('$allSharedOwner');");
-		$log->info("Exiting fn setAllSharedOwner()");
+		$db->pquery('UPDATE vtiger_crmentity SET shownerid=? WHERE crmid=?', [$shownerid, $record]);
 	}
 
 	/**
@@ -252,32 +224,14 @@ class Users_Privileges_Model extends Users_Record_Model
 		$log = vglobal('log');
 		$log->info("Entering Into fn getSharedOwner($record)");
 		$db = PearDatabase::getInstance();
-		$sharedOwner = Vtiger_Cache::get('SharedOwner', $record);
-		if (!$sharedOwner) {
-			$Result = $db->pquery('SELECT shownerid FROM vtiger_crmentity WHERE crmid = ?', array($record));
-			$shownerid = $db->query_result($Result, 0, 'shownerid');
+		$shownerid = Vtiger_Cache::get('SharedOwner', $record);
+		if (!$shownerid) {
+			$result = $db->pquery('SELECT shownerid FROM vtiger_crmentity WHERE crmid = ?', [$record]);
+			$shownerid = $db->getSingleValue($result);
 			Vtiger_Cache::set('SharedOwner', $record, $shownerid);
-		} else {
-			$shownerid = $sharedOwner;
 		}
 		$log->info("Exiting fn getSharedOwner()");
 		return Vtiger_Functions::getArrayFromValue($shownerid);
-	}
-
-	/**
-	 * Function to get All Shared Owner from record
-	 */
-	public function getAllSharedOwner()
-	{
-		$log = vglobal('log');
-		$log->info("Entering Into fn getAllSharedOwner()");
-		$db = PearDatabase::getInstance();
-		$result = $db->query("SHOW COLUMNS FROM `vtiger_crmentity` WHERE `Field` = 'shownerid'");
-		$field = $db->raw_query_result_rowdata($result, 0);
-		$set = $field['Type'];
-		$set = substr($set, 5, strlen($set) - 7);
-		$log->info("Exiting fn getAllSharedOwner()");
-		return preg_split("/','/", $set);
 	}
 
 	/**

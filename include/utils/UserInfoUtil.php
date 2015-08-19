@@ -250,10 +250,10 @@ function isPermitted($module, $actionname, $record_id = '')
 	global $seclog;
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-	$permission = "no";
+	$permission = 'no';
 	if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && $_REQUEST['parenttab'] != 'Settings') {
 		//These modules dont have security right now
-		$permission = "yes";
+		$permission = 'yes';
 		$log->debug("Exiting isPermitted method ...");
 		return $permission;
 	}
@@ -261,9 +261,9 @@ function isPermitted($module, $actionname, $record_id = '')
 	//Checking the Access for the Settings Module
 	if ($module == 'Settings' || $module == 'Administration' || $module == 'System' || $_REQUEST['parenttab'] == 'Settings') {
 		if (!$is_admin) {
-			$permission = "no";
+			$permission = 'no';
 		} else {
-			$permission = "yes";
+			$permission = 'yes';
 		}
 		$log->debug("Exiting isPermitted method ...");
 		return $permission;
@@ -282,7 +282,7 @@ function isPermitted($module, $actionname, $record_id = '')
 
 		//Checking whether the user is admin
 		if ($is_admin) {
-			$permission = "yes";
+			$permission = 'yes';
 			$log->debug("Exiting isPermitted method ...");
 			return $permission;
 		}
@@ -290,10 +290,10 @@ function isPermitted($module, $actionname, $record_id = '')
 		//If no actionid, then allow action is vtiger_tab permission is available
 		if ($actionid === '') {
 			if ($profileTabsPermission[$tabid] == 0) {
-				$permission = "yes";
+				$permission = 'yes';
 				$log->debug("Exiting isPermitted method ...");
 			} else {
-				$permission = "no";
+				$permission = 'no';
 			}
 			return $permission;
 		}
@@ -302,7 +302,7 @@ function isPermitted($module, $actionname, $record_id = '')
 		//Checking for view all permission
 		if ($profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			if ($actionid == 3 || $actionid == 4) {
-				$permission = "yes";
+				$permission = 'yes';
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;
 			}
@@ -310,32 +310,32 @@ function isPermitted($module, $actionname, $record_id = '')
 		//Checking for edit all permission
 		if ($profileGlobalPermission[2] == 0) {
 			if ($actionid == 3 || $actionid == 4 || $actionid == 0 || $actionid == 1) {
-				$permission = "yes";
+				$permission = 'yes';
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;
 			}
 		}
 		//Checking for vtiger_tab permission
 		if ($profileTabsPermission[$tabid] != 0) {
-			$permission = "no";
+			$permission = 'no';
 			$log->debug("Exiting isPermitted method ...");
 			return $permission;
 		}
 		//Checking for Action Permission
 		if (strlen($profileActionPermission[$tabid][$actionid]) < 1 && $profileActionPermission[$tabid][$actionid] == '') {
-			$permission = "yes";
+			$permission = 'yes';
 			$log->debug("Exiting isPermitted method ...");
 			return $permission;
 		}
 
 		if ($profileActionPermission[$tabid][$actionid] != 0 && $profileActionPermission[$tabid][$actionid] != '') {
-			$permission = "no";
+			$permission = 'no';
 			$log->debug("Exiting isPermitted method ...");
 			return $permission;
 		}
 		//Checking and returning true if recorid is null
 		if ($record_id == '') {
-			$permission = "yes";
+			$permission = 'yes';
 			$log->debug("Exiting isPermitted method ...");
 			return $permission;
 		}
@@ -343,7 +343,7 @@ function isPermitted($module, $actionname, $record_id = '')
 		//If modules is Products,Vendors,Faq,PriceBook then no sharing
 		if ($record_id != '') {
 			if (getTabOwnedBy($module) == 1) {
-				$permission = "yes";
+				$permission = 'yes';
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;
 			}
@@ -360,11 +360,15 @@ function isPermitted($module, $actionname, $record_id = '')
 		}
 		//Retreiving the default Organisation sharing Access
 		$others_permission_id = $defaultOrgSharingPermission[$tabid];
-
+		if (in_array($current_user->id, $shownerids) || count(array_intersect($shownerids, $current_user_groups)) > 0) {
+			$permission = 'yes';
+			$log->debug('Exiting isPermitted method ... - Shared Owner');
+			return $permission;
+		}
 		if ($recOwnType == 'Users') {
 			//Checking if the Record Owner is the current User
-			if ($current_user->id == $recOwnId || in_array($current_user->id, $shownerids)) {
-				$permission = "yes";
+			if ($current_user->id == $recOwnId) {
+				$permission = 'yes';
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;
 			}
@@ -404,26 +408,26 @@ function isPermitted($module, $actionname, $record_id = '')
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;
 			} elseif ($actionid == 2) {
-				$permission = "no";
+				$permission = 'no';
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;
 			} else {
-				$permission = "yes";
+				$permission = 'yes';
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;
 			}
 		} elseif ($others_permission_id == 1) {
 			if ($actionid == 2) {
-				$permission = "no";
+				$permission = 'no';
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;
 			} else {
-				$permission = "yes";
+				$permission = 'yes';
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;
 			}
 		} elseif ($others_permission_id == 2) {
-			$permission = "yes";
+			$permission = 'yes';
 			$log->debug("Exiting isPermitted method ...");
 			return $permission;
 		} elseif ($others_permission_id == 3) {
@@ -449,18 +453,18 @@ function isPermitted($module, $actionname, $record_id = '')
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;
 			} elseif ($actionid == 2) {
-				$permission = "no";
+				$permission = 'no';
 				return $permission;
 			} else {
-				$permission = "yes";
+				$permission = 'yes';
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;
 			}
 		} else {
-			$permission = "yes";
+			$permission = 'yes';
 		}
 	} else {
-		$permission = "no";
+		$permission = 'no';
 	}
 
 	$log->debug("Exiting isPermitted method ...");
@@ -1932,5 +1936,3 @@ function appendFromClauseToQuery($query, $fromClause)
 	$query = $newQuery . $fromClause . $condition;
 	return $query;
 }
-
-?>

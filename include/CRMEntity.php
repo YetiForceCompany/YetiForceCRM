@@ -2399,19 +2399,22 @@ class CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 		global $shared_owners;
 		$is_admin = is_admin($current_user);
-		$securityParameter == '';
+		$sharedParameter = $securityParameter = '';
 		$query = '';
 		$tabId = getTabid($module);
 
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$securityParameter = $this->getUserAccessConditionsQuery($module, $current_user);
-			$sharedParameter = "FIND_IN_SET( " . $current_user->id . ", vtiger_crmentity.shownerid )";
+			foreach (array_merge([$current_user->id], $current_user_groups) as $id) {
+				$sharedParameter .= ' OR FIND_IN_SET( ' . $id . ', vtiger_crmentity.shownerid )';
+			}
+			$sharedParameter = trim($sharedParameter, ' OR');
 		}
 		if ($shared_owners == true) {
 			if ($securityParameter != '') {
 				$query .= " AND ( ($securityParameter) OR ($sharedParameter) )";
 			} elseif ($sharedParameter != '') {
-				$query .= " AND " . $sharedParameter;
+				$query .= ' AND (' . $sharedParameter . ')';
 			}
 		} else {
 			$query .= $securityParameter;

@@ -88,6 +88,7 @@ $languageStrings = [
 	'LBL_FIELD_MASK_INFO' => 'Domyślnie definicje maskujące<br />9: numeryczny<br />a: alfabetycznie<br />*: Alfanumeryczny<br /><br />Przykład:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 	
 	'LBL_ADD_RELATION' => 'Dodaj relację',
+	'LBL_REMOVE_RELATION' => 'Usuń relację',
 	'LBL_RELATION_TYPE' => 'Typ relacji',
 	'LBL_RELATION_ACTIONS' => 'Akcje',
 	'LBL_SOURCE_MODULE' => 'W module',
@@ -124,5 +125,7 @@ $jsLanguageStrings = [
 	'JS_UPDATE_SEQUENCE' => 'Zapisano nowy układ modułów powiązanych',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Zaktualizowano listę pól',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Pole nie może być puste',
-	'JS_RESERVED_PICKLIST_NAME' => 'Ta nazwa jest zarezerwowana dla pól słownikowych.'
+	'JS_RESERVED_PICKLIST_NAME' => 'Ta nazwa jest zarezerwowana dla pól słownikowych.',
+	'JS_REMOVE_RELATION_OK' => 'Pomyślnie usunięto relację.',
+	'JS_DELETE_RELATION_CONFIRMATION' => 'Czy na pewno chcesz usunąć relację?',
 ];

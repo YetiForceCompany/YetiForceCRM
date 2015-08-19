@@ -978,6 +978,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 */
 	ajaxEditHandling: function (currentTdElement) {
 		var thisInstance = this;
+		var readRecord = jQuery('.setReadRecord');
+		readRecord.prop('disabled', true);
 		var detailViewValue = jQuery('.value', currentTdElement);
 		var editElement = jQuery('.edit', currentTdElement);
 		var actionElement = jQuery('.summaryViewEdit', currentTdElement);
@@ -1059,6 +1061,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					editElement.addClass('hide');
 					detailViewValue.removeClass('hide');
 					actionElement.removeClass('hide');
+					readRecord.prop('disabled', false);
 					jQuery(document).off('click', '*', saveHandler);
 				} else {
 					var preFieldSaveEvent = jQuery.Event(thisInstance.fieldPreSave);
@@ -1067,6 +1070,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						//Stop the save
 						saveTriggred = false;
 						preventDefault = true;
+						readRecord.prop('disabled', false);
 						return
 					}
 					preventDefault = false;
@@ -1084,6 +1088,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							detailViewValue.removeClass('hide');
 							actionElement.removeClass('hide');
 							jQuery(document).off('click', '*', saveHandler);
+							readRecord.prop('disabled', false);
 							return;
 						}
 					} else {
@@ -1102,6 +1107,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					fieldNameValueMap["field"] = fieldName;
 					fieldNameValueMap = thisInstance.getCustomFieldNameValueMap(fieldNameValueMap);
 					thisInstance.saveFieldValues(fieldNameValueMap).then(function (response) {
+						readRecord.prop('disabled', false);
 						var postSaveRecordDetails = response.result;
 						currentTdElement.progressIndicator({'mode': 'hide'});
 						detailViewValue.removeClass('hide');
@@ -1137,6 +1143,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					},
 							function (error) {
 								//TODO : Handle error
+								readRecord.prop('disabled', false);
 								currentTdElement.progressIndicator({'mode': 'hide'});
 							}
 					)

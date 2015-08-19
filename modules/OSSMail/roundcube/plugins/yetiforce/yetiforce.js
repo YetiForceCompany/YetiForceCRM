@@ -154,10 +154,12 @@ function getCrmWindow() {
 }
 
 function getMail(mailField, module, record, length) {
-	var params = {};
-	params.data = {module: 'OSSMail', action: 'getContactMail', mod: module, ids: record}
-	params.async = true;
-	params.dataType = 'json';
+	var params = {
+		module: 'OSSMail',
+		action: 'getContactMail',
+		mod: module,
+		ids: record
+	};
 	window.crm.AppConnector.request(params).then(
 			function (response) {
 				var resp = response['result'];
@@ -175,24 +177,25 @@ function getMail(mailField, module, record, length) {
 					window.crm.Vtiger_Helper_Js.showPnotify(notify_params);
 				}
 				if (resp.length > 1 && length == 1) {
-					var getConfig = jQuery.ajax({
-						type: "GET",
-						async: false,
-						url: 'index.php?module=OSSMail&view=selectEmail',
-						data: {resp: resp}
-					});
-					var callback = function (container) {
-						$('#sendEmailContainer #selectEmail').click(function (e) {
-							$('#' + mailField).val(exits_emails + $('input[name=selectedFields]:checked').val());
-						});
-					}
-					getConfig.done(function (cfg) {
-						var data = {}
-						data.css = {'width': '700px'};
-						data.cb = callback;
-						data.data = cfg;
-						window.crm.app.showModalWindow(data);
-					});
+					var params = {
+						module: 'OSSMail',
+						view: 'selectEmail',
+						resp: resp
+					};
+					window.crm.AppConnector.request(params).then(
+							function (response) {
+								var data = {}
+								data.cb = function (mondal) {
+									mondal.find('button.btn-success').click(function (e) {
+										var mail = resp[0].name + ' <' + mondal.find('[name=selectedFields]:checked').val() + '>';
+										$('#' + mailField).val(exits_emails + mail);
+										window.crm.app.hideModalWindow();
+									});
+								};
+								data.data = response;
+								window.crm.app.showModalWindow(data);
+							}
+					);
 				} else if (resp.length > 1 && length > 1) {
 					loadFirstMail = true;
 				}

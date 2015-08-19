@@ -471,7 +471,7 @@ $languageStrings = [
 	'LBL_TERMS_INFORMATION' => 'Warunki i ustalenia',
 	'LBL_Thu' => 'Czw',
 	'LBL_TO' => 'na',
-	'LBL_to' => 'z',
+	'LBL_TO_LC' => 'z',
 	'LBL_ACTIVITY_TO' => 'do',
 	'LBL_TODAY' => 'Dzisiaj',
 	'LBL_TOMORROW' => 'Jutro',
@@ -979,7 +979,9 @@ $languageStrings = [
 	'Password' => 'Hasła',
 	'LBL_FIRST' => 'Pierwsza',
 	'LBL_LAST' => 'Ostatnia',
-	
+	'LBL_VIEW_EDIT2' => 'Dodaj warunki',
+	'LBL_VIEW_CONFIGURATION' => 'Widok konfiguracyjny',
+	'MEN_LEADS' => 'Firmy i Kontakty',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',

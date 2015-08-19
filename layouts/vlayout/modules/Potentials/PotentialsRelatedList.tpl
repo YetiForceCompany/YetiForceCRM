@@ -41,7 +41,7 @@
 					<span class="row">
 						<div class="col-md-4 pushDown">
 							<span class="pull-right pageNumbers alignTop" data-placement="bottom" data-original-title="" style="margin-top: -5px">
-								{if !empty($RELATED_RECORDS)} {$PAGING->getRecordStartRange()} {vtranslate('LBL_to', $RELATED_MODULE->get('name'))} {$PAGING->getRecordEndRange()}{/if}
+								{if !empty($RELATED_RECORDS)} {$PAGING->getRecordStartRange()} {vtranslate('LBL_TO_LC', $RELATED_MODULE->get('name'))} {$PAGING->getRecordEndRange()}{/if}
 							</span>
 						</div>
 						<div class="col-md-7 pull-right">

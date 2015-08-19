@@ -34,7 +34,7 @@ $languageStrings = [
 	'Vendors'                      => 'Поставщики'        , 
 	'Website'                      => 'Веб-сайт'             , 
 	'LBL_EXPORT_TO_PDF'	=>	'Сохранить в PDF:',
-    'LBL_to'                       => 'из',
+    'LBL_TO_LC'                       => 'из',
 	'LBL_BUILDING_NUMBER' => 'Строение',
 	'LBL_LOCAL_NUMBER' => 'Номер офиса',
 ];
