@@ -163,7 +163,6 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 				$(this).jstree("open_all");
 			});
 			form.submit(function (e) {
-				//e.preventDefault();
 				var selected = jstreeInstanceReplace.jstree("get_selected");
 				var replaceIds = $('#replaceIds').val();
 				if (replaceIds == '') {
@@ -184,7 +183,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 					Settings_Vtiger_Index_Js.showMessage(params);
 					return false;
 				}
-				data = $.merge(data, [{old: id, new : selected}]);
+				data = $.merge(data, [{'old': id, 'new': selected}]);
 				$('#replaceIds').val(JSON.stringify(data));
 				app.hideModalWindow();
 				aDeferred.resolve(selected);
