@@ -966,6 +966,9 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'Based on reference fields',
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
+	'LBL_VIEW_EDIT2' => 'Configuration view',
+	'LBL_VIEW_CONFIGURATION' => 'Configuration view',
+	'MEN_LEADS' => 'Companies and Contacts',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',

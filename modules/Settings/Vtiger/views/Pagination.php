@@ -1,6 +1,6 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
+class Settings_Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 {
 
 	public function __construct()
@@ -14,10 +14,16 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$pageNumber = $request->get('page');
 		$searchResult = $request->get('searchResult');
-		$moduleName = $request->getModule();
-		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		$qualifiedModuleName = $request->getModule(false);
+		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
+		}
+		if (!empty($sourceModule)) {
+			$listViewModel->set('sourceModule', $sourceModule);
+		}
+		if (!empty($forModule)) {
+			$listViewModel->set('formodule', $forModule);
 		}
 
 		$pagingModel = new Vtiger_Paging_Model();

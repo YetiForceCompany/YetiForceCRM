@@ -31,6 +31,8 @@ $languageStrings = [
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Товар или Услуга были удалены из системы. Попробуйте заменить на другой Товар или Услугу',
 	'LBL_THIS' => 'Товар или Услуга (',
 	'SINGLE_Vendors' => 'Поставщик',
+	'Paid' => 'Оплачен',
+	'Balance' => 'Баланс',
 ];
 
 $jsLanguageStrings = [

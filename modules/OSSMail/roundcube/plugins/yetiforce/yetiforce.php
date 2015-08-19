@@ -30,7 +30,7 @@ class yetiforce extends rcube_plugin {
 		if ($rcmail->task == 'mail' && $rcmail->action == 'show') {
 			$this->register_handler('plugin.getusername', array($this, 'getUserName'));
 		}
-		if ($rcmail->task == 'mail' && $rcmail->action == 'show') {
+		if ($rcmail->task == 'mail' && $rcmail->action == 'preview') {
 			$this->register_handler('plugin.getusername', array($this, 'getUserName'));
 		}
 	}

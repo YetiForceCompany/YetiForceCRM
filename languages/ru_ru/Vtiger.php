@@ -1230,6 +1230,9 @@ $languageStrings = [
 	'Pre Tax Total' => 'Индивидуальный налог',
 	'LBL_FIRST' => 'Первая',
 	'LBL_LAST' => 'Последняя',
+	'LBL_VIEW_EDIT2' =>	'Добавление условий',
+	'LBL_VIEW_CONFIGURATION' => 'Добавление условий',
+	'MEN_LEADS' => 'Клиенты',
 ];
 $jsLanguageStrings = [
 	'SINGLE_SalesOrder' => 'Заказ',

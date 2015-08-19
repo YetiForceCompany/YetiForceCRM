@@ -972,6 +972,9 @@ $languageStrings = [
 	'Password' => 'Passwörter',
 	'LBL_FIRST' => 'First',
 	'LBL_LAST' => 'Last',
+	'LBL_VIEW_EDIT2' => 'Add Conditions',
+	'LBL_VIEW_CONFIGURATION' => 'Configuration view',
+	'MEN_LEADS' => 'Companies and Contacts',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',

@@ -979,7 +979,9 @@ $languageStrings = [
 	'Password' => 'Hasła',
 	'LBL_FIRST' => 'Pierwsza',
 	'LBL_LAST' => 'Ostatnia',
-	
+	'LBL_VIEW_EDIT2' => 'Dodaj warunki',
+	'LBL_VIEW_CONFIGURATION' => 'Widok konfiguracyjny',
+	'MEN_LEADS' => 'Firmy i Kontakty',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
