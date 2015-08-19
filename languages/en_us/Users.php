@@ -312,6 +312,7 @@ $languageStrings = [
 	'LBL_SAVE_COLOR' => 'Color saved',
 	'LBL_EMAIL' => 'e-mail',
 	'LBL_SPACE' => 'Space',
+	'Account Owner' => 'Account Owner',
 ];
 
 $jsLanguageStrings = [

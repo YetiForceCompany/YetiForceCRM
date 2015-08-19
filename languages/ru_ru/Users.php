@@ -319,6 +319,7 @@ $languageStrings = [
 	'LBL_SAVE_COLOR' => 'Сохранить цвет',
 	'LBL_EMAIL' => 'Почта',
 	'LBL_SPACE' => 'Пробел',
+	'Account Owner' => 'Account Owner',
 ];
 
 $jsLanguageStrings = [
