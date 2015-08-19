@@ -237,7 +237,7 @@
 																							{/if}
 																						</div>
 																					</span>
-																					{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url'])}
+																					{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url','integer','double'])}
 																						<div class="padding1per" style="padding : 0px 10px 0px 25px;">
 																							{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
 																							<div class="input-group">
@@ -431,8 +431,8 @@
 																								{/if}
 																							{/if}
 																						</div>
-																					</span>      
-																					{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url'])}
+																					</span>
+																					{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url','integer','double'])}
 																						<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
 																							{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
 																							<div class="input-group">
