@@ -360,10 +360,14 @@ function isPermitted($module, $actionname, $record_id = '')
 		}
 		//Retreiving the default Organisation sharing Access
 		$others_permission_id = $defaultOrgSharingPermission[$tabid];
-
+		if (in_array($current_user->id, $shownerids) || count(array_intersect($shownerids, $current_user_groups)) > 0) {
+			$permission = "yes";
+			$log->debug('Exiting isPermitted method ... - Shared Owner');
+			return $permission;
+		}
 		if ($recOwnType == 'Users') {
 			//Checking if the Record Owner is the current User
-			if ($current_user->id == $recOwnId || in_array($current_user->id, $shownerids)) {
+			if ($current_user->id == $recOwnId) {
 				$permission = "yes";
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;

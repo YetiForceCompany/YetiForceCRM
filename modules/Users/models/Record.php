@@ -670,25 +670,21 @@ class Users_Record_Model extends Vtiger_Record_Model {
          * to whom records should be assigned
          */
         public function deleteUserPermanently($userId, $newOwnerId) {
-			global $shared_owners;
 			$db = PearDatabase::getInstance();
 			
-			$sql = "UPDATE vtiger_crmentity SET smcreatorid=?,smownerid=? WHERE smcreatorid=? AND setype=?";
+			$sql = 'UPDATE vtiger_crmentity SET smcreatorid=?,smownerid=? WHERE smcreatorid=? AND setype=?';
 			$db->pquery($sql, array($newOwnerId, $newOwnerId, $userId,'ModComments'));
 			
 			//update history details in vtiger_modtracker_basic 
-			$sql ="update vtiger_modtracker_basic set whodid=? where whodid=?"; 
+			$sql ='update vtiger_modtracker_basic set whodid=? where whodid=?'; 
 			$db->pquery($sql, array($newOwnerId, $userId)); 
 
 			//update comments details in vtiger_modcomments 
-			$sql ="update vtiger_modcomments set userid=? where userid=?"; 
+			$sql ='update vtiger_modcomments set userid=? where userid=?'; 
 			$db->pquery($sql, array($newOwnerId, $userId));
 
-			$sql = "DELETE FROM vtiger_users WHERE id=?";
+			$sql = 'DELETE FROM vtiger_users WHERE id=?';
 			$db->pquery($sql, array($userId));
-			if($shared_owners){
-				Users_Privileges_Model::setAllSharedOwner($userId,true);
-			}
         }
 	
 	/**

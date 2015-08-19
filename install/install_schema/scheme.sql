@@ -1616,7 +1616,7 @@ CREATE TABLE `vtiger_crmentity` (
   `crmid` int(19) NOT NULL,
   `smcreatorid` int(19) NOT NULL DEFAULT '0',
   `smownerid` int(19) NOT NULL DEFAULT '0',
-  `shownerid` set('1') DEFAULT NULL,
+  `shownerid` varchar(255) NOT NULL,
   `modifiedby` int(19) NOT NULL DEFAULT '0',
   `setype` varchar(30) NOT NULL,
   `description` text,

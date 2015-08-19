@@ -692,7 +692,7 @@ class Users extends CRMEntity {
      *
      */
     function saveentity($module) {
-        global $current_user, $shared_owners;//$adb added by raju for mass mailing
+        global $current_user;//$adb added by raju for mass mailing
         $insertion_mode = $this->mode;
         if(empty($this->column_fields['time_zone'])) {
             $dbDefaultTimeZone = DateTimeField::getDBTimeZone();
@@ -778,9 +778,6 @@ class Users extends CRMEntity {
         unset($_SESSION['next_reminder_time']);
         if($insertion_mode != 'edit') {
             $this->createAccessKey();
-			if($shared_owners){
-				Users_Privileges_Model::setAllSharedOwner($this->id);
-			}
         }
         $this->db->completeTransaction();
         $this->db->println("TRANS saveentity ends");
