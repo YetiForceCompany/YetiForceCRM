@@ -13,9 +13,6 @@ class Supplies_Name_Field extends Supplies_Basic_Field
 	protected $defaultLabel = 'LBL_ITEM_NAME';
 	protected $columnname = 'name';
 	protected $dbType = 'int(19) DEFAULT \'0\'';
-	protected $customColumn = [
-		'comment' => 'varchar(500)'
-	];
 
 	/**
 	 * Geting value to display

@@ -1,20 +1,13 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<div class="rowName">
-		{if $SUP_VALUE == '0'}
-			{assign var="REFERENCE_MODULE" value=reset($MAIN_PARAMS['modules'])}
-		{else}
-			{assign var="REFERENCE_MODULE" value=Vtiger_Functions::getCRMRecordType($SUP_VALUE)}
-		{/if}
-
 		{assign var="FIELD_NAME" value={$FIELD->getColumnName()}|cat:$ROW_NO}
 		{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode(['mandatory'=>true]))}
 		{assign var="CRMEntity" value=CRMEntity::getInstance($REFERENCE_MODULE)}
-
 		<div class="input-group">
 			<input name="popupReferenceModule" type="hidden" data-multi-reference="1" data-field="{$CRMEntity->table_index}" value="{$REFERENCE_MODULE}" />
 			<input name="{$FIELD_NAME}" type="hidden" value="{$SUP_VALUE}" title="{$SUP_VALUE}" class="sourceField" data-displayvalue='{$FIELD->getEditValue($SUP_VALUE)}' data-fieldinfo='{$FIELD_INFO}' {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} />
-
+			
 			{assign var="displayId" value=$SUP_VALUE}
 			{if $FIELD->get('displaytype') != 10}
 				<span class="input-group-addon clearReferenceSelection cursorPointer">
@@ -43,12 +36,6 @@
 		<div class="subProductsContainer">
 			<ul>
 			</ul>
-		</div>
-		<div style="padding: 0;">
-			<textarea name="comment{$ROW_NO}" title="{vtranslate("LBL_ROW_COMMENT",$SUPMODULE)}" id="editView_comment{$ROW_NO}" data-fieldinfo="{Zend_Json::encode(['mandatory' => false])|escape}"
-					  class="comment commentTextarea form-control {if Supplies_EditView_Model::isWysiwygType($REFERENCE_MODULE)}ckEditorSource ckEditorBasic{/if}">
-				{$SUP_DATA['comment']}
-			</textarea>
 		</div>
 	</div>
 {/strip}

@@ -11,6 +11,9 @@ class Supplies_EditView_Model extends Vtiger_EditView_Model
 
 	public function isWysiwygType($moduleName)
 	{
+		if (!$moduleName) {
+			return false;
+		}
 		$cache = Vtiger_Cache::get('SuppliesisWysiwygType', $moduleName);
 		if ($cache) {
 			return $cache;

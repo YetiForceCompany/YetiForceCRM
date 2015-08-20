@@ -56,7 +56,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 	 * @return jQuery object which you can use to
 	 */
 	getBasicRow: function () {
-		var newRow = $('#blackSuppliesTable tr').clone(true, true);
+		var newRow = $('#blackSuppliesTable tbody').clone(true, true);
 		return newRow;
 	},
 	isRecordSelected: function (element) {
@@ -515,6 +515,31 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		});
 		parentRow.find('.taxParam').val(JSON.stringify(info));
 	},
+	showExpandedRow: function (row) {
+		var thisInstance = this;
+		var subTable = thisInstance.getSupTableContainer();
+		var rowSupExpanded = subTable.find('[numrowex="' + row.attr('numrow') + '"]');
+		var element = row.find('.toggleVisibility');
+		element.data('status', '1');
+		element.find('.glyphicon').removeClass('glyphicon-menu-down');
+		element.find('.glyphicon').addClass('glyphicon-menu-up');
+		rowSupExpanded.removeClass('hide');
+		thisInstance.loadCkEditorElement(rowSupExpanded.find('.ckEditorSource'));
+	},
+	hideExpandedRow: function (row) {
+		var thisInstance = this;
+		var subTable = thisInstance.getSupTableContainer();
+		var rowSupExpanded = subTable.find('[numrowex="' + row.attr('numrow') + '"]');
+		var element = row.find('.toggleVisibility');
+		element.data('status', '0');
+		element.find('.glyphicon').removeClass('glyphicon-menu-up');
+		element.find('.glyphicon').addClass('glyphicon-menu-down');
+		rowSupExpanded.addClass('hide');
+		var editorInstance = CKEDITOR.instances[rowSupExpanded.find('.ckEditorSource').attr('id')];
+		if (editorInstance) {
+			editorInstance.destroy();
+		}
+	},
 	initDiscountsParameters: function (parentRow, mondal) {
 		var thisInstance = this;
 		var parameters = parentRow.find('.discountParam').val();
@@ -579,12 +604,6 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 
 		thisInstance.calculateTax(parentRow, mondal);
 	},
-	loadWysiwyg: function (row, wysiwyg) {
-		var thisInstance = this;
-		if (wysiwyg == '1') {
-			thisInstance.loadCkEditorElement(row.find('.ckEditorSource'));
-		}
-	},
 	limitEnableSave: false,
 	checkLimits: function () {
 		var thisInstance = this;
@@ -633,7 +652,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		var subTable = this.getSupTableContainer();
 		container.find('.btn-toolbar .addButton').on('click', function (e, data) {
 			var table = container.find('#blackSuppliesTable');
-			var newRow = thisInstance.getBasicRow()
+			var newRow = thisInstance.getBasicRow();
 			var sequenceNumber = thisInstance.getNextLineItemRowNumber();
 			var module = $(e.currentTarget).data('module');
 			var field = $(e.currentTarget).data('field');
@@ -641,12 +660,11 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 
 			var replaced = newRow.html().replace(/_NUM_/g, sequenceNumber);
 			newRow.html(replaced);
-			newRow = newRow.appendTo(subTable.find('tbody'));
+			newRow = newRow.find('tr').appendTo(subTable.find('tbody'));
 
 			newRow.find('.rowName input[name="popupReferenceModule"]').val(module).data('field', field);
-			thisInstance.initRow();
 			thisInstance.registerAutoCompleteFields(newRow);
-			thisInstance.loadWysiwyg(newRow, wysiwyg);
+			thisInstance.initRow(newRow);
 		});
 	},
 	registerSortableRow: function () {
@@ -666,25 +684,37 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 				return ui;
 			},
 			start: function (event, ui) {
-				var textareaId = ui.item.find('textarea').attr('id');
-				if (typeof textareaId != 'undefined') {
-					var editorInstance = CKEDITOR.instances[textareaId];
-					editorInstance.destroy();
-				}
+				subTable.find(thisInstance.rowClass).each(function (index, element) {
+					var row = $(element);
+					thisInstance.hideExpandedRow(row);
+				})
+				ui.item.startPos = ui.item.index();
 			},
 			stop: function (event, ui) {
-				var customConfig = {};
-				var textarea = ui.item.find('textarea');
-				if (typeof textarea.attr('id') != 'undefined') {
-					thisInstance.loadCkEditorElement(textarea);
+				var numrow = $(ui.item.context).attr('numrow');
+				var child = subTable.find('.numRow' + numrow).remove().clone();
+				subTable.find('[numrow="' + numrow + '"]').after(child);
+				if (ui.item.startPos < ui.item.index()) {
+					var child = subTable.find('.numRow' + numrow).next().remove().clone();
+					subTable.find('[numrow="' + numrow + '"]').before(child);
 				}
 				thisInstance.updateRowSequence();
 			}
 		});
+		subTable.disableSelection();
 	},
-	/**
-	 * Function which will regisrer price book popup
-	 */
+	registerShowHideExpanded: function (container) {
+		var thisInstance = this;
+		container.on('click', '.toggleVisibility', function (e) {
+			var element = $(e.currentTarget);
+			var row = thisInstance.getClosestRow(element);
+			if (element.data('status') == '0') {
+				thisInstance.showExpandedRow(row);
+			} else {
+				thisInstance.hideExpandedRow(row);
+			}
+		});
+	},
 	registerPriceBookPopUp: function (container) {
 		var thisInstance = this;
 		container.on('click', '.priceBookPopup', function (e) {
@@ -931,6 +961,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		this.registerChangeDiscount(container);
 		this.registerChangeTax(container);
 		this.registerClearReferenceSelection(container);
+		this.registerShowHideExpanded(container);
 	},
 });
 
