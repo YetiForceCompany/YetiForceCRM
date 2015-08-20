@@ -164,16 +164,16 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="row">
+			<div class="row pushDown">
 				<span class="col-md-4">
-					<button id="addMapping" class="btn btn-default addButton" type="button">
+					<button id="addMapping" class="btn btn-info addButton" type="button">
 						<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate('LBL_ADD_MAPPING', $QUALIFIED_MODULE)}</strong>
 					</button>
 				</span>
 				<span class="col-md-8">
 					<span class="pull-right">
 						<button type="submit" class="btn btn-success"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-						<a class="cancelLink" type="reset" onclick="javascript:window.history.back();">Cancel</a>
+						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>
 				</span>
 			</div>
