@@ -17,8 +17,10 @@ Class DataAccess_show_quick_create
 	public function process($ModuleName, $ID, $record_form, $config)
 	{
 		$db = PearDatabase::getInstance();
-		if (!isset($ID) || $ID == 0 || $ID == '')
+		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!isset($ID) || $ID == 0 || $ID == '' || !$userPrivModel->hasModuleActionPermission(getTabid($config['modules']), 'EditView')) {
 			return Array('save_record' => true);
+		}
 		return Array(
 			'save_record' => false,
 			'type' => 1,
