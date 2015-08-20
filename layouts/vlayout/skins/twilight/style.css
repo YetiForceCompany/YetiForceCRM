@@ -3170,7 +3170,8 @@ table.listViewEntriesTable {
 }
 .recordEditView[name=QuickCreate] .quickCreateContent table tr td.fieldValue,
 #massEditContainer .massEditContent table tr td.fieldValue,
-#tab_accounts td.functionList{
+#tab_accounts td.functionList,
+#minilistWizardContainer .fieldLabel{
 	width: 30%;
 }
 .btn {
