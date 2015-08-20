@@ -19,6 +19,15 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		else
 			thisInstance.widgetWithFilterUsers = [];
 	},
+	restrictFilter: [],
+	setRestrictFilter: function () {
+		var thisInstance = this;
+		var element = jQuery('[name="filter_restrict"]').val();
+		if (element)
+			thisInstance.restrictFilter = JSON.parse(element);
+		else
+			thisInstance.restrictFilter = [];
+	},
 	/**
 	 * Function to create the array of block roles list
 	 */
@@ -171,17 +180,34 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					jQuery(this).remove();
 				}
 			});
-			if (jQuery.inArray(selectWidgets.find(':first-child').data('name'), thisInstance.widgetWithFilterUsers) != -1) {
+			var name = selectWidgets.find(':first-child').data('name');
+			if (jQuery.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
 				addFieldContainer.find('.widgetFilter').removeClass('hide').find('select').removeAttr('disabled').show();
+				var restrictFilter = thisInstance.restrictFilter[name];
+				if (restrictFilter) {
+					for (var i in restrictFilter) {
+						addFieldContainer.find('.widgetFilter select option[value="' + restrictFilter[i] + '"]').remove();
+					}
+				}
 			}
 
 			var callBackFunction = function (data) {
 				//register all select2 Elements
-				app.changeSelectElementView(data.find('select'), 'select2');
-				var elementsToFilter = data.find('.widgetFilter');
+				app.showSelect2ElementView(data.find('select'));
 				data.find('select.widgets').on('change', function () {
-					if (jQuery.inArray(jQuery(this).find(':selected').data('name'), thisInstance.widgetWithFilterUsers) != -1) {
+					data.find('.widgetFilter').remove();
+					var elementsToFilter = contents.find('.createFieldModal .widgetFilter').clone(true, true);
+					data.find('.modal-body').append(elementsToFilter);
+					var name = jQuery(this).find(':selected').data('name');
+					if (jQuery.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
 						elementsToFilter.removeClass('hide').find('select').prop('disabled', false);
+						var restrictFilter = thisInstance.restrictFilter[name];
+						if (restrictFilter) {
+							for (var i in restrictFilter) {
+								addFieldContainer.find('.widgetFilter select option[value="' + restrictFilter[i] + '"]').remove();
+							}
+						}
+						app.showSelect2ElementView(elementsToFilter.find('select'));
 					} else {
 						elementsToFilter.addClass('hide').find('select').prop('disabled', true);
 					}
@@ -270,7 +296,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
 		fieldContainer.find('.fieldLabel').html(result['label']);
 		if (!result['status'])
-			fieldContainer.find('input[name="limit"]').closest('div').remove();
+			fieldContainer.find('input[name="limit"]').closest('div.limit').remove();
 		if (typeof result['default_owner'] != 'undefined')
 			fieldContainer.find('.widgetFilterAll').removeClass('hide').show();
 
@@ -800,6 +826,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		thisInstance.registerDeleteCustomBlockEvent();
 		thisInstance.registerModulesChangeEvent();
 		thisInstance.setWidgetWithFilterUsers();
+		thisInstance.setRestrictFilter();
 	}
 
 });

@@ -71,7 +71,7 @@ class Home_Module_Model extends Vtiger_Module_Model {
 	 * @param <String> $recordId - record id
 	 * @return <Array>
 	 */
-	function getCalendarActivities($mode, $pagingModel, $user, $recordId = false) {
+	function getCalendarActivities($mode, $pagingModel, $user, $recordId = false, $paramsMore = []) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
 
@@ -123,6 +123,17 @@ class Home_Module_Model extends Vtiger_Module_Model {
 			$query .= " AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
 			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) 
 			AND CASE WHEN vtiger_activity.activitytype='Task' THEN due_date < '$currentDate' ELSE CONCAT(due_date,' ',time_end) < '$nowInDBFormat' END AND vtiger_crmentity.smcreatorid = ?";
+			$params[] = $currentUser->getId();
+		} elseif ($mode === 'createdByMeButNotMine') {
+			$query .= " AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
+			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) AND vtiger_crmentity.smcreatorid = ? AND vtiger_crmentity.smownerid NOT IN (?) AND CASE WHEN vtiger_activity.activitytype='Task' THEN due_date";
+			if($paramsMore['activitesType'] != 'upcoming'){
+				$query .= " < '$currentDate' ELSE CONCAT(due_date,' ',time_end) < '$nowInDBFormat' END ";
+			}else{
+				$query .= " >= '$currentDate' ELSE CONCAT(due_date,' ',time_end) >= '$nowInDBFormat' END ";
+			}
+			
+			$params[] = $currentUser->getId();
 			$params[] = $currentUser->getId();
 		}
 

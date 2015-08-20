@@ -5484,10 +5484,11 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (229,3,'DASHBOARDWIDGET','Calendar','index.php?module=Home&view=ShowWidget&name=Calendar','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (230,3,'DASHBOARDWIDGET','Calculations','index.php?module=Calculations&view=ShowWidget&name=Calculations','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (231,3,'DASHBOARDWIDGET','PotentialsList','index.php?module=Potentials&view=ShowWidget&name=PotentialsList','',0,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (232,3,'DASHBOARDWIDGET','LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES','index.php?module=Home&view=ShowWidget&name=CreatedNotMineActivities','',0,NULL,NULL,NULL);
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (231);
+insert  into `vtiger_links_seq`(`id`) values (232);
 
 /*Data for the table `vtiger_loginhistory` */
 

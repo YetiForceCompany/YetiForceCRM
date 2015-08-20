@@ -3501,3 +3501,16 @@ span[name=existingImages] img{
 .listViewEntriesDiv .listViewEntriesCheckBox{
 	margin-left: 2px;
 }
+#widgetsManagementEditorContainer .modal-footer .btn{
+	margin: 5px;
+}
+#widgetsManagementEditorContainer .fieldDetailsForm .modal-footer{
+	padding: 0;
+}
+#widgetsManagementEditorContainer .fieldDetailsForm .filter{
+    padding-top: 5px;
+    margin-left: 5px;
+}
+.dashboardContainer .dashboardHeading .dropdown-menu {
+	left: -82px;
+}
