@@ -39,7 +39,7 @@ $languageStrings = [
 	//
 	'Action_show_quick_create' => 'Szybkie tworzenie rekordu',
 	'Action_Desc_show_quick_create' => 'Akcja wyświetlająca okno szybkiego tworzenia rekordu',
-	'Select module' => 'Wybierz moduł',
+	'LBL_SELECT_OPTION' => 'Wybierz',
 	//
 	'Action_blockEditView' => 'Blokada edycji rekordu',
 	'Action_Desc_blockEditView' => 'Akcja umożliwiająca zablokowanie edycji rekordu (szybka i pełna edycja)',

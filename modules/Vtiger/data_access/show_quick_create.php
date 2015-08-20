@@ -24,10 +24,17 @@ Class DataAccess_show_quick_create{
 
     public function getConfig( $id,$module,$baseModule ) {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery( "SELECT tabid, name FROM vtiger_tab", array() ,true);
-		$modules = array();
-		while ($row = $db->fetch_array($result)) {
-			$modules[$row['tabid']] = $row['name'];
+		$modulesQuickCreate = Vtiger_Module_Model::getQuickCreateModules(true);
+		$modules = [];
+		foreach($modulesQuickCreate as $moduleName=>$moduleModel){
+			$quickCreateModule = $moduleModel->isQuickCreateSupported();
+			$singularLabel = $moduleModel->getSingularLabelKey();
+			if($singularLabel == 'SINGLE_Calendar'){
+				$singularLabel = 'LBL_EVENT_OR_TASK';
+			}
+			if($quickCreateModule == 1){
+				$modules[$moduleName] = $singularLabel;
+			}
 		}
 		return Array('modules'=>$modules);
     }

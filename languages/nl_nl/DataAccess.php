@@ -40,7 +40,7 @@ $languageStrings = [
 	//
 	'Action_show_quick_create' => 'Quick create',
 	'Action_Desc_show_quick_create' => 'This action shows quick create',
-	'Select module' => 'Select module',
+	'LBL_SELECT_OPTION' => 'Select an Option',
 	//
 	'Action_blockEditView' => 'Block edit view',
 	'Action_Desc_blockEditView' => 'This action blocks edit view (quick and full edit)',
