@@ -575,34 +575,20 @@ hr {
 #globalmodal form {
 	margin: 0 0 0;
 }
-.dashboardHeading h2 {
-	padding-bottom: 8px;
+.dashboardContainer .dashboardHeading {
+	background: #f5f5f5;
 }
-.dashboardHeading hr {
-	border-bottom: 1px solid #dddddd;
+.gridster>*{
+	margin: 0 0 0 15px !important;
 }
-.dashboardHeading .dropdown-menu {
-	left: -70px;
-	right: 0;
+.contentsDiv .gridster {
+	padding: 0;
 }
 .dashboardContainer {
 	padding: 0;
 }
-.dashboardContainer .dashboardHeading {
-	padding: 10px 0 0;
-	background: #f5f5f5;
-}
-.dashboardContainer .dashboardHeading h2 {
-	padding: 0 0 8px 20px;
-}
-.dashboardContainer .dashboardHeading .btn-toolbar {
-	padding: 3px 20px 0 0;
-}
 .dashboardContainer .dashboardHeading hr {
 	border-bottom: 1px solid #dddddd;
-}
-.dashboardContainer .dashboardHeading .dropdown-menu {
-	left: -82px;
 }
 .widgetsList {
 	max-height: 400px;

@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div class="gridster">
-	<ul style="margin-left:10px; margin-right:10px;">
+	<ul>
 	{assign var=COLUMNS value=2}
 	{assign var=ROW value=1}
 	{foreach from=$WIDGETS item=WIDGET name=count}
