@@ -39,7 +39,7 @@ $languageStrings = [
 	//
 	'Action_show_quick_create' => 'Schnellerfassung',
 	'Action_Desc_show_quick_create' => 'Diese Aktion zeigt die Schnellerfassung',
-	'Select module' => 'Modul auswählen',
+	'LBL_SELECT_OPTION' => 'Option auswählen',
 	//
 	'Action_blockEditView' => 'Bearbeitungsansicht blockieren',
 	'Action_Desc_blockEditView' => 'Diese Aktion blockiert Bearbeitungsansicht (Schnell und vollständiges Bearbeiten)',
