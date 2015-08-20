@@ -15,10 +15,10 @@
 				<span class="col-md-8">
 					<span class="font-x-x-large">{vtranslate('LBL_CONVERT_LEAD_FIELD_MAPPING', $QUALIFIED_MODULE)}</span>
 				</span>
-				<span class="col-md-4">
+				<span class="col-md-4 paddingRightZero">
 					<span class="pull-right">
 						<button type="submit" class="btn btn-success"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-						<a class="cancelLink" type="reset" onclick="javascript:window.history.back();">Cancel</a>
+						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>
 				</span>
 			</div><hr>
