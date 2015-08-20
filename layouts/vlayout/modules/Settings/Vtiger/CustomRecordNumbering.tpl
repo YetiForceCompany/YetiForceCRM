@@ -33,7 +33,7 @@
                             </th>
                             <th width="70%" class="{$WIDTHTYPE}" style="border-left: none">
                             <span class="pull-right">
-                                <button type="button" class="btn btn-default" name="updateRecordWithSequenceNumber"><b>{vtranslate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}</b></button>
+                                <button type="button" class="btn btn-info" name="updateRecordWithSequenceNumber"><b>{vtranslate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}</b></button>
                             </span>
                             </th>
                         </tr>
