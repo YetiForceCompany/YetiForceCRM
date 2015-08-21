@@ -88,12 +88,12 @@ class Supplies_SupField_Model
 	 * @param boolean $returnInBlock Should the result be divided into blocks
 	 * @return array Supplies data
 	 */
-	public function getColumns($module)
+	public static function getColumns($module)
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ' . $module);
-		if ($this->columns) {
-			return $this->columns;
+		if (self::$columns) {
+			return self::$columns;
 		}
 
 		$columns = [];
@@ -105,7 +105,7 @@ class Supplies_SupField_Model
 				$columns[] = $name;
 			}
 		}
-		$this->columns = $columns;
+		self::$columns = $columns;
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $columns;
 	}

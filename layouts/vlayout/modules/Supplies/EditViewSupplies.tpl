@@ -6,7 +6,6 @@
 		{assign var="COLUMNS" value=$SUPFIELD_MODEL->getColumns($MODULE)}
 		{assign var="SUP_RECORD_DATA" value=$RECORD->getSupplieData()}
 		{assign var="MAIN_PARAMS" value=$SUPFIELD_MODEL->getMainParams($FIELDS[1])}
-		{assign var="BLACK_SUP_DATA" value=[]}
 		{assign var="COUNT_FIELDS0" value=count($FIELDS[0])}
 		{assign var="COUNT_FIELDS1" value=count($FIELDS[1])}
 		{assign var="COUNT_FIELDS2" value=count($FIELDS[2])}
