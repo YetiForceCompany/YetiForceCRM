@@ -947,6 +947,7 @@ $languageStrings = [
 	'LBL_COMMON' => 'Shared',
 	'LBL_OPEN' => 'Open',
 	'LBL_ARCHIVE' => 'Archive',
+	'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => "To Do's/Events created by me, but not belonging to me.",
 	
 	//Gantt
 	'LBL_FILTERING' => 'Filtering',

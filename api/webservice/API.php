@@ -10,7 +10,7 @@ class API
 	 */
 	protected $method = '';
 	protected $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE'];
-	protected $acceptableHeaders = ['language', 'version', 'apiKey', 'ip', 'encrypted', 'fromUrl', 'sessionID'];
+	protected $acceptableHeaders = ['apiKey', 'encrypted', 'sessionID'];
 	protected $modulesPath = 'api/webservice/';
 	protected $data = [];
 	protected $request = [];
@@ -54,10 +54,6 @@ class API
 	{
 		if (!$this->validateApiKey($this->headers['apiKey'])) {
 			throw new APIException('Invalid api key', 401);
-		}
-
-		if (!$this->validateFromUrl($this->headers['fromUrl'])) {
-			throw new APIException('Invalid source address', 401);
 		}
 	}
 
@@ -123,7 +119,6 @@ class API
 	public function initHeaders()
 	{
 		$headers = apache_request_headers();
-		$result = [];
 		foreach ($this->acceptableHeaders as $value) {
 			if (!isset($headers[$value])) {
 				throw new APIException('No parameter: ' . $value, 401);

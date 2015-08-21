@@ -11,13 +11,17 @@ class API_Users_Authentication extends BaseAction
 
 	protected $requestMethod = 'POST';
 
-	public function authentication($email, $password)
+	public function authentication($email, $password, $params)
 	{
+		if (!isset($params['fromUrl'])) {
+			throw new APIException('Invalid source address', 401);
+		}
 		if($password != 'test'){
 			throw new APIException('Błedne dane dostępowe');
 		}
 		
 		return [
+			'sessionID' => '7vusgoloiklnorojmmf7ogu1p6',
 			'logged' => true,
 			'id' => 111,
 			'fullName' => 'Mariusz Krzaczkowski',

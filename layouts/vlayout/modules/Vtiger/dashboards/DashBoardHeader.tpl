@@ -17,7 +17,7 @@
 				<h2 class="pull-left">{$DASHBOARDHEADER_TITLE}</h2>
 			{/if}
 		</div>
-		<div class="col-md-9">
+		<div class="col-md-9 h3">
 			<div class="pull-right">
 				<div class="btn-toolbar">
 					<span class="btn-group">

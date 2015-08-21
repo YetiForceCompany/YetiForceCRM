@@ -145,6 +145,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		app.showBtnSwitch(this.getContainer().find('.switchBtn'));
 		this.registerWidgetSwitch();
 		this.registerChangeSorting();
+		this.registerLoadMore();
 	},
 	postRefreshWidget: function () {
 		if (!this.isEmptyData()) {
@@ -153,6 +154,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			this.positionNoDataMsg();
 		}
 		this.registerSectionClick();
+		this.registerLoadMore();
 	},
 	
 	/**
@@ -326,6 +328,26 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 	},
 	registerSectionClick: function () {
+	},
+	registerLoadMore: function(){
+		var thisInstance = this;
+		var parent = thisInstance.getContainer();
+		var contentContainer = parent.find('.dashboardWidgetContent');
+		contentContainer.off('click', 'a[name="history_more"]');
+		contentContainer.on('click', 'a[name="history_more"]', function(e) {
+			var element = jQuery(e.currentTarget);
+			element.hide();
+			var parent = jQuery(e.delegateTarget).closest('.dashboardWidget');
+			jQuery(parent).find('.slimScrollDiv').css('overflow','visible');
+			var type = parent.find("[name='type']").val();
+			var url = element.data('url')+'&content=true&type='+type;
+			contentContainer.progressIndicator();
+			AppConnector.request(url).then(function(data) {
+				contentContainer.progressIndicator({'mode': 'hide'});
+				jQuery(parent).find('.dashboardWidgetContent').append(data);
+				element.parent().remove();
+			});
+		});
 	}
 });
 
