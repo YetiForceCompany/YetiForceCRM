@@ -26,7 +26,7 @@
 				<table class="table table-bordered">
 					<tbody>
 						<tr>
-							<td class="fieldLabel alignMiddle">{'LBL_SELECT_MODULE'|vtranslate}</td>
+							<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_SELECT_MODULE'|vtranslate}</td>
 							<td class="fieldValue">
 								<select class="form-control" name="module">
 									<option></option>
@@ -37,7 +37,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="fieldLabel alignMiddle">{'LBL_FILTER'|vtranslate}</td>
+							<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_FILTER'|vtranslate}</td>
 							<td class="fieldValue">
 								<select class="form-control" name="filterid">
 									<option></option>
@@ -45,7 +45,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="fieldLabel alignMiddle">{'LBL_EDIT_FIELDS'|vtranslate}</td>
+							<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_EDIT_FIELDS'|vtranslate}</td>
 							<td class="fieldValue">
 								<select class="form-control" name="fields" size="2" multiple="true">
 									<option></option>

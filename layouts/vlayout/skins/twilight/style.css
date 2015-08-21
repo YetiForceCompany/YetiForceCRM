@@ -2920,7 +2920,7 @@ textarea {
 	text-align: right;
 }
 .alignMiddle {
-	vertical-align: middle;
+	vertical-align: middle !important;
 }
 .alignTop {
 	vertical-align: top;
@@ -3156,8 +3156,7 @@ table.listViewEntriesTable {
 }
 .recordEditView[name=QuickCreate] .quickCreateContent table tr td.fieldValue,
 #massEditContainer .massEditContent table tr td.fieldValue,
-#tab_accounts td.functionList,
-#minilistWizardContainer .fieldLabel{
+#tab_accounts td.functionList{
 	width: 30%;
 }
 .btn {
