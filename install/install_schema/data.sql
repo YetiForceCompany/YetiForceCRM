@@ -979,6 +979,7 @@ insert  into `vtiger_crmentity_seq`(`id`) values (108);
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (1,'Workflow','cron/modules/com_vtiger_workflow/com_vtiger_workflow.service',900,NULL,NULL,1,'com_vtiger_workflow',1,'Recommended frequency for Workflow is 15 mins');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (2,'RecurringInvoice','cron/modules/SalesOrder/RecurringInvoice.service',43200,NULL,NULL,1,'SalesOrder',2,'Recommended frequency for RecurringInvoice is 12 hours');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (3,'SendReminder','cron/SendReminder.service',900,NULL,NULL,1,'Calendar',3,'Recommended frequency for SendReminder is 15 mins');
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (4,'LBL_CURRENCY_UPDATE','modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php',86400,1440171630,1440171632,1,'CurrencyUpdate',4,'Recommended frequency for Currency Update is 24 hours');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (8,'Scheduled Import','cron/modules/Import/ScheduledImport.service',900,NULL,NULL,1,'Import',6,'Recommended frequency for MailScanner is 15 mins');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (9,'ScheduleReports','cron/modules/Reports/ScheduleReports.service',900,NULL,NULL,1,'Reports',7,'Recommended frequency for ScheduleReports is 15 mins');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (10,'MailScannerAction','modules/OSSMailScanner/cron/action.php',200,NULL,NULL,1,'OSSMailScanner',8,'');
@@ -21351,10 +21352,11 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (85,1,'LBL_AUTHORIZATION',NULL,'LBL_AUTHORIZATION_DESCRIPTION','index.php?module=Users&view=Auth&parent=Settings',8,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (86,6,'LBL_TIMECONTROL_PROCESSES','','LBL_TIMECONTROL_PROCESSES_DESCRIPTION','index.php?module=TimeControlProcesses&parent=Settings&view=Index',5,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (87,2,'LBL_CUSTOM_FIELD_MAPPING','','LBL_CUSTOM_FIELD_MAPPING_DESCRIPTION','index.php?parent=Settings&module=Leads&view=MappingDetail',20,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (88,4,'LBL_CURRENCY_UPDATE','','LBL_CURRENCY_UPDATE_DESCRIPTION','index.php?module=CurrencyUpdate&view=Index&parent=Settings',26,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
-insert  into `vtiger_settings_field_seq`(`id`) values (87);
+insert  into `vtiger_settings_field_seq`(`id`) values (88);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
