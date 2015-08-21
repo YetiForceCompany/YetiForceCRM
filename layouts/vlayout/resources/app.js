@@ -14,6 +14,7 @@ var app = {
 	 */
 	languageString: [],
 	weekDaysArray: {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6},
+	cacheParams: [],
 	/**
 	 * Function to get the module name. This function will get the value from element which has id module
 	 * @return : string - module name
@@ -1084,6 +1085,36 @@ var app = {
 		chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZ";
 		rand = Math.floor(Math.random() * chars.length);
 		return newchar = chars.substring(rand, rand + 1);
+	},
+	getMainParams: function (params) {
+		if (app.cacheParams[params] != undefined) {
+			return app.cacheParams[params];
+		}
+		var value = $('#'+params).val();
+		app.cacheParams[params] = value;
+		return value;
+	},
+	parseNumberToShow: function (val) {
+		if(val == undefined){
+			val = 0;
+		}
+		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
+		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
+		val = parseFloat(val).toFixed(numberOfDecimal);
+		if(decimalSeparator != '.'){
+			val = val.toString().replace('.', decimalSeparator);
+		}
+		return val;
+	},
+	parseNumberToFloat: function (val) {
+		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
+		if(val == undefined){
+			val = 0;
+		}
+		if(app.getMainParams('currencyDecimalSeparator') == ','){
+			val = val.toString().replace(/\s/g, "").replace(",", ".");
+		}
+		return parseFloat(val);
 	},
 }
 
