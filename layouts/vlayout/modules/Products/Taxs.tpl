@@ -17,7 +17,7 @@
 					<hr/>
 					<div class="row">
 						<div class="col-md-6">{vtranslate('LBL_PRICE_BEFORE_TAX', $SUPMODULE)}:</div>
-						<div class="col-md-6 text-right"><strong>{$TOTAL_PRICE} {$CURRENCY_SYMBOL}</strong></div>
+						<div class="col-md-6 text-right"><strong>{CurrencyField::convertToUserFormat($TOTAL_PRICE, null, true)} {$CURRENCY_SYMBOL}</strong></div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">{vtranslate('LBL_TAX_IN_TOTAL', $SUPMODULE)}:</div>
@@ -25,7 +25,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-6">{vtranslate('LBL_PRICE_AFTER_TAX', $SUPMODULE)}:</div>
-						<div class="col-md-6 text-right"><strong><span class="valuePrices">{$TOTAL_PRICE}</span> {$CURRENCY_SYMBOL}</span></strong></div>
+						<div class="col-md-6 text-right"><strong><span class="valuePrices">{CurrencyField::convertToUserFormat($TOTAL_PRICE, null, true)}</span> {$CURRENCY_SYMBOL}</span></strong></div>
 					</div>
 				</div>
 				<div class="modal-footer">

@@ -263,7 +263,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 
 		if (discountsType == '0' || discountsType == '1') {
 			if (mondal.find('.activepanel .globalDiscount').length > 0) {
-				var globalDiscount = mondal.find('.activepanel .globalDiscount').val();
+				var globalDiscount = app.parseNumberToFloat(mondal.find('.activepanel .globalDiscount').val());
 			}
 			if (mondal.find('.activepanel .individualDiscountType').length > 0) {
 				var individualTypeDiscount = mondal.find('.activepanel .individualDiscountType[name="individual"]:checked').val();
@@ -275,24 +275,24 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 				}
 			}
 			if (mondal.find('.activepanel .groupCheckbox').length > 0 && mondal.find('.activepanel .groupCheckbox').prop("checked") == true) {
-				var groupDiscount = mondal.find('.groupValue').val();
-				groupDiscount = netPriceBeforeDiscount * (parseFloat(groupDiscount) / 100);
+				var groupDiscount = app.parseNumberToFloat(mondal.find('.groupValue').val());
+				groupDiscount = netPriceBeforeDiscount * (groupDiscount / 100);
 			}
 
-			valuePrices = valuePrices * ((100 - parseFloat(globalDiscount)) / 100);
-			valuePrices = valuePrices - parseFloat(individualDiscount);
-			valuePrices = valuePrices - parseFloat(groupDiscount);
+			valuePrices = valuePrices * ((100 - globalDiscount) / 100);
+			valuePrices = valuePrices - app.parseNumberToFloat(individualDiscount);
+			valuePrices = valuePrices - groupDiscount;
 		} else if (discountsType == '2') {
 			mondal.find('.activepanel').each(function (index) {
 				var panel = $(this);
 				if (panel.find('.globalDiscount').length > 0) {
-					var globalDiscount = parseFloat(panel.find('.globalDiscount').val());
+					var globalDiscount = app.parseNumberToFloat(panel.find('.globalDiscount').val());
 					valuePrices = valuePrices * ((100 - globalDiscount) / 100);
 				} else if (panel.find('.groupCheckbox').length > 0 && panel.find('.groupCheckbox').prop("checked") == true) {
-					var groupDiscount = parseFloat(panel.find('.groupValue').val());
+					var groupDiscount = app.parseNumberToFloat(panel.find('.groupValue').val());
 					valuePrices = valuePrices * ((100 - groupDiscount) / 100);
 				} else if (panel.find('.individualDiscountType').length > 0) {
-					var value = parseFloat(panel.find('.individualDiscountValue').val());
+					var value = app.parseNumberToFloat(panel.find('.individualDiscountValue').val());
 					if (panel.find('.individualDiscountType[name="individual"]:checked').val() == 'percentage') {
 						valuePrices = valuePrices * ((100 - value) / 100);
 					} else {
@@ -302,8 +302,8 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			});
 		}
 
-		mondal.find('.valuePrices').text(app.parseNumberToFloat(valuePrices));
-		mondal.find('.valueDiscount').text(netPriceBeforeDiscount - app.parseNumberToFloat(valuePrices));
+		mondal.find('.valuePrices').text(app.parseNumberToShow(valuePrices));
+		mondal.find('.valueDiscount').text(app.parseNumberToShow(netPriceBeforeDiscount - valuePrices));
 	},
 	calculateTax: function (row, mondal) {
 		var netPriceWithoutTax = this.getTotalPrice(row),
@@ -320,43 +320,43 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 				var globalTax = mondal.find('.activepanel .globalTax').val();
 			}
 			if (mondal.find('.activepanel .individualTaxValue').length > 0) {
-				var value = mondal.find('.activepanel .individualTaxValue').val();
+				var value = app.parseNumberToFloat(mondal.find('.activepanel .individualTaxValue').val());
 				individualTax = (value / 100) * valuePrices;
 			}
 			if (mondal.find('.activepanel .groupTax').length > 0) {
-				var groupTax = mondal.find('.groupTax').val();
-				groupTax = netPriceWithoutTax * (parseFloat(groupTax) / 100);
+				var groupTax = app.parseNumberToFloat(mondal.find('.groupTax').val());
+				groupTax = netPriceWithoutTax * (app.parseNumberToFloat(groupTax) / 100);
 			}
 			if (mondal.find('.activepanel .regionalTax').length > 0) {
-				var regionalTax = mondal.find('.regionalTax').val();
-				regionalTax = netPriceWithoutTax * (parseFloat(regionalTax) / 100);
+				var regionalTax = app.parseNumberToFloat(mondal.find('.regionalTax').val());
+				regionalTax = netPriceWithoutTax * (app.parseNumberToFloat(regionalTax) / 100);
 			}
 
-			valuePrices = valuePrices * ((100 + parseFloat(globalTax)) / 100);
-			valuePrices = valuePrices + parseFloat(individualTax);
-			valuePrices = valuePrices + parseFloat(groupTax);
-			valuePrices = valuePrices + parseFloat(regionalTax);
+			valuePrices = valuePrices * ((100 + app.parseNumberToFloat(globalTax)) / 100);
+			valuePrices = valuePrices + app.parseNumberToFloat(individualTax);
+			valuePrices = valuePrices + app.parseNumberToFloat(groupTax);
+			valuePrices = valuePrices + app.parseNumberToFloat(regionalTax);
 		} else if (taxType == '2') {
 			mondal.find('.activepanel').each(function (index) {
 				var panel = $(this);
 				if (panel.find('.globalTax').length > 0) {
-					var globalTax = parseFloat(panel.find('.globalTax').val());
+					var globalTax = app.parseNumberToFloat(panel.find('.globalTax').val());
 					valuePrices = valuePrices * ((100 + globalTax) / 100);
 				} else if (panel.find('.groupTax').length > 0) {
-					var groupTax = parseFloat(panel.find('.groupTax').val());
+					var groupTax = app.parseNumberToFloat(panel.find('.groupTax').val());
 					valuePrices = valuePrices * ((100 + groupTax) / 100);
 				} else if (panel.find('.regionalTax').length > 0) {
-					var regionalTax = parseFloat(panel.find('.regionalTax').val());
+					var regionalTax = app.parseNumberToFloat(panel.find('.regionalTax').val());
 					valuePrices = valuePrices * ((100 + regionalTax) / 100);
 				} else if (panel.find('.individualTaxValue').length > 0) {
-					var value = parseFloat(panel.find('.individualTaxValue').val());
+					var value = app.parseNumberToFloat(panel.find('.individualTaxValue').val());
 					valuePrices = ((value + 100) / 100) * valuePrices;
 				}
 			});
 		}
 
-		mondal.find('.valuePrices').text(app.parseNumberToFloat(valuePrices));
-		mondal.find('.valueTax').text(app.parseNumberToFloat(valuePrices - netPriceWithoutTax));
+		mondal.find('.valuePrices').text(app.parseNumberToShow(valuePrices));
+		mondal.find('.valueTax').text(app.parseNumberToShow(valuePrices - netPriceWithoutTax));
 	},
 	updateRowSequence: function () {
 		var subTable = this.getSupTableContainer();
