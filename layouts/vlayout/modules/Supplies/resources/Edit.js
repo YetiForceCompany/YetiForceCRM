@@ -65,10 +65,6 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		var response = productField.validationEngine('validate');
 		return response;
 	},
-	parsePrice: function (val) {
-		var numberOfDecimal = parseInt($('.numberOfCurrencyDecimal').val());
-		return parseFloat(val).toFixed(numberOfDecimal);
-	},
 	getTaxModeSelectElement: function (row) {
 		var subTable = this.getSupTableContainer();
 		if (subTable.find('thead .taxMode').length > 0) {
@@ -134,33 +130,33 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		return currency.find('option:selected').val();
 	},
 	getTax: function (row) {
-		return parseFloat($('.tax', row).val());
+		return app.parseNumberToFloat($('.tax', row).val());
 	},
 	getQuantityValue: function (row) {
-		return parseFloat($('.qty', row).val());
+		return app.parseNumberToFloat($('.qty', row).val());
 	},
-	getListPriceValue: function (row) {
-		return parseFloat($('.listPrice', row).val());
+	getUnitPriceValue: function (row) {
+		return app.parseNumberToFloat($('.unitPrice', row).val());
 	},
 	getDiscount: function (row) {
 		var discount = $('.discount', row).val();
 		if (discount == undefined) {
 			discount = 0;
 		}
-		return parseFloat(discount);
+		return app.parseNumberToFloat(discount);
 	},
 	getNetPrice: function (row) {
-		return parseFloat($('.netPrice', row).val());
+		return app.parseNumberToFloat($('.netPrice', row).val());
 	},
 	getTotalPrice: function (row) {
-		return parseFloat($('.totalPriceText', row).text());
+		return app.parseNumberToFloat($('.totalPrice', row).val());
 	},
 	getGrossPrice: function (row) {
-		return parseFloat($('.grossPrice', row).val());
+		return app.parseNumberToFloat($('.grossPrice', row).val());
 	},
 	getPurchase: function (row) {
 		var qty = this.getQuantityValue(row);
-		return parseFloat($('.purchase', row).val()) * qty;
+		return app.parseNumberToFloat($('.purchase', row).val()) * qty;
 	},
 	getSummaryGrossPrice: function () {
 		var thisInstance = this;
@@ -168,33 +164,33 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		this.getSupTableContainer().find(this.rowClass).each(function (index) {
 			price += thisInstance.getGrossPrice($(this));
 		});
-		return parseFloat(price);
+		return app.parseNumberToFloat(price);
 	},
-	setListPriceValue: function (row, val) {
-		val = this.parsePrice(val);
-		row.find('.listPrice').val(val).attr('title', val);
+	setUnitPriceValue: function (row, val) {
+		row.find('.unitPrice').val(val).attr('title', val);
 		return this;
 	},
 	setNetPrice: function (row, val) {
-		val = this.parsePrice(val);
+		val = app.parseNumberToShow(val);
 		$('.netPriceText', row).text(val);
 		$('.netPrice', row).val(val);
 	},
 	setGrossPrice: function (row, val) {
-		val = this.parsePrice(val);
+		val = app.parseNumberToShow(val);
 		$('.grossPriceText', row).text(val);
 		$('.grossPrice', row).val(val);
 	},
 	setTotalPrice: function (row, val) {
-		val = this.parsePrice(val);
+		val = app.parseNumberToShow(val);
 		$('.totalPriceText', row).text(val);
+		$('.totalPrice', row).val(val);
 	},
 	setMargin: function (row, val) {
-		val = this.parsePrice(val);
+		val = app.parseNumberToShow(val);
 		$('.margin', row).val(val);
 	},
 	setMarginP: function (row, val) {
-		val = this.parsePrice(val);
+		val = app.parseNumberToShow(val);
 		$('.marginp', row).val(val);
 	},
 	quantityChangeActions: function (row) {
@@ -213,8 +209,19 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			thisInstance.quantityChangeActions($(this));
 		});
 	},
-	summaryCalculations: function (row) {
-
+	summaryCalculations: function () {
+		var thisInstance = this;
+		this.getSupTableContainer().find('tfoot .wisableTd').each(function (index) {
+			thisInstance.calculatSummary($(this), $(this).data('sumfield'));
+		});
+	},
+	calculatSummary: function (element, field) {
+		var thisInstance = this;
+		var sum = 0;
+		this.getSupTableContainer().find(this.rowClass).each(function (index) {
+			sum += app.parseNumberToFloat($(this).find('.' + field).val());
+		});
+		element.text(app.parseNumberToShow(sum));
 	},
 	calculateNetPrice: function (row) {
 		var netPrice = this.getTotalPrice(row) - this.getDiscount(row);
@@ -229,7 +236,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		this.setGrossPrice(row, netPrice);
 	},
 	calculateTotalPrice: function (row) {
-		var netPriceBeforeDiscount = this.getQuantityValue(row) * this.getListPriceValue(row);
+		var netPriceBeforeDiscount = this.getQuantityValue(row) * this.getUnitPriceValue(row);
 		this.setTotalPrice(row, netPriceBeforeDiscount);
 	},
 	calculateMargin: function (row) {
@@ -295,8 +302,8 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			});
 		}
 
-		mondal.find('.valuePrices').text(this.parsePrice(valuePrices));
-		mondal.find('.valueDiscount').text(netPriceBeforeDiscount - this.parsePrice(valuePrices));
+		mondal.find('.valuePrices').text(app.parseNumberToFloat(valuePrices));
+		mondal.find('.valueDiscount').text(netPriceBeforeDiscount - app.parseNumberToFloat(valuePrices));
 	},
 	calculateTax: function (row, mondal) {
 		var netPriceWithoutTax = this.getTotalPrice(row),
@@ -348,8 +355,8 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			});
 		}
 
-		mondal.find('.valuePrices').text(this.parsePrice(valuePrices));
-		mondal.find('.valueTax').text(this.parsePrice(valuePrices - netPriceWithoutTax));
+		mondal.find('.valuePrices').text(app.parseNumberToFloat(valuePrices));
+		mondal.find('.valueTax').text(app.parseNumberToFloat(valuePrices - netPriceWithoutTax));
 	},
 	updateRowSequence: function () {
 		var subTable = this.getSupTableContainer();
@@ -380,13 +387,13 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		params.src_module = $('[name="popupReferenceModule"]', rowName).val();
 		params.src_record = $('.sourceField', rowName).val();
 		params.src_field = $('[name="popupReferenceModule"]', rowName).data('field');
-		params.get_url = 'getProductListPriceURL';
+		params.get_url = 'getProductUnitPriceURL';
 		params.currency_id = thisInstance.getCurrency();
 
 		this.showPopup(params).then(function (data) {
 			var responseData = JSON.parse(data);
 			for (var id in responseData) {
-				thisInstance.setListPriceValue(lineItemRow, responseData[id]);
+				thisInstance.setUnitPriceValue(lineItemRow, responseData[id]);
 			}
 			thisInstance.quantityChangeActions(thisInstance.getClosestRow(rowName));
 		});
@@ -454,18 +461,18 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		for (var id in responseData) {
 			var recordData = responseData[id];
 			var description = recordData.description;
-			var listPriceValues = recordData.listpricevalues;
-			var listPriceValuesJson = JSON.stringify(listPriceValues);
+			var unitPriceValues = recordData.unitPriceValues;
+			var unitPriceValuesJson = JSON.stringify(unitPriceValues);
 
 			for (var field in recordData) {
 				parentRow.find('input.' + field).val(recordData[field]);
 			}
 
 			var currencyId = thisInstance.getCurrency();
-			if (typeof listPriceValues[currencyId] !== 'undefined') {
-				thisInstance.setListPriceValue(parentRow, listPriceValues[currencyId]);
+			if (typeof unitPriceValues[currencyId] !== 'undefined') {
+				thisInstance.setUnitPriceValue(parentRow, unitPriceValues[currencyId]);
 			}
-			$('input.listPrice', parentRow).attr('list-info', listPriceValuesJson);
+			$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
 			$('textarea.commentTextarea', parentRow).val(description);
 
 			thisInstance.showIndividualTax(parentRow);
@@ -732,7 +739,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			var element = $(e.currentTarget);
 			thisInstance.quantityChangeActions(thisInstance.getClosestRow(element));
 		});
-		container.on('focusout', '.listPrice', function (e) {
+		container.on('focusout', '.unitPrice', function (e) {
 			var element = $(e.currentTarget);
 			thisInstance.quantityChangeActions(thisInstance.getClosestRow(element));
 		});
@@ -761,7 +768,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			var element = $(e.currentTarget);
 			var row = thisInstance.getClosestRow(element)
 			thisInstance.removeSubProducts(row);
-			row.find('.listPrice,.tax,.discount,.margin,.purchase').val('0');
+			row.find('.unitPrice,.tax,.discount,.margin,.purchase').val('0');
 			row.find('textarea').val('');
 			thisInstance.quantityChangeActions(row);
 		});

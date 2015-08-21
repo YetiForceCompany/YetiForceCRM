@@ -12,13 +12,13 @@
 			<input name="seq{$ROW_NO}" type="hidden" value="{$ROW_NO}" class="sequence" />
 			{if $COUNT_FIELDS2 > 0}
 				<br/><br/>
-				<span class="btn btn-default btn-sm toggleVisibility" data-status="0" href="#">
+				<span class="btn btn-default btn-xs toggleVisibility" data-status="0" href="#">
 					<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>	
 				</span>
 			{/if}
 		</td>
 		{foreach item=FIELD from=$FIELDS[1]}
-			<td class="col{$FIELD->getName()}" colspan="{$FIELD->get('colspan')}">
+			<td class="col{$FIELD->getName()} textAlignRight" colspan="{$FIELD->get('colspan')}">
 				{assign var="FIELD_TPL_NAME" value="fields/"|cat:$FIELD->getTemplateName('EditView')}
 				{include file=$FIELD_TPL_NAME|@vtemplate_path:Supplies_Module_Model::getModuleNameForTpl($FIELD_TPL_NAME,$MODULE) SUP_VALUE=$SUP_DATA[$FIELD->get('columnname')]}
 			</td>

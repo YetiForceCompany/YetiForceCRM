@@ -16,6 +16,7 @@ class Supplies_Tax_Field extends Supplies_Basic_Field
 	protected $customColumn = [
 		'taxparam' => 'varchar(255) NOT NULL'
 	];
+	protected $summationValue = true;
 	
 	/**
 	 * Geting value to display

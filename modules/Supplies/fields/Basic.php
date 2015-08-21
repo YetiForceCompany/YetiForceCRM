@@ -15,6 +15,7 @@ class Supplies_Basic_Field extends Vtiger_Base_Model
 	protected $columnname = '';
 	protected $dbType = 'varchar(100)';
 	protected $customColumn = [];
+	protected $summationValue = false;
 
 	/**
 	 * Geting database-type of field
@@ -70,6 +71,11 @@ class Supplies_Basic_Field extends Vtiger_Base_Model
 		return $this->customColumn;
 	}
 
+	public function isSummary()
+	{
+		return $this->summationValue;
+	}
+	
 	/**
 	 * Data field instance initialization 
 	 * @param array $valueArray Array for initialization

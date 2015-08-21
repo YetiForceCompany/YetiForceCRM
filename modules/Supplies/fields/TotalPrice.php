@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Supplies NetPrice Field Class
+ * Supplies Total Price Field Class
  * @package YetiForce.Fields
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Supplies_NetPrice_Field extends Supplies_Basic_Field
+class Supplies_TotalPrice_Field extends Supplies_Basic_Field
 {
 
-	protected $name = 'NetPrice';
-	protected $defaultLabel = 'LBL_DISCOUNT_PRICE';
-	protected $columnname = 'net';
+	protected $name = 'TotalPrice';
+	protected $defaultLabel = 'LBL_TOTAL_PRICE';
+	protected $columnname = 'total';
 	protected $dbType = 'decimal(27,8) DEFAULT \'0\'';
 	protected $summationValue = true;
 	

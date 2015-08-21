@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_DISCOUNT' => 'Rabat',
 	'LBL_TAX' => 'Podatek',
-	'LBL_TOTAL_PRICE' => 'Cena całkowita',
+	'LBL_TOTAL_PRICE' => 'Cena przed rabatem',
 	'LBL_ROW_COMMENT' => 'Opis',
 	'LBL_SELECT_DISCOUNT' => 'Wybierz rabat',
 	'LBL_GLOBAL_DISCOUNTS' => 'Globalny',
@@ -27,10 +27,10 @@ $languageStrings = [
 	'LBL_VALUE' => 'Wartość',
 	'LBL_QUANTITY' => 'Ilość',
 	'LBL_REFERENCE' => 'Powiązanie',
-	'LBL_PRICE' => 'Cena sprzedażowa',
+	'LBL_UNIT_PRICE' => 'Cena jednostkowa',
 	'LBL_MARGIN_PRECENT' => 'Marża (%)',
 	'LBL_GROSS_PRICE' => 'Cena brutto',
-	'LBL_NET_PRICE' => 'Cena netto',
+	'LBL_DISCOUNT_PRICE' => 'Cena po rabacie',
 	'LBL_SELECT_TAX' => 'Wybierz podatek',
 	'LBL_PRICE_BEFORE_TAX' => 'Cena bez podatku',
 	'LBL_TAX_IN_TOTAL' => 'Łączna wartość podatku',
@@ -47,7 +47,9 @@ $languageStrings = [
 	'LBL_CURRENT_VALUE' => 'Wartość dokumentu',
 	'LBL_TOTALS_LIMIT' => 'Wartość całkowita',
 	'LBL_LIMIT_ALERT' => 'Nie można zapisać rekordu',
+	'LBL_IMAGE' => 'Zdjęcie',
 	
-	'LBL_GROUP_TAXS' => 'Grupowy',
-	'LBL_GROUP_TAXS' => 'Grupowy',
+	'LBL_GROUP_TsAXS' => 'Grupowy',
+	'LBL_GROUP_TsAXS' => 'Grupowy',
+	'LBL_GROUP_TsAXS' => 'Grupowy',
 ];

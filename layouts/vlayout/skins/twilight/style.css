@@ -3475,3 +3475,11 @@ span[name=existingImages] img{
 .suppliesItemTable .rowName .input-group{
 	max-width: 400px;
 }
+.suppliesItemTable td,
+.suppliesItemTable th{
+	border: 1px solid #ddd;
+}
+.suppliesItemTable tfoot td.hideTd{
+	border: 0;
+	background: #fafafb;
+}

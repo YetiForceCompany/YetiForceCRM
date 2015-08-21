@@ -9,7 +9,7 @@
 class Supplies_Record_Model extends Vtiger_Record_Model
 {
 
-	protected $jsonFields = ['discountparam','taxparam'];
+	protected $jsonFields = ['discountparam', 'taxparam'];
 
 	/**
 	 * Save supplie data
@@ -39,7 +39,6 @@ class Supplies_Record_Model extends Vtiger_Record_Model
 			}
 			$db->insert($table, $insertData);
 		}
-
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 	}
 
@@ -52,6 +51,9 @@ class Supplies_Record_Model extends Vtiger_Record_Model
 			$value = $request->get($field . $i);
 		} else if ($request->has($field)) {
 			$value = $request->get($field);
+		}
+		if (in_array($field, ['price','gross','net','discount','purchase','margin','marginp','tax','total'])) {
+			$value = CurrencyField::convertToDBFormat($value, null, true);
 		}
 		return $value;
 	}

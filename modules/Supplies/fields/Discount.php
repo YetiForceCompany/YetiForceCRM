@@ -16,6 +16,7 @@ class Supplies_Discount_Field extends Supplies_Basic_Field
 	protected $customColumn = [
 		'discountparam' => 'varchar(255) NOT NULL'
 	];
+	protected $summationValue = true;
 
 	/**
 	 * Geting value to display

@@ -28,8 +28,8 @@ class Supplies_GetDetails_Action extends Vtiger_Action_Controller
 
 		$conversionRate = 1;
 		$response = new Vtiger_Response();
-		$listPriceValues = $taxes = [];
-		$listPrice = false;
+		$unitPriceValues = $taxes = [];
+		$unitPrice = false;
 
 		if (empty($idList)) {
 			$info = $this->getRecordDetail($recordId, $currencyId);
@@ -45,28 +45,28 @@ class Supplies_GetDetails_Action extends Vtiger_Action_Controller
 	function getRecordDetail($recordId, $currencyId)
 	{
 		$conversionRate = 1;
-		$listPriceValues = $taxes = [];
-		$listPrice = false;
+		$unitPriceValues = $taxes = [];
+		$unitPrice = false;
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$moduleName = $recordModel->getModuleName();
 		if (in_array($moduleName, ['Products', 'Services'])) {
-			$listPriceValues = $recordModel->getListPriceValues($recordModel->getId());
+			$unitPriceValues = $recordModel->getListPriceValues($recordModel->getId());
 			$priceDetails = $recordModel->getPriceDetails();
 			foreach ($priceDetails as $currencyDetails) {
 				if ($currencyId == $currencyDetails['curid']) {
 					$conversionRate = $currencyDetails['conversionrate'];
 				}
 			}
-			$listPrice = (float) $recordModel->get('unit_price') * (float) $conversionRate;
+			$unitPrice = (float) $recordModel->get('unit_price') * (float) $conversionRate;
 		}
 
 		$info = [
 			$recordId => [
 				'id' => $recordId,
 				'name' => decode_html($recordModel->getName()),
-				'price' => $listPrice,
-				'listpricevalues' => $listPriceValues,
+				'price' => $unitPrice,
+				'unitPriceValues' => $unitPriceValues,
 				'description' => decode_html($recordModel->get('description')),
 		]];
 		return $info;
