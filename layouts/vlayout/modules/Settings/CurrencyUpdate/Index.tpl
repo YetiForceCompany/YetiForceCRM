@@ -6,7 +6,7 @@
 
 	{if $CURRNUM lt 2}
 		<div class="alert alert-danger" style="margin:10px 15px;">
-			<strong>{vtranslate('MSG_DEL_WARN1', $QUALIFIED_MODULE)}</strong> {vtranslate('MSG_ONE_CURRENCY', $QUALIFIED_MODULE)}
+			<strong>{vtranslate('LBL_WARNING', $QUALIFIED_MODULE)}</strong> {vtranslate('MSG_ONE_CURRENCY', $QUALIFIED_MODULE)}
 		</div>
 	{/if}
 	<form class="form-horizontal" method="post" action="index.php?module={$MODULENAME}&view=Index&parent=Settings">

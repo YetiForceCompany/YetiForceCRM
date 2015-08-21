@@ -23,6 +23,7 @@ $languageStrings = [
 	'LBL_SET_BANK_OK' => 'Pomyślnie zapisano aktywny bank.',
 	'LBL_SET_BANK_ERROR' => 'Nie udało się zapisać zmiany.',
 	'LBL_INFORMATIONS' => 'Informacje',
+	'LBL_WARNING' => 'Uwaga!',
 	// bank labels
 	'NBP' => 'Narodowy Bank Polski',
 	'ECB' => 'Europejski Bank Centralny',
