@@ -386,7 +386,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 			$query = 'SELECT `conversion_rate` FROM `vtiger_currency_info` WHERE `currency_code` = ? LIMIT 1;';
 			$result = $db->pquery($query, [$to]);
 			$exchange = floatval($db->getSingleValue($result));
-			
+
 			if ($from != $mainCurrencyCode) {
 				$convertToMainCurrency = 1/$exchange;
 				$query = 'SELECT `conversion_rate` FROM `vtiger_currency_info` WHERE `currency_code` = ? LIMIT 1;';
@@ -429,9 +429,12 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 					LIMIT 1;';
 			$result = $db->pquery($query, [$date, $activeBankId, $to]);
 			$exchange = floatval($db->getSingleValue($result));
-			
-			if (($from != $mainCurrencyCode) && $exchange > 0) {
-				$convertToMainCurrency = 1/$exchange;
+			if ($exchange > 0) {
+				$exchange = 1 / $exchange;
+			}
+
+			if ($from != $mainCurrencyCode) {
+				$convertToMainCurrency = $exchange == 0 ? 1 : 1 / $exchange;
 				$query = 'SELECT 
 							yfc.`exchange` 
 						FROM 
@@ -445,8 +448,12 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 						LIMIT 1;';
 				$result = $db->pquery($query, [$date, $activeBankId, $from]);
 				$fromExchange = floatval($db->getSingleValue($result));
-				
-				$exchange = $fromExchange * $convertToMainCurrency;
+				if ($from != $mainCurrencyCode && $to != $mainCurrencyCode) {
+					$exchange = $fromExchange / $convertToMainCurrency;
+				}
+				else {
+					$exchange = $fromExchange * $convertToMainCurrency;
+				}
 			}
 		}
 
@@ -461,7 +468,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	 * @param <Date> $date - date of the exchange rate
 	 * @return <Float> - floating point number
 	 */
-	public function convertFromTo($amount, $from, $to, $date) {
+	public function convertFromTo($amount, $from, $to, $date=false) {
 		return round($amount * $this->getCRMConversionRate($from, $to, $date), 5);
 	}
 
