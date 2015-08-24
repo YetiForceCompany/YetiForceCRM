@@ -23,8 +23,10 @@ class API_Base_GetRecordsList extends BaseAction
 		$db = PearDatabase::getInstance();
 		$listResult = $db->query($listQuery);
 		$records = [];
+		$entity = CRMEntity::getInstance($moduleName);
+		
 		while ($row = $db->fetch_array($listResult)) {
-			$records[] = $row;
+			$records[$row[$entity->table_index]] = $row;
 		}
 		//$listQuery = getListQuery('OSSTimeControl', '');
 

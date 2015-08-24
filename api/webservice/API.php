@@ -74,6 +74,9 @@ class API
 		if (is_a($this->data, 'Vtiger_Request')) {
 			$data = $this->data->getAll();
 		}
+		if(count($data) == 0 && $this->request->has('record')){
+			$data['record'] = $this->request->get('record');
+		}
 
 		if (is_array($data)) {
 			$response = call_user_func_array([$handler, $function], $data);
