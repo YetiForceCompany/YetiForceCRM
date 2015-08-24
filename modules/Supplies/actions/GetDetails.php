@@ -25,6 +25,7 @@ class Supplies_GetDetails_Action extends Vtiger_Action_Controller
 		$recordId = $request->get('record');
 		$idList = $request->get('idlist');
 		$currencyId = $request->get('currency_id');
+		$moduleName = $request->getModule();
 
 		$conversionRate = 1;
 		$response = new Vtiger_Response();
@@ -32,25 +33,25 @@ class Supplies_GetDetails_Action extends Vtiger_Action_Controller
 		$unitPrice = false;
 
 		if (empty($idList)) {
-			$info = $this->getRecordDetail($recordId, $currencyId);
+			$info = $this->getRecordDetail($recordId, $currencyId, $moduleName);
 		} else {
 			foreach ($idList as $id) {
-				$info[] = $this->getRecordDetail($id, $currencyId);
+				$info[] = $this->getRecordDetail($id, $currencyId, $moduleName);
 			}
 		}
 		$response->setResult($info);
 		$response->emit();
 	}
 
-	function getRecordDetail($recordId, $currencyId)
+	function getRecordDetail($recordId, $currencyId, $moduleName)
 	{
 		$conversionRate = 1;
 		$unitPriceValues = $taxes = [];
 		$unitPrice = false;
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-		$moduleName = $recordModel->getModuleName();
-		if (in_array($moduleName, ['Products', 'Services'])) {
+		$recordModuleName = $recordModel->getModuleName();
+		if (in_array($recordModuleName, ['Products', 'Services'])) {
 			$unitPriceValues = $recordModel->getListPriceValues($recordModel->getId());
 			$priceDetails = $recordModel->getPriceDetails();
 			foreach ($priceDetails as $currencyDetails) {
@@ -60,15 +61,23 @@ class Supplies_GetDetails_Action extends Vtiger_Action_Controller
 			}
 			$unitPrice = (float) $recordModel->get('unit_price') * (float) $conversionRate;
 		}
-
+		$autoCompleteField = Supplies_SupField_Model::getAutoCompleteField($recordModuleName, $moduleName);
+		$autoFields = [];
+		if ($autoCompleteField) {
+			foreach ($autoCompleteField as $field) {
+				if ($recordModel->has($field['field']) && $recordModel->get($field['field']) != '') {
+					$autoFields[$field['tofield']] = $recordModel->get($field['field']);
+				}
+			}
+		}
 		$info = [
 			$recordId => [
 				'id' => $recordId,
 				'name' => decode_html($recordModel->getName()),
-				'price' => $unitPrice,
+				'price' => CurrencyField::convertToUserFormat($unitPrice, null, true),
 				'unitPriceValues' => $unitPriceValues,
 				'description' => decode_html($recordModel->get('description')),
-				'autoFields' => [],
+				'autoFields' => $autoFields,
 		]];
 		return $info;
 	}

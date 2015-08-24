@@ -11,6 +11,7 @@ class Supplies_SupField_Model
 
 	const DATA_PREFIX = '_sups';
 	const FIELDS_PREFIX = '_supfield';
+	const AUTOFIELD_PREFIX = '_supmap';
 
 	protected static $columns = false;
 
@@ -28,6 +29,9 @@ class Supplies_SupField_Model
 				break;
 			case 'fields':
 				$prefix = self::FIELDS_PREFIX;
+				break;
+			case 'autofield':
+				$prefix = self::AUTOFIELD_PREFIX;
 				break;
 		}
 		$moduleName = strtolower($module);
@@ -182,5 +186,21 @@ class Supplies_SupField_Model
 	{
 		$instance = new self();
 		return $instance;
+	}
+	
+	public static function getAutoCompleteField($recordModuleName,  $moduleName)
+	{
+		$db = PearDatabase::getInstance();
+		$table = self::getTableName($moduleName, 'autofield');
+		$result = $db->query("SHOW TABLES LIKE '$table'");
+		if ($result->rowCount() == 0) {
+			return false;
+		}
+		$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE module = ?', [$recordModuleName]);
+		$fields = [];
+		while ($row = $db->fetch_array($result)) {
+			$fields[] = $row;
+		}
+		return $fields;
 	}
 }

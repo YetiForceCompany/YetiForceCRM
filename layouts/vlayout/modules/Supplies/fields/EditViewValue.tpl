@@ -6,5 +6,5 @@
 		{assign var="INPUT_TYPE" value='hidden'}
 		<span class="{$FIELD->getColumnName()}">{$SUP_VALUE}</span>
 	{/if}
-	<input name="{$FIELD->getColumnName()}{$ROW_NO}" type="{$INPUT_TYPE}" class="form-control" value="{$FIELD->getEditValue($VALUE)}" />
+	<input name="{$FIELD->getColumnName()}{$ROW_NO}" type="{$INPUT_TYPE}" class="form-control {$FIELD->getColumnName()}" value="{$FIELD->getEditValue($VALUE)}" />
 {/strip}

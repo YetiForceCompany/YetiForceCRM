@@ -53,7 +53,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 		$listPrice = $db->pquery('SELECT * FROM vtiger_productcurrencyrel WHERE productid = ?', [$id]);
 		$listpriceValues = [];
 		while ($row = $db->fetch_array($listPrice)) {
-			$listpriceValues[$row['currencyid']] = $row['actual_price'];
+			$listpriceValues[$row['currencyid']] = CurrencyField::convertToUserFormat($row['actual_price'], null, true);
 		}
 		return $listpriceValues;
 	}
