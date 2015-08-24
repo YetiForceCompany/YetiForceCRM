@@ -12,7 +12,7 @@ class Supplies_Basic_Field extends Vtiger_Base_Model
 	protected $name = '';
 	protected $defaultLabel = 'LBL_CURRENCY';
 	protected $defaultValue = '';
-	protected $columnname = '';
+	protected $columnName = '';
 	protected $dbType = 'varchar(100)';
 	protected $customColumn = [];
 	protected $summationValue = false;
@@ -30,9 +30,18 @@ class Supplies_Basic_Field extends Vtiger_Base_Model
 	 * Geting template name
 	 * @return string templateName
 	 */
-	public function getTemplateName($view)
+	public function getTemplateName($view, $moduleName)
 	{
-		return $view . $this->name . '.tpl';
+		$tpl = $view . $this->name . '.tpl';
+		$filename = 'layouts' . DIRECTORY_SEPARATOR . 'vlayout' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'fields' . DIRECTORY_SEPARATOR . $tpl;
+		if (is_file($filename)) {
+			return $tpl;
+		}
+		$filename = 'layouts' . DIRECTORY_SEPARATOR . 'vlayout' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'Supplies' . DIRECTORY_SEPARATOR . 'fields' . DIRECTORY_SEPARATOR . $tpl;
+		if (is_file($filename)) {
+			return $tpl;
+		}
+		return $view . 'Base' . '.tpl';
 	}
 
 	/**
@@ -55,16 +64,16 @@ class Supplies_Basic_Field extends Vtiger_Base_Model
 
 	/**
 	 * Geting column name
-	 * @return string columnname
+	 * @return string columnName
 	 */
 	public function getColumnName()
 	{
-		return $this->columnname;
+		return $this->columnName;
 	}
 
 	/**
 	 * Geting column name
-	 * @return string columnname
+	 * @return string customColumn
 	 */
 	public function getCustomColumn()
 	{
@@ -75,7 +84,7 @@ class Supplies_Basic_Field extends Vtiger_Base_Model
 	{
 		return $this->summationValue;
 	}
-	
+
 	/**
 	 * Data field instance initialization 
 	 * @param array $valueArray Array for initialization
@@ -119,6 +128,11 @@ class Supplies_Basic_Field extends Vtiger_Base_Model
 	}
 
 	public function isMandatory()
+	{
+		return true;
+	}
+	
+	public function isVisible($data)
 	{
 		return true;
 	}

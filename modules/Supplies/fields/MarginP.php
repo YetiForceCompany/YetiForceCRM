@@ -11,7 +11,7 @@ class Supplies_MarginP_Field extends Supplies_Basic_Field
 
 	protected $name = 'MarginP';
 	protected $defaultLabel = 'LBL_MARGIN_PRECENT';
-	protected $columnname = 'marginp';
+	protected $columnName = 'marginp';
 	protected $dbType = 'decimal(27,8) DEFAULT \'0\'';
 	
 	/**

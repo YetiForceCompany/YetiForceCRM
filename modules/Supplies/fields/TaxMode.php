@@ -12,10 +12,10 @@ class Supplies_TaxMode_Field extends Supplies_Basic_Field
 	protected $name = 'TaxMode';
 	protected $defaultLabel = 'LBL_TAX_MODE';
 	protected $defaultValue = '0';
-	protected $columnname = 'taxmode';
+	protected $columnName = 'taxmode';
 	protected $dbType = "tinyint(1) NOT NULL DEFAULT '0'";
 	protected $values = [0 => 'group', 1 => 'individual'];
-	
+
 	/**
 	 * Geting value to display
 	 * @param int $value
@@ -23,6 +23,6 @@ class Supplies_TaxMode_Field extends Supplies_Basic_Field
 	 */
 	public function getDisplayValue($value)
 	{
-		return $this->values[$value];
+		return 'LBL_' . strtoupper($this->values[$value]);
 	}
 }

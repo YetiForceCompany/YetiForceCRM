@@ -11,7 +11,7 @@ class Supplies_UnitPrice_Field extends Supplies_Basic_Field
 
 	protected $name = 'UnitPrice';
 	protected $defaultLabel = 'LBL_UNIT_PRICE';
-	protected $columnname = 'price';
+	protected $columnName = 'price';
 	protected $dbType = 'decimal(27,8)';
 	protected $summationValue = true;
 

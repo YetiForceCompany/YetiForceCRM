@@ -12,7 +12,7 @@ class Supplies_Quantity_Field extends Supplies_Basic_Field
 	protected $name = 'Quantity';
 	protected $defaultLabel = 'LBL_QUANTITY';
 	protected $defaultValue = '1';
-	protected $columnname = 'qty';
+	protected $columnName = 'qty';
 	protected $dbType = 'decimal(25,3)';
 	
 	/**

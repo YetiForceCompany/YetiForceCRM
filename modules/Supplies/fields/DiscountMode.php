@@ -12,7 +12,7 @@ class Supplies_DiscountMode_Field extends Supplies_Basic_Field
 	protected $name = 'DiscountMode';
 	protected $defaultLabel = 'LBL_DISCOUNT_MODE';
 	protected $defaultValue = '0';
-	protected $columnname = 'discountmode';
+	protected $columnName = 'discountmode';
 	protected $dbType = "tinyint(1) NOT NULL DEFAULT '0'";
 	protected $values = [0 => 'group', 1 => 'individual'];
 	
@@ -23,6 +23,6 @@ class Supplies_DiscountMode_Field extends Supplies_Basic_Field
 	 */
 	public function getDisplayValue($value)
 	{
-		return $this->values[$value];
+		return 'LBL_' . strtoupper($this->values[$value]);
 	}
 }

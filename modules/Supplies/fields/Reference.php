@@ -11,7 +11,7 @@ class Supplies_Reference_Field extends Supplies_Basic_Field
 
 	protected $name = 'Reference';
 	protected $defaultLabel = 'LBL_REFERENCE';
-	protected $columnname = 'ref';
+	protected $columnName = 'ref';
 	protected $dbType = 'int(19)';
 
 	/**

@@ -26,7 +26,6 @@ class Supplies_Detail_View extends Vtiger_Detail_View
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SUP_RECORD', $record);
-		$viewer->assign('SUP_MODULE', $moduleName);
 		echo $viewer->view('DetailViewSupplies.tpl', Supplies_Module_Model::getModuleNameForTpl('DetailViewSupplies.tpl', $moduleName), true);
 	}
 }

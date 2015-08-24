@@ -11,6 +11,16 @@ class Supplies_Currency_Field extends Supplies_Basic_Field
 
 	protected $name = 'Currency';
 	protected $defaultLabel = 'LBL_CURRENCY';
-	protected $columnname = 'currency';
+	protected $columnName = 'currency';
 	protected $dbType = 'int(10)';
+
+	/**
+	 * Geting value to display
+	 * @param int $value
+	 * @return string
+	 */
+	public function getDisplayValue($value)
+	{
+		return Vtiger_Functions::getCurrencyName($value,false);
+	}
 }

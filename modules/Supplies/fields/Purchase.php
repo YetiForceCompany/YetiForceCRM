@@ -11,7 +11,7 @@ class Supplies_Purchase_Field extends Supplies_Basic_Field
 
 	protected $name = 'Purchase';
 	protected $defaultLabel = 'LBL_PURCHASE';
-	protected $columnname = 'purchase';
+	protected $columnName = 'purchase';
 	protected $dbType = 'decimal(27,8) DEFAULT \'0\'';
 	
 	/**

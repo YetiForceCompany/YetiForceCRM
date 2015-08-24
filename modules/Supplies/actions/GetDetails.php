@@ -68,6 +68,7 @@ class Supplies_GetDetails_Action extends Vtiger_Action_Controller
 				'price' => $unitPrice,
 				'unitPriceValues' => $unitPriceValues,
 				'description' => decode_html($recordModel->get('description')),
+				'autoFields' => [],
 		]];
 		return $info;
 	}

@@ -11,7 +11,7 @@ class Supplies_Name_Field extends Supplies_Basic_Field
 
 	protected $name = 'Name';
 	protected $defaultLabel = 'LBL_ITEM_NAME';
-	protected $columnname = 'name';
+	protected $columnName = 'name';
 	protected $dbType = 'int(19) DEFAULT \'0\'';
 
 	/**

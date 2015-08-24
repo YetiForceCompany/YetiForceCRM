@@ -11,7 +11,7 @@ class Supplies_GrossPrice_Field extends Supplies_Basic_Field
 
 	protected $name = 'GrossPrice';
 	protected $defaultLabel = 'LBL_GROSS_PRICE';
-	protected $columnname = 'gross';
+	protected $columnName = 'gross';
 	protected $dbType = 'decimal(27,8) DEFAULT \'0\'';
 	protected $summationValue = true;
 	

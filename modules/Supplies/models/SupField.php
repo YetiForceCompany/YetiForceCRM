@@ -12,7 +12,7 @@ class Supplies_SupField_Model
 	const DATA_PREFIX = '_sups';
 	const FIELDS_PREFIX = '_supfield';
 
-	protected $columns = false;
+	protected static $columns = false;
 
 	/**
 	 * Create the name of the Supplies data table
@@ -97,7 +97,7 @@ class Supplies_SupField_Model
 		}
 
 		$columns = [];
-		foreach ($this->getFields($module) as $field) {
+		foreach (self::getFields($module) as $field) {
 			$column = $field->getColumnName();
 			if ($column != '')
 				$columns[] = $column;

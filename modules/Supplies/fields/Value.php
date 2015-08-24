@@ -11,6 +11,6 @@ class Supplies_Value_Field extends Supplies_Basic_Field
 
 	protected $name = 'Value';
 	protected $defaultLabel = 'LBL_VALUE';
-	protected $columnname = 'value';
+	protected $columnName = 'value';
 	protected $dbType = 'varchar(255)';
 }

@@ -3469,17 +3469,17 @@ span[name=existingImages] img{
 .individualTaxContainer {
 	text-align: left !important;
 }
-.suppliesItemTable .input-group{
+.suppliesItemsTable .input-group{
 	max-width: 200px;
 }
-.suppliesItemTable .rowName .input-group{
+.suppliesItemsTable .rowName .input-group{
 	max-width: 400px;
 }
-.suppliesItemTable td,
-.suppliesItemTable th{
+.suppliesItemsTable td,
+.suppliesItemsTable th{
 	border: 1px solid #ddd;
 }
-.suppliesItemTable tfoot td.hideTd{
+.suppliesItemsTable tfoot td.hideTd{
 	border: 0;
 	background: #fafafb;
 }

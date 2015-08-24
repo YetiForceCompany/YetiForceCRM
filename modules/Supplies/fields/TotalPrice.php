@@ -11,7 +11,7 @@ class Supplies_TotalPrice_Field extends Supplies_Basic_Field
 
 	protected $name = 'TotalPrice';
 	protected $defaultLabel = 'LBL_TOTAL_PRICE';
-	protected $columnname = 'total';
+	protected $columnName = 'total';
 	protected $dbType = 'decimal(27,8) DEFAULT \'0\'';
 	protected $summationValue = true;
 	

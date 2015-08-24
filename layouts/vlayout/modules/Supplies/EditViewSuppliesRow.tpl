@@ -18,8 +18,8 @@
 			{/if}
 		</td>
 		{foreach item=FIELD from=$FIELDS[1]}
-			<td class="col{$FIELD->getName()} textAlignRight" colspan="{$FIELD->get('colspan')}">
-				{assign var="FIELD_TPL_NAME" value="fields/"|cat:$FIELD->getTemplateName('EditView')}
+			<td class="col{$FIELD->getName()}{if !$FIELD->isVisible($SUP_RECORD_DATA)} hide{/if} textAlignRight" colspan="{$FIELD->get('colspan')}">
+				{assign var="FIELD_TPL_NAME" value="fields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 				{include file=$FIELD_TPL_NAME|@vtemplate_path:Supplies_Module_Model::getModuleNameForTpl($FIELD_TPL_NAME,$MODULE) SUP_VALUE=$SUP_DATA[$FIELD->get('columnname')]}
 			</td>
 		{/foreach}
@@ -32,8 +32,8 @@
 				{else}
 					{assign var="COLSPAN" value=$FIELD->get('colspan')}
 				{/if}
-				<td class="col{$FIELD->getName()}" colspan="{$COLSPAN}">
-					{assign var="FIELD_TPL_NAME" value="fields/"|cat:$FIELD->getTemplateName('EditView')}
+				<td class="col{$FIELD->getName()}{if !$FIELD->isVisible($SUP_RECORD_DATA)} hide{/if}" colspan="{$COLSPAN}">
+					{assign var="FIELD_TPL_NAME" value="fields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 					{include file=$FIELD_TPL_NAME|@vtemplate_path:Supplies_Module_Model::getModuleNameForTpl($FIELD_TPL_NAME,$MODULE) SUP_VALUE=$SUP_DATA[$FIELD->get('columnname')]}
 				</td>
 			{/foreach}

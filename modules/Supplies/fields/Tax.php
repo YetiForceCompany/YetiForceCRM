@@ -11,7 +11,7 @@ class Supplies_Tax_Field extends Supplies_Basic_Field
 
 	protected $name = 'Tax';
 	protected $defaultLabel = 'LBL_TAX';
-	protected $columnname = 'tax';
+	protected $columnName = 'tax';
 	protected $dbType = 'decimal(27,8) DEFAULT \'0\'';
 	protected $customColumn = [
 		'taxparam' => 'varchar(255) NOT NULL'
@@ -26,5 +26,21 @@ class Supplies_Tax_Field extends Supplies_Basic_Field
 	public function getDisplayValue($value)
 	{
 		return CurrencyField::convertToUserFormat($value, null, true);
+	}
+	
+	public function getClassName($data)
+	{
+		if(count($data) > 0 && $data[0]['taxmode'] == 0){
+			return 'hide';
+		}
+		return '';
+	}
+	
+	public function isVisible($data)
+	{
+		if (count($data) > 0 && $data[0]['taxmode'] == 0) {
+			return false;
+		}
+		return true;
 	}
 }

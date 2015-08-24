@@ -11,7 +11,7 @@ class Supplies_Comment_Field extends Supplies_Basic_Field
 
 	protected $name = 'Comment';
 	protected $defaultLabel = 'LBL_COMMENT';
-	protected $columnname = 'comment';
+	protected $columnName = 'comment';
 	protected $dbType = 'varchar(500)';
 
 }

@@ -11,7 +11,7 @@ class Supplies_NetPrice_Field extends Supplies_Basic_Field
 
 	protected $name = 'NetPrice';
 	protected $defaultLabel = 'LBL_DISCOUNT_PRICE';
-	protected $columnname = 'net';
+	protected $columnName = 'net';
 	protected $dbType = 'decimal(27,8) DEFAULT \'0\'';
 	protected $summationValue = true;
 	
