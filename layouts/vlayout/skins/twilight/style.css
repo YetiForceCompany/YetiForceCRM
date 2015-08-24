@@ -2920,7 +2920,7 @@ textarea {
 	text-align: right;
 }
 .alignMiddle {
-	vertical-align: middle;
+	vertical-align: middle !important;
 }
 .alignTop {
 	vertical-align: top;
@@ -3156,8 +3156,7 @@ table.listViewEntriesTable {
 }
 .recordEditView[name=QuickCreate] .quickCreateContent table tr td.fieldValue,
 #massEditContainer .massEditContent table tr td.fieldValue,
-#tab_accounts td.functionList,
-#minilistWizardContainer .fieldLabel{
+#tab_accounts td.functionList{
 	width: 30%;
 }
 .btn {
@@ -3500,4 +3499,17 @@ span[name=existingImages] img{
 }
 .listViewEntriesDiv .listViewEntriesCheckBox{
 	margin-left: 2px;
+}
+#widgetsManagementEditorContainer .modal-footer .btn{
+	margin: 5px;
+}
+#widgetsManagementEditorContainer .fieldDetailsForm .modal-footer{
+	padding: 0;
+}
+#widgetsManagementEditorContainer .fieldDetailsForm .filter{
+    padding-top: 5px;
+    margin-left: 5px;
+}
+.dashboardContainer .dashboardHeading .dropdown-menu {
+	left: -82px;
 }

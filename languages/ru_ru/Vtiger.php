@@ -1205,6 +1205,7 @@ $languageStrings = [
 	'LBL_COMMON' => 'Общий',
 	'LBL_OPEN' => 'Открыто',
 	'LBL_ARCHIVE' => 'Архив',
+	'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => "To Do's/Events created by me, but not belonging to me.",
 	//Gantt
 	'LBL_FILTERING' => 'Фильтр',
 	'LBL_ALL_PRIORITY' => 'Все',

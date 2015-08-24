@@ -285,6 +285,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 					}).then(function (res) {
 						fieldsSelectDOM.empty().html(res).trigger('change');
 						fieldsSelect2.closest('tr').show();
+						fieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
 					});
 				});
 				fieldsSelect2.change(function () {

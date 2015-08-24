@@ -115,6 +115,11 @@ Vtiger_Detail_Js("PriceBooks_Detail_Js",{},{
 			);
 		});
 	},
+	
+	registerBasicEvents : function(container){
+		this._super(container);
+		this.registerEventForSelectRecords();
+	},
 	/**
 	 * Function to register events
 	 */

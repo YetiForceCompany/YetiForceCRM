@@ -87,7 +87,7 @@
 					{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
 					<div class="row">
 						<div class="textAlignCenter">
-							<button class="btn generateReport btn-default" data-mode="generate" value="{vtranslate('LBL_GENERATE_NOW',$MODULE)}"/>
+							<button class="btn generateReport btn-primary" data-mode="generate" value="{vtranslate('LBL_GENERATE_NOW',$MODULE)}"/>
                             <strong>{vtranslate('LBL_GENERATE_NOW',$MODULE)}</strong>
 							</button>&nbsp;
 							<button class="btn btn-success generateReport" data-mode="save" value="{vtranslate('LBL_SAVE',$MODULE)}"/>

@@ -941,6 +941,7 @@ $languageStrings = [
 	'LBL_COMMON' => 'Compartilhado',
 	'LBL_OPEN' => 'Aberto',
 	'LBL_ARCHIVE' => 'Arquivo',
+	'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => "To Do's/Events created by me, but not belonging to me.",
 	// Missing Fields in Top Menu
 	'Bookkeeping' => 'Escrituração',
 	'Human resources' => 'Recursos Humanos',
