@@ -141,34 +141,5 @@ Vtiger_List_Js("Documents_List_Js", {
 				}
 			});
 		}
-	},
-
-	performFilterImageActions : function(liElement) {
-		jQuery('.filterActionImages').clone(true,true).removeClass('filterActionImages').addClass('filterActionImgs').appendTo(liElement.find('.select2-result-label')).show();
-		var currentOptionElement = this.getSelectOptionFromChosenOption(liElement);
-		var deletable = currentOptionElement.data('deletable');
-		if(deletable != '1'){
-			if(liElement.hasClass('folderOption')){
-				liElement.find('.deleteFilter').addClass('dull');
-			}else{
-				liElement.find('.deleteFilter').remove();
-			}
-		}
-		if(liElement.hasClass('defaultFolder')) {
-			liElement.find('.deleteFilter').remove();
-		}
-		var editable = currentOptionElement.data('editable');
-		if(editable != '1'){
-			liElement.find('.editFilter').remove();
-		}
-		var pending = currentOptionElement.data('pending');
-		if(pending != '1'){
-			liElement.find('.approveFilter').remove();
-		}
-		var approve = currentOptionElement.data('public');
-		if(approve != '1'){
-			liElement.find('.denyFilter').remove();
-		}
 	}
-
 });
