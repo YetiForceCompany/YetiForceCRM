@@ -1089,6 +1089,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							actionElement.removeClass('hide');
 							jQuery(document).off('click', '*', saveHandler);
 							readRecord.prop('disabled', false);
+							fieldElement.val(previousValue);
 							return;
 						}
 					} else {
