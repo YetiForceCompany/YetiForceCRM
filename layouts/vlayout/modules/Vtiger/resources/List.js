@@ -1254,7 +1254,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li', function (event) {
+			listViewFilterBlock.on('mouseup', 'li[role="treeitem"]', function (event) {
 				jQuery('#pageNumber').val("1");
 				jQuery('#pageToJump').val('1');
 				jQuery('#orderBy').val('');
