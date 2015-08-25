@@ -991,7 +991,8 @@ $languageStrings = [
 	'MEN_LEADS' => 'Empresas',
 	'LBL_VIEW_STEP1' => 'Informação Básica',
 	'LBL_VIEW_STEP2' => 'Adicionar Condições',
-	'LBL_VIEW_ADDACTION' => 'Ações'
+	'LBL_VIEW_ADDACTION' => 'Ações',
+	'LBL_VIEW_ACTIONCONFIG' => 'Action config',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',

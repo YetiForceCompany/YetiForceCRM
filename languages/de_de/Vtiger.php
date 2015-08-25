@@ -997,6 +997,7 @@ $languageStrings = [
 	'LBL_VIEW_STEP1' => 'Information',
 	'LBL_VIEW_STEP2' => 'Konditionen hinzufügen',
 	'LBL_VIEW_ADDACTION' => 'Aktionen',
+	'LBL_VIEW_ACTIONCONFIG' => 'Action config',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
