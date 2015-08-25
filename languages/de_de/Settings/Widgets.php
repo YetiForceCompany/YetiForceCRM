@@ -55,6 +55,7 @@ $languageStrings = [
 	'Columns info' => 'Wie viele Spalten werden von Datensätzen in der Liste angezeigt. Die Spalten werden von der ersten angezeigten Spalte des übergeordneten Moduls aus gezählt.',
 	'Add button info' => 'Knopf hinzufügen, um einen Datensatz in der Widget Datensatzansicht hinzu zufügen',
 	'No left margin info' => 'Deaktiviere linken Rand im Widget.',
+	'ProductsServices' => 'Products services',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Laden...',
