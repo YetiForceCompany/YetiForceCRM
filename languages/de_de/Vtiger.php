@@ -992,7 +992,7 @@ $languageStrings = [
 	'LBL_FIRST' => 'Erster',
 	'LBL_LAST' => 'Letzter',
 	'LBL_VIEW_EDIT2' => 'Konditionen hinzufügen',
-	'LBL_VIEW_CONFIGURATION' => 'Widok konfiguracyjny',
+	'LBL_VIEW_CONFIGURATION' => 'Konfigurationssicht',
 	'MEN_LEADS' => 'Verkauf',
 ];
 $jsLanguageStrings = [
