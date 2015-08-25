@@ -52,6 +52,7 @@ $languageStrings = [
 	'Filter info' => 'Czy w widgecie ma być możliwość filtrowania danych według listy wyboru',
 	'None' => 'Brak',
 	'ProductsServices' => 'Usługi produktów',
+	'Campaign status' => 'Status kampanii',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Ładowanie danych...',

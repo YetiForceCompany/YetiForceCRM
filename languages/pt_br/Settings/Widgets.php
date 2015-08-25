@@ -52,6 +52,7 @@ $languageStrings = [
 	'Filter info' => 'Habilitar a filtragem de dados a partir da lista de seleção',
 	'None' => 'Nada',
 	'ProductsServices' => 'Products services',
+	'Campaign status' => 'Campaign status',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Carregando...',

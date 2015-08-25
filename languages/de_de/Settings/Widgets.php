@@ -56,6 +56,7 @@ $languageStrings = [
 	'Add button info' => 'Knopf hinzufügen, um einen Datensatz in der Widget Datensatzansicht hinzu zufügen',
 	'No left margin info' => 'Deaktiviere linken Rand im Widget.',
 	'ProductsServices' => 'Products services',
+	'Campaign status' => 'Campaign status',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Laden...',
