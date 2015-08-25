@@ -1234,6 +1234,9 @@ $languageStrings = [
 	'LBL_VIEW_EDIT2' =>	'Добавление условий',
 	'LBL_VIEW_CONFIGURATION' => 'Добавление условий',
 	'MEN_LEADS' => 'Клиенты',
+	'LBL_VIEW_STEP1' => 'Основная информация',
+	'LBL_VIEW_STEP2' => 'Добавление условий',
+	'LBL_VIEW_ADDACTION' => 'Действия'
 ];
 $jsLanguageStrings = [
 	'SINGLE_SalesOrder' => 'Заказ',

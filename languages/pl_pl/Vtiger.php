@@ -983,6 +983,9 @@ $languageStrings = [
 	'LBL_VIEW_EDIT2' => 'Dodaj warunki',
 	'LBL_VIEW_CONFIGURATION' => 'Widok konfiguracyjny',
 	'MEN_LEADS' => 'Firmy i Kontakty',
+	'LBL_VIEW_STEP1' => 'Podstawowe informacje',
+	'LBL_VIEW_STEP2' => 'Dodaj warunki',
+	'LBL_VIEW_ADDACTION' => 'Akcje'
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
