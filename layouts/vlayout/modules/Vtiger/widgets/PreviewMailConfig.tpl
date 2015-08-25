@@ -22,7 +22,7 @@
 				<div class="modal-body">
 					<div class="modal-Fields">
 						<div class="row">
-							<div class="col-md-5 marginLeftZero">{vtranslate('Type widget', $QUALIFIED_MODULE)}:</div>
+							<div class="col-md-5 marginLeftZero"><strong>{vtranslate('Type widget', $QUALIFIED_MODULE)}</strong>:</div>
 							<div class="col-md-7">
 								{vtranslate($TYPE, $QUALIFIED_MODULE)}
 							</div>
