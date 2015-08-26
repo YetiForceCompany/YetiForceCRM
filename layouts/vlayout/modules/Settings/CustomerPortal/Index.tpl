@@ -123,7 +123,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6 padding1per">
+                <div class="col-md-12 padding1per">
                     <button class="btn btn-success pull-right" type="submit" disabled="true" name="savePortalInfo"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
                 </div>
                 <div class="col-md-6">&nbsp;</div>
