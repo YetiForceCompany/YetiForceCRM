@@ -3513,3 +3513,6 @@ span[name=existingImages] img{
 .dashboardContainer .dashboardHeading .dropdown-menu {
 	left: -82px;
 }
+#VtEmailTaskContainer .addTime{
+	text-align: left;
+}
