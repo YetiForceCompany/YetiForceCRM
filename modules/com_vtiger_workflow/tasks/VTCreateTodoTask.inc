@@ -58,7 +58,7 @@ class VTCreateTodoTask extends VTTask{
 					AND vtiger_activity.activitytype = ? AND vtiger_activity.subject = ?';
 			$status = Vtiger_Functions::getArrayFromValue($this->duplicateStatus);
 			if(count($status) > 0){
-				$sql .= "AND vtiger_activity.status NOT IN ('".implode("','", $status)."')";
+				$sql .= " AND vtiger_activity.status NOT IN ('".implode("','", $status)."')";
 			}
 			$duplicates = $adb->pquery($sql, [$entityId, $entityId, 'Task', $this->todo]);
 			$num = $adb->query_result_raw($duplicates, 0, 'num');
