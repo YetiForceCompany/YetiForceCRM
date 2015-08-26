@@ -1327,16 +1327,31 @@ class Vtiger_Functions
 
 		return $trace;
 	}
-	
 
 	public function getDiskSpace($dir = '')
 	{
-		if($dir == ''){
+		if ($dir == '') {
 			$dir = vglobal('root_directory');
 		}
 		$total = disk_total_space($dir);
 		$free = disk_free_space($dir);
 		$used = $total - $free;
-		return ['total' => $total,'free' => $free,'used' => $used];
+		return ['total' => $total, 'free' => $free, 'used' => $used];
+	}
+
+	public function textLength($text, $length = false)
+	{
+		if (!$length) {
+			$length = vglobal('listview_max_textlength');
+		}
+		$newText = preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text);
+		if (function_exists('mb_strlen')) {
+			if (mb_strlen(html_entity_decode($newText)) > $length) {
+				$newText = mb_substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text), 0, $length, vglobal('default_charset')) . '...';
+			}
+		} elseif (strlen(html_entity_decode($text)) > $length) {
+			$newText = substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text), 0, $length) . '...';
+		}
+		return $newText;
 	}
 }

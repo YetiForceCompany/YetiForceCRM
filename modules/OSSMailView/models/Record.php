@@ -82,10 +82,10 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				$to = $this->findRecordsById($row['to_id']);
 				$return[$row['ossmailviewid']]['id'] = $row['ossmailviewid'];
 				$return[$row['ossmailviewid']]['date'] = $row['date'];
-				$return[$row['ossmailviewid']]['subject'] = '<a href="index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'] . '" target="' . $Config['target'] . '"> ' . $this->limit_text($row['subject']) . '</a>';
+				$return[$row['ossmailviewid']]['subject'] = '<a href="index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'] . '" target="' . $Config['target'] . '"> ' . Vtiger_Functions::textLength($row['subject'],30) . '</a>';
 				$return[$row['ossmailviewid']]['attachments'] = $row['attachments_exist'];
-				$return[$row['ossmailviewid']]['from'] = ($from == '' && $from) ? $from : $this->limit_text($row['from_email']);
-				$return[$row['ossmailviewid']]['to'] = ($to == '' && $to) ? $to : $this->limit_text($row['to_email']);
+				$return[$row['ossmailviewid']]['from'] = ($from == '' && $from) ? $from : Vtiger_Functions::textLength($row['from_email'],30);
+				$return[$row['ossmailviewid']]['to'] = ($to == '' && $to) ? $to : Vtiger_Functions::textLength($row['to_email'],30);
 				$return[$row['ossmailviewid']]['type'] = $row['type'];
 				$return[$row['ossmailviewid']]['body'] = Vtiger_Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'head', 'base'), decode_html($row['content']));
 			}
@@ -143,19 +143,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		return $return;
-	}
-
-	public function limit_text($text)
-	{
-		$limit = 30;
-		$count = strlen($text);
-		if ($count >= $limit) {
-			$limit_text = substr($text, 0, $limit);
-			$txt = $limit_text . "...";
-		} else {
-			$txt = $text;
-		}
-		return $txt;
 	}
 
 	public function findCrm($text)
