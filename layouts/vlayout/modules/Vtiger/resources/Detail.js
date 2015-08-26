@@ -901,8 +901,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerBlockAnimationEvent: function () {
 		var detailContentsHolder = this.getContentHolder();
-		detailContentsHolder.on('click', '.blockHeader', function (e) {
-			var currentTarget = jQuery(e.currentTarget).find('.blockToggle').not('.hide');
+		detailContentsHolder.find('.blockHeader').click(function() {
+			var currentTarget = $(this).find('.blockToggle').not('.hide');
 			var blockId = currentTarget.data('id');
 			var closestBlock = currentTarget.closest('.detailview-table');
 			var bodyContents = closestBlock.find('tbody');
