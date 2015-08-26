@@ -11,6 +11,8 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 	supTableContainer: false,
 	supTableHeadContainer: false,
 	summaryTaxesContainer: false,
+	summaryDiscountContainer: false,
+	summaryCurrenciesContainer: false,
 	rowClass: 'tr.rowSup',
 	discountMondalFields: ['aggregationType', 'globalDiscount', 'groupCheckbox', 'groupDiscount', 'individualDiscount', 'individualDiscountType'],
 	taxMondalFields: ['aggregationType', 'globalTax', 'groupCheckbox', 'groupTax', 'individualTax'],
@@ -30,11 +32,23 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		}
 		return this.supTableHeadContainer;
 	},
+	getSupSummaryDiscountContainer: function () {
+		if (this.summaryDiscountContainer === false) {
+			this.summaryDiscountContainer = $('.suppliesSummaryDiscounts');
+		}
+		return this.summaryDiscountContainer;
+	},
 	getSupSummaryTaxesContainer: function () {
 		if (this.summaryTaxesContainer === false) {
-			this.summaryTaxesContainer = $('.suppliesSummaryTaxes tbody');
+			this.summaryTaxesContainer = $('.suppliesSummaryTaxes');
 		}
 		return this.summaryTaxesContainer;
+	},
+	getSupSummaryCurrenciesContainer: function () {
+		if (this.summaryCurrenciesContainer === false) {
+			this.summaryCurrenciesContainer = $('.suppliesSummaryCurrencies');
+		}
+		return this.summaryCurrenciesContainer;
 	},
 	getNextLineItemRowNumber: function () {
 		var rowNumber = $(this.rowClass, this.getSupTableContainer()).length;
@@ -109,7 +123,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			colTax.removeClass('hide');
 		} else {
 			colTax.addClass('hide');
-			colTax.find('.tax').val('0');
+			thisInstance.setTax(colTax, '0');
 			thisInstance.rowsCalculations();
 		}
 	},
@@ -135,7 +149,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			colDiscount.removeClass('hide');
 		} else {
 			colDiscount.addClass('hide');
-			colDiscount.find('.discount').val('0');
+			thisInstance.setDiscount(colDiscount, '0');
 			thisInstance.rowsCalculations();
 		}
 	},
@@ -180,7 +194,8 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		});
 		return app.parseNumberToFloat(price);
 	},
-	setUnitPriceValue: function (row, val) {
+	setUnitPrice: function (row, val) {
+		val = app.parseNumberToShow(val);
 		row.find('.unitPrice').val(val).attr('title', val);
 		return this;
 	},
@@ -207,6 +222,14 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		val = app.parseNumberToShow(val);
 		$('.marginp', row).val(val);
 	},
+	setDiscount: function (row, val) {
+		val = app.parseNumberToShow(val);
+		$('.discount', row).val(val);
+	},
+	setTax: function (row, val) {
+		val = app.parseNumberToShow(val);
+		$('.tax', row).val(val);
+	},
 	quantityChangeActions: function (row) {
 		this.rowCalculations(row);
 		this.summaryCalculations();
@@ -219,7 +242,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 	},
 	rowsCalculations: function () {
 		var thisInstance = this;
-		this.getSupTableContainer().find(this.rowClass).each(function (index) {
+		this.getSupTableContainer().find(thisInstance.rowClass).each(function (index) {
 			thisInstance.quantityChangeActions($(this));
 		});
 	},
@@ -228,31 +251,83 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		thisInstance.getSupTableContainer().find('tfoot .wisableTd').each(function (index) {
 			thisInstance.calculatSummary($(this), $(this).data('sumfield'));
 		});
+		thisInstance.calculatDiscountSummary();
 		thisInstance.calculatTaxSummary();
+		thisInstance.calculatCurrenciesSummary();
 	},
 	calculatSummary: function (element, field) {
 		var thisInstance = this;
 		var sum = 0;
-		this.getSupTableContainer().find(this.rowClass).each(function (index) {
+		this.getSupTableContainer().find(thisInstance.rowClass).each(function (index) {
 			sum += app.parseNumberToFloat($(this).find('.' + field).val());
 		});
 		element.text(app.parseNumberToShow(sum));
+	},
+	calculatDiscountSummary: function () {
+		var thisInstance = this;
+		var discount = thisInstance.getAllDiscount();
+		var container = thisInstance.getSupSummaryDiscountContainer();
+		container.find('input').val(app.parseNumberToShow(discount));
+	},
+	getAllDiscount: function () {
+		var thisInstance = this;
+		var discount = 0;
+		this.getSupTableContainer().find(thisInstance.rowClass).each(function (index) {
+			var row = $(this);
+			var rowDiscount = thisInstance.getDiscount(row);
+			discount += rowDiscount;
+		});
+		return discount;
+	},
+	calculatCurrenciesSummary: function () {
+		var thisInstance = this;
+		var container = thisInstance.getSupSummaryCurrenciesContainer();
+		var selected = $('[name="currency"] option:selected', thisInstance.getSupTableHeadContainer());
+		var base = $('[name="currency"] option[data-base-currency="1"]', thisInstance.getSupTableHeadContainer());
+		var conversionRate = selected.data('conversionRate');
+		var prevConversionRate = base.data('conversionRate');
+		if (conversionRate == prevConversionRate) {
+			container.addClass('hide');
+			return;
+		}
+		conversionRate = parseFloat(prevConversionRate) / parseFloat(conversionRate);
+		container.removeClass('hide');
+		var taxs = thisInstance.getAllTaxs();
+		var sum = 0;
+		container.find('.panel-body').html('');
+		$.each(taxs, function (index, value) {
+			if (value != undefined) {
+				value = value * conversionRate;
+				var row = container.find('.hide .form-group').clone();
+				row.find('.percent').text(index + '%');
+				row.find('input').val(app.parseNumberToShow(value));
+				row.appendTo(container.find('.panel-body'));
+				sum += value;
+			}
+		});
+		container.find('.panel-footer input').val(app.parseNumberToShow(sum));
 	},
 	calculatTaxSummary: function () {
 		var thisInstance = this;
 		var taxs = thisInstance.getAllTaxs();
 		var container = thisInstance.getSupSummaryTaxesContainer();
+		container.find('.panel-body').html('');
+		var sum = 0;
 		$.each(taxs, function (index, value) {
 			if (value != undefined) {
-				$('<tr><td>' + index + '%</td><td>' + app.parseNumberToShow(value) + '</td></tr>').appendTo(container);
+				var row = container.find('.hide .form-group').clone();
+				row.find('.percent').text(index + '%');
+				row.find('input').val(app.parseNumberToShow(value));
+				row.appendTo(container.find('.panel-body'));
+				sum += value;
 			}
 		});
-		console.log(taxs);
+		container.find('.panel-footer input').val(app.parseNumberToShow(sum));
 	},
 	getAllTaxs: function () {
 		var thisInstance = this;
 		var tax = [];
-		this.getSupTableContainer().find(this.rowClass).each(function (index) {
+		this.getSupTableContainer().find(thisInstance.rowClass).each(function (index) {
 			var row = $(this);
 			var netPrice = thisInstance.getNetPrice(row);
 			var params = row.find('.taxParam').val();
@@ -272,6 +347,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 				});
 			}
 		});
+
 		return tax;
 	},
 	calculateNetPrice: function (row) {
@@ -317,10 +393,10 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 				var globalDiscount = app.parseNumberToFloat(mondal.find('.activepanel .globalDiscount').val());
 			}
 			if (mondal.find('.activepanel .individualDiscountType').length > 0) {
-				var individualTypeDiscount = mondal.find('.activepanel .individualDiscountType[name="individual"]:checked').val();
+				var individualTypeDiscount = mondal.find('.activepanel .individualDiscountType:checked').val();
 				var value = mondal.find('.activepanel .individualDiscountValue').val();
 				if (individualTypeDiscount == 'percentage') {
-					individualDiscount = (value / 100) * netPriceBeforeDiscount;
+					individualDiscount = netPriceBeforeDiscount * (value / 100);
 				} else {
 					individualDiscount = value;
 				}
@@ -357,7 +433,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		mondal.find('.valueDiscount').text(app.parseNumberToShow(netPriceBeforeDiscount - valuePrices));
 	},
 	calculateTax: function (row, mondal) {
-		var netPriceWithoutTax = this.getTotalPrice(row),
+		var netPriceWithoutTax = this.getNetPrice(row),
 				valuePrices = netPriceWithoutTax,
 				globalTax = 0,
 				groupTax = 0,
@@ -444,7 +520,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		this.showPopup(params).then(function (data) {
 			var responseData = JSON.parse(data);
 			for (var id in responseData) {
-				thisInstance.setUnitPriceValue(lineItemRow, responseData[id]);
+				thisInstance.setUnitPrice(lineItemRow, responseData[id]);
 			}
 			thisInstance.quantityChangeActions(thisInstance.getClosestRow(rowName));
 		});
@@ -491,7 +567,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 					if (progressInstace) {
 						progressInstace.hide();
 					}
-					//TODO : handle the error case
+					console.error(error, err);
 				}
 		);
 	},
@@ -521,7 +597,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 
 			var currencyId = thisInstance.getCurrency();
 			if (typeof unitPriceValues[currencyId] !== 'undefined') {
-				thisInstance.setUnitPriceValue(parentRow, unitPriceValues[currencyId]);
+				thisInstance.setUnitPrice(parentRow, unitPriceValues[currencyId]);
 			}
 			$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
 			$('textarea.commentTextarea', parentRow).val(description);
@@ -701,9 +777,60 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 				},
 				function (error, err) {
 					progressInstace.hide();
+					console.error(error, err);
 				}
 		);
 		return response;
+	},
+	currencyChangeActions: function (select, option) {
+		var thisInstance = this;
+		if (option.data('baseCurrency') == 0) {
+			thisInstance.showCurrencyChangeMondal(select);
+		} else {
+			thisInstance.currencyConvertValues(select);
+			select.data('oldValue', select.val());
+		}
+	},
+	showCurrencyChangeMondal: function (select) {
+		var thisInstance = this;
+		if (thisInstance.lockCurrencyChange == true) {
+			return;
+		}
+		thisInstance.lockCurrencyChange = true;
+		var mondal = select.closest('th').find('.modelContainer').clone();
+		app.showModalWindow(mondal, function (data) {
+			var mondal = $(data);
+			mondal.on('click', 'button[type="submit"]', function (e) {
+				thisInstance.currencyConvertValues(select);
+				select.data('oldValue', select.val());
+				app.hideModalWindow();
+				thisInstance.lockCurrencyChange = false;
+			});
+			mondal.on('click', 'button[type="reset"]', function (e) {
+				select.val(select.data('oldValue')).change();
+				thisInstance.lockCurrencyChange = false;
+			});
+		});
+	},
+	currencyConvertValues: function (select) {
+		var thisInstance = this;
+		var selected = select.find('option:selected');
+		var previous = select.find('option[value="' + select.data('oldValue') + '"]');
+		if (selected.data('baseCurrency') == '1') {
+
+		}
+		this.getSupTableContainer().find(thisInstance.rowClass).each(function (index) {
+			var row = $(this);
+			var conversionRate = selected.data('conversionRate');
+			var prevConversionRate = previous.data('conversionRate');
+
+			conversionRate = parseFloat(conversionRate) / parseFloat(prevConversionRate);
+			thisInstance.setUnitPrice(row, app.parseNumberToFloat(thisInstance.getUnitPriceValue(row) * conversionRate));
+			thisInstance.setDiscount(row, app.parseNumberToFloat(thisInstance.getDiscount(row) * conversionRate));
+			thisInstance.setTax(row, app.parseNumberToFloat(thisInstance.getTax(row) * conversionRate));
+
+			thisInstance.quantityChangeActions(row);
+		});
 	},
 	registerAddRow: function (container) {
 		var thisInstance = this;
@@ -861,6 +988,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 					},
 					function (error, err) {
 						progressInstace.hide();
+						console.error(error, err);
 					}
 			);
 		});
@@ -892,7 +1020,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			thisInstance.calculateDiscount(parentRow, mondal);
 		});
 		mondal.on('click', '.saveDiscount', function (e) {
-			parentRow.find('.discount').val(mondal.find('.valueDiscount').text());
+			thisInstance.setDiscount(parentRow, mondal.find('.valueDiscount').text());
 			thisInstance.saveDiscountsParameters(parentRow, mondal);
 			thisInstance.quantityChangeActions(parentRow);
 			app.hideModalWindow();
@@ -912,7 +1040,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 				currency: thisInstance.getCurrency(),
 				sourceModule: app.getModuleName(),
 				sourceRecord: app.getRecordId(),
-				totalPrice: thisInstance.getTotalPrice(parentRow),
+				totalPrice: thisInstance.getNetPrice(parentRow),
 				accountField: container.find('#accountReferenceField').val(),
 			}
 
@@ -927,8 +1055,19 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 					},
 					function (error, err) {
 						progressInstace.hide();
+						console.error(error, err);
 					}
 			);
+		});
+	},
+	lockCurrencyChange: false,
+	registerChangeCurrency: function (container) {
+		var thisInstance = this;
+		container.on('change', '[name="currency"]', function (e) {
+			var element = $(e.currentTarget);
+			var symbol = element.find('option:selected').data('conversionSymbol');
+			thisInstance.currencyChangeActions(element, element.find('option:selected'));
+			container.find('.currencySymbol').text(symbol);
 		});
 	},
 	registerChangeTaxModal: function (mondal, parentRow, params) {
@@ -958,7 +1097,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 			thisInstance.calculateTax(parentRow, mondal);
 		});
 		mondal.on('click', '.saveTaxs', function (e) {
-			parentRow.find('.tax').val(mondal.find('.valueTax').text());
+			thisInstance.setTax(parentRow, mondal.find('.valueTax').text());
 			thisInstance.saveTaxsParameters(parentRow, mondal);
 			thisInstance.quantityChangeActions(parentRow);
 			app.hideModalWindow();
@@ -991,6 +1130,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 						}
 					},
 					function (error, err) {
+						console.error(error, err);
 					}
 			);
 		});
@@ -1005,6 +1145,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		thisInstance.registerRowChangeEvent(container);
 		thisInstance.registerRowAutoComplete(container);
 		thisInstance.checkDeleteIcon();
+		thisInstance.summaryCalculations();
 	},
 	/**
 	 * Function which will register all the events
@@ -1021,6 +1162,7 @@ Vtiger_Edit_Js("Supplies_Edit_Js", {}, {
 		this.registerChangeTax(container);
 		this.registerClearReferenceSelection(container);
 		this.registerShowHideExpanded(container);
+		this.registerChangeCurrency(container);
 	},
 });
 

@@ -9,7 +9,14 @@
 		{assign var="COUNT_FIELDS0" value=count($FIELDS[0])}
 		{assign var="COUNT_FIELDS1" value=count($FIELDS[1])}
 		{assign var="COUNT_FIELDS2" value=count($FIELDS[2])}
-
+		{if in_array("currency",$COLUMNS)}
+			{if count($SUP_RECORD_DATA) > 0}
+				{assign var="CURRENCY" value=$SUP_RECORD_DATA[0]['currency']}
+			{else}
+				{assign var="CURRENCY" value=$SUP_RECORD_DATA[0]['currency']}
+			{/if}
+			{assign var="CURRENCY_SYMBOLAND" value=Vtiger_Functions::getCurrencySymbolandRate($CURRENCY)}
+		{/if}
 		<input name="suppliesRowNo" id="suppliesRowNo" type="hidden" value="{count($SUP_RECORD_DATA)}" />
 		<input id="accountReferenceField" type="hidden" value="{$ACCOUNT_REFERENCE_FIELD}" />
 		<input id="suppliesLimit" type="hidden" value="{$MAIN_PARAMS['limit']}" />
@@ -41,9 +48,9 @@
 			<thead>
 				<tr>
 					<th style="min-width: 50px">&nbsp;&nbsp;</th>
-					{foreach item=FIELD from=$FIELDS[1]}
+						{foreach item=FIELD from=$FIELDS[1]}
 						<th colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()}{if !$FIELD->isVisible($SUP_RECORD_DATA)} hide{/if} textAlignCenter">{vtranslate($FIELD->get('label'), $SUPMODULE)}</th>
-					{/foreach}
+						{/foreach}
 				</tr>
 			</thead>
 			<tbody>
@@ -63,6 +70,9 @@
 									{assign var="SUM" value=($SUM + $SUP_DATA[$FIELD->get('columnname')])}
 								{/foreach}
 								{CurrencyField::convertToUserFormat($SUM, null, true)}
+							{/if}
+							{if $FIELD->getName() == 'Name'}
+								{vtranslate('LBL_SUMMARY', $SUPMODULE)}
 							{/if}
 						</td>
 					{/foreach}

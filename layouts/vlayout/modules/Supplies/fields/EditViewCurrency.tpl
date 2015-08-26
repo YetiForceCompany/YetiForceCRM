@@ -10,11 +10,29 @@
 			{/if}
 		{/foreach}
 	{/if}
-	<select class="select2 supDataField" data-minimum-results-for-search="-1" name="{$FIELD->getColumnName()}{$ROW_NO}" title="{vtranslate('LBL_CURRENCY', $SUPMODULE)}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}>
+	<select class="select2 supDataField" data-minimum-results-for-search="-1" data-old-value="{$SELECTED_CURRENCY}" name="{$FIELD->getColumnName()}{$ROW_NO}" title="{vtranslate('LBL_CURRENCY', $SUPMODULE)}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}>
 		{foreach item=CURRENCY key=count from=$CURRENCIES}
-			<option value="{$CURRENCY.id}" class="textShadowNone" data-conversion-rate="{$CURRENCY.conversion_rate}" {if $SELECTED_CURRENCY eq $CURRENCY.id}selected{/if}>
+			<option value="{$CURRENCY.id}" class="textShadowNone" data-conversion-rate="{$CURRENCY.conversion_rate}" 
+					data-conversion-symbol="{$CURRENCY.currency_symbol}" data-base-currency="{if $CURRENCY.defaultid < 0}1{else}0{/if}" 
+					{if $SELECTED_CURRENCY eq $CURRENCY.id}selected{/if}>
 				{vtranslate($CURRENCY.currency_name, $SUPMODULE)} ({$CURRENCY.currency_symbol})
 			</option>
 		{/foreach}
 	</select>
+	<div class="modelContainer modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header contentsBackground">
+					<h3 class="modal-title">{vtranslate('LBL_CHANGE_CURRENCY', $SUPMODULE)}</h3>
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-warning" role="alert">{vtranslate('LBL_CHANGE_CURRENCY_INFO', $SUPMODULE)}</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $SUPMODULE)}</strong></button>
+					<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CANCEL', $SUPMODULE)}</strong></button>
+				</div>
+			</div>
+		</div>
+	</div>
 {/strip}

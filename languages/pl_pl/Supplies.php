@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_DISCOUNT' => 'Rabat',
 	'LBL_TAX' => 'Podatek',
-	'LBL_TOTAL_PRICE' => 'Cena przed rabatem',
+	'LBL_TOTAL_PRICE' => 'Netto',
 	'LBL_ROW_COMMENT' => 'Opis',
 	'LBL_SELECT_DISCOUNT' => 'Wybierz rabat',
 	'LBL_GLOBAL_DISCOUNTS' => 'Globalny',
@@ -29,7 +29,7 @@ $languageStrings = [
 	'LBL_REFERENCE' => 'Powiązanie',
 	'LBL_UNIT_PRICE' => 'Cena jednostkowa',
 	'LBL_MARGIN_PRECENT' => 'Marża (%)',
-	'LBL_GROSS_PRICE' => 'Cena brutto',
+	'LBL_GROSS_PRICE' => 'Brutto',
 	'LBL_DISCOUNT_PRICE' => 'Cena po rabacie',
 	'LBL_SELECT_TAX' => 'Wybierz podatek',
 	'LBL_PRICE_BEFORE_TAX' => 'Cena bez podatku',
@@ -49,7 +49,16 @@ $languageStrings = [
 	'LBL_LIMIT_ALERT' => 'Nie można zapisać rekordu',
 	'LBL_IMAGE' => 'Zdjęcie',
 	
-	'LBL_GROUP_TsAXS' => 'Grupowy',
+	'LBL_TAX_RATE' => 'Stawka VAT',
+	'LBL_TAX_VALUE' => 'Podatek',
+	'LBL_DISCOUNTS_SUMMARY' => 'Podsumowanie rabatu',
+	'LBL_TAX_SUMMARY' => 'Podsumowanie podatu',
+	'LBL_CURRENCIES_SUMMARY' => 'Podsumowanie walut',
+	'LBL_CHANGE_CURRENCY' => 'Zmiana waluty',
+	'LBL_CHANGE_CURRENCY_INFO' => 'Zmiana waluty spowoduje przeliczenie wszystkich wartości.<br/>Czy jesteś pewien czy chcesz to zroić?',
+	'LBL_SUMMARY' => 'Podsumowanie',
+	'LBL_AMOUNT' => 'Suma',
+	
 	'LBL_GROUP_TsAXS' => 'Grupowy',
 	'LBL_GROUP_TsAXS' => 'Grupowy',
 ];

@@ -2,46 +2,87 @@
 {strip}
 	<div class="row">
 		<div class="col-md-4">
-			<table class="table table-bordered blockContainer suppliesSummaryCurrencies">
-				<tbody>
-					{foreach item=FIELD from=$FIELDS[2]}
-						<tr data-rownumber="1">
-							<td>
-								xx
-							</td>
-							<td>
-								vv
-							</td>
-						</tr>
-					{/foreach}
-				</tbody>
-			</table>
+			<div class="panel panel-default suppliesSummaryContainer suppliesSummaryDiscounts">
+				<div class="panel-heading">
+					<img src="{vimage_path('Discount24.png')}" alt="{vtranslate('LBL_DISCOUNT', $SUPMODULE)}" />&nbsp;&nbsp;
+					<strong>{vtranslate('LBL_DISCOUNTS_SUMMARY',$SUPMODULE)}</strong>
+				</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<div class="input-group">
+							<input type="text" class="form-control textAlignRight" readonly="readonly">
+							{if in_array("currency",$COLUMNS)}
+								<div class="input-group-addon currencySymbol">{$CURRENCY_SYMBOLAND['symbol']}</div>
+							{/if}
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="col-md-4">
-			<table class="table table-bordered blockContainer suppliesSummaryDiscounts">
-				<thead>
-					<tr>
-						<th>{vtranslate('LBL_TAX_RATE',$SUPMODULE)}</th>
-						<th>{vtranslate('LBL_TAX_VALUE',$SUPMODULE)}</th>
-					</tr>
-				</thead>
-				<tbody>
-					
-				</tbody>
-			</table>
-		</div>
-		<div class="col-md-4">
-			<table class="table table-bordered blockContainer suppliesSummaryTaxes">
-				<thead>
-					<tr>
-						<th>{vtranslate('LBL_TAX_RATE',$SUPMODULE)}</th>
-						<th>{vtranslate('LBL_TAX_VALUE',$SUPMODULE)}</th>
-					</tr>
-				</thead>
-				<tbody>
+			<div class="panel panel-default suppliesSummaryContainer suppliesSummaryTaxes">
+				<div class="panel-heading">
+					<img src="{vimage_path('Tax24.png')}" alt="{vtranslate('LBL_TAX', $SUPMODULE)}" />&nbsp;&nbsp;
+					<strong>{vtranslate('LBL_TAX_SUMMARY',$SUPMODULE)}</strong>
+				</div>
+				<div class="panel-body">
 
-				</tbody>
-			</table>
+				</div>
+				<div class="panel-footer">
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon percent">{vtranslate('LBL_AMOUNT', $SUPMODULE)}</div>
+							<input type="text" class="form-control textAlignRight" readonly="readonly">
+							{if in_array("currency",$COLUMNS)}
+								<div class="input-group-addon currencySymbol">{$CURRENCY_SYMBOLAND['symbol']}</div>
+							{/if}
+						</div>
+					</div>
+				</div>
+				<div class="hide">
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon percent"></div>
+							<input type="text" class="form-control textAlignRight" readonly="readonly">
+							{if in_array("currency",$COLUMNS)}
+								<div class="input-group-addon currencySymbol">{$CURRENCY_SYMBOLAND['symbol']}</div>
+							{/if}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="panel panel-default suppliesSummaryContainer suppliesSummaryCurrencies hideg">
+				<div class="panel-heading">
+					<strong>{vtranslate('LBL_CURRENCIES_SUMMARY',$SUPMODULE)}</strong>
+				</div>
+				<div class="panel-body">
+
+				</div>
+				<div class="panel-footer">
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon percent">{vtranslate('LBL_AMOUNT', $SUPMODULE)}</div>
+							<input type="text" class="form-control textAlignRight" readonly="readonly">
+							{if in_array("currency",$COLUMNS)}
+								<div class="input-group-addon">{$CURRENCY_SYMBOLAND['symbol']}</div>
+							{/if}
+						</div>
+					</div>
+				</div>
+				<div class="hide">
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon percent"></div>
+							<input type="text" class="form-control textAlignRight" readonly="readonly">
+							{if in_array("currency",$COLUMNS)}
+								<div class="input-group-addon">{$CURRENCY_SYMBOLAND['symbol']}</div>
+							{/if}
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 {/strip}

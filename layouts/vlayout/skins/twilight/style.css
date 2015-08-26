@@ -3483,3 +3483,21 @@ span[name=existingImages] img{
 	border: 0;
 	background: #fafafb;
 }
+.suppliesSummaryContainer .panel-body,.suppliesSummaryContainer .panel-footer{
+	padding: 0;
+}
+.suppliesSummaryContainer .panel-body .form-group, .suppliesSummaryContainer .panel-footer .form-group{
+	margin: 0;
+}
+.suppliesSummaryContainer .input-group .form-control{
+	background-color: #F5F5F5;
+}
+.suppliesSummaryContainer .panel-body .percent{
+	min-width: 55px;
+}
+.suppliesItemsTable tfoot{
+	font-weight: 800;
+}
+.suppliesSummaryContainer .panel-heading img{
+	max-width: 15px;
+}
