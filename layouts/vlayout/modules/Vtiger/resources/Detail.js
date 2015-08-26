@@ -2628,7 +2628,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerSetReadRecord(detailViewContainer);
 		thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 
-		thisInstance.getForm().validationEngine(app.validationEngineOptions);
+		thisInstance.getForm().validationEngine(app.validationEngineOptionsForRecord);
 		thisInstance.loadWidgets();
 
 		app.registerEventForTextAreaFields(jQuery('.commentcontent'));
