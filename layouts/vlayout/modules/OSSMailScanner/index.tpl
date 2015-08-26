@@ -262,7 +262,7 @@
         </form>
     </div>
     <div class='editViewContainer tab-pane' id="tab_record_numbering">
-        <div class="alert alert-info">{vtranslate('Alert_info_tab_record_numbering', 'OSSMailScanner')} <a class="btn" href="index.php?module=Vtiger&parent=Settings&view=CustomRecordNumbering">{vtranslate('ConfigCustomRecordNumbering','OSSMailScanner')}</a></div>	
+        <div class="alert alert-info">{vtranslate('Alert_info_tab_record_numbering', 'OSSMailScanner')} &nbsp; <a class="btn btn-info" href="index.php?module=Vtiger&parent=Settings&view=CustomRecordNumbering">{vtranslate('ConfigCustomRecordNumbering','OSSMailScanner')}</a></div>	
         <form id="EditView">
             <table class="table table-bordered">
                 <thead>
