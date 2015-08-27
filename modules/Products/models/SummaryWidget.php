@@ -34,7 +34,7 @@ class Products_SummaryWidget_Model{
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($mod, $currentUser);
 		
 		if($mod == 'Products'){
-			$sql = 'SELECT vtiger_products.productid, vtiger_products.pscategory, vtiger_products.productname, vtiger_crmentity.smownerid, vtiger_crmentity.shownerid '
+			$sql = 'SELECT vtiger_products.productid AS id, vtiger_products.pscategory AS category, vtiger_products.productname AS name, vtiger_crmentity.smownerid '
 					. 'FROM vtiger_products '
 					. 'INNER JOIN vtiger_crmentity ON vtiger_products.productid = vtiger_crmentity.crmid '
 					. 'INNER JOIN vtiger_seproductsrel ON vtiger_products.productid = vtiger_seproductsrel.productid '
@@ -44,7 +44,7 @@ class Products_SummaryWidget_Model{
 			$params[] = $fromModule;
 			$params[] = $record;
 		}elseif($mod == 'Services'){
-			$sql = 'SELECT vtiger_service.serviceid, vtiger_service.pscategory, vtiger_service.servicename, vtiger_crmentity.smownerid, vtiger_crmentity.shownerid '
+			$sql = 'SELECT vtiger_service.serviceid AS id, vtiger_service.pscategory AS category, vtiger_service.servicename AS name, vtiger_crmentity.smownerid '
 					. 'FROM vtiger_service '
 					. 'INNER JOIN vtiger_crmentity ON vtiger_service.serviceid = vtiger_crmentity.crmid '
 					. 'INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid OR vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)'
@@ -60,9 +60,8 @@ class Products_SummaryWidget_Model{
 
 		$sql.= ' LIMIT '.$limit;
 		$result = $db->pquery($sql, $params);
-		$returnData = array();
-		for($i=0; $i<$db->num_rows($result); $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$returnData = [];
+		while ($row = $db->fetch_array($result)) {
 			$shownerid = [];
 			$row['smownerid'] = Vtiger_Functions::getOwnerRecordLabel($row['smownerid']);
 			if($row['shownerid'] != ''){
