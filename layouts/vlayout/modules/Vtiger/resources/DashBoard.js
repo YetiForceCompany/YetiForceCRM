@@ -343,6 +343,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						paramsForm['id'] = result['id'];
 						paramsForm['status'] = result['status'];
 						params['text'] = result['text'];
+						params['type'] = 'success';
 						var linkElement = element.clone();
 						linkElement.data('name', 'MiniList')
 						Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=MiniList&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0')
