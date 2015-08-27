@@ -1212,4 +1212,5 @@ $jsLanguageStrings = [
 	'JS_CAN_NOT_REMOVE_COMMENT' => 'Você não pode apagar Comentários com respostas. Apague todas as respostas para só depois apagar o Comentário.',
 	'JS_DELETE_COMMENT_CONFIRMATION' => 'Tem certeza que deseja apagar o Comentário?',
 	'JS_SET_TAX_FOR' => 'Definir Imposto para',
+	'JS_OK' => 'Ok',
 ];

@@ -1,4 +1,5 @@
 <?php
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 /*
 Return Description
 ------------------------
@@ -7,6 +8,7 @@ Info title: optional
 Info text: mandatory
 Type: 0 - notify
 Type: 1 - show quick create mondal
+Type: 2 - show notify info
 */
 Class DataAccess_unique_value{
     var $config = true;
@@ -18,7 +20,8 @@ Class DataAccess_unique_value{
 		$save_record1 = true;
 		$save_record2 = true;
 		$save_record = true;
-		$type = 'info';
+		$type = 0;
+		$typeInfo = 'info';
 		$info = false;
 		if($ID != 0 && $ID != '' && !array_key_exists($config['what1'],$record_form)){
 			$Record_Model = Vtiger_Record_Model::getInstanceById($ID, $ModuleName);
@@ -66,7 +69,8 @@ Class DataAccess_unique_value{
 					}
 				}
 				$result = $db->pquery( "SELECT $index FROM {$where[0]} $sqlSpecial WHERE {$where[1]} = ? $sql_ext $spacialCondition;", $sql_param, true );
-				for($i = 0; $i < $db->num_rows($result); $i++){
+				$num = $db->num_rows($result);
+				for($i = 0; $i < $num; $i++){
 					$id = $db->query_result_raw($result, $i, $index);
 					$metadata = Vtiger_Functions::getCRMRecordMetadata($id);
 					if($metadata['setype'] == $DestModuleName){
@@ -84,7 +88,7 @@ Class DataAccess_unique_value{
 				$ModuleInstance = CRMEntity::getInstance($DestModuleName);
 				$tab_name_index = $ModuleInstance->tab_name_index;
 				$index = $tab_name_index[$where[0]];
-				$sql_param = array( $value1 );
+				$sql_param = array( $value2 );
 				$sql_ext = '';
 				$spacialCondition = '';
 				$sqlSpecial = '';
@@ -99,7 +103,8 @@ Class DataAccess_unique_value{
 					}
 				}
 				$result = $db->pquery( "SELECT $index FROM {$where[0]} WHERE {$where[1]} = ? $sql_ext;", $sql_param, true );
-				for($i = 0; $i < $db->num_rows($result); $i++){
+				$num = $db->num_rows($result);
+				for($i = 0; $i < $num; $i++){
 					$id = $db->query_result_raw($result, $i, $index);
 					$metadata = Vtiger_Functions::getCRMRecordMetadata($id);
 					if($metadata['setype'] == $DestModuleName){
@@ -110,14 +115,16 @@ Class DataAccess_unique_value{
 				}
 			}
 		}
-		if( $config['locksave'] == 0 && $ID == ''){
+		if( $config['locksave'] == 0){
 			$info = $config['info0'];
+			$type = 2;
+			$save_record = (!$save_record1 || !$save_record2) ? false : true;
 		}elseif( !$save_record1 && !$save_record2){
-			$type = 'error';
+			$typeInfo = 'error';
 			$save_record = false;
 			$info = $config['info2'];
 		}elseif( !$save_record1 || !$save_record2 ){
-			$type = 'error';
+			$typeInfo = 'error';
 			$save_record = false;
 			$info = $config['info1'];
 		}
@@ -125,12 +132,12 @@ Class DataAccess_unique_value{
 		if(!$save_record || $info)
 			return Array(
 				'save_record'=>$save_record,
-				'type'=>0,
-				'info'=>Array(
-					'title'=> vtranslate($info, 'DataAccess').' <br/ >'.trim($fieldlabel,','),
-					'ntype'=> $type,
+				'type'=> $type,
+				'info'=>[
+					'text'=> vtranslate($info, 'DataAccess').' <br/ >'.trim($fieldlabel,','),
+					'ntype'=> $typeInfo,
 					'hide'=> false,
-				)
+				]
 			);
 		else
 			return Array('save_record'=> true );

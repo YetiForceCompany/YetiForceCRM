@@ -24,7 +24,7 @@ $languageStrings = [
 	'LBL_LOCKS_SAVE_LABEL2' => 'Sim - Uma condição satisfeita',
 	'LBL_LOCKS_SAVE_LABEL3' => 'Sim - Duas condições satisfeitas',
 	'LBL_VALIDATION_TWO_FIELDS' => 'Validação para dois campos',
-	'LBL_MESSAGE_LOCK0' => 'Mensagem quando escrita não é bloqueada (será exibido somente no momento da criação do registro)',
+	'LBL_MESSAGE_LOCK0' => 'Mensagem quando escrita não é bloqueada',
 	'LBL_MESSAGE_LOCK1' => 'Mensagem para uma condição satisfeita',
 	'LBL_MESSAGE_LOCK2' => 'Mensagem para uma condição satisfeita',
 	//

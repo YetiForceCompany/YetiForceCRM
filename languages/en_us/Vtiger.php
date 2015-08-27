@@ -1246,4 +1246,5 @@ $jsLanguageStrings = [
 	'JS_CAN_NOT_REMOVE_COMMENT' => 'You can\'t delete comments with answers. Delete all the answers in order to delete the comment.',
 	'JS_DELETE_COMMENT_CONFIRMATION' => 'Are you sure you want to delete the comment?',
 	'JS_SET_TAX_FOR' => 'Set Tax for',
+	'JS_OK' => 'Ok',
 ];

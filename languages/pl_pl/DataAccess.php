@@ -23,7 +23,7 @@ $languageStrings = [
 	'LBL_LOCKS_SAVE_LABEL2' => 'Tak - Jeden warunek spełniony',
 	'LBL_LOCKS_SAVE_LABEL3' => 'Tak - Dwa warunki spełnione',
 	'LBL_VALIDATION_TWO_FIELDS' => 'Walidacja dla dwóch pól',
-	'LBL_MESSAGE_LOCK0' => 'Komunikat w momencie nie blokowania zapisu (pokazuje się tylko przy tworzeniu rekordu)',
+	'LBL_MESSAGE_LOCK0' => 'Komunikat w momencie nie blokowania zapisu',
 	'LBL_MESSAGE_LOCK1' => 'Komunikat dla jednego warunku spełnionego',
 	'LBL_MESSAGE_LOCK2' => 'Komunikat dla dwóch warunków spełnionych',
 	//
