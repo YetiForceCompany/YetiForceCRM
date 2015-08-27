@@ -974,6 +974,7 @@ $languageStrings = [
 	'LBL_VIEW_STEP2' => 'Add Conditions',
 	'LBL_VIEW_ADDACTION' => 'Actions',
 	'LBL_VIEW_ACTIONCONFIG' => 'Action config',
+	'LBL_ENTER_SEARCHED_ADDRESS' => 'Enter the address to search',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',

@@ -987,6 +987,7 @@ $languageStrings = [
 	'LBL_VIEW_STEP2' => 'Dodaj warunki',
 	'LBL_VIEW_ADDACTION' => 'Akcje',
 	'LBL_VIEW_ACTIONCONFIG' => 'Konfiguracja akcji',
+	'LBL_ENTER_SEARCHED_ADDRESS' => 'Wprowadź szukany adres',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
