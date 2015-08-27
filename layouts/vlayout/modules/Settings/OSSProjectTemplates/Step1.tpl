@@ -34,11 +34,11 @@
                         <td>{$item.tpl_name}</td>
                         <td>{$item.projectmilestonename}</td>
                         <td>
-                            <a data-toggle="modal" data-target="#step_1_modal_edit" class="pull-right edit_tpl">
-                                <span title="{vtranslate('LBL_EDIT')}" class="glyphicon glyphicon-pencil alignMiddle"></span>
-                            </a>
                             <a href='index.php?module=OSSProjectTemplates&parent=Settings&action=DeleteTemplate&tpl_id={$key}&base_module={$BASE_MODULE}&parent_tpl_id={$PARENT_TPL_ID}&back_view=Edit' 
                                class="pull-right marginRight10px"><span type="{vtranslate('REMOVE_TPL', $MODULE_NAME)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+							<a data-toggle="modal" data-target="#step_1_modal_edit" class="pull-right edit_tpl">
+                                <span title="{vtranslate('LBL_EDIT')}" class="glyphicon glyphicon-pencil alignMiddle"></span>
+                            </a>
                         </td>
                     <tr>
                     {/foreach}
@@ -94,8 +94,8 @@
 					</table>
 				</div>
 				<div class="modal-footer">
-					<a href="#" class="btn btn-default" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
-					<button class="btn btn-danger okay-button" >{vtranslate('Save', $MODULE_NAME)}</button>
+					<button class="btn btn-success okay-button" >{vtranslate('Save', $MODULE_NAME)}</button>
+					<a href="#" class="btn btn-warning" data-dismiss="modal" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
 				</div>      
 			</form>
 		</div>
@@ -139,9 +139,9 @@
 						{/foreach}
 					</table>
 				</div>
-				<div class="modal-footer">
-					<a href="#" class="btn" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
-					<button class="btn btn-danger okay-button" >{vtranslate('Save', $MODULE_NAME)}</button>
+				<div class="modal-footer">				
+					<button class="btn btn-success okay-button" >{vtranslate('Save', $MODULE_NAME)}</button>
+					<a href="#" class="btn btn-warning" data-dismiss="modal" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
 				</div>      
 			</form>
 		</div>
