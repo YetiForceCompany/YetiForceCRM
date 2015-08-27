@@ -62,6 +62,7 @@ $languageStrings = [
 	'FromID' => 'Id nadawcy',
 	'ToID' => 'Id odbiorcy',
 	'LBL_SHOW_PREVIEW_EMAIL' => 'Pokaż podgląd maila',
+	'LBL_SHOW_PREVIEW_EMAILS' => 'Pokaż podgląd wszystkich maili',
 	'LBL_NO_MAILS' => 'Brak wiadomości e-mail',
 	'LBL_CHANGE_FILTER' => 'Zmiana filtrowania wiadomości',
 	'LBL_FILTER_ALL' => 'Wszystkie',

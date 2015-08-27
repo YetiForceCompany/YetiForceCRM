@@ -1,11 +1,15 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
-
 {strip}
 	{if !$NOLOADLIBS}
 		{include file="modules/Vtiger/Header.tpl"}
 	{/if}
-	<div class="SendEmailFormStep2" id="emailPreview" name="emailPreview">
-		<div class="well zeroPaddingAndMargin">
+	{if $ISMODAL}
+	<div class="modelContainer modal fade" tabindex="-1">
+		<div class="modal-dialog modal-blg">
+			<div class="modal-content">
+	{/if}
+	<div class="SendEmailFormStep2 container-fluid" id="emailPreview" name="emailPreview">
+		<div class="">
 			<div class="blockHeader emailPreviewHeader">
 				<h3 class='col-md-4 pushDown'>{vtranslate('emailPreviewHeader','OSSMailView')}</h3>
 				<div class='pull-right'>
@@ -13,19 +17,19 @@
 						{if vglobal('isActiveSendingMails')}
 							<span class="btn-group">
 								{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
-								<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=replyAll{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
+								<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=replyAll{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no'{/if})">
 									<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png">&nbsp;&nbsp;
 									<strong>{vtranslate('LBL_REPLYALLL','OSSMailView')}</strong>
 								</a>
 							</span>
 							<span class="btn-group">
-								<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=reply{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
+								<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=reply{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no'{/if})">
 									<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReply.png" >&nbsp;&nbsp;
 									<strong>{vtranslate('LBL_REPLY','OSSMailView')}</strong>
 								</a>
 							</span>
 							<span class="btn-group">
-								<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=forward{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
+								<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=forward{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no'{/if})">
 									<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;&nbsp;
 									<strong>{vtranslate('LBL_FORWARD','OSSMailView')}</strong>
 								</a>
@@ -37,9 +41,15 @@
 								<strong>{vtranslate('LBL_PRINT','OSSMailView')}</strong>
 							</button>
 						</span>
+						{if $ISMODAL}
+							<span class="btn-group">
+								<button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</span>
+						{/if}
 					</div>
 				</div>
-
 			</div>
 			<div class="clearfix"></div>
 			<hr>
@@ -137,25 +147,34 @@
 			</form>
 		</div>
 	</div>
+	{if $ISMODAL}
+		</div>
+		</div>
+	</div>
+	{/if}
 	{if !$NOLOADLIBS}
 		{include file='JSResources.tpl'|vtemplate_path}
 	{/if}
 {/strip}
+{if !$ISMODAL}
+<script>
+	$('#emailPreview_Content').css('height', document.documentElement.clientHeight - 267);
+</script>
+{/if}
 {literal}
-	<script>
-				var params = {};
-				$('#emailPreview_Content').css('height', document.documentElement.clientHeight - 267);
-				function printMail(){
-				var content = window.open();
-						$(".emailPreview > div").each(function(index) {
-				if ($(this).hasClass('content')){
+<script>
+	var params = {};
+	function printMail(){
+		var content = window.open();
+		$(".emailPreview > div").each(function(index) {
+			if ($(this).hasClass('content')){
 				var inframe = $("#emailPreview_Content").contents();
-						content.document.write(inframe.find('body').html() + "<br>");
-				} else{
+				content.document.write(inframe.find('body').html() + "<br>");
+			} else{
 				content.document.write($.trim($(this).text()) + "<br>");
-				}
-				});
-						content.print();
-				}
-	</script>
+			}
+		});
+		content.print();
+	}
+</script>
 {/literal}

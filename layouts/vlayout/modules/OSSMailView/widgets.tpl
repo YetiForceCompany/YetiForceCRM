@@ -3,7 +3,32 @@
 	<div class="container-fluid">
 		{assign var=COUNT value=count($RECOLDLIST)}
 		{foreach from=$RECOLDLIST item=ROW key=KEY}
-			<div class="row">
+			<div class="row{if $KEY%2 != 0} even{/if}">
+				<div class="col-md-12 mailActions">
+					<div class="pull-left">
+						<a title="{vtranslate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}" class="showMailBody btn btn-sm btn-default" >
+							<span class="body-icon glyphicon glyphicon-triangle-bottom"></span>
+						</a>&nbsp;
+						<button type="button" class="btn btn-sm btn-default showMailModal" data-url="{$ROW['url']}" title="{vtranslate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}">
+							<span class="body-icon glyphicon glyphicon-search"></span>
+						</button>
+					</div>
+					<div class="pull-right">
+						{if vglobal('isActiveSendingMails')}
+							<a title="{vtranslate('LBL_FORWARD','OSSMailView')}" onclick="window.open('index.php?module=OSSMail&view=compose&id={$ROW['id']}&type=forward{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-sm btn-default">
+								<span title="{vtranslate('LBL_FORWARD','OSSMailView')}" class="glyphicon glyphicon-share-alt"></span>
+							</a>
+							<a title="{vtranslate('LBL_REPLYALLL','OSSMailView')}" onclick="window.open('index.php?module=OSSMail&view=compose&id={$ROW['id']}&type=replyAll{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-sm btn-default">
+								<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
+							</a>
+							<a title="{vtranslate('LBL_REPLY','OSSMailView')}" onclick="window.open('index.php?module=OSSMail&view=compose&id={$ROW['id']}&type=reply{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-sm btn-default">
+								<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
+							</a>
+						{/if}
+					</div>
+					<div class="clearfix"></div>
+					<hr/>
+				</div>
 				<div class="col-md-12">
 					<div class="pull-left">
 						<span class="firstLetter">
@@ -22,35 +47,25 @@
 						{if $ROW['attachments'] eq 1}
 							<img class="pull-right" src="layouts/vlayout/modules/OSSMailView/attachment.png" />
 						{/if}
-						{if $ROW['type'] eq 0}
-							<img src="layouts/vlayout/modules/OSSMailView/outgoing.png" />
-						{elseif $ROW['type'] eq 1}
-							<img src="layouts/vlayout/modules/OSSMailView/incoming.png" />
-						{elseif $ROW['type'] eq 2}
-							<img src="layouts/vlayout/modules/OSSMailView/internal.png" />
-						{/if}
+						<span class="pull-right">
+							{if $ROW['type'] eq 0}
+								<img src="layouts/vlayout/modules/OSSMailView/outgoing.png" />
+							{elseif $ROW['type'] eq 1}
+								<img src="layouts/vlayout/modules/OSSMailView/incoming.png" />
+							{elseif $ROW['type'] eq 2}
+								<img src="layouts/vlayout/modules/OSSMailView/internal.png" />
+							{/if}
+						</span>
+						<span class="pull-right smalSeparator"></span>
 					</div>
 					<h5 class="textOverflowEllipsis mailTitle mainSubject">
 						{$ROW['subject']}
 					</h5>
 				</div>
 				<div class="col-md-12">
-					<div class="pull-right mailActions">
-						{if vglobal('isActiveSendingMails')}
-							<a title="{vtranslate('LBL_FORWARD','OSSMailView')}" onclick="window.open('index.php?module=OSSMail&view=compose&id={$ROW['id']}&type=forward{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-sm btn-default">
-								<span title="{vtranslate('LBL_FORWARD','OSSMailView')}" class="glyphicon glyphicon-share-alt"></span>
-							</a>
-							<a title="{vtranslate('LBL_REPLYALLL','OSSMailView')}" onclick="window.open('index.php?module=OSSMail&view=compose&id={$ROW['id']}&type=replyAll{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-sm btn-default">
-								<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
-							</a>
-							<a title="{vtranslate('LBL_REPLY','OSSMailView')}" onclick="window.open('index.php?module=OSSMail&view=compose&id={$ROW['id']}&type=reply{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-sm btn-default">
-								<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
-							</a>
-						{/if}
-						<a title="{vtranslate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}" class="showMailBody btn btn-sm btn-default" >
-							<span class="body-icon glyphicon glyphicon-triangle-bottom"></span>
-						</a>
-					</div>
+					<hr/>
+				</div>
+				<div class="col-md-12">
 					<div class="mailTeaser">
 						{$ROW['teaser']}
 					</div>	
@@ -59,11 +74,6 @@
 					<div class="mailBodyContent">{$ROW['body']}</div>
 				</div>
 				<div class="clearfix"></div>
-				{if $KEY+1 != $COUNT}
-					<div class="col-md-12">
-						<hr/>
-					</div>
-				{/if}
 			</div>
 		{/foreach}
 		{if $COUNT == 0}

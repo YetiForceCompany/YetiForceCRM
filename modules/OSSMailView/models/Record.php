@@ -63,7 +63,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 					$relatedID[] = $row['contactid'];
 				}
 			}
-			if ($filter == 'All' || $filter == 'Accounts') {
+			if ($filter != 'Contacts') {
 				$relatedID[] = $srecord;
 			}
 			$result = $adb->pquery('SELECT ossmailviewid FROM vtiger_ossmailview_relation WHERE crmid IN(' . implode(',', $relatedID) . ') AND `deleted` = ? ORDER BY `date` DESC LIMIT ' . $config['widget_limit'], [0]);
@@ -103,6 +103,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 					'attachments' => $row['attachments_exist'],
 					'from' => $from,
 					'to' => $to,
+					'url' => 'index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'],
 					'type' => $row['type'],
 					'teaser' => Vtiger_Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($content))), 100),
 					'body' => $content,

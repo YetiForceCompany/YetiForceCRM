@@ -345,7 +345,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	loadWidget: function (widgetContainer) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
-		var contentHeader = jQuery('.widget_header', widgetContainer);
+		var contentHeader = jQuery('.widget_header,.widgetHeader', widgetContainer);
 		var contentContainer = jQuery('.widget_contents', widgetContainer);
 		var urlParams = widgetContainer.data('url');
 		var relatedModuleName = contentHeader.find('[name="relatedModule"]').val();
@@ -2474,12 +2474,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (mailBody.hasClass('hide')) {
 				mailBody.removeClass('hide');
 				mailTeaser.addClass('hide');
-				mailBody.css('margin-top','-32px');
 				bodyIcon.removeClass("icon-chevron-down").addClass("icon-chevron-up");
 			} else {
 				mailBody.addClass('hide');
 				mailTeaser.removeClass('hide');
-				mailBody.css('margin-top','0');
 				bodyIcon.removeClass("icon-chevron-up").addClass("icon-chevron-down");
 			}
 		});
@@ -2488,6 +2486,25 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 		widgetContent.find('[name="mailFilter"]').change(function (e) {
 			thisInstance.loadMailPreviewWidget(widgetContent);
+		});
+		widgetContent.on('click', '.showMailsModal', function (e) {
+			var url = $(e.currentTarget).data('url');
+			url += '&type=' + widgetContent.find('[name="mail-type"]').val();
+			if (widgetContent.find('[name="mailFilter"]').length > 0) {
+				url += '&mailFilter=' + widgetContent.find('[name="mailFilter"]').val();
+			}
+			var progressIndicatorElement = jQuery.progressIndicator();
+			app.showModalWindow("",url, function () {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			});
+		});
+		widgetContent.find('.widget_contents').on(thisInstance.widgetPostLoad, function (e, widgetName) {
+			widgetContent.find('.showMailModal').click(function (e) {
+				var progressIndicatorElement = jQuery.progressIndicator();
+				app.showModalWindow("", $(e.currentTarget).data('url'), function () {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				});
+			});
 		});
 		widgetContent.find('.sendMailBtn').click(function (e) {
 			var sendButton = jQuery(e.currentTarget);
@@ -2547,6 +2564,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 	},
 	loadMailPreviewWidget: function (widgetContent) {
+		var thisInstance = this;
 		var widgetDataContainer = widgetContent.find('.widget_contents');
 		var recordId = $('#recordId').val();
 		var progress = widgetDataContainer.progressIndicator();
@@ -2561,6 +2579,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		AppConnector.request(params).then(
 				function (data) {
 					widgetDataContainer.html(data);
+					widgetDataContainer.trigger(thisInstance.widgetPostLoad, {widgetName: 'Emails'})
 					progress.progressIndicator({'mode': 'hide'});
 				}
 		);
