@@ -77,7 +77,7 @@
 							<th class="blockHeader" colspan="4">
 					<div class="row">
 						<div class="col-md-4">
-							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 								{assign var=APIADDRESFIELD value=TRUE}
 							{else}
 								{assign var=APIADDRESFIELD value=FALSE}
