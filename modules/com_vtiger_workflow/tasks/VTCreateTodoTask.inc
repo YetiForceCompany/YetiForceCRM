@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
 require_once('include/Webservices/Utils.php');
 require_once("include/Webservices/VtigerCRMObject.php");
@@ -120,7 +121,7 @@ class VTCreateTodoTask extends VTTask{
 		$timeEnd = explode(' ',$baseDateEnd);
 		if(count($timeEnd) < 2) {
 			$result = $adb->pquery('SELECT `end_hour` FROM vtiger_users WHERE id = ?', array($userId));
-				if($adb->num_rows($query)) {
+				if($adb->num_rows($result)) {
 					$timeEnd = $adb->query_result($result,0,'end_hour');
 					$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
 					$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd.' '.$timeWithSec);
