@@ -243,3 +243,6 @@ $gsMinLength = 3;
 
 // autocomplete global search - Amount of returned results.
 $gsAmountResponse = 10;
+
+// Is sending emails active. 
+$isActiveSendingMails = false;

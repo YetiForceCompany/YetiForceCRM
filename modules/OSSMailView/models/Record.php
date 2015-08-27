@@ -46,7 +46,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		return false;
 	}
 
-	public function showEmailsList($srecord, $smodule, $Config, $type)
+	public function showEmailsList($srecord, $smodule, $config, $type, $filter = 'All')
 	{
 		$return = [];
 		$adb = PearDatabase::getInstance();
@@ -54,7 +54,19 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$queryParams = [];
 		if ($widgets[$smodule]) {
 			$ids = [];
-			$result = $adb->pquery('SELECT ossmailviewid FROM vtiger_ossmailview_relation WHERE crmid = ? AND `deleted` = ? ORDER BY `date` DESC LIMIT ' . $Config['widget_limit'], [$srecord, 0]);
+			$relatedID = [];
+			if ($filter == 'All' || $filter == 'Contacts') {
+				$result = $adb->pquery('SELECT vtiger_contactdetails.contactid FROM vtiger_contactdetails '
+					. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid '
+					. 'WHERE vtiger_contactdetails.parentid = ? AND vtiger_crmentity.deleted = ?', [$srecord, 0]);
+				while ($row = $adb->fetch_array($result)) {
+					$relatedID[] = $row['contactid'];
+				}
+			}
+			if ($filter == 'All' || $filter == 'Accounts') {
+				$relatedID[] = $srecord;
+			}
+			$result = $adb->pquery('SELECT ossmailviewid FROM vtiger_ossmailview_relation WHERE crmid IN(' . implode(',', $relatedID) . ') AND `deleted` = ? ORDER BY `date` DESC LIMIT ' . $config['widget_limit'], [0]);
 			while ($row = $adb->fetch_array($result)) {
 				$ids[] = $row['ossmailviewid'];
 			}
@@ -62,7 +74,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				return [];
 			}
 			$queryParams[] = $ids;
-			if ($type != 'all') {
+			if ($type != 'All') {
 				$ifwhere = ' AND type = ?';
 				$queryParams[] = $type;
 			}
@@ -74,20 +86,27 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
 			if ($securityParameter != '')
 				$query .= $securityParameter;
-			$query .= ' ORDER BY ossmailviewid DESC LIMIT ' . $Config['widget_limit'];
+			$query .= ' ORDER BY ossmailviewid DESC LIMIT ' . $config['widget_limit'];
 			$result = $adb->pquery($query, $queryParams, true);
 
 			while ($row = $adb->fetch_array($result)) {
 				$from = $this->findRecordsById($row['from_id']);
+				$from = ($from && $from != '') ? $from : $row['from_email'];
 				$to = $this->findRecordsById($row['to_id']);
-				$return[$row['ossmailviewid']]['id'] = $row['ossmailviewid'];
-				$return[$row['ossmailviewid']]['date'] = $row['date'];
-				$return[$row['ossmailviewid']]['subject'] = '<a href="index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'] . '" target="' . $Config['target'] . '"> ' . $this->limit_text($row['subject']) . '</a>';
-				$return[$row['ossmailviewid']]['attachments'] = $row['attachments_exist'];
-				$return[$row['ossmailviewid']]['from'] = ($from == '' && $from) ? $from : $this->limit_text($row['from_email']);
-				$return[$row['ossmailviewid']]['to'] = ($to == '' && $to) ? $to : $this->limit_text($row['to_email']);
-				$return[$row['ossmailviewid']]['type'] = $row['type'];
-				$return[$row['ossmailviewid']]['body'] = Vtiger_Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'head', 'base'), decode_html($row['content']));
+				$to = ($to && $to != '') ? $to : $row['to_email'];
+				$content = Vtiger_Functions::removeHtmlTags(['link', 'style', 'a', 'img', 'script', 'head', 'base'], decode_html($row['content']));
+				$return[] = [
+					'id' => $row['ossmailviewid'],
+					'date' => $row['date'],
+					'firstLetter' => strtoupper(Vtiger_Functions::textLength(trim(strip_tags($from)), 1, false)),
+					'subject' => '<a href="index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'] . '" target="' . $config['target'] . '"> ' . $row['subject'] . '</a>',
+					'attachments' => $row['attachments_exist'],
+					'from' => $from,
+					'to' => $to,
+					'type' => $row['type'],
+					'teaser' => Vtiger_Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($content))), 100),
+					'body' => $content,
+				];
 			}
 		}
 		return $return;
@@ -95,22 +114,22 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 
 	public function findRecordsById($ids)
 	{
-		$recordModel_OSSMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		$Config = $recordModel_OSSMailScanner->getConfig('email_list');
 		$return = false;
-		if ($ids != '') {
+		if (!empty($ids) && $ids != '0') {
+			$recordModelMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+			$config = $recordModelMailScanner->getConfig('email_list');
 			if (strpos($ids, ',')) {
-				$ids_array = explode(",", $ids);
+				$idsArray = explode(",", $ids);
 			} else {
-				$ids_array[0] = $ids;
+				$idsArray[0] = $ids;
 			}
-			foreach ($ids_array as $id) {
+			foreach ($idsArray as $id) {
 				$module = Vtiger_Functions::getCRMRecordType($id);
-				$Label = Vtiger_Functions::getCRMRecordLabel($id);
-				$return .= '<a href="index.php?module=' . $module . '&view=Detail&record=' . $id . '" target="' . $Config['target'] . '"> ' . $Label . '</a>';
+				$label = Vtiger_Functions::getCRMRecordLabel($id);
+				$return .= '<a href="index.php?module=' . $module . '&view=Detail&record=' . $id . '" target="' . $config['target'] . '"> ' . $label . '</a>,';
 			}
 		}
-		return $return;
+		return trim($return, ',');
 	}
 
 	public function findCrmRecordsByMessage_id($params, $metod)
@@ -143,19 +162,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		return $return;
-	}
-
-	public function limit_text($text)
-	{
-		$limit = 30;
-		$count = strlen($text);
-		if ($count >= $limit) {
-			$limit_text = substr($text, 0, $limit);
-			$txt = $limit_text . "...";
-		} else {
-			$txt = $text;
-		}
-		return $txt;
 	}
 
 	public function findCrm($text)
