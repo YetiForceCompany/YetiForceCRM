@@ -12,11 +12,18 @@
 function _0_created_Email($user_id, $mailDetail, $folder, $return)
 {
 	$folder_group = OSSMailScanner_Record_Model::getConfigFolderList($folder);
+	$exceptionsAll = OSSMailScanner_Record_Model::getConfig('exceptions');
 	$adb = PearDatabase::getInstance();
 	$result_user_id = $adb->pquery('SELECT crm_user_id FROM roundcube_users where user_id = ? ', [$user_id]);
 	$assigned_user_id = $adb->query_result($result_user_id, 0, 'crm_user_id');
 	$result = $adb->pquery('SELECT ossmailviewid FROM vtiger_ossmailview where uid = ? AND rc_user = ? ', [$mailDetail['message_id'], $user_id]);
 
+	$exceptions = explode(',',$exceptionsAll['crating_mails']);
+	foreach($exceptions as $exception){
+		if(strpos($mailDetail['fromaddress'],$exception) !== FALSE){
+			return ['created_Email' => ''];
+		}
+	}
 	if ($adb->num_rows($result) == 0 && $mailDetail['message_id'] != '') {
 		$OSSMailViewInstance = CRMEntity::getInstance('OSSMailView');
 		$OSSMailViewInstance->column_fields['assigned_user_id'] = $assigned_user_id;

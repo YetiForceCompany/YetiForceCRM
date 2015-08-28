@@ -128,9 +128,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$adb = PearDatabase::getInstance();
 		if ($vale == null || $vale == 'null') {
-			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = ? AND parameter = ?", array($conf_type, $type), true);
+			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = ? AND parameter = ?", [$conf_type, $type]);
 		} else {
-			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = ? AND parameter = ?", array($vale, $conf_type, $type), true);
+			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = ? AND parameter = ?", [$vale, $conf_type, $type]);
 		}
 		return vtranslate('LBL_SAVE', 'OSSMailScanner');
 	}

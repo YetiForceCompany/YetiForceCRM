@@ -3374,7 +3374,7 @@ span[name=existingImages] img{
 .paddingLeftMd{
 	padding-left: 15px;
 }
-.widget_header div:nth-child(2).btn-toolbar,.editViewContainer .contentHeader.row div:nth-child(2){
+.widget_header div:nth-child(2).btn-toolbar,.editViewContainer .contentHeader.row div:nth-child(2),.contentsDiv ul#tabs.nav,.marginTop20{
 	margin-top: 20px;
 }
 .fieldLabel .referenceMandatory{
@@ -3630,4 +3630,10 @@ span[name=existingImages] img{
 .mailsList{
 	max-height: 630px;
 	overflow: auto;
+}
+.domain{
+	padding-left: 2px;
+	padding-right: 2px;
+	background: rgba(91, 234, 81, 0.54) !important;
+	border-radius: 4px;
 }

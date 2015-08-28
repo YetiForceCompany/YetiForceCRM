@@ -1,13 +1,5 @@
 <?php
-
-/* +********************************************************************************
- * Terms & Conditions are placed on the: http://opensaas.pl
- * *******************************************************************************
- *  Module				: OSSMailScanner
- *  Author				: OpenSaaS Sp. z o.o. 
- *  Help/Email			: bok@opensaas.pl
- *  Website				: www.opensaas.pl
- * *******************************************************************************+ */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
     'OSSMailScanner' => 'Mail Scanner',
     'OSSMailScanner_manual' => 'Mail Scanner',
@@ -143,4 +135,8 @@ $languageStrings = [
 	'Group list' => 'Gruppenliste',
 	'LBL_ACTIVE_MAIL' => 'Active',
 	'LBL_INACTIVE_MAIL' => 'Inactive',
+	'LBL_EXCEPTIONS' => 'Exceptions',
+	'LBL_EXCEPTIONS_CREATING_EMAIL' => 'Addresses omitted while executing an action creating e-mail messages',
+	'LBL_EXCEPTIONS_CREATING_TICKET' => 'Addresses omitted while executing an action creating tickets',
+	'LBL_WRITE_AND_ENTER' => 'Wpisz adres i wciśnij enter',
 ];

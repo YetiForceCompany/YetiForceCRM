@@ -1,14 +1,5 @@
 <?php
-
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
     'OSSMailScanner' => 'Skaner wiadomości email',
     'OSSMailScanner_manual' => 'Skaner wiadomości email',
@@ -145,4 +136,8 @@ $languageStrings = [
 	'LBL_MAIL_LOGS' => 'Poczta logi',
 	'LBL_ACTIVE_MAIL' => 'Aktywne',
 	'LBL_INACTIVE_MAIL' => 'Nieaktywne',
+	'LBL_EXCEPTIONS' => 'Wyjątki',
+	'LBL_EXCEPTIONS_CREATING_EMAIL' => 'Adresy pomijane w trakcie wykonywania akcji tworzącej wiadomości e-mail',
+	'LBL_EXCEPTIONS_CREATING_TICKET' => 'Adresy pomijane w trakcie wykonywania akcji tworzącej zgłoszenia',
+	'LBL_WRITE_AND_ENTER' => 'Wpisz adres i wciśnij enter',
 ];
