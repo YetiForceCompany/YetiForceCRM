@@ -68,6 +68,9 @@ $languageStrings = [
 	'LBL_FILTER_ALL' => 'Wszystkie',
 	'LBL_FILTER_ACCOUNTS' => 'Wszystkie na kontrahencie',
 	'LBL_FILTER_CONTACTS' => 'Wszystkie na kontakcie',
+	'LBL_EXPAND_ALL' => 'Rozwiń wszystkie',
+	'LBL_COLLAPSE_ALL' => 'Zwiń wszystkie',
+	'LBL_COUNT_ALL_MAILS' => 'Ilość wszystkich maili',
 	
 	'LBL_VERIFY' => 'Do powiązania',
 	'LBL_REL_MOD' => 'Moduły powiazane',

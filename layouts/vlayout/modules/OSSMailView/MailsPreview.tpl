@@ -1,16 +1,34 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+	{assign var=COUNT value=count($RECOLDLIST)}
 	<div class="modelContainer modal fade" tabindex="-1">
 		<div class="modal-dialog modal-blg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">{vtranslate('ccc',$MODULE_NAME)}</h4>
+					<div class="row">
+						<div class="col-md-6">
+							<h4 class="modal-title">{vtranslate('LBL_RECORDS_LIST','OSSMailView')}</h4>
+						</div>
+						<div class="col-md-3">
+							<button type="button" class="btn btn-default expandAllMails">
+								{vtranslate('LBL_EXPAND_ALL','OSSMailView')}
+							</button>
+							&nbsp;&nbsp;
+							<button type="button" class="btn btn-default collapseAllMails">
+								{vtranslate('LBL_COLLAPSE_ALL','OSSMailView')}
+							</button>
+						</div>
+						<div class="col-md-3">
+							<h4 class="modal-title pull-left">{vtranslate('LBL_COUNT_ALL_MAILS','OSSMailView')}: {$COUNT}</h4>
+							<button type="button" class="btn btn-danger pull-right" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					</div>
 				</div>
 				<div class="modal-body modalViewBody">
 					<div class="mailsList">
 						<div class="container-fluid">
-							{assign var=COUNT value=count($RECOLDLIST)}
 							{foreach from=$RECOLDLIST item=ROW key=KEY}
 								<div class="row{if $KEY%2 != 0} even{/if}">
 									<div class="col-md-12 mailActions">

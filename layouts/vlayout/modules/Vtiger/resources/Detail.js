@@ -2463,50 +2463,67 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentCommentsTab.trigger('click');
 		});
 	},
-	registerMailPreviewWidget: function () {
+	registerMailPreviewWidget: function (container) {
 		var thisInstance = this;
-		var widgetContent = thisInstance.getContentHolder().find('.widgetContentBlock[data-type="EmailList"]');
-		widgetContent.on('click', '.showMailBody', function (e) {
+		container.on('click', '.showMailBody', function (e) {
 			var row = $(e.currentTarget).closest('.row');
 			var mailBody = row.find('.mailBody');
 			var mailTeaser = row.find('.mailTeaser');
-			var bodyIcon = $(e.currentTarget).find('.body-icon');
+			var glyphicon = $(e.currentTarget).find('.glyphicon');
 			if (mailBody.hasClass('hide')) {
 				mailBody.removeClass('hide');
 				mailTeaser.addClass('hide');
-				bodyIcon.removeClass("icon-chevron-down").addClass("icon-chevron-up");
+				glyphicon.removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-top");
 			} else {
 				mailBody.addClass('hide');
 				mailTeaser.removeClass('hide');
-				bodyIcon.removeClass("icon-chevron-up").addClass("icon-chevron-down");
+				glyphicon.removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
 			}
 		});
-		widgetContent.find('[name="mail-type"]').change(function (e) {
-			thisInstance.loadMailPreviewWidget(widgetContent);
+		container.find('[name="mail-type"]').change(function (e) {
+			thisInstance.loadMailPreviewWidget(container);
 		});
-		widgetContent.find('[name="mailFilter"]').change(function (e) {
-			thisInstance.loadMailPreviewWidget(widgetContent);
+		container.find('[name="mailFilter"]').change(function (e) {
+			thisInstance.loadMailPreviewWidget(container);
 		});
-		widgetContent.on('click', '.showMailsModal', function (e) {
+		container.on('click', '.showMailsModal', function (e) {
 			var url = $(e.currentTarget).data('url');
-			url += '&type=' + widgetContent.find('[name="mail-type"]').val();
-			if (widgetContent.find('[name="mailFilter"]').length > 0) {
-				url += '&mailFilter=' + widgetContent.find('[name="mailFilter"]').val();
+			url += '&type=' + container.find('[name="mail-type"]').val();
+			if (container.find('[name="mailFilter"]').length > 0) {
+				url += '&mailFilter=' + container.find('[name="mailFilter"]').val();
 			}
 			var progressIndicatorElement = jQuery.progressIndicator();
-			app.showModalWindow("",url, function () {
+			app.showModalWindow("", url, function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				thisInstance.registerMailPreviewWidget(data);
+				data.find('.expandAllMails').click();
+				data.find('.showMailModal').click(function (e) {
+					var progressIndicatorElement = jQuery.progressIndicator();
+					app.showModalWindow("", $(e.currentTarget).data('url'), function () {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					});
+				});
 			});
 		});
-		widgetContent.find('.widget_contents').on(thisInstance.widgetPostLoad, function (e, widgetName) {
-			widgetContent.find('.showMailModal').click(function (e) {
+		container.find('.expandAllMails').click(function (e) {
+			container.find('.mailBody').removeClass('hide');
+			container.find('.mailTeaser').addClass('hide');
+			container.find('.showMailBody .glyphicon').removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-top");
+		});
+		container.find('.collapseAllMails').click(function (e) {
+			container.find('.mailBody').addClass('hide');
+			container.find('.mailTeaser').removeClass('hide');
+			container.find('.showMailBody .glyphicon').removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
+		});
+		container.find('.widget_contents').on(thisInstance.widgetPostLoad, function (e, widgetName) {
+			container.find('.showMailModal').click(function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator();
 				app.showModalWindow("", $(e.currentTarget).data('url'), function () {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				});
 			});
 		});
-		widgetContent.find('.sendMailBtn').click(function (e) {
+		container.find('.sendMailBtn').click(function (e) {
 			var sendButton = jQuery(e.currentTarget);
 			var url = sendButton.data("url");
 			var mod = sendButton.data("mod");
@@ -2720,7 +2737,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerEventForRelatedList();
 		thisInstance.registerEventForRelatedListPagination();
 		thisInstance.registerBlockAnimationEvent();
-		thisInstance.registerMailPreviewWidget();
+		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]'));
 	},
 	registerEvents: function () {
 		var thisInstance = this;

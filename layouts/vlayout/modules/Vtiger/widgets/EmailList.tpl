@@ -74,7 +74,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="widget_contents widgetContent"></div>
+			<div class="widget_contents widgetContent mailsList"></div>
 		</div>
 	</div>
 {/strip}

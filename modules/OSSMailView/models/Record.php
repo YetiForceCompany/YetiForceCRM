@@ -66,7 +66,12 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			if ($filter != 'Contacts') {
 				$relatedID[] = $srecord;
 			}
-			$result = $adb->pquery('SELECT ossmailviewid FROM vtiger_ossmailview_relation WHERE crmid IN(' . implode(',', $relatedID) . ') AND `deleted` = ? ORDER BY `date` DESC LIMIT ' . $config['widget_limit'], [0]);
+			$query = 'SELECT ossmailviewid FROM vtiger_ossmailview_relation WHERE crmid IN(' . implode(',', $relatedID) . ') AND `deleted` = ? ORDER BY `date` DESC';
+			if($config['widget_limit'] != ''){
+				$query .= ' LIMIT ' . $config['widget_limit'];
+			}
+			$result = $adb->pquery($query, [0]);
+			
 			while ($row = $adb->fetch_array($result)) {
 				$ids[] = $row['ossmailviewid'];
 			}
@@ -86,7 +91,11 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
 			if ($securityParameter != '')
 				$query .= $securityParameter;
-			$query .= ' ORDER BY ossmailviewid DESC LIMIT ' . $config['widget_limit'];
+			$query .= ' ORDER BY ossmailviewid DESC';
+			if($config['widget_limit'] != ''){
+				$query .= ' LIMIT ' . $config['widget_limit'];
+			}
+
 			$result = $adb->pquery($query, $queryParams, true);
 
 			while ($row = $adb->fetch_array($result)) {

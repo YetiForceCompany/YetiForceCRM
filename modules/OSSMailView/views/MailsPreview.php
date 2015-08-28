@@ -25,7 +25,8 @@ Class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$recordModel_OSSMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$config = $recordModel_OSSMailScanner->getConfig('email_list');
-
+		$config['widget_limit'] = '';
+			
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECOLDLIST', $recordModel->$mode($srecord, $smodule, $config, $type, $mailFilter));
 		$viewer->assign('SENDURLDDATA', $urldata);
