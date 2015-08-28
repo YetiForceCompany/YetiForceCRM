@@ -17,9 +17,9 @@ function _1_created_HelpDesk($user_id, $mailDetail, $folder, $return)
 	$EmailNumPrefix = OSSMailScanner_Record_Model::findEmailNumPrefix('HelpDesk', $mailDetail['subject']);
 	$result = $adb->pquery("SELECT ticketid FROM vtiger_troubletickets where ticket_no = ? ", array($EmailNumPrefix), true);
 	$exceptionsAll = OSSMailScanner_Record_Model::getConfig('exceptions');
-	$exceptions = explode(',',$exceptionsAll['crating_tickets']);
-	foreach($exceptions as $exception){
-		if(strpos($mailDetail['fromaddress'],$exception) !== FALSE){
+	$exceptions = explode(',', $exceptionsAll['crating_tickets']);
+	foreach ($exceptions as $exception) {
+		if (strpos($mailDetail['fromaddress'], $exception) !== FALSE) {
 			return ['created_HelpDesk' => ''];
 		}
 	}

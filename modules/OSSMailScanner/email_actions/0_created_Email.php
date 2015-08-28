@@ -18,9 +18,9 @@ function _0_created_Email($user_id, $mailDetail, $folder, $return)
 	$assigned_user_id = $adb->query_result($result_user_id, 0, 'crm_user_id');
 	$result = $adb->pquery('SELECT ossmailviewid FROM vtiger_ossmailview where uid = ? AND rc_user = ? ', [$mailDetail['message_id'], $user_id]);
 
-	$exceptions = explode(',',$exceptionsAll['crating_mails']);
-	foreach($exceptions as $exception){
-		if(strpos($mailDetail['fromaddress'],$exception) !== FALSE){
+	$exceptions = explode(',', $exceptionsAll['crating_mails']);
+	foreach ($exceptions as $exception) {
+		if (strpos($mailDetail['fromaddress'], $exception) !== FALSE) {
 			return ['created_Email' => ''];
 		}
 	}
