@@ -880,6 +880,8 @@ $languageStrings = [
 	"greater than" => "większy niż",
 	"does not equal" => "nie jest równy",
 	"less than or equal to" => "jest mniejszy lub równy",
+	'equal to' => 'równy',
+	'None' => 'Brak',
 	"greater than or equal to" => "jest większy lub równy",
 	"before" => "przed",
 	"after" => "po",
@@ -1210,4 +1212,6 @@ $jsLanguageStrings = [
 	'JS_DELETE_COMMENT_CONFIRMATION' => 'Czy na pewno chcesz usunąć komentarz?',
 	'JS_SET_TAX_FOR' => 'Ustaw podatek dla',
 	'JS_OK' => 'Ok',
+	'equal to' => 'równy',
+	'None' => 'Brak',
 ];

@@ -1239,6 +1239,8 @@ $languageStrings = [
 	'LBL_VIEW_ADDACTION' => 'Действия',
 	'LBL_VIEW_ACTIONCONFIG' => 'Action config',
 	'LBL_ENTER_SEARCHED_ADDRESS' => 'Enter the address to search',
+	'equal to' => 'Equal to',
+	'None' => 'None',
 ];
 $jsLanguageStrings = [
 	'SINGLE_SalesOrder' => 'Заказ',
@@ -1548,4 +1550,6 @@ $jsLanguageStrings = [
 	'JS_DELETE_COMMENT_CONFIRMATION' => 'Вы уверены, что хотите удалить комментарий?',
 	'JS_SET_TAX_FOR' => '% налога для',
 	'JS_OK' => 'Ok',
+	'equal to' => 'Equal to',
+	'None' => 'None',
 ];
