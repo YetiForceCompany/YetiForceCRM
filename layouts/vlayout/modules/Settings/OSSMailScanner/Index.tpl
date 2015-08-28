@@ -176,7 +176,7 @@
                         <select multiple id="folder_inputReceived" name="folder_inputReceived" class="select2 form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
-                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Received'],$key) } selected="selected"{/if} >{$item}</option>
+                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Received'],$key) } selected="selected"{/if} >{vtranslate($item, $QUALIFIED_MODULE)}</option>
                                 {/foreach}
                             </optgroup>
                         </select>
