@@ -569,18 +569,34 @@ jQuery.Class("Vtiger_Header_Js", {
 		});
 	},
 	adjustContentHeight: function () {
-		if (app.getViewName() === 'Detail' || app.getViewName() === 'Calendar' || app.getViewName() === 'ExtensionImport') {
+		navTop = jQuery('nav.navbar-fixed-top').outerHeight();
+		navBottom = jQuery('footer.navbar-fixed-bottom').outerHeight();
+
+		if (app.getViewName() === 'Detail' || app.getViewName() === 'ExtensionImport') {
 			if (jQuery('div.detailViewInfo > .related').outerHeight() > jQuery('div.detailViewInfo > div.details ').outerHeight()) {
 				jQuery('div.detailViewInfo > div.details').css('min-height', jQuery('.detailViewInfo > .related').outerHeight());
 			}
 			bodyHeight = jQuery('div.detailViewContainer').outerHeight();
+			jQuery('div.detailViewContainer').css('height', jQuery('div.bodyContents').outerHeight());
+		} else if (app.getViewName() === 'Edit') {
+			bodyHeight = jQuery('.editViewContainer').outerHeight();
+		} else if (app.getViewName() === 'List') {
+			bodyHeight = jQuery('.remindersNoticeContainer').outerHeight()-5;
+			jQuery(".contentsDiv").css('min-height', bodyHeight);
+			jQuery(".bodyContents").css('min-height', bodyHeight);
+		} else if (app.getViewName() === 'Calendar') {
+			bodyHeight = jQuery('.calendarViewContainer').outerHeight();
+			jQuery(".contentsDiv").css('height', bodyHeight);
+		} else if (app.getViewName() === 'DashBoard') {
+			bodyHeight = jQuery('.remindersNoticeContainer').outerHeight()-55;
+			jQuery("div.gridster").css('min-height', jQuery('.contentsDiv').outerHeight() + 14);
+			jQuery("div.bodyContents").css('min-height', bodyHeight);
+		} else if (app.getViewName() === 'Index') {
+			bodyHeight = jQuery('.mainContainer > .col-md-2').outerHeight();
+			jQuery(".mainContainer").css('min-height', bodyHeight);
 		} else {
 			bodyHeight = jQuery('.bodyContents').css('min-height');//.outerHeight();
 		}
-
-		navTop = jQuery('nav.navbar-fixed-top').outerHeight();
-		navBottom = jQuery('footer.navbar-fixed-bottom').outerHeight();
-		bodyHeight = (parseInt(bodyHeight) + parseInt(navTop)) + 'px';
 		var styles = {
 			'min-height': bodyHeight,
 			'margin-bottom': navBottom + 'px',

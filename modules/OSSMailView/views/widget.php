@@ -23,18 +23,13 @@ Class OSSMailView_widget_View extends Vtiger_Edit_View
 		$type = $request->get('type');
 		$mode = $request->get('mode');
 		$record = $request->get('record');
-		$module = $request->get('module');
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$mailFilter = $request->get('mailFilter');
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$recordModel_OSSMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		$Config = $recordModel_OSSMailScanner->getConfig('email_list');
-
-		$emailModuleModel = Vtiger_Module_Model::getInstance('OSSMail');
-		$config = $emailModuleModel->getComposeParameters();
-		$urldata = $emailModuleModel->getComposeUrl($smodule, $srecord, 'Detail', $config['popup']);
+		$config = $recordModel_OSSMailScanner->getConfig('email_list');
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('RECOLDLIST', $recordModel->$mode($srecord, $smodule, $Config, $type));
+		$viewer->assign('RECOLDLIST', $recordModel->$mode($srecord, $smodule, $config, $type, $mailFilter));
 		$viewer->assign('SENDURLDDATA', $urldata);
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('SMODULENAME', $smodule);

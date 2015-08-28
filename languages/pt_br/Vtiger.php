@@ -989,6 +989,11 @@ $languageStrings = [
 	'LBL_VIEW_EDIT2' => 'Adicionar Condições',
 	'LBL_VIEW_CONFIGURATION' => 'Adicionar Condições',
 	'MEN_LEADS' => 'Empresas',
+	'LBL_VIEW_STEP1' => 'Informação Básica',
+	'LBL_VIEW_STEP2' => 'Adicionar Condições',
+	'LBL_VIEW_ADDACTION' => 'Ações',
+	'LBL_VIEW_ACTIONCONFIG' => 'Action config',
+	'LBL_ENTER_SEARCHED_ADDRESS' => 'Enter the address to search',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
@@ -1208,4 +1213,5 @@ $jsLanguageStrings = [
 	'JS_CAN_NOT_REMOVE_COMMENT' => 'Você não pode apagar Comentários com respostas. Apague todas as respostas para só depois apagar o Comentário.',
 	'JS_DELETE_COMMENT_CONFIRMATION' => 'Tem certeza que deseja apagar o Comentário?',
 	'JS_SET_TAX_FOR' => 'Definir Imposto para',
+	'JS_OK' => 'Ok',
 ];

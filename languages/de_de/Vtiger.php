@@ -992,8 +992,13 @@ $languageStrings = [
 	'LBL_FIRST' => 'Erster',
 	'LBL_LAST' => 'Letzter',
 	'LBL_VIEW_EDIT2' => 'Konditionen hinzufügen',
-	'LBL_VIEW_CONFIGURATION' => 'Widok konfiguracyjny',
+	'LBL_VIEW_CONFIGURATION' => 'Konfigurationssicht',
 	'MEN_LEADS' => 'Verkauf',
+	'LBL_VIEW_STEP1' => 'Information',
+	'LBL_VIEW_STEP2' => 'Konditionen hinzufügen',
+	'LBL_VIEW_ADDACTION' => 'Aktionen',
+	'LBL_VIEW_ACTIONCONFIG' => 'Action config',
+	'LBL_ENTER_SEARCHED_ADDRESS' => 'Enter the address to search',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
@@ -1213,4 +1218,5 @@ $jsLanguageStrings = [
 	'JS_CAN_NOT_REMOVE_COMMENT' => 'You can\'t delete comments with answers. Delete all the answers in order to delete the comment.',
 	'JS_DELETE_COMMENT_CONFIRMATION' => 'Are you sure you want to delete the comment?',
 	'JS_SET_TAX_FOR' => 'Steuersatz einstellen für',
+	'JS_OK' => 'Ok',
 ];

@@ -32,7 +32,7 @@ class Settings_OSSMailScanner_logs_View extends Settings_Vtiger_Index_View
 			$viewer->assign('STOP_BUTTON_STATUS', 'false');
 		}
 
-		echo $viewer->view('logs.tpl', $moduleName, true);
+		echo $viewer->view('logs.tpl', $request->getModule(false), true);
 	}
 
 	public function getNumLog()

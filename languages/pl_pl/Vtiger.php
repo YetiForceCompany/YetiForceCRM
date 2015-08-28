@@ -983,6 +983,11 @@ $languageStrings = [
 	'LBL_VIEW_EDIT2' => 'Dodaj warunki',
 	'LBL_VIEW_CONFIGURATION' => 'Widok konfiguracyjny',
 	'MEN_LEADS' => 'Firmy i Kontakty',
+	'LBL_VIEW_STEP1' => 'Podstawowe informacje',
+	'LBL_VIEW_STEP2' => 'Dodaj warunki',
+	'LBL_VIEW_ADDACTION' => 'Akcje',
+	'LBL_VIEW_ACTIONCONFIG' => 'Konfiguracja akcji',
+	'LBL_ENTER_SEARCHED_ADDRESS' => 'Wprowadź szukany adres',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
@@ -1204,4 +1209,5 @@ $jsLanguageStrings = [
 	'JS_CAN_NOT_REMOVE_COMMENT' => 'Nie można usuwać komentarzy zawierających odpowiedzi. Usuń wszystkie odpowiedzi aby móc usunąć komentarz.',
 	'JS_DELETE_COMMENT_CONFIRMATION' => 'Czy na pewno chcesz usunąć komentarz?',
 	'JS_SET_TAX_FOR' => 'Ustaw podatek dla',
+	'JS_OK' => 'Ok',
 ];

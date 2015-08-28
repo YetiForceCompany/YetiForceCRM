@@ -6,7 +6,7 @@
 	<button class="btn btn-primary copyAddressFromVendor" type="button" data-label="{$BLOCK_LABEL}"><strong>{vtranslate('SINGLE_Vendors', $MODULE)}</strong></button>
 	{if {$MODULE_NAME} neq 'Contacts'}
 		<button class="btn btn-primary copyAddressFromContact" type="button" data-label="{$BLOCK_LABEL}"><strong>{vtranslate('SINGLE_Contacts', $MODULE)}</strong></button>
-	{/if}	
+	{/if}
 	{if $BLOCK_LABEL neq 'LBL_ADDRESS_INFORMATION' && array_key_exists('LBL_ADDRESS_INFORMATION',$RECORD_STRUCTURE) }
 		<button class="btn btn-primary copyAddressFromMain" type="button" data-label="LBL_ADDRESS_INFORMATION">
 			<strong>{vtranslate('LBL_ADDRESS_INFORMATION', $MODULE)}</strong>

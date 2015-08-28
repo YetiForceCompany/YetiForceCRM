@@ -25,10 +25,10 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType {
 	 * @return <Object>
 	 */
 	public function getDisplayValue($value) {
-		if($value === 1 || $value === '1' || strtolower($value) === 'on' || strtolower($value) === 'yes') {
+		if($value === 1 || $value === '1' || strtolower($value) === 'on' || strtolower($value) === 'yes' || true === $value) {
 			return Vtiger_Language_Handler::getTranslatedString('LBL_YES', $this->get('field')->getModuleName());
 		}
-		else if ( $value === 0 || $value === '0' || strtolower($value) === 'off' || strtolower($value) === 'no' ) {
+		else if ( $value === 0 || $value === '0' || strtolower($value) === 'off' || strtolower($value) === 'no' || false === $value ) {
 			return Vtiger_Language_Handler::getTranslatedString('LBL_NO', $this->get('field')->getModuleName());
 		}
 

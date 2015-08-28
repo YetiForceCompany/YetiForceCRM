@@ -13,7 +13,7 @@ class API_Base_GetModulesList extends BaseAction
 
 	public function getModulesList()
 	{
-		$modules = ['HelpDesk','Accounts'];
+		$modules = ['HelpDesk' => 'HelpDesk','Accounts' => 'Accounts'];
 		
 		return $modules;
 	}

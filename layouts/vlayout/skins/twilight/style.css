@@ -3374,7 +3374,7 @@ span[name=existingImages] img{
 .paddingLeftMd{
 	padding-left: 15px;
 }
-.widget_header div:nth-child(2).btn-toolbar,.editViewContainer .contentHeader.row div:nth-child(2){
+.widget_header div:nth-child(2).btn-toolbar,.editViewContainer .contentHeader.row div:nth-child(2),.contentsDiv ul#tabs.nav,.marginTop20{
 	margin-top: 20px;
 }
 .fieldLabel .referenceMandatory{
@@ -3512,4 +3512,128 @@ span[name=existingImages] img{
 }
 .dashboardContainer .dashboardHeading .dropdown-menu {
 	left: -82px;
+}
+#VtEmailTaskContainer .addTime{
+	text-align: left;
+}
+.summaryWidgetContainer.summaryWidgetBlock{
+    padding: 0;
+}
+.summaryWidgetContainer .container-fluid{
+	padding: 0 5px 0 5px;
+}
+.summaryWidgetContainer .widgetTitle{
+	padding-left: 10px;
+}
+.summaryWidgetContainer .widgetHeader{
+	background-color: #f5f5f5;
+	background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: -ms-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
+	background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
+	border-color: #f3f3f4 #f3f3f4 #cbcbcf;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	border-top: 1px solid #ffffff;
+	border-bottom: 1px solid #dddddd;
+	text-shadow: 0px 1px #ffffff;
+	color: #444444;
+	padding-bottom: 4px;
+}
+.summaryWidgetContainer .widgetHeader h4{
+	margin: 0;
+}
+.summaryWidgetContainer .widgetContent{
+	padding: 5px;
+	font-size: 13px;
+}
+.summaryWidgetContainer .widgetContent .container-fluid > .row{
+	border-bottom: 1px solid #dddddd;
+	margin-right: -10px;
+	margin-left: -10px;
+	padding: 4px 0;
+}
+.summaryWidgetContainer .widgetContent .container-fluid > .row:last-child{
+	border-bottom: 0;
+}
+.summaryWidgetContainer .widgetContent .smalSeparator {
+    display: block;
+    height: 5px;
+	width: 70px;
+}
+.summaryWidgetContainer .widgetContent hr {
+	margin: 4px 0;
+}
+.summaryWidgetContainer .widgetContent .row{
+	background-color: #fff;
+}
+.summaryWidgetContainer .widgetContent .row.even{
+	background-color: #faf8f8;
+}
+.summaryWidgetContainer .widgetContent .mailTitle, .modalViewBody .mailTitle{
+	margin: 0;
+}
+.summaryWidgetContainer .widgetContent .mainSubject{
+	font-weight: 800;
+	font-size: 13px;
+}
+.summaryWidgetContainer .widgetContent .mainFrom, .modalViewBody .mainFrom{
+	font-size: 16px;
+}
+.summaryWidgetContainer .widgetContent .mailActions{
+	margin-top: 3px;
+    z-index: 1020;
+    position: relative;
+}
+.summaryWidgetContainer .widgetContent .mailActions a{
+	margin-left: 3px;
+}
+.summaryWidgetContainer .widgetContent .mailActions a:first-child{
+	margin-left: 0;
+}
+.summaryWidgetContainer .widgetContent .mailBodyContent{
+	overflow: auto;
+}
+.summaryWidgetContainer .widgetContent .mailBodyContent p{
+	margin: 0;
+}
+.rowHr{
+	margin: 4px 0;
+}
+.firstLetter{
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+	display: block;
+    padding: 6px 8px;
+	height: 32px;
+    width: 32px;
+    font-size: 16px;
+	text-align: center;
+	margin: 0 7px 3px 0;
+	-webkit-box-shadow: 0px 0px 8px -1px rgba(156,156,156,1);
+	-moz-box-shadow: 0px 0px 8px -1px rgba(156,156,156,1);
+	box-shadow: 0px 0px 8px -1px rgba(156,156,156,1);
+}
+.modal-blg {
+	width: 90%;
+}
+.modal-blg iframe{
+	height: 420px;
+}
+#emailPreview{
+	margin: 10px 0;
+}
+.mailsList{
+	max-height: 630px;
+	overflow: auto;
+}
+.domain{
+	padding-left: 2px;
+	padding-right: 2px;
+	background: rgba(91, 234, 81, 0.54) !important;
+	border-radius: 4px;
 }

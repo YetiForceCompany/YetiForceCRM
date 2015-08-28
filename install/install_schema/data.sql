@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -979,6 +980,7 @@ insert  into `vtiger_crmentity_seq`(`id`) values (108);
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (1,'Workflow','cron/modules/com_vtiger_workflow/com_vtiger_workflow.service',900,NULL,NULL,1,'com_vtiger_workflow',1,'Recommended frequency for Workflow is 15 mins');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (2,'RecurringInvoice','cron/modules/SalesOrder/RecurringInvoice.service',43200,NULL,NULL,1,'SalesOrder',2,'Recommended frequency for RecurringInvoice is 12 hours');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (3,'SendReminder','cron/SendReminder.service',900,NULL,NULL,1,'Calendar',3,'Recommended frequency for SendReminder is 15 mins');
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (4,'LBL_CURRENCY_UPDATE','modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php',86400,1440171630,1440171632,1,'CurrencyUpdate',4,'Recommended frequency for Currency Update is 24 hours');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (8,'Scheduled Import','cron/modules/Import/ScheduledImport.service',900,NULL,NULL,1,'Import',6,'Recommended frequency for MailScanner is 15 mins');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (9,'ScheduleReports','cron/modules/Reports/ScheduleReports.service',900,NULL,NULL,1,'Reports',7,'Recommended frequency for ScheduleReports is 15 mins');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (10,'MailScannerAction','modules/OSSMailScanner/cron/action.php',200,NULL,NULL,1,'OSSMailScanner',8,'');
@@ -6007,6 +6009,8 @@ insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) val
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('email_list','widget_limit','10');
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('email_list','target','_blank');
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('email_list','permissions','vtiger');
+insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('exceptions','crating_mails',NULL);
+insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('exceptions','crating_mails',NULL);
 
 /*Data for the table `vtiger_ossmailscanner_folders_uid` */
 
@@ -21311,7 +21315,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (38,7,'LBL_PASSWORD_CONF',NULL,'LBL_PASSWORD_DESCRIPTION','index.php?module=Password&parent=Settings&view=Index',1,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (40,2,'LBL_MENU_BUILDER','menueditor.png','LBL_MENU_BUILDER_DESCRIPTION','index.php?module=Menu&view=Index&parent=Settings',3,0,1);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (41,2,'LBL_ARRANGE_RELATED_TABS','picklist.gif','LBL_ARRANGE_RELATED_TABS','index.php?module=LayoutEditor&parent=Settings&view=Index&mode=showRelatedListLayout',4,0,1);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (44,8,'Mail Scanner','','LBL_MAIL_SCANNER_DESCRIPTION','index.php?module=OSSMailScanner&parent=Settings&view=index',19,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (44,8,'Mail Scanner','','LBL_MAIL_SCANNER_DESCRIPTION','index.php?module=OSSMailScanner&parent=Settings&view=Index',19,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (45,7,'Mail Logs','','LBL_MAIL_LOGS_DESCRIPTION','index.php?module=OSSMailScanner&parent=Settings&view=logs',20,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (46,8,'Mail View','','LBL_MAIL_VIEW_DESCRIPTION','index.php?module=OSSMailView&parent=Settings&view=index',21,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (47,4,'Document Control','','LBL_DOCUMENT_CONTROL_DESCRIPTION','index.php?module=OSSDocumentControl&parent=Settings&view=Index',22,0,0);
@@ -21351,10 +21355,11 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (85,1,'LBL_AUTHORIZATION',NULL,'LBL_AUTHORIZATION_DESCRIPTION','index.php?module=Users&view=Auth&parent=Settings',8,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (86,6,'LBL_TIMECONTROL_PROCESSES','','LBL_TIMECONTROL_PROCESSES_DESCRIPTION','index.php?module=TimeControlProcesses&parent=Settings&view=Index',5,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (87,2,'LBL_CUSTOM_FIELD_MAPPING','','LBL_CUSTOM_FIELD_MAPPING_DESCRIPTION','index.php?parent=Settings&module=Leads&view=MappingDetail',20,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (88,4,'LBL_CURRENCY_UPDATE','','LBL_CURRENCY_UPDATE_DESCRIPTION','index.php?module=CurrencyUpdate&view=Index&parent=Settings',26,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
-insert  into `vtiger_settings_field_seq`(`id`) values (87);
+insert  into `vtiger_settings_field_seq`(`id`) values (88);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
@@ -22381,6 +22386,10 @@ insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','server','t
 insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','port','389');
 insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','users',NULL);
 insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','domain',NULL);
+
+/*Data for the table `yetiforce_currencyupdate` */
+
+/*Data for the table `yetiforce_currencyupdate_banks` */
 
 /*Data for the table `yetiforce_mail_config` */
 

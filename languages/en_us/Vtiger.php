@@ -976,6 +976,11 @@ $languageStrings = [
 	'LBL_VIEW_EDIT2' => 'Add Conditions',
 	'LBL_VIEW_CONFIGURATION' => 'Configuration view',
 	'MEN_LEADS' => 'Companies and Contacts',
+	'LBL_VIEW_STEP1' => 'Basic Information',
+	'LBL_VIEW_STEP2' => 'Add Conditions',
+	'LBL_VIEW_ADDACTION' => 'Actions',
+	'LBL_VIEW_ACTIONCONFIG' => 'Action config',
+	'LBL_ENTER_SEARCHED_ADDRESS' => 'Enter the address to search',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',
@@ -1242,4 +1247,5 @@ $jsLanguageStrings = [
 	'JS_CAN_NOT_REMOVE_COMMENT' => 'You can\'t delete comments with answers. Delete all the answers in order to delete the comment.',
 	'JS_DELETE_COMMENT_CONFIRMATION' => 'Are you sure you want to delete the comment?',
 	'JS_SET_TAX_FOR' => 'Set Tax for',
+	'JS_OK' => 'Ok',
 ];

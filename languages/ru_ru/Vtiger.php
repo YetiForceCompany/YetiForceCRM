@@ -1234,6 +1234,11 @@ $languageStrings = [
 	'LBL_VIEW_EDIT2' =>	'Добавление условий',
 	'LBL_VIEW_CONFIGURATION' => 'Добавление условий',
 	'MEN_LEADS' => 'Клиенты',
+	'LBL_VIEW_STEP1' => 'Основная информация',
+	'LBL_VIEW_STEP2' => 'Добавление условий',
+	'LBL_VIEW_ADDACTION' => 'Действия',
+	'LBL_VIEW_ACTIONCONFIG' => 'Action config',
+	'LBL_ENTER_SEARCHED_ADDRESS' => 'Enter the address to search',
 ];
 $jsLanguageStrings = [
 	'SINGLE_SalesOrder' => 'Заказ',
@@ -1542,4 +1547,5 @@ $jsLanguageStrings = [
 	'JS_CAN_NOT_REMOVE_COMMENT' => 'Вы не можете удалять комментарии с ответами. Удалить все ответы для того, чтобы удалить комментарий.',
 	'JS_DELETE_COMMENT_CONFIRMATION' => 'Вы уверены, что хотите удалить комментарий?',
 	'JS_SET_TAX_FOR' => '% налога для',
+	'JS_OK' => 'Ok',
 ];

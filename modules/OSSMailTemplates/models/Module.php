@@ -35,6 +35,7 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 		$tabid = getTabid($moduleName);
+		$sourceModule = $moduleName;
 		$sql = "select vtiger_field.fieldid, fieldlabel, uitype, vtiger_fieldmodulerel.relmodule from vtiger_field 
 				left JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid where tabid = ? AND (uitype = '10' OR uitype = '59' OR uitype = '53' OR uitype = '51')";
 
@@ -59,7 +60,7 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 			$moduleInfoSql = "SELECT * FROM vtiger_tab WHERE tabid = ?";
 			$moduleInfoResult = $db->pquery($moduleInfoSql, array($moduleList[$i][0]), true);
 			$moduleName = $db->query_result($moduleInfoResult, 0, 'name');
-			$moduleTrLabal = vtranslate($moduleList[$i][1], $moduleName);
+			$moduleTrLabal = vtranslate($moduleList[$i][1], $sourceModule);
 			$output[$moduleTrLabal] = array();
 			$output[$moduleTrLabal] = $this->getListFiledOfModule($moduleName, $moduleList[$i][2]);
 		}
