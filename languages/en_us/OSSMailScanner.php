@@ -138,5 +138,5 @@ $languageStrings = [
 	'LBL_EXCEPTIONS' => 'Exceptions',
 	'LBL_EXCEPTIONS_CREATING_EMAIL' => 'Addresses omitted while executing an action creating e-mail messages',
 	'LBL_EXCEPTIONS_CREATING_TICKET' => 'Addresses omitted while executing an action creating tickets',
-	'LBL_WRITE_AND_ENTER' => 'Wpisz adres i wciśnij enter',
+	'LBL_WRITE_AND_ENTER' => 'Enter the address and press enter',
 ];
