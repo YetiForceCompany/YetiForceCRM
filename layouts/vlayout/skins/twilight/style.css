@@ -1307,8 +1307,7 @@ td.fieldValue .input-group {
 .conditionGroup .contents .conditionRow {
 	margin-bottom: 10px;
 }
-.conditionGroup .contents .conditionRow select,
-.conditionGroup .contents .conditionRow input {
+.conditionGroup .contents .conditionRow select{
 	width: 90%;
 }
 .conditionGroup .contents .conditionRow .chzn-results li {
