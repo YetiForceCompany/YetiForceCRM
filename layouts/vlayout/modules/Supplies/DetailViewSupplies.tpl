@@ -9,6 +9,15 @@
 		{assign var="COUNT_FIELDS0" value=count($FIELDS[0])}
 		{assign var="COUNT_FIELDS1" value=count($FIELDS[1])}
 		{assign var="COUNT_FIELDS2" value=count($FIELDS[2])}
+		{assign var="BASE_CURRENCY" value=Vtiger_Util_Helper::getBaseCurrency()}
+		{if in_array("currency",$COLUMNS)}
+			{if count($SUP_RECORD_DATA) > 0}
+				{assign var="CURRENCY" value=$SUP_RECORD_DATA[0]['currency']}
+			{else}
+				{assign var="CURRENCY" value=$BASE_CURRENCY['id']}
+			{/if}
+			{assign var="CURRENCY_SYMBOLAND" value=Vtiger_Functions::getCurrencySymbolandRate($CURRENCY)}
+		{/if}
 		<table class="table table-bordered suppliesHeaderTable blockContainer">
 			<thead>
 				<tr>
@@ -67,5 +76,6 @@
 				</tr>
 			</tfoot>
 		</table>
+		{include file='DetailViewSuppliesSummary.tpl'|@vtemplate_path:Supplies_Module_Model::getModuleNameForTpl('DetailViewSuppliesSummary.tpl',$MODULE)}
 	{/if}
 {/strip}

@@ -203,4 +203,22 @@ class Supplies_SupField_Model
 		}
 		return $fields;
 	}
+	public static function getTaxParam($taxParam, $net, $return = false)
+	{
+		$taxParam = json_decode($taxParam,true);
+		if(count($taxParam) == 0){
+			return [];
+		}
+		if(is_string($taxParam['aggregationType'])){
+			$taxParam['aggregationType'] = [$taxParam['aggregationType']];
+		}
+		if(!$return){
+			$return = [];
+		}
+		foreach ($taxParam['aggregationType'] as $aggregationType) {
+			$precent = $taxParam[$aggregationType.'Tax'];
+			$return[$precent] += $net * ($precent/100);
+		}
+		return $return;
+	}
 }

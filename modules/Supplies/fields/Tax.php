@@ -35,12 +35,4 @@ class Supplies_Tax_Field extends Supplies_Basic_Field
 		}
 		return '';
 	}
-	
-	public function isVisible($data)
-	{
-		if (count($data) > 0 && $data[0]['taxmode'] == 0) {
-			return false;
-		}
-		return true;
-	}
 }

@@ -11,7 +11,7 @@ class Products_Taxs_View extends Vtiger_Index_View
 		$currency = $request->get('currency');
 		$sourceModule = $request->get('sourceModule');
 		$sourceRecord = $request->get('sourceRecord');
-		$isIndividual = $request->get('isIndividual');
+		$taxType = $request->get('taxType');
 		$totalPrice = $request->get('totalPrice');
 		$accountField = $request->get('accountField');
 
@@ -27,6 +27,7 @@ class Products_Taxs_View extends Vtiger_Index_View
 		$viewer->assign('CURRENCY_SYMBOL', Vtiger_Functions::getCurrencySymbolandRate($currency)['symbol']);
 		$viewer->assign('TOTAL_PRICE', $totalPrice);
 		$viewer->assign('CONFIG', $config);
+		$viewer->assign('TAX_TYPE', $taxType);
 		$viewer->assign('TAX_FIELD', Supplies_EditView_Model::getTaxField($recordModule));
 		$viewer->assign('AGGREGATION_TYPE', $config['aggregation']);
 		$viewer->assign('AGGREGATION_INPUT_TYPE', $config['aggregation'] == 0 ? 'radio' : 'checkbox');

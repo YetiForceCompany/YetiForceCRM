@@ -27,12 +27,4 @@ class Supplies_Discount_Field extends Supplies_Basic_Field
 	{
 		return CurrencyField::convertToUserFormat($value, null, true);
 	}
-	
-	public function isVisible($data)
-	{
-		if (count($data) > 0 && $data[0]['discountmode'] == 0) {
-			return false;
-		}
-		return true;
-	}
 }

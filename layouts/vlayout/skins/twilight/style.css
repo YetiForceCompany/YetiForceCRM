@@ -3498,6 +3498,6 @@ span[name=existingImages] img{
 .suppliesItemsTable tfoot{
 	font-weight: 800;
 }
-.suppliesSummaryContainer .panel-heading img{
+.suppliesSummaryContainer img{
 	max-width: 15px;
 }

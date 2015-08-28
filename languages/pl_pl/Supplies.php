@@ -58,7 +58,6 @@ $languageStrings = [
 	'LBL_CHANGE_CURRENCY_INFO' => 'Zmiana waluty spowoduje przeliczenie wszystkich wartości.<br/>Czy jesteś pewien czy chcesz to zroić?',
 	'LBL_SUMMARY' => 'Podsumowanie',
 	'LBL_AMOUNT' => 'Suma',
-	
-	'LBL_GROUP_TsAXS' => 'Grupowy',
-	'LBL_GROUP_TsAXS' => 'Grupowy',
+	'LBL_SET_GLOBAL_TAX' => 'Ustaw',
+	'LBL_SET_GLOBAL_DISCOUNT' => 'Ustaw',
 ];

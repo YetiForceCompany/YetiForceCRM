@@ -13,7 +13,8 @@
 			{if count($SUP_RECORD_DATA) > 0}
 				{assign var="CURRENCY" value=$SUP_RECORD_DATA[0]['currency']}
 			{else}
-				{assign var="CURRENCY" value=$SUP_RECORD_DATA[0]['currency']}
+				{assign var="BASE_CURRENCY" value=Vtiger_Util_Helper::getBaseCurrency()}
+				{assign var="CURRENCY" value=$BASE_CURRENCY['id']}
 			{/if}
 			{assign var="CURRENCY_SYMBOLAND" value=Vtiger_Functions::getCurrencySymbolandRate($CURRENCY)}
 		{/if}

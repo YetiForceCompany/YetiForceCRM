@@ -1,5 +1,5 @@
 {strip}
-	{if $TAX_FIELD}
+	{if $TAX_TYPE == '0' && $TAX_FIELD}
 		{assign var=RECORD_MODEL value=Vtiger_Record_Model::getInstanceById($RECORD)}
 		{assign var=TAXES value=Vtiger_Taxs_UIType::getTaxs()}
 		{assign var=SELECTED_TAXES value=Vtiger_Taxs_UIType::getValues($RECORD_MODEL->get($TAX_FIELD))}

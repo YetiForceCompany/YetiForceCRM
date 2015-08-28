@@ -35,6 +35,9 @@ class Supplies_EditView_Model extends Vtiger_EditView_Model
 			return $cache;
 		}
 		$return = false;
+		if($moduleName == ''){
+			return $return;
+		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
 			if ($fieldModel->get('uitype') == 303) {
