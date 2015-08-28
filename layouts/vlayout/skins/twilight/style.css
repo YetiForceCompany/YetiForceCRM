@@ -3469,35 +3469,35 @@ span[name=existingImages] img{
 .individualTaxContainer {
 	text-align: left !important;
 }
-.suppliesItemsTable .input-group{
+.inventoryItems .input-group{
 	max-width: 200px;
 }
-.suppliesItemsTable .rowName .input-group{
+.inventoryItems .rowName .input-group{
 	max-width: 400px;
 }
-.suppliesItemsTable td,
-.suppliesItemsTable th{
+.inventoryItems td,
+.inventoryItems th{
 	border: 1px solid #ddd;
 }
-.suppliesItemsTable tfoot td.hideTd{
+.inventoryItems tfoot td.hideTd{
 	border: 0;
 	background: #fafafb;
 }
-.suppliesSummaryContainer .panel-body,.suppliesSummaryContainer .panel-footer{
+.inventorySummaryContainer .panel-body,.inventorySummaryContainer .panel-footer{
 	padding: 0;
 }
-.suppliesSummaryContainer .panel-body .form-group, .suppliesSummaryContainer .panel-footer .form-group{
+.inventorySummaryContainer .panel-body .form-group, .inventorySummaryContainer .panel-footer .form-group{
 	margin: 0;
 }
-.suppliesSummaryContainer .input-group .form-control{
+.inventorySummaryContainer .input-group .form-control{
 	background-color: #F5F5F5;
 }
-.suppliesSummaryContainer .panel-body .percent{
+.inventorySummaryContainer .panel-body .percent{
 	min-width: 55px;
 }
-.suppliesItemsTable tfoot{
+.inventoryItems tfoot{
 	font-weight: 800;
 }
-.suppliesSummaryContainer img{
+.inventorySummaryContainer img{
 	max-width: 15px;
 }

@@ -537,4 +537,32 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$module = CRMEntity::getInstance($parentModuleName);
 		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : array();
 	}
+
+	/**
+	 * Loading the inventory data
+	 * @return array Supplies data
+	 */
+	public function getInventoryData()
+	{
+		$log = vglobal('log');
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
+
+		$module = $this->getModuleName();
+		$record = $this->getId();
+		if (empty($record)) {
+			return [];
+		}
+
+		$db = PearDatabase::getInstance();
+		$inventoryField = Vtiger_InventoryField_Model::getInstance($module);
+		$table = $inventoryField->getTableName('data');
+		$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE id = ? ORDER BY seq', [$record]);
+		$fields = [];
+		while ($row = $db->fetch_array($result)) {
+			$fields[] = $row;
+		}
+
+		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		return $fields;
+	}
 }
