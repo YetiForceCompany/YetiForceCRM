@@ -15,4 +15,4 @@ Follow us on [Twitter](https://twitter.com/YetiForceEN) to get real-time info ab
 
 YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow to easily migrate from Vtiger to YetiForce.
 
-The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/pl/dokumentacja-programisty/zmiany.html).
+The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/en/developer-documentation/changes.html).
