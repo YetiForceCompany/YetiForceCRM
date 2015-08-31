@@ -11,8 +11,8 @@
 				<div class="modal-body">
 					<input type="hidden" class="taxsType" value="{$AGGREGATION_TYPE}" />
 					{foreach item=TAXID from=$CONFIG['taxs']}
-						{assign var="TAX_TYPE_TPL" value="TaxsType"|cat:$TAXID|cat:".tpl"}
-						{include file=$TAX_TYPE_TPL|@vtemplate_path:Supplies_Module_Model::getModuleNameForTpl($TAX_TYPE_TPL,$MODULE)}
+						{assign var="TAX_TYPE_TPL" value="InventoryTaxesType"|cat:$TAXID|cat:".tpl"}
+						{include file=$TAX_TYPE_TPL|@vtemplate_path:$MODULE}
 					{/foreach}
 					<hr/>
 					<div class="row">

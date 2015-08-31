@@ -9,13 +9,9 @@
 class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 {
 
-	const DATA_PREFIX = '_sups';
-	const FIELDS_PREFIX = '_supfield';
-	const AUTOFIELD_PREFIX = '_supmap';
-
 	protected static $fields = false;
 	protected static $columns = false;
-
+	protected $jsonFields = ['discountparam', 'taxparam'];
 	/**
 	 * Create the name of the Supplies data table
 	 * @param string $module Module name
@@ -26,13 +22,13 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	{
 		switch ($type) {
 			case 'data':
-				$prefix = self::DATA_PREFIX;
+				$prefix = '_sups';
 				break;
 			case 'fields':
-				$prefix = self::FIELDS_PREFIX;
+				$prefix = '_supfield';
 				break;
 			case 'autofield':
-				$prefix = self::AUTOFIELD_PREFIX;
+				$prefix = '_supmap';
 				break;
 		}
 		$moduleName = strtolower($this->get('module'));
@@ -68,7 +64,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 				$fields[$row['columnname']] = $this->getInventoryFieldInstance($row);
 			}
 			$this->fields = $fields;
-		}else{
+		} else {
 			$fields = $this->fields;
 		}
 		if ($returnInBlock) {
@@ -85,7 +81,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function isActiveField($row)
 	{
 		if (in_array($row['suptype'], ['Discount', 'DiscountMode'])) {
-			$discountsConfig = Products_Record_Model::getDiscountsConfig();
+			$discountsConfig = Vtiger_Inventory_Model::getDiscountsConfig();
 			if ($discountsConfig['active'] == '0') {
 				return false;
 			}
@@ -202,15 +198,15 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $instance;
 	}
 
-	public static function getAutoCompleteField($recordModuleName, $moduleName)
+	public function getAutoCompleteField($moduleName)
 	{
 		$db = PearDatabase::getInstance();
-		$table = self::getTableName($moduleName, 'autofield');
+		$table = $this->getTableName('autofield');
 		$result = $db->query("SHOW TABLES LIKE '$table'");
 		if ($result->rowCount() == 0) {
 			return false;
 		}
-		$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE module = ?', [$recordModuleName]);
+		$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE module = ?', [$moduleName]);
 		$fields = [];
 		while ($row = $db->fetch_array($result)) {
 			$fields[] = $row;
@@ -235,5 +231,82 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			$return[$precent] += $net * ($precent / 100);
 		}
 		return $return;
+	}
+
+	public function getReferenceField($mainModule = 'Accounts')
+	{
+		$relationField = $this->get('relationField' . $mainModule);
+		if (!$relationField) {
+			$moduleModel = Vtiger_Module_Model::getInstance($this->get('module'));
+			$modelFields = $moduleModel->getFields();
+			$relationField = false;
+			foreach ($modelFields as $fieldName => $fieldModel) {
+				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+					$referenceList = $fieldModel->getReferenceList();
+					if (in_array($mainModule, $referenceList)) {
+						$relationField = $fieldName;
+						break;
+					}
+				}
+			}
+		}
+		return $relationField;
+	}
+
+	public function isWysiwygType($moduleName)
+	{
+		if (!$moduleName) {
+			return false;
+		}
+		$cache = Vtiger_Cache::get('InventoryIsWysiwygType', $moduleName);
+		if ($cache) {
+			return $cache;
+		}
+		$return = 0;
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$fieldModel = Vtiger_Field_Model::getInstance('description', $moduleModel);
+		if ($fieldModel && $fieldModel->get('uitype') == '300') {
+			$return = 1;
+		}
+		Vtiger_Cache::set('InventoryIsWysiwygType', $moduleName, $return);
+		return $return;
+	}
+
+	public function getTaxField($moduleName)
+	{
+		$cache = Vtiger_Cache::get('InventoryIsGetTaxField', $moduleName);
+		if ($cache) {
+			return $cache;
+		}
+		$return = false;
+		if ($moduleName == '') {
+			return $return;
+		}
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
+			if ($fieldModel->get('uitype') == 303) {
+				$return = $fieldName;
+				continue;
+			}
+		}
+
+		Vtiger_Cache::set('InventoryIsGetTaxField', $moduleName, $return);
+		return $return;
+	}
+	
+	public function getValueForSave(Vtiger_Request $request, $field, $i)
+	{
+		$value = '';
+		if (in_array($field, $this->jsonFields) && $request->get($field . $i) != '') {
+			$value = json_encode($request->get($field . $i));
+		} else if ($request->has($field . $i)) {
+			$value = $request->get($field . $i);
+		} else if ($request->has($field)) {
+			$value = $request->get($field);
+		}
+		if (in_array($field, ['price','gross','net','discount','purchase','margin','marginp','tax','total'])) {
+			$value = CurrencyField::convertToDBFormat($value, null, true);
+		}
+		return $value;
 	}
 }

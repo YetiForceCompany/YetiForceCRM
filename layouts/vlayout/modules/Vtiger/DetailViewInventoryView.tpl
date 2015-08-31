@@ -27,7 +27,7 @@
 						<th colspan="{$FIELD->get('colspan')}">
 							<span class="inventoryLineItemHeader">{vtranslate($FIELD->get('label'), $MODULE_NAME)}:</span>&nbsp;
 							{assign var="FIELD_TPL_NAME" value="innventoryFields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
-							{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE_NAME SUP_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
+							{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE_NAME ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
 						</th>
 					{/foreach}
 				</tr>
@@ -54,7 +54,7 @@
 							{if $FIELD->isVisible($INVENTORY_ROWS)}
 								<td {if in_array($FIELD->getName(), $FIELDS_TEXT_ALIGN_RIGHT)}class="textAlignRight"{/if}>
 									{assign var="FIELD_TPL_NAME" value="innventoryFields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
-									{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE_NAME SUP_VALUE=$INVENTORY_ROW[$FIELD->get('columnname')]}
+									{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE_NAME ITEM_VALUE=$INVENTORY_ROW[$FIELD->get('columnname')]}
 								</td>
 							{/if}
 						{/foreach}

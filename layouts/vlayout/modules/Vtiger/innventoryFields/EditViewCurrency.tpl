@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	{assign var=CURRENCIES value=Vtiger_Functions::getAllCurrency(true)}
-	{assign var=SELECTED_CURRENCY value=$SUP_VALUE}
+	{assign var=SELECTED_CURRENCY value=$ITEM_VALUE}
 	{if $SELECTED_CURRENCY eq ''}
 		{assign var=USER_CURRENCY_ID value=$USER_MODEL->get('currency_id')}
 		{foreach item=CURRENCY from=$CURRENCIES}

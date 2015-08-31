@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	{assign var=VALUE value=$FIELD->getValue($SUP_VALUE)}
+	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
 	<div class="input-group input-group-sm">
 		<input name="{$FIELD->getColumnName()}{$ROW_NO}" value="{$FIELD->getEditValue($VALUE)}" title="{$FIELD->getEditValue($VALUE)}" type="text" 
 			   data-validation-engine="validate[required,funcCall[Vtiger_NumberUserFormat_Validator_Js.invokeValidation]]" 

@@ -11,8 +11,8 @@
 				<div class="modal-body">
 					<input type="hidden" class="discountsType" value="{$AGGREGATION_TYPE}" />
 					{foreach item=DISCOUNTID from=$CONFIG['discounts']}
-						{assign var="DISCOUNT_TYPE_TPL" value="DiscountsType"|cat:$DISCOUNTID|cat:".tpl"}
-						{include file=$DISCOUNT_TYPE_TPL|@vtemplate_path:Supplies_Module_Model::getModuleNameForTpl($DISCOUNT_TYPE_TPL,$MODULE)}
+						{assign var="DISCOUNT_TYPE_TPL" value="InventoryDiscountsType"|cat:$DISCOUNTID|cat:".tpl"}
+						{include file=$DISCOUNT_TYPE_TPL|@vtemplate_path:$MODULE}
 					{/foreach}
 					<hr/>
 					<div class="row">

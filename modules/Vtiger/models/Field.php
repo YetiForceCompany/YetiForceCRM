@@ -190,7 +190,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 			} else if ($uiType == '303') {
 				$fieldDataType = 'taxs';
 			} else if ($uiType == '304') {
-				$fieldDataType = 'suppliesLimit';
+				$fieldDataType = 'inventoryLimit';
 			} else {
 				$webserviceField = $this->getWebserviceFieldObject();
 				$fieldDataType = $webserviceField->getFieldDataType();
@@ -603,7 +603,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 			}
 		}
 		
-		if ($fieldDataType == 'suppliesLimit') {
+		if ($fieldDataType == 'inventoryLimit') {
 			$limits = $this->getUITypeModel()->getLimits();
 			if (!empty($limits)) {
 				$this->fieldInfo['picklistvalues'] = $limits;
