@@ -1429,7 +1429,7 @@ class Vtiger_Functions
 		// Transliterate characters to ASCII
 		$str = str_replace(array_keys($char_map), $char_map, $str);
 		// Replace non-alphanumeric characters with our delimiter
-		$str = preg_replace('/[^\p{L}\p{Nd}]+/u', $delimiter, $str);
+		$str = preg_replace('/[^\p{L}\p{Nd}\.]+/u', $delimiter, $str);
 		// Remove delimiter from ends
 		$str = trim($str, $delimiter);
 		return $str;
