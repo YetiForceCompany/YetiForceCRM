@@ -1,11 +1,10 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-vimport('~modules/Settings/CurrencyUpdate/models/AbstractBank.php');
 
 /**
  * Class for connection to Narodowy Bank Polski currency exchange rates
  */
-class NBP extends AbstractBank
+class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
 {
 	/*
 	 * Returns bank name
@@ -73,6 +72,11 @@ class NBP extends AbstractBank
 				continue;
 			}
 			$currencyCode = $xmlObj->pozycja[$i]->kod_waluty->__toString();
+
+			if ($currencyCode == 'XDR') {
+				continue;
+			}
+
 			$currencyName = Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode);
 			$supportedCurrencies[$currencyName] = $currencyCode;
 		}
@@ -102,11 +106,10 @@ class NBP extends AbstractBank
 		$yesterday = date('Y-m-d', strtotime('-1 day'));
 
 		// check if data is correct, currency rates can be retrieved only for working days
-		$lastWorkingDay = $moduleModel->getLastWorkingDay($yesterday);
+		$lastWorkingDay = Vtiger_Functions::getLastWorkingDay($yesterday);
 
 		$today = date('Y-m-d');
-		$mainCurrency = $moduleModel->getMainCurrencyCode();
-		$mainId = $moduleModel->getMainCurrencyId();
+		$mainCurrency = Vtiger_Functions::getDefaultCurrencyInfo()['currency_code'];
 
 		$dateCur = $dateParam;
 		$chosenYear = date('Y', strtotime($dateCur));
@@ -183,7 +186,7 @@ class NBP extends AbstractBank
 					if ($existingId > 0) {
 						$moduleModel->updateCurrencyRate($existingId, $exchange);
 					} else {
-						$moduleModel->addcurrencyRate($currId, $datePublicationOfFile, $exchange, $selectedBank);
+						$moduleModel->addCurrencyRate($currId, $datePublicationOfFile, $exchange, $selectedBank);
 					}
 				}
 			}
@@ -209,7 +212,7 @@ class NBP extends AbstractBank
 				if ($existingId > 0) {
 					$moduleModel->updateCurrencyRate($existingId, $exchange);
 				} else {
-					$moduleModel->addcurrencyRate($mainCurrencyId, $datePublicationOfFile, $exchange, $selectedBank);
+					$moduleModel->addCurrencyRate($mainCurrencyId, $datePublicationOfFile, $exchange, $selectedBank);
 				}
 			}
 		}

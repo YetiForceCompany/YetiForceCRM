@@ -7734,6 +7734,7 @@ CREATE TABLE `yetiforce_currencyupdate` (
   `exchange` decimal(10,4) NOT NULL,
   `bank_id` int(19) NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `fetchdate_currencyid_unique` (`currency_id`,`fetch_date`,`bank_id`),
   KEY `fk_1_vtiger_osscurrencies` (`currency_id`),
   CONSTRAINT `fk_1_vtiger_osscurrencies` FOREIGN KEY (`currency_id`) REFERENCES `vtiger_currency_info` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -7744,7 +7745,8 @@ CREATE TABLE `yetiforce_currencyupdate_banks` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `bank_name` varchar(255) NOT NULL,
   `active` int(1) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_bankname` (`bank_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_mail_config` */

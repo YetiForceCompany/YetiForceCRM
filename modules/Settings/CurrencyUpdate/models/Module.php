@@ -32,58 +32,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	 */
 	public function getCurrencyNum()
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT COUNT(*) as num FROM `vtiger_currency_info` WHERE `currency_status` = ? LIMIT 1;';
-		$result = $db->pquery($query, ['Active']);
-
-		$num = $db->query_result($result, 0, 'num');
-		return $num;
-	}
-
-	/*
-	 * Returns informations about systems main currency
-	 * @return <Array> - array containing currency info
-	 */
-	public function getMainCurrencyInfo()
-	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT `id`, `currency_name`, `currency_code`, `currency_symbol`, `conversion_rate` FROM `vtiger_currency_info` WHERE `defaultid` = ? LIMIT 1;';
-		$result = $db->pquery($query, ['-11']);
-
-		$curr = $db->fetch_array($result);
-		return $curr;
-	}
-
-	/*
-	 * Returns systems main currency code
-	 * @return <String> - currency code
-	 */
-	public function getMainCurrencyCode()
-	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT `currency_code` FROM `vtiger_currency_info` WHERE `defaultid` = ? LIMIT 1;';
-		$result = $db->pquery($query, ['-11']);
-
-		$curr_code = $db->query_result($result, 0, 'currency_code');
-		return $curr_code;
-	}
-
-	/*
-	 * Returns systems main currency id
-	 * @return <Integer> - currency id
-	 */
-	public function getMainCurrencyId()
-	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT `id` FROM `vtiger_currency_info` WHERE `defaultid` = ? LIMIT 1;';
-		$result = $db->pquery($query, ['-11']);
-
-		$id = $db->query_result($result, 0, 'id');
-		return $id;
+		return count(Vtiger_Functions::getAllCurrency(true));
 	}
 
 	/*
@@ -103,12 +52,12 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 		if ($numToConvert >= 1) {
 			$selectBankId = $this->getActiveBankId();
-			$activeBankName = $this->getActiveBankName();
+			$activeBankName = 'Settings_CurrencyUpdate_models_'.$this->getActiveBankName().'_BankModel';
 			$currIds = [];
 			$otherCurrencyCode = [];
-			for ($i = 0; $i < $numToConvert; $i++) {
-				$id = $db->query_result($vtigerCurrencyResult, $i, 'id');
-				$code = $db->query_result($vtigerCurrencyResult, $i, 'currency_code');
+			while($row = $db->fetchByAssoc($vtigerCurrencyResult)){
+				$id = $row['id'];
+				$code = $row['currency_code'];
 				$currIds[] = $id;
 				$otherCurrencyCode[$code] = $id;
 			}
@@ -119,10 +68,9 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 			$params[] = $selectBankId;
 			$existResult = $db->pquery($existSql, $params);
 
-			$currNum = $db->query_result($existResult, 0, 'num');
+			$currNum = $db->getSingleValue($existResult);
 			// download only if its not in archives
 			if ($currNum != $numToConvert) {
-				vimport('~modules/Settings/CurrencyUpdate/models/BankModels/' . $activeBankName . '.php');
 				$bank = new $activeBankName();
 				$bank->getRates($otherCurrencyCode, $dateCur, false);
 				$notifyNewRates = true;
@@ -141,18 +89,15 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 		$query = 'SELECT `id`, `bank_name` FROM `yetiforce_currencyupdate_banks`;';
 		$result = $db->query($query);
-		$num = $db->num_rows($result);
 
-		if ($num > 0) {
-			for ($i = 0; $i < $num; $i++) {
-				$id = $db->query_result($result, $i, 'id');
-				$bankName = $db->query_result($result, $i, 'bank_name');
+		while($row = $db->fetchByAssoc($result)) {
+			$id = $row['id'];
+			$bankName = $row['bank_name'];
 
-				$bankPath = __DIR__ . '/BankModels/' . $bankName . '.php';
-				if (!file_exists($bankPath)) { // delete bank from database
-					$query = 'DELETE FROM `yetiforce_currencyupdate_banks` WHERE `id` = ? LIMIT 1;';
-					$db->pquery($query, [$id]);
-				}
+			$bankPath = __DIR__ . '/BankModels/' . $bankName . '.php';
+			if (!file_exists($bankPath)) { // delete bank from database
+				$query = 'DELETE FROM `yetiforce_currencyupdate_banks` WHERE `id` = ? LIMIT 1;';
+				$db->pquery($query, [$id]);
 			}
 		}
 
@@ -166,7 +111,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 			$query = 'SELECT COUNT(*) as num FROM `yetiforce_currencyupdate_banks` WHERE `bank_name` = ?;';
 			$result = $db->pquery($query, [$bankClassName]);
-			$bankExists = intval($db->query_result($result, 0, 'num'));
+			$bankExists = intval($db->getSingleValue($result));
 
 			if (!$bankExists) {
 				$query = 'INSERT INTO `yetiforce_currencyupdate_banks` (`bank_name`, `active`) VALUES (?,?);';
@@ -180,25 +125,6 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 			$query = 'UPDATE `yetiforce_currencyupdate_banks` SET `active` = 1 ORDER BY `id` ASC LIMIT 1;';
 			$db->query($query);
 		}
-	}
-
-	/*
-	 * Checks if given date is working day, if not returns last working day
-	 * @param <Date> $date
-	 * @return <Date> - last working y
-	 */
-	public function getLastWorkingDay($date)
-	{
-		$date = strtotime($date);
-		if (date('D', $date) == 'Sat') { // switch to friday the day before
-			$lastWorkingDay = date('Y-m-d', strtotime("-1 day", $date));
-		} else if (date('D', $date) == 'Sun') { // switch to friday two days before
-			$lastWorkingDay = date('Y-m-d', strtotime("-2 day", $date));
-		} else {
-			$lastWorkingDay = date('Y-m-d', $date);
-		}
-
-		return $lastWorkingDay;
 	}
 
 	/*
@@ -221,7 +147,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	 * @param <Float> $exchange - exchange rate
 	 * @param <Integer> $bankId - bank id
 	 */
-	public function addcurrencyRate($currId, $exchangeDate, $exchange, $bankId)
+	public function addCurrencyRate($currId, $exchangeDate, $exchange, $bankId)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -245,7 +171,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 		$params = [$exchangeDate, $currencyId, $bankId];
 		$result = $db->pquery($query, $params);
 
-		return intval($db->query_result($result, 0, 'id'));
+		return intval($db->getSingleValue($result));
 	}
 
 	/*
@@ -254,9 +180,8 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	 * @param <Date> $dateCur - date, if empty show this months history
 	 * @return <Array> - array containing currency rates
 	 */
-	public function getRatesHistory($bankId, $dateCur)
+	public function getRatesHistory($bankId, $dateCur, $request)
 	{
-		$request = new Vtiger_Request($_REQUEST);
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT 
 					`exchange`, 
@@ -294,13 +219,15 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 		$history = array();
 
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$history[$i]['exchange'] = $db->query_result($result, $i, 'exchange');
-			$history[$i]['currency_name'] = $db->query_result($result, $i, 'currency_name');
-			$history[$i]['code'] = $db->query_result($result, $i, 'currency_code');
-			$history[$i]['symbol'] = $db->query_result($result, $i, 'currency_symbol');
-			$history[$i]['fetch_date'] = $db->query_result($result, $i, 'fetch_date');
-			$history[$i]['exchange_date'] = $db->query_result($result, $i, 'exchange_date');
+		$i = 0;
+		while($row = $db->fetchByAssoc($result)) {
+			$history[$i]['exchange'] = $row['exchange'];
+			$history[$i]['currency_name'] = $row['currency_name'];
+			$history[$i]['code'] = $row['currency_code'];
+			$history[$i]['symbol'] = $row['currency_symbol'];
+			$history[$i]['fetch_date'] = $row['fetch_date'];
+			$history[$i]['exchange_date'] = $row['exchange_date'];
+			$i++;
 		}
 
 		return $history;
@@ -314,9 +241,8 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	public function getSupportedCurrencies($bankName = null)
 	{
 		if (!$bankName) {
-			$bankName = $this->getActiveBankName();
+			$bankName = 'Settings_CurrencyUpdate_models_'.$this->getActiveBankName().'_BankModel';
 		}
-		vimport('~modules/Settings/CurrencyUpdate/models/BankModels/' . $bankName . '.php');
 		$bank = new $bankName();
 
 		return $bank->getSupportedCurrencies();
@@ -330,9 +256,8 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	public function getUnSupportedCurrencies($bankName = null)
 	{
 		if (!$bankName) {
-			$bankName = $this->getActiveBankName();
+			$bankName = 'Settings_CurrencyUpdate_models_'.$this->getActiveBankName().'_BankModel';
 		}
-		vimport('~modules/Settings/CurrencyUpdate/models/BankModels/' . $bankName . '.php');
 		$bank = new $bankName();
 
 		$supported = $bank->getSupportedCurrencies($bankName);
@@ -340,12 +265,11 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 		$query = 'SELECT `currency_name`, `currency_code` FROM vtiger_currency_info WHERE `currency_status` = "Active" AND `deleted` = 0;';
 		$result = $db->query($query);
-		$num = $db->num_rows($result);
 
 		$unsupported = [];
-		for ($i = 0; $i < $num; $i++) {
-			$name = $db->query_result($result, $i, 'currency_name');
-			$code = $db->query_result($result, $i, 'currency_code');
+		while($row = $db->fetchByAssoc($result)) {
+			$name = $row['currency_name'];
+			$code = $row['currency_code'];
 
 			$unsupported[$name] = $code;
 		}
@@ -378,7 +302,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	public function getCRMConversionRate($from, $to, $date = '')
 	{
 		$db = PearDatabase::getInstance();
-		$mainCurrencyCode = $this->getMainCurrencyCode();
+		$mainCurrencyCode = Vtiger_Functions::getDefaultCurrencyInfo()['currency_code'];
 		$activeBankId = $this->getActiveBankId();
 		$exchange = false;
 		// get present conversion rate from crm
@@ -483,7 +407,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 		$queryBank = 'SELECT `id` FROM `yetiforce_currencyupdate_banks` WHERE `active` = 1 LIMIT 1;';
 		$resultBank = $db->query($queryBank);
 
-		$bankInfo = $db->query_result($resultBank, 0, 'id');
+		$bankInfo = $db->getSingleValue($resultBank);
 		return $bankInfo;
 	}
 
@@ -520,6 +444,6 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 		$query = 'SELECT `bank_name` FROM `yetiforce_currencyupdate_banks` WHERE `active` = 1 LIMIT 1;';
 		$result = $db->query($query);
 
-		return $db->query_result($result, 0, 'bank_name');
+		return $db->getSingleValue($result);
 	}
 }

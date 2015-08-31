@@ -1,11 +1,10 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-vimport('~modules/Settings/CurrencyUpdate/models/AbstractBank.php');
 
 /**
  * Class for connection to European Central Bank currency exchange rates
  */
-class ECB extends AbstractBank
+class Settings_CurrencyUpdate_models_ECB_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
 {
 	/*
 	 * Returns bank name
@@ -29,7 +28,7 @@ class ECB extends AbstractBank
 	public function getSupportedCurrencies()
 	{
 		$supportedCurrencies = [];
-		$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName('EUR')] = $this->getMainCurrencyCode();
+		$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($this->getMainCurrencyCode())] = $this->getMainCurrencyCode();
 		$source = $this->getSource();
 
 		$XML = simplexml_load_file($source[0]);
@@ -64,10 +63,10 @@ class ECB extends AbstractBank
 		$yesterday = date('Y-m-d', strtotime('-1 day'));
 
 		// check if data is correct, currency rates can be retrieved only for working days
-		$lastWorkingDay = $moduleModel->getLastWorkingDay($yesterday);
+		$lastWorkingDay = Vtiger_Functions::getLastWorkingDay($yesterday);
 
 		$today = date('Y-m-d');
-		$mainCurrency = $moduleModel->getMainCurrencyCode();
+		$mainCurrency = Vtiger_Functions::getDefaultCurrencyInfo()['currency_code'];
 
 		// source, ECB has 2 sources for older rates
 		// 0 - last 90 days
@@ -134,7 +133,7 @@ class ECB extends AbstractBank
 							if ($existingId > 0) {
 								$moduleModel->updateCurrencyRate($existingId, $exchange);
 							} else {
-								$moduleModel->addcurrencyRate($currId, $datePublicationOfFile, $exchange, $selectedBank);
+								$moduleModel->addCurrencyRate($currId, $datePublicationOfFile, $exchange, $selectedBank);
 							}
 						}
 					}
@@ -167,7 +166,7 @@ class ECB extends AbstractBank
 				if ($existingId > 0) {
 					$moduleModel->updateCurrencyRate($existingId, $exchange);
 				} else {
-					$moduleModel->addcurrencyRate($mainCurrencyId, $datePublicationOfFile, $exchange, $selectedBank);
+					$moduleModel->addCurrencyRate($mainCurrencyId, $datePublicationOfFile, $exchange, $selectedBank);
 				}
 			}
 		}

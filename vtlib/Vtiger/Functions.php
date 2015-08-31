@@ -131,6 +131,16 @@ class Vtiger_Functions
 			return self::$currencyInfoCache;
 		}
 	}
+	
+	public static function getDefaultCurrencyInfo() {
+		$allCurrencies = self::getAllCurrency(true);
+		foreach($allCurrencies as $currency) {
+			if ($currency['defaultid'] === '-11') {
+				return $currency;
+			}
+		}
+		return false;
+	}
 
 	static function getCurrencyName($currencyid, $show_symbol = true)
 	{
@@ -1332,5 +1342,24 @@ class Vtiger_Functions
 			}
 		}
 		return $newText;
+	}
+	
+	/*
+	 * Checks if given date is working day, if not returns last working day
+	 * @param <Date> $date
+	 * @return <Date> - last working y
+	 */
+	public static function getLastWorkingDay($date)
+	{
+		$date = strtotime($date);
+		if (date('D', $date) == 'Sat') { // switch to friday the day before
+			$lastWorkingDay = date('Y-m-d', strtotime("-1 day", $date));
+		} else if (date('D', $date) == 'Sun') { // switch to friday two days before
+			$lastWorkingDay = date('Y-m-d', strtotime("-2 day", $date));
+		} else {
+			$lastWorkingDay = date('Y-m-d', $date);
+		}
+
+		return $lastWorkingDay;
 	}
 }

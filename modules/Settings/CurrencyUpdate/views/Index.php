@@ -36,7 +36,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 			$dateCur = date('Y-m-d', $dateCur);
 		}
 
-		$dateCur = $moduleModel->getLastWorkingDay($dateCur);
+		$dateCur = Vtiger_Functions::getLastWorkingDay($dateCur);
 
 		// get currency if not already archived
 		if ($downloadBtn) {
@@ -45,24 +45,25 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 
 		$selectBankId = $moduleModel->getActiveBankId();
 
-		$history = $moduleModel->getRatesHistory($selectBankId, $dateCur);
+		$history = $moduleModel->getRatesHistory($selectBankId, $dateCur, $request);
 		$bankTab = array();
 
 		$bankSQL = "SELECT * FROM yetiforce_currencyupdate_banks";
 		$bankResult = $db->query($bankSQL, true);
 
-
-		for ($i = 0; $i < $db->num_rows($bankResult); $i++) {
-			$bankTab[$i]['id'] = $db->query_result($bankResult, $i, 'id');
-			$bankName = $db->query_result($bankResult, $i, 'bank_name');
+		$i = 0;
+		while($row = $db->fetchByAssoc($bankResult)) {
+			$bankTab[$i]['id'] = $row['id'];
+			$bankName = $row['bank_name'];
 			$bankTab[$i]['bank_name'] = $bankName;
-			$bankTab[$i]['active'] = $db->query_result($bankResult, $i, 'active');
+			$bankTab[$i]['active'] = $row['active'];
+			$i++;
 		}
 
 		// number of currencies
 		$curr_num = $moduleModel->getCurrencyNum();
 		// get info about main currency
-		$mainCurrencyInfo = $moduleModel->getMainCurrencyInfo();
+		$mainCurrencyInfo = Vtiger_Functions::getDefaultCurrencyInfo();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
