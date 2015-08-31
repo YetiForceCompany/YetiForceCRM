@@ -14,20 +14,22 @@
     <div class="" id="layoutEditorContainer">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <h3>{vtranslate('LBL_REL_MODULE_LAYOUT_EDITOR', $QUALIFIED_MODULE)}</h3>
             </div>
-            <div class="col-md-4 h3">
-				<div class="col-md-5">
-					<button class="btn btn-default addRelation" type="button">{vtranslate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</button>
+            <div class="col-md-5 h3 row">
+				<div class="btn-toolbar row">
+					<div class="btn-group col-xs-5 pull-right paddingLRZero">
+						<select class="select2 form-control layoutEditorRelModules" name="layoutEditorRelModules">
+							{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
+								<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
+							{/foreach}
+						</select>
+					</div>
+					{if SysDeveloper::get('CHANGE_RELATIONS')}
+						<button class="btn btn-primary pull-right addRelation" type="button">{vtranslate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</button>
+					{/if}	
 				</div>
-                <div class="col-md-7">
-                    <select class="select2 form-control layoutEditorRelModules" name="layoutEditorRelModules">
-                        {foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-                            <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $QUALIFIED_MODULE)}</option>
-                        {/foreach}
-                    </select>
-                </div>
             </div>
         </div>
         <hr>
@@ -55,9 +57,11 @@
 							<div class="relatedModule mainBlockTable panel panel-default" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
                                 <div class="mainBlockTableHeader panel-heading">
 									<div class="btn-toolbar btn-group-xs pull-right">
-			                        	<button class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} hide{/if}"><i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;<strong>{vtranslate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>&nbsp;
-			                        	<button class="btn btn-danger activeRelationModule{if $MODULE_MODEL->isActive()} hide{/if}"><i class="glyphicon glyphicon-remove"></i>&nbsp;<strong>{vtranslate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>&nbsp;
-										<!-- <button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button> -->
+										{if SysDeveloper::get('CHANGE_RELATIONS')}
+											<button type="button" class="btn btn-danger removeRelation pull-right" title="{vtranslate('LBL_REMOVE_RELATION', $QUALIFIED_MODULE)}">x</button>
+										{/if}
+			                        	<button type="button" class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;<strong>{vtranslate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>
+			                        	<button type="button" class="btn btn-warning activeRelationModule{if $MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-remove"></span>&nbsp;<strong>{vtranslate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>
 			                        </div>
 									<h4 class="panel-title">
 										<div class="relatedModuleLabel mainBlockTableLabel">
@@ -161,7 +165,7 @@
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-success addButton" data-dismiss="modal" aria-hidden="true" >{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
-						<button class="btn btn-default" id="closeModal" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-warning" id="closeModal" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}</button>
 					</div>
 				</div>	
 			</div>	

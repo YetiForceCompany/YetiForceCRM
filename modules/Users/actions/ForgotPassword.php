@@ -12,6 +12,7 @@ chdir(dirname(__FILE__) . "/../../../");
 require_once 'config/config.php';
 require_once 'config/debug.php';
 require_once 'config/performance.php';
+require_once('include/ConfigUtils.php');
 include_once "include/utils/VtlibUtils.php";
 include_once "include/utils/CommonUtils.php";
 include_once "include/Loader.php";

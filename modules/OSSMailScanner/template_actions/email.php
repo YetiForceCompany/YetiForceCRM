@@ -9,39 +9,47 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-function bind_email($user_id, $mail_detail, $folder, $moduleName, $ossmailviewTab)
+/**
+ * Mail Scanner bind email action 
+ * @package YetiForce.MailScanner
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+function bind_email($user_id, $mailDetail, $folder, $moduleName, $ossmailviewTab)
 {
 	$adb = PearDatabase::getInstance();
 
-	if ($mail_detail['ossmailviewid'] == '') {
-		$result_ossmailview = $adb->pquery('SELECT ossmailviewid FROM vtiger_ossmailview WHERE uid = ? AND rc_user = ?', [$mail_detail['message_id'], $user_id]);
+	if ($mailDetail['ossmailviewid'] == '') {
+		$result_ossmailview = $adb->pquery('SELECT ossmailviewid FROM vtiger_ossmailview WHERE uid = ? AND rc_user = ?', [$mailDetail['message_id'], $user_id]);
 		if ($adb->num_rows($result_ossmailview) == 0) {
 			return FALSE;
 		}
 		$ossmailviewid = $adb->query_result($result_ossmailview, 0, 'ossmailviewid');
 	} else {
-		$ossmailviewid = $mail_detail['ossmailviewid'];
+		$ossmailviewid = $mailDetail['ossmailviewid'];
 	}
 
-	$crmids_fromaddress = OSSMailScanner_Record_Model::findEmail($mail_detail['fromaddress'], $moduleName, TRUE);
-	$crmids_toaddress = OSSMailScanner_Record_Model::findEmail($mail_detail['toaddress'], $moduleName, TRUE);
-	$crmids_ccaddress = OSSMailScanner_Record_Model::findEmail($mail_detail['ccaddress'], $moduleName, TRUE);
-	$crmids_bccaddress = OSSMailScanner_Record_Model::findEmail($mail_detail['bccaddress'], $moduleName, TRUE);
-	$crmids_to = OSSMailScanner_Record_Model::_merge_array($crmids_toaddress, $crmids_ccaddress);
-	$crmids_to = OSSMailScanner_Record_Model::_merge_array($crmids_to, $crmids_bccaddress);
-	$return_ids = [];
+	$crmidsFromAddress = OSSMailScanner_Record_Model::findEmail($mailDetail['fromaddress'], $moduleName, TRUE);
+	$crmidsToaddress = OSSMailScanner_Record_Model::findEmail($mailDetail['toaddress'], $moduleName, TRUE);
+	$crmidsCcaddress = OSSMailScanner_Record_Model::findEmail($mailDetail['ccaddress'], $moduleName, TRUE);
+	$crmidsBccaddress = OSSMailScanner_Record_Model::findEmail($mailDetail['bccaddress'], $moduleName, TRUE);
+	$crmidsReplyToaddress = OSSMailScanner_Record_Model::findEmail($mailDetail['reply_toaddress'], $moduleName, TRUE);
+	$crmidsToAddress = OSSMailScanner_Record_Model::_merge_array($crmidsToaddress, $crmidsCcaddress);
+	$crmidsToAddress = OSSMailScanner_Record_Model::_merge_array($crmidsToAddress, $crmidsBccaddress);
+	$crmidsToAddress = OSSMailScanner_Record_Model::_merge_array($crmidsToAddress, $crmidsReplyToaddress);
+	$returnIds = [];
 
-	if (count($crmids_fromaddress) != 0) {
-		foreach ($crmids_fromaddress as $crmidsRow) {
-			$adb->pquery('INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?, date=?;', [$ossmailviewid, $crmidsRow[0], $mail_detail['udate_formated']]);
-			$return_ids[] = $crmidsRow[0];
+	if (count($crmidsFromAddress) != 0) {
+		foreach ($crmidsFromAddress as $crmidsRow) {
+			$adb->pquery('INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?, date=?;', [$ossmailviewid, $crmidsRow[0], $mailDetail['udate_formated']]);
+			$returnIds[] = $crmidsRow[0];
 		}
 	}
-	if (count($crmids_to) != 0) {
-		foreach ($crmids_to as $crmidsRow) {
-			$adb->pquery('INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?, date=?;', [$ossmailviewid, $crmidsRow[0], $mail_detail['udate_formated']]);
-			$return_ids[] = $crmidsRow[0];
+	if (count($crmidsToAddress) != 0) {
+		foreach ($crmidsToAddress as $crmidsRow) {
+			$adb->pquery('INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?, date=?;', [$ossmailviewid, $crmidsRow[0], $mailDetail['udate_formated']]);
+			$returnIds[] = $crmidsRow[0];
 		}
 	}
-	return $return_ids;
+	return $returnIds;
 }

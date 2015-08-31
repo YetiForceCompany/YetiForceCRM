@@ -77,20 +77,26 @@ class Reports_List_View extends Vtiger_Index_View
 		$viewer->assign('LISTVIEW_MASSACTIONS', $listViewMassActionModels);
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 
-		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
-			if (!$this->listViewCount) {
-				$this->listViewCount = $listViewModel->getListViewCount();
-			}
-			$totalCount = $this->listViewCount;
-			$pageLimit = $pagingModel->getPageLimit();
-			$pageCount = ceil((int) $totalCount / (int) $pageLimit);
 
-			if ($pageCount == 0) {
-				$pageCount = 1;
-			}
-			$viewer->assign('PAGE_COUNT', $pageCount);
-			$viewer->assign('LISTVIEW_COUNT', $totalCount);
+		if (!$this->listViewCount) {
+			$this->listViewCount = $listViewModel->getListViewCount();
 		}
+		$totalCount = $this->listViewCount;
+		$pageLimit = $pagingModel->getPageLimit();
+		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
+
+		if ($pageCount == 0) {
+			$pageCount = 1;
+		}
+		$startPaginFrom = $pageNumber - 2;
+		if($pageNumber == $totalCount && 1 !=  $pageNumber)
+			$startPaginFrom = $pageNumber - 4;
+		if($startPaginFrom <= 0 || 1 ==  $pageNumber)
+			$startPaginFrom = 1;
+		
+		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('LISTVIEW_COUNT', $totalCount);
+		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 
 		if ($display) {
 			$this->preProcessDisplay($request);

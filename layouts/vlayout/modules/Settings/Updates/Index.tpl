@@ -1,12 +1,12 @@
 <style>
-.blockHeader th{
-    text-align:center !important; 
-    vertical-align:middle !important; 
-}
-.confTable td, label, span{
-    text-align:center !important; 
-    vertical-align:middle !important; 
-}	
+	.blockHeader th{
+		text-align:center !important; 
+		vertical-align:middle !important; 
+	}
+	.confTable td, label, span{
+		text-align:center !important; 
+		vertical-align:middle !important; 
+	}	
 </style>
 <div class="" style="margin-top:10px;">
 	<div class="row">
@@ -15,7 +15,7 @@
 		</div>
 		<div class="col-md-5">
 			<div class="pull-right">
-				<a class="btn btn-default addMenu" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}"><strong>{vtranslate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</strong></a>
+				<a class="btn btn-success addMenu" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}"><strong>{vtranslate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</strong></a>
 			</div>
 		</div>
 	</div>

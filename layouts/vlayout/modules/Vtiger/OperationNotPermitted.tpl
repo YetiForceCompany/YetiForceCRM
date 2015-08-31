@@ -27,7 +27,7 @@
 				}
 			</style>
 	</head>
-	<body class="row">
+	<body>
 		<div style="margin-top: 10px;" class="col-md-6 alert alert-warning shadow">
 			<div style="position: relative;" >
 				<div>

@@ -24,7 +24,7 @@ $languageStrings = [
 	'LBL_LOCKS_SAVE_LABEL2' => 'Yes - One condition fulfilled',
 	'LBL_LOCKS_SAVE_LABEL3' => 'Yes - Two conditions fulfilled',
 	'LBL_VALIDATION_TWO_FIELDS' => 'Validation for two fields',
-	'LBL_MESSAGE_LOCK0' => 'Message when write is not locked (it is shown only at the time of record creation)',
+	'LBL_MESSAGE_LOCK0' => 'Message when write is not locked',
 	'LBL_MESSAGE_LOCK1' => 'Message for one fulfilled condition',
 	'LBL_MESSAGE_LOCK2' => 'Message for two fulfilled condition',
 	//
@@ -40,7 +40,7 @@ $languageStrings = [
 	//
 	'Action_show_quick_create' => 'Quick create',
 	'Action_Desc_show_quick_create' => 'This action shows quick create',
-	'Select module' => 'Select module',
+	'LBL_SELECT_OPTION' => 'Select an Option',
 	//
 	'Action_blockEditView' => 'Block edit view',
 	'Action_Desc_blockEditView' => 'This action blocks edit view (quick and full edit)',
@@ -71,6 +71,8 @@ $languageStrings = [
 	'LBL_TEXT_COLOR' => 'Text color',
 	'This name already exists' => 'This name already exists',
 	'LBL_RECORD_DELETED' => 'Record deleted',
+	'Action_test' => 'Action test',
+	'Action_Desc_test' => 'Action test description',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Data Access',

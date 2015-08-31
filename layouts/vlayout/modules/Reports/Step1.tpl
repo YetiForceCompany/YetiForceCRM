@@ -19,6 +19,7 @@
 			<input type="hidden" name="isDuplicate" value="{$IS_DUPLICATE}" />
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
 			<input type="hidden" id="relatedModules" data-value='{ZEND_JSON::encode($RELATED_MODULES)}' />
+			<input type="hidden" id="weekStartDay" data-value='{$WEEK_START_ID}' />
 			<div class="well contentsBackground">
 				<div class="row padding1per">
 					<span class="col-md-3">{vtranslate('LBL_REPORT_NAME',$MODULE)}<span class="redColor">*</span></span>
@@ -236,7 +237,7 @@
 		</div>
 		<div class="pull-right">
 			<button type="submit" class="btn btn-success nextStep"><strong>{vtranslate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
-			<a onclick='window.history.back()' class="cancelLink cursorPointer">{vtranslate('LBL_CANCEL',$MODULE)}</a>
+			<button onclick='window.history.back()' type="reset" class="cancelLink cursorPointer btn btn-warning">{vtranslate('LBL_CANCEL',$MODULE)}</button>
 		</div>
 	</form>
 </div>

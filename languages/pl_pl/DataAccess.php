@@ -23,7 +23,7 @@ $languageStrings = [
 	'LBL_LOCKS_SAVE_LABEL2' => 'Tak - Jeden warunek spełniony',
 	'LBL_LOCKS_SAVE_LABEL3' => 'Tak - Dwa warunki spełnione',
 	'LBL_VALIDATION_TWO_FIELDS' => 'Walidacja dla dwóch pól',
-	'LBL_MESSAGE_LOCK0' => 'Komunikat w momencie nie blokowania zapisu (pokazuje się tylko przy tworzeniu rekordu)',
+	'LBL_MESSAGE_LOCK0' => 'Komunikat w momencie nie blokowania zapisu',
 	'LBL_MESSAGE_LOCK1' => 'Komunikat dla jednego warunku spełnionego',
 	'LBL_MESSAGE_LOCK2' => 'Komunikat dla dwóch warunków spełnionych',
 	//
@@ -39,7 +39,7 @@ $languageStrings = [
 	//
 	'Action_show_quick_create' => 'Szybkie tworzenie rekordu',
 	'Action_Desc_show_quick_create' => 'Akcja wyświetlająca okno szybkiego tworzenia rekordu',
-	'Select module' => 'Wybierz moduł',
+	'LBL_SELECT_OPTION' => 'Wybierz',
 	//
 	'Action_blockEditView' => 'Blokada edycji rekordu',
 	'Action_Desc_blockEditView' => 'Akcja umożliwiająca zablokowanie edycji rekordu (szybka i pełna edycja)',
@@ -71,6 +71,8 @@ $languageStrings = [
 	'LBL_TEXT_COLOR' => 'Kolor tekstu',
 	'This name already exists' => 'Nazwa jest już zajęta',
 	'LBL_RECORD_DELETED' => 'Rekord usunięty',
+	'Action_test' => 'Test akcji',
+	'Action_Desc_test' => 'Opis testu akcji',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Data Access',

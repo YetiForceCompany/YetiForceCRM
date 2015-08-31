@@ -16,12 +16,12 @@
 				<div class="col-md-8">
 					<h3>{vtranslate('LBL_COMPANY_DETAILS', $QUALIFIED_MODULE)}{if $DESCRIPTION}<h6> - &nbsp;{vtranslate({$DESCRIPTION}, $QUALIFIED_MODULE)}</h6>{/if}</h3>
 				</div>
-				<div class="col-md-4 btn-group h3 marginbottomZero" role="group">
-					<div class="pull-right ">
-						<button id="addCustomField" class="btn btn-default" type="button">
+				<div class="col-md-4 h3 marginbottomZero">
+					<div class="pull-right btn-toolbar">
+						<button id="addCustomField" class="btn btn-success" type="button">
 							<strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 						</button>
-						<button id="updateCompanyDetails" class="btn btn-default">{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
+						<button id="updateCompanyDetails" class="btn btn-info">{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 					</div>
 
 				</div>

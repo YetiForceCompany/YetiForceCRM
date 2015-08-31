@@ -15,7 +15,7 @@
 	<div class="row">
 		<div class="col-md-10"><h3>{vtranslate('LBL_PROFILE_VIEW', $QUALIFIED_MODULE)}</h3></div>
 		<div class="col-md-2">
-			<button class="btn btn-default pull-right" type="button" onclick='window.location.href="{$RECORD_MODEL->getEditViewUrl()}"'>{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
+			<button class="btn btn-info pull-right" type="button" onclick='window.location.href="{$RECORD_MODEL->getEditViewUrl()}"'>{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 		</div>
 	</div>
 	<div class="clearfix"></div>
@@ -24,14 +24,14 @@
 		<div>
 			<div class="row">
 				<div class="col-md-12">
-					<label class="fieldLabel col-md-2 muted"><span class="redColor">*</span>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}: </label>
-					<span class="fieldValue col-md-6" name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}"><strong>{$RECORD_MODEL->getName()}</strong></span>
+					<label class="muted"><span class="redColor">*</span>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}: </label>&nbsp;
+					<span  name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}"><strong>{$RECORD_MODEL->getName()}</strong></span>
 				</div>
 			</div>
             <div class="row">
 				<div class="col-md-12">
-					<label class="fieldLabel col-md-2 muted">{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>
-					<span class="fieldValue col-md-8" name="description" id="description"><strong>{$RECORD_MODEL->getDescription()}</strong></span>
+					<label class="muted">{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>&nbsp;
+					<span name="description" id="description"><strong>{$RECORD_MODEL->getDescription()}</strong></span>
 				</div>
 			</div><br>
             {assign var="ENABLE_IMAGE_PATH" value="{vimage_path('Enable.png')}"}

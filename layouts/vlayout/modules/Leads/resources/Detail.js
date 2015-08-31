@@ -332,13 +332,15 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 
 		AppConnector.request(data).then(
 				function (reponseData) {
+					var readRecord = jQuery('.setReadRecord');
+					readRecord.closest('.btn-group').removeClass('hide');
 					aDeferred.resolve(reponseData);
 				}
 		);
 		if (fieldDetailList.field == 'leadstatus') {
-			var btn = jQuery('.Leads_detailView_basicAction_').closest(".btn-group");
+			var btn = jQuery('.btn-convertLead').closest(".btn-group");
 			var status = JSON.parse(jQuery('#conversion_available_status').val());
-			if (jQuery.inArray(fieldDetailList.value, status) != -1) {
+			if (status.length === 0 || jQuery.inArray(fieldDetailList.value, status) != -1) {
 				btn.removeClass("hide");
 			} else {
 				btn.addClass("hide");
@@ -352,7 +354,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		detailContentsHolder.on(thisInstance.fieldUpdatedEvent, "input,select", function (e, params) {
 			var elem = jQuery(e.currentTarget);
 			var fieldName = elem.attr("name");
-			var ajaxnewValue = params.new;
+			var ajaxnewValue = params['new'];
 
 			if (!(jQuery.isEmptyObject(Leads_Detail_Js.cache))) {
 				var sampleCache = jQuery(Leads_Detail_Js.cache);

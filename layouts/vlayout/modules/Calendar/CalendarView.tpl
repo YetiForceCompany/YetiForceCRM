@@ -28,9 +28,10 @@
 {foreach from=Vtiger_Module_Model::getAll() item=MODULE}
 	.modIcon_{$MODULE->get('name')}{ background-image: url("layouts/vlayout/skins/images/{$MODULE->get('name')}.png"); }
 {/foreach}
+	{literal}.bottom_margin {padding-bottom: 2em;}{/literal}
 </style>
-<div class="">
-	<div class="row">
+<div class="calendarViewContainer">
+	<div class="row bottom_margin">
 		<div class="col-md-12">
 			<p><!-- Divider --></p>
 			<div id="calendarview"></div>

@@ -12,7 +12,7 @@ require_once 'config/debug.php';
 require_once 'config/developer.php';
 require_once 'config/secret_keys.php';
 require_once 'config/performance.php';
-require_once 'include/ConfigUtils.php';
+require_once('include/ConfigUtils.php');
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
@@ -64,7 +64,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
 		if (empty($moduleModel)) {
-			throw new AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
+			throw new AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_HANDLER_NOT_FOUND'));
 		}
 
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -199,7 +199,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				}
 
 				//TODO : Need to review the design as there can potential security threat
-				$skipList = array('Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'PriceBooks', 'Migration', 'Install');
+				$skipList = array('Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'Migration', 'Install');
 
 				if (!in_array($module, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
 					$this->triggerCheckPermission($handler, $request);

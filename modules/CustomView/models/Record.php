@@ -374,7 +374,9 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 						}
 						$advFitlerValue = implode(",",$val);
 					}
-
+					if(in_array($advFilterComparator, ['om'])){
+						$advFitlerValue = '';
+					}
 					$advCriteriaSql = 'INSERT INTO vtiger_cvadvfilter(cvid,columnindex,columnname,comparator,value,groupid,column_condition)
 											values (?,?,?,?,?,?,?)';
 					$advCriteriaParams = array($cvId, $columnIndex, $advFilterColumn, $advFilterComparator, $advFitlerValue, $groupIndex, $advFilterColumnCondition);
@@ -653,151 +655,9 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * @param <String> $type
 	 * @return <Array> - 2 date values representing the range for the given type of Standard filter
 	 */
-	protected static function getDateForStdFilterBytype($type) {
-		$today = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d"), date("Y")));
-		$tomorrow = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 1, date("Y")));
-		$yesterday = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 1, date("Y")));
-
-		$currentmonth0 = date("Y-m-d", mktime(0, 0, 0, date("m"), "01", date("Y")));
-		$currentmonth1 = date("Y-m-t");
-		$lastmonth0 = date("Y-m-d", mktime(0, 0, 0, date("m") - 1, "01", date("Y")));
-		$lastmonth1 = date("Y-m-t", strtotime("-1 Month"));
-		$nextmonth0 = date("Y-m-d", mktime(0, 0, 0, date("m") + 1, "01", date("Y")));
-		$nextmonth1 = date("Y-m-t", strtotime("+1 Month"));
-
-		$lastweek0 = date("Y-m-d", strtotime("-2 week Sunday"));
-		$lastweek1 = date("Y-m-d", strtotime("-1 week Saturday"));
-
-		$thisweek0 = date("Y-m-d", strtotime("-1 week Sunday"));
-		$thisweek1 = date("Y-m-d", strtotime("this Saturday"));
-
-		$nextweek0 = date("Y-m-d", strtotime("this Sunday"));
-		$nextweek1 = date("Y-m-d", strtotime("+1 week Saturday"));
-
-		$next7days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 6, date("Y")));
-		$next30days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 29, date("Y")));
-		$next60days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 59, date("Y")));
-		$next90days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 89, date("Y")));
-		$next120days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 119, date("Y")));
-
-		$last7days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 6, date("Y")));
-		$last30days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 29, date("Y")));
-		$last60days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 59, date("Y")));
-		$last90days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 89, date("Y")));
-		$last120days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 119, date("Y")));
-
-		$currentFY0 = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y")));
-		$currentFY1 = date("Y-m-t", mktime(0, 0, 0, "12", date("d"), date("Y")));
-		$lastFY0 = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y") - 1));
-		$lastFY1 = date("Y-m-t", mktime(0, 0, 0, "12", date("d"), date("Y") - 1));
-		$nextFY0 = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y") + 1));
-		$nextFY1 = date("Y-m-t", mktime(0, 0, 0, "12", date("d"), date("Y") + 1));
-
-		if (date("m") <= 4) {
-			$cFq = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y")));
-			$cFq1 = date("Y-m-d", mktime(0, 0, 0, "04", "30", date("Y")));
-			$nFq = date("Y-m-d", mktime(0, 0, 0, "05", "01", date("Y")));
-			$nFq1 = date("Y-m-d", mktime(0, 0, 0, "08", "31", date("Y")));
-			$pFq = date("Y-m-d", mktime(0, 0, 0, "09", "01", date("Y") - 1));
-			$pFq1 = date("Y-m-d", mktime(0, 0, 0, "12", "31", date("Y") - 1));
-		} else if (date("m") > 4 and date("m") <= 8) {
-			$pFq = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y")));
-			$pFq1 = date("Y-m-d", mktime(0, 0, 0, "04", "30", date("Y")));
-			$cFq = date("Y-m-d", mktime(0, 0, 0, "05", "01", date("Y")));
-			$cFq1 = date("Y-m-d", mktime(0, 0, 0, "08", "31", date("Y")));
-			$nFq = date("Y-m-d", mktime(0, 0, 0, "09", "01", date("Y")));
-			$nFq1 = date("Y-m-d", mktime(0, 0, 0, "12", "31", date("Y")));
-		} else {
-			$nFq = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y") + 1));
-			$nFq1 = date("Y-m-d", mktime(0, 0, 0, "04", "30", date("Y") + 1));
-			$pFq = date("Y-m-d", mktime(0, 0, 0, "05", "01", date("Y")));
-			$pFq1 = date("Y-m-d", mktime(0, 0, 0, "08", "31", date("Y")));
-			$cFq = date("Y-m-d", mktime(0, 0, 0, "09", "01", date("Y")));
-			$cFq1 = date("Y-m-d", mktime(0, 0, 0, "12", "31", date("Y")));
-		}
-
-		$dateValues = array();
-		if ($type == "today") {
-			$dateValues[0] = $today;
-			$dateValues[1] = $today;
-		} elseif ($type == "yesterday") {
-			$dateValues[0] = $yesterday;
-			$dateValues[1] = $yesterday;
-		} elseif ($type == "tomorrow") {
-			$dateValues[0] = $tomorrow;
-			$dateValues[1] = $tomorrow;
-		} elseif ($type == "thisweek") {
-			$dateValues[0] = $thisweek0;
-			$dateValues[1] = $thisweek1;
-		} elseif ($type == "lastweek") {
-			$dateValues[0] = $lastweek0;
-			$dateValues[1] = $lastweek1;
-		} elseif ($type == "nextweek") {
-			$dateValues[0] = $nextweek0;
-			$dateValues[1] = $nextweek1;
-		} elseif ($type == "thismonth") {
-			$dateValues[0] = $currentmonth0;
-			$dateValues[1] = $currentmonth1;
-		} elseif ($type == "lastmonth") {
-			$dateValues[0] = $lastmonth0;
-			$dateValues[1] = $lastmonth1;
-		} elseif ($type == "nextmonth") {
-			$dateValues[0] = $nextmonth0;
-			$dateValues[1] = $nextmonth1;
-		} elseif ($type == "next7days") {
-			$dateValues[0] = $today;
-			$dateValues[1] = $next7days;
-		} elseif ($type == "next30days") {
-			$dateValues[0] = $today;
-			$dateValues[1] = $next30days;
-		} elseif ($type == "next60days") {
-			$dateValues[0] = $today;
-			$dateValues[1] = $next60days;
-		} elseif ($type == "next90days") {
-			$dateValues[0] = $today;
-			$dateValues[1] = $next90days;
-		} elseif ($type == "next120days") {
-			$dateValues[0] = $today;
-			$dateValues[1] = $next120days;
-		} elseif ($type == "last7days") {
-			$dateValues[0] = $last7days;
-			$dateValues[1] = $today;
-		} elseif ($type == "last30days") {
-			$dateValues[0] = $last30days;
-			$dateValues[1] = $today;
-		} elseif ($type == "last60days") {
-			$dateValues[0] = $last60days;
-			$dateValues[1] = $today;
-		} else if ($type == "last90days") {
-			$dateValues[0] = $last90days;
-			$dateValues[1] = $today;
-		} elseif ($type == "last120days") {
-			$dateValues[0] = $last120days;
-			$dateValues[1] = $today;
-		} elseif ($type == "thisfy") {
-			$dateValues[0] = $currentFY0;
-			$dateValues[1] = $currentFY1;
-		} elseif ($type == "prevfy") {
-			$dateValues[0] = $lastFY0;
-			$dateValues[1] = $lastFY1;
-		} elseif ($type == "nextfy") {
-			$dateValues[0] = $nextFY0;
-			$dateValues[1] = $nextFY1;
-		} elseif ($type == "nextfq") {
-			$dateValues[0] = $nFq;
-			$dateValues[1] = $nFq1;
-		} elseif ($type == "prevfq") {
-			$dateValues[0] = $pFq;
-			$dateValues[1] = $pFq1;
-		} elseif ($type == "thisfq") {
-			$dateValues[0] = $cFq;
-			$dateValues[1] = $cFq1;
-		} else {
-			$dateValues[0] = "";
-			$dateValues[1] = "";
-		}
-
-		return $dateValues;
+	protected static function getDateForStdFilterBytype($type)
+	{
+		return DateTimeRange::getDateRangeByType($type);
 	}
 
 	/**

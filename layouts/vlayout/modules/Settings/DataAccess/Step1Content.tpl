@@ -31,10 +31,15 @@
                     <input type='text' disabled='disabled' value="{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}" >
                     <input type='hidden' name='module_name' value="{$MODULE_MODEL->get('name')}" >
                 {else}
-                    <select class="chzn-select form-control" id="moduleName" name="base_module" required="true" data-placeholder="Select Module...">
-                        {foreach from=$MODULE_LIST item=item key=key}
-                            <option value="{$item}" {if $BASE_INFO['module_name'] eq $item} selected {/if}>{vtranslate($item, $item)}</option>
-                        {/foreach}
+					<select class="chzn-select form-control" id="moduleName" name="base_module" required="true" data-placeholder="Select Module..." {if $TPL_ID}readonly{/if}>
+						{if $TPL_ID}
+							<option value="{$BASE_INFO['module_name']}" {if $BASE_INFO['module_name'] eq $item} selected {/if}>{vtranslate($BASE_INFO['module_name'], $BASE_INFO['module_name'])}</option>
+							
+						{else}
+							{foreach from=$MODULE_LIST item=item key=key}
+								<option value="{$item}" {if $BASE_INFO['module_name'] eq $item} selected {/if}>{vtranslate($item, $item)}</option>
+							{/foreach}
+						{/if}
                     </select>
                 {/if}
             </div>

@@ -40,19 +40,3 @@
 <div name="history" class="dashboardWidgetContent">
 	{include file="dashboards/CalendarActivitiesContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
 </div>
-<script type='text/javascript'>
-	$(document).ready(function(){
-        jQuery('.dashboardWidgetContent').off('click', 'a[name="history_more"]');
-		jQuery('.dashboardWidgetContent').on('click', 'a[name="history_more"]', function(e) {
-                var element = jQuery(e.currentTarget);
-                var parent = jQuery(e.delegateTarget).closest('.dashboardWidget');
-                jQuery(parent).find('.slimScrollDiv').css('overflow','visible');
-                var type = parent.find("[name='type']").val();
-                var url = element.data('url')+'&content=true&type='+type;
-                AppConnector.request(url).then(function(data) {
-                    jQuery(parent).find('.dashboardWidgetContent').append(data);
-                    element.parent().remove();
-                });
-		});
-	});
-</script>

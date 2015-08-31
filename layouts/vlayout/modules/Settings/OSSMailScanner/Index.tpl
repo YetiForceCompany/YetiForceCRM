@@ -1,5 +1,4 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
-<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-tab.js"></script>
 {if ($CHECKCRON[0]['status'] == 0 ) || !$CHECKCRON || ($CHECKCRON[1]['status'] == 0)}
 	<div class="alert alert-block alert-warning fade in" style="margin-left: 10px;">
 		<button type="button" class="close" data-dismiss="alert">×</button>
@@ -20,14 +19,15 @@
 		</p>
 	</div>	
 {/if}
-<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs" style="margin: 20px;">
+<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
     <li class="active"><a href="#tab_accounts" data-toggle="tab">{vtranslate('E-mail Accounts', 'OSSMailScanner')} </a></li>
     <li><a href="#tab_actions" data-toggle="tab">{vtranslate('Actions', 'OSSMailScanner')}</a></li>
     <li><a href="#tab_folder" data-toggle="tab">{vtranslate('Folder configuration', 'OSSMailScanner')}</a></li> 
-    <li><a href="#tab_email_search " data-toggle="tab">{vtranslate('General Configuration', 'OSSMailScanner')}</a></li>  
-    <li><a href="#tab_record_numbering " data-toggle="tab">{vtranslate('Record Numbering', 'OSSMailScanner')}</a></li>
+    <li><a href="#tab_email_search" data-toggle="tab">{vtranslate('General Configuration', 'OSSMailScanner')}</a></li>  
+    <li><a href="#tab_record_numbering" data-toggle="tab">{vtranslate('Record Numbering', 'OSSMailScanner')}</a></li>
+	<li><a href="#exceptions" data-toggle="tab">{vtranslate('LBL_EXCEPTIONS', 'OSSMailScanner')}</a></li>
 </ul>
-<div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
+<div id="my-tab-content" class="tab-content marginTop20">
     <div class='editViewContainer tab-pane active' id="tab_accounts">
         <div class="alert alert-info">{vtranslate('Alert_info_tab_accounts', 'OSSMailScanner')}</div>
         {if $ERRORNOMODULE}
@@ -67,7 +67,7 @@
                         <td>{$row['username']}</td>
                         <td>{$row['mail_host']}</td>
                         <td class='functionList'>
-                            <select class="form-control select2" multiple id="function_list_{$row['user_id']}" name="function_list_{$row['user_id']}">
+                            <select class="form-control select2" multiple data-user-id="{$row['user_id']}" id="function_list_{$row['user_id']}" name="function_list_{$row['user_id']}">
                                 <optgroup label="{vtranslate('Function_list', 'OSSMailScanner')}">
                                     {foreach item=item from=$EMAILACTIONSLISTNAME}
                                         <option value="{$item[1]}" {if $RECORD_MODEL->compare_vale($row['actions'],$item[1]) } selected="selected"{/if} >{vtranslate($item[0], 'OSSMailScanner')}</option>
@@ -126,7 +126,7 @@
 		</div>
 		{/if}
     </div>
-    <div class='editViewContainer tab-pane' id="tab_actions">
+    <div class='editViewContainer tab-pane marginTop20' id="tab_actions">
         <div class="alert alert-info">{vtranslate('Alert_info_tab_actions', 'OSSMailScanner')}</div>
         <table class="table table-bordered">
             <thead>
@@ -157,7 +157,7 @@
             </tbody>
         </table>
     </div>
-    <div class='editViewContainer tab-pane' id="tab_folder">
+    <div class='editViewContainer tab-pane marginTop20' id="tab_folder">
         <div class="alert alert-info">{vtranslate('Alert_info_tab_folder', 'OSSMailScanner')}</div>
         {if $FOLDERMAILBOXES eq false}
             <div class="alert alert-block alert-warning fade in">
@@ -176,7 +176,7 @@
                         <select multiple id="folder_inputReceived" name="folder_inputReceived" class="select2 form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
-                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Received'],$key) } selected="selected"{/if} >{$item}</option>
+                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Received'],$key) } selected="selected"{/if} >{vtranslate($item, $QUALIFIED_MODULE)}</option>
                                 {/foreach}
                             </optgroup>
                         </select>
@@ -233,7 +233,7 @@
             </form>
         {/if}
     </div>
-    <div class='editViewContainer tab-pane' id="tab_email_search">
+    <div class='editViewContainer tab-pane marginTop20' id="tab_email_search">
 		<h3>{vtranslate('Search email configuration', 'OSSMailScanner')}</h3>
         <div class="alert alert-info">{vtranslate('Alert_info_tab_email_search', 'OSSMailScanner')}</div>
         <form class="form-horizontal">
@@ -261,8 +261,8 @@
             </div>
         </form>
     </div>
-    <div class='editViewContainer tab-pane' id="tab_record_numbering">
-        <div class="alert alert-info">{vtranslate('Alert_info_tab_record_numbering', 'OSSMailScanner')} <a class="btn" href="index.php?module=Vtiger&parent=Settings&view=CustomRecordNumbering">{vtranslate('ConfigCustomRecordNumbering','OSSMailScanner')}</a></div>	
+    <div class='editViewContainer tab-pane marginTop20' id="tab_record_numbering">
+        <div class="alert alert-info">{vtranslate('Alert_info_tab_record_numbering', 'OSSMailScanner')} &nbsp; <a class="btn btn-info" href="index.php?module=Vtiger&parent=Settings&view=CustomRecordNumbering">{vtranslate('ConfigCustomRecordNumbering','OSSMailScanner')}</a></div>	
         <form id="EditView">
             <table class="table table-bordered">
                 <thead>
@@ -286,330 +286,35 @@
             </table>
         </form>
     </div>
+	<div class='editViewContainer tab-pane marginTop20' id="exceptions">
+		{assign var=EXCEPTIONS value=$WIDGET_CFG['exceptions']}
+		<div class="form-group">
+			<label class="">
+				{vtranslate('LBL_EXCEPTIONS_CREATING_EMAIL', 'OSSMailScanner')}
+			</label>
+			<div>
+				<select multiple id="crating_mails" name="crating_mails" class="select2 form-control test" data-placeholder="{vtranslate('LBL_WRITE_AND_ENTER','OSSMailScanner')}">
+					{if $EXCEPTIONS.crating_mails}
+						{foreach item=item key=key from=explode(',',$EXCEPTIONS.crating_mails)}
+							<option value="{$item}" selected class='testt'>{$item}</option>
+						{/foreach}
+					{/if}
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="">
+				{vtranslate('LBL_EXCEPTIONS_CREATING_TICKET', 'OSSMailScanner')}
+			</label>
+			<div>
+				<select multiple id="crating_tickets" name="crating_tickets" class="select2 form-control" data-placeholder="{vtranslate('LBL_WRITE_AND_ENTER','OSSMailScanner')}">
+					{if $EXCEPTIONS.crating_tickets}
+						{foreach item=item key=key from=explode(',',$EXCEPTIONS.crating_tickets)}
+							<option value="{$item}" selected >{$item}</option>
+						{/foreach}
+					{/if}
+				</select>
+			</div>
+		</div>
+    </div>
 </div>
-{literal}
-<script>
-    jQuery(function() {
-		$('#status').change(function() {
-			$('#confirm').attr('disabled', !this.checked);
-		});
-		jQuery('#conftab_change_ticket_status').on('click', function(){
-			var ajaxParams = {};
-			ajaxParams.data = { module: 'OSSMailScanner', action: "SaveRcConfig", ct: "emailsearch", type: "change_ticket_status", vale: $("#conftab_change_ticket_status").prop('checked') },
-			ajaxParams.async = true;
-			AppConnector.request(ajaxParams).then(
-				function(data) {
-					if(data.success){
-						var params = {
-								text: data.result.data,
-								type: 'info',
-								animation: 'show'
-						}
-						Vtiger_Helper_Js.showPnotify(params);
-					}
-				},
-				function(data, err) {
-				}
-			);  
-		})
-        jQuery('.delate_accont').on('click', function(){
-            var button = this;
-            if(window.confirm(app.vtranslate('whether_remove_an_identity'))){
-                var ajaxParams = {};
-				var userid = jQuery(this).data('user-id');
-                ajaxParams.data = { module: 'OSSMailScanner', action: "AccontRemove", id: userid },
-                ajaxParams.async = true;
-                AppConnector.request(ajaxParams).then(
-                    function(data) {
-					console.log(data);
-                        var params = {
-								text: data.result.data,
-                                type: 'info',
-                                animation: 'show'
-                            };
-                        Vtiger_Helper_Js.showPnotify(params);
-						jQuery('#row_account_'+userid).hide();
-                    },
-                    function(data, err) {
-
-                    }
-                );
-            }
-        });
-        jQuery('.identities_del').on('click', function(){
-            var button = this;
-            if(window.confirm(app.vtranslate('whether_remove_an_identity'))){
-                var ajaxParams = {};
-                ajaxParams.data = { module: 'OSSMailScanner', action: "IdentitiesDel", id: jQuery(this).data('id') },
-                ajaxParams.async = true;
-                        
-                AppConnector.request(ajaxParams).then(
-                    function(data) {
-                        var params = {
-                                text: app.vtranslate('removed_identity'),
-                                type: 'info',
-                                animation: 'show'
-                            };
-                            
-                        Vtiger_Helper_Js.showPnotify(params);
-                        jQuery(button).parent().parent().remove();
-                    },
-                    function(data, err) {
-
-                    }
-                );
-            }
-        });
-        
-        jQuery('.expand-hide').on('click', function(){
-            var userId = jQuery(this).data('user-id');
-            var tr = jQuery('tr[data-user-id="' + userId + '"]');
-            
-            if('none' == tr.css('display')){
-                tr.show();
-            } else {
-                tr.hide();
-            }
-            
-        });
-        
-        $(".alert").alert();
-        {/literal}{foreach from=$ACCOUNTLIST item=row}{literal}
-        jQuery("#function_list_{/literal}{$row['user_id']}{literal}").change(function() {
-            SaveActions('{/literal}{$row['user_id']}{literal}', jQuery('#function_list_{/literal}{$row['user_id']}{literal}').val());
-        });
-        jQuery("#user_list_{/literal}{$row['user_id']}{literal}").change(function() {
-            SaveCRMuser('{/literal}{$row['user_id']}{literal}', jQuery('#user_list_{/literal}{$row['user_id']}{literal}').val());
-        });
-        {/literal}{/foreach}{literal}
-        jQuery("#folder_inputReceived").change(function() {
-            saveFolderList('Received', jQuery('#folder_inputReceived').val());
-        });
-        jQuery("#folder_inputSent").change(function() {
-            saveFolderList('Sent', jQuery('#folder_inputSent').val());
-        });
-        jQuery("#folder_inputAll").change(function() {
-            saveFolderList('All', jQuery('#folder_inputAll').val());
-        });
-        jQuery("#folder_inputSpam").change(function() {
-            saveFolderList('Spam', jQuery('#folder_inputSpam').val());
-        });
-        jQuery("#folder_inputTrash").change(function() {
-            saveFolderList('Trash', jQuery('#folder_inputTrash').val());
-        });
-        jQuery("#email_search").change(function() {
-            saveEmailSearchList(jQuery('#email_search').val());
-        });
-        jQuery('#tab_email_view_widget_limit').on('blur', function() {
-            saveWidgetConfig('widget_limit', jQuery(this).val(), 'email_list');
-        });
-        jQuery('#tab_email_view_open_window').on('change', function() {
-            saveWidgetConfig('target', jQuery(this).val(), 'email_list');
-        });
-
-
-                
-        jQuery('[name="email_to_notify"]').on('blur', function() {
-            var value = jQuery(this).val();
-            if (!!email_validate(value)) {
-                saveWidgetConfig('email', value, 'cron');
-            }
-            else {
-                var params = {
-                    text: app.vtranslate('JS_mail_error'),
-                    type: 'error',
-                    animation: 'show'
-                };
-                                        
-                Vtiger_Helper_Js.showPnotify(params);
-            }
-        });
-        jQuery('[name="time_to_notify"]').on('blur', function() {
-            var value = jQuery(this).val();
-            if (!!number_validate(value)) {
-                saveWidgetConfig('time', jQuery(this).val(), 'cron');
-            } else {
-                var params = {
-                    text: app.vtranslate('JS_time_error'),
-                    type: 'error',
-                    animation: 'show'
-                };
-                                        
-                Vtiger_Helper_Js.showPnotify(params);
-            }
-        });				
-    });
-    function SaveActions(userid, vale) {
-        var params = {
-            'module': 'OSSMailScanner',
-            'action': "SaveActions",
-            'userid': userid,
-            'vale': vale
-        }
-        AppConnector.request(params).then(
-                function(data) {
-                    var response = data['result'];
-                    if (response['success']) {
-                        var params = {
-                            text: response['data'],
-                            type: 'info',
-                            animation: 'show'
-                        };
-                        Vtiger_Helper_Js.showPnotify(params);
-                    } else {
-                        var params = {
-                            text: response['data'],
-                            animation: 'show'
-                        };
-                        Vtiger_Helper_Js.showPnotify(params);
-                    }
-                },
-                function(data, err) {
-
-                }
-        );
-    }
-    function SaveCRMuser(userid, vale) {
-        var params = {
-            'module': 'OSSMailScanner',
-            'action': "SaveCRMuser",
-            'userid': userid,
-            'vale': vale
-        }
-        AppConnector.request(params).then(
-                function(data) {
-                    var response = data['result'];
-                    if (response['success']) {
-                        var params = {
-                            text: response['data'],
-                            type: 'info',
-                            animation: 'show'
-                        };
-                        Vtiger_Helper_Js.showPnotify(params);
-                    } else {
-                        var params = {
-                            text: response['data'],
-                            animation: 'show'
-                        };
-                        Vtiger_Helper_Js.showPnotify(params);
-                    }
-                },
-                function(data, err) {
-
-                }
-        );
-    }
-	
-    function isEmpty(val){
-        if (!!val) {
-            return val;
-        }
-        
-        return '';
-    }
-    
-    function saveFolderList(type, vale) {
-        var params = {
-            'module': 'OSSMailScanner',
-            'action': "saveFolderList",
-            'type': type,
-            'vale': vale
-        }
-        AppConnector.request(params).then(
-                function(data) {
-                    var response = data['result'];
-                    if (response['success']) {
-                        var params = {
-                            text: response['data'],
-                            type: 'info',
-                            animation: 'show'
-                        };
-                        Vtiger_Helper_Js.showPnotify(params);
-                    } else {
-                        var params = {
-                            text: response['data'],
-                            animation: 'show'
-                        };
-                        Vtiger_Helper_Js.showPnotify(params);
-                    }
-                },
-                function(data, err) {
-
-                }
-        );
-    }
-    function saveEmailSearchList(vale) {
-        var params = {
-            'module': 'OSSMailScanner',
-            'action': "saveEmailSearchList",
-            'vale': vale
-        }
-        AppConnector.request(params).then(
-                function(data) {
-                    var response = data['result'];
-                    if (response['success']) {
-                        var params = {
-                            text: response['data'],
-                            type: 'info',
-                            animation: 'show'
-                        };
-                        Vtiger_Helper_Js.showPnotify(params);
-                    } else {
-                        var params = {
-                            text: response['data'],
-                            animation: 'show'
-                        };
-                        Vtiger_Helper_Js.showPnotify(params);
-                    }
-                },
-                function(data, err) {
-
-                }
-        );
-    }
-    
-    function email_validate(src){
-      var regex = /^[a-zA-Z0-9._-]+@([a-zA-Z0-9.-]+\.)+[a-zA-Z0-9.-]{2,63}$/;
-      return regex.test(src);
-    }
-    
-    function number_validate(value){
-      var valid = !/^\s*$/.test(value) && !isNaN(value);
-      console.log(valid);
-        return valid;
-    }
-
-    function saveWidgetConfig(name, value, type) {
-        var params = {
-            'module': 'OSSMailScanner',
-            'action': "SaveWidgetConfig",
-            'conf_type': type,
-            'name': name,
-            'value': value
-        }
-        AppConnector.request(params).then(
-			function(data) {
-				var response = data['result'];
-				if (response['success']) {
-					var params = {
-						text: response['data'],
-						type: 'info',
-						animation: 'show'
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-				} else {
-					var params = {
-						text: response['data'],
-						animation: 'show'
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-				}
-			},
-			function(data, err) {
-
-			}
-        );
-    }
-	
-</script>
-{/literal}

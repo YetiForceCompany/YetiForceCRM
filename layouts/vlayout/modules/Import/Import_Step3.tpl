@@ -18,7 +18,7 @@
 		</td>
 		<td>
 			<span class="big">{'LBL_IMPORT_STEP_3_DESCRIPTION'|@vtranslate:$MODULE}</span>
-			<span class="font-x-small">( {'LBL_IMPORT_STEP_3_DESCRIPTION_DETAILED'|@vtranslate:$MODULE} )</span>
+			<span class="font-x-small">({'LBL_IMPORT_STEP_3_DESCRIPTION_DETAILED'|@vtranslate:$MODULE}).</span>
 		</td>
 		<td>&nbsp;</td>
 	</tr>

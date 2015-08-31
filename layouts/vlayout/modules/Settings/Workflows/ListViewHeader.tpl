@@ -26,9 +26,9 @@
                         {elseif $CRON_RECORD_MODEL->getLastEndDateTime() neq ''}
                             {vtranslate('LBL_LAST_SCAN_AT',$QUALIFIED_MODULE)}
                             {$CRON_RECORD_MODEL->getLastEndDateTime()}
-                            &
-                            {vtranslate('LBL_TIME_TAKEN',$QUALIFIED_MODULE)}:
-                            {$CRON_RECORD_MODEL->getTimeDiff()}
+                            &nbsp;&
+                            {vtranslate('LBL_TIME_TAKEN',$QUALIFIED_MODULE)}:&nbsp;
+                            {$CRON_RECORD_MODEL->getTimeDiff()}&nbsp; 
                             {vtranslate('LBL_SHORT_SECONDS',$QUALIFIED_MODULE)}
                         {else}
 

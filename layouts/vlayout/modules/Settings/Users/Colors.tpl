@@ -47,8 +47,8 @@
 									<td>{$item.last}</td>
 									<td class="calendarColor" style="background: {$item.color};"></td>
 									<td>
-										<button class="btn btn-default updateColor" data-metod="updateUserColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button class="btn btn-default generateColor" data-metod="generateUserColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button class="btn btn-primary updateColor" data-metod="updateUserColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button class="btn btn-info generateColor" data-metod="generateUserColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}
@@ -70,8 +70,8 @@
 									<td>{$item.groupname}</td>
 									<td class="calendarColor" style="background: {$item.color};"></td>
 									<td>
-										<button class="btn btn-default updateColor" data-metod="updateGroupColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button class="btn btn-default generateColor" data-metod="generateGroupColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button class="btn btn-primary updateColor" data-metod="updateGroupColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button class="btn btn-info generateColor" data-metod="generateGroupColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}
@@ -97,8 +97,8 @@
 									</td>
 									<td class="calendarColor" style="background: {$item.color};"></td>
 									<td>
-										<button class="btn btn-default updateColor" data-metod="updateModuleColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button class="btn btn-default generateColor" data-metod="generateModuleColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button class="btn btn-primary updateColor" data-metod="updateModuleColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button class="btn btn-info generateColor" data-metod="generateModuleColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}
@@ -108,7 +108,7 @@
 				{foreach from=$TABLES_ALL item=ELEMENTS key=PROCESS}
 					<div class="tab-pane" id="{$PROCESS}">
 						<div class="accordion">
-							{foreach from=$ELEMENTS item=ITEM }
+							{foreach from=$ELEMENTS item=ITEM name=ELEMENT}
 								{if $ITEM eq ''}
 									{continue}
 								{/if}
@@ -122,7 +122,7 @@
 											{vtranslate($ITEM.fieldlabel, $MODULE_NAME)}
 										</a>
 									</div>
-									<div id="{$TABLE}" class="accordion-body collapse">
+									<div id="{$TABLE}" class="accordion-body collapse {if	$smarty.foreach.ELEMENT.index eq 0 } in {/if}">
 										<div class="accordion-inner">
 											<table class="table table-bordered table-condensed listViewEntriesTable" data-fieldname="{$ITEM.fieldname}">
 												<thead>
@@ -139,8 +139,8 @@
 															<td>{vtranslate($INNER_ITEM['value'], $MODULE_NAME)}</td>
 															<td class="calendarColor" style="background: {$INNER_ITEM['color']};"></td>
 															<td>
-																<button class="btn btn-default updateColor" data-metod="updateColorForProcesses">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-																<button class="btn btn-default generateColor" data-metod="generateColorForProcesses">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+																<button class="btn btn-primary updateColor" data-metod="updateColorForProcesses">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+																<button class="btn btn-info generateColor" data-metod="generateColorForProcesses">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 															</td>
 														</tr>
 													{/foreach}

@@ -11,16 +11,18 @@
 $languageStrings = [
 	'ReasonToEdit' => 'Причина редактирования',
 	'Customer' => 'Клиент',
-	'UserId' => 'ID Пользователя',
+	'UserId' => 'Пользователь',
 	'SINGLE_ModComments'           => 'Комментарии'      , 
 	'LBL_RECORDS_LIST'             => 'Комментарии Список'               , 
-	'LBL_MODCOMMENTS_INFORMATION'  => 'Информация Комментария', 
-	'LBL_OTHER_INFORMATION'        => 'Другая Информация', 
+	'LBL_MODCOMMENTS_INFORMATION' => 'Основная информация',
+	'LBL_OTHER_INFORMATION' => 'Дополнительная информация',
 	'LBL_ADDING_COMMENT'           => 'Добавление Комментария'              ,
 	'LBL_WRITE_YOUR_COMMENT_HERE'  => 'Оставить комментарий...'         ,
 	'Comment'                      => 'Комментарий'      , 
 	'Creator'                      => 'Автор'                  , 
 	'Related To Comments'          => 'Относится к Комментарию',
+	'UserId' => 'Пользователь',
+	'Customer' => 'Клиент',
 ];
 
 $jsLanguageStrings = [

@@ -10,34 +10,38 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div id="massEditContainer" class='modelContainer'>
-        <div class="modal-header contentsBackground">
-            <button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-            <h3 id="massEditHeader">{vtranslate('LBL_MASS_PASSWORD_EDITING', $MODULE)}</h3>
-        </div>
-        <form class="form-horizontal" id="changePassword" name="changePassword" method="post" action="index.php">
-            <input type="hidden" name="module" value="{$MODULE}" />
-            <input type="hidden" name="userids" value="{htmlspecialchars($USERIDS)}" />
-            <div name='massEditContent'>
-                <div class="modal-body">
+	<div id="massEditContainer" class='modelContainer modal fade' tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header contentsBackground">
+					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
+					<h3 id="massEditHeader">{vtranslate('LBL_MASS_PASSWORD_EDITING', $MODULE)}</h3>
+				</div>
+				<form class="form-horizontal" id="changePassword" name="changePassword" method="post" action="index.php">
+					<input type="hidden" name="module" value="{$MODULE}" />
+					<input type="hidden" name="userids" value="{htmlspecialchars($USERIDS)}" />
+					<div name='massEditContent'>
+						<div class="modal-body">
 
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">{vtranslate('LBL_NEW_PASSWORD', $MODULE)}</label>
-                        <div class="col-sm-6 controls">
-                            <input type="password" name="new_password" title="{vtranslate('LBL_NEW_PASSWORD', $MODULE)}" class="form-control" data-validation-engine="validate[required]"/>
-                        </div>
-                    </div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">{vtranslate('LBL_NEW_PASSWORD', $MODULE)}</label>
+								<div class="col-sm-6 controls">
+									<input type="password" name="new_password" title="{vtranslate('LBL_NEW_PASSWORD', $MODULE)}" class="form-control" data-validation-engine="validate[required]"/>
+								</div>
+							</div>
 
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">{vtranslate('LBL_CONFIRM_PASSWORD', $MODULE)}</label>
-                        <div class="col-sm-6 controls">
-                            <input type="password" name="confirm_password" title="{vtranslate('LBL_CONFIRM_PASSWORD', $MODULE)}" class="form-control" data-validation-engine="validate[required]"/>
-                        </div>
-                    </div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">{vtranslate('LBL_CONFIRM_PASSWORD', $MODULE)}</label>
+								<div class="col-sm-6 controls">
+									<input type="password" name="confirm_password" title="{vtranslate('LBL_CONFIRM_PASSWORD', $MODULE)}" class="form-control" data-validation-engine="validate[required]"/>
+								</div>
+							</div>
 
-                </div>
-            </div>
-    {include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
-</form>
-</div>
+						</div>
+					</div>
+					{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+				</form>
+			</div>
+		</div>
+	</div>
 {/strip}

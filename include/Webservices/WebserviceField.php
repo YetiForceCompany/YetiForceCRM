@@ -285,28 +285,33 @@ class WebserviceField
 				$this->getFieldTypeFromUIType();
 			}
 			$fieldTypeData = WebserviceField::$fieldTypeMapping[$this->getUIType()];
-			$referenceTypes = array();
-			if ($this->getUIType() != $this->genericUIType) {
-				$sql = "select * from vtiger_ws_referencetype where fieldtypeid=?";
-				$params = array($fieldTypeData['fieldtypeid']);
-			} else {
-				$sql = 'select relmodule as type from vtiger_fieldmodulerel where fieldid=? ORDER BY sequence ASC';
-				$params = array($this->getFieldId());
-			}
-			$result = $this->pearDB->pquery($sql, $params);
-			$numRows = $this->pearDB->num_rows($result);
-			for ($i = 0; $i < $numRows; ++$i) {
-				array_push($referenceTypes, $this->pearDB->query_result($result, $i, "type"));
-			}
-
 			$current_user = vglobal('current_user');
 			$types = vtws_listtypes(null, $current_user);
+
 			$accessibleTypes = $types['types'];
 			//If it is non admin user or the edit and view is there for profile then users module will be accessible
 			if (!is_admin($current_user) && !in_array("Users", $accessibleTypes)) {
 				array_push($accessibleTypes, 'Users');
 			}
+
+			$referenceTypes = array();
+			if ($this->getUIType() != $this->genericUIType) {
+				$sql = "select * from vtiger_ws_referencetype INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_ws_referencetype.`type` where fieldtypeid=? AND vtiger_tab.`presence` NOT IN (?)";
+				$params = array($fieldTypeData['fieldtypeid'], 1);
+			} else {
+				$sql = 'select relmodule as type from vtiger_fieldmodulerel INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_fieldmodulerel.`relmodule` WHERE fieldid=? AND vtiger_tab.`presence` NOT IN (?) ORDER BY sequence ASC';
+				$params = array($this->getFieldId(), 1);
+			}
+			$result = $this->pearDB->pquery($sql, $params);
+			$numRows = $this->pearDB->num_rows($result);
+			for ($i = 0; $i < $numRows; ++$i) {
+				$referenceType = $this->pearDB->query_result($result, $i, "type");
+				if (in_array($referenceType, $accessibleTypes))
+					array_push($referenceTypes, $referenceType);
+			}
+
 			$referenceTypesUnsorted = array_values(array_intersect($accessibleTypes, $referenceTypes));
+
 			$referenceTypesSorted = array();
 			foreach ($referenceTypesUnsorted as $key => $reference) {
 				$keySort = array_search($reference, $referenceTypes);

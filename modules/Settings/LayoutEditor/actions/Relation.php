@@ -18,6 +18,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('updateSequenceRelatedModule');
 		$this->exposeMethod('updateSelectedFields');
 		$this->exposeMethod('addRelation');
+		$this->exposeMethod('removeRelation');
 	}
 
 	public function changeStatusRelation(Vtiger_Request $request)
@@ -75,6 +76,19 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$source_Module->setRelatedList($moduleInstance, $label, $actions, $type);
 
 		$response = new Vtiger_Response();
+		$response->emit();
+	}
+
+	public function removeRelation(Vtiger_Request $request)
+	{
+		$relationId = $request->get('relationId');
+		$response = new Vtiger_Response();
+		try {
+			Vtiger_Relation_Model::removeRelationById($relationId);
+			$response->setResult(['success' => true]);
+		} catch (Exception $e) {
+			$response->setError($e->getCode(), $e->getMessage());
+		}
 		$response->emit();
 	}
 

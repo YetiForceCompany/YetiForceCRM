@@ -1,7 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-class Settings_OSSMailScanner_index_View extends Settings_Vtiger_Index_View
+class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 {
 
 	private $prefixesForModules = ['Contacts', 'Leads', 'Potentials', 'Project', 'HelpDesk', 'Accounts', 'Campaigns'];
@@ -31,7 +31,7 @@ class Settings_OSSMailScanner_index_View extends Settings_Vtiger_Index_View
 		$ConfigFolderList = $mailScannerRecordModel->getConfigFolderList();
 		$EmailSearch = $mailScannerRecordModel->getEmailSearch();
 		$EmailSearchList = $mailScannerRecordModel->getEmailSearchList();
-		$WidgetCfg = $mailScannerRecordModel->getConfig(false);
+		$widgetCfg = $mailScannerRecordModel->getConfig(false);
 		$supportedModules = Settings_Vtiger_CustomRecordNumberingModule_Model::getSupportedModules();
 
 		foreach ($supportedModules as $supportedModule) {
@@ -50,7 +50,7 @@ class Settings_OSSMailScanner_index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('EMAILACTIONSLISTNAME', $EmailActionsListName);
 		$viewer->assign('FOLDERMAILBOXES', $mailboxes);
 		$viewer->assign('CONFIGFOLDERLIST', $ConfigFolderList);
-		$viewer->assign('WIDGET_CFG', $WidgetCfg);
+		$viewer->assign('WIDGET_CFG', $widgetCfg);
 		$viewer->assign('EMAILSEARCH', $EmailSearch);
 		$viewer->assign('EMAILSEARCHLIST', $EmailSearchList);
 		$viewer->assign('RECORDNUMBERING', $RecordNumbering);
@@ -58,6 +58,6 @@ class Settings_OSSMailScanner_index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('IDENTITYLIST', $identityList);
 		$viewer->assign('CHECKCRON', $check_cron);
-		echo $viewer->view('index.tpl', $moduleName, true);
+		echo $viewer->view('Index.tpl', $request->getModule(false), true);
 	}
 }

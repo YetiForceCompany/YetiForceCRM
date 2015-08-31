@@ -24,7 +24,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 	{
 		$systemMode = vglobal('systemMode');
 		if ($systemMode == 'demo') {
-			die(Vtiger_Functions::throwNewException('Demo mode is enabled, the installation of modules is disabled'));
+			die(Vtiger_Functions::throwNewException(vtranslate('LBL_ERROR_IMPORT_IN_DEMO')));
 		}
 
 		$mode = $request->getMode();

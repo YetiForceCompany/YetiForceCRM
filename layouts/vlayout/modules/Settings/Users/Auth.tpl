@@ -62,10 +62,9 @@
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_USERS', $QUALIFIED_MODULE)}:</label>
 						</div>
 						<div class="col-md-8">
-							{assign var=USER_LIST value=$USER_MODEL->getAccessibleUsers()}
 							<select multiple="" name="users" class="select2 configField form-control" data-type="ldap" style="width: 100%;">
-								{foreach key=OWNER_ID item=OWNER_NAME from=$USER_LIST}
-									<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $CONFIG['users'])} selected {/if}>{$OWNER_NAME}</option>
+								{foreach key=KEY item=USER from=$NOT_ADMIN_USERS}
+									<option value="{$USER['id']}" {if in_array($USER['id'], $CONFIG['users'])} selected {/if}>{$USER['user_name']}</option>
 								{/foreach}
 							</select>
 						</div>

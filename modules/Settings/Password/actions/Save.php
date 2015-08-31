@@ -14,7 +14,7 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 
 	public function process(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
+		$moduleName = $request->getModule(false);
 		$type = $request->get('type');
 		$vale = $request->get('vale');
 		if (Settings_Password_Record_Model::validation($type, $vale)) {

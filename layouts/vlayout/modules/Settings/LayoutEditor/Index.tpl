@@ -41,7 +41,7 @@
                     {assign var=IS_BLOCK_SORTABLE value=$SELECTED_MODULE_MODEL->isBlockSortableAllowed()}
                     {assign var=ALL_BLOCK_LABELS value=[]}
                     {if $IS_SORTABLE}
-                        <div class="btn-toolbar">
+                        <div class="btn-toolbar" id="layoutEditorButtons">
                             <button class="btn btn-default addButton addCustomBlock" type="button">
                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;
                                 <strong>{vtranslate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</strong>
@@ -237,15 +237,14 @@
 																							{/if}
 																						</div>
 																					</span>
-																					{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url'])}
-																						<span style="padding-left: 5px;">
+																					{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url','integer','double'])}
+																						<div class="padding1per" style="padding : 0px 10px 0px 25px;">
 																							{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
-																							<span style="margin-left: 26px;display: block;">
-																								<span class="input-group">
-																									<input type="text" class="form-control" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
-																									<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
-																								</span></span>
-																						</span>
+																							<div class="input-group">
+																								<input type="text" class="form-control" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
+																								<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
+																							</div>
+																						</div>
 																					{/if}
 																					{if SysDeveloper::get('CHANGE_VISIBILITY')}
 																						<hr />
@@ -432,8 +431,8 @@
 																								{/if}
 																							{/if}
 																						</div>
-																					</span>      
-																					{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url'])}
+																					</span>
+																					{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url','integer','double'])}
 																						<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
 																							{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
 																							<div class="input-group">
@@ -597,6 +596,13 @@
 																{vtranslate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}</label>
 															<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;"></div>
 														</span>
+														<div class="padding1per maskField" style="padding : 0px 10px 0px 25px;">
+																							{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
+																							<div class="input-group">
+																								<input type="text" class="form-control" name="fieldMask" value="" />
+																								<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
+																							</div>
+																						</div>
 														{if SysDeveloper::get('CHANGE_VISIBILITY')}
 															<hr />
 															<span>
@@ -817,7 +823,7 @@
 										<div class="row inActiveList"></div>
 									</div>
 									<div class="modal-footer">
-										<div class=" pull-right col-md-2 cancelLinkContainer">
+										<div class=" pull-right cancelLinkContainer">
 											<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 										</div>
 										<button class="btn btn-success" type="submit" name="reactivateButton">

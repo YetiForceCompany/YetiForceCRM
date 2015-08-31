@@ -10,18 +10,18 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Заявки',
-	'LBL_ADD_RECORD' => 'Добавить Заявку',
+	'LBL_ADD_RECORD' => 'Заявка',
 	'RequirementCards' => 'Карточка Заявки',
 	'SINGLE_RequirementCards' => 'Карточка Заявки',
 	
 	//Bloks
-	'LBL_REQUIREMENTCARDS_INFORMATION' => 'Базовая информация',
-	'LBL_CUSTOM_INFORMATION' => 'Системная информация',
+	'LBL_REQUIREMENTCARDS_INFORMATION' => 'Основная информация',
+	'LBL_CUSTOM_INFORMATION' => 'Дополнительная информация',
 	
 	//Fields
 	'LBL_SUBJECT' => 'Тема',
 	'LBL_STAGE' => 'Состояние',
-	'Description' => 'Основное описание',
+	'Description' => 'Описание',
 	'Attention' => 'Комментарии',
 	'LBL_NUMBER' => 'Номер',
 	'Quotes Enquires' => 'Запрошенное Предложение',

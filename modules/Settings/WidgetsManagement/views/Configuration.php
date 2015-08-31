@@ -39,6 +39,7 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$filterSelect = Settings_WidgetsManagement_Module_Model::getFilterSelect();
 		$filterSelectDefault = Settings_WidgetsManagement_Module_Model::getFilterSelectDefault();
 		$widgetsWithFilterUsers = Settings_WidgetsManagement_Module_Model::getWidgetsWithFilterUsers();
+		$restrictFilter = Settings_WidgetsManagement_Module_Model::getRestrictFilter();
 
 		$viewer->assign('FILTER_SELECT', $filterSelect);
 		$viewer->assign('FILTER_SELECT_DEFAULT', $filterSelectDefault);
@@ -55,6 +56,7 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$viewer->assign('DEFAULTVALUES', $defaultValues);
 		$viewer->assign('TITLE_OF_LIMIT', $widgetsWithLimit);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+		$viewer->assign('RESTRICT_FILTER', $restrictFilter);
 
 		echo $viewer->view('Configuration.tpl', $request->getModule(false), true);
 		$log->debug("Exiting Settings_WidgetsManagement_Configuration_View::process() method ...");

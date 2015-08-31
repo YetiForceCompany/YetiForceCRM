@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v12.12 (64 bit)
+SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -767,6 +767,7 @@ CREATE TABLE `vtiger_activitytype` (
   `presence` int(1) NOT NULL DEFAULT '1',
   `picklist_valueid` int(19) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT NULL,
+  `color` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`activitytypeid`),
   UNIQUE KEY `activitytype_activitytype_idx` (`activitytype`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
@@ -1607,7 +1608,7 @@ CREATE TABLE `vtiger_convertleadmapping` (
   `potentialfid` int(19) DEFAULT NULL,
   `editable` int(19) DEFAULT '1',
   PRIMARY KEY (`cfmid`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentity` */
 
@@ -1615,7 +1616,7 @@ CREATE TABLE `vtiger_crmentity` (
   `crmid` int(19) NOT NULL,
   `smcreatorid` int(19) NOT NULL DEFAULT '0',
   `smownerid` int(19) NOT NULL DEFAULT '0',
-  `shownerid` set('1') DEFAULT NULL,
+  `shownerid` varchar(255) NOT NULL,
   `modifiedby` int(19) NOT NULL DEFAULT '0',
   `setype` varchar(30) NOT NULL,
   `description` text,
@@ -4220,8 +4221,8 @@ CREATE TABLE `vtiger_ossmailview` (
   `attachments_exist` varchar(3) DEFAULT '0',
   `rc_user` varchar(3) DEFAULT NULL,
   `type` tinyint(1) DEFAULT NULL,
-  `from_id` int(19) DEFAULT NULL,
-  `to_id` int(19) DEFAULT NULL,
+  `from_id` varchar(50) NOT NULL,
+  `to_id` varchar(100) NOT NULL,
   `orginal_mail` text,
   `verify` varchar(5) DEFAULT '0',
   `rel_mod` varchar(128) DEFAULT NULL,
@@ -7721,6 +7722,29 @@ CREATE TABLE `yetiforce_auth` (
   `param` varchar(20) DEFAULT NULL,
   `value` text,
   UNIQUE KEY `type` (`type`,`param`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `yetiforce_currencyupdate` */
+
+CREATE TABLE `yetiforce_currencyupdate` (
+  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `currency_id` int(19) NOT NULL,
+  `fetch_date` date NOT NULL,
+  `exchange_date` date NOT NULL,
+  `exchange` decimal(10,4) NOT NULL,
+  `bank_id` int(19) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_1_vtiger_osscurrencies` (`currency_id`),
+  CONSTRAINT `fk_1_vtiger_osscurrencies` FOREIGN KEY (`currency_id`) REFERENCES `vtiger_currency_info` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `yetiforce_currencyupdate_banks` */
+
+CREATE TABLE `yetiforce_currencyupdate_banks` (
+  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `bank_name` varchar(255) NOT NULL,
+  `active` int(1) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_mail_config` */

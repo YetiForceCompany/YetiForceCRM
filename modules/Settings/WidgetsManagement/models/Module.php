@@ -12,12 +12,23 @@
 class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Model
 {
 
+	public function getRestrictFilter()
+	{
+		$log = vglobal('log');
+		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getRestrictFIlter() method ...");
+
+		$restrictFilter = ["LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES" => ['mine']];
+
+		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getRestrictFIlter() method ...");
+		return $restrictFilter;
+	}
+
 	public function getWidgetsWithLimit()
 	{
 		$log = vglobal('log');
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getWidgetsWithLimit() method ...");
 
-		$widgetWithLimit = ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos', 'Calculations', 'PotentialsList', 'LBL_EXPIRING_SOLD_PRODUCTS'];
+		$widgetWithLimit = ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos', 'Calculations', 'PotentialsList', 'LBL_EXPIRING_SOLD_PRODUCTS', "LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES"];
 
 		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getWidgetsWithLimit() method ...");
 		return $widgetWithLimit;
@@ -88,7 +99,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log = vglobal('log');
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getWidgetsWithFilterUsers() method ...");
 
-		$widgetsWithFilterUsers = array('Leads by Status Converted', 'Graf', 'Tickets by Status', 'Leads by Industry', 'Leads by Source', 'Leads by Status', 'Funnel', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Dos', 'Delegated (overdue) Events/ToDos', 'Calendar');
+		$widgetsWithFilterUsers = array('Leads by Status Converted', 'Graf', 'Tickets by Status', 'Leads by Industry', 'Leads by Source', 'Leads by Status', 'Funnel', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Dos', 'Delegated (overdue) Events/ToDos', 'Calendar', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES');
 
 		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getWidgetsWithFilterUsers() method ...");
 		return $widgetsWithFilterUsers;

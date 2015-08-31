@@ -101,17 +101,17 @@
 						</select>
 					</div>	
 				</span>
-				<span class="col-md-5 row">
-					<span  class="col-md-3 paddingRightZero control-label">{vtranslate('LBL_ADD_TIME',$QUALIFIED_MODULE)}</span>
-					<span class="col-md-9">
-						<select id="task_timefields" class="chzn-select form-control" data-placeholder={vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}>
+				<div class="col-md-5">
+					<div  class="col-md-3 paddingLRZero control-label addTime">{vtranslate('LBL_ADD_TIME',$QUALIFIED_MODULE)}</div>
+					<div class="col-md-9 paddingLRZero">
+						<select id="task_timefields" class="chzn-select form-control " data-placeholder={vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}>
 							<option></option>
 							{foreach from=$META_VARIABLES item=META_VARIABLE_KEY key=META_VARIABLE_VALUE}
 								<option value="${$META_VARIABLE_KEY}">{vtranslate($META_VARIABLE_VALUE,$QUALIFIED_MODULE)}</option>
 							{/foreach}	
 						</select>
-					</span>	
-				</span>
+					</div>	
+				</div>
 			</div>
 			<div class="padding-bottom1per">
 				<textarea id="content" class="form-control" name="content">{$TASK_OBJECT->content}</textarea>

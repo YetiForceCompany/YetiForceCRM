@@ -12,7 +12,7 @@
 $languageStrings = [
 	'OSSEmployees' => 'Сотрудники',
 	'SINGLE_OSSEmployees' => 'Сотрудник',
-	'LBL_INFORMATION' => 'Информация о сотрудниках',
+	'LBL_INFORMATION' => 'Основная инофрмация',
 	'LBL_CONTACTS' => 'Контактная информация',
 	'LBL_PERMANENT_ADDRESS' => 'Адрес постоянного места жительства',
 	'LBL_CORRESPONDANCE_ADDRESS' => 'Адрес по прописке',
@@ -43,7 +43,7 @@ $languageStrings = [
 	'Primary' => 'Начальное',
 	'Secondary' => 'Среднее',
 	'Higher' => 'Высшее',
-	'LBL_Member_Of' => 'Подчиняется',
+	'LBL_Member_Of' => 'Руководитель',
 	'LBL_SHOW_EMPLOYEES_HIERARCHY' => 'Иерархия сотрудника',
 	'Recruiting' => 'Наемный',
 	'Employee' => 'Устроен',

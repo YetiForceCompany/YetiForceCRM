@@ -15,18 +15,19 @@ class APIException extends Exception
 		}
 
 		header("HTTP/1.1 " . $code . " " . $this->_requestStatus($code));
+		header('encrypted: 0');
 		global $showWebserviceError;
-		if(!$showWebserviceError && $code === 200){
+		if (!$showWebserviceError && $code === 200) {
 			$message = 'Internal Server Error';
 			$code = 500;
 		}
-		echo json_encode(['status' => 0, 'encrypted' => 0,  'error' => ['message' => $message, 'code' => $code]]);
+		echo json_encode(['status' => 0, 'error' => ['message' => $message, 'code' => $code]]);
 	}
 
 	private function _requestStatus($code)
 	{
 		$status = [
-			200 => 'OK', 
+			200 => 'OK',
 			401 => 'Unauthorized',
 			403 => 'Forbidden',
 			404 => 'Not Found',
@@ -39,7 +40,15 @@ class APIException extends Exception
 
 function exceptionErrorHandler($errno, $errstr, $errfile, $errline, $errcontext)
 {
-	$msg = $eName . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
-	throw new APIException($msg);
+	switch ($errno) {
+		case E_ERROR:
+		case E_WARNING:
+		case E_CORE_ERROR:
+		case E_COMPILE_ERROR:
+		case E_USER_ERROR:
+			$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
+			throw new APIException($msg);
+			break;
+	}  
 }
-set_error_handler('exceptionErrorHandler', E_ALL);
+set_error_handler('exceptionErrorHandler');

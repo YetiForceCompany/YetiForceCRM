@@ -228,6 +228,9 @@ var Vtiger_Index_Js = {
 				AppConnector.request(url).then(function (data) {
 					currentElement.closest('.panel').fadeOut(300, function() { 
 						$(this).remove();
+						var reminderAmount = $('.remindersNoticeContainer .borderColorMeeting').length
+						if(0 == reminderAmount)
+							content.toggleClass("toggled");
 						thisInstance.refreshNumberNotifications(content);
 					});
 				});

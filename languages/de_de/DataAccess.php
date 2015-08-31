@@ -23,7 +23,7 @@ $languageStrings = [
 	'LBL_LOCKS_SAVE_LABEL2' => 'Ja - Eine Bedingung erfüllt',
 	'LBL_LOCKS_SAVE_LABEL3' => 'Ja - Zwei Bedingungen erfüllt',
 	'LBL_VALIDATION_TWO_FIELDS' => 'Zwei Felder bestätigen',
-	'LBL_MESSAGE_LOCK0' => 'Nachricht, wenn Schrieben nicht gesperrt ist (wird nur bei Datensatz Erstellung gezeigt)',
+	'LBL_MESSAGE_LOCK0' => 'Nachricht, wenn Schrieben nicht gesperrt ist',
 	'LBL_MESSAGE_LOCK1' => 'Nachricht für eine erfüllte Bedingung',
 	'LBL_MESSAGE_LOCK2' => 'Nachricht für zwei erfüllte Bedingung',
 	//
@@ -39,7 +39,7 @@ $languageStrings = [
 	//
 	'Action_show_quick_create' => 'Schnellerfassung',
 	'Action_Desc_show_quick_create' => 'Diese Aktion zeigt die Schnellerfassung',
-	'Select module' => 'Modul auswählen',
+	'LBL_SELECT_OPTION' => 'Option auswählen',
 	//
 	'Action_blockEditView' => 'Bearbeitungsansicht blockieren',
 	'Action_Desc_blockEditView' => 'Diese Aktion blockiert Bearbeitungsansicht (Schnell und vollständiges Bearbeiten)',
@@ -69,7 +69,9 @@ $languageStrings = [
 	'LBL_BACKGROUND_COLOR' => 'Hintergrund Farbe',
 	'LBL_TEXT_COLOR' => 'Text Farbe',
 	'This name already exists' => 'Der Name existiert schon',
-	'LBL_RECORD_DELETED' => 'Record deleted',
+	'LBL_RECORD_DELETED' => 'Datensatz gelöscht',
+	'Action_test' => 'Action test',
+	'Action_Desc_test' => 'Action test description',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Datenzugriff',

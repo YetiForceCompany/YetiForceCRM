@@ -35,7 +35,7 @@
 						</thead>
 						<tbody>
 							{foreach from=$MODULE_MODEL->getCalendarConfig('colors') item=item key=key}
-								<tr data-id="{$item.name}" data-color="{$item.value}">
+								<tr data-id="{$item.name}" data-color="{$item.value}" data-table="{$item.table}" data-field="{$item.field}">
 									<td>{vtranslate($item.label,$QUALIFIED_MODULE)}</td>
 									<td class="calendarColor" style="background: {$item.value};"></td>
 									<td>

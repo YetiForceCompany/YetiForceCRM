@@ -76,7 +76,7 @@
 					{/if}
 				</span>
 			</div>
-			<div class="col-md-4 btn-toolbar">
+			<div class="col-md-4 btn-toolbar paddingRightZero">
 				{include file='ListViewActions.tpl'|@vtemplate_path}
 			</div>
 			<span class="hide filterActionImages pull-right">

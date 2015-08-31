@@ -1043,7 +1043,7 @@ jQuery.Class("Vtiger_List_Js", {
 				jQuery('#pageToJump').val(nextPageNumber);
 				thisInstance.getListViewRecords(urlParams).then(
 						function (data) {
-							thisInstance.updatePagination();
+							thisInstance.updatePagination(nextPageNumber);
 							aDeferred.resolve();
 						},
 						function (textStatus, errorThrown) {
@@ -1070,7 +1070,7 @@ jQuery.Class("Vtiger_List_Js", {
 				jQuery('#pageToJump').val(previousPageNumber);
 				thisInstance.getListViewRecords(urlParams).then(
 						function (data) {
-							thisInstance.updatePagination();
+							thisInstance.updatePagination(previousPageNumber);
 							aDeferred.resolve();
 						},
 						function (textStatus, errorThrown) {
@@ -1078,6 +1078,32 @@ jQuery.Class("Vtiger_List_Js", {
 						}
 				);
 			}
+		});
+
+		jQuery('.pageNumber').on('click', function () {
+			var disabled = $(this).hasClass("disabled")
+			if (disabled)
+				return false;
+			var pageNumber = $(this).data("id");
+			var orderBy = jQuery('#orderBy').val();
+			var sortOrder = jQuery("#sortOrder").val();
+			var cvId = thisInstance.getCurrentCvId();
+			var urlParams = {
+				"orderby": orderBy,
+				"sortorder": sortOrder,
+				"viewname": cvId,
+				"page": pageNumber
+			}
+			var previousPageNumber = parseInt(parseFloat(pageNumber)) - 1;
+			jQuery('#pageNumber').val(previousPageNumber);
+			jQuery('#pageToJump').val(previousPageNumber);
+			thisInstance.getListViewRecords(urlParams).then(
+					function (data) {
+						thisInstance.updatePagination(pageNumber);
+					},
+					function (textStatus, errorThrown) {
+					}
+			);
 		});
 
 		jQuery('#listViewPageJump').on('click', function (e) {
@@ -1147,7 +1173,7 @@ jQuery.Class("Vtiger_List_Js", {
 					currentPageElement.val(newPageNumber);
 					thisInstance.getListViewRecords().then(
 							function (data) {
-								thisInstance.updatePagination();
+								thisInstance.updatePagination(newPageNumber);
 								element.closest('.btn-group ').removeClass('open');
 							},
 							function (textStatus, errorThrown) {
@@ -1193,43 +1219,32 @@ jQuery.Class("Vtiger_List_Js", {
 	/**
 	 * Function to update Pagining status
 	 */
-	updatePagination: function () {
-		var previousPageExist = jQuery('#previousPageExist').val();
-		var nextPageExist = jQuery('#nextPageExist').val();
-		var previousPageButton = jQuery('#listViewPreviousPageButton');
-		var nextPageButton = jQuery('#listViewNextPageButton');
-		var pageJumpButton = jQuery('#listViewPageJump');
-		var listViewEntriesCount = parseInt(jQuery('#noOfEntries').val());
-		var pageStartRange = parseInt(jQuery('#pageStartRange').val());
-		var pageEndRange = parseInt(jQuery('#pageEndRange').val());
-		var pages = jQuery('#totalPageCount').text();
-		var totalNumberOfRecords = jQuery('.totalNumberOfRecords');
-		var pageNumbersTextElem = jQuery('.pageNumbersText');
+	updatePagination: function (pageNumber) {
+		pageNumber = typeof pageNumber !== 'undefined' ? pageNumber : 1;
+		var thisInstance = this;
+		var cvId = thisInstance.getCurrentCvId();
+		var params = {};
+		params['module'] = app.getModuleName();
+		if ('Settings' == app.getParentModuleName())
+			params['parent'] = 'Settings';
+		params['view'] = 'Pagination';
+		params['viewname'] = cvId;
+		params['page'] = pageNumber;
+		params['mode'] = 'getPagination';
+		var searchValue = this.getAlphabetSearchValue();
 
-		if (pages > 1) {
-			pageJumpButton.removeAttr('disabled');
+		if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+			params['search_key'] = this.getAlphabetSearchField();
+			params['search_value'] = searchValue;
+			params['operator'] = "s";
 		}
-		if (previousPageExist != "") {
-			previousPageButton.removeAttr('disabled');
-		} else if (previousPageExist == "") {
-			previousPageButton.attr("disabled", "disabled");
-		}
+		params.search_params = JSON.stringify(this.getListSearchParams());
 
-		if ((nextPageExist != "") && (pages > 1)) {
-			nextPageButton.removeAttr('disabled');
-		} else if ((nextPageExist == "") || (pages == 1)) {
-			nextPageButton.attr("disabled", "disabled");
-		}
-		if (listViewEntriesCount != 0) {
-			var pageNumberText = pageStartRange + " (" + pageEndRange + ")";
-			pageNumbersTextElem.html(pageNumberText);
-			totalNumberOfRecords.removeClass('hide');
-		} else {
-			pageNumbersTextElem.html("<span>&nbsp;</span>");
-			if (!totalNumberOfRecords.hasClass('hide')) {
-				totalNumberOfRecords.addClass('hide');
-			}
-		}
+		AppConnector.request(params).then(function (data) {
+			jQuery('.paginationDiv').html(data);
+			thisInstance.registerPageNavigationEvents();
+
+		});
 
 	},
 	/*
@@ -1239,7 +1254,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li', function (event) {
+			listViewFilterBlock.on('mouseup', 'li[role="treeitem"]', function (event) {
 				jQuery('#pageNumber').val("1");
 				jQuery('#pageToJump').val('1');
 				jQuery('#orderBy').val('');
@@ -1261,7 +1276,7 @@ jQuery.Class("Vtiger_List_Js", {
 				jQuery('#totalPageCount').text("");
 				thisInstance.getListViewRecords(urlParams).then(function () {
 					thisInstance.ListViewPostOperation();
-					thisInstance.updatePagination();
+					thisInstance.updatePagination(1);
 				});
 				event.stopPropagation();
 			});
@@ -1410,7 +1425,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var liElement = currentElement.find('#createFilter');
 		var createUrl = liElement.data('createurl');
 		Vtiger_CustomView_Js.loadFilterView(createUrl);
-},
+	},
 	/*
 	 * Function to register the click event for duplicate filter
 	 */

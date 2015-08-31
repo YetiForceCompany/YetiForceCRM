@@ -6,6 +6,7 @@ require_once 'config/api.php';
 if(!in_array('yetiportal',$enabledServices)){
 	die("{'status': 0,'message': 'YetiPortal - Service is not active'}");
 }
+
 require_once('include/ConfigUtils.php');
 require_once('config/config.php');
 include_once('vtlib/Vtiger/Module.php');

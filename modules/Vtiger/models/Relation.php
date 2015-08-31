@@ -368,6 +368,14 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$result = $adb->pquery($query, array($presence, $relationId));
 	}
 
+	public function removeRelationById($relationId)
+	{
+		$adb = PearDatabase::getInstance();
+		if ($relationId) {
+			$adb->pquery("DELETE FROM `vtiger_relatedlists` WHERE `relation_id` = ?;", [$relationId]);
+		}
+	}
+
 	public function updateRelationSequence($modules)
 	{
 		$adb = PearDatabase::getInstance();

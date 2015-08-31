@@ -32,7 +32,7 @@
 			</div>
 			<div class="modal-footer">
 				<div class="pull-right cancelLinkContainer" style="margin-top:0px;">
-					<a class="btn cancelLink" type="reset" style="margin: auto;" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+					<a class="btn cancelLink btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 					<a class="btn btn-success saveButton"><strong>{vtranslate('LBL_SAVE_MENU', $QUALIFIED_MODULE)}</strong></a>
 				</div>
 			</div>

@@ -19,7 +19,7 @@
 					</h3>
 					<div class="col-md-6">
 						<div class="pull-right">
-							<button class="btn btn-default" onclick="window.location.href = '{$RECORD_MODEL->getEditViewUrl()}'" type="button">
+							<button class="btn btn-info" onclick="window.location.href = '{$RECORD_MODEL->getEditViewUrl()}'" type="button">
 								<strong>{vtranslate('LBL_EDIT_RECORD', $MODULE)}</strong>
 							</button>
 						</div>
@@ -35,7 +35,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 control-label">
-						{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}  
 					</div>
 					<div class="controls pushDown">
 						<strong>{$RECORD_MODEL->getDescription()}</strong>
@@ -43,7 +43,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 control-label">
-						{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}  <span class="redColor">*</span>
 					</div>
 					<div class="controls pushDown">
 						<div class="row">
@@ -61,7 +61,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 control-label">
-						{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)} <span class="redColor">*</span>
 					</div>
 					<div class="col-md-5 controls pushDown">
 						<div class="row">
@@ -75,7 +75,7 @@
 											</li>
 											{foreach item=GROUP_MEMBER_INFO from=$GROUP_MEMBERS}
 												<li class="">
-													<a href="{$GROUP_MEMBER_INFO->getDetailViewUrl()}">{$GROUP_MEMBER_INFO->get('name')}</a>
+													<a href="{$GROUP_MEMBER_INFO->getDetailViewUrl()}">{vtranslate($GROUP_MEMBER_INFO->get('name'), $QUALIFIED_MODULE)}</a>
 												</li>
 											{/foreach}
 										{/if}

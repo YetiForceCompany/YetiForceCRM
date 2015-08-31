@@ -43,7 +43,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-md-2 control-label">
-					{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
+					<span class="redColor">*</span> {vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
 				</div>
 				<div class="col-md-6 controls">
 					<select id="modulesList" class="row modules select2 form-control" multiple="true" name="modules[]" data-validation-engine="validate[required]">
@@ -55,7 +55,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-md-2 control-label">
-					{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
+					<span class="redColor">*</span> {vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
 				</div>
 				<div class="col-md-6 controls">
 					<div class="row">
@@ -63,10 +63,10 @@
 							{assign var="GROUP_MEMBERS" value=$RECORD_MODEL->getMembers()}
 							<select id="memberList" class="members form-control" multiple="true" name="members[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', $QUALIFIED_MODULE)}" data-validation-engine="validate[required]">
 								{foreach from=$MEMBER_GROUPS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
-									<optgroup label="{$GROUP_LABEL}">
+									<optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 										{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
 											{if $MEMBER->getName() neq $RECORD_MODEL->getName()}
-												<option value="{$MEMBER->getId()}"  data-member-type="{$GROUP_LABEL}" {if isset($GROUP_MEMBERS[$GROUP_LABEL][$MEMBER->getId()])}selected="true"{/if}>{$MEMBER->getName()}</option>
+												<option value="{$MEMBER->getId()}"  data-member-type="{$GROUP_LABEL}" {if isset($GROUP_MEMBERS[$GROUP_LABEL][$MEMBER->getId()])}selected="true"{/if}>{vtranslate($MEMBER->getName(), $QUALIFIED_MODULE)}</option>
 											{/if}
 										{/foreach}
 									</optgroup>
@@ -87,7 +87,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-5">
+				<div class="col-md-5 pull-right">
 					<span class="pull-right">
 						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>

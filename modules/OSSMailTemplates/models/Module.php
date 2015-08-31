@@ -8,18 +8,25 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 		$tabid = getTabid($moduleName);
-		$sql = "select fieldid, fieldlabel, uitype from vtiger_field where tabid = ? AND presence <> ? AND typeofdata <> ?";
-		$result = $db->pquery($sql, array($tabid, 1, 'P~M'), true);
+		$sql = "select `fieldid`, `fieldlabel`, `uitype`, `block` from vtiger_field where tabid = ? AND presence <> ? AND typeofdata <> ? AND `block` NOT IN (?)";
+		$result = $db->pquery($sql, array($tabid, 1, 'P~M', 0));
 		$output = array();
+		$block = ['blockId' => '', 'blockLabel' => ''];
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
+			$blockid = $db->query_result($result, $i, 'block');
+			if ($block['blockId'] != $blockid) {
+				$block['blockId'] = $blockid;
+				$block['blockLabel'] = getBlockName($blockid);
+			}
 			if ($relID) {
 				$id = $db->query_result($result, $i, 'fieldid') . '||' . $relID;
 			} else {
 				$id = $db->query_result($result, $i, 'fieldid');
 			}
-			$output[$i]['label'] = vtranslate($db->query_result($result, $i, 'fieldlabel'), $moduleName);
-			$output[$i]['id'] = $id;
-			$output[$i]['uitype '] = $db->query_result($result, $i, 'uitype');
+			$output[$blockid][$i]['label'] = vtranslate($db->query_result($result, $i, 'fieldlabel'), $moduleName);
+			$output[$blockid][$i]['id'] = $id;
+			$output[$blockid][$i]['uitype'] = $db->query_result($result, $i, 'uitype');
+			$output[$blockid]['blockLabel'] = vtranslate($block['blockLabel'], $moduleName);
 		}
 		return $output;
 	}
@@ -28,6 +35,7 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 		$tabid = getTabid($moduleName);
+		$sourceModule = $moduleName;
 		$sql = "select vtiger_field.fieldid, fieldlabel, uitype, vtiger_fieldmodulerel.relmodule from vtiger_field 
 				left JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid where tabid = ? AND (uitype = '10' OR uitype = '59' OR uitype = '53' OR uitype = '51')";
 
@@ -52,7 +60,7 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 			$moduleInfoSql = "SELECT * FROM vtiger_tab WHERE tabid = ?";
 			$moduleInfoResult = $db->pquery($moduleInfoSql, array($moduleList[$i][0]), true);
 			$moduleName = $db->query_result($moduleInfoResult, 0, 'name');
-			$moduleTrLabal = vtranslate($moduleList[$i][1], $moduleName);
+			$moduleTrLabal = vtranslate($moduleList[$i][1], $sourceModule);
 			$output[$moduleTrLabal] = array();
 			$output[$moduleTrLabal] = $this->getListFiledOfModule($moduleName, $moduleList[$i][2]);
 		}

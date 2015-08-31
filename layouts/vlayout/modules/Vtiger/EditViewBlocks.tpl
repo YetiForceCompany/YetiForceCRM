@@ -76,8 +76,8 @@
 						<tr>
 							<th class="blockHeader" colspan="4">
 					<div class="row">
-						<div class="col-md-4">
-							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+						<div class="col-md-12">
+							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 								{assign var=APIADDRESFIELD value=TRUE}
 							{else}
 								{assign var=APIADDRESFIELD value=FALSE}
@@ -88,24 +88,27 @@
 									<img class="cursorPointer alignMiddle blockToggle{if ($IS_HIDDEN)} hide{/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
 									&nbsp;&nbsp;{vtranslate($BLOCK_LABEL, $MODULE)}
 								</div>
-
-								{if $APIADDRESFIELD}
-									<div class="col-md-5">
-										<input value="" title="{vtranslate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete form-control pull-right input " />
-									</div>
-								{/if}
 							</div>
-						</div>
-						<div class="col-md-8">
-							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-								{include file=vtemplate_path('BlockHeader.tpl',$MODULE)}
-							{/if}
 						</div>
 					</div>
 					</th>
                     </tr>
 					</thead>
 					<tbody {if $IS_HIDDEN} class="hide" {/if}>
+						{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+							<tr>
+								<th class="blockHeader text-center" colspan="4">
+									{if $APIADDRESFIELD}
+									<div class="col-lg-4">
+										<input value="" title="{vtranslate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete form-control pull-right input " placeholder="{vtranslate('LBL_ENTER_SEARCHED_ADDRESS')}" />
+									</div>
+									{/if}
+									<div class="{if $APIADDRESFIELD}col-lg-8{else}col-lg-9 col-lg-offset-3{/if} text-center">
+										{include file=vtemplate_path('BlockHeader.tpl',$MODULE)}
+									</div>
+								</th>
+							</tr>
+						{/if}
 						<tr>
 							{assign var=COUNTER value=0}
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
