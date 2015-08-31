@@ -196,7 +196,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 
 		var options = '';
 		for (var key in conditionList) {
-			if (jQuery.inArray(fieldInfo.type, ['owner', 'picklist', 'modules']) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
+			if (jQuery.inArray(fieldInfo.type, ['owner', 'picklist', 'modules', 'tree']) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
 				continue;
 			}
 			//IE Browser consider the prototype properties also, it should consider has own properties only.

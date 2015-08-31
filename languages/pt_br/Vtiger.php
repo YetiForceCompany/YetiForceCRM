@@ -994,6 +994,9 @@ $languageStrings = [
 	'LBL_VIEW_ADDACTION' => 'Ações',
 	'LBL_VIEW_ACTIONCONFIG' => 'Action config',
 	'LBL_ENTER_SEARCHED_ADDRESS' => 'Enter the address to search',
+	'equal to' => 'Equal to',
+	'None' => 'None',
+	'Email Opt Out' => 'Email Opt Out',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
@@ -1214,4 +1217,6 @@ $jsLanguageStrings = [
 	'JS_DELETE_COMMENT_CONFIRMATION' => 'Tem certeza que deseja apagar o Comentário?',
 	'JS_SET_TAX_FOR' => 'Definir Imposto para',
 	'JS_OK' => 'Ok',
+	'equal to' => 'Equal to',
+	'None' => 'None',
 ];

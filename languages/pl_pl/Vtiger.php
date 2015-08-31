@@ -880,6 +880,8 @@ $languageStrings = [
 	"greater than" => "większy niż",
 	"does not equal" => "nie jest równy",
 	"less than or equal to" => "jest mniejszy lub równy",
+	'equal to' => 'równy',
+	'None' => 'Brak',
 	"greater than or equal to" => "jest większy lub równy",
 	"before" => "przed",
 	"after" => "po",
@@ -988,6 +990,7 @@ $languageStrings = [
 	'LBL_VIEW_ADDACTION' => 'Akcje',
 	'LBL_VIEW_ACTIONCONFIG' => 'Konfiguracja akcji',
 	'LBL_ENTER_SEARCHED_ADDRESS' => 'Wprowadź szukany adres',
+	'Email Opt Out' => 'Rezygnacja z otrzymywania emaili',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
@@ -1210,4 +1213,6 @@ $jsLanguageStrings = [
 	'JS_DELETE_COMMENT_CONFIRMATION' => 'Czy na pewno chcesz usunąć komentarz?',
 	'JS_SET_TAX_FOR' => 'Ustaw podatek dla',
 	'JS_OK' => 'Ok',
+	'equal to' => 'równy',
+	'None' => 'Brak',
 ];

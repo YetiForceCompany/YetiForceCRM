@@ -69,7 +69,7 @@
 								<a href="javascript:void(0);" class="listViewHeaderValues pull-left" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
 									&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}<span class="{$SORT_IMAGE}"></span>{/if}</a>
 									{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
-						<div class='rof-fluid' style="margin-right:20%">
+						<div class='pull-left'>
 							<span class="pull-right popoverTooltip delay0"  data-placement="top" data-original-title="{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}" 
 								  data-content="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
 								<span class="glyphicon glyphicon-info-sign"></span>

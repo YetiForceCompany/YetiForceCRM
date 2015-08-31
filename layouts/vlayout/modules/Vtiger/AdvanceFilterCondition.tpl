@@ -143,7 +143,7 @@
 		{/if}
 		<input type="hidden" name="column_condition" value="{$CONDITION}" />
 	</span>
-	 <span class="col-md-1">
+	 <span class="btn">
 		<span class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}"></span>
 	</span>
 </div>

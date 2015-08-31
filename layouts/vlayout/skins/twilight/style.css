@@ -1307,8 +1307,7 @@ td.fieldValue .input-group {
 .conditionGroup .contents .conditionRow {
 	margin-bottom: 10px;
 }
-.conditionGroup .contents .conditionRow select,
-.conditionGroup .contents .conditionRow input {
+.conditionGroup .contents .conditionRow select{
 	width: 90%;
 }
 .conditionGroup .contents .conditionRow .chzn-results li {
@@ -3550,16 +3549,16 @@ span[name=existingImages] img{
 	padding: 5px;
 	font-size: 13px;
 }
-.summaryWidgetContainer .widgetContent .container-fluid > .row{
+.mailsList .container-fluid > .row{
 	border-bottom: 1px solid #dddddd;
 	margin-right: -10px;
 	margin-left: -10px;
 	padding: 4px 0;
 }
-.summaryWidgetContainer .widgetContent .container-fluid > .row:last-child{
+.mailsList .container-fluid > .row:last-child{
 	border-bottom: 0;
 }
-.summaryWidgetContainer .widgetContent .smalSeparator {
+.mailsList .smalSeparator {
     display: block;
     height: 5px;
 	width: 70px;
@@ -3567,37 +3566,37 @@ span[name=existingImages] img{
 .summaryWidgetContainer .widgetContent hr {
 	margin: 4px 0;
 }
-.summaryWidgetContainer .widgetContent .row{
+.mailsList .row{
 	background-color: #fff;
 }
-.summaryWidgetContainer .widgetContent .row.even{
+.mailsList .row.even{
 	background-color: #faf8f8;
 }
-.summaryWidgetContainer .widgetContent .mailTitle, .modalViewBody .mailTitle{
+.mailsList .mailTitle{
 	margin: 0;
 }
-.summaryWidgetContainer .widgetContent .mainSubject{
+.mailsList .mainSubject{
 	font-weight: 800;
 	font-size: 13px;
 }
-.summaryWidgetContainer .widgetContent .mainFrom, .modalViewBody .mainFrom{
+.mailsList .mainFrom{
 	font-size: 16px;
 }
-.summaryWidgetContainer .widgetContent .mailActions{
+.mailsList .mailActions{
 	margin-top: 3px;
     z-index: 1020;
     position: relative;
 }
-.summaryWidgetContainer .widgetContent .mailActions a{
+.mailsList .mailActions a{
 	margin-left: 3px;
 }
-.summaryWidgetContainer .widgetContent .mailActions a:first-child{
+.mailsList .mailActions a:first-child{
 	margin-left: 0;
 }
-.summaryWidgetContainer .widgetContent .mailBodyContent{
+.mailsList .mailBodyContent{
 	overflow: auto;
 }
-.summaryWidgetContainer .widgetContent .mailBodyContent p{
+.mailsList .mailBodyContent p{
 	margin: 0;
 }
 .rowHr{
@@ -3627,7 +3626,7 @@ span[name=existingImages] img{
 #emailPreview{
 	margin: 10px 0;
 }
-.mailsList{
+.modalViewBody .mailsList{
 	max-height: 630px;
 	overflow: auto;
 }
