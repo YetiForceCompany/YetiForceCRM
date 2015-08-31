@@ -615,18 +615,27 @@ class Vtiger_Field_Model extends Vtiger_Field
 			$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
 			$this->fieldInfo['picklistvalues'] = $pickListValues;
 		}
-		
+
 		if ($this->getFieldDataType() == 'sharedOwner') {
 			$userList = $currentUser->getAccessibleUsers();
 			$pickListValues = [];
 			$this->fieldInfo['picklistvalues'] = $userList;
 		}
-		
+
 		if ($this->getFieldDataType() == 'modules') {
-			foreach($this->getModulesListValues() as $moduleId=>$module){
+			foreach ($this->getModulesListValues() as $moduleId => $module) {
 				$modulesList[$module['name']] = $module['label'];
 			}
 			$this->fieldInfo['picklistvalues'] = $modulesList;
+		}
+
+		if ($this->getFieldDataType() == 'tree') {
+			$tree = $this->getUITypeModel()->getAllValue();
+			$pickListValues = [];
+			foreach ($tree as $key => $labels) {
+				$pickListValues[$key] = $labels[0];
+			}
+			$this->fieldInfo['picklistvalues'] = $pickListValues;
 		}
 
 		return $this->fieldInfo;
