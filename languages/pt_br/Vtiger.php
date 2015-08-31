@@ -996,6 +996,7 @@ $languageStrings = [
 	'LBL_ENTER_SEARCHED_ADDRESS' => 'Enter the address to search',
 	'equal to' => 'Equal to',
 	'None' => 'None',
+	'Email Opt Out' => 'Email Opt Out',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
