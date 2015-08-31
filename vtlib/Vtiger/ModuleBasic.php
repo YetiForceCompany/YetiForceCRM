@@ -39,7 +39,6 @@ class Vtiger_ModuleBasic
 	var $tabsequence = false;
 	var $parent = false;
 	var $customized = 0;
-	var $trial = 0;
 	var $isentitytype = true; // Real module or an extension?
 	var $entityidcolumn = false;
 	var $entityidfield = false;
@@ -47,7 +46,7 @@ class Vtiger_ModuleBasic
 	var $basetableid = false;
 	var $customtable = false;
 	var $grouptable = false;
-	var $type = 'BaseModule';
+	var $type = 0;
 
 	const EVENT_MODULE_ENABLED = 'module.enabled';
 	const EVENT_MODULE_DISABLED = 'module.disabled';
@@ -80,7 +79,7 @@ class Vtiger_ModuleBasic
 		$this->tabsequence = $valuemap['tabsequence'];
 		$this->parent = $valuemap['parent'];
 		$this->customized = $valuemap['customized'];
-		$this->trial = $valuemap['trial'];
+		$this->type = $valuemap['type'];
 
 		$this->isentitytype = $valuemap['isentitytype'];
 

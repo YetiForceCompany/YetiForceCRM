@@ -66,7 +66,12 @@ class Vtiger_Module_Model extends Vtiger_Module
 
 	public function getModuleType()
 	{
-		return $this->moduleType;
+		return $this->get('type');
+	}
+	
+	public function isInventory()
+	{
+		return $this->getModuleType() == 1;
 	}
 	
 	/**

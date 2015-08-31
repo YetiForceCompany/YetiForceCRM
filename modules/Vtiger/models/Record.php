@@ -258,7 +258,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function save()
 	{
 		$this->getModule()->saveRecord($this);
-		if($this->getModule()->getModuleType() == 'Inventory'){
+		if($this->getModule()->isInventory()){
 			$this->saveInventoryData();
 		}
 	}

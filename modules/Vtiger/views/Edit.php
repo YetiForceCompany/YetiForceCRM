@@ -133,7 +133,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$parentScript = parent::getFooterScripts($request);
 
 		$moduleName = $request->getModule();
-		if (Vtiger_Module_Model::getInstance($moduleName)->getModuleType() == 'Inventory') {
+		if (Vtiger_Module_Model::getInstance($moduleName)->isInventory()) {
 			$fileNames = array(
 				'modules.Vtiger.resources.Inventory',
 				'modules.' . $moduleName . '.resources.Inventory',
