@@ -662,7 +662,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		element.find('.glyphicon').removeClass('glyphicon-menu-down');
 		element.find('.glyphicon').addClass('glyphicon-menu-up');
 		inventoryRowExpanded.removeClass('hide');
-		thisInstance.loadCkEditorElement(inventoryRowExpanded.find('.ckEditorSource'));
+		Vtiger_Edit_Js.getInstance().loadCkEditorElement(inventoryRowExpanded.find('.ckEditorSource'));
 	},
 	hideExpandedRow: function (row) {
 		var thisInstance = this;

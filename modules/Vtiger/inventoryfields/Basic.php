@@ -13,6 +13,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	protected $defaultLabel = '';
 	protected $defaultValue = '';
 	protected $columnName = '';
+	protected $colSpan = 1;
 	protected $dbType = 'varchar(100)';
 	protected $customColumn = [];
 	protected $summationValue = false;
@@ -24,6 +25,11 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	public function getDBType()
 	{
 		return $this->dbType;
+	}
+	
+	public function getColSpan()
+	{
+		return $this->colSpan;
 	}
 
 	/**
@@ -83,6 +89,11 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	public function isSummary()
 	{
 		return $this->summationValue;
+	}
+	
+	public function getDefaultValue()
+	{
+		return $this->defaultValue;
 	}
 
 	/**

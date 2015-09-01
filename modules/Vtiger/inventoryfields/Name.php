@@ -12,7 +12,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	protected $name = 'Name';
 	protected $defaultLabel = 'LBL_ITEM_NAME';
 	protected $columnName = 'name';
-	protected $dbType = 'int(19) DEFAULT \'0\'';
+	protected $dbType = 'int(19) NOT NULL DEFAULT 0';
 
 	/**
 	 * Geting value to display

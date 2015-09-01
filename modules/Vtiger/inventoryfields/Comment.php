@@ -11,6 +11,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 
 	protected $name = 'Comment';
 	protected $defaultLabel = 'LBL_COMMENT';
+	protected $colSpan = 0;
 	protected $columnName = 'comment';
 	protected $dbType = 'varchar(500)';
 

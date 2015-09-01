@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Basic Inventory Field Model Class
+ * Basic Inventory Model Class
  * @package YetiForce.Inventory
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -12,8 +12,9 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	protected static $fields = false;
 	protected static $columns = false;
 	protected $jsonFields = ['discountparam', 'taxparam'];
+
 	/**
-	 * Create the name of the Supplies data table
+	 * Create the name of the Inventory data table
 	 * @param string $module Module name
 	 * @param string $prefix Prefix table
 	 * @return string Table name
@@ -38,10 +39,10 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Loading the Supplies data
+	 * Loading the Inventory data
 	 * @param string $module Module name
 	 * @param boolean $returnInBlock Should the result be divided into blocks
-	 * @return array Supplies data
+	 * @return array Inventory data
 	 */
 	public function getFields($returnInBlock = false)
 	{
@@ -91,10 +92,10 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Loading the Supplies data
+	 * Loading the Inventory data
 	 * @param string $module Module name
 	 * @param boolean $returnInBlock Should the result be divided into blocks
-	 * @return array Supplies data
+	 * @return array Inventory data
 	 */
 	public function getColumns()
 	{
@@ -121,14 +122,14 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	/**
 	 * Creating installation of the field from the table
 	 * @param string $valueArray Array of data
-	 * @return \modelClassName Instance Supplies_Basic_Field
+	 * @return \modelClassName Instance Vtiger_Basic_InventoryField
 	 */
 	public function getInventoryFieldInstance($valueArray)
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 
-		$className = Vtiger_Loader::getComponentClassName('InnventoryField', $valueArray['invtype'], $this->get('module'));
+		$className = Vtiger_Loader::getComponentClassName('InventoryField', $valueArray['invtype'], $this->get('module'));
 		$instance = new $className();
 		$instance->initialize($valueArray);
 
@@ -139,15 +140,15 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	/**
 	 * Retrieve list of all fields
 	 * @param string $module Module name
-	 * @return array Fields instance Supplies_Basic_Field
+	 * @return array Fields instance Vtiger_Basic_InventoryField
 	 */
 	public static function getAllFields($module = false)
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ' . $module);
-		$fieldPaths = ['modules/Supplies/fields/'];
+		$fieldPaths = ['modules/Vtiger/inventoryfields/'];
 		if ($module) {
-			$fieldPaths[] = "modules/$module/fields/";
+			$fieldPaths[] = "modules/$module/inventoryfields/";
 		}
 		$fields = [];
 		foreach ($fieldPaths as $fieldPath) {
@@ -156,7 +157,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			foreach (new DirectoryIterator($fieldPath) as $fileinfo) {
 				if ($fileinfo->isFile() && $fileinfo->getFilename() != 'Basic.php') {
 					$fieldName = str_replace('.php', '', $fileinfo->getFilename());
-					$className = Vtiger_Loader::getComponentClassName('Field', $fieldName, 'Supplies');
+					$className = Vtiger_Loader::getComponentClassName('InventoryField', $fieldName, $this->get('module'));
 					$fields[$fieldName] = new $className();
 				}
 			}
@@ -167,7 +168,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 
 	/**
 	 * Retrieve list of parameters
-	 * @param array $fields Array of instances fields (Supplies_Basic_Field)
+	 * @param array $fields Array of instances fields (Vtiger_Basic_InventoryField)
 	 * @return array Array of parameters
 	 */
 	public static function getMainParams($fields)
@@ -293,7 +294,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		Vtiger_Cache::set('InventoryIsGetTaxField', $moduleName, $return);
 		return $return;
 	}
-	
+
 	public function getValueForSave(Vtiger_Request $request, $field, $i)
 	{
 		$value = '';
@@ -304,9 +305,52 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		} else if ($request->has($field)) {
 			$value = $request->get($field);
 		}
-		if (in_array($field, ['price','gross','net','discount','purchase','margin','marginp','tax','total'])) {
+		if (in_array($field, ['price', 'gross', 'net', 'discount', 'purchase', 'margin', 'marginp', 'tax', 'total'])) {
 			$value = CurrencyField::convertToDBFormat($value, null, true);
 		}
 		return $value;
+	}
+
+	public function addField($type, $params)
+	{
+		$adb = PearDatabase::getInstance();
+		$inventoryClassName = Vtiger_Loader::getComponentClassName('InventoryField', $type, $this->get('module'));
+		$instance = new $inventoryClassName();
+		$table = $this->getTableName();
+		$columnName = $instance->getColumnName();
+		$label = $instance->getDefaultLabel();
+		$defaultValue = $instance->getDefaultValue();
+		$colSpan = $instance->getColSpan();
+		if (isset($params['column'])) {
+			$columnName = $params['column'];
+		}
+		if (isset($params['label'])) {
+			$label = $params['label'];
+		}
+		if (isset($params['defaultValue'])) {
+			$defaultValue = $params['defaultValue'];
+		}
+		if (isset($params['colSpan'])) {
+			$colSpan = $params['colSpan'];
+		}
+		
+		Vtiger_Utils::AddColumn($table, $columnName, $instance->getDBType());
+		foreach ($instance->getCustomColumn() as $column => $criteria) {
+			Vtiger_Utils::AddColumn($table, $column, $criteria);
+		}
+		$result = $adb->query("SELECT MAX(sequence) AS max FROM " . $this->getTableName('fields'));
+		$sequence = (int) $adb->getSingleValue($result) + 1;
+
+		$adb->insert($this->getTableName('fields'), [
+			'columnname' => $columnName,
+			'label' => $label,
+			'invtype' => $instance->getName(),
+			'defaultvalue' => $defaultValue,
+			'sequence' => $sequence,
+			'block' => $params['block'],
+			'displaytype' => $params['displayType'],
+			'params' => $params['params'],
+			'colspan' => $colSpan,
+		]);
 	}
 }

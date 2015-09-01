@@ -11,8 +11,9 @@ class Vtiger_TotalPrice_InventoryField extends Vtiger_Basic_InventoryField
 
 	protected $name = 'TotalPrice';
 	protected $defaultLabel = 'LBL_TOTAL_PRICE';
+	protected $defaultValue = 0;
 	protected $columnName = 'total';
-	protected $dbType = 'decimal(27,8) DEFAULT \'0\'';
+	protected $dbType = 'decimal(27,8) NOT NULL DEFAULT 0';
 	protected $summationValue = true;
 
 	/**

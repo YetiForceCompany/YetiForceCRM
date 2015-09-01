@@ -13,7 +13,7 @@ class Vtiger_Quantity_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultLabel = 'LBL_QUANTITY';
 	protected $defaultValue = '1';
 	protected $columnName = 'qty';
-	protected $dbType = 'decimal(25,3)';
+	protected $dbType = 'decimal(25,3) NOT NULL DEFAULT 0';
 
 	/**
 	 * Geting value to display
