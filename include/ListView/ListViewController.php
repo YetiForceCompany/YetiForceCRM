@@ -453,7 +453,7 @@ class ListViewController
 						$valueArray = ($value != "") ? explode(',', $value) : [];
 						$tmp = '';
 						$tmpArray = [];
-						$limits = Vtiger_SuppliesLimit_UIType::getLimits();
+						$limits = Vtiger_InventoryLimit_UIType::getLimits();
 						foreach ($valueArray as $index => $limit) {
 							if (isset($limits[$limit])) {
 								$tmpArray[] = $limits[$limit]['value'] . ' - ' . $limits[$limit]['name'];

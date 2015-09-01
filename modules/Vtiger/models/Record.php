@@ -543,7 +543,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Loading the inventory data
-	 * @return array Supplies data
+	 * @return array inventory data
 	 */
 	public function getInventoryData()
 	{

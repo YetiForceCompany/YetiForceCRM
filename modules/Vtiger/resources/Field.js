@@ -329,7 +329,7 @@ Vtiger_Date_Field_Js('Vtiger_Datetime_Field_Js', {}, {
 Vtiger_Picklist_Field_Js('Vtiger_Taxs_Field_Js', {}, {
 });
 
-Vtiger_Picklist_Field_Js('Vtiger_SuppliesLimit_Field_Js', {}, {
+Vtiger_Picklist_Field_Js('Vtiger_InventoryLimit_Field_Js', {}, {
 });
 Vtiger_Field_Js('Vtiger_Time_Field_Js', {}, {
 	/**

@@ -58,7 +58,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, 'Accounts');
 		$limitID = $recordModel->get($limitFieldName);
 		$balance = $recordModel->get($balanceFieldName);
-		$limit = reset(Vtiger_SuppliesLimit_UIType::getValues($limitID))['value'];
+		$limit = reset(Vtiger_InventoryLimit_UIType::getValues($limitID))['value'];
 
 		$baseCurrency = Vtiger_Util_Helper::getBaseCurrency();
 		$symbol = $baseCurrency['currency_symbol'];
