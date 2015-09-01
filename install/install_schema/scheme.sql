@@ -23,9 +23,9 @@ CREATE TABLE `a_yf_discounts_config` (
 /*Table structure for table `a_yf_discounts_global` */
 
 CREATE TABLE `a_yf_discounts_global` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `value` int(10) NOT NULL DEFAULT '0',
+  `value` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -33,10 +33,10 @@ CREATE TABLE `a_yf_discounts_global` (
 /*Table structure for table `a_yf_inventory_limits` */
 
 CREATE TABLE `a_yf_inventory_limits` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `name` varchar(50) NOT NULL,
-  `value` int(10) NOT NULL,
+  `value` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -51,9 +51,9 @@ CREATE TABLE `a_yf_taxes_config` (
 /*Table structure for table `a_yf_taxes_global` */
 
 CREATE TABLE `a_yf_taxes_global` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `value` int(10) NOT NULL DEFAULT '0',
+  `value` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
