@@ -45,15 +45,15 @@
 										{$EMAIL_FIELD_LIST[$EMAIL_FIELD->get('name')] = vtranslate($EMAIL_FIELD->get('label'), $SOURCE_MODULE)}
 									{/if}
 								{/foreach}
-								<div class="form-group">
-									<label class="radio">
+								<div>
+									<label>
 										<input id="selectAllEmails" type="radio" name="selectedFields" value='{ZEND_JSON::encode(array_keys($EMAIL_FIELD_LIST))}' />
 										&nbsp; {vtranslate('LBL_ALL_EMAILS', $SOURCE_MODULE)}
 									</label>
 								</div>
 								{foreach item=EMAIL_FIELD_LABEL key=EMAIL_FIELD_NAME from=$EMAIL_FIELD_LIST name=emailFieldIterator}
-									<div class="form-group">
-										<label class="radio">
+									<div>
+										<label>
 											<input type="radio" class="emailField" name="selectedFields" value='{ZEND_JSON::encode(array($EMAIL_FIELD_NAME))}' {if $smarty.foreach.emailFieldIterator.iteration eq 1} checked="checked" {/if}/>
 											&nbsp; {$EMAIL_FIELD_LABEL}
 										</label>
@@ -63,9 +63,9 @@
 						</div>
 					<div class='modal-footer'>
 						<div class=" pull-right cancelLinkContainer">
-							<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+							<button class="cancelLink btn btn-warning" type="button" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
 						</div>
-						<button class="btn btn-default addButton" type="submit" name="selectfield"><strong>{vtranslate('LBL_SELECT', $MODULE)}</strong></button>
+						<button class="btn btn-success addButton" type="submit" name="selectfield"><strong>{vtranslate('LBL_SELECT', $MODULE)}</strong></button>
 					</div>
 					{if $RELATED_LOAD eq true}
 						<input type="hidden" name="relatedLoad" value={$RELATED_LOAD} />

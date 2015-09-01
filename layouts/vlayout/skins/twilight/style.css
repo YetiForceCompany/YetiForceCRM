@@ -3337,7 +3337,7 @@ span[name=existingImages] img{
 .remindersNotice .glyphicon{
 	font-size: 20px;
 }
-.cancelLink.btn[type='reset'],.cancel.btn[type='reset'] {
+.cancelLink.btn[type='reset'],.cancel.btn[type='reset'],.cancelLink.btn[type='button']  {
 	float: right;
 	margin-left: 5px;
 	margin-bottom: 0;
