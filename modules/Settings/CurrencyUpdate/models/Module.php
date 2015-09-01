@@ -202,15 +202,13 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 				WHERE 
 					`yetiforce_currencyupdate`.`bank_id` = ? ';
 		$params = [$bankId];
-		// past date for history
-		$pastDate = date('Y-m-d', strtotime('first day of this month'));
 
 		// filter by date - if not exists then display this months history
 		$filter = $request->get('duedate');
 		if ($filter == '' && $dateCur) {
 			$query .= 'AND `exchange_date` BETWEEN ? AND ? ';
-			$params[] = $pastDate;
-			$params[] = $dateCur;
+			$params[] = date('Y-m-01');
+			$params[] = date('Y-m-t');
 		} else {
 			$query .= 'AND `exchange_date` = ? ';
 			$params[] = $dateCur;
