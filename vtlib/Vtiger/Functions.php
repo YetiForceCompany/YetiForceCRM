@@ -1066,7 +1066,7 @@ class Vtiger_Functions
 			$response->emit();
 		} else {
 			$viewer = new Vtiger_Viewer();
-			$viewer->assign('MESSAGE', $Message);
+			$viewer->assign('MESSAGE', $message);
 			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
 		}
 	}

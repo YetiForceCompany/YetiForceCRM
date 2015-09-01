@@ -177,7 +177,7 @@ class PearDatabase
 				$backtrace = Vtiger_Functions::getBacktrace();
 				$trace = '<pre>' . $queryInfo . $backtrace . '</pre>';
 			}
-			throw new AppException('Database ERROR: ' . PHP_EOL . $message . PHP_EOL . $trace);
+			Vtiger_Functions::throwNewException('Database ERROR: ' . PHP_EOL . $message . PHP_EOL . $trace);
 		}
 	}
 
