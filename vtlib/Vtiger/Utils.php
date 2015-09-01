@@ -227,7 +227,7 @@ class Vtiger_Utils
 	{
 		$adb = PearDatabase::getInstance();
 		if (!in_array($columnname, $adb->getColumnNames($tablename))) {
-			self::AlterTable($tablename, " ADD COLUMN $columnname $criteria");
+			self::AlterTable($tablename, " ADD COLUMN `$columnname` $criteria");
 		}
 	}
 
