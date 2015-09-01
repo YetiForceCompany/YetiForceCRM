@@ -189,6 +189,8 @@ $languageStrings = [
 	'Portal Url' => 'Portal Url',
 	'Record Id' => 'Record Id',
 	'Invoice Date' => 'Invoice Date',
+	'Start Date & Time' => 'Data e Hora Início',
+	'End Date & Time' => 'Data e Hora Final',
 ];
 
 $jsLanguageStrings = [
