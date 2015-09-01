@@ -996,6 +996,7 @@ $languageStrings = [
 	'MEN_LEADS' => 'Verkauf',
 	'LBL_VIEW_STEP1' => 'Information',
 	'LBL_VIEW_STEP2' => 'Konditionen hinzufügen',
+	'LBL_VIEW_STEP3' => 'Aktionen',
 	'LBL_VIEW_ADDACTION' => 'Aktionen',
 	'LBL_VIEW_ACTIONCONFIG' => 'Action config',
 	'LBL_ENTER_SEARCHED_ADDRESS' => 'Enter the address to search',
