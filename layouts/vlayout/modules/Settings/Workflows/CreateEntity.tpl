@@ -92,13 +92,14 @@
 {if $RELATED_MODULE_MODEL}
 	<div class="row basicAddFieldContainer padding-bottom1per hide">
 		<span class="col-md-4">
+			{assign var=RELATED_MODULE_MODEL_NAME value=$RELATED_MODULE_MODEL->get('name')}
 			<select name="fieldname" style="min-width: 250px">
 				<option value="none">{vtranslate('LBL_NONE',$QUALIFIED_MODULE)}</option>
 				{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 					{if !$FIELD_MODEL->isMandatory() && $FIELD_MODEL->getFieldDataType() neq 'reference'}
 					<option value="{$FIELD_MODEL->get('name')}" data-fieldtype="{$FIELD_MODEL->getFieldType()}"  data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}' >
-						{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+						{vtranslate($FIELD_MODEL->get('label'), $RELATED_MODULE_MODEL_NAME)} 
 					</option>
 					{/if}
 				{/foreach}
