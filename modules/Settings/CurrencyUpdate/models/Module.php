@@ -150,10 +150,13 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	public function addCurrencyRate($currId, $exchangeDate, $exchange, $bankId)
 	{
 		$db = PearDatabase::getInstance();
-
-		$query = 'INSERT INTO `yetiforce_currencyupdate` (`id`, `currency_id`, `fetch_date`, `exchange_date`, `exchange`, `bank_id`) VALUES (NULL, ?, CURDATE(), ?, ?, ?)';
-		$params = [$currId, $exchangeDate, $exchange, $bankId];
-		$db->pquery($query, $params);
+		$db->insert('yetiforce_currencyupdate', [
+			'currency_id' => $currId,
+			'fetch_date' => date('Y-m-d'),
+			'exchange_date' => $exchangeDate,
+			'exchange' => $exchange,
+			'bank_id' => $bankId,
+		]);
 	}
 
 	/*
