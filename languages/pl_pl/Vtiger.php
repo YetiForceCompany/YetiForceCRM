@@ -991,6 +991,7 @@ $languageStrings = [
 	'LBL_VIEW_ACTIONCONFIG' => 'Konfiguracja akcji',
 	'LBL_ENTER_SEARCHED_ADDRESS' => 'Wprowadź szukany adres',
 	'Email Opt Out' => 'Rezygnacja z otrzymywania emaili',
+	'LBL_SIGN_IN' => 'Zaloguj',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',

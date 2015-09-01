@@ -997,6 +997,7 @@ $languageStrings = [
 	'equal to' => 'Equal to',
 	'None' => 'None',
 	'Email Opt Out' => 'Email Opt Out',
+	'LBL_SIGN_IN' => 'Sign in',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',

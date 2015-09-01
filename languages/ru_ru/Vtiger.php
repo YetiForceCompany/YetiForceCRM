@@ -1241,6 +1241,7 @@ $languageStrings = [
 	'LBL_ENTER_SEARCHED_ADDRESS' => 'Enter the address to search',
 	'equal to' => 'Equal to',
 	'None' => 'None',
+	'LBL_SIGN_IN' => 'Sign in',
 ];
 $jsLanguageStrings = [
 	'SINGLE_SalesOrder' => 'Заказ',

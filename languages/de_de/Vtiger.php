@@ -1001,6 +1001,7 @@ $languageStrings = [
 	'LBL_ENTER_SEARCHED_ADDRESS' => 'Enter the address to search',
 	'equal to' => 'Equal to',
 	'None' => 'None',
+	'LBL_SIGN_IN' => 'Sign in',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
