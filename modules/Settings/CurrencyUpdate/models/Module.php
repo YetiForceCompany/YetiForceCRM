@@ -94,14 +94,14 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 			$id = $row['id'];
 			$bankName = $row['bank_name'];
 
-			$bankPath = __DIR__ . '/BankModels/' . $bankName . '.php';
+			$bankPath = __DIR__ . '/bankmodels/' . $bankName . '.php';
 			if (!file_exists($bankPath)) { // delete bank from database
 				$query = 'DELETE FROM `yetiforce_currencyupdate_banks` WHERE `id` = ? LIMIT 1;';
 				$db->pquery($query, [$id]);
 			}
 		}
 
-		foreach (new DirectoryIterator(__DIR__ . '/BankModels/') as $fileInfo) {
+		foreach (new DirectoryIterator(__DIR__ . '/bankmodels/') as $fileInfo) {
 			$fileName = $fileInfo->getFilename();
 			$extension = end(explode('.', $fileName));
 			$bankClassName = basename($fileName, '.' . $extension);
