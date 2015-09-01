@@ -42,7 +42,7 @@
 					{foreach item=FIELD from=$FIELDS[0]}
 						<th colspan="{$FIELD->get('colspan')}">
 							<span class="inventoryLineItemHeader">{vtranslate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
-							{assign var="FIELD_TPL_NAME" value="innventoryFields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
+							{assign var="FIELD_TPL_NAME" value="inventoryFields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 							{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
 						</th>
 					{/foreach}

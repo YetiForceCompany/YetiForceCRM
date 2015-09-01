@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_Comment_InnventoryField extends Vtiger_Basic_InnventoryField
+class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 {
 
 	protected $name = 'Comment';

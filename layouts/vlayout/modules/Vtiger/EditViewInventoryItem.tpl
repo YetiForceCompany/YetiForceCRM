@@ -19,7 +19,7 @@
 		</td>
 		{foreach item=FIELD from=$FIELDS[1]}
 			<td class="col{$FIELD->getName()}{if !$FIELD->isVisible($INVENTORY_ROWS)} hide{/if} textAlignRight" colspan="{$FIELD->get('colspan')}">
-				{assign var="FIELD_TPL_NAME" value="innventoryFields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
+				{assign var="FIELD_TPL_NAME" value="inventoryFields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 				{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$ITEM_DATA[$FIELD->get('columnname')]}
 			</td>
 		{/foreach}
@@ -33,7 +33,7 @@
 					{assign var="COLSPAN" value=$FIELD->get('colspan')}
 				{/if}
 				<td class="col{$FIELD->getName()}{if !$FIELD->isVisible($INVENTORY_ROWS)} hide{/if}" colspan="{$COLSPAN}">
-					{assign var="FIELD_TPL_NAME" value="innventoryFields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
+					{assign var="FIELD_TPL_NAME" value="inventoryFields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 					{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$ITEM_DATA[$FIELD->get('columnname')]}
 				</td>
 			{/foreach}
