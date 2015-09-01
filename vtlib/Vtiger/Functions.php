@@ -1339,7 +1339,7 @@ class Vtiger_Functions
 		return ['total' => $total, 'free' => $free, 'used' => $used];
 	}
 
-	public function textLength($text, $length = false)
+	public function textLength($text, $length = false, $addDots = true)
 	{
 		if (!$length) {
 			$length = vglobal('listview_max_textlength');
@@ -1347,11 +1347,119 @@ class Vtiger_Functions
 		$newText = preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text);
 		if (function_exists('mb_strlen')) {
 			if (mb_strlen(html_entity_decode($newText)) > $length) {
-				$newText = mb_substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text), 0, $length, vglobal('default_charset')) . '...';
+				$newText = mb_substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text), 0, $length, vglobal('default_charset'));
+				if ($addDots) {
+					$newText .= '...';
+				}
 			}
 		} elseif (strlen(html_entity_decode($text)) > $length) {
-			$newText = substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text), 0, $length) . '...';
+			$newText = substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text), 0, $length);
+			if ($addDots) {
+				$newText .= '...';
+			}
 		}
 		return $newText;
+	}
+	
+	public static function getDefaultCurrencyInfo() {
+		$allCurrencies = self::getAllCurrency(true);
+		foreach($allCurrencies as $currency) {
+			if ($currency['defaultid'] === '-11') {
+				return $currency;
+			}
+		}
+		return false;
+	}
+	
+	/*
+	 * Checks if given date is working day, if not returns last working day
+	 * @param <Date> $date
+	 * @return <Date> - last working y
+	 */
+
+	public static function getLastWorkingDay($date)
+	{
+		$date = strtotime($date);
+		if (date('D', $date) == 'Sat') { // switch to friday the day before
+			$lastWorkingDay = date('Y-m-d', strtotime("-1 day", $date));
+		} else if (date('D', $date) == 'Sun') { // switch to friday two days before
+			$lastWorkingDay = date('Y-m-d', strtotime("-2 day", $date));
+		} else {
+			$lastWorkingDay = date('Y-m-d', $date);
+		}
+
+		return $lastWorkingDay;
+	}
+
+	function slug($str, $delimiter = '_')
+	{
+		// Make sure string is in UTF-8 and strip invalid UTF-8 characters
+		$str = mb_convert_encoding((string) $str, 'UTF-8', mb_list_encodings());
+		$char_map = array(
+			// Latin
+			'Ă€' => 'A', 'Ă' => 'A', 'Ă‚' => 'A', 'Ă' => 'A', 'Ă„' => 'A', 'Ă…' => 'A', 'Ă†' => 'AE', 'Ă‡' => 'C',
+			'Ă' => 'E', 'Ă‰' => 'E', 'ĂŠ' => 'E', 'Ă‹' => 'E', 'ĂŚ' => 'I', 'ĂŤ' => 'I', 'ĂŽ' => 'I', 'ĂŹ' => 'I',
+			'Ă' => 'D', 'Ă‘' => 'N', 'Ă’' => 'O', 'Ă“' => 'O', 'Ă”' => 'O', 'Ă•' => 'O', 'Ă–' => 'O', 'Ĺ' => 'O',
+			'Ă' => 'O', 'Ă™' => 'U', 'Ăš' => 'U', 'Ă›' => 'U', 'Ăś' => 'U', 'Ĺ°' => 'U', 'Ăť' => 'Y', 'Ăž' => 'TH',
+			'Ăź' => 'ss',
+			'Ă ' => 'a', 'Ăˇ' => 'a', 'Ă˘' => 'a', 'ĂŁ' => 'a', 'Ă¤' => 'a', 'ĂĄ' => 'a', 'Ă¦' => 'ae', 'Ă§' => 'c',
+			'Ă¨' => 'e', 'Ă©' => 'e', 'ĂŞ' => 'e', 'Ă«' => 'e', 'á»‡' => 'e', 'Ă¬' => 'i', 'Ă­' => 'i', 'Ă®' => 'i',
+			'ĂŻ' => 'i', 'Ä©' => 'i', 'Ă°' => 'd', 'Ă±' => 'n', 'Ă˛' => 'o', 'Ăł' => 'o', 'Ă´' => 'o', 'á»™' => 'o',
+			'Ăµ' => 'o', 'Ă¶' => 'o', 'Ĺ‘' => 'o', 'Ă¸' => 'o', 'Ăą' => 'u', 'Ăş' => 'u', 'Ă»' => 'u', 'ĂĽ' => 'u',
+			'Ĺ±' => 'u', 'á»§' => 'u', 'Ă˝' => 'y', 'Ăľ' => 'th', 'Ăż' => 'y',
+			// Latin symbols
+			'Â©' => '(c)',
+			// Greek
+			'Î‘' => 'A', 'Î’' => 'B', 'Î“' => 'G', 'Î”' => 'D', 'Î•' => 'E', 'Î–' => 'Z', 'Î—' => 'H', 'Î' => '8',
+			'Î™' => 'I', 'Îš' => 'K', 'Î›' => 'L', 'Îś' => 'M', 'Îť' => 'N', 'Îž' => '3', 'Îź' => 'O', 'Î ' => 'P',
+			'Îˇ' => 'R', 'ÎŁ' => 'S', 'Î¤' => 'T', 'ÎĄ' => 'Y', 'Î¦' => 'F', 'Î§' => 'X', 'Î¨' => 'PS', 'Î©' => 'W',
+			'Î†' => 'A', 'Î' => 'E', 'ÎŠ' => 'I', 'ÎŚ' => 'O', 'ÎŽ' => 'Y', 'Î‰' => 'H', 'ÎŹ' => 'W', 'ÎŞ' => 'I',
+			'Î«' => 'Y',
+			'Î±' => 'a', 'Î˛' => 'b', 'Îł' => 'g', 'Î´' => 'd', 'Îµ' => 'e', 'Î¶' => 'z', 'Î·' => 'h', 'Î¸' => '8',
+			'Îą' => 'i', 'Îş' => 'k', 'Î»' => 'l', 'ÎĽ' => 'm', 'Î˝' => 'n', 'Îľ' => '3', 'Îż' => 'o', 'Ď€' => 'p',
+			'Ď' => 'r', 'Ď' => 's', 'Ď„' => 't', 'Ď…' => 'y', 'Ď†' => 'f', 'Ď‡' => 'x', 'Ď' => 'ps', 'Ď‰' => 'w',
+			'Î¬' => 'a', 'Î­' => 'e', 'ÎŻ' => 'i', 'ĎŚ' => 'o', 'ĎŤ' => 'y', 'Î®' => 'h', 'ĎŽ' => 'w', 'Ď‚' => 's',
+			'ĎŠ' => 'i', 'Î°' => 'y', 'Ď‹' => 'y', 'Î' => 'i',
+			// Turkish
+			'Ĺž' => 'S', 'Ä°' => 'I', 'Ă‡' => 'C', 'Ăś' => 'U', 'Ă–' => 'O', 'Äž' => 'G',
+			'Ĺź' => 's', 'Ä±' => 'i', 'Ă§' => 'c', 'ĂĽ' => 'u', 'Ă¶' => 'o', 'Äź' => 'g',
+			// Russian
+			'Đ' => 'A', 'Đ‘' => 'B', 'Đ’' => 'V', 'Đ“' => 'G', 'Đ”' => 'D', 'Đ•' => 'E', 'Đ' => 'Yo', 'Đ–' => 'Zh',
+			'Đ—' => 'Z', 'Đ' => 'I', 'Đ™' => 'J', 'Đš' => 'K', 'Đ›' => 'L', 'Đś' => 'M', 'Đť' => 'N', 'Đž' => 'O',
+			'Đź' => 'P', 'Đ ' => 'R', 'Đˇ' => 'S', 'Đ˘' => 'T', 'ĐŁ' => 'U', 'Đ¤' => 'F', 'ĐĄ' => 'H', 'Đ¦' => 'C',
+			'Đ§' => 'Ch', 'Đ¨' => 'Sh', 'Đ©' => 'Sh', 'ĐŞ' => '', 'Đ«' => 'Y', 'Đ¬' => '', 'Đ­' => 'E', 'Đ®' => 'Yu',
+			'ĐŻ' => 'Ya',
+			'Đ°' => 'a', 'Đ±' => 'b', 'Đ˛' => 'v', 'Đł' => 'g', 'Đ´' => 'd', 'Đµ' => 'e', 'Ń‘' => 'yo', 'Đ¶' => 'zh',
+			'Đ·' => 'z', 'Đ¸' => 'i', 'Đą' => 'j', 'Đş' => 'k', 'Đ»' => 'l', 'ĐĽ' => 'm', 'Đ˝' => 'n', 'Đľ' => 'o',
+			'Đż' => 'p', 'Ń€' => 'r', 'Ń' => 's', 'Ń‚' => 't', 'Ń' => 'u', 'Ń„' => 'f', 'Ń…' => 'h', 'Ń†' => 'c',
+			'Ń‡' => 'ch', 'Ń' => 'sh', 'Ń‰' => 'sh', 'ŃŠ' => '', 'Ń‹' => 'y', 'ŃŚ' => '', 'ŃŤ' => 'e', 'ŃŽ' => 'yu',
+			'ŃŹ' => 'ya',
+			// Ukrainian
+			'Đ„' => 'Ye', 'Đ†' => 'I', 'Đ‡' => 'Yi', 'Ň' => 'G',
+			'Ń”' => 'ye', 'Ń–' => 'i', 'Ń—' => 'yi', 'Ň‘' => 'g',
+			// Czech
+			'ÄŚ' => 'C', 'ÄŽ' => 'D', 'Äš' => 'E', 'Ĺ‡' => 'N', 'Ĺ' => 'R', 'Ĺ ' => 'S', 'Ĺ¤' => 'T', 'Ĺ®' => 'U',
+			'Ĺ˝' => 'Z',
+			'ÄŤ' => 'c', 'ÄŹ' => 'd', 'Ä›' => 'e', 'Ĺ' => 'n', 'Ĺ™' => 'r', 'Ĺˇ' => 's', 'ĹĄ' => 't', 'ĹŻ' => 'u',
+			'Ĺľ' => 'z',
+			// Polish
+			'Ä„' => 'A', 'Ä†' => 'C', 'Ä' => 'e', 'Ĺ' => 'L', 'Ĺ' => 'N', 'Ă“' => 'o', 'Ĺš' => 'S', 'Ĺą' => 'Z',
+			'Ĺ»' => 'Z',
+			'Ä…' => 'a', 'Ä‡' => 'c', 'Ä™' => 'e', 'Ĺ‚' => 'l', 'Ĺ„' => 'n', 'Ăł' => 'o', 'Ĺ›' => 's', 'Ĺş' => 'z',
+			'ĹĽ' => 'z',
+			// Latvian
+			'Ä€' => 'A', 'ÄŚ' => 'C', 'Ä’' => 'E', 'Ä˘' => 'G', 'ÄŞ' => 'i', 'Ä¶' => 'k', 'Ä»' => 'L', 'Ĺ…' => 'N',
+			'Ĺ ' => 'S', 'ĹŞ' => 'u', 'Ĺ˝' => 'Z',
+			'Ä' => 'a', 'ÄŤ' => 'c', 'Ä“' => 'e', 'ÄŁ' => 'g', 'Ä«' => 'i', 'Ä·' => 'k', 'ÄĽ' => 'l', 'Ĺ†' => 'n',
+			'Ĺˇ' => 's', 'Ĺ«' => 'u', 'Ĺľ' => 'z'
+		);
+
+		// Transliterate characters to ASCII
+		$str = str_replace(array_keys($char_map), $char_map, $str);
+		// Replace non-alphanumeric characters with our delimiter
+		$str = preg_replace('/[^\p{L}\p{Nd}\.]+/u', $delimiter, $str);
+		// Remove delimiter from ends
+		$str = trim($str, $delimiter);
+		return $str;
 	}
 }
