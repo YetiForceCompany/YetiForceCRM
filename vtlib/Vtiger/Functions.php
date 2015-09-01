@@ -1067,7 +1067,8 @@ class Vtiger_Functions
 		} else {
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('MESSAGE', $message);
-			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
+			$text = $viewer->view('OperationNotPermitted.tpl', 'Vtiger', true);
+			die($text);
 		}
 	}
 
@@ -1360,17 +1361,17 @@ class Vtiger_Functions
 		}
 		return $newText;
 	}
-	
-	public static function getDefaultCurrencyInfo() {
+
+	public static function getDefaultCurrencyInfo()
+	{
 		$allCurrencies = self::getAllCurrency(true);
-		foreach($allCurrencies as $currency) {
+		foreach ($allCurrencies as $currency) {
 			if ($currency['defaultid'] === '-11') {
 				return $currency;
 			}
 		}
 		return false;
 	}
-	
 	/*
 	 * Checks if given date is working day, if not returns last working day
 	 * @param <Date> $date
