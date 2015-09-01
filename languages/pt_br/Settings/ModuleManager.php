@@ -68,6 +68,9 @@ $languageStrings = [
 	'LBL_ENTITY_FIELDLABEL' => 'Rótulo campo Entidade',
 	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'Este nome de módulo já existe, tente outro',
 	'LBL_INVALID_MODULE_NAME' => 'Nome do módulo inválido',
+	'LBL_MODULE_TYPE' => '__UNTRANSLATED__',
+	'LBL_BASE_MODULE' => '__UNTRANSLATED__',
+	'LBL_INVENTORY_MODULE' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_UPDATED_MODULE' => 'Atualizado com sucesso',
