@@ -3636,3 +3636,6 @@ span[name=existingImages] img{
 	background: rgba(91, 234, 81, 0.54) !important;
 	border-radius: 4px;
 }
+.autologinContainer .chosen-container-multi .chosen-choices{
+	padding-left: 6px;
+}
