@@ -175,6 +175,7 @@ $languageStrings = [
 	'Site Url' => 'URL crmu',
 	'Portal Url' => 'URL portalu',
 	'Record Id' => 'Id rekordu',
+	'Invoice Date' => 'Data faktury',
 ];
 
 $jsLanguageStrings = [
