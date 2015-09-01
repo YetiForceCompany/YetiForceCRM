@@ -84,8 +84,10 @@ $languageStrings = [
 	'Approval for phone calls'=>'Permission to call',
 	'LBL_CONVERTED_FROM_LEAD' => 'Converted from lead',
 	'LBL_LEGAL_FORM' => 'Legal form',
+	'LBL_INVENTORY_BALANCE' => '__UNTRANSLATED__',
+	'LBL_DISCOUNT' => '__UNTRANSLATED__',
+	'LBL_CREDIT_LIMIT' => '__UNTRANSLATED__',
 ];
-
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Organization Name already Exists.Do you want to create a duplicate record?',
 	'LBL_DELETE_CONFIRMATION' => 'Deleting this Organization will remove its related Opportunities & Quotes. Are you sure you want to delete this Organization?',
