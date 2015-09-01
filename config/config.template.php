@@ -247,6 +247,9 @@ $gsAmountResponse = 10;
 // Is sending emails active. 
 $isActiveSendingMails = false;
 
+// Should the task in cron be unblocked if the script execution time was exceeded
+$unblockedTimeoutCronTasks = true;
+
 // The maximum time of executing a cron. Recommended same as the max_exacution_time parameter value.
 $maxExecutionCronTime = 3600;
 
