@@ -123,8 +123,6 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
 		$viewer->view('EditView.tpl', $moduleName);
 	}
-<<<<<<< HEAD
-=======
 
 	/**
 	 * Function to get the list of Script models to be included
@@ -137,14 +135,13 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 
 		$moduleName = $request->getModule();
 		if (Vtiger_Module_Model::getInstance($moduleName)->isInventory()) {
-			$fileNames = array(
+			$fileNames = [
 				'modules.Vtiger.resources.Inventory',
 				'modules.' . $moduleName . '.resources.Inventory',
-			);
+			];
 			$scriptInstances = $this->checkAndConvertJsScripts($fileNames);
 			$parentScript = array_merge($parentScript, $scriptInstances);
 		}
 		return $parentScript;
 	}
->>>>>>> remotes/origin/LAB-MK
 }
