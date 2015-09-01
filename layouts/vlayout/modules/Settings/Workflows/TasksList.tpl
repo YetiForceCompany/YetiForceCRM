@@ -8,7 +8,7 @@
  *************************************************************************************}
 {strip}
 	<br>
-	<div class="row">
+	<div>
 		<table class="table table-bordered table-condensed listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
