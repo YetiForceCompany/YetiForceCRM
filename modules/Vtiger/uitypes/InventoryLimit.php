@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Vtiger_SuppliesLimit_UIType extends Vtiger_Base_UIType
+class Vtiger_InventoryLimit_UIType extends Vtiger_Base_UIType
 {
 
 	/**
@@ -17,7 +17,7 @@ class Vtiger_SuppliesLimit_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/SuppliesLimit.tpl';
+		return 'uitypes/InventoryLimit.tpl';
 	}
 
 	/**
@@ -57,7 +57,7 @@ class Vtiger_SuppliesLimit_UIType extends Vtiger_Base_UIType
 	
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/SuppliesLimitSearchView.tpl';
+		return 'uitypes/InventoryLimitSearchView.tpl';
 	}
 
 	/**
@@ -66,15 +66,15 @@ class Vtiger_SuppliesLimit_UIType extends Vtiger_Base_UIType
 	 */
 	public function getLimits()
 	{
-		$limits = Vtiger_Cache::get('Supplies', 'limits');
+		$limits = Vtiger_Cache::get('Inventory', 'limits');
 		if (!$limits) {
 			$db = PearDatabase::getInstance();
 			$limits = [];
-			$result = $db->pquery('SELECT * FROM a_yf_supplies_limits WHERE status = ?', [1]);
+			$result = $db->pquery('SELECT * FROM a_yf_inventory_limits WHERE status = ?', [1]);
 			while ($row = $db->fetch_array($result)) {
 				$limits[$row['id']] = $row;
 			}
-			Vtiger_Cache::set('Supplies', 'limits', $limits);
+			Vtiger_Cache::set('Inventory', 'limits', $limits);
 		}
 
 		return $limits;

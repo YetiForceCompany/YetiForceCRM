@@ -43,12 +43,12 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$currency = $request->get('currency');
 		$price = $request->get('price');
 		$limitConfig = $request->get('limitConfig');
-		$limitFieldName = 'xxx';
-		$balanceFieldName = 'limit';
+		$limitFieldName = 'creditlimit';
+		$balanceFieldName = 'inventorybalance';
 
 		$moduleInstance = Vtiger_Module_Model::getInstance('Accounts');
 		$limitField = Vtiger_Field_Model::getInstance($limitFieldName, $moduleInstance);
-		$balanceField = Vtiger_Field_Model::getInstance($limitFieldName, $moduleInstance);
+		$balanceField = Vtiger_Field_Model::getInstance($balanceFieldName, $moduleInstance);
 		if (!$limitField->isActiveField() || !$balanceField->isActiveField()) {
 			$response = new Vtiger_Response();
 			$response->setResult(['status' => true]);
