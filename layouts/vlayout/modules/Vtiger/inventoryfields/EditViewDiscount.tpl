@@ -7,7 +7,7 @@
 			{if $DISCOUNTS_CONFIG['discounts'][0] != ''}
 				<input name="discountparam{$ROW_NO}" type="hidden" value="{Vtiger_Util_Helper::toSafeHTML($ITEM_DATA['discountparam'])}" class="discountParam" />
 				<span class="input-group-addon cursorPointer changeDiscount">
-					<img src="{vimage_path('Discount24.png')}" alt="{vtranslate('LBL_DISCOUNT', $SUPMODULE)}" />
+					<img src="{vimage_path('Discount24.png')}" alt="{vtranslate('LBL_DISCOUNT', $MODULE)}" />
 				</span>
 			{/if}
 		</div>

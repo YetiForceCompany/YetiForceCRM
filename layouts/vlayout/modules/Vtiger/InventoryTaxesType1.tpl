@@ -6,7 +6,7 @@
 		{if count($SELECTED_TAXES) > 0}
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<strong>{vtranslate('LBL_GROUP_TAXS', $SUPMODULE)}</strong>
+					<strong>{vtranslate('LBL_GROUP_TAXS', $MODULE)}</strong>
 					<div class="pull-right">
 						<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="group" class="activeCheckbox">
 					</div>
@@ -14,12 +14,12 @@
 				<div class="panel-body" style="display: none;">
 					<div>
 						<p>
-							{vtranslate('LBL_TAX_FOR_MODULE', $SUPMODULE)} {vtranslate($RECORD_MODULE, $RECORD_MODULE)}: {$RECORD_MODEL->getDisplayName()}
+							{vtranslate('LBL_TAX_FOR_MODULE', $MODULE)} {vtranslate($RECORD_MODULE, $RECORD_MODULE)}: {$RECORD_MODEL->getDisplayName()}
 						</p>
 						<select class="select2 groupTax" name="groupTax">
 							{foreach item=TAX from=$SELECTED_TAXES}
 								<option value="{$TAX['value']}">
-									{$TAX['value']}% - {vtranslate({$TAX['name']}, $SUPMODULE)}
+									{$TAX['value']}% - {vtranslate({$TAX['name']}, $MODULE)}
 								</option>
 							{/foreach}
 						</select>
