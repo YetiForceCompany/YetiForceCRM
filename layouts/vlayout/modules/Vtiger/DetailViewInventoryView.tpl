@@ -65,7 +65,7 @@
 				<tr>
 					{foreach item=FIELD from=$FIELDS[1]}
 						{if $FIELD->isVisible($INVENTORY_ROWS)}
-							<td colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('suptype'))}">
+							<td colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
 								{if $FIELD->isSummary()}
 									{assign var="SUM" value=0}
 									{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}

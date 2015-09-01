@@ -157,11 +157,21 @@ class Vtiger_ModuleBasic
 
 		$this->__handleVtigerCoreSchemaChanges();
 
-		$adb->pquery("INSERT INTO vtiger_tab (tabid,name,presence,tabsequence,tablabel,modifiedby,
-			modifiedtime,customized,ownedby,version,parent) VALUES (?,?,?,?,?,?,?,?,?,?,?)", Array($this->id, $this->name, $this->presence, -1, $this->label, NULL, NULL, $customized, $this->ownedby, $this->version, $this->parent));
-
-		$useisentitytype = $this->isentitytype ? 1 : 0;
-		$adb->pquery('UPDATE vtiger_tab set isentitytype=? WHERE tabid=?', Array($useisentitytype, $this->id));
+		$adb->insert('vtiger_tab',[
+			'tabid' => $this->id,
+			'name' => $this->name,
+			'presence' => $this->presence,
+			'tabsequence' => -1,
+			'tablabel' => $this->label,
+			'modifiedby' => NULL,
+			'modifiedtime' => NULL,
+			'customized' => $customized,
+			'ownedby' => $this->ownedby,
+			'version' => $this->version,
+			'parent' => $this->parent,
+			'isentitytype' => $this->isentitytype ? 1 : 0,
+			'type' => $this->type,
+		]);
 
 		if (!Vtiger_Utils::CheckTable('vtiger_tab_info')) {
 			Vtiger_Utils::CreateTable(
@@ -298,11 +308,11 @@ class Vtiger_ModuleBasic
 
 		Vtiger_Utils::CreateTable($this->basetable, "($this->basetableid int(19) PRIMARY KEY, CONSTRAINT `fk_1_$this->basetable` FOREIGN KEY (`$this->basetableid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE)", true);
 		Vtiger_Utils::CreateTable($this->customtable, "($this->basetableid int(19) PRIMARY KEY, CONSTRAINT `fk_1_$this->customtable` FOREIGN KEY (`$this->basetableid`) REFERENCES `$this->basetable` (`$this->basetableid`) ON DELETE CASCADE)", true);
-		if($this->type == 'SupplieModule'){
-			Vtiger_Utils::CreateTable($this->basetable. '_supfield', "(id int(19) AUTO_INCREMENT PRIMARY KEY, columnname varchar(30) NOT NULL, label varchar(50) NOT NULL, suptype varchar(30) NOT NULL,presence tinyint(1) unsigned NOT NULL DEFAULT '0',
+		if($this->type == 1){
+			Vtiger_Utils::CreateTable($this->basetable. '_invfield', "(id int(19) AUTO_INCREMENT PRIMARY KEY, columnname varchar(30) NOT NULL, label varchar(50) NOT NULL, invtype varchar(30) NOT NULL,presence tinyint(1) unsigned NOT NULL DEFAULT '0',
 				defaultvalue varchar(255),sequence int(10) unsigned NOT NULL, block tinyint(1) unsigned NOT NULL,displaytype tinyint(1) unsigned NOT NULL, params text, colspan tinyint(1) unsigned NOT NULL DEFAULT '1')", true);
-			Vtiger_Utils::CreateTable($this->basetable. '_sups', "(id int(19) PRIMARY KEY,seq int(10),CONSTRAINT `fk_1_$this->basetable` FOREIGN KEY (`id`) REFERENCES `$this->basetable` (`$this->basetableid`) ON DELETE CASCADE)", true);
-			Vtiger_Utils::CreateTable($this->basetable. '_supmap', '(module varchar(50) PRIMARY KEY,field varchar(50),tofield varchar(50)', true);	
+			Vtiger_Utils::CreateTable($this->basetable. '_inventory', '(id int(19) PRIMARY KEY,seq int(10),CONSTRAINT `fk_1_'.$this->basetable.'_inventory` FOREIGN KEY (`id`) REFERENCES `'.$this->basetable.'` (`'.$this->basetableid.'`) ON DELETE CASCADE)', true);
+			Vtiger_Utils::CreateTable($this->basetable. '_invmap', '(module varchar(50) PRIMARY KEY,field varchar(50),tofield varchar(50))', true);	
 		}
 	}
 

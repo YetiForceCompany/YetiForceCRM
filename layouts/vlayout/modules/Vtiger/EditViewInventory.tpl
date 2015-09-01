@@ -70,7 +70,7 @@
 					<td class="hideTd" style="min-width: 50px">&nbsp;&nbsp;</td>
 					{foreach item=FIELD from=$FIELDS[1]}
 						<td colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()}{if !$FIELD->isVisible($INVENTORY_ROWS)} hide{/if} textAlignRight 
-							{if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('suptype'))}">
+							{if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
 							{if $FIELD->isSummary()}
 								{assign var="SUM" value=0}
 								{foreach key=KEY item=ITEM_VALUE from=$INVENTORY_ROWS}

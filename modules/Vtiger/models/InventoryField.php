@@ -22,13 +22,13 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	{
 		switch ($type) {
 			case 'data':
-				$prefix = '_sups';
+				$prefix = '_inventory';
 				break;
 			case 'fields':
-				$prefix = '_supfield';
+				$prefix = '_invfield';
 				break;
 			case 'autofield':
-				$prefix = '_supmap';
+				$prefix = '_invmap';
 				break;
 		}
 		$moduleName = strtolower($this->get('module'));
@@ -128,7 +128,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 
-		$className = Vtiger_Loader::getComponentClassName('InnventoryField', $valueArray['suptype'], $this->get('module'));
+		$className = Vtiger_Loader::getComponentClassName('InnventoryField', $valueArray['invtype'], $this->get('module'));
 		$instance = new $className();
 		$instance->initialize($valueArray);
 
