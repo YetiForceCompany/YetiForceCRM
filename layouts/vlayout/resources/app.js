@@ -1118,6 +1118,9 @@ var app = {
 		}
 		return parseFloat(val);
 	},
+	errorLog: function (error, err, errorThrown) {
+		console.error(error, err, errorThrown);
+	},
 }
 
 jQuery(document).ready(function () {
