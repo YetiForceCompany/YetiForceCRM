@@ -14,7 +14,7 @@ class Vtiger_NetPrice_InnventoryField extends Vtiger_Basic_InnventoryField
 	protected $columnName = 'net';
 	protected $dbType = 'decimal(27,8) DEFAULT \'0\'';
 	protected $summationValue = true;
-	
+
 	/**
 	 * Geting value to display
 	 * @param type $value

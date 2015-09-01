@@ -13,7 +13,7 @@ class Vtiger_Purchase_InnventoryField extends Vtiger_Basic_InnventoryField
 	protected $defaultLabel = 'LBL_PURCHASE';
 	protected $columnName = 'purchase';
 	protected $dbType = 'decimal(27,8) DEFAULT \'0\'';
-	
+
 	/**
 	 * Geting value to display
 	 * @param type $value

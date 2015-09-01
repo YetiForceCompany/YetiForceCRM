@@ -17,7 +17,7 @@ class Vtiger_Tax_InnventoryField extends Vtiger_Basic_InnventoryField
 		'taxparam' => 'varchar(255) NOT NULL'
 	];
 	protected $summationValue = true;
-	
+
 	/**
 	 * Geting value to display
 	 * @param type $value
@@ -27,10 +27,10 @@ class Vtiger_Tax_InnventoryField extends Vtiger_Basic_InnventoryField
 	{
 		return CurrencyField::convertToUserFormat($value, null, true);
 	}
-	
+
 	public function getClassName($data)
 	{
-		if(count($data) > 0 && $data[0]['taxmode'] == 0){
+		if (count($data) > 0 && $data[0]['taxmode'] == 0) {
 			return 'hide';
 		}
 		return '';

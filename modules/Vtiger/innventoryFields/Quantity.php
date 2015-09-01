@@ -14,7 +14,7 @@ class Vtiger_Quantity_InnventoryField extends Vtiger_Basic_InnventoryField
 	protected $defaultValue = '1';
 	protected $columnName = 'qty';
 	protected $dbType = 'decimal(25,3)';
-	
+
 	/**
 	 * Geting value to display
 	 * @param type $value

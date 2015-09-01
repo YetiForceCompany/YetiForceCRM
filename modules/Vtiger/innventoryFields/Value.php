@@ -13,4 +13,5 @@ class Vtiger_Value_InnventoryField extends Vtiger_Basic_InnventoryField
 	protected $defaultLabel = 'LBL_VALUE';
 	protected $columnName = 'value';
 	protected $dbType = 'varchar(255)';
+
 }

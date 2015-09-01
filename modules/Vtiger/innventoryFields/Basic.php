@@ -131,7 +131,7 @@ class Vtiger_Basic_InnventoryField extends Vtiger_Base_Model
 	{
 		return true;
 	}
-	
+
 	public function isVisible($data)
 	{
 		return true;

@@ -21,6 +21,6 @@ class Vtiger_Currency_InnventoryField extends Vtiger_Basic_InnventoryField
 	 */
 	public function getDisplayValue($value)
 	{
-		return Vtiger_Functions::getCurrencyName($value,false);
+		return Vtiger_Functions::getCurrencyName($value, false);
 	}
 }
