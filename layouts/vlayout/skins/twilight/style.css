@@ -3668,3 +3668,6 @@ span[name=existingImages] img{
 .inventorySummaryContainer img{
 	max-width: 15px;
 }
+.autologinContainer .chosen-container-multi .chosen-choices{
+	padding-left: 6px;
+}

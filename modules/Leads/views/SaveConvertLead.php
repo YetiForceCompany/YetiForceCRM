@@ -70,7 +70,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		}
 		try {
 			$results = true;
-			if ($createAlways) {
+			if ($createAlways === true || $createAlways === 'true') {
 				$leadModel = Vtiger_Module_Model::getCleanInstance($request->getModule());
 				$results = $leadModel->searchAccountsToConvert($recordModel);
 				$entityValues['entities']['Accounts']['convert_to_id'] = $results;
