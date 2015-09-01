@@ -13,8 +13,13 @@ class API_Base_GetModulesList extends BaseAction
 
 	public function getModulesList()
 	{
-		$modules = ['HelpDesk' => 'HelpDesk','Accounts' => 'Accounts'];
-		
+		$db = PearDatabase::getInstance();
+		$query = 'SELECT * FROM vtiger_tab WHERE isentitytype = ? AND presence = ?';
+		$result = $db->pquery($query, [1, 0]);
+		$modules = [];
+		while ($row = $db->fetch_array($result)) {
+			$modules[$row['name']] = $row['name'];
+		}
 		return $modules;
 	}
 }
