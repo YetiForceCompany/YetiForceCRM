@@ -474,6 +474,13 @@ class CRMEntity
 						$field_list = $this->column_fields[$fieldname];
 					}
 					$fldvalue = $field_list;
+				} elseif (in_array($uitype, [303, 304])) {
+					if (is_array($this->column_fields[$fieldname])) {
+						$field_list = implode(',', $this->column_fields[$fieldname]);
+					} else {
+						$field_list = $this->column_fields[$fieldname];
+					}
+					$fldvalue = $field_list;
 				} elseif ($uitype == 5 || $uitype == 6 || $uitype == 23) {
 					//Added to avoid function call getDBInsertDateValue in ajax save
 					if (isset($current_user->date_format) && !$ajaxSave) {
@@ -538,6 +545,7 @@ class CRMEntity
 			else {
 				$fldvalue = '';
 			}
+
 			if ($fldvalue == '') {
 				$fldvalue = $this->get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype);
 			}
@@ -552,7 +560,7 @@ class CRMEntity
 				array_push($value, $fldvalue);
 			}
 		}
-
+		
 		if ($insertion_mode == 'edit') {
 			if ($module == 'Potentials') {
 				$dbquery = 'select sales_stage from vtiger_potential where potentialid = ?';

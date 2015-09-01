@@ -187,6 +187,10 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$fieldDataType = 'modules';
 			} else if ($uiType == '302') {
 				$fieldDataType = 'tree';
+			} else if ($uiType == '303') {
+				$fieldDataType = 'taxes';
+			} else if ($uiType == '304') {
+				$fieldDataType = 'inventoryLimit';
 			} else {
 				$webserviceField = $this->getWebserviceFieldObject();
 				$fieldDataType = $webserviceField->getFieldDataType();
@@ -590,6 +594,24 @@ class Vtiger_Field_Model extends Vtiger_Field
 			}
 		}
 
+		if ($fieldDataType == 'taxes') {
+			$taxs = $this->getUITypeModel()->getTaxes();
+			if (!empty($taxs)) {
+				$this->fieldInfo['picklistvalues'] = $taxs;
+			} else {
+				$this->fieldInfo['picklistvalues'] = [];
+			}
+		}
+		
+		if ($fieldDataType == 'inventoryLimit') {
+			$limits = $this->getUITypeModel()->getLimits();
+			if (!empty($limits)) {
+				$this->fieldInfo['picklistvalues'] = $limits;
+			} else {
+				$this->fieldInfo['picklistvalues'] = [];
+			}
+		}
+		
 		if ($this->getFieldDataType() == 'date' || $this->getFieldDataType() == 'datetime') {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$this->fieldInfo['date-format'] = $currentUser->get('date_format');

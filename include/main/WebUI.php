@@ -222,9 +222,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			} else {
 				throw new AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
 			}
-		} catch (Exception $e) {
+		} catch (AppException $e) {
 			$log = vglobal('log');
-			if ($view) {
+			if (!$request->isAjax()) {
 				// Log for developement.
 				$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 				Vtiger_Functions::throwNewException($e->getMessage());

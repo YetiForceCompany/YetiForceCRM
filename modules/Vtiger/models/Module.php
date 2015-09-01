@@ -21,6 +21,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 	protected $moduleMeta = false;
 	protected $fields = false;
 	protected $relations = null;
+	protected $moduleType = '0';
 
 	/**
 	 * Function to get the Module/Tab id
@@ -63,6 +64,16 @@ class Vtiger_Module_Model extends Vtiger_Module
 		return true;
 	}
 
+	public function getModuleType()
+	{
+		return $this->get('type');
+	}
+	
+	public function isInventory()
+	{
+		return $this->getModuleType() == 1;
+	}
+	
 	/**
 	 * Function to get singluar label key
 	 * @return <String> - Singular module label key

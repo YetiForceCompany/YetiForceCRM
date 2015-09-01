@@ -68,6 +68,9 @@ $languageStrings = [
 	'LBL_ENTITY_FIELDLABEL'	=>	'Название Поля',
 	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER'	=>	'Модуль с таким названием уже существует',
 	'LBL_INVALID_MODULE_NAME'	=>	'Неверное название Модуля',
+	'LBL_MODULE_TYPE' => '__UNTRANSLATED__',
+	'LBL_BASE_MODULE' => '__UNTRANSLATED__',
+	'LBL_INVENTORY_MODULE' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
   'JS_ON' => 'вкл',

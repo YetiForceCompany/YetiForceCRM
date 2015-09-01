@@ -257,9 +257,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
-	public static function mail_Scan($mbox, $account, $folder, $scan_id)
+	public static function mail_Scan($mbox, $account, $folder, $scan_id, $countEmails)
 	{
-		$return = [];
 		$last_user_uid = self::getUidFolder($account['user_id'], $folder);
 		$msgno = imap_msgno($mbox, $last_user_uid);
 		$num_msg = imap_num_msg($mbox);
@@ -289,7 +288,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		}
 
 		if ($get_emails) {
-			$return['count'] = 0;
 			for ($i = $msgno; $i <= $num_msg; $i++) {
 				$OSSMailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 				self::checkFolderUid($account['user_id'], $folder);
@@ -299,13 +297,16 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$mail_detail['Account_user_id'] = $account['user_id'];
 				self::executeActions($account, $mail_detail, $folder);
 				$adb = PearDatabase::getInstance();
-				$adb->pquery("update vtiger_ossmailscanner_folders_uid set uid=? where user_id=? AND folder = ?", array($uid, $account['user_id'], $folder));
-				self::update_scan_history($scan_id, Array('status' => '1', 'count' => $return['count'], 'action' => 'Action_CronMailScanner'));
-				$return['count'] ++;
+				$adb->pquery('update vtiger_ossmailscanner_folders_uid set uid=? where user_id=? AND folder = ?', [$uid, $account['user_id'], $folder]);
+				$countEmails++;
+				self::update_scan_history($scan_id, ['status' => '1', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
+				if ($countEmails >= PerformancePrefs::get('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
+					return $countEmails;
+				}
 			}
 		}
 
-		return $return;
+		return $countEmails;
 	}
 
 	public static function getEmailSearch($module = false)
@@ -505,14 +506,14 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		}
 		$OSSMailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 		$OSSMailScannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		$count_emails = 0;
-		$scan_id = 0;
+		$countEmails = 0;
+		$scanId = 0;
 		$accounts = $OSSMailModel->getAccountsList();
 		if (!$accounts)
 			return false;
 		self::setCronStatus('2');
-		$scan_id = $OSSMailScannerModel->add_scan_history(Array('user' => $who_trigger));
-		foreach ($OSSMailModel->getAccountsList() as $Account) {
+		$scanId = $OSSMailScannerModel->add_scan_history(Array('user' => $who_trigger));
+		foreach ($OSSMailModel->getAccountsList() as $account) {
 			foreach ($OSSMailScannerModel->getConfigFolderList() as $key => $folders) {
 				if ($folders != null) {
 					$folderArray = Array();
@@ -522,20 +523,19 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 						$folderArray[0] = $folders;
 					}
 					foreach ($folderArray as $folder) {
-						//var_dump($Account['username'] , $Account['password'],$folder);echo '<br/>';
-						$mbox = $OSSMailModel->imap_connect($Account['username'], $Account['password'], $folder);
-						//$msgno = imap_msgno($mbox,$last_user_uid );
-						//imap_uid($mbox,$num_msg);
-						$mail_Scan_result = $OSSMailScannerModel->mail_Scan($mbox, $Account, $folder, $scan_id);
-						$count_emails += $mail_Scan_result['count'];
-						//var_dump($folder,imap_num_msg($mbox),imap_uid($mbox,imap_num_msg($mbox)) );
+						$mbox = $OSSMailModel->imap_connect($account['username'], $account['password'], $folder);
+						$countEmails = $OSSMailScannerModel->mail_Scan($mbox, $account, $folder, $scanId, $countEmails);
 						imap_close($mbox);
-						//echo '-<br/><br/>';
+						if ($countEmails >= PerformancePrefs::get('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
+							$OSSMailScannerModel->update_scan_history($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
+							self::setCronStatus('1');
+							return 'ok';
+						}
 					}
 				}
 			}
 		}
-		$OSSMailScannerModel->update_scan_history($scan_id, Array('status' => '0', 'count' => $count_emails, 'action' => 'Action_CronMailScanner'));
+		$OSSMailScannerModel->update_scan_history($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 		self::setCronStatus('1');
 		return 'ok';
 	}

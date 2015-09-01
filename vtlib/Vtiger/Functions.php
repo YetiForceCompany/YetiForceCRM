@@ -131,16 +131,6 @@ class Vtiger_Functions
 			return self::$currencyInfoCache;
 		}
 	}
-	
-	public static function getDefaultCurrencyInfo() {
-		$allCurrencies = self::getAllCurrency(true);
-		foreach($allCurrencies as $currency) {
-			if ($currency['defaultid'] === '-11') {
-				return $currency;
-			}
-		}
-		return false;
-	}
 
 	static function getCurrencyName($currencyid, $show_symbol = true)
 	{
@@ -1066,15 +1056,18 @@ class Vtiger_Functions
 		return $array;
 	}
 
-	static function throwNewException($Message)
+	static function throwNewException($message)
 	{
 		$request = new Vtiger_Request($_REQUEST);
-		if (!$request->get('action') != '') {
+		if ($request->isAjax()) {
+			$response = new Vtiger_Response();
+			$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+			$response->setError($message);
+			$response->emit();
+		} else {
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('MESSAGE', $Message);
 			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
-		} else {
-			echo $Message;
 		}
 	}
 
@@ -1322,7 +1315,31 @@ class Vtiger_Functions
 		return $initial;
 	}
 
-	public function textLength($text, $length = false, $addDots = true)
+	public function getBacktrace($ignore = 2)
+	{
+		$trace = '';
+		foreach (debug_backtrace() as $k => $v) {
+			if ($k < $ignore) {
+				continue;
+			}
+			$trace .= '#' . ($k - $ignore) . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '() in ' . $v['file'] . '(' . $v['line'] . '): ' . PHP_EOL;
+		}
+
+		return $trace;
+	}
+
+	public function getDiskSpace($dir = '')
+	{
+		if ($dir == '') {
+			$dir = vglobal('root_directory');
+		}
+		$total = disk_total_space($dir);
+		$free = disk_free_space($dir);
+		$used = $total - $free;
+		return ['total' => $total, 'free' => $free, 'used' => $used];
+	}
+
+	public function textLength($text, $length = false)
 	{
 		if (!$length) {
 			$length = vglobal('listview_max_textlength');
@@ -1330,108 +1347,11 @@ class Vtiger_Functions
 		$newText = preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text);
 		if (function_exists('mb_strlen')) {
 			if (mb_strlen(html_entity_decode($newText)) > $length) {
-				$newText = mb_substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text), 0, $length, vglobal('default_charset'));
-				if ($addDots) {
-					$newText .= '...';
-				}
+				$newText = mb_substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text), 0, $length, vglobal('default_charset')) . '...';
 			}
 		} elseif (strlen(html_entity_decode($text)) > $length) {
-			$newText = substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text), 0, $length);
-			if ($addDots) {
-				$newText .= '...';
-			}
+			$newText = substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text), 0, $length) . '...';
 		}
 		return $newText;
-	}
-	/*
-	 * Checks if given date is working day, if not returns last working day
-	 * @param <Date> $date
-	 * @return <Date> - last working y
-	 */
-
-	public static function getLastWorkingDay($date)
-	{
-		$date = strtotime($date);
-		if (date('D', $date) == 'Sat') { // switch to friday the day before
-			$lastWorkingDay = date('Y-m-d', strtotime("-1 day", $date));
-		} else if (date('D', $date) == 'Sun') { // switch to friday two days before
-			$lastWorkingDay = date('Y-m-d', strtotime("-2 day", $date));
-		} else {
-			$lastWorkingDay = date('Y-m-d', $date);
-		}
-
-		return $lastWorkingDay;
-	}
-
-	function slug($str, $delimiter = '_')
-	{
-		// Make sure string is in UTF-8 and strip invalid UTF-8 characters
-		$str = mb_convert_encoding((string) $str, 'UTF-8', mb_list_encodings());
-		$char_map = array(
-			// Latin
-			'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A', 'Æ' => 'AE', 'Ç' => 'C',
-			'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I',
-			'Ð' => 'D', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ő' => 'O',
-			'Ø' => 'O', 'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U', 'Ű' => 'U', 'Ý' => 'Y', 'Þ' => 'TH',
-			'ß' => 'ss',
-			'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'æ' => 'ae', 'ç' => 'c',
-			'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', 'ệ' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i',
-			'ï' => 'i', 'ĩ' => 'i', 'ð' => 'd', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'ộ' => 'o',
-			'õ' => 'o', 'ö' => 'o', 'ő' => 'o', 'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
-			'ű' => 'u', 'ủ' => 'u', 'ý' => 'y', 'þ' => 'th', 'ÿ' => 'y',
-			// Latin symbols
-			'©' => '(c)',
-			// Greek
-			'Α' => 'A', 'Β' => 'B', 'Γ' => 'G', 'Δ' => 'D', 'Ε' => 'E', 'Ζ' => 'Z', 'Η' => 'H', 'Θ' => '8',
-			'Ι' => 'I', 'Κ' => 'K', 'Λ' => 'L', 'Μ' => 'M', 'Ν' => 'N', 'Ξ' => '3', 'Ο' => 'O', 'Π' => 'P',
-			'Ρ' => 'R', 'Σ' => 'S', 'Τ' => 'T', 'Υ' => 'Y', 'Φ' => 'F', 'Χ' => 'X', 'Ψ' => 'PS', 'Ω' => 'W',
-			'Ά' => 'A', 'Έ' => 'E', 'Ί' => 'I', 'Ό' => 'O', 'Ύ' => 'Y', 'Ή' => 'H', 'Ώ' => 'W', 'Ϊ' => 'I',
-			'Ϋ' => 'Y',
-			'α' => 'a', 'β' => 'b', 'γ' => 'g', 'δ' => 'd', 'ε' => 'e', 'ζ' => 'z', 'η' => 'h', 'θ' => '8',
-			'ι' => 'i', 'κ' => 'k', 'λ' => 'l', 'μ' => 'm', 'ν' => 'n', 'ξ' => '3', 'ο' => 'o', 'π' => 'p',
-			'ρ' => 'r', 'σ' => 's', 'τ' => 't', 'υ' => 'y', 'φ' => 'f', 'χ' => 'x', 'ψ' => 'ps', 'ω' => 'w',
-			'ά' => 'a', 'έ' => 'e', 'ί' => 'i', 'ό' => 'o', 'ύ' => 'y', 'ή' => 'h', 'ώ' => 'w', 'ς' => 's',
-			'ϊ' => 'i', 'ΰ' => 'y', 'ϋ' => 'y', 'ΐ' => 'i',
-			// Turkish
-			'Ş' => 'S', 'İ' => 'I', 'Ç' => 'C', 'Ü' => 'U', 'Ö' => 'O', 'Ğ' => 'G',
-			'ş' => 's', 'ı' => 'i', 'ç' => 'c', 'ü' => 'u', 'ö' => 'o', 'ğ' => 'g',
-			// Russian
-			'А' => 'A', 'Б' => 'B', 'В' => 'V', 'Г' => 'G', 'Д' => 'D', 'Е' => 'E', 'Ё' => 'Yo', 'Ж' => 'Zh',
-			'З' => 'Z', 'И' => 'I', 'Й' => 'J', 'К' => 'K', 'Л' => 'L', 'М' => 'M', 'Н' => 'N', 'О' => 'O',
-			'П' => 'P', 'Р' => 'R', 'С' => 'S', 'Т' => 'T', 'У' => 'U', 'Ф' => 'F', 'Х' => 'H', 'Ц' => 'C',
-			'Ч' => 'Ch', 'Ш' => 'Sh', 'Щ' => 'Sh', 'Ъ' => '', 'Ы' => 'Y', 'Ь' => '', 'Э' => 'E', 'Ю' => 'Yu',
-			'Я' => 'Ya',
-			'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd', 'е' => 'e', 'ё' => 'yo', 'ж' => 'zh',
-			'з' => 'z', 'и' => 'i', 'й' => 'j', 'к' => 'k', 'л' => 'l', 'м' => 'm', 'н' => 'n', 'о' => 'o',
-			'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f', 'х' => 'h', 'ц' => 'c',
-			'ч' => 'ch', 'ш' => 'sh', 'щ' => 'sh', 'ъ' => '', 'ы' => 'y', 'ь' => '', 'э' => 'e', 'ю' => 'yu',
-			'я' => 'ya',
-			// Ukrainian
-			'Є' => 'Ye', 'І' => 'I', 'Ї' => 'Yi', 'Ґ' => 'G',
-			'є' => 'ye', 'і' => 'i', 'ї' => 'yi', 'ґ' => 'g',
-			// Czech
-			'Č' => 'C', 'Ď' => 'D', 'Ě' => 'E', 'Ň' => 'N', 'Ř' => 'R', 'Š' => 'S', 'Ť' => 'T', 'Ů' => 'U',
-			'Ž' => 'Z',
-			'č' => 'c', 'ď' => 'd', 'ě' => 'e', 'ň' => 'n', 'ř' => 'r', 'š' => 's', 'ť' => 't', 'ů' => 'u',
-			'ž' => 'z',
-			// Polish
-			'Ą' => 'A', 'Ć' => 'C', 'Ę' => 'e', 'Ł' => 'L', 'Ń' => 'N', 'Ó' => 'o', 'Ś' => 'S', 'Ź' => 'Z',
-			'Ż' => 'Z',
-			'ą' => 'a', 'ć' => 'c', 'ę' => 'e', 'ł' => 'l', 'ń' => 'n', 'ó' => 'o', 'ś' => 's', 'ź' => 'z',
-			'ż' => 'z',
-			// Latvian
-			'Ā' => 'A', 'Č' => 'C', 'Ē' => 'E', 'Ģ' => 'G', 'Ī' => 'i', 'Ķ' => 'k', 'Ļ' => 'L', 'Ņ' => 'N',
-			'Š' => 'S', 'Ū' => 'u', 'Ž' => 'Z',
-			'ā' => 'a', 'č' => 'c', 'ē' => 'e', 'ģ' => 'g', 'ī' => 'i', 'ķ' => 'k', 'ļ' => 'l', 'ņ' => 'n',
-			'š' => 's', 'ū' => 'u', 'ž' => 'z'
-		);
-
-		// Transliterate characters to ASCII
-		$str = str_replace(array_keys($char_map), $char_map, $str);
-		// Replace non-alphanumeric characters with our delimiter
-		$str = preg_replace('/[^\p{L}\p{Nd}\.]+/u', $delimiter, $str);
-		// Remove delimiter from ends
-		$str = trim($str, $delimiter);
-		return $str;
 	}
 }
