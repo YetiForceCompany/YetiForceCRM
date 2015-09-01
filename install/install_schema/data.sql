@@ -16,7 +16,7 @@ MySQL - 5.6.17 : Database - yetiforce
 
 insert  into `a_yf_discounts_config`(`param`,`value`) values ('active','0');
 insert  into `a_yf_discounts_config`(`param`,`value`) values ('aggregation','0');
-insert  into `a_yf_discounts_config`(`param`,`value`) values ('discounts','0,1,2,3');
+insert  into `a_yf_discounts_config`(`param`,`value`) values ('discounts','0,1,2');
 
 /*Data for the table `a_yf_discounts_global` */
 
