@@ -27,7 +27,7 @@
 		</div>
 		<div class="" id="loginDiv">
 			<form class="login-form" action="index.php?module=Users&action=Login" method="POST">
-				<div class="form-group has-feedback">
+				<div class="form-group first-group has-feedback">
 					<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
 					<input name="username" type="text" id="username" class="form-control input-lg" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}" required="" autofocus="">
 					<span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
@@ -76,7 +76,7 @@
 		</div>		
 		<div class="hide" id="forgotPasswordDiv">
 			<form class="login-form" action="modules/Users/actions/ForgotPassword.php" method="POST">
-				<div class="form-group has-feedback">
+				<div class="form-group first-group has-feedback">
 					<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
 					<input type="text" class="form-control input-lg" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="user_name" placeholder="{vtranslate('LBL_USER',$MODULE)}">
 					<span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>

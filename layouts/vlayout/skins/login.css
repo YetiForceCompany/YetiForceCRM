@@ -16,6 +16,6 @@
 html,body{
 	background: #ddecf0;
 }
-.login-form .form-group:not(:nth-child(3)){
+.login-form .form-group.first-group{
 	margin-bottom: 5px;
 }
