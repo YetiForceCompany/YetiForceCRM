@@ -24,7 +24,7 @@
 					{foreach item=RECORD from=$INVENTORY_DATA}
 						<tr class="opacity" data-id="{$RECORD->getId()}">
 							<td class="textAlignCenter {$WIDTHTYPE}"><label class="name">{$RECORD->getName()}</label></td>
-							<td class="textAlignCenter {$WIDTHTYPE}"><span class="value">{$RECORD->getValue()}{*%*}</span></td>
+							<td class="textAlignCenter {$WIDTHTYPE}"><span class="value">{$RECORD->getValue()}{if $VIEW != 'CreditLimits'}%{/if}</span></td>
 							<td class="textAlignCenter {$WIDTHTYPE}"><input type="checkbox" class="status" {if !$RECORD->getStatus()}checked{/if} />
 								<div class="pull-right actions">
 									<a class="editInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignBottom"></span></a>&nbsp;

@@ -12,7 +12,7 @@
 {strip}
     {assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=UITYPE_MODEL value=$FIELD_MODEL->getUITypeModel()}
-	{assign var=PICKLIST_VALUES value=$UITYPE_MODEL->getTaxs()}
+	{assign var=PICKLIST_VALUES value=$UITYPE_MODEL->getTaxes()}
     {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
     <div class="row">
         <select class="select2noactive listSearchContributor col-md-9" name="{$FIELD_MODEL->get('name')}" title="{vtranslate($FIELD_MODEL->get('label'))}" multiple style="width:150px;" data-fieldinfo='{$FIELD_INFO|escape}'>

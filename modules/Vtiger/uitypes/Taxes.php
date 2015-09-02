@@ -70,7 +70,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 		if (!$taxs) {
 			$db = PearDatabase::getInstance();
 			$taxs = [];
-			$result = $db->pquery('SELECT * FROM a_yf_taxes_global WHERE status = ?', [1]);
+			$result = $db->pquery('SELECT * FROM a_yf_taxes_global WHERE status = ?', [0]);
 			while ($row = $db->fetch_array($result)) {
 				$taxs[$row['id']] = $row;
 			}
