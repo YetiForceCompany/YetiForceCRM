@@ -23,5 +23,5 @@
 				</div>
 			</div>
 		</div>
-	{/if}			
+	{/if}
 {/strip}
