@@ -1478,7 +1478,7 @@ class Vtiger_Functions
 	 */
 	public static function getConversionRateInfo($currencyId, $date='') {
 		$currencyUpdateModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
-		$defaultCurrencyId =  self::getDefaultCurrencyInfo()['id'];
+		$defaultCurrencyId = self::getDefaultCurrencyInfo()['id'];
 		$info = [];
 		
 		if (empty($date)) {
@@ -1491,8 +1491,9 @@ class Vtiger_Functions
 			$info['value'] = 1.0;
 			$info['conversion'] = 1.0;
 		} else {
-			$info['value'] = $currencyUpdateModel->convertFromTo(1, $defaultCurrencyId, $currencyId, $date);
-			$info['conversion'] = $currencyUpdateModel->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
+			$value = $currencyUpdateModel->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
+			$info['value'] = round($value, 5);
+			$info['conversion'] = round(1/$value, 5);
 		}		
 		
 		return $info;
