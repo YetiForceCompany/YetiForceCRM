@@ -62,9 +62,9 @@ $languageStrings = [
 	'LBL_CONVERTED_FROM_LEAD' => 'Создано из Обращения',
 	'LBL_LEGAL_FORM' => 'Юридическая форма организации',
 	'Payment balance' => 'Баланс',
-	'LBL_INVENTORY_BALANCE' => '__UNTRANSLATED__',
-	'LBL_DISCOUNT' => '__UNTRANSLATED__',
-	'LBL_CREDIT_LIMIT' => '__UNTRANSLATED__',
+	'LBL_INVENTORY_BALANCE' => 'Balance',
+	'LBL_DISCOUNT' => 'Discount',
+	'LBL_CREDIT_LIMIT' => 'Credit limit',
 
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Физическое лицо',
