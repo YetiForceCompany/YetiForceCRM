@@ -212,6 +212,7 @@ $languageStrings = [
 	'LBL_ADDING_ERROR' => 'Error in adding a field',
 	'LBL_ADDED_COMPANY_FIELD' => 'Added field',
 	'LBL_FIELD_NOT_VALID' => 'Field must contain only for letters',
+	'LBL_EXTENDED_MODULES'=>'Extended modules',
 	/* settings menu */
 	'LBL_BRUTEFORCE_DESCRIPTION' => 'Stellen Sie die Anzahl der ungültigen Anmeldeversuche und die Dauer der IP-Blockade ein.',
 	'LBL_BRUTEFORCE' => 'Brute force',
