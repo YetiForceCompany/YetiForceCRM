@@ -1293,9 +1293,9 @@ $languageStrings = [
 	'LBL_AMOUNT' => 'Amount',
 	'LBL_SET_GLOBAL_TAX' => 'Set',
 	'LBL_SET_GLOBAL_DISCOUNT' => 'Set',
-	'LBL_EXCHANGE_RATE' => '__UNTRANSLATED__',
-	'LBL_EXCHANGE_DATE' => '__UNTRANSLATED__',
-	'LBL_NO_EXCHANGE_RATES' => '__UNTRANSLATED__',
+	'LBL_EXCHANGE_RATE' => 'Exchange rate',
+	'LBL_EXCHANGE_DATE' => 'Exchange rate date',
+	'LBL_NO_EXCHANGE_RATES' => 'No exchange rates found, check if downloading exchange rates works properly.',
 ];
 $jsLanguageStrings = [
 	'SINGLE_SalesOrder' => 'Заказ',
