@@ -84,4 +84,5 @@ $languageStrings = [
 	'Support Group' => 'Wsparcie',
 	'Marketing Group' => 'Marketing',
 	'Team Selling' => 'Sprzedaż',
+	'LBL_TAXES' => 'Podatki',
 ];
