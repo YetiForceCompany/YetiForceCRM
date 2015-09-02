@@ -13,6 +13,9 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultLabel = 'LBL_CURRENCY';
 	protected $columnName = 'currency';
 	protected $dbType = 'int(10)';
+	protected $customColumn = [
+		'currencyparam' => 'varchar(200)'
+	];
 
 	/**
 	 * Geting value to display
@@ -22,5 +25,17 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	public function getDisplayValue($value)
 	{
 		return Vtiger_Functions::getCurrencyName($value, false);
+	}
+
+	public function getCurrencyParam($currencies, $param = false)
+	{
+		if ($param !== false) {
+			return Zend_Json::decode($param);
+		} else {
+			foreach ($currencies as $currency) {
+				$return[$currency['id']] = Vtiger_Functions::getConversionRateInfo($currency['id']);
+			}
+		}
+		return $return;
 	}
 }
