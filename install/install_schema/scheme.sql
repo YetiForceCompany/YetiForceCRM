@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -7783,7 +7784,7 @@ CREATE TABLE `yetiforce_currencyupdate` (
   `exchange` decimal(10,4) NOT NULL,
   `bank_id` int(19) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `fetchdate_currencyid_unique` (`currency_id`,`fetch_date`,`bank_id`),
+  UNIQUE KEY `fetchdate_currencyid_unique` (`currency_id`,`exchange_date`,`bank_id`),
   KEY `fk_1_vtiger_osscurrencies` (`currency_id`),
   CONSTRAINT `fk_1_vtiger_osscurrencies` FOREIGN KEY (`currency_id`) REFERENCES `vtiger_currency_info` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

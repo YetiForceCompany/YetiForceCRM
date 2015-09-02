@@ -85,6 +85,10 @@ class Settings_CurrencyUpdate_models_ECB_BankModel extends Settings_CurrencyUpda
 
 		$XML = simplexml_load_file($sourceURL); // European Central Bank xml only contains business days! oh well....
 
+		if ($XML === false) {
+			return false;
+		}
+
 		$xml_obj = $XML->children();
 
 		$num = count($xml_obj->pozycja);

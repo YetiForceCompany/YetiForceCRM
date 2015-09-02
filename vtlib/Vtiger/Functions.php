@@ -1380,6 +1380,9 @@ class Vtiger_Functions
 
 	public static function getLastWorkingDay($date)
 	{
+		if (empty($date)) {
+			$date = date('Y-m-d');
+		}
 		$date = strtotime($date);
 		if (date('D', $date) == 'Sat') { // switch to friday the day before
 			$lastWorkingDay = date('Y-m-d', strtotime("-1 day", $date));
@@ -1392,7 +1395,7 @@ class Vtiger_Functions
 		return $lastWorkingDay;
 	}
 
-	function slug($str, $delimiter = '_')
+	public static function slug($str, $delimiter = '_')
 	{
 		// Make sure string is in UTF-8 and strip invalid UTF-8 characters
 		$str = mb_convert_encoding((string) $str, 'UTF-8', mb_list_encodings());
@@ -1462,5 +1465,36 @@ class Vtiger_Functions
 		// Remove delimiter from ends
 		$str = trim($str, $delimiter);
 		return $str;
+	}
+	
+	/*
+	 * Function that returns conversion info from default system currency to chosen one
+	 * @param <Integer> $currencyId - id of currency for which we want to retrieve conversion rate to default currency
+	 * @param <Date> $date - date of exchange rates, if empty then rate from yesterday
+	 * @return <Array> - array containing:
+	 *		date - date of rate
+	 *		value - conversion 1 default currency -> $currencyId
+	 *		conversion - 1 $currencyId -> default currency
+	 */
+	public static function getConversionRateInfo($currencyId, $date='') {
+		$currencyUpdateModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
+		$defaultCurrencyId =  self::getDefaultCurrencyInfo()['id'];
+		$info = [];
+		
+		if (empty($date)) {
+			$yesterday = date('Y-m-d', strtotime('-1 day'));
+			$date = self::getLastWorkingDay($yesterday);
+		}
+		$info['date'] = $date;
+
+		if ($currencyId == $defaultCurrencyId) {
+			$info['value'] = 1.0;
+			$info['conversion'] = 1.0;
+		} else {
+			$info['value'] = $currencyUpdateModel->convertFromTo(1, $defaultCurrencyId, $currencyId, $date);
+			$info['conversion'] = $currencyUpdateModel->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
+		}		
+		
+		return $info;
 	}
 }

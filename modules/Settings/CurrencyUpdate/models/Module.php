@@ -295,8 +295,8 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	
 	/*
 	 * Function that retrieves conversion rate from and to specified currency
-	 * @param <String> $from - currency code
-	 * @param <String> $to - currency code
+	 * @param <String> $from - currency code or id (converted to code)
+	 * @param <String> $to - currency code or id (converted to code)
 	 * @param <Date> $date - date of the exchange rate
 	 * @return <Float> - conversion rate
 	 */
@@ -304,8 +304,14 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		$mainCurrencyCode = Vtiger_Functions::getDefaultCurrencyInfo()['currency_code'];
-		$activeBankId = $this->getActiveBankId();
+		$activeBankId = self::getActiveBankId();
 		$exchange = false;
+		if (is_numeric($from)) {
+			$from = Vtiger_Functions::getAllCurrency(true)[$from]['currency_code'];
+		}
+		if (is_numeric($to)) {
+			$to = Vtiger_Functions::getAllCurrency(true)[$to]['currency_code'];
+		}
 		// get present conversion rate from crm
 		if (empty($date)) {
 			$query = 'SELECT `conversion_rate` FROM `vtiger_currency_info` WHERE `currency_code` = ? LIMIT 1;';
@@ -339,7 +345,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 			
 			// no exchange rate in archive, fetch new rates
 			if ($num == 0 ) {
-				$this->fetchCurrencyRates($date);
+				self::fetchCurrencyRates($date);
 			}
 			$query = 'SELECT 
 						yfc.`exchange` 

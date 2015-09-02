@@ -129,7 +129,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 		$numberOfDays = 1;
 		$stateA = false;
 
-		while (!$stateA) {
+		while (!$stateA && $file) {
 			for ($i = 0; $i < $fileNum; $i++) {
 				$lineStart = strstr($file[$i], $date, true);
 				if ($lineStart && $lineStart[0] == 'a') {
