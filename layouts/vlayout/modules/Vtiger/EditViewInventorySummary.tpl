@@ -68,7 +68,7 @@
 							<div class="input-group-addon percent">{vtranslate('LBL_AMOUNT', $MODULE)}</div>
 							<input type="text" class="form-control textAlignRight" readonly="readonly">
 							{if in_array("currency",$COLUMNS)}
-								<div class="input-group-addon">{$CURRENCY_SYMBOLAND['symbol']}</div>
+								<div class="input-group-addon">{$BASE_CURRENCY['currency_symbol']}</div>
 							{/if}
 						</div>
 					</div>
@@ -79,7 +79,7 @@
 							<div class="input-group-addon percent"></div>
 							<input type="text" class="form-control textAlignRight" readonly="readonly">
 							{if in_array("currency",$COLUMNS)}
-								<div class="input-group-addon">{$CURRENCY_SYMBOLAND['symbol']}</div>
+								<div class="input-group-addon">{$BASE_CURRENCY['currency_symbol']}</div>
 							{/if}
 						</div>
 					</div>
