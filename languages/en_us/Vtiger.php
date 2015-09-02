@@ -1037,6 +1037,9 @@ $languageStrings = [
 	'LBL_AMOUNT' => 'Amount',
 	'LBL_SET_GLOBAL_TAX' => 'Set',
 	'LBL_SET_GLOBAL_DISCOUNT' => 'Set',
+	'LBL_EXCHANGE_RATE' => '__UNTRANSLATED__',
+	'LBL_EXCHANGE_DATE' => '__UNTRANSLATED__',
+	'LBL_NO_EXCHANGE_RATES' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',

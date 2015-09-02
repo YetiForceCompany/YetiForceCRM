@@ -790,23 +790,40 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	currencyChangeActions: function (select, option) {
 		var thisInstance = this;
 		if (option.data('baseCurrency') == 0) {
-			thisInstance.showCurrencyChangeModal(select);
+			thisInstance.showCurrencyChangeModal(select, option);
 		} else {
-			thisInstance.currencyConvertValues(select);
+			thisInstance.currencyConvertValues(select, option);
 			select.data('oldValue', select.val());
 		}
 	},
-	showCurrencyChangeModal: function (select) {
+	showCurrencyChangeModal: function (select, option) {
 		var thisInstance = this;
 		if (thisInstance.lockCurrencyChange == true) {
 			return;
 		}
 		thisInstance.lockCurrencyChange = true;
-		var modal = select.closest('th').find('.modelContainer').clone();
+		var block = select.closest('[colspan]');
+		var modal = block.find('.modelContainer').clone();
 		app.showModalWindow(modal, function (data) {
 			var modal = $(data);
+			var currencyParam = JSON.parse(block.find('.currencyparam').val());
+
+			if (currencyParam != false){
+				modal.find('.currencyName').text(option.text());
+				modal.find('.currencyRate').val(currencyParam[option.val()]['value']);
+				modal.find('.currencyDate').text(currencyParam[option.val()]['date']);
+			}
 			modal.on('click', 'button[type="submit"]', function (e) {
-				thisInstance.currencyConvertValues(select);
+				var rate = modal.find('.currencyRate').val();
+				var value = app.parseNumberToFloat(rate);
+				var conversionRate = 1 / app.parseNumberToFloat(rate);
+
+				option.data('conversionRate', conversionRate);
+				currencyParam[option.val()]['value'] = value;
+				currencyParam[option.val()]['conversion'] = conversionRate;
+				block.find('.currencyparam').val(JSON.stringify(currencyParam));
+
+				thisInstance.currencyConvertValues(select, option);
 				select.data('oldValue', select.val());
 				app.hideModalWindow();
 				thisInstance.lockCurrencyChange = false;
@@ -817,9 +834,9 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			});
 		});
 	},
-	currencyConvertValues: function (select) {
+	currencyConvertValues: function (select, selected) {
 		var thisInstance = this;
-		var selected = select.find('option:selected');
+
 		var previous = select.find('option[value="' + select.data('oldValue') + '"]');
 		var conversionRate = selected.data('conversionRate');
 		var prevConversionRate = previous.data('conversionRate');
@@ -940,7 +957,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	},
 	registerSubProducts: function (container) {
 		var thisInstance = this;
-		container.find('.inventoryItems '+thisInstance.rowClass).each(function (index) {
+		container.find('.inventoryItems ' + thisInstance.rowClass).each(function (index) {
 			thisInstance.loadSubProducts($(this), false);
 		});
 	},

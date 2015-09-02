@@ -11,7 +11,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 
 	protected static $fields = false;
 	protected static $columns = false;
-	protected $jsonFields = ['discountparam', 'taxparam'];
+	protected $jsonFields = ['discountparam', 'taxparam', 'currencyparam'];
 
 	/**
 	 * Create the name of the Inventory data table
@@ -298,12 +298,14 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function getValueForSave(Vtiger_Request $request, $field, $i)
 	{
 		$value = '';
-		if (in_array($field, $this->jsonFields) && $request->get($field . $i) != '') {
-			$value = json_encode($request->get($field . $i));
-		} else if ($request->has($field . $i)) {
+		if ($request->has($field . $i)) {
 			$value = $request->get($field . $i);
 		} else if ($request->has($field)) {
 			$value = $request->get($field);
+		}
+
+		if (in_array($field, $this->jsonFields) && $value != '') {
+			$value = json_encode($value);
 		}
 		if (in_array($field, ['price', 'gross', 'net', 'discount', 'purchase', 'margin', 'marginp', 'tax', 'total'])) {
 			$value = CurrencyField::convertToDBFormat($value, null, true);
@@ -333,7 +335,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		if (isset($params['colSpan'])) {
 			$colSpan = $params['colSpan'];
 		}
-		
+
 		Vtiger_Utils::AddColumn($table, $columnName, $instance->getDBType());
 		foreach ($instance->getCustomColumn() as $column => $criteria) {
 			Vtiger_Utils::AddColumn($table, $column, $criteria);
