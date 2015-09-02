@@ -68,9 +68,9 @@ $languageStrings = [
 	'LBL_ENTITY_FIELDLABEL' => 'Entity field label',
 	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'This module name already exists, try another',
 	'LBL_INVALID_MODULE_NAME' => 'Invalid module name',
-	'LBL_MODULE_TYPE' => '__UNTRANSLATED__',
-	'LBL_BASE_MODULE' => '__UNTRANSLATED__',
-	'LBL_INVENTORY_MODULE' => '__UNTRANSLATED__',
+	'LBL_MODULE_TYPE' => 'Module type',
+	'LBL_BASE_MODULE' => 'Base module',
+	'LBL_INVENTORY_MODULE' => 'Extended module',
 ];
 $jsLanguageStrings = [
 	'JS_UPDATED_MODULE' => 'Update Successfull',
