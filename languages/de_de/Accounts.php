@@ -62,9 +62,9 @@ $languageStrings = [
 	'Approval for phone calls'=>'Berechtigung für Anrufe',
 	'LBL_CONVERTED_FROM_LEAD' => 'Aus Leads konvertiert',
 	'LBL_LEGAL_FORM' => 'Rechtsform',
-	'LBL_INVENTORY_BALANCE' => '__UNTRANSLATED__',
-	'LBL_DISCOUNT' => '__UNTRANSLATED__',
-	'LBL_CREDIT_LIMIT' => '__UNTRANSLATED__',
+	'LBL_INVENTORY_BALANCE' => 'Balance',
+	'LBL_DISCOUNT' => 'Discount',
+	'LBL_CREDIT_LIMIT' => 'Credit limit',
 
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Natürliche Person',
