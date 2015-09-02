@@ -63,7 +63,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$tablename = self::getTableNameFromType($this->getType());
 		$id = $this->getId();
-//echo '<pre>', var_dump($id,$tablename,$this->getType()); echo '</pre>'; exit;
+
 		if (!empty($id) && $tablename) {
 			$query = 'UPDATE ' . $tablename . ' SET `name`=?,`value`=?,`status`=? WHERE id = ?';
 			$params = array($this->getName(), $this->get('value'), $this->get('status'), $id);

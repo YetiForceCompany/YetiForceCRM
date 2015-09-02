@@ -21,7 +21,7 @@ class Settings_Inventory_ModalAjax_View extends Settings_Inventory_CreditLimits_
 		$viewer->assign('PAGE_LABELS', $this->getPageLabels($request));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RECORD_MODEL', $recordModel);
-
+		$viewer->assign('TYPE', $type);
 		echo $viewer->view('Modal.tpl', $qualifiedModuleName, true);
 	}
 }

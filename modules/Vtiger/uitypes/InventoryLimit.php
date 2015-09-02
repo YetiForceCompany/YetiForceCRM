@@ -70,7 +70,7 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Base_UIType
 		if (!$limits) {
 			$db = PearDatabase::getInstance();
 			$limits = [];
-			$result = $db->pquery('SELECT * FROM a_yf_inventory_limits WHERE status = ?', [1]);
+			$result = $db->pquery('SELECT * FROM a_yf_inventory_limits WHERE status = ?', [0]);
 			while ($row = $db->fetch_array($result)) {
 				$limits[$row['id']] = $row;
 			}
