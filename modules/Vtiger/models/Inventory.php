@@ -55,7 +55,7 @@ class Vtiger_Inventory_Model
 
 	protected static $taxsConfig = false;
 
-	public static function getTaxsConfig()
+	public static function getTaxesConfig()
 	{
 		if (self::$taxsConfig != false) {
 			return self::$taxsConfig;
