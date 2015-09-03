@@ -1,6 +1,8 @@
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{strip}
 {assign var=MENUS value=$MENU.childs}
 {if $MENUS|@count neq 0}
-	<ul class="dropdown-menu" role="menu" aria-hidden="true">
+	<ul class="nav nav-pills nav-stacked collapse {if $PARENT_MODULE == $MENU.id}in{/if}" id="menu{$MENU.id}" role="menu" aria-hidden="true">
 		{assign var=TABINDEX value=$TABINDEX-1}
 		{foreach key=KEY item=MENU from=$MENUS}
 			{*{assign var=CHILDS value=$MENU.childs}
