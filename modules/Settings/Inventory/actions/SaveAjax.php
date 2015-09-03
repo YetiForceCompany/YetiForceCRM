@@ -9,6 +9,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		parent::__construct();
 		$this->exposeMethod('checkDuplicateName');
 		$this->exposeMethod('deleteInventory');
+		$this->exposeMethod('saveConfig');
 	}
 
 	public function process(Vtiger_Request $request)
@@ -81,6 +82,27 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			$result = array('success' => false);
 		} else {
 			$result = array('success' => true, 'message' => vtranslate('LBL_DELETE_OK', $qualifiedModuleName));
+		}
+
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+	
+	public function saveConfig(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$qualifiedModuleName = $request->getModule(false);
+		$params = $request->get('param');
+		$type = $params['view'];
+
+		$recordModel = Settings_Inventory_Module_Model::getCleanInstance();
+		$status = $recordModel->setConfig($type,$params['param']);
+
+		if (!$status) {
+			$result = array('success' => false);
+		} else {
+			$result = array('success' => true);
 		}
 
 		$response = new Vtiger_Response();
