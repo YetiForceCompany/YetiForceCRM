@@ -1,19 +1,17 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
+/**
+ * Module Class for PDF Settings
+ * @package YetiForce.Model
+ * @license licenses/License.html
+ * @author Maciej Stencel <m.stencel@yetiforce.com>
+ */
 
 class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	var $baseTable = 'yetiforce_pdf';
+	var $baseTable = 'a_yf_pdf';
 	var $baseIndex = 'pdfid';
-	var $listFields = array('module_name' => 'Module', 'cola' => 'ColA', 'colb' => 'ColB', 'colc' => 'ColC', 'cold' => 'ColD');
+	var $listFields = array('module_name' => 'Module', 'summary' => 'Summary', 'cola' => 'ColA', 'colb' => 'ColB', 'colc' => 'ColC', 'cold' => 'ColD');
 	var $name = 'PDF';
 
 	/**

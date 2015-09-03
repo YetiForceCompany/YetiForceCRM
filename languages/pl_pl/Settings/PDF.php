@@ -1,13 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * Polish language
+ * @package YetiForce.Language
+ * @license licenses/License.html
+ * @author Maciej Stencel <m.stencel@yetiforce.com>
+ */
+
 $languageStrings = [
 //	'ADD_CONDITIONS' => 'Dodaj warunek',
 //	'ADD_TASKS' => 'Dodaj zadania',
@@ -21,15 +19,15 @@ $languageStrings = [
 //	'LBL_ASSIGNED_TO' => 'Przydzielone do',
 //	'LBL_CANNOT_DELETE_DEFAULT_WORKFLOW' => 'Nie możesz usunąć domyślnego obiegu informacji',
 //	'LBL_CREATED_IN_OLD_LOOK_CANNOT_BE_EDITED' => 'Te warunki zostały skonfigurowane w starszej wersji systemu, możesz pozostawić je bez zmian lub utworzyć ponownie na nowo.',
-//	'LBL_CREATING_WORKFLOW' => 'Utwórz obieg informacji',
+	'LBL_CREATING_PDF' => 'Utwórz szablon pdf',
 //	'LBL_DAYS_START' => 'Aktywne od',
 //	'LBL_DAYS_END' => 'Aktywne do',
-//	'LBL_EDITING_WORKFLOW' => 'Edytuj obieg informacji',
+	'LBL_EDITING_PDF' => 'Edytuj szablon pdf',
 //	'LBL_ENABLE_REPEAT' => 'Włącz powtarzanie',
 //	'LBL_ENABLE_TO_CREATE_FILTERS' => 'Włącz by utworzyć filtr',
 //	'LBL_END_DATE' => 'Czas zakończenia',
 //	'LBL_END_TIME' => 'Czas rozpoczęcia',
-//	'LBL_ENTER_BASIC_DETAILS_OF_THE_WORKFLOW' => 'Wprowadź podstawowe informacje dotyczące obiegu informacji',
+	'LBL_ENTER_BASIC_DETAILS' => 'Wprowadź opis dokumentu',
 //	'LBL_EVENT_NAME' => 'Nazwa zdarzenia',
 //	'LBL_EXAMPLE_EXPRESSION' => 'Wyrażenie',
 //	'LBL_EXAMPLE_FIELD_NAME' => 'Pole',
@@ -38,12 +36,12 @@ $languageStrings = [
 //	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
 //	'LBL_EXPRESSION' => 'Wyrażenie',
 //	'LBL_FIELD_NAME' => 'Pole',
-//	'LBL_FINISH' => 'Zakończ',
+	'LBL_FINISH' => 'Zakończ',
 //	'LBL_IN_ACTIVE' => 'Nieaktywny',
 //	'LBL_METHOD_NAME' => 'Nazwa metody',
 //	'LBL_MODULES_TO_CREATE_RECORD' => 'Moduły dla których można utworzyć rekord',
 	'LBL_NEW' => 'Nowy',
-//	'LBL_NEXT' => 'Następny',
+	'LBL_NEXT' => 'Następny',
 //	'LBL_NO_METHOD_IS_AVAILABLE_FOR_THIS_MODULE' => 'Brak metod aktywnych dla tego modułu',
 //	'LBL_NO_TASKS_ADDED' => 'Brak zadań',
 //	'LBL_NOTIFY_OWNER' => 'notify_owner',
@@ -60,7 +58,7 @@ $languageStrings = [
 //	'LBL_SPECIFY_WHEN_TO_EXECUTE' => 'Określ czas w którym obieg informacji ma się wykonać',
 //	'LBL_START_DATE' => 'Data zakończenia',
 //	'LBL_START_TIME' => 'Data rozpoczęcia',
-//	'LBL_STEP_1' => 'Krok 1',
+	'LBL_STEP_N' => 'Krok %d',
 //	'LBL_TASK_TITLE' => 'Tytuł zadania',
 //	'LBL_TASK_TYPE' => 'Typ zadania', //Duplicated key-value pair
 //	'LBL_THE_SAME_VALUE_IS_USED_FOR_START_DATE' => 'Ta sama wartość jest ustawiona dla daty rozpoczęcenia',
@@ -77,7 +75,14 @@ $languageStrings = [
 //	'ON_EVERY_SAVE' => 'Za każdym razem, gdy rekord jest zapisywany',
 //	'ON_FIRST_SAVE' => 'Tylko przy pierwszym zapisie',
 //	'ON_MODIFY' => 'Za każdym razem, gdy rekord jest modyfikowany',
-//	'SCHEDULE_WORKFLOW' => 'Harmonogram obiegu informacji',
+	'LBL_DOCUMENT_DESCRIPTION' => 'Opis dokumentu',
+	'LBL_DOCUMENT_SETTINGS' => 'Ustawienia dokumentu',
+	'LBL_DOCUMENT_HEADER' => 'Treść nagłówka',
+	'LBL_DOCUMENT_BODY' => 'Treść główna',
+	'LBL_DOCUMENT_FOOTER' => 'Treść stopki',
+	'LBL_DOCUMENT_EXCEPTIONS' => 'Wyjątki',
+	'LBL_DOCUMENT_PERMISSIONS' => 'Uprawnienia',
+	'LBL_DOCUMENT_WATERMARK' => 'Znak wodny',
 //	'Execution Condition' => 'Warunek wykonania',
 	'Module' => 'Moduł',
 //	'Summary' => 'Podsumowanie',
@@ -184,7 +189,7 @@ $jsLanguageStrings = [
 //	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Te same pola zaznaczono więcej niż jedej raz',
 //	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Status zmieniono poprawnie',
 //	'JS_TASK_DELETED_SUCCESSFULLY' => 'Zadanie usunięto poprawnie',
-//	'JS_WORKFLOW_SAVED_SUCCESSFULLY' => 'Obieg informacji zapisano poprawnie',
+	'JS_PDF_SAVED_SUCCESSFULLY' => 'Szablon pdf został zapisany.',
 //	'LBL_STATUS_CONFIRMATION' => 'Czy na pewno chcesz zmienić statusy wszystkich zadań?',
 //	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Zmiana statusu zadań...',
 ];

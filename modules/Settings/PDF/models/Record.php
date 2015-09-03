@@ -1,23 +1,17 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * *********************************************************************************** */
-/*
- * Workflow Record Model Class
+/**
+ * Record Class for PDF Settings
+ * @package YetiForce.Model
+ * @license licenses/License.html
+ * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 
 class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 {
-
+	
 	public function getId()
 	{
-		return $this->get('workflow_id');
+		return $this->get('pdfid');
 	}
 
 	public function getName()
@@ -118,5 +112,33 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		}
 
 		return $links;
+	}
+	
+	public static function getCleanInstance($moduleName)
+	{
+		$pdf = new self;
+		$pdf->set('pdfid', '');
+		$pdf->set('module_name', $moduleName);
+		$pdf->set('summary', '');
+		$pdf->set('cola', '');
+		$pdf->set('colb', '');
+		$pdf->set('colc', '');
+		$pdf->set('cold', '');
+		return $pdf;
+	}
+
+	public function save()
+	{
+		$db = PearDatabase::getInstance();
+		
+		if (!$this->getId()) {
+			$query = 'INSERT INTO `a_yf_pdf` (`module_name`, `summary`, `cola`, `colb`, `colc`, `cold`) VALUES (?, ?, ?, ?, ?, ?);';
+			$params = [$this->get('module_name'),$this->get('summary'),$this->get('cola'),$this->get('colb'),$this->get('colc'),$this->get('cold')];
+			$result = $db->pquery($query, $params);
+			
+			$this->set('pdfid', $db->getLastInsertID());
+			
+			return $this->get('pdfid');
+		}
 	}
 }

@@ -5,9 +5,10 @@ MySQL - 5.6.17
 */
 /*!40101 SET NAMES utf8 */;
 
-CREATE TABLE `yetiforce_pdf` (
+CREATE TABLE `a_yf_pdf` (
   `pdfid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id of record',
   `module_name` varchar(25) NOT NULL COMMENT 'name of the module',
+  `summary` varchar(255) DEFAULT NULL,
   `cola` varchar(255) DEFAULT NULL,
   `colb` varchar(255) DEFAULT NULL,
   `colc` varchar(255) DEFAULT NULL,
