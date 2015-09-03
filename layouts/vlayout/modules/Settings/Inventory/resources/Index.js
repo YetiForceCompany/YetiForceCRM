@@ -109,11 +109,17 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 	 */
 	addDetails: function (details) {
 		var container = jQuery('#inventory');
+		var currency = jQuery('#currency');
+		var symbol = '%';
+		if (currency.length > 0) {
+			var currency = JSON.parse(currency.val());
+			symbol = currency.currency_symbol;
+		}
 		var table = jQuery('.inventoryTable', container);
 		var trElement =
 				jQuery('<tr class="opacity" data-id="' + details.id + '">\n\
 					<td class="textAlignCenter ' + details.row_type + '"><label class="name">' + details.name + '</label></td>\n\
-					<td class="textAlignCenter ' + details.row_type + '"><span class="value">' + details.value + '</span></td>\n\
+					<td class="textAlignCenter ' + details.row_type + '"><span class="value">' + details.value + ' ' + symbol + '</span></td>\n\
 					<td class="textAlignCenter ' + details.row_type + '"><input class="status" type="checkbox" checked>\n\
 						<div class="pull-right actions">\n\
 							<a class="editInventory cursorPointer" data-url="' + details._editurl + '">\n\
@@ -128,8 +134,14 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 	 * Function to update the details in the list after edit
 	 */
 	updateDetails: function (data, currentTrElement) {
+		var currency = jQuery('#currency');
+		var symbol = '%';
+		if (currency.length > 0) {
+			var currency = JSON.parse(currency.val());
+			symbol = currency.currency_symbol;
+		}
 		currentTrElement.find('.name').text(data['name']);
-		currentTrElement.find('.value').text(data['value']); // + %
+		currentTrElement.find('.value').text(data['value'] + ' ' + symbol);
 		if (data['status'] == '0') {
 			currentTrElement.find('.status').prop('checked', true);
 		} else {
@@ -311,7 +323,7 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 
 });
 
-jQuery(document).ready(function(e){
+jQuery(document).ready(function (e) {
 	var instance = new Settings_Inventory_Index_Js();
 	instance.registerEvents();
 })

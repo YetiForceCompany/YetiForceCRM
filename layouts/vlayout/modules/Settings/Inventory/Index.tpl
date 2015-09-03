@@ -1,5 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+{if $VIEW == 'CreditLimits'}
+	{assign var=CURRENCY_BOOL value=true}
+	<input type="hidden" id="currency" value='{Zend_Json::encode($CURRENCY)}' />
+{/if}
 <input type="hidden" id="view" value="{$VIEW}" />
 <div class="" id="inventory">
 	<div class="widget_header">
@@ -24,7 +28,7 @@
 					{foreach item=RECORD from=$INVENTORY_DATA}
 						<tr class="opacity" data-id="{$RECORD->getId()}">
 							<td class="textAlignCenter {$WIDTHTYPE}"><label class="name">{$RECORD->getName()}</label></td>
-							<td class="textAlignCenter {$WIDTHTYPE}"><span class="value">{$RECORD->getValue()}{if $VIEW != 'CreditLimits'}%{/if}</span></td>
+							<td class="textAlignCenter {$WIDTHTYPE}"><span class="value">{$RECORD->getValue()} {if !$CURRENCY_BOOL}%{else}{$CURRENCY.currency_symbol}{/if}</span></td>
 							<td class="textAlignCenter {$WIDTHTYPE}"><input type="checkbox" class="status" {if !$RECORD->getStatus()}checked{/if} />
 								<div class="pull-right actions">
 									<a class="editInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignBottom"></span></a>&nbsp;

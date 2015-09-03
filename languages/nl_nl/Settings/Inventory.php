@@ -17,6 +17,7 @@ $languageStrings = [
 	'LBL_DISCOUNTS_SINGLE' => 'Discount',
 	'LBL_DISCOUNTS' => 'Discounts',
 	'LBL_DISCOUNTS_DESCRIPTION' => ' ',
+	'LBL_DELETE_OK' => 'Successfully removed the value',
 ];
 $jsLanguageStrings = [
 	'JS_SAVE_CHANGES' => 'Changes saved successfully.',

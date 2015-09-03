@@ -22,6 +22,7 @@ class Settings_Inventory_ModalAjax_View extends Settings_Inventory_CreditLimits_
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('TYPE', $type);
+		$viewer->assign('CURRENCY', Vtiger_Util_Helper::getBaseCurrency());
 		echo $viewer->view('Modal.tpl', $qualifiedModuleName, true);
 	}
 }

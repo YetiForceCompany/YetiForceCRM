@@ -5,6 +5,9 @@
 	{if empty($ID)}
 		{assign var=EDIT_VIEW value=false}
 	{/if}
+	{if $TYPE != 'CreditLimits'}
+		{assign var=PERCENTAGE value=true}
+	{/if}
 	<div class='modelContainer modal fade' id="addInventory" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -26,7 +29,7 @@
 									<input class="form-control" type="text" name="name" placeholder="{vtranslate('LBL_ENTER_NAME', $QUALIFIED_MODULE)}" value="{$RECORD_MODEL->getName()}" data-validation-engine='validate[required]' />
 								</div>	
 							</div>
-							{if $TYPE == 'CreditLimits'}
+							{if !$PERCENTAGE}
 								{assign var=VALIDATOR value='Vtiger_Integer_Validator_Js.invokeValidation'}
 							{else}
 								{assign var=VALIDATOR value='Vtiger_Percentage_Validator_Js.invokeValidation'}
@@ -34,9 +37,11 @@
 							<div class="form-group">
 								<label class="col-md-4 control-label">{vtranslate('LBL_VALUE', $QUALIFIED_MODULE)}</label>
 								<div class="col-md-6 controls">
-									<input class="form-control" type="text" name="value" class="input-medium" placeholder="{vtranslate('LBL_ENTER_VALUE', $QUALIFIED_MODULE)}" value="{$RECORD_MODEL->getValue()}" data-validation-engine='validate[required, funcCall[{$VALIDATOR}]]' />
-									{*<span class="input-group-addon">%</span>*}
-								</div>	
+									<div class="input-group">
+										<input class="form-control" type="text" name="value" placeholder="{vtranslate('LBL_ENTER_VALUE', $QUALIFIED_MODULE)}" value="{$RECORD_MODEL->getValue()}" data-validation-engine='validate[required, funcCall[{$VALIDATOR}]]' />
+										<span class="input-group-addon">{if $PERCENTAGE}%{else}{$CURRENCY.currency_symbol}{/if}</span>
+									</div>
+								</div>
 							</div>
 							{if $EDIT_VIEW}
 								<div class="form-group">
