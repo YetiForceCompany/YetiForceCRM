@@ -571,7 +571,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	
 	/**
 	 * Save the inventory data
-	 * @param Vtiger_Request $request 
 	 */
 	public function saveInventoryData()
 	{

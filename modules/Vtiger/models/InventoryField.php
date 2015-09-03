@@ -79,6 +79,11 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $fields;
 	}
 
+	/**
+	 * Check whether this field is active
+	 * @param array $row Field entry from the database
+	 * @return boolean
+	 */
 	public function isActiveField($row)
 	{
 		if (in_array($row['suptype'], ['Discount', 'DiscountMode'])) {
@@ -92,10 +97,10 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Loading the Inventory data
+	 * Get inventory columns
 	 * @param string $module Module name
 	 * @param boolean $returnInBlock Should the result be divided into blocks
-	 * @return array Inventory data
+	 * @return array Inventory columns
 	 */
 	public function getColumns()
 	{
@@ -187,6 +192,11 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $params;
 	}
 
+	/**
+	 * Get Vtiger_InventoryField_Model instance
+	 * @param string $moduleName Module name
+	 * @return \modelClassName Vtiger_InventoryField_Model Instance
+	 */
 	public static function getInstance($moduleName)
 	{
 		$instance = Vtiger_Cache::get('inventoryField', $moduleName);
@@ -199,6 +209,11 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $instance;
 	}
 
+	/**
+	 * Get fields to auto-completion
+	 * @param string $moduleName
+	 * @return array
+	 */
 	public function getAutoCompleteField($moduleName)
 	{
 		$db = PearDatabase::getInstance();
@@ -215,6 +230,13 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $fields;
 	}
 
+	/**
+	 * Get configuration parameters for taxes
+	 * @param string $taxParam String parameters json encode
+	 * @param int $net net price
+	 * @param array $return
+	 * @return array
+	 */
 	public static function getTaxParam($taxParam, $net, $return = false)
 	{
 		$taxParam = json_decode($taxParam, true);
@@ -234,6 +256,11 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $return;
 	}
 
+	/**
+	 * Get related field name
+	 * @param string $mainModule Module Name
+	 * @return string
+	 */
 	public function getReferenceField($mainModule = 'Accounts')
 	{
 		$relationField = $this->get('relationField' . $mainModule);
@@ -254,6 +281,11 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $relationField;
 	}
 
+	/**
+	 * Whether the module should be turned on Wysiwyg
+	 * @param string $moduleName Module Name
+	 * @return boolean|int
+	 */
 	public function isWysiwygType($moduleName)
 	{
 		if (!$moduleName) {
@@ -273,6 +305,11 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $return;
 	}
 
+	/**
+	 * Get field name for the module taxes
+	 * @param string $moduleName Module name
+	 * @return string Tax field name
+	 */
 	public function getTaxField($moduleName)
 	{
 		$cache = Vtiger_Cache::get('InventoryIsGetTaxField', $moduleName);
@@ -295,6 +332,13 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $return;
 	}
 
+	/**
+	 * Get the value to save
+	 * @param Vtiger_Request $request
+	 * @param string $field Field name
+	 * @param int $i Sequence number
+	 * @return string
+	 */
 	public function getValueForSave(Vtiger_Request $request, $field, $i)
 	{
 		$value = '';
@@ -313,6 +357,11 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $value;
 	}
 
+	/**
+	 * Creating a new field
+	 * @param string $type
+	 * @param array $params
+	 */
 	public function addField($type, $params)
 	{
 		$adb = PearDatabase::getInstance();

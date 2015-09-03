@@ -9,6 +9,11 @@
 class Vtiger_Inventory_Model
 {
 
+	/**
+	 * Get invnetory instance
+	 * @param string $moduleName Module name
+	 * @return Vtiger_Inventory_Model instance
+	 */
 	public static function getInstance($moduleName)
 	{
 		$instance = Vtiger_Cache::get('Inventory', $moduleName);
@@ -22,6 +27,10 @@ class Vtiger_Inventory_Model
 
 	protected static $discountsConfig = false;
 
+	/**
+	 * Get discounts configuration
+	 * @return array config data
+	 */
 	public static function getDiscountsConfig()
 	{
 		if (self::$discountsConfig != false) {
@@ -42,6 +51,10 @@ class Vtiger_Inventory_Model
 		return $config;
 	}
 
+	/**
+	 * Get global giscounts list
+	 * @return array giscounts list
+	 */
 	public function getGlobalDiscounts()
 	{
 		$db = PearDatabase::getInstance();
@@ -55,6 +68,10 @@ class Vtiger_Inventory_Model
 
 	protected static $taxsConfig = false;
 
+	/**
+	 * Get tax configuration
+	 * @return array config data
+	 */
 	public static function getTaxesConfig()
 	{
 		if (self::$taxsConfig != false) {
@@ -75,6 +92,10 @@ class Vtiger_Inventory_Model
 		return $config;
 	}
 
+	/**
+	 * Get global tax list
+	 * @return array tax list
+	 */
 	public function getGlobalTaxs()
 	{
 		$db = PearDatabase::getInstance();
@@ -85,7 +106,13 @@ class Vtiger_Inventory_Model
 		}
 		return $config;
 	}
-	
+
+	/**
+	 * Get discount from the account
+	 * @param string $moduleName Module name
+	 * @param int $record Record ID
+	 * @return array
+	 */
 	public function getAccountDiscount($moduleName, $record)
 	{
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
@@ -105,7 +132,13 @@ class Vtiger_Inventory_Model
 
 		return ['discount' => $discount, 'name' => $name];
 	}
-	
+
+	/**
+	 * Get tax from the account
+	 * @param string $moduleName Module name
+	 * @param int $record Record ID
+	 * @return array
+	 */
 	public function getAccountTax($moduleName, $record)
 	{
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
