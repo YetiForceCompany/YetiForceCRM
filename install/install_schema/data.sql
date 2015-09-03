@@ -6037,7 +6037,7 @@ insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) val
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('email_list','target','_blank');
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('email_list','permissions','vtiger');
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('exceptions','crating_mails',NULL);
-insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('exceptions','crating_mails',NULL);
+insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('exceptions','crating_tickets',NULL);
 
 /*Data for the table `vtiger_ossmailscanner_folders_uid` */
 
