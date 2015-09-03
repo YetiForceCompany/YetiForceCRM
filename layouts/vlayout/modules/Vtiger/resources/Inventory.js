@@ -604,7 +604,10 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var currencyId = thisInstance.getCurrency();
 			if (typeof unitPriceValues[currencyId] !== 'undefined') {
 				thisInstance.setUnitPrice(parentRow, unitPriceValues[currencyId]);
+			}else{
+				thisInstance.setUnitPrice(parentRow, recordData.price);
 			}
+			
 			$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
 			$('textarea.commentTextarea', parentRow).val(description);
 		}
