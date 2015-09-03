@@ -11,15 +11,15 @@
 			</div>
 			<div class="col-md-10 userDetails">
 				<div class="pull-right">
-					{foreach key=index item=obj from=$HEADER_LINKS}
-						{if $obj->linktype == 'HEADERLINK'}
-							{assign var="HREF" value='#'}
-							{assign var="ICON_PATH" value=$obj->getIconPath()}
-							{assign var="LINK" value=$obj->convertToNativeLink()}
-							{assign var="GLYPHICON" value=$obj->getGlyphiconIcon()}
-							{assign var="TITLE" value=$obj->getLabel()}
-							{assign var="CHILD_LINKS" value=$obj->getChildLinks()}
-							<ul class="headerLink noSpaces">
+					<ul class="headerLink noSpaces">
+						{foreach key=index item=obj from=$HEADER_LINKS}
+							{if $obj->linktype == 'HEADERLINK'}
+								{assign var="HREF" value='#'}
+								{assign var="ICON_PATH" value=$obj->getIconPath()}
+								{assign var="LINK" value=$obj->convertToNativeLink()}
+								{assign var="GLYPHICON" value=$obj->getGlyphiconIcon()}
+								{assign var="TITLE" value=$obj->getLabel()}
+								{assign var="CHILD_LINKS" value=$obj->getChildLinks()}
 								<li class="dropdown">
 									{if !empty($LINK)}
 										{assign var="HREF" value=$LINK}
@@ -57,9 +57,9 @@
 										</ul>
 									{/if}
 								</li>
-							</ul>
-						{/if}
-					{/foreach}
+							{/if}
+						{/foreach}
+					</ul>
 				</div>
 				<p class="noSpaces name">{$CURRENT_USER_MODEL->get('first_name')}&nbsp;</p>
 				<p class="noSpaces name">{$CURRENT_USER_MODEL->get('last_name')}&nbsp;</p>

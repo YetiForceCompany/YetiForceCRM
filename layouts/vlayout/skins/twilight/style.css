@@ -3395,7 +3395,8 @@ span[name=existingImages] img{
 	font-size: 20px;
 }
 .globalSearchInput{
-	width: 150px;
+	width: 450px;
+	margin-top: 5px;
 }
 #groupsDetailContainer strong{
 	line-height: 21px;
@@ -3776,13 +3777,11 @@ display: block;
 	margin: 10px 0;
 	text-transform: uppercase;
 }
-ul.headerLink{
-	display: inline-block;
-	margin-right: 5px;
-	margin-top: 5px;
-}
 ul.headerLink li{
 	list-style-type: none;
+	display: inline-block;
+	margin-right: 8px;
+	margin-top: 5px;
 }
 .userDetails{
 	padding-right: 0;
