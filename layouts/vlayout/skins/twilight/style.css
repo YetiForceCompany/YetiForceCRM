@@ -345,20 +345,8 @@ hr {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-.mainContainer {
-	min-height: 500px;
-	margin-top: 103px;
-	background: #eeeff2;
-	min-width: 1200px;
-}
-.mainContainer > .col-md-2 {
-	// padding: 0 1.06383%;
-	height: auto !important;
-	// min-width: 174px;
-}
 .mainContainer .contentsDiv {
 	min-height: 500px;
-	background: #fafafb;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -3676,13 +3664,11 @@ span[name=existingImages] img{
 
 
 .leftPanel{
-	background-color: #2f333f;
-}
-.leftPanel a{
-	color: #e3e9f0;
+	background-color: #eee;
+	display: table-cell;
 }
 .bodyHeader{
-	background-color: #444853;
+	background-color: #222;
 }
 .mainPanel{
 
@@ -3721,29 +3707,20 @@ html,body,.baseContainer
     margin-top: -48px;
     padding-top: 48px;
 }
-.leftPanel
-{
-    display: table-cell;
-}
 .basePanel
 {
     display: table-cell;
 }
 .userDetailsContainer{
-	background-color: #a44042;
 	padding-right: 0;
 }
 .userActionContainer{
-	background-color: #ad5154;
 	padding-right: 0;
 }
 .companyLogoContainer{
 	display: block;
     width: 50px;
     padding: 5px;
-}
-.userDetails, .bodyHeader{
-	color: #fff;
 }
 .bodyHeader .moduleIcon{
 	width: 34px;
