@@ -55,4 +55,5 @@
 		<div id="page">
 			<!-- container which holds data temporarly for pjax calls -->
 			<div id="pjaxContainer" class="hide noprint"></div>
+			{include file='Body.tpl'|@vtemplate_path:$MODULE}
 {/strip}

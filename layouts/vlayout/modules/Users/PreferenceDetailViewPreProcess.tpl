@@ -9,13 +9,9 @@
 *
  ********************************************************************************/
 -->*}
-
 {strip}
 {include file="Header.tpl"|vtemplate_path:$MODULE}
-{include file="BasicHeader.tpl"|vtemplate_path:$MODULE}
-
 <div class="bodyContents">
 	<div class="mainContainer">
 				{include file="PreferenceDetailViewHeader.tpl"|vtemplate_path:$MODULE}
-
 {/strip}

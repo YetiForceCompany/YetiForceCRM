@@ -11,8 +11,6 @@
 -->*}
 {strip}
 {include file="Header.tpl"|vtemplate_path:$MODULE}
-{include file="BasicHeader.tpl"|vtemplate_path:$MODULE}
-
 <div class="bodyContents" style='min-width:1200px'>
 	<div class="mainContainer">
 		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}

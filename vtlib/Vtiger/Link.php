@@ -24,6 +24,7 @@ class Vtiger_Link
 	var $linklabel;
 	var $linkurl;
 	var $linkicon;
+	var $glyphicon;
 	var $sequence;
 	var $status = false;
 	var $handler_path;
@@ -52,6 +53,7 @@ class Vtiger_Link
 		$this->linklabel = $valuemap['linklabel'];
 		$this->linkurl = decode_html($valuemap['linkurl']);
 		$this->linkicon = decode_html($valuemap['linkicon']);
+		$this->glyphicon = $valuemap['glyphicon'];
 		$this->sequence = $valuemap['sequence'];
 		$this->status = $valuemap['status'];
 		$this->handler_path = $valuemap['handler_path'];
