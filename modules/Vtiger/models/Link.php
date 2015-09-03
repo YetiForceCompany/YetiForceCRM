@@ -79,15 +79,6 @@ class Vtiger_Link_Model extends Vtiger_Link
 	{
 		return $this->linkicon;
 	}
-	
-	/**
-	 * Function to get the link glyphicon name
-	 * @return <String>
-	 */
-	public function getGlyphiconIcon()
-	{
-		return $this->glyphicon;
-	}
 
 	/**
 	 * Function to check whether link has icon or not

@@ -18,23 +18,6 @@ class Users_Login_View extends Vtiger_View_Controller {
 		return true;
 	}
 	
-	function preProcess (Vtiger_Request $request, $display=true) {
-		parent::preProcess($request, false);
-		$viewer = $this->getViewer($request);
-		
-		$selectedModule = $request->getModule();
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
-		$companyLogo = $companyDetails->getLogo();
-		$viewer->assign('MODULE', $selectedModule);
-		$viewer->assign('MODULE_NAME', $selectedModule);
-		$viewer->assign('VIEW', $request->get('view'));
-		$viewer->assign('COMPANY_LOGO',$companyLogo);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		if($display) {
-			$this->preProcessDisplay($request);
-		}
-	}
-	
 	public function postProcess(Vtiger_Request $request) {	}
 	
 	function process (Vtiger_Request $request) {

@@ -9,8 +9,10 @@
 *
  ********************************************************************************/
 -->*}
-{strip}
 {include file="Header.tpl"|vtemplate_path:$MODULE}
+{include file="BasicHeader.tpl"|vtemplate_path:$MODULE}
+
+{strip}
 {if $LOAD_OLD}
     <div class="bodyContents">
         <div class="mainContainer">

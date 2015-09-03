@@ -1131,13 +1131,13 @@ jQuery(document).ready(function () {
 	app.showSelectizeElementView(jQuery('body').find('select.selectize'));
 	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
-	//app.setContentsHeight();
+	app.setContentsHeight();
 
 	//Updating row height
 	app.updateRowHeight();
 
 	jQuery(window).resize(function () {
-		//app.setContentsHeight();
+		app.setContentsHeight();
 	})
 
 	String.prototype.toCamelCase = function () {
