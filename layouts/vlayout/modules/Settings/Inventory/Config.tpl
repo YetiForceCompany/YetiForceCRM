@@ -25,7 +25,7 @@
 			<div class="col-md-6">
 				<select class="select2" name="aggregation">
 					{foreach  item=LABEL key=KEY from=Settings_Inventory_Module_Model::getPicklistValues('aggregation')}
-						<option value="{$KEY}" {if $KEY eq $CONFIG.active} selected {/if}>{vtranslate($LABEL, $QUALIFIED_MODULE)}</option>
+						<option value="{$KEY}" {if $KEY eq $CONFIG.aggregation} selected {/if}>{vtranslate($LABEL, $QUALIFIED_MODULE)}</option>
 					{/foreach}
 				</select>
 			</div>
