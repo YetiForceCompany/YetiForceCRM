@@ -316,7 +316,7 @@ hr {
 }
 .commonActionsContainer .quickActions {
 	height: 3em;
-
+	margin: 0 8px;
 }
 .commonActionsContainer .quickActions img {
 	height: 60%;
@@ -3678,9 +3678,18 @@ span[name=existingImages] img{
 .leftPanel .nav > li > a:focus, .leftPanel .nav > li > a.active{
 	background-color: #337ab7;
 }
-.leftPanel .nav > li .collapse.in a.active{
-	background-color: #eee;
+.leftPanel .nav > li .collapse.in .menuModule a.active, .leftPanel .nav .menuModule a.active{
+	background-color: #fff;
 	color: #000;
+}
+.leftPanel .menuModule a.isImage{
+    padding: 7px 4px;
+}
+.leftPanel .menuModule a img{
+    padding-right: 10px;
+}
+.leftPanel .nav a{
+	text-transform: uppercase;
 }
 .nav-pills > li > a{
 	border-radius: 0;
@@ -3702,9 +3711,6 @@ span[name=existingImages] img{
 .bodyHeader{
 	background-color: #f8f8f8;
     border-color: #e7e7e7;
-}
-.mainPanel{
-
 }
 .noSpaces{
 	padding: 0;
@@ -3746,9 +3752,16 @@ html,body,.baseContainer
 }
 .userDetailsContainer{
 	padding-right: 0;
+    padding-left: 0;
+	background-color: #428bca;
 }
 .userActionContainer{
 	padding-right: 0;
+	background-color: #428bca;
+}
+.userActionContainer a{
+	padding: 5px;
+display: block;
 }
 .companyLogoContainer{
 	display: block;
@@ -3757,7 +3770,7 @@ html,body,.baseContainer
 }
 .bodyHeader .moduleIcon{
 	width: 34px;
-	margin: 7px;
+	margin: 5px;
 }
 .mainModuleTitle{
 	margin: 10px 0;

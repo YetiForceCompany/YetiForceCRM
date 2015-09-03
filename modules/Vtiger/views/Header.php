@@ -50,21 +50,49 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$headerLinks = [];
 		if ($userModel->isAdminUser()) {
-			$crmSettingsLink = array(
+			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_SYSTEM_SETTINGS',
 				'linkurl' => 'index.php?module=Vtiger&parent=Settings&view=Index',
 				'glyphicon' => 'glyphicon glyphicon-cog',
-			);
-			array_push($headerLinks, $crmSettingsLink);
+			];
 		}
-		$userPersonalSettingsLinks = array(
+		$headerLinks[] = [
 			'linktype' => 'HEADERLINK',
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
 			'glyphicon' => 'glyphicon glyphicon-off',
-		);
-		array_push($headerLinks, $userPersonalSettingsLinks);
+		];
+		$headerLinks[] = [
+			'linktype' => 'USERACTION',
+			'linklabel' => '1111',
+			'glyphicon' => 'glyphicon glyphicon-list',
+			'span' => '3',
+		];
+		$headerLinks[] = [
+			'linktype' => 'USERACTION',
+			'linklabel' => '2222',
+			'glyphicon' => 'glyphicon glyphicon-bell',
+			'span' => '3',
+		];
+		$headerLinks[] = [
+			'linktype' => 'USERACTION',
+			'linklabel' => '3333',
+			'glyphicon' => 'glyphicon glyphicon-comment',
+			'span' => '2',
+		];
+		$headerLinks[] = [
+			'linktype' => 'USERACTION',
+			'linklabel' => '444',
+			'glyphicon' => 'glyphicon glyphicon-user',
+			'span' => '2',
+		];
+		$headerLinks[] = [
+			'linktype' => 'USERACTION',
+			'linklabel' => '555',
+			'glyphicon' => 'glyphicon glyphicon-cog',
+			'span' => '2',
+		];
 		$headerLinkInstances = [];
 		foreach ($headerLinks as $headerLink) {
 			$headerLinkInstance = Vtiger_Link_Model::getInstanceFromValues($headerLink);
