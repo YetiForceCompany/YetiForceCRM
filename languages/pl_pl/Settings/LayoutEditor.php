@@ -98,6 +98,14 @@ $languageStrings = [
 	'PLL_DEPENDENTS_LIST' => 'Jeden do wielu',
 	'PLL_ADD' => 'Tworzenie',
 	'PLL_SELECT' => 'Wybieranie',
+	
+	// inventory tab
+	'LBL_MANAGING_AN_ADVANCED_BLOCK' => 'Zarządzanie blokiem zaawansowanym',
+	'LBL_HEADLINE' => 'Nagłówek',
+	'LBL_BASIC_VERSE' => 'Wiersz podstawowy',
+	'LBL_ADDITIONAL_VERSE' => 'Wiersz dodatkowy',
+	'LBL_ADVANCED_MODULE' => 'Zaawansowany',
+	'LBL_BASIC_MODULE' => 'Podstawowy',
 ];
 
 $jsLanguageStrings = [

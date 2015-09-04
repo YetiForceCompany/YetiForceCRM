@@ -82,7 +82,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	updateBlocksListByOrder: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
-		contents.find('.editFieldsTable').each(function (index, domElement) {
+		contents.find('.editFieldsTable.blockSortable').each(function (index, domElement) {
 			var blockTable = jQuery(domElement);
 			var blockId = blockTable.data('blockId');
 			var actualBlockSequence = blockTable.data('sequence');
@@ -346,35 +346,52 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
 		var table = contents.find('.editFieldsTable');
-		table.find('ul[name=sortable1], ul[name=sortable2]').sortable({
-			'containment': '#moduleBlocks',
-			'revert': true,
-			'tolerance': 'pointer',
-			'cursor': 'move',
-			'connectWith': '.connectedSortable',
-			'update': function (e, ui) {
-				var currentField = ui['item'];
-				thisInstance.showSaveFieldSequenceButton();
-				thisInstance.createUpdatedBlocksList(currentField);
-				// rearrange the older block fields
-				if (ui.sender) {
-					var olderBlock = ui.sender.closest('.editFieldsTable');
-					thisInstance.reArrangeBlockFields(olderBlock);
+		table.each(function(){
+			var containment = jQuery(this).closest('.moduleBlocks');
+			jQuery(this).find('ul[name=sortable1], ul[name=sortable2]').sortable({
+				'containment': containment,
+				'revert': true,
+				'tolerance': 'pointer',
+				'cursor': 'move',
+				'connectWith': containment.find('.connectedSortable'),
+				'update': function (e, ui) {
+					var currentField = ui['item'];
+					if(currentField.closest('.moduleBlocks').hasClass('inventoryBlock')){
+						thisInstance.showSaveFieldSequenceButton(thisInstance.getInventoryViewLayout());
+					}else{
+						thisInstance.showSaveFieldSequenceButton(thisInstance.getDetailViewLayout());
+						thisInstance.createUpdatedBlocksList(currentField);
+						// rearrange the older block fields
+						if (ui.sender) {
+							var olderBlock = ui.sender.closest('.editFieldsTable');
+							thisInstance.reArrangeBlockFields(olderBlock);
+						}	
+					}
+					
 				}
-			}
-		});
+			});
+		})
+		
+	},
+	getDetailViewLayout: function(){
+		return jQuery('#detailViewLayout');
+	},
+	getInventoryViewLayout: function(){
+		return jQuery('#inventoryViewLayout');
 	},
 	/**
 	 * Function to show the save button of fieldSequence
 	 */
-	showSaveFieldSequenceButton: function () {
+	showSaveFieldSequenceButton: function (layout) {
 		var thisInstance = this;
-		var layout = jQuery('#detailViewLayout');
 		var saveButton = layout.find('.saveFieldSequence');
-		if (app.isHidden(saveButton)) {
-			thisInstance.updatedBlocksList = [];
-			thisInstance.updatedBlockFieldsList = [];
+		if (app.isHidden(saveButton) || app.isInvisible(saveButton)) {
+			if(!saveButton.hasClass('inventorySequence')){
+				thisInstance.updatedBlocksList = [];
+				thisInstance.updatedBlockFieldsList = [];
+			}
 			saveButton.removeClass('hide');
+			saveButton.removeClass('invisible');
 			var params = {};
 			params['text'] = app.vtranslate('JS_SAVE_THE_CHANGES_TO_UPDATE_FIELD_SEQUENCE');
 			Settings_Vtiger_Index_Js.showMessage(params);
@@ -1692,6 +1709,14 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	addClickOutSideEvent: function (element, callbackFunction) {
 		element.one('clickoutside', callbackFunction);
 	},
+	registerSwitch: function () {
+		var container = jQuery('#layoutEditorContainer');
+		app.showBtnSwitch(container.find('.switchBtn'))
+		var inventoryNav = container.find('.inventoryNav');
+		container.find('#inventorySwitch').on('switchChange.bootstrapSwitch', function (event, state) {
+			window.location.reload();
+		});
+	},
 	/**
 	 * register events for layout editor
 	 */
@@ -1712,6 +1737,8 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			thisInstance.registerRelatedListEvents();
 			thisInstance.makeRelatedModuleSortable();
 		}
+		
+		thisInstance.registerSwitch();
 	}
 
 });
