@@ -410,8 +410,9 @@ class PearDatabase
 			}
 			$insert = 'INSERT INTO ' . $table . ' (' . $columns . ') VALUES (' . $this->generateQuestionMarks($data) . ')';
 			$this->pquery($insert, $data);
+			return ['rowCount' => $stmt->rowCount(), 'id' => $this->database->lastInsertId()];
 		}
-		return $insert;
+		return false;
 	}
 
 	function delete($table, $where = '', $params = [])
