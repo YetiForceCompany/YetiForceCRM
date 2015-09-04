@@ -11,7 +11,7 @@
 						<img src="{vimage_path($IMAGE)}" alt="{vtranslate($MODULE, $MODULE)}" class="moduleIcon" />
 					{/if}
 				</div>
-				<h3 class="mainModuleTitle">{vtranslate($MODULE, $MODULE)}</h3>
+				<h3 class="mainModuleTitle">{vtranslate($PAGETITLE, $QUALIFIED_MODULE)}</h3>
 			</div>
 			<div class="col-md-9 rightHeader">
 				<div class="pull-right">
@@ -63,6 +63,11 @@
 				</div>
 				<div class="pull-right select-search">
 					<div class="input-group globalSearchInput">
+						<span class="input-group-btn">
+							<button class="btn btn-default" id="globalSearch" title="{vtranslate('LBL_ADVANCE_SEARCH')}" type="button">
+								<span class="glyphicon glyphicon-th-large"></span>
+							</button>
+						</span>
 						<span class="input-group-btn">
 							<select class="chzn-select col-md-5" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}" id="basicSearchModulesList" >
 								<option value="" class="globalSearch_module_All">{vtranslate('LBL_ALL_RECORDS', $MODULE_NAME)}</option>

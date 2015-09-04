@@ -16,7 +16,10 @@
 				<div class="btn-toolbar col-md-4">
 					<div class="btn-group listViewMassActions">
 						{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
-							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
+							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+								&nbsp;&nbsp;<span class="caret"></span>
+							</button>
 							<ul class="dropdown-menu">
 								{foreach item=SIDEBARLINK from=$QUICK_LINKS['SIDEBARLINK']}
 									{assign var=SIDE_LINK_URL value=decode_html($SIDEBARLINK->getUrl())}
@@ -30,10 +33,11 @@
 									{assign var="LINK_LIST_VIEW" value=in_array($CURRENT_LINK_VIEW,$PARSE_URL)}
 									{assign var="CURRENT_MODULE_NAME" value='module='|cat:$MODULE}
 									{assign var="IS_LINK_MODULE_NAME" value=in_array($CURRENT_MODULE_NAME,$PARSE_URL)}
-									<p onclick="window.location.href = '{$SIDEBARLINK->getUrl()}'" id="{$MODULE}_sideBar_link_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARLINK->getLabel())}"
-									   class="{if $LINK_LIST_VIEW and $IS_LINK_MODULE_NAME}selectedQuickLink {else}unSelectedQuickLink{/if}"><a class="quickLinks" href="{$SIDEBARLINK->getUrl()}">
+									<li>
+										<a class="quickLinks" href="{$SIDEBARLINK->getUrl()}">
 											<strong>{vtranslate($SIDEBARLINK->getLabel(), $MODULE)}</strong>
-										</a></p>
+										</a>
+									</li>
 									{/foreach}
 							</ul>
 						{/if}

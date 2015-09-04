@@ -839,13 +839,6 @@ var app = {
 		return key;
 	},
 	/**
-	 * Function which will set the contents height to window height
-	 */
-	setContentsHeight: function () {
-		var borderTopWidth = parseInt(jQuery(".mainContainer").css('margin-top')) + 21; // (footer height 21px)
-		jQuery('.bodyContents').css('min-height', (jQuery(window).innerHeight() - borderTopWidth));
-	},
-	/**
 	 * Function will return the current users layout + skin path
 	 * @param <string> img - image name
 	 * @return <string>
@@ -1131,14 +1124,9 @@ jQuery(document).ready(function () {
 	app.showSelectizeElementView(jQuery('body').find('select.selectize'));
 	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
-	//app.setContentsHeight();
 
 	//Updating row height
 	app.updateRowHeight();
-
-	jQuery(window).resize(function () {
-		//app.setContentsHeight();
-	})
 
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();

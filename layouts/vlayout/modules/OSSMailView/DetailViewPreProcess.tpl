@@ -13,13 +13,6 @@
 {include file="Header.tpl"|vtemplate_path:$MODULE}
 <div class="bodyContents">
 	<div class="mainContainer">
-		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-		<div class="col-md-2{if $LEFTPANELHIDE eq '1'} hide {/if}" id="leftPanel">
-			{include file="DetailViewSidebar.tpl"|vtemplate_path:$MODULE_NAME}
-		</div>
-		<div class="contentsDiv {if $LEFTPANELHIDE neq '1'} col-md-10 {else} col-md-12 {/if}marginLeftZero" id="centerPanel">
-			<div id="toggleButton" class="toggleButton" title="Left Panel Show/Hide"> 
-				<span id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></span>
-			</div>
+		<div class="contentsDiv">
 				{include file="DetailViewHeader.tpl"|vtemplate_path:'OSSMailView'}
 {/strip}

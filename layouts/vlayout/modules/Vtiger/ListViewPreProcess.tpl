@@ -13,6 +13,6 @@
 	{include file="Header.tpl"|vtemplate_path:$MODULE}
 	<div class="bodyContents">
 		<div class="mainContainer">
-			<div class="contentsDiv col-md-12 marginLeftZero" id="centerPanel">
+			<div class="contentsDiv">
 				{include file="ListViewHeader.tpl"|vtemplate_path:$MODULE}
 			{/strip}

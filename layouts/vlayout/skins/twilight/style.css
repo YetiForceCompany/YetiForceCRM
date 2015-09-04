@@ -351,7 +351,6 @@ hr {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	word-wrap: break-word;
-	border-left: 1px solid #e6e6e6;
 	position: relative;
 }
 .mainContainer #leftPanel {
@@ -3666,7 +3665,7 @@ span[name=existingImages] img{
 
 .leftPanel{
     background-color: #222;
-    border-color: #080808;
+	border-right: 1px solid #080808;
 	color: #fff;
 	display: table-cell;
 }
@@ -3688,9 +3687,6 @@ span[name=existingImages] img{
 }
 .leftPanel .menuModule a img{
     padding-right: 10px;
-}
-.leftPanel .nav a{
-	text-transform: uppercase;
 }
 .nav-pills > li > a{
 	border-radius: 0;
@@ -3743,9 +3739,14 @@ html,body,.baseContainer
 .bodyContent{
     min-height: 100%;
     height: 100%;
-	overflow: auto;
     margin-top: -48px;
     padding-top: 48px;
+}
+.bodyContents{
+padding: 0 10px;
+}
+.bodyContent::after{
+clear: both;
 }
 .basePanel
 {
@@ -3762,7 +3763,8 @@ html,body,.baseContainer
 }
 .userActionContainer a{
 	padding: 5px;
-display: block;
+	display: block;
+	font-size: 20px;
 }
 .companyLogoContainer{
 	display: block;
@@ -3792,4 +3794,7 @@ ul.headerLink li{
 }
 .menuContainer{
 	overflow: auto;
+}
+.globalSearchInput .chosen-container-single .chosen-single span{
+	min-width: 130px;
 }
