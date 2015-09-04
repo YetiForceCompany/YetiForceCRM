@@ -147,8 +147,8 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$adb = PearDatabase::getInstance();
 		$id = FALSE;
 		$return = [];
-		if (isset($params['crmid']['mailviewid'])) {
-			$id = $params['crmid']['mailviewid'];
+		if (isset($params['crmid']['id'])) {
+			$id = $params['crmid']['id'];
 		} else {
 			$result = $adb->pquery('SELECT ossmailviewid FROM vtiger_ossmailview WHERE id = ? AND mbox = ?', [$params['uid'], $params['folder']]);
 			if ($adb->num_rows($result) > 0) {
