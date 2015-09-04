@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-    <div class="pdfTemplateContents" style="padding-left: 3%;padding-right: 3%">
+    <div class="pdfTemplateContents leftRightPadding3p">
         <form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step1" class="form-horizontal">
             <input type="hidden" name="module" value="PDF">
             <input type="hidden" name="view" value="Edit">
@@ -9,7 +9,7 @@
             <input type="hidden" class="step" value="1" />
             <input type="hidden" name="record" value="{$RECORDID}" />
 
-            <div class="padding1per" style="border:1px solid #ccc;">
+            <div class="padding1per stepBorder">
                 <label>
                     <strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 1)}: {vtranslate('LBL_ENTER_BASIC_DETAILS',$QUALIFIED_MODULE)}</strong>
                 </label>
@@ -49,7 +49,7 @@
 			<br>
 			<div class="pull-right">
 				<button class="btn btn-success" type="submit" disabled="disabled"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-				<button class="btn btn-warning cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+				<button class="btn btn-warning cancelLink" type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 			</div>
 		</form>
 	</div>

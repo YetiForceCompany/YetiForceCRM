@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<div class="listViewPageDiv">
+<div class="listViewPageDiv" id="listViewContainer">
 	<div class="listViewTopMenuDiv">
         <div class="row">
             <div class="col-md-12">
@@ -10,8 +10,7 @@
         <hr>
 		<div class="row">
 			<div class="col-md-4 btn-toolbar">
-				<button class="btn btn-default addButton" {if stripos($MODULE_MODEL->getCreateViewUrl(), 'javascript:')===0} onclick="{$MODULE_MODEL->getCreateViewUrl()|substr:strlen('javascript:')};"
-                        {else} onclick='window.location.href="{$MODULE_MODEL->getCreateViewUrl()}"' {/if}>
+				<button class="btn btn-default addButton" id="addButton" data-url="{Settings_PDF_Module_Model::getCreateRecordUrl()}">
 					<i class="glyphicon glyphicon-plus"></i>&nbsp;
 					<strong>{vtranslate('LBL_NEW', $QUALIFIED_MODULE)} {vtranslate('LBL_PDF_TEMPLATE',$QUALIFIED_MODULE)}</strong>
 				</button>

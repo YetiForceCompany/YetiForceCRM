@@ -12,12 +12,11 @@
 <input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 <input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-<div class="listViewEntriesDiv" style='overflow-x:auto;'>
+<div class="listViewEntriesDiv overflowXAuto">
 	<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
 		<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{vtranslate('LBL_LOADING', $MODULE)}"/>
 		<p class="listViewLoadingMsg">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
 	</span>
-	{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 	{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 	<table class="table table-bordered table-condensed listViewEntriesTable">
 		<thead>
@@ -37,18 +36,9 @@
 			<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"
 					{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
 			 >
-			<td width="1%" nowrap class="{$WIDTHTYPE}">
-				{if $MODULE eq 'CronTasks'}
-					<img src="{vimage_path('drag.png')}" class="alignTop" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}" />
-				{/if}
-			</td>
+			<td width="1%" nowrap class="{$WIDTHTYPE}"></td>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-					{if $LISTVIEW_HEADERNAME eq 'all_tasks'}
-						{assign var=ALL_TASKS value=$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
-					{else if $LISTVIEW_HEADERNAME eq 'active_tasks'}
-						{assign var=ACTIVE_TASKS value=$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
-					{/if}
 					{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
 					<td class="listViewEntryValue {$WIDTHTYPE}" data-name="{$LISTVIEW_HEADERNAME}" width="{$WIDTH}%" nowrap>
 						&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
@@ -60,11 +50,7 @@
 											
 											{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
 											<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if(event.stopPropagation){ldelim}event.stopPropagation();{rdelim}else{ldelim}event.cancelBubble=true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}
-											class="{$RECORD_LINK->get('class')} {if $RECORD_LINK->getLabel() eq 'LBL_ACTIVATION_TASKS' && $ACTIVE_TASKS eq $ALL_TASKS}
-												hide 
-											{else if $RECORD_LINK->getLabel() eq 'LBL_DEACTIVATION_TASKS' && $ACTIVE_TASKS eq 0}
-												hide
-											{/if}" >
+											class="{$RECORD_LINK->get('class')}">
 												<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{vtranslate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 											</a>
 											{if !$RECORD_LINK@last}

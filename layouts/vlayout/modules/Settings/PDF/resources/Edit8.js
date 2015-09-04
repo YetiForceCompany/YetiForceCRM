@@ -27,7 +27,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 	 * Function  to intialize the reports step1
 	 */
 	initialize: function (container) {
-		if (typeof container == 'undefined') {
+		if (typeof container === 'undefined') {
 			container = jQuery('#pdf_step8');
 		}
 		if (container.is('#pdf_step8')) {
@@ -70,9 +70,16 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 		);
 		return aDeferred.promise();
 	},
+	
+	registerCancelStepClickEvent: function(form) {
+		jQuery('button.cancelLink', form).on('click', function() {
+			window.history.back();
+		});
+	},
 
 	registerEvents: function () {
 		var container = this.getContainer();
 		app.changeSelectElementView(container);
+		this.registerCancelStepClickEvent(container);
 	}
 });

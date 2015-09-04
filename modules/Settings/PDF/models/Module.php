@@ -29,7 +29,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getCreateViewUrl()
 	{
-		return "javascript:Settings_PDF_List_Js.triggerCreate('index.php?module=PDF&parent=Settings&view=Edit')";
+		return "javascript:Settings_PDF_List_Js.triggerCreate('".self::getCreateRecordUrl()."')";
 	}
 
 	public static function getCreateRecordUrl()
@@ -42,9 +42,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleModels = Vtiger_Module_Model::getAll(array(0, 2));
 		$supportedModuleModels = array();
 		foreach ($moduleModels as $tabId => $moduleModel) {
-			if ($moduleModel->isWorkflowSupported()) {
-				$supportedModuleModels[$tabId] = $moduleModel;
-			}
+			$supportedModuleModels[$tabId] = $moduleModel;
 		}
 		return $supportedModuleModels;
 	}
@@ -54,7 +52,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		if (!$this->listFieldModels) {
 			$fields = $this->listFields;
 			$fieldObjects = array();
-			$fieldsNoSort = array('module_name', 'execution_condition', 'all_tasks', 'active_tasks');
+			$fieldsNoSort = array('module_name');
 			foreach ($fields as $fieldName => $fieldLabel) {
 				if (in_array($fieldName, $fieldsNoSort)) {
 					$fieldObjects[$fieldName] = new Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel, 'sort' => false));

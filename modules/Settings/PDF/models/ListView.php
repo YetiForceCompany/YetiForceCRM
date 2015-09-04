@@ -1,11 +1,11 @@
 <?php
+
 /**
  * List View Model Class for PDF Settings
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
-
 class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 {
 
@@ -28,18 +28,16 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 
 		$listFields = $module->listFields;
-		unset($listFields['all_tasks']);
-		unset($listFields['active_tasks']);
-		$listQuery = "SELECT ";
+		$listQuery = 'SELECT ';
 		foreach ($listFields as $fieldName => $fieldLabel) {
-			$listQuery .= "$fieldName, ";
+			$listQuery .= '`'.$fieldName.'`, ';
 		}
-		$listQuery .= $module->baseIndex . " FROM " . $module->baseTable;
+		$listQuery .= '`'.$module->baseIndex.'` FROM `'.$module->baseTable.'`';
 
 		$params = array();
 		$sourceModule = $this->get('sourceModule');
 		if (!empty($sourceModule)) {
-			$listQuery .= ' WHERE module_name = ?';
+			$listQuery .= ' WHERE `module_name` = ?';
 			$params[] = $sourceModule;
 		}
 
@@ -50,7 +48,7 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
 			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
-				$orderBy = 'COALESCE(CONCAT(vtiger_users.first_name,vtiger_users.last_name),vtiger_groups.groupname)';
+				$orderBy = 'COALESCE(CONCAT(`vtiger_users`.`first_name`, `vtiger_users`.`last_name`), `vtiger_groups`.`groupname`)';
 			}
 		}
 		if (!empty($orderBy)) {
@@ -60,11 +58,9 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
 
 		$listResult = $db->pquery($listQuery, $params);
-		$noOfRecords = $db->num_rows($listResult);
 
 		$listViewRecordModels = array();
-		for ($i = 0; $i < $noOfRecords; ++$i) {
-			$row = $db->query_result_rowdata($listResult, $i);
+		while ($row = $db->fetchByAssoc($listResult)) {
 			$record = new $recordModelClass();
 			$module_name = $row['module_name'];
 
@@ -74,13 +70,8 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 			} else {
 				$module_name = vtranslate($module_name, $module_name);
 			}
-			//$workflowModel = $record->getInstance($row['workflow_id']);
-			$taskList = array(); //$workflowModel->getTasks();
 			$row['module_name'] = $module_name;
-			$row['execution_condition'] = vtranslate('execution_label' /*$record->executionConditionAsLabel($row['execution_condition'])*/, 'Settings:PDF');
 			$row['summary'] = vtranslate($row['summary'], 'Settings:PDF');
-			$row['all_tasks'] = count($taskList);
-			$row['active_tasks'] = 0; //$workflowModel->getActiveCountFromRecord($taskList);
 
 			$record->setData($row);
 			$listViewRecordModels[$record->getId()] = $record;
@@ -112,14 +103,17 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 		$db = PearDatabase::getInstance();
 
 		$module = $this->getModule();
-		$listQuery = 'SELECT count(*) AS count FROM ' . $module->baseTable;
+		$params = [];
+		$listQuery = 'SELECT COUNT(1) AS count FROM ' . $module->baseTable;
 
 		$sourceModule = $this->get('sourceModule');
 		if ($sourceModule) {
-			$listQuery .= " WHERE module_name = '$sourceModule'";
+			$listQuery .= ' WHERE module_name = ?';
+			$params[] = $sourceModule;
 		}
+		$listQuery .= ';';
 
-		$listResult = $db->pquery($listQuery, array());
-		return $db->query_result($listResult, 0, 'count');
+		$listResult = $db->pquery($listQuery, $params);
+		return $db->getSingleValue($listResult);
 	}
 }

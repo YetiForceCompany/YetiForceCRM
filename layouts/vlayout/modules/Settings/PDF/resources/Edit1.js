@@ -26,7 +26,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js",{},{
 	 * Function  to intialize the reports step1
 	 */
 	initialize : function(container) {
-		if(typeof container == 'undefined') {
+		if(typeof container === 'undefined') {
 			container = jQuery('#pdf_step1');
 		}
 		if(container.is('#pdf_step1')) {
@@ -61,6 +61,12 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js",{},{
 		return aDeferred.promise();
 	},
 	
+	registerCancelStepClickEvent: function(form) {
+		jQuery('button.cancelLink', form).on('click', function() {
+			window.history.back();
+		});
+	},
+	
 	registerEvents : function(){
 		var container = this.getContainer();
 		//After loading 1st step only, we will enable the Next button
@@ -74,5 +80,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js",{},{
         };
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
+		this.registerCancelStepClickEvent(container);
 	}
 });

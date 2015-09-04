@@ -36,7 +36,6 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 
 	public function step1(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -60,15 +59,11 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('CURRENT_USER', $currentUser);
-		$admin = Users::getActiveAdminUser();
-		$viewer->assign('ACTIVE_ADMIN', $admin);
 		$viewer->view('Step1.tpl', $qualifiedModuleName);
 	}
 
 	public function step2(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -81,10 +76,6 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 			$viewer->assign('MODE', 'edit');
 		} else {
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
-			$selectedModule = $request->get('source_module');
-			if (!empty($selectedModule)) {
-				$viewer->assign('SELECTED_MODULE', $selectedModule);
-			}
 		}
 
 		$fields = $pdfModel->getData();
@@ -97,15 +88,11 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('CURRENT_USER', $currentUser);
-		$admin = Users::getActiveAdminUser();
-		$viewer->assign('ACTIVE_ADMIN', $admin);
 		$viewer->view('Step2.tpl', $qualifiedModuleName);
 	}
 
 	public function step3(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -118,10 +105,6 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 			$viewer->assign('MODE', 'edit');
 		} else {
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
-			$selectedModule = $request->get('source_module');
-			if (!empty($selectedModule)) {
-				$viewer->assign('SELECTED_MODULE', $selectedModule);
-			}
 		}
 
 		$fields = $pdfModel->getData();
@@ -134,15 +117,11 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('CURRENT_USER', $currentUser);
-		$admin = Users::getActiveAdminUser();
-		$viewer->assign('ACTIVE_ADMIN', $admin);
 		$viewer->view('Step3.tpl', $qualifiedModuleName);
 	}
 
 	public function step4(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -155,10 +134,6 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 			$viewer->assign('MODE', 'edit');
 		} else {
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
-			$selectedModule = $request->get('source_module');
-			if (!empty($selectedModule)) {
-				$viewer->assign('SELECTED_MODULE', $selectedModule);
-			}
 		}
 
 		$fields = $pdfModel->getData();
@@ -171,15 +146,11 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('CURRENT_USER', $currentUser);
-		$admin = Users::getActiveAdminUser();
-		$viewer->assign('ACTIVE_ADMIN', $admin);
 		$viewer->view('Step4.tpl', $qualifiedModuleName);
 	}
 
 	public function step5(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -192,10 +163,6 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 			$viewer->assign('MODE', 'edit');
 		} else {
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
-			$selectedModule = $request->get('source_module');
-			if (!empty($selectedModule)) {
-				$viewer->assign('SELECTED_MODULE', $selectedModule);
-			}
 		}
 
 		$fields = $pdfModel->getData();
@@ -208,15 +175,11 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('CURRENT_USER', $currentUser);
-		$admin = Users::getActiveAdminUser();
-		$viewer->assign('ACTIVE_ADMIN', $admin);
 		$viewer->view('Step5.tpl', $qualifiedModuleName);
 	}
 
 	public function step6(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -229,10 +192,6 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 			$viewer->assign('MODE', 'edit');
 		} else {
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
-			$selectedModule = $request->get('source_module');
-			if (!empty($selectedModule)) {
-				$viewer->assign('SELECTED_MODULE', $selectedModule);
-			}
 		}
 
 		$fields = $pdfModel->getData();
@@ -245,15 +204,11 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('CURRENT_USER', $currentUser);
-		$admin = Users::getActiveAdminUser();
-		$viewer->assign('ACTIVE_ADMIN', $admin);
 		$viewer->view('Step6.tpl', $qualifiedModuleName);
 	}
 
 	public function step7(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -266,10 +221,6 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 			$viewer->assign('MODE', 'edit');
 		} else {
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
-			$selectedModule = $request->get('source_module');
-			if (!empty($selectedModule)) {
-				$viewer->assign('SELECTED_MODULE', $selectedModule);
-			}
 		}
 
 		$fields = $pdfModel->getData();
@@ -282,9 +233,6 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('CURRENT_USER', $currentUser);
-		$admin = Users::getActiveAdminUser();
-		$viewer->assign('ACTIVE_ADMIN', $admin);
 		$viewer->view('Step7.tpl', $qualifiedModuleName);
 	}
 
@@ -295,7 +243,6 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		$qualifiedModuleName = $request->getModule(false);
 
 		$recordId = $request->get('record');
-
 		if ($recordId) {
 			$pdfModel = Settings_PDF_Record_Model::getInstance($recordId);
 			$selectedModule = $pdfModel->getModule();
@@ -311,7 +258,6 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 			$pdfModel->set($name, $request->get($name));
 		}
 
-		$moduleModel = $pdfModel->getModule();
 		$viewer->assign('SOURCE_MODULE', $selectedModuleName);
 		$viewer->assign('RECORD', $recordId);
 		$viewer->assign('MODULE', $moduleName);
@@ -337,10 +283,6 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 			"modules.Settings.$moduleName.resources.Edit6",
 			"modules.Settings.$moduleName.resources.Edit7",
 			"modules.Settings.$moduleName.resources.Edit8",
-//			"modules.Settings.$moduleName.resources.AdvanceFilter",
-//			'~libraries/jquery/ckeditor/ckeditor.js',
-//			"modules.Vtiger.resources.CkEditor",
-//			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.js',
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -353,7 +295,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
 		$cssFileNames = array(
-//			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.css',
+			"~layouts/vlayout/modules/Settings/$moduleName/Index.css",
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
