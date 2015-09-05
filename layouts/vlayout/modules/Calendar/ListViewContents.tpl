@@ -62,7 +62,7 @@
 	<table class="table table-bordered listViewEntriesTable">
 		<thead>
 			<tr class="listViewHeaders">
-				<th width="5%">
+				<th>
 					<input type="checkbox" id="listViewEntriesMainCheckBox" title="{vtranslate('LBL_SELECT_ALL')}" />
 				</th>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -74,7 +74,7 @@
 			</tr>
 		</thead>
         <tr>
-            <td><a class="btn btn-default" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="glyphicon glyphicon-search"></span></a></td>
+            <td><a class="btn btn-default" href="index.php?view=List&module={$MODULE}" ><span class="glyphicon glyphicon-remove"></span></a></td>
          {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
              <td>
                  {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}     
@@ -83,7 +83,7 @@
              </td>
          {/foreach}
          <td> 
-             <button class="btn btn-default" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
+			<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="glyphicon glyphicon-search"></span></a>
          </td>
         </tr>
 		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
@@ -116,7 +116,7 @@
 				}
 				</style>
 			{/if}
-            <td  width="5%" class="{$WIDTHTYPE}">
+            <td class="{$WIDTHTYPE}">
 				<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}"/>
 			</td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}

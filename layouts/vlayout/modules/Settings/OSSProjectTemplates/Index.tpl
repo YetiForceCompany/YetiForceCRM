@@ -32,7 +32,7 @@
 				</div>
 			</div>
 			<br>
-			<div class="">
+			<div class="row">
 				<table class="table table-bordered table-condensed listViewEntriesTable">
 					<thead>
 						<tr class="listViewHeaders" >

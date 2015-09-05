@@ -61,7 +61,7 @@
 	<table class="table table-bordered listViewEntriesTable">
 		<thead>
 			<tr class="listViewHeaders">
-				<th width="5%" class="{$WIDTHTYPE}">
+				<th class="{$WIDTHTYPE}">
 					<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
 				</th>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -74,7 +74,7 @@
 		</thead>
         {if $MODULE_MODEL->isQuickSearchEnabled()}
         <tr>
-            <td><a class="btn" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="glyphicon glyphicon-search"></span></a></td>
+            <td><a class="btn btn-default" href="index.php?view=List&module={$MODULE}" ><span class="glyphicon glyphicon-remove"></span></a></td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
              <td>
                  {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
@@ -83,7 +83,7 @@
              </td>
 			{/foreach}
 			<td>
-				<button class="btn btn-default" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
+				<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="glyphicon glyphicon-search"></span></a>
 			</td>
         </tr>
         {/if}
@@ -97,7 +97,7 @@
 				}
 				</style>
 			{/if}
-            <td  width="5%" class="{$WIDTHTYPE}">
+            <td  class="{$WIDTHTYPE}">
 				<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
 			</td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}

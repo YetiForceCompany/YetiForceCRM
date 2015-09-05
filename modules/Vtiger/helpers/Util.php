@@ -108,7 +108,7 @@ class Vtiger_Util_Helper
 	public static function toSafeHTML($input)
 	{
 		global $default_charset;
-		return htmlentities($input, ENT_QUOTES, $default_charset);
+		return htmlspecialchars($input, ENT_QUOTES, $default_charset);
 	}
 
 	/**
@@ -510,14 +510,14 @@ class Vtiger_Util_Helper
 	public static function getLabel($recordId, $ignoreDelete = true)
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT label from vtiger_crmentity WHERE crmid=?';
+		$query = 'SELECT label FROM vtiger_crmentity WHERE crmid=?';
 		if ($ignoreDelete) {
 			$query .= ' AND deleted=0';
 		}
-		$result = $db->pquery($query, array($recordId));
+		$result = $db->pquery($query, [$recordId]);
 		$name = '';
 		if ($db->num_rows($result) > 0) {
-			$name = $db->query_result($result, 0, 'label');
+			$name = $db->getSingleValue($result);
 		}
 		return $name;
 	}

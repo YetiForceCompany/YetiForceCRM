@@ -223,6 +223,15 @@ jQuery.Class("Vtiger_Helper_Js", {
 		}
 		return new PNotify(params);
 	},
+	/*
+	 * Function to remove pnotify message
+	 */
+	hidePnotify: function (notice) {
+		if (typeof notice == 'undefined') {
+			notice = jQuery('.ui-pnotify');
+		}
+		notice.remove();
+	},
 	/* 
 	 * Function to add clickoutside event on the element - By using outside events plugin 
 	 * @params element---On which element you want to apply the click outside event 

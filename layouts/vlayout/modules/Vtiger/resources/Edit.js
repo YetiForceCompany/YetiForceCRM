@@ -970,9 +970,6 @@ jQuery.Class("Vtiger_Edit_Js",{
 		}
 		var formElement = this.getForm();
 		var formData = formElement.serializeFormData();
-		Vtiger_Edit_Js.SaveResultInstance.loadFormData(formData);
-		form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
-			if(Vtiger_Edit_Js.SaveResultInstance.checkData(form.serializeFormData()) == false){
 				e.preventDefault();
 			}
 		});

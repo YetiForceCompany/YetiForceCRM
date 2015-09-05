@@ -29,8 +29,8 @@
 					<div id="scrollContainer">
 						<div class="modal-body tabbable">
 							<div class="row padding-bottom1per">
-								<span class="col-md-8 row">
-									<div class="col-md-3">{vtranslate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
+								<span class="col-md-8">
+									<div class="pull-left">{vtranslate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>&nbsp;
 									<div class="col-md-9 row"><input name="summary" class="col-md-12 form-control" data-validation-engine='validate[required]' type="text" value="{$TASK_MODEL->get('summary')}" /></div>
 								</span>
 								<span class="span">&nbsp;</span>

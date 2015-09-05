@@ -187,6 +187,7 @@ Vtiger_List_Js("Reports_List_Js",{
 			customFilter.trigger("chosen:updated");
 		} else {
 			customFilter.find('#foldersBlock').append(constructedOption).trigger("chosen:updated");
+			app.showSelect2ElementView(customFilter);
 		}
 	},
 

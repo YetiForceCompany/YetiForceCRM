@@ -535,7 +535,7 @@ $languageStrings = [
 	'LBL_TERMS_INFORMATION' => 'Terms and Conditions',
 	'LBL_Thu' => 'Thu',
 	'LBL_TO' => 'To',
-	'LBL_to' => 'to',
+	'LBL_TO_LC' => 'to',
 	'LBL_ACTIVITY_TO' => 'to',
 	'LBL_TODAY' => 'Today',
 	'LBL_TOMORROW' => 'Tomorrow',
@@ -947,6 +947,7 @@ $languageStrings = [
 	'LBL_COMMON' => 'Shared',
 	'LBL_OPEN' => 'Open',
 	'LBL_ARCHIVE' => 'Archive',
+	'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => "To Do's/Events created by me, but not belonging to me.",
 	
 	//Gantt
 	'LBL_FILTERING' => 'Filtering',
@@ -966,6 +967,17 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'Based on reference fields',
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
+	'LBL_VIEW_EDIT2' => 'Configuration view',
+	'LBL_VIEW_CONFIGURATION' => 'Configuration view',
+	'MEN_LEADS' => 'Companies and Contacts',
+	'LBL_VIEW_STEP1' => 'Basic Information',
+	'LBL_VIEW_STEP2' => 'Add Conditions',
+	'LBL_VIEW_ADDACTION' => 'Actions',
+	'LBL_VIEW_ACTIONCONFIG' => 'Action config',
+	'LBL_ENTER_SEARCHED_ADDRESS' => 'Enter the address to search',
+	'equal to' => 'Equal to',
+	'None' => 'None',
+	'Email Opt Out' => 'Email Opt Out',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',
@@ -1232,4 +1244,6 @@ $jsLanguageStrings = [
 	'JS_MORE' => 'More',
 	'JS_ADD_EVENT_TASK' => 'Add Event/To Do',
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Cannot hold future event',
+	'equal to' => 'Equal to',
+	'None' => 'None',
 ];

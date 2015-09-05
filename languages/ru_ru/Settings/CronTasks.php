@@ -32,6 +32,7 @@ $languageStrings = [
 	'Recommended frequency for SendReminder is 15 mins' => 'Рекомендованная частота 15 минут',
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Рекомендованная частота 15 минут',
 	'Recommended frequency for ScheduleReports is 15 mins' => 'Recommended frequency for ScheduleReports is 15 mins',
+	'Recommended frequency for Currency Update is 24 hours' => 'Recommended frequency for Currency Update is 24 hours',
 	'Workflow' => 'Workflow',
 	'RecurringInvoice' => 'Recurring Invoice',
 	'MailScannerAction' => 'Mail Scanner Action',
@@ -39,7 +40,8 @@ $languageStrings = [
 	'SendReminder' => 'Send Reminder',
 	'Scheduled Import' => 'Scheduled Import',
 	'ScheduleReports' => 'Schedule Reports',
-	'MailScannerBind' => 'Mail Scanner Bind'
+	'MailScannerBind' => 'Mail Scanner Bind',
+	'LBL_CURRENCY_UPDATE' => 'Currency Update'
 ];
 
 

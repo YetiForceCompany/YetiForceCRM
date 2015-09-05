@@ -1079,10 +1079,10 @@ jQuery.Class("Vtiger_List_Js", {
 				);
 			}
 		});
-		
+
 		jQuery('.pageNumber').on('click', function () {
-			var disabled =  $(this).hasClass("disabled")
-			if(disabled)
+			var disabled = $(this).hasClass("disabled")
+			if (disabled)
 				return false;
 			var pageNumber = $(this).data("id");
 			var orderBy = jQuery('#orderBy').val();
@@ -1220,21 +1220,32 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to update Pagining status
 	 */
 	updatePagination: function (pageNumber) {
+		pageNumber = typeof pageNumber !== 'undefined' ? pageNumber : 1;
 		var thisInstance = this;
 		var cvId = thisInstance.getCurrentCvId();
 		var params = {};
-			params['module'] = app.getModuleName();
-			params['view'] = 'Pagination';
-			params['viewname'] = cvId;
-			params['page'] = pageNumber;
-			params['mode'] = 'getPagination';		
-			
-			AppConnector.request(params).then( function(data) {
-				jQuery('.paginationDiv').html(data);
-				thisInstance.registerPageNavigationEvents();
-			
+		params['module'] = app.getModuleName();
+		if ('Settings' == app.getParentModuleName())
+			params['parent'] = 'Settings';
+		params['view'] = 'Pagination';
+		params['viewname'] = cvId;
+		params['page'] = pageNumber;
+		params['mode'] = 'getPagination';
+		var searchValue = this.getAlphabetSearchValue();
+
+		if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+			params['search_key'] = this.getAlphabetSearchField();
+			params['search_value'] = searchValue;
+			params['operator'] = "s";
+		}
+		params.search_params = JSON.stringify(this.getListSearchParams());
+
+		AppConnector.request(params).then(function (data) {
+			jQuery('.paginationDiv').html(data);
+			thisInstance.registerPageNavigationEvents();
+
 		});
-			
+
 	},
 	/*
 	 * Function to register the event for changing the custom Filter
@@ -1243,7 +1254,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li', function (event) {
+			listViewFilterBlock.on('mouseup', 'li[role="treeitem"]', function (event) {
 				jQuery('#pageNumber').val("1");
 				jQuery('#pageToJump').val('1');
 				jQuery('#orderBy').val('');
@@ -1265,7 +1276,7 @@ jQuery.Class("Vtiger_List_Js", {
 				jQuery('#totalPageCount').text("");
 				thisInstance.getListViewRecords(urlParams).then(function () {
 					thisInstance.ListViewPostOperation();
-					thisInstance.updatePagination();
+					thisInstance.updatePagination(1);
 				});
 				event.stopPropagation();
 			});
@@ -1414,7 +1425,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var liElement = currentElement.find('#createFilter');
 		var createUrl = liElement.data('createurl');
 		Vtiger_CustomView_Js.loadFilterView(createUrl);
-},
+	},
 	/*
 	 * Function to register the click event for duplicate filter
 	 */

@@ -9,7 +9,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = [
-	'LBL_to' => 'to',
+	'LBL_TO_LC' => 'para',
 	'LBL_EXPORT_TO_PDF' => 'Exportar para PDF',
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Informação Endereço',
 	'LBL_VENDORS_ADD_TASK' => 'Adicionar Tarefa',

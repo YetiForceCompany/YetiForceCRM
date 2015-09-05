@@ -285,6 +285,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 					}).then(function (res) {
 						fieldsSelectDOM.empty().html(res).trigger('change');
 						fieldsSelect2.closest('tr').show();
+						fieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
 					});
 				});
 				fieldsSelect2.change(function () {
@@ -342,6 +343,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						paramsForm['id'] = result['id'];
 						paramsForm['status'] = result['status'];
 						params['text'] = result['text'];
+						params['type'] = 'success';
 						var linkElement = element.clone();
 						linkElement.data('name', 'MiniList')
 						Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=MiniList&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0')

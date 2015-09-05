@@ -1,5 +1,5 @@
 <?php
-
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 {
 
@@ -23,6 +23,26 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $request->get('viewname'));
+		$searchKey = $request->get('search_key');
+		$searchValue = $request->get('search_value');
+		$operator = $request->get('operator');
+		if (!empty($operator)) {
+			$listViewModel->set('operator', $operator);
+			$viewer->assign('OPERATOR', $operator);
+			$viewer->assign('ALPHABET_VALUE', $searchValue);
+		}
+		if (!empty($searchKey) && !empty($searchValue)) {
+			$listViewModel->set('search_key', $searchKey);
+			$listViewModel->set('search_value', $searchValue);
+		}
+
+		$searchParmams = $request->get('search_params');
+		if (empty($searchParmams) || !is_array($searchParmams)) {
+			$searchParmams = [];
+		}
+		$transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchParmams, $listViewModel->getModule());
+		$listViewModel->set('search_params', $transformedSearchParams);
+
 		if (!$this->listViewEntries) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel, $searchResult);
 		}
@@ -39,19 +59,23 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		}
 		$viewer->assign('PAGE_COUNT', $pageCount);
 
-	
 		$startPaginFrom = $pageNumber - 2;
 
 		if ($pageNumber == $totalCount && 1 != $pageNumber)
 			$startPaginFrom = $pageNumber - 4;
 		if ($startPaginFrom <= 0 || 1 == $pageNumber)
 			$startPaginFrom = 1;
-		
+
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		echo $viewer->view('Pagination.tpl', $moduleName, true);
+	}
+
+	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
+	{
+		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
 	}
 }

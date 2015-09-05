@@ -112,6 +112,7 @@ Settings_Vtiger_List_Js("Settings_SMSNotifier_List_Js",{
 		AppConnector.request(params).then(
 			function(data) {
 				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
+				app.hideModalWindow();
 				aDeferred.resolve(data);
 			},
 			function(error) {

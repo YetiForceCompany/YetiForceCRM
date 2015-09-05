@@ -1,13 +1,5 @@
 <?php
-
-/* +********************************************************************************
- * Terms & Conditions are placed on the: http://opensaas.pl
- * *******************************************************************************
- *  Module				: OSSMailScanner
- *  Author				: OpenSaaS Sp. z o.o. 
- *  Help/Email			: bok@opensaas.pl
- *  Website				: www.opensaas.pl
- * *******************************************************************************+ */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
     'OSSMailScanner' => 'Mail Scanner',
     'OSSMailScanner_manual' => 'Mail Scanner',
@@ -35,7 +27,7 @@ $languageStrings = [
     'update_HelpDesk' => 'HelpDesk aktualisieren',
     'update_Accounts' => 'Konto aktualisieren',
     'update_Contacts' => 'Kontakt aktualisieren',
-    'desc_0_created_Email' => 'E-Mail-Nachricht zum CRM hinzufügen',
+    'desc_0_created_Email' => 'E-Mail-Nachricht zum CRM hinzufügen.',
     'desc_3_bind_Contacts' => 'E-Mail-Nachricht in Beziehung setzen mit dem Kontaktdatensatz, der diese E-Mail-Adresse enthält.',
     'desc_2_bind_Accounts' => 'E-Mail-Nachricht in Beziehung setzen mit dem Kontodatensatz, der diese E-Mail-Adresse enthält.',
     'desc_4_bind_Leads' => 'E-Mail-Nachricht in Beziehung setzen mit dem Leaddatensatz, der diese E-Mail-Adresse enthält.',
@@ -143,4 +135,8 @@ $languageStrings = [
 	'Group list' => 'Gruppenliste',
 	'LBL_ACTIVE_MAIL' => 'Active',
 	'LBL_INACTIVE_MAIL' => 'Inactive',
+	'LBL_EXCEPTIONS' => 'Exceptions',
+	'LBL_EXCEPTIONS_CREATING_EMAIL' => 'Addresses omitted while executing an action creating e-mail messages',
+	'LBL_EXCEPTIONS_CREATING_TICKET' => 'Addresses omitted while executing an action creating tickets',
+	'LBL_WRITE_AND_ENTER' => 'Enter the address and press enter',
 ];

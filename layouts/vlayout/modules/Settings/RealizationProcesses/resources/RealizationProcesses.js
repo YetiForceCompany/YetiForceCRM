@@ -37,7 +37,7 @@ jQuery.Class('Settings_RealizationProcesses_Js', {
 					var params = {
 						text: app.vtranslate(response.message),
 						animation: 'show',
-						type: 'info'
+						type: 'success'
 					};
 					Vtiger_Helper_Js.showPnotify(params);
 				}

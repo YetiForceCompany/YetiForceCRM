@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	{foreach key=FIELD_NAME item=FIELD_MODEL from=$PROVIDER_MODEL}
-		<div class="form-group">
+		<div class="form-group marginLeftZero marginRightZero">
 			{assign var=FIELD_NAME value=$FIELD_MODEL->get('name')}
 			<span class="control-label">
 				<strong>
@@ -35,9 +35,9 @@
 					<input type="radio" name="{$FIELD_NAME}" value='1' {if $FIELD_VALUE} checked="checked" {/if} />&nbsp;{vtranslate('LBL_YES', $QUALIFIED_MODULE_NAME)}&nbsp;&nbsp;&nbsp;
 					<input type="radio" name="{$FIELD_NAME}" value='0' {if !$FIELD_VALUE} checked="checked" {/if}/>&nbsp;{vtranslate('LBL_NO', $QUALIFIED_MODULE_NAME)}
 				{else if $FIELD_TYPE == 'password'}
-					<input type="password" name="{$FIELD_NAME}" class="col-md-3" data-validation-engine="validate[required]" value="{$FIELD_VALUE}" />
+					<input type="password" name="{$FIELD_NAME}" class="col-md-3 form-control" data-validation-engine="validate[required]" value="{$FIELD_VALUE}" />
 				{else}
-					<input type="text" name="{$FIELD_NAME}" class="col-md-3" {if $FIELD_NAME == 'username'} data-validation-engine="validate[required]" {/if} value="{$FIELD_VALUE}" />
+					<input type="text" name="{$FIELD_NAME}" class="col-md-3 form-control" {if $FIELD_NAME == 'username'} data-validation-engine="validate[required]" {/if} value="{$FIELD_VALUE}" />
 				{/if}
 			</div>
 		</div>

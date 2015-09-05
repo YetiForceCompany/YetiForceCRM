@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Users authentication action class
+ * Get modules list action class
  * @package YetiForce.WebserviceAction
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -13,7 +13,7 @@ class API_Base_GetModulesList extends BaseAction
 
 	public function getModulesList()
 	{
-		$modules = ['HelpDesk','Accounts'];
+		$modules = ['HelpDesk' => 'HelpDesk','Accounts' => 'Accounts'];
 		
 		return $modules;
 	}

@@ -15,6 +15,12 @@ $languageStrings = [
 	'OSSMailScanner_manual' => 'Настройка почты',
 	
 	'LBL_VIEW_LOGS' => 'Журнал Почты',
+	'LBL_VIEW_LOGS' => 'Mail Protokolle',
+	'CRM Archive' => 'CRM Archive',
+	'CRM Archive Sent' => 'CRM Archive Sent',
+	'Drafts' => 'Drafts',
+    'INBOX' => 'INBOX',
+	'Junk' => 'JUNK',
 ];
 
 $jsLanguageStrings = [

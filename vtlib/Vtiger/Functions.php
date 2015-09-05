@@ -1311,4 +1311,26 @@ class Vtiger_Functions
 			$initial .= strtoupper($word[0]);
 		return $initial;
 	}
+
+	public function textLength($text, $length = false, $addDots = true)
+	{
+		if (!$length) {
+			$length = vglobal('listview_max_textlength');
+		}
+		$newText = preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text);
+		if (function_exists('mb_strlen')) {
+			if (mb_strlen(html_entity_decode($newText)) > $length) {
+				$newText = mb_substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text), 0, $length, vglobal('default_charset'));
+				if ($addDots) {
+					$newText .= '...';
+				}
+			}
+		} elseif (strlen(html_entity_decode($text)) > $length) {
+			$newText = substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text), 0, $length);
+			if ($addDots) {
+				$newText .= '...';
+			}
+		}
+		return $newText;
+	}
 }

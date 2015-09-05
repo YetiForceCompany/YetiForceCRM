@@ -74,6 +74,7 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 		$viewer->assign('ATTACHMENTS', $attachments);
 		$viewer->assign('RECORD', $record);
 		$viewer->assign('RECORD_MODEL', $recordModel);
+		$viewer->assign('ISMODAL', $request->isAjax());
 		$viewer->view('preview.tpl', 'OSSMailView');
 	}
 }

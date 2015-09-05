@@ -70,7 +70,7 @@ function load_all_widgets(inframe, crm_path) {
 			gcrm['uid'] = params['uid'] = inframe2.find('#message-oss-parameters-uid').text();
 			gcrm['folder'] = params['folder'] = inframe2.find('#message-oss-parameters-folder').text();
 			gcrm['username'] = params['username'] = inframe2.find('#message-oss-parameters-username').text();
-			load_connection(crm_path, gcrm, params, inframe, progressIndicatorElement);
+			load_connection(crm_path, gcrm, params, inframe2, progressIndicatorElement);
 		});
 	});
 
@@ -274,7 +274,7 @@ function load_oss_bar_no_mail(inframe, params) {
 	$(inframe.find('#message-oss-header .import_mail')).click(function () {
 		Vtiger_Helper_Js.showPnotify({text: app.vtranslate('StartedDownloadingEmail'), type: 'info'});
 		import_mail(params).then(function (data) {
-			load_all_widgets();
+			load_all_widgets(inframe);
 			Vtiger_Helper_Js.showPnotify({text: app.vtranslate('AddFindEmailInRecord'), type: 'success'});
 		});
 	});

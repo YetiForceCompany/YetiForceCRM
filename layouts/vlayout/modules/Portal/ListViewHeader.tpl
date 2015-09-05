@@ -29,7 +29,7 @@
                     <div class="listViewActions pull-right">
                             <div class="pageNumbers alignTop">
                                 <span>
-                                    <span class="pageNumbersText" style="padding-right:5px">{if $RECORD_COUNT neq 0}{$PAGING_INFO['startSequence']} {vtranslate('LBL_to', $MODULE)} {$PAGING_INFO['endSequence']}{else}<span>&nbsp;</span>{/if}</span>
+                                    <span class="pageNumbersText" style="padding-right:5px">{if $RECORD_COUNT neq 0}{$PAGING_INFO['startSequence']} {vtranslate('LBL_TO_LC', $MODULE)} {$PAGING_INFO['endSequence']}{else}<span>&nbsp;</span>{/if}</span>
                                     <span class="glyphicon glyphicon-refresh pull-right totalNumberOfRecords cursorPointer {if $RECORD_COUNT eq 0}hide{/if}"></span>
                                 </span>
                             </div>

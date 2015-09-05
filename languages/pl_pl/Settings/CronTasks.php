@@ -15,6 +15,7 @@ $languageStrings = [
 	'Recommended frequency for Workflow is 15 mins' => 'Zalecana częstotliwość dla Obiegu Informacji to 15 minut',
 	'Recommended frequency for MailScanner is 15 mins' => 'Zalecana częstotliwość dla Mail Scannera to 15 minut',
 	'Recommended frequency for ScheduleReports is 15 mins' => 'Zalecana częstotliwość dla zaplanowanych raportów to 15 minut',
+	'Recommended frequency for Currency Update is 24 hours' => 'Zalecana częstotliwość dla aktualizacji kursów walut to 24 godziny',
 	'Cron Job' => 'Zadania wyzwalacza',
 	'CronTasks' => 'Harmonogram',
 	'Frequency' => 'Częstotliwość',
@@ -39,7 +40,8 @@ $languageStrings = [
 	'SendReminder' => 'Wyślij przypomnienie',
 	'Scheduled Import' => 'Zaplanowany import',
 	'ScheduleReports' => 'Zaplanuj raporty',
-	'MailScannerBind' => 'Powiąż skaner poczty'
+	'MailScannerBind' => 'Powiąż skaner poczty',
+	'LBL_CURRENCY_UPDATE' => 'Aktualizacja kursów walut'
 ];
 
 

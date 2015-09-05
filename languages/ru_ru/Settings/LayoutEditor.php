@@ -92,6 +92,7 @@ $languageStrings = [
 	'LBL_FIELD_MASK_INFO' => 'Маска по умолчанию <br />9: цифры<br />a: буквы<br />*: цифры и буквы<br /><br />Пример:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 	
 	'LBL_ADD_RELATION' => 'Добавить связь',
+	'LBL_REMOVE_RELATION' => 'Remove relation',
 	'LBL_RELATION_TYPE' => 'Тип связи',
 	'LBL_RELATION_ACTIONS' => 'Действие',
 	'LBL_SOURCE_MODULE' => 'Из модуля',
@@ -128,4 +129,6 @@ $jsLanguageStrings = [
 	'JS_UPDATE_SEQUENCE' => 'Последовательность сохранена',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Список полей обновлен',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Поле не может быть пустым',
+	'JS_REMOVE_RELATION_OK' => 'Successfully deleted a relation.',
+	'JS_DELETE_RELATION_CONFIRMATION' => 'Are you sure you want to delete?',
 ];

@@ -48,6 +48,8 @@ class Settings_Workflows_Field_Model extends Vtiger_Field_Model
 			'in more than' => 'in more than',
 			'days ago' => 'days ago',
 			'days later' => 'days later',
+			'equal to' => 'equal to',
+			'None' => 'None',
 		);
 	}
 

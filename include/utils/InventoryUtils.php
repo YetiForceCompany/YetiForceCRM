@@ -496,7 +496,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock = 'fal
 		}
 		if ($_REQUEST['taxtype'] == 'group') {
 			for ($tax_count = 0; $tax_count < count($all_available_taxes); $tax_count++) {
-				$selected_tax = $_REQUEST['group_tax_option'];
+				$selected_tax = $_REQUEST['group_tax_option_'];
 				$updatequery .= " tax = ?,";
 				array_push($updateparams, $selected_tax);
 				$tax_name = $all_available_taxes[$tax_count]['taxname'];

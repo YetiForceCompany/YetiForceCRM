@@ -803,6 +803,12 @@ class QueryGenerator
 							$fieldSql .= "$fieldGlue (trim($columnSql) $valueSql OR " . "vtiger_groups.groupname $valueSql)";
 						}
 					}
+				} elseif ($field->getUIType() == 120) {
+					if (in_array($conditionInfo['operator'], ['y', 'ny'])) {
+						$fieldSql .= $fieldGlue . $field->getTableName() . '.' . $field->getColumnName() . " $valueSql";
+					} else {
+						$fieldSql .= $fieldGlue . ' ' . $valueSql;
+					}
 				} elseif ($field->getFieldDataType() == 'date' && ($baseModule == 'Events' || $baseModule == 'Calendar') && ($fieldName == 'date_start' || $fieldName == 'due_date')) {
 					$value = $conditionInfo['value'];
 					$operator = $conditionInfo['operator'];
@@ -895,7 +901,7 @@ class QueryGenerator
 							$field->getColumnName() . ' ' . $valueSql;
 					}
 				}
-				if (($conditionInfo['operator'] == 'n' || $conditionInfo['operator'] == 'k') && ($field->getFieldDataType() == 'owner' || $field->getFieldDataType() == 'picklist')) {
+				if (($conditionInfo['operator'] == 'n' || $conditionInfo['operator'] == 'k') && ($field->getFieldDataType() == 'owner' || $field->getFieldDataType() == 'picklist' || $field->getFieldDataType() == 'sharedOwner')) {
 					$fieldGlue = ' AND';
 				} else {
 					$fieldGlue = ' OR';
@@ -965,7 +971,7 @@ class QueryGenerator
 		$inEqualityFieldTypes = ['currency', 'percentage', 'double', 'integer', 'number'];
 
 		if (is_string($value) && $this->ignoreComma == false) {
-			$commaSeparatedFieldTypes = array('picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree');
+			$commaSeparatedFieldTypes = array('picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree', 'sharedOwner');
 			if (in_array($field->getFieldDataType(), $commaSeparatedFieldTypes)) {
 				$valueArray = explode(',', $value);
 				if ($field->getFieldDataType() == 'multipicklist' && in_array($operator, array('e', 'n'))) {
@@ -1116,6 +1122,16 @@ class QueryGenerator
 			}
 			if (trim($value) == '' && ($operator == 'om') && in_array($field->getFieldName(), $this->ownerFields)) {
 				$sql[] = " = '" . Users_Record_Model::getCurrentUserModel()->get('id') . "'";
+				continue;
+			}
+			if ($field->getUIType() == 120) {
+				if ($operator == 'om') {
+					$sql[] = 'FIND_IN_SET(' . Users_Record_Model::getCurrentUserModel()->get('id') . ',' . $this->getSQLColumn($field->getFieldName()) . ')';
+				} else if (in_array($operator, ['e', 's', 'ew', 'c'])) {
+					$sql[] = 'FIND_IN_SET(' . $value . ',' . $this->getSQLColumn($field->getFieldName()) . ')';
+				} else if (in_array($operator, ['n', 'k'])) {
+					$sql[] = 'NOT FIND_IN_SET(' . $value . ',' . $this->getSQLColumn($field->getFieldName()) . ')';
+				}
 				continue;
 			}
 			if (trim($value) == '' && ($operator == 'k') &&
@@ -1528,5 +1544,3 @@ class QueryGenerator
 		}
 	}
 }
-
-?>

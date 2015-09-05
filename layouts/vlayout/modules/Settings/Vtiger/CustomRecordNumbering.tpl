@@ -33,7 +33,7 @@
                             </th>
                             <th width="70%" class="{$WIDTHTYPE}" style="border-left: none">
                             <span class="pull-right">
-                                <button type="button" class="btn btn-default" name="updateRecordWithSequenceNumber"><b>{vtranslate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}</b></button>
+                                <button type="button" class="btn btn-info" name="updateRecordWithSequenceNumber"><b>{vtranslate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}</b></button>
                             </span>
                             </th>
                         </tr>
@@ -84,7 +84,7 @@
             <div class="col-md-12 pull-right">
                 <div class="pull-right">
                     <button class="btn btn-success saveButton" type="submit" disabled="disabled"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-                    <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+                    <button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
                 </div>
             </div>
         </div>

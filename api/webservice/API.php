@@ -10,7 +10,7 @@ class API
 	 */
 	protected $method = '';
 	protected $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE'];
-	protected $acceptableHeaders = ['language', 'version', 'apiKey', 'ip', 'encrypted', 'fromUrl', 'sessionID'];
+	protected $acceptableHeaders = ['apiKey', 'encrypted', 'sessionID'];
 	protected $modulesPath = 'api/webservice/';
 	protected $data = [];
 	protected $request = [];
@@ -55,26 +55,13 @@ class API
 		if (!$this->validateApiKey($this->headers['apiKey'])) {
 			throw new APIException('Invalid api key', 401);
 		}
-
-		if (!$this->validateFromUrl($this->headers['fromUrl'])) {
-			throw new APIException('Invalid source address', 401);
-		}
 	}
 
 	public function process()
 	{
-		$filePath = $this->modulesPath . $this->panel . '/modules/' . $this->request->get('module') . '/' . $this->request->get('action') . '.php';
-		if (!file_exists($filePath)) {
-			throw new APIException('No action found: ' . $filePath, 405);
-		}
-
-		require_once $filePath;
-		$handlerClass = 'API_' . $this->request->get('module') . '_' . $this->request->get('action');
-		if (!class_exists($handlerClass)) {
-			throw new APIException('HANDLER_NOT_FOUND: ' . $handlerClass);
-		}
-
+		$handlerClass = $this->getModuleClassName();
 		$handler = new $handlerClass();
+		$handler->api = $this;
 		if ($handler->getRequestMethod() != $this->method) {
 			throw new APIException('Invalid request type');
 		}
@@ -87,13 +74,16 @@ class API
 		if (is_a($this->data, 'Vtiger_Request')) {
 			$data = $this->data->getAll();
 		}
+		if(count($data) == 0 && $this->request->has('record')){
+			$data['record'] = $this->request->get('record');
+		}
 
-		if(is_array($data)){
+		if (is_array($data)) {
 			$response = call_user_func_array([$handler, $function], $data);
-		}  else {
+		} else {
 			$response = call_user_func([$handler, $function], $data);
 		}
-		
+
 		$response = [
 			'status' => 1,
 			'result' => $response
@@ -132,10 +122,9 @@ class API
 	public function initHeaders()
 	{
 		$headers = apache_request_headers();
-		$result = [];
 		foreach ($this->acceptableHeaders as $value) {
 			if (!isset($headers[$value])) {
-				throw new APIException('No parameter: '.$value, 401);
+				throw new APIException('No parameter: ' . $value, 401);
 			}
 			$this->headers[$value] = $headers[$value];
 		}
@@ -181,5 +170,27 @@ class API
 			return false;
 		}
 		return true;
+	}
+
+	public function getModuleName()
+	{
+		return $this->request->get('module');
+	}
+
+	private function getModuleClassName()
+	{
+		$mainFilePath = $filePath = $this->modulesPath . $this->panel . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->request->get('module') . DIRECTORY_SEPARATOR . $this->request->get('action') . '.php';
+		if (file_exists($filePath)) {
+			require_once $filePath;
+			return 'API_' . $this->request->get('module') . '_' . $this->request->get('action');
+		}
+
+		$filePath = $this->modulesPath . $this->panel . '/modules/Base/' . $this->request->get('action') . '.php';
+		if (file_exists($filePath)) {
+			require_once $filePath;
+			return 'API_Base_' . $this->request->get('action');
+		}
+
+		throw new APIException('No action found: ' . $mainFilePath, 405);
 	}
 }

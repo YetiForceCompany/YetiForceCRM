@@ -14,6 +14,7 @@ $languageStrings = [
 	'Recommended frequency for Workflow is 15 mins' => 'A frequẽncia recomendada para o Workflow é de 15 minutos',
 	'Recommended frequency for MailScanner is 15 mins' => 'A frequência recomendada para o Escaner de Mensagens é de 15 minutos',
 	'Recommended frequency for ScheduleReports is 15 mins' => 'A frequência recomendada para SheduleReports é de 15 minutos',
+	'Recommended frequency for Currency Update is 24 hours' => 'A frequência recomendada para Atualização da Moeda é de 24 horas',
 	'Cron Job' => 'Tarefa Cron',
 	'CronTasks' => 'Agendador',
 	'Frequency' => 'Frequência',
@@ -32,6 +33,7 @@ $languageStrings = [
 	'LBL_NAME' => 'Nome',
 	'LBL_PATH_TO_FILE' => 'Diretório do arquivo',
 	'Workflow' => 'Workflow',
+<<<<<<< HEAD
 	'RecurringInvoice' => 'Fatura Recorrente',
 	'MailScannerAction' => 'Ação Escaner Mensagens',
 	'MailScannerVerification' => 'Verificação Escaner Mensagens',
@@ -39,6 +41,16 @@ $languageStrings = [
 	'Scheduled Import' => 'Importação Agendada',
 	'ScheduleReports' => 'Agendar Relatórios',
 	'MailScannerBind' => 'Vincular Escaner Mensagens'
+=======
+	'RecurringInvoice' => 'Recurring Invoice',
+	'MailScannerAction' => 'Mail Scanner Action',
+	'MailScannerVerification' => 'Mail Scanner Verification',
+	'SendReminder' => 'Send Reminder',
+	'Scheduled Import' => 'Scheduled Import',
+	'ScheduleReports' => 'Schedule Reports',
+	'MailScannerBind' => 'Mail Scanner Bind',
+	'LBL_CURRENCY_UPDATE' => 'Currency Update'
+>>>>>>> upstream/master
 ];
 
 
