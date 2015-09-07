@@ -31,7 +31,7 @@
 					</select>
 				</div>
 				<div class="form-group pull-right">
-					<input id="inventorySwitch" title="{vtranslate('LBL_CHANGE_BLOCK_ADVANCED', $QUALIFIED_MODULE)}" class="switchBtn" type="checkbox" data-label-width="5" data-on-text="{vtranslate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}" {if !$INVENTORY_BLOCK}checked{/if} >
+					<input id="inventorySwitch" title="{vtranslate('LBL_CHANGE_BLOCK_ADVANCED', $QUALIFIED_MODULE)}" class="switchBtn" type="checkbox" data-label-width="5" data-on-text="{vtranslate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}" {if !$IS_INVENTORY}checked{/if} >
 				</div>
             </div>
         </div>
@@ -40,7 +40,7 @@
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
                 <li class="active"><a data-toggle="tab" href="#detailViewLayout"><strong>{vtranslate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong></a></li>
-				{if $INVENTORY_BLOCK}
+				{if $IS_INVENTORY}
 					<li class="inventoryNav"><a data-toggle="tab" href="#inventoryViewLayout"><strong>{vtranslate('LBL_MANAGING_AN_ADVANCED_BLOCK', $QUALIFIED_MODULE)}</strong></a></li>
 				{/if}
             </ul>
@@ -845,7 +845,7 @@
 						</div>
 					</div>
 				</div>
-				{if $INVENTORY_BLOCK}
+				{if $IS_INVENTORY}
 					<div class="tab-pane" id="inventoryViewLayout">
 						{include file='Inventory.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 					</div>	

@@ -106,6 +106,14 @@ $languageStrings = [
 	'LBL_ADDITIONAL_VERSE' => 'Wiersz dodatkowy',
 	'LBL_ADVANCED_MODULE' => 'Zaawansowany',
 	'LBL_BASIC_MODULE' => 'Podstawowy',
+	
+	'LBL_EDITING_INVENTORY_FIELD' => 'Edycja',
+	'LBL_CREATING_INVENTORY_FIELD' => 'Dodaj',
+	'LBL_NAME_FIELD' => 'Nazwa',
+	'LBL_COLSPAN' => 'Szerokość',
+	'LBL_COMMENT' => 'Komentarz',
+	'LBL_SELECT_TYPE_OF_INVENTORY' => 'Wybierz rodzaj pola',
+	'LBL_NEXT' => 'Dalej',
 ];
 
 $jsLanguageStrings = [

@@ -1709,12 +1709,131 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	addClickOutSideEvent: function (element, callbackFunction) {
 		element.one('clickoutside', callbackFunction);
 	},
+	/**
+	 * Function to register switch
+	 */
 	registerSwitch: function () {
 		var container = jQuery('#layoutEditorContainer');
 		app.showBtnSwitch(container.find('.switchBtn'))
 		var inventoryNav = container.find('.inventoryNav');
 		container.find('#inventorySwitch').on('switchChange.bootstrapSwitch', function (event, state) {
-			window.location.reload();
+			var switchBtn = jQuery(event.currentTarget);
+			var message = app.vtranslate('LBL_EXTENDED_MODULE');
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
+					function (e) {
+						var progressIndicatorElement = jQuery.progressIndicator({
+							'message': app.vtranslate('JS_CHANGING_SETTINGS'),
+							'position': 'html',
+							'blockInfo': {
+								'enabled': true
+							}
+						});
+						var params = {};
+						params['module'] = container.find('[name="layoutEditorModules"]').val();
+						params['status'] = !state;
+						app.saveAjax('setInventory', params).then(function (data) {
+							if(data.result){
+								//Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
+								window.location.reload();
+							}
+						});
+						//window.location.reload();
+					},
+					function (error, err) {
+						switchBtn.bootstrapSwitch('toggleState', true);
+					}
+			);
+			
+		});
+	},
+	/**
+	 * Function to adding inventory field
+	 */
+	registerAddInventoryField: function () {
+		var thisInstance = this;
+		var container = thisInstance.getInventoryViewLayout();
+		container.find('.addInventoryField').click(function (e) {
+			var currentTarget = jQuery(e.currentTarget);
+			var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+			var blockId = currentTarget.closest('.inventoryBlock').data('block-id');
+			var progress = jQuery.progressIndicator();
+			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step1&type=" + selectedModule, function (container) {
+				app.showScrollBar(container.find('.well'), {
+					height: '300px'
+				});
+				thisInstance.registerStep1(container,blockId);
+				progress.progressIndicator({'mode': 'hide'});
+			});
+		});
+	},
+	/**
+	 * Function to editing inventory field
+	 */
+	registerEditInventoryField: function () {
+		var thisInstance = this;
+		var container = thisInstance.getInventoryViewLayout();
+		container.find('.editInventoryField').on('click', function (e) {
+			var currentTarget = jQuery(e.currentTarget);
+			var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+			var blockId = currentTarget.closest('.inventoryBlock').data('block-id');
+			var editField = currentTarget.closest('.editFields');
+			var mType = editField.data('name');
+			var id = editField.data('id');
+			var progress = jQuery.progressIndicator();
+			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&type=" + selectedModule + "&mtype=" + mType + "&id=" + id, function (container) {
+				thisInstance.registerStep2(container,blockId);
+				progress.progressIndicator({'mode': 'hide'});
+			});
+		});
+	},
+	/**
+	 * Function to adding inventory field first step
+	 */
+	registerStep1: function (container,blockId) {
+		var thisInstance = this;
+		container.find('.nextButton').click(function (e) {
+			var progress = jQuery.progressIndicator();
+			var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&type=" + selectedModule + "&mtype=" + container.find('select.type').val(), function (container) {
+				thisInstance.registerStep2(container,blockId);
+				progress.progressIndicator({'mode': 'hide'});
+			});
+		});
+	},
+	/**
+	 * Function to save inventory field
+	 */
+	registerStep2: function (container,blockId) {
+		var thisInstance = this;
+		var containerInventory = thisInstance.getInventoryViewLayout();
+		var form = container.find('form');
+		var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+		form.validationEngine(app.validationEngineOptions);
+		form.on('submit',function (e) {
+			var formData = form.serializeFormData();
+			var errorExists = form.validationEngine('validate');
+			if(errorExists != false){
+				formData.block = blockId;
+				formData.module = selectedModule;
+				app.saveAjax('saveInventoryField', formData).then(function (data) {
+					var result = data.result;
+					if(result && result.edit){
+						app.hideModalWindow();
+						var liElement = containerInventory.find('[data-id="' + result.data.id + '"]');
+						liElement.find('.fieldLabel').text(result.data.label);
+						//Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
+					}else if(result){
+						app.hideModalWindow();
+						var newLiElement = containerInventory.find('.newLiElement').clone(true, true);
+						newLiElement.removeClass('hide newLiElement').find('.editFields').attr('data-id',result.data.id).attr('data-sequence',result.data.sequence).attr('data-name',result.data.invtype).find('.fieldLabel').text(result.data.label);
+						containerInventory.find('[data-block-id="' + result.data.block + '"] .connectedSortable').append(newLiElement);
+						
+					}
+				});
+			}
+		});
+		container.find('form').submit(function( event ) {
+			event.preventDefault();
 		});
 	},
 	/**
@@ -1739,6 +1858,8 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		}
 		
 		thisInstance.registerSwitch();
+		thisInstance.registerAddInventoryField();
+		thisInstance.registerEditInventoryField();
 	}
 
 });

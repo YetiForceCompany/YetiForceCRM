@@ -3674,3 +3674,9 @@ span[name=existingImages] img{
 .checkboxForm{
 	padding-top: 7px;
 }
+#inventoryViewLayout .inventoryBlock  ul li .editFields{
+	padding: 5px;
+}
+#inventoryViewLayout{
+    margin-top: -10px;
+}
