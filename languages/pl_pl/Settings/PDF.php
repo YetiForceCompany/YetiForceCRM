@@ -7,6 +7,8 @@
  */
 
 $languageStrings = [
+	'LBL_PDF' => 'Nowy PDF',
+	'LBL_PDF_DESCRIPTION' => 'Testowa wersja konfiguracji szablonów PDF.',
 	'LBL_CREATING_PDF' => 'Utwórz szablon pdf',
 	'LBL_EDITING_PDF' => 'Edytuj szablon pdf',
 	'LBL_ENTER_BASIC_DETAILS' => 'Wprowadź opis dokumentu',
