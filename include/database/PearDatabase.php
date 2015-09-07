@@ -410,7 +410,7 @@ class PearDatabase
 			}
 			$insert = 'INSERT INTO ' . $table . ' (' . $columns . ') VALUES (' . $this->generateQuestionMarks($data) . ')';
 			$this->pquery($insert, $data);
-			return ['rowCount' => $stmt->rowCount(), 'id' => $this->database->lastInsertId()];
+			return ['rowCount' => $this->stmt->rowCount(), 'id' => $this->database->lastInsertId()];
 		}
 		return false;
 	}
