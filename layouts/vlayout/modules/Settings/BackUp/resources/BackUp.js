@@ -67,13 +67,10 @@ jQuery.Class("Settings_BackUp_Index_Js",{},{
 	
 	registerSaveBackupSetting: function(content){
 		var thisInstance = this;
-		console.log(content)
 		content.find('.configField').on('switchChange.bootstrapSwitch', function(event, state) {
-			console.log('target22')
 			var target = $(event.currentTarget);
 			thisInstance.registerSave(target,state);
 		}).on('change',function(e){
-			console.log('targetee')
 			var target = $(e.currentTarget);
 			thisInstance.registerSave(target,target.val());
 		});
