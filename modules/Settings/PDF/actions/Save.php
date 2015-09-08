@@ -27,12 +27,7 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Basic_Action
 
 		$pdfModel->save();
 
-		$response->setResult(array('id' => $pdfModel->get('pdfid')));
+		$response->setResult(['id' => $pdfModel->get('pdfid')]);
 		$response->emit();
-	}
-
-	public function validateRequest(Vtiger_Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

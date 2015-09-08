@@ -19,22 +19,17 @@
                         {vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}
                     </label>
                     <div class="col-sm-6 controls">
-                        {if $MODE eq 'edit'}
-                            <input type='text' disabled='disabled' class="form-control" value="{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}" >
-                            <input type='hidden' name='module_name' value="{$MODULE_MODEL->get('name')}" >
-                        {else}
-                            <select class="chzn-select form-control" id="moduleName" name="module_name" required="true" data-placeholder="Select Module...">
-                                {foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
-                                    <option value="{$MODULE_MODEL->getName()}" {if $SELECTED_MODULE == $MODULE_MODEL->getName()} selected {/if}>
-										{if $MODULE_MODEL->getName() eq 'Calendar'}
-											{vtranslate('LBL_TASK', $MODULE_MODEL->getName())}
-										{else}
-											{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}
-										{/if}
-									</option>
-                                {/foreach}
-                            </select>
-                        {/if}
+                        <select class="chzn-select form-control" id="moduleName" name="module_name" required="true" data-placeholder="Select Module...">
+							{foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
+								<option value="{$MODULE_MODEL->getName()}" {if $SELECTED_MODULE == $MODULE_MODEL->getName()} selected {/if}>
+									{if $MODULE_MODEL->getName() eq 'Calendar'}
+										{vtranslate('LBL_TASK', $MODULE_MODEL->getName())}
+									{else}
+										{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}
+									{/if}
+								</option>
+							{/foreach}
+						</select>
                     </div>
                 </div>
                 <div class="form-group">

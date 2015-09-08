@@ -11,7 +11,8 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 
 	var $baseTable = 'a_yf_pdf';
 	var $baseIndex = 'pdfid';
-	var $listFields = array('module_name' => 'Module', 'summary' => 'Summary', 'cola' => 'ColA', 'colb' => 'ColB', 'colc' => 'ColC', 'cold' => 'ColD');
+	var $listFields = ['module_name' => 'Module', 'summary' => 'Summary', 'cola' => 'ColA', 'colb' => 'ColB', 'colc' => 'ColC', 'cold' => 'ColD'];
+	var $step1Fields = ['module_name', 'summary'];
 	var $name = 'PDF';
 
 	/**
@@ -39,8 +40,8 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getSupportedModules()
 	{
-		$moduleModels = Vtiger_Module_Model::getAll(array(0, 2));
-		$supportedModuleModels = array();
+		$moduleModels = Vtiger_Module_Model::getAll([0, 2]);
+		$supportedModuleModels = [];
 		foreach ($moduleModels as $tabId => $moduleModel) {
 			$supportedModuleModels[$tabId] = $moduleModel;
 		}
@@ -51,13 +52,13 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		if (!$this->listFieldModels) {
 			$fields = $this->listFields;
-			$fieldObjects = array();
-			$fieldsNoSort = array('module_name');
+			$fieldObjects = [];
+			$fieldsNoSort = ['module_name'];
 			foreach ($fields as $fieldName => $fieldLabel) {
 				if (in_array($fieldName, $fieldsNoSort)) {
-					$fieldObjects[$fieldName] = new Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel, 'sort' => false));
+					$fieldObjects[$fieldName] = new Vtiger_Base_Model(['name' => $fieldName, 'label' => $fieldLabel, 'sort' => false]);
 				} else {
-					$fieldObjects[$fieldName] = new Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel));
+					$fieldObjects[$fieldName] = new Vtiger_Base_Model(['name' => $fieldName, 'label' => $fieldLabel]);
 				}
 			}
 			$this->listFieldModels = $fieldObjects;

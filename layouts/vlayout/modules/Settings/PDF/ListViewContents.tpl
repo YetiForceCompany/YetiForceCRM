@@ -47,12 +47,15 @@
 								<div class="pull-right actions">
 									<span class="actionImages">
 										{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
-											
 											{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-											<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if(event.stopPropagation){ldelim}event.stopPropagation();{rdelim}else{ldelim}event.cancelBubble=true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}
-											class="{$RECORD_LINK->get('class')}">
-												<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{vtranslate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
-											</a>
+											{if $RECORD_LINK->getLabel() eq 'LBL_DELETE_RECORD'}
+												<span class="{$RECORD_LINK->getIcon()} alignMiddle templateDelete" title="{vtranslate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+											{else}
+												<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if(event.stopPropagation){ldelim}event.stopPropagation();{rdelim}else{ldelim}event.cancelBubble=true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}
+												class="{$RECORD_LINK->get('class')}">
+													<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{vtranslate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+												</a>
+											{/if}
 											{if !$RECORD_LINK@last}
 												&nbsp;&nbsp;
 											{/if}

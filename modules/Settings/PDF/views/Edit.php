@@ -11,12 +11,8 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$mode = $request->getMode();
-		if ($mode) {
-			$this->$mode($request);
-		} else {
-			$this->step1($request);
-		}
+		$step = strtolower($request->getMode());
+		$this->step($step, $request);
 	}
 
 	public function preProcess(Vtiger_Request $request)
@@ -27,14 +23,14 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		$recordId = $request->get('record');
 		$viewer->assign('RECORDID', $recordId);
 		if ($recordId) {
-			$pdfModel = Settings_PDF_Record_Model::getInstance($recordId);
+			$pdfModel = Settings_PDF_Record_Model::getInstanceById($recordId);
 			$viewer->assign('PDF_MODEL', $pdfModel);
 		}
 		$viewer->assign('RECORD_MODE', $request->getMode());
 		$viewer->view('EditHeader.tpl', $request->getModule(false));
 	}
 
-	public function step1(Vtiger_Request $request)
+	public function step($step, Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -42,15 +38,15 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 
 		$recordId = $request->get('record');
 		if ($recordId) {
-			$pdfModel = Settings_PDF_Record_Model::getInstance($recordId);
+			$pdfModel = Settings_PDF_Record_Model::getInstanceById($recordId);
 			$viewer->assign('RECORDID', $recordId);
-			$viewer->assign('MODULE_MODEL', $pdfModel->getModule());
+			//$viewer->assign('MODULE_MODEL', $pdfModel->getModule());
 			$viewer->assign('MODE', 'edit');
 		} else {
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
-			$selectedModule = $request->get('source_module');
-			if (!empty($selectedModule)) {
-				$viewer->assign('SELECTED_MODULE', $selectedModule);
+			$fields = $pdfModel->getData();
+			foreach($fields as $name => $value) {
+				$pdfModel->set($name, $request->get($name));
 			}
 		}
 
@@ -59,213 +55,108 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('Step1.tpl', $qualifiedModuleName);
+
+		switch ($step) {
+			case 'step8':
+				$viewer->view('Step8.tpl', $qualifiedModuleName);
+				break;
+
+			case 'step7':
+				$viewer->view('Step7.tpl', $qualifiedModuleName);
+				break;
+
+			case 'step6':
+				$viewer->view('Step6.tpl', $qualifiedModuleName);
+				break;
+
+			case 'step5':
+				$viewer->view('Step5.tpl', $qualifiedModuleName);
+				break;
+
+			case 'step4':
+				$viewer->view('Step4.tpl', $qualifiedModuleName);
+				break;
+
+			case 'step3':
+				$viewer->view('Step3.tpl', $qualifiedModuleName);
+				break;
+
+			case 'step2':
+				$viewer->view('Step2.tpl', $qualifiedModuleName);
+				break;
+
+			case 'step1':
+			default:
+				$selectedModule = $request->get('source_module');
+				if (!empty($selectedModule)) {
+					$viewer->assign('SELECTED_MODULE', $selectedModule);
+				} else {var_dump( $pdfModel);
+					$viewer->assign('SELECTED_MODULE', $pdfModel->get('module_name'));
+				}
+				$viewer->view('Step1.tpl', $qualifiedModuleName);
+				break;
+		}
 	}
 
-	public function step2(Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
-
-		$recordId = $request->get('record');
-		if ($recordId) {
-			$pdfModel = Settings_PDF_Record_Model::getInstance($recordId);
-			$viewer->assign('RECORDID', $recordId);
-			$viewer->assign('MODULE_MODEL', $pdfModel->getModule());
-			$viewer->assign('MODE', 'edit');
-		} else {
-			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
-		}
-
-		$fields = $pdfModel->getData();
-		foreach($fields as $name => $value) {
-			$pdfModel->set($name, $request->get($name));
-		}
-
-		$viewer->assign('PDF_MODEL', $pdfModel);
-		$viewer->assign('ALL_MODULES', Settings_PDF_Module_Model::getSupportedModules());
-
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('Step2.tpl', $qualifiedModuleName);
-	}
-
-	public function step3(Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
-
-		$recordId = $request->get('record');
-		if ($recordId) {
-			$pdfModel = Settings_PDF_Record_Model::getInstance($recordId);
-			$viewer->assign('RECORDID', $recordId);
-			$viewer->assign('MODULE_MODEL', $pdfModel->getModule());
-			$viewer->assign('MODE', 'edit');
-		} else {
-			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
-		}
-
-		$fields = $pdfModel->getData();
-		foreach($fields as $name => $value) {
-			$pdfModel->set($name, $request->get($name));
-		}
-
-		$viewer->assign('PDF_MODEL', $pdfModel);
-		$viewer->assign('ALL_MODULES', Settings_PDF_Module_Model::getSupportedModules());
-
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('Step3.tpl', $qualifiedModuleName);
-	}
-
-	public function step4(Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
-
-		$recordId = $request->get('record');
-		if ($recordId) {
-			$pdfModel = Settings_PDF_Record_Model::getInstance($recordId);
-			$viewer->assign('RECORDID', $recordId);
-			$viewer->assign('MODULE_MODEL', $pdfModel->getModule());
-			$viewer->assign('MODE', 'edit');
-		} else {
-			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
-		}
-
-		$fields = $pdfModel->getData();
-		foreach($fields as $name => $value) {
-			$pdfModel->set($name, $request->get($name));
-		}
-
-		$viewer->assign('PDF_MODEL', $pdfModel);
-		$viewer->assign('ALL_MODULES', Settings_PDF_Module_Model::getSupportedModules());
-
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('Step4.tpl', $qualifiedModuleName);
-	}
-
-	public function step5(Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
-
-		$recordId = $request->get('record');
-		if ($recordId) {
-			$pdfModel = Settings_PDF_Record_Model::getInstance($recordId);
-			$viewer->assign('RECORDID', $recordId);
-			$viewer->assign('MODULE_MODEL', $pdfModel->getModule());
-			$viewer->assign('MODE', 'edit');
-		} else {
-			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
-		}
-
-		$fields = $pdfModel->getData();
-		foreach($fields as $name => $value) {
-			$pdfModel->set($name, $request->get($name));
-		}
-
-		$viewer->assign('PDF_MODEL', $pdfModel);
-		$viewer->assign('ALL_MODULES', Settings_PDF_Module_Model::getSupportedModules());
-
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('Step5.tpl', $qualifiedModuleName);
-	}
-
-	public function step6(Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
-
-		$recordId = $request->get('record');
-		if ($recordId) {
-			$pdfModel = Settings_PDF_Record_Model::getInstance($recordId);
-			$viewer->assign('RECORDID', $recordId);
-			$viewer->assign('MODULE_MODEL', $pdfModel->getModule());
-			$viewer->assign('MODE', 'edit');
-		} else {
-			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
-		}
-
-		$fields = $pdfModel->getData();
-		foreach($fields as $name => $value) {
-			$pdfModel->set($name, $request->get($name));
-		}
-
-		$viewer->assign('PDF_MODEL', $pdfModel);
-		$viewer->assign('ALL_MODULES', Settings_PDF_Module_Model::getSupportedModules());
-
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('Step6.tpl', $qualifiedModuleName);
-	}
-
-	public function step7(Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
-
-		$recordId = $request->get('record');
-		if ($recordId) {
-			$pdfModel = Settings_PDF_Record_Model::getInstance($recordId);
-			$viewer->assign('RECORDID', $recordId);
-			$viewer->assign('MODULE_MODEL', $pdfModel->getModule());
-			$viewer->assign('MODE', 'edit');
-		} else {
-			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
-		}
-
-		$fields = $pdfModel->getData();
-		foreach($fields as $name => $value) {
-			$pdfModel->set($name, $request->get($name));
-		}
-
-		$viewer->assign('PDF_MODEL', $pdfModel);
-		$viewer->assign('ALL_MODULES', Settings_PDF_Module_Model::getSupportedModules());
-
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('Step7.tpl', $qualifiedModuleName);
-	}
-
-	function Step8(Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
-
-		$recordId = $request->get('record');
-		if ($recordId) {
-			$pdfModel = Settings_PDF_Record_Model::getInstance($recordId);
-			$selectedModule = $pdfModel->getModule();
-			$selectedModuleName = $selectedModule->getName();
-		} else {
-			$selectedModuleName = $request->get('module_name');
-			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
-			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($selectedModuleName);
-		}
-
-		$fields = $pdfModel->getData();
-		foreach($fields as $name => $value) {
-			$pdfModel->set($name, $request->get($name));
-		}
-
-		$viewer->assign('SOURCE_MODULE', $selectedModuleName);
-		$viewer->assign('RECORD', $recordId);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('PDF_MODEL', $pdfModel);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-
-		$viewer->view('Step8.tpl', $qualifiedModuleName);
-	}
+//	public function step7(Vtiger_Request $request)
+//	{
+//		$viewer = $this->getViewer($request);
+//		$moduleName = $request->getModule();
+//		$qualifiedModuleName = $request->getModule(false);
+//
+//		$recordId = $request->get('record');
+//		if ($recordId) {
+//			$pdfModel = Settings_PDF_Record_Model::getInstance($recordId);
+//			$viewer->assign('RECORDID', $recordId);
+//			$viewer->assign('MODULE_MODEL', $pdfModel->getModule());
+//			$viewer->assign('MODE', 'edit');
+//		} else {
+//			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
+//		}
+//
+//		$fields = $pdfModel->getData();
+//		foreach($fields as $name => $value) {
+//			$pdfModel->set($name, $request->get($name));
+//		}
+//
+//		$viewer->assign('PDF_MODEL', $pdfModel);
+//		$viewer->assign('ALL_MODULES', Settings_PDF_Module_Model::getSupportedModules());
+//
+//		$viewer->assign('MODULE', $moduleName);
+//		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+//		$viewer->view('Step7.tpl', $qualifiedModuleName);
+//	}
+//
+//	function Step8(Vtiger_Request $request)
+//	{
+//		$viewer = $this->getViewer($request);
+//		$moduleName = $request->getModule();
+//		$qualifiedModuleName = $request->getModule(false);
+//
+//		$recordId = $request->get('record');
+//		if ($recordId) {
+//			$pdfModel = Settings_PDF_Record_Model::getInstance($recordId);
+//			$selectedModule = $pdfModel->getModule();
+//			$selectedModuleName = $selectedModule->getName();
+//		} else {
+//			$selectedModuleName = $request->get('module_name');
+//			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
+//			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($selectedModuleName);
+//		}
+//
+//		$fields = $pdfModel->getData();
+//		foreach($fields as $name => $value) {
+//			$pdfModel->set($name, $request->get($name));
+//		}
+//
+//		$viewer->assign('SOURCE_MODULE', $selectedModuleName);
+//		$viewer->assign('RECORD', $recordId);
+//		$viewer->assign('MODULE', $moduleName);
+//		$viewer->assign('PDF_MODEL', $pdfModel);
+//		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+//
+//		$viewer->view('Step8.tpl', $qualifiedModuleName);
+//	}
 
 	public function getFooterScripts(Vtiger_Request $request)
 	{
@@ -295,7 +186,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
 		$cssFileNames = array(
-			"~layouts/vlayout/modules/Settings/$moduleName/Index.css",
+			"~layouts/vlayout/modules/Settings/$moduleName/Edit.css",
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);

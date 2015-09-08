@@ -60,10 +60,22 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", { }, {
 		});
 	},
 
+	registerTemplateDelete: function(container) {
+		container.find('.templateDelete').each(function(index) {
+			jQuery(this).on('click', function(e) {
+				e.stopPropagation();
+				e.preventDefault();
+				var templateId = jQuery(this).closest('tr').data('id');
+				Vtiger_List_Js.deleteRecord(templateId);
+			});
+		});
+	},
+
 	registerEvents: function () {
 		this._super();
 		var container = this.getListContainer();
 		this.registerFilterChangeEvent();
 		this.registerAddNewTemplate(container);
+		this.registerTemplateDelete(container);
 	}
 });

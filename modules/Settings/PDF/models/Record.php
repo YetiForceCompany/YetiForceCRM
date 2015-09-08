@@ -59,7 +59,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Vtiger_List_Js.deleteRecord(' . $this->getId() . ');',
+				'linkurl' => '#',
 				'linkicon' => 'glyphicon glyphicon-trash'
 			)
 		);
@@ -70,13 +70,33 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		return $links;
 	}
 
+	public static function getInstanceById($recordId)
+	{
+		$db = PearDatabase::getInstance();
+		$moduleModel = Settings_Vtiger_Module_Model::getInstance('Settings:PDF');
+
+		$query = 'SELECT `'.$moduleModel->baseIndex.'`,`'.implode('`,`', $moduleModel->step1Fields).'` FROM `'.$moduleModel->baseTable.'` WHERE `'.$moduleModel->baseIndex.'` = ? LIMIT 1;';
+		$result = $db->pquery($query, [$recordId]);
+		
+		if ($db->num_rows($result) == 0) {
+			return false;
+		}
+
+		$row = $db->fetchByAssoc($result);
+
+		$pdf = new self;
+		$pdf->setData($row);
+		
+		return $pdf;
+	}
+
 	public static function getCleanInstance($moduleName)
 	{
 		$pdf = new self;
 		$data = [
 			'pdfid' => '',
 			'module_name' => $moduleName,
-			'summary' => 'qweasdas',
+			'summary' => '',
 			'cola' => '',
 			'colb' => '',
 			'colc' => '',
@@ -101,5 +121,12 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 			return $this->get('pdfid');
 		}
+	}
+
+	public function delete()
+	{
+		$db = PearDatabase::getInstance();
+		
+		return $db->delete('a_yf_pdf', '`pdfid` = ?', [$this->getId()]);
 	}
 }

@@ -34,7 +34,7 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 		}
 		$listQuery .= '`'.$module->baseIndex.'` FROM `'.$module->baseTable.'`';
 
-		$params = array();
+		$params = [];
 		$sourceModule = $this->get('sourceModule');
 		if (!empty($sourceModule)) {
 			$listQuery .= ' WHERE `module_name` = ?';
@@ -59,7 +59,7 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 
 		$listResult = $db->pquery($listQuery, $params);
 
-		$listViewRecordModels = array();
+		$listViewRecordModels = [];
 		while ($row = $db->fetchByAssoc($listResult)) {
 			$record = new $recordModelClass();
 			$module_name = $row['module_name'];
@@ -71,7 +71,7 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 				$module_name = vtranslate($module_name, $module_name);
 			}
 			$row['module_name'] = $module_name;
-			$row['summary'] = vtranslate($row['summary'], 'Settings:PDF');
+			$row['summary'] = vtranslate($row['summary'], $qualifiedModuleName);
 
 			$record->setData($row);
 			$listViewRecordModels[$record->getId()] = $record;
@@ -108,10 +108,9 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 
 		$sourceModule = $this->get('sourceModule');
 		if ($sourceModule) {
-			$listQuery .= ' WHERE module_name = ?';
+			$listQuery .= ' WHERE module_name = ?;';
 			$params[] = $sourceModule;
 		}
-		$listQuery .= ';';
 
 		$listResult = $db->pquery($listQuery, $params);
 		return $db->getSingleValue($listResult);
