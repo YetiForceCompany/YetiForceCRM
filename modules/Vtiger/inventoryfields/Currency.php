@@ -19,7 +19,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	protected $params = ['type'];
 
 	/**
-	 * Geting value to display
+	 * Getting value to display
 	 * @param int $value
 	 * @return string
 	 */
@@ -41,7 +41,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	}
 
 	/**
-	 * Geting value to display
+	 * Getting value to display
 	 * @return array
 	 */
 	public function typeValues()
