@@ -22,3 +22,4 @@ class Settings_PDF_DeleteAjax_Action extends Settings_Vtiger_Index_Action
 		}
 		$response->emit();
 	}
+}
