@@ -12,13 +12,16 @@
 <div class="form-group">
 	<label class="col-md-4 control-label">{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
-		<input name="displayType" class="form-control" type="text" value="{$MODULE_MODEL->get('displaytype')}" data-validation-engine="validate[required]" />
+		<select class='form-control select2' name="displayType" data-validation-engine="validate[required]">
+			{foreach from=$MODULE_MODEL->displayTypeBase() item=ITEM key=KEY}
+				<option value="{$ITEM}" {if $ITEM eq $MODULE_MODEL->get('displaytype')} selected {/if}>{vtranslate($ITEM, $QUALIFIED_MODULE)}</option>
+			{/foreach}
+		</select>
 	</div>
 </div>
 <div class="form-group">
 	<label class="col-md-4 control-label">{vtranslate('LBL_COLSPAN', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
-		<input name="colspan" class="form-control" type="text" value="{$MODULE_MODEL->getColSpan()}" data-validation-engine="validate[required]" />
+		<input name="colSpan" class="form-control" type="text" value="{$MODULE_MODEL->getColSpan()}" data-validation-engine="validate[required]" />
 	</div>
 </div>
-

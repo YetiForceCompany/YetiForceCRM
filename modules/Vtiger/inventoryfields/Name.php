@@ -26,4 +26,26 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 			return Vtiger_Functions::getCRMRecordLabel($value);
 		return '';
 	}
+
+	/**
+	 * Geting value to display
+	 * @return array
+	 */
+	public function modulesValues()
+	{
+		$modules = Vtiger_Module_Model::getAll([0], [], true);
+		foreach ($modules AS $module) {
+			$modulesNames[] = ['module' => $module->getName(), 'name' => $module->getName(), 'id' => $module->getName()];
+		}
+		return $modulesNames;
+	}
+
+	/**
+	 * Geting value to display
+	 * @return array
+	 */
+	public function limitValues()
+	{
+		return Vtiger_InventoryLimit_UIType::getLimits();
+	}
 }

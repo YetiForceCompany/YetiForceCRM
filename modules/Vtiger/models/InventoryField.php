@@ -421,12 +421,12 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function saveField($param)
 	{
 		$adb = PearDatabase::getInstance();
-		$columns = ['columnname','label','invtype','defaultvalue','sequence','block','displaytype','params','colspan'];
+		$columns = ['columnname','label','invtype','defaultValue','sequence','block','displayType','params','colSSpan'];
 		$set = [];
 		$params = [];
 		foreach($columns AS $columnName){
 			if(isset($param[$columnName])){
-				$set[] = '`' . $columnName . '`';
+				$set[] = '`' . strtolower($columnName) . '`';
 				$params[] = $param[$columnName];
 			}
 		}

@@ -1811,10 +1811,19 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		form.validationEngine(app.validationEngineOptions);
 		form.on('submit',function (e) {
 			var formData = form.serializeFormData();
+			var paramsName = JSON.parse(app.getMainParams('params'));
+			var params = {};
+			for( var i in formData){
+				if(jQuery.inArray(i, paramsName) != -1){
+					params[i] = formData[i];
+					delete formData[i];
+				}
+			}
 			var errorExists = form.validationEngine('validate');
 			if(errorExists != false){
 				formData.block = blockId;
 				formData.module = selectedModule;
+				formData.params = JSON.stringify(params);
 				app.saveAjax('saveInventoryField', formData).then(function (data) {
 					var result = data.result;
 					if(result && result.edit){

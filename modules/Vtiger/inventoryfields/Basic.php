@@ -17,6 +17,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	protected $dbType = 'varchar(100)';
 	protected $customColumn = [];
 	protected $summationValue = false;
+	protected $displayTypeBase = [0, 1];
 
 	/**
 	 * Geting database-type of field
@@ -26,7 +27,25 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	{
 		return $this->dbType;
 	}
-	
+
+	/**
+	 * Getting all params values
+	 * @return array
+	 */
+	public function getParams()
+	{
+		return $this->params;
+	}
+
+	/**
+	 * Getting all values display Type
+	 * @return array
+	 */
+	public function displayTypeBase()
+	{
+		return $this->displayTypeBase;
+	}
+
 	public function getColSpan()
 	{
 		return $this->colSpan;
@@ -90,7 +109,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	{
 		return $this->summationValue;
 	}
-	
+
 	public function getDefaultValue()
 	{
 		return $this->defaultValue;
