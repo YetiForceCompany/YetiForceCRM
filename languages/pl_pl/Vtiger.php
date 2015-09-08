@@ -187,6 +187,7 @@ $languageStrings = [
 	'LBL_CREATE_VIEW' => 'Utwórz nowy filtr',
 	'LBL_CREATING_NEW' => 'Nowy',
 	'LBL_SYSTEM_SETTINGS' => 'Konfiguracja systemu',
+	'LBL_USER_PANEL' => 'Panel użytkownika',
 	'LBL_CURRENCY' => 'Waluta',
 	'LBL_CURRENT_FQ' => 'Obecny kwartał',
 	'LBL_CURRENT_FY' => 'Obecny rok',
@@ -993,6 +994,7 @@ $languageStrings = [
 	'LBL_ENTER_SEARCHED_ADDRESS' => 'Wprowadź szukany adres',
 	'Email Opt Out' => 'Rezygnacja z otrzymywania emaili',
 	'LBL_SIGN_IN' => 'Zaloguj',
+	'LBL_CHAT' => 'Czat',
 	
 	//Inventory
 	'LBL_DISCOUNT' => 'Rabat',
