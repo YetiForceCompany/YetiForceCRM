@@ -7,9 +7,9 @@
 			<input type="hidden" name="parent" value="Settings">
             <input type="hidden" class="step" value="8" />
             <input type="hidden" name="record" value="{$RECORDID}" />
-			{foreach from=$PDF_MODEL->getData() key=NAME item=VALUE}
+			{*{foreach from=$PDF_MODEL->getData() key=NAME item=VALUE}
 				<input type="hidden" name="{$NAME}" value="{$VALUE}" />
-			{/foreach}
+			{/foreach}*}
 
             <div class="padding1per stepBorder">
                 <label>
@@ -21,7 +21,7 @@
                         {vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
                     </label>
                     <div class="col-sm-6 controls">
-                        <input type="text" name="summary" class="form-control" value="{$PDF_MODEL->get('summary')}" id="summary" />
+                        <input type="text" name="colg" class="form-control" value="{$PDF_MODEL->get('colg')}" id="colg" />
                     </div>
                 </div>
             </div>

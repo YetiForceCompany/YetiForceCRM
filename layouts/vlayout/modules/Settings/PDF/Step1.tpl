@@ -1,5 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
-{strip}
+{strip}{$MODE}
     <div class="pdfTemplateContents leftRightPadding3p">
         <form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step1" class="form-horizontal">
             <input type="hidden" name="module" value="PDF">

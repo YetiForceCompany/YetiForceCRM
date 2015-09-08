@@ -40,24 +40,55 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js",{},{
 		var aDeferred = jQuery.Deferred();
 		var form = this.getContainer();
 		var formData = form.serializeFormData();
+		formData['async'] = false;
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position' : 'html',
 			'blockInfo' : {
 				'enabled' : true
 			}
 		});
-		AppConnector.request(formData).then(
+		
+		var saveData = form.serializeFormData();
+		saveData['action'] = 'Save';
+		saveData['step'] = 1;
+		saveData['view'] = '';
+		saveData['async'] = false;
+		console.log(saveData);
+		AppConnector.request(saveData).then(
 			function(data) {
-				form.hide();
-				progressIndicatorElement.progressIndicator({
-					'mode' : 'hide'
-				})
-				aDeferred.resolve(data);
+				data = JSON.parse(data);
+				if(data.success == true) {
+					Settings_Vtiger_Index_Js.showMessage({text : app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
+					var pdfRecordElement = jQuery('[name="record"]',form);
+					if(pdfRecordElement.val() === '') {
+						pdfRecordElement.val(data.result.id);
+						formData['record'] = data.result.id;
+					}
+					
+					formData['record'] = data.result.id;
+					console.log(formData['record']);
+					
+					console.log('drugi appcoinnector', formData);
+					AppConnector.request(formData).then(
+						function(data) {
+							form.hide();
+							progressIndicatorElement.progressIndicator({
+								'mode' : 'hide'
+							})
+							aDeferred.resolve(data);
+						},
+						function(error,err){
+
+						}
+					);
+				}
+				else console.log('error!');
 			},
 			function(error,err){
-
+				app.errorLog(error, err);
 			}
 		);
+
 		return aDeferred.promise();
 	},
 	

@@ -12,7 +12,15 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	var $baseTable = 'a_yf_pdf';
 	var $baseIndex = 'pdfid';
 	var $listFields = ['module_name' => 'Module', 'summary' => 'Summary', 'cola' => 'ColA', 'colb' => 'ColB', 'colc' => 'ColC', 'cold' => 'ColD'];
-	var $step1Fields = ['module_name', 'summary'];
+	public static $allFields = ['module_name', 'summary', 'cola', 'colb', 'colc', 'cold', 'cole', 'colf', 'colg'];
+	public static $step1Fields = ['module_name', 'summary'];
+	public static $step2Fields = ['cola'];
+	public static $step3Fields = ['colb'];
+	public static $step4Fields = ['colc'];
+	public static $step5Fields = ['cold'];
+	public static $step6Fields = ['cole'];
+	public static $step7Fields = ['colf'];
+	public static $step8Fields = ['colg'];
 	var $name = 'PDF';
 
 	/**
@@ -64,5 +72,27 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 			$this->listFieldModels = $fieldObjects;
 		}
 		return $this->listFieldModels;
+	}
+
+	public static function getFieldsByStep($step=1) {
+		switch($step) {
+			case 8:
+				return self::$step8Fields;
+			case 7:
+				return self::$step7Fields;
+			case 6:
+				return self::$step6Fields;
+			case 5:
+				return self::$step5Fields;
+			case 4:
+				return self::$step4Fields;
+			case 3:
+				return self::$step3Fields;
+			case 2:
+				return self::$step2Fields;
+			case 1:
+			default:
+				return self::$step1Fields;
+		}
 	}
 }

@@ -12,20 +12,17 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Basic_Action
 	public function process(Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
-		$summary = $request->get('summary');
-		$moduleName = $request->get('module_name');
+		$step = $request->get('step');
 
 		if ($recordId) {
-			$pdfModel = Settings_PDF_Record_Model::getInstance($recordId);
+			$pdfModel = Settings_PDF_Record_Model::getInstanceById($recordId);
 		} else {
-			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
+			$pdfModel = Settings_PDF_Record_Model::getCleanInstance('');
 		}
 
 		$response = new Vtiger_Response();
-		$pdfModel->set('summary', $summary);
-		$pdfModel->set('module_name', $moduleName);
 
-		$pdfModel->save();
+		$pdfModel->save($step);
 
 		$response->setResult(['id' => $pdfModel->get('pdfid')]);
 		$response->emit();
