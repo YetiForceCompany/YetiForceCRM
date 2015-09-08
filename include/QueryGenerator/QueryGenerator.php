@@ -99,6 +99,7 @@ class QueryGenerator
 		$this->columnsCustom = [];
 		$this->fromClauseCustom = [];
 		$this->whereClauseCustom = [];
+		$this->sourceRecord = false;
 	}
 
 	/**
@@ -166,6 +167,16 @@ class QueryGenerator
 		$this->whereFields[] = $fieldName;
 	}
 
+	public function addSourceRecord($sourceRecord)
+	{
+		$this->sourceRecord = $sourceRecord;
+	}
+	
+	public function getSourceRecord()
+	{
+		return $this->sourceRecord;
+	}
+	
 	public function getOwnerFieldList()
 	{
 		return $this->ownerFields;
@@ -951,7 +962,7 @@ class QueryGenerator
 		if (!$onlyWhereQuery) {
 			$sql .= " AND $baseTable.$baseTableIndex > 0";
 			$instance = CRMEntity::getInstance($baseModule);
-			$sql .= $instance->getUserAccessConditionsQuerySR($baseModule, $current_user);
+			$sql .= $instance->getUserAccessConditionsQuerySR($baseModule, $current_user, $this->getSourceRecord());
 		}
 		$this->whereClause = $sql;
 		return $sql;

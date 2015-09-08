@@ -560,7 +560,7 @@ class CRMEntity
 				array_push($value, $fldvalue);
 			}
 		}
-		
+
 		if ($insertion_mode == 'edit') {
 			if ($module == 'Potentials') {
 				$dbquery = 'select sales_stage from vtiger_potential where potentialid = ?';
@@ -2399,7 +2399,7 @@ class CRMEntity
 		return $query;
 	}
 
-	function getUserAccessConditionsQuerySR($module, $current_user = false)
+	function getUserAccessConditionsQuerySR($module, $current_user = false, $relatedRecord = false)
 	{
 		if ($current_user == false)
 			$current_user = vglobal('current_user');
@@ -2410,6 +2410,16 @@ class CRMEntity
 		$sharedParameter = $securityParameter = '';
 		$query = '';
 		$tabId = getTabid($module);
+
+		if ($relatedRecord) {
+			//getInstanceById
+			//getRoleInformation($roleId)
+			
+			$recordMetadata = Vtiger_Functions::getCRMRecordMetadata($relatedRecord);
+			if ($recordMetadata['smownerid'] == $current_user->id) {
+				return '';
+			}
+		}
 
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$securityParameter = $this->getUserAccessConditionsQuery($module, $current_user);
