@@ -90,7 +90,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				$selectedModule = $request->get('source_module');
 				if (!empty($selectedModule)) {
 					$viewer->assign('SELECTED_MODULE', $selectedModule);
-				} else {var_dump( $pdfModel);
+				} else {
 					$viewer->assign('SELECTED_MODULE', $pdfModel->get('module_name'));
 				}
 				$viewer->view('Step1.tpl', $qualifiedModuleName);
