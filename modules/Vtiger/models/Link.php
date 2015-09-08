@@ -228,9 +228,11 @@ class Vtiger_Link_Model extends Vtiger_Link
 			if (strcmp($key, 'sourceModule') == 0) {
 				$sourceModule = $value;
 			}
-			$newUrlParts = array();
+			$newUrlParts = [];
 			array_push($newUrlParts, $key);
-			array_push($newUrlParts, $value);
+			if(!empty($value)){
+				array_push($newUrlParts, $value);
+			}
 			$parametersParts[$index] = implode('=', $newUrlParts);
 		}
 

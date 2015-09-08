@@ -2,17 +2,20 @@
 {strip}
 {assign var=MENUS value=$MENU.childs}
 {if $MENUS|@count neq 0}
-	<ul class="nav nav-pills nav-stacked collapse {if $PARENT_MODULE == $MENU.id}in{/if}" id="menu{$MENU.id}" role="menu" aria-hidden="true">
+	<ul class="nav subMenu {if $MENU['active'] || $PARENT_MODULE == $MENU['id']}in{/if}" role="menu" aria-hidden="true">
 		{assign var=TABINDEX value=$TABINDEX-1}
 		{foreach key=KEY item=MENU from=$MENUS}
-			{*{assign var=CHILDS value=$MENU.childs}
+			{assign var=CHILDS value=$MENU['childs']}
+			{assign var=MENU_MODULE value='Menu'}
+			{if isset($MENU['moduleName'])}
+				{assign var=MENU_MODULE value=$MENU['moduleName']}
+			{/if}
+				
 			{if $CHILDS|@count neq 0}
-				{assign var=HASPOPUP value='true'}
-				{assign var=CLASS value='dropdown'}
+				{assign var=HASCHILDS value='true'}
 			{else}
-				{assign var=HASPOPUP value='false'}
-				{assign var=CLASS value=''}
-			{/if}*}
+				{assign var=HASCHILDS value='false'}
+			{/if}
 			{include file='menu/'|cat:$MENU.type|cat:'.tpl'|@vtemplate_path:$MODULE}
 		{/foreach}
 	</ul>

@@ -13,8 +13,5 @@
 	{include file="Header.tpl"|vtemplate_path:$MODULE}
     <div class="bodyContents">
         <div class="mainContainer">
-            <div class="col-md-2">
-				<div>{include file='Sidebar.tpl'|@vtemplate_path:$QUALIFIED_MODULE}</div>
-            </div>
-			<div class="contentsDiv col-md-10 marginLeftZero">
+			<div class="contentsDiv">
 {/strip}

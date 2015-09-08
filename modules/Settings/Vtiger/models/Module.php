@@ -132,4 +132,51 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 	{
 		return 'index.php?module=' . $this->getName() . '&parent=' . $this->getParentName() . '&view=Index';
 	}
+
+	public function prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId)
+	{
+		if (!empty($selectedMenuId)) {
+			$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($selectedMenuId);
+		} elseif (!empty($moduleName) && $moduleName != 'Vtiger') {
+			$fieldItem = Settings_Vtiger_Index_View::getSelectedFieldFromModule($menuModels, $moduleName);
+			if ($fieldItem) {
+				$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($fieldItem->get('blockid'));
+				$fieldId = $fieldItem->get('fieldid');
+			} else {
+				reset($menuModels);
+				$firstKey = key($menuModels);
+				$selectedMenu = $menuModels[$firstKey];
+			}
+		} else {
+			$selectedMenu = false;
+		}
+		$menu = [];
+		foreach ($menuModels as $blockId => $menuModel) {
+			$childs = [];
+			foreach ($menuModel->getMenuItems() as $menuItem) {
+				$childs[] = [
+					'id' => $menuItem->getId(),
+					'active' => $menuItem->getId() == $fieldId ? true : false,
+					'name' => $menuItem->get('name'),
+					'type' => 'Shortcut',
+					'sequence' => $menuModel->get('sequence'),
+					'newwindow' => '0',
+					'dataurl' => $menuItem->getUrl(),
+					'parent' => 'Settings',
+					'moduleName' => Vtiger_Menu_Model::getModuleNameFromUrl($menuItem->getUrl()),
+				];
+			}
+
+			$menu[] = [
+				'id' => $blockId,
+				'active' => ($selectedMenu && $selectedMenu->get('blockid') == $blockId) ? true : false,
+				'name' => $menuModel->getLabel(),
+				'type' => 'Label',
+				'sequence' => $menuModel->get('sequence'),
+				'childs' => $childs,
+				'moduleName' => 'Settings::Vtiger',
+			];
+		}
+		return $menu;
+	}
 }

@@ -45,53 +45,32 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 * Function to get the list of Header Links
 	 * @return <Array> - List of Vtiger_Link_Model instances
 	 */
-	function getHeaderLinks()
+	function getHeaderLinks(Vtiger_Request $request)
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$headerLinks = [];
 		if ($userModel->isAdminUser()) {
-			$headerLinks[] = [
-				'linktype' => 'HEADERLINK',
-				'linklabel' => 'LBL_SYSTEM_SETTINGS',
-				'linkurl' => 'index.php?module=Vtiger&parent=Settings&view=Index',
-				'glyphicon' => 'glyphicon glyphicon-cog',
-			];
+			if($request->get('parent') != 'Settings') {
+				$headerLinks[] = [
+					'linktype' => 'HEADERLINK',
+					'linklabel' => 'LBL_SYSTEM_SETTINGS',
+					'linkurl' => 'index.php?module=Vtiger&parent=Settings&view=Index',
+					'glyphicon' => 'glyphicon glyphicon-cog',
+				];
+			}else{
+				$headerLinks[] = [
+					'linktype' => 'HEADERLINK',
+					'linklabel' => 'LBL_USER_PANEL',
+					'linkurl' => 'index.php',
+					'glyphicon' => 'glyphicon glyphicon-home',
+				];
+			}
 		}
 		$headerLinks[] = [
 			'linktype' => 'HEADERLINK',
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
 			'glyphicon' => 'glyphicon glyphicon-off',
-		];
-		$headerLinks[] = [
-			'linktype' => 'USERACTION',
-			'linklabel' => '1111',
-			'glyphicon' => 'glyphicon glyphicon-list',
-			'span' => '3',
-		];
-		$headerLinks[] = [
-			'linktype' => 'USERACTION',
-			'linklabel' => '2222',
-			'glyphicon' => 'glyphicon glyphicon-bell',
-			'span' => '3',
-		];
-		$headerLinks[] = [
-			'linktype' => 'USERACTION',
-			'linklabel' => '3333',
-			'glyphicon' => 'glyphicon glyphicon-comment',
-			'span' => '2',
-		];
-		$headerLinks[] = [
-			'linktype' => 'USERACTION',
-			'linklabel' => '444',
-			'glyphicon' => 'glyphicon glyphicon-user',
-			'span' => '2',
-		];
-		$headerLinks[] = [
-			'linktype' => 'USERACTION',
-			'linklabel' => '555',
-			'glyphicon' => 'glyphicon glyphicon-cog',
-			'span' => '2',
 		];
 		$headerLinkInstances = [];
 		foreach ($headerLinks as $headerLink) {
