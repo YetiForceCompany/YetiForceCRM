@@ -63,8 +63,8 @@ class Vtiger_Inventory_Model
 	}
 
 	/**
-	 * Get global giscounts list
-	 * @return array giscounts list
+	 * Get global discounts list
+	 * @return array discounts list
 	 */
 	public function getGlobalDiscounts()
 	{
