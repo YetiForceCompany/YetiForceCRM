@@ -3801,6 +3801,11 @@ span[name=existingImages] img{
 	background-color: #444853;
     color: #fff;
     height: 50px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 50px;
+    z-index: 1030;
 }
 .noSpaces{
 	padding: 0;
@@ -3832,7 +3837,7 @@ html,body,.baseContainer
 .bodyContent{
     min-height: 100%;
     height: 100%;
-    margin-top: -48px;
+    margin-top: 0;
     padding-top: 48px;
 }
 .bodyContents{

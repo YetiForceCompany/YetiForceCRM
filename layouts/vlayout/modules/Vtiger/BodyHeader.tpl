@@ -78,11 +78,6 @@
 				<div class="pull-right selectSearch">
 					<div class="input-group globalSearchInput">
 						<span class="input-group-btn">
-							<button class="btn btn-default" id="globalSearch" title="{vtranslate('LBL_ADVANCE_SEARCH')}" type="button">
-								<span class="glyphicon glyphicon-th-large"></span>
-							</button>
-						</span>
-						<span class="input-group-btn">
 							<select class="chzn-select col-md-5" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}" id="basicSearchModulesList" >
 								<option value="" class="globalSearch_module_All">{vtranslate('LBL_ALL_RECORDS', $MODULE_NAME)}</option>
 								{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
@@ -99,6 +94,11 @@
 						<span class="input-group-btn">
 							<button class="btn btn-default" id="searchIcon" type="button">
 								<span class="glyphicon glyphicon-search"></span>
+							</button>
+						</span>
+						<span class="input-group-btn">
+							<button class="btn btn-default" id="globalSearch" title="{vtranslate('LBL_ADVANCE_SEARCH')}" type="button">
+								<span class="glyphicon glyphicon-th-large"></span>
 							</button>
 						</span>
 					</div>
