@@ -2,7 +2,7 @@
 {strip}
     {assign var='count' value=0}
 	{assign var="announcement" value=$ANNOUNCEMENT->get('announcement')}
-	<div class="container-fluid bodyHeader noSpaces commonActionsContainer">
+	<div class="container-fluid bodyHeader noSpaces commonActionsContainer{if $LEFTPANELHIDE} open{/if}">
 		<div class="row noSpaces">
 			<div class="col-md-3 leftHeader">
 				<div class="pull-left">

@@ -3743,11 +3743,17 @@ span[name=existingImages] img{
 	width: 100%;
 	height: 100%;
 }
-.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel {
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
+.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
 	left: 160px;
 	z-index: 0;
 	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
+}
+.bodyHeader.open,.footerContainer.open{
+	left: 210px;
+	-webkit-transition: left ease-in-out 0.3s;
+	transition: left ease-in-out 0.3s;
 }
 .baseContainer .leftPanel .tm-sidebar-nav:not(.uk-open) .uk-dropdown,
 .baseContainer .leftPanel .tm-sidebar-nav:not(.uk-open) .uk-dropdown:before {
@@ -3830,7 +3836,7 @@ html,body,.baseContainer
 }
 .basePanel, .bodyContents, .mainContainer,.contentsDiv{
     min-height: 100%;
-    height: 100%;
+   // height: 100%;
 }
 .bodyContent{
     min-height: 100%;

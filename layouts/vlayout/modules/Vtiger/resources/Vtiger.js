@@ -392,6 +392,14 @@ var Vtiger_Index_Js = {
 	},
 
 	registerShowHideLeftPanelEvent : function() {
+		$('.baseContainer:not(.leftPanelOpen) .leftPanel:not(.stillOpen)').on({
+			mouseenter: function () {
+				$('.bodyHeader,.footerContainer').addClass('open');
+			},
+			mouseleave: function () {
+				$('.bodyHeader,.footerContainer').removeClass('open');
+			}
+		});
 		jQuery('#toggleButton').click(function(e){
 			e.preventDefault();
 			var leftPanel = jQuery('#leftPanel');
