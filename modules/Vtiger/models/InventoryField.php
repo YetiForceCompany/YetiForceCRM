@@ -215,7 +215,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Get fields to auto-completion
+	 * Get fields to auto-complete
 	 * @param string $moduleName
 	 * @return array
 	 */
