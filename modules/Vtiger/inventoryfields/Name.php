@@ -16,7 +16,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	protected $params = ['modules', 'limit'];
 
 	/**
-	 * Geting value to display
+	 * Getting value to display
 	 * @param type $value
 	 * @return type
 	 */
@@ -28,7 +28,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	}
 
 	/**
-	 * Geting value to display
+	 * Getting value to display
 	 * @return array
 	 */
 	public function modulesValues()
@@ -41,7 +41,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	}
 
 	/**
-	 * Geting value to display
+	 * Getting value to display
 	 * @return array
 	 */
 	public function limitValues()
