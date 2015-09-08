@@ -53,7 +53,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js",{},{
 		saveData['step'] = 1;
 		saveData['view'] = '';
 		saveData['async'] = false;
-		console.log(saveData);
 		AppConnector.request(saveData).then(
 			function(data) {
 				data = JSON.parse(data);
@@ -66,9 +65,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js",{},{
 					}
 					
 					formData['record'] = data.result.id;
-					console.log(formData['record']);
-					
-					console.log('drugi appcoinnector', formData);
 					AppConnector.request(formData).then(
 						function(data) {
 							form.hide();
@@ -82,7 +78,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js",{},{
 						}
 					);
 				}
-				else console.log('error!');
 			},
 			function(error,err){
 				app.errorLog(error, err);

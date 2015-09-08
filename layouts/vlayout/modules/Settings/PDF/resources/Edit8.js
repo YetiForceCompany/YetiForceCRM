@@ -47,15 +47,16 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 				'enabled' : true
 			}
 		});
-		AppConnector.request(formData).then(
+		var saveData = form.serializeFormData();
+		saveData['action'] = 'Save';
+		saveData['step'] = 8;
+		saveData['view'] = '';
+		AppConnector.request(saveData).then(
 			function(data) {
-				form.hide();
-				if(data.result) {
+				data = JSON.parse(data);
+				if(data.success == true) {
 					Settings_Vtiger_Index_Js.showMessage({text : app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
-					var pdfRecordElement = jQuery('[name="record"]',form);
-					if(pdfRecordElement.val() === '') {
-						pdfRecordElement.val(data.result.id);
-					}
+
 					setTimeout(function() {
 						window.location.href = "index.php?module=PDF&parent=Settings&page=1&view=List";
 						progressIndicatorElement.progressIndicator({
@@ -65,7 +66,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 				}
 			},
 			function(error,err){
-
+				app.errorLog(error, err);
 			}
 		);
 		return aDeferred.promise();

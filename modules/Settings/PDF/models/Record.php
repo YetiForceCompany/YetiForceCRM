@@ -75,7 +75,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance('Settings:PDF');
 
-		$query = 'SELECT `'.$moduleModel->baseIndex.'`,`'.implode('`,`', Settings_PDF_Module_Model::$step1Fields).'` FROM `'.$moduleModel->baseTable.'` WHERE `'.$moduleModel->baseIndex.'` = ? LIMIT 1;';
+		$query = 'SELECT `'.$moduleModel->baseIndex.'`,`'.implode('`,`', Settings_PDF_Module_Model::$allFields).'` FROM `'.$moduleModel->baseTable.'` WHERE `'.$moduleModel->baseIndex.'` = ? LIMIT 1;';
 		$result = $db->pquery($query, [$recordId]);
 		
 		if ($db->num_rows($result) == 0) {
@@ -111,49 +111,51 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 
 		switch ($step) {
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
+				$params = [];
+				$fields = [];
+				foreach($stepFields as $field) {
+					$params[] = $this->get($field);
+					$fields[] = "`$field` = ?";
+				}
+
+				$params[] = $this->getId();
+
+				$query = 'UPDATE `a_yf_pdf` SET '.implode(',', $fields).' WHERE `pdfid` = ? LIMIT 1;';
+				$result = $db->pquery($query, $params);
+				return $this->get('pdfid');
+
 			case 1:
-				$step1Fields = Settings_PDF_Module_Model::getFieldsByStep(1);
+				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
 				if (!$this->getId()) {
 					$params = [];
-					foreach($step1Fields as $field) {
+					foreach($stepFields as $field) {
 						$params[$field] = $this->get($field);
 					}
-//					$params = [
-//						'module_name' => $this->get('module_name'), 'summary' => $this->get('summary'), 'cola' => $this->get('cola'),
-//						'colb' => $this->get('colb'), 'colc' => $this->get('colc'), 'cold' => $this->get('cold')
-//					];
 					$db->insert('a_yf_pdf', $params);
 
 					$this->set('pdfid', $db->getLastInsertID());
 				} else {
 					$params = [];
 					$fields = [];
-					foreach($step1Fields as $field) {
+					foreach($stepFields as $field) {
 						$params[] = $this->get($field);
 						$fields[] = "`$field` = ?";
 					}
 					
 					$params[] = $this->getId();
-
 					$query = 'UPDATE `a_yf_pdf` SET '.implode(',', $fields).' WHERE `pdfid` = ? LIMIT 1;';
 					$result = $db->pquery($query, $params);
 				}
-					
 				return $this->get('pdfid');
-				break;
 		}
-
-//		if (!$this->getId()) {
-//			$params = [
-//				'module_name' => $this->get('module_name'), 'summary' => $this->get('summary'), 'cola' => $this->get('cola'),
-//				'colb' => $this->get('colb'), 'colc' => $this->get('colc'), 'cold' => $this->get('cold')
-//			];
-//			$db->insert('a_yf_pdf', $params);
-//
-//			$this->set('pdfid', $db->getLastInsertID());
-//
-//			return $this->get('pdfid');
-//		}
 	}
 
 	public function delete()

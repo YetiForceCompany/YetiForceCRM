@@ -20,6 +20,11 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Basic_Action
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance('');
 		}
 
+		$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
+		foreach($stepFields as $field) {
+			$pdfModel->set($field, $request->get($field));
+		}
+
 		$response = new Vtiger_Response();
 
 		$pdfModel->save($step);

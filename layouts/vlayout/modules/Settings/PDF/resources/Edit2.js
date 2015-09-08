@@ -50,16 +50,32 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js",{},{
 				'enabled' : true
 			}
 		});
-		AppConnector.request(formData).then(
+		var saveData = form.serializeFormData();
+		saveData['action'] = 'Save';
+		saveData['step'] = 2;
+		saveData['view'] = '';
+		AppConnector.request(saveData).then(
 			function(data) {
-				form.hide();
-				progressIndicatorElement.progressIndicator({
-					'mode' : 'hide'
-				})
-				aDeferred.resolve(data);
+				data = JSON.parse(data);
+				if(data.success == true) {
+					Settings_Vtiger_Index_Js.showMessage({text : app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
+
+					AppConnector.request(formData).then(
+						function(data) {
+							form.hide();
+							progressIndicatorElement.progressIndicator({
+								'mode' : 'hide'
+							})
+							aDeferred.resolve(data);
+						},
+						function(error,err){
+
+						}
+					);
+				}
 			},
 			function(error,err){
-
+				app.errorLog(error, err);
 			}
 		);
 		return aDeferred.promise();
