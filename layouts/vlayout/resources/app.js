@@ -1143,11 +1143,3 @@ jQuery(document).ready(function () {
 	if (pageController)
 		pageController.registerEvents();
 });
-
-/* Global function for UI5 embed page to callback */
-function resizeUI5IframeReset() {
-	jQuery('#ui5frame').height(650);
-}
-function resizeUI5Iframe(newHeight) {
-	jQuery('#ui5frame').height(parseInt(newHeight, 10) + 15); // +15px - resize on IE without scrollbars
-}
