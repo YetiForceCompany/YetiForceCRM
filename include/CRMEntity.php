@@ -2412,12 +2412,16 @@ class CRMEntity
 		$tabId = getTabid($module);
 
 		if ($relatedRecord) {
-			//getInstanceById
-			//getRoleInformation($roleId)
-			
-			$recordMetadata = Vtiger_Functions::getCRMRecordMetadata($relatedRecord);
-			if ($recordMetadata['smownerid'] == $current_user->id) {
-				return '';
+			$role = getRoleInformation($current_user->roleid);
+			if ($role['listrelatedrecord'] == 1) {
+				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($relatedRecord);
+				$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
+				if (!$recordPermission) {
+					throw new AppException('LBL_PERMISSION_DENIED');
+				}
+				if ($recordMetaData['smownerid'] == $current_user->id) {
+					return '';
+				}
 			}
 		}
 
