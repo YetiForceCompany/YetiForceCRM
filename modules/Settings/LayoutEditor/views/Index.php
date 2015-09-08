@@ -42,7 +42,6 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$fieldModels = $moduleModel->getFields();
 		$blockModels = $moduleModel->getBlocks();
 
-
 		$blockIdFieldMap = array();
 		$inactiveFields = array();
 		foreach ($fieldModels as $fieldModel) {
@@ -69,6 +68,8 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
+		$viewer->assign('IS_INVENTORY', $moduleModel->isInventory());
+		$viewer->assign('INVENTORY_MODAL',  Vtiger_InventoryField_Model::getInstance($sourceModule));
 		$viewer->view('Index.tpl', $qualifiedModule);
 	}
 

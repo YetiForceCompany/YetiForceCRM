@@ -15,7 +15,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	protected $dbType = 'int(19)';
 
 	/**
-	 * Geting value to display
+	 * Getting value to display
 	 * @param type $value
 	 * @return type
 	 */

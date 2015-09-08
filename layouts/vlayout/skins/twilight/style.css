@@ -1956,13 +1956,13 @@ th.htColHeader,
 	border-top: 1px solid #ffffff;
 	border-bottom: 1px solid #dddddd;
 }
-.layoutContent #moduleBlocks .editFieldsTable .layoutBlockHeader .blockLabel {
+.layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockLabel {
 	padding-top: 13px;
 }
-.layoutContent #moduleBlocks .editFieldsTable .layoutBlockHeader .blockActions .btn-group {
+.layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockActions .btn-group {
 	margin-top: 5px;
 }
-.layoutContent #moduleBlocks .editFieldsTable .layoutBlockHeader .blockActions .btn-group .dropdown-menu {
+.layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockActions .btn-group .dropdown-menu {
 	left: -100%;
 }
 .layoutContent .relatedTabModulesList {
@@ -3673,4 +3673,10 @@ span[name=existingImages] img{
 }
 .checkboxForm{
 	padding-top: 7px;
+}
+#inventoryViewLayout .inventoryBlock  ul li .editFields{
+	padding: 5px;
+}
+#inventoryViewLayout{
+    margin-top: -10px;
 }

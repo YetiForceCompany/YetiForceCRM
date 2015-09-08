@@ -16,7 +16,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	protected $params = ['modules', 'limit'];
 
 	/**
-	 * Geting value to display
+	 * Getting value to display
 	 * @param type $value
 	 * @return type
 	 */
@@ -25,5 +25,27 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 		if ($value != 0)
 			return Vtiger_Functions::getCRMRecordLabel($value);
 		return '';
+	}
+
+	/**
+	 * Getting value to display
+	 * @return array
+	 */
+	public function modulesValues()
+	{
+		$modules = Vtiger_Module_Model::getAll([0], [], true);
+		foreach ($modules AS $module) {
+			$modulesNames[] = ['module' => $module->getName(), 'name' => $module->getName(), 'id' => $module->getName()];
+		}
+		return $modulesNames;
+	}
+
+	/**
+	 * Getting value to display
+	 * @return array
+	 */
+	public function limitValues()
+	{
+		return Vtiger_InventoryLimit_UIType::getLimits();
 	}
 }

@@ -95,6 +95,24 @@
 				</div>
 				<br>
 				<div class="row">
+					<label class="col-md-3"><strong>{vtranslate('LBL_PERMISSIONS_TO_LIST_RELATED_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
+					<div class="col-md-7 fieldValue">
+						<div class="pull-left">
+							<input type="checkbox" value="1" {if $RECORD_MODEL->get('listrelatedrecord')} checked="" {/if} name="listRelatedRecord" class="alignTop"/>
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<label class="col-md-3"><strong>{vtranslate('LBL_PERMISSIONS_TO_VIEW_RELATED_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
+					<div class="col-md-7 fieldValue">
+						<div class="pull-left">
+							<input type="checkbox" value="1" {if $RECORD_MODEL->get('previewrelatedrecord')} checked="" {/if} name="previewRelatedRecord" class="alignTop"/>
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="row">
 					<label class="col-md-3"><strong>{vtranslate('LBL_SEARCH_WITHOUT_PERMISSION',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						{assign var="SEARCH_MODULES" value=explode(',',$RECORD_MODEL->get('searchunpriv'))}

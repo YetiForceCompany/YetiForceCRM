@@ -16,7 +16,7 @@ class Vtiger_Purchase_InventoryField extends Vtiger_Basic_InventoryField
 	protected $dbType = 'decimal(27,8) NOT NULL DEFAULT 0';
 
 	/**
-	 * Geting value to display
+	 * Getting value to display
 	 * @param type $value
 	 * @return type
 	 */

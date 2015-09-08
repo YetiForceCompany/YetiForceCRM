@@ -19,7 +19,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	protected $params = ['type'];
 
 	/**
-	 * Geting value to display
+	 * Getting value to display
 	 * @param int $value
 	 * @return string
 	 */
@@ -38,5 +38,14 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 			}
 		}
 		return $return;
+	}
+
+	/**
+	 * Getting value to display
+	 * @return array
+	 */
+	public function typeValues()
+	{
+		return Vtiger_Functions::getAllCurrency(true);
 	}
 }

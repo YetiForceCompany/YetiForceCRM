@@ -37,6 +37,8 @@ $languageStrings = [
 	'LBL_CLENDAR_ALLO_RECORDS_1' => 'I can only see myself',
 	'LBL_CLENDAR_ALLO_RECORDS_2' => 'I can only see myself and groups',
 	'LBL_CLENDAR_ALLO_RECORDS_3' => 'I can see the users who result from the record list I can access',
+	'LBL_PERMISSIONS_TO_LIST_RELATED_RECORDS' => 'Should the list of records (that we do not own) related to our records be shared',
+	'LBL_PERMISSIONS_TO_VIEW_RELATED_RECORDS' => 'Should  the preview of records (that we do not own) related to our records be shared',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'No Permissions to Move',

@@ -1141,7 +1141,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		}
 		$moduleName = 'Calendar';
 		$instance = CRMEntity::getInstance($moduleName);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
+		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser, $recordId);
 		if ($securityParameter != '')
 			$query .= $securityParameter;
 		$query .= " ORDER BY date_start, time_start LIMIT " . $pagingModel->getStartIndex() . ", " . ($pagingModel->getPageLimit() + 1);
@@ -1479,7 +1479,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 
 		$focus = CRMEntity::getInstance($this->getName());
 		$focus->id = $recordId;
-
+		
 		$result = $focus->$functionName($recordId, $this->getId(), $relatedModule->getId());
 		$query = $result['query'] . ' ' . $this->getSpecificRelationQuery($relatedModuleName);
 
@@ -1503,8 +1503,9 @@ class Vtiger_Module_Model extends Vtiger_Module
 			$selectColumnSql = 'SELECT DISTINCT vtiger_crmentity.crmid,' . $selectColumnSql;
 			$query = $selectColumnSql . ' FROM ' . $newQuery[1];
 		}
+		
 		$instance = CRMEntity::getInstance($relatedModuleName);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName);
+		$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName, false, $recordId);
 		if ($securityParameter != '')
 			$query .= $securityParameter;
 

@@ -9,6 +9,8 @@
 class Vtiger_Inventory_Model
 {
 
+	var $name = false;
+	
 	/**
 	 * Get invnetory instance
 	 * @param string $moduleName Module name
@@ -20,11 +22,20 @@ class Vtiger_Inventory_Model
 		if (!$instance) {
 			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Inventory', $moduleName);
 			$instance = new $modelClassName();
+			$instance->initialize($moduleName);
 			Vtiger_Cache::set('Inventory', $moduleName, $instance);
 		}
 		return $instance;
 	}
 
+	/**
+	 * Initialize this instance
+	 */
+	function initialize($name)
+	{
+		$this->name = $name;
+	}
+	
 	protected static $discountsConfig = false;
 
 	/**
@@ -52,8 +63,8 @@ class Vtiger_Inventory_Model
 	}
 
 	/**
-	 * Get global giscounts list
-	 * @return array giscounts list
+	 * Get global discounts list
+	 * @return array discounts list
 	 */
 	public function getGlobalDiscounts()
 	{
@@ -157,5 +168,48 @@ class Vtiger_Inventory_Model
 		}
 
 		return ['taxs' => $accountTaxs, 'name' => $name];
+	}
+	
+	/**
+	 * Active inventory blocks
+	 * @param string $moduleName Module name
+	 * @return string/false
+	 */
+	public function setInventoryTable($type){
+		$db = PearDatabase::getInstance();
+		$moduleName = $this->name;
+		
+		$focus = CRMEntity::getInstance($moduleName);
+		$basetable = $focus->table_name;
+		$basetableid = $focus->table_index;
+		
+		$tableEnds = ['_inventory','_invfield','_invmap'];
+		
+		if($type === true || $type === 'true'){
+			$type = 1;
+		}else{
+			$type = 0;
+		}
+		$result = $db->updateBlob('vtiger_tab', 'type', [$type,$moduleName], 'name = ?');
+		$i = 0;
+		while($result && $type && $ends = $tableEnds[$i]){
+			switch ($ends) {
+				case '_inventory':
+					$sql = '(id int(19) PRIMARY KEY,seq int(10),CONSTRAINT `fk_1_' . $basetable.$ends . '` FOREIGN KEY (`id`) REFERENCES `' . $basetable . '` (`' . $basetableid . '`) ON DELETE CASCADE)';
+					break;
+				case '_invfield':
+					$sql = "(id int(19) AUTO_INCREMENT PRIMARY KEY, columnname varchar(30) NOT NULL, label varchar(50) NOT NULL, invtype varchar(30) NOT NULL,presence tinyint(1) unsigned NOT NULL DEFAULT '0',
+					defaultvalue varchar(255),sequence int(10) unsigned NOT NULL, block tinyint(1) unsigned NOT NULL,displaytype tinyint(1) unsigned NOT NULL DEFAULT '1', params text, colspan tinyint(1) unsigned NOT NULL DEFAULT '1')";
+					break;
+				case '_invmap':
+					$sql = '(module varchar(50) PRIMARY KEY,field varchar(50),tofield varchar(50))';
+					break;
+			}
+			if (!Vtiger_Utils::CheckTable($basetable.$ends)) {
+				Vtiger_Utils::CreateTable($basetable.$ends,$sql,true);
+			}
+			$i++;
+		}
+		return $result;
 	}
 }

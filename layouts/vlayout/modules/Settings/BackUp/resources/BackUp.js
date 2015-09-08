@@ -66,16 +66,24 @@ jQuery.Class("Settings_BackUp_Index_Js",{},{
     },
 	
 	registerSaveBackupSetting: function(content){
+		var thisInstance = this;
 		content.find('.configField').on('switchChange.bootstrapSwitch', function(event, state) {
 			var target = $(event.currentTarget);
-			var params = {};
-			params['type'] = target.data('type');
-			params['param'] = target.attr('name');
-			params['val'] = state;
+			thisInstance.registerSave(target,state);
+		}).on('change',function(e){
+			var target = $(e.currentTarget);
+			thisInstance.registerSave(target,target.val());
+		});
+	},
+	
+	registerSave: function(target,value){
+		var params = {};
+		params['type'] = target.data('type');
+		params['param'] = target.attr('name');
+		params['val'] = value;
 
-			app.saveAjax('updateSettings', params).then(function (data) {
-				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
-			});
+		app.saveAjax('updateSettings', params).then(function (data) {
+			Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 		});
 	},
 	

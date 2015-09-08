@@ -10,13 +10,13 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 {
 
 	protected $name = 'MarginP';
-	protected $defaultLabel = 'LBL_MARGIN_PRECENT';
+	protected $defaultLabel = 'LBL_MARGIN_PERCENT';
 	protected $defaultValue = 0;
 	protected $columnName = 'marginp';
 	protected $dbType = 'decimal(27,8) DEFAULT 0';
 
 	/**
-	 * Geting value to display
+	 * Getting value to display
 	 * @param type $value
 	 * @return type
 	 */

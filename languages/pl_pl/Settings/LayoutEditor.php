@@ -98,6 +98,25 @@ $languageStrings = [
 	'PLL_DEPENDENTS_LIST' => 'Jeden do wielu',
 	'PLL_ADD' => 'Tworzenie',
 	'PLL_SELECT' => 'Wybieranie',
+	
+	// inventory tab
+	'LBL_MANAGING_AN_ADVANCED_BLOCK' => 'Zarządzanie blokiem zaawansowanym',
+	'LBL_HEADLINE' => 'Nagłówek',
+	'LBL_BASIC_VERSE' => 'Wiersz podstawowy',
+	'LBL_ADDITIONAL_VERSE' => 'Wiersz dodatkowy',
+	'LBL_ADVANCED_MODULE' => 'Zaawansowany',
+	'LBL_BASIC_MODULE' => 'Podstawowy',
+	
+	'LBL_EDITING_INVENTORY_FIELD' => 'Edycja',
+	'LBL_CREATING_INVENTORY_FIELD' => 'Dodaj',
+	'LBL_NAME_FIELD' => 'Nazwa',
+	'LBL_COLSPAN' => 'Szerokość',
+	'LBL_COMMENT' => 'Komentarz',
+	'LBL_SELECT_TYPE_OF_INVENTORY' => 'Wybierz rodzaj pola',
+	'LBL_NEXT' => 'Dalej',
+	'LBL_PARAMS_TYPE' => 'Typ',
+	'LBL_PARAMS_MODULES' => 'Moduły',
+	'LBL_PARAMS_LIMIT' => 'Limit',
 ];
 
 $jsLanguageStrings = [
