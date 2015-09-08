@@ -188,6 +188,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 		$viewer->assign('LANGUAGE', $currentUser->get('language'));
+		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -198,6 +199,11 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		return 'Header.tpl';
 	}
 
+	protected function showBodyHeader()
+	{
+		return true;
+	}
+	
 	//Note : To get the right hook for immediate parent in PHP,
 	// specially in case of deep hierarchy
 	//TODO: Need to revisit this.

@@ -3673,17 +3673,40 @@ span[name=existingImages] img{
 .baseContainer .leftPanel .menuContainer a{
 	border-radius: 0;
 	vertical-align: text-top;
-    padding: 6px 15px;
+    padding: 6px 15px 6px 50px;
+	word-wrap: break-word;
+	font-size: 16px;
 }
-.baseContainer .leftPanel .menuContainer a{
-	border-radius: 0;
-	vertical-align: text-top;
-    padding: 6px 15px;
+.baseContainer .leftPanel .menuContainer a:hover,
+.baseContainer .leftPanel .menuContainer a:focus
+{
+	color:#000;
+}
+.baseContainer .leftPanel .menuContainer a.hasIcon {
+	padding: 6px 15px;
 }
 .baseContainer .leftPanel .menuContainer a .menuName{
-    display: inline-block;
-    vertical-align: top;
-    margin-top: 3px;
+    top: -1px;
+    position: relative;
+	word-wrap: break-word;
+}
+.baseContainer .leftPanel .menuContainer .subMenu  a {
+	font-size: 14px;
+}
+.baseContainer .leftPanel .menuContainer .subMenu a:hover,
+.baseContainer .leftPanel .menuContainer .subMenu a:focus
+{
+	color:#fff;
+	background: #444853;
+}
+.baseContainer .leftPanel .menuContainer .subMenu  a.hasIcon {
+	padding: 6px 10px;
+}
+.baseContainer .leftPanel .menuContainer .subMenu a .menuName{
+    top: 2px;
+}
+.baseContainer .leftPanel .menuContainer a.hasIcon img{
+	height: 20px;
 }
 .baseContainer .leftPanel .menuContainer a .glyphicon,
 .baseContainer .leftPanel .menuContainer a.hasIcon img
@@ -3743,11 +3766,15 @@ span[name=existingImages] img{
 .nav li{
 	position: static;
 }
-.nav li:hover .subMenu{
+.nav li:hover > .subMenu{
     display: block;
     position: absolute;
     left: 210px;
 	top: 50px;
+}
+.nav li:hover > .subMenu .subMenu{
+	left: 260px;
+	    top: 0;
 }
 .nav li:hover .subMenu a{
     color: #000;
@@ -3758,18 +3785,18 @@ span[name=existingImages] img{
     position: fixed;
     top: 50px;
     z-index: -1;
-    width: 210px;
+    width: 260px;
     height: 100%;
     background: #f0f1f1;
+	border-right: 1px solid #dddddd;
 }
 .leftPanel .nav .subMenu li {
-	width: 210px;
+	width: 260px;
 }
 .leftPanel .nav .subMenu li.menuLabel > a {
 	font-weight: 900;
 	text-transform: uppercase;
 }
-
 .bodyHeader{
 	background-color: #444853;
     color: #fff;
