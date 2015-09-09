@@ -307,14 +307,22 @@ jQuery.Class("Reservations_Calendar_Js",{
 		}
 		return this.calendarView;
 	},
+	createAddButtons : function(){
+		var thisInstance = this;
+		var calendarview = this.getCalendarView();
+		var listViewMassActions = jQuery('.listViewMassActions').clone(true,true);
+		listViewMassActions.removeClass('hide');
+		listViewMassActions.prependTo(calendarview.find('.fc-toolbar .fc-left'));
+	},
 	registerChangeView : function(){
 		var thisInstance = this;
-		thisInstance.getCalendarView().find("button.fc-button").click(function () {
+		thisInstance.getCalendarView().find("button.fc-button:not(.dropdown-toggle)").click(function () {
 			thisInstance.loadCalendarData();
 		});
 	},
 	registerEvents : function() {
 		this.registerCalendar();
+		this.createAddButtons();
 		this.loadCalendarData(true);
 		this.registerChangeView();
 	}

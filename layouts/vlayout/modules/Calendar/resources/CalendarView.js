@@ -387,13 +387,16 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	},
 	registerChangeView: function () {
 		var thisInstance = this;
-		thisInstance.getCalendarView().find("button.fc-button").click(function () {
+		thisInstance.getCalendarView().find("button.fc-button:not(.dropdown-toggle)").click(function () {
 			thisInstance.loadCalendarData();
 		});
 	},
 	createAddButton: function () {
 		var thisInstance = this;
 		var calendarview = this.getCalendarView();
+		var listViewMassActions = jQuery('.listViewMassActions').clone(true,true);
+		listViewMassActions.removeClass('hide');
+		listViewMassActions.prependTo(calendarview.find('.fc-toolbar .fc-left'));
 		jQuery('<span class=""><button class="btn btn-default fc-button fc-state-default addButton">' + app.vtranslate('JS_ADD_EVENT_TASK') + '</button></span>')
 			.prependTo(calendarview.find('.fc-toolbar .fc-right')).on('click', 'button', function (e) {
 			thisInstance.getCalendarCreateView().then(function (data) {

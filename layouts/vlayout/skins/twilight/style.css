@@ -3927,3 +3927,6 @@ html,body,.baseContainer
 .rightPanelOpen .panel{
    visibility: hidden;
 }
+.bottom_margin {
+	padding-bottom: 2em;
+}
