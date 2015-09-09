@@ -32,7 +32,7 @@
 </style>
 <div class="calendarViewContainer">
 	<div class="row bottom_margin">
-		<div class="col-md-12">
+		<div class="">
 			<p><!-- Divider --></p>
 			<div id="calendarview"></div>
 		</div>

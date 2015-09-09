@@ -435,30 +435,14 @@ var Vtiger_Index_Js = {
 		});
 	},
 	registerShowHideRightPanelEvent : function() {
-		jQuery('#toggleRightPanelButton').click(function(e){
-			e.preventDefault();
-			var leftPanel = jQuery('#leftPanel');
-			var centerContents = jQuery('#centerPanel');
-			var rightPanel = jQuery('#rightPanel');
-			var tButtonImage = jQuery('#tRightPanelButtonImage');
-			var leftPanelStatus = leftPanel.attr('class').indexOf(' hide');
-			if (rightPanel.attr('class').indexOf('hide') == -1 ) {
-				rightPanel.addClass('hide');
-				if(leftPanelStatus == -1){
-					centerContents.removeClass('col-md-8').addClass('col-md-10');
-				}else{
-					centerContents.removeClass('col-md-10').addClass('col-md-12');
-				}
-				tButtonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
-			} else {
-				rightPanel.removeClass('hide');
-				if(leftPanelStatus == -1){
-					centerContents.removeClass('col-md-10').addClass('col-md-8');
-				}else{
-					centerContents.removeClass('col-md-12').addClass('col-md-10');
-				}
-				tButtonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
-			}
+		var rightPanel = jQuery('#rightPanel');
+		var centerContents = jQuery('#centerPanel');
+		$('#rightPanel').on('mouseenter', function() {
+			rightPanel.addClass('rightPanelHover').children().css('visibility', 'visible');
+			centerContents.addClass('centerPanelHover')
+		}).on('mouseleave', function() {
+			rightPanel.removeClass('rightPanelHover').children().css('visibility', 'hidden');;
+			centerContents.removeClass('centerPanelHover')
 		});
 	},
 

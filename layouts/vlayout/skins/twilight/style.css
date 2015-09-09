@@ -389,20 +389,6 @@ hr {
 .toggleButton .glyphicon-chevron-right {
 	background-position: -460px -72px !important;
 }
-.toggleRightPanelButton {
-	background: #eeeff2;
-	font-weight: bold;
-	padding: 5px 2px !important;
-	position: absolute;
-	top: 20px;
-	right: -1px;
-	cursor: pointer;
-	width: 15px;
-	z-index: 100;
-	border: 1px solid #dddddd;
-	border-right: 0;
-	display: inline-block;
-}
 .quickLinksDiv {
 	margin: 10px 0;
 }
@@ -3080,7 +3066,7 @@ td.listViewEntryValue .row input {
 	padding-right: 0px;
 }
 .paddingRightZero {
-	padding-right: 0px;
+	padding-right: 0 !important;
 }
 .detailViewToolbar {
 	margin-top: 5px;
@@ -3900,5 +3886,44 @@ html,body,.baseContainer
 	min-width: 130px;
 }
 .vakata-context, .vakata-context ul{
-z-index: 1031;
+	z-index: 1031;
+}
+.rightPanelOpen{
+	position: fixed;
+    min-width: 300px;
+    top: 50px;
+    right: -290px;
+    z-index: 1035;
+	background: rgba(0, 0, 0, 0.4);
+	border-left: 1px solid #797979;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+	overflow-y: auto;
+	height: 100%;
+}
+.rightPanelHover{
+    right: 0px;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+.centerPanelHover{
+	padding-right: 310px !important;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+#centerPanel{
+    padding-right: 20px;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+.rightPanelOpen .panel{
+   visibility: hidden;
 }
