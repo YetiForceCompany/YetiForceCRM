@@ -12,4 +12,4 @@
 {include file="Header.tpl"|vtemplate_path:$MODULE}
 <div class="bodyContents">
 	<div class="mainContainer">
-		<div id="centerPanel" class="contentsDiv {if $LEFTPANELHIDE neq '1'} col-md-12 {else} col-md-10{/if}">
+		<div id="centerPanel" class="contentsDiv col-md-12">

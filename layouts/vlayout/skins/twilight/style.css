@@ -3930,3 +3930,6 @@ html,body,.baseContainer
 .bottom_margin {
 	padding-bottom: 2em;
 }
+.leftPanelStillOpen{
+	margin-right: 160px !important;
+}

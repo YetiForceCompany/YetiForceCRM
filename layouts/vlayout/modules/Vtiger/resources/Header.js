@@ -708,8 +708,8 @@ jQuery.Class("Vtiger_Header_Js", {
 		$('.remindersNotice').click(function () {
 			block.toggleClass("toggled");
 		});
-		block.css('top', $('.commonActionsContainer').height() + 3);
-		block.height($(window).height() - $('footer.navbar-default').height() - $('.commonActionsContainer').height());
+		block.css('top', $('.commonActionsContainer').height());
+		block.height($(window).height() - $('footer.navbar-default').height() - $('.commonActionsContainer').height() + 2);
 	},
 	registerEvents: function () {
 		var thisInstance = this;
