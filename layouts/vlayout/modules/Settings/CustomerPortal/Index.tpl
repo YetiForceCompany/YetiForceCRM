@@ -15,7 +15,7 @@
 		<h3>{vtranslate('CustomerPortal', $QUALIFIED_MODULE)}</h3>
 	</div>
 	<hr>
-    <div class="contents row">
+    <div class="contents">
         <form id="customerPortalForm" class="form-horizontal"  method="POST">
             <div class="row">
                 <div class="col-md-6">
@@ -53,7 +53,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">{vtranslate('LBL_PORTAL_URL', $QUALIFIED_MODULE)}</label>
-                        <div class="col-md-7 controls">
+                        <div class="col-md-7 controls form-control-static">
                             <span class="help-inline"><a target="_blank" href="{$PORTAL_URL}">{$PORTAL_URL}</a></span>
                         </div>
                     </div>

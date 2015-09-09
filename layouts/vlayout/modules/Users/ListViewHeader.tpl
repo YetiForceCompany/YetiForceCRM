@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div class=" listViewPageDiv">
-	<div class="widget_header row">
+	<div class="widget_header">
 		<h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>
 	</div>
 	<hr>
