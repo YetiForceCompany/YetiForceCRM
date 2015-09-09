@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.6.17 : Database - yetiforce
+MySQL - 5.6.17 : Database - new_layout
 *********************************************************************
 */
 
@@ -6587,6 +6587,7 @@ CREATE TABLE `vtiger_settings_blocks` (
   `blockid` int(19) NOT NULL,
   `label` varchar(250) DEFAULT NULL,
   `sequence` int(19) DEFAULT NULL,
+  `icon` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`blockid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
