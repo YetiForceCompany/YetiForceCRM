@@ -81,6 +81,7 @@ $languageStrings = [
 	'LBL_ChangeTypeOK'	=>	'Изменен статус сообщения',
 	'Configuration'	=>	'Настройка просмотра почты',
 	'Date of receipt' => 'Дата поступления',
+	'LBL_NO_MAILS' => 'No emails',
 	
 	//dashboards
 	'Graf'	=>	'Письма по статусу',
