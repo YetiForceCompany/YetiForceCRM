@@ -1831,12 +1831,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 					if(result && result.edit){
 						app.hideModalWindow();
 						var liElement = containerInventory.find('[data-id="' + result.data.id + '"]');
-						liElement.find('.fieldLabel').text(result.data.label);
-						//Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
+						liElement.find('.fieldLabel').text(result.data.translate);
 					}else if(result){
 						app.hideModalWindow();
 						var newLiElement = containerInventory.find('.newLiElement').clone(true, true);
-						newLiElement.removeClass('hide newLiElement').find('.editFields').attr('data-id',result.data.id).attr('data-sequence',result.data.sequence).attr('data-name',result.data.invtype).find('.fieldLabel').text(result.data.label);
+						newLiElement.removeClass('hide newLiElement').find('.editFields').attr('data-id',result.data.id).attr('data-sequence',result.data.sequence).attr('data-name',result.data.invtype).find('.fieldLabel').text(result.data.translate);
 						containerInventory.find('[data-block-id="' + result.data.block + '"] .connectedSortable').append(newLiElement);
 						
 					}

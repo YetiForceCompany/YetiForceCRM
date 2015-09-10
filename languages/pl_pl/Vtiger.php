@@ -1047,6 +1047,7 @@ $languageStrings = [
 	'LBL_EXCHANGE_RATE' => 'Kurs waluty',
 	'LBL_EXCHANGE_DATE' => 'Data kursu',
 	'LBL_NO_EXCHANGE_RATES' => 'Brak kursów walut, sprawdz czy prawidłowo działa pobieranie kursów walut',
+	'LBL_COMMENT' => 'Komentarz',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
