@@ -195,7 +195,7 @@ class Vtiger_Inventory_Model
 		while($result && $type && $ends = $tableEnds[$i]){
 			switch ($ends) {
 				case '_inventory':
-					$sql = '(id int(19) PRIMARY KEY,seq int(10),CONSTRAINT `fk_1_' . $basetable.$ends . '` FOREIGN KEY (`id`) REFERENCES `' . $basetable . '` (`' . $basetableid . '`) ON DELETE CASCADE)';
+					$sql = '(id int(19),seq int(10),KEY id (id),CONSTRAINT `fk_1_' . $basetable.$ends . '` FOREIGN KEY (`id`) REFERENCES `' . $basetable . '` (`' . $basetableid . '`) ON DELETE CASCADE)';
 					break;
 				case '_invfield':
 					$sql = "(id int(19) AUTO_INCREMENT PRIMARY KEY, columnname varchar(30) NOT NULL, label varchar(50) NOT NULL, invtype varchar(30) NOT NULL,presence tinyint(1) unsigned NOT NULL DEFAULT '0',
