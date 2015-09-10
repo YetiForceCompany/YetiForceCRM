@@ -78,7 +78,7 @@
 								{/foreach}
 								{CurrencyField::convertToUserFormat($SUM, null, true)}
 							{/if}
-							{if $FIELD->getName() == 'Name'}
+							{if $FIELD->getName() == 'Name' && in_array("qty",$COLUMNS)}
 								{vtranslate('LBL_SUMMARY', $MODULE)}
 							{/if}
 						</td>

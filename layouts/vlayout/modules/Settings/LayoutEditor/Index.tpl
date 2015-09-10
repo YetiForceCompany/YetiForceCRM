@@ -31,7 +31,7 @@
 					</select>
 				</div>
 				<div class="form-group pull-right">
-					<input id="inventorySwitch" title="{vtranslate('LBL_CHANGE_BLOCK_ADVANCED', $QUALIFIED_MODULE)}" class="switchBtn" type="checkbox" data-label-width="5" data-on-text="{vtranslate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}" {if !$IS_INVENTORY}checked{/if} >
+					<input id="inventorySwitch" title="{vtranslate('LBL_CHANGE_BLOCK_ADVANCED', $QUALIFIED_MODULE)}" class="switchBtn" type="checkbox" data-label-width="5" data-handle-width="100" data-on-text="{vtranslate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}" {if !$IS_INVENTORY}checked{/if} >
 				</div>
             </div>
         </div>

@@ -19,20 +19,22 @@
 			{/if}
 			{assign var="CURRENCY_SYMBOLAND" value=Vtiger_Functions::getCurrencySymbolandRate($CURRENCY)}
 		{/if}
-		<table class="table table-bordered inventoryHeader blockContainer">
-			<thead>
-				<tr>
-					<th style="width: 40%;"></th>
-						{foreach item=FIELD from=$FIELDS[0]}
-						<th colspan="{$FIELD->get('colspan')}">
-							<span class="inventoryLineItemHeader">{vtranslate($FIELD->get('label'), $MODULE_NAME)}:</span>&nbsp;
-							{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
-							{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE_NAME ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
-						</th>
-					{/foreach}
-				</tr>
-			</thead>
-		</table>
+		{if count($FIELDS[0]) neq 0}
+			<table class="table table-bordered inventoryHeader blockContainer">
+				<thead>
+					<tr>
+						<th style="width: 40%;"></th>
+							{foreach item=FIELD from=$FIELDS[0]}
+							<th colspan="{$FIELD->get('colspan')}">
+								<span class="inventoryLineItemHeader">{vtranslate($FIELD->get('label'), $MODULE_NAME)}:</span>&nbsp;
+								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
+								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE_NAME ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
+							</th>
+						{/foreach}
+					</tr>
+				</thead>
+			</table>
+		{/if}
 		{assign var="FIELDS_TEXT_ALIGN_RIGHT" value=['TotalPrice','Tax','MarginP','Margin','Purchase','Discount','NetPrice','GrossPrice','UnitPrice','Quantity']}
 		<table class="table blockContainer inventoryItems">
 			<thead>

@@ -48,8 +48,8 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
-
-		if (!$this->fields) {
+		$key = $returnInBlock?'block':'noBlock';
+		if (!$this->fields[$key]) {
 			$db = PearDatabase::getInstance();
 			$table = $this->getTableName('fields');
 			$result = $db->query("SHOW TABLES LIKE '$table'");
@@ -58,7 +58,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			}
 			$where = 'presence = ?';
 			$params = [0];
-			if($ids){
+			if ($ids) {
 				$where = '`id` IN (' . generateQuestionMarks($ids) . ')';
 				$params = $ids;
 			}
@@ -69,15 +69,16 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 					continue;
 				}
 				if ($returnInBlock) {
-						$fields[$row['block']][$row['columnname']] = $this->getInventoryFieldInstance($row);
-				}else{
+					$fields[$row['block']][$row['columnname']] = $this->getInventoryFieldInstance($row);
+				} else {
 					$fields[$row['columnname']] = $this->getInventoryFieldInstance($row);
 				}
 			}
-			$this->fields = $fields;
+			$this->fields[$key] = $fields;
 		} else {
-			$fields = $this->fields;
+			$fields = $this->fields[$key];
 		}
+		
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $fields;
 	}
@@ -114,7 +115,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		}
 
 		$columns = [];
-		foreach ($this->getFields() as $field) {
+		foreach ($this->getFields() as $key => $field) {
 			$column = $field->getColumnName();
 			if ($column != '')
 				$columns[] = $column;
@@ -157,7 +158,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$fieldPaths = ['modules/Vtiger/inventoryfields/'];
 		if ($module) {
 			$fieldPaths[] = "modules/$module/inventoryfields/";
-		}else{
+		} else {
 			$module = 'Vtiger';
 		}
 		$fields = [];
@@ -192,7 +193,9 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 				$params = Zend_Json::decode($field->get('params'));
 			}
 		}
-
+		if(is_string($params['modules'])){
+			$params['modules'] = [$params['modules']];
+		}
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $params;
 	}
@@ -371,7 +374,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function addField($type, $params)
 	{
 		$adb = PearDatabase::getInstance();
-		
+
 		$inventoryClassName = Vtiger_Loader::getComponentClassName('InventoryField', $type, $this->get('module'));
 		$instance = new $inventoryClassName();
 		$table = $this->getTableName();
@@ -400,15 +403,15 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$sequence = (int) $adb->getSingleValue($result) + 1;
 
 		return $adb->insert($this->getTableName('fields'), [
-			'columnname' => $columnName,
-			'label' => $label,
-			'invtype' => $instance->getName(),
-			'defaultvalue' => $defaultValue,
-			'sequence' => $sequence,
-			'block' => $params['block'],
-			'displaytype' => $params['displayType'],
-			'params' => $params['params'],
-			'colspan' => $colSpan,
+				'columnname' => $columnName,
+				'label' => $label,
+				'invtype' => $instance->getName(),
+				'defaultvalue' => $defaultValue,
+				'sequence' => $sequence,
+				'block' => $params['block'],
+				'displaytype' => $params['displayType'],
+				'params' => $params['params'],
+				'colspan' => $colSpan,
 		]);
 	}
 
@@ -421,19 +424,19 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function saveField($param)
 	{
 		$adb = PearDatabase::getInstance();
-		$columns = ['columnname','label','invtype','defaultValue','sequence','block','displayType','params','colSSpan'];
+		$columns = ['columnname', 'label', 'invtype', 'defaultValue', 'sequence', 'block', 'displayType', 'params', 'colSSpan'];
 		$set = [];
 		$params = [];
-		foreach($columns AS $columnName){
-			if(isset($param[$columnName])){
+		foreach ($columns AS $columnName) {
+			if (isset($param[$columnName])) {
 				$set[] = '`' . strtolower($columnName) . '`';
 				$params[] = $param[$columnName];
 			}
 		}
 		$id = $param['id'];
 		$params[] = $id;
-		$set = implode(' = ?, ',$set);
-		if($set){
+		$set = implode(' = ?, ', $set);
+		if ($set) {
 			$set .= ' = ? ';
 			$query = "UPDATE `" . $this->getTableName('fields') . "` SET " . $set . " WHERE `id` = ?";
 			$return = $adb->pquery($query, $params);
