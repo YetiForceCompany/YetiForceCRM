@@ -3709,7 +3709,7 @@ span[name=existingImages] img{
 }
 .baseContainer:not(.leftPanelOpen) {
 	margin-left: 50px;
-	overflow-x: hidden;
+	//overflow-x: hidden;
 }
 .baseContainer .basePanel {
 	position: relative;
@@ -3807,7 +3807,7 @@ html,body,.baseContainer
 }
 #page
 {
-    display:table;
+    display:block;
     width: 100%;
 	height: 100%;
     -moz-box-sizing: border-box;
