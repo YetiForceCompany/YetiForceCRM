@@ -256,7 +256,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
-
+		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
 		return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
 	}
 

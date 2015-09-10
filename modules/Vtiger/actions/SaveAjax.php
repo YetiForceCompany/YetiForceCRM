@@ -76,6 +76,8 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 				$uiType = $fieldModel->get('uitype');
 				if ($uiType == 70) {
 					$fieldValue = $recordModel->get($fieldName);
+				} elseif (in_array($uiType, [71,72])) { // currency ui types
+					$fieldValue = $recordModel->get($fieldName);
 				} else {
 					$fieldValue = $fieldModel->getUITypeModel()->getUserRequestValue($recordModel->get($fieldName), $recordId);
 				}

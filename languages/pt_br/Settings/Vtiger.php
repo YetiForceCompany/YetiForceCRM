@@ -211,6 +211,7 @@ $languageStrings = [
 	'LBL_ADDING_ERROR' => 'Erro ao adicionar um campo',
 	'LBL_ADDED_COMPANY_FIELD' => 'Campo adicionado',
 	'LBL_FIELD_NOT_VALID' => 'O campo deve conter somente letras',
+	'LBL_EXTENDED_MODULES'=>'Extended modules',
 	/* settings menu */
 	'LBL_QUICK_CREATE_EDITOR' => 'Editor Criar Rápido',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'O módulo permite alterar o layout dos campos na janela criar rápido',

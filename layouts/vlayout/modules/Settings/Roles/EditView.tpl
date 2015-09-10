@@ -43,30 +43,12 @@
                 <div class="row">
 					<label class="col-md-3"><strong>{vtranslate('LBL_CAN_ASSIGN_RECORDS_TO', $QUALIFIED_MODULE)}: </strong></label>
 					<div class="col-md-7 fieldValue">
-						<div>
-							<label for="allow1">
-								<input type="radio" id="allow1" value="1"{if !$RECORD_MODEL->get('allowassignedrecordsto')} checked=""{/if} {if $RECORD_MODEL->get('allowassignedrecordsto') eq '1'} checked="" {/if} name="allowassignedrecordsto" data-handler="new" class="alignTop"/>&nbsp;
-								{vtranslate('LBL_ALL_USERS',$QUALIFIED_MODULE)}
-							</label>
-						</div>
-						<div>
-							<label for="allow2">
-								<input type="radio" id="allow2" value="2" {if $RECORD_MODEL->get('allowassignedrecordsto') eq '2'} checked="" {/if} name="allowassignedrecordsto" data-handler="new" class="alignTop"/>&nbsp;
-								{vtranslate('LBL_USERS_WITH_SAME_OR_LOWER_LEVEL',$QUALIFIED_MODULE)}
-							</label>
-						</div>
-                        <div>
-							<label for="allow3">
-								<input type="radio" id="allow3" value="3" {if $RECORD_MODEL->get('allowassignedrecordsto') eq '3'} checked="" {/if} name="allowassignedrecordsto" data-handler="new" class="alignTop"/>&nbsp;
-								{vtranslate('LBL_USERS_WITH_LOWER_LEVEL',$QUALIFIED_MODULE)}
-							</label>
-						</div>
-                        <div>
-							<label for="allow4">
-								<input type="radio" id="allow4" value="4" {if $RECORD_MODEL->get('allowassignedrecordsto') eq '4'} checked="" {/if} name="allowassignedrecordsto" data-handler="new" class="alignTop"/>&nbsp;
-								{vtranslate('LBL_JUST_ME',$QUALIFIED_MODULE)}
-							</label>
-						</div>
+						<select id="allowassignedrecordsto" class="row select2 form-control" name="allowassignedrecordsto">
+							<option value="1" {if $RECORD_MODEL->get('allowassignedrecordsto') == '1'}selected="true"{/if}>{vtranslate('LBL_ALL_USERS', $QUALIFIED_MODULE)}</option>
+							<option value="2" {if $RECORD_MODEL->get('allowassignedrecordsto') == '2'}selected="true"{/if}>{vtranslate('LBL_USERS_WITH_SAME_OR_LOWER_LEVEL', $QUALIFIED_MODULE)}</option>
+							<option value="3" {if $RECORD_MODEL->get('allowassignedrecordsto') == '3'}selected="true"{/if}>{vtranslate('LBL_USERS_WITH_LOWER_LEVEL', $QUALIFIED_MODULE)}</option>
+							<option value="4" {if $RECORD_MODEL->get('allowassignedrecordsto') == '4'}selected="true"{/if}>{vtranslate('LBL_JUST_ME', $QUALIFIED_MODULE)}</option>
+						</select>
 					</div>
                 </div><br>
 				<div class="row">
@@ -95,6 +77,28 @@
 				</div>
 				<br>
 				<div class="row">
+					<label class="col-md-3"><strong>{vtranslate('LBL_PERMISSIONS_TO_LIST_RELATED_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
+					<div class="col-md-7 fieldValue">
+						<select id="listRelatedRecord" class="row select2 form-control" name="listRelatedRecord">
+							<option value="0" {if $RECORD_MODEL->get('listrelatedrecord') == '0'}selected="true"{/if}>{vtranslate('LBL_INACTIVE', $QUALIFIED_MODULE)}</option>
+							<option value="1" {if $RECORD_MODEL->get('listrelatedrecord') == '1'}selected="true"{/if}>{vtranslate('LBL_ONLY_PARENT', $QUALIFIED_MODULE)}</option>
+							<option value="2" {if $RECORD_MODEL->get('listrelatedrecord') == '2'}selected="true"{/if}>{vtranslate('LBL_ACCORDING_TO_HIERARCHY', $QUALIFIED_MODULE)}</option>
+						</select>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<label class="col-md-3"><strong>{vtranslate('LBL_PERMISSIONS_TO_VIEW_RELATED_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
+					<div class="col-md-7 fieldValue">
+						<select id="previewRelatedRecord" class="row select2 form-control" name="previewRelatedRecord">
+							<option value="0" {if $RECORD_MODEL->get('previewrelatedrecord') == '0'}selected="true"{/if}>{vtranslate('LBL_INACTIVE', $QUALIFIED_MODULE)}</option>
+							<option value="1" {if $RECORD_MODEL->get('previewrelatedrecord') == '1'}selected="true"{/if}>{vtranslate('LBL_ONLY_PARENT', $QUALIFIED_MODULE)}</option>
+							<option value="2" {if $RECORD_MODEL->get('previewrelatedrecord') == '2'}selected="true"{/if}>{vtranslate('LBL_ACCORDING_TO_HIERARCHY', $QUALIFIED_MODULE)}</option>
+						</select>
+					</div>
+				</div>
+				<br>
+				<div class="row">
 					<label class="col-md-3"><strong>{vtranslate('LBL_SEARCH_WITHOUT_PERMISSION',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						{assign var="SEARCH_MODULES" value=explode(',',$RECORD_MODEL->get('searchunpriv'))}
@@ -109,24 +113,11 @@
 				<div class="row">
 					<label class="col-md-3"><strong>{vtranslate('LBL_BROWSING_OTHER_USERS_GRAPHICAL_CALENDAR',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
-						<div>
-							<label for="calallow1">
-								<input type="radio" id="calallow1" value="1"{if !$RECORD_MODEL->get('clendarallorecords')} checked=""{/if} {if $RECORD_MODEL->get('clendarallorecords') eq '1'} checked="" {/if} name="clendarallorecords" data-handler="new" class="alignTop"/>&nbsp;
-								{vtranslate('LBL_CLENDAR_ALLO_RECORDS_1',$QUALIFIED_MODULE)}
-							</label>
-						</div>
-						<div>
-							<label for="calallow2">
-								<input type="radio" id="calallow2" value="2" {if $RECORD_MODEL->get('clendarallorecords') eq '2'} checked="" {/if} name="clendarallorecords" data-handler="new" class="alignTop"/>&nbsp;
-								{vtranslate('LBL_CLENDAR_ALLO_RECORDS_2',$QUALIFIED_MODULE)}
-							</label>
-						</div>
-                        <div>
-							<label for="calallow3">
-								<input type="radio" id="calallow3" value="3" {if $RECORD_MODEL->get('clendarallorecords') eq '3'} checked="" {/if} name="clendarallorecords" data-handler="new" class="alignTop"/>&nbsp;
-								{vtranslate('LBL_CLENDAR_ALLO_RECORDS_3',$QUALIFIED_MODULE)}
-							</label>
-						</div>
+						<select id="clendarallorecords" class="row select2 form-control" name="clendarallorecords">
+							<option value="1" {if $RECORD_MODEL->get('clendarallorecords') == '1'}selected="true"{/if}>{vtranslate('LBL_CLENDAR_ALLO_RECORDS_1', $QUALIFIED_MODULE)}</option>
+							<option value="2" {if $RECORD_MODEL->get('clendarallorecords') == '2'}selected="true"{/if}>{vtranslate('LBL_CLENDAR_ALLO_RECORDS_2', $QUALIFIED_MODULE)}</option>
+							<option value="3" {if $RECORD_MODEL->get('clendarallorecords') == '3'}selected="true"{/if}>{vtranslate('LBL_CLENDAR_ALLO_RECORDS_3', $QUALIFIED_MODULE)}</option>
+						</select>
 					</div>
 				</div>	
 				<br>

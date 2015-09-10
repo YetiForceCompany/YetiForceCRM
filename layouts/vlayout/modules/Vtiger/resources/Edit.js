@@ -8,8 +8,7 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 
-jQuery.Class("Vtiger_Edit_Js",{
-
+jQuery.Class("Vtiger_Edit_Js", {
 	//Event that will triggered when reference field is selected
 	referenceSelectionEvent : 'Vtiger.Reference.Selection',
 

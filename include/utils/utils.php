@@ -589,22 +589,12 @@ function getRecordOwnerId($record)
 	$log = vglobal('log');
 	$log->debug("Entering getRecordOwnerId(" . $record . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$ownerArr = Array();
+	$ownerArr = [];
 
-	// Look at cache first for information
-	$ownerId = VTCacheUtils::lookupRecordOwner($record);
-
-	if ($ownerId === false) {
-		$query = "select smownerid from vtiger_crmentity where crmid = ?";
-		$result = $adb->pquery($query, array($record));
-		if ($adb->num_rows($result) > 0) {
-			$ownerId = $adb->query_result($result, 0, 'smownerid');
-			// Update cache for re-use
-			VTCacheUtils::updateRecordOwner($record, $ownerId);
-		}
-	}
-
-	if ($ownerId) {
+	$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record);
+	
+	if ($recordMetaData) {
+		$ownerId = $recordMetaData['smownerid'];
 		// Look at cache first for information
 		$count = VTCacheUtils::lookupOwnerType($ownerId);
 
@@ -1806,8 +1796,7 @@ function getValidDBInsertDateTimeValue($value)
  */
 function sanitizeUploadFileName($fileName, $badFileExtensions)
 {
-	$fileName = preg_replace('/[^a-zA-Z0-9_%\[().\]\\/-]/s', '_', $fileName);
-	$fileName = preg_replace('/\s+/', '_', $fileName); //replace space with _ in filename
+	$fileName = Vtiger_Functions::slug($fileName);
 	$fileName = rtrim($fileName, '\\/<>?*:"<>|');
 
 	$fileNameParts = explode(".", $fileName);

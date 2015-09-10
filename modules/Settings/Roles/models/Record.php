@@ -320,13 +320,23 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 		$searchunpriv = implode(',', $this->get('searchunpriv'));
 		if ($mode == 'edit') {
-			$sql = 'UPDATE vtiger_role SET rolename=?, parentrole=?, depth=?, allowassignedrecordsto=?, changeowner=?, searchunpriv=?, clendarallorecords=? WHERE roleid=?';
-			$params = array($this->getName(), $this->getParentRoleString(), $this->getDepth(), $this->get('allowassignedrecordsto'), $this->get('change_owner'), $searchunpriv,$this->get('clendarallorecords'), $roleId);
+			$sql = 'UPDATE vtiger_role SET rolename=?, parentrole=?, depth=?, allowassignedrecordsto=?, changeowner=?, searchunpriv=?, clendarallorecords=?, listrelatedrecord=?, previewrelatedrecord=? WHERE roleid=?';
+			$params = [$this->getName(), $this->getParentRoleString(), $this->getDepth(), $this->get('allowassignedrecordsto'), $this->get('change_owner'), $searchunpriv, $this->get('clendarallorecords'), $this->get('listrelatedrecord'), $this->get('previewrelatedrecord'), $roleId];
 			$db->pquery($sql, $params);
 		} else {
-			$sql = 'INSERT INTO vtiger_role(roleid, rolename, parentrole, depth, allowassignedrecordsto, changeowner, searchunpriv, clendarallorecords) VALUES (?,?,?,?,?,?,?,?)';
-			$params = array($roleId, $this->getName(), $this->getParentRoleString(), $this->getDepth(), $this->get('allowassignedrecordsto'), $this->get('change_owner'), $searchunpriv, $this->get('clendarallorecords'));
-			$db->pquery($sql, $params);
+			$db->insert('vtiger_role', [
+				'roleid' => $roleId,
+				'rolename' => $this->getName(),
+				'parentrole' => $this->getParentRoleString(),
+				'depth' => $this->getDepth(),
+				'allowassignedrecordsto' => $this->get('allowassignedrecordsto'),
+				'changeowner' => $this->get('change_owner'),
+				'searchunpriv' => $searchunpriv,
+				'clendarallorecords' => $this->get('clendarallorecords'),
+				'listrelatedrecord' => $this->get('listrelatedrecord'),
+				'previewrelatedrecord' => $this->get('previewrelatedrecord'),
+			]);
+
 			$picklist2RoleSQL = "INSERT INTO vtiger_role2picklist SELECT '" . $roleId . "',picklistvalueid,picklistid,sortid
 					FROM vtiger_role2picklist WHERE roleid = ?";
 			$db->pquery($picklist2RoleSQL, array($parentRole->getId()));

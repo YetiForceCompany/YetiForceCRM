@@ -474,6 +474,13 @@ class CRMEntity
 						$field_list = $this->column_fields[$fieldname];
 					}
 					$fldvalue = $field_list;
+				} elseif (in_array($uitype, [303, 304])) {
+					if (is_array($this->column_fields[$fieldname])) {
+						$field_list = implode(',', $this->column_fields[$fieldname]);
+					} else {
+						$field_list = $this->column_fields[$fieldname];
+					}
+					$fldvalue = $field_list;
 				} elseif ($uitype == 5 || $uitype == 6 || $uitype == 23) {
 					//Added to avoid function call getDBInsertDateValue in ajax save
 					if (isset($current_user->date_format) && !$ajaxSave) {
@@ -538,6 +545,7 @@ class CRMEntity
 			else {
 				$fldvalue = '';
 			}
+
 			if ($fldvalue == '') {
 				$fldvalue = $this->get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype);
 			}
@@ -2391,7 +2399,7 @@ class CRMEntity
 		return $query;
 	}
 
-	function getUserAccessConditionsQuerySR($module, $current_user = false)
+	function getUserAccessConditionsQuerySR($module, $current_user = false, $relatedRecord = false)
 	{
 		if ($current_user == false)
 			$current_user = vglobal('current_user');
@@ -2402,6 +2410,20 @@ class CRMEntity
 		$sharedParameter = $securityParameter = '';
 		$query = '';
 		$tabId = getTabid($module);
+
+		if ($relatedRecord) {
+			$role = getRoleInformation($current_user->roleid);
+			if ($role['listrelatedrecord'] == 1) {
+				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($relatedRecord);
+				$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
+				if (!$recordPermission) {
+					throw new AppException('LBL_PERMISSION_DENIED');
+				}
+				if ($recordMetaData['smownerid'] == $current_user->id) {
+					return '';
+				}
+			}
+		}
 
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$securityParameter = $this->getUserAccessConditionsQuery($module, $current_user);

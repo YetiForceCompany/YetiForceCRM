@@ -97,6 +97,14 @@ $languageStrings = [
 	'PLL_DEPENDENTS_LIST' => 'Um para muitos',
 	'PLL_ADD' => 'Adicionar',
 	'PLL_SELECT' => 'Selecionar',
+	
+	// inventory tab
+	'LBL_MANAGING_AN_ADVANCED_BLOCK' => 'Managing an advanced block',
+	'LBL_HEADLINE' => 'Headline',
+	'LBL_BASIC_VERSE' => 'Basic verse',
+	'LBL_ADDITIONAL_VERSE' => 'Additional verse',
+	'LBL_ADVANCED_MODULE' => 'Advanced',
+	'LBL_BASIC_MODULE' => 'Basic',
 ];
 
 $jsLanguageStrings = [

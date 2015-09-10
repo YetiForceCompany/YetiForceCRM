@@ -12,6 +12,52 @@ MySQL - 5.6.17 : Database - yetiforce
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*Table structure for table `a_yf_discounts_config` */
+
+CREATE TABLE `a_yf_discounts_config` (
+  `param` varchar(30) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY (`param`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `a_yf_discounts_global` */
+
+CREATE TABLE `a_yf_discounts_global` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `value` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `a_yf_inventory_limits` */
+
+CREATE TABLE `a_yf_inventory_limits` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `name` varchar(50) NOT NULL,
+  `value` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `a_yf_taxes_config` */
+
+CREATE TABLE `a_yf_taxes_config` (
+  `param` varchar(30) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY (`param`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `a_yf_taxes_global` */
+
+CREATE TABLE `a_yf_taxes_global` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `value` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `chat_bans` */
 
 CREATE TABLE `chat_bans` (
@@ -561,6 +607,9 @@ CREATE TABLE `vtiger_account` (
   `payment_balance` decimal(25,8) DEFAULT NULL,
   `legal_form` varchar(255) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT NULL,
+  `inventorybalance` decimal(25,8) DEFAULT '0.00000000',
+  `discount` decimal(5,2) DEFAULT '0.00',
+  `creditlimit` int(10) DEFAULT NULL,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -2525,7 +2574,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1756 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1760 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -5091,6 +5140,7 @@ CREATE TABLE `vtiger_products` (
   `vendor_id` int(11) DEFAULT NULL,
   `imagename` text,
   `currency_id` int(19) NOT NULL DEFAULT '1',
+  `taxes` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`productid`),
   CONSTRAINT `fk_1_vtiger_products` FOREIGN KEY (`productid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -6113,6 +6163,8 @@ CREATE TABLE `vtiger_role` (
   `changeowner` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `searchunpriv` text,
   `clendarallorecords` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `listrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `previewrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`roleid`),
   KEY `parentrole` (`parentrole`),
   KEY `parentrole_2` (`parentrole`,`depth`),
@@ -6815,9 +6867,9 @@ CREATE TABLE `vtiger_tab` (
   `isentitytype` int(11) NOT NULL DEFAULT '1',
   `version` varchar(10) DEFAULT NULL,
   `parent` varchar(30) DEFAULT NULL,
-  `trial` int(1) DEFAULT '0',
   `color` varchar(30) DEFAULT NULL,
   `coloractive` tinyint(1) DEFAULT '0',
+  `type` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`tabid`),
   UNIQUE KEY `tab_name_idx` (`name`),
   KEY `tab_modifiedby_idx` (`modifiedby`),
@@ -7734,6 +7786,7 @@ CREATE TABLE `yetiforce_currencyupdate` (
   `exchange` decimal(10,4) NOT NULL,
   `bank_id` int(19) NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `fetchdate_currencyid_unique` (`currency_id`,`exchange_date`,`bank_id`),
   KEY `fk_1_vtiger_osscurrencies` (`currency_id`),
   CONSTRAINT `fk_1_vtiger_osscurrencies` FOREIGN KEY (`currency_id`) REFERENCES `vtiger_currency_info` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -7744,7 +7797,8 @@ CREATE TABLE `yetiforce_currencyupdate_banks` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `bank_name` varchar(255) NOT NULL,
   `active` int(1) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_bankname` (`bank_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_mail_config` */

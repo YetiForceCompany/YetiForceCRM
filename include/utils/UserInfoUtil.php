@@ -358,6 +358,7 @@ function isPermitted($module, $actionname, $record_id = '')
 			$recOwnType = $type;
 			$recOwnId = $id;
 		}
+
 		//Retreiving the default Organisation sharing Access
 		$others_permission_id = $defaultOrgSharingPermission[$tabid];
 		if (in_array($current_user->id, $shownerids) || count(array_intersect($shownerids, $current_user_groups)) > 0) {
@@ -369,9 +370,24 @@ function isPermitted($module, $actionname, $record_id = '')
 			//Checking if the Record Owner is the current User
 			if ($current_user->id == $recOwnId) {
 				$permission = 'yes';
-				$log->debug("Exiting isPermitted method ...");
+				$log->debug('Exiting isPermitted method ...');
 				return $permission;
 			}
+
+			$role = getRoleInformation($current_user->roleid);
+			if ($role['listrelatedrecord'] == 1) {
+				$recordModel = Vtiger_Record_Model::getInstanceById($record_id, $module);
+				$parentRecord = $recordModel->getParentRecord();
+				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($parentRecord);
+				$parentRecordOwner = $recordMetaData['smownerid'];
+
+				if ($current_user->id == $parentRecordOwner) {
+					$permission = 'yes';
+					$log->debug('Exiting isPermitted method ... - Parent Record Owner');
+					return $permission;
+				}
+			}
+
 			//Checking if the Record Owner is the Subordinate User
 			foreach ($subordinate_roles_users as $roleid => $userids) {
 				if (in_array($recOwnId, $userids)) {
@@ -379,7 +395,7 @@ function isPermitted($module, $actionname, $record_id = '')
 					if ($module == 'Calendar') {
 						$permission = isCalendarPermittedBySharing($record_id);
 					}
-					$log->debug("Exiting isPermitted method ...");
+					$log->debug('Exiting isPermitted method ...');
 					return $permission;
 				}
 			}
@@ -857,22 +873,17 @@ function getRoleInformation($roleid)
 	$log = vglobal('log');
 	$log->debug("Entering getRoleInformation(" . $roleid . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$query = "select * from vtiger_role where roleid=?";
-	$result = $adb->pquery($query, array($roleid));
-	$rolename = $adb->query_result($result, 0, 'rolename');
-	$parentrole = $adb->query_result($result, 0, 'parentrole');
-	$roledepth = $adb->query_result($result, 0, 'depth');
+
+	$result = $adb->pquery('select * from vtiger_role where roleid=?', [$roleid]);
+	$row = $adb->fetch_array($result);
+	
+	$parentrole = $row['parentrole'];
 	$parentRoleArr = explode('::', $parentrole);
 	$immediateParent = $parentRoleArr[sizeof($parentRoleArr) - 2];
-	$roleDet = Array();
-	$roleDet[] = $rolename;
-	$roleDet[] = $parentrole;
-	$roleDet[] = $roledepth;
-	$roleDet[] = $immediateParent;
-	$roleInfo = Array();
-	$roleInfo[$roleid] = $roleDet;
+	$row['immediateParent'] = $immediateParent;
+
 	$log->debug("Exiting getRoleInformation method ...");
-	return $roleInfo;
+	return $row;
 }
 
 /** Function to get the vtiger_role related vtiger_users
@@ -928,7 +939,7 @@ function getRoleAndSubordinateUsers($roleId)
 	$log->debug("Entering getRoleAndSubordinateUsers(" . $roleId . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$roleInfoArr = getRoleInformation($roleId);
-	$parentRole = $roleInfoArr[$roleId][1];
+	$parentRole = $roleInfoArr['parentrole'];
 	$query = "select vtiger_user2role.*,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ?";
 	$result = $adb->pquery($query, array($parentRole . "%"));
 	$num_rows = $adb->num_rows($result);
@@ -955,8 +966,7 @@ function getRoleAndSubordinatesInformation($roleId)
 		return $roleInfoCache[$roleId];
 	}
 	$roleDetails = getRoleInformation($roleId);
-	$roleInfo = $roleDetails[$roleId];
-	$roleParentSeq = $roleInfo[1];
+	$roleParentSeq = $roleDetails['parentrole'];
 
 	$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
 	$result = $adb->pquery($query, array($roleParentSeq . "%"));
@@ -989,8 +999,7 @@ function getRoleAndSubordinatesRoleIds($roleId)
 	$log->debug("Entering getRoleAndSubordinatesRoleIds(" . $roleId . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$roleDetails = getRoleInformation($roleId);
-	$roleInfo = $roleDetails[$roleId];
-	$roleParentSeq = $roleInfo[1];
+	$roleParentSeq = $roleDetails['parentrole'];
 
 	$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
 	$result = $adb->pquery($query, array($roleParentSeq . "%"));
@@ -1332,7 +1341,7 @@ function getParentRole($roleId)
 	$log = vglobal('log');
 	$log->debug("Entering getParentRole(" . $roleId . ") method ...");
 	$roleInfo = getRoleInformation($roleId);
-	$parentRole = $roleInfo[$roleId][1];
+	$parentRole = $roleInfo['parentrole'];
 	$tempParentRoleArr = explode('::', $parentRole);
 	$parentRoleArr = Array();
 	foreach ($tempParentRoleArr as $role_id) {
@@ -1360,8 +1369,7 @@ function getRoleSubordinates($roleId)
 	if ($roleSubordinates === false) {
 		$adb = PearDatabase::getInstance();
 		$roleDetails = getRoleInformation($roleId);
-		$roleInfo = $roleDetails[$roleId];
-		$roleParentSeq = $roleInfo[1];
+		$roleParentSeq = $roleDetails['parentrole'];
 
 		$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
 		$result = $adb->pquery($query, array($roleParentSeq . "::%"));

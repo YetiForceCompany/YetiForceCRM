@@ -2,12 +2,12 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 require_once('include/main/WebUI.php');
 
-$log = vglobal('log');
+$log = &LoggerManager::getLogger('CurrencyUpdate');
 $log->debug('Start CRON:' . __FILE__);
 
 $moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 $yesterday = date('Y-m-d', strtotime('-1 day'));
-$lastWorkingDay = $moduleModel->getLastWorkingDay($yesterday);
+$lastWorkingDay = Vtiger_Functions::getLastWorkingDay($yesterday);
 
 $status = $moduleModel->fetchCurrencyRates($lastWorkingDay, true);
 

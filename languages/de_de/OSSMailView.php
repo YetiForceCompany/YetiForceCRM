@@ -71,6 +71,7 @@ $languageStrings = [
 	'Alert_ChangeType_desc' => 'Alle Arten der ausgewählten E-Mails werden geändert, ohne die Möglichkeit die Änderungen rückgängig zu machen.',
 	'LBL_ChangeTypeOK' => 'E-Mail-Typ geändert',
 	'Configuration' => 'Konfiguration',
+	'LBL_NO_MAILS' => 'No emails',
 	
 	//dashboards
 	'Graf' => 'Unternehmens-E-Mails nach Typ',

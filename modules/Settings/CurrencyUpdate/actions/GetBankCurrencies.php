@@ -12,23 +12,19 @@ class Settings_CurrencyUpdate_GetBankCurrencies_Action extends Vtiger_Action_Con
 	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
-		$name = $request->get('name');
+		$name = 'Settings_CurrencyUpdate_models_'.$request->get('name').'_BankModel';
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		$response = new Vtiger_Response();
-		$html = '';
 
 		if ($mode == 'supported') {
 			$supported = $moduleModel->getSupportedCurrencies($name);
-			foreach ($supported as $name => $code) {
-				$html .= '<p><strong>' . vtranslate($name, 'Settings:Currency') . '</strong> - ' . $code . '</p>';
-			}
-		} else {
-			$unsupported = $moduleModel->getUnSupportedCurrencies($name);
-			foreach ($unsupported as $name => $code) {
-				$html .= '<p><strong>' . vtranslate($name, 'Settings:Currency') . '</strong> - ' . $code . '</p>';
-			}
+			$response->setResult($supported);
 		}
-		$response->setResult($html);
+		else {
+			$unsupported = $moduleModel->getUnSupportedCurrencies($name);
+			$response->setResult($unsupported);
+		}
+
 		$response->emit();
 	}
 }

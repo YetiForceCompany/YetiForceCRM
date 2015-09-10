@@ -6,6 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 <style type="text/css">
@@ -15,17 +16,23 @@
 </style>
 {strip}
     <div id="layoutEditorContainer">
+		
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <h3>{vtranslate('LBL_FIELDS_AND_LAYOUT_EDITOR', $QUALIFIED_MODULE)}</h3>
             </div>
-            <div class="pull-right col-md-3 h3">
-				<select class="select2 col-md-3 form-control" name="layoutEditorModules">
-					{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-						<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
-					{/foreach}
-				</select>
+            <div class="pull-right col-md-6 h3 form-inline">
+				<div class="form-group pull-right col-md-6">
+					<select class="select2 form-control" name="layoutEditorModules">
+						{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
+							<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
+						{/foreach}
+					</select>
+				</div>
+				<div class="form-group pull-right">
+					<input id="inventorySwitch" title="{vtranslate('LBL_CHANGE_BLOCK_ADVANCED', $QUALIFIED_MODULE)}" class="switchBtn" type="checkbox" data-label-width="5" data-handle-width="100" data-on-text="{vtranslate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}" {if !$IS_INVENTORY}checked{/if} >
+				</div>
             </div>
         </div>
         <hr>
@@ -33,6 +40,9 @@
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
                 <li class="active"><a data-toggle="tab" href="#detailViewLayout"><strong>{vtranslate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong></a></li>
+				{if $IS_INVENTORY}
+					<li class="inventoryNav"><a data-toggle="tab" href="#inventoryViewLayout"><strong>{vtranslate('LBL_MANAGING_AN_ADVANCED_BLOCK', $QUALIFIED_MODULE)}</strong></a></li>
+				{/if}
             </ul>
             <div class="tab-content layoutContent padding20 themeTableColor overflowVisible">
                 <div class="tab-pane active" id="detailViewLayout">
@@ -53,7 +63,7 @@
                             </span>
                         </div>
                     {/if}
-                    <div id="moduleBlocks">
+                    <div class="moduleBlocks">
                         {foreach key=BLOCK_LABEL_KEY item=BLOCK_MODEL from=$BLOCKS}
                             {assign var=FIELDS_LIST value=$BLOCK_MODEL->getLayoutBlockActiveFields()}
                             {assign var=BLOCK_ID value=$BLOCK_MODEL->get('id')}
@@ -107,14 +117,14 @@
                                                     <div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
                                                         <div class="row padding1per">
                                                             {assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-                                                            <span class="col-md-1">&nbsp;
+                                                            <div class="col-md-1">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
                                                                         <img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                                                                     </a>
                                                                 {/if}
-                                                            </span>
-                                                            <div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
+                                                            </div>
+                                                            <div class="col-md-11 marginLeftZero fieldContainer" style="word-wrap: break-word;">
                                                                 <span class="fieldLabel">{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
 																	{if $IS_MANDATORY}<span class="redColor">*</span>{/if}</span>
 																<span class="btn-group pull-right actions">
@@ -304,19 +314,16 @@
 													<div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
 														<div class="row padding1per">
 															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-															<span class="col-md-1">&nbsp;
+															<div class="col-md-1">&nbsp;
 																{if $FIELD_MODEL->isEditable()}
 																	<a>
 																		<img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 																	</a>
 																{/if}
-															</span>
-															<div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
-																<span class="fieldLabel">
-																	{if $IS_MANDATORY}
-																		<span class="redColor">*</span>
-																	{/if}
-																	{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
+															</div>
+															<div class="col-md-11 marginLeftZero fieldContainer" style="word-wrap: break-word;">
+																<span class="fieldLabel">{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
+																	{if $IS_MANDATORY}<span class="redColor">*</span>{/if}
 																</span>
 																<span class="btn-group pull-right actions">
 																	{if $FIELD_MODEL->isEditable()}
@@ -835,6 +842,11 @@
 						</div>
 					</div>
 				</div>
+				{if $IS_INVENTORY}
+					<div class="tab-pane" id="inventoryViewLayout">
+						{include file='Inventory.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					</div>	
+				{/if}
 			</div>
 		</div>
 	</div>

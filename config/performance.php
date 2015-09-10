@@ -27,4 +27,7 @@ $PERFORMANCE_CONFIG = Array(
 	
 	// Display administrators in the list of users (Assigned To)
 	'SHOW_ADMINISTRATORS_IN_USERS_LIST' => true,
+	
+	// The numbers of emails downloaded during one scanning
+	'NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING' => 100,
 );

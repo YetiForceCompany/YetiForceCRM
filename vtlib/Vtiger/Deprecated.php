@@ -373,7 +373,7 @@ class Vtiger_Deprecated
 		if (!self::isFileAccessible($filepath)) {
 			$log = vglobal('log');
 			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			die(Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '" . $realfilepath . "'"));
+			die(Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '" . htmlspecialchars($realfilepath, ENT_QUOTES, vglobal('default_charset')) . "'"));
 		}
 	}
 
