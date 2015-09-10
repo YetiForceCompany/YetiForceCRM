@@ -166,4 +166,18 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	{
 		return true;
 	}
+	
+	/**
+	 * Getting value to display
+	 * @return array
+	 */
+	public function modulesValues()
+	{
+		$modules = Vtiger_Module_Model::getAll([0], [], true);
+		foreach ($modules AS $module) {
+			$modulesNames[] = ['module' => $module->getName(), 'name' => $module->getName(), 'id' => $module->getName()];
+		}
+		return $modulesNames;
+	}
+
 }

@@ -118,6 +118,8 @@ $languageStrings = [
 	'LBL_PARAMS_LIMIT' => 'Limit',
 	'LBL_DISPLAY_TYPE' => 'Typ pola',
 	'LBL_EXTENDED_MODULE' => 'Czy na pewno chcesz zmienić typ modułu?',
+	'LBL_EDITABLE' => 'Edytowalne',
+	'LBL_READONLY' => 'Tylko do odczytu',
 ];
 
 $jsLanguageStrings = [
