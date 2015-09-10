@@ -22,7 +22,13 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Basic_Action
 
 		$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
 		foreach($stepFields as $field) {
-			$pdfModel->set($field, $request->get($field));
+			$value = $request->get($field);
+
+			if (is_array($value)) {
+				$value = implode(',', $value);
+			}
+
+			$pdfModel->set($field, $value);
 		}
 
 		$response = new Vtiger_Response();

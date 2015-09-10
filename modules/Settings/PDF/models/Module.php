@@ -11,9 +11,39 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 
 	var $baseTable = 'a_yf_pdf';
 	var $baseIndex = 'pdfid';
-	var $listFields = ['module_name' => 'Module', 'summary' => 'Summary', 'cola' => 'ColA', 'colb' => 'ColB', 'colc' => 'ColC', 'cold' => 'ColD'];
-	public static $allFields = ['module_name', 'summary', 'cola', 'colb', 'colc', 'cold', 'cole', 'colf', 'colg'];
-	public static $step1Fields = ['module_name', 'summary'];
+	var $listFields = [
+		'module_name' => 'Module',
+		'status' => 'LBL_STATUS',
+		'primary_name' => 'LBL_PRIMARY_NAME',
+		'secondary_name' => 'LBL_SECONDARY_NAME',
+		'set_author' => 'LBL_SET_AUTHOR',
+		'set_creator' => 'LBL_SET_CREATOR',
+		'set_keywords' => 'LBL_SET_KEYWORDS',
+		'cola' => 'ColA',
+		'colb' => 'ColB',
+		'colc' => 'ColC',
+		'cold' => 'ColD'
+	];
+	public static $allFields = [
+		'module_name',
+		'status',
+		'primary_name',
+		'secondary_name',
+		'set_author',
+		'set_creator',
+		'set_keywords',
+		'metatags_status',
+		'set_subject',
+		'set_title',
+		'cola',
+		'colb',
+		'colc',
+		'cold',
+		'cole',
+		'colf',
+		'colg'
+	];
+	public static $step1Fields = ['status', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'set_subject', 'set_title', 'set_author', 'set_creator', 'set_keywords'];
 	public static $step2Fields = ['cola'];
 	public static $step3Fields = ['colb'];
 	public static $step4Fields = ['colc'];
@@ -51,7 +81,9 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleModels = Vtiger_Module_Model::getAll([0, 2]);
 		$supportedModuleModels = [];
 		foreach ($moduleModels as $tabId => $moduleModel) {
-			$supportedModuleModels[$tabId] = $moduleModel;
+			if ($moduleModel->isEntityModule()) {
+				$supportedModuleModels[$tabId] = $moduleModel;
+			}
 		}
 		return $supportedModuleModels;
 	}

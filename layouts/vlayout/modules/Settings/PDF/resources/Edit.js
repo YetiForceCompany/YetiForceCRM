@@ -4,7 +4,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 
 }, {
 	currentInstance: false,
-	workFlowsContainer: false,
+	editContainer: false,
 	init: function () {
 		this.initiate();
 	},
@@ -13,7 +13,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	 * @return jQuery object
 	 */
 	getContainer: function () {
-		return this.workFlowsContainer;
+		return this.editContainer;
 	},
 	/**
 	 * Function to set the reports container
@@ -21,7 +21,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	 * @return : current instance
 	 */
 	setContainer: function (element) {
-		this.workFlowsContainer = element;
+		this.editContainer = element;
 		return this;
 	},
 	/*
@@ -118,10 +118,6 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 		var currentContainer = this.currentInstance.getContainer();
 		currentContainer.show();
 		jQuery('[name="record"]', currentContainer).val(pdfId);
-		var modulesList = jQuery('#moduleName', currentContainer);
-		if (modulesList.length > 0 && pdfId != '') {
-			modulesList.attr('disabled', 'disabled').trigger('chosen:updated');
-		}
 	},
 	
 	registerCancelStepClickEvent: function(form) {
@@ -140,11 +136,34 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 			thisInstance.back();
 		});
 	},
+	
+	registerMetatagsClickEvent: function(form) {
+		var metaTagsStatus = form.find('#metatags_status');
+		if (metaTagsStatus.is(':checked')) {
+			console.log('tak');
+			form.find('.metatags').addClass('hide');
+		} else {
+			console.log('nie');
+			form.find('.metatags').removeClass('hide');
+		}
+		
+		metaTagsStatus.on('change', function() {
+			var status = jQuery(this).is(':checked');
+			if (status) {
+				jQuery('.metatags', form).addClass('hide');
+			} else {				
+				jQuery('#set_subject', form).val(jQuery('#secondary_name', form).val());
+				jQuery('#set_title', form).val(jQuery('#primary_name', form).val());
+				jQuery('.metatags', form).removeClass('hide');
+			}
+		});
+	},
 
 	registerEvents: function () {
 		var form = this.currentInstance.getContainer();
 		this.registerFormSubmitEvent(form);
 		this.registerBackStepClickEvent();
 		this.registerCancelStepClickEvent(form);
+		this.registerMetatagsClickEvent(form);
 	}
 });

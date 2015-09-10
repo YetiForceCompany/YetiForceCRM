@@ -25,7 +25,21 @@ $languageStrings = [
 	'LBL_DOCUMENT_EXCEPTIONS' => 'Wyjątki',
 	'LBL_DOCUMENT_PERMISSIONS' => 'Uprawnienia',
 	'LBL_DOCUMENT_WATERMARK' => 'Znak wodny',
-	'Module' => 'Moduł'
+	'Module' => 'Moduł',
+	'active' => 'Aktywny',
+	'inactive' => 'Nieaktywny',
+	'LBL_PRIMARY_NAME' => 'Nazwa podstawowa',
+	'LBL_SECONDARY_NAME' => 'Nazwa dodatkowa',
+	'LBL_FOLDER_NAME' => 'Nazwa folderu',
+	'LBL_SELECT_MODULE' => 'Wybierz moduł',
+	'LBL_SET_TITLE' => 'SetTitle',
+	'LBL_SET_AUTHOR' => 'SetAuthor',
+	'LBL_SET_CREATOR' => 'SetCreator',
+	'LBL_SET_SUBJECT' => 'SetSubject',
+	'LBL_SET_KEYWORDS' => 'SetKeywords',
+	'PLL_COMPANY_NAME' => 'Nazwa firmy',
+	'PLL_USER_CREATING' => 'Osoba generująca dokument',
+	'LBL_METATAGS' => 'Meta tagi',
 ];
 
 $jsLanguageStrings = [
