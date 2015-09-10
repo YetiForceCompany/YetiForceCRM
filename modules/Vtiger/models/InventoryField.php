@@ -32,53 +32,62 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 				$prefix = '_invmap';
 				break;
 		}
-		$moduleName = strtolower($this->get('module'));
-		$basetable = 'vtiger_' . $moduleName;
+		$focus = CRMEntity::getInstance($this->get('module'));
+		$basetable = $focus->table_name;
 		$supfield = $basetable . $prefix;
 		return $supfield;
 	}
 
 	/**
 	 * Loading the Inventory data
-	 * @param string $module Module name
 	 * @param boolean $returnInBlock Should the result be divided into blocks
+	 * @param array $ids
 	 * @return array Inventory data
 	 */
-	public function getFields($returnInBlock = false)
+	public function getFields($returnInBlock = false, $ids = [])
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
-
-		if (!$this->fields) {
+		$key = $returnInBlock?'block':'noBlock';
+		if (!$this->fields[$key]) {
 			$db = PearDatabase::getInstance();
 			$table = $this->getTableName('fields');
 			$result = $db->query("SHOW TABLES LIKE '$table'");
 			if ($result->rowCount() == 0) {
 				return false;
 			}
-			$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE presence = ? ORDER BY sequence', [0]);
+			$where = 'presence = ?';
+			$params = [0];
+			if ($ids) {
+				$where = '`id` IN (' . generateQuestionMarks($ids) . ')';
+				$params = $ids;
+			}
+			$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE ' . $where . ' ORDER BY sequence', $params);
 			$fields = [];
 			while ($row = $db->fetch_array($result)) {
 				if (!$this->isActiveField($row)) {
 					continue;
 				}
-				$fields[$row['columnname']] = $this->getInventoryFieldInstance($row);
+				if ($returnInBlock) {
+					$fields[$row['block']][$row['columnname']] = $this->getInventoryFieldInstance($row);
+				} else {
+					$fields[$row['columnname']] = $this->getInventoryFieldInstance($row);
+				}
 			}
-			$this->fields = $fields;
+			$this->fields[$key] = $fields;
 		} else {
-			$fields = $this->fields;
+			$fields = $this->fields[$key];
 		}
-		if ($returnInBlock) {
-			$block = [];
-			foreach ($fields as $field) {
-				$block[$field->get('block')][$field->get('columnname')] = $field;
-			}
-			$fields = $block;
-		}
+		
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $fields;
 	}
 
+	/**
+	 * Check whether this field is active
+	 * @param array $row Field entry from the database
+	 * @return boolean
+	 */
 	public function isActiveField($row)
 	{
 		if (in_array($row['suptype'], ['Discount', 'DiscountMode'])) {
@@ -92,10 +101,10 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Loading the Inventory data
+	 * Get inventory columns
 	 * @param string $module Module name
 	 * @param boolean $returnInBlock Should the result be divided into blocks
-	 * @return array Inventory data
+	 * @return array Inventory columns
 	 */
 	public function getColumns()
 	{
@@ -106,7 +115,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		}
 
 		$columns = [];
-		foreach ($this->getFields() as $field) {
+		foreach ($this->getFields() as $key => $field) {
 			$column = $field->getColumnName();
 			if ($column != '')
 				$columns[] = $column;
@@ -149,6 +158,8 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$fieldPaths = ['modules/Vtiger/inventoryfields/'];
 		if ($module) {
 			$fieldPaths[] = "modules/$module/inventoryfields/";
+		} else {
+			$module = 'Vtiger';
 		}
 		$fields = [];
 		foreach ($fieldPaths as $fieldPath) {
@@ -157,7 +168,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			foreach (new DirectoryIterator($fieldPath) as $fileinfo) {
 				if ($fileinfo->isFile() && $fileinfo->getFilename() != 'Basic.php') {
 					$fieldName = str_replace('.php', '', $fileinfo->getFilename());
-					$className = Vtiger_Loader::getComponentClassName('InventoryField', $fieldName, $this->get('module'));
+					$className = Vtiger_Loader::getComponentClassName('InventoryField', $fieldName, $module);
 					$fields[$fieldName] = new $className();
 				}
 			}
@@ -182,11 +193,18 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 				$params = Zend_Json::decode($field->get('params'));
 			}
 		}
-
+		if(is_string($params['modules'])){
+			$params['modules'] = [$params['modules']];
+		}
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $params;
 	}
 
+	/**
+	 * Get Vtiger_InventoryField_Model instance
+	 * @param string $moduleName Module name
+	 * @return \modelClassName Vtiger_InventoryField_Model Instance
+	 */
 	public static function getInstance($moduleName)
 	{
 		$instance = Vtiger_Cache::get('inventoryField', $moduleName);
@@ -199,6 +217,11 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $instance;
 	}
 
+	/**
+	 * Get fields to auto-complete
+	 * @param string $moduleName
+	 * @return array
+	 */
 	public function getAutoCompleteField($moduleName)
 	{
 		$db = PearDatabase::getInstance();
@@ -215,6 +238,13 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $fields;
 	}
 
+	/**
+	 * Get configuration parameters for taxes
+	 * @param string $taxParam String parameters json encode
+	 * @param int $net net price
+	 * @param array $return
+	 * @return array
+	 */
 	public static function getTaxParam($taxParam, $net, $return = false)
 	{
 		$taxParam = json_decode($taxParam, true);
@@ -234,6 +264,11 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $return;
 	}
 
+	/**
+	 * Get related field name
+	 * @param string $mainModule Module Name
+	 * @return string
+	 */
 	public function getReferenceField($mainModule = 'Accounts')
 	{
 		$relationField = $this->get('relationField' . $mainModule);
@@ -254,6 +289,11 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $relationField;
 	}
 
+	/**
+	 * Whether the module should be turned on Wysiwyg
+	 * @param string $moduleName Module Name
+	 * @return boolean|int
+	 */
 	public function isWysiwygType($moduleName)
 	{
 		if (!$moduleName) {
@@ -273,6 +313,11 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $return;
 	}
 
+	/**
+	 * Get field name for the module taxes
+	 * @param string $moduleName Module name
+	 * @return string Tax field name
+	 */
 	public function getTaxField($moduleName)
 	{
 		$cache = Vtiger_Cache::get('InventoryIsGetTaxField', $moduleName);
@@ -295,6 +340,13 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $return;
 	}
 
+	/**
+	 * Get the value to save
+	 * @param Vtiger_Request $request
+	 * @param string $field Field name
+	 * @param int $i Sequence number
+	 * @return string
+	 */
 	public function getValueForSave(Vtiger_Request $request, $field, $i)
 	{
 		$value = '';
@@ -313,9 +365,16 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		return $value;
 	}
 
+	/**
+	 * Creating a new field
+	 * @param string $type
+	 * @param array $params
+	 * @return array/false
+	 */
 	public function addField($type, $params)
 	{
 		$adb = PearDatabase::getInstance();
+
 		$inventoryClassName = Vtiger_Loader::getComponentClassName('InventoryField', $type, $this->get('module'));
 		$instance = new $inventoryClassName();
 		$table = $this->getTableName();
@@ -343,16 +402,45 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$result = $adb->query("SELECT MAX(sequence) AS max FROM " . $this->getTableName('fields'));
 		$sequence = (int) $adb->getSingleValue($result) + 1;
 
-		$adb->insert($this->getTableName('fields'), [
-			'columnname' => $columnName,
-			'label' => $label,
-			'invtype' => $instance->getName(),
-			'defaultvalue' => $defaultValue,
-			'sequence' => $sequence,
-			'block' => $params['block'],
-			'displaytype' => $params['displayType'],
-			'params' => $params['params'],
-			'colspan' => $colSpan,
+		return $adb->insert($this->getTableName('fields'), [
+				'columnname' => $columnName,
+				'label' => $label,
+				'invtype' => $instance->getName(),
+				'defaultvalue' => $defaultValue,
+				'sequence' => $sequence,
+				'block' => $params['block'],
+				'displaytype' => $params['displayType'],
+				'params' => $params['params'],
+				'colspan' => $colSpan,
 		]);
+	}
+
+	/**
+	 * Save field value
+	 * @param array $param
+	 * @return string/false
+	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+	 */
+	public function saveField($param)
+	{
+		$adb = PearDatabase::getInstance();
+		$columns = ['columnname', 'label', 'invtype', 'defaultValue', 'sequence', 'block', 'displayType', 'params', 'colSSpan'];
+		$set = [];
+		$params = [];
+		foreach ($columns AS $columnName) {
+			if (isset($param[$columnName])) {
+				$set[] = '`' . strtolower($columnName) . '`';
+				$params[] = $param[$columnName];
+			}
+		}
+		$id = $param['id'];
+		$params[] = $id;
+		$set = implode(' = ?, ', $set);
+		if ($set) {
+			$set .= ' = ? ';
+			$query = "UPDATE `" . $this->getTableName('fields') . "` SET " . $set . " WHERE `id` = ?";
+			$return = $adb->pquery($query, $params);
+		}
+		return $return;
 	}
 }

@@ -46,7 +46,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">{vtranslate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" title="{vtranslate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}" name="entitytype" readonly >
+						<select class="chzn-select form-control" title="{vtranslate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}" name="entitytype">
 							<option value="0" selected>{vtranslate('LBL_BASE_MODULE', $QUALIFIED_MODULE)}</option>
 							<option value="1">{vtranslate('LBL_INVENTORY_MODULE', $QUALIFIED_MODULE)}</option>
 						</select>

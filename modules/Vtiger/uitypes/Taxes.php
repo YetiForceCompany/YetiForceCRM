@@ -28,7 +28,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value)
 	{
 		$values = explode(',', $value);
-		$taxs = $this->getTaxs();
+		$taxs = $this->getTaxes();
 		$display = [];
 
 		foreach ($values as $tax) {
@@ -43,7 +43,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	public static function getValues($value)
 	{
 		$values = explode(',', $value);
-		$taxs = self::getTaxs();
+		$taxs = self::getTaxes();
 		$display = [];
 
 		foreach ($values as $tax) {

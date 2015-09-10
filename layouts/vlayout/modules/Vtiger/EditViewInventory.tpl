@@ -4,7 +4,7 @@
 	{assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true)}
 	{if count($FIELDS) neq 0}
 		{assign var="DISCOUNTS_CONFIG" value=Vtiger_Inventory_Model::getDiscountsConfig()}
-		{assign var="TAXS_CONFIG" value=Vtiger_Inventory_Model::getTaxsConfig()}
+		{assign var="TAXS_CONFIG" value=Vtiger_Inventory_Model::getTaxesConfig()}
 		{assign var="BASE_CURRENCY" value=Vtiger_Util_Helper::getBaseCurrency()}
 		
 		{assign var="COLUMNS" value=$INVENTORY_FIELD->getColumns()}
@@ -78,7 +78,7 @@
 								{/foreach}
 								{CurrencyField::convertToUserFormat($SUM, null, true)}
 							{/if}
-							{if $FIELD->getName() == 'Name'}
+							{if $FIELD->getName() == 'Name' && in_array("qty",$COLUMNS)}
 								{vtranslate('LBL_SUMMARY', $MODULE)}
 							{/if}
 						</td>

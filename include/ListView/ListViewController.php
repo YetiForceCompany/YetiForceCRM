@@ -439,7 +439,7 @@ class ListViewController
 						$valueArray = ($value != "") ? explode(',', $value) : [];
 						$tmp = '';
 						$tmpArray = [];
-						$taxs = Vtiger_Taxs_UIType::getTaxs();
+						$taxs = Vtiger_Taxs_UIType::getTaxes();
 						foreach ($valueArray as $index => $tax) {
 							if (isset($taxs[$tax])) {
 								$tmpArray[] = $taxs[$tax]['value'] . '% - ' . $taxs[$tax]['name'];

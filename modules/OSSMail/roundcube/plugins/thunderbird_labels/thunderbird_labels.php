@@ -297,9 +297,11 @@ class thunderbird_labels extends rcube_plugin
 	{
 		#write_log($this->name, print_r($p, true));
 		# -- always write array, even when empty
-		$p['content'] .= '<script type="text/javascript">
-		var tb_labels_for_message = ['.join(',', $this->message_tb_labels).'];
-		</script>';
+		if($p['class'] == 'headers-table'){
+			$p['content'] .= '<script type="text/javascript">
+			var tb_labels_for_message = ['.join(',', $this->message_tb_labels).'];
+			</script>';
+		}
 		return $p;
 	}
 	

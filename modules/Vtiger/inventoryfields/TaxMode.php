@@ -17,7 +17,7 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	protected $values = [0 => 'group', 1 => 'individual'];
 
 	/**
-	 * Geting value to display
+	 * Getting value to display
 	 * @param int $value
 	 * @return string
 	 */

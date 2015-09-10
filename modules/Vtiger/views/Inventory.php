@@ -57,7 +57,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
 		$accountTaxs = $inventoryModel->getAccountTax($moduleName, $sourceRecord);
 		
-		$config = $inventoryModel->getTaxsConfig();
+		$config = $inventoryModel->getTaxesConfig();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('RECORD', $record);

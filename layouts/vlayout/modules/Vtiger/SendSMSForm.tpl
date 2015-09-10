@@ -38,6 +38,7 @@
 						<select name="fields[]" data-placeholder="{vtranslate('LBL_ADD_MORE_FIELDS',$MODULE)}" multiple class="chzn-select form-control">
 							<optgroup>
 								{foreach item=PHONE_FIELD from=$PHONE_FIELDS}
+									{if $PHONE_FIELD->isEditable() eq false} {continue} {/if}
 									{assign var=PHONE_FIELD_NAME value=$PHONE_FIELD->get('name')}
 									<option value="{$PHONE_FIELD_NAME}">
 										{if !empty($SINGLE_RECORD)}

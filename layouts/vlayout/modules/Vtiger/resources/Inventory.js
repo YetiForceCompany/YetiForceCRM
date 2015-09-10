@@ -337,7 +337,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var row = $(this);
 			var netPrice = thisInstance.getNetPrice(row);
 			var params = row.find('.taxParam').val();
-			if (params != '' && params != '[]') {
+			if (params != '' && params != '[]' && params != undefined) {
 				var param = $.parseJSON(params);
 				if (typeof param.aggregationType == 'string') {
 					param.aggregationType = [param.aggregationType];
@@ -604,7 +604,10 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var currencyId = thisInstance.getCurrency();
 			if (typeof unitPriceValues[currencyId] !== 'undefined') {
 				thisInstance.setUnitPrice(parentRow, unitPriceValues[currencyId]);
+			}else{
+				thisInstance.setUnitPrice(parentRow, recordData.price);
 			}
+			
 			$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
 			$('textarea.commentTextarea', parentRow).val(description);
 		}
