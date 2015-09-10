@@ -3680,3 +3680,7 @@ span[name=existingImages] img{
 #inventoryViewLayout{
     margin-top: -10px;
 }
+.editFields .fieldContainer{
+	padding-left: 0;
+}
+

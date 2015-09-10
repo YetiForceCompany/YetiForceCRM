@@ -358,6 +358,7 @@ function isPermitted($module, $actionname, $record_id = '')
 			$recOwnType = $type;
 			$recOwnId = $id;
 		}
+
 		//Retreiving the default Organisation sharing Access
 		$others_permission_id = $defaultOrgSharingPermission[$tabid];
 		if (in_array($current_user->id, $shownerids) || count(array_intersect($shownerids, $current_user_groups)) > 0) {
@@ -369,9 +370,24 @@ function isPermitted($module, $actionname, $record_id = '')
 			//Checking if the Record Owner is the current User
 			if ($current_user->id == $recOwnId) {
 				$permission = 'yes';
-				$log->debug("Exiting isPermitted method ...");
+				$log->debug('Exiting isPermitted method ...');
 				return $permission;
 			}
+
+			$role = getRoleInformation($current_user->roleid);
+			if ($role['listrelatedrecord'] == 1) {
+				$recordModel = Vtiger_Record_Model::getInstanceById($record_id, $module);
+				$parentRecord = $recordModel->getParentRecord();
+				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($parentRecord);
+				$parentRecordOwner = $recordMetaData['smownerid'];
+
+				if ($current_user->id == $parentRecordOwner) {
+					$permission = 'yes';
+					$log->debug('Exiting isPermitted method ... - Parent Record Owner');
+					return $permission;
+				}
+			}
+
 			//Checking if the Record Owner is the Subordinate User
 			foreach ($subordinate_roles_users as $roleid => $userids) {
 				if (in_array($recOwnId, $userids)) {
@@ -379,7 +395,7 @@ function isPermitted($module, $actionname, $record_id = '')
 					if ($module == 'Calendar') {
 						$permission = isCalendarPermittedBySharing($record_id);
 					}
-					$log->debug("Exiting isPermitted method ...");
+					$log->debug('Exiting isPermitted method ...');
 					return $permission;
 				}
 			}
