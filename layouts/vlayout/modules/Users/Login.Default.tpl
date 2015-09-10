@@ -9,136 +9,97 @@
  * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
-<style>
-#login-area .bg-div{ 
-background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
-}
-@media (min-width: 768px) { .visible-phone{ display: none;} }
-@media (max-width: 767px) { .visible-phone{ display: block;}  }
-</style>
 {strip}
 {assign var="CompanyDetails" value=getCompanyDetails()}
 {assign var="MODULE" value='Users'}
-<div class="login_page login_blue">
-	<div class=" login-container">
-		<div id="login-area" class="login-area">
-			<div class="visible-phone">
-				<div class="alert alert-block">
-					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<h4>{vtranslate('LBL_MOBILE_VERSION_TITLE',$MODULE)}</h4>
-					{vtranslate('LBL_MOBILE_VERSION_DESC',$MODULE)}
-					<a class="btn btn-primary" href="modules/Mobile/">{vtranslate('LBL_MOBILE_VERSION_BUTTON',$MODULE)}</a>
-
-				</div>
-			</div>		
-			<div class="logo">
-				<img title="{$CompanyDetails['companyname']}" src="storage/Logo/{$CompanyDetails['logoname']}" alt="{$CompanyDetails['companyname']}">
+<div class="container">
+	<div id="login-area" class="login-area">
+		<div class="visible-phone">
+			<div class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<h4>{vtranslate('LBL_MOBILE_VERSION_TITLE',$MODULE)}</h4>
+				{vtranslate('LBL_MOBILE_VERSION_DESC',$MODULE)}
+				<a class="btn btn-primary" href="modules/Mobile/">{vtranslate('LBL_MOBILE_VERSION_BUTTON',$MODULE)}</a>
 			</div>
-			<div class="forgotPassword hide">
-				<h4>{vtranslate('Recover password',$MODULE)}:</h4>
-			</div>
-			<div class="login-box bg-div" id="loginDiv">
-				<div class="login-form-content">
-					<form class="form-horizontal row login-form" style="margin:0;" action="index.php?module=Users&action=Login" method="POST">
-						<div class="col-md-9 main-panel paddingLRZero">
-							<div class="username col-md-12 paddingLRZero">
-								<div class="col-md-2 paddingLRZero">
-									<img title="{vtranslate('LBL_USER',$MODULE)}" src="layouts/vlayout/skins/images/login.png?{uniqid()}" alt="{vtranslate('LBL_USER',$MODULE)}">
-								</div>
-								<div class="col-md-10 paddingLRZero">
-									<input class="form-control" type="text" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="username" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}">
-								</div>
-								
-							</div>
-							<div class="password col-md-12 paddingLRZero">
-								<div class="col-md-2 paddingLRZero">
-									<img title="{vtranslate('Password',$MODULE)}" src="layouts/vlayout/skins/images/pass.png?{uniqid()}" alt="{vtranslate('Password',$MODULE)}">
-								</div>
-								<div class="col-md-10 paddingLRZero">
-									<input class="form-control" type="password" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('Password',$MODULE)}">
-								</div>
-								
-							</div>
-						</div>
-						<div class="col-md-3 main-panel paddingLRZero">
-							<button type="submit" style="background: url(layouts/vlayout/skins/images/button.png?{uniqid()}) no-repeat;" class="btn btn-primary sbutton">Sign in</button>
-						</div>
-					</form>
-				</div>
-				<div class="row">
-					<div class="forgotpass">
-						<div class="">
-							<a href="#" id="forgotpass" >{vtranslate('ForgotPassword',$MODULE)}?</a>
-						</div>
-					</div>
-					<div class="col-md-12 nomargin">
-						{if isset($smarty.request.error) && $smarty.request.error eq 1}
-							<div class="alert alert-warning">
-								<p>{vtranslate('Invalid username or password.',$MODULE)}</p>
-							</div>
-						{/if}
-						{if isset($smarty.request.error) && $smarty.request.error eq 2}
-							<div class="alert alert-warning">
-								<p>{vtranslate('Too many failed login attempts.',$MODULE)}</p>
-							</div>
-						{/if}
-						{if isset($smarty.request.fpError)}
-							<div class="alert alert-warning">
-								<p>{vtranslate('Invalid Username or Email address.',$MODULE)}</p>
-							</div>
-						{/if}
-						{if isset($smarty.request.status)}
-							<div class="alert alert-success">
-								<p>{vtranslate('Mail has been sent to your inbox, please check your e-mail.',$MODULE)}</p>
-							</div>
-						{/if}
-						{if isset($smarty.request.statusError)}
-							<div class="alert alert-warning">
-								<p>{vtranslate('Outgoing mail server was not configured.',$MODULE)}</p>
-							</div>
-						{/if}
-					</div>
-				</div>
-			</div>
-			<div class="login-box hide bg-div" id="forgotPasswordDiv">
-				<div class="login-form-content">
-					<form class="form-horizontal row login-form" style="margin:0;" action="modules/Users/actions/ForgotPassword.php" method="POST">
-						<div class="col-md-9 main-panel paddingLRZero">
-							<div class="username col-md-12 paddingLRZero">
-								<div class="col-md-2 paddingLRZero">
-									<img title="{vtranslate('LBL_USER',$MODULE)}" src="layouts/vlayout/skins/images/login.png?{uniqid()}" alt="{vtranslate('LBL_USER',$MODULE)}">
-								</div>
-								<div class="col-md-10 paddingLRZero">
-									<input type="text" class="form-control" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="user_name" placeholder="{vtranslate('LBL_USER',$MODULE)}">
-								</div>
-								
-							</div>
-							<div class="password col-md-12 paddingLRZero">
-								<div class="col-md-2 paddingLRZero">
-									<img title="{vtranslate('LBL_EMAIL',$MODULE)}" src="layouts/vlayout/skins/images/email.png?{uniqid()}" alt="{vtranslate('LBL_EMAIL',$MODULE)}">
-								</div>
-								<div class="col-md-10 paddingLRZero">
-									<input type="text" class="form-control" autocomplete="off" title="{vtranslate('LBL_EMAIL',$MODULE)}" id="password" name="emailId" placeholder="Email">
-								</div>
-							</div>
-						</div>
-						<div class="col-md-3 main-panel paddingLRZero">
-							<button type="submit" id="retrievePassword" style="background: url(layouts/vlayout/skins/images/button.png?{uniqid()}) no-repeat;" class="btn btn-primary sbutton">Retrieve Password</button>
-						</div>
-					</form>
-					<div class="col-md-12 backButtonBox">
-						<a href="#" id="backButton" >{vtranslate('LBL_TO_CRM',$MODULE)}</a>
-					</div>
-					<div class="col-md-12 nomargin"></div>
-				</div>
-			</div>
+		</div>		
+		<div class="logo">
+			<img title="{$CompanyDetails['companyname']}" class="img-responsive logo" src="storage/Logo/{$CompanyDetails['logoname']}" alt="{$CompanyDetails['companyname']}">
 		</div>
+		<div class="" id="loginDiv">
+			<form class="login-form" action="index.php?module=Users&action=Login" method="POST">
+				<div class="form-group first-group has-feedback">
+					<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
+					<input name="username" type="text" id="username" class="form-control input-lg" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}" required="" autofocus="">
+					<span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
+				</div>
+				<div class="form-group has-feedback">
+					<label for="username" class="sr-only">{vtranslate('Password',$MODULE)}</label>
+					<input name="password" type="password" class="form-control input-lg" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('Password',$MODULE)}">
+					<span class="glyphicon glyphicon-lock form-control-feedback" aria-hidden="true"></span>
+				</div>	
+				<button class="btn btn-lg btn-primary btn-block" type="submit" title="{vtranslate('LBL_SIGN_IN', $MODULE_NAME)}">
+					{vtranslate('LBL_SIGN_IN', $MODULE_NAME)}
+				</button>
+			</form>
+			<div class="forgotpass form-group">
+				<div class="">
+					<a href="#" id="forgotpass" >{vtranslate('ForgotPassword',$MODULE)}?</a>
+				</div>
+			</div>
+			<div class="form-group">
+				{if isset($smarty.request.error) && $smarty.request.error eq 1}
+					<div class="alert alert-warning">
+						<p>{vtranslate('Invalid username or password.',$MODULE)}</p>
+					</div>
+				{/if}
+				{if isset($smarty.request.error) && $smarty.request.error eq 2}
+					<div class="alert alert-warning">
+						<p>{vtranslate('Too many failed login attempts.',$MODULE)}</p>
+					</div>
+				{/if}
+				{if isset($smarty.request.fpError)}
+					<div class="alert alert-warning">
+						<p>{vtranslate('Invalid Username or Email address.',$MODULE)}</p>
+					</div>
+				{/if}
+				{if isset($smarty.request.status)}
+					<div class="alert alert-success">
+						<p>{vtranslate('Mail has been sent to your inbox, please check your e-mail.',$MODULE)}</p>
+					</div>
+				{/if}
+				{if isset($smarty.request.statusError)}
+					<div class="alert alert-warning">
+						<p>{vtranslate('Outgoing mail server was not configured.',$MODULE)}</p>
+					</div>
+				{/if}
+			</div>
+		</div>		
+		<div class="hide" id="forgotPasswordDiv">
+			<form class="login-form" action="modules/Users/actions/ForgotPassword.php" method="POST">
+				<div class="form-group first-group has-feedback">
+					<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
+					<input type="text" class="form-control input-lg" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="user_name" placeholder="{vtranslate('LBL_USER',$MODULE)}">
+					<span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
+				</div>
+				<div class="form-group has-feedback">
+					<label for="emailId" class="sr-only">{vtranslate('LBL_EMAIL',$MODULE)}</label>
+					<input type="text" class="form-control input-lg" autocomplete="off" title="{vtranslate('LBL_EMAIL',$MODULE)}" id="emailId" name="emailId" placeholder="Email">
+					<span class="glyphicon glyphicon-envelope form-control-feedback" aria-hidden="true"></span>
+				</div>
+				<button type="submit" id="retrievePassword" class="btn btn-lg btn-primary btn-block sbutton" title="Retrieve Password">
+					{vtranslate('LBL_SEND',$MODULE)}
+				</button>
+			</form>
+			<div class="form-group">
+				<a href="#" id="backButton" >{vtranslate('LBL_TO_CRM',$MODULE)}</a>
+			</div>
+		</div>		
 	</div>
 </div>
 <script>
 	jQuery(document).ready(function(){
 		jQuery("button.close").click(function() {
-			jQuery(".visible-phone").hide();
+			jQuery(".visible-phone").css('visibility', 'hidden');
 		});
 		jQuery("a#forgotpass").click(function() {
 			jQuery("#loginDiv").hide();

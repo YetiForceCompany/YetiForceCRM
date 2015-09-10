@@ -22,7 +22,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 				}
 			}
 			var status = true;
-			data.find('input').each(function() {
+			data.find('input[name]').each(function() {
 				if( $( this ).attr("check") == 'false' || $( this ).attr("check") == undefined){
 					status = false;
 				}

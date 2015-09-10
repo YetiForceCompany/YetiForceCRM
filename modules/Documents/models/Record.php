@@ -83,7 +83,7 @@ class Documents_Record_Model extends Vtiger_Record_Model {
 
 				if (fopen($filePath.$savedFile, "r")) {
 					$fileContent = fread(fopen($filePath.$savedFile, "r"), $fileSize);
-
+					$fileName = $this->get('filename');
 					header("Content-type: ".$fileDetails['type']);
 					header("Pragma: public");
 					header("Cache-Control: private");

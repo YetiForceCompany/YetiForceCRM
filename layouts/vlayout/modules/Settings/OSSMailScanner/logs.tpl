@@ -34,7 +34,7 @@
 				<td><input type="text" class="form-control" title="{vtranslate('email_to_notify', 'OSSMailScanner')}" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></td>
             </tr>
             <tr>
-                <td>{vtranslate('time_to_notify', 'OSSMailScanner')}&nbsp;(min): &nbsp;</td>
+                <td>{vtranslate('time_to_notify', 'OSSMailScanner')}: &nbsp;</td>
                 <td><input type="text" name="time_to_notify" title="{vtranslate('time_to_notify', 'OSSMailScanner')}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></td>
             </tr>
         </table>

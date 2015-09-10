@@ -258,6 +258,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function save()
 	{
 		$this->getModule()->saveRecord($this);
+		if($this->getModule()->isInventory()){
+			$this->saveInventoryData();
+		}
 	}
 
 	/**
@@ -536,5 +539,64 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		$module = CRMEntity::getInstance($parentModuleName);
 		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : array();
+	}
+
+	/**
+	 * Loading the inventory data
+	 * @return array inventory data
+	 */
+	public function getInventoryData()
+	{
+		$log = vglobal('log');
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
+
+		$module = $this->getModuleName();
+		$record = $this->getId();
+		if (empty($record)) {
+			return [];
+		}
+
+		$db = PearDatabase::getInstance();
+		$inventoryField = Vtiger_InventoryField_Model::getInstance($module);
+		$table = $inventoryField->getTableName('data');
+		$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE id = ? ORDER BY seq', [$record]);
+		$fields = [];
+		while ($row = $db->fetch_array($result)) {
+			$fields[] = $row;
+		}
+
+		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		return $fields;
+	}
+	
+	/**
+	 * Save the inventory data
+	 * @param Vtiger_Request $request 
+	 */
+	public function saveInventoryData()
+	{
+		$db = PearDatabase::getInstance();
+		$log = vglobal('log');
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
+
+		$moduleName = $this->getModuleName();
+		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$fields = $inventory->getColumns();
+		$table = $inventory->getTableName('data');
+		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+		$numRow = $request->get('inventoryItemsNo');
+
+		$db->pquery("delete from $table where id = ?", [$this->getId()]);
+		for ($i = 1; $i <= $numRow; $i++) {
+			if (!$request->has(reset($fields) . $i)) {
+				continue;
+			}
+			$insertData = ['id' => $this->getId(), 'seq' => $request->get('seq' . $i)];
+			foreach ($fields as $field) {
+				$insertData[$field] = $inventory->getValueForSave($request, $field, $i);
+			}
+			$db->insert($table, $insertData);
+		}
+		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 	}
 }

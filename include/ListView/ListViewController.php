@@ -434,6 +434,34 @@ class ListViewController
 						$json = new Zend_Json();
 						$value = vt_suppressHTMLTags(implode(',', $json->decode($temp_val)));
 					}
+				} elseif ($field->getUIType() == 303) {
+					if (!empty($value)) {
+						$valueArray = ($value != "") ? explode(',', $value) : [];
+						$tmp = '';
+						$tmpArray = [];
+						$taxs = Vtiger_Taxs_UIType::getTaxs();
+						foreach ($valueArray as $index => $tax) {
+							if (isset($taxs[$tax])) {
+								$tmpArray[] = $taxs[$tax]['value'] . '% - ' . $taxs[$tax]['name'];
+							}
+						}
+						$value = implode(', ', $tmpArray);
+						$value = textlength_check($value);
+					}
+				} elseif ($field->getUIType() == 304) {
+					if (!empty($value)) {
+						$valueArray = ($value != "") ? explode(',', $value) : [];
+						$tmp = '';
+						$tmpArray = [];
+						$limits = Vtiger_InventoryLimit_UIType::getLimits();
+						foreach ($valueArray as $index => $limit) {
+							if (isset($limits[$limit])) {
+								$tmpArray[] = $limits[$limit]['value'] . ' - ' . $limits[$limit]['name'];
+							}
+						}
+						$value = implode(', ', $tmpArray);
+						$value = textlength_check($value);
+					}
 				} elseif (in_array($uitype, array(7, 9, 90))) {
 					$value = "<span align='right'>" . textlength_check($value) . "</div>";
 				} else {

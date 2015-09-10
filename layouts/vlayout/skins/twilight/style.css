@@ -3337,7 +3337,7 @@ span[name=existingImages] img{
 .remindersNotice .glyphicon{
 	font-size: 20px;
 }
-.cancelLink.btn[type='reset'],.cancel.btn[type='reset'] {
+.cancelLink.btn[type='reset'],.cancel.btn[type='reset'],.cancelLink.btn[type='button']  {
 	float: right;
 	margin-left: 5px;
 	margin-bottom: 0;
@@ -3635,4 +3635,42 @@ span[name=existingImages] img{
 	padding-right: 2px;
 	background: rgba(91, 234, 81, 0.54) !important;
 	border-radius: 4px;
+}
+.inventoryItems .input-group{
+	max-width: 200px;
+}
+.inventoryItems .rowName .input-group{
+	max-width: 400px;
+}
+.inventoryItems td,
+.inventoryItems th{
+	border: 1px solid #ddd;
+}
+.inventoryItems tfoot td.hideTd{
+	border: 0;
+	background: #fafafb;
+}
+.inventorySummaryContainer .panel-body,.inventorySummaryContainer .panel-footer{
+	padding: 0;
+}
+.inventorySummaryContainer .panel-body .form-group, .inventorySummaryContainer .panel-footer .form-group{
+	margin: 0;
+}
+.inventorySummaryContainer .input-group .form-control{
+	background-color: #F5F5F5;
+}
+.inventorySummaryContainer .panel-body .percent{
+	min-width: 55px;
+}
+.inventoryItems tfoot{
+	font-weight: 800;
+}
+.inventorySummaryContainer img{
+	max-width: 15px;
+}
+.autologinContainer .chosen-container-multi .chosen-choices{
+	padding-left: 6px;
+}
+.checkboxForm{
+	padding-top: 7px;
 }

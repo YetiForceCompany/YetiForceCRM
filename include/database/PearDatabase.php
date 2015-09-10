@@ -166,8 +166,7 @@ class PearDatabase
 		}
 		if ($this->dieOnError || $dieOnError) {
 			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
-				ob_start();
-				debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
 				$queryInfo = '';
 				if ($query !== false) {
 					$queryInfo .= 'Query: ' . $query . PHP_EOL;
@@ -175,10 +174,10 @@ class PearDatabase
 				if ($params !== false && $params != NULL) {
 					$queryInfo .= 'Params: ' . implode(',', $params) . PHP_EOL;
 				}
-				$trace = '<pre>' . $queryInfo . ob_get_contents() . '</pre>';
-				ob_end_clean();
+				$backtrace = Vtiger_Functions::getBacktrace();
+				$trace = '<pre>' . $queryInfo . $backtrace . '</pre>';
 			}
-			die('Database ERROR: ' . $message . $trace);
+			Vtiger_Functions::throwNewException('Database ERROR: ' . PHP_EOL . $message . PHP_EOL . $trace);
 		}
 	}
 

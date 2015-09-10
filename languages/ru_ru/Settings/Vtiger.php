@@ -241,6 +241,7 @@ $languageStrings = [
 	'LBL_ADDING_ERROR' => 'Ошибка добавления поля',
 	'LBL_ADDED_COMPANY_FIELD' => 'Поле добавлено',
 	'LBL_FIELD_NOT_VALID' => 'Поле должно содержать только буквы',
+	'LBL_EXTENDED_MODULES'=>'Extended modules',
 	/* settings menu */
 	'LBL_QUICK_CREATE_EDITOR' => 'Редактор быстрого создания',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'В этом модуле, вы сможете настроить отображение и расположение полей в окне быстрого создания.',

@@ -1,111 +1,21 @@
-.login-area{
-margin: auto;
-width: 510px;
-margin-top: 10%;
+@media (min-width: 768px) { 
+	.visible-phone{ 
+		visibility: hidden;
+	} 
 }
-#login-area .logo{ 
-text-align: center;
+@media (max-width: 767px) { 
+	.visible-phone{ 
+		visibility: visible;
+	}  
 }
-#login-area .bg-div{ 
-background: url(bg.png) no-repeat;
-}
-#login-area .bg-div  .main-panel{
-height: 158px;
-}
-#login-area .bg-div  .username{
-position: relative;
-top: 31px;
-left: 23px;
-width: 300px;
-}
-#login-area .bg-div  .password{
-position: relative;
-top: 56px;
-left: 23px;
-width: 300px;
-}
-#login-area .bg-div  .password #password,#login-area .bg-div  .username #username,#changePassword #password,#changePassword #confirmPassword{
-//width: 239px;
-//height: 24px;
-color: #000;
-border: 0;
-float: right;
-padding-left: 10px;
--moz-box-shadow:    inset 1px 1px 4px rgba(0,0,0,0.6);
--webkit-box-shadow: inset 1px 1px 4px rgba(0,0,0,0.6);
-box-shadow:         inset 1px 1px 4px rgba(0,0,0,0.6);
--webkit-border-radius: 0;
--moz-border-radius: 0;
-border-radius: 0;
-}
-#login-area .login-form-content{
--moz-box-shadow:    1px 1px 4px rgba(0,0,0,0.6);
--webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-box-shadow:         1px 1px 4px rgba(0,0,0,0.6);
-}
-#login-area .bg-div  .main-panel img{
-margin-right: 10px;
-}
-#page,#login-area .bg-div  .password #password,#login-area .bg-div  .username #username,#changePassword #password,#changePassword #confirmPassword {
-background: #ddecf0;
+.login-area {
+	max-width: 400px;
+	padding: 15px;
+	margin: 0 auto;
 }
 html,body{
-width: 100%;
-height: 100%;
-background: #ddecf0;
+	background: #ddecf0;
 }
-input[placeholder], [placeholder], *[placeholder] {
-   color:#000 !important;
-}
-#login-area .bg-div .col-md-9.main-panel{
-	width: 389px;
-	margin-left: 0px;
-}
-#login-area .bg-div .col-md-3.main-panel{
-	width: 121px;
-	margin-left: 0px;
-}
-#login-area .forgotpass,#login-area .backButtonBox{
-	margin: 5px 0 ;
-	font-family: 'Andika', sans-serif;
-}
-h4 {
-font-family: 'Andika', sans-serif;
-text-rendering: auto;
-}
-#login-area .bg-div .col-md-3.main-panel button{
-background: url(button.png) no-repeat;
-width: 100%;
-height: 100%;
-padding: 0;
-border: 0;
--webkit-border-radius: 0;
--moz-border-radius: 0;
-border-radius: 0;
-font-size: 0;
-}
-.nomargin{
-margin: 0!important;
-}
-#forgotpass,#backButton{
-color: #000;
-}
-.logo img{
-	max-height: 150px;
-	max-width: 510px;
-}
-#login-area .bg-div  #changePassword .username{
-top: 30px;
-left: 19px;
-}
-#login-area .bg-div  #changePassword .password{
-top: 58px;
-left: 19px;
-}
-.paddingLRZero {
-	padding-left: 0px;
-	padding-right: 0px;
-}
-.login-form-content input{
-width: 254px;
+.login-form .form-group.first-group{
+	margin-bottom: 5px;
 }

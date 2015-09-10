@@ -190,7 +190,7 @@ class Vtiger_Utils
 
 		$org_dieOnError = $adb->dieOnError;
 		$adb->dieOnError = false;
-		$sql = "CREATE TABLE " . $tablename . $criteria;
+		$sql = "CREATE TABLE " . $adb->quote($tablename, false) . ' ' . $criteria;
 		if ($suffixTableMeta !== false) {
 			if ($suffixTableMeta === true) {
 				if ($adb->isMySQL()) {
@@ -227,7 +227,7 @@ class Vtiger_Utils
 	{
 		$adb = PearDatabase::getInstance();
 		if (!in_array($columnname, $adb->getColumnNames($tablename))) {
-			self::AlterTable($tablename, " ADD COLUMN $columnname $criteria");
+			self::AlterTable($tablename, " ADD COLUMN `$columnname` $criteria");
 		}
 	}
 
