@@ -17,7 +17,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	protected $dbType = 'varchar(100)';
 	protected $customColumn = [];
 	protected $summationValue = false;
-	protected $displayTypeBase = [0, 1];
+	protected $displayTypeBase = ['LBL_EDITABLE'=>0, 'LBL_READONLY'=>10];
 
 	/**
 	 * Getting database-type of field

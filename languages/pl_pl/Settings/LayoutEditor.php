@@ -114,9 +114,10 @@ $languageStrings = [
 	'LBL_COMMENT' => 'Komentarz',
 	'LBL_SELECT_TYPE_OF_INVENTORY' => 'Wybierz rodzaj pola',
 	'LBL_NEXT' => 'Dalej',
-	'LBL_PARAMS_TYPE' => 'Typ',
 	'LBL_PARAMS_MODULES' => 'Moduły',
 	'LBL_PARAMS_LIMIT' => 'Limit',
+	'LBL_DISPLAY_TYPE' => 'Typ pola',
+	'LBL_EXTENDED_MODULE' => 'Czy na pewno chcesz zmienić typ modułu?',
 ];
 
 $jsLanguageStrings = [
