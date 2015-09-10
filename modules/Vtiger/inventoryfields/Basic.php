@@ -17,8 +17,18 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	protected $dbType = 'varchar(100)';
 	protected $customColumn = [];
 	protected $summationValue = false;
+	protected $onlyOne = true;
 	protected $displayTypeBase = ['LBL_EDITABLE'=>0, 'LBL_READONLY'=>10];
 
+	/**
+	 * Getting onlyOne field
+	 * @return true/false
+	 */
+	public function isOnlyOne()
+	{
+		return $this->onlyOne;
+	}
+	
 	/**
 	 * Getting database-type of field
 	 * @return string dbType

@@ -446,7 +446,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 
 	/**
 	 * Save sequence field
-	 * @param array $param
+	 * @param array $sequenceList
 	 * @return string/false
 	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
 	 */

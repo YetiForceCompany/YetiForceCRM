@@ -14,7 +14,9 @@
 						<div class="col-md-7">
 							<select name="type" class="select2 form-control type">
 								{foreach from=$MODULE_MODELS item=ITEM key=KEY}
-									<option value="{$ITEM->getName()}">{vtranslate($ITEM->getDefaultLabel(), $QUALIFIED_MODULE)}</option>
+									{if (in_array($ITEM->getColumnName(),$FIELDSEXISTS) && !$ITEM->isOnlyOne()) || !in_array($ITEM->getColumnName(),$FIELDSEXISTS)}
+										<option value="{$ITEM->getName()}">{vtranslate($ITEM->getDefaultLabel(), $QUALIFIED_MODULE)}</option>
+									{/if}
 								{/foreach}
 							</select>
 						</div>
