@@ -357,7 +357,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				'update': function (e, ui) {
 					var currentField = ui['item'];
 					if(currentField.closest('.moduleBlocks').hasClass('inventoryBlock')){
-						thisInstance.showSaveFieldSequenceButton(thisInstance.getInventoryViewLayout());
+						thisInstance.showSaveFieldSequenceButton(currentField.closest('.editFieldsTable'));
 					}else{
 						thisInstance.showSaveFieldSequenceButton(thisInstance.getDetailViewLayout());
 						thisInstance.createUpdatedBlocksList(currentField);
@@ -1848,6 +1848,28 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		});
 	},
 	/**
+	 * Function to register click event for save button of fields sequence
+	 */
+	registerInventoryFieldSequenceSaveClick: function () {
+		var thisInstance = this;
+		var containerInventory = thisInstance.getInventoryViewLayout();
+		var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+		containerInventory.on('click', '.saveFieldSequence', function (e) {
+			var button = jQuery(e.currentTarget);
+			var target = button.closest('.inventoryBlock');
+			var params = {};
+			var fieldId = [];
+			target.find('.editFields').each(function(){
+				fieldId.push(jQuery(this).data('id'));
+			})
+			params.module = selectedModule;
+			params.ids = fieldId;
+			app.saveAjax('saveSequence', params).then(function (data) {
+				button.addClass('invisible');
+			});
+		});
+	},
+	/**
 	 * get inventory params
 	 */
 	getParamsInventory: function(){
@@ -1879,6 +1901,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		thisInstance.registerSwitch();
 		thisInstance.registerAddInventoryField();
 		thisInstance.registerEditInventoryField();
+		thisInstance.registerInventoryFieldSequenceSaveClick();
 	}
 
 });

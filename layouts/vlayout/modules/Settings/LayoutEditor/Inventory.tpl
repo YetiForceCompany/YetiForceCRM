@@ -1,16 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
-<div class="btn-toolbar marginBottom5px">
-	<span class="pull-right">
-		<button class="btn btn-success saveFieldSequence invisible inventorySequence"  type="button">
-			<strong>{vtranslate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
-		</button>
-	</span>
-</div>
 {assign var='INVENTORY_BLOKS' value=$INVENTORY_MODAL->getFields(1)}
 <div class="moduleBlocks inventoryBlock" data-block-id="0">
 	<div class="editFieldsTable block panel panel-default">
 		<div class="panel-heading">
 			<div class="btn-toolbar btn-group-xs pull-right">
+				<button class="btn btn-success saveFieldSequence invisible inventorySequence"  type="button">
+					<strong>{vtranslate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
+				</button>
 				<button class="btn btn-default addInventoryField" type="button">
 					<strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 				</button>
@@ -44,6 +40,9 @@
 	<div class="editFieldsTable block panel panel-default">
 		<div class="panel-heading">
 			<div class="btn-toolbar btn-group-xs pull-right">
+				<button class="btn btn-success saveFieldSequence invisible inventorySequence"  type="button">
+					<strong>{vtranslate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
+				</button>
 				<button class="btn btn-default addInventoryField" type="button">
 					<strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 				</button>
@@ -77,6 +76,9 @@
 	<div class="editFieldsTable block panel panel-default">
 		<div class="panel-heading">
 			<div class="btn-toolbar btn-group-xs pull-right">
+				<button class="btn btn-success saveFieldSequence invisible inventorySequence"  type="button">
+					<strong>{vtranslate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
+				</button>
 				<button class="btn btn-default addInventoryField" type="button">
 					<strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 				</button>

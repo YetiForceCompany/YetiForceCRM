@@ -14,6 +14,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		parent::__construct();
 		$this->exposeMethod('setInventory');
 		$this->exposeMethod('saveInventoryField');
+		$this->exposeMethod('saveSequence');
 	}
 
 	public function setInventory(Vtiger_Request $request)
@@ -54,6 +55,20 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(['data' => $data, 'edit' => $edit]);
+		$response->emit();
+	}
+
+	public function saveSequence(Vtiger_Request $request)
+	{
+		$param = $request->get('param');
+		$moduleName = $param['module'];
+		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$status = $inventoryField->saveSequence($param['ids']);
+		if ($status) {
+			$status = true;
+		}
+		$response = new Vtiger_Response();
+		$response->setResult(['success' => $status]);
 		$response->emit();
 	}
 }
