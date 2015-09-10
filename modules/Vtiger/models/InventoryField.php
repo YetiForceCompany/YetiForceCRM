@@ -461,4 +461,20 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$query .= ' WHERE id IN (' . generateQuestionMarks($sequenceList) . ')';
 		return $db->pquery($query, array_values($sequenceList));
 	}
+
+	/**
+	 * Delete fields
+	 * @param array $ids
+	 * @return string/false
+	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+	 */
+	public function delete($ids)
+	{
+		$db = PearDatabase::getInstance();
+		if(!is_array($ids)){
+			$ids = [$ids];
+		}
+		$query = "DELETE FROM `" . $this->getTableName('fields') . "` WHERE `id` IN (" . generateQuestionMarks($ids) . ") ";
+		return $db->pquery($query, $ids);
+	}
 }

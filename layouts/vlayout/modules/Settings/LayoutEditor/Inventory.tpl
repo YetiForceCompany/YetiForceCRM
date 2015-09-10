@@ -28,6 +28,7 @@
 								<a href="#" class="editInventoryField">
 									<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
+								<a class="deleteInventoryField"><span title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 							</span>
 						</div>
 					</li>
@@ -64,6 +65,7 @@
 								<a href="#" class="editInventoryField">
 									<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
+								<a class="deleteInventoryField"><span title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 							</span>
 						</div>
 					</li>
@@ -100,6 +102,7 @@
 								<a href="#" class="editInventoryField">
 									<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
+								<a class="deleteInventoryField"><span title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 							</span>
 						</div>
 					</li>
@@ -118,6 +121,7 @@
 			<a href="#" class="editInventoryField">
 				<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 			</a>
+			<a class="deleteInventoryField"><span title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 		</span>
 	</div>
 </li>

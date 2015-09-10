@@ -1718,11 +1718,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		var inventoryNav = container.find('.inventoryNav');
 		container.find('#inventorySwitch').on('switchChange.bootstrapSwitch', function (event, state) {
 			var switchBtn = jQuery(event.currentTarget);
-			var message = app.vtranslate('LBL_EXTENDED_MODULE');
+			var message = app.vtranslate('JS_EXTENDED_MODULE');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
 					function (e) {
 						var progressIndicatorElement = jQuery.progressIndicator({
-							'message': app.vtranslate('JS_CHANGING_SETTINGS'),
+							'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
 							'position': 'html',
 							'blockInfo': {
 								'enabled': true
@@ -1870,6 +1870,41 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		});
 	},
 	/**
+	 * removing elements in advanced blocks
+	 */
+	registerDeleteInventoryField: function(){
+		var thisInstance = this;
+		var container = thisInstance.getInventoryViewLayout();
+		var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+		container.find('.deleteInventoryField').on('click', function (e) {
+			var currentTarget = jQuery(e.currentTarget);
+			var liElement = currentTarget.closest('li');
+			var message = app.vtranslate('JS_DELETE_INVENTORY_CONFIRMATION');
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
+					function (e) {
+						var progressIndicatorElement = jQuery.progressIndicator({
+							'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
+							'position': 'html',
+							'blockInfo': {
+								'enabled': true
+							}
+						});
+						var params = {};
+						params['ids'] = liElement.find('.editFields').data('id');
+						params.module = selectedModule;
+						app.saveAjax('delete', params).then(function (data) {
+							liElement.remove();
+							Settings_Vtiger_Index_Js.showMessage({type: 'success', text: app.vtranslate('JS_SAVE_CHANGES')});
+							progressIndicatorElement.progressIndicator({'mode': 'hide'});
+							
+						});
+					},
+					function (error, err) {
+					}
+			);
+		});
+	},
+	/**
 	 * get inventory params
 	 */
 	getParamsInventory: function(){
@@ -1902,6 +1937,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		thisInstance.registerAddInventoryField();
 		thisInstance.registerEditInventoryField();
 		thisInstance.registerInventoryFieldSequenceSaveClick();
+		thisInstance.registerDeleteInventoryField();
 	}
 
 });
