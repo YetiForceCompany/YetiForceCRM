@@ -277,6 +277,7 @@ class PearDatabase
 		return $result->rowCount();
 	}
 
+	//TODO DEPRECATED
 	function num_rows(&$result)
 	{
 		return $result->rowCount();
