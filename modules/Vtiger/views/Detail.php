@@ -38,7 +38,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId);
 		if (!$recordPermission) {
-			throw new NoPermittedException('NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new NoPermittedException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}

@@ -665,6 +665,7 @@ $languageStrings = [
 	'LBL_PASSWORD_LINK_EXPIRED_OR_INVALID_PASSWORD' => 'Срок ссылки истек, или вы ввели неверный пароль',
 	'LBL_PENDING' => 'В ожидании',
 	'LBL_PERMISSION_DENIED' => 'Доступ запрещен',
+	'LBL_NO_PERMISSIONS_FOR_THE_RECORD' => '__UNTRANSLATED__',
 	'LBL_PICKLIST_DEPENDENCY' => 'Список зависимостей',
 	'LBL_PLEASE_SELECT_MODULE' => 'Выберите модуль для поиска',
 	'LBL_PLS_SELECT' => 'Пожалуйста, выберите ...',

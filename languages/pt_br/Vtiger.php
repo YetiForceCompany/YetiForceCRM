@@ -443,6 +443,7 @@ $languageStrings = [
 	'LBL_PARENT_OWNER' => 'Proprietário Registro Pai',
 	'LBL_PASSWORD_LINK_EXPIRED_OR_INVALID_PASSWORD' => 'O link da Senha experiou ou você digitou uma senha inválida',
 	'LBL_PERMISSION_DENIED' => 'Permissão negada',
+	'LBL_NO_PERMISSIONS_FOR_THE_RECORD' => '__UNTRANSLATED__',
 	'LBL_PLEASE_SELECT_MODULE' => 'Por favor, selecione o módulo',
 	'LBL_POST' => 'Postar',
 	'LBL_PREVIOUS_FQ' => 'Semestre Anterior',
