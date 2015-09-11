@@ -3109,7 +3109,7 @@ table tr td .input-sm{
 .modal-footer.backgroundColor{
 	background-color: #f5f5f5;
 }
-.panel-title{
+.panel-title,.message-medium{
 	font-size: 14px;
 }
 .quickWidgetContainer .panel-body{

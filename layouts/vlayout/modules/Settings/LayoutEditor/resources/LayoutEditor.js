@@ -1719,7 +1719,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		container.find('#inventorySwitch').on('switchChange.bootstrapSwitch', function (event, state) {
 			var switchBtn = jQuery(event.currentTarget);
 			var message = app.vtranslate('JS_EXTENDED_MODULE');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
+			Vtiger_Helper_Js.showConfirmationBox({'message': '<span class="message-medium">' + message + '</span>', className: "test"}).then(
 					function (e) {
 						var progressIndicatorElement = jQuery.progressIndicator({
 							'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
