@@ -1232,6 +1232,7 @@ jQuery.Class("Vtiger_List_Js", {
 		params['page'] = pageNumber;
 		params['mode'] = 'getPagination';
 		var searchValue = this.getAlphabetSearchValue();
+		params['sourceModule'] = jQuery('#moduleFilter').val()
 
 		if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
 			params['search_key'] = this.getAlphabetSearchField();
