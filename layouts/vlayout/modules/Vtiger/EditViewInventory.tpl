@@ -6,14 +6,14 @@
 		{assign var="DISCOUNTS_CONFIG" value=Vtiger_Inventory_Model::getDiscountsConfig()}
 		{assign var="TAXS_CONFIG" value=Vtiger_Inventory_Model::getTaxesConfig()}
 		{assign var="BASE_CURRENCY" value=Vtiger_Util_Helper::getBaseCurrency()}
-		
+
 		{assign var="COLUMNS" value=$INVENTORY_FIELD->getColumns()}
 		{assign var="INVENTORY_ROWS" value=$RECORD->getInventoryData()}
 		{assign var="MAIN_PARAMS" value=$INVENTORY_FIELD->getMainParams($FIELDS[1])}
 		{assign var="COUNT_FIELDS0" value=count($FIELDS[0])}
 		{assign var="COUNT_FIELDS1" value=count($FIELDS[1])}
 		{assign var="COUNT_FIELDS2" value=count($FIELDS[2])}
-		
+
 		{if in_array("currency",$COLUMNS)}
 			{if count($INVENTORY_ROWS) > 0}
 				{assign var="CURRENCY" value=$INVENTORY_ROWS[0]['currency']}
@@ -50,15 +50,17 @@
 			</thead>
 		</table>
 		<table class="table blockContainer inventoryItems">
-			<thead>
-				<tr>
-					<th style="min-width: 50px">&nbsp;&nbsp;</th>
-					{foreach item=FIELD from=$FIELDS[1]}
-						<th colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()}
-							{if !$FIELD->isVisible($INVENTORY_ROWS)} hide{/if} textAlignCenter">{vtranslate($FIELD->get('label'), $MODULE)}</th>
-					{/foreach}
-				</tr>
-			</thead>
+			{if count($FIELDS[1]) neq 0}
+				<thead>
+					<tr>
+						<th style="min-width: 50px">&nbsp;&nbsp;</th>
+							{foreach item=FIELD from=$FIELDS[1]}
+							<th colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()}
+								{if !$FIELD->isVisible($INVENTORY_ROWS)} hide{/if} textAlignCenter">{vtranslate($FIELD->get('label'), $MODULE)}</th>
+							{/foreach}
+					</tr>
+				</thead>
+			{/if}
 			<tbody>
 				{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
 					{assign var="ROW_NO" value=$KEY+1}

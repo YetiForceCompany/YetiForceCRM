@@ -15,5 +15,6 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	protected $columnName = 'comment';
 	protected $dbType = 'varchar(500)';
 	protected $onlyOne = false;
+	protected $blocks = [2];
 
 }

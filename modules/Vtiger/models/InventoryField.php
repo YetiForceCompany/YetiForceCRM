@@ -188,9 +188,11 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
 
 		$params = false;
-		foreach ($fields as $field) {
-			if ($field->getName() == 'Name') {
-				$params = Zend_Json::decode($field->get('params'));
+		if(isset($fields)) {
+			foreach ($fields as $field) {
+				if ($field->getName() == 'Name') {
+					$params = Zend_Json::decode($field->get('params'));
+				}
 			}
 		}
 		if (is_string($params['modules'])) {
@@ -471,7 +473,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function delete($ids)
 	{
 		$db = PearDatabase::getInstance();
-		if(!is_array($ids)){
+		if (!is_array($ids)) {
 			$ids = [$ids];
 		}
 		$query = "DELETE FROM `" . $this->getTableName('fields') . "` WHERE `id` IN (" . generateQuestionMarks($ids) . ") ";
