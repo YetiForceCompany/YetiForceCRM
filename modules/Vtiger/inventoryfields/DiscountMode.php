@@ -15,6 +15,7 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 	protected $columnName = 'discountmode';
 	protected $dbType = 'tinyint(1) NOT NULL DEFAULT 0';
 	protected $values = [0 => 'group', 1 => 'individual'];
+	protected $blocks = [0];
 
 	/**
 	 * Getting value to display

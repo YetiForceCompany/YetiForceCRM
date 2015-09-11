@@ -20,6 +20,7 @@ class Settings_LayoutEditor_CreateInventoryFields_View extends Settings_Vtiger_I
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->get('type');
+		$block = $request->get('block');
 		$models = Vtiger_InventoryField_Model::getAllFields($moduleName);
 		$instance = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$fieldsName = [];
@@ -29,6 +30,7 @@ class Settings_LayoutEditor_CreateInventoryFields_View extends Settings_Vtiger_I
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FIELDSEXISTS', $fieldsName);
 		$viewer->assign('MODULE_MODELS', $models);
+		$viewer->assign('BLOCK', $block);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('CreateInventoryFieldsStep1.tpl', $qualifiedModuleName);
 	}

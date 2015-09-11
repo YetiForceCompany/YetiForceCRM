@@ -19,6 +19,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	protected $summationValue = false;
 	protected $onlyOne = true;
 	protected $displayTypeBase = ['LBL_EDITABLE'=>0, 'LBL_READONLY'=>10];
+	protected $blocks = [1];
 
 	/**
 	 * Getting onlyOne field
@@ -27,6 +28,11 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	public function isOnlyOne()
 	{
 		return $this->onlyOne;
+	}
+	
+	public function getBlocks()
+	{
+		return $this->blocks;
 	}
 	
 	/**

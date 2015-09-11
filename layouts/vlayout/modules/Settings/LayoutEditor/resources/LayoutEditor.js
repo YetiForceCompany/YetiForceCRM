@@ -242,32 +242,32 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		var thisInstance = this;
 		var message = app.vtranslate('JS_DELETE_RELATION_CONFIRMATION');
 		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-			function (e) {
-				var params = {};
-				params['module'] = app.getModuleName();
-				params['parent'] = app.getParentModuleName();
-				params['action'] = 'Relation';
-				params['mode'] = 'removeRelation';
-				params['relationId'] = relatedModule.data('relation-id');
+				function (e) {
+					var params = {};
+					params['module'] = app.getModuleName();
+					params['parent'] = app.getParentModuleName();
+					params['action'] = 'Relation';
+					params['mode'] = 'removeRelation';
+					params['relationId'] = relatedModule.data('relation-id');
 
-				AppConnector.request(params).then(
-						function (data) {
-							var params = {};
-							params['text'] = app.vtranslate('JS_REMOVE_RELATION_OK');
-							relatedModule.remove();
-							Settings_Vtiger_Index_Js.showMessage(params);
-						},
-						function (error) {
-							var params = {
-								text: message,
-								type: 'error'
-							};
-							Settings_Vtiger_Index_Js.showMessage(params);
-						}
-				);
-			},
-			function (error, err) {
-			}
+					AppConnector.request(params).then(
+							function (data) {
+								var params = {};
+								params['text'] = app.vtranslate('JS_REMOVE_RELATION_OK');
+								relatedModule.remove();
+								Settings_Vtiger_Index_Js.showMessage(params);
+							},
+							function (error) {
+								var params = {
+									text: message,
+									type: 'error'
+								};
+								Settings_Vtiger_Index_Js.showMessage(params);
+							}
+					);
+				},
+				function (error, err) {
+				}
 		)
 	},
 	updateSequenceRelatedModule: function () {
@@ -346,7 +346,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
 		var table = contents.find('.editFieldsTable');
-		table.each(function(){
+		table.each(function () {
 			var containment = jQuery(this).closest('.moduleBlocks');
 			jQuery(this).find('ul[name=sortable1], ul[name=sortable2]').sortable({
 				'containment': containment,
@@ -356,27 +356,27 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				'connectWith': containment.find('.connectedSortable'),
 				'update': function (e, ui) {
 					var currentField = ui['item'];
-					if(currentField.closest('.moduleBlocks').hasClass('inventoryBlock')){
+					if (currentField.closest('.moduleBlocks').hasClass('inventoryBlock')) {
 						thisInstance.showSaveFieldSequenceButton(currentField.closest('.editFieldsTable'));
-					}else{
+					} else {
 						thisInstance.showSaveFieldSequenceButton(thisInstance.getDetailViewLayout());
 						thisInstance.createUpdatedBlocksList(currentField);
 						// rearrange the older block fields
 						if (ui.sender) {
 							var olderBlock = ui.sender.closest('.editFieldsTable');
 							thisInstance.reArrangeBlockFields(olderBlock);
-						}	
+						}
 					}
-					
+
 				}
 			});
 		})
-		
+
 	},
-	getDetailViewLayout: function(){
+	getDetailViewLayout: function () {
 		return jQuery('#detailViewLayout');
 	},
-	getInventoryViewLayout: function(){
+	getInventoryViewLayout: function () {
 		return jQuery('#inventoryViewLayout');
 	},
 	/**
@@ -386,7 +386,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		var thisInstance = this;
 		var saveButton = layout.find('.saveFieldSequence');
 		if (app.isHidden(saveButton) || app.isInvisible(saveButton)) {
-			if(!saveButton.hasClass('inventorySequence')){
+			if (!saveButton.hasClass('inventorySequence')) {
 				thisInstance.updatedBlocksList = [];
 				thisInstance.updatedBlockFieldsList = [];
 			}
@@ -1732,7 +1732,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 						params['module'] = container.find('[name="layoutEditorModules"]').val();
 						params['status'] = !state;
 						app.saveAjax('setInventory', params).then(function (data) {
-							if(data.result){
+							if (data.result) {
 								//Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 								window.location.reload();
 							}
@@ -1743,7 +1743,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 						switchBtn.bootstrapSwitch('toggleState', true);
 					}
 			);
-			
+
 		});
 	},
 	/**
@@ -1757,11 +1757,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 			var blockId = currentTarget.closest('.inventoryBlock').data('block-id');
 			var progress = jQuery.progressIndicator();
-			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step1&type=" + selectedModule, function (container) {
+			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step1&type=" + selectedModule + "&block=" + blockId, function (container) {
 				app.showScrollBar(container.find('.well'), {
 					height: '300px'
 				});
-				thisInstance.registerStep1(container,blockId);
+				thisInstance.registerStep1(container, blockId);
 				progress.progressIndicator({'mode': 'hide'});
 			});
 		});
@@ -1781,7 +1781,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var id = editField.data('id');
 			var progress = jQuery.progressIndicator();
 			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&type=" + selectedModule + "&mtype=" + mType + "&id=" + id, function (container) {
-				thisInstance.registerStep2(container,blockId);
+				thisInstance.registerStep2(container, blockId);
 				progress.progressIndicator({'mode': 'hide'});
 			});
 		});
@@ -1789,13 +1789,13 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	/**
 	 * Function to adding inventory field first step
 	 */
-	registerStep1: function (container,blockId) {
+	registerStep1: function (container, blockId) {
 		var thisInstance = this;
 		container.find('.nextButton').click(function (e) {
 			var progress = jQuery.progressIndicator();
 			var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&type=" + selectedModule + "&mtype=" + container.find('select.type').val(), function (container) {
-				thisInstance.registerStep2(container,blockId);
+				thisInstance.registerStep2(container, blockId);
 				progress.progressIndicator({'mode': 'hide'});
 			});
 		});
@@ -1803,19 +1803,19 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	/**
 	 * Function to save inventory field
 	 */
-	registerStep2: function (container,blockId) {
+	registerStep2: function (container, blockId) {
 		var thisInstance = this;
 		var containerInventory = thisInstance.getInventoryViewLayout();
 		var form = container.find('form');
 		var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 		form.validationEngine(app.validationEngineOptions);
-		form.on('submit',function (e) {
+		form.on('submit', function (e) {
 			var formData = form.serializeFormData();
 			var paramsName = thisInstance.getParamsInventory();
-			if(paramsName){
+			if (paramsName) {
 				var params = {};
-				for( var i in formData){
-					if(jQuery.inArray(i, paramsName) != -1){
+				for (var i in formData) {
+					if (jQuery.inArray(i, paramsName) != -1) {
 						params[i] = formData[i];
 						delete formData[i];
 					}
@@ -1823,26 +1823,26 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				formData.params = JSON.stringify(params);
 			}
 			var errorExists = form.validationEngine('validate');
-			if(errorExists != false){
+			if (errorExists != false) {
 				formData.block = blockId;
 				formData.module = selectedModule;
 				app.saveAjax('saveInventoryField', formData).then(function (data) {
 					var result = data.result;
-					if(result && result.edit){
+					if (result && result.edit) {
 						app.hideModalWindow();
 						var liElement = containerInventory.find('[data-id="' + result.data.id + '"]');
 						liElement.find('.fieldLabel').text(result.data.translate);
-					}else if(result){
+					} else if (result) {
 						app.hideModalWindow();
 						var newLiElement = containerInventory.find('.newLiElement').clone(true, true);
-						newLiElement.removeClass('hide newLiElement').find('.editFields').attr('data-id',result.data.id).attr('data-sequence',result.data.sequence).attr('data-name',result.data.invtype).find('.fieldLabel').text(result.data.translate);
+						newLiElement.removeClass('hide newLiElement').find('.editFields').attr('data-id', result.data.id).attr('data-sequence', result.data.sequence).attr('data-name', result.data.invtype).find('.fieldLabel').text(result.data.translate);
 						containerInventory.find('[data-block-id="' + result.data.block + '"] .connectedSortable').append(newLiElement);
-						
+
 					}
 				});
 			}
 		});
-		container.find('form').submit(function( event ) {
+		container.find('form').submit(function (event) {
 			event.preventDefault();
 		});
 	},
@@ -1858,7 +1858,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var target = button.closest('.inventoryBlock');
 			var params = {};
 			var fieldId = [];
-			target.find('.editFields').each(function(){
+			target.find('.editFields').each(function () {
 				fieldId.push(jQuery(this).data('id'));
 			})
 			params.module = selectedModule;
@@ -1871,7 +1871,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	/**
 	 * removing elements in advanced blocks
 	 */
-	registerDeleteInventoryField: function(){
+	registerDeleteInventoryField: function () {
 		var thisInstance = this;
 		var container = thisInstance.getInventoryViewLayout();
 		var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
@@ -1895,7 +1895,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 							liElement.remove();
 							Settings_Vtiger_Index_Js.showMessage({type: 'success', text: app.vtranslate('JS_SAVE_CHANGES')});
 							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							
+
 						});
 					},
 					function (error, err) {
@@ -1906,8 +1906,8 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	/**
 	 * get inventory params
 	 */
-	getParamsInventory: function(){
-		if(typeof app.getMainParams('params') != 'undefined'){
+	getParamsInventory: function () {
+		if (typeof app.getMainParams('params') != 'undefined') {
 			return JSON.parse(app.getMainParams('params'));
 		}
 	},
@@ -1931,7 +1931,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			thisInstance.registerRelatedListEvents();
 			thisInstance.makeRelatedModuleSortable();
 		}
-		
+
 		thisInstance.registerSwitch();
 		thisInstance.registerAddInventoryField();
 		thisInstance.registerEditInventoryField();

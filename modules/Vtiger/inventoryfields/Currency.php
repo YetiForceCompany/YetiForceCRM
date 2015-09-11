@@ -16,6 +16,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	protected $customColumn = [
 		'currencyparam' => 'varchar(200)'
 	];
+	protected $blocks = [0];
 
 	/**
 	 * Getting value to display
