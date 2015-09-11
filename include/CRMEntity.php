@@ -1164,24 +1164,23 @@ class CRMEntity
 	{
 		$log = vglobal('log');
 
-		$fieldRes = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
-			SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=?)', array($module));
-		$numOfFields = $this->db->num_rows($fieldRes);
-		for ($i = 0; $i < $numOfFields; $i++) {
-			$tabId = $this->db->query_result($fieldRes, $i, 'tabid');
-			$tableName = $this->db->query_result($fieldRes, $i, 'tablename');
-			$columnName = $this->db->query_result($fieldRes, $i, 'columnname');
+		$result = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
+			SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=?)', [$module]);
+		
+		while ($row = $this->db->fetch_array($result)) {
+			$tabId = $row['tabid'];
+			$tableName = $row['tablename'];
+			$columnName = $row['columnname'];
 
 			$relatedModule = vtlib_getModuleNameById($tabId);
 			$focusObj = CRMEntity::getInstance($relatedModule);
 
 			//Backup Field Relations for the deleted entity
-			$targetTableColumn = $focusObj->table_index;
+			$targetTableColumn = $focusObj->tab_name_index[$tableName];
 			//While deleting product record the $targetTableColumn should 'id'.
 			if ($tableName == 'vtiger_inventoryproductrel') {
 				$targetTableColumn = 'id';
 			}
-
 			$relQuery = "SELECT $targetTableColumn FROM $tableName WHERE $columnName=?";
 			$relResult = $this->db->pquery($relQuery, array($id));
 			$numOfRelRecords = $this->db->num_rows($relResult);
