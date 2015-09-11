@@ -40,6 +40,9 @@ $languageStrings = [
 	'LBL_CLENDAR_ALLO_RECORDS_3' => 'widzę tych którzy wynikają z listy rekordów których widzę',
 	'LBL_PERMISSIONS_TO_LIST_RELATED_RECORDS' => 'Czy udostępnić listę do rekordów powiązanych - z naszym rekordem - których nie jesteśmy właścicielem',
 	'LBL_PERMISSIONS_TO_VIEW_RELATED_RECORDS' => 'Czy udostępnić podgląd do rekordów powiązanych - z naszym rekordem - których nie jesteśmy właścicielem',
+	'LBL_INACTIVE' => 'Nieaktywne',
+	'LBL_ONLY_PARENT' => 'Tylko nadrzędny',
+	'LBL_ACCORDING_TO_HIERARCHY' => 'Zgodnie z hierarchią',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Brak uprawnień do przeniesienia',
