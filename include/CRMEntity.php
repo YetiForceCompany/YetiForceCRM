@@ -2413,7 +2413,12 @@ class CRMEntity
 
 		if ($relatedRecord) {
 			$role = getRoleInformation($current_user->roleid);
-			if ($role['listrelatedrecord'] == 1) {
+			if ($role['listrelatedrecord'] != 0) {
+				$rparentRecord = Users_Privileges_Model::getParentRecord($relatedRecord, false, $role['listrelatedrecord']);
+				if ($rparentRecord) {
+					$relatedRecord = $rparentRecord;
+				}
+
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($relatedRecord);
 				$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
 				if (!$recordPermission) {
