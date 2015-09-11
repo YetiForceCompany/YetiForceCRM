@@ -108,7 +108,7 @@ class PearDatabase
 		// Create a new PDO instanace
 		try {
 			$this->database = new PDO($dsn, $this->userName, $this->userPassword, $options);
-		} catch (PDOException $e) {
+		} catch (AppException $e) {
 			// Catch any errors
 			$this->log('Database connect : ' . $e->getMessage(), 'error');
 			$this->checkError($e->getMessage());
@@ -319,7 +319,7 @@ class PearDatabase
 		try {
 			$this->stmt = $this->database->query($query);
 			$this->logSqlTime($sqlStartTime, microtime(true), $query);
-		} catch (Exception $e) {
+		} catch (AppException $e) {
 			$error = $this->database->errorInfo();
 			$this->log($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage(), 'error');
 			$this->checkError($e->getMessage(), $dieOnError, $query);
@@ -347,7 +347,7 @@ class PearDatabase
 			$this->stmt = $this->database->prepare($query);
 			$success = $this->stmt->execute($params);
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
-		} catch (Exception $e) {
+		} catch (AppException $e) {
 			$error = $this->database->errorInfo();
 			$this->log($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage(), 'error');
 			$this->checkError($e->getMessage(), $dieOnError, $query, $params);
@@ -386,7 +386,7 @@ class PearDatabase
 		try {
 			$success = $this->stmt->execute($params);
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
-		} catch (Exception $e) {
+		} catch (AppException $e) {
 			$error = $this->database->errorInfo();
 			$this->log($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage(), 'error');
 			$this->checkError($e->getMessage());
