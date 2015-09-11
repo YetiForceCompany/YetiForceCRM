@@ -236,6 +236,12 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
 				exit('<pre>'.$e->getTraceAsString().'</pre>');
 			}
+		} catch (Exception $e) {
+			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			Vtiger_Functions::throwNewException($e->getMessage(), false);
+			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
+				exit('<pre>'.$e->getTraceAsString().'</pre>');
+			}
 		}
 
 		if ($response) {

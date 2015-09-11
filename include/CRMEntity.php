@@ -786,11 +786,11 @@ class CRMEntity
 			$result = $adb->pquery($sql, $params);
 
 			if (!$result || $adb->num_rows($result) < 1) {
-				throw new Exception($app_strings['LBL_RECORD_NOT_FOUND'] . ': ' . $record . ' ' . $module, -1);
+				throw new AppException($app_strings['LBL_RECORD_NOT_FOUND'] . ': ' . $record . ' ' . $module, -1);
 			} else {
 				$resultrow = $adb->query_result_rowdata($result);
 				if (!empty($resultrow['deleted'])) {
-					throw new Exception($app_strings['LBL_RECORD_DELETE'] . ': ' . $record . ' ' . $module, 1);
+					throw new AppException($app_strings['LBL_RECORD_DELETE'] . ': ' . $record . ' ' . $module, 1);
 					;
 				}
 				foreach ($cachedModuleFields as $fieldinfo) {
