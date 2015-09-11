@@ -64,6 +64,9 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 
 	public function getColSpan()
 	{
+		if($this->has('colspan'))
+			return $this->get('colspan');
+		
 		return $this->colSpan;
 	}
 
@@ -109,6 +112,8 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	 */
 	public function getColumnName()
 	{
+		if($this->has('columnname'))
+			return $this->get('columnname');
 		return $this->columnName;
 	}
 
@@ -128,6 +133,8 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 
 	public function getDefaultValue()
 	{
+		if($this->has('defaultvalue'))
+			return $this->get('defaultvalue');
 		return $this->defaultValue;
 	}
 
