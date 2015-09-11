@@ -490,7 +490,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function getUniqueID($instance)
 	{
 		$adb = PearDatabase::getInstance();
-		$query = "SELECT MAX('id') AS max FROM `" . $this->getTableName('fields') . "` WHERE `invtype` = ? ";
+		$query = "SELECT MAX(id) AS max FROM `" . $this->getTableName('fields') . "` WHERE `invtype` = ? ";
 		$result = $adb->pquery($query, [$instance->getName()]);
 		return (int) $adb->getSingleValue($result) + 1;
 	}
