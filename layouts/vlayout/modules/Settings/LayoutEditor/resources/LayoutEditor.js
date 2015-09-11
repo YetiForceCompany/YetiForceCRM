@@ -1835,7 +1835,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 					} else if (result) {
 						app.hideModalWindow();
 						var newLiElement = containerInventory.find('.newLiElement').clone(true, true);
-						newLiElement.removeClass('hide newLiElement').find('.editFields').attr('data-id', result.data.id).attr('data-sequence', result.data.sequence).attr('data-name', result.data.invtype).find('.fieldLabel').text(result.data.translate);
+						newLiElement.removeClass('hide newLiElement').find('.editFields').attr('data-id', result.data.id).attr('data-sequence', result.data.sequence).attr('data-name', result.data.invtype).attr('data-column', result.data.columnname).find('.fieldLabel').text(result.data.translate);
 						containerInventory.find('[data-block-id="' + result.data.block + '"] .connectedSortable').append(newLiElement);
 
 					}
@@ -1871,7 +1871,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	/**
 	 * removing elements in advanced blocks
 	 */
-	registerDeleteInventoryField: function () {
+	registerDeleteInventoryField: function(){
 		var thisInstance = this;
 		var container = thisInstance.getInventoryViewLayout();
 		var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
@@ -1888,14 +1888,17 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 								'enabled': true
 							}
 						});
+						var editFields = liElement.find('.editFields');
 						var params = {};
-						params['ids'] = liElement.find('.editFields').data('id');
+						params.id = editFields.data('id');
 						params.module = selectedModule;
+						params.name = editFields.data('name');;
+						params.column = editFields.data('column');;
 						app.saveAjax('delete', params).then(function (data) {
 							liElement.remove();
 							Settings_Vtiger_Index_Js.showMessage({type: 'success', text: app.vtranslate('JS_SAVE_CHANGES')});
 							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-
+							
 						});
 					},
 					function (error, err) {

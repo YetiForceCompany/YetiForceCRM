@@ -53,7 +53,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$arrayInstane = $inventoryField->getFields(false, [$id]);
 		if (current($arrayInstane)) {
 			$data = current($arrayInstane)->getData();
-			$data['translate'] = vtranslate($data['label'],$moduleName);
+			$data['translate'] = vtranslate($data['label'], $moduleName);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(['data' => $data, 'edit' => $edit]);
@@ -79,7 +79,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$param = $request->get('param');
 		$moduleName = $param['module'];
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$status = $inventoryField->delete($param['ids']);
+		$status = $inventoryField->delete($param);
 		if ($status) {
 			$status = true;
 		}

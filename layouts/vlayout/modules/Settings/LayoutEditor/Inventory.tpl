@@ -19,7 +19,7 @@
 			<ul name="sortable1" class="connectedSortable list-unstyled">
 				{foreach item=FIELD_MODEL key=NAME from=$INVENTORY_BLOKS[0]}
 					<li>
-						<div class="opacity editFields border1px"  data-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}" data-name="{$FIELD_MODEL->getName()}">
+						<div class="opacity editFields border1px"  data-id="{$FIELD_MODEL->get('id')}" data-column="{$FIELD_MODEL->get('columnname')}" data-sequence="{$FIELD_MODEL->get('sequence')}" data-name="{$FIELD_MODEL->getName()}">
 							<a>
 								<img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 							</a>&nbsp;&nbsp;
@@ -56,7 +56,7 @@
 			<ul name="sortable1" class="connectedSortable list-unstyled">
 				{foreach item=FIELD_MODEL key=NAME from=$INVENTORY_BLOKS[1]}
 					<li>
-						<div class="opacity editFields border1px"  data-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}" data-name="{$FIELD_MODEL->getName()}">
+						<div class="opacity editFields border1px"  data-id="{$FIELD_MODEL->get('id')}" data-column="{$FIELD_MODEL->get('columnname')}" data-sequence="{$FIELD_MODEL->get('sequence')}" data-name="{$FIELD_MODEL->getName()}">
 							<a>
 								<img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 							</a>&nbsp;&nbsp;
@@ -93,7 +93,7 @@
 			<ul name="sortable1" class="connectedSortable list-unstyled">
 				{foreach item=FIELD_MODEL key=NAME from=$INVENTORY_BLOKS[2]}
 					<li>
-						<div class="opacity editFields border1px"  data-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}" data-name="{$FIELD_MODEL->getName()}">
+						<div class="opacity editFields border1px"  data-id="{$FIELD_MODEL->get('id')}" data-column="{$FIELD_MODEL->get('columnname')}" data-sequence="{$FIELD_MODEL->get('sequence')}" data-name="{$FIELD_MODEL->getName()}">
 							<a>
 								<img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 							</a>&nbsp;&nbsp;
@@ -112,7 +112,7 @@
 	</div>
 </div>
 <li class="hide newLiElement">
-	<div class="opacity editFields border1px"  data-id="" data-sequence="" data-name="">
+	<div class="opacity editFields border1px" data-column="" data-id="" data-sequence="" data-name="">
 		<a>
 			<img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 		</a>&nbsp;&nbsp;
