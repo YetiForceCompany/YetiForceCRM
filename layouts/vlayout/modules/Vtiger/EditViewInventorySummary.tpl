@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<div class="row">
-		{if in_array("discount",$COLUMNS)}
+		{if in_array("discount",$COLUMNS) && in_array("discountmode",$COLUMNS)}
 			<div class="col-md-4">
 				<div class="panel panel-default inventorySummaryContainer inventorySummaryDiscounts">
 					<div class="panel-heading">
@@ -24,7 +24,7 @@
 				</div>
 			</div>
 		{/if}
-		{if in_array("tax",$COLUMNS)}
+		{if in_array("tax",$COLUMNS) && in_array("taxmode",$COLUMNS)}
 			<div class="col-md-4">
 				<div class="panel panel-default inventorySummaryContainer inventorySummaryTaxes">
 					<div class="panel-heading">
