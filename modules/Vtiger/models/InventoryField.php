@@ -48,7 +48,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
-		$key = $returnInBlock?'block':'noBlock';
+		$key = $returnInBlock ? 'block' : 'noBlock';
 		if (!$this->fields[$key]) {
 			$db = PearDatabase::getInstance();
 			$table = $this->getTableName('fields');
@@ -78,7 +78,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		} else {
 			$fields = $this->fields[$key];
 		}
-		
+
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $fields;
 	}
@@ -188,12 +188,14 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
 
 		$params = false;
-		foreach ($fields as $field) {
-			if ($field->getName() == 'Name') {
-				$params = Zend_Json::decode($field->get('params'));
+		if (isset($fields)) {
+			foreach ($fields as $field) {
+				if ($field->getName() == 'Name') {
+					$params = Zend_Json::decode($field->get('params'));
+				}
 			}
 		}
-		if(is_string($params['modules'])){
+		if (is_string($params['modules'])) {
 			$params['modules'] = [$params['modules']];
 		}
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
@@ -382,8 +384,9 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$label = $instance->getDefaultLabel();
 		$defaultValue = $instance->getDefaultValue();
 		$colSpan = $instance->getColSpan();
-		if (isset($params['column'])) {
-			$columnName = $params['column'];
+		if (!$instance->isOnlyOne()) {
+			$id = $this->getUniqueID($instance);
+			$columnName = $columnName . $id;
 		}
 		if (isset($params['label'])) {
 			$label = $params['label'];
@@ -424,7 +427,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function saveField($param)
 	{
 		$adb = PearDatabase::getInstance();
-		$columns = ['columnname', 'label', 'invtype', 'defaultValue', 'sequence', 'block', 'displayType', 'params', 'colSSpan'];
+		$columns = ['label', 'invtype', 'defaultValue', 'sequence', 'block', 'displayType', 'params', 'colSSpan'];
 		$set = [];
 		$params = [];
 		foreach ($columns AS $columnName) {
@@ -442,5 +445,53 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			$return = $adb->pquery($query, $params);
 		}
 		return $return;
+	}
+
+	/**
+	 * Save sequence field
+	 * @param array $sequenceList
+	 * @return string/false
+	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+	 */
+	public function saveSequence($sequenceList)
+	{
+		$db = PearDatabase::getInstance();
+		$query = "UPDATE `" . $this->getTableName('fields') . "` SET sequence = CASE id ";
+		foreach ($sequenceList as $sequence => $id) {
+			$query .=' WHEN ' . $id . ' THEN ' . $sequence;
+		}
+		$query .=' END ';
+		$query .= ' WHERE id IN (' . generateQuestionMarks($sequenceList) . ')';
+		return $db->pquery($query, array_values($sequenceList));
+	}
+
+	/**
+	 * Delete fields
+	 * @param array $ids
+	 * @return string/false
+	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+	 */
+	public function delete($param)
+	{
+		$db = PearDatabase::getInstance();
+		$query = "DELETE FROM `" . $this->getTableName('fields') . "` WHERE `id` = ? ";
+		$status = $db->pquery($query, [$param['id']]);
+		if ($status) {
+			$query = "ALTER TABLE `" . $this->getTableName('data') . "` DROP COLUMN `" . $param['column'] . "`;";
+			return $db->pquery($query, []);
+		}
+		return false;
+	}
+
+	/**
+	 * Getting unique id from invtype
+	 * @return int
+	 */
+	public function getUniqueID($instance)
+	{
+		$adb = PearDatabase::getInstance();
+		$query = "SELECT MAX(id) AS max FROM `" . $this->getTableName('fields') . "` WHERE `invtype` = ? ";
+		$result = $adb->pquery($query, [$instance->getName()]);
+		return (int) $adb->getSingleValue($result) + 1;
 	}
 }

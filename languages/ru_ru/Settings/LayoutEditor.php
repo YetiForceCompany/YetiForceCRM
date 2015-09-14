@@ -110,6 +110,19 @@ $languageStrings = [
 	'LBL_ADDITIONAL_VERSE' => 'Additional verse',
 	'LBL_ADVANCED_MODULE' => 'Advanced',
 	'LBL_BASIC_MODULE' => 'Basic',
+	
+	'LBL_EDITING_INVENTORY_FIELD' => 'Edit',
+	'LBL_CREATING_INVENTORY_FIELD' => 'Add',
+	'LBL_NAME_FIELD' => 'Name',
+	'LBL_COLSPAN' => 'Width',
+	'LBL_COMMENT' => 'Comment',
+	'LBL_SELECT_TYPE_OF_INVENTORY' => 'Select field type',
+	'LBL_NEXT' => 'Next',
+	'LBL_PARAMS_MODULES' => 'Modules',
+	'LBL_PARAMS_LIMIT' => 'Limit',
+	'LBL_DISPLAY_TYPE' => 'Field type',
+	'LBL_EDITABLE' => 'Editable',
+	'LBL_READONLY' => 'Read-only',
 ];
 
 $jsLanguageStrings = [
@@ -139,4 +152,7 @@ $jsLanguageStrings = [
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Поле не может быть пустым',
 	'JS_REMOVE_RELATION_OK' => 'Successfully deleted a relation.',
 	'JS_DELETE_RELATION_CONFIRMATION' => 'Are you sure you want to delete?',
+	'JS_DELETE_INVENTORY_CONFIRMATION' => 'Are you sure you want to remove the element from the block?',
+	'JS_EXTENDED_MODULE' => 'Are you sure you want to change the module type?',
+	'JS_SAVE_CHANGES' => 'Changes saved successfully.',
 ];

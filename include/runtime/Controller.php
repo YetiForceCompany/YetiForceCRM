@@ -83,7 +83,7 @@ abstract class Vtiger_Controller
 		if (!empty($name) && $this->isMethodExposed($name)) {
 			return call_user_func_array(array($this, $name), $parameters);
 		}
-		throw new Exception(vtranslate('LBL_NOT_ACCESSIBLE'));
+		throw new AppException(vtranslate('LBL_NOT_ACCESSIBLE'));
 	}
 
 	function setHeaders()

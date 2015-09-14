@@ -13,6 +13,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultLabel = 'LBL_REFERENCE';
 	protected $columnName = 'ref';
 	protected $dbType = 'int(19)';
+	protected $params = ['modules'];
 
 	/**
 	 * Getting value to display

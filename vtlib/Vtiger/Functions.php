@@ -1056,7 +1056,7 @@ class Vtiger_Functions
 		return $array;
 	}
 
-	static function throwNewException($message)
+	public static function throwNewException($message, $die = true)
 	{
 		$request = new Vtiger_Request($_REQUEST);
 		if ($request->isAjax()) {
@@ -1067,8 +1067,40 @@ class Vtiger_Functions
 		} else {
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('MESSAGE', $message);
-			$text = $viewer->view('OperationNotPermitted.tpl', 'Vtiger', true);
-			die($text);
+			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
+		}
+		if ($die) {
+			exit();
+		}
+	}
+
+	public static function throwNoPermittedException($message, $die = true)
+	{
+		$request = new Vtiger_Request($_REQUEST);
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$db->insert('s_yf_accesstorecord', [
+			'username' => $currentUser->getDisplayName(),
+			'date' => date('Y-m-d H:i:s'),
+			'ip' => self::getRemoteIP(),
+			'record' => $request->get('record'),
+			'module' => $request->get('module'),
+			'url' => Vtiger_Functions::getBrowserInfo()->url,
+			'description' => '',
+			'agent' => $_SERVER['HTTP_USER_AGENT'],
+		]);
+		if ($request->isAjax()) {
+			$response = new Vtiger_Response();
+			$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+			$response->setError($message);
+			$response->emit();
+		} else {
+			$viewer = new Vtiger_Viewer();
+			$viewer->assign('MESSAGE', $message);
+			$viewer->view('NoPermissionsForRecord.tpl', 'Vtiger');
+		}
+		if ($die) {
+			exit();
 		}
 	}
 
@@ -1210,6 +1242,13 @@ class Vtiger_Functions
 			if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https') {
 				$browser->https = true;
 			}
+			$sp = strtolower($_SERVER['SERVER_PROTOCOL']);
+			$protocol = substr($sp, 0, strpos($sp, '/')) . (($browser->https) ? 's' : '');
+			$port = $_SERVER['SERVER_PORT'];
+			$port = ((!$browser->https && $port == '80') || ($browser->https && $port == '443')) ? '' : ':' . $port;
+			$host = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null);
+			$host = isset($host) ? $host : $_SERVER['SERVER_NAME'] . $port;
+			$browser->url = $protocol . '://' . $host.$_SERVER['REQUEST_URI'];
 			self::$browerCache = $browser;
 		}
 		return self::$browerCache;
@@ -1466,21 +1505,22 @@ class Vtiger_Functions
 		$str = trim($str, $delimiter);
 		return $str;
 	}
-	
 	/*
 	 * Function that returns conversion info from default system currency to chosen one
 	 * @param <Integer> $currencyId - id of currency for which we want to retrieve conversion rate to default currency
 	 * @param <Date> $date - date of exchange rates, if empty then rate from yesterday
 	 * @return <Array> - array containing:
-	 *		date - date of rate
-	 *		value - conversion 1 default currency -> $currencyId
-	 *		conversion - 1 $currencyId -> default currency
+	 * 		date - date of rate
+	 * 		value - conversion 1 default currency -> $currencyId
+	 * 		conversion - 1 $currencyId -> default currency
 	 */
-	public static function getConversionRateInfo($currencyId, $date='') {
+
+	public static function getConversionRateInfo($currencyId, $date = '')
+	{
 		$currencyUpdateModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		$defaultCurrencyId = self::getDefaultCurrencyInfo()['id'];
 		$info = [];
-		
+
 		if (empty($date)) {
 			$yesterday = date('Y-m-d', strtotime('-1 day'));
 			$date = self::getLastWorkingDay($yesterday);
@@ -1493,9 +1533,9 @@ class Vtiger_Functions
 		} else {
 			$value = $currencyUpdateModel->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
 			$info['value'] = round($value, 5);
-			$info['conversion'] = round(1/$value, 5);
-		}		
-		
+			$info['conversion'] = round(1 / $value, 5);
+		}
+
 		return $info;
 	}
 }

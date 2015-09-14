@@ -1125,7 +1125,10 @@ var app = {
 		return parseFloat(val);
 	},
 	errorLog: function (error, err, errorThrown) {
-		console.error(error, err, errorThrown);
+		if( typeof error == 'object'){
+			error = error.responseText;
+		}
+		console.error(error);
 	},
 }
 

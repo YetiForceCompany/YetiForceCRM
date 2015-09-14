@@ -38,7 +38,7 @@
 						</div>
 					{/foreach}
 				</div>
-			<div class="btn-toolbar col-md-4">
+			<div class="btn-toolbar col-md-3">
 				<span class="customFilterMainSpan btn-group">
 					{if $CUSTOM_VIEWS|@count gt 0}
 						<select id="customFilter" title="{vtranslate('LBL_CUSTOM_FILTER')}">
@@ -76,7 +76,7 @@
 					{/if}
 				</span>
 			</div>
-			<div class="col-md-4 btn-toolbar paddingRightZero">
+			<div class="col-md-5 btn-toolbar paddingRightZero">
 				{include file='ListViewActions.tpl'|@vtemplate_path}
 			</div>
 			<span class="hide filterActionImages pull-right">

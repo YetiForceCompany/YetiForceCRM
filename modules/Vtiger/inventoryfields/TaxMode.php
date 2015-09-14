@@ -15,6 +15,7 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	protected $columnName = 'taxmode';
 	protected $dbType = 'tinyint(1) NOT NULL DEFAULT 0';
 	protected $values = [0 => 'group', 1 => 'individual'];
+	protected $blocks = [0];
 
 	/**
 	 * Getting value to display
