@@ -61,7 +61,7 @@
 						{vtranslate('LBL_PAGE_ORIENTATION', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="select2 form-control" id="page_format" name="page_format">
+						<select class="select2 form-control" id="page_orientation" name="page_orientation">
 							<option value="PLL_PORTRAIT" {if $PDF_MODEL->get('page_orientation') eq 'PLL_PORTRAIT'} selected="selected" {/if}>
 								{vtranslate('PLL_PORTRAIT', $QUALIFIED_MODULE)}
 							</option>
@@ -69,6 +69,53 @@
 								{vtranslate('PLL_LANDSCAPE', $QUALIFIED_MODULE)}
 							</option>
 						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">
+						{vtranslate('LBL_LANGUAGE_CHOICE', $QUALIFIED_MODULE)}
+					</label>
+					<div class="col-sm-6 controls">
+						<select class="select2 form-control" id="language" name="language">
+							{foreach from=Vtiger_Language::getAll() key=CODE item=NAME}
+							<option value="{$CODE}" {if $PDF_MODEL->get('language') eq $CODE} selected="selected" {/if}>
+								{vtranslate($NAME, $QUALIFIED_MODULE)}
+							</option>
+							{/foreach}
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">
+						{vtranslate('LBL_FILENAME', $QUALIFIED_MODULE)}
+					</label>
+					<div class="col-sm-6 controls">
+						<input type="text" name="filename" class="form-control" value="{$PDF_MODEL->get('filename')}" id="filename" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">
+						{vtranslate('LBL_VISIBILITY', $QUALIFIED_MODULE)}
+					</label>
+					<div class="col-sm-6 controls">
+						{assign 'VISIBILITY' explode(',',$PDF_MODEL->get('visibility'))}
+						<select class="select2 form-control" data-tags="false" id="visibility" name="visibility" multiple="multiple">
+							<option value="PLL_LISTVIEW" {if in_array('PLL_LISTVIEW', $VISIBILITY)}selected="selected"{/if}>{vtranslate('PLL_LISTVIEW', $QUALIFIED_MODULE)}</option> 
+							<option value="PLL_DETAILVIEW" {if in_array('PLL_DETAILVIEW', $VISIBILITY)}selected="selected"{/if}>{vtranslate('PLL_DETAILVIEW', $QUALIFIED_MODULE)}</option> 
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">
+						{vtranslate('LBL_DEFAULT_TPL', $QUALIFIED_MODULE)}
+					</label>
+					<div class="col-sm-6">
+						{if $PDF_MODEL->get('default') === 0}
+							{assign 'DEFAULT' false}
+						{else}
+							{assign 'DEFAULT' true}
+						{/if}
+						<input type="checkbox" id="default" name="default" value="1" {if $DEFAULT eq 'true'}checked="checked"{/if} />
 					</div>
 				</div>
 			</div>

@@ -43,6 +43,10 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'margin_left',
 		'margin_right',
 		'page_orientation',
+		'language',
+		'filename',
+		'visibility',
+		'default',
 		'colb',
 		'colc',
 		'cold',
@@ -51,7 +55,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'colg'
 	];
 	public static $step1Fields = ['status', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_creator', 'meta_keywords'];
-	public static $step2Fields = ['page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'page_orientation'];
+	public static $step2Fields = ['page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'page_orientation', 'language', 'filename', 'visibility', 'default'];
 	public static $step3Fields = ['colb'];
 	public static $step4Fields = ['colc'];
 	public static $step5Fields = ['cold'];

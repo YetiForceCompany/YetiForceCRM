@@ -50,6 +50,12 @@ $languageStrings = [
 	'LBL_PAGE_ORIENTATION' => 'Orientacja dokumentu',
 	'PLL_LANDSCAPE' => 'Pozioma',
 	'PLL_PORTRAIT' => 'Pionowa',
+	'LBL_LANGUAGE_CHOICE' => 'Wybór języka podstawowego',
+	'LBL_FILENAME' => 'Nazwa generowanego pliku',
+	'LBL_VISIBILITY' => 'Dostępny w widokach',
+	'PLL_LISTVIEW' => 'Lista',
+	'PLL_DETAILVIEW' => 'Rekord',
+	'LBL_DEFAULT_TPL' => 'Domyślnie zaznaczony',
 
 	// page format names
 	'4A0' => '4A0',
