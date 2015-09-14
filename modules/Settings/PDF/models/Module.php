@@ -16,10 +16,11 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'status' => 'LBL_STATUS',
 		'primary_name' => 'LBL_PRIMARY_NAME',
 		'secondary_name' => 'LBL_SECONDARY_NAME',
-		'set_author' => 'LBL_SET_AUTHOR',
-		'set_creator' => 'LBL_SET_CREATOR',
-		'set_keywords' => 'LBL_SET_KEYWORDS',
-		'cola' => 'ColA',
+		'meta_author' => 'LBL_META_AUTHOR',
+		'meta_creator' => 'LBL_META_CREATOR',
+		'meta_keywords' => 'LBL_META_KEYWORDS',
+		'margin_chkbox' => 'LBL_MAIN_MARGIN',
+		'page_format' => 'LBL_PAGE_FORMAT',
 		'colb' => 'ColB',
 		'colc' => 'ColC',
 		'cold' => 'ColD'
@@ -29,13 +30,19 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'status',
 		'primary_name',
 		'secondary_name',
-		'set_author',
-		'set_creator',
-		'set_keywords',
+		'meta_author',
+		'meta_creator',
+		'meta_keywords',
 		'metatags_status',
-		'set_subject',
-		'set_title',
-		'cola',
+		'meta_subject',
+		'meta_title',
+		'page_format',
+		'margin_chkbox',
+		'margin_top',
+		'margin_bottom',
+		'margin_left',
+		'margin_right',
+		'page_orientation',
 		'colb',
 		'colc',
 		'cold',
@@ -43,8 +50,8 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'colf',
 		'colg'
 	];
-	public static $step1Fields = ['status', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'set_subject', 'set_title', 'set_author', 'set_creator', 'set_keywords'];
-	public static $step2Fields = ['cola'];
+	public static $step1Fields = ['status', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_creator', 'meta_keywords'];
+	public static $step2Fields = ['page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'page_orientation'];
 	public static $step3Fields = ['colb'];
 	public static $step4Fields = ['colc'];
 	public static $step5Fields = ['cold'];
@@ -126,5 +133,27 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 			default:
 				return self::$step1Fields;
 		}
+	}
+
+	public static function getPageFormats() {
+		return [
+			'4A0',
+			'2A0',
+			'A0','A1','A2','A3','A4','A5','A6','A7','A8','A9','A10',
+			'B0','B1','B2','B3','B4','B5','B6','B7','B8','B9','B10',
+			'C0','C1','C2','C3','C4','C5','C6','C7','C8','C9','C10',
+			'RA0','RA1','RA2','RA3','RA4',
+			'SRA0','SRA1','SRA2','SRA3','SRA4',
+			'LETTER',
+			'LEGAL',
+			'LEDGER',
+			'TABLOID',
+			'EXECUTIVE',
+			'FOLIO',
+			'B', //	'B' format paperback size 128x198mm
+			'A', //	'A' format paperback size 111x178mm
+			'DEMY', //	'Demy' format paperback size 135x216mm
+			'ROYAL' //	'Royal' format paperback size 153x234mm
+		];
 	}
 }

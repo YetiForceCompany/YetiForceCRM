@@ -82,23 +82,23 @@
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_SET_TITLE', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_META_TITLE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<input type="text" name="set_title" class="form-control" value="{$PDF_MODEL->get('set_title')}" id="set_title" />
+						<input type="text" name="meta_title" class="form-control" value="{$PDF_MODEL->get('meta_title')}" id="meta_title" />
 					</div>
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_SET_AUTHOR', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_META_AUTHOR', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" id="set_author" name="set_author">
+						<select class="chzn-select form-control" id="meta_author" name="meta_author">
 							<option value="" selected="">{vtranslate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
-							<option value="PLL_COMPANY_NAME" {if $PDF_MODEL->get('set_author') eq 'PLL_COMPANY_NAME'} selected {/if}>
+							<option value="PLL_COMPANY_NAME" {if $PDF_MODEL->get('meta_author') eq 'PLL_COMPANY_NAME'} selected {/if}>
 								{vtranslate('PLL_COMPANY_NAME', $QUALIFIED_MODULE)}
 							</option>
-							<option value="PLL_USER_CREATING" {if $PDF_MODEL->get('set_author') eq 'PLL_USER_CREATING'} selected {/if}>
+							<option value="PLL_USER_CREATING" {if $PDF_MODEL->get('meta_author') eq 'PLL_USER_CREATING'} selected {/if}>
 								{vtranslate('PLL_USER_CREATING', $QUALIFIED_MODULE)}
 							</option>
 						</select>
@@ -106,15 +106,15 @@
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_SET_CREATOR', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_META_CREATOR', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" id="set_creator" name="set_creator">
+						<select class="chzn-select form-control" id="meta_creator" name="meta_creator">
 							<option value="" selected="">{vtranslate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
-							<option value="PLL_COMPANY_NAME" {if $PDF_MODEL->get('set_creator') eq 'PLL_COMPANY_NAME'} selected {/if}>
+							<option value="PLL_COMPANY_NAME" {if $PDF_MODEL->get('meta_creator') eq 'PLL_COMPANY_NAME'} selected {/if}>
 								{vtranslate('PLL_COMPANY_NAME', $QUALIFIED_MODULE)}
 							</option>
-							<option value="PLL_USER_CREATING" {if $PDF_MODEL->get('set_creator') eq 'PLL_USER_CREATING'} selected {/if}>
+							<option value="PLL_USER_CREATING" {if $PDF_MODEL->get('meta_creator') eq 'PLL_USER_CREATING'} selected {/if}>
 								{vtranslate('PLL_USER_CREATING', $QUALIFIED_MODULE)}
 							</option>
 						</select>
@@ -122,19 +122,19 @@
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_SET_SUBJECT', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_META_SUBJECT', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<input type="text" name="set_subject" class="form-control" value="{$PDF_MODEL->get('set_subject')}" id="set_subject" />
+						<input type="text" name="meta_subject" class="form-control" value="{$PDF_MODEL->get('meta_subject')}" id="meta_subject" />
 					</div>
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_SET_KEYWORDS', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_META_KEYWORDS', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						{assign 'KEYWORDS' explode(',',$PDF_MODEL->get('set_keywords'))}
-						<select class="select2 form-control" data-tags="false" id="set_keywords" name="set_keywords" multiple="multiple">
+						{assign 'KEYWORDS' explode(',',$PDF_MODEL->get('meta_keywords'))}
+						<select class="select2 form-control" data-tags="false" id="meta_keywords" name="meta_keywords" multiple="multiple">
 							{foreach item=KEYWORD from=$KEYWORDS}
 								<option value="{$KEYWORD}" selected="selected">{$KEYWORD}</option>
 							{/foreach}

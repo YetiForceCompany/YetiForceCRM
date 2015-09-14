@@ -140,10 +140,8 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	registerMetatagsClickEvent: function(form) {
 		var metaTagsStatus = form.find('#metatags_status');
 		if (metaTagsStatus.is(':checked')) {
-			console.log('tak');
 			form.find('.metatags').addClass('hide');
 		} else {
-			console.log('nie');
 			form.find('.metatags').removeClass('hide');
 		}
 		
