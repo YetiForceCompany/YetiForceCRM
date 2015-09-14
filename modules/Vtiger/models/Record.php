@@ -549,9 +549,12 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
-
+		
 		$module = $this->getModuleName();
 		$record = $this->getId();
+		if (empty($record)) {
+			$record = $this->get('record_id');
+		}
 		if (empty($record)) {
 			return [];
 		}
