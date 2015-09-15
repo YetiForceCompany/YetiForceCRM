@@ -3525,8 +3525,8 @@ span[name=existingImages] img{
 	border-bottom: 0;
 }
 .mailsList .smalSeparator {
-    display: block;
-    height: 5px;
+        display: block;
+        height: 5px;
 	width: 70px;
 }
 .summaryWidgetContainer .widgetContent hr {
@@ -3657,9 +3657,10 @@ span[name=existingImages] img{
 .baseContainer .leftPanel .menuContainer a{
 	border-radius: 0;
 	vertical-align: text-top;
-    padding: 6px 15px 6px 50px;
+        padding: 6px 15px 6px 50px;
 	word-wrap: break-word;
 	font-size: 16px;
+      
 }
 .baseContainer .leftPanel .menuContainer a:hover,
 .baseContainer .leftPanel .menuContainer a:focus
@@ -3723,11 +3724,16 @@ span[name=existingImages] img{
 .baseContainer .basePanel:after {
 	content: "";
 	display: block;
-	position: fixed;
+	//position: fixed;
 	top: 0;
 	z-index: -1;
 	width: 100%;
 	height: 100%;
+}
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel .bodyHeader{
+    left: 210px;
+    -webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
+    transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 }
 .baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
 .baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
@@ -3796,6 +3802,8 @@ span[name=existingImages] img{
     right: 0;
     left: 50px;
     z-index: 1030;
+    -webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
+    transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 }
 .noSpaces{
 	padding: 0;
@@ -3829,6 +3837,7 @@ html,body,.baseContainer
     height: 100%;
     margin-top: 0;
     padding-top: 48px;
+    
 }
 .bodyContents{
 	padding: 0 10px;

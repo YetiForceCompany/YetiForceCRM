@@ -456,7 +456,7 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.adjustTopMenuBarItems();
 		Vtiger_Index_Js.registerPostAjaxEvents();
 		Vtiger_Index_Js.changeSkin();
-		Vtiger_Index_Js.registerShowHideLeftPanelEvent();
+		//Vtiger_Index_Js.registerShowHideLeftPanelEvent();
 		Vtiger_Index_Js.registerShowHideRightPanelEvent();
 		Vtiger_Index_Js.registerResizeEvent();
 	},
