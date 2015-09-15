@@ -35,7 +35,7 @@
 				<tbody>
 					<tr>
 						<td><label>{vtranslate('LBL_STATUSES_CLOSED_CALCULATION', $QUALIFIED_MODULE)}</label></td>
-						<td>
+						<td class="col-md-6">
 							<select class="chzn-select col-md-8 configField" multiple data-type="calculation" name="calculationsstatus">
 								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('calculationsstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $CALCULATION['calculationsstatus'])} selected {/if}  >{vtranslate($ITEM,'Calculations')}</option>
@@ -56,7 +56,7 @@
 					</tr>
 					<tr>
 						<td><label>{vtranslate('LBL_STATUSES_CLOSED_POTENTIAL', $QUALIFIED_MODULE)}</label></td>
-						<td>
+						<td class="col-md-6">
 							<select class="chzn-select col-md-8 configField" multiple data-type="potential" name="salesstage">
 								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('sales_stage')}
 									<option value="{$ITEM}" {if in_array($ITEM, $POTENTIALS['salesstage'])} selected {/if}  >{vtranslate($ITEM,'Potentials')}</option>
@@ -73,7 +73,7 @@
 				<tbody>
 					<tr>
 						<td><label>{vtranslate('LBL_STATUSES_CLOSED_ASSETS', $QUALIFIED_MODULE)}</label></td>
-						<td>
+						<td class="col-md-6">
 							<select class="chzn-select col-md-8 configField" multiple data-type="asset" name="assetstatus">
 								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('assetstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $ASSETS['assetstatus'])} selected {/if}>{vtranslate($ITEM,'Assets')}</option>
