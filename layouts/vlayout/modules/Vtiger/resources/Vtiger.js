@@ -436,13 +436,16 @@ var Vtiger_Index_Js = {
 	registerShowHideRightPanelEvent: function () {
 		var rightPanel = jQuery('#rightPanel');
 		var centerContents = jQuery('#centerPanel');
-		$('#rightPanel').on('mouseenter', function () {
-			rightPanel.addClass('rightPanelHover').children().css('visibility', 'visible');
-			centerContents.addClass('centerPanelHover')
-		}).on('mouseleave', function () {
-			rightPanel.removeClass('rightPanelHover').children().css('visibility', 'hidden');
-			;
-			centerContents.removeClass('centerPanelHover')
+		$('.toggleRightPanelButton').on('click', function () {
+			if (!rightPanel.hasClass('rightPanelHover')) {
+				rightPanel.addClass('rightPanelHover').children().css('visibility', 'visible');
+				centerContents.addClass('centerPanelHover');
+				jQuery(this).addClass('move-action').find('.glyphicon').removeClass('glyphicon-chevron-left').addClass('glyphicon-chevron-right');
+			} else {
+				rightPanel.removeClass('rightPanelHover').children().css('visibility', 'hidden');
+				centerContents.removeClass('centerPanelHover');
+				jQuery(this).removeClass('move-action').find('.glyphicon').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-left');
+			}
 		});
 	},
 	loadPreSaveRecord: function (form) {
