@@ -12,6 +12,7 @@
 .clearfix:after {
 	clear: both;
 }
+
 .hide-text {
 	overflow: hidden;
 	text-indent: 100%;
