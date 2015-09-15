@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 /*
@@ -322,7 +323,7 @@ function __vtlib_get_modulevar_value($module, $varname)
 				'vtiger_leadaddress' => Array('leadaddressid', 'vtiger_leaddetails', 'leadid'),
 				'vtiger_leadscf' => Array('leadid', 'vtiger_leaddetails', 'leadid'),
 			),
-			'popup_fields' => Array('lastname'),
+			'popup_fields' => Array('company'),
 		),
 		'Campaigns' =>
 		Array(
