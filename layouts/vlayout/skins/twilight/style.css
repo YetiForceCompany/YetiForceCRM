@@ -12,6 +12,7 @@
 .clearfix:after {
 	clear: both;
 }
+
 .hide-text {
 	overflow: hidden;
 	text-indent: 100%;
@@ -3689,7 +3690,7 @@ span[name=existingImages] img{
 .baseContainer .leftPanel:after {
 	content: "";
 	position: fixed;
-	top: 0;
+	bottom:33px;
 	z-index: -2;
 	width: 210px;
 	height: 100%;
@@ -3702,7 +3703,7 @@ span[name=existingImages] img{
 .baseContainer .basePanel {
 	position: relative;
 	left: 0;
-    z-index: 1030;
+        z-index: 1030;
 	-webkit-transition: left ease-in-out 0.3s;
 	transition: left ease-in-out 0.3s;
 	background: #ffffff;
@@ -3710,13 +3711,13 @@ span[name=existingImages] img{
 }
 .baseContainer .basePanel:after {
 	content: "";
-	display: block;
-	//position: fixed;
+	display: block;	
 	top: 0;
 	z-index: -1;
 	width: 100%;
 	height: 100%;
 }
+
 .baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel .bodyHeader{
     left: 210px;
     -webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
@@ -3753,7 +3754,7 @@ span[name=existingImages] img{
     display: block;
     position: absolute;
     left: 210px;
-	top: 50px;
+    top: 50px;
 }
 .nav li:hover > .subMenu .subMenu{
 	left: 260px;
@@ -3762,16 +3763,17 @@ span[name=existingImages] img{
 .nav li:hover .subMenu a{
     color: #000;
 }
-.leftPanel .nav .subMenu:before {
+
+.leftPanel .nav .subMenu:after {
     content: "";
     display: block;
     position: fixed;
+    bottom: 33px;
     top: 50px;
     z-index: -1;
-    width: 260px;
-    height: 100%;
+    width: 260px; 
     background: #f0f1f1;
-	border-right: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
 }
 .leftPanel .nav .subMenu li {
 	width: 260px;
@@ -3781,7 +3783,7 @@ span[name=existingImages] img{
 	text-transform: uppercase;
 }
 .bodyHeader{
-	background-color: #444853;
+    background-color: #444853;
     color: #fff;
     height: 50px;
     position: fixed;
@@ -3929,6 +3931,4 @@ html,body,.baseContainer
 .leftPanelStillOpen{
 	margin-right: 160px !important;
 }
-.breadcrumbsLinks{
-	margin-top: 15px;
-}
+
