@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
 
 class Users_Login_View extends Vtiger_View_Controller {
@@ -22,8 +23,10 @@ class Users_Login_View extends Vtiger_View_Controller {
 	
 	function process (Vtiger_Request $request) {
 		$viewer = $this->getViewer($request);
+		include_once 'config/api.php';
 		$moduleName = $request->getModule();
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('ENABLED_MOBILE_MODULE', in_array('mobileModule', $enabledServices));
 		$viewer->assign('CURRENT_VERSION', vglobal('YetiForce_current_version'));
 		$viewer->view('Login.tpl', 'Users');
 	}

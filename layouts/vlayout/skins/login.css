@@ -1,6 +1,11 @@
 @media (min-width: 768px) { 
 	.visible-phone{ 
 		visibility: hidden;
+	}
+}
+@media (min-height: 480px) { 
+	.login-space{
+		margin-top: 150px;
 	} 
 }
 @media (max-width: 767px) { 
