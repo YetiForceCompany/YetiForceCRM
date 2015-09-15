@@ -2449,19 +2449,6 @@ th.htColHeader,
 	background-position: center;
 	padding: 10px 0;
 }
-.breadcrumbContainer {
-	padding: 2% 2% 0 2%;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	word-wrap: break-word;
-	height: auto;
-}
-.breadcrumb {
-	display: inline-block;
-	height: auto;
-	height: 40px;
-}
 .crumbs {
 	height: 40px;
 	margin: 0;
