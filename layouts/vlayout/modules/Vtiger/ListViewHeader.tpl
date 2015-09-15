@@ -35,7 +35,7 @@
 									{assign var="IS_LINK_MODULE_NAME" value=in_array($CURRENT_MODULE_NAME,$PARSE_URL)}
 									<li>
 										<a class="quickLinks" href="{$SIDEBARLINK->getUrl()}">
-											<strong>{vtranslate($SIDEBARLINK->getLabel(), $MODULE)}</strong>
+											{vtranslate($SIDEBARLINK->getLabel(), $MODULE)}
 										</a>
 									</li>
 									{/foreach}
