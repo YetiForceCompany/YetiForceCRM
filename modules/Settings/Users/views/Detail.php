@@ -6,50 +6,32 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
-Class Users_Edit_View extends Users_PreferenceEdit_View {
+class Settings_Users_Detail_View extends Users_PreferenceDetail_View {
 
 	public function preProcess(Vtiger_Request $request) {
 		parent::preProcess($request, false);
 		$this->preProcessSettings($request);
 	}
 
-	public function preProcessSettings(Vtiger_Request $request) {
+	public function preProcessSettings(Vtiger_Request $request)
+	{
+
 		$viewer = $this->getViewer($request);
+
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$selectedMenuId = $request->get('block');
 		$fieldId = $request->get('fieldid');
-
 		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
 		$menuModels = $settingsModel->getMenus();
-
-		if(!empty($selectedMenuId)) {
-			$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($selectedMenuId);
-		} elseif(!empty($moduleName) && $moduleName != 'Vtiger') {
-			$fieldItem = Settings_Vtiger_Index_View::getSelectedFieldFromModule($menuModels,$moduleName);
-			if($fieldItem){
-				$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($fieldItem->get('blockid'));
-				$fieldId = $fieldItem->get('fieldid');
-			} else {
-				reset($menuModels);
-				$firstKey = key($menuModels);
-				$selectedMenu = $menuModels[$firstKey];
-			}
-		} else {
-			reset($menuModels);
-			$firstKey = key($menuModels);
-			$selectedMenu = $menuModels[$firstKey];
-		}
-
-		$viewer->assign('SELECTED_FIELDID',$fieldId);
-		$viewer->assign('SELECTED_MENU', $selectedMenu);
-		$viewer->assign('SETTINGS_MENUS', $menuModels);
+		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
+		
+		$viewer->assign('MENUS', $menu);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('IS_PREFERENCE', false);
-
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
@@ -63,7 +45,15 @@ Class Users_Edit_View extends Users_PreferenceEdit_View {
 		$this->postProcessSettings($request);
 		parent::postProcess($request);
 	}
-	
+
+	public function process(Vtiger_Request $request) {
+		$viewer = $this->getViewer($request);
+
+		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->view('UserViewHeader.tpl', $request->getModule());
+		parent::process($request);
+	}
+
 	public function getFooterScripts(Vtiger_Request $request) {
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -76,8 +66,16 @@ Class Users_Edit_View extends Users_PreferenceEdit_View {
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
-	
-	public function process(Vtiger_Request $request) {
-		parent::process($request);
+
+	/**
+	 * Function to get Ajax is enabled or not
+	 * @param Vtiger_Record_Model record model
+	 * @return <boolean> true/false
+	 */
+	function isAjaxEnabled($recordModel) {
+		if($recordModel->get('status') != 'Active') {
+			return false;
+		}
+		return $recordModel->isEditable();
 	}
 }
