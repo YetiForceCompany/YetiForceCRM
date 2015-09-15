@@ -2,8 +2,7 @@
 SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -16354,17 +16353,17 @@ insert  into `vtiger_reservations_status_seq`(`id`) values (2);
 
 /*Data for the table `vtiger_role` */
 
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`) values ('H1','Organization','H1',0,1,1,NULL,1,0,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`) values ('H10','Sales Department','H1::H2::H10',2,1,1,NULL,1,0,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`) values ('H14','Logistics Department','H1::H2::H14',2,1,1,NULL,1,0,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`) values ('H18','Project Management Department','H1::H2::H18',2,1,1,NULL,1,0,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`) values ('H2','Board of Management','H1::H2',1,1,1,NULL,1,0,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`) values ('H22','Help Desk Department','H1::H2::H22',2,1,1,NULL,1,0,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`) values ('H26','Human Resources Department','H1::H2::H26',2,1,1,NULL,1,0,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`) values ('H3','Secretary\'s Office','H1::H2::H3',2,1,1,NULL,1,0,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`) values ('H30','Financial Department','H1::H2::H30',2,1,1,NULL,1,0,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`) values ('H34','Production Department','H1::H2::H34',2,1,1,NULL,1,0,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`) values ('H6','Marketing Department','H1::H2::H6',2,1,1,NULL,1,0,0);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`) values ('H1','Organization','H1',0,1,1,NULL,1,0,0,0);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`) values ('H10','Sales Department','H1::H2::H10',2,1,1,NULL,1,0,0,0);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`) values ('H14','Logistics Department','H1::H2::H14',2,1,1,NULL,1,0,0,0);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`) values ('H18','Project Management Department','H1::H2::H18',2,1,1,NULL,1,0,0,0);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`) values ('H2','Board of Management','H1::H2',1,1,1,NULL,1,0,0,0);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`) values ('H22','Help Desk Department','H1::H2::H22',2,1,1,NULL,1,0,0,0);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`) values ('H26','Human Resources Department','H1::H2::H26',2,1,1,NULL,1,0,0,0);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`) values ('H3','Secretary\'s Office','H1::H2::H3',2,1,1,NULL,1,0,0,0);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`) values ('H30','Financial Department','H1::H2::H30',2,1,1,NULL,1,0,0,0);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`) values ('H34','Production Department','H1::H2::H34',2,1,1,NULL,1,0,0,0);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`) values ('H6','Marketing Department','H1::H2::H6',2,1,1,NULL,1,0,0,0);
 
 /*Data for the table `vtiger_role2picklist` */
 

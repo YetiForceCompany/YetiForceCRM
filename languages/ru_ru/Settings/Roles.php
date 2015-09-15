@@ -40,6 +40,7 @@ $languageStrings = [
 	'LBL_CLENDAR_ALLO_RECORDS_3' => 'I can see the users who result from the record list I can access',
 	'LBL_PERMISSIONS_TO_LIST_RELATED_RECORDS' => 'Should the list of records (that we do not own) related to our records be shared',
 	'LBL_PERMISSIONS_TO_VIEW_RELATED_RECORDS' => 'Should  the preview of records (that we do not own) related to our records be shared',
+	'LBL_PERMISSIONS_TO_EDIT_RELATED_RECORDS' => '__UNTRANSLATED__',
 	'LBL_INACTIVE' => 'Inactive',
 	'LBL_ONLY_PARENT' => 'Parent record',
 	'LBL_ACCORDING_TO_HIERARCHY' => 'According to hierarchy',

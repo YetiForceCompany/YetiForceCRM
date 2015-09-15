@@ -6180,6 +6180,7 @@ CREATE TABLE `vtiger_role` (
   `clendarallorecords` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `listrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `previewrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `editrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`roleid`),
   KEY `parentrole` (`parentrole`),
   KEY `parentrole_2` (`parentrole`,`depth`),
