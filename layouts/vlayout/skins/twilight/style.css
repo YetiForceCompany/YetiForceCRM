@@ -3767,7 +3767,7 @@ span[name=existingImages] img{
     display: block;
     position: absolute;
     left: 210px;
-	top: 50px;
+    top: 50px;
 }
 .nav li:hover > .subMenu .subMenu{
 	left: 260px;
@@ -3785,7 +3785,7 @@ span[name=existingImages] img{
     width: 260px;
     height: 100%;
     background: #f0f1f1;
-	border-right: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
 }
 .leftPanel .nav .subMenu li {
 	width: 260px;
