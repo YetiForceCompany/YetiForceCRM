@@ -379,7 +379,16 @@ function isPermitted($module, $actionname, $record_id = '')
 				$parentRecord = Users_Privileges_Model::getParentRecord($record_id, $module, $role['previewrelatedrecord']);
 				if ($parentRecord) {
 					$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($parentRecord);
-					if ($current_user->id == $recordMetaData['smownerid']) {
+
+					if ($role['permissionsrelatedfield'] == 0) {
+						$relatedPermission = $current_user->id == $recordMetaData['smownerid'];
+					} else if ($role['permissionsrelatedfield'] == 1) {
+						$relatedPermission = in_array($current_user->id, explode(',', $recordMetaData['shownerid']));
+					} else if ($role['permissionsrelatedfield'] == 2) {
+						$relatedPermission = $current_user->id == $recordMetaData['smownerid'] || in_array($current_user->id, explode(',', $recordMetaData['shownerid']));
+					}
+
+					if ($relatedPermission) {
 						$permission = 'yes';
 						$log->debug('Exiting isPermitted method ... - Parent Record Owner');
 						return $permission;
