@@ -87,7 +87,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		$orderBy = $pagingModel->getForSql('orderby');
 		$sortOrder = $pagingModel->getForSql('sortorder');
 
-		if (empty($sortOrder) || !in_array($sortOrder, ['asc', 'desc'])) {
+		if (empty($sortOrder) || !in_array(strtolower($sortOrder), ['asc', 'desc'])) {
 			$sortOrder = 'ASC';
 		}
 
@@ -99,43 +99,46 @@ class Home_Module_Model extends Vtiger_Module_Model
 
 		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
 		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
-		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
 		$instance = CRMEntity::getInstance('Calendar');
-		$UserAccessConditions = $instance->getUserAccessConditionsQuerySR('Calendar');
+		$userAccessConditions = $instance->getUserAccessConditionsQuerySR('Calendar');
 
 		$params = [];
-		$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_activity.*
+		$query = 'SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_activity.*
 			FROM vtiger_activity
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-			WHERE vtiger_crmentity.deleted=0";
-		$query .= $UserAccessConditions;
+			WHERE vtiger_crmentity.deleted=0 ';
+		$query .= $userAccessConditions;
 		if ($mode === 'upcoming') {
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails'))
+			$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
 			AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
 			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) 
-			AND CASE WHEN vtiger_activity.activitytype='Task' THEN due_date >= '$currentDate' ELSE CONCAT(due_date,' ',time_end) >= '$nowInDBFormat' END";
+			AND CONCAT(date_start,' ',time_start) >= '$nowInDBFormat'";
 		} elseif ($mode === 'overdue') {
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails'))
+			$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
 			AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
 			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) 
-			AND CASE WHEN vtiger_activity.activitytype='Task' THEN due_date < '$currentDate' ELSE CONCAT(due_date,' ',time_end) < '$nowInDBFormat' END";
+			AND CONCAT(date_start,' ',time_start) < '$nowInDBFormat'";
 		} elseif ($mode === 'assigned_upcoming') {
-			$query .= " AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
+			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
 			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) 
-			AND CASE WHEN vtiger_activity.activitytype='Task' THEN due_date >= '$currentDate' ELSE CONCAT(due_date,' ',time_end) >= '$nowInDBFormat' END AND vtiger_crmentity.smcreatorid = ?";
+			AND CONCAT(date_start,' ',time_start) >= '$nowInDBFormat'
+			AND vtiger_crmentity.smcreatorid = ?";
 			$params[] = $currentUser->getId();
 		} elseif ($mode === 'assigned_over') {
-			$query .= " AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
+			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
 			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) 
-			AND CASE WHEN vtiger_activity.activitytype='Task' THEN due_date < '$currentDate' ELSE CONCAT(due_date,' ',time_end) < '$nowInDBFormat' END AND vtiger_crmentity.smcreatorid = ?";
+			AND CONCAT(date_start,' ',time_start) < '$nowInDBFormat'
+			AND vtiger_crmentity.smcreatorid = ?";
 			$params[] = $currentUser->getId();
 		} elseif ($mode === 'createdByMeButNotMine') {
-			$query .= " AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
-			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) AND vtiger_crmentity.smcreatorid = ? AND vtiger_crmentity.smownerid NOT IN (?) AND CASE WHEN vtiger_activity.activitytype='Task' THEN due_date";
+			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
+			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) 
+			AND vtiger_crmentity.smcreatorid = ? 
+			AND vtiger_crmentity.smownerid NOT IN (?) ";
 			if ($paramsMore['activitesType'] != 'upcoming') {
-				$query .= " < '$currentDate' ELSE CONCAT(due_date,' ',time_end) < '$nowInDBFormat' END ";
+				$query .= "AND CONCAT(date_start,' ',time_start) < '$nowInDBFormat' ";
 			} else {
-				$query .= " >= '$currentDate' ELSE CONCAT(due_date,' ',time_end) >= '$nowInDBFormat' END ";
+				$query .= "AND CONCAT(date_start,' ',time_start) >= '$nowInDBFormat' ";
 			}
 
 			$params[] = $currentUser->getId();
@@ -154,11 +157,9 @@ class Home_Module_Model extends Vtiger_Module_Model
 		$params[] = $pagingModel->getPageLimit() + 1;
 
 		$result = $db->pquery($query, $params);
-		$numOfRows = $db->num_rows($result);
 
-		$activities = array();
-		for ($i = 0; $i < $numOfRows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$activities = [];
+		while ($row = $db->fetch_array($result)) {
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
 			$model->setData($row);
 			if ($row['activitytype'] == 'Task') {

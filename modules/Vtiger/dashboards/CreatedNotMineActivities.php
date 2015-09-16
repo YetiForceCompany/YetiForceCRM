@@ -22,6 +22,13 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		else
 			$owner = $request->get('owner');
+		
+		if ($request->get('activitesType') == 'overdue' && $sortOrder == 'desc'){
+			$sortOrder = 'ASC';
+		} else if ($request->get('activitesType') == 'overdue' && ( empty($sortOrder) || $sortOrder == 'asc')){
+			$sortOrder = 'DESC';
+		}
+		
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
