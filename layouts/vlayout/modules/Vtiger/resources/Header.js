@@ -632,10 +632,10 @@ jQuery.Class("Vtiger_Header_Js", {
 				var t = '';
 				if (item[2] != undefined) {
 					d.setTime(item[2]);
-					var hours = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
-					var minutes = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
-					if(writeSelector && (manyDays != app.manyDaysFromDate(d))){
-						manyDays = app.manyDaysFromDate(d);
+					var hours = app.formatDateZ(d.getHours());
+					var minutes = app.formatDateZ(d.getMinutes());
+					if(writeSelector && (manyDays != app.howManyDaysFromDate(d))){
+						manyDays = app.howManyDaysFromDate(d);
 						if(manyDays == 0){
 							htmlContent += '<li class="selectorHistory">' + app.vtranslate('JS_TODAY') + '</li>';
 						}
