@@ -1124,12 +1124,12 @@ class Vtiger_Module_Model extends Vtiger_Module
 			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails'))
 					AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
 					AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held'))";
-			$query .= " AND due_date >= '$currentDate'";
+			$query .= " AND date_start >= '$currentDate'";
 		} elseif ($mode === 'overdue') {
 			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails'))
 					AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
 					AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held'))";
-			$query .= " AND due_date < '$currentDate'";
+			$query .= " AND date_start < '$currentDate'";
 		}
 
 		$params = array($this->getName());
