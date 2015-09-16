@@ -162,16 +162,6 @@ class Home_Module_Model extends Vtiger_Module_Model
 		while ($row = $db->fetch_array($result)) {
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
 			$model->setData($row);
-			if ($row['activitytype'] == 'Task') {
-				$due_date = $row['due_date'];
-				$dayEndTime = '23:59:59';
-
-				$endInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue($due_date . " " . $dayEndTime);
-				$EndDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($endInUserFormat);
-				$dueDateTimeInDbFormat = explode(' ', $EndDateTime);
-				$dueTimeInDbFormat = $dueDateTimeInDbFormat[1];
-				$model->set('time_end', $dueTimeInDbFormat);
-			}
 			$model->setId($row['crmid']);
 			if ($row['parent_id']) {
 				if (isRecordExists($row['parent_id'])) {
