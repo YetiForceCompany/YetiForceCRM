@@ -3042,18 +3042,21 @@ textarea {
 .listViewEntries td.wide,
 td.listViewEntryValue.wide {
 	padding: 8px!important;
+	line-height: 31px;
 }
 .medium,
 .table td.medium,
 .listViewEntries td.medium,
 td.listViewEntryValue.medium {
 	padding: 5px 6px!important;
+	line-height: 29px;
 }
 .narrow,
 .table td.narrow,
 .listViewEntries td.narrow,
 td.listViewEntryValue.narrow {
 	padding: 2px 4px!important;
+	line-height: 27px;
 }
 .table thead th.narrow {
 	vertical-align: middle;
@@ -3256,12 +3259,13 @@ span[name=existingImages] img{
 	height: 200px;
 	width: 300px;
 }
-.narrow.fieldValue .chosen-container-single .chosen-single{
-	height: 26px;
-	line-height: 26px;
+.narrow.fieldValue .chosen-container-single .chosen-single,
+.narrow.fieldLabel .chosen-container-single .chosen-single {
+	height: 27px;
+	line-height: 27px;
 }
-.narrow.fieldValue input{
-	height: 26px;
+.narrow.fieldValue input:not([type='checkbox']){
+	height: 27px;
 }
 .narrow.fieldValue .input-group-addon{
 	padding: 4px 10px;

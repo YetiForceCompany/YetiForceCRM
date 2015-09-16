@@ -13,6 +13,7 @@
     {foreach key=index item=jsModel from=$SCRIPTS}
 	<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
     {/foreach}
+	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
     <div class="modelContainer modal fade" tabindex="-1">
 		 <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -79,7 +80,7 @@
 										{else}
 											{assign var=COUNTER value=$COUNTER+1}
 										{/if}
-										<td class="fieldLabel alignMiddle">
+										<td class="fieldLabel alignMiddle {$WIDTHTYPE}">
 											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 											{if {$isReferenceField} eq "reference"}
 												{vtranslate($FIELD_MODEL->get('label'), $MODULE)}<br />
@@ -101,7 +102,7 @@
 												{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
 											{/if}
 										</td>
-										<td class="fieldValue" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+										<td class="fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
 											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME)}
 										</td>
 										{if $MODULE_NAME eq 'Events' && $smarty.foreach.blockfields.last }	
