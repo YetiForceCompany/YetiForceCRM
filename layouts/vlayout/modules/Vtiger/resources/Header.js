@@ -608,7 +608,14 @@ jQuery.Class("Vtiger_Header_Js", {
 		//jQuery(".contentsDiv").css({'margin-bottom': navBottom + 'px', });
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 	},
+	manyDaysFromDate: function(time){
+		var fromTime = time.getTime();
+		var today=new Date();
+		var toTime = new Date(today.getFullYear(),today.getMonth(),today.getDate()).getTime();
+		return Math.floor(((toTime - fromTime)/(1000*60*60*24)))+1;
+	},
 	recentPageViews: function () {
+		var thisInstance = this;
 		var maxValues = 20;
 		var BtnText = '';
 		var BtnLink = 'javascript:void();';
@@ -618,10 +625,12 @@ jQuery.Class("Vtiger_Header_Js", {
 			var item = sp[sp.length - 1].toString().split("|");
 			BtnText = item[0];
 			BtnLink = item[1];
-			;
+			
 		}
 		var htmlContent = '<ul class="dropdown-menu pull-right" role="menu">';
 		var date = new Date().getTime();
+		var manyDays = -1;
+		var writeSelector = true;
 		if (sp != null) {
 			for (var i = sp.length - 1; i >= 0; i--) {
 				item = sp[i].toString().split("|");
@@ -629,7 +638,25 @@ jQuery.Class("Vtiger_Header_Js", {
 				var t = '';
 				if (item[2] != undefined) {
 					d.setTime(item[2]);
-					t = app.formatDate(d) + ' | ';
+					var hours=d.getHours()<10?'0'+d.getHours():d.getHours();
+					var minutes=d.getMinutes()<10?'0'+d.getMinutes():d.getMinutes();
+					if(writeSelector && (manyDays!=thisInstance.manyDaysFromDate(d))){
+						manyDays=thisInstance.manyDaysFromDate(d);
+						if(manyDays == 0){
+							htmlContent+='<li class="selectorHistory">'+app.vtranslate('JS_TODAY')+'</li>';
+						}
+						else if(manyDays == 1){
+							htmlContent+='<li class="selectorHistory">'+app.vtranslate('JS_YESTERDAY')+'</li>';
+						}
+						else{
+							htmlContent+='<li class="selectorHistory">'+app.vtranslate('JS_OLDER')+'</li>';
+							writeSelector=false;
+						}
+					}
+					if(writeSelector)
+						t= '<span class="historyHour">'+hours+":"+minutes+"</span> | ";
+					else
+						t = app.formatDate(d) + ' | ';
 				}
 				var format = $('#userDateFormat').val() + '' + $('#userDateFormat').val();
 				htmlContent += '<li><a href="' + item[1] + '">' + t + item[0] + '</a></li>';

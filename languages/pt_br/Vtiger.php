@@ -701,7 +701,7 @@ $languageStrings = [
 	'Interested services' => 'Interessados em Serviços',
 	'Recycle Bin' => 'Lixeira',
 	/* YetiForce */
-	'Total time [h]'=>'Tempo Total [h]',
+	'Total time [h]' => 'Tempo Total [h]',
 	'LBL_NO_RELATED_RECORDS_FOUND' => 'Nenhum registro a ser exibido',
 	'LBL_RECORD_SUMMARY' => 'Resumo',
 	'LBL_RECORD_DETAILS' => 'Detalhes',
@@ -973,7 +973,6 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Baseado em módulos relacionados',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Dependendo da quantidade de dados, o processo de transferência do proprietário poderá demorar vários minutos para conlcuir',
 	'LBL_LEGAL_FORM' => 'Forma Jurídica',
-	
 	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Exportar para o Excel',
 	'ReasonToEdit' => 'Reason to edit',
 	'Mails List' => 'Most recent emails',
@@ -1000,7 +999,6 @@ $languageStrings = [
 	'None' => 'None',
 	'Email Opt Out' => 'Email Opt Out',
 	'LBL_SIGN_IN' => 'Sign in',
-	
 	//Inventory
 	'LBL_DISCOUNT' => 'Discount',
 	'LBL_TAX' => 'Tax',
@@ -1276,4 +1274,6 @@ $jsLanguageStrings = [
 	'JS_OK' => 'Ok',
 	'equal to' => 'Equal to',
 	'None' => 'None',
+	'JS_YESTERDAY' => 'untraslated',
+	'JS_OLDER' => 'untraslated'
 ];
