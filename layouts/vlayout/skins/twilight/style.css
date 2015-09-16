@@ -128,7 +128,8 @@ hr {
 }
 .announcement {
     // display: none;
-    background: #fafad2;
+    background: #444853;
+    border-top: 1px solid #cccccc; 
     // padding: 2px 0;
     // border-bottom: 1px solid #cccccc;
     // max-height: 24px;
@@ -2004,6 +2005,7 @@ th.htColHeader,
 }
 .popover {
     z-index: 1000023 !important;
+    min-width:200px;
 }
 .popover-content .fieldLabel {
     width: 35%;
@@ -3508,6 +3510,13 @@ span[name=existingImages] img{
     margin-right: -10px;
     margin-left: -10px;
     padding: 4px 0;
+}
+.container-fluid > .row:first-child{
+    height: 50px;
+}
+.container-fluid > .row{
+    margin-left: 0px;
+    margin-right: 0px;
 }
 .mailsList .container-fluid > .row:last-child{
     border-bottom: 0;
