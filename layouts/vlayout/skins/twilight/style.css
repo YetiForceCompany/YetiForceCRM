@@ -3955,3 +3955,7 @@ html,body,.baseContainer
 .historyHour{
     font-weight: 600 !important;     
 }
+.logoFooter{
+    margin: 4px;
+    margin-right: 15px;
+}

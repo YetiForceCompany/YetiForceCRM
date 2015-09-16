@@ -14,6 +14,16 @@
 	<input id='activityReminder' class='hide noprint' type="hidden" value="{$ACTIVITY_REMINDER}"/>
 	<footer class="footerContainer navbar-default navbar-fixed-bottom noprint">
 		<div class="vtFooter">
+			{assign var=isLogoInFooter value=vglobal('isVisibleLogoInFooter')}
+			{if $isLogoInFooter == 'true'}
+				<div class='pull-right logoFooter'>
+					{assign var=ADDRESS value='http://www.yetiforce.com'}
+					<a href='{$ADDRESS}'>
+						<img  src='/storage/Logo/logo_yetiforce.png' height='27'>
+					</a>
+				</div>
+			{/if}
+			
 			{assign var=SCRIPT_TIME value=round(microtime(true) - vglobal('Start_time'), 3)}
 			{if $USER_MODEL->is_admin == 'on'}
 				{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:vtranslate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
