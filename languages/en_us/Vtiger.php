@@ -1308,6 +1308,6 @@ $jsLanguageStrings = [
 	'JS_OK' => 'Ok',
 	'equal to' => 'Equal to',
 	'None' => 'None',
-	'JS_YESTERDAY' => '__UNTRANSLATED__',
-	'JS_OLDER' => '__UNTRANSLATED__'
+	'JS_YESTERDAY' => 'Yesterday',
+	'JS_OLDER' => 'Older'
 ];
