@@ -623,7 +623,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		}
 		var htmlContent = '<ul class="dropdown-menu pull-right" role="menu">';
 		var date = new Date().getTime();
-		var manyDays = -1;
+		var howmanyDays = -1;
 		var writeSelector = true;
 		if (sp != null) {
 			for (var i = sp.length - 1; i >= 0; i--) {
@@ -634,12 +634,12 @@ jQuery.Class("Vtiger_Header_Js", {
 					d.setTime(item[2]);
 					var hours = app.formatDateZ(d.getHours());
 					var minutes = app.formatDateZ(d.getMinutes());
-					if(writeSelector && (manyDays != app.howManyDaysFromDate(d))){
-						manyDays = app.howManyDaysFromDate(d);
-						if(manyDays == 0){
+					if(writeSelector && (howmanyDays != app.howManyDaysFromDate(d))){
+						howmanyDays = app.howManyDaysFromDate(d);
+						if(howmanyDays == 0){
 							htmlContent += '<li class="selectorHistory">' + app.vtranslate('JS_TODAY') + '</li>';
 						}
-						else if(manyDays == 1){
+						else if(howmanyDays == 1){
 							htmlContent += '<li class="selectorHistory">' + app.vtranslate('JS_YESTERDAY') + '</li>';
 						}
 						else{

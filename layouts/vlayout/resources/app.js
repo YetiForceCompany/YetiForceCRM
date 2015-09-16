@@ -1054,7 +1054,7 @@ var app = {
 		var fromTime = time.getTime();
 		var today = new Date();
 		var toTime = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
-		return Math.floor(((toTime - fromTime)/(1000*60*60*24))) + 1;
+		return Math.floor(((toTime - fromTime)/(1000*60*60*24)))+1;
 	},
 	saveAjax: function (mode, param) {
 		var aDeferred = jQuery.Deferred();
