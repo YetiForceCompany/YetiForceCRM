@@ -19,7 +19,7 @@
 				<div class='pull-right logoFooter'>
 					{assign var=ADDRESS value='http://www.yetiforce.com'}
 					<a href='{$ADDRESS}'>
-						<img  src='/storage/Logo/logo_yetiforce.png' height='27'>
+						<img height='27' src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/>
 					</a>
 				</div>
 			{/if}
