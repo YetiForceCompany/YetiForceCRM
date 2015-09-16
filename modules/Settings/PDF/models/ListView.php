@@ -21,7 +21,7 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 		$module = $this->getModule();
 		$moduleName = $module->getName();
 		$parentModuleName = $module->getParentName();
-		$qualifiedModuleName = $moduleName;
+		$qualifiedModuleName = 'PDF';//$moduleName;
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}

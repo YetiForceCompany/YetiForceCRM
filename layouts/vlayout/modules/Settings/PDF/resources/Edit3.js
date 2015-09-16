@@ -105,7 +105,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 							for (var prop in response) {
 								mainFields.append('<optgroup label="' + prop + '">');
 								for (var field in response[prop]) {
-									mainFields.append('<option value="' + response[prop][field]['id'] + '">' + response[prop][field]['label'] + '</option>');
+									mainFields.append('<option value="' + response[prop][field]['name'] + '">' + response[prop][field]['label'] + '</option>');
 								}
 								mainFields.append('</optgroup>');
 							}
@@ -173,7 +173,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 							for (var prop in response) {
 								relatedFields.append('<optgroup label="' + prop + '">');
 								for (var field in response[prop]) {
-									relatedFields.append('<option value="' + response[prop][field]['id'] + '">' + response[prop][field]['label'] + '</option>');
+									relatedFields.append('<option value="' + response[prop][field]['name'] + '">' + response[prop][field]['label'] + '</option>');
 								}
 								relatedFields.append('</optgroup>');
 							}
