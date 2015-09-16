@@ -438,11 +438,11 @@ var Vtiger_Index_Js = {
 		var centerContents = jQuery('#centerPanel');
 		$('.toggleRightPanelButton').on('click', function () {
 			if (!rightPanel.hasClass('rightPanelHover')) {
-				rightPanel.addClass('rightPanelHover').children().css('visibility', 'visible');
+				rightPanel.addClass('rightPanelHover').children().css('display', 'block');
 				centerContents.addClass('centerPanelHover');
 				jQuery(this).addClass('move-action').find('.glyphicon').removeClass('glyphicon-chevron-left').addClass('glyphicon-chevron-right');
 			} else {
-				rightPanel.removeClass('rightPanelHover').children().css('visibility', 'hidden');
+				rightPanel.removeClass('rightPanelHover').children().css('display', 'none');
 				centerContents.removeClass('centerPanelHover');
 				jQuery(this).removeClass('move-action').find('.glyphicon').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-left');
 			}

@@ -313,6 +313,11 @@ hr {
 	.CompactQC a:hover {
 		text-decoration: none;
 	}
+	.rightPanelOpen{
+		position: relative;
+		background: none;
+		margin-bottom: 35px;
+	}
 }
 .commonActionsContainer .quickAction {
 	margin-top: 5px;
@@ -3885,45 +3890,67 @@ html,body,.baseContainer
 .vakata-context, .vakata-context ul{
 	z-index: 1031;
 }
-.rightPanelOpen{
-	position: fixed;
-    min-width: 300px;
-    top: 50px;
-    right: -295px;
-    z-index: 1035;
-	background: rgba(0, 0, 0, 0.4);
-	//border-left: 1px solid #797979;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-	transition: all 0.5s ease;
-	overflow-y: auto;
-	height: 100%;
-}
-.rightPanelHover{
-    right: 0px;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-	transition: all 0.5s ease;
-}
-.centerPanelHover{
-	padding-right: 320px !important;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-	transition: all 0.5s ease;
-}
-#centerPanel{
-    padding-right: 25px;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-	transition: all 0.5s ease;
+@media screen and (min-width: 960px) {
+	.rightPanelOpen{
+		position: fixed;
+		min-width: 300px;
+		top: 50px;
+		right: -295px;
+		z-index: 1035;
+		background: rgba(0, 0, 0, 0.4);
+		-webkit-transition: all 0.5s ease;
+		-moz-transition: all 0.5s ease;
+		-o-transition: all 0.5s ease;
+		transition: all 0.5s ease;
+		overflow-y: auto;
+		height: 100%;
+	}
+	.rightPanelHover{
+		right: 0px;
+		-webkit-transition: all 0.5s ease;
+		-moz-transition: all 0.5s ease;
+		-o-transition: all 0.5s ease;
+		transition: all 0.5s ease;
+	}
+	.centerPanelHover{
+		padding-right: 320px !important;
+		-webkit-transition: all 0.5s ease;
+		-moz-transition: all 0.5s ease;
+		-o-transition: all 0.5s ease;
+		transition: all 0.5s ease;
+	}
+	#centerPanel{
+		padding-right: 25px;
+		-webkit-transition: all 0.5s ease;
+		-moz-transition: all 0.5s ease;
+		-o-transition: all 0.5s ease;
+		transition: all 0.5s ease;
+	}
+	.toggleRightPanelButton {
+		background: rgba(0, 0, 0, 0.4);
+		padding: 5px 2px !important;
+		position: absolute;
+		top: 10px;
+		right: -5px;
+		width: 12px;
+		z-index: 100;
+		border-radius: 4px 0 0 4px;
+		-webkit-transition: all 0.5s ease;
+		-moz-transition: all 0.5s ease;
+		-o-transition: all 0.5s ease;
+		transition: all 0.5s ease
+	}
+	.toggleRightPanelButton.move-action {
+		right: 290px;
+		-webkit-transition: all 0.5s ease;
+		-moz-transition: all 0.5s ease;
+		-o-transition: all 0.5s ease;
+		transition: all 0.5s ease;
+	}
 }
 .rightPanelOpen .panel{
-   visibility: hidden;
-}
+	display: none;
+ }
 .bottom_margin {
 	padding-bottom: 2em;
 }
@@ -3933,24 +3960,4 @@ html,body,.baseContainer
 .breadcrumbsLinks{
 	margin-top: 15px;
 }
-.toggleRightPanelButton {
-    background: rgba(0, 0, 0, 0.4);
-    padding: 5px 2px !important;
-    position: absolute;
-    top: 10px;
-    right: -5px;
-    width: 12px;
-    z-index: 100;
-    border-radius: 4px 0 0 4px;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-	transition: all 0.5s ease
-}
-.toggleRightPanelButton.move-action {
-    right: 290px;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-	transition: all 0.5s ease;
-}
+
