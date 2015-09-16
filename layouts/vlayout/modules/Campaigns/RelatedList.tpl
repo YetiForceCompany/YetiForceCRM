@@ -67,7 +67,7 @@
 						</span>
 					</div>
 					<div class="col-md-5">
-						 <div class="paginationDiv pull-right">
+						<div class="paginationDiv pull-right">
 							{include file='RelatedListPagination.tpl'|@vtemplate_path:$MODULE}
 						</div>
 					</div>
