@@ -8,7 +8,7 @@ MySQL - 5.6.17
 CREATE TABLE `a_yf_pdf` (
   `pdfid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id of record',
   `module_name` varchar(25) NOT NULL COMMENT 'name of the module',
-  `colb` varchar(255) DEFAULT NULL,
+  `header_content` text NOT NULL,
   `colc` varchar(255) DEFAULT NULL,
   `cold` varchar(255) DEFAULT NULL,
   `cole` varchar(255) DEFAULT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE `a_yf_pdf` (
   `page_orientation` set('PLL_PORTRAIT','PLL_LANDSCAPE') NOT NULL,
   `language` varchar(7) NOT NULL,
   `filename` varchar(255) NOT NULL,
-  `visibility` varchar(255) NOT NULL,
+  `visibility` set('PLL_LISTVIEW','PLL_DETAILVIEW') NOT NULL,
   `default` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`pdfid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8

@@ -50,9 +50,9 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 			}
 		}
 
+		$allModules = Settings_PDF_Module_Model::getSupportedModules();
 		$viewer->assign('PDF_MODEL', $pdfModel);
-		$viewer->assign('ALL_MODULES', Settings_PDF_Module_Model::getSupportedModules());
-
+		$viewer->assign('ALL_MODULES', $allModules);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 
@@ -78,6 +78,18 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				break;
 
 			case 'step3':
+				$relatedModules = Settings_PDF_Module_Model::getRelatedModules($pdfModel->get('module_name'));
+				if (count($relatedModules) > 0) {
+					$relatedFields = Settings_PDF_Module_Model::getMainModuleFields(key($relatedModules));
+					$specialFunctions = Settings_PDF_Module_Model::getSpecialFunctions($allModules[key($allModules)]->getName());
+				} else {
+					$relatedFields = [];
+					$specialFunctions = [];
+				}
+
+				$viewer->assign('RELATED_MODULES', $relatedModules);
+				$viewer->assign('RELATED_FIELDS', $relatedFields);
+				$viewer->assign('SPECIAL_FUNCTIONS', $specialFunctions);
 				$viewer->view('Step3.tpl', $qualifiedModuleName);
 				break;
 
@@ -164,6 +176,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
+			'libraries.jquery.ZeroClipboard.ZeroClipboard',
 			'modules.Settings.Vtiger.resources.Edit',
 			"modules.Settings.$moduleName.resources.Edit",
 			"modules.Settings.$moduleName.resources.Edit1",

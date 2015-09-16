@@ -56,6 +56,16 @@ $languageStrings = [
 	'PLL_LISTVIEW' => 'Lista',
 	'PLL_DETAILVIEW' => 'Rekord',
 	'LBL_DEFAULT_TPL' => 'Domyślnie zaznaczony',
+	'LBL_DOCUMENT_SETTINGS_DETAILS' => 'Document settings',
+	'LBL_MAIN_MODULE_FIELDS' => 'Pola z modułu głównego',
+	'LBL_RELATED_MODULES' => 'Powiązane moduły',
+	'LBL_RELATED_MODULES_FIELDS' => 'Pola z powiązanego modułu',
+	'LBL_SPECIAL_FUNCTIONS' => 'Specjalne funkcje',
+	'LBL_COMPANY_FIELDS' => 'Szczegóły firmy',
+	'LBL_LABEL' => 'Etykieta',
+	'LBL_FIELD' => 'Wartość',
+	'LBL_HEADER_DETAILS' => 'Edycja nagłówka',
+	'LBL_HEADER_CONTENT' => 'Nagłówek',
 
 	// page format names
 	'4A0' => '4A0',
@@ -116,5 +126,7 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'JS_PDF_SAVED_SUCCESSFULLY' => 'Szablon pdf został zapisany.'
+	'JS_PDF_SAVED_SUCCESSFULLY' => 'Szablon pdf został zapisany.',
+	'LBL_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
+	'LBL_NOTIFY_COPY_TITLE' => 'Tekst',
 ];
