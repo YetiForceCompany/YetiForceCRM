@@ -608,12 +608,6 @@ jQuery.Class("Vtiger_Header_Js", {
 		//jQuery(".contentsDiv").css({'margin-bottom': navBottom + 'px', });
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 	},
-	manyDaysFromDate: function(time){
-		var fromTime = time.getTime();
-		var today=new Date();
-		var toTime = new Date(today.getFullYear(),today.getMonth(),today.getDate()).getTime();
-		return Math.floor(((toTime - fromTime)/(1000*60*60*24)))+1;
-	},
 	recentPageViews: function () {
 		var thisInstance = this;
 		var maxValues = 20;
@@ -638,23 +632,23 @@ jQuery.Class("Vtiger_Header_Js", {
 				var t = '';
 				if (item[2] != undefined) {
 					d.setTime(item[2]);
-					var hours=d.getHours()<10?'0'+d.getHours():d.getHours();
-					var minutes=d.getMinutes()<10?'0'+d.getMinutes():d.getMinutes();
-					if(writeSelector && (manyDays!=thisInstance.manyDaysFromDate(d))){
-						manyDays=thisInstance.manyDaysFromDate(d);
+					var hours = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
+					var minutes = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
+					if(writeSelector && (manyDays != app.manyDaysFromDate(d))){
+						manyDays = app.manyDaysFromDate(d);
 						if(manyDays == 0){
-							htmlContent+='<li class="selectorHistory">'+app.vtranslate('JS_TODAY')+'</li>';
+							htmlContent += '<li class="selectorHistory">' + app.vtranslate('JS_TODAY') + '</li>';
 						}
 						else if(manyDays == 1){
-							htmlContent+='<li class="selectorHistory">'+app.vtranslate('JS_YESTERDAY')+'</li>';
+							htmlContent += '<li class="selectorHistory">' + app.vtranslate('JS_YESTERDAY') + '</li>';
 						}
 						else{
-							htmlContent+='<li class="selectorHistory">'+app.vtranslate('JS_OLDER')+'</li>';
-							writeSelector=false;
+							htmlContent += '<li class="selectorHistory">' + app.vtranslate('JS_OLDER') + '</li>';
+							writeSelector = false;
 						}
 					}
 					if(writeSelector)
-						t= '<span class="historyHour">'+hours+":"+minutes+"</span> | ";
+						t = '<span class="historyHour">' + hours + ":" + minutes + "</span> | ";
 					else
 						t = app.formatDate(d) + ' | ';
 				}
