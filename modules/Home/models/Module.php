@@ -92,7 +92,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		}
 
 		if (empty($orderBy)) {
-			$orderBy = "date_start $sortOrder, time_start $sortOrder";
+			$orderBy = "due_date $sortOrder, time_end $sortOrder";
 		} else {
 			$orderBy .= ' ' . $sortOrder;
 		}
@@ -112,22 +112,22 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
 			AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
 			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) 
-			AND CONCAT(date_start,' ',time_start) >= '$nowInDBFormat'";
+			AND CONCAT(due_date,' ',time_end) >= '$nowInDBFormat'";
 		} elseif ($mode === 'overdue') {
 			$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
 			AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
 			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) 
-			AND CONCAT(date_start,' ',time_start) < '$nowInDBFormat'";
+			AND CONCAT(due_date,' ',time_end) < '$nowInDBFormat'";
 		} elseif ($mode === 'assigned_upcoming') {
 			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
 			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) 
-			AND CONCAT(date_start,' ',time_start) >= '$nowInDBFormat'
+			AND CONCAT(due_date,' ',time_end) >= '$nowInDBFormat'
 			AND vtiger_crmentity.smcreatorid = ?";
 			$params[] = $currentUser->getId();
 		} elseif ($mode === 'assigned_over') {
 			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
 			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) 
-			AND CONCAT(date_start,' ',time_start) < '$nowInDBFormat'
+			AND CONCAT(due_date,' ',time_end) < '$nowInDBFormat'
 			AND vtiger_crmentity.smcreatorid = ?";
 			$params[] = $currentUser->getId();
 		} elseif ($mode === 'createdByMeButNotMine') {
@@ -136,9 +136,9 @@ class Home_Module_Model extends Vtiger_Module_Model
 			AND vtiger_crmentity.smcreatorid = ? 
 			AND vtiger_crmentity.smownerid NOT IN (?) ";
 			if ($paramsMore['activitesType'] != 'upcoming') {
-				$query .= "AND CONCAT(date_start,' ',time_start) < '$nowInDBFormat' ";
+				$query .= "AND CONCAT(due_date,' ',time_end) < '$nowInDBFormat' ";
 			} else {
-				$query .= "AND CONCAT(date_start,' ',time_start) >= '$nowInDBFormat' ";
+				$query .= "AND CONCAT(due_date,' ',time_end) >= '$nowInDBFormat' ";
 			}
 
 			$params[] = $currentUser->getId();

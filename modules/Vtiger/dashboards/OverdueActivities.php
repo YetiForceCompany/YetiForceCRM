@@ -28,14 +28,6 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		else
 			$owner = $request->get('owner');
 
-		if (empty($sortOrder)) {
-			$sortOrder = 'DESC';
-		} else if ($sortOrder == 'desc') {
-			$sortOrder = 'ASC';
-		} else if ($sortOrder == 'asc') {
-			$sortOrder = 'DESC';
-		}
-
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
