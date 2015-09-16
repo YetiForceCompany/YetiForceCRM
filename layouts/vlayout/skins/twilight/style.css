@@ -762,7 +762,8 @@ li.ui-timepicker-selected,
 }
 #listViewPageJumpDropDown,
 #relatedListPageJumpDropDown {
-	left: -60px;
+	left: auto;
+	top: 70%;
 }
 .pageNumbers {
 	display: inline-block;
@@ -1254,9 +1255,6 @@ td.fieldValue .input-group {
 
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
-}
-.listViewBasicAction.dropdown-menu {
-	width: 100%;
 }
 .listViewBasicAction.dropdown-menu input {
 	border-radius: 2px;
@@ -3472,10 +3470,6 @@ span[name=existingImages] img{
 .paginationDiv .pagination > li > span,
 .paginationDiv .pagination > li > a{
 	padding: 8px 8px;
-}
-.paginationDiv #listViewPageJumpDropDown{
-	left: 192px;
-	top: 80%;
 }
 .paginationDiv .listViewBasicAction.dropdown-menu{
 	width: 35%;
