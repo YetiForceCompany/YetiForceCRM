@@ -3839,6 +3839,7 @@ html,body,.baseContainer
 }
 .bodyContents{
     padding: 0 10px;
+    color: #353c44;
 }
 .bodyContent::after{
     clear: both;
@@ -3958,4 +3959,8 @@ html,body,.baseContainer
 .logoFooter{
     margin: 4px;
     margin-right: 15px;
+}
+.imgAnnouncement{
+    padding-top: 1px;
+    padding-bottom: 1px;
 }
