@@ -3684,3 +3684,6 @@ span[name=existingImages] img{
 #layoutEditorContainer .blockActions .dropdown-menu{
 	z-index: 2000;
 }
+.editViewMiniSlider.ui-widget-content{
+	padding: 6px;
+}
