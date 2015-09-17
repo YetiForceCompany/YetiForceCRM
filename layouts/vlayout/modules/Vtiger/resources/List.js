@@ -1586,6 +1586,9 @@ jQuery.Class("Vtiger_List_Js", {
 		if (approve != '1') {
 			liElement.find('.denyFilter').remove();
 		}
+		if ($("#createFilter").length == 0) {
+			liElement.find('.duplicateFilter').remove();
+		}
 	},
 	/*
 	 * Function to register the list view row click event
