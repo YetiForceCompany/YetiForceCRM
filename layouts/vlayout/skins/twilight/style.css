@@ -956,7 +956,7 @@ li.ui-timepicker-selected,
 }
 /*#EditView{
   input[type="radio"]{
-    margin: -2px 3px 0 0 !important;
+margin: -2px 3px 0 0 !important;
   }
 }*/
 .recordEditView .contentHeader {
@@ -3123,7 +3123,7 @@ table.listViewEntriesTable {
 	width: 30%;
 }
 .btn {
-    white-space: normal;
+	white-space: normal;
 }
 .valuesAssignedToRole {
 	border: 1px solid #adadad; 
@@ -3390,10 +3390,10 @@ span[name=existingImages] img{
 .ui-menu .ui-menu-item a.ui-widget-content{
 	font-weight: bold;
 	margin: 0;
-    background-color: #428BCA;
-    border-color: #357EBD;
-    color: #FFFFFF;
-    display: block;
+	background-color: #428BCA;
+	border-color: #357EBD;
+	color: #FFFFFF;
+	display: block;
 }
 .ui-menu .ui-menu-item a {
 	text-decoration: none;
@@ -3462,8 +3462,8 @@ span[name=existingImages] img{
 	padding: 0;
 }
 #widgetsManagementEditorContainer .fieldDetailsForm .filter{
-    padding-top: 5px;
-    margin-left: 5px;
+	padding-top: 5px;
+	margin-left: 5px;
 }
 .dashboardContainer .dashboardHeading .dropdown-menu {
 	left: -82px;
@@ -3472,7 +3472,7 @@ span[name=existingImages] img{
 	text-align: left;
 }
 .summaryWidgetContainer.summaryWidgetBlock{
-    padding: 0;
+	padding: 0;
 }
 .summaryWidgetContainer .container-fluid{
 	padding: 0 5px 0 5px;
@@ -3540,8 +3540,8 @@ span[name=existingImages] img{
 }
 .mailsList .mailActions{
 	margin-top: 3px;
-    z-index: 1020;
-    position: relative;
+	z-index: 1020;
+	position: relative;
 }
 .mailsList .mailActions a{
 	margin-left: 3px;
@@ -3559,14 +3559,14 @@ span[name=existingImages] img{
 	margin: 4px 0;
 }
 .firstLetter{
-    color: #fff;
-    background-color: #5bc0de;
-    border-color: #46b8da;
+	color: #fff;
+	background-color: #5bc0de;
+	border-color: #46b8da;
 	display: block;
-    padding: 6px 8px;
+	padding: 6px 8px;
 	height: 32px;
-    width: 32px;
-    font-size: 16px;
+	width: 32px;
+	font-size: 16px;
 	text-align: center;
 	margin: 0 7px 3px 0;
 	-webkit-box-shadow: 0px 0px 8px -1px rgba(156,156,156,1);
@@ -3661,8 +3661,8 @@ span[name=existingImages] img{
 	padding: 6px 15px;
 }
 .baseContainer .leftPanel .menuContainer a .menuName{
-    top: -1px;
-    position: relative;
+	top: -1px;
+	position: relative;
 	word-wrap: break-word;
 }
 .baseContainer .leftPanel .menuContainer .subMenu  a {
@@ -3678,7 +3678,7 @@ span[name=existingImages] img{
 	padding: 6px 10px;
 }
 .baseContainer .leftPanel .menuContainer .subMenu a .menuName{
-    top: 2px;
+	top: 2px;
 }
 .baseContainer .leftPanel .menuContainer a.hasIcon img{
 	height: 20px;
@@ -3686,8 +3686,8 @@ span[name=existingImages] img{
 .baseContainer .leftPanel .menuContainer a .glyphicon,
 .baseContainer .leftPanel .menuContainer a.hasIcon img
 {
-    margin-right: 15px;
-    font-size: 20px;
+	margin-right: 15px;
+	font-size: 20px;
 }
 .baseContainer .leftPanel:after {
 	content: "";
@@ -3705,7 +3705,7 @@ span[name=existingImages] img{
 .baseContainer .basePanel {
 	position: relative;
 	left: 0;
-    z-index: 1030;
+	z-index: 1030;
 	-webkit-transition: left ease-in-out 0.3s;
 	transition: left ease-in-out 0.3s;
 	background: #ffffff;
@@ -3721,9 +3721,9 @@ span[name=existingImages] img{
 }
 
 .baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel .bodyHeader{
-    left: 210px;
-    -webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
-    transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
+	left: 210px;
+	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
+	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 }
 .baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
 .baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
@@ -3753,29 +3753,29 @@ span[name=existingImages] img{
 	position: static;
 }
 .nav li:hover > .subMenu{
-    display: block;
-    position: absolute;
-    left: 210px;
-    top: 50px;
+	display: block;
+	position: absolute;
+	left: 210px;
+	top: 50px;
 }
 .nav li:hover > .subMenu .subMenu{
 	left: 260px;
 	top: 0;
 }
 .nav li:hover .subMenu a{
-    color: #000;
+	color: #000;
 }
 
 .leftPanel .nav .subMenu:after {
-    content: "";
-    display: block;
-    position: fixed;
-    bottom: 33px;
-    top: 50px;
-    z-index: -1;
-    width: 260px; 
-    background: #f0f1f1;
-    border-right: 1px solid #dddddd;
+	content: "";
+	display: block;
+	position: fixed;
+	bottom: 33px;
+	top: 50px;
+	z-index: -1;
+	width: 260px; 
+	background: #f0f1f1;
+	border-right: 1px solid #dddddd;
 }
 .leftPanel .nav .subMenu li {
 	width: 260px;
@@ -3785,16 +3785,16 @@ span[name=existingImages] img{
 	text-transform: uppercase;
 }
 .bodyHeader{
-    background-color: #444853;
-    color: #fff;
-    height: 50px;
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 50px;
-    z-index: 1030;
-    -webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
-    transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
+	background-color: #444853;
+	color: #fff;
+	height: 50px;
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 50px;
+	z-index: 1030;
+	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
+	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 }
 .noSpaces{
 	padding: 0;
@@ -3802,15 +3802,15 @@ span[name=existingImages] img{
 }
 html,body,.baseContainer
 {
-    height:100%;
+	height:100%;
 }
 #page
 {
-    display:block;
-    width: 100%;
+	display:block;
+	width: 100%;
 	height: 100%;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 .container-fluid-main{
 	height: 100%;
@@ -3820,18 +3820,19 @@ html,body,.baseContainer
 	margin: 0;
 }
 .basePanel, .bodyContents, .mainContainer,.contentsDiv{
-    min-height: 100%;
+	min-height: 100%;
 	// height: 100%;
 }
 .bodyContent{
-    min-height: 100%;
-    height: 100%;
-    margin-top: 0;
-    padding-top: 48px;
+	min-height: 100%;
+	height: 100%;
+	margin-top: 0;
+	padding-top: 48px;
 
 }
 .bodyContents{
 	padding: 0 10px;
+	color: #353c44;
 }
 .bodyContent::after{
 	clear: both;
@@ -3839,7 +3840,7 @@ html,body,.baseContainer
 .userDetailsContainer{
 	height: 50px;
 	padding-right: 0;
-    padding-left: 0;
+	padding-left: 0;
 	background-color: #ad5154;
 }
 .userActionContainer{
@@ -3853,8 +3854,8 @@ html,body,.baseContainer
 }
 .companyLogoContainer{
 	display: block;
-    width: 48px;
-    padding: 5px;
+	width: 48px;
+	padding: 5px;
 }
 .bodyHeader .moduleIcon{
 	width: 34px;
@@ -3962,7 +3963,7 @@ html,body,.baseContainer
 	padding: 5px;
 }
 #inventoryViewLayout{
-    margin-top: -10px;
+	margin-top: -10px;
 }
 .editFields .fieldContainer{
 	padding-left: 0;
@@ -3974,25 +3975,29 @@ html,body,.baseContainer
 	padding: 6px;
 }
 .selectorHistory{
-    font-weight: 900 !important; 
-    text-align: center;
-    display: block;
-    padding: 3px 20px;
-    clear: both;
-    font-weight: normal;
-    line-height: 1.42857143;
-    color: #111;
-    white-space: nowrap;
-    cursor: default;
+	font-weight: 900 !important; 
+	text-align: center;
+	display: block;
+	padding: 3px 20px;
+	clear: both;
+	font-weight: normal;
+	line-height: 1.42857143;
+	color: #111;
+	white-space: nowrap;
+	cursor: default;
 }
 .historyHour{
-    font-weight: 600 !important;     
+	font-weight: 600 !important; 
 }
 .logoFooter{
-    margin: 4px;
-    margin-right: 15px;
+	margin: 4px;
+	margin-right: 15px;
 }
 .imgAnnouncement{
-    padding-top: 1px;
-    padding-bottom: 1px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+.imgAnnouncement{
+	padding-top: 1px;
+	padding-bottom: 1px;
 }
