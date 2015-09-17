@@ -38,6 +38,15 @@
 						</a>
 					</div>
 				</div>
+				{if !empty($announcement)}
+					<div class="pull-right">
+						<div class="quickAction">
+							<a class="btn btn-default btn-sm" href="#">
+								<img class='alignMiddle' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
+							</a>
+						</div>
+					</div>
+				{/if}
 				<div class="pull-right">
 					<div class="dropdown quickAction">
 						<a id="menubar_quickCreate" class="dropdown-toggle btn btn-default btn-sm" data-toggle="dropdown" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" href="#">
@@ -135,13 +144,6 @@
 						</div>
 					{/if}
 				</div>
-				{if !empty($announcement)}
-					<div class="pull-right">
-						<div class="quickActions">
-							<img class='alignMiddle' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
-						</div>	
-					</div>
-				{/if}
 			</div>
 		</div>
 		{if !empty($announcement)}

@@ -702,7 +702,7 @@ $languageStrings = [
 	'Interested services' => 'Interessados em Serviços',
 	'Recycle Bin' => 'Lixeira',
 	/* YetiForce */
-	'Total time [h]'=>'Tempo Total [h]',
+	'Total time [h]' => 'Tempo Total [h]',
 	'LBL_NO_RELATED_RECORDS_FOUND' => 'Nenhum registro a ser exibido',
 	'LBL_RECORD_SUMMARY' => 'Resumo',
 	'LBL_RECORD_DETAILS' => 'Detalhes',
@@ -1276,4 +1276,6 @@ $jsLanguageStrings = [
 	'JS_OK' => 'Ok',
 	'equal to' => 'Equal to',
 	'None' => 'None',
+	'JS_YESTERDAY' => 'Yesterday',
+	'JS_OLDER' => 'Older'
 ];

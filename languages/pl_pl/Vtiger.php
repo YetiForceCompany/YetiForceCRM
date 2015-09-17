@@ -807,7 +807,7 @@ $languageStrings = [
 	'LBL_LEFT_PANEL_SHOW_HIDE' => 'Lewy panel (ukryj/pokaż)',
 	'LBL_RIGHT_PANEL_SHOW_HIDE' => 'Prawy panel (ukryj/pokaż)',
 	/* YetiForce */
-	'Total time [h]'=>'Łączny czas [h]',
+	'Total time [h]' => 'Łączny czas [h]',
 	'COPY_ADRESS_FROM' => 'Kopiuj adres z:',
 	'LBL_WIDGETS_MANAGMENT' => 'Widżety',
 	'Attention' => 'Uwagi',
@@ -1270,4 +1270,6 @@ $jsLanguageStrings = [
 	'JS_CAN_NOT_REMOVE_COMMENT' => 'Nie można usuwać komentarzy zawierających odpowiedzi. Usuń wszystkie odpowiedzi aby móc usunąć komentarz.',
 	'JS_DELETE_COMMENT_CONFIRMATION' => 'Czy na pewno chcesz usunąć komentarz?',
 	'JS_SET_TAX_FOR' => 'Ustaw podatek dla',
+	'JS_YESTERDAY' => 'Wczoraj',
+	'JS_OLDER' => 'Starsze'
 ];

@@ -1231,7 +1231,7 @@ $languageStrings = [
 	'Pre Tax Total' => 'Индивидуальный налог',
 	'LBL_FIRST' => 'Первая',
 	'LBL_LAST' => 'Последняя',
-	'LBL_VIEW_EDIT2' =>	'Добавление условий',
+	'LBL_VIEW_EDIT2' => 'Добавление условий',
 	'LBL_VIEW_CONFIGURATION' => 'Добавление условий',
 	'MEN_LEADS' => 'Клиенты',
 	'LBL_VIEW_STEP1' => 'Основная информация',
@@ -1608,4 +1608,6 @@ $jsLanguageStrings = [
 	'JS_OK' => 'Ok',
 	'equal to' => 'Equal to',
 	'None' => 'None',
+	'JS_YESTERDAY' => 'Yesterday',
+	'JS_OLDER' => 'Older'
 ];

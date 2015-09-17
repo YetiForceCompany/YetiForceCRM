@@ -1302,4 +1302,6 @@ $jsLanguageStrings = [
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Cannot hold future event',
 	'equal to' => 'Equal to',
 	'None' => 'None',
+	'JS_YESTERDAY' => 'Yesterday',
+	'JS_OLDER' => 'Older'
 ];

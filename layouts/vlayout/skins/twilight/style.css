@@ -3973,3 +3973,26 @@ html,body,.baseContainer
 .editViewMiniSlider.ui-widget-content{
 	padding: 6px;
 }
+.selectorHistory{
+    font-weight: 900 !important; 
+    text-align: center;
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.42857143;
+    color: #111;
+    white-space: nowrap;
+    cursor: default;
+}
+.historyHour{
+    font-weight: 600 !important;     
+}
+.logoFooter{
+    margin: 4px;
+    margin-right: 15px;
+}
+.imgAnnouncement{
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
