@@ -93,6 +93,7 @@ $languageStrings = [
 	'LBL_REMAIND_DAYS' => 'Повторять, через указанное количество дней',
 	'LBL_REPEAT_FOR' => 'Повторять по:',
 	'LBL_RECURRING_TYPE' => 'Тип повторения',
+	'End Date' => 'Дата окончания'
 ];
 
 $jsLanguageStrings = [
