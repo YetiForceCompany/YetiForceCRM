@@ -37,17 +37,14 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model {
 					if(empty($recordId) && ($fieldModel->get('uitype') == 99 || $fieldModel->get('uitype') == 106)) {
 							$fieldModel->set('editable', true);
 					}
-					//Is Admin field is editable when the record user != current user
-					if (in_array($fieldModel->get('uitype'), array(156)) && $currentUserModel->getId() !== $recordId) {
+					if ($fieldModel->get('uitype') == 156 && $currentUserModel->isAdminUser() == true) {
 						$fieldModel->set('editable', true);
-						if ($fieldModel->get('uitype') == 156) {
-							$fieldValue = false;
-							$defaultValue = $fieldModel->getDefaultFieldValue();
-							if ($recordModel->get($fieldName) === 'on') {
-								$fieldValue = true;
-							}
-							$recordModel->set($fieldName, $fieldValue);
+						$fieldValue = false;
+						$defaultValue = $fieldModel->getDefaultFieldValue();
+						if ($recordModel->get($fieldName) === 'on') {
+							$fieldValue = true;
 						}
+						$recordModel->set($fieldName, $fieldValue);
 					}
 					if($fieldModel->isEditable()) {
 						if($recordModel->get($fieldName) != '') {

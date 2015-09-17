@@ -30,16 +30,13 @@ class Users_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_Mod
 			if (!empty ($fieldModelList)) {
 				$values[$blockLabel] = array();
 				foreach($fieldModelList as $fieldName => $fieldModel) {
-					//Is Admin and Status fields are Ajax editable when the record user != current user
-					if (in_array($fieldModel->get('uitype'), array(156, 115)) && $currentUserModel->getId() !== $recordId) {
+					if ($fieldModel->get('uitype') == 156 && $currentUserModel->isAdminUser() == true) {
 						$fieldModel->set('editable', true);
-						if ($fieldModel->get('uitype') == 156) {
-							$fieldValue = false;
-							if ($recordModel->get($fieldName) === 'on') {
-								$fieldValue = true;
-							}
-							$recordModel->set($fieldName, $fieldValue);
+						$fieldValue = false;
+						if ($recordModel->get($fieldName) === 'on') {
+							$fieldValue = true;
 						}
+						$recordModel->set($fieldName, $fieldValue);
 					}
 					if($fieldModel->isViewableInDetailView()) {
 						if($recordId) {
