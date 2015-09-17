@@ -1441,6 +1441,7 @@ class QueryGenerator
 			}
 			$this->addCondition($fieldName, $value, $operator);
 			$this->endGroup();
+			$this->groupInfo = str_replace('AND  AND', 'AND', $this->groupInfo);
 		}
 	}
 

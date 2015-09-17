@@ -5,7 +5,7 @@
 		{assign var="TAXS" value=$INVENTORY_FIELD->getTaxParam($INVENTORY_ROW['taxparam'],$INVENTORY_ROW['net'], $TAXS)}
 	{/foreach}
 	<div class="row">
-		{if in_array("discount",$COLUMNS)}
+		{if in_array("discount",$COLUMNS) && in_array("discountmode",$COLUMNS)}
 			<div class="col-md-4">
 				<table class="table table-bordered inventorySummaryContainer">
 					<thead>
@@ -26,7 +26,7 @@
 				</table>
 			</div>
 		{/if}
-		{if in_array("tax",$COLUMNS)}
+		{if in_array("tax",$COLUMNS) && in_array("taxmode",$COLUMNS)}
 			<div class="col-md-4">
 				<table class="table table-bordered inventorySummaryContainer">
 					<thead>

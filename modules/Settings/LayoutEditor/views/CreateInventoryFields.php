@@ -19,11 +19,18 @@ class Settings_LayoutEditor_CreateInventoryFields_View extends Settings_Vtiger_I
 	public function step1(Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		//echo '<pre>', print_r($request); echo '</pre>'; exit;
 		$moduleName = $request->get('type');
+		$block = $request->get('block');
 		$models = Vtiger_InventoryField_Model::getAllFields($moduleName);
+		$instance = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$fieldsName = [];
+		foreach ($instance->getFields(1) AS $fields) {
+			$fieldsName = array_merge(array_keys($fields), $fieldsName);
+		}
 		$viewer = $this->getViewer($request);
+		$viewer->assign('FIELDSEXISTS', $fieldsName);
 		$viewer->assign('MODULE_MODELS', $models);
+		$viewer->assign('BLOCK', $block);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('CreateInventoryFieldsStep1.tpl', $qualifiedModuleName);
 	}

@@ -17,8 +17,24 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	protected $dbType = 'varchar(100)';
 	protected $customColumn = [];
 	protected $summationValue = false;
-	protected $displayTypeBase = [0, 1];
+	protected $onlyOne = true;
+	protected $displayTypeBase = ['LBL_EDITABLE'=>0, 'LBL_READONLY'=>10];
+	protected $blocks = [1];
 
+	/**
+	 * Getting onlyOne field
+	 * @return true/false
+	 */
+	public function isOnlyOne()
+	{
+		return $this->onlyOne;
+	}
+	
+	public function getBlocks()
+	{
+		return $this->blocks;
+	}
+	
 	/**
 	 * Getting database-type of field
 	 * @return string dbType
@@ -48,6 +64,9 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 
 	public function getColSpan()
 	{
+		if($this->has('colspan'))
+			return $this->get('colspan');
+		
 		return $this->colSpan;
 	}
 
@@ -93,6 +112,8 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	 */
 	public function getColumnName()
 	{
+		if($this->has('columnname'))
+			return $this->get('columnname');
 		return $this->columnName;
 	}
 
@@ -112,6 +133,8 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 
 	public function getDefaultValue()
 	{
+		if($this->has('defaultvalue'))
+			return $this->get('defaultvalue');
 		return $this->defaultValue;
 	}
 
@@ -166,4 +189,18 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	{
 		return true;
 	}
+	
+	/**
+	 * Getting value to display
+	 * @return array
+	 */
+	public function modulesValues()
+	{
+		$modules = Vtiger_Module_Model::getAll([0], [], true);
+		foreach ($modules AS $module) {
+			$modulesNames[] = ['module' => $module->getName(), 'name' => $module->getName(), 'id' => $module->getName()];
+		}
+		return $modulesNames;
+	}
+
 }

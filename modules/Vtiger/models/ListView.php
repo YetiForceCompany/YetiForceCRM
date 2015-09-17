@@ -372,7 +372,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			$listQuery .= ' AND activitytype <> "Emails"';
 		}
 
-		$listResult = $db->pquery($listQuery, array());
+		$listResult = $db->query($listQuery);
 		return $db->query_result($listResult, 0, 'count');
 	}
 
