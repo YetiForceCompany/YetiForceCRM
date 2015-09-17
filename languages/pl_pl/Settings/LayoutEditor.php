@@ -119,6 +119,8 @@ $languageStrings = [
 	'LBL_DISPLAY_TYPE' => 'Typ pola',
 	'LBL_EDITABLE' => 'Edytowalne',
 	'LBL_READONLY' => 'Tylko do odczytu',
+	'LBL_FIELDS_EXISTS_IN_BLOCK' => 'Nie można usunąc bloku bo zawiera pola',
+	'LBL_DELETE_CUSTOM_BLOCKS' => 'Nie można usunąć standardowych (nie stworzonych przez użytkownika) bloków',
 ];
 
 $jsLanguageStrings = [
