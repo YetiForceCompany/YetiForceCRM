@@ -66,6 +66,7 @@ $languageStrings = [
 	'WorkflowTrigger' => 'Обработчик',
 	'QuickExportToExcel' => 'Ьыстрый Экспорт в Excel',
 	'CreateDashboardFilter' => 'Создать Виджет',
+	'DetailTransferOwnership'  => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Профиль успешно удален',

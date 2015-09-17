@@ -296,7 +296,7 @@ class WebserviceField
 
 			$referenceTypes = array();
 			if ($this->getUIType() != $this->genericUIType) {
-				$sql = "select * from vtiger_ws_referencetype INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_ws_referencetype.`type` where fieldtypeid=? AND vtiger_tab.`presence` NOT IN (?)";
+				$sql = "select vtiger_ws_referencetype.`type` from vtiger_ws_referencetype INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_ws_referencetype.`type` where fieldtypeid=? AND vtiger_tab.`presence` NOT IN (?)";
 				$params = array($fieldTypeData['fieldtypeid'], 1);
 			} else {
 				$sql = 'select relmodule as type from vtiger_fieldmodulerel INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_fieldmodulerel.`relmodule` WHERE fieldid=? AND vtiger_tab.`presence` NOT IN (?) ORDER BY sequence ASC';

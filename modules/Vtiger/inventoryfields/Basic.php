@@ -17,23 +17,61 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	protected $dbType = 'varchar(100)';
 	protected $customColumn = [];
 	protected $summationValue = false;
+	protected $onlyOne = true;
+	protected $displayTypeBase = ['LBL_EDITABLE'=>0, 'LBL_READONLY'=>10];
+	protected $blocks = [1];
 
 	/**
-	 * Geting database-type of field
+	 * Getting onlyOne field
+	 * @return true/false
+	 */
+	public function isOnlyOne()
+	{
+		return $this->onlyOne;
+	}
+	
+	public function getBlocks()
+	{
+		return $this->blocks;
+	}
+	
+	/**
+	 * Getting database-type of field
 	 * @return string dbType
 	 */
 	public function getDBType()
 	{
 		return $this->dbType;
 	}
-	
+
+	/**
+	 * Getting all params values
+	 * @return array
+	 */
+	public function getParams()
+	{
+		return $this->params;
+	}
+
+	/**
+	 * Getting all values display Type
+	 * @return array
+	 */
+	public function displayTypeBase()
+	{
+		return $this->displayTypeBase;
+	}
+
 	public function getColSpan()
 	{
+		if($this->has('colspan'))
+			return $this->get('colspan');
+		
 		return $this->colSpan;
 	}
 
 	/**
-	 * Geting template name
+	 * Getting template name
 	 * @return string templateName
 	 */
 	public function getTemplateName($view, $moduleName)
@@ -51,7 +89,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Geting default label
+	 * Getting default label
 	 * @return string defaultLabel
 	 */
 	public function getDefaultLabel()
@@ -60,7 +98,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Geting field name
+	 * Getting field name
 	 * @return string name
 	 */
 	public function getName()
@@ -69,16 +107,18 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Geting column name
+	 * Getting column name
 	 * @return string columnName
 	 */
 	public function getColumnName()
 	{
+		if($this->has('columnname'))
+			return $this->get('columnname');
 		return $this->columnName;
 	}
 
 	/**
-	 * Geting column name
+	 * Getting column name
 	 * @return string customColumn
 	 */
 	public function getCustomColumn()
@@ -90,9 +130,11 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	{
 		return $this->summationValue;
 	}
-	
+
 	public function getDefaultValue()
 	{
+		if($this->has('defaultvalue'))
+			return $this->get('defaultvalue');
 		return $this->defaultValue;
 	}
 
@@ -106,7 +148,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Geting value to display
+	 * Getting value to display
 	 * @param type $value
 	 * @return string
 	 */
@@ -116,7 +158,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Geting value to display
+	 * Getting value to display
 	 * @param type $value
 	 * @return string
 	 */
@@ -126,7 +168,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Geting value
+	 * Getting value
 	 * @param type $value
 	 * @return string
 	 */
@@ -147,4 +189,18 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	{
 		return true;
 	}
+	
+	/**
+	 * Getting value to display
+	 * @return array
+	 */
+	public function modulesValues()
+	{
+		$modules = Vtiger_Module_Model::getAll([0], [], true);
+		foreach ($modules AS $module) {
+			$modulesNames[] = ['module' => $module->getName(), 'name' => $module->getName(), 'id' => $module->getName()];
+		}
+		return $modulesNames;
+	}
+
 }

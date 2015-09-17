@@ -18,13 +18,13 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$relatedModuleName = $request->get('relatedModule');
 		$parentId = $request->get('record');
 		$label = $request->get('tab_label');
-		$requestedPage = $request->get('page');
-		if (empty($requestedPage)) {
-			$requestedPage = 1;
+		$pageNumber = $request->get('page');
+		if (empty($pageNumber)) {
+			$pageNumber = 1;
 		}
 
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('page', $requestedPage);
+		$pagingModel->set('page', $pageNumber);
 
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
@@ -64,22 +64,28 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
 
-		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
-			$totalCount = $relationListView->getRelatedEntriesCount();
-			$pageLimit = $pagingModel->getPageLimit();
-			$pageCount = ceil((int) $totalCount / (int) $pageLimit);
+		$totalCount = $relationListView->getRelatedEntriesCount();
+		$pageLimit = $pagingModel->getPageLimit();
+		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
 
-			if ($pageCount == 0) {
-				$pageCount = 1;
-			}
-			$viewer->assign('PAGE_COUNT', $pageCount);
-			$viewer->assign('TOTAL_ENTRIES', $totalCount);
-			$viewer->assign('PERFORMANCE', true);
+		if ($pageCount == 0) {
+			$pageCount = 1;
 		}
+		
+		$startPaginFrom = $pageNumber - 2;
+		if($pageNumber == $totalCount && 1 !=  $pageNumber)
+			$startPaginFrom = $pageNumber - 4;
+		if($startPaginFrom <= 0 || 1 ==  $pageNumber)
+			$startPaginFrom = 1;
 
+		$viewer->assign('PAGE_NUMBER', $pageNumber);	
+		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('TOTAL_ENTRIES', $totalCount);
+		$viewer->assign('PERFORMANCE', true);
+		
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('PAGING', $pagingModel);
-
+		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('ORDER_BY', $orderBy);
 		$viewer->assign('SORT_ORDER', $sortOrder);
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);

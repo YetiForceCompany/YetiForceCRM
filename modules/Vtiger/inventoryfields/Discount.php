@@ -20,7 +20,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	protected $summationValue = true;
 
 	/**
-	 * Geting value to display
+	 * Getting value to display
 	 * @param type $value
 	 * @return type
 	 */

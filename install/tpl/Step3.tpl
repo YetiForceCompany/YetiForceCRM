@@ -112,7 +112,7 @@
 			</div>
 			<div class="row">
 				<div class="button-container">
-					<input type="button" class="btn btn-sm btn-default" value="{vtranslate('LBL_BACK', 'Install')}" name="back"/>
+					<a class="btn btn-sm btn-default" href="Install.php" >{vtranslate('LBL_BACK', 'Install')}</a>
 					<input type="button" class="btn btn-sm btn-primary" value="{vtranslate('LBL_NEXT', 'Install')}" name="step4"/>
 				</div>
 			</div>

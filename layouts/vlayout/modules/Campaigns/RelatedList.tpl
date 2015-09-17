@@ -27,7 +27,7 @@
             <input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
             <div class="relatedHeader">
                 <div class="btn-toolbar row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         {foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
                             <div class="btn-group">
                                 {assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
@@ -66,33 +66,9 @@
 							{/if}
 						</span>
 					</div>
-					<div class="col-md-3">
-						<div class="pull-right">
-							<span class="pageNumbers">
-								<span class="pageNumbersText">{if !empty($RELATED_RECORDS)} {$PAGING->getRecordStartRange()} {vtranslate('LBL_TO_LC', $RELATED_MODULE->get('name'))} {$PAGING->getRecordEndRange()}{else}<span>&nbsp;</span>{/if}</span>
-								<span class="glyphicon glyphicon-refresh cursorPointer totalNumberOfRecords{if empty($RELATED_RECORDS)} hide{/if}"></span>
-							</span>
-							<span class="btn-group">
-								<button class="btn btn-default" id="relatedListPreviousPageButton" {if !$PAGING->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
-								<button class="btn btn-default dropdown-toggle" type="button" id="relatedListPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
-									<span class="vtGlyph vticon-pageJump" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></span>
-								</button>
-								<ul class="listViewBasicAction dropdown-menu" id="relatedListPageJumpDropDown">
-									<li>
-										<div class="">
-											<div class="col-md-4 recentComments textAlignCenter pushUpandDown2per"><span>{vtranslate('LBL_PAGE',$moduleName)}</span></div>
-											<div class="col-md-3 recentComments">
-												<input type="text" id="pageToJump" class="listViewPagingInput textAlignCenter" value="{$PAGING->getCurrentPage()}"/>
-											</div>
-											<div class="col-md-2 recentComments textAlignCenter pushUpandDown2per">
-												{vtranslate('LBL_OF',$moduleName)}
-											</div>
-											<div class="col-md-2 recentComments textAlignCenter pushUpandDown2per" id="totalPageCount">{$PAGE_COUNT}</div>
-										</div>
-									</li>
-								</ul>
-								<button class="btn btn-default" id="relatedListNextPageButton" {if (!$PAGING->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
-							</span>
+					<div class="col-md-5">
+						<div class="paginationDiv pull-right">
+							{include file='RelatedListPagination.tpl'|@vtemplate_path:$MODULE}
 						</div>
 					</div>
 				</div>

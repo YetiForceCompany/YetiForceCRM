@@ -589,22 +589,12 @@ function getRecordOwnerId($record)
 	$log = vglobal('log');
 	$log->debug("Entering getRecordOwnerId(" . $record . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$ownerArr = Array();
+	$ownerArr = [];
 
-	// Look at cache first for information
-	$ownerId = VTCacheUtils::lookupRecordOwner($record);
-
-	if ($ownerId === false) {
-		$query = "select smownerid from vtiger_crmentity where crmid = ?";
-		$result = $adb->pquery($query, array($record));
-		if ($adb->num_rows($result) > 0) {
-			$ownerId = $adb->query_result($result, 0, 'smownerid');
-			// Update cache for re-use
-			VTCacheUtils::updateRecordOwner($record, $ownerId);
-		}
-	}
-
-	if ($ownerId) {
+	$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record);
+	
+	if ($recordMetaData) {
+		$ownerId = $recordMetaData['smownerid'];
 		// Look at cache first for information
 		$count = VTCacheUtils::lookupOwnerType($ownerId);
 

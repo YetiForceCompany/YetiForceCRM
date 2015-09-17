@@ -12,3 +12,7 @@ class AppException extends Exception
 {
 	
 }
+class NoPermittedException extends Exception
+{
+	
+}

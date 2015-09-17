@@ -412,6 +412,12 @@ var app = {
 		}
 		return false;
 	},
+	isInvisible: function (element) {
+		if (element.css('visibility') == 'hidden') {
+			return true;
+		}
+		return false;
+	},
 	/**
 	 * Default validation eninge options
 	 */
@@ -1112,7 +1118,10 @@ var app = {
 		return parseFloat(val);
 	},
 	errorLog: function (error, err, errorThrown) {
-		console.error(error, err, errorThrown);
+		if( typeof error == 'object'){
+			error = error.responseText;
+		}
+		console.error(error);
 	},
 }
 
