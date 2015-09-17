@@ -146,7 +146,7 @@
 					</div>
 				</div>
 				<div class="row" data-content-role="existing" style="display: none">
-					<label class="col-md-3"><strong>{vtranslate('LBL_USERS',$QUALIFIED_MODULE)}:</strong></label>
+					<label class="col-md-3"><strong>{vtranslate('LBL_PROFILE',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						{assign var="ROLE_PROFILES" value=$RECORD_MODEL->getProfiles()}
 						<select class="select2" multiple="true" id="profilesList" name="profiles[]" data-placeholder="{vtranslate('LBL_CHOOSE_PROFILES',$QUALIFIED_MODULE)}" style="width: 800px">
