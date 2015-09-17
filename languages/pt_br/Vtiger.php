@@ -444,6 +444,7 @@ $languageStrings = [
 	'LBL_PARENT_OWNER' => 'Proprietário Registro Pai',
 	'LBL_PASSWORD_LINK_EXPIRED_OR_INVALID_PASSWORD' => 'O link da Senha experiou ou você digitou uma senha inválida',
 	'LBL_PERMISSION_DENIED' => 'Permissão negada',
+	'LBL_NO_PERMISSIONS_FOR_THE_RECORD' => 'You don\'t have the permissions required to view/edit this record. Contact the administrator if you should have the permission to view it.',
 	'LBL_PLEASE_SELECT_MODULE' => 'Por favor, selecione o módulo',
 	'LBL_POST' => 'Postar',
 	'LBL_PREVIOUS_FQ' => 'Semestre Anterior',
@@ -863,9 +864,7 @@ $languageStrings = [
 	/* modules */
 	'OSSCosts' => 'Custos',
 	'Key Metrics' => 'Métricas Chave',
-	'LBL_SHARING_INFORMATION' => 'Informação Compartilhada',
 	'Share with users' => 'Compartilhar com Usuários:',
-	'Copy permissions automatically' => 'Copiar permissões automaticamente',
 	'LBL_PURCHASE' => 'Compra',
 	'LBL_MARGIN' => 'Margem',
 	'LBL_MARGINP' => 'Margem (%)',
@@ -973,6 +972,7 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Baseado em módulos relacionados',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Dependendo da quantidade de dados, o processo de transferência do proprietário poderá demorar vários minutos para conlcuir',
 	'LBL_LEGAL_FORM' => 'Forma Jurídica',
+	
 	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Exportar para o Excel',
 	'ReasonToEdit' => 'Reason to edit',
 	'Mails List' => 'Most recent emails',
@@ -999,6 +999,7 @@ $languageStrings = [
 	'None' => 'None',
 	'Email Opt Out' => 'Email Opt Out',
 	'LBL_SIGN_IN' => 'Sign in',
+	
 	//Inventory
 	'LBL_DISCOUNT' => 'Discount',
 	'LBL_TAX' => 'Tax',
@@ -1019,7 +1020,7 @@ $languageStrings = [
 	'LBL_QUANTITY' => 'Quantity',
 	'LBL_REFERENCE' => 'Reference',
 	'LBL_UNIT_PRICE' => 'Unit price',
-	'LBL_MARGIN_PRECENT' => 'Marigin (%)',
+	'LBL_MARGIN_PERCENT' => 'Margin (%)',
 	'LBL_GROSS_PRICE' => 'Gross',
 	'LBL_DISCOUNT_PRICE' => 'Price after discount',
 	'LBL_SELECT_TAX' => 'Select tax',
@@ -1052,6 +1053,7 @@ $languageStrings = [
 	'LBL_EXCHANGE_RATE' => 'Exchange rate',
 	'LBL_EXCHANGE_DATE' => 'Exchange rate date',
 	'LBL_NO_EXCHANGE_RATES' => 'No exchange rates found, check if downloading exchange rates works properly.',
+	'LBL_COMMENT' => 'Comment',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',

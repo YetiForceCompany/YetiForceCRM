@@ -147,8 +147,8 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$adb = PearDatabase::getInstance();
 		$id = FALSE;
 		$return = [];
-		if (isset($params['crmid']['mailviewid'])) {
-			$id = $params['crmid']['mailviewid'];
+		if (isset($params['crmid']['id'])) {
+			$id = $params['crmid']['id'];
 		} else {
 			$result = $adb->pquery('SELECT ossmailviewid FROM vtiger_ossmailview WHERE id = ? AND mbox = ?', [$params['uid'], $params['folder']]);
 			if ($adb->num_rows($result) > 0) {
@@ -296,7 +296,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid 
 			WHERE vtiger_crmentity.deleted = 0 AND vtiger_ossmailview_relation.crmid = '$recordId'";
 		$instance = CRMEntity::getInstance($moduleName);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName);
+		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, false, $recordId);
 		if ($securityParameter != '')
 			$sql .= $securityParameter;
 		return $sql;

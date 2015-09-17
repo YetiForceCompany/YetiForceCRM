@@ -69,9 +69,10 @@
 						<div class="span4">Postęp czałkowity 
 							<span class="pull-right"><span class="precent">0.00</span>%</span>
 						</div>
+
 						<div class="span8">
 							<div class="progress progress-striped progress-danger active">
-								<div class="bar " style="width: 0%;"> </div>
+								<div class="progress-bar"  style="width: 0%;"> </div>
 							</div>
 						</div>
 					</div>
@@ -82,7 +83,7 @@
 						</div>
 						<div class="span8">
 							<div class="progress progress-striped progress-info active">
-								<div class="bar " style="width: 0%;"> </div>
+								<div class="progress-bar " style="width: 0%;"> </div>
 							</div>
 						</div>
 					</div>
@@ -92,7 +93,7 @@
 						</div>
 						<div class="span8">
 							<div class="progress progress-striped progress-info active">
-								<div class="bar " style="width: 0%;"> </div>
+								<div class="progress-bar " style="width: 0%;"> </div>
 							</div>
 						</div>
 					</div>
@@ -102,7 +103,7 @@
 						</div>
 						<div class="span8">
 							<div class="progress progress-striped progress-info active">
-								<div class="bar " style="width: 0%;"> </div>
+								<div class="progress-bar " style="width: 0%;"> </div>
 							</div>
 						</div>
 					</div>
@@ -112,7 +113,7 @@
 						</div>
 						<div class="span8">
 							<div class="progress progress-striped progress-info active">
-								<div class="bar " style="width: 0%;"> </div>
+								<div class="progress-bar " style="width: 0%;"> </div>
 							</div>
 						</div>
 					</div>
@@ -122,7 +123,7 @@
 						</div>
 						<div class="span8">
 							<div class="progress progress-striped progress-info active">
-								<div class="bar " style="width: 0%;"> </div>
+								<div class="progress-bar " style="width: 0%;"> </div>
 							</div>
 						</div>
 					</div>
@@ -132,7 +133,7 @@
 						</div>
 						<div class="span8">
 							<div class="progress progress-striped progress-info active">
-								<div class="bar " style="width: 0%;"> </div>
+								<div class="progress-bar " style="width: 0%;"> </div>
 							</div>
 						</div>
 					</div>
@@ -142,7 +143,7 @@
 						</div>
 						<div class="span8">
 							<div class="progress progress-striped progress-info active">
-								<div class="bar " style="width: 0%;"> </div>
+								<div class="progress-bar " style="width: 0%;"> </div>
 							</div>
 						</div>
 					</div>
@@ -153,7 +154,7 @@
 							</div>
 							<div class="span8">
 								<div class="progress progress-striped progress-info active">
-									<div class="bar " style="width: 0%;"> </div>
+									<div class="progress-bar " style="width: 0%;"> </div>
 								</div>
 							</div>
 						</div>
@@ -164,7 +165,7 @@
 						</div>
 						<div class="span8">
 							<div class="progress progress-striped progress-info active">
-								<div class="bar " style="width: 0%;"> </div>
+								<div class="progress-bar " style="width: 0%;"> </div>
 							</div>
 						</div>
 					</div>

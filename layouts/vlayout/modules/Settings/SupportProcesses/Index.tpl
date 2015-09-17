@@ -31,7 +31,7 @@
 				<tbody>
 					<tr data-id="{$ITEM.user_id}">
 						<td><label>{vtranslate('LBL_TICKET_STATUS_INFO', $QUALIFIED_MODULE)}</label></td>
-						<td>
+						<td class="col-md-6">
 							{assign var=TICKETSTATUSNOTMODIFY value=$TICKETSTATUSNOTMODIFY}
 							<select class="chzn-select status" multiple name="status" style="width: 500px;">
 								{foreach  item=ITEM from=$TICKETSTATUS}

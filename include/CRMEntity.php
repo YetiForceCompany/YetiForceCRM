@@ -253,13 +253,12 @@ class CRMEntity
 			$description_val = from_html($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 			$attention_val = from_html($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$was_read = ($this->column_fields['was_read'] == 'on') ? true : false;
-			$inheritsharing = ($this->column_fields['inheritsharing'] == 'on') ? true : false;
 			checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			$tabid = getTabid($module);
 			if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-				$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?,description=?,attention=?, modifiedtime=?, was_read=?, inheritsharing=? where crmid=?";
-				$params = array($ownerid, $current_user->id, $description_val, $attention_val, $adb->formatDate($date_var, true), $was_read, $inheritsharing, $this->id);
+				$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?,description=?,attention=?, modifiedtime=?, was_read=? where crmid=?";
+				$params = array($ownerid, $current_user->id, $description_val, $attention_val, $adb->formatDate($date_var, true), $was_read, $this->id);
 			} else {
 				$profileList = getCurrentUserProfileList();
 				$perm_qry = "SELECT columnname FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid = vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid WHERE vtiger_field.tabid = ? AND vtiger_profile2field.visible = 0 AND vtiger_profile2field.readonly = 0 AND vtiger_profile2field.profileid IN (" . generateQuestionMarks($profileList) . ") AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename='vtiger_crmentity' and vtiger_field.presence in (0,2);";
@@ -269,8 +268,8 @@ class CRMEntity
 					$columname[] = $adb->query_result($perm_result, $i, "columnname");
 				}
 				if (is_array($columname) && in_array("description", $columname)) {
-					$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?,description=?, attention=?, modifiedtime=?,was_read=?, inheritsharing=? where crmid=?";
-					$params = array($ownerid, $current_user->id, $description_val, $attention_val, $adb->formatDate($date_var, true), $was_read, $inheritsharing, $this->id);
+					$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?,description=?, attention=?, modifiedtime=?,was_read=? where crmid=?";
+					$params = array($ownerid, $current_user->id, $description_val, $attention_val, $adb->formatDate($date_var, true), $was_read, $this->id);
 				} else {
 					$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?, modifiedtime=? where crmid=?";
 					$params = array($ownerid, $current_user->id, $adb->formatDate($date_var, true), $this->id);
@@ -290,7 +289,6 @@ class CRMEntity
 			// Customization
 			$created_date_var = $adb->formatDate($date_var, true);
 			$modified_date_var = $adb->formatDate($date_var, true);
-			$inheritsharing = ($this->column_fields['inheritsharing'] == 'on') ? true : false;
 			// Preserve the timestamp
 			if (self::isBulkSaveMode()) {
 				if (!empty($this->column_fields['createdtime']))
@@ -301,8 +299,8 @@ class CRMEntity
 
 			$description_val = from_html($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 			$attention_val = from_html($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
-			$sql = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,attention,modifiedby,createdtime,modifiedtime,inheritsharing) values(?,?,?,?,?,?,?,?,?,?)";
-			$params = array($current_id, $current_user->id, $ownerid, $module, $description_val, $attention_val, $current_user->id, $created_date_var, $modified_date_var, $inheritsharing);
+			$sql = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,attention,modifiedby,createdtime,modifiedtime) values(?,?,?,?,?,?,?,?,?)";
+			$params = array($current_id, $current_user->id, $ownerid, $module, $description_val, $attention_val, $current_user->id, $created_date_var, $modified_date_var);
 			$adb->pquery($sql, $params);
 
 			$this->column_fields['createdtime'] = $created_date_var;
@@ -560,7 +558,7 @@ class CRMEntity
 				array_push($value, $fldvalue);
 			}
 		}
-		
+
 		if ($insertion_mode == 'edit') {
 			if ($module == 'Potentials') {
 				$dbquery = 'select sales_stage from vtiger_potential where potentialid = ?';
@@ -786,11 +784,11 @@ class CRMEntity
 			$result = $adb->pquery($sql, $params);
 
 			if (!$result || $adb->num_rows($result) < 1) {
-				throw new Exception($app_strings['LBL_RECORD_NOT_FOUND'] . ': ' . $record . ' ' . $module, -1);
+				throw new AppException($app_strings['LBL_RECORD_NOT_FOUND'] . ': ' . $record . ' ' . $module, -1);
 			} else {
 				$resultrow = $adb->query_result_rowdata($result);
 				if (!empty($resultrow['deleted'])) {
-					throw new Exception($app_strings['LBL_RECORD_DELETE'] . ': ' . $record . ' ' . $module, 1);
+					throw new AppException($app_strings['LBL_RECORD_DELETE'] . ': ' . $record . ' ' . $module, 1);
 					;
 				}
 				foreach ($cachedModuleFields as $fieldinfo) {
@@ -1164,24 +1162,23 @@ class CRMEntity
 	{
 		$log = vglobal('log');
 
-		$fieldRes = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
-			SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=?)', array($module));
-		$numOfFields = $this->db->num_rows($fieldRes);
-		for ($i = 0; $i < $numOfFields; $i++) {
-			$tabId = $this->db->query_result($fieldRes, $i, 'tabid');
-			$tableName = $this->db->query_result($fieldRes, $i, 'tablename');
-			$columnName = $this->db->query_result($fieldRes, $i, 'columnname');
+		$result = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
+			SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=?)', [$module]);
+		
+		while ($row = $this->db->fetch_array($result)) {
+			$tabId = $row['tabid'];
+			$tableName = $row['tablename'];
+			$columnName = $row['columnname'];
 
 			$relatedModule = vtlib_getModuleNameById($tabId);
 			$focusObj = CRMEntity::getInstance($relatedModule);
 
 			//Backup Field Relations for the deleted entity
-			$targetTableColumn = $focusObj->table_index;
+			$targetTableColumn = $focusObj->tab_name_index[$tableName];
 			//While deleting product record the $targetTableColumn should 'id'.
 			if ($tableName == 'vtiger_inventoryproductrel') {
 				$targetTableColumn = 'id';
 			}
-
 			$relQuery = "SELECT $targetTableColumn FROM $tableName WHERE $columnName=?";
 			$relResult = $this->db->pquery($relQuery, array($id));
 			$numOfRelRecords = $this->db->num_rows($relResult);
@@ -2399,7 +2396,7 @@ class CRMEntity
 		return $query;
 	}
 
-	function getUserAccessConditionsQuerySR($module, $current_user = false)
+	function getUserAccessConditionsQuerySR($module, $current_user = false, $relatedRecord = false)
 	{
 		if ($current_user == false)
 			$current_user = vglobal('current_user');
@@ -2410,6 +2407,25 @@ class CRMEntity
 		$sharedParameter = $securityParameter = '';
 		$query = '';
 		$tabId = getTabid($module);
+
+		if ($relatedRecord) {
+			$role = getRoleInformation($current_user->roleid);
+			if ($role['listrelatedrecord'] != 0) {
+				$rparentRecord = Users_Privileges_Model::getParentRecord($relatedRecord, false, $role['listrelatedrecord']);
+				if ($rparentRecord) {
+					$relatedRecord = $rparentRecord;
+				}
+
+				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($relatedRecord);
+				$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
+				if (!$recordPermission) {
+					throw new AppException('LBL_PERMISSION_DENIED');
+				}
+				if ($recordMetaData['smownerid'] == $current_user->id) {
+					return '';
+				}
+			}
+		}
 
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$securityParameter = $this->getUserAccessConditionsQuery($module, $current_user);

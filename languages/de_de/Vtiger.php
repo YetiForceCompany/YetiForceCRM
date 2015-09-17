@@ -460,6 +460,7 @@ $languageStrings = [
 	'LBL_PARENT_OWNER' => 'Besitzer übergeordneter Datensatz',
 	'LBL_PASSWORD_LINK_EXPIRED_OR_INVALID_PASSWORD' => 'Kennwort Link abgelaufen oder Sie haben ein ungültiges Kennwort eingegeben',
 	'LBL_PERMISSION_DENIED' => 'Zugriff verweigert',
+	'LBL_NO_PERMISSIONS_FOR_THE_RECORD' => 'You don\'t have the permissions required to view/edit this record. Contact the administrator if you should have the permission to view it. ',
 	'LBL_PLEASE_SELECT_MODULE' => 'Bitte Modul zur Suche auswählen',
 	'LBL_POST' => 'Versenden',
 	'LBL_PREVIOUS_FQ' => 'Vorheriges Quartal',
@@ -886,9 +887,7 @@ $languageStrings = [
 	/* modules */
 	'OSSCosts' => 'Kosten',
 	'Key Metrics' => 'Schlüssel Metriken',
-	'LBL_SHARING_INFORMATION' => 'Weitergabe von Informationen',
 	'Share with users' => 'Teilen mit Benutzern:',
-	'Copy permissions automatically' => 'Berechtigungen automatisch übernehmen',
 	'LBL_PURCHASE' => 'Einkauf',
 	'LBL_MARGIN' => 'Marge',
 	'LBL_MARGINP' => 'Marge (%)',
@@ -978,6 +977,7 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
 	'LBL_LEGAL_FORM' => 'Rechtsform',
+	
 	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Export to Excel',
 	'ReasonToEdit' => 'Reason to edit',
 	'Mails List' => 'Most recent emails',
@@ -1003,6 +1003,7 @@ $languageStrings = [
 	'equal to' => 'Equal to',
 	'None' => 'None',
 	'LBL_SIGN_IN' => 'Sign in',
+	
 	//Inventory
 	'LBL_DISCOUNT' => 'Discount',
 	'LBL_TAX' => 'Tax',
@@ -1023,7 +1024,7 @@ $languageStrings = [
 	'LBL_QUANTITY' => 'Quantity',
 	'LBL_REFERENCE' => 'Reference',
 	'LBL_UNIT_PRICE' => 'Unit price',
-	'LBL_MARGIN_PRECENT' => 'Marigin (%)',
+	'LBL_MARGIN_PERCENT' => 'Margin (%)',
 	'LBL_GROSS_PRICE' => 'Gross',
 	'LBL_DISCOUNT_PRICE' => 'Price after discount',
 	'LBL_SELECT_TAX' => 'Selct tax',
@@ -1056,6 +1057,7 @@ $languageStrings = [
 	'LBL_EXCHANGE_RATE' => 'Exchange rate',
 	'LBL_EXCHANGE_DATE' => 'Exchange rate date',
 	'LBL_NO_EXCHANGE_RATES' => 'No exchange rates found, check if downloading exchange rates works properly.',
+	'LBL_COMMENT' => 'Comment',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
@@ -1275,6 +1277,4 @@ $jsLanguageStrings = [
 	'JS_CAN_NOT_REMOVE_COMMENT' => 'You can\'t delete comments with answers. Delete all the answers in order to delete the comment.',
 	'JS_DELETE_COMMENT_CONFIRMATION' => 'Are you sure you want to delete the comment?',
 	'JS_SET_TAX_FOR' => 'Steuersatz einstellen für',
-	'JS_YESTERDAY' => 'Yesterday',
-	'JS_OLDER' => 'Older'
 ];

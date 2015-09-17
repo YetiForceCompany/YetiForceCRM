@@ -574,6 +574,21 @@ CREATE TABLE `roundcube_users_autologin` (
   CONSTRAINT `roundcube_users_autologin_ibfk_1` FOREIGN KEY (`rcuser_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_accesstorecord` */
+
+CREATE TABLE `s_yf_accesstorecord` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `date` datetime NOT NULL,
+  `ip` varchar(100) NOT NULL,
+  `record` int(19) NOT NULL,
+  `module` varchar(30) NOT NULL,
+  `url` varchar(300) NOT NULL,
+  `description` varchar(300) NOT NULL,
+  `agent` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_account` */
 
 CREATE TABLE `vtiger_account` (
@@ -1680,7 +1695,6 @@ CREATE TABLE `vtiger_crmentity` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `label` varchar(255) DEFAULT NULL,
   `searchlabel` varchar(255) DEFAULT NULL,
-  `inheritsharing` tinyint(1) DEFAULT '0',
   `was_read` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`crmid`),
   KEY `crmentity_smcreatorid_idx` (`smcreatorid`),
@@ -2574,7 +2588,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1760 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1761 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6163,6 +6177,10 @@ CREATE TABLE `vtiger_role` (
   `changeowner` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `searchunpriv` text,
   `clendarallorecords` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `listrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `previewrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `editrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `permissionsrelatedfield` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`roleid`),
   KEY `parentrole` (`parentrole`),
   KEY `parentrole_2` (`parentrole`,`depth`),

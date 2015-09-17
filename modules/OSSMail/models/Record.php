@@ -339,6 +339,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$mail['attachments'][$attachmentId]['filename'] = $fileName;
 			$mail['attachments'][$attachmentId]['attachment'] = $data;
 		} elseif ($partStructure->type == 0 && $data) {
+			if(base64_decode($data, true)){
+				$data = base64_decode($data);
+			}
 			if (strtolower($partStructure->subtype) == 'plain') {
 				$mail['textPlain'] .= $data;
 			} else {

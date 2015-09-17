@@ -10,6 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<div id="toggleRightPanelButton" class="btn btn-block toggleRightPanelButton" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', 'Vtiger')}">
+		<span id="tRightPanelButtonImage" class="glyphicon glyphicon-chevron-left"></span>
+	</div>
 	<div class="panel-group calendarRightPanel paddingRightZero rightPanelOpen" id="rightPanel">
 		{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGETRIGHT']}
 			<div class="panel panel-dark quickWidget">

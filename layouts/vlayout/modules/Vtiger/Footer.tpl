@@ -14,8 +14,7 @@
 	<input id='activityReminder' class='hide noprint' type="hidden" value="{$ACTIVITY_REMINDER}"/>
 	<footer class="footerContainer navbar-default navbar-fixed-bottom noprint">
 		<div class="vtFooter">
-			{assign var=isLogoInFooter value=vglobal('isVisibleLogoInFooter')}
-			{if $isLogoInFooter == 'true'}
+			{if vglobal('isVisibleLogoInFooter') == 'true'}
 				<div class='pull-right logoFooter'>
 					{assign var=ADDRESS value='http://www.yetiforce.com'}
 					<a href='{$ADDRESS}'>

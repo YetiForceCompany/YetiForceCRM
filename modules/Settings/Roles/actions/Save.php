@@ -65,6 +65,10 @@ class Settings_Roles_Save_Action extends Vtiger_Action_Controller
 			$parentRole = Settings_Roles_Record_Model::getInstanceById($parentRoleId);
 			$recordModel->set('change_owner', $request->get('change_owner'))
 				->set('searchunpriv', $request->get('searchunpriv'))
+				->set('listrelatedrecord', $request->get('listRelatedRecord'))
+				->set('previewrelatedrecord', $request->get('previewRelatedRecord'))
+				->set('editrelatedrecord', $request->get('editRelatedRecord'))
+				->set('permissionsrelatedfield', $request->get('permissionsRelatedField'))
 				->set('clendarallorecords', $request->get('clendarallorecords'));
 			if (!empty($allowassignedrecordsto))
 				$recordModel->set('allowassignedrecordsto', $allowassignedrecordsto); // set the value of assigned records to

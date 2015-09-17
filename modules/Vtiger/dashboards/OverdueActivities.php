@@ -27,6 +27,7 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		else
 			$owner = $request->get('owner');
+
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));

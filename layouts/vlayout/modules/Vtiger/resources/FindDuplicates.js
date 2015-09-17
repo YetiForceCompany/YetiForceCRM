@@ -65,7 +65,7 @@ Vtiger_List_Js('Vtiger_FindDuplicates_Js',{
 					jQuery('#pageNumber').val(nextPageNumber);
 					jQuery('#pageToJump').val(nextPageNumber);
 					thisInstance.calculatePages().then(function(){
-						thisInstance.updatePagination();
+						thisInstance.updatePagination(nextPageNumber);
 					});
 					thisInstance.registerMergeRecordEvent(thisInstance.mergeRecordPopupCallback);
 				});
@@ -82,12 +82,34 @@ Vtiger_List_Js('Vtiger_FindDuplicates_Js',{
 					function(data){
 						jQuery('#listViewContents').html(data);
 						thisInstance.calculatePages().then(function(){
-							thisInstance.updatePagination();
+							thisInstance.updatePagination(previousPageNumber);
 						});
 						thisInstance.registerMergeRecordEvent(thisInstance.mergeRecordPopupCallback);
 					}
 				);
 			}
+		});
+		
+		jQuery('.pageNumber').on('click', function () {
+			var disabled = $(this).hasClass("disabled")
+			if (disabled)
+				return false;
+			var pageNumber = $(this).data("id");
+		
+			var previousPageNumber = parseInt(parseFloat(pageNumber)) - 1;
+			jQuery('#pageNumber').val(previousPageNumber);
+			jQuery('#pageToJump').val(previousPageNumber);
+			AppConnector.requestPjax(url+'&page='+pageNumber).then(
+					function (data) {
+								jQuery('#listViewContents').html(data);
+						thisInstance.calculatePages().then(function(){
+							thisInstance.updatePagination(pageNumber);
+						});
+				
+					},
+					function (textStatus, errorThrown) {
+					}
+			);
 		});
 
 		jQuery('#listViewPageJump').on('click', function(e) {
@@ -152,7 +174,7 @@ Vtiger_List_Js('Vtiger_FindDuplicates_Js',{
 						AppConnector.requestPjax(url+'&page='+newPageNumber).then(
 							function(data){
 								jQuery('#listViewContents').html(data);
-								thisInstance.updatePagination();
+								thisInstance.updatePagination(newPageNumber);
 								element.closest('.btn-group').removeClass('open');
 								thisInstance.registerMergeRecordEvent(thisInstance.mergeRecordPopupCallback);
 							}

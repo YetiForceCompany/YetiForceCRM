@@ -78,8 +78,12 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 					case 4://numbers
 					case 25:
 					case 7:
-					case 71:
 						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($value), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+						break;
+					case 71:
+					case 72:
+						$rawValue = $record->get($field->name);
+						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($rawValue), PHPExcel_Cell_DataType::TYPE_NUMERIC);
 						break;
 					case 6://datetimes
 					case 23:

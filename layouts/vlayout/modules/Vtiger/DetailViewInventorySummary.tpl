@@ -5,78 +5,47 @@
 		{assign var="TAXS" value=$INVENTORY_FIELD->getTaxParam($INVENTORY_ROW['taxparam'],$INVENTORY_ROW['net'], $TAXS)}
 	{/foreach}
 	<div class="row">
-		<div class="col-md-4">
-			<table class="table table-bordered inventorySummaryContainer">
-				<thead>
-					<tr>
-						<th>
-							<img src="{vimage_path('Discount24.png')}" alt="{vtranslate('LBL_DISCOUNT', $MODULE_NAME)}" />&nbsp;&nbsp;
-							<strong>{vtranslate('LBL_DISCOUNTS_SUMMARY',$MODULE_NAME)}</strong>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td class="textAlignRight">
-							{CurrencyField::convertToUserFormat($DISCOUNT, null, true)} {$CURRENCY_SYMBOLAND['symbol']}
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="col-md-4">
-			<table class="table table-bordered inventorySummaryContainer">
-				<thead>
-					<tr>
-						<th colspan="2">
-							<img src="{vimage_path('Tax24.png')}" alt="{vtranslate('LBL_TAX', $MODULE_NAME)}" />&nbsp;&nbsp;
-							<strong>{vtranslate('LBL_TAX_SUMMARY',$MODULE_NAME)}</strong>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					{foreach item=TAX key=KEY from=$TAXS}
-						{assign var="TAX_AMOUNT" value=$TAX_AMOUNT + $TAX}
+		{if in_array("discount",$COLUMNS) && in_array("discountmode",$COLUMNS)}
+			<div class="col-md-4">
+				<table class="table table-bordered inventorySummaryContainer">
+					<thead>
 						<tr>
-							<td class="textAlignRight" width='70px'>
-								{$KEY}%
-							</td>
+							<th>
+								<img src="{vimage_path('Discount24.png')}" alt="{vtranslate('LBL_DISCOUNT', $MODULE_NAME)}" />&nbsp;&nbsp;
+								<strong>{vtranslate('LBL_DISCOUNTS_SUMMARY',$MODULE_NAME)}</strong>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
 							<td class="textAlignRight">
-								{CurrencyField::convertToUserFormat($TAX, null, true)} {$CURRENCY_SYMBOLAND['symbol']}
+								{CurrencyField::convertToUserFormat($DISCOUNT, null, true)} {$CURRENCY_SYMBOLAND['symbol']}
 							</td>
 						</tr>
-					{/foreach}
-					<tr>
-						<td class="textAlignRight" width='70px'>
-							{vtranslate('LBL_AMOUNT',$MODULE_NAME)}
-						</td>
-						<td class="textAlignRight">
-							{CurrencyField::convertToUserFormat($TAX_AMOUNT, null, true)} {$CURRENCY_SYMBOLAND['symbol']}
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		{if $BASE_CURRENCY['id'] != $CURRENCY}
-			{assign var="RATE" value=$BASE_CURRENCY['conversion_rate']/$CURRENCY_SYMBOLAND['rate']}
+					</tbody>
+				</table>
+			</div>
+		{/if}
+		{if in_array("tax",$COLUMNS) && in_array("taxmode",$COLUMNS)}
 			<div class="col-md-4">
 				<table class="table table-bordered inventorySummaryContainer">
 					<thead>
 						<tr>
 							<th colspan="2">
-								<strong>{vtranslate('LBL_CURRENCIES_SUMMARY',$MODULE_NAME)}</strong>
+								<img src="{vimage_path('Tax24.png')}" alt="{vtranslate('LBL_TAX', $MODULE_NAME)}" />&nbsp;&nbsp;
+								<strong>{vtranslate('LBL_TAX_SUMMARY',$MODULE_NAME)}</strong>
 							</th>
 						</tr>
 					</thead>
 					<tbody>
 						{foreach item=TAX key=KEY from=$TAXS}
-							{assign var="CURRENY_AMOUNT" value=$CURRENY_AMOUNT + $TAX}
+							{assign var="TAX_AMOUNT" value=$TAX_AMOUNT + $TAX}
 							<tr>
 								<td class="textAlignRight" width='70px'>
 									{$KEY}%
 								</td>
 								<td class="textAlignRight">
-									{CurrencyField::convertToUserFormat($TAX * $RATE, null, true)} {$BASE_CURRENCY['currency_symbol']}
+									{CurrencyField::convertToUserFormat($TAX, null, true)} {$CURRENCY_SYMBOLAND['symbol']}
 								</td>
 							</tr>
 						{/foreach}
@@ -85,12 +54,47 @@
 								{vtranslate('LBL_AMOUNT',$MODULE_NAME)}
 							</td>
 							<td class="textAlignRight">
-								{CurrencyField::convertToUserFormat($CURRENY_AMOUNT * $RATE, null, true)} {$BASE_CURRENCY['currency_symbol']}
+								{CurrencyField::convertToUserFormat($TAX_AMOUNT, null, true)} {$CURRENCY_SYMBOLAND['symbol']}
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
+			{if in_array("currency",$COLUMNS) && $BASE_CURRENCY['id'] != $CURRENCY}
+				{assign var="RATE" value=$BASE_CURRENCY['conversion_rate']/$CURRENCY_SYMBOLAND['rate']}
+				<div class="col-md-4">
+					<table class="table table-bordered inventorySummaryContainer">
+						<thead>
+							<tr>
+								<th colspan="2">
+									<strong>{vtranslate('LBL_CURRENCIES_SUMMARY',$MODULE_NAME)}</strong>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach item=TAX key=KEY from=$TAXS}
+								{assign var="CURRENY_AMOUNT" value=$CURRENY_AMOUNT + $TAX}
+								<tr>
+									<td class="textAlignRight" width='70px'>
+										{$KEY}%
+									</td>
+									<td class="textAlignRight">
+										{CurrencyField::convertToUserFormat($TAX * $RATE, null, true)} {$BASE_CURRENCY['currency_symbol']}
+									</td>
+								</tr>
+							{/foreach}
+							<tr>
+								<td class="textAlignRight" width='70px'>
+									{vtranslate('LBL_AMOUNT',$MODULE_NAME)}
+								</td>
+								<td class="textAlignRight">
+									{CurrencyField::convertToUserFormat($CURRENY_AMOUNT * $RATE, null, true)} {$BASE_CURRENCY['currency_symbol']}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			{/if}
 		{/if}
 	</div>
 {/strip}

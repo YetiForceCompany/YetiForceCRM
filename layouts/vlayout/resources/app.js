@@ -412,6 +412,12 @@ var app = {
 		}
 		return false;
 	},
+	isInvisible: function (element) {
+		if (element.css('visibility') == 'hidden') {
+			return true;
+		}
+		return false;
+	},
 	/**
 	 * Default validation eninge options
 	 */
@@ -1050,11 +1056,11 @@ var app = {
 	formatDateZ: function (i) {
 		return (i <= 9 ? '0' + i : i);
 	},
-	howManyDaysFromDate: function(time){
+	howManyDaysFromDate: function (time) {
 		var fromTime = time.getTime();
 		var today = new Date();
 		var toTime = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
-		return Math.floor(((toTime - fromTime)/(1000*60*60*24)))+1;
+		return Math.floor(((toTime - fromTime) / (1000 * 60 * 60 * 24))) + 1;
 	},
 	saveAjax: function (mode, param) {
 		var aDeferred = jQuery.Deferred();
@@ -1091,34 +1097,37 @@ var app = {
 		if (app.cacheParams[params] != undefined) {
 			return app.cacheParams[params];
 		}
-		var value = $('#'+params).val();
+		var value = $('#' + params).val();
 		app.cacheParams[params] = value;
 		return value;
 	},
 	parseNumberToShow: function (val) {
-		if(val == undefined){
+		if (val == undefined) {
 			val = 0;
 		}
 		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
 		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
 		val = parseFloat(val).toFixed(numberOfDecimal);
-		if(decimalSeparator != '.'){
+		if (decimalSeparator != '.') {
 			val = val.toString().replace('.', decimalSeparator);
 		}
 		return val;
 	},
 	parseNumberToFloat: function (val) {
 		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
-		if(val == undefined){
+		if (val == undefined) {
 			val = 0;
 		}
-		if(app.getMainParams('currencyDecimalSeparator') == ','){
+		if (app.getMainParams('currencyDecimalSeparator') == ',') {
 			val = val.toString().replace(/\s/g, "").replace(",", ".");
 		}
 		return parseFloat(val);
 	},
 	errorLog: function (error, err, errorThrown) {
-		console.error(error, err, errorThrown);
+		if (typeof error == 'object') {
+			error = error.responseText;
+		}
+		console.error(error);
 	},
 }
 

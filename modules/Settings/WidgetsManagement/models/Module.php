@@ -135,13 +135,18 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
-		$sql = 'SELECT * FROM vtiger_links WHERE linktype = ?';
+		$sql = 'SELECT * FROM vtiger_links
+				INNER JOIN `vtiger_tab`
+					ON vtiger_links.`tabid` = vtiger_tab.`tabid`
+				WHERE linktype = ? AND vtiger_tab.`presence` = 0';
+		
 		$params = array('DASHBOARDWIDGET');
 
 		$result = $db->pquery($sql, $params);
 
 		$widgets = array();
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRows = $db->getRowCount($result);
+		for ($i = 0; $i < $numRows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			$moduleName = Vtiger_Functions::getModuleName($row['tabid']);
 
