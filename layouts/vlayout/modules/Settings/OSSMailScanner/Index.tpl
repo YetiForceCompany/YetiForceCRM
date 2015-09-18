@@ -76,7 +76,7 @@
                             </select>
                         </td>
                         <td>
-                            <select id="user_list_{$row['user_id']}" name="user_list_{$row['user_id']}" class="form-control select2">
+                            <select id="user_list_{$row['user_id']}" data-user="{$row['user_id']}" name="user_list_{$row['user_id']}" class="form-control select2">
                                 <optgroup label="{vtranslate('User list', 'OSSMailScanner')}">
 									{if $row['crm_user_id'] eq '0'}
 										<option value="0" id="user_list_none">{vtranslate('None', 'OSSMailScanner')}</option>
