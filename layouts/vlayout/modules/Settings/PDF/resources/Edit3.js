@@ -210,19 +210,19 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 		container.find('#mainFieldLabel').val(value);
 	},
 	updateRelatedFieldsValue: function (container) {
-		var value = '$' + container.find('[name="related_fields"]').val() + '$';
+		var value = '$' + container.find('[name="related_module"]').val() + '_' + container.find('[name="related_fields"]').val() + '$';
 		container.find('#relatedFieldValue').val(value);
 	},
 	updateRelatedFieldsLabel: function (container) {
-		var value = '%' + container.find('[name="related_fields"]').val() + '%';
+		var value = '%' + container.find('[name="related_module"]').val() + '_' + container.find('[name="related_fields"]').val() + '%';
 		container.find('#relatedFieldLabel').val(value);
 	},
 	updateCompanyFieldsValue: function (container) {
-		var value = '$' + container.find('[name="company_fields"]').val() + '$';
+		var value = '$Company_' + container.find('[name="company_fields"]').val() + '$';
 		container.find('#companyFieldValue').val(value);
 	},
 	updateCompanyFieldsLabel: function (container) {
-		var value = '%' + container.find('[name="company_fields"]').val() + '%';
+		var value = '%Company_' + container.find('[name="company_fields"]').val() + '%';
 		container.find('#companyFieldLabel').val(value);
 	},
 	registerCopyClipboard: function (element) {
@@ -243,15 +243,15 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 		});
 	},
 	/**
-	* Registers updated version of CkEditor on textarea fields
-	* spellcheck disabled
-	*/
-   registerNewCkEditor : function() {
-	   CKEDITOR.replace('header_content', {
+	 * Registers updated version of CkEditor on textarea fields
+	 * spellcheck disabled
+	 */
+	registerNewCkEditor: function () {
+		CKEDITOR.replace('header_content', {
 			disableNativeSpellChecker: true,
 			scayt_autoStartup: false,
 			removePlugins: 'scayt'}
-	   );
+		);
 	},
 	registerEvents: function () {
 		var container = this.getContainer();

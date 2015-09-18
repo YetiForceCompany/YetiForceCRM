@@ -20,10 +20,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'meta_creator' => 'LBL_META_CREATOR',
 		'meta_keywords' => 'LBL_META_KEYWORDS',
 		'margin_chkbox' => 'LBL_MAIN_MARGIN',
-		'page_format' => 'LBL_PAGE_FORMAT',
-		'header_content' => 'LBL_HEADER_CONTENT',
-		'colc' => 'ColC',
-		'cold' => 'ColD'
+		'page_format' => 'LBL_PAGE_FORMAT'
 	];
 	public static $allFields = [
 		'module_name',
@@ -48,8 +45,8 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'visibility',
 		'default',
 		'header_content',
-		'colc',
-		'cold',
+		'body_content',
+		'footer_content',
 		'cole',
 		'colf',
 		'colg'
@@ -57,8 +54,8 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	public static $step1Fields = ['status', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_creator', 'meta_keywords'];
 	public static $step2Fields = ['page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'page_orientation', 'language', 'filename', 'visibility', 'default'];
 	public static $step3Fields = ['module_name', 'header_content'];
-	public static $step4Fields = ['colc'];
-	public static $step5Fields = ['cold'];
+	public static $step4Fields = ['module_name', 'body_content'];
+	public static $step5Fields = ['footer_content'];
 	public static $step6Fields = ['cole'];
 	public static $step7Fields = ['colf'];
 	public static $step8Fields = ['colg'];
@@ -294,5 +291,9 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		}
 
 		return $company;
+	}
+
+	public function getModule() {var_dump($this->get('module_name'));
+		return Vtiger_Module_Model::getCleanInstance($this->get('module_name'));
 	}
 }

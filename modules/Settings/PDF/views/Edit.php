@@ -8,7 +8,6 @@
  */
 class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 {
-
 	public function process(Vtiger_Request $request)
 	{
 		$step = strtolower($request->getMode());
@@ -49,6 +48,48 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				$pdfModel->set($name, $request->get($name));
 			}
 		}
+		
+		
+				//Added to support advance filters
+//		$recordStructureInstance = Settings_PDF_RecordStructure_Model::getInstanceForPDFModule($pdfModel, Settings_PDF_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);
+//
+//		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
+//		$recordStructure = $recordStructureInstance->getStructure();
+//		var_dump($recordStructureInstance);
+//		if (in_array($selectedModuleName, getInventoryModules())) {
+//			$itemsBlock = "LBL_ITEM_DETAILS";
+//			unset($recordStructure[$itemsBlock]);
+//		}
+//		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
+//
+//		$viewer->assign('WORKFLOW_MODEL', $pdfModel);
+//
+//		$viewer->assign('MODULE_MODEL', $selectedModule);
+//		$viewer->assign('SELECTED_MODULE_NAME', $selectedModuleName);
+//
+//		$dateFilters = Vtiger_Field_Model::getDateFilterTypes();
+//		foreach ($dateFilters as $comparatorKey => $comparatorInfo) {
+//			$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
+//			$comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
+//			$comparatorInfo['label'] = vtranslate($comparatorInfo['label'], $qualifiedModuleName);
+//			$dateFilters[$comparatorKey] = $comparatorInfo;
+//		}
+//		$viewer->assign('DATE_FILTERS', $dateFilters);
+//		$viewer->assign('ADVANCED_FILTER_OPTIONS', Settings_Workflows_Field_Model::getAdvancedFilterOptions());
+//		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', Settings_Workflows_Field_Model::getAdvancedFilterOpsByFieldType());
+//		$viewer->assign('COLUMNNAME_API', 'getWorkFlowFilterColumnName');
+//
+//		$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());
+//		$viewer->assign('META_VARIABLES', Settings_Workflows_Module_Model::getMetaVariables());
+//
+//		// Added to show filters only when saved from vtiger6
+//		if ($pdfModel->isFilterSavedInNew()) {
+//			$viewer->assign('ADVANCE_CRITERIA', $pdfModel->transformToAdvancedFilterCondition());
+//		} else {
+//			$viewer->assign('ADVANCE_CRITERIA', "");
+//		}
+//
+//		$viewer->assign('IS_FILTER_SAVED_NEW', $pdfModel->isFilterSavedInNew());
 
 		$allModules = Settings_PDF_Module_Model::getSupportedModules();
 		$viewer->assign('PDF_MODEL', $pdfModel);
@@ -70,10 +111,34 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				break;
 
 			case 'step5':
+				$relatedModules = Settings_PDF_Module_Model::getRelatedModules($pdfModel->get('module_name'));
+				if (count($relatedModules) > 0) {
+					$relatedFields = Settings_PDF_Module_Model::getMainModuleFields(key($relatedModules));
+					$specialFunctions = Settings_PDF_Module_Model::getSpecialFunctions($allModules[key($allModules)]->getName());
+				} else {
+					$relatedFields = [];
+					$specialFunctions = [];
+				}
+
+				$viewer->assign('RELATED_MODULES', $relatedModules);
+				$viewer->assign('RELATED_FIELDS', $relatedFields);
+				$viewer->assign('SPECIAL_FUNCTIONS', $specialFunctions);
 				$viewer->view('Step5.tpl', $qualifiedModuleName);
 				break;
 
 			case 'step4':
+				$relatedModules = Settings_PDF_Module_Model::getRelatedModules($pdfModel->get('module_name'));
+				if (count($relatedModules) > 0) {
+					$relatedFields = Settings_PDF_Module_Model::getMainModuleFields(key($relatedModules));
+					$specialFunctions = Settings_PDF_Module_Model::getSpecialFunctions($allModules[key($allModules)]->getName());
+				} else {
+					$relatedFields = [];
+					$specialFunctions = [];
+				}
+
+				$viewer->assign('RELATED_MODULES', $relatedModules);
+				$viewer->assign('RELATED_FIELDS', $relatedFields);
+				$viewer->assign('SPECIAL_FUNCTIONS', $specialFunctions);
 				$viewer->view('Step4.tpl', $qualifiedModuleName);
 				break;
 

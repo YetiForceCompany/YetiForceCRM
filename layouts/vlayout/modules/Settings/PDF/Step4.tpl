@@ -11,15 +11,13 @@
 
 			<div class="padding1per stepBorder">
 				<label>
-					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 4)}: {vtranslate('LBL_ENTER_BASIC_DETAILS',$QUALIFIED_MODULE)}</strong>
+					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 4)}: {vtranslate('LBL_BODY_DETAILS',$QUALIFIED_MODULE)}</strong>
 				</label>
 				<br>
+				{include file="layouts/vlayout/modules/Settings/PDF/FieldBlock.tpl"}
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
-					</label>
-					<div class="col-sm-6 controls">
-						<input type="text" name="colc" class="form-control" value="{$PDF_MODEL->get('colc')}" id="colc" />
+					<div class="col-sm-12 controls">
+						<textarea class="form-control" name="body_content" id="body_content">{$PDF_MODEL->get('body_content')}</textarea>
 					</div>
 				</div>
 			</div>
