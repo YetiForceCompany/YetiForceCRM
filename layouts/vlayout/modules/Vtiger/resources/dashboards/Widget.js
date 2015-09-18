@@ -342,7 +342,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			var user = parent.find('.owner').val();
 			var type = parent.find("[name='type']").val();
 			var url = element.data('url') + '&content=true&owner=' + user;
-			if(parent.find("[name='type']").length > 0){
+			if (parent.find("[name='type']").length > 0) {
 				url += '&type=' + type;
 			}
 			contentContainer.progressIndicator();
@@ -1056,10 +1056,12 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				events.result[i]['height'] = height;
 			}
 			thisInstance.getCalendarView().fullCalendar('addEventSource',
-					events.result
-					);
+				events.result
+			);
+			thisInstance.getCalendarView().find(".fc-event-container .fc-event").click(function () {
+				window.location.href = 'index.php?module=Calendar&view=List&search_params=[[["activitytype","e","'+$(this).data('type')+'"],["date_start","bw","'+$(this).data('date')+','+$(this).data('date')+'"]]]';
+			});
 		});
-
 	},
 	getCalendarView: function () {
 		if (this.calendarView == false) {

@@ -5063,11 +5063,8 @@ DayGrid.mixin({
                                 }
                                  timeHtml += '</i></span>';
                         titleHtml = '<div style="text-align:center"><span class="fc-title"><i></i><strong> '+event.event[i].ids.length+'</strong></span></div>';
-                         addHtml +='<a  class="' + classes.join(' ') + ' ' + event.event[i].className + '"' +
-				(event.event[i].url ?
-					' href="' + htmlEscape(event.event[i].url) + '"' :
-					''
-					) +
+                         addHtml +='<a class="' + classes.join(' ') + ' ' + event.event[i].className + '" href="javascript:;"' +
+						 ' data-date="' + event.date + '"' + ' data-type="' + i + '"' +
 				' style="left:3%; width:'+event.width+'px; height:'+event.height+'px; '+ (skinCss ? ' ' + skinCss + '' : '') + '" '  +
 			'>' + '<div class="fc-content">' + 
 						timeHtml + ' ' + titleHtml   // put a natural space in between
