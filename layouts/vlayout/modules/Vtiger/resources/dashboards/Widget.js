@@ -1059,7 +1059,8 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				events.result
 			);
 			thisInstance.getCalendarView().find(".fc-event-container .fc-event").click(function () {
-				window.location.href = 'index.php?module=Calendar&view=List&search_params=[[["activitytype","e","'+$(this).data('type')+'"],["date_start","bw","'+$(this).data('date')+','+$(this).data('date')+'"]]]';
+				var container = thisInstance.getContainer();
+				window.location.href = 'index.php?module=Calendar&view=List&search_params=[[["assigned_user_id","c","'+container.find('.widgetFilter.owner option:selected').data('name')+'"],["activitytype","e","'+$(this).data('type')+'"],["date_start","bw","'+$(this).data('date')+','+$(this).data('date')+'"]]]';
 			});
 		});
 	},
