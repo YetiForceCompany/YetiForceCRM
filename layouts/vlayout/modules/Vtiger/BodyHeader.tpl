@@ -15,7 +15,7 @@
 				{include file='BodyHidden.tpl'|@vtemplate_path:$MODULE}
 			</div>
 			<div class="col-md-7 rightHeader">
-				<div class="pull-right">
+				<div class="pull-right rightHeaderBtn">
 					<div class="dropdown quickAction historyBtn">
 						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
 							<img class='alignMiddle popoverTooltip' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" 
@@ -23,7 +23,7 @@
 						</a>
 					</div>
 				</div>
-				<div class="pull-right">
+				<div class="pull-right rightHeaderBtn">
 					<div class="remindersNotice quickAction">
 						<a class="btn btn-default btn-sm" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
@@ -31,7 +31,7 @@
 						</a>
 					</div>
 				</div>
-				<div class="pull-right">
+				<div class="pull-right rightHeaderBtn">
 					<div class="headerLinksAJAXChat quickAction">
 						<a class="btn btn-default btn-sm ChatIcon" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
 							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
@@ -39,7 +39,7 @@
 					</div>
 				</div>
 				{if !empty($announcement)}
-					<div class="pull-right">
+					<div class="pull-right rightHeaderBtn">
 						<div class="quickAction">
 							<a class="btn btn-default btn-sm" href="#">
 								<img class='alignMiddle imgAnnouncement' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
@@ -47,7 +47,7 @@
 						</div>
 					</div>
 				{/if}
-				<div class="pull-right">
+				<div class="pull-right rightHeaderBtn">
 					<div class="dropdown quickAction">
 						<a id="menubar_quickCreate" class="dropdown-toggle btn btn-default btn-sm" data-toggle="dropdown" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" href="#">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -113,7 +113,7 @@
 						</span>
 					</div>
 				</div>
-				<div class="pull-right">
+				<div class="pull-right rightHeaderBtn">
 					{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
 					{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
 					{if $CONFIG['showMailIcon']=='true' && count($AUTOLOGINUSERS) > 0}
@@ -143,6 +143,13 @@
 							</div>
 						</div>
 					{/if}
+				</div>
+				<div class="pull-right rightHeaderBtnMenu">
+					<div class="quickAction">
+						<a class="btn btn-default btn-sm" href="#">
+							 <span aria-hidden="true" class="glyphicon glyphicon-menu-hamburger"></span>
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>

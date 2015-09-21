@@ -608,6 +608,11 @@ jQuery.Class("Vtiger_Header_Js", {
 		//jQuery(".contentsDiv").css({'margin-bottom': navBottom + 'px', });
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 	},
+	toogleMobileMenu: function (){
+		$('.rightHeaderBtnMenu').click(function(){
+			$('.mobileLeftPanel ').toggleClass('mobileMenuOn');
+		});
+	},
 	recentPageViews: function () {
 		var thisInstance = this;
 		var maxValues = 20;
@@ -735,7 +740,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	registerEvents: function () {
 		var thisInstance = this;
 		thisInstance.recentPageViews();
-
+		thisInstance.toogleMobileMenu();
 		jQuery('#globalSearch').click(function () {
 			var advanceSearchInstance = new Vtiger_AdvanceSearch_Js();
 			advanceSearchInstance.initiateSearch().then(function () {
