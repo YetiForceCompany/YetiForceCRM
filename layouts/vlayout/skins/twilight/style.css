@@ -4037,6 +4037,14 @@ html,body,.baseContainer
 		width: 58.33333333%;
 		float:right;
 	}
+	.row > .col-md-2{
+		width: 16.66666667%;
+		float:left;
+	}
+	.row > .col-md-10{
+		width: 83.33333333%;
+		float:left;
+	}
 }
 @media only screen and (max-width: 767px) {
 	.rightHeaderBtnMenu{
@@ -4058,6 +4066,14 @@ html,body,.baseContainer
 	.row > .col-md-7{
 		width:200px;
 		float:right;
+	}
+	.row > .col-md-2{
+		width:50px;
+		float:left;
+	}
+	.row > .col-md-10{
+		width: calc(100% - 50px);
+		float:left;
 	}
 }
 @media only screen and (min-width: 1240px){
@@ -4110,6 +4126,13 @@ html,body,.baseContainer
 	padding: 5px;
 	z-index: 2001;
 	display: none;
+	color: #000;
+}
+.actionMenu a{
+	margin-left: 15px;
+}
+.actionMenu .row {
+	margin: 0;
 }
 .actionMenuOn{
 	display: block;
@@ -4195,7 +4218,7 @@ html,body,.baseContainer
 	color: #fff;
 }
 .mobileLeftPanel .userDetailsContainer{
-	padding-left: 40px;
+	padding-left: 15px;
 	padding-right: 20px;
 }
 .mobileLeftPanel .userDetailsContainer a{
@@ -4204,14 +4227,7 @@ html,body,.baseContainer
 .mobileLeftPanel .mobileLeftPanelContainer > li{
 	list-style: none;
 }
-.row > .col-md-2{
-	width: 16.66666667%;
-	float:left;
-}
-.row > .col-md-10{
-	width: 83.33333333%;
-	float:left;
-}
+
 .mobileMenuOn{
 	left: 25%;
 }

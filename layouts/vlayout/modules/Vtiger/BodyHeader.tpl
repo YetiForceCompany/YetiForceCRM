@@ -15,29 +15,57 @@
 				{include file='BodyHidden.tpl'|@vtemplate_path:$MODULE}
 			</div>
 			<div class="col-md-7 rightHeader">
-				<div class='actionMenu'>
-					<div class="dropdown quickAction historyBtn">
-						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
-							<img class='alignMiddle popoverTooltip' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" 
-								 class="dropdown-toggle" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
-						</a>
+				<div class='actionMenu '>
+					<div class="row">
+						<div class="dropdown quickAction historyBtn">
+							<div class="pull-left">
+								{vtranslate('LBL_PAGES_HISTORY',$MODULE)}
+							</div>						
+							<div class="pull-right">
+								<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
+									<img class='alignMiddle popoverTooltip' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" 
+										class="dropdown-toggle" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
+								</a>
+							</div>
+						</div>
 					</div>
-					<div class="remindersNotice quickAction">
-						<a class="btn btn-default btn-sm" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
-							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
-							<span class="badge hide">0</span>
-						</a>
+					<div class="row">
+						<div class="remindersNotice quickAction">
+							<div class="pull-left">
+								{vtranslate('LBL_CHAT',$MODULE)}
+							</div>	
+							<div class="pull-right">
+								<a class="btn btn-default btn-sm" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
+									<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+									<span class="badge hide">0</span>
+								</a>
+							</div>
+						</div>
 					</div>
-					<div class="headerLinksAJAXChat quickAction">
-						<a class="btn btn-default btn-sm ChatIcon" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
-							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-						</a>
+					<div class="row">
+						<div class="headerLinksAJAXChat quickAction">
+							<div class="pull-left">
+								{vtranslate('LBL_CHAT',$MODULE)}
+							</div>
+							<div class="pull-right">
+								<a class="btn btn-default btn-sm ChatIcon" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
+									<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+								</a>
+							</div>
+						</div>
 					</div>
 					{if !empty($announcement)}
-						<div class="quickAction">
-							<a class="btn btn-default btn-sm" href="#">
-								<img class='alignMiddle imgAnnouncement' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
-							</a>
+						<div class="row">
+							<div class="quickAction">
+								<div class="pull-left">
+									{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}
+								</div>
+								<div class='pull-right'>
+									<a class="btn btn-default btn-sm" href="#">
+										<img class='alignMiddle imgAnnouncement' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
+									</a>
+								</div>
+							</div>
 						</div>
 					{/if}
 				</div>

@@ -138,7 +138,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	setAnnouncement: function () {
 		var announcementoff = app.cacheGet('announcement.turnoff', false);
-		var announcementBtn = jQuery('#announcementBtn');
+		var announcementBtn = jQuery('[id="announcementBtn"]');
 		var thisInstance = this;
 		if (announcementoff === true) {
 			jQuery('#announcement').hide();
@@ -153,9 +153,8 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	registerAnnouncement: function () {
 		var thisInstance = this;
-		var announcementBtn = jQuery('#announcementBtn');
+		var announcementBtn = $('[id="announcementBtn"]');
 		var announcementTurnOffKey = 'announcement.turnoff';
-
 		announcementBtn.click(function (e, manual) {
 			var displayStatus = jQuery('#announcement').css('display');
 
