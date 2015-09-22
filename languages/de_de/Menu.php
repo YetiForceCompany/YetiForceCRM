@@ -25,5 +25,9 @@ $languageStrings = [
 	'MEN_PRODUCTBASE' => 'Produkt Datenbank',
 	'MEN_LISTS' => 'Listen',
 	'MEN_SERVICESBASE' => 'Service Datenbank',
-	'Menu' => 'Menü',
+	'Menu' => 'Menï¿½',
+	
+	// profile type
+	'LBL_CHANGE_LOGIN_PASSWORD' => 'Changing the login password',
+	'LBL_CHANGE' => 'Change',
 ];

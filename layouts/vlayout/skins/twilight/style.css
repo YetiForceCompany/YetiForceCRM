@@ -4146,3 +4146,6 @@ html,body,.baseContainer
 .mobileMenuOn{
 	left: 25%;
 }
+.menuPanel{
+	padding: 5px;
+}

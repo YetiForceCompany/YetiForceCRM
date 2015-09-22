@@ -26,4 +26,8 @@ $languageStrings = [
 	'MEN_LISTS' => 'Wykazy',
 	'MEN_SERVICESBASE' => 'Baza usług',
 	'Menu' => 'Menu',
+	
+	// profile type
+	'LBL_CHANGE_LOGIN_PASSWORD' => 'Zmiana hasła logowania',
+	'LBL_CHANGE' => 'Zmień',
 ];

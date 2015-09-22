@@ -21,6 +21,7 @@ class Settings_Menu_Module_Model
 		5 => 'QuickCreate',
 		6 => 'HomeIcon',
 		7 => 'CustomFilter',
+		8 => 'Profile',
 	];
 
 	/**

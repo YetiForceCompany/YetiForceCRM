@@ -452,6 +452,15 @@ var Vtiger_Index_Js = {
 		SaveResult = new SaveResult()
 		return SaveResult.checkData(form);
 	},
+	registerModlaWindow: function () {
+		jQuery('button.showModalWindow').on('click', function (e) {
+			var currentElement = jQuery(e.currentTarget);
+			var url = currentElement.data('url');
+			if (url && typeof url != 'undefined') {
+				app.showModalWindow(null, url);
+			}
+		});
+	},
 	registerEvents: function () {
 		Vtiger_Index_Js.registerWidgetsEvents();
 		Vtiger_Index_Js.loadWidgetsOnLoad();
@@ -462,6 +471,7 @@ var Vtiger_Index_Js = {
 		//Vtiger_Index_Js.registerShowHideLeftPanelEvent();
 		Vtiger_Index_Js.registerShowHideRightPanelEvent();
 		Vtiger_Index_Js.registerResizeEvent();
+		Vtiger_Index_Js.registerModlaWindow();
 	},
 	registerPostAjaxEvents: function () {
 		Vtiger_Index_Js.registerTooltipEvents();

@@ -41,6 +41,25 @@ class SysDeveloper
 	}
 }
 
+class SysSecurity
+{
+
+	static function get($key, $defvalue = false)
+	{
+		global $SECURITY_CONFIG;
+		if (isset($SECURITY_CONFIG[$key])) {
+			return $SECURITY_CONFIG[$key];
+		}
+		return $defvalue;
+	}
+
+	/** Get boolean value */
+	static function getBoolean($key, $defvalue = false)
+	{
+		return self::get($key, $defvalue);
+	}
+}
+
 /**
  * Performance perference API
  */
