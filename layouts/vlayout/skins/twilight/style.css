@@ -4008,9 +4008,6 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (min-width: 767px) {
-	.rightHeaderBtn{
-		display: block;
-	}
 	.rightHeaderBtnMenu{
 		display: none;
 	}
@@ -4033,9 +4030,6 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 767px) {
-	.rightHeaderBtn{
-		display: none;
-	}
 	.rightHeaderBtnMenu{
 		display: block;
 	}
@@ -4049,11 +4043,11 @@ html,body,.baseContainer
 		display: block;
 	}
 	.row > .col-md-5{
-		width: calc(100% - 50px);
+		width: calc(100% - 200px);
 		float:left;
 	}
 	.row > .col-md-7{
-		width:50px;
+		width:200px;
 		float:right;
 	}
 }
@@ -4062,6 +4056,9 @@ html,body,.baseContainer
 		display: block;
 	}
 	.searchAction{
+		display: none;
+	}
+	.searchMenuBtn{
 		display: none;
 	}
 }
@@ -4073,8 +4070,62 @@ html,body,.baseContainer
 		display: block;
 		padding-left: 51px;
 		padding-right: 10px;
-	
 	}
+	.searchMenuBtn{
+		display: block;
+	}
+}
+@media only screen and (max-width: 960px){
+	.rightHeaderBtn{
+		display: none;
+	}
+	.actionMenuBtn{
+		display: block;
+	}
+}
+@media only screen and (min-width: 960px){
+	.rightHeaderBtn{
+		display: block;
+	}
+	.actionMenuBtn{
+		display: none;
+	}
+}
+.actionMenu{
+	position: fixed;
+	right: 2px;
+	top: 52px;
+	background: #fff;
+	border: 1px solid #4f4f4f;
+	border-radius: 5px;
+	padding: 5px;
+	z-index: 2001;
+	display: none;
+}
+.actionMenuOn{
+	display: block;
+}
+.searchMenu{
+	position: fixed;
+	left: 100%;
+	top: 50px;	
+	width: 250px;
+	color: #000;
+	z-index: 1050;
+	background: #fff;
+	z-index: 2000;
+	padding: 10px;
+	-webkit-transition: left ease-in-out 0.35s;
+	transition: left ease-in-out 0.35s;
+	border: 1px solid #afafaf;
+	border-radius: 3px;
+}
+.toogleSearchMenu{
+	left: calc(100% - 250px);
+}
+.mobileLeftPanelContainer{
+	padding-left: 20px;
+	padding-right: 20px;
 }
 .mobileLeftPanel{
 	position: fixed;
@@ -4084,7 +4135,7 @@ html,body,.baseContainer
 	width: 75%;
 	color: #fff;
 	z-index: 1050;
-	background: #999;
+	background: #3f3f3f;
 	overflow: scroll;
 	-webkit-transition: left ease-in-out 0.35s;
 	transition: left ease-in-out 0.35s;
@@ -4092,38 +4143,47 @@ html,body,.baseContainer
 .mobileLeftPanel::-webkit-scrollbar { 
 	display: none; 
 }
-.mobileLeftPanel > .menuLabel{
-	background: #363636;
+.mobileLeftPanel .mobileLeftPanelContainer a{
+	color: #ddd
+}
+.mobileLeftPanel .mobileLeftPanelContainer li .hasIcon {
+	padding: 0px
+}
+.mobileLeftPanel .mobileLeftPanelContainer li a {
 	padding-left: 25px;
-	padding-top: 5px;
+}
+.mobileLeftPanel .mobileLeftPanelContainer li a span{
+	padding-left: 10px;
+}
+.mobileLeftPanel .mobileLeftPanelContainer .menuLabel{	
+	padding-top: 20px;
 	padding-bottom: 5px;
-	color: #fff;
+	border-bottom: 2px solid #4f4f4f;
+	padding-left: 0px;
+	padding-top: 5px;
+	font-weight: 900;	
 }
-.mobileLeftPanel > .menuLabel:after{
-	padding:10px;
+.mobileLeftPanel .mobileLeftPanelContainer .menuLabel .hasIcon{
+	padding-left: 10px;		
 }
-.mobileLeftPanel > .menuLabel a{   
-	color: #fff;
+.mobileLeftPanel .mobileLeftPanelContainer .menuLabel .hasIcon img{
+	padding-right: 10px;		
 }
-.mobileLeftPanel > .menuLabel:hover{
-	background: #fff;
+.mobileLeftPanel > .mobileLeftPanelContainer > .menuLabel a{   
+	color: #eee;
+	font-size:14px;
 }
-.mobileLeftPanel > .menuLabel:hover a{
-	color: #000;
-}
-.mobileLeftPanel  > .menuModule{
+.mobileLeftPanel  > .mobileLeftPanelContainer > .menuModule{
 	padding-left: 50px;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	color: #fff;
-	background: #f0f1f1;
 }
-.mobileLeftPanel  > .menuShortcut  {
+.mobileLeftPanel  > .mobileLeftPanelContainer > .menuShortcut  {
 	padding-left: 50px;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	color: #fff;
-	background: #f0f1f1;
 }
 .mobileLeftPanel .userDetailsContainer{
 	padding-left: 40px;
@@ -4132,12 +4192,12 @@ html,body,.baseContainer
 .mobileLeftPanel .userDetailsContainer a{
 	color: #fff;
 }
-.mobileLeftPanel > li{
+.mobileLeftPanel .mobileLeftPanelContainer > li{
 	list-style: none;
 }
 .row > .col-md-2{
 	width: 16.66666667%;
-	float:left;   
+	float:left;
 }
 .row > .col-md-10{
 	width: 83.33333333%;

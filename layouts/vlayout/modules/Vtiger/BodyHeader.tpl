@@ -15,6 +15,32 @@
 				{include file='BodyHidden.tpl'|@vtemplate_path:$MODULE}
 			</div>
 			<div class="col-md-7 rightHeader">
+				<div class='actionMenu'>
+					<div class="dropdown quickAction historyBtn">
+						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
+							<img class='alignMiddle popoverTooltip' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" 
+								 class="dropdown-toggle" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
+						</a>
+					</div>
+					<div class="remindersNotice quickAction">
+						<a class="btn btn-default btn-sm" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
+							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+							<span class="badge hide">0</span>
+						</a>
+					</div>
+					<div class="headerLinksAJAXChat quickAction">
+						<a class="btn btn-default btn-sm ChatIcon" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
+							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+						</a>
+					</div>
+					{if !empty($announcement)}
+						<div class="quickAction">
+							<a class="btn btn-default btn-sm" href="#">
+								<img class='alignMiddle imgAnnouncement' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
+							</a>
+						</div>
+					{/if}
+				</div>
 				<div class="pull-right rightHeaderBtn">
 					<div class="dropdown quickAction historyBtn">
 						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
@@ -147,7 +173,21 @@
 				<div class="pull-right rightHeaderBtnMenu">
 					<div class="quickAction">
 						<a class="btn btn-default btn-sm" href="#">
-							 <span aria-hidden="true" class="glyphicon glyphicon-menu-hamburger"></span>
+							<span aria-hidden="true" class="glyphicon glyphicon-menu-hamburger"></span>
+						</a>
+					</div>
+				</div>
+				<div class="pull-right actionMenuBtn">
+					<div class="quickAction">
+						<a class="btn btn-default btn-sm" href="#">
+							<span aria-hidden="true" class="glyphicon glyphicon-tasks"></span>
+						</a>
+					</div>
+				</div>
+				<div class="pull-right searchMenuBtn">
+					<div class="quickAction">
+						<a class="btn btn-default btn-sm" href="#">
+							<span aria-hidden="true" class="glyphicon glyphicon-search"></span>
 						</a>
 					</div>
 				</div>

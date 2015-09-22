@@ -67,8 +67,7 @@
 			</div>
 		</div>
 	</div>
-
-	<li>
+	<div class="mobileLeftPanelContainer">
 		{assign var=PRIVILEGESMODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
 		{assign var=TABINDEX value=0}
 		{foreach key=KEY item=MENU from=$MENUS}
@@ -85,7 +84,6 @@
 			{/if}
 			{include file='mobilemenu/'|cat:$MENU.type|cat:'.tpl'|@vtemplate_path:$MODULE}
 		{/foreach}
-	</li>
-	   
+	</div>
 {/strip}
 

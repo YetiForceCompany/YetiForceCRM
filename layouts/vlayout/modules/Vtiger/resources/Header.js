@@ -487,6 +487,16 @@ jQuery.Class("Vtiger_Header_Js", {
 			quickCreateTabOnHide(jQuery(this).attr('data-target'));
 		});
 	},
+	searchMenu: function () {
+		$('.searchMenuBtn').click(function(){
+			$('.searchMenu').toggleClass('toogleSearchMenu');
+		});
+	},
+	toogleActionMenu: function () {
+		$('.actionMenuBtn').click(function (){
+			$('.actionMenu').toggleClass('actionMenuOn');
+		});
+	},
 	basicSearch: function () {
 		var thisInstance = this;
 		jQuery('#globalSearchValue').keypress(function (e) {
@@ -741,6 +751,8 @@ jQuery.Class("Vtiger_Header_Js", {
 		var thisInstance = this;
 		thisInstance.recentPageViews();
 		thisInstance.toogleMobileMenu();
+		thisInstance.searchMenu();
+		thisInstance.toogleActionMenu();
 		jQuery('#globalSearch').click(function () {
 			var advanceSearchInstance = new Vtiger_AdvanceSearch_Js();
 			advanceSearchInstance.initiateSearch().then(function () {
