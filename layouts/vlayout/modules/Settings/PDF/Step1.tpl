@@ -8,6 +8,7 @@
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" class="step" value="1" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
+			<input type="hidden" name="conditions" id="advanced_filter" value='' />
 
 			<div class="padding1per stepBorder">
 				<label>
@@ -143,6 +144,24 @@
 				</div>
 			</div>
 			<br>
+			<div class="filterBlocksAlignment">
+				<br>
+				<div>
+					<h4 class="filterHeaders">{vtranslate('LBL_BASIC_DETAILS',$MODULE)} :</h4>
+				</div>
+				<br>
+				<br>
+				<br>
+				<h4 class="filterHeaders">{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE)} :</h4>
+				<br>
+				<div class="filterConditionsDiv">
+					<div class="row">
+						<span class="col-md-12">
+							{include file='AdvanceFilter.tpl'|@vtemplate_path}
+						</span>
+					</div>
+				</div>
+			</div>
 			<div class="pull-right">
 				<button class="btn btn-success" type="submit" disabled="disabled"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 				<button class="btn btn-warning cancelLink" type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>

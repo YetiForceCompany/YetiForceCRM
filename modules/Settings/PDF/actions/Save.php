@@ -33,6 +33,8 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Basic_Action
 
 		$response = new Vtiger_Response();
 
+		$pdfModel->set('conditions', $request->get('conditions'));
+		$pdfModel->transformAdvanceFilterToWorkFlowFilter();
 		$pdfModel->save($step);
 
 		$response->setResult(['id' => $pdfModel->get('pdfid')]);

@@ -47,11 +47,12 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'header_content',
 		'body_content',
 		'footer_content',
+		'conditions',
 		'cole',
 		'colf',
 		'colg'
 	];
-	public static $step1Fields = ['status', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_creator', 'meta_keywords'];
+	public static $step1Fields = ['conditions','status', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_creator', 'meta_keywords'];
 	public static $step2Fields = ['page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'page_orientation', 'language', 'filename', 'visibility', 'default'];
 	public static $step3Fields = ['module_name', 'header_content'];
 	public static $step4Fields = ['module_name', 'body_content'];
@@ -293,7 +294,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		return $company;
 	}
 
-	public function getModule() {var_dump($this->get('module_name'));
+	public function getModule() {
 		return Vtiger_Module_Model::getCleanInstance($this->get('module_name'));
 	}
 }

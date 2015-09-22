@@ -30,12 +30,18 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	fieldModelInstance: false,
 	//Holds fields type and conditions for which it needs validation
 	validationSupportedFieldConditionMap: {
-		'email': ['e', 'n']
+		'email' : ['e','n'],
+		'date' : ['is'],
+		'datetime' : ['is']
 	},
 	//Hols field type for which there is validations always needed
 	allConditionValidationNeededFieldList: ['double', 'integer', 'currency'],
 	//used to eliminate mutiple times validation registrations
 	validationForControlsRegistered: false,
+
+	// comparators which do not have any field Specific UI.
+	comparatorsWithNoValueBoxMap : ['has changed','is empty','is not empty', 'is added'],
+
 	init: function (container) {
 		if (typeof container == 'undefined') {
 			container = jQuery('.filterContainer');
@@ -156,6 +162,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		conditionList.append(newRowElement);
 		//change in to chosen elements
 		app.changeSelectElementView(newRowElement);
+		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected','selected').trigger('chosen:updated').trigger('change');
 		return this;
 	},
 	/**
@@ -169,10 +176,10 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	getFieldSpecificType: function (fieldSelected) {
 		var fieldInfo = fieldSelected.data('fieldinfo');
 		var type = fieldInfo.type;
-		if (type == 'reference') {
-			return 'V';
-		}
-		return fieldSelected.data('fieldtype');
+//		if (type === 'reference') {
+//			return 'V';
+//		}
+		return type; //fieldSelected.data('fieldtype');
 	},
 	/**
 	 * Function to load condition list for the selected field
@@ -184,7 +191,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		var conditionSelectElement = row.find('select[name="comparator"]');
 		var conditionSelected = conditionSelectElement.val();
 		var fieldSelected = fieldSelect.find('option:selected');
-		var fieldSpecificType = this.getFieldSpecificType(fieldSelected)
+		var fieldSpecificType = this.getFieldSpecificType(fieldSelected);
 		var conditionList = this.getConditionListFromType(fieldSpecificType);
 		var fieldName = fieldSelected.data('field-name');
 		var fieldInfo = fieldSelected.data('fieldinfo');
@@ -220,26 +227,31 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	 */
 	getFieldSpecificUi: function (fieldSelectElement) {
 		var selectedOption = fieldSelectElement.find('option:selected');
+		var fieldInfo = selectedOption.data('fieldinfo');
 		var fieldModel = this.fieldModelInstance;
-		if (fieldModel.getType().toLowerCase() == "boolean") {
-			var conditionRow = fieldSelectElement.closest('.conditionRow');
-			var selectedValue = conditionRow.find('[data-value="value"]').val();
-			var html = '<select class="chzn-select" name="' + fieldModel.getName() + '">';
-			html += '<option value="0"';
-			if (selectedValue == '0') {
-				html += ' selected="selected" ';
-			}
-			html += '>' + app.vtranslate('JS_IS_DISABLED') + '</option>';
-
-			html += '<option value="1"';
-			if (selectedValue == '1') {
-				html += ' selected="selected" ';
-			}
-			html += '>' + app.vtranslate('JS_IS_ENABLED') + '</option>';
-			html += '</select>'
-			return jQuery(html);
+		if(jQuery.inArray(fieldInfo.comparatorElementVal,this.comparatorsWithNoValueBoxMap) != -1){
+			return jQuery('');
 		} else {
-			return  jQuery(fieldModel.getUiTypeSpecificHtml())
+			if (fieldModel.getType().toLowerCase() == "boolean") {
+				var conditionRow = fieldSelectElement.closest('.conditionRow');
+				var selectedValue = conditionRow.find('[data-value="value"]').val();
+				var html = '<select class="chzn-select" name="' + fieldModel.getName() + '">';
+				html += '<option value="0"';
+				if (selectedValue == '0') {
+					html += ' selected="selected" ';
+				}
+				html += '>' + app.vtranslate('JS_IS_DISABLED') + '</option>';
+
+				html += '<option value="1"';
+				if (selectedValue == '1') {
+					html += ' selected="selected" ';
+				}
+				html += '>' + app.vtranslate('JS_IS_ENABLED') + '</option>';
+				html += '</select>'
+				return jQuery(html);
+			} else {
+				return  jQuery(fieldModel.getUiTypeSpecificHtml())
+			}
 		}
 	},
 	/**
@@ -503,6 +515,16 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 					}
 				}
 
+				if(jQuery('[name="valuetype"]', rowElement).val() == 'false' || (jQuery('[name="valuetype"]', rowElement).length == 0)) {
+					rowValues['valuetype'] = 'rawtext';
+				}
+
+				if(index == '0') {
+					rowValues['groupid'] = '0';
+				} else {
+					rowValues['groupid'] = '1';
+				}
+
 				if (rowElement.is(":last-child")) {
 					rowValues['column_condition'] = '';
 				}
@@ -605,7 +627,7 @@ Vtiger_Field_Js('AdvanceFilter_Field_Js', {}, {
 
 Vtiger_Picklist_Field_Js('AdvanceFilter_Picklist_Field_Js', {}, {
 	getUi: function () {
-		var html = '<select class="select2 row" multiple name="' + this.getName() + '[]">';
+		var html = '<select class="chzn-select row" name="' + this.getName() + '[]">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = app.htmlDecode(this.getValue());
 		var selectedOptionsArray = selectedOption.split(',')

@@ -21,7 +21,11 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function get($key)
 	{
-		return parent::get($key);
+		if ($key === 'conditions' && !is_array(parent::get($key))) {
+			return json_decode(parent::get($key), true);
+		} else {
+			return parent::get($key);
+		}
 	}
 
 	public function getEditViewUrl()
@@ -146,10 +150,14 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					$params = [];
 					$fields = [];
 					foreach($stepFields as $field) {
-						$params[] = $this->get($field);
+						if ($field === 'conditions') {
+							$params[] = json_encode($this->get($field));
+						} else {
+							$params[] = $this->get($field);
+						}
 						$fields[] = "`$field` = ?";
 					}
-					
+
 					$params[] = $this->getId();
 					$query = 'UPDATE `a_yf_pdf` SET '.implode(',', $fields).' WHERE `pdfid` = ? LIMIT 1;';
 					$result = $db->pquery($query, $params);
@@ -163,5 +171,79 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		
 		return $db->delete('a_yf_pdf', '`pdfid` = ?', [$this->getId()]);
+	}
+	
+	
+	/**
+	 * Function returns valuetype of the field filter
+	 * @return <String>
+	 */
+	function getFieldFilterValueType($fieldname)
+	{
+		$conditions = $this->get('conditions');
+		if (!empty($conditions) && is_array($conditions)) {
+			foreach ($conditions as $filter) {
+				if ($fieldname == $filter['fieldname']) {
+					return $filter['valuetype'];
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Function transforms Advance filter to workflow conditions
+	 */
+	function transformAdvanceFilterToWorkFlowFilter()
+	{
+		$conditions = $this->get('conditions');
+		$wfCondition = array();
+
+		if (!empty($conditions)) {
+			foreach ($conditions as $index => $condition) {
+				$columns = $condition['columns'];
+				if ($index == '1' && empty($columns)) {
+					$wfCondition[] = array('fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
+						'joincondition' => '', 'groupid' => '0');
+				}
+				if (!empty($columns) && is_array($columns)) {
+					foreach ($columns as $column) {
+						$wfCondition[] = array('fieldname' => $column['columnname'], 'operation' => $column['comparator'],
+							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
+							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid']);
+					}
+				}
+			}
+		}
+		$this->set('conditions', $wfCondition);
+	}
+
+	
+
+	/**
+	 * Functions transforms workflow filter to advanced filter
+	 * @return <Array>
+	 */
+	function transformToAdvancedFilterCondition($conditions = false)
+	{
+		if (!$conditions) {
+			$conditions = $this->get('conditions');
+		}
+		$transformedConditions = array();
+
+		if (!empty($conditions)) {
+			foreach ($conditions as $index => $info) {
+				if (!($info['groupid'])) {
+					$firstGroup[] = array('columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']);
+				} else {
+					$secondGroup[] = array('columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']);
+				}
+			}
+		}
+		$transformedConditions[1] = array('columns' => $firstGroup);
+		$transformedConditions[2] = array('columns' => $secondGroup);
+		return $transformedConditions;
 	}
 }

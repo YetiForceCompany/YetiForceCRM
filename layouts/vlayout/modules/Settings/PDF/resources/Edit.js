@@ -149,7 +149,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 			var status = jQuery(this).is(':checked');
 			if (status) {
 				jQuery('.metatags', form).addClass('hide');
-			} else {				
+			} else {
 				jQuery('#set_subject', form).val(jQuery('#secondary_name', form).val());
 				jQuery('#set_title', form).val(jQuery('#primary_name', form).val());
 				jQuery('.metatags', form).removeClass('hide');
@@ -163,5 +163,8 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 		this.registerBackStepClickEvent();
 		this.registerCancelStepClickEvent(form);
 		this.registerMetatagsClickEvent(form);
+		
+		//advanceFilter = new Vtiger_AdvanceFilter_Js();
+		//advanceFilter.registerEvents();
 	}
 });

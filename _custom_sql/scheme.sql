@@ -34,5 +34,6 @@ CREATE TABLE `a_yf_pdf` (
   `filename` varchar(255) NOT NULL,
   `visibility` set('PLL_LISTVIEW','PLL_DETAILVIEW') NOT NULL,
   `default` tinyint(1) DEFAULT NULL,
+  `conditions` text NOT NULL,
   PRIMARY KEY (`pdfid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
