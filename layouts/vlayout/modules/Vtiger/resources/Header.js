@@ -156,6 +156,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		var announcementBtn = $('[id="announcementBtn"]');
 		var announcementTurnOffKey = 'announcement.turnoff';
 		announcementBtn.click(function (e, manual) {
+			thisInstance.hideActionMenu();
 			var displayStatus = jQuery('#announcement').css('display');
 
 			if (displayStatus == 'none') {
@@ -485,14 +486,37 @@ jQuery.Class("Vtiger_Header_Js", {
 		liElements.filter(':not(.active)').find('a').each(function (e) {
 			quickCreateTabOnHide(jQuery(this).attr('data-target'));
 		});
+	},	
+	hideMobileMenu: function (){
+		$('.mobileLeftPanel ').removeClass('mobileMenuOn');
+	},
+	toogleMobileMenu: function (){
+		var thisInstance = this;
+		$('.rightHeaderBtnMenu').click(function(){
+			thisInstance.hideActionMenu();
+			thisInstance.hideSearchMenu();
+			$('.mobileLeftPanel ').toggleClass('mobileMenuOn');
+		});
+	},
+	hideSearchMenu: function() {
+		$('.searchMenu').removeClass('toogleSearchMenu');
 	},
 	searchMenu: function () {
+		var thisInstance = this;
 		$('.searchMenuBtn').click(function(){
+			thisInstance.hideActionMenu();
+			thisInstance.hideMobileMenu();
 			$('.searchMenu').toggleClass('toogleSearchMenu');
 		});
 	},
+	hideActionMenu: function (){
+		$('.actionMenu').removeClass('actionMenuOn');
+	},
 	toogleActionMenu: function () {
+		var thisInstance = this;
 		$('.actionMenuBtn').click(function (){
+			thisInstance.hideSearchMenu();
+			thisInstance.hideMobileMenu();
 			$('.actionMenu').toggleClass('actionMenuOn');
 		});
 	},
@@ -617,11 +641,6 @@ jQuery.Class("Vtiger_Header_Js", {
 		//jQuery(".contentsDiv").css({'margin-bottom': navBottom + 'px', });
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 	},
-	toogleMobileMenu: function (){
-		$('.rightHeaderBtnMenu').click(function(){
-			$('.mobileLeftPanel ').toggleClass('mobileMenuOn');
-		});
-	},
 	recentPageViews: function () {
 		var thisInstance = this;
 		var maxValues = 20;
@@ -635,7 +654,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			BtnLink = item[1];
 			
 		}
-		var htmlContent = '<ul class="dropdown-menu pull-right" role="menu">';
+		var htmlContent = '<ul class="dropdown-menu pull-right history" role="menu">';
 		var date = new Date().getTime();
 		var howmanyDays = -1;
 		var writeSelector = true;
@@ -738,9 +757,11 @@ jQuery.Class("Vtiger_Header_Js", {
 		});
 	},
 	registerReminderNotice: function () {
+		var thisInstance = this;
 		$('#page').before('<div class="remindersNoticeContainer"></div>');
 		var block = $('.remindersNoticeContainer');
 		$('.remindersNotice').click(function () {
+			thisInstance.hideActionMenu();
 			block.toggleClass("toggled");
 		});
 		block.css('top', $('.commonActionsContainer').height());
@@ -753,6 +774,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		thisInstance.searchMenu();
 		thisInstance.toogleActionMenu();
 		jQuery('[id="globalSearch"]').click(function () {
+			thisInstance.hideSearchMenu();
 			var advanceSearchInstance = new Vtiger_AdvanceSearch_Js();
 			advanceSearchInstance.initiateSearch().then(function () {
 				advanceSearchInstance.selectBasicSearchValue();
@@ -766,6 +788,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		});
 		jQuery('#searchMobileIcon').on('click', function (e) {
 			var currentTarget = jQuery('#globalMobileSearchValue');
+			thisInstance.hideSearchMenu();
 			var pressEvent = jQuery.Event("keypress");
 			pressEvent.which = 13;
 			currentTarget.trigger(pressEvent);

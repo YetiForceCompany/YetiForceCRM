@@ -4029,19 +4029,19 @@ html,body,.baseContainer
 	.mobileLeftPanel{
 		display: none;
 	}
-	.row > .col-md-5{
+	.commonActionsContainer .row > .col-md-5{
 		width: 41.66666667%;
 		float:left;
 	}
-	.row > .col-md-7{
+	.commonActionsContainer .row > .col-md-7{
 		width: 58.33333333%;
 		float:right;
 	}
-	.row > .col-md-2{
+	.commonActionsContainer .row > .col-md-2{
 		width: 16.66666667%;
 		float:left;
 	}
-	.row > .col-md-10{
+	.commonActionsContainer .row > .col-md-10{
 		width: 83.33333333%;
 		float:left;
 	}
@@ -4059,19 +4059,19 @@ html,body,.baseContainer
 	.mobileLeftPanel{
 		display: block;
 	}
-	.row > .col-md-5{
+	.commonActionsContainer .row > .col-md-5{
 		width: calc(100% - 200px);
 		float:left;
 	}
-	.row > .col-md-7{
+	.commonActionsContainer .row > .col-md-7{
 		width:200px;
 		float:right;
 	}
-	.row > .col-md-2{
+	.commonActionsContainer .row > .col-md-2{
 		width:50px;
 		float:left;
 	}
-	.row > .col-md-10{
+	.commonActionsContainer .row > .col-md-10{
 		width: calc(100% - 50px);
 		float:left;
 	}
@@ -4124,7 +4124,7 @@ html,body,.baseContainer
 	border: 1px solid #4f4f4f;
 	border-radius: 5px;
 	padding: 5px;
-	z-index: 2001;
+	z-index: 20001;
 	display: none;
 	color: #000;
 }
@@ -4133,6 +4133,16 @@ html,body,.baseContainer
 }
 .actionMenu .row {
 	margin: 0;
+}
+.actionMenu img{
+	max-width: 12px;
+}
+.actionMenu .commonActionsButtonDropDown{
+	position: fixed;
+	top: 100px;
+	width: calc(100% - 50px);
+	left: 5px;
+	overflow: scroll;
 }
 .actionMenuOn{
 	display: block;
@@ -4230,4 +4240,8 @@ html,body,.baseContainer
 
 .mobileMenuOn{
 	left: 25%;
+}
+.history{
+	position: fixed;
+	top: 50px;	
 }
