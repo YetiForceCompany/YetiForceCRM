@@ -498,7 +498,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	basicSearch: function () {
 		var thisInstance = this;
-		jQuery('#globalSearchValue').keypress(function (e) {
+		jQuery('#globalSearchValue, #globalMobileSearchValue').keypress(function (e) {
 			var currentTarget = jQuery(e.currentTarget)
 			if (e.which == 13) {
 				thisInstance.labelSearch(currentTarget);
@@ -531,7 +531,7 @@ jQuery.Class("Vtiger_Header_Js", {
 							.appendTo(ul);
 				},
 			});
-			jQuery('#globalSearchValue').gsAutocomplete({
+			jQuery('#globalSearchValue, #globalMobileSearchValue').gsAutocomplete({
 				minLength: jQuery('#gsMinLength').val(),
 				source: function (request, response) {
 					var basicSearch = new Vtiger_BasicSearch_Js();
@@ -556,7 +556,7 @@ jQuery.Class("Vtiger_Header_Js", {
 					}
 				},
 				close: function (event, ui) {
-					jQuery('#globalSearchValue').val('');
+					//jQuery('#globalSearchValue, #globalMobileSearchValue').val('');
 				}
 			});
 		}
@@ -752,7 +752,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		thisInstance.toogleMobileMenu();
 		thisInstance.searchMenu();
 		thisInstance.toogleActionMenu();
-		jQuery('#globalSearch').click(function () {
+		jQuery('[id="globalSearch"]').click(function () {
 			var advanceSearchInstance = new Vtiger_AdvanceSearch_Js();
 			advanceSearchInstance.initiateSearch().then(function () {
 				advanceSearchInstance.selectBasicSearchValue();
@@ -760,6 +760,12 @@ jQuery.Class("Vtiger_Header_Js", {
 		});
 		jQuery('#searchIcon').on('click', function (e) {
 			var currentTarget = jQuery('#globalSearchValue');
+			var pressEvent = jQuery.Event("keypress");
+			pressEvent.which = 13;
+			currentTarget.trigger(pressEvent);
+		});
+		jQuery('#searchMobileIcon').on('click', function (e) {
+			var currentTarget = jQuery('#globalMobileSearchValue');
 			var pressEvent = jQuery.Event("keypress");
 			pressEvent.which = 13;
 			currentTarget.trigger(pressEvent);
