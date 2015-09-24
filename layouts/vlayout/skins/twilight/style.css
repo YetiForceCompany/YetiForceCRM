@@ -3468,7 +3468,7 @@ span[name=existingImages] img{
 	margin-left: 5px;
 }
 .dashboardContainer .dashboardHeading .dropdown-menu {
-	left: -82px;
+	left: -162px;
 }
 #VtEmailTaskContainer .addTime{
 	text-align: left;
@@ -4045,8 +4045,20 @@ html,body,.baseContainer
 		width: 83.33333333%;
 		float:left;
 	}
+	.mobileOff{
+		display: block !important;
+	}
+	.mobileOn{
+		display: none !important;
+	}
 }
 @media only screen and (max-width: 767px) {
+	.mobileOff{
+		display: none !important;
+	}
+	.mobileOn{
+		display: block !important;
+	}
 	.rightHeaderBtnMenu{
 		display: block;
 	}
@@ -4145,6 +4157,14 @@ html,body,.baseContainer
 	height: 100%;	
 	overflow: scroll;
 }
+.actionMenu .historyList{
+	position: fixed;
+	top: 50px;	
+	width: 100%;
+	left: 0;
+	height: 100%;
+	overflow: scroll;
+}
 .actionMenuOn{
 	display: block;
 }
@@ -4238,15 +4258,6 @@ html,body,.baseContainer
 .mobileLeftPanel .mobileLeftPanelContainer > li{
 	list-style: none;
 }
-
 .mobileMenuOn{
 	left: 25%;
-}
-.historyList{
-	position: fixed;
-	top: 50px;	
-	width: 100%;
-	left: 0;
-	height: 100%;
-	overflow: scroll;
 }
