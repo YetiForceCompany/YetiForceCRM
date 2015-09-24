@@ -654,7 +654,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			BtnLink = item[1];
 			
 		}
-		var htmlContent = '<ul class="dropdown-menu pull-right history" role="menu">';
+		var htmlContent = '<ul class="dropdown-menu pull-right historyList" role="menu">';
 		var date = new Date().getTime();
 		var howmanyDays = -1;
 		var writeSelector = true;

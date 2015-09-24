@@ -3836,7 +3836,7 @@ html,body,.baseContainer
 	min-height: 100%;
 	height: 100%;
 	margin-top: 0;
-	padding-top: 48px;
+	padding-top: 15px;
 
 }
 .bodyContents{
@@ -4029,19 +4029,19 @@ html,body,.baseContainer
 	.mobileLeftPanel{
 		display: none;
 	}
-	.commonActionsContainer .row > .col-md-5{
+	.commonActionsContainer .row .col-md-5{
 		width: 41.66666667%;
 		float:left;
 	}
-	.commonActionsContainer .row > .col-md-7{
+	.commonActionsContainer .row .col-md-7{
 		width: 58.33333333%;
 		float:right;
 	}
-	.commonActionsContainer .row > .col-md-2{
+	.userDetailsContainer .row .col-md-2{
 		width: 16.66666667%;
 		float:left;
 	}
-	.commonActionsContainer .row > .col-md-10{
+	.userDetailsContainer .row .col-md-10{
 		width: 83.33333333%;
 		float:left;
 	}
@@ -4059,19 +4059,19 @@ html,body,.baseContainer
 	.mobileLeftPanel{
 		display: block;
 	}
-	.commonActionsContainer .row > .col-md-5{
+	.commonActionsContainer .row .col-md-5{
 		width: calc(100% - 200px);
 		float:left;
 	}
-	.commonActionsContainer .row > .col-md-7{
+	.commonActionsContainer .row .col-md-7{
 		width:200px;
 		float:right;
 	}
-	.commonActionsContainer .row > .col-md-2{
+	.userDetailsContainer .row .col-md-2{
 		width:50px;
 		float:left;
 	}
-	.commonActionsContainer .row > .col-md-10{
+	.userDetailsContainer .row .col-md-10{
 		width: calc(100% - 50px);
 		float:left;
 	}
@@ -4139,9 +4139,10 @@ html,body,.baseContainer
 }
 .actionMenu .commonActionsButtonDropDown{
 	position: fixed;
-	top: 100px;
-	width: calc(100% - 50px);
+	top: 50px;
+	width: calc(100% - 10px);
 	left: 5px;
+	height: 100%;	
 	overflow: scroll;
 }
 .actionMenuOn{
@@ -4241,7 +4242,11 @@ html,body,.baseContainer
 .mobileMenuOn{
 	left: 25%;
 }
-.history{
+.historyList{
 	position: fixed;
 	top: 50px;	
+	width: 100%;
+	left: 0;
+	height: 100%;
+	overflow: scroll;
 }
