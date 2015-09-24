@@ -8,6 +8,7 @@
  */
 class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 {
+
 	public function process(Vtiger_Request $request)
 	{
 		$step = strtolower($request->getMode());
@@ -39,52 +40,16 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		if ($recordId) {
 			$pdfModel = Settings_PDF_Record_Model::getInstanceById($recordId);
 			$viewer->assign('RECORDID', $recordId);
-			//$viewer->assign('MODULE_MODEL', $pdfModel->getModule());
 			$viewer->assign('MODE', 'edit');
 			$selectedModuleName = $pdfModel->get('module_name');
 		} else {
 			$selectedModuleName = 'Potentials'; //todo
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
 			$fields = $pdfModel->getData();
-			foreach($fields as $name => $value) {
+			foreach ($fields as $name => $value) {
 				$pdfModel->set($name, $request->get($name));
 			}
 		}
-		
-		
-				//Added to support advance filters
-		$recordStructureInstance = Settings_PDF_RecordStructure_Model::getInstanceForPDFModule($pdfModel, Settings_PDF_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);
-
-		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
-		$recordStructure = $recordStructureInstance->getStructure();
-		if (in_array($selectedModuleName, getInventoryModules())) {
-			$itemsBlock = "LBL_ITEM_DETAILS";
-			unset($recordStructure[$itemsBlock]);
-		}
-		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
-
-		$viewer->assign('WORKFLOW_MODEL', $pdfModel);
-
-		$viewer->assign('MODULE_MODEL', $selectedModule);
-		$viewer->assign('SELECTED_MODULE_NAME', $selectedModuleName);
-
-		$dateFilters = Vtiger_Field_Model::getDateFilterTypes();
-		foreach ($dateFilters as $comparatorKey => $comparatorInfo) {
-			$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
-			$comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
-			$comparatorInfo['label'] = vtranslate($comparatorInfo['label'], $qualifiedModuleName);
-			$dateFilters[$comparatorKey] = $comparatorInfo;
-		}
-		$viewer->assign('DATE_FILTERS', $dateFilters);
-		$viewer->assign('ADVANCED_FILTER_OPTIONS', Settings_Workflows_Field_Model::getAdvancedFilterOptions());
-		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', Settings_Workflows_Field_Model::getAdvancedFilterOpsByFieldType());
-		$viewer->assign('COLUMNNAME_API', 'getWorkFlowFilterColumnName');
-
-		$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());
-		$viewer->assign('META_VARIABLES', Settings_Workflows_Module_Model::getMetaVariables());
-
-
-		$viewer->assign('ADVANCE_CRITERIA', $pdfModel->transformToAdvancedFilterCondition());
 
 		$allModules = Settings_PDF_Module_Model::getSupportedModules();
 		$viewer->assign('PDF_MODEL', $pdfModel);
@@ -103,6 +68,36 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				break;
 
 			case 'step6':
+				$recordStructureInstance = Settings_PDF_RecordStructure_Model::getInstanceForPDFModule($pdfModel, Settings_PDF_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);
+
+				$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
+				$recordStructure = $recordStructureInstance->getStructure();
+				if (in_array($selectedModuleName, getInventoryModules())) {
+					$itemsBlock = "LBL_ITEM_DETAILS";
+					unset($recordStructure[$itemsBlock]);
+				}
+				$viewer->assign('RECORD_STRUCTURE', $recordStructure);
+
+				$viewer->assign('MODULE_MODEL', Settings_PDF_RecordStructure_Model::getModule());
+				$viewer->assign('SELECTED_MODULE_NAME', $selectedModuleName);
+
+				$dateFilters = Vtiger_Field_Model::getDateFilterTypes();
+				foreach ($dateFilters as $comparatorKey => $comparatorInfo) {
+					$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
+					$comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
+					$comparatorInfo['label'] = vtranslate($comparatorInfo['label'], $qualifiedModuleName);
+					$dateFilters[$comparatorKey] = $comparatorInfo;
+				}
+				$viewer->assign('DATE_FILTERS', $dateFilters);
+				$viewer->assign('ADVANCED_FILTER_OPTIONS', Settings_Workflows_Field_Model::getAdvancedFilterOptions());
+				$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', Settings_Workflows_Field_Model::getAdvancedFilterOpsByFieldType());
+				$viewer->assign('COLUMNNAME_API', 'getWorkFlowFilterColumnName');
+
+				$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());
+				$viewer->assign('META_VARIABLES', Settings_Workflows_Module_Model::getMetaVariables());
+
+
+				$viewer->assign('ADVANCE_CRITERIA', $pdfModel->transformToAdvancedFilterCondition());
 				$viewer->view('Step6.tpl', $qualifiedModuleName);
 				break;
 
@@ -171,66 +166,6 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		}
 	}
 
-//	public function step7(Vtiger_Request $request)
-//	{
-//		$viewer = $this->getViewer($request);
-//		$moduleName = $request->getModule();
-//		$qualifiedModuleName = $request->getModule(false);
-//
-//		$recordId = $request->get('record');
-//		if ($recordId) {
-//			$pdfModel = Settings_PDF_Record_Model::getInstance($recordId);
-//			$viewer->assign('RECORDID', $recordId);
-//			$viewer->assign('MODULE_MODEL', $pdfModel->getModule());
-//			$viewer->assign('MODE', 'edit');
-//		} else {
-//			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
-//		}
-//
-//		$fields = $pdfModel->getData();
-//		foreach($fields as $name => $value) {
-//			$pdfModel->set($name, $request->get($name));
-//		}
-//
-//		$viewer->assign('PDF_MODEL', $pdfModel);
-//		$viewer->assign('ALL_MODULES', Settings_PDF_Module_Model::getSupportedModules());
-//
-//		$viewer->assign('MODULE', $moduleName);
-//		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-//		$viewer->view('Step7.tpl', $qualifiedModuleName);
-//	}
-//
-//	function Step8(Vtiger_Request $request)
-//	{
-//		$viewer = $this->getViewer($request);
-//		$moduleName = $request->getModule();
-//		$qualifiedModuleName = $request->getModule(false);
-//
-//		$recordId = $request->get('record');
-//		if ($recordId) {
-//			$pdfModel = Settings_PDF_Record_Model::getInstance($recordId);
-//			$selectedModule = $pdfModel->getModule();
-//			$selectedModuleName = $selectedModule->getName();
-//		} else {
-//			$selectedModuleName = $request->get('module_name');
-//			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
-//			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($selectedModuleName);
-//		}
-//
-//		$fields = $pdfModel->getData();
-//		foreach($fields as $name => $value) {
-//			$pdfModel->set($name, $request->get($name));
-//		}
-//
-//		$viewer->assign('SOURCE_MODULE', $selectedModuleName);
-//		$viewer->assign('RECORD', $recordId);
-//		$viewer->assign('MODULE', $moduleName);
-//		$viewer->assign('PDF_MODEL', $pdfModel);
-//		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-//
-//		$viewer->view('Step8.tpl', $qualifiedModuleName);
-//	}
-
 	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
@@ -248,7 +183,8 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 			"modules.Settings.$moduleName.resources.Edit6",
 			"modules.Settings.$moduleName.resources.Edit7",
 			"modules.Settings.$moduleName.resources.Edit8",
-			'layouts.vlayout.modules.Vtiger.resources.AdvanceFilter'
+			"modules.Settings.$moduleName.resources.AdvanceFilter",
+//			'layouts.vlayout.modules.Vtiger.resources.AdvanceFilter'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

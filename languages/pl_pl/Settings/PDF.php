@@ -66,6 +66,17 @@ $languageStrings = [
 	'LBL_FIELD' => 'Wartość',
 	'LBL_HEADER_DETAILS' => 'Edycja nagłówka',
 	'LBL_HEADER_CONTENT' => 'Nagłówek',
+	'LBL_SET_VALUE' => 'Ustaw wartość',
+	'LBL_RAW_TEXT' => 'Czysty tekst',
+	'LBL_USE_FIELD' => 'Użyj pola',
+	'LBL_USE_FUNCTION' => 'Użyj funkcji',
+	'LBL_EXAMPLE_EXPRESSION' => 'Wyrażenie',
+	'LBL_EXPRESSION' => 'Wyrażenie',
+	'LBL_ANNUAL_REVENUE' => 'annual_revenue',
+	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
+	'LBL_VTIGER' => 'Vtiger',
+	'LBL_EXAMPLE_FIELD_NAME' => 'Pole',
+	'LBL_NOTIFY_OWNER' => 'notify_owner',
 
 	// page format names
 	'4A0' => '4A0',

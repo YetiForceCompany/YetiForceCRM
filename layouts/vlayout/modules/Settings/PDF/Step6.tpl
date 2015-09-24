@@ -8,19 +8,15 @@
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" class="step" value="6" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
+			<input type="hidden" name="conditions" id="advanced_filter" value='' />
 
 			<div class="padding1per stepBorder">
-				<label>
-					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 6)}: {vtranslate('LBL_ENTER_BASIC_DETAILS',$QUALIFIED_MODULE)}</strong>
-				</label>
-				<br>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
-					</label>
-					<div class="col-sm-6 controls">
-						<input type="text" name="cole" class="form-control" value="{$PDF_MODEL->get('cole')}" id="cole" />
+				<div id="advanceFilterContainer" class="row conditionsContainer padding1per">
+					<h5 class="padding-bottom1per col-md-10"><strong>{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h5>
+					<div class="col-md-10" >
+						{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE}
 					</div>
+					{include file="FieldExpressions.tpl"|@vtemplate_path:$QUALIFIED_MODULE EXECUTION_CONDITION=$PDF_MODEL->get('execution_condition')}
 				</div>
 			</div>
 			<br>

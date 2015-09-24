@@ -126,7 +126,11 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				$params = [];
 				$fields = [];
 				foreach($stepFields as $field) {
-					$params[] = $this->get($field);
+					if ($field === 'conditions') {
+						$params[] = json_encode($this->get($field));
+					} else {
+						$params[] = $this->get($field);
+					}
 					$fields[] = "`$field` = ?";
 				}
 
@@ -150,11 +154,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					$params = [];
 					$fields = [];
 					foreach($stepFields as $field) {
-						if ($field === 'conditions') {
-							$params[] = json_encode($this->get($field));
-						} else {
-							$params[] = $this->get($field);
-						}
+						$params[] = $this->get($field);
 						$fields[] = "`$field` = ?";
 					}
 
