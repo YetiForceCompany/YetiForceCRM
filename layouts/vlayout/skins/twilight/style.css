@@ -3687,3 +3687,6 @@ span[name=existingImages] img{
 .editViewMiniSlider.ui-widget-content{
 	padding: 6px;
 }
+.bootstrap-switch-container{
+	white-space: nowrap;
+}
