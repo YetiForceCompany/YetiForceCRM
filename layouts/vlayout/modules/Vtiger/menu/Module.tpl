@@ -2,14 +2,19 @@
 {strip}
 	{if vtlib_isModuleActive($MENU['name']) AND ($PRIVILEGESMODEL->isAdminUser() || $PRIVILEGESMODEL->hasGlobalReadPermission() || $PRIVILEGESMODEL->hasModulePermission($MENU.tabid) ) }
 		{assign var=ICON value=Vtiger_Menu_Model::getMenuIcon($MENU, Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU['name']))}
-		<li class="menuModule .moduleColor_{$MENU['mod']} {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU.id}" 
+		<li class="menuModule moduleColor_{$MENU['mod']} {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU.id}" 
 			role="menuitem" tabindex="{$TABINDEX}" {if $HASCHILDS}aria-haspopup="{$HASCHILDS}"{/if}>
 			<a class="{if $MENU['name'] == $MODULE}active{/if} {if $ICON}hasIcon{/if} {if $MENU.hotkey}hotKey{/if}" {if $MENU.hotkey}data-hotkeys="{$MENU.hotkey}"{/if} href="{$MENU.dataurl}" 
 				{if $MENU.newwindow eq 1}target="_blank" {/if}>
 				{$ICON}
 				<span class="menuName">{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU['name'])}</span>
 			</a>
-			{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE}
+			{if $DEVICE == 'Desktop'}
+				{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
+			{/if}
 		</li>
+		{if $DEVICE == 'Mobile'}
+			{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
+		{/if}
 	{/if}
 {/strip}

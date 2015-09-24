@@ -15,7 +15,12 @@
 					{/if}
 				</span>
 			</a>
-			{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE}
+			{if $DEVICE == 'Desktop'}
+				{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
+			{/if}
 		</li>
+		{if $DEVICE == 'Mobile'}
+			{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
+		{/if}
 	{/if}
 {/strip}

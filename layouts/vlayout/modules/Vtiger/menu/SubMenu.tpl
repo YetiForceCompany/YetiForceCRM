@@ -2,7 +2,9 @@
 {strip}
 {assign var=MENUS value=$MENU.childs}
 {if $MENUS|@count neq 0}
-	<ul class="nav subMenu {if $MENU['active'] || $PARENT_MODULE == $MENU['id']}in{/if}" role="menu" aria-hidden="true">
+	{if $DEVICE == 'Desktop'}
+		<ul class="nav subMenu {if $MENU['active'] || $PARENT_MODULE == $MENU['id']}in{/if}" role="menu" aria-hidden="true">
+	{/if}
 		{assign var=TABINDEX value=$TABINDEX-1}
 		{foreach key=KEY item=MENU from=$MENUS}
 			{assign var=CHILDS value=$MENU['childs']}
@@ -16,7 +18,9 @@
 			{else}
 				{assign var=HASCHILDS value='false'}
 			{/if}
-			{include file='menu/'|cat:$MENU.type|cat:'.tpl'|@vtemplate_path:$MODULE}
+			{include file='menu/'|cat:$MENU.type|cat:'.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
 		{/foreach}
-	</ul>
+	{if $DEVICE == 'Desktop'}
+		</ul>
+	{/if}
 {/if}

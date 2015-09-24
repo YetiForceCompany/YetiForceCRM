@@ -4212,17 +4212,17 @@ html,body,.baseContainer
 .mobileLeftPanel .mobileLeftPanelContainer .menuLabel .hasIcon img{
 	padding-right: 10px;		
 }
-.mobileLeftPanel > .mobileLeftPanelContainer > .menuLabel a{   
+.mobileLeftPanel  .mobileLeftPanelContainer .menuLabel a{   
 	color: #eee;
 	font-size:14px;
 }
-.mobileLeftPanel  > .mobileLeftPanelContainer > .menuModule{
+.mobileLeftPanel  .mobileLeftPanelContainer .menuModule{
 	padding-left: 50px;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	color: #fff;
 }
-.mobileLeftPanel  > .mobileLeftPanelContainer > .menuShortcut  {
+.mobileLeftPanel .mobileLeftPanelContainer .menuShortcut  {
 	padding-left: 50px;
 	padding-top: 5px;
 	padding-bottom: 5px;
