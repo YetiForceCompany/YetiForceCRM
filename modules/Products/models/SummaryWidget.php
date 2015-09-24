@@ -62,14 +62,6 @@ class Products_SummaryWidget_Model{
 		$result = $db->pquery($sql, $params);
 		$returnData = [];
 		while ($row = $db->fetch_array($result)) {
-			$shownerid = [];
-			$row['smownerid'] = Vtiger_Functions::getOwnerRecordLabel($row['smownerid']);
-			if($row['shownerid'] != ''){
-				foreach (explode(",", $row['shownerid']) as $value) {
-					$shownerid[] = Vtiger_Functions::getOwnerRecordLabel($value);
-				}
-			}
-			$row['shownerid'] = $shownerid;
 			$returnData[] = $row;
 		}
 		$showMore = (int)$limit == count($returnData)? 1:0;
