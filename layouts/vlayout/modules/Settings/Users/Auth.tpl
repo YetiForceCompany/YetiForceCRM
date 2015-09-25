@@ -16,7 +16,7 @@
 		<div class="col-md-2"></div>
 	</div>
 	<hr>
-	<div class="row">
+	<div>
 		<div class="contents tabbable">
 			<ul class="nav nav-tabs layoutTabs massEditTabs">
 				<li class="active"><a data-toggle="tab" href="#ldap"><strong>{vtranslate('LBL_LDAP_AUTH', $QUALIFIED_MODULE)}</strong></a></li>
