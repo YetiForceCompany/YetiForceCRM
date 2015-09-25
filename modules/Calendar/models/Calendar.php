@@ -143,39 +143,40 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model{
 			$item['end'] = $endDateFormated.' '. $endTimeFormated;
 			$item['allDay'] = $record['allday']==1?true:false;
 			$item['className'] = ' userCol_'.$record['smownerid'].' calCol_'.$activitytype;
-				if($this->has('widget') && $this->get('widget') == TRUE){
-					$firstDate = strtotime($startDateFormated);
-					$endDate = strtotime($endDateFormated);
-					$diffDate = intval(($endDate - $firstDate)/(60*60*24));
-					for($q=0;$q<=$diffDate;$q++){
-						if($q == 0){
-						   $date = $startDateFormated;
-						}else{
-							$date = strtotime(date('Y-m-d', strtotime($date)) . ' +1 day');
-							$date = date('Y-m-d', $date);
-						}
-						if($activitytype == 'Task'){
-							$widgetElements[$date]['start'] = $date;
-							$widgetElements[$date]['date'] = date('Y-m-d', $firstDate);
-							$widgetElements[$date]['event']['Task']['ids'][] = $crmid;
-							$widgetElements[$date]['event']['Task']['className'] = ' col-md-5 fc-draggable calCol_'.$activitytype; 
-							$widgetElements[$date]['type'] = 'widget';
-						}else{
-							$widgetElements[$date]['start'] = $date;
-							$widgetElements[$date]['date'] = date('Y-m-d', $firstDate);
-							$widgetElements[$date]['event']['Meeting']['ids'][] = $crmid;
-							$widgetElements[$date]['event']['Meeting']['className'] = ' col-md-5 fc-draggable calCol_'.$activitytype;
-							$widgetElements[$date]['type'] = 'widget';
-						} 
-					}
-					$result = array_values($widgetElements);
-				}else{
-				   $result[] = $item; 
-				}
-			
+			if($this->has('widget') && $this->get('widget') == true){
+				$widgetElements = $this->getWidgetElements($widgetElements,$startDateFormated,$endDateFormated,$activitytype);
+				$result = array_values($widgetElements);
+			}else{
+			   $result[] = $item; 
+			}			
 		}
 		return $result;
 	}
+	
+	/**
+	 * Function defining the values of displayed elements for the calendar widget.
+	 * @param $widgetElements,$startDateFormated,$endDateFormated,$activitytype
+	 */
+	public function getWidgetElements($widgetElements = [],$startDateFormated,$endDateFormated,$activitytype) {
+        $firstDate = strtotime($startDateFormated);
+		$endDate = strtotime($endDateFormated);
+		$diffDate = intval(($endDate - $firstDate)/(60*60*24));
+		for($q=0;$q<=$diffDate;$q++){
+			if($q == 0){
+			   $date = $startDateFormated;
+			}else{
+				$date = strtotime(date('Y-m-d', strtotime($date)) . ' +1 day');
+				$date = date('Y-m-d', $date);
+			}
+			$widgetElements[$date]['start'] = $date;
+			$widgetElements[$date]['date'] = date('Y-m-d', $firstDate);
+			$widgetElements[$date]['event'][$activitytype]['ids'][] = $q;
+			$widgetElements[$date]['event'][$activitytype]['className'] = '  fc-draggable calCol_'.$activitytype; 
+			$widgetElements[$date]['type'] = 'widget';
+		}
+		return $widgetElements;
+	}
+	
 	/**
 	 * Static Function to get the instance of Vtiger Module Model for the given id or name
 	 * @param mixed id or name of the module
