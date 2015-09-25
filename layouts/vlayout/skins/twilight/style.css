@@ -4261,3 +4261,84 @@ html,body,.baseContainer
 .mobileMenuOn{
 	left: 25%;
 }
+@media only screen and (max-width: 960px) {
+	.gridster > * {
+		padding: 0;
+		padding-right: 10px;
+		width: 100% !important;
+		position: relative !important;
+		float: left;
+	}
+	.gridster .gs-w {
+		padding-bottom: 10px;
+		list-style: none;
+		position: relative !important;
+		float:left;
+	}
+	.gridster .gs-w[data-sizex="1"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="1"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="2"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="2"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="3"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="3"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="4"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="4"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="5"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="5"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="6"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="6"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="7"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="7"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="8"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="8"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="9"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="9"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="10"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="10"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="11"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="11"] {
+		left: 0%!important;
+	}
+}
