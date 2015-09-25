@@ -5054,7 +5054,7 @@ DayGrid.mixin({
 			addHtml = '<div class="cell-calendar">';
 			for(var i in event.event){
 				addHtml +='<a class="" href="javascript:;"' +
-					' data-date="' + event.date + '"' + ' data-type="' + i + '">' + 
+					' data-date="' + event.date + '"' + ' data-type="' + i + '" title="' + event.event[i].label + '">' + 
 					'<span class="' + event.event[i].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge">'+event.event[i].ids.length+'</span>' +
 	'</a>\n';
 			}   addHtml += '</div>';

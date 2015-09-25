@@ -163,6 +163,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 	 */
 	public function getWidgetElements($widgetElements = [], $startDateFormated, $endDateFormated, $activitytype)
 	{
+		$module = 'Calendar';
 		$firstDate = strtotime($startDateFormated);
 		$endDate = strtotime($endDateFormated);
 		$diffDate = intval(($endDate - $firstDate) / (60 * 60 * 24));
@@ -177,6 +178,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$widgetElements[$date]['date'] = date('Y-m-d', $firstDate);
 			$widgetElements[$date]['event'][$activitytype]['ids'][] = $q;
 			$widgetElements[$date]['event'][$activitytype]['className'] = '  fc-draggable calCol_' . $activitytype;
+			$widgetElements[$date]['event'][$activitytype]['label'] = vtranslate($activitytype, $module);
 			$widgetElements[$date]['type'] = 'widget';
 		}
 		return $widgetElements;
