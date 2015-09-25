@@ -171,4 +171,6 @@
 				{include file='Announcement.tpl'|@vtemplate_path:$MODULE}
 			{/if}
 		</div>
+	</div>
+	<div class="mainBody">
 	{/strip}

@@ -3718,11 +3718,12 @@ span[name=existingImages] img{
 	-webkit-transition: left ease-in-out 0.3s;
 	transition: left ease-in-out 0.3s;
 	background: #ffffff;
-	min-height: 100vh;
+	min-height: 100%;
 }
 .baseContainer .basePanel:after {
 	content: "";
 	display: block;	
+	position: fixed;
 	top: 0;
 	z-index: -1;
 	width: 100%;
@@ -4339,4 +4340,7 @@ html,body,.baseContainer
 	.gridster .gs-w[data-col="11"] {
 		left: 0%!important;
 	}
+}
+.mainBody{
+	padding-top:50px;
 }
