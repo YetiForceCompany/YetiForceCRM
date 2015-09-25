@@ -4266,13 +4266,11 @@ html,body,.baseContainer
 		padding: 0;
 		padding-right: 10px;
 		width: 100% !important;
-		position: relative !important;
-		float: left;
 	}
 	.gridster .gs-w {
 		padding-bottom: 10px;
 		list-style: none;
-		position: relative !important;
+		position: static !important;
 		float:left;
 	}
 	.gridster .gs-w[data-sizex="1"] {
