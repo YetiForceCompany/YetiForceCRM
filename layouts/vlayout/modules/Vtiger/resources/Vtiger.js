@@ -344,10 +344,20 @@ var Vtiger_Index_Js = {
 		}
 
 		function get_popover_placement(el) {
-		  var width = window.innerWidth;
-		  var left_pos = jQuery(el).offset().left;
-		  if (width - left_pos > 400) return 'right';
-		  return 'left';
+			var width = window.innerWidth;
+			var left_pos = jQuery(el).offset().left;
+			if (width - left_pos < 400 || checkLastElement(el)) return 'left';
+			return 'right';
+		}
+		
+		//The function checks if the selected element is the last element of the table in list view.
+		function checkLastElement(el) {
+			var parent = el.closest('tr');
+			var lastElementTd = parent.find('td.listViewEntryValue:last a');
+			if(el.attr('href') == lastElementTd.attr('href')){
+				return true;
+			}
+			return false;
 		}
 
 		function showTooltip(el, data) {
