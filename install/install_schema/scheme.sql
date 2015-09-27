@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.6.17 : Database - yetiforce
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.6.17 : Database - yetiforcecrmsecond
 *********************************************************************
 */
 
@@ -749,6 +749,7 @@ CREATE TABLE `vtiger_activity` (
   `state` varchar(255) DEFAULT NULL,
   `link` int(19) DEFAULT NULL,
   `process` int(19) DEFAULT NULL,
+  `followup` int(19) DEFAULT NULL,
   PRIMARY KEY (`activityid`),
   KEY `activity_activityid_subject_idx` (`activityid`,`subject`),
   KEY `activity_activitytype_date_start_idx` (`activitytype`,`date_start`),
@@ -760,6 +761,7 @@ CREATE TABLE `vtiger_activity` (
   KEY `activitytype_2` (`activitytype`,`date_start`,`due_date`,`time_start`,`time_end`,`deleted`,`smownerid`),
   KEY `link` (`link`),
   KEY `process` (`process`),
+  KEY `followup` (`followup`),
   CONSTRAINT `fk_1_vtiger_activity` FOREIGN KEY (`activityid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -796,6 +798,7 @@ CREATE TABLE `vtiger_activity_update_dates` (
   `task_id` int(19) NOT NULL,
   PRIMARY KEY (`activityid`),
   KEY `parent` (`parent`),
+  KEY `vtiger_activity_update_dates_ibfk_1` (`task_id`),
   CONSTRAINT `vtiger_activity_update_dates_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `com_vtiger_workflowtasks` (`task_id`) ON DELETE CASCADE,
   CONSTRAINT `vtiger_activity_update_dates_ibfk_2` FOREIGN KEY (`parent`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
   CONSTRAINT `vtiger_activity_update_dates_ibfk_3` FOREIGN KEY (`activityid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
@@ -2601,7 +2604,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1761 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1762 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
