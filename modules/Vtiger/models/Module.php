@@ -851,14 +851,22 @@ class Vtiger_Module_Model extends Vtiger_Module
 	 */
 	public static function getSearchableModules()
 	{
+		$db = PearDatabase::getInstance();
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
 		$entityModules = self::getEntityModules();
-
 		$searchableModules = array();
+		$sql = 'SELECT tabid FROM vtiger_entityname WHERE turn_off = 0';
+		$result = $db->query($sql);
+		$noOfModules = $db->num_rows($result);
+		$turnOffModules = [];
+		for ($i = 0; $i < $noOfModules; ++$i) {
+			$row = $db->query_result_rowdata($result, $i);
+			$turnOffModules[$row['tabid']] = $row['tabid'];
+		}
+		
 		foreach ($entityModules as $tabid => $moduleModel) {
 			$moduleName = $moduleModel->getName();
-			if ($moduleName == 'Users' || $moduleName == 'Emails' || $moduleName == 'Events')
+			if ($moduleName == 'Users' || $moduleName == 'Emails' || $moduleName == 'Events' || in_array($tabid, $turnOffModules))
 				continue;
 			if ($userPrivModel->hasModuleActionPermission($moduleModel->getId(), 'DetailView')) {
 				$searchableModules[$moduleName] = $moduleModel;
