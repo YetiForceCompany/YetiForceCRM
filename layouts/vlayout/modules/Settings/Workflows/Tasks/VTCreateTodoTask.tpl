@@ -134,13 +134,13 @@
 		<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_SEND_NOTIFICATION',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-6">
-				<input  type="checkbox" name="sendNotification" value="true" {if $TASK_OBJECT->sendNotification}checked{/if} />
+				<input type="checkbox" name="sendNotification" value="true" {if $TASK_OBJECT->sendNotification}checked{/if} />
 			</div>
 		</div>
-		<div class="row">
+		<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_DO_NOT_DUPLICATE_RECORDS',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-6">
-				<input  type="checkbox" name="doNotDuplicate" value="true" {if $TASK_OBJECT->doNotDuplicate}checked{/if} />
+				<input type="checkbox" name="doNotDuplicate" value="true" {if $TASK_OBJECT->doNotDuplicate}checked{/if} />
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
@@ -153,6 +153,12 @@
 					{/foreach}
 				</select>
 			</span>
+		</div>
+		<div class="row padding-bottom1per">
+			<span class="col-md-2">{vtranslate('LBL_UPDATE_DATES_BASE_DATE_CHANGES',$QUALIFIED_MODULE)}</span>
+			<div class="col-md-6">
+				<input type="checkbox" name="updateDates" value="true" {if $TASK_OBJECT->updateDates}checked{/if} />
+			</div>
 		</div>
 	</div>
 {/strip}

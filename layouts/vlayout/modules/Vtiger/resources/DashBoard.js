@@ -72,6 +72,9 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 				}
 			}
 		}).data('gridster');
+		if(thisInstance.getContainer().width()<960){
+			Vtiger_DashBoard_Js.gridster.disable();
+		}
 	},
 	savePositions: function (widgets) {
 		var widgetRowColPositions = {}

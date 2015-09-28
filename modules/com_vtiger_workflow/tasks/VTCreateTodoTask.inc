@@ -29,7 +29,7 @@ class VTCreateTodoTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return ['todo', 'description', 'time', 'days_start', 'days_end', 'status', 'priority', 'days', 'direction_start', 'datefield_start', 'direction_end', 'datefield_end', 'sendNotification', 'assigned_user_id', 'days', 'doNotDuplicate', 'duplicateStatus'];
+		return ['todo', 'description', 'time', 'days_start', 'days_end', 'status', 'priority', 'days', 'direction_start', 'datefield_start', 'direction_end', 'datefield_end', 'sendNotification', 'assigned_user_id', 'days', 'doNotDuplicate', 'duplicateStatus', 'updateDates'];
 	}
 
 	function getAdmin()
@@ -176,6 +176,14 @@ class VTCreateTodoTask extends VTTask
 		$entityIdDetails = vtws_getIdComponents($id);
 
 		relateEntities(CRMEntity::getInstance($moduleName), $moduleName, $entityIdDetails[1], 'Calendar', $todoIdDetails[1]);
+
+		if ($this->updateDates == 'true') {
+			$adb->insert('vtiger_activity_update_dates', [
+				'activityid' => $todoIdDetails[1],
+				'parent' => $entityIdDetails[1],
+				'task_id' => $this->id,
+			]);
+		}
 
 		$current_user = vglobal('current_user');
 		$current_user = $this->originalUser;

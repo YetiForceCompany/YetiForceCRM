@@ -138,7 +138,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	setAnnouncement: function () {
 		var announcementoff = app.cacheGet('announcement.turnoff', false);
-		var announcementBtn = jQuery('#announcementBtn');
+		var announcementBtn = jQuery('[id="announcementBtn"]');
 		var thisInstance = this;
 		if (announcementoff === true) {
 			jQuery('#announcement').hide();
@@ -153,10 +153,10 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	registerAnnouncement: function () {
 		var thisInstance = this;
-		var announcementBtn = jQuery('#announcementBtn');
+		var announcementBtn = $('[id="announcementBtn"]');
 		var announcementTurnOffKey = 'announcement.turnoff';
-
 		announcementBtn.click(function (e, manual) {
+			thisInstance.hideActionMenu();
 			var displayStatus = jQuery('#announcement').css('display');
 
 			if (displayStatus == 'none') {
@@ -486,10 +486,43 @@ jQuery.Class("Vtiger_Header_Js", {
 		liElements.filter(':not(.active)').find('a').each(function (e) {
 			quickCreateTabOnHide(jQuery(this).attr('data-target'));
 		});
+	},	
+	hideMobileMenu: function (){
+		$('.mobileLeftPanel ').removeClass('mobileMenuOn');
+	},
+	toogleMobileMenu: function (){
+		var thisInstance = this;
+		$('.rightHeaderBtnMenu').click(function(){
+			thisInstance.hideActionMenu();
+			thisInstance.hideSearchMenu();
+			$('.mobileLeftPanel ').toggleClass('mobileMenuOn');
+		});
+	},
+	hideSearchMenu: function() {
+		$('.searchMenu').removeClass('toogleSearchMenu');
+	},
+	searchMenu: function () {
+		var thisInstance = this;
+		$('.searchMenuBtn').click(function(){
+			thisInstance.hideActionMenu();
+			thisInstance.hideMobileMenu();
+			$('.searchMenu').toggleClass('toogleSearchMenu');
+		});
+	},
+	hideActionMenu: function (){
+		$('.actionMenu').removeClass('actionMenuOn');
+	},
+	toogleActionMenu: function () {
+		var thisInstance = this;
+		$('.actionMenuBtn').click(function (){
+			thisInstance.hideSearchMenu();
+			thisInstance.hideMobileMenu();
+			$('.actionMenu').toggleClass('actionMenuOn');
+		});
 	},
 	basicSearch: function () {
 		var thisInstance = this;
-		jQuery('#globalSearchValue').keypress(function (e) {
+		jQuery('#globalSearchValue, #globalMobileSearchValue').keypress(function (e) {
 			var currentTarget = jQuery(e.currentTarget)
 			if (e.which == 13) {
 				thisInstance.labelSearch(currentTarget);
@@ -522,7 +555,7 @@ jQuery.Class("Vtiger_Header_Js", {
 							.appendTo(ul);
 				},
 			});
-			jQuery('#globalSearchValue').gsAutocomplete({
+			jQuery('#globalSearchValue, #globalMobileSearchValue').gsAutocomplete({
 				minLength: jQuery('#gsMinLength').val(),
 				source: function (request, response) {
 					var basicSearch = new Vtiger_BasicSearch_Js();
@@ -547,7 +580,7 @@ jQuery.Class("Vtiger_Header_Js", {
 					}
 				},
 				close: function (event, ui) {
-					jQuery('#globalSearchValue').val('');
+					//jQuery('#globalSearchValue, #globalMobileSearchValue').val('');
 				}
 			});
 		}
@@ -608,11 +641,6 @@ jQuery.Class("Vtiger_Header_Js", {
 		//jQuery(".contentsDiv").css({'margin-bottom': navBottom + 'px', });
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 	},
-	toogleMobileMenu: function (){
-		$('.rightHeaderBtnMenu').click(function(){
-			$('.mobileLeftPanel ').toggleClass('mobileMenuOn');
-		});
-	},
 	recentPageViews: function () {
 		var thisInstance = this;
 		var maxValues = 20;
@@ -626,7 +654,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			BtnLink = item[1];
 			
 		}
-		var htmlContent = '<ul class="dropdown-menu pull-right" role="menu">';
+		var htmlContent = '<ul class="dropdown-menu pull-right historyList" role="menu">';
 		var date = new Date().getTime();
 		var howmanyDays = -1;
 		var writeSelector = true;
@@ -729,9 +757,11 @@ jQuery.Class("Vtiger_Header_Js", {
 		});
 	},
 	registerReminderNotice: function () {
+		var thisInstance = this;
 		$('#page').before('<div class="remindersNoticeContainer"></div>');
 		var block = $('.remindersNoticeContainer');
 		$('.remindersNotice').click(function () {
+			thisInstance.hideActionMenu();
 			block.toggleClass("toggled");
 		});
 		block.css('top', $('.commonActionsContainer').height());
@@ -741,7 +771,10 @@ jQuery.Class("Vtiger_Header_Js", {
 		var thisInstance = this;
 		thisInstance.recentPageViews();
 		thisInstance.toogleMobileMenu();
-		jQuery('#globalSearch').click(function () {
+		thisInstance.searchMenu();
+		thisInstance.toogleActionMenu();
+		jQuery('[id="globalSearch"]').click(function () {
+			thisInstance.hideSearchMenu();
 			var advanceSearchInstance = new Vtiger_AdvanceSearch_Js();
 			advanceSearchInstance.initiateSearch().then(function () {
 				advanceSearchInstance.selectBasicSearchValue();
@@ -749,6 +782,13 @@ jQuery.Class("Vtiger_Header_Js", {
 		});
 		jQuery('#searchIcon').on('click', function (e) {
 			var currentTarget = jQuery('#globalSearchValue');
+			var pressEvent = jQuery.Event("keypress");
+			pressEvent.which = 13;
+			currentTarget.trigger(pressEvent);
+		});
+		jQuery('#searchMobileIcon').on('click', function (e) {
+			var currentTarget = jQuery('#globalMobileSearchValue');
+			thisInstance.hideSearchMenu();
 			var pressEvent = jQuery.Event("keypress");
 			pressEvent.which = 13;
 			currentTarget.trigger(pressEvent);

@@ -7,6 +7,11 @@
 			{$ICON}
 			<span class="menuName">{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}</span>
 		</a>
-		{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE}
+		{if $DEVICE == 'Desktop'}
+			{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
+		{/if}
 	</li>
+	{if $DEVICE == 'Mobile'}
+		{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
+	{/if}
 {/strip}

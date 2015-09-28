@@ -127,7 +127,8 @@ hr {
 }
 .announcement {
 	// display: none;
-	background: #fafad2;
+	background: #444853;
+	border-top: 1px solid #cccccc;
 	// padding: 2px 0;
 	// border-bottom: 1px solid #cccccc;
 	// max-height: 24px;
@@ -659,7 +660,7 @@ hr {
 .gridster ul li.dashboardWidget .filterContainer .col-md-5 {
 	margin-top: 3px;
 }
-.gridster ul li.dashboardWidget .dashboardWidgetContent {
+.gridster ul li.dashboardWidget .dashboardWidgetContent:not(.dashboardWidgetCalendar) {
 	padding: 10px 0;
 	line-height: 20px;
 }
@@ -2006,6 +2007,7 @@ th.htColHeader,
 }
 .popover {
 	z-index: 1000023 !important;
+	min-width: 200px;
 }
 .popover-content .fieldLabel {
 	width: 35%;
@@ -3466,7 +3468,7 @@ span[name=existingImages] img{
 	margin-left: 5px;
 }
 .dashboardContainer .dashboardHeading .dropdown-menu {
-	left: -82px;
+	left: -162px;
 }
 #VtEmailTaskContainer .addTime{
 	text-align: left;
@@ -3510,6 +3512,13 @@ span[name=existingImages] img{
 	margin-right: -10px;
 	margin-left: -10px;
 	padding: 4px 0;
+}
+.container-fluid > .row:first-child{
+	height: 50px;
+}
+.container-fluid > .row{
+	margin-left: 0px;
+	margin-right: 0px;
 }
 .mailsList .container-fluid > .row:last-child{
 	border-bottom: 0;
@@ -3709,11 +3718,12 @@ span[name=existingImages] img{
 	-webkit-transition: left ease-in-out 0.3s;
 	transition: left ease-in-out 0.3s;
 	background: #ffffff;
-	min-height: 100vh;
+	min-height: 100%;
 }
 .baseContainer .basePanel:after {
 	content: "";
 	display: block;	
+	position: fixed;
 	top: 0;
 	z-index: -1;
 	width: 100%;
@@ -3827,7 +3837,7 @@ html,body,.baseContainer
 	min-height: 100%;
 	height: 100%;
 	margin-top: 0;
-	padding-top: 48px;
+	padding-top: 15px;
 
 }
 .bodyContents{
@@ -4008,9 +4018,6 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (min-width: 767px) {
-	.rightHeaderBtn{
-		display: block;
-	}
 	.rightHeaderBtnMenu{
 		display: none;
 	}
@@ -4023,18 +4030,38 @@ html,body,.baseContainer
 	.mobileLeftPanel{
 		display: none;
 	}
-	.row > .col-md-5{
+	.commonActionsContainer .row .col-md-5{
 		width: 41.66666667%;
 		float:left;
 	}
-	.row > .col-md-7{
+	.commonActionsContainer .row .col-md-7{
 		width: 58.33333333%;
 		float:right;
 	}
+	.userDetailsContainer .row .col-md-2{
+		width: 16.66666667%;
+		float:left;
+	}
+	.userDetailsContainer .row .col-md-10{
+		width: 83.33333333%;
+		float:left;
+	}
+	.mobileOff{
+		display: block !important;
+	}
+	.mobileOn{
+		display: none !important;
+	}
 }
 @media only screen and (max-width: 767px) {
-	.rightHeaderBtn{
-		display: none;
+	.baseContainer:not(.leftPanelOpen) {
+		margin-left: 0px;
+	}
+	.mobileOff{
+		display: none !important;
+	}
+	.mobileOn{
+		display: block !important;
 	}
 	.rightHeaderBtnMenu{
 		display: block;
@@ -4048,13 +4075,21 @@ html,body,.baseContainer
 	.mobileLeftPanel{
 		display: block;
 	}
-	.row > .col-md-5{
-		width: calc(100% - 50px);
+	.commonActionsContainer .row .col-md-5{
+		width: calc(100% - 200px);
 		float:left;
 	}
-	.row > .col-md-7{
-		width:50px;
+	.commonActionsContainer .row .col-md-7{
+		width:200px;
 		float:right;
+	}
+	.userDetailsContainer .row .col-md-2{
+		width:50px;
+		float:left;
+	}
+	.userDetailsContainer .row .col-md-10{
+		width: calc(100% - 50px);
+		float:left;
 	}
 }
 @media only screen and (min-width: 1240px){
@@ -4062,6 +4097,9 @@ html,body,.baseContainer
 		display: block;
 	}
 	.searchAction{
+		display: none;
+	}
+	.searchMenuBtn{
 		display: none;
 	}
 }
@@ -4073,8 +4111,88 @@ html,body,.baseContainer
 		display: block;
 		padding-left: 51px;
 		padding-right: 10px;
-	
 	}
+	.searchMenuBtn{
+		display: block;
+	}
+}
+@media only screen and (max-width: 960px){
+	.rightHeaderBtn{
+		display: none;
+	}
+	.actionMenuBtn{
+		display: block;
+	}
+}
+@media only screen and (min-width: 960px){
+	.rightHeaderBtn{
+		display: block;
+	}
+	.actionMenuBtn{
+		display: none;
+	}
+}
+.actionMenu{
+	position: fixed;
+	right: 2px;
+	top: 52px;
+	background: #fff;
+	border: 1px solid #afafaf;
+	border-radius: 5px;
+	padding: 5px;
+	z-index: 20001;
+	display: none;
+	color: #000;
+}
+.actionMenu a{
+	margin-left: 15px;
+}
+.actionMenu .row {
+	margin: 0;
+}
+.actionMenu img{
+	max-width: 12px;
+}
+.actionMenu .commonActionsButtonDropDown{
+	position: fixed;
+	top: 50px;
+	width: calc(100% - 10px);
+	left: 5px;
+	height: 100%;	
+	overflow: scroll;
+}
+.actionMenu .historyList{
+	position: fixed;
+	top: 50px;	
+	width: 100%;
+	left: 0;
+	height: 100%;
+	overflow: scroll;
+}
+.actionMenuOn{
+	display: block;
+}
+.searchMenu{
+	position: fixed;
+	left: 100%;
+	top: 50px;	
+	width: 250px;
+	color: #000;
+	z-index: 1050;
+	background: #fff;
+	z-index: 2000;
+	padding: 10px;
+	-webkit-transition: left ease-in-out 0.35s;
+	transition: left ease-in-out 0.35s;
+	border: 1px solid #afafaf;
+	border-radius: 3px;
+}
+.toogleSearchMenu{
+	left: calc(100% - 250px);
+}
+.mobileLeftPanelContainer{
+	padding-left: 20px;
+	padding-right: 20px;
 }
 .mobileLeftPanel{
 	position: fixed;
@@ -4084,7 +4202,7 @@ html,body,.baseContainer
 	width: 75%;
 	color: #fff;
 	z-index: 1050;
-	background: #999;
+	background: #3f3f3f;
 	overflow: scroll;
 	-webkit-transition: left ease-in-out 0.35s;
 	transition: left ease-in-out 0.35s;
@@ -4092,60 +4210,155 @@ html,body,.baseContainer
 .mobileLeftPanel::-webkit-scrollbar { 
 	display: none; 
 }
-.mobileLeftPanel > .menuLabel{
-	background: #363636;
+.mobileLeftPanel .mobileLeftPanelContainer a{
+	color: #ddd
+}
+.mobileLeftPanel .mobileLeftPanelContainer li .hasIcon {
+	padding: 0px
+}
+.mobileLeftPanel .mobileLeftPanelContainer li a {
 	padding-left: 25px;
-	padding-top: 5px;
+}
+.mobileLeftPanel .mobileLeftPanelContainer li a span{
+	padding-left: 10px;
+}
+.mobileLeftPanel .mobileLeftPanelContainer .menuLabel{	
+	padding-top: 20px;
 	padding-bottom: 5px;
-	color: #fff;
+	border-bottom: 2px solid #4f4f4f;
+	padding-left: 0px;
+	padding-top: 5px;
+	font-weight: 900;	
 }
-.mobileLeftPanel > .menuLabel:after{
-	padding:10px;
+.mobileLeftPanel .mobileLeftPanelContainer .menuLabel .hasIcon{
+	padding-left: 10px;		
 }
-.mobileLeftPanel > .menuLabel a{   
-	color: #fff;
+.mobileLeftPanel .mobileLeftPanelContainer .menuLabel .hasIcon img{
+	padding-right: 10px;		
 }
-.mobileLeftPanel > .menuLabel:hover{
-	background: #fff;
+.mobileLeftPanel  .mobileLeftPanelContainer .menuLabel a{   
+	color: #eee;
+	font-size:14px;
 }
-.mobileLeftPanel > .menuLabel:hover a{
-	color: #000;
-}
-.mobileLeftPanel  > .menuModule{
+.mobileLeftPanel  .mobileLeftPanelContainer .menuModule{
 	padding-left: 50px;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	color: #fff;
-	background: #f0f1f1;
 }
-.mobileLeftPanel  > .menuShortcut  {
+.mobileLeftPanel .mobileLeftPanelContainer .menuShortcut  {
 	padding-left: 50px;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	color: #fff;
-	background: #f0f1f1;
 }
 .mobileLeftPanel .userDetailsContainer{
-	padding-left: 40px;
+	padding-left: 15px;
 	padding-right: 20px;
 }
 .mobileLeftPanel .userDetailsContainer a{
 	color: #fff;
 }
-.mobileLeftPanel > li{
+.mobileLeftPanel .mobileLeftPanelContainer > li{
 	list-style: none;
-}
-.row > .col-md-2{
-	width: 16.66666667%;
-	float:left;   
-}
-.row > .col-md-10{
-	width: 83.33333333%;
-	float:left;
 }
 .mobileMenuOn{
 	left: 25%;
 }
-.menuPanel{
-	padding: 5px;
+@media only screen and (max-width: 960px) {
+	.gridster > * {
+		padding: 0;
+		padding-right: 10px;
+		width: 100% !important;
+	}
+	.gridster .gs-w {
+		padding-bottom: 10px;
+		list-style: none;
+		position: static !important;
+		float:left;
+		margin-bottom: 20px;
+	}
+	.gridster .gs-w[data-sizex="1"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="1"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="2"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="2"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="3"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="3"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="4"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="4"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="5"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="5"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="6"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="6"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="7"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="7"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="8"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="8"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="9"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="9"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="10"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="10"] {
+		left: 0%!important;
+	}
+	.gridster .gs-w[data-sizex="11"] {
+		width: 100%!important;
+	}
+	.gridster .gs-w[data-col="11"] {
+		left: 0%!important;
+	}
+}
+.mainBody{
+	padding-top:50px;
+}
+.bootstrap-switch-container{
+	white-space: nowrap;
+}
+.dashboardWidgetCalendar .small-badge{
+	padding: 3% 6%;
+}
+.dashboardWidgetCalendar .big-badge{
+	padding: 6% 12%;
+	margin: 1px 0;
+}
+.dashboardWidgetCalendar .cell-calendar{
+	padding: 1px;
+	margin-top: -5px;
 }

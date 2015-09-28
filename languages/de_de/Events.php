@@ -96,5 +96,6 @@ $languageStrings = [
 	'LBL_REPEAT_FOR' => 'Wiederholen für',
 	'LBL_RECURRING_TYPE' => 'Art der Wiederholung',
 	'Status' => 'Status',
-	'End Date' => 'Enddatum'
+	'End Date' => 'Enddatum',
+	'LBL_FOLLOWUP' => 'Follow up',
 ];

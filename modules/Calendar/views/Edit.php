@@ -98,8 +98,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View {
 		$requestFollowUpDate = $request->get('followup_date_start');
 		$requestFollowUpTime = $request->get('followup_time_start');
 		$followUpStatus = $request->get('followup');
-		$eventStatus = $request->get('eventstatus');
-		
+	
 		if(!empty($requestFollowUpDate)){
 			$followUpDate = $requestFollowUpDate;
 		}
@@ -109,12 +108,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View {
 		if($followUpStatus == 'on'){
 			$viewer->assign('FOLLOW_UP_STATUS',TRUE);
 		}
-		if($eventStatus == 'Held'){
-			$viewer->assign('SHOW_FOLLOW_UP',TRUE);
-		}else{
-			$viewer->assign('SHOW_FOLLOW_UP',FALSE);
-		}
-        
+
 		$viewer->assign('USER_CHANGED_END_DATE_TIME',$userChangedEndDateTime);
 		$viewer->assign('FOLLOW_UP_DATE',$followUpDate);
 		$viewer->assign('FOLLOW_UP_TIME',$followUpTime);

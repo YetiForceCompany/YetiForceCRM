@@ -253,3 +253,5 @@ $unblockedTimeoutCronTasks = true;
 // The maximum time of executing a cron. Recommended same as the max_exacution_time parameter value.
 $maxExecutionCronTime = 3600;
 
+// Logo is visible in footer.
+$isVisibleLogoInFooter = true;

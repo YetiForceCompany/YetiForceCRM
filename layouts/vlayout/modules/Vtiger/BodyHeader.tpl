@@ -1,7 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
     {assign var='count' value=0}
-	{assign var="announcement" value=$ANNOUNCEMENT->get('announcement')}
 	<div class="container-fluid bodyHeader noSpaces commonActionsContainer{if $LEFTPANELHIDE} open{/if}">
 		<div class="row noSpaces">
 			<div class="col-md-5 leftHeader">
@@ -147,7 +146,21 @@
 				<div class="pull-right rightHeaderBtnMenu">
 					<div class="quickAction">
 						<a class="btn btn-default btn-sm" href="#">
-							 <span aria-hidden="true" class="glyphicon glyphicon-menu-hamburger"></span>
+							<span aria-hidden="true" class="glyphicon glyphicon-menu-hamburger"></span>
+						</a>
+					</div>
+				</div>
+				<div class="pull-right actionMenuBtn">
+					<div class="quickAction">
+						<a class="btn btn-default btn-sm" href="#">
+							<span aria-hidden="true" class="glyphicon glyphicon-tasks"></span>
+						</a>
+					</div>
+				</div>
+				<div class="pull-right searchMenuBtn">
+					<div class="quickAction">
+						<a class="btn btn-default btn-sm" href="#">
+							<span aria-hidden="true" class="glyphicon glyphicon-search"></span>
 						</a>
 					</div>
 				</div>
@@ -156,6 +169,8 @@
 		{if !empty($announcement)}
 			<div class="row">
 				{include file='Announcement.tpl'|@vtemplate_path:$MODULE}
-			{/if}
-		</div>
+			</div>
+		{/if}
+	</div>
+	<div class="mainBody">
 	{/strip}

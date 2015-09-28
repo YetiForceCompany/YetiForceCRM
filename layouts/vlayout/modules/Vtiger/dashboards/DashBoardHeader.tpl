@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 -->*}
-
+{strip}
 <div class='dashboardHeading'>
 	<div class="row">
 		<div class="col-md-3">
@@ -19,14 +19,23 @@
 		</div>
 		<div class="col-md-9 h3">
 			<div class="pull-right">
-				<div class="btn-toolbar">
-					<span class="btn-group">
+				<ul class="btn-toolbar">
+					<li class="btn-group">
+						{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
 						{if $WIDGETS|count gt 0}
 							<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
-								<strong>{vtranslate('LBL_ADD_WIDGET')}</strong>
-								<span class="caret"></span>
+								<div class='mobileOff'>
+									<strong>{vtranslate('LBL_ADD_WIDGET')}</strong>
+									<span class="caret"></span>
+								</div>
+								<span class='glyphicon glyphicon-th mobileOn'></span>
 							</button>
 							<ul class="dropdown-menu widgetsList pull-right" style="min-width:100%;text-align:left;">
+								<li class='mobileOn'>
+									<a href='#' class='addFilter' data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
+										{vtranslate('LBL_ADD_FILTER')}
+									</a>
+								</li>
 								{assign var="WIDGET" value=""}
 								{foreach from=$WIDGETS item=WIDGET}
 									<li><a onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')" href="javascript:void(0);"
@@ -36,24 +45,32 @@
 								{/foreach}
 							</ul>
 						{else if $MODULE_PERMISSION}
-							<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown' style="visibility: hidden">
-								<strong>{vtranslate('LBL_ADD_WIDGET')}</strong> 
-								<span class="caret"></span>
+							<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
+								<div class='mobileOff'>
+									<strong>{vtranslate('LBL_ADD_WIDGET')}</strong>
+									<span class="caret"></span>
+								</div>
+								<span class='glyphicon glyphicon-th mobileOn'></span>
 							</button>
 							<ul class="dropdown-menu widgetsList pull-right" style="min-width:100%;text-align:left;">
+								<li class='mobileOn'>
+									<a href='#' class='addFilter' data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
+										{vtranslate('LBL_ADD_FILTER')}
+									</a>
+								</li>
 							</ul>
 						{/if}
-					</span>
-					{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
+					</li>
 					{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
-						<span class="btn-group">
-							<button class='btn btn-default addFilter' data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
+						<div class="btn-group mobileOff">
+							<a class='btn btn-default addFilter' data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
 								<strong>{vtranslate('LBL_ADD_FILTER')}</strong>
-							</button>
-						</span>
+							</a>
+						</div>
 					{/if}
-				</div>
-			  </div>
-		 </div>
+				</ul>
+			</div>
+		</div>
 	</div>
 </div>
+{/strip}

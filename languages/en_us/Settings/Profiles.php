@@ -65,7 +65,7 @@ $languageStrings = [
 	'WorkflowTrigger' => 'Workflow trigger',
 	'QuickExportToExcel' => 'Quick export to Excel',
 	'CreateDashboardFilter' => 'Create filter widgets',
-	'DetailTransferOwnership'  => '__UNTRANSLATED__',
+	'DetailTransferOwnership'  => 'Record preview - change the owner',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profile deleted successfully',

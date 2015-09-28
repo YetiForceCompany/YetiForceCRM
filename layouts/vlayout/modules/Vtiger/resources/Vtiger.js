@@ -345,9 +345,19 @@ var Vtiger_Index_Js = {
 		function get_popover_placement(el) {
 			var width = window.innerWidth;
 			var left_pos = jQuery(el).offset().left;
-			if (width - left_pos > 400)
-				return 'right';
-			return 'left';
+			if (width - left_pos < 400 || checkLastElement(el))
+				return 'left';
+			return 'right';
+		}
+
+		//The function checks if the selected element is the last element of the table in list view.
+		function checkLastElement(el) {
+			var parent = el.closest('tr');
+			var lastElementTd = parent.find('td.listViewEntryValue:last a');
+			if (el.attr('href') == lastElementTd.attr('href')) {
+				return true;
+			}
+			return false;
 		}
 
 		function showTooltip(el, data) {
@@ -391,14 +401,6 @@ var Vtiger_Index_Js = {
 		}
 	},
 	registerShowHideLeftPanelEvent: function () {
-		$('.baseContainer:not(.leftPanelOpen) .leftPanel:not(.stillOpen)').on({
-			mouseenter: function () {
-				$('.bodyHeader,.footerContainer').addClass('open');
-			},
-			mouseleave: function () {
-				$('.bodyHeader,.footerContainer').removeClass('open');
-			}
-		});
 		jQuery('#toggleButton').click(function (e) {
 			e.preventDefault();
 			var leftPanel = jQuery('#leftPanel');
@@ -434,17 +436,29 @@ var Vtiger_Index_Js = {
 		});
 	},
 	registerShowHideRightPanelEvent: function () {
-		var rightPanel = jQuery('#rightPanel');
-		var centerContents = jQuery('#centerPanel');
-		$('.toggleRightPanelButton').on('click', function () {
-			if (!rightPanel.hasClass('rightPanelHover')) {
-				rightPanel.addClass('rightPanelHover').children().css('display', 'block');
-				centerContents.addClass('centerPanelHover');
-				jQuery(this).addClass('move-action').find('.glyphicon').removeClass('glyphicon-chevron-left').addClass('glyphicon-chevron-right');
+		jQuery('#toggleRightPanelButton').click(function (e) {
+			e.preventDefault();
+			var leftPanel = jQuery('#leftPanel');
+			var centerContents = jQuery('#centerPanel');
+			var rightPanel = jQuery('#rightPanel');
+			var tButtonImage = jQuery('#tRightPanelButtonImage');
+			var leftPanelStatus = leftPanel.attr('class').indexOf(' hide');
+			if (rightPanel.attr('class').indexOf('hide') == -1) {
+				rightPanel.addClass('hide');
+				if (leftPanelStatus == -1) {
+					centerContents.removeClass('col-md-8').addClass('col-md-10');
+				} else {
+					centerContents.removeClass('col-md-10').addClass('col-md-12');
+				}
+				tButtonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
 			} else {
-				rightPanel.removeClass('rightPanelHover').children().css('display', 'none');
-				centerContents.removeClass('centerPanelHover');
-				jQuery(this).removeClass('move-action').find('.glyphicon').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-left');
+				rightPanel.removeClass('hide');
+				if (leftPanelStatus == -1) {
+					centerContents.removeClass('col-md-10').addClass('col-md-8');
+				} else {
+					centerContents.removeClass('col-md-12').addClass('col-md-10');
+				}
+				tButtonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
 			}
 		});
 	},
