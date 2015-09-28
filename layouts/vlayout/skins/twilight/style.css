@@ -3084,10 +3084,7 @@ td.listViewEntryValue .row input {
 	float: right !important;
 }
 .cut-string {
-	text-overflow: ellipsis;
-	-o-text-overflow: ellipsis;
-	-webkit-text-overflow: ellipsis;
-	width: 200px;
+	width: 285px;
 	white-space: nowrap;
 	overflow: hidden;
 }
