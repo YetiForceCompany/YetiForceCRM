@@ -14,7 +14,7 @@
 	<div class="row">
 		<div class="col-md-3">
 			{if $DASHBOARDHEADER_TITLE}
-				<h2 class="pull-left">{$DASHBOARDHEADER_TITLE}</h2>
+				{*<h2 class="pull-left">{$DASHBOARDHEADER_TITLE}</h2>*}
 			{/if}
 		</div>
 		<div class="col-md-9 h3">

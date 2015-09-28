@@ -99,7 +99,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			var announcement = jQuery('#announcement').outerHeight();
 			navTop = (navTop - announcement);
 		}
-		var contentsContainer = this.getContentsContainer();
+		var contentsContainer = $('.bodyContent');
 		contentsContainer.animate({'margin-top': navTop}, speed, effect);
 		return this;
 	},
