@@ -25,7 +25,7 @@
 		<optgroup label="{vtranslate('LBL_USERS')}">
 			{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}
 				{if $OWNER_ID neq {$CURRENTUSER->getId()}}
-					<option title="{$OWNER_NAME}" value="{$OWNER_NAME}">{$OWNER_NAME}</option>
+					<option title="{$OWNER_NAME}" data-name="{$OWNER_NAME}" value="{$OWNER_ID}">{$OWNER_NAME}</option>
 				{/if}
 			{/foreach}
 		</optgroup>
