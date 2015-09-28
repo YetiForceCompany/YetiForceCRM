@@ -46,15 +46,22 @@
 					<a class="cancelLink pull-right btn btn-warning" type="reset" id="advanceSearchCancel" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 					<button class="btn btn-info pull-right" id="advanceSearchButton" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if}  type="submit"><strong>{vtranslate('LBL_SEARCH', $MODULE)}</strong></button>
 					{if $SAVE_FILTER_PERMITTED}
-						<button class="btn hide btn-success" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave"><strong>{vtranslate('LBL_SAVE_FILTER', $MODULE)}</strong></button>
-						<button class="btn btn-success" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave"><strong>{vtranslate('LBL_SAVE_AS_FILTER', $MODULE)}</strong></button>
+						<button class="btn hide btn-success" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave">
+							<strong>{vtranslate('LBL_SAVE_FILTER', $MODULE)}</strong>
+						</button>
+						{if Users_Privileges_Model::isPermitted($MODULE, 'CreateCustomFilter')}
+							<button class="btn btn-success" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave">
+								<strong>{vtranslate('LBL_SAVE_AS_FILTER', $MODULE)}</strong>
+							</button>
+						{/if}
 						<div class="col-xs-3">
 							<input class="zeroOpacity pull-left form-control" type="text" title="{vtranslate('LBL_FILTER_NAME')}" value="" name="viewname" placeholder="{vtranslate('LBL_FILTER_NAME')}"/>
 						</div>
 					{/if}
 				</div>
 			</div>
-			</div>
 		</div>
 	</div>
 </div>
+</div>
+{/strip}
