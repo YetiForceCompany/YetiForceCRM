@@ -169,8 +169,8 @@
 		{if !empty($announcement)}
 			<div class="row">
 				{include file='Announcement.tpl'|@vtemplate_path:$MODULE}
-			{/if}
-		</div>
+			</div>
+		{/if}
 	</div>
 	<div class="mainBody">
 	{/strip}

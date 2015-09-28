@@ -4054,6 +4054,9 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 767px) {
+	.baseContainer:not(.leftPanelOpen) {
+		margin-left: 0px;
+	}
 	.mobileOff{
 		display: none !important;
 	}
@@ -4134,7 +4137,7 @@ html,body,.baseContainer
 	right: 2px;
 	top: 52px;
 	background: #fff;
-	border: 1px solid #4f4f4f;
+	border: 1px solid #afafaf;
 	border-radius: 5px;
 	padding: 5px;
 	z-index: 20001;
@@ -4273,6 +4276,7 @@ html,body,.baseContainer
 		list-style: none;
 		position: static !important;
 		float:left;
+		margin-bottom: 20px;
 	}
 	.gridster .gs-w[data-sizex="1"] {
 		width: 100%!important;
