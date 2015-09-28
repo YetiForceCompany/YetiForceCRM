@@ -25,10 +25,10 @@ class OSSMailScanner_SaveCRMuser_Action extends Vtiger_Action_Controller
 	public function process(Vtiger_Request $request)
 	{
 		$userid = $request->get('userid');
-		$vale = $request->get('vale');
+		$value = $request->get('value');
 		if ($userid) {
 			$adb = PearDatabase::getInstance();
-			$adb->pquery("update roundcube_users set crm_user_id = ? WHERE user_id = ?", array($vale, $userid));
+			$adb->pquery('update roundcube_users set crm_user_id = ? WHERE user_id = ?', [$value, $userid]);
 			$success = true;
 			$data = vtranslate('JS_saveuser_info', 'OSSMailScanner');
 		} else {

@@ -160,6 +160,7 @@ $languageStrings = [
 	'LBL_VALUE_OF_SERVER' => 'Value from server',
 	'LBL_WORKFLOWS_RUN_TIME' => 'Workflow run time and date',
 	'Sales stage - Negotiations' => 'Sales stage - Negotiations',
+	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Update the dates of the generated events when the base date changes',
 	//workflow task
 	'EmailTempleteList' => 'Select a template email to be sent',
 	'Do you send all attachments' => 'Send all attachments?',
@@ -178,6 +179,7 @@ $languageStrings = [
 	'Update Closed Time' => 'Update Closed Time',
 	'Send Notification' => 'Invitees - Send Notification',
 	'Create Address Book' => 'Create Address Book',
+	'LBL_UPDATE_DATES_CREATED_EVENTS_AUTOMATICALLY' => 'Update the dates of created events automatically',
 	//workflow add time
 	'Current Date' => 'Current Date',
 	'Current Time' => 'Current time',

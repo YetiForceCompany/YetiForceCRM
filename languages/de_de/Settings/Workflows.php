@@ -146,6 +146,7 @@ $languageStrings = [
 	'LBL_VALUE_OF_SERVER' => 'Wert vom Server',
 	'LBL_WORKFLOWS_RUN_TIME' => 'Workflow Laufzeit und Datum',
 	'Sales stage - Negotiations' => 'Verkaufsphase - Verhandlung',
+	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Update the dates of the generated events when the base date changes',
 	//workflow task
 	'EmailTempleteList' => ' Wählen Sie eine E-Mail-Vorlage zum versenden',
 	'Do you send all attachments' => 'Alle Anhänge senden?',
@@ -164,6 +165,7 @@ $languageStrings = [
 	'Update Closed Time' => 'Abschluss-Zeit aktualisieren',
 	'Send Notification' => ' Einladung senden',
 	'Create Address Book' => 'E-Mail-Adressbuch generieren',
+	'LBL_UPDATE_DATES_CREATED_EVENTS_AUTOMATICALLY' => 'Update the dates of created events automatically',
 	//workflow add time
 	'Current Date' => 'Aktuelles Datum',
 	'Current Time' => 'Aktuelle Uhrzeit',

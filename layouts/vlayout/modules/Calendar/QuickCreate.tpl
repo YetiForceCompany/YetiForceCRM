@@ -105,9 +105,6 @@
 										<td class="fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
 											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME)}
 										</td>
-										{if $MODULE_NAME eq 'Events' && $smarty.foreach.blockfields.last }	
-											{include file=vtemplate_path('uitypes/FollowUp.tpl',$MODULE_NAME) MODULE=$MODULE_NAME}
-										{/if}
 									{/foreach}
 									</tr>
 									{if $smarty.request.contact_id neq ''}

@@ -56,7 +56,7 @@
 				</tr>
 				<tr name="fieldHeaders">
 					<td><b>{vtranslate('LBL_VIEW', $QUALIFIED_MODULE)}</b></td>
-					<td>
+					<td class="col-md-10">
 						<div class="col-md-4">
 							<select multiple class="chzn-select" name="views[]">
 								{foreach from=$VIEWS item=LABEL key=VIEW_NAME}

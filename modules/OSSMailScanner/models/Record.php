@@ -336,10 +336,10 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
-	public static function findEmail($emails, $searchModule = false, $return_array = true)
+	public static function findEmail($emails, $searchModule = false, $returnArray = true)
 	{
 		$adb = PearDatabase::getInstance();
-		if ($return_array) {
+		if ($returnArray) {
 			$return = [];
 		} else {
 			$return = '';
@@ -347,19 +347,19 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 		$EmailSearchList = self::getEmailSearchList();
 		if (strpos($emails, ',')) {
-			$emails_array = explode(",", $emails);
+			$emailsArray = explode(',', $emails);
 		} else {
-			$emails_array[0] = $emails;
+			$emailsArray[0] = $emails;
 		}
 		if ($EmailSearchList != null && $emails != '' && !empty($EmailSearchList['fields'])) {
 			if (strpos($EmailSearchList['fields'], ',')) {
-				$fields = explode(",", $EmailSearchList['fields']);
+				$fields = explode(',', $EmailSearchList['fields']);
 			} else {
 				$fields[0] = $EmailSearchList['fields'];
 			}
 			foreach ($fields as $field) {
 				$enableFind = true;
-				$row = explode("=", $field);
+				$row = explode('=', $field);
 				if ($searchModule) {
 					$moduleId = Vtiger_Functions::getModuleId($searchModule);
 					if ($moduleId != $row[2]) {
@@ -372,12 +372,11 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 					require_once("modules/$module/$module.php");
 					$ModuleObject = new $module();
 					$table_index = $ModuleObject->table_index;
-					foreach ($emails_array as $email) {
+					foreach ($emailsArray as $email) {
 						$result = $adb->pquery("SELECT $table_index FROM " . $row[0] . ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = ' . $row[0] . ".$table_index WHERE vtiger_crmentity.deleted = 0 AND " . $row[1] . ' = ? ', [$email]);
-						for ($i = 0; $i < $adb->num_rows($result); $i++) {
-							$crmid = $adb->query_result($result, $i, $table_index);
-							if ($return_array) {
-								$return[] = array($crmid, $module);
+						while ($crmid = $adb->getSingleValue($result)) {
+							if ($returnArray) {
+								$return[] = $crmid;
 							} else {
 								if ($return != '') {
 									$return .= ',';

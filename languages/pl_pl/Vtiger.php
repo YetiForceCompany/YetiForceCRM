@@ -950,7 +950,7 @@ $languageStrings = [
 	'LBL_COMMON' => 'Wspólne',
 	'LBL_OPEN' => 'Otwate',
 	'LBL_ARCHIVE' => 'Archiwum',
-	'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => "Terminy/Zadnia utworzone przez mnie lecz nie należące do mnie.",
+	'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => "Terminy/Zadnia przekazane innym",
 	//Gantt
 	'LBL_FILTERING' => 'Filtr',
 	'LBL_ALL_PRIORITY' => 'Wszystko',

@@ -98,6 +98,7 @@ $languageStrings = [
 	'No Time' => 'Nenhum',
 	'End Time' => 'Hora Final',
 	'Status' => 'Estado',
-	'End Date' => 'Data Final'
+	'End Date' => 'Data Final',
+	'LBL_FOLLOWUP' => 'Follow up',
 ];
 

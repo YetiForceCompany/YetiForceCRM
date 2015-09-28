@@ -749,6 +749,7 @@ CREATE TABLE `vtiger_activity` (
   `state` varchar(255) DEFAULT NULL,
   `link` int(19) DEFAULT NULL,
   `process` int(19) DEFAULT NULL,
+  `followup` int(19) DEFAULT NULL,
   PRIMARY KEY (`activityid`),
   KEY `activity_activityid_subject_idx` (`activityid`,`subject`),
   KEY `activity_activitytype_date_start_idx` (`activitytype`,`date_start`),
@@ -760,6 +761,7 @@ CREATE TABLE `vtiger_activity` (
   KEY `activitytype_2` (`activitytype`,`date_start`,`due_date`,`time_start`,`time_end`,`deleted`,`smownerid`),
   KEY `link` (`link`),
   KEY `process` (`process`),
+  KEY `followup` (`followup`),
   CONSTRAINT `fk_1_vtiger_activity` FOREIGN KEY (`activityid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -786,6 +788,20 @@ CREATE TABLE `vtiger_activity_reminder_popup` (
   PRIMARY KEY (`reminderid`),
   KEY `recordid` (`recordid`),
   CONSTRAINT `vtiger_activity_reminder_popup_ibfk_1` FOREIGN KEY (`recordid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_activity_update_dates` */
+
+CREATE TABLE `vtiger_activity_update_dates` (
+  `activityid` int(19) NOT NULL,
+  `parent` int(19) NOT NULL,
+  `task_id` int(19) NOT NULL,
+  PRIMARY KEY (`activityid`),
+  KEY `parent` (`parent`),
+  KEY `vtiger_activity_update_dates_ibfk_1` (`task_id`),
+  CONSTRAINT `vtiger_activity_update_dates_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `com_vtiger_workflowtasks` (`task_id`) ON DELETE CASCADE,
+  CONSTRAINT `vtiger_activity_update_dates_ibfk_2` FOREIGN KEY (`parent`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `vtiger_activity_update_dates_ibfk_3` FOREIGN KEY (`activityid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_activity_view` */
@@ -2588,7 +2604,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1761 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1762 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6605,7 +6621,6 @@ CREATE TABLE `vtiger_settings_blocks` (
   `blockid` int(19) NOT NULL,
   `label` varchar(250) DEFAULT NULL,
   `sequence` int(19) DEFAULT NULL,
-  `icon` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`blockid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
