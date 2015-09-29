@@ -16,7 +16,7 @@
 				<br>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_WATERMARK_TYPE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+						{vtranslate('LBL_WATERMARK_TYPE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="watermark_type" name="watermark_type" required="true">
@@ -31,31 +31,31 @@
 				</div>
 				<div class="form-group watertext {if $PDF_MODEL->get('watermark_type') eq 'image'}hide{/if}">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_WATERMARK_TEXT', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+						{vtranslate('LBL_WATERMARK_TEXT', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<input type="text" name="watermark_text" class="form-control" data-validation-engine='validate[required]' value="{$PDF_MODEL->get('watermark_text')}" id="watermark_text" />
+						<input type="text" name="watermark_text" class="form-control" value="{$PDF_MODEL->get('watermark_text')}" id="watermark_text" />
 					</div>
 				</div>
 				<div class="form-group watertext {if $PDF_MODEL->get('watermark_type') eq 'image'}hide{/if}">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_WATERMARK_SIZE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+						{vtranslate('LBL_WATERMARK_SIZE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<input type="number" name="watermark_size" class="form-control" data-validation-engine='validate[required]' value="{intval($PDF_MODEL->get('watermark_size'))}" id="watermark_size" min="1" max="99" />
+						<input type="number" name="watermark_size" class="form-control" value="{intval($PDF_MODEL->get('watermark_size'))}" id="watermark_size" min="1" max="99" />
 					</div>
 				</div>
 				<div class="form-group watertext {if $PDF_MODEL->get('watermark_type') eq 'image'}hide{/if}">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_WATERMARK_ANGLE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+						{vtranslate('LBL_WATERMARK_ANGLE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<input type="number" name="watermark_angle" class="form-control" data-validation-engine='validate[required]' value="{intval($PDF_MODEL->get('watermark_angle'))}" id="watermark_angle" min="0" max="360" />
+						<input type="number" name="watermark_angle" class="form-control" value="{intval($PDF_MODEL->get('watermark_angle'))}" id="watermark_angle" min="0" max="360" />
 					</div>
 				</div>
 				<div class="form-group waterimage {if $PDF_MODEL->get('watermark_type') neq 'image'}hide{/if}">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_WATERMARK_IMAGE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+						{vtranslate('LBL_WATERMARK_IMAGE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
 						<div id="watermark">

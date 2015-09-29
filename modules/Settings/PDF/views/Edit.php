@@ -43,8 +43,8 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 			$viewer->assign('MODE', 'edit');
 			$selectedModuleName = $pdfModel->get('module_name');
 		} else {
-			$selectedModuleName = 'Potentials'; //todo
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
+			$selectedModuleName = $pdfModel->get('module_name');
 			$fields = $pdfModel->getData();
 			foreach ($fields as $name => $value) {
 				$pdfModel->set($name, $request->get($name));
@@ -77,8 +77,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 					unset($recordStructure[$itemsBlock]);
 				}
 				$viewer->assign('RECORD_STRUCTURE', $recordStructure);
-
-				$viewer->assign('MODULE_MODEL', Settings_PDF_RecordStructure_Model::getModule());
+				$viewer->assign('MODULE_MODEL', Settings_PDF_RecordStructure_Model::getModule($pdfModel->get('module_name')));
 				$viewer->assign('SELECTED_MODULE_NAME', $selectedModuleName);
 
 				$dateFilters = Vtiger_Field_Model::getDateFilterTypes();

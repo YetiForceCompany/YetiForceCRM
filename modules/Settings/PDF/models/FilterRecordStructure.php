@@ -28,7 +28,7 @@ class Settings_PDF_FilterRecordStructure_Model extends Settings_PDF_RecordStruct
 
 		$values = array();
 
-		$baseModuleModel = $moduleModel = $this->getModule();
+		$baseModuleModel = $moduleModel = $this->getModule($recordModel->get('module_name'));
 		$blockModelList = $moduleModel->getBlocks();
 		foreach ($blockModelList as $blockLabel => $blockModel) {
 			$fieldModelList = $blockModel->getFields();
