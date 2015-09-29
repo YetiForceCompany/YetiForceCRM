@@ -3698,3 +3698,6 @@ span[name=existingImages] img{
 	padding: 1px;
 	margin-top: -5px;
 }
+.dashboardWidgetContent .summary-detail .summary-text{
+	vertical-align: sub;
+}
