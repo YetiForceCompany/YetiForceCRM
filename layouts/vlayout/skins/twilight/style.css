@@ -4058,6 +4058,9 @@ html,body,.baseContainer
 	.mobileOn{
 		display: none !important;
 	}
+	.breadcrumbsLinks{
+		font-size: 22px;
+	}
 }
 @media only screen and (max-width: 767px) {
 	.baseContainer:not(.leftPanelOpen) {
@@ -4101,7 +4104,7 @@ html,body,.baseContainer
 		width: 14px;
 	}
 	.breadcrumbsLinks{
-		font-size: 20px;
+		font-size: 14px;
 	}
 }
 @media only screen and (min-width: 1240px){
@@ -4377,6 +4380,7 @@ html,body,.baseContainer
 	margin-top: -5px;
 }
 .breadCrumbs{
+	padding-top: 10px;
 	padding-left: 10px;
 	padding-bottom: 10px;
 }
@@ -4408,4 +4412,8 @@ html,body,.baseContainer
 .actionMenu .rows .list-group-item{
 	padding: 2px 2px;
 	border: 0 solid #fff;
+}
+.dashboardHeading .h3{
+	margin-bottom: 0px;
+	margin-right: 25px;
 }
