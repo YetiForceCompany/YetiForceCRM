@@ -76,7 +76,7 @@
 									{/if}	
 									{if $quickCreateModule == '1'}
 										{if $count % 3 == 0}
-											<div class="">
+											<div class="rows">
 											{/if}
 											<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
 												<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}"

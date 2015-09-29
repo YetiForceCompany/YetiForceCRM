@@ -3362,6 +3362,7 @@ span[name=existingImages] img{
 }
 .headerLinksMails .btn-group{
 	margin-top: 8px;
+	margin-right: 5px;
 }
 .finalDiscountUI,.finalTaxUI{
 	bottom: 5px;
@@ -3515,6 +3516,7 @@ span[name=existingImages] img{
 }
 .container-fluid > .row:first-child{
 	height: 50px;
+	padding-right: 5px;
 }
 .container-fluid > .row{
 	margin-left: 0px;
@@ -3885,6 +3887,7 @@ html,body,.baseContainer
 }
 .userDetails{
 	padding-right: 0;
+	padding-left: 16px;
 }
 .userDetails .name{
 	line-height: 15px;
@@ -4094,6 +4097,9 @@ html,body,.baseContainer
 	.imgAnnouncement{
 		width: 14px;
 	}
+	.breadcrumbsLinks{
+		font-size: 20px;
+	}
 }
 @media only screen and (min-width: 1240px){
 	.selectSearch{
@@ -4180,9 +4186,8 @@ html,body,.baseContainer
 	position: fixed;
 	left: 100%;
 	top: 50px;	
-	width: 250px;
+	width: 300px;
 	color: #000;
-	z-index: 1050;
 	background: #fff;
 	z-index: 2000;
 	padding: 10px;
@@ -4192,7 +4197,7 @@ html,body,.baseContainer
 	border-radius: 3px;
 }
 .toogleSearchMenu{
-	left: calc(100% - 250px);
+	left: calc(100% - 300px);
 }
 .mobileLeftPanelContainer{
 	padding-left: 20px;
@@ -4351,6 +4356,8 @@ html,body,.baseContainer
 }
 .mainBody{
 	padding-top:50px;
+	width: 100%;
+	overflow: hidden;
 }
 .bootstrap-switch-container{
 	white-space: nowrap;
@@ -4373,8 +4380,29 @@ html,body,.baseContainer
 .headerLinksMails .btn-group a{
 	padding-top: 7px;
 	height: 34px;
-	text-align: center;
 }
 .dashboardHeading .btn{
 	padding: 10px 10px;
+}
+.headerLinksMails .btn-group > .btn + .dropdown-toggle{
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+.headerLinksMails .dropdown-menu{
+	left: -90px;
+}
+.rows{
+	width:100%;
+	position: relative;
+	float: left;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 5px;
+	padding-bottom: 2px;
+}
+.rows .col-xs-4{
+	padding-left: 0 !important;
+}
+.actionMenu .rows .list-group-item{
+	padding: 2px 2px;
+	border: 0 solid #fff;
 }
