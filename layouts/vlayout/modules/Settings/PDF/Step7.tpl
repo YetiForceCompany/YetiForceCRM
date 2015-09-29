@@ -11,15 +11,28 @@
 
 			<div class="padding1per stepBorder">
 				<label>
-					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 7)}: {vtranslate('LBL_ENTER_BASIC_DETAILS',$QUALIFIED_MODULE)}</strong>
+					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 7)}: {vtranslate('LBL_PERMISSIONS_DETAILS',$QUALIFIED_MODULE)}</strong>
 				</label>
 				<br>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
-					</label>
-					<div class="col-sm-6 controls">
-						<input type="text" name="colf" class="form-control" value="{$PDF_MODEL->get('colf')}" id="colf" />
+					<div class="col-md-2 control-label">
+						<span class="redColor">*</span> {vtranslate('LBL_GROUP_MEMBERS', 'Settings:Groups')}
+					</div>
+					<div class="col-md-6 controls">
+						<div class="row">
+							<div class="col-md-6">
+								<select class="select2 form-control" multiple="true" name="template_members[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', 'Settings:Groups')}">
+									{assign 'TEMPLATE_MEMBERS' explode(',',$PDF_MODEL->get('template_members'))}
+									{foreach from=Settings_Groups_Member_Model::getAll(false) key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
+										<optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
+											{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
+												<option value="{$MEMBER->get('id')}"  data-member-type="{$GROUP_LABEL}" {if in_array($MEMBER->get('id'), $TEMPLATE_MEMBERS)}selected="true"{/if}>{vtranslate($MEMBER->get('name'), $QUALIFIED_MODULE)}</option>
+											{/foreach}
+										</optgroup>
+									{/foreach}
+								</select>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

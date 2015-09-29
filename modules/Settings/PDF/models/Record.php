@@ -165,7 +165,6 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				return $this->get('pdfid');
 		}
 	}
-
 	public function delete()
 	{
 		$db = PearDatabase::getInstance();
@@ -245,5 +244,19 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		$transformedConditions[1] = array('columns' => $firstGroup);
 		$transformedConditions[2] = array('columns' => $secondGroup);
 		return $transformedConditions;
+	}
+
+	function deleteWatermark() {
+		$db = PearDatabase::getInstance();
+		$watermarkImage = $this->get('watermark_image');
+
+		$query = 'UPDATE `a_yf_pdf` SET `watermark_image` = ? WHERE `pdfid` = ? LIMIT 1;';
+		$db->pquery($query, ['', $this->getId()]);
+		
+		if (file_exists($watermarkImage)) {
+			return unlink($watermarkImage);
+		}
+		
+		return false;
 	}
 }

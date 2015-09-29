@@ -48,9 +48,12 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'body_content',
 		'footer_content',
 		'conditions',
-		'cole',
-		'colf',
-		'colg'
+		'watermark_type',
+		'watermark_text',
+		'watermark_size',
+		'watermark_angle',
+		'template_members',
+		'watermark_image'
 	];
 	public static $step1Fields = ['status', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_creator', 'meta_keywords'];
 	public static $step2Fields = ['page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'page_orientation', 'language', 'filename', 'visibility', 'default'];
@@ -58,8 +61,8 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	public static $step4Fields = ['module_name', 'body_content'];
 	public static $step5Fields = ['footer_content'];
 	public static $step6Fields = ['conditions',];
-	public static $step7Fields = ['colf'];
-	public static $step8Fields = ['colg'];
+	public static $step7Fields = ['template_members'];
+	public static $step8Fields = ['watermark_type', 'watermark_text', 'watermark_size', 'watermark_angle', 'watermark_image'];
 	public static $module = 'PDF';
 	public static $parent = 'Settings';
 

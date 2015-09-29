@@ -11,9 +11,6 @@ CREATE TABLE `a_yf_pdf` (
   `header_content` text NOT NULL,
   `body_content` text NOT NULL,
   `footer_content` text NOT NULL,
-  `cole` varchar(255) DEFAULT NULL,
-  `colf` varchar(255) DEFAULT NULL,
-  `colg` varchar(255) DEFAULT NULL,
   `status` set('active','inactive') NOT NULL,
   `primary_name` varchar(255) NOT NULL,
   `secondary_name` varchar(255) NOT NULL,
@@ -35,5 +32,12 @@ CREATE TABLE `a_yf_pdf` (
   `visibility` set('PLL_LISTVIEW','PLL_DETAILVIEW') NOT NULL,
   `default` tinyint(1) DEFAULT NULL,
   `conditions` text NOT NULL,
+  `watermark_type` set('text','image') NOT NULL,
+  `watermark_text` varchar(255) NOT NULL,
+  `watermark_size` tinyint(2) unsigned NOT NULL,
+  `watermark_angle` smallint(3) unsigned NOT NULL,
+  `watermark_image` varchar(255) NOT NULL,
+  `template_members` varchar(255) NOT NULL,
   PRIMARY KEY (`pdfid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+

@@ -77,6 +77,12 @@ $languageStrings = [
 	'LBL_VTIGER' => 'Vtiger',
 	'LBL_EXAMPLE_FIELD_NAME' => 'Pole',
 	'LBL_NOTIFY_OWNER' => 'notify_owner',
+	'LBL_WATERMARK_DETAILS' => 'Edycja znaku wodnego',
+	'LBL_WATERMARK_TYPE' => 'Rodzaj znaku wodnego',
+	'LBL_WATERMARK_TEXT' => 'Tekst znaku wodnego',
+	'LBL_WATERMARK_IMAGE' => 'Obraz znaku wodnego',
+	'LBL_DELETE_WM' => 'Usuń znak wodny',
+	'LBL_UPLOAD_WM' => 'Prześlij znak wodny',
 
 	// page format names
 	'4A0' => '4A0',

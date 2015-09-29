@@ -124,11 +124,9 @@ class Settings_PDF_RecordStructure_Model extends Vtiger_RecordStructure_Model
 	public function getModule()
 	{
 		if ($this->module == null) {
-//			$this->module = Vtiger_Module_Model::getCleanInstance('Potentials');
 			$className = Vtiger_Loader::getComponentClassName('Model', 'Module', 'Potentials');
 			$recordModel = Vtiger_Record_Model::getInstanceById(110, 'Potentials');
 			$this->module = $recordModel->getModule();
-			//var_dump($this->module);exit;
 		}
 		return $this->module;
 	}
