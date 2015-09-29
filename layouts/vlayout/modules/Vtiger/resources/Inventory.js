@@ -604,10 +604,10 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var currencyId = thisInstance.getCurrency();
 			if (typeof unitPriceValues[currencyId] !== 'undefined') {
 				thisInstance.setUnitPrice(parentRow, unitPriceValues[currencyId]);
-			}else{
+			} else {
 				thisInstance.setUnitPrice(parentRow, recordData.price);
 			}
-			
+
 			$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
 			$('textarea.commentTextarea', parentRow).val(description);
 		}
@@ -811,7 +811,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var modal = $(data);
 			var currencyParam = JSON.parse(block.find('.currencyparam').val());
 
-			if (currencyParam != false){
+			if (currencyParam != false) {
 				modal.find('.currencyName').text(option.text());
 				modal.find('.currencyRate').val(currencyParam[option.val()]['value']);
 				modal.find('.currencyDate').text(currencyParam[option.val()]['date']);
@@ -1076,7 +1076,13 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			}
 			if (element.hasClass('groupTax')) {
 				var parentRow = thisInstance.getInventoryItemsContainer();
-				params.totalPrice = app.parseNumberToFloat(parentRow.find('tfoot .colNetPrice').text());
+				var totalPrice = 0;
+				if (parentRow.find('tfoot .colNetPrice').length > 0) {
+					totalPrice = parentRow.find('tfoot .colNetPrice').text();
+				} else if (parentRow.find('tfoot .colTotalPrice ').length > 0) {
+					totalPrice = parentRow.find('tfoot .colTotalPrice ').text();
+				}
+				params.totalPrice = app.parseNumberToFloat(totalPrice);
 				params.taxType = 1;
 			} else {
 				var parentRow = element.closest(thisInstance.rowClass);
@@ -1146,7 +1152,12 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			} else {
 				var rate = app.parseNumberToFloat(modal.find('.valueTax').text()) / app.parseNumberToFloat(modal.find('.valueNetPrice').text());
 				parentRow.find(thisInstance.rowClass).each(function (index) {
-					thisInstance.setTax($(this), thisInstance.getNetPrice($(this)) * rate);
+					if ($('.netPrice', $(this)).length > 0) {
+						var totalPrice = thisInstance.getNetPrice($(this));
+					} else if ($('.totalPrice', $(this)).length > 0) {
+						var totalPrice = thisInstance.getTotalPrice($(this));
+					}
+					thisInstance.setTax($(this), totalPrice * rate);
 					thisInstance.quantityChangeActions($(this));
 				});
 			}
