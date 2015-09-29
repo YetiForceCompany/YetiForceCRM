@@ -92,7 +92,6 @@ $languageStrings = [
 	'Assets' => 'Assets',
 	'Assigned To' => 'Toegewezen aan',
 	'Was read' => 'Aangepast',
-	'BTN_READ_RECORD' => 'Door op deze knop te drukken, markeer je dat je deze gegevens/aanpassingen hebt gezien.',
 	'Billing Address' => 'Factuur adres',
 	'Billing City' => 'Factuur stad',
 	'Billing Code' => 'Factuur postcode',

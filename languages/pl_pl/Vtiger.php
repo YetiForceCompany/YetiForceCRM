@@ -30,7 +30,6 @@ $languageStrings = [
 	'OSSTimeControl' => 'Czas pracy',
 	'Assigned To' => 'Właściciel rekordu',
 	'Was read' => 'Uaktualniono',
-	'BTN_READ_RECORD' => 'Za pomocą tego przycisku oznaczysz, że zapoznałeś się ze wszystkimi zmianami na rekordzie',
 	'Billing Address' => 'Adres główny: ulica',
 	'Billing City' => 'Adres główny: miejscowość',
 	'Billing Code' => 'Adres główny: kod pocztowy',

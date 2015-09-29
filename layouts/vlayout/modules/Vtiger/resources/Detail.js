@@ -498,8 +498,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		params.dataType = 'json';
 		AppConnector.request(params).then(
 				function (reponseData) {
-					var readRecord = jQuery('.setReadRecord');
-					readRecord.closest('.btn-group').removeClass('hide');
 					aDeferred.resolve(reponseData);
 				}
 		);

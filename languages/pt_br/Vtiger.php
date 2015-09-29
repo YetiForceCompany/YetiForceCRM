@@ -92,7 +92,6 @@ $languageStrings = [
 	'Assets' => 'Ativos',
 	'Assigned To' => 'Responsável',
 	'Was read' => 'Updated',
-	'BTN_READ_RECORD' => 'Ao clicar neste botão você confirma que leu todas as mudanças realizadas neste registro.',
 	'Billing Address' => 'Endereço Faturamento',
 	'Billing City' => 'Cidade Faturamento',
 	'Billing Code' => 'CEP Faturamento',
