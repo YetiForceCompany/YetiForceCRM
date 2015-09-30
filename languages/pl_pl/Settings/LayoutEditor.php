@@ -89,6 +89,8 @@ $languageStrings = [
 	'MultiReferenceValue' => 'Wartości z modułu powiązanego',
 	'LBL_MULTI_REFERENCE_VALUE_MODULES' => 'Moduł powiązany',
 	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'Pole powiązane',
+	'LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD' => 'Fitruj po polu',
+	'LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE' => 'Filtruj po wartości',
 	
 	'LBL_ADD_RELATION' => 'Dodaj relację',
 	'LBL_REMOVE_RELATION' => 'Usuń relację',

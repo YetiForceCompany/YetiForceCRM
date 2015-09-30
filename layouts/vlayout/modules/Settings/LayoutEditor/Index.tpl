@@ -821,6 +821,30 @@
 												</select>
 											</div>
 										</div>
+										<div class="form-group supportedType preMultiReferenceValue hide">
+											<div class="col-md-3 control-label">
+												{vtranslate('LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD', $QUALIFIED_MODULE)}
+											</div>
+											<div class="col-md-8 controls">
+												<select class="filterField form-control" name="MRVFilterField">
+													{foreach item=RELATION from=$SELECTED_MODULE_MODEL->getRelations()}
+														<option value="-" data-module="{$RELATION->get('modulename')}">{vtranslate('--None--')}</option>
+														{foreach item=FIELD key=KEY from=$RELATION->getFields('picklist')}
+															<option value="{$FIELD->getName()}" data-module="{$RELATION->get('modulename')}">{vtranslate($FIELD->get('label'), $RELATION->get('modulename'))}</option>
+														{/foreach}
+													{/foreach}
+												</select>
+											</div>
+										</div>
+										<div class="form-group supportedType preMultiReferenceValue hide">
+											<div class="col-md-3 control-label">
+												{vtranslate('LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE', $QUALIFIED_MODULE)}
+											</div>
+											<div class="col-md-8 controls">
+												<select class="MRVModule form-control" name="MRVFilterValue">
+												</select>
+											</div>
+										</div>
 										<div class="form-group supportedType picklistOption hide">
 											<div class="col-md-3 control-label">
 												&nbsp;

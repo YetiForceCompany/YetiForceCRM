@@ -166,6 +166,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		}elseif($fieldType == 'MultiReferenceValue'){
 			$fieldparams['module'] = $params['MRVModule'];
 			$fieldparams['field'] = $params['MRVField'];
+			$fieldparams['filterField'] = $params['MRVFilterField'];
+			$fieldparams['filterValue'] = $params['MRVFilterValue'];
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
 		$uitype = $details['uitype'];

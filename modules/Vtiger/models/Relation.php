@@ -435,7 +435,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $this->get('presence') == 0 ? true : false;
 	}
 
-	public function getFields()
+	public function getFields($type = false)
 	{
 		$fields = $this->get('fields');
 		if (!$fields) {
@@ -444,9 +444,18 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$relatedModelFields = $relatedModel->getFields();
 
 			foreach ($relatedModelFields as $fieldName => $fieldModel) {
-				$fields[] = $fieldModel;
+				if($fieldModel->isViewable()){
+					$fields[] = $fieldModel;
+				}
 			}
 			$this->set('fields', $fields);
+		}
+		if($type){
+			foreach ($fields as $key => $fieldModel) {
+				if ($fieldModel->getFieldDataType() != $type) {
+					unset($fields[$key]);
+				}
+			}
 		}
 		return $fields;
 	}

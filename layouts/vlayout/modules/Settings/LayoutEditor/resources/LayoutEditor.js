@@ -527,7 +527,9 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				app.showSelect2ElementView(form.find('[name="pickListValues"]'), select2params);
 
 				thisInstance.registerFieldTypeChangeEvent(form);
+				thisInstance.registerTableTypeChangeEvent(form);
 				thisInstance.registerMultiReferenceFieldsChangeEvent(form);
+				thisInstance.registerMultiReferenceFilterFieldChangeEvent(form);
 
 				var params = app.getvalidationEngineOptions(true);
 				params.onValidationComplete = function (form, valid) {
@@ -655,6 +657,12 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				}
 		);
 		return aDeferred.promise();
+	},
+	registerTableTypeChangeEvent: function (form) {
+		form.find('[name="fieldTypeList"]').on('change', function (e) {
+			var currentTarget = jQuery(e.currentTarget);
+			form.find('[name="fieldName"]').closest('.form-group').toggleClass('hide');
+		})
 	},
 	/**
 	 * Function to register change event for fieldType while adding custom field
@@ -1874,7 +1882,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	/**
 	 * removing elements in advanced blocks
 	 */
-	registerDeleteInventoryField: function(){
+	registerDeleteInventoryField: function () {
 		var thisInstance = this;
 		var container = thisInstance.getInventoryViewLayout();
 		var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
@@ -1895,13 +1903,13 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 						var params = {};
 						params.id = editFields.data('id');
 						params.module = selectedModule;
-						params.name = editFields.data('name');;
-						params.column = editFields.data('column');;
+						params.name = editFields.data('name');
+						params.column = editFields.data('column');
 						app.saveAjax('delete', params).then(function (data) {
 							liElement.remove();
 							Settings_Vtiger_Index_Js.showMessage({type: 'success', text: app.vtranslate('JS_SAVE_CHANGES')});
 							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							
+
 						});
 					},
 					function (error, err) {
@@ -1917,34 +1925,71 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			return JSON.parse(app.getMainParams('params'));
 		}
 	},
-	
 	/**
 	 * Loading list of fields for a related module
 	 */
 	loadMultiReferenceFields: function (form) {
 		var thisInstance = this;
 		var module = form.find('[name="MRVModule"]').val();
-		form.find('[name="MRVField"]').select2('destroy');
-		form.find('[name="MRVField"]').html(thisInstance.MRVField.html());
-		form.find('[name="MRVField"] optgroup').each(function( index ) {
-			if($( this ).data('module') != module){
-				$( this ).remove();
+		form.find('[name="MRVField"],[name="MRVFilterField"]').select2('destroy');
+		form.find('[name="MRVField"]').html(thisInstance.cacheMRVField.html());
+		form.find('[name="MRVField"] optgroup').each(function (index) {
+			if ($(this).data('module') != module) {
+				$(this).remove();
 			}
 		});
-		app.showSelect2ElementView(form.find('[name="MRVField"]'), {width: '100%'});
+
+		form.find('[name="MRVFilterField"]').html(thisInstance.cacheMRVFilter.html());
+		form.find('[name="MRVFilterField"] option').each(function (index) {
+			if ($(this).data('module') != module) {
+				$(this).remove();
+			}
+		});
+
+		app.showSelect2ElementView(form.find('[name="MRVField"],[name="MRVFilterField"]'), {width: '100%'});
 	},
-	MRVField: false,
+	cacheMRVField: false,
+	cacheMRVFilter: false,
 	/**
 	 * Loading list of fields for a related module
 	 */
 	registerMultiReferenceFieldsChangeEvent: function (form) {
 		var thisInstance = this;
-		thisInstance.MRVField = form.find('[name="MRVField"]').clone(true, true);
+		thisInstance.cacheMRVField = form.find('[name="MRVField"]').clone(true, true);
+		thisInstance.cacheMRVFilter = form.find('[name="MRVFilterField"]').clone(true, true);
+
 		form.find('[name="MRVModule"]').on('change', function (e) {
 			thisInstance.loadMultiReferenceFields(form);
 		});
 	},
-	
+	/**
+	 * Loading list of fields for a related module
+	 */
+	registerMultiReferenceFilterFieldChangeEvent: function (form) {
+		var thisInstance = this;
+		form.find('[name="MRVFilterField"]').on('change', function (e) {
+			var params = {};
+			params['module'] = app.getModuleName();
+			params['parent'] = app.getParentModuleName();
+			params['action'] = 'Field';
+			params['mode'] = 'getPicklist';
+			params['rfield'] = form.find('[name="MRVFilterField"]').val();
+			params['rmodule'] = form.find('[name="MRVModule"]').val();
+
+			form.find('[name="MRVFilterValue"]').select2('destroy');
+			form.find('[name="MRVFilterValue"] option').remove();
+			AppConnector.request(params).then(
+					function (data) {
+						$.each(data.result, function (index, value) {
+							form.find('[name="MRVFilterValue"]').append(
+								$('<option>').val(index).html(value)
+							);
+						});
+						app.showSelect2ElementView(form.find('[name="MRVFilterValue"]'), {width: '100%'});
+					}
+			);
+		});
+	},
 	/**
 	 * register events for layout editor
 	 */
