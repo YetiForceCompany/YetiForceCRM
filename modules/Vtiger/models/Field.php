@@ -191,6 +191,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$fieldDataType = 'taxes';
 			} else if ($uiType == '304') {
 				$fieldDataType = 'inventoryLimit';
+			} else if ($uiType == '305') {
+				$fieldDataType = 'multiReferenceValue';
 			} else {
 				$webserviceField = $this->getWebserviceFieldObject();
 				$fieldDataType = $webserviceField->getFieldDataType();
@@ -1195,6 +1197,6 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 	public function getFieldParams()
 	{
-		return $this->get('fieldparams');
+		return Zend_Json::decode($this->get('fieldparams'));
 	}
 }

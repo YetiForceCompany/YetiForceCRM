@@ -11,8 +11,6 @@
 class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 {
 
-	public static $supportedModules = false;
-
 	/**
 	 * Function that returns all the fields for the module
 	 * @return <Array of Vtiger_Field_Model> - list of field models
@@ -89,7 +87,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getAddSupportedFieldTypes()
 	{
 		return array(
-			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree'
+			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree', 'MultiReferenceValue'
 		);
 	}
 
@@ -122,13 +120,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$details['preDefinedValueType'] = 'text';
 				if ($fieldType == 'Picklist')
 					$details['picklistoption'] = true;
-			}
-			if ($fieldType == 'Related1M') {
-				$details['preDefinedModuleList'] = true;
-				$details['ModuleListMultiple'] = true;
-			}
-			if ($fieldType == 'Tree') {
-				$details['preDefinedTreeList'] = true;
 			}
 			$fieldTypesInfo[$fieldType] = $details;
 		}
@@ -171,13 +162,16 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		if ($fieldType == 'Tree') {
-			$fieldparams = $params['TreeList'];
+			$fieldparams = (int)$params['tree'];
+		}elseif($fieldType == 'MultiReferenceValue'){
+			$fieldparams['module'] = $params['MRVModule'];
+			$fieldparams['field'] = $params['MRVField'];
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
 		$uitype = $details['uitype'];
 		$typeofdata = $details['typeofdata'];
 		$dbType = $details['dbType'];
-
+		
 		$quickCreate = in_array($moduleName, getInventoryModules()) ? 3 : 1;
 
 		$fieldModel = new Settings_LayoutEditor_Field_Model();
@@ -188,9 +182,12 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('label', $label)
 			->set('typeofdata', $typeofdata)
 			->set('quickcreate', $quickCreate)
-			->set('fieldparams', $fieldparams)
+			->set('fieldparams', Zend_Json::encode($fieldparams))
 			->set('columntype', $dbType);
-
+		
+		if(isset($details['displayType'])){
+			$fieldModel->set('displaytype', $details['displayType']);
+		}
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $this);
 		$blockModel->addField($fieldModel);
 
@@ -201,11 +198,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldModel->setPicklistValues($pickListValues);
 		}
 		if ($fieldType == 'Related1M') {
-			if (!is_array($params['ModuleList']))
-				$moduleList[] = $params['ModuleList'];
+			if (!is_array($params['referenceModule']))
+				$moduleList[] = $params['referenceModule'];
 			else
-				$moduleList = $params['ModuleList'];
-			$fieldModel->setRelatedModules($moduleList);
+				$moduleList = $params['referenceModule'];
+			$fieldModel->setRelatedModules(referenceModule);
 			foreach ($moduleList as $module) {
 				$targetModule = Vtiger_Module::getInstance($module);
 				$targetModule->setRelatedList($this, $moduleName, array('Add'), 'get_dependents_list');
@@ -324,11 +321,18 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$type = "VARCHAR(255) default '' ";
 				$uichekdata = 'V~O';
 				break;
+			Case 'MultiReferenceValue' :
+				$uitype = 305;
+				$type = "TEXT";
+				$uichekdata = 'V~O';
+				$displayType = 5;
+				break;
 		}
 		return array(
 			'uitype' => $uitype,
 			'typeofdata' => $uichekdata,
 			'dbType' => $type,
+			'displayType' => $displayType,
 		);
 	}
 
@@ -367,6 +371,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$result = $db->pquery($query, array($tabId, $fieldName));
 		return ($db->num_rows($result) > 0 ) ? true : false;
 	}
+
+	public static $supportedModules = false;
 
 	public static function getSupportedModules()
 	{

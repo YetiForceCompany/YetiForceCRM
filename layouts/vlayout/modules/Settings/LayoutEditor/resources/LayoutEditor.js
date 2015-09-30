@@ -527,6 +527,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				app.showSelect2ElementView(form.find('[name="pickListValues"]'), select2params);
 
 				thisInstance.registerFieldTypeChangeEvent(form);
+				thisInstance.registerMultiReferenceFieldsChangeEvent(form);
 
 				var params = app.getvalidationEngineOptions(true);
 				params.onValidationComplete = function (form, valid) {
@@ -711,13 +712,15 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				var pickListOption = form.find('.picklistOption');
 				pickListOption.removeClass('hide');
 			}
-			if (selectedOption.data('predefinedmodulelist')) {
-				var predefinedmodulelist = form.find('.preDefinedModuleList');
-				predefinedmodulelist.removeClass('hide');
+			if (selectedOption.val() == 'Related1M') {
+				form.find('.preDefinedModuleList').removeClass('hide');
 			}
-			if (selectedOption.data('predefinedtreelist')) {
-				var predefinedtreelist = form.find('.preDefinedTreeList');
-				predefinedtreelist.removeClass('hide');
+			if (selectedOption.val() == 'Tree') {
+				form.find('.preDefinedTreeList').removeClass('hide');
+			}
+			if (selectedOption.val() == 'MultiReferenceValue') {
+				form.find('.preMultiReferenceValue').removeClass('hide');
+				thisInstance.loadMultiReferenceFields(form);
 			}
 		})
 	},
@@ -1914,6 +1917,34 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			return JSON.parse(app.getMainParams('params'));
 		}
 	},
+	
+	/**
+	 * Loading list of fields for a related module
+	 */
+	loadMultiReferenceFields: function (form) {
+		var thisInstance = this;
+		var module = form.find('[name="MRVModule"]').val();
+		form.find('[name="MRVField"]').select2('destroy');
+		form.find('[name="MRVField"]').html(thisInstance.MRVField.html());
+		form.find('[name="MRVField"] optgroup').each(function( index ) {
+			if($( this ).data('module') != module){
+				$( this ).remove();
+			}
+		});
+		app.showSelect2ElementView(form.find('[name="MRVField"]'), {width: '100%'});
+	},
+	MRVField: false,
+	/**
+	 * Loading list of fields for a related module
+	 */
+	registerMultiReferenceFieldsChangeEvent: function (form) {
+		var thisInstance = this;
+		thisInstance.MRVField = form.find('[name="MRVField"]').clone(true, true);
+		form.find('[name="MRVModule"]').on('change', function (e) {
+			thisInstance.loadMultiReferenceFields(form);
+		});
+	},
+	
 	/**
 	 * register events for layout editor
 	 */

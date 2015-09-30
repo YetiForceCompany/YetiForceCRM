@@ -85,7 +85,10 @@ $languageStrings = [
 	'LBL_TREE_TEMPLATE' => 'Árvore',
 	'Tree' => 'Campos da árvore',
 	'LBL_FIELD_MASK_INFO' => 'Definição de mascaras padrão <br />9: numérico<br />a: alfabético<br />*: Alfanumérico<br /><br />Examplo:<br />(99) 9999-9999<br />+55 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
-
+	'MultiReferenceValue' => '__UNTRANSLATED__',
+	'LBL_MULTI_REFERENCE_VALUE_MODULES' => '__UNTRANSLATED__',
+	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => '__UNTRANSLATED__',
+	
 	'LBL_ADD_RELATION' => 'Adicionar relação',
 	'LBL_REMOVE_RELATION' => 'Remove relation',
 	'LBL_RELATION_TYPE' => 'Tipo Relação',

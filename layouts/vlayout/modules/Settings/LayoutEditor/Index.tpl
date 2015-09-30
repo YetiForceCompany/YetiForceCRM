@@ -778,9 +778,45 @@
 												{vtranslate('LBL_RELATION_VALUES', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-md-8 controls">
-												<select {if $FIELD_TYPE_INFO['Related1M']['ModuleListMultiple'] eq true}multiple{/if} class="ModuleList form-control" name="ModuleList">
+												<select {if $FIELD_TYPE_INFO['Related1M']['ModuleListMultiple'] eq true}multiple{/if} class="referenceModule form-control" name="referenceModule">
 													{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 														<option value="{$MODULE_NAME}">{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
+													{/foreach}
+												</select>
+											</div>
+										</div>
+										<div class="form-group supportedType preMultiReferenceValue hide">
+											<div class="col-md-3 control-label">
+												<span class="redColor">*</span>&nbsp;
+												{vtranslate('LBL_MULTI_REFERENCE_VALUE_MODULES', $QUALIFIED_MODULE)}
+											</div>
+											<div class="col-md-8 controls">
+												<select class="MRVModule form-control" name="MRVModule">
+													{foreach item=RELATION from=$SELECTED_MODULE_MODEL->getRelations()}
+														<option value="{$RELATION->get('modulename')}">{vtranslate($RELATION->get('label'), $RELATION->get('modulename'))}</option>
+													{/foreach}
+												</select>
+											</div>
+										</div>
+										<div class="form-group supportedType preMultiReferenceValue hide">
+											<div class="col-md-3 control-label">
+												<span class="redColor">*</span>&nbsp;
+												{vtranslate('LBL_MULTI_REFERENCE_VALUE_FIELDS', $QUALIFIED_MODULE)}
+											</div>
+											<div class="col-md-8 controls">
+												<select class="MRVField form-control" name="MRVField">
+													{foreach item=RELATION from=$SELECTED_MODULE_MODEL->getRelations()}
+														{assign var=COUNT_FIELDS value=count($RELATION->getFields())}
+														{foreach item=FIELD key=KEY from=$RELATION->getFields()}
+															{if !isset($LAST_BLOCK) || $LAST_BLOCK->id != $FIELD->get('block')->id}
+																<optgroup label="{vtranslate($FIELD->get('block')->label, $RELATION->get('modulename'))}" data-module="{$RELATION->get('modulename')}">
+															{/if} 
+															<option value="{$FIELD->getName()}" >{vtranslate($FIELD->get('label'), $RELATION->get('modulename'))}</option>
+															{if $COUNT_FIELDS == ($KEY - 1)}
+																</optgroup>
+															{/if} 
+															{assign var=LAST_BLOCK value=$FIELD->get('block')}
+														{/foreach}
 													{/foreach}
 												</select>
 											</div>
@@ -801,7 +837,7 @@
 												{vtranslate('LBL_TREE_TEMPLATE', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-md-8 controls">
-												<select class="TreeList form-control" name="TreeList">
+												<select class="TreeList form-control" name="tree">
 													{foreach key=key item=item from=$SELECTED_MODULE_MODEL->getTreeTemplates($SELECTED_MODULE_NAME)}
 														<option value="{$key}">{vtranslate($item, $SELECTED_MODULE_NAME)}</option>
 													{foreachelse}

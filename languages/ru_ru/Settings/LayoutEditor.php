@@ -90,6 +90,9 @@ $languageStrings = [
 	'LBL_TREE_TEMPLATE' => 'Выберите шаблон Каталога',
 	'Tree' => 'Каталог',
 	'LBL_FIELD_MASK_INFO' => 'Маска по умолчанию <br />9: цифры<br />a: буквы<br />*: цифры и буквы<br /><br />Пример:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
+	'MultiReferenceValue' => '__UNTRANSLATED__',
+	'LBL_MULTI_REFERENCE_VALUE_MODULES' => '__UNTRANSLATED__',
+	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => '__UNTRANSLATED__',
 	
 	'LBL_ADD_RELATION' => 'Добавить связь',
 	'LBL_REMOVE_RELATION' => 'Remove relation',

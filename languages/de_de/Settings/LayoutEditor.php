@@ -89,6 +89,9 @@ $languageStrings = [
 	'LBL_TREE_TEMPLATE' => 'Vorlage Baumstruktur',
 	'Tree' => 'Baumstruktur',
 	'LBL_FIELD_MASK_INFO' => 'Standard Maskendefinition <br />9: numeric<br />a: alphabetically<br />*: Alphanumeric<br /><br />Example:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
+	'MultiReferenceValue' => '__UNTRANSLATED__',
+	'LBL_MULTI_REFERENCE_VALUE_MODULES' => '__UNTRANSLATED__',
+	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => '__UNTRANSLATED__',
 	
 	'LBL_ADD_RELATION' => 'Modulbeziehung hinzufügen',
 	'LBL_REMOVE_RELATION' => 'Remove relation',
