@@ -16,7 +16,7 @@
 </style>
 {strip}
     <div id="layoutEditorContainer">
-		
+
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
             <div class="col-md-6">
@@ -604,12 +604,12 @@
 															<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;"></div>
 														</span>
 														<div class="padding1per maskField" style="padding : 0px 10px 0px 25px;">
-																							{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
-																							<div class="input-group">
-																								<input type="text" class="form-control" name="fieldMask" value="" />
-																								<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
-																							</div>
-																						</div>
+															{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
+															<div class="input-group">
+																<input type="text" class="form-control" name="fieldMask" value="" />
+																<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
+															</div>
+														</div>
 														{if SysDeveloper::get('CHANGE_VISIBILITY')}
 															<hr />
 															<span>
@@ -768,7 +768,7 @@
 											</div>
 											<div class="col-md-8 controls">
 												<select id="picklistUi" class="form-control" name="pickListValues" multiple="" tabindex="-1" aria-hidden="true" placeholder="{vtranslate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}" 
-													data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={Zend_Json::encode([['name'=>'PicklistFieldValues']])}>
+														data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={Zend_Json::encode([['name'=>'PicklistFieldValues']])}>
 												</select>
 											</div>
 										</div>
@@ -810,9 +810,9 @@
 														{foreach item=FIELD key=KEY from=$RELATION->getFields()}
 															{if !isset($LAST_BLOCK) || $LAST_BLOCK->id != $FIELD->get('block')->id}
 																<optgroup label="{vtranslate($FIELD->get('block')->label, $RELATION->get('modulename'))}" data-module="{$RELATION->get('modulename')}">
-															{/if} 
-															<option value="{$FIELD->getName()}" >{vtranslate($FIELD->get('label'), $RELATION->get('modulename'))}</option>
-															{if $COUNT_FIELDS == ($KEY - 1)}
+																{/if} 
+																<option value="{$FIELD->getName()}" >{vtranslate($FIELD->get('label'), $RELATION->get('modulename'))}</option>
+																{if $COUNT_FIELDS == ($KEY - 1)}
 																</optgroup>
 															{/if} 
 															{assign var=LAST_BLOCK value=$FIELD->get('block')}
@@ -856,7 +856,7 @@
 
 					<div class="modal inactiveFieldsModal fade" tabindex="-1">
 						<div class="modal-dialog">
-							 <div class="modal-content">
+							<div class="modal-content">
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 									<h3 class="modal-title">{vtranslate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</h3>

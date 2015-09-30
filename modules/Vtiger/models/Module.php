@@ -68,12 +68,12 @@ class Vtiger_Module_Model extends Vtiger_Module
 	{
 		return $this->get('type');
 	}
-	
+
 	public function isInventory()
 	{
 		return $this->getModuleType() == 1;
 	}
-	
+
 	/**
 	 * Function to get singluar label key
 	 * @return <String> - Singular module label key
@@ -863,7 +863,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 			$row = $db->query_result_rowdata($result, $i);
 			$turnOffModules[$row['tabid']] = $row['tabid'];
 		}
-		
+
 		foreach ($entityModules as $tabid => $moduleModel) {
 			$moduleName = $moduleModel->getName();
 			if ($moduleName == 'Users' || $moduleName == 'Emails' || $moduleName == 'Events' || in_array($tabid, $turnOffModules))
@@ -1487,7 +1487,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 
 		$focus = CRMEntity::getInstance($this->getName());
 		$focus->id = $recordId;
-		
+
 		$result = $focus->$functionName($recordId, $this->getId(), $relatedModule->getId());
 		$query = $result['query'] . ' ' . $this->getSpecificRelationQuery($relatedModuleName);
 
@@ -1511,7 +1511,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 			$selectColumnSql = 'SELECT DISTINCT vtiger_crmentity.crmid,' . $selectColumnSql;
 			$query = $selectColumnSql . ' FROM ' . $newQuery[1];
 		}
-		
+
 		$instance = CRMEntity::getInstance($relatedModuleName);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName, false, $recordId);
 		if ($securityParameter != '')

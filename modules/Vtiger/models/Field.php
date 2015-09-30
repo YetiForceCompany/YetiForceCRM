@@ -604,7 +604,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$this->fieldInfo['picklistvalues'] = [];
 			}
 		}
-		
+
 		if ($fieldDataType == 'inventoryLimit') {
 			$limits = $this->getUITypeModel()->getLimits();
 			if (!empty($limits)) {
@@ -613,7 +613,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$this->fieldInfo['picklistvalues'] = [];
 			}
 		}
-		
+
 		if ($this->getFieldDataType() == 'date' || $this->getFieldDataType() == 'datetime') {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$this->fieldInfo['date-format'] = $currentUser->get('date_format');

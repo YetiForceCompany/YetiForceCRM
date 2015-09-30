@@ -54,7 +54,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 
 		return $display;
 	}
-	
+
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/TaxesFieldSearchView.tpl';

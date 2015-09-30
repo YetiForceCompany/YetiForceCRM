@@ -10,7 +10,7 @@ class Vtiger_Inventory_Model
 {
 
 	var $name = false;
-	
+
 	/**
 	 * Get invnetory instance
 	 * @param string $moduleName Module name
@@ -35,7 +35,7 @@ class Vtiger_Inventory_Model
 	{
 		$this->name = $name;
 	}
-	
+
 	protected static $discountsConfig = false;
 
 	/**
@@ -169,33 +169,34 @@ class Vtiger_Inventory_Model
 
 		return ['taxs' => $accountTaxs, 'name' => $name];
 	}
-	
+
 	/**
 	 * Active inventory blocks
 	 * @param string $moduleName Module name
 	 * @return string/false
 	 */
-	public function setInventoryTable($type){
+	public function setInventoryTable($type)
+	{
 		$db = PearDatabase::getInstance();
 		$moduleName = $this->name;
-		
+
 		$focus = CRMEntity::getInstance($moduleName);
 		$basetable = $focus->table_name;
 		$basetableid = $focus->table_index;
-		
-		$tableEnds = ['_inventory','_invfield','_invmap'];
-		
-		if($type === true || $type === 'true'){
+
+		$tableEnds = ['_inventory', '_invfield', '_invmap'];
+
+		if ($type === true || $type === 'true') {
 			$type = 1;
-		}else{
+		} else {
 			$type = 0;
 		}
-		$result = $db->updateBlob('vtiger_tab', 'type', [$type,$moduleName], 'name = ?');
+		$result = $db->updateBlob('vtiger_tab', 'type', [$type, $moduleName], 'name = ?');
 		$i = 0;
-		while($result && $type && $ends = $tableEnds[$i]){
+		while ($result && $type && $ends = $tableEnds[$i]) {
 			switch ($ends) {
 				case '_inventory':
-					$sql = '(id int(19),seq int(10),KEY id (id),CONSTRAINT `fk_1_' . $basetable.$ends . '` FOREIGN KEY (`id`) REFERENCES `' . $basetable . '` (`' . $basetableid . '`) ON DELETE CASCADE)';
+					$sql = '(id int(19),seq int(10),KEY id (id),CONSTRAINT `fk_1_' . $basetable . $ends . '` FOREIGN KEY (`id`) REFERENCES `' . $basetable . '` (`' . $basetableid . '`) ON DELETE CASCADE)';
 					break;
 				case '_invfield':
 					$sql = "(id int(19) AUTO_INCREMENT PRIMARY KEY, columnname varchar(30) NOT NULL, label varchar(50) NOT NULL, invtype varchar(30) NOT NULL,presence tinyint(1) unsigned NOT NULL DEFAULT '0',
@@ -205,8 +206,8 @@ class Vtiger_Inventory_Model
 					$sql = '(module varchar(50) PRIMARY KEY,field varchar(50),tofield varchar(50))';
 					break;
 			}
-			if (!Vtiger_Utils::CheckTable($basetable.$ends)) {
-				Vtiger_Utils::CreateTable($basetable.$ends,$sql,true);
+			if (!Vtiger_Utils::CheckTable($basetable . $ends)) {
+				Vtiger_Utils::CreateTable($basetable . $ends, $sql, true);
 			}
 			$i++;
 		}
