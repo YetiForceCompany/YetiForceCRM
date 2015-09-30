@@ -12,7 +12,10 @@
 {strip}
 <div class=" usersAuth">
 	<div class="widget_header row">
-		<div class="col-md-10"><h3>{vtranslate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_AUTHORIZATION_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+		<div class="col-md-10">
+		    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		    {vtranslate('LBL_AUTHORIZATION_DESCRIPTION', $QUALIFIED_MODULE)}
+		</div>
 		<div class="col-md-2"></div>
 	</div>
 	<hr>

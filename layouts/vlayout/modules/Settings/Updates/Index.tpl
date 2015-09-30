@@ -11,7 +11,7 @@
 <div class="" style="margin-top:10px;">
 	<div class="row">
 		<div class="col-md-7">
-			<h3>{vtranslate('LBL_UPDATES', $MODULE)}</h3>&nbsp;{vtranslate('LBL_UPDATES_DESCRIPTION', $MODULE)}
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		</div>
 		<div class="col-md-5">
 			<div class="pull-right">

@@ -1,8 +1,10 @@
 {strip}
 <div class=" CustomViewList">
 	<div class="widget_header row">
-		<div class="col-md-10"><h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}</div>
-		<div class="col-md-2"></div>
+		<div class="col-md-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{vtranslate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}
+		</div>		
 	</div>
 	<hr>
 	<div class="contents tabbable">

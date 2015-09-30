@@ -12,7 +12,7 @@
 {strip}
 <div class="">
 	<div class="widget_header">
-		<h3>{vtranslate('LBL_HIDEBLOCKS', $QUALIFIED_MODULE)}</h3>
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		{vtranslate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 	</div>
 	<hr>

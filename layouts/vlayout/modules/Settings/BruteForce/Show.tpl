@@ -17,7 +17,9 @@
 	}
 </style>
 <div class="" style="margin-top:10px;">
-	<h3>{vtranslate('BruteForce', $MODULE)}</h3>&nbsp;{vtranslate('LBL_BRUTEFORCE_DESCRIPTION', $MODULE)}<hr>
+	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	&nbsp;{vtranslate('LBL_BRUTEFORCE_DESCRIPTION', $MODULE)}
+	<hr>
 	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
 		<li class="active" id="brutalforce_tab_btn_1" ><a href="#tab_1">{vtranslate('Settings', $MODULE)}</a></li>
 		<li  id="brutalforce_tab_btn_2" ><a href="#tab_2">{vtranslate('Blocked IP', $MODULE)}</a></li>

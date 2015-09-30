@@ -14,7 +14,10 @@
 		<div class="widget_header form-horizontal">
 			<div class="form-group marginbottomZero">
 				<div class="col-md-8">
-					<h3>{vtranslate('LBL_COMPANY_DETAILS', $QUALIFIED_MODULE)}{if $DESCRIPTION}<h6> - &nbsp;{vtranslate({$DESCRIPTION}, $QUALIFIED_MODULE)}</h6>{/if}</h3>
+					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					{if $DESCRIPTION}
+						<h6>&nbsp;{vtranslate({$DESCRIPTION}, $QUALIFIED_MODULE)}</h6>
+					{/if}				
 				</div>
 				<div class="col-md-4 h3 marginbottomZero">
 					<div class="pull-right btn-toolbar">

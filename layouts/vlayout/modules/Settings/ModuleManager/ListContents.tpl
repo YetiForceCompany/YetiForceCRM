@@ -12,8 +12,10 @@
 {strip}
 	<div class="" id="moduleManagerContents">
 		<div class="widget_header row">
-			<div class="col-md-6"><h3>{vtranslate('LBL_MODULE_MANAGER', $QUALIFIED_MODULE)}</h3></div>
-			<div class="col-md-6">
+			<div class="col-md-7">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			</div>
+			<div class="col-md-5">
 				<span class="btn-toolbar pull-right margin0px">
 					<span class="btn-group">
 						<button class="btn btn-default createModule" type="button">

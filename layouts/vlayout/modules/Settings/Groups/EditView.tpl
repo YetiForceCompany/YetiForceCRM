@@ -15,16 +15,10 @@
 			<input type="hidden" name="record" value="{$RECORD_MODEL->getId()}">
 			<input type="hidden" name="mode" value="{$MODE}">
 
-			<div class="contentHeader row">
-				<h3> 
-					{if !empty($MODE)}
-						{vtranslate('LBL_EDITING', $QUALIFIED_MODULE)} {vtranslate('SINGLE_'|cat:$MODULE, $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}
-					{else}
-						{vtranslate('LBL_CREATING_NEW', $QUALIFIED_MODULE)} {vtranslate('SINGLE_'|cat:$MODULE, $QUALIFIED_MODULE)}
-					{/if}
-				</h3>
-				<hr>
+			<div class="contentHeader">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}				
 			</div>
+			<hr>
 			<div class="form-group">
 				<div class="col-md-2 control-label">
 					<span class="redColor">*</span> {vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)}

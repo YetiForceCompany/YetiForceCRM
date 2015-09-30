@@ -15,7 +15,7 @@
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
             <div class="col-md-7">
-                <h3>{vtranslate('LBL_REL_MODULE_LAYOUT_EDITOR', $QUALIFIED_MODULE)}</h3>
+                {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
             </div>
             <div class="col-md-5 h3 row">
 				<div class="btn-toolbar row">

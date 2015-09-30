@@ -21,7 +21,7 @@
 			<input type="hidden" id="advfilterlist" name="advfilterlist" value=""/>
 			<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}"/>
 			<div class="CustomFilterViewTitle">
-				<h3>{vtranslate('LBL_CREATE_VIEW',$MODULE)}</h3>
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			</div>	
 			<hr>
 			<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}">

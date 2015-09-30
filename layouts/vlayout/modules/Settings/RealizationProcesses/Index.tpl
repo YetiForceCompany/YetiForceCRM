@@ -9,8 +9,8 @@
  *************************************************************************************************************************************/*}
 
  <div class=" supportProcessesContainer" style="margin-top:10px;">
- 	<h3>{vtranslate('LBL_REALIZATION_PROCESSES', $QUALIFIED_MODULE)}</h3>&nbsp;<hr>
-	
+ 	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	<hr>	
 	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
 		<li class="active"><a href="#project_configuration" data-toggle="tab">{vtranslate('LBL_PROJECT', $QUALIFIED_MODULE)} </a></li>
 	</ul>

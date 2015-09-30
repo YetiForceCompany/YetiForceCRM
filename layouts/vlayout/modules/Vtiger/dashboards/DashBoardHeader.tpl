@@ -13,7 +13,7 @@
 <div class='dashboardHeading'>
 	<div class="row">
 		<div class="pull-left">
-			{include file='BodyHidden.tpl'|@vtemplate_path:$MODULE}
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			{if $DASHBOARDHEADER_TITLE}
 				{*<h2 class="pull-left">{$DASHBOARDHEADER_TITLE}</h2>*}
 			{/if}

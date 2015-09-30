@@ -11,7 +11,7 @@
 {strip}
 <div class="" id="TermsAndConditionsContainer">
 	<div class="widget_header">
-		<div class=""><h3>{vtranslate('INVENTORYTERMSANDCONDITIONS', $QUALIFIED_MODULE)}</h3></div>
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 	</div>
 	<hr>
 

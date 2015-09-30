@@ -7,9 +7,10 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
-<div class="" id="salesProcessesContainer" style="margin-top:10px;">
- 	<h3>{vtranslate('LBL_SALES_PROCESSES', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_SALES_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
-	&nbsp;<hr>
+<div class="" id="salesProcessesContainer">
+ 	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	{vtranslate('LBL_SALES_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
+	<hr>
 	<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
 		<li class="active"><a href="#popup" data-toggle="tab">{vtranslate('LBL_PRODUCTS_AND_SERVICES_POPUP', $QUALIFIED_MODULE)} </a></li>
 		<li><a href="#Calculations" data-toggle="tab">{vtranslate('LBL_CALCULATIONS', $QUALIFIED_MODULE)} </a></li>

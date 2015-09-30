@@ -40,7 +40,7 @@ padding: 5px;
 <div class="" id="widgetsManagementEditorContainer">
 	<div class="widget_header row">
 		<div class="col-md-12">
-			<h3>{vtranslate('LBL_PUBLIC_HOLIDAY', $QUALIFIED_MODULE)}</h3>
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			{vtranslate('LBL_PUBLIC_HOLIDAY_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>

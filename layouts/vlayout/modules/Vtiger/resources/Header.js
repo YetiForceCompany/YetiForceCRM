@@ -95,10 +95,10 @@ jQuery.Class("Vtiger_Header_Js", {
 	 */
 	alignContentsContainer: function (show, speed, effect) {
 		var navTop = jQuery('nav.navbar-fixed-top').outerHeight();
-		if (!show) {
+		if (show) {
 			var announcement = jQuery('#announcement').outerHeight();
-			navTop = (navTop - announcement);
-		}
+			navTop = (navTop + announcement);
+		}		
 		var contentsContainer = $('.bodyContent');
 		contentsContainer.animate({'margin-top': navTop}, speed, effect);
 		return this;
@@ -143,12 +143,12 @@ jQuery.Class("Vtiger_Header_Js", {
 		if (announcementoff === true) {
 			jQuery('#announcement').hide();
 			announcementBtn.attr('src', app.vimage_path('btnAnnounceOff.png'));
-			thisInstance.alignContentsContainer('69px', 0, 'linear');
+			thisInstance.alignContentsContainer(false, 0, 'linear');
 		}
 		else {
 			jQuery('#announcement').show();
 			announcementBtn.attr('src', app.vimage_path('btnAnnounce.png'));
-			thisInstance.alignContentsContainer('92px', 0, 'linear');
+			thisInstance.alignContentsContainer(true, 0, 'linear');
 		}
 	},
 	registerAnnouncement: function () {

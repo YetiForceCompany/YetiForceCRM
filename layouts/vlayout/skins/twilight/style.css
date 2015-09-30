@@ -680,7 +680,7 @@ hr {
 	margin-left: 10px;
 }
 .listViewPageDiv {
-	margin: 11px 0;
+	margin: 0px 0;
 }
 .customFilterMainSpan {
 	width: 100%;
@@ -1454,8 +1454,7 @@ th.htColHeader,
 	border-bottom: 1px solid #dddddd;
 	padding: 6px 2px;
 }
-.contentHeader {
-	padding: 15px;
+.contentHeader {	
 	padding-left: 5px;
 	line-height: 20px;
 }
@@ -3335,7 +3334,7 @@ span[name=existingImages] img{
 	padding-left: 15px;
 }
 .widget_header div:nth-child(2).btn-toolbar,.editViewContainer .contentHeader.row div:nth-child(2),.contentsDiv ul#tabs.nav,.marginTop20{
-	margin-top: 20px;
+	margin-top: 10px;
 }
 .fieldLabel .referenceMandatory{
 	margin-right: -12px;
@@ -3770,7 +3769,6 @@ span[name=existingImages] img{
 	left: 210px;
 	top: 50px;
 	height: calc(100% - 50px);
-	overflow: scroll;
 	overflow-x:hidden;
 }
 .nav li:hover > .subMenu .subMenu{
@@ -3842,7 +3840,7 @@ html,body,.baseContainer
 	min-height: 100%;
 	height: 100%;
 	margin-top: 0;
-	padding-top: 15px;
+	padding-top: 0px;
 
 }
 .bodyContents{
@@ -3887,6 +3885,7 @@ html,body,.baseContainer
 }
 .selectSearch{
 	margin-right: 10px;
+	margin-left: 10px;
 }
 .userDetails{
 	padding-right: 0;
@@ -3974,6 +3973,7 @@ html,body,.baseContainer
 }
 .breadcrumbsLinks{
 	margin-top: 15px;
+	margin-left: 0px;
 }
 #inventoryViewLayout .inventoryBlock  ul li .editFields{
 	padding: 5px;
@@ -4024,6 +4024,10 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (min-width: 767px) {
+	.dashboardHeading .h3{
+		margin-bottom: 0px;
+		margin-right: 45px;
+	}
 	.rightHeaderBtnMenu{
 		display: none;
 	}
@@ -4059,10 +4063,20 @@ html,body,.baseContainer
 		display: none !important;
 	}
 	.breadcrumbsLinks{
-		font-size: 22px;
+		font-size: 19px;
+	}
+	.dashboardHeading .pull-left{
+		max-width: calc(100% - 360px);
 	}
 }
 @media only screen and (max-width: 767px) {
+	.dashboardHeading .pull-left{
+		max-width: calc(100% - 105px);
+	}
+	.dashboardHeading .h3{
+		margin-bottom: 0px;
+		margin-right: 25px;
+	}
 	.baseContainer:not(.leftPanelOpen) {
 		margin-left: 0px;
 	}
@@ -4380,9 +4394,9 @@ html,body,.baseContainer
 	margin-top: -5px;
 }
 .breadCrumbs{
-	padding-top: 10px;
-	padding-left: 10px;
-	padding-bottom: 10px;
+	padding-top: 0px;
+	padding-left: 0px;
+	padding-bottom: 0px;
 }
 .headerLinksMails .btn-group a{
 	padding-top: 7px;
@@ -4396,7 +4410,8 @@ html,body,.baseContainer
 	padding-bottom: 7px;
 }
 .headerLinksMails .dropdown-menu{
-	left: -90px;
+	left: auto;
+	right: 0;
 }
 .rows{
 	width:100%;
@@ -4413,7 +4428,9 @@ html,body,.baseContainer
 	padding: 2px 2px;
 	border: 0 solid #fff;
 }
-.dashboardHeading .h3{
-	margin-bottom: 0px;
-	margin-right: 25px;
+.dashboardHeading .pull-left{
+	padding-top: 15px;
+}
+.dashboardHeading .breadcrumbsLinks{
+	margin-left: 40px;
 }

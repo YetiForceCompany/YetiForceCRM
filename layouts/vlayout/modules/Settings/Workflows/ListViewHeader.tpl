@@ -14,7 +14,7 @@
 	<div class="listViewTopMenuDiv">
         <div class="row">
             <div class="col-md-6">
-                <h3>{vtranslate($MODULE,$QUALIFIED_MODULE)}</h3>
+                {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
             </div>
             <div class="col-md-6">
                 <b class="pull-right paddingTop10">

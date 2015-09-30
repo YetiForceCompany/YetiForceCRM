@@ -11,7 +11,9 @@
 -->*}
 <div class="" id="menuEditorContainer">
 	<div class="widget_header row">
-		<div class="col-md-8"><h3>{vtranslate('OSSProjectTemplates', $MODULE_NAME)}</h3></div>
+		<div class="col-md-12">
+		    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
 	</div>
 	<hr>
 	<div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >

@@ -12,7 +12,7 @@
 {strip}
 	<div class="settingsIndexPage">
 		<div class="widget_header ">
-			<h3>{vtranslate('LBL_SUMMARY',$MODULE)}</h3>
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		</div>
 		<hr>
 		<div class="">

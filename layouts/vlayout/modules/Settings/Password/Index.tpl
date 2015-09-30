@@ -14,7 +14,9 @@
 	<div class="clearfix treeView">
 		<form id="PassForm" class="form-horizontal">
 			<div class="widget_header row">
-				<div class="col-md-8"><h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>&nbsp;{vtranslate('LBL_PASSWORD_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+				<div class="col-md-12">
+				    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				    &nbsp;{vtranslate('LBL_PASSWORD_DESCRIPTION', $QUALIFIED_MODULE)}</div>
 			</div>
 			<hr>
 			<table class="table table-bordered table-condensed themeTableColor">
