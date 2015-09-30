@@ -22,9 +22,9 @@
 						<select class="select2 form-control" id="page_format" name="page_format">
 							<option value="" selected="">{vtranslate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
 							{foreach item=FORMAT from=Settings_PDF_Module_Model::getPageFormats()}
-							<option value="{$FORMAT}" {if $PDF_MODEL->get('page_format') eq $FORMAT} selected="selected" {/if}>
-								{vtranslate($FORMAT, $QUALIFIED_MODULE)}
-							</option>
+								<option value="{$FORMAT}" {if $PDF_MODEL->get('page_format') eq $FORMAT} selected="selected" {/if}>
+									{vtranslate($FORMAT, $QUALIFIED_MODULE)}
+								</option>
 							{/foreach}
 						</select>
 					</div>
@@ -78,9 +78,9 @@
 					<div class="col-sm-6 controls">
 						<select class="select2 form-control" id="language" name="language">
 							{foreach from=Vtiger_Language::getAll() key=CODE item=NAME}
-							<option value="{$CODE}" {if $PDF_MODEL->get('language') eq $CODE} selected="selected" {/if}>
-								{vtranslate($NAME, $QUALIFIED_MODULE)}
-							</option>
+								<option value="{$CODE}" {if $PDF_MODEL->get('language') eq $CODE} selected="selected" {/if}>
+									{vtranslate($NAME, $QUALIFIED_MODULE)}
+								</option>
 							{/foreach}
 						</select>
 					</div>

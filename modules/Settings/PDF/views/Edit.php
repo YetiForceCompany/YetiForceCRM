@@ -88,12 +88,11 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 					$dateFilters[$comparatorKey] = $comparatorInfo;
 				}
 				$viewer->assign('DATE_FILTERS', $dateFilters);
-				$viewer->assign('ADVANCED_FILTER_OPTIONS', Settings_Workflows_Field_Model::getAdvancedFilterOptions());
-				$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', Settings_Workflows_Field_Model::getAdvancedFilterOpsByFieldType());
-				$viewer->assign('COLUMNNAME_API', 'getWorkFlowFilterColumnName');
+				$viewer->assign('ADVANCED_FILTER_OPTIONS', Settings_PDF_Field_Model::getAdvancedFilterOptions());
+				$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', Settings_PDF_Field_Model::getAdvancedFilterOpsByFieldType());
 
-				$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());
-				$viewer->assign('META_VARIABLES', Settings_Workflows_Module_Model::getMetaVariables());
+				$viewer->assign('FIELD_EXPRESSIONS', Settings_PDF_Module_Model::getExpressions());
+				$viewer->assign('META_VARIABLES', Settings_PDF_Module_Model::getMetaVariables());
 
 
 				$viewer->assign('ADVANCE_CRITERIA', $pdfModel->transformToAdvancedFilterCondition());
@@ -183,7 +182,6 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 			"modules.Settings.$moduleName.resources.Edit7",
 			"modules.Settings.$moduleName.resources.Edit8",
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
-//			'layouts.vlayout.modules.Vtiger.resources.AdvanceFilter'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

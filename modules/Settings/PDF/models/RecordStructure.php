@@ -1,13 +1,11 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
 
+/**
+ * Record Structure Class for PDF Settings
+ * @package YetiForce.Model
+ * @license licenses/License.html
+ * @author Maciej Stencel <m.stencel@yetiforce.com>
+ */
 class Settings_PDF_RecordStructure_Model extends Vtiger_RecordStructure_Model
 {
 
@@ -77,8 +75,9 @@ class Settings_PDF_RecordStructure_Model extends Vtiger_RecordStructure_Model
 		foreach ($fields as $parentFieldName => $field) {
 			$type = $field->getFieldDataType();
 			$referenceModules = $field->getReferenceList();
-			if ($type == 'owner')
+			if ($type == 'owner') {
 				$referenceModules = array('Users');
+			}
 			foreach ($referenceModules as $refModule) {
 				$moduleModel = Vtiger_Module_Model::getInstance($refModule);
 				$blockModelList = $moduleModel->getBlocks();
@@ -104,7 +103,7 @@ class Settings_PDF_RecordStructure_Model extends Vtiger_RecordStructure_Model
 			}
 		}
 		$this->structuredValues = $values;
-		return ['dupa'];
+
 		return $values;
 	}
 

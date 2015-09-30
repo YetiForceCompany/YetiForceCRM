@@ -1,11 +1,11 @@
 <?php
+
 /**
  * List View Class for PDF Settings
  * @package YetiForce.View
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
-
 class Settings_PDF_List_View extends Settings_Vtiger_List_View
 {
 

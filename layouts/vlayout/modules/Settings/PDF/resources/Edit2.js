@@ -63,7 +63,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 									aDeferred.resolve(data);
 								},
 								function (error, err) {
-
+									app.errorLog(error, err);
 								}
 						);
 					}

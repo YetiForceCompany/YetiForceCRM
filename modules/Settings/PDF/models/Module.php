@@ -1,5 +1,7 @@
 <?php
 
+require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.inc';
+
 /**
  * Module Class for PDF Settings
  * @package YetiForce.Model
@@ -65,6 +67,19 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	public static $step8Fields = ['watermark_type', 'watermark_text', 'watermark_size', 'watermark_angle', 'watermark_image'];
 	public static $module = 'PDF';
 	public static $parent = 'Settings';
+	static $metaVariables = array(
+		'Current Date' => '(general : (__VtigerMeta__) date) ($_DATE_FORMAT_)',
+		'Current Time' => '(general : (__VtigerMeta__) time)',
+		'System Timezone' => '(general : (__VtigerMeta__) dbtimezone)',
+		'User Timezone' => '(general : (__VtigerMeta__) usertimezone)',
+		'CRM Detail View URL' => '(general : (__VtigerMeta__) crmdetailviewurl)',
+		'Portal Detail View URL' => '(general : (__VtigerMeta__) portaldetailviewurl)',
+		'Site Url' => '(general : (__VtigerMeta__) siteurl)',
+		'Portal Url' => '(general : (__VtigerMeta__) portalurl)',
+		'Record Id' => '(general : (__VtigerMeta__) recordId)',
+		'LBL_HELPDESK_SUPPORT_NAME' => '(general : (__VtigerMeta__) supportName)',
+		'LBL_HELPDESK_SUPPORT_EMAILID' => '(general : (__VtigerMeta__) supportEmailid)',
+	);
 
 	/**
 	 * Function to get the url for default view of the module
@@ -175,7 +190,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		$currentBlockId = '';
 		$currentBlockName = '';
 		$i = 0;
-		while($row = $db->fetchByAssoc($result)) {
+		while ($row = $db->fetchByAssoc($result)) {
 			if ($currentBlockId != $row['block']) {
 				$currentBlockName = vtranslate(getBlockName($row['block']), $moduleName);
 			}
@@ -191,24 +206,25 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		return $output;
 	}
 
-	public static function getRelatedModules($moduleName) {
+	public static function getRelatedModules($moduleName)
+	{
 		$db = PearDatabase::getInstance();
 		$tabId = getTabid($moduleName);
 
 		$referencedModules = [];
 		$referenceUiTypes = ['10', '58', '51', '57', '59', '75', '80', '76', '73', '81', '53', '52', '78'];
 
-		$query = 'SELECT `fieldid`, `uitype` FROM `vtiger_field` WHERE `tabid` = ? AND `uitype` IN ('.generateQuestionMarks($referenceUiTypes).');';
+		$query = 'SELECT `fieldid`, `uitype` FROM `vtiger_field` WHERE `tabid` = ? AND `uitype` IN (' . generateQuestionMarks($referenceUiTypes) . ');';
 		$params = array_merge([$tabId], $referenceUiTypes);
 		$result = $db->pquery($query, $params);
 
-		while($row = $db->fetchByAssoc($result)) {
+		while ($row = $db->fetchByAssoc($result)) {
 			$uiType = $row['uitype'];
 			$fieldId = $row['fieldid'];
 
 			$moduleName = self::getReferencedModuleName($uiType, $fieldId);
 			if (is_array($moduleName)) {
-				foreach($moduleName as $name) {
+				foreach ($moduleName as $name) {
 					if (!in_array($name, $referencedModules)) {
 						$referencedModules[$name] = vtranslate($name, $name);
 					}
@@ -221,7 +237,8 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		return $referencedModules;
 	}
 
-	protected static function getReferencedModuleName($uiType, $fieldId) {
+	protected static function getReferencedModuleName($uiType, $fieldId)
+	{
 		$moduleName = '';
 		$referenceToModule = [
 			'51' => 'Accounts',
@@ -238,7 +255,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 			'81' => 'Vendors'
 		];
 
-		switch($uiType) {
+		switch ($uiType) {
 			case 51:
 			case 52:
 			case 53:
@@ -259,7 +276,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 				$db = PearDatabase::getInstance();
 				$query = 'SELECT DISTINCT `relmodule` FROM `vtiger_fieldmodulerel` WHERE `fieldid` = ?;';
 				$result = $db->pquery($query, [$fieldId]);
-				while($row = $db->fetchByAssoc($result)) {
+				while ($row = $db->fetchByAssoc($result)) {
 					$moduleName[] = $row['relmodule'];
 				}
 		}
@@ -272,22 +289,22 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		$specialFunctions = [];
 		foreach (new DirectoryIterator('modules/Settings/PDF/special_functions') as $file) {
 			if ($file->isFile() && $file->getExtension() == 'php' && $file->getFilename() != 'example.php') {
-				include_once('modules/Settings/PDF/special_functions/'.$file->getFilename());
+				include_once('modules/Settings/PDF/special_functions/' . $file->getFilename());
 				$functionName = $file->getBasename('.php');
 				if (in_array('all', $permitted_modules) || in_array($moduleName, $permitted_modules)) {
-					$specialFunctions['#special_functions#'.$functionName.'#special_function#'] = vtranslate($functionName, self::$parent.':'.self::$module);
+					$specialFunctions['#special_functions#' . $functionName . '#special_function#'] = vtranslate($functionName, self::$parent . ':' . self::$module);
 				}
 			}
 		}
 		return $specialFunctions;
 	}
 
-	public static function getCompanyFields() {
-		$db = PearDatabase::getInstance();
+	public static function getCompanyFields()
+	{
 		$company = [];
 
 		$companyDetails = getCompanyDetails();
-		foreach($companyDetails as $key => $value) {
+		foreach ($companyDetails as $key => $value) {
 			if ($key == 'organization_id') {
 				continue;
 			}
@@ -297,7 +314,21 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		return $company;
 	}
 
-	public function getModule() {
+	public function getModule()
+	{
 		return Vtiger_Module_Model::getCleanInstance($this->get('module_name'));
+	}
+
+	public static function getExpressions()
+	{
+		$db = PearDatabase::getInstance();
+
+		$mem = new VTExpressionsManager($db);
+		return $mem->expressionFunctions();
+	}
+
+	public static function getMetaVariables()
+	{
+		return self::$metaVariables;
 	}
 }

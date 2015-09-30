@@ -119,13 +119,11 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 		currentContainer.show();
 		jQuery('[name="record"]', currentContainer).val(pdfId);
 	},
-	
-	registerCancelStepClickEvent: function(form) {
-		jQuery('button.cancelLink', form).on('click', function() {
+	registerCancelStepClickEvent: function (form) {
+		jQuery('button.cancelLink', form).on('click', function () {
 			window.history.back();
 		});
 	},
-
 	/*
 	 * Function to register the click event for back step 
 	 */
@@ -136,16 +134,15 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 			thisInstance.back();
 		});
 	},
-	
-	registerMetatagsClickEvent: function(form) {
+	registerMetatagsClickEvent: function (form) {
 		var metaTagsStatus = form.find('#metatags_status');
 		if (metaTagsStatus.is(':checked')) {
 			form.find('.metatags').addClass('hide');
 		} else {
 			form.find('.metatags').removeClass('hide');
 		}
-		
-		metaTagsStatus.on('change', function() {
+
+		metaTagsStatus.on('change', function () {
 			var status = jQuery(this).is(':checked');
 			if (status) {
 				jQuery('.metatags', form).addClass('hide');
@@ -156,15 +153,11 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 			}
 		});
 	},
-
 	registerEvents: function () {
 		var form = this.currentInstance.getContainer();
 		this.registerFormSubmitEvent(form);
 		this.registerBackStepClickEvent();
 		this.registerCancelStepClickEvent(form);
 		this.registerMetatagsClickEvent(form);
-		
-		//advanceFilter = new Vtiger_AdvanceFilter_Js();
-		//advanceFilter.registerEvents();
 	}
 });

@@ -1,10 +1,8 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
-Settings_Vtiger_List_Js("Settings_PDF_List_Js", { }, {
-	getListContainer: function() {
+Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
+	getListContainer: function () {
 		return jQuery('#listViewContainer');
 	},
-
 	registerFilterChangeEvent: function () {
 		var thisInstance = this;
 		jQuery('#moduleFilter').on('change', function (e) {
@@ -22,9 +20,9 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", { }, {
 			//Make total number of pages as empty
 			jQuery('#totalPageCount').text("");
 			thisInstance.getListViewRecords(params).then(
-				function (data) {
-					thisInstance.updatePagination();
-				}
+					function (data) {
+						thisInstance.updatePagination();
+					}
 			);
 		});
 	},
@@ -52,17 +50,15 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", { }, {
 
 		return params;
 	},
-	
-	registerAddNewTemplate: function(container) {
-		jQuery('#addButton', container).on('click', function() {
+	registerAddNewTemplate: function (container) {
+		jQuery('#addButton', container).on('click', function () {
 			var selectedModule = jQuery('#moduleFilter option:selected').val();
 			window.location.href = jQuery(this).data('url') + '&source_module=' + selectedModule;
 		});
 	},
-
-	registerTemplateDelete: function(container) {
-		container.find('.templateDelete').each(function(index) {
-			jQuery(this).on('click', function(e) {
+	registerTemplateDelete: function (container) {
+		container.find('.templateDelete').each(function (index) {
+			jQuery(this).on('click', function (e) {
 				e.stopPropagation();
 				e.preventDefault();
 				var templateId = jQuery(this).closest('tr').data('id');
@@ -70,7 +66,6 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", { }, {
 			});
 		});
 	},
-
 	registerEvents: function () {
 		this._super();
 		var container = this.getListContainer();

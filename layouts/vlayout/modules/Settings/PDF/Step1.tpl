@@ -55,11 +55,10 @@
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" id="moduleName" name="module_name" required="true">
-							<option value="" selected="">{vtranslate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
+						<select class="chzn-select form-control" id="moduleName" name="module_name" required="true" data-validation-engine='validate[required]' >
 							{foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
 								<option value="{$MODULE_MODEL->getName()}" {if $SELECTED_MODULE == $MODULE_MODEL->getName()} selected {/if}>
 									{if $MODULE_MODEL->getName() eq 'Calendar'}

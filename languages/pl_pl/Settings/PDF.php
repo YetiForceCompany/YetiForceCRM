@@ -83,6 +83,11 @@ $languageStrings = [
 	'LBL_WATERMARK_IMAGE' => 'Obraz znaku wodnego',
 	'LBL_DELETE_WM' => 'Usuń znak wodny',
 	'LBL_UPLOAD_WM' => 'Prześlij znak wodny',
+	'LBL_BODY_DETAILS' => 'Edycja treści dokumentu',
+	'LBL_FOOTER_DETAILS' => 'Edycja stopki',
+	'LBL_MAIN_MODULE' => 'Główny moduł',
+	'LBL_WATERMARK_SIZE' => 'Rozmiar czcionki',
+	'LBL_WATERMARK_ANGLE' => 'Kąt w stopniach',
 
 	// page format names
 	'4A0' => '4A0',

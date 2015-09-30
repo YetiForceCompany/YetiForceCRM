@@ -42,7 +42,7 @@
 						{vtranslate('LBL_WATERMARK_SIZE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<input type="number" name="watermark_size" class="form-control" value="{intval($PDF_MODEL->get('watermark_size'))}" id="watermark_size" min="1" max="99" />
+						<input type="number" name="watermark_size" class="form-control" value="{intval($PDF_MODEL->get('watermark_size'))}" id="watermark_size" min="0" max="99" />
 					</div>
 				</div>
 				<div class="form-group watertext {if $PDF_MODEL->get('watermark_type') eq 'image'}hide{/if}">

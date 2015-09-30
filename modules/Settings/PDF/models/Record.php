@@ -79,9 +79,9 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance('Settings:PDF');
 
-		$query = 'SELECT `'.$moduleModel->baseIndex.'`,`'.implode('`,`', Settings_PDF_Module_Model::$allFields).'` FROM `'.$moduleModel->baseTable.'` WHERE `'.$moduleModel->baseIndex.'` = ? LIMIT 1;';
+		$query = 'SELECT `' . $moduleModel->baseIndex . '`,`' . implode('`,`', Settings_PDF_Module_Model::$allFields) . '` FROM `' . $moduleModel->baseTable . '` WHERE `' . $moduleModel->baseIndex . '` = ? LIMIT 1;';
 		$result = $db->pquery($query, [$recordId]);
-		
+
 		if ($db->num_rows($result) == 0) {
 			return false;
 		}
@@ -90,27 +90,23 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 		$pdf = new self;
 		$pdf->setData($row);
-		
+
 		return $pdf;
 	}
 
 	public static function getCleanInstance($moduleName)
 	{
 		$pdf = new self;
-		$data = [
-			'pdfid' => '',
-			'module_name' => $moduleName,
-			'summary' => '',
-			'cola' => '',
-			'colb' => '',
-			'colc' => '',
-			'cold' => '',
-		];
+		$data = [];
+		$fields = Settings_PDF_Module_Model::getFieldsByStep();
+		foreach ($fields as $field) {
+			$data[$field] = '';
+		}
 		$pdf->setData($data);
 		return $pdf;
 	}
 
-	public function save($step=1)
+	public function save($step = 1)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -125,7 +121,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
 				$params = [];
 				$fields = [];
-				foreach($stepFields as $field) {
+				foreach ($stepFields as $field) {
 					if ($field === 'conditions') {
 						$params[] = json_encode($this->get($field));
 					} else {
@@ -136,7 +132,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 				$params[] = $this->getId();
 
-				$query = 'UPDATE `a_yf_pdf` SET '.implode(',', $fields).' WHERE `pdfid` = ? LIMIT 1;';
+				$query = 'UPDATE `a_yf_pdf` SET ' . implode(',', $fields) . ' WHERE `pdfid` = ? LIMIT 1;';
 				$result = $db->pquery($query, $params);
 				return $this->get('pdfid');
 
@@ -144,7 +140,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
 				if (!$this->getId()) {
 					$params = [];
-					foreach($stepFields as $field) {
+					foreach ($stepFields as $field) {
 						$params[$field] = $this->get($field);
 					}
 					$db->insert('a_yf_pdf', $params);
@@ -153,26 +149,25 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				} else {
 					$params = [];
 					$fields = [];
-					foreach($stepFields as $field) {
+					foreach ($stepFields as $field) {
 						$params[] = $this->get($field);
 						$fields[] = "`$field` = ?";
 					}
 
 					$params[] = $this->getId();
-					$query = 'UPDATE `a_yf_pdf` SET '.implode(',', $fields).' WHERE `pdfid` = ? LIMIT 1;';
+					$query = 'UPDATE `a_yf_pdf` SET ' . implode(',', $fields) . ' WHERE `pdfid` = ? LIMIT 1;';
 					$result = $db->pquery($query, $params);
 				}
 				return $this->get('pdfid');
 		}
 	}
+
 	public function delete()
 	{
 		$db = PearDatabase::getInstance();
-		
 		return $db->delete('a_yf_pdf', '`pdfid` = ?', [$this->getId()]);
 	}
-	
-	
+
 	/**
 	 * Function returns valuetype of the field filter
 	 * @return <String>
@@ -217,12 +212,6 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		$this->set('conditions', $wfCondition);
 	}
 
-	
-
-	/**
-	 * Functions transforms workflow filter to advanced filter
-	 * @return <Array>
-	 */
 	function transformToAdvancedFilterCondition($conditions = false)
 	{
 		if (!$conditions) {
@@ -231,7 +220,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		$transformedConditions = array();
 
 		if (!empty($conditions)) {
-			foreach ($conditions as $index => $info) {
+			foreach ($conditions as $info) {
 				if (!($info['groupid'])) {
 					$firstGroup[] = array('columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
 						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']);
@@ -246,17 +235,26 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		return $transformedConditions;
 	}
 
-	function deleteWatermark() {
+	function deleteWatermark()
+	{
 		$db = PearDatabase::getInstance();
 		$watermarkImage = $this->get('watermark_image');
 
 		$query = 'UPDATE `a_yf_pdf` SET `watermark_image` = ? WHERE `pdfid` = ? LIMIT 1;';
 		$db->pquery($query, ['', $this->getId()]);
-		
+
 		if (file_exists($watermarkImage)) {
 			return unlink($watermarkImage);
 		}
-		
+
 		return false;
+	}
+
+	public function deleteConditions()
+	{
+		$db = PearDatabase::getInstance();
+
+		$query = 'UPDATE `a_yf_pdf` SET `conditions` = "" WHERE `pdfid` = ? LIMIT 1;';
+		$db->pquery($query, [$this->getId()]);
 	}
 }

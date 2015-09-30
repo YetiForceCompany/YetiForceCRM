@@ -67,7 +67,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 									aDeferred.resolve(data);
 								},
 								function (error, err) {
-
+									app.errorLog(error, err);
 								}
 						);
 					}
@@ -243,15 +243,15 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 		});
 	},
 	/**
-	* Registers updated version of CkEditor on textarea fields
-	* spellcheck disabled
-	*/
-   registerNewCkEditor : function() {
-	   CKEDITOR.replace('footer_content', {
+	 * Registers updated version of CkEditor on textarea fields
+	 * spellcheck disabled
+	 */
+	registerNewCkEditor: function () {
+		CKEDITOR.replace('footer_content', {
 			disableNativeSpellChecker: true,
 			scayt_autoStartup: false,
 			removePlugins: 'scayt'}
-	   );
+		);
 	},
 	registerEvents: function () {
 		var container = this.getContainer();

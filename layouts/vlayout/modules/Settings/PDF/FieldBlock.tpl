@@ -4,19 +4,20 @@
 		<div class="form-group">
 			<div class="form-group row">
 				<label class="col-sm-2 control-label">
-					{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}
+					{vtranslate('LBL_MAIN_MODULE', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-3 controls">
-					<select class="chzn-select form-control" name="module_name" required="true">
-						<option value="" selected="">{vtranslate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
+					<select class="chzn-select form-control" name="module_name" required="true"">
 						{foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
-							<option value="{$MODULE_MODEL->getName()}" {if $PDF_MODEL->get('module_name') == $MODULE_MODEL->getName()} selected {/if}>
+							{if $PDF_MODEL->get('module_name') == $MODULE_MODEL->getName()}
+							<option value="{$MODULE_MODEL->getName()}" selected="selected">
 								{if $MODULE_MODEL->getName() eq 'Calendar'}
 									{vtranslate('LBL_TASK', $MODULE_MODEL->getName())}
 								{else}
 									{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}
 								{/if}
 							</option>
+							{/if}
 						{/foreach}
 					</select>
 				</div>

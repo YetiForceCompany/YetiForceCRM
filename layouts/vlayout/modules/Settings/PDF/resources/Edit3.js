@@ -118,7 +118,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 					}
 			);
 
-
 			var specialFields = form.find('[name="special_functions"]');
 			params.data = {
 				parent: app.getParentModuleName(),

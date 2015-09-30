@@ -36,15 +36,13 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 			this.setContainer(jQuery('#pdf_step8'));
 		}
 	},
-	
-	submit : function(){
+	submit: function () {
 		var aDeferred = jQuery.Deferred();
 		var form = this.getContainer();
-		var formData = form.serializeFormData();
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 		var saveData = form.serializeFormData();
@@ -52,36 +50,34 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 		saveData['step'] = 8;
 		saveData['view'] = '';
 		AppConnector.request(saveData).then(
-			function(data) {
-				data = JSON.parse(data);
-				if(data.success == true) {
-					Settings_Vtiger_Index_Js.showMessage({text : app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
+				function (data) {
+					data = JSON.parse(data);
+					if (data.success == true) {
+						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
 
-					setTimeout(function() {
-						window.location.href = "index.php?module=PDF&parent=Settings&page=1&view=List";
-						progressIndicatorElement.progressIndicator({
-							'mode' : 'hide'
-						});
-					}, 1000);
+						setTimeout(function () {
+							window.location.href = "index.php?module=PDF&parent=Settings&page=1&view=List";
+							progressIndicatorElement.progressIndicator({
+								'mode': 'hide'
+							});
+						}, 1000);
+					}
+				},
+				function (error, err) {
+					app.errorLog(error, err);
 				}
-			},
-			function(error,err){
-				app.errorLog(error, err);
-			}
 		);
 		return aDeferred.promise();
 	},
-	
-	registerCancelStepClickEvent: function(form) {
-		jQuery('button.cancelLink', form).on('click', function() {
+	registerCancelStepClickEvent: function (form) {
+		jQuery('button.cancelLink', form).on('click', function () {
 			window.history.back();
 		});
 	},
-
-	registerWatermarkTypeChange: function(container) {
+	registerWatermarkTypeChange: function (container) {
 		var watermarkType = container.find('#watermark_type');
 
-		watermarkType.on('change', function() {
+		watermarkType.on('change', function () {
 			if (jQuery(this).val() === 'text') {
 				container.find('.watertext').removeClass('hide');
 				container.find('.waterimage').addClass('hide');
@@ -91,14 +87,13 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 			}
 		});
 	},
-
-	registerUploadButton: function(form) {
-		form.find('#uploadWM').on('click', function(e) {
+	registerUploadButton: function (form) {
+		form.find('#uploadWM').on('click', function (e) {
 			e.preventDefault();
 			var fileSelect = form.find('#watermark_image');
 			// Get the selected files from the input.
 			var files = fileSelect[0].files;
-			
+
 			// Create a new FormData object.
 			var formData = new FormData();
 			// Loop through each of the selected files.
@@ -116,20 +111,20 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 			formData.append('template_id', form.find('[name="record"]').val());
 			// Set up the request.
 			var xhr = new XMLHttpRequest();
-			
+
 			// Open the connection.
 			xhr.open('POST', 'modules/Settings/PDF/helpers/upload_watermark.php', true);
-			
+
 			// Set up a handler for when the request finishes.
 			xhr.onload = function () {
 				if (xhr.status === 200) {
 					var templateId = form.find('[name="record"]').val();
 					var fileName = files[0]['name'];
 					var fileExt = fileName.split('.');
-					var uploadedImage = templateId+'.'+fileExt[fileExt.length-1];
+					var uploadedImage = templateId + '.' + fileExt[fileExt.length - 1];
 
-					form.find('#watermark').html('<img src="layouts/vlayout/modules/Settings/PDF/resources/watermark_images/'+uploadedImage+'" class="col-md-9" />');
-					form.find('[name="watermark_image"]').val('layouts/vlayout/modules/Settings/PDF/resources/watermark_images/'+uploadedImage);
+					form.find('#watermark').html('<img src="layouts/vlayout/modules/Settings/PDF/resources/watermark_images/' + uploadedImage + '" class="col-md-9" />');
+					form.find('[name="watermark_image"]').val('layouts/vlayout/modules/Settings/PDF/resources/watermark_images/' + uploadedImage);
 					form.find('#deleteWM').removeClass('hide');
 				}
 			};
@@ -138,9 +133,8 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 			xhr.send(formData);
 		});
 	},
-
-	registerDeleteUploadButton: function(form) {
-		form.find('#deleteWM').on('click', function(e) {
+	registerDeleteUploadButton: function (form) {
+		form.find('#deleteWM').on('click', function (e) {
 			e.preventDefault();
 			var params = {};
 			params.data = {
@@ -151,21 +145,20 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 			};
 			params.dataType = 'json';
 			AppConnector.request(params).then(
-				function(data) {
-					var response = data['result'];
-					if ( response ) {
-						form.find('#watermark').html('');
-						form.find('[name="watermark_image"]').val('');
-						form.find('#deleteWM').addClass('hide');
+					function (data) {
+						var response = data['result'];
+						if (response) {
+							form.find('#watermark').html('');
+							form.find('[name="watermark_image"]').val('');
+							form.find('#deleteWM').addClass('hide');
+						}
+					},
+					function (data, err) {
+						app.errorLog(data, err);
 					}
-				},
-				function(data,err){
-					app.errorLog(data, err);
-				}
 			);
 		});
 	},
-
 	registerEvents: function () {
 		var container = this.getContainer();
 		app.changeSelectElementView(container);

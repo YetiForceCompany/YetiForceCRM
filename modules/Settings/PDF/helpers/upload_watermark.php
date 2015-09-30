@@ -24,36 +24,24 @@ $imageFileType = pathinfo($targetFile, PATHINFO_EXTENSION);
 
 // Check if image file is a actual image or fake image
 $check = getimagesize($_FILES['watermark']['tmp_name'][0]);
-if ($check !== false) {
-	echo 'File is an image - ' . $check['mime'] . '.';
+if ($check !== false) { // file is an image
 	$uploadOk = 1;
-} else {
-	echo 'File is not an image.';
+} else { // File is not an image
 	$uploadOk = 0;
 }
 
-// Check if file already exists
-if (file_exists($targetFile) && $uploadOk) {
-	echo 'Sorry, file already exists.';
-	$uploadOk = 0;
-}
-// Check file size
+// Check allowed upload file size
 if ($_FILES['watermark']['size'][0] > vglobal('upload_maxsize') && $uploadOk) {
-	//echo 'Sorry, your file is too large.';
 	$uploadOk = 0;
 }
 // Allow certain file formats
 $allowedFormats = ['jpg', 'png', 'jpeg', 'gif'];
-if ($uploadOk && !in_array($imageFileType, $allowedFormats)) {
-	//echo 'Sorry, only JPG, JPEG, PNG & GIF files are allowed.';
+if ($uploadOk && !in_array($imageFileType, $allowedFormats)) { // check allowed image formats
 	$uploadOk = 0;
 }
 
 // Check if $uploadOk is set to 0 by an error
-if ($uploadOk == 0) {
-	//echo 'Sorry, your file was not uploaded.';
-	// if everything is ok, try to upload file
-} else {
+if ($uploadOk == 1) {
 	$db = PearDatabase::getInstance();
 	$query = 'SELECT `watermark_image` FROM `a_yf_pdf` WHERE `pdfid` = ? LIMIT 1;';
 	$result = $db->pquery($query, [$templateId]);
@@ -62,11 +50,9 @@ if ($uploadOk == 0) {
 	if (file_exists($watermarkImage)) {
 		unlink($watermarkImage);
 	}
+	// successful upload
 	if (move_uploaded_file($_FILES['watermark']['tmp_name'][0], $targetFile)) {
-		//echo 'The file '. basename( $_FILES['watermark']['name'][0]). ' has been uploaded.';
 		$query = 'UPDATE `a_yf_pdf` SET `watermark_image` = ? WHERE `pdfid` = ? LIMIT 1;';
 		$db = $db->pquery($query, [$targetFile, $templateId]);
-	} else {
-		//echo 'Sorry, there was an error uploading your file.';
 	}
 }

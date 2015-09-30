@@ -19,9 +19,8 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 		$db = PearDatabase::getInstance();
 
 		$module = $this->getModule();
-		$moduleName = $module->getName();
 		$parentModuleName = $module->getParentName();
-		$qualifiedModuleName = 'PDF';//$moduleName;
+		$qualifiedModuleName = 'PDF'; //$moduleName;
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}
@@ -30,9 +29,9 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 		$listFields = $module->listFields;
 		$listQuery = 'SELECT ';
 		foreach ($listFields as $fieldName => $fieldLabel) {
-			$listQuery .= '`'.$fieldName.'`, ';
+			$listQuery .= '`' . $fieldName . '`, ';
 		}
-		$listQuery .= '`'.$module->baseIndex.'` FROM `'.$module->baseTable.'`';
+		$listQuery .= '`' . $module->baseIndex . '` FROM `' . $module->baseTable . '`';
 
 		$params = [];
 		$sourceModule = $this->get('sourceModule');
