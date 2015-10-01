@@ -1478,17 +1478,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		summaryViewContainer.on('click', '.editDefaultStatus', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.popover('hide');
-			var currentDiv = currentTarget.closest('.activityStatus');
-			var activity = currentTarget.closest('.activityEntries');
-			var activityId = activity.find('.activityId').val();
-			var editElement = currentDiv.find('.edit');
-			var fieldElement = jQuery('[name="' + currentTarget.data('field') + '"]', editElement);
-			var editStatusElement = currentDiv.find('.editStatus');
-			if (thisInstance.tempData.indexOf(activityId) < 0) {
-				thisInstance.tempData.push(activityId);
-				editStatusElement.trigger("click");
-				fieldElement.val(currentTarget.data('status')).trigger("chosen:updated");
-				editStatusElement.trigger("clickoutside");
+			var url = currentTarget.data('url');
+			if (url && typeof url != 'undefined') {
+				app.showModalWindow(null, url);
 			}
 		});
 
@@ -2026,6 +2018,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						Vtiger_Helper_Js.showHorizontalTopScrollBar();
 						element.progressIndicator({'mode': 'hide'});
 						thisInstance.registerHelpInfo();
+						app.registerModal(detailContentsHolder);
 						if (typeof callBack == 'function') {
 							callBack(data);
 						}

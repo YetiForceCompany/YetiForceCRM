@@ -96,7 +96,8 @@ class Home_Module_Model extends Vtiger_Module_Model
 		} else {
 			$orderBy .= ' ' . $sortOrder;
 		}
-
+		
+		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();
 		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
 		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
 		$instance = CRMEntity::getInstance('Calendar');
@@ -110,39 +111,32 @@ class Home_Module_Model extends Vtiger_Module_Model
 		$query .= $userAccessConditions;
 		if ($mode === 'upcoming') {
 			$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
-			AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
-			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) 
-			AND CONCAT(due_date,' ',time_end) >= '$nowInDBFormat'";
+			AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (?))";
+			array_push($params, $paramsMore['status']);
 		} elseif ($mode === 'overdue') {
+			$overdueActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
 			$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
-			AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
-			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) 
-			AND CONCAT(due_date,' ',time_end) < '$nowInDBFormat'";
+			AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (?))";
+			//AND CONCAT(due_date,' ',time_end) < '$nowInDBFormat'";
+			array_push($params, $overdueActivityLabels);
 		} elseif ($mode === 'assigned_upcoming') {
-			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
-			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) 
-			AND CONCAT(due_date,' ',time_end) >= '$nowInDBFormat'
-			AND vtiger_crmentity.smcreatorid = ?";
+			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
+			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (". generateQuestionMarks($stateActivityLabels) .")) AND vtiger_crmentity.smcreatorid = ?";
+			$params = array_merge($params, $stateActivityLabels);
 			$params[] = $currentUser->getId();
 		} elseif ($mode === 'assigned_over') {
-			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
-			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) 
-			AND CONCAT(due_date,' ',time_end) < '$nowInDBFormat'
-			AND vtiger_crmentity.smcreatorid = ?";
-			$params[] = $currentUser->getId();
+			$overdueActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
+			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (?)) AND vtiger_crmentity.smcreatorid = ?";
+			array_push($params, $overdueActivityLabels, $currentUser->getId());
 		} elseif ($mode === 'createdByMeButNotMine') {
-			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
-			AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held')) 
-			AND vtiger_crmentity.smcreatorid = ? 
-			AND vtiger_crmentity.smownerid NOT IN (?) ";
 			if ($paramsMore['activitesType'] != 'upcoming') {
-				$query .= "AND CONCAT(due_date,' ',time_end) < '$nowInDBFormat' ";
+				$status = [$stateActivityLabels['not_started'], $stateActivityLabels['in_realization']];
 			} else {
-				$query .= "AND CONCAT(due_date,' ',time_end) >= '$nowInDBFormat' ";
+				$status = [$stateActivityLabels['overdue']];
 			}
-
-			$params[] = $currentUser->getId();
-			$params[] = $currentUser->getId();
+			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (". generateQuestionMarks($status) .")) AND vtiger_crmentity.smcreatorid = ? AND vtiger_crmentity.smownerid NOT IN (?) ";
+			$params = array_merge($params, $status);
+			array_push($params, $currentUser->getId(), $currentUser->getId());
 		}
 
 		$accessibleUsers = $currentUser->getAccessibleUsers();
@@ -155,7 +149,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		$query .= ' ORDER BY ' . $orderBy . ' LIMIT ?, ?';
 		$params[] = $pagingModel->getStartIndex();
 		$params[] = $pagingModel->getPageLimit() + 1;
-
+		
 		$result = $db->pquery($query, $params);
 
 		$activities = [];

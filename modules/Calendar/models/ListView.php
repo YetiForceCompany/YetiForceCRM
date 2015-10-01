@@ -158,7 +158,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model {
 		
 		$queryGenerator = $this->get('query_generator');
 		$listViewContoller = $this->get('listview_controller');
-		$listViewFields = array('visibility','assigned_user_id');
+		$listViewFields = array('visibility','assigned_user_id','activitystatus');
 		$queryGenerator->setFields(array_unique(array_merge($queryGenerator->getFields(), $listViewFields)));
 		
         $searchParams = $this->get('search_params');

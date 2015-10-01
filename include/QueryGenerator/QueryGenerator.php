@@ -171,12 +171,12 @@ class QueryGenerator
 	{
 		$this->sourceRecord = $sourceRecord;
 	}
-	
+
 	public function getSourceRecord()
 	{
 		return $this->sourceRecord;
 	}
-	
+
 	public function getOwnerFieldList()
 	{
 		return $this->ownerFields;
@@ -466,21 +466,13 @@ class QueryGenerator
 			$columns[] = $sql;
 
 			//To merge date and time fields
-			if ($this->meta->getEntityName() == 'Calendar' && ($field == 'date_start' || $field == 'due_date' || $field == 'taskstatus' || $field == 'eventstatus')) {
+			if ($this->meta->getEntityName() == 'Calendar' && ($field == 'date_start' || $field == 'due_date')) {
 				if ($field == 'date_start') {
 					$timeField = 'time_start';
 					$sql = $this->getSQLColumn($timeField);
 				} else if ($field == 'due_date') {
 					$timeField = 'time_end';
 					$sql = $this->getSQLColumn($timeField);
-				} else if ($field == 'taskstatus' || $field == 'eventstatus') {
-					//In calendar list view, Status value = Planned is not displaying
-					$sql = "CASE WHEN (vtiger_activity.status not like '') THEN vtiger_activity.status ELSE vtiger_activity.eventstatus END AS ";
-					if ($field == 'taskstatus') {
-						$sql .= 'status';
-					} else {
-						$sql .= $field;
-					}
 				}
 				$columns[] = $sql;
 			}
@@ -872,11 +864,8 @@ class QueryGenerator
 							$fieldSql .= "$fieldGlue " . $field->getTableName() . '.' . $field->getColumnName() . ' ' . $valueSql;
 						}
 					}
-				} else if (($baseModule == 'Events' || $baseModule == 'Calendar') && ($field->getColumnName() == 'status' || $field->getColumnName() == 'eventstatus')) {
-					$otherFieldName = 'eventstatus';
-					if ($field->getColumnName() == 'eventstatus') {
-						$otherFieldName = 'taskstatus';
-					}
+				} else if (($baseModule == 'Events' || $baseModule == 'Calendar') && ($field->getColumnName() == 'status')) {
+					$otherFieldName = 'activitystatus';
 					$otherField = $moduleFieldList[$otherFieldName];
 
 					$specialCondition = '';
@@ -991,10 +980,10 @@ class QueryGenerator
 						$valueArray[$key] = ltrim($value, ' |##| ');
 					}
 				}
-			} else if($field->getFieldDataType() == 'multiReferenceValue') {
+			} else if ($field->getFieldDataType() == 'multiReferenceValue') {
 				$valueArray = explode(',', $value);
 				foreach ($valueArray as $key => $value) {
-					$valueArray[$key] = '|#|'.$value.'|#|';
+					$valueArray[$key] = '|#|' . $value . '|#|';
 				}
 			} else {
 				$valueArray = [$value];

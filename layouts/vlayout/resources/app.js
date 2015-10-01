@@ -1130,8 +1130,11 @@ var app = {
 		}
 		console.error(error);
 	},
-	registerModal: function () {
-		jQuery('button.showModal').on('click', function (e) {
+	registerModal: function (container) {
+		if (typeof container == 'undefined') {
+			container = jQuery('body');
+		}
+		container.find('button.showModal, a.showModal').on('click', function (e) {
 			var currentElement = jQuery(e.currentTarget);
 			var url = currentElement.data('url');
 

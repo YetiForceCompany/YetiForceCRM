@@ -3,7 +3,7 @@
 		<span class="col-md-4"><h4 class="textOverflowEllipsis">{vtranslate('LBL_ACTIVITIES',$MODULE_NAME)}</h4></span>
 		<span class="col-md-5">
 			<span class="pull-right">
-				<input class="switchBtn" title="{vtranslate('LBL_CHANGE_ACTIVITY_TYPE')}" type="checkbox" checked data-size="small" data-label-width="5" data-handle-width="100" data-on-text="{vtranslate('LBL_TO_REALIZE')}" data-off-text="{vtranslate('LBL_HISTORY')}">
+				<input class="switchBtn" title="{vtranslate('LBL_CHANGE_ACTIVITY_TYPE')}" type="checkbox" checked data-size="small" data-label-width="5" data-handle-width="100" data-on-text="{vtranslate('LBL_CURRENT')}" data-off-text="{vtranslate('LBL_HISTORY')}">
 			</span>
 		</span>
 		<div class="col-md-3">

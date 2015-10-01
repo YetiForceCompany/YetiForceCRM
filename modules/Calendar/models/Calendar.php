@@ -62,12 +62,15 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$query.= " AND vtiger_activity.activitytype IN ('" . implode("','", $this->get('types')) . "')";
 		}
 		if ($this->get('time') == 'current') {
-			$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))
-			OR (vtiger_activity.activitytype not in ('Emails','Task') and vtiger_activity.eventstatus not in ('','Held')))";
+			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
+			$query .= " AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "')";
 		}
 		if ($this->get('time') == 'history') {
-			$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status in ('Completed','Deferred'))
-			OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.eventstatus in ('','Held')))";
+			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
+			$query .= " AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "')";
+		}
+		if ($this->get('activitystatus')) {
+			$query .= " AND vtiger_activity.status IN ('" . $this->get('activitystatus') . "')";
 		}
 		if ($this->get('user')) {
 			if (is_array($this->get('user'))) {
@@ -91,7 +94,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$item['set'] = $record['activitytype'] == 'Task' ? 'Task' : 'Event';
 			$item['lok'] = $record['location'];
 			$item['pri'] = $record['priority'];
-			$item['sta'] = $record['status'] == '' ? $record['eventstatus'] : $record['status'];
+			$item['sta'] = $record['status'];
 			$item['vis'] = $record['visibility'];
 			$item['state'] = $record['state'];
 

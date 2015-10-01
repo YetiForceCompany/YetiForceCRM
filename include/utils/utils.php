@@ -1191,7 +1191,7 @@ function getAccessPickListValues($module)
 			$fieldvalues[] = $adb->query_result($mulselresult, $j, $fieldname);
 		}
 		$field_count = count($fieldvalues);
-		if ($uitype == 15 && $field_count > 0 && ($fieldname == 'taskstatus' || $fieldname == 'eventstatus')) {
+		if ($uitype == 15 && $field_count > 0 && ($fieldname == 'activitystatus')) {
 			$temp_count = count($temp_status[$keyvalue]);
 			if ($temp_count > 0) {
 				for ($t = 0; $t < $field_count; $t++) {

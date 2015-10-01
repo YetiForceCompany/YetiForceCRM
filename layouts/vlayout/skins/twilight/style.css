@@ -3701,3 +3701,9 @@ span[name=existingImages] img{
 .dashboardWidgetContent .summary-detail .summary-text{
 	vertical-align: sub;
 }
+.activityWidgetContainer .popover {
+	min-width: 300px;
+}
+.activityWidgetContainer .popover-content {
+	font-size: 12px;
+}

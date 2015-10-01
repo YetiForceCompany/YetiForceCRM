@@ -41,7 +41,7 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller {
 			$todoModule = 'Calendar';
 			$skipFields = array(
 					$eventModule => array('duration_hours'),
-					$todoModule => array('eventstatus')
+					$todoModule => array('activitystatus')
 			);
 
 			$requiredFields = array();

@@ -1105,7 +1105,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		if (!$user) {
 			$user = $currentUser->getId();
 		}
-
+		$currentActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
 		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateValue(date('Y-m-d H:i:s'));
 		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
@@ -1119,28 +1119,28 @@ class Vtiger_Module_Model extends Vtiger_Module
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
 					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_activity." . $relationField . " = crmentity2.crmid AND crmentity2.deleted = 0 AND crmentity2.setype = ?
 					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid WHERE vtiger_crmentity.deleted=0";
-		if ($recordId)
+		$params = [$this->getName()];
+		if ($recordId){
 			$query .= ' AND vtiger_activity.' . $relationField . ' = ?';
-
+			array_push($params, $recordId);
+		}
 		if ($mode === 'current') {
-			$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))
-			OR (vtiger_activity.activitytype not in ('Emails','Task') and vtiger_activity.eventstatus not in ('','Held')))";
+			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN (". generateQuestionMarks($currentActivityLabels) ."))";
+			$params = array_merge($params, $currentActivityLabels);
 		} elseif ($mode === 'history') {
-			$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status in ('Completed','Deferred'))
-			OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.eventstatus in ('','Held')))";
+			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status NOT IN (". generateQuestionMarks($currentActivityLabels) ."))";
+			$params = array_merge($params, $currentActivityLabels);
 		} elseif ($mode === 'upcoming') {
 			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails'))
-					AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
-					AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held'))";
+					AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))";
 			$query .= " AND due_date >= '$currentDate'";
 		} elseif ($mode === 'overdue') {
 			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails'))
-					AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
-					AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held'))";
+					AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))";
 			$query .= " AND due_date < '$currentDate'";
 		}
 
-		$params = array($this->getName());
+		
 		if ($user != 'all' && $user != '') {
 			if ($user === $currentUser->id) {
 				$query .= " AND vtiger_crmentity.smownerid = ?";
@@ -1153,10 +1153,6 @@ class Vtiger_Module_Model extends Vtiger_Module
 		if ($securityParameter != '')
 			$query .= $securityParameter;
 		$query .= " ORDER BY date_start, time_start LIMIT " . $pagingModel->getStartIndex() . ", " . ($pagingModel->getPageLimit() + 1);
-
-		if ($recordId) {
-			array_push($params, $recordId);
-		}
 
 		$result = $db->pquery($query, $params);
 		$numOfRows = $db->num_rows($result);
