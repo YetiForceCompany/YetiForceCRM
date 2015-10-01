@@ -86,7 +86,7 @@
 						<td>
 							<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" ><span class="glyphicon glyphicon-remove"></span></a>
 						</td>
-								{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<td>
 								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
 								{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME)
@@ -124,17 +124,18 @@
 									{else}
 										{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
 									{/if}</a>
+							{else}
+								{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
+									{decimalFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
+								{else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
+									{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 								{else}
-									{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
-										{decimalFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
-									{else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
-										{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
-									{else}
-										{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-									{/if}
+									{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
 								{/if}
-								{if $LISTVIEW_HEADER@last}
-							</td><td nowrap class="{$WIDTHTYPE}">
+							{/if}
+						</td>
+						{if $LISTVIEW_HEADER@last}
+							<td nowrap class="{$WIDTHTYPE}">
 								<div class="actions pull-right">
 									<span class="actionImages">
 										<a href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
@@ -145,9 +146,9 @@
 											<a class="deleteRecordButton"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 											{/if}
 									</span>
-								</div></td>
-							{/if}
-						</td>
+								</div>
+							</td>
+						{/if}
 					{/foreach}
 					</tr>
 				{/foreach}
