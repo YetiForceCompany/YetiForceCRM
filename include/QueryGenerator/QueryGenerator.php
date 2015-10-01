@@ -171,12 +171,12 @@ class QueryGenerator
 	{
 		$this->sourceRecord = $sourceRecord;
 	}
-	
+
 	public function getSourceRecord()
 	{
 		return $this->sourceRecord;
 	}
-	
+
 	public function getOwnerFieldList()
 	{
 		return $this->ownerFields;

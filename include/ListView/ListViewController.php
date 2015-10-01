@@ -473,7 +473,7 @@ class ListViewController
 				} else {
 					$value = Vtiger_Functions::textLength($value);
 				}
-				
+
 //				// vtlib customization: For listview javascript triggers
 //				$value = "$value <span type='vtlib_metainfo' vtrecordid='{$recordId}' vtfieldname=".
 //					"'{$fieldName}' vtmodule='$module' style='display:none;'></span>";

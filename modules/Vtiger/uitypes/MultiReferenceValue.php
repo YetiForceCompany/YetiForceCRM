@@ -25,7 +25,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get all the available picklist values for the current field
-	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
+	 * @return <Array> List of picklist values if the field is of type MultiReferenceValue.
 	 */
 	public function getPicklistValues()
 	{
@@ -34,12 +34,12 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$queryGenerator = new QueryGenerator($params['module'], $currentUser);
 		$queryGenerator->setFields([$params['field']]);
-		if($params['filterField'] != '-'){
+		if ($params['filterField'] != '-') {
 			$queryGenerator->addCondition($params['filterField'], $params['filterValue'], 'e');
 		}
 		$query = $queryGenerator->getQuery();
 		$result = $db->query($query);
-		
+
 		$values = [];
 		while ($value = $db->getSingleValue($result)) {
 			$values[$value] = vtranslate($value, $params['module']);
