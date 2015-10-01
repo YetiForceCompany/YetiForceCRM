@@ -105,11 +105,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getDisplayValue($value, $record, $recordInstance);
+		return $this->getUITypeModel()->getDisplayValue($value, $record, $recordInstance);
 	}
 
 	/**
@@ -252,7 +248,10 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getUITypeModel()
 	{
-		return Vtiger_Base_UIType::getInstanceFromField($this);
+		if (!$this->get('uitypeModel')) {
+			$this->set('uitypeModel', Vtiger_Base_UIType::getInstanceFromField($this));
+		}
+		return $this->get('uitypeModel');
 	}
 
 	public function isRoleBased()
@@ -946,19 +945,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getEditViewDisplayValue($value)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getEditViewDisplayValue($value);
-	}
-
-	public function getUitypeInstance()
-	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		return $this->uitype_instance;
+		return $this->getUITypeModel()->getEditViewDisplayValue($value);
 	}
 
 	/**
@@ -993,11 +980,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getRelatedListDisplayValue($value)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getRelatedListDisplayValue($value);
+		return $this->getUITypeModel()->getRelatedListDisplayValue($value);
 	}
 
 	/**
@@ -1016,11 +999,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getDBInsertValue($value)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getDBInsertValue($value);
+		return $this->getUITypeModel()->getDBInsertValue($value);
 	}
 
 	/**

@@ -811,7 +811,7 @@
 															{if !isset($LAST_BLOCK) || $LAST_BLOCK->id != $FIELD->get('block')->id}
 																<optgroup label="{vtranslate($FIELD->get('block')->label, $RELATION->get('modulename'))}" data-module="{$RELATION->get('modulename')}">
 																{/if} 
-																<option value="{$FIELD->getName()}" >{vtranslate($FIELD->get('label'), $RELATION->get('modulename'))}</option>
+																<option value="{$FIELD->getId()}" >{vtranslate($FIELD->get('label'), $RELATION->get('modulename'))}</option>
 																{if $COUNT_FIELDS == ($KEY - 1)}
 																</optgroup>
 															{/if} 

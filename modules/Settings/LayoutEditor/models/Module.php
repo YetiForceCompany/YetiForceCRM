@@ -204,7 +204,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$moduleList[] = $params['referenceModule'];
 			else
 				$moduleList = $params['referenceModule'];
-			$fieldModel->setRelatedModules(referenceModule);
+			$fieldModel->setRelatedModules($moduleList);
 			foreach ($moduleList as $module) {
 				$targetModule = Vtiger_Module::getInstance($module);
 				$targetModule->setRelatedList($this, $moduleName, array('Add'), 'get_dependents_list');

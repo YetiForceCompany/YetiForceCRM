@@ -2,7 +2,7 @@
 {strip}
 {assign var=FIELD_NAME value=$FIELD_MODEL->get('name')}
 {assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_MODEL->getFieldInfo()))}
-{assign var="ALL_VALUE" value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_MODEL->getUitypeInstance()->getAllValue()))}
+{assign var="ALL_VALUE" value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_MODEL->getUITypeModel()->getAllValue()))}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 <input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$FIELD_MODEL->get('fieldvalue')}" class="sourceField" data-displayvalue='{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}' data-fieldinfo='{$FIELD_INFO}' data-treetemplate="{$FIELD_MODEL->getFieldParams()}" data-allvalues='{$ALL_VALUE}' />
 {assign var="displayId" value=$FIELD_MODEL->get('fieldvalue')}
