@@ -3917,10 +3917,10 @@ html,body,.baseContainer
 }
 @media screen and (min-width: 960px) {
 	.rightPanelOpen{
-		position: fixed;
-		min-width: 300px;
-		top: 50px;
-		right: -295px;
+		position: absolute;
+		min-width: 314px;
+		top: 0px;
+		right: -309px;
 		z-index: 1035;
 		background: rgba(0, 0, 0, 0.4);
 		-webkit-transition: all 0.5s ease;
@@ -3955,8 +3955,8 @@ html,body,.baseContainer
 		background: rgba(0, 0, 0, 0.4);
 		padding: 5px 2px !important;
 		position: absolute;
-		top: 10px;
-		right: -5px;
+		top: 80px;
+		right: 5px;
 		width: 12px;
 		z-index: 100;
 		border-radius: 4px 0 0 4px;
@@ -3974,7 +3974,7 @@ html,body,.baseContainer
 	}
 }
 .rightPanelOpen .panel{
-	display: none;
+	display: block;
 }
 .bottom_margin {
 	padding-bottom: 2em;
