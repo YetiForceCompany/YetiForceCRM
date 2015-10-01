@@ -3678,16 +3678,27 @@ span[name=existingImages] img{
 .baseContainer .leftPanel .menuContainer .subMenu  a {
 	font-size: 14px;
 }
+.baseContainer .leftPanel .menuContainer .subMenu  button {
+	border-width: 0;
+	border-radius: 0;
+	background: #f0f1f1;
+	text-align: left;
+	padding-left: 50px;
+}
 .baseContainer .leftPanel .menuContainer .subMenu a:hover,
-.baseContainer .leftPanel .menuContainer .subMenu a:focus
+.baseContainer .leftPanel .menuContainer .subMenu a:focus,
+.baseContainer .leftPanel .menuContainer .subMenu button:hover,
+.baseContainer .leftPanel .menuContainer .subMenu button:focus
 {
 	color:#fff;
 	background: #444853;
 }
-.baseContainer .leftPanel .menuContainer .subMenu  a.hasIcon {
+.baseContainer .leftPanel .menuContainer .subMenu  a.hasIcon,
+.baseContainer .leftPanel .menuContainer .subMenu  button .hasIcon {
 	padding: 6px 10px;
 }
-.baseContainer .leftPanel .menuContainer .subMenu a .menuName{
+.baseContainer .leftPanel .menuContainer .subMenu a .menuName,
+.baseContainer .leftPanel .menuContainer .subMenu button .menuName{
 	top: 2px;
 }
 .baseContainer .leftPanel .menuContainer a.hasIcon img{
@@ -4270,6 +4281,14 @@ html,body,.baseContainer
 .mobileLeftPanel  .mobileLeftPanelContainer .menuLabel a{   
 	color: #eee;
 	font-size:14px;
+}
+.mobileLeftPanel  .mobileLeftPanelContainer .menuPanel button{   
+	color: #eee;
+	background: #3f3f3f;
+	text-align: left;
+	padding-left: 85px;
+	font-size: 14px;
+	border-width: 0;
 }
 .mobileLeftPanel  .mobileLeftPanelContainer .menuModule{
 	padding-left: 50px;

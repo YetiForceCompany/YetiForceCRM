@@ -8,18 +8,18 @@
 				{$ICON}
 				<span class="menuName">{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}</span>
 			</a>
-			<ul class="nav subMenu {if $MENU['active'] || $PARENT_MODULE == $MENU['id']}in{/if}" role="menu" aria-hidden="true">
-				<li class="menuPanel">
-					<div class="panel panel-primary">
-						<div class="panel-heading">{Vtiger_Menu_Model::vtranslateMenu('LBL_CHANGE_LOGIN_PASSWORD',$MENU_MODULE)}</div>
-						<div class="panel-body">
-							<div class="">
-								<button class="btn btn-default btn-block btn-success showModalWindow"  name="changePass" data-url="index.php?module=Users&view=ChangePassword" type="submit">{Vtiger_Menu_Model::vtranslateMenu('LBL_CHANGE',$MENU_MODULE)}</button>
-							</div>
-						</div>
-					</div>
-				</li>	
-			</ul>
+			{if $DEVICE == 'Desktop'}
+				<ul class="nav subMenu {if $MENU['active'] || $PARENT_MODULE == $MENU['id']}in{/if}" role="menu" aria-hidden="true">
+			{/if}
+					<li class="menuPanel">
+						<button name="changePass" data-url="index.php?module=Users&view=ChangePassword" 
+							class=" btn btn-block btn-default showModalWindow" type='submit'>
+								{Vtiger_Menu_Model::vtranslateMenu('LBL_CHANGE_LOGIN_PASSWORD',$MENU_MODULE)}
+						</button>
+					</li>
+			{if $DEVICE == 'Desktop'}
+				</ul>
+			{/if}
 		</li>
 	{/if}
 {/strip}
