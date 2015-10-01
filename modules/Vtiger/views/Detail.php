@@ -493,8 +493,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$record = $recordModel->getId();
 		$moduleName = $recordModel->getModuleName();
-		$recordPermissionToEditView = Users_Privileges_Model::CheckPermissionsToEditView($moduleName, $record);
-		if ($recordPermissionToEditView)
+		$recordPermissionToEditView = Users_Privileges_Model::checkLockEdit($moduleName, $record);
+		if (!$recordPermissionToEditView)
 			return $recordModel->isEditable();
 		else
 			return false;

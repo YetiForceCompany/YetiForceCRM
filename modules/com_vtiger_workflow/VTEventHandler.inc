@@ -100,6 +100,18 @@ class VTWorkflowEventHandler extends VTEventHandler {
 						$doEvaluate = false;
 						break;
 					}
+				case VTWorkflowManager::$ON_DELETE:{
+						$doEvaluate = false;
+						break;
+					}
+				case VTWorkflowManager::$TRIGGER:{
+						$doEvaluate = false;
+						break;
+					}
+				case VTWorkflowManager::$BLOCK_EDIT:{
+						$doEvaluate = false;
+						break;
+					}
 				default: {
 						throw new Exception("Should never come here! Execution Condition:" . $workflow->executionCondition);
 					}

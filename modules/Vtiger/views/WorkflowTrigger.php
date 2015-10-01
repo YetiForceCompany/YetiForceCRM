@@ -27,7 +27,7 @@ class Vtiger_WorkflowTrigger_View extends Vtiger_IndexAjax_View {
 		
 		$adb = PearDatabase::getInstance();
 		$wfs = new VTWorkflowManager($adb);
-		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$MANUAL);
+		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
 		
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$wsId = vtws_getWebserviceEntityId($moduleName, $record);

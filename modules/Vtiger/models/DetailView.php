@@ -71,24 +71,24 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
 
-		$detailViewLink = array();
-		$recordPermissionToEditView = Users_Privileges_Model::CheckPermissionsToEditView($moduleName, $recordId);
+		$detailViewLinks = [];
+		$adb = PearDatabase::getInstance();
+		vimport('~~modules/com_vtiger_workflow/include.inc');
+		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
+		$wfs = new VTWorkflowManager($adb);
+		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
+		if (Users_Privileges_Model::isPermitted($moduleName, 'WorkflowTrigger') && count($workflows) > 0) {
+			$detailViewLinks[] = array(
+				'linktype' => 'DETAILVIEWBASIC',
+				'linklabel' => '',
+				'linkurl' => 'Vtiger_Detail_Js.showWorkflowTriggerView(this)',
+				'linkicon' => 'glyphicon glyphicon-plus-sign',
+				'linkhint' => 'BTN_WORKFLOW_TRIGGER',
+			);
+		}
+		$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && $recordPermissionToEditView) {
-			$adb = PearDatabase::getInstance();
-			vimport('~~modules/com_vtiger_workflow/include.inc');
-			vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
-			$wfs = new VTWorkflowManager($adb);
-			$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$MANUAL);
-			if (Users_Privileges_Model::isPermitted($moduleName, 'WorkflowTrigger') && count($workflows) > 0) {
-				$detailViewLinks[] = array(
-					'linktype' => 'DETAILVIEWBASIC',
-					'linklabel' => '',
-					'linkurl' => 'Vtiger_Detail_Js.showWorkflowTriggerView(this)',
-					'linkicon' => 'glyphicon glyphicon-plus-sign',
-					'linkhint' => 'BTN_WORKFLOW_TRIGGER',
-				);
-			}
+		if (Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && !$lockEdit) {
 			$detailViewLinks[] = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
@@ -97,9 +97,9 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				'linkclass' => 'btn',
 				'linkhint' => 'BTN_RECORD_EDIT',
 			);
-			foreach ($detailViewLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
-			}
+		}
+		foreach ($detailViewLinks as $detailViewLink) {
+			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 		}
 		$linkModelListDetails = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 		//Mark all detail view basic links as detail view links.

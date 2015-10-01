@@ -56,9 +56,9 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model {
 		$recordId = $recordModel->getId();
 		$status = $recordModel->get('activitystatus');
 		$statusActivity = Calendar_Module_Model::getComponentActivityStateLabel('current');
-		$recordPermissionToEditView = Users_Privileges_Model::CheckPermissionsToEditView($moduleName, $recordId);
+		$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
 
-		if (Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && $currentUserModel->hasModuleActionPermission($this->getModule()->getId(), 'DetailView') && $recordPermissionToEditView && isPermitted($moduleName, 'ActivityComplete', $recordId) == 'yes' && isPermitted($moduleName, 'ActivityCancel', $recordId) == 'yes' && isPermitted($moduleName, 'ActivityPostponed', $recordId) == 'yes' && in_array($status, $statusActivity) ){
+		if (Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && $currentUserModel->hasModuleActionPermission($this->getModule()->getId(), 'DetailView') && !$lockEdit && isPermitted($moduleName, 'ActivityComplete', $recordId) == 'yes' && isPermitted($moduleName, 'ActivityCancel', $recordId) == 'yes' && isPermitted($moduleName, 'ActivityPostponed', $recordId) == 'yes' && in_array($status, $statusActivity) ){
 			$basicActionLink = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_FINISH_WORK_WITH_THE_RECORD',

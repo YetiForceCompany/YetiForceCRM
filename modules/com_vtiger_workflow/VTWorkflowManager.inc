@@ -17,9 +17,11 @@
 		static $ONCE = 2;
 		static $ON_EVERY_SAVE = 3;
 		static $ON_MODIFY = 4;
-        // Reserving 5 & 6 for ON_DELETE and ON_SCHEDULED types.
+		static $ON_DELETE = 5;
 		static $ON_SCHEDULE=6;
 		static $MANUAL = 7;
+		static $TRIGGER = 8;
+		static $BLOCK_EDIT = 9;
 
 		function __construct($adb){
 			$this->adb = $adb;
@@ -116,8 +118,9 @@
 		function getWorkflowsForModule($moduleName, $executionCondition = false) {
 			$adb = $this->adb;
 			$cache = Vtiger_Cache::getInstance();
-			if ($cache->getWorkflowForModule($moduleName)) {
-				return $this->getWorkflowsForResult($cache->getWorkflowForModule($moduleName));
+			$cacheName = $moduleName.$executionCondition?$executionCondition:'';
+			if ($cache->getWorkflowForModule($cacheName)) {
+				return $this->FgetWorkflowsForResult($cache->getWorkflowForModule($cacheName));
 			} else {
 				$result = $adb->getColumnNames("com_vtiger_workflows");
 				if (in_array(defaultworkflow, $result)) {
@@ -131,7 +134,7 @@
 					$sql .= ' AND execution_condition = ?';
 				}
 				$result = $adb->pquery($sql, $params);
-				$cache->setWorkflowForModule($moduleName, $result);
+				$cache->setWorkflowForModule($cacheName, $result);
 				return $this->getWorkflowsForResult($result);
 			}
 		}

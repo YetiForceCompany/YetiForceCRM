@@ -194,6 +194,19 @@ class Vtiger_Module_Model extends Vtiger_Module
 			if ($recordModel->get('transferRecordIDs'))
 				$focus->transferRelatedRecords($moduleName, $recordModel->get('transferRecordIDs'), $recordModel->getId());
 		}
+
+		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
+		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
+		if (count($workflows)) {
+			$wsId = vtws_getWebserviceEntityId($moduleName, $recordModel->getId());
+			$entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
+			$entityData = $entityCache->forId($wsId);
+			foreach ($workflows as $id => $workflow) {
+				if ($workflow->evaluate($entityCache, $entityData->getId())) {
+					$workflow->performTasks($entityData);
+				}
+			}
+		}
 	}
 
 	/**
@@ -1120,15 +1133,15 @@ class Vtiger_Module_Model extends Vtiger_Module
 					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_activity." . $relationField . " = crmentity2.crmid AND crmentity2.deleted = 0 AND crmentity2.setype = ?
 					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid WHERE vtiger_crmentity.deleted=0";
 		$params = [$this->getName()];
-		if ($recordId){
+		if ($recordId) {
 			$query .= ' AND vtiger_activity.' . $relationField . ' = ?';
 			array_push($params, $recordId);
 		}
 		if ($mode === 'current') {
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN (". generateQuestionMarks($currentActivityLabels) ."))";
+			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN (" . generateQuestionMarks($currentActivityLabels) . "))";
 			$params = array_merge($params, $currentActivityLabels);
 		} elseif ($mode === 'history') {
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status NOT IN (". generateQuestionMarks($currentActivityLabels) ."))";
+			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status NOT IN (" . generateQuestionMarks($currentActivityLabels) . "))";
 			$params = array_merge($params, $currentActivityLabels);
 		} elseif ($mode === 'upcoming') {
 			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails'))
@@ -1140,7 +1153,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 			$query .= " AND due_date < '$currentDate'";
 		}
 
-		
+
 		if ($user != 'all' && $user != '') {
 			if ($user === $currentUser->id) {
 				$query .= " AND vtiger_crmentity.smownerid = ?";
