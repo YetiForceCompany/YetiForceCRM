@@ -13,3 +13,5 @@
 <div class="bodyContents">
 	<div class="mainContainer">
 		<div id="centerPanel" class="contentsDiv col-md-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			<hr>

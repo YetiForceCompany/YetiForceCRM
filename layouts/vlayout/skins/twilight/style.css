@@ -961,7 +961,7 @@ margin: -2px 3px 0 0 !important;
   }
 }*/
 .recordEditView .contentHeader {
-	padding: 0.5% 0 1% 0;
+	padding: 5px 0;
 }
 .recordEditView .table .fieldLabel,
 .recordEditView .table .fieldValue {
@@ -3844,7 +3844,7 @@ html,body,.baseContainer
 
 }
 .bodyContents{
-	padding: 0 10px;
+	padding: 0 0px;
 	color: #353c44;
 }
 .bodyContent::after{
@@ -3972,7 +3972,7 @@ html,body,.baseContainer
 	margin-right: 160px !important;
 }
 .breadcrumbsLinks{
-	margin-top: 15px;
+	margin-top: 5px;
 	margin-left: 0px;
 }
 #inventoryViewLayout .inventoryBlock  ul li .editFields{
@@ -4027,6 +4027,7 @@ html,body,.baseContainer
 	.dashboardHeading .h3{
 		margin-bottom: 0px;
 		margin-right: 45px;
+		margin-top: 10px;
 	}
 	.rightHeaderBtnMenu{
 		display: none;
@@ -4074,6 +4075,7 @@ html,body,.baseContainer
 		max-width: calc(100% - 105px);
 	}
 	.dashboardHeading .h3{
+		margin-top: 10px;
 		margin-bottom: 0px;
 		margin-right: 25px;
 	}
@@ -4433,4 +4435,7 @@ html,body,.baseContainer
 }
 .dashboardHeading .breadcrumbsLinks{
 	margin-left: 40px;
+}
+.contentsDiv, .centerPanel{
+	padding: 0 10px;
 }
