@@ -94,7 +94,7 @@
 					{vtranslate('LBL_SEND',$MODULE)}
 				</button>
 			</form>
-			<div class="form-group">
+			<div class="login-text form-group">
 				<a href="#" id="backButton" >{vtranslate('LBL_TO_CRM',$MODULE)}</a>
 			</div>
 		</div>		
