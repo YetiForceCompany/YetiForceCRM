@@ -428,10 +428,11 @@ class Workflow
 	function executionConditionAsLabel($label = null)
 	{
 		if ($label == null) {
-			$arr = array('ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', '', '', 'MANUAL');
+			$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT'];
 			return $arr[$this->executionCondition - 1];
 		} else {
-			$arr = array('ON_FIRST_SAVE' => 1, 'ONCE' => 2, 'ON_EVERY_SAVE' => 3, 'ON_MODIFY' => 4, 'MANUAL' => 7);
+			$arr = ['ON_FIRST_SAVE' => 1, 'ONCE' => 2, 'ON_EVERY_SAVE' => 3, 'ON_MODIFY' => 4,
+				'ON_DELETE' => 5, 'ON_SCHEDULE' => 6, 'MANUAL' => 7, 'TRIGGER' => 8, 'BLOCK_EDIT' => 9];
 			$this->executionCondition = $arr[$label];
 		}
 	}
