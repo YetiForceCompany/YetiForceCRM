@@ -180,9 +180,9 @@ $languageStrings = [
 	'Invoice Date' => 'Invoice Date',
 	'Start Date & Time' => 'Startdatum & Zeit',
 	'End Date & Time' => 'Termin endet',
-	'ON_DELETE' => '__UNTRANSLATED__',
-	'TRIGGER' => '__UNTRANSLATED__',
-	'BLOCK_EDIT' => '__UNTRANSLATED__',
+	'ON_DELETE' => 'While deleting',
+	'TRIGGER' => 'Trigger manually',
+	'BLOCK_EDIT' => 'Block edition',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Dieselben Felder mehr als einmal ausgewählt',
