@@ -83,6 +83,9 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		if ($edit) {
 			$data = $this->getData();
 			foreach ($data as $key => $item) {
+				if (is_array($item)) {
+					$item = implode(',', $item);
+				}
 				if ($key != 'id' && $key != 'edit') {
 					$sqlCol .= $key . ' = ?,';
 					$params[] = $item;
@@ -97,6 +100,9 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			$db->pquery($sql, $params);
 		} else {
 			foreach ($this->getData() as $key => $item) {
+				if (is_array($item)) {
+					$item = implode(',', $item);
+				}
 				$sqlCol .= $key . ',';
 				switch ($key) {
 					case 'role': $role = $item = filter_var($item, FILTER_SANITIZE_NUMBER_INT);
@@ -169,6 +175,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				//'sizeicon' => $row['sizeicon'],
 				'parent' => $row['parentid'],
 				'hotkey' => $row['hotkey'],
+				'filters' => $row['filters'],
 				'childs' => $this->getChildMenu($roleId, $row['id'])
 			];
 		}
