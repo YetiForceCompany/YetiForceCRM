@@ -195,6 +195,8 @@ class Vtiger_Module_Model extends Vtiger_Module
 				$focus->transferRelatedRecords($moduleName, $recordModel->get('transferRecordIDs'), $recordModel->getId());
 		}
 
+		vimport('~~modules/com_vtiger_workflow/include.inc');
+		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
 		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
 		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
 		if (count($workflows)) {
