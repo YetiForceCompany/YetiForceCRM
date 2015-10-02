@@ -993,8 +993,8 @@ insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststar
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (13,'Backup','cron/backup.service',43200,NULL,NULL,0,'BackUp',11,NULL);
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (14,'CardDav','modules/API/cron/CardDav.php',300,NULL,NULL,1,'Contacts',12,NULL);
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (15,'CalDav','modules/API/cron/CalDav.php',300,NULL,NULL,1,'Calendar',13,NULL);
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (16,'Activity state','modules/Calendar/cron/ActivityState.php',3600,NULL,NULL,1,'Calendar',1,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (17,'LBL_MULTI_REFERENCE_VALUE','cron/MultiReference.service',3600,NULL,NULL,1,'com_vtiger_workflow',14,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (16,'Activity state','modules/Calendar/cron/ActivityState.php',1800,NULL,NULL,14,'Calendar',1,'');
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (17,'LBL_MULTI_REFERENCE_VALUE','cron/MultiReference.service',900,NULL,NULL,1,'com_vtiger_workflow',15,NULL);
 
 /*Data for the table `vtiger_currencies` */
 
