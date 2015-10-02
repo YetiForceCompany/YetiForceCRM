@@ -95,6 +95,8 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			if ($request->has($fieldName)) {
 				$fieldValue = $request->get($fieldName, null);
+			} else if ($fieldModel->getDisplayType() == 5) {
+				$fieldValue = $recordModel->get($fieldName);
 			} else {
 				$fieldValue = $fieldModel->getDefaultFieldValue();
 			}
@@ -102,6 +104,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 			if ($fieldDataType == 'time') {
 				$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 			}
+
 			if ($fieldValue !== null) {
 				if (!is_array($fieldValue)) {
 					$fieldValue = trim($fieldValue);
