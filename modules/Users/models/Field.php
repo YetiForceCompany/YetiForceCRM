@@ -74,10 +74,7 @@ class Users_Field_Model extends Vtiger_Field_Model {
 	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
 	 */
 	public function getPicklistValues() {
-		if($this->get('uitype') == 32) {
-			return Vtiger_Language_Handler::getAllLanguages();
-		}
-        else if ($this->get('uitype') == '115') {
+		if ($this->get('uitype') == '115') {
             $db = PearDatabase::getInstance();
             
             $query = 'SELECT '.$this->getFieldName().' FROM vtiger_'.$this->getFieldName();

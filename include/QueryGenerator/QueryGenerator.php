@@ -981,6 +981,7 @@ class QueryGenerator
 					}
 				}
 			} else if ($field->getFieldDataType() == 'multiReferenceValue') {
+				$operator = 'c';
 				$valueArray = explode(',', $value);
 				foreach ($valueArray as $key => $value) {
 					$valueArray[$key] = '|#|' . $value . '|#|';

@@ -31,6 +31,9 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function getPicklistValues()
 	{
+		if (!empty($this->get('picklistValues'))) {
+			return $this->get('picklistValues');
+		}
 		$params = $this->get('field')->getFieldParams();
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -47,6 +50,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		while ($value = $db->getSingleValue($result)) {
 			$values[$value] = vtranslate($value, $params['module']);
 		}
+		$this->set('picklistValues', $values);
 		return $values;
 	}
 

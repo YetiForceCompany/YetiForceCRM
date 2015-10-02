@@ -34,4 +34,13 @@ class Vtiger_Languages_UIType extends Vtiger_Base_UIType
 	{
 		return 'uitypes/LanguagesFieldSearchView.tpl';
 	}
+	
+	/**
+	 * Function to get all the available picklist values for the current field
+	 * @return <Array> List of picklist values if the field is of type Languages.
+	 */
+	public function getPicklistValues()
+	{
+		return Vtiger_Language_Handler::getAllLanguages();
+	}
 }
