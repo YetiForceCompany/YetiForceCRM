@@ -42,7 +42,7 @@ $languageStrings = [
 	'ScheduleReports' => 'Schedule Reports',
 	'MailScannerBind' => 'Mail Scanner Bind',
 	'LBL_CURRENCY_UPDATE' => 'Currency Update',
-	'LBL_MULTI_REFERENCE_VALUE' => '__UNTRANSLATED__',
+	'LBL_MULTI_REFERENCE_VALUE' => 'Multireference fields update',
 ];
 $jsLanguageStrings = [
 	'FREQUENCY_NUMBER' => 'Частота указывается в целых числах',
