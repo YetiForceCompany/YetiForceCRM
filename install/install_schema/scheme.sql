@@ -589,6 +589,15 @@ CREATE TABLE `s_yf_accesstorecord` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_multireference` */
+
+CREATE TABLE `s_yf_multireference` (
+  `source_module` varchar(50) NOT NULL,
+  `dest_module` varchar(50) NOT NULL,
+  `lastid` int(19) unsigned NOT NULL DEFAULT '0',
+  KEY `source_module` (`source_module`,`dest_module`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_account` */
 
 CREATE TABLE `vtiger_account` (
@@ -1769,7 +1778,7 @@ CREATE TABLE `vtiger_cron_task` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `handler_file` (`handler_file`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
 
