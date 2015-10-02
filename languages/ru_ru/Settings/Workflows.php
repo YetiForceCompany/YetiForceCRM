@@ -180,9 +180,9 @@ $languageStrings = [
 	'Invoice Date' => 'Invoice Date',
 	'Start Date & Time' => 'Дата и время начала',
 	'End Date & Time' => 'Дата и время окончания',
-	'ON_DELETE' => '__UNTRANSLATED__',
-	'TRIGGER' => '__UNTRANSLATED__',
-	'BLOCK_EDIT' => '__UNTRANSLATED__',
+	'ON_DELETE' => 'While deleting',
+	'TRIGGER' => 'Trigger manually',
+	'BLOCK_EDIT' => 'Block edition',
 ];
 
 $jsLanguageStrings = [
