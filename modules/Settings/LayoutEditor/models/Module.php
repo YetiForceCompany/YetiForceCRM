@@ -326,7 +326,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			Case 'MultiReferenceValue' :
 				$uitype = 305;
 				$type = "TEXT";
-				$uichekdata = 'V~O';
+				$uichekdata = 'C~O';
 				$displayType = 5;
 				break;
 		}
