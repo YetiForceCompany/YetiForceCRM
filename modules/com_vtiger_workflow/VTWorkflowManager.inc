@@ -124,7 +124,7 @@ class VTWorkflowManager
 		$cache = Vtiger_Cache::getInstance();
 		$cacheName = $moduleName . $executionCondition ? $executionCondition : '';
 		if ($cache->getWorkflowForModule($cacheName)) {
-			return $this->FgetWorkflowsForResult($cache->getWorkflowForModule($cacheName));
+			return $this->getWorkflowsForResult($cache->getWorkflowForModule($cacheName));
 		} else {
 			$result = $adb->getColumnNames("com_vtiger_workflows");
 			if (in_array(defaultworkflow, $result)) {
