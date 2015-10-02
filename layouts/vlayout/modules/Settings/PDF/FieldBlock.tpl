@@ -7,7 +7,8 @@
 					{vtranslate('LBL_MAIN_MODULE', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-3 controls">
-					<select class="chzn-select form-control" name="module_name" required="true"">
+					<input type="hidden" name="module_name" value="{$PDF_MODEL->get('module_name')}" />
+					<select class="chzn-select form-control" name="module_name_select" disabled="disabled">
 						{foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
 							{if $PDF_MODEL->get('module_name') == $MODULE_MODEL->getName()}
 							<option value="{$MODULE_MODEL->getName()}" selected="selected">

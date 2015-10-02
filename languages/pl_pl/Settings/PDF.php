@@ -88,6 +88,15 @@ $languageStrings = [
 	'LBL_MAIN_MODULE' => 'Główny moduł',
 	'LBL_WATERMARK_SIZE' => 'Rozmiar czcionki',
 	'LBL_WATERMARK_ANGLE' => 'Kąt w stopniach',
+	'LBL_IMPORT_TEMPLATE' => 'Importuj szablon',
+	'LBL_UPLOAD_ERROR' => 'Import pliku XML szablonu PDF nie powiódł się!',
+	'LBL_UPLOAD_OK' => 'Pomyślnie zaimportowano plik szablonu.',
+	'LBL_IMPORT_VIEW' => 'Import szablonów PDF',
+	'LBL_TEMPLATE_XML' => 'Plik XML',
+	'LBL_UPLOAD_TEMPLATE' => 'Importuj',
+	'LBL_GO_TO_TEMPLATE' => 'Kliknij aby przejść do zaimportowanego szablonu.',
+	'LBL_RETURN' => 'Wróć',
+	'LBL_PERMISSIONS_DETAILS' => 'Uprawnienia',
 
 	// page format names
 	'4A0' => '4A0',
@@ -151,4 +160,5 @@ $jsLanguageStrings = [
 	'JS_PDF_SAVED_SUCCESSFULLY' => 'Szablon pdf został zapisany.',
 	'LBL_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
 	'LBL_NOTIFY_COPY_TITLE' => 'Tekst',
+	'JS_PDF_TEMPLATE_EXPORTED' => 'Szablon PDF został pomyślnie wyeksportowany.'
 ];

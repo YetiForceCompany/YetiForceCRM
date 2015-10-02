@@ -11,3 +11,7 @@
 .overflowXAuto {overflow-x: auto;}
 .crumbs li {margin-right: 2px !important;}
 .marginRight5px {margin-right: 5px;}
+.pdfContainer {margin-bottom:25px;}
+.bgMessage {font-weight: bold; padding: 25px; margin: 25px;}
+.bgOK {background-color: #dff0d8 !important;}
+.bgERROR {background-color: #f2dede !important;}

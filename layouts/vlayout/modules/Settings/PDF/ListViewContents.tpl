@@ -45,6 +45,8 @@
 												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
 												{if $RECORD_LINK->getLabel() eq 'LBL_DELETE_RECORD'}
 													<span class="{$RECORD_LINK->getIcon()} alignMiddle templateDelete" title="{vtranslate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+												{elseif $RECORD_LINK->getLabel() eq 'LBL_EXPORT_RECORD'}
+													<a href="{$RECORD_LINK_URL}"><span class="{$RECORD_LINK->getIcon()} alignMiddle"></span></a>
 												{else}
 													<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="
 														{$RECORD_LINK_URL|substr:strlen("javascript:")};

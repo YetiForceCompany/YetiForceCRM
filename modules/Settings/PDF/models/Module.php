@@ -1,5 +1,4 @@
 <?php
-
 require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.inc';
 
 /**
@@ -80,6 +79,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'LBL_HELPDESK_SUPPORT_NAME' => '(general : (__VtigerMeta__) supportName)',
 		'LBL_HELPDESK_SUPPORT_EMAILID' => '(general : (__VtigerMeta__) supportEmailid)',
 	);
+	public static $uploadPath = 'layouts/vlayout/modules/Settings/PDF/resources/watermark_images/';
 
 	/**
 	 * Function to get the url for default view of the module
@@ -102,6 +102,11 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getCreateRecordUrl()
 	{
 		return 'index.php?module=PDF&parent=Settings&view=Edit';
+	}
+
+	public static function getImportViewUrl()
+	{
+		return 'index.php?module=PDF&parent=Settings&view=Import';
 	}
 
 	public static function getSupportedModules()

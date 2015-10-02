@@ -83,68 +83,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 			window.history.back();
 		});
 	},
-	registerMainModuleChangeEvent: function (form) {
-		var thisInstance = this;
-		form.find('[name="module_name"]').on('change', function () {
-			var mainFields = form.find('[name="main_fields"]');
-			var params = {};
-			params.data = {
-				parent: app.getParentModuleName(),
-				module: app.getModuleName(),
-				action: 'GetMainFields',
-				for_module: jQuery(this).val()
-			};
-			params.dataType = 'json';
-			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (data['success']) {
-							mainFields.prop('disabled', true);
-							mainFields.find('optgroup').remove();
-							mainFields.find('option').remove();
-							for (var prop in response) {
-								mainFields.append('<optgroup label="' + prop + '">');
-								for (var field in response[prop]) {
-									mainFields.append('<option value="' + response[prop][field]['name'] + '">' + response[prop][field]['label'] + '</option>');
-								}
-								mainFields.append('</optgroup>');
-							}
-							mainFields.prop('disabled', false).trigger('liszt:updated');
-							mainFields.select2('val', mainFields.find('option').first().val());
-						}
-					},
-					function (data, err) {
-						app.errorLog(data, err);
-					}
-			);
-
-
-			var specialFields = form.find('[name="special_functions"]');
-			params.data = {
-				parent: app.getParentModuleName(),
-				module: app.getModuleName(),
-				action: 'GetSpecialFunctions',
-				for_module: jQuery(this).val()
-			};
-			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (data['success']) {
-							specialFields.prop('disabled', true);
-							specialFields.find('optgroup').remove();
-							specialFields.find('option').remove();
-							for (var prop in response) {
-								specialFields.append('<option value="' + prop + '">' + response[prop] + '</option>');
-							}
-							specialFields.prop('disabled', false).trigger('liszt:updated');
-						}
-					},
-					function (data, err) {
-						app.errorLog(data, err);
-					}
-			);
-		});
-	},
 	registerMainFieldsChangeEvent: function (form) {
 		var thisInstance = this;
 		form.find('[name="main_fields"]').on('change', function () {
@@ -266,7 +204,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 		container.validationEngine(opts);
 		app.showSelect2ElementView(container.find('.chzn-select'));
 		this.registerCancelStepClickEvent(container);
-		this.registerMainModuleChangeEvent(container);
 		this.registerRelatedModuleChangeEvent(container);
 		this.registerMainFieldsChangeEvent(container);
 		this.registerRelatedFieldsChangeEvent(container);

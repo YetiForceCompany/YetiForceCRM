@@ -28,6 +28,11 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		}
 	}
 
+	public function getRaw($key)
+	{
+		return parent::get($key);
+	}
+
 	public function getEditViewUrl()
 	{
 		return 'index.php?module=PDF&parent=Settings&view=Edit&record=' . $this->getId();
@@ -51,22 +56,28 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 	public function getRecordLinks()
 	{
 
-		$links = array();
+		$links = [];
 
-		$recordLinks = array(
-			array(
+		$recordLinks = [
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil'
-			),
-			array(
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_EXPORT_RECORD',
+				'linkurl' => 'index.php?module=PDF&parent=Settings&action=ExportTemplate&id=' . $this->getId(),
+				'linkicon' => 'glyphicon glyphicon-export'
+			],
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => '#',
 				'linkicon' => 'glyphicon glyphicon-trash'
-			)
-		);
+			]
+		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
@@ -94,7 +105,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		return $pdf;
 	}
 
-	public static function getCleanInstance($moduleName)
+	public static function getCleanInstance()
 	{
 		$pdf = new self;
 		$data = [];
@@ -159,7 +170,28 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					$result = $db->pquery($query, $params);
 				}
 				return $this->get('pdfid');
+
+			case 'import':
+				$allFields = Settings_PDF_Module_Model::$allFields;
+				$params = [];
+				foreach ($allFields as $field) {
+					if ($field === 'conditions') {
+						$params[$field] = json_encode($this->get($field));
+					} else {
+						$params[$field] = $this->get($field);
+					}
+				}
+				//var_dump($params);exit;
+				$db->insert('a_yf_pdf', $params);
+
+				$this->set('pdfid', $db->getLastInsertID());
+				return $this->get('pdfid');
 		}
+	}
+
+	public function import()
+	{
+		$this->save('import');
 	}
 
 	public function delete()

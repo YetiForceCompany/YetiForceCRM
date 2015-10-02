@@ -56,6 +56,11 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 			window.location.href = jQuery(this).data('url') + '&source_module=' + selectedModule;
 		});
 	},
+	registerImportTemplate: function (container) {
+		jQuery('#importButton', container).on('click', function () {
+			window.location.href = jQuery(this).data('url');
+		});
+	},
 	registerTemplateDelete: function (container) {
 		container.find('.templateDelete').each(function (index) {
 			jQuery(this).on('click', function (e) {
@@ -72,5 +77,6 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 		this.registerFilterChangeEvent();
 		this.registerAddNewTemplate(container);
 		this.registerTemplateDelete(container);
+		this.registerImportTemplate(container);
 	}
 });

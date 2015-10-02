@@ -14,6 +14,9 @@
 					<i class="glyphicon glyphicon-plus"></i>&nbsp;
 					<strong>{vtranslate('LBL_NEW', $QUALIFIED_MODULE)} {vtranslate('LBL_PDF_TEMPLATE',$QUALIFIED_MODULE)}</strong>
 				</button>
+				<button class="btn btn-default importButton" id="importButton" data-url="{Settings_PDF_Module_Model::getImportViewUrl()}" title="{vtranslate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
+					<i class="glyphicon glyphicon-import"></i>
+				</button>
 			</div>
 			<div class="col-md-4 btn-toolbar">
 				<select class="chzn-select" id="moduleFilter" >
