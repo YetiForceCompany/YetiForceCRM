@@ -80,4 +80,5 @@ $jsLanguageStrings = [
   'JS_IMPORTED_MODULE' => 'Модуль успешно установлен.',
   'JS_UPDATE_SUCCESSFULL' => 'Обновление успешно',
   'JS_UPDATED_MODULE' => 'Модуль успешно обновлен',
+	'JS_REMOVED_MODULE' => 'Removed module',
 ];
