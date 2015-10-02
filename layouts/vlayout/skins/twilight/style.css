@@ -3852,7 +3852,7 @@ html,body,.baseContainer
 	height: 100%;
 	margin-top: 0;
 	padding-top: 0px;
-
+	padding-bottom: 15px;
 }
 .bodyContents{
 	padding: 0 0px;
