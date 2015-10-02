@@ -48,7 +48,7 @@
 					{/if}
 
 					<td class="opacity">
-						<div class="row moduleManagerBlock">
+						<div class="moduleManagerBlock">
 							<span class="col-md-1">
 								<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{vtranslate($MODULE_NAME, $MODULE_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
 							</span>

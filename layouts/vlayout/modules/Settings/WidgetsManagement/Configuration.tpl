@@ -45,10 +45,11 @@ padding: 20px 20px 20px 20px;
 				</div>
 			</div>
 		</div>
+		<hr>
 
 <div class="contents tabbable">
 	
-	<div class="tab-content layoutContent paddingNoTop20 themeTableColor overflowVisible">
+	<div class="tab-content paddingNoTop10 themeTableColor overflowVisible">
 		
 	<div class="tab-pane active" id="layoutDashBoards">
 		<div class="btn-toolbar marginBottom10px">

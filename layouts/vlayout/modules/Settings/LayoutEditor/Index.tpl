@@ -22,7 +22,7 @@
 		<div class="col-md-6">
 		    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		</div>
-		<div class="pull-right col-md-6 h3 form-inline">
+		<div class="pull-right col-md-6 form-inline">
 			<div class="form-group pull-right col-md-6">
 				<select class="select2 form-control" name="layoutEditorModules">
 					{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
@@ -73,7 +73,7 @@
                                         <img class="alignMiddle" src="{vimage_path('drag.png')}" alt=""/>&nbsp;&nbsp;
                                         <strong>{vtranslate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
                                     </div>
-                                    <div class="col-md-6 marginLeftZero" style="float:right !important;"><div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
+                                    <div class="col-md-6 marginLeftZero pul-right" ><div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
                                             {if $BLOCK_MODEL->isAddCustomFieldEnabled()}
                                                 <div class="btn-group">
                                                     <button class="btn btn-default addCustomField" type="button">
@@ -108,7 +108,7 @@
                                     </div>
                                 </div>
                                 <div class="blockFieldsList {if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}blockFieldsSortable {/if} row no-margin" style="padding:5px;min-height: 27px">
-                                    <ul name="sortable1" class="connectedSortable col-md-6" style="list-style-type: none; float: left;min-height: 1px;padding:2px;">
+                                    <ul name="sortable1" class="sortTableUl connectedSortable col-md-6">
                                         {foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist}
                                             {assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
                                             {if $smarty.foreach.fieldlist.index % 2 eq 0}
@@ -305,7 +305,7 @@
 											{/if}
 										{/foreach}
 									</ul>
-									<ul {if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}name="sortable2"{/if} class="connectedSortable col-md-6" style="list-style-type: none; margin: 0; float: left;min-height: 1px;padding:2px;">
+									<ul {if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}name="sortable2"{/if} class="connectedSortable sortTableUl col-md-6">
 										{foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist1}
 											{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 											{if $smarty.foreach.fieldlist1.index % 2 neq 0}
