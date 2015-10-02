@@ -937,7 +937,7 @@ class QueryGenerator
 		}
 
 		foreach ($this->whereClauseCustom as $where) {
-			$fieldSqlList[] = '(' . $where['column'] . ' ' . $where['operator'] . ' ' . $where['value'];
+			$sql .= ' ' . $where['glue'] . ' ' . $where['column'] . ' ' . $where['operator'] . ' ' . $where['value'];
 		}
 
 		// This is needed as there can be condition in different order and there is an assumption in makeGroupSqlReplacements API
