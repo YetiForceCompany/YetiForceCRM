@@ -4199,9 +4199,9 @@ html,body,.baseContainer
 .actionMenu .commonActionsButtonDropDown{
 	position: fixed;
 	top: 50px;
-	width: calc(100% - 10px);
+	right: 5px;
 	left: 5px;
-	height: 100%;	
+	bottom: 33px;
 	overflow: scroll;
 }
 .actionMenu .historyList{
@@ -4209,7 +4209,7 @@ html,body,.baseContainer
 	top: 50px;	
 	width: 100%;
 	left: 0;
-	height: 100%;
+	bottom: 33px;
 	overflow: scroll;
 }
 .actionMenuOn{
@@ -4457,4 +4457,12 @@ html,body,.baseContainer
 }
 .contentsDiv, .centerPanel{
 	padding: 0 10px;
+}
+@media only screen and (max-width: 992px) {
+	.listViewActionsDiv .btn-toolbar{
+		margin-bottom: 5px;
+	}
+	.listViewActionsDiv .pull-right{
+		float: left !important;
+	}
 }
