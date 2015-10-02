@@ -396,7 +396,7 @@ class PearDatabase
 	}
 
 	/**
-	 * A function to insert data in the database
+	 * A function to insert data into the database
 	 * @param string $table Table name
 	 * @param array $data Query data
 	 * @return array Row count and last insert id
@@ -422,7 +422,7 @@ class PearDatabase
 	}
 
 	/**
-	 * A function to remove data in the database
+	 * A function to remove data from the database
 	 * @param string $table Table name
 	 * @param string $where Conditions
 	 * @param array $params Query data
