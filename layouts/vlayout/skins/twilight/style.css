@@ -1285,7 +1285,7 @@ td.fieldValue .input-group {
 	margin-bottom: 10px;
 }
 .conditionGroup .contents .conditionRow select{
-	width: 90%;
+	width: 100%;
 }
 .conditionGroup .contents .conditionRow .chzn-results li {
 	line-height: 20px;
@@ -4463,6 +4463,9 @@ html,body,.baseContainer
 	}
 	.widget_header .btn-toolbar{
 		margin-bottom: 5px;
+	}
+	.modal-header .pull-right{
+		float: left !important;
 	}
 	.listViewActionsDiv .pull-right{
 		float: left !important;

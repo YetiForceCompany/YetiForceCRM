@@ -10,9 +10,9 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="row conditionRow marginBottom10px">
+<div class="conditionRow marginBottom10px">
 	<span class="col-md-4">
-		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control" name="columnname" title="{vtranslate('LBL_CHOOSE_FIELD')}">
+		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="columnname" title="{vtranslate('LBL_CHOOSE_FIELD')}">
 			<option value="none">{vtranslate('LBL_SELECT_FIELD',$MODULE)}</option>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				<optgroup label='{vtranslate($BLOCK_LABEL, $SOURCE_MODULE)}'>
@@ -117,7 +117,7 @@
 		</select>
 	</span>
 	<span class="col-md-3">
-		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control" name="comparator" title="{vtranslate('LBL_COMAPARATOR_TYPE')}">
+		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{vtranslate('LBL_COMAPARATOR_TYPE')}">
 			 <option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
 			{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
             {if $FIELD_TYPE eq 'D' || $FIELD_TYPE eq 'DT'}
