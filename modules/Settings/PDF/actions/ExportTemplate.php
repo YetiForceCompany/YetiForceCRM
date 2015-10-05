@@ -20,13 +20,15 @@ class Settings_PDF_ExportTemplate_Action extends Vtiger_Action_Controller
 
 		$pdfRecordModel = Settings_PDF_Record_Model::getInstanceById($recordId);
 
-		header("content-type: application/xml; charset=utf-8");
-		header("Pragma: public");
-		header("Cache-Control: private");
-		header("Content-Disposition: attachment; filename=lol.xml");
-		header("Content-Description: PHP Generated Data");
+		header('content-type: application/xml; charset=utf-8');
+		header('Pragma: public');
+		header('Cache-Control: private');
+		header('Content-Disposition: attachment; filename='.$recordId.'_pdftemplate.xml');
+		header('Content-Description: PHP Generated Data');
 
 		$xml = new DOMDocument('1.0', 'utf-8');
+		$xml->preserveWhiteSpace = false;
+		$xml->formatOutput = true;
 
 		$xmlTemplate = $xml->createElement('pdf_template');
 		$xmlFields = $xml->createElement('fields');

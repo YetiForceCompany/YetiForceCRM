@@ -17,7 +17,7 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Basic_Action
 		if ($recordId) {
 			$pdfModel = Settings_PDF_Record_Model::getInstanceById($recordId);
 		} else {
-			$pdfModel = Settings_PDF_Record_Model::getCleanInstance('');
+			$pdfModel = Settings_PDF_Record_Model::getCleanInstance();
 		}
 
 		$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);

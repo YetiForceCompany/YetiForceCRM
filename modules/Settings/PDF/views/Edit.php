@@ -43,7 +43,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 			$viewer->assign('MODE', 'edit');
 			$selectedModuleName = $pdfModel->get('module_name');
 		} else {
-			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
+			$pdfModel = Settings_PDF_Record_Model::getCleanInstance();
 			$selectedModuleName = $pdfModel->get('module_name');
 			$fields = $pdfModel->getData();
 			foreach ($fields as $name => $value) {
