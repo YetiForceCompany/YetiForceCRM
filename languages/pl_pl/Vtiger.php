@@ -1047,7 +1047,7 @@ $languageStrings = [
 	'LBL_NO_EXCHANGE_RATES' => 'Brak kursów walut, sprawdz czy prawidłowo działa pobieranie kursów walut',
 	'LBL_COMMENT' => 'Komentarz',
 	'LBL_CURRENT' => "Bieżące",
-	'LBL_FINISH_WORK_WITH_THE_RECORD' => 'Zakończ pracę z rekordem',
+	'LBL_SET_RECORD_STATUS' => 'Ustaw status',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',

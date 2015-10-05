@@ -61,7 +61,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model {
 		if (Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && $currentUserModel->hasModuleActionPermission($this->getModule()->getId(), 'DetailView') && !$lockEdit && isPermitted($moduleName, 'ActivityComplete', $recordId) == 'yes' && isPermitted($moduleName, 'ActivityCancel', $recordId) == 'yes' && isPermitted($moduleName, 'ActivityPostponed', $recordId) == 'yes' && in_array($status, $statusActivity) ){
 			$basicActionLink = [
 				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_FINISH_WORK_WITH_THE_RECORD',
+				'linklabel' => 'LBL_SET_RECORD_STATUS',
 				'linkurl' => '#',
 				'linkdata' => ['url'=>$recordModel->getActivityStateModalUrl()],
 				'linkicon' => 'glyphicon glyphicon-ok',

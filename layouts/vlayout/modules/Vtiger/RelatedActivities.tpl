@@ -47,7 +47,7 @@
 						<div>
 							<strong><span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
 							{if $DATA_TYPE != 'history'}
-								<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{vtranslate('LBL_FINISH_WORK_WITH_THE_RECORD',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
+								<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{vtranslate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
 							{/if}
 						</div>
 					{else}
@@ -59,7 +59,7 @@
 								<strong><span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
 {*								<span class="editStatus cursorPointer"><span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></span>*}
 									{if $DATA_TYPE != 'history'}
-									<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{vtranslate('LBL_FINISH_WORK_WITH_THE_RECORD',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
+									<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{vtranslate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
 									{/if}
 							</div>
 						{/if}
