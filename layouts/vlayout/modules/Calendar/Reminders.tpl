@@ -74,6 +74,7 @@
 						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="30m">30{vtranslate('LBL_M',$MODULE_NAME)}</a>
 						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="1h">1{vtranslate('LBL_H',$MODULE_NAME)}</a>
 						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="2h">2{vtranslate('LBL_H',$MODULE_NAME)}</a>
+						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="6h">6{vtranslate('LBL_H',$MODULE_NAME)}</a>
 						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="1d">1{vtranslate('LBL_D',$MODULE_NAME)}</a>
 					</div>
 					</div>
