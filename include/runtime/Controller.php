@@ -250,6 +250,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css',
 			'~libraries/jquery/pnotify/pnotify.custom.css',
 			'~libraries/jquery/datepicker/css/datepicker.css',
+			'~layouts/vlayout/skins/icons/userIcons.css',
+			'~layouts/vlayout/skins/icons/adminIcons.css',
 			'~layouts/vlayout/resources/styles.css',
 			'~libraries/jquery/timepicker/jquery.timepicker.css',
 			'~layouts/vlayout/modules/OSSMail/resources/OSSMailBoxInfo.css',
