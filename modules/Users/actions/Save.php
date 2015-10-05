@@ -61,6 +61,9 @@ class Users_Save_Action extends Vtiger_Save_Action {
 					$recordModel->set('is_owner', 0);
 				}
 			}
+			if ('17' == $fieldModel->get('uitype')) {
+				$fieldValue = $request->getRaw($fieldName);
+			}
 			if($fieldValue !== null) {
 				if(!is_array($fieldValue)) {
 					$fieldValue = trim($fieldValue);

@@ -128,6 +128,9 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				if ($fieldName === $request->get('field')) {
 					$fieldValue = $request->get('value');
 				}
+				if ('17' == $fieldModel->get('uitype')) {
+					$fieldValue = $request->getRaw($fieldName);
+				}
 				$recordModel->set($fieldName, $fieldValue);
 			}
 		} else {
