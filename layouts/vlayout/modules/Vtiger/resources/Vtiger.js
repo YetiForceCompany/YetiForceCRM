@@ -196,7 +196,7 @@ var Vtiger_Index_Js = {
 			var nextActivityReminderCheck = app.cacheGet('nextActivityReminderCheckTime', 0);
 
 			if ((currentTime + activityReminder) > nextActivityReminderCheck) {
-				Vtiger_Index_Js.requestReminder(true);
+				Vtiger_Index_Js.requestReminder();
 				setTimeout('Vtiger_Index_Js.requestReminder()', activityReminder);
 				app.cacheSet('nextActivityReminderCheckTime', currentTime + parseInt(activityReminder));
 			}
@@ -205,30 +205,14 @@ var Vtiger_Index_Js = {
 	/**
 	 * Function request for reminder popups
 	 */
-	requestReminder: function (typeRemainder) {
+	requestReminder: function () {
 		var thisInstance = this;
 		var content = $('.remindersNoticeContainer');
-		var url = 'index.php?module=Calendar&view=Reminders';
-		if (typeRemainder) {
-			url += '&type_remainder=true';
-		}
+		var url = 'index.php?module=Calendar&view=Reminders&type_remainder=true';
 		AppConnector.request(url).then(function (data) {
-			content.append(data);
+			content.html(data);
 			thisInstance.refreshNumberNotifications(content);
-			content.find('.reminderAccept').on('click', function (e) {
-				var currentElement = jQuery(e.currentTarget);
-				var recordID = currentElement.closest('.panel').data('record');
-				var url = 'index.php?module=Calendar&action=ActivityReminder&mode=cancelReminder&record=' + recordID;
-				AppConnector.request(url).then(function (data) {
-					currentElement.closest('.panel').fadeOut(300, function () {
-						$(this).remove();
-						var reminderAmount = $('.remindersNoticeContainer .borderColorMeeting').length
-						if (0 == reminderAmount)
-							content.toggleClass("toggled");
-						thisInstance.refreshNumberNotifications(content);
-					});
-				});
-			});
+			app.registerModal(content);
 
 			content.find('.reminderPostpone').on('click', function (e) {
 				var currentElement = jQuery(e.currentTarget);
