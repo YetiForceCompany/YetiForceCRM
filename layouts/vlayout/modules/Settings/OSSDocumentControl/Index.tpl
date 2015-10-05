@@ -24,8 +24,8 @@
                         <strong>{vtranslate('LBL_NEW_TPL', $MODULE_NAME)}</strong>
                     </a>
                 </div>
-                <div class="col-md-4 btn-toolbar" >
-                    <select class="chzn-select" id="moduleFilter" >
+                <div class="col-md-4 paddingLRZero" >
+                    <select class="chzn-select form-control" id="moduleFilter" >
                         <option value="">{vtranslate('LBL_ALL', $MODULE_NAME)}</option>
                         {foreach item=item key=key from=$SUPPORTED_MODULE_MODELS}
                             <option value="{$item}">{vtranslate($item, $item)}</option>

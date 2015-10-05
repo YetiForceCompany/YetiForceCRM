@@ -3115,7 +3115,7 @@ table.listViewEntriesTable {
 	margin-bottom: 5px;
 }
 .editViewContainer .recordEditView table.blockContainer tr td.fieldValue {
-	width: 30%;
+	width: 45%;
 }
 .recordEditView[name=QuickCreate] .quickCreateContent table tr td.fieldValue,
 #massEditContainer .massEditContent table tr td.fieldValue,
@@ -4473,15 +4473,17 @@ html,body,.baseContainer
 	.widget_header .pull-right{
 		float:left !important;
 	}
-	.mainContainer .pull-right{
-		float: left !important;
-	}
 	.sortTableUl{
 		list-style-type: none;
 		float: left;
 		min-height: 1px;
 		padding: 2px;
 		width: 100% !important;
+	}
+}
+@media only screen and (max-width: 768px){
+	.layoutBlockHeader .pull-right{
+		float: left !important;
 	}
 }
 .widget_header{

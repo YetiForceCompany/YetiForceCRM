@@ -52,7 +52,7 @@
 					<tr>
 						<td width="300px">{$module}</td>
 						<td width="150px">
-							<select name="{$name}" class="chzn-select">
+							<select name="{$name}" class="chzn-select form-control">
 								<optgroup label="{vtranslate('default', 'OSSPdf')}">
 									<option value="default" {if $SELECTED.$name eq "default"} SELECTED {/if}>{vtranslate('LBL_default', 'OSSPdf')}</option>
 								<optgroup label="{vtranslate('users', 'OSSPdf')}">
@@ -144,7 +144,7 @@
 																		{foreach from=$functions.variables key=name item=variable}
 																			<tr heigth="25px"><td width="40%">{$variable.label}</td>
 																				<td width="60%">
-																					<select name="{$name}" class="chzn-select">
+																					<select name="{$name}" class="chzn-select form-control">
 																						<option value="TRUE" {if $variable.value eq 'TRUE'} SELECTED {/if}>{vtranslate('LBL_TRUE', 'OSSPdf')}</option>
 																						<option value="FALSE" {if $variable.value eq 'FALSE'} SELECTED {/if}>{vtranslate('LBL_FALSE', 'OSSPdf')}</option>
 																					</select>

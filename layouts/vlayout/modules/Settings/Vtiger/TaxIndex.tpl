@@ -14,7 +14,7 @@
 		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 	</div>
 	<hr>
-	<div class="contents row paddingTop20">
+	<div class="contents row">
 		<div class="col-md-12">
 			{assign var=CREATE_TAX_URL value=$TAX_RECORD_MODEL->getCreateTaxUrl()}
 			{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}

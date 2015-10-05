@@ -9,20 +9,18 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div class="">
-		<div class="settingsHeader">
-			<span class="col-md-8">
+		<div class="widget_header">
+			<div class="col-md-8">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			</span>
-			<span class="col-md-4">
-				<span class="pull-right">
+			</div>
+			<div class="col-md-4">
+				<div class="pull-right">
 					{foreach item=LINK_MODEL from=$MODULE_MODEL->getDetailViewLinks()}
 						<button type="button" class="btn btn-info" onclick={$LINK_MODEL->getUrl()}><strong>{vtranslate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}</strong></button>
 					{/foreach}
-				</span>
-			</span>
+				</div>
+			</div>
 		</div>
-		<hr>
 		<div class="contents" id="detailView">
 			<table class="table table-bordered" width="100%">
 				<tbody>
@@ -60,5 +58,4 @@
 				</tbody>
 			</table>
 		</div>
-	</div>
 {/strip}

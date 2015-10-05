@@ -14,22 +14,22 @@
 	<div class="widget_header">
 		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		{vtranslate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
+		<hr>
+		<div class="row">
+			<span class="col-md-8 btn-toolbar">
+				{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
+				<button class="btn addButton btn-default" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
+						{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
+					<i class="glyphicon glyphicon-plus"></i>&nbsp;
+					<strong>{vtranslate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}</strong>
+				</button>
+				{/foreach}
+			</span>
+			<span class="col-md-4 btn-toolbar paddingLRZero">
+				{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+			</span>
+		</div>
+		<div class="clearfix"></div>
 	</div>
-	<hr>
-	<div class="row">
-		<span class="col-md-8 btn-toolbar">
-			{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-			<button class="btn addButton btn-default" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
-					{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
-				<i class="glyphicon glyphicon-plus"></i>&nbsp;
-				<strong>{vtranslate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}</strong>
-			</button>
-			{/foreach}
-		</span>
-		<span class="col-md-4 btn-toolbar paddingLRZero">
-			{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-		</span>
-	</div>
-	<div class="clearfix"></div>
 	<div class="listViewContentDiv" id="listViewContents">
 {/strip}

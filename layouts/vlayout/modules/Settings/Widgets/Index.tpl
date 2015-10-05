@@ -29,13 +29,18 @@
 	</div>
 	<hr>
 	<div class="btn-toolbar">
-		<span class="pull-left">
-			<h4>{vtranslate('List of widgets for the module', $QUALIFIED_MODULE)}: {vtranslate($SOURCEMODULE, $SOURCEMODULE)}</h4>
-		</span>
-		<span class="pull-right">
-			<button class="btn btn-default addWidget" type="button"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('Add widget', $QUALIFIED_MODULE)}</strong></button>
-		</span>
-		<div class="clearfix"></div>
+		<div class="row">
+			<div class="col-sm-8 col-md-8">
+				<span class="pull-left">
+					<h4>{vtranslate('List of widgets for the module', $QUALIFIED_MODULE)}: {vtranslate($SOURCEMODULE, $SOURCEMODULE)}</h4>
+				</span>
+			</div>
+			<div class="col-sm-4 col-md-4">
+				<span class="pull-right">
+					<button class="btn btn-default addWidget" type="button"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('Add widget', $QUALIFIED_MODULE)}</strong></button>
+				</span>
+			</div>
+		</div>
 	</div>
 	<div class="blocks-content padding1per">
 		<div class="row">
@@ -45,13 +50,13 @@
 					<div class="blockSortable" data-id="{$key}">
 						<div class="padding1per border1px">
 							<div class="row">
-								<div class="col-md-5">
+								<div class="col-sm-5 col-xs-5 col-md-5">
 									<img class="alignMiddle" src="{vimage_path('drag.png')}" /> &nbsp;&nbsp;{vtranslate($WIDGET['type'], $QUALIFIED_MODULE)}
 								</div>
-								<div class="col-md-5">
+								<div class="col-sm-5 col-xs-5 col-md-5">
 									{vtranslate($WIDGET['label'], $SOURCEMODULE)}&nbsp;
 								</div>
-								<div class="col-md-2">
+								<div class="col-sm-2 col-xs-2 col-md-2">
 									<span class="pull-right">
 										<i class="cursorPointer glyphicon glyphicon-pencil editWidget" title="{vtranslate('Edit', $QUALIFIED_MODULE)}"></i>
 										&nbsp;&nbsp;<i class="cursorPointer glyphicon glyphicon-remove removeWidget" title="{vtranslate('Remove', $QUALIFIED_MODULE)}"></i>

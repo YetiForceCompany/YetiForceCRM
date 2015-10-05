@@ -69,11 +69,11 @@
                             {$ALL_BLOCK_LABELS[$BLOCK_ID] = $BLOCK_LABEL_KEY}
                             <div id="block_{$BLOCK_ID}" class="editFieldsTable block_{$BLOCK_ID} marginBottom10px border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if}" data-block-id="{$BLOCK_ID}" data-sequence="{$BLOCK_MODEL->get('sequence')}" style="border-radius: 4px;background: white;">
                                 <div class="row layoutBlockHeader no-margin">
-                                    <div class="blockLabel col-md-5 padding10 marginLeftZero">
+                                    <div class="blockLabel col-md-6 col-sm-6 padding10 marginLeftZero">
                                         <img class="alignMiddle" src="{vimage_path('drag.png')}" alt=""/>&nbsp;&nbsp;
                                         <strong>{vtranslate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
                                     </div>
-                                    <div class="col-md-6 marginLeftZero pul-right" ><div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
+                                    <div class="col-md-6 col-sm-6 marginLeftZero " ><div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
                                             {if $BLOCK_MODEL->isAddCustomFieldEnabled()}
                                                 <div class="btn-group">
                                                     <button class="btn btn-default addCustomField" type="button">
@@ -116,14 +116,14 @@
                                                     <div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
                                                         <div class="row padding1per">
                                                             {assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-                                                            <div class="col-md-1">&nbsp;
+                                                            <div class="col-xs-2 col-sm-2">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
                                                                         <img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                                                                     </a>
                                                                 {/if}
                                                             </div>
-                                                            <div class="col-md-11 marginLeftZero fieldContainer" style="word-wrap: break-word;">
+                                                            <div class="col-xs-10 col-sm-10 marginLeftZero fieldContainer" style="word-wrap: break-word;">
                                                                 <span class="fieldLabel">{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
 																	{if $IS_MANDATORY}<span class="redColor">*</span>{/if}</span>
 																<span class="btn-group pull-right actions">
@@ -313,14 +313,14 @@
 													<div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
 														<div class="row padding1per">
 															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-															<div class="col-md-1">&nbsp;
+															<div class="col-xs-2 col-sm-2">&nbsp;
 																{if $FIELD_MODEL->isEditable()}
 																	<a>
 																		<img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 																	</a>
 																{/if}
 															</div>
-															<div class="col-md-11 marginLeftZero fieldContainer" style="word-wrap: break-word;">
+															<div class="col-xs-10 col-sm-10 marginLeftZero fieldContainer" style="word-wrap: break-word;">
 																<span class="fieldLabel">{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
 																	{if $IS_MANDATORY}<span class="redColor">*</span>{/if}
 																</span>

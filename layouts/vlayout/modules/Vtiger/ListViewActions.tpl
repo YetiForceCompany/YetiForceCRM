@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="listViewActions pull-right paginationDiv marginBottom10px">
+	<div class="listViewActions pull-right paginationDiv">
         {if (method_exists($MODULE_MODEL,'isPagingSupported') && ($MODULE_MODEL->isPagingSupported()  eq true)) || !method_exists($MODULE_MODEL,'isPagingSupported')}
 			<div class="">
 				{include file='Pagination.tpl'|@vtemplate_path:$MODULE}

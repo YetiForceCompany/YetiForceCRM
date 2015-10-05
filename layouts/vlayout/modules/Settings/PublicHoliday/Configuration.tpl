@@ -54,11 +54,13 @@ padding: 5px;
 			<div id="moduleBlocks">
 				<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 marginBottom10px border1px">
 					<div class="row layoutBlockHeader marginLRZero">
-						<div class="col-md-12" style="padding: 10px 0;">
+						<div class="col-md-6 col-sm-6" style="padding: 10px 0;">
 							<span class="marginLeft20">
 								<strong>{vtranslate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</strong>
 							</span>
-							<span class="pull-right marginRight20">
+						</div>
+						<div class="col-md-6 col-sm-6" >
+							<span class="pull-right marginRight20" style="padding: 10px 5px;">
 								<strong>{vtranslate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</strong>
 								<input type="text" class="dateField dateFilter marginbottomZero" data-date-format="yyyy-mm-dd" data-calendar-type="range" value="{$DATE}" />
 							</span>
