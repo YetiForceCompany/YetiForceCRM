@@ -64,7 +64,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model {
 				'linklabel' => 'LBL_FINISH_WORK_WITH_THE_RECORD',
 				'linkurl' => '#',
 				'linkdata' => ['url'=>$recordModel->getActivityStateModalUrl()],
-				'linkicon' => 'glyphicon glyphicon-off',
+				'linkicon' => 'glyphicon glyphicon-ok',
 				'linkclass' => 'showModal closeCalendarRekord'
 			];
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);

@@ -1057,6 +1057,7 @@ $languageStrings = [
 	'LBL_NO_EXCHANGE_RATES' => 'No exchange rates found, check if downloading exchange rates works properly.',
 	'LBL_COMMENT' => 'Comment',
 	'LBL_CURRENT' => 'Current',
+	'LBL_FINISH_WORK_WITH_THE_RECORD' => 'Finish work with the record',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',

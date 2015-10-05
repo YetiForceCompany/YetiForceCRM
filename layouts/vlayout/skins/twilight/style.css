@@ -3701,9 +3701,15 @@ span[name=existingImages] img{
 .dashboardWidgetContent .summary-detail .summary-text{
 	vertical-align: sub;
 }
-.activityWidgetContainer .popover {
+.activityWidgetContainer .activityDescription .popover {
 	min-width: 300px;
 }
 .activityWidgetContainer .popover-content {
 	font-size: 12px;
+}
+#activityStateModal .form-horizontal .form-group{
+	margin-bottom: 2px;
+}
+#activityStateModal .form-horizontal .form-group .control-label{
+	padding-top: 0;
 }
