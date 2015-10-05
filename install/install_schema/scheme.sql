@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v12.12 (64 bit)
+SQLyog Ultimate v11.01 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce2
 *********************************************************************
 */
@@ -639,6 +639,7 @@ CREATE TABLE `vtiger_account` (
   KEY `email_idx` (`email1`,`email2`),
   KEY `sum_salesorders` (`sum_salesorders`),
   KEY `sum_invoices` (`sum_invoices`),
+  KEY `accountname` (`accountname`),
   CONSTRAINT `fk_1_vtiger_account` FOREIGN KEY (`accountid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1588,6 +1589,7 @@ CREATE TABLE `vtiger_contactdetails` (
   PRIMARY KEY (`contactid`),
   KEY `contactdetails_accountid_idx` (`parentid`),
   KEY `email_idx` (`email`),
+  KEY `lastname` (`lastname`),
   CONSTRAINT `fk_1_vtiger_contactdetails` FOREIGN KEY (`contactid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3360,6 +3362,7 @@ CREATE TABLE `vtiger_leaddetails` (
   PRIMARY KEY (`leadid`),
   KEY `leaddetails_converted_leadstatus_idx` (`converted`,`leadstatus`),
   KEY `email_idx` (`email`),
+  KEY `lastname` (`lastname`),
   CONSTRAINT `fk_1_vtiger_leaddetails` FOREIGN KEY (`leadid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5325,6 +5328,7 @@ CREATE TABLE `vtiger_project` (
   PRIMARY KEY (`projectid`),
   KEY `servicecontractsid` (`servicecontractsid`),
   KEY `linktoaccountscontacts` (`linktoaccountscontacts`),
+  KEY `projectname` (`projectname`),
   CONSTRAINT `vtiger_project_ibfk_1` FOREIGN KEY (`projectid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5452,6 +5456,7 @@ CREATE TABLE `vtiger_projecttask` (
   KEY `parentid` (`parentid`),
   KEY `projectmilestoneid` (`projectmilestoneid`),
   KEY `projectid` (`projectid`),
+  KEY `projecttaskname` (`projecttaskname`),
   CONSTRAINT `vtiger_projecttask_ibfk_1` FOREIGN KEY (`projecttaskid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -7448,6 +7453,7 @@ CREATE TABLE `vtiger_vendor` (
   `registration_number_2` varchar(30) DEFAULT NULL,
   `verification` text,
   PRIMARY KEY (`vendorid`),
+  KEY `vendorname` (`vendorname`),
   CONSTRAINT `fk_1_vtiger_vendor` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
