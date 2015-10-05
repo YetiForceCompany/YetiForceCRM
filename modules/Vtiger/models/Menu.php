@@ -135,10 +135,10 @@ class Vtiger_Menu_Model
 				return '<img src="' . $iconName . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
 			}
 		}
-		
+
 		if (!empty($menu['icon'])) {
-			if (strpos($menu['icon'], 'glyphicon-') !== false) {
-				return '<span class="glyphicon ' . $menu['icon'] . '" aria-hidden="true"></span>';
+			if (strpos($menu['icon'], 'adminIcon-') !== false || strpos($menu['icon'], 'userIcon-') !== false) {
+				return '<span class="menuIcon ' . $menu['icon'] . '" aria-hidden="true"></span>';
 			}
 
 			$icon = vimage_path($menu['icon']);
