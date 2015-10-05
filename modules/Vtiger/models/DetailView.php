@@ -129,6 +129,19 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
 		}
 
+		//TODO validate if template should be visible
+		if (1) {
+			$pdfExportLinkModel = array(
+				'linktype' => 'DETAILVIEWBASIC',
+				'linklabel' => vtranslate('LBL_EXPORT_PDF', 'Settings:PDF'),
+				'linkdata' => ['url' => 'index.php?parent=Settings&module=PDF&view=ExportPDF&record='.$recordId.'&frommodule='.$moduleName],
+				'linkicon' => '',
+				'linkclass' => 'showModal',
+				'title' => vtranslate('LBL_LBL_EXPORT_PDF')
+			);
+			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($pdfExportLinkModel);
+		}
+
 		if (!empty($detailViewBasiclinks)) {
 			foreach ($detailViewBasiclinks as $linkModel) {
 				// Remove view history, needed in vtiger5 to see history but not in vtiger6

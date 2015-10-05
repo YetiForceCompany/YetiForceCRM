@@ -1135,6 +1135,7 @@ var app = {
 			container = jQuery('body');
 		}
 		container.find('button.showModal, a.showModal').on('click', function (e) {
+			e.preventDefault();
 			var currentElement = jQuery(e.currentTarget);
 			var url = currentElement.data('url');
 
