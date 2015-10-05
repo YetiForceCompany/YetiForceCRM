@@ -194,6 +194,10 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($menu as $item) {
 			$content .= $this->createParentList($item);
 		}
+		$content .= '];' . PHP_EOL . '$filterList = [';
+		foreach ($menu as $item) {
+			$content .= $this->createFilterList($item);
+		}
 		$content .= '];';
 		$file = vglobal('root_directory') . 'user_privileges/menu_' . $roleId . '.php';
 		file_put_contents($file, $content);
@@ -201,6 +205,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function createContentMenu($menu)
 	{
+		unset($menu['filters']);
 		$content = $menu['id'] . '=>[';
 		foreach ($menu as $key => $item) {
 			if ($key == 'childs') {
@@ -230,6 +235,22 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		if (count($menu['childs']) > 0) {
 			foreach ($menu['childs'] as $child) {
 				$content .= $this->createParentList($child);
+			}
+		}
+		return $content;
+	}
+
+	public function createFilterList($menu)
+	{
+		if(!empty($menu['filters'])) {
+			$content = $menu['id'] . '=>[';
+			$content .= "'module'=>'" . $menu['mod'] . "',";
+			$content .= "'filters'=>'" . $menu['filters'] . "'";
+			$content .= '],';
+		}
+		if (count($menu['childs']) > 0) {
+			foreach ($menu['childs'] as $child) {
+				$content .= $this->createFilterList($child);
 			}
 		}
 		return $content;
