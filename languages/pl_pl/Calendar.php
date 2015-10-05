@@ -140,6 +140,7 @@ $languageStrings = [
 	
 	'LBL_FINISH_WORK_WITH_THE_RECORD' => 'Zakończ pracę z rekordem',
 	'LBL_SET_RECORD_STATUS' => "Ustaw status rekordu na:",
+	'LBL_NO_AVAILABLE_ACTIONS' => 'Brak dostępnych akcji',
 ];
 
 $jsLanguageStrings = [

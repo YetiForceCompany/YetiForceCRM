@@ -139,6 +139,7 @@ $languageStrings = [
 	
 	'LBL_FINISH_WORK_WITH_THE_RECORD' => 'Finish work with the record',
 	'LBL_SET_RECORD_STATUS' => "Set the record's status to:",
+	'LBL_NO_AVAILABLE_ACTIONS' => 'No available actions',
 ];
 $jsLanguageStrings = [
 	'JS_NO_EDIT_PERMISSION' => 'Sie haben keine Berechtigung, die Kalendereinträge zu ändern',
