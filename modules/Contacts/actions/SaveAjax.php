@@ -39,9 +39,6 @@ class Contacts_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				if ($fieldDataType == 'time') {
 					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 				}
-				if ('17' == $fieldModel->get('uitype')) {
-					$fieldValue = $request->getRaw($fieldName);
-				}
 				if ($fieldValue !== null) {
 					if (!is_array($fieldValue)) {
 						$fieldValue = trim($fieldValue);
@@ -70,9 +67,6 @@ class Contacts_SaveAjax_Action extends Vtiger_SaveAjax_Action
 					} else if ($fieldName == 'support_start_date') {
 						$fieldValue = DateTimeField::convertToUserFormat(date('Y-m-d'));
 					}
-				}
-				if ('17' == $fieldModel->get('uitype')) {
-					$fieldValue = $request->getRaw($fieldName);
 				}
 				$fieldDataType = $fieldModel->getFieldDataType();
 				if ($fieldDataType == 'time') {

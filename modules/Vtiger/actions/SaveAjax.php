@@ -90,9 +90,6 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 				if ($fieldDataType == 'time') {
 					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 				}
-				if ('17' == $fieldModel->get('uitype')) {
-					$fieldValue = $request->getRaw($fieldName);
-				}
 				if ($fieldValue !== null) {
 					if (!is_array($fieldValue)) {
 						$fieldValue = trim($fieldValue);
@@ -117,9 +114,6 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 				$fieldDataType = $fieldModel->getFieldDataType();
 				if ($fieldDataType == 'time') {
 					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
-				}
-				if ('17' == $fieldModel->get('uitype')) {
-					$fieldValue = $request->getRaw($fieldName);
 				}
 				if ($fieldValue !== null) {
 					if (!is_array($fieldValue)) {

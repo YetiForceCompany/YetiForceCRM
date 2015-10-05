@@ -113,9 +113,6 @@ class Calendar_Save_Action extends Vtiger_Save_Action {
             if($fieldDataType == 'time'){
 				$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
             }
-			if('17' == $fieldModel->get('uitype')){
-				$fieldValue = $request->getRaw($fieldName);
-			}
             // End
 			if($fieldValue !== null) {
 				if(!is_array($fieldValue)) {
