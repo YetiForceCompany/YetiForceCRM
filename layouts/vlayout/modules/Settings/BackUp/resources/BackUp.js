@@ -38,7 +38,7 @@ jQuery.Class("Settings_BackUp_Index_Js",{},{
 					$.each(data.result, function( index, value ) {
 						var row = content.find('.row-bar.'+index);
 						var progress = row.find('.progress');
-						row.find('.bar').width(value + '%');
+						row.find('.progress-bar').width(value + '%');
 						row.find('.precent').text(value);
 						if(value >= 100 && index != 'mainBar'){ 
 							progress.removeClass('active');

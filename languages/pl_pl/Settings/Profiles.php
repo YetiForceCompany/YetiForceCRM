@@ -66,6 +66,7 @@ $languageStrings = [
 	'WorkflowTrigger' => 'Wywołanie obiegu informacji',
 	'QuickExportToExcel' => 'Szybki eksport do Excel-a',
 	'CreateDashboardFilter' => 'Podsumowanie modułu - Tworzenie widgetów z filtrem',
+	'DetailTransferOwnership'  => 'Podgląd rekordu - Zmiana właściciela',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil zapisano poprawnie',

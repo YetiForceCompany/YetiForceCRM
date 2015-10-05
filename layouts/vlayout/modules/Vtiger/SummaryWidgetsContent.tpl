@@ -52,7 +52,7 @@
 							<div class="pull-right actions">
 								<span class="actionImages">
 									{if $RELATED_MODULE_NAME eq 'Calendar'}
-										{if $IS_EDITABLE && $RELATED_RECORD->get('taskstatus') neq 'Held' && $RELATED_RECORD->get('taskstatus') neq 'Completed'}
+										{if $IS_EDITABLE && $RELATED_RECORD->get('activitystatus') neq 'Held' && $RELATED_RECORD->get('activitystatus') neq 'Completed'}
 											<a class="markAsHeld"><span title="{vtranslate('LBL_MARK_AS_HELD', $MODULE)}" class="glyphicon glyphicon-ok alignMiddle"></span></a>&nbsp;
 										{/if}
 										{if $IS_EDITABLE && $RELATED_RECORD->get('taskstatus') eq 'Held'}

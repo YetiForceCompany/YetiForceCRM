@@ -86,7 +86,7 @@
 						<td>
 							<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" ><span class="glyphicon glyphicon-remove"></span></a>
 						</td>
-								{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<td>
 								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
 								{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME)
@@ -110,7 +110,7 @@
 						</style>
 					{/if}
 					<td class="{$WIDTHTYPE}">
-						{if $LISTVIEW_ENTRY->PermissionsToEditView eq true}
+						{if $LISTVIEW_ENTRY->lockEditView eq false}
 							<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}"/>
 						{/if}
 					</td>
@@ -133,21 +133,22 @@
 										{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
 									{/if}
 								{/if}
-								{if $LISTVIEW_HEADER@last}
-							</td><td nowrap class="{$WIDTHTYPE}">
+						</td>
+						{if $LISTVIEW_HEADER@last}
+							<td nowrap class="{$WIDTHTYPE}">
 								<div class="actions pull-right">
 									<span class="actionImages">
 										<a href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
-											{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->PermissionsToEditView eq true && $LISTVIEW_ENTRY->isPermittedToEditView == 1}
+											{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->lockEditView eq false && $LISTVIEW_ENTRY->isPermittedToEditView == 1}
 											<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
 											{/if}
-											{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->PermissionsToEditView eq true && $LISTVIEW_ENTRY->isPermittedToEditView == 1}
+											{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->lockEditView eq false && $LISTVIEW_ENTRY->isPermittedToEditView == 1}
 											<a class="deleteRecordButton"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 											{/if}
 									</span>
-								</div></td>
-							{/if}
-						</td>
+								</div>
+							</td>
+						{/if}
 					{/foreach}
 					</tr>
 				{/foreach}

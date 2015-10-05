@@ -1898,6 +1898,9 @@ S2.define('select2/selection/search',[
     if (this.$search.attr('placeholder') !== '') {
 		// <--------   YetiForce Sp. z o.o.   -------->
 		width = this.$selection.find('.select2-selection__rendered').css('width');
+		var widthLiEl = this.$selection.find('.select2-search--inline').css("width");
+		if(widthLiEl != '100%')
+			this.$selection.find('.select2-search--inline').css("width", "100%");
 		if(width != '100%'){
 			width = this.$selection.find('.select2-selection__rendered').innerWidth();
 		}

@@ -18,10 +18,16 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
+		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();
+		
 		$page = $request->get('page');
 		$linkId = $request->get('linkid');
 		$sortOrder = $request->get('sortorder');
 		$orderBy = $request->get('orderby');
+		$params = ['status' => $stateActivityLabels['in_realization']];
+		if ($request->get('switchParams')) {
+			$params = ['status' => $request->get('switchParams')];
+		}
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
@@ -36,8 +42,13 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('sortorder', $sortOrder);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$calendarActivities = ($owner === false) ? array() : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner);
+		$calendarActivities = ($owner === false) ? array() : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner, false, $params);
 
+		
+		$switchLabels = [];
+		$switchLabels[] = ['label' => vtranslate($stateActivityLabels['in_realization'], 'Calendar'), 'name' => $stateActivityLabels['in_realization']];
+		$switchLabels[] = ['label' => vtranslate($stateActivityLabels['not_started'], 'Calendar'),'name' => $stateActivityLabels['not_started']];
+		
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTIVITIES', $calendarActivities);
@@ -48,6 +59,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('NAMELENGHT', $title_max_length);
 		$viewer->assign('HREFNAMELENGHT', $href_max_length);
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_SCHEDULED_ACTIVITIES');
+		$viewer->assign('SWITCH', $switchLabels);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

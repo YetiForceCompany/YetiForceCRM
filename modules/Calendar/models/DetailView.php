@@ -24,6 +24,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model {
 				'linklabel' => vtranslate('SINGLE_'.$moduleName, $moduleName).' '. vtranslate('LBL_DETAILS', $moduleName),
 				'linkurl' => $recordModel->getDetailViewUrl().'&mode=showDetailViewByMode&requestMode=full',
 				'linkicon' => '',
+				'linkKey' => 'LBL_RECORD_DETAILS',
 				'related' => 'Details'
 		);
 
@@ -38,5 +39,36 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model {
 			);
 		}
 		return $relatedLinks;
+	}
+	
+	/**
+	 * Function to get the detail view links (links and widgets)
+	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
+	 * @return <array> - array of link models in the format as below
+	 *                   array('linktype'=>list of link models);
+	 */
+	public function getDetailViewLinks($linkParams) {
+		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+
+		$linkModelList = parent::getDetailViewLinks($linkParams);
+		$recordModel = $this->getRecord();
+		$moduleName = $recordModel->getModuleName();
+		$recordId = $recordModel->getId();
+		$status = $recordModel->get('activitystatus');
+		$statusActivity = Calendar_Module_Model::getComponentActivityStateLabel('current');
+		$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
+
+		if (Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && $currentUserModel->hasModuleActionPermission($this->getModule()->getId(), 'DetailView') && !$lockEdit && isPermitted($moduleName, 'ActivityComplete', $recordId) == 'yes' && isPermitted($moduleName, 'ActivityCancel', $recordId) == 'yes' && isPermitted($moduleName, 'ActivityPostponed', $recordId) == 'yes' && in_array($status, $statusActivity) ){
+			$basicActionLink = [
+				'linktype' => 'DETAILVIEW',
+				'linklabel' => 'LBL_FINISH_WORK_WITH_THE_RECORD',
+				'linkurl' => '#',
+				'linkdata' => ['url'=>$recordModel->getActivityStateModalUrl()],
+				'linkicon' => 'glyphicon glyphicon-off',
+				'linkclass' => 'showModal closeCalendarRekord'
+			];
+			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+		}
+		return $linkModelList;
 	}
 }

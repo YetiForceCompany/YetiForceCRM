@@ -371,7 +371,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	 */
 	public function getRelationQuery()
 	{
-		if(!empty($this->query)){
+		if (!empty($this->query)) {
 			return $this->query;
 		}
 		$relationModel = $this->getRelationModel();

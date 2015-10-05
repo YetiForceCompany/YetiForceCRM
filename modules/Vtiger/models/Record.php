@@ -553,6 +553,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$module = $this->getModuleName();
 		$record = $this->getId();
 		if (empty($record)) {
+			$record = $this->get('record_id');
+		}
+		if (empty($record)) {
 			return [];
 		}
 
@@ -587,7 +590,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 		$db->pquery("delete from $table where id = ?", [$this->getId()]);
 		for ($i = 1; $i <= $numRow; $i++) {
-			if (!$request->has(reset($fields) . $i)) {
+			if (!$request->has(reset($fields)) && !$request->has(reset($fields) . $i)) {
 				continue;
 			}
 			$insertData = ['id' => $this->getId(), 'seq' => $request->get('seq' . $i)];
@@ -597,33 +600,5 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$db->insert($table, $insertData);
 		}
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
-	}
-
-	public function getParentRecord($type = 'one')
-	{
-		$moduleName = $this->getModuleName();
-		$parentRecord = false;
-		//echo '<br/>----';
-		include('user_privileges/moduleHierarchy.php');
-		if (key_exists($moduleName, $moduleHierarchy)) {
-			$parentModule = $moduleHierarchy[$moduleName];
-			$parentModuleModel = Vtiger_Module_Model::getInstance($moduleName);
-			$parentModelFields = $parentModuleModel->getFields();
-			foreach ($parentModelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE && in_array($parentModule, $fieldModel->getReferenceList())) {
-					$parentRecord = $this->get($fieldName);
-				}
-			}
-			if ($parentRecord && $type == 'all') {
-				$recordModel = Vtiger_Record_Model::getInstanceById($parentRecord, $parentModule);
-				$rparentRecord = $recordModel->getParentRecord($type);
-				if ($rparentRecord) {
-					$parentRecord = $rparentRecord;
-				}
-			}
-			return $this->getId() != $parentRecord ? $parentRecord : false;
-		} else {
-			return false;
-		}
 	}
 }

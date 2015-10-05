@@ -98,5 +98,18 @@ $languageStrings = [
 	'Duration Minutes' => 'Czas trwania w Minutach',
 	'No Time' => 'Brak czasu',
 	'End Time' => 'Czas zakończenia',
+	'End Date' => 'Data zakończenia',
+	'LBL_FOLLOWUP' => 'Kontynuacja w',
+	
+	'PLL_PLANNED' => 'Planowane',
+	'PLL_IN_REALIZATION' => 'Do realizacji',
+	'PLL_OVERDUE' => 'Zaległe',
+	'PLL_POSTPONED' => 'Przełożone',
+	'PLL_CANCELLED' => 'Anulowane',
+	'PLL_COMPLETED' => 'Wykonane',
+	
+	'LBL_FINISH_WORK_WITH_THE_RECORD' => 'Zakończ pracę z rekordem',
+	'LBL_SET_RECORD_STATUS' => "Ustaw status rekordu na:",
+	'LBL_CURRENT' => "Bieżące",
 ];
 

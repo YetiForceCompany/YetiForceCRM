@@ -121,7 +121,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$tabid = [];
 		foreach ($modules as $key => $value) {
 			if (!in_array($value['related_tabid'], $tabid)) {
-				$sql = "SELECT columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ? AND columnname NOT IN ('inheritsharing', 'was_read');";
+				$sql = "SELECT columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ? AND columnname NOT IN ('was_read');";
 				$result = $adb->pquery($sql, [$value['related_tabid'], 56]);
 				$Num = $adb->num_rows($result);
 				while ($row = $adb->fetch_array($result)) {

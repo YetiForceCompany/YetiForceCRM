@@ -62,7 +62,7 @@ class Mobile_WS_SaveRecord extends Mobile_WS_FetchRecordWithGrouping {
 				
 				// Set right target module name for Calendar/Event record
 				if ($module == 'Calendar') {
-					if (!empty($this->recordValues['eventstatus']) && $this->recordValues['activitytype'] != 'Task') {
+					if ($this->recordValues['activitytype'] != 'Task') {
 						$module = 'Events';
 					}
 				}

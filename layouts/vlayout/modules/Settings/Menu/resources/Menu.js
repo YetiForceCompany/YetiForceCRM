@@ -152,6 +152,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		container.find('form').validationEngine(app.validationEngineOptions);
 		thisInstance.registerHotkeys(container);
 		thisInstance.registerHiddenInput(container);
+		thisInstance.registerFilters(container);
 		container.find('.saveButton').click(function (e) {
 			var form = container.find('form').serializeFormData();
 			var errorExists = container.find('form').validationEngine('validate');
@@ -184,6 +185,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		container.find('form').validationEngine(app.validationEngineOptions);
 		thisInstance.registerHotkeys(container);
 		thisInstance.registerHiddenInput(container);
+		thisInstance.registerFilters(container);
 		container.find('.saveButton').click(function (e) {
 			var form = container.find('form').serializeFormData();
 			form.role = $('[name="roleMenu"]').val();
@@ -250,6 +252,28 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 			});
 			
 		}
+	},
+	cacheFilters: false,
+	registerFilters: function (container) {
+		var thisInstance = this;
+		if(container.find('#menuType').val() == 'Module'){
+			thisInstance.cacheFilters = container.find('[name="filters"]').clone(true, true);
+			container.find('[name="module"]').on('change', function (e) {
+				thisInstance.loadFilters(container, $(this));
+			});
+			thisInstance.loadFilters(container, container.find('[name="module"]'));
+		}
+	},
+	loadFilters: function (container, module) {
+		var thisInstance = this;
+		container.find('[name="filters"]').select2('destroy');
+		container.find('[name="filters"]').html(thisInstance.cacheFilters.html());
+		container.find('[name="filters"] option').each(function (index) {
+			if ($(this).data('tabid') != module.val()) {
+				$(this).remove();
+			}
+		});
+		app.showSelect2ElementView(container.find('[name="filters"]'), {width: '100%'});
 	},
 	registerEvents: function () {
 		var thisInstance = this;

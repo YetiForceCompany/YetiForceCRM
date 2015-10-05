@@ -27,10 +27,14 @@ class Vtiger_List_View extends Vtiger_Index_View
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
+		$mid = false;
+		if($request->has('mid')){
+			$mid = $request->get('mid');
+		}
+		
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName);
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName));
+		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
 		$this->viewName = $request->get('viewname');
 		if (empty($this->viewName)) {
 			//If not view name exits then get it from custom view

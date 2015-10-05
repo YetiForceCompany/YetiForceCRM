@@ -47,6 +47,7 @@ class Vtiger_ModuleBasic
 	var $customtable = false;
 	var $grouptable = false;
 	var $type = 0;
+	var $tableName;
 
 	const EVENT_MODULE_ENABLED = 'module.enabled';
 	const EVENT_MODULE_DISABLED = 'module.disabled';
@@ -71,6 +72,7 @@ class Vtiger_ModuleBasic
 	{
 		$this->id = $valuemap['tabid'];
 		$this->name = $valuemap['name'];
+		$this->tableName = lcfirst($valuemap['name']);
 		$this->label = $valuemap['tablabel'];
 		$this->version = $valuemap['version'];
 
@@ -276,7 +278,26 @@ class Vtiger_ModuleBasic
 				$this->deinitWebservice();
 			}
 		}
+	
 		$this->__delete();
+		$this->deleteComments();
+		$this->deletePickLists();
+		$this->deleteIcons();
+		$this->deleteLanguageFiles();
+		$this->deleteDir('modules/' . $this->name);
+		$this->deleteDir('layouts/vlayout/modules/' . $this->name);
+		$this->deleteModuleTables();
+		$this->deleteDefOrgInformations();
+		$this->deleteFromModentityNum();
+		$this->deleteFromCronTask();
+		$this->deleteFromProfile2Field();
+		$this->deleteWorkflows();
+		$this->deleteFromCRMEntity();
+		$this->deleteMenu();
+		$this->deleteGroup2Modules();
+		$this->deleteHideBlocks();
+		$this->deleteUiType10Fields();
+		$this->deleteFieldModuleRel();
 		Vtiger_Profile::deleteForModule($this);
 		Vtiger_Link::deleteAll($this->id);
 		self::syncfile();
@@ -311,7 +332,7 @@ class Vtiger_ModuleBasic
 		if ($this->type == 1) {
 			Vtiger_Utils::CreateTable($this->basetable . '_invfield', "(id int(19) AUTO_INCREMENT PRIMARY KEY, columnname varchar(30) NOT NULL, label varchar(50) NOT NULL, invtype varchar(30) NOT NULL,presence tinyint(1) unsigned NOT NULL DEFAULT '0',
 				defaultvalue varchar(255),sequence int(10) unsigned NOT NULL, block tinyint(1) unsigned NOT NULL,displaytype tinyint(1) unsigned NOT NULL DEFAULT '1', params text, colspan tinyint(1) unsigned NOT NULL DEFAULT '1')", true);
-			Vtiger_Utils::CreateTable($this->basetable . '_inventory', '(id int(19) PRIMARY KEY,seq int(10),CONSTRAINT `fk_1_' . $this->basetable . '_inventory` FOREIGN KEY (`id`) REFERENCES `' . $this->basetable . '` (`' . $this->basetableid . '`) ON DELETE CASCADE)', true);
+			Vtiger_Utils::CreateTable($this->basetable . '_inventory', '(id int(19),seq int(10),KEY id (id),CONSTRAINT `fk_1_' . $this->basetable . '_inventory` FOREIGN KEY (`id`) REFERENCES `' . $this->basetable . '` (`' . $this->basetableid . '`) ON DELETE CASCADE)', true);
 			Vtiger_Utils::CreateTable($this->basetable . '_invmap', '(module varchar(50) PRIMARY KEY,field varchar(50),tofield varchar(50))', true);
 		}
 	}
@@ -333,7 +354,7 @@ class Vtiger_ModuleBasic
 		if ($this->entityidfield && $this->entityidcolumn) {
 			$result = $adb->pquery('SELECT tabid FROM vtiger_entityname WHERE tablename=? AND tabid=?', array($fieldInstance->table, $this->id));
 			if ($adb->num_rows($result) == 0) {
-				$adb->pquery('INSERT INTO vtiger_entityname(tabid, modulename, tablename, fieldname, entityidfield, entityidcolumn, searchcolumn) VALUES(?,?,?,?,?,?,?)', Array($this->id, $this->name, $fieldInstance->table, $fieldInstance->name, $this->entityidfield, $this->entityidcolumn, $this->name));
+				$adb->pquery('INSERT INTO vtiger_entityname(tabid, modulename, tablename, fieldname, entityidfield, entityidcolumn, searchcolumn) VALUES(?,?,?,?,?,?,?)', Array($this->id, $this->name, $fieldInstance->table, $fieldInstance->name, $this->entityidfield, $this->entityidcolumn, $fieldInstance->name));
 				self::log('Setting entity identifier ... DONE');
 			} else {
 				$adb->pquery('UPDATE vtiger_entityname SET fieldname=?,entityidfield=?,entityidcolumn=? WHERE tablename=? AND tabid=?', array($fieldInstance->name, $this->entityidfield, $this->name, $fieldInstance->table, $this->id));
@@ -487,6 +508,276 @@ class Vtiger_ModuleBasic
 		self::log("Updating tabdata file ... ", false);
 		create_tab_data_file();
 		self::log("DONE");
+	}
+
+	/**
+	 * Function to remove rows in vtiger_module_dashboard_blocks table
+	 */
+	public function deleteFromDashboardModule(){
+		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_module_dashboard_blocks', 'tabid = ?', [$this->tabId]);
+		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | END');
+		
+	}
+
+	/**
+	 * Function to removes comments
+	 */
+	public function deleteComments()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT crmid FROM vtiger_crmentity WHERE setype=?', [$this->name]);
+		$numRows = $db->getRowCount($result);
+		$ids = [];
+		if ($numRows) {
+			for ($i = 0; $i < $numRows; $i++) {
+				$crmId = $db->query_result($result, $i, 'crmid');
+				$ids[] = $crmId;
+			}
+			$ids = implode(",", $ids);
+			$db->query("DELETE FROM vtiger_modcomments WHERE related_to IN(" . $ids . ")");
+		}
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+	}
+
+	/**
+	 * Function to remove hide blocks 
+	 */
+	public function deleteHideBlocks()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$db->pquery('DELETE vtiger_blocks, vtiger_blocks_hide'
+			. ' FROM vtiger_blocks'
+			. ' INNER JOIN `vtiger_blocks_hide`'
+			. ' ON vtiger_blocks.`blockid` = vtiger_blocks_hide.`blockid`'
+			. '  WHERE vtiger_blocks.`tabid` =?', [$this->id]);
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+	}
+
+	/**
+	 * Function to remove rows in vtiger_group2modules table
+	 */
+	public function deleteGroup2Modules()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_group2modules', 'tabid = ?', [$this->id]);
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+	}
+
+	/**
+	 * Function to remove row in yetiforce_menu table
+	 */
+	public function deleteMenu()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$db->delete('yetiforce_menu', 'module = ?', [$this->name]);
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+	}
+
+	/**
+	 * Function to remove rows in vtiger_crmentity, vtiger_crmentityrel
+	 */
+	public function deleteFromCRMEntity()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$db->pquery('DELETE FROM `vtiger_crmentityrel` WHERE `module` = ? OR `relmodule` = ?', [$this->name, $this->name]);
+		$result = $db->pquery('SELECT crmid FROM vtiger_crmentity where setype = ?', [$this->tableName]);
+		$numRows = $db->getRowCount($result);		
+		if ($numRows) {
+			for ($i = 0; $i < $numRows; $i++) {
+				$recordId = $db->query_result($result, $i, 'crmid');
+				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->name);
+				$recordModel->delete();
+			}
+		}
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+	}
+
+	/**
+	 * Function to remove rows in com_vtiger_workflows, com_vtiger_workflowtasks tables
+	 */
+	public function deleteWorkflows()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$db->pquery('DELETE com_vtiger_workflows,com_vtiger_workflowtasks FROM `com_vtiger_workflows` 
+			LEFT JOIN `com_vtiger_workflowtasks` ON com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id
+			WHERE `module_name` =?', [$this->name]);
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+	}
+
+	/**
+	 * Function to remove rows in profile2 tables
+	 */
+	public function deleteFromProfile2Field()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_profile2field', 'tabid = ?', [$this->id]);
+		$db->delete('vtiger_profile2standardpermissions', 'tabid = ?', [$this->id]);
+		$db->delete('vtiger_profile2tab', 'tabid = ?', [$this->id]);
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+	}
+
+	/**
+	 * Function to remove rows in vtiger_cron_task table
+	 */
+	public function deleteFromCronTask()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_cron_task', 'module = ?', [$this->name]);
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+	}
+
+	/**
+	 * Function to remove row in vtiger_modentity_num table
+	 */
+	public function deleteFromModentityNum()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_modentity_num', 'semodule = ?', [$this->name]);
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+	}
+
+	/**
+	 * Function to remove rows in def_org tables
+	 */
+	public function deleteDefOrgInformations()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_def_org_field', 'tabid = ?', [$this->id]);
+		$db->delete('vtiger_def_org_share', 'tabid = ?', [$this->id]);
+		$db->delete('vtiger_org_share_action2tab', 'tabid = ?', [$this->id]);
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+	}
+
+	/**
+	 * Function to remove tables created by a module
+	 */
+	public function deleteModuleTables()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$db->query('SET foreign_key_checks = 0');
+		$db->query('DROP TABLE IF EXISTS vtiger_' . $this->tableName);
+		$db->query('DROP TABLE IF EXISTS vtiger_' . $this->tableName . 'cf');
+		if ($this->isInventory) {
+			$db->query('DROP TABLE IF EXISTS vtiger_' . $this->tableName . 'inventory');
+			$db->query('DROP TABLE IF EXISTS vtiger_' . $this->tableName . 'invfield');
+			$db->query('DROP TABLE IF EXISTS vtiger_' . $this->tableName . 'invmap');
+		}
+		$db->query('SET foreign_key_checks = 1');
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+	}
+
+	/**
+	 * Function to remove files related to a module
+	 * @param  string $path - dir path
+	 */
+	public function deleteDir($path)
+	{
+		Vtiger_Functions::recurseDelete($path);
+		if (is_dir($path)) 
+			rmdir($path);
+	}
+
+	/**
+	 * Function to remove language files related to a module
+	 */
+	public function deleteLanguageFiles()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$query = 'SELECT prefix FROM vtiger_language WHERE ACTIVE = 1';
+		$result = $db->query($query);
+		$numRows = $db->getRowCount($result);
+		for ($i = 0; $i < $numRows; $i++) {
+			$lang = $db->query_result($result, $i, "prefix");
+			$langFilePath = "languages/$lang/" . $this->name . ".php";
+			if (file_exists($langFilePath))
+				@unlink($langFilePath);
+		}
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+	}
+
+	/**
+	 * Function to remove icons related to a module
+	 */
+	public function deleteIcons()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$iconSize = ['', 48, 64, 128];
+		foreach ($iconSize as $value) {
+			$fileName = "layouts/vlayout/skins/images/" . $this->name . $value . ".png";
+			if (file_exists($fileName)) {
+				@unlink($fileName);
+			}
+		}
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | End');
+	}
+
+	/**
+	 * Function to remove picklist-type or multiple choice picklist-type table
+	 */
+	public function deletePickLists()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$query = "SELECT columnname FROM `vtiger_field` WHERE `tablename` = '" . $this->tableName . "' AND  uitype IN (33, 16)";
+		$result = $db->query($query);
+		$numRows = $db->getRowCount($result);
+		if ($numRows) {
+			for ($i = 0; $i < $numRows; $i++) {
+				$picklistName = $db->query_result($result, $i, "columnname");
+				$db->query('DROP TABLE IF EXISTS vtiger_' . $picklistName . '');
+				$db->query('DROP TABLE IF EXISTS vtiger_' . $picklistName . '_seq');
+				$result = $db->query("SELECT picklistid from vtiger_picklist WHERE name = '$picklistName'");
+				$picklistId = $db->query_result($result, 0, "picklistid");
+				$db->query("DELETE FROM vtiger_role2picklist WHERE picklistid = '$picklistId'");
+				$db->query("DELETE FROM vtiger_picklist WHERE name = '$picklistName'");
+			}
+		}
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+	}
+
+	/**
+	 * Function to remove uitype10 fields
+	 */
+	public function deleteUiType10Fields()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$query = 'SELECT fieldid FROM `vtiger_fieldmodulerel` WHERE relmodule =?';
+		$result = $db->pquery($query, [$this->name]);
+		$numRows = $db->getRowCount($result);
+		if ($numRows) {
+			for ($i = 0; $i < $numRows; $i++) {
+				$fieldId = $db->query_result($result, $i, "fieldid");
+				$field = Vtiger_Field::getInstance($fieldId);
+				$field->delete();
+			}
+		}
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+	}
+
+	/**
+	 * Function to remove rows from vtiger_fieldmodulerel
+	 */
+	public function deleteFieldModuleRel()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$db->query("DELETE FROM vtiger_fieldmodulerel WHERE module = '" . $this->name . "' or relmodule = '" . $this->name . "'");
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}
 }
 

@@ -13,7 +13,7 @@ INNER JOIN vtiger_activity_reminder ON vtiger_activity.activityid=vtiger_activit
 LEFT OUTER JOIN vtiger_recurringevents ON vtiger_activity.activityid=vtiger_recurringevents.activityid 
 WHERE DATE_FORMAT(vtiger_activity.date_start,'%Y-%m-%d, %H:%i:%s') >= '".date('Y-m-d')."' 
 AND vtiger_crmentity.crmid != 0 
-AND vtiger_activity.eventstatus = 'Planned' 
+AND vtiger_activity.status = 'PLL_PLANNED' 
 AND vtiger_activity_reminder.reminder_sent = 0 
 GROUP BY vtiger_activity.activityid,vtiger_recurringevents.recurringid";
 

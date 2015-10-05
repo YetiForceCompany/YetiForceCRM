@@ -267,7 +267,7 @@ class Vtiger_Field extends Vtiger_FieldBasic
 		$adb = PearDatabase::getInstance();
 		$instances = false;
 
-		$query = "SELECT * FROM vtiger_field WHERE tabid=? ORDER BY sequence";
+		$query = "SELECT * FROM vtiger_field WHERE tabid=? ORDER BY block,sequence";
 		$queryParams = Array($moduleInstance->id);
 
 		$result = $adb->pquery($query, $queryParams);

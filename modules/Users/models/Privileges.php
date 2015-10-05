@@ -184,20 +184,33 @@ class Users_Privileges_Model extends Users_Record_Model
 		return getNonAdminAccessControlQuery($module, $currentUser);
 	}
 
-	function CheckPermissionsToEditView($moduleName, $record)
+	protected static $lockEditCache = [];
+
+	public static function checkLockEdit($moduleName, $record)
 	{
-		$log = vglobal('log');
-		$log->info("Entering Into fn CheckPermissionsToEditView($moduleName, $record)");
+		if (isset(self::$lockEditCache[$moduleName . $record])) {
+			return self::$lockEditCache[$moduleName . $record];
+		}
+		$return = false;
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$currentUserId = $currentUserModel->getId();
-		$recordPermission = true;
-		if ($record == '' || $currentUserModel->isAdminUser()) {
-			return true;
+
+		vimport('~~modules/com_vtiger_workflow/include.inc');
+		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
+		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
+		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
+		if (count($workflows)) {
+			$wsId = vtws_getWebserviceEntityId($moduleName, $record);
+			$entityCache = new VTEntityCache($currentUserModel);
+			$entityData = $entityCache->forId($wsId);
+			foreach ($workflows as $id => $workflow) {
+				if ($workflow->evaluate($entityCache, $entityData->getId())) {
+					$return = true;
+				}
+			}
 		}
-		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-		$PermissionsHandlers = Settings_DataAccess_Module_Model::executePermissionsHandlers($moduleName, $record, $recordModel);
-		$log->info("Exiting fn CheckPermissionsToEditView()");
-		return $PermissionsHandlers['success'];
+		self::$lockEditCache[$moduleName . $record] = $return;
+		return $return;
 	}
 
 	/**
@@ -307,5 +320,84 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		return $array;
 		$log->info("Exiting fn getSharedRecordsRecursively()");
+	}
+
+	protected static $parentRecordCache = [];
+
+	public function getParentRecord($record, $moduleName = false, $type = 1)
+	{
+		if (isset(self::$parentRecordCache[$record])) {
+			return self::$parentRecordCache[$record];
+		}
+		if (!$moduleName) {
+			$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record);
+			$moduleName = $recordMetaData['setype'];
+		}
+		if ($moduleName == 'Events') {
+			$moduleName = 'Calendar';
+		}
+
+		$parentRecord = false;
+		include('user_privileges/moduleHierarchy.php');
+		if (key_exists($moduleName, $modulesMap1M)) {
+			$parentModule = $modulesMap1M[$moduleName];
+			$parentModuleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$parentModelFields = $parentModuleModel->getFields();
+
+			foreach ($parentModelFields as $fieldName => $fieldModel) {
+				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE && count(array_intersect($parentModule, $fieldModel->getReferenceList())) > 0) {
+					$recordModel = Vtiger_Record_Model::getInstanceById($record);
+					$value = $recordModel->get($fieldName);
+					if ($value != '' && $value != 0) {
+						$parentRecord = $value;
+						continue;
+					}
+				}
+			}
+			if ($parentRecord && $type == 2) {
+				$rparentRecord = self::getParentRecord($parentRecord, false, $type);
+				if ($rparentRecord) {
+					$parentRecord = $rparentRecord;
+				}
+			}
+			return $record != $parentRecord ? $parentRecord : false;
+		} else if (in_array($moduleName, $modulesMapMMBase)) {
+			$currentUser = vglobal('current_user');
+			$db = PearDatabase::getInstance();
+			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? OR relcrmid =?', [$record, $record]);
+			while ($row = $db->fetch_array($result)) {
+				$id = $row['crmid'] == $record ? $row['relcrmid'] : $row['crmid'];
+				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($id);
+				if ($currentUser->id == $recordMetaData['smownerid']) {
+					$parentRecord = $id;
+					break;
+				} else if ($type == 2) {
+					$rparentRecord = self::getParentRecord($id, $recordMetaData['setype'], $type);
+					if ($rparentRecord) {
+						$parentRecord = $rparentRecord;
+					}
+				}
+			}
+		} else if (key_exists($moduleName, $modulesMapMMCustom)) {
+			$currentUser = vglobal('current_user');
+			$relationInfo = $modulesMapMMCustom[$moduleName];
+			$db = PearDatabase::getInstance();
+			$query = 'SELECT ' . $relationInfo['rel'] . ' AS crmid FROM `' . $relationInfo['table'] . '` WHERE ' . $relationInfo['base'] . ' = ?';
+			$result = $db->pquery($query, [$record]);
+			while ($row = $db->fetch_array($result)) {
+				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($row['crmid']);
+				if ($currentUser->id == $recordMetaData['smownerid']) {
+					$parentRecord = $row['crmid'];
+					break;
+				} else if ($type == 2) {
+					$rparentRecord = self::getParentRecord($row['crmid'], $recordMetaData['setype'], $type);
+					if ($rparentRecord) {
+						$parentRecord = $rparentRecord;
+					}
+				}
+			}
+		}
+		self::$parentRecordCache[$record] = $parentRecord;
+		return $parentRecord;
 	}
 }

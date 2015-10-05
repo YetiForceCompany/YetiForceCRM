@@ -86,6 +86,11 @@ $languageStrings = [
 	'Tree' => 'Pole drzewa',
 	'LBL_FIELD_MASK' => 'Maska',
 	'LBL_FIELD_MASK_INFO' => 'Domyślnie definicje maskujące<br />9: numeryczny<br />a: alfabetycznie<br />*: Alfanumeryczny<br /><br />Przykład:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
+	'MultiReferenceValue' => 'Wartości z modułu powiązanego',
+	'LBL_MULTI_REFERENCE_VALUE_MODULES' => 'Moduł powiązany',
+	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'Pole powiązane',
+	'LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD' => 'Fitruj po polu',
+	'LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE' => 'Filtruj po wartości',
 	
 	'LBL_ADD_RELATION' => 'Dodaj relację',
 	'LBL_REMOVE_RELATION' => 'Usuń relację',
@@ -114,9 +119,13 @@ $languageStrings = [
 	'LBL_COMMENT' => 'Komentarz',
 	'LBL_SELECT_TYPE_OF_INVENTORY' => 'Wybierz rodzaj pola',
 	'LBL_NEXT' => 'Dalej',
-	'LBL_PARAMS_TYPE' => 'Typ',
 	'LBL_PARAMS_MODULES' => 'Moduły',
 	'LBL_PARAMS_LIMIT' => 'Limit',
+	'LBL_DISPLAY_TYPE' => 'Typ pola',
+	'LBL_EDITABLE' => 'Edytowalne',
+	'LBL_READONLY' => 'Tylko do odczytu',
+	'LBL_FIELDS_EXISTS_IN_BLOCK' => 'Nie można usunąc bloku bo zawiera pola',
+	'LBL_DELETE_CUSTOM_BLOCKS' => 'Nie można usunąć standardowych (nie stworzonych przez użytkownika) bloków',
 ];
 
 $jsLanguageStrings = [
@@ -147,4 +156,7 @@ $jsLanguageStrings = [
 	'JS_RESERVED_PICKLIST_NAME' => 'Ta nazwa jest zarezerwowana dla pól słownikowych.',
 	'JS_REMOVE_RELATION_OK' => 'Pomyślnie usunięto relację.',
 	'JS_DELETE_RELATION_CONFIRMATION' => 'Czy na pewno chcesz usunąć relację?',
+	'JS_DELETE_INVENTORY_CONFIRMATION' => 'Na pewno chcesz usunąć element z bloku?',
+	'JS_EXTENDED_MODULE' => 'Czy na pewno chcesz zmienić typ modułu?',
+	'JS_SAVE_CHANGES' => 'Pomyślnie zapisano zmiany.',
 ];

@@ -375,25 +375,6 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		return $return;
 	}
 
-	public function executePermissionsHandlers($module, $record, $recordModel)
-	{
-		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
-		$db = PearDatabase::getInstance();
-		$conditions = new DataAccess_Conditions();
-		$success = true;
-		$sql = "SELECT * FROM vtiger_dataaccess WHERE module_name = ? AND data LIKE '%blockEditView%'";
-		$result = $db->pquery($sql, array($module), true);
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$condition_result = $conditions->checkConditions(
-				$db->query_result($result, $i, 'dataaccessid'), $recordModel->entity->column_fields
-			);
-			if ($condition_result['test'] == true) {
-				$success = false;
-			}
-		}
-		return array('success' => $success);
-	}
-
 	public function executeColorListHandlers($moduleName, $record, $recordModelObiect)
 	{
 		if (!isRecordExists($record))

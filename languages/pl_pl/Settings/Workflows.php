@@ -147,6 +147,8 @@ $languageStrings = [
 	'LBL_VALUE_OF_SERVER' => 'Wartość z serwera',
 	'LBL_WORKFLOWS_RUN_TIME' => 'Data i czas uruchomienia obiegu informacji',
 	'Sales stage - Negotiations' => 'Proces sprzedażowy - Negocjacje',
+	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Aktualizuj daty wygenrowaneych wydarzeń kiedy data bazowa ulegnia zmianie',
+	'LBL_CURRENT_USER' => 'Aktualnie zalogowany użytkownik',
 	//workflow task
 	'EmailTempleteList' => 'Wybierz szablon maila który ma zostać wysłany',
 	'Do you send all attachments' => 'Czy wysłać wszystkie załączniki ?',
@@ -165,6 +167,7 @@ $languageStrings = [
 	'Update Closed Time' => 'Aktualizacja czasu zamknięcia',
 	'Send Notification' => 'Wyślij zaproszenie',
 	'Create Address Book' => 'Generuj książkę adresową mail',
+	'LBL_UPDATE_DATES_CREATED_EVENTS_AUTOMATICALLY' => 'Aktualizuj daty automatycznie utworzonych wydarzeń',
 	//workflow add time
 	'Current Date' => 'Aktualna data',
 	'Current Time' => 'Aktualny czas',
@@ -178,8 +181,10 @@ $languageStrings = [
 	'Invoice Date' => 'Data faktury',
 	'Start Date & Time' => 'Czas rozpoczęcia',
 	'End Date & Time' => 'Czas zakończenia',
+	'ON_DELETE' => 'Podczas usuwania',
+	'TRIGGER' => 'Ręczne wywołanie',
+	'BLOCK_EDIT' => 'Blokada edycji',
 ];
-
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Te same pola zaznaczono więcej niż jedej raz',
 	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Status zmieniono poprawnie',

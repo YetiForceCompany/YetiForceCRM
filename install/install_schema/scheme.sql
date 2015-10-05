@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.6.17 : Database - yetiforce
+SQLyog Ultimate v12.12 (64 bit)
+MySQL - 5.6.17 : Database - yetiforce2
 *********************************************************************
 */
 
@@ -574,6 +574,30 @@ CREATE TABLE `roundcube_users_autologin` (
   CONSTRAINT `roundcube_users_autologin_ibfk_1` FOREIGN KEY (`rcuser_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_accesstorecord` */
+
+CREATE TABLE `s_yf_accesstorecord` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `date` datetime NOT NULL,
+  `ip` varchar(100) NOT NULL,
+  `record` int(19) NOT NULL,
+  `module` varchar(30) NOT NULL,
+  `url` varchar(300) NOT NULL,
+  `description` varchar(300) NOT NULL,
+  `agent` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `s_yf_multireference` */
+
+CREATE TABLE `s_yf_multireference` (
+  `source_module` varchar(50) NOT NULL,
+  `dest_module` varchar(50) NOT NULL,
+  `lastid` int(19) unsigned NOT NULL DEFAULT '0',
+  KEY `source_module` (`source_module`,`dest_module`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_account` */
 
 CREATE TABLE `vtiger_account` (
@@ -721,7 +745,6 @@ CREATE TABLE `vtiger_activity` (
   `duration_hours` varchar(200) DEFAULT NULL,
   `duration_minutes` varchar(200) DEFAULT NULL,
   `status` varchar(200) DEFAULT NULL,
-  `eventstatus` varchar(200) DEFAULT NULL,
   `priority` varchar(200) DEFAULT NULL,
   `location` varchar(150) DEFAULT NULL,
   `notime` varchar(3) NOT NULL DEFAULT '0',
@@ -734,17 +757,18 @@ CREATE TABLE `vtiger_activity` (
   `state` varchar(255) DEFAULT NULL,
   `link` int(19) DEFAULT NULL,
   `process` int(19) DEFAULT NULL,
+  `followup` int(19) DEFAULT NULL,
   PRIMARY KEY (`activityid`),
   KEY `activity_activityid_subject_idx` (`activityid`,`subject`),
   KEY `activity_activitytype_date_start_idx` (`activitytype`,`date_start`),
   KEY `activity_date_start_due_date_idx` (`date_start`,`due_date`),
   KEY `activity_date_start_time_start_idx` (`date_start`,`time_start`),
-  KEY `activity_eventstatus_idx` (`eventstatus`),
   KEY `activity_status_idx` (`status`),
-  KEY `activitytype` (`activitytype`,`date_start`,`due_date`,`time_start`,`time_end`,`eventstatus`,`deleted`,`smownerid`),
   KEY `activitytype_2` (`activitytype`,`date_start`,`due_date`,`time_start`,`time_end`,`deleted`,`smownerid`),
   KEY `link` (`link`),
   KEY `process` (`process`),
+  KEY `followup` (`followup`),
+  KEY `activitytype` (`activitytype`,`date_start`,`due_date`,`time_start`,`time_end`,`deleted`,`smownerid`),
   CONSTRAINT `fk_1_vtiger_activity` FOREIGN KEY (`activityid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -771,6 +795,20 @@ CREATE TABLE `vtiger_activity_reminder_popup` (
   PRIMARY KEY (`reminderid`),
   KEY `recordid` (`recordid`),
   CONSTRAINT `vtiger_activity_reminder_popup_ibfk_1` FOREIGN KEY (`recordid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_activity_update_dates` */
+
+CREATE TABLE `vtiger_activity_update_dates` (
+  `activityid` int(19) NOT NULL,
+  `parent` int(19) NOT NULL,
+  `task_id` int(19) NOT NULL,
+  PRIMARY KEY (`activityid`),
+  KEY `parent` (`parent`),
+  KEY `vtiger_activity_update_dates_ibfk_1` (`task_id`),
+  CONSTRAINT `vtiger_activity_update_dates_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `com_vtiger_workflowtasks` (`task_id`) ON DELETE CASCADE,
+  CONSTRAINT `vtiger_activity_update_dates_ibfk_2` FOREIGN KEY (`parent`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `vtiger_activity_update_dates_ibfk_3` FOREIGN KEY (`activityid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_activity_view` */
@@ -806,6 +844,23 @@ CREATE TABLE `vtiger_activityproductrel` (
   KEY `activityproductrel_activityid_idx` (`activityid`),
   KEY `activityproductrel_productid_idx` (`productid`),
   CONSTRAINT `fk_2_vtiger_activityproductrel` FOREIGN KEY (`productid`) REFERENCES `vtiger_products` (`productid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_activitystatus` */
+
+CREATE TABLE `vtiger_activitystatus` (
+  `activitystatusid` int(19) NOT NULL AUTO_INCREMENT,
+  `activitystatus` varchar(200) DEFAULT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(19) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`activitystatusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_activitystatus_seq` */
+
+CREATE TABLE `vtiger_activitystatus_seq` (
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_activitytype` */
@@ -1680,7 +1735,6 @@ CREATE TABLE `vtiger_crmentity` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `label` varchar(255) DEFAULT NULL,
   `searchlabel` varchar(255) DEFAULT NULL,
-  `inheritsharing` tinyint(1) DEFAULT '0',
   `was_read` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`crmid`),
   KEY `crmentity_smcreatorid_idx` (`smcreatorid`),
@@ -1724,7 +1778,7 @@ CREATE TABLE `vtiger_cron_task` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `handler_file` (`handler_file`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
 
@@ -2422,7 +2476,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `dependent_on` varchar(255) DEFAULT '[]',
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventhandlers_seq` */
 
@@ -2574,7 +2628,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1760 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1763 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6163,8 +6217,10 @@ CREATE TABLE `vtiger_role` (
   `changeowner` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `searchunpriv` text,
   `clendarallorecords` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `listrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `previewrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `listrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `previewrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `editrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `permissionsrelatedfield` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`roleid`),
   KEY `parentrole` (`parentrole`),
   KEY `parentrole_2` (`parentrole`,`depth`),
@@ -6900,23 +6956,6 @@ CREATE TABLE `vtiger_taskpriority` (
 /*Table structure for table `vtiger_taskpriority_seq` */
 
 CREATE TABLE `vtiger_taskpriority_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_taskstatus` */
-
-CREATE TABLE `vtiger_taskstatus` (
-  `taskstatusid` int(19) NOT NULL AUTO_INCREMENT,
-  `taskstatus` varchar(200) DEFAULT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(19) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`taskstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_taskstatus_seq` */
-
-CREATE TABLE `vtiger_taskstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -7668,7 +7707,7 @@ CREATE TABLE `vtiger_ws_fieldtype` (
   `fieldtype` varchar(200) NOT NULL,
   PRIMARY KEY (`fieldtypeid`),
   UNIQUE KEY `uitype_idx` (`uitype`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_operation` */
 
@@ -7836,6 +7875,7 @@ CREATE TABLE `yetiforce_menu` (
   `icon` varchar(255) DEFAULT NULL,
   `sizeicon` varchar(255) DEFAULT NULL,
   `hotkey` varchar(30) DEFAULT NULL,
+  `filters` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parentid`),
   KEY `role` (`role`),

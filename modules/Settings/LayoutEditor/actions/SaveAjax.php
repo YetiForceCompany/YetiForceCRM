@@ -14,6 +14,8 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		parent::__construct();
 		$this->exposeMethod('setInventory');
 		$this->exposeMethod('saveInventoryField');
+		$this->exposeMethod('saveSequence');
+		$this->exposeMethod('delete');
 	}
 
 	public function setInventory(Vtiger_Request $request)
@@ -51,9 +53,38 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$arrayInstane = $inventoryField->getFields(false, [$id]);
 		if (current($arrayInstane)) {
 			$data = current($arrayInstane)->getData();
+			$data['translate'] = vtranslate($data['label'], $moduleName);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(['data' => $data, 'edit' => $edit]);
+		$response->emit();
+	}
+
+	public function saveSequence(Vtiger_Request $request)
+	{
+		$param = $request->get('param');
+		$moduleName = $param['module'];
+		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$status = $inventoryField->saveSequence($param['ids']);
+		if ($status) {
+			$status = true;
+		}
+		$response = new Vtiger_Response();
+		$response->setResult(['success' => $status]);
+		$response->emit();
+	}
+
+	public function delete(Vtiger_Request $request)
+	{
+		$param = $request->get('param');
+		$moduleName = $param['module'];
+		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$status = $inventoryField->delete($param);
+		if ($status) {
+			$status = true;
+		}
+		$response = new Vtiger_Response();
+		$response->setResult(['success' => $status]);
 		$response->emit();
 	}
 }

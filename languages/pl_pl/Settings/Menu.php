@@ -29,6 +29,7 @@ $languageStrings = [
 	'LBL_NAME' => 'Nazwa',
 	'LBL_TEST_IT' => 'Sprawdź',
 	'LBL_MENU_TYPE' => 'Rodzja menu',
+	'LBL_AVAILABLE_FILTERS' => 'Dostępne filtry',
 	
 	//Menu types
 	'LBL_MODULE' => 'Moduł',

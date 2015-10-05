@@ -375,16 +375,24 @@ function isPermitted($module, $actionname, $record_id = '')
 			}
 
 			$role = getRoleInformation($current_user->roleid);
-			if ($role['listrelatedrecord'] == 1) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($record_id, $module);
-				$parentRecord = $recordModel->getParentRecord();
-				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($parentRecord);
-				$parentRecordOwner = $recordMetaData['smownerid'];
+			if ((($actionid == 3 || $actionid == 4) && $role['previewrelatedrecord'] != 0 ) || (($actionid == 0 || $actionid == 1) && $role['editrelatedrecord'] != 0 )) {
+				$parentRecord = Users_Privileges_Model::getParentRecord($record_id, $module, $role['previewrelatedrecord']);
+				if ($parentRecord) {
+					$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($parentRecord);
 
-				if ($current_user->id == $parentRecordOwner) {
-					$permission = 'yes';
-					$log->debug('Exiting isPermitted method ... - Parent Record Owner');
-					return $permission;
+					if ($role['permissionsrelatedfield'] == 0) {
+						$relatedPermission = $current_user->id == $recordMetaData['smownerid'];
+					} else if ($role['permissionsrelatedfield'] == 1) {
+						$relatedPermission = in_array($current_user->id, explode(',', $recordMetaData['shownerid']));
+					} else if ($role['permissionsrelatedfield'] == 2) {
+						$relatedPermission = $current_user->id == $recordMetaData['smownerid'] || in_array($current_user->id, explode(',', $recordMetaData['shownerid']));
+					}
+
+					if ($relatedPermission) {
+						$permission = 'yes';
+						$log->debug('Exiting isPermitted method ... - Parent Record Owner');
+						return $permission;
+					}
 				}
 			}
 
@@ -876,7 +884,7 @@ function getRoleInformation($roleid)
 
 	$result = $adb->pquery('select * from vtiger_role where roleid=?', [$roleid]);
 	$row = $adb->fetch_array($result);
-	
+
 	$parentrole = $row['parentrole'];
 	$parentRoleArr = explode('::', $parentrole);
 	$immediateParent = $parentRoleArr[sizeof($parentRoleArr) - 2];

@@ -20,6 +20,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('updateUserModuleStep3');
 		$this->exposeMethod('checkModuleName');
 		$this->exposeMethod('createModule');
+		$this->exposeMethod('deleteModule');
 	}
 
 	function process(Vtiger_Request $request)
@@ -136,6 +137,19 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		} catch (Exception $e) {
 			$result = array('success' => false, 'text' => $e->getMessage());
 		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	public function deleteModule(Vtiger_Request $request){
+		$moduleName = $request->get('forModule');
+		$moduleInstance = Vtiger_Module::getInstance($moduleName);
+		if($moduleInstance){
+			$moduleInstance->delete();
+			$result = array('success' => true);
+		}else
+			$result = array('success' => false);
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

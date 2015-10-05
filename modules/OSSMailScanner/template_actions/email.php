@@ -24,31 +24,31 @@ function bind_email($user_id, $mailDetail, $folder, $moduleName, $ossmailviewTab
 		if ($adb->num_rows($result_ossmailview) == 0) {
 			return FALSE;
 		}
-		$ossmailviewid = $adb->query_result($result_ossmailview, 0, 'ossmailviewid');
+		$mailViewId = $adb->query_result($result_ossmailview, 0, 'ossmailviewid');
 	} else {
-		$ossmailviewid = $mailDetail['ossmailviewid'];
+		$mailViewId = $mailDetail['ossmailviewid'];
 	}
 
-	$crmidsFromAddress = OSSMailScanner_Record_Model::findEmail($mailDetail['fromaddress'], $moduleName, TRUE);
+	$crmIds = OSSMailScanner_Record_Model::findEmail($mailDetail['fromaddress'], $moduleName, TRUE);
 	$crmidsToaddress = OSSMailScanner_Record_Model::findEmail($mailDetail['toaddress'], $moduleName, TRUE);
 	$crmidsCcaddress = OSSMailScanner_Record_Model::findEmail($mailDetail['ccaddress'], $moduleName, TRUE);
 	$crmidsBccaddress = OSSMailScanner_Record_Model::findEmail($mailDetail['bccaddress'], $moduleName, TRUE);
 	$crmidsReplyToaddress = OSSMailScanner_Record_Model::findEmail($mailDetail['reply_toaddress'], $moduleName, TRUE);
-	$crmidsToAddress = OSSMailScanner_Record_Model::_merge_array($crmidsToaddress, $crmidsCcaddress);
-	$crmidsToAddress = OSSMailScanner_Record_Model::_merge_array($crmidsToAddress, $crmidsBccaddress);
-	$crmidsToAddress = OSSMailScanner_Record_Model::_merge_array($crmidsToAddress, $crmidsReplyToaddress);
+	$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsToaddress);
+	$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsCcaddress);
+	$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsBccaddress);
+	$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsReplyToaddress);
 	$returnIds = [];
+	
+	if (count($crmIds) != 0) {
+		foreach ($crmIds as $crmRow) {
+			$resultRelation = $adb->pquery('SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid=? AND crmid=?', [$mailViewId, $crmRow]);
+			if ($resultRelation->rowCount() > 0) {
+				continue;
+			}
 
-	if (count($crmidsFromAddress) != 0) {
-		foreach ($crmidsFromAddress as $crmidsRow) {
-			$adb->pquery('INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?, date=?;', [$ossmailviewid, $crmidsRow[0], $mailDetail['udate_formated']]);
-			$returnIds[] = $crmidsRow[0];
-		}
-	}
-	if (count($crmidsToAddress) != 0) {
-		foreach ($crmidsToAddress as $crmidsRow) {
-			$adb->pquery('INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?, date=?;', [$ossmailviewid, $crmidsRow[0], $mailDetail['udate_formated']]);
-			$returnIds[] = $crmidsRow[0];
+			$adb->pquery('INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?, date=?;', [$mailViewId, $crmRow, $mailDetail['udate_formated']]);
+			$returnIds[] = $crmRow;
 		}
 	}
 	return $returnIds;
