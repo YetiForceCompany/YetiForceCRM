@@ -461,6 +461,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 				if ($currency_id == $product_currency_id) {
 					$is_basecurrency = true;
 				}
+
 				if ($cur_value == null || $cur_value == '') {
 					$price_details[$i]['check_value'] = false;
 					if ($unit_price != null) {
@@ -468,7 +469,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 					} else {
 						$cur_value = '0';
 					}
-				} else if ($is_basecurrency) {
+				} else {
 					$price_details[$i]['check_value'] = true;
 				}
 				$price_details[$i]['curvalue'] = CurrencyField::convertToUserFormat($cur_value, null, true);
