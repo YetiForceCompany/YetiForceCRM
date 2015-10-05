@@ -71,6 +71,9 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 							var listinstance = new Vtiger_List_Js();
 							listinstance.getListViewRecords();
 						}
+						
+						//updates the Calendar Reminder popup's status
+						Vtiger_Index_Js.requestReminder();
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					} else {
 						return false;
