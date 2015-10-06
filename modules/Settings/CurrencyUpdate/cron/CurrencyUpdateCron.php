@@ -14,12 +14,12 @@ if (!empty($moduleModel->getActiveBankId())) {
 	$status = $moduleModel->fetchCurrencyRates($lastWorkingDay, true);
 
 	if ($status) {
-		$log->debug('Successfully fetched new currency exchange rates for date: ' . $lastWorkingDay . ' from bank: ' . $moduleModel->getActiveBankName());
+		$log->info('Successfully fetched new currency exchange rates for date: ' . $lastWorkingDay . ' from bank: ' . $moduleModel->getActiveBankName());
 	} else {
-		$log->debug('Failed to fetch new currency exchange rates for date: ' . $lastWorkingDay . ' from bank: ' . $moduleModel->getActiveBankName());
+		$log->warn('Failed to fetch new currency exchange rates for date: ' . $lastWorkingDay . ' from bank: ' . $moduleModel->getActiveBankName());
 	}
 } else {
-	$log->debug('Update of system currency rates ignored, no active bankin settings.');
+	$log->warn('Update of system currency rates ignored, no active bankin settings.');
 }
 
 $log->debug('End CRON:' . __FILE__);
