@@ -279,6 +279,21 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return $privilegesModel->get('roleid');
 	}
 
+	function getRoleDetail()
+	{
+		if (!empty($this->get('roleDetail'))) {
+			return $this->get('roleDetail');
+		}
+		if (empty($this->get('privileges'))) {
+			$privilegesModel = Users_Privileges_Model::getInstanceById($this->getId());
+			$this->set('privileges', $privilegesModel);
+		}
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT * FROM vtiger_role WHERE roleid = ?', [$this->get('privileges')->get('roleid')]);
+		$this->set('roleDetail', $db->fetch_array($result));
+		return $this->get('roleDetail');
+	}
+
 	/**
 	 * Function returns List of Accessible Users for a Module
 	 * @param <String> $module
