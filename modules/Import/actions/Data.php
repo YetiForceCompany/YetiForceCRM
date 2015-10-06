@@ -502,6 +502,17 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 			} else if($fieldInstance->getFieldDataType() == 'currency'){
                 // While exporting we are exporting as user format, we should import as db format while importing
                 $fieldData[$fieldName] = CurrencyField::convertToDBFormat($fieldValue, $current_user,false);
+			} else if ($fieldInstance->getFieldDataType() == 'tree') {
+				if (empty($fieldValue) && isset($defaultFieldValues[$fieldName])) {
+					$fieldData[$fieldName] = $fieldValue = $defaultFieldValues[$fieldName];
+				} else if (!empty($fieldValue)) {
+					$fieldValue = trim($fieldValue);
+					foreach ($fieldInstance->getTreeDetails() as $id => $tree) {
+						if ($tree == $fieldValue) {
+							$fieldData[$fieldName] = $id;
+						}
+					}
+				}
             }else {
 				if ($fieldInstance->getFieldDataType() == 'datetime' && !empty($fieldValue)) {
 					if($fieldValue == null || $fieldValue == '0000-00-00 00:00:00') {
