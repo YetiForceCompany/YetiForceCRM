@@ -12,7 +12,8 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 
 	function getCreateInvoiceUrl() {
 		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
-		return 'index.php?module='.$invoiceModuleModel->getName().'&view='.$invoiceModuleModel->getEditViewName().'&account_id='.$this->get('related_to');
+		return 'index.php?module='.$invoiceModuleModel->getName().'&view='.$invoiceModuleModel->getEditViewName().'&account_id='.$this->get('related_to').
+			'&potentialid='.$this->getId().'&sourceModule=' . $this->getModuleName() . '&sourceRecord=' . $this->getId() . '&relationOperation=true';
 	}
 
 	/**
