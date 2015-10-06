@@ -454,12 +454,12 @@ class PearDatabase
 		$this->log('Update | table: ' . $table . ',columns:' . print_r($columns, true) . ',where:' . $where . ',params:' . print_r($params, true));
 		$query = "UPDATE $table SET ";
 		foreach ($columns as $column => $value) {
-			$query .= $column . ' = ?';
+			$query .= $column . ' = ?,';
 			$values[] = $value;
 		}
-
+		$query = trim($query, ',');
 		$query .= ' WHERE ' . $where;
-		$this->pquery($query, [array_merge($values, $params)]);
+		$this->pquery(trim($query, ','), [array_merge($values, $params)]);
 		return $this->stmt->rowCount();
 	}
 
