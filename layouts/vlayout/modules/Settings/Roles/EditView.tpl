@@ -75,7 +75,7 @@
 						</div>
 					</div>
 				</div>
-				<br>
+				<hr/>
 				<div class="row">
 					<label class="col-md-3"><strong>{vtranslate('LBL_PERMISSIONS_TO_LIST_RELATED_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
@@ -117,7 +117,7 @@
 						</div>
 					</div>
 				</div>
-				<br>
+				<hr/>
 				<div class="row">
 					<label class="col-md-3"><strong>{vtranslate('LBL_SEARCH_WITHOUT_PERMISSION',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
@@ -131,6 +131,15 @@
 				</div>
 				<br>
 				<div class="row">
+					<label class="col-md-3"><strong>{vtranslate('LBL_SHOW_GLOBAL_SEARCH_ADVANCED',$QUALIFIED_MODULE)}:</strong></label>
+					<div class="col-md-7 fieldValue">
+						<div class="pull-left">
+							<input type="checkbox" value="1" {if $RECORD_MODEL->get('globalsearchadv')} checked="" {/if} name="globalSearchAdvanced" class="alignTop"/>
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="row">
 					<label class="col-md-3"><strong>{vtranslate('LBL_BROWSING_OTHER_USERS_GRAPHICAL_CALENDAR',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						<select id="clendarallorecords" class="row select2 form-control" name="clendarallorecords">
@@ -139,8 +148,8 @@
 							<option value="3" {if $RECORD_MODEL->get('clendarallorecords') == '3'}selected="true"{/if}>{vtranslate('LBL_CLENDAR_ALLO_RECORDS_3', $QUALIFIED_MODULE)}</option>
 						</select>
 					</div>
-				</div>	
-				<br>
+				</div>
+				<hr/>
 				<div class="row padding20px boxSizingBorderBox contentsBackground" data-content-role="new" style="display: none">
 					<div class="fieldValue col-md-12">
 					</div>

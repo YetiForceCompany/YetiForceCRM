@@ -46,6 +46,7 @@ $languageStrings = [
 	'LBL_INACTIVE' => 'Inactive',
 	'LBL_ONLY_PARENT' => 'Parent record',
 	'LBL_ACCORDING_TO_HIERARCHY' => 'According to hierarchy',
+	'LBL_SHOW_GLOBAL_SEARCH_ADVANCED' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_PERMISSION_DENIED' => 'Доступ запрещен',
