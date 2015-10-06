@@ -3804,8 +3804,11 @@ span[name=existingImages] img{
 	width: 260px;
 }
 .leftPanel .nav .subMenu li.menuLabel > a {
-	font-weight: 900;
+	font-weight: 600;
 	text-transform: uppercase;
+}
+.leftPanel .menuContainer .modulesList .menuIcon{	
+	padding-right: 18px;	
 }
 .bodyHeader{
 	background-color: #444853;
