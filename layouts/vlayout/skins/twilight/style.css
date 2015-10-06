@@ -3779,7 +3779,6 @@ span[name=existingImages] img{
 	left: 210px;
 	top: 50px;
 	height: calc(100% - 50px);
-	overflow-x:hidden;
 }
 .nav li:hover > .subMenu .subMenu{
 	left: 260px;
