@@ -5415,7 +5415,6 @@ insert  into `vtiger_links_seq`(`id`) values (232);
 
 /*Data for the table `vtiger_loginhistory` */
 
-insert  into `vtiger_loginhistory`(`login_id`,`user_name`,`user_ip`,`logout_time`,`login_time`,`status`,`browser`,`unblock`) values (1,'admin','127.0.0.1','0000-00-00 00:00:00','2015-10-06 08:18:38','Signed in','-',0);
 
 /*Data for the table `vtiger_lout_dimensions` */
 
