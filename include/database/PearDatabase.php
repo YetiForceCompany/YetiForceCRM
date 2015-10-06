@@ -155,7 +155,7 @@ class PearDatabase
 				$message .= "($file : $line)";
 			}
 		}
-		$this->log->$type("DB ->" . $message);
+		$this->log->$type($message);
 		return $message;
 	}
 
