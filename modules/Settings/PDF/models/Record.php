@@ -181,7 +181,6 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 						$params[$field] = $this->get($field);
 					}
 				}
-				//var_dump($params);exit;
 				$db->insert('a_yf_pdf', $params);
 
 				$this->set('pdfid', $db->getLastInsertID());
@@ -288,5 +287,41 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 		$query = 'UPDATE `a_yf_pdf` SET `conditions` = "" WHERE `pdfid` = ? LIMIT 1;';
 		$db->pquery($query, [$this->getId()]);
+	}
+
+	public function checkFiltersForRecord($recordId)
+	{
+		require_once("modules/com_vtiger_workflow/VTJsonCondition.inc");
+		require_once("modules/com_vtiger_workflow/VTEntityCache.inc");
+
+		$conditionStrategy = new VTJsonCondition();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$entityCache = new VTEntityCache($currentUser);
+		$wsId = vtws_getWebserviceEntityId($this->get('module_name'), $recordId);
+
+		return $conditionStrategy->evaluate($this->getRaw('conditions'), $entityCache, $wsId);;
+	}
+
+	public function checkUserPermissions($userId, $userGroups)
+	{
+		$permissions = $this->get('template_members');
+
+		if (empty($permissions)) {
+			return true;
+		}
+
+		$permissions = explode(',', $this->get('template_members'));
+
+		if (in_array('Users:' . $userId, $permissions)) { // check user id
+			return true;
+		} else {
+			foreach ($userGroups as $group) {
+				if (in_array('Groups:' . $group, $permissions)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }

@@ -10,9 +10,9 @@ require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager
 class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	var $baseTable = 'a_yf_pdf';
-	var $baseIndex = 'pdfid';
-	var $listFields = [
+	public $baseTable = 'a_yf_pdf';
+	public $baseIndex = 'pdfid';
+	public $listFields = [
 		'module_name' => 'Module',
 		'status' => 'LBL_STATUS',
 		'primary_name' => 'LBL_PRIMARY_NAME',
@@ -335,5 +335,88 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getMetaVariables()
 	{
 		return self::$metaVariables;
+	}
+
+	/**
+	 * Returns template records by module name
+	 * @param <string> $moduleName - module name for which template was created
+	 * @return <array> array of template record models
+	 */
+	public function getTemplatesByModule($moduleName)
+	{
+		$db = PearDatabase::getInstance();
+
+		$query = 'SELECT `' . $this->getBaseIndex() . '` FROM `' . $this->getBaseTable() . '` WHERE `module_name` = ? and `status` = ?;';
+		$result = $db->pquery($query, [$moduleName, 'active']);
+		$templates = [];
+
+		while ($row = $db->fetchByAssoc($result)) {
+			$templates[] = Settings_PDF_Record_Model::getInstanceById($row['pdfid']);
+		}
+
+		return $templates;
+	}
+
+	/**
+	 * Check if pdf templates are avauble for this record, user and view
+	 * @param <integer> $recordId - id of a record
+	 * @param <string> $moduleName - name of the module
+	 * @param <string> $view - modules view - Detail or List
+	 * @return <boolean> true or false
+	 */
+	public function checkPermissions($recordId, $moduleName, $view)
+	{
+		$viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
+
+		// get the templates for chosen module
+		$templates = $this->getTemplatesByModule($moduleName);
+		if (count($templates) == 0) {
+			return false;
+		}
+
+		// check template visibility
+		$visibleInCurrentView = [];
+		$i = 0;
+		foreach ($templates as $template) {
+			$visibility = explode(',', $template->get('visibility'));
+			if (in_array($viewToPicklistValue[$view], $visibility)) {
+				$visibleInCurrentView[] = $i;
+			}
+			$i++;
+		}
+
+		if (count($visibleInCurrentView) == 0) {
+			return false;
+		}
+
+		// check filters
+		$templatesPassFilters = [];
+		foreach ($visibleInCurrentView as $id) {
+			if ($templates[$id]->checkFiltersForRecord($recordId)) {
+				$templatesPassFilters[] = $id;
+			}
+		}
+
+		if (count($templatesPassFilters) == 0) {
+			return false;
+		}
+
+		// check user permissions
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$userGroups = new GetUserGroups();
+		$userGroups->getAllUserGroups($currentUser->getId());
+
+		$permissionPass = [];
+		foreach ($templatesPassFilters as $id) {
+			if ($templates[$id]->checkUserPermissions($currentUser->getId(), $userGroups->user_groups)) {
+				$permissionPass[] = $id;
+			}
+		}
+
+		if (count($permissionPass) > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

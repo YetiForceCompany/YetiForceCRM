@@ -128,14 +128,13 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
 		}
-
-		//TODO validate if template should be visible
-		if (1) {
+		$pdfModuleModel = Settings_PDF_Module_Model::getInstance('Settings:PDF');
+		if ($pdfModuleModel->checkPermissions($recordId, $moduleName, 'Detail')) {
 			$pdfExportLinkModel = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => vtranslate('LBL_EXPORT_PDF', 'Settings:PDF'),
 				'linkdata' => ['url' => 'index.php?parent=Settings&module=PDF&view=ExportPDF&record='.$recordId.'&frommodule='.$moduleName],
-				'linkicon' => '',
+				'linkicon' => 'glyphicon glyphicon-save-file',
 				'linkclass' => 'showModal',
 				'title' => vtranslate('LBL_LBL_EXPORT_PDF')
 			);

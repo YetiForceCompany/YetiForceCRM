@@ -10,13 +10,8 @@
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
 							{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-							{if !empty($COLUMNNAME_API)}
-								{assign var=columnNameApi value=$COLUMNNAME_API}
-							{else}
-								{assign var=columnNameApi value=getCustomViewColumnName}
-							{/if}
-							<option value="{$FIELD_MODEL->$columnNameApi()}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_NAME}"
-									{if decode_html($FIELD_MODEL->$columnNameApi()) eq $CONDITION_INFO['columnname']}
+							<option value="{$FIELD_NAME}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_NAME}"
+									{if decode_html($FIELD_NAME) eq $CONDITION_INFO['columnname']}
 										{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()}
 										{assign var=SELECTED_FIELD_MODEL value=$FIELD_MODEL}
 										{$FIELD_INFO['value'] = decode_html($CONDITION_INFO['value'])}
