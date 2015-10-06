@@ -12,11 +12,18 @@
 					<h3 class="modal-title">{vtranslate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</h3>
 				</div>
 				<div class="pull-right">
+					{if $RECORD->get('link') neq '' && $PERMISSION_TO_SENDE_MAIL}
+						<a target="_blank" class="btn btn-default" href="index.php?module=OSSMail&view=compose&mod={Vtiger_Functions::getCRMRecordType($RECORD->get('link'))}&record={$RECORD->get('link')}" title="{vtranslate('LBL_SEND_EMAIL')}">
+							<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+						</a>
+					{/if}
 					{if $EDITVIEW_PERMITTED == 'yes'}
 						<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default"><span class="glyphicon glyphicon-pencil summaryViewEdit" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></a>
 					{/if}
-					{if $DETAILVIEW_PERMITTED == 'yes'}&nbsp;<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>{/if}
-						<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD->getId()}"></a>
+					{if $DETAILVIEW_PERMITTED == 'yes'}
+						<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
+					{/if}
+						{*<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD->getId()}"></a>*}
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -120,11 +127,6 @@
 					{/if}
 					{if $ACTIVITYPOSTPONED eq 'yes' && $EMPTY}
 						<button type="button" class="btn btn-primary showQuickCreate" data-state='{$ACTIVITY_STATE_LABEL.postponed}' data-id='{$ID}'>{vtranslate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}</button>
-					{/if}
-					{if $RECORD->get('link') neq '' && $PERMISSION_TO_SENDE_MAIL}
-						<a target="_blank" class="btn btn-default" href="index.php?module=OSSMail&view=compose&mod={Vtiger_Functions::getCRMRecordType($RECORD->get('link'))}&record={$RECORD->get('link')}" title="{vtranslate('LBL_SEND_EMAIL')}">
-							<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-						</a>
 					{/if}
 					{if !$EMPTY}
 						{vtranslate('LBL_NO_AVAILABLE_ACTIONS', $MODULE_NAME)}
