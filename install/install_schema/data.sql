@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.11 (64 bit)
 MySQL - 5.6.17 : Database - yetiforcecrmsecond
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -22356,7 +22357,9 @@ insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (4
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (41,'120','sharedOwner');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (42,'301','modules');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (43,'302','tree');
-
+insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (44,'303','taxes');
+insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (45,'304','inventoryLimit');
+insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (46,'305','multiReferenceValue');
 /*Data for the table `vtiger_ws_operation` */
 
 insert  into `vtiger_ws_operation`(`operationid`,`name`,`handler_path`,`handler_method`,`type`,`prelogin`) values (1,'login','include/Webservices/Login.php','vtws_login','POST',1);
@@ -22632,6 +22635,9 @@ insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('potential',
 
 insert  into `yetiforce_proc_tc`(`type`,`param`,`value`) values ('general','oneDay','false');
 insert  into `yetiforce_proc_tc`(`type`,`param`,`value`) values ('general','timeOverlap','false');
+insert  into `yetiforce_proc_tc`(`type`,`param`,`value`) values ('timeControlWidget', 'holidays', 'true');
+insert  into `yetiforce_proc_tc`(`type`,`param`,`value`) values ('timeControlWidget', 'workingDays', 'true');
+insert  into `yetiforce_proc_tc`(`type`,`param`,`value`) values ('timeControlWidget', 'workingTime', 'true');
 
 /*Data for the table `yetiforce_updates` */
 

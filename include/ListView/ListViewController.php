@@ -272,6 +272,7 @@ class ListViewController
 					} else {
 						$value = ' --';
 					}
+					$value = Vtiger_Functions::textLength($value);
 				} elseif ($field->getFieldDataType() == 'picklist') {
 					$value = Vtiger_Language_Handler::getTranslatedString($value, $module);
 					$value = textlength_check($value);
@@ -434,7 +435,7 @@ class ListViewController
 						$json = new Zend_Json();
 						$value = vt_suppressHTMLTags(implode(',', $json->decode($temp_val)));
 					}
-				} elseif ($field->getUIType() == 303) {
+				} elseif ($field->getFieldDataType() == 'taxes') {
 					if (!empty($value)) {
 						$valueArray = ($value != "") ? explode(',', $value) : [];
 						$tmp = '';
@@ -446,9 +447,9 @@ class ListViewController
 							}
 						}
 						$value = implode(', ', $tmpArray);
-						$value = textlength_check($value);
+						$value = Vtiger_Functions::textLength($value);
 					}
-				} elseif ($field->getUIType() == 304) {
+				} elseif ($field->getFieldDataType() == 'inventoryLimit') {
 					if (!empty($value)) {
 						$valueArray = ($value != "") ? explode(',', $value) : [];
 						$tmp = '';
@@ -460,12 +461,17 @@ class ListViewController
 							}
 						}
 						$value = implode(', ', $tmpArray);
-						$value = textlength_check($value);
+						$value = Vtiger_Functions::textLength($value);
 					}
+				} elseif ($field->getFieldDataType() == 'multiReferenceValue') {
+					$valueTmp = trim($value, '|#|');
+					$valueTmp = ($valueTmp != "") ? explode('|#|', $valueTmp) : [];
+					$value = implode(', ', $valueTmp);
+					$value = Vtiger_Functions::textLength($value);
 				} elseif (in_array($uitype, array(7, 9, 90))) {
 					$value = "<span align='right'>" . textlength_check($value) . "</div>";
 				} else {
-					$value = textlength_check($value);
+					$value = Vtiger_Functions::textLength($value);
 				}
 
 //				// vtlib customization: For listview javascript triggers

@@ -92,7 +92,6 @@ $languageStrings = [
 	'Assets' => 'Assets',
 	'Assigned To' => 'Assigned To',
 	'Was read' => 'Updated',
-	'BTN_READ_RECORD' => 'By clicking on this button you mark that you read all changes performed on this record.',
 	'Billing Address' => 'Billing Address',
 	'Billing City' => 'Billing City',
 	'Billing Code' => 'Billing Postal Code',

@@ -102,7 +102,6 @@ $languageStrings = [
 	'Assets' => 'Bestandsverwaltung',
 	'Assigned To' => 'zuständig',
 	'Was read' => 'Aktualisiert',
-	'BTN_READ_RECORD' => 'Mit einem Klick auf diese Schaltfläche markieren Sie, dass Sie alle Änderungen auf diesem Datensatz gelesen haben.',
 	'Billing Address' => 'Rechnungsadresse',
 	'Billing City' => 'Ort',
 	'Billing Code' => 'PLZ',

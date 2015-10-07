@@ -54,7 +54,7 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Base_UIType
 
 		return $display;
 	}
-	
+
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/InventoryLimitSearchView.tpl';

@@ -15,6 +15,11 @@ $languageStrings = [
 	'LBL_TIMEOVERLAP_VALID' => 'Allow time overlapping',
 	'LBL_GENERAL_SETTINGS' => 'General settings',
 	'TimeControlProcesses' => 'Time control processes',
+	'LBL_TIME_CONTROL_WIDGET' => 'Time Control Widget',
+	'LBL_TCW_INFO' => 'The options to hide/display icons in the time control widget can be found here.',
+	'LBL_HOLIDAYS' => 'Holiday icons',
+	'LBL_WORKING_DAYS' => 'Working days icons',
+	'LBL_WORKING_TIME' => 'Working time icons',
 ];
 
 $jsLanguageStrings = [

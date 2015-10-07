@@ -982,22 +982,27 @@ class QueryGenerator
 		$inEqualityFieldTypes = ['currency', 'percentage', 'double', 'integer', 'number'];
 
 		if (is_string($value) && $this->ignoreComma == false) {
-			$commaSeparatedFieldTypes = array('picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree', 'sharedOwner');
+			$commaSeparatedFieldTypes = ['picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree', 'sharedOwner', 'sharedOwner'];
 			if (in_array($field->getFieldDataType(), $commaSeparatedFieldTypes)) {
 				$valueArray = explode(',', $value);
-				if ($field->getFieldDataType() == 'multipicklist' && in_array($operator, array('e', 'n'))) {
+				if ($field->getFieldDataType() == 'multipicklist' && in_array($operator, ['e', 'n'])) {
 					$valueArray = getCombinations($valueArray);
 					foreach ($valueArray as $key => $value) {
 						$valueArray[$key] = ltrim($value, ' |##| ');
 					}
 				}
+			} else if($field->getFieldDataType() == 'multiReferenceValue') {
+				$valueArray = explode(',', $value);
+				foreach ($valueArray as $key => $value) {
+					$valueArray[$key] = '|#|'.$value.'|#|';
+				}
 			} else {
-				$valueArray = array($value);
+				$valueArray = [$value];
 			}
 		} elseif (is_array($value)) {
 			$valueArray = $value;
 		} else {
-			$valueArray = array($value);
+			$valueArray = [$value];
 		}
 		$sql = array();
 		if ($operator == 'between' || $operator == 'bw' || $operator == 'notequal') {
