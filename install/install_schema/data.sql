@@ -1592,7 +1592,7 @@ insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) 
 /*Data for the table `vtiger_dataaccess_cnd` */
 
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (37,1,'ticketstatus','has changed','Open',1,'picklist');
-insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (38,2,'taskstatus','has changed','Not Started',1,'picklist');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (38,2,'activitystatus','has changed','PLL_PLANNED',1,'picklist');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (39,3,'projecttaskstatus','has changed','Open',1,'picklist');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (42,5,'projectmilestoneid','is not empty','',1,'reference');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (46,7,'leadstatus','is','LBL_LEAD_ACQUIRED',1,'picklist');
@@ -1601,7 +1601,7 @@ insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldnam
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (49,8,'accountname','is not empty','',1,'string');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (50,10,'ticketstatus','is','Rejected',0,'picklist');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (51,10,'ticketstatus','is','Closed',0,'picklist');
-insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (52,11,'eventstatus','has changed','Held',1,'picklist');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (52,11,'activitystatus','has changed','PLL_COMPLETED',1,'picklist');
 
 /*Data for the table `vtiger_datashare_grp2grp` */
 
@@ -6308,6 +6308,7 @@ insert  into `vtiger_paymentsout_status_seq`(`id`) values (3);
 /*Data for the table `vtiger_picklist` */
 
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (1,'accounttype');
+insert  into `vtiger_picklist`(`picklistid`,`name`) values (25,'activitystatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (2,'activitytype');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (37,'assetstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (67,'calculationsstatus');
@@ -6377,7 +6378,6 @@ insert  into `vtiger_picklist`(`picklistid`,`name`) values (23,'sostatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (63,'ssservicesstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (48,'start_hour');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (24,'taskpriority');
-insert  into `vtiger_picklist`(`picklistid`,`name`) values (25,'taskstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (26,'ticketcategories');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (27,'ticketpriorities');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (28,'ticketseverities');
