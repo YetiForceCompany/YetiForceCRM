@@ -119,7 +119,6 @@ function getListQuery($module, $where = '')
 
 		Case "Leads":
 			$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
-			vtiger_leaddetails.lastname,
 			vtiger_leaddetails.company, vtiger_leadaddress.phone,
 			vtiger_leadsubdetails.website, vtiger_leaddetails.email,
 			vtiger_leadscf.*

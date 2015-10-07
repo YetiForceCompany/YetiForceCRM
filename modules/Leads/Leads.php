@@ -10,7 +10,7 @@
  * The Initial Developer of the Original Code is SugarCRM, Inc.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
  * All Rights Reserved.
- * Contributor(s): ______________________________________.
+ * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 
 class Leads extends CRMEntity
@@ -30,12 +30,11 @@ class Leads extends CRMEntity
 	var $customFieldTable = Array('vtiger_leadscf', 'leadid');
 	//construct this from database;
 	var $column_fields = Array();
-	var $sortby_fields = Array('lastname', 'email', 'phone', 'company', 'smownerid', 'website');
+	var $sortby_fields = Array('email', 'phone', 'company', 'smownerid', 'website');
 	// This is used to retrieve related vtiger_fields from form posts.
 	var $additional_column_fields = Array('smcreatorid', 'smownerid', 'contactid', 'potentialid', 'crmid');
 	// This is the list of vtiger_fields that are in the lists.
 	var $list_fields = Array(
-		'Short name' => Array('leaddetails' => 'lastname'),
 		'Company' => Array('leaddetails' => 'company'),
 		'Phone' => Array('leadaddress' => 'phone'),
 		'Website' => Array('leadsubdetails' => 'website'),
@@ -43,28 +42,25 @@ class Leads extends CRMEntity
 		'Assigned To' => Array('crmentity' => 'smownerid')
 	);
 	var $list_fields_name = Array(
-		'Short name' => 'lastname',
 		'Company' => 'company',
 		'Phone' => 'phone',
 		'Website' => 'website',
 		'Email' => 'email',
 		'Assigned To' => 'assigned_user_id'
 	);
-	var $list_link_field = 'lastname';
+	var $list_link_field = 'company';
 	var $search_fields = Array(
-		'Name' => Array('leaddetails' => 'lastname'),
 		'Company' => Array('leaddetails' => 'company')
 	);
 	var $search_fields_name = Array(
-		'Name' => 'lastname',
 		'Company' => 'company'
 	);
 	var $required_fields = array();
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('assigned_user_id', 'lastname', 'createdtime', 'modifiedtime');
+	var $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime');
 	//Default Fields for Email Templates -- Pavani
-	var $emailTemplate_defaultFields = array('lastname', 'leadsource', 'leadstatus', 'rating', 'industry', 'secondaryemail', 'email', 'annualrevenue', 'designation', 'salutation');
+	var $emailTemplate_defaultFields = array('leadsource', 'leadstatus', 'rating', 'industry', 'secondaryemail', 'email', 'annualrevenue', 'designation', 'salutation');
 	//Added these variables which are used as default order by and sortorder in ListView
 	var $default_order_by = 'modifiedtime';
 	var $default_sort_order = 'DESC';
