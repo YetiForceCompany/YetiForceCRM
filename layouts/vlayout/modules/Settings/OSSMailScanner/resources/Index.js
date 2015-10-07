@@ -124,7 +124,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 			thisIstance.saveActions(jQuery(this).data('user-id'), jQuery(this).val());
 		});
 		jQuery("select[id^='user_list_']").change(function () {
-			thisIstance.saveCRMuser(jQuery(this).data('user-id'), jQuery(this).val());
+			thisIstance.saveCRMuser(jQuery(this).data('user'), jQuery(this).val());
 		});
 		jQuery("#folder_inputReceived").change(function () {
 			thisIstance.saveFolderList('Received', jQuery('#folder_inputReceived').val());
@@ -210,12 +210,12 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 				}
 		);
 	},
-	saveCRMuser: function (userid, vale) {
+	saveCRMuser: function (userid, value) {
 		var params = {
 			'module': 'OSSMailScanner',
 			'action': "SaveCRMuser",
 			'userid': userid,
-			'vale': vale
+			'value': value
 		}
 		AppConnector.request(params).then(
 				function (data) {

@@ -98,5 +98,6 @@ $languageStrings = [
 	'No Time' => 'Nenhum',
 	'End Time' => 'Hora Final',
 	'Status' => 'Estado',
+	'End Date' => 'Data Final'
 ];
 

@@ -205,7 +205,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		}
 
 		$pagingModel->calculatePageRange($activities);
-		if ($numOfRows > $pagingModel->getPageLimit()) {
+		if ($result->rowCount() > $pagingModel->getPageLimit()) {
 			array_pop($activities);
 			$pagingModel->set('nextPageExists', true);
 		} else {

@@ -788,6 +788,19 @@ CREATE TABLE `vtiger_activity_reminder_popup` (
   CONSTRAINT `vtiger_activity_reminder_popup_ibfk_1` FOREIGN KEY (`recordid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_activity_update_dates` */
+
+CREATE TABLE `vtiger_activity_update_dates` (
+  `activityid` int(19) NOT NULL,
+  `parent` int(19) NOT NULL,
+  `task_id` int(19) NOT NULL,
+  PRIMARY KEY (`activityid`),
+  KEY `parent` (`parent`),
+  CONSTRAINT `vtiger_activity_update_dates_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `com_vtiger_workflowtasks` (`task_id`) ON DELETE CASCADE,
+  CONSTRAINT `vtiger_activity_update_dates_ibfk_2` FOREIGN KEY (`parent`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `vtiger_activity_update_dates_ibfk_3` FOREIGN KEY (`activityid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_activity_view` */
 
 CREATE TABLE `vtiger_activity_view` (

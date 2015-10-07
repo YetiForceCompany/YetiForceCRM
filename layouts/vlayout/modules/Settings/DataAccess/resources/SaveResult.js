@@ -59,7 +59,7 @@ function SaveResult() {
 				this.executeTaskStatus = data.save_record;
 				break;
 			case 1:
-				this.showQuickCreate(data.module, this.executeTaskStatus, form, key)
+				this.showQuickCreate(data, this.executeTaskStatus, form, key)
 				view = app.getViewName();
 				if (view != 'Detail') {
 					this.executeTaskStatus = false
@@ -121,8 +121,9 @@ function SaveResult() {
 		Vtiger_Helper_Js.showPnotify(params);
 	}
 
-	this.showQuickCreate = function (moduleName, orgExecuteTaskStatus, form, key) {
+	this.showQuickCreate = function (data, orgExecuteTaskStatus, form, key) {
 		var instance = this;
+		var moduleName = data.module;
 		var sourceRecord = jQuery('input[name="record"]').val();
 		if (sourceRecord == undefined) {
 			sourceRecord = jQuery('#recordId').val();
@@ -159,7 +160,11 @@ function SaveResult() {
 		relatedParams['sourceRecord'] = sourceRecord;
 		relatedParams['relationOperation'] = true;
 		if ((app.getViewName() == 'Detail' || app.getViewName() == 'Edit') && moduleName == 'OSSTimeControl') {
-			relatedParams['name'] = jQuery('.recordLabel').attr('title');
+			if (data.title) {
+				relatedParams['name'] = data.title;
+			} else {
+				relatedParams['name'] = jQuery('.recordLabel').attr('title');
+			}
 		}
 		quickCreateParams['callbackFunction'] = postQuickCreateSave;
 		quickCreateParams['callbackPostShown'] = preQuickCreateSave;

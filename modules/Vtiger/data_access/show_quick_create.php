@@ -14,18 +14,24 @@ Class DataAccess_show_quick_create
 
 	var $config = true;
 
-	public function process($ModuleName, $ID, $record_form, $config)
+	public function process($moduleName, $id, $record_form, $config)
 	{
 		$db = PearDatabase::getInstance();
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!isset($ID) || $ID == 0 || $ID == '' || !$userPrivModel->hasModuleActionPermission(getTabid($config['modules']), 'EditView')) {
-			return Array('save_record' => true);
+		if (!isset($id) || $id == 0 || $id == '' || !$userPrivModel->hasModuleActionPermission(getTabid($config['modules']), 'EditView')) {
+			return ['save_record' => true];
 		}
-		return Array(
+		$title = '';
+		$instance = Vtiger_Record_Model::getInstanceById($id, $moduleName);
+		if ($instance) {
+			$title = $instance->getName();
+		}
+		return [
 			'save_record' => false,
 			'type' => 1,
-			'module' => $config['modules']
-		);
+			'module' => $config['modules'],
+			'title' => $title,
+		];
 	}
 
 	public function getConfig($id, $module, $baseModule)

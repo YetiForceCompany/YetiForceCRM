@@ -151,21 +151,19 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model{
 						if($q == 0){
 						   $date = $startDateFormated;
 						}else{
-							$date = strtotime(date("Y-m-d", strtotime($date)) . " +1 day");
+							$date = strtotime(date('Y-m-d', strtotime($date)) . ' +1 day');
 							$date = date('Y-m-d', $date);
 						}
 						if($activitytype == 'Task'){
 							$widgetElements[$date]['start'] = $date;
+							$widgetElements[$date]['date'] = date('Y-m-d', $firstDate);
 							$widgetElements[$date]['event']['Task']['ids'][] = $crmid;
-							$crmids = Zend_Json::encode($widgetElements[$date]['event']['Task']['ids']);
-							$widgetElements[$date]['event']['Task']['url'] = "index.php?module=Calendar&view=List&searchResult=".$crmids; 
 							$widgetElements[$date]['event']['Task']['className'] = ' col-md-5 fc-draggable calCol_'.$activitytype; 
 							$widgetElements[$date]['type'] = 'widget';
 						}else{
 							$widgetElements[$date]['start'] = $date;
+							$widgetElements[$date]['date'] = date('Y-m-d', $firstDate);
 							$widgetElements[$date]['event']['Meeting']['ids'][] = $crmid;
-							$crmids = Zend_Json::encode($widgetElements[$date]['event']['Meeting']['ids']);
-							$widgetElements[$date]['event']['Meeting']['url'] = "index.php?module=Calendar&view=List&searchResult=".$crmids; 
 							$widgetElements[$date]['event']['Meeting']['className'] = ' col-md-5 fc-draggable calCol_'.$activitytype;
 							$widgetElements[$date]['type'] = 'widget';
 						} 

@@ -98,5 +98,6 @@ $languageStrings = [
 	'Duration Minutes' => 'Czas trwania w Minutach',
 	'No Time' => 'Brak czasu',
 	'End Time' => 'Czas zakończenia',
+	'End Date' => 'Data zakończenia'
 ];
 
