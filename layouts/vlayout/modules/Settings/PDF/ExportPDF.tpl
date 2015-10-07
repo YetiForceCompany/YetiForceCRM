@@ -4,18 +4,17 @@
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_GENERATE_PDF_FILE', $QUALIFIED_MODULE)}</h3>
 		<br />
-		<div class="form-group row form-horizontal">
-			<label class="col-sm-3 control-label">
-				{vtranslate('LBL_PDF_TEMPLATE', $QUALIFIED_MODULE)}:
-			</label>
-			<div class="col-sm-6 controls">
-				<select class="select2 form-control" id="pdf_template" name="pdf_template">
-					{foreach from=$TEMPLATES item=TEMPLATE}
-						<option value="{$TEMPLATE.id}">
-							{vtranslate($TEMPLATE.primary_name, $QUALIFIED_MODULE)}
-						</option>
-					{/foreach}
-				</select>
+		<div class="panel panel-default">
+			<div class="panel-heading"><strong>{vtranslate('LBL_PDF_TEMPLATE', $QUALIFIED_MODULE)}</strong></div>
+			<div class="panel-body">
+			{foreach from=$TEMPLATES item=TEMPLATE}
+				<div class="form-group row form-horizontal">
+					<label class="col-sm-4 control-label" for="pdfTpl{$TEMPLATE->getId()}">{$TEMPLATE->get('primary_name')}</label>
+					<div class="col-sm-6 controls">
+						 <input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" value="{$TEMPLATE->getId()}" />
+					</div>
+				</div>
+			{/foreach}
 			</div>
 		</div>
 	</div>

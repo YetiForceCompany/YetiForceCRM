@@ -22,24 +22,16 @@ class Settings_PDF_ExportPDF_View extends Vtiger_BasicModal_View
 	function process(Vtiger_Request $request)
 	{
 		$this->preProcess($request);
-		$moduleName = $request->getModule(false);
-		$viewer = $this->getViewer($request);
+		$moduleName	= $request->getModule(false);
+		$viewer		= $this->getViewer($request);
+		$recordId	= $request->get('record');
+		$fromModule	= $request->get('frommodule');
+		$view		= $request->get('fromview');
 
-		$db = PearDatabase::getInstance();
+		$pdfModuleModel = Settings_PDF_Module_Model::getInstance('Settings:PDF');
 
-		//TODO get filtered templates
-		$query = 'SELECT `pdfid`, `module_name`, `primary_name` FROM `a_yf_pdf` WHERE `status` = ?;';
-		$result = $db->pquery($query, ['active']);
-		$templates = [];
-		$i = 0;
-		while ($row = $db->fetchByAssoc($result)) {
-			$templates[$i]['id'] = $row['pdfid'];
-			$templates[$i]['module_name'] = $row['module_name'];
-			$templates[$i]['primary_name'] = $row['primary_name'];
-			$i++;
-		}
-		$viewer->assign('TEMPLATES', $templates);
-		$exportValues = "&record={$request->get('record')}&frommodule={$request->get('frommodule')}";
+		$viewer->assign('TEMPLATES', $pdfModuleModel->getTemplatesForRecordId($recordId, $view, $fromModule));
+		$exportValues = "&record={$recordId}&frommodule={$fromModule}&fromview={$view}";
 		$viewer->assign('EXPORT_VARS', $exportValues);
 		$viewer->assign('QUALIFIED_MODULE', $moduleName);
 		$viewer->view('ExportPDF.tpl', $moduleName);

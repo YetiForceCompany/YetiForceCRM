@@ -291,15 +291,16 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function checkFiltersForRecord($recordId)
 	{
-		require_once("modules/com_vtiger_workflow/VTJsonCondition.inc");
-		require_once("modules/com_vtiger_workflow/VTEntityCache.inc");
+		vimport("~/modules/com_vtiger_workflow/VTJsonCondition.inc");
+		vimport("~/modules/com_vtiger_workflow/VTEntityCache.inc");
+		vimport("~/include/Webservices/Retrieve.php");
 
 		$conditionStrategy = new VTJsonCondition();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$entityCache = new VTEntityCache($currentUser);
 		$wsId = vtws_getWebserviceEntityId($this->get('module_name'), $recordId);
 
-		return $conditionStrategy->evaluate($this->getRaw('conditions'), $entityCache, $wsId);;
+		return $conditionStrategy->evaluate($this->getRaw('conditions'), $entityCache, $wsId);
 	}
 
 	public function checkUserPermissions($userId, $userGroups)

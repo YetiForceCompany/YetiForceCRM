@@ -80,6 +80,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'LBL_HELPDESK_SUPPORT_EMAILID' => '(general : (__VtigerMeta__) supportEmailid)',
 	);
 	public static $uploadPath = 'layouts/vlayout/modules/Settings/PDF/resources/watermark_images/';
+	protected $viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
 
 	/**
 	 * Function to get the url for default view of the module
@@ -359,64 +360,99 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Check if pdf templates are avauble for this record, user and view
-	 * @param <integer> $recordId - id of a record
-	 * @param <string> $moduleName - name of the module
-	 * @param <string> $view - modules view - Detail or List
-	 * @return <boolean> true or false
+	 * @param <Integer> $recordId - id of a record
+	 * @param <String> $moduleName - name of the module
+	 * @param <String> $view - modules view - Detail or List
+	 * @return <Boolean> true or false
 	 */
 	public function checkPermissions($recordId, $moduleName, $view)
 	{
-		$viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
+		$templates = $this->getTemplatesForRecordId($recordId, $view, $moduleName);
+
+		if (count($templates) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function getTemplatesForRecordId($recordId, $view, $moduleName = false)
+	{
+		if (!isRecordExists($recordId)) {
+			return [];
+		}
+		if (!$moduleName) {
+			$moduleName = Vtiger_Functions::getCRMRecordType($recordId);
+		}
 
 		// get the templates for chosen module
 		$templates = $this->getTemplatesByModule($moduleName);
 		if (count($templates) == 0) {
-			return false;
+			return [];
 		}
-
+		
 		// check template visibility
-		$visibleInCurrentView = [];
-		$i = 0;
-		foreach ($templates as $template) {
-			$visibility = explode(',', $template->get('visibility'));
-			if (in_array($viewToPicklistValue[$view], $visibility)) {
-				$visibleInCurrentView[] = $i;
-			}
-			$i++;
+		if (!$this->removeInvisibleTemplates($templates, $view)) {
+			return [];
 		}
-
-		if (count($visibleInCurrentView) == 0) {
-			return false;
-		}
-
+		
 		// check filters
-		$templatesPassFilters = [];
-		foreach ($visibleInCurrentView as $id) {
-			if ($templates[$id]->checkFiltersForRecord($recordId)) {
-				$templatesPassFilters[] = $id;
+		if (!$this->removeFailingFilterTemplates($templates, $recordId)) {
+			return [];
+		}
+		
+		// check user permissions
+		if (!$this->removeFailingPermissionTemplates($templates)) {
+			return [];
+		}
+		
+		return $templates;
+	}
+	
+	public function removeInvisibleTemplates(&$templates, $view) {
+		foreach ($templates as $id => &$template) {
+			$visibility = explode(',', $template->get('visibility'));
+			if (!in_array($this->viewToPicklistValue[$view], $visibility)) {
+				unset($templates[$id]);
 			}
 		}
 
-		if (count($templatesPassFilters) == 0) {
+		if (empty($templates)) {
 			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	public function removeFailingFilterTemplates(&$templates, $recordId) {
+		foreach ($templates as $id => &$template) {
+			if (!$template->checkFiltersForRecord($recordId)) {
+				unset($templates[$id]);
+			}
 		}
 
-		// check user permissions
+		if (empty($templates)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	public function removeFailingPermissionTemplates(&$templates) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userGroups = new GetUserGroups();
 		$userGroups->getAllUserGroups($currentUser->getId());
 
-		$permissionPass = [];
-		foreach ($templatesPassFilters as $id) {
-			if ($templates[$id]->checkUserPermissions($currentUser->getId(), $userGroups->user_groups)) {
-				$permissionPass[] = $id;
+		foreach ($templates as $id => &$template) {
+			if (!$template->checkUserPermissions($currentUser->getId(), $userGroups->user_groups)) {
+				unset($templates[$id]);
 			}
 		}
 
-		if (count($permissionPass) > 0) {
-			return true;
-		} else {
+		if (empty($templates)) {
 			return false;
+		} else {
+			return true;
 		}
 	}
 }

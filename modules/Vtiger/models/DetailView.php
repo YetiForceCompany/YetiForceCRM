@@ -133,7 +133,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			$pdfExportLinkModel = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => vtranslate('LBL_EXPORT_PDF', 'Settings:PDF'),
-				'linkdata' => ['url' => 'index.php?parent=Settings&module=PDF&view=ExportPDF&record='.$recordId.'&frommodule='.$moduleName],
+				'linkdata' => ['url' => 'index.php?parent=Settings&module=PDF&view=ExportPDF&record='.$recordId.'&frommodule='.$moduleName.'&fromview=Detail'],
 				'linkicon' => 'glyphicon glyphicon-save-file',
 				'linkclass' => 'showModal',
 				'title' => vtranslate('LBL_LBL_EXPORT_PDF')
