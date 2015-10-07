@@ -981,7 +981,6 @@ class QueryGenerator
 					}
 				}
 			} else if ($field->getFieldDataType() == 'multiReferenceValue') {
-				$operator = 'c';
 				$valueArray = explode(',', $value);
 				foreach ($valueArray as $key => $value) {
 					$valueArray[$key] = '|#|' . $value . '|#|';
@@ -1118,6 +1117,14 @@ class QueryGenerator
 				$value = "DATE_FORMAT(" . $db->quote($value) . ", '%m%d')";
 			} else {
 				$value = $db->sql_escape_string($value, true);
+			}
+
+			if ($field->getFieldDataType() == 'multiReferenceValue' && in_array($operator, ['e', 's', 'ew', 'c'])) {
+				$sql[] = "LIKE '%$value%'";
+				continue;
+			} else if ($field->getFieldDataType() == 'multiReferenceValue' && in_array($operator, ['n', 'k'])) {
+				$sql[] = "NOT LIKE '%$value%'";
+				continue;
 			}
 
 			if (trim($value) == '' && ($operator == 's' || $operator == 'ew' || $operator == 'c') && ($this->isStringType($field->getFieldDataType()) ||

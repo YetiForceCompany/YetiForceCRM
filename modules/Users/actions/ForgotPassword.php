@@ -11,6 +11,7 @@
 chdir(dirname(__FILE__) . "/../../../");
 require_once 'config/config.php';
 require_once 'config/debug.php';
+require_once 'config/security.php';
 require_once 'config/performance.php';
 require_once('include/ConfigUtils.php');
 include_once "include/utils/VtlibUtils.php";
@@ -101,7 +102,11 @@ class Users_ForgotPassword_Action {
     public static function run($request) {
         $instance = new self();
 		if( isset($_REQUEST['user_name']) && isset($_REQUEST['emailId']) ){
-			$instance->requestForgotPassword($request);
+			if(SysSecurity::get('RESET_LOGIN_PASSWORD')){
+				$instance->requestForgotPassword($request);
+			}else{
+				die(vtranslate('LBL_PERMISSION_DENIED'));
+			}		
 		}else{
 			$instance->changePassword($request);
 		}

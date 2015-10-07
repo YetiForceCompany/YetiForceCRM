@@ -3,7 +3,7 @@
 jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 	registerActivityState: function () {
 		var thisInstance = this;
-		jQuery('#activityStateModal button').on('click', function (e) {
+		jQuery('#activityStateModal button:not(.close)').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.closest('.modal').addClass('hide');
 
@@ -71,6 +71,9 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 							var listinstance = new Vtiger_List_Js();
 							listinstance.getListViewRecords();
 						}
+						
+						//updates the Calendar Reminder popup's status
+						Vtiger_Index_Js.requestReminder();
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					} else {
 						return false;

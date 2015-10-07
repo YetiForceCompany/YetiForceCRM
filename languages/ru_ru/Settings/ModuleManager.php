@@ -1,16 +1,16 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-  * VERSION YetiForceCRM: 1.1.0 RC
- *************************************************************************************/
+ * VERSION YetiForceCRM: 1.1.0 RC
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Ошибка загрузки файла',
-	'ModuleManager'	=>	'Менеджер Модулей',
+	'ModuleManager' => 'Менеджер Модулей',
 	'LBL_IMPORT_MODULE_FROM_FILE' => 'Загрузить Модуль из файла',
 	'LBL_IMPORT_MODULE' => 'Установка модуля',
 	'LBL_IMPORTED_UPDATE' => 'Система успешно обновлена.',
@@ -39,7 +39,7 @@ $languageStrings = [
 	'LBL_UPDATE_FROM_VERSION' => 'С версии',
 	'LBL_UPDATE_TO_VERSION' => 'До версии',
 	'LBL_LICENSE_ACCEPT_AGREEMENT' => 'Я принимаю лицензионные условия.',
-	'LBL_EXISTS'=>'Существует',
+	'LBL_EXISTS' => 'Существует',
 	'LBL_PROCEED_WITH_IMPORT' => 'Вы хотите продолжить?',
 	'LBL_VERSION_NOT_SUPPORTED' => 'Версия модуля не совместима с данной версией системы',
 	'LBL_FINISH' => 'Завершено',
@@ -59,25 +59,25 @@ $languageStrings = [
 	'LBL_IMPORT' => 'Импорт',
 	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'Установлен маленький предел для загрузки файла',
 	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'Установлен маленький предел для загрузки файла. Проверьте настройки конфигурации <a href=\"index.php?parent=Settings&module=ConfReport&view=Index\">Конфигурация сервера</a>',
-	
-	'LBL_CREATE_MODULE'	=>	'Создать Модуль',
-	'LBL_CREATING_MODULE'	=>	'Создание нового Модуля',
-	'LBL_ENTER_MODULE_NAME'	=>	'Системное имя Модуля',
-	'LBL_ENTER_MODULE_LABEL'	=>	'Название Модуля',
-	'LBL_ENTITY_FIELDNAME'	=>	'Системное имя Поля',
-	'LBL_ENTITY_FIELDLABEL'	=>	'Название Поля',
-	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER'	=>	'Модуль с таким названием уже существует',
-	'LBL_INVALID_MODULE_NAME'	=>	'Неверное название Модуля',
+	'LBL_CREATE_MODULE' => 'Создать Модуль',
+	'LBL_CREATING_MODULE' => 'Создание нового Модуля',
+	'LBL_ENTER_MODULE_NAME' => 'Системное имя Модуля',
+	'LBL_ENTER_MODULE_LABEL' => 'Название Модуля',
+	'LBL_ENTITY_FIELDNAME' => 'Системное имя Поля',
+	'LBL_ENTITY_FIELDLABEL' => 'Название Поля',
+	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'Модуль с таким названием уже существует',
+	'LBL_INVALID_MODULE_NAME' => 'Неверное название Модуля',
 	'LBL_MODULE_TYPE' => 'Module type',
 	'LBL_BASE_MODULE' => 'Base module',
 	'LBL_INVENTORY_MODULE' => 'Extended module',
 ];
 $jsLanguageStrings = [
-  'JS_ON' => 'вкл',
-  'JS_CLICK_HERE' => 'Нажмите здесь ',
-  'JS_FOR_INSTALLATION' => 'для установки',
-  'JS_IMPORT_SUCCESSFULL' => 'Установка прошла успешно',
-  'JS_IMPORTED_MODULE' => 'Модуль успешно установлен.',
-  'JS_UPDATE_SUCCESSFULL' => 'Обновление успешно',
-  'JS_UPDATED_MODULE' => 'Модуль успешно обновлен',
+	'JS_ON' => 'вкл',
+	'JS_CLICK_HERE' => 'Нажмите здесь ',
+	'JS_FOR_INSTALLATION' => 'для установки',
+	'JS_IMPORT_SUCCESSFULL' => 'Установка прошла успешно',
+	'JS_IMPORTED_MODULE' => 'Модуль успешно установлен.',
+	'JS_UPDATE_SUCCESSFULL' => 'Обновление успешно',
+	'JS_UPDATED_MODULE' => 'Модуль успешно обновлен',
+	'JS_REMOVED_MODULE' => 'Removed module',
 ];

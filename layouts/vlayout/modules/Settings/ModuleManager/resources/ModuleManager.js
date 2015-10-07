@@ -156,11 +156,38 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		Vtiger_Helper_Js.showPnotify(params);
 	},
 	
+	deleteModule: function (container) {
+		container.on('click', '.deleteModule', function (e) {
+			var currentTarget = jQuery(e.currentTarget);
+			var forModule = currentTarget.attr('name');
+			var params = {}
+			params.data = {
+				module: app.getModuleName(),
+				action: 'Basic',
+				parent: app.getParentModuleName(),
+				mode: 'deleteModule',
+				forModule: forModule
+			}
+			AppConnector.request(params).then(
+					function (data) {
+						var params = {
+							title: app.vtranslate('JS_REMOVED_MODULE'),
+							animation: 'show',
+							type: 'info'
+						};
+						Vtiger_Helper_Js.showPnotify(params);
+						window.location.href = 'index.php?module=ModuleManager&parent=Settings&view=List';
+					},
+					function (error) {}
+			);
+		});
+	},
+	
 	registerEvents : function(e){
 		var thisInstance = this;
 		var container = jQuery('#moduleManagerContents');
 		container.find('.createModule').click(thisInstance.createModule);
-
+		thisInstance.deleteModule(container)
 		//register click event for check box to update the module status
 		container.on('click', '[name="moduleStatus"]', function(e){
 			var currentTarget = jQuery(e.currentTarget);

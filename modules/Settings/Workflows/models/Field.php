@@ -82,6 +82,7 @@ class Settings_Workflows_Field_Model extends Vtiger_Field_Model
 			'comment' => array('is added'),
 			'image' => array('is', 'is not', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty'),
 			'percentage' => array('equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'is not empty'),
+			'multiReferenceValue' => array('contains', 'does not contain', 'has changed', 'is empty', 'is not empty'),
 		);
 	}
 

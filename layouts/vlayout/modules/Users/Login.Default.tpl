@@ -45,10 +45,12 @@
 					{vtranslate('LBL_SIGN_IN', $MODULE_NAME)}
 				</button>
 			</form>
-			<div class="forgotpass form-group">
-				<div class="">
-					<a href="#" id="forgotpass" >{vtranslate('ForgotPassword',$MODULE)}?</a>
-				</div>
+			<div class="form-group">
+				{if SysSecurity::get('RESET_LOGIN_PASSWORD')}
+					<div class="">
+						<a href="#" id="forgotpass" >{vtranslate('ForgotPassword',$MODULE)}?</a>
+					</div>
+				{/if}
 			</div>
 			<div class="form-group">
 				{if isset($smarty.request.error) && $smarty.request.error eq 1}
@@ -77,27 +79,29 @@
 					</div>
 				{/if}
 			</div>
-		</div>		
-		<div class="hide" id="forgotPasswordDiv">
-			<form class="login-form" action="modules/Users/actions/ForgotPassword.php" method="POST">
-				<div class="form-group first-group has-feedback">
-					<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
-					<input type="text" class="form-control input-lg" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="user_name" placeholder="{vtranslate('LBL_USER',$MODULE)}">
-					<span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
+		</div>
+		{if SysSecurity::get('RESET_LOGIN_PASSWORD')}
+			<div class="hide" id="forgotPasswordDiv">
+				<form class="login-form" action="modules/Users/actions/ForgotPassword.php" method="POST">
+					<div class="form-group first-group has-feedback">
+						<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
+						<input type="text" class="form-control input-lg" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="user_name" placeholder="{vtranslate('LBL_USER',$MODULE)}">
+						<span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
+					</div>
+					<div class="form-group has-feedback">
+						<label for="emailId" class="sr-only">{vtranslate('LBL_EMAIL',$MODULE)}</label>
+						<input type="text" class="form-control input-lg" autocomplete="off" title="{vtranslate('LBL_EMAIL',$MODULE)}" id="emailId" name="emailId" placeholder="Email">
+						<span class="glyphicon glyphicon-envelope form-control-feedback" aria-hidden="true"></span>
+					</div>
+					<button type="submit" id="retrievePassword" class="btn btn-lg btn-primary btn-block sbutton" title="Retrieve Password">
+						{vtranslate('LBL_SEND',$MODULE)}
+					</button>
+				</form>
+				<div class="form-group">
+					<a href="#" id="backButton" >{vtranslate('LBL_TO_CRM',$MODULE)}</a>
 				</div>
-				<div class="form-group has-feedback">
-					<label for="emailId" class="sr-only">{vtranslate('LBL_EMAIL',$MODULE)}</label>
-					<input type="text" class="form-control input-lg" autocomplete="off" title="{vtranslate('LBL_EMAIL',$MODULE)}" id="emailId" name="emailId" placeholder="Email">
-					<span class="glyphicon glyphicon-envelope form-control-feedback" aria-hidden="true"></span>
-				</div>
-				<button type="submit" id="retrievePassword" class="btn btn-lg btn-primary btn-block sbutton" title="Retrieve Password">
-					{vtranslate('LBL_SEND',$MODULE)}
-				</button>
-			</form>
-			<div class="form-group">
-				<a href="#" id="backButton" >{vtranslate('LBL_TO_CRM',$MODULE)}</a>
-			</div>
-		</div>		
+			</div>	
+		{/if}
 	</div>
 </div>
 <script>

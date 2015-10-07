@@ -55,12 +55,6 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller {
 			'childlinks' => array(
 				array(
 					'linktype' => 'HEADERLINK',
-					'linklabel' => 'LBL_MY_PREFERENCES',
-					'linkurl' => $userModel->getPreferenceDetailViewUrl(),
-					'linkicon' => '',
-				),
-				array(
-					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_SIGN_OUT',
 					'linkurl' => '?module=Users&parent=Settings&action=Logout',
 					'linkicon' => '',

@@ -826,16 +826,36 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * @param <String> $moduleName
 	 * @return <Array> - Associative array of Status label to an array of Vtiger_CustomView_Record models
 	 */
-	public static function getAllByGroup($moduleName='') {
+	public static function getAllByGroup($moduleName = '', $menuId = false)
+	{
 		$customViews = self::getAll($moduleName);
-		$groupedCustomViews = array();
+		$filters = $groupedCustomViews = [];
+		$menuFilter = false;
+		if ($menuId) {
+			$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
+			if (file_exists($roleMenu)) {
+				require($roleMenu);
+			} else {
+				require('user_privileges/menu_0.php');
+			}
+			if (count($menus) == 0) {
+				require('user_privileges/menu_0.php');
+			}
+			if (array_key_exists($menuId, $filterList)) {
+				$filters = explode(',', $filterList[$menuId]['filters']);
+				$menuFilter = true;
+			}
+		}
 		foreach ($customViews as $index => $customView) {
-			
-			if($customView->isSystem()) {
+			if ($menuFilter && !in_array($customView->getId(), $filters)) {
+				continue;
+			}
+			if ($customView->isSystem()) {
 				$groupedCustomViews['System'][] = $customView;
-			} elseif($customView->isMine()) {
+			} elseif ($customView->isMine()) {
 				$groupedCustomViews['Mine'][] = $customView;
-			} elseif($customView->isPending()) {
+			} elseif ($customView->isPending()) {
 				$groupedCustomViews['Pending'][] = $customView;
 			} else {
 				$groupedCustomViews['Others'][] = $customView;

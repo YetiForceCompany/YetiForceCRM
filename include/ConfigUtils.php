@@ -1,6 +1,6 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
- 
+
 class SysDebug
 {
 
@@ -36,6 +36,25 @@ class SysDeveloper
 
 	/** Get boolean value */
 	static function getBoolean($key, $defvalue = FALSE)
+	{
+		return self::get($key, $defvalue);
+	}
+}
+
+class SysSecurity
+{
+
+	static function get($key, $defvalue = false)
+	{
+		global $SECURITY_CONFIG;
+		if (isset($SECURITY_CONFIG[$key])) {
+			return $SECURITY_CONFIG[$key];
+		}
+		return $defvalue;
+	}
+
+	/** Get boolean value */
+	static function getBoolean($key, $defvalue = false)
 	{
 		return self::get($key, $defvalue);
 	}

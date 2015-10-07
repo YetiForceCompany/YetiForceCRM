@@ -9,7 +9,16 @@
 		</select>
 	</div>
 </div>
-<br />
 {include file='fields/Newwindow.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-<br />
 {include file='fields/Hotkey.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+{assign var=FILTERS value=explode(',',$RECORD->get('filters'))}
+<div class="row marginBottom5">
+	<div class="col-md-5">{vtranslate('LBL_AVAILABLE_FILTERS', $QUALIFIED_MODULE)}:</div>
+	<div class="col-md-7">
+		<select name="filters" multiple class="select2 type form-control">
+			{foreach from=$MODULE_MODEL->getCustomViewList() item=ITEM}
+				<option value="{$ITEM.cvid}" {if $RECORD && in_array($ITEM['cvid'],$FILTERS)} selected="" {/if} data-tabid="{$ITEM['tabid']}">{vtranslate($ITEM['viewname'], $ITEM['entitytype'])}</option>
+			{/foreach}
+		</select>
+	</div>
+</div>

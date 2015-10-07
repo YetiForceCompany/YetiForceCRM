@@ -29,6 +29,7 @@ $languageStrings = [
 	'LBL_NAME' => 'Имя',
 	'LBL_TEST_IT' => 'Тестировать',
 	'LBL_MENU_TYPE' => 'Тип меню',
+	'LBL_AVAILABLE_FILTERS' => '__UNTRANSLATED__',
 	
 	//Menu types
 	'LBL_MODULE' => 'Модуль',
