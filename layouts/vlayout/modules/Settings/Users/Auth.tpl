@@ -28,10 +28,10 @@
 				{assign var=CONFIG value=$MODULE_MODEL->getConfig('ldap')}
 				<div class="tab-pane active" id="ldap">
 					<div class="row">
-						<div class="col-md-1 pagination-centered">
+						<div class="col-md-1 col-sm-1 col-xs-2 pagination-centered">
 							<input class="configField" type="checkbox" name="active" id="ldapActive" data-type="ldap" value="1" {if $CONFIG['active']=='true'}checked=""{/if}>
 						</div>
-						<div class="col-md-11">
+						<div class="col-md-11 col-sm-11 col-xs-10">
 							<label for="ldapActive">{vtranslate('LBL_ACTIVE_LDAP_AUTH', $QUALIFIED_MODULE)}</label>
 						</div>
 					</div>

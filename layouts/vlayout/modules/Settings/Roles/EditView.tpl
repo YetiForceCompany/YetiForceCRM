@@ -54,12 +54,12 @@
 				<div class="row">
 					<label class="col-md-3"><strong>{vtranslate('LBL_PRIVILEGES',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
-						<div class="pull-left">
+						<div class="col-md-6">
 							<label for="profiledirectly2">
 								<input id="profiledirectly2" type="radio" value="0" {if $PROFILE_DIRECTLY_RELATED_TO_ROLE eq false} checked="" {/if} name="profile_directly_related_to_role" data-handler="existing" class="alignTop"/>&nbsp;<span>{vtranslate('LBL_ASSIGN_EXISTING_PRIVILEGES',$QUALIFIED_MODULE)}</span>
 							</label>
 						</div>
-						<div class="pull-right">
+						<div class="col-md-6">
 							<label for="profiledirectly1">
 								<input id="profiledirectly1" type="radio" value="1" {if $PROFILE_DIRECTLY_RELATED_TO_ROLE} checked="" {/if} name="profile_directly_related_to_role" data-handler="new" class="alignTop"/>&nbsp;<span>{vtranslate('LBL_ASSIGN_NEW_PRIVILEGES',$QUALIFIED_MODULE)}</span>
 							</label>
@@ -160,7 +160,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="pull-right">
+				<div class="pull-right marginRight10px">
 					<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset">{vtranslate('LBL_CANCEL',$MODULE)}</a>
 					<button class="btn btn-success" type="submit">{vtranslate('LBL_SAVE',$MODULE)}</button>
 				</div>

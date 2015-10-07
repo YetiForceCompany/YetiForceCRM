@@ -1579,6 +1579,11 @@ th.htColHeader,
 .treeView .btn {
 	margin-bottom: 10px;
 }
+@media only screen and (max-width:1240px){
+	.treeView li .toolbar-handle .toolbar{
+		display: inline !important;
+	}
+}
 .profilesEditView tr.blockHeader th {
 	text-align: center;
 }
@@ -4157,6 +4162,12 @@ html,body,.baseContainer
 	}
 	.searchMenuBtn{
 		display: block;
+	}
+	.listViewEntriesTable tr td .actions .actionImages {
+		opacity: 1;
+		/*for IE*/
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+		filter: alpha(opacity=100);
 	}
 }
 @media only screen and (max-width: 960px){

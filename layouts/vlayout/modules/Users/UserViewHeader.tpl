@@ -14,7 +14,7 @@
     <input id="recordId" type="hidden" value="{$RECORD->getId()}" />
     <div class="detailViewContainer">
         <div class="detailViewTitle" id="userPageHeader">
-            <div class="row">
+            <div class="widget_header row">
                 <div class="col-md-8">
                     <div class="row marginLeftZero">
 						{if $myarray|@count neq 0}
