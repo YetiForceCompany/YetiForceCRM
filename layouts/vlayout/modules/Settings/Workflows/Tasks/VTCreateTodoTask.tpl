@@ -23,7 +23,7 @@
 				<textarea class="form-control" name="description">{$TASK_OBJECT->description}</textarea>
 			</div>
 		</div>
-		<div class="row padding-bottom1per">
+		{*<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-5">
 				{assign var=STATUS_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('activitystatus')->getPickListValues()}
@@ -33,7 +33,7 @@
 					{/foreach}
 				</select>
 			</span>
-		</div>
+		</div>*}
 		<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_PRIORITY',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-5">
@@ -149,7 +149,7 @@
 			<span class="col-md-5">
 				<select multiple name="duplicateStatus" class="chzn-select form-control">
 					<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>
-					{foreach from=Vtiger_Util_Helper::getPickListValues('taskstatus') key=KEY item=ITEM}
+					{foreach from=Vtiger_Util_Helper::getPickListValues('activitystatus') key=KEY item=ITEM}
 						<option value="{$ITEM}" {if in_array($ITEM,Vtiger_Functions::getArrayFromValue($TASK_OBJECT->duplicateStatus))} selected="" {/if}>{vtranslate($ITEM,'Calendar')}</option>
 					{/foreach}
 				</select>

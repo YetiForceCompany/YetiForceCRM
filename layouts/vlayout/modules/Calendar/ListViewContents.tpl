@@ -135,9 +135,6 @@
                         {if $IS_MODULE_EDITABLE && $EDIT_VIEW_URL && in_array($LISTVIEW_ENTRY->get('activitystatus'),$CURRENT_ACTIVITY_LABELS)}
                             <a class="markAsHeld schowModalWindow" data-url="{$LISTVIEW_ENTRY->getActivityStateModalUrl()}"><span title="{vtranslate('LBL_MARK_AS_HELD', $MODULE)}" class="glyphicon glyphicon-ok alignMiddle"></span></a>&nbsp;
                         {/if}
-                       {* {if $IS_MODULE_EDITABLE && $EDIT_VIEW_URL && $LISTVIEW_ENTRY->get('taskstatus') eq 'Held'}
-							<a class="holdFollowupOn"><span title="{vtranslate('LBL_HOLD_FOLLOWUP_ON', "Events")}" class="icon-flag alignMiddle"></span></a>&nbsp;
-						{/if}*}
 						{if $FULL_DETAIL_VIEW_URL}
 							<a href="{$FULL_DETAIL_VIEW_URL}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
 						{/if}
