@@ -1695,7 +1695,6 @@ CREATE TABLE `vtiger_crmentity` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `label` varchar(255) DEFAULT NULL,
   `searchlabel` varchar(255) DEFAULT NULL,
-  `inheritsharing` tinyint(1) DEFAULT '0',
   `was_read` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`crmid`),
   KEY `crmentity_smcreatorid_idx` (`smcreatorid`),
@@ -2589,7 +2588,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1760 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1761 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6181,6 +6180,7 @@ CREATE TABLE `vtiger_role` (
   `listrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `previewrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `editrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `permissionsrelatedfield` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`roleid`),
   KEY `parentrole` (`parentrole`),
   KEY `parentrole_2` (`parentrole`,`depth`),

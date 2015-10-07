@@ -886,9 +886,7 @@ $languageStrings = [
 	/* modules */
 	'OSSCosts' => 'Kosten',
 	'Key Metrics' => 'Schlüssel Metriken',
-	'LBL_SHARING_INFORMATION' => 'Weitergabe von Informationen',
 	'Share with users' => 'Teilen mit Benutzern:',
-	'Copy permissions automatically' => 'Berechtigungen automatisch übernehmen',
 	'LBL_PURCHASE' => 'Einkauf',
 	'LBL_MARGIN' => 'Marge',
 	'LBL_MARGINP' => 'Marge (%)',

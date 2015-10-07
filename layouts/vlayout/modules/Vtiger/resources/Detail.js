@@ -834,6 +834,16 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.pageJumpHandler(e);
 		});
+		detailContentsHolder.on('click', '.pageNumber', function () {
+			var disabled = $(this).hasClass("disabled")
+			if (disabled)
+				return false;
+			var pageNumber = $(this).data("id");
+			var selectedTabElement = thisInstance.getSelectedTab();
+			var relatedModuleName = thisInstance.getRelatedModuleName();
+			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
+			relatedController.selectPageHandler(pageNumber);
+		});
 	},
 	/**
 	 * Function to register Event for Sorting

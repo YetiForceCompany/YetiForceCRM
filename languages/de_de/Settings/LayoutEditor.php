@@ -122,6 +122,8 @@ $languageStrings = [
 	'LBL_DISPLAY_TYPE' => 'Field type',
 	'LBL_EDITABLE' => 'Editable',
 	'LBL_READONLY' => 'Read-only',
+	'LBL_FIELDS_EXISTS_IN_BLOCK' => 'Fields exists for the block',
+	'LBL_DELETE_CUSTOM_BLOCKS' => 'Cannot delete non custom blocks',
 ];
 
 $jsLanguageStrings = [

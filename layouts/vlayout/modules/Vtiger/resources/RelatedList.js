@@ -274,6 +274,28 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		return aDeferred.promise();
 	},
 	/**
+	 * Function to handle select page jump in related list
+	 */
+	selectPageHandler: function (pageNumber) {
+		var aDeferred = jQuery.Deferred();
+		var thisInstance = this;
+		var aDeferred = jQuery.Deferred();
+		var selectPage = {
+			'page': pageNumber
+		}
+		this.loadRelatedList(selectPage).then(
+				function (data) {
+					thisInstance.setCurrentPageNumber(previousPage);
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				}
+		);
+		
+		return aDeferred.promise();
+	},
+	/**
 	 * Function to handle page jump in related list
 	 */
 	pageJumpHandler: function (e) {

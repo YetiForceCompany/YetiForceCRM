@@ -320,8 +320,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 		$searchunpriv = implode(',', $this->get('searchunpriv'));
 		if ($mode == 'edit') {
-			$sql = 'UPDATE vtiger_role SET rolename=?, parentrole=?, depth=?, allowassignedrecordsto=?, changeowner=?, searchunpriv=?, clendarallorecords=?, listrelatedrecord=?, previewrelatedrecord=?, editrelatedrecord=? WHERE roleid=?';
-			$params = [$this->getName(), $this->getParentRoleString(), $this->getDepth(), $this->get('allowassignedrecordsto'), $this->get('change_owner'), $searchunpriv, $this->get('clendarallorecords'), $this->get('listrelatedrecord'), $this->get('previewrelatedrecord'), $this->get('editrelatedrecord'), $roleId];
+			$sql = 'UPDATE vtiger_role SET rolename=?, parentrole=?, depth=?, allowassignedrecordsto=?, changeowner=?, searchunpriv=?, clendarallorecords=?, listrelatedrecord=?, previewrelatedrecord=?, editrelatedrecord=?, permissionsrelatedfield=? WHERE roleid=?';
+			$params = [$this->getName(), $this->getParentRoleString(), $this->getDepth(), $this->get('allowassignedrecordsto'), $this->get('change_owner'), $searchunpriv, $this->get('clendarallorecords'), $this->get('listrelatedrecord'), $this->get('previewrelatedrecord'), $this->get('editrelatedrecord'), $this->get('permissionsrelatedfield'), $roleId];
 			$db->pquery($sql, $params);
 		} else {
 			$db->insert('vtiger_role', [
@@ -336,6 +336,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				'listrelatedrecord' => $this->get('listrelatedrecord'),
 				'previewrelatedrecord' => $this->get('previewrelatedrecord'),
 				'editrelatedrecord' => $this->get('editrelatedrecord'),
+				'permissionsrelatedfield' => $this->get('permissionsrelatedfield'),
 			]);
 
 			$picklist2RoleSQL = "INSERT INTO vtiger_role2picklist SELECT '" . $roleId . "',picklistvalueid,picklistid,sortid

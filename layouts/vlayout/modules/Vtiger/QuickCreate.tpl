@@ -13,6 +13,7 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
+	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="modelContainer modal fade" tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -50,7 +51,7 @@
 										{else}
 											{assign var=COUNTER value=$COUNTER+1}
 										{/if}
-										<td class='fieldLabel'>
+										<td class='fieldLabel {$WIDTHTYPE}'>
 											{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 											{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
 											{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
@@ -83,7 +84,7 @@
 												{/if}
 												{if $isReferenceField neq "reference"}</label>{/if}
 										</td>
-										<td class="fieldValue" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+										<td class="fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
 											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
 										</td>
 									{/foreach}
