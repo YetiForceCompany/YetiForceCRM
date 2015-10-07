@@ -26,10 +26,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model {
 												'params' => array('date_start'));
 								array_push($validator, $funcName);
 								break;
-                        case 'eventstatus':	$funcName = array('name' => 'futureEventCannotBeHeld',
-												'params' => array('date_start'));
-								array_push($validator, $funcName);
-								break;
 			// NOTE: Letting user to add pre or post dated Event.
 			/*case 'date_start' : $funcName = array('name'=>'greaterThanToday');
 								array_push($validator, $funcName);
