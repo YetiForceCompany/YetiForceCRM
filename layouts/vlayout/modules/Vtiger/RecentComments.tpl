@@ -19,7 +19,7 @@
 					<div>
 						<textarea name="commentcontent" class="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"></textarea>
 					</div>
-					<div class="pull-right">
+					<div class="pull-right pushDown">
 						<button class="btn btn-success detailViewSaveComment" type="button" data-mode="add"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
 					</div>
 				</div>
@@ -123,7 +123,7 @@
 					<textarea class="commentcontenthidden fullWidthAlways" name="commentcontent" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 				</div>
 			</div>
-			<div class="pull-right">
+			<div class="pull-right pushDown">
 				<button class="btn btn-success detailViewSaveComment" type="button" data-mode="add"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
 				<button class="cursorPointer closeCommentBlock cancelLink btn btn-warning" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</button>
 			</div>
@@ -141,7 +141,7 @@
 					<textarea class="commentcontenthidden fullWidthAlways" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" name="commentcontent" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"></textarea>
 				</div>
 			</div>
-			<div class="pull-right">
+			<div class="pull-right pushDown">
 				<button class="btn btn-success detailViewSaveComment" type="button" data-mode="edit"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
 				<button class="cursorPointer closeCommentBlock cancelLink btn btn-warning" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</button>
 			</div>

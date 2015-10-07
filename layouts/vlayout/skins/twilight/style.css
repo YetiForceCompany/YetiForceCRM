@@ -1033,7 +1033,7 @@ li.ui-timepicker-selected,
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	border: 1px solid #dddddd;
 	padding: 12px 12px 5px;
-	min-height: 115px;
+	min-height: 125px;
 	margin-top: 15px;
 	display: block;
 }
