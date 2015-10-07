@@ -375,7 +375,7 @@ function isPermitted($module, $actionname, $record_id = '')
 			}
 
 			$role = getRoleInformation($current_user->roleid);
-			if (($actionid == 3 || $actionid == 4) && $role['previewrelatedrecord'] != 0) {
+			if ((($actionid == 3 || $actionid == 4) && $role['previewrelatedrecord'] != 0 ) || (($actionid == 0 || $actionid == 1) && $role['editrelatedrecord'] != 0 )) {
 				$parentRecord = Users_Privileges_Model::getParentRecord($record_id, $module, $role['previewrelatedrecord']);
 				if ($parentRecord) {
 					$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($parentRecord);
