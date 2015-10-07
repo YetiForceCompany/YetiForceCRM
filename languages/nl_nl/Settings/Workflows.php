@@ -161,6 +161,7 @@ $languageStrings = [
 	'LBL_WORKFLOWS_RUN_TIME' => 'Workflow run time and date',
 	'Sales stage - Negotiations' => 'Sales stage - Negotiations',
 	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Update the dates of the generated events when the base date changes',
+	'LBL_CURRENT_USER' => 'Currently logged in user',
 	//workflow task
 	'EmailTempleteList' => 'Select a template email to be sent',
 	'Do you send all attachments' => 'Send all attachments?',

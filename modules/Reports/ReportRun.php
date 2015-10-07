@@ -2893,7 +2893,7 @@ class ReportRun extends CRMEntity
 					}
 					for ($i = 0; $i < $y; $i++) {
 						$fld = $adb->columnMeta($result, $i);
-						$keyhdr[$fld->name] = $custom_field_values[$i];
+						$keyhdr[$fld->name] = $custom_field_values[$fld->name];
 					}
 
 					$rowcount = 0;

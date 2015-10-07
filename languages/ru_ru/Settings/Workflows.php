@@ -152,6 +152,7 @@ $languageStrings = [
 	'LBL_WORKFLOWS_RUN_TIME' => 'Дата и время запуска',
 	'Sales stage - Negotiations' => 'Этап продаж - Переговоры',
 	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Update the dates of the generated events when the base date changes',
+	'LBL_CURRENT_USER' => 'Currently logged in user',
 	//workflow task types
 	'Send Mail' => 'Отправить Почту',
 	'Invoke Custom Function' => 'Запустить пользовательскую функцию',

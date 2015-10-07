@@ -680,7 +680,7 @@ hr {
 .gridster ul li.dashboardWidget .filterContainer .col-md-5 {
 	margin-top: 3px;
 }
-.gridster ul li.dashboardWidget .dashboardWidgetContent {
+.gridster ul li.dashboardWidget .dashboardWidgetContent:not(.dashboardWidgetCalendar) {
 	padding: 10px 0;
 	line-height: 20px;
 }
@@ -3084,10 +3084,7 @@ td.listViewEntryValue .row input {
 	float: right !important;
 }
 .cut-string {
-	text-overflow: ellipsis;
-	-o-text-overflow: ellipsis;
-	-webkit-text-overflow: ellipsis;
-	width: 200px;
+	width: 285px;
 	white-space: nowrap;
 	overflow: hidden;
 }
@@ -3689,4 +3686,15 @@ span[name=existingImages] img{
 }
 .bootstrap-switch-container{
 	white-space: nowrap;
+}
+.dashboardWidgetCalendar .small-badge{
+	padding: 3% 6%;
+}
+.dashboardWidgetCalendar .big-badge{
+	padding: 6% 12%;
+	margin: 1px 0;
+}
+.dashboardWidgetCalendar .cell-calendar{
+	padding: 1px;
+	margin-top: -5px;
 }

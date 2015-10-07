@@ -5049,32 +5049,17 @@ DayGrid.mixin({
 		// <--------   YetiForce Sp. z o.o.   -------->
 		// Only display a timed events time if it is the starting segment
                 
-                if(event.type == 'widget'){ //Calendar widget
-                    var addHtml = '';
-                    addHtml = '<div class="">';
-                    for(var i in event.event){
-                        var eventIcon = 'icon-calendar';
-                        if(i == 'Task'){
-                            eventIcon = 'icon-tasks';
-                        }
-                        timeHtml = '<span class="fc-time">';
-                                if(event.width > 40){
-                                    timeHtml += '<i class="' + eventIcon + '">';
-                                }
-                                 timeHtml += '</i></span>';
-                        titleHtml = '<div style="text-align:center"><span class="fc-title"><i></i><strong> '+event.event[i].ids.length+'</strong></span></div>';
-                         addHtml +='<a class="' + classes.join(' ') + ' ' + event.event[i].className + '" href="javascript:;"' +
-						 ' data-date="' + event.date + '"' + ' data-type="' + i + '"' +
-				' style="left:3%; width:'+event.width+'px; height:'+event.height+'px; '+ (skinCss ? ' ' + skinCss + '' : '') + '" '  +
-			'>' + '<div class="fc-content">' + 
-						timeHtml + ' ' + titleHtml   // put a natural space in between
-						+
-				'</div>' +
-			'</a>\n';
-             
-                    }   addHtml += '</div>';
-                    return addHtml;
-                }
+		if(event.type == 'widget'){ //Calendar widget
+			var addHtml = '';
+			addHtml = '<div class="cell-calendar">';
+			for(var i in event.event){
+				addHtml +='<a class="" href="javascript:;"' +
+					' data-date="' + event.date + '"' + ' data-type="' + i + '" title="' + event.event[i].label + '">' + 
+					'<span class="' + event.event[i].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge">'+event.event[i].ids.length+'</span>' +
+	'</a>\n';
+			}   addHtml += '</div>';
+			return addHtml;
+		}
 		if(seg.isStart){
 			timeText = this.getEventTimeText(event,null,true);
 			if (timeText) {

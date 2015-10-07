@@ -76,8 +76,13 @@ class VTCreateTodoTask extends VTTask
 			}
 		}
 
-		// Added to check if the user/group is active
-		if (!empty($this->assigned_user_id)) {
+		if ($this->assigned_user_id == 'currentUser' && isset($current_user)) {
+			$userId = vtws_getWebserviceEntityId('Users', $current_user->id);
+		}
+
+		if ($this->assigned_user_id == 'copyParentOwner') {
+			$userId = $entityData->get('assigned_user_id');
+		} else if (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
 			$userExists = $adb->pquery('SELECT 1 FROM vtiger_users WHERE id = ? AND status = ?', array($this->assigned_user_id, 'Active'));
 			if ($adb->num_rows($userExists)) {
 				$assignedUserId = vtws_getWebserviceEntityId('Users', $this->assigned_user_id);
@@ -87,10 +92,6 @@ class VTCreateTodoTask extends VTTask
 				if ($adb->num_rows($groupExist)) {
 					$assignedGroupId = vtws_getWebserviceEntityId('Groups', $this->assigned_user_id);
 					$userId = $assignedGroupId;
-				} else {
-					if ($this->assigned_user_id == 'copyParentOwner') {
-						$userId = $entityData->get('assigned_user_id');
-					}
 				}
 			}
 		}
