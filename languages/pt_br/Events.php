@@ -100,5 +100,15 @@ $languageStrings = [
 	'Status' => 'Estado',
 	'End Date' => 'Data Final',
 	'LBL_FOLLOWUP' => 'Follow up',
+	
+	'PLL_PLANNED' => 'Planned',
+	'PLL_IN_REALIZATION' => 'To be realized',
+	'PLL_OVERDUE' => 'Overdue',
+	'PLL_POSTPONED' => 'Postponed',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_COMPLETED' => 'Completed',
+	
+	'LBL_FINISH_WORK_WITH_THE_RECORD' => 'Finish work with the record',
+	'LBL_SET_RECORD_STATUS' => "Set the record's status to:",
 ];
 

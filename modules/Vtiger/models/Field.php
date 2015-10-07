@@ -285,6 +285,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$fieldPickListValues[$value] = vtranslate($value, $this->getModuleName());
 			}
 			return $fieldPickListValues;
+		} else if (method_exists($this->getUITypeModel(), 'getPicklistValues')) {
+			return $this->getUITypeModel()->getPicklistValues();
 		}
 		return null;
 	}
@@ -586,12 +588,12 @@ class Vtiger_Field_Model extends Vtiger_Field
 		$this->fieldInfo['name'] = $this->get('name');
 		$this->fieldInfo['label'] = vtranslate($this->get('label'), $this->getModuleName());
 
-		if ($fieldDataType == 'picklist' || $fieldDataType == 'multipicklist' || $fieldDataType == 'multiowner') {
+		if (in_array($fieldDataType, ['picklist', 'multipicklist', 'multiowner', 'multiReferenceValue'])) {
 			$pickListValues = $this->getPicklistValues();
 			if (!empty($pickListValues)) {
 				$this->fieldInfo['picklistvalues'] = $pickListValues;
 			} else {
-				$this->fieldInfo['picklistvalues'] = array();
+				$this->fieldInfo['picklistvalues'] = [];
 			}
 		}
 

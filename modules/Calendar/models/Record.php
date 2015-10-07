@@ -190,4 +190,14 @@ class Calendar_Record_Model extends Vtiger_Record_Model {
 			$icon = 'Tasks';
 		return $icon.'.png';
 	}
+	
+	/**
+	 * Function to get modal view url for the record
+	 * @return <String> - Record Detail View Url
+	 */
+	public function getActivityStateModalUrl() {
+		$module = $this->getModule();
+		return 'index.php?module=Calendar&view=ActivityStateModal&record='.$this->getId();
+	}
+	
 }

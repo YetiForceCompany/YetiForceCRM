@@ -26,7 +26,12 @@
 							<div class="btn-toolbar">
 								{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 									<span class="btn-group {$DETAIL_VIEW_BASIC_LINK->getGrupClassName()}">
-										<button {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''}data-content="{vtranslate($DETAIL_VIEW_BASIC_LINK->linkhint, $MODULE_NAME)}" {/if} class="btn btn-default {$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())} {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''} popoverTooltip {/if} {$DETAIL_VIEW_BASIC_LINK->getClassName()}"
+										<button {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''}data-content="{vtranslate($DETAIL_VIEW_BASIC_LINK->linkhint, $MODULE_NAME)}" {/if} class="btn btn-default {$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())} {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''} popoverTooltip {/if} {$DETAIL_VIEW_BASIC_LINK->getClassName()}" 
+																							 {if $DETAIL_VIEW_BASIC_LINK->linkdata && is_array($DETAIL_VIEW_BASIC_LINK->linkdata)}
+																								 {foreach item=DATA_VALUE key=DATA_NAME from=$DETAIL_VIEW_BASIC_LINK->linkdata}
+																									 data-{$DATA_NAME}="{$DATA_VALUE}" 
+																								 {/foreach}
+																							 {/if}
 																							 data-placement="bottom"
 																							 {assign var="LABEL" value=$DETAIL_VIEW_BASIC_LINK->getLabel()}
 																							 {if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink() || $DETAIL_VIEW_BASIC_LINK->linkPopup}
@@ -48,9 +53,14 @@
 								{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
 									{if $DETAIL_VIEW_LINK->getLabel() neq "" OR $DETAIL_VIEW_LINK->linkicon neq ""} 
 										<span class="btn-group">
-											<a class="btn btn-default
+											<a class="btn btn-default {$DETAIL_VIEW_LINK->getClassName()}
 											   {if $DETAIL_VIEW_LINK->linklabel neq ''} popoverTooltip{/if}"
 											   href='{$DETAIL_VIEW_LINK->getUrl()}' 
+											   {if $DETAIL_VIEW_LINK->linkdata && is_array($DETAIL_VIEW_LINK->linkdata)}
+													{foreach item=DATA_VALUE key=DATA_NAME from=$DETAIL_VIEW_LINK->linkdata}
+														data-{$DATA_NAME}="{$DATA_VALUE}" 
+													{/foreach}
+												{/if}
 											   {if $DETAIL_VIEW_LINK->linklabel neq ''}data-content="{vtranslate($DETAIL_VIEW_LINK->linklabel, $MODULE_NAME)}" {/if}>
 												{if $DETAIL_VIEW_LINK->linkicon neq ''}
 													<span class="{$DETAIL_VIEW_LINK->linkicon} icon-in-button"></span> 

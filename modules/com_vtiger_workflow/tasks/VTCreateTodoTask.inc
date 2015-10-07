@@ -154,7 +154,7 @@ class VTCreateTodoTask extends VTTask
 			'description' => $this->description,
 			'subject' => $this->todo,
 			'taskpriority' => $this->priority,
-			'taskstatus' => $this->status,
+			'activitystatus' => $this->status,
 			'assigned_user_id' => $userId,
 			'time_start' => $time,
 			'time_end' => $timeEnd,
@@ -163,7 +163,7 @@ class VTCreateTodoTask extends VTTask
 			'date_start' => $date_start,
 			'due_date' => $due_date,
 			'visibility' => 'Private',
-			'eventstatus' => ''
+			//'eventstatus' => ''
 		);
 		if (in_array($moduleName, ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees'])) {
 			$fields['link'] = $id;

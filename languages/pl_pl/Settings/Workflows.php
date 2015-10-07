@@ -181,8 +181,10 @@ $languageStrings = [
 	'Invoice Date' => 'Data faktury',
 	'Start Date & Time' => 'Czas rozpoczęcia',
 	'End Date & Time' => 'Czas zakończenia',
+	'ON_DELETE' => 'Podczas usuwania',
+	'TRIGGER' => 'Ręczne wywołanie',
+	'BLOCK_EDIT' => 'Blokada edycji',
 ];
-
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Te same pola zaznaczono więcej niż jedej raz',
 	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Status zmieniono poprawnie',

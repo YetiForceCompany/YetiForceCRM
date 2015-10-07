@@ -525,11 +525,11 @@ jQuery.Class("Vtiger_Edit_Js", {
 	registerEventStatusChangeEvent: function (container) {
 		var followupContainer = container.find('.followUpContainer');
 		//if default value is set to Held then display follow up container
-		var defaultStatus = container.find('select[name="eventstatus"]').val();
+		var defaultStatus = container.find('select[name="activitystatus"]').val();
 		if (defaultStatus == 'Held' || defaultStatus == 'Not Held') {
 			followupContainer.show();
 		}
-		container.find('select[name="eventstatus"]').on('change', function (e) {
+		container.find('select[name="activitystatus"]').on('change', function (e) {
 			var selectedOption = jQuery(e.currentTarget).val();
 			if (selectedOption == 'Held' || selectedOption == 'Not Held') {
 				followupContainer.show();

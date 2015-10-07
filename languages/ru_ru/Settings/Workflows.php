@@ -179,7 +179,10 @@ $languageStrings = [
 	'Record Id' => 'Record Id',
 	'Invoice Date' => 'Invoice Date',
 	'Start Date & Time' => 'Дата и время начала',
-	'End Date & Time' => 'Дата и время окончания', 
+	'End Date & Time' => 'Дата и время окончания',
+	'ON_DELETE' => 'While deleting',
+	'TRIGGER' => 'Trigger manually',
+	'BLOCK_EDIT' => 'Block edition',
 ];
 
 $jsLanguageStrings = [

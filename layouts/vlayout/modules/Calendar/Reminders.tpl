@@ -30,9 +30,9 @@
 					<div class="row">
 						{vtranslate('Due Date',$MODULE_NAME)}: <strong>{Vtiger_Util_Helper::formatDateTimeIntoDayString("$END_DATE $END_TIME",$RECORD->get('allday'))}</strong>
 					</div>
-					{if $RECORD->get('taskstatus') neq '' }
+					{if $RECORD->get('activitystatus') neq '' }
 						<div class="row">
-							{vtranslate('Status',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('taskstatus')}</strong>
+							{vtranslate('Status',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('activitystatus')}</strong>
 						</div>
 					{/if}
 					{if $RECORD->get('link') neq '' }

@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Zalecana częstotliwość dla Planowanego Importu to 15 minut.',
 	'Recommended frequency for SendReminder is 15 mins' => 'Zalecana częstotliwość dla wysyłanych Przypomnień to 15 minut',
@@ -41,10 +41,9 @@ $languageStrings = [
 	'Scheduled Import' => 'Zaplanowany import',
 	'ScheduleReports' => 'Zaplanuj raporty',
 	'MailScannerBind' => 'Powiąż skaner poczty',
-	'LBL_CURRENCY_UPDATE' => 'Aktualizacja kursów walut'
+	'LBL_CURRENCY_UPDATE' => 'Aktualizacja kursów walut',
+	'LBL_MULTI_REFERENCE_VALUE' => 'Aktualizacja pól multireferencji',
 ];
-
-
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Zalecana częstotliwość dla Planowanego Importu to 15 minut.',
 	'Recommended frequency for SendReminder is 15 mins' => 'Zalecana częstotliwość dla wysyłanych Przypomnień to 15 minut.',
@@ -54,5 +53,5 @@ $jsLanguageStrings = [
 	'FREQUENCY_NUMBER' => 'Częstotliwość musi być liczbą całkowitą',
 	'FREQUENCY_REQUIRED' => 'Pole częstotliwość jest wymagane',
 	'PATH_REQUIRED' => 'Pole ścieżka jest wymagane',
-	'NAME_REQUIRED' => 'Pole nazwa jest wymagane'
+	'NAME_REQUIRED' => 'Pole nazwa jest wymagane',
 ];
