@@ -113,4 +113,16 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		return $this->listFieldModels;
 	}
+	
+	/**
+	 * Delete all worklflows associated with module
+	 * @param Vtiger_Module Instnace of module to use
+	 */
+	static function deleteForModule($moduleInstance)
+	{
+		$db = PearDatabase::getInstance();
+		$db->pquery('DELETE com_vtiger_workflows,com_vtiger_workflowtasks FROM `com_vtiger_workflows` 
+			LEFT JOIN `com_vtiger_workflowtasks` ON com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id
+			WHERE `module_name` =?', [$moduleInstance->name]);
+	}
 }

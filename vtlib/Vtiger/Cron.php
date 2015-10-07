@@ -424,4 +424,14 @@ class Vtiger_Cron
 	{
 		$this->updateStatus(self::$STATUS_ENABLED);
 	}
+
+	/**
+	 * Delete all cron tasks associated with module
+	 * @param Vtiger_Module Instnace of module to use
+	 */
+	static function deleteForModule($moduleInstance)
+	{
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_cron_task', 'module = ?', [$moduleInstance->name]);
+	}
 }
