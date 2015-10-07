@@ -90,8 +90,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		$quotesModuleModel = Vtiger_Module_Model::getInstance('Quotes');
 
-		return "index.php?module=" . $quotesModuleModel->getName() . "&view=" . $quotesModuleModel->getEditViewName() . "&product_id=" . $this->getId() .
-			"&sourceModule=" . $this->getModuleName() . "&sourceRecord=" . $this->getId() . "&relationOperation=true";
+		return 'index.php?module=' . $quotesModuleModel->getName() . '&view=' . $quotesModuleModel->getEditViewName() . '&product_id=' . $this->getId() .
+			'&sourceModule=' . $this->getModuleName() . '&sourceRecord=' . $this->getId() . '&relationOperation=true';
 	}
 
 	/**
@@ -102,8 +102,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
 
-		return "index.php?module=" . $invoiceModuleModel->getName() . "&view=" . $invoiceModuleModel->getEditViewName() . "&product_id=" . $this->getId() .
-			"&sourceModule=" . $this->getModuleName() . "&sourceRecord=" . $this->getId() . "&relationOperation=true";
+		return 'index.php?module=' . $invoiceModuleModel->getName() . '&view=' . $invoiceModuleModel->getEditViewName() . '&product_id=' . $this->getId() .
+			'&sourceModule=' . $this->getModuleName() . '&sourceRecord=' . $this->getId() . '&relationOperation=true';
 	}
 
 	/**
@@ -114,8 +114,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		$purchaseOrderModuleModel = Vtiger_Module_Model::getInstance('PurchaseOrder');
 
-		return "index.php?module=" . $purchaseOrderModuleModel->getName() . "&view=" . $purchaseOrderModuleModel->getEditViewName() . "&product_id=" . $this->getId() .
-			"&sourceModule=" . $this->getModuleName() . "&sourceRecord=" . $this->getId() . "&relationOperation=true";
+		return 'index.php?module=' . $purchaseOrderModuleModel->getName() . '&view=' . $purchaseOrderModuleModel->getEditViewName() . '&product_id=' . $this->getId() .
+			'&sourceModule=' . $this->getModuleName() . '&sourceRecord=' . $this->getId() . '&relationOperation=true';
 	}
 
 	/**
@@ -126,8 +126,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		$salesOrderModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
 
-		return "index.php?module=" . $salesOrderModuleModel->getName() . "&view=" . $salesOrderModuleModel->getEditViewName() . "&product_id=" . $this->getId() .
-			"&sourceModule=" . $this->getModuleName() . "&sourceRecord=" . $this->getId() . "&relationOperation=true";
+		return 'index.php?module=' . $salesOrderModuleModel->getName() . '&view=' . $salesOrderModuleModel->getEditViewName() . '&product_id=' . $this->getId() .
+			'&sourceModule=' . $this->getModuleName() . '&sourceRecord=' . $this->getId() . '&relationOperation=true';
 	}
 
 	/**
@@ -461,6 +461,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 				if ($currency_id == $product_currency_id) {
 					$is_basecurrency = true;
 				}
+
 				if ($cur_value == null || $cur_value == '') {
 					$price_details[$i]['check_value'] = false;
 					if ($unit_price != null) {
@@ -468,7 +469,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 					} else {
 						$cur_value = '0';
 					}
-				} else if ($is_basecurrency) {
+				} else {
 					$price_details[$i]['check_value'] = true;
 				}
 				$price_details[$i]['curvalue'] = CurrencyField::convertToUserFormat($cur_value, null, true);

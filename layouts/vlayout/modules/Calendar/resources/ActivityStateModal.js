@@ -71,7 +71,10 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 							var listinstance = new Vtiger_List_Js();
 							listinstance.getListViewRecords();
 						}
-						
+						if (viewName == 'DashBoard') {
+							var instance = new Vtiger_DashBoard_Js();
+							instance.getContainer().find('a[name="drefresh"]').trigger('click');
+						}
 						//updates the Calendar Reminder popup's status
 						Vtiger_Index_Js.requestReminder();
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});

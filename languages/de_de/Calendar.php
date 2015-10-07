@@ -137,8 +137,6 @@ $languageStrings = [
 	'PLL_CANCELLED' => 'Cancelled',
 	'PLL_COMPLETED' => 'Completed',
 	
-	'LBL_FINISH_WORK_WITH_THE_RECORD' => 'Finish work with the record',
-	'LBL_SET_RECORD_STATUS' => "Set the record's status to:",
 	'LBL_NO_AVAILABLE_ACTIONS' => 'No available actions',
 ];
 $jsLanguageStrings = [

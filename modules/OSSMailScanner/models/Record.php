@@ -198,6 +198,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public static function executeActions($account, $mail_detail, $folder, $params = false)
 	{
+		$log = vglobal('log');
+		$log->debug('Start execute actions: ' . $account['username']);
 		global $who_trigger;
 		$actions = $return = [];
 		if ($params && array_key_exists('actions', $params)) {
@@ -219,11 +221,14 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 					if (file_exists($action_adress)) {
 						require_once $action_adress;
 						$fn_name = '_' . $action[0];
+						$log->debug('Start action: ' . $fn_name);
 						$return[$user_action] = $fn_name($account['user_id'], $mail_detail, $folder, $return);
+						$log->debug('End action: ' . $fn_name);
 					}
 				}
 			}
 		}
+		$log->debug('End execute actions');
 		return $return;
 	}
 
@@ -499,8 +504,11 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public function executeCron($who_trigger)
 	{
+		$log = vglobal('log');
+		$log->debug('Start executeCron');
 		$row = self::getActiveScan();
 		if ($row > 0) {
+			$log->warn(vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
 			return vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
 		}
 		$OSSMailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
@@ -508,11 +516,14 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$countEmails = 0;
 		$scanId = 0;
 		$accounts = $OSSMailModel->getAccountsList();
-		if (!$accounts)
+		if (!$accounts) {
+			$log->warn('There are no accounts to be scanned');
 			return false;
+		}
 		self::setCronStatus('2');
 		$scanId = $OSSMailScannerModel->add_scan_history(Array('user' => $who_trigger));
 		foreach ($OSSMailModel->getAccountsList() as $account) {
+			$log->debug('Start checking account: ' . $account['username']);
 			foreach ($OSSMailScannerModel->getConfigFolderList() as $key => $folders) {
 				if ($folders != null) {
 					$folderArray = Array();
@@ -522,10 +533,16 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 						$folderArray[0] = $folders;
 					}
 					foreach ($folderArray as $folder) {
-						$mbox = $OSSMailModel->imap_connect($account['username'], $account['password'], $folder);
+						$log->debug('Start checking folder: ' . $folder);
+						$mbox = $OSSMailModel->imap_connect($account['username'], $account['password'], $folder, false);
+						if (!$mbox) {
+							$log->fatal('Incorrect mail access data: ' . $account['username']);
+							continue;
+						}
 						$countEmails = $OSSMailScannerModel->mail_Scan($mbox, $account, $folder, $scanId, $countEmails);
 						imap_close($mbox);
 						if ($countEmails >= PerformancePrefs::get('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
+							$log->warn('Reached the maximum number of scanned mails');
 							$OSSMailScannerModel->update_scan_history($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 							self::setCronStatus('1');
 							return 'ok';
@@ -536,6 +553,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		}
 		$OSSMailScannerModel->update_scan_history($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 		self::setCronStatus('1');
+		$log->debug('End executeCron');
 		return 'ok';
 	}
 

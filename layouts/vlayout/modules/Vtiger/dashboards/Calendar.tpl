@@ -60,6 +60,3 @@
 <div class="dashboardWidgetContent dashboardWidgetCalendar">
 	{include file="dashboards/CalendarContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
 </div>
-<script type='text/javascript'>
-	YetiForce_Calendar_Widget_Js('YetiForce_Home_Widget_Js',{},{});
-</script>

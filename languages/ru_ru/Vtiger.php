@@ -1296,6 +1296,7 @@ $languageStrings = [
 	'LBL_NO_EXCHANGE_RATES' => 'No exchange rates found, check if downloading exchange rates works properly.',
 	'LBL_COMMENT' => 'Comment',
 	'LBL_CURRENT' => "Current",
+	'LBL_SET_RECORD_STATUS' => 'Set status',
 ];
 $jsLanguageStrings = [
 	'SINGLE_SalesOrder' => 'Заказ',
