@@ -713,6 +713,11 @@ class QueryGenerator
 		foreach ($this->conditionals as $index => $conditionInfo) {
 			$fieldName = $conditionInfo['name'];
 			$field = $moduleFieldList[$fieldName];
+			if ($fieldName == 'id') {
+				$sqlOperator = $this->getSqlOperator($conditionInfo['operator']);
+				$fieldSqlList[$index] = $baseTable . '.' . $baseTableIndex . $sqlOperator . $conditionInfo['value'];
+				continue;
+			}
 			if (empty($field) || $conditionInfo['operator'] == 'None') {
 				continue;
 			}
@@ -1152,37 +1157,10 @@ class QueryGenerator
 				$sql[] = "NOT LIKE ''";
 				continue;
 			}
-
-			switch ($operator) {
-				case 'e': $sqlOperator = "=";
-					break;
-				case 'n': $sqlOperator = "<>";
-					break;
-				case 's': $sqlOperator = "LIKE";
-					$value = "$value%";
-					break;
-				case 'ew': $sqlOperator = "LIKE";
-					$value = "%$value";
-					break;
-				case 'c': $sqlOperator = "LIKE";
-					$value = "%$value%";
-					break;
-				case 'k': $sqlOperator = "NOT LIKE";
-					$value = "%$value%";
-					break;
-				case 'l': $sqlOperator = "<";
-					break;
-				case 'g': $sqlOperator = ">";
-					break;
-				case 'm': $sqlOperator = "<=";
-					break;
-				case 'h': $sqlOperator = ">=";
-					break;
-				case 'a': $sqlOperator = ">";
-					break;
-				case 'b': $sqlOperator = "<";
-					break;
-			}
+			$sqlOperatorData = $this->getSqlOperator($operator, $value);
+			$sqlOperator = $sqlOperatorData[0];
+			$value = $sqlOperatorData[1];
+			
 			if (!$this->isNumericType($field->getFieldDataType()) &&
 				($field->getFieldName() != 'birthday' || ($field->getFieldName() == 'birthday' && $this->isRelativeSearchOperators($operator)))) {
 				$value = "'$value'";
@@ -1555,5 +1533,43 @@ class QueryGenerator
 		if (!in_array('id', $this->fields)) {
 			$this->fields[] = 'id';
 		}
+	}
+
+	public function getSqlOperator($operator, $value = false)
+	{
+		switch ($operator) {
+			case 'e': $sqlOperator = "=";
+				break;
+			case 'n': $sqlOperator = "<>";
+				break;
+			case 's': $sqlOperator = "LIKE";
+				$value = "$value%";
+				break;
+			case 'ew': $sqlOperator = "LIKE";
+				$value = "%$value";
+				break;
+			case 'c': $sqlOperator = "LIKE";
+				$value = "%$value%";
+				break;
+			case 'k': $sqlOperator = "NOT LIKE";
+				$value = "%$value%";
+				break;
+			case 'l': $sqlOperator = "<";
+				break;
+			case 'g': $sqlOperator = ">";
+				break;
+			case 'm': $sqlOperator = "<=";
+				break;
+			case 'h': $sqlOperator = ">=";
+				break;
+			case 'a': $sqlOperator = ">";
+				break;
+			case 'b': $sqlOperator = "<";
+				break;
+		}
+		if(!$value){
+			return $sqlOperator;
+		}
+		return [$sqlOperator, $value];
 	}
 }

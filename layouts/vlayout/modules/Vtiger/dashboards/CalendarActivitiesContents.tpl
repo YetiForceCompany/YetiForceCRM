@@ -18,13 +18,9 @@ font-size: 75%;
 	{foreach from=$ACTIVITIES key=INDEX item=ACTIVITY}
 	<div class="changeActivity cursorPointer" data-url="{$ACTIVITY->getActivityStateModalUrl()}">
 		<div class='pull-left'>
-			{if $ACTIVITY->get('activitytype') == 'Task'}
-				<image style="margin-left: 4px;" src="{vimage_path('Tasks.png')}" alt="{vtranslate('LBL_TASK')}" width="24px"/>&nbsp;&nbsp;
-			{elseif $ACTIVITY->get('activitytype') == 'Meeting'}
-				<image style="margin-left: 4px;" src="{vimage_path('Meeting.png')}" alt="{vtranslate('LBL_METTING')}" width="24px" />&nbsp;&nbsp;
-			{else}
-				<image style="margin-left: 4px;" src="{vimage_path('Call.png')}" alt="{vtranslate('LBL_CALL')}" width="24px" />&nbsp;&nbsp;
-			{/if}
+			{assign var=ACTIVITY_TYPE value=$ACTIVITY->get('activitytype')}
+			{assign var=ACTIVITY_UPPERCASE value=$ACTIVITY_TYPE|upper}
+			<image style="margin-left: 4px;" src="{vimage_path_default($ACTIVITY_TYPE, Calendar)}" alt="{vtranslate("LBL_$ACTIVITY_UPPERCASE")}" width="24px" />&nbsp;&nbsp;
 		</div>
 		<div>
 			<div class='pull-left'>

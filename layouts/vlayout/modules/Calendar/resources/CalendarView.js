@@ -304,7 +304,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var state = $('.fc-toolbar input.switchBtn').bootstrapSwitch('state');
 		var eventObject = {};
 
-		var taskstatus = $.inArray( eventObject.status, ['Held', 'Completed','Deferred'] );
+		var taskstatus = $.inArray( eventObject.status, ['PLL_POSTPONED', 'PLL_CANCELLED','PLL_COMPLETED'] );
 		if(state == true && taskstatus >= 0){
 			return false;
 		}
