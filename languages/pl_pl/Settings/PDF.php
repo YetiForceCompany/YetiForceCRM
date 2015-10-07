@@ -98,6 +98,8 @@ $languageStrings = [
 	'LBL_RETURN' => 'Wróć',
 	'LBL_PERMISSIONS_DETAILS' => 'Uprawnienia',
 	'LBL_EXPORT_PDF' => 'Eksportuj do PDF',
+	'LBL_GENERATE_PDF_FILE' => 'Generuj plik PDF',
+	'LBL_GENERATE' => 'Generuj',
 
 	// page format names
 	'4A0' => '4A0',
