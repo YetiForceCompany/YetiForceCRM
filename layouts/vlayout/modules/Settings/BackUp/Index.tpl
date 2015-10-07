@@ -185,38 +185,40 @@
 					</div>
 				</div>
 				<br /><br />
-				<table class="table table-bordered table-condensed themeTableColor brute_force_form">
-					<thead>
-						<tr class="blockHeader">
-							<th class="mediumWidthType">
-								<span class="alignMiddle">{vtranslate('LBL_START_TIME', $QUALIFIED_MODULE_NAME)}</span>
-							</th>
-							<th class="mediumWidthType">
-								<span class="alignMiddle">{vtranslate('LBL_END_TIME', $QUALIFIED_MODULE_NAME)}</span>
-							</th>
-							<th class="mediumWidthType">
-								<span class="alignMiddle">{vtranslate('LBL_FILE_NAME', $QUALIFIED_MODULE_NAME)}</span>
-							</th>
-							<th class="mediumWidthType">
-								<span class="alignMiddle">{vtranslate('LBL_STATUS', $QUALIFIED_MODULE_NAME)}</span>
-							</th>
-							<th class="mediumWidthType">
-								<span class="alignMiddle">{vtranslate('LBL_BACKUP_TIME', $QUALIFIED_MODULE_NAME)}</span>
-							</th>
-						</tr>
-					</thead>
-					<tbody class='backup-list'>
-						{foreach item=backup from=$BACKUPS name=backup}
-							<tr data-id="{$backup['id']}">
-								<td><label class="marginRight5px" >{$backup['starttime']}</label></td>
-								<td><label class="marginRight5px" >{$backup['endtime']}</label></td>
-								<td><label class="marginRight5px" >{$backup['filename']}</label></td>
-								<td><label class="marginRight5px" >{$backup['status']}</label></td>
-								<td><label class="marginRight5px" >{$backup['backuptime']}</label></td>
+				<div class="table-responsive">
+					<table class="table table-bordered table-condensed themeTableColor brute_force_form">
+						<thead>
+							<tr class="blockHeader">
+								<th class="mediumWidthType">
+									<span class="alignMiddle">{vtranslate('LBL_START_TIME', $QUALIFIED_MODULE_NAME)}</span>
+								</th>
+								<th class="mediumWidthType">
+									<span class="alignMiddle">{vtranslate('LBL_END_TIME', $QUALIFIED_MODULE_NAME)}</span>
+								</th>
+								<th class="mediumWidthType">
+									<span class="alignMiddle">{vtranslate('LBL_FILE_NAME', $QUALIFIED_MODULE_NAME)}</span>
+								</th>
+								<th class="mediumWidthType">
+									<span class="alignMiddle">{vtranslate('LBL_STATUS', $QUALIFIED_MODULE_NAME)}</span>
+								</th>
+								<th class="mediumWidthType">
+									<span class="alignMiddle">{vtranslate('LBL_BACKUP_TIME', $QUALIFIED_MODULE_NAME)}</span>
+								</th>
 							</tr>
-						{/foreach}
-					</tbody>
-				</table>
+						</thead>
+						<tbody class='backup-list'>
+							{foreach item=backup from=$BACKUPS name=backup}
+								<tr data-id="{$backup['id']}">
+									<td><label class="marginRight5px" >{$backup['starttime']}</label></td>
+									<td><label class="marginRight5px" >{$backup['endtime']}</label></td>
+									<td><label class="marginRight5px" >{$backup['filename']}</label></td>
+									<td><label class="marginRight5px" >{$backup['status']}</label></td>
+									<td><label class="marginRight5px" >{$backup['backuptime']}</label></td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
 			</div>
 			<div class="tab-pane" id="tab_2">
 				<form>

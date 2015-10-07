@@ -56,7 +56,7 @@
 							<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('LBL_USERS_FOR_NOTIFICATIONS', $MODULE)}</label></td>
 							<td style="border-left: none;">
 								<div class="col-md-8">
-									<select class="chzn-select" name="selectedUsers" multiple>
+									<select class="chzn-select form-control" name="selectedUsers" multiple>
 										{foreach key=KEY  item=USER from=$ADMINUSERS}
 											<option value="{$KEY}" {if $USERFORNOTIFICATIONS } {if array_key_exists($KEY, $USERFORNOTIFICATIONS)}  selected {/if} {/if}>{$USER}</option>
 										{/foreach}
@@ -80,39 +80,41 @@
 		</div>
 		<div class='editViewContainer tab-pane' id="brutalforce_tab_2" style="display:none;">
 			<form id="brutalforce_tab_form_1" name="brutalforce_tab_2">
-				<table class="table table-bordered table-condensed themeTableColor brute_force_form">
-					<thead>
-						<tr class="blockHeader">
-							<th colspan="1" class="mediumWidthType">
-								<span class="alignMiddle">{vtranslate('IP', $MODULE)}</span>
-							</th>
-							<th colspan="1" class="mediumWidthType">
-								<span class="alignMiddle">{vtranslate('Date', $MODULE)}</span>
-							</th>
-							<th colspan="1" class="mediumWidthType">
-								<span class="alignMiddle">{vtranslate('Users', $MODULE)}</span>
-							</th>    
-							<th colspan="1" class="mediumWidthType">
-								<span class="alignMiddle">{vtranslate('Browsers', $MODULE)}</span>
-							</th>     
-							<th colspan="1" class="mediumWidthType">
-								<span class="alignMiddle">{vtranslate('Unblock', $MODULE)}</span>
-							</th>
-						</tr>
-					</thead>
-					<tbody>					   
-						{foreach from=$BLOCKED item=foo}
-							<tr>
-								<td width="23%"><label class="marginRight5px" >{$foo.ip}</label></td>
-								<td width="23%"><label class="marginRight5px" >{$foo.date}</label></td>
-								<td width="23%"><label class="marginRight5px" >{$foo.users}</label></td>
-								<td width="23%"><label class="marginRight5px" >{$foo.browsers}</label></td>
-								<td width="23%"><label class="marginRight5px" >
-										<button data-ip="{$foo.ip}" class="btn btn-success" type="button" id='unblock' title="Zapisz"><strong>{vtranslate('Unblock', $MODULE)}</strong></button></label></td>
+				<div class="table-responsive">
+					<table class="table table-bordered table-condensed themeTableColor brute_force_form">
+						<thead>
+							<tr class="blockHeader">
+								<th colspan="1" class="mediumWidthType">
+									<span class="alignMiddle">{vtranslate('IP', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span class="alignMiddle">{vtranslate('Date', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span class="alignMiddle">{vtranslate('Users', $MODULE)}</span>
+								</th>    
+								<th colspan="1" class="mediumWidthType">
+									<span class="alignMiddle">{vtranslate('Browsers', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span class="alignMiddle">{vtranslate('Unblock', $MODULE)}</span>
+								</th>
 							</tr>
-						{/foreach}
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							{foreach from=$BLOCKED item=foo}
+								<tr>
+									<td width="23%"><label class="marginRight5px" >{$foo.ip}</label></td>
+									<td width="23%"><label class="marginRight5px" >{$foo.date}</label></td>
+									<td width="23%"><label class="marginRight5px" >{$foo.users}</label></td>
+									<td width="23%"><label class="marginRight5px" >{$foo.browsers}</label></td>
+									<td width="23%"><label class="marginRight5px" >
+											<button data-ip="{$foo.ip}" class="btn btn-success" type="button" id='unblock' title="Zapisz"><strong>{vtranslate('Unblock', $MODULE)}</strong></button></label></td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
 			</form>
 		</div>  
 	</div>
