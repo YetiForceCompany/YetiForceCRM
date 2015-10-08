@@ -158,4 +158,38 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 		}
 		return $this;
 	}
+	
+	/**
+	 * Function to return info about the number of pages
+	 * @return <int> - Number of pages
+	 */
+	public function getPageCount()
+	{
+		$pageLimit = $this->getPageLimit();
+		$totalCount = $this->get('totalCount');
+		$pageCount = ceil($totalCount / (int) $pageLimit);
+
+		if ($pageCount == 0) {
+			$pageCount = 1;
+		}
+		return $pageCount;
+	}
+
+	/**
+	 * Function to return the page number where pagination begins
+	 * @return <int> - number of page
+	 */
+	public function getStartPagingFrom()
+	{
+		$pageNumber = $this->get('page');
+		$totalCount = $this->get('totalCount');
+		$startPaginFrom = $pageNumber - 2;
+
+		if ($pageNumber == $totalCount && 1 != $pageNumber)
+			$startPaginFrom = $pageNumber - 4;
+		if ($startPaginFrom <= 0 || 1 == $pageNumber)
+			$startPaginFrom = 1;
+
+		return $startPaginFrom;
+	}
 }

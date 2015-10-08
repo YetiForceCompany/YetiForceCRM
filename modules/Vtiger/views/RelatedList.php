@@ -65,18 +65,9 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('RELATION_FIELD', $relationField);
 
 		$totalCount = $relationListView->getRelatedEntriesCount();
-		$pageLimit = $pagingModel->getPageLimit();
-		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
-
-		if ($pageCount == 0) {
-			$pageCount = 1;
-		}
-		
-		$startPaginFrom = $pageNumber - 2;
-		if($pageNumber == $totalCount && 1 !=  $pageNumber)
-			$startPaginFrom = $pageNumber - 4;
-		if($startPaginFrom <= 0 || 1 ==  $pageNumber)
-			$startPaginFrom = 1;
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
 		$viewer->assign('PAGE_NUMBER', $pageNumber);	
 		$viewer->assign('PAGE_COUNT', $pageCount);

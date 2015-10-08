@@ -118,17 +118,9 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 			$this->listViewCount = $listViewModel->getListViewCount();
 		}
 		$totalCount = $this->listViewCount;
-		$pageLimit = $pagingModel->getPageLimit();
-		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
-
-		if ($pageCount == 0) {
-			$pageCount = 1;
-		}
-		$startPaginFrom = $pageNumber - 2;
-		if($pageNumber == $totalCount && 1 !=  $pageNumber)
-			$startPaginFrom = $pageNumber - 4;
-		if($startPaginFrom <= 0 || 1 ==  $pageNumber)
-			$startPaginFrom = 1;
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
 		
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
