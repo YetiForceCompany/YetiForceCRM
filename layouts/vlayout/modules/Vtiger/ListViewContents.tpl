@@ -35,6 +35,11 @@
 						<td class="alphabetSearch textAlignCenter cursorPointer {if $ALPHABET_VALUE eq $ALPHABET} highlightBackgroundColor {/if}" style="padding : 0px !important"><a id="{$ALPHABET}" href="#">{$ALPHABET}</a></td>
 						{/foreach}
 				</tr>
+				<td class="alphabetSearch textAlignCenter cursorPointer">
+					<a href="index.php?view=List&module={$MODULE}" >
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
+				</td>
 			</tbody>
 		</table>
 	</div>
@@ -84,7 +89,7 @@
 				{if $MODULE_MODEL->isQuickSearchEnabled()}
 					<tr>
 						<td>
-							<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" ><span class="glyphicon glyphicon-remove"></span></a>
+							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="glyphicon glyphicon-search"></span></a>
 						</td>
 								{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<td>
@@ -94,7 +99,9 @@
 							</td>
 						{/foreach}
 						<td>
-							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="glyphicon glyphicon-search"></span></a>
+							<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" >
+								<span class="glyphicon glyphicon-remove"></span>
+							</a>
 						</td>
 					</tr>
 				{/if}
