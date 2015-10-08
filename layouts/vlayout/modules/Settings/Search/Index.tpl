@@ -37,7 +37,7 @@
 			</span>
 			<div class="clearfix"></div>
 		</div>
-		<div class="contents tabbable">
+		<div class="contents tabbable table-responsive">
 			<table class="table table-bordered table-condensed listViewEntriesTable" id="modulesEntity">
 				<thead>
 					<tr class="blockHeader">
