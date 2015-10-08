@@ -38,6 +38,11 @@ $languageStrings = [
 	
 	'LBL_VIEW_AUTH' => 'Authorisierung',
 	'LBL_VIEW_COLORS' => 'Farben',
+	
+	'LBL_SWITCH_USERS' => '__UNTRANSLATED__',
+	'LBL_SWITCH_USERS_DESCRIPTION' => '__UNTRANSLATED__',
+	'LBL_SU_BASE_ACCESS' => '__UNTRANSLATED__',
+	'LBL_SU_AVAILABLE_ACCESS' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',

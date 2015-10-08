@@ -40,6 +40,11 @@ $languageStrings = [
 	
 	'LBL_VIEW_AUTH' => 'Авторизация',
 	'LBL_VIEW_COLORS' => 'Цвета',
+	
+	'LBL_SWITCH_USERS' => '__UNTRANSLATED__',
+	'LBL_SWITCH_USERS_DESCRIPTION' => '__UNTRANSLATED__',
+	'LBL_SU_BASE_ACCESS' => '__UNTRANSLATED__',
+	'LBL_SU_AVAILABLE_ACCESS' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_USER_MAIL_EXIST'	=>	'Пользователь с такой электронной почтой уже существует',
