@@ -3713,6 +3713,6 @@ span[name=existingImages] img{
 #activityStateModal .form-horizontal .form-group .control-label{
 	padding-top: 0;
 }
-.ossMailContainer{
+.mainContainer.mailContainer{
 	margin-top: 102px !important;
 }
