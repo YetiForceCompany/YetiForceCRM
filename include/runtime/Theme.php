@@ -66,7 +66,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 * @param <string> $defaultFileName - file name 
 	 * @return <string/boolean> - returns file path if exists or false;
 	 */
-	public static function getImagePathOrDefault($imageFileName, $defaultFileName)
+	public static function getOrignOrDefaultImgPath($imageFileName, $defaultFileName)
 	{
 		$allowedImgTypes = ['.gif', '.jpg', '.png'];
 		foreach ($allowedImgTypes as $type) {
@@ -168,5 +168,5 @@ function vimage_path($imageName)
 function vimage_path_default($imageName, $defaultImageName)
 { 
 	$args = func_get_args();
-	return call_user_func_array(array('Vtiger_Theme', 'getImagePathOrDefault'), $args);
+	return call_user_func_array(array('Vtiger_Theme', 'getOrignOrDefaultImgPath'), $args);
 }
