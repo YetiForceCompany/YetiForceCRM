@@ -11,8 +11,8 @@
 -->*}
 <div class="row conditionRow marginBottom10px" id="cnd_num_{$NUM}">
    {assign var=CONDITION_LIST value=''}
-   <span class="col-md-4">
-        <select data-num="{$NUM}" class="chzn-select form-control row comparator-select" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+   <div class="col-md-4">
+        <select data-num="{$NUM}" class="chzn-select marginBottom5px form-control comparator-select" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
             {foreach key=MODULE_NAME item=FIELD from=$FIELD_LIST}
 				{$CONDITION_LIST = Settings_DataAccess_Module_Model::getConditionByType($FIELD[0]['info']['type'])}
                 <optgroup label='{vtranslate($MODULE_NAME, $MODULE_NAME)}'>
@@ -23,18 +23,18 @@
                 </optgroup>
             {/foreach}
         </select>
-    </span>
-    <span class="col-md-3">
-        <select data-num="{$NUM}" class="chzn-select form-control row" name="comparator">
+    </div>
+    <div class="col-md-3">
+        <select data-num="{$NUM}" class="chzn-select marginBottom5px form-control " name="comparator">
             {foreach from=$CONDITION_LIST item=item key=key}
                 <option value="{$item}">{vtranslate($item,$QUALIFIED_MODULE)}</option>
             {/foreach}
         </select>
-    </span>
-    <span class="col-md-4 fieldUiHolder">
-        <input name="val" data-value="value" class="row form-control input-sm" type="text" value="{$CONDITION_INFO['value']|escape}" />
-    </span>
-    <span class="col-md-1">
+    </div>
+    <div class="col-md-4 fieldUiHolder">
+        <input name="val" data-value="value" class=" marginBottom5px form-control input-sm" type="text" value="{$CONDITION_INFO['value']|escape}" />
+    </div>
+    <div class="col-md-1">
         <i class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" onclick="jQuery(this).parents('div#cnd_num_{$NUM}').remove()"></i>
-    </span>
+    </div>
 </div>

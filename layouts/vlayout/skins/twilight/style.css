@@ -3475,7 +3475,7 @@ span[name=existingImages] img{
 	margin-left: 5px;
 }
 .dashboardContainer .dashboardHeading .dropdown-menu {
-	left: -162px;
+	left: 0px;
 }
 #VtEmailTaskContainer .addTime{
 	text-align: left;
@@ -4483,6 +4483,15 @@ html,body,.baseContainer
 		min-height: 1px;
 		padding: 2px;
 		width: 100% !important;
+	}
+	#dependencyGraph .tableHeading {
+		padding-top:70px;
+		-webkit-transform:rotate(90deg);
+		-moz-transform:rotate(90deg);
+		-o-transform: rotate(90deg);
+		-ms-transform:rotate(90deg);
+		transform: rotate(90deg);
+		white-space:nowrap;
 	}
 }
 @media only screen and (max-width: 768px){
