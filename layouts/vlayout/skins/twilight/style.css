@@ -579,7 +579,7 @@ hr {
 	display: block;
 }
 .widgetsList li a {
-	white-space: normal;
+	white-space: nowrap;
 	word-wrap: break-word;
 }
 .dashboard_notebookWidget_view .row {
@@ -604,6 +604,9 @@ hr {
 }
 .gridster ul {
 	list-style: none;
+	margin-left: 0 !important;
+	padding-left :0 !important;
+	margin-top: 5px !important;
 }
 .gridster ul li.dashboardWidget {
 	background: #ffffff;
@@ -4083,14 +4086,8 @@ html,body,.baseContainer
 	.breadcrumbsLinks{
 		font-size: 19px;
 	}
-	.dashboardHeading .pull-left{
-		max-width: calc(100% - 360px);
-	}
 }
 @media only screen and (max-width: 767px) {
-	.dashboardHeading .pull-left{
-		max-width: calc(100% - 105px);
-	}
 	.dashboardHeading .h3{
 		margin-top: 10px;
 		margin-bottom: 0px;
@@ -4330,7 +4327,7 @@ html,body,.baseContainer
 @media only screen and (max-width: 960px) {
 	.gridster > * {
 		padding: 0;
-		padding-right: 25px;
+		padding-right: 0px;
 		width: 100% !important;
 	}
 	.gridster .gs-w {
@@ -4435,9 +4432,6 @@ html,body,.baseContainer
 	padding-top: 7px;
 	height: 34px;
 }
-.dashboardHeading .btn{
-	padding: 10px 10px;
-}
 .headerLinksMails .btn-group > .btn + .dropdown-toggle{
 	padding-top: 7px;
 	padding-bottom: 7px;
@@ -4460,12 +4454,6 @@ html,body,.baseContainer
 .actionMenu .rows .list-group-item{
 	padding: 2px 2px;
 	border: 0 solid #fff;
-}
-.dashboardHeading .pull-left{
-	padding-top: 15px;
-}
-.dashboardHeading .breadcrumbsLinks{
-	margin-left: 40px;
 }
 .contentsDiv, .centerPanel{
 	padding: 0 10px;
@@ -4510,4 +4498,20 @@ html,body,.baseContainer
 	float: left;
 	min-height: 1px;
 	padding: 2px;
+}
+.modOn_Home{
+	display: none;
+}
+.dashboardHeading hr{
+	margin-top: -2px;
+}
+.dashboardHeading h2,
+.widget_header h2{
+	margin-bottom:7px;
+}
+.addButton span{
+	margin: 3px !important;
+}
+.gridster .gs-w[data-col="1"] {
+	left: 0px!important;
 }
