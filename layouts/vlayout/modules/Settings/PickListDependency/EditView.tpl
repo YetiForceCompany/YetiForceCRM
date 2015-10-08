@@ -24,8 +24,8 @@
 					<input type="hidden" name="sourceField" value="{$RECORD_MODEL->get('sourcefield')}"/>
 					<input type="hidden" name="targetField" value="{$RECORD_MODEL->get('targetfield')}"/>
 				{/if}
-				<div class="">
-					<div class="form-group ">
+				<div class="row">
+					<div class="col-md-12">
 						<label class="col-md-2 muted control-label">{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
 						<div class="col-md-4 controls">
 							<select name="sourceModule" title="{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}" class="select2 form-control marginLeftZero">
@@ -41,32 +41,34 @@
 								{/foreach}
 							</select>
 						</div>
+						
 					</div>
-
 				</div>
-				<div class="form-group">
-					<div class="">
-						<label class="col-md-2 muted control-label">{vtranslate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
-						<div class="col-md-4 controls">
-							<select id="sourceField" name="sourceField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}"  title="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
-								<option value=''></option>
-								{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
-									<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('sourcefield') eq $FIELD_NAME} selected {/if}>{vtranslate($FIELD_LABEL, $SELECTED_MODULE)}</option>
-								{/foreach}
-							</select>
+				<br>
+				<div class="row">
+						<div class="col-md-6 ">
+							<label class="col-md-4 muted control-label">{vtranslate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
+							<div class="col-md-8 controls">
+								<select id="sourceField" name="sourceField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}"  title="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
+									<option value=''></option>
+									{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
+										<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('sourcefield') eq $FIELD_NAME} selected {/if}>{vtranslate($FIELD_LABEL, $SELECTED_MODULE)}</option>
+									{/foreach}
+								</select>
+							</div>
 						</div>
-					</div>
-					<div class="form-group marginLeftZero">
-						<label class="col-md-2 muted control-label">{vtranslate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
-						<div class="col-md-4 controls">
-							<select id="targetField" name="targetField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}" title="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
-								<option value=''></option>
-								{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
-									<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('targetfield') eq $FIELD_NAME} selected {/if}>{vtranslate($FIELD_LABEL, $SELECTED_MODULE)}</option>
-								{/foreach}
-							</select>
+						<div class="col-md-6">
+							<label class="col-md-4 muted control-label">{vtranslate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
+							<div class="col-md-8 controls">
+								<select id="targetField" name="targetField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}" title="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
+									<option value=''></option>
+									{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
+										<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('targetfield') eq $FIELD_NAME} selected {/if}>{vtranslate($FIELD_LABEL, $SELECTED_MODULE)}</option>
+									{/foreach}
+								</select>
+							</div>
 						</div>
-					</div>
+					
 				</div>
 				<div class=" hide errorMessage">
 					<div class="alert alert-warning">
