@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 /**
@@ -16,6 +17,7 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 
 	const DEFAULT_PAGE = 1;
 	const PAGE_LIMIT = 20;
+	const PAGE_MAX_LIMIT = 9999999;
 
 	/**
 	 * Function to get the current page number
@@ -55,6 +57,8 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 			if (empty($pageLimit)) {
 				$pageLimit = self::PAGE_LIMIT;
 			}
+		}elseif($pageLimit == 'no_limit'){
+			$pageLimit = self::PAGE_MAX_LIMIT;
 		}
 		return $pageLimit;
 	}
