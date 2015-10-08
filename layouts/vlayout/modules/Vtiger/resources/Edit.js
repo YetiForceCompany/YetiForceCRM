@@ -838,8 +838,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerClearReferenceSelectionEvent(container);
 		this.registerPreventingEnterSubmitEvent(container);
 		this.registerTimeFields(container);
-		//Added here instead of register basic event of calendar. because this should be registered all over the places like quick create, edit, list..
-		this.registerEventStatusChangeEvent(container);
 		this.registerRecordAccessCheckEvent(container);
 		this.registerEventForPicklistDependencySetup(container);
 		this.registerRecordPreSaveEventEvent(container);
