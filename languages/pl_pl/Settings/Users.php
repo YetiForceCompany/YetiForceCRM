@@ -43,11 +43,6 @@ $languageStrings = [
 	'LBL_SWITCH_USERS_DESCRIPTION' => 'Narzędzie umożliwiające przełączanie się pomiędzy użytkonikami w systemie.',
 	'LBL_SU_BASE_ACCESS' => 'Użytkownik',
 	'LBL_SU_AVAILABLE_ACCESS' => 'Może logować się na',
-	
-	'LBL_SWITCH_USERS' => '__UNTRANSLATED__',
-	'LBL_SWITCH_USERS_DESCRIPTION' => '__UNTRANSLATED__',
-	'LBL_SU_BASE_ACCESS' => '__UNTRANSLATED__',
-	'LBL_SU_AVAILABLE_ACCESS' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',

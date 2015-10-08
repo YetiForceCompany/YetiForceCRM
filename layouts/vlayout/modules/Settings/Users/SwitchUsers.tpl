@@ -34,6 +34,7 @@
 		</div>
 	</div>
 	<table class="row cloneItem hide">
+		{assign var="SUSERS" value=[]}
 		{include file='SwitchUsersItem.tpl'|@vtemplate_path:$QUALIFIED_MODULE SELECT=false}
 	</table>
 {/strip}
