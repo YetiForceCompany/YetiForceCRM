@@ -41,6 +41,7 @@ class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('HREFNAMELENGHT', $href_max_length);
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_SCHEDULED_ACTIVITIES');
 		$viewer->assign('CURRENT_ACTIVITY_STATUS', 'all');
+		$viewer->assign('OWNER', $owner);
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('CURRENT_USER', $currentUserModel);

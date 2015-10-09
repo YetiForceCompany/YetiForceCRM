@@ -84,6 +84,7 @@ class Potentials_GroupedBySalesStage_Dashboard extends Vtiger_IndexAjax_View {
 		//Include special script and css needed for this widget
 		$viewer->assign('STYLES',$this->getHeaderCss($request));
 		$viewer->assign('CURRENTUSER', $currentUser);
+		$viewer->assign('OWNER', $owner);
 
 		$content = $request->get('content');
 		if(!empty($content)) {
