@@ -7,6 +7,7 @@ vimport('~/libraries/mPDF/mpdf.php');
  */
 class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 {
+
 	public $pageOrientation = ['PLL_PORTRAIT' => 'P', 'PLL_LANDSCAPE' => 'L'];
 
 	/**
@@ -89,32 +90,36 @@ class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 	{
 		$this->moduleName = $name;
 	}
-	
+
 	/**
 	 * Set top margin
 	 */
-	public function setTopMargin($margin) {
+	public function setTopMargin($margin)
+	{
 		$this->pdf->tMargin = $margin;
 	}
-	
+
 	/**
 	 * Set bottom margin
 	 */
-	public function setBottomMargin($margin) {
+	public function setBottomMargin($margin)
+	{
 		$this->pdf->bMargin = $margin;
 	}
-	
+
 	/**
 	 * Set left margin
 	 */
-	public function setLeftMargin($margin) {
+	public function setLeftMargin($margin)
+	{
 		$this->pdf->lMargin = $margin;
 	}
-	
+
 	/**
 	 * Set right margin
 	 */
-	public function setRightMargin($margin) {
+	public function setRightMargin($margin)
+	{
 		$this->pdf->rMargin = $margin;
 	}
 
@@ -125,13 +130,116 @@ class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 	 */
 	public function setPageSize($format, $orientation)
 	{
-		$this->pdf->_setPageSize($format, $this->pageOrientation[$orientation]);
+		$orientation = $this->pageOrientation[$orientation];
+		if ($orientation === 'L') {
+			$format .= '-L';
+		} else {
+			$format .= '-P';
+		}
+		$this->pdf->_setPageSize($format, $orientation);
+	}
+
+	/**
+	 * Parse and set options
+	 * @param <Array> $params - array of parameters
+	 */
+	public function parseParams(array &$params)
+	{
+		foreach ($params as $param => &$value) {
+			switch ($param) {
+				case 'page_format':
+					$pageOrientation = '';
+					if (array_key_exists('page_orientation', $params)) {
+						$pageOrientation = $params['page_orientation'];
+					}
+					$this->setPageSize($value, $pageOrientation);
+					break;
+
+				case 'margin-top':
+					$this->setTopMargin($value);
+					break;
+
+				case 'margin-bottom':
+					$this->setBottomMargin($value);
+					break;
+
+				case 'margin-left':
+					$this->setLeftMargin($value);
+					break;
+
+				case 'margin-right':
+					$this->setRightMargin($value);
+					break;
+
+				case 'title':
+					$this->setTitle($value);
+					break;
+
+				case 'author':
+					$this->setAuthor($value);
+					break;
+
+				case 'creator':
+					$this->setCreator($value);
+					break;
+
+				case 'subject':
+					$this->setSubject($value);
+					break;
+
+				case 'keywords':
+					$this->setKeywords($value);
+					break;
+			}
+		}
+	}
+
+	// meta attributes
+	/**
+	 * Set Title of the document
+	 */
+	public function setTitle($title)
+	{
+		$this->pdf->SetTitle($title);
+	}
+
+	/**
+	 * Set Title of the document
+	 */
+	public function setAuthor($author)
+	{
+		$this->pdf->SetAuthor($author);
+	}
+
+	/**
+	 * Set Title of the document
+	 */
+	public function setCreator($creator)
+	{
+		$this->pdf->SetCreator($creator);
+	}
+
+	/**
+	 * Set Title of the document
+	 */
+	public function setSubject($subject)
+	{
+		$this->pdf->SetSubject($subject);
+	}
+
+	/**
+	 * Set Title of the document
+	 */
+	public function setKeywords($keywords)
+	{
+		$this->pdf->SetKeywords($keywords);
 	}
 
 	/**
 	 * Set header content
 	 */
-	public function setHeader($name, $header) {
+	public function setHeader($name, $header)
+	{
 		$this->pdf->DefHTMLHeaderByName($name, $header);
 		$this->pdf->SetHTMLHeaderByName($name);
 	}
@@ -139,11 +247,11 @@ class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 	/**
 	 * Set footer content
 	 */
-	public function setFooter($name, $footer) {
+	public function setFooter($name, $footer)
+	{
 		$this->pdf->DefHTMLFooterByName($name, $footer);
 		$this->pdf->SetHTMLFooterByName($name);
 	}
-
 
 	public function loadHTML($html)
 	{
@@ -153,7 +261,7 @@ class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 	/**
 	 * Output content to PDF
 	 */
-	public function output($fileName='', $dest='' )
+	public function output($fileName = '', $dest = '')
 	{
 		$this->pdf->WriteHTML($this->html);
 		$this->pdf->Output($fileName, $dest);

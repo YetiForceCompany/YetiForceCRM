@@ -20,6 +20,7 @@ abstract class Settings_PDF_AbstractPDF_Model
 	 * Returns pdf library object
 	 */
 	abstract public function pdf();
+
 	/**
 	 * Returns library name
 	 */
@@ -59,32 +60,33 @@ abstract class Settings_PDF_AbstractPDF_Model
 	 * Sets module name
 	 */
 	abstract public function setModuleName($name);
-	
+
 	/**
 	 * Sets document margins
 	 */
-	public function setMargins($top, $right, $bottom, $left) {
+	public function setMargins($top, $right, $bottom, $left)
+	{
 		$this->setTopMargin($top);
 		$this->setBottomMargin($bottom);
 		$this->setLeftMargin($left);
 		$this->setRightMargin($right);
 	}
-	
+
 	/**
 	 * Set top margin
 	 */
 	abstract public function setTopMargin($margin);
-	
+
 	/**
 	 * Set bottom margin
 	 */
 	abstract public function setBottomMargin($margin);
-	
+
 	/**
 	 * Set left margin
 	 */
 	abstract public function setLeftMargin($margin);
-	
+
 	/**
 	 * Set right margin
 	 */
@@ -94,6 +96,37 @@ abstract class Settings_PDF_AbstractPDF_Model
 	 * Set page size and orientation
 	 */
 	abstract public function setPageSize($format, $orientation);
+
+	/**
+	 * Parse and set options
+	 */
+	abstract public function parseParams(array &$params);
+
+	// meta attributes
+	/**
+	 * Set Title of the document
+	 */
+	abstract public function setTitle($title);
+
+	/**
+	 * Set Title of the document
+	 */
+	abstract public function setAuthor($author);
+
+	/**
+	 * Set Title of the document
+	 */
+	abstract public function setCreator($creator);
+
+	/**
+	 * Set Title of the document
+	 */
+	abstract public function setSubject($subject);
+
+	/**
+	 * Set Title of the document
+	 */
+	abstract public function setKeywords($keywords);
 
 	/**
 	 * Set header content
