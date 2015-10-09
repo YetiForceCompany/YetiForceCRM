@@ -144,14 +144,17 @@ class ModTracker_Record_Model extends Vtiger_Record_Model {
         return $db->query_result($result, 0, 'count');
 	}
 
-	public static function addConvertToAccountRelation($sourceModule, $sourceId, $current_user) {
+	public static function addConvertToAccountRelation($sourceModule, $sourceId, $current_user)
+	{
 		$adb = PearDatabase::getInstance();
-		$currentTime = date('Y-m-d H:i:s');
-
-		$id = $adb->getUniqueId('vtiger_modtracker_basic');
-		$adb->pquery('INSERT INTO vtiger_modtracker_basic(id, crmid, module, whodid, changedon, status) VALUES(?,?,?,?,?,?)',
-				array($id , $sourceId, $sourceModule, $current_user, $currentTime, 6));
-
+		$adb->insert('vtiger_modtracker_basic', [
+			'id' => $adb->getUniqueId('vtiger_modtracker_basic'),
+			'crmid' => $sourceId,
+			'module' => $sourceModule,
+			'whodid' => $current_user,
+			'changedon' => date('Y-m-d H:i:s'),
+			'status' => 6,
+			'whodidsu' => Vtiger_Session::get('baseUserId'),
+		]);
 	}
-
 }

@@ -1,5 +1,5 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,25 +7,27 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
-require_once dirname(__FILE__) .'/../ModTracker.php';
+ * ********************************************************************************** */
+require_once dirname(__FILE__) . '/../ModTracker.php';
 require_once 'include/events/VTEntityDelta.php';
 
-class ModTrackerHandler extends VTEventHandler {
+class ModTrackerHandler extends VTEventHandler
+{
 
-	function handleEvent($eventName, $data) {
+	function handleEvent($eventName, $data)
+	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$log = vglobal('log');
 		$current_module = vglobal('current_module');
 
-		if(!is_object ( $data )){
+		if (!is_object($data)) {
 			$extendedData = $data;
 			$data = $extendedData['entityData'];
 		}
 
 		$moduleName = $data->getModuleName();
-		
+
 		$flag = ModTracker::isTrackingEnabledForModule($moduleName);
 
 		if ($flag) {
@@ -69,8 +71,15 @@ class ModTrackerHandler extends VTEventHandler {
 				$recordId = $data->getId();
 				$columnFields = $data->getData();
 				$id = $adb->getUniqueId('vtiger_modtracker_basic');
-				$adb->pquery('INSERT INTO vtiger_modtracker_basic(id, crmid, module, whodid, changedon, status)
-                    VALUES(?,?,?,?,?,?)', Array($id, $recordId, $moduleName, $current_user->id, date('Y-m-d H:i:s', time()), ModTracker::$DELETED));
+				$adb->insert('vtiger_modtracker_basic', [
+					'id' => $id,
+					'crmid' => $recordId,
+					'module' => $moduleName,
+					'whodid' => $current_user->id,
+					'changedon' => date('Y-m-d H:i:s', time()),
+					'status' => ModTracker::$DELETED,
+					'whodidsu' => Vtiger_Session::get('baseUserId'),
+				]);
 				$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $recordId));
 				if ($adb->num_rows($isMyRecord) > 0)
 					$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
@@ -80,13 +89,20 @@ class ModTrackerHandler extends VTEventHandler {
 				$recordId = $data->getId();
 				$columnFields = $data->getData();
 				$id = $adb->getUniqueId('vtiger_modtracker_basic');
-				$adb->pquery('INSERT INTO vtiger_modtracker_basic(id, crmid, module, whodid, changedon, status)
-                    VALUES(?,?,?,?,?,?)', Array($id, $recordId, $moduleName, $current_user->id, date('Y-m-d H:i:s', time()), ModTracker::$RESTORED));
+				$adb->insert('vtiger_modtracker_basic', [
+					'id' => $id,
+					'crmid' => $recordId,
+					'module' => $moduleName,
+					'whodid' => $current_user->id,
+					'changedon' => date('Y-m-d H:i:s', time()),
+					'status' => ModTracker::$RESTORED,
+					'whodidsu' => Vtiger_Session::get('baseUserId'),
+				]);
 				$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $recordId));
 				if ($adb->num_rows($isMyRecord) > 0)
 					$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
 			}
-			
+
 			if ($eventName == 'vtiger.entity.link.after') {
 				ModTracker::linkRelation($extendedData['sourceModule'], $extendedData['sourceRecordId'], $extendedData['destinationModule'], $extendedData['destinationRecordId']);
 			}
@@ -95,5 +111,4 @@ class ModTrackerHandler extends VTEventHandler {
 			}
 		}
 	}
-
 }

@@ -368,21 +368,33 @@ class ModTracker {
 		return false;
 	}
 
-    static function trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $type) {
-        $adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
-        $currentTime = date('Y-m-d H:i:s');
+	static function trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $type)
+	{
+		$adb = PearDatabase::getInstance();
+		$current_user = vglobal('current_user');
+		$currentTime = date('Y-m-d H:i:s');
 
-        $id = $adb->getUniqueId('vtiger_modtracker_basic');
-        $adb->pquery('INSERT INTO vtiger_modtracker_basic(id, crmid, module, whodid, changedon, status) VALUES(?,?,?,?,?,?)',
-                array($id , $sourceId, $sourceModule, $current_user->id, $currentTime, $type));
+		$id = $adb->getUniqueId('vtiger_modtracker_basic');
+		$adb->insert('vtiger_modtracker_basic', [
+			'id' => $id,
+			'crmid' => $sourceId,
+			'module' => $sourceModule,
+			'whodid' => $current_user->id,
+			'changedon' => $currentTime,
+			'status' => $type,
+			'whodidsu' => Vtiger_Session::get('baseUserId'),
+		]);
+		$adb->insert('vtiger_modtracker_relations', [
+			'id' => $id,
+			'targetmodule' => $targetModule,
+			'targetid' => $targetId,
+			'changedon' => $currentTime,
+		]);
+		$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $sourceId));
 
-        $adb->pquery('INSERT INTO vtiger_modtracker_relations(id, targetmodule, targetid, changedon)
-            VALUES(?,?,?,?)', array($id, $targetModule, $targetId, $currentTime));
-	 $isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $sourceId));
-	 
-	 if($adb->num_rows($isMyRecord) > 0)
-	    $adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($sourceId));
-    }
+		if ($adb->num_rows($isMyRecord) > 0)
+			$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($sourceId));
+	}
     
     static function linkRelation($sourceModule, $sourceId, $targetModule, $targetId) {
         self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$LINK);
