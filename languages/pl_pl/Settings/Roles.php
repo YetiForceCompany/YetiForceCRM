@@ -46,7 +46,7 @@ $languageStrings = [
 	'LBL_INACTIVE' => 'Nieaktywne',
 	'LBL_ONLY_PARENT' => 'Tylko nadrzędny',
 	'LBL_ACCORDING_TO_HIERARCHY' => 'Zgodnie z hierarchią',
-	'LBL_SHOW_GLOBAL_SEARCH_ADVANCED' => 'Czy włączyć moliwość zaawansowanego wyszukiwania',
+	'LBL_SHOW_GLOBAL_SEARCH_ADVANCED' => 'Czy włączyć możliwość zaawansowanego wyszukiwania',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Brak uprawnień do przeniesienia',
