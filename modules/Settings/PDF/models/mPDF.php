@@ -7,6 +7,15 @@ vimport('~/libraries/mPDF/mpdf.php');
  */
 class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 {
+	public $pageOrientation = ['PLL_PORTRAIT' => 'P', 'PLL_LANDSCAPE' => 'L'];
+
+	/**
+	 * Returns pdf library object
+	 */
+	public function pdf()
+	{
+		return $this->pdf;
+	}
 
 	/**
 	 * Constructor
@@ -110,6 +119,16 @@ class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 	}
 
 	/**
+	 * Set page size and orientation
+	 * @param <String> $format - page format
+	 * @param <String> $orientation - page orientation
+	 */
+	public function setPageSize($format, $orientation)
+	{
+		$this->pdf->_setPageSize($format, $this->pageOrientation[$orientation]);
+	}
+
+	/**
 	 * Set header content
 	 */
 	public function setHeader($name, $header) {
@@ -122,7 +141,7 @@ class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 	 */
 	public function setFooter($name, $footer) {
 		$this->pdf->DefHTMLFooterByName($name, $footer);
-		$this->pdf->SetHTMLFooterByName ($name);
+		$this->pdf->SetHTMLFooterByName($name);
 	}
 
 
@@ -134,9 +153,14 @@ class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 	/**
 	 * Output content to PDF
 	 */
-	public function output()
+	public function output($fileName='', $dest='' )
 	{
 		$this->pdf->WriteHTML($this->html);
-		$this->pdf->Output();
+		$this->pdf->Output($fileName, $dest);
+	}
+
+	public function writeHTML()
+	{
+		$this->pdf->WriteHTML($this->html);
 	}
 }

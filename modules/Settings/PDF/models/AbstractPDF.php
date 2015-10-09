@@ -17,6 +17,10 @@ abstract class Settings_PDF_AbstractPDF_Model
 	protected $footer;
 
 	/**
+	 * Returns pdf library object
+	 */
+	abstract public function pdf();
+	/**
 	 * Returns library name
 	 */
 	abstract public function getLibraryName();
@@ -85,6 +89,11 @@ abstract class Settings_PDF_AbstractPDF_Model
 	 * Set right margin
 	 */
 	abstract public function setRightMargin($margin);
+
+	/**
+	 * Set page size and orientation
+	 */
+	abstract public function setPageSize($format, $orientation);
 
 	/**
 	 * Set header content

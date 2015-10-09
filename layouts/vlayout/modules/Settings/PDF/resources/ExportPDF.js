@@ -12,15 +12,21 @@ jQuery.Class("Settings_PDF_ExportPDF_Js", {
 
 		if (templateIds.length > 0) {
 			container.find('#generate_pdf').attr('disabled', false);
+			if (templateIds.length > 1) {
+				container.find('#single_pdf').show();
+			} else {
+				container.find('#single_pdf').hide();
+			}
 		} else {
 			container.find('#generate_pdf').attr('disabled', true);
+			container.find('#single_pdf').hide();
 		}
 	},
 	/*
 	 * Function to register the click event for generate button
 	 */
 	registerPreSubmitEvent: function (container) {
-		container.find('#generate_pdf').on('click', function (e) {
+		container.find('#generate_pdf, #single_pdf').on('click', function (e) {
 			var templateIds = new Array();
 			var i = 0;
 			container.find('[name="pdf_template[]"]').each(function () {
@@ -30,13 +36,7 @@ jQuery.Class("Settings_PDF_ExportPDF_Js", {
 				}
 			});
 			var url = jQuery(this).data('url');
-			if (templateIds.length === 1) {
-				jQuery(this).prop('href', url + templateIds[0]);
-			} else {
-				alert('póki co jeden szablon');
-				console.log('póki co jeden szablon');
-				e.preventDefault();
-			}
+			jQuery(this).prop('href', url + JSON.stringify(templateIds));
 		});
 	},
 	registerValidateSubmit: function (container) {

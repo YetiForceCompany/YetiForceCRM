@@ -100,6 +100,7 @@ $languageStrings = [
 	'LBL_EXPORT_PDF' => 'Eksportuj do PDF',
 	'LBL_GENERATE_PDF_FILE' => 'Generuj plik PDF',
 	'LBL_GENERATE' => 'Generuj',
+	'LBL_GENERATE_SINGLE' => 'Jeden plik PDF',
 
 	// page format names
 	'4A0' => '4A0',

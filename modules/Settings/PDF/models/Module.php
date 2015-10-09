@@ -390,26 +390,27 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		if (count($templates) == 0) {
 			return [];
 		}
-		
+
 		// check template visibility
 		if (!$this->removeInvisibleTemplates($templates, $view)) {
 			return [];
 		}
-		
+
 		// check filters
 		if (!$this->removeFailingFilterTemplates($templates, $recordId)) {
 			return [];
 		}
-		
+
 		// check user permissions
 		if (!$this->removeFailingPermissionTemplates($templates)) {
 			return [];
 		}
-		
+
 		return $templates;
 	}
-	
-	public function removeInvisibleTemplates(&$templates, $view) {
+
+	public function removeInvisibleTemplates(&$templates, $view)
+	{
 		foreach ($templates as $id => &$template) {
 			$visibility = explode(',', $template->get('visibility'));
 			if (!in_array($this->viewToPicklistValue[$view], $visibility)) {
@@ -423,8 +424,9 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 			return true;
 		}
 	}
-	
-	public function removeFailingFilterTemplates(&$templates, $recordId) {
+
+	public function removeFailingFilterTemplates(&$templates, $recordId)
+	{
 		foreach ($templates as $id => &$template) {
 			if (!$template->checkFiltersForRecord($recordId)) {
 				unset($templates[$id]);
@@ -437,8 +439,9 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 			return true;
 		}
 	}
-	
-	public function removeFailingPermissionTemplates(&$templates) {
+
+	public function removeFailingPermissionTemplates(&$templates)
+	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userGroups = new GetUserGroups();
 		$userGroups->getAllUserGroups($currentUser->getId());
@@ -454,5 +457,49 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			return true;
 		}
+	}
+
+	public static function zipAndDownload(array $fileNames)
+	{
+		//create the object
+		$zip = new ZipArchive();
+
+		mt_srand(time());
+		$postfix = time() . '_' . mt_rand(0, 1000);
+		$zipPath = 'storage/';
+		$zipName = "pdfZipFile_{$postfix}.zip";
+		$fileName = $zipPath . $zipName;
+
+		//create the file and throw the error if unsuccessful
+		if ($zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE) !== true) {
+			exit("cannot open <$zipPath.$zipName>\n");
+		}
+
+		//add each files of $file_name array to archive
+		foreach ($fileNames as $file) {
+			$zip->addFile($file, basename($file));
+		}
+		$zip->close();
+
+		// delete added pdf files
+		foreach ($fileNames as $file) {
+			unlink($file);
+		}
+
+		$finfo = finfo_open(FILEINFO_MIME_TYPE);
+		$mimeType = finfo_file($finfo, $fileName);
+		$size = filesize($fileName);
+		$name = basename($fileName);
+
+		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+		header("Content-Type: $mimeType");
+		header('Content-Disposition: attachment; filename="' . $name . '";');
+		header("Accept-Ranges: bytes");
+		header('Content-Length: ' . $size);
+
+		print readfile($fileName);
+
+		// delete temporary zip file and saved pdf files
+		unlink($fileName);
 	}
 }

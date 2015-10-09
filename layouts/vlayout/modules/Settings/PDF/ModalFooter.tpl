@@ -1,6 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<div class="modal-footer">
+		<a id="single_pdf" href="" target="_blank" data-url="index.php?parent=Settings&module=PDF&action=Export{$EXPORT_VARS}&single_pdf=1&template=" class="btn btn-success">
+			{vtranslate('LBL_GENERATE_SINGLE', $QUALIFIED_MODULE)}
+		</a> 
 		<a id="generate_pdf" href="" target="_blank" data-url="index.php?parent=Settings&module=PDF&action=Export{$EXPORT_VARS}&template=" class="btn btn-success">
 			{vtranslate('LBL_GENERATE', $QUALIFIED_MODULE)}
 		</a> 

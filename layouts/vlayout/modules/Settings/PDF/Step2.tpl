@@ -49,10 +49,10 @@
 							<input type="text" class="form-control margin_inputs {if $MARGIN_CHECKED eq 'true'}hide{/if}" name="margin_right" id="margin_right" value="{$PDF_MODEL->get('margin_right')}" placeholder="{vtranslate('LBL_RIGHT', $QUALIFIED_MODULE)}" title="{vtranslate('LBL_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
 						</div>
 						<div class="col-sm-2">
-							<input type="text" class="form-control margin_inputs {if $MARGIN_CHECKED eq 'true'}hide{/if}" name="margin_bottom" id="margin_bottom" value="{$PDF_MODEL->get('margin_bottom')}" placeholder="{vtranslate('LBL_LEFT', $QUALIFIED_MODULE)}" title="{vtranslate('LBL_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
+							<input type="text" class="form-control margin_inputs {if $MARGIN_CHECKED eq 'true'}hide{/if}" name="margin_bottom" id="margin_bottom" value="{$PDF_MODEL->get('margin_bottom')}" placeholder="{vtranslate('LBL_BOTTOM', $QUALIFIED_MODULE)}" title="{vtranslate('LBL_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
 						</div>
 						<div class="col-sm-2">
-							<input type="text" class="form-control margin_inputs {if $MARGIN_CHECKED eq 'true'}hide{/if}" name="margin_left" id="margin_left" value="{$PDF_MODEL->get('margin_left')}" placeholder="{vtranslate('LBL_BOTTOM', $QUALIFIED_MODULE)}" title="{vtranslate('LBL_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
+							<input type="text" class="form-control margin_inputs {if $MARGIN_CHECKED eq 'true'}hide{/if}" name="margin_left" id="margin_left" value="{$PDF_MODEL->get('margin_left')}" placeholder="{vtranslate('LBL_LEFT', $QUALIFIED_MODULE)}" title="{vtranslate('LBL_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
 						</div>
 					</div>
 				</div>

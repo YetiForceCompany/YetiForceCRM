@@ -19,6 +19,14 @@ class Settings_PDF_ExportPDF_View extends Vtiger_BasicModal_View
 //		}
 	}
 
+	public function preProcess(Vtiger_Request $request)
+	{
+		parent::preProcess($request);
+		foreach ($this->getModalCss($request) as &$style) {
+			echo '<link rel="stylesheet" href="'.$style->getHref().'">';
+		}
+	}
+
 	function process(Vtiger_Request $request)
 	{
 		$this->preProcess($request);
@@ -49,5 +57,21 @@ class Settings_PDF_ExportPDF_View extends Vtiger_BasicModal_View
 
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
 		return $scriptInstances;
+	}
+
+	//TODO add functionality to get css style files to modals in general
+	function getModalCss(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$viewName = $request->get('view');
+
+		$cssFileNames = array(
+			"~layouts/vlayout/modules/Settings/$moduleName/$viewName.css",
+			"~layouts/vlayout/modules/$moduleName/$viewName.css"
+		);
+
+		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		$headerCssInstances = $cssInstances;
+		return $headerCssInstances;
 	}
 }
