@@ -13,7 +13,7 @@
 			<div class="col-md-8">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-4 btn-toolbar marginLeftZero">
 				<div class="pull-right">
 					{foreach item=LINK_MODEL from=$MODULE_MODEL->getDetailViewLinks()}
 						<button type="button" class="btn btn-info" onclick={$LINK_MODEL->getUrl()}><strong>{vtranslate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}</strong></button>

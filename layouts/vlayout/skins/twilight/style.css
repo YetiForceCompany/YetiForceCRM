@@ -4470,7 +4470,8 @@ html,body,.baseContainer
 	padding: 0 10px;
 }
 @media only screen and (max-width: 992px) {
-	.listViewActionsDiv .btn-toolbar{
+	.listViewActionsDiv .btn-toolbar,
+	.editViewContainer .btn-toolbar{
 		margin-bottom: 5px;
 	}
 	.widget_header .btn-toolbar{
