@@ -1121,6 +1121,10 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 		this._super();
 		this.registerActivityChange();
 	},
+	postRefreshWidget: function () {
+		this._super();
+		this.registerActivityChange();
+	},
 	registerActivityChange: function () {
 		var thisInstance = this;
 		var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
