@@ -325,4 +325,50 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 		return false;
 	}
+
+	/**
+	 * Returns array of template parameters understood by the pdf engine
+	 * @return <Array> - array of parameters
+	 */
+	public function getParameters()
+	{
+		$parameters = [];
+		$parameters['page_format'] = $this->get('page_format');
+		$parameters['page_orientation'] = $this->get('page_orientation');
+		// margins
+		if ($this->get('margin_chkbox') == 0) {
+			$parameters['margin-top'] = $this->get('margin_top');
+			$parameters['margin-right'] = $this->get('margin_right');
+			$parameters['margin-bottom'] = $this->get('margin_bottom');
+			$parameters['margin-left'] = $this->get('margin_left');
+		} else {
+			$parameters['margin-top'] = '';
+			$parameters['margin-right'] = '';
+			$parameters['margin-bottom'] = '';
+			$parameters['margin-left'] = '';
+		}
+
+		// metadata
+		if ($this->get('metatags_status') == 0) {
+			$parameters['title'] = $this->get('meta_title');
+			$parameters['author'] = $this->get('meta_author');
+			$parameters['creator'] = $this->get('meta_creator');
+			$parameters['subject'] = $this->get('meta_subject');
+			$parameters['keywords'] = $this->get('meta_keywords');
+		} else {
+			$companyDetails = getCompanyDetails();
+			$parameters['title'] = $this->get('primary_name');
+			$parameters['author'] = $companyDetails['organizationname'];
+			$parameters['creator'] = $companyDetails['organizationname'];
+			$parameters['subject'] = $this->get('secondary_name');
+
+			// preparing keywords
+			unset($companyDetails['organization_id']);
+			unset($companyDetails['logo']);
+			unset($companyDetails['logoname']);
+			$parameters['keywords'] = implode(', ', $companyDetails);
+		}
+		
+		return $parameters;
+	}
 }

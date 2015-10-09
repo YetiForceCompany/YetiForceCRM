@@ -15,6 +15,8 @@ abstract class Settings_PDF_AbstractPDF_Model
 	protected $html;
 	protected $header;
 	protected $footer;
+	protected $language;
+	protected $fileName;
 
 	/**
 	 * Returns pdf library object
@@ -147,4 +149,36 @@ abstract class Settings_PDF_AbstractPDF_Model
 	 * Output content to PDF
 	 */
 	abstract public function output();
+
+	/**
+	 * Get template language
+	 */
+	public function getLanguage()
+	{
+		return $this->language;
+	}
+
+	/**
+	 * Set template language
+	 */
+	public function setLanguage($language)
+	{
+		$this->language = $language;
+	}
+
+	/**
+	 * Get pdf filename
+	 */
+	public function getFileName()
+	{
+		return $this->fileName;
+	}
+
+	/**
+	 * Set pdf filename
+	 */
+	public function setFileName($fileName)
+	{
+		$this->fileName = $fileName;
+	}
 }

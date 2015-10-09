@@ -28,45 +28,10 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 			$pdf->setModuleName($moduleName);
 
 			$template = Settings_PDF_Record_Model::getInstanceById($templateIds[0]);
+			$pdf->setLanguage($template->get('language'));
+			$pdf->setFileName($template->get('filename'));
 
-			// building parameters
-			$parameters = [];
-			$parameters['page_format'] = $template->get('page_format');
-			$parameters['page_orientation'] = $template->get('page_orientation');
-			// margins
-			if ($template->get('margin_chkbox') == 0) {
-				$parameters['margin-top'] = $template->get('margin_top');
-				$parameters['margin-right'] = $template->get('margin_right');
-				$parameters['margin-bottom'] = $template->get('margin_bottom');
-				$parameters['margin-left'] = $template->get('margin_left');
-			} else {
-				$parameters['margin-top'] = '';
-				$parameters['margin-right'] = '';
-				$parameters['margin-bottom'] = '';
-				$parameters['margin-left'] = '';
-			}
-
-			// metadata
-			if ($template->get('metatags_status') == 0) {
-				$parameters['title'] = $template->get('meta_title');
-				$parameters['author'] = $template->get('meta_author');
-				$parameters['creator'] = $template->get('meta_creator');
-				$parameters['subject'] = $template->get('meta_subject');
-				$parameters['keywords'] = $template->get('meta_keywords');
-			} else {
-				$companyDetails = getCompanyDetails();
-				$parameters['title'] = $template->get('primary_name');
-				$parameters['author'] = $companyDetails['organizationname'];
-				$parameters['creator'] = $companyDetails['organizationname'];
-				$parameters['subject'] = $template->get('secondary_name');
-
-				// preparing keywords
-				unset($companyDetails['organization_id']);
-				unset($companyDetails['logo']);
-				unset($companyDetails['logoname']);
-				$parameters['keywords'] = implode(', ', $companyDetails);
-			}
-			$pdf->parseParams($parameters);
+			$pdf->parseParams($template->getParameters());
 
 			$html = '';
 
@@ -84,45 +49,9 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 
 				$firstTemplate = array_shift($templateIds);
 				$template = Settings_PDF_Record_Model::getInstanceById($firstTemplate);
+				$pdf->setLanguage($template->get('language'));
 
-				// building parameters
-				$parameters = [];
-				$parameters['page_format'] = $template->get('page_format');
-				$parameters['page_orientation'] = $template->get('page_orientation');
-				// margins
-				if ($template->get('margin_chkbox') == 0) {
-					$parameters['margin-top'] = $template->get('margin_top');
-					$parameters['margin-right'] = $template->get('margin_right');
-					$parameters['margin-bottom'] = $template->get('margin_bottom');
-					$parameters['margin-left'] = $template->get('margin_left');
-				} else {
-					$parameters['margin-top'] = '';
-					$parameters['margin-right'] = '';
-					$parameters['margin-bottom'] = '';
-					$parameters['margin-left'] = '';
-				}
-
-				// metadata
-				if ($template->get('metatags_status') == 0) {
-					$parameters['title'] = $template->get('meta_title');
-					$parameters['author'] = $template->get('meta_author');
-					$parameters['creator'] = $template->get('meta_creator');
-					$parameters['subject'] = $template->get('meta_subject');
-					$parameters['keywords'] = $template->get('meta_keywords');
-				} else {
-					$companyDetails = getCompanyDetails();
-					$parameters['title'] = $template->get('primary_name');
-					$parameters['author'] = $companyDetails['organizationname'];
-					$parameters['creator'] = $companyDetails['organizationname'];
-					$parameters['subject'] = $template->get('secondary_name');
-
-					// preparing keywords
-					unset($companyDetails['organization_id']);
-					unset($companyDetails['logo']);
-					unset($companyDetails['logoname']);
-					$parameters['keywords'] = implode(', ', $companyDetails);
-				}
-				$pdf->parseParams($parameters);
+				$pdf->parseParams($template->getParameters());
 
 				$html = '';
 
@@ -135,46 +64,12 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 
 				foreach ($templateIds as $id) {
 					$template = Settings_PDF_Record_Model::getInstanceById($id);
+					$pdf->setLanguage($template->get('language'));
 
 					$pdf->setHeader('Header' . $id, $template->get('header_content'));
 
 					// building parameters
-					$parameters = [];
-					$parameters['page_format'] = $template->get('page_format');
-					$parameters['page_orientation'] = $template->get('page_orientation');
-					// margins
-					if ($template->get('margin_chkbox') == 0) {
-						$parameters['margin-top'] = $template->get('margin_top');
-						$parameters['margin-right'] = $template->get('margin_right');
-						$parameters['margin-bottom'] = $template->get('margin_bottom');
-						$parameters['margin-left'] = $template->get('margin_left');
-					} else {
-						$parameters['margin-top'] = '';
-						$parameters['margin-right'] = '';
-						$parameters['margin-bottom'] = '';
-						$parameters['margin-left'] = '';
-					}
-
-					// metadata
-					if ($template->get('metatags_status') == 0) {
-						$parameters['title'] = $template->get('meta_title');
-						$parameters['author'] = $template->get('meta_author');
-						$parameters['creator'] = $template->get('meta_creator');
-						$parameters['subject'] = $template->get('meta_subject');
-						$parameters['keywords'] = $template->get('meta_keywords');
-					} else {
-						$companyDetails = getCompanyDetails();
-						$parameters['title'] = $template->get('primary_name');
-						$parameters['author'] = $companyDetails['organizationname'];
-						$parameters['creator'] = $companyDetails['organizationname'];
-						$parameters['subject'] = $template->get('secondary_name');
-
-						// preparing keywords
-						unset($companyDetails['organization_id']);
-						unset($companyDetails['logo']);
-						unset($companyDetails['logoname']);
-						$parameters['keywords'] = implode(', ', $companyDetails);
-					}
+					$parameters = $template->getParameters();
 					$pdf->parseParams($parameters);
 
 					$pdf->pdf()->AddPageByArray($parameters);
@@ -183,6 +78,7 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 					$pdf->loadHTML($template->get('body_content'));
 					$pdf->writeHTML();
 				}
+				$pdf->setFileName(vtranslate('LBL_MANY_IN_ONE', 'Settings:PDF'));
 				$pdf->output();
 			} else {
 				mt_srand(time());
@@ -196,44 +92,10 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 					$pdf->setModuleName($moduleName);
 
 					$template = Settings_PDF_Record_Model::getInstanceById($id);
-					// building parameters
-					$parameters = [];
-					$parameters['page_format'] = $template->get('page_format');
-					$parameters['page_orientation'] = $template->get('page_orientation');
-					// margins
-					if ($template->get('margin_chkbox') == 0) {
-						$parameters['margin-top'] = $template->get('margin_top');
-						$parameters['margin-right'] = $template->get('margin_right');
-						$parameters['margin-bottom'] = $template->get('margin_bottom');
-						$parameters['margin-left'] = $template->get('margin_left');
-					} else {
-						$parameters['margin-top'] = '';
-						$parameters['margin-right'] = '';
-						$parameters['margin-bottom'] = '';
-						$parameters['margin-left'] = '';
-					}
+					$pdf->setLanguage($template->get('language'));
+					$pdf->setFileName($template->get('filename'));
 
-					// metadata
-					if ($template->get('metatags_status') == 0) {
-						$parameters['title'] = $template->get('meta_title');
-						$parameters['author'] = $template->get('meta_author');
-						$parameters['creator'] = $template->get('meta_creator');
-						$parameters['subject'] = $template->get('meta_subject');
-						$parameters['keywords'] = $template->get('meta_keywords');
-					} else {
-						$companyDetails = getCompanyDetails();
-						$parameters['title'] = $template->get('primary_name');
-						$parameters['author'] = $companyDetails['organizationname'];
-						$parameters['creator'] = $companyDetails['organizationname'];
-						$parameters['subject'] = $template->get('secondary_name');
-
-						// preparing keywords
-						unset($companyDetails['organization_id']);
-						unset($companyDetails['logo']);
-						unset($companyDetails['logoname']);
-						$parameters['keywords'] = implode(', ', $companyDetails);
-					}
-					$pdf->parseParams($parameters);
+					$pdf->parseParams($template->getParameters());
 
 					$html = '';
 
@@ -242,7 +104,7 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 					$html = $template->get('body_content');
 
 					$pdf->loadHTML($html);
-					$pdfFileName = 'storage/' . $recordId . '_' . $template->get('filename') . '_' . $postfix . '.pdf';
+					$pdfFileName = 'storage/' . $pdf->getFileName() . '_' . $postfix . '.pdf';
 					$pdf->output($pdfFileName, 'F');
 
 					if (file_exists($pdfFileName)) {

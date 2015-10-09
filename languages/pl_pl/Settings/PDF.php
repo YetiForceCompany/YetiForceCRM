@@ -101,6 +101,7 @@ $languageStrings = [
 	'LBL_GENERATE_PDF_FILE' => 'Generuj plik PDF',
 	'LBL_GENERATE' => 'Generuj',
 	'LBL_GENERATE_SINGLE' => 'Jeden plik PDF',
+	'LBL_MANY_IN_ONE' => 'Zbiorczy dokument',
 
 	// page format names
 	'4A0' => '4A0',

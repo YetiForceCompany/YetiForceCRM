@@ -263,6 +263,10 @@ class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 	 */
 	public function output($fileName = '', $dest = '')
 	{
+		if (empty($fileName)) {
+			$fileName = $this->getFileName().'.pdf';
+			$dest = 'I';
+		}
 		$this->pdf->WriteHTML($this->html);
 		$this->pdf->Output($fileName, $dest);
 	}
