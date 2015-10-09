@@ -34,7 +34,7 @@
 		
 		<div class="contents">
 			{assign var=COUNTER value=0}
-			<table class="table table-bordered equalSplit">
+			<table class="table table-bordered">
 				<tr>
 				{foreach item=MODULE_MODEL key=MODULE_ID from=$ALL_MODULES}
 					{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
@@ -45,7 +45,7 @@
 						{assign var=COUNTER value=0}
 					{/if}
 
-					<td class="opacity">
+					<td class="opacity col-md-6">
 						<div class="row moduleManagerBlock">
 							<div class="col-md-1">
 								<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{vtranslate($MODULE_NAME, $MODULE_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
@@ -68,7 +68,7 @@
 							<div class="col-md-3">
 							{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
 							{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
-								<div class="col-md-12">
+								<div>
 									<div class="btn-group pull-right actions {if !$MODULE_ACTIVE}hide{/if}">
 										<button class="btn dropdown-toggle btn-default" data-toggle="dropdown">
 											<strong>{vtranslate('LBL_SETTINGS', $QUALIFIED_MODULE)}</strong>&nbsp;<i class="caret"></i>
@@ -85,8 +85,8 @@
 							{/if}
 							</div>
 							{if $MODULE_MODEL->get('customized')}
-								<div class="col-md-1">
-									<button class="deleteModule btn btn-danger" name="{$MODULE_NAME}">{vtranslate('LBL_DELETE')}</button>
+								<div class="col-md-2">
+									<button class="deleteModule btn btn-danger pull-right" name="{$MODULE_NAME}">{vtranslate('LBL_DELETE')}</button>
 								</div>
 							{/if}
 						{assign var=COUNTER value=$COUNTER+1}
