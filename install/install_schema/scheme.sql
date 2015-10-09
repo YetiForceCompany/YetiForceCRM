@@ -378,6 +378,37 @@ CREATE TABLE `dav_users` (
   UNIQUE KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `l_yf_access_to_record` */
+
+CREATE TABLE `l_yf_access_to_record` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `date` datetime NOT NULL,
+  `ip` varchar(100) NOT NULL,
+  `record` int(19) NOT NULL,
+  `module` varchar(30) NOT NULL,
+  `url` varchar(300) NOT NULL,
+  `agent` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `l_yf_switch_users` */
+
+CREATE TABLE `l_yf_switch_users` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `date` datetime NOT NULL,
+  `status` varchar(10) NOT NULL,
+  `baseid` int(19) NOT NULL,
+  `destid` int(19) NOT NULL,
+  `busername` varchar(50) NOT NULL,
+  `dusername` varchar(50) NOT NULL,
+  `ip` varchar(100) NOT NULL,
+  `agent` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `baseid` (`baseid`),
+  KEY `destid` (`destid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `roundcube_cache` */
 
 CREATE TABLE `roundcube_cache` (
@@ -572,21 +603,6 @@ CREATE TABLE `roundcube_users_autologin` (
   `crmuser_id` int(19) NOT NULL,
   KEY `rcuser_id` (`rcuser_id`),
   CONSTRAINT `roundcube_users_autologin_ibfk_1` FOREIGN KEY (`rcuser_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `s_yf_accesstorecord` */
-
-CREATE TABLE `s_yf_accesstorecord` (
-  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
-  `date` datetime NOT NULL,
-  `ip` varchar(100) NOT NULL,
-  `record` int(19) NOT NULL,
-  `module` varchar(30) NOT NULL,
-  `url` varchar(300) NOT NULL,
-  `description` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_multireference` */

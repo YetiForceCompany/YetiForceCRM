@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -251,6 +250,10 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (134);
 
 /*Data for the table `dav_users` */
 
+/*Data for the table `l_yf_access_to_record` */
+
+/*Data for the table `l_yf_switch_users` */
+
 /*Data for the table `roundcube_cache` */
 
 /*Data for the table `roundcube_cache_index` */
@@ -282,8 +285,6 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 /*Data for the table `roundcube_users` */
 
 /*Data for the table `roundcube_users_autologin` */
-
-/*Data for the table `s_yf_accesstorecord` */
 
 /*Data for the table `s_yf_multireference` */
 

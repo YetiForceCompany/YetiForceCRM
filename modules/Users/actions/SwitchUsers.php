@@ -11,14 +11,25 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 
 	function checkPermission(Vtiger_Request $request)
 	{
-		$record = $request->get('id');
+		$userId = $request->get('id');
 		require('user_privileges/switchUsers.php');
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$baseUserId = $currentUserModel->getId();
 		if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {
 			$baseUserId = Vtiger_Session::get('baseUserId');
 		}
-		if (!key_exists($baseUserId, $switchUsers) || !key_exists($record, $switchUsers[$baseUserId]) ) {
+		if (!key_exists($baseUserId, $switchUsers) || !key_exists($userId, $switchUsers[$baseUserId])) {
+			$db = PearDatabase::getInstance();
+			$db->insert('l_yf_switch_users', [
+				'baseid' => $baseUserId,
+				'destid' => $userId,
+				'busername' => $currentUserModel->get('first_name').' '.$currentUserModel->get('last_name'),
+				'dusername' => '',
+				'date' => date('Y-m-d H:i:s'),
+				'ip' => Vtiger_Functions::getRemoteIP(),
+				'agent' => $_SERVER['HTTP_USER_AGENT'],
+				'status' => 'Failed login - No permission',
+			]);
 			throw new AppException('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -37,11 +48,30 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 		Vtiger_Session::set('user_name', $userName);
 		Vtiger_Session::set('full_user_name', $name);
 
+		$status = 'Switched';
 		if (Vtiger_Session::get('baseUserId') == '') {
 			Vtiger_Session::set('baseUserId', $baseUserId);
+			$status = 'Signed in';
 		} elseif ($userId == Vtiger_Session::get('baseUserId')) {
+			$baseUserId = $userId;
 			Vtiger_Session::set('baseUserId', '');
+			$status = 'Signed out';
+		}else{
+			$baseUserId = Vtiger_Session::get('baseUserId');
 		}
+		
+		$db = PearDatabase::getInstance();
+		$db->insert('l_yf_switch_users', [
+			'baseid' => $baseUserId,
+			'destid' => $userId,
+			'busername' => $currentUserModel->get('first_name').' '.$currentUserModel->get('last_name'),
+			'dusername' => $name,
+			'date' => date('Y-m-d H:i:s'),
+			'ip' => Vtiger_Functions::getRemoteIP(),
+			'agent' => $_SERVER['HTTP_USER_AGENT'],
+			'status' => $status,
+		]);
+
 		header('Location: index.php');
 	}
 }
