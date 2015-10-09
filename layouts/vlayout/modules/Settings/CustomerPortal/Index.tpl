@@ -98,8 +98,8 @@
                         <input type="hidden" name="portalModulesInfo[{$TAB_ID}][sequence]" value="{$MODEL->get('sequence')}" />
                         <td>
                             <div class="row">
-                                <span class="col-md-1"><a><img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$MODULE)}"/></a></span>
-                                <span class="col-md-11">{vtranslate($MODULE_NAME, $MODULE_NAME)}</span>
+                                <span class="col-md-1 col-xs-2"><a><img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$MODULE)}"/></a></span>
+                                <span class="col-md-11 col-xs-9">{vtranslate($MODULE_NAME, $MODULE_NAME)}</span>
                             </div>
                         </td>
                         <td class="textAlignCenter">
