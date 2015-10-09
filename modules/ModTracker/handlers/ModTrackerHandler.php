@@ -53,9 +53,15 @@ class ModTrackerHandler extends VTEventHandler
 									$status = ModTracker::$UPDATED;
 								}
 								$this->id = $adb->getUniqueId('vtiger_modtracker_basic');
-								$adb->pquery('INSERT INTO vtiger_modtracker_basic(id, crmid, module, whodid, changedon, status)
-                                            VALUES(?,?,?,?,?,?)', Array($this->id, $recordId, $moduleName,
-									$current_user->id, $newerColumnFields['modifiedtime'], $status));
+								$adb->insert('vtiger_modtracker_basic', [
+									'id' => $this->id,
+									'crmid' => $recordId,
+									'module' => $moduleName,
+									'whodid' => $current_user->id,
+									'changedon' => $newerColumnFields['modifiedtime'],
+									'status' => $status,
+									'whodidsu' => Vtiger_Session::get('baseUserId'),
+								]);
 								$inserted = true;
 							}
 							$adb->pquery('INSERT INTO vtiger_modtracker_detail(id,fieldname,prevalue,postvalue) VALUES(?,?,?,?)', Array($this->id, $fieldName, $values['oldValue'], $values['currentValue']));
