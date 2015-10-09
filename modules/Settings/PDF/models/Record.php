@@ -9,6 +9,11 @@
 class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 {
 
+	protected $recordCache = [];
+	protected $fieldsCache = [];
+	protected $moduleRecordId;
+	protected $referenceUiTypes = ['10', '58', '51', '57', '59', '75', '80', '76', '73', '81', '53', '52', '78'];
+
 	public function getId()
 	{
 		return $this->get('pdfid');
@@ -368,7 +373,196 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 			unset($companyDetails['logoname']);
 			$parameters['keywords'] = implode(', ', $companyDetails);
 		}
-		
+
 		return $parameters;
+	}
+
+	/**
+	 * Sets record id for which template will be generated
+	 * @param <Integer> $id
+	 */
+	public function setMainRecordId($id)
+	{
+		$this->moduleRecordId = $id;
+	}
+
+	/**
+	 * Get record id for which template is generated
+	 * @return <Integer> - id of a main module record
+	 */
+	public function getMainRecordId()
+	{
+		return $this->moduleRecordId;
+	}
+
+	/**
+	 * Get cached record model by id
+	 * @param <Integer> $recordId - id of a record
+	 * @return <Vtiger_Record_Model> record module model
+	 */
+	public function getRecordModelById($recordId)
+	{
+		if (array_key_exists($recordId, $this->recordCache)) {
+			return $this->recordCache[$recordId];
+		}
+
+		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+
+		$this->recordCache[$recordId] = &$recordModel;
+
+		return $this->recordCache[$recordId];
+	}
+
+	/**
+	 * Get all field instances related to module
+	 * @param <Vtiger_Module> - instance of module to use
+	 * @return <Array> array of field instances for this module model
+	 */
+	static function getFieldsForModule(&$moduleInstance)
+	{
+		$db = PearDatabase::getInstance();
+		$instances = false;
+
+		$query = 'SELECT * FROM `vtiger_field` WHERE `tabid` = ?;';
+
+		$result = $db->pquery($query, [$moduleInstance->getId()]);
+		while ($row = $db->fetchByAssoc($result)) {
+			$instance = new Vtiger_Field();
+			$instance->initialize($row, $moduleInstance);
+			$instances[$instance->name] = $instance;
+		}
+		return $instances;
+	}
+
+	/**
+	 * Get list of field names by module
+	 * @param <String> $moduleName - name of module
+	 * @return <Array> of field names
+	 */
+//	public function getFieldNamesForModule($moduleName) {
+//		$db = PearDatabase::getInstance();
+//		$tabId = getTabid($moduleName);
+//		$fields = false;
+//
+//		$query = 'SELECT `fieldname` FROM `vtiger_field` WHERE `tabid` = ?;';
+//
+//		$result = $db->pquery($query, [$tabId]);
+//		while($row = $db->fetchByAssoc($result)) {
+//			$fields[] = $row['fieldname'];
+//		}
+//		return $fields;
+//	}
+
+	public function getFieldsById($recordId)
+	{
+		$moduleModel = $this->recordCache[$recordId]->getModule();
+		$moduleName = $moduleModel->getName();
+
+		//echo $tabId = getTabid('Contacts');exit;
+		if ($this->fieldsCache[$moduleName]) {
+			return $this->fieldsCache[$moduleName];
+		}
+
+		$this->fieldsCache[$moduleName] = $this->getFieldsForModule($moduleModel);
+
+		return $this->fieldsCache[$moduleName];
+	}
+
+	/**
+	 * Returns list of reference fields
+	 * @param <Array> $fields - array of module fields models
+	 * @return <Array> list of reference fields
+	 */
+	public function getReferenceFields(array &$fields)
+	{
+		$reference = [];
+		foreach ($fields as &$field) {
+			if (in_array($field->uitype, $this->referenceUiTypes)) {
+				$id = $field->id;
+				$name = $field->name;
+				$uiType = $field->uitype;
+				$reference[$name] = Settings_PDF_Module_Model::getReferencedModuleName($uiType, $id);
+			}
+		}
+
+		return $reference;
+	}
+
+	/**
+	 * Get header content
+	 * @param <Boolean> $raw - if true return unparsed header
+	 * @return <String> - header content
+	 */
+	public function getHeader($raw = false)
+	{
+		if ($raw) {
+			return $this->get('header_content');
+		}
+		$recordId = $this->getMainRecordId();
+		$moduleName = $this->get('module_name');
+
+		$content = $this->get('header_content');
+		$content = $this->replaceModuleFields($content, $recordId, $moduleName);
+
+		$relatedModules = Settings_PDF_Module_Model::getRelatedModules($moduleName); //var_dump($relatedModules);exit;
+		$content = $this->replaceRelatedModuleFields($content, $recordId, $relatedModules);
+
+		return $content;
+	}
+
+	public function replaceModuleFields(&$content, $recordId, $moduleName)
+	{
+		$recordModule = $this->getRecordModelById($recordId);
+		$fieldsModel = $this->getFieldsById($recordId);
+		//var_dump($fieldsModel,$this->getReferenceFields($fieldsModel));exit;
+
+		foreach ($fieldsModel as $name => &$field) {
+			$replaceBy = in_array($field->uitype, $this->referenceUiTypes) ? Vtiger_Functions::getCRMRecordLabel($recordModule->get($name)) : $recordModule->getDisplayValue($name);
+			$content = str_replace('$' . $name . '$', $replaceBy, $content);
+			$newLabel = Vtiger_Language_Handler::getLanguageTranslatedString($this->get('language'), $field->label, $moduleName);
+			$content = str_replace('%' . $name . '%', $newLabel, $content);
+		}
+
+		return $content;
+	}
+
+	public function replaceRelatedModuleFields(&$content, $recordId, &$relatedModules)
+	{
+		$recordModule = $this->getRecordModelById($recordId);
+		$fieldsModel = $this->getFieldsById($recordId);
+		$referenceFields = $this->getReferenceFields($fieldsModel);
+
+		// loop thrue related modules
+		foreach ($referenceFields as $fieldName => $modules) {
+			$value = $recordModule->get($fieldName);
+			if (!isRecordExists($value)) {
+				continue;
+			}
+
+			$referenceRecord = $this->getRecordModelById($value);
+			$referenceFieldsModel = $this->getFieldsById($referenceRecord->getId());
+			$moduleName = $referenceRecord->getModuleName();
+
+			foreach ($referenceFieldsModel as $name => &$field) {
+				$replaceBy = in_array($field->uitype, $this->referenceUiTypes) ? Vtiger_Functions::getCRMRecordLabel($referenceRecord->get($name)) : $referenceRecord->getDisplayValue($name);
+				$content = str_replace('$' . $moduleName . '_' . $name . '$', $replaceBy, $content);
+				$newLabel = Vtiger_Language_Handler::getLanguageTranslatedString($this->get('language'), $field->label, $moduleName);
+				$content = str_replace('%' . $moduleName . '_' . $name . '%', $newLabel, $content);
+			}
+			if (is_array($modules)) {
+				unset($modules[$moduleName]);
+				foreach ($modules as $moduleName) {
+					$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+					$moduleFields = $this->getFieldsForModule($moduleModel);
+					foreach ($moduleFields as $name => &$field) {
+						$content = str_replace('$' . $moduleName . '_' . $name . '$', '', $content);
+						$newLabel = Vtiger_Language_Handler::getLanguageTranslatedString($this->get('language'), $field->label, $moduleName);
+						$content = str_replace('%' . $moduleName . '_' . $name . '%', $newLabel, $content);
+					}
+				}
+			}
+		}
+
+		return $content;
 	}
 }

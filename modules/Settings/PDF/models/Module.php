@@ -243,7 +243,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		return $referencedModules;
 	}
 
-	protected static function getReferencedModuleName($uiType, $fieldId)
+	public static function getReferencedModuleName($uiType, $fieldId)
 	{
 		$moduleName = '';
 		$referenceToModule = [

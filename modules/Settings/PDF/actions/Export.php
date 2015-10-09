@@ -28,6 +28,8 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 			$pdf->setModuleName($moduleName);
 
 			$template = Settings_PDF_Record_Model::getInstanceById($templateIds[0]);
+			$template->setMainRecordId($recordId);
+
 			$pdf->setLanguage($template->get('language'));
 			$pdf->setFileName($template->get('filename'));
 
@@ -35,7 +37,7 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 
 			$html = '';
 
-			$pdf->setHeader('Header', $template->get('header_content'));
+			$pdf->setHeader('Header', $template->getHeader());
 			$pdf->setFooter('Footer', $template->get('footer_content'));
 			$html = $template->get('body_content');
 
@@ -55,7 +57,7 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 
 				$html = '';
 
-				$pdf->setHeader('Header', $template->get('header_content'));
+				$pdf->setHeader('Header', $template->getHeader());
 				$pdf->setFooter('Footer', $template->get('footer_content'));
 				$html = $template->get('body_content');
 
@@ -66,7 +68,7 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 					$template = Settings_PDF_Record_Model::getInstanceById($id);
 					$pdf->setLanguage($template->get('language'));
 
-					$pdf->setHeader('Header' . $id, $template->get('header_content'));
+					$pdf->setHeader('Header' . $id, $template->getHeader());
 
 					// building parameters
 					$parameters = $template->getParameters();
@@ -99,7 +101,7 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 
 					$html = '';
 
-					$pdf->setHeader('Header', $template->get('header_content'));
+					$pdf->setHeader('Header', $template->getHeader());
 					$pdf->setFooter('Footer', $template->get('footer_content'));
 					$html = $template->get('body_content');
 
