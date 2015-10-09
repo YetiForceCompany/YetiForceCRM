@@ -33,7 +33,7 @@
 	{if !empty($ACCESSIBLE_GROUPS) && in_array('groups', $ACCESS_OPTIONS.available)}
 		<optgroup label="{vtranslate('LBL_GROUPS')}">
 			{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_GROUPS}
-				<option title="{$OWNER_NAME}" data-name="{$OWNER_NAME}" value="{$OWNER_ID}">{$OWNER_NAME}</option>
+				<option title="{$OWNER_NAME}" data-name="{$OWNER_NAME}" value="{$OWNER_ID}" {if $OWNER eq $OWNER_ID} selected{/if}>{$OWNER_NAME}</option>
 			{/foreach}
 		</optgroup>
 	{/if}
