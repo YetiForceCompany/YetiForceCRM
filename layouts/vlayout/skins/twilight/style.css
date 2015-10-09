@@ -4028,6 +4028,7 @@ html,body,.baseContainer
 .logoFooter{
 	margin: 4px;
 	margin-right: 15px;
+	height: 27px;
 }
 .imgAnnouncement{
 	padding-top: 1px;
@@ -4088,6 +4089,13 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 767px) {
+	.footerContainer{
+		height: 17px;
+	}
+	.logoFooter{
+		height: 13px;
+		margin-top: 3px;
+	}
 	.dashboardHeading .h3{
 		margin-top: 10px;
 		margin-bottom: 0px;
@@ -4252,7 +4260,7 @@ html,body,.baseContainer
 	position: fixed;
 	left: 100%;
 	top: 50px;
-	bottom: 33px;
+	bottom: 16px;
 	width: 85%;
 	color: #fff;
 	z-index: 1050;

@@ -15,10 +15,10 @@
 	<footer class="footerContainer navbar-default navbar-fixed-bottom noprint">
 		<div class="vtFooter">
 			{if vglobal('isVisibleLogoInFooter') == 'true'}
-				<div class='pull-right logoFooter'>
+				<div class='pull-right'>
 					{assign var=ADDRESS value='http://www.yetiforce.com'}
 					<a href='{$ADDRESS}'>
-						<img height='27' src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/>
+						<img class='logoFooter' src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/>
 					</a>
 				</div>
 			{/if}
@@ -26,8 +26,10 @@
 			{assign var=SCRIPT_TIME value=round(microtime(true) - vglobal('Start_time'), 3)}
 			{if $USER_MODEL->is_admin == 'on'}
 				{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:vtranslate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
+				{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
 				{assign var=FOOTOSP value= '<u><a href="index.php?module=Home&view=Credits&parent=Settings">open source project</a></u>'}
-				<p>{sprintf( vtranslate('LBL_FOOTER_CONTENT') , $FOOTVR ,$FOOTOSP)}</p>
+				<p class='mobileOff'>{sprintf( vtranslate('LBL_FOOTER_CONTENT') , $FOOTVR ,$FOOTOSP)}</p>
+				<p class='mobileOn'>{sprintf( vtranslate('LBL_FOOTER_CONTENT') , $FOOTVRM ,$FOOTOSP)}</p>
 			{else}
 				<p>{sprintf( vtranslate('LBL_FOOTER_CONTENT') , '['|cat:vtranslate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]', 'open source project' )}</p>
 			{/if}
