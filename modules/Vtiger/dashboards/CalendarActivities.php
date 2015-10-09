@@ -19,7 +19,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 
 		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();
-		
+
 		$page = $request->get('page');
 		$linkId = $request->get('linkid');
 		$sortOrder = $request->get('sortorder');
@@ -44,11 +44,10 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$calendarActivities = ($owner === false) ? array() : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner, false, $params);
 
-		
 		$switchLabels = [];
 		$switchLabels[] = ['label' => vtranslate($stateActivityLabels['in_realization'], 'Calendar'), 'name' => $stateActivityLabels['in_realization']];
-		$switchLabels[] = ['label' => vtranslate($stateActivityLabels['not_started'], 'Calendar'),'name' => $stateActivityLabels['not_started']];
-		
+		$switchLabels[] = ['label' => vtranslate($stateActivityLabels['not_started'], 'Calendar'), 'name' => $stateActivityLabels['not_started']];
+
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTIVITIES', $calendarActivities);
@@ -57,6 +56,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$title_max_length = vglobal('title_max_length');
 		$href_max_length = vglobal('href_max_length');
 		$viewer->assign('NAMELENGHT', $title_max_length);
+		$viewer->assign('OWNER', $owner);
 		$viewer->assign('HREFNAMELENGHT', $href_max_length);
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_SCHEDULED_ACTIVITIES');
 		$viewer->assign('SWITCH', $switchLabels);

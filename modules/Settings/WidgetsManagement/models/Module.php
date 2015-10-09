@@ -66,6 +66,10 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		elseif (in_array('groups', $owners['available'])) {
 			$user = key($accessibleGroups);
 		}
+		if (empty($user) && $owners['available']) {
+			reset($owners['available']);
+			$user = current($owners['available']);
+		}
 		if (empty($user))
 			$user = false;
 		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getDefaultUserId() method ...");
@@ -139,7 +143,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				INNER JOIN `vtiger_tab`
 					ON vtiger_links.`tabid` = vtiger_tab.`tabid`
 				WHERE linktype = ? AND vtiger_tab.`presence` = 0';
-		
+
 		$params = array('DASHBOARDWIDGET');
 
 		$result = $db->pquery($sql, $params);
