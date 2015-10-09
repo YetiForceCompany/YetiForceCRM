@@ -32,9 +32,9 @@
 				<tbody>
 					<tr data-id="{$ITEM.user_id}">
 						<td><label>{vtranslate('LBL_TICKET_STATUS_INFO', $QUALIFIED_MODULE)}</label></td>
-						<td class="col-md-6">
+						<td class="col-xs-6">
 							{assign var=TICKETSTATUSNOTMODIFY value=$TICKETSTATUSNOTMODIFY}
-							<select class="chzn-select status" multiple name="status" style="width: 500px;">
+							<select class="chzn-select form-control status" multiple name="status">
 								{foreach  item=ITEM from=$TICKETSTATUS}
 									<option value="{$ITEM['status']}" {if in_array($ITEM['status'], $TICKETSTATUSNOTMODIFY)} selected {/if}  >{$ITEM['statusTranslate']}</option>
 								{/foreach}
