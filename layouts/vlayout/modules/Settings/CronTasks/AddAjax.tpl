@@ -65,10 +65,10 @@
 						</label>
 						<div class="controls col-sm-9">
 
-							<div class="col-sm-3 paddingLRZero">
+							<div class="col-xs-6 col-sm-3 paddingLRZero">
 								<input type="text" class="form-control" value="{$FIELD_VALUE}" id="frequency_value" name="frequency_value" />
 							</div>
-							<div class="col-sm-8">
+							<div class="col-xs-6 col-sm-8">
 								<select class="chzn-select form-control" id="time_format" name="time_format">
 									<optgroup>
 										<option value="mins">{vtranslate('LBL_MINUTES',$QUALIFIED_MODULE)}</option>

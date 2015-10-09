@@ -30,16 +30,16 @@
 				<input type="hidden" name="taxid" value="{$TAX_ID}" />
 				<input type="hidden" name="type" value="{$TAX_TYPE}" />
 				<div class="modal-body">
-					<div class="row">
+					<div class="">
 						<div class="form-group">
 							<label class="col-md-4 control-label">{vtranslate('LBL_TAX_NAME', $QUALIFIED_MODULE)}</label>
-							<div class="col-md-6 controls paddingLRZero">
+							<div class="col-md-6 controls ">
 								<input class="form-control" type="text" name="taxlabel" placeholder="{vtranslate('LBL_ENTER_TAX_NAME', $QUALIFIED_MODULE)}" value="{$TAX_RECORD_MODEL->getName()}" data-validation-engine='validate[required]' />
 							</div>	
 						</div>
 						<div class="form-group">
 							<label class="col-md-4 control-label">{vtranslate('LBL_TAX_VALUE', $QUALIFIED_MODULE)}</label>
-							<div class="col-md-6 controls input-group">
+							<div class="col-md-6 controls input-group" style='margin:0px 15px;'>
 								<input class="form-control" type="text" name="percentage" class="input-medium" placeholder="{vtranslate('LBL_ENTER_TAX_VALUE', $QUALIFIED_MODULE)}" value="{$TAX_RECORD_MODEL->getTax()}" data-validation-engine='validate[required, funcCall[Vtiger_Percentage_Validator_Js.invokeValidation]]' />
 								<span class="input-group-addon">%</span>
 							</div>	
