@@ -498,8 +498,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		params.dataType = 'json';
 		AppConnector.request(params).then(
 				function (reponseData) {
-					var readRecord = jQuery('.setReadRecord');
-					readRecord.closest('.btn-group').removeClass('hide');
 					aDeferred.resolve(reponseData);
 				}
 		);
@@ -833,6 +831,16 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var relatedModuleName = thisInstance.getRelatedModuleName();
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.pageJumpHandler(e);
+		});
+		detailContentsHolder.on('click', '.pageNumber', function () {
+			var disabled = $(this).hasClass("disabled")
+			if (disabled)
+				return false;
+			var pageNumber = $(this).data("id");
+			var selectedTabElement = thisInstance.getSelectedTab();
+			var relatedModuleName = thisInstance.getRelatedModuleName();
+			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
+			relatedController.selectPageHandler(pageNumber);
 		});
 	},
 	/**
@@ -1470,17 +1478,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		summaryViewContainer.on('click', '.editDefaultStatus', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.popover('hide');
-			var currentDiv = currentTarget.closest('.activityStatus');
-			var activity = currentTarget.closest('.activityEntries');
-			var activityId = activity.find('.activityId').val();
-			var editElement = currentDiv.find('.edit');
-			var fieldElement = jQuery('[name="' + currentTarget.data('field') + '"]', editElement);
-			var editStatusElement = currentDiv.find('.editStatus');
-			if (thisInstance.tempData.indexOf(activityId) < 0) {
-				thisInstance.tempData.push(activityId);
-				editStatusElement.trigger("click");
-				fieldElement.val(currentTarget.data('status')).trigger("chosen:updated");
-				editStatusElement.trigger("clickoutside");
+			var url = currentTarget.data('url');
+			if (url && typeof url != 'undefined') {
+				app.showModalWindow(null, url);
 			}
 		});
 
@@ -2018,6 +2018,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						Vtiger_Helper_Js.showHorizontalTopScrollBar();
 						element.progressIndicator({'mode': 'hide'});
 						thisInstance.registerHelpInfo();
+						app.registerModal(detailContentsHolder);
 						if (typeof callBack == 'function') {
 							callBack(data);
 						}

@@ -16,22 +16,18 @@ font-size: 75%;
 </style>
 <div>
 	{foreach from=$ACTIVITIES key=INDEX item=ACTIVITY}
-	<div>
+	<div class="changeActivity cursorPointer" data-url="{$ACTIVITY->getActivityStateModalUrl()}">
 		<div class='pull-left'>
-			{if $ACTIVITY->get('activitytype') == 'Task'}
-				<image style="margin-left: 4px;" src="{vimage_path('Tasks.png')}" alt="{vtranslate('LBL_TASK')}" width="24px"/>&nbsp;&nbsp;
-			{elseif $ACTIVITY->get('activitytype') == 'Meeting'}
-				<image style="margin-left: 4px;" src="{vimage_path('Meeting.png')}" alt="{vtranslate('LBL_METTING')}" width="24px" />&nbsp;&nbsp;
-			{else}
-				<image style="margin-left: 4px;" src="{vimage_path('Call.png')}" alt="{vtranslate('LBL_CALL')}" width="24px" />&nbsp;&nbsp;
-			{/if}
+			{assign var=ACTIVITY_TYPE value=$ACTIVITY->get('activitytype')}
+			{assign var=ACTIVITY_UPPERCASE value=$ACTIVITY_TYPE|upper}
+			<image style="margin-left: 4px;" src="{vimage_path_default($ACTIVITY_TYPE, Calendar)}" alt="{vtranslate("LBL_$ACTIVITY_UPPERCASE")}" width="24px" />&nbsp;&nbsp;
 		</div>
 		<div>
 			<div class='pull-left'>
 				{assign var=LINK value=$ACTIVITY->get('link')}
 				{assign var=PROCESS value=$ACTIVITY->get('process')}
 				{assign var=CONTRACTOR value=$ACTIVITY->get('contractor')}					
-				<a href="{$ACTIVITY->getDetailViewUrl()}">{$ACTIVITY->get('subject')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGHT:'...'}</a>				
+				{$ACTIVITY->get('subject')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGHT:'...'}				
 				{if $CONTRACTOR}
 				    <br/><small class='small-a'>{vtranslate('LBL_FOR')} <strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGHT}</a></small></strong>			
 				{else if $LINK}
@@ -45,7 +41,11 @@ font-size: 75%;
 				
 				{assign var=DUE_DATE value=$ACTIVITY->get('due_date')}
 				{assign var=DUE_TIME value=$ACTIVITY->get('time_end')}
-			<p class='pull-right muted' style='margin-top:5px;padding-right:5px;'><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME")} {vtranslate('LBL_ACTIVITY_TO')} {Vtiger_Util_Helper::formatDateTimeIntoDayString("$DUE_DATE $DUE_TIME")}">{Vtiger_Util_Helper::formatDateDiffInStrings("$START_DATE $START_TIME")}</small></p>
+			<p class='pull-right muted' style='margin-top:5px;padding-right:5px;'>
+				<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME")} {vtranslate('LBL_ACTIVITY_TO')} {Vtiger_Util_Helper::formatDateTimeIntoDayString("$DUE_DATE $DUE_TIME")}">
+					{Vtiger_Util_Helper::formatDateDiffInStrings("$DUE_DATE $DUE_TIME")}
+				</small>
+			</p>
 			{if $ACTIVITY->get('location') neq '' }
 				<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->get('location'))}" class="pull-right" title="{vtranslate('Location', 'Calendar')}: {$ACTIVITY->get('location')}">
 					<span class="icon-map-marker"></span>&nbsp
@@ -61,17 +61,10 @@ font-size: 75%;
 		</span>
 	{/foreach}
 	{if $PAGING->get('nextPageExists') eq 'true'}
-		<div class='pull-right' style='margin-top:5px;padding-right:5px;'>
-			<a href="javascript:;" name="history_more" data-url="{$WIDGET->getUrl()}&page={$PAGING->getNextPage()}">{vtranslate('LBL_MORE')}...</a>
-			<br />
-			<br />
-			<br />
-			<br />
+		<div class='pull-right' style="padding-right:5px;">
+			<a href="javascript:;" class="showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING->getNextPage()}">
+				{vtranslate('LBL_MORE')}...
+			</a>
 		</div>
-	{else}
-		<br />
-		<br />
-		<br />
-		<br />
 	{/if}
 </div>

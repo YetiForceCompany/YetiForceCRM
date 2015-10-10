@@ -141,6 +141,15 @@ $languageStrings = [
 	'LBL_SHIFT_BLOCK' => 'Exibir ou ocultar bloco',
 	'LBL_ON_SWITCH' => 'Ativar',
 	'LBL_OFF_SWITCH' => 'Desativar',
+	
+	'PLL_PLANNED' => 'Planned',
+	'PLL_IN_REALIZATION' => 'To be realized',
+	'PLL_OVERDUE' => 'Overdue',
+	'PLL_POSTPONED' => 'Postponed',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_COMPLETED' => 'Completed',
+
+	'LBL_NO_AVAILABLE_ACTIONS' => 'No available actions',
 ];
 
 $jsLanguageStrings = [

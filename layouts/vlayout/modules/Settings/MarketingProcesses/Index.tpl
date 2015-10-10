@@ -136,7 +136,7 @@
 				<tbody>
 					<tr>
 						<td><label>{vtranslate('LBL_GROUPS_INFO', $QUALIFIED_MODULE)}</label></td>
-						<td>
+						<td class="col-md-6">
 							{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('Leads')}
 							<select class="chzn-select configField" name="groups" data-type="lead" multiple>
 								{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
@@ -149,7 +149,7 @@
 					</tr>
 					<tr>
 						<td><label>{vtranslate('LBL_LEAD_STATUS', $QUALIFIED_MODULE)}</label></td>
-						<td>
+						<td class="col-md-6">
 							<select class="chzn-select configField" multiple data-type="lead" name="status">
 								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('leadstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['status'])} selected {/if}  >{vtranslate($ITEM,'Leads')}</option>
@@ -159,7 +159,7 @@
 					</tr>
 					<tr>
 						<td><label>{vtranslate('LBL_LEAD_CONVERT_STATUS', $QUALIFIED_MODULE)}</label></td>
-						<td>
+						<td class="col-md-6">
 							<select class="chzn-select configField" multiple data-type="lead" name="convert_status">
 								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('leadstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['convert_status'])} selected {/if}  >{vtranslate($ITEM,'Leads')}</option>
@@ -170,7 +170,7 @@
 					<tr>
 						<td><label>{vtranslate('LBL_CURRENTUSER_STATUS', $QUALIFIED_MODULE)}</label></td>
 						<td>
-							<input class="col-md-1 configField" type="checkbox" data-type="lead" name="currentuser_status"  {if $LEAD['currentuser_status'] == 'true'}checked{/if} />
+							<input class="configField" type="checkbox" data-type="lead" name="currentuser_status"  {if $LEAD['currentuser_status'] == 'true'}checked{/if} />
 						</td>
 					</tr>
 				</tbody>

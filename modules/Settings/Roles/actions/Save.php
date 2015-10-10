@@ -67,6 +67,9 @@ class Settings_Roles_Save_Action extends Vtiger_Action_Controller
 				->set('searchunpriv', $request->get('searchunpriv'))
 				->set('listrelatedrecord', $request->get('listRelatedRecord'))
 				->set('previewrelatedrecord', $request->get('previewRelatedRecord'))
+				->set('editrelatedrecord', $request->get('editRelatedRecord'))
+				->set('permissionsrelatedfield', $request->get('permissionsRelatedField'))
+				->set('globalsearchadv', $request->get('globalSearchAdvanced'))
 				->set('clendarallorecords', $request->get('clendarallorecords'));
 			if (!empty($allowassignedrecordsto))
 				$recordModel->set('allowassignedrecordsto', $allowassignedrecordsto); // set the value of assigned records to

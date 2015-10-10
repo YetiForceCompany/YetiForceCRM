@@ -151,6 +151,8 @@ $languageStrings = [
 	'LBL_VALUE_OF_SERVER' => 'Значение сервера',
 	'LBL_WORKFLOWS_RUN_TIME' => 'Дата и время запуска',
 	'Sales stage - Negotiations' => 'Этап продаж - Переговоры',
+	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Update the dates of the generated events when the base date changes',
+	'LBL_CURRENT_USER' => 'Currently logged in user',
 	//workflow task types
 	'Send Mail' => 'Отправить Почту',
 	'Invoke Custom Function' => 'Запустить пользовательскую функцию',
@@ -164,6 +166,7 @@ $languageStrings = [
 	'Update Closed Time' => 'Обновить время Закрытия',
 	'Send Notification' => 'Отправить уведомление Приглашенным',
 	'Create Address Book' => 'Создать адресную книгу',
+	'LBL_UPDATE_DATES_CREATED_EVENTS_AUTOMATICALLY' => 'Update the dates of created events automatically',
 	//workflow add time
 	'Current Date' => 'Current Date',
 	'Current Time' => 'Current time',
@@ -176,7 +179,10 @@ $languageStrings = [
 	'Record Id' => 'Record Id',
 	'Invoice Date' => 'Invoice Date',
 	'Start Date & Time' => 'Дата и время начала',
-	'End Date & Time' => 'Дата и время окончания', 
+	'End Date & Time' => 'Дата и время окончания',
+	'ON_DELETE' => 'While deleting',
+	'TRIGGER' => 'Trigger manually',
+	'BLOCK_EDIT' => 'Block edition',
 ];
 
 $jsLanguageStrings = [

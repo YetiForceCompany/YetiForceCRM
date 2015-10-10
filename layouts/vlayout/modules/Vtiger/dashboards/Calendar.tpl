@@ -30,25 +30,33 @@
 	</div>
 	<hr class="widgetHr"/>
 	<div class="row" >
-		<div class="col-sm-7">
+		<div class="col-sm-6">
+			<select class="widgetFilter form-control status input-sm" name="status" title="{vtranslate('LBL_OWNER')}">
+				{assign var=ACTIVITY_STATUS value=Calendar_Module_Model::getComponentActivityStateLabel()}
+				<option value="all" {if $CURRENT_ACTIVITY_STATUS eq 'all'} selected {/if}>{vtranslate('LBL_ALL')}</option>
+				{foreach item=STATUS from=$ACTIVITY_STATUS}
+					<option value="{$STATUS}" {if $CURRENT_ACTIVITY_STATUS eq $STATUS} selected {/if}>{vtranslate($STATUS,'Calendar')}</option>
+				{/foreach}
+		</select>
+		</div>
+		<div class="col-sm-6">
+			{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
 			<div class="headerCalendar pinUnpinShortCut row" >
 				<div class="col-xs-2">
 					<button class="btn btn-default btn-sm" data-type="fc-prev-button"><span class="glyphicon glyphicon-chevron-left"></span></button>
 				</div>
 				<div class="col-xs-8 month textAlignCenter paddingRightZero"> </div>
-				<div class="col-xs-2 pull-right paddingLRZero">
-					<button class="btn btn-default btn-sm" data-type="fc-next-button"><span class="glyphicon glyphicon-chevron-right"></span></button>
+				<div class="col-xs-2">
+					<button class="btn btn-default btn-sm  pull-right" data-type="fc-next-button"><span class="glyphicon glyphicon-chevron-right"></span></button>
 				</div>
 			</div>
-		</div>
-		<div class="col-sm-5">
-			{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 		</div>
 	</div>
 </div>
 <div class="dashboardWidgetContent dashboardWidgetCalendar">
 	{include file="dashboards/CalendarContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
 </div>
-<script type='text/javascript'>
-	YetiForce_Calendar_Widget_Js('YetiForce_Home_Widget_Js',{},{});
-</script>

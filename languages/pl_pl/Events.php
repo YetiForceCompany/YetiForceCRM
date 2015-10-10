@@ -98,5 +98,15 @@ $languageStrings = [
 	'Duration Minutes' => 'Czas trwania w Minutach',
 	'No Time' => 'Brak czasu',
 	'End Time' => 'Czas zakończenia',
+	'End Date' => 'Data zakończenia',
+	'LBL_FOLLOWUP' => 'Kontynuacja w',
+	
+	'PLL_PLANNED' => 'Planowane',
+	'PLL_IN_REALIZATION' => 'Do realizacji',
+	'PLL_OVERDUE' => 'Zaległe',
+	'PLL_POSTPONED' => 'Przełożone',
+	'PLL_CANCELLED' => 'Anulowane',
+	'PLL_COMPLETED' => 'Wykonane',
+	
 ];
 

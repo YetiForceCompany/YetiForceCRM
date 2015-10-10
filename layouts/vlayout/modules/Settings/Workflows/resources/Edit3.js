@@ -647,7 +647,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	checkHiddenStatusofCcandBcc: function () {
 		var ccLink = jQuery('#ccLink');
 		var bccLink = jQuery('#bccLink');
-		if (ccLink.is(':hidden') && bccLink.is(':hidden')) {
+		if (ccLink.hasClass('hide') && bccLink.hasClass('hide')) {
 			ccLink.closest('div.row').addClass('hide');
 		}
 	},
@@ -658,20 +658,20 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		var thisInstance = this;
 		jQuery('#ccLink').on('click', function (e) {
 			var ccContainer = jQuery('#ccContainer');
-			ccContainer.show();
+			ccContainer.removeClass('hide');
 			var taskFieldElement = ccContainer.find('select.task-fields');
 			taskFieldElement.addClass('chzn-select');
 			app.changeSelectElementView(taskFieldElement);
-			jQuery(e.currentTarget).hide();
+			jQuery(e.currentTarget).addClass('hide');
 			thisInstance.checkHiddenStatusofCcandBcc();
 		});
 		jQuery('#bccLink').on('click', function (e) {
 			var bccContainer = jQuery('#bccContainer');
-			bccContainer.show();
+			bccContainer.removeClass('hide');
 			var taskFieldElement = bccContainer.find('select.task-fields');
 			taskFieldElement.addClass('chzn-select');
 			app.changeSelectElementView(taskFieldElement);
-			jQuery(e.currentTarget).hide();
+			jQuery(e.currentTarget).addClass('hide');
 			thisInstance.checkHiddenStatusofCcandBcc();
 		});
 	},

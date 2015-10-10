@@ -16,11 +16,9 @@ class Settings_Menu_EditMenu_View extends Settings_Vtiger_IndexAjax_View
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$id = $request->get('id');
-		$settingsModel = Settings_Menu_Module_Model::getInstance();
-		$recordModel = Settings_Menu_Record_Model::getInstanceById($id);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_MODEL', $settingsModel);
-		$viewer->assign('RECORD', $recordModel);
+		$viewer->assign('MODULE_MODEL', Settings_Menu_Module_Model::getInstance());
+		$viewer->assign('RECORD', Settings_Menu_Record_Model::getInstanceById($id));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('ID', $id);
 		$viewer->view('EditMenu.tpl', $qualifiedModuleName);

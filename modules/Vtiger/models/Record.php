@@ -553,6 +553,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$module = $this->getModuleName();
 		$record = $this->getId();
 		if (empty($record)) {
+			$record = $this->get('record_id');
+		}
+		if (empty($record)) {
 			return [];
 		}
 
@@ -587,7 +590,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 		$db->pquery("delete from $table where id = ?", [$this->getId()]);
 		for ($i = 1; $i <= $numRow; $i++) {
-			if (!$request->has(reset($fields) . $i)) {
+			if (!$request->has(reset($fields)) && !$request->has(reset($fields) . $i)) {
 				continue;
 			}
 			$insertData = ['id' => $this->getId(), 'seq' => $request->get('seq' . $i)];

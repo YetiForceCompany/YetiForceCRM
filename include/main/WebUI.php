@@ -10,6 +10,7 @@
  * ********************************************************************************** */
 require_once 'config/debug.php';
 require_once 'config/developer.php';
+require_once 'config/security.php';
 require_once 'config/secret_keys.php';
 require_once 'config/performance.php';
 require_once('include/ConfigUtils.php');

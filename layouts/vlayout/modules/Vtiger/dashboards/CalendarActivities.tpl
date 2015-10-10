@@ -25,7 +25,7 @@
 	</div>
 	<hr class="widgetHr"/>
 	<div class="row" >
-		<div class="col-md-12">
+		<div class="col-md-12 widget_header">
 			<div class="pull-right">&nbsp;
 				<button class="btn btn-default btn-sm changeRecordSort" title="{vtranslate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{vtranslate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="asc" data-asc="{vtranslate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{vtranslate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
 					<span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true" ></span>
@@ -34,6 +34,11 @@
 			<div class="pull-right">
 				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 			</div>
+			{if $SWITCH}
+				<div class="pull-left">
+					<input class="switchBtn switchBtnReload" type="checkbox" checked="" data-size="small" data-label-width="5" data-on-text="{$SWITCH[0].label}" data-off-text="{$SWITCH[1].label}" data-on-val="{$SWITCH[0].name}" data-off-val="{$SWITCH[1].name}" data-urlparams="switchParams">
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>

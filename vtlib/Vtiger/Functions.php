@@ -304,7 +304,7 @@ class Vtiger_Functions
 		}
 
 		if ($missing) {
-			$sql = sprintf("SELECT crmid, setype, deleted, smownerid, label, searchlabel FROM vtiger_crmentity WHERE %s", implode(' OR ', array_fill(0, count($missing), 'crmid=?')));
+			$sql = sprintf("SELECT crmid, setype, deleted, smownerid, shownerid, label, searchlabel FROM vtiger_crmentity WHERE %s", implode(' OR ', array_fill(0, count($missing), 'crmid=?')));
 			$result = $adb->pquery($sql, $missing);
 			while ($row = $adb->fetch_array($result)) {
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;
@@ -1107,12 +1107,12 @@ class Vtiger_Functions
 	static function removeHtmlTags(array $tags, $html)
 	{
 		$crmUrl = vglobal($key);
-		$doc = new DOMDocument();
 
-		$previous_value = libxml_use_internal_errors(TRUE);
-		$doc->loadHTML('<?xml encoding="utf-8" ?>' . $html);
+		$doc = new DOMDocument('1.0', 'UTF-8');
+		$previousValue = libxml_use_internal_errors(TRUE);
+		$doc->loadHTML('<?xml encoding="utf-8" ?>' . $html, LIBXML_HTML_NODEFDTD);
 		libxml_clear_errors();
-		libxml_use_internal_errors($previous_value);
+		libxml_use_internal_errors($previousValue);
 
 		foreach ($tags as $tag) {
 			$xPath = new DOMXPath($doc);
@@ -1132,7 +1132,13 @@ class Vtiger_Functions
 				}
 			}
 		}
-		return $doc->saveHTML();
+		$savedHTML = $doc->saveHTML();
+		$savedHTML = preg_replace('/<html[^>]+\>/', '', $savedHTML);
+		$savedHTML = preg_replace('/<body[^>]+\>/', '', $savedHTML);
+		$savedHTML = preg_replace('#<head(.*?)>(.*?)</head>#is', '', $savedHTML);
+		$savedHTML = preg_replace('/<!--(.*)-->/Uis', '', $savedHTML);
+		$savedHTML = str_replace(['</html>', '</body>', '<?xml encoding="utf-8" ?>'], ['', '', ''], $savedHTML);
+		return $savedHTML;
 	}
 
 	static function getHtmlOrPlainText($content)
@@ -1166,6 +1172,7 @@ class Vtiger_Functions
 			return;
 		$dirs = [];
 		@chmod($root_dir . $src, 0777);
+		$dirs[] = $rootDir . $src;
 		if (is_dir($src)) {
 			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 				if ($item->isDir()) {
@@ -1248,7 +1255,7 @@ class Vtiger_Functions
 			$port = ((!$browser->https && $port == '80') || ($browser->https && $port == '443')) ? '' : ':' . $port;
 			$host = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null);
 			$host = isset($host) ? $host : $_SERVER['SERVER_NAME'] . $port;
-			$browser->url = $protocol . '://' . $host.$_SERVER['REQUEST_URI'];
+			$browser->url = $protocol . '://' . $host . $_SERVER['REQUEST_URI'];
 			self::$browerCache = $browser;
 		}
 		return self::$browerCache;

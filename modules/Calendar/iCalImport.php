@@ -24,7 +24,7 @@ if($_REQUEST['step']!='undo'){
 
 	$skip_fields = array(
 		'Events'=>array('duration_hours'),
-		'Calendar'=>array('eventstatus')
+		'Calendar'=>array('activitystatus')
 	);
 	$required_fields = array();
 

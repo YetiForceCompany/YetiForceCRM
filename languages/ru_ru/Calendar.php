@@ -152,6 +152,15 @@ $languageStrings = [
 	'LBL_SHIFT_BLOCK' => 'Показать/Скрыть Блок',
 	'LBL_ON_SWITCH' => 'Вкл',
 	'LBL_OFF_SWITCH' => 'Выкл',
+	
+	'PLL_PLANNED' => 'Planned',
+	'PLL_IN_REALIZATION' => 'To be realized',
+	'PLL_OVERDUE' => 'Overdue',
+	'PLL_POSTPONED' => 'Postponed',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_COMPLETED' => 'Completed',
+
+	'LBL_NO_AVAILABLE_ACTIONS' => 'No available actions',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_EVENT_TASK' => '+ Событие | Задача',

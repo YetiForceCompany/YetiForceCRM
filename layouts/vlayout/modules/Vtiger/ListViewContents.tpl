@@ -33,7 +33,12 @@
 				<tr>
 					{foreach item=ALPHABET from=$ALPHABETS}
 						<td class="alphabetSearch textAlignCenter cursorPointer {if $ALPHABET_VALUE eq $ALPHABET} highlightBackgroundColor {/if}" style="padding : 0px !important"><a id="{$ALPHABET}" href="#">{$ALPHABET}</a></td>
-						{/foreach}
+					{/foreach}
+					<td class="alphabetSearch textAlignCenter cursorPointer">
+						<a href="index.php?view=List&module={$MODULE}" >
+							<span class="glyphicon glyphicon-remove"></span>
+						</a>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -84,9 +89,9 @@
 				{if $MODULE_MODEL->isQuickSearchEnabled()}
 					<tr>
 						<td>
-							<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" ><span class="glyphicon glyphicon-remove"></span></a>
+							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="glyphicon glyphicon-search"></span></a>
 						</td>
-								{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<td>
 								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
 								{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME)
@@ -94,7 +99,9 @@
 							</td>
 						{/foreach}
 						<td>
-							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="glyphicon glyphicon-search"></span></a>
+							<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" >
+								<span class="glyphicon glyphicon-remove"></span>
+							</a>
 						</td>
 					</tr>
 				{/if}
@@ -110,7 +117,7 @@
 						</style>
 					{/if}
 					<td class="{$WIDTHTYPE}">
-						{if $LISTVIEW_ENTRY->PermissionsToEditView eq true}
+						{if $LISTVIEW_ENTRY->lockEditView eq false}
 							<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}"/>
 						{/if}
 					</td>
@@ -133,21 +140,22 @@
 										{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
 									{/if}
 								{/if}
-								{if $LISTVIEW_HEADER@last}
-							</td><td nowrap class="{$WIDTHTYPE}">
+						</td>
+						{if $LISTVIEW_HEADER@last}
+							<td nowrap class="{$WIDTHTYPE}">
 								<div class="actions pull-right">
 									<span class="actionImages">
 										<a href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
-											{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->PermissionsToEditView eq true && $LISTVIEW_ENTRY->isPermittedToEditView == 1}
+											{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->lockEditView eq false && $LISTVIEW_ENTRY->isPermittedToEditView == 1}
 											<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
 											{/if}
-											{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->PermissionsToEditView eq true && $LISTVIEW_ENTRY->isPermittedToEditView == 1}
+											{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->lockEditView eq false && $LISTVIEW_ENTRY->isPermittedToEditView == 1}
 											<a class="deleteRecordButton"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 											{/if}
 									</span>
-								</div></td>
-							{/if}
-						</td>
+								</div>
+							</td>
+						{/if}
 					{/foreach}
 					</tr>
 				{/foreach}

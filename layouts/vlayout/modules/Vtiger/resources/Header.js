@@ -283,25 +283,32 @@ jQuery.Class("Vtiger_Header_Js", {
 					icon = 'glyphicon glyphicon-calendar';
 					linkHtml = '';
 					hidden = '';
+					helpIcon = ''
 					if (events[ev]['set'] == 'Task') {
 						icon = 'icon-tasks';
 					}
 					if (events[ev]['linkl']) {
 						linkHtml = '<div class="cut-string"><i class="calIcon modIcon_' + events[ev]['linkm'] + '"></i> ' + events[ev]['linkl'] + '</div>';
 					}
+					helpIcon = '<p> '+ app.vtranslate('JS_START_DATE')+': '+ events[ev]['start'] +' </p><p> '+ app.vtranslate('JS_END_DATE')+': '+ events[ev]['end'] +' </p>\n\
+								<p> '+ app.vtranslate('JS_SUBJECT')+': '+ events[ev]['title'].substring(0,25) +' </p><p> '+ app.vtranslate('JS_STATE')+': '+ app.vtranslate(events[ev]['state']) +' </p>\n\
+								<p> '+ app.vtranslate('JS_STATUS')+': '+ app.vtranslate(events[ev]['sta']) +' </p><p> '+ app.vtranslate('JS_PRIORITY')+': '+ app.vtranslate(events[ev]['pri']) +' </p>'
 					/*if(typeActive == 'Task' && events[ev]['set'] != 'Task'){
 					 hidden = 'hide';
 					 }else if(typeActive == 'Event' && events[ev]['set'] == 'Task'){
 					 hidden = 'hide';
 					 }*/
 					if (events[ev]['start'].indexOf(validDateFromat) > -1) {
-						data.find('#prev_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span> ' + events[ev]['title'] + '</span></div></a>' + linkHtml + '</td></tr>');
+						data.find('#prev_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['start'] + '</strong></span><span> ' + events[ev]['title'].substring(0,22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="'+helpIcon+'"><i class="glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
 					} else if (events[ev]['start'].indexOf(currentDate) > -1) {
-						data.find('#cur_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span> ' + events[ev]['title'] + '</span></div></a>' + linkHtml + '</td></tr>');
+						data.find('#cur_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['start'] + '</strong></span><span> ' + events[ev]['title'].substring(0,22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="'+helpIcon+'"><i class="glyphicon glyphicon-info-sign"></i></span></div></a>' + linkHtml + '</td></tr>');
 					} else if (events[ev]['start'].indexOf(dateEndFirst) > -1) {
-						data.find('#next_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent"><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span> ' + events[ev]['title'] + '</span></div></a>' + linkHtml + '</td></tr>');
+						data.find('#next_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent"><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['start'] + '</strong></span><span> ' + events[ev]['title'].substring(0,22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="'+helpIcon+'"><i class="glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
 					}
 				}
+				var quickCreateForm
+				thisInstance.registerHelpInfo(quickCreateForm);
+
 			} else {
 				data.find('.modal-body').css({'max-height': '', 'overflow-y': ''});
 			}
@@ -518,7 +525,7 @@ jQuery.Class("Vtiger_Header_Js", {
 				_renderItem: function (ul, item) {
 					return $("<li>")
 							.data("item.autocomplete", item)
-							.append($("<a></a>")[ this.options.html ? "html" : "text" ](item.label))
+							.append($("<a></a>").html(item.label))
 							.appendTo(ul);
 				},
 			});

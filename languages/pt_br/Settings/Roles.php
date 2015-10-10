@@ -39,9 +39,11 @@ $languageStrings = [
 	'LBL_CLENDAR_ALLO_RECORDS_3' => 'Posso visualizar os Usuários da lista de registros que tenho permissão para acessar',
 	'LBL_PERMISSIONS_TO_LIST_RELATED_RECORDS' => 'A lista de registros (da qual não somos proprietarios) deverá ser relacionada com nossos registros a serem compartilhados',
 	'LBL_PERMISSIONS_TO_VIEW_RELATED_RECORDS' => 'A visualizaçao dos registros (que não somos proprietarios) deverá ser relacionada com nossos registros a serem compartilhados.',
+	'LBL_PERMISSIONS_TO_EDIT_RELATED_RECORDS' => 'Caso a edição dos registros (do qual não somos proprietaŕios) relacionados com nossos registros for habilitada',
 	'LBL_INACTIVE' => 'Inativo',
 	'LBL_ONLY_PARENT' => 'Registro pai',
 	'LBL_ACCORDING_TO_HIERARCHY' => 'De acordo com a hierarquia',
+	'LBL_SHOW_GLOBAL_SEARCH_ADVANCED' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Não tem Permissão para Mover',

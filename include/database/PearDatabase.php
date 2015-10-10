@@ -155,7 +155,7 @@ class PearDatabase
 				$message .= "($file : $line)";
 			}
 		}
-		$this->log->$type("DB ->" . $message);
+		$this->log->$type($message);
 		return $message;
 	}
 
@@ -395,38 +395,72 @@ class PearDatabase
 		return $this->stmt;
 	}
 
-	function insert($table, $data)
+	/**
+	 * A function to insert data into the database
+	 * @param string $table Table name
+	 * @param array $data Query data
+	 * @return array Row count and last insert id
+	 */
+	function insert($table, array $data)
 	{
-		$insert = false;
 		if (!$table) {
 			$this->log('Missing table name', 'error');
 			$this->checkError('Missing table name');
+			return false;
 		} else if (!is_array($data)) {
 			$this->log('Missing data, data must be an array', 'error');
 			$this->checkError('Missing table name');
-		} else {
-			$columns = '';
-			foreach ($data as $column => $cur) {
-				$columns .= ($columns ? ',' : '') . $this->quote($column, false);
-			}
-			$insert = 'INSERT INTO ' . $table . ' (' . $columns . ') VALUES (' . $this->generateQuestionMarks($data) . ')';
-			$this->pquery($insert, $data);
-			return ['rowCount' => $this->stmt->rowCount(), 'id' => $this->database->lastInsertId()];
+			return false;
 		}
-		return false;
+		$columns = '';
+		foreach ($data as $column => $cur) {
+			$columns .= ($columns ? ',' : '') . $this->quote($column, false);
+		}
+		$insert = 'INSERT INTO ' . $table . ' (' . $columns . ') VALUES (' . $this->generateQuestionMarks($data) . ')';
+		$this->pquery($insert, $data);
+		return ['rowCount' => $this->stmt->rowCount(), 'id' => $this->database->lastInsertId()];
 	}
 
-	function delete($table, $where = '', $params = [])
+	/**
+	 * A function to remove data from the database
+	 * @param string $table Table name
+	 * @param string $where Conditions
+	 * @param array $params Query data
+	 * @return int Number of deleted records
+	 */
+	function delete($table, $where = '', array $params = [])
 	{
-		$insert = false;
 		if (!$table) {
 			$this->log('Missing table name', 'error');
 			$this->checkError('Missing table name');
-		} else {
-			if ($where != '')
-				$where = 'WHERE ' . $where;
-			$this->pquery("DELETE FROM $table $where", $params);
+			return false;
 		}
+		if ($where != '')
+			$where = 'WHERE ' . $where;
+		$this->pquery("DELETE FROM $table $where", $params);
+		return $this->stmt->rowCount();
+	}
+
+	/**
+	 * A function to update data in the database
+	 * @param string $table Table name
+	 * @param array $columns Columns to update
+	 * @param string $where Conditions
+	 * @param array $params Query data
+	 * @return int Number of updated records
+	 */
+	function update($table, array $columns, $where, array $params)
+	{
+		$this->log('Update | table: ' . $table . ',columns:' . print_r($columns, true) . ',where:' . $where . ',params:' . print_r($params, true));
+		$query = "UPDATE $table SET ";
+		foreach ($columns as $column => $value) {
+			$query .= $column . ' = ?,';
+			$values[] = $value;
+		}
+		$query = trim($query, ',');
+		$query .= ' WHERE ' . $where;
+		$this->pquery(trim($query, ','), [array_merge($values, $params)]);
+		return $this->stmt->rowCount();
 	}
 
 	function query_result(&$result, $row, $col = 0)

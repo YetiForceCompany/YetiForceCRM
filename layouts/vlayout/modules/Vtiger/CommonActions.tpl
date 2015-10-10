@@ -86,11 +86,14 @@
 				<input type="text"  class="form-control" title="{vtranslate('LBL_GLOBAL_SEARCH')}" id="globalSearchValue" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
 				<span id="searchIcon" class="input-group-addon cursorPointer"><span class="glyphicon glyphicon-search "></span></span>
 			</div>
-			<div class="pull-left">
-				<span class="adv-search navbar-form">
-					<button class="alignMiddle btn btn-info" id="globalSearch">{vtranslate('LBL_ADVANCE_SEARCH')}</button>
-				</span>
-			</div>
+			{assign var="ROLE_DETAIL" value=Users_Record_Model::getCurrentUserModel()->getRoleDetail()}
+			{if $ROLE_DETAIL['globalsearchadv'] == 1}
+				<div class="pull-left">
+					<span class="adv-search navbar-form">
+						<button class="alignMiddle btn btn-info" id="globalSearch">{vtranslate('LBL_ADVANCE_SEARCH')}</button>
+					</span>
+				</div>
+			{/if}
 		</div>
 	</div>	
 	{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}

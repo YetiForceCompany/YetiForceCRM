@@ -35,6 +35,11 @@
 			{foreach item=ALPHABET from=$ALPHABETS}
 				<td class="alphabetSearch textAlignCenter cursorPointer {if $ALPHABET_VALUE eq $ALPHABET} highlightBackgroundColor {/if}" style="padding : 0px !important"><a id="{$ALPHABET}" href="#">{$ALPHABET}</a></td>
 			{/foreach}
+			<td class="alphabetSearch textAlignCenter cursorPointer">
+				<a href="index.php?view=List&module={$MODULE}" >
+					<span class="glyphicon glyphicon-remove"></span>
+				</a>
+			</td>
 			</tr>
 		</tbody>
 	</table>
@@ -74,7 +79,11 @@
 			</tr>
 		</thead>
         <tr>
-            <td><a class="btn btn-default" href="index.php?view=List&module={$MODULE}" ><span class="glyphicon glyphicon-remove"></span></a></td>
+			<td>
+				<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()">
+					<span class="glyphicon glyphicon-search"></span>
+				</a>
+			</td>
          {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
              <td>
                  {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}     
@@ -83,7 +92,9 @@
              </td>
          {/foreach}
          <td> 
-			<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="glyphicon glyphicon-search"></span></a>
+			<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" >
+				<span class="glyphicon glyphicon-remove"></span>
+			</a>
          </td>
         </tr>
 		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
@@ -128,15 +139,13 @@
 					{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
 				{/if}
 				{if $LISTVIEW_HEADER@last}
-				</td><td nowrap class="{$WIDTHTYPE}">
+				</td><td nowrap class="{$WIDTHTYPE}">		
 				<div class="actions pull-right">
 					<span class="actionImages">
-                        {if $IS_MODULE_EDITABLE && $EDIT_VIEW_URL && $LISTVIEW_ENTRY->get('taskstatus') neq 'Held' && $LISTVIEW_ENTRY->get('taskstatus') neq 'Completed'}
-                            <a class="markAsHeld"><span title="{vtranslate('LBL_MARK_AS_HELD', $MODULE)}" class="glyphicon glyphicon-ok alignMiddle"></span></a>&nbsp;
+						{assign var=CURRENT_ACTIVITY_LABELS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
+                        {if $IS_MODULE_EDITABLE && $EDIT_VIEW_URL && in_array($LISTVIEW_ENTRY->get('activitystatus'),$CURRENT_ACTIVITY_LABELS)}
+                            <a class="markAsHeld schowModalWindow" data-url="{$LISTVIEW_ENTRY->getActivityStateModalUrl()}"><span title="{vtranslate('LBL_MARK_AS_HELD', $MODULE)}" class="glyphicon glyphicon-ok alignMiddle"></span></a>&nbsp;
                         {/if}
-                        {if $IS_MODULE_EDITABLE && $EDIT_VIEW_URL && $LISTVIEW_ENTRY->get('taskstatus') eq 'Held'}
-							<a class="holdFollowupOn"><span title="{vtranslate('LBL_HOLD_FOLLOWUP_ON', "Events")}" class="icon-flag alignMiddle"></span></a>&nbsp;
-						{/if}
 						{if $FULL_DETAIL_VIEW_URL}
 							<a href="{$FULL_DETAIL_VIEW_URL}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
 						{/if}

@@ -132,8 +132,18 @@ Vtiger_List_Js("Calendar_List_Js",{
         var thisInstance = this;
 		var listViewContentDiv = this.getListViewContentContainer();
 		listViewContentDiv.on('click','.markAsHeld',function(e){
-            var elem = jQuery(e.currentTarget);
-			var recordId = elem.closest('tr').data('id');
+			var currentTarget = jQuery(e.currentTarget);
+			var recordId = currentTarget.closest('tr').data('id');
+			currentTarget.popover('hide');
+			var url = currentTarget.data('url');
+			if (url && typeof url != 'undefined') {
+				app.showModalWindow(null, url);
+			}
+			e.stopPropagation();
+		});
+			
+			
+			/*
             var message = app.vtranslate('JS_CONFIRM_MARK_AS_HELD');
             Vtiger_Helper_Js.showConfirmationBox({'message' : message}).then(
 			function(e) {
@@ -177,7 +187,7 @@ Vtiger_List_Js("Calendar_List_Js",{
                 return false;
 			});
             e.stopPropagation();
-        });
+        });*/
     },
 
     registerEvents : function(){

@@ -156,7 +156,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerSectionClick();
 		this.registerLoadMore();
 	},
-	
 	/**
 	 * Change of widget entries sorting
 	 * @license licenses/License.html
@@ -329,20 +328,25 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	registerSectionClick: function () {
 	},
-	registerLoadMore: function(){
+	registerLoadMore: function () {
 		var thisInstance = this;
 		var parent = thisInstance.getContainer();
 		var contentContainer = parent.find('.dashboardWidgetContent');
-		contentContainer.off('click', 'a[name="history_more"]');
-		contentContainer.on('click', 'a[name="history_more"]', function(e) {
+		contentContainer.off('click', 'a.showMoreHistory');
+		contentContainer.on('click', 'a.showMoreHistory', function (e) {
 			var element = jQuery(e.currentTarget);
 			element.hide();
 			var parent = jQuery(e.delegateTarget).closest('.dashboardWidget');
-			jQuery(parent).find('.slimScrollDiv').css('overflow','visible');
+			jQuery(parent).find('.slimScrollDiv').css('overflow', 'visible');
+
+			var user = parent.find('.owner').val();
 			var type = parent.find("[name='type']").val();
-			var url = element.data('url')+'&content=true&type='+type;
+			var url = element.data('url') + '&content=true&owner=' + user;
+			if (parent.find("[name='type']").length > 0) {
+				url += '&type=' + type;
+			}
 			contentContainer.progressIndicator();
-			AppConnector.request(url).then(function(data) {
+			AppConnector.request(url).then(function (data) {
 				contentContainer.progressIndicator({'mode': 'hide'});
 				jQuery(parent).find('.dashboardWidgetContent').append(data);
 				element.parent().remove();
@@ -1035,6 +1039,10 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		if (user == 'all') {
 			user = '';
 		}
+		var status = parent.find('.status').val();
+		if (status == 'all') {
+			status = '';
+		}
 		var params = {
 			module: 'Calendar',
 			action: 'Calendar',
@@ -1042,6 +1050,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			start: start_date,
 			end: end_date,
 			user: user,
+			activitystatus: status,
 			widget: true
 		}
 		AppConnector.request(params).then(function (events) {
@@ -1054,8 +1063,11 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			thisInstance.getCalendarView().fullCalendar('addEventSource',
 					events.result
 					);
+			thisInstance.getCalendarView().find(".fc-event-container a").click(function () {
+				var container = thisInstance.getContainer();
+				window.location.href = 'index.php?module=Calendar&view=List&search_params=[[["assigned_user_id","c","' + container.find('.widgetFilter.owner option:selected').data('name') + '"],["activitytype","e","' + $(this).data('type') + '"],["date_start","bw","' + $(this).data('date') + ',' + $(this).data('date') + '"]' + ((status) ? ',["activitystatus","e","' + container.find('select.widgetFilter.status').val() + '"]' : '') + ']]';
+			});
 		});
-
 	},
 	getCalendarView: function () {
 		if (this.calendarView == false) {
@@ -1103,4 +1115,32 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		refreshContainer.progressIndicator({'mode': 'hide'});
 	},
 });
+Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
+	modalView: false,
+	postLoadWidget: function () {
+		this._super();
+		this.registerActivityChange();
+	},
+	registerActivityChange: function () {
+		var thisInstance = this;
+		var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
+		refreshContainer.find('.changeActivity').on('click', function (e) {
+			if (jQuery(e.target).is('a') || thisInstance.modalView) {
+				return;
+			}
+			var url = jQuery(this).data('url');
+			if (typeof url != 'undefined') {
+				var callbackFunction = function () {
+					thisInstance.modalView = false;
+				};
+				thisInstance.modalView = true;
+				app.showModalWindow(null, url, callbackFunction);
+			}
+		})
+	}
+});
+YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedupcomingcalendartasks_Widget_Js', {}, {});
+YetiForce_Calendaractivities_Widget_Js('YetiForce_Creatednotmineactivities_Widget_Js', {}, {});
+YetiForce_Calendaractivities_Widget_Js('YetiForce_Overdueactivities_Widget_Js', {}, {});
+YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedoverduecalendartasks_Widget_Js', {}, {});
 

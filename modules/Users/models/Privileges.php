@@ -184,20 +184,33 @@ class Users_Privileges_Model extends Users_Record_Model
 		return getNonAdminAccessControlQuery($module, $currentUser);
 	}
 
-	function CheckPermissionsToEditView($moduleName, $record)
+	protected static $lockEditCache = [];
+
+	public static function checkLockEdit($moduleName, $record)
 	{
-		$log = vglobal('log');
-		$log->info("Entering Into fn CheckPermissionsToEditView($moduleName, $record)");
+		if (isset(self::$lockEditCache[$moduleName . $record])) {
+			return self::$lockEditCache[$moduleName . $record];
+		}
+		$return = false;
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$currentUserId = $currentUserModel->getId();
-		$recordPermission = true;
-		if ($record == '' || $currentUserModel->isAdminUser()) {
-			return true;
+
+		vimport('~~modules/com_vtiger_workflow/include.inc');
+		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
+		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
+		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
+		if (count($workflows)) {
+			$wsId = vtws_getWebserviceEntityId($moduleName, $record);
+			$entityCache = new VTEntityCache($currentUserModel);
+			$entityData = $entityCache->forId($wsId);
+			foreach ($workflows as $id => $workflow) {
+				if ($workflow->evaluate($entityCache, $entityData->getId())) {
+					$return = true;
+				}
+			}
 		}
-		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-		$PermissionsHandlers = Settings_DataAccess_Module_Model::executePermissionsHandlers($moduleName, $record, $recordModel);
-		$log->info("Exiting fn CheckPermissionsToEditView()");
-		return $PermissionsHandlers['success'];
+		self::$lockEditCache[$moduleName . $record] = $return;
+		return $return;
 	}
 
 	/**
@@ -319,6 +332,9 @@ class Users_Privileges_Model extends Users_Record_Model
 		if (!$moduleName) {
 			$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record);
 			$moduleName = $recordMetaData['setype'];
+		}
+		if ($moduleName == 'Events') {
+			$moduleName = 'Calendar';
 		}
 
 		$parentRecord = false;

@@ -55,6 +55,9 @@ class HTMLPurifier_EntityParser
      * @returns Parsed string.
      */
     public function substituteNonSpecialEntities($string) {
+		if(preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $string)){
+			return $string;
+		}
         // it will try to detect missing semicolons, but don't rely on it
         return preg_replace_callback(
             $this->_substituteEntitiesRegex,
@@ -89,6 +92,7 @@ class HTMLPurifier_EntityParser
             if (!$this->_entity_lookup) {
                 $this->_entity_lookup = HTMLPurifier_EntityLookup::instance();
             }
+			
             if (isset($this->_entity_lookup->table[$matches[3]])) {
                 return $this->_entity_lookup->table[$matches[3]];
             } else {

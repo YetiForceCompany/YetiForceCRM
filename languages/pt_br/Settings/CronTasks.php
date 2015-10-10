@@ -33,27 +33,16 @@ $languageStrings = [
 	'LBL_NAME' => 'Nome',
 	'LBL_PATH_TO_FILE' => 'Diretório do arquivo',
 	'Workflow' => 'Workflow',
-<<<<<<< HEAD
 	'RecurringInvoice' => 'Fatura Recorrente',
 	'MailScannerAction' => 'Ação Escaner Mensagens',
 	'MailScannerVerification' => 'Verificação Escaner Mensagens',
 	'SendReminder' => 'Enviar Lembrete',
 	'Scheduled Import' => 'Importação Agendada',
 	'ScheduleReports' => 'Agendar Relatórios',
-	'MailScannerBind' => 'Vincular Escaner Mensagens'
-=======
-	'RecurringInvoice' => 'Recurring Invoice',
-	'MailScannerAction' => 'Mail Scanner Action',
-	'MailScannerVerification' => 'Mail Scanner Verification',
-	'SendReminder' => 'Send Reminder',
-	'Scheduled Import' => 'Scheduled Import',
-	'ScheduleReports' => 'Schedule Reports',
-	'MailScannerBind' => 'Mail Scanner Bind',
-	'LBL_CURRENCY_UPDATE' => 'Currency Update'
->>>>>>> upstream/master
+	'MailScannerBind' => 'Vincular Escaner Mensagens',
+	'LBL_CURRENCY_UPDATE' => 'Atualizar Moeda',
+	'LBL_MULTI_REFERENCE_VALUE' => 'Atualizar campos multireferência',
 ];
-
-
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'A frequência recomendada para a Importação Agendada é de 15 minutos',
 	'Recommended frequency for SendReminder is 15 mins' => 'A frequência recomendada para o Lembrete de Envio é de 15 minutos',

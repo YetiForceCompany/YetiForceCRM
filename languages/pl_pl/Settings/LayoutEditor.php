@@ -86,6 +86,11 @@ $languageStrings = [
 	'Tree' => 'Pole drzewa',
 	'LBL_FIELD_MASK' => 'Maska',
 	'LBL_FIELD_MASK_INFO' => 'Domyślnie definicje maskujące<br />9: numeryczny<br />a: alfabetycznie<br />*: Alfanumeryczny<br /><br />Przykład:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
+	'MultiReferenceValue' => 'Wartości z modułu powiązanego',
+	'LBL_MULTI_REFERENCE_VALUE_MODULES' => 'Moduł powiązany',
+	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'Pole powiązane',
+	'LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD' => 'Fitruj po polu',
+	'LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE' => 'Filtruj po wartości',
 	
 	'LBL_ADD_RELATION' => 'Dodaj relację',
 	'LBL_REMOVE_RELATION' => 'Usuń relację',
@@ -119,6 +124,8 @@ $languageStrings = [
 	'LBL_DISPLAY_TYPE' => 'Typ pola',
 	'LBL_EDITABLE' => 'Edytowalne',
 	'LBL_READONLY' => 'Tylko do odczytu',
+	'LBL_FIELDS_EXISTS_IN_BLOCK' => 'Nie można usunąc bloku bo zawiera pola',
+	'LBL_DELETE_CUSTOM_BLOCKS' => 'Nie można usunąć standardowych (nie stworzonych przez użytkownika) bloków',
 ];
 
 $jsLanguageStrings = [

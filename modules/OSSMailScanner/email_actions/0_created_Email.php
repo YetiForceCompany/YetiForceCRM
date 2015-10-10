@@ -11,6 +11,7 @@
 
 function _0_created_Email($user_id, $mailDetail, $folder, $return)
 {
+	$type = OSSMailScanner_Record_Model::getTypeEmail($mailDetail);
 	$folder_group = OSSMailScanner_Record_Model::getConfigFolderList($folder);
 	$exceptionsAll = OSSMailScanner_Record_Model::getConfig('exceptions');
 	$adb = PearDatabase::getInstance();
@@ -18,9 +19,15 @@ function _0_created_Email($user_id, $mailDetail, $folder, $return)
 	$assigned_user_id = $adb->query_result($result_user_id, 0, 'crm_user_id');
 	$result = $adb->pquery('SELECT ossmailviewid FROM vtiger_ossmailview where uid = ? AND rc_user = ? ', [$mailDetail['message_id'], $user_id]);
 
+	if ($type == 0) {
+		$mailForExceptions = $mailDetail['toaddress'];
+	}else{
+		$mailForExceptions = $mailDetail['fromaddress'];
+	}
+	
 	$exceptions = explode(',', $exceptionsAll['crating_mails']);
 	foreach ($exceptions as $exception) {
-		if (strpos($mailDetail['fromaddress'], $exception) !== FALSE) {
+		if (strpos($mailForExceptions, $exception) !== FALSE) {
 			return ['created_Email' => ''];
 		}
 	}
@@ -40,7 +47,7 @@ function _0_created_Email($user_id, $mailDetail, $folder, $return)
 		$OSSMailViewInstance->column_fields['uid'] = $mailDetail['message_id'];
 		$OSSMailViewInstance->column_fields['id'] = $mailDetail['id'];
 		$OSSMailViewInstance->column_fields['mbox'] = $folder;
-		$OSSMailViewInstance->column_fields['type'] = OSSMailScanner_Record_Model::getTypeEmail($mailDetail);
+		$OSSMailViewInstance->column_fields['type'] = $type;
 		$OSSMailViewInstance->column_fields['rc_user'] = $user_id;
 		$adress = [];
 		if ($mailDetail['fromaddress']) {

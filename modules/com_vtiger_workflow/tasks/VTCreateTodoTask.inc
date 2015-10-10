@@ -29,7 +29,7 @@ class VTCreateTodoTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return ['todo', 'description', 'time', 'days_start', 'days_end', 'status', 'priority', 'days', 'direction_start', 'datefield_start', 'direction_end', 'datefield_end', 'sendNotification', 'assigned_user_id', 'days', 'doNotDuplicate', 'duplicateStatus'];
+		return ['todo', 'description', 'time', 'days_start', 'days_end', 'status', 'priority', 'days', 'direction_start', 'datefield_start', 'direction_end', 'datefield_end', 'sendNotification', 'assigned_user_id', 'days', 'doNotDuplicate', 'duplicateStatus', 'updateDates'];
 	}
 
 	function getAdmin()
@@ -76,8 +76,13 @@ class VTCreateTodoTask extends VTTask
 			}
 		}
 
-		// Added to check if the user/group is active
-		if (!empty($this->assigned_user_id)) {
+		if ($this->assigned_user_id == 'currentUser' && isset($current_user)) {
+			$userId = vtws_getWebserviceEntityId('Users', $current_user->id);
+		}
+
+		if ($this->assigned_user_id == 'copyParentOwner') {
+			$userId = $entityData->get('assigned_user_id');
+		} else if (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
 			$userExists = $adb->pquery('SELECT 1 FROM vtiger_users WHERE id = ? AND status = ?', array($this->assigned_user_id, 'Active'));
 			if ($adb->num_rows($userExists)) {
 				$assignedUserId = vtws_getWebserviceEntityId('Users', $this->assigned_user_id);
@@ -87,10 +92,6 @@ class VTCreateTodoTask extends VTTask
 				if ($adb->num_rows($groupExist)) {
 					$assignedGroupId = vtws_getWebserviceEntityId('Groups', $this->assigned_user_id);
 					$userId = $assignedGroupId;
-				} else {
-					if ($this->assigned_user_id == 'copyParentOwner') {
-						$userId = $entityData->get('assigned_user_id');
-					}
 				}
 			}
 		}
@@ -153,7 +154,7 @@ class VTCreateTodoTask extends VTTask
 			'description' => $this->description,
 			'subject' => $this->todo,
 			'taskpriority' => $this->priority,
-			'taskstatus' => $this->status,
+			'activitystatus' => $this->status,
 			'assigned_user_id' => $userId,
 			'time_start' => $time,
 			'time_end' => $timeEnd,
@@ -162,7 +163,7 @@ class VTCreateTodoTask extends VTTask
 			'date_start' => $date_start,
 			'due_date' => $due_date,
 			'visibility' => 'Private',
-			'eventstatus' => ''
+			//'eventstatus' => ''
 		);
 		if (in_array($moduleName, ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees'])) {
 			$fields['link'] = $id;
@@ -176,6 +177,14 @@ class VTCreateTodoTask extends VTTask
 		$entityIdDetails = vtws_getIdComponents($id);
 
 		relateEntities(CRMEntity::getInstance($moduleName), $moduleName, $entityIdDetails[1], 'Calendar', $todoIdDetails[1]);
+
+		if ($this->updateDates == 'true') {
+			$adb->insert('vtiger_activity_update_dates', [
+				'activityid' => $todoIdDetails[1],
+				'parent' => $entityIdDetails[1],
+				'task_id' => $this->id,
+			]);
+		}
 
 		$current_user = vglobal('current_user');
 		$current_user = $this->originalUser;
