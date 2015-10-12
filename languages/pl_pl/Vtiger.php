@@ -737,6 +737,7 @@ $languageStrings = [
 	'LBL_SEND_MAIL_PDF' => 'Wyślij mailem PDF',
 	'LBL_SORT_DESCENDING' => 'Sortuj malejąco',
 	'LBL_SORT_ASCENDING' => 'Sortuj rosnąco',
+	'LBL_GO_TO_RECORDS_LIST' => 'Przejdź do listy rekordów',
 	'LBL_SEARCH_IN_FIELD' => 'Wyszukaj frazy w polu',
 	'LBL_SELECT_FILE' => 'Wybierz plik do dodania',
 	'LBL_ENABLE_CURRENCY' => 'Waluta zaznaczona',

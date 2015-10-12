@@ -1120,6 +1120,7 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 	postLoadWidget: function () {
 		this._super();
 		this.registerActivityChange();
+		this.registerListViewButton();
 	},
 	postRefreshWidget: function () {
 		this._super();
@@ -1141,6 +1142,22 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 				app.showModalWindow(null, url, callbackFunction);
 			}
 		})
+	},
+	registerListViewButton: function () {
+		var thisInstance = this;
+		var container = thisInstance.getContainer();
+		container.find('.goToListView').on('click', function () {
+			var status = container.find('.status').prop('checked');
+			if (container.data('name') == 'OverdueActivities') {
+				status = 'PLL_OVERDUE';
+			} else if (status) {
+				status = 'PLL_IN_REALIZATION';
+			} else {
+				status = 'PLL_PLANNED';
+			}
+			window.location.href = 'index.php?module=Calendar&view=List&search_params=[[["assigned_user_id","c","' + container.find('.widgetFilter.owner option:selected').data('name') + '"],["activitystatus","e","' + status + '"]]]';
+			;
+		});
 	}
 });
 YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedupcomingcalendartasks_Widget_Js', {}, {});
