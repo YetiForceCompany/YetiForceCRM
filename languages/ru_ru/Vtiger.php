@@ -643,6 +643,7 @@ $languageStrings = [
 	'LBL_NO_RELATED' => 'Нет связанных записей типа',
 	'LBL_NO_RELATED_RECORDS_FOUND' => 'Записи не найдены',
 	'LBL_NO_SCHEDULED_ACTIVITIES' => 'Нет запланированных Событий',
+	'LBL_NO_CURRENT_ACTIVITIES' => "No current tasks/ to do's, check your schedule",
 	'LBL_NO_UPDATES' => 'Нет обновлений',
 	'LBL_NO_UPDATES_OR_COMMENTS' => 'Нет обновлений или комментариев',
 	'LBL_NULL_VALUE' => '(Нет значения)',

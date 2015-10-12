@@ -369,6 +369,7 @@ $languageStrings = [
 	'LBL_NO_RECORD_SELECTED' => 'Nie zaznaczono rekordów.',
 	'LBL_NO_RELATED' => 'Brak powiązanych',
 	'LBL_NO_SCHEDULED_ACTIVITIES' => 'Brak nadchodzących wydarzeń',
+	'LBL_NO_CURRENT_ACTIVITIES' => "Brak bieżących terminów/zadań, sprawdź co masz planowane",
 	'LBL_NO_UPDATES' => 'Brak zmian',
 	'LBL_NO_UPDATES_OR_COMMENTS' => 'Brak aktualizacji lub komentarzy',
 	'LBL_Oct' => 'Paź',

@@ -432,6 +432,7 @@ $languageStrings = [
 	'LBL_NO_RECORD_SELECTED' => 'No record selected.',
 	'LBL_NO_RELATED' => 'No Related',
 	'LBL_NO_SCHEDULED_ACTIVITIES' => 'No scheduled activities',
+	'LBL_NO_CURRENT_ACTIVITIES' => "No current tasks/ to do's, check your schedule",
 	'LBL_NO_UPDATES' => 'No Updates',
 	'LBL_NO_UPDATES_OR_COMMENTS' => 'No updates or comments',
 	'LBL_Oct' => 'Oct',

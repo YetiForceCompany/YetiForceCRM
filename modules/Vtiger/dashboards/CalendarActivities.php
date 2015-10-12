@@ -48,6 +48,10 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$switchLabels[] = ['label' => vtranslate($stateActivityLabels['in_realization'], 'Calendar'), 'name' => $stateActivityLabels['in_realization']];
 		$switchLabels[] = ['label' => vtranslate($stateActivityLabels['not_started'], 'Calendar'), 'name' => $stateActivityLabels['not_started']];
 
+		$msgLabel = 'LBL_NO_SCHEDULED_ACTIVITIES';
+		if ($params['status'] == $stateActivityLabels['in_realization']) {
+			$msgLabel = 'LBL_NO_CURRENT_ACTIVITIES';
+		}
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTIVITIES', $calendarActivities);
@@ -58,7 +62,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('NAMELENGHT', $title_max_length);
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('HREFNAMELENGHT', $href_max_length);
-		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_SCHEDULED_ACTIVITIES');
+		$viewer->assign('NODATAMSGLABLE', $msgLabel);
 		$viewer->assign('SWITCH', $switchLabels);
 		$content = $request->get('content');
 		if (!empty($content)) {
