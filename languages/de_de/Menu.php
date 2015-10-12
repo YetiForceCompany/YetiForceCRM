@@ -13,8 +13,8 @@ $languageStrings = [
 	'LBL_SEPARATOR' => 'Trennzeichen',
 	'LBL_OTHER' => 'Andere',
 	'MEN_VIRTUAL_DESK' => 'Arbeitsplatz',
-	'MEN_COMPANIES_CONTACTS' => 'Verkauf',
-	'MEN_SALES' => 'Sales',
+	'MEN_COMPANIES_CONTACTS' => 'Geschäftspartner',
+	'MEN_SALES' => 'Vertrieb',
 	'MEN_PROJECTS' => 'Projekte',
 	'MEN_SUPPORT' => 'Support',
 	'MEN_BOOKKEEPING' => 'Buchhaltung',
@@ -25,5 +25,5 @@ $languageStrings = [
 	'MEN_PRODUCTBASE' => 'Produkt Datenbank',
 	'MEN_LISTS' => 'Listen',
 	'MEN_SERVICESBASE' => 'Service Datenbank',
-	'Menu' => 'Men�',
+	'Menu' => 'Menü',
 ];

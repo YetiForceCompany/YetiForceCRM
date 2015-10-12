@@ -28,7 +28,7 @@ $languageStrings = [
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Produkt/Dienstleistung wurde aus dem System entfernt. Entfernen Sie es aus dem Datensatz.',
 	'LBL_THIS' => 'Produkt/Dienstleistung (',
 	'SINGLE_Vendors' => 'Lieferant',
-	'Paid' => 'Paid',
+	'Paid' => 'Bezahlt',
 	'Balance' => 'Saldo',
 ];
 
