@@ -27,35 +27,34 @@
 					<input type="hidden" name='parent' value="Settings" />
 					<input type="hidden" name='back_view' value="Index" />
 
-					<table class="table table-bordered">
-						<tr>
-							<td class="fieldLabel"><span class="redColor">*</span>{vtranslate('LBL_TPL_NAME', $MODULE_NAME)}</td>
-							<td><input class="required form-control input-sm" name="tpl_name" value="" type="text" /></td>
+
+						<div class='col-md-12'>
+							<div class="col-md-6 fieldLabel"><span class="redColor">*</span>{vtranslate('LBL_TPL_NAME', $MODULE_NAME)}</div>
+							<div class='col-md-6' style='padding-bottom:15px;'><input class="required form-control input-sm" name="tpl_name" value="" type="text" /></div>
 						{assign var=FIRST_ROW value=0}	
 						{assign var=COUNTER value=0}
 						{foreach from=$FIELD_HTML key=key item=item}
 								{if $COUNTER eq 2}
-									</tr><tr>
+									</div><div class='col-md-12' style='padding-bottom:15px;'>
 									{assign var=COUNTER value=1}
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
 								{if $item.mandatory}
-									<td class="fieldLabel"><span class="redColor">*</span> {vtranslate($item.label, 'Project')}</td>    
+									<div class="col-md-6 fieldLabel"><span class="redColor">*</span> {vtranslate($item.label, 'Project')}</div>    
 								{else}
-									<td class="fieldLabel">{vtranslate($item.label, 'Project')}</td>
+									<div class="col-md-6 fieldLabel">{vtranslate($item.label, 'Project')}</div>
 								{/if}
-								<td>{$item.html}</td>
+								<div class='col-md-6 elementGroup' style='padding-bottom:15px;'>{$item.html}</div>
 								{if $FIRST_ROW eq 0}
-									</tr>
-									<tr>
+									</div>
+									<div class='col-md-12'>
 									{assign var=COUNTER value=0}
 									{assign var=FIRST_ROW value=$FIRST_ROW+1}
 								{/if}
 							
 						{/foreach}
-						</tr>
-					</table>
+						</div>
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-success okay-button" >{vtranslate('Save', $MODULE_NAME)}</button>

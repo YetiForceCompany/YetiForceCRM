@@ -848,7 +848,7 @@ li.ui-timepicker-selected,
 	margin-bottom: 2px;
 }
 .fieldLabel {
-	background: #f7f7f9;
+	background: #fff;
 }
 .fieldLabel label.marginRight10px {
 	text-align: right;
@@ -4541,4 +4541,13 @@ html,body,.baseContainer
 }
 .tablesaw-cell-label{
 	vertical-align: middle !important;
+}
+.modal-backdrop{
+	z-index: 1029;
+}
+.modal-body .fieldLabel{
+	font-weight:900;
+}
+.elementGroup > *{
+	margin-bottom: 10px;
 }
