@@ -576,7 +576,6 @@ $languageStrings = [
 	'LBL_MARGIN' => 'Прибыль',
 	'LBL_MARGINP' => 'Прибыль (%)',
 	'LBL_MARKETING_AND_SALES' => 'Маркетинг и продажи',
-	'LBL_MARK_AS_HELD' => 'Отметить как завершенное',
 	'LBL_MASS_ADD_COMMENT' => 'Комментировать',
 	'LBL_MASS_DELETE' => 'Удалить',
 	'LBL_MASS_EDIT' => 'Изменить',

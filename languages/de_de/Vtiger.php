@@ -386,7 +386,6 @@ $languageStrings = [
 	'LBL_MANAGE_USERS' => 'Benutzer verwalten',
 	'LBL_Mar' => 'Mar',
 	'LBL_MARKETING_AND_SALES' => 'MARKETING & VERTRIEB',
-	'LBL_MARK_AS_HELD' => 'Markieren als gehalten',
 	'LBL_MASS_EDITING' => 'Massen Bearbeitung',
 	'LBL_NO_RECORDS_MATCHED_THIS_CRITERIA' => 'No records matched this criteria.',
 	'LBL_MAX_NUMBER_FILTER_COLUMNS' => 'Max 12',
