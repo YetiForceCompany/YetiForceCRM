@@ -21,14 +21,16 @@ function _0_created_Email($user_id, $mailDetail, $folder, $return)
 
 	if ($type == 0) {
 		$mailForExceptions = $mailDetail['toaddress'];
-	}else{
+	} else {
 		$mailForExceptions = $mailDetail['fromaddress'];
 	}
-	
-	$exceptions = explode(',', $exceptionsAll['crating_mails']);
-	foreach ($exceptions as $exception) {
-		if (strpos($mailForExceptions, $exception) !== FALSE) {
-			return ['created_Email' => ''];
+
+	if (!empty($exceptionsAll['crating_mails'])) {
+		$exceptions = explode(',', $exceptionsAll['crating_mails']);
+		foreach ($exceptions as $exception) {
+			if (strpos($mailForExceptions, $exception) !== FALSE) {
+				return ['created_Email' => ''];
+			}
 		}
 	}
 	if ($adb->num_rows($result) == 0 && $mailDetail['message_id'] != '') {

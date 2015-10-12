@@ -187,7 +187,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
 		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
-		$viewer->assign('LANGUAGE', $currentUser->get('language'));
+		$viewer->assign('LANGUAGE', Vtiger_Language_Handler::getLanguage());
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}

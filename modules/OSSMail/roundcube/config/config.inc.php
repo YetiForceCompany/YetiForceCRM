@@ -20,7 +20,7 @@ if(!$no_include_config){
 }
 $config['db_dsnw'] = 'mysql://'.$dbconfig['db_username'].':'.$dbconfig['db_password'].'@'.$dbconfig['db_server'].':'.$dbconfig['db_port'].'/'.$dbconfig['db_name'];
 $config['db_prefix'] = 'roundcube_';
-$config['default_host'] = 'ssl://imap.gmail.com';
+$config['default_host'] = ['ssl://smtp.gmail.com' => 'ssl://smtp.gmail.com',];
 $config['validate_cert'] = false;
 $config['default_port'] = 993;
 $config['smtp_server'] = 'ssl://smtp.gmail.com';

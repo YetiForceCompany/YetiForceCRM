@@ -21,7 +21,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 		if ($accountsList) {
 			foreach ($accountsList as $key => $account) {
 				$identityList[$account['user_id']] = $mailScannerRecordModel->getIdentities($account['user_id']);
-				$mbox = $mailRecordModel->imap_connect($account['username'], $account['password'], 'INBOX', false);
+				$mbox = $mailRecordModel->imapConnect($account['username'], $account['password'], $account['mail_host'], 'INBOX', false);
 				$accountsList[$key]['status'] = $mbox ? 'LBL_ACTIVE_MAIL' : 'LBL_INACTIVE_MAIL';
 			}
 		}
