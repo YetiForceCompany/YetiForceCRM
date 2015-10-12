@@ -17,8 +17,9 @@
 			{vtranslate('LBL_ACTIVITY_TYPES_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	<hr>
-	<div class="contents tabbable">
-		<table class="table table-bordered table-condensed listViewEntriesTable">
+	</div>
+	<div class=" contents tabbable">
+		<table data-tablesaw-mode="stack" class="table table-bordered table-condensed listViewEntriesTable">
 			<thead>
 				<tr class="blockHeader">
 					<th><strong>{vtranslate('LBL_ACTIVITY_NAME',$QUALIFIED_MODULE)}</strong></th>
@@ -34,7 +35,7 @@
 						<td>{vtranslate($item.fieldname,$item.module)}</td>
 						<td>{vtranslate($item.module,$item.module)}</td>
 						<td>
-							<label class="checkbox">
+							<label class="">
 								<input class="activeType" type="checkbox" name="active" value="1" {if $item.active eq '1'}checked=""{/if}>
 							</label> 
 						</td>

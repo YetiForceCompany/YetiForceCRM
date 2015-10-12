@@ -32,7 +32,7 @@
 			</ul>
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
 				<div class="tab-pane active" id="userColors">
-					<table class="table table-bordered table-condensed listViewEntriesTable">
+					<table data-tablesaw-mode="stack" class="table table-bordered table-condensed listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">
 								<th><strong>{vtranslate('First Name',$QUALIFIED_MODULE)}</strong></th>
@@ -58,7 +58,7 @@
 					</table>
 				</div>
 				<div class="tab-pane" id="groupsColors">
-					<table class="table table-bordered table-condensed listViewEntriesTable">
+					<table data-tablesaw-mode="stack" class="table table-bordered table-condensed listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">
 								<th><strong>{vtranslate('LBL_GROUP_NAME',$QUALIFIED_MODULE)}</strong></th>
@@ -81,7 +81,7 @@
 					</table>
 				</div>
 				<div class="tab-pane" id="modulesColors">
-					<table class="table table-bordered table-condensed listViewEntriesTable">
+					<table data-tablesaw-mode="stack" class="table table-bordered table-condensed listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">
 								<th><strong>{vtranslate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>
@@ -126,7 +126,7 @@
 									</div>
 									<div id="{$TABLE}" class="accordion-body collapse {if	$smarty.foreach.ELEMENT.index eq 0 } in {/if}">
 										<div class="accordion-inner">
-											<table class="table table-bordered table-condensed listViewEntriesTable" data-fieldname="{$ITEM.fieldname}">
+											<table data-tablesaw-mode="stack" class="table table-bordered table-condensed listViewEntriesTable" data-fieldname="{$ITEM.fieldname}">
 												<thead>
 													<tr class="blockHeader">
 														<th><strong>{vtranslate($ITEM.fieldlabel, $MODULE_NAME)}</strong></th>

@@ -18,7 +18,7 @@
 	<br />
 	<div class="tab-content">
 		<div class='editViewContainer tab-pane active' id="general_configuration">
-			<table class="table table-bordered table-condensed themeTableColor userTable">
+			<table data-tablesaw-mode="stack" class="table table-bordered table-condensed themeTableColor userTable">
 				<thead>
 					<tr class="blockHeader" >
 						<th class="mediumWidthType">

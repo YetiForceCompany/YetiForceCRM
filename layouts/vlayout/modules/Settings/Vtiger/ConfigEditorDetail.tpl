@@ -23,7 +23,7 @@
 		</div>
 		<hr>
 		<div class="contents">
-			<table class="table table-bordered table-condensed themeTableColor">
+			<table data-tablesaw-mode="stack" class="table table-bordered table-condensed themeTableColor">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="2" class="{$WIDTHTYPE}">

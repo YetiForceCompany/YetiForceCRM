@@ -38,7 +38,7 @@
 			<div class="clearfix"></div>
 		</div>
 		<div class="contents tabbable table-responsive">
-			<table class="table table-bordered table-condensed listViewEntriesTable" id="modulesEntity">
+			<table data-tablesaw-mode="stack" class="table table-bordered table-condensed listViewEntriesTable" id="modulesEntity">
 				<thead>
 					<tr class="blockHeader">
 						<th><strong>{vtranslate('Module',$QUALIFIED_MODULE)}</strong></th>

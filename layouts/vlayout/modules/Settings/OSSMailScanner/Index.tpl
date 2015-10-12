@@ -51,8 +51,7 @@
                 <p><a class="btn btn-default" href="index.php?module=OSSMail&view=index">{vtranslate('OSSMail','OSSMail')}</a></p>
             </div>	
 		{else}
-		<div class="table-responsive">
-        <table class="table table-bordered">
+		<table data-tablesaw-mode="stack" class="table table-bordered">
             <thead>
                 <tr class="listViewHeaders">
                     <th>{vtranslate('username', 'OSSMailScanner')}</th>
@@ -107,11 +106,13 @@
                     <tr style="display: none;" data-user-id="{$row['user_id']}">
                         <td colspan="6">
                             <table class="table">
-                                <tr>
-                                    <th style="color: black; background-color: #d3d3d3;">{vtranslate('identities_name', 'OSSMailScanner')}</th>
-                                    <th style="color: black; background-color: #d3d3d3;">{vtranslate('identities_adress', 'OSSMailScanner')}</th>
-                                    <th colspan="2" style="color: black; background-color: #d3d3d3;">{vtranslate('identities_del', 'OSSMailScanner')}</th>
-                                </tr>
+				<thead>
+				    <tr>
+					<th style="color: black; background-color: #d3d3d3;">{vtranslate('identities_name', 'OSSMailScanner')}</th>
+					<th style="color: black; background-color: #d3d3d3;">{vtranslate('identities_adress', 'OSSMailScanner')}</th>
+					<th colspan="2" style="color: black; background-color: #d3d3d3;">{vtranslate('identities_del', 'OSSMailScanner')}</th>
+				    </tr>
+				</thead>
                                 {foreach item=item from=$IDENTITYLIST[$row['user_id']]}
                                 <tr style="{cycle values="'',background-color: #f9f9f9"}">
                                     <td>{$item['name']}</td>
@@ -125,12 +126,12 @@
                 {/foreach}
             </tbody>
         </table>
-		</div>
+		
 		{/if}
     </div>
     <div class='editViewContainer tab-pane marginTop20' id="tab_actions">
         <div class="alert alert-info">{vtranslate('Alert_info_tab_actions', 'OSSMailScanner')}</div>
-        <table class="table table-bordered">
+        <table data-tablesaw-mode="stack" class="table table-bordered">
             <thead>
                 <tr class="listViewHeaders">
                     <th>{vtranslate('nazwa', 'OSSMailScanner')}</th>

@@ -29,8 +29,7 @@
 	</span>
 	{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 	{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
-	<div class='table-responsive'>
-		<table class="table table-bordered table-condensed listViewEntriesTable">
+		<table data-tablesaw-mode="stack" class="table table-bordered table-condensed listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
 					<th width="1%" class="{$WIDTHTYPE}"></th>
@@ -92,7 +91,6 @@
 			{/foreach}
 			</tbody>
 		</table>
-	</div>
 	<!--added this div for Temporarily -->
 	{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 	<table class="emptyRecordsDiv">

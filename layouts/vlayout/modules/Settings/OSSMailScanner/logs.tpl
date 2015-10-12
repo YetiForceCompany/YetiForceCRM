@@ -26,16 +26,16 @@
                 <td><button class="btn btn-success" id="run_cron" type="button" {if $STOP_BUTTON_STATUS neq 'false'}disabled{/if}>{vtranslate('RunCron', 'OSSMailScanner')}</button></td>
             </tr>
             </table><br />   
-            <table>
-		<tr>
-			<td>{vtranslate('email_to_notify', 'OSSMailScanner')}: &nbsp;</td>
-					<td><input type="text" class="form-control" title="{vtranslate('email_to_notify', 'OSSMailScanner')}" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></td>
-		</tr>
-		<tr>
-			<td>{vtranslate('time_to_notify', 'OSSMailScanner')}: &nbsp;</td>
-			<td><input type="text" name="time_to_notify" title="{vtranslate('time_to_notify', 'OSSMailScanner')}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></td>
-		</tr>
-		</table>
+		<div class="row col-xs-12">
+			<div  class="row col-xs-8 marginBottom10px" >
+				<div class="row col-xs-6">{vtranslate('email_to_notify', 'OSSMailScanner')}: &nbsp;</div>
+				<div class="col-xs-6"><input type="text" class="form-control" title="{vtranslate('email_to_notify', 'OSSMailScanner')}" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></div>
+			</div>
+			<div class='row col-xs-8'>
+				<div class="row col-xs-6">{vtranslate('time_to_notify', 'OSSMailScanner')}: &nbsp;</div>
+				<div class="col-xs-6"><input type="text" name="time_to_notify" title="{vtranslate('time_to_notify', 'OSSMailScanner')}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></div>
+			</div>
+		</div>
 		<div class="pull-right">
 		<select class="col-md-1 form-control" name="page_num" title="{vtranslate('LBL_PAGE_NUMBER', $QUALIFIED_MODULE)}">
 						{if $HISTORYACTIONLIST_NUM eq 0}<option vlaue="1">1</option>{/if}
@@ -44,8 +44,7 @@
 			{/for}
 		</select>
 		</div>
-		<div class="table-responsive">
-			<table class="table table-bordered log-list">
+			<table data-tablesaw-mode="stack" class="table table-bordered log-list">
 				<tr class="listViewHeaders">
 					<th>{vtranslate('No', 'OSSMailScanner')}.</th>
 					<th>{vtranslate('startTime', 'OSSMailScanner')}</th>
@@ -77,7 +76,7 @@
 					</tr>
 				{/foreach}
 			</table>
-		</div>
+		
     </div>
 </div>
 {literal}

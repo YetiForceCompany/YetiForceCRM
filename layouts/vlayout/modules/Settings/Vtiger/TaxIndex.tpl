@@ -29,12 +29,16 @@
 						</th>
 					</tr>
 				</thead>
-				<tbody>
+			</table>
+			<table data-tablesaw-mode="stack" class="table table-bordered inventoryTaxTable themeTableColor">
+				<thead>
 					<tr>
-						<td class="themeTextColor textAlignCenter {$WIDTHTYPE}" style="border-left: none;"><strong>{vtranslate('LBL_TAX_NAME', $QUALIFIED_MODULE)}</strong></td>
-						<td class="themeTextColor textAlignCenter {$WIDTHTYPE}" style="border-left: none;"><strong>{vtranslate('LBL_TAX_VALUE', $QUALIFIED_MODULE)}</strong></td>
-						<td class="themeTextColor textAlignCenter {$WIDTHTYPE}" style="border-left: none;"><strong>{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}</strong></td>
+						<th class="themeTextColor textAlignCenter {$WIDTHTYPE}" style="border-left: none;"><strong>{vtranslate('LBL_TAX_NAME', $QUALIFIED_MODULE)}</strong></th>
+						<th class="themeTextColor textAlignCenter {$WIDTHTYPE}" style="border-left: none;"><strong>{vtranslate('LBL_TAX_VALUE', $QUALIFIED_MODULE)}</strong></th>
+						<th class="themeTextColor textAlignCenter {$WIDTHTYPE}" style="border-left: none;"><strong>{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}</strong></th>
 					</tr>
+				</thead>
+				<tbody>
 					{foreach item=PRODUCT_SERVICE_TAX_MODEL from=$PRODUCT_AND_SERVICES_TAXES}
 						<tr class="opacity" data-taxid="{$PRODUCT_SERVICE_TAX_MODEL->get('taxid')}" data-taxtype="{$PRODUCT_SERVICE_TAX_MODEL->getType()}">
 							<td class="textAlignCenter {$WIDTHTYPE}" style="border-left: none;"><label class="taxLabel">{$PRODUCT_SERVICE_TAX_MODEL->getName()}</label></td>

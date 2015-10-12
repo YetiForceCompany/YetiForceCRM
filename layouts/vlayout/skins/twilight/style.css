@@ -4536,3 +4536,9 @@ html,body,.baseContainer
 .gridster .gs-w[data-col="1"] {
 	left: 0px!important;
 }
+.tablesaw-stack td .tablesaw-cell-label, .tablesaw-stack th .tablesaw-cell-label{
+	width: auto !important;
+}
+.tablesaw-cell-label{
+	vertical-align: middle !important;
+}

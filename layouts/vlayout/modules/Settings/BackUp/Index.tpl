@@ -186,7 +186,7 @@
 				</div>
 				<br /><br />
 				<div class="table-responsive">
-					<table class="table table-bordered table-condensed themeTableColor brute_force_form">
+					<table data-tablesaw-mode="stack" class="table table-bordered table-condensed themeTableColor brute_force_form">
 						<thead>
 							<tr class="blockHeader">
 								<th class="mediumWidthType">
