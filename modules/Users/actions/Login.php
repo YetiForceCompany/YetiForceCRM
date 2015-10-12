@@ -25,6 +25,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 	{
 		$username = $request->get('username');
 		$password = $request->get('password');
+		$language = $request->get('language');
 		if ($request->get('mode') == 'install') {
 			$dirPath = 'install';
 			Users_Module_Model::deleteLangFiles();
@@ -64,6 +65,10 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			Vtiger_Session::set('authenticated_user_language', vglobal('default_language'));
 			Vtiger_Session::set('user_name', $username);
 			Vtiger_Session::set('full_user_name', Vtiger_Functions::getUserRecordLabel($userid));
+			
+			if($language){
+				$_SESSION['translated_language'] = $language;
+			}
 			
 			//Enabled session variable for KCFINDER 
 			$_SESSION['KCFINDER'] = array();
