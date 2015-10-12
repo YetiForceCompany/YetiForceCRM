@@ -101,12 +101,12 @@ class Contacts_Module_Model extends Vtiger_Module_Model {
 						WHERE vtiger_activity.link = ".$recordId." AND vtiger_crmentity.deleted = 0";
 			$time = vtlib_purify($_REQUEST['time']);
 			if($time == 'current') {
-				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))
-				OR (vtiger_activity.activitytype not in ('Emails','Task') and vtiger_activity.status not in ('Completed','Deferred')))";
+				$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
+				$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
 			}
 			if($time == 'history') {
-				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status in ('Completed','Deferred'))
-				OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.status in ('Completed','Deferred')))";
+				$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
+				$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
 			}
 			
 			$relatedModuleName = $relatedModule->getName();
