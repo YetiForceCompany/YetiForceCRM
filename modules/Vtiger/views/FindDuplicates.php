@@ -110,17 +110,10 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View {
 		$pagingModel->calculatePageRange($dummyListEntries);
 		
 		$totalCount = $this->rows;
-		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
-		if ($pageCount == 0) {
-			$pageCount = 1;
-		}
-
-		$startPaginFrom = $pageNumber - 2;
-		if($pageNumber == $totalCount && 1 !=  $pageNumber)
-			$startPaginFrom = $pageNumber - 4;
-		if($startPaginFrom <= 0 || 1 ==  $pageNumber)
-			$startPaginFrom = 1;
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
