@@ -143,8 +143,8 @@
 				<div class="actions pull-right">
 					<span class="actionImages">
 						{assign var=CURRENT_ACTIVITY_LABELS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
-                        {if $IS_MODULE_EDITABLE && $EDIT_VIEW_URL && in_array($LISTVIEW_ENTRY->get('activitystatus'),$CURRENT_ACTIVITY_LABELS)}
-                            <a class="markAsHeld schowModalWindow" data-url="{$LISTVIEW_ENTRY->getActivityStateModalUrl()}"><span title="{vtranslate('LBL_MARK_AS_HELD', $MODULE)}" class="glyphicon glyphicon-ok alignMiddle"></span></a>&nbsp;
+                        {if $IS_MODULE_EDITABLE && $EDIT_VIEW_URL && in_array($RAWDATA.status,$CURRENT_ACTIVITY_LABELS)}
+                            <a class="showModal" data-url="{$LISTVIEW_ENTRY->getActivityStateModalUrl()}"><span title="{vtranslate('LBL_SET_RECORD_STATUS', $MODULE)}" class="glyphicon glyphicon-ok alignMiddle"></span></a>&nbsp;
                         {/if}
 						{if $FULL_DETAIL_VIEW_URL}
 							<a href="{$FULL_DETAIL_VIEW_URL}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;

@@ -101,6 +101,9 @@ class Users_Save_Action extends Vtiger_Save_Action
 		if (!$moduleModel->checkMailExist($request->get('email1'), $request->get('record'))) {
 			$recordModel = $this->saveRecord($request);
 
+			$settingsModuleModel = Settings_Users_Module_Model::getInstance();
+			$settingsModuleModel->refreshSwitchUsers();
+
 			$sharedIds = $request->get('sharedusers');
 			$sharedType = $request->get('calendarsharedtype');
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();

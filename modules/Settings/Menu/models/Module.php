@@ -49,7 +49,7 @@ class Settings_Menu_Module_Model
 	public function getMenuName($row, $settings = false)
 	{
 		switch ($row['type']) {
-			case 0: $name = $row['name'];
+			case 0: $name = empty($row['label']) ? $row['name'] : $row['label'];
 				break;
 			case 3: $name = 'LBL_SEPARATOR';
 				break;

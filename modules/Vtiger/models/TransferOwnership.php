@@ -93,8 +93,8 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 		if ($flag) {
 			foreach ($relatedModuleRecordIds as $record) {
 				$id = $db->getUniqueID('vtiger_modtracker_basic');
-				$query = 'INSERT INTO vtiger_modtracker_basic ( id, whodid,changedon, crmid, module ) SELECT ? , ? , ?, crmid, setype FROM vtiger_crmentity WHERE crmid = ?';
-				$db->pquery($query, [$id, $currentUser->id, date('Y-m-d H:i:s', time()), $record]);
+				$query = 'INSERT INTO vtiger_modtracker_basic ( id, whodid, whodidsu, changedon, crmid, module ) SELECT ? , ? , ?, ?, crmid, setype FROM vtiger_crmentity WHERE crmid = ?';
+				$db->pquery($query, [$id, $currentUser->id, Vtiger_Session::get('baseUserId'), date('Y-m-d H:i:s', time()), $record]);
 
 				$query = 'INSERT INTO vtiger_modtracker_detail ( id, fieldname, postvalue , prevalue ) SELECT ? , ? ,? , smownerid FROM vtiger_crmentity WHERE crmid = ?';
 				$db->pquery($query, [$id, 'assigned_user_id', $currentUser->id, $record]);

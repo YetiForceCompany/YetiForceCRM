@@ -34,8 +34,8 @@
 	<roundcube:button name="addattachment" type="link" class="button attach" label="attach" title="addattachment" onclick="UI.show_uploadform(event);return false" aria-haspopup="true" aria-expanded="false"tabindex="2" />
 	<roundcube:button command="insert-sig" type="link" class="button insertsig disabled" classAct="button insertsig" label="signature" title="insertsignature" tabindex="2" />
 	<a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" id="responsesmenulink" unselectable="on" onmousedown="return false" onclick="UI.toggle_popup('responsesmenu',event);return false" tabindex="2" aria-haspopup="true" aria-expanded="false" aria-owns="textresponsesmenu"><roundcube:label name="responses" /></a>
-	<a href="#vtmodule" class="button archive" label="vtmodule" title="<roundcube:label name='selectmodule' />" id="vtmodulemenulink" unselectable="on" onmousedown="return false" onclick="UI.show_popup('vtmodulemenu');return false"><roundcube:label name="vtmodule" /></a>
-	<a href="#tpl" class="button download" label="tpl" title="<roundcube:label name='selecttemplate' />" id="tplmenulink" unselectable="on" onmousedown="return false" onclick="UI.show_popup('tplmenu');return false"><roundcube:label name="tpl" /></a>
+	<a href="#vtmodule" class="button archive disabled" label="vtmodule" title="<roundcube:label name='selectmodule' />" id="vtmodulemenulink" unselectable="on" onmousedown="return false" onclick="UI.show_popup('vtmodulemenu');return false"><roundcube:label name="vtmodule" /></a>
+	<a href="#tpl" class="button download disabled" label="tpl" title="<roundcube:label name='selecttemplate' />" id="tplmenulink" unselectable="on" onmousedown="return false" onclick="UI.show_popup('tplmenu');return false"><roundcube:label name="tpl" /></a>
 	<roundcube:container name="toolbar" id="compose-toolbar" />
 </div>
 

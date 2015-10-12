@@ -20,10 +20,10 @@
 				{/foreach}
 	</div>
 
-	{if $USER eq false}
+	{if $OWNER eq false}
 		{assign var="MINILIST_WIDGET_RECORDS" value=array()}
 	{else}
-		{assign var="MINILIST_WIDGET_RECORDS" value=$MINILIST_WIDGET_MODEL->getRecords($USER)}
+		{assign var="MINILIST_WIDGET_RECORDS" value=$MINILIST_WIDGET_MODEL->getRecords($OWNER)}
 	{/if}
 	{foreach item=RECORD from=$MINILIST_WIDGET_RECORDS}
 		<div class="row">

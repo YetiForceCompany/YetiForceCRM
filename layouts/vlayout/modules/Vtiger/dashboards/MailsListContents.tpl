@@ -1,5 +1,5 @@
 {if $ACCOUNTSLIST}
-{assign var="MAILS" value=OSSMail_Record_Model::getMailsFromIMAP($USER)}
+{assign var="MAILS" value=OSSMail_Record_Model::getMailsFromIMAP($OWNER)}
 <div>
 	{foreach from=$MAILS item=item key=key}
 	<div class="row mailRow" data-mailId="{$key}">
