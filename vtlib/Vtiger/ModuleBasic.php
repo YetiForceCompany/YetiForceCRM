@@ -284,9 +284,8 @@ class Vtiger_ModuleBasic
 			
 		}
 		
-		$this->__delete();
 		$this->deleteIcons();
-		$moduleInstance->unsetRelatedList($moduleInstance);
+		$this->unsetRelatedList($moduleInstance);
 		ModComments_Module_Model::deleteForModule($moduleInstance);
 		Vtiger_Language::deleteForModule($moduleInstance);
 		Vtiger_Access::deleteSharing($moduleInstance);
@@ -301,6 +300,7 @@ class Vtiger_ModuleBasic
 		Vtiger_Profile::deleteForModule($this);
 		Vtiger_Link::deleteAll($this->id);
 		$this->deleteDir($moduleInstance);
+		$this->__delete();
 		self::syncfile();
 	}
 
@@ -485,6 +485,17 @@ class Vtiger_ModuleBasic
 		self::log("Updating tabdata file ... ", false);
 		create_tab_data_file();
 		self::log("DONE");
+	}
+	
+	/**
+	 * Unset related list information that exists with other module
+	 */
+	public  function unsetRelatedList()
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_relatedlists', 'tabid=? OR related_tabid=? OR label=?', [$this->id, $this->id, $this->label]);
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}
 
 	/**
