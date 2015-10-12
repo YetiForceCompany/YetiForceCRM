@@ -56,7 +56,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
 		var module = $(this).attr('data-module');
 		var params = {
 			module: module,
-			src_module: module,
+			src_module: 'OSSMail',
 			multi_select: true,
 			url: crmPath
 		};
