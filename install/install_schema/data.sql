@@ -387,10 +387,10 @@ insert  into `vtiger_activity_view_seq`(`id`) values (4);
 
 insert  into `vtiger_activitystatus`(`activitystatusid`,`activitystatus`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_PLANNED',0,173,0);
 insert  into `vtiger_activitystatus`(`activitystatusid`,`activitystatus`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_IN_REALIZATION',0,174,1);
-insert  into `vtiger_activitystatus`(`activitystatusid`,`activitystatus`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_OVERDUE',0,175,5);
-insert  into `vtiger_activitystatus`(`activitystatusid`,`activitystatus`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_POSTPONED',0,176,2);
-insert  into `vtiger_activitystatus`(`activitystatusid`,`activitystatus`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_CANCELLED',0,177,3);
-insert  into `vtiger_activitystatus`(`activitystatusid`,`activitystatus`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_COMPLETED',0,178,4);
+insert  into `vtiger_activitystatus`(`activitystatusid`,`activitystatus`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_OVERDUE',0,175,2);
+insert  into `vtiger_activitystatus`(`activitystatusid`,`activitystatus`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_POSTPONED',0,176,3);
+insert  into `vtiger_activitystatus`(`activitystatusid`,`activitystatus`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_CANCELLED',0,177,4);
+insert  into `vtiger_activitystatus`(`activitystatusid`,`activitystatus`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_COMPLETED',0,178,5);
 
 /*Data for the table `vtiger_activitystatus_seq` */
 
