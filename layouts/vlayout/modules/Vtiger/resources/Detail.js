@@ -2159,28 +2159,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			element.parent().progressIndicator({'mode': 'hide'});
 		})
 	},
-	registerEventForActivityFollowupClickEvent: function () {
-		var thisInstance = this;
-		var detailContentsHolder = this.getContentHolder();
-		detailContentsHolder.on('click', '.holdFollowupOn', function (e) {
-			e.stopPropagation();
-			var selectedTabElement = thisInstance.getSelectedTab();
-			var relatedModuleName = thisInstance.getRelatedModuleName();
-			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
-			relatedController.addFollowupEvent(e);
-		});
-	},
-	registerEventForMarkAsCompletedClick: function () {
-		var thisInstance = this;
-		var detailContentsHolder = this.getContentHolder();
-		detailContentsHolder.on('click', '.markAsHeld', function (e) {
-			e.stopPropagation();
-			var selectedTabElement = thisInstance.getSelectedTab();
-			var relatedModuleName = thisInstance.getRelatedModuleName();
-			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
-			relatedController.markAsCompleted(e);
-		});
-	},
 	showPagingInfo: function () {
 		var totalNumberOfRecords = jQuery('#totalCount').val();
 		var pageNumberElement = jQuery('.pageNumbersText');
@@ -2749,8 +2727,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerBlockStatusCheckOnLoad();
 		this.registerEmailFieldClickEvent();
 		this.registerPhoneFieldClickEvent();
-		this.registerEventForActivityFollowupClickEvent();
-		this.registerEventForMarkAsCompletedClick();
 		this.registerEventForEmailsRelatedRecord();
 		this.registerEventForAddingEmailFromRelatedList();
 		this.registerPostTagCloudWidgetLoad();

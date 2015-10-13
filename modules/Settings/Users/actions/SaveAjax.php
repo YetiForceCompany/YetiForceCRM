@@ -16,6 +16,7 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 	{
 		parent::__construct();
 		$this->exposeMethod('updateConfig');
+		$this->exposeMethod('saveSwitchUsers');
 	}
 
 	public function updateConfig(Vtiger_Request $request)
@@ -25,6 +26,18 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => $recordModel->setConfig($param),
+			'message' => vtranslate('LBL_SAVE_CONFIG', $request->getModule(false))
+		));
+		$response->emit();
+	}
+	
+	public function saveSwitchUsers(Vtiger_Request $request)
+	{
+		$param = $request->get('param');
+		$moduleModel = Settings_Users_Module_Model::getInstance();
+		$moduleModel->saveSwitchUsers($param);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
 			'message' => vtranslate('LBL_SAVE_CONFIG', $request->getModule(false))
 		));
 		$response->emit();

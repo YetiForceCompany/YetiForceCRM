@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.12 (64 bit)
-MySQL - 5.6.17 : Database - yetiforce2
+SQLyog Ultimate v11.5 (64 bit)
+MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
 
@@ -378,6 +378,37 @@ CREATE TABLE `dav_users` (
   UNIQUE KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `l_yf_access_to_record` */
+
+CREATE TABLE `l_yf_access_to_record` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `date` datetime NOT NULL,
+  `ip` varchar(100) NOT NULL,
+  `record` int(19) NOT NULL,
+  `module` varchar(30) NOT NULL,
+  `url` varchar(300) NOT NULL,
+  `agent` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `l_yf_switch_users` */
+
+CREATE TABLE `l_yf_switch_users` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `date` datetime NOT NULL,
+  `status` varchar(10) NOT NULL,
+  `baseid` int(19) NOT NULL,
+  `destid` int(19) NOT NULL,
+  `busername` varchar(50) NOT NULL,
+  `dusername` varchar(50) NOT NULL,
+  `ip` varchar(100) NOT NULL,
+  `agent` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `baseid` (`baseid`),
+  KEY `destid` (`destid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `roundcube_cache` */
 
 CREATE TABLE `roundcube_cache` (
@@ -574,21 +605,6 @@ CREATE TABLE `roundcube_users_autologin` (
   CONSTRAINT `roundcube_users_autologin_ibfk_1` FOREIGN KEY (`rcuser_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `s_yf_accesstorecord` */
-
-CREATE TABLE `s_yf_accesstorecord` (
-  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
-  `date` datetime NOT NULL,
-  `ip` varchar(100) NOT NULL,
-  `record` int(19) NOT NULL,
-  `module` varchar(30) NOT NULL,
-  `url` varchar(300) NOT NULL,
-  `description` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `s_yf_multireference` */
 
 CREATE TABLE `s_yf_multireference` (
@@ -639,6 +655,7 @@ CREATE TABLE `vtiger_account` (
   KEY `email_idx` (`email1`,`email2`),
   KEY `sum_salesorders` (`sum_salesorders`),
   KEY `sum_invoices` (`sum_invoices`),
+  KEY `accountname` (`accountname`),
   CONSTRAINT `fk_1_vtiger_account` FOREIGN KEY (`accountid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1588,6 +1605,7 @@ CREATE TABLE `vtiger_contactdetails` (
   PRIMARY KEY (`contactid`),
   KEY `contactdetails_accountid_idx` (`parentid`),
   KEY `email_idx` (`email`),
+  KEY `lastname` (`lastname`),
   CONSTRAINT `fk_1_vtiger_contactdetails` FOREIGN KEY (`contactid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2628,7 +2646,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1763 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1765 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -3360,6 +3378,7 @@ CREATE TABLE `vtiger_leaddetails` (
   PRIMARY KEY (`leadid`),
   KEY `leaddetails_converted_leadstatus_idx` (`converted`,`leadstatus`),
   KEY `email_idx` (`email`),
+  KEY `lastname` (`lastname`),
   CONSTRAINT `fk_1_vtiger_leaddetails` FOREIGN KEY (`leadid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3797,6 +3816,7 @@ CREATE TABLE `vtiger_modtracker_basic` (
   `whodid` int(20) DEFAULT NULL,
   `changedon` datetime DEFAULT NULL,
   `status` int(1) DEFAULT '0',
+  `whodidsu` int(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `crmidx` (`crmid`),
   KEY `idx` (`id`),
@@ -5325,6 +5345,7 @@ CREATE TABLE `vtiger_project` (
   PRIMARY KEY (`projectid`),
   KEY `servicecontractsid` (`servicecontractsid`),
   KEY `linktoaccountscontacts` (`linktoaccountscontacts`),
+  KEY `projectname` (`projectname`),
   CONSTRAINT `vtiger_project_ibfk_1` FOREIGN KEY (`projectid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5452,6 +5473,7 @@ CREATE TABLE `vtiger_projecttask` (
   KEY `parentid` (`parentid`),
   KEY `projectmilestoneid` (`projectmilestoneid`),
   KEY `projectid` (`projectid`),
+  KEY `projecttaskname` (`projecttaskname`),
   CONSTRAINT `vtiger_projecttask_ibfk_1` FOREIGN KEY (`projecttaskid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6221,6 +6243,7 @@ CREATE TABLE `vtiger_role` (
   `previewrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `editrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `permissionsrelatedfield` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `globalsearchadv` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`roleid`),
   KEY `parentrole` (`parentrole`),
   KEY `parentrole_2` (`parentrole`,`depth`),
@@ -7448,6 +7471,7 @@ CREATE TABLE `vtiger_vendor` (
   `registration_number_2` varchar(30) DEFAULT NULL,
   `verification` text,
   PRIMARY KEY (`vendorid`),
+  KEY `vendorname` (`vendorname`),
   CONSTRAINT `fk_1_vtiger_vendor` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

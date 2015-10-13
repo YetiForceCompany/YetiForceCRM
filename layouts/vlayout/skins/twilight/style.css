@@ -1033,7 +1033,7 @@ li.ui-timepicker-selected,
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	border: 1px solid #dddddd;
 	padding: 12px 12px 5px;
-	min-height: 115px;
+	min-height: 125px;
 	margin-top: 15px;
 	display: block;
 }
@@ -3327,7 +3327,7 @@ span[name=existingImages] img{
 	padding: 10px;
 }
 .remindersNoticeContainer .actionRow a.btn{
-	margin-right: 3%;
+	margin-right: 2%;
 }
 .remindersNotice{
 	color: #ffffff;
@@ -3701,9 +3701,18 @@ span[name=existingImages] img{
 .dashboardWidgetContent .summary-detail .summary-text{
 	vertical-align: sub;
 }
-.activityWidgetContainer .popover {
+.activityWidgetContainer .activityDescription .popover {
 	min-width: 300px;
 }
 .activityWidgetContainer .popover-content {
 	font-size: 12px;
+}
+#activityStateModal .form-horizontal .form-group{
+	margin-bottom: 2px;
+}
+#activityStateModal .form-horizontal .form-group .control-label{
+	padding-top: 0;
+}
+.mainContainer.mailContainer{
+	margin-top: 102px !important;
 }

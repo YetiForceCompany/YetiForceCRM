@@ -108,8 +108,5 @@ $languageStrings = [
 	'PLL_CANCELLED' => 'Anulowane',
 	'PLL_COMPLETED' => 'Wykonane',
 	
-	'LBL_FINISH_WORK_WITH_THE_RECORD' => 'Zakończ pracę z rekordem',
-	'LBL_SET_RECORD_STATUS' => "Ustaw status rekordu na:",
-	'LBL_CURRENT' => "Bieżące",
 ];
 

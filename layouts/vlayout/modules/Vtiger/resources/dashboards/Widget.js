@@ -1115,4 +1115,36 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		refreshContainer.progressIndicator({'mode': 'hide'});
 	},
 });
+Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
+	modalView: false,
+	postLoadWidget: function () {
+		this._super();
+		this.registerActivityChange();
+	},
+	postRefreshWidget: function () {
+		this._super();
+		this.registerActivityChange();
+	},
+	registerActivityChange: function () {
+		var thisInstance = this;
+		var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
+		refreshContainer.find('.changeActivity').on('click', function (e) {
+			if (jQuery(e.target).is('a') || thisInstance.modalView) {
+				return;
+			}
+			var url = jQuery(this).data('url');
+			if (typeof url != 'undefined') {
+				var callbackFunction = function () {
+					thisInstance.modalView = false;
+				};
+				thisInstance.modalView = true;
+				app.showModalWindow(null, url, callbackFunction);
+			}
+		})
+	}
+});
+YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedupcomingcalendartasks_Widget_Js', {}, {});
+YetiForce_Calendaractivities_Widget_Js('YetiForce_Creatednotmineactivities_Widget_Js', {}, {});
+YetiForce_Calendaractivities_Widget_Js('YetiForce_Overdueactivities_Widget_Js', {}, {});
+YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedoverduecalendartasks_Widget_Js', {}, {});
 

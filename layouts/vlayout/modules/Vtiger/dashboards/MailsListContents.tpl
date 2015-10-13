@@ -1,5 +1,5 @@
 {if $ACCOUNTSLIST}
-{assign var="MAILS" value=OSSMail_Record_Model::getMailsFromIMAP($USER)}
+{assign var="MAILS" value=OSSMail_Record_Model::getMailsFromIMAP($OWNER)}
 <div>
 	{foreach from=$MAILS item=item key=key}
 	<div class="row mailRow" data-mailId="{$key}">
@@ -7,7 +7,7 @@
 			<div class="pull-right muted" style="font-size:x-small;">
 				<small title="{$item['date']}">{Vtiger_Util_Helper::formatDateDiffInStrings($item['date'])}</small>&nbsp;&nbsp;&nbsp;&nbsp;
 			</div>
-			<h5 style="margin-left:2%;">{$item['subject']} {if count($item['attachments']) > 0}<img alt="{vtranslate('LBL_ATTACHMENT')}" class="pull-right" src="layouts/vlayout/modules/OSSMailView/zalacznik.png" />{/if}<h5>
+			<h5 style="margin-left:2%;">{$item['subject']} {if count($item['attachments']) > 0}<img alt="{vtranslate('LBL_ATTACHMENT')}" class="pull-right" src="layouts/vlayout/modules/OSSMailView/attachment.png" />{/if}<h5>
 		</div>
 		<div class="col-md-12 marginLeftZero">
 			<div class="pull-right" >

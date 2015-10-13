@@ -27,40 +27,51 @@
 			</li>
 		</ul>
 	{/if}
-	{foreach key=index item=obj from=$HEADER_LINKS}
-		{assign var="src" value=$obj->getIconPath()}
-		{assign var="icon" value=$obj->getIcon()}
-		{assign var="title" value=$obj->getLabel()}
-		{assign var="childLinks" value=$obj->getChildLinks()}
-		<ul class="{if !empty($src)} settingIcons {/if} nav navbar-nav navbar-right">
+	{foreach item=LINK from=$HEADER_LINKS}
+		{assign var="SRC" value=$LINK->getIconPath()}
+		{assign var="ICON" value=$LINK->getIcon()}
+		{assign var="TITLE" value=$LINK->getLabel()}
+		{assign var="CHILDLINKS" value=$LINK->getChildLinks()}
+		<ul class="{if !empty($SRC)}settingIcons{/if} nav navbar-nav navbar-right">
 			<li class="dropdown">
-			{if !empty($src)}
-				<a id="menubar_item_right_{$title}" class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="{$src}" alt="{vtranslate($title,$MODULE)}" title="{vtranslate($title,$MODULE)}" /></a>
-			{else}
-				{assign var=title value=$USER_MODEL->get('first_name')|cat:' '|cat:$USER_MODEL->get('last_name')}
-				<a id="menubar_item_right_{$title}"  class="userName dropdown-toggle" data-toggle="dropdown" href="#" title="{$title}"><strong>{$title}</strong><span class="caret"></span> </a>
-			{/if}
-			{if !empty($childLinks)}
-				<ul class="dropdown-menu pull-right">
-					{foreach key=index item=obj from=$childLinks}
-						{if $obj->getLabel() eq NULL}
-							<li class="divider"></li>
-						{else}
-							{assign var="id" value=$obj->getId()}
-							{assign var="href" value=$obj->getUrl()}
-							{assign var="label" value=$obj->getLabel()}
-							{assign var="onclick" value=""}
-							{if stripos($obj->getUrl(), 'javascript:') === 0}
-								{assign var="onclick" value="onclick="|cat:$href}
-								{assign var="href" value="javascript:;"}
+				{assign var="HREF" value='#'}
+				{if !empty($LINK->getUrl())}
+					{assign var="HREF" value=$LINK->getUrl()}
+				{/if}
+				<a class="{if !empty($CHILDLINKS)}dropdown-toggle{/if}" {if !empty($CHILDLINKS)}data-toggle="dropdown"{/if} href="{$HREF}" title="{$TITLE}">
+					{if !empty($SRC)}
+						<img src="{$SRC}" alt="{vtranslate($TITLE,$MODULE)}" title="{vtranslate($TITLE,$MODULE)}" />
+					{elseif !empty($ICON)}
+						<span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
+					{else}
+						<strong>{$TITLE}</strong>
+					{/if}
+					{if !empty($CHILDLINKS) && !$LINK->nocaret}
+						<span class="caret"></span>
+					{/if}
+				</a>
+				{if !empty($CHILDLINKS)}
+					<ul class="dropdown-menu pull-right">
+						{foreach item=CHILDLINK from=$CHILDLINKS}
+							{if $CHILDLINK->getLabel() eq NULL}
+								<li class="divider"></li>
+							{else}
+								{assign var="HREF" value=$CHILDLINK->getUrl()}
+								{assign var="LABEL" value=$CHILDLINK->getLabel()}
+								{assign var="ONCLICK" value=""}
+								{if stripos($CHILDLINK->getUrl(), 'javascript:') === 0}
+									{assign var="ONCLICK" value="onclick="|cat:$HREF}
+									{assign var="HREF" value="javascript:;"}
+								{/if}
+								<li>
+									<a target="{$CHILDLINK->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LABEL)}" {if $LABEL=='Switch to old look'}switchLook{/if} href="{$HREF}" {$ONCLICK}>
+										{vtranslate($LABEL,$MODULE)}
+									</a>
+								</li>
 							{/if}
-							<li>
-								<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{vtranslate($label,$MODULE)}</a>
-							</li>
-						{/if}
-					{/foreach}
-				</ul>
-			{/if}
+						{/foreach}
+					</ul>
+				{/if}
 			</li>
 		</ul>
 	{/foreach}

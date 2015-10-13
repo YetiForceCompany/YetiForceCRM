@@ -152,6 +152,7 @@ $languageStrings = [
 	'LBL_SHIFT_BLOCK' => 'Показать/Скрыть Блок',
 	'LBL_ON_SWITCH' => 'Вкл',
 	'LBL_OFF_SWITCH' => 'Выкл',
+	'LBL_FOLLOWUP' => 'Follow up',
 	
 	'PLL_PLANNED' => 'Planned',
 	'PLL_IN_REALIZATION' => 'To be realized',
@@ -159,9 +160,7 @@ $languageStrings = [
 	'PLL_POSTPONED' => 'Postponed',
 	'PLL_CANCELLED' => 'Cancelled',
 	'PLL_COMPLETED' => 'Completed',
-	
-	'LBL_FINISH_WORK_WITH_THE_RECORD' => 'Finish work with the record',
-	'LBL_SET_RECORD_STATUS' => "Set the record's status to:",
+
 	'LBL_NO_AVAILABLE_ACTIONS' => 'No available actions',
 ];
 $jsLanguageStrings = [

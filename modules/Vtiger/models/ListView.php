@@ -226,6 +226,9 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				//$queryGenerator->whereFields[] = $orderByFieldName;
 			}
 		}
+		if ($moduleName == $this->get('src_module')) {
+			$queryGenerator->addCondition('id', $this->get('src_record'), 'n');
+		}
 		$listQuery = $this->getQuery();
 		if ($searchResult && $searchResult != '' && is_array($searchResult)) {
 			$listQuery .= " AND vtiger_crmentity.crmid IN (" . implode(',', $searchResult) . ") ";

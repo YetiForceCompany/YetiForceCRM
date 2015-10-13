@@ -32,8 +32,10 @@
 					</span>
 				</div>
 				<div class="summaryViewEntries">
-					<image src="{vimage_path('Calendar.png')}" width="14px" class="textOverflowEllipsis" alt="{vtranslate($MODULE_NAME,$MODULE_NAME)}"/>&nbsp;&nbsp;
-					{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}&nbsp;-&nbsp; 
+					{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
+					{assign var=ACTIVITY_UPPERCASE value=$ACTIVITY_TYPE|upper}
+					<image src="{vimage_path_default($ACTIVITY_TYPE, Calendar)}" width="14px" class="textOverflowEllipsis" alt="{vtranslate($MODULE_NAME,$MODULE_NAME)}"/>&nbsp;&nbsp;
+					{vtranslate($ACTIVITY_TYPE,$MODULE_NAME)}&nbsp;-&nbsp; 
 				{if $DETAILVIEW_PERMITTED == 'yes'}<a href="{$RECORD->getDetailViewUrl()}" >{$RECORD->get('subject')}</a>{else}{$RECORD->get('subject')}{/if}&nbsp;
 				{if $EDITVIEW_PERMITTED == 'yes'}<a href="{$RECORD->getEditViewUrl()}" class="fieldValue"><span class="glyphicon glyphicon-pencil summaryViewEdit" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></a>{/if}
 				{if $DETAILVIEW_PERMITTED == 'yes'}&nbsp;<a href="{$RECORD->getDetailViewUrl()}" class="fieldValue"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>{/if}
@@ -47,7 +49,7 @@
 						<div>
 							<strong><span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
 							{if $DATA_TYPE != 'history'}
-								<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{vtranslate('LBL_MARK_AS_DONE',$MODULE_NAME)}"><span class="glyphicon glyphicon-off"></span></span>
+								<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{vtranslate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
 							{/if}
 						</div>
 					{else}
@@ -59,7 +61,7 @@
 								<strong><span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
 {*								<span class="editStatus cursorPointer"><span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></span>*}
 									{if $DATA_TYPE != 'history'}
-									<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{vtranslate('LBL_MARK_AS_DONE',$MODULE_NAME)}"><span class="glyphicon glyphicon-off"></span></span>
+									<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{vtranslate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
 									{/if}
 							</div>
 						{/if}

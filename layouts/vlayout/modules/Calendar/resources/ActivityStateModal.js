@@ -3,7 +3,7 @@
 jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 	registerActivityState: function () {
 		var thisInstance = this;
-		jQuery('#activityStateModal button').on('click', function (e) {
+		jQuery('#activityStateModal button:not(.close)').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.closest('.modal').addClass('hide');
 
@@ -71,6 +71,12 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 							var listinstance = new Vtiger_List_Js();
 							listinstance.getListViewRecords();
 						}
+						if (viewName == 'DashBoard') {
+							var instance = new Vtiger_DashBoard_Js();
+							instance.getContainer().find('a[name="drefresh"]').trigger('click');
+						}
+						//updates the Calendar Reminder popup's status
+						Vtiger_Index_Js.requestReminder();
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					} else {
 						return false;

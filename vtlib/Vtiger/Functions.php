@@ -1079,14 +1079,13 @@ class Vtiger_Functions
 		$request = new Vtiger_Request($_REQUEST);
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db->insert('s_yf_accesstorecord', [
+		$db->insert('l_yf_access_to_record', [
 			'username' => $currentUser->getDisplayName(),
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => self::getRemoteIP(),
 			'record' => $request->get('record'),
 			'module' => $request->get('module'),
 			'url' => Vtiger_Functions::getBrowserInfo()->url,
-			'description' => '',
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 		]);
 		if ($request->isAjax()) {
@@ -1172,6 +1171,7 @@ class Vtiger_Functions
 			return;
 		$dirs = [];
 		@chmod($root_dir . $src, 0777);
+		$dirs[] = $rootDir . $src;
 		if (is_dir($src)) {
 			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 				if ($item->isDir()) {

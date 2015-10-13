@@ -129,6 +129,7 @@ $languageStrings = [
 	'LBL_SHIFT_BLOCK' => 'Show or hide block',
 	'LBL_ON_SWITCH' => 'ON',
 	'LBL_OFF_SWITCH' => 'OFF',
+	'LBL_FOLLOWUP' => 'Follow up',
 	
 	'PLL_PLANNED' => 'Planned',
 	'PLL_IN_REALIZATION' => 'To be realized',
@@ -137,8 +138,6 @@ $languageStrings = [
 	'PLL_CANCELLED' => 'Cancelled',
 	'PLL_COMPLETED' => 'Completed',
 	
-	'LBL_FINISH_WORK_WITH_THE_RECORD' => 'Finish work with the record',
-	'LBL_SET_RECORD_STATUS' => "Set the record's status to:",
 	'LBL_NO_AVAILABLE_ACTIONS' => 'No available actions',
 ];
 

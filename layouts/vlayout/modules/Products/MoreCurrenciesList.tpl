@@ -48,12 +48,14 @@
 												<span class="col-md-8 alignBottom">
 													<span class="pull-left">{$price.currencylabel|@getTranslatedCurrencyString} ({$price.currencysymbol})</span>
 												</span>
-												<span class="col-md-2"><input type="checkbox" name="cur_{$price.curid}_check" id="cur_{$price.curid}_check" class="small pull-right enableCurrency" {if $check_value} title="{vtranslate('LBL_ENABLE_CURRENCY')}" {else} title="{vtranslate('LBL_DISABLE_CURRENCY')}" {/if} {$check_value}></span>
+												<span class="col-md-2">
+													<input type="checkbox" name="cur_{$price.curid}_check" id="cur_{$price.curid}_check" class="small pull-right enableCurrency" {if $check_value} title="{vtranslate('LBL_ENABLE_CURRENCY')}" {else} title="{vtranslate('LBL_DISABLE_CURRENCY')}" {/if} {$check_value}>
+												</span>
 											</span>
 										</td>
 										<td>
 											<div>
-												<input class="form-control" {$disable_value} type="text" size="10" class="col-md-9 convertedPrice form-control" name="{$price.curname}" id="{$price.curname}" value="{$price.curvalue}" title="{$price.curvalue}" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
+												<input {$disable_value} type="text" size="10" class="col-md-9 convertedPrice form-control" name="{$price.curname}" id="{$price.curname}" value="{$price.curvalue}" title="{$price.curvalue}" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
 											</div>
 										</td>
 										<td>

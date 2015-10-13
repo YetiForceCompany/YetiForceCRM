@@ -104,7 +104,6 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 			if ($fieldDataType == 'time') {
 				$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 			}
-
 			if ($fieldValue !== null) {
 				if (!is_array($fieldValue)) {
 					$fieldValue = trim($fieldValue);

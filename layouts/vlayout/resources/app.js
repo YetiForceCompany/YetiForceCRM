@@ -1150,6 +1150,7 @@ var app = {
 					app.showModalWindow(null, url);
 				}
 			}
+			e.stopPropagation();
 		});
 	},
 }

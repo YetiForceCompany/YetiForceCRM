@@ -24,7 +24,7 @@ class OSSOutsourcedServices_ListView_Model extends Vtiger_ListView_Model {
 				'linkicon' => 'icon-star-empty',
 				'linkclass' => 'btn-success',
 			);
-			return $basicLinks;
 		}
+		return $basicLinks;
 	}
 }
