@@ -82,7 +82,7 @@ $languageStrings = [
 	'Total price [Quotes]' => 'Valor total Cotações',
 	'Total price [Sales Order]' => 'Valor total Pedidos',
 	'Total price [Invoice]' => 'Valor total Faturas',
-	'PotentialsList'=>'Opportunities',
-	'Payment balance' => 'Payment balance',
+	'PotentialsList'=>'Oportunidades',
+	'Payment balance' => 'Saldo Pagamento',
 ];
 

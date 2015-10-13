@@ -22,7 +22,7 @@ $languageStrings = [
 	'LBL_CONVERT_LEAD_MERGE' => 'Vincular os requisitos específicos da reunião enquanto converte o Lead para Conta',
 	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'Esta opção permite que o Sistema associe automaticamente o registro convertido com o já existente - não será criada uma nova Conta, ao invés disso os dados do registro existente serão transferidos a partir do Lead',
 	'LBL_CONDITION' => 'Adiconar condição',
-	'MarketingProcesses' => 'Marketing processes',
+	'MarketingProcesses' => 'Processo de Marketing',
 ];
 $jsLanguageStrings = [
 	'JS_NO_CONDITIONS' => 'Pelo menos uma condições é requirida',
