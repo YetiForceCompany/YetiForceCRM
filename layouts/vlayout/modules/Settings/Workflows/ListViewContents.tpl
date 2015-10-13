@@ -29,17 +29,19 @@
 	</span>
 	{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 	{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
-		<table data-tablesaw-mode="stack" data-tablesaw-minimap data-tablesaw-mode-switch class="table table-bordered table-condensed listViewEntriesTable">
+		<table class="table tableRWD table-bordered table-condensed listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
 					<th  width="1%" class="{$WIDTHTYPE}"></th>
 					{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-					<th data-tablesaw-priority="1" width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
+					<th width="{$WIDTH}%" nowrap  class="{$WIDTHTYPE}">
 						<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{vtranslate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
 							{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}<img class="{$SORT_IMAGE} icon-white">{/if}</a>
 					</th>
+					
 					{/foreach}
+					<th  class="{$WIDTHTYPE}"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -48,9 +50,7 @@
 						{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
 				>
 				<td width="1%" nowrap class="{$WIDTHTYPE}">
-					{if $MODULE eq 'Workflows'}
-						<img src="{vimage_path('drag.png')}" class="alignTop" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}" />
-					{/if}
+					
 				</td>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}

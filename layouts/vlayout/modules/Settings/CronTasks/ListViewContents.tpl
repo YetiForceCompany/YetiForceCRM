@@ -33,13 +33,13 @@
 		</span>
 		{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 		{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
-			<table data-tablesaw-mode="stack" class="table table-bordered table-condensed  listViewEntriesTable">
+			<table class="table tableRWD table-bordered table-condensed  listViewEntriesTable">
 				<thead>
 					<tr class="listViewHeaders">
-						<th data-tablesaw-priority="persist" width="1%" class="{$WIDTHTYPE}"></th>
+						<th width="1%" class="{$WIDTHTYPE}"></th>
 							{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-							<th data-tablesaw-priority="1" width="{$WIDTH}%"  {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
+							<th width="{$WIDTH}%"  {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
 								<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{vtranslate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
 									{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}<img class="{$SORT_IMAGE} icon-white">{/if}</a>
 							</th>

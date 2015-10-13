@@ -51,15 +51,15 @@
                 <p><a class="btn btn-default" href="index.php?module=OSSMail&view=index">{vtranslate('OSSMail','OSSMail')}</a></p>
             </div>	
 		{else}
-		<table data-tablesaw-mode="stack" class="table table-bordered">
+		<table data-tablesaw-mode="stack" data-tablesaw-minimap data-tablesaw-mode-switch class="table table-bordered">
             <thead>
                 <tr class="listViewHeaders">
-                    <th>{vtranslate('username', 'OSSMailScanner')}</th>
-                    <th>{vtranslate('mail_host', 'OSSMailScanner')}</th>
-                    <th>{vtranslate('Actions', 'OSSMailScanner')}</th>
-					<th>{vtranslate('User', 'OSSMailScanner')}</th>
-					<th>{vtranslate('Status', 'OSSMailScanner')}</th>
-                    <th>&nbsp;</th>
+                    <th data-tablesaw-priority="1">{vtranslate('username', 'OSSMailScanner')}</th>
+                    <th data-tablesaw-priority="2">{vtranslate('mail_host', 'OSSMailScanner')}</th>
+                    <th data-tablesaw-priority="3">{vtranslate('Actions', 'OSSMailScanner')}</th>
+		    <th data-tablesaw-priority="4">{vtranslate('User', 'OSSMailScanner')}</th>
+		    <th data-tablesaw-priority="5">{vtranslate('Status', 'OSSMailScanner')}</th>
+                    <th data-tablesaw-priority="6">&nbsp;</th>
                 </tr>
             </thead>
             <tbody>

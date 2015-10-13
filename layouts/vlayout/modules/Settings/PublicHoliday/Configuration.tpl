@@ -61,7 +61,16 @@ padding: 5px;
 							</span>
 						</div>
 					</div>
-					<table data-tablesaw-mode="stack" class="table table-bordered table-condensed themeTableColor userTable">						
+					<table class="table tableRWD table-bordered table-condensed themeTableColor userTable">						
+						<thead>
+						    <tr>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+						    </tr>
+						</thead>
 						<tbody>
 						{foreach item=HOLIDAY from=$HOLIDAYS}
 							<tr data-holiday-id="{$HOLIDAY['id']}" data-holiday-type="{$HOLIDAY['type']}" data-holiday-name="{$HOLIDAY['name']}" data-holiday-date="{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}">
