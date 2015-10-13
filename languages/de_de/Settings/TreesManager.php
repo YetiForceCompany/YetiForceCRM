@@ -36,6 +36,6 @@ $jsLanguageStrings = [
 	'JS_NO_ITEM_SELECTED' => 'Kein Eintrag gewählt',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'Es können nicht alle Einträge gelöscht werden',
 	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'Der Haupteintrag kann nicht gelöscht werden','JS_NEW_ITEM' => 'New node',
-	'JS_ONLY_ONE_ITEM_SELECTED' => 'Only one item can be selected.',
+	'JS_ONLY_ONE_ITEM_SELECTED' => 'Es kann nur ein Eintrag gewählt werden.',
 	
 ];

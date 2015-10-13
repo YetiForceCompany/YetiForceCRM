@@ -63,8 +63,8 @@ $languageStrings = [
 	'LBL_CONVERTED_FROM_LEAD' => 'Aus Leads konvertiert',
 	'LBL_LEGAL_FORM' => 'Rechtsform',
 	'LBL_INVENTORY_BALANCE' => 'Balance',
-	'LBL_DISCOUNT' => 'Discount',
-	'LBL_CREDIT_LIMIT' => 'Credit limit',
+	'LBL_DISCOUNT' => 'Rabatt',
+	'LBL_CREDIT_LIMIT' => 'Kreditlimit',
 
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Natürliche Person',
