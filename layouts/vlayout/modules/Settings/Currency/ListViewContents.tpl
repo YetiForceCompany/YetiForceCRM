@@ -29,7 +29,7 @@
 	</span>
 	{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 	{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
-	<table data-tablesaw-mode="stack" class="table table-bordered table-condensed listViewEntriesTable">
+	<table class="table tableRWD table-bordered table-condensed listViewEntriesTable">
 		<thead>
 			<tr class="listViewHeaders">
 				<th width="1%" class="{$WIDTHTYPE}"></th>

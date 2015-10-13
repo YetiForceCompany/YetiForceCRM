@@ -19,7 +19,7 @@
 	<hr>
 	</div>
 	<div class=" contents tabbable">
-		<table data-tablesaw-mode="stack" class="table table-bordered table-condensed listViewEntriesTable">
+		<table class="table tableRWD table-bordered table-condensed listViewEntriesTable">
 			<thead>
 				<tr class="blockHeader">
 					<th><strong>{vtranslate('LBL_ACTIVITY_NAME',$QUALIFIED_MODULE)}</strong></th>

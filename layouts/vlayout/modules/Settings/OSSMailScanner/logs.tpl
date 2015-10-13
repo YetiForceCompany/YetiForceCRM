@@ -44,7 +44,7 @@
 			{/for}
 		</select>
 		</div>
-			<table data-tablesaw-mode="stack" class="table table-bordered log-list">
+			<table class="table tableRWD table-bordered log-list">
 				<tr class="listViewHeaders">
 					<th>{vtranslate('No', 'OSSMailScanner')}.</th>
 					<th>{vtranslate('startTime', 'OSSMailScanner')}</th>

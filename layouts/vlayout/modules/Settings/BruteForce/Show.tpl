@@ -81,7 +81,7 @@
 		<div class='editViewContainer tab-pane' id="brutalforce_tab_2" style="display:none;">
 			<form id="brutalforce_tab_form_1" name="brutalforce_tab_2">
 				<div class="table-responsive">
-					<table data-tablesaw-mode="stack" class="table table-bordered table-condensed themeTableColor brute_force_form">
+					<table  class="table tableRWD table-bordered table-condensed themeTableColor brute_force_form">
 						<thead>
 							<tr class="blockHeader">
 								<th colspan="1" class="mediumWidthType">

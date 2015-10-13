@@ -29,7 +29,7 @@
 			{/if}
 			<div>
 				<div class="contents tabbable">
-					<table data-tablesaw-mode="stack" class="table table-bordered table-condensed listViewEntriesTable">
+					<table class="table table-bordered  tableRWD table-condensed listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">
 								<th><strong>{vtranslate('LBL_LOGIN',$QUALIFIED_MODULE)}</strong></th>

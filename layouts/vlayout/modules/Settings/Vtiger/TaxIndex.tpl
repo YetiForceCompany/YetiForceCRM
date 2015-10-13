@@ -21,7 +21,7 @@
 			<div class="marginBottom10px">
 				<button type="button" class="btn btn-default addTax addButton" data-url="{$CREATE_TAX_URL}" data-type="0"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;<strong>{vtranslate('LBL_ADD_NEW_TAX', $QUALIFIED_MODULE)}</strong></button>
 			</div>
-			<table class="table table-bordered inventoryTaxTable themeTableColor">
+			<table class="table tableRWD table-bordered inventoryTaxTable themeTableColor">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="3" class="{$WIDTHTYPE}">

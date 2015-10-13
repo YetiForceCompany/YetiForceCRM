@@ -4536,12 +4536,6 @@ html,body,.baseContainer
 .gridster .gs-w[data-col="1"] {
 	left: 0px!important;
 }
-.tablesaw-stack td .tablesaw-cell-label, .tablesaw-stack th .tablesaw-cell-label{
-	width: auto !important;
-}
-.tablesaw-cell-label{
-	vertical-align: top !important;
-}
 .modal-backdrop{
 	z-index: 1029;
 }
@@ -4555,9 +4549,6 @@ html,body,.baseContainer
 	.tablesaw-stack tbody tr:nth-child(even) {
 		background:#EEEEEE;
 	}
-}
-.tablesaw-cell-persist{
-	width: auto !important;
 }
 .editViewContainer .btn-warning.pull-right{
 	margin-left: 5px;

@@ -51,7 +51,7 @@
                 <p><a class="btn btn-default" href="index.php?module=OSSMail&view=index">{vtranslate('OSSMail','OSSMail')}</a></p>
             </div>	
 		{else}
-		<table data-tablesaw-mode="stack" data-tablesaw-minimap data-tablesaw-mode-switch class="table table-bordered">
+		<table class="table tableRWD table-bordered">
             <thead>
                 <tr class="listViewHeaders">
                     <th data-tablesaw-priority="1">{vtranslate('username', 'OSSMailScanner')}</th>
