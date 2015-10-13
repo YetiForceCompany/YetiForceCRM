@@ -34,12 +34,12 @@
 					{foreach item=ALPHABET from=$ALPHABETS}
 						<td class="alphabetSearch textAlignCenter cursorPointer {if $ALPHABET_VALUE eq $ALPHABET} highlightBackgroundColor {/if}" style="padding : 0px !important"><a id="{$ALPHABET}" href="#">{$ALPHABET}</a></td>
 						{/foreach}
+					<td class="alphabetSearch textAlignCenter cursorPointer">
+						<a href="index.php?view=List&module={$MODULE}" >
+							<span class="glyphicon glyphicon-remove"></span>
+						</a>
+					</td>
 				</tr>
-				<td class="alphabetSearch textAlignCenter cursorPointer">
-					<a href="index.php?view=List&module={$MODULE}" >
-						<span class="glyphicon glyphicon-remove"></span>
-					</a>
-				</td>
 			</tbody>
 		</table>
 	</div>
