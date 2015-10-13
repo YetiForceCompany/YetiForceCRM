@@ -255,7 +255,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~layouts/vlayout/resources/styles.css',
 			'~libraries/jquery/timepicker/jquery.timepicker.css',
 			'~layouts/vlayout/modules/OSSMail/resources/OSSMailBoxInfo.css',
-			'~libraries/tablesaw/tablesaw.css',
+			'~libraries/footable/css/footable.core.css',
 		);
 		$headerCssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return $headerCssInstances;
@@ -304,7 +304,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/dangrossman-bootstrap-daterangepicker/date.js',
 			'~libraries/jquery/jquery.ba-outside-events.js',
 			'~libraries/jquery/jquery.placeholder.js',
-			'~libraries/tablesaw/tablesaw.js',
+			'~libraries/footable/js/footable.js',
 		];
 
 		$languageHandlerShortName = Vtiger_Language_Handler::getShortLanguageName();
