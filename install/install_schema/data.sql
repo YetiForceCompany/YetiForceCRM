@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -22164,7 +22165,7 @@ insert  into `vtiger_verification_seq`(`id`) values (6);
 
 /*Data for the table `vtiger_version` */
 
-insert  into `vtiger_version`(`id`,`old_version`,`current_version`) values (1,'2.0.0','2.0.0');
+insert  into `vtiger_version`(`id`,`old_version`,`current_version`) values (1,'2.2.0','2.2.0');
 
 /*Data for the table `vtiger_version_seq` */
 

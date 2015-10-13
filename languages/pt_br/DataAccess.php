@@ -70,9 +70,9 @@ $languageStrings = [
 	'LBL_BACKGROUND_COLOR' => 'Cor de fundo',
 	'LBL_TEXT_COLOR' => 'Cor do texto',
 	'This name already exists' => 'este nome já existe',
-	'LBL_RECORD_DELETED' => 'Record deleted',
-	'Action_test' => 'Action test',
-	'Action_Desc_test' => 'Action test description',
+	'LBL_RECORD_DELETED' => 'Registros apagados',
+	'Action_test' => 'Teste ação',
+	'Action_Desc_test' => 'Descrição teste ação',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Acesso Dados',

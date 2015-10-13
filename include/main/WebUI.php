@@ -19,6 +19,8 @@ require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
 vimport('include.runtime.EntryPoint');
 
+session_save_path(vglobal('root_directory') . '/cache/session');
+
 class Vtiger_WebUI extends Vtiger_EntryPoint
 {
 

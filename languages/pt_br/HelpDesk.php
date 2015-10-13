@@ -9,8 +9,8 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = [
-	'LBL_SETUP_WEBFORMS' => 'Setup Web Forms',
-	'LBL_ORDER_TIME'=>'Order time',
+	'LBL_SETUP_WEBFORMS' => 'Configurar Web Forms',
+	'LBL_ORDER_TIME'=>'Ordenar por hora',
 	'Big Problem'=> 'Problema Grande' ,
 	'Closed' => 'Fechado' ,
 	'created' => 'criado',
