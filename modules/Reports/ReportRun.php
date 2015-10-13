@@ -475,7 +475,7 @@ class ReportRun extends CRMEntity
 				$this->queryPlanner->addTable($selectedfields[0]);
 			}
 		} elseif ($selectedfields[0] == 'vtiger_activity' && $selectedfields[1] == 'status') {
-			$columnSQL = " case when (vtiger_activity.status not like '') then vtiger_activity.status else vtiger_activity.eventstatus end AS Calendar__Status";
+			$columnSQL = "vtiger_activity.status AS Calendar__Status";
 		} elseif ($selectedfields[0] == 'vtiger_activity' && $selectedfields[1] == 'date_start') {
 			if ($module == 'Emails') {
 				$columnSQL = "cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATE) AS Emails__Date__Sent";
@@ -1095,7 +1095,7 @@ class ReportRun extends CRMEntity
 									$this->queryPlanner->addTable("vtiger_groups" . $module_from_tablename);
 								} elseif ($selectedfields[1] == 'status') {//when you use comma seperated values.
 									if ($selectedfields[2] == 'Calendar_Status') {
-										$advcolsql[] = "(case when (vtiger_activity.status not like '') then vtiger_activity.status else vtiger_activity.eventstatus end)" . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype);
+										$advcolsql[] = "vtiger_activity.status" . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype);
 									} else if ($selectedfields[2] == 'HelpDesk_Status') {
 										$advcolsql[] = "vtiger_troubletickets.status" . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype);
 									} else if ($selectedfields[2] == 'Faq_Status') {
@@ -1178,15 +1178,12 @@ class ReportRun extends CRMEntity
 							$this->queryPlanner->addTable($tableName);
 							$fieldvalue = 'trim(' . getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
 								$this->getAdvComparator($comparator, trim($value), $datatype);
-						} elseif ($selectedfields[0] == "vtiger_activity" && ($selectedfields[1] == 'status' || $selectedfields[1] == 'eventstatus')) {
+						} elseif ($selectedfields[0] == "vtiger_activity" && ($selectedfields[1] == 'status' || $selectedfields[1] == 'activitystatus')) {
 							// for "Is Empty" condition we need to check with "value NOT NULL" OR "value = ''" conditions
 							if ($comparator == 'y') {
-								$fieldvalue = "(case when (vtiger_activity.status not like '') then vtiger_activity.status
-                                                else vtiger_activity.eventstatus end) IS NULL OR (case when (vtiger_activity.status not like '')
-                                                then vtiger_activity.status else vtiger_activity.eventstatus end) = ''";
+								$fieldvalue = "(case when vtiger_activity.status IS NULL OR vtiger_activity.status = ''";
 							} else {
-								$fieldvalue = "(case when (vtiger_activity.status not like '') then vtiger_activity.status
-                                                else vtiger_activity.eventstatus end)" . $this->getAdvComparator($comparator, trim($value), $datatype);
+								$fieldvalue = "vtiger_activity.status" . $this->getAdvComparator($comparator, trim($value), $datatype);
 							}
 						} else if ($comparator == 'ny') {
 							if ($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype']))
@@ -2893,7 +2890,7 @@ class ReportRun extends CRMEntity
 					}
 					for ($i = 0; $i < $y; $i++) {
 						$fld = $adb->columnMeta($result, $i);
-						$keyhdr[$fld->name] = $custom_field_values[$i];
+						$keyhdr[$fld->name] = $custom_field_values[$fld->name];
 					}
 
 					$rowcount = 0;
@@ -3564,7 +3561,7 @@ class ReportRun extends CRMEntity
 				$fieldvalues[] = $fldvalue;
 			}
 			$field_count = count($fieldvalues);
-			if ($uitype == 15 && $field_count > 0 && ($fieldname == 'taskstatus' || $fieldname == 'eventstatus')) {
+			if ($uitype == 15 && $field_count > 0 && ($fieldname == 'activitystatus')) {
 				$temp_count = count($temp_status[$keyvalue]);
 				if ($temp_count > 0) {
 					for ($t = 0; $t < $field_count; $t++) {

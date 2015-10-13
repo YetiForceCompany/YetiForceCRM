@@ -49,7 +49,7 @@ function load_all_widgets(inframe, crm_path) {
 			params['from_email'] = fromEmail[1];
 		}
 		params['from_name'] = inframe.find('.from .rcmContactAddress').text();
-		params['title'] = inframe.find('.subject').text();
+		params['title'] = inframe.find('.subject').text().replace("Subject: ", "");
 		params['body'] = inframe.find('#messagebody').text();
 		gcrm['uid'] = params['uid'] = inframe.find('#message-oss-parameters-uid').text();
 		gcrm['folder'] = params['folder'] = inframe.find('#message-oss-parameters-folder').text();
@@ -65,7 +65,7 @@ function load_all_widgets(inframe, crm_path) {
 				params['from_email'] = fromEmail[1];
 			}
 			params['from_name'] = inframe2.find('.from .rcmContactAddress').text();
-			params['title'] = inframe2.find('.subject').text();
+			params['title'] = inframe2.find('.subject').text().replace("Subject: ", "");
 			params['body'] = inframe2.find('#messagebody').text();
 			gcrm['uid'] = params['uid'] = inframe2.find('#message-oss-parameters-uid').text();
 			gcrm['folder'] = params['folder'] = inframe2.find('#message-oss-parameters-folder').text();

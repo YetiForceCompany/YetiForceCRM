@@ -17,7 +17,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model {
 	 * Function return the url to fetch List Price of the Product for the current PriceBook
 	 * @return <String>
 	 */
-	function getProductListPriceURL() {
+	function getProductUnitPriceURL() {
 		$url = 'module=PriceBooks&action=ProductListPrice&record=' . $this->getId();
 		$rawData = $this->getRawData();
 		$src_record = $rawData['src_record'];

@@ -7,13 +7,13 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-
 var app = {
 	/**
 	 * variable stores client side language strings
 	 */
 	languageString: [],
 	weekDaysArray: {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6},
+	cacheParams: [],
 	/**
 	 * Function to get the module name. This function will get the value from element which has id module
 	 * @return : string - module name
@@ -408,6 +408,12 @@ var app = {
 	},
 	isHidden: function (element) {
 		if (element.css('display') == 'none') {
+			return true;
+		}
+		return false;
+	},
+	isInvisible: function (element) {
+		if (element.css('visibility') == 'hidden') {
 			return true;
 		}
 		return false;
@@ -1088,6 +1094,64 @@ var app = {
 		rand = Math.floor(Math.random() * chars.length);
 		return newchar = chars.substring(rand, rand + 1);
 	},
+	getMainParams: function (params) {
+		if (app.cacheParams[params] != undefined) {
+			return app.cacheParams[params];
+		}
+		var value = $('#' + params).val();
+		app.cacheParams[params] = value;
+		return value;
+	},
+	parseNumberToShow: function (val) {
+		if (val == undefined) {
+			val = 0;
+		}
+		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
+		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
+		val = parseFloat(val).toFixed(numberOfDecimal);
+		if (decimalSeparator != '.') {
+			val = val.toString().replace('.', decimalSeparator);
+		}
+		return val;
+	},
+	parseNumberToFloat: function (val) {
+		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
+		if (val == undefined) {
+			val = 0;
+		}
+		if (app.getMainParams('currencyDecimalSeparator') == ',') {
+			val = val.toString().replace(/\s/g, "").replace(",", ".");
+		}
+		return parseFloat(val);
+	},
+	errorLog: function (error, err, errorThrown) {
+		if (typeof error == 'object') {
+			error = error.responseText;
+		}
+		console.error(error);
+	},
+	registerModal: function (container) {
+		if (typeof container == 'undefined') {
+			container = jQuery('body');
+		}
+		container.find('button.showModal, a.showModal').on('click', function (e) {
+			var currentElement = jQuery(e.currentTarget);
+			var url = currentElement.data('url');
+
+			if (typeof url != 'undefined') {
+				if (typeof currentElement.data('cb') != 'undefined') {
+					var modalWindowParams = {
+						url: url,
+						cb: currentElement.data('cb'),
+					}
+					app.showModalWindow(modalWindowParams);
+				} else {
+					app.showModalWindow(null, url);
+				}
+			}
+			e.stopPropagation();
+		});
+	},
 }
 
 jQuery(document).ready(function () {
@@ -1098,6 +1162,7 @@ jQuery(document).ready(function () {
 	app.showSelectizeElementView(jQuery('body').find('select.selectize'));
 	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
+	app.registerModal();
 	app.setContentsHeight();
 
 	//Updating row height

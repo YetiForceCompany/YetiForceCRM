@@ -306,6 +306,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 						jQuery('#listViewContents').html(data);
 						thisInstance.updatePagination();
 						thisInstance.registerListViewSelect();
+						app.showSelect2ElementView(jQuery('#listViewContents').find('select.select2'));
 					}
 			);
 		});

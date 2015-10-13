@@ -241,12 +241,11 @@ class API_CalDAV_Model {
 				$rekord->set('due_date', $dates['due_date']);
 				$rekord->set('time_start', $dates['time_start']);
 				$rekord->set('time_end', $dates['time_end']);
+				$rekord->set('activitystatus', $this->getStatus($component));
 				if ($component->name == 'VTODO') {
 					$rekord->set('activitytype', 'Task');
-					$rekord->set('taskstatus', $this->getStatus($component));
 				} else {
 					$rekord->set('activitytype', 'Meeting');
-					$rekord->set('eventstatus', $this->getStatus($component));
 				}
 				$rekord->set('taskpriority', $this->getPriority($component));
 				$rekord->set('visibility', $this->getVisibility($component));
@@ -283,12 +282,11 @@ class API_CalDAV_Model {
 				$rekord->set('due_date', $dates['due_date']);
 				$rekord->set('time_start', $dates['time_start']);
 				$rekord->set('time_end', $dates['time_end']);
+				$rekord->set('activitystatus', $this->getStatus($component));
 				if ($component->name == 'VTODO') {
 					$rekord->set('activitytype', 'Task');
-					$rekord->set('taskstatus', $this->getStatus($component));
 				} else {
 					$rekord->set('activitytype', 'Meeting');
-					$rekord->set('eventstatus', $this->getStatus($component));
 				}
 				$rekord->set('taskpriority', $this->getPriority($component));
 				$rekord->set('visibility', $this->getVisibility($component));

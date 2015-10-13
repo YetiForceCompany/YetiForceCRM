@@ -15,6 +15,11 @@ $languageStrings = [
 	'LBL_TIMEOVERLAP_VALID' => 'Permitir horas sobrepostas',
 	'LBL_GENERAL_SETTINGS' => 'Configurações gerais',
 	'TimeControlProcesses' => 'Processos Controle Tempo',
+	'LBL_TIME_CONTROL_WIDGET' => 'Time Control Widget',
+	'LBL_TCW_INFO' => 'The options to hide/display icons in the time control widget can be found here.',
+	'LBL_HOLIDAYS' => 'Holiday icons',
+	'LBL_WORKING_DAYS' => 'Working days icons',
+	'LBL_WORKING_TIME' => 'Working time icons',
 ];
 
 $jsLanguageStrings = [

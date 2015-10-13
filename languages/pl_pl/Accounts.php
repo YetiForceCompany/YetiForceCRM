@@ -64,6 +64,9 @@ $languageStrings = [
 	'Average profit sales order' => 'Średnia marża',
 	'LBL_CONVERTED_FROM_LEAD' => 'Skonwertowany z leada',
 	'LBL_LEGAL_FORM' => 'Forma prawna',
+	'LBL_INVENTORY_BALANCE' => 'Saldo',
+	'LBL_DISCOUNT' => 'Rabat',
+	'LBL_CREDIT_LIMIT' => 'Limit kredytowy',
 
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Osoba fizyczna',
@@ -86,7 +89,6 @@ $languageStrings = [
 	'PLL_EUROPEAN_ASSOCIATION' => 'Stowarzyszenie europejskie',
 	'PLL_UFCIITS' => 'Przedsiębiorstwo zbiorowego inwestowania w zbywalne papiery wartościowe',
 ];
-
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Taki kontrahent istnieje. Czy chcesz utworzyć duplikat?',
 	'LBL_DELETE_CONFIRMATION' => 'Usunięcie tego Kontrahenta usunie również przypisane szanse sprzedaży oraz Oferty. Czy jesteś pewnien, że chcesz usunąć tego Kontrahenta?',

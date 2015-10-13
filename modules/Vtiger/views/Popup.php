@@ -122,10 +122,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 		
         $isRecordExists = Vtiger_Util_Helper::checkRecordExistance($relatedParentId);
-        if($isRecordExists) {
-            $relatedParentModule = '';
-            $relatedParentId = '';
-        } else if($isRecordExists === NULL) {
+        if($isRecordExists || $isRecordExists === NULL) {
             $relatedParentModule = '';
             $relatedParentId = '';
         }

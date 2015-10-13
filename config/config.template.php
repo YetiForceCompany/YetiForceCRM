@@ -237,7 +237,6 @@ $encryptBackup = false;
 
 // autocomplete global search - Whether or not automated search should be turned on"
 $gsAutocomplete = 1; // 0 or 1
-
 // autocomplete global search - The minimum number of characters a user must type before a search is performed. 
 $gsMinLength = 3;
 
@@ -245,4 +244,13 @@ $gsMinLength = 3;
 $gsAmountResponse = 10;
 
 // Is sending emails active. 
-$isActiveSendingMails = false;
+$isActiveSendingMails = true;
+
+// Should the task in cron be unblocked if the script execution time was exceeded
+$unblockedTimeoutCronTasks = true;
+
+// The maximum time of executing a cron. Recommended same as the max_exacution_time parameter value.
+$maxExecutionCronTime = 3600;
+
+// System's language selection in the login window (true/false).
+$langInLoginView = false;

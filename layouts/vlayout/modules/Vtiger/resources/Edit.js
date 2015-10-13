@@ -7,7 +7,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-
 jQuery.Class("Vtiger_Edit_Js", {
 	//Event that will triggered when reference field is selected
 	referenceSelectionEvent: 'Vtiger.Reference.Selection',
@@ -520,25 +519,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 			thisInstance.referenceCreateHandler(controlElementTd);
 		})
 	},
-	/**
-	 * Function to register the event status change event
-	 */
-	registerEventStatusChangeEvent: function (container) {
-		var followupContainer = container.find('.followUpContainer');
-		//if default value is set to Held then display follow up container
-		var defaultStatus = container.find('select[name="eventstatus"]').val();
-		if (defaultStatus == 'Held' || defaultStatus == 'Not Held') {
-			followupContainer.show();
-		}
-		container.find('select[name="eventstatus"]').on('change', function (e) {
-			var selectedOption = jQuery(e.currentTarget).val();
-			if (selectedOption == 'Held' || selectedOption == 'Not Held') {
-				followupContainer.show();
-			} else {
-				followupContainer.hide();
-			}
-		});
-	},
 	addressFieldsMapping: [
 		'buildingnumber',
 		'localnumber',
@@ -858,8 +838,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerClearReferenceSelectionEvent(container);
 		this.registerPreventingEnterSubmitEvent(container);
 		this.registerTimeFields(container);
-		//Added here instead of register basic event of calendar. because this should be registered all over the places like quick create, edit, list..
-		this.registerEventStatusChangeEvent(container);
 		this.registerRecordAccessCheckEvent(container);
 		this.registerEventForPicklistDependencySetup(container);
 		this.registerRecordPreSaveEventEvent(container);
@@ -1093,7 +1071,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	},
 	loadCkEditorElement: function (noteContentElement) {
 		var customConfig = {};
-		if (noteContentElement.css('display') != 'none') {
+		if (noteContentElement.is(':visible')) {
 			noteContentElement.removeAttr('data-validation-engine');
 			if (noteContentElement.hasClass("ckEditorBasic")) {
 				customConfig.toolbar = 'Basic';

@@ -206,6 +206,7 @@ $languageStrings = [
 	'Mail'=> 'Klient poczty',
 	'GlobalPermission' => 'Uprawnienia globalne',
 	'Search Setup'=>'Konfiguracja wyszukiwania',
+	'LBL_EXTENDED_MODULES'=>'Moduły rozszerzone',
 	/* modules */
 	'OSSCosts'=>'Koszty',
 	'CustomView'	=> 'Widoki',

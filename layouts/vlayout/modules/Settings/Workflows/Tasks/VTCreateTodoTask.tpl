@@ -23,17 +23,17 @@
 				<textarea class="form-control" name="description">{$TASK_OBJECT->description}</textarea>
 			</div>
 		</div>
-		<div class="row padding-bottom1per">
+		{*<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-5">
-				{assign var=STATUS_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('taskstatus')->getPickListValues()}
+				{assign var=STATUS_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('activitystatus')->getPickListValues()}
 				<select name="status" class="chzn-select form-control">
 					{foreach  from=$STATUS_PICKLIST_VALUES item=STATUS_PICKLIST_VALUE key=STATUS_PICKLIST_KEY}
 						<option value="{$STATUS_PICKLIST_KEY}" {if $STATUS_PICKLIST_KEY eq $TASK_OBJECT->status} selected="" {/if}>{$STATUS_PICKLIST_VALUE}</option>
 					{/foreach}
 				</select>
 			</span>
-		</div>
+		</div>*}
 		<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_PRIORITY',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-5">
@@ -59,6 +59,7 @@
 					{/foreach}
                     <optgroup label="{vtranslate('LBL_SPECIAL_OPTIONS')}">
                             <option value="copyParentOwner" {if $TASK_OBJECT->assigned_user_id eq 'copyParentOwner'} selected="" {/if}>{vtranslate('LBL_PARENT_OWNER')}</option>
+							<option value="currentUser" {if $TASK_OBJECT->assigned_user_id eq 'currentUser'} selected="" {/if}>{vtranslate('LBL_CURRENT_USER',$QUALIFIED_MODULE)}</option>
                     </optgroup>
 				</select>
 			</span>
@@ -134,13 +135,13 @@
 		<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_SEND_NOTIFICATION',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-6">
-				<input  type="checkbox" name="sendNotification" value="true" {if $TASK_OBJECT->sendNotification}checked{/if} />
+				<input type="checkbox" name="sendNotification" value="true" {if $TASK_OBJECT->sendNotification}checked{/if} />
 			</div>
 		</div>
-		<div class="row">
+		<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_DO_NOT_DUPLICATE_RECORDS',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-6">
-				<input  type="checkbox" name="doNotDuplicate" value="true" {if $TASK_OBJECT->doNotDuplicate}checked{/if} />
+				<input type="checkbox" name="doNotDuplicate" value="true" {if $TASK_OBJECT->doNotDuplicate}checked{/if} />
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
@@ -148,11 +149,17 @@
 			<span class="col-md-5">
 				<select multiple name="duplicateStatus" class="chzn-select form-control">
 					<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>
-					{foreach from=Vtiger_Util_Helper::getPickListValues('taskstatus') key=KEY item=ITEM}
+					{foreach from=Vtiger_Util_Helper::getPickListValues('activitystatus') key=KEY item=ITEM}
 						<option value="{$ITEM}" {if in_array($ITEM,Vtiger_Functions::getArrayFromValue($TASK_OBJECT->duplicateStatus))} selected="" {/if}>{vtranslate($ITEM,'Calendar')}</option>
 					{/foreach}
 				</select>
 			</span>
+		</div>
+		<div class="row padding-bottom1per">
+			<span class="col-md-2">{vtranslate('LBL_UPDATE_DATES_BASE_DATE_CHANGES',$QUALIFIED_MODULE)}</span>
+			<div class="col-md-6">
+				<input type="checkbox" name="updateDates" value="true" {if $TASK_OBJECT->updateDates}checked{/if} />
+			</div>
 		</div>
 	</div>
 {/strip}

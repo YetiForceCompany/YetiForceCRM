@@ -89,9 +89,14 @@ $languageStrings = [
 	'LBL_TREE_TEMPLATE' => 'Vorlage Baumstruktur',
 	'Tree' => 'Baumstruktur',
 	'LBL_FIELD_MASK_INFO' => 'Standard Maskendefinition <br />9: numeric<br />a: alphabetically<br />*: Alphanumeric<br /><br />Example:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
+	'MultiReferenceValue' => 'Werte aus dem verküpften Modul',
+	'LBL_MULTI_REFERENCE_VALUE_MODULES' => 'verknüpftes Modul',
+	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'verknüpftes Feld',
+	'LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD' => 'Filter zum Feld',
+	'LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE' => 'Filter zum Wert',
 	
 	'LBL_ADD_RELATION' => 'Modulbeziehung hinzufügen',
-	'LBL_REMOVE_RELATION' => 'Remove relation',
+	'LBL_REMOVE_RELATION' => 'Beziehung löschen',
 	'LBL_RELATION_TYPE' => 'Beziehungstyp',
 	'LBL_RELATION_ACTIONS' => 'Aktionen',
 	'LBL_SOURCE_MODULE' => 'Quellmodul',
@@ -101,6 +106,29 @@ $languageStrings = [
 	'PLL_DEPENDENTS_LIST' => 'abhängige Einträge',
 	'PLL_ADD' => 'Hinzufügen',
 	'PLL_SELECT' => 'Auswählen',
+	
+	// inventory tab
+	'LBL_MANAGING_AN_ADVANCED_BLOCK' => 'Einen Advanced Block verwalten',
+	'LBL_HEADLINE' => 'Kopfzeile',
+	'LBL_BASIC_VERSE' => 'Basic verse',
+	'LBL_ADDITIONAL_VERSE' => 'Additional verse',
+	'LBL_ADVANCED_MODULE' => 'Advanced',
+	'LBL_BASIC_MODULE' => 'Basic',
+	
+	'LBL_EDITING_INVENTORY_FIELD' => 'Bearbeiten',
+	'LBL_CREATING_INVENTORY_FIELD' => 'Hinzufügen',
+	'LBL_NAME_FIELD' => 'Name',
+	'LBL_COLSPAN' => 'Breite',
+	'LBL_COMMENT' => 'Kommentar',
+	'LBL_SELECT_TYPE_OF_INVENTORY' => 'Wähle Feldtyp field type',
+	'LBL_NEXT' => 'Weiter',
+	'LBL_PARAMS_MODULES' => 'Module',
+	'LBL_PARAMS_LIMIT' => 'Limit',
+	'LBL_DISPLAY_TYPE' => 'Fieldtyp',
+	'LBL_EDITABLE' => 'Editierbar',
+	'LBL_READONLY' => 'nur-lesen',
+	'LBL_FIELDS_EXISTS_IN_BLOCK' => 'Felder existieren zum Block',
+	'LBL_DELETE_CUSTOM_BLOCKS' => 'Standard Block kann nicht gelöscht werden',
 ];
 
 $jsLanguageStrings = [
@@ -128,8 +156,11 @@ $jsLanguageStrings = [
 	'JS_UPDATE_SEQUENCE' => 'Neue Reihenfolge von verbundenen Modulen wurde gespeichert',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Liste der Felder wurde aktualisiert',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Feld darf nicht leer sein',
-	'JS_RESERVED_PICKLIST_NAME' => 'This picklist name is reserved.',
-	'JS_REMOVE_RELATION_OK' => 'Successfully deleted a relation.',
-	'JS_DELETE_RELATION_CONFIRMATION' => 'Are you sure you want to delete?',
+	'JS_RESERVED_PICKLIST_NAME' => 'Dieser Name der Auswahlliste ist reserviert.',
+	'JS_REMOVE_RELATION_OK' => 'Beziehung erfolgreich gelöscht.',
+	'JS_DELETE_RELATION_CONFIRMATION' => 'Sind Sie sich sicher zu löschen?',
+	'JS_DELETE_INVENTORY_CONFIRMATION' => 'Sind Sie sich sicher, dass Element aus dem Block zu löschen?',
+	'JS_EXTENDED_MODULE' => 'Sind Sie sich sicher, den Modultyp zu ändern?',
+	'JS_SAVE_CHANGES' => 'Änderungen wurden erfolgreich gesichert.',
 ];
 

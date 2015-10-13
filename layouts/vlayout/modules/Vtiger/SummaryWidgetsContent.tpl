@@ -52,11 +52,9 @@
 							<div class="pull-right actions">
 								<span class="actionImages">
 									{if $RELATED_MODULE_NAME eq 'Calendar'}
-										{if $IS_EDITABLE && $RELATED_RECORD->get('taskstatus') neq 'Held' && $RELATED_RECORD->get('taskstatus') neq 'Completed'}
-											<a class="markAsHeld"><span title="{vtranslate('LBL_MARK_AS_HELD', $MODULE)}" class="glyphicon glyphicon-ok alignMiddle"></span></a>&nbsp;
-										{/if}
-										{if $IS_EDITABLE && $RELATED_RECORD->get('taskstatus') eq 'Held'}
-											<a class="holdFollowupOn"><span title="{vtranslate('LBL_HOLD_FOLLOWUP_ON', "Events")}" class="icon-flag alignMiddle"></span></a>&nbsp;
+										{assign var=CURRENT_ACTIVITY_LABELS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
+										{if $IS_EDITABLE && in_array($RELATED_RECORD->get('activitystatus'),$CURRENT_ACTIVITY_LABELS)}
+											<a class="showModal" data-url="{$RELATED_RECORD->getActivityStateModalUrl()}"><span title="{vtranslate('LBL_SET_RECORD_STATUS', $MODULE)}" class="glyphicon glyphicon-ok alignMiddle"></span></a>&nbsp;
 										{/if}
 										{if $DETAILVIEWPERMITTED eq 'yes'}
 											<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;

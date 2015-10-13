@@ -57,6 +57,43 @@ class Vtiger_Theme extends Vtiger_Viewer
 		}
 		return false;
 	}
+	
+	/**
+	 * Function to get the image path or get defaulf
+	 * This function searches for an image, it takes a default name in case it's missing,
+	 * if there's no image with a default name it will return false
+	 * @param <string> $imageFileName - file name 
+	 * @param <string> $defaultFileName - file name 
+	 * @return <string/boolean> - returns file path if exists or false;
+	 */
+	public static function getOrignOrDefaultImgPath($imageFileName, $defaultFileName)
+	{
+		$allowedImgTypes = ['.gif', '.jpg', '.png'];
+		foreach ($allowedImgTypes as $type) {
+			$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $imageFileName . $type;
+			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~' . $imageFilePath);
+			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $imageFileName . $type;
+			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
+			if (file_exists($completeImageFilePath)) {
+				return $imageFilePath;
+			} else if (file_exists($completeFallBackThemePath)) {
+				return $fallbackPath;
+			}
+		}
+
+		foreach ($allowedImgTypes as $type) {
+			$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
+			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~' . $imageFilePath);
+			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
+			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
+			if (file_exists($completeImageFilePath)) {
+				return $imageFilePath;
+			} else if (file_exists($completeFallBackThemePath)) {
+				return $fallbackPath;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Function to get the Base Theme Path, until theme folder not selected theme folder
@@ -126,4 +163,10 @@ function vimage_path($imageName)
 {
 	$args = func_get_args();
 	return call_user_func_array(array('Vtiger_Theme', 'getImagePath'), $args);
+}
+
+function vimage_path_default($imageName, $defaultImageName)
+{ 
+	$args = func_get_args();
+	return call_user_func_array(array('Vtiger_Theme', 'getOrignOrDefaultImgPath'), $args);
 }

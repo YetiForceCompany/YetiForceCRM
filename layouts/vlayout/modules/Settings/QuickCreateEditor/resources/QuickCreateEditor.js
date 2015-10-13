@@ -32,8 +32,6 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {
 		var thisInstance = this;
 		var contents = jQuery('#quickCreateEditorContainer').find('.contents');
 		var table = contents.find('.editFieldsTable');
-		console.log(table.length);
-		
 		jQuery('#quickCreateEditorContainer .contents .editFieldsTable').each(function(){
 			jQuery(this).find('ul[name=sortable1], ul[name=sortable2]').sortable({
 				'containment' : '#moduleBlocks',

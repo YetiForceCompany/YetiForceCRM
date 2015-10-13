@@ -27,10 +27,14 @@ class Vtiger_List_View extends Vtiger_Index_View
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
+		$mid = false;
+		if($request->has('mid')){
+			$mid = $request->get('mid');
+		}
+		
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName);
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName));
+		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
 		$this->viewName = $request->get('viewname');
 		if (empty($this->viewName)) {
 			//If not view name exits then get it from custom view
@@ -219,18 +223,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$this->listViewCount = $listViewModel->getListViewCount();
 		}
 		$totalCount = $this->listViewCount;
-		$pageLimit = $pagingModel->getPageLimit();
-		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
-
-		if ($pageCount == 0) {
-			$pageCount = 1;
-		}
-
-		$startPaginFrom = $pageNumber - 2;
-		if($pageNumber == $totalCount && 1 !=  $pageNumber)
-			$startPaginFrom = $pageNumber - 4;
-		if($startPaginFrom <= 0 || 1 ==  $pageNumber)
-			$startPaginFrom = 1;
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);

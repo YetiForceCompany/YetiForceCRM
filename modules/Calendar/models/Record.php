@@ -157,6 +157,9 @@ class Calendar_Record_Model extends Vtiger_Record_Model {
 			case '2h':
 				$datatime = date('Y-m-d H:i:s', strtotime('+120 min') );
 			break;
+			case '6h':
+				$datatime = date('Y-m-d H:i:s', strtotime('+6 hour') );
+			break;
 			case '1d':
 				$datatime = date('Y-m-d H:i:s', strtotime('+1 day') );
 			break;
@@ -168,7 +171,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model {
 		
 		$result = $db->pquery('SELECT value FROM vtiger_calendar_config WHERE type = ? AND name = ? AND value = ?', array('reminder','update_event',1));
 		if($db->num_rows($result) > 0){
-			//var_dump($result);
 			$query = 'SELECT date_start, time_start, due_date, time_end FROM vtiger_activity WHERE activityid = ?';
 			$result = $db->pquery($query, array($this->getId()));
 			$date_start_record = $db->query_result($result, 0, 'date_start');
@@ -190,4 +192,14 @@ class Calendar_Record_Model extends Vtiger_Record_Model {
 			$icon = 'Tasks';
 		return $icon.'.png';
 	}
+	
+	/**
+	 * Function to get modal view url for the record
+	 * @return <String> - Record Detail View Url
+	 */
+	public function getActivityStateModalUrl() {
+		$module = $this->getModule();
+		return 'index.php?module=Calendar&view=ActivityStateModal&record='.$this->getId();
+	}
+	
 }

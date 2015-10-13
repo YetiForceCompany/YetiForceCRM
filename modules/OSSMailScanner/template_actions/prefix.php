@@ -9,12 +9,12 @@ function bind_prefix($user_id, $mail_detail, $folder, $moduleName, $table_name, 
 		if ($adb->num_rows($result_ossmailview) == 0) {
 			return FALSE;
 		}
-		$ossmailviewid = $adb->query_result($result_ossmailview, 0, 'ossmailviewid');
+		$mailViewId = $adb->query_result($result_ossmailview, 0, 'ossmailviewid');
 	} else {
-		$ossmailviewid = $mail_detail['ossmailviewid'];
+		$mailViewId = $mail_detail['ossmailviewid'];
 	}
 	$relationExist = false;
-	$relationExistResult = $adb->pquery("SELECT crmid FROM vtiger_ossmailview_relation WHERE ossmailviewid = ?;", [$ossmailviewid]);
+	$relationExistResult = $adb->pquery("SELECT crmid FROM vtiger_ossmailview_relation WHERE ossmailviewid = ?;", [$mailViewId]);
 	for ($i = 0; $i < $adb->num_rows($relationExistResult); $i++) {
 		$crmid = $adb->query_result_raw($relationExistResult, $i, 'crmid');
 		$type = Vtiger_Functions::getCRMRecordType($crmid);
@@ -41,8 +41,11 @@ function bind_prefix($user_id, $mail_detail, $folder, $moduleName, $table_name, 
 	if ($adb->num_rows($result) > 0) {
 		$crmid = $adb->getSingleValue($result);
 
-		$adb->pquery('INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?, date=?', [$ossmailviewid, $crmid, $mail_detail['udate_formated']]);
-		$return_id[] = $crmid;
+		$resultRelation = $adb->pquery('SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid=? AND crmid=?', [$mailViewId, $crmid]);
+		if ($resultRelation->rowCount() == 0) {
+			$adb->pquery('INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?, date=?', [$mailViewId, $crmid, $mail_detail['udate_formated']]);
+			$return_id[] = $crmid;
+		}
 	}
 	return $return_id;
 }

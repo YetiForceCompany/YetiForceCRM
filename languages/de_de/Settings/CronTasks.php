@@ -14,7 +14,7 @@ $languageStrings = [
 	'Recommended frequency for Workflow is 15 mins' => 'Die empfohlene Frequenz für Workflows ist 15 Minuten',
 	'Recommended frequency for MailScanner is 15 mins' => 'Die empfohlene Frequenz für den Mailscanner ist 15 Minuten',
 	'Recommended frequency for ScheduleReports is 15 mins' => 'Die empfohlene Frequenz für den geplanten Berichte ist 15 Minuten',
-	'Recommended frequency for Currency Update is 24 hours' => 'Recommended frequency for Currency Update is 24 hours',
+	'Recommended frequency for Currency Update is 24 hours' => 'Die empfohlene Frequenz für Aktualiserung der Währungskurse ist 24 Stunden',
 	'Cron Job' => 'CRON Aufgabe',
 	'CronTasks' => 'CRON Aufgaben',
 	'Frequency' => 'Frequenz',
@@ -40,10 +40,9 @@ $languageStrings = [
 	'Scheduled Import' => 'geplante Importe',
 	'ScheduleReports' => 'geplante Berichte',
 	'MailScannerBind' => 'Mail Scanner Bind',
-	'LBL_CURRENCY_UPDATE' => 'Currency Update'
+	'LBL_CURRENCY_UPDATE' => 'Währungs Update',
+	'LBL_MULTI_REFERENCE_VALUE' => 'Multireferenzfelder Update',
 ];
-
-
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Die empfohlene Frequenz für den eingeplanten Import ist 15min',
 	'Recommended frequency for SendReminder is 15 mins' => 'Die empfohlene Frequenz für Erinnerungen ist 15min',
@@ -53,5 +52,5 @@ $jsLanguageStrings = [
 	'FREQUENCY_NUMBER' => 'Die Frequenz muss eine ganze Zahl sein',
 	'FREQUENCY_REQUIRED' => 'Das Feld Frequenz wird benötigt',
 	'PATH_REQUIRED' => 'Der Pfad ist erforderlich',
-	'NAME_REQUIRED' => 'Ein Name ist erforderlich'
+	'NAME_REQUIRED' => 'Ein Name ist erforderlich',
 ];

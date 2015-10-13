@@ -43,6 +43,15 @@
 						<input type="text" class="input-lg entityfieldlabel form-control" name="entityfieldlabel" placeholder="Title" required="true">
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">{vtranslate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}</label>
+					<div class="col-sm-6 controls">
+						<select class="chzn-select form-control" title="{vtranslate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}" name="entitytype">
+							<option value="0" selected>{vtranslate('LBL_BASE_MODULE', $QUALIFIED_MODULE)}</option>
+							<option value="1">{vtranslate('LBL_INVENTORY_MODULE', $QUALIFIED_MODULE)}</option>
+						</select>
+					</div>
+				</div>
 			</form>
 		</div>
 		{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}

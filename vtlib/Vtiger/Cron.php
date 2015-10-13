@@ -25,7 +25,6 @@ class Vtiger_Cron
 	static $STATUS_RUNNING = 2;
 	static $STATUS_COMPLETED = 3;
 	protected $data;
-	protected $bulkMode = false;
 
 	/**
 	 * Constructor
@@ -170,16 +169,11 @@ class Vtiger_Cron
 	 */
 	function isRunnable()
 	{
-		$runnable = false;
-
-		if (!$this->isDisabled()) {
-			// Take care of last time (end - on success, start - if timedout)
-			// Take care to start the cron im
-			$lastTime = ($this->getLastStart() > 0) ? $this->getLastStart() : $this->getLastEnd();
-			$elapsedTime = time() - $lastTime;
-			$runnable = ($elapsedTime >= ($this->getFrequency() - 60));
-		}
-		return $runnable;
+		// Take care of last time (end - on success, start - if timedout)
+		// Take care to start the cron im
+		$lastTime = ($this->getLastStart() > 0) ? $this->getLastStart() : $this->getLastEnd();
+		$elapsedTime = time() - $lastTime;
+		return ($elapsedTime >= ($this->getFrequency() - 60));
 	}
 
 	/**
@@ -245,7 +239,7 @@ class Vtiger_Cron
 	function markRunning()
 	{
 		$time = time();
-		self::querySilent('UPDATE vtiger_cron_task SET status=?, laststart=?, lastend=? WHERE id=?', array(self::$STATUS_RUNNING, $time, 0, $this->getId()));
+		self::querySilent('UPDATE vtiger_cron_task SET status=?, laststart=? WHERE id=?', array(self::$STATUS_RUNNING, $time, $this->getId()));
 		return $this->set('laststart', $time);
 	}
 
@@ -260,28 +254,25 @@ class Vtiger_Cron
 	}
 
 	/**
-	 * Set the bulkMode flag
-	 */
-	function setBulkMode($mode = null)
-	{
-		$this->bulkMode = $mode;
-	}
-
-	/**
-	 * Is task in bulk mode execution?
-	 */
-	function inBulkMode()
-	{
-		return $this->bulkMode;
-	}
-
-	/**
 	 * Detect if the task was started by never finished.
 	 */
-	function hadTimedout()
+	function hadTimeout()
 	{
-		if ($this->data['lastend'] === 0 && $this->data['laststart'] != 0)
-			return intval($this->data['lastend']);
+		if (!$this->isRunning()) {
+			return false;
+		}
+		$maxExecutionTime = intval(ini_get('max_execution_time'));
+		if ($maxExecutionTime == 0) {
+			$maxExecutionTime = vglobal('maxExecutionCronTime');
+		}
+		$time = $this->getLastEnd();
+		if ($time == 0) {
+			$time = $this->getLastStart();
+		}
+		if (time() > ($time + $maxExecutionTime)) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -317,14 +308,14 @@ class Vtiger_Cron
 	static function nextSequence()
 	{
 		$adb = PearDatabase::getInstance();
-		$result = self::querySilent('SELECT MAX(sequence) FROM vtiger_cron_task ORDER BY SEQUENCE');
-		if ($result && $adb->num_rows($result)) {
-			$row = $adb->fetch_array($result);
+		$result = self::querySilent('SELECT MAX(sequence) as sequence FROM vtiger_cron_task ORDER BY SEQUENCE');
+		if ($result && $adb->getRowCount($result)) {
+			$sequence = $adb->getSingleValue($result);
 		}
-		if ($row == NULL) {
-			$row['max(sequence)'] = 1;
+		if ($sequence == NULL) {
+			$sequence = 1;
 		}
-		return $row['max(sequence)'] + 1;
+		return $sequence + 1;
 	}
 
 	/**
@@ -428,74 +419,19 @@ class Vtiger_Cron
 		}
 		return $instances;
 	}
-	/*
-	 * Fuction uses to log the cron when it is in running
-	 *  for long time
-	 *  @Params <boolean> Completed - flag when then the cron is completed after long time
-	 */
 
-	public function log($completed = false)
+	function unlockTask()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = self::querySilent('SELECT id,iteration from vtiger_cron_log where start = ? AND name=?', array($this->getLastStart(), $this->getName()));
-		if ($result && $adb->num_rows($result) > 0) {
-			$row = $adb->fetch_array($result);
-			if ($completed) {
-				self::querySilent('UPDATE vtiger_cron_log set status = ?,end = ? where id = ?', array(self::$STATUS_COMPLETED, time(), $row['id']));
-			} else {
-
-				self::querySilent('UPDATE vtiger_cron_log set iteration = ? where id = ?', array($row['iteration'] + 1, $row['id']));
-			}
-		} else {
-			self::querySilent('INSERT INTO vtiger_cron_log (name,start,iteration,status) VALUES(?,?,?,?)', array($this->getName(), $this->getLastStart(), 1, self::$STATUS_RUNNING));
-		}
+		$this->updateStatus(self::$STATUS_ENABLED);
 	}
-	/*
-	 *  Function to verify where the log Mail is sent are not
+
+	/**
+	 * Delete all cron tasks associated with module
+	 * @param Vtiger_Module Instnace of module to use
 	 */
-
-	public function isSentLogMail()
+	static function deleteForModule($moduleInstance)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = self::querySilent('SELECT 1 from vtiger_cron_log where start = ? AND name=? AND iteration >= 4 ', array($this->getLastStart(), $this->getName()));
-		if ($result && $adb->num_rows($result)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	/*
-	 *  Function to get number of times a Cron task was skipped due to running state
-	 * 		@returns <int> Iterations
-	 */
-
-	public function getIterations()
-	{
-		$adb = PearDatabase::getInstance();
-		$result = self::querySilent('SELECT iteration from vtiger_cron_log where start = ? AND name=?', array($this->getLastStart(), $this->getName()));
-		if ($result && $adb->num_rows($result)) {
-			$row = $adb->fetch_array($result);
-			return $row['iteration'];
-		}
-	}
-	/*
-	 *  Function to get time to Complete the cron when it take
-	 * 		@returns <string> competed time in hours and mins
-	 */
-
-	public function getCompletedTime()
-	{
-		$adb = PearDatabase::getInstance();
-		$result = self::querySilent('SELECT start,end from vtiger_cron_log where start = ? AND name=?', array($this->getLastStart(), $this->getName()));
-		if ($result && $adb->num_rows($result)) {
-			$row = $adb->fetch_array($result);
-			$duration = $row['end'] - $row['start'];
-			$hours = (int) ($duration / 60);
-			$minutes = $duration - ($hours * 60);
-
-			return "$hours hours and $minutes minutes";
-		}
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_cron_task', 'module = ?', [$moduleInstance->name]);
 	}
 }
-
-?>

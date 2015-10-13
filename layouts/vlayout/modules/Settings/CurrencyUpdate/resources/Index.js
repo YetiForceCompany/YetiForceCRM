@@ -4,17 +4,17 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 	/*
 	 * Shows or hides block informing about supported currencies by presently chosen bank
 	 */
-	registerInfoButton: function () {
-		jQuery('#supportedCurrencies').on('click', function () {
+	registerInfoButton: function (container) {
+		container.find('#supportedCurrencies').on('click', function () {
 			jQuery('#infoBlock').toggleClass('hide');
 		});
 	},
 	/*
 	 * Shows or hides block informing about unsupported currencies by presently chosen bank
 	 */
-	registerAlertButton: function () {
-		jQuery('#unsupportedCurrencies').on('click', function () {
-			jQuery('#alertBlock').toggleClass('hide');
+	registerAlertButton: function (container) {
+		container.find('#unsupportedCurrencies').on('click', function () {
+			container.find('#alertBlock').toggleClass('hide');
 		});
 	},
 	/*
@@ -22,11 +22,11 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 	 * Daves the chosen bank as active in database.
 	 * Updates information about supported and unsupported currencies for currently chosen bank,
 	 */
-	registerBankChange: function () {
-		jQuery('#bank').on('change', function () {
-			bankName = jQuery('#bank option:selected').data('name');
-			jQuery('#alertSpan').html('');
-			jQuery('#infoSpan').html('');
+	registerBankChange: function (container) {
+		container.find('#bank').on('change', function () {
+			bankName = container.find('#bank option:selected').data('name');
+			container.find('#alertSpan').html('');
+			container.find('#infoSpan').html('');
 			var infoProgress = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -45,7 +45,11 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 			AppConnector.request(params).then(
 					function (data) {
 						var response = data['result'];
-						jQuery('#infoSpan').html(response);
+						var html = '';
+						for (var name in response) {
+							html += '<p><strong>'+name+'</strong> - '+response[name]+'</p>';
+						}
+						container.find('#infoSpan').html(html);
 					},
 					function (data, err) {
 
@@ -63,20 +67,21 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 			AppConnector.request(params).then(
 					function (data) {
 						var response = data['result'];
-						console.log(response);
-						if (response === '') {
-							console.log('puste');
-							if (!jQuery('#unsupportedCurrencies').hasClass('hide')) {
-								jQuery('#unsupportedCurrencies').addClass('hide');
+						if (jQuery.isEmptyObject(response)) {
+							if (!container.find('#unsupportedCurrencies').hasClass('hide')) {
+								container.find('#unsupportedCurrencies').addClass('hide');
 							}
-							if (!jQuery('#alertBlock').hasClass('hide')) {
-								jQuery('#alertBlock').addClass('hide')
+							if (!container.find('#alertBlock').hasClass('hide')) {
+								container.find('#alertBlock').addClass('hide')
 							}
 						} else {
-							console.log(' nie puste');
-							jQuery('#unsupportedCurrencies').removeClass('hide');
+							container.find('#unsupportedCurrencies').removeClass('hide');
 						}
-						jQuery('#alertSpan').html(response);
+						var html = '';
+						for (var name in response) {
+							html += '<p><strong>'+name+'</strong> - '+response[name]+'</p>';
+						}
+						container.find('#alertSpan').html(html);
 					},
 					function (data, err) {
 
@@ -117,15 +122,16 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 
 					}
 			);
-		})
+		});
 	},
 	/**
 	 * Register events
 	 */
 	registerEvents: function () {
+		var container = jQuery('#currencyUpdateContainer');
 		app.registerEventForDatePickerFields('#datepicker', false, {});
-		this.registerInfoButton();
-		this.registerAlertButton();
-		this.registerBankChange();
+		this.registerInfoButton(container);
+		this.registerAlertButton(container);
+		this.registerBankChange(container);
 	}
 });

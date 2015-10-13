@@ -303,13 +303,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	addCalendarEvent: function (calendarDetails) {
 		var state = $('.fc-toolbar input.switchBtn').bootstrapSwitch('state');
 		var eventObject = {};
-		if (calendarDetails.activitytype.value == 'Task') {
-			eventObject.status = calendarDetails.taskstatus.value;
-		} else {
-			eventObject.status = calendarDetails.eventstatus.value;
-		}
 
-		var taskstatus = $.inArray( eventObject.status, ['Held', 'Completed','Deferred'] );
+		var taskstatus = $.inArray( eventObject.status, ['PLL_POSTPONED', 'PLL_CANCELLED','PLL_COMPLETED'] );
 		if(state == true && taskstatus >= 0){
 			return false;
 		}
@@ -333,12 +328,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			eventObject.allDay = false;
 		eventObject.state = calendarDetails.state.value;
 		eventObject.vis = calendarDetails.visibility.value;
-		if(calendarDetails.status){
-			eventObject.sta = calendarDetails.status.value;
-		}
-		if(calendarDetails.eventstatus){
-			eventObject.sta = calendarDetails.eventstatus.value;
-		}
+		eventObject.sta = calendarDetails.status.value;
 		eventObject.className = 'userCol_' + calendarDetails.assigned_user_id.value+' calCol_' + calendarDetails.activitytype.value;
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},

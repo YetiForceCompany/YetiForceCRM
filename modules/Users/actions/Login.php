@@ -59,11 +59,15 @@ class Users_Login_Action extends Vtiger_Action_Controller
 
 			// For Backward compatability
 			// TODO Remove when switch-to-old look is not needed
-			$_SESSION['authenticated_user_id'] = $userid;
-			$_SESSION['app_unique_key'] = vglobal('application_unique_key');
-			$_SESSION['authenticated_user_language'] = vglobal('default_language');
-			$_SESSION['user_name'] = $username;
-			$_SESSION['full_user_name'] = Vtiger_Functions::getUserRecordLabel($userid);
+			Vtiger_Session::set('authenticated_user_id', $userid);
+			Vtiger_Session::set('app_unique_key', vglobal('application_unique_key'));
+			Vtiger_Session::set('authenticated_user_language', vglobal('default_language'));
+			Vtiger_Session::set('user_name', $username);
+			Vtiger_Session::set('full_user_name', Vtiger_Functions::getUserRecordLabel($userid));
+
+			if ($request->has('language')) {
+				Vtiger_Session::set('language', $request->get('language'));
+			}
 
 			//Enabled session variable for KCFINDER 
 			$_SESSION['KCFINDER'] = array();

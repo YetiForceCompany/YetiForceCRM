@@ -129,7 +129,7 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js',{},{
 				var fieldDataInfo = fieldSelectElement.find('option:selected').data('fieldinfo');
 				var fieldType = fieldDataInfo.type;
 				var rowValues = {};
-				if (fieldType == 'picklist' || fieldType == 'multipicklist') {
+				if ($.inArray(fieldType, ['picklist', 'multipicklist', 'multiReferenceValue']) > -1) {
 					for(var key in fieldList) {
 						var field = fieldList[key];
 						if(field == 'value' && valueSelectElement.is('input')) {
@@ -148,7 +148,7 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js',{},{
 							rowValues[field] = reconstructedCommaSeperatedValues;
 						} else if(field == 'value' && valueSelectElement.is('select') && fieldType == 'picklist'){
 							rowValues[field] = valueSelectElement.val();
-						} else if(field == 'value' && valueSelectElement.is('select') && fieldType == 'multipicklist'){
+						} else if (field == 'value' && valueSelectElement.is('select') && $.inArray(fieldType, ['multipicklist', 'multiReferenceValue']) > -1) {
 							var value = valueSelectElement.val();
 							if(value == null){
 								rowValues[field] = value;
@@ -159,7 +159,6 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js',{},{
 							rowValues[field] = jQuery('[name="'+field+'"]', rowElement).val();
 						}
 					}
-
 				} else {
 					for(var key in fieldList) {
 						var field = fieldList[key];

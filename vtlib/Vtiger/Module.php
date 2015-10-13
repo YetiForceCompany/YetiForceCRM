@@ -178,7 +178,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 		$targetpath = 'modules/' . $this->name;
 
 		if (!is_file($targetpath)) {
-			$templatepath = 'vtlib/ModuleDir/' . $this->type . '/';
+			$templatepath = 'vtlib/ModuleDir/BaseModule/';
 			$flags = FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS;
 			$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($templatepath, $flags), RecursiveIteratorIterator::SELF_FIRST);
 			foreach ($objects as $name => $object) {

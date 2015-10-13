@@ -13,7 +13,7 @@
 {foreach key=index item=jsModel from=$SCRIPTS}
 	<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 {/foreach}
-		
+{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 <div class="modelContainer modal fade" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -51,7 +51,7 @@
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<td class='fieldLabel'>
+								<td class='fieldLabel {$WIDTHTYPE}'>
 									{if $isReferenceField neq "reference"}<label class="muted pull-right">{/if}
 									{if $FIELD_MODEL->isMandatory() eq true && $isReferenceField neq "reference"} <span class="redColor">*</span> {/if}
 									{if $isReferenceField eq "reference"}
@@ -79,7 +79,7 @@
 									{/if}
 								{if $isReferenceField neq "reference"}</label>{/if}
 								</td>
-								<td class="fieldValue" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+								<td class="fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
 									{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
 								</td>
 							{/foreach}
@@ -89,7 +89,7 @@
 				</div>
 				<div class="modal-footer quickCreateActions">
 					{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
-						<a class="cancelLink cancelLinkContainer pull-right" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<button class="cancelLink cancelLinkContainer pull-right btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
 						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 						<button class="btn btn-success" name="save" type="submit" onclick="{$GENERATEONCLICK}"><strong>{vtranslate('Generate Password', $RELATEDMODULE)}</strong></button>
 						<button class="btn btn-default" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>

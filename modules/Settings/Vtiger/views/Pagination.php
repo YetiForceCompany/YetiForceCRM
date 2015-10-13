@@ -15,6 +15,7 @@ class Settings_Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$pageNumber = $request->get('page');
 		$searchResult = $request->get('searchResult');
 		$qualifiedModuleName = $request->getModule(false);
+		$sourceModule = $request->get('sourceModule');
 		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
@@ -57,21 +58,11 @@ class Settings_Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		}
 		$noOfEntries = count($this->listViewEntries);
 		$totalCount = $this->listViewCount;
-		$pageLimit = $pagingModel->getPageLimit();
-		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
-		if ($pageCount == 0) {
-			$pageCount = 1;
-		}
 		$viewer->assign('PAGE_COUNT', $pageCount);
-
-		$startPaginFrom = $pageNumber - 2;
-
-		if ($pageNumber == $totalCount && 1 != $pageNumber)
-			$startPaginFrom = $pageNumber - 4;
-		if ($startPaginFrom <= 0 || 1 == $pageNumber)
-			$startPaginFrom = 1;
-
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);

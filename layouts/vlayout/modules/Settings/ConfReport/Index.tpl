@@ -69,6 +69,27 @@
  			<table class="table table-bordered table-condensed themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
+						<th class="mediumWidthType">
+							<span>{vtranslate('LBL_FILE', $MODULE)}</span>
+						</th>
+						<th class="mediumWidthType">
+							<span>{vtranslate('LBL_SPACE', $MODULE)}</span>
+						</th> 											
+					</tr>
+				</thead>
+				<tbody>
+					{foreach from=Vtiger_Functions::getDiskSpace() key=key item=item}			
+						<tr>
+							<td>{vtranslate('LBL_SPACE_'|cat:strtoupper($key), $MODULE)}</td>
+							<td>{Vtiger_Functions::showBytes($item)}</td>			
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
+			<br/>
+ 			<table class="table table-bordered table-condensed themeTableColor confTable">
+				<thead>
+					<tr class="blockHeader">
 						<th colspan="1" class="mediumWidthType">
 							<span>{vtranslate('LBL_FILE', $MODULE)}</span>
 						</th>

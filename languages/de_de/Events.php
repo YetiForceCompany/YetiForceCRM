@@ -12,7 +12,7 @@
 
 $languageStrings = [
 	'Low' => 'Niedrig',
-	'Medium' => 'Medium',
+	'Medium' => 'Mittel',
 	'High' => 'Hoch',
 	'Activity Type' => 'Aktivitätenart',
 	'Busy' => 'Beschäftigt',
@@ -96,4 +96,14 @@ $languageStrings = [
 	'LBL_REPEAT_FOR' => 'Wiederholen für',
 	'LBL_RECURRING_TYPE' => 'Art der Wiederholung',
 	'Status' => 'Status',
+	'End Date' => 'Enddatum',
+	'LBL_FOLLOWUP' => 'Nachverfolgen',
+	
+	'PLL_PLANNED' => 'Geplant',
+	'PLL_IN_REALIZATION' => 'Zu Realisieren',
+	'PLL_OVERDUE' => 'Überfällig',
+	'PLL_POSTPONED' => 'Zurückgestellt',
+	'PLL_CANCELLED' => 'Abgebrochen',
+	'PLL_COMPLETED' => 'Abgeschlossen',
+
 ];

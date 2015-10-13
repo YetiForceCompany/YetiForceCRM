@@ -1,5 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
-
+{strip}
 <div id="currencyUpdateContainer" class="row">
 	<h3>{vtranslate('LBL_CURRENCY_UPDATE', $QUALIFIED_MODULE)}</h3>
 	{vtranslate('LBL_CURRENCY_UPDATE_DESCRIPTION', $QUALIFIED_MODULE)}<hr>
@@ -108,7 +108,7 @@
 						{if $USER_MODEL->get('currency_symbol_placement') eq '$1.0'}
 							{$MAINCURR['currency_symbol']} 
 						{/if}
-						{number_format($key.exchange, 4, $USER_MODEL->get('currency_decimal_separator'), $USER_MODEL->get('currency_grouping_separator'))} 
+						{number_format($key.exchange, 4, $USER_MODEL->get('currency_decimal_separator'), $USER_MODEL->get('currency_grouping_separator'))}
 						{if $USER_MODEL->get('currency_symbol_placement') eq '1.0$'}
 							{$MAINCURR['currency_symbol']}
 						{/if}
@@ -120,3 +120,4 @@
 		</table>
 	</form>
 </div>
+{/strip}

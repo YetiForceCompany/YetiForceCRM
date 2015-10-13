@@ -52,6 +52,12 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$pageNumber = $request->get('page');
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
+		$searchResult = $request->get('searchResult');
+		if (empty($orderBy) && empty($sortOrder)) {
+			$moduleInstance = CRMEntity::getInstance($moduleName);
+			$orderBy = $moduleInstance->default_order_by;
+			$sortOrder = $moduleInstance->default_sort_order;
+		}
 		if ($sortOrder == "ASC") {
 			$nextSortOrder = "DESC";
 			$sortImage = "glyphicon glyphicon-chevron-down";
@@ -76,12 +82,8 @@ class Users_List_View extends Settings_Vtiger_List_View
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
+		$pagingModel->set('viewid', $cvId);
 
-		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = CRMEntity::getInstance($moduleName);
-			$orderBy = $moduleInstance->default_order_by;
-			$sortOrder = $moduleInstance->default_sort_order;
-		}
 		if (!empty($orderBy)) {
 			$listViewModel->set('orderby', $orderBy);
 			$listViewModel->set('sortorder', $sortOrder);
@@ -101,7 +103,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		}
 
 		$searchParmams = $request->get('search_params');
-		if (empty($searchParmams)) {
+		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = array();
 		}
 
@@ -113,6 +115,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 			foreach ($fieldListGroup as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
+				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3];
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
@@ -121,7 +124,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
 		}
 		if (!$this->listViewEntries) {
-			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
+			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel, $searchResult);
 		}
 		$noOfEntries = count($this->listViewEntries);
 
@@ -153,18 +156,9 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$this->listViewCount = $listViewModel->getListViewCount();
 		}
 		$totalCount = $this->listViewCount;
-		$pageLimit = $pagingModel->getPageLimit();
-		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
-
-		if ($pageCount == 0) {
-			$pageCount = 1;
-		}
-		
-		$startPaginFrom = $pageNumber - 2;
-		if($pageNumber == $totalCount && 1 !=  $pageNumber)
-			$startPaginFrom = $pageNumber - 4;
-		if($startPaginFrom <= 0 || 1 ==  $pageNumber)
-			$startPaginFrom = 1;
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);

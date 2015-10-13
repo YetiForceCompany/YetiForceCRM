@@ -49,4 +49,108 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		$db->pquery('UPDATE yetiforce_auth SET value = ? WHERE type = ? AND param = ?;', [$value, $param['type'], $param['param']]);
 		return true;
 	}
+
+	public function saveSwitchUsers($data)
+	{
+		$content = '<?php' . PHP_EOL . '$switchUsersRaw = [';
+		$map = [];
+		if (count($data)) {
+			foreach ($data as $row) {
+				$content .= "'" . $row['user'] . "'=>['" . implode("','", $row['access']) . "'],";
+				$accessList = [];
+				if (count($row['access'])) {
+					foreach ($row['access'] as $access) {
+						$accessList = array_merge($accessList, $this->getUserID($access));
+					}
+				}
+				foreach ($this->getUserID($row['user']) as $user) {
+					$map[$user] = array_merge(isset($map[$user]) ? $map[$user] : [], $accessList);
+				}
+			}
+		}
+		$content .= '];' . PHP_EOL . '$switchUsers = [';
+		foreach ($map as $user => $accessList) {
+			$users = '';
+			foreach (array_unique($accessList) as $ID) {
+				$users .= "$ID => '" . $this->getUserName($ID) . "',";
+			}
+			$content .= "'$user'=>[$users],";
+		}
+		$content .= '];';
+		$file = 'user_privileges/switchUsers.php';
+		file_put_contents($file, $content);
+	}
+
+	public function getSwitchUsers()
+	{
+		require('user_privileges/switchUsers.php');
+		return $switchUsersRaw;
+	}
+
+	public static $usersID = [];
+	public function getUserID($data)
+	{
+		if (key_exists($data, self::$usersID)) {
+			return self::$usersID[$data];
+		}
+		if (substr($data, 0, 1) == 'H') {
+			$db = PearDatabase::getInstance();
+			$return = [];
+			$result = $db->pquery('SELECT userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid WHERE roleid = ? AND deleted=0 AND status <> ?', [$data, 'Inactive']);
+			while ($userid = $db->getSingleValue($result)) {
+				$return[] = $userid;
+			}
+		} else {
+			$return = [(int) $data];
+		}
+		self::$usersID[$data] = $return;
+		return $return;
+	}
+
+	public static $users = [];
+
+	public function getUserName($id)
+	{
+		if (key_exists($id, self::$users)) {
+			return self::$users[$id];
+		}
+		$user = new Users();
+		$currentUser = $user->retrieveCurrentUserInfoFromFile($id);
+		$name = $currentUser->column_fields['first_name'] . ' ' . $currentUser->column_fields['last_name'];
+		self::$users[$id] = $name;
+		return $name;
+	}
+
+	public function refreshSwitchUsers()
+	{
+		$switchUsers = $this->getSwitchUsers();
+		$content = '<?php' . PHP_EOL . '$switchUsersRaw = [';
+		$map = [];
+		if (count($switchUsers)) {
+			foreach ($switchUsers as $key => $row) {
+				$content .= "'" . $key . "'=>['" . implode("','", $row) . "'],";
+				$accessList = [];
+				if (count($row)) {
+					foreach ($row as $access) {
+						$accessList = array_merge($accessList, $this->getUserID($access));
+					}
+				}
+				foreach ($this->getUserID($key) as $user) {
+					$map[$user] = array_merge(isset($map[$user]) ? $map[$user] : [], $accessList);
+				}
+			}
+		}
+		
+		$content .= '];' . PHP_EOL . '$switchUsers = [';
+		foreach ($map as $user => $accessList) {
+			$users = '';
+			foreach (array_unique($accessList) as $ID) {
+				$users .= "$ID => '" . $this->getUserName($ID) . "',";
+			}
+			$content .= "'$user'=>[$users],";
+		}
+		$content .= '];';
+		$file = 'user_privileges/switchUsers.php';
+		file_put_contents($file, $content);
+	}
 }

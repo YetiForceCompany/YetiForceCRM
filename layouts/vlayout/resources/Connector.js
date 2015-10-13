@@ -102,6 +102,7 @@ var AppConnector = {
 		}
 
 		var error = function(jqXHR, textStatus, errorThrown){
+			app.errorLog(jqXHR, textStatus, errorThrown);
 			aDeferred.reject(textStatus, errorThrown);
 		}
 		

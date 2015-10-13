@@ -23,17 +23,17 @@
 				<textarea class="form-control" name="description">{$TASK_OBJECT->description}</textarea>
 			</div>
 		</div>
-		<div class="row padding-bottom1per">
+		{*<div class="row padding-bottom1per">
 			<span class="col-md-2 control-label">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-5">
-				{assign var=STATUS_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('eventstatus')->getPickListValues()}
+				{assign var=STATUS_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('activitystatus')->getPickListValues()}
 				<select name="status" class="chzn-select form-control">
 					{foreach  from=$STATUS_PICKLIST_VALUES item=STATUS_PICKLIST_VALUE key=STATUS_PICKLIST_KEY}
 						<option value="{$STATUS_PICKLIST_KEY}" {if $STATUS_PICKLIST_KEY eq $TASK_OBJECT->status} selected="" {/if}>{$STATUS_PICKLIST_VALUE}</option>
 					{/foreach}
 				</select>
 			</span>
-		</div>
+		</div>*}
 		<div class="row padding-bottom1per">
 			<span class="col-md-2 control-label">{vtranslate('LBL_TYPE',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-5">

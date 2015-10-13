@@ -85,6 +85,11 @@ $languageStrings = [
 	'LBL_TREE_TEMPLATE' => 'Tree',
 	'Tree' => 'Field of trees',
 	'LBL_FIELD_MASK_INFO' => 'Default masking definitions <br />9: numeric<br />a: alphabetically<br />*: Alphanumeric<br /><br />Example:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
+	'MultiReferenceValue' => 'Values from the related module',
+	'LBL_MULTI_REFERENCE_VALUE_MODULES' => 'Related module',
+	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'Related field',
+	'LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD' => 'Filter by field',
+	'LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE' => 'Filter by value',
 	
 	'LBL_ADD_RELATION' => 'Add relation',
 	'LBL_REMOVE_RELATION' => 'Remove relation',
@@ -97,6 +102,29 @@ $languageStrings = [
 	'PLL_DEPENDENTS_LIST' => 'One to many',
 	'PLL_ADD' => 'Add',
 	'PLL_SELECT' => 'Select',
+	
+	// inventory tab
+	'LBL_MANAGING_AN_ADVANCED_BLOCK' => 'Managing an advanced block',
+	'LBL_HEADLINE' => 'Headline',
+	'LBL_BASIC_VERSE' => 'Basic verse',
+	'LBL_ADDITIONAL_VERSE' => 'Additional verse',
+	'LBL_ADVANCED_MODULE' => 'Advanced',
+	'LBL_BASIC_MODULE' => 'Basic',
+	
+	'LBL_EDITING_INVENTORY_FIELD' => 'Edit',
+	'LBL_CREATING_INVENTORY_FIELD' => 'Add',
+	'LBL_NAME_FIELD' => 'Name',
+	'LBL_COLSPAN' => 'Width',
+	'LBL_COMMENT' => 'Comment',
+	'LBL_SELECT_TYPE_OF_INVENTORY' => 'Select field type',
+	'LBL_NEXT' => 'Next',
+	'LBL_PARAMS_MODULES' => 'Modules',
+	'LBL_PARAMS_LIMIT' => 'Limit',
+	'LBL_DISPLAY_TYPE' => 'Field type',
+	'LBL_EDITABLE' => 'Editable',
+	'LBL_READONLY' => 'Read-only',
+	'LBL_FIELDS_EXISTS_IN_BLOCK' => 'Fields exists for the block',
+	'LBL_DELETE_CUSTOM_BLOCKS' => 'Cannot delete non custom blocks',
 ];
 
 $jsLanguageStrings = [
@@ -127,4 +155,7 @@ $jsLanguageStrings = [
 	'JS_RESERVED_PICKLIST_NAME' => 'This picklist name is reserved.',
 	'JS_REMOVE_RELATION_OK' => 'Successfully deleted a relation.',
 	'JS_DELETE_RELATION_CONFIRMATION' => 'Are you sure you want to delete?',
+	'JS_DELETE_INVENTORY_CONFIRMATION' => 'Are you sure you want to remove the element from the block?',
+	'JS_EXTENDED_MODULE' => 'Are you sure you want to change the module type?',
+	'JS_SAVE_CHANGES' => 'Changes saved successfully.',
 ];

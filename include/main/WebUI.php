@@ -10,6 +10,7 @@
  * ********************************************************************************** */
 require_once 'config/debug.php';
 require_once 'config/developer.php';
+require_once 'config/security.php';
 require_once 'config/secret_keys.php';
 require_once 'config/performance.php';
 require_once('include/ConfigUtils.php');
@@ -17,6 +18,8 @@ require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
 vimport('include.runtime.EntryPoint');
+
+session_save_path(vglobal('root_directory') . '/cache/session');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
 {
@@ -104,7 +107,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 	function process(Vtiger_Request $request)
 	{
-		vglobal('log', LoggerManager::getLogger('System'));
+		$log = LoggerManager::getLogger('System');
+		vglobal('log', $log);
 		Vtiger_Session::init();
 		$forceSSL = vglobal('forceSSL');
 		if ($forceSSL && !Vtiger_Functions::getBrowserInfo()->https) {
@@ -222,20 +226,24 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			} else {
 				throw new AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
 			}
-		} catch (Exception $e) {
-			$log = vglobal('log');
-			if ($view) {
-				// Log for developement.
-				$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-				Vtiger_Functions::throwNewException($e->getMessage());
-			} else {
-				$response = new Vtiger_Response();
-				$response->setEmitType(Vtiger_Response::$EMIT_JSON);
-				$response->setError($e->getMessage());
-				$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-			}
+		} catch (AppException $e) {
+			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			Vtiger_Functions::throwNewException($e->getMessage(), false);
 			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
-				die($e->getTraceAsString());
+				exit('<pre>'.$e->getTraceAsString().'</pre>');
+			}
+		} catch (NoPermittedException $e) {
+			//No permissions for the record
+			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			Vtiger_Functions::throwNoPermittedException($e->getMessage(), false);
+			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
+				exit('<pre>'.$e->getTraceAsString().'</pre>');
+			}
+		} catch (Exception $e) {
+			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			Vtiger_Functions::throwNewException($e->getMessage(), false);
+			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
+				exit('<pre>'.$e->getTraceAsString().'</pre>');
 			}
 		}
 

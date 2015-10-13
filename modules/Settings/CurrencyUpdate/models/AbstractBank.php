@@ -4,7 +4,7 @@
 /**
  * Abstract class for connection to bank currency exchange rates
  */
-abstract class AbstractBank
+abstract class Settings_CurrencyUpdate_AbstractBank_Model
 {
 	/*
 	 * Returns bank name

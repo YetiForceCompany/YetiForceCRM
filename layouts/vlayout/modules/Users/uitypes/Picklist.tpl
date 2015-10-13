@@ -16,7 +16,7 @@
 {assign var=FIELD_NAME value=$FIELD_MODEL->getFieldName()}
 {if $FIELD_NAME eq 'defaulteventstatus'}
     {assign var=EVENT_MODULE value=Vtiger_Module_Model::getInstance('Events')}
-    {assign var=EVENTSTATUS_FIELD_MODEL value=$EVENT_MODULE->getField('eventstatus')}
+    {assign var=EVENTSTATUS_FIELD_MODEL value=$EVENT_MODULE->getField('activitystatus')}
     {assign var=PICKLIST_VALUES value=$EVENTSTATUS_FIELD_MODEL->getPicklistValues()} 
 {else if $FIELD_NAME eq 'defaultactivitytype'}
     {assign var=EVENT_MODULE value=Vtiger_Module_Model::getInstance('Events')}

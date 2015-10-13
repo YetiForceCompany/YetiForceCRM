@@ -6,6 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 <style type="text/css">
@@ -15,17 +16,23 @@
 </style>
 {strip}
     <div id="layoutEditorContainer">
+
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <h3>{vtranslate('LBL_FIELDS_AND_LAYOUT_EDITOR', $QUALIFIED_MODULE)}</h3>
             </div>
-            <div class="pull-right col-md-3 h3">
-				<select class="select2 col-md-3 form-control" name="layoutEditorModules">
-					{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-						<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
-					{/foreach}
-				</select>
+            <div class="pull-right col-md-6 h3 form-inline">
+				<div class="form-group pull-right col-md-6">
+					<select class="select2 form-control" name="layoutEditorModules">
+						{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
+							<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
+						{/foreach}
+					</select>
+				</div>
+				<div class="form-group pull-right">
+					<input id="inventorySwitch" title="{vtranslate('LBL_CHANGE_BLOCK_ADVANCED', $QUALIFIED_MODULE)}" class="switchBtn" type="checkbox" data-label-width="5" data-handle-width="100" data-on-text="{vtranslate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}" {if !$IS_INVENTORY}checked{/if} >
+				</div>
             </div>
         </div>
         <hr>
@@ -33,6 +40,9 @@
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
                 <li class="active"><a data-toggle="tab" href="#detailViewLayout"><strong>{vtranslate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong></a></li>
+				{if $IS_INVENTORY}
+					<li class="inventoryNav"><a data-toggle="tab" href="#inventoryViewLayout"><strong>{vtranslate('LBL_MANAGING_AN_ADVANCED_BLOCK', $QUALIFIED_MODULE)}</strong></a></li>
+				{/if}
             </ul>
             <div class="tab-content layoutContent padding20 themeTableColor overflowVisible">
                 <div class="tab-pane active" id="detailViewLayout">
@@ -53,7 +63,7 @@
                             </span>
                         </div>
                     {/if}
-                    <div id="moduleBlocks">
+                    <div class="moduleBlocks">
                         {foreach key=BLOCK_LABEL_KEY item=BLOCK_MODEL from=$BLOCKS}
                             {assign var=FIELDS_LIST value=$BLOCK_MODEL->getLayoutBlockActiveFields()}
                             {assign var=BLOCK_ID value=$BLOCK_MODEL->get('id')}
@@ -107,14 +117,14 @@
                                                     <div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
                                                         <div class="row padding1per">
                                                             {assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-                                                            <span class="col-md-1">&nbsp;
+                                                            <div class="col-md-1">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
                                                                         <img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                                                                     </a>
                                                                 {/if}
-                                                            </span>
-                                                            <div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
+                                                            </div>
+                                                            <div class="col-md-11 marginLeftZero fieldContainer" style="word-wrap: break-word;">
                                                                 <span class="fieldLabel">{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
 																	{if $IS_MANDATORY}<span class="redColor">*</span>{/if}</span>
 																<span class="btn-group pull-right actions">
@@ -304,19 +314,16 @@
 													<div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
 														<div class="row padding1per">
 															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-															<span class="col-md-1">&nbsp;
+															<div class="col-md-1">&nbsp;
 																{if $FIELD_MODEL->isEditable()}
 																	<a>
 																		<img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 																	</a>
 																{/if}
-															</span>
-															<div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
-																<span class="fieldLabel">
-																	{if $IS_MANDATORY}
-																		<span class="redColor">*</span>
-																	{/if}
-																	{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
+															</div>
+															<div class="col-md-11 marginLeftZero fieldContainer" style="word-wrap: break-word;">
+																<span class="fieldLabel">{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
+																	{if $IS_MANDATORY}<span class="redColor">*</span>{/if}
 																</span>
 																<span class="btn-group pull-right actions">
 																	{if $FIELD_MODEL->isEditable()}
@@ -597,12 +604,12 @@
 															<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;"></div>
 														</span>
 														<div class="padding1per maskField" style="padding : 0px 10px 0px 25px;">
-																							{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
-																							<div class="input-group">
-																								<input type="text" class="form-control" name="fieldMask" value="" />
-																								<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
-																							</div>
-																						</div>
+															{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
+															<div class="input-group">
+																<input type="text" class="form-control" name="fieldMask" value="" />
+																<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
+															</div>
+														</div>
 														{if SysDeveloper::get('CHANGE_VISIBILITY')}
 															<hr />
 															<span>
@@ -761,7 +768,7 @@
 											</div>
 											<div class="col-md-8 controls">
 												<select id="picklistUi" class="form-control" name="pickListValues" multiple="" tabindex="-1" aria-hidden="true" placeholder="{vtranslate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}" 
-													data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={Zend_Json::encode([['name'=>'PicklistFieldValues']])}>
+														data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={Zend_Json::encode([['name'=>'PicklistFieldValues']])}>
 												</select>
 											</div>
 										</div>
@@ -771,10 +778,70 @@
 												{vtranslate('LBL_RELATION_VALUES', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-md-8 controls">
-												<select {if $FIELD_TYPE_INFO['Related1M']['ModuleListMultiple'] eq true}multiple{/if} class="ModuleList form-control" name="ModuleList">
+												<select {if $FIELD_TYPE_INFO['Related1M']['ModuleListMultiple'] eq true}multiple{/if} class="referenceModule form-control" name="referenceModule">
 													{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 														<option value="{$MODULE_NAME}">{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
 													{/foreach}
+												</select>
+											</div>
+										</div>
+										<div class="form-group supportedType preMultiReferenceValue hide">
+											<div class="col-md-3 control-label">
+												<span class="redColor">*</span>&nbsp;
+												{vtranslate('LBL_MULTI_REFERENCE_VALUE_MODULES', $QUALIFIED_MODULE)}
+											</div>
+											<div class="col-md-8 controls">
+												<select class="MRVModule form-control" name="MRVModule">
+													{foreach item=RELATION from=$SELECTED_MODULE_MODEL->getRelations()}
+														<option value="{$RELATION->get('modulename')}">{vtranslate($RELATION->get('label'), $RELATION->get('modulename'))}</option>
+													{/foreach}
+												</select>
+											</div>
+										</div>
+										<div class="form-group supportedType preMultiReferenceValue hide">
+											<div class="col-md-3 control-label">
+												<span class="redColor">*</span>&nbsp;
+												{vtranslate('LBL_MULTI_REFERENCE_VALUE_FIELDS', $QUALIFIED_MODULE)}
+											</div>
+											<div class="col-md-8 controls">
+												<select class="MRVField form-control" name="MRVField">
+													{foreach item=RELATION from=$SELECTED_MODULE_MODEL->getRelations()}
+														{assign var=COUNT_FIELDS value=count($RELATION->getFields())}
+														{foreach item=FIELD key=KEY from=$RELATION->getFields()}
+															{if !isset($LAST_BLOCK) || $LAST_BLOCK->id != $FIELD->get('block')->id}
+																<optgroup label="{vtranslate($FIELD->get('block')->label, $RELATION->get('modulename'))}" data-module="{$RELATION->get('modulename')}">
+																{/if} 
+																<option value="{$FIELD->getId()}" >{vtranslate($FIELD->get('label'), $RELATION->get('modulename'))}</option>
+																{if $COUNT_FIELDS == ($KEY - 1)}
+																</optgroup>
+															{/if} 
+															{assign var=LAST_BLOCK value=$FIELD->get('block')}
+														{/foreach}
+													{/foreach}
+												</select>
+											</div>
+										</div>
+										<div class="form-group supportedType preMultiReferenceValue hide">
+											<div class="col-md-3 control-label">
+												{vtranslate('LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD', $QUALIFIED_MODULE)}
+											</div>
+											<div class="col-md-8 controls">
+												<select class="filterField form-control" name="MRVFilterField">
+													{foreach item=RELATION from=$SELECTED_MODULE_MODEL->getRelations()}
+														<option value="-" data-module="{$RELATION->get('modulename')}">{vtranslate('--None--')}</option>
+														{foreach item=FIELD key=KEY from=$RELATION->getFields('picklist')}
+															<option value="{$FIELD->getName()}" data-module="{$RELATION->get('modulename')}">{vtranslate($FIELD->get('label'), $RELATION->get('modulename'))}</option>
+														{/foreach}
+													{/foreach}
+												</select>
+											</div>
+										</div>
+										<div class="form-group supportedType preMultiReferenceValue hide">
+											<div class="col-md-3 control-label">
+												{vtranslate('LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE', $QUALIFIED_MODULE)}
+											</div>
+											<div class="col-md-8 controls">
+												<select class="MRVModule form-control" name="MRVFilterValue">
 												</select>
 											</div>
 										</div>
@@ -794,7 +861,7 @@
 												{vtranslate('LBL_TREE_TEMPLATE', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-md-8 controls">
-												<select class="TreeList form-control" name="TreeList">
+												<select class="TreeList form-control" name="tree">
 													{foreach key=key item=item from=$SELECTED_MODULE_MODEL->getTreeTemplates($SELECTED_MODULE_NAME)}
 														<option value="{$key}">{vtranslate($item, $SELECTED_MODULE_NAME)}</option>
 													{foreachelse}
@@ -813,7 +880,7 @@
 
 					<div class="modal inactiveFieldsModal fade" tabindex="-1">
 						<div class="modal-dialog">
-							 <div class="modal-content">
+							<div class="modal-content">
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 									<h3 class="modal-title">{vtranslate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</h3>
@@ -835,6 +902,11 @@
 						</div>
 					</div>
 				</div>
+				{if $IS_INVENTORY}
+					<div class="tab-pane" id="inventoryViewLayout">
+						{include file='Inventory.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					</div>	
+				{/if}
 			</div>
 		</div>
 	</div>

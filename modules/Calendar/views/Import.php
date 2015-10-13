@@ -82,7 +82,7 @@ class Calendar_Import_View extends Vtiger_Import_View {
 
 			$skipFields = array(
 					$eventModule => array('duration_hours'),
-					$todoModule => array('eventstatus')
+					$todoModule => array('activitystatus')
 			);
 
 			$requiredFields = array();

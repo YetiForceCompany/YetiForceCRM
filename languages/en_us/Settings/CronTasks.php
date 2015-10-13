@@ -40,10 +40,9 @@ $languageStrings = [
 	'Scheduled Import' => 'Scheduled Import',
 	'ScheduleReports' => 'Schedule Reports',
 	'MailScannerBind' => 'Mail Scanner Bind',
-	'LBL_CURRENCY_UPDATE' => 'Currency Update'
+	'LBL_CURRENCY_UPDATE' => 'Currency Update',
+	'LBL_MULTI_REFERENCE_VALUE' => 'Multireference fields update',
 ];
-
-
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Recommended frequency for Scheduled Import is 15 mins',
 	'Recommended frequency for SendReminder is 15 mins' => 'Recommended frequency for SendReminder is 15 mins',
@@ -53,5 +52,5 @@ $jsLanguageStrings = [
 	'FREQUENCY_NUMBER' => 'The frequency must by an integer',
 	'FREQUENCY_REQUIRED' => 'The field frequency is required',
 	'PATH_REQUIRED' => 'Path field is required',
-	'NAME_REQUIRED' => 'Name field is required'
+	'NAME_REQUIRED' => 'Name field is required',
 ];

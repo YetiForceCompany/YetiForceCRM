@@ -17,17 +17,17 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 		$relatedModuleName = $request->get('relatedModule');
 		$parentId = $request->get('record');
 		$label = $request->get('tab_label');
-		$requestedPage = $request->get('page');
+		$pageNumber = $request->get('page');
 		$time = $request->get('time');
-		if (empty($requestedPage)) {
-			$requestedPage = 1;
+		if (empty($pageNumber)) {
+			$pageNumber = 1;
 		}
 		if (empty($time)) {
 			$time = 'current';
 		}
 
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('page', $requestedPage);
+		$pagingModel->set('page', $pageNumber);
 
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
@@ -58,6 +58,10 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 		$relationModel = $relationListView->getRelationModel();
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
+		$totalCount = $relationListView->getRelatedEntriesCount();
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RELATED_RECORDS', $models);
@@ -68,20 +72,11 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
 		$viewer->assign('TIME', $time);
-
-		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
-			$totalCount = $relationListView->getRelatedEntriesCount();
-			$pageLimit = $pagingModel->getPageLimit();
-			$pageCount = ceil((int) $totalCount / (int) $pageLimit);
-
-			if ($pageCount == 0) {
-				$pageCount = 1;
-			}
-			$viewer->assign('PAGE_COUNT', $pageCount);
-			$viewer->assign('TOTAL_ENTRIES', $totalCount);
-			$viewer->assign('PERFORMANCE', true);
-		}
-
+		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('TOTAL_ENTRIES', $totalCount);
+		$viewer->assign('PERFORMANCE', true);
+		$viewer->assign('PAGE_NUMBER', $pageNumber);
+		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('PAGING', $pagingModel);
 

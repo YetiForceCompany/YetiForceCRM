@@ -60,4 +60,8 @@ $languageStrings = [
 	'LBL_JSON_LIBRARY' => 'JSON',
 	'LBL_SESSION_LIBRARY' => 'SESSION',
 	'LBL_DOM_LIBRARY' => 'DOM',
+	'LBL_SPACE'=>'Capacity',
+	'LBL_SPACE_TOTAL'=>'Total',
+	'LBL_SPACE_FREE'=>'Free',
+	'LBL_SPACE_USED'=>'Used',
 ];

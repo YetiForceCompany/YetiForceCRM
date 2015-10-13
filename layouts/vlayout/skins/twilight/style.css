@@ -680,7 +680,7 @@ hr {
 .gridster ul li.dashboardWidget .filterContainer .col-md-5 {
 	margin-top: 3px;
 }
-.gridster ul li.dashboardWidget .dashboardWidgetContent {
+.gridster ul li.dashboardWidget .dashboardWidgetContent:not(.dashboardWidgetCalendar) {
 	padding: 10px 0;
 	line-height: 20px;
 }
@@ -762,7 +762,8 @@ li.ui-timepicker-selected,
 }
 #listViewPageJumpDropDown,
 #relatedListPageJumpDropDown {
-	left: -60px;
+	left: auto;
+	top: 70%;
 }
 .pageNumbers {
 	display: inline-block;
@@ -1032,7 +1033,7 @@ li.ui-timepicker-selected,
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	border: 1px solid #dddddd;
 	padding: 12px 12px 5px;
-	min-height: 115px;
+	min-height: 125px;
 	margin-top: 15px;
 	display: block;
 }
@@ -1254,9 +1255,6 @@ td.fieldValue .input-group {
 
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
-}
-.listViewBasicAction.dropdown-menu {
-	width: 100%;
 }
 .listViewBasicAction.dropdown-menu input {
 	border-radius: 2px;
@@ -1956,13 +1954,13 @@ th.htColHeader,
 	border-top: 1px solid #ffffff;
 	border-bottom: 1px solid #dddddd;
 }
-.layoutContent #moduleBlocks .editFieldsTable .layoutBlockHeader .blockLabel {
+.layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockLabel {
 	padding-top: 13px;
 }
-.layoutContent #moduleBlocks .editFieldsTable .layoutBlockHeader .blockActions .btn-group {
+.layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockActions .btn-group {
 	margin-top: 5px;
 }
-.layoutContent #moduleBlocks .editFieldsTable .layoutBlockHeader .blockActions .btn-group .dropdown-menu {
+.layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockActions .btn-group .dropdown-menu {
 	left: -100%;
 }
 .layoutContent .relatedTabModulesList {
@@ -3044,18 +3042,21 @@ textarea {
 .listViewEntries td.wide,
 td.listViewEntryValue.wide {
 	padding: 8px!important;
+	line-height: 31px;
 }
 .medium,
 .table td.medium,
 .listViewEntries td.medium,
 td.listViewEntryValue.medium {
 	padding: 5px 6px!important;
+	line-height: 29px;
 }
 .narrow,
 .table td.narrow,
 .listViewEntries td.narrow,
 td.listViewEntryValue.narrow {
 	padding: 2px 4px!important;
+	line-height: 27px;
 }
 .table thead th.narrow {
 	vertical-align: middle;
@@ -3083,10 +3084,7 @@ td.listViewEntryValue .row input {
 	float: right !important;
 }
 .cut-string {
-	text-overflow: ellipsis;
-	-o-text-overflow: ellipsis;
-	-webkit-text-overflow: ellipsis;
-	width: 200px;
+	width: 285px;
 	white-space: nowrap;
 	overflow: hidden;
 }
@@ -3109,7 +3107,7 @@ table tr td .input-sm{
 .modal-footer.backgroundColor{
 	background-color: #f5f5f5;
 }
-.panel-title{
+.panel-title,.message-medium{
 	font-size: 14px;
 }
 .quickWidgetContainer .panel-body{
@@ -3258,12 +3256,13 @@ span[name=existingImages] img{
 	height: 200px;
 	width: 300px;
 }
-.narrow.fieldValue .chosen-container-single .chosen-single{
-	height: 26px;
-	line-height: 26px;
+.narrow.fieldValue .chosen-container-single .chosen-single,
+.narrow.fieldLabel .chosen-container-single .chosen-single {
+	height: 27px;
+	line-height: 27px;
 }
-.narrow.fieldValue input{
-	height: 26px;
+.narrow.fieldValue input:not([type='checkbox']){
+	height: 27px;
 }
 .narrow.fieldValue .input-group-addon{
 	padding: 4px 10px;
@@ -3328,7 +3327,7 @@ span[name=existingImages] img{
 	padding: 10px;
 }
 .remindersNoticeContainer .actionRow a.btn{
-	margin-right: 3%;
+	margin-right: 2%;
 }
 .remindersNotice{
 	color: #ffffff;
@@ -3337,7 +3336,7 @@ span[name=existingImages] img{
 .remindersNotice .glyphicon{
 	font-size: 20px;
 }
-.cancelLink.btn[type='reset'],.cancel.btn[type='reset'] {
+.cancelLink.btn[type='reset'],.cancel.btn[type='reset'],.cancelLink.btn[type='button']  {
 	float: right;
 	margin-left: 5px;
 	margin-bottom: 0;
@@ -3472,10 +3471,6 @@ span[name=existingImages] img{
 .paginationDiv .pagination > li > span,
 .paginationDiv .pagination > li > a{
 	padding: 8px 8px;
-}
-.paginationDiv #listViewPageJumpDropDown{
-	left: 192px;
-	top: 80%;
 }
 .paginationDiv .listViewBasicAction.dropdown-menu{
 	width: 35%;
@@ -3635,4 +3630,89 @@ span[name=existingImages] img{
 	padding-right: 2px;
 	background: rgba(91, 234, 81, 0.54) !important;
 	border-radius: 4px;
+}
+.inventoryItems .input-group{
+	max-width: 200px;
+}
+.inventoryItems .rowName .input-group{
+	max-width: 400px;
+}
+.inventoryItems td,
+.inventoryItems th{
+	border: 1px solid #ddd;
+}
+.inventoryItems tfoot td.hideTd{
+	border: 0;
+	background: #fafafb;
+}
+.inventorySummaryContainer .panel-body,.inventorySummaryContainer .panel-footer{
+	padding: 0;
+}
+.inventorySummaryContainer .panel-body .form-group, .inventorySummaryContainer .panel-footer .form-group{
+	margin: 0;
+}
+.inventorySummaryContainer .input-group .form-control{
+	background-color: #F5F5F5;
+}
+.inventorySummaryContainer .panel-body .percent{
+	min-width: 55px;
+}
+.inventoryItems tfoot{
+	font-weight: 800;
+}
+.inventorySummaryContainer img{
+	max-width: 15px;
+}
+.autologinContainer .chosen-container-multi .chosen-choices{
+	padding-left: 6px;
+}
+.checkboxForm{
+	padding-top: 7px;
+}
+#inventoryViewLayout .inventoryBlock  ul li .editFields{
+	padding: 5px;
+}
+#inventoryViewLayout{
+    margin-top: -10px;
+}
+.editFields .fieldContainer{
+	padding-left: 0;
+}
+#layoutEditorContainer .blockActions .dropdown-menu{
+	z-index: 2000;
+}
+.editViewMiniSlider.ui-widget-content{
+	padding: 6px;
+}
+.bootstrap-switch-container{
+	white-space: nowrap;
+}
+.dashboardWidgetCalendar .small-badge{
+	padding: 3% 6%;
+}
+.dashboardWidgetCalendar .big-badge{
+	padding: 6% 12%;
+	margin: 1px 0;
+}
+.dashboardWidgetCalendar .cell-calendar{
+	padding: 1px;
+	margin-top: -5px;
+}
+.dashboardWidgetContent .summary-detail .summary-text{
+	vertical-align: sub;
+}
+.activityWidgetContainer .activityDescription .popover {
+	min-width: 300px;
+}
+.activityWidgetContainer .popover-content {
+	font-size: 12px;
+}
+#activityStateModal .form-horizontal .form-group{
+	margin-bottom: 2px;
+}
+#activityStateModal .form-horizontal .form-group .control-label{
+	padding-top: 0;
+}
+.mainContainer.mailContainer{
+	margin-top: 102px !important;
 }

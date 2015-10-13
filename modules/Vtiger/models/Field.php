@@ -105,11 +105,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getDisplayValue($value, $record, $recordInstance);
+		return $this->getUITypeModel()->getDisplayValue($value, $record, $recordInstance);
 	}
 
 	/**
@@ -187,6 +183,12 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$fieldDataType = 'modules';
 			} else if ($uiType == '302') {
 				$fieldDataType = 'tree';
+			} else if ($uiType == '303') {
+				$fieldDataType = 'taxes';
+			} else if ($uiType == '304') {
+				$fieldDataType = 'inventoryLimit';
+			} else if ($uiType == '305') {
+				$fieldDataType = 'multiReferenceValue';
 			} else {
 				$webserviceField = $this->getWebserviceFieldObject();
 				$fieldDataType = $webserviceField->getFieldDataType();
@@ -246,7 +248,10 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getUITypeModel()
 	{
-		return Vtiger_Base_UIType::getInstanceFromField($this);
+		if (!$this->get('uitypeModel')) {
+			$this->set('uitypeModel', Vtiger_Base_UIType::getInstanceFromField($this));
+		}
+		return $this->get('uitypeModel');
 	}
 
 	public function isRoleBased()
@@ -280,6 +285,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$fieldPickListValues[$value] = vtranslate($value, $this->getModuleName());
 			}
 			return $fieldPickListValues;
+		} else if (method_exists($this->getUITypeModel(), 'getPicklistValues')) {
+			return $this->getUITypeModel()->getPicklistValues();
 		}
 		return null;
 	}
@@ -581,12 +588,30 @@ class Vtiger_Field_Model extends Vtiger_Field
 		$this->fieldInfo['name'] = $this->get('name');
 		$this->fieldInfo['label'] = vtranslate($this->get('label'), $this->getModuleName());
 
-		if ($fieldDataType == 'picklist' || $fieldDataType == 'multipicklist' || $fieldDataType == 'multiowner') {
+		if (in_array($fieldDataType, ['picklist', 'multipicklist', 'multiowner', 'multiReferenceValue'])) {
 			$pickListValues = $this->getPicklistValues();
 			if (!empty($pickListValues)) {
 				$this->fieldInfo['picklistvalues'] = $pickListValues;
 			} else {
-				$this->fieldInfo['picklistvalues'] = array();
+				$this->fieldInfo['picklistvalues'] = [];
+			}
+		}
+
+		if ($fieldDataType == 'taxes') {
+			$taxs = $this->getUITypeModel()->getTaxes();
+			if (!empty($taxs)) {
+				$this->fieldInfo['picklistvalues'] = $taxs;
+			} else {
+				$this->fieldInfo['picklistvalues'] = [];
+			}
+		}
+
+		if ($fieldDataType == 'inventoryLimit') {
+			$limits = $this->getUITypeModel()->getLimits();
+			if (!empty($limits)) {
+				$this->fieldInfo['picklistvalues'] = $limits;
+			} else {
+				$this->fieldInfo['picklistvalues'] = [];
 			}
 		}
 
@@ -922,19 +947,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getEditViewDisplayValue($value)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getEditViewDisplayValue($value);
-	}
-
-	public function getUitypeInstance()
-	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		return $this->uitype_instance;
+		return $this->getUITypeModel()->getEditViewDisplayValue($value);
 	}
 
 	/**
@@ -969,11 +982,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getRelatedListDisplayValue($value)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getRelatedListDisplayValue($value);
+		return $this->getUITypeModel()->getRelatedListDisplayValue($value);
 	}
 
 	/**
@@ -992,11 +1001,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getDBInsertValue($value)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getDBInsertValue($value);
+		return $this->getUITypeModel()->getDBInsertValue($value);
 	}
 
 	/**
@@ -1173,6 +1178,6 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 	public function getFieldParams()
 	{
-		return $this->get('fieldparams');
+		return Zend_Json::decode($this->get('fieldparams'));
 	}
 }

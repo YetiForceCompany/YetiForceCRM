@@ -58,8 +58,8 @@ $languageStrings = [
 	'LBL_SELECT_USER_CALENDAR' => 'Wybierz kalendarz użytkownika',
 	'LBL_SELECT_USERS' => 'Zaznacz użytkowników',
 	'LBL_SHARED_CALENDAR' => 'Wspólny kalendarz',
-	'LBL_STATUS' => 'Etap',
-	'Status' => 'Etap',
+	'LBL_STATUS' => 'Status',
+	'Status' => 'Status',
 	'LBL_TASK_INFORMATION' => 'Szczegóły zadania',
 	'LBL_TASKS' => 'Zadania',
 	'LBL_TASK' => 'Zadanie',
@@ -129,6 +129,16 @@ $languageStrings = [
 	'LBL_SHIFT_BLOCK' => 'Pokaż lub ukryj blok',
 	'LBL_ON_SWITCH' => 'ON',
 	'LBL_OFF_SWITCH' => 'OFF',
+	'LBL_FOLLOWUP' => 'Kontynuacja w',
+	
+	'PLL_PLANNED' => 'Planowane',
+	'PLL_IN_REALIZATION' => 'Do realizacji',
+	'PLL_OVERDUE' => 'Zaległe',
+	'PLL_POSTPONED' => 'Przełożone',
+	'PLL_CANCELLED' => 'Anulowane',
+	'PLL_COMPLETED' => 'Wykonane',
+
+	'LBL_NO_AVAILABLE_ACTIONS' => 'Brak dostępnych akcji',
 ];
 
 $jsLanguageStrings = [

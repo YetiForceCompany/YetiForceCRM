@@ -85,7 +85,12 @@ $languageStrings = [
 	'LBL_TREE_TEMPLATE' => 'Árvore',
 	'Tree' => 'Campos da árvore',
 	'LBL_FIELD_MASK_INFO' => 'Definição de mascaras padrão <br />9: numérico<br />a: alfabético<br />*: Alfanumérico<br /><br />Examplo:<br />(99) 9999-9999<br />+55 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
-
+	'MultiReferenceValue' => 'Values from the related module',
+	'LBL_MULTI_REFERENCE_VALUE_MODULES' => 'Related module',
+	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'Related field',
+	'LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD' => 'Filter by field',
+	'LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE' => 'Filter by value',
+	
 	'LBL_ADD_RELATION' => 'Adicionar relação',
 	'LBL_REMOVE_RELATION' => 'Remove relation',
 	'LBL_RELATION_TYPE' => 'Tipo Relação',
@@ -97,6 +102,29 @@ $languageStrings = [
 	'PLL_DEPENDENTS_LIST' => 'Um para muitos',
 	'PLL_ADD' => 'Adicionar',
 	'PLL_SELECT' => 'Selecionar',
+	
+	// inventory tab
+	'LBL_MANAGING_AN_ADVANCED_BLOCK' => 'Gerenciando um bloco avançado',
+	'LBL_HEADLINE' => 'Título',
+	'LBL_BASIC_VERSE' => 'Verso básico',
+	'LBL_ADDITIONAL_VERSE' => 'Verso adicional',
+	'LBL_ADVANCED_MODULE' => 'Avançado',
+	'LBL_BASIC_MODULE' => 'Básico',
+	
+	'LBL_EDITING_INVENTORY_FIELD' => 'Editar',
+	'LBL_CREATING_INVENTORY_FIELD' => 'Adicionar',
+	'LBL_NAME_FIELD' => 'Nome',
+	'LBL_COLSPAN' => 'Largura',
+	'LBL_COMMENT' => 'Comentário',
+	'LBL_SELECT_TYPE_OF_INVENTORY' => 'Selecionar tipo de campo',
+	'LBL_NEXT' => 'Próximo',
+	'LBL_PARAMS_MODULES' => 'Módulos',
+	'LBL_PARAMS_LIMIT' => 'Limite',
+	'LBL_DISPLAY_TYPE' => 'Tipo de campo',
+	'LBL_EDITABLE' => 'Editável',
+	'LBL_READONLY' => 'Somente leitura',
+	'LBL_FIELDS_EXISTS_IN_BLOCK' => 'Campos existem para o Bloco',
+	'LBL_DELETE_CUSTOM_BLOCKS' => 'Somente é possível apagar Blocos customizados',
 ];
 
 $jsLanguageStrings = [
@@ -124,7 +152,10 @@ $jsLanguageStrings = [
 	'JS_UPDATE_SEQUENCE' => 'Nova sequência de módulos relacionados foi salva',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Lista de campos foi atualizada',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'O campo não pode estar vazio',
-	'JS_RESERVED_PICKLIST_NAME' => 'This picklist name is reserved.',
-	'JS_REMOVE_RELATION_OK' => 'Successfully deleted a relation.',
-	'JS_DELETE_RELATION_CONFIRMATION' => 'Are you sure you want to delete?',
+	'JS_RESERVED_PICKLIST_NAME' => 'Este nome de lista de opções está reservado.',
+	'JS_REMOVE_RELATION_OK' => 'Relação excluída com sucesso.',
+	'JS_DELETE_RELATION_CONFIRMATION' => 'Tem certeza que deseja apagar?',
+	'JS_DELETE_INVENTORY_CONFIRMATION' => 'Tem certeza que desena remover o elemento do bloco?',
+	'JS_EXTENDED_MODULE' => 'Tem certeza que desena alterar o tipo do módulo?',
+	'JS_SAVE_CHANGES' => 'Alterações salvas com sucesso.',
 ];

@@ -304,7 +304,7 @@ class Vtiger_Functions
 		}
 
 		if ($missing) {
-			$sql = sprintf("SELECT crmid, setype, deleted, smownerid, label, searchlabel FROM vtiger_crmentity WHERE %s", implode(' OR ', array_fill(0, count($missing), 'crmid=?')));
+			$sql = sprintf("SELECT crmid, setype, deleted, smownerid, shownerid, label, searchlabel FROM vtiger_crmentity WHERE %s", implode(' OR ', array_fill(0, count($missing), 'crmid=?')));
 			$result = $adb->pquery($sql, $missing);
 			while ($row = $adb->fetch_array($result)) {
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;
@@ -1056,27 +1056,62 @@ class Vtiger_Functions
 		return $array;
 	}
 
-	static function throwNewException($Message)
+	public static function throwNewException($message, $die = true)
 	{
 		$request = new Vtiger_Request($_REQUEST);
-		if (!$request->get('action') != '') {
-			$viewer = new Vtiger_Viewer();
-			$viewer->assign('MESSAGE', $Message);
-			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
+		if ($request->isAjax()) {
+			$response = new Vtiger_Response();
+			$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+			$response->setError($message);
+			$response->emit();
 		} else {
-			echo $Message;
+			$viewer = new Vtiger_Viewer();
+			$viewer->assign('MESSAGE', $message);
+			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
+		}
+		if ($die) {
+			exit();
+		}
+	}
+
+	public static function throwNoPermittedException($message, $die = true)
+	{
+		$request = new Vtiger_Request($_REQUEST);
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$db->insert('l_yf_access_to_record', [
+			'username' => $currentUser->getDisplayName(),
+			'date' => date('Y-m-d H:i:s'),
+			'ip' => self::getRemoteIP(),
+			'record' => $request->get('record'),
+			'module' => $request->get('module'),
+			'url' => Vtiger_Functions::getBrowserInfo()->url,
+			'agent' => $_SERVER['HTTP_USER_AGENT'],
+		]);
+		if ($request->isAjax()) {
+			$response = new Vtiger_Response();
+			$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+			$response->setError($message);
+			$response->emit();
+		} else {
+			$viewer = new Vtiger_Viewer();
+			$viewer->assign('MESSAGE', $message);
+			$viewer->view('NoPermissionsForRecord.tpl', 'Vtiger');
+		}
+		if ($die) {
+			exit();
 		}
 	}
 
 	static function removeHtmlTags(array $tags, $html)
 	{
 		$crmUrl = vglobal($key);
-		$doc = new DOMDocument();
 
-		$previous_value = libxml_use_internal_errors(TRUE);
-		$doc->loadHTML('<?xml encoding="utf-8" ?>' . $html);
+		$doc = new DOMDocument('1.0', 'UTF-8');
+		$previousValue = libxml_use_internal_errors(TRUE);
+		$doc->loadHTML('<?xml encoding="utf-8" ?>' . $html, LIBXML_HTML_NODEFDTD);
 		libxml_clear_errors();
-		libxml_use_internal_errors($previous_value);
+		libxml_use_internal_errors($previousValue);
 
 		foreach ($tags as $tag) {
 			$xPath = new DOMXPath($doc);
@@ -1096,7 +1131,13 @@ class Vtiger_Functions
 				}
 			}
 		}
-		return $doc->saveHTML();
+		$savedHTML = $doc->saveHTML();
+		$savedHTML = preg_replace('/<html[^>]+\>/', '', $savedHTML);
+		$savedHTML = preg_replace('/<body[^>]+\>/', '', $savedHTML);
+		$savedHTML = preg_replace('#<head(.*?)>(.*?)</head>#is', '', $savedHTML);
+		$savedHTML = preg_replace('/<!--(.*)-->/Uis', '', $savedHTML);
+		$savedHTML = str_replace(['</html>', '</body>', '<?xml encoding="utf-8" ?>'], ['', '', ''], $savedHTML);
+		return $savedHTML;
 	}
 
 	static function getHtmlOrPlainText($content)
@@ -1130,6 +1171,7 @@ class Vtiger_Functions
 			return;
 		$dirs = [];
 		@chmod($root_dir . $src, 0777);
+		$dirs[] = $rootDir . $src;
 		if (is_dir($src)) {
 			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 				if ($item->isDir()) {
@@ -1206,6 +1248,13 @@ class Vtiger_Functions
 			if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https') {
 				$browser->https = true;
 			}
+			$sp = strtolower($_SERVER['SERVER_PROTOCOL']);
+			$protocol = substr($sp, 0, strpos($sp, '/')) . (($browser->https) ? 's' : '');
+			$port = $_SERVER['SERVER_PORT'];
+			$port = ((!$browser->https && $port == '80') || ($browser->https && $port == '443')) ? '' : ':' . $port;
+			$host = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null);
+			$host = isset($host) ? $host : $_SERVER['SERVER_NAME'] . $port;
+			$browser->url = $protocol . '://' . $host . $_SERVER['REQUEST_URI'];
 			self::$browerCache = $browser;
 		}
 		return self::$browerCache;
@@ -1312,6 +1361,30 @@ class Vtiger_Functions
 		return $initial;
 	}
 
+	public function getBacktrace($ignore = 2)
+	{
+		$trace = '';
+		foreach (debug_backtrace() as $k => $v) {
+			if ($k < $ignore) {
+				continue;
+			}
+			$trace .= '#' . ($k - $ignore) . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '() in ' . $v['file'] . '(' . $v['line'] . '): ' . PHP_EOL;
+		}
+
+		return $trace;
+	}
+
+	public function getDiskSpace($dir = '')
+	{
+		if ($dir == '') {
+			$dir = vglobal('root_directory');
+		}
+		$total = disk_total_space($dir);
+		$free = disk_free_space($dir);
+		$used = $total - $free;
+		return ['total' => $total, 'free' => $free, 'used' => $used];
+	}
+
 	public function textLength($text, $length = false, $addDots = true)
 	{
 		if (!$length) {
@@ -1332,5 +1405,143 @@ class Vtiger_Functions
 			}
 		}
 		return $newText;
+	}
+
+	public static function getDefaultCurrencyInfo()
+	{
+		$allCurrencies = self::getAllCurrency(true);
+		foreach ($allCurrencies as $currency) {
+			if ($currency['defaultid'] === '-11') {
+				return $currency;
+			}
+		}
+		return false;
+	}
+	/*
+	 * Checks if given date is working day, if not returns last working day
+	 * @param <Date> $date
+	 * @return <Date> - last working y
+	 */
+
+	public static function getLastWorkingDay($date)
+	{
+		if (empty($date)) {
+			$date = date('Y-m-d');
+		}
+		$date = strtotime($date);
+		if (date('D', $date) == 'Sat') { // switch to friday the day before
+			$lastWorkingDay = date('Y-m-d', strtotime("-1 day", $date));
+		} else if (date('D', $date) == 'Sun') { // switch to friday two days before
+			$lastWorkingDay = date('Y-m-d', strtotime("-2 day", $date));
+		} else {
+			$lastWorkingDay = date('Y-m-d', $date);
+		}
+
+		return $lastWorkingDay;
+	}
+
+	public static function slug($str, $delimiter = '_')
+	{
+		// Make sure string is in UTF-8 and strip invalid UTF-8 characters
+		$str = mb_convert_encoding((string) $str, 'UTF-8', mb_list_encodings());
+		$char_map = array(
+			// Latin
+			'Ă€' => 'A', 'Ă' => 'A', 'Ă‚' => 'A', 'Ă' => 'A', 'Ă„' => 'A', 'Ă…' => 'A', 'Ă†' => 'AE', 'Ă‡' => 'C',
+			'Ă' => 'E', 'Ă‰' => 'E', 'ĂŠ' => 'E', 'Ă‹' => 'E', 'ĂŚ' => 'I', 'ĂŤ' => 'I', 'ĂŽ' => 'I', 'ĂŹ' => 'I',
+			'Ă' => 'D', 'Ă‘' => 'N', 'Ă’' => 'O', 'Ă“' => 'O', 'Ă”' => 'O', 'Ă•' => 'O', 'Ă–' => 'O', 'Ĺ' => 'O',
+			'Ă' => 'O', 'Ă™' => 'U', 'Ăš' => 'U', 'Ă›' => 'U', 'Ăś' => 'U', 'Ĺ°' => 'U', 'Ăť' => 'Y', 'Ăž' => 'TH',
+			'Ăź' => 'ss',
+			'Ă ' => 'a', 'Ăˇ' => 'a', 'Ă˘' => 'a', 'ĂŁ' => 'a', 'Ă¤' => 'a', 'ĂĄ' => 'a', 'Ă¦' => 'ae', 'Ă§' => 'c',
+			'Ă¨' => 'e', 'Ă©' => 'e', 'ĂŞ' => 'e', 'Ă«' => 'e', 'á»‡' => 'e', 'Ă¬' => 'i', 'Ă­' => 'i', 'Ă®' => 'i',
+			'ĂŻ' => 'i', 'Ä©' => 'i', 'Ă°' => 'd', 'Ă±' => 'n', 'Ă˛' => 'o', 'Ăł' => 'o', 'Ă´' => 'o', 'á»™' => 'o',
+			'Ăµ' => 'o', 'Ă¶' => 'o', 'Ĺ‘' => 'o', 'Ă¸' => 'o', 'Ăą' => 'u', 'Ăş' => 'u', 'Ă»' => 'u', 'ĂĽ' => 'u',
+			'Ĺ±' => 'u', 'á»§' => 'u', 'Ă˝' => 'y', 'Ăľ' => 'th', 'Ăż' => 'y',
+			// Latin symbols
+			'Â©' => '(c)',
+			// Greek
+			'Î‘' => 'A', 'Î’' => 'B', 'Î“' => 'G', 'Î”' => 'D', 'Î•' => 'E', 'Î–' => 'Z', 'Î—' => 'H', 'Î' => '8',
+			'Î™' => 'I', 'Îš' => 'K', 'Î›' => 'L', 'Îś' => 'M', 'Îť' => 'N', 'Îž' => '3', 'Îź' => 'O', 'Î ' => 'P',
+			'Îˇ' => 'R', 'ÎŁ' => 'S', 'Î¤' => 'T', 'ÎĄ' => 'Y', 'Î¦' => 'F', 'Î§' => 'X', 'Î¨' => 'PS', 'Î©' => 'W',
+			'Î†' => 'A', 'Î' => 'E', 'ÎŠ' => 'I', 'ÎŚ' => 'O', 'ÎŽ' => 'Y', 'Î‰' => 'H', 'ÎŹ' => 'W', 'ÎŞ' => 'I',
+			'Î«' => 'Y',
+			'Î±' => 'a', 'Î˛' => 'b', 'Îł' => 'g', 'Î´' => 'd', 'Îµ' => 'e', 'Î¶' => 'z', 'Î·' => 'h', 'Î¸' => '8',
+			'Îą' => 'i', 'Îş' => 'k', 'Î»' => 'l', 'ÎĽ' => 'm', 'Î˝' => 'n', 'Îľ' => '3', 'Îż' => 'o', 'Ď€' => 'p',
+			'Ď' => 'r', 'Ď' => 's', 'Ď„' => 't', 'Ď…' => 'y', 'Ď†' => 'f', 'Ď‡' => 'x', 'Ď' => 'ps', 'Ď‰' => 'w',
+			'Î¬' => 'a', 'Î­' => 'e', 'ÎŻ' => 'i', 'ĎŚ' => 'o', 'ĎŤ' => 'y', 'Î®' => 'h', 'ĎŽ' => 'w', 'Ď‚' => 's',
+			'ĎŠ' => 'i', 'Î°' => 'y', 'Ď‹' => 'y', 'Î' => 'i',
+			// Turkish
+			'Ĺž' => 'S', 'Ä°' => 'I', 'Ă‡' => 'C', 'Ăś' => 'U', 'Ă–' => 'O', 'Äž' => 'G',
+			'Ĺź' => 's', 'Ä±' => 'i', 'Ă§' => 'c', 'ĂĽ' => 'u', 'Ă¶' => 'o', 'Äź' => 'g',
+			// Russian
+			'Đ' => 'A', 'Đ‘' => 'B', 'Đ’' => 'V', 'Đ“' => 'G', 'Đ”' => 'D', 'Đ•' => 'E', 'Đ' => 'Yo', 'Đ–' => 'Zh',
+			'Đ—' => 'Z', 'Đ' => 'I', 'Đ™' => 'J', 'Đš' => 'K', 'Đ›' => 'L', 'Đś' => 'M', 'Đť' => 'N', 'Đž' => 'O',
+			'Đź' => 'P', 'Đ ' => 'R', 'Đˇ' => 'S', 'Đ˘' => 'T', 'ĐŁ' => 'U', 'Đ¤' => 'F', 'ĐĄ' => 'H', 'Đ¦' => 'C',
+			'Đ§' => 'Ch', 'Đ¨' => 'Sh', 'Đ©' => 'Sh', 'ĐŞ' => '', 'Đ«' => 'Y', 'Đ¬' => '', 'Đ­' => 'E', 'Đ®' => 'Yu',
+			'ĐŻ' => 'Ya',
+			'Đ°' => 'a', 'Đ±' => 'b', 'Đ˛' => 'v', 'Đł' => 'g', 'Đ´' => 'd', 'Đµ' => 'e', 'Ń‘' => 'yo', 'Đ¶' => 'zh',
+			'Đ·' => 'z', 'Đ¸' => 'i', 'Đą' => 'j', 'Đş' => 'k', 'Đ»' => 'l', 'ĐĽ' => 'm', 'Đ˝' => 'n', 'Đľ' => 'o',
+			'Đż' => 'p', 'Ń€' => 'r', 'Ń' => 's', 'Ń‚' => 't', 'Ń' => 'u', 'Ń„' => 'f', 'Ń…' => 'h', 'Ń†' => 'c',
+			'Ń‡' => 'ch', 'Ń' => 'sh', 'Ń‰' => 'sh', 'ŃŠ' => '', 'Ń‹' => 'y', 'ŃŚ' => '', 'ŃŤ' => 'e', 'ŃŽ' => 'yu',
+			'ŃŹ' => 'ya',
+			// Ukrainian
+			'Đ„' => 'Ye', 'Đ†' => 'I', 'Đ‡' => 'Yi', 'Ň' => 'G',
+			'Ń”' => 'ye', 'Ń–' => 'i', 'Ń—' => 'yi', 'Ň‘' => 'g',
+			// Czech
+			'ÄŚ' => 'C', 'ÄŽ' => 'D', 'Äš' => 'E', 'Ĺ‡' => 'N', 'Ĺ' => 'R', 'Ĺ ' => 'S', 'Ĺ¤' => 'T', 'Ĺ®' => 'U',
+			'Ĺ˝' => 'Z',
+			'ÄŤ' => 'c', 'ÄŹ' => 'd', 'Ä›' => 'e', 'Ĺ' => 'n', 'Ĺ™' => 'r', 'Ĺˇ' => 's', 'ĹĄ' => 't', 'ĹŻ' => 'u',
+			'Ĺľ' => 'z',
+			// Polish
+			'Ä„' => 'A', 'Ä†' => 'C', 'Ä' => 'e', 'Ĺ' => 'L', 'Ĺ' => 'N', 'Ă“' => 'o', 'Ĺš' => 'S', 'Ĺą' => 'Z',
+			'Ĺ»' => 'Z',
+			'Ä…' => 'a', 'Ä‡' => 'c', 'Ä™' => 'e', 'Ĺ‚' => 'l', 'Ĺ„' => 'n', 'Ăł' => 'o', 'Ĺ›' => 's', 'Ĺş' => 'z',
+			'ĹĽ' => 'z',
+			// Latvian
+			'Ä€' => 'A', 'ÄŚ' => 'C', 'Ä’' => 'E', 'Ä˘' => 'G', 'ÄŞ' => 'i', 'Ä¶' => 'k', 'Ä»' => 'L', 'Ĺ…' => 'N',
+			'Ĺ ' => 'S', 'ĹŞ' => 'u', 'Ĺ˝' => 'Z',
+			'Ä' => 'a', 'ÄŤ' => 'c', 'Ä“' => 'e', 'ÄŁ' => 'g', 'Ä«' => 'i', 'Ä·' => 'k', 'ÄĽ' => 'l', 'Ĺ†' => 'n',
+			'Ĺˇ' => 's', 'Ĺ«' => 'u', 'Ĺľ' => 'z'
+		);
+
+		// Transliterate characters to ASCII
+		$str = str_replace(array_keys($char_map), $char_map, $str);
+		// Replace non-alphanumeric characters with our delimiter
+		$str = preg_replace('/[^\p{L}\p{Nd}\.]+/u', $delimiter, $str);
+		// Remove delimiter from ends
+		$str = trim($str, $delimiter);
+		return $str;
+	}
+	/*
+	 * Function that returns conversion info from default system currency to chosen one
+	 * @param <Integer> $currencyId - id of currency for which we want to retrieve conversion rate to default currency
+	 * @param <Date> $date - date of exchange rates, if empty then rate from yesterday
+	 * @return <Array> - array containing:
+	 * 		date - date of rate
+	 * 		value - conversion 1 default currency -> $currencyId
+	 * 		conversion - 1 $currencyId -> default currency
+	 */
+
+	public static function getConversionRateInfo($currencyId, $date = '')
+	{
+		$currencyUpdateModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
+		$defaultCurrencyId = self::getDefaultCurrencyInfo()['id'];
+		$info = [];
+
+		if (empty($date)) {
+			$yesterday = date('Y-m-d', strtotime('-1 day'));
+			$date = self::getLastWorkingDay($yesterday);
+		}
+		$info['date'] = $date;
+
+		if ($currencyId == $defaultCurrencyId) {
+			$info['value'] = 1.0;
+			$info['conversion'] = 1.0;
+		} else {
+			$value = $currencyUpdateModel->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
+			$info['value'] = round($value, 5);
+			$info['conversion'] = round(1 / $value, 5);
+		}
+
+		return $info;
 	}
 }
