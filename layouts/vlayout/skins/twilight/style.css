@@ -4540,7 +4540,7 @@ html,body,.baseContainer
 	width: auto !important;
 }
 .tablesaw-cell-label{
-	vertical-align: middle !important;
+	vertical-align: top !important;
 }
 .modal-backdrop{
 	z-index: 1029;
@@ -4550,4 +4550,12 @@ html,body,.baseContainer
 }
 .elementGroup > *{
 	margin-bottom: 10px;
+}
+@media only screen and (max-width: 640px){
+	.tablesaw-stack tbody tr:nth-child(even) {
+		background:#EEEEEE;
+	}
+}
+.tablesaw-cell-persist{
+	width: auto !important;
 }

@@ -22,20 +22,20 @@
 <input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 <input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-<div class="listViewEntriesDiv" style='overflow-x:auto;'>
+<div class="listViewEntriesDiv">
 	<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
 		<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{vtranslate('LBL_LOADING', $MODULE)}"/>
 		<p class="listViewLoadingMsg">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
 	</span>
 	{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 	{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
-		<table data-tablesaw-mode="stack" class="table table-bordered table-condensed listViewEntriesTable">
+		<table data-tablesaw-mode="stack" data-tablesaw-minimap data-tablesaw-mode-switch class="table table-bordered table-condensed listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
-					<th width="1%" class="{$WIDTHTYPE}"></th>
+					<th  width="1%" class="{$WIDTHTYPE}"></th>
 					{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-					<th width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
+					<th data-tablesaw-priority="1" width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
 						<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{vtranslate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
 							{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}<img class="{$SORT_IMAGE} icon-white">{/if}</a>
 					</th>
@@ -48,7 +48,7 @@
 						{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
 				>
 				<td width="1%" nowrap class="{$WIDTHTYPE}">
-					{if $MODULE eq 'CronTasks'}
+					{if $MODULE eq 'Workflows'}
 						<img src="{vimage_path('drag.png')}" class="alignTop" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 					{/if}
 				</td>
@@ -60,10 +60,10 @@
 							{assign var=ACTIVE_TASKS value=$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 						{/if}
 						{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
-						<td class="listViewEntryValue {$WIDTHTYPE}" data-name="{$LISTVIEW_HEADERNAME}" width="{$WIDTH}%" nowrap>
+						<td class="listViewEntryValue {$WIDTHTYPE}" data-name="{$LISTVIEW_HEADERNAME}" width="{$WIDTH}%" >
 							&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 							{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
-								</td><td nowrap class="{$WIDTHTYPE}">
+								</td><td  class="{$WIDTHTYPE}">
 									<div class="pull-right actions">
 										<span class="actionImages">
 											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
