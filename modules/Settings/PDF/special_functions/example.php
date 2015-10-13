@@ -5,12 +5,12 @@
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
-$permitted_modules = array('all');
+$permittedModules = ['all'];
 
 /// Variable calling a function => #special_function#example#end_special_function#
 /// function MUST have the same name as FILE
 
-function example($module, $id, $templateid, $content, $tcpdf)
+function example($module, $id) // unused -> , $templateid, $content, $tcpdf)
 {
 	$db = PearDatabase::getInstance();
 	/// Sample Query

@@ -290,14 +290,19 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		return $moduleName;
 	}
 
+	/**
+	 * Return list of special functions for chosen module
+	 * @param string $moduleName - name of the module
+	 * @return array array of special functions
+	 */
 	public static function getSpecialFunctions($moduleName)
 	{
 		$specialFunctions = [];
 		foreach (new DirectoryIterator('modules/Settings/PDF/special_functions') as $file) {
 			if ($file->isFile() && $file->getExtension() == 'php' && $file->getFilename() != 'example.php') {
-				include_once('modules/Settings/PDF/special_functions/' . $file->getFilename());
+				include('modules/Settings/PDF/special_functions/' . $file->getFilename());
 				$functionName = $file->getBasename('.php');
-				if (in_array('all', $permitted_modules) || in_array($moduleName, $permitted_modules)) {
+				if (in_array('all', $permittedModules) || in_array($moduleName, $permittedModules)) {
 					$specialFunctions['#special_functions#' . $functionName . '#special_function#'] = vtranslate($functionName, self::$parent . ':' . self::$module);
 				}
 			}

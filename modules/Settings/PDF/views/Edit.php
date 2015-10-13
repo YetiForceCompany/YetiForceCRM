@@ -103,11 +103,10 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				$relatedModules = Settings_PDF_Module_Model::getRelatedModules($pdfModel->get('module_name'));
 				if (count($relatedModules) > 0) {
 					$relatedFields = Settings_PDF_Module_Model::getMainModuleFields(key($relatedModules));
-					$specialFunctions = Settings_PDF_Module_Model::getSpecialFunctions($allModules[key($allModules)]->getName());
 				} else {
 					$relatedFields = [];
-					$specialFunctions = [];
 				}
+				$specialFunctions = Settings_PDF_Module_Model::getSpecialFunctions($allModules[key($allModules)]->getName());
 
 				$viewer->assign('RELATED_MODULES', $relatedModules);
 				$viewer->assign('RELATED_FIELDS', $relatedFields);
@@ -119,11 +118,10 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				$relatedModules = Settings_PDF_Module_Model::getRelatedModules($pdfModel->get('module_name'));
 				if (count($relatedModules) > 0) {
 					$relatedFields = Settings_PDF_Module_Model::getMainModuleFields(key($relatedModules));
-					$specialFunctions = Settings_PDF_Module_Model::getSpecialFunctions($allModules[key($allModules)]->getName());
 				} else {
 					$relatedFields = [];
-					$specialFunctions = [];
 				}
+				$specialFunctions = Settings_PDF_Module_Model::getSpecialFunctions($allModules[key($allModules)]->getName());
 
 				$viewer->assign('RELATED_MODULES', $relatedModules);
 				$viewer->assign('RELATED_FIELDS', $relatedFields);
@@ -135,11 +133,10 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				$relatedModules = Settings_PDF_Module_Model::getRelatedModules($pdfModel->get('module_name'));
 				if (count($relatedModules) > 0) {
 					$relatedFields = Settings_PDF_Module_Model::getMainModuleFields(key($relatedModules));
-					$specialFunctions = Settings_PDF_Module_Model::getSpecialFunctions($allModules[key($allModules)]->getName());
 				} else {
 					$relatedFields = [];
-					$specialFunctions = [];
 				}
+				$specialFunctions = Settings_PDF_Module_Model::getSpecialFunctions($allModules[key($allModules)]->getName());
 
 				$viewer->assign('RELATED_MODULES', $relatedModules);
 				$viewer->assign('RELATED_FIELDS', $relatedFields);

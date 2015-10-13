@@ -141,27 +141,31 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 	},
 	updateMainFieldsValue: function (container) {
 		var value = '$' + container.find('[name="main_fields"]').val() + '$';
-		container.find('#mainFieldValue').val(value);
+		container.find('#mainFieldValue4').val(value);
 	},
 	updateMainFieldsLabel: function (container) {
 		var value = '%' + container.find('[name="main_fields"]').val() + '%';
-		container.find('#mainFieldLabel').val(value);
+		container.find('#mainFieldLabel4').val(value);
 	},
 	updateRelatedFieldsValue: function (container) {
 		var value = '$' + container.find('[name="related_module"]').val() + '_' + container.find('[name="related_fields"]').val() + '$';
-		container.find('#relatedFieldValue').val(value);
+		container.find('#relatedFieldValue4').val(value);
 	},
 	updateRelatedFieldsLabel: function (container) {
 		var value = '%' + container.find('[name="related_module"]').val() + '_' + container.find('[name="related_fields"]').val() + '%';
-		container.find('#relatedFieldLabel').val(value);
+		container.find('#relatedFieldLabel4').val(value);
 	},
 	updateCompanyFieldsValue: function (container) {
 		var value = '$Company_' + container.find('[name="company_fields"]').val() + '$';
-		container.find('#companyFieldValue').val(value);
+		container.find('#companyFieldValue4').val(value);
 	},
 	updateCompanyFieldsLabel: function (container) {
 		var value = '%Company_' + container.find('[name="company_fields"]').val() + '%';
-		container.find('#companyFieldLabel').val(value);
+		container.find('#companyFieldLabel4').val(value);
+	},
+	updateSpecialFunctionsFieldsValue: function (container) {
+		var value = container.find('[name="special_functions"]').val();
+		container.find('#specialFieldValue4').val(value);
 	},
 	registerCopyClipboard: function (element) {
 		var clip = new ZeroClipboard(
@@ -214,15 +218,16 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 		this.updateRelatedFieldsLabel(container);
 		this.updateCompanyFieldsValue(container);
 		this.updateCompanyFieldsLabel(container);
+		this.updateSpecialFunctionsFieldsValue(container);
 		this.registerNewCkEditor();
 
 		// zerocliboards
-		this.registerCopyClipboard(container.find('#mainFieldsValueCopy'));
-		this.registerCopyClipboard(container.find('#mainFieldsLabelCopy'));
-		this.registerCopyClipboard(container.find('#relatedFieldsValueCopy'));
-		this.registerCopyClipboard(container.find('#relatedFieldsLabelCopy'));
-		this.registerCopyClipboard(container.find('#companyFieldsValueCopy'));
-		this.registerCopyClipboard(container.find('#companyFieldsLabelCopy'));
-		this.registerCopyClipboard(container.find('#specialFieldValueCopy'));
+		this.registerCopyClipboard(container.find('#mainFieldsValueCopy4'));
+		this.registerCopyClipboard(container.find('#mainFieldsLabelCopy4'));
+		this.registerCopyClipboard(container.find('#relatedFieldsValueCopy4'));
+		this.registerCopyClipboard(container.find('#relatedFieldsLabelCopy4'));
+		this.registerCopyClipboard(container.find('#companyFieldsValueCopy4'));
+		this.registerCopyClipboard(container.find('#companyFieldsLabelCopy4'));
+		this.registerCopyClipboard(container.find('#specialFieldValueCopy4'));
 	}
 });

@@ -424,7 +424,6 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		$instances = false;
 
 		$query = 'SELECT * FROM `vtiger_field` WHERE `tabid` = ?;';
-
 		$result = $db->pquery($query, [$moduleInstance->getId()]);
 		while ($row = $db->fetchByAssoc($result)) {
 			$instance = new Vtiger_Field();
@@ -458,7 +457,6 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		$moduleModel = $this->recordCache[$recordId]->getModule();
 		$moduleName = $moduleModel->getName();
 
-		//echo $tabId = getTabid('Contacts');exit;
 		if ($this->fieldsCache[$moduleName]) {
 			return $this->fieldsCache[$moduleName];
 		}
@@ -490,8 +488,8 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Get header content
-	 * @param <Boolean> $raw - if true return unparsed header
-	 * @return <String> - header content
+	 * @param bool $raw - if true return unparsed header
+	 * @return string - header content
 	 */
 	public function getHeader($raw = false)
 	{
@@ -503,21 +501,79 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 		$content = $this->get('header_content');
 		$content = $this->replaceModuleFields($content, $recordId, $moduleName);
-
-		$relatedModules = Settings_PDF_Module_Model::getRelatedModules($moduleName); //var_dump($relatedModules);exit;
-		$content = $this->replaceRelatedModuleFields($content, $recordId, $relatedModules);
+		$content = $this->replaceRelatedModuleFields($content, $recordId);
+		$content = $this->replaceCompanyFields($content);
+		$content = $this->replaceSpecialFunctions($content);
 
 		return $content;
 	}
 
+	/**
+	 * Get body content
+	 * @param bool $raw - if true return unparsed header
+	 * @return string - body content
+	 */
+	public function getBody($raw = false)
+	{
+		if ($raw) {
+			return $this->get('body_content');
+		}
+		$recordId = $this->getMainRecordId();
+		$moduleName = $this->get('module_name');
+
+		$content = $this->get('body_content');
+		$content = $this->replaceModuleFields($content, $recordId, $moduleName);
+		$content = $this->replaceRelatedModuleFields($content, $recordId);
+		$content = $this->replaceCompanyFields($content);
+		$content = $this->replaceSpecialFunctions($content);
+
+		return $content;
+	}
+
+	/**
+	 * Get body content
+	 * @param bool $raw - if true return unparsed header
+	 * @return string - body content
+	 */
+	public function getFooter($raw = false)
+	{
+		if ($raw) {
+			return $this->get('footer_content');
+		}
+		$recordId = $this->getMainRecordId();
+		$moduleName = $this->get('module_name');
+
+		$content = $this->get('footer_content');
+		$content = $this->replaceModuleFields($content, $recordId, $moduleName);
+		$content = $this->replaceRelatedModuleFields($content, $recordId);
+		$content = $this->replaceCompanyFields($content);
+		$content = $this->replaceSpecialFunctions($content);
+
+		return $content;
+	}
+
+	/**
+	 * Replaces main module variables with values
+	 * @param string $content - text
+	 * @param integer $recordId - if od main module record
+	 * @param string $moduleName - main module name
+	 * @return string text with replaced values
+	 */
 	public function replaceModuleFields(&$content, $recordId, $moduleName)
 	{
 		$recordModule = $this->getRecordModelById($recordId);
 		$fieldsModel = $this->getFieldsById($recordId);
-		//var_dump($fieldsModel,$this->getReferenceFields($fieldsModel));exit;
 
 		foreach ($fieldsModel as $name => &$field) {
-			$replaceBy = in_array($field->uitype, $this->referenceUiTypes) ? Vtiger_Functions::getCRMRecordLabel($recordModule->get($name)) : $recordModule->getDisplayValue($name);
+			if (in_array($field->uitype, $this->referenceUiTypes)) {
+				if ($field->uitype == '53') {
+					$replaceBy = trim(getUserFullName($recordModule->get('assigned_user_id')));
+				} else {
+					$replaceBy = Vtiger_Functions::getCRMRecordLabel($recordModule->get($name));
+				}
+			} else {
+				$replaceBy = $recordModule->getDisplayValue($name);
+			}
 			$content = str_replace('$' . $name . '$', $replaceBy, $content);
 			$newLabel = Vtiger_Language_Handler::getLanguageTranslatedString($this->get('language'), $field->label, $moduleName);
 			$content = str_replace('%' . $name . '%', $newLabel, $content);
@@ -526,7 +582,13 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		return $content;
 	}
 
-	public function replaceRelatedModuleFields(&$content, $recordId, &$relatedModules)
+	/**
+	 * Replaces related module variables with values
+	 * @param string $content - text
+	 * @param integer $recordId - if od main module record
+	 * @return string text with replaced values
+	 */
+	public function replaceRelatedModuleFields(&$content, $recordId)
 	{
 		$recordModule = $this->getRecordModelById($recordId);
 		$fieldsModel = $this->getFieldsById($recordId);
@@ -535,16 +597,33 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		// loop thrue related modules
 		foreach ($referenceFields as $fieldName => $modules) {
 			$value = $recordModule->get($fieldName);
-			if (!isRecordExists($value)) {
-				continue;
-			}
+			if ($modules == 'Users') {
+				$referenceRecord = Users_Record_Model::getInstanceById($value, 'Users');
 
-			$referenceRecord = $this->getRecordModelById($value);
-			$referenceFieldsModel = $this->getFieldsById($referenceRecord->getId());
+				if (!$referenceRecord) {
+					continue;
+				}
+				$moduleModel = $referenceRecord->getModule();
+				$referenceFieldsModel = $this->getFieldsForModule($moduleModel);
+			}  // module with records
+			elseif (!isRecordExists($value)) {
+				continue;
+			} else {
+				$referenceRecord = $this->getRecordModelById($value);
+				$referenceFieldsModel = $this->getFieldsById($referenceRecord->getId());
+			}
 			$moduleName = $referenceRecord->getModuleName();
 
 			foreach ($referenceFieldsModel as $name => &$field) {
-				$replaceBy = in_array($field->uitype, $this->referenceUiTypes) ? Vtiger_Functions::getCRMRecordLabel($referenceRecord->get($name)) : $referenceRecord->getDisplayValue($name);
+				if (in_array($field->uitype, $this->referenceUiTypes)) {
+					if ($field->uitype == '53') {
+						$replaceBy = trim(getUserFullName($referenceRecord->get('assigned_user_id')));
+					} else {
+						$replaceBy = Vtiger_Functions::getCRMRecordLabel($referenceRecord->get($name));
+					}
+				} else {
+					$replaceBy = $referenceRecord->getDisplayValue($name);
+				}
 				$content = str_replace('$' . $moduleName . '_' . $name . '$', $replaceBy, $content);
 				$newLabel = Vtiger_Language_Handler::getLanguageTranslatedString($this->get('language'), $field->label, $moduleName);
 				$content = str_replace('%' . $moduleName . '_' . $name . '%', $newLabel, $content);
@@ -563,6 +642,48 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 
+		return $content;
+	}
+
+	/**
+	 * Replaces Company details variables with values
+	 * @param string $content - text
+	 * @return string text with replaced values
+	 */
+	public function replaceCompanyFields(&$content)
+	{
+		$companyDetails = getCompanyDetails();
+
+		foreach ($companyDetails as $name => $value) {
+			if ($name === 'logoname') {
+				$value = 'storage/Logo/' . $value;
+			}
+			$content = str_replace('$Company_' . $name . '$', $value, $content);
+
+			$newLabel = Vtiger_Language_Handler::getLanguageTranslatedString($this->get('language'), $name, 'Settings:Vtiger');
+			$content = str_replace('%Company_' . $name . '%', $newLabel, $content);
+		}
+
+		return $content;
+	}
+
+	/**
+	 * Replaces special functions with their returned values
+	 * @param string $content - text of content
+	 * @return string $content - text with replaced values
+	 */
+	public function replaceSpecialFunctions(&$content) {
+		$moduleName = $this->get('module_name');
+		$specialFunctions = Settings_PDF_Module_Model::getSpecialFunctions($moduleName);
+		
+		foreach($specialFunctions as $specialFunction => $function) {
+			if (strpos($content, $specialFunction) !== false && file_exists('modules/Settings/PDF/special_functions/'.$function.'.php')) {
+				include('modules/Settings/PDF/special_functions/'.$function.'.php');
+				$replaceBy = $function($moduleName, $this->getMainRecordId());
+				$content = str_replace($specialFunction, $replaceBy, $content);
+			}
+		}
+		
 		return $content;
 	}
 }

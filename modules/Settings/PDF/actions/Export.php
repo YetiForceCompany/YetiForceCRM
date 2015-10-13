@@ -38,8 +38,8 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 			$html = '';
 
 			$pdf->setHeader('Header', $template->getHeader());
-			$pdf->setFooter('Footer', $template->get('footer_content'));
-			$html = $template->get('body_content');
+			$pdf->setFooter('Footer', $template->getFooter());
+			$html = $template->getBody();
 
 			$pdf->loadHTML($html);
 			$pdf->output();
@@ -58,8 +58,8 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 				$html = '';
 
 				$pdf->setHeader('Header', $template->getHeader());
-				$pdf->setFooter('Footer', $template->get('footer_content'));
-				$html = $template->get('body_content');
+				$pdf->setFooter('Footer', $template->getFooter());
+				$html = $template->getBody();
 
 				$pdf->loadHTML($html);
 				$pdf->writeHTML();
@@ -76,8 +76,8 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 
 					$pdf->pdf()->AddPageByArray($parameters);
 
-					$pdf->setFooter('Footer' . $id, $template->get('footer_content'));
-					$pdf->loadHTML($template->get('body_content'));
+					$pdf->setFooter('Footer' . $id, $template->getFooter());
+					$pdf->loadHTML($template->getBody());
 					$pdf->writeHTML();
 				}
 				$pdf->setFileName(vtranslate('LBL_MANY_IN_ONE', 'Settings:PDF'));
@@ -102,8 +102,8 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 					$html = '';
 
 					$pdf->setHeader('Header', $template->getHeader());
-					$pdf->setFooter('Footer', $template->get('footer_content'));
-					$html = $template->get('body_content');
+					$pdf->setFooter('Footer', $template->getFooter());
+					$html = $template->getBody();
 
 					$pdf->loadHTML($html);
 					$pdfFileName = 'storage/' . $pdf->getFileName() . '_' . $postfix . '.pdf';

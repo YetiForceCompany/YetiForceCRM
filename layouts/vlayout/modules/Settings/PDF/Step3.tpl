@@ -14,6 +14,7 @@
 					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 3)}: {vtranslate('LBL_HEADER_DETAILS',$QUALIFIED_MODULE)}</strong>
 				</label>
 				<br>
+				{assign STEP_NO 3}
 				{include file="layouts/vlayout/modules/Settings/PDF/FieldBlock.tpl"}
 				<div class="form-group">
 					<div class="col-sm-12 controls">
