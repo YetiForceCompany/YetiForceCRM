@@ -46,14 +46,14 @@
             <div class="contentHeader">
                 {assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
                 {if $RECORD_ID neq ''}
-                    <h3 class="col-md-8 textOverflowEllipsis noSpaces" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - <span class="recordLabel" title="{$RECORD_STRUCTURE_MODEL->getRecordName()}">{$RECORD_STRUCTURE_MODEL->getRecordName()}</span></h3>
+                    <h3 class="col-md-8 col-sm-8 col-xs-8 textOverflowEllipsis noSpaces" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - <span class="recordLabel" title="{$RECORD_STRUCTURE_MODEL->getRecordName()}">{$RECORD_STRUCTURE_MODEL->getRecordName()}</span></h3>
 					{else}
-                    <h3 class="col-md-8 textOverflowEllipsis noSpaces">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
+                    <h3 class="col-md-8 col-sm-8 col-xs-8 textOverflowEllipsis noSpaces">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
                 {/if}
-                <span class="pull-right">
-                    <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
-                    <button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
-		</span>
+                <div class="col-md-4 col-xs-4 paddingLRZero">
+                    <button class="btn btn-warning pull-right" type="reset" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
+					<button class="btn btn-success pull-right" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+				</div>
 		<div class="clearfix"></div>
             </div>
 		{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}

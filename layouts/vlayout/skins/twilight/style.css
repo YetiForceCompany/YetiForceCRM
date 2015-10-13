@@ -4559,3 +4559,6 @@ html,body,.baseContainer
 .tablesaw-cell-persist{
 	width: auto !important;
 }
+.editViewContainer .btn-warning.pull-right{
+	margin-left: 5px;
+}
