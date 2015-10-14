@@ -3789,6 +3789,8 @@ span[name=existingImages] img{
 	left: 210px;
 	top: 50px;
 	height: calc(100% - 50px);
+	overflow: auto;
+	overflow-x:hidden;
 }
 .nav li:hover > .subMenu .subMenu{
 	left: 260px;
@@ -4297,7 +4299,8 @@ html,body,.baseContainer
 	font-weight: 900;	
 }
 .mobileLeftPanel .mobileLeftPanelContainer .menuLabel .hasIcon{
-	padding-left: 10px;		
+	padding-left: 10px;	
+	display: inline-flex;
 }
 .mobileLeftPanel .mobileLeftPanelContainer .menuLabel .hasIcon img{
 	padding-right: 10px;		

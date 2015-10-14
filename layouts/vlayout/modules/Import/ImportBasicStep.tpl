@@ -15,6 +15,10 @@
         <input type="hidden" name="module" value="{$FOR_MODULE}" />
         <input type="hidden" name="view" value="Import" />
         <input type="hidden" name="mode" value="uploadAndParse" />
+	<div class='widget_header'>
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	</div>
+	<hr>
         <table style=" width:90%;margin-left: 5% " class="searchUIBasic" cellspacing="12">
             <tr>
                 <td class="font-x-large" align="left" colspan="2">
