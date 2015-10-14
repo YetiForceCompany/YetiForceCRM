@@ -178,7 +178,8 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$focus->mode = $recordModel->get('mode');
 		$focus->id = $recordModel->getId();
 		$focus->save($moduleName);
-		return $recordModel->setId($focus->id);
+		$recordModel->setData($focus->column_fields)->setId($focus->id)->setEntity($focus);
+		return $recordModel;
 	}
 
 	/**
