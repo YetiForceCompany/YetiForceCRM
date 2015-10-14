@@ -129,7 +129,7 @@ $languageStrings = [
 	'LBL_SHIFT_BLOCK' => 'Ein-/Ausblenden von Block',
 	'LBL_ON_SWITCH' => 'ON',
 	'LBL_OFF_SWITCH' => 'OFF',
-	'LBL_FOLLOWUP' => 'Nachverfolgen',
+	'LBL_FOLLOWUP' => 'Related event',
 	
 	'PLL_PLANNED' => 'Geplant',
 	'PLL_IN_REALIZATION' => 'Zu realisieren',

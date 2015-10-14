@@ -16,13 +16,8 @@ class Calendar_ActivityStateAjax_Action extends Calendar_SaveAjax_Action
 		$recordModel->set('mode', 'edit');
 		$recordModel->save();
 		
-		//updates the Calendar Reminder popup's status
-		$recordModel->updateReminderStatus(1);
-		
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true]);
 		$response->emit();
 	}
 }
-
-?>

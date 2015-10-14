@@ -143,42 +143,50 @@ class Activity extends CRMEntity {
 	/** Function to insert values in vtiger_activity_reminder_popup table for the specified module
   	  * @param $cbmodule -- module:: Type varchar
  	 */
-	function insertIntoActivityReminderPopup($cbmodule) {
+	function insertIntoActivityReminderPopup($cbmodule)
+	{
 
 		$adb = PearDatabase::getInstance();
 
 		$cbrecord = $this->id;
 		unset($_SESSION['next_reminder_time']);
-		if(isset($cbmodule) && isset($cbrecord)) {
+		if (isset($cbmodule) && isset($cbrecord)) {
 			$cbdate = getValidDBInsertDateValue($this->column_fields['date_start']);
 			$cbtime = $this->column_fields['time_start'];
 
-			$reminder_query = "SELECT reminderid FROM vtiger_activity_reminder_popup WHERE semodule = ? and recordid = ?";
-			$reminder_params = array($cbmodule, $cbrecord);
-			$reminderidres = $adb->pquery($reminder_query, $reminder_params);
+			$reminderQuery = 'SELECT reminderid FROM vtiger_activity_reminder_popup WHERE semodule = ? and recordid = ?';
+			$reminderParams = [$cbmodule, $cbrecord];
+			$reminderidres = $adb->pquery($reminderQuery, $reminderParams);
 
 			$reminderid = null;
-			if($adb->num_rows($reminderidres) > 0) {
-				$reminderid = $adb->query_result($reminderidres, 0, "reminderid");
+			if ($reminderidres->rowCount() > 0) {
+				$reminderid = $adb->query_result($reminderidres, 0, 'reminderid');
 			}
 
-			if(isset($reminderid)) {
-                $current_date = new DateTime();
-                $record_date = new DateTime($cbdate.' '.$cbtime);
-
-                $current = $current_date->format('Y-m-d H:i:s');
-                $record = $record_date->format('Y-m-d H:i:s');
-                if(strtotime($record) > strtotime($current)){
-                    $callback_query = "UPDATE vtiger_activity_reminder_popup set status = 0, date_start = ?, time_start = ? WHERE reminderid = ?";
-                    $callback_params = array($cbdate, $cbtime, $reminderid);
-                }
+			$currentStates = Calendar_Module_Model::getComponentActivityStateLabel('current');
+			$state = Calendar_Module_Model::getCalendarState($this->column_fields);
+			if (in_array($state, $currentStates)) {
+				$status = 0;
 			} else {
-				$callback_query = "INSERT INTO vtiger_activity_reminder_popup (recordid, semodule, date_start, time_start) VALUES (?,?,?,?)";
-				$callback_params = array($cbrecord, $cbmodule, $cbdate, $cbtime);
+				$status = 1;
 			}
 
-            if($callback_query)
-                $adb->pquery($callback_query, $callback_params);
+			if (isset($reminderid)) {
+				$adb->update('vtiger_activity_reminder_popup', [
+					'date_start' => $cbdate,
+					'time_start' => $cbtime,
+					'status' => $status,
+					], 'reminderid = ?', [$reminderid]
+				);
+			} else {
+				$adb->insert('vtiger_activity_reminder_popup', [
+					'recordid' => $cbrecord,
+					'semodule' => $cbmodule,
+					'date_start' => $cbdate,
+					'time_start' => $cbtime,
+					'status' => $status,
+				]);
+			}
 		}
 	}
 
