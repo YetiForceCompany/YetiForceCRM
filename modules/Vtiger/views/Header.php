@@ -48,20 +48,27 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller {
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$headerLinks = [];
 
-		$userPersonalSettingsLinks = array(
+		$userPersonalSettingsLinks = [
 			'linktype' => 'HEADERLINK',
 			'linklabel' => $userModel->getDisplayName(),
 			'linkurl' => '',
 			'linkicon' => '',
-			'childlinks' => array(
-				array(
-					'linktype' => 'HEADERLINK',
-					'linklabel' => 'LBL_SIGN_OUT',
-					'linkurl' => '?module=Users&parent=Settings&action=Logout',
-					'linkicon' => '',
-				)
-			)
-		);
+		];
+		if(SysSecurity::getBoolean('SHOW_MY_PREFERENCES')) {
+			$userPersonalSettingsLinks['childlinks'][] = [
+				'linktype' => 'HEADERLINK',
+				'linklabel' => 'LBL_MY_PREFERENCES',
+				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
+				'linkicon' => '',
+			];
+		}
+		$userPersonalSettingsLinks['childlinks'][] = [
+			'linktype' => 'HEADERLINK',
+			'linklabel' => 'LBL_SIGN_OUT',
+			'linkurl' => '?module=Users&parent=Settings&action=Logout',
+			'linkicon' => '',
+		];
+		
 		array_push($headerLinks, $userPersonalSettingsLinks);
 		if ($userModel->isAdminUser()) {
 			$crmSettingsLink = array(
