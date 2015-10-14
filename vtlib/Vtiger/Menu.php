@@ -76,27 +76,13 @@ class Vtiger_Menu
 		$result = $db->pquery('SELECT id FROM  yetiforce_menu WHERE module=?', [$moduleInstance->id]);
 		$db->delete('yetiforce_menu', 'module = ?', [$moduleInstance->id]);
 		$numRows = $db->getRowCount($result);
-		if($numRows)
-			self::generateMenuAfterModuleDelete();
+		if($numRows){
+			$menuRecordModel = new Settings_Menu_Record_Model();
+			$menuRecordModel->refreshMenuFiles();
+		}
 	}
 	
-	/**
-	 * A function to generating menu files after deleting the module
-	 */
-	static function generateMenuAfterModuleDelete()
-	{
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
-		$menuRecordModel = new Settings_Menu_Record_Model();
-		$allRoles = Settings_Roles_Record_Model::getAll();
-		$menuRecordModel->generateFileMenu(0);
-		foreach ($allRoles as $role) {
-			$roleId = str_replace('H', '', $role->getId());
-			if (file_exists('user_privileges/menu_' . $roleId . '.php'))
-				$menuRecordModel->generateFileMenu($roleId);
-			
-		}
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | End');
-	}
+
 }
 
 ?>
