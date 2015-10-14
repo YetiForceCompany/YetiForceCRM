@@ -32,7 +32,7 @@
 .adminIcon-roles:before {
 	content: "\e600";
 }
-.adminIcon-profiles:before {
+.adminIcon-profiles2:before {
 	content: "\e601";
 }
 .adminIcon-groups:before {
@@ -41,7 +41,7 @@
 .adminIcon-module-access:before {
 	content: "\e603";
 }
-.adminIcon-special-access:before {
+.adminIcon-access-to-record:before {
 	content: "\e604";
 }
 .adminIcon-standard-modules:before {
@@ -71,6 +71,9 @@
 .adminIcon-widgets-configuration:before {
 	content: "\e60d";
 }
+.adminIcon-custom-view:before {
+	content: "\e80a";
+}
 .adminIcon-fields-quick-create:before {
 	content: "\e60f";
 }
@@ -92,6 +95,9 @@
 .adminIcon-menu-configuration:before {
 	content: "\e616";
 }
+.adminIcon-tree-manager:before {
+	content: "\e811";
+}
 .adminIcon-advenced-modules:before {
 	content: "\e617";
 }
@@ -110,8 +116,8 @@
 .adminIcon-credit-limits:before {
 	content: "\e61c";
 }
-.adminIcon-colors:before {
-	content: "\e61d";
+.adminIcon-Colors:before {
+	content: "\e800";
 }
 .adminIcon-calendar-types:before {
 	content: "\e626";
@@ -156,7 +162,7 @@
 	content: "\e62b";
 }
 .adminIcon-updates:before {
-	content: "\e800";
+	content: "\e804";
 }
 .adminIcon-users-login:before {
 	content: "\e63b";
@@ -167,7 +173,7 @@
 .adminIcon-integration:before {
 	content: "\e63d";
 }
-.adminIcon-ldap:before {
+.adminIcon-pbx-manager:before {
 	content: "\e63e";
 }
 .adminIcon-currencies:before {
@@ -179,8 +185,8 @@
 .adminIcon-online-forms:before {
 	content: "\e641";
 }
-.adminIcon-maps:before {
-	content: "\e642";
+.adminIcon-address-search:before {
+	content: "\e805";
 }
 .adminIcon-mobile-applications:before {
 	content: "\e643";
@@ -251,22 +257,22 @@
 .adminIcon-marketing:before {
 	content: "\e659";
 }
-.adminIcon-sales2:before {
+.adminIcon-sales-processes:before {
 	content: "\e65a";
 }
 .adminIcon-realization:before {
 	content: "\e65b";
 }
-.adminIcon-finances:before {
-	content: "\e801";
+.adminIcon-finances2:before {
+	content: "\e806";
 }
 .adminIcon-support:before {
-	content: "\e802";
+	content: "\e807";
 }
 .adminIcon-logistics:before {
 	content: "\e65c";
 }
-.adminIcon-workflow:before {
+.adminIcon-scheduler:before {
 	content: "\e66d";
 }
 .adminIcon-yeti-force:before {

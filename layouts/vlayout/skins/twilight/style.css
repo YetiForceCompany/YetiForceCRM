@@ -3706,7 +3706,7 @@ span[name=existingImages] img{
 }
 .baseContainer .leftPanel .menuContainer .subMenu a .menuName,
 .baseContainer .leftPanel .menuContainer .subMenu button .menuName{
-	top: 2px;
+	top: -4px;
 }
 .baseContainer .leftPanel .menuContainer a.hasIcon img{
 	height: 20px;
@@ -3815,7 +3815,8 @@ span[name=existingImages] img{
 	text-transform: uppercase;
 }
 .leftPanel .menuContainer .modulesList .menuIcon{	
-	padding-right: 18px;	
+	padding-right: 18px;
+	font-size: 24px;
 }
 .bodyHeader{
 	background-color: #444853;
