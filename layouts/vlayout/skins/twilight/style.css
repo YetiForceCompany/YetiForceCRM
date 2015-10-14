@@ -3676,6 +3676,8 @@ span[name=existingImages] img{
 }
 .baseContainer .leftPanel .menuContainer a.hasIcon {
 	padding: 6px 15px;
+	display: inline-flex;
+	width: 100%
 }
 .baseContainer .leftPanel .menuContainer a .menuName{
 	top: -1px;
@@ -3817,6 +3819,7 @@ span[name=existingImages] img{
 .leftPanel .menuContainer .modulesList .menuIcon{	
 	padding-right: 18px;
 	font-size: 24px;
+	height:100%;
 }
 .bodyHeader{
 	background-color: #444853;
