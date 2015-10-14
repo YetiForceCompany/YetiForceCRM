@@ -37,11 +37,11 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action {
 		}
 		if ($request->get('widget')) {
 			$record->set('activitystatus', $request->get('activitystatus'));
-			$record->set('widget', true);
+			$entity = $record->getEntityCount();
+		}else{
+			$entity = $record->getEntity();
 		}
-		
-		$entity = $record->getEntity();
-   
+
 		$response = new Vtiger_Response();
 		$response->setResult($entity);
 		$response->emit();
