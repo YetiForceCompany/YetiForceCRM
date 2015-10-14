@@ -1,39 +1,45 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
+Class Users_PreferenceEdit_View extends Vtiger_Edit_View
+{
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$record = $request->get('record');
+		if (!SysSecurity::getBoolean('SHOW_MY_PREFERENCES')) {
+			throw new AppException('LBL_PERMISSION_DENIED');
+		}
 		if (!empty($record) && $currentUserModel->get('id') != $record) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			if($recordModel->get('status') != 'Active') {
+			if ($recordModel->get('status') != 'Active') {
 				throw new AppException('LBL_PERMISSION_DENIED');
 			}
 		}
-		if(($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record)) {
+		if (($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record)) {
 			return true;
 		} else {
 			throw new AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function preProcessTplName(Vtiger_Request $request) {
+	function preProcessTplName(Vtiger_Request $request)
+	{
 		return 'UserEditViewPreProcess.tpl';
 	}
 
-
-	public function preProcess (Vtiger_Request $request, $display=true) {
-		if($this->checkPermission($request)) {
+	public function preProcess(Vtiger_Request $request, $display = true)
+	{
+		if ($this->checkPermission($request)) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$viewer = $this->getViewer($request);
 
@@ -48,46 +54,48 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 			$viewer->assign('PARENT_MODULE', $request->get('parent'));
 			$viewer->assign('MENUS', Vtiger_Menu_Model::getAll(true));
 			$viewer->assign('VIEW', $request->get('view'));
-			$viewer->assign('COMPANY_LOGO',$companyLogo);
+			$viewer->assign('COMPANY_LOGO', $companyLogo);
 			$viewer->assign('USER_MODEL', $currentUser);
-			
+
 			$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 			$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
-			$viewer->assign('HEADER_LINKS',$this->getHeaderLinks());
+			$viewer->assign('HEADER_LINKS', $this->getHeaderLinks());
 			$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
 			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 			$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
-			
+
 			//Additional parameters
 			$viewer->assign('CURRENT_VIEW', $request->get('view'));
 			$viewer->assign('PAGETITLE', $this->getPageTitle($request));
-			$viewer->assign('FOOTER_SCRIPTS',$this->getFooterScripts($request));
-			$viewer->assign('STYLES',$this->getHeaderCss($request));
+			$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
+			$viewer->assign('STYLES', $this->getHeaderCss($request));
 			$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 			$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
 			$viewer->assign('IS_PREFERENCE', true);
 			$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 			$viewer->assign('LANGUAGE', $currentUser->get('language'));
-			
+
 			$allUsers = Users_Record_Model::getAll(true);
 			$sharedUsers = Calendar_Module_Model::getCaledarSharedUsers($currentUser->id);
 			$sharedType = Calendar_Module_Model::getSharedType($currentUser->id);
-			$viewer->assign('ALL_USERS',$allUsers);
-			$viewer->assign('SHAREDUSERS',$sharedUsers);
-			$viewer->assign('SHARED_TYPE',$sharedType);	
-			$viewer->assign('HEADER_SCRIPTS',$this->getHeaderScripts($request));
-			if($display) {
+			$viewer->assign('ALL_USERS', $allUsers);
+			$viewer->assign('SHAREDUSERS', $sharedUsers);
+			$viewer->assign('SHARED_TYPE', $sharedType);
+			$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
+			if ($display) {
 				$this->preProcessDisplay($request);
 			}
 		}
 	}
 
-	protected function preProcessDisplay(Vtiger_Request $request) {
+	protected function preProcessDisplay(Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$viewer->view($this->preProcessTplName($request), $request->getModule());
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
@@ -108,15 +116,16 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 		parent::process($request);
 	}
 
-    public function getFooterScripts(Vtiger_Request $request) {
+	public function getFooterScripts(Vtiger_Request $request)
+	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-        $moduleDetailFile = 'modules.'.$moduleName.'.resources.PreferenceEdit';
-        unset($headerScriptInstances[$moduleDetailFile]);
+		$moduleDetailFile = 'modules.' . $moduleName . '.resources.PreferenceEdit';
+		unset($headerScriptInstances[$moduleDetailFile]);
 
 		$jsFileNames = array(
-            "modules.Users.resources.Edit",
-            'modules.'.$moduleName.'.resources.PreferenceEdit'
+			"modules.Users.resources.Edit",
+			'modules.' . $moduleName . '.resources.PreferenceEdit'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

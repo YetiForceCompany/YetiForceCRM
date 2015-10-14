@@ -99,7 +99,7 @@ $languageStrings = [
 	'End Time' => 'End Time',
 	'Status' => 'State',
 	'End Date' => 'End date',
-	'LBL_FOLLOWUP' => 'Follow up',
+	'LBL_FOLLOWUP' => 'Related event',
 	
 	'PLL_PLANNED' => 'Planned',
 	'PLL_IN_REALIZATION' => 'To be realized',

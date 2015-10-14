@@ -14,6 +14,9 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$record = $request->get('record');
 
+		if (!SysSecurity::getBoolean('SHOW_MY_PREFERENCES')) {
+			throw new AppException('LBL_PERMISSION_DENIED');
+		}
 		if($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record) {
 			return true;
 		} else {
