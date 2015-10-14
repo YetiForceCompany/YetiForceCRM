@@ -1109,7 +1109,7 @@ class Vtiger_Functions
 
 		$doc = new DOMDocument('1.0', 'UTF-8');
 		$previousValue = libxml_use_internal_errors(TRUE);
-		$doc->loadHTML('<?xml encoding="utf-8" ?>' . $html, LIBXML_HTML_NODEFDTD);
+		$doc->loadHTML('<?xml encoding="utf-8" ?>' . $html);
 		libxml_clear_errors();
 		libxml_use_internal_errors($previousValue);
 
