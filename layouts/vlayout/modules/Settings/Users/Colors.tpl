@@ -32,7 +32,7 @@
 			</ul>
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
 				<div class="tab-pane active" id="userColors">
-					<table class="table tableRWD table-bordered table-condensed listViewEntriesTable">
+					<table class="table customTableRWD table-bordered table-condensed listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">
 								<th><strong>{vtranslate('First Name',$QUALIFIED_MODULE)}</strong></th>

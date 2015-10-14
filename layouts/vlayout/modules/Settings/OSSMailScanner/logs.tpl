@@ -27,11 +27,11 @@
             </tr>
             </table><br />   
 		<div class="row col-xs-12">
-			<div  class="row col-xs-8 marginBottom10px" >
+			<div  class="row col-xs-12 col-sm-10 col-md-8 marginBottom10px" >
 				<div class="row col-xs-6">{vtranslate('email_to_notify', 'OSSMailScanner')}: &nbsp;</div>
 				<div class="col-xs-6"><input type="text" class="form-control" title="{vtranslate('email_to_notify', 'OSSMailScanner')}" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></div>
 			</div>
-			<div class='row col-xs-8'>
+			<div class='row col-xs-12' col-sm-10 col-md-8>
 				<div class="row col-xs-6">{vtranslate('time_to_notify', 'OSSMailScanner')}: &nbsp;</div>
 				<div class="col-xs-6"><input type="text" name="time_to_notify" title="{vtranslate('time_to_notify', 'OSSMailScanner')}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></div>
 			</div>
@@ -45,18 +45,20 @@
 		</select>
 		</div>
 			<table class="table tableRWD table-bordered log-list">
-				<tr class="listViewHeaders">
-					<th>{vtranslate('No', 'OSSMailScanner')}.</th>
-					<th>{vtranslate('startTime', 'OSSMailScanner')}</th>
-					<th>{vtranslate('endTime', 'OSSMailScanner')}</th>
-					<th>{vtranslate('status', 'OSSMailScanner')}</th>
-					<th>{vtranslate('who', 'OSSMailScanner')}</th>
-					<th>{vtranslate('count', 'OSSMailScanner')}</th>
-					<th>{vtranslate('stop_user', 'OSSMailScanner')}</th>
-					<th>{vtranslate('Action', 'OSSMailScanner')}</th>
-					<th>{vtranslate('Desc', 'OSSMailScanner')}</th>
-					<th></th>
-				</tr>
+				<thead>
+					<tr class="listViewHeaders">
+						<th>{vtranslate('No', 'OSSMailScanner')}.</th>
+						<th>{vtranslate('startTime', 'OSSMailScanner')}</th>
+						<th>{vtranslate('endTime', 'OSSMailScanner')}</th>
+						<th>{vtranslate('status', 'OSSMailScanner')}</th>
+						<th>{vtranslate('who', 'OSSMailScanner')}</th>
+						<th>{vtranslate('count', 'OSSMailScanner')}</th>
+						<th>{vtranslate('stop_user', 'OSSMailScanner')}</th>
+						<th>{vtranslate('Action', 'OSSMailScanner')}</th>
+						<th>{vtranslate('Desc', 'OSSMailScanner')}</th>
+						<th></th>
+					</tr>
+				</thead>
 				{foreach item=item key=key from=$HISTORYACTIONLIST}
 					<tr>
 						<td>{$item['id']}</td>

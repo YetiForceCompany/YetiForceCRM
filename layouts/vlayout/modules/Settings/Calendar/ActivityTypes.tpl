@@ -19,12 +19,12 @@
 	<hr>
 	</div>
 	<div class=" contents tabbable">
-		<table class="table tableRWD table-bordered table-condensed listViewEntriesTable">
+		<table class="table customTableRWD table-bordered table-condensed listViewEntriesTable">
 			<thead>
 				<tr class="blockHeader">
 					<th><strong>{vtranslate('LBL_ACTIVITY_NAME',$QUALIFIED_MODULE)}</strong></th>
-					<th><strong>{vtranslate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>
-					<th><strong>{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</strong></th>
+					<th data-hide='phone'><strong>{vtranslate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>
+					<th data-hide='phone'><strong>{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</strong></th>
 					<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
 					<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
 				</tr>

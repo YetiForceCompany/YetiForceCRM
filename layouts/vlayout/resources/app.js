@@ -1134,7 +1134,8 @@ var app = {
 		container.find('thead tr th:gt(1)').attr('data-hide','phone');
 		container.find('thead tr th:gt(3)').attr('data-hide','tablet,phone');
 		container.find('thead tr th:last').attr('data-hide','');
-		
+		var whichColumnEnable = container.find('thead').attr('col-visible-alltime');
+		container.find('thead tr th:eq('+whichColumnEnable+')').attr('data-hide','');
 		$('.tableRWD, .customTableRWD').footable({
 			breakpoints:{
 				phone: 768,

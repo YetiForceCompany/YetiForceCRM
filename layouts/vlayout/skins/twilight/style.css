@@ -4553,3 +4553,6 @@ html,body,.baseContainer
 .editViewContainer .btn-warning.pull-right{
 	margin-left: 5px;
 }
+.footable-row-detail-row{
+	line-height:2.5em;
+}

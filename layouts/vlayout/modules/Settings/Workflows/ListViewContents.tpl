@@ -32,16 +32,14 @@
 		<table class="table tableRWD table-bordered table-condensed listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
-					<th  width="1%" class="{$WIDTHTYPE}"></th>
 					{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-					<th width="{$WIDTH}%" nowrap  class="{$WIDTHTYPE}">
+					<th nowrap  class="{$WIDTHTYPE}">
 						<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{vtranslate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
 							{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}<img class="{$SORT_IMAGE} icon-white">{/if}</a>
 					</th>
-					
 					{/foreach}
-					<th  class="{$WIDTHTYPE}"></th>
+					<th width='15%' ></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -49,9 +47,6 @@
 				<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"
 						{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
 				>
-				<td width="1%" nowrap class="{$WIDTHTYPE}">
-					
-				</td>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 						{if $LISTVIEW_HEADERNAME eq 'all_tasks'}
@@ -60,7 +55,7 @@
 							{assign var=ACTIVE_TASKS value=$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 						{/if}
 						{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
-						<td class="listViewEntryValue {$WIDTHTYPE}" data-name="{$LISTVIEW_HEADERNAME}" width="{$WIDTH}%" >
+						<td class="listViewEntryValue {$WIDTHTYPE}" data-name="{$LISTVIEW_HEADERNAME}" >
 							&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 							{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 								</td><td  class="{$WIDTHTYPE}">
