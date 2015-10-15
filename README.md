@@ -9,8 +9,6 @@ We design an innovative CRM system that is dedicated for large and medium sized 
 
 Read the [documentation] (https://yetiforce.com/en/documentation.html) to learn more.
 
-Sign up for our [mailing list](https://lists.sourceforge.net/lists/listinfo/yetiforce-mailing). It is dedicated for people/companies which would like to contribute to development of YetiForce. It isn't an appropriate place for regular users of the software.
-
 Follow us on [Twitter](https://twitter.com/YetiForceEN) to get real-time info about new articles and functionalities. 
 
 YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow to easily migrate from Vtiger to YetiForce.
