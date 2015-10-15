@@ -303,13 +303,17 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 				include('modules/Settings/PDF/special_functions/' . $file->getFilename());
 				$functionName = $file->getBasename('.php');
 				if (in_array('all', $permittedModules) || in_array($moduleName, $permittedModules)) {
-					$specialFunctions['#special_functions#' . $functionName . '#special_function#'] = vtranslate($functionName, self::$parent . ':' . self::$module);
+					$specialFunctions[$functionName] = vtranslate($functionName, self::$parent . ':' . self::$module);
 				}
 			}
 		}
 		return $specialFunctions;
 	}
 
+	/**
+	 * Returns array containing company fields array - [fieldname => translatedname]
+	 * @return array company fields with translated names
+	 */
 	public static function getCompanyFields()
 	{
 		$company = [];
@@ -365,10 +369,10 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Check if pdf templates are avauble for this record, user and view
-	 * @param <Integer> $recordId - id of a record
-	 * @param <String> $moduleName - name of the module
-	 * @param <String> $view - modules view - Detail or List
-	 * @return <Boolean> true or false
+	 * @param integer $recordId - id of a record
+	 * @param string $moduleName - name of the module
+	 * @param string $view - modules view - Detail or List
+	 * @return bool true or false
 	 */
 	public function checkPermissions($recordId, $moduleName, $view)
 	{

@@ -26,7 +26,21 @@
 									{/foreach}
 									{if $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
 										{foreach item=LISTVIEW_ADVANCEDACTIONS from=$LISTVIEW_LINKS['LISTVIEW']}
-										<li id="{$MODULE}_listView_advancedAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}"><a {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0} href="javascript:void(0);" onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};'{else} href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}' {/if}>{vtranslate($LISTVIEW_ADVANCEDACTIONS->getLabel(), $MODULE)}</a></li>
+										<li id="{$MODULE}_listView_advancedAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}">
+											<a {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0}
+													href="javascript:void(0);" onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};'
+												{else} 
+													href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}'
+												{/if}
+												{if $LISTVIEW_ADVANCEDACTIONS->get('linkclass') neq ''}
+													class="{$LISTVIEW_ADVANCEDACTIONS->get('linkclass')}"
+												{/if}
+												{if count($LISTVIEW_ADVANCEDACTIONS->get('linkdata')) gt 0}
+													{foreach from=$LISTVIEW_ADVANCEDACTIONS->get('linkdata') key=NAME item=DATA}
+														data-{$NAME}="{$DATA}" 
+													{/foreach}
+												{/if}>{vtranslate($LISTVIEW_ADVANCEDACTIONS->getLabel(), $MODULE)}</a>
+										</li>
 										{/foreach}
 									{/if}
 							</ul>
@@ -34,7 +48,23 @@
 					</div>
 					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 						<div class="btn-group">
-							<button id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn btn-default {if $LISTVIEW_BASICACTION->linkclass neq ''}{$LISTVIEW_BASICACTION->linkclass}{/if} moduleColor_{$MODULE}" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href = "{$LISTVIEW_BASICACTION->getUrl()}"'{/if}>{if $LISTVIEW_BASICACTION->linkicon eq ''}<span class="glyphicon glyphicon-plus"></span>{else}<span class="{$LISTVIEW_BASICACTION->linkicon}"></span>{/if}&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong></button>
+							<button id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn btn-default {if $LISTVIEW_BASICACTION->linkclass neq ''}{$LISTVIEW_BASICACTION->linkclass}{/if} moduleColor_{$MODULE}" 
+								{if $LISTVIEW_BASICACTION->get('linkdata') neq ''}
+									{foreach from=$LISTVIEW_BASICACTION->get('linkdata') key=NAME item=DATA}
+										data-{$NAME}="{$DATA}" 
+									{/foreach}
+								{else}
+									{if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}
+										onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
+									{else}
+										onclick='window.location.href = "{$LISTVIEW_BASICACTION->getUrl()}"'
+									{/if}
+								{/if}>
+								{if $LISTVIEW_BASICACTION->linkicon eq ''}
+									<span class="glyphicon glyphicon-plus"></span>
+								{else}
+									<span class="{$LISTVIEW_BASICACTION->linkicon}"></span>
+								{/if}&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong></button>
 						</div>
 					{/foreach}
 				</div>

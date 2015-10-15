@@ -12,7 +12,7 @@ jQuery.Class("Settings_PDF_ExportPDF_Js", {
 
 		if (templateIds.length > 0) {
 			container.find('#generate_pdf').attr('disabled', false);
-			if (templateIds.length > 1) {
+			if (templateIds.length > 1 || (app.getUrlVar('view') === 'List' && JSON.parse(container.find('[name="validRecords"]').val()).length > 0)) {
 				container.find('#single_pdf').show();
 			} else {
 				container.find('#single_pdf').hide();
@@ -36,21 +36,95 @@ jQuery.Class("Settings_PDF_ExportPDF_Js", {
 				}
 			});
 			var url = jQuery(this).data('url');
+			if (app.getUrlVar('view') === 'List') {
+				url = url.replace('&record=&', '&record=' + container.find('[name="validRecords"]').val() + '&');
+			}
 			jQuery(this).prop('href', url + JSON.stringify(templateIds));
 		});
 	},
 	registerValidateSubmit: function (container) {
 		var thisInstance = this;
-		thisInstance.validateSubmit(container); 
+		thisInstance.validateSubmit(container);
 
-		container.find('[name="pdf_template[]"]').on('change', function() {
+		container.find('[name="pdf_template[]"]').on('change', function () {
 			thisInstance.validateSubmit(container);
 		});
+	},
+	registerListViewCheckRecords: function (container) {
+		var thisInstance = this;
+		container.find('[name="pdf_template[]"]').on('change', function () {
+			document.progressLoader = jQuery.progressIndicator({
+				'message': app.vtranslate('JS_RECALCULATING'),
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			var selectedRecords = container.find('[name="selectedRecords"]').val();
+			var selectedTemplates = [];
+			container.find('[name="pdf_template[]"]:checked').each(function (i) {
+				selectedTemplates[i] = jQuery(this).val();
+			});
+
+			var params = {};
+			params.data = {
+				parent: 'Settings',
+				module: 'PDF',
+				action: 'ValidateRecords',
+				records: selectedRecords,
+				view: app.getUrlVar('view'),
+				for_module: app.getUrlVar('module'),
+				templates: selectedTemplates
+			};
+			params.dataType = 'json';
+			AppConnector.request(params).then(
+					function (data) {
+						var response = data['result'];
+						if (data['success']) {
+							container.find('[name="validRecords"]').val(JSON.stringify(response.valid_records));
+							container.find('#recordsInfo').text(response.message);
+							setTimeout(function () {
+								document.progressLoader.progressIndicator({'mode': 'hide'})
+							}, 500);
+							thisInstance.validateSubmit(container);
+						}
+					},
+					function (data, err) {
+						app.errorLog(data, err);
+					}
+			);
+		});
+	},
+	countSelectedRecords: function (container) {
+		var selectedRecords = JSON.parse(container.find('[name="selectedRecords"]').val());
+
+		return selectedRecords.length;
 	},
 	registerEvents: function () {
 		var container = jQuery('div.modal-content');
 		this.registerPreSubmitEvent(container);
 		this.registerValidateSubmit(container);
+
+		if (app.getUrlVar('view') === 'List') {
+			this.registerListViewCheckRecords(container);
+			var recordsInput = '<input type="hidden" name="selectedRecords" value="" />';
+			container.find('div.modal-footer').prepend(recordsInput);
+			var validInput = '<input type="hidden" name="validRecords" value="" />';
+			container.find('div.modal-footer').prepend(validInput);
+			recordsInput = container.find('[name="selectedRecords"]');
+			validInput = container.find('[name="validRecords"]');
+			container.find('div.modal-header').append('<p id="recordsInfo">records info</p>');
+
+			var selectedRecords = [];
+			jQuery('.listViewEntriesCheckBox:checked').each(function (i) {
+				selectedRecords[i] = jQuery(this).val();
+			});
+			recordsInput.val(JSON.stringify(selectedRecords));
+			validInput.val(JSON.stringify(selectedRecords));
+			jQuery('#recordsInfo').text(selectedRecords.length + ' from ' + selectedRecords.length + ' are valid for chosen template.');
+			// recalculate valid records
+			container.find('[name="pdf_template[]"]').first().trigger('change');
+		}
 	}
 });
 

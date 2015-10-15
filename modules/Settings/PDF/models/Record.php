@@ -305,7 +305,8 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		$entityCache = new VTEntityCache($currentUser);
 		$wsId = vtws_getWebserviceEntityId($this->get('module_name'), $recordId);
 
-		return $conditionStrategy->evaluate($this->getRaw('conditions'), $entityCache, $wsId);
+		$conditions = htmlspecialchars_decode($this->getRaw('conditions'));
+		return $conditionStrategy->evaluate($conditions, $entityCache, $wsId);
 	}
 
 	public function checkUserPermissions($userId, $userGroups)
@@ -672,18 +673,19 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 	 * @param string $content - text of content
 	 * @return string $content - text with replaced values
 	 */
-	public function replaceSpecialFunctions(&$content) {
+	public function replaceSpecialFunctions(&$content)
+	{
 		$moduleName = $this->get('module_name');
 		$specialFunctions = Settings_PDF_Module_Model::getSpecialFunctions($moduleName);
-		
-		foreach($specialFunctions as $specialFunction => $function) {
-			if (strpos($content, $specialFunction) !== false && file_exists('modules/Settings/PDF/special_functions/'.$function.'.php')) {
-				include('modules/Settings/PDF/special_functions/'.$function.'.php');
-				$replaceBy = $function($moduleName, $this->getMainRecordId());
-				$content = str_replace($specialFunction, $replaceBy, $content);
+
+		foreach ($specialFunctions as $specialFunction => $function) {
+			if (strpos($content, '#' . $specialFunction . '#') !== false && file_exists('modules/Settings/PDF/special_functions/' . $function . '.php')) {
+				include('modules/Settings/PDF/special_functions/' . $specialFunction . '.php');
+				$replaceBy = $specialFunction($moduleName, $this->getMainRecordId());
+				$content = str_replace('#' . $specialFunction . '#', $replaceBy, $content);
 			}
 		}
-		
+
 		return $content;
 	}
 }

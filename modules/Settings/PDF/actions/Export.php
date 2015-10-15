@@ -21,14 +21,19 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 		$templateIds = $request->get('template');
 		$singlePdf = $request->get('single_pdf') == 1 ? true : false;
 
+		if (!is_array($recordId)) {
+			$recordId = [$recordId];
+		}
+
 		if (count($templateIds) == 1) {
 			$pdf = new Settings_PDF_mPDF_Model();
 			$pdf->setTemplateId($templateIds[0]);
-			$pdf->setRecordId($recordId);
+			$record = array_pop($recordId);
+			$pdf->setRecordId($record);
 			$pdf->setModuleName($moduleName);
 
 			$template = Settings_PDF_Record_Model::getInstanceById($templateIds[0]);
-			$template->setMainRecordId($recordId);
+			$template->setMainRecordId($record);
 
 			$pdf->setLanguage($template->get('language'));
 			$pdf->setFileName($template->get('filename'));
@@ -46,39 +51,47 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 		} else { // save multiple templates as pdf files
 			if ($singlePdf) {
 				$pdf = new Settings_PDF_mPDF_Model();
-				$pdf->setRecordId($recordId);
-				$pdf->setModuleName($moduleName);
+				foreach ($recordId as $index => $record) {
+					$templateIdsTemp = $templateIds;
+					$pdf->setRecordId($recordId[0]);
+					$pdf->setModuleName($moduleName);
 
-				$firstTemplate = array_shift($templateIds);
-				$template = Settings_PDF_Record_Model::getInstanceById($firstTemplate);
-				$pdf->setLanguage($template->get('language'));
-
-				$pdf->parseParams($template->getParameters());
-
-				$html = '';
-
-				$pdf->setHeader('Header', $template->getHeader());
-				$pdf->setFooter('Footer', $template->getFooter());
-				$html = $template->getBody();
-
-				$pdf->loadHTML($html);
-				$pdf->writeHTML();
-
-				foreach ($templateIds as $id) {
-					$template = Settings_PDF_Record_Model::getInstanceById($id);
+					$firstTemplate = array_shift($templateIdsTemp);
+					$template = Settings_PDF_Record_Model::getInstanceById($firstTemplate);
+					$template->setMainRecordId($record);
 					$pdf->setLanguage($template->get('language'));
 
-					$pdf->setHeader('Header' . $id, $template->getHeader());
+					$pdf->parseParams($template->getParameters());
 
-					// building parameters
-					$parameters = $template->getParameters();
-					$pdf->parseParams($parameters);
+					$html = '';
 
-					$pdf->pdf()->AddPageByArray($parameters);
+					$pdf->setHeader('Header_' . $record . '_' . $firstTemplate, $template->getHeader());
+					if ($index > 0) {
+						$pdf->pdf()->AddPageByArray($parameters);
+					}
+					$pdf->setFooter('Footer_' . $record . '_' . $firstTemplate, $template->getFooter());
+					$html = $template->getBody();
 
-					$pdf->setFooter('Footer' . $id, $template->getFooter());
-					$pdf->loadHTML($template->getBody());
+					$pdf->loadHTML($html);
 					$pdf->writeHTML();
+
+					foreach ($templateIdsTemp as $id) {
+						$template = Settings_PDF_Record_Model::getInstanceById($id);
+						$template->setMainRecordId($record);
+						$pdf->setLanguage($template->get('language'));
+
+						$pdf->setHeader('Header_' . $record . '_' . $id, $template->getHeader());
+
+						// building parameters
+						$parameters = $template->getParameters();
+						$pdf->parseParams($parameters);
+
+						$pdf->pdf()->AddPageByArray($parameters);
+
+						$pdf->setFooter('Footer_' . $record . '_' . $id, $template->getFooter());
+						$pdf->loadHTML($template->getBody());
+						$pdf->writeHTML();
+					}
 				}
 				$pdf->setFileName(vtranslate('LBL_MANY_IN_ONE', 'Settings:PDF'));
 				$pdf->output();
@@ -88,31 +101,34 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 
 				$pdfFiles = [];
 				foreach ($templateIds as $id) {
-					$pdf = new Settings_PDF_mPDF_Model();
-					$pdf->setTemplateId($id);
-					$pdf->setRecordId($recordId);
-					$pdf->setModuleName($moduleName);
+					foreach ($recordId as $record) {
+						$pdf = new Settings_PDF_mPDF_Model();
+						$pdf->setTemplateId($id);
+						$pdf->setRecordId($record);
+						$pdf->setModuleName($moduleName);
 
-					$template = Settings_PDF_Record_Model::getInstanceById($id);
-					$pdf->setLanguage($template->get('language'));
-					$pdf->setFileName($template->get('filename'));
+						$template = Settings_PDF_Record_Model::getInstanceById($id);
+						$template->setMainRecordId($record);
+						$pdf->setLanguage($template->get('language'));
+						$pdf->setFileName($template->get('filename'));
 
-					$pdf->parseParams($template->getParameters());
+						$pdf->parseParams($template->getParameters());
 
-					$html = '';
+						$html = '';
 
-					$pdf->setHeader('Header', $template->getHeader());
-					$pdf->setFooter('Footer', $template->getFooter());
-					$html = $template->getBody();
+						$pdf->setHeader('Header', $template->getHeader());
+						$pdf->setFooter('Footer', $template->getFooter());
+						$html = $template->getBody();
 
-					$pdf->loadHTML($html);
-					$pdfFileName = 'storage/' . $pdf->getFileName() . '_' . $postfix . '.pdf';
-					$pdf->output($pdfFileName, 'F');
+						$pdf->loadHTML($html);
+						$pdfFileName = 'storage/' . $record . '_' . $pdf->getFileName() . '_' . $postfix . '.pdf';
+						$pdf->output($pdfFileName, 'F');
 
-					if (file_exists($pdfFileName)) {
-						$pdfFiles[] = $pdfFileName;
+						if (file_exists($pdfFileName)) {
+							$pdfFiles[] = $pdfFileName;
+						}
+						unset($pdf, $template);
 					}
-					unset($pdf, $template);
 				}
 
 				if (!empty($pdfFiles)) {

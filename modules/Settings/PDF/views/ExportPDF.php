@@ -38,7 +38,16 @@ class Settings_PDF_ExportPDF_View extends Vtiger_BasicModal_View
 
 		$pdfModuleModel = Settings_PDF_Module_Model::getInstance('Settings:PDF');
 
-		$viewer->assign('TEMPLATES', $pdfModuleModel->getTemplatesForRecordId($recordId, $view, $fromModule));
+		if ($view === 'Detail') {
+			$viewer->assign('TEMPLATES', $pdfModuleModel->getTemplatesForRecordId($recordId, $view, $fromModule));
+		} elseif ($view === 'List') {
+			$templates = $pdfModuleModel->getTemplatesByModule($fromModule);
+			// check template visibility
+			$pdfModuleModel->removeInvisibleTemplates($templates, $view);
+			$pdfModuleModel->removeFailingPermissionTemplates($templates);
+
+			$viewer->assign('TEMPLATES', $templates);
+		}
 		$exportValues = "&record={$recordId}&frommodule={$fromModule}&fromview={$view}";
 		$viewer->assign('EXPORT_VARS', $exportValues);
 		$viewer->assign('QUALIFIED_MODULE', $moduleName);

@@ -164,7 +164,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 		container.find('#companyFieldLabel5').val(value);
 	},
 	updateSpecialFunctionsFieldsValue: function (container) {
-		var value = container.find('[name="special_functions"]').val();
+		var value = '#' + container.find('[name="special_functions"]').val() + '#';
 		container.find('#specialFieldValue5').val(value);
 	},
 	registerCopyClipboard: function (element) {
