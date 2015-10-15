@@ -27,25 +27,21 @@
 			<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}">
 			<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
 			<div class="filterBlocksAlignment">
-				<br>
 				<div>
 					<h4 class="filterHeaders">{vtranslate('LBL_BASIC_DETAILS',$MODULE)} :</h4>
 				</div>
-				<br>
-				<div class="row form-group">
-					<label class="col-md-2 control-label"><span class="redColor">*</span> {vtranslate('LBL_VIEW_NAME',$MODULE)}</label>
-					<div class="col-md-4">
+				<div class="form-group">
+					<label class="col-xs-2 control-label paddingLRZero"><span class="redColor">*</span> {vtranslate('LBL_VIEW_NAME',$MODULE)}</label>
+					<div class="col-xs-4">
 						<input type="text" id="viewname" class="form-control input-sm" data-validation-engine='validate[required]' name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}">
 					</div>
 
-					<label class="checkbox col-md-3 control-label">
+					<label class="checkbox col-xs-3 control-label">
 					<input id="setdefault" type="checkbox" name="setdefault" value="1" {if $CUSTOMVIEW_MODEL->isDefault()} checked="checked"{/if}> {vtranslate('LBL_SET_AS_DEFAULT',$MODULE)}</label>
-					<label class="checkbox col-md-3 control-label"><input id="setmetrics" name="setmetrics" type="checkbox" value="1" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'} checked="checked"{/if}> {vtranslate('LBL_LIST_IN_METRICS',$MODULE)}</label>
-					<label class="checkbox col-md-3 control-label"><input id="status" name="status" type="checkbox" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if}> {vtranslate('LBL_SET_AS_PUBLIC',$MODULE)}</label>
+					<label class="checkbox col-xs-3 control-label"><input id="setmetrics" name="setmetrics" type="checkbox" value="1" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'} checked="checked"{/if}> {vtranslate('LBL_LIST_IN_METRICS',$MODULE)}</label>
+					<label class="checkbox col-xs-3 control-label"><input id="status" name="status" type="checkbox" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if}> {vtranslate('LBL_SET_AS_PUBLIC',$MODULE)}</label>
 				</div>
-				<br>
 				<h4 class="filterHeaders">{vtranslate('LBL_CHOOSE_COLUMNS',$MODULE)} ({vtranslate('LBL_MAX_NUMBER_FILTER_COLUMNS')}) :</h4>
-				<br>
 				<div class="columnsSelectDiv row">
 					{assign var=MANDATORY_FIELDS value=array()}
 					<div class="col-md-12">
@@ -89,9 +85,7 @@
 				<input type="hidden" name="columnslist" value='{ZEND_JSON::encode($SELECTED_FIELDS)}' />
 				<input id="mandatoryFieldsList" type="hidden" value='{ZEND_JSON::encode($MANDATORY_FIELDS)}' />
 			</div>
-			<br>
 			<h4 class="filterHeaders">{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE)} :</h4>
-			<br>
 			<div class="filterConditionsDiv">
 				<div class="row">
 					<span class="col-md-12">

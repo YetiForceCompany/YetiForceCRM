@@ -10,6 +10,8 @@
  ********************************************************************************/
 -->*}
 <div class='listViewPageDiv'>
+	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	<hr>
 	<div class="row  listViewActionsDiv pushDown">
 		<div class="btn-toolbar col-xs-4">
 			<span class="btn-group listViewMassActions">
