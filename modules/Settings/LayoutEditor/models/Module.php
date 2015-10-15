@@ -162,18 +162,22 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		if ($fieldType == 'Tree') {
-			$fieldparams = (int)$params['tree'];
-		}elseif($fieldType == 'MultiReferenceValue'){
+			$fieldparams = (int) $params['tree'];
+		} elseif ($fieldType == 'MultiReferenceValue') {
 			$fieldparams['module'] = $params['MRVModule'];
 			$fieldparams['field'] = $params['MRVField'];
 			$fieldparams['filterField'] = $params['MRVFilterField'];
 			$fieldparams['filterValue'] = $params['MRVFilterValue'];
+			$db->insert('s_yf_multireference', [
+				'source_module' => $moduleName,
+				'dest_module' => $params['MRVModule'],
+			]);
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
 		$uitype = $details['uitype'];
 		$typeofdata = $details['typeofdata'];
 		$dbType = $details['dbType'];
-		
+
 		$quickCreate = in_array($moduleName, getInventoryModules()) ? 3 : 1;
 
 		$fieldModel = new Settings_LayoutEditor_Field_Model();
@@ -186,8 +190,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('quickcreate', $quickCreate)
 			->set('fieldparams', Zend_Json::encode($fieldparams))
 			->set('columntype', $dbType);
-		
-		if(isset($details['displayType'])){
+
+		if (isset($details['displayType'])) {
 			$fieldModel->set('displaytype', $details['displayType']);
 		}
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $this);
