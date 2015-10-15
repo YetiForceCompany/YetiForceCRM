@@ -62,12 +62,12 @@ padding: 5px;
 						</div>
 					</div>
 					<table class="table tableRWD table-bordered table-condensed themeTableColor userTable">						
-						<thead>
+						<thead style='text-transform: uppercase;'>
 						    <tr>
-							<th></th>
-							<th></th>
-							<th></th>
-							<th></th>
+							<th><span class='marginLeft20'>{vtranslate('LBL_DATE', $QUALIFIED_MODULE)}</span></th>
+							<th><span class='marginLeft20'>{vtranslate('LBL_DAY', $QUALIFIED_MODULE)}</span></th>
+							<th><span class='marginLeft20'>{vtranslate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</span></th>
+							<th><span class='marginLeft20'>{vtranslate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</span></th>
 							<th></th>
 						    </tr>
 						</thead>
