@@ -1684,6 +1684,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$data['HelpDesk']['projectid'] = ['Project' => ['parent_id' => ['linktoaccountscontacts']]];
 		$data['HelpDesk']['contact_id'] = ['Contacts' => ['parent_id' => ['parent_id']]];
 		$data['HelpDesk']['pssold_id'] = ['Assets' => ['product_id' => ['product', 'Products']], 'OSSSoldServices' => ['product_id' => ['serviceid', 'Services']]];
+		$data['OSSTimeControl']['projectid'] = ['Project' => ['accountid' => ['linktoaccountscontacts']]];
 
 		if (array_key_exists($moduleName, $data) && $field != false && array_key_exists($field, $data[$moduleName]))
 			return $data[$moduleName][$field];
