@@ -153,7 +153,8 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$currentUser = vglobal('current_user');
 		$user = new Users();
 		vglobal('current_user', $user->retrieveCurrentUserInfoFromFile(Users::getActiveAdminId()));
-
+		vglobal('currentModule', $sourceModule);
+		
 		$db = PearDatabase::getInstance();
 		$params = $this->get('field')->getFieldParams();
 		$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
