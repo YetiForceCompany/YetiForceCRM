@@ -34,7 +34,7 @@
 	 </div>
 </div>
 <div class="listViewEntriesDiv contents-bottomscroll">
-	<table class="table table-bordered textAlignCenter">
+	<table class="table tableRWD table-bordered textAlignCenter">
 		<thead>
 			<tr class="listViewHeaders">
 				<th width="5%" class="text-center">
