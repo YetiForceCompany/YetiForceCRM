@@ -2,8 +2,7 @@
 SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -21399,10 +21398,10 @@ insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) value
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (8,'LBL_MAIL_TOOLS',10,'adminIcon-mail-tools');
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (9,'LBL_About_YetiForce',26,'adminIcon-about-yetiforce');
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (11,'LBL_ADVANCED_MODULES',3,'adminIcon-advenced-modules');
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (12,'LBL_CALENDAR_LABELS_COLORS',4,'');
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (13,'LBL_SEARCH_AND_FILTERS',5,'');
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (14,'LBL_LOGS',7,'');
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (15,'LBL_AUTOMATION',9,'');
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (12,'LBL_CALENDAR_LABELS_COLORS',4,'adminIcon-calendar-labels-colors');
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (13,'LBL_SEARCH_AND_FILTERS',5,'adminIcon-search-and-filtres');
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (14,'LBL_LOGS',7,'adminIcon-logs');
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (15,'LBL_AUTOMATION',9,'adminIcon-automation');
 
 /*Data for the table `vtiger_settings_blocks_seq` */
 
@@ -21480,15 +21479,15 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (86,6,'LBL_TIMECONTROL_PROCESSES','adminIcon-logistics','LBL_TIMECONTROL_PROCESSES_DESCRIPTION','index.php?module=TimeControlProcesses&parent=Settings&view=Index',7,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (87,2,'LBL_CUSTOM_FIELD_MAPPING','adminIcon-fields-mapping','LBL_CUSTOM_FIELD_MAPPING_DESCRIPTION','index.php?parent=Settings&module=Leads&view=MappingDetail',13,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (88,5,'LBL_CURRENCY_UPDATE','adminIcon-currencies','LBL_CURRENCY_UPDATE_DESCRIPTION','index.php?module=CurrencyUpdate&view=Index&parent=Settings',2,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (89,2,'LBL_PDF_TEMPLATES','','LBL_PDF_TEMPLATES_DESCRIPTION','',7,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (89,2,'LBL_PDF_TEMPLATES','adminIcon-modules-pdf-templates','LBL_PDF_TEMPLATES_DESCRIPTION','',7,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (90,11,'LBL_CREDITLIMITS','adminIcon-credit-limits','LBL_CREDITLIMITS_DESCRIPTION','index.php?module=Inventory&parent=Settings&view=CreditLimits',5,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (91,11,'LBL_TAXES','adminIcon-taces-rates','LBL_TAXES_DESCRIPTION','index.php?module=Inventory&parent=Settings&view=Taxes',1,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (92,11,'LBL_DISCOUNTS','adminIcon-discounts-rates','LBL_DISCOUNTS_DESCRIPTION','index.php?module=Inventory&parent=Settings&view=Discounts',3,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (93,11,'LBL_TAXCONFIGURATION','adminIcon-taxes-caonfiguration','LBL_TAXCONFIGURATION_DESCRIPTION','index.php?module=Inventory&parent=Settings&view=TaxConfiguration',4,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (94,11,'LBL_DISCOUNTCONFIGURATION','adminIcon-discounts-configuration','LBL_DISCOUNTCONFIGURATION_DESCRIPTION','index.php?module=Inventory&parent=Settings&view=DiscountConfiguration',2,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (95,6,'LBL_LOGISTICS',NULL,'LBL_LOGISTICS_DESCRIPTION','',4,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (96,9,'LBL_ABOUT_YETIFORCE_SYSTEM',NULL,'LBL_ABOUT_YETIFORCE_SYSTEM_DESCRIPTION','',1,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (97,9,'LBL_ABOUT_YETIFORCE_LTD',NULL,'LBL_ABOUT_YETIFORCE_LTD_DESCRIPTION','',2,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (95,6,'LBL_LOGISTICS','adminIcon-logistics','LBL_LOGISTICS_DESCRIPTION','',4,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (96,9,'LBL_ABOUT_YETIFORCE_SYSTEM','adminIcon-about-yetiforce','LBL_ABOUT_YETIFORCE_SYSTEM_DESCRIPTION','',1,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (97,9,'LBL_ABOUT_YETIFORCE_LTD','adminIcon-about-yetiforce-ltd','LBL_ABOUT_YETIFORCE_LTD_DESCRIPTION','',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (98,8,'Mail','adminIcon-mail-download-history','LBL_OSSMAIL_DESCRIPTION','index.php?module=OSSMail&parent=Settings&view=index',2,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
