@@ -53,8 +53,8 @@ function vtws_convertlead($entityvalues, $user)
 	}
 	$rowCount = $adb->num_rows($result);
 	if ($rowCount > 0) {
-		$log->error('Error converting a lead: Lead is already converted');
-		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, "Lead is already converted");
+		$log->error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
+		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
 	}
 
 	require_once("include/events/include.inc");

@@ -35,6 +35,7 @@ $languageStrings = [
 	'LBL_LEADS_FIELD_MAPPING_INCOMPLETE' => 'Nicht alle Pflichtfelder sind zugeordnet',
 	'LBL_LEADS_FIELD_MAPPING' => 'Zuordnung der benutzerdefinierten Lead-Felder',
 	'LBL_MANDATORY_FIELDS_ARE_EMPTY' => 'Einige Pflichtfelder sind leer',
+	'LBL_LEAD_ALREADY_CONVERTED' => 'Lead is already converted',
 	'LBL_RECORDS_LIST' => 'Liste Leads',
 	'LBL_TRANSFER_RELATED_RECORD' => 'Bezugsdatensatz übertragen an',
 	'Lead No' => 'Lead-Nr.',
