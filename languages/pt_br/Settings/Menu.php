@@ -9,7 +9,7 @@
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_MENU_BUILDER' => 'Menu',
+	'LBL_MENU_BUILDER' => 'Menu – Configuration',
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Criar e gerenciar itens do menu.',
 	'LBL_DEFAULT_MENU' => 'Menu padrão',
 	'LBL_ADD_MENU' => 'Adicionar item do menu',

@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_MENU_BUILDER' => 'Menüverwaltung',
+	'LBL_MENU_BUILDER' => 'Menu – Configuration',
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Erzeuge und verwalte Menüeinträge.',
 	'LBL_DEFAULT_MENU' => 'Standard Menü',
 	'LBL_ADD_MENU' => 'Menüeintrag hinzufügen',

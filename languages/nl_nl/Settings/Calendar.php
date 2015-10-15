@@ -11,7 +11,7 @@
 $languageStrings = [
 	'Calendar' => 'Calendar',
 	//ActivityTypes
-	'LBL_ACTIVITY_TYPES' => 'Activity types',
+	'LBL_ACTIVITY_TYPES' => 'Calendar – Types',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Management of activity types.',
 	'LBL_ACTIVITY_NAME' => 'Activity types name',
 	'LBL_MODULE' => 'Module',
@@ -23,7 +23,7 @@ $languageStrings = [
 	'LBL_EDIT_COLOR' => 'Edit color',
 	'LBL_SELECT_COLOR' => 'Select color:',
 	'LBL_SAVE_COLOR' => 'Color saved',
-	'LBL_CALENDAR_CONFIG' => 'Calendar configuration',
+	'LBL_CALENDAR_CONFIG' => 'Calendar - Configuration',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
 	'LBL_USER_COLORS' => 'User colors',
 	'LBL_CALENDAR_COLORS' => 'Calendar colors',

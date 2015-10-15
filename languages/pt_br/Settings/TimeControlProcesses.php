@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_TIMECONTROL_PROCESSES' => 'Processos Controle Tempo',
+	'LBL_TIMECONTROL_PROCESSES' => 'Workflow',
 	'LBL_TIMECONTROL_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_ONEDAY_VALID' => 'Tempo de trabalho limitado a 24 horas',
 	'LBL_TIMEOVERLAP_VALID' => 'Permitir horas sobrepostas',

@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'Access to record' => 'Access to records',
-	'GlobalPermission' => 'Access to records',
+	'GlobalPermission' => 'Special Access',
 	'LBL_Module_desc' => 'Here you can define which profiles have access to all records regardless of roles.',
 	'LBL_PROFILE_NAME' => 'Profile Name',
 	'LBL_DESCRIPTION' => 'Profile Description',

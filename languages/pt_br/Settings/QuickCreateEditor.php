@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'QuickCreateEditor' => 'Editor Criar Rápido',
-    'LBL_QUICK_CREATE_EDITOR'=> 'Editor Criar Rápido',
+    'LBL_QUICK_CREATE_EDITOR'=> 'Fields – Quick Create',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Este módulo permite alterar o layout dos campos na janela criar rápido',
 	'LBL_SEQUENCE' => 'Sequência de Campos',
 	'LBL_SAVE_FIELD_SEQUENCE' => 'Salvar Sequência de Campos',

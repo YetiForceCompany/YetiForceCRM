@@ -22,7 +22,7 @@ $languageStrings = [
 	'LBL_INVALID_DATA' => 'Fehlerhafte Daten',
 
 	'WidgetsManagement' => 'Widget Rollenzuordnung',
-	'LBL_WIDGETS_MANAGEMENT' => 'Widget Rollenzuordnung',
+	'LBL_WIDGETS_MANAGEMENT' => 'Widgets – Configuration',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => 'Widgets bestimmten Rollen zuordnen ',
 	'LBL_MANDATORY_WIDGET' => 'Erforderliches Widget',
 	'LBL_WIDGET' => 'Widgets',

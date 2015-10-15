@@ -9,10 +9,10 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_TIMECONTROL_PROCESSES' => 'Zeiterfassungsprozesse',
+	'LBL_TIMECONTROL_PROCESSES' => 'Workflow',
 	'LBL_TIMECONTROL_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_ONEDAY_VALID' => 'Arbeitszeit auf 24 Stunden limitiert',
-	'LBL_TIMEOVERLAP_VALID' => 'Zeitüberschneidung erlaubt',
+	'LBL_TIMEOVERLAP_VALID' => 'Zeitï¿½berschneidung erlaubt',
 	'LBL_GENERAL_SETTINGS' => 'Allgemeine Einstellungen',
 	'TimeControlProcesses' => 'Zeiterfassungsprozesse',
 ];

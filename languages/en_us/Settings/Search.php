@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Search Configuration' => 'Search Configuration',
-	'Search Setup' => 'Search Setup',
+	'Search Setup' => 'Search - Configuration',
 	'Search' => 'Search configuration',
 	'LBL_Module_desc' => 'This panel allows for setting labels for uitype 10 fields and for search mechanisms. These mechanisms work independently – you can see many columns in a field while searching, but when you select a record, a name from a label will be loaded.',
 	'Module' => 'Module',

@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_MENU_BUILDER' => 'Меню',
+	'LBL_MENU_BUILDER' => 'Menu – Configuration',
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Создание и редактирование пунктов меню',
 	'LBL_DEFAULT_MENU' => 'Меню по умолчанию',
 	'LBL_ADD_MENU' => 'Добавить пункт меню',

@@ -26,7 +26,7 @@ $languageStrings = [
 	'LBL_PRIORITY' => 'Priorität',
 	
 	//Auth
-	'LBL_AUTHORIZATION' => 'Autorisierung',
+	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
 	'LBL_LDAP_AUTH' => 'LDAP',
 	'LBL_ACTIVE_LDAP_AUTH' => 'Autorisierung mit LDAP',

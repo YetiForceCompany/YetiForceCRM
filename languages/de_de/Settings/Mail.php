@@ -9,9 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_AUTOLOGIN' => 'Auto Login',
+	'LBL_AUTOLOGIN' => 'Mail – Auto Login',
 	'LBL_AUTOLOGIN_DESCRIPTION' => 'Autologin für das EMail Modul konfigurieren',
-	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Allgemeine Konfiguration',
+	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Mail – Configuration',
 	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => 'Allgemeine Konfiguration des EMail Moduls',
 	'LBL_RC_USER' => 'Benutzer Email Account',
 	'LBL_CRM_USER' => 'Benutzer mit Zugang zu EMail',

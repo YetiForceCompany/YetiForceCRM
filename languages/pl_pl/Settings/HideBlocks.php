@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'HideBlocks' => 'Ukrywanie bloków',
-	'LBL_HIDEBLOCKS' => 'Ukrywanie bloków',
+	'LBL_HIDEBLOCKS' => 'Pola - ukrywanie bloków',
 	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Zarządzanie ukrywaniem bloków z polami',
 	'LBL_BLOCK_LABEL' => 'Blok',
 	'LBL_MODULE' => 'Moduł',

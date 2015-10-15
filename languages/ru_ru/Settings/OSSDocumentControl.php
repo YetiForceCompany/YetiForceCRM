@@ -10,7 +10,7 @@
  * *********************************************************************************** */
 $languageStrings = [
 	'OSSDocumentControl' => 'Менеджер документов',
-	'Document Control' => 'Менеджер документов',
+	'Document Control' => 'Document Flow',
 	'LBL_ENTER_BASIC_INFO' => 'Введите основную информацию',
 	'LBL_STEP_1' => 'Шаг 1',
 	'NEXT' => 'Далее',

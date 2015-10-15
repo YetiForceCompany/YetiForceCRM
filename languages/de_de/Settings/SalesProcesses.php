@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_SALES_PROCESSES' => 'Vertriebsprozess',
+	'LBL_SALES_PROCESSES' => 'Sales',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Einstellungen zu den Vertriebsprozessen',
 	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Erlaubt nur Produkte aus der zugeordneten Verkaufschance zu wählen. Wird von folgenden Modulen unterstützt: Kalkulationen, Angebote, Bestellungen und Rechnungen.',
 	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Liste der Produkte und Dienstleistungen',

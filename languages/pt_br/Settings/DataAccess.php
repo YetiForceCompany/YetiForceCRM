@@ -9,7 +9,7 @@
  *  Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_DATAACCESS' => 'Validação de acesso',
+	'LBL_DATAACCESS' => 'Recording Control',
 	'LBL_DATAACCES' => 'Validação de acesso',
 	'DataAccess' => 'Validação de acesso',
 	'LBL_NEW_TPL' => 'Adicionar nova condição',

@@ -1,7 +1,7 @@
 <?php
 
 $languageStrings = [
-	'CustomView'	=> 'Benutzerdefinierte Ansichten',
+	'CustomView'	=> 'Filters - Configuration',
 	'LBL_MODULE_DESC'	=> 'Dieses Tool ermöglicht die Erstellung benutzerdefinierter Ansichten für Module. Diese Module müssen Datensätze enthalten und verwenden Standard-Filter im CRM.',
 	'Module'	=> 'Modul',
 	'ViewName'	=> 'Ansichtsname',

@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Search Configuration' => 'Configurações Pesquisa',
-	'Search Setup' => 'Configurar Pesquisa',
+	'Search Setup' => 'Search - Configuration',
 	'Search' => 'Procurar configuração',
 	'LBL_Module_desc' => 'Este painel permite a configuração do rótulo para campos uitype 10 e para os mecanismos de busca. Estes mecanismos trabalham independentemente - você pode visualizar várias colunas em um campo enquanto procura, mas quando você seleciona um registro, um nome de um rótulo será carregado.',
 	'Module' => 'Módulo',

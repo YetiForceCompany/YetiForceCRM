@@ -2,7 +2,7 @@
 // The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html
 
 $languageStrings = [
-	'LBL_CURRENCY_UPDATE' => 'Aktualizacja Walut',
+	'LBL_CURRENCY_UPDATE' => 'Waluty',
 	'LBL_CURRENCY_UPDATE_DESCRIPTION' => 'Konfiguracja aktualizacja kursów wymiany walut aktywnych w systemie.',
 	'LBL_SELECT_BANK' => 'Wybierz Bank',
 	'MSG_ONE_CURRENCY' => 'Aktywna jest tylko jedna waluta w systemie. Aby pobrać kursy wymiany walut należy dodać więcej walut w systemie.',

@@ -1,7 +1,7 @@
 <?php
 
 $languageStrings = [
-	'CustomView'	=> 'Custom Views',
+	'CustomView'	=> 'Filters - Configuration',
 	'LBL_MODULE_DESC'	=> 'This tool allows setting custom views for modules. These modules must contain records and use standard filters in YetiForce CRM.',
 	'Module'	=> 'Module',
 	'ViewName'	=> 'View name',

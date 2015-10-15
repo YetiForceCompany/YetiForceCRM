@@ -11,7 +11,7 @@
 $languageStrings = [
 	'Calendar' => 'Kalendarz',
 	//ActivityTypes
-	'LBL_ACTIVITY_TYPES' => 'Filtry kalendarza',
+	'LBL_ACTIVITY_TYPES' => 'Kalendarz - typy',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Zarządzanie dostępnymi filtrami zdarzeń w kalendarzu.',
 	'LBL_ACTIVITY_NAME' => 'Nazwa filtru',
 	'LBL_MODULE' => 'Moduł',
@@ -23,7 +23,7 @@ $languageStrings = [
 	'LBL_EDIT_COLOR' => 'Edycja koloru',
 	'LBL_SELECT_COLOR' => 'Wybierz kolor:',
 	'LBL_SAVE_COLOR' => 'Zapisano kolor',
-	'LBL_CALENDAR_CONFIG' => 'Konfiguracja kalendarza',
+	'LBL_CALENDAR_CONFIG' => 'Kalendarz - konfiguracja',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
 	'LBL_USER_COLORS' => 'Kolory użytkowników',
 	'LBL_CALENDAR_COLORS' => 'Kolory kalendarza',

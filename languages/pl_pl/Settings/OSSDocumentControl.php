@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'Document Control' => 'Kontrola dokumentów',
+	'Document Control' => 'Obieg dokumentów',
 	'OSSDocumentControl' => 'Kontrola dokumentów',
     'LBL_ENTER_BASIC_INFO' => 'Podaj podstawowe informacje',
     'LBL_STEP_1' => 'Krok 1',

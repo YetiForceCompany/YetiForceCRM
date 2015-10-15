@@ -9,9 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_AUTOLOGIN' => 'Autologowanie',
+	'LBL_AUTOLOGIN' => 'Poczta - autologowanie',
 	'LBL_AUTOLOGIN_DESCRIPTION' => 'Konfiguracja automatycznego logowania do modułu poczty',
-	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Konfiguracja ogólna',
+	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Poczta - konfiguracja',
 	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => 'Ogólna konfiguracja poczty w systemie',
 	'LBL_RC_USER' => 'Konto pocztowe',
 	'LBL_CRM_USER' => 'Kto ma mieć dostęp do poczty',

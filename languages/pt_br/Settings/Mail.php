@@ -9,9 +9,9 @@
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_AUTOLOGIN' => 'Acesso Automático',
+	'LBL_AUTOLOGIN' => 'Mail – Auto Login',
 	'LBL_AUTOLOGIN_DESCRIPTION' => 'Descrição Acesso Automático',
-	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Configuração do acesso automático ao módulo Caixa de Correio',
+	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Mail – Configuration',
 	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => 'Configuração geral do módulo Caixa de Correio',
 	'LBL_RC_USER' => 'Conta e-mail do Usuário',
 	'LBL_CRM_USER' => 'Usuários com acesso à Caixa de Correio',
