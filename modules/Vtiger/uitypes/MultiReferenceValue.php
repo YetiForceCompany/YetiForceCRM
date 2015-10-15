@@ -48,7 +48,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 
 		$values = [];
 		while ($value = $db->getSingleValue($result)) {
-			$values[$value] = vtranslate($value, $params['module']);
+			$values[] = $value;
 		}
 		$this->set('picklistValues', $values);
 		return $values;
@@ -173,5 +173,28 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		}
 		$query = 'UPDATE ' . $this->get('field')->get('table') . ' SET ' . $this->get('field')->get('column') . ' = ? WHERE ' . $sourceRecordModel->getEntity()->tab_name_index[$this->get('field')->get('table')] . ' = ?';
 		$db->pquery($query, [$currentValue, $sourceRecord]);
+	}
+	
+	/**
+	 * Function to get all the available picklist values for the current field
+	 * @return <Array> List of picklist values if the field is of type MultiReferenceValue.
+	 */
+	public function getPicklistValuesForModuleList($module, $view)
+	{
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$db = PearDatabase::getInstance();
+
+		$queryGenerator = new QueryGenerator($module, $currentUser);
+		$queryGenerator->initForCustomViewById($view);
+		$queryGenerator->setFields([$this->get('field')->get('name')]);
+		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
+		$result = $db->query($listQuery);
+
+		$values = [];
+		while ($value = $db->getSingleValue($result)) {
+			$value = explode(self::COMMA, trim($value,self::COMMA));
+			$values = array_merge($values, $value);
+		}
+		return array_unique($values);
 	}
 }
