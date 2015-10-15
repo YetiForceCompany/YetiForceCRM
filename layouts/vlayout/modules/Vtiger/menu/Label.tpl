@@ -5,11 +5,11 @@
 		{if $HASCHILDS == 'true'}aria-haspopup="{$HASCHILDS}"{/if}>
 		<a class="{if $MENU['active'] || $PARENT_MODULE == $MENU['id']}active {/if}{if $ICON}hasIcon{/if}" {if $CHILDS|@count neq 0}role="button"{/if} href="#">
 			{if $ICON}
-				<div class=''>
-					{$ICON}
+				<div class='' style='height:45px;display: table;'>
+					<div style=' display: table-cell;vertical-align: middle;'>{$ICON}</div>
 				</div>
 			{/if}
-			<div class=''>
+			<div class='' >
 				<span class="menuName">{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}</span>
 			</div>
 		</a>

@@ -3709,7 +3709,7 @@ span[name=existingImages] img{
 }
 .baseContainer .leftPanel .menuContainer .subMenu a .menuName,
 .baseContainer .leftPanel .menuContainer .subMenu button .menuName{
-	top: -4px;
+	top: 2px;
 }
 .baseContainer .leftPanel .menuContainer a.hasIcon img{
 	height: 20px;
@@ -3717,7 +3717,7 @@ span[name=existingImages] img{
 .baseContainer .leftPanel .menuContainer a .glyphicon,
 .baseContainer .leftPanel .menuContainer a.hasIcon img
 {
-	margin-right: 15px;
+	margin-right: 12px;
 	font-size: 20px;
 }
 .baseContainer .leftPanel:after {
@@ -3923,7 +3923,12 @@ html,body,.baseContainer
 	font-size: 15px;
 }
 .menuContainer{
-	overflow: auto;
+	overflow:auto;
+	overflow-x:hidden;
+	height:calc(100% - 50px);
+}
+.menuContainer::-webkit-scrollbar {
+	display: none;
 }
 .globalSearchInput .chosen-container-single .chosen-single span{
 	min-width: 130px;
