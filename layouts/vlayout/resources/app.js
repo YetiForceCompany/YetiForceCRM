@@ -1141,7 +1141,8 @@ var app = {
 				phone: 768,
 				tablet: 1024
 			},
-			addRowToggle: true
+			addRowToggle: true,
+			toggleSelector: ' > tbody > tr:not(.footable-row-detail)'
 		});
 	}
 }

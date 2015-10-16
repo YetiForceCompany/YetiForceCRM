@@ -29,8 +29,7 @@
 				</div>
 				<hr>
 			</div>
-			<div class="table-responsive">
-				<table class="table table-bordered table-condensed sharingAccessDetails">
+				<table class="table tableRWD table-bordered table-condensed sharingAccessDetails">
 					<colgroup>
 						<col width="20%">
 						<col width="15%">
@@ -83,7 +82,6 @@
 						{/foreach}
 					</tbody>
 				</table>
-			</div>
 			<div>
 				<div class="pull-right">
 					<button class="btn btn-success hide" type="submit" name="saveButton"><strong>{vtranslate('LBL_APPLY_NEW_SHARING_RULES', $QUALIFIED_MODULE)}</strong></button>
