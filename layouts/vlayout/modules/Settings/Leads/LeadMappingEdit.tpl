@@ -11,35 +11,29 @@
 {strip}
 	<div class="">
 		<form id="leadsMapping" method="POST">
-			<div class="row settingsHeader padding1per">
-				<span class="col-md-8">
-					<span class="font-x-x-large">{vtranslate('LBL_CONVERT_LEAD_FIELD_MAPPING', $QUALIFIED_MODULE)}</span>
+			<div class="row widget_header settingsHeader marginBottom5">
+				<span class="col-sm-12 col-xs-12 col-md-8">
+					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 				</span>
-				<span class="col-md-4 paddingRightZero">
+				<span class="col-xs-12 col-sm-12 col-md-4 ">
 					<span class="pull-right">
 						<button type="submit" class="btn btn-success"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>
 				</span>
-			</div><hr>
+			</div>
 			<div class="contents" id="detailView">
-				<table class="table customTableRWD table-bordered">
-					<thead>
-						<tr class="blockHeader">
-							<th class="blockHeader" width="20%">{vtranslate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>
-							<th class="blockHeader" width="20%">{vtranslate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}</th>
-							<th data-hide='phone' class="blockHeader textAlignCenter" colspan="3" width="60%">{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
-						</tr>
-					</thead>
-				</table>
-				<table class="table customTableRWD table-bordered" width="100%" id="convertLeadMapping">
-					<thead>
-						<tr>
-							{foreach key=key item=LABEL from=$MODULE_MODEL->getHeaders()}
-								<th {if $smarty.foreach.index.iteration > 2}data-hide='phone'{/if} width="20%"><b>{vtranslate($LABEL, $LABEL)}</b></th>
-							{/foreach}
-						</tr>
-					</thead>
+				<table class="table  table-bordered" width="100%" id="convertLeadMapping">
+					<tr class="blockHeader">
+						<th class="blockHeader" width="20%">{vtranslate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>
+						<th class="blockHeader" width="20%">{vtranslate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}</th>
+						<th data-hide='phone' class="blockHeader textAlignCenter" colspan="3" width="60%">{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
+					</tr>	
+					<tr>
+						{foreach key=key item=LABEL from=$MODULE_MODEL->getHeaders()}
+							<th {if $smarty.foreach.index.iteration > 2}data-hide='phone'{/if} width="20%"><b>{vtranslate($LABEL, $LABEL)}</b></th>
+						{/foreach}
+					</tr>
 					<tbody>
 						{foreach key=MAPPING_ID item=MAPPING_ARRAY from=$MODULE_MODEL->getMapping()  name="mappingLoop"}
 							<tr class="listViewEntries" sequence-number="{$smarty.foreach.mappingLoop.iteration}">

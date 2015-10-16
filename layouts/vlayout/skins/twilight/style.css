@@ -1956,7 +1956,7 @@ th.htColHeader,
 	border: 1px solid #dddddd;
 }
 .blockFieldsList .opacity {
-	margin-left: 0.5% !important;
+	margin-left: 0% !important;
 }
 .blockFieldsList .opacity .dropdown-menu a {
 	padding: 0px !important;
@@ -1967,7 +1967,8 @@ th.htColHeader,
 .blockFieldsList .editFields .dropdown-menu {
 	z-index: 1000003;
 	padding: 0;
-	left: -215px;
+	left: -260px;
+	top: -300px;
 	position: absolute;
 }
 .blockFieldsList .editFieldsWidget .dropdown-menu {
