@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -3288,7 +3287,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (44,'vtiger.entity.beforesave','modules/Calendar/handlers/CalendarHandler.php','CalendarHandler','',1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (45,'vtiger.entity.link.after','modules/Vtiger/handlers/MultiReferenceUpdater.php','Vtiger_MultiReferenceUpdater_Handler','',1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (46,'vtiger.entity.unlink.after','modules/Vtiger/handlers/MultiReferenceUpdater.php','Vtiger_MultiReferenceUpdater_Handler','',1,'[]');
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (46,'vtiger.entity.aftersave.final','modules/Vtiger/handlers/MultiReferenceUpdater.php','Vtiger_MultiReferenceUpdater_Handler','',1,'[]');
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (47,'vtiger.entity.aftersave.final','modules/Vtiger/handlers/MultiReferenceUpdater.php','Vtiger_MultiReferenceUpdater_Handler','',1,'[]');
 
 /*Data for the table `vtiger_eventhandlers_seq` */
 
@@ -5439,10 +5438,11 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (230,3,'DASHBOARDWIDGET','Calculations','index.php?module=Calculations&view=ShowWidget&name=Calculations','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (231,3,'DASHBOARDWIDGET','PotentialsList','index.php?module=Potentials&view=ShowWidget&name=PotentialsList','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (232,3,'DASHBOARDWIDGET','LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES','index.php?module=Home&view=ShowWidget&name=CreatedNotMineActivities','',0,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (233,51,'DETAILVIEWBASIC','View History','javascript:ModTrackerCommon.showhistory(\'$RECORD$\')','',0,'modules/ModTracker/ModTracker.php','ModTracker','isViewPermitted');
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (232);
+insert  into `vtiger_links_seq`(`id`) values (233);
 
 /*Data for the table `vtiger_loginhistory` */
 
@@ -5621,6 +5621,7 @@ insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (41,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (42,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (43,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (45,1);
+insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (51,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (54,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (60,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (70,1);
