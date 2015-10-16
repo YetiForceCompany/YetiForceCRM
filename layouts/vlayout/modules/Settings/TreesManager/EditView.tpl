@@ -59,10 +59,12 @@
 			<label class=""><strong>{vtranslate('LBL_ADD_ITEM_TREE', $QUALIFIED_MODULE)}</strong></label>
 		</div>
 		<div class="col-md-8">
-			<div class="form-inline">
+			<div class="col-xs-4 col-sm-4 col-md-3 paddingLRZero">
 				<input type="text" class="fieldValue col-md-4 addNewElement form-control">
-			<a class="btn btn-default addNewElementBtn"><strong>{vtranslate('LBL_ADD_TO_TREES', $QUALIFIED_MODULE)}</strong></a>
-		</div>
+			</div>
+			<div class="col-xs-6 paddingLeft5px">
+				<a class="btn btn-default addNewElementBtn"><strong>{vtranslate('LBL_ADD_TO_TREES', $QUALIFIED_MODULE)}</strong></a>
+			</div>
 		</div>
 	</div>
 	<hr>
