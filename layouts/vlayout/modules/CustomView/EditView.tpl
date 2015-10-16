@@ -31,15 +31,25 @@
 					<h4 class="filterHeaders">{vtranslate('LBL_BASIC_DETAILS',$MODULE)} :</h4>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-2 control-label paddingLRZero"><span class="redColor">*</span> {vtranslate('LBL_VIEW_NAME',$MODULE)}</label>
-					<div class="col-xs-4">
-						<input type="text" id="viewname" class="form-control input-sm" data-validation-engine='validate[required]' name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}">
+					<div class='col-sm-6 col-xs-12'>
+						<label class="col-xs-4 control-label paddingLRZero"><span class="redColor">*</span> {vtranslate('LBL_VIEW_NAME',$MODULE)}</label>
+						<div class="col-xs-8">
+							<input type="text" id="viewname" class="form-control input-sm" data-validation-engine='validate[required]' name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}">
+						</div>
 					</div>
-
-					<label class="checkbox col-xs-3 control-label">
-					<input id="setdefault" type="checkbox" name="setdefault" value="1" {if $CUSTOMVIEW_MODEL->isDefault()} checked="checked"{/if}> {vtranslate('LBL_SET_AS_DEFAULT',$MODULE)}</label>
-					<label class="checkbox col-xs-3 control-label"><input id="setmetrics" name="setmetrics" type="checkbox" value="1" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'} checked="checked"{/if}> {vtranslate('LBL_LIST_IN_METRICS',$MODULE)}</label>
-					<label class="checkbox col-xs-3 control-label"><input id="status" name="status" type="checkbox" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if}> {vtranslate('LBL_SET_AS_PUBLIC',$MODULE)}</label>
+					
+					<div class='col-sm-6 col-xs-12'>
+						<div class='col-sm-6'>
+							<label class="checkbox  control-label">
+							<input id="setdefault" type="checkbox" name="setdefault" value="1" {if $CUSTOMVIEW_MODEL->isDefault()} checked="checked"{/if}> {vtranslate('LBL_SET_AS_DEFAULT',$MODULE)}</label>
+						</div>
+						<div class='col-sm-6'>
+							<label class="checkbox  control-label"><input id="setmetrics" name="setmetrics" type="checkbox" value="1" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'} checked="checked"{/if}> {vtranslate('LBL_LIST_IN_METRICS',$MODULE)}</label>
+						</div>
+						<div class='col-sm-6'>
+							<label class="checkbox  control-label"><input id="status" name="status" type="checkbox" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if}> {vtranslate('LBL_SET_AS_PUBLIC',$MODULE)}</label>
+						</div>
+					</div>
 				</div>
 				<h4 class="filterHeaders">{vtranslate('LBL_CHOOSE_COLUMNS',$MODULE)} ({vtranslate('LBL_MAX_NUMBER_FILTER_COLUMNS')}) :</h4>
 				<div class="columnsSelectDiv row">

@@ -23,7 +23,7 @@
 				</span>
 			</div><hr>
 			<div class="contents" id="detailView">
-				<table class="table customTableRWD table-bordered" width="100%">
+				<table class="table customTableRWD table-bordered">
 					<thead>
 						<tr class="blockHeader">
 							<th class="blockHeader" width="20%">{vtranslate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>
