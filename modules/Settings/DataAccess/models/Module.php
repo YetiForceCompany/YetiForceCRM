@@ -135,7 +135,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		if (count($list)) {
 			$num = 0;
 			foreach ($list as $key => $value) {
-				if ($value->isActiveField() && in_array($value->get('displaytype'), array('1', '2'))) {
+				if ($value->isActiveField()) {
 					$output[$baseModule][$num]['name'] = $value->get('name');
 					$output[$baseModule][$num]['uitype'] = $value->get('uitype');
 					$output[$baseModule][$num]['label'] = $value->get('label');
