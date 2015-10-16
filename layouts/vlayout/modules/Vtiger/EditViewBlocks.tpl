@@ -11,6 +11,9 @@
 -->*}
 {strip}
     <div class='editViewContainer'>
+		<div class='col-md-8'>
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
             {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
             {if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
@@ -45,9 +48,6 @@
             {/if}
 		<div class="widget_header">
 		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
-		<div class='col-md-8'>
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-		</div>
 		<div class="col-md-4  padding-right paddingLRZero btn-toolbar">
 			<button class="btn btn-warning pull-right" type="reset" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
 			<button class="btn btn-success pull-right" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
