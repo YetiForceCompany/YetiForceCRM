@@ -20,7 +20,7 @@
 			</div>
 			<hr>
 			<div class="form-group">
-				<div class="col-md-2 control-label">
+				<div class="col-md-2 description-field">
 					<span class="redColor">*</span> {vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)}
 				</div>
 				<div class="col-md-6 controls">
@@ -28,7 +28,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-md-2 control-label">
+				<div class="col-md-2 description-field">
 					{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
 				</div>
 				<div class="col-md-6 controls">
@@ -36,7 +36,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-md-2 control-label">
+				<div class="col-md-2 description-field">
 					<span class="redColor">*</span> {vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
 				</div>
 				<div class="col-md-6 controls">
@@ -48,7 +48,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-md-2 control-label">
+				<div class="col-md-2 description-field">
 					<span class="redColor">*</span> {vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
 				</div>
 				<div class="col-md-6 controls">

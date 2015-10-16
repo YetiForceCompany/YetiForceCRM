@@ -4570,3 +4570,11 @@ html,body,.baseContainer
 .footable-row-detail-row{
 	line-height:2.5em;
 }
+.form-horizontal .form-group .description-field{
+	text-align: right;
+}
+@media only screen and (max-width: 960px){
+	.form-horizontal .form-group .description-field{
+		text-align: left;
+	}
+}
