@@ -611,6 +611,7 @@ CREATE TABLE `s_yf_multireference` (
   `source_module` varchar(50) NOT NULL,
   `dest_module` varchar(50) NOT NULL,
   `lastid` int(19) unsigned NOT NULL DEFAULT '0',
+  `type` tinyint(1) NOT NULL DEFAULT '0',
   KEY `source_module` (`source_module`,`dest_module`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2494,7 +2495,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `dependent_on` varchar(255) DEFAULT '[]',
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventhandlers_seq` */
 
