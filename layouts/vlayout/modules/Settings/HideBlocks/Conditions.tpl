@@ -12,7 +12,7 @@
 {strip}
 <div class="targetFieldsTableContainer">
 	<div class="widget_header">
-		<h3>{vtranslate('LBL_HIDEBLOCKS', $QUALIFIED_MODULE)}</h3>
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		{vtranslate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 	</div>
 	<hr>
@@ -41,7 +41,7 @@
 				</div>
 			</div>
 			<br>	
-			<div class="row">
+			<div class="">
 				<div class="pull-right">
 					<a class="saveLink btn btn-success" ><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></a>
 					<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_BACK', $MODULE)}</a>

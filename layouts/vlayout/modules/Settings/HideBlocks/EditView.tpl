@@ -11,13 +11,13 @@
 -->*}
 {strip}
 <div class="targetFieldsTableContainer">
-	<form method="post" action="index.php?module={$MODULE}&parent=Settings&view=Conditions">
-	<input type="hidden" name="record" value="{$RECORD_ID}"/>
 	<div class="widget_header">
 		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		{vtranslate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 	</div>
 	<hr>
+	<form method="post" action="index.php?module={$MODULE}&parent=Settings&view=Conditions">
+	<input type="hidden" name="record" value="{$RECORD_ID}"/>
 	<div class="listViewEntriesDiv contents-bottomscroll" style="overflow-x: visible !important;">
 		<div class="bottomscroll-div table-responsive">
 			<table class="table table-bordered" width="100%" name="targetModuleFields">
