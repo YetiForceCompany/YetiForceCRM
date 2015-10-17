@@ -23,10 +23,7 @@ class PearDatabase
 	public $dieOnError = false;
 	protected $log = null;
 	static private $dbConfig = false;
-	static private $dbBasic = false;
-	static private $dbAdmin = false;
-	static private $dbLog = false;
-	static private $dbPortal = false;
+	static private $dbCache = [];
 	protected $dbType = null;
 	protected $dbHostName = null;
 	protected $dbName = null;
@@ -73,22 +70,12 @@ class PearDatabase
 	 */
 	public static function &getInstance($type = 'base')
 	{
-		$db = self::$dbBasic;
-		switch ($type) {
-			case 'admin':
-				if (!self::$dbAdmin)
-					$db = self::$dbAdmin;
-				break;
-			case 'log':
-				if (!self::$dbLog)
-					$db = self::$dbLog;
-				break;
-			case 'portal':
-				if (!self::$dbPortal)
-					$db = self::$dbPortal;
-				break;
-		}
-		if ($db != false) {
+		if (key_exists($type, self::$dbCache)) {
+			$db = self::$dbCache[$type];
+			vglobal($adb, $db);
+			return $db;
+		} else if (key_exists('base', self::$dbCache)) {
+			$db = self::$dbCache['base'];
 			vglobal($adb, $db);
 			return $db;
 		}
@@ -101,21 +88,8 @@ class PearDatabase
 			$db->checkError('Error connecting to the database');
 			return false;
 		} else {
+			self::$dbCache[$type] = $db;
 			vglobal($adb, $db);
-			switch ($type) {
-				case 'admin':
-					self::$dbAdmin = $db;
-					break;
-				case 'log':
-					self::$dbLog = $db;
-					break;
-				case 'portal':
-					self::$dbPortal = $db;
-					break;
-				default:
-					self::$dbBasic = $db;
-					break;
-			}
 		}
 		return $db;
 	}
