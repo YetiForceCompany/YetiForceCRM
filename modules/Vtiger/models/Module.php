@@ -646,9 +646,10 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$list_fields = $entityInstance->list_fields;
 		$relatedListFields = array();
 		foreach ($list_fields as $key => $fieldInfo) {
-			$columnName = current($fieldInfo);
-			if (array_key_exists($key, $list_fields_name)) {
-				$relatedListFields[$columnName] = $list_fields_name[$key];
+			foreach ($fieldInfo as $columnName) {
+				if (array_key_exists($key, $list_fields_name)) {
+					$relatedListFields[$columnName] = $list_fields_name[$key];
+				}
 			}
 		}
 		return $relatedListFields;

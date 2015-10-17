@@ -60,6 +60,9 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$importType = $request->get('module_import_type');
 		if (strtolower($importType) == 'language') {
 			$package = new Vtiger_Language();
+		} else if (strtolower($importType) == 'layout') {
+			vimport('vtlib.Vtiger.Layout');
+			$package = new Vtiger_Layout();
 		} else {
 			$package = new Vtiger_Package();
 		}
@@ -142,13 +145,14 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function deleteModule(Vtiger_Request $request){
+	public function deleteModule(Vtiger_Request $request)
+	{
 		$moduleName = $request->get('forModule');
 		$moduleInstance = Vtiger_Module::getInstance($moduleName);
-		if($moduleInstance){
+		if ($moduleInstance) {
 			$moduleInstance->delete();
 			$result = array('success' => true);
-		}else
+		} else
 			$result = array('success' => false);
 		$response = new Vtiger_Response();
 		$response->setResult($result);

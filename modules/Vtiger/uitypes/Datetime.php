@@ -41,14 +41,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	public static function getDisplayDateTimeValue($date)
 	{
 		$date = new DateTimeField($date);
-		$dateValue = $date->getDisplayDateTimeValue();
-		list($dateInUserFormat, $timeInUserFormat) = explode(' ', $dateValue);
-
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if ($currentUser->get('hour_format') == '12')
-			$timeInUserFormat = Vtiger_Time_UIType::getTimeValueInAMorPM($timeInUserFormat);
-
-		return $dateInUserFormat . ' ' . $timeInUserFormat;
+		return $date->getDisplayDateTimeValue();
 	}
 
 	/**
