@@ -72,11 +72,11 @@ class PearDatabase
 	{
 		if (key_exists($type, self::$dbCache)) {
 			$db = self::$dbCache[$type];
-			vglobal($adb, $db);
+			vglobal('adb', $db);
 			return $db;
 		} else if (key_exists('base', self::$dbCache)) {
 			$db = self::$dbCache['base'];
-			vglobal($adb, $db);
+			vglobal('adb', $db);
 			return $db;
 		}
 
@@ -89,7 +89,7 @@ class PearDatabase
 			return false;
 		} else {
 			self::$dbCache[$type] = $db;
-			vglobal($adb, $db);
+			vglobal('adb', $db);
 		}
 		return $db;
 	}
