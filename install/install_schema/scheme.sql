@@ -392,6 +392,19 @@ CREATE TABLE `l_yf_access_to_record` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `l_yf_sqltime` */
+
+CREATE TABLE `l_yf_sqltime` (
+  `id` int(19) DEFAULT NULL,
+  `type` varchar(10) DEFAULT NULL,
+  `data` text,
+  `started` decimal(20,6) DEFAULT NULL,
+  `ended` decimal(20,6) DEFAULT NULL,
+  `loggedon` datetime DEFAULT NULL,
+  `qtime` decimal(20,3) DEFAULT NULL,
+  KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `l_yf_switch_users` */
 
 CREATE TABLE `l_yf_switch_users` (
@@ -6815,17 +6828,6 @@ CREATE TABLE `vtiger_sostatushistory` (
   PRIMARY KEY (`historyid`),
   KEY `sostatushistory_salesorderid_idx` (`salesorderid`),
   CONSTRAINT `fk_1_vtiger_sostatushistory` FOREIGN KEY (`salesorderid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_sqltimelog` */
-
-CREATE TABLE `vtiger_sqltimelog` (
-  `id` int(11) DEFAULT NULL,
-  `type` varchar(10) DEFAULT NULL,
-  `data` text,
-  `started` decimal(20,6) DEFAULT NULL,
-  `ended` decimal(20,6) DEFAULT NULL,
-  `loggedon` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ssservicesstatus` */

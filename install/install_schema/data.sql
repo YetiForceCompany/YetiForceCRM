@@ -252,6 +252,8 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (134);
 
 /*Data for the table `l_yf_access_to_record` */
 
+/*Data for the table `l_yf_sqltime` */
+
 /*Data for the table `l_yf_switch_users` */
 
 /*Data for the table `roundcube_cache` */
@@ -21572,8 +21574,6 @@ insert  into `vtiger_sostatus`(`sostatusid`,`sostatus`,`presence`,`picklist_valu
 insert  into `vtiger_sostatus_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_sostatushistory` */
-
-/*Data for the table `vtiger_sqltimelog` */
 
 /*Data for the table `vtiger_ssservicesstatus` */
 

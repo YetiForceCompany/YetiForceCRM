@@ -778,15 +778,16 @@ class PearDatabase
 		if (!PerformancePrefs::getBoolean('SQL_LOG_INCLUDE_CALLER', false)) {
 			return;
 		}
-
+		$db = PearDatabase::getInstance('log');
 		$today = date('Y-m-d H:i:s');
-		$logtable = 'vtiger_sqltimelog';
-		$logsql = 'INSERT INTO ' . $logtable . '(id, type, started, ended, data, loggedon) VALUES (?,?,?,?,?,?)';
+		$logTable = 'l_yf_sqltime';
+		$logQuery = 'INSERT INTO ' . $logTable . '(id, type, started, ended, qtime, data, loggedon) VALUES (?,?,?,?,?,?,?)';
 
 		if ($this->logSqlTimeID === false) {
-			$this->logSqlTimeID = $this->getUniqueID($logtable);
+			$stmt = $db->database->query('SELECT MAX(id) FROM ' . $logTable);
+			$this->logSqlTimeID = (int) $this->getSingleValue($stmt) + 1;
 
-			$type = (php_sapi_name() == 'cli') ? 'CLI' : 'REQ';
+			$type = PHP_SAPI;
 			$data = '';
 			if (isset($_SERVER['REQUEST_METHOD'])) {
 				$uri = $_SERVER['REQUEST_URI'];
@@ -794,22 +795,22 @@ class PearDatabase
 				if ($qmarkIndex !== false)
 					$uri = substr($uri, 0, $qmarkIndex);
 				$data = $uri . '?' . http_build_query($_SERVER['REQUEST_METHOD'] == 'GET' ? $_GET : $_POST);
-			} else if ($argv) {
-				$data = implode(' ', $argv);
 			}
-
-			$this->database->Execute($logsql, array($this->logSqlTimeID, $type, NULL, NULL, $data, $today));
+			$stmt = $db->database->prepare($logQuery);
+			$stmt->execute([$this->logSqlTimeID, $type, NULL, NULL, NULL, $data, $today]);
 		}
 
 		$type = 'SQL';
 		$data = trim($sql);
 		if (is_array($params) && !empty($params)) {
-			$data .= "\n[" . implode(",", $params) . "]";
+			$data .= '[' . implode(',', $params) . ']';
 		}
-		$this->database->Execute($logsql, array($this->logSqlTimeID, $type, $startat, $endat, $data, $today));
+		$qtime = round(($endat - $startat) * 1000) / 1000;
+		$stmt = $db->database->prepare($logQuery);
+		$stmt->execute([$this->logSqlTimeID, $type, $startat, $endat, $qtime, $data, $today]);
 
 		$type = 'CALLERS';
-		$data = array();
+		$data = [];
 		$callers = debug_backtrace();
 		for ($calleridx = 0, $callerscount = count($callers); $calleridx < $callerscount; ++$calleridx) {
 			if ($calleridx == 0) {
@@ -820,8 +821,9 @@ class PearDatabase
 				if (!empty($callerfunc))
 					$callerfunc = " ($callerfunc) ";
 			}
-			$data[] = "CALLER: (" . $callers[$calleridx]['line'] . ') ' . $callers[$calleridx]['file'] . $callerfunc;
+			$data[] = 'CALLER: (' . $callers[$calleridx]['line'] . ') ' . $callers[$calleridx]['file'] . $callerfunc;
 		}
-		$this->database->Execute($logsql, array($this->logSqlTimeID, $type, NULL, NULL, implode("\n", $data), $today));
+		$stmt = $db->database->prepare($logQuery);
+		$stmt->execute([$this->logSqlTimeID, $type, NULL, NULL, NULL, implode('\n', $data), $today]);
 	}
 }
