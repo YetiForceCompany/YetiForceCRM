@@ -688,4 +688,20 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 		return $content;
 	}
+
+	/**
+	 * Returns page format
+	 * @return string page format
+	 */
+	public function getFormat()
+	{
+		$format = $this->get('page_format');
+		$orientation = $this->get('page_orientation');
+		if ($orientation === 'PLL_LANDSCAPE') {
+			$format .= '-L';
+		} else {
+			$format .= '-P';
+		}
+		return $format;
+	} 
 }

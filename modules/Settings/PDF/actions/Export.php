@@ -51,6 +51,11 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 		} else { // save multiple templates as pdf files
 			if ($singlePdf) {
 				$pdf = new Settings_PDF_mPDF_Model();
+				$styles = '';
+				$headers = '';
+				$footers = '';
+				$classes = '';
+				$body = '';
 				foreach ($recordId as $index => $record) {
 					$templateIdsTemp = $templateIds;
 					$pdf->setRecordId($recordId[0]);
@@ -60,39 +65,58 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 					$template = Settings_PDF_Record_Model::getInstanceById($firstTemplate);
 					$template->setMainRecordId($record);
 					$pdf->setLanguage($template->get('language'));
+					$template->getParameters();
+					//$pdf->parseParams($template->getParameters());
 
-					$pdf->parseParams($template->getParameters());
-
+					$styles .= " @page template_{$record}_{$firstTemplate} {
+						sheet-size: {$template->getFormat()};
+						margin-top: {$template->get('margin_top')}mm;
+						margin-left: {$template->get('margin_left')}mm;
+						margin-right: {$template->get('margin_right')}mm;
+						margin-bottom: {$template->get('margin_bottom')}mm;
+						odd-header-name: html_Header_{$record}_{$firstTemplate};
+						odd-footer-name: html_Footer_{$record}_{$firstTemplate};
+					}";
 					$html = '';
 
-					$pdf->setHeader('Header_' . $record . '_' . $firstTemplate, $template->getHeader());
-					if ($index > 0) {
-						$pdf->pdf()->AddPageByArray($parameters);
-					}
-					$pdf->setFooter('Footer_' . $record . '_' . $firstTemplate, $template->getFooter());
-					$html = $template->getBody();
+					$headers .= ' <htmlpageheader name="Header_' . $record . '_' . $firstTemplate . '">' . $template->getHeader() . '</htmlpageheader>';
 
-					$pdf->loadHTML($html);
-					$pdf->writeHTML();
+					$footers .= ' <htmlpagefooter name="Footer_' . $record . '_' . $firstTemplate . '">' . $template->getFooter() . '</htmlpagefooter>';
 
+					$classes .= ' div.page_' . $record . '_' . $firstTemplate . ' { page-break-before: always; page: template_' . $record . '_' . $firstTemplate . '; }';
+
+					$body .= '<div class="page_' . $record . '_' . $firstTemplate . '">' . $template->getBody() . '</div>';
 					foreach ($templateIdsTemp as $id) {
 						$template = Settings_PDF_Record_Model::getInstanceById($id);
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));
 
-						$pdf->setHeader('Header_' . $record . '_' . $id, $template->getHeader());
-
 						// building parameters
 						$parameters = $template->getParameters();
-						$pdf->parseParams($parameters);
+						//$pdf->parseParams($parameters);
 
-						$pdf->pdf()->AddPageByArray($parameters);
+						$styles .= " @page template_{$record}_{$id} {
+							sheet-size: {$template->getFormat()};
+							margin-top: {$template->get('margin_top')}mm;
+							margin-left: {$template->get('margin_left')}mm;
+							margin-right: {$template->get('margin_right')}mm;
+							margin-bottom: {$template->get('margin_bottom')}mm;
+							odd-header-name: html_Header_{$record}_{$id};
+							odd-footer-name: html_Footer_{$record}_{$id};
+						}";
+						$html = '';
 
-						$pdf->setFooter('Footer_' . $record . '_' . $id, $template->getFooter());
-						$pdf->loadHTML($template->getBody());
-						$pdf->writeHTML();
+						$headers .= ' <htmlpageheader name="Header_' . $record . '_' . $id . '">' . $template->getHeader() . '</htmlpageheader>';
+
+						$footers .= ' <htmlpagefooter name="Footer_' . $record . '_' . $id . '">' . $template->getFooter() . '</htmlpagefooter>';
+
+						$classes .= ' div.page_' . $record . '_' . $id . ' { page-break-before: always; page: template_' . $record . '_' . $id . '; }';
+
+						$body .= '<div class="page_' . $record . '_' . $id . '">' . $template->getBody() . '</div>';
 					}
 				}
+				$html = "<html><head><style>{$styles} {$classes}</style></head><body>{$headers} {$footers} {$body}</body></html>";
+				$pdf->loadHTML($html);
 				$pdf->setFileName(vtranslate('LBL_MANY_IN_ONE', 'Settings:PDF'));
 				$pdf->output();
 			} else {

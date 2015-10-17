@@ -241,7 +241,7 @@ class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 	public function setHeader($name, $header)
 	{
 		$this->pdf->DefHTMLHeaderByName($name, $header);
-		$this->pdf->SetHTMLHeaderByName($name);
+		$this->pdf->SetHTMLHeaderByName($name, '', true);
 	}
 
 	/**

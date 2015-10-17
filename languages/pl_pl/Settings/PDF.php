@@ -102,6 +102,7 @@ $languageStrings = [
 	'LBL_GENERATE' => 'Generuj',
 	'LBL_GENERATE_SINGLE' => 'Jeden plik PDF',
 	'LBL_MANY_IN_ONE' => 'Zbiorczy dokument',
+	'LBL_VALID_RECORDS' => '%s from %s are valid for chosen template.',
 
 	// page format names
 	'4A0' => '4A0',
@@ -165,5 +166,6 @@ $jsLanguageStrings = [
 	'JS_PDF_SAVED_SUCCESSFULLY' => 'Szablon pdf został zapisany.',
 	'LBL_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
 	'LBL_NOTIFY_COPY_TITLE' => 'Tekst',
-	'JS_PDF_TEMPLATE_EXPORTED' => 'Szablon PDF został pomyślnie wyeksportowany.'
+	'JS_PDF_TEMPLATE_EXPORTED' => 'Szablon PDF został pomyślnie wyeksportowany.',
+	'JS_RECALCULATING' => 'Przeliczanie uprawnień...'
 ];
