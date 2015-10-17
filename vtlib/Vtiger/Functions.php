@@ -1077,9 +1077,9 @@ class Vtiger_Functions
 	public static function throwNoPermittedException($message, $die = true)
 	{
 		$request = new Vtiger_Request($_REQUEST);
-		$db = PearDatabase::getInstance();
+		$dbLog = PearDatabase::getInstance('log');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db->insert('l_yf_access_to_record', [
+		$dbLog->insert('l_yf_access_to_record', [
 			'username' => $currentUser->getDisplayName(),
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => self::getRemoteIP(),
