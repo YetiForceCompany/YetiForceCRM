@@ -3677,7 +3677,7 @@ span[name=existingImages] img{
 	color:#000;
 }
 .baseContainer .leftPanel .menuContainer a.hasIcon {
-	padding: 6px 15px;
+	padding: 5px 12px;
 	display: inline-flex;
 	width: 100%
 }
@@ -3809,12 +3809,12 @@ span[name=existingImages] img{
 	bottom: 33px;
 	top: 50px;
 	z-index: -1;
-	width: 260px; 
+	width: 280px; 
 	background: #f0f1f1;
 	border-right: 1px solid #dddddd;
 }
 .leftPanel .nav .subMenu li {
-	width: 260px;
+	width: 280px;
 }
 .leftPanel .nav .subMenu li.menuLabel > a {
 	font-weight: 600;
@@ -4577,4 +4577,22 @@ html,body,.baseContainer
 	.form-horizontal .form-group .description-field{
 		text-align: left;
 	}
+}
+.iconContainer{
+	height:45px;
+	display: table;
+}
+.iconContainer .iconImage{
+	display: table-cell;
+	vertical-align: middle;
+}
+.labelConstainer{
+	height:45px;
+	display: table;   
+	width: 145px;
+}
+.labelConstainer .labelValue{
+	display: table-cell;
+	vertical-align: middle;
+	line-height: 18px;
 }
