@@ -1,9 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<div class="breadCrumbs" >
-		<input type='hidden' value="{$MODULE}" id='module' name='module'/>
-		<input type="hidden" value="{$PARENT_MODULE}" id="parent" name='parent' />
-		<input type='hidden' value="{$VIEW}" id='view' name='view'/>
+		<input type='hidden' value="{$MODULE}" id='moduleBC' name='module'/>
+		<input type="hidden" value="{$PARENT_MODULE}" id="parentBC" name='parent' />
+		<input type='hidden' value="{$VIEW}" id='viewBC' name='view'/>
 		{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
 		{assign var=HOMEICON value=Vtiger_Menu_Model::getMenuIcon('home_black.png', vtranslate('LBL_HOME',$MODULE))}
 		{if $BREADCRUMBS}

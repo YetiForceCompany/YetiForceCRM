@@ -19,23 +19,24 @@
             {if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
                 <input type="hidden" name="picklistDependency" value='{Vtiger_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
             {/if}
-		{foreach from=$APIADDRESS item=item key=key}
-			{if $item['nominatim']}
-				<input type="hidden" name="apiAddress" value='{$item['key']}' data-max-num="{$APIADDRESS['global']['result_num']}" data-api-name="{$key}" data-url="{$item['source']}" data-lenght="{$APIADDRESS['global']['min_lenght']}"/>
-			{/if}
-		{/foreach}
+
+			{foreach from=$APIADDRESS item=item key=key}
+				{if $item['nominatim']}
+					<input type="hidden" name="apiAddress" value='{$item['key']}' data-max-num="{$APIADDRESS['global']['result_num']}" data-api-name="{$key}" data-url="{$item['source']}" data-lenght="{$APIADDRESS['global']['min_lenght']}"/>
+				{/if}
+			{/foreach}
 
             {if !empty($MAPPING_RELATED_FIELD)}
                 <input type="hidden" name="mappingRelatedField" value='{Vtiger_Util_Helper::toSafeHTML($MAPPING_RELATED_FIELD)}' />
             {/if}
-            {assign var=QUALIFIED_MODULE_NAME value={$MODULE}}
+            {assign var=QUALIFIED_MODULE_NAME value={$QUALIFIED_MODULE}}
             {assign var=IS_PARENT_EXISTS value=strpos($MODULE,":")}
-            {if $IS_PARENT_EXISTS}
-                {assign var=SPLITTED_MODULE value=":"|explode:$MODULE}
-                <input type="hidden" name="module" value="{$SPLITTED_MODULE[1]}" />
-                <input type="hidden" name="parent" value="{$SPLITTED_MODULE[0]}" />
+            {if $PARENT_MODULE neq ''}
+                <input type="hidden" id="module" name="module" value="{$MODULE}" />
+                <input type="hidden" id="parent" name="parent" value="{$PARENT_MODULE}" />
+				<input type='hidden' value="{$VIEW}" id='view' name='view'/>
             {else}
-                <input type="hidden" name="module" value="{$MODULE}" />
+                <input type="hidden" id="module" name="module" value="{$MODULE}" />
             {/if}
             <input type="hidden" name="action" value="Save" />
             <input type="hidden" name="record" value="{$RECORD_ID}" />
@@ -46,16 +47,28 @@
                 <input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
                 <input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
             {/if}
-		<div class="widget_header">
-		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
-		<div class="col-md-4  padding-right paddingLRZero btn-toolbar">
-			<button class="btn btn-warning pull-right" type="reset" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
-			<button class="btn btn-success pull-right" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-		</div>
-		<div class="clearfix"></div>
-        </div>
-		<hr>
-		{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
+            <div class="contentHeader">
+				{assign var=IMAGE value=$MODULE|cat:'48.png'}
+				{if file_exists( vimage_path($IMAGE) )}
+					<span class="pull-left moduleIcon{$MODULE_NAME}">
+						<span class="moduleIcon">
+							<img src="{vimage_path($IMAGE)}" class="summaryImg" alt="{vtranslate($MODULE, $QUALIFIED_MODULE_NAME)}"/>
+						</span>
+					</span>
+				{/if}
+                {assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
+                {if $RECORD_ID neq ''}
+                    <h3 class="col-md-8 textOverflowEllipsis margin0px" title="{vtranslate('LBL_EDITING', $QUALIFIED_MODULE_NAME)} {vtranslate($SINGLE_MODULE_NAME, $QUALIFIED_MODULE_NAME)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $QUALIFIED_MODULE_NAME)} {vtranslate($SINGLE_MODULE_NAME, $QUALIFIED_MODULE_NAME)} - <span class="recordLabel" title="{$RECORD_STRUCTURE_MODEL->getRecordName()}">{$RECORD_STRUCTURE_MODEL->getRecordName()}</span></h3>
+					{else}
+                    <h3 class="col-md-8 textOverflowEllipsis margin0px">{vtranslate('LBL_CREATING_NEW', $QUALIFIED_MODULE_NAME)} {vtranslate($SINGLE_MODULE_NAME, $QUALIFIED_MODULE_NAME)}</h3>
+                {/if}
+                <span class="pull-right">
+                    <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong></button>&nbsp;&nbsp;
+                    <button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong></button>
+				</span>
+				<div class="clearfix"></div>
+            </div>
+            {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
             {if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 			{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
 			{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
@@ -65,24 +78,24 @@
 					<thead>
 						<tr>
 							<th class="blockHeader" colspan="4">
-								<div class="row">
-									<div class="col-md-12">
-										{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
-											{assign var=APIADDRESFIELD value=TRUE}
-										{else}
-											{assign var=APIADDRESFIELD value=FALSE}
-										{/if}
-										<div class="row">
-											<div class=" {if $APIADDRESFIELD}col-md-7 {else}col-md-12{/if}">
-												<img class="cursorPointer alignMiddle blockToggle{if !($IS_HIDDEN)} hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}"  src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
-												<img class="cursorPointer alignMiddle blockToggle{if ($IS_HIDDEN)} hide{/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
-												&nbsp;&nbsp;{vtranslate($BLOCK_LABEL, $MODULE)}
-											</div>
-										</div>
-									</div>
+					<div class="row">
+						<div class="col-md-12">
+							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
+								{assign var=APIADDRESFIELD value=TRUE}
+							{else}
+								{assign var=APIADDRESFIELD value=FALSE}
+							{/if}
+							<div class="row">
+								<div class=" {if $APIADDRESFIELD}col-md-7 {else}col-md-12{/if}">
+									<img class="cursorPointer alignMiddle blockToggle{if !($IS_HIDDEN)} hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}"  src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
+									<img class="cursorPointer alignMiddle blockToggle{if ($IS_HIDDEN)} hide{/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
+									&nbsp;&nbsp;{vtranslate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}
 								</div>
-							</th>
-						</tr>
+							</div>
+						</div>
+					</div>
+					</th>
+                    </tr>
 					</thead>
 					<tbody {if $IS_HIDDEN} class="hide" {/if}>
 						{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
@@ -141,18 +154,18 @@
 													<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" title="{vtranslate('LBL_RELATED_MODULE_TYPE')}" >
 														<optgroup>
 															{foreach key=index item=value from=$REFERENCE_LIST}
-																<option value="{$value}" title="{vtranslate($value, $MODULE)}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $MODULE)}</option>
+																<option value="{$value}" title="{vtranslate($value, $QUALIFIED_MODULE_NAME)}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $QUALIFIED_MODULE_NAME)}</option>
 															{/foreach}
 														</optgroup>
 													</select>
 												</span>
 											{else}
-												<label class="muted pull-right marginRight10px">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
+												<label class="muted pull-right marginRight10px">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE_NAME)}</label>
 											{/if}
 										{else if $FIELD_MODEL->get('uitype') eq "83"}
 											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE}
 										{else}
-											{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
+											{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE_NAME)}
 										{/if}
 										{if $isReferenceField neq "reference"}</label>{/if}
 								</td>
@@ -161,7 +174,7 @@
 										<div class="row">
 											<div class="col-md-10">
 												{if $FIELD_MODEL->get('uitype') eq "300"}
-													<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
+													<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE_NAME)}</label>
 												{/if}
 												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 											</div>
