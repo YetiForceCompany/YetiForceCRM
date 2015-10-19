@@ -19,11 +19,11 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 			$baseUserId = Vtiger_Session::get('baseUserId');
 		}
 		if (!key_exists($baseUserId, $switchUsers) || !key_exists($userId, $switchUsers[$baseUserId])) {
-			$db = PearDatabase::getInstance();
-			$db->insert('l_yf_switch_users', [
+			$dbLog = PearDatabase::getInstance('log');
+			$dbLog->insert('l_yf_switch_users', [
 				'baseid' => $baseUserId,
 				'destid' => $userId,
-				'busername' => $currentUserModel->get('first_name').' '.$currentUserModel->get('last_name'),
+				'busername' => $currentUserModel->get('first_name') . ' ' . $currentUserModel->get('last_name'),
 				'dusername' => '',
 				'date' => date('Y-m-d H:i:s'),
 				'ip' => Vtiger_Functions::getRemoteIP(),
@@ -56,15 +56,15 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 			$baseUserId = $userId;
 			Vtiger_Session::set('baseUserId', '');
 			$status = 'Signed out';
-		}else{
+		} else {
 			$baseUserId = Vtiger_Session::get('baseUserId');
 		}
-		
-		$db = PearDatabase::getInstance();
-		$db->insert('l_yf_switch_users', [
+
+		$dbLog = PearDatabase::getInstance('log');
+		$dbLog->insert('l_yf_switch_users', [
 			'baseid' => $baseUserId,
 			'destid' => $userId,
-			'busername' => $currentUserModel->get('first_name').' '.$currentUserModel->get('last_name'),
+			'busername' => $currentUserModel->get('first_name') . ' ' . $currentUserModel->get('last_name'),
 			'dusername' => $name,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => Vtiger_Functions::getRemoteIP(),

@@ -464,8 +464,13 @@ class ListViewController
 						$value = Vtiger_Functions::textLength($value);
 					}
 				} elseif ($field->getFieldDataType() == 'multiReferenceValue') {
+					$params = $field->getFieldParams();
+					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($params['field']);
 					$valueTmp = trim($value, '|#|');
 					$valueTmp = ($valueTmp != "") ? explode('|#|', $valueTmp) : [];
+					foreach ($valueTmp as $index => $tmp) {
+						$valueTmp[$index] = $fieldModel->getUITypeModel()->getDisplayValue($tmp);
+					}
 					$value = implode(', ', $valueTmp);
 					$value = Vtiger_Functions::textLength($value);
 				} elseif (in_array($uitype, array(7, 9, 90))) {

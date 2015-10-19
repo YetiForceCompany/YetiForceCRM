@@ -254,3 +254,6 @@ $maxExecutionCronTime = 3600;
 
 // System's language selection in the login window (true/false).
 $langInLoginView = false;
+
+// Set the default layout 
+$defaultLayout = 'vlayout';

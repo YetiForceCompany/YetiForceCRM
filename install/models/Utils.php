@@ -8,45 +8,33 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Install_Utils_Model {
+class Install_Utils_Model
+{
+
 	/**
 	 * Function that provides default configuration based on installer setup
 	 * @return <Array>
 	 */
-	function getDefaultPreInstallParameters() {
-		include 'config/config.db.php';
-		
-		$parameters = array(
+	function getDefaultPreInstallParameters()
+	{
+		return [
 			'db_hostname' => 'localhost',
 			'db_username' => '',
 			'db_password' => '',
-			'db_name'     => '',
-			'admin_name'  => 'admin',
-			'admin_lastname'=> 'Administrator',
-			'admin_password'=>'',
+			'db_name' => '',
+			'admin_name' => 'admin',
+			'admin_lastname' => 'Administrator',
+			'admin_password' => '',
 			'admin_email' => '',
-		);
-		
-		if (isset($dbconfig) && isset($vtconfig)) {
-			if (isset($dbconfig['db_server']) && $dbconfig['db_server'] != '_DBC_SERVER_') {
-				$parameters['db_hostname'] = $dbconfig['db_server'] . ':' . $dbconfig['db_port'];
-				$parameters['db_username'] = $dbconfig['db_username'];
-				$parameters['db_password'] = $dbconfig['db_password'];
-				$parameters['db_name']     = $dbconfig['db_name'];
-				
-				$parameters['admin_password'] = $vtconfig['adminPwd'];
-				$parameters['admin_email']    = $vtconfig['adminEmail'];
-			}
-		}
-		
-		return $parameters;
+		];
 	}
 
 	/**
 	 * Returns list of currencies
 	 * @return <Array>
 	 */
-	public static function getCurrencyList() {
+	public static function getCurrencyList()
+	{
 		require_once 'install/models/Currencies.php';
 		return $currencies;
 	}
@@ -56,8 +44,9 @@ class Install_Utils_Model {
 	 * @param type $dbType
 	 * @return type
 	 */
-	static function isMySQL($dbType) {
-		return (stripos($dbType ,'mysql') === 0);
+	static function isMySQL($dbType)
+	{
+		return (stripos($dbType, 'mysql') === 0);
 	}
 
 	/**
@@ -73,7 +62,8 @@ class Install_Utils_Model {
 	 * @param <String> $root_password
 	 * @return <Array>
 	 */
-	public static function checkDbConnection($db_type, $db_hostname, $db_username, $db_password, $db_name, $create_db=false, $create_utf8_db=true, $root_user='', $root_password='') {
+	public static function checkDbConnection($db_type, $db_hostname, $db_username, $db_password, $db_name, $create_db = false, $create_utf8_db = true, $root_user = '', $root_password = '')
+	{
 		$dbCheckResult = array();
 
 		$db_type_status = false; // is there a db type?
@@ -81,46 +71,45 @@ class Install_Utils_Model {
 		$db_creation_failed = false; // did we try to create a database and fail?
 		$db_exist_status = false; // does the database exist?
 		$db_utf8_support = false; // does the database support utf8?
-
 		//Checking for database connection parameters
-		if($db_type) {
+		if ($db_type) {
 			$conn = false;
 			try {
-				$dsn = $db_type.':host=' . $db_hostname . ';charset=utf8' . ';port=' . $dbconfig['db_port'];
+				$dsn = $db_type . ':host=' . $db_hostname . ';charset=utf8' . ';port=' . $dbconfig['db_port'];
 				$conn = new PDO($dsn, $db_username, $db_password);
 			} catch (PDOException $e) {
 				//echo $e->getMessage();
 			}
 			$db_type_status = true;
-			if($conn) {
+			if ($conn) {
 				$db_server_status = true;
-				if(self::isMySQL($db_type)) {
+				if (self::isMySQL($db_type)) {
 					$stmt = $conn->query("SHOW VARIABLES LIKE 'version'");
 					$res = $stmt->fetch(PDO::FETCH_ASSOC);
 					$mysql_server_version = $res['Value'];
 				}
-				if($create_db) {
+				if ($create_db) {
 					// drop the current database if it exists
 					$stmt = $conn->query("SHOW DATABASES LIKE '$db_name'");
-					if($stmt->rowCount() != 0) {
+					if ($stmt->rowCount() != 0) {
 						$conn->query("DROP DATABASE `$db_name`");
 					}
 
 					// create the new database
 					$db_creation_failed = true;
 
-					$query = "CREATE DATABASE ".$db_name;
-					if($create_utf8_db == 'true') {
-						if(self::isMySQL($db_type))
+					$query = "CREATE DATABASE " . $db_name;
+					if ($create_utf8_db == 'true') {
+						if (self::isMySQL($db_type))
 							$query .= " DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci";
 						$db_utf8_support = true;
 					}
-					if($conn->query($query)) {
+					if ($conn->query($query)) {
 						$db_creation_failed = false;
 					}
 				}
 				$stmt = $conn->query("SHOW DATABASES LIKE '$db_name'");
-				if($stmt->rowCount() == 1) {
+				if ($stmt->rowCount() == 1) {
 					$db_exist_status = true;
 				}
 			}
@@ -130,18 +119,18 @@ class Install_Utils_Model {
 		$error_msg = '';
 		$error_msg_info = '';
 
-		if(!$db_type_status || !$db_server_status) {
-			$error_msg = getTranslatedString('ERR_DATABASE_CONNECTION_FAILED', 'Install').'. '.getTranslatedString('ERR_INVALID_MYSQL_PARAMETERS', 'Install');
-			$error_msg_info = getTranslatedString('MSG_LIST_REASONS', 'Install').':<br>
-					-  '.getTranslatedString('MSG_DB_PARAMETERS_INVALID', 'Install').'
-					-  '.getTranslatedString('MSG_DB_USER_NOT_AUTHORIZED', 'Install');
-		} elseif(self::isMySQL($db_type) && $mysql_server_version < 4.1) {
-			$error_msg = $mysql_server_version.' -> '.getTranslatedString('ERR_INVALID_MYSQL_VERSION', 'Install');
-		} elseif($db_creation_failed) {
-			$error_msg = getTranslatedString('ERR_UNABLE_CREATE_DATABASE', 'Install').' '.$db_name;
+		if (!$db_type_status || !$db_server_status) {
+			$error_msg = getTranslatedString('ERR_DATABASE_CONNECTION_FAILED', 'Install') . '. ' . getTranslatedString('ERR_INVALID_MYSQL_PARAMETERS', 'Install');
+			$error_msg_info = getTranslatedString('MSG_LIST_REASONS', 'Install') . ':<br>
+					-  ' . getTranslatedString('MSG_DB_PARAMETERS_INVALID', 'Install') . '
+					-  ' . getTranslatedString('MSG_DB_USER_NOT_AUTHORIZED', 'Install');
+		} elseif (self::isMySQL($db_type) && $mysql_server_version < 4.1) {
+			$error_msg = $mysql_server_version . ' -> ' . getTranslatedString('ERR_INVALID_MYSQL_VERSION', 'Install');
+		} elseif ($db_creation_failed) {
+			$error_msg = getTranslatedString('ERR_UNABLE_CREATE_DATABASE', 'Install') . ' ' . $db_name;
 			$error_msg_info = getTranslatedString('MSG_DB_ROOT_USER_NOT_AUTHORIZED', 'Install');
-		} elseif(!$db_exist_status) {
-			$error_msg = $db_name.' -> '.getTranslatedString('ERR_DB_NOT_FOUND', 'Install');
+		} elseif (!$db_exist_status) {
+			$error_msg = $db_name . ' -> ' . getTranslatedString('ERR_DB_NOT_FOUND', 'Install');
 		} else {
 			$dbCheckResult['flag'] = true;
 			return $dbCheckResult;
@@ -151,14 +140,16 @@ class Install_Utils_Model {
 		$dbCheckResult['error_msg_info'] = $error_msg_info;
 		return $dbCheckResult;
 	}
-	public static function getLanguages() {
+
+	public static function getLanguages()
+	{
 		$dir = 'languages/';
 		$ffs = scandir($dir);
-        $langs = array();
-		foreach($ffs as $ff){
-			if( $ff != '.' && $ff != '..' ){ 
-				if(file_exists($dir.$ff.'/Install.php')){
-					$langs[$ff] = Vtiger_Language_Handler::getTranslatedString('LANGNAME', 'Install',$ff);
+		$langs = array();
+		foreach ($ffs as $ff) {
+			if ($ff != '.' && $ff != '..') {
+				if (file_exists($dir . $ff . '/Install.php')) {
+					$langs[$ff] = Vtiger_Language_Handler::getTranslatedString('LANGNAME', 'Install', $ff);
 				}
 			}
 		}

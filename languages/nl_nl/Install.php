@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = [
-	'LANGNAME' => 'English',
+	'LANGNAME' => 'Dutch',
 	'ERR_DATABASE_CONNECTION_FAILED' => 'Unable to connect to database Server',
 	'ERR_DB_NOT_FOUND' => 'This Database is not found.Try changing the Database settings',
 	'ERR_INVALID_MYSQL_PARAMETERS' => 'Invalid mySQL Connection Parameters specified',

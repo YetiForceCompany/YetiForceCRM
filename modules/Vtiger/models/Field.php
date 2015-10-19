@@ -1145,25 +1145,17 @@ class Vtiger_Field_Model extends Vtiger_Field
 		return ($this->getFieldDataType() == self::OWNER_TYPE) ? true : false;
 	}
 
-	public static function getInstanceFromFieldId($fieldId, $moduleTabId)
+	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
 	{
-		$db = PearDatabase::getInstance();
-
-		if (is_string($fieldId)) {
-			$fieldId = array($fieldId);
+		$fieldModel = Vtiger_Cache::get('FieldModel', $fieldId);
+		if ($fieldModel) {
+			return $fieldModel;
 		}
-
-		$query = 'SELECT * FROM vtiger_field WHERE fieldid IN (' . generateQuestionMarks($fieldId) . ') AND tabid=?';
-		$result = $db->pquery($query, array($fieldId, $moduleTabId));
-		$fieldModelList = array();
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
-			$fieldModel = new self();
-			$fieldModel->initialize($row);
-			$fieldModelList[] = $fieldModel;
-		}
-		return $fieldModelList;
+		$field = Vtiger_Functions::getModuleFieldInfoWithId($fieldId);
+		$fieldModel = new self();
+		$fieldModel->initialize($field);
+		Vtiger_Cache::set('FieldModel', $fieldId, $fieldModel);
+		return $fieldModel;
 	}
 
 	public function getWithDefaultValue()

@@ -142,7 +142,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			}
 
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
-			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
+			$userDateTimeString = $dateTimeFieldInstance->getFullcalenderDateTimevalue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
 			$startTimeFormated = $dateTimeComponents[1];
@@ -150,7 +150,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$startDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 
 			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
-			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
+			$userDateTimeString = $dateTimeFieldInstance->getFullcalenderDateTimevalue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
 			$endTimeFormated = $dateTimeComponents[1];

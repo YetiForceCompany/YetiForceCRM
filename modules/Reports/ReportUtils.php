@@ -196,8 +196,12 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			$fieldvalue = vtranslate('LBL_NO');
 		}
 	} elseif ($field && $field->getUIType() == 117 && $value != '') {
-		$currencyList = Settings_Currency_Record_Model::getAll();
-		$fieldvalue = $currencyList[$value]->getName() . ' (' . $currencyList[$value]->get('currency_symbol') . ')';
+		if ($value != '0') {
+			$currencyList = Settings_Currency_Record_Model::getAll();
+			$fieldvalue = $currencyList[$value]->getName() . ' (' . $currencyList[$value]->get('currency_symbol') . ')';
+		} else {
+			$fieldvalue = '-';
+		}
 	}
 
 	if ('vtiger_crmentity' == $dbField->table && false != strpos($dbField->name, 'Share__with__users')) {

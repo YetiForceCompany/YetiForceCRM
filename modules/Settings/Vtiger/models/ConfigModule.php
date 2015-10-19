@@ -117,6 +117,16 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 				$moduleData[$db->query_result($result, $i, 'name')] = $db->query_result($result, $i, 'tablabel');
 			}
 			return $moduleData;
+		} else if ($fieldName === 'defaultLayout') {
+			$dir = vglobal('root_directory;') . 'layouts';
+			$scannedDirectory = array_diff(scandir($dir), array('..', '.'));
+			$folders = [];
+			foreach ($scannedDirectory as $file) {
+				if (!(is_file($file))) {
+					array_push($folders, $file);
+				}
+			}
+			return $folders;
 		}
 		return array('true', 'false');
 	}
@@ -139,7 +149,8 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			'default_module' => array('label' => 'LBL_DEFAULT_MODULE', 'fieldType' => 'picklist'),
 			'listview_max_textlength' => array('label' => 'LBL_MAX_TEXT_LENGTH_IN_LISTVIEW', 'fieldType' => 'input'),
 			'max_number_search_result' => array('label' => 'LBL_MAX_SEARCH_RESULT', 'fieldType' => 'input'),
-			'list_max_entries_per_page' => array('label' => 'LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW', 'fieldType' => 'input')
+			'list_max_entries_per_page' => array('label' => 'LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW', 'fieldType' => 'input'),
+			'defaultLayout' => array('label' => 'LBL_DEFAULT_LAYOUT', 'fieldType' => 'picklist')
 		);
 	}
 

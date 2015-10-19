@@ -20,8 +20,10 @@ class LogoutHandler extends VTEventHandler
 			$mainUrl = OSSMail_Record_Model::GetSite_URL() . 'modules/OSSMail/roundcube/';
 			vimport('~modules/OSSMail/RoundcubeLogin.class.php');
 			$rcl = new RoundcubeLogin($mainUrl);
-			if ($rcl->isLoggedIn()) {
+			try {
 				$rcl->logout();
+			} catch (RoundcubeLoginException $ex) {
+				$log->error('OSSMail_index_View|RoundcubeLoginException: ' . $ex->getMessage());
 			}
 			$log->debug("End LogoutHandler: user.logout.before");
 		}

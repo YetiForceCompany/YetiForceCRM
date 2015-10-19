@@ -52,10 +52,10 @@
                 </div>
 				<br>
 				<div class="row">
-					<label class="col-md-3"><strong>{vtranslate('LBL_PROFILE',$QUALIFIED_MODULE)}:</strong></label>
+					<label class="col-md-3"><span class="redColor">*</span><strong>{vtranslate('LBL_PROFILE',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						{assign var="ROLE_PROFILES" value=$RECORD_MODEL->getProfiles()}
-						<select class="select2" multiple="true" id="profilesList" name="profiles[]" data-placeholder="{vtranslate('LBL_CHOOSE_PROFILES',$QUALIFIED_MODULE)}" style="width: 800px">
+						<select class="select2" multiple="true" id="profilesList" name="profiles[]" data-placeholder="{vtranslate('LBL_CHOOSE_PROFILES',$QUALIFIED_MODULE)}" data-validation-engine="validate[required]" style="width: 800px">
 							{foreach from=$ALL_PROFILES item=PROFILE}
 								{if $PROFILE->isDirectlyRelated() eq false}
 									<option value="{$PROFILE->getId()}" {if isset($ROLE_PROFILES[$PROFILE->getId()])}selected="true"{/if}>{vtranslate($PROFILE->getName(),'Profiles')}</option>

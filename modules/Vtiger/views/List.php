@@ -28,10 +28,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$mid = false;
-		if($request->has('mid')){
+		if ($request->has('mid')) {
 			$mid = $request->get('mid');
 		}
-		
+
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName);
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
@@ -74,10 +74,12 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$this->viewName = $request->get('viewname');
-
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('VIEW', $request->get('view'));
+		if ($request->has('viewname')) {
+			$this->viewName = $request->get('viewname');
+			$viewer->assign('VIEWID', $this->viewName);
+		}
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('ListViewContents.tpl', $moduleName);

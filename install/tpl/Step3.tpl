@@ -64,7 +64,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue() key=key item=item}
+								{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue(true) key=key item=item}
 									{if $item.status}
 										<tr class="danger">
 											<td><label>{$key}</label></td>

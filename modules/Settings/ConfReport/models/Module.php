@@ -72,7 +72,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		return self::$library;
 	}
 
-	public static function getConfigurationValue()
+	public static function getConfigurationValue($instalMode = false)
 	{
 		$errorReportingValue = 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
 		$directiveValues = array(
@@ -220,8 +220,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['suhosin.post.max_value_length']['current'] = ini_get('suhosin.post.max_value_length');
 		}
 
-		$db = PearDatabase::getInstance(false);
-		if ($db) {
+		if (!$instalMode) {
+			$db = PearDatabase::getInstance(false);
 			$result = $db->query('SELECT @@max_allowed_packet');
 			$maxAllowedPacket = $db->getSingleValue($result);
 			if ($maxAllowedPacket < 16777216)
