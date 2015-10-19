@@ -396,14 +396,12 @@ CREATE TABLE `l_yf_access_to_record` (
 
 CREATE TABLE `l_yf_sqltime` (
   `id` int(19) DEFAULT NULL,
-  `type` varchar(10) DEFAULT NULL,
+  `type` varchar(20) DEFAULT NULL,
   `data` text,
-  `started` decimal(20,6) DEFAULT NULL,
-  `ended` decimal(20,6) DEFAULT NULL,
-  `loggedon` datetime DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
   `qtime` decimal(20,3) DEFAULT NULL,
   KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 /*Table structure for table `l_yf_switch_users` */
 
