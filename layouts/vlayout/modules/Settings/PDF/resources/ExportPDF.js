@@ -26,7 +26,7 @@ jQuery.Class("Settings_PDF_ExportPDF_Js", {
 	 * Function to register the click event for generate button
 	 */
 	registerPreSubmitEvent: function (container) {
-		container.find('#generate_pdf, #single_pdf').on('click', function (e) {
+		container.find('#generate_pdf, #single_pdf, #email_pdf').on('click', function (e) {
 			var templateIds = new Array();
 			var i = 0;
 			container.find('[name="pdf_template[]"]').each(function () {
@@ -39,7 +39,8 @@ jQuery.Class("Settings_PDF_ExportPDF_Js", {
 			if (app.getUrlVar('view') === 'List') {
 				url = url.replace('&record=&', '&record=' + container.find('[name="validRecords"]').val() + '&');
 			}
-			jQuery(this).prop('href', url + JSON.stringify(templateIds));
+
+			window.open(url + JSON.stringify(templateIds), '_blank');
 		});
 	},
 	registerValidateSubmit: function (container) {

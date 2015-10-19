@@ -349,8 +349,8 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Returns template records by module name
-	 * @param <string> $moduleName - module name for which template was created
-	 * @return <array> array of template record models
+	 * @param string $moduleName - module name for which template was created
+	 * @return array of template record models
 	 */
 	public function getTemplatesByModule($moduleName)
 	{
@@ -510,5 +510,36 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 
 		// delete temporary zip file and saved pdf files
 		unlink($fileName);
+	}
+
+	public static function zipAndEmail(array $fileNames)
+	{
+		//create the object
+		$zip = new ZipArchive();
+
+		mt_srand(time());
+		$postfix = time() . '_' . mt_rand(0, 1000);
+		$zipPath = 'cache/pdf/';
+		$zipName = "pdfZipFile_{$postfix}.zip";
+		$fileName = $zipPath . $zipName;
+
+		//create the file and throw the error if unsuccessful
+		if ($zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE) !== true) {
+			exit("cannot open <$zipPath.$zipName>\n");
+		}
+
+		//add each files of $file_name array to archive
+		foreach ($fileNames as $file) {
+			$zip->addFile($file, basename($file));
+		}
+		$zip->close();
+
+		// delete added pdf files
+		foreach ($fileNames as $file) {
+			unlink($file);
+		}
+
+		header('Location: index.php?module=OSSMail&view=compose&pdf_path='.$fileName);
+		exit;
 	}
 }

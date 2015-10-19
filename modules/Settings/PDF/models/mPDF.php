@@ -264,7 +264,7 @@ class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 	public function output($fileName = '', $dest = '')
 	{
 		if (empty($fileName)) {
-			$fileName = $this->getFileName().'.pdf';
+			$fileName = $this->getFileName() . '.pdf';
 			$dest = 'I';
 		}
 		$this->pdf->WriteHTML($this->html);
@@ -274,5 +274,38 @@ class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 	public function writeHTML()
 	{
 		$this->pdf->WriteHTML($this->html);
+	}
+
+	/**
+	 * Export record to PDF file
+	 * @param int $recordId - id of a record
+	 * @param string $moduleName - name of records module
+	 * @param int $templateId - id of pdf template
+	 * @param string $filePath - path name for saving pdf file
+	 * @param string $saveFlag - save option flag
+	 */
+	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
+	{
+		$pdf = new Settings_PDF_mPDF_Model();
+		$pdf->setTemplateId($templateId);
+		$pdf->setRecordId($recordId);
+		$pdf->setModuleName($moduleName);
+
+		$template = Settings_PDF_Record_Model::getInstanceById($templateId);
+		$template->setMainRecordId($recordId);
+
+		$pdf->setLanguage($template->get('language'));
+		$pdf->setFileName($template->get('filename'));
+
+		$pdf->parseParams($template->getParameters());
+
+		$html = '';
+
+		$pdf->setHeader('Header', $template->getHeader());
+		$pdf->setFooter('Footer', $template->getFooter());
+		$html = $template->getBody();
+
+		$pdf->loadHTML($html);
+		$pdf->output($filePath, $saveFlag);
 	}
 }

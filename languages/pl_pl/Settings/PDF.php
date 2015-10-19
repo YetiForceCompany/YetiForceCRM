@@ -103,6 +103,8 @@ $languageStrings = [
 	'LBL_GENERATE_SINGLE' => 'Jeden plik PDF',
 	'LBL_MANY_IN_ONE' => 'Zbiorczy dokument',
 	'LBL_VALID_RECORDS' => '%s from %s are valid for chosen template.',
+	'LBL_SEND_EMAIL' => 'Wyślij pocztą',
+	'LBL_EXPORT_ERROR' => 'Nie udało się wygenerować pliku PDF.',
 
 	// page format names
 	'4A0' => '4A0',

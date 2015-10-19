@@ -181,4 +181,14 @@ abstract class Settings_PDF_AbstractPDF_Model
 	{
 		$this->fileName = $fileName;
 	}
+
+	/**
+	 * Export record to PDF file
+	 * @param int $recordId - id of a record
+	 * @param string $moduleName - name of records module
+	 * @param int $templateId - id of pdf template
+	 * @param string $filePath - path name for saving pdf file
+	 * @param string $saveFlag - save option flag
+	 */
+	abstract public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '');
 }

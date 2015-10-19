@@ -20,34 +20,25 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 		$moduleName = $request->get('frommodule');
 		$templateIds = $request->get('template');
 		$singlePdf = $request->get('single_pdf') == 1 ? true : false;
+		$emailPdf = $request->get('email_pdf') == 1 ? true : false;
 
 		if (!is_array($recordId)) {
 			$recordId = [$recordId];
 		}
 
-		if (count($templateIds) == 1) {
-			$pdf = new Settings_PDF_mPDF_Model();
-			$pdf->setTemplateId($templateIds[0]);
-			$record = array_pop($recordId);
-			$pdf->setRecordId($record);
-			$pdf->setModuleName($moduleName);
-
-			$template = Settings_PDF_Record_Model::getInstanceById($templateIds[0]);
-			$template->setMainRecordId($record);
-
-			$pdf->setLanguage($template->get('language'));
-			$pdf->setFileName($template->get('filename'));
-
-			$pdf->parseParams($template->getParameters());
-
-			$html = '';
-
-			$pdf->setHeader('Header', $template->getHeader());
-			$pdf->setFooter('Footer', $template->getFooter());
-			$html = $template->getBody();
-
-			$pdf->loadHTML($html);
-			$pdf->output();
+		if (count($templateIds) == 1 && count($recordId) == 1) {
+			if ($emailPdf) {
+				$filePath = 'cache/pdf/'.$recordId[0].'_'.time().'.pdf';
+				Settings_PDF_mPDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], $filePath, 'F');
+				if (file_exists($filePath)) {
+					header('Location: index.php?module=OSSMail&view=compose&pdf_path='.$filePath);
+					exit;
+				} else {
+					throw new AppException(vtranslate('LBL_EXPORT_ERROR', 'Settings:PDF'));
+				}
+			} else {
+				Settings_PDF_mPDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0]);
+			}
 		} else { // save multiple templates as pdf files
 			if ($singlePdf) {
 				$pdf = new Settings_PDF_mPDF_Model();
@@ -156,7 +147,11 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 				}
 
 				if (!empty($pdfFiles)) {
-					Settings_PDF_Module_Model::zipAndDownload($pdfFiles);
+					if (!empty($emailPdf)) {
+						Settings_PDF_Module_Model::zipAndEmail($pdfFiles);
+					} else {
+						Settings_PDF_Module_Model::zipAndDownload($pdfFiles);
+					}
 				}
 			}
 		}

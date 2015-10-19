@@ -21,7 +21,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getName()
 	{
-		return $this->get('summary');
+		return $this->get('primary_name');
 	}
 
 	public function get($key)
