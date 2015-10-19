@@ -37,6 +37,7 @@ $languageStrings = [
 	'LBL_LEADS_FIELD_MAPPING_INCOMPLETE' => 'Leads Field Mapping is incomplete(Settings > Module Manager > Leads > Leads Field Mapping)',
 	'LBL_LEADS_FIELD_MAPPING' => 'Leads Field Mapping',
 	'LBL_MANDATORY_FIELDS_ARE_EMPTY' => 'Mandatory fields are empty',
+	'LBL_LEAD_ALREADY_CONVERTED' => 'Lead is already converted',
 	'LBL_RECORDS_LIST' => 'Leads List',
 	'LBL_TRANSFER_RELATED_RECORD' => 'Transfer related record to',
 	'Lead No' => 'Lead Number',

@@ -27,7 +27,7 @@ class Vtiger_CRMEntity extends CRMEntity {
 	function __construct() {
 		$log = vglobal('log');
 		$this->column_fields = getColumnFields(get_class($this));
-		$this->db = new PearDatabase();
+		$this->db = PearDatabase::getInstance();
 		$this->log = $log;
 	}
 

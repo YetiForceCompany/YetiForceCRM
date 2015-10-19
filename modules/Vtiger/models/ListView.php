@@ -226,7 +226,8 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				//$queryGenerator->whereFields[] = $orderByFieldName;
 			}
 		}
-		if ($moduleName == $this->get('src_module')) {
+
+		if ($moduleName == $this->get('src_module') && !empty($this->get('src_record'))) {
 			$queryGenerator->addCondition('id', $this->get('src_record'), 'n');
 		}
 		$listQuery = $this->getQuery();
