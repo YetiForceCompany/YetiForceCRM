@@ -1343,9 +1343,6 @@ insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (19
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (19,4,'vtiger_activity:date_start:date_start:Calendar_Start_Date:D');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (19,5,'vtiger_activity:due_date:due_date:Calendar_End_Date:D');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (19,6,'vtiger_crmentity:smownerid:assigned_user_id:Calendar_Assigned_To:V');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (20,0,'vtiger_activity:subject:subject:Emails_Subject:V');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (20,1,'vtiger_emaildetails:to_email:saved_toid:Emails_To:V');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (20,2,'vtiger_activity:date_start:date_start:Emails_Date_Sent:D');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (21,1,'vtiger_invoice:subject:subject:Invoice_Subject:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (21,2,'vtiger_invoice:salesorderid:salesorder_id:Invoice_Sales_Order:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (21,3,'vtiger_invoice:invoicestatus:invoicestatus:Invoice_Status:V');
