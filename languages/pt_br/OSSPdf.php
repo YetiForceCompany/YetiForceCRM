@@ -325,7 +325,7 @@ $languageStrings = [
 	//
 	'ADD_CONDITIONS' => 'Adicionar uma condição',
 	'LBL_CONDITION_ALL' => 'Todas as Condições',
-	'LBL_CONDITION_ALL_DSC' => 'Todas as condições devem ser atendidas',
+	'LBL_CONDITION_ALL_DSC' => 'Todas as condições devem ser satisfeitas',
 	'LBL_CONDITION_OPTION' => 'Nenhuma Condição',
 	'LBL_CONDITION_OPTION_DSC' => 'Pelo menos uma das condições desta seção deve ser satisfeita',
 	'CONDITIONS' => 'Condições do visor',
@@ -368,7 +368,7 @@ $languageStrings = [
 	'Show in' => 'Visualizar',
 	'List' => 'Listar',
 	'Detail' => 'Visualizar',
-	'LBL_CONDITIONS_INFO' => 'As condições do visor funciona somente para pré-visualizar os registros a partir do qual podemos gerar um PDF',
+	'LBL_CONDITIONS_INFO' => 'As condições funcionam somente para pré-visualizar os registros a partir do qual podemos gerar um PDF',
 	'Enable column with positions no. :' => 'Habilitar coluna com posição do no. do Produto:',
 	'Enable column with product name :' => 'Habilitar coluna com nome Produto:',
 	'Enable column with product`s amount :' => 'Habilitar coluna com quantidade Produto :',

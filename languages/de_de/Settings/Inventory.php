@@ -1,15 +1,15 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'LBL_CREDITLIMITS' => 'Credit limit base',
+	'LBL_CREDITLIMITS' => 'Kreditlimit Grundlage',
 	'LBL_CREDITLIMITS_DESCRIPTION' => ' ',
-	'LBL_CREDITLIMITS_SINGLE' => 'Credit limit',
-	'LBL_ENTER_NAME' => 'Enter the name',
-	'LBL_ENTER_VALUE' => 'Enter a value',
+	'LBL_CREDITLIMITS_SINGLE' => 'Kreditlimit',
+	'LBL_ENTER_NAME' => 'Name eingeben',
+	'LBL_ENTER_VALUE' => 'Betrag eingeben',
 	'LBL_NAME' => 'Name',
-	'LBL_STATUS_DESC' => 'Select to activate',
-	'LBL_NAME_EXIST' => 'This name already exists.',
-	'LBL_EDITING' => 'Edit',
+	'LBL_STATUS_DESC' => 'Auswählen zum aktivieren',
+	'LBL_NAME_EXIST' => 'Der Name existiert bereits.',
+	'LBL_EDITING' => 'Bearbeiten',
 	
 	'LBL_TAXES' => 'Tax base',
 	'LBL_TAXES_DESCRIPTION' => ' ',

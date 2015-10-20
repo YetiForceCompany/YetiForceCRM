@@ -39,7 +39,8 @@
 													{foreach from=$LISTVIEW_ADVANCEDACTIONS->get('linkdata') key=NAME item=DATA}
 														data-{$NAME}="{$DATA}" 
 													{/foreach}
-												{/if}>{vtranslate($LISTVIEW_ADVANCEDACTIONS->getLabel(), $MODULE)}</a>
+												{/if}
+											>{vtranslate($LISTVIEW_ADVANCEDACTIONS->getLabel(), $MODULE)}</a>
 										</li>
 										{/foreach}
 									{/if}

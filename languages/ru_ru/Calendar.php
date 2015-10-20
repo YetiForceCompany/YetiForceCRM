@@ -152,7 +152,7 @@ $languageStrings = [
 	'LBL_SHIFT_BLOCK' => 'Показать/Скрыть Блок',
 	'LBL_ON_SWITCH' => 'Вкл',
 	'LBL_OFF_SWITCH' => 'Выкл',
-	'LBL_FOLLOWUP' => 'Follow up',
+	'LBL_FOLLOWUP' => 'Related event',
 	
 	'PLL_PLANNED' => 'Planned',
 	'PLL_IN_REALIZATION' => 'To be realized',

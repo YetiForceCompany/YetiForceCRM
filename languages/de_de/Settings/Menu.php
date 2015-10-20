@@ -25,11 +25,11 @@ $languageStrings = array(
 	'LBL_EDITION_MENU' => 'Editieren Menü',
 	'LBL_SAVE_MENU' => 'Speichern',
 	'LBL_SAVED_MENU' => 'Änderungen wurden gespeichert.',
-	'LBL_HOTKEY' => 'Hot key',
+	'LBL_HOTKEY' => 'Hotkey',
 	'LBL_NAME' => 'Name',
 	'LBL_TEST_IT' => 'Testen',
-	'LBL_MENU_TYPE' => 'Menu type',
-	'LBL_AVAILABLE_FILTERS' => 'Available filters',
+	'LBL_MENU_TYPE' => 'Menüart',
+	'LBL_AVAILABLE_FILTERS' => 'Verfügbare Filter',
 	
 	//Menu types
 	'LBL_MODULE' => 'Modul',

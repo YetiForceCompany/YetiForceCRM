@@ -71,58 +71,59 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $config;
 	}
 
-	public static function imap_connect($user, $password, $folder = 'INBOX', $dieOnError = true)
+	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true)
 	{
 		$log = vglobal('log');
-		$log->debug("Entering OSSMail_Record_Model::imap_connect($user , $password , $folder) method ...");
-		$roundcube_config = self::load_roundcube_config();
-		$a_host = parse_url($roundcube_config['default_host']);
+		$log->debug("Entering OSSMail_Record_Model::imapConnect($user , $password , $folder) method ...");
+		$rcConfig = self::load_roundcube_config();
+		if (!$host) {
+			$host = key($rcConfig['default_host']);
+		}
+		$parseHost = parse_url($host);
 		$validatecert = '';
-		if ($a_host['host']) {
-			$host = $a_host['host'];
-			$ssl_mode = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl', 'imaps', 'tls'))) ? $a_host['scheme'] : null;
-			if (!empty($a_host['port'])) {
-				$port = $a_host['port'];
-			} else if ($ssl_mode && $ssl_mode != 'tls' && (!$roundcube_config['default_port'] || $roundcube_config['default_port'] == 143)) {
+		if ($parseHost['host']) {
+			$host = $parseHost['host'];
+			$sslMode = (isset($a_host['scheme']) && in_array($parseHost['scheme'], ['ssl', 'imaps', 'tls'])) ? $parseHost['scheme'] : null;
+			if (!empty($parseHost['port'])) {
+				$port = $parseHost['port'];
+			} else if ($sslMode && $sslMode != 'tls' && (!$rcConfig['default_port'] || $rcConfig['default_port'] == 143)) {
 				$port = 993;
 			}
 		} else {
-			$host = $roundcube_config['default_host'];
-			if ($roundcube_config['default_port'] == 993) {
-				$ssl_mode = 'ssl';
+			if ($rcConfig['default_port'] == 993) {
+				$sslMode = 'ssl';
 			} else {
-				$ssl_mode = 'tls';
+				$sslMode = 'tls';
 			}
-			$port = $roundcube_config['default_port'];
 		}
 		if (empty($port)) {
-			$port = $roundcube_config['default_port'];
+			$port = $rcConfig['default_port'];
 		}
-		if (!$roundcube_config['validate_cert']) {
+		if (!$rcConfig['validate_cert']) {
 			$validatecert = '/novalidate-cert';
 		}
-		if ($roundcube_config['imap_open_add_connection_type']) {
-			$ssl_mode = '/' . $ssl_mode;
+		if ($rcConfig['imap_open_add_connection_type']) {
+			$sslMode = '/' . $sslMode;
 		} else {
-			$ssl_mode = '';
+			$sslMode = '';
 		}
 
 		imap_timeout(IMAP_OPENTIMEOUT, 5);
-		$log->debug("imap_open({" . $host . ":" . $port . "/imap" . $ssl_mode . $validatecert . "}$folder, $user , $password) method ...");
+		$log->debug("imap_open({" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder, $user , $password) method ...");
 		if ($dieOnError) {
-			$mbox = @imap_open("{" . $host . ":" . $port . "/imap" . $ssl_mode . $validatecert . "}$folder", $user, $password) OR
-				die(self::imap_open_error(imap_last_error()));
+			$mbox = @imap_open("{" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder", $user, $password) OR
+				die(self::imapThrowError(imap_last_error()));
 		} else {
-			$mbox = @imap_open("{" . $host . ":" . $port . "/imap" . $ssl_mode . $validatecert . "}$folder", $user, $password);
+			$mbox = @imap_open("{" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder", $user, $password);
 		}
-		$log->debug("Exit OSSMail_Record_Model::imap_connect() method ...");
+		$log->debug("Exit OSSMail_Record_Model::imapConnect() method ...");
 		return $mbox;
 	}
 
-	public static function imap_open_error($error)
+	public static function imapThrowError($error)
 	{
 		$log = vglobal('log');
-		$log->error("Error OSSMail_Record_Model::imap_connect(): " . $error);
+		$log->error("Error OSSMail_Record_Model::imapConnect(): " . $error);
 		Vtiger_Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
 	}
 
@@ -144,7 +145,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$account = self::get_account_detail($user);
 			if ($account !== FALSE) {
 				$result = $adb->pquery("SELECT count(*) AS num FROM yetiforce_mail_quantities WHERE userid = ?;", [$user]);
-				$mbox = self::imap_connect($account['username'], $account['password'], 'INBOX', FALSE);
+				$mbox = self::imapConnect($account['username'], $account['password'], $account['mail_host'], 'INBOX', FALSE);
 				if ($mbox) {
 					$info = imap_mailboxmsginfo($mbox);
 					if ($adb->query_result_raw($result, 0, 'num') > 0) {
@@ -339,7 +340,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$mail['attachments'][$attachmentId]['filename'] = $fileName;
 			$mail['attachments'][$attachmentId]['attachment'] = $data;
 		} elseif ($partStructure->type == 0 && $data) {
-			if(base64_decode($data, true)){
+			if (base64_decode($data, true)) {
 				$data = base64_decode($data);
 			}
 			if (strtolower($partStructure->subtype) == 'plain') {
@@ -476,7 +477,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$mailboxs = [];
 		if ($accounts) {
 			foreach ($accounts as $account) {
-				$mbox = self::imap_connect($account['username'], $account['password'], 'INBOX', false);
+				$mbox = self::imapConnect($account['username'], $account['password'], $account['mail_host'], 'INBOX', false);
 				if ($mbox) {
 					$ref = "{" . $account['mail_host'] . "}";
 					$list = imap_list($mbox, $ref, "*");
@@ -541,18 +542,18 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	function get_message_id_uid($params)
 	{
-		$password = $this->get_user_password($params['username']);
-		$mbox = $this->imap_connect($params['username'], $password, $params['folder']);
+		$account = $this->getAccountByName($params['username']);
+		$mbox = $this->imapConnect($params['username'], $account['password'], $account['mail_host'], $params['folder']);
 		$msgno = imap_msgno($mbox, $params['uid']);
 		$header = imap_header($mbox, $msgno);
 		$message_id = $header->message_id;
 		return $header->message_id;
 	}
 
-	public static function get_user_password($username)
+	public static function getAccountByName($username)
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT password FROM roundcube_users where username = ?", array($username), true);
+		$result = $adb->pquery('SELECT password FROM roundcube_users where username = ?', [$username]);
 		return $adb->query_result($result, 0, 'password');
 	}
 
@@ -605,10 +606,22 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$fileName = 'modules/OSSMail/roundcube/config/config.inc.php';
 		$fileContent = file_get_contents($fileName);
 		$Fields = self::getEditableFields();
+
 		foreach ($param as $fieldName => $fieldValue) {
 			$type = $Fields[$fieldName]['fieldType'];
 			$pattern = '/(\$config\[\'' . $fieldName . '\'\])[\s]+=([^;]+);/';
 			if ($type == 'checkbox' || $type == 'int') {
+				$patternString = "\$config['%s'] = %s;";
+			} elseif ($type == 'multipicklist') {
+				if (!is_array($fieldValue)) {
+					$fieldValue = [$fieldValue];
+				}
+				$saveValue = '[';
+				foreach ($fieldValue as $value) {
+					$saveValue .= "'$value' => '$value',";
+				}
+				$saveValue .= ']';
+				$fieldValue = $saveValue;
 				$patternString = "\$config['%s'] = %s;";
 			} elseif ($fieldName == 'skin_logo') {
 				$patternString = "\$config['%s'] = array(\"*\" => \"%s\");";
@@ -634,7 +647,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			'product_name' => array('label' => 'LBL_RC_product_name', 'fieldType' => 'text', 'required' => 1),
 			'validate_cert' => array('label' => 'LBL_RC_validate_cert', 'fieldType' => 'checkbox', 'required' => 0),
 			'imap_open_add_connection_type' => array('label' => 'LBL_RC_imap_open_add_connection_type', 'fieldType' => 'checkbox', 'required' => 0),
-			'default_host' => array('label' => 'LBL_RC_default_host', 'fieldType' => 'text', 'required' => 1),
+			'default_host' => array('label' => 'LBL_RC_default_host', 'fieldType' => 'multipicklist', 'required' => 1),
 			'default_port' => array('label' => 'LBL_RC_default_port', 'fieldType' => 'int', 'required' => 1),
 			'smtp_server' => array('label' => 'LBL_RC_smtp_server', 'fieldType' => 'text', 'required' => 1),
 			'smtp_user' => array('label' => 'LBL_RC_smtp_user', 'fieldType' => 'text', 'required' => 1),
@@ -661,11 +674,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	function getMailsFromIMAP($user = false)
 	{
-		$Accounts = self::getAccountsList($user, true);
-		$mails = Array();
+		$account = self::getAccountsList($user, true);
+		$mails = [];
 		$mailLimit = 5;
-		if ($Accounts) {
-			$imap = self::imap_connect($Accounts[0]['username'], $Accounts[0]['password']);
+		if ($account) {
+			$imap = self::imapConnect($account[0]['username'], $account[0]['password'], $account[0]['mail_host']);
 			$numMessages = imap_num_msg($imap);
 			if ($numMessages < $mailLimit) {
 				$mailLimit = $numMessages;

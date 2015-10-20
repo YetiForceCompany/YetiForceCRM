@@ -5048,14 +5048,13 @@ DayGrid.mixin({
 		classes.unshift('fc-day-grid-event', 'fc-h-event');
 		// <--------   YetiForce Sp. z o.o.   -------->
 		// Only display a timed events time if it is the starting segment
-                
 		if(event.type == 'widget'){ //Calendar widget
 			var addHtml = '';
 			addHtml = '<div class="cell-calendar">';
 			for(var i in event.event){
 				addHtml +='<a class="" href="javascript:;"' +
 					' data-date="' + event.date + '"' + ' data-type="' + i + '" title="' + event.event[i].label + '">' + 
-					'<span class="' + event.event[i].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge">'+event.event[i].ids.length+'</span>' +
+					'<span class="' + event.event[i].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge">'+event.event[i].count+'</span>' +
 	'</a>\n';
 			}   addHtml += '</div>';
 			return addHtml;

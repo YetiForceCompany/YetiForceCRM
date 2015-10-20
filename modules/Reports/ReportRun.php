@@ -91,6 +91,7 @@ class ReportRunQueryPlanner
 	protected $tempTablePrefix = 'vtiger_reptmptbl_';
 	protected static $tempTableCounter = 0;
 	protected $registeredCleanup = false;
+	public static $existTables = [];
 
 	function addTable($table)
 	{
@@ -182,21 +183,24 @@ class ReportRunQueryPlanner
 	function initializeTempTables()
 	{
 		$adb = PearDatabase::getInstance();
-
-		$oldDieOnError = $adb->dieOnError;
-		$adb->dieOnError = false; // If query planner is re-used there could be attempt for temp table...
 		foreach ($this->tempTables as $uniqueName => $tempTableInfo) {
-			$query1 = sprintf('CREATE TEMPORARY TABLE %s AS %s', $uniqueName, $tempTableInfo['query']);
-			$adb->pquery($query1, array());
+			if (!in_array($uniqueName, self::$existTables)) {
+				$query1 = sprintf('CREATE TEMPORARY TABLE %s AS %s', $uniqueName, $tempTableInfo['query']);
+				$adb->query($query1);
+			}
 
 			$keyColumns = $tempTableInfo['keycolumns'];
 			foreach ($keyColumns as $keyColumn) {
-				$query2 = sprintf('ALTER TABLE %s ADD INDEX (%s)', $uniqueName, $keyColumn);
-				$adb->pquery($query2, array());
+				if (!empty($keyColumn)) {
+					$result = $adb->query("SHOW COLUMNS FROM `$uniqueName` LIKE '$keyColumn';");
+					if ($result->rowCount() > 0) {
+						$query2 = sprintf('ALTER TABLE %s ADD INDEX (%s)', $uniqueName, $keyColumn);
+						$adb->query($query2);
+					}
+				}
 			}
+			self::$existTables[] = $uniqueName;
 		}
-
-		$adb->dieOnError = $oldDieOnError;
 
 		// Trigger cleanup of temporary tables when the execution of the request ends.
 		// NOTE: This works better than having in __destruct

@@ -596,7 +596,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			jQuery(".contentsDiv").css('height', bodyHeight);
 		} else if (app.getViewName() === 'DashBoard') {
 			bodyHeight = jQuery('.remindersNoticeContainer').outerHeight()-55;
-			jQuery("div.gridster").css('min-height', jQuery('.contentsDiv').outerHeight() + 14);
+			jQuery("div.gridster").css('min-height', jQuery('.contentsDiv').outerHeight() + 24);
 			jQuery("div.bodyContents").css('min-height', bodyHeight);
 		} else if (app.getViewName() === 'Index') {
 			bodyHeight = jQuery('.mainContainer > .col-md-2').outerHeight();

@@ -64,7 +64,11 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			Vtiger_Session::set('authenticated_user_language', vglobal('default_language'));
 			Vtiger_Session::set('user_name', $username);
 			Vtiger_Session::set('full_user_name', Vtiger_Functions::getUserRecordLabel($userid));
-			
+
+			if ($request->has('language')) {
+				Vtiger_Session::set('language', $request->get('language'));
+			}
+
 			//Enabled session variable for KCFINDER 
 			$_SESSION['KCFINDER'] = array();
 			$_SESSION['KCFINDER']['disabled'] = false;

@@ -61,10 +61,10 @@ $languageStrings = [
 	'MassTransferOwnership' => 'Massenübertragung Zuständigkeit',
 	'MassMoveDocuments' => 'Massenverschiebung Dokumente',
 	'ReadRecord' => 'Alle durchgeführten Änderungen lesen',
-	'WorkflowTrigger' => 'Workflow trigger',
-	'QuickExportToExcel' => 'Quick export to Excel',
-	'CreateDashboardFilter' => 'Create filter widgets',
-	'DetailTransferOwnership'  => 'Record preview - change the owner',
+	'WorkflowTrigger' => 'Workflow Trigger',
+	'QuickExportToExcel' => 'Excelexport',
+	'CreateDashboardFilter' => 'Filter Widgets erzeugen',
+	'DetailTransferOwnership'  => 'Vorschau Datensatz - Zuständigen ändern',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil erfolgreich gelöscht',

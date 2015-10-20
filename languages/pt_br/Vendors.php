@@ -9,11 +9,11 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = [
-	'LBL_TO_LC' => 'to',
-	'LBL_EXPORT_TO_PDF' => 'Export to PDF',
-	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Address Information',
-	'LBL_VENDORS_ADD_TASK' => 'Add Task',
-	'LBL_VENDORS_ADD_EVENT' => 'Add Event',
+	'LBL_TO_LC' => 'para',
+	'LBL_EXPORT_TO_PDF' => 'Exportar para PDF',
+	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Informação Endereço',
+	'LBL_VENDORS_ADD_TASK' => 'Adicionar Tarefa',
+	'LBL_VENDORS_ADD_EVENT' => 'Adicionar Evento',
 	'300-Sales-Software' => '300-Vendas-Software' ,
 	'301-Sales-Hardware' => '301-Vendas-Hardware' ,
 	'302-Rental-Income'=> '302-Locação-Renda' ,

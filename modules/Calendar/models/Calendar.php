@@ -12,6 +12,7 @@
 class Calendar_Calendar_Model extends Vtiger_Base_Model
 {
 
+	var $moduleName = 'Calendar';
 	var $relationAcounts = [
 		'Contacts' => ['vtiger_contactdetails', 'contactid', 'parentid'],
 		'Potentials' => ['vtiger_potential', 'potentialid', 'related_to'],
@@ -20,10 +21,14 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		'ServiceContracts' => ['vtiger_servicecontracts', 'servicecontractsid', 'sc_related_to'],
 	];
 
-	public function getEntity()
+	public function getModuleName()
+	{
+		return $this->moduleName;
+	}
+
+	public function getQuery()
 	{
 		$db = PearDatabase::getInstance();
-		$module = 'Calendar';
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$query = "SELECT vtiger_activity.activityid as act_id,vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype,
 		vtiger_activity.*, relcrm.setype AS linkmod, relcrm.label AS linklabel, procrm.label AS processlabel, procrm.setype AS processmod
@@ -37,12 +42,12 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		LEFT JOIN vtiger_crmentity procrm
 			ON procrm.crmid = vtiger_activity.process
 		WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' ";
-		$instance = CRMEntity::getInstance($module);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
+		$instance = CRMEntity::getInstance($this->getModuleName());
+		$securityParameter = $instance->getUserAccessConditionsQuerySR($this->getModuleName(), $currentUser);
 		if ($securityParameter != '')
 			$query.= $securityParameter;
 
-		$params = array();
+		$params = [];
 		if ($this->get('start') && $this->get('end')) {
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
@@ -80,17 +85,23 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			}
 		}
 		$query.= ' ORDER BY date_start,time_start ASC';
-		$queryResult = $db->pquery($query, $params);
-		$result = array();
-		for ($i = 0; $i < $db->num_rows($queryResult); $i++) {
-			$record = $db->raw_query_result_rowdata($queryResult, $i);
+		return ['query' => $query, 'params' => $params];
+	}
 
-			$item = array();
+	public function getEntity()
+	{
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$db = PearDatabase::getInstance();
+		$data = $this->getQuery();
+		$result = $db->pquery($data['query'], $data['params']);
+		$return = [];
+		while ($record = $db->fetch_array($result)) {
+			$item = [];
 			$crmid = $record['activityid'];
 			$activitytype = $record['activitytype'];
 			$item['id'] = $crmid;
 			$item['title'] = $record['subject'];
-			$item['url'] = 'index.php?module=' . $module . '&view=Detail&record=' . $crmid;
+			$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=Detail&record=' . $crmid;
 			$item['set'] = $record['activitytype'] == 'Task' ? 'Task' : 'Event';
 			$item['lok'] = $record['location'];
 			$item['pri'] = $record['priority'];
@@ -131,7 +142,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			}
 
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
-			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
+			$userDateTimeString = $dateTimeFieldInstance->getFullcalenderDateTimevalue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
 			$startTimeFormated = $dateTimeComponents[1];
@@ -139,7 +150,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$startDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 
 			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
-			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
+			$userDateTimeString = $dateTimeFieldInstance->getFullcalenderDateTimevalue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
 			$endTimeFormated = $dateTimeComponents[1];
@@ -150,41 +161,58 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$item['end'] = $endDateFormated . ' ' . $endTimeFormated;
 			$item['allDay'] = $record['allday'] == 1 ? true : false;
 			$item['className'] = ' userCol_' . $record['smownerid'] . ' calCol_' . $activitytype;
-			if ($this->has('widget') && $this->get('widget') == true) {
-				$widgetElements = $this->getWidgetElements($widgetElements, $startDateFormated, $endDateFormated, $activitytype);
-				$result = array_values($widgetElements);
-			} else {
-				$result[] = $item;
-			}
+			$return[] = $item;
 		}
-		return $result;
+		return $return;
 	}
 
-	/**
-	 * Function defining the values of displayed elements for the calendar widget.
-	 * @param $widgetElements,$startDateFormated,$endDateFormated,$activitytype
-	 */
-	public function getWidgetElements($widgetElements = [], $startDateFormated, $endDateFormated, $activitytype)
+	public function getEntityCount()
 	{
-		$module = 'Calendar';
-		$firstDate = strtotime($startDateFormated);
-		$endDate = strtotime($endDateFormated);
-		$diffDate = intval(($endDate - $firstDate) / (60 * 60 * 24));
-		for ($q = 0; $q <= $diffDate; $q++) {
-			if ($q == 0) {
-				$date = $startDateFormated;
-			} else {
-				$date = strtotime(date('Y-m-d', strtotime($date)) . ' +1 day');
-				$date = date('Y-m-d', $date);
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$db = PearDatabase::getInstance();
+		$startDate = DateTimeField::convertToDBTimeZone($this->get('start'));
+		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
+		$endDate = DateTimeField::convertToDBTimeZone($this->get('end'));
+		$endDate = strtotime($endDate->format('Y-m-d H:i:s'));
+
+		$data = $this->getQuery();
+		$result = $db->pquery($data['query'], $data['params']);
+		$return = [];
+		while ($record = $db->fetch_array($result)) {
+			$crmid = $record['activityid'];
+			$activitytype = $record['activitytype'];
+
+			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
+			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
+			$dateTimeComponents = explode(' ', $userDateTimeString);
+			$dateComponent = $dateTimeComponents[0];
+			$startDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
+
+			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
+			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
+			$dateTimeComponents = explode(' ', $userDateTimeString);
+			$dateComponent = $dateTimeComponents[0];
+			$endDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
+
+			$begin = new DateTime($startDateFormated);
+			$end = new DateTime($endDateFormated);
+			$end->modify('+1 day');
+			$interval = DateInterval::createFromDateString('1 day');
+			foreach (new DatePeriod($begin, $interval, $end) as $dt) {
+				$date = strtotime($dt->format('Y-m-d'));
+				if ($date >= $startDate && $date <= $endDate) {
+					$date = date('Y-m-d', $date);
+
+					$return[$date]['start'] = $date;
+					$return[$date]['date'] = $date;
+					$return[$date]['event'][$activitytype]['count'] += 1;
+					$return[$date]['event'][$activitytype]['className'] = '  fc-draggable calCol_' . $activitytype;
+					$return[$date]['event'][$activitytype]['label'] = vtranslate($activitytype, $this->getModuleName());
+					$return[$date]['type'] = 'widget';
+				}
 			}
-			$widgetElements[$date]['start'] = $date;
-			$widgetElements[$date]['date'] = date('Y-m-d', $firstDate);
-			$widgetElements[$date]['event'][$activitytype]['ids'][] = $q;
-			$widgetElements[$date]['event'][$activitytype]['className'] = '  fc-draggable calCol_' . $activitytype;
-			$widgetElements[$date]['event'][$activitytype]['label'] = vtranslate($activitytype, $module);
-			$widgetElements[$date]['type'] = 'widget';
 		}
-		return $widgetElements;
+		return array_values($return);
 	}
 
 	/**

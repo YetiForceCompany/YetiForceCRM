@@ -16,7 +16,7 @@ $languageStrings = [
 
 	// Blocks
 	'LBL_INFORMATION' => 'Allgemeine Information',
-	'LBL_ORIGN_MESSAGE' => 'Original message',
+	'LBL_ORIGN_MESSAGE' => 'Original Nachricht',
 	//Field Labels
 	'relatedid' => 'Zuständig',
 	'number' => 'Nummer',
@@ -71,7 +71,7 @@ $languageStrings = [
 	'Alert_ChangeType_desc' => 'Alle Arten der ausgewählten E-Mails werden geändert, ohne die Möglichkeit die Änderungen rückgängig zu machen.',
 	'LBL_ChangeTypeOK' => 'E-Mail-Typ geändert',
 	'Configuration' => 'Konfiguration',
-	'LBL_NO_MAILS' => 'No emails',
+	'LBL_NO_MAILS' => 'Keine E-Mails',
 	
 	//dashboards
 	'Graf' => 'Unternehmens-E-Mails nach Typ',

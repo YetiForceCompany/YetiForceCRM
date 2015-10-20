@@ -1065,7 +1065,14 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 					);
 			thisInstance.getCalendarView().find(".fc-event-container a").click(function () {
 				var container = thisInstance.getContainer();
-				window.location.href = 'index.php?module=Calendar&view=List&search_params=[[["assigned_user_id","c","' + container.find('.widgetFilter.owner option:selected').data('name') + '"],["activitytype","e","' + $(this).data('type') + '"],["date_start","bw","' + $(this).data('date') + ',' + $(this).data('date') + '"]' + ((status) ? ',["activitystatus","e","' + container.find('select.widgetFilter.status').val() + '"]' : '') + ']]';
+				var url = 'index.php?module=Calendar&view=List&search_params=[[';
+				if (container.find('.widgetFilter.owner option:selected').val() != 'all') {
+					url += '["assigned_user_id","c","' + container.find('.widgetFilter.owner option:selected').data('name') + '"],';
+				}
+				if (status) {
+					url += '["activitystatus","e","' + container.find('select.widgetFilter.status').val() + '"],';
+				}
+				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","ir","' + $(this).data('date') + '"]]]';
 			});
 		});
 	},
@@ -1120,6 +1127,7 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 	postLoadWidget: function () {
 		this._super();
 		this.registerActivityChange();
+		this.registerListViewButton();
 	},
 	postRefreshWidget: function () {
 		this._super();
@@ -1141,6 +1149,22 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 				app.showModalWindow(null, url, callbackFunction);
 			}
 		})
+	},
+	registerListViewButton: function () {
+		var thisInstance = this;
+		var container = thisInstance.getContainer();
+		container.find('.goToListView').on('click', function () {
+			var status = container.find('.status').prop('checked');
+			if (container.data('name') == 'OverdueActivities') {
+				status = 'PLL_OVERDUE';
+			} else if (status) {
+				status = 'PLL_IN_REALIZATION';
+			} else {
+				status = 'PLL_PLANNED';
+			}
+			window.location.href = 'index.php?module=Calendar&view=List&search_params=[[["assigned_user_id","c","' + container.find('.widgetFilter.owner option:selected').data('name') + '"],["activitystatus","e","' + status + '"]]]';
+			;
+		});
 	}
 });
 YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedupcomingcalendartasks_Widget_Js', {}, {});

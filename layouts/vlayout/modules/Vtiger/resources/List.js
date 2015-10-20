@@ -1918,14 +1918,13 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	registerListViewSelect: function () {
 		var listViewContainer = this.getListViewContentContainer();
-		var select = listViewContainer.find('.listViewEntriesTable .select2noactive');
-		var params = {
-			placeholder: app.vtranslate('JS_SELECT_AN_OPTION')
-		};
-		app.showSelect2ElementView(select, params);
-		select.on("change", function (e) {
-			Vtiger_List_Js.triggerListSearch();
-		})
+		listViewContainer.find('.listViewEntriesTable .select2noactive').each(function (index, domElement) {
+			var select = $(domElement);
+			app.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
+			select.on("change", function (e) {
+				Vtiger_List_Js.triggerListSearch();
+			})
+		});
 	},
 	registerListViewSpecialOptiopn: function () {
 		var listViewContainer = this.getListViewContentContainer();

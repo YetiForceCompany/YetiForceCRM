@@ -3,4 +3,6 @@
 $SECURITY_CONFIG = [
 	// Possible to reset the password while logging in (true/false)
 	'RESET_LOGIN_PASSWORD' => false,
+	// Show my preferences
+	'SHOW_MY_PREFERENCES' => false,
 ];

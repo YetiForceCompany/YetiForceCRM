@@ -1,25 +1,37 @@
 <?php
-/*+*******************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- ********************************************************************************/
-  $dbconfig['db_server'] = '_DBC_SERVER_';
-  $dbconfig['db_port'] = '_DBC_PORT_';
-  $dbconfig['db_sockpath'] = '_DBC_SOCKPATH_';
-  $dbconfig['db_username'] = '_DBC_USER_';
-  $dbconfig['db_password'] = '_DBC_PASS_';
-  $dbconfig['db_name'] = '_DBC_NAME_';
-  $dbconfig['db_type'] = '_DBC_TYPE_';
-  $dbconfig['db_bundled'] = '_DBC_BUNDLED_';
-  $vtconfig['adminPwd'] = '_ADMIN_PASS_';
-  $vtconfig['standarduserPwd'] ='_STANDARDUSER_PASS_';
-  $vtconfig['adminEmail'] = '_ADMIN_EMAIL_';
-  $vtconfig['standarduserEmail'] = '_STANDARDUSER_EMAIL_';
-  $vtconfig['demoData'] = '_DEMO_DATA_';
-  $vtconfig['currencyName'] = '_CURRENCY_NAME_';
-  $vtconfig['quickbuild'] = '_QUICKBUILD_';
-?>
+require('config/config.inc.php');
+if (file_exists('config/config_override.php')) {
+	require('config/config_override.php');
+}
+$dbConfig['base'] = [
+	'db_server' => $dbconfig['db_server'],
+	'db_port' => $dbconfig['db_port'],
+	'db_username' => $dbconfig['db_username'],
+	'db_password' => $dbconfig['db_password'],
+	'db_name' => $dbconfig['db_name'],
+	'db_type' => $dbconfig['db_type'],
+];
+$dbConfig['admin'] = [
+	'db_server' => '_SERVER_',
+	'db_port' => '_PORT_',
+	'db_username' => '_USERNAME_',
+	'db_password' => '_PASSWORD_',
+	'db_name' => '_NAME_',
+	'db_type' => '_TYPE_',
+];
+$dbConfig['log'] = [
+	'db_server' => '_SERVER_',
+	'db_port' => '_PORT_',
+	'db_username' => '_USERNAME_',
+	'db_password' => '_PASSWORD_',
+	'db_name' => '_NAME_',
+	'db_type' => '_TYPE_',
+];
+$dbConfig['portal'] = [
+	'db_server' => '_SERVER_',
+	'db_port' => '_PORT_',
+	'db_username' => '_USERNAME_',
+	'db_password' => '_PASSWORD_',
+	'db_name' => '_NAME_',
+	'db_type' => '_TYPE_',
+];

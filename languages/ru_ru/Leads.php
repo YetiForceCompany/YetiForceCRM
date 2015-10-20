@@ -43,6 +43,7 @@ $languageStrings = [
 	'LBL_LEAD_INFORMATION' => 'Основная информация',
 	'LBL_LEAD_UNTAPPED' => 'Контакт не установлен',
 	'LBL_MANDATORY_FIELDS_ARE_EMPTY' => 'Необходимо заполнить Обязательные поля',
+	'LBL_LEAD_ALREADY_CONVERTED' => 'Lead is already converted',
 	'LBL_PRELIMINARY_ANALYSIS_OF' => 'Первоначальный анализ',
 	'LBL_RECORDS_LIST' => 'Список Обращений',
 	'LBL_REGISTRATION_INFO' => 'Юридические данные',

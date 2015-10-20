@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
+{strip}
 <script type="text/javascript" src="libraries/bootstrap/js/bootstrap-tab.js"></script>
 <style>
     .table tbody tr.error > td {
@@ -41,6 +42,14 @@
                                             {/foreach}
                                         </select>
                                     </div>
+                                {else if $FIELD_DETAILS['fieldType'] == 'multipicklist'}
+                                    <div class="col-md-8">
+                                        <select class="form-control" name="{$FIELD_NAME}" multiple>
+                                            {foreach item=ITEM key=KEY from=$FIELD_DATA[$FIELD_NAME]}
+                                                <option value="{$KEY}" selected>{$KEY}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
                                 {else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
 									<div class="col-sm-8">
 										<input type="hidden" name="{$FIELD_NAME}" value="false" />
@@ -58,12 +67,24 @@
             <div class="pull-right">
                 <button class="btn btn-success saveButton" type="submit" title=""><strong>{vtranslate('LBL_SAVE', 'OSSMail')}</strong></button>
             </div>
-
         </form>
     </div>
-    
 </div>
+{/strip}
 <script type="text/javascript">
+jQuery(document).ready(function () {
+	var params = {
+		delimiter: ',',
+		persist: false,
+		create: function(input) {
+			return {
+				value: input,
+				text: input
+			}
+		}
+	}
+	app.showSelectizeElementView($('[name="default_host"]'),params);
+});
 $('#status').change(function() {
 	$('#confirm').attr('disabled', !this.checked);
 });
@@ -135,3 +156,4 @@ jQuery("#RCConfigEditorForm").submit(function(event) {
 	return event.preventDefault();
 });
 </script>
+

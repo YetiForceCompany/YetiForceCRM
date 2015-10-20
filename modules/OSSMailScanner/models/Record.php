@@ -189,11 +189,15 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	public static function getUidFolder($AccountID, $folder)
+	public static function getUidFolder($accountID, $folder)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT uid FROM vtiger_ossmailscanner_folders_uid WHERE user_id = ? AND folder = ?", array($AccountID, $folder), true);
-		return $adb->query_result($result, 0, 'uid');
+		$db = PearDatabase::getInstance();
+		$uid = 0;
+		$result = $db->pquery('SELECT uid FROM vtiger_ossmailscanner_folders_uid WHERE user_id = ? AND folder = ?', [$accountID, $folder]);
+		while ($value = $db->getSingleValue($result)) {
+			$uid = $value;
+		}
+		return $uid;
 	}
 
 	public static function executeActions($account, $mail_detail, $folder, $params = false)
@@ -256,7 +260,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			return false;
 		}
 
-		$mbox = $mailModel->imap_connect($account['username'], $account['password'], $params['folder']);
+		$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $params['folder']);
 		$mail_detail = $mailModel->get_mail_detail($mbox, $params['uid']);
 		$return = self::executeActions($account, $mail_detail, $params['folder'], $params);
 		return $return;
@@ -534,7 +538,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 					}
 					foreach ($folderArray as $folder) {
 						$log->debug('Start checking folder: ' . $folder);
-						$mbox = $OSSMailModel->imap_connect($account['username'], $account['password'], $folder, false);
+						$mbox = $OSSMailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $folder, false);
 						if (!$mbox) {
 							$log->fatal('Incorrect mail access data: ' . $account['username']);
 							continue;

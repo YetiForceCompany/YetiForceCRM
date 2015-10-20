@@ -150,87 +150,6 @@ var Settings_Roles_Js = {
 		});
 	},
 	
-	registerShowNewProfilePrivilegesEvent : function() {
-		jQuery('[name="profile_directly_related_to_role"]').on('change',function(e){
-			var target = jQuery(e.currentTarget);
-			var hanlder = target.data('handler');
-			if(hanlder == 'new'){
-				Settings_Roles_Js.getProfilePriviliges();return false;
-			}
-			var container = jQuery('[data-content-role="'+ hanlder + '"]');
-			jQuery('[data-content-role]').not(container).fadeOut('slow',function(){
-				container.fadeIn('slow');
-			});
-		})
-	},
-	
-	onLoadProfilePrivilegesAjax : function() {
-		jQuery('[name="profile_directly_related_to_role"]:checked').trigger('change');
-	},
-	
-	getProfilePriviliges : function() {
-		var content = jQuery('[data-content-role="new"]');
-		var profileId = jQuery('[name="profile_directly_related_to_role_id"]').val();
-		var params = {
-			module : 'Profiles',
-			parent: 'Settings',
-			view : 'EditAjax',
-			record : profileId
-		}
-		if(Settings_Roles_Js.newPriviliges == true) {
-			jQuery('[data-content-role="existing"]').fadeOut('slow',function(){
-				content.fadeIn('slow');
-			});
-			return false;
-		}
-		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
-			}
-		});
-		AppConnector.request(params).then(function(data) {
-			content.find('.fieldValue').html(data);
-			app.changeSelectElementView(jQuery('#directProfilePriviligesSelect'), 'select2');
-			Settings_Roles_Js.registerExistingProfilesChangeEvent();
-			progressIndicatorElement.progressIndicator({
-				'mode' : 'hide'
-			});
-			Settings_Roles_Js.newPriviliges = true;
-			jQuery('[data-content-role="existing"]').fadeOut('slow',function(){
-				content.fadeIn('slow',function(){
-				});
-			});
-		})
-	},
-	
-	registerExistingProfilesChangeEvent : function() {
-		jQuery('#directProfilePriviligesSelect').on('change',function(e) {
-			var profileId = jQuery(e.currentTarget).val();
-			var params = {
-				module : 'Profiles',
-				parent: 'Settings',
-				view : 'EditAjax',
-				record : profileId
-			}
-			var progressIndicatorElement = jQuery.progressIndicator({
-				'position' : 'html',
-				'blockInfo' : {
-					'enabled' : true
-				}
-			});
-			
-			AppConnector.request(params).then(function(data) {
-				jQuery('[data-content-role="new"]').find('.fieldValue').html(data);
-				progressIndicatorElement.progressIndicator({
-					'mode' : 'hide'
-				});
-				app.changeSelectElementView(jQuery('#directProfilePriviligesSelect'), 'select2');
-				Settings_Roles_Js.registerExistingProfilesChangeEvent();
-			});
-		});
-	},
-	
 	registerSubmitEvent : function() {
 		var thisInstance = this;
 		var form = jQuery('#EditView');
@@ -238,19 +157,17 @@ var Settings_Roles_Js = {
 			if(form.data('submit') == 'true' && form.data('performCheck') == 'true') {
 				return true;
 			} else {
-				if(jQuery('[data-handler="existing"]').is(':checked')){
-					var selectElement = jQuery('#profilesList');
-					var select2Element = app.getSelect2ElementFromSelect(selectElement);
-					var result = Vtiger_MultiSelect_Validator_Js.invokeValidation(selectElement);
-					if(result != true){
-						select2Element.validationEngine('showPrompt', result , 'error','bottomLeft',true);
-						e.preventDefault();
-						return;
-					} else {
-						select2Element.validationEngine('hide');
-					}
-				} 
-				
+				var selectElement = jQuery('#profilesList');
+				var select2Element = app.getSelect2ElementFromSelect(selectElement);
+				var result = Vtiger_MultiSelect_Validator_Js.invokeValidation(selectElement);
+				if(result != true){
+					select2Element.validationEngine('showPrompt', result , 'error','bottomLeft',true);
+					e.preventDefault();
+					return;
+				} else {
+					select2Element.validationEngine('hide');
+				}
+
 				if(form.data('jqv').InvalidFields.length <= 0) {
 					var formData = form.serializeFormData();
 					thisInstance.checkDuplicateName({
@@ -322,8 +239,6 @@ var Settings_Roles_Js = {
 	
 	registerEvents : function() {
 		Settings_Roles_Js.initEditView();
-		Settings_Roles_Js.registerShowNewProfilePrivilegesEvent();
-		Settings_Roles_Js.onLoadProfilePrivilegesAjax();
 		Settings_Roles_Js.registerSubmitEvent();
 	}
 }

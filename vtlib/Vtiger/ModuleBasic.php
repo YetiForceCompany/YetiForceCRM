@@ -494,7 +494,7 @@ class Vtiger_ModuleBasic
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$db = PearDatabase::getInstance();
-		$db->delete('vtiger_relatedlists', 'tabid=? OR related_tabid=? OR label=?', [$this->id, $this->id, $this->label]);
+		$db->delete('vtiger_relatedlists', 'tabid=? OR related_tabid=?', [$this->id, $this->id]);
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}
 

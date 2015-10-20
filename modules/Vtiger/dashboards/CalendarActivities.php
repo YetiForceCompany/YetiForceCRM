@@ -64,6 +64,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('HREFNAMELENGHT', $href_max_length);
 		$viewer->assign('NODATAMSGLABLE', $msgLabel);
 		$viewer->assign('SWITCH', $switchLabels);
+		$viewer->assign('LISTVIEWLINKS', true);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

@@ -308,14 +308,14 @@ class Vtiger_Cron
 	static function nextSequence()
 	{
 		$adb = PearDatabase::getInstance();
-		$result = self::querySilent('SELECT MAX(sequence) FROM vtiger_cron_task ORDER BY SEQUENCE');
-		if ($result && $adb->num_rows($result)) {
-			$row = $adb->fetch_array($result);
+		$result = self::querySilent('SELECT MAX(sequence) as sequence FROM vtiger_cron_task ORDER BY SEQUENCE');
+		if ($result && $adb->getRowCount($result)) {
+			$sequence = $adb->getSingleValue($result);
 		}
-		if ($row == NULL) {
-			$row['max(sequence)'] = 1;
+		if ($sequence == NULL) {
+			$sequence = 1;
 		}
-		return $row['max(sequence)'] + 1;
+		return $sequence + 1;
 	}
 
 	/**

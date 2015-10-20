@@ -22,11 +22,14 @@ class PearDatabase
 	protected $stmt = false;
 	public $dieOnError = false;
 	protected $log = null;
+	static private $dbConfig = false;
+	static private $dbCache = [];
 	protected $dbType = null;
 	protected $dbHostName = null;
 	protected $dbName = null;
 	protected $userName = null;
 	protected $userPassword = null;
+	protected $port = null;
 	// If you want to avoid executing PreparedStatement, set this to true
 	// PreparedStatement will be converted to normal SQL statement for execution
 	protected $avoidPreparedSql = false;
@@ -53,19 +56,11 @@ class PearDatabase
 	/**
 	 * Constructor
 	 */
-	function __construct($dbtype = '', $host = '', $dbname = '', $username = '', $passwd = '')
+	function __construct($dbtype = '', $host = '', $dbname = '', $username = '', $passwd = '', $port = 3306)
 	{
 		$this->log = LoggerManager::getLogger('DB');
-		$this->loadDBConfig($dbtype, $host, $dbname, $username, $passwd);
-
-		// Initialize performance parameters
+		$this->loadDBConfig($dbtype, $host, $dbname, $username, $passwd, $port);
 		$this->isdb_default_utf8_charset = PerformancePrefs::getBoolean('DB_DEFAULT_CHARSET_UTF8');
-
-		if (!isset($this->dbType) || !isset($this->dbHostName) || !isset($this->dbName)) {
-			$this->log('No configuration for the database connection', 'fatal');
-			return false;
-		}
-
 		$this->setDieOnError(SysDebug::get('SQL_DIE_ON_ERROR'));
 		$this->connect();
 	}
@@ -73,27 +68,36 @@ class PearDatabase
 	/**
 	 * Manage instance usage of this class
 	 */
-	static function &getInstance($dieOnError = true)
+	public static function &getInstance($type = 'base')
 	{
-		global $adb;
+		if (key_exists($type, self::$dbCache)) {
+			$db = self::$dbCache[$type];
+			vglobal('adb', $db);
+			return $db;
+		} else if (key_exists('base', self::$dbCache)) {
+			$db = self::$dbCache['base'];
+			vglobal('adb', $db);
+			return $db;
+		}
 
-		if (!isset($adb)) {
-			$adb = new self();
-		}
-		if ($adb->database == NULL) {
-			$adb->log('Database getInstance: Error connecting to the database', 'error');
-			$adb->checkError('Error connecting to the database', $dieOnError);
+		$config = self::getDBConfig($type);
+		$db = new self($config['db_type'], $config['db_server'], $config['db_name'], $config['db_username'], $config['db_password'], $config['db_port']);
+
+		if ($db->database == NULL) {
+			$db->log('Database getInstance: Error connecting to the database', 'error');
+			$db->checkError('Error connecting to the database');
 			return false;
+		} else {
+			self::$dbCache[$type] = $db;
+			vglobal('adb', $db);
 		}
-		return $adb;
+		return $db;
 	}
 
 	function connect()
 	{
-		$dbconfig = vglobal('dbconfig');
 		// Set DSN 
-		// $this->dbType
-		$dsn = 'mysql:host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';charset=utf8' . ';port=' . $dbconfig['db_port'];
+		$dsn = 'mysql:host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';charset=utf8' . ';port=' . $this->port;
 
 		// Set options
 		$options = array(
@@ -115,25 +119,29 @@ class PearDatabase
 		}
 	}
 
-	function loadDBConfig($dbtype, $host, $dbname, $username, $passwd)
+	function getDBConfig($type)
 	{
-		$dbconfig = vglobal('dbconfig');
-
-		if ($host == '') {
-			$this->disconnect();
-			$this->setDatabaseType($dbconfig['db_type']);
-			$this->setUserName($dbconfig['db_username']);
-			$this->setUserPassword($dbconfig['db_password']);
-			$this->setDatabaseHost($dbconfig['db_server']);
-			$this->setDatabaseName($dbconfig['db_name']);
-		} else {
-			$this->disconnect();
-			$this->setDatabaseType($dbtype);
-			$this->setDatabaseName($dbname);
-			$this->setUserName($username);
-			$this->setUserPassword($passwd);
-			$this->setDatabaseHost($host);
+		if (!self::$dbConfig) {
+			require('config/config.db.php');
+			self::$dbConfig = $dbConfig;
 		}
+		if (self::$dbConfig[$type]['db_server'] != '_SERVER_') {
+			return self::$dbConfig[$type];
+		}
+		return self::$dbConfig['base'];
+	}
+
+	function loadDBConfig($dbtype, $host, $dbname, $username, $passwd, $port)
+	{
+		if ($host == '_SERVER_') {
+			$this->log('No configuration for the database connection', 'error');
+		}
+		$this->dbType = $dbtype;
+		$this->dbHostName = $host;
+		$this->dbName = $dbname;
+		$this->userName = $username;
+		$this->userPassword = $passwd;
+		$this->port = $port;
 	}
 
 	function println($msg)
@@ -207,39 +215,9 @@ class PearDatabase
 		$this->dieOnError = $value;
 	}
 
-	function setDatabaseType($type)
-	{
-		$this->dbType = $type;
-	}
-
-	function setUserName($name)
-	{
-		$this->userName = $name;
-	}
-
 	function setAttribute()
 	{
 		$this->database->setAttribute(func_get_args());
-	}
-
-	function setUserPassword($pass)
-	{
-		$this->userPassword = $pass;
-	}
-
-	function setDatabaseName($db)
-	{
-		$this->dbName = $db;
-	}
-
-	function setDatabaseHost($host)
-	{
-		$this->dbHostName = $host;
-	}
-
-	function getDatabaseName()
-	{
-		return $this->dbName;
 	}
 
 	function startTransaction()
@@ -800,15 +778,16 @@ class PearDatabase
 		if (!PerformancePrefs::getBoolean('SQL_LOG_INCLUDE_CALLER', false)) {
 			return;
 		}
-
-		$today = date('Y-m-d H:i:s');
-		$logtable = 'vtiger_sqltimelog';
-		$logsql = 'INSERT INTO ' . $logtable . '(id, type, started, ended, data, loggedon) VALUES (?,?,?,?,?,?)';
+		$db = PearDatabase::getInstance('log');
+		$now = date('Y-m-d H:i:s');
+		$logTable = 'l_yf_sqltime';
+		$logQuery = 'INSERT INTO ' . $logTable . '(id, type, qtime, data, date) VALUES (?,?,?,?,?)';
 
 		if ($this->logSqlTimeID === false) {
-			$this->logSqlTimeID = $this->getUniqueID($logtable);
+			$stmt = $db->database->query('SELECT MAX(id) FROM ' . $logTable);
+			$this->logSqlTimeID = (int) $this->getSingleValue($stmt) + 1;
 
-			$type = (php_sapi_name() == 'cli') ? 'CLI' : 'REQ';
+			$type = PHP_SAPI;
 			$data = '';
 			if (isset($_SERVER['REQUEST_METHOD'])) {
 				$uri = $_SERVER['REQUEST_URI'];
@@ -816,22 +795,22 @@ class PearDatabase
 				if ($qmarkIndex !== false)
 					$uri = substr($uri, 0, $qmarkIndex);
 				$data = $uri . '?' . http_build_query($_SERVER['REQUEST_METHOD'] == 'GET' ? $_GET : $_POST);
-			} else if ($argv) {
-				$data = implode(' ', $argv);
 			}
-
-			$this->database->Execute($logsql, array($this->logSqlTimeID, $type, NULL, NULL, $data, $today));
+			$stmt = $db->database->prepare($logQuery);
+			$stmt->execute([$this->logSqlTimeID, $type, NULL, $data, $now]);
 		}
 
 		$type = 'SQL';
 		$data = trim($sql);
 		if (is_array($params) && !empty($params)) {
-			$data .= "\n[" . implode(",", $params) . "]";
+			$data .= '[' . implode(',', $params) . ']';
 		}
-		$this->database->Execute($logsql, array($this->logSqlTimeID, $type, $startat, $endat, $data, $today));
+		$qtime = round(($endat - $startat) * 1000) / 1000;
+		$stmt = $db->database->prepare($logQuery);
+		$stmt->execute([$this->logSqlTimeID, $type, $qtime, $data, $now]);
 
 		$type = 'CALLERS';
-		$data = array();
+		$data = [];
 		$callers = debug_backtrace();
 		for ($calleridx = 0, $callerscount = count($callers); $calleridx < $callerscount; ++$calleridx) {
 			if ($calleridx == 0) {
@@ -842,8 +821,9 @@ class PearDatabase
 				if (!empty($callerfunc))
 					$callerfunc = " ($callerfunc) ";
 			}
-			$data[] = "CALLER: (" . $callers[$calleridx]['line'] . ') ' . $callers[$calleridx]['file'] . $callerfunc;
+			$data[] = 'CALLER: (' . $callers[$calleridx]['line'] . ') ' . $callers[$calleridx]['file'] . $callerfunc;
 		}
-		$this->database->Execute($logsql, array($this->logSqlTimeID, $type, NULL, NULL, implode("\n", $data), $today));
+		$stmt = $db->database->prepare($logQuery);
+		$stmt->execute([$this->logSqlTimeID, $type, NULL, implode('\n', $data), $now]);
 	}
 }

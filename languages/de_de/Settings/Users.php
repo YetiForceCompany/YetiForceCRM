@@ -39,10 +39,10 @@ $languageStrings = [
 	'LBL_VIEW_AUTH' => 'Authorisierung',
 	'LBL_VIEW_COLORS' => 'Farben',
 	
-	'LBL_SWITCH_USERS' => 'Switch users',
-	'LBL_SWITCH_USERS_DESCRIPTION' => 'Tool that allows switching users in the system.',
+	'LBL_SWITCH_USERS' => 'Benutzer wechseln',
+	'LBL_SWITCH_USERS_DESCRIPTION' => 'Funktion um den User zu wechseln.',
 	'LBL_SU_BASE_ACCESS' => 'User',
-	'LBL_SU_AVAILABLE_ACCESS' => 'Is allowed to log in',
+	'LBL_SU_AVAILABLE_ACCESS' => 'Es ist erlaubt, sich anzumelden.',
 ];
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',

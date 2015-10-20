@@ -9,7 +9,7 @@ $languageStrings = [
 	'Privileges'	=> 'Privilégios',
 	'Delete'	=> 'Apagar',
 	'Delete CustomView'	=> 'A visualização customizada foi apagada',
-	'Saving CustomView'	=> 'View has been saved',
+	'Saving CustomView'	=> 'A visualização foi salva',
 	'Actions'	=> 'Ações',
 	'Edit'	=> 'Editar',
 ];

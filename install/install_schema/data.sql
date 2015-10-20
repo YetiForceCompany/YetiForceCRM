@@ -252,6 +252,8 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (134);
 
 /*Data for the table `l_yf_access_to_record` */
 
+/*Data for the table `l_yf_sqltime` */
+
 /*Data for the table `l_yf_switch_users` */
 
 /*Data for the table `roundcube_cache` */
@@ -1247,7 +1249,6 @@ insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`en
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`) values (13,'All',1,0,'HelpDesk',0,1,0);
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`) values (16,'All',1,0,'Quotes',0,1,0);
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`) values (19,'All',1,0,'Calendar',0,1,0);
-insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`) values (20,'All',1,0,'Emails',0,1,0);
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`) values (21,'All',1,0,'Invoice',0,1,0);
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`) values (22,'All',1,0,'Documents',0,1,0);
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`) values (23,'All',1,0,'PriceBooks',0,1,0);
@@ -1342,9 +1343,6 @@ insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (19
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (19,4,'vtiger_activity:date_start:date_start:Calendar_Start_Date:D');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (19,5,'vtiger_activity:due_date:due_date:Calendar_End_Date:D');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (19,6,'vtiger_crmentity:smownerid:assigned_user_id:Calendar_Assigned_To:V');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (20,0,'vtiger_activity:subject:subject:Emails_Subject:V');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (20,1,'vtiger_emaildetails:to_email:saved_toid:Emails_To:V');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (20,2,'vtiger_activity:date_start:date_start:Emails_Date_Sent:D');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (21,1,'vtiger_invoice:subject:subject:Invoice_Subject:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (21,2,'vtiger_invoice:salesorderid:salesorder_id:Invoice_Sales_Order:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (21,3,'vtiger_invoice:invoicestatus:invoicestatus:Invoice_Status:V');
@@ -3288,10 +3286,11 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (44,'vtiger.entity.beforesave','modules/Calendar/handlers/CalendarHandler.php','CalendarHandler','',1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (45,'vtiger.entity.link.after','modules/Vtiger/handlers/MultiReferenceUpdater.php','Vtiger_MultiReferenceUpdater_Handler','',1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (46,'vtiger.entity.unlink.after','modules/Vtiger/handlers/MultiReferenceUpdater.php','Vtiger_MultiReferenceUpdater_Handler','',1,'[]');
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (47,'vtiger.entity.aftersave.final','modules/Vtiger/handlers/MultiReferenceUpdater.php','Vtiger_MultiReferenceUpdater_Handler','',1,'[]');
 
 /*Data for the table `vtiger_eventhandlers_seq` */
 
-insert  into `vtiger_eventhandlers_seq`(`id`) values (46);
+insert  into `vtiger_eventhandlers_seq`(`id`) values (47);
 
 /*Data for the table `vtiger_eventstatus` */
 
@@ -5438,10 +5437,11 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (230,3,'DASHBOARDWIDGET','Calculations','index.php?module=Calculations&view=ShowWidget&name=Calculations','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (231,3,'DASHBOARDWIDGET','PotentialsList','index.php?module=Potentials&view=ShowWidget&name=PotentialsList','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (232,3,'DASHBOARDWIDGET','LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES','index.php?module=Home&view=ShowWidget&name=CreatedNotMineActivities','',0,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (233,51,'DETAILVIEWBASIC','View History','javascript:ModTrackerCommon.showhistory(\'$RECORD$\')','',0,'modules/ModTracker/ModTracker.php','ModTracker','isViewPermitted');
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (232);
+insert  into `vtiger_links_seq`(`id`) values (233);
 
 /*Data for the table `vtiger_loginhistory` */
 
@@ -5620,6 +5620,7 @@ insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (41,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (42,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (43,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (45,1);
+insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (51,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (54,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (60,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (70,1);
@@ -21571,8 +21572,6 @@ insert  into `vtiger_sostatus_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_sostatushistory` */
 
-/*Data for the table `vtiger_sqltimelog` */
-
 /*Data for the table `vtiger_ssservicesstatus` */
 
 insert  into `vtiger_ssservicesstatus`(`ssservicesstatusid`,`ssservicesstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Individual Agreement',1,416,1);
@@ -22164,7 +22163,7 @@ insert  into `vtiger_verification_seq`(`id`) values (6);
 
 /*Data for the table `vtiger_version` */
 
-insert  into `vtiger_version`(`id`,`old_version`,`current_version`) values (1,'2.0.0','2.0.0');
+insert  into `vtiger_version`(`id`,`old_version`,`current_version`) values (1,'2.2.0','2.2.0');
 
 /*Data for the table `vtiger_version_seq` */
 

@@ -36,6 +36,7 @@ $languageStrings = [
 	'LBL_LEADS_FIELD_MAPPING_INCOMPLETE' => 'Mapowanie pól nie zostało ukończone, przejdź do: (Administracja > Dostosuj moduły > Moduły > Leady > Zarządzaj mapowaniem pól)',
 	'LBL_LEADS_FIELD_MAPPING' => 'Mapowanie pól',
 	'LBL_MANDATORY_FIELDS_ARE_EMPTY' => 'Wymagane pola są puste',
+	'LBL_LEAD_ALREADY_CONVERTED' => 'Lead był już konwertowany',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	'LBL_TRANSFER_RELATED_RECORD' => 'Transferuj powiązane rekordy do',
 	'Lead No' => 'Nr',

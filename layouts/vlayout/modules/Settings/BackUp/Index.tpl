@@ -66,7 +66,7 @@
 				<br/>
 				{if $BACKUP_INFO}
 					<div class="row-fluid row-bar mainBar">
-						<div class="span4">Postęp czałkowity 
+						<div class="span4">{vtranslate('LBL_TOTAL_PROGRESS', $QUALIFIED_MODULE_NAME)}
 							<span class="pull-right"><span class="precent">0.00</span>%</span>
 						</div>
 

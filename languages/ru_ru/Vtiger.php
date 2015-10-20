@@ -1164,6 +1164,7 @@ $languageStrings = [
 	'LBL_SEND_MAIL_PDF' => 'Отправить по Почте:',
 	'LBL_SORT_DESCENDING' => 'Сортировать по убыванию',
 	'LBL_SORT_ASCENDING' => 'Сортировать по возрастанию',
+	'LBL_GO_TO_RECORDS_LIST' => 'Go to records list',
 	'LBL_SEARCH_IN_FIELD' => 'Искать в полях',
 	'LBL_SELECT_FILE' => 'Выберите файл для загрузки',
 	'LBL_ENABLE_CURRENCY' => 'Валюта включена',

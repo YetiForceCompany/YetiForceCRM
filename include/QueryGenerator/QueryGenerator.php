@@ -817,6 +817,8 @@ class QueryGenerator
 					} else {
 						$fieldSql .= $fieldGlue . ' ' . $valueSql;
 					}
+				} elseif ($fieldName == 'date_start' && $conditionInfo['operator'] == 'ir') {
+					$fieldSql .= "$fieldGlue vtiger_activity.date_start <= $valueSql AND vtiger_activity.due_date >= $valueSql";
 				} elseif ($field->getFieldDataType() == 'date' && ($baseModule == 'Events' || $baseModule == 'Calendar') && ($fieldName == 'date_start' || $fieldName == 'due_date')) {
 					$value = $conditionInfo['value'];
 					$operator = $conditionInfo['operator'];

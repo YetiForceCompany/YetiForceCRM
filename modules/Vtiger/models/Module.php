@@ -178,7 +178,8 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$focus->mode = $recordModel->get('mode');
 		$focus->id = $recordModel->getId();
 		$focus->save($moduleName);
-		return $recordModel->setId($focus->id);
+		$recordModel->setData($focus->column_fields)->setId($focus->id)->setEntity($focus);
+		return $recordModel;
 	}
 
 	/**
@@ -645,9 +646,10 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$list_fields = $entityInstance->list_fields;
 		$relatedListFields = array();
 		foreach ($list_fields as $key => $fieldInfo) {
-			$columnName = current($fieldInfo);
-			if (array_key_exists($key, $list_fields_name)) {
-				$relatedListFields[$columnName] = $list_fields_name[$key];
+			foreach ($fieldInfo as $columnName) {
+				if (array_key_exists($key, $list_fields_name)) {
+					$relatedListFields[$columnName] = $list_fields_name[$key];
+				}
 			}
 		}
 		return $relatedListFields;
@@ -1683,6 +1685,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$data['HelpDesk']['projectid'] = ['Project' => ['parent_id' => ['linktoaccountscontacts']]];
 		$data['HelpDesk']['contact_id'] = ['Contacts' => ['parent_id' => ['parent_id']]];
 		$data['HelpDesk']['pssold_id'] = ['Assets' => ['product_id' => ['product', 'Products']], 'OSSSoldServices' => ['product_id' => ['serviceid', 'Services']]];
+		$data['OSSTimeControl']['projectid'] = ['Project' => ['accountid' => ['linktoaccountscontacts']]];
 
 		if (array_key_exists($moduleName, $data) && $field != false && array_key_exists($field, $data[$moduleName]))
 			return $data[$moduleName][$field];

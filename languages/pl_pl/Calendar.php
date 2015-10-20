@@ -129,7 +129,7 @@ $languageStrings = [
 	'LBL_SHIFT_BLOCK' => 'Pokaż lub ukryj blok',
 	'LBL_ON_SWITCH' => 'ON',
 	'LBL_OFF_SWITCH' => 'OFF',
-	'LBL_FOLLOWUP' => 'Kontynuacja w',
+	'LBL_FOLLOWUP' => 'Zdarzenie powiązane',
 	
 	'PLL_PLANNED' => 'Planowane',
 	'PLL_IN_REALIZATION' => 'Do realizacji',
@@ -137,7 +137,6 @@ $languageStrings = [
 	'PLL_POSTPONED' => 'Przełożone',
 	'PLL_CANCELLED' => 'Anulowane',
 	'PLL_COMPLETED' => 'Wykonane',
-
 	'LBL_NO_AVAILABLE_ACTIONS' => 'Brak dostępnych akcji',
 ];
 

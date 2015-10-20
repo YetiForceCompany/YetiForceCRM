@@ -8,9 +8,9 @@
  *  Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br*
  ********************************************************************************+*/
 $languageStrings = [
-	'No data available in table' => 'No data available in table',
-	'Translations' => 'Translations',
-	'Language editor' => 'Language editor',
+	'No data available in table' => 'Nenhum dado disponível na tabela',
+	'Translations' => 'Traduções',
+	'Language editor' => 'Editor de Idioma',
 	'LangManagement'	=> 'Gestor de Idiomas',
 	'LBL_Module_desc'	=> 'Esta ferramenta auxilia no processo de gestão e modificação da tradução do Idioma no Sistema.',
 	'LBL_TAB_LIST'	=> 'Idiomas disponíveis',
@@ -61,7 +61,7 @@ $languageStrings = [
 $jsLanguageStrings = [
 	'Translations' => 'Traduções',
 	'LBL_AreYouSure'	=> 'Tem certeza que deseja apagar este Idioma?',
-	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Are you sure you want to change a default language?',
+	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Tem certeza que deseja alterar o idioma padrão?',
 	'JS_DEFAULT'	=> 'Padrão',
 	'Delete'	=> 'Apagar',
 	'Cancel'	=> 'Cancelar',

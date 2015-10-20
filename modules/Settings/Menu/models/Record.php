@@ -255,4 +255,18 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		return $content;
 	}
+	
+	/**
+	 * A function used to refresh menu files
+	 */
+	public function refreshMenuFiles()
+	{	
+		$allRoles = Settings_Roles_Record_Model::getAll();
+		$this->generateFileMenu(0);
+		foreach ($allRoles as $role) {
+			$roleId = str_replace('H', '', $role->getId());
+			if (file_exists('user_privileges/menu_' . $roleId . '.php'))
+				$this->generateFileMenu($roleId);
+		}
+	}
 }
