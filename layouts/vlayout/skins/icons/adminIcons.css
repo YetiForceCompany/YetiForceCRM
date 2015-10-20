@@ -52,6 +52,9 @@
 .adminIcon-modules-widgets:before {
 	content: "\e808";
 }
+.adminIcon-modules-fields:before {
+	content: "\e855";
+}
 .adminIcon-modules-relations:before {
 	content: "\e809";
 }
