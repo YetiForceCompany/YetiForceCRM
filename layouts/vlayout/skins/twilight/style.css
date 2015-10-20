@@ -4519,6 +4519,12 @@ html,body,.baseContainer
 		transform: rotate(90deg);
 		white-space:nowrap;
 	}
+	.commentsList.commentsBody .liStyleNone{
+		padding-left: 0;
+	}
+	.commentContainer .commentDetails {
+		width: 100%;
+	}
 }
 @media only screen and (max-width: 768px){
 	.layoutBlockHeader .pull-right{
