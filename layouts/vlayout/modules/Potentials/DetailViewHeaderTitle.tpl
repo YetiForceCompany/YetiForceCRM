@@ -10,9 +10,6 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class='widget_header'>
-		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-	</div>
 	{assign var=IMAGE value=$MODULE_NAME|cat:'48.png'}
 	{if file_exists( vimage_path($IMAGE) )}
 		<span class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">

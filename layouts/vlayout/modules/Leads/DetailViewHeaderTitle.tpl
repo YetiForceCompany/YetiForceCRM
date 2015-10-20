@@ -10,9 +10,6 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class='widget_header'>
-		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-	</div>
 	<input type="hidden" id="conversion_available_status" value="{Vtiger_Util_Helper::toSafeHTML($CONVERSION_AVAILABLE_STATUS)}">
 	{assign var=IMAGE value=$MODULE_NAME|cat:'48.png'}
 	{if file_exists( vimage_path($IMAGE) )}
