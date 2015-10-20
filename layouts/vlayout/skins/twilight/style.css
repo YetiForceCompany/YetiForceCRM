@@ -4531,8 +4531,12 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 768px){
-	.layoutBlockHeader .pull-right{
+	.layoutBlockHeader .pull-right,
+	.relatedContainer .paginationDiv.pull-right{
 		float: left !important;
+	}
+	.relatedContainer .paginationDiv.pull-right{
+		margin-top: 5px;
 	}
 }
 .widget_header{
