@@ -494,4 +494,19 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$result = $adb->pquery($query, [$instance->getName()]);
 		return (int) $adb->getSingleValue($result) + 1;
 	}
+	
+	/**
+	 * Getting summary fields name
+	 * @return array
+	 */
+	public function getSummaryFields()
+	{
+		$summaryFields = [];
+		foreach ($this->getFields() as $field) {
+			if($field->isSummary()){
+				$summaryFields[$field->get('columnname')] = $field->get('columnname');
+			}
+		}		
+		return $summaryFields;
+	}
 }
