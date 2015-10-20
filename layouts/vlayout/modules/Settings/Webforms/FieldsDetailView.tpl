@@ -10,26 +10,24 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="contents-topscroll">
-<div class="topscroll-div">
-	&nbsp;
-</div>
-</div>
 <div class="listViewEntriesDiv contents-bottomscroll">
-	<div class="bottomscroll-div">
 		<table class="table table-bordered">
 			<tr class="blockHeader" colspan=8>
 				<th class="blockHeader" colspan="5">
 					{vtranslate($SOURCE_MODULE, {$SOURCE_MODULE})} {vtranslate('LBL_FIELD_INFORMATION', {$MODULE_NAME})}
 				</th>
 			</tr>
-			<tr>
-				<td class="paddingLeft20"><b>{vtranslate('LBL_MANDATORY', {$MODULE_NAME})}</b></td>
-				<td><b>{vtranslate('LBL_HIDDEN', {$MODULE_NAME})}</b></td>
-				<td><b>{vtranslate('LBL_FIELD_NAME', {$MODULE_NAME})}</b></td>
-				<td><b>{vtranslate('LBL_OVERRIDE_VALUE', {$MODULE_NAME})}</b></td>
-				<td><b>{vtranslate('LBL_WEBFORM_REFERENCE_FIELD', {$MODULE_NAME})}</b></td>
-			</tr>
+		</table>
+		<table class="table tableRWD table-bordered">
+			<thead>
+				<tr>
+					<th class="paddingLeft20"><b>{vtranslate('LBL_MANDATORY', {$MODULE_NAME})}</b></th>
+					<th><b>{vtranslate('LBL_HIDDEN', {$MODULE_NAME})}</b></th>
+					<th><b>{vtranslate('LBL_FIELD_NAME', {$MODULE_NAME})}</b></th>
+					<th><b>{vtranslate('LBL_OVERRIDE_VALUE', {$MODULE_NAME})}</b></th>
+					<th><b>{vtranslate('LBL_WEBFORM_REFERENCE_FIELD', {$MODULE_NAME})}</b></th>
+				</tr>
+			</thead>
 			{foreach item=FIELD_MODEL key=FIELD_NAME from=$SELECTED_FIELD_MODELS_LIST}
 			{assign var=FIELD_STATUS value="{$FIELD_MODEL->get('required')}"}
 			{assign var=FIELD_HIDDEN_STATUS value="{$FIELD_MODEL->get('hidden')}"}
@@ -79,6 +77,5 @@
 			{/foreach}
 			</tbody>
 		</table>
-	</div>
 </div>
 {/strip}

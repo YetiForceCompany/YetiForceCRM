@@ -14,7 +14,8 @@
 <div class="targetFieldsTableContainer">
 	{include file="FieldsEditView.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
 </div>
-<br>	
+<div class="clearfix"></div>
+<br>
 {include file="EditViewActions.tpl"|@vtemplate_path:Vtiger}
 <div class="row" style="margin-bottom:150px;"></div>
 {/strip}

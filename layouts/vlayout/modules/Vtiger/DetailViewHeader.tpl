@@ -18,6 +18,7 @@
 				<div class="row">
 					<div class="col-md-12 marginBottom5px">
 						<div class="row">
+							{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 							{include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
 						</div>
 					</div>
