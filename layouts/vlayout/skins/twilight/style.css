@@ -791,7 +791,7 @@ li.ui-timepicker-selected,
 	border-right: 0 !important;
 }
 .detailViewTitle {
-	padding: 1% 0 0 1%;
+	padding: 0.1% 0 0 1%;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;

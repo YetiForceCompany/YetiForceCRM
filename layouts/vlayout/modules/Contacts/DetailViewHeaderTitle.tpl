@@ -10,6 +10,9 @@
  ********************************************************************************/
 -->*}
 {strip}
+	<div class='widget_header'>
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	</div>
 	<div class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 		<span class="moduleIcon">
 	        {assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
