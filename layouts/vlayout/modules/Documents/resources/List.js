@@ -129,11 +129,7 @@ Vtiger_List_Js("Documents_List_Js", {
 					Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
 							function (e) {
 								var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
-								var deleteUrl = currentOptionElement.data('deleteurl');
-								window.location.href = deleteUrl;
-								var newEle = '<form action=' + deleteUrl + ' method="POST"><input type="hidden" name="' + csrfMagicName + '" value="' + csrfMagicToken + '"/></form>';
-								var form = new jQuery(newEle);
-								form.appendTo('body').submit(); 
+								AppConnector.requestForm(currentOptionElement.data('deleteurl'));
 							},
 							function (error, err) {
 							}

@@ -705,24 +705,6 @@ class Vtiger_Functions
 		return $saveimage;
 	}
 
-	static function getMergedDescription($description, $id, $parent_type)
-	{
-		$current_user = vglobal('current_user');
-		$token_data_pair = explode('$', $description);
-		$emailTemplate = new EmailTemplate($parent_type, $description, $id, $current_user);
-		$description = $emailTemplate->getProcessedDescription();
-		$tokenDataPair = explode('$', $description);
-		$fields = Array();
-		for ($i = 1; $i < count($token_data_pair); $i+=2) {
-			$module = explode('-', $tokenDataPair[$i]);
-			$fields[$module[0]][] = $module[1];
-		}
-		if (is_array($fields['custom']) && count($fields['custom']) > 0) {
-			$description = self::getMergedDescriptionCustomVars($fields, $description);
-		}
-		return $description;
-	}
-
 	static function getMergedDescriptionCustomVars($fields, $description)
 	{
 		foreach ($fields['custom'] as $columnname) {

@@ -311,7 +311,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	{
 		$primaryModule = $this->getPrimaryModule();
 		$primaryModuleModel = Vtiger_Module_Model::getInstance($primaryModule);
-		$listURL = $primaryModuleModel->getListViewUrl();
+		$listURL = $primaryModuleModel->getListViewUrlWithAllFilter();
 
 		return $listURL;
 	}

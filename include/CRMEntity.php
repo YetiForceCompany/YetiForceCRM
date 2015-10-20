@@ -471,7 +471,11 @@ class CRMEntity
 					} else {
 						$field_list = $this->column_fields[$fieldname];
 					}
-					$fldvalue = $field_list;
+					if ($field_list == '') {
+						$fldvalue = NULL;
+					} else {
+						$fldvalue = $field_list;
+					}
 				} elseif (in_array($uitype, [303, 304])) {
 					if (is_array($this->column_fields[$fieldname])) {
 						$field_list = implode(',', $this->column_fields[$fieldname]);
@@ -1164,7 +1168,7 @@ class CRMEntity
 
 		$result = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
 			SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=?)', [$module]);
-		
+
 		while ($row = $this->db->fetch_array($result)) {
 			$tabId = $row['tabid'];
 			$tableName = $row['tablename'];
