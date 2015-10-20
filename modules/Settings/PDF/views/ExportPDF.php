@@ -30,11 +30,17 @@ class Settings_PDF_ExportPDF_View extends Vtiger_BasicModal_View
 	function process(Vtiger_Request $request)
 	{
 		$this->preProcess($request);
-		$moduleName	= $request->getModule(false);
-		$viewer		= $this->getViewer($request);
-		$recordId	= $request->get('record');
-		$fromModule	= $request->get('frommodule');
-		$view		= $request->get('fromview');
+		$moduleName		= $request->getModule(false);
+		$viewer			= $this->getViewer($request);
+		$allRecords		= '';
+		$recordId		= $request->get('record');
+		$fromModule		= $request->get('frommodule');
+		$view			= $request->get('fromview');
+		$searchParams	= $request->get('search');
+
+		if (is_array($searchParams) && !empty($searchParams)) {
+			$allRecords = $this->getRecordsListFromRequest($request, $searchParams);
+		}
 
 		$pdfModuleModel = Settings_PDF_Module_Model::getInstance('Settings:PDF');
 
@@ -49,6 +55,9 @@ class Settings_PDF_ExportPDF_View extends Vtiger_BasicModal_View
 			$viewer->assign('TEMPLATES', $templates);
 		}
 		$exportValues = "&record={$recordId}&frommodule={$fromModule}&fromview={$view}";
+		if (count($allRecords) > 0) {
+			$viewer->assign('ALL_RECORDS', json_encode($allRecords));
+		}
 		$viewer->assign('EXPORT_VARS', $exportValues);
 		$viewer->assign('QUALIFIED_MODULE', $moduleName);
 		$viewer->view('ExportPDF.tpl', $moduleName);
@@ -82,5 +91,31 @@ class Settings_PDF_ExportPDF_View extends Vtiger_BasicModal_View
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = $cssInstances;
 		return $headerCssInstances;
+	}
+	
+	public function getRecordsListFromRequest(Vtiger_Request $request, $search)
+	{
+		$cvId = $search['viewname'];
+		$module = $search['module'];
+		if (!empty($cvId) && $cvId == "undefined" && $request->get('source_module') != 'Users') {
+			$sourceModule = $request->get('sourceModule');
+			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
+		}
+
+		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
+		if ($customViewModel) {
+			$searchKey = $request->get('search_key');
+			$searchValue = $request->get('search_value');
+			$operator = $request->get('operator');
+			if (!empty($operator)) {
+				$customViewModel->set('operator', $operator);
+				$customViewModel->set('search_key', $searchKey);
+				$customViewModel->set('search_value', $searchValue);
+			}
+
+//			$customViewModel->set('search_params', json_decode(urldecode($request->get('search_params'))));
+			$customViewModel->set('search_params', json_decode(urldecode($search['search_params'])));
+			return $customViewModel->getRecordIds();
+		}
 	}
 }

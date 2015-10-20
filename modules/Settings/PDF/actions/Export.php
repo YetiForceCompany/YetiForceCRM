@@ -136,7 +136,7 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 						$html = $template->getBody();
 
 						$pdf->loadHTML($html);
-						$pdfFileName = 'storage/' . $record . '_' . $pdf->getFileName() . '_' . $postfix . '.pdf';
+						$pdfFileName = 'cache/pdf/' . $record . '_' . $pdf->getFileName() . '_' . $postfix . '.pdf';
 						$pdf->output($pdfFileName, 'F');
 
 						if (file_exists($pdfFileName)) {
@@ -148,7 +148,7 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 
 				if (!empty($pdfFiles)) {
 					if (!empty($emailPdf)) {
-						Settings_PDF_Module_Model::zipAndEmail($pdfFiles);
+						Settings_PDF_Module_Model::attachToEmail($postfix);
 					} else {
 						Settings_PDF_Module_Model::zipAndDownload($pdfFiles);
 					}

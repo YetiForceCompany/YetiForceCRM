@@ -1138,6 +1138,29 @@ var app = {
 			e.preventDefault();
 			var currentElement = jQuery(e.currentTarget);
 			var url = currentElement.data('url');
+			var action = currentElement.data('action');
+
+			switch(action) {
+				case 'pdf':
+					if (app.getUrlVar('view') === 'List' || app.getUrlVar('search') !== '') {
+						var cvId = jQuery('#customFilter').find('option:selected').data('id');
+						var selectedIds = container.find('#selectedIds').data(cvId+'Selectedids');
+						
+						// ids selected outside of view
+						if (selectedIds === 'all') {
+							var selectParams = {
+								'module': app.getModuleName(),
+								'viewname': cvId,
+								'orderby': jQuery('#orderBy').val(),
+								'sortorder': jQuery("#sortOrder").val(),
+								'search_params': escape(app.getUrlVar('search_params'))
+							};
+							
+							url += '&search='+JSON.stringify(selectParams);
+						}
+					}
+					break;
+			}
 
 			if (typeof url != 'undefined') {
 				if (typeof currentElement.data('cb') != 'undefined') {

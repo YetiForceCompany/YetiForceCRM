@@ -485,7 +485,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$advancedLinks[] = array(
 			'linktype' => 'DETAILVIEWBASIC',
 			'linklabel' => vtranslate('LBL_EXPORT_PDF', 'Settings:PDF'),
-			'linkdata' => ['url' => 'index.php?parent=Settings&module=PDF&view=ExportPDF&frommodule='.$moduleModel->getName().'&fromview=List'],
+			'linkdata' => ['url' => 'index.php?parent=Settings&module=PDF&view=ExportPDF&frommodule='.$moduleModel->getName().'&fromview=List', 'action' => 'pdf'],
 			'linkicon' => 'glyphicon glyphicon-save-file',
 			'linkclass' => 'showModal',
 			'title' => vtranslate('LBL_LBL_EXPORT_PDF')

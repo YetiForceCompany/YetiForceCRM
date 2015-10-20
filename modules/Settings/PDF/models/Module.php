@@ -512,34 +512,9 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		unlink($fileName);
 	}
 
-	public static function zipAndEmail(array $fileNames)
+	public static function attachToEmail($salt)
 	{
-		//create the object
-		$zip = new ZipArchive();
-
-		mt_srand(time());
-		$postfix = time() . '_' . mt_rand(0, 1000);
-		$zipPath = 'cache/pdf/';
-		$zipName = "pdfZipFile_{$postfix}.zip";
-		$fileName = $zipPath . $zipName;
-
-		//create the file and throw the error if unsuccessful
-		if ($zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE) !== true) {
-			exit("cannot open <$zipPath.$zipName>\n");
-		}
-
-		//add each files of $file_name array to archive
-		foreach ($fileNames as $file) {
-			$zip->addFile($file, basename($file));
-		}
-		$zip->close();
-
-		// delete added pdf files
-		foreach ($fileNames as $file) {
-			unlink($file);
-		}
-
-		header('Location: index.php?module=OSSMail&view=compose&pdf_path='.$fileName);
+		header('Location: index.php?module=OSSMail&view=compose&pdf_path='.$salt);
 		exit;
 	}
 }

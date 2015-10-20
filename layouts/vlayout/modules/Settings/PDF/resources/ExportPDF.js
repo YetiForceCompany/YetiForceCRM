@@ -117,9 +117,14 @@ jQuery.Class("Settings_PDF_ExportPDF_Js", {
 			container.find('div.modal-header').append('<p id="recordsInfo">records info</p>');
 
 			var selectedRecords = [];
-			jQuery('.listViewEntriesCheckBox:checked').each(function (i) {
-				selectedRecords[i] = jQuery(this).val();
-			});
+			if (container.find('#all_records').val() !== '') {
+				selectedRecords = JSON.parse(container.find('#all_records').val());
+			} else {
+				jQuery('.listViewEntriesCheckBox:checked').each(function (i) {
+					selectedRecords[i] = jQuery(this).val();
+				});
+			}
+
 			recordsInput.val(JSON.stringify(selectedRecords));
 			validInput.val(JSON.stringify(selectedRecords));
 			jQuery('#recordsInfo').text(selectedRecords.length + ' from ' + selectedRecords.length + ' are valid for chosen template.');

@@ -1,6 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<div class="modal-header">
+		{if $ALL_RECORDS neq ''}
+			<input type="hidden" name="all_records" id="all_records" value="{$ALL_RECORDS}" />
+		{/if}
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_GENERATE_PDF_FILE', $QUALIFIED_MODULE)}</h3>
 		<br />
