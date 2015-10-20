@@ -4525,6 +4525,10 @@ html,body,.baseContainer
 	.commentContainer .commentDetails {
 		width: 100%;
 	}
+	.summaryWidgetContainer .widget_header .summaryWidgetIcon{
+		padding-right: 0;
+		padding-left: 0;
+	}
 }
 @media only screen and (max-width: 768px){
 	.layoutBlockHeader .pull-right{
