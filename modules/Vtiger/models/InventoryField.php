@@ -44,7 +44,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 * @param array $ids
 	 * @return array Inventory data
 	 */
-	public function getFields($returnInBlock = false, $ids = [])
+	public function getFields($returnInBlock = false, $ids = [], $viewType = false)
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
@@ -68,10 +68,14 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 				if (!$this->isActiveField($row)) {
 					continue;
 				}
+				$inventoryFieldInstance = $this->getInventoryFieldInstance($row);
+				if ($viewType == 'Detail' && !$inventoryFieldInstance->isVisible()) {
+					continue;
+				}
 				if ($returnInBlock) {
-					$fields[$row['block']][$row['columnname']] = $this->getInventoryFieldInstance($row);
+					$fields[$row['block']][$row['columnname']] = $inventoryFieldInstance;
 				} else {
-					$fields[$row['columnname']] = $this->getInventoryFieldInstance($row);
+					$fields[$row['columnname']] = $inventoryFieldInstance;
 				}
 			}
 			$this->fields[$key] = $fields;
@@ -494,7 +498,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$result = $adb->pquery($query, [$instance->getName()]);
 		return (int) $adb->getSingleValue($result) + 1;
 	}
-	
+
 	/**
 	 * Getting summary fields name
 	 * @return array
@@ -503,10 +507,10 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	{
 		$summaryFields = [];
 		foreach ($this->getFields() as $field) {
-			if($field->isSummary()){
+			if ($field->isSummary()) {
 				$summaryFields[$field->get('columnname')] = $field->get('columnname');
 			}
-		}		
+		}
 		return $summaryFields;
 	}
 }

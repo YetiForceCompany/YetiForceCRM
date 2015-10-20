@@ -122,8 +122,10 @@ $languageStrings = [
 	'LBL_PARAMS_MODULES' => 'Moduły',
 	'LBL_PARAMS_LIMIT' => 'Limit',
 	'LBL_DISPLAY_TYPE' => 'Typ pola',
-	'LBL_EDITABLE' => 'Edytowalne',
-	'LBL_READONLY' => 'Tylko do odczytu',
+	'LBL_DISPLAYTYPE_ALL' => 'Widoczne wszędzie',
+	'LBL_DISPLAYTYPE_READONLY' => 'Tylko do odczytu',
+	'LBL_DISPLAYTYPE_ONLY_DETAIL' => 'Widoczne w podglądzie',
+	'LBL_DISPLAYTYPE_HIDDEN' => 'Ukryte',
 	'LBL_FIELDS_EXISTS_IN_BLOCK' => 'Nie można usunąc bloku bo zawiera pola',
 	'LBL_DELETE_CUSTOM_BLOCKS' => 'Nie można usunąć standardowych (nie stworzonych przez użytkownika) bloków',
 ];
