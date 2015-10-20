@@ -60,7 +60,7 @@
 					{/foreach}
 				</select>
 			</div>
-			<div class="col-md-5 btn-toolbar">
+			<div class="col-md-5 ">
 				{include file='ListViewActions.tpl'|@vtemplate_path}
 			</div>
 		</div>

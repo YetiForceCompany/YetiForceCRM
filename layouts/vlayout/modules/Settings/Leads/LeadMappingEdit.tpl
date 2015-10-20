@@ -23,17 +23,25 @@
 				</span>
 			</div>
 			<div class="contents" id="detailView">
-				<table class="table  table-bordered" width="100%" id="convertLeadMapping">
-					<tr class="blockHeader">
-						<th class="blockHeader" width="20%">{vtranslate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>
-						<th class="blockHeader" width="20%">{vtranslate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}</th>
-						<th data-hide='phone' class="blockHeader textAlignCenter" colspan="3" width="60%">{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
-					</tr>	
-					<tr>
-						{foreach key=key item=LABEL from=$MODULE_MODEL->getHeaders()}
-							<th {if $smarty.foreach.index.iteration > 2}data-hide='phone'{/if} width="20%"><b>{vtranslate($LABEL, $LABEL)}</b></th>
-						{/foreach}
-					</tr>
+				<div class="mobileOff">
+				<table class=" table customTableRWD table-bordered" width="100%" id="convertLeadMapping">
+					<thead>
+						<tr class="blockHeader">
+							<th data-hide='phone,'  class="blockHeader" width="20%">{vtranslate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>
+							<th data-hide='phone'  class="blockHeader" width="20%">{vtranslate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}</th>
+							<th data-hide='phone' class="blockHeader textAlignCenter" colspan="3" width="60%">{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
+						</tr>
+					</thead>
+				</table>
+			    </div>
+				<table class="table customTableRWD table-bordered" width="100%" id="convertLeadMapping">
+					<thead>
+						<tr>
+							{foreach key=key item=LABEL from=$MODULE_MODEL->getHeaders() name=header}
+								<th {if $smarty.foreach.header.iteration > 2}data-hide='phone'{/if} width="20%"><b>{vtranslate($LABEL, $LABEL)}</b></th>
+							{/foreach}
+						</tr>
+					</thead>
 					<tbody>
 						{foreach key=MAPPING_ID item=MAPPING_ARRAY from=$MODULE_MODEL->getMapping()  name="mappingLoop"}
 							<tr class="listViewEntries" sequence-number="{$smarty.foreach.mappingLoop.iteration}">

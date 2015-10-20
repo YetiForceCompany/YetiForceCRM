@@ -15,21 +15,25 @@
         background-color: #f2dede;
     }
 </style>
-<ul id="tabs" class="nav nav-tabs" data-tabs="tabs" style="margin: 20px;">
+<div class="widget_header">
+	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+</div>
+<ul id="tabs" class="nav nav-tabs" data-tabs="tabs" style="margin: 0px;">
     <li class="active"><a href="#tab_rc_config" data-toggle="tab">{vtranslate('Roundcube config', 'OSSMail')}</a></li>
 </ul>
 <div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
     <div class="editViewContainer tab-pane active" id="tab_rc_config">
         <form id="RCConfigEditorForm" class="form-horizontal">
                     {assign var=FIELD_DATA value=$RecordModel->getViewableData()}
+			<br>
                     {foreach key=FIELD_NAME item=FIELD_DETAILS from=$RecordModel->getEditableFields()}
-			<div class="row">
-			<div class="col-md-3">
-				<label class="muted marginRight10px">{vtranslate($FIELD_DETAILS['label'], 'OSSMail')}</label></td>
+			<div class="row marginBottom10px">
+			<div class="row col-md-3">
+				<label class="muted ">{vtranslate($FIELD_DETAILS['label'], 'OSSMail')}</label></td>
 			</div>
 			<div class="col-md-9">
                                 {if $FIELD_DETAILS['fieldType'] == 'picklist'}
-                                    <div class="col-sm-8">
+                                    <div class=" row col-sm-8">
                                         <select class="select2 form-control" name="{$FIELD_NAME}">
                                             {foreach item=row from=$FIELD_DETAILS['value']}
                                                 <option value="{$row}" {if $row == $FIELD_DATA[$FIELD_NAME]} selected {/if}>
@@ -43,12 +47,12 @@
                                         </select>
                                     </div>
                                 {else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
-									<div class="col-sm-8">
+									<div class=" row col-sm-8">
 										<input type="hidden" name="{$FIELD_NAME}" value="false" />
 										<input type="checkbox" name="{$FIELD_NAME}" value="true" {if $FIELD_DATA[$FIELD_NAME] == 'true'} checked {/if} />
 									</div>
                                 {else}
-									<div class="col-sm-8">
+									<div class="row col-sm-8">
 										<input class="form-control" type="text" name="{$FIELD_NAME}" {if $FIELD_DETAILS['required'] == '1'}required{/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
 									</div>
                                     {if $FIELD_NAME == 'upload_maxsize'}&nbsp;{vtranslate('LBL_MB', 'OSSMail')}{/if}
