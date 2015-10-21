@@ -63,6 +63,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 						Vtiger_Helper_Js.showHorizontalTopScrollBar();
 						jQuery('.pageNumbers', thisInstance.relatedContentContainer).tooltip();
 						jQuery('body').trigger(jQuery.Event('LoadRelatedRecordList.PostLoad'), {response: responseData, params: completeParams});	
+						app.showBtnSwitch(jQuery('body').find('.switchBtn'));
 					}
 					aDeferred.resolve(responseData);
 
@@ -285,7 +286,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		}
 		this.loadRelatedList(selectPage).then(
 				function (data) {
-					thisInstance.setCurrentPageNumber(previousPage);
+					thisInstance.setCurrentPageNumber(pageNumber);
 					aDeferred.resolve(data);
 				},
 				function (textStatus, errorThrown) {
