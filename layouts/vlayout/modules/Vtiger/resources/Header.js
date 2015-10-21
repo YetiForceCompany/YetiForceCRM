@@ -290,9 +290,12 @@ jQuery.Class("Vtiger_Header_Js", {
 					if (events[ev]['linkl']) {
 						linkHtml = '<div class="cut-string"><i class="calIcon modIcon_' + events[ev]['linkm'] + '"></i> ' + events[ev]['linkl'] + '</div>';
 					}
-					helpIcon = '<p> '+ app.vtranslate('JS_START_DATE')+': '+ events[ev]['start'] +' </p><p> '+ app.vtranslate('JS_END_DATE')+': '+ events[ev]['end'] +' </p>\n\
-								<p> '+ app.vtranslate('JS_SUBJECT')+': '+ events[ev]['title'].substring(0,25) +' </p><p> '+ app.vtranslate('JS_STATE')+': '+ app.vtranslate(events[ev]['state']) +' </p>\n\
-								<p> '+ app.vtranslate('JS_STATUS')+': '+ app.vtranslate(events[ev]['sta']) +' </p><p> '+ app.vtranslate('JS_PRIORITY')+': '+ app.vtranslate(events[ev]['pri']) +' </p>'
+					helpIcon = '<div><label> ' + app.vtranslate('JS_START_DATE') + ': &nbsp</label>' + events[ev]['start'] + ' </div>\n\
+								<div><label> ' + app.vtranslate('JS_END_DATE') + ': &nbsp</label>' + events[ev]['end'] + ' </div>\n\
+								<div class=' + 'textOverflowEllipsis' + '><label> ' + app.vtranslate('JS_SUBJECT') + ': &nbsp</label>' + events[ev]['title'] + '</div>\n\
+								<div><label> ' + app.vtranslate('JS_STATE') + ': &nbsp</label>' + events[ev]['labels']['state'] + ' </div>\n\
+								<div><label> ' + app.vtranslate('JS_STATUS') + ': &nbsp</label>' + events[ev]['labels']['sta'] + ' </div>\n\
+								<div><label> ' + app.vtranslate('JS_PRIORITY') + ': &nbsp</label>' + events[ev]['labels']['pri'] + ' </div>'
 					/*if(typeActive == 'Task' && events[ev]['set'] != 'Task'){
 					 hidden = 'hide';
 					 }else if(typeActive == 'Event' && events[ev]['set'] == 'Task'){

@@ -3701,10 +3701,12 @@ span[name=existingImages] img{
 .dashboardWidgetContent .summary-detail .summary-text{
 	vertical-align: sub;
 }
-.activityWidgetContainer .activityDescription .popover {
+.activityWidgetContainer .activityDescription .popover,
+.quickCreateContent .addedNearCalendarEvent .popover{
 	min-width: 300px;
 }
-.activityWidgetContainer .popover-content {
+.activityWidgetContainer .popover-content,
+.quickCreateContent .addedNearCalendarEvent .popover-content{
 	font-size: 12px;
 }
 #activityStateModal .form-horizontal .form-group{
