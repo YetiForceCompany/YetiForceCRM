@@ -4610,3 +4610,6 @@ html,body,.baseContainer
 	vertical-align: middle;
 	line-height: 18px;
 }
+.companyLogoContainerSettings{
+	background: #f2f2f2;
+}
