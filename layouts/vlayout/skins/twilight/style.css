@@ -3702,7 +3702,7 @@ span[name=existingImages] img{
 .baseContainer .leftPanel .menuContainer .subMenu button:focus
 {
 	color:#fff;
-	background: #444853;
+	background: #4a5364;
 }
 .baseContainer .leftPanel .menuContainer .subMenu  a.hasIcon,
 .baseContainer .leftPanel .menuContainer .subMenu  button .hasIcon {
@@ -3728,7 +3728,7 @@ span[name=existingImages] img{
 	z-index: -2;
 	width: 210px;
 	height: 100%;
-	background: #363636;
+	background: #4a5364;
 }
 .baseContainer:not(.leftPanelOpen) {
 	margin-left: 50px;
@@ -3826,7 +3826,7 @@ span[name=existingImages] img{
 	height:100%;
 }
 .bodyHeader{
-	background-color: #444853;
+	background-color: #4a5364;
 	color: #fff;
 	height: 50px;
 	position: fixed;
@@ -3882,7 +3882,7 @@ html,body,.baseContainer
 	height: 50px;
 	padding-right: 0;
 	padding-left: 0;
-	background-color: #ad5154;
+	background-color: #4979aa;
 }
 .userActionContainer{
 	padding-right: 0;
