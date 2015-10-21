@@ -120,7 +120,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$csrfProtection = vglobal('csrfProtection');
 		if ($csrfProtection) {
 			if ($request->get('mode') != 'reset' && $request->get('action') != 'Login')
-				require_once 'libraries/csrf-magic/csrf-magic.php';
+				require_once('libraries/csrf-magic/csrf-magic.php');
+				require_once('config/csrf_config.php');
 		}
 		// TODO - Get rid of global variable $current_user
 		// common utils api called, depend on this variable right now

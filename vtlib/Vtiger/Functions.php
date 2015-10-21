@@ -689,20 +689,35 @@ class Vtiger_Functions
 		return $filepath;
 	}
 
-	static function validateImage($file_details)
+	static public function validateImage($fileDetails)
 	{
-		global $app_strings;
-		$file_type_details = explode("/", $file_details['type']);
-		$filetype = $file_type_details['1'];
-		if (!empty($filetype))
-			$filetype = strtolower($filetype);
-		if (($filetype == "jpeg" ) || ($filetype == "png") || ($filetype == "jpg" ) || ($filetype == "pjpeg" ) || ($filetype == "x-png") || ($filetype == "gif") || ($filetype == 'bmp')) {
-			$saveimage = 'true';
-		} else {
-			$saveimage = 'false';
-			$_SESSION['image_type_error'] .= "<br> &nbsp;&nbsp;<b>" . $file_details[name] . "</b>" . $app_strings['MSG_IS_NOT_UPLOADED'];
+		$allowedImageFormats = ['jpeg', 'png', 'jpg', 'pjpeg', 'x-png', 'gif', 'bmp'];
+		$mimeTypesList = array_merge($allowedImageFormats, ['x-ms-bmp']); //bmp another format
+
+		$fileTypeDetails = explode('/', $fileDetails['type']);
+		$fileType = $fileTypeDetails['1'];
+		if ($fileType) {
+			$fileType = strtolower($fileType);
 		}
-		return $saveimage;
+
+		$saveImage = 'true';
+		if (!in_array($fileType, $allowedImageFormats)) {
+			$saveImage = 'false';
+		}
+
+		//mime type check
+		$mimeType = self::getMimeContentType($fileDetails['tmp_name']);
+		$mimeTypeContents = explode('/', $mimeType);
+		if (!$fileDetails['size'] || !in_array($mimeTypeContents[1], $mimeTypesList)) {
+			$saveImage = 'false';
+		}
+
+		// Check for php code injection
+		$imageContents = file_get_contents($fileDetails['tmp_name']);
+		if (preg_match('/(<\?php?(.*?))/i', $imageContents) == 1) {
+			$saveImage = 'false';
+		}
+		return $saveImage;
 	}
 
 	static function getMergedDescriptionCustomVars($fields, $description)
@@ -1525,5 +1540,37 @@ class Vtiger_Functions
 		}
 
 		return $info;
+	}
+
+	/**
+	 * Check the file MIME Type
+	 * @param $targetFile  Filepath to validate
+	 * @param  $claimedMime Array of bad file extenstions
+	 */
+	static public function verifyClaimedMIME($targetFile, $claimedMime)
+	{
+		$fileMimeContentType = self::getMimeContentType($targetFile);
+		if (in_array(strtolower($fileMimeContentType), $claimedMime)) {
+			return false;
+		}
+		return true;
+	}
+
+	static public function getMimeContentType($filename)
+	{
+		require 'config/mimetypes.php';
+		$ext = strtolower(array_pop(explode('.', $filename)));
+		if (array_key_exists($ext, $mimeTypes)) {
+			$fileMimeContentType =  $mimeTypes[$ext];
+		} elseif (function_exists('mime_content_type')) {
+			$fileMimeContentType = mime_content_type($filename);
+		} elseif (function_exists('finfo_open')) {
+			$finfo = finfo_open(FILEINFO_MIME);
+			$fileMimeContentType = finfo_file($finfo, $filename);
+			finfo_close($finfo);
+		} else {
+			$fileMimeContentType = 'application/octet-stream';
+		}
+		return $fileMimeContentType;
 	}
 }

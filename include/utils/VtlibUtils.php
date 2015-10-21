@@ -677,19 +677,7 @@ function vtlib_purify($input, $ignore = false)
 		$purified_cache[$md5OfInput] = $value;
 	}
 
-	if (is_array($value)) {
-		foreach ($value as $k => $v) {
-			if (is_array($v)) {
-				$v = array_map('htmlspecialchars_decode', $v);
-			} else {
-				$v = htmlspecialchars_decode($v);
-			}
-			$value[$k] = $v;
-		}
-	} else {
-		$value = htmlspecialchars_decode($value);
-	}
-	//$value = str_replace('&amp;', '&', $value);
+	$value = str_replace('&amp;', '&', $value);
 	return $value;
 }
 
