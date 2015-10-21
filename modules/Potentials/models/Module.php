@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ************************************************************************************/
 
 class Potentials_Module_Model extends Vtiger_Module_Model {
@@ -249,13 +250,13 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 						WHERE vtiger_crmentity.deleted = 0";
 			$time = vtlib_purify($_REQUEST['time']);
-			if($time == 'current') {
-				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))
-				OR (vtiger_activity.activitytype not in ('Emails','Task') and vtiger_activity.status not in ('Completed','Deferred')))";
+			if ($time == 'current') {
+				$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
+				$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
 			}
-			if($time == 'history') {
-				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status in ('Completed','Deferred'))
-				OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.status in ('Completed','Deferred')))";
+			if ($time == 'history') {
+				$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
+				$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
 			}
 			$query .= ' AND vtiger_activity.process = '.$recordId;
 			$relatedModuleName = $relatedModule->getName();
