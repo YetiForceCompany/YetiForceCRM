@@ -1105,10 +1105,14 @@ class QueryGenerator
 					}
 				}
 			} else if (in_array($field->getFieldDataType(), $inEqualityFieldTypes)) {
-				if ($operator == 'g' || $operator == 'l') {
-					$value = substr($value, 4);
-				} else if ($operator == 'h' || $operator == 'm') {
-					$value = substr($value, 5);
+				$table = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, vglobal('default_charset'));
+				$chars = implode('', array_keys($table));
+				if (preg_match("/[{$chars}]+/", $value) === 1) {
+					if ($operator == 'g' || $operator == 'l') {
+						$value = substr($value, 4);
+					} else if ($operator == 'h' || $operator == 'm') {
+						$value = substr($value, 5);
+					}
 				}
 			} else if ($field->getFieldDataType() === 'currency') {
 				$uiType = $field->getUIType();
@@ -1162,7 +1166,7 @@ class QueryGenerator
 			$sqlOperatorData = $this->getSqlOperator($operator, $value);
 			$sqlOperator = $sqlOperatorData[0];
 			$value = $sqlOperatorData[1];
-			
+
 			if (!$this->isNumericType($field->getFieldDataType()) &&
 				($field->getFieldName() != 'birthday' || ($field->getFieldName() == 'birthday' && $this->isRelativeSearchOperators($operator)))) {
 				$value = "'$value'";
@@ -1569,7 +1573,7 @@ class QueryGenerator
 			case 'b': $sqlOperator = "<";
 				break;
 		}
-		if(!$value){
+		if (!$value) {
 			return $sqlOperator;
 		}
 		return [$sqlOperator, $value];

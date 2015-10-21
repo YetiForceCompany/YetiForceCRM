@@ -1246,7 +1246,6 @@ jQuery.Class("Vtiger_List_Js", {
 			params['search_value'] = searchValue;
 			params['operator'] = "s";
 		}
-		console.log(this.getListSearchParams());
 		params.search_params = JSON.stringify(this.getListSearchParams());
 
 		AppConnector.request(params).then(function (data) {

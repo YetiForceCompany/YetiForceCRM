@@ -114,7 +114,7 @@ class Vtiger_Viewer extends SmartyBC
 	public static function getDefaultLayoutName()
 	{
 		$defaultLayout = vglobal('defaultLayout');
-		if ($defaultLayout) {
+		if ($default_layout && file_exists(vglobal('root_directory') . '/layouts/' . $defaultLayout)) {
 			return $defaultLayout;
 		}
 		return self::DEFAULTLAYOUT;

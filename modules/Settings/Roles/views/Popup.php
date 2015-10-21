@@ -37,7 +37,8 @@ class Settings_Roles_Popup_View extends Vtiger_Footer_View
 		$viewer->assign('SOURCE_ROLE', $sourceRole);
 		$viewer->assign('ROOT_ROLE', $rootRole);
 		$viewer->assign('ROLES', $allRoles);
-
+		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('TYPE', $request->get('type'));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('COMPANY_LOGO', $companyLogo);
 

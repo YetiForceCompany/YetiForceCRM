@@ -32,7 +32,7 @@ $USE_RTE = 'true';
 // url for customer portal (Example: https://portal.yetiforce.com/)
 $PORTAL_URL = 'https://portal.yetiforce.com';
 
-// helpdesk support email id and support name (Example: 'support@vtiger.com' and 'vtiger support')
+// helpdesk support email id and support name (Example: 'support@yetiforce.com' and 'yetiforce support')
 $HELPDESK_SUPPORT_EMAIL_ID = '_USER_SUPPORT_EMAIL_';
 $HELPDESK_SUPPORT_NAME = 'your-support name';
 $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;

@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div id="treePopupContainer" class="contentsDiv paddingLeftRight10px">
-	<input type="hidden" class="triggerEventName" value="{$smarty.request.triggerEventName}"/>
+	<input type="hidden" class="triggerEventName" value="{$TRIGGER_EVENT_NAME}"/>
 	<input type="hidden" name="src_record" value="{$SRC_RECORD}" />
 	<input type="hidden" name="src_field" value="{$SRC_FIELD}" />
 	<input type="hidden" name="template" value="{$TEMPLATE}" />

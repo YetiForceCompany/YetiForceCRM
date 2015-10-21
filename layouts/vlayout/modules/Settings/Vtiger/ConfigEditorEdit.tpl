@@ -41,7 +41,7 @@
 										<div class="col-md-4">
 											<select class="select2 form-control" name="{$FIELD_NAME}">
 												{foreach key=optionName item=optionLabel from=$MODEL->getPicklistValues($FIELD_NAME)}
-													{if $FIELD_NAME != 'default_module'}
+													{if $FIELD_NAME != 'default_module' && $FIELD_NAME != 'defaultLayout' }
 														<option {if $optionLabel == $FIELD_DATA[$FIELD_NAME]} selected {/if}>{vtranslate($optionLabel, $QUALIFIED_MODULE)}</option>
 													{else}
 														<option value="{$optionName}" {if $optionLabel == $FIELD_DATA[$FIELD_NAME]} selected {/if}>{vtranslate($optionLabel, $optionLabel)}</option>
