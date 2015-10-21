@@ -222,6 +222,8 @@ $languageStrings = [
 	'website' => 'Сайт',
 	'LBL_ADD_CUSTOM_FIELD' => 'Добавить Поле',
 	'LBL_FIELD_NAME' => 'Название Поля',
+	'LBL_COMPANY_LOGO_IN_SYSTEM' => '__UNTRANSLATED__',
+	'LBL_COMPANY_LOGO_IN_LOGIN' => '__UNTRANSLATED__',
 	//YetiForce
 	'vatid' => 'ИНН',
 	'LBL_SECURITY_MANAGEMENT' => 'Безопасность',

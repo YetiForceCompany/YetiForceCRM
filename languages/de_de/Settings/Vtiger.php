@@ -190,6 +190,8 @@ $languageStrings = [
 	'website' => 'Webseite',
 	'LBL_ADD_CUSTOM_FIELD' => 'Feld hinzufügen',
 	'LBL_FIELD_NAME' => 'Feldname',
+	'LBL_COMPANY_LOGO_IN_SYSTEM' => '__UNTRANSLATED__',
+	'LBL_COMPANY_LOGO_IN_LOGIN' => '__UNTRANSLATED__',
 	//YetiForce
 	'vatid' => 'USt ID',
 	'LBL_SECURITY_MANAGEMENT' => 'Sicherheit',

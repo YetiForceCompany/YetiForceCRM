@@ -27,7 +27,7 @@
 			<div class="login-space"></div>
 		{/if}	
 		<div class="logo">
-			<img title="{$CompanyDetails['companyname']}" class="img-responsive logo" src="storage/Logo/{$CompanyDetails['logoname']}" alt="{$CompanyDetails['companyname']}">
+			<img title="{$CompanyDetails['companyname']}" class="img-responsive logo" src="storage/Logo/{$CompanyDetails['panellogoname']}" alt="{$CompanyDetails['companyname']}">
 		</div>
 		<div class="" id="loginDiv">
 			<form class="login-form" action="index.php?module=Users&action=Login" method="POST">

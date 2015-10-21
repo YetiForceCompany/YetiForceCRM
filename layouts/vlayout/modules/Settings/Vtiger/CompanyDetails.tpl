@@ -42,9 +42,22 @@
 					</thead>
 					<tbody>
 						<tr>
+							<th colspan="2" class="{$WIDTHTYPE}">&nbsp;&nbsp;&nbsp;{vtranslate('LBL_COMPANY_LOGO_IN_LOGIN',$QUALIFIED_MODULE)}</th>
+						</tr>
+						<tr>
 							<td class="{$WIDTHTYPE}">
 								<div class="companyLogo">
-									<img src="{$MODULE_MODEL->getLogoPath()}" class="alignMiddle"/>
+									<img src="{$MODULE_MODEL->getLogoPath('panellogoname')}" class="alignMiddle"/>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th colspan="2" class="{$WIDTHTYPE}">&nbsp;&nbsp;&nbsp;{vtranslate('LBL_COMPANY_LOGO_IN_SYSTEM',$QUALIFIED_MODULE)}</th>
+						</tr>
+						<tr>
+							<td class="{$WIDTHTYPE}">
+								<div class="companyLogo">
+									<img src="{$MODULE_MODEL->getLogoPath('logoname')}" class="alignMiddle"/>
 								</div>
 							</td>
 						</tr>
@@ -60,7 +73,7 @@
 				</thead>
 				<tbody>
 					{foreach from=$MODULE_MODEL->getFields() item=FIELD_TYPE key=FIELD}
-						{if $FIELD neq 'logoname' && $FIELD neq 'logo' }
+						{if $FIELD neq 'logoname' && $FIELD neq 'logo' && $FIELD neq 'panellogo' && $FIELD neq 'panellogoname'}
 							<tr>
 								<td class="{$WIDTHTYPE}" style="width:25%"><label class="pull-right">{{{vtranslate($FIELD,$QUALIFIED_MODULE)}|ucfirst}|replace:'_':' '}</label></td>
 								<td class="{$WIDTHTYPE}">
@@ -86,14 +99,40 @@
 					</thead>
 					<tbody>
 						<tr>
+							<th colspan="2" class="{$WIDTHTYPE}">&nbsp;&nbsp;&nbsp;{vtranslate('LBL_COMPANY_LOGO_IN_LOGIN',$QUALIFIED_MODULE)}</th>
+						</tr>
+						<tr>
 							<td >
 								<div class="companyLogo" style="max-width: 250px; max-height: 200px;">
-									<img src="{$MODULE_MODEL->getLogoPath()}" class="alignMiddle" />
+									<img src="{$MODULE_MODEL->getLogoPath('panellogoname')}" class="alignMiddle" />
 								</div>
 							</td>
 							<td>
 								<div>
-									<input type="file" name="logo" id="logoFile" />&nbsp;&nbsp;
+									<input type="file" name="panellogo" id="logoFile" />&nbsp;&nbsp;
+									<span class="alert alert-info pull-right">
+										{vtranslate('LBL_LOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
+									</span>
+									{if !empty($ERROR_MESSAGE)}
+										<br><br><div class="marginLeftZero col-md-9 alert alert-warning">
+											{vtranslate($ERROR_MESSAGE,$QUALIFIED_MODULE)}
+										</div>
+									{/if}
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th colspan="2" class="{$WIDTHTYPE}">&nbsp;&nbsp;&nbsp;{vtranslate('LBL_COMPANY_LOGO_IN_SYSTEM',$QUALIFIED_MODULE)}</th>
+						</tr>
+						<tr>
+							<td >
+								<div class="companyLogo" style="max-width: 250px; max-height: 200px;">
+									<img src="{$MODULE_MODEL->getLogoPath('logoname')}" class="alignMiddle" />
+								</div>
+							</td>
+							<td>
+								<div>
+									<input type="file" name="logo" id="panelLogoFile" />&nbsp;&nbsp;
 									<span class="alert alert-info pull-right">
 										{vtranslate('LBL_LOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
 									</span>
@@ -117,7 +156,7 @@
 				</thead>
 				<tbody>
 					{foreach from=$MODULE_MODEL->getFields() item=FIELD_TYPE key=FIELD}
-						{if $FIELD neq 'logoname' && $FIELD neq 'logo' }
+						{if $FIELD neq 'logoname' && $FIELD neq 'logo' && $FIELD neq 'panellogo' && $FIELD neq 'panellogoname'}
 							<tr>
 								<td style="width:25%">
 									<div class=" pull-right">

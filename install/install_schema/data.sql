@@ -5867,7 +5867,7 @@ insert  into `vtiger_org_share_action_mapping`(`share_action_id`,`share_action_n
 
 /*Data for the table `vtiger_organizationdetails` */
 
-insert  into `vtiger_organizationdetails`(`organization_id`,`organizationname`,`address`,`city`,`state`,`country`,`code`,`phone`,`fax`,`website`,`logoname`,`logo`,`vatid`) values (1,'YetiForce','ul. Marszałkowska 111','Warszawa','Mazowieckie','Poland','00-102','+48 22 415 49 34','','yetiforce.com','logo_yetiforce.png',NULL,'PL5272638357');
+insert  into `vtiger_organizationdetails`(`organization_id`,`organizationname`,`address`,`city`,`state`,`country`,`code`,`phone`,`fax`,`website`,`panellogoname`,`panellogo`,`logoname`,`logo`,`vatid`) values (1,'YetiForce','ul. Marszałkowska 111','Warszawa','Mazowieckie','Poland','00-102','+48 22 415 49 34','','yetiforce.com','logo_yetiforce.png','','serwis_logo_yetiforce.png',NULL,'PL5272638357');
 
 /*Data for the table `vtiger_organizationdetails_seq` */
 

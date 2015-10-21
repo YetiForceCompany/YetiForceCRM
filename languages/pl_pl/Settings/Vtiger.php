@@ -191,7 +191,8 @@ $languageStrings = [
     'vatid'=>'NIP', 
 	'LBL_ADD_CUSTOM_FIELD' => 'Dodaj pole',
 	'LBL_FIELD_NAME' => 'Nazwa pola',
-
+	'LBL_COMPANY_LOGO_IN_SYSTEM' => 'Logo firmowe widoczne w systemie',
+	'LBL_COMPANY_LOGO_IN_LOGIN' => 'Logo firmowe widoczne w panelu logowania',
 	//YetiForce
 	'LBL_LOGS_MANAGEMENT' => 'Logi',
 	'LBL_SECURITY_MANAGEMENT' => 'Bezpieczeństwo',

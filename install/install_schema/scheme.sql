@@ -4013,6 +4013,8 @@ CREATE TABLE `vtiger_organizationdetails` (
   `phone` varchar(30) DEFAULT NULL,
   `fax` varchar(30) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
+  `panellogoname` varchar(50) DEFAULT NULL,
+  `panellogo` text,
   `logoname` varchar(50) DEFAULT NULL,
   `logo` text,
   `vatid` varchar(100) DEFAULT NULL,
