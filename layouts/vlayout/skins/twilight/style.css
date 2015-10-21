@@ -3716,3 +3716,8 @@ span[name=existingImages] img{
 .mainContainer.mailContainer{
 	margin-top: 102px !important;
 }
+.pageNumber.active.disabled a{
+	background-color: #337AB7;
+	border-color: #337AB7;
+	color: #FFF;
+} 
