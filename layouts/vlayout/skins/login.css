@@ -3,7 +3,7 @@
 		width: 100%;
 	}
 	.login-area {
-		max-width: 100%;		
+		max-width: 100%;
 		margin: 0 auto;
 	}
 }
@@ -46,7 +46,7 @@
 	margin-top: 5px;
 }
 html,body{
-	background: #ddecf0;
+	background: #f0f0f0;
 }
 .login-form .form-group.first-group{
 	margin-bottom: 0px;
@@ -54,4 +54,35 @@ html,body{
 .img-responsive.logo{
 	margin: auto;
 	margin-bottom: 0px;
+}
+.fieldContainer{
+	width:100%;
+	height: 100%;
+}
+.fieldContainer .form-group{
+	padding-bottom: 10px;
+}
+.forgotpass a, .login-text a{
+	color: #adb0b5;
+}
+.fieldContainer span{
+	color: #4a5364;
+	font-size:24px;
+}
+.fieldContainer input{
+	background-color: #fff !important;
+	color: #4a5364 !important;
+}
+.fieldContainer button{
+	font-size: 35px;
+	color: #fff !important;
+	padding: 0 !important;
+}
+.marginLeft0{
+	margin-left: 0 !important;
+	padding-left: 0 !important;
+}
+.marginRight0{
+	margin-right: 0 !important;
+	padding-right: 0 !important;
 }

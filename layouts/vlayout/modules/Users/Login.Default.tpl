@@ -25,26 +25,33 @@
 			</div>
 		{else}
 			<div class="login-space"></div>
-		{/if}	
+		{/if}
 		<div class="logo">
 			<img title="{$CompanyDetails['companyname']}" class="img-responsive logo" src="storage/Logo/{$CompanyDetails['panellogoname']}" alt="{$CompanyDetails['companyname']}">
 		</div>
 		<div class="" id="loginDiv">
-			<form class="login-form" action="index.php?module=Users&action=Login" method="POST">
-				<div class="form-group first-group has-feedback">
-					<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
-					<input name="username" type="text" id="username" class="form-control input-lg" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}" required="" autofocus="">
-					<span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
-				</div>
-				<div class="form-group has-feedback">
-					<label for="username" class="sr-only">{vtranslate('Password',$MODULE)}</label>
-					<input name="password" type="password" class="form-control input-lg" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('Password',$MODULE)}">
-					<span class="glyphicon glyphicon-lock form-control-feedback" aria-hidden="true"></span>
-				</div>	
-				<button class="btn btn-lg btn-primary btn-block" type="submit" title="{vtranslate('LBL_SIGN_IN', $MODULE_NAME)}">
-					{vtranslate('LBL_SIGN_IN', $MODULE_NAME)}
-				</button>
-			</form>
+			<div class='fieldContainer marginLeft0 marginRight0 row col-md-12'>
+				<form class="login-form" action="index.php?module=Users&action=Login" method="POST">
+					<div class='marginLeft0  marginRight0 row col-xs-10'>
+						<div class="form-group first-group has-feedback">
+							<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
+							<input name="username" type="text" id="username" class="form-control input-lg" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}" required="" autofocus="">
+							<span class="adminIcon-user form-control-feedback" aria-hidden="true"></span>
+						</div>
+						<div class="form-group has-feedback">
+							<label for="username" class="sr-only">{vtranslate('Password',$MODULE)}</label>
+							<input name="password" type="password" class="form-control input-lg" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('Password',$MODULE)}">
+							<span class="userIcon-user-access-control form-control-feedback" aria-hidden="true"></span>
+						</div>
+					</div>
+					<div class='col-xs-2 marginRight0' >
+						<button class="btn btn-lg btn-primary btn-block" style='height:102px' type="submit" title="{vtranslate('LBL_SIGN_IN', $MODULE_NAME)}">
+							{*vtranslate('LBL_SIGN_IN', $MODULE_NAME)*}
+							<strong>></strong>
+						</button>
+					</div>
+				</form>
+			</div>
 			<div class="forgotpass form-group">
 				<div class="">
 					<a href="#" id="forgotpass" >{vtranslate('ForgotPassword',$MODULE)}?</a>
@@ -79,21 +86,28 @@
 			</div>
 		</div>		
 		<div class="hide" id="forgotPasswordDiv">
-			<form class="login-form" action="modules/Users/actions/ForgotPassword.php" method="POST">
-				<div class="form-group first-group has-feedback">
-					<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
-					<input type="text" class="form-control input-lg" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="user_name" placeholder="{vtranslate('LBL_USER',$MODULE)}">
-					<span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
-				</div>
-				<div class="form-group has-feedback">
-					<label for="emailId" class="sr-only">{vtranslate('LBL_EMAIL',$MODULE)}</label>
-					<input type="text" class="form-control input-lg" autocomplete="off" title="{vtranslate('LBL_EMAIL',$MODULE)}" id="emailId" name="emailId" placeholder="Email">
-					<span class="glyphicon glyphicon-envelope form-control-feedback" aria-hidden="true"></span>
-				</div>
-				<button type="submit" id="retrievePassword" class="btn btn-lg btn-primary btn-block sbutton" title="Retrieve Password">
-					{vtranslate('LBL_SEND',$MODULE)}
-				</button>
-			</form>
+			<div class='fieldContainer marginLeft0 marginRight0 row col-md-12'>
+				<form class="login-form" action="modules/Users/actions/ForgotPassword.php" method="POST">
+					<div class='marginLeft0  marginRight0 row col-xs-10'>	
+						<div class="form-group first-group has-feedback">
+							<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
+							<input type="text" class="form-control input-lg" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="user_name" placeholder="{vtranslate('LBL_USER',$MODULE)}">
+							<span class="adminIcon-user form-control-feedback" aria-hidden="true"></span>
+						</div>
+						<div class="form-group has-feedback">
+							<label for="emailId" class="sr-only">{vtranslate('LBL_EMAIL',$MODULE)}</label>
+							<input type="text" class="form-control input-lg" autocomplete="off" title="{vtranslate('LBL_EMAIL',$MODULE)}" id="emailId" name="emailId" placeholder="Email">
+							<span class="glyphicon glyphicon-envelope form-control-feedback" aria-hidden="true"></span>
+						</div>
+					</div>
+					<div class='col-xs-2 marginRight0' >
+						<button type="submit" style='height:102px' id="retrievePassword" class="btn btn-lg btn-primary btn-block sbutton" title="Retrieve Password">
+							{*vtranslate('LBL_SEND',$MODULE)*}
+							<strong>></strong>
+						</button>
+					</div>
+				</form>
+			</div>
 			<div class="login-text form-group">
 				<a href="#" id="backButton" >{vtranslate('LBL_TO_CRM',$MODULE)}</a>
 			</div>
