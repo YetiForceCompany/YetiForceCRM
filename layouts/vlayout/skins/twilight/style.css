@@ -4285,6 +4285,9 @@ html,body,.baseContainer
 .mobileLeftPanel::-webkit-scrollbar { 
 	display: none; 
 }
+.mobileLeftPanel{
+	font-size:14px;
+}
 .mobileLeftPanel .mobileLeftPanelContainer a{
 	color: #ddd
 }
@@ -4331,9 +4334,9 @@ html,body,.baseContainer
 	color: #fff;
 }
 .mobileLeftPanel .mobileLeftPanelContainer .menuShortcut  {
-	padding-left: 50px;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	padding-left: 35px;
+	padding-top: 3px;
+	padding-bottom: 3px;
 	color: #fff;
 }
 .mobileLeftPanel .userDetailsContainer{

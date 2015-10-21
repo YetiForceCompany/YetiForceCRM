@@ -9,10 +9,10 @@
 						<span class="menuIcon userIcon-my-home-page" aria-hidden="true"></span>
 					</div>
 				</div>
-				<div  {if $DEVICE == 'Desktop'}class='iconContainer'{/if}>
-					<div {if $DEVICE == 'Desktop'}class="iconImage" {/if}>
+				<div class='{if $DEVICE == 'Desktop'}iconContainer{/if}'>
+					<span {if $DEVICE == 'Desktop'}class="iconImage" {/if}>
 						{vtranslate('LBL_HOME',$moduleName)}
-					</div>
+					</span>
 				</div>
 				
 				
