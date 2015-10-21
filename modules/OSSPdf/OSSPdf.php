@@ -246,7 +246,7 @@ class OSSPdf extends CRMEntity {
 	 */
 	function create_export_query($where)
 	{
-		$current_user = vglobal('current_user');;
+		$current_user = vglobal('current_user');
 		$thismodule = $_REQUEST['module'];
 		
 		include("include/utils/ExportUtils.php");

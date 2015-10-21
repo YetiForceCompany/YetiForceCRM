@@ -1139,10 +1139,11 @@ insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`c
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (135,'CFA Franc BEAC','XAF','CFA');
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (136,'Haiti, Gourde','HTG','G');
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (137,'Libya, Dinar','LYD','LYD');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (138,'CFP Franc','XPF','F');
 
 /*Data for the table `vtiger_currencies_seq` */
 
-insert  into `vtiger_currencies_seq`(`id`) values (137);
+insert  into `vtiger_currencies_seq`(`id`) values (138);
 
 /*Data for the table `vtiger_currency` */
 
@@ -21993,11 +21994,12 @@ insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presenc
 insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (89,'Asia/Vladivostok',88,1);
 insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (90,'Pacific/Guam',89,1);
 insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (91,'Asia/Yakutsk',90,1);
-insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (92,'Pacific/Fiji',91,1);
-insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (93,'Asia/Kamchatka',92,1);
-insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (94,'Pacific/Auckland',93,1);
-insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (95,'Asia/Magadan',94,1);
-insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (96,'Pacific/Tongatapu',95,1);
+insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (92,'Pacific/Fiji',92,1);
+insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (93,'Asia/Kamchatka',93,1);
+insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (94,'Pacific/Auckland',94,1);
+insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (95,'Asia/Magadan',95,1);
+insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (96,'Pacific/Tongatapu',96,1);
+insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (97,'Etc/GMT-11',91,1);
 
 /*Data for the table `vtiger_time_zone_seq` */
 

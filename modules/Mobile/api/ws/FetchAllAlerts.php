@@ -28,7 +28,7 @@ class Mobile_WS_FetchAllAlerts extends Mobile_WS_Controller {
 		
 		$alerts = array();
 		foreach($alertModels as $alertModel) {
-			$alerts[] = $alertModel->serializeToSend();;
+			$alerts[] = $alertModel->serializeToSend();
 		}
 		return $alerts;
 	}
