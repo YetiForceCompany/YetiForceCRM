@@ -128,17 +128,20 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
 		}
-		$pdfModuleModel = Settings_PDF_Module_Model::getInstance('Settings:PDF');
-		if ($pdfModuleModel->checkPermissions($recordId, $moduleName, 'Detail')) {
-			$pdfExportLinkModel = array(
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => vtranslate('LBL_EXPORT_PDF', 'Settings:PDF'),
-				'linkdata' => ['url' => 'index.php?parent=Settings&module=PDF&view=ExportPDF&record='.$recordId.'&frommodule='.$moduleName.'&fromview=Detail'],
-				'linkicon' => 'glyphicon glyphicon-save-file',
-				'linkclass' => 'showModal',
-				'title' => vtranslate('LBL_LBL_EXPORT_PDF')
-			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($pdfExportLinkModel);
+
+		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'LBL_EXPORT_PDF_ACTION')) {
+			$pdfModuleModel = Settings_PDF_Module_Model::getInstance('Settings:PDF');
+			if ($pdfModuleModel->checkPermissions($recordId, $moduleName, 'Detail')) {
+				$pdfExportLinkModel = array(
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => vtranslate('LBL_EXPORT_PDF', 'Settings:PDF'),
+					'linkdata' => ['url' => 'index.php?parent=Settings&module=PDF&view=ExportPDF&record='.$recordId.'&frommodule='.$moduleName.'&fromview=Detail'],
+					'linkicon' => 'glyphicon glyphicon-save-file',
+					'linkclass' => 'showModal',
+					'title' => vtranslate('LBL_LBL_EXPORT_PDF')
+				);
+				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($pdfExportLinkModel);
+			}
 		}
 
 		if (!empty($detailViewBasiclinks)) {
