@@ -120,13 +120,13 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 		} else if ($fieldName === 'defaultLayout') {
 			$db = PearDatabase::getInstance();
 			$result = $db->pquery('SELECT name,label FROM vtiger_layout');
-			$folders = ['vlayout' => 'Vlayout'];
+			$folders = ['vlayout' => vtranslate('LBL_DEFAULT', 'Settings:Vtiger')];
 			while ($row = $db->fetch_array($result)) {
-				$folders[$row['name']] = $row['label'];
+				$folders[$row['name']] = vtranslate($row['label'], 'Settings:Vtiger');
 			}
 			return $folders;
 		}
-		return array('true', 'false');
+		return ['true', 'false'];
 	}
 
 	/**
@@ -186,13 +186,13 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	public function validateFieldValues($updatedFields)
 	{
 		if (!filter_var($updatedFields['HELPDESK_SUPPORT_EMAIL_ID'], FILTER_VALIDATE_EMAIL)) {
-			return "LBL_INVALID_EMAILID";
+			return 'LBL_INVALID_EMAILID';
 		} else if (preg_match('/[\'";?><]/', $updatedFields['HELPDESK_SUPPORT_NAME'])) {
-			return "LBL_INVALID_SUPPORT_NAME";
+			return 'LBL_INVALID_SUPPORT_NAME';
 		} else if (!preg_match('/[a-zA-z0-9]/', $updatedFields['default_module'])) {
-			return "LBL_INVALID_MODULE";
+			return 'LBL_INVALID_MODULE';
 		} else if (!filter_var(ltrim($updatedFields['upload_maxsize'], '0'), FILTER_VALIDATE_INT) || !filter_var(ltrim($updatedFields['list_max_entries_per_page'], '0'), FILTER_VALIDATE_INT) || !filter_var(ltrim($updatedFields['listview_max_textlength'], '0'), FILTER_VALIDATE_INT) || !filter_var(ltrim($updatedFields['max_number_search_result'], '0'), FILTER_VALIDATE_INT)) {
-			return "LBL_INVALID_NUMBER";
+			return 'LBL_INVALID_NUMBER';
 		}
 		return true;
 	}

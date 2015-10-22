@@ -308,6 +308,8 @@ $languageStrings = [
 	'LBL_VIEW_COMPANYDETAILS' => 'Company Details',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Announcements',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Outgoing Server',
+	'LBL_DEFAULT_LAYOUT' => 'Layout',
+	'LBL_DEFAULT' => 'Default',
 ];
 
 $jsLanguageStrings = [

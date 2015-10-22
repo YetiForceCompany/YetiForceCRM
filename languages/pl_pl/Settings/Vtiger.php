@@ -297,12 +297,14 @@ $languageStrings = [
 	'OSSPassword Configuration'=>'Konfiguracja hasła',
 	'Document Control'=>'Przepływ dokumentów',
 	'Time control' => 'Czas pracy',
-	"Credits"	=> 'Współtwórcy',
+	'Credits'	=> 'Współtwórcy',
 	'LBL_PROCESSES' => 'Procesy',
 	'LBL_SALES_PROCESSES' => 'Procesy sprzedażowe',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Zarządzaj procesami sprzedażowymi',
 	'INVENTORYTERMSANDCONDITIONS' => 'Warunki i ustalenia',
 	'LBL_SAVE_CONFIG' => 'Zapisano zmiany',
+	'LBL_DEFAULT_LAYOUT' => 'Układ',
+	'LBL_DEFAULT' => 'Domyślny',
 	
 	// history
 	'LBL_VIEW_LICENSE' => 'Licencja',

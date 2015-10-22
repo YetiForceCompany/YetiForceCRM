@@ -5124,6 +5124,8 @@ insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`seque
 
 insert  into `vtiger_language_seq`(`id`) values (6);
 
+/*Data for the table `vtiger_layout` */
+
 /*Data for the table `vtiger_lead_view` */
 
 insert  into `vtiger_lead_view`(`lead_viewid`,`lead_view`,`sortorderid`,`presence`) values (1,'Today',0,1);

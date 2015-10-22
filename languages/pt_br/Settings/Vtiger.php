@@ -305,6 +305,8 @@ $languageStrings = [
 	'LBL_VIEW_COMPANYDETAILS' => 'Detalhes da Empresa',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Anúncios',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Servidor SMTP',
+	'LBL_DEFAULT_LAYOUT' => 'Layout',
+	'LBL_DEFAULT' => 'Default',
 ];
 
 $jsLanguageStrings = [

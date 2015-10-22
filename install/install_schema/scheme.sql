@@ -3291,6 +3291,18 @@ CREATE TABLE `vtiger_language_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_layout` */
+
+CREATE TABLE `vtiger_layout` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `label` varchar(30) DEFAULT NULL,
+  `lastupdated` datetime DEFAULT NULL,
+  `isdefault` tinyint(1) DEFAULT NULL,
+  `active` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_lead_view` */
 
 CREATE TABLE `vtiger_lead_view` (
