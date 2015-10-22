@@ -38,6 +38,14 @@ $languageStrings = [
 	'LBL_AVAILABLE_DISCOUNTS' => 'Available discounts',
 	'LBL_YES' => 'Yes',
 	'LBL_NO' => 'No',
+	
+	//history
+	'Inventory' => 'Extended modules',
+	'LBL_VIEW_CREDITLIMITS' => 'Credit limit base',
+	'LBL_VIEW_TAXES' => 'Tax base',
+	'LBL_VIEW_TAXCONFIGURATION' => 'Tax configuration',
+	'LBL_VIEW_DISCOUNTCONFIGURATION' => 'Discount configuration',
+	'LBL_VIEW_DISCOUNTS' => 'Discount base',
 ];
 $jsLanguageStrings = [
 	'JS_SAVE_CHANGES' => 'Changes saved successfully.',
