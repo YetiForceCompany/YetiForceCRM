@@ -4316,6 +4316,7 @@ CREATE TABLE `vtiger_ossmailscanner_log_cron` (
 CREATE TABLE `vtiger_ossmailtemplates` (
   `ossmailtemplatesid` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
+  `sysname` varchar(50) DEFAULT '',
   `oss_module_list` varchar(255) DEFAULT '',
   `subject` varchar(255) DEFAULT '',
   `content` text,
