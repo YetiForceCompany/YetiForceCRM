@@ -434,25 +434,6 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		return $instances;
 	}
 
-	/**
-	 * Get list of field names by module
-	 * @param <String> $moduleName - name of module
-	 * @return <Array> of field names
-	 */
-//	public function getFieldNamesForModule($moduleName) {
-//		$db = PearDatabase::getInstance();
-//		$tabId = getTabid($moduleName);
-//		$fields = false;
-//
-//		$query = 'SELECT `fieldname` FROM `vtiger_field` WHERE `tabid` = ?;';
-//
-//		$result = $db->pquery($query, [$tabId]);
-//		while($row = $db->fetchByAssoc($result)) {
-//			$fields[] = $row['fieldname'];
-//		}
-//		return $fields;
-//	}
-
 	public function getFieldsById($recordId)
 	{
 		$moduleModel = $this->recordCache[$recordId]->getModule();

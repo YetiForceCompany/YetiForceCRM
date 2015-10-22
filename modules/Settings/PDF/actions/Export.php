@@ -47,6 +47,7 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 				$footers = '';
 				$classes = '';
 				$body = '';
+				$origLanguage = vglobal('default_language');
 				foreach ($recordId as $index => $record) {
 					$templateIdsTemp = $templateIds;
 					$pdf->setRecordId($recordId[0]);
@@ -56,6 +57,7 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 					$template = Settings_PDF_Record_Model::getInstanceById($firstTemplate);
 					$template->setMainRecordId($record);
 					$pdf->setLanguage($template->get('language'));
+					vglobal('default_language', $this->get('language'));
 					$template->getParameters();
 					//$pdf->parseParams($template->getParameters());
 
@@ -81,6 +83,7 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 						$template = Settings_PDF_Record_Model::getInstanceById($id);
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));
+						vglobal('default_language', $this->get('language'));
 
 						// building parameters
 						$parameters = $template->getParameters();
@@ -106,6 +109,7 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 						$body .= '<div class="page_' . $record . '_' . $id . '">' . $template->getBody() . '</div>';
 					}
 				}
+				vglobal('default_language', $origLanguage);
 				$html = "<html><head><style>{$styles} {$classes}</style></head><body>{$headers} {$footers} {$body}</body></html>";
 				$pdf->loadHTML($html);
 				$pdf->setFileName(vtranslate('LBL_MANY_IN_ONE', 'Settings:PDF'));
@@ -115,6 +119,7 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 				$postfix = time() . '_' . mt_rand(0, 1000);
 
 				$pdfFiles = [];
+				$origLanguage = vglobal('default_language');
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
 						$pdf = new Settings_PDF_mPDF_Model();
@@ -126,6 +131,7 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));
 						$pdf->setFileName($template->get('filename'));
+						vglobal('default_language', $this->get('language'));
 
 						$pdf->parseParams($template->getParameters());
 
@@ -145,6 +151,7 @@ class Settings_PDF_Export_Action extends Vtiger_Action_Controller
 						unset($pdf, $template);
 					}
 				}
+				vglobal('default_language', $origLanguage);
 
 				if (!empty($pdfFiles)) {
 					if (!empty($emailPdf)) {

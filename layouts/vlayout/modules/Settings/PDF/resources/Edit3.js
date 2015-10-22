@@ -139,6 +139,12 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 			thisInstance.updateCompanyFieldsLabel(form);
 		});
 	},
+	registerSpecialFunctionsChangeEvent: function (form) {
+		var thisInstance = this;
+		form.find('#special_functions').on('change', function () {
+			thisInstance.updateSpecialFunctionsFieldsValue(form);
+		});
+	},
 	updateMainFieldsValue: function (container) {
 		var value = '$' + container.find('[name="main_fields"]').val() + '$';
 		container.find('#mainFieldValue3').val(value);
@@ -212,6 +218,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 		this.registerMainFieldsChangeEvent(container);
 		this.registerRelatedFieldsChangeEvent(container);
 		this.registerCompanyFieldsChangeEvent(container);
+		this.registerSpecialFunctionsChangeEvent(container);
 		this.updateMainFieldsValue(container);
 		this.updateMainFieldsLabel(container);
 		this.updateRelatedFieldsValue(container);

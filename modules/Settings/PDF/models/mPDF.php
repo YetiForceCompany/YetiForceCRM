@@ -297,6 +297,9 @@ class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 		$pdf->setLanguage($template->get('language'));
 		$pdf->setFileName($template->get('filename'));
 
+		$origLanguage = vglobal('default_language');
+		vglobal('default_language', $this->get('language'));
+
 		$pdf->parseParams($template->getParameters());
 
 		$html = '';
@@ -306,6 +309,9 @@ class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 		$html = $template->getBody();
 
 		$pdf->loadHTML($html);
+
+		vglobal('default_language', $origLanguage);
+
 		$pdf->output($filePath, $saveFlag);
 	}
 }
