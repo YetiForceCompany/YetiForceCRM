@@ -858,11 +858,6 @@ class Accounts extends CRMEntity
 		 */
 		$query = $this->getRelationQuery($module, $secmodule, "vtiger_account", "accountid", $queryPlanner);
 
-		if ($module == "Calendar") {
-			$query .= " OR vtiger_account.accountid = vtiger_tmpcontactdetails.parentid ";
-		}
-		// End
-
 		if ($queryPlanner->requireTable('vtiger_crmentityAccounts', $matrix)) {
 			$query .= " left join vtiger_crmentity as vtiger_crmentityAccounts on vtiger_crmentityAccounts.crmid=vtiger_account.accountid and vtiger_crmentityAccounts.deleted=0";
 		}
