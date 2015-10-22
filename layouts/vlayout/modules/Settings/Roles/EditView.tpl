@@ -8,10 +8,12 @@
 *************************************************************************************}
 {strip}
 	<div class="">
-		<br>
-		<h3 class="themeTextColor">{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>
+		<div class='widget_headerrow '>
+			<div class="col-xsd-12">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			</div> 
+		</div>
 		<hr>
-
 		<form name="EditRole" action="index.php" method="post" id="EditView" class="form-horizontal">
 			<input type="hidden" name="module" value="Roles">
 			<input type="hidden" name="action" value="Save">
@@ -158,17 +160,15 @@
 						</select>
 					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="pull-right marginRight10px">
-					<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset">{vtranslate('LBL_CANCEL',$MODULE)}</a>
-					<button class="btn btn-success" type="submit">{vtranslate('LBL_SAVE',$MODULE)}</button>
-				</div>
-			</div>
+			</div>			
+			<div class="pull-right marginRight10px">
+				<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset">{vtranslate('LBL_CANCEL',$MODULE)}</a>
+				<button class="btn btn-success" type="submit">{vtranslate('LBL_SAVE',$MODULE)}</button>
+			</div>			
 			{if count($ROLE_USERS) > 0 }
-				<hr />
+				<hr/>
 				<h4>{vtranslate('LBL_USERS_LIST',$QUALIFIED_MODULE)}</h4>
-				<br />
+				<br/>
 				<table class="table table-striped">
 					<thead>
 						<tr>
