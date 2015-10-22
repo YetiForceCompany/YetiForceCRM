@@ -47,7 +47,7 @@
                 <option value="Inactive">{vtranslate('LBL_INACTIVE_USERS', $QUALIFIED_MODULE)}</option>
             </select>
         </div>
-		<div class="col-md-4 btn-toolbar">
+		<div class="col-md-4">
 			{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 		</div>	
 	</div>
