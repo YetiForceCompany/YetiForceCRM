@@ -4616,3 +4616,9 @@ html,body,.baseContainer
 .companyLogoContainerSettings{
 	background: #f2f2f2;
 }
+.div-bordered{
+	border: 1px solid #ddd; 
+}
+.padding10{
+	padding:10px;
+}
