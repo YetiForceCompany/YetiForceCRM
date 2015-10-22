@@ -592,9 +592,13 @@ jQuery.Class("Vtiger_Header_Js", {
 			currentTarget.focus();
 			return false;
 		}
+		var selectedModule = currentTarget.prev('span').children('select').val();
+		if(undefined == selectedModule)
+			var selectedModule = currentTarget.parent().prev('div').children().children('select').val();
+
 		var basicSearch = new Vtiger_BasicSearch_Js();
 		var progress = jQuery.progressIndicator();
-		basicSearch.search(val).then(function (data) {
+		basicSearch.search(val, selectedModule).then(function (data) {
 			basicSearch.showSearchResults(data);
 			progress.progressIndicator({
 				'mode': 'hide'

@@ -84,8 +84,8 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 	/**
 	 * Helper function whicn invokes search
 	 */
-	search: function (value) {
-		var searchModule = this.getCurrentSearchModule();
+	search: function (value, selectedModule) {
+		var searchModule = selectedModule;
 		var params = {};
 		params.value = value;
 		if (typeof searchModule != 'undefined') {
