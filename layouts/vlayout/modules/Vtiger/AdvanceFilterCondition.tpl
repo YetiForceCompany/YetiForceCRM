@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div class="conditionRow marginBottom10px">
-	<span class="col-md-4">
+	<div class="col-md-4">
 		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="columnname" title="{vtranslate('LBL_CHOOSE_FIELD')}">
 			<option value="none">{vtranslate('LBL_SELECT_FIELD',$MODULE)}</option>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
@@ -115,8 +115,8 @@
 				</optgroup>
 			{/foreach}
 		</select>
-	</span>
-	<span class="col-md-3">
+	</div>
+	<div class="col-md-3">
 		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{vtranslate('LBL_COMAPARATOR_TYPE')}">
 			 <option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
 			{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
@@ -132,10 +132,10 @@
 				>{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
 			{/foreach}
 		</select>
-	</span>
-	<span class="col-md-4 fieldUiHolder">
+	</div>
+	<div class="col-md-4 fieldUiHolder">
 		<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{vtranslate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}" />
-	</span>
+	</div>
 	<span class="hide">
 		<!-- TODO : see if you need to respect CONDITION_INFO condition or / and  -->
 		{if empty($CONDITION)}
@@ -143,8 +143,8 @@
 		{/if}
 		<input type="hidden" name="column_condition" value="{$CONDITION}" />
 	</span>
-	 <span class="btn">
+	 <div  class="col-md-1 btn">
 		<span class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}"></span>
-	</span>
+	</div>
 </div>
 {/strip}
