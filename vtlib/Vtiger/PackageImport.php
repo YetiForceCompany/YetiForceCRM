@@ -282,7 +282,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		// Verify module language file.
 		if (!empty($language_modulename) && $language_modulename == $modulename) {
 			$languagefile_found = true;
-		} elseif (!$updatefile_found && !$languagefile_found) {
+		} elseif (!$updatefile_found && !$layoutfile_found && !$languagefile_found) {
 			$_errorText = vtranslate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
 			$_errorText = str_replace('__DEFAULTLANGUAGE__', vglobal('default_language'), $_errorText);
 			$this->_errorText = $_errorText;

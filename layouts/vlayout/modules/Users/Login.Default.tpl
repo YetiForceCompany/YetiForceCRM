@@ -62,27 +62,27 @@
 				{/if}
 			</div>
 			<div class="form-group">
-				{if isset($smarty.request.error) && $smarty.request.error eq 1}
+				{if $ERROR eq 1}
 					<div class="alert alert-warning">
 						<p>{vtranslate('Invalid username or password.',$MODULE)}</p>
 					</div>
 				{/if}
-				{if isset($smarty.request.error) && $smarty.request.error eq 2}
+				{if $ERROR eq 2}
 					<div class="alert alert-warning">
 						<p>{vtranslate('Too many failed login attempts.',$MODULE)}</p>
 					</div>
 				{/if}
-				{if isset($smarty.request.fpError)}
+				{if $FPERROR}
 					<div class="alert alert-warning">
 						<p>{vtranslate('Invalid Username or Email address.',$MODULE)}</p>
 					</div>
 				{/if}
-				{if isset($smarty.request.status)}
+				{if $STATUS}
 					<div class="alert alert-success">
 						<p>{vtranslate('Mail has been sent to your inbox, please check your e-mail.',$MODULE)}</p>
 					</div>
 				{/if}
-				{if isset($smarty.request.statusError)}
+				{if $STATUS_ERROR}
 					<div class="alert alert-warning">
 						<p>{vtranslate('Outgoing mail server was not configured.',$MODULE)}</p>
 					</div>

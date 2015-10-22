@@ -41,6 +41,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		7 => 'MANUAL',
 		8 => 'TRIGGER',
 		9 => 'BLOCK_EDIT',
+		//10 => 'ON_RELATED',
 	);
 
 	/**

@@ -1818,7 +1818,7 @@ CREATE TABLE `vtiger_currencies` (
   `currency_code` varchar(50) DEFAULT NULL,
   `currency_symbol` varchar(11) DEFAULT NULL,
   PRIMARY KEY (`currencyid`)
-) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies_seq` */
 
@@ -3291,6 +3291,18 @@ CREATE TABLE `vtiger_language_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_layout` */
+
+CREATE TABLE `vtiger_layout` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `label` varchar(30) DEFAULT NULL,
+  `lastupdated` datetime DEFAULT NULL,
+  `isdefault` tinyint(1) DEFAULT NULL,
+  `active` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_lead_view` */
 
 CREATE TABLE `vtiger_lead_view` (
@@ -4304,6 +4316,7 @@ CREATE TABLE `vtiger_ossmailscanner_log_cron` (
 CREATE TABLE `vtiger_ossmailtemplates` (
   `ossmailtemplatesid` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
+  `sysname` varchar(50) DEFAULT '',
   `oss_module_list` varchar(255) DEFAULT '',
   `subject` varchar(255) DEFAULT '',
   `content` text,
@@ -7100,7 +7113,7 @@ CREATE TABLE `vtiger_time_zone` (
   `sortorderid` int(19) NOT NULL DEFAULT '0',
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`time_zoneid`)
-) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_time_zone_seq` */
 

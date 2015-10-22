@@ -107,9 +107,6 @@
 										</td>
 									{/foreach}
 									</tr>
-									{if $smarty.request.contact_id neq ''}
-										<input type="hidden" name="contact_id" value="{$smarty.request.contact_id}" />
-									{/if}
 								</table>
 								<div class="row" style="margin-top: 5px;">
 									<div class="col-md-4" id="prev_events">

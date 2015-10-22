@@ -63,6 +63,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 						Vtiger_Helper_Js.showHorizontalTopScrollBar();
 						jQuery('.pageNumbers', thisInstance.relatedContentContainer).tooltip();
 						jQuery('body').trigger(jQuery.Event('LoadRelatedRecordList.PostLoad'), {response: responseData, params: completeParams});	
+						app.showBtnSwitch(jQuery('body').find('.switchBtn'));
 					}
 					aDeferred.resolve(responseData);
 
@@ -281,11 +282,22 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var selectPage = {
-			'page': pageNumber
+			'page': pageNumber,
+		}
+		/**
+		 * Added a condition, because there's a switch button with
+		 * the option used in the list in the related calendar module
+		 */
+		if(this.relatedModulename == 'Calendar'){
+			var time = jQuery('.switchBtn').is(':checked')
+			if(time)
+				selectPage['time'] = 'current';
+			else
+				selectPage['time'] = 'history';
 		}
 		this.loadRelatedList(selectPage).then(
 				function (data) {
-					thisInstance.setCurrentPageNumber(previousPage);
+					thisInstance.setCurrentPageNumber(pageNumber);
 					aDeferred.resolve(data);
 				},
 				function (textStatus, errorThrown) {
@@ -330,6 +342,13 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 					}
 					var jumptoPageParams = {
 						'page': jumpToPage
+					}
+					if(this.relatedModulename == 'Calendar'){
+						var time = jQuery('.switchBtn').is(':checked')
+						if(time)
+							jumptoPageParams['time'] = 'current';
+						else
+							jumptoPageParams['time'] = 'history';
 					}
 					this.loadRelatedList(jumptoPageParams).then(
 							function (data) {

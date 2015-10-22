@@ -816,6 +816,13 @@ jQuery.Class("Vtiger_List_Js", {
 						'mode': 'hide'
 					});
 					app.hideModalWindow();
+					if (!(data.result)) {
+						var params = {
+							text: app.vtranslate('JS_MASS_EDIT_NOT_SUCCESSFULL'),
+							type: 'info'
+						};
+						Vtiger_Helper_Js.showPnotify(params);
+					}
 					aDeferred.resolve(data);
 				},
 				function (error, err) {
@@ -1833,7 +1840,7 @@ jQuery.Class("Vtiger_List_Js", {
 			jQuery('#totalPageCount').text("");
 			thisInstance.getListViewRecords(urlParams).then(
 					function (data) {
-						thisInstance.updatePagination();
+						thisInstance.updatePaginationOnAlphabetChange(alphabet, AlphabetSearchKey);
 						//To unmark the all the selected ids
 						jQuery('#deSelectAllMsg').trigger('click');
 					},
@@ -1842,6 +1849,24 @@ jQuery.Class("Vtiger_List_Js", {
 			);
 		});
 	},
+	updatePaginationOnAlphabetChange: function (alphabet, AlphabetSearchKey) {
+		var thisInstance = this;
+		var params = {};
+		params['module'] = app.getModuleName();
+		params['parent'] = app.getParentModuleName()
+		params['view'] = 'Pagination';
+		params['page'] = 1;
+		params['mode'] = 'getPagination';
+		params['search_key'] = AlphabetSearchKey
+		params['search_value'] = alphabet
+		params['operator'] = "s";
+
+		AppConnector.request(params).then(function (data) {
+			jQuery('.paginationDiv').html(data);
+			thisInstance.registerPageNavigationEvents();
+		});
+	},	
+	
 	/**
 	 * Function to show total records count in listview on hover
 	 * of pageNumber text

@@ -136,7 +136,21 @@ var AppConnector = {
 		}
 
 		return aDeferred.promise();
-	}
-
+	},
+	
+	requestForm : function(url, params) {
+		var newEle = '<form action=' + url + ' method="POST">';
+		if (typeof csrfMagicName !== 'undefined') {
+			newEle += '<input type="hidden" name="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
+		}
+		if(typeof params !== 'undefined'){
+			jQuery.each(params, function( index, value ) {
+				newEle += '<input type="hidden" name="' + index + '"  value=\'' + value + '\'>';
+			});
+		}
+		newEle += '</form>';
+		var form = new jQuery(newEle);
+		form.appendTo('body').submit(); 
+	},
 }
 

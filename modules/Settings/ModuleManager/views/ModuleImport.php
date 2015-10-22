@@ -127,6 +127,10 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		if (strtolower($importType) == 'language') {
 			$package = new Vtiger_Language();
 			$viewer->assign("IMPORT_MODULE_TYPE", 'Language');
+		} else if (strtolower($importType) == 'layout') {
+			vimport('vtlib.Vtiger.Layout');
+			$package = new Vtiger_Layout();
+			$viewer->assign("IMPORT_MODULE_TYPE", 'Layout');
 		} else {
 			$package = new Vtiger_Package();
 		}

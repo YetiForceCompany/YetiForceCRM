@@ -128,7 +128,7 @@ class CRMEntity
 	 *      @param array $file_details  - array which contains the file information(name, type, size, tmp_name and error)
 	 *      return void
 	 */
-	function uploadAndSaveFile($id, $module, $file_details)
+	function uploadAndSaveFile($id, $module, $file_details, $attachmentType ='Attachment')
 	{
 		$log = vglobal('log');
 		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
@@ -147,6 +147,19 @@ class CRMEntity
 			$file_name = $file_details['original_name'];
 		} else {
 			$file_name = $file_details['name'];
+		}
+
+
+		$saveFile = 'true';
+		//only images are allowed for Image Attachmenttype 
+		$mimeType = Vtiger_Functions::getMimeContentType($file_details['tmp_name']);
+		$mimeTypeContents = explode('/', $mimeType);
+		// For contacts and products we are sending attachmentType as value 
+		if ($attachmentType == 'Image' || ($file_details['size'] && $mimeTypeContents[0] == 'image')) {
+			$saveFile = validateImageFile($file_details);
+		}
+		if ($saveFile == 'false') {
+			return false;
 		}
 
 		$binFile = sanitizeUploadFileName($file_name, $upload_badext);
@@ -471,7 +484,11 @@ class CRMEntity
 					} else {
 						$field_list = $this->column_fields[$fieldname];
 					}
-					$fldvalue = $field_list;
+					if ($field_list == '') {
+						$fldvalue = NULL;
+					} else {
+						$fldvalue = $field_list;
+					}
 				} elseif (in_array($uitype, [303, 304])) {
 					if (is_array($this->column_fields[$fieldname])) {
 						$field_list = implode(',', $this->column_fields[$fieldname]);
@@ -1164,7 +1181,7 @@ class CRMEntity
 
 		$result = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
 			SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=?)', [$module]);
-		
+
 		while ($row = $this->db->fetch_array($result)) {
 			$tabId = $row['tabid'];
 			$tableName = $row['tablename'];

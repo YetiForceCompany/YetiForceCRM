@@ -1337,7 +1337,7 @@ td.fieldValue .input-group {
 	color: #404952;
 }
 .searchUIBasic .listRow .defaultInputTextContainer {
-	max-width: 87% !important;
+	max-width: 100% !important;
 	margin-bottom: 0 !important;
 }
 #lineItemTab.table tr:first-child:hover th ~ td {
@@ -3701,10 +3701,12 @@ span[name=existingImages] img{
 .dashboardWidgetContent .summary-detail .summary-text{
 	vertical-align: sub;
 }
-.activityWidgetContainer .activityDescription .popover {
+.activityWidgetContainer .activityDescription .popover,
+.quickCreateContent .addedNearCalendarEvent .popover{
 	min-width: 300px;
 }
-.activityWidgetContainer .popover-content {
+.activityWidgetContainer .popover-content,
+.quickCreateContent .addedNearCalendarEvent .popover-content{
 	font-size: 12px;
 }
 #activityStateModal .form-horizontal .form-group{
@@ -3716,3 +3718,8 @@ span[name=existingImages] img{
 .mainContainer.mailContainer{
 	margin-top: 102px !important;
 }
+.pageNumber.active.disabled a{
+	background-color: #337AB7;
+	border-color: #337AB7;
+	color: #FFF;
+} 

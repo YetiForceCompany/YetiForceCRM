@@ -109,6 +109,11 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$item['vis'] = $record['visibility'];
 			$item['state'] = $record['state'];
 
+			//translate
+			$item['labels']['sta'] = vtranslate($record['status'], $this->getModuleName());
+			$item['labels']['pri'] = vtranslate($record['priority'], $this->getModuleName());
+			$item['labels']['state'] = vtranslate($record['state'], $this->getModuleName());
+
 			//Relation
 			$item['link'] = $record['link'];
 			$item['linkl'] = $record['linklabel'];

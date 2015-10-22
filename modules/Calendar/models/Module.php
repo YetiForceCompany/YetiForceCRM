@@ -486,28 +486,28 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$activityReminder = $currentUserModel->getCurrentUserActivityReminderInSeconds();
-		$recordModels = array();
+		$recordModels = [];
 		$permissionToSendEmail = vtlib_isModuleActive('OSSMail') && Users_Privileges_Model::isPermitted('OSSMail', 'compose');
 
 		if ($activityReminder != '') {
 			$currentTime = time();
 			$date = date('Y-m-d', strtotime("+$activityReminder seconds", $currentTime));
 			$time = date('H:i', strtotime("+$activityReminder seconds", $currentTime));
-			$reminderActivitiesResult = "SELECT reminderid, recordid FROM vtiger_activity_reminder_popup 
+			$reminderActivitiesResult = 'SELECT reminderid, recordid FROM vtiger_activity_reminder_popup 
 				INNER JOIN vtiger_activity on vtiger_activity.activityid = vtiger_activity_reminder_popup.recordid 
-				INNER JOIN vtiger_crmentity ON vtiger_activity_reminder_popup.recordid = vtiger_crmentity.crmid";
+				INNER JOIN vtiger_crmentity ON vtiger_activity_reminder_popup.recordid = vtiger_crmentity.crmid';
 
 			if ($allReminder) {
-				$reminderActivitiesResult .= " WHERE (vtiger_activity_reminder_popup.status = 0 OR vtiger_activity_reminder_popup.status = 2) ";
+				$reminderActivitiesResult .= ' WHERE (vtiger_activity_reminder_popup.status = 0 OR vtiger_activity_reminder_popup.status = 2) ';
 			} else {
-				$reminderActivitiesResult .= " WHERE vtiger_activity_reminder_popup.status = 0 ";
+				$reminderActivitiesResult .= ' WHERE vtiger_activity_reminder_popup.status = 0 ';
 			}
 
 			$reminderActivitiesResult .= " AND vtiger_crmentity.smownerid = ? AND vtiger_crmentity.deleted = 0 
 				AND ((DATE_FORMAT(vtiger_activity_reminder_popup.date_start,'%Y-%m-%d') <= ?)
 				AND (TIME_FORMAT(vtiger_activity_reminder_popup.time_start,'%H:%i') <= ?))
-				AND vtiger_activity.status <> 'Held' LIMIT 20";
-
+				AND vtiger_activity.status IN ('".  implode("','", Calendar_Module_Model::getComponentActivityStateLabel('current'))."') LIMIT 20";
+			
 
 			$result = $db->pquery($reminderActivitiesResult, array($currentUserModel->getId(), $date, $time));
 			$rows = $db->num_rows($result);

@@ -16,7 +16,7 @@
                 <div id="popupContents">{include file='PriceBookProductPopupContents.tpl'|@vtemplate_path:$PARENT_MODULE}</div>
             </form>
         </div>
-        <input type="hidden" class="triggerEventName" value="{$smarty.request.triggerEventName}"/>
+        <input type="hidden" class="triggerEventName" value="{$TRIGGER_EVENT_NAME}"/>
     </div>
 </div>
 {/strip}

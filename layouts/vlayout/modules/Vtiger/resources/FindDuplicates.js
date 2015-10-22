@@ -10,6 +10,9 @@ Vtiger_List_Js('Vtiger_FindDuplicates_Js',{
 
 	massDeleteRecords : function(url) {
 		var listInstance = new Vtiger_FindDuplicates_Js();
+        var fields = jQuery('#duplicateSearchFields').val();
+        var ignoreEmpty = jQuery('#ignoreEmpty').val();
+        url += '&mode=FindDuplicates&fields=' + fields + '&ignoreEmpty=' + ignoreEmpty;
 		Vtiger_List_Js.massDeleteRecords(url,listInstance);
 	}
 },{

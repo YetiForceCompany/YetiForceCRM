@@ -41,6 +41,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		);
 	},
 	deleteUser: function (form) {
+		var listInstance = Vtiger_List_Js.getInstance();
 		var userid = form.find('[name="userid"]').val();
 		var transferUserId = form.find('[name="tranfer_owner_id"]').val();
 		var progressInstance = jQuery.progressIndicator({
@@ -63,6 +64,18 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 						progressInstance.progressIndicator({
 							'mode': 'hide'
 						});
+						var orderBy = jQuery('#orderBy').val();
+						var sortOrder = jQuery("#sortOrder").val();
+						var urlParams = {
+							viewname: data.result.viewname,
+							orderby: orderBy,
+							sortorder: sortOrder
+						};
+						jQuery('#recordsCount').val('');
+						jQuery('#totalPageCount').text('');
+						listInstance.getListViewRecords(urlParams).then(function () {
+							listInstance.updatePagination();
+						});
 						params = {
 							title: app.vtranslate('JS_MESSAGE'),
 							text: data.result.message,
@@ -70,7 +83,6 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 							type: 'success'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
-						jQuery('[data-id=' + userid + "]").hide();
 					}
 				}
 		);
@@ -304,13 +316,58 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 							'mode': 'hide'
 						});
 						jQuery('#listViewContents').html(data);
-						thisInstance.updatePagination();
+						thisInstance.updatePaginationFilter();
 						thisInstance.registerListViewSelect();
 						app.showSelect2ElementView(jQuery('#listViewContents').find('select.select2'));
 					}
 			);
 		});
 	},
+	
+	updatePaginationFilter: function () {
+		var thisInstance = this;
+		var params = {};
+		params['page'] = 1
+		params['module'] = app.getModuleName();
+		params['parent'] = app.getParentModuleName(),
+		params['view'] = 'Pagination';
+		params['mode'] = 'getPagination';
+		params['search_key'] = 'status';
+		params['search_value'] = jQuery('#usersFilter').val()
+		params['operator'] = "e";
+		AppConnector.request(params).then(function (data) {
+			jQuery('.paginationDiv').html(data);
+			thisInstance.registerPageNavigationEvents();
+		});
+	},
+	
+	updatePagination: function (pageNumber) {
+		pageNumber = typeof pageNumber !== 'undefined' ? pageNumber : 1;
+		var thisInstance = this;
+		var params = {};
+		params['module'] = app.getModuleName();
+		params['parent'] = app.getParentModuleName()
+		params['view'] = 'Pagination';
+		params['page'] = pageNumber;
+		params['mode'] = 'getPagination';
+		var searchValue = this.getAlphabetSearchValue();
+		if('status' == searchValue){
+			params['search_key'] = 'status';
+			params['search_value'] = jQuery('#usersFilter').val()
+			params['operator'] = "e";
+		}else{
+			params['search_key'] = this.getAlphabetSearchField();
+			params['search_value'] = searchValue;
+			params['operator'] = "s";
+			
+		}
+		params.search_params = JSON.stringify(this.getListSearchParams());
+		AppConnector.request(params).then(function (data) {
+			jQuery('.paginationDiv').html(data);
+			thisInstance.registerPageNavigationEvents();
+		});
+	},
+
 	registerEvents: function () {
 		this._super();
 		this.usersFilter();

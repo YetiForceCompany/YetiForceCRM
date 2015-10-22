@@ -308,6 +308,8 @@ $languageStrings = [
 	'LBL_VIEW_COMPANYDETAILS' => 'Firmen Details',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Bekanntmachungen',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Ausgehender Server',
+	'LBL_DEFAULT_LAYOUT' => 'Layout',
+	'LBL_DEFAULT' => 'Default',
 ];
 $jsLanguageStrings = [
 	'JS_ANNOUNCEMENT_SAVED' => 'Bekanntmachung gespeichert',

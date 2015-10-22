@@ -121,8 +121,10 @@ $languageStrings = [
 	'LBL_PARAMS_MODULES' => 'Módulos',
 	'LBL_PARAMS_LIMIT' => 'Limite',
 	'LBL_DISPLAY_TYPE' => 'Tipo de campo',
-	'LBL_EDITABLE' => 'Editável',
-	'LBL_READONLY' => 'Somente leitura',
+	'LBL_DISPLAYTYPE_ALL' => 'Visible everywhere',
+	'LBL_DISPLAYTYPE_READONLY' => 'Somente leitura',
+	'LBL_DISPLAYTYPE_ONLY_DETAIL' => 'Visible in detail view',
+	'LBL_DISPLAYTYPE_HIDDEN' => 'Hidden',
 	'LBL_FIELDS_EXISTS_IN_BLOCK' => 'Campos existem para o Bloco',
 	'LBL_DELETE_CUSTOM_BLOCKS' => 'Somente é possível apagar Blocos customizados',
 ];

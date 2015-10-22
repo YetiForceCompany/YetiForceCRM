@@ -257,10 +257,10 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function save()
 	{
-		$this->getModule()->saveRecord($this);
 		if ($this->getModule()->isInventory()) {
 			$this->saveInventoryData();
 		}
+		$this->getModule()->saveRecord($this);
 	}
 
 	/**
@@ -577,6 +577,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function saveInventoryData()
 	{
+		//Event triggering code
+		require_once("include/events/include.inc");
+
 		$db = PearDatabase::getInstance();
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
@@ -585,8 +588,18 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$fields = $inventory->getColumns();
 		$table = $inventory->getTableName('data');
+		$summaryFields = $inventory->getSummaryFields();
+		$insertDataTemp = $summary = [];
 		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
 		$numRow = $request->get('inventoryItemsNo');
+
+		//In Bulk mode stop triggering events
+		if (!CRMEntity::isBulkSaveMode()) {
+			$em = new VTEventsManager($adb);
+			// Initialize Event trigger cache
+			$em->initTriggerCache();
+			$em->triggerEvent('entity.inventory.beforesave', [$this, $inventory]);
+		}
 
 		$db->pquery("delete from $table where id = ?", [$this->getId()]);
 		for ($i = 1; $i <= $numRow; $i++) {
@@ -595,10 +608,26 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			}
 			$insertData = ['id' => $this->getId(), 'seq' => $request->get('seq' . $i)];
 			foreach ($fields as $field) {
-				$insertData[$field] = $inventory->getValueForSave($request, $field, $i);
+				$value = $insertData[$field] = $inventory->getValueForSave($request, $field, $i);
+				if (in_array($field, $summaryFields)) {
+					$summary[$field] += $value;
+				}
 			}
 			$db->insert($table, $insertData);
+			$insertDataTemp[] = $insertData;
 		}
+
+		foreach ($summary as $fieldName => $fieldValue) {
+			if ($this->has($fieldName)) {
+				$this->set($fieldName, CurrencyField::convertToUserFormat($fieldValue, null, true));
+			}
+		}
+
+		if ($em) {
+			//Event triggering code
+			$em->triggerEvent('entity.inventory.aftersave', [$this, $inventory, $insertDataTemp, $summary]);
+		}
+
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 	}
 }

@@ -49,7 +49,7 @@ class OutlookVtigerCRMHandler extends vtigerCRMHandler{
                                 	vtws_create($record['module'], $record, $user);
                                 }
                                 $entityNameIds = wsapp_getRecordEntityNameIds(array_values($recordReferenceFieldNames), $referenceModuleDetails, $user);
-                                $recordInfo[$referenceFieldName] = $entityNameIds[$recordInfo[$referenceFieldName]];;
+                                $recordInfo[$referenceFieldName] = $entityNameIds[$recordInfo[$referenceFieldName]];
                             }
                         }
                         else{

@@ -178,8 +178,7 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View {
 		$viewer->assign('BCCMAIL_INFO', $bccMailInfo);
 		
 		//EmailTemplate module percission check
-		$userPrevilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$viewer->assign('MODULE_IS_ACTIVE', $userPrevilegesModel->hasModulePermission(Vtiger_Module_Model::getInstance('EmailTemplates')->getId()));
+		$viewer->assign('MODULE_IS_ACTIVE', false);
 		//
 		
 		if($relatedLoad){

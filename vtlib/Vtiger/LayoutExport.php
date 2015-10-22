@@ -10,7 +10,7 @@
 include_once('vtlib/Vtiger/Package.php');
 
 /**
- * Provides API to package vtiger CRM language files.
+ * Provides API to package vtiger CRM layout files.
  * @package vtlib
  */
 class Vtiger_LayoutExport extends Vtiger_Package
@@ -51,7 +51,7 @@ class Vtiger_LayoutExport extends Vtiger_Package
 
 	/**
 	 * Export Module as a zip file.
-	 * @param Vtiger_Module Instance of module
+	 * @param Layout name to be export
 	 * @param Path Output directory path
 	 * @param String Zipfilename to use
 	 * @param Boolean True for sending the output as download
@@ -73,10 +73,10 @@ class Vtiger_LayoutExport extends Vtiger_Package
 		$zip = new Vtiger_Zip($zipfilename);
 
 		// Add manifest file
-		$zip->addFile($this->__getManifestFilePath(), "manifest.xml");
+		$zip->addFile($this->__getManifestFilePath(), 'manifest.xml');
 
 		// Copy module directory
-		$zip->copyDirectoryFromDisk("layouts/$layoutName");
+		$zip->copyDirectoryFromDisk('layouts/' . $layoutName);
 
 		$zip->save();
 
@@ -92,14 +92,14 @@ class Vtiger_LayoutExport extends Vtiger_Package
 	}
 
 	/**
-	 * Export Language Handler
+	 * Export Layout Handler
 	 * @access private
 	 */
 	function export_Layout($layoutName)
 	{
 		$adb = PearDatabase::getInstance();
 
-		$sqlresult = $adb->pquery("SELECT * FROM vtiger_layout WHERE name = ?", array($layoutName));
+		$sqlresult = $adb->pquery('SELECT * FROM ' . self::TABLENAME . ' WHERE name = ?', [$layoutName]);
 		$layoutresultrow = $adb->fetch_array($sqlresult);
 
 		$layoutname = decode_html($layoutresultrow['name']);
@@ -109,12 +109,10 @@ class Vtiger_LayoutExport extends Vtiger_Package
 		$this->outputNode(date('Y-m-d H:i:s'), 'exporttime');
 		$this->outputNode($layoutname, 'name');
 		$this->outputNode($layoutlabel, 'label');
-
 		$this->outputNode('layout', 'type');
 
 		// Export dependency information
 		$this->export_Dependencies();
-
 		$this->closeNode('module');
 	}
 
@@ -124,9 +122,7 @@ class Vtiger_LayoutExport extends Vtiger_Package
 	 */
 	function export_Dependencies()
 	{
-		global $YetiForce_current_version, $adb;
-
-		$vtigerMinVersion = $YetiForce_current_version;
+		$vtigerMinVersion = vglobal('YetiForce_current_version');
 		$vtigerMaxVersion = false;
 
 		$this->openNode('dependencies');
@@ -137,32 +133,10 @@ class Vtiger_LayoutExport extends Vtiger_Package
 	}
 
 	/**
-	 * Initialize Language Schema
-	 * @access private
+	 * Register layout pack information.
 	 */
-	static function __initSchema()
+	static function register($name, $label = '', $isdefault = false, $isactive = true, $overrideCore = false)
 	{
-		$hastable = Vtiger_Utils::CheckTable(self::TABLENAME);
-		if (!$hastable) {
-			Vtiger_Utils::CreateTable(
-				self::TABLENAME, '(id INT NOT NULL PRIMARY KEY,
-                            name VARCHAR(50), label VARCHAR(30), lastupdated DATETIME, isdefault INT(1), active INT(1))', true
-			);
-			global $languages, $adb;
-			foreach ($languages as $langkey => $langlabel) {
-				$uniqueid = self::__getUniqueId();
-				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,label,lastupdated,isdefault,active) VALUES(?,?,?,?,?,?)', Array($uniqueid, $langlabel, $langlabel, date('Y-m-d H:i:s', time()), 0, 1));
-			}
-		}
-	}
-
-	/**
-	 * Register language pack information.
-	 */
-	static function register($label, $name = '', $isdefault = false, $isactive = true, $overrideCore = false)
-	{
-		self::__initSchema();
-
 		$prefix = trim($prefix);
 		// We will not allow registering core layouts unless forced
 		if (strtolower($name) == 'vlayout' && $overrideCore == false)
@@ -172,15 +146,38 @@ class Vtiger_LayoutExport extends Vtiger_Package
 		$useisactive = ($isactive) ? 1 : 0;
 
 		$adb = PearDatabase::getInstance();
-		$checkres = $adb->pquery('SELECT * FROM ' . self::TABLENAME . ' WHERE name=?', Array($name));
+		$checkres = $adb->pquery('SELECT id FROM ' . self::TABLENAME . ' WHERE name=?', [$name]);
 		$datetime = date('Y-m-d H:i:s');
-		if ($adb->num_rows($checkres)) {
-			$id = $adb->query_result($checkres, 0, 'id');
-			$adb->pquery('UPDATE ' . self::TABLENAME . ' set label=?, name=?, lastupdated=?, isdefault=?, active=? WHERE id=?', Array($label, $name, $datetime, $useisdefault, $useisactive, $id));
+		if ($checkres->rowCount()) {
+			$adb->update(self::TABLENAME, [
+				'label' => $label,
+				'name' => $name,
+				'lastupdated' => $datetime,
+				'isdefault' => $useisdefault,
+				'active' => $useisactive,
+				], 'id=?', [$adb->getSingleValue($checkres)]
+			);
 		} else {
-			$uniqueid = self::__getUniqueId();
-			$adb->pquery('INSERT INTO ' . self::TABLENAME . ' (id,name,label,lastupdated,isdefault,active) VALUES(?,?,?,?,?,?)', Array($uniqueid, $name, $label, $datetime, $useisdefault, $useisactive));
+			$adb->insert(self::TABLENAME, [
+				'id' => self::__getUniqueId(),
+				'name' => $name,
+				'label' => $label,
+				'lastupdated' => $datetime,
+				'isdefault' => $useisdefault,
+				'active' => $useisactive,
+			]);
 		}
-		self::log("Registering Language $label [$prefix] ... DONE");
+		self::log("Registering Layout $name ... DONE");
+	}
+
+	static function deregister($name)
+	{
+		if (strtolower($name) == 'vlayout')
+			return;
+
+		$adb = PearDatabase::getInstance();
+		$adb->delete(self::TABLENAME, 'name = ?', [$name]);
+		Vtiger_Functions::recurseDelete('layouts' . DIRECTORY_SEPARATOR . $name);
+		self::log("Deregistering Layout $name ... DONE");
 	}
 }

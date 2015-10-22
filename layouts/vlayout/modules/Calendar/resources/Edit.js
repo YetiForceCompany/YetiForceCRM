@@ -260,7 +260,8 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 
 	registerBasicEvents : function(container) {
 		this._super(container);
-		this.toggleTimesInputs(container)
+		this.toggleTimesInputs(container);
+		this.registerTimesInputs(container);
 		this.registerTimeStartChangeEvent(container);
         this.registerEndDateTimeChangeLogger(container);
         //Required to set the end time based on the default ActivityType selected
@@ -281,6 +282,13 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 				}
 			}
 		});
+	},
+	
+	registerTimesInputs: function(container){		
+		var allday = container.find('[name="allday"]:checkbox');
+		if(allday.prop('checked')){
+			container.find('.time').hide();
+		};
 	},
 	
 	getDateInstance: function(container, type){

@@ -592,7 +592,7 @@ function getRecordOwnerId($record)
 	$ownerArr = [];
 
 	$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record);
-	
+
 	if ($recordMetaData) {
 		$ownerId = $recordMetaData['smownerid'];
 		// Look at cache first for information
@@ -1544,7 +1544,9 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 	$adb = PearDatabase::getInstance();
 	$log = vglobal('log');
 	$log->debug("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
-	require_once("include/events/include.inc");
+	require_once('include/events/include.inc');
+	//require_once('modules/com_vtiger_workflow/VTWorkflowManager.inc');
+	//require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
 	$em = new VTEventsManager($adb);
 	$em->initTriggerCache();
 	if (!is_array($destinationRecordIds))
@@ -1562,7 +1564,22 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 
 		$focus->save_related_module($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
 		$focus->trackLinkedInfo($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
-
+		/*
+		$wfs = new VTWorkflowManager($adb);
+		$workflows = $wfs->getWorkflowsForModule($sourceModule, VTWorkflowManager::$ON_RELATED);
+		$entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
+		$entityData = VTEntityData::fromCRMEntity($focus);
+		$entityData->eventType = VTWorkflowManager::$ON_RELATED;
+		$entityData->relatedInfo = [
+			'destId' => $destinationRecordId,
+			'destModule' => $destinationModule,
+		];
+		foreach ($workflows as $id => $workflow) {
+			if ($workflow->evaluate($entityCache, $entityData->getId())) {
+				$workflow->performTasks($entityData);
+			}
+		}
+		 */
 		$em->triggerEvent('vtiger.entity.link.after', $data);
 	}
 	$log->debug("Exiting relateEntities method ...");
