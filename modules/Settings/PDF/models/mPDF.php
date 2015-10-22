@@ -298,7 +298,7 @@ class Settings_PDF_mPDF_Model extends Settings_PDF_AbstractPDF_Model
 		$pdf->setFileName($template->get('filename'));
 
 		$origLanguage = vglobal('default_language');
-		vglobal('default_language', $this->get('language'));
+		vglobal('default_language', $template->get('language'));
 
 		$pdf->parseParams($template->getParameters());
 
