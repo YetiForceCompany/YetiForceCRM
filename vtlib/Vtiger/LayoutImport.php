@@ -31,7 +31,6 @@ class Vtiger_LayoutImport extends Vtiger_LayoutExport
 	 */
 	function initImport($zipfile, $overwrite)
 	{
-		$this->__initSchema();
 		$name = $this->getModuleNameFromZip($zipfile);
 		return $name;
 	}
@@ -74,6 +73,8 @@ class Vtiger_LayoutImport extends Vtiger_LayoutExport
 		$filelist = $unzip->getList();
 		$vtiger6format = false;
 
+		$badFileExtensions = array_diff(vglobal('upload_badext'), ['js']);
+
 		foreach ($filelist as $filename => $fileinfo) {
 			if (!$unzip->isdir($filename)) {
 
@@ -84,6 +85,7 @@ class Vtiger_LayoutImport extends Vtiger_LayoutExport
 				$targetdir = substr($filename, 0, strripos($filename, '/'));
 				$targetfile = basename($filename);
 				$dounzip = false;
+				$fileValidation = true;
 				// Case handling for jscalendar
 				if (stripos($targetdir, "layouts/$name/skins") === 0) {
 					$dounzip = true;
@@ -105,24 +107,23 @@ class Vtiger_LayoutImport extends Vtiger_LayoutExport
 						$targetdir = "layouts/$name/" . str_replace("layouts/$name", "", $targetdir);
 						@mkdir($targetdir, 0755, true);
 					}
-
-					global $upload_badext;
-					$badFileExtensions = array_diff($upload_badext, array('js'));
-					$filepath = 'zip://' . $zipfile . '#' . $filename;
-					$fileValidation = Vtiger_Functions::verifyClaimedMIME($filepath, $badFileExtensions);
-
-					$imageContents = file_get_contents('zip://' . $zipfile . '#' . $filename);
-					// Check for php code injection
-					if (preg_match('/(<\?php?(.*?))/i', $imageContents) == 1) {
+					$filepath = 'zip://' . vglobal('root_directory') . $zipfile . '#' . $filename;
+					$fileInfo = pathinfo($filepath);
+					if (in_array($fileInfo['extension'], $badFileExtensions)) {
 						$fileValidation = false;
 					}
-
+					// Check for php code injection
+					if (preg_match('/(<\?php?(.*?))/i', file_get_contents($filepath)) == 1) {
+						$fileValidation = false;
+					}
 					if ($fileValidation) {
 						if ($unzip->unzip($filename, "$targetdir/$targetfile") !== false) {
 							self::log("Copying file $filename ... DONE");
 						} else {
 							self::log("Copying file $filename ... FAILED");
 						}
+					} else {
+						self::log("Incorrect file $filename ... SKIPPED");
 					}
 				} else {
 					self::log("Copying file $filename ... SKIPPED");
@@ -135,7 +136,6 @@ class Vtiger_LayoutImport extends Vtiger_LayoutExport
 		self::register($name, $label);
 
 		self::log("Importing $name($label) ... DONE");
-
 		return;
 	}
 }

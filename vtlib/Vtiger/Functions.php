@@ -1542,20 +1542,6 @@ class Vtiger_Functions
 		return $info;
 	}
 
-	/**
-	 * Check the file MIME Type
-	 * @param $targetFile  Filepath to validate
-	 * @param  $claimedMime Array of bad file extenstions
-	 */
-	static public function verifyClaimedMIME($targetFile, $claimedMime)
-	{
-		$fileMimeContentType = self::getMimeContentType($targetFile);
-		if (in_array(strtolower($fileMimeContentType), $claimedMime)) {
-			return false;
-		}
-		return true;
-	}
-
 	static public function getMimeContentType($filename)
 	{
 		require 'config/mimetypes.php';
