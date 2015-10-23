@@ -28,14 +28,17 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordModels = $this->getRecordModelsFromRequest($request);
+		$allRecordSave = true;
 		foreach ($recordModels as $recordId => $recordModel) {
 			if (Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId)) {
 				$recordModel->save();
+			} else {
+				$allRecordSave = false;
 			}
 		}
 
 		$response = new Vtiger_Response();
-		$response->setResult(true);
+		$response->setResult($allRecordSave);
 		$response->emit();
 	}
 

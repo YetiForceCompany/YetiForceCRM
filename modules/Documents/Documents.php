@@ -478,7 +478,7 @@ class Documents extends CRMEntity {
 			WHERE `vtiger_field`.`columnname` = ? 
 				AND `vtiger_field`.`tablename` = ?
 				AND `vtiger_trees_templates_data`.`name` = ?;", array('folderid', 'vtiger_notes', 'Default'));
-		return $adb->query_result($result, 0, 'tree');;
+		return $adb->query_result($result, 0, 'tree');
 	}
 
 	/**

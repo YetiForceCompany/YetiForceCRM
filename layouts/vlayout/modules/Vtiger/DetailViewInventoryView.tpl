@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	{assign var="INVENTORY_FIELD" value=Vtiger_InventoryField_Model::getInstance($MODULE_NAME)}
-	{assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true)}
+	{assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true, [], 'Detail')}
 
 	{if count($FIELDS) neq 0}
 		{assign var="COLUMNS" value=$INVENTORY_FIELD->getColumns()}
@@ -24,7 +24,7 @@
 				<thead>
 					<tr>
 						<th style="width: 40%;"></th>
-							{foreach item=FIELD from=$FIELDS[0]}
+						{foreach item=FIELD from=$FIELDS[0]}
 							<th colspan="{$FIELD->get('colspan')}">
 								<span class="inventoryLineItemHeader">{vtranslate($FIELD->get('label'), $MODULE_NAME)}:</span>&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
@@ -40,11 +40,9 @@
 			<thead>
 				<tr>
 					{foreach item=FIELD from=$FIELDS[1]}
-						{if $FIELD->isVisible($INVENTORY_ROWS)}
-							<th colspan="{$FIELD->get('colspan')}" class="textAlignCenter">
-								{vtranslate($FIELD->get('label'), $MODULE_NAME)}
-							</th>
-						{/if}
+						<th colspan="{$FIELD->get('colspan')}" class="textAlignCenter">
+							{vtranslate($FIELD->get('label'), $MODULE_NAME)}
+						</th>
 					{/foreach}
 				</tr>
 			</thead>
@@ -53,12 +51,10 @@
 					{assign var="ROW_NO" value=$KEY+1}
 					<tr>
 						{foreach item=FIELD from=$FIELDS[1]}
-							{if $FIELD->isVisible($INVENTORY_ROWS)}
-								<td {if in_array($FIELD->getName(), $FIELDS_TEXT_ALIGN_RIGHT)}class="textAlignRight"{/if}>
-									{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
-									{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE_NAME ITEM_VALUE=$INVENTORY_ROW[$FIELD->get('columnname')]}
-								</td>
-							{/if}
+							<td {if in_array($FIELD->getName(), $FIELDS_TEXT_ALIGN_RIGHT)}class="textAlignRight"{/if}>
+								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
+								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE_NAME ITEM_VALUE=$INVENTORY_ROW[$FIELD->get('columnname')]}
+							</td>
 						{/foreach}
 					</tr>
 				{/foreach}
@@ -66,17 +62,15 @@
 			<tfoot>
 				<tr>
 					{foreach item=FIELD from=$FIELDS[1]}
-						{if $FIELD->isVisible($INVENTORY_ROWS)}
-							<td colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
-								{if $FIELD->isSummary()}
-									{assign var="SUM" value=0}
-									{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
-										{assign var="SUM" value=($SUM + $INVENTORY_ROW[$FIELD->get('columnname')])}
-									{/foreach}
-									{CurrencyField::convertToUserFormat($SUM, null, true)}
-								{/if}
-							</td>
-						{/if}
+						<td colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
+							{if $FIELD->isSummary()}
+								{assign var="SUM" value=0}
+								{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
+									{assign var="SUM" value=($SUM + $INVENTORY_ROW[$FIELD->get('columnname')])}
+								{/foreach}
+								{CurrencyField::convertToUserFormat($SUM, null, true)}
+							{/if}
+						</td>
 					{/foreach}
 				</tr>
 			</tfoot>

@@ -1613,13 +1613,5 @@ $jsLanguageStrings = [
 	'JS_END_DATE' => 'Дата завершения',
 	'JS_STATE'=>'Показать как',
 	'JS_SUBJECT' => 'Тема',
-	'PLL_OPAQUE' => 'Занят',
-	'PLL_TRANSPARENT' => 'Свободен',
 	'JS_STATUS' => 'Статус',
-	'Low' => 'Низкий',
-	'Normal' => 'Нормальный',
-	'Medium' => 'Средний',
-	'High' => 'Высокий',
-	'Not Held' => 'Не проведено',
-	'Held' => 'Проведено',
 ];

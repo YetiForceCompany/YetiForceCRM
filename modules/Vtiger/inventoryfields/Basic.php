@@ -18,7 +18,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	protected $customColumn = [];
 	protected $summationValue = false;
 	protected $onlyOne = true;
-	protected $displayTypeBase = ['LBL_EDITABLE'=>0, 'LBL_READONLY'=>10];
+	protected $displayTypeBase = ['LBL_DISPLAYTYPE_ALL' => 0, 'LBL_DISPLAYTYPE_ONLY_DETAIL' => 2, 'LBL_DISPLAYTYPE_HIDDEN' => 5, 'LBL_DISPLAYTYPE_READONLY' => 10];
 	protected $blocks = [1];
 
 	/**
@@ -29,12 +29,12 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	{
 		return $this->onlyOne;
 	}
-	
+
 	public function getBlocks()
 	{
 		return $this->blocks;
 	}
-	
+
 	/**
 	 * Getting database-type of field
 	 * @return string dbType
@@ -64,9 +64,9 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 
 	public function getColSpan()
 	{
-		if($this->has('colspan'))
+		if ($this->has('colspan'))
 			return $this->get('colspan');
-		
+
 		return $this->colSpan;
 	}
 
@@ -112,7 +112,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	 */
 	public function getColumnName()
 	{
-		if($this->has('columnname'))
+		if ($this->has('columnname'))
 			return $this->get('columnname');
 		return $this->columnName;
 	}
@@ -133,7 +133,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 
 	public function getDefaultValue()
 	{
-		if($this->has('defaultvalue'))
+		if ($this->has('defaultvalue'))
 			return $this->get('defaultvalue');
 		return $this->defaultValue;
 	}
@@ -185,11 +185,30 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 		return true;
 	}
 
-	public function isVisible($data)
+	/**
+	 * Function to check whether the current field is visible
+	 * @return <Boolean> - true/false
+	 */
+	public function isVisible()
 	{
+		if ((int) $this->get('displaytype') == 5) {
+			return false;
+		}
 		return true;
 	}
-	
+
+	/**
+	 * Function to check whether the current field is editable
+	 * @return <Boolean> - true/false
+	 */
+	public function isEditable()
+	{
+		if (!in_array((int) $this->get('displaytype'), [0, 10])) {
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * Getting value to display
 	 * @return array
@@ -202,5 +221,4 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 		}
 		return $modulesNames;
 	}
-
 }

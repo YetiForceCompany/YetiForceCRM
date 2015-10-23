@@ -1818,7 +1818,7 @@ CREATE TABLE `vtiger_currencies` (
   `currency_code` varchar(50) DEFAULT NULL,
   `currency_symbol` varchar(11) DEFAULT NULL,
   PRIMARY KEY (`currencyid`)
-) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies_seq` */
 
@@ -7100,7 +7100,7 @@ CREATE TABLE `vtiger_time_zone` (
   `sortorderid` int(19) NOT NULL DEFAULT '0',
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`time_zoneid`)
-) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_time_zone_seq` */
 

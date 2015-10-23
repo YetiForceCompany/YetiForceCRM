@@ -126,8 +126,10 @@ $languageStrings = [
 	'LBL_PARAMS_MODULES' => 'Modules',
 	'LBL_PARAMS_LIMIT' => 'Limit',
 	'LBL_DISPLAY_TYPE' => 'Field type',
-	'LBL_EDITABLE' => 'Editable',
-	'LBL_READONLY' => 'Read-only',
+	'LBL_DISPLAYTYPE_ALL' => 'Visible everywhere',
+	'LBL_DISPLAYTYPE_READONLY' => 'Read-only',
+	'LBL_DISPLAYTYPE_ONLY_DETAIL' => 'Visible in detail view',
+	'LBL_DISPLAYTYPE_HIDDEN' => 'Hidden',
 	'LBL_FIELDS_EXISTS_IN_BLOCK' => 'Fields exists for the block',
 	'LBL_DELETE_CUSTOM_BLOCKS' => 'Cannot delete non custom blocks',
 ];

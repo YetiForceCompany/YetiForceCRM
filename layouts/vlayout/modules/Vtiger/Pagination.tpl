@@ -36,11 +36,11 @@
 					{/if}
 					{break}
 				{/if}
-				<li class="pageNumber {if $PAGE_NUMBER eq $PAGE_INDEX} active {/if}" data-id="{$PAGE_INDEX}"><a>{$PAGE_INDEX}</a></li>
+				<li class="pageNumber {if $PAGE_NUMBER eq $PAGE_INDEX} active disabled {/if}" data-id="{$PAGE_INDEX}"><a>{$PAGE_INDEX}</a></li>
 			{/for}
 		{/if}
 		{if $PAGE_INDEX <= $PAGE_COUNT}
-			<li class="pageNumber {if $PAGE_NUMBER eq $PAGE_COUNT} active {/if}" data-id="{$PAGE_COUNT}"><a>{$PAGE_COUNT}</a></li>
+			<li class="pageNumber {if $PAGE_NUMBER eq $PAGE_COUNT} active disabled {/if}" data-id="{$PAGE_COUNT}"><a>{$PAGE_COUNT}</a></li>
 		{/if}
 
 		<li class="{if (!$PAGING_MODEL->isNextPageExists()) or ($PAGE_NUMBER eq $PAGE_COUNT)} disabled {/if}" id="listViewNextPageButton">

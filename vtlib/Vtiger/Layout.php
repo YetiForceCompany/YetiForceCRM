@@ -7,15 +7,20 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-
-class Settings_Vtiger_ListUI5_View extends Settings_Vtiger_UI5Embed_View
+vimport('vtlib.Vtiger.LayoutImport');
+/**
+ * Language Manager class for vtiger Modules.
+ * @package vtlib
+ */
+class Vtiger_Layout extends Vtiger_LayoutImport
 {
 
-	protected function getUI5EmbedURL(Vtiger_Request $request)
+	/**
+	 * Constructor
+	 */
+	function __construct()
 	{
-		$module = $request->getModule();
-		if ($module == 'EmailTemplate') {
-			return 'index.php?module=Settings&action=listemailtemplates&parenttab=Settings';
-		}
+
+		parent::__construct();
 	}
 }
