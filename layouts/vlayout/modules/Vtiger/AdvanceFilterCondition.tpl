@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div class="conditionRow marginBottom10px">
-	<div class="col-md-4">
+	<div class="col-md-4 conditionField">
 		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="columnname" title="{vtranslate('LBL_CHOOSE_FIELD')}">
 			<option value="none">{vtranslate('LBL_SELECT_FIELD',$MODULE)}</option>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}

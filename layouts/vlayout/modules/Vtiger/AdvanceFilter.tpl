@@ -45,7 +45,7 @@
 				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=array() MODULE=$MODULE NOCHOSEN=true}
 			</div>
 			<div class="addCondition">
-				<button type="button" class="btn btn-default"><strong>{vtranslate('LBL_ADD_CONDITION',$MODULE)}</strong></button>
+				<button type="button" class="btn btn-default pushDown"><strong>{vtranslate('LBL_ADD_CONDITION',$MODULE)}</strong></button>
 			</div>
 			<div class="groupCondition">
 				{assign var=GROUP_CONDITION value=$ALL_CONDITION_CRITERIA['condition']}
@@ -72,7 +72,7 @@
 				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE=$MODULE CONDITION_INFO=array() CONDITION="or" NOCHOSEN=true}
 			</div>
 			<div class="addCondition">
-				<button type="button" class="btn btn-default"><strong>{vtranslate('LBL_ADD_CONDITION',$MODULE)}</strong></button>
+				<button type="button" class="btn btn-default pushDown"><strong>{vtranslate('LBL_ADD_CONDITION',$MODULE)}</strong></button>
 			</div>
 		</div>
 	</div>
