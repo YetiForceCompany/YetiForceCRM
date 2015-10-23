@@ -281,10 +281,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	function getRoleDetail()
 	{
-		if (!empty($this->get('roleDetail'))) {
+		$roleDetail = $this->get('roleDetail');
+		if (!empty($roleDetail)) {
 			return $this->get('roleDetail');
 		}
-		if (empty($this->get('privileges'))) {
+		$privileges = $this->get('privileges');
+		if (empty($privileges)) {
 			$privilegesModel = Users_Privileges_Model::getInstanceById($this->getId());
 			$this->set('privileges', $privilegesModel);
 		}
