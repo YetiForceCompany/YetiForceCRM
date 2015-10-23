@@ -124,15 +124,26 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				thisInstance.updateEvent(event, delta, revertFunc);
 			},
  			eventRender: function (event, element) {
-				element.find('.fc-info').popover({
+				element.find('.fc-content').popover({
+					trigger: 'hover',
+					delay: 500,
 					title: event.title,
 					placement: 'top',
+					container: 'body',
 					html: true,
-					content: '<i class="glyphicon glyphicon-time"></i> '+app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD HH:mm') + '<br /><i class="glyphicon glyphicon-time"></i> ' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD HH:mm') + '<br />' +
-							(event.lok != '' ? '<i class="icon-globe"></i> '+app.vtranslate('JS_LOCATION') + ': ' + event.lok + '<br />' : '') + (event.pri ? '<i class="icon-warning-sign"></i> '+app.vtranslate('JS_PRIORITY') + ': ' + app.vtranslate('JS_' + event.pri) + '<br />' : '')+
-							'<i class="icon-question-sign"></i> '+app.vtranslate('JS_STATUS') + ': ' + app.vtranslate('JS_' + event.sta) + '<br />' + (event.accname ? '<i class="calIcon modIcon_Accounts"></i> '+app.vtranslate('JS_ACCOUNTS') + ': ' + event.accname + '<br />' : '') +
-							(event.linkl ? '<i class="calIcon modIcon_'+event.linkm+'"></i> '+app.vtranslate('JS_RELATION') + ': ' + event.linkl + '<br />' : '') + (event.procl ? '<i class="calIcon modIcon_'+event.procm+'"></i> '+app.vtranslate('JS_PROCESS') + ': ' + event.procl + '<br />' : '') + 
-							(event.state ? '<i class="icon-star-empty"></i> '+app.vtranslate('JS_STATE') + ': ' + app.vtranslate(event.state) + '<br />' : '') + '<i class="glyphicon glyphicon-eye-open"></i> '+app.vtranslate('JS_VISIBILITY') + ': ' + app.vtranslate('JS_' + event.vis) + '<br />' 
+					content: '<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>'+app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD HH:mm') + '</div>'+
+							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD HH:mm') + '</div>' +
+							(event.lok != '' ? '<div><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> <label>'+app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') + 
+							(event.pri ? '<div><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> <label>'+app.vtranslate('JS_PRIORITY') + '</label>: ' + app.vtranslate('JS_' + event.pri) + '</div>' : '')+
+							'<div><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> <label>'+app.vtranslate('JS_STATUS') + '</label>: ' + app.vtranslate('JS_' + event.sta) + '</div>' + 
+							(event.accname ? '<div><span class="calIcon modIcon_Accounts" aria-hidden="true"></span> <label>'+app.vtranslate('JS_ACCOUNTS') + '</label>: ' + event.accname + '</div>' : '') +
+							(event.linkl ? '<div><span class="calIcon calIcon modIcon_'+event.linkm+'" aria-hidden="true"></span> <label>'+app.vtranslate('JS_RELATION') + '</label>: ' + event.linkl + '</div>' : '') + 
+							(event.procl ? '<div><span class="glyphicon calIcon modIcon_'+event.procm+'" aria-hidden="true"></span> <label>'+app.vtranslate('JS_PROCESS') + '</label>: ' + event.procl + '</div>' : '') + 
+							(event.state ? '<div><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> <label>'+app.vtranslate('JS_STATE') + '</label>: ' + app.vtranslate(event.state) + '</div>' : '') + 
+							'<div><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <label>'+app.vtranslate('JS_VISIBILITY') + '</label>: ' + app.vtranslate('JS_' + event.vis) + '</div>' 
+				});
+				element.find('.fc-info').click(function() {
+
 				});
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),

@@ -1316,4 +1316,10 @@ $jsLanguageStrings = [
 	'JS_STATE'=>'State',
 	'JS_SUBJECT' => 'Subject',
 	'JS_STATUS' => 'Status',
+	'JS_PLL_PLANNED' => 'Planned',
+	'JS_PLL_IN_REALIZATION' => 'To be realized',
+	'JS_PLL_OVERDUE' => 'Overdue',
+	'JS_PLL_POSTPONED' => 'Postponed',
+	'JS_PLL_CANCELLED' => 'Cancelled',
+	'JS_PLL_COMPLETED' => 'Completed',
 ];

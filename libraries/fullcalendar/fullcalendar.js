@@ -5059,26 +5059,15 @@ DayGrid.mixin({
 			}   addHtml += '</div>';
 			return addHtml;
 		}
-		if(seg.isStart){
-			timeText = this.getEventTimeText(event,null,true);
+		
+		if(event.start.format('HHH') != '000'){
+			timeText = this.getEventTimeText(event,null,false);
 			if (timeText) {
-				timeHtml = '<span class="fc-time"><i class="icon-time"></i> ' + htmlEscape(timeText) + '</span>';
-			}else{
-				timeHtml = '<span class="fc-time"><i class="icon-time"></i> ' + app.vtranslate('JS_ALL_DAY') + '</span>';
+				timeHtml = '<span class="fc-time">' + htmlEscape(timeText) + '</span>';
 			}
 		}
-		var eventIcon = 'icon-calendar';
-		if(event.set == 'Task'){
-			eventIcon = 'icon-tasks'
-		}
-		titleHtml = '<span class="fc-title"><i class="' + eventIcon + '"></i> ' + event.title + '</span>';
-		if(event.accname){
-			titleHtml += '<br /><span class="fc-parentlabel"><i class="calIcon modIcon_Accounts"></i> ' + event.accname + '</span>';
-		}
-		if(event.linkl){
-			titleHtml += '<br /><span class="fc-parentlabel"><i class="calIcon modIcon_' + event.linkm + '"></i> ' + event.linkl + '</span>';
-		}
-		return '<a class="' + classes.join(' ') + '"' +
+		titleHtml = '<span class="fc-title">' + event.title + '</span>';
+		return '<div data-id="'+event.id+'" data-id="'+event.module+'" class="' + classes.join(' ') + '"' +
 				(event.url ?
 					' href="' + htmlEscape(event.url) + '"' :
 					''
@@ -5087,13 +5076,9 @@ DayGrid.mixin({
 					' style="' + skinCss + '"' :
 					''
 					) +
-			'>' + '<span class="fc-info"><i class="icon-info-sign"></i></span>' +
-				'<div class="fc-content">' +
-					(this.isRTL ?
-						titleHtml + ' ' + timeHtml : // put a natural space in between
-						timeHtml + ' ' + titleHtml   //
-						) +
-				'</div>' +
+			'>' + '<div class="pull-left"><span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span></div>' +
+				'<div class="pull-right fc-info"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></div>' + 
+				'<div class="fc-content">'+timeHtml+''+ titleHtml + '</div>' +
 				(isResizableFromStart ?
 					'<div class="fc-resizer fc-start-resizer" />' :
 					''
@@ -5102,7 +5087,7 @@ DayGrid.mixin({
 					'<div class="fc-resizer fc-end-resizer" />' :
 					''
 					) +
-			'</a>';
+			'</div>';
 	},
 	// <--------   YetiForce Sp. z o.o.   -------->
 
