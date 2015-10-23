@@ -843,7 +843,7 @@ function create_ticket($input_array)
 	if(!validateSession($id,$sessionid))
 		return null;
 
-	$ticket = new HelpDesk();
+	$ticket = CRMEntity::getInstance('HelpDesk');
 
 	$ticket->column_fields[ticket_title] = vtlib_purify($title);
 	$ticket->column_fields[description]= vtlib_purify($description);
@@ -851,9 +851,6 @@ function create_ticket($input_array)
 	$ticket->column_fields[ticketseverities]=$severity;
 	$ticket->column_fields[ticketcategories]=$category;
 	$ticket->column_fields[ticketstatus]='Open';
-
-	$ticket->column_fields[contact_id]=$parent_id;
-	$ticket->column_fields[parent_id]=$parent_id;
 	$ticket->column_fields[product_id]=$product_id;
 	if($servicecontractid != 0)
 		$ticket->column_fields[servicecontractsid]=$servicecontractid;
@@ -868,7 +865,8 @@ function create_ticket($input_array)
 	$accountId = $adb->query_result($accountResult, 0, 'parentid');
 	if(!empty($accountId)) $ticket->column_fields['parent_id'] = $accountId;
 
-	$ticket->save("HelpDesk");
+	$ticket->save('HelpDesk');
+	relateEntities($ticket, 'HelpDesk', $ticket->id, 'Contacts', $parent_id);
 
 	$ticketresult = $adb->pquery("select vtiger_troubletickets.ticketid from vtiger_troubletickets
 		inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_troubletickets.ticketid inner join vtiger_ticketcf on vtiger_ticketcf.ticketid = vtiger_troubletickets.ticketid
@@ -1094,10 +1092,10 @@ function change_password($input_array)
 function send_mail_for_password($mailid) {
 	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	vimport('modules.Settings.CustomerPortal.helpers.CustomerPortalPassword');
-	$log->debug("Entering customer portal function send_mail_for_password");
+	$log->debug('Entering customer portal function send_mail_for_password');
 	$adb->println("Inside the function send_mail_for_password($mailid).");
 
-	$sql = "select * from vtiger_portalinfo where user_name = ?;";
+	$sql = 'select * from vtiger_portalinfo where user_name = ?;';
 	$res = $adb->pquery($sql, array($mailid));
 	if ($adb->num_rows($res) > 0) {
 		$user_name = $adb->query_result($res, 0, 'user_name');
@@ -1112,14 +1110,14 @@ function send_mail_for_password($mailid) {
 		$sql = 'UPDATE vtiger_portalinfo SET `user_password` = ?, `crypt_type` = ?, `password_sent` = ? WHERE `id` = ? LIMIT 1;';
 		$adb->pquery( $sql, $params );
 
-		$data = array(
-			'id' => '104',
+		$data = [
+			'sysname' => 'YetiPortalForgotPassword',
 			'to_email' => $mailid,
 			'module' => 'Contacts',
 			'record' => $record,
 			'user_name' => $user_name,
 			'password' => $truePassword,
-		);
+		];
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 	}
 	$succes = false;
@@ -1134,13 +1132,13 @@ function send_mail_for_password($mailid) {
 	} else {
 		$succes = true;
 		$masage = 'LBL_PASSWORD_HAS_BEEN_SENT';
-		$params = array( 1, $record );
+		$params = [1, $record];
 		$sql = 'UPDATE vtiger_portalinfo SET `password_sent` = ? WHERE `id` = ? LIMIT 1;';
 		$adb->pquery( $sql, $params );
 	}
 	$ret_msg = array('succes' => $succes, 'masage' => $masage);
 	$adb->println("Exit from send_mail_for_password. $ret_msg");
-	$log->debug("Exiting customer portal function send_mail_for_password");
+	$log->debug('Exiting customer portal function send_mail_for_password');
 	return $ret_msg;
 }
 

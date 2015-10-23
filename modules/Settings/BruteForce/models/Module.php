@@ -164,7 +164,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	public static function sendNotificationEmail()
 	{
 		$log = vglobal('log');
-		$log->debug("Start " . __CLASS__ . "::" . __METHOD__);
+		$log->debug('Start ' . __CLASS__ . '::' . __METHOD__);
 		$usersId = self::getUsersForNotifications();
 		if (count($usersId) == 0) {
 			$log->fatal('No brute force users found to send email');
@@ -176,17 +176,17 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			$emails[] = $userEmail;
 		}
 		$emailsList = implode(',', $emails);
-		$data = array(
-			'id' => 107,
+		$data = [
+			'sysname' => 'BruteForceSecurityRiskHasBeenDetected',
 			'to_email' => $emailsList,
 			'module' => 'Contacts',
-		);
+		];
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 		$mail_status = $recordModel->sendMailFromTemplate($data);
 
 		if ($mail_status != 1) {
 			$log->error('Do not sent mail with information about brute force attack');
 		}
-		$log->debug("End " . __CLASS__ . "::" . __METHOD__);
+		$log->debug('End ' . __CLASS__ . '::' . __METHOD__);
 	}
 }
