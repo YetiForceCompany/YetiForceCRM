@@ -227,8 +227,9 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			}
 		}
 
-		if ($moduleName == $this->get('src_module') && !empty($this->get('src_record'))) {
-			$queryGenerator->addCondition('id', $this->get('src_record'), 'n');
+		$srcRecord = $this->get('src_record');
+		if ($moduleName == $this->get('src_module') && !empty($srcRecord)) {
+			$queryGenerator->addCondition('id', $srcRecord, 'n');
 		}
 		$listQuery = $this->getQuery();
 		if ($searchResult && $searchResult != '' && is_array($searchResult)) {

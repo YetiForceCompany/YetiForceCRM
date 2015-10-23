@@ -121,6 +121,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				if ($fieldType == 'Picklist')
 					$details['picklistoption'] = true;
 			}
+			if ($fieldType == 'Related1M') {
+				$details['ModuleListMultiple'] = true;
+			}
 			$fieldTypesInfo[$fieldType] = $details;
 		}
 		return $fieldTypesInfo;

@@ -31,8 +31,9 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function getPicklistValues()
 	{
-		if (!empty($this->get('picklistValues'))) {
-			return $this->get('picklistValues');
+		$picklistValues = $this->get('picklistValues');
+		if (!empty($picklistValues)) {
+			return $picklistValues;
 		}
 		$params = $this->get('field')->getFieldParams();
 		$db = PearDatabase::getInstance();
