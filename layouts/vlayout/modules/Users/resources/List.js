@@ -316,13 +316,58 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 							'mode': 'hide'
 						});
 						jQuery('#listViewContents').html(data);
-						thisInstance.updatePagination();
+						thisInstance.updatePaginationFilter();
 						thisInstance.registerListViewSelect();
 						app.showSelect2ElementView(jQuery('#listViewContents').find('select.select2'));
 					}
 			);
 		});
 	},
+	
+	updatePaginationFilter: function () {
+		var thisInstance = this;
+		var params = {};
+		params['page'] = 1
+		params['module'] = app.getModuleName();
+		params['parent'] = app.getParentModuleName(),
+		params['view'] = 'Pagination';
+		params['mode'] = 'getPagination';
+		params['search_key'] = 'status';
+		params['search_value'] = jQuery('#usersFilter').val()
+		params['operator'] = "e";
+		AppConnector.request(params).then(function (data) {
+			jQuery('.paginationDiv').html(data);
+			thisInstance.registerPageNavigationEvents();
+		});
+	},
+	
+	updatePagination: function (pageNumber) {
+		pageNumber = typeof pageNumber !== 'undefined' ? pageNumber : 1;
+		var thisInstance = this;
+		var params = {};
+		params['module'] = app.getModuleName();
+		params['parent'] = app.getParentModuleName()
+		params['view'] = 'Pagination';
+		params['page'] = pageNumber;
+		params['mode'] = 'getPagination';
+		var searchValue = this.getAlphabetSearchValue();
+		if('status' == searchValue){
+			params['search_key'] = 'status';
+			params['search_value'] = jQuery('#usersFilter').val()
+			params['operator'] = "e";
+		}else{
+			params['search_key'] = this.getAlphabetSearchField();
+			params['search_value'] = searchValue;
+			params['operator'] = "s";
+			
+		}
+		params.search_params = JSON.stringify(this.getListSearchParams());
+		AppConnector.request(params).then(function (data) {
+			jQuery('.paginationDiv').html(data);
+			thisInstance.registerPageNavigationEvents();
+		});
+	},
+
 	registerEvents: function () {
 		this._super();
 		this.usersFilter();

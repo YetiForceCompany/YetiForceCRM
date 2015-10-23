@@ -13,7 +13,7 @@
 	{literal}<style type="text/css">
 
 </style>{/literal}
-<input type="hidden" id="currentView" value="{$smarty.request.view}" />
+<input type="hidden" id="currentView" value="{$VIEW}" />
 <input type="hidden" id="activity_view" value="{$CURRENT_USER->get('activity_view')}" />
 <input type="hidden" id="time_format" value="{$CURRENT_USER->get('hour_format')}" />
 <input type="hidden" id="start_hour" value="{$CURRENT_USER->get('start_hour')}" />

@@ -85,14 +85,17 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$uploadFileName = "$uploadDir/$uploadFile";
 		checkFileAccess($uploadFileName);
 
-		$importType = $request->get('module_import_type');
-		if (strtolower($importType) == 'language') {
+		$importType = strtolower($request->get('module_import_type'));
+		if ($importType == 'language') {
 			$package = new Vtiger_Language();
+		} else if ($importType == 'layout') {
+			vimport('vtlib.Vtiger.Layout');
+			$package = new Vtiger_Layout();
 		} else {
 			$package = new Vtiger_Package();
 		}
 
-		if (strtolower($importType) == 'language') {
+		if ($importType == 'language' || $importType == 'layout') {
 			$package->import($uploadFileName);
 		} else {
 			$package->update(Vtiger_Module::getInstance($importModuleName), $uploadFileName);

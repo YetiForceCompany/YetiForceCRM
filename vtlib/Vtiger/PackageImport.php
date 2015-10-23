@@ -40,6 +40,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	var $_licensetext = false;
 	var $_errorText = '';
 	var $packageType = '';
+	var $parameters = [];
 
 	/**
 	 * Constructor
@@ -212,6 +213,29 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		return $this->_licensetext;
 	}
 
+	function getParameters()
+	{
+		$parameters = [];
+		if (empty($this->_modulexml->parameters))
+			return $parameters;
+		foreach ($this->_modulexml->parameters->parameter as $parameter) {
+			$parameters[] = $parameter;
+		}
+		return $parameters;
+	}
+
+	function initParameters(Vtiger_Request $request)
+	{
+		$data = [];
+		foreach ($request->getAll() as $name => $value) {
+			if (strpos($name, 'param_') !== false) {
+				$name = str_replace('param_', '', $name);
+				$data[$name] = $value;
+			}
+		}
+		$this->parameters = $data;
+	}
+
 	/**
 	 * Check if zipfile is a valid package
 	 * @access private
@@ -282,7 +306,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		// Verify module language file.
 		if (!empty($language_modulename) && $language_modulename == $modulename) {
 			$languagefile_found = true;
-		} elseif (!$updatefile_found && !$languagefile_found) {
+		} elseif (!$updatefile_found && !$layoutfile_found && !$languagefile_found) {
 			$_errorText = vtranslate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
 			$_errorText = str_replace('__DEFAULTLANGUAGE__', vglobal('default_language'), $_errorText);
 			$this->_errorText = $_errorText;

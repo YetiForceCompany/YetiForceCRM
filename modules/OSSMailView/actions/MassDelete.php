@@ -34,39 +34,30 @@ class OSSMailView_MassDelete_Action extends Vtiger_Mass_Action
 
 	public function process(Vtiger_Request $request)
 	{
+
 		$moduleName = $request->getModule();
 		$recordModel = new OSSMailView_Record_Model();
 		$recordModel->setModule($moduleName);
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
-		if ($selectedIds == 'all' && empty($excludedIds)) {
-			$recordModel->deleteAllRecords();
-		} else {
-			$recordIds = $this->getRecordsListFromRequest($request, $recordModel);
-			foreach ($recordIds as $recordId) {
-				$recordModel = OSSMailView_Record_Model::getInstanceById($recordId);
+
+		$recordIds = $this->getRecordsListFromRequest($request);
+
+		foreach ($recordIds as $recordId) {
+			if (Users_Privileges_Model::isPermitted($moduleName, 'Delete', $recordId)) {
+				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
 				$recordModel->delete_rel($recordId);
 				$recordModel->delete();
+			} else {
+				$permission = 'No';
 			}
 		}
-		$response = new Vtiger_Response();
-		$response->setResult(array('module' => $moduleName));
-		$response->emit();
-	}
 
-	public function getRecordsListFromRequest(Vtiger_Request $request, $recordModel)
-	{
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
-		if (!empty($selectedIds) && $selectedIds != 'all') {
-			if (!empty($selectedIds) && count($selectedIds) > 0) {
-				return $selectedIds;
-			}
+		if ($permission === 'No') {
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
 		}
-		if (!empty($excludedIds)) {
-			$moduleModel = $recordModel->getModule();
-			$recordIds = $moduleModel->getRecordIds($excludedIds);
-			return $recordIds;
-		}
+
+		$cvId = $request->get('viewname');
+		$response = new Vtiger_Response();
+		$response->setResult(['viewname' => $cvId, 'module' => $moduleName]);
+		$response->emit();
 	}
 }

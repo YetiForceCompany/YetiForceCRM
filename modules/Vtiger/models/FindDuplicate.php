@@ -154,4 +154,39 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		}
 		return $rows;
 	}
+
+	public function getMassDeleteRecords(Vtiger_Request $request)
+	{
+		$db = PearDatabase::getInstance();
+		$module = $request->getModule();
+		$moduleModel = Vtiger_Module_Model::getInstance($module);
+
+		$fields = $request->get('fields');
+		$ignoreEmpty = $request->get('ignoreEmpty');
+		$ignoreEmptyValue = false;
+		if ($ignoreEmpty == 'on')
+			$ignoreEmptyValue = true;
+
+		$fieldModels = $moduleModel->getFields();
+		if (is_array($fields)) {
+			foreach ($fields as $fieldName) {
+				$fieldModel = $fieldModels[$fieldName];
+				$tableColumns[] = $fieldModel->get('table') . '.' . $fieldModel->get('column');
+			}
+		}
+
+		$focus = CRMEntity::getInstance($module);
+		$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty);
+		$result = $db->query($query);
+
+		$recordIds = [];
+		for ($i = 0; $i < $db->num_rows($result); $i++) {
+			$recordIds[] = $db->query_result($result, $i, 'recordid');
+		}
+
+		$excludedIds = $request->get('excluded_ids');
+		$recordIds = array_diff($recordIds, $excludedIds);
+
+		return $recordIds;
+	}
 }

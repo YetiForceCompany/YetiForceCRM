@@ -113,6 +113,10 @@ class VTWorkflowEventHandler extends VTEventHandler
 						$doEvaluate = false;
 						break;
 					}
+				case VTWorkflowManager::$ON_RELATED: {
+						$doEvaluate = false;
+						break;
+					}
 				default: {
 						throw new Exception("Should never come here! Execution Condition:" . $workflow->executionCondition);
 					}

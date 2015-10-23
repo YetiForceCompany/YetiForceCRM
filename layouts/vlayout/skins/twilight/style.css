@@ -1337,7 +1337,7 @@ td.fieldValue .input-group {
 	color: #404952;
 }
 .searchUIBasic .listRow .defaultInputTextContainer {
-	max-width: 87% !important;
+	max-width: 100% !important;
 	margin-bottom: 0 !important;
 }
 #lineItemTab.table tr:first-child:hover th ~ td {

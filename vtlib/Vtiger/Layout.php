@@ -8,8 +8,9 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 vimport('vtlib.Vtiger.LayoutImport');
+
 /**
- * Language Manager class for vtiger Modules.
+ * Layout Manager class for vtiger Modules.
  * @package vtlib
  */
 class Vtiger_Layout extends Vtiger_LayoutImport
