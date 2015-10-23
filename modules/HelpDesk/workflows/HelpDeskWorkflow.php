@@ -11,10 +11,10 @@
 
 function getContactsMailsFromTicket($id)
 {
-	if(empty($id)){
+	if (empty($id)) {
 		return [];
 	}
-	
+
 	$db = PearDatabase::getInstance();
 	$mails = [];
 	$sql = 'SELECT `relcrmid` as contactid FROM `vtiger_crmentityrel` WHERE `module` = ? AND `relmodule` = ? AND `crmid` = ?;';
@@ -95,7 +95,7 @@ function HeldDeskNewCommentAccount($entityData)
 	$log = vglobal('log');
 	$db = PearDatabase::getInstance();
 	$log->debug('Entering HeldDeskNewCommentAccount');
-	
+
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
 	$entityId = $parts[1];
@@ -121,8 +121,8 @@ WHERE vtiger_crmentity.deleted = 0 AND vtiger_troubletickets.ticketid = ? AND vt
 		$data = [
 			'sysname' => 'NewCommentAddedToTicketAccount',
 			'to_email' => $mail,
-			'module' => 'HelpDesk',
-			'record' => $relatedToId[1]
+			'module' => 'ModComments',
+			'record' => $entityId
 		];
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 		if ($recordModel->sendMailFromTemplate($data)) {
@@ -139,7 +139,7 @@ function HeldDeskNewCommentContacts($entityData)
 {
 	$log = vglobal('log');
 	$log->debug('Entering HeldDeskNewCommentAccount');
-	
+
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
 	$entityId = $parts[1];
@@ -153,8 +153,8 @@ function HeldDeskNewCommentContacts($entityData)
 		$data = [
 			'sysname' => 'NewCommentAddedToTicketContact',
 			'to_email' => $mails,
-			'module' => 'HelpDesk',
-			'record' => $relatedToId[1]
+			'module' => 'ModComments',
+			'record' => $entityId
 		];
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 		if ($recordModel->sendMailFromTemplate($data)) {
@@ -166,26 +166,53 @@ function HeldDeskNewCommentContacts($entityData)
 	$log->debug('HeldDeskNewCommentAccount');
 	return false;
 }
+
 function HeldDeskNewCommentOwner($entityData)
 {
 	$log = vglobal('log');
 	$log->debug('Entering HeldDeskNewCommentAccount');
-	
+	$db = PearDatabase::getInstance();
+
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
 	$entityId = $parts[1];
 	$data = $entityData->getData();
 	$relatedToWSId = $data['related_to'];
 	$relatedToId = explode('x', $relatedToWSId);
+	$mails = [];
 
-	$mails = getContactsMailsFromTicket($relatedToId[1]);
+	$sql = 'SELECT smownerid FROM vtiger_crmentity WHERE deleted = 0 AND crmid = ? ';
+	$result = $db->pquery($sql, [$relatedToId[1]]);
+	if ($result->rowCount() > 0) {
+		$smownerid = $db->getSingleValue($result);
+		$ownerType = vtws_getOwnerType($smownerid);
+		if ($ownerType == 'Users') {
+			$user = new Users();
+			$currentUser = $user->retrieveCurrentUserInfoFromFile($smownerid);
+			if ($currentUser->column_fields['emailoptout'] == '1') {
+				$mails[] = $currentUser->column_fields['email1'];
+			}
+		} else {
+			require_once('include/utils/GetGroupUsers.php');
+			$ggu = new GetGroupUsers();
+			$ggu->getAllUsersInGroup($smownerid);
+			foreach ($ggu->group_users as $userId) {
+				$user = new Users();
+				$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
+				if ($currentUser->column_fields['emailoptout'] == '1') {
+					$mails[] = $currentUser->column_fields['email1'];
+				}
+			}
+		}
+	}
+
 	if (count($mails) > 0) {
 		$mails = implode(',', $mails);
 		$data = [
 			'sysname' => 'NewCommentAddedToTicketOwner',
 			'to_email' => $mails,
-			'module' => 'HelpDesk',
-			'record' => $relatedToId[1]
+			'module' => 'ModComments',
+			'record' => $entityId
 		];
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 		if ($recordModel->sendMailFromTemplate($data)) {
