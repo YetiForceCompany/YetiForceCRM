@@ -1142,7 +1142,11 @@ var app = {
 				tablet: 1024
 			},
 			addRowToggle: true,
-			toggleSelector: ' > tbody > tr:not(.footable-row-detail)'
+			toggleSelector: ' > tbody > tr:not(.footable-row-detail)',
+		});
+		$('.footable-toggle').click(function(event){	
+		    event.stopPropagation();
+		    $(this).trigger('footable_toggle_row');
 		});
 	}
 }
