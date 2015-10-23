@@ -806,7 +806,7 @@ $languageStrings = [
 	'LBL_LEFT_PANEL_SHOW_HIDE' => 'Lewy panel (ukryj/pokaż)',
 	'LBL_RIGHT_PANEL_SHOW_HIDE' => 'Prawy panel (ukryj/pokaż)',
 	/* YetiForce */
-	'Total time [h]'=>'Łączny czas [h]',
+	'Total time [h]' => 'Łączny czas [h]',
 	'COPY_ADRESS_FROM' => 'Kopiuj adres z:',
 	'LBL_WIDGETS_MANAGMENT' => 'Widżety',
 	'Attention' => 'Uwagi',
@@ -967,7 +967,6 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Na podstawie modułów powiązanych',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Operacja zmiany właściciela w zależności od ilości danych może zająć kilka lub kilkanaście minut.',
 	'LBL_LEGAL_FORM' => 'Forma prawna',
-	
 	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Eksport do Excel',
 	'ReasonToEdit' => 'Przyczyna edycji',
 	'Mails List' => 'Najnowsze maile',
@@ -992,7 +991,6 @@ $languageStrings = [
 	'LBL_ENTER_SEARCHED_ADDRESS' => 'Wprowadź szukany adres',
 	'Email Opt Out' => 'Rezygnacja z otrzymywania emaili',
 	'LBL_SIGN_IN' => 'Zaloguj',
-	
 	//Inventory
 	'LBL_DISCOUNT' => 'Rabat',
 	'LBL_TAX' => 'Podatek',
@@ -1270,9 +1268,9 @@ $jsLanguageStrings = [
 	'JS_CAN_NOT_REMOVE_COMMENT' => 'Nie można usuwać komentarzy zawierających odpowiedzi. Usuń wszystkie odpowiedzi aby móc usunąć komentarz.',
 	'JS_DELETE_COMMENT_CONFIRMATION' => 'Czy na pewno chcesz usunąć komentarz?',
 	'JS_SET_TAX_FOR' => 'Ustaw podatek dla',
-	'JS_START_DATE'=>'Czas rozpoczęcia',
-	'JS_END_DATE'=>'Czas zakończenia',
-	'JS_STATE'=>'Stan',
+	'JS_START_DATE' => 'Czas rozpoczęcia',
+	'JS_END_DATE' => 'Czas zakończenia',
+	'JS_STATE' => 'Stan',
 	'JS_SUBJECT' => 'Temat',
 	'JS_STATUS' => 'Status',
 	'JS_PLL_OVERDUE' => 'Zajęty',
