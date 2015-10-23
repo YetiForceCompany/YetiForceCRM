@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,32 +7,35 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
-class Calendar_Detail_View extends Vtiger_Detail_View {
+ * *********************************************************************************** */
 
-	function preProcess(Vtiger_Request $request, $display=true) {
+class Calendar_Detail_View extends Vtiger_Detail_View
+{
+
+	function preProcess(Vtiger_Request $request, $display = true)
+	{
 		parent::preProcess($request, false);
 
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
-        if(!empty($recordId)){
-            $recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-            $activityType = $recordModel->getType();
-            if($activityType == 'Events')
-                $moduleName = 'Events';
-        }
+		if (!empty($recordId)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+			$activityType = $recordModel->getType();
+			if ($activityType == 'Events')
+				$moduleName = 'Events';
+		}
 		$detailViewModel = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		$recordModel = $detailViewModel->getRecord();
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$summaryInfo = array();
 		// Take first block information as summary information
 		$stucturedValues = $recordStrucure->getStructure();
-		foreach($stucturedValues as $blockLabel=>$fieldList) {
+		foreach ($stucturedValues as $blockLabel => $fieldList) {
 			$summaryInfo[$blockLabel] = $fieldList;
 			break;
 		}
 
-		$detailViewLinkParams = array('MODULE'=>$moduleName,'RECORD'=>$recordId);
+		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
 		$detailViewLinks = $detailViewModel->getDetailViewLinks($detailViewLinkParams);
 		$navigationInfo = ListViewSession::getListViewNavigation($recordId);
 
@@ -45,35 +48,35 @@ class Calendar_Detail_View extends Vtiger_Detail_View {
 		$nextRecordId = null;
 		$found = false;
 		if ($navigationInfo) {
-			foreach($navigationInfo as $page=>$pageInfo) {
-				foreach($pageInfo as $index=>$record) {
+			foreach ($navigationInfo as $page => $pageInfo) {
+				foreach ($pageInfo as $index => $record) {
 					//If record found then next record in the interation
 					//will be next record
-					if($found) {
+					if ($found) {
 						$nextRecordId = $record;
 						break;
 					}
-					if($record == $recordId) {
+					if ($record == $recordId) {
 						$found = true;
 					}
 					//If record not found then we are assiging previousRecordId
 					//assuming next record will get matched
-					if(!$found) {
+					if (!$found) {
 						$prevRecordId = $record;
 					}
 				}
 				//if record is found and next record is not calculated we need to perform iteration
-				if($found && !empty($nextRecordId)) {
+				if ($found && !empty($nextRecordId)) {
 					break;
 				}
 			}
 		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		if(!empty($prevRecordId)) {
+		if (!empty($prevRecordId)) {
 			$viewer->assign('PREVIOUS_RECORD_URL', $moduleModel->getDetailViewUrl($prevRecordId));
 		}
-		if(!empty($nextRecordId)) {
+		if (!empty($nextRecordId)) {
 			$viewer->assign('NEXT_RECORD_URL', $moduleModel->getDetailViewUrl($nextRecordId));
 		}
 
@@ -83,13 +86,13 @@ class Calendar_Detail_View extends Vtiger_Detail_View {
 		$viewer->assign('IS_EDITABLE', $detailViewModel->getRecord()->isEditable($moduleName));
 		$viewer->assign('IS_DELETABLE', $detailViewModel->getRecord()->isDeletable($moduleName));
 
-        $linkParams = array('MODULE'=>$moduleName, 'ACTION'=>$request->get('view'));
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$linkModels = $detailViewModel->getSideBarLinks($linkParams);
 
-        $viewer->assign('QUICK_LINKS', $linkModels);
+		$viewer->assign('QUICK_LINKS', $linkModels);
 		$viewer->assign('NO_SUMMARY', true);
 
-		if($display) {
+		if ($display) {
 			$this->preProcessDisplay($request);
 		}
 	}
@@ -99,23 +102,24 @@ class Calendar_Detail_View extends Vtiger_Detail_View {
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showModuleDetailView(Vtiger_Request $request) {
+	function showModuleDetailView(Vtiger_Request $request)
+	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-        if(!empty($recordId)){
-            $recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-            $activityType = $recordModel->getType();
-            if($activityType == 'Events')
-                $moduleName = 'Events';
-        }
+		if (!empty($recordId)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+			$activityType = $recordModel->getType();
+			if ($activityType == 'Events')
+				$moduleName = 'Events';
+		}
 
 		$detailViewModel = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		$recordModel = $detailViewModel->getRecord();
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$structuredValues = $recordStrucure->getStructure();
 		$moduleModel = $recordModel->getModule();
-		
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('RECORD', $recordModel);
@@ -127,22 +131,22 @@ class Calendar_Detail_View extends Vtiger_Detail_View {
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('RECURRING_INFORMATION', $recordModel->getRecurringDetails());
 
-        if($moduleName=='Events') {
-            $currentUser = Users_Record_Model::getCurrentUserModel();
-            $accessibleUsers = $currentUser->getAccessibleUsers();
-            $viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
-            $viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
-        }
+		if ($moduleName == 'Events') {
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$accessibleUsers = $currentUser->getAccessibleUsers();
+			$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
+			$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
+		}
 
-		return $viewer->view('DetailViewFullContents.tpl',$moduleName,true);
+		return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
 	}
 
 	/**
 	 * Function shows basic detail for the record
 	 * @param <type> $request
 	 */
-	function showModuleBasicView($request) {
+	function showModuleBasicView($request)
+	{
 		return $this->showModuleDetailView($request);
 	}
-
 }
