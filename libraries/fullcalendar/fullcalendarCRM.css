@@ -34,3 +34,9 @@ width: 204px;
 display: inline-block;
   vertical-align: top;
 }
+.fc-event .fc-info{
+	display: none;
+}
+.fc-event:hover .fc-info{
+	display: block;
+}
