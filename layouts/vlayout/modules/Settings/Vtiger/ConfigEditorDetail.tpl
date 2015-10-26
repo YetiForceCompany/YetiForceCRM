@@ -15,7 +15,7 @@
 			<div class="col-md-8"><h3>{vtranslate('LBL_CONFIG_EDITOR', $QUALIFIED_MODULE)}</h3></div>
 			<div class="col-md-4">
 				<div class="pull-right">
-					<button class="btn btn-default editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn btn-default editButton pushDown" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
 				</div>
 			</div>
 		</div>
@@ -34,10 +34,18 @@
 					{foreach key=FIELD_NAME item=FIELD_DETAILS from=$MODEL->getEditableFields()}
 						<tr><td width="30%" class="{$WIDTHTYPE} textAlignRight"><label class="muted marginRight10px">{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
 							<td style="border-left: none;" class="{$WIDTHTYPE}">
-								<span>{if $FIELD_NAME == 'default_module'}{vtranslate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}
-									{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}{vtranslate($FIELD_DATA[$FIELD_NAME], $QUALIFIED_MODULE)}
-										{else}{$FIELD_DATA[$FIELD_NAME]}{/if}
-												{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{vtranslate('LBL_MB', $QUALIFIED_MODULE)}{/if}</span>
+								<span>{if $FIELD_NAME == 'default_module'}
+										{vtranslate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}
+									{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
+										{if vtranslate($FIELD_DATA[$FIELD_NAME]) == 'true'}
+											{vtranslate(LBL_YES)}
+										{else}
+											{vtranslate(LBL_NO)}
+										{/if}
+									{else}
+										{$FIELD_DATA[$FIELD_NAME]}
+									{/if}
+									{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{vtranslate('LBL_MB', $QUALIFIED_MODULE)}{/if}</span>
 							</td>
 						</tr>
 					{/foreach}

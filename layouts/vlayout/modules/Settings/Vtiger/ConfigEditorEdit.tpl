@@ -26,7 +26,11 @@
 				{assign var=FIELD_VALIDATION  value=['HELPDESK_SUPPORT_EMAIL_ID' => ['name'=>'Email'],
 												'upload_maxsize' => ['name' => 'number'],
 												'history_max_viewed' => ['name' => 'NumberRange5'],
-												'listview_max_textlength' => ['name' => 'NumberRange100'],
+												'popupType' =>['name' => 'NumberRange2'],
+												'title_max_length' => ['name' => 'NumberRange100'],
+												'MINIMUM_CRON_FREQUENCY' => ['name' => 'NumberRange100'],
+												'href_max_length' => ['name' => 'NumberRange100'],
+ 												'listview_max_textlength' => ['name' => 'NumberRange100'],
 												'list_max_entries_per_page' => ['name' => 'NumberRange100']]}
 				<table class="table table-bordered table-condensed themeTableColor">
 					<thead>
@@ -53,6 +57,13 @@
 										<div class="col-md-4">
 											<input type="hidden" name="{$FIELD_NAME}" value="false" />
 											<input type="checkbox" name="{$FIELD_NAME}" value="true" {if $FIELD_DATA[$FIELD_NAME] == 'true'} checked {/if} />
+										</div>
+									{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
+										<div class="col-md-4">
+											<select class="select2 form-control" name="{$FIELD_NAME}">
+												<option value="false"  {if $FIELD_DATA[$FIELD_NAME] == 'true'} selected {/if}>{vtranslate(LBL_NO)}</option>
+												<option value="true" {if $FIELD_DATA[$FIELD_NAME] == 'true'} selected {/if}>{vtranslate(LBL_YES)}</option>
+											</select>
 										</div>
 									{else}
 
