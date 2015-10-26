@@ -4730,7 +4730,7 @@
 							''
 							) +
 					'>' + '<div class="pull-left"><span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span></div>' +
-					'<div class="pull-right fc-info"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></div>' +
+					'<div class="pull-right fc-info"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>' +
 					'<div class="fc-content">' + timeHtml + '' + titleHtml + '</div>' +
 					(isResizableFromStart ?
 							'<div class="fc-resizer fc-start-resizer" />' :
