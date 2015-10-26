@@ -26,7 +26,7 @@
 			{if $HAS_PARENT}
 				<input type="hidden" name="parent_roleid" value="{$RECORD_MODEL->getParent()->getId()}">
 			{/if}
-			<div style="padding:20px;">
+			<div >
 				<div class="row">
 					<div class="col-md-3">
 						<label class=""><span class="redColor">*</span><strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}: </strong></label>
