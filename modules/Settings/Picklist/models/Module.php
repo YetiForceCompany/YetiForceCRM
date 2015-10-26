@@ -40,7 +40,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$picklist_valueid = getUniquePicklistID();
 		$tableName = 'vtiger_' . $pickListFieldName;
 		$maxSeqQuery = 'SELECT max(sortorderid) as maxsequence FROM ' . $tableName;
-		$result = $db->pquery($maxSeqQuery, array());
+		$result = $db->pquery($maxSeqQuery, []);
 		$sequence = $db->query_result($result, 0, 'maxsequence');
 		$columnNames = $db->getColumnNames($tableName);
 
@@ -48,18 +48,18 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		if ($fieldModel->isRoleBased()) {
 			if (in_array('color', $columnNames)) {
 				$sql = 'INSERT INTO ' . $tableName . ' VALUES (?,?,?,?,?,?)';
-				$result = $db->pquery($sql, array($id, $newValue, 1, $picklist_valueid, ++$sequence, '#E6FAD8'));
+				$result = $db->pquery($sql, [$id, $newValue, 1, $picklist_valueid, ++$sequence, '#E6FAD8']);
 			} else {
 				$sql = 'INSERT INTO ' . $tableName . ' VALUES (?,?,?,?,?)';
-				$result = $db->pquery($sql, array($id, $newValue, 1, $picklist_valueid, ++$sequence));
+				$result = $db->pquery($sql, [$id, $newValue, 1, $picklist_valueid, ++$sequence]);
 			}
 		} else {
 			if (in_array('color', $columnNames)) {
 				$sql = 'INSERT INTO ' . $tableName . ' VALUES (?,?,?,?,?)';
-				$db->pquery($sql, array($id, $newValue, ++$sequence, 1));
+				$db->pquery($sql,[$id, $newValue, ++$sequence, 1, '#E6FAD8']);
 			} else {
 				$sql = 'INSERT INTO ' . $tableName . ' VALUES (?,?,?,?)';
-				$db->pquery($sql, array($id, $newValue, ++$sequence, 1), '#E6FAD8');
+				$db->pquery($sql, [$id, $newValue, ++$sequence, 1]);
 			}
 		}
 
