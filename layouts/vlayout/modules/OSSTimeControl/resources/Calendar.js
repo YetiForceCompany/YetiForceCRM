@@ -57,7 +57,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H(:mm)';
 		} else {
-			userDefaultTimeFormat = 'h(:mm)tt';
+			userDefaultTimeFormat = 'h(:mm)t';
 		}
 
 		//Default first day of the week
