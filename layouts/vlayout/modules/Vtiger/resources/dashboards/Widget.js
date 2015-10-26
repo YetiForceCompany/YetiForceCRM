@@ -956,7 +956,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H(:mm)';
 		} else {
-			userDefaultTimeFormat = 'h(:mm)t';
+			userDefaultTimeFormat = 'h(:mm) A';
 		}
 
 		//Default first day of the week
