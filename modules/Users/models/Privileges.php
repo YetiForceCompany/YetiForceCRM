@@ -192,11 +192,17 @@ class Users_Privileges_Model extends Users_Record_Model
 			return self::$lockEditCache[$moduleName . $record];
 		}
 		$return = false;
+		if (empty($record)) {
+			self::$lockEditCache[$moduleName . $record] = $return;
+			return $return;
+		}
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$currentUserId = $currentUserModel->getId();
 
 		vimport('~~modules/com_vtiger_workflow/include.inc');
 		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
+		vimport('~~modules/com_vtiger_workflow/VTEntityCache.inc');
+		vimport('~~include/Webservices/Retrieve.php');
 		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
 		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
 		if (count($workflows)) {
