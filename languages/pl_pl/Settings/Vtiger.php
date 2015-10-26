@@ -280,6 +280,7 @@ $languageStrings = [
 	'LBL_OSSMAIL_DESCRIPTION' => 'Zarządzaj klientem poczty',
 	'LBL_PBXMANAGER_DESCRIPTION' => 'Zarządzaj listą połączeń telefonicznych',
 	'Mail Logs' => 'Logi poczty',
+	'LBL_TIMECONTROL_PROCESSES' => 'Procesy czasu pracy',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',

@@ -310,6 +310,7 @@ $languageStrings = [
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Outgoing Server',
 	'LBL_DEFAULT_LAYOUT' => 'Layout',
 	'LBL_DEFAULT' => 'Default',
+	'LBL_TIMECONTROL_PROCESSES' => 'Time control processes',
 ];
 
 $jsLanguageStrings = [

@@ -307,6 +307,7 @@ $languageStrings = [
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Servidor SMTP',
 	'LBL_DEFAULT_LAYOUT' => 'Layout',
 	'LBL_DEFAULT' => 'Default',
+	'LBL_TIMECONTROL_PROCESSES' => 'Processos Controle Tempo',
 ];
 
 $jsLanguageStrings = [

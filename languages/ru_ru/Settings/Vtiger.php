@@ -324,6 +324,7 @@ $languageStrings = [
 	'LBL_VIEW_COMPANYDETAILS' => 'Информация о компании',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Сообщения',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Сервер исходящей почты',
+	'LBL_TIMECONTROL_PROCESSES' => 'Процесс Учета времени',
 ];
 
 $jsLanguageStrings = [

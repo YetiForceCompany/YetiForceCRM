@@ -310,6 +310,7 @@ $languageStrings = [
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Ausgehender Server',
 	'LBL_DEFAULT_LAYOUT' => 'Layout',
 	'LBL_DEFAULT' => 'Default',
+	'LBL_TIMECONTROL_PROCESSES' => 'Zeiterfassungsprozesse',
 ];
 $jsLanguageStrings = [
 	'JS_ANNOUNCEMENT_SAVED' => 'Bekanntmachung gespeichert',
