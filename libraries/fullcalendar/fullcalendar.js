@@ -4718,10 +4718,9 @@
 				if (timeText) {
 					timeHtml = '<span class="fc-time">' + htmlEscape(timeText) + '</span>';
 				}
-				console.log(timeHtml);
 			}
 			titleHtml = '<span class="fc-title">' + event.title + '</span>';
-			return '<div data-id="' + event.id + '" data-id="' + event.module + '" class="' + classes.join(' ') + '"' +
+			return '<div data-id="' + event.id + '" data-module="' + event.module + '" class="' + classes.join(' ') + '"' +
 					(event.url ?
 							' href="' + htmlEscape(event.url) + '"' :
 							''
