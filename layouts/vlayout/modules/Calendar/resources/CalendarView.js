@@ -144,12 +144,21 @@ jQuery.Class("Calendar_CalendarView_Js", {
 							'<div><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>: ' + app.vtranslate('JS_' + event.vis) + '</div>'
 				});
 				element.find('.fc-info').click(function () {
+					var progressIndicatorElement = jQuery.progressIndicator({
+						position: 'html',
+						blockInfo: {
+							'enabled': true
+						}
+					});
 					var event = $(this).closest('.fc-event');
 					var url = 'index.php?module=' + event.data('module') + '&view=SmartDetail&record=' + event.data('id');
 					var callbackFunction = function (data) {
 						app.showScrollBar(data.find('.modal-body'), {
-							height: (window.innerHeight - 180)+'px',
+							height: (window.innerHeight - 180) + 'px',
 						});
+						progressIndicatorElement.progressIndicator({
+							'mode': 'hide'
+						})
 					}
 					var modalWindowParams = {
 						url: url,
