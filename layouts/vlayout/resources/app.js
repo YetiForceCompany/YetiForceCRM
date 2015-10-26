@@ -1148,6 +1148,8 @@ var app = {
 		    event.stopPropagation();
 		    $(this).trigger('footable_toggle_row');
 		});
+		var records = $('.customTableRWD').find('[data-toggle-visible=false]');
+		records.find('.footable-toggle').css("display","none");
 	}
 }
 

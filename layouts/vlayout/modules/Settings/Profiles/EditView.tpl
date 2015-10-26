@@ -103,7 +103,7 @@
 										
 										{if $PROFILE_MODULE->getFields()}
 											<tr class="hide">
-												<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%">
+												<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%">
 													<div class="row" data-togglecontent="{$TABID}-fields">
 														<div class="col-md-12">
 															<label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {vtranslate('LBL_OF', $MODULE_NAME)} {vtranslate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
@@ -190,7 +190,7 @@
 										{/foreach}
 										{if $ALL_UTILITY_ACTIONS_ARRAY}
 											<tr class="hide">
-												<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%;background-image: none !important;">
+												<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%;background-image: none !important;">
 													<div class="row" data-togglecontent="{$TABID}-fields">
 														<div class="col-xs-12 paddingLRZero"><label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
 														<div class="col-md-12 paddingLRZero marginBottom10px">

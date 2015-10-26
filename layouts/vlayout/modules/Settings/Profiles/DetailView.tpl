@@ -110,7 +110,7 @@
 								</td>
 							</tr>
 							<tr class="hide">
-								<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%">
+								<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%">
 									<div class="row" data-togglecontent="{$TABID}-fields">
 									{if $PROFILE_MODULE->getFields()}
 										<div class="col-md-12">
@@ -172,7 +172,7 @@
 							</td>
 						</tr>
 						<tr class="hide">
-							<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%">
+							<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%">
 								<div class="row" data-togglecontent="{$TABID}-fields">
 								<div class="col-md-12"><label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
 								<table class="table table-bordered table-striped">
