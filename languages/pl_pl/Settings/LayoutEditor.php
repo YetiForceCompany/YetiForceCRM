@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,15 +7,15 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Calendar' => 'Do wykonania',
 	'Checkbox' => 'Pole zaznaczenia',
-	'Currency'=>'Pole walutowe',
-	'Date'=>'Pole daty',
-	'Decimal'=>'Pole liczbowe (dziesiętne)',
-	'Email'=>'Pole mailowe',
-	'Integer'=>'Pole liczbowe (całkowite)',
+	'Currency' => 'Pole walutowe',
+	'Date' => 'Pole daty',
+	'Decimal' => 'Pole liczbowe (dziesiętne)',
+	'Email' => 'Pole mailowe',
+	'Integer' => 'Pole liczbowe (całkowite)',
 	'LayoutEditor' => 'Edytor pól',
 	'LBL_ACTIONS' => 'Akcje',
 	'LBL_ACTIVE' => 'Aktywne',
@@ -53,26 +53,25 @@ $languageStrings = [
 	'LBL_SELECT_MODULE' => 'Zaznacz moduł..',
 	'LBL_SUMMARY_FIELD' => 'Widoczne na podsumowaniu',
 	'LBL_WRONG_FIELD_TYPE' => 'Zły typ pola',
-	'MultiSelectCombo'=>'Pole słownikowe (wielokrotnego wyboru)',
-	'Percent'=>'Pole procentowe',
-	'Phone'=>'Pole telefonu',
-	'Picklist'=>'Pole słownikowe',
-	'Skype'=>'Pole Skype',
+	'MultiSelectCombo' => 'Pole słownikowe (wielokrotnego wyboru)',
+	'Percent' => 'Pole procentowe',
+	'Phone' => 'Pole telefonu',
+	'Picklist' => 'Pole słownikowe',
+	'Skype' => 'Pole Skype',
 	'TextArea' => 'Obszar tekstowy',
-	'Text'=>'Pole tekstowe',
-	'Time'=>'Pole czasu',
+	'Text' => 'Pole tekstowe',
+	'Time' => 'Pole czasu',
 	'URL' => 'Adres WWW',
-    'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Edytor modułów powiązanych',
+	'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Edytor modułów powiązanych',
 	'LBL_VISIBLE' => 'Widoczny',
 	'LBL_HIDDEN' => 'Ukryty',
-
 	//Yetiforce
 	'LBL_RELATION_VALUES' => 'Wybierz moduły',
 	'LBL_FIELD_NAME' => 'Nazwa systemowa',
 	'LBL_FIELD_TYPE' => 'Tabela',
 	'LBL_FIELD_TYPE0' => 'Podstawowa (np. vtiger_account)',
 	'LBL_FIELD_TYPE1' => 'Dodatkowa (np. vtiger_accountcf)',
-    'Editor' => 'Edytor WYSIWYG',
+	'Editor' => 'Edytor WYSIWYG',
 	'Related1M' => 'Pole powiązane 1:M',
 	'LBL_DISPLAY_TYPE' => 'Widoczność',
 	'LBL_DISPLAY_TYPE_1' => 'Pole widoczne wszędzie',
@@ -91,7 +90,6 @@ $languageStrings = [
 	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'Pole powiązane',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD' => 'Fitruj po polu',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE' => 'Filtruj po wartości',
-	
 	'LBL_ADD_RELATION' => 'Dodaj relację',
 	'LBL_REMOVE_RELATION' => 'Usuń relację',
 	'LBL_RELATION_TYPE' => 'Typ relacji',
@@ -103,7 +101,6 @@ $languageStrings = [
 	'PLL_DEPENDENTS_LIST' => 'Jeden do wielu',
 	'PLL_ADD' => 'Tworzenie',
 	'PLL_SELECT' => 'Wybieranie',
-	
 	// inventory tab
 	'LBL_MANAGING_AN_ADVANCED_BLOCK' => 'Zarządzanie blokiem zaawansowanym',
 	'LBL_HEADLINE' => 'Nagłówek',
@@ -111,7 +108,6 @@ $languageStrings = [
 	'LBL_ADDITIONAL_VERSE' => 'Wiersz dodatkowy',
 	'LBL_ADVANCED_MODULE' => 'Zaawansowany',
 	'LBL_BASIC_MODULE' => 'Podstawowy',
-	
 	'LBL_EDITING_INVENTORY_FIELD' => 'Edycja',
 	'LBL_CREATING_INVENTORY_FIELD' => 'Dodaj',
 	'LBL_NAME_FIELD' => 'Nazwa',

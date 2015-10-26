@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,20 +7,20 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_FIELD_MASK' => 'Маска поля',
-	'LBL_SELECT_MODULE_TO_ADD'	=>	'Выберите модуль',
-	'LBL_ADD_MODULE_INFO'	=>	'Выберите модуль из удаленных модулей, чтобы добавить его к списку',
-	'LBL_REMOVE_INFO'	=>	'Кликните на крестик, чтобы удалить модуль из списка',
-	'LBL_RELATED_LIST_INFO'	=>	'Перетащите модуль для сортировки списка',
+	'LBL_SELECT_MODULE_TO_ADD' => 'Выберите модуль',
+	'LBL_ADD_MODULE_INFO' => 'Выберите модуль из удаленных модулей, чтобы добавить его к списку',
+	'LBL_REMOVE_INFO' => 'Кликните на крестик, чтобы удалить модуль из списка',
+	'LBL_RELATED_LIST_INFO' => 'Перетащите модуль для сортировки списка',
 	'Calendar' => 'Календарь',
 	'Checkbox' => 'Метка',
-	'Currency'=>'Валюта',
-	'Date'=>'Дата',
-	'Decimal'=>'Число',
-	'Email'=>'E-mail',
-	'Integer'=>'Целое число',
+	'Currency' => 'Валюта',
+	'Date' => 'Дата',
+	'Decimal' => 'Число',
+	'Email' => 'E-mail',
+	'Integer' => 'Целое число',
 	'LayoutEditor' => 'Редактор полей',
 	'LBL_ACTIONS' => 'Действия',
 	'LBL_ACTIVE' => 'Активен',
@@ -29,7 +29,7 @@ $languageStrings = [
 	'LBL_ADD_CUSTOM_FIELD' => 'Добавить пользовательское поле',
 	'LBL_ALWAYS_SHOW' => 'Всегда показывать',
 	'LBL_ARRANGE_RELATED_LIST' => 'Порядок списка связей',
-	'LBL_ARRANGE_RELATED_TABS'	=>	'Редактор связей',
+	'LBL_ARRANGE_RELATED_TABS' => 'Редактор связей',
 	'LBL_BLOCK_NAME' => 'Название блока',
 	'LBL_CLICK_HERE_TO_EDIT' => 'Редактировать',
 	'LBL_CREATE_CUSTOM_FIELD' => 'Создать Пользовательское Поле',
@@ -58,19 +58,18 @@ $languageStrings = [
 	'LBL_SELECT_MODULE' => 'Выбрать Модуль',
 	'LBL_SUMMARY_FIELD' => 'Краткий вид',
 	'LBL_WRONG_FIELD_TYPE' => 'Неверный тип поля',
-	'MultiSelectCombo'=>'Список с возможностью множественного выбора',
-	'Percent'=>'Процент',
-	'Phone'=>'Телефон',
-	'Picklist'=>'Список',
-	'Skype'=>'Skype',
+	'MultiSelectCombo' => 'Список с возможностью множественного выбора',
+	'Percent' => 'Процент',
+	'Phone' => 'Телефон',
+	'Picklist' => 'Список',
+	'Skype' => 'Skype',
 	'TextArea' => 'Текстовое поле',
-	'Text'=>'Текст',
-	'Time'=>'Время',
+	'Text' => 'Текст',
+	'Time' => 'Время',
 	'URL' => 'Ссылка',
-	'LBL_REL_MODULE_LAYOUT_EDITOR'	=>	'Редактор связей',
+	'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Редактор связей',
 	'LBL_VISIBLE' => 'Видимый',
 	'LBL_HIDDEN' => 'Скрытый',
-	
 	//Yetiforce
 	'LBL_RELATION_VALUES' => 'Выберите модули',
 	'LBL_FIELD_NAME' => 'Системное имя',
@@ -95,7 +94,6 @@ $languageStrings = [
 	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'Related field',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD' => 'Filter by field',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE' => 'Filter by value',
-	
 	'LBL_ADD_RELATION' => 'Добавить связь',
 	'LBL_REMOVE_RELATION' => 'Remove relation',
 	'LBL_RELATION_TYPE' => 'Тип связи',
@@ -107,7 +105,6 @@ $languageStrings = [
 	'PLL_DEPENDENTS_LIST' => 'Один ко многим',
 	'PLL_ADD' => 'Добавление',
 	'PLL_SELECT' => 'Выбор',
-	
 	// inventory tab
 	'LBL_MANAGING_AN_ADVANCED_BLOCK' => 'Managing an advanced block',
 	'LBL_HEADLINE' => 'Headline',
@@ -115,7 +112,6 @@ $languageStrings = [
 	'LBL_ADDITIONAL_VERSE' => 'Additional verse',
 	'LBL_ADVANCED_MODULE' => 'Advanced',
 	'LBL_BASIC_MODULE' => 'Basic',
-	
 	'LBL_EDITING_INVENTORY_FIELD' => 'Edit',
 	'LBL_CREATING_INVENTORY_FIELD' => 'Add',
 	'LBL_NAME_FIELD' => 'Name',
