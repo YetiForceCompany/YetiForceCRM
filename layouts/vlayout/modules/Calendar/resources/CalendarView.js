@@ -79,10 +79,13 @@ jQuery.Class("Calendar_CalendarView_Js", {
 
 		//Default time format
 		var userDefaultTimeFormat = jQuery('#time_format').val();
+		var popoverTimeFormat;
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H(:mm)';
+			popoverTimeFormat = 'HH:MM';
 		} else {
-			userDefaultTimeFormat = 'h(:mm) A';
+			userDefaultTimeFormat = 'h(:mm)t';
+			popoverTimeFormat = 'hh:mm A';
 		}
 
 		//Default first day of the week
@@ -129,8 +132,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					placement: 'top',
 					container: 'body',
 					html: true,
-					content: '<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD '+userDefaultTimeFormat) + '</div>' +
-							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD '+userDefaultTimeFormat) + '</div>' +
+					content: '<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD '+popoverTimeFormat) + '</div>' +
+							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD '+popoverTimeFormat) + '</div>' +
 							(event.lok != '' ? '<div><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
 							(event.pri ? '<div><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PRIORITY') + '</label>: ' + app.vtranslate('JS_' + event.pri) + '</div>' : '') +
 							'<div><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + app.vtranslate('JS_' + event.sta) + '</div>' +
