@@ -21486,8 +21486,6 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (93,11,'LBL_TAXCONFIGURATION','adminIcon-taxes-caonfiguration','LBL_TAXCONFIGURATION_DESCRIPTION','index.php?module=Inventory&parent=Settings&view=TaxConfiguration',4,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (94,11,'LBL_DISCOUNTCONFIGURATION','adminIcon-discount-configuration','LBL_DISCOUNTCONFIGURATION_DESCRIPTION','index.php?module=Inventory&parent=Settings&view=DiscountConfiguration',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (95,6,'LBL_LOGISTICS','adminIcon-logistics','LBL_LOGISTICS_DESCRIPTION','',4,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (96,9,'LBL_ABOUT_YETIFORCE_SYSTEM','adminIcon-about-yetiforce','LBL_ABOUT_YETIFORCE_SYSTEM_DESCRIPTION','',1,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (97,9,'LBL_ABOUT_YETIFORCE_LTD','adminIcon-about-yetiforce-ltd','LBL_ABOUT_YETIFORCE_LTD_DESCRIPTION','',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (98,8,'Mail','adminIcon-mail-download-history','LBL_OSSMAIL_DESCRIPTION','index.php?module=OSSMail&parent=Settings&view=index',2,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
