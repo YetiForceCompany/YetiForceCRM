@@ -28,6 +28,7 @@
 							{if ((in_array($ITEM->getColumnName(),$FIELDSEXISTS) && !$ITEM->isOnlyOne()) || !in_array($ITEM->getColumnName(),$FIELDSEXISTS) ) && in_array($BLOCK,$ITEM->getBlocks())}
 								<h5>{vtranslate($ITEM->getDefaultLabel(), $QUALIFIED_MODULE)}</h5>
 								<p>{vtranslate($ITEM->getDefaultLabel()|cat:'_DESC', $QUALIFIED_MODULE)}</p>
+								<hr />
 							{/if}
 						{/foreach}
 					</div>
