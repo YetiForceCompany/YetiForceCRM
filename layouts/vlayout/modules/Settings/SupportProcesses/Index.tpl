@@ -12,7 +12,6 @@
 	<h3>{vtranslate('LBL_SUPPORT_PROCESSES', $QUALIFIED_MODULE)}</h3>&nbsp;<hr>
 	<ul id="tabs" class="nav nav-tabs " data-tabs="tabs">
 		<li class="active"><a href="#general_configuration" data-toggle="tab">{vtranslate('LBL_GENERAL_CONFIGURATION', $QUALIFIED_MODULE)} </a></li>
-		<li><a href="#other" data-toggle="tab">{vtranslate('LBL_OTHER', $QUALIFIED_MODULE)} </a></li>
 	</ul>
 	<br />
 	<div class="tab-content">
@@ -44,7 +43,5 @@
 			</table>
 			<button class="btn btn-success saveButton pull-right" type="submit" id='saveConfig' title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" style="margin-top:10px;"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 		</div>	
-		<div class="tab-pane" id="other">
-		</div>
 	</div>
 </div>
