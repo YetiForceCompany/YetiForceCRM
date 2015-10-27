@@ -45,5 +45,7 @@ $languageStrings = [
 	'LBL_VIEW_CONFIGURATION' => 'Feriados Públicos',
 ];
 $jsLanguageStrings = [
+	'JS_ADD_NEW_HOLIDAY'													=> 'Adicionar novo feriado',
+	'JS_EDIT_HOLIDAY' => 'Edit holiday',
 	'JS_FILL_FORM_ERROR'													=> 'Você deve preencher todos os campos do formulário',
 ];

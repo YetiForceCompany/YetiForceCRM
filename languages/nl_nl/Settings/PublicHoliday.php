@@ -45,5 +45,7 @@ $languageStrings = [
 	'LBL_VIEW_CONFIGURATION' => 'Public Holidays',
 ];
 $jsLanguageStrings = [
+	'JS_ADD_NEW_HOLIDAY'													=> 'Add new holiday',
+	'JS_EDIT_HOLIDAY' => 'Edit holiday',
 	'JS_FILL_FORM_ERROR'													=> 'You must fill all fields in the form',
 ];
