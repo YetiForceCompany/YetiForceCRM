@@ -32,7 +32,7 @@
 						<td><label>{vtranslate('LBL_TICKET_STATUS_INFO', $QUALIFIED_MODULE)}</label></td>
 						<td class="col-md-6">
 							{assign var=TICKETSTATUSNOTMODIFY value=$TICKETSTATUSNOTMODIFY}
-							<select class="chzn-select status" multiple name="status" style="width: 500px;">
+							<select class="chzn-select status configField" multiple name="status" style="width: 500px;">
 								{foreach  item=ITEM from=$TICKETSTATUS}
 									<option value="{$ITEM['status']}" {if in_array($ITEM['status'], $TICKETSTATUSNOTMODIFY)} selected {/if}  >{$ITEM['statusTranslate']}</option>
 								{/foreach}
@@ -41,7 +41,6 @@
 					</tr>
 				</tbody>
 			</table>
-			<button class="btn btn-success saveButton pull-right" type="submit" id='saveConfig' title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" style="margin-top:10px;"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 		</div>	
 	</div>
 </div>
