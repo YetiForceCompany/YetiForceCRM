@@ -14,7 +14,7 @@ class RequirementCards_DetailView_Model extends Vtiger_DetailView_Model {
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$recordModel = $this->getRecord();
-		$moduleName = $recordModel->getmoduleName();
+		$moduleName = $recordModel->getModuleName();
 		$targetModuleModel = Vtiger_Module_Model::getInstance('Calculations');
 		if($currentUserModel->hasModuleActionPermission($targetModuleModel->getId(), 'EditView')) {
 			$basicActionLink = array(

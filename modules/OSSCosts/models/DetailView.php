@@ -13,7 +13,7 @@ class OSSCosts_DetailView_Model extends Inventory_DetailView_Model {
 	public function getDetailViewLinks($linkParams) {
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
-		$moduleName = $recordModel->getmoduleName();
+		$moduleName = $recordModel->getModuleName();
         foreach ($linkModelList as $kaytab => $linktab) {
 			foreach ($linktab as $kay => $link) {
 				if($link->linklabel == 'LBL_EXPORT_TO_PDF' || $link->linklabel == 'LBL_SEND_MAIL_PDF'){
