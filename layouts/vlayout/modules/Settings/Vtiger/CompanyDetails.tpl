@@ -17,7 +17,7 @@
 					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 					{if $DESCRIPTION}
 						<h6>&nbsp;{vtranslate({$DESCRIPTION}, $QUALIFIED_MODULE)}</h6>
-					{/if}				
+					{/if}
 				</div>
 				<div class="col-md-4 h3 marginbottomZero">
 					<div class="pull-right btn-toolbar">
@@ -26,15 +26,34 @@
 						</button>
 						<button id="updateCompanyDetails" class="btn btn-info">{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 					</div>
-
 				</div>
 			</div>
 		</div>
 		<hr>
 		{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 		<div id="companyDetailsContainer" class="{if !empty($ERROR_MESSAGE)}hide{/if}">
+			<table class="table table-bordered">
+				<thead>
+					<tr class="blockHeader">
+						<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_INFORMATION',$QUALIFIED_MODULE)}</strong></th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach from=$MODULE_MODEL->getFields() item=FIELD_TYPE key=FIELD}
+						{if $FIELD neq 'height_panellogo' && $FIELD neq 'logoname' && $FIELD neq 'logo' && $FIELD neq 'panellogo' && $FIELD neq 'panellogoname'}
+							<tr>
+								<td class="{$WIDTHTYPE}" style="width:25%"><label class="pull-right">{{{vtranslate($FIELD,$QUALIFIED_MODULE)}|ucfirst}|replace:'_':' '}</label></td>
+								<td class="{$WIDTHTYPE}">
+									{if $FIELD eq 'address'} {$MODULE_MODEL->get($FIELD)|nl2br} {else} {$MODULE_MODEL->get($FIELD)} {/if}
+								</td>
+							</tr>
+						{/if}
+					{/foreach}
+				</tbody>
+			</table>
+				<br>
 			<div class='table-responsive'>
-				<table class="table table-bordered">
+				<table class="table table-bordered marginBottom10px">
 					<thead>
 						<tr class="blockHeader">
 							<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_LOGO',$QUALIFIED_MODULE)}</strong></th>
@@ -65,8 +84,12 @@
 					</tbody>
 				</table>
 			</div>
-			<br>
-			<table class="table table-bordered">
+		</div>
+		<form class="form-horizontal {if empty($ERROR_MESSAGE)}hide{/if}"  id="updateCompanyDetailsForm" method="post" action="index.php" enctype="multipart/form-data">
+			<input type="hidden" name="module" value="Vtiger" />
+			<input type="hidden" name="parent" value="Settings" />
+			<input type="hidden" name="action" value="CompanyDetailsSave" />
+			<table class="table table-bordered" >
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_INFORMATION',$QUALIFIED_MODULE)}</strong></th>
@@ -74,23 +97,28 @@
 				</thead>
 				<tbody>
 					{foreach from=$MODULE_MODEL->getFields() item=FIELD_TYPE key=FIELD}
-						{if $FIELD neq 'height_panellogo' && $FIELD neq 'logoname' && $FIELD neq 'logo' && $FIELD neq 'panellogo' && $FIELD neq 'panellogoname'}
+						{if $FIELD neq 'height_panellogo' && $FIELD neq 'logoname' && $FIELD neq 'logoname' && $FIELD neq 'logo' && $FIELD neq 'panellogo' && $FIELD neq 'panellogoname'}
 							<tr>
-								<td class="{$WIDTHTYPE}" style="width:25%"><label class="pull-right">{{{vtranslate($FIELD,$QUALIFIED_MODULE)}|ucfirst}|replace:'_':' '}</label></td>
-								<td class="{$WIDTHTYPE}">
-									{if $FIELD eq 'address'} {$MODULE_MODEL->get($FIELD)|nl2br} {else} {$MODULE_MODEL->get($FIELD)} {/if}
+								<td style="width:25%">
+									<div class=" pull-right">
+										{vtranslate($FIELD,$QUALIFIED_MODULE)}{if $FIELD eq 'organizationname'}<span class="redColor">*</span>{/if}
+									</div>
 								</td>
+								<td>	
+									<div class="col-md-5">
+										{if $FIELD eq 'address'}
+											<textarea class="form-control" name="{$FIELD}">{$MODULE_MODEL->get($FIELD)}</textarea>
+										{else}
+											<input class="form-control" type="text" {if $FIELD eq 'organizationname'} data-validation-engine="validate[required]" {/if} class="input-xlarge" name="{$FIELD}" value="{$MODULE_MODEL->get($FIELD)}"/>
+										{/if}
+									</div>
+								</td>	
 							</tr>
 						{/if}
 					{/foreach}
 				</tbody>
 			</table>
-		</div>
-
-		<form class="form-horizontal {if empty($ERROR_MESSAGE)}hide{/if}"  id="updateCompanyDetailsForm" method="post" action="index.php" enctype="multipart/form-data">
-			<input type="hidden" name="module" value="Vtiger" />
-			<input type="hidden" name="parent" value="Settings" />
-			<input type="hidden" name="action" value="CompanyDetailsSave" />
+			<br><br>
 			<div class='table-responsive'>
 				<table class="table table-bordered">
 					<thead>
@@ -163,36 +191,6 @@
 					</tbody>
 				</table>
 			</div>
-			<br><br>	
-			<table class="table table-bordered" >
-				<thead>
-					<tr class="blockHeader">
-						<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_INFORMATION',$QUALIFIED_MODULE)}</strong></th>
-					</tr>
-				</thead>
-				<tbody>
-					{foreach from=$MODULE_MODEL->getFields() item=FIELD_TYPE key=FIELD}
-						{if $FIELD neq 'height_panellogo' && $FIELD neq 'logoname' && $FIELD neq 'logoname' && $FIELD neq 'logo' && $FIELD neq 'panellogo' && $FIELD neq 'panellogoname'}
-							<tr>
-								<td style="width:25%">
-									<div class=" pull-right">
-										{vtranslate($FIELD,$QUALIFIED_MODULE)}{if $FIELD eq 'organizationname'}<span class="redColor">*</span>{/if}
-									</div>
-								</td>
-								<td>	
-									<div class="col-md-5">
-										{if $FIELD eq 'address'}
-											<textarea class="form-control" name="{$FIELD}">{$MODULE_MODEL->get($FIELD)}</textarea>
-										{else}
-											<input class="form-control" type="text" {if $FIELD eq 'organizationname'} data-validation-engine="validate[required]" {/if} class="input-xlarge" name="{$FIELD}" value="{$MODULE_MODEL->get($FIELD)}"/>
-										{/if}
-									</div>
-								</td>	
-							</tr>
-						{/if}
-					{/foreach}
-				</tbody>
-			</table>
 			{include file="ModalFooter.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
 		</form>
 		<div class="addCustomFieldModal modal fade" tabindex="-1">
