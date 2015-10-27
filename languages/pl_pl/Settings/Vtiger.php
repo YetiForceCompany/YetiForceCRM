@@ -316,6 +316,8 @@ $languageStrings = [
 	'LBL_VIEW_COMPANYDETAILS' => 'Dane firmy',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Komunikaty',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Serwer poczty wychodzącej',
+	'LBL_VIEW_SWITCHUSERS' => 'Przełączanie użytkowników',
+	//end history
 
 	//config editor
 	'LBL_POPUP_TYPE' => 'Wygląd okna popup z listą rekordów. 1 - podstawowe, 2 - rozszerzone',
