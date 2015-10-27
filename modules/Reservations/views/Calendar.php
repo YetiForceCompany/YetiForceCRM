@@ -10,10 +10,14 @@
  *************************************************************************************************************************************/
 class Reservations_Calendar_View extends Vtiger_Index_View {
 	public function process(Vtiger_Request $request) {
+		include 'config/calendar.php';
 		$mode = $request->getMode();
 		$viewer = $this->getViewer($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('CURRENT_USER', $currentUserModel);
+		$viewer->assign('EVENT_LIMIT', $CALENDAR_CONFIG['EVENT_LIMIT']);
+		$viewer->assign('WEEK_VIEW', $CALENDAR_CONFIG['SHOW_TIMELINE_WEEK'] ? 'agendaWeek' : 'basicWeek');
+		$viewer->assign('DAY_VIEW', $CALENDAR_CONFIG['SHOW_TIMELINE_DAY'] ? 'agendaDay' : 'basicDay');
 		$viewer->view('CalendarView.tpl', $request->getModule());
 	}
 	

@@ -16,6 +16,9 @@
 <input type="hidden" id="start_hour" value="{$CURRENT_USER->get('start_hour')}" />
 <input type="hidden" id="end_hour" value="{$CURRENT_USER->get('end_hour')}" />
 <input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}" />
+<input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
+<input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
+<input type="hidden" id="dayView" value="{$DAY_VIEW}" />
 <style>
 {foreach from=Settings_Calendar_Module_Model::getUserColors('colors') item=ITEM}
 	.userCol_{$ITEM.id}{ background: {$ITEM.color}!important;}

@@ -17,6 +17,9 @@
 <input type="hidden" id="end_hour" value="{$CURRENT_USER->get('end_hour')}" />
 <input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}" />
 <input type="hidden" id="showType" value="current" />
+<input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
+<input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
+<input type="hidden" id="dayView" value="{$DAY_VIEW}" />
 <style>
 {foreach from=Settings_Calendar_Module_Model::getCalendarConfig('colors') item=ITEM}
 	.calCol_{$ITEM.label}{ border: 1px solid {$ITEM.value}!important; }
