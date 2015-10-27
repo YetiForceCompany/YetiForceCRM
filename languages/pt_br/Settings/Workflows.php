@@ -197,6 +197,8 @@ $languageStrings = [
 	'ON_DELETE' => 'Enquanto apaga',
 	'TRIGGER' => 'Acionar manualmente',
 	'BLOCK_EDIT' => 'Edição Bloco',
+	'UpdateBalance' => 'Update Balance',
+	'UpdateInventory' => 'Update Inventory',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Os mesmos campos escolhidos mais de uma vez',

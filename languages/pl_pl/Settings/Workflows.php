@@ -184,6 +184,8 @@ $languageStrings = [
 	'ON_DELETE' => 'Podczas usuwania',
 	'TRIGGER' => 'Ręczne wywołanie',
 	'BLOCK_EDIT' => 'Blokada edycji',
+	'UpdateBalance' => 'Zaktualizuj saldo',
+	'UpdateInventory' => 'Zaktualizuj inwentarz',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Te same pola zaznaczono więcej niż jedej raz',
