@@ -27,7 +27,7 @@
 			<div class="login-space"></div>
 		{/if}
 		<div class="logo">
-			<img title="{$CompanyDetails['companyname']}" class="img-responsive logo" src="storage/Logo/{$CompanyDetails['panellogoname']}" alt="{$CompanyDetails['companyname']}">
+			<img title="{$CompanyDetails['companyname']}" height='{$CompanyDetails['height_panellogo']}' class="logo" src="storage/Logo/{$CompanyDetails['panellogoname']}" alt="{$CompanyDetails['companyname']}">
 		</div>
 		<div class="" id="loginDiv">
 			<div class='fieldContainer marginLeft0 marginRight0 row col-md-12'>

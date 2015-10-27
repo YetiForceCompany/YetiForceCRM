@@ -42,7 +42,8 @@
 					</thead>
 					<tbody>
 						<tr>
-							<th colspan="2" class="{$WIDTHTYPE}">&nbsp;&nbsp;&nbsp;{vtranslate('LBL_COMPANY_LOGO_IN_LOGIN',$QUALIFIED_MODULE)}</th>
+							<th colspan="2" class="{$WIDTHTYPE}">&nbsp;&nbsp;&nbsp;{vtranslate('LBL_COMPANY_LOGO_IN_LOGIN',$QUALIFIED_MODULE)}
+							&nbsp;&nbsp;&nbsp{vtranslate('LBL_HEIGHT_LOGO',$QUALIFIED_MODULE)}: {$MODULE_MODEL->get('height_panellogo')}px </th>
 						</tr>
 						<tr>
 							<td class="{$WIDTHTYPE} companyLogoContainerSettings">
@@ -73,7 +74,7 @@
 				</thead>
 				<tbody>
 					{foreach from=$MODULE_MODEL->getFields() item=FIELD_TYPE key=FIELD}
-						{if $FIELD neq 'logoname' && $FIELD neq 'logo' && $FIELD neq 'panellogo' && $FIELD neq 'panellogoname'}
+						{if $FIELD neq 'height_panellogo' && $FIELD neq 'logoname' && $FIELD neq 'logo' && $FIELD neq 'panellogo' && $FIELD neq 'panellogoname'}
 							<tr>
 								<td class="{$WIDTHTYPE}" style="width:25%"><label class="pull-right">{{{vtranslate($FIELD,$QUALIFIED_MODULE)}|ucfirst}|replace:'_':' '}</label></td>
 								<td class="{$WIDTHTYPE}">
@@ -108,16 +109,31 @@
 								</div>
 							</td>
 							<td>
-								<div>
-									<input type="file" name="panellogo" id="logoFile" />&nbsp;&nbsp;
-									<span class="alert alert-info pull-right">
-										{vtranslate('LBL_LOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
-									</span>
-									{if !empty($ERROR_MESSAGE)}
-										<br><br><div class="marginLeftZero col-md-9 alert alert-warning">
-											{vtranslate($ERROR_MESSAGE,$QUALIFIED_MODULE)}
+								<div class='col-xs-12'>
+									<div class=''>
+										<input type="file" name="panellogo" id="logoFile" />&nbsp;&nbsp;
+
+									</div>
+									<div class=" col-xs-12 alert alert-info pull-right">
+										{vtranslate('LBL_PANELLOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
+									</div>
+									<div class='col-xs-12 paddingLRZero'>								    
+										<div class='col-md-2 paddingLRZero'>
+											{vtranslate('LBL_HEIGHT_LOGO',$QUALIFIED_MODULE)}[px]
 										</div>
-									{/if}
+										<div class='col-md-3 paddingLRZero'>
+											<select name='height_panellogo' class='chzn-select form-control'>
+												{foreach from=$MODULE_MODEL->getHeights() item=HEIGHT }
+													<option value='{$HEIGHT}' {if $HEIGHT eq $MODULE_MODEL->get('height_panellogo')} selected {/if} >{$HEIGHT}px</option>										    
+												{/foreach}
+											</select>
+										</div>
+										{if !empty($ERROR_MESSAGE)}
+											<br><br><div class="marginLeftZero col-md-9 alert alert-warning">
+												{vtranslate($ERROR_MESSAGE,$QUALIFIED_MODULE)}
+											</div>
+										{/if}
+									</div>
 								</div>
 							</td>
 						</tr>
@@ -131,11 +147,11 @@
 								</div>
 							</td>
 							<td>
-								<div>
+								<div class='col-xs-12'>
 									<input type="file" name="logo" id="panelLogoFile" />&nbsp;&nbsp;
-									<span class="alert alert-info pull-right">
+									<div class="col-xs-12 alert alert-info pull-right">
 										{vtranslate('LBL_LOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
-									</span>
+									</div>
 									{if !empty($ERROR_MESSAGE)}
 										<br><br><div class="marginLeftZero col-md-9 alert alert-warning">
 											{vtranslate($ERROR_MESSAGE,$QUALIFIED_MODULE)}
@@ -156,7 +172,7 @@
 				</thead>
 				<tbody>
 					{foreach from=$MODULE_MODEL->getFields() item=FIELD_TYPE key=FIELD}
-						{if $FIELD neq 'logoname' && $FIELD neq 'logo' && $FIELD neq 'panellogo' && $FIELD neq 'panellogoname'}
+						{if $FIELD neq 'height_panellogo' && $FIELD neq 'logoname' && $FIELD neq 'logoname' && $FIELD neq 'logo' && $FIELD neq 'panellogo' && $FIELD neq 'panellogoname'}
 							<tr>
 								<td style="width:25%">
 									<div class=" pull-right">

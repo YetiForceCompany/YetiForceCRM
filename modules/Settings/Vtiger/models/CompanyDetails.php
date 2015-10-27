@@ -30,8 +30,15 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 		'country' => 'text',
 		'phone' => 'text',
 		'fax' => 'text',
+		'email' => 'text',
 		'website' => 'text',
-		'vatid' => 'text'
+		'vatid' => 'text',
+		'regon' => 'text',
+		'krs' => 'text',
+		'height_panellogo' => 'text',
+	);
+	var $heights = array(
+		'256','192','128','96','64','32','16'
 	);
 
 	/**
@@ -71,7 +78,13 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 	{
 		return $this->fields;
 	}
-
+	/**
+	 * Function to get heights
+	 * @return <Array>
+	 */
+	public function getHeights(){
+		return $this->heights;
+	}
 	/**
 	 * Function to get Logo path to display
 	 * @return <String> path

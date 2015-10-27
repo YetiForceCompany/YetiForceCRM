@@ -4014,10 +4014,14 @@ CREATE TABLE `vtiger_organizationdetails` (
   `fax` varchar(30) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
   `panellogoname` varchar(50) DEFAULT NULL,
+  `height_panellogo` int(10) DEFAULT NULL,
   `panellogo` text,
   `logoname` varchar(50) DEFAULT NULL,
   `logo` text,
   `vatid` varchar(100) DEFAULT NULL,
+  `regon` varchar(15) DEFAULT NULL,
+  `krs` varchar(10) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`organization_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
