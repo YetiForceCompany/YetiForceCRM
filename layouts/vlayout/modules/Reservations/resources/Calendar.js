@@ -103,6 +103,11 @@ jQuery.Class("Reservations_Calendar_Js",{
 			defaultTimedEventDuration: '01:00:00',
 			eventLimit: eventLimit,
 			allDaySlot: false,
+			views: {
+				basic: {
+					eventLimit: false,
+				}
+			},
 			dayClick: function(date, jsEvent, view) {
 				thisInstance.selectDay(date.format());
 				thisInstance.getCalendarView().fullCalendar('unselect');

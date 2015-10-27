@@ -127,6 +127,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			eventLimit: eventLimit,
 			selectable: true,
 			selectHelper: true,
+			views: {
+				basic: {
+					eventLimit: false,
+				}
+			},
 			select: function (start, end) {
 				thisInstance.selectDays(start, end);
 				thisInstance.getCalendarView().fullCalendar('unselect');
