@@ -297,11 +297,19 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 
 		// vtlib customization: Ignore disabled modules.
-		$query = 'SELECT distinct vtiger_tab.tablabel, vtiger_tab.name as tabname
-                  FROM vtiger_tab
-                        inner join vtiger_field on vtiger_tab.tabid=vtiger_field.tabid
-                  WHERE uitype IN (15,33,16) and vtiger_field.tabid NOT IN (29,10)  and vtiger_tab.presence != 1 and vtiger_field.presence in (0,2)
-                  ORDER BY vtiger_tab.tabid ASC';
+		$query = "SELECT DISTINCT 
+					vtiger_tab.tablabel,
+					vtiger_tab.name AS tabname 
+				  FROM
+					vtiger_tab 
+					INNER JOIN vtiger_field 
+					  ON vtiger_tab.tabid = vtiger_field.tabid 
+				  WHERE uitype IN (15, 33, 16) 
+					AND vtiger_field.tabid NOT IN (29, 10) 
+					AND vtiger_tab.presence != 1 
+					AND vtiger_field.presence IN (0, 2) 
+					AND vtiger_field.`columnname` !=  'taxtype'
+				  ORDER BY vtiger_tab.tabid ASC ";
 		// END
 		$result = $db->pquery($query, array());
 
