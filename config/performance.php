@@ -30,4 +30,7 @@ $PERFORMANCE_CONFIG = Array(
 	
 	// The numbers of emails downloaded during one scanning
 	'NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING' => 100,
+
+	// Enable automatic records list refreshing while changing the value of the selection list
+	'AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE' => true,
 );

@@ -559,7 +559,7 @@ jQuery.Class("Vtiger_List_Js", {
 	triggerListSearch: function () {
 		var listInstance = Vtiger_List_Js.getInstance();
 		var listViewContainer = listInstance.getListViewContentContainer();
-		listViewContainer.find('button[data-trigger="listSearch"]').trigger("click");
+		listViewContainer.find('[data-trigger="listSearch"]').trigger("click");
 	},
 }, {
 	//contains the List View element.
@@ -1865,8 +1865,7 @@ jQuery.Class("Vtiger_List_Js", {
 			jQuery('.paginationDiv').html(data);
 			thisInstance.registerPageNavigationEvents();
 		});
-	},	
-	
+	},
 	/**
 	 * Function to show total records count in listview on hover
 	 * of pageNumber text
@@ -1946,10 +1945,12 @@ jQuery.Class("Vtiger_List_Js", {
 		listViewContainer.find('.listViewEntriesTable .select2noactive').each(function (index, domElement) {
 			var select = $(domElement);
 			app.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
-			select.on("change", function (e) {
-				Vtiger_List_Js.triggerListSearch();
-			})
 		});
+		if (app.getMainParams('autoRefreshListOnChange') == '1'){
+			listViewContainer.find('.listViewEntriesTable select').on("change", function (e) {
+				Vtiger_List_Js.triggerListSearch();
+			});
+		}
 	},
 	registerListViewSpecialOptiopn: function () {
 		var listViewContainer = this.getListViewContentContainer();

@@ -20,6 +20,7 @@
 <input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}" />
 <input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
 <input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
+<input type="hidden" id="autoRefreshListOnChange" value="{PerformancePrefs::getBoolean('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 <input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
 <input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 <input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
@@ -80,7 +81,7 @@
 		</thead>
         <tr>
 			<td>
-				<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()">
+				<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);">
 					<span class="glyphicon glyphicon-search"></span>
 				</a>
 			</td>
