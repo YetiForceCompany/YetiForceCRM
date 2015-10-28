@@ -15,15 +15,14 @@
 		</span>
 	</div>
 	<div class="input-group">
-		<input type="text" class="form-control" title="{vtranslate('LBL_GLOBAL_SEARCH')}" id="globalMobileSearchValue" 
-			placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
-		<span class="input-group-btn">
+		<input type="text" class="form-control" title="{vtranslate('LBL_GLOBAL_SEARCH')}" id="globalMobileSearchValue" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
+		<div class="input-group-btn">
 			<div class="pull-right">
 				<button class="btn btn-default" id="searchMobileIcon" type="button">
 					<span class="glyphicon glyphicon-search"></span>
 				</button>
 			</div>
-		</span>
+		</div>
 	</div>
 	<div class="pull-left">
 		<button class="btn btn-default" id="globalSearch" title="{vtranslate('LBL_ADVANCE_SEARCH')}" type="button">

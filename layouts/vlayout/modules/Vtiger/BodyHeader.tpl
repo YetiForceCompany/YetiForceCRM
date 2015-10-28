@@ -7,8 +7,7 @@
 				<div class="pull-right rightHeaderBtn">
 					<div class="dropdown quickAction historyBtn">
 						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
-							<img class='alignMiddle popoverTooltip' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" 
-								 class="dropdown-toggle" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
+							<img class='dropdown-toggle alignMiddle popoverTooltip' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
 						</a>
 					</div>
 				</div>
@@ -59,8 +58,9 @@
 													<div class="">
 													{/if}
 													<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
-														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}"
-														   data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}"><span>{vtranslate($singularLabel,$NAME)}</span></a>
+														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">
+															<span>{vtranslate($singularLabel,$NAME)}</span>
+														</a>
 													</div>
 													{if $count % 3 == 2}
 													</div>
@@ -68,6 +68,9 @@
 												{assign var='count' value=$count+1}
 											{/if}
 										{/foreach}
+										{if $count % 3 == 2}
+											</div>
+										{/if}
 									</div>
 								</div>
 							</li>
@@ -88,8 +91,7 @@
 								{/foreach}
 							</select>
 						</span>
-						<input type="text" class="form-control" title="{vtranslate('LBL_GLOBAL_SEARCH')}" id="globalSearchValue" 
-							   placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
+						<input type="text" class="form-control" title="{vtranslate('LBL_GLOBAL_SEARCH')}" id="globalSearchValue" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
 						<span class="input-group-btn">
 							<button class="btn btn-default" id="searchIcon" type="button">
 								<span class="glyphicon glyphicon-search"></span>

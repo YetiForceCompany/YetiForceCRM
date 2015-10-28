@@ -3,8 +3,8 @@
 	{if $DEVICE == 'Mobile'}
 		<div class="mobileLeftPanelContainer">
 	{else}
-		<nav class="contents-bottomscroll" role="navigation">
-			<ul class="nav modulesList">
+		<nav class="contents-bottomscroll">
+			<ul class="nav modulesList" role="menubar">
 	{/if}	
 			{assign var=PRIVILEGESMODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
 			{assign var=TABINDEX value=0}

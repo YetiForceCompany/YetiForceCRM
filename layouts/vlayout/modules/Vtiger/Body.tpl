@@ -8,7 +8,9 @@
 			{include file='ActionMenu.tpl'|@vtemplate_path:$MODULE}
 			{include file='SearchMenu.tpl'|@vtemplate_path:$MODULE}
 			<div class="mobileLeftPanel noSpaces">
-				{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Mobile}
+				<ul class='paddingLRZero' role="menubar">
+					{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Mobile}
+				</ul>
 			</div>
 			<div class="leftPanel noSpaces{if $LEFTPANELHIDE} stillOpen{/if}">
 				{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Desktop}

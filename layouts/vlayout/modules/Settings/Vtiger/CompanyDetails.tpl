@@ -19,7 +19,7 @@
 						<h6>&nbsp;{vtranslate({$DESCRIPTION}, $QUALIFIED_MODULE)}</h6>
 					{/if}
 				</div>
-				<div class="col-md-4 h3 marginbottomZero">
+				<div class="col-md-4 marginbottomZero">
 					<div class="pull-right btn-toolbar">
 						<button id="addCustomField" class="btn btn-success" type="button">
 							<strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
