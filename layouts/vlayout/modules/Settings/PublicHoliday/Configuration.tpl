@@ -52,7 +52,7 @@ padding: 5px;
 				<button type="button" class="btn btn-default addDateWindow"><span class="glyphicon glyphicon-plus"></span>&nbsp;{vtranslate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
 			</div>
 			<div id="moduleBlocks">
-				<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 marginBottom10px border1px">
+				<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 marginBottom10px border1px pushDown">
 					<div class="row layoutBlockHeader marginLRZero">
 						<div class="col-md-12" style="padding: 10px 0;">
 							<span class="marginLeft20">
