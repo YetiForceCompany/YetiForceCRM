@@ -42,6 +42,7 @@ $languageStrings = [
 	'ecclesiastical' => 'kirchlich',
 	'national' => 'gesetzlicher',
 	'LBL_VIEW_CONFIGURATION' => 'Feiertage',
+	'LBL_DATE_RANGE' => 'Range',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_NEW_HOLIDAY' => 'Feiertag hinzufügen',

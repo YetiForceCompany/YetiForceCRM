@@ -42,6 +42,7 @@ $languageStrings = [
 	'ecclesiastical' => 'ecclesiastical',
 	'national' => 'national',
 	'LBL_VIEW_CONFIGURATION' => 'Public Holidays',
+	'LBL_DATE_RANGE' => 'Range',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_NEW_HOLIDAY' => 'Add new holiday',

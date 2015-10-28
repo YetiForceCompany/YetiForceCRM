@@ -42,6 +42,7 @@ $languageStrings = [
 	'ecclesiastical' => 'eclesiástico',
 	'national' => 'nacional',
 	'LBL_VIEW_CONFIGURATION' => 'Feriados Públicos',
+	'LBL_DATE_RANGE' => 'Range',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_NEW_HOLIDAY' => 'Adicionar novo feriado',

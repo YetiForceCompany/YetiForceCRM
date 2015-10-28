@@ -42,6 +42,7 @@ $languageStrings = [
 	'ecclesiastical' => 'Церковный',
 	'national' => 'Национальный',
 	'LBL_VIEW_CONFIGURATION' => 'Праздники',
+	'LBL_DATE_RANGE' => 'Range',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_NEW_HOLIDAY' => 'Добавить Праздник',

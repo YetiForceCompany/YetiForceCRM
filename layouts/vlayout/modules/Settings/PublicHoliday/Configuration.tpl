@@ -59,7 +59,7 @@ padding: 5px;
 								<strong>{vtranslate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</strong>
 							</span>
 							<span class="pull-right marginRight20">
-								<strong>{vtranslate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</strong>
+								<strong>{vtranslate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}:</strong>
 								<input type="text" class="dateField dateFilter marginbottomZero" data-date-format="yyyy-mm-dd" data-calendar-type="range" value="{$DATE}" />
 							</span>
 						</div>
