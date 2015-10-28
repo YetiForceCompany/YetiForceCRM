@@ -32,13 +32,11 @@
 	{assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
 	{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
 	<div class="picklistSearchField">
-	<select class="select2noactive listSearchContributor form-control {$ASSIGNED_USER_ID}" title="{vtranslate('LBL_ASSIGNED_TO')}" title="{vtranslate($FIELD_MODEL->get('label'))}"  name="{$ASSIGNED_USER_ID}" multiple data-fieldinfo='{$FIELD_INFO|escape}'>
+	<select class="select2noactive listSearchContributor form-control {$ASSIGNED_USER_ID}" title="{vtranslate($FIELD_MODEL->get('label'))}"  name="{$ASSIGNED_USER_ID}" multiple data-fieldinfo='{$FIELD_INFO|escape}'>
 		{if count($ALL_ACTIVEUSER_LIST) gt 0}
 			<optgroup label="{vtranslate('LBL_USERS')}">
 				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-					<option value="{$OWNER_NAME}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(decode_html($OWNER_NAME)),$SEARCH_VALUES)} selected {/if}
-						{if array_key_exists($OWNER_ID, $ACCESSIBLE_USER_LIST)} data-recordaccess=true {else} data-recordaccess=false {/if}
-						data-userId="{$CURRENT_USER_ID}">
+					<option value="{$OWNER_NAME}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(decode_html($OWNER_NAME)),$SEARCH_VALUES)} selected {/if} {if array_key_exists($OWNER_ID, $ACCESSIBLE_USER_LIST)} data-recordaccess=true {else} data-recordaccess=false {/if} data-userId="{$CURRENT_USER_ID}">
 					{$OWNER_NAME}
 					</option>
 				{/foreach}
@@ -47,8 +45,7 @@
         {if count($ALL_ACTIVEGROUP_LIST) gt 0}
 			<optgroup label="{vtranslate('LBL_GROUPS')}">
 				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-					<option value="{$OWNER_NAME}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim($OWNER_NAME),$SEARCH_VALUES)} selected {/if}
-						{if array_key_exists($OWNER_ID, $ACCESSIBLE_GROUP_LIST)} data-recordaccess=true {else} data-recordaccess=false {/if} >
+					<option value="{$OWNER_NAME}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim($OWNER_NAME),$SEARCH_VALUES)} selected {/if}	{if array_key_exists($OWNER_ID, $ACCESSIBLE_GROUP_LIST)} data-recordaccess=true {else} data-recordaccess=false {/if} >
 					{$OWNER_NAME}
 					</option>
 				{/foreach}

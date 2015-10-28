@@ -67,18 +67,13 @@
 					{/foreach}
 				</div>
 				<div class="btn-toolbar col-md-3">
-					<span class="customFilterMainSpan btn-group">
+					<div class="customFilterMainSpan btn-group">
 						{if $CUSTOM_VIEWS|@count gt 0}
 							<select id="customFilter" title="{vtranslate('LBL_CUSTOM_FILTER')}">
 								{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 									<optgroup label='{vtranslate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}' >
 										{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
-											<option  data-editurl="{$CUSTOM_VIEW->getEditUrl()}" data-deleteurl="{$CUSTOM_VIEW->getDeleteUrl()}" data-approveurl="{$CUSTOM_VIEW->getApproveUrl()}" data-denyurl="{$CUSTOM_VIEW->getDenyUrl()}" data-duplicateurl="{$CUSTOM_VIEW->getDuplicateUrl()}" 
-													 data-editable="{$CUSTOM_VIEW->isEditable()}" data-deletable="{$CUSTOM_VIEW->isDeletable()}" 
-													 data-pending="{$CUSTOM_VIEW->isPending()}" 
-													 data-public="{$CUSTOM_VIEW->isPublic() && $CURRENT_USER_MODEL->isAdminUser()}" id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" 
-													 value="{$CUSTOM_VIEW->get('cvid')}" 
-													 data-id="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected" {elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'} selected="selected" {/if} class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">{vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'} [ {$CUSTOM_VIEW->getOwnerName()} ]  {/if}</option>
+											<option  data-editurl="{$CUSTOM_VIEW->getEditUrl()}" data-deleteurl="{$CUSTOM_VIEW->getDeleteUrl()}" data-approveurl="{$CUSTOM_VIEW->getApproveUrl()}" data-denyurl="{$CUSTOM_VIEW->getDenyUrl()}" data-duplicateurl="{$CUSTOM_VIEW->getDuplicateUrl()}" data-editable="{$CUSTOM_VIEW->isEditable()}" data-deletable="{$CUSTOM_VIEW->isDeletable()}" data-pending="{$CUSTOM_VIEW->isPending()}" data-public="{$CUSTOM_VIEW->isPublic() && $CURRENT_USER_MODEL->isAdminUser()}" id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" value="{$CUSTOM_VIEW->get('cvid')}" data-id="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected" {elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'} selected="selected" {/if} class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">{vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'} [ {$CUSTOM_VIEW->getOwnerName()} ]  {/if}</option>
 										{/foreach}
 									</optgroup>
 								{/foreach}
@@ -91,18 +86,18 @@
 								{/if}
 							</select>
 							{if Users_Privileges_Model::isPermitted($MODULE, 'CreateCustomFilter')}
-								<span class="filterActionsDiv hide">
+								<div class="filterActionsDiv hide">
 									<hr>
 									<ul class="filterActions">
 										<li data-value="create" id="createFilter" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><span class="glyphicon glyphicon-plus-sign"></span> {vtranslate('LBL_CREATE_NEW_FILTER')}</li>
 									</ul>
-								</span>
+								</div>
 							{/if}
 							<img class="filterImage" alt="{vtranslate('LBL_FILTER')}" src="{'filter.png'|vimage_path}" style="display:none;height:13px;margin-right:2px;vertical-align: middle;">
 						{else}
 							<input type="hidden" value="0" id="customFilter" />
 						{/if}
-					</span>
+					</div>
 				</div>
 				<div class="col-md-5 btn-toolbar paddingRightZero">
 					{include file='ListViewActions.tpl'|@vtemplate_path}

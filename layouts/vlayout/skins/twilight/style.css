@@ -4091,9 +4091,6 @@ html,body,.baseContainer
 		width: 83.33333333%;
 		float:left;
 	}
-	.mobileOff{
-		display: block !important;
-	}
 	.mobileOn{
 		display: none !important;
 	}
@@ -4119,9 +4116,6 @@ html,body,.baseContainer
 	}
 	.mobileOff{
 		display: none !important;
-	}
-	.mobileOn{
-		display: block !important;
 	}
 	.rightHeaderBtnMenu{
 		display: block;

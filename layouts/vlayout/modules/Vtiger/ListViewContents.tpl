@@ -58,10 +58,10 @@
 		<div class="bottomscroll-div">
 			<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
-			<span class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
+			<div class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
 				<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{vtranslate('LBL_LOADING', $MODULE)}"/>
 				<p class="listViewLoadingMsg">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
-			</span>
+			</div>
 			{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 			<table class="table table-bordered listViewEntriesTable">
 				<thead>

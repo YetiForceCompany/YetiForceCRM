@@ -58,10 +58,10 @@
 						{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
 						{if $WIDGETS|count gt 0}
 							<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
-								<div class='mobileOff'>
+								<p class='mobileOff no-margin'>
 									<strong>{vtranslate('LBL_ADD_WIDGET')}</strong>
 									<span class="caret"></span>
-								</div>
+								</p>
 								<span class='glyphicon glyphicon-th mobileOn'></span>
 							</button>
 							<ul class="dropdown-menu widgetsList pull-left" style="min-width:100%;text-align:left;">
@@ -80,10 +80,8 @@
 							</ul>
 						{else if $MODULE_PERMISSION}
 							<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
-								<div class='mobileOff'>
-									<strong>{vtranslate('LBL_ADD_WIDGET')}</strong>
-									<span class="caret"></span>
-								</div>
+									<strong class="mobileOff">{vtranslate('LBL_ADD_WIDGET')}</strong>
+									<span class="mobileOff caret"></span>
 								<span class='glyphicon glyphicon-th mobileOn'></span>
 							</button>
 							<ul class="dropdown-menu widgetsList pull-left" style="min-width:100%;text-align:left;">

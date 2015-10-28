@@ -1,13 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{strip}
 <nav>		
 	<ul class="pagination">
 		<li class="{if $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage" data-id="1" >
 			<span aria-hidden="true">{vtranslate('LBL_FIRST', $MODULE)}</span>
-			</a>
 		</li>
 		<li class="{if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1} disabled {/if}" id="listViewPreviousPageButton">
 			<span aria-hidden="true">&laquo;</span>
-			</a>
 		</li>	
 		{if $PAGE_COUNT neq 0}
 			{assign var=PAGIN_TO value=$START_PAGIN_FROM+4}
@@ -48,7 +47,6 @@
 		</li>
 		<li class="{if $PAGE_NUMBER eq $PAGE_COUNT or (!$PAGING_MODEL->isNextPageExists())} disabled {/if} pageNumber lastPage" data-id="{$PAGE_COUNT}" >
 			<span aria-hidden="true">{vtranslate('LBL_LAST', $MODULE)}</span>
-			</a>
 		</li>
 	</ul>
 	<ul class="pageInfo">
@@ -60,4 +58,4 @@
 		</li>
 	</ul>
 </nav>
-
+{/strip}
