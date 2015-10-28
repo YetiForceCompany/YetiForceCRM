@@ -3738,3 +3738,6 @@ span[name=existingImages] img{
 #announcementBtn{
 	cursor: pointer;
 }
+#roleDeleteForm .relatedPopup{
+	padding: 6px 12px;
+}
