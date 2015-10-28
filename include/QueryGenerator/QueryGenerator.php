@@ -1152,9 +1152,9 @@ class QueryGenerator
 				if ($operator == 'om') {
 					$sql[] = 'FIND_IN_SET(' . Users_Record_Model::getCurrentUserModel()->get('id') . ',' . $this->getSQLColumn($field->getFieldName()) . ')';
 				} else if (in_array($operator, ['e', 's', 'ew', 'c'])) {
-					$sql[] = 'FIND_IN_SET(' . $value . ',' . $this->getSQLColumn($field->getFieldName()) . ')';
+					$sql[] = 'FIND_IN_SET(' ."' $value '". ',' . $this->getSQLColumn($field->getFieldName()) . ')';
 				} else if (in_array($operator, ['n', 'k'])) {
-					$sql[] = 'NOT FIND_IN_SET(' . $value . ',' . $this->getSQLColumn($field->getFieldName()) . ')';
+					$sql[] = 'NOT FIND_IN_SET(' ."' $value '". ',' . $this->getSQLColumn($field->getFieldName()) . ')';
 				}
 				continue;
 			}
