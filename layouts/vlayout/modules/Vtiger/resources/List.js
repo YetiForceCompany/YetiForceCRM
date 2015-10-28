@@ -615,13 +615,13 @@ jQuery.Class("Vtiger_List_Js", {
 		var orderBy = jQuery('#orderBy').val();
 		var sortOrder = jQuery("#sortOrder").val();
 		var params = {
-			'module': module,
-			'parent': parent,
-			'page': pageNumber,
-			'view': "List",
-			'viewname': cvId,
-			'orderby': orderBy,
-			'sortorder': sortOrder
+			module: module,
+			parent: parent,
+			page: pageNumber,
+			view: "List",
+			viewname: cvId,
+			orderby: orderBy,
+			sortorder: sortOrder
 		}
 
 		var searchValue = this.getAlphabetSearchValue();
@@ -1946,7 +1946,7 @@ jQuery.Class("Vtiger_List_Js", {
 			var select = $(domElement);
 			app.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
 		});
-		if (app.getMainParams('autoRefreshListOnChange') == '1'){
+		if (app.getMainParams('autoRefreshListOnChange') == '1') {
 			listViewContainer.find('.listViewEntriesTable select').on("change", function (e) {
 				Vtiger_List_Js.triggerListSearch();
 			});
@@ -2009,8 +2009,11 @@ jQuery.Class("Vtiger_List_Js", {
 				//continue
 				return true;
 			}
+
 			var searchOperator = 'c';
-			if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
+			if (fieldInfo.hasOwnProperty("searchOperator")) {
+				searchOperator = fieldInfo.searchOperator;
+			} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
 				searchOperator = 'bw';
 			} else if (fieldInfo.type == "boolean" || fieldInfo.type == "picklist" || fieldInfo.type == "tree") {
 				searchOperator = 'e';
@@ -2028,6 +2031,7 @@ jQuery.Class("Vtiger_List_Js", {
 					searchOperator = 'e';
 				}
 			}
+
 			searchInfo.push(fieldName);
 			searchInfo.push(searchOperator);
 			searchInfo.push(searchValue);
