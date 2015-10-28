@@ -93,7 +93,7 @@ padding: 5px;
 				</div>
 			</div>
 			{* copy elements hide *}
-			<div class="modal addDateWindowModal fade" tabindex="-1">
+			<div class="modal addDateWindowModal fade publicHolidayModal" tabindex="-1">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header contentsBackground">
