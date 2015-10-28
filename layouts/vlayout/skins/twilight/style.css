@@ -3735,7 +3735,9 @@ span[name=existingImages] img{
 	border-color: #337AB7;
 	color: #FFF;
 }
-#announcementBtn{
+#announcementBtn,
+.listViewEntriesCheckBox,
+#listViewEntriesMainCheckBox{
 	cursor: pointer;
 }
 #roleDeleteForm .relatedPopup{
