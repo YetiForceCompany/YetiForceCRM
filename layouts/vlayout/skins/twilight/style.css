@@ -4288,9 +4288,6 @@ html,body,.baseContainer
 .mobileLeftPanel .mobileLeftPanelContainer li .hasIcon {
 	padding: 0px
 }
-.mobileLeftPanel .mobileLeftPanelContainer li a {
-	padding-left: 25px;
-}
 .mobileLeftPanel .mobileLeftPanelContainer li a span{
 	padding-left: 10px;
 }
@@ -4340,7 +4337,7 @@ html,body,.baseContainer
 .mobileLeftPanel .userDetailsContainer a{
 	color: #fff;
 }
-.mobileLeftPanel .mobileLeftPanelContainer > li{
+.mobileLeftPanel .mobileLeftPanelContainer > ul > li{
 	list-style: none;
 }
 .mobileMenuOn{

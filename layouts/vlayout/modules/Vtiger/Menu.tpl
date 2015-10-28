@@ -2,6 +2,7 @@
 {strip}
 	{if $DEVICE == 'Mobile'}
 		<div class="mobileLeftPanelContainer">
+			<ul class='paddingLRZero' role='menubar'>
 	{else}
 		<nav class="contents-bottomscroll">
 			<ul class="nav modulesList" role="menubar">
@@ -23,6 +24,7 @@
 				{include file='menu/'|cat:$MENU.type|cat:'.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
 			{/foreach}
 	{if $DEVICE == 'Mobile'}
+			</ul>
 		</div> 
 	{else}
 			</ul>
