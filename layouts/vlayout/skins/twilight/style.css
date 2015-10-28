@@ -1954,7 +1954,8 @@ th.htColHeader,
 	border-top: 1px solid #ffffff;
 	border-bottom: 1px solid #dddddd;
 }
-.layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockLabel {
+.layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockLabel,
+#salesProcessesContainer .layoutContent {
 	padding-top: 13px;
 }
 .layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockActions .btn-group {

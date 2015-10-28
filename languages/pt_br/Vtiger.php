@@ -1053,6 +1053,7 @@ $languageStrings = [
 	'LBL_COMMENT' => 'Comentário',
 	'LBL_CURRENT' => 'Atual',
 	'LBL_SET_RECORD_STATUS' => 'Definir status',
+	'LBL_SELECT_SOME_OPTIONS' => 'Selecione um valor',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',

@@ -1298,6 +1298,7 @@ $languageStrings = [
 	'LBL_COMMENT' => 'Comment',
 	'LBL_CURRENT' => "Current",
 	'LBL_SET_RECORD_STATUS' => 'Set status',
+	'LBL_SELECT_SOME_OPTIONS' => 'Выберите опцию',
 ];
 $jsLanguageStrings = [
 	'SINGLE_SalesOrder' => 'Заказ',

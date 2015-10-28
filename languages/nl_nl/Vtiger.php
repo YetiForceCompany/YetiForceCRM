@@ -1025,6 +1025,7 @@ $languageStrings = [
 	'LBL_COMMENT' => 'Comment',
 	'LBL_CURRENT' => 'Current',
 	'LBL_SET_RECORD_STATUS' => 'Set status',
+	'LBL_SELECT_SOME_OPTIONS' => 'Select some values',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',
