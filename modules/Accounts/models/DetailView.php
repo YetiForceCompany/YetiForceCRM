@@ -69,7 +69,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 
 			$CalendarActionLinks[] = array(
 				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_ADD_EVENT',
+				'linklabel' => 'LBL_ADD_TASK',
 				'linkurl' => $recordModel->getCreateTaskUrl(),
 				'linkicon' => 'glyphicon glyphicon-calendar'
 			);
