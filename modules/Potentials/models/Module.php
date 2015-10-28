@@ -67,8 +67,9 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 	public function getPotentialsCountBySalesPerson() {
 		$db = PearDatabase::getInstance();
 		//TODO need to handle security
-		$params = array();
-		$result = $db->pquery('SELECT COUNT(*) AS count, concat(first_name," ",last_name) as last_name, vtiger_potential.sales_stage FROM vtiger_potential
+		$usersSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+		$params = [];
+		$result = $db->pquery('SELECT COUNT(*) AS count, '.$usersSqlFullName.' as last_name, vtiger_potential.sales_stage FROM vtiger_potential
 						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
 						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid AND vtiger_users.status="ACTIVE"
 						AND vtiger_crmentity.deleted = 0'.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).'
@@ -93,8 +94,9 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 	function getPotentialsPipelinedAmountPerSalesPerson() {
 		$db = PearDatabase::getInstance();
 		//TODO need to handle security
-		$params = array();
-		$result = $db->pquery('SELECT sum(sum_invoices) AS sum_invoices, concat(first_name," ",last_name) as last_name, vtiger_potential.sales_stage FROM vtiger_potential
+		$usersSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+		$params = [];
+		$result = $db->pquery('SELECT sum(sum_invoices) AS sum_invoices, '.$usersSqlFullName.' as last_name, vtiger_potential.sales_stage FROM vtiger_potential
 						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
 						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid AND vtiger_users.status="ACTIVE"
 						AND vtiger_crmentity.deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).
@@ -124,8 +126,8 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 			$params[] = $dateFilter['start']. ' 00:00:00';
 			$params[] = $dateFilter['end']. ' 23:59:59';
 		}
-		
-		$result = $db->pquery('SELECT sum(sum_invoices) sum_invoices, concat(first_name," ",last_name) as last_name,vtiger_users.id as id,DATE_FORMAT(closingdate, "%d-%m-%Y") AS closingdate  FROM vtiger_potential
+		$usersSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+		$result = $db->pquery('SELECT sum(sum_invoices) sum_invoices, '.$usersSqlFullName.' as last_name,vtiger_users.id as id,DATE_FORMAT(closingdate, "%d-%m-%Y") AS closingdate  FROM vtiger_potential
 						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
 						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid AND vtiger_users.status="ACTIVE"
 						AND vtiger_crmentity.deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).'WHERE sales_stage = ? '.' '.$dateFilterSql.' GROUP BY smownerid', $params);
@@ -413,8 +415,9 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		if($idArray) {
 		    $addSql=' WHERE vtiger_osstimecontrol.osstimecontrolid IN (' . $idArray . ') ';
 		}
+		$usersSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		//TODO need to handle security
-		$result = $db->pquery('SELECT count(*) AS count, concat(vtiger_users.first_name, " " ,vtiger_users.last_name) as name, vtiger_users.id as id, SUM(vtiger_osstimecontrol.sum_time) as time  FROM vtiger_osstimecontrol
+		$result = $db->pquery('SELECT count(*) AS count, '.$usersSqlFullName.' as name, vtiger_users.id as id, SUM(vtiger_osstimecontrol.sum_time) as time  FROM vtiger_osstimecontrol
 						INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
 						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid AND vtiger_users.status="ACTIVE"
 						AND vtiger_crmentity.deleted = 0'.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()). $addSql 

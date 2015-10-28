@@ -49,22 +49,10 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		$referenceModule = $this->getReferenceModule($value);
 		if ($referenceModule && !empty($value)) {
 			$referenceModuleName = $referenceModule->get('name');
-			if ($referenceModuleName == 'Users') {
-				$db = PearDatabase::getInstance();
-				$nameResult = $db->pquery('SELECT first_name, last_name FROM vtiger_users WHERE id = ?', array($value));
-				if ($db->num_rows($nameResult)) {
-					return $db->query_result($nameResult, 0, 'first_name') . ' ' . $db->query_result($nameResult, 0, 'last_name');
-				}
-			} else {
-				$entityNames = getEntityName($referenceModuleName, array($value));
-				global $href_max_length;
-				$name = $entityNames[$value];
-				if (strlen($name) > $href_max_length) {
-					$name = substr($name, 0, $href_max_length - 3) . '...';
-				}
-				$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . vtranslate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
-				return $linkValue;
-			}
+			$entityNames = getEntityName($referenceModuleName, [$value]);
+			$name = Vtiger_Functions::textLength($entityNames[$value], vglobal('href_max_length'));
+			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . vtranslate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
+			return $linkValue;
 		}
 		return '';
 	}

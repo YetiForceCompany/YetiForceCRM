@@ -106,9 +106,14 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 		if (key_exists($baseUserId, $switchUsers)) {
 			$childlinks = [];
 			if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {
+				$entityData = Vtiger_Functions::getEntityModuleInfo('Users');
 				$user = new Users();
 				$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
-				$userName = $currentUser->column_fields['first_name'] . ' ' . $currentUser->column_fields['last_name'];
+				$colums = [];
+				foreach (explode(',', $entityData['fieldname']) as &$fieldname) {
+					$colums[] = $currentUser->column_fields[$fieldname];
+				}
+				$userName = implode(' ', $colums);
 				$childlinks[] = [
 					'linktype' => 'HEADERLINK',
 					'linklabel' => $userName,
@@ -138,7 +143,9 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				'nocaret' => true,
 				'childlinks' => $childlinks
 			];
-			array_push($headerLinks, $customHeaderLinks);
+			if(count($childlinks)){
+				array_push($headerLinks, $customHeaderLinks);
+			}
 		}
 		$headerLinkInstances = [];
 
