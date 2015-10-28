@@ -9,10 +9,10 @@
  *
  ********************************************************************************/
 -->*}
-
+{strip}
 <div class="col-xs-12 row">
 	<div class="col-xs-12 row"> 
-		<div col-xs-1>
+		<div class='col-xs-1'>
 			<input type="checkbox" class="font-x-small" id="auto_merge" title="{vtranslate('LBL_IMPORT_STEP_3', $MODULE)}" name="auto_merge" onclick="ImportJs.toogleMergeConfiguration();" />
 			<strong>{'LBL_IMPORT_STEP_3'|@vtranslate:$MODULE}:</strong>
 		</div>
@@ -38,7 +38,7 @@
 					</div>
 				</div>
 				<div class='col-xs-12'>
-					<td class="font-x-small">{'LBL_SELECT_MERGE_FIELDS'|@vtranslate:$MODULE}</td>
+					<div class="font-x-small">{'LBL_SELECT_MERGE_FIELDS'|@vtranslate:$MODULE}</div>
 				</div>
 				<div class='col-xs-12'>
 						<div class="row calDayHour">
@@ -74,3 +74,4 @@
 			</div>
 	</div>
 </div>
+{/strip}

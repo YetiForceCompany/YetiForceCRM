@@ -152,7 +152,7 @@
 											<a class="deleteRecordButton"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 											{/if}
 									</span>
-								</div></td>
+								</div>
 							{/if}
 						</td>
 					{/foreach}

@@ -9,7 +9,7 @@
  *
  ********************************************************************************/
 -->*}
-
+{strip}
 <div class='row col-md-12'>
 	<div>
 		<div><strong>{'LBL_IMPORT_STEP_2'|@vtranslate:$MODULE}:</strong></div>
@@ -51,3 +51,4 @@
 		<div class="col-md-6"><input type="checkbox" id="has_header" name="has_header" title="{vtranslate('LBL_HAS_HEADER', $MODULE)}" checked /></div>
 	</div>
 </div>
+{/strip}
