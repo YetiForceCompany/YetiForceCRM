@@ -3744,3 +3744,11 @@ span[name=existingImages] img{
 #roleDeleteForm .relatedPopup{
 	padding: 6px 12px;
 }
+.holidayList{
+	list-style-type: none;
+	float: left;
+	min-height: 1px;
+	padding:2px;
+	margin:0 !important;
+}
+

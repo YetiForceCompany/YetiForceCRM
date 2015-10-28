@@ -65,7 +65,7 @@ padding: 5px;
 						</div>
 					</div>
 					<div style="padding:5px;min-height: 27px" class="blockFieldsList row marginLRZero">
-						<ul style="list-style-type: none; float: left;min-height: 1px;padding:2px; width: 98%; margin:0 !important;" class="col-md-12">
+						<ul class="col-md-12 holidayList">
 							{foreach item=HOLIDAY from=$HOLIDAYS}
 							<li>
 								<div data-holiday-id="{$HOLIDAY['id']}" data-holiday-type="{$HOLIDAY['type']}" data-holiday-name="{$HOLIDAY['name']}" data-holiday-date="{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}" class="opacity holidayElement marginLeftZero border1px">
