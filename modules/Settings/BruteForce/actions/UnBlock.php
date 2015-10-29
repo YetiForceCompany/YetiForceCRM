@@ -15,19 +15,16 @@ class Settings_BruteForce_Unblock_Action extends Settings_Vtiger_Basic_Action
 	public function process(Vtiger_Request $request)
 	{
 		$db = PearDatabase::getInstance();
-		$query = "SELECT * FROM `vtiger_bruteforce` LIMIT 1";
+		$query = "SELECT timelock FROM `vtiger_bruteforce` LIMIT 1";
 		$result = $db->pquery($query, array());
-
-		$bruteforceSettings = $db->query_result_rowdata($result, 0);
-		$attempsnumber = $bruteforceSettings[0];
-		$blockTime = $bruteforceSettings[1];
+		$blockTime = $id = $db->getSingleValue($result);
 		$now = date("Y-m-d H:i:s");
 		$ip = $request->get('ip');
 
 		$sql = "UPDATE vtiger_loginhistory SET unblock = 1 "
 			. "WHERE user_ip = ? && "
 			. "(UNIX_TIMESTAMP(login_time) - UNIX_TIMESTAMP(ADDDATE(?, INTERVAL -$blockTime MINUTE))) > 0;";
-		$params = array($ip, $now);
+		$params = [$ip, $now];
 		$result = $db->pquery($sql, $params, true);
 		$moduleName = $request->getModule();
 
