@@ -59,6 +59,8 @@ $languageStrings = [
 	'LBL_REMOVE_DESC' => 'O item selecionado contém submenus. Todos os submenus também serão apagados juntamente com este item do menu.',
 	'LBL_REMOVE' => 'Remover',
 	'LBL_CANCEL' => 'Cancelar',
+	//End remove modal
+	'LBL_MORE_INFO' => 'Click here for more information',
 ];
 $jsLanguageStrings = [
 	'JS_EDIT' => 'Editar',
