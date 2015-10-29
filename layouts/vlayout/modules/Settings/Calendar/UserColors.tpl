@@ -52,8 +52,8 @@
 						<tbody>
 							{foreach from=$MODULE_MODEL->getCalendarConfig('reminder') item=item key=key}
 								<tr data-id="{$item.name}" data-color="{$item.value}">
-									<td>{vtranslate($item.label,$QUALIFIED_MODULE)}</td>
-									<td><input type="checkbox" id="update_event" name="update_event" data-metod="UpdateCalendarConfig" value=1 {if $item.value eq 1} checked{/if}/></td>
+									<td class="col-md-3">{vtranslate($item.label,$QUALIFIED_MODULE)}</td>
+									<td class="col-md-9"><input type="checkbox" id="update_event" name="update_event" data-metod="UpdateCalendarConfig" value=1 {if $item.value eq 1} checked{/if}/></td>
 								</tr>
 							{/foreach}
 						</tbody>
