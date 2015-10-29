@@ -23,7 +23,6 @@
 						<tr class="blockHeader">
 							<th><strong>{vtranslate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>
 							<th><strong>{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</strong></th>
-							<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -33,7 +32,6 @@
 								<td>
 									<input class="activeModTracker" type="checkbox" name="active" value="1" {if $item.active}checked=""{/if}>
 								</td>
-								<td></td>
 							</tr>
 						{/foreach}
 					</tbody>
