@@ -67,6 +67,15 @@ $languageStrings = [
 	'QuickExportToExcel' => 'Szybki eksport do Excel-a',
 	'CreateDashboardFilter' => 'Podsumowanie modułu - Tworzenie widgetów z filtrem',
 	'DetailTransferOwnership'  => 'Podgląd rekordu - Zmiana właściciela',
+	//end actions
+
+	'Admin Profile' => 'Profil administratora',
+	'Support Profile' => 'Profil wsparcia',
+	'Sales Profile' => 'Profil sprzedaży',
+	'Guest Profile' => 'Gość',
+	'Profile Related to Sales' => 'Profil powiązany ze sprzedażą',
+	'Profile Related to Support' => 'Profil związany ze wsparciem',
+	'Guest Profile for Test Users' => 'Profil Gość dla Uzytkowników Testowych',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil zapisano poprawnie',
