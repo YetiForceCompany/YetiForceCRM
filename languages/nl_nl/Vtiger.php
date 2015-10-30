@@ -1025,6 +1025,17 @@ $languageStrings = [
 	'LBL_COMMENT' => 'Comment',
 	'LBL_CURRENT' => 'Current',
 	'LBL_SET_RECORD_STATUS' => 'Set status',
+	//PDF
+	'LBL_EXPORT_PDF' => '__UNTRANSLATED__',
+	'LBL_GENERATE_PDF_FILE' => '__UNTRANSLATED__',
+	'LBL_AVAILABLE_TEMPLATES' => '__UNTRANSLATED__',
+	'LBL_GENERATE' => '__UNTRANSLATED__',
+	'LBL_GENERATE_SINGLE' => '__UNTRANSLATED__',
+	'LBL_MANY_IN_ONE' => '__UNTRANSLATED__',
+	'LBL_SEND_EMAIL' => '__UNTRANSLATED__',
+	'LBL_VALID_RECORDS' => '__UNTRANSLATED__',
+	'LBL_EXPORT_ERROR' => '__UNTRANSLATED__',
+	'LBL_PDF_MANY_IN_ONE' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',
@@ -1300,4 +1311,6 @@ $jsLanguageStrings = [
 	'JS_PLL_POSTPONED' => 'Postponed',
 	'JS_PLL_CANCELLED' => 'Cancelled',
 	'JS_PLL_COMPLETED' => 'Completed',
+	'JS_PDF_RECALCULATING' => '__UNTRANSLATED__',
+	'JS_PDF_GENERATING' => '__UNTRANSLATED__',
 ];

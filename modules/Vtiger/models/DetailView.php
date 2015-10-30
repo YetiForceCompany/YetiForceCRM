@@ -129,6 +129,22 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
 		}
 
+
+		if (Users_Privileges_Model::isPermitted($moduleName, 'LBL_EXPORT_PDF_ACTION')) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
+			$pdfModel = new $handlerClass();
+			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
+				$pdfLink = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => vtranslate('LBL_EXPORT_PDF'),
+					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId . '");',
+					'linkicon' => 'glyphicon glyphicon-save-file',
+					'title' => vtranslate('LBL_EXPORT_PDF')
+				];
+				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($pdfLink);
+			}
+		}
+
 		if (!empty($detailViewBasiclinks)) {
 			foreach ($detailViewBasiclinks as $linkModel) {
 				// Remove view history, needed in vtiger5 to see history but not in vtiger6

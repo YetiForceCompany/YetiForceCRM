@@ -65,6 +65,7 @@ $languageStrings = [
 	'QuickExportToExcel' => 'Excelexport',
 	'CreateDashboardFilter' => 'Filter Widgets erzeugen',
 	'DetailTransferOwnership'  => 'Vorschau Datensatz - Zuständigen ändern',
+	'LBL_EXPORT_PDF_ACTION' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil erfolgreich gelöscht',

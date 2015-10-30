@@ -67,6 +67,7 @@ $languageStrings = [
 	'QuickExportToExcel' => 'Szybki eksport do Excel-a',
 	'CreateDashboardFilter' => 'Podsumowanie modułu - Tworzenie widgetów z filtrem',
 	'DetailTransferOwnership'  => 'Podgląd rekordu - Zmiana właściciela',
+	'LBL_EXPORT_PDF_ACTION' => 'Eksport do PDF'
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil zapisano poprawnie',

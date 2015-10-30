@@ -66,6 +66,7 @@ $languageStrings = [
 	'QuickExportToExcel' => 'Quick export to Excel',
 	'CreateDashboardFilter' => 'Create filter widgets',
 	'DetailTransferOwnership'  => 'Record preview - change the owner',
+	'LBL_EXPORT_PDF_ACTION' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profile deleted successfully',

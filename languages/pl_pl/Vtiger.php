@@ -1045,8 +1045,19 @@ $languageStrings = [
 	'LBL_EXCHANGE_DATE' => 'Data kursu',
 	'LBL_NO_EXCHANGE_RATES' => 'Brak kursów walut, sprawdz czy prawidłowo działa pobieranie kursów walut',
 	'LBL_COMMENT' => 'Komentarz',
-	'LBL_CURRENT' => "Bieżące",
+	'LBL_CURRENT' => 'Bieżące',
 	'LBL_SET_RECORD_STATUS' => 'Ustaw status',
+	//PDF
+	'LBL_EXPORT_PDF' => 'Eksportuj do PDF',
+	'LBL_GENERATE_PDF_FILE' => 'Generowanie pliku PDF',
+	'LBL_AVAILABLE_TEMPLATES' => 'Dostępne szablony',
+	'LBL_GENERATE' => 'Generuj',
+	'LBL_GENERATE_SINGLE' => 'Jeden plik PDF',
+	'LBL_MANY_IN_ONE' => 'Zbiorczy dokument',
+	'LBL_SEND_EMAIL' => 'Wyślij pocztą',
+	'LBL_VALID_RECORDS' => '%s z %s są poprawnr dla wybranego szablonu.',
+	'LBL_EXPORT_ERROR' => 'Nie udało się wygenerować pliku PDF.',
+	'LBL_PDF_MANY_IN_ONE' => 'PDF',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
@@ -1280,4 +1291,6 @@ $jsLanguageStrings = [
 	'JS_PLL_POSTPONED' => 'Przełożone',
 	'JS_PLL_CANCELLED' => 'Anulowane',
 	'JS_PLL_COMPLETED' => 'Wykonane',
+	'JS_PDF_RECALCULATING' => 'Sprawdzanie szablonów',
+	'JS_PDF_GENERATING' => 'Trwa generowanie PDF-a',
 ];

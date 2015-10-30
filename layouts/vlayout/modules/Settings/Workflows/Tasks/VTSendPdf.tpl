@@ -1,26 +1,16 @@
-{*<!--
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	{assign var=PDF_TPL value=OSSPdf_Module_Model::getListTpl($SOURCE_MODULE)}
+	{assign var=PDF_MODEL value=Settings_PDF_Module_Model::getInstance('Settings:PDF')}
+	{assign var=PDF_TPL value=$PDF_MODEL->getTemplatesByModule($SOURCE_MODULE)}
 	{assign var=MAIL_TPL value=OSSMailTemplates_Record_Model::getTempleteList($SOURCE_MODULE)}
-
 	<div class="well" id="VtVTEmailTemplateTaskContainer">
 		<div class="row">
 			<span class="col-md-4">{vtranslate('LBL_TEMPLATES', 'OSSPdf')}</span>
 			<div class="col-md-6 padding-bottom1per">
 				<select class="chzn-select form-control" name="pdf_tpl" data-validation-engine="validate[required]">
 					<option value="none">{vtranslate('LBL_SELECT_FIELD',$MODULE)}</option>
-					{foreach from=$PDF_TPL key=key item=item}
-						<option {if $TASK_OBJECT->pdf_tpl eq $item.id}selected{/if} value="{$item.id}">{$item.name}</option>
+					{foreach from=$PDF_TPL item=item}
+						<option {if $TASK_OBJECT->pdf_tpl eq $item->getId()}selected{/if} value="{$item->getId()}">{$item->getName()}</option>
 					{/foreach}
 				</select>
 			</div>
