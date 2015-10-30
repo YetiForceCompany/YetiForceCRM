@@ -561,6 +561,34 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewContainer = listInstance.getListViewContentContainer();
 		listViewContainer.find('button[data-trigger="listSearch"]').trigger("click");
 	},
+	getSelectedRecordsParams: function () {
+		var listInstance = Vtiger_List_Js.getInstance();
+		var validationResult = listInstance.checkListRecordSelected();
+		if (validationResult != true) {
+			// Compute selected ids, excluded ids values, along with cvid value and pass as url parameters
+			var selectedIds = listInstance.readSelectedIds(true);
+			var excludedIds = listInstance.readExcludedIds(true);
+			var cvId = listInstance.getCurrentCvId();
+			var postData = {
+				viewname: cvId,
+				selected_ids: selectedIds,
+				excluded_ids: excludedIds
+			};
+
+			var searchValue = listInstance.getAlphabetSearchValue();
+			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+				postData['search_key'] = listInstance.getAlphabetSearchField();
+				postData['search_value'] = searchValue;
+				postData['operator'] = "s";
+			}
+
+			postData.search_params = JSON.stringify(listInstance.getListSearchParams());
+			return postData;
+		} else {
+			listInstance.noRecordSelectedAlert();
+		}
+		return false;
+	},
 }, {
 	//contains the List View element.
 	listViewContainer: false,
@@ -1946,6 +1974,7 @@ jQuery.Class("Vtiger_List_Js", {
 		listViewContainer.find('.listViewEntriesTable .select2noactive').each(function (index, domElement) {
 			var select = $(domElement);
 			app.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
+			
 			select.on("change", function (e) {
 				Vtiger_List_Js.triggerListSearch();
 			})
@@ -2087,5 +2116,5 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	registerTimeListSearch: function (container) {
 		app.registerEventForTimeFields(container, false);
-	}
+	},
 });
