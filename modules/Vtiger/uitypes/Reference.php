@@ -44,7 +44,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	 * @param <Integer> crmid of record
 	 * @return <String>
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$referenceModule = $this->getReferenceModule($value);
 		if ($referenceModule && !empty($value)) {
@@ -59,6 +59,9 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 				$entityNames = getEntityName($referenceModuleName, array($value));
 				global $href_max_length;
 				$name = $entityNames[$value];
+				if($rawText){
+					return $name;
+				}
 				if (strlen($name) > $href_max_length) {
 					$name = substr($name, 0, $href_max_length - 3) . '...';
 				}

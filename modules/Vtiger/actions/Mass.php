@@ -11,7 +11,7 @@
 abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 {
 
-	protected function getRecordsListFromRequest(Vtiger_Request $request)
+	public function getRecordsListFromRequest(Vtiger_Request $request)
 	{
 		$cvId = $request->get('viewname');
 		$module = $request->get('module');

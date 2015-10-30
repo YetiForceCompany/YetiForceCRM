@@ -199,7 +199,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 * @param <String> $fieldName - field name for which values need to get
 	 * @return <String>
 	 */
-	public function getDisplayValue($fieldName, $recordId = false)
+	public function getDisplayValue($fieldName, $recordId = false, $rawText = false)
 	{
 		if (empty($recordId)) {
 			$recordId = $this->getId();
@@ -222,7 +222,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		// End
 
 		if ($fieldModel) {
-			return $fieldModel->getDisplayValue($this->get($fieldName), $recordId, $this);
+			return $fieldModel->getDisplayValue($this->get($fieldName), $recordId, $this, $rawText);
 		}
 		return false;
 	}
