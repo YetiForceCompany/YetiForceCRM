@@ -16,8 +16,10 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 				});
 				var moduleName = 'Calendar';
 				var url = 'index.php?module=Calendar&view=QuickCreateAjax&sourceModule=Calendar&sourceRecord=' + currentTarget.data('id');
+				var params = {};
+				params.noCache = true;
 				var headerInstance = Vtiger_Header_Js.getInstance();
-				headerInstance.getQuickCreateForm(url, moduleName).then(function (data) {
+				headerInstance.getQuickCreateForm(url, moduleName, params).then(function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'})
 					headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
 							if (data && data.success) {
@@ -52,16 +54,16 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 						var viewName = app.getViewName();
 						if (viewName === 'Detail') {
 							var widget = jQuery('.activityWidgetContainer .widgetContentBlock');
-								var thisInstance = Vtiger_Detail_Js.getInstance();
-							if(widget.length){
+							var thisInstance = Vtiger_Detail_Js.getInstance();
+							if (widget.length) {
 								thisInstance.loadWidget(widget);
-							}else{
+							} else {
 								var recentActivitiesTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentActivitiesTabLabel);
-								if(recentActivitiesTab){
+								if (recentActivitiesTab) {
 									recentActivitiesTab.trigger('click');
 								}
-								if (app.getModuleName() == 'Calendar'){
-									recentActivitiesTab = ((!thisInstance.getSelectedTab().length || thisInstance.getSelectedTab().data('linkKey') == thisInstance.detailViewDetailsTabLabel) ? thisInstance.getTabContainer().find('[data-link-key="'+thisInstance.detailViewDetailsTabLabel+'"]') : jQuery('<div></div>'));
+								if (app.getModuleName() == 'Calendar') {
+									recentActivitiesTab = ((!thisInstance.getSelectedTab().length || thisInstance.getSelectedTab().data('linkKey') == thisInstance.detailViewDetailsTabLabel) ? thisInstance.getTabContainer().find('[data-link-key="' + thisInstance.detailViewDetailsTabLabel + '"]') : jQuery('<div></div>'));
 									jQuery('.showModal.closeCalendarRekord').addClass('hide');
 									recentActivitiesTab.trigger('click');
 								}
