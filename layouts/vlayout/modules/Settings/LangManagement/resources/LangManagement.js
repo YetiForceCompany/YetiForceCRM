@@ -246,7 +246,7 @@ var Settings_Index_Js = {
 			trigger : 'manual',
 			placement: 'left',
 			html: 'true',
-			content: '<div class="popover_block"><button class="btn btn-danger deleteItem">'+app.vtranslate('Delete')+'</button>   <button class="btn btn-warning pull-right cancel">'+app.vtranslate('Cancel')+'</button></div>'
+			content: '<div class="popover_block"><button class="btn btn-danger deleteItem">'+app.vtranslate('LBL_YES')+'</button>   <button class="btn btn-warning pull-right cancel">'+app.vtranslate('Cancel')+'</button></div>'
 		}
 		var makeSureOptions = {
 			title : app.vtranslate('JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'),
