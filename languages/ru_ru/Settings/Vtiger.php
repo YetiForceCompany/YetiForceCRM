@@ -336,6 +336,7 @@ $languageStrings = [
 	'LBL_ENABLE_SHARING_RECORDS' => 'Enable records sharing',
 	'LBL_HREF_MAX_LEGTH' => 'Maximum length for href tag ',
 	//end config editor
+	'LBL_VIEW_SWITCHUSERS' => 'Switch users',
 ];
 
 $jsLanguageStrings = [

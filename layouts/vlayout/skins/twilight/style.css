@@ -3341,6 +3341,7 @@ span[name=existingImages] img{
 	margin-right: 2%;
 }
 .remindersNotice{
+	cursor: pointer;
 	color: #ffffff;
 	padding: 15px 12px;
 }
