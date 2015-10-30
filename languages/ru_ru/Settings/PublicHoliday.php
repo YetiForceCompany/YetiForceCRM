@@ -45,5 +45,7 @@ $languageStrings = [
 	'LBL_VIEW_CONFIGURATION' => 'Праздники',
 ];
 $jsLanguageStrings = [
+	'JS_ADD_NEW_HOLIDAY' => 'Добавить Праздник',
+	'JS_EDIT_HOLIDAY' => 'Edit holiday',
 	'JS_FILL_FORM_ERROR' => 'Необходимо заполнить все поля',
 ];

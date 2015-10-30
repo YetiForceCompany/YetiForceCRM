@@ -183,6 +183,8 @@ $languageStrings = [
 	'ON_DELETE' => 'While deleting',
 	'TRIGGER' => 'Trigger manually',
 	'BLOCK_EDIT' => 'Block edition',
+	'UpdateBalance' => 'Update Balance',
+	'UpdateInventory' => 'Update Inventory',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Dieselben Felder mehr als einmal ausgewählt',

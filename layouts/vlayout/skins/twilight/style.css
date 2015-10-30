@@ -3734,4 +3734,7 @@ span[name=existingImages] img{
 	background-color: #337AB7;
 	border-color: #337AB7;
 	color: #FFF;
-} 
+}
+#announcementBtn{
+	cursor: pointer;
+}

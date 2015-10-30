@@ -20,6 +20,7 @@
 	<input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}" />
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
 	<input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
+	<input type="hidden" id="autoRefreshListOnChange" value="{PerformancePrefs::getBoolean('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
@@ -89,7 +90,7 @@
 				{if $MODULE_MODEL->isQuickSearchEnabled()}
 					<tr>
 						<td>
-							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="glyphicon glyphicon-search"></span></a>
+							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<td>
@@ -143,17 +144,7 @@
 						</td>
 						{if $LISTVIEW_HEADER@last}
 							<td nowrap class="{$WIDTHTYPE}">
-								<div class="actions pull-right">
-									<span class="actionImages">
-										<a href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
-											{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->lockEditView eq false && $LISTVIEW_ENTRY->isPermittedToEditView == 1}
-											<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
-											{/if}
-											{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->lockEditView eq false && $LISTVIEW_ENTRY->isPermittedToEditView == 1}
-											<a class="deleteRecordButton"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
-											{/if}
-									</span>
-								</div>
+								{include file=vtemplate_path('ListViewRecordActions.tpl',$MODULE_NAME)}
 							</td>
 						{/if}
 					{/foreach}

@@ -72,7 +72,8 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 		var contents = jQuery('#layoutDashBoards');
 		contents.find('.addDateWindow').click(function(e) {
 			var addBlockContainer = contents.find('.addDateWindowModal').clone(true, true);
-
+			var translate = app.vtranslate('JS_ADD_NEW_HOLIDAY')
+			addBlockContainer.find('.modal-title').text(translate);
 			var callBackFunction = function(data) {
 				data.find('.addDateWindowModal').removeClass('hide').show();
 
@@ -178,6 +179,8 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 			addBlockContainer.find('[name="holidayDate"]').val( dateElement.data('holiday-date') );
 			addBlockContainer.find('[name="holidayName"]').val( dateElement.data('holiday-name') );
 			addBlockContainer.find('[name="holidayType"]').val( dateElement.data('holiday-type') );
+			var translate = app.vtranslate('JS_EDIT_HOLIDAY')
+			addBlockContainer.find('.modal-title').text(translate);
 
 			var callBackFunction = function(data) {
 				data.find('.addDateWindowModal').removeClass('hide').show();
