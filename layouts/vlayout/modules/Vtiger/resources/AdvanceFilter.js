@@ -11,13 +11,20 @@
 jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	getInstance: function (container) {
 		var module = app.getModuleName();
-		var moduleClassName = module + "_AdvanceFilter_Js";
-		var fallbackClassName = "Vtiger_AdvanceFilter_Js";
-		if (typeof window[moduleClassName] != 'undefined') {
-			var instance = new window[moduleClassName](container);
+		var moduleClassName1 = module + "_AdvanceFilterEx_Js";
+		var moduleClassName2 = module + "_AdvanceFilter_Js";
+		var moduleClassName3 = "Vtiger_AdvanceFilterEx_Js";
+		var moduleClassName4 = "Vtiger_AdvanceFilter_Js";
+		if (typeof window[moduleClassName1] != 'undefined') {
+			var instance = new window[moduleClassName1](container);
+		} else if (typeof window[moduleClassName2] != 'undefined') {
+			var instance = new window[moduleClassName2](container);
+		} else if (typeof window[moduleClassName3] != 'undefined') {
+			var instance = new window[moduleClassName3](container);
 		} else {
-			instance = new window[fallbackClassName](container);
+			var instance = new window[moduleClassName4](container);
 		}
+
 		return instance;
 	}
 }, {
