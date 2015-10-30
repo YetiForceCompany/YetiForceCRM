@@ -47,7 +47,7 @@
 			<div class="muted paddingLeft5px">
 				{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				{if $RECORD->get('shownerid') != ''}
-				<br/>{vtranslate('Share with users',$MODULE_NAME)} {$RECORD->getDisplayValue('shownerid')}
+				<br/>{vtranslate('Share with users',$MODULE_NAME)}: {$RECORD->getDisplayValue('shownerid')}
 				{/if}
 			</div>
 		</div>
