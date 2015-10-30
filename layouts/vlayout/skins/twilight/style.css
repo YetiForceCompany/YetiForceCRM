@@ -2347,7 +2347,7 @@ th.htColHeader,
 .fc-content td:hover {
 	background: #f3f3f3;
 }
-.calendarPopover .popover{
+.calendarPopover.popover{
 	max-width: 100%;
 }
 .btn:focus {

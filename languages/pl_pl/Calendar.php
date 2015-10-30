@@ -177,6 +177,7 @@ $jsLanguageStrings = [
 	'JS_STATE' => 'Stan',
 	'JS_STATUS' => 'Status',
 	'JS_VISIBILITY' => 'Widoczność',
+	'JS_ASSIGNED_TO' => 'Właściciel rekordu',
 	'PLL_OPAQUE' => 'Zajęty',
 	'PLL_TRANSPARENT' => 'Dostępny',
 	'JS_Private' => 'Prywatne',
