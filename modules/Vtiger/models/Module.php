@@ -1745,7 +1745,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
 					$referenceList = $fieldModel->getReferenceList();
 					foreach ($referenceList as $referenceModule) {
-						if (isset($fieldMap[$referenceModule])) {
+						if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
 							$fieldValue = $recordModel->get($fieldName);
 							if ($fieldValue != 0 && Vtiger_Functions::getCRMRecordType($fieldValue) == $referenceModule)
 								$data[$fieldMap[$referenceModule]] = $fieldValue;

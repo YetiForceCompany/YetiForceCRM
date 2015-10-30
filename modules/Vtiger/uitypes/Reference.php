@@ -60,6 +60,22 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		return '';
 	}
 
+	/**
+	 * Function to get the display value in edit view
+	 * @param reference record id
+	 * @return link
+	 */
+	public function getEditViewDisplayValue($value)
+	{
+		$referenceModule = $this->getReferenceModule($value);
+		if ($referenceModule) {
+			$referenceModuleName = $referenceModule->get('name');
+			$entityNames = getEntityName($referenceModuleName, array($value));
+			return $entityNames[$value];
+		}
+		return '';
+	}
+
 	public function getListSearchTemplateName()
 	{
 		$fieldModel = $this->get('field');
