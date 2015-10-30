@@ -88,6 +88,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	public static $usersID = [];
+
 	public function getUserID($data)
 	{
 		if (key_exists($data, self::$usersID)) {
@@ -114,9 +115,14 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		if (key_exists($id, self::$users)) {
 			return self::$users[$id];
 		}
+		$entityData = Vtiger_Functions::getEntityModuleInfo('Users');
 		$user = new Users();
 		$currentUser = $user->retrieveCurrentUserInfoFromFile($id);
-		$name = $currentUser->column_fields['first_name'] . ' ' . $currentUser->column_fields['last_name'];
+		$colums = [];
+		foreach (explode(',', $entityData['fieldname']) as &$fieldname) {
+			$colums[] = $currentUser->column_fields[$fieldname];
+		}
+		$name = implode(' ', $colums);
 		self::$users[$id] = $name;
 		return $name;
 	}
@@ -140,7 +146,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-		
+
 		$content .= '];' . PHP_EOL . '$switchUsers = [';
 		foreach ($map as $user => $accessList) {
 			$users = '';

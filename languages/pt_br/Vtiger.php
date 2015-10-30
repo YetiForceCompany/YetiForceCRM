@@ -1053,6 +1053,7 @@ $languageStrings = [
 	'LBL_COMMENT' => 'Comentário',
 	'LBL_CURRENT' => 'Atual',
 	'LBL_SET_RECORD_STATUS' => 'Definir status',
+	'LBL_SELECT_SOME_OPTIONS' => 'Selecione um valor',
 	//PDF
 	'LBL_EXPORT_PDF' => '__UNTRANSLATED__',
 	'LBL_GENERATE_PDF_FILE' => '__UNTRANSLATED__',

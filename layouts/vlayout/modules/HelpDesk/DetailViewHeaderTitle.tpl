@@ -44,12 +44,12 @@
             </div>
         {/if}
 		<div class="row">
-			<span class="muted paddingLeft5px">
+			<div class="muted paddingLeft5px">
 				{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				{if $RECORD->get('shownerid') != ''}
-				<br/>{vtranslate('Share with users',$MODULE_NAME)} {$RECORD->getDisplayValue('shownerid')}
+				<br/>{vtranslate('Share with users',$MODULE_NAME)}: {$RECORD->getDisplayValue('shownerid')}
 				{/if}
-			</span>
+			</div>
 		</div>
     </div>
 {/strip}

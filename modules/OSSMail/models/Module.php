@@ -36,8 +36,8 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$mails = self::getAdresBookMails($table, $mails);
 		}
 
-		$fstart = '<?php $bookMails = array(';
-		$fend .= ');';
+		$fstart = '<?php $bookMails = [';
+		$fend .= '];';
 
 		foreach ($mails as $user => $file) {
 			file_put_contents('cache/addressBook/mails_' . $user . '.php', $fstart . $file . $fend);
@@ -55,7 +55,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			if ($users != '') {
 				$users = explode(',', $users);
 				foreach ($users as $user) {
-					$mails[$user] .= "'$name <$email>',";
+					$mails[$user] .= "'" . addslashes($name) . " <$email>',";
 				}
 			}
 		}

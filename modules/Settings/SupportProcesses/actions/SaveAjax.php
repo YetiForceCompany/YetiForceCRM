@@ -9,34 +9,24 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_SupportProcesses_SaveGeneral_Action extends Settings_Vtiger_Index_Action
+class Settings_SupportProcesses_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
 
-	public function __construct()
+	function __construct()
 	{
-		$this->exposeMethod('save');
+		parent::__construct();
+		$this->exposeMethod('updateConfig');
 	}
 
-	/**
-	 * Save date
-	 * @param <array> $ticketStatus
-	 * @return true if saved, false otherwise
-	 */
-	public function save(Vtiger_Request $request)
+	public function updateConfig(Vtiger_Request $request)
 	{
+		$param = $request->get('param');
+		$moduleModel = Settings_SupportProcesses_Module_Model::getCleanInstance();
 		$response = new Vtiger_Response();
-		$ticketStatus = $request->get('status');
-
-		$moduleName = 'Settings:SupportProcesses';
-		try {
-			if (Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify($ticketStatus)) {
-				$response->setResult(array('success' => true, 'message' => vtranslate('LBL_SAVE_CONFIG_OK', $moduleName)));
-			} else {
-				$response->setResult(array('success' => false, 'message' => vtranslate('LBL_SAVE_CONFIG_ERROR', $moduleName)));
-			}
-		} catch (Exception $e) {
-			$response->setError($e->getCode(), $e->getMessage());
-		}
+		$response->setResult(array(
+			'success' => $moduleModel->updateTicketStatusNotModify($param),
+			'message' => vtranslate('LBL_SAVE_CONFIG', $request->getModule(false))
+		));
 		$response->emit();
 	}
 }

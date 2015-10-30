@@ -130,7 +130,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		}
 
 
-		if (Users_Privileges_Model::isPermitted($moduleName, 'LBL_EXPORT_PDF_ACTION')) {
+		if (Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {

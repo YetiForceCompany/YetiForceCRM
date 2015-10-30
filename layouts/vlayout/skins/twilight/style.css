@@ -1610,7 +1610,9 @@ th.htColHeader,
 .profilesEditView tr.blockHeader th:first-child {
 	text-align: left;
 }
-.profilesEditView input {
+.profilesEditView input,
+.calendarRelatedHeader .addButton,
+.calendarRelatedHeader .selectRelation{
 	margin-right: 5px;
 }
 .profilesEditView tr td.row table.table {
@@ -1954,7 +1956,8 @@ th.htColHeader,
 	border-top: 1px solid #ffffff;
 	border-bottom: 1px solid #dddddd;
 }
-.layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockLabel {
+.layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockLabel,
+#salesProcessesContainer .layoutContent {
 	padding-top: 13px;
 }
 .layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockActions .btn-group {
@@ -3341,6 +3344,7 @@ span[name=existingImages] img{
 	margin-right: 2%;
 }
 .remindersNotice{
+	cursor: pointer;
 	color: #ffffff;
 	padding: 15px 12px;
 }
@@ -3733,4 +3737,22 @@ span[name=existingImages] img{
 	background-color: #337AB7;
 	border-color: #337AB7;
 	color: #FFF;
-} 
+}
+#announcementBtn,
+.listViewEntriesCheckBox,
+#listViewEntriesMainCheckBox{
+	cursor: pointer;
+}
+#roleDeleteForm .relatedPopup{
+	padding: 6px 12px;
+}
+.holidayList{
+	list-style-type: none;
+	float: left;
+	min-height: 1px;
+	padding:2px;
+	margin:0 !important;
+}
+.publicHolidayModal .dateField{
+	width: 100%;
+}

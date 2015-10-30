@@ -13,7 +13,20 @@
  */
 class Users_Privileges_Model extends Users_Record_Model
 {
-
+	/**
+	 * Function to get the Display Name for the record
+	 * @return <String> - Entity Display Name for the record
+	 */
+	public function getName()
+	{
+		$entityData = Vtiger_Functions::getEntityModuleInfo('Users');
+		$colums = [];
+		foreach (explode(',', $entityData['fieldname']) as &$fieldname) {
+			$colums[] = $this->get($fieldname);
+		}
+		return implode(' ', $colums);
+	}
+	
 	/**
 	 * Function to get the Global Read Permission for the user
 	 * @return <Number> 0/1

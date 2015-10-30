@@ -49,41 +49,13 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		$referenceModule = $this->getReferenceModule($value);
 		if ($referenceModule && !empty($value)) {
 			$referenceModuleName = $referenceModule->get('name');
-			if ($referenceModuleName == 'Users') {
-				$db = PearDatabase::getInstance();
-				$nameResult = $db->pquery('SELECT first_name, last_name FROM vtiger_users WHERE id = ?', array($value));
-				if ($db->num_rows($nameResult)) {
-					return $db->query_result($nameResult, 0, 'first_name') . ' ' . $db->query_result($nameResult, 0, 'last_name');
-				}
-			} else {
-				$entityNames = getEntityName($referenceModuleName, array($value));
-				global $href_max_length;
-				$name = $entityNames[$value];
-				if($rawText){
-					return $name;
-				}
-				if (strlen($name) > $href_max_length) {
-					$name = substr($name, 0, $href_max_length - 3) . '...';
-				}
-				$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . vtranslate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
-				return $linkValue;
+			$entityNames = getEntityName($referenceModuleName, [$value]);
+			$name = Vtiger_Functions::textLength($entityNames[$value], vglobal('href_max_length'));
+			if ($rawText || $referenceModuleName == 'Users') {
+				return $name;
 			}
-		}
-		return '';
-	}
-
-	/**
-	 * Function to get the display value in edit view
-	 * @param reference record id
-	 * @return link
-	 */
-	public function getEditViewDisplayValue($value)
-	{
-		$referenceModule = $this->getReferenceModule($value);
-		if ($referenceModule) {
-			$referenceModuleName = $referenceModule->get('name');
-			$entityNames = getEntityName($referenceModuleName, array($value));
-			return $entityNames[$value];
+			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . vtranslate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
+			return $linkValue;
 		}
 		return '';
 	}

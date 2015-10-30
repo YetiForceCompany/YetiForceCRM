@@ -67,12 +67,25 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	weekDaysArray: {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6},
 	registerCalendar: function () {
 		var thisInstance = this;
+
+		var eventLimit = jQuery('#eventLimit').val();
+		if (eventLimit == 'true') {
+			eventLimit = true;
+		}
+		else if (eventLimit == 'false') {
+			eventLimit = false;
+		} else {
+			eventLimit = parseInt(eventLimit) + 1;
+		}
+		var weekView = jQuery('#weekView').val();
+		var dayView = jQuery('#dayView').val();
+
 		//User preferred default view
 		var userDefaultActivityView = jQuery('#activity_view').val();
 		if (userDefaultActivityView == 'Today') {
-			userDefaultActivityView = 'agendaDay';
+			userDefaultActivityView = dayView;
 		} else if (userDefaultActivityView == 'This Week') {
-			userDefaultActivityView = 'agendaWeek';
+			userDefaultActivityView = weekView;
 		} else {
 			userDefaultActivityView = 'month';
 		}
@@ -97,7 +110,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 
 		thisInstance.getCalendarView().fullCalendar({
 			header: {
-				left: 'month,agendaWeek,agendaDay',
+				left: 'month,' + weekView + ',' + dayView,
 				center: 'title today',
 				right: 'prev,next'
 			},
@@ -111,9 +124,14 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			defaultEventMinutes: 0,
 			forceEventDuration: true,
 			defaultTimedEventDuration: '01:00:00',
-			eventLimit: true,
+			eventLimit: eventLimit,
 			selectable: true,
 			selectHelper: true,
+			views: {
+				basic: {
+					eventLimit: false,
+				}
+			},
 			select: function (start, end) {
 				thisInstance.selectDays(start, end);
 				thisInstance.getCalendarView().fullCalendar('unselect');

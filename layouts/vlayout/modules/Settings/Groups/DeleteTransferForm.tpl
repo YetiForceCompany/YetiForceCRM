@@ -23,13 +23,13 @@
 				<input type="hidden" name="action" value="DeleteAjax" />
 				<input type="hidden" name="record" id="record" value="{$RECORD_MODEL->getId()}" />
 				<div class="modal-body tabbable">
-					<div class="form-group">
-						<span class="control-label">
+					<div class="form-group ">
+						<div class="col-md-4">
 							<strong>
 								{vtranslate('LBL_TRANSFORM_OWNERSHIP', $QUALIFIED_MODULE)} {vtranslate('LBL_TO', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 							</strong>
-						</span>
-						<div class="controls">
+						</div>
+						<div class="controls col-md-8">
 							<select id="transfer_record" name="transfer_record" class="chzn-select form-control">
 								<optgroup label="{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}">
 									{foreach from=$ALL_USERS key=USER_ID item=USER_MODEL}
@@ -49,7 +49,7 @@
 				</div>
 
 				<div class="modal-footer">
-					<div class=" pull-right cancelLinkContainer"><a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a></div>
+					<div class=" pull-right cancelLinkContainer"><a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a></div>
 					<button class="btn btn-success" type="submit">{vtranslate('LBL_SAVE', $MODULE)}</button>
 				</div>
 			</form>

@@ -13,7 +13,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'LBL_EXPORT_PDF_ACTION')) {
+		if (!Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
 			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
 		}
 	}

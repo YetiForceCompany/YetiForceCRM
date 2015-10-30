@@ -40,7 +40,7 @@ $languageStrings = [
 	'LBL_VIEW_AUTH' => 'Autoryzacja',
 	'LBL_VIEW_COLORS' => 'Kolory',
 	'LBL_SWITCH_USERS' => 'Przełączanie użytkowników',
-	'LBL_SWITCH_USERS_DESCRIPTION' => 'Narzędzie umożliwiające przełączanie się pomiędzy użytkonikami w systemie.',
+	'LBL_SWITCH_USERS_DESCRIPTION' => 'Narzędzie umożliwiające przełączanie się pomiędzy użytkownikami w systemie.',
 	'LBL_SU_BASE_ACCESS' => 'Użytkownik',
 	'LBL_SU_AVAILABLE_ACCESS' => 'Może logować się na',
 ];

@@ -33,7 +33,7 @@
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-success" type="submit" name="saveButton"><strong>{vtranslate('LBL_SELECT', $QUALIFIED_MODULE)}</strong></button>
-					<button class="btn btn-danger" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</strong></button>
 				</div>
 			</form>
 		</div>

@@ -38,19 +38,17 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$blockTime = $bruteforceSettings['timelock'];
 		$now = date("Y-m-d H:i:s");
 
-		$query = "SELECT  COUNT(*) AS COUNT, user_ip, GROUP_CONCAT(DISTINCT(user_name)), login_time, GROUP_CONCAT(DISTINCT(browser))"
+		$query = "SELECT  COUNT(*) AS COUNT, user_ip, GROUP_CONCAT(DISTINCT(user_name)) as usersName, login_time, GROUP_CONCAT(DISTINCT(browser)) as browsers"
 			. " FROM `vtiger_loginhistory` vlh WHERE "
 			. "STATUS = 'Failed login' && "
 			. "(UNIX_TIMESTAMP(vlh.login_time) - UNIX_TIMESTAMP(ADDDATE(?, INTERVAL -$blockTime MINUTE))) > 0 "
 			. "GROUP BY user_ip "
-			. "HAVING COUNT>?";
-		$result = $db->pquery($query, array($now, $attempsNumber));
-
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$output[$i]['ip'] = $db->query_result_raw($result, $i, 1);
-			$output[$i]['users'] = $db->query_result_raw($result, $i, 2);
-			$output[$i]['date'] = $db->query_result_raw($result, $i, 3);
-			$output[$i]['browsers'] = $db->query_result_raw($result, $i, 4);
+			. "HAVING COUNT>=?";
+	
+		$result = $db->pquery($query, [$now, $attempsNumber]);
+		
+		while ($row = $db->fetch_array($result)) {
+			$output[] = $row;
 		}
 		return $output;
 	}

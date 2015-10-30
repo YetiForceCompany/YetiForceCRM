@@ -40,7 +40,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$picklist_valueid = getUniquePicklistID();
 		$tableName = 'vtiger_' . $pickListFieldName;
 		$maxSeqQuery = 'SELECT max(sortorderid) as maxsequence FROM ' . $tableName;
-		$result = $db->pquery($maxSeqQuery, array());
+		$result = $db->pquery($maxSeqQuery, []);
 		$sequence = $db->query_result($result, 0, 'maxsequence');
 		$columnNames = $db->getColumnNames($tableName);
 
@@ -48,18 +48,18 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		if ($fieldModel->isRoleBased()) {
 			if (in_array('color', $columnNames)) {
 				$sql = 'INSERT INTO ' . $tableName . ' VALUES (?,?,?,?,?,?)';
-				$result = $db->pquery($sql, array($id, $newValue, 1, $picklist_valueid, ++$sequence, '#E6FAD8'));
+				$result = $db->pquery($sql, [$id, $newValue, 1, $picklist_valueid, ++$sequence, '#E6FAD8']);
 			} else {
 				$sql = 'INSERT INTO ' . $tableName . ' VALUES (?,?,?,?,?)';
-				$result = $db->pquery($sql, array($id, $newValue, 1, $picklist_valueid, ++$sequence));
+				$result = $db->pquery($sql, [$id, $newValue, 1, $picklist_valueid, ++$sequence]);
 			}
 		} else {
 			if (in_array('color', $columnNames)) {
 				$sql = 'INSERT INTO ' . $tableName . ' VALUES (?,?,?,?,?)';
-				$db->pquery($sql, array($id, $newValue, ++$sequence, 1));
+				$db->pquery($sql,[$id, $newValue, ++$sequence, 1, '#E6FAD8']);
 			} else {
 				$sql = 'INSERT INTO ' . $tableName . ' VALUES (?,?,?,?)';
-				$db->pquery($sql, array($id, $newValue, ++$sequence, 1), '#E6FAD8');
+				$db->pquery($sql, [$id, $newValue, ++$sequence, 1]);
 			}
 		}
 
@@ -297,11 +297,19 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 
 		// vtlib customization: Ignore disabled modules.
-		$query = 'SELECT distinct vtiger_tab.tablabel, vtiger_tab.name as tabname
-                  FROM vtiger_tab
-                        inner join vtiger_field on vtiger_tab.tabid=vtiger_field.tabid
-                  WHERE uitype IN (15,33,16) and vtiger_field.tabid NOT IN (29,10)  and vtiger_tab.presence != 1 and vtiger_field.presence in (0,2)
-                  ORDER BY vtiger_tab.tabid ASC';
+		$query = "SELECT DISTINCT 
+					vtiger_tab.tablabel,
+					vtiger_tab.name AS tabname 
+				  FROM
+					vtiger_tab 
+					INNER JOIN vtiger_field 
+					  ON vtiger_tab.tabid = vtiger_field.tabid 
+				  WHERE uitype IN (15, 33, 16) 
+					AND vtiger_field.tabid NOT IN (29, 10) 
+					AND vtiger_tab.presence != 1 
+					AND vtiger_field.presence IN (0, 2) 
+					AND vtiger_field.`columnname` !=  'taxtype'
+				  ORDER BY vtiger_tab.tabid ASC ";
 		// END
 		$result = $db->pquery($query, array());
 

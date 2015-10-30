@@ -26,7 +26,7 @@
 				<li ><a data-toggle="tab" href="#sales"><strong>{vtranslate('LBL_SALES_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
 				<li ><a data-toggle="tab" href="#realization"><strong>{vtranslate('LBL_REALIZATION_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
 				<li ><a data-toggle="tab" href="#support"><strong>{vtranslate('LBL_SUPPORT_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
-				<li ><a data-toggle="tab" href="#financial"><strong>{vtranslate('LBL_FINANCIAL_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
+				<li ><a data-toggle="tab" href="#timecontrol"><strong>{vtranslate('LBL_TIMECONTROL_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
 			</ul>
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
 				<div class="tab-pane active" id="userColors">

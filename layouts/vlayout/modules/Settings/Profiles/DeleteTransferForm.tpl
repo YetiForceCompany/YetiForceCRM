@@ -25,14 +25,14 @@
 
 					<div class="modal-body">
 						<div class="form-group">
-							<div class="control-label">{vtranslate('LBL_TRANSFER_ROLES_TO_PROFILE',$QUALIFIED_MODULE)}</div>
-							<div class="controls">
+							<div class="col-md-4">{vtranslate('LBL_TRANSFER_ROLES_TO_PROFILE',$QUALIFIED_MODULE)}</div>
+							<div class="controls col-md-8">
 								<select id="transfer_record form-control" name="transfer_record" class="chzn-select">
 									<optgroup label="{vtranslate('LBL_PROFILES', $QUALIFIED_MODULE)}">
 										{foreach from=$ALL_RECORDS item=PROFILE_MODEL}
 											{assign var=PROFILE_ID value=$PROFILE_MODEL->get('profileid')}
 											{if $PROFILE_ID neq $RECORD_MODEL->getId()}
-												<option value="{$PROFILE_ID}">{$PROFILE_MODEL->get('profilename')}</option>
+												<option value="{$PROFILE_ID}">{vtranslate($PROFILE_MODEL->get('profilename'), $QUALIFIED_MODULE)}</option>
 											{/if}
 										{/foreach}
 									</optgroup>
@@ -42,7 +42,7 @@
 					</div>
 					<div class="modal-footer">
 						<div class=" pull-right cancelLinkContainer">
-							<button class="cancelLink btn btn-warning" data-dismiss="modal" type="reset">{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
+							<button class="cancelLink btn btn-warning" data-dismiss="modal" type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 						</div>
 						<button class="btn btn-success pull-right" type="submit">{vtranslate('LBL_SAVE', $MODULE)}</button>
 					</div>

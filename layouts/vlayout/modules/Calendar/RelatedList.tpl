@@ -19,7 +19,7 @@
 		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
 		<input type='hidden' value="{$PAGING->getPageLimit()}" id='pageLimit'>
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
-		<div class="relatedHeader ">
+		<div class="relatedHeader calendarRelatedHeader">
 			<div class="btn-toolbar row">
 				<div class="col-md-6">
 					{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}

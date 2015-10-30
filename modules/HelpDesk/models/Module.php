@@ -83,8 +83,9 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 	public function getTimeEmployee($id)
 	{
 		$db = PearDatabase::getInstance();
+		$usersSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		//TODO need to handle security
-		$result = $db->pquery('SELECT count(*) AS count, concat(vtiger_users.first_name, " " ,vtiger_users.last_name) as name, vtiger_users.id as id, SUM(vtiger_osstimecontrol.sum_time) as time  FROM vtiger_osstimecontrol
+		$result = $db->pquery('SELECT count(*) AS count, '.$usersSqlFullName.' as name, vtiger_users.id as id, SUM(vtiger_osstimecontrol.sum_time) as time  FROM vtiger_osstimecontrol
 						INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
 						LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid AND vtiger_users.status="ACTIVE"
 						AND vtiger_crmentity.deleted = 0' . Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()) .
