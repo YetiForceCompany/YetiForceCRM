@@ -67,7 +67,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	 * Update ticket status for support processes from support_processes
 	 * @return - array of ticket status
 	 */
-	public static function updateTicketStatusNotModify($data)
+	public function updateTicketStatusNotModify($data)
 	{
 		$log = vglobal('log');
 		$adb = PearDatabase::getInstance();
