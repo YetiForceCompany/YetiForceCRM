@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -22,6 +21,8 @@ insert  into `a_yf_discounts_config`(`param`,`value`) values ('discounts','0,1,2
 /*Data for the table `a_yf_discounts_global` */
 
 /*Data for the table `a_yf_inventory_limits` */
+
+/*Data for the table `a_yf_pdf` */
 
 /*Data for the table `a_yf_taxes_config` */
 
@@ -21544,10 +21545,11 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (92,11,'LBL_TAXCONFIGURATION','','LBL_TAXCONFIGURATION_DESCRIPTION','index.php?module=Inventory&parent=Settings&view=TaxConfiguration',3,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (93,11,'LBL_DISCOUNTCONFIGURATION','','LBL_DISCOUNTCONFIGURATION_DESCRIPTION','index.php?module=Inventory&parent=Settings&view=DiscountConfiguration',5,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (94,4,'LBL_SWITCH_USERS','','LBL_SWITCH_USERS_DESCRIPTION','index.php?module=Users&view=SwitchUsers&parent=Settings',34,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (95,4,'LBL_PDF','','LBL_PDF_DESCRIPTION','index.php?module=PDF&parent=Settings&view=List',27,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
-insert  into `vtiger_settings_field_seq`(`id`) values (94);
+insert  into `vtiger_settings_field_seq`(`id`) values (95);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
