@@ -1,5 +1,5 @@
 {strip}
-<div class='actionMenu '>
+<div class='actionMenu' aria-hidden="true">
 	<div class="row">
 		<div class="dropdown quickAction historyBtn">
 			<div class="pull-left">
@@ -79,7 +79,7 @@
 											<div class="rows">
 											{/if}
 											<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
-												<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">
+												<a class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">
 												    <span>{vtranslate($singularLabel,$NAME)}</span>
 												</a>
 											</div>
