@@ -22,6 +22,8 @@ insert  into `a_yf_discounts_config`(`param`,`value`) values ('discounts','0,1,2
 
 /*Data for the table `a_yf_inventory_limits` */
 
+/*Data for the table `a_yf_pdf` */
+
 /*Data for the table `a_yf_taxes_config` */
 
 insert  into `a_yf_taxes_config`(`param`,`value`) values ('active','0');
@@ -21543,10 +21545,11 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (92,11,'LBL_TAXCONFIGURATION','','LBL_TAXCONFIGURATION_DESCRIPTION','index.php?module=Inventory&parent=Settings&view=TaxConfiguration',3,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (93,11,'LBL_DISCOUNTCONFIGURATION','','LBL_DISCOUNTCONFIGURATION_DESCRIPTION','index.php?module=Inventory&parent=Settings&view=DiscountConfiguration',5,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (94,4,'LBL_SWITCH_USERS','','LBL_SWITCH_USERS_DESCRIPTION','index.php?module=Users&view=SwitchUsers&parent=Settings',34,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (95,4,'LBL_PDF','','LBL_PDF_DESCRIPTION','index.php?module=PDF&parent=Settings&view=List',27,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
-insert  into `vtiger_settings_field_seq`(`id`) values (94);
+insert  into `vtiger_settings_field_seq`(`id`) values (95);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
@@ -22669,10 +22672,14 @@ insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('convers
 
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('popup','limit_product_service','false');
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('popup','update_shared_permissions','false');
-insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('calculation','calculationsstatus','');
+insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('scalculations','statuses_close','');
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('potential','salesstage','');
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('asset','assetstatus','');
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('potential','add_potential','false');
+insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('squoteenquiries','statuses_close','');
+insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('ssalesorder','statuses_close','');
+insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('squotes','statuses_close','');
+insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('srequirementscard','statuses_close','');
 
 /*Data for the table `yetiforce_proc_tc` */
 

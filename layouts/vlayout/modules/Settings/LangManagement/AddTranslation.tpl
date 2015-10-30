@@ -39,8 +39,8 @@
 				</form>	
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-warning" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_Cancel', $QUALIFIED_MODULE)}</button>
 				<button class="btn btn-primary">{vtranslate('LBL_AddLanguage', $QUALIFIED_MODULE)}</button>
+				<button class="btn btn-warning" data-dismiss="modal" aria-hidden="true" type="button">{vtranslate('LBL_Cancel', $QUALIFIED_MODULE)}</button>
 			</div>
 		</div>
 	</div>

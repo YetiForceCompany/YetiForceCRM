@@ -530,7 +530,7 @@ function rcmail_process_compose_params(&$COMPOSE)
         }
     }
 	// <--------   YetiForce Sp. z o.o.   -------->
-    if ($_REQUEST['pdf_path']) {
+	if ($_REQUEST['pdf_path']) {
 		// we have structured data
 		$attach = $_REQUEST['pdf_path'];
 		if (is_array($attach)) {
@@ -538,23 +538,34 @@ function rcmail_process_compose_params(&$COMPOSE)
 		}
 		// only a file path is given
 		else {
-			$attachName = explode('/', $attach);
-			$filename = $RCMAIL->config->get('root_directory') . $attach;
+			$fileNames = [];
+			foreach (new DirectoryIterator($RCMAIL->config->get('root_directory') . 'cache' . DIRECTORY_SEPARATOR . 'pdf') as $fileInfo) {
+				if ($fileInfo->isDot() || strpos($fileInfo->getFilename(), $attach . '.pdf') === false) {
+					continue;
+				}
 
-			$attachment = array(
-				'group' => $COMPOSE['id'],
-				'name' => $attachName[count($attachName) - 1],
-				'mimetype' => rcube_mime::file_content_type($attach, $filename),
-				'path' => $filename,
-			);
+				$fileNames[$fileInfo->getFilename()] = $fileInfo->getPath() . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
+			}
+
+			foreach ($fileNames as $file => &$path) {
+				$attachments[] = array(
+					'group' => $COMPOSE['id'],
+					'name' => $file,
+					'mimetype' => rcube_mime::file_content_type($path, $file),
+					'path' => $path
+				);
+			}
 		}
+
 		// save attachment if valid
-		if ($attachment['name'] || ($attachment['path'] && file_exists($attachment['path']))) {
-			$attachment = rcmail::get_instance()->plugins->exec_hook('attachment_save', $attachment);
-		}
-		if ($attachment['status'] && !$attachment['abort']) {
-			unset($attachment['data'], $attachment['status'], $attachment['abort']);
-			$COMPOSE['attachments'][$attachment['id']] = $attachment;
+		foreach ($attachments as $atm) {
+			if ($atm['name'] || ($atm['path'] && file_exists($atm['path']))) {
+				$atm = rcmail::get_instance()->plugins->exec_hook('attachment_save', $atm);
+			}
+			if ($atm['status'] && !$atm['abort']) {
+				unset($atm['data'], $atm['status'], $atm['abort']);
+				$COMPOSE['attachments'][$atm['id']] = $atm;
+			}
 		}
 	}
 	// <--------   YetiForce Sp. z o.o.   -------->

@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_VIEW_PRVILIGE' => 'Przeglądanie',
 	'LBL_ADD_RECORD' => 'Dodaj profil',
@@ -41,7 +41,6 @@ $languageStrings = [
 	'Profiles' => 'Profile',
 	'SINGLE_Profiles' => 'Profil',
 	'Name' => 'Nazwa',
-	
 	//Actions
 	'Import' => 'Import',
 	'Export' => 'Eksport',
@@ -50,10 +49,10 @@ $languageStrings = [
 	'Print' => 'Wydruk',
 	'ReceiveIncomingCalls' => 'Odbieranie połączeń przychodzących',
 	'MakeOutgoingCalls' => 'Wykonywanie połaczeń wychodzących',
-	'Merge'  => 'Łączenie',
-	'CreateCustomFilter'  => 'Tworzenie filtrów niestandardowych',
-	'DuplicateRecord'  => 'Tworzenie duplikatów',
-	'EditableComments'  => 'Edycja komentarzy',
+	'Merge' => 'Łączenie',
+	'CreateCustomFilter' => 'Tworzenie filtrów niestandardowych',
+	'DuplicateRecord' => 'Tworzenie duplikatów',
+	'EditableComments' => 'Edycja komentarzy',
 	'TagCloud' => 'Chmura tagów',
 	'MassEdit' => 'Masowa edycja',
 	'MassDelete' => 'Masowe usuwanie',
@@ -66,7 +65,16 @@ $languageStrings = [
 	'WorkflowTrigger' => 'Wywołanie obiegu informacji',
 	'QuickExportToExcel' => 'Szybki eksport do Excel-a',
 	'CreateDashboardFilter' => 'Podsumowanie modułu - Tworzenie widgetów z filtrem',
-	'DetailTransferOwnership'  => 'Podgląd rekordu - Zmiana właściciela',
+	'DetailTransferOwnership' => 'Podgląd rekordu - Zmiana właściciela',
+	'ExportPdf' => 'Eksport do PDF',
+	//end actions
+	'Admin Profile' => 'Profil administratora',
+	'Support Profile' => 'Profil wsparcia',
+	'Sales Profile' => 'Profil sprzedaży',
+	'Guest Profile' => 'Gość',
+	'Profile Related to Sales' => 'Profil powiązany ze sprzedażą',
+	'Profile Related to Support' => 'Profil związany ze wsparciem',
+	'Guest Profile for Test Users' => 'Profil Gość dla Uzytkowników Testowych',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil zapisano poprawnie',

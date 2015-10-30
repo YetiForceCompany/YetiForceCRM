@@ -262,7 +262,7 @@ class Vtiger_Functions
 
 	static function getEntityModuleSQLColumnString($mixed)
 	{
-		$data = array();
+		$data = [];
 		$info = self::getEntityModuleInfo($mixed);
 		if ($info) {
 			$data['tablename'] = $info['tablename'];
@@ -271,6 +271,11 @@ class Vtiger_Functions
 				$fieldnames = sprintf("concat(%s)", implode(",' ',", explode(',', $fieldnames)));
 			}
 			$data['fieldname'] = $fieldnames;
+			$colums = [];
+			foreach (explode(',', $info['fieldname']) as &$fieldname) {
+				$colums[] = $info['tablename'] . '.' . $fieldname;
+			}
+			$data['colums'] = implode(',', $colums);
 		}
 		return $data;
 	}
@@ -1547,7 +1552,7 @@ class Vtiger_Functions
 		require 'config/mimetypes.php';
 		$ext = strtolower(array_pop(explode('.', $filename)));
 		if (array_key_exists($ext, $mimeTypes)) {
-			$fileMimeContentType =  $mimeTypes[$ext];
+			$fileMimeContentType = $mimeTypes[$ext];
 		} elseif (function_exists('mime_content_type')) {
 			$fileMimeContentType = mime_content_type($filename);
 		} elseif (function_exists('finfo_open')) {

@@ -33,7 +33,7 @@
 						<td>{vtranslate($item.fieldname,$item.module)}</td>
 						<td>{vtranslate($item.module,$item.module)}</td>
 						<td>
-							<label class="checkbox">
+							<label>
 								<input class="activeType" type="checkbox" name="active" value="1" {if $item.active eq '1'}checked=""{/if}>
 							</label> 
 						</td>

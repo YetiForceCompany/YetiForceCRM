@@ -59,6 +59,8 @@ $languageStrings = [
 	'LBL_REMOVE_DESC' => 'Выбранный пункт содержит подменю. Все подменю будут также удалены вместе с этим пунктом меню.',
 	'LBL_REMOVE' => 'Удалить',
 	'LBL_CANCEL' => 'Отмена',
+	//End remove modal
+	'LBL_MORE_INFO' => 'Click here for more information',
 ];
 $jsLanguageStrings = [
 	'JS_EDIT' => 'Редактировать',

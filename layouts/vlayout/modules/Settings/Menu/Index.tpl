@@ -44,11 +44,11 @@
 				<p>{vtranslate('LBL_REMOVE_DESC', $QUALIFIED_MODULE)}</p>
 			</div>
 			<div class="modal-footer">
-				<div class="pull-left">
-					<a class="btn btn-danger" data-dismiss="modal">{vtranslate('LBL_REMOVE', $QUALIFIED_MODULE)}</a>
+				<div class="pull-right">
+					<button class="btn btn-warning cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-inverse" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+					<button class="btn btn-danger" data-dismiss="modal">{vtranslate('LBL_REMOVE', $QUALIFIED_MODULE)}</button>
 				</div>
 			</div>
 		</div>

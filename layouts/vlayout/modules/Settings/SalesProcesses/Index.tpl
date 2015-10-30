@@ -1,24 +1,23 @@
-{*/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/*}
-<div class="" id="salesProcessesContainer" style="margin-top:10px;">
- 	<h3>{vtranslate('LBL_SALES_PROCESSES', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_SALES_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
-	&nbsp;<hr>
+{*<!--
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+-->*}
+{strip}
+<div class="" id="salesProcessesContainer">
+	<h3>{vtranslate('LBL_SALES_PROCESSES', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_SALES_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
+	<hr>
 	<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
-		<li class="active"><a href="#popup" data-toggle="tab">{vtranslate('LBL_PRODUCTS_AND_SERVICES_POPUP', $QUALIFIED_MODULE)} </a></li>
-		<li><a href="#Calculations" data-toggle="tab">{vtranslate('LBL_CALCULATIONS', $QUALIFIED_MODULE)} </a></li>
-		<li><a href="#Potentials" data-toggle="tab">{vtranslate('LBL_POTENTIALS', $QUALIFIED_MODULE)} </a></li>
+		<li class="active"><a href="#Potentials" data-toggle="tab">{vtranslate('LBL_POTENTIALS', $QUALIFIED_MODULE)} </a></li>
+		<li><a href="#qe" data-toggle="tab">{vtranslate('LBL_SQUOTEENQUIRIES', $QUALIFIED_MODULE)} </a></li>
+		<li><a href="#rc" data-toggle="tab">{vtranslate('LBL_SREQUIREMENTSCARD', $QUALIFIED_MODULE)} </a></li>
+		<li><a href="#calculations" data-toggle="tab">{vtranslate('LBL_SCALCULATIONS', $QUALIFIED_MODULE)} </a></li>
+		<li><a href="#quotes" data-toggle="tab">{vtranslate('LBL_SQUOTES', $QUALIFIED_MODULE)} </a></li>
+		<li><a href="#so" data-toggle="tab">{vtranslate('LBL_SSALESORDER', $QUALIFIED_MODULE)} </a></li>
 		<li><a href="#Assets" data-toggle="tab">{vtranslate('LBL_ASSETS', $QUALIFIED_MODULE)} </a></li>
+		<li><a href="#popup" data-toggle="tab">{vtranslate('LBL_PRODUCTS_AND_SERVICES_POPUP', $QUALIFIED_MODULE)} </a></li>
 	</ul>
 	{assign var=CONFIG value=$MODULE_MODEL->getConfig()}
-	<div class="tab-content layoutContent" style="padding-top: 10px;">
-		<div class="tab-pane active" id="popup">
+	<div class="tab-content layoutContent">
+		<div class="tab-pane" id="popup">
 			{assign var=POPUP value=$CONFIG['popup']}
 			<div class="row">
 				<div class="col-md-1 textAlignCenter"><input class="configField" type="checkbox" data-type="popup" name="limit_product_service" id="limit_product_service" value="1"  {if $POPUP['limit_product_service']=='true'}checked=""{/if} /></div>
@@ -29,24 +28,22 @@
 				<div class="col-md-11"><label for="update_shared_permissions">{vtranslate('LBL_UPDATE_SHARED_PERMISSIONS',$QUALIFIED_MODULE)}</label></div>
 			</div>
 		</div>
-		<div class="tab-pane" id="Calculations">
-			{assign var=CALCULATION value=$CONFIG['calculation']}
-			<table class="table table-bordered table-condensed themeTableColor userTable listViewEntries">
-				<tbody>
-					<tr>
-						<td><label>{vtranslate('LBL_STATUSES_CLOSED_CALCULATION', $QUALIFIED_MODULE)}</label></td>
-						<td class="col-md-6">
-							<select class="chzn-select col-md-8 configField" multiple data-type="calculation" name="calculationsstatus">
-								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('calculationsstatus')}
-									<option value="{$ITEM}" {if in_array($ITEM, $CALCULATION['calculationsstatus'])} selected {/if}  >{vtranslate($ITEM,'Calculations')}</option>
-								{/foreach}
-							</select>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+		<div class="tab-pane" id="calculations">
+			{assign var=SCALCULATIONS value=$CONFIG['scalculations']}
+			<div class="form-horizonta">
+				<div class="form-group col-md-5">
+					<label class='control-label'>{vtranslate('LBL_STATUSES_CLOSED_CALCULATION', $QUALIFIED_MODULE)}</label>
+					<div class="">
+						<select class="selectize configField" multiple data-type="scalculations" name="statuses_close" placeholder='{vtranslate('LBL_SELECT_SOME_OPTIONS')}'>
+							{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('calculationsstatus')}
+								<option value="{$ITEM}" {if in_array($ITEM, $SCALCULATIONS['statuses_close'])} selected {/if}>{vtranslate($ITEM,'Calculations')}</option>
+							{/foreach}
+						</select>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="tab-pane" id="Potentials">
+		<div class="tab-pane active" id="Potentials">
 			{assign var=POTENTIALS value=$CONFIG['potential']}
 			<table class="table table-bordered table-condensed themeTableColor userTable listViewEntries">
 				<tbody>
@@ -84,6 +81,66 @@
 				</tbody>
 			</table>
 		</div>
+		<div class="tab-pane" id="qe">
+			{assign var=SQUOTEENQUIRIES value=$CONFIG['squoteenquiries']}
+			<div class="form-horizonta">
+				<div class="form-group col-md-5 ">
+					<label class='control-label'>{vtranslate('LBL_STATUSES_CLOSED_SQUOTEENQUIRIES', $QUALIFIED_MODULE)}</label>
+					<div class="">
+						<select class="selectize configField" multiple data-type="squoteenquiries" name="statuses_close"  placeholder='{vtranslate('LBL_SELECT_SOME_OPTIONS')}'>
+							{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('quotesenquires_stage')}
+								<option value="{$ITEM}" {if in_array($ITEM, $SQUOTEENQUIRIES['statuses_close'])} selected {/if}>{vtranslate($ITEM,'QuotesEnquires')}</option>
+							{/foreach}
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane" id="rc">
+			{assign var=SREQUIREMENTSCARD value=$CONFIG['srequirementscard']}
+			<div class="form-horizonta">
+				<div class="form-group col-md-5">
+					<label class='control-label'>{vtranslate('LBL_STATUSES_CLOSED_SREQUIREMENTSCARD', $QUALIFIED_MODULE)}</label>
+					<div class="">
+						<select class="selectize configField" multiple data-type="srequirementscard" name="statuses_close"  placeholder='{vtranslate('LBL_SELECT_SOME_OPTIONS')}'>
+							{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('requirementcards_status')}
+								<option value="{$ITEM}" {if in_array($ITEM, $SREQUIREMENTSCARD['statuses_close'])} selected {/if}>{vtranslate($ITEM,'RequirementCards')}</option>
+							{/foreach}
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane" id="quotes">
+			{assign var=SQUOTES value=$CONFIG['squotes']}
+			<div class="form-horizonta">
+				<div class="form-group col-md-5">
+					<label class='control-label'>{vtranslate('LBL_STATUSES_CLOSED_SQUOTES', $QUALIFIED_MODULE)}</label>
+					<div class="">
+						<select class="selectize configField" multiple data-type="squotes" name="statuses_close"  placeholder='{vtranslate('LBL_SELECT_SOME_OPTIONS')}'>
+							{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('quotestage')}
+								<option value="{$ITEM}" {if in_array($ITEM, $SQUOTES['statuses_close'])} selected {/if}>{vtranslate($ITEM,'Quotes')}</option>
+							{/foreach}
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane" id="so">
+			{assign var=SSALESORDER value=$CONFIG['ssalesorder']}
+			<div class="form-horizonta">
+				<div class="form-group col-md-5">
+					<label class='control-label'>{vtranslate('LBL_STATUSES_CLOSED_SSALESORDER', $QUALIFIED_MODULE)}</label>
+					<div class="">
+						<select class="selectize configField" multiple data-type="ssalesorder" name="statuses_close"  placeholder='{vtranslate('LBL_SELECT_SOME_OPTIONS')}'>
+							{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('sostatus')}
+								<option value="{$ITEM}" {if in_array($ITEM, $SSALESORDER['statuses_close'])} selected {/if}>{vtranslate($ITEM,'SalesOrder')}</option>
+							{/foreach}
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
-
+{/strip}

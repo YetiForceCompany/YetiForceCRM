@@ -115,18 +115,13 @@ Settings_Vtiger_Edit_Js('Settings_Webforms_Edit_Js', {}, {
 		listElements.on('change',function(e){
 			var target = jQuery(e.currentTarget);
 			var selectedElement = target.find(':selected');
-			var count = selectedElement.length;
 			thisInstance.triggerLockMandatoryFieldOptions();
-			if(count == thisInstance.listElementsLenght){
-				jQuery('#saveFieldsOrder').attr('disabled',false);
-				return false;
-			}
+			jQuery('#saveFieldsOrder').attr('disabled',false);
 			selectedElement.each(function(){
 				if(!jQuery('tr[data-name="selectedFieldsData['+jQuery(this).val()+'][defaultvalue]"]').length){
 					thisInstance.addValueToListElement(jQuery(this).val());
 				}
 			});
-			thisInstance.listElementsLenght = count;
 		});
 	},
 	

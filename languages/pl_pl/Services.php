@@ -21,7 +21,7 @@ $languageStrings = [
 	'LBL_MORE_CURRENCIES' => 'więcej walut', 
 	'LBL_PRICES' => 'Cena usługi',
 	'LBL_PRICE' => 'Cena',
-	'LBL_RESET_PRICE' => 'Wyczyść cenę',
+	'LBL_RESET_PRICE' => 'Wyczyść ceny',
 	'LBL_RESET' => 'Wyczyść',
 	
 	//Services popup of pricebook

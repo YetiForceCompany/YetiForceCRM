@@ -20,7 +20,7 @@ $languageStrings = [
 	'LBL_DELETE_KEY' => 'Usuń klucz',
 	'LBL_ADD_KEY' => 'Dodaj klucz',
 	'LBL_SELECT_USER' => 'Wybierz użytkownika:',
-	'LBL_SELECT_SERVICE' => 'Wybierz aplikację',
+	'LBL_SELECT_SERVICE' => 'Wybierz aplikację:',
 	'LBL_SUCCESS_SAVE_KEY' => 'Dodano nowy klucz',
 	'LBL_ERROR_SAVE_KEY' => 'Błąd podczas dodawania klucza',
 	'LBL_DUPLICATE_USER_SERVICES' => 'Już został wygenerowany klucz dla tej aplikacji',
@@ -31,7 +31,7 @@ $languageStrings = [
 	
 	// Mobile services
 	'LBL_MOBILE_HISTORYCALL' => 'Historia wykonanych połączeń',
-	'LBL_MOBILE_PUSHCALL' => 'Wykonywanie popłaczeń',
+	'LBL_MOBILE_PUSHCALL' => 'Wykonywanie połączeń',
 	'LBL_MOBILE_CALLLISTENER' => 'Nasłuchiwanie połączeń',
 	
 	'LBL_VIEW_MOBILEKEYS' => 'Klucze aplikacji mobilnych',

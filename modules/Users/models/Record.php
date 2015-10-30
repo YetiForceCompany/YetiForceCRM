@@ -240,7 +240,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if ($subordinateRoleUsers) {
 			foreach ($subordinateRoleUsers as $role => $users) {
 				foreach ($users as $user) {
-					$subordinateUsers[$user] = $privilegesModel->get('first_name') . ' ' . $privilegesModel->get('last_name');
+					$subordinateUsers[$user] = $privilegesModel->getDisplayName();
 				}
 			}
 		}
@@ -426,7 +426,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
 		$childernRoles = $currentUserRoleModel->getAllChildren();
 		$users = $this->getAllUsersOnRoles($childernRoles);
-		$currentUserDetail = array($this->getId() => $this->get('first_name') . ' ' . $this->get('last_name'));
+		$currentUserDetail = array($this->getId() => $this->getDisplayName());
 		$users = $currentUserDetail + $users;
 		return $users;
 	}
@@ -457,14 +457,15 @@ class Users_Record_Model extends Vtiger_Record_Model
 			for ($i = 0; $i < $noOfUsers; ++$i) {
 				$userIds[] = $db->query_result($result, $i, 'userid');
 			}
-			$query = 'SELECT id, first_name, last_name FROM vtiger_users WHERE status = ? AND id IN (' . generateQuestionMarks($userIds) . ')';
+			$entityData = Vtiger_Functions::getEntityModuleSQLColumnString('Users');
+			$query = 'SELECT id, ' . $entityData['colums'] . ' FROM vtiger_users WHERE status = ? AND id IN (' . generateQuestionMarks($userIds) . ')';
 			$result = $db->pquery($query, array('ACTIVE', $userIds));
-			$noOfUsers = $db->num_rows($result);
-			for ($j = 0; $j < $noOfUsers; ++$j) {
-				$userId = $db->query_result($result, $j, 'id');
-				$firstName = $db->query_result($result, $j, 'first_name');
-				$lastName = $db->query_result($result, $j, 'last_name');
-				$subUsers[$userId] = $firstName . ' ' . $lastName;
+			while ($row = $db->fetch_array($result)) {
+				$colums = [];
+				foreach (explode(',', $entityData['fieldname']) as &$fieldname) {
+					$colums[] = $row[$fieldname];
+				}
+				$subUsers[$row['id']] = implode(' ', $colums);
 			}
 		}
 		return $subUsers;
@@ -756,14 +757,17 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
+		$userEntityInfo = Vtiger_Functions::getEntityModuleInfo('Users');
+		$table = $userEntityInfo['tablename'];
+		$columnsName = explode(',', $userEntityInfo['fieldname']);
 
 		$queryGenerator = new QueryGenerator($module, $currentUser);
 		$queryGenerator->initForCustomViewById($view);
 		$queryGenerator->setFields(['assigned_user_id']);
-		$queryGenerator->addCustomColumn('vtiger_users.first_name');
-		$queryGenerator->addCustomColumn('vtiger_users.last_name');
 		$queryGenerator->addCustomColumn('vtiger_groups.groupname');
-
+		foreach ($columnsName as &$column) {
+			$queryGenerator->addCustomColumn($table . '.' . $column);
+		}
 		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
 		$result = $db->query($listQuery);
 
@@ -772,7 +776,11 @@ class Users_Record_Model extends Vtiger_Record_Model
 			if (isset($row['groupname'])) {
 				$group[$row['smownerid']] = $row['groupname'];
 			} else {
-				$users[$row['smownerid']] = $row['first_name'] . ' ' . $row['last_name'];
+				$name = '';
+				foreach ($columnsName as &$column) {
+					$name .= $row[$column] . ' ';
+				}
+				$users[$row['smownerid']] = trim($name);
 			}
 		}
 		return [ 'users' => $users, 'group' => $group];

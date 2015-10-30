@@ -272,7 +272,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			} else if (!empty($orderBy) && $orderBy === 'smownerid') {
 				$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 				if ($fieldModel->getFieldDataType() == 'owner') {
-					$orderBy = 'COALESCE(CONCAT(vtiger_users.first_name,vtiger_users.last_name),vtiger_groups.groupname)';
+					$orderBy = 'COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 				}
 				$listQuery .= ' ORDER BY ' . $orderBy . ' ' . $sortOrder;
 			} else {
@@ -483,6 +483,21 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			);
 		}
 
+		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'ExportPdf')) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+			$pdfModel = new $handlerClass();
+			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
+			if (count($templates) > 0) {
+				$advancedLinks[] = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => vtranslate('LBL_EXPORT_PDF'),
+					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
+					'linkicon' => 'glyphicon glyphicon-save-file',
+					'title' => vtranslate('LBL_EXPORT_PDF')
+				];
+			}
+		}
+
 		$duplicatePermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'DuplicatesHandling');
 		if ($duplicatePermission) {
 			$advancedLinks[] = array(
@@ -534,6 +549,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkicon' => ''
 			);
 		}
+
 		return $basicLinks;
 	}
 

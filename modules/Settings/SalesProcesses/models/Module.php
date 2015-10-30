@@ -29,7 +29,7 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model
 		}
 		$db = PearDatabase::getInstance();
 		$params = [];
-		$returnArrayForFields = ['groups', 'status', 'calculationsstatus', 'salesstage', 'salesstage', 'assetstatus'];
+		$returnArrayForFields = ['groups', 'status', 'calculationsstatus', 'salesstage', 'salesstage', 'assetstatus', 'statuses_close'];
 		$sql = 'SELECT * FROM yetiforce_proc_sales';
 		if ($type) {
 			$sql .= ' WHERE type = ?';

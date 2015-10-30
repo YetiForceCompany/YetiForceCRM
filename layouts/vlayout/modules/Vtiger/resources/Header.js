@@ -302,11 +302,11 @@ jQuery.Class("Vtiger_Header_Js", {
 					 hidden = 'hide';
 					 }*/
 					if (events[ev]['start'].indexOf(validDateFromat) > -1) {
-						data.find('#prev_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['start'] + '</strong></span><span> ' + events[ev]['title'].substring(0,22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="'+helpIcon+'"><i class="glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
+						data.find('#prev_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
 					} else if (events[ev]['start'].indexOf(currentDate) > -1) {
-						data.find('#cur_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['start'] + '</strong></span><span> ' + events[ev]['title'].substring(0,22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="'+helpIcon+'"><i class="glyphicon glyphicon-info-sign"></i></span></div></a>' + linkHtml + '</td></tr>');
+						data.find('#cur_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="glyphicon glyphicon-info-sign"></i></span></div></a>' + linkHtml + '</td></tr>');
 					} else if (events[ev]['start'].indexOf(dateEndFirst) > -1) {
-						data.find('#next_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent"><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['start'] + '</strong></span><span> ' + events[ev]['title'].substring(0,22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="'+helpIcon+'"><i class="glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
+						data.find('#next_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent"><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
 					}
 				}
 				var quickCreateForm
@@ -591,14 +591,14 @@ jQuery.Class("Vtiger_Header_Js", {
 		} else if (app.getViewName() === 'Edit') {
 			bodyHeight = jQuery('.editViewContainer').outerHeight();
 		} else if (app.getViewName() === 'List') {
-			bodyHeight = jQuery('.remindersNoticeContainer').outerHeight()-5;
+			bodyHeight = jQuery('.remindersNoticeContainer').outerHeight() - 5;
 			jQuery(".contentsDiv").css('min-height', bodyHeight);
 			jQuery(".bodyContents").css('min-height', bodyHeight);
 		} else if (app.getViewName() === 'Calendar') {
 			bodyHeight = jQuery('.calendarViewContainer').outerHeight();
 			jQuery(".contentsDiv").css('height', bodyHeight);
 		} else if (app.getViewName() === 'DashBoard') {
-			bodyHeight = jQuery('.remindersNoticeContainer').outerHeight()-55;
+			bodyHeight = jQuery('.remindersNoticeContainer').outerHeight() - 55;
 			jQuery("div.gridster").css('min-height', jQuery('.contentsDiv').outerHeight() + 24);
 			jQuery("div.bodyContents").css('min-height', bodyHeight);
 		} else if (app.getViewName() === 'Index') {
@@ -789,7 +789,19 @@ jQuery.Class("Vtiger_Header_Js", {
 			});
 			thisInstance.registerReminderNotice();
 		}
-	}
+	},
+	showPdfModal: function (url) {
+		var params = {};
+		if (app.getViewName() == 'List') {
+			var selected = Vtiger_List_Js.getSelectedRecordsParams();
+			if(selected === false){
+				return false;
+			}
+			jQuery.extend(params, selected);
+		}
+		url += '&' + jQuery.param(params);
+		app.showModalWindow(null, url);
+	},
 });
 jQuery(document).ready(function () {
 	Vtiger_Header_Js.getInstance().registerEvents();

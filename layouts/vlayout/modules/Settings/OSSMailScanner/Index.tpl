@@ -62,6 +62,7 @@
                 </tr>
             </thead>
             <tbody>
+				{assign var=USERS_ENTITY_INFO value=Vtiger_Functions::getEntityModuleInfoFieldsFormatted('Users')}
                 {foreach from=$ACCOUNTLIST item=row}
                     <tr id="row_account_{$row['user_id']}" style="{cycle values="'',background-color: #f9f9f9"}">
                         <td>{$row['username']}</td>
@@ -82,7 +83,7 @@
 										<option value="0" id="user_list_none">{vtranslate('None', 'OSSMailScanner')}</option>
 									{/if}
                                     {foreach item=item from=$RECORD_MODEL->getUserList()}
-                                        <option value="{$item['id']}" {if $RECORD_MODEL->compare_vale($row['crm_user_id'],$item['id']) } selected="selected"{/if} >{$item['first_name']} {$item['last_name']}</option>
+                                        <option value="{$item['id']}" {if $RECORD_MODEL->compare_vale($row['crm_user_id'],$item['id']) } selected="selected"{/if} >{foreach from=$USERS_ENTITY_INFO['fieldname'] item=ENTITY}{$item[$ENTITY]} {/foreach}</option>
                                     {/foreach}
                                 </optgroup>
                                 <optgroup label="{vtranslate('Group list', 'OSSMailScanner')}">

@@ -26,8 +26,10 @@
 		<div class="clearfix treeView">
 			<ul>
 				<li data-role="{$ROOT_ROLE->getParentRoleString()}" data-roleid="{$ROOT_ROLE->getId()}">
-					<div>
-						<a href="javascript:;" class="btn btn-inverse">{$ROOT_ROLE->getName()}</a>
+					<div class="toolbar-handle">
+						<div>
+							<a href="javascript:;" class="btn btn-default">{$ROOT_ROLE->getName()}</a>
+						</div>
 					</div>
 					{assign var="ROLE" value=$ROOT_ROLE}
 					{include file=vtemplate_path("RoleTree.tpl", "Settings:Roles")}

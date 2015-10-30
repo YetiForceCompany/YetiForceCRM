@@ -56,7 +56,7 @@
 					{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 					{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
 					<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>
-						&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+						&nbsp;{vtranslate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
 						{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 							</td><td nowrap class="{$WIDTHTYPE}">
 								<div class="pull-right actions">

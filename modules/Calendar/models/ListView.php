@@ -204,10 +204,11 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				//$queryGenerator->whereFields[] = $orderByFieldName;
 			}
 		}
+
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
 			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
-				$orderBy = 'COALESCE(CONCAT(vtiger_users.first_name,vtiger_users.last_name),vtiger_groups.groupname)';
+				$orderBy = 'COALESCE('.getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users', '').', vtiger_groups.groupname)';
 			}
 		}
 		//To combine date and time fields for sorting
@@ -219,7 +220,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 
 		$listQuery = $this->getQuery();
 		if ($searchResult && $searchResult != '' && is_array($searchResult)) {
-			$listQuery .= " AND vtiger_crmentity.crmid IN (" . implode(',', $searchResult) . ") ";
+			$listQuery .= " AND vtiger_crmentity.crmid IN (" . implode(', ', $searchResult) . ") ";
 		}
 		unset($searchResult);
 
@@ -257,7 +258,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
 					}
 				}
-				$listQuery .= ' ORDER BY ' . implode(',', $referenceNameFieldOrderBy);
+				$listQuery .= ' ORDER BY ' . implode(', ', $referenceNameFieldOrderBy);
 			} else {
 				$listQuery .= ' ORDER BY ' . $orderBy . ' ' . $sortOrder;
 			}
@@ -317,7 +318,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 			$record['id'] = $recordId;
 			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $rawData);
 			$listViewRecordModels[$recordId]->lockEditView = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
-			$listViewRecordModels[$recordId]->isPermittedToEditView = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId);
+			$listViewRecordModels[$recordId]->isPermittedToEditView = Users_Privileges_Model::isPermitted($moduleName, 'EditView  ', $recordId);
 			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $listViewRecordModels[$recordId]);
 		}
 		return $listViewRecordModels;

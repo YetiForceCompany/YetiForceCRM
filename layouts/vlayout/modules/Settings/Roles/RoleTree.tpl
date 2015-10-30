@@ -10,11 +10,11 @@
 <ul>
 {foreach from=$ROLE->getChildren() item=CHILD_ROLE}
 	<li data-role="{$CHILD_ROLE->getParentRoleString()}" data-roleid="{$CHILD_ROLE->getId()}">
-		<div {if $VIEW != 'Popup'}class="toolbar-handle"{/if}>
+		<div class="toolbar-handle">
 			{if $TYPE == 'Transfer'}
 				{assign var="SOURCE_ROLE_SUBPATTERN" value='::'|cat:$SOURCE_ROLE->getId()}
 				{if strpos($CHILD_ROLE->getParentRoleString(), $SOURCE_ROLE_SUBPATTERN) !== false}
-					{vtranslate($CHILD_ROLE->getName(),  $QUALIFIED_MODULE)}
+					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-info" rel="tooltip" >{vtranslate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
 				{else}
 					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-default roleEle" rel="tooltip" >{vtranslate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
 				{/if}

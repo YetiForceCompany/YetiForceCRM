@@ -318,6 +318,12 @@ $languageStrings = [
 	'LBL_EMAIL' => 'Почта',
 	'LBL_SPACE' => 'Пробел',
 	'Account Owner' => 'Account Owner',
+	'PLL_PLANNED' => 'Planned',
+	'PLL_IN_REALIZATION' => 'To be realized',
+	'PLL_OVERDUE' => 'Overdue',
+	'PLL_POSTPONED' => 'Postponed',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_COMPLETED' => 'Completed',
 ];
 
 $jsLanguageStrings = [

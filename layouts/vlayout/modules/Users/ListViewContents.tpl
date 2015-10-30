@@ -136,7 +136,7 @@
 					{if $LISTVIEW_HEADER@last}
 						<div class="pull-right actions">
 							<span class="actionImages">
-								<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{vtranslate('LBL_DUPLICATE', $MODULE)}" class="glyphicon glyphicon-plus alignMiddle"></span></a>&nbsp;
+								<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{vtranslate('LBL_DUPLICATE', $MODULE)}" class="glyphicon glyphicon-retweet alignMiddle"></span></a>&nbsp;
 									{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
 									<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
 									{/if}

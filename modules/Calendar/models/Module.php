@@ -311,7 +311,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public static function getSharedUsersOfCurrentUser($id)
 	{
 		$db = PearDatabase::getInstance();
-
 		$query = "SELECT vtiger_users.first_name,vtiger_users.last_name, vtiger_users.id as userid
 			FROM vtiger_sharedcalendar RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
 			WHERE sharedid=? OR (vtiger_users.status='Active' AND vtiger_users.calendarsharedtype='public' AND vtiger_users.id <> ?);";

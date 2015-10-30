@@ -561,6 +561,34 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewContainer = listInstance.getListViewContentContainer();
 		listViewContainer.find('[data-trigger="listSearch"]').trigger("click");
 	},
+	getSelectedRecordsParams: function () {
+		var listInstance = Vtiger_List_Js.getInstance();
+		var validationResult = listInstance.checkListRecordSelected();
+		if (validationResult != true) {
+			// Compute selected ids, excluded ids values, along with cvid value and pass as url parameters
+			var selectedIds = listInstance.readSelectedIds(true);
+			var excludedIds = listInstance.readExcludedIds(true);
+			var cvId = listInstance.getCurrentCvId();
+			var postData = {
+				viewname: cvId,
+				selected_ids: selectedIds,
+				excluded_ids: excludedIds
+			};
+
+			var searchValue = listInstance.getAlphabetSearchValue();
+			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+				postData['search_key'] = listInstance.getAlphabetSearchField();
+				postData['search_value'] = searchValue;
+				postData['operator'] = "s";
+			}
+
+			postData.search_params = JSON.stringify(listInstance.getListSearchParams());
+			return postData;
+		} else {
+			listInstance.noRecordSelectedAlert();
+		}
+		return false;
+	},
 }, {
 	//contains the List View element.
 	listViewContainer: false,

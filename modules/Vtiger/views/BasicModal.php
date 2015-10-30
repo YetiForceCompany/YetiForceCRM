@@ -20,6 +20,9 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 	public function preProcess(Vtiger_Request $request)
 	{
 		echo '<div class="modal fade"><div class="modal-dialog"><div class="modal-content">';
+		foreach ($this->getModalCss($request) as &$style) {
+			echo '<link rel="stylesheet" href="'.$style->getHref().'">';
+		}
 	}
 
 	public function postProcess(Vtiger_Request $request)
@@ -49,5 +52,20 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
 		return $scriptInstances;
+	}
+	
+	function getModalCss(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$viewName = $request->get('view');
+
+		$cssFileNames = [
+			"~layouts/vlayout/modules/$moduleName/$viewName.css",
+			"~layouts/vlayout/modules/Vtiger/$viewName.css",
+		];
+
+		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		$headerCssInstances = $cssInstances;
+		return $headerCssInstances;
 	}
 }

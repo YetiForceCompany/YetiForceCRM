@@ -227,7 +227,7 @@ var app = {
 	 */
 	showSelectizeElementView: function (selectElement, params) {
 		if (typeof params == 'undefined') {
-			params = {};
+			params = {plugins: ['remove_button']};
 		}
 		selectElement.selectize(params);
 		return selectElement;
