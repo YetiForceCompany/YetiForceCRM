@@ -280,6 +280,7 @@ $languageStrings = [
 	'LBL_OSSMAIL_DESCRIPTION' => 'Zarządzaj klientem poczty',
 	'LBL_PBXMANAGER_DESCRIPTION' => 'Zarządzaj listą połączeń telefonicznych',
 	'Mail Logs' => 'Logi poczty',
+	'LBL_TIMECONTROL_PROCESSES' => 'Procesy czasu pracy',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',
@@ -315,6 +316,18 @@ $languageStrings = [
 	'LBL_VIEW_COMPANYDETAILS' => 'Dane firmy',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Komunikaty',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Serwer poczty wychodzącej',
+
+	//config editor
+	'LBL_POPUP_TYPE' => 'Wygląd okna popup z listą rekordów. 1 - podstawowe, 2 - rozszerzone',
+	'LBL_SHOWING_BREADCRUMBS' => 'Pokazuwanie menu okruszkowego',
+	'LBL_SHOW_RESPONSE_TIME' => 'Informacja o czasie wygenerowania strony',
+	'LBL_TITLE_MAX_LENGHT' => 'Maksymalna długośc tytułu',
+	'LBL_MINIMUM_CRON_FREQUENCY' => 'Minimalna częstotliwość crona [min]',
+	'LBL_LIST_MAX_ENTRIES_MASSEDIT' => 'Maksymalna liczba rekordów w masowej edycji',
+	'LBL_BG_CLOSING_MODAL' => 'Włączenie zamykania modalnego okna poprzez kliknięcie na tło',
+	'LBL_ENABLE_SHARING_RECORDS' => 'Włączenie dzielenia (udostępniania) rekordów',
+	'LBL_HREF_MAX_LEGTH' => 'Maksymalna długość dla tagu href',
+	//end config editor
 ];
 
 $jsLanguageStrings = [

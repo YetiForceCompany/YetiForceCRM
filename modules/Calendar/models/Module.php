@@ -506,8 +506,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			$reminderActivitiesResult .= " AND vtiger_crmentity.smownerid = ? AND vtiger_crmentity.deleted = 0 
 				AND ((DATE_FORMAT(vtiger_activity_reminder_popup.date_start,'%Y-%m-%d') <= ?)
 				AND (TIME_FORMAT(vtiger_activity_reminder_popup.time_start,'%H:%i') <= ?))
-				AND vtiger_activity.status IN ('".  implode("','", Calendar_Module_Model::getComponentActivityStateLabel('current'))."') LIMIT 20";
-			
+				AND vtiger_activity.status IN ('" . implode("','", Calendar_Module_Model::getComponentActivityStateLabel('current')) . "') LIMIT 20";
+
 
 			$result = $db->pquery($reminderActivitiesResult, array($currentUserModel->getId(), $date, $time));
 			$rows = $db->num_rows($result);
@@ -602,20 +602,20 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		}
 		return $calendarConfig;
 	}
-	
+
 	public static function getCalendarState($data = [])
 	{
-		if($data){
+		if ($data) {
 			$activityStatus = $data['activitystatus'];
-			if(in_array($activityStatus, Calendar_Module_Model::getComponentActivityStateLabel('history'))){
+			if (in_array($activityStatus, Calendar_Module_Model::getComponentActivityStateLabel('history'))) {
 				return false;
 			}
-			
+
 			$dueDateTime = $data['due_date'] . ' ' . $data['time_end'];
 			$startDateTime = $data['date_start'] . ' ' . $data['time_start'];
-			$dates = ['start'=>$startDateTime,'end'=>$dueDateTime,'current'=>null];
-			
-			foreach($dates as $key=>$date){
+			$dates = ['start' => $startDateTime, 'end' => $dueDateTime, 'current' => null];
+
+			foreach ($dates as $key => $date) {
 				$date = new DateTimeField($date);
 				$userFormatedString = $date->getDisplayDate();
 				$timeFormatedString = $date->getDisplayTime();
@@ -626,30 +626,29 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			$state = $activityStatusLabels['not_started'];
 			if ($dates['end'] > $dates['current'] && $dates['start'] < $dates['current']) {
 				$state = $activityStatusLabels['in_realization'];
-			}
-			elseif ($dates['end'] > $dates['current'] ) {
+			} elseif ($dates['end'] > $dates['current']) {
 				$state = $activityStatusLabels['not_started'];
-			}
-			elseif ($dates['end'] < $dates['current']) {
+			} elseif ($dates['end'] < $dates['current']) {
 				$state = $activityStatusLabels['overdue'];
 			}
 			return $state;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * The function gets the labels for a given status field 
 	 * @param string $key
 	 * @return <Array> 
 	 */
-	public static function getComponentActivityStateLabel($key = '') {
+	public static function getComponentActivityStateLabel($key = '')
+	{
 		$pickListValues = Vtiger_Util_Helper::getPickListValues('activitystatus');
-		if(!is_array($pickListValues)){
+		if (!is_array($pickListValues)) {
 			return [];
 		}
 		$componentsActivityState = [];
-		foreach($pickListValues AS $value){
+		foreach ($pickListValues AS $value) {
 			switch ($value) {
 				case "PLL_PLANNED":
 					$componentsActivityState['not_started'] = $value;
@@ -671,11 +670,11 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 					break;
 			}
 		}
-		if($key == 'current'){
-			$componentsActivityState = ['PLL_PLANNED','PLL_IN_REALIZATION','PLL_OVERDUE'];
-		}elseif($key == 'history'){
-			$componentsActivityState = ['PLL_COMPLETED','PLL_POSTPONED','PLL_CANCELLED'];
-		}elseif($key){
+		if ($key == 'current') {
+			$componentsActivityState = ['PLL_PLANNED', 'PLL_IN_REALIZATION', 'PLL_OVERDUE'];
+		} elseif ($key == 'history') {
+			$componentsActivityState = ['PLL_COMPLETED', 'PLL_POSTPONED', 'PLL_CANCELLED'];
+		} elseif ($key) {
 			return $componentsActivityState[$key];
 		}
 		return $componentsActivityState;

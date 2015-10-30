@@ -1,21 +1,21 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_FIELD_MASK' => 'Mascara Campo',
 	'Calendar' => 'Tarefa',
 	'Checkbox' => 'Caixa Seleção',
-	'Currency'=>'Moeda',
-	'Date'=>'Data',
-	'Decimal'=>'Decimal',
-	'Email'=>'Email',
-	'Integer'=>'Número',
+	'Currency' => 'Moeda',
+	'Date' => 'Data',
+	'Decimal' => 'Decimal',
+	'Email' => 'Email',
+	'Integer' => 'Número',
 	'LayoutEditor' => 'Editor de Layout',
 	'LBL_ACTIONS' => 'Ações',
 	'LBL_ACTIVE' => 'Ativo',
@@ -53,19 +53,18 @@ $languageStrings = [
 	'LBL_SELECT_MODULE' => 'Selecionar Módulo..',
 	'LBL_SUMMARY_FIELD' => 'Visualizar Resumo',
 	'LBL_WRONG_FIELD_TYPE' => 'Tipo de Campo Errado',
-	'MultiSelectCombo'=>'Caixa Múltipla Seleção',
-	'Percent'=>'Percentual',
-	'Phone'=>'Telefone',
-	'Picklist'=>'Lista Opções',
-	'Skype'=>'Skype',
+	'MultiSelectCombo' => 'Caixa Múltipla Seleção',
+	'Percent' => 'Percentual',
+	'Phone' => 'Telefone',
+	'Picklist' => 'Lista Opções',
+	'Skype' => 'Skype',
 	'TextArea' => 'Área de Texto',
-	'Text'=>'Texto',
-	'Time'=>'Hora',
+	'Text' => 'Texto',
+	'Time' => 'Hora',
 	'URL' => 'URL',
-    'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Editar módulos relacionados',
+	'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Editar módulos relacionados',
 	'LBL_VISIBLE' => 'Visível',
 	'LBL_HIDDEN' => 'Oculto',
-
 	//Yetiforce
 	'LBL_RELATION_VALUES' => 'Módulos selecionados',
 	'LBL_FIELD_NAME' => 'Nome Sistema',
@@ -90,7 +89,6 @@ $languageStrings = [
 	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'Related field',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD' => 'Filter by field',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE' => 'Filter by value',
-	
 	'LBL_ADD_RELATION' => 'Adicionar relação',
 	'LBL_REMOVE_RELATION' => 'Remove relation',
 	'LBL_RELATION_TYPE' => 'Tipo Relação',
@@ -102,7 +100,6 @@ $languageStrings = [
 	'PLL_DEPENDENTS_LIST' => 'Um para muitos',
 	'PLL_ADD' => 'Adicionar',
 	'PLL_SELECT' => 'Selecionar',
-	
 	// inventory tab
 	'LBL_MANAGING_AN_ADVANCED_BLOCK' => 'Gerenciando um bloco avançado',
 	'LBL_HEADLINE' => 'Título',
@@ -110,7 +107,6 @@ $languageStrings = [
 	'LBL_ADDITIONAL_VERSE' => 'Verso adicional',
 	'LBL_ADVANCED_MODULE' => 'Avançado',
 	'LBL_BASIC_MODULE' => 'Básico',
-	
 	'LBL_EDITING_INVENTORY_FIELD' => 'Editar',
 	'LBL_CREATING_INVENTORY_FIELD' => 'Adicionar',
 	'LBL_NAME_FIELD' => 'Nome',
@@ -127,6 +123,23 @@ $languageStrings = [
 	'LBL_DISPLAYTYPE_HIDDEN' => 'Hidden',
 	'LBL_FIELDS_EXISTS_IN_BLOCK' => 'Campos existem para o Bloco',
 	'LBL_DELETE_CUSTOM_BLOCKS' => 'Somente é possível apagar Blocos customizados',
+	'LBL_CURRENCY_DESC' => '__UNTRANSLATED__',
+	'LBL_DISCOUNT_MODE_DESC' => '__UNTRANSLATED__',
+	'LBL_TAX_MODE_DESC' => '__UNTRANSLATED__',
+	'LBL_COMMENT_DESC' => '__UNTRANSLATED__',
+	'LBL_DISCOUNT_DESC' => '__UNTRANSLATED__',
+	'LBL_GROSS_PRICE_DESC' => '__UNTRANSLATED__',
+	'LBL_ITEM_NAME_DESC' => '__UNTRANSLATED__',
+	'LBL_QUANTITY_DESC' => '__UNTRANSLATED__',
+	'LBL_UNIT_PRICE_DESC' => '__UNTRANSLATED__',
+	'LBL_TOTAL_PRICE_DESC' => '__UNTRANSLATED__',
+	'LBL_DISCOUNT_PRICE_DESC' => '__UNTRANSLATED__',
+	'LBL_TAX_DESC' => '__UNTRANSLATED__',
+	'LBL_VALUE_DESC' => '__UNTRANSLATED__',
+	'LBL_REFERENCE_DESC' => '__UNTRANSLATED__',
+	'LBL_PURCHASE_DESC' => '__UNTRANSLATED__',
+	'LBL_MARGIN_DESC' => '__UNTRANSLATED__',
+	'LBL_MARGIN_PERCENT_DESC' => '__UNTRANSLATED__',
 ];
 
 $jsLanguageStrings = [

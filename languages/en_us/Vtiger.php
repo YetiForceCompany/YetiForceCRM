@@ -857,7 +857,7 @@ $languageStrings = [
 	'COPY_ADRESS_FROM' => 'Copy address from:',
 	'LBL_LEFT_PANEL_SHOW_HIDE' => 'Left Panel Show/Hide',
 	'LBL_RIGHT_PANEL_SHOW_HIDE' => 'Right Panel Show/Hide',
-	'Total time [h]'=>'Total time [h]',
+	'Total time [h]' => 'Total time [h]',
 	/* modules */
 	'OSSCosts' => 'Costs',
 	'Key Metrics' => 'Key Metrics',
@@ -959,7 +959,6 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
 	'LBL_LEGAL_FORM' => 'Legal form',
-	
 	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Export to Excel',
 	'ReasonToEdit' => 'Reason to edit',
 	'Mails List' => 'Most recent emails',
@@ -985,7 +984,6 @@ $languageStrings = [
 	'None' => 'None',
 	'Email Opt Out' => 'Email Opt Out',
 	'LBL_SIGN_IN' => 'Sign in',
-	
 	//Inventory
 	'LBL_DISCOUNT' => 'Discount',
 	'LBL_TAX' => 'Tax',
@@ -1311,9 +1309,15 @@ $jsLanguageStrings = [
 	'JS_OK' => 'Ok',
 	'equal to' => 'Equal to',
 	'None' => 'None',
-	'JS_START_DATE'=>'Start date',
-	'JS_END_DATE'=>'End date',
-	'JS_STATE'=>'State',
+	'JS_START_DATE' => 'Start date',
+	'JS_END_DATE' => 'End date',
+	'JS_STATE' => 'State',
 	'JS_SUBJECT' => 'Subject',
 	'JS_STATUS' => 'Status',
+	'JS_PLL_PLANNED' => 'Planned',
+	'JS_PLL_IN_REALIZATION' => 'To be realized',
+	'JS_PLL_OVERDUE' => 'Overdue',
+	'JS_PLL_POSTPONED' => 'Postponed',
+	'JS_PLL_CANCELLED' => 'Cancelled',
+	'JS_PLL_COMPLETED' => 'Completed',
 ];

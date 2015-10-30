@@ -100,6 +100,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$crmid = $record['activityid'];
 			$activitytype = $record['activitytype'];
 			$item['id'] = $crmid;
+			$item['module'] = $this->getModuleName();
 			$item['title'] = $record['subject'];
 			$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=Detail&record=' . $crmid;
 			$item['set'] = $record['activitytype'] == 'Task' ? 'Task' : 'Event';

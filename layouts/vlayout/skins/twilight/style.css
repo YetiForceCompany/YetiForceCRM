@@ -2332,11 +2332,22 @@ th.htColHeader,
 }
 .fc-content {
 	background: #fff;
-	margin-top: 15px;
+	margin-left: 10px;
+}
+.fc-event-container .fc-event.fc-draggable{
+	margin: 0 0px 2px 0px;
+	border-radius: 0;
+}
+.fc-content .fc-title{
+	padding-left: 2px;
 }
 .fc-content td:hover {
 	background: #f3f3f3;
 }
+.popover{
+	max-width: 100%;
+}
+
 .btn:focus {
 	outline: 0;
 }

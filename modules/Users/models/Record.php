@@ -772,7 +772,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			if (isset($row['groupname'])) {
 				$group[$row['smownerid']] = $row['groupname'];
 			} else {
-				$users[$row['smownerid']] = $row['last_name'] . ' ' . $row['first_name'];
+				$users[$row['smownerid']] = $row['first_name'] . ' ' . $row['last_name'];
 			}
 		}
 		return [ 'users' => $users, 'group' => $group];

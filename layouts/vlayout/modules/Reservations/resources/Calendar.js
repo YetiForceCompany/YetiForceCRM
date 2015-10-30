@@ -54,10 +54,13 @@ jQuery.Class("Reservations_Calendar_Js",{
 
 		//Default time format
 		var userDefaultTimeFormat = jQuery('#time_format').val();
+		var popoverTimeFormat;
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H(:mm)';
+			popoverTimeFormat = 'HH:MM';
 		} else {
-			userDefaultTimeFormat = 'h(:mm)tt';
+			userDefaultTimeFormat = 'h(:mm)t';
+			popoverTimeFormat = 'hh:mm A';
 		}
 
 		//Default first day of the week
@@ -103,7 +106,7 @@ jQuery.Class("Reservations_Calendar_Js",{
 					title: event.title,
 					placement: 'top',
 					html: true,
-					content: '<i class="icon-time"></i> '+app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD HH:mm') + '<br /><i class="icon-time"></i> ' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD HH:mm')
+					content: '<i class="icon-time"></i> '+app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD '+popoverTimeFormat) + '<br /><i class="icon-time"></i> ' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD '+popoverTimeFormat)
 				});
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),

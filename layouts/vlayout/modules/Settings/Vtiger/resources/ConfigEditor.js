@@ -207,6 +207,44 @@ Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_NumberRange5_Validator_Js
 	}
 });
 
+Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_NumberRange2_Validator_Js",{
+	
+	/**
+	 *Function which invokes field validation
+	 *@param accepts field element as parameter
+	 * @return error if validation fails true on success
+	 */
+	invokeValidation: function(field, rules, i, options){
+		var rangeInstance = new Vtiger_NumberRange5_Validator_Js();
+		rangeInstance.setElement(field);
+		var response = rangeInstance.validate();
+		if(response != true){
+			return rangeInstance.getError();
+		}
+	}
+	
+},{
+	/**
+	 * Function to validate the percentage field data
+	 * @return true if validation is successfull
+	 * @return false if validation error occurs
+	 */
+	validate: function(){
+		var response = this._super();
+		if(response != true){
+			return response;
+		}else{
+			var fieldValue = this.getFieldValue();
+			if (fieldValue < 1 || fieldValue > 2) {
+				var errorInfo = app.vtranslate('JS_PLEASE_ENTER_NUMBER_IN_RANGE_1TO2');
+				this.setError(errorInfo);
+				return false;
+			}
+			return true;
+		}
+	}
+});
+
 Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_NumberRange100_Validator_Js",{
 
 	/**

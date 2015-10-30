@@ -1,21 +1,21 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_FIELD_MASK' => 'Feld Maske',
 	'Calendar' => 'Kalender',
 	'Checkbox' => 'Kontrollkästchen',
-	'Currency'=>'Währung',
-	'Date'=>'Datum',
-	'Decimal'=>'Dezimalzahlen',
-	'Email'=>'E-Mail',
-	'Integer'=>'Integer',
+	'Currency' => 'Währung',
+	'Date' => 'Datum',
+	'Decimal' => 'Dezimalzahlen',
+	'Email' => 'E-Mail',
+	'Integer' => 'Integer',
 	'LayoutEditor' => 'Layout Editor',
 	'LBL_ACTIONS' => 'Aktionen',
 	'LBL_ACTIVE' => 'Aktiv',
@@ -57,19 +57,18 @@ $languageStrings = [
 	'LBL_SELECT_MODULE_TO_ADD' => 'Hinzuzufügendes Modul wählen',
 	'LBL_SUMMARY_FIELD' => 'Zusammenfassung anzeigen',
 	'LBL_WRONG_FIELD_TYPE' => 'Unzulässiger Feldtyp',
-	'MultiSelectCombo'=>'Mehrfach-Auswahl Kombinationsfeld',
-	'Percent'=>'Prozent',
-	'Phone'=>'Telefon',
-	'Picklist'=>'Auswahlliste',
-	'Skype'=>'Skype',
+	'MultiSelectCombo' => 'Mehrfach-Auswahl Kombinationsfeld',
+	'Percent' => 'Prozent',
+	'Phone' => 'Telefon',
+	'Picklist' => 'Auswahlliste',
+	'Skype' => 'Skype',
 	'TextArea' => 'Textbereich',
-	'Text'=>'Text',
-	'Time'=>'Zeit',
+	'Text' => 'Text',
+	'Time' => 'Zeit',
 	'URL' => 'URL',
-    'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Relevante Module bearbeiten',
+	'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Relevante Module bearbeiten',
 	'LBL_VISIBLE' => 'Sichtbar',
 	'LBL_HIDDEN' => 'Versteckt',
-	
 	//Yetiforce
 	'LBL_RELATION_VALUES' => 'Module auswählen',
 	'LBL_FIELD_NAME' => 'System Name',
@@ -94,7 +93,6 @@ $languageStrings = [
 	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'verknüpftes Feld',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD' => 'Filter zum Feld',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE' => 'Filter zum Wert',
-	
 	'LBL_ADD_RELATION' => 'Modulbeziehung hinzufügen',
 	'LBL_REMOVE_RELATION' => 'Beziehung löschen',
 	'LBL_RELATION_TYPE' => 'Beziehungstyp',
@@ -106,7 +104,6 @@ $languageStrings = [
 	'PLL_DEPENDENTS_LIST' => 'abhängige Einträge',
 	'PLL_ADD' => 'Hinzufügen',
 	'PLL_SELECT' => 'Auswählen',
-	
 	// inventory tab
 	'LBL_MANAGING_AN_ADVANCED_BLOCK' => 'Einen Advanced Block verwalten',
 	'LBL_HEADLINE' => 'Kopfzeile',
@@ -114,7 +111,6 @@ $languageStrings = [
 	'LBL_ADDITIONAL_VERSE' => 'Additional verse',
 	'LBL_ADVANCED_MODULE' => 'Advanced',
 	'LBL_BASIC_MODULE' => 'Basic',
-	
 	'LBL_EDITING_INVENTORY_FIELD' => 'Bearbeiten',
 	'LBL_CREATING_INVENTORY_FIELD' => 'Hinzufügen',
 	'LBL_NAME_FIELD' => 'Name',
@@ -131,6 +127,23 @@ $languageStrings = [
 	'LBL_DISPLAYTYPE_HIDDEN' => 'Hidden',
 	'LBL_FIELDS_EXISTS_IN_BLOCK' => 'Felder existieren zum Block',
 	'LBL_DELETE_CUSTOM_BLOCKS' => 'Standard Block kann nicht gelöscht werden',
+	'LBL_CURRENCY_DESC' => '__UNTRANSLATED__',
+	'LBL_DISCOUNT_MODE_DESC' => '__UNTRANSLATED__',
+	'LBL_TAX_MODE_DESC' => '__UNTRANSLATED__',
+	'LBL_COMMENT_DESC' => '__UNTRANSLATED__',
+	'LBL_DISCOUNT_DESC' => '__UNTRANSLATED__',
+	'LBL_GROSS_PRICE_DESC' => '__UNTRANSLATED__',
+	'LBL_ITEM_NAME_DESC' => '__UNTRANSLATED__',
+	'LBL_QUANTITY_DESC' => '__UNTRANSLATED__',
+	'LBL_UNIT_PRICE_DESC' => '__UNTRANSLATED__',
+	'LBL_TOTAL_PRICE_DESC' => '__UNTRANSLATED__',
+	'LBL_DISCOUNT_PRICE_DESC' => '__UNTRANSLATED__',
+	'LBL_TAX_DESC' => '__UNTRANSLATED__',
+	'LBL_VALUE_DESC' => '__UNTRANSLATED__',
+	'LBL_REFERENCE_DESC' => '__UNTRANSLATED__',
+	'LBL_PURCHASE_DESC' => '__UNTRANSLATED__',
+	'LBL_MARGIN_DESC' => '__UNTRANSLATED__',
+	'LBL_MARGIN_PERCENT_DESC' => '__UNTRANSLATED__',
 ];
 
 $jsLanguageStrings = [
