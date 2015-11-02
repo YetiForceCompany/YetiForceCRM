@@ -152,7 +152,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
 					content: '<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
 							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
-							(event.lok != '' ? '<div><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
+							(event.lok ? '<div><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
 							(event.pri ? '<div><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PRIORITY') + '</label>: ' + app.vtranslate('JS_' + event.pri) + '</div>' : '') +
 							'<div><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + app.vtranslate('JS_' + event.sta) + '</div>' +
 							(event.accname ? '<div><span class="calIcon modIcon_Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ACCOUNTS') + '</label>: ' + event.accname + '</div>' : '') +
@@ -160,7 +160,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 							(event.procl ? '<div><span class="glyphicon calIcon modIcon_' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: ' + event.procl + '</div>' : '') +
 							(event.state ? '<div><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATE') + '</label>: ' + app.vtranslate(event.state) + '</div>' : '') +
 							'<div><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>: ' + app.vtranslate('JS_' + event.vis) + '</div>' + 
-							'<div><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>'
+							(event.smownerid ? '<div><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 				});
 				element.find('.fc-content').click(function () {
 					var progressIndicatorElement = jQuery.progressIndicator({
