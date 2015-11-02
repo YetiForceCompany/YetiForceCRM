@@ -74,7 +74,6 @@ $languageStrings = [
 	'LBL_EXPRESSION' => 'Wyrażenie',
 	'LBL_ANNUAL_REVENUE' => 'annual_revenue',
 	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
-	'LBL_VTIGER' => 'Vtiger',
 	'LBL_EXAMPLE_FIELD_NAME' => 'Pole',
 	'LBL_NOTIFY_OWNER' => 'notify_owner',
 	'LBL_WATERMARK_DETAILS' => 'Edycja znaku wodnego',
@@ -154,7 +153,6 @@ $languageStrings = [
 	'DEMY' => 'Demy',
 	'ROYAL' => 'Rotyal'
 ];
-
 $jsLanguageStrings = [
 	'JS_PDF_SAVED_SUCCESSFULLY' => 'Szablon pdf został zapisany.',
 	'LBL_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
