@@ -272,7 +272,7 @@ class Vtiger_Functions
 			}
 			$data['fieldname'] = $fieldnames;
 			$colums = [];
-			foreach (explode(',', $info['fieldname']) as &$fieldname) {
+			foreach (explode(',', $info['fieldname']) as $fieldname) {
 				$colums[] = $info['tablename'] . '.' . $fieldname;
 			}
 			$data['colums'] = implode(',', $colums);
