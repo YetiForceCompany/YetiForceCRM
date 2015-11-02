@@ -26,17 +26,12 @@
 	</tr>
 	{if $FIELDS[2] neq 0}
 		<tr class="inventoryRowExpanded numRow{$ROW_NO} hide" numrowex="{$ROW_NO}">
-			{foreach item=FIELD from=$FIELDS[2]}
-				{if $FIELD->get('colspan') eq 0}
-					{assign var="COLSPAN" value=$COUNT_FIELDS1+1}
-				{else}
-					{assign var="COLSPAN" value=$FIELD->get('colspan')}
-				{/if}
-				<td class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if}" colspan="{$COLSPAN}">
+			<td class="colExpanded" colspan="{$COUNT_FIELDS1+1}">
+				{foreach item=FIELD from=$FIELDS[2]}
 					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 					{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$ITEM_DATA[$FIELD->get('columnname')]}
-				</td>
-			{/foreach}
+				{/foreach}
+			</td>
 		</tr>
 	{/if}
 {/strip}

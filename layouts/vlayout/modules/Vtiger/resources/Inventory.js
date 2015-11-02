@@ -665,7 +665,11 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		element.find('.glyphicon').removeClass('glyphicon-menu-down');
 		element.find('.glyphicon').addClass('glyphicon-menu-up');
 		inventoryRowExpanded.removeClass('hide');
-		Vtiger_Edit_Js.getInstance().loadCkEditorElement(inventoryRowExpanded.find('.ckEditorSource'));
+
+		var listInstance = Vtiger_Edit_Js.getInstance();
+		$.each(inventoryRowExpanded.find('.ckEditorSource'), function (key, data) {
+			listInstance.loadCkEditorElement(jQuery(data));
+		});
 	},
 	hideExpandedRow: function (row) {
 		var thisInstance = this;
@@ -676,10 +680,12 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		element.find('.glyphicon').removeClass('glyphicon-menu-up');
 		element.find('.glyphicon').addClass('glyphicon-menu-down');
 		inventoryRowExpanded.addClass('hide');
-		var editorInstance = CKEDITOR.instances[inventoryRowExpanded.find('.ckEditorSource').attr('id')];
-		if (editorInstance) {
-			editorInstance.destroy();
-		}
+		$.each(inventoryRowExpanded.find('.ckEditorSource'), function (key, data) {
+			var editorInstance = CKEDITOR.instances[jQuery(data).attr('id')];
+			if (editorInstance) {
+				editorInstance.destroy();
+			}
+		});
 	},
 	initDiscountsParameters: function (parentRow, modal) {
 		var thisInstance = this;
