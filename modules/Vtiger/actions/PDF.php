@@ -106,7 +106,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 					$template = Vtiger_PDF_Model::getInstanceById($firstTemplate);
 					$template->setMainRecordId($record);
 					$pdf->setLanguage($template->get('language'));
-					vglobal('default_language', $this->get('language'));
+					vglobal('default_language', $template->get('language'));
 					$template->getParameters();
 					//$pdf->parseParams($template->getParameters());
 
@@ -130,7 +130,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 						$template = Vtiger_PDF_Model::getInstanceById($id);
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));
-						vglobal('default_language', $this->get('language'));
+						vglobal('default_language', $template->get('language'));
 
 						// building parameters
 						$parameters = $template->getParameters();
@@ -176,7 +176,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));
 						$pdf->setFileName($template->get('filename'));
-						vglobal('default_language', $this->get('language'));
+						vglobal('default_language', $template->get('language'));
 
 						$pdf->parseParams($template->getParameters());
 
