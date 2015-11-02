@@ -1311,6 +1311,9 @@ $languageStrings = [
 	'LBL_VALID_RECORDS' => '__UNTRANSLATED__',
 	'LBL_EXPORT_ERROR' => '__UNTRANSLATED__',
 	'LBL_PDF_MANY_IN_ONE' => '__UNTRANSLATED__',
+	// end pdf
+	'group' => 'Группа',
+	'individual' => 'Индивидуально',
 ];
 $jsLanguageStrings = [
 	'SINGLE_SalesOrder' => 'Заказ',

@@ -1060,6 +1060,9 @@ $languageStrings = [
 	'LBL_VALID_RECORDS' => '%s z %s są poprawnr dla wybranego szablonu.',
 	'LBL_EXPORT_ERROR' => 'Nie udało się wygenerować pliku PDF.',
 	'LBL_PDF_MANY_IN_ONE' => 'PDF',
+	//end PFD
+	'group' => 'Grupa',
+	'individual' => 'Indywidualny',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',

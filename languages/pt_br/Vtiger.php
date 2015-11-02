@@ -1066,6 +1066,9 @@ $languageStrings = [
 	'LBL_VALID_RECORDS' => '__UNTRANSLATED__',
 	'LBL_EXPORT_ERROR' => '__UNTRANSLATED__',
 	'LBL_PDF_MANY_IN_ONE' => '__UNTRANSLATED__',
+	// end pdf
+	'group' => 'Grupo',
+	'individual' => 'Individual',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',

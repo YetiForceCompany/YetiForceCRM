@@ -1070,6 +1070,9 @@ $languageStrings = [
 	'LBL_VALID_RECORDS' => '__UNTRANSLATED__',
 	'LBL_EXPORT_ERROR' => '__UNTRANSLATED__',
 	'LBL_PDF_MANY_IN_ONE' => '__UNTRANSLATED__',
+	// end pdf
+	'group' => 'Gruppe',
+	'individual' => 'Individuell',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
