@@ -20,7 +20,7 @@
 						</div>
 						<div class="col-md-3">
 							<h4 class="modal-title pull-left">{vtranslate('LBL_COUNT_ALL_MAILS','OSSMailView')}: {$COUNT}</h4>
-							<button type="button" class="btn btn-danger pull-right" data-dismiss="modal" aria-label="Close">
+							<button type="button" class="btn btn-warning pull-right" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
