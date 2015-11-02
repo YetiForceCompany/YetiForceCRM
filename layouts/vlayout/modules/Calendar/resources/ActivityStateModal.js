@@ -7,39 +7,37 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.closest('.modal').addClass('hide');
 
-			if (currentTarget.hasClass('showQuickCreate')) {
-				var progressIndicatorElement = jQuery.progressIndicator({
-					'position': 'html',
-					'blockInfo': {
-						'enabled': true
-					}
-				});
-				var moduleName = 'Calendar';
-				var url = 'index.php?module=Calendar&view=QuickCreateAjax&sourceModule=Calendar&sourceRecord=' + currentTarget.data('id');
-				var params = {};
-				params.noCache = true;
-				var headerInstance = Vtiger_Header_Js.getInstance();
-				headerInstance.getQuickCreateForm(url, moduleName, params).then(function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'})
-					headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
-							if (data && data.success) {
-								thisInstance.updateActivityState(currentTarget);
-							}
-						}});
-				});
-			} else {
+			if (currentTarget.data('type') == '1') {
 				thisInstance.updateActivityState(currentTarget);
 			}
-
+			var progressIndicatorElement = jQuery.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			var moduleName = 'Calendar';
+			var url = 'index.php?module=Calendar&view=QuickCreateAjax&sourceModule=Calendar&sourceRecord=' + currentTarget.data('id');
+			var params = {};
+			params.noCache = true;
+			var headerInstance = Vtiger_Header_Js.getInstance();
+			headerInstance.getQuickCreateForm(url, moduleName, params).then(function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'})
+				headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
+						if (data && data.success && currentTarget.data('type') == '0') {
+							thisInstance.updateActivityState(currentTarget);
+						}
+					}});
+			});
 		});
 	},
 	updateActivityState: function (currentTarget) {
 		var thisInstance = this;
 		var params = {
-			'module': 'Calendar',
-			'action': "ActivityStateAjax",
-			'id': currentTarget.data('id'),
-			'state': currentTarget.data('state')
+			module: 'Calendar',
+			action: "ActivityStateAjax",
+			record: currentTarget.data('id'),
+			state: currentTarget.data('state')
 		}
 		app.hideModalWindow();
 		var progressIndicatorElement = jQuery.progressIndicator({

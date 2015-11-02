@@ -120,13 +120,13 @@
 			<div class="modal-footer">
 				<div class="pull-left">
 					{if $ACTIVITYCANCEL eq 'yes' && $EMPTY}
-						<button type="button" class="btn btn-danger showQuickCreate" data-state='{$ACTIVITY_STATE_LABEL.cancelled}' data-id='{$ID}'>{vtranslate($ACTIVITY_STATE_LABEL.cancelled, $MODULE_NAME)}</button>
+						<button type="button" class="btn btn-danger" data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}" data-type="1">{vtranslate($ACTIVITY_STATE_LABEL.cancelled, $MODULE_NAME)}</button>
 					{/if}
 					{if $ACTIVITYCOMPLETE eq 'yes' && $EMPTY}
-						<button type="button" class="btn btn-success showQuickCreate" data-state='{$ACTIVITY_STATE_LABEL.completed}' data-id='{$ID}'>{vtranslate($ACTIVITY_STATE_LABEL.completed, $MODULE_NAME)}</button>
+						<button type="button" class="btn btn-success" data-state="{$ACTIVITY_STATE_LABEL.completed}" data-id="{$ID}" data-type="1">{vtranslate($ACTIVITY_STATE_LABEL.completed, $MODULE_NAME)}</button>
 					{/if}
 					{if $ACTIVITYPOSTPONED eq 'yes' && $EMPTY}
-						<button type="button" class="btn btn-primary showQuickCreate" data-state='{$ACTIVITY_STATE_LABEL.postponed}' data-id='{$ID}'>{vtranslate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}</button>
+						<button type="button" class="btn btn-primary" data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}" data-type="0">{vtranslate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}</button>
 					{/if}
 					{if !$EMPTY}
 						{vtranslate('LBL_NO_AVAILABLE_ACTIONS', $MODULE_NAME)}
