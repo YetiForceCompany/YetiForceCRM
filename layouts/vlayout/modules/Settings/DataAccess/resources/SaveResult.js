@@ -24,9 +24,11 @@ function SaveResult() {
 		delete thisInstnce.recordValue['picklistDependency'];
 		delete formData['__vtrftk'];
 		delete formData['picklistDependency'];
-		$.each(thisInstnce.recordValue, function (key, value) {
-			formData['p_' + key] = value;
-		});
+		if (thisInstnce.recordValue != false){
+			$.each(thisInstnce.recordValue, function (key, value) {
+				formData['p_' + key] = value;
+			});
+		}
 		params.data = {
 			module: 'DataAccess',
 			parent: 'Settings',
