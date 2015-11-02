@@ -112,12 +112,15 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var thisInstance = this;
 		var groupTax = thisInstance.getInventorySummaryTaxesContainer().find('.groupTax');
 		var items = thisInstance.getInventoryItemsContainer();
+		var newRow = $('#blackIthemTable tbody');
 		if (thisInstance.isIndividualTaxMode()) {
 			groupTax.addClass('hide');
 			items.find('.changeTax').removeClass('hide');
+			newRow.find('.changeTax').removeClass('hide');
 		} else {
 			groupTax.removeClass('hide');
 			items.find('.changeTax').addClass('hide');
+			newRow.find('.changeTax').addClass('hide');
 		}
 		thisInstance.setTax(items, 0);
 		thisInstance.setTaxParam(items, []);
@@ -142,11 +145,14 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var thisInstance = this;
 		var groupDiscount = thisInstance.getInventorySummaryDiscountContainer().find('.groupDiscount');
 		var items = thisInstance.getInventoryItemsContainer();
+		var newRow = $('#blackIthemTable tbody');
 		if (thisInstance.isIndividualDiscountMode()) {
 			groupDiscount.addClass('hide');
 			items.find('.changeDiscount').removeClass('hide');
+			newRow.find('.changeDiscount').removeClass('hide');
 		} else {
 			groupDiscount.removeClass('hide');
+			items.find('.changeDiscount').addClass('hide');
 			items.find('.changeDiscount').addClass('hide');
 		}
 		thisInstance.setDiscount(items, 0);
@@ -177,7 +183,11 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		return app.parseNumberToFloat($('.netPrice', row).val());
 	},
 	getTotalPrice: function (row) {
-		return app.parseNumberToFloat($('.totalPrice', row).val());
+		if ($('.totalPrice', row).length != 0) {
+			return app.parseNumberToFloat($('.totalPrice', row).val())
+		} else {
+			return 0;
+		}
 	},
 	getGrossPrice: function (row) {
 		return app.parseNumberToFloat($('.grossPrice', row).val());
@@ -1003,7 +1013,11 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			}
 			if (element.hasClass('groupDiscount')) {
 				var parentRow = thisInstance.getInventoryItemsContainer();
-				params.totalPrice = app.parseNumberToFloat(parentRow.find('tfoot .colTotalPrice').text());
+				if (parentRow.find('tfoot .colTotalPrice').length != 0) {
+					params.totalPrice = app.parseNumberToFloat(parentRow.find('tfoot .colTotalPrice').text());
+				} else {
+					params.totalPrice = 0;
+				}
 				params.discountType = 1;
 			} else {
 				var parentRow = element.closest(thisInstance.rowClass);
