@@ -1048,6 +1048,7 @@ $languageStrings = [
 	'LBL_CURRENT' => 'Bieżące',
 	'LBL_SET_RECORD_STATUS' => 'Ustaw status',
 	'LBL_SELECT_SOME_OPTIONS' => 'Wybierz kilka wartości',
+	'LBL_NO_DISCOUNTS' => 'Nie znaleziono dostępnych rabatów',
 	//PDF
 	'LBL_EXPORT_PDF' => 'Eksportuj do PDF',
 	'LBL_GENERATE_PDF_FILE' => 'Generowanie pliku PDF',

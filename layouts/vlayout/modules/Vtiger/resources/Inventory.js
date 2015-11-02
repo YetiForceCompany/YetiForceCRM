@@ -684,7 +684,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	initDiscountsParameters: function (parentRow, modal) {
 		var thisInstance = this;
 		var parameters = parentRow.find('.discountParam').val();
-		if (parameters == '') {
+		if (parameters == '' || parameters == undefined) {
 			return;
 		}
 		var parameters = JSON.parse(parameters);

@@ -14,6 +14,11 @@
 						{assign var="DISCOUNT_TYPE_TPL" value="InventoryDiscountsType"|cat:$DISCOUNTID|cat:".tpl"}
 						{include file=$DISCOUNT_TYPE_TPL|@vtemplate_path:$MODULE}
 					{/foreach}
+					{if count($GLOBAL_DISCOUNTS) == 0 && $GROUP_DISCOUNT == 0 && $DISCOUNT_TYPE != '0'}
+						<div class="alert alert-danger" role="alert">
+							{vtranslate('LBL_NO_DISCOUNTS')}
+						</div>
+					{/if}
 					<hr/>
 					<div class="row">
 						<div class="col-md-6">{vtranslate('LBL_PRICE_BEFORE_DISCOUNT', $MODULE)}:</div>
@@ -29,7 +34,9 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success saveDiscount" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+					{if count($GLOBAL_DISCOUNTS) > 0 || $GROUP_DISCOUNT != 0 || $DISCOUNT_TYPE == '0'}
+						<button class="btn btn-success saveDiscount" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+					{/if}
 					<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
 				</div>
 			</div>

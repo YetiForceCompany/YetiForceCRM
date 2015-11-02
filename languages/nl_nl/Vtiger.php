@@ -1026,6 +1026,7 @@ $languageStrings = [
 	'LBL_CURRENT' => 'Current',
 	'LBL_SET_RECORD_STATUS' => 'Set status',
 	'LBL_SELECT_SOME_OPTIONS' => 'Select some values',
+	'LBL_NO_DISCOUNTS' => 'Available discounts not found',
 	//PDF
 	'LBL_EXPORT_PDF' => '__UNTRANSLATED__',
 	'LBL_GENERATE_PDF_FILE' => '__UNTRANSLATED__',
