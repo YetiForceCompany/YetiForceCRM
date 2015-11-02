@@ -14,7 +14,7 @@
 	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
 	<div class="detailViewContainer">
 		<div class="row detailViewTitle">
-			<div class="{if $NO_PAGINATION} col-md-12 {else} col-md-10 {/if} pull-left">
+			<div class="{if $NO_PAGINATION} col-md-12 {else} col-md-10 {/if}">
 				<div class="row">
 					<div class="col-md-12 marginBottom5px">
 						<div class="row">

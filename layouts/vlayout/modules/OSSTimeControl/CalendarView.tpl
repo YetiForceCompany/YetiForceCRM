@@ -10,12 +10,15 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<input type="hidden" id="currentView" value="{$smarty.request.view}" />
+<input type="hidden" id="currentView" value="{$VIEW}" />
 <input type="hidden" id="activity_view" value="{$CURRENT_USER->get('activity_view')}" />
 <input type="hidden" id="time_format" value="{$CURRENT_USER->get('hour_format')}" />
 <input type="hidden" id="start_hour" value="{$CURRENT_USER->get('start_hour')}" />
 <input type="hidden" id="end_hour" value="{$CURRENT_USER->get('end_hour')}" />
 <input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}" />
+<input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
+<input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
+<input type="hidden" id="dayView" value="{$DAY_VIEW}" />
 <style>
 {foreach from=Settings_Calendar_Module_Model::getCalendarConfig('colors') item=ITEM}
 	.calCol_{$ITEM.label}{ border: 1px solid {$ITEM.value}!important; }

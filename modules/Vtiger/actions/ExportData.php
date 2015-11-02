@@ -87,9 +87,13 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 			$sanitizedRow = $this->sanitizeValues($row);
 			if ($isInventory) {
 				$resultInventory = $db->pquery('SELECT * FROM ' . $table . ' WHERE id = ? ORDER BY seq', [$row[$this->focus->table_index]]);
-				while ($inventoryRow = $db->fetch_array($resultInventory)) {
-					$sanitizedInventoryRow = $this->sanitizeInventoryValues($inventoryRow, $inventoryFields);
-					$entries[] = array_merge($sanitizedRow, $sanitizedInventoryRow);
+				if ($db->getRowCount($resultInventory)) {
+					while ($inventoryRow = $db->fetch_array($resultInventory)) {
+						$sanitizedInventoryRow = $this->sanitizeInventoryValues($inventoryRow, $inventoryFields);
+						$entries[] = array_merge($sanitizedRow, $sanitizedInventoryRow);
+					}
+				} else {
+					$entries[] = $sanitizedRow;
 				}
 			} else {
 				$entries[] = $sanitizedRow;

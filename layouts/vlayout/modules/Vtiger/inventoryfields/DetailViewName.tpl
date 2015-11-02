@@ -1,9 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<strong>{$FIELD->getDisplayValue($ITEM_VALUE)}</strong>
-	{if isset($FIELDS[2]['comment'|cat:$ROW_NO])}
-		{assign var="COMMENT_FIELD" value=$FIELDS[2]['comment'|cat:$ROW_NO]}
-		<br/>
-		{$COMMENT_FIELD->getDisplayValue($INVENTORY_ROW[$COMMENT_FIELD->get('columnname')])}
-	{/if}
+	{foreach item=FIELD2 from=$FIELDS[2]}
+		{if $FIELD2->getName() == 'Comment'}
+			<br/>
+			{$FIELD2->getDisplayValue($INVENTORY_ROW[$FIELD2->get('columnname')])}
+		{/if}
+	{/foreach}
 {/strip}

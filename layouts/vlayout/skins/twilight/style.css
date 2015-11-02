@@ -1337,7 +1337,7 @@ td.fieldValue .input-group {
 	color: #404952;
 }
 .searchUIBasic .listRow .defaultInputTextContainer {
-	max-width: 87% !important;
+	max-width: 100% !important;
 	margin-bottom: 0 !important;
 }
 #lineItemTab.table tr:first-child:hover th ~ td {
@@ -1610,7 +1610,9 @@ th.htColHeader,
 .profilesEditView tr.blockHeader th:first-child {
 	text-align: left;
 }
-.profilesEditView input {
+.profilesEditView input,
+.calendarRelatedHeader .addButton,
+.calendarRelatedHeader .selectRelation{
 	margin-right: 5px;
 }
 .profilesEditView tr td.row table.table {
@@ -1954,7 +1956,8 @@ th.htColHeader,
 	border-top: 1px solid #ffffff;
 	border-bottom: 1px solid #dddddd;
 }
-.layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockLabel {
+.layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockLabel,
+#salesProcessesContainer .layoutContent {
 	padding-top: 13px;
 }
 .layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockActions .btn-group {
@@ -2332,10 +2335,20 @@ th.htColHeader,
 }
 .fc-content {
 	background: #fff;
-	margin-top: 15px;
+	margin-left: 10px;
+}
+.fc-event-container .fc-event.fc-draggable{
+	margin: 0 0px 2px 0px;
+	border-radius: 0;
+}
+.fc-content .fc-title{
+	padding-left: 2px;
 }
 .fc-content td:hover {
 	background: #f3f3f3;
+}
+.calendarPopover.popover{
+	max-width: 100%;
 }
 .btn:focus {
 	outline: 0;
@@ -3330,6 +3343,7 @@ span[name=existingImages] img{
 	margin-right: 2%;
 }
 .remindersNotice{
+	cursor: pointer;
 	color: #ffffff;
 	padding: 15px 12px;
 }
@@ -3701,10 +3715,12 @@ span[name=existingImages] img{
 .dashboardWidgetContent .summary-detail .summary-text{
 	vertical-align: sub;
 }
-.activityWidgetContainer .activityDescription .popover {
+.activityWidgetContainer .activityDescription .popover,
+.quickCreateContent .addedNearCalendarEvent .popover{
 	min-width: 300px;
 }
-.activityWidgetContainer .popover-content {
+.activityWidgetContainer .popover-content,
+.quickCreateContent .addedNearCalendarEvent .popover-content{
 	font-size: 12px;
 }
 #activityStateModal .form-horizontal .form-group{
@@ -3715,4 +3731,27 @@ span[name=existingImages] img{
 }
 .mainContainer.mailContainer{
 	margin-top: 102px !important;
+}
+.pageNumber.active.disabled a{
+	background-color: #337AB7;
+	border-color: #337AB7;
+	color: #FFF;
+}
+#announcementBtn,
+.listViewEntriesCheckBox,
+#listViewEntriesMainCheckBox{
+	cursor: pointer;
+}
+#roleDeleteForm .relatedPopup{
+	padding: 6px 12px;
+}
+.holidayList{
+	list-style-type: none;
+	float: left;
+	min-height: 1px;
+	padding:2px;
+	margin:0 !important;
+}
+.publicHolidayModal .dateField{
+	width: 100%;
 }

@@ -246,7 +246,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$query = $selectAndFromClause . ' WHERE ' . $whereCondition;
 				$query .= ' ORDER BY ' . $qualifiedOrderBy . '.label ' . $sortOrder;
 			} elseif ($orderByFieldModuleModel && $orderByFieldModuleModel->isOwnerField()) {
-				$query .= ' ORDER BY COALESCE(CONCAT(vtiger_users.first_name,vtiger_users.last_name),vtiger_groups.groupname) ' . $sortOrder;
+				$query .= ' ORDER BY COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname) ' . $sortOrder;
 			} else {
 				// Qualify the the column name with table to remove ambugity
 				$qualifiedOrderBy = $orderBy;

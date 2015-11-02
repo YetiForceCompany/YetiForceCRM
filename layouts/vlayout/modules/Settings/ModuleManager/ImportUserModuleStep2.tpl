@@ -93,6 +93,18 @@
 											</td>
 										</tr>
 									{/if}
+									{foreach item=PARAMETER from=$MODULEIMPORT_PARAMETERS}
+										<tr>
+											<td colspan="2">
+												{if $PARAMETER->type == 'checkbox'}
+													<label>
+														<input value="1" autocomplete="off" type="checkbox" name="param_{$PARAMETER->name}" {if $PARAMETER->checked == '1'}checked{/if}>&nbsp;&nbsp;
+														{vtranslate($PARAMETER->lable, $QUALIFIED_MODULE)}
+													</label>
+												{/if}
+											</td>
+										</tr>
+									{/foreach}
 								</tbody>
 							</table>
 							<div class="modal-footer">

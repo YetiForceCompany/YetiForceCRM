@@ -114,7 +114,7 @@ $languageStrings = [
 	'LBL_NOTIFICATIONS' => 'Powiadomienia',
 	'LBL_OTHER_SETTINGS' => 'Narzędzia',
 	'LBL_OUTGOING_SERVER_DESC' => 'Konfiguruj serwer poczty wychodzącej',
-	'LBL_OUTGOING_SERVER_NOTE'=>'UWAGA: Jeżeli pole Od nie zostanie wpisane wtedy zostanie domyślnie wybrany adres email użytkownika',
+	'LBL_OUTGOING_SERVER_NOTE'=>'UWAGA: Jeżeli pole "Od" nie zostanie wpisane wtedy zostanie domyślnie wybrany adres email użytkownika.',
 	'LBL_OUTGOING_SERVER' => 'Serwer poczty wychodzącej',
 	'LBL_PASSWORD' => 'Hasło',
 	'LBL_PBXMANAGER' => 'Lista połączeń telefonicznych',
@@ -223,7 +223,7 @@ $languageStrings = [
 	'LBL_ACTIVITY_TYPES' => 'Filtry kalendarza',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Zarządzanie dostępnymi filtrami zdarzeń w kalendarzu.',
 	'LBL_BRUTEFORCE' => 'Brute force',
-	'LBL_BRUTEFORCE_DESCRIPTION' => 'Ustaw po jakiej ilośći błędnych prób logowania i na jak długo numer IP ma zostać zablokowany.',
+	'LBL_BRUTEFORCE_DESCRIPTION' => 'Ustaw po jakiej ilości błędnych prób logowania i na jak długo numer IP ma zostać zablokowany.',
 	'LBL_WIDGETS_DESCRIPTION'	=> ' ',
 	'LBL_CREDITS_DESCRIPTION'	=> ' ',
 	'LBL_CUSTOMVIEW_DESCRIPTION'	=> ' ',
@@ -280,6 +280,7 @@ $languageStrings = [
 	'LBL_OSSMAIL_DESCRIPTION' => 'Zarządzaj klientem poczty',
 	'LBL_PBXMANAGER_DESCRIPTION' => 'Zarządzaj listą połączeń telefonicznych',
 	'Mail Logs' => 'Logi poczty',
+	'LBL_TIMECONTROL_PROCESSES' => 'Procesy czasu pracy',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',
@@ -297,12 +298,14 @@ $languageStrings = [
 	'OSSPassword Configuration'=>'Konfiguracja hasła',
 	'Document Control'=>'Przepływ dokumentów',
 	'Time control' => 'Czas pracy',
-	"Credits"	=> 'Współtwórcy',
+	'Credits'	=> 'Współtwórcy',
 	'LBL_PROCESSES' => 'Procesy',
 	'LBL_SALES_PROCESSES' => 'Procesy sprzedażowe',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Zarządzaj procesami sprzedażowymi',
 	'INVENTORYTERMSANDCONDITIONS' => 'Warunki i ustalenia',
 	'LBL_SAVE_CONFIG' => 'Zapisano zmiany',
+	'LBL_DEFAULT_LAYOUT' => 'Układ',
+	'LBL_DEFAULT' => 'Domyślny',
 	
 	// history
 	'LBL_VIEW_LICENSE' => 'Licencja',
@@ -313,6 +316,20 @@ $languageStrings = [
 	'LBL_VIEW_COMPANYDETAILS' => 'Dane firmy',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Komunikaty',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Serwer poczty wychodzącej',
+	'LBL_VIEW_SWITCHUSERS' => 'Przełączanie użytkowników',
+	//end history
+
+	//config editor
+	'LBL_POPUP_TYPE' => 'Wygląd okna popup z listą rekordów. 1 - podstawowe, 2 - rozszerzone',
+	'LBL_SHOWING_BREADCRUMBS' => 'Pokazuwanie menu okruszkowego',
+	'LBL_SHOW_RESPONSE_TIME' => 'Informacja o czasie wygenerowania strony',
+	'LBL_TITLE_MAX_LENGHT' => 'Maksymalna długośc tytułu',
+	'LBL_MINIMUM_CRON_FREQUENCY' => 'Minimalna częstotliwość crona [min]',
+	'LBL_LIST_MAX_ENTRIES_MASSEDIT' => 'Maksymalna liczba rekordów w masowej edycji',
+	'LBL_BG_CLOSING_MODAL' => 'Włączenie zamykania modalnego okna poprzez kliknięcie na tło',
+	'LBL_ENABLE_SHARING_RECORDS' => 'Włączenie dzielenia (udostępniania) rekordów',
+	'LBL_HREF_MAX_LEGTH' => 'Maksymalna długość dla tagu href',
+	//end config editor
 ];
 
 $jsLanguageStrings = [

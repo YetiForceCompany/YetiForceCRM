@@ -52,19 +52,19 @@ class Settings_Vtiger_OutgoingServer_Model extends Settings_Vtiger_Systems_Model
 	public function save($request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$to_email = $currentUser->get('email1');
+		$toEmail = $currentUser->get('email1');
 
-		if ($to_email != '') {
-			$data = array(
-				'id' => 95,
-				'to_email' => $to_email,
+		if (!empty($toEmail)) {
+			$data = [
+				'sysname' => 'TestMailAboutTheMailServerConfiguration',
+				'to_email' => $toEmail,
 				'module' => 'Users',
 				'record' => $currentUser->getId(),
-			);
+			];
 			$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
-			$mail_status = $recordModel->sendMailFromTemplate($data);
+			$mailStatus = $recordModel->sendMailFromTemplate($data);
 		}
-		if ($mail_status != 1 && !$this->isDefaultSettingLoaded()) {
+		if ($mailStatus != 1 && !$this->isDefaultSettingLoaded()) {
 			throw new Exception('Error occurred while sending mail');
 		}
 		return parent::save();

@@ -183,4 +183,5 @@ $jsLanguageStrings = [
 	'JS_Public' => 'Öffentlich',
 	'Mobile Call' => 'Mobiler Anruf',
 	'JS_CHANGE_ACTIVITY_TIME' => 'Ändere Status zu: anstehend oder historisch',
+	'JS_ASSIGNED_TO' => 'zuständig',
 ];

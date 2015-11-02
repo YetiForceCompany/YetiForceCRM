@@ -36,6 +36,10 @@ class Users_Login_View extends Vtiger_View_Controller
 		$viewer->assign('ENABLED_MOBILE_MODULE', in_array('mobileModule', $enabledServices));
 		$viewer->assign('CURRENT_VERSION', vglobal('YetiForce_current_version'));
 		$viewer->assign('LANGUAGE_SELECTION', vglobal('langInLoginView'));
+		$viewer->assign('ERROR', $request->get('error'));
+		$viewer->assign('FPERROR', $request->get('fpError'));
+		$viewer->assign('STATUS', $request->get('status'));
+		$viewer->assign('STATUS_ERROR', $request->get('statusError'));
 		$viewer->view('Login.tpl', 'Users');
 	}
 

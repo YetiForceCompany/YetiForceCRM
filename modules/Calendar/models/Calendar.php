@@ -100,6 +100,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$crmid = $record['activityid'];
 			$activitytype = $record['activitytype'];
 			$item['id'] = $crmid;
+			$item['module'] = $this->getModuleName();
 			$item['title'] = $record['subject'];
 			$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=Detail&record=' . $crmid;
 			$item['set'] = $record['activitytype'] == 'Task' ? 'Task' : 'Event';
@@ -108,6 +109,12 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$item['sta'] = $record['status'];
 			$item['vis'] = $record['visibility'];
 			$item['state'] = $record['state'];
+			$item['smownerid'] = Vtiger_Functions::getOwnerRecordLabel($record['smownerid']);
+			
+			//translate
+			$item['labels']['sta'] = vtranslate($record['status'], $this->getModuleName());
+			$item['labels']['pri'] = vtranslate($record['priority'], $this->getModuleName());
+			$item['labels']['state'] = vtranslate($record['state'], $this->getModuleName());
 
 			//Relation
 			$item['link'] = $record['link'];

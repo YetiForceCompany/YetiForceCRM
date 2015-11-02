@@ -40,6 +40,45 @@ CREATE TABLE `a_yf_inventory_limits` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `a_yf_pdf` */
+
+CREATE TABLE `a_yf_pdf` (
+  `pdfid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id of record',
+  `module_name` varchar(25) NOT NULL COMMENT 'name of the module',
+  `header_content` text NOT NULL,
+  `body_content` text NOT NULL,
+  `footer_content` text NOT NULL,
+  `status` set('active','inactive') NOT NULL,
+  `primary_name` varchar(255) NOT NULL,
+  `secondary_name` varchar(255) NOT NULL,
+  `meta_author` varchar(255) NOT NULL,
+  `meta_creator` varchar(255) NOT NULL,
+  `meta_keywords` varchar(255) NOT NULL,
+  `metatags_status` tinyint(1) NOT NULL,
+  `meta_subject` varchar(255) NOT NULL,
+  `meta_title` varchar(255) NOT NULL,
+  `page_format` varchar(255) NOT NULL,
+  `margin_chkbox` tinyint(1) DEFAULT NULL,
+  `margin_top` smallint(2) unsigned NOT NULL,
+  `margin_bottom` smallint(2) unsigned NOT NULL,
+  `margin_left` smallint(2) unsigned NOT NULL,
+  `margin_right` smallint(2) unsigned NOT NULL,
+  `page_orientation` set('PLL_PORTRAIT','PLL_LANDSCAPE') NOT NULL,
+  `language` varchar(7) NOT NULL,
+  `filename` varchar(255) NOT NULL,
+  `visibility` set('PLL_LISTVIEW','PLL_DETAILVIEW') NOT NULL,
+  `default` tinyint(1) DEFAULT NULL,
+  `conditions` text NOT NULL,
+  `watermark_type` set('text','image') NOT NULL,
+  `watermark_text` varchar(255) NOT NULL,
+  `watermark_size` tinyint(2) unsigned NOT NULL,
+  `watermark_angle` smallint(3) unsigned NOT NULL,
+  `watermark_image` varchar(255) NOT NULL,
+  `template_members` varchar(255) NOT NULL,
+  PRIMARY KEY (`pdfid`),
+  KEY `module_name` (`module_name`,`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `a_yf_taxes_config` */
 
 CREATE TABLE `a_yf_taxes_config` (
@@ -181,7 +220,7 @@ CREATE TABLE `com_vtiger_workflowtasks` (
   `task` text,
   PRIMARY KEY (`task_id`),
   UNIQUE KEY `com_vtiger_workflowtasks_idx` (`task_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtasks_entitymethod` */
 
@@ -1818,7 +1857,7 @@ CREATE TABLE `vtiger_currencies` (
   `currency_code` varchar(50) DEFAULT NULL,
   `currency_symbol` varchar(11) DEFAULT NULL,
   PRIMARY KEY (`currencyid`)
-) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies_seq` */
 
@@ -3291,6 +3330,18 @@ CREATE TABLE `vtiger_language_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_layout` */
+
+CREATE TABLE `vtiger_layout` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `label` varchar(30) DEFAULT NULL,
+  `lastupdated` datetime DEFAULT NULL,
+  `isdefault` tinyint(1) DEFAULT NULL,
+  `active` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_lead_view` */
 
 CREATE TABLE `vtiger_lead_view` (
@@ -4304,6 +4355,7 @@ CREATE TABLE `vtiger_ossmailscanner_log_cron` (
 CREATE TABLE `vtiger_ossmailtemplates` (
   `ossmailtemplatesid` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
+  `sysname` varchar(50) DEFAULT '',
   `oss_module_list` varchar(255) DEFAULT '',
   `subject` varchar(255) DEFAULT '',
   `content` text,
@@ -7100,7 +7152,7 @@ CREATE TABLE `vtiger_time_zone` (
   `sortorderid` int(19) NOT NULL DEFAULT '0',
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`time_zoneid`)
-) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_time_zone_seq` */
 
@@ -7115,6 +7167,7 @@ CREATE TABLE `vtiger_timecontrol_type` (
   `timecontrol_type` varchar(200) NOT NULL,
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
+  `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`timecontrol_typeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 

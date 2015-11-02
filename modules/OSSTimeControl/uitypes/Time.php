@@ -53,9 +53,6 @@ class OSSTimeControl_Time_UIType extends Vtiger_Time_UIType
 
 		$dateTimeField = new DateTimeField($date->format('Y-m-d H:i:s'));
 		$value = $dateTimeField->getDisplayTime();
-		if ($userModel->get('hour_format') == '12') {
-			return Vtiger_Time_UIType::getTimeValueInAMorPM($value);
-		}
 		return $value;
 	}
 }

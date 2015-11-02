@@ -67,9 +67,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				$relatedID[] = $srecord;
 			}
 			$query = 'SELECT ossmailviewid FROM vtiger_ossmailview_relation WHERE crmid IN(' . implode(',', $relatedID) . ') AND `deleted` = ? ORDER BY `date` DESC';
-			if($config['widget_limit'] != ''){
-				$query .= ' LIMIT ' . $config['widget_limit'];
-			}
 			$result = $adb->pquery($query, [0]);
 			
 			while ($row = $adb->fetch_array($result)) {
@@ -287,7 +284,8 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 
 	public function getMailsQuery($recordId, $moduleName)
 	{
-		$sql = "SELECT vtiger_crmentity.*, vtiger_ossmailview.*, CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN CONCAT(vtiger_users.last_name,' ',vtiger_users.first_name) ELSE vtiger_groups.groupname END AS user_name 
+		$usersSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+		$sql = "SELECT vtiger_crmentity.*, vtiger_ossmailview.*, CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $usersSqlFullName ELSE vtiger_groups.groupname END AS user_name 
 			FROM vtiger_ossmailview 
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid 
 			INNER JOIN vtiger_ossmailviewcf ON vtiger_ossmailviewcf.ossmailviewid = vtiger_ossmailview.ossmailviewid 

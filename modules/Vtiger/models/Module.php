@@ -251,6 +251,30 @@ class Vtiger_Module_Model extends Vtiger_Module
 	}
 
 	/**
+	 * Function to get listview url with all filter
+	 * @return <string> URL
+	 */
+	public function getListViewUrlWithAllFilter()
+	{
+		return $this->getListViewUrl() . '&viewname=' . $this->getAllFilterCvidForModule();
+	}
+
+	/**
+	 * Function returns the All filter for the module
+	 * @return <Int> custom filter id
+	 */
+	public function getAllFilterCvidForModule()
+	{
+		$db = PearDatabase::getInstance();
+
+		$result = $db->pquery("SELECT cvid FROM vtiger_customview WHERE viewname = 'All' AND entitytype = ?", [$this->getName()]);
+		if ($result->rowCount()) {
+			return $db->getSingleValue($result);
+		}
+		return false;
+	}
+
+	/**
 	 * Function to get the DetailView Component Name
 	 * @return string
 	 */
@@ -1711,7 +1735,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 					foreach ($referenceList as $referenceModule) {
 						$fieldMap[$referenceModule] = $fieldName;
 					}
-					if (in_array($sourceModule, $referenceList)) {
+					if (in_array($sourceModule, $referenceList) && !($sourceModule == 'Accounts' && in_array('Accounts', $referenceList))) {
 						$relationField = $fieldName;
 					}
 				}
@@ -1721,7 +1745,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
 					$referenceList = $fieldModel->getReferenceList();
 					foreach ($referenceList as $referenceModule) {
-						if (isset($fieldMap[$referenceModule])) {
+						if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
 							$fieldValue = $recordModel->get($fieldName);
 							if ($fieldValue != 0 && Vtiger_Functions::getCRMRecordType($fieldValue) == $referenceModule)
 								$data[$fieldMap[$referenceModule]] = $fieldValue;

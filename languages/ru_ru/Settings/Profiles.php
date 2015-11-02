@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_VIEW_PRVILIGE' => 'Просматривать',
 	'LBL_ADD_RECORD' => 'Добавить Профиль',
@@ -19,8 +19,8 @@ $languageStrings = [
 	'LBL_DESCRIPTION' => 'Описание',
 	'LBL_DUPLICATE_RECORD' => 'Дублировать',
 	'LBL_DUPLICATES_EXIST' => 'Дубликат профиля существует',
-        'LBL_EDIT_ALL_DESC' => 'Разрешено редактировать все данные модуля',
-        'LBL_EDIT_ALL' => 'Редактировать все',
+	'LBL_EDIT_ALL_DESC' => 'Разрешено редактировать все данные модуля',
+	'LBL_EDIT_ALL' => 'Редактировать все',
 	'LBL_EDIT_PRIVILIGES_FOR_THIS_PROFILE' => 'Редактировать привилегии для данного профиля',
 	'LBL_EDIT_PRIVILIGE' => 'Создавать Редактировать',
 	'LBL_EDIT_RECORD' => 'Редактировать',
@@ -38,22 +38,21 @@ $languageStrings = [
 	'LBL_VIEW_ALL' => 'Просматривать все',
 	'LBL_VIEW_PRIVILEGE' => 'Просматривать',
 	'LBL_WRITE' => 'Запись',
-	'Profiles'                     => 'Профили',
+	'Profiles' => 'Профили',
 	'SINGLE_Profiles' => 'Профиль',
 	'Name' => 'Название профиля',
-
 	//Actions
 	'Import' => 'Импортировать записи',
 	'Export' => 'Экспортировать записи',
-	'Merge'  => 'Объединять записи',
+	'Merge' => 'Объединять записи',
 	'ConvertLead' => 'Преобразовывать Обращение',
 	'DuplicatesHandling' => 'Обрабатывать дубликаты',
 	'ReceiveIncomingCalls' => 'Принимать входящие звонки',
 	'MakeOutgoingCalls' => 'Совершать исходящие звонки',
 	'Print' => 'Печатать данные',
-	'CreateCustomFilter'  => 'Создавать фильтры',
-	'DuplicateRecord'  => 'Дублировать записи',
-	'EditableComments'  => 'Редактировать комментарии',
+	'CreateCustomFilter' => 'Создавать фильтры',
+	'DuplicateRecord' => 'Дублировать записи',
+	'EditableComments' => 'Редактировать комментарии',
 	'TagCloud' => 'Теги',
 	'MassEdit' => 'Массовое редактирование',
 	'MassDelete' => 'Массовое удаление',
@@ -66,7 +65,16 @@ $languageStrings = [
 	'WorkflowTrigger' => 'Обработчик',
 	'QuickExportToExcel' => 'Ьыстрый Экспорт в Excel',
 	'CreateDashboardFilter' => 'Создать Виджет',
-	'DetailTransferOwnership'  => 'Record preview - change the owner',
+	'DetailTransferOwnership' => 'Record preview - change the owner',
+	'ExportPdf' => '__UNTRANSLATED__',
+	//end Actions
+	'Admin Profile' => 'Admin Profile',
+	'Support Profile' => 'Support Profile',
+	'Sales Profile' => 'Sales Profile',
+	'Guest Profile' => 'Guest',
+	'Profile Related to Sales' => 'Profile Related to Sales',
+	'Profile Related to Support' => 'Profile Related to Support',
+	'Guest Profile for Test Users' => 'Guest Profile for Test Users',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Профиль успешно удален',

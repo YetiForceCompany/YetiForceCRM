@@ -700,7 +700,7 @@ $languageStrings = [
 	'Interested services' => 'Interessados em Serviços',
 	'Recycle Bin' => 'Lixeira',
 	/* YetiForce */
-	'Total time [h]'=>'Tempo Total [h]',
+	'Total time [h]' => 'Tempo Total [h]',
 	'LBL_NO_RELATED_RECORDS_FOUND' => 'Nenhum registro a ser exibido',
 	'LBL_RECORD_SUMMARY' => 'Resumo',
 	'LBL_RECORD_DETAILS' => 'Detalhes',
@@ -971,7 +971,6 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Baseado em módulos relacionados',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Dependendo da quantidade de dados, o processo de transferência do proprietário poderá demorar vários minutos para conlcuir',
 	'LBL_LEGAL_FORM' => 'Forma Jurídica',
-	
 	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Exportar para o Excel',
 	'ReasonToEdit' => 'Motivo para editar',
 	'Mails List' => 'E-mails mais recentes',
@@ -998,7 +997,6 @@ $languageStrings = [
 	'None' => 'Nada',
 	'Email Opt Out' => 'Email Opt Out',
 	'LBL_SIGN_IN' => 'Inscrever',
-	
 	//Inventory
 	'LBL_DISCOUNT' => 'Desconto',
 	'LBL_TAX' => 'Imposto',
@@ -1055,6 +1053,18 @@ $languageStrings = [
 	'LBL_COMMENT' => 'Comentário',
 	'LBL_CURRENT' => 'Atual',
 	'LBL_SET_RECORD_STATUS' => 'Definir status',
+	'LBL_SELECT_SOME_OPTIONS' => 'Selecione um valor',
+	//PDF
+	'LBL_EXPORT_PDF' => '__UNTRANSLATED__',
+	'LBL_GENERATE_PDF_FILE' => '__UNTRANSLATED__',
+	'LBL_AVAILABLE_TEMPLATES' => '__UNTRANSLATED__',
+	'LBL_GENERATE' => '__UNTRANSLATED__',
+	'LBL_GENERATE_SINGLE' => '__UNTRANSLATED__',
+	'LBL_MANY_IN_ONE' => '__UNTRANSLATED__',
+	'LBL_SEND_EMAIL' => '__UNTRANSLATED__',
+	'LBL_VALID_RECORDS' => '__UNTRANSLATED__',
+	'LBL_EXPORT_ERROR' => '__UNTRANSLATED__',
+	'LBL_PDF_MANY_IN_ONE' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
@@ -1279,15 +1289,15 @@ $jsLanguageStrings = [
 	'None' => 'None',
 	'JS_START_DATE' => 'Data Início',
 	'JS_END_DATE' => 'Data Final',
-	'JS_STATE'=>'Exibir como',
+	'JS_STATE' => 'Exibir como',
 	'JS_SUBJECT' => 'Assunto',
-	'PLL_OPAQUE' => 'Ocupado',
-	'PLL_TRANSPARENT' => 'Livre',
 	'JS_STATUS' => 'Status',
-	'Low' => 'Baixa',
-	'Normal' => 'Normal',
-	'High' => 'Alta',
-	'Medium' => 'Média',
-	'Held' => 'Realizado',
-	'Not Held' => 'Não Realizado',
+	'JS_PLL_PLANNED' => 'Planned',
+	'JS_PLL_IN_REALIZATION' => 'To be realized',
+	'JS_PLL_OVERDUE' => 'Overdue',
+	'JS_PLL_POSTPONED' => 'Postponed',
+	'JS_PLL_CANCELLED' => 'Cancelled',
+	'JS_PLL_COMPLETED' => 'Completed',
+	'JS_PDF_RECALCULATING' => '__UNTRANSLATED__',
+	'JS_PDF_GENERATING' => '__UNTRANSLATED__',
 ];

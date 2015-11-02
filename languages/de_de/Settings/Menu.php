@@ -59,6 +59,8 @@ $languageStrings = array(
 	'LBL_REMOVE_DESC' => 'Gewählter Eintrag enthält Untermenüs. Alle Untermenüs werden ebenfalls gelöscht.',
 	'LBL_REMOVE' => 'Löschen',
 	'LBL_CANCEL' => 'Abbrechen',
+	//End Remove modal
+	'LBL_MORE_INFO' => 'Click here for more information',
 );
 $jsLanguageStrings = array(
 	'JS_EDIT' => 'Ändern',

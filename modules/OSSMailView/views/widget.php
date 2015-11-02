@@ -27,7 +27,10 @@ Class OSSMailView_widget_View extends Vtiger_Edit_View
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$recordModel_OSSMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$config = $recordModel_OSSMailScanner->getConfig('email_list');
-
+		if($request->has('limit')){
+			$config['widget_limit'] = $request->get('limit');
+		}
+		
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECOLDLIST', $recordModel->$mode($srecord, $smodule, $config, $type, $mailFilter));
 		$viewer->assign('SENDURLDDATA', $urldata);

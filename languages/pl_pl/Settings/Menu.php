@@ -59,6 +59,8 @@ $languageStrings = [
 	'LBL_REMOVE_DESC' => 'Wybrana pozycja zawiera podmenu, usuwając to menu usuwasz również wszystkie zawarte w niej pozycje podmenu.',
 	'LBL_REMOVE' => 'Usuń',
 	'LBL_CANCEL' => 'Anuluj',
+	//End Remove mondal
+	'LBL_MORE_INFO' => 'Kliknij tutaj by uzyskać więcej informacji',
 ];
 $jsLanguageStrings = [
 	'JS_EDIT' => 'Edytuj',

@@ -35,7 +35,8 @@
 		<ul class="{if !empty($SRC)}settingIcons{/if} nav navbar-nav navbar-right">
 			<li class="dropdown">
 				{assign var="HREF" value='#'}
-				{if !empty($LINK->getUrl())}
+				{assign var="URL" value=$LINK->getUrl()}
+				{if !empty($URL)}
 					{assign var="HREF" value=$LINK->getUrl()}
 				{/if}
 				<a class="{if !empty($CHILDLINKS)}dropdown-toggle{/if}" {if !empty($CHILDLINKS)}data-toggle="dropdown"{/if} href="{$HREF}" title="{$TITLE}">

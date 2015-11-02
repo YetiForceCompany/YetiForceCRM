@@ -144,6 +144,11 @@ class PearDatabase
 		$this->port = $port;
 	}
 
+	function getDatabaseName()
+	{
+		return $this->dbName;
+	}
+	
 	function println($msg)
 	{
 		$this->log($msg);

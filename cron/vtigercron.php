@@ -17,8 +17,9 @@ require_once('vtlib/Vtiger/Cron.php');
 require_once('modules/Emails/mail.php');
 
 Vtiger_Session::init();
-
-if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || (!empty(Vtiger_Session::get('authenticated_user_id')) && !empty(Vtiger_Session::get('app_unique_key')) && Vtiger_Session::get('app_unique_key') == vglobal('application_unique_key'))) {
+$authenticatedUserId = Vtiger_Session::get('authenticated_user_id');
+$appUniqueKey = Vtiger_Session::get('app_unique_key');
+if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey == vglobal('application_unique_key'))) {
 	$log = LoggerManager::getLogger('CRON');
 	vglobal('log', $log);
 

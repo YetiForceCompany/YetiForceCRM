@@ -26,4 +26,10 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 			return Vtiger_Functions::getCRMRecordLabel($value);
 		return '';
 	}
+	
+	public function getReferenceModule()
+	{
+		$params = Zend_Json::decode($this->get('params'));
+		return $params['modules'];
+	}
 }

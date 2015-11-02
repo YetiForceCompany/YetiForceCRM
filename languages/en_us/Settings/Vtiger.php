@@ -308,6 +308,21 @@ $languageStrings = [
 	'LBL_VIEW_COMPANYDETAILS' => 'Company Details',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Announcements',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Outgoing Server',
+	'LBL_DEFAULT_LAYOUT' => 'Layout',
+	'LBL_DEFAULT' => 'Default',
+	'LBL_TIMECONTROL_PROCESSES' => 'Time control processes',
+	//config editor
+	'LBL_POPUP_TYPE' => 'Pop-up window type with record list.  1 - Normal, 2 - Expanded search',
+	'LBL_SHOWING_BREADCRUMBS' => 'Show breadcrumbs menu',
+	'LBL_SHOW_RESPONSE_TIME' => 'Show or hide time to compose each page',
+	'LBL_TITLE_MAX_LENGHT' => 'Maximum length of characters for title ',
+	'LBL_MINIMUM_CRON_FREQUENCY' => 'Minimum cron frequency [min] ',
+	'LBL_LIST_MAX_ENTRIES_MASSEDIT' => 'Maximum number of records in mass edition',
+	'LBL_BG_CLOSING_MODAL' => 'Enable closing of modal window by clicking on the background',
+	'LBL_ENABLE_SHARING_RECORDS' => 'Enable records sharing',
+	'LBL_HREF_MAX_LEGTH' => 'Maximum length for href tag ',
+	//end config editor
+	'LBL_VIEW_SWITCHUSERS' => 'Switch users',
 ];
 
 $jsLanguageStrings = [

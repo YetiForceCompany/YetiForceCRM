@@ -23,7 +23,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 			$dbLog->insert('l_yf_switch_users', [
 				'baseid' => $baseUserId,
 				'destid' => $userId,
-				'busername' => $currentUserModel->get('first_name') . ' ' . $currentUserModel->get('last_name'),
+				'busername' => $currentUserModel->getName(),
 				'dusername' => '',
 				'date' => date('Y-m-d H:i:s'),
 				'ip' => Vtiger_Functions::getRemoteIP(),
@@ -41,7 +41,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 		$userId = $request->get('id');
 		$user = new Users();
 		$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
-		$name = $currentUser->column_fields['first_name'] . ' ' . $currentUser->column_fields['last_name'];
+		$name = $currentUserModel->getName();
 		$userName = $currentUser->column_fields['user_name'];
 		Vtiger_Session::set('AUTHUSERID', $userId);
 		Vtiger_Session::set('authenticated_user_id', $userId);
@@ -64,7 +64,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 		$dbLog->insert('l_yf_switch_users', [
 			'baseid' => $baseUserId,
 			'destid' => $userId,
-			'busername' => $currentUserModel->get('first_name') . ' ' . $currentUserModel->get('last_name'),
+			'busername' => $currentUserModel->getName(),
 			'dusername' => $name,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => Vtiger_Functions::getRemoteIP(),

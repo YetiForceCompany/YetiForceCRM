@@ -40,7 +40,7 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 			$selectedTabidsList[] = getTabid($this->getName());
 			$presense = array(0, 2);
 			$restrictedFieldNames = array('campaignrelstatus');
-			$restrictedUitypes = array(4, 51, 52, 53, 57, 58, 69, 70);
+			$restrictedUitypes = $this->getRestrictedUitypes();
 			$selectedGeneratedTypes = array(1, 2);
 
 			$db = PearDatabase::getInstance();
@@ -63,6 +63,15 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 			$this->supportedFieldIdsList = $fieldIdsList;
 		}
 		return $this->supportedFieldIdsList;
+	}
+
+	/**
+	 * Function to get the Restricted Ui Types
+	 * @return <array> Restricted ui types
+	 */
+	public function getRestrictedUitypes()
+	{
+		return array(4, 51, 52, 53, 57, 58, 69, 70);
 	}
 
 	/**

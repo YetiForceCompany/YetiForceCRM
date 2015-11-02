@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once("VTJsonCondition.inc");
+require_once('VTJsonCondition.inc');
 require_once 'include/utils/ConfigReader.php';
 require_once 'include/runtime/Cache.php';
 
@@ -23,6 +23,7 @@ class VTWorkflowManager
 	static $MANUAL = 7;
 	static $TRIGGER = 8;
 	static $BLOCK_EDIT = 9;
+	static $ON_RELATED = 10;
 
 	function __construct($adb)
 	{
@@ -428,11 +429,11 @@ class Workflow
 	function executionConditionAsLabel($label = null)
 	{
 		if ($label == null) {
-			$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT'];
+			$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED'];
 			return $arr[$this->executionCondition - 1];
 		} else {
 			$arr = ['ON_FIRST_SAVE' => 1, 'ONCE' => 2, 'ON_EVERY_SAVE' => 3, 'ON_MODIFY' => 4,
-				'ON_DELETE' => 5, 'ON_SCHEDULE' => 6, 'MANUAL' => 7, 'TRIGGER' => 8, 'BLOCK_EDIT' => 9];
+				'ON_DELETE' => 5, 'ON_SCHEDULE' => 6, 'MANUAL' => 7, 'TRIGGER' => 8, 'BLOCK_EDIT' => 9, 'ON_RELATED' => 10];
 			$this->executionCondition = $arr[$label];
 		}
 	}

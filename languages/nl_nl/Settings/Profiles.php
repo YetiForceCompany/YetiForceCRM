@@ -1,12 +1,12 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_VIEW_PRVILIGE' => 'View',
 	'LBL_ADD_RECORD' => 'Add record',
@@ -18,8 +18,8 @@ $languageStrings = [
 	'LBL_DESCRIPTION' => 'Description',
 	'LBL_DUPLICATE_RECORD' => 'Duplicate',
 	'LBL_DUPLICATES_EXIST' => 'Duplicate Profile Exists',
-        'LBL_EDIT_ALL_DESC' => 'Can edit all the module\'s information',
-        'LBL_EDIT_ALL' => 'Edit All',
+	'LBL_EDIT_ALL_DESC' => 'Can edit all the module\'s information',
+	'LBL_EDIT_ALL' => 'Edit All',
 	'LBL_EDIT_PRIVILIGES_FOR_THIS_PROFILE' => 'Edit privileges for this profile',
 	'LBL_EDIT_PRIVILIGE' => 'Create/Edit',
 	'LBL_EDIT_RECORD' => 'Edit',
@@ -40,19 +40,18 @@ $languageStrings = [
 	'Profiles' => 'Profiles',
 	'SINGLE_Profiles' => 'Profile',
 	'Name' => 'Profile Name',
-
 	//Actions
 	'Import' => 'Import',
 	'Export' => 'Export',
-	'Merge'  => 'Merge',
+	'Merge' => 'Merge',
 	'ConvertLead' => 'Convert Lead',
 	'DuplicatesHandling' => 'Duplicates Handling',
 	'ReceiveIncomingCalls' => 'Receive Incoming Calls',
 	'MakeOutgoingCalls' => 'Make Outgoing Calls',
 	'Print' => 'Print',
-	'CreateCustomFilter'  => 'Custom filters creation',
-	'DuplicateRecord'  => 'Duplicating',
-	'EditableComments'  => 'Edit comments',
+	'CreateCustomFilter' => 'Custom filters creation',
+	'DuplicateRecord' => 'Duplicating',
+	'EditableComments' => 'Edit comments',
 	'TagCloud' => 'Tags cloud',
 	'MassEdit' => 'Mass edit',
 	'MassDelete' => 'Mass delete',
@@ -65,7 +64,16 @@ $languageStrings = [
 	'WorkflowTrigger' => 'Workflow trigger',
 	'QuickExportToExcel' => 'Quick export to Excel',
 	'CreateDashboardFilter' => 'Create filter widgets',
-	'DetailTransferOwnership'  => 'Record preview - change the owner',
+	'DetailTransferOwnership' => 'Record preview - change the owner',
+	'ExportPdf' => '__UNTRANSLATED__',
+	//end Actions
+	'Admin Profile' => 'Admin Profile',
+	'Support Profile' => 'Support Profile',
+	'Sales Profile' => 'Sales Profile',
+	'Guest Profile' => 'Guest',
+	'Profile Related to Sales' => 'Profile Related to Sales',
+	'Profile Related to Support' => 'Profile Related to Support',
+	'Guest Profile for Test Users' => 'Guest Profile for Test Users',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profile deleted successfully',

@@ -168,27 +168,24 @@ jQuery.Class('Vtiger_Widget_Js', {
 			var currentElement = jQuery(e.currentTarget);
 			var drefresh = container.find('a[name="drefresh"]');
 			var url = drefresh.data('url');
-			var urlparams = currentElement.data('urlparams');
-			if (urlparams != '') {
-				url = url.replace('&sortorder=desc');
-				url = url.replace('&sortorder=asc');
-				url += '&sortorder=';
-				var sort = currentElement.data('sort');
-				var sortorder = 'desc';
-				var icon = 'glyphicon-sort-by-attributes-alt';
-				if (sort == 'desc') {
-					sortorder = 'asc';
-					icon = 'glyphicon-sort-by-attributes';
-				}
-				currentElement.data('sort', sortorder);
-				currentElement.attr('title', currentElement.data(sortorder));
-				currentElement.attr('alt', currentElement.data(sortorder));
-				url += sortorder;
-				var glyphicon = currentElement.find('.glyphicon');
-				glyphicon.removeClass().addClass('glyphicon').addClass(icon);
-				drefresh.data('url', url);
-				drefresh.click();
+			url = url.replace('&sortorder=desc','');
+			url = url.replace('&sortorder=asc','');
+			url += '&sortorder=';
+			var sort = currentElement.data('sort');
+			var sortorder = 'desc';
+			var icon = 'glyphicon-sort-by-attributes-alt';
+			if (sort == 'desc') {
+				sortorder = 'asc';
+				icon = 'glyphicon-sort-by-attributes';
 			}
+			currentElement.data('sort', sortorder);
+			currentElement.attr('title', currentElement.data(sortorder));
+			currentElement.attr('alt', currentElement.data(sortorder));
+			url += sortorder;
+			var glyphicon = currentElement.find('.glyphicon');
+			glyphicon.removeClass().addClass('glyphicon').addClass(icon);
+			drefresh.data('url', url);
+			drefresh.click();
 		});
 	},
 	registerWidgetSwitch: function () {
@@ -956,7 +953,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H(:mm)';
 		} else {
-			userDefaultTimeFormat = 'h(:mm)tt';
+			userDefaultTimeFormat = 'h(:mm) A';
 		}
 
 		//Default first day of the week

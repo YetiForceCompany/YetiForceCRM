@@ -23,6 +23,7 @@
 	<input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}" />
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
 	<input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
+	<input type="hidden" id="autoRefreshListOnChange" value="{PerformancePrefs::getBoolean('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
@@ -36,7 +37,12 @@
 				<tr>
 					{foreach item=ALPHABET from=$ALPHABETS}
 						<td class="alphabetSearch textAlignCenter cursorPointer {if $ALPHABET_VALUE eq $ALPHABET} highlightBackgroundColor {/if}" style="padding : 0px !important"><a id="{$ALPHABET}" href="#">{$ALPHABET}</a></td>
-						{/foreach}
+					{/foreach}
+					<td class="alphabetSearch textAlignCenter cursorPointer">
+						<a href="index.php?view=List&module=Users&parent=Settings" >
+							<span class="glyphicon glyphicon-remove"></span>
+						</a>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -76,7 +82,7 @@
 			</thead>
 			{if $MODULE_MODEL->isQuickSearchEnabled()}
 				<tr>
-					<td><a class="btn btn-default" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="glyphicon glyphicon-search"></span></a></td><td></td>
+					<td><a class="btn btn-default" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a></td><td></td>
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=SEARCH_HEADERS}
 						<td>
 							{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
@@ -130,7 +136,7 @@
 					{if $LISTVIEW_HEADER@last}
 						<div class="pull-right actions">
 							<span class="actionImages">
-								<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{vtranslate('LBL_DUPLICATE', $MODULE)}" class="glyphicon glyphicon-plus alignMiddle"></span></a>&nbsp;
+								<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{vtranslate('LBL_DUPLICATE', $MODULE)}" class="glyphicon glyphicon-retweet alignMiddle"></span></a>&nbsp;
 									{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
 									<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
 									{/if}

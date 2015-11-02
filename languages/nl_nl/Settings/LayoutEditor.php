@@ -1,21 +1,21 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_FIELD_MASK' => 'Field Mask',
 	'Calendar' => 'To Do',
 	'Checkbox' => 'Checkbox',
-	'Currency'=>'Currency',
-	'Date'=>'Date',
-	'Decimal'=>'Decimal',
-	'Email'=>'Email',
-	'Integer'=>'Integer',
+	'Currency' => 'Currency',
+	'Date' => 'Date',
+	'Decimal' => 'Decimal',
+	'Email' => 'Email',
+	'Integer' => 'Integer',
 	'LayoutEditor' => 'Layout Editor',
 	'LBL_ACTIONS' => 'Actions',
 	'LBL_ACTIVE' => 'Active',
@@ -53,19 +53,18 @@ $languageStrings = [
 	'LBL_SELECT_MODULE' => 'Select Module..',
 	'LBL_SUMMARY_FIELD' => 'Summary View',
 	'LBL_WRONG_FIELD_TYPE' => 'Wrong Field Type',
-	'MultiSelectCombo'=>'Multi-Select Combo Box',
-	'Percent'=>'Percent',
-	'Phone'=>'Phone',
-	'Picklist'=>'Pick List',
-	'Skype'=>'Skype',
+	'MultiSelectCombo' => 'Multi-Select Combo Box',
+	'Percent' => 'Percent',
+	'Phone' => 'Phone',
+	'Picklist' => 'Pick List',
+	'Skype' => 'Skype',
 	'TextArea' => 'Text Area',
-	'Text'=>'Text',
-	'Time'=>'Time',
+	'Text' => 'Text',
+	'Time' => 'Time',
 	'URL' => 'Website',
-    'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Edit related modules',
+	'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Edit related modules',
 	'LBL_VISIBLE' => 'Visible',
 	'LBL_HIDDEN' => 'Hidden',
-	
 	//Yetiforce
 	'LBL_RELATION_VALUES' => 'Select modules',
 	'LBL_FIELD_NAME' => 'Field name',
@@ -90,7 +89,6 @@ $languageStrings = [
 	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'Related field',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD' => 'Filter by field',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE' => 'Filter by value',
-	
 	'LBL_ADD_RELATION' => 'Add relation',
 	'LBL_REMOVE_RELATION' => 'Remove relation',
 	'LBL_RELATION_TYPE' => 'Relation type',
@@ -102,7 +100,6 @@ $languageStrings = [
 	'PLL_DEPENDENTS_LIST' => 'One to many',
 	'PLL_ADD' => 'Add',
 	'PLL_SELECT' => 'Select',
-	
 	// inventory tab
 	'LBL_MANAGING_AN_ADVANCED_BLOCK' => 'Managing an advanced block',
 	'LBL_HEADLINE' => 'Headline',
@@ -110,7 +107,6 @@ $languageStrings = [
 	'LBL_ADDITIONAL_VERSE' => 'Additional verse',
 	'LBL_ADVANCED_MODULE' => 'Advanced',
 	'LBL_BASIC_MODULE' => 'Basic',
-	
 	'LBL_EDITING_INVENTORY_FIELD' => 'Edit',
 	'LBL_CREATING_INVENTORY_FIELD' => 'Add',
 	'LBL_NAME_FIELD' => 'Name',
@@ -121,10 +117,29 @@ $languageStrings = [
 	'LBL_PARAMS_MODULES' => 'Modules',
 	'LBL_PARAMS_LIMIT' => 'Limit',
 	'LBL_DISPLAY_TYPE' => 'Field type',
-	'LBL_EDITABLE' => 'Editable',
-	'LBL_READONLY' => 'Read-only',
+	'LBL_DISPLAYTYPE_ALL' => 'Visible everywhere',
+	'LBL_DISPLAYTYPE_READONLY' => 'Read-only',
+	'LBL_DISPLAYTYPE_ONLY_DETAIL' => 'Visible in detail view',
+	'LBL_DISPLAYTYPE_HIDDEN' => 'Hidden',
 	'LBL_FIELDS_EXISTS_IN_BLOCK' => 'Fields exists for the block',
 	'LBL_DELETE_CUSTOM_BLOCKS' => 'Cannot delete non custom blocks',
+	'LBL_CURRENCY_DESC' => 'List of available currencies, adding a currency launches a mechanism that calculates prices based on the current exchange rate.',
+	'LBL_DISCOUNT_MODE_DESC' => 'List of available discount modes: group or individual.',
+	'LBL_TAX_MODE_DESC' => 'List of available tax modes: group or individual.',
+	'LBL_COMMENT_DESC' => 'WYSIWYG field used to enter any description to a given element, the field is collapsed in edition by default.',
+	'LBL_DISCOUNT_DESC' => 'Numeric field used to enter discount value for a selected element, discounts can be selected from the list of available discounts. Summation can be customized in system administration.',
+	'LBL_GROSS_PRICE_DESC' => 'Non-editable field calculated automatically, contains the final price of an element (Price after discount + Tax).',
+	'LBL_ITEM_NAME_DESC' => 'Mandatory basic field, specifies modules to select records from. Additionally includes limit settings to block record saving when the credit limit is reached.',
+	'LBL_QUANTITY_DESC' => 'Numeric field used to enter the quantity for each record, for example product quantity. Its value has to be higher than zero.',
+	'LBL_UNIT_PRICE_DESC' => 'Numeric field used to enter the price per unit for a given record, for example price per one unit of a product.',
+	'LBL_TOTAL_PRICE_DESC' => 'Non-editable field calculated automatically, contains the Net price for a given element. (Quantity * Unit price).',
+	'LBL_DISCOUNT_PRICE_DESC' => 'Non-editable field calculated automatically, contains the Net price after discount (Net price - Discount).',
+	'LBL_TAX_DESC' => 'Numeric field used to enter the tax value for a given element, tax can be selected from the list of available taxes.  Summation can be customized in system administration.',
+	'LBL_VALUE_DESC' => 'Additional field used to enter any value by the user.',
+	'LBL_REFERENCE_DESC' => 'Additional field used to relate a given element with any record in the system.',
+	'LBL_PURCHASE_DESC' => 'Numeric field used to enter the purchase/acquisition value of a given element.',
+	'LBL_MARGIN_DESC' => 'Non-editable field calculated automatically, contains the profit value for a given element (Price after discount – Purchase), does not include tax.',
+	'LBL_MARGIN_PERCENT_DESC' => 'Non-editable field calculated automatically, contains the profit value, expressed as a percentage.',
 ];
 
 $jsLanguageStrings = [

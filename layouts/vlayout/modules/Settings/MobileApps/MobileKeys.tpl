@@ -39,7 +39,11 @@
 						<tbody>
 							{foreach from=$MODULE_MODEL->getAllMobileKeys() item=item key=key}
 								<tr data-service="{$item.service}" data-user="{$item.userid}">
-									<td><span title="{$item.first_name} {$item.last_name}">{$item.user_name}</span></td>
+									<td>
+										<span title="{$item['fullusername']}">
+											{$item.user_name}
+										</span>
+									</td>
 									<td>{vtranslate($item.name,$QUALIFIED_MODULE)}</td>
 									<td>{$item.key}</td>
 									<td>

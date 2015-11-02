@@ -489,17 +489,19 @@ function vtlib_tosingular($text)
 /**
  * Get picklist values that is accessible by all roles.
  */
-function vtlib_getPicklistValues_AccessibleToAll($field_columnname)
+function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 {
+	$log = vglobal('log');
+	$log->debug('Entering ' . __METHOD__ . '(' . print_r($fieldColumnname, true) . ') method ...');
 	$adb = PearDatabase::getInstance();
 
-	$columnname = $adb->sql_escape_string($field_columnname);
-	$tablename = "vtiger_$columnname";
-
+	$columnname = $adb->sql_escape_string($fieldColumnname);
+	$tablename = 'vtiger_' . $fieldColumnname;
+	
 	// Gather all the roles (except H1 which is organization role)
 	$roleres = $adb->query("SELECT roleid FROM vtiger_role WHERE roleid != 'H1'");
 	$roleresCount = $adb->num_rows($roleres);
-	$allroles = Array();
+	$allroles =[];
 	if ($roleresCount) {
 		for ($index = 0; $index < $roleresCount; ++$index)
 			$allroles[] = $adb->query_result($roleres, $index, 'roleid');
@@ -531,6 +533,7 @@ function vtlib_getPicklistValues_AccessibleToAll($field_columnname)
 			$allrolevalues[] = $picklistval;
 	}
 
+	$log->debug('Exiting ' . __METHOD__ . ' method ...');
 	return $allrolevalues;
 }
 
@@ -632,7 +635,7 @@ function vtlib_purify($input, $ignore = false)
 
 	static $purified_cache = array();
 	$value = $input;
-	
+
 	if (!is_array($input)) {
 		$md5OfInput = md5($input);
 		if (array_key_exists($md5OfInput, $purified_cache)) {
@@ -640,7 +643,7 @@ function vtlib_purify($input, $ignore = false)
 			//to escape cleaning up again
 			$ignore = true;
 		}
-	}  else {
+	} else {
 		$md5OfInput = md5(json_encode($input));
 	}
 	$use_charset = $default_charset;
@@ -676,6 +679,7 @@ function vtlib_purify($input, $ignore = false)
 		}
 		$purified_cache[$md5OfInput] = $value;
 	}
+
 	$value = str_replace('&amp;', '&', $value);
 	return $value;
 }

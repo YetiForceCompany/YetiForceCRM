@@ -22,7 +22,6 @@
 
 require_once('include/utils/utils.php'); //new
 require_once('include/utils/RecurringType.php');
-require_once('include/utils/EmailTemplate.php');
 require_once 'include/QueryGenerator/QueryGenerator.php';
 require_once 'include/ListView/ListViewController.php';
 require_once 'include/runtime/Cache.php';
@@ -252,18 +251,6 @@ function validateImageFile($file_details)
 function getTemplateDetails($templateid)
 {
 	return Vtiger_Deprecated::getTemplateDetails($templateid);
-}
-
-/**
- * 	This function is used to merge the Template Details with the email description
- *  @param string $description  -body of the mail(ie template)
- * 	@param integer $tid  - Id of the entity
- *  @param string $parent_type - module of the entity
- * 	return string $description - Returns description, merged with the input template.
- */
-function getMergedDescription($description, $id, $parent_type)
-{
-	return Vtiger_Functions::getMergedDescription($description, $id, $parent_type);
 }
 
 /** 	Function used to retrieve a single field value from database

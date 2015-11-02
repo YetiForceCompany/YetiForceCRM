@@ -84,6 +84,7 @@ jQuery.Class("Settings_Vtiger_Announcements_Js",{},{
 						text: app.vtranslate('JS_ANNOUNCEMENT_SAVED')
 					};
 					Settings_Vtiger_Index_Js.showMessage(params);
+					location.reload();
 				},
 				function(error){
 					//TODO: Handle Error

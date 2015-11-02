@@ -584,11 +584,11 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 				$emails[] = $userEmail;
 			}
 			$emailsList = implode(',', $emails);
-			$data = array(
-				'id' => 108,
+			$data = [
+				'sysname' => 'BackupHasBeenMade',
 				'to_email' => $emailsList,
 				'module' => 'Contacts',
-			);
+			];
 			$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 			$mail_status = $recordModel->sendMailFromTemplate($data);
 

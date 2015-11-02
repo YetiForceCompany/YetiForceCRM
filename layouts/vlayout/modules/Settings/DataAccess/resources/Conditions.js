@@ -281,7 +281,7 @@ function DataAccessConditions() {
 			},
 			this.showBetweenDateInput = function (element) {
 				var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder'),
-						html = '<div class="date"><input class="dateField bw row" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" placeholder="Click me" value="" data-value="value"></div>';
+						html = '<div class="date"><input class="dateField bw form-control" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" placeholder="Click me" value="" data-value="value"></div>';
 
 				valPlace.children().remove();
 				valPlace.append(html);
@@ -310,7 +310,7 @@ function DataAccessConditions() {
 				var select = jQuery("<select></select>").attr({
 					name: "val",
 					"data-value": "value",
-					class: "row select2"
+					class: "select2 form-control"
 				}).appendTo(valPlace);
 
 				var fieldInfo = jQuery(element).find('option:selected').data('info');
@@ -322,7 +322,7 @@ function DataAccessConditions() {
 					}));
 				});
 
-				jQuery('select.select2').select2();
+				app.showSelect2ElementView(jQuery('select.select2'));
 
 			},
 			this.showMultiPicklist = function (element) {
@@ -333,7 +333,7 @@ function DataAccessConditions() {
 					multiple: "multiple",
 					name: "val",
 					"data-value": "value",
-					class: "row select2"
+					class: "select2 form-control"
 				}).appendTo(valPlace);
 
 				var fieldInfo = jQuery(element).find('option:selected').data('info');
@@ -345,7 +345,7 @@ function DataAccessConditions() {
 					}));
 				});
 
-				jQuery('select.select2').select2();
+				app.showSelect2ElementView(jQuery('select.select2'));
 
 			},
 			this.showInput = function (element) {
@@ -353,7 +353,6 @@ function DataAccessConditions() {
 
 				if (valPlace.children().prop('tagName') != 'INPUT') {
 					valPlace.children().remove();
-
 					jQuery('<input>').attr({
 						type: 'text',
 						name: 'val',
@@ -370,7 +369,7 @@ function DataAccessConditions() {
 			this.showDataInput = function (element) {
 				var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder');
 				var valElement = valPlace.find('[name="val"]'),
-						html = '<div class="input-group row"><input class="col-md-9 dateField form-control" name="val" data-date-format="yyyy-mm-dd"><div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div></div>';
+						html = '<div class="input-group"><input class="col-md-9 dateField form-control" name="val" data-date-format="yyyy-mm-dd"><div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div></div>';
 
 				if (!jQuery(valElement).hasClass('dateField') || jQuery(valElement).hasClass('bw')) {
 					valPlace.children().remove();
@@ -380,9 +379,8 @@ function DataAccessConditions() {
 
 			},
 			this.showTime = function (element, info) {
-				//  console.log(info)
 				var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder'),
-						html = '<div class="input-group time"><input type="text" data-format="' + info['time-format'] + '" class="timepicker-default input-sm ui-timepicker-input" name="val" autocomplete="off"><span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span></div>';
+						html = '<div class="input-group time"><input type="text" data-format="' + info['time-format'] + '" class="timepicker-default form-control ui-timepicker-input" name="val" autocomplete="off"><span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span></div>';
 
 				valPlace.children().remove();
 				valPlace.append(html);
@@ -400,14 +398,12 @@ function DataAccessConditions() {
 					var dateValidatorInstance = new Vtiger_Date_Validator_Js();
 					dateValidatorInstance.setElement(jQuery('[name="val"]'));
 					var response = dateValidatorInstance.validate();
-					//  console.log(response);
 				})
 			},
 			this.convertTimeFormat = function (time) {
 				var hrs = Number(time.match(/^(\d+)/)[1]);
 				var mnts = Number(time.match(/:(\d+)/)[1]);
 				var format = time.match(/\s(.*)$/)[1];
-//                console.log(format);
 				if (format == "PM" && hrs < 12)
 					hrs = hrs + 12;
 				if (format == "AM" && hrs == 12)

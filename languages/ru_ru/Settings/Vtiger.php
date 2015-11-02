@@ -146,7 +146,7 @@ $languageStrings = [
 	'LBL_NOTIFICATIONS' => 'Уведомления',
 	'LBL_OTHER_SETTINGS' => 'Другие настройки',
 	'LBL_OUTGOING_SERVER_DESC' => 'Настроить Сервер исходящей почты',
-	'LBL_OUTGOING_SERVER_NOTE' => 'Внимание: Если поле "Почта отправителя" пустое, будет установлен адрес электронной почты из настроек пользователя',
+	'LBL_OUTGOING_SERVER_NOTE' => 'Внимание: Если поле "Почта отправителя" пустое, будет установлен адрес электронной почты из настроек пользователя.',
 	'LBL_OUTGOING_SERVER' => 'Сервер исходящей почты',
 	'LBL_PASSWORD' => 'Пароль',
 	'LBL_PBXMANAGER' => 'Менеджер PBX',
@@ -324,6 +324,19 @@ $languageStrings = [
 	'LBL_VIEW_COMPANYDETAILS' => 'Информация о компании',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Сообщения',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Сервер исходящей почты',
+	'LBL_TIMECONTROL_PROCESSES' => 'Процесс Учета времени',
+	//config editor
+	'LBL_POPUP_TYPE' => 'Pop-up window type with record list.  1 - Normal, 2 - Expanded search',
+	'LBL_SHOWING_BREADCRUMBS' => 'Show breadcrumbs menu',
+	'LBL_SHOW_RESPONSE_TIME' => 'Show or hide time to compose each page',
+	'LBL_TITLE_MAX_LENGHT' => 'Maximum length of characters for title ',
+	'LBL_MINIMUM_CRON_FREQUENCY' => 'Minimum cron frequency [min] ',
+	'LBL_LIST_MAX_ENTRIES_MASSEDIT' => 'Maximum number of records in mass edition',
+	'LBL_BG_CLOSING_MODAL' => 'Enable closing of modal window by clicking on the background',
+	'LBL_ENABLE_SHARING_RECORDS' => 'Enable records sharing',
+	'LBL_HREF_MAX_LEGTH' => 'Maximum length for href tag ',
+	//end config editor
+	'LBL_VIEW_SWITCHUSERS' => 'Switch users',
 ];
 
 $jsLanguageStrings = [

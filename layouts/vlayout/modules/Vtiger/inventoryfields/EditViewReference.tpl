@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	{assign var="REFERENCE_MODULE" value=$FIELD->get('params')}
+	{assign var="REFERENCE_MODULE" value=$FIELD->getReferenceModule()}
 	{assign var="FIELD_NAME" value={$FIELD->getColumnName()}|cat:$ROW_NO}
 	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode(['mandatory'=>true]))}
 
@@ -24,7 +24,7 @@
 		{/if}
 		{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_MODULE)}
 		<!-- Show the add button only if it is edit view  -->
-		{if $smarty.request.view eq 'Edit' && $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && $FIELD->get('displaytype') != 10}
+		{if $VIEW eq 'Edit' && $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && $FIELD->get('displaytype') != 10}
 			<span class="input-group-addon cursorPointer createReferenceRecord">
 				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="glyphicon glyphicon-plus" title="{vtranslate('LBL_CREATE', $MODULE)}"></span>
 			</span>

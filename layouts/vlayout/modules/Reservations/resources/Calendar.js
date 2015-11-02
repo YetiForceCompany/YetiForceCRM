@@ -42,22 +42,37 @@ jQuery.Class("Reservations_Calendar_Js",{
 	weekDaysArray: {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6},
 	registerCalendar: function () {
 		var thisInstance = this;
+		var eventLimit = jQuery('#eventLimit').val();
+		if (eventLimit == 'true') {
+			eventLimit = true;
+		}
+		else if (eventLimit == 'false') {
+			eventLimit = false;
+		} else {
+			eventLimit = parseInt(eventLimit) + 1;
+		}
+		var weekView = jQuery('#weekView').val();
+		var dayView = jQuery('#dayView').val();
+		
 		//User preferred default view
 		var userDefaultActivityView = jQuery('#activity_view').val();
 		if (userDefaultActivityView == 'Today') {
-			userDefaultActivityView = 'agendaDay';
+			userDefaultActivityView = dayView;
 		} else if (userDefaultActivityView == 'This Week') {
-			userDefaultActivityView = 'agendaWeek';
+			userDefaultActivityView = weekView;
 		} else {
 			userDefaultActivityView = 'month';
 		}
 
 		//Default time format
 		var userDefaultTimeFormat = jQuery('#time_format').val();
+		var popoverTimeFormat;
 		if (userDefaultTimeFormat == 24) {
-			userDefaultTimeFormat = 'H(:mm)';
+			userDefaultTimeFormat = 'H:mm';
+			popoverTimeFormat = 'HH:MM';
 		} else {
-			userDefaultTimeFormat = 'h(:mm)tt';
+			userDefaultTimeFormat = 'h:mmt';
+			popoverTimeFormat = 'hh:mm A';
 		}
 
 		//Default first day of the week
@@ -71,7 +86,7 @@ jQuery.Class("Reservations_Calendar_Js",{
 
 		thisInstance.getCalendarView().fullCalendar({
 			header: {
-				left: 'month,agendaWeek,agendaDay',
+				left: 'month,' + weekView + ',' + dayView,
 				center: 'title today',
 				right: 'prev,next'
 			},
@@ -86,8 +101,13 @@ jQuery.Class("Reservations_Calendar_Js",{
 			defaultEventMinutes: 0,
 			forceEventDuration: true,
 			defaultTimedEventDuration: '01:00:00',
-			eventLimit: true,
+			eventLimit: eventLimit,
 			allDaySlot: false,
+			views: {
+				basic: {
+					eventLimit: false,
+				}
+			},
 			dayClick: function(date, jsEvent, view) {
 				thisInstance.selectDay(date.format());
 				thisInstance.getCalendarView().fullCalendar('unselect');
@@ -103,7 +123,7 @@ jQuery.Class("Reservations_Calendar_Js",{
 					title: event.title,
 					placement: 'top',
 					html: true,
-					content: '<i class="icon-time"></i> '+app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD HH:mm') + '<br /><i class="icon-time"></i> ' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD HH:mm')
+					content: '<i class="icon-time"></i> '+app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD '+popoverTimeFormat) + '<br /><i class="icon-time"></i> ' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD '+popoverTimeFormat)
 				});
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
