@@ -115,7 +115,7 @@
     
     <div class="contentHeader row">
         <div class="pull-right">
-            <button class="btn btn-success hide" data-clipboard-target="detailPassword" id="copy-button" title="{vtranslate('LBL_CopyToClipboardTitle', $MODULENAME)}"><span class="glyphicon glyphicon-download-alt"></span> {vtranslate('LBL_CopyToClipboard', $MODULE_NAME)}</button>&nbsp;&nbsp;
+            <button class="btn btn-success hide" data-clipboard-target="detailPassword" id="copy-button" title="{vtranslate('LBL_CopyToClipboardTitle', $MODULE_NAME)}"><span class="glyphicon glyphicon-download-alt"></span> {vtranslate('LBL_CopyToClipboard', $MODULE_NAME)}</button>&nbsp;&nbsp;
             <button class="btn btn-warning" onclick="showDetailsPassword('{$smarty.get.record}');return false;" id="show-btn">{vtranslate('LBL_ShowPassword', $MODULE_NAME)}</button>
         </div>
         <div class="clearfix"></div>
