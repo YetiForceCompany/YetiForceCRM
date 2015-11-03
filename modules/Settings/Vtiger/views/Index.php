@@ -68,7 +68,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		return '../index.php?' . $params;
 	}
 
-	public function preProcess(Vtiger_Request $request, $display=true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$this->preProcessSettings($request);

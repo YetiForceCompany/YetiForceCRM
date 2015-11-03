@@ -542,11 +542,11 @@ function getActionid($action)
 	$actionid = '';
 	if (file_exists('user_privileges/tabdata.php') && (filesize('user_privileges/tabdata.php') != 0)) {
 		include('user_privileges/tabdata.php');
-		if(isset($action_id_array[$action])){
+		if (isset($action_id_array[$action])) {
 			$actionid = $action_id_array[$action];
 		}
-	} 
-	if($actionid == ''){
+	}
+	if ($actionid == '') {
 		$query = 'select actionid from vtiger_actionmapping where actionname=?';
 		$result = $db->pquery($query, [$action]);
 		$actionid = $db->getSingleValue($result);

@@ -47,9 +47,9 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 				$recordModel->set('groupid', $value);
 				$detailViewUrl = $recordModel->getDetailViewUrl();
 			}
-			if($rawText){
+			if ($rawText) {
 				$displayvalue[] = getOwnerName($value);
-			}else{
+			} else {
 				$displayvalue[] = "<a href=" . $detailViewUrl . ">" . getOwnerName($value) . "</a>&nbsp";
 			}
 		}

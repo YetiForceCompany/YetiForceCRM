@@ -27,7 +27,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		if($rawText){
+		if ($rawText) {
 			return getOwnerName($value);
 		}
 		if (self::getOwnerType($value) === 'User') {
