@@ -3758,3 +3758,6 @@ span[name=existingImages] img{
 #rssFeedHeading h3{
 	margin-top: 0;
 }
+.globalSearchResults .nav li a{
+	padding: 10px 0;
+}
