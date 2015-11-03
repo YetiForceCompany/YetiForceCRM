@@ -1,7 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-class Project_Field_Model extends Vtiger_Field_Model
+class Assets_Field_Model extends Vtiger_Field_Model
 {
 
 	/**
@@ -10,7 +10,8 @@ class Project_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isEditable()
 	{
-		$notEditableFields = $this->getProjectNotEditabeFields();
+	
+		$notEditableFields = $this->getEditabeFields();
 		if (!$this->isEditEnabled() || !$this->isViewable() ||
 			( ((int) $this->get('displaytype')) != 1 && ((int) $this->get('displaytype')) != 10 ) ||
 			$this->isReadOnly() == true || $this->get('uitype') == 4 || in_array($this->get('column'), $notEditableFields)) {
@@ -23,8 +24,8 @@ class Project_Field_Model extends Vtiger_Field_Model
 	 * Function that returns uneditable fields
 	 * @return <array>
 	 */
-	public function getProjectNotEditabeFields()
+	public function getEditabeFields()
 	{
-		return ['sum_time', 'sum_time_pt', 'sum_time_h', 'sum_time_all'];
+		return ['sum_time'];
 	}
 }
