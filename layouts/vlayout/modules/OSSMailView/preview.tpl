@@ -11,7 +11,7 @@
 	<div class="SendEmailFormStep2 container-fluid" id="emailPreview" name="emailPreview">
 		<div class="">
 			<div class="blockHeader emailPreviewHeader">
-				<h3 class='col-md-4 pushDown'>{vtranslate('emailPreviewHeader','OSSMailView')}</h3>
+				<h3 class='col-md-4 pushDown'>{vtranslate('emailPreviewHeader',$MODULE)}</h3>
 				<div class='pull-right'>
 					<div class="btn-toolbar" >
 						{if vglobal('isActiveSendingMails')}
@@ -19,28 +19,30 @@
 								{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
 								<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=replyAll{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no'{/if})">
 									<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png">&nbsp;&nbsp;
-									<strong>{vtranslate('LBL_REPLYALLL','OSSMailView')}</strong>
+									<strong>{vtranslate('LBL_REPLYALLL',$MODULE)}</strong>
 								</a>
 							</span>
 							<span class="btn-group">
 								<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=reply{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no'{/if})">
 									<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReply.png" >&nbsp;&nbsp;
-									<strong>{vtranslate('LBL_REPLY','OSSMailView')}</strong>
+									<strong>{vtranslate('LBL_REPLY',$MODULE)}</strong>
 								</a>
 							</span>
 							<span class="btn-group">
 								<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=forward{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no'{/if})">
 									<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;&nbsp;
-									<strong>{vtranslate('LBL_FORWARD','OSSMailView')}</strong>
+									<strong>{vtranslate('LBL_FORWARD',$MODULE)}</strong>
 								</a>
 							</span>
 						{/if}
-						<span class="btn-group">
-							<button id="previewPrint" onclick="printMail();" type="button" name="previewPrint" class="btn btn-default" data-mode="previewPrint">
-								<span class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;
-								<strong>{vtranslate('LBL_PRINT','OSSMailView')}</strong>
-							</button>
-						</span>
+						{if Users_Privileges_Model::isPermitted($MODULE, 'PrintMail')}
+							<span class="btn-group">
+								<button id="previewPrint" onclick="printMail();" type="button" name="previewPrint" class="btn btn-default" data-mode="previewPrint">
+									<span class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;
+									<strong>{vtranslate('LBL_PRINT',$MODULE)}</strong>
+								</button>
+							</span>
+						{/if}
 						{if $ISMODAL}
 							<span class="btn-group">
 								<button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">

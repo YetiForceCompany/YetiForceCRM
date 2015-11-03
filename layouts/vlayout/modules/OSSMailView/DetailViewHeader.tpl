@@ -42,27 +42,31 @@ function printMail(){
 					<div class="col-md-6">
 						<div class="pull-right detailViewButtoncontainer">
 							<div class="btn-toolbar">
+							{if vglobal('isActiveSendingMails')}
 							<span class="btn-group">
 								{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
 								<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=replyAll{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
-									<img src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
+									<img src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL',$MODULE)}" title="{vtranslate('LBL_REPLYALLL',$MODULE)}">
 								</a>
 							</span>
 							<span class="btn-group">
 								<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=reply{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
-									<img src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
+									<img src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY',$MODULE)}" title="{vtranslate('LBL_REPLY',$MODULE)}">
 								</a>
 							</span>
 							<span class="btn-group">
 								<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=forward{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
-									<span class="glyphicon glyphicon-share-alt" alt="{vtranslate('LBL_FORWARD','OSSMailView')}" title="{vtranslate('LBL_FORWARD','OSSMailView')}"></span>
+									<span class="glyphicon glyphicon-share-alt" alt="{vtranslate('LBL_FORWARD',$MODULE)}" title="{vtranslate('LBL_FORWARD',$MODULE)}"></span>
 								</a>
 							</span>
-							<span class="btn-group">
-								<button id="previewPrint" onclick="printMail();" title="{vtranslate('LBL_PRINT','OSSMailView')}" type="button" name="previewPrint" class="btn btn-default" data-mode="previewPrint">
-									<img src="layouts/vlayout/modules/OSSMailView/previewPrint.png" alt="{vtranslate('LBL_PRINT','OSSMailView')}" title="{vtranslate('LBL_PRINT','OSSMailView')}">
-								</button>
-							</span>
+							{/if}
+							{if Users_Privileges_Model::isPermitted($MODULE, 'PrintMail')}
+								<span class="btn-group">
+									<button id="previewPrint" onclick="printMail();" title="{vtranslate('LBL_PRINT',$MODULE)}" type="button" name="previewPrint" class="btn btn-default" data-mode="previewPrint">
+										<img src="layouts/vlayout/modules/OSSMailView/previewPrint.png" alt="{vtranslate('LBL_PRINT',$MODULE)}" title="{vtranslate('LBL_PRINT',$MODULE)}">
+									</button>
+								</span>
+							{/if}
 							{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 							<span class="btn-group">
 								<button class="btn btn-default" id="{$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
