@@ -3755,3 +3755,6 @@ span[name=existingImages] img{
 .publicHolidayModal .dateField{
 	width: 100%;
 }
+#rssFeedHeading h3{
+	margin-top: 0;
+}

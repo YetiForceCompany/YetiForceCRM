@@ -20,17 +20,17 @@
         {if $RECORD}
             <input id="recordId" type="hidden" value="{$RECORD->getId()}">
             <div class="row">
-                <span class="btn-toolbar pull-right">
-                    <span class="btn-group">
-                        <button id="deleteButton" class="btn btn-default">&nbsp;<strong>{vtranslate('LBL_DELETE', $MODULE)}</strong></button>
-                    </span>
-                    <span class="btn-group">
+				<div class="col-md-8" id="rssFeedHeading">
+                    <h3> {vtranslate('LBL_FEEDS_LIST_FROM',$MODULE)} : {$RECORD->getName()} </h3>
+                </div>
+                <div class="btn-toolbar col-md-4">
+					<span class="btn-group pull-right">
                         <button id="makeDefaultButton" class="btn btn-default">&nbsp;<strong>{vtranslate('LBL_SET_AS_DEFAULT', $MODULE)}</strong></button>
                     </span>
-                </span>
-                <span class="row" id="rssFeedHeading">
-                    <h3> {vtranslate('LBL_FEEDS_LIST_FROM',$MODULE)} : {$RECORD->getName()} </h3>
-                </span>
+                    <span class="btn-group pull-right">
+                        <button id="deleteButton" class="btn btn-danger">&nbsp;<strong>{vtranslate('LBL_DELETE', $MODULE)}</strong></button>
+                    </span>
+                </div>
             </div>
             <div class="feedListContainer" style="overflow: auto;"> 
                 {include file='RssFeedContents.tpl'|@vtemplate_path:$MODULE}
