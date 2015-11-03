@@ -159,19 +159,19 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 		container.find('#mainFieldLabel3').val(value);
 	},
 	updateRelatedFieldsValue: function (container) {
-		var value = '$' + container.find('[name="related_module"]').val() + '|' + container.find('[name="related_fields"]').val() + '$';
+		var value = '$' + container.find('[name="related_module"]').val() + '+' + container.find('[name="related_fields"]').val() + '$';
 		container.find('#relatedFieldValue3').val(value);
 	},
 	updateRelatedFieldsLabel: function (container) {
-		var value = '%' + container.find('[name="related_module"]').val() + '|' + container.find('[name="related_fields"]').val() + '%';
+		var value = '%' + container.find('[name="related_module"]').val() + '+' + container.find('[name="related_fields"]').val() + '%';
 		container.find('#relatedFieldLabel3').val(value);
 	},
 	updateCompanyFieldsValue: function (container) {
-		var value = '$Company|' + container.find('[name="company_fields"]').val() + '$';
+		var value = '$Company+' + container.find('[name="company_fields"]').val() + '$';
 		container.find('#companyFieldValue3').val(value);
 	},
 	updateCompanyFieldsLabel: function (container) {
-		var value = '%Company|' + container.find('[name="company_fields"]').val() + '%';
+		var value = '%Company+' + container.find('[name="company_fields"]').val() + '%';
 		container.find('#companyFieldLabel3').val(value);
 	},
 	updateSpecialFunctionsFieldsValue: function (container) {

@@ -13,7 +13,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	public static $baseTable = 'a_yf_pdf';
 	public static $baseIndex = 'pdfid';
 	protected $recordCache = [];
-	protected $moduleRecordId;
+	protected $recordId;
 	protected $viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
 
 	/**
@@ -55,16 +55,27 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	 */
 	public function getMainRecordId()
 	{
-		return $this->moduleRecordId;
+		if(is_array($this->recordId))
+			return reset($this->recordId);
+		return $this->recordId;
 	}
 
+	/**
+	 * Get records id for which template is generated
+	 * @return <Array> - ids of a main module record
+	 */
+	public function getRecordIds()
+	{
+		return $this->recordId;
+	}
+	
 	/**
 	 * Sets record id for which template will be generated
 	 * @param <Integer> $id
 	 */
 	public function setMainRecordId($id)
 	{
-		$this->moduleRecordId = $id;
+		$this->recordId = $id;
 	}
 
 	public function getModule()
@@ -428,10 +439,10 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 
 		foreach ($fieldsModel as $fieldName => &$fieldModel) {
 			$fieldType = $fieldModel->getFieldDataType();
-			if (in_array($fieldType, $fieldsTypes)) {
+			if (in_array($fieldType, $fieldsTypes) && $recordModel->get($fieldName) != 0) {
 				$value = $recordModel->get($fieldName);
 				$referenceModules = $fieldModel->getReferenceList();
-				if ($type == 'owner')
+				if ($fieldType == 'owner')
 					$referenceModules = ['Users'];
 				foreach ($referenceModules as $module) {
 					if ($module == 'Users') {
@@ -445,9 +456,9 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 					$moduleModel = $referenceRecordModel->getModule();
 					foreach ($moduleModel->getFields() as $referenceFieldName => &$referenceFieldModel) {
 						$replaceBy = $referenceRecordModel->getDisplayValue($referenceFieldName, $value, true);
-						$content = str_replace('$' . $fieldName . '|' . $module . '|' . $referenceFieldName . '$', $replaceBy, $content);
+						$content = str_replace('$' . $fieldName . '+' . $module . '+' . $referenceFieldName . '$', $replaceBy, $content);
 						$newLabel = Vtiger_Language_Handler::getLanguageTranslatedString($this->get('language'), $referenceFieldModel->get('label'), $module);
-						$content = str_replace('%' . $fieldName . '|' . $module . '|' . $referenceFieldName . '%', $newLabel, $content);
+						$content = str_replace('%' . $fieldName . '+' . $module . '+' . $referenceFieldName . '%', $newLabel, $content);
 					}
 				}
 			}
@@ -468,10 +479,10 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 			if ($name === 'logoname') {
 				$value = 'storage/Logo/' . $value;
 			}
-			$content = str_replace('$Company|' . $name . '$', $value, $content);
+			$content = str_replace('$Company+' . $name . '$', $value, $content);
 
 			$newLabel = Vtiger_Language_Handler::getLanguageTranslatedString($this->get('language'), $name, 'Settings:Vtiger');
-			$content = str_replace('%Company|' . $name . '%', $newLabel, $content);
+			$content = str_replace('%Company+' . $name . '%', $newLabel, $content);
 		}
 
 		return $content;
@@ -489,7 +500,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 
 		foreach ($specialFunctions as $name => &$sfInstance) {
 			if (strpos($content, '#' . $name . '#') !== false) {
-				$replaceBy = $sfInstance->process($moduleName, $this->getMainRecordId());
+				$replaceBy = $sfInstance->process($moduleName, $this->getMainRecordId(), $this);
 				$content = str_replace('#' . $name . '#', $replaceBy, $content);
 			}
 		}

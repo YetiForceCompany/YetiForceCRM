@@ -7,12 +7,12 @@
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Pdf_CreatedDateTime
+class Pdf_CreatedDateTime extends Vtiger_SpecialFunction_Pdf
 {
 
 	public $permittedModules = ['all'];
 
-	function process($module, $id) // unused -> , $templateid, $content, $tcpdf)
+	public function process($module, $id, Vtiger_PDF_Model $pdf)
 	{
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT `createdtime` FROM `vtiger_crmentity` WHERE `crmid` = ? LIMIT 1;';

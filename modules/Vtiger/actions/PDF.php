@@ -87,6 +87,8 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 			} else {
 				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0]);
 			}
+		} else if(count($templateIds) == 1 && count($recordId) > 1){
+			Vtiger_PDF_Model::exportToPdf($recordId, $moduleName, $templateIds[0]);
 		} else { // save multiple templates as pdf files
 			if ($singlePdf) {
 				$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
