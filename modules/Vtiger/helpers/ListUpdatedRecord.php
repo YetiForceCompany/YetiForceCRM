@@ -21,7 +21,7 @@ class ListUpdatedRecord {
 			$getListModuleSql = "SELECT name FROM vtiger_tab WHERE isentitytype = 1 AND vtiger_tab.presence != 1";
 			$getListModuleResult = $db->pquery($getListModuleSql, array(), TRUE);
 			
-			for ($i = 0; $i < $db->num_fields($getListModuleResult); $i++) {
+			for ($i = 0; $i < $db->getFieldsCount($getListModuleResult); $i++) {
 				$moduleList[] = $db->query_result($getListModuleResult, $i, 'name');
 			}
 		} else {

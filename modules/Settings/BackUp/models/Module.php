@@ -175,7 +175,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 				$numRows = $offset;
 
 				$contentResult = $db->query('SELECT * FROM ' . $tableName . $sqlLimit);
-				$numFields = $db->num_fields($contentResult);
+				$numFields = $db->getFieldsCount($contentResult);
 				$fields = $db->getFieldsArray($contentResult);
 				$fieldsList = '';
 

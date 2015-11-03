@@ -622,7 +622,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
 			}
 		}
 
-        $y=$db->num_fields($result);
+        $y=$db->getFieldsCount($result);
         $report = '<table border="1" cellpadding="2"><tr width="500px" bgcolor="lightgrey">';
         $arrayHeaders = Array();
         
@@ -953,7 +953,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
 			}
 		}
 
-        $y=$db->num_fields($result);
+        $y=$db->getFieldsCount($result);
         $report = '<table border="1" cellpadding="2"><tr width="500px" bgcolor="lightgrey">';
         $arrayHeaders = Array();
         for ($x=0; $x<$y; $x++) {

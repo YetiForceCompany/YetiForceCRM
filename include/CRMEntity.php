@@ -957,7 +957,7 @@ class CRMEntity
 		$adb = PearDatabase::getInstance();
 		$query = "select * from " . $adb->sql_escape_string($tablename);
 		$result = $this->db->pquery($query, array());
-		$testrow = $this->db->num_fields($result);
+		$testrow = $this->db->getFieldsCount($result);
 		if ($testrow > 1) {
 			$exists = true;
 		} else {

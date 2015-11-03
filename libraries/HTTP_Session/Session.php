@@ -120,7 +120,7 @@ class HTTP_Session
      * @return void
      * @see    session_set_save_handler()
      */
-    function setContainer($container, $container_options = null)
+    public static function setContainer($container, $container_options = null)
     {
         $container_class     = 'HTTP_Session_Container_' . $container;
         $container_classfile = 'HTTP/Session/Container/' . $container . '.php';
@@ -150,13 +150,13 @@ class HTTP_Session
      * @see    session_id()
      * @see    session_start()
      */
-    function start($name = 'SessionID', $id = null)
+    public static function start($name = 'SessionID', $id = null)
     {
-        HTTP_Session::name($name);
+        self::name($name);
         if ($id) {
-            HTTP_Session::id($id);
-        } elseif (is_null(HTTP_Session::detectID())) {
-            HTTP_Session::id($id ? $id : uniqid(dechex(rand())));
+            self::id($id);
+        } elseif (is_null(self::detectID())) {
+            self::id($id ? $id : uniqid(dechex(rand())));
         }
         session_start();
         if (!isset($_SESSION['__HTTP_Session_Info'])) {
@@ -184,7 +184,7 @@ class HTTP_Session
      * @return void
      * @see    session_write_close()
      */
-    function pause()
+    public static function pause()
     {
         session_write_close();
     }
@@ -205,7 +205,7 @@ class HTTP_Session
      * @see    session_unset()
      * @see    session_destroy()
      */
-    function destroy()
+    public static function destroy()
     {
         session_unset();
         session_destroy();
@@ -227,7 +227,7 @@ class HTTP_Session
      * @access public
      * @return bool
      */
-    function regenerateId($deleteOldSessionData = false)
+    public static function regenerateId($deleteOldSessionData = false)
     {
         if (function_exists('session_regenerate_id')) {
             return session_regenerate_id($deleteOldSessionData);
@@ -259,7 +259,7 @@ class HTTP_Session
      * @access public
      * @return bool
      */
-    function replicate($targetTable, $id = null)
+    public static function replicate($targetTable, $id = null)
     {
         return $GLOBALS['HTTP_Session_Container']->replicate($targetTable, $id);
     }
@@ -272,7 +272,7 @@ class HTTP_Session
      * @access public
      * @return void
      */
-    function clear()
+    public static function clear()
     {
         $info = $_SESSION['__HTTP_Session_Info'];
         session_unset();
@@ -286,18 +286,18 @@ class HTTP_Session
      * @access private
      * @return string Session ID (if exists) or null
      */
-    function detectID()
+    public static function detectID()
     {
-        if (HTTP_Session::useCookies()) {
-            if (isset($_COOKIE[HTTP_Session::name()])) {
-                return $_COOKIE[HTTP_Session::name()];
+        if (self::useCookies()) {
+            if (isset($_COOKIE[self::name()])) {
+                return $_COOKIE[self::name()];
             }
         } else {
-            if (isset($_GET[HTTP_Session::name()])) {
-                return $_GET[HTTP_Session::name()];
+            if (isset($_GET[self::name()])) {
+                return $_GET[self::name()];
             }
-            if (isset($_POST[HTTP_Session::name()])) {
-                return $_POST[HTTP_Session::name()];
+            if (isset($_POST[self::name()])) {
+                return $_POST[self::name()];
             }
         }
         return null;
@@ -313,7 +313,7 @@ class HTTP_Session
      * @return string Previous name of a session
      * @see    session_name()
      */
-    function name($name = null)
+    public static function name($name = null)
     {
         return isset($name) ? session_name($name) : session_name();
     }
@@ -328,7 +328,7 @@ class HTTP_Session
      * @return string Previous ID of a session
      * @see    session_id()
      */
-    function id($id = null)
+    public static function id($id = null)
     {
         return isset($id) ? session_id($id) : session_id();
     }
@@ -343,7 +343,7 @@ class HTTP_Session
      * @access public
      * @return void
      */
-    function setExpire($time, $add = false)
+    public static function setExpire($time, $add = false)
     {
         if ($add) {
             if (!isset($_SESSION['__HTTP_Session_Expire_TS'])) {
@@ -351,8 +351,8 @@ class HTTP_Session
             }
 
             // update session.gc_maxlifetime
-            $currentGcMaxLifetime = HTTP_Session::setGcMaxLifetime(null);
-            HTTP_Session::setGcMaxLifetime($currentGcMaxLifetime + $time);
+            $currentGcMaxLifetime = self::setGcMaxLifetime(null);
+            self::setGcMaxLifetime($currentGcMaxLifetime + $time);
 
         } elseif (!isset($_SESSION['__HTTP_Session_Expire_TS'])) {
             $_SESSION['__HTTP_Session_Expire_TS'] = $time;
@@ -373,7 +373,7 @@ class HTTP_Session
      * @access public
      * @return void
      */
-    function setIdle($time, $add = false)
+    public static function setIdle($time, $add = false)
     {
         if ($add) {
             $_SESSION['__HTTP_Session_Idle'] = $time;
@@ -392,7 +392,7 @@ class HTTP_Session
      * @access public
      * @return integer Time when the session idles
      */
-    function sessionValidThru()
+    public static function sessionValidThru()
     {
         if (!isset($_SESSION['__HTTP_Session_Idle_TS']) ||
             !isset($_SESSION['__HTTP_Session_Idle'])) {
@@ -410,7 +410,7 @@ class HTTP_Session
      * @access public
      * @return bool
      */
-    function isExpired()
+    public static function isExpired()
     {
         if (isset($_SESSION['__HTTP_Session_Expire_TS']) &&
             $_SESSION['__HTTP_Session_Expire_TS'] < time()) {
@@ -427,7 +427,7 @@ class HTTP_Session
      * @access public
      * @return bool
      */
-    function isIdle()
+    public static function isIdle()
     {
         if (isset($_SESSION['__HTTP_Session_Idle_TS']) &&
             (($_SESSION['__HTTP_Session_Idle_TS'] +
@@ -445,7 +445,7 @@ class HTTP_Session
      * @access public
      * @return void
      */
-    function updateIdle()
+    public static function updateIdle()
     {
         $_SESSION['__HTTP_Session_Idle_TS'] = time();
     }
@@ -465,7 +465,7 @@ class HTTP_Session
      *
      * @return bool The previous value of the property
      */
-    function useCookies($useCookies = null)
+    public static function useCookies($useCookies = null)
     {
         $return = ini_get('session.use_cookies') ? true : false;
         if (isset($useCookies)) {
@@ -486,7 +486,7 @@ class HTTP_Session
      * @return bool   True if the session was created
      *                with the current request, false otherwise
      */
-    function isNew()
+    public static function isNew()
     {
         // The best way to check if a session is new is to check
         // for existence of a session data storage
@@ -509,7 +509,7 @@ class HTTP_Session
      * @return bool
      * @see    session_register()
      */
-    function register($name)
+    public static function register($name)
     {
         return session_register($name);
     }
@@ -526,7 +526,7 @@ class HTTP_Session
      * @return bool
      * @see    session_unregister()
      */
-    function unregister($name)
+    public static function unregister($name)
     {
         return session_unregister($name);
     }
@@ -542,7 +542,7 @@ class HTTP_Session
      * @access public
      * @return bool
      */
-    function registered($name)
+    public static function registered($name)
     {
         return session_is_registered($name);
     }
@@ -557,7 +557,7 @@ class HTTP_Session
      * @access public
      * @return mixed  Value of a variable
      */
-    function get($name, $default = null)
+    public static function get($name, $default = null)
     {
         if (!isset($_SESSION[$name]) && isset($default)) {
             $_SESSION[$name] = $default;
@@ -575,7 +575,7 @@ class HTTP_Session
      * @access public
      * @return mixed  Value of a variable
      */
-    function &getRef($name)
+   public static  function &getRef($name)
     {
         if (isset($_SESSION[$name])) {
             $return =& $_SESSION[$name];
@@ -596,7 +596,7 @@ class HTTP_Session
      * @access public
      * @return mixed  Old value of a variable
      */
-    function set($name, $value)
+    public static function set($name, $value)
     {
         $return = (isset($_SESSION[$name])) ? $_SESSION[$name] : null;
         if (null === $value) {
@@ -617,7 +617,7 @@ class HTTP_Session
      * @access public
      * @return mixed  Old value of a variable
      */
-    function setRef($name, &$value)
+    public static function setRef($name, &$value)
     {
         $return = (isset($_SESSION[$name])) ? $_SESSION[$name] : null;
 
@@ -635,7 +635,7 @@ class HTTP_Session
      * @access public
      * @return bool
      */
-    function is_set($name)
+    public static function is_set($name)
     {
         return isset($_SESSION[$name]);
     }
@@ -652,9 +652,9 @@ class HTTP_Session
      * @access public
      * @return mixed  Value of a local variable
      */
-    function &getLocal($name, $default = null)
+    public static function &getLocal($name, $default = null)
     {
-        $local = md5(HTTP_Session::localName());
+        $local = md5(self::localName());
         if (!isset($_SESSION[$local]) || !is_array($_SESSION[$local])) {
             $_SESSION[$local] = array();
         }
@@ -675,9 +675,9 @@ class HTTP_Session
      * @access public
      * @return mixed  Old value of a local variable
      */
-    function setLocal($name, $value)
+    public static function setLocal($name, $value)
     {
-        $local = md5(HTTP_Session::localName());
+        $local = md5(self::localName());
         if (!isset($_SESSION[$local]) || !is_array($_SESSION[$local])) {
             $_SESSION[$local] = array();
         }
@@ -701,7 +701,7 @@ class HTTP_Session
      * @access public
      * @return string Previous local name
      */
-    function localName($name = null)
+    public static function localName($name = null)
     {
         $return = (isset($GLOBALS['__HTTP_Session_Localname'])) ? $GLOBALS['__HTTP_Session_Localname']
                                                                 : null;
@@ -719,13 +719,13 @@ class HTTP_Session
      * @access private
      * @return void
      */
-    function _init()
+    public static function _init()
     {
         // Disable auto-start of a sesion
         ini_set('session.auto_start', 0);
 
         // Set local name equal to the current script name
-        HTTP_Session::localName($_SERVER['PHP_SELF']);
+        self::localName($_SERVER['PHP_SELF']);
     }
 
     /**
@@ -742,7 +742,7 @@ class HTTP_Session
      * @access public
      * @return bool   The previous value of the property
      */
-    function useTransSID($useTransSID = null)
+    public static function useTransSID($useTransSID = null)
     {
         $return = ini_get('session.use_trans_sid') ? true : false;
         if (isset($useTransSID)) {
@@ -764,7 +764,7 @@ class HTTP_Session
      * @access public
      * @return bool   The previous value of the property
      */
-    function setGcMaxLifetime($gcMaxLifetime = null)
+    public static function setGcMaxLifetime($gcMaxLifetime = null)
     {
         $return = ini_get('session.gc_maxlifetime');
         if (isset($gcMaxLifetime) && is_int($gcMaxLifetime) && $gcMaxLifetime >= 1) {
@@ -787,7 +787,7 @@ class HTTP_Session
      * @access public
      * @return bool   The previous value of the property
      */
-    function setGcProbability($gcProbability = null)
+    public static function setGcProbability($gcProbability = null)
     {
         $return = ini_get('session.gc_probability');
         if (isset($gcProbability)  &&
@@ -801,4 +801,3 @@ class HTTP_Session
 }
 
 HTTP_Session::_init();
-?>

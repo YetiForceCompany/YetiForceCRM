@@ -2624,7 +2624,7 @@ class ReportRun extends CRMEntity
 			if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
 				$picklistarray = $this->getAccessPickListValues();
 			if ($result) {
-				$y = $adb->num_fields($result);
+				$y = $adb->getFieldsCount($result);
 				$arrayHeaders = Array();
 				for ($x = 0; $x < $y; $x++) {
 					$fld = $adb->columnMeta($result, $x);
@@ -2832,7 +2832,7 @@ class ReportRun extends CRMEntity
 				$picklistarray = $this->getAccessPickListValues();
 
 			if ($result) {
-				$y = $adb->num_fields($result);
+				$y = $adb->getFieldsCount($result);
 				$noofrows = $adb->num_rows($result);
 				$custom_field_values = $adb->fetch_array($result);
 				$column_definitions = $adb->getFieldsDefinition($result);
@@ -2869,7 +2869,7 @@ class ReportRun extends CRMEntity
 			if (isset($this->totallist)) {
 				if ($sSQL != "") {
 					$result = $adb->query($sSQL);
-					$y = $adb->num_fields($result);
+					$y = $adb->getFieldsCount($result);
 					$custom_field_values = $adb->fetch_array($result);
 
 					foreach ($this->totallist as $key => $value) {
@@ -2967,7 +2967,7 @@ class ReportRun extends CRMEntity
 			if (isset($this->totallist)) {
 				if ($sSQL != "") {
 					$result = $adb->query($sSQL);
-					$y = $adb->num_fields($result);
+					$y = $adb->getFieldsCount($result);
 					$custom_field_values = $adb->fetch_array($result);
 					$coltotalhtml .= "<table align='center' width='60%' cellpadding='3' cellspacing='0' border='0' class='rptTable'><tr><td class='rptCellLabel'>" . $mod_strings[Totals] . "</td><td class='rptCellLabel'>" . $mod_strings[SUM] . "</td><td class='rptCellLabel'>" . $mod_strings[AVG] . "</td><td class='rptCellLabel'>" . $mod_strings[MIN] . "</td><td class='rptCellLabel'>" . $mod_strings[MAX] . "</td></tr>";
 
@@ -3094,7 +3094,7 @@ class ReportRun extends CRMEntity
 				$picklistarray = $this->getAccessPickListValues();
 
 			if ($result) {
-				$y = $adb->num_fields($result);
+				$y = $adb->getFieldsCount($result);
 				$arrayHeaders = Array();
 				for ($x = 0; $x < $y - 1; $x++) {
 					$fld = $adb->columnMeta($result, $x);
@@ -3180,7 +3180,7 @@ class ReportRun extends CRMEntity
 			if (isset($this->totallist)) {
 				if ($sSQL != "") {
 					$result = $adb->query($sSQL);
-					$y = $adb->num_fields($result);
+					$y = $adb->getFieldsCount($result);
 					$custom_field_values = $adb->fetch_array($result);
 
 					$coltotalhtml .= "<br /><table align='center' width='60%' cellpadding='3' cellspacing='0' border='1' class='printReport'><tr><td class='rptCellLabel'>" . $mod_strings['Totals'] . "</td><td><b>" . $mod_strings['SUM'] . "</b></td><td><b>" . $mod_strings['AVG'] . "</b></td><td><b>" . $mod_strings['MIN'] . "</b></td><td><b>" . $mod_strings['MAX'] . "</b></td></tr>";
