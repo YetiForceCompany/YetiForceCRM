@@ -1116,12 +1116,15 @@ var app = {
 	},
 	parseNumberToFloat: function (val) {
 		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
+		var groupingSeparator = app.getMainParams('currencyGroupingSeparator');
 		if (val == undefined) {
 			val = 0;
 		}
+		val = val.toString();
 		if (app.getMainParams('currencyDecimalSeparator') == ',') {
-			val = val.toString().replace(/\s/g, "").replace(",", ".");
+			val = val.replace(/\s/g, "").replace(",", ".");
 		}
+		val = val.split(groupingSeparator).join("");
 		return parseFloat(val);
 	},
 	errorLog: function (error, err, errorThrown) {

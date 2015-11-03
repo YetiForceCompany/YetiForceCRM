@@ -613,10 +613,11 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 
 			var currencyId = thisInstance.getCurrency();
 			if (typeof unitPriceValues[currencyId] !== 'undefined') {
-				thisInstance.setUnitPrice(parentRow, unitPriceValues[currencyId]);
+				var unitPrice = unitPriceValues[currencyId];
 			} else {
-				thisInstance.setUnitPrice(parentRow, recordData.price);
+				var unitPrice = recordData.price;
 			}
+			thisInstance.setUnitPrice(parentRow, app.parseNumberToFloat(unitPrice));
 
 			$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
 			$('textarea.commentTextarea', parentRow).val(description);
