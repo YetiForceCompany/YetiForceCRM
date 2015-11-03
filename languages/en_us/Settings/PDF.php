@@ -96,6 +96,9 @@ $languageStrings = [
 	'LBL_GO_TO_TEMPLATE' => 'Click to go to imported template.',
 	'LBL_RETURN' => 'Return',
 	'LBL_PERMISSIONS_DETAILS' => 'Permissions',
+	'LBL_INSERT' => 'Insert',
+	'PAGENO' => 'Number of pages',
+	'PAGENUM' => 'Page number',
 	// page format names
 	'4A0' => '4A0',
 	'2A0' => '2A0',

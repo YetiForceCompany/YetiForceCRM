@@ -74,6 +74,11 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				}
 				$specialFunctions = Vtiger_PDF_Model::getSpecialFunctions($allModules[key($allModules)]->getName());
 
+				$insertOperations = [
+					'PAGENO' => 'PAGENO',
+					'PAGENUM' => 'nb'
+				];
+				$viewer->assign('INSERT', $insertOperations);
 				$viewer->assign('RELATED_MODULES', $relatedModules);
 				$viewer->assign('RELATED_FIELDS', $relatedFields);
 				$viewer->assign('SPECIAL_FUNCTIONS', $specialFunctions);
@@ -104,6 +109,11 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				}
 				$specialFunctions = Vtiger_PDF_Model::getSpecialFunctions($allModules[key($allModules)]->getName());
 
+				$insertOperations = [
+					'PAGENO' => 'PAGENO',
+					'PAGENUM' => 'nb'
+				];
+				$viewer->assign('INSERT', $insertOperations);
 				$viewer->assign('RELATED_MODULES', $relatedModules);
 				$viewer->assign('RELATED_FIELDS', $relatedFields);
 				$viewer->assign('SPECIAL_FUNCTIONS', $specialFunctions);

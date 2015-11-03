@@ -96,6 +96,9 @@ $languageStrings = [
 	'LBL_GO_TO_TEMPLATE' => 'Kliknij aby przejść do zaimportowanego szablonu.',
 	'LBL_RETURN' => 'Wróć',
 	'LBL_PERMISSIONS_DETAILS' => 'Uprawnienia',
+	'LBL_INSERT' => 'Wstaw',
+	'PAGENO' => 'Liczba stron',
+	'PAGENUM' => 'Numer strony',
 	// page format names
 	'4A0' => '4A0',
 	'2A0' => '2A0',

@@ -1057,7 +1057,7 @@ $languageStrings = [
 	'LBL_GENERATE_SINGLE' => 'Jeden plik PDF',
 	'LBL_MANY_IN_ONE' => 'Zbiorczy dokument',
 	'LBL_SEND_EMAIL' => 'Wyślij pocztą',
-	'LBL_VALID_RECORDS' => '%s z %s są poprawnr dla wybranego szablonu.',
+	'LBL_VALID_RECORDS' => '%s z %s są poprawne dla wybranego szablonu.',
 	'LBL_EXPORT_ERROR' => 'Nie udało się wygenerować pliku PDF.',
 	'LBL_PDF_MANY_IN_ONE' => 'PDF',
 	//end PFD

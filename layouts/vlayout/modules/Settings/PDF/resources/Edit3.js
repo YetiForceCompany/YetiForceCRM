@@ -144,6 +144,12 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 			thisInstance.updateSpecialFunctionsFieldsValue(form);
 		});
 	},
+	registerInsertFunctionsChangeEvent: function (form) {
+		var thisInstance = this;
+		form.find('#insert_functions').on('change', function () {
+			thisInstance.updateInsertFunctionsFieldsValue(form);
+		});
+	},
 	updateMainFieldsValue: function (container) {
 		var value = '$' + container.find('[name="main_fields"]').val() + '$';
 		container.find('#mainFieldValue3').val(value);
@@ -171,6 +177,10 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 	updateSpecialFunctionsFieldsValue: function (container) {
 		var value = '#' + container.find('[name="special_functions"]').val() + '#';
 		container.find('#specialFieldValue3').val(value);
+	},
+	updateInsertFunctionsFieldsValue: function (container) {
+		var value = '{' + container.find('[name="insert_functions"]').val() + '}';
+		container.find('#insertFieldValue3').val(value);
 	},
 	registerCopyClipboard: function (element) {
 		var clip = new ZeroClipboard(
@@ -218,6 +228,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 		this.registerRelatedFieldsChangeEvent(container);
 		this.registerCompanyFieldsChangeEvent(container);
 		this.registerSpecialFunctionsChangeEvent(container);
+		this.registerInsertFunctionsChangeEvent(container);
 		this.updateMainFieldsValue(container);
 		this.updateMainFieldsLabel(container);
 		this.updateRelatedFieldsValue(container);
@@ -225,6 +236,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 		this.updateCompanyFieldsValue(container);
 		this.updateCompanyFieldsLabel(container);
 		this.updateSpecialFunctionsFieldsValue(container);
+		this.updateInsertFunctionsFieldsValue(container);
 		this.registerNewCkEditor();
 
 		// zerocliboards
@@ -235,5 +247,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 		this.registerCopyClipboard(container.find('#companyFieldsValueCopy3'));
 		this.registerCopyClipboard(container.find('#companyFieldsLabelCopy3'));
 		this.registerCopyClipboard(container.find('#specialFieldValueCopy3'));
+		this.registerCopyClipboard(container.find('#insertFieldValueCopy3'));
 	}
 });

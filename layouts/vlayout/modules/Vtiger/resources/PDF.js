@@ -11,7 +11,7 @@ jQuery.Class("Vtiger_PDF_Js", {
 		});
 		if (templateIds.length > 0) {
 			container.find('#generate_pdf').attr('disabled', false);
-			if (templateIds.length > 1 || (app.getUrlVar('view') === 'List' && JSON.parse(container.find('[name="validRecords"]').val()).length > 0)) {
+			if (templateIds.length > 1 || (app.getUrlVar('view').replace('#','') === 'List' && JSON.parse(container.find('[name="validRecords"]').val()).length > 0)) {
 				container.find('#single_pdf').show();
 			} else {
 				container.find('#single_pdf').hide();
@@ -42,15 +42,20 @@ jQuery.Class("Vtiger_PDF_Js", {
 				}
 			});
 			var url = jQuery(this).data('url');
-			if (app.getUrlVar('view') === 'List') {
+			if (app.getUrlVar('view').replace('#','') === 'List') {
 				url = url.replace('&record=&', '&record=' + container.find('[name="validRecords"]').val() + '&');
 			}
 
 			var win = window.open(url + JSON.stringify(templateIds), '_blank');
-			$(win).load(function () {
+			if (jQuery(this).attr('id') === 'generate_pdf') {
 				document.progressLoader.progressIndicator({'mode': 'hide'});
 				app.hideModalWindow();
-			});
+			} else {
+				win.onload = function () {
+					document.progressLoader.progressIndicator({'mode': 'hide'});
+					app.hideModalWindow();
+				};
+			};
 		});
 	},
 	registerValidateSubmit: function (container) {
@@ -128,6 +133,7 @@ jQuery.Class("Vtiger_PDF_Js", {
 			recordsInput.val(JSON.stringify(selectedRecords));
 			validInput.val(JSON.stringify(selectedRecords));
 			jQuery('#recordsInfo').text(selectedRecords.length + ' from ' + selectedRecords.length + ' are valid for chosen template.');
+			this.validateSubmit(container);
 		}
 	}
 });
