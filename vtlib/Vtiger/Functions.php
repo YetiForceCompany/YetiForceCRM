@@ -478,7 +478,7 @@ class Vtiger_Functions
 						}
 						$entityDisplay[$row['id']] = array('name' => implode(' ', $label_name), 'search' => implode(' ', $label_search));
 					}else {
-						$entityDisplay[$row['id']] = implode(' ', $label_name);
+						$entityDisplay[$row['id']] = trim(implode(' ', $label_name));
 					}
 				}
 			}
