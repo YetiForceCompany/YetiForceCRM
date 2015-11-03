@@ -21,7 +21,7 @@
             <input id="recordId" type="hidden" value="{$RECORD->getId()}">
             <div class="row">
 				<div class="col-md-8" id="rssFeedHeading">
-                    <h3> {vtranslate('LBL_FEEDS_LIST_FROM',$MODULE)} : {$RECORD->getName()} </h3>
+                    <h3> {vtranslate('LBL_FEEDS_LIST_FROM',$MODULE)}: {$RECORD->getName()} </h3>
                 </div>
                 <div class="btn-toolbar col-md-4">
 					<span class="btn-group pull-right">
