@@ -1,6 +1,6 @@
 <?php
 class AJAXChat_Index_View extends Vtiger_Basic_View {
-	public function preProcess(Vtiger_Request $request) { parent::preProcess($request, false); }
+	public function preProcess(Vtiger_Request $request, $display=true) { parent::preProcess($request, false); }
 	public function postProcess(Vtiger_Request $request) {}
 	function checkPermission(Vtiger_Request $request) {
 		return true;

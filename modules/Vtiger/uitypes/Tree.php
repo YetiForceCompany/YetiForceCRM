@@ -28,7 +28,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($tree)
+	public function getDisplayValue($tree, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$template = $this->get('field')->getFieldParams();
 		$name = Vtiger_Cache::get('TreeData' . $template, $tree);

@@ -1208,7 +1208,7 @@ class Vtiger_Functions
 
 	protected static $browerCache = false;
 
-	public function getBrowserInfo()
+	public static function getBrowserInfo()
 	{
 		if (!self::$browerCache) {
 			$HTTP_USER_AGENT = strtolower($_SERVER['HTTP_USER_AGENT']);

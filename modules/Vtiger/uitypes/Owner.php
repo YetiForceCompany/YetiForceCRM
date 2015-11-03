@@ -35,12 +35,12 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 			$userModel->set('id', $value);
 			$detailViewUrl = $userModel->getDetailViewUrl();
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			if (!$currentUser->isAdminUser()) {
+			if (!$currentUser->isAdminUser() || $rawText) {
 				return getOwnerName($value);
 			}
 		} else {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			if (!$currentUser->isAdminUser()) {
+			if (!$currentUser->isAdminUser() || $rawText) {
 				return getOwnerName($value);
 			}
 			$recordModel = new Settings_Groups_Record_Model();

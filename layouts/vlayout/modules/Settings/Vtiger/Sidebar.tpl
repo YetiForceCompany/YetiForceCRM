@@ -34,7 +34,7 @@
 					{foreach item=MENUITEM from=$MENU->getMenuItems()}
 						<div class="row">
 							<div class="menuItem"  data-actionurl="{$MENUITEM->getPinUnpinActionUrl()}">
-								<a href="{$MENUITEM->getUrl()}" data-id="{$MENUITEM->getId()}" class="menuItemLabel list-group-item {if $MENUITEM->getId() eq $SELECTED_FIELDID} active selectedListItem{/if} " data-menu-item="true" >{vtranslate($MENUITEM->get('name'), Settings_Vtiger_MenuItem_Model::getModuleNameFromUrl($MENUITEM->getUrl()))}
+								<a href="{$MENUITEM->getUrl()}" data-id="{$MENUITEM->getId()}" class="menuItemLabel list-group-item {if $MENUITEM->getId() eq $SELECTED_FIELDID} active selectedListItem{/if} " data-menu-item="true" >{vtranslate($MENUITEM->get('name'), $MENUITEM->getModuleNameFromUrl($MENUITEM->getUrl()))}
 									
 								</a>
 								<span>

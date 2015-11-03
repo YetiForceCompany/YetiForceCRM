@@ -18,7 +18,7 @@ class Settings_Mail_Config_Model
 		$db->pquery('UPDATE yetiforce_mail_config SET `value` = ? WHERE `type` = ? AND `name` = ?;', [$val, $type, $name]);
 	}
 
-	public function getConfig($type)
+	public static function getConfig($type)
 	{
 		$db = PearDatabase::getInstance();
 		$config = [];
