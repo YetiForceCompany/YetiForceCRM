@@ -1069,6 +1069,7 @@ $languageStrings = [
 	// end pdf
 	'group' => 'Grupo',
 	'individual' => 'Individual',
+	'LBL_VIEW_FINDDUPLICATES'=> 'Find Duplicates',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',

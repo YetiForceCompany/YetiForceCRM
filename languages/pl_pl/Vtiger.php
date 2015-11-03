@@ -1063,6 +1063,7 @@ $languageStrings = [
 	//end PFD
 	'group' => 'Grupa',
 	'individual' => 'Indywidualny',
+	'LBL_VIEW_FINDDUPLICATES'=> 'Znajdź duplikaty',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
