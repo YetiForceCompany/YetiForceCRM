@@ -25,6 +25,16 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		return $this->get('pdfid');
 	}
 
+	/**
+	 * Fuction to get the Name of the record
+	 * @return <String> - Entity Name of the record
+	 */
+	public function getName()
+	{
+		$displayName = $this->get('primary_name');
+		return Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
+	}
+
 	public function get($key)
 	{
 		if ($key === 'conditions' && !is_array(parent::get($key))) {
@@ -146,10 +156,14 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		if ($result->rowCount() == 0) {
 			return false;
 		}
+		$data = $db->fetchByAssoc($result);
+		if ($moduleName == 'Vtiger' && isset($data['module_name'])) {
+			$moduleName = $data['module_name'];
+		}
 
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdf = new $handlerClass();
-		$pdf->setData($db->fetchByAssoc($result));
+		$pdf->setData($data);
 		Vtiger_Cache::set('PDFModel', $recordId, $pdf);
 		return $pdf;
 	}
