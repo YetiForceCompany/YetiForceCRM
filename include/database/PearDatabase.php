@@ -166,6 +166,12 @@ class PearDatabase
 		return $message;
 	}
 
+	public function println($msg)
+	{
+		$this->log($msg);
+		return $msg;
+	}
+
 	public function checkError($message, $dieOnError = false, $query = false, $params = false)
 	{
 		if ($this->hasActiveTransaction) {
