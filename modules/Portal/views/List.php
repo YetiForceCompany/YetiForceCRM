@@ -80,6 +80,16 @@ class Portal_List_View extends Vtiger_Index_View
 
 		$listviewEntries = $listViewModel->getListViewEntries($pagingModel);
 
+		$pagingInfo = $listViewModel->calculatePageRange($listviewEntries, $pagingModel);
+		$pagingModel->set('totalCount', $pagingInfo['recordCount']);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
+		
+		$viewer->assign('PAGE_NUMBER', $pageNumber);	
+		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('LISTVIEW_COUNT',  $pagingInfo['recordCount']);
+		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('LISTVIEW_ENTRIES', $listviewEntries);
 		$viewer->assign('ALPHABET_VALUE', $searchValue);
 		$viewer->assign('COLUMN_NAME', $orderBy);
@@ -88,7 +98,7 @@ class Portal_List_View extends Vtiger_Index_View
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('RECORD_COUNT', count($listviewEntries));
 		$viewer->assign('CURRENT_PAGE', $pageNumber);
-		$viewer->assign('PAGING_INFO', $listViewModel->calculatePageRange($listviewEntries, $pagingModel));
+		$viewer->assign('PAGING_INFO', $pagingInfo);
 	}
 
 	function getFooterScripts(Vtiger_Request $request)
