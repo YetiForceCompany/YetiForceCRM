@@ -13,7 +13,7 @@
 <div style='background: white;'>
 	<div>
 		<br>
-		<div style='margin-left:10px'><h3>{vtranslate('LBL_MERGE_RECORDS_IN', $MODULE)} > {$MODULE}</h3></div><br>
+		<div style='margin-left:10px'><h3>{vtranslate('LBL_MERGE_RECORDS_IN', $MODULE)} > {vtranslate($MODULE, $MODULE)}</h3></div><br>
 		<div class='alert-info'>{vtranslate('LBL_MERGE_RECORDS_DESCRIPTION', $MODULE)}</div>
 	</div>
 
