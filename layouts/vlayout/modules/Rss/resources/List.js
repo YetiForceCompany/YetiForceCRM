@@ -180,7 +180,7 @@ Vtiger_List_Js("Rss_List_Js",{},
      * @param container
      */
     setFeedContainerHeight : function(container) {
-        var height = this.getDocumentHeight()/4;
+        var height = this.getDocumentHeight()/1.5;
         container.find('.feedListContainer').height(height);
     },
     

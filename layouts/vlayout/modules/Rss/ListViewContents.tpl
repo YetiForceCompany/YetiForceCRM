@@ -32,7 +32,7 @@
                     </span>
                 </div>
             </div>
-            <div class="feedListContainer" style="overflow: auto;"> 
+            <div class="feedListContainer pushDown" style="overflow: auto;"> 
                 {include file='RssFeedContents.tpl'|@vtemplate_path:$MODULE}
             </div>
             {else}
