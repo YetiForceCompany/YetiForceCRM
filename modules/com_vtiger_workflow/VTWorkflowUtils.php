@@ -110,7 +110,7 @@ class VTWorkflowUtils {
 	/**
 	 * Check if the current user is admin
 	 */
-	function checkAdminAccess() {
+	public function checkAdminAccess() {
 		$current_user  = vglobal('current_user');
 		return strtolower($current_user->is_admin) === 'on';
 	}
@@ -119,7 +119,7 @@ class VTWorkflowUtils {
 	 * @params :: $modulename - name of the module
 	 */
 
-	function checkModuleWorkflow($modulename) {
+	public static function checkModuleWorkflow($modulename) {
 		$adb = PearDatabase::getInstance();
 		$tabid = getTabid($modulename);
 		$modules_not_supported = array('Calendar', 'Emails', 'Faq', 'Events' , 'Users');
@@ -133,7 +133,7 @@ class VTWorkflowUtils {
 		}
 	}
 
-	function vtGetModules($adb) {
+	public function vtGetModules($adb) {
 		$modules_not_supported = array('Emails', 'PBXManager');
 		$sql = "select distinct vtiger_field.tabid, name
 			from vtiger_field

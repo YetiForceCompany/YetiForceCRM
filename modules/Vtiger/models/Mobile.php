@@ -12,7 +12,7 @@
 class Vtiger_Mobile_Model extends Vtiger_Base_Model
 {
 
-	public function checkPermissionForOutgoingCall()
+	public static function checkPermissionForOutgoingCall()
 	{
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();

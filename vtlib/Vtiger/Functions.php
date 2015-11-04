@@ -1387,7 +1387,7 @@ class Vtiger_Functions
 		return ['total' => $total, 'free' => $free, 'used' => $used];
 	}
 
-	public function textLength($text, $length = false, $addDots = true)
+	public static function textLength($text, $length = false, $addDots = true)
 	{
 		if (!$length) {
 			$length = vglobal('listview_max_textlength');

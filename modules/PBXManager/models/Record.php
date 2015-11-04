@@ -14,7 +14,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model{
     const lookuptableName = 'vtiger_pbxmanager_phonelookup';
     const entitytableName = 'vtiger_crmentity';
     
-    static function getCleanInstance(){
+    static function getCleanInstance($moduleName){
         return new self;
     }
     
@@ -114,11 +114,11 @@ class PBXManager_Record_Model extends Vtiger_Record_Model{
         return true;
     }
     
-    public static function getInstanceById($phonecallsid){
+	public static function getInstanceById($recordId, $module = null){
         $db = PearDatabase::getInstance();
         $record = new self();
         $query = 'SELECT * FROM '.self::moduletableName.' WHERE pbxmanagerid=?';
-        $params = array($phonecallsid);
+        $params = array($recordId);
         $result = $db->pquery($query, $params);
         $rowCount =  $db->num_rows($result);
         if($rowCount){

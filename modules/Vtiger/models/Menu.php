@@ -93,7 +93,7 @@ class Vtiger_Menu_Model
 		return $breadcrumbs;
 	}
 
-	public function getParentMenu($parentList, $parent, $module, $return = [])
+	public static function getParentMenu($parentList, $parent, $module, $return = [])
 	{
 		if ($parent != 0 && key_exists($parent, $parentList)) {
 			$return [] = [
@@ -112,7 +112,7 @@ class Vtiger_Menu_Model
 	 * @param type $url
 	 * @return type modulename 
 	 */
-	public function getModuleNameFromUrl($url)
+	public static function getModuleNameFromUrl($url)
 	{
 		$query_str = parse_url(htmlspecialchars_decode($url), PHP_URL_QUERY);
 		parse_str($query_str, $query_params);
@@ -124,7 +124,7 @@ class Vtiger_Menu_Model
 		return $query_params[module];
 	}
 
-	public function getMenuIcon($menu, $title = '')
+	public static function getMenuIcon($menu, $title = '')
 	{
 		if ($title == '') {
 			$title = Vtiger_Menu_Model::vtranslateMenu($menu['label']);

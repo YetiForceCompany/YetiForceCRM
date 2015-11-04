@@ -15,7 +15,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 
 	const recalculateStatus = 'Accepted';
 
-	public function recalculateTimeOldValues($record_id, $data)
+	public static function recalculateTimeOldValues($record_id, $data)
 	{
 		require_once 'include/events/VTEntityDelta.php';
 		$relatedField = array('accountid', 'contactid', 'ticketid', 'projectid', 'projecttaskid', 'potentialid', 'servicecontractsid', 'quoteid', 'assetsid', 'salesorderid', 'calculationsid');
@@ -33,7 +33,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	public function recalculateTimeControl($data)
+	public static function recalculateTimeControl($data)
 	{
 		$db = PearDatabase::getInstance();
 		//$assetsid = $data->get('assetsid');
@@ -133,7 +133,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		return $sum_time;
 	}
 
-	public function recalculateServiceContracts($ServiceContractsID)
+	public static function recalculateServiceContracts($ServiceContractsID)
 	{
 		if (!self::checkID($ServiceContractsID)) {
 			return false;
@@ -193,7 +193,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		return array($sum_time, $sum_time_h, $sum_time_p, $sum_time_all);
 	}
 
-	public function recalculatePotentials($PotentialsID)
+	public static function recalculatePotentials($PotentialsID)
 	{
 		if (!self::checkID($PotentialsID)) {
 			return false;
@@ -242,7 +242,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		return array($sum_time, $sum_time_q, $sum_time_so, $sum_time_all);
 	}
 
-	public function recalculateProject($ProjectID)
+	public static function recalculateProject($ProjectID)
 	{
 		if (!self::checkID($ProjectID)) {
 			return false;
@@ -292,7 +292,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		return $sum_time;
 	}
 
-	public function recalculateAccounts($accountsID)
+	public static function recalculateAccounts($accountsID)
 	{
 		if (!self::checkID($accountsID)) {
 			return false;
@@ -348,7 +348,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		return array($taskIDS, $ticketsIDS, $projectIDS);
 	}
 
-	public function checkID($ID)
+	public static function checkID($ID)
 	{
 		if ($ID == 0 || $ID == '') {
 			return false;

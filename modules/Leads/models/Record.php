@@ -22,7 +22,7 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 	 * @param <String> $searchKey
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
-	public static function getSearchResult($searchKey, $module=false) {
+	public static function getSearchResult($searchKey, $module = false, $limit = false){
 		$db = PearDatabase::getInstance();
 
 		$deletedCondition = $this->getModule()->getDeletedRecordCondition();

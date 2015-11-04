@@ -45,7 +45,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getUserRequestValue($value)
+	public function getUserRequestValue($value, $recordId)
 	{
 		return $this->getDisplayValue($value);
 	}

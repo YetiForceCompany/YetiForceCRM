@@ -83,7 +83,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 * @param string $destinationModule Destination module name
 	 * @return array
 	 */
-	public function getRelatedModules($moduleName)
+	public static function getRelatedModules($moduleName)
 	{
 		$return = Vtiger_Cache::get('mrvf', $moduleName);
 		if (!$return) {

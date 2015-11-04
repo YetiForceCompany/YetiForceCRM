@@ -10,7 +10,7 @@ Class OSSMailView_widget_View extends Vtiger_Edit_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess (Vtiger_Request $request, $display=true)
 	{
 		
 	}

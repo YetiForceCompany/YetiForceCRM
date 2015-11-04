@@ -240,7 +240,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 	{
 		if (@isset($str)) {
 			$sqlstr = addslashes($str);
-			$sqlstr = ereg_replace("\n", "\\n", $sqlstr);
+			$sqlstr = preg_replace("/\n/", "\\n", $sqlstr);
 			$sqlstr = preg_replace("/\r\n/", "\\r\\n", $sqlstr);
 			return $sqlstr;
 		} else {

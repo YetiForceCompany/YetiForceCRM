@@ -313,16 +313,14 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		return $Files;
 	}
 
-	/// 
-	public function executeAjaxHandlers($module, $param)
+	public static function executeAjaxHandlers($module, $param)
 	{
-		//self::$AccesDataDirector
 		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
 		$record = $param['record'];
 		$conditions = new DataAccess_Conditions();
 		$DataAccessList = self::getDataAccessList($module);
 		$success = true;
-		$output = array();
+		$output = [];
 
 		foreach ($DataAccessList as $DataAccess) {
 			$condition_result = $conditions->checkConditions($DataAccess['id'], $param);
@@ -337,10 +335,10 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		return array('success' => $success, 'data' => $output);
 	}
 
-	public function executeAction($module, $param, $data)
+	public static function executeAction($module, $param, $data)
 	{
 		$save_record = true;
-		$output = array();
+		$output = [];
 		if ($data) {
 			foreach ($data as $row) {
 				$action = explode(self::$separator, $row['an']);
@@ -374,7 +372,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		return $return;
 	}
 
-	public function executeColorListHandlers($moduleName, $record, $recordModelObiect)
+	public static function executeColorListHandlers($moduleName, $record, $recordModelObiect)
 	{
 		if (!isRecordExists($record))
 			return false;
@@ -385,8 +383,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$success = true;
 		$sql = "SELECT * FROM vtiger_dataaccess WHERE module_name = ? AND data LIKE '%colorList%'";
 		$result = $db->pquery($sql, array($moduleName), true);
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$row = $db->raw_query_result_rowdata($result, $i);
+		while ($row = $db->getRow($result)) {
 			$condition_result = $conditions->checkConditions($row['dataaccessid'], $recordModel->entity->column_fields);
 			if ($condition_result['test'] == true) {
 				$data = unserialize($row['data']);

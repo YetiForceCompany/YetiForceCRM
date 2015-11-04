@@ -12,7 +12,7 @@
 class OSSMailView_Record_Model extends Vtiger_Record_Model
 {
 
-	static $modules_email_actions_widgets = array();
+	protected $modules_email_actions_widgets = [];
 
 	function __construct()
 	{
