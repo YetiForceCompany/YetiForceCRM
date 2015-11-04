@@ -4,16 +4,17 @@
 	{assign var="announcement" value=$ANNOUNCEMENT->get('announcement')}
 	<div class="container-fluid bodyHeader noSpaces commonActionsContainer{if $LEFTPANELHIDE} open{/if}">
 		<div class="row noSpaces">
-			<div class="col-md-3 leftHeader">
-				<div class="pull-left">
+			<div class="col-md-5 leftHeader">
+				{*<div class="pull-left">
 					{assign var=IMAGE value=$MODULE|cat:'48.png'}
 					{if file_exists( vimage_path($IMAGE) )}
 						<img src="{vimage_path($IMAGE)}" alt="{vtranslate($MODULE, $MODULE)}" class="moduleIcon" />
 					{/if}
 				</div>
-				<h3 class="mainModuleTitle">{vtranslate($PAGETITLE, $QUALIFIED_MODULE)}</h3>
+				<h3 class="mainModuleTitle">{vtranslate($PAGETITLE, $QUALIFIED_MODULE)}</h3>*}
+				{include file='BodyHidden.tpl'|@vtemplate_path:$MODULE}
 			</div>
-			<div class="col-md-9 rightHeader">
+			<div class="col-md-7 rightHeader">
 				<div class="pull-right">
 					<div class="dropdown quickAction historyBtn">
 						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">

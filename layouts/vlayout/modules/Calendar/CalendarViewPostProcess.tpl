@@ -10,6 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<div id="toggleRightPanelButton" class="btn toggleRightPanelButton" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', 'Vtiger')}">
+		<span id="tRightPanelButtonImage" class="glyphicon glyphicon-chevron-left"></span>
+	</div>
 	<div class="panel-group calendarRightPanel paddingRightZero rightPanelOpen" id="rightPanel">
 		{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGETRIGHT']}
 			<div class="panel panel-dark quickWidget">
@@ -22,7 +25,7 @@
 					</h4>
 					<div class="pull-right">
 						{$SHIFT_BLOCK_SHOW="{$SIDEBARWIDGET->getLabel()}_BLOCK_SHIFT"}
-						<input id="{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" title="{vtranslate('LBL_SHIFT_BLOCK', $MODULE)}" class="switchBtn label switchsParent" type="checkbox" data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_ON_SWITCH',$MODULE)}" data-off-text="{vtranslate('LBL_OFF_SWITCH',$MODULE)}" checked >&nbsp;&nbsp;
+						<input id="{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" title="{vtranslate('LBL_SHIFT_BLOCK', $MODULE)}" class="switchBtn label switchsParent" data-handle-width="35" type="checkbox" data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_ON_SWITCH',$MODULE)}" data-off-text="{vtranslate('LBL_OFF_SWITCH',$MODULE)}" checked >&nbsp;
 						<a href="javascript:void(0);" name="drefresh" class="btn btn-default btn-xs refreshCalendar cursorPointer">
 							<span class="glyphicon glyphicon-refresh icon-white" hspace="2" border="0" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
 						</a>

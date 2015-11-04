@@ -16,10 +16,10 @@
 				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 					<li value="{$OWNER_ID}">
 						<div class="row marginRightZero">
-							<div class="col-md-3">
+							<div class="col-xs-3">
 								<input id="{$OWNER_ID}" data-value="{$OWNER_ID}"  class="switchBtn label" type="checkbox" {if $USER_MODEL->id eq $OWNER_ID} checked {/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_ON_SWITCH',$MODULE)}" data-off-text="{vtranslate('LBL_OFF_SWITCH',$MODULE)}"/>
 							</div>
-							<div class="col-md-9 paddingRightZero">
+							<div class="col-xs-9 paddingLRZero">
 								<div class="col-xs-10 paddingLRZero">
 									<label for="{$OWNER_ID}" class="muted no-margin cursorPointer">{$OWNER_NAME}
 									</label>
@@ -44,7 +44,7 @@
 								{$SHIFT_USER_TITLE="LBL_SHITF_{$ITEM|upper}_SHOW"}
 								<input id="{$OWNER_ID}" data-value="{$OWNER_ID}"  title="{vtranslate('LBL_SHIFT_USER_SHOW')}" class="switchBtn label" type="checkbox" data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_ON_SWITCH',$MODULE)}" data-off-text="{vtranslate('LBL_OFF_SWITCH',$MODULE)}"/>
 							</div>
-							<div class="col-xs-9 paddingRightZero">
+							<div class="col-xs-9 paddingLRZero">
 								<div class="col-xs-10 paddingLRZero">
 									<label for="{$OWNER_ID}" class="muted no-margin cursorPointer" >{$OWNER_NAME}</label>
 								</div>
@@ -69,7 +69,7 @@
 								<input id="{$ITEM}" data-value="{$ITEM}" title="{vtranslate($SHIFT_ACTIVITY_TITLE)}" class="switchBtn label" type="checkbox" data-size="mini" data-label-width="5" 
 									   checked="true" data-on-text="{vtranslate('LBL_ON_SWITCH',$MODULE)}" data-off-text="{vtranslate('LBL_OFF_SWITCH',$MODULE)}"/>
 							</div>
-							<div class="col-xs-9 paddingRightZero" >
+							<div class="col-xs-9 paddingLRZero" >
 								<div class="col-xs-10 paddingLRZero">
 									<label for="{$ITEM}" class="muted no-margin cursorPointer" >{vtranslate($ITEM,$MODULE)}</label>
 								</div>

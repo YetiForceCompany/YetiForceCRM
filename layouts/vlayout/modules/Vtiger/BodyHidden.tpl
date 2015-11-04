@@ -1,20 +1,21 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="hide" style="display: none;">
+	<div class="" >
 		<input type='hidden' value="{$MODULE}" id='module' name='module'/>
 		<input type="hidden" value="{$PARENT_MODULE}" id="parent" name='parent' />
 		<input type='hidden' value="{$VIEW}" id='view' name='view'/>
 		{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
 		{if $BREADCRUMBS}
-			<div class="breadcrumbsContainer col-md-12">
-				<div class="breadcrumbsLinks">
-					{foreach key=key item=item from=$BREADCRUMBS}
-						{if $key != 0}
+			<div class="breadcrumbsContainer">
+				<h4 class="breadcrumbsLinks">
+					{foreach key=key item=item from=$BREADCRUMBS name=breadcrumbs}
+						{if $key != 0 && $ITEM_PREV}
 							<span class="separator">&nbsp;{vglobal('breadcrumbs_separator')}&nbsp;</span>
 						{/if}
 						<span>{$item['name']}</span>
+						{assign var="ITEM_PREV" value=$item['name']}
 					{/foreach}
-				</div>
+				</h4>
 			</div>
 		{/if}
 		{assign var="MENUSCOLOR" value=Users_Colors_Model::getModulesColors(true)}

@@ -1,8 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	{if $VIEW != 'Login'}
-		{include file='BodyHidden.tpl'|@vtemplate_path:$MODULE}
-	{/if}
 	<div class="container-fluid container-fluid-main">
 		<div class="baseContainer">
 			{if $VIEW != 'Login'}

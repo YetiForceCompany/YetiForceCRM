@@ -6,9 +6,10 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
-Class Users_Edit_View extends Users_PreferenceEdit_View {
+Class Settings_Users_Edit_View extends Users_PreferenceEdit_View {
 
 	public function checkPermission(Vtiger_Request $request)
 	{
@@ -33,41 +34,22 @@ Class Users_Edit_View extends Users_PreferenceEdit_View {
 		$this->preProcessSettings($request);
 	}
 
-	public function preProcessSettings(Vtiger_Request $request) {
+	public function preProcessSettings(Vtiger_Request $request)
+	{
+
 		$viewer = $this->getViewer($request);
+
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$selectedMenuId = $request->get('block');
 		$fieldId = $request->get('fieldid');
-
 		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
 		$menuModels = $settingsModel->getMenus();
-
-		if(!empty($selectedMenuId)) {
-			$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($selectedMenuId);
-		} elseif(!empty($moduleName) && $moduleName != 'Vtiger') {
-			$fieldItem = Settings_Vtiger_Index_View::getSelectedFieldFromModule($menuModels,$moduleName);
-			if($fieldItem){
-				$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($fieldItem->get('blockid'));
-				$fieldId = $fieldItem->get('fieldid');
-			} else {
-				reset($menuModels);
-				$firstKey = key($menuModels);
-				$selectedMenu = $menuModels[$firstKey];
-			}
-		} else {
-			reset($menuModels);
-			$firstKey = key($menuModels);
-			$selectedMenu = $menuModels[$firstKey];
-		}
-
-		$viewer->assign('SELECTED_FIELDID',$fieldId);
-		$viewer->assign('SELECTED_MENU', $selectedMenu);
-		$viewer->assign('SETTINGS_MENUS', $menuModels);
+		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
+		
+		$viewer->assign('MENUS', $menu);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('IS_PREFERENCE', false);
-
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
