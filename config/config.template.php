@@ -257,3 +257,6 @@ $langInLoginView = false;
 
 // Set the default layout 
 $defaultLayout = 'vlayout';
+
+// Logo is visible in footer.
+$isVisibleLogoInFooter = true;

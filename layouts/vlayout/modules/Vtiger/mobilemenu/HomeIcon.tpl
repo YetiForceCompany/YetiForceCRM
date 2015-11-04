@@ -4,7 +4,7 @@
 	{if $MOREMENU neq true && ($PRIVILEGESMODEL->isAdminUser() || $PRIVILEGESMODEL->hasGlobalReadPermission() || $PRIVILEGESMODEL->hasModulePermission($MENU.tabid)) }
 		<li class="menuLabel {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}" role="menuitem" tabindex="{$TABINDEX}" {if $HASCHILDS}aria-haspopup="{$HASCHILDS}"{/if}>
 			<a class="{if $MODULE eq 'Home'} selected {/if} {if $ICON}hasIcon{/if}" href="{$HOME_MODULE_MODEL->getDefaultUrl()}">
-				
+				{$ICON}
 				{vtranslate('LBL_HOME',$moduleName)}
 			</a>
 			{include file='mobilemenu/SubMenu.tpl'|@vtemplate_path:$MODULE}

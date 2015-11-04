@@ -15,6 +15,8 @@
 				{include file='BodyHidden.tpl'|@vtemplate_path:$MODULE}
 			</div>
 			<div class="col-md-7 rightHeader">
+				{include file='ActionMenu.tpl'|@vtemplate_path:$MODULE}
+				{include file='SearchMenu.tpl'|@vtemplate_path:$MODULE}
 				<div class="pull-right rightHeaderBtn">
 					<div class="dropdown quickAction historyBtn">
 						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
@@ -147,7 +149,21 @@
 				<div class="pull-right rightHeaderBtnMenu">
 					<div class="quickAction">
 						<a class="btn btn-default btn-sm" href="#">
-							 <span aria-hidden="true" class="glyphicon glyphicon-menu-hamburger"></span>
+							<span aria-hidden="true" class="glyphicon glyphicon-menu-hamburger"></span>
+						</a>
+					</div>
+				</div>
+				<div class="pull-right actionMenuBtn">
+					<div class="quickAction">
+						<a class="btn btn-default btn-sm" href="#">
+							<span aria-hidden="true" class="glyphicon glyphicon-tasks"></span>
+						</a>
+					</div>
+				</div>
+				<div class="pull-right searchMenuBtn">
+					<div class="quickAction">
+						<a class="btn btn-default btn-sm" href="#">
+							<span aria-hidden="true" class="glyphicon glyphicon-search"></span>
 						</a>
 					</div>
 				</div>
