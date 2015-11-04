@@ -4,15 +4,15 @@
 		{include file='BodyHidden.tpl'|@vtemplate_path:$MODULE}
 	{/if}
 	<div class="container-fluid container-fluid-main">
-		<div class="row baseContainer">
+		<div class="baseContainer">
 			{if $VIEW != 'Login'}
 				{if !empty($CHILD_LINKS)}
 					<span class="caret"></span>
 				{/if}
-				<div class="col-md-2 leftPanel noSpaces">
+				<div class="leftPanel noSpaces">
 					{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE}
 				</div>
-				<div class="col-md-10 basePanel noSpaces">
+				<div class="basePanel noSpaces">
 					{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
 					{include file='BodyContent.tpl'|@vtemplate_path:$MODULE}
 				{/if}

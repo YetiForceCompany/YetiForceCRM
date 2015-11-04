@@ -31,14 +31,30 @@
 {foreach from=Vtiger_Module_Model::getAll() item=MODULE}
 	.modIcon_{$MODULE->get('name')}{ background-image: url("layouts/vlayout/skins/images/{$MODULE->get('name')}.png"); }
 {/foreach}
-	{literal}.bottom_margin {padding-bottom: 2em;}{/literal}
 </style>
 <div class="calendarViewContainer">
 	<div class="row bottom_margin">
-		<div class="col-md-12">
+		<div class="">
 			<p><!-- Divider --></p>
 			<div id="calendarview"></div>
 		</div>
 	</div>
+</div>
+<div class="btn-group listViewMassActions hide">
+	{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
+		<button class="btn btn-default fc-button fc-state-default dropdown-toggle" data-toggle="dropdown">
+			<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+			&nbsp;&nbsp;<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			{foreach item=SIDEBARLINK from=$QUICK_LINKS['SIDEBARLINK']}
+				<li>
+					<a class="quickLinks" href="{$SIDEBARLINK->getUrl()}">
+						{vtranslate($SIDEBARLINK->getLabel(), $MODULE_NAME)}
+					</a>
+				</li>
+			{/foreach}
+		</ul>
+	{/if}
 </div>
 {/strip}

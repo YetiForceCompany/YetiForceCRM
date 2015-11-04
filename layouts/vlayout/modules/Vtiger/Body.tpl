@@ -7,7 +7,7 @@
 			<div class="leftPanel noSpaces{if $LEFTPANELHIDE} stillOpen{/if}">
 				{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE}
 			</div>
-			<div class="basePanel noSpaces">
+			<div class="basePanel noSpaces{if $LEFTPANELHIDE} leftPanelStillOpen{/if}">
 				{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
 				{include file='BodyContent.tpl'|@vtemplate_path:$MODULE}
 {/strip}

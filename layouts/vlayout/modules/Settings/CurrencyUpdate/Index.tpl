@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<div id="currencyUpdateContainer" class="row">
+<div id="currencyUpdateContainer">
 	<h3>{vtranslate('LBL_CURRENCY_UPDATE', $QUALIFIED_MODULE)}</h3>
 	{vtranslate('LBL_CURRENCY_UPDATE_DESCRIPTION', $QUALIFIED_MODULE)}<hr>
 
