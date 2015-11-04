@@ -845,13 +845,6 @@ var app = {
 		return key;
 	},
 	/**
-	 * Function which will set the contents height to window height
-	 */
-	setContentsHeight: function () {
-		var borderTopWidth = parseInt(jQuery(".mainContainer").css('margin-top')) + 21; // (footer height 21px)
-		jQuery('.bodyContents').css('min-height', (jQuery(window).innerHeight() - borderTopWidth));
-	},
-	/**
 	 * Function will return the current users layout + skin path
 	 * @param <string> img - image name
 	 * @return <string>
@@ -1063,6 +1056,12 @@ var app = {
 	formatDateZ: function (i) {
 		return (i <= 9 ? '0' + i : i);
 	},
+	howManyDaysFromDate: function (time) {
+		var fromTime = time.getTime();
+		var today = new Date();
+		var toTime = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+		return Math.floor(((toTime - fromTime) / (1000 * 60 * 60 * 24))) + 1;
+	},
 	saveAjax: function (mode, param) {
 		var aDeferred = jQuery.Deferred();
 		var params = {};
@@ -1156,6 +1155,28 @@ var app = {
 			e.stopPropagation();
 		});
 	},
+	initFooTable: function(){		
+		var container = $('.tableRWD');
+		container.find('thead tr th:gt(1)').attr('data-hide','phone');
+		container.find('thead tr th:gt(3)').attr('data-hide','tablet,phone');
+		container.find('thead tr th:last').attr('data-hide','');
+		var whichColumnEnable = container.find('thead').attr('col-visible-alltime');
+		container.find('thead tr th:eq('+whichColumnEnable+')').attr('data-hide','');
+		$('.tableRWD, .customTableRWD').footable({
+			breakpoints:{
+				phone: 768,
+				tablet: 1024
+			},
+			addRowToggle: true,
+			toggleSelector: ' > tbody > tr:not(.footable-row-detail)',
+		});
+		$('.footable-toggle').click(function(event){	
+		    event.stopPropagation();
+		    $(this).trigger('footable_toggle_row');
+		});
+		var records = $('.customTableRWD').find('[data-toggle-visible=false]');
+		records.find('.footable-toggle').css("display","none");
+	}
 }
 
 jQuery(document).ready(function () {
@@ -1167,15 +1188,10 @@ jQuery(document).ready(function () {
 	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
 	app.registerModal();
-	app.setContentsHeight();
 
 	//Updating row height
 	app.updateRowHeight();
-
-	jQuery(window).resize(function () {
-		app.setContentsHeight();
-	})
-
+	
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();
 		return  value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
@@ -1191,11 +1207,3 @@ jQuery(document).ready(function () {
 	if (pageController)
 		pageController.registerEvents();
 });
-
-/* Global function for UI5 embed page to callback */
-function resizeUI5IframeReset() {
-	jQuery('#ui5frame').height(650);
-}
-function resizeUI5Iframe(newHeight) {
-	jQuery('#ui5frame').height(parseInt(newHeight, 10) + 15); // +15px - resize on IE without scrollbars
-}

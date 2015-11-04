@@ -40,6 +40,7 @@
 
 body {
 	width: 100%;
+	height: 100%;
 	font-family: 'Open Sans', 'Lucida Grande', Verdana, Tahoma, Arial, sans-serif !important;
 	font-size: 12px !important;
 	background: #ffffff;
@@ -1478,9 +1479,6 @@ th.htColHeader,
 	padding: 15px;
 	padding-left: 5px;
 	line-height: 20px;
-}
-.contentsDiv > div {
-	padding: 0 20px;
 }
 #settingsQuickWidgetContainer .widgetContainer.accordion-body {
 	border-bottom: none !important;
@@ -3422,7 +3420,7 @@ span[name=existingImages] img{
 	font-size: 20px;
 }
 .globalSearchInput{
-	width: 300px;
+	width: 150px;
 }
 #groupsDetailContainer strong{
 	line-height: 21px;
@@ -3683,6 +3681,106 @@ span[name=existingImages] img{
 .checkboxForm{
 	padding-top: 7px;
 }
+
+
+
+.leftPanel{
+	background-color: #2f333f;
+}
+.leftPanel a{
+	color: #e3e9f0;
+}
+.bodyHeader{
+	background-color: #444853;
+}
+.mainPanel{
+
+}
+.noSpaces{
+	padding: 0;
+	margin: 0;
+}
+html,body,.baseContainer
+{
+    height:100%;
+}
+#page
+{
+    display:table;
+    width: 100%;
+	height: 100%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.container-fluid-main{
+	height: 100%;
+}
+.container-fluid-main, .leftPanel .row{
+	padding: 0;
+	margin: 0;
+}
+.leftPanel, .basePanel, .bodyContents, .mainContainer,.contentsDiv{
+    min-height: 100%;
+    height: 100%;
+}
+.bodyContent{
+    min-height: 100%;
+    height: 100%;
+	overflow: auto;
+    margin-top: -48px;
+    padding-top: 48px;
+}
+.leftPanel
+{
+    display: table-cell;
+}
+.basePanel
+{
+    display: table-cell;
+}
+.userDetailsContainer{
+	background-color: #a44042;
+	padding-right: 0;
+}
+.userActionContainer{
+	background-color: #ad5154;
+	padding-right: 0;
+}
+.companyLogoContainer{
+	display: block;
+    width: 50px;
+    padding: 5px;
+}
+.userDetails, .bodyHeader{
+	color: #fff;
+}
+.bodyHeader .moduleIcon{
+	width: 34px;
+	margin: 7px;
+	background-color: #fff;
+}
+.mainModuleTitle{
+	margin: 10px 0;
+	text-transform: uppercase;
+}
+ul.headerLink{
+	display: inline-block;
+	margin-right: 5px;
+	margin-top: 5px;
+}
+ul.headerLink li{
+	list-style-type: none;
+}
+.userDetails{
+	padding-right: 0;
+}
+.userDetails .name{
+	line-height: 15px;
+	font-size: 15px;
+}
+.menuContainer{
+	overflow: auto;
+}
 #inventoryViewLayout .inventoryBlock  ul li .editFields{
 	padding: 5px;
 }
@@ -3736,7 +3834,7 @@ span[name=existingImages] img{
 	background-color: #337AB7;
 	border-color: #337AB7;
 	color: #FFF;
-}
+} 
 #announcementBtn,
 .listViewEntriesCheckBox,
 #listViewEntriesMainCheckBox{

@@ -777,15 +777,15 @@ jQuery.Class("Vtiger_Header_Js", {
 
 			//Added to support standard resolution 1024x768
 			if (window.outerWidth <= 1024) {
-				$('.headerLinksContainer').css('margin-right', '8px');
+				//$('.headerLinksContainer').css('margin-right', '8px');
 			}
 
 			// setting sidebar Height wrt Content
 			$(document).ajaxComplete(function () {
-				Vtiger_Header_Js.getInstance().adjustContentHeight();
+				//Vtiger_Header_Js.getInstance().adjustContentHeight();
 			});
 			$(document).load(function () {
-				Vtiger_Header_Js.getInstance().adjustContentHeight();
+				//Vtiger_Header_Js.getInstance().adjustContentHeight();
 			});
 			thisInstance.registerReminderNotice();
 		}

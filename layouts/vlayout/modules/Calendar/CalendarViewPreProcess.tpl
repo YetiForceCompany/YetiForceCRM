@@ -10,7 +10,6 @@
  ********************************************************************************/
 -->*}
 {include file="Header.tpl"|vtemplate_path:$MODULE}
-{include file="BasicHeader.tpl"|vtemplate_path:$MODULE}
 <div class="bodyContents">
 	<div class="mainContainer">
 		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
