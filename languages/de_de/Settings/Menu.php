@@ -48,6 +48,8 @@ $languageStrings = array(
 	'LBL_HOMEICON_DESC' => 'Menüeintrag der zur Startseite führt.',
 	'LBL_CUSTOMFILTER' => 'Filter',
 	'LBL_CUSTOMFILTER_DESC' => 'Menüeintrag führt zum gwählten Filter.',
+	'LBL_PROFILE' => 'Profile',
+	'LBL_PROFILE_DESC' => "Menu item that allows changing the user's settings.",
 	
 	//Message
 	'LBL_REMOVED_MENU_ITEM' => 'Menüeintrag wurde gelöscht',

@@ -48,6 +48,8 @@ $languageStrings = [
 	'LBL_HOMEICON_DESC' => 'Pozycja menu kierująca do pulpitu użytkownika',
 	'LBL_CUSTOMFILTER' => 'Filtr',
 	'LBL_CUSTOMFILTER_DESC' => 'Pozycja menu kierująca do dowolnego filtru.',
+	'LBL_PROFILE' => 'Profil',
+	'LBL_PROFILE_DESC' => 'Pozycja menu umożliwiająca zmianę ustawień użytkownika.',
 	//Message
 	'LBL_REMOVED_MENU_ITEM' => 'Usunięto menu',
 	'LBL_SAVED_MAP_MENU' => 'Zapisano układ menu',

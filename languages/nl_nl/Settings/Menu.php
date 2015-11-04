@@ -48,6 +48,8 @@ $languageStrings = [
 	'LBL_HOMEICON_DESC' => 'Menu item redirecting to home page.',
 	'LBL_CUSTOMFILTER' => 'Filter',
 	'LBL_CUSTOMFILTER_DESC' => 'Menu item redirecting to selected filter.',
+	'LBL_PROFILE' => 'Profile',
+	'LBL_PROFILE_DESC' => "Menu item that allows changing the user's settings.",
 	//Message
 	'LBL_REMOVED_MENU_ITEM' => 'Menu item has been removed',
 	'LBL_SAVED_MAP_MENU' => 'Menu layout has been saved',

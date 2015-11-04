@@ -4680,3 +4680,6 @@ html,body,.baseContainer
 .bootbox .btn-warning{
 	margin-left: 5px;
 }
+.menuPanel{
+	padding: 5px;
+}

@@ -5,4 +5,6 @@ $SECURITY_CONFIG = [
 	'RESET_LOGIN_PASSWORD' => false,
 	// Show my preferences
 	'SHOW_MY_PREFERENCES' => false,
+	// Changing the settings by the user is possible true/false
+	'CHANGE_LOGIN_PASSWORD' => true,
 ];

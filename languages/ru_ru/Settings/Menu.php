@@ -48,6 +48,8 @@ $languageStrings = [
 	'LBL_HOMEICON_DESC' => 'Пункт меню Главной страницы',
 	'LBL_CUSTOMFILTER' => 'Фильтр',
 	'LBL_CUSTOMFILTER_DESC' => 'Пункт меню перенаправлен на выбранный фильтр',
+	'LBL_PROFILE' => 'Profile',
+	'LBL_PROFILE_DESC' => "Menu item that allows changing the user's settings.",
 	//Message
 	'LBL_REMOVED_MENU_ITEM' => 'Пункт меню удален',
 	'LBL_SAVED_MAP_MENU' => 'Структура меню сохранена',
