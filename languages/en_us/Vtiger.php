@@ -246,6 +246,7 @@ $languageStrings = [
 	'LBL_CREATE_VIEW' => 'Creating new view',
 	'LBL_CREATING_NEW' => 'Creating New',
 	'LBL_SYSTEM_SETTINGS' => 'System Settings',
+	'LBL_USER_PANEL' => '__UNTRANSLATED__',
 	'LBL_CURRENCY' => 'Currency',
 	'LBL_CURRENT_FQ' => 'Current FQ',
 	'LBL_CURRENT_FY' => 'Current FY',

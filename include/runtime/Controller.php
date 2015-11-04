@@ -188,6 +188,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 		$viewer->assign('LANGUAGE', Vtiger_Language_Handler::getLanguage());
+		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -198,6 +199,11 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		return 'Header.tpl';
 	}
 
+	protected function showBodyHeader()
+	{
+		return true;
+	}
+	
 	//Note : To get the right hook for immediate parent in PHP,
 	// specially in case of deep hierarchy
 	//TODO: Need to revisit this.
@@ -244,9 +250,12 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css',
 			'~libraries/jquery/pnotify/pnotify.custom.css',
 			'~libraries/jquery/datepicker/css/datepicker.css',
+			'~layouts/vlayout/skins/icons/userIcons.css',
+			'~layouts/vlayout/skins/icons/adminIcons.css',
 			'~layouts/vlayout/resources/styles.css',
 			'~libraries/jquery/timepicker/jquery.timepicker.css',
 			'~layouts/vlayout/modules/OSSMail/resources/OSSMailBoxInfo.css',
+			'~libraries/footable/css/footable.core.css',
 		);
 		$headerCssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return $headerCssInstances;
@@ -295,6 +304,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/dangrossman-bootstrap-daterangepicker/date.js',
 			'~libraries/jquery/jquery.ba-outside-events.js',
 			'~libraries/jquery/jquery.placeholder.js',
+			'~libraries/footable/js/footable.js',
 		];
 
 		$languageHandlerShortName = Vtiger_Language_Handler::getShortLanguageName();

@@ -248,6 +248,7 @@ $languageStrings = [
 	'LBL_CREATE_VIEW' => 'Maak nieuw overzicht',
 	'LBL_CREATING_NEW' => 'Maak nieuw',
 	'LBL_SYSTEM_SETTINGS' => 'Systeem instellingen',
+	'LBL_USER_PANEL' => '__UNTRANSLATED__',
 	'Currency' => 'Muntsoort',
 	'LBL_CURRENT_FQ' => 'Lopende FQ',
 	'LBL_CURRENT_FY' => 'Lopende FY',

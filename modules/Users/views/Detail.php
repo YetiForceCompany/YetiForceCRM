@@ -58,7 +58,6 @@ class Users_Detail_View extends Users_PreferenceDetail_View {
 		$viewer->assign('SETTINGS_MENUS', $menuModels);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-        $viewer->assign('LOAD_OLD', Settings_Vtiger_Index_View::$loadOlderSettingUi);
 		$viewer->assign('CURRENT_USER_MODEL', $currentUserModel);
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}

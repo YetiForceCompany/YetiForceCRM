@@ -67,23 +67,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="container-fluid userActionContainer">
-		<div class="row">
-			{foreach key=index item=obj from=$HEADER_LINKS}
-				{if $obj->linktype == 'USERACTION'}
-					{assign var="TITLE" value=$obj->getLabel()}
-					{assign var="GLYPHICON" value=$obj->getGlyphiconIcon()}
-					<div class="col-md-{$obj->span} noSpaces">
-						<a title="{vtranslate($TITLE,$MODULE)}" href="#">
-							{if $GLYPHICON}
-								<span class="{$GLYPHICON}" aria-hidden="true"></span>
-							{/if}
-						</a>
-					</div>
-				{/if}
-			{/foreach}
-		</div>
-	</div>
 	<div class="menuContainer">
 		{include file='Menu.tpl'|@vtemplate_path:$MODULE}
 	</div>

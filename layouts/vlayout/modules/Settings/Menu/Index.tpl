@@ -7,7 +7,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
-<div class=" menuContainer" style="margin-top:10px;">
+<div class="menuConfigContainer">
 	<div class="row">
 		<div class="col-md-7">
 			<h3>{vtranslate('LBL_MENU_BUILDER', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MENU_BUILDER_DESCRIPTION', $QUALIFIED_MODULE)}

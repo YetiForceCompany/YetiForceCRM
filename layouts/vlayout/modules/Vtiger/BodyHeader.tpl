@@ -11,22 +11,36 @@
 						<img src="{vimage_path($IMAGE)}" alt="{vtranslate($MODULE, $MODULE)}" class="moduleIcon" />
 					{/if}
 				</div>
-				<h3 class="mainModuleTitle">{vtranslate($MODULE, $MODULE)}</h3>
+				<h3 class="mainModuleTitle">{vtranslate($PAGETITLE, $QUALIFIED_MODULE)}</h3>
 			</div>
 			<div class="col-md-9 rightHeader">
 				<div class="pull-right">
-					<div class="dropdown quickActions historyBtn">
-						<a data-placement="left" data-toggle="dropdown" class="showHistoryBtn" aria-expanded="false" href="#">
+					<div class="dropdown quickAction historyBtn">
+						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
 							<img class='alignMiddle popoverTooltip' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" 
 								 class="dropdown-toggle" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
 						</a>
 					</div>
 				</div>
 				<div class="pull-right">
-					<div class="dropdown quickActions">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-							<img id="menubar_quickCreate" src="{vimage_path('plus.png')}" class="alignMiddle" 
-								 alt="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" />
+					<div class="remindersNotice quickAction">
+						<a class="btn btn-default btn-sm" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
+							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+							<span class="badge hide">0</span>
+						</a>
+					</div>
+				</div>
+				<div class="pull-right">
+					<div class="headerLinksAJAXChat quickAction">
+						<a class="btn btn-default btn-sm ChatIcon" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
+							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+						</a>
+					</div>
+				</div>
+				<div class="pull-right">
+					<div class="dropdown quickAction">
+						<a id="menubar_quickCreate" class="dropdown-toggle btn btn-default btn-sm" data-toggle="dropdown" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" href="#">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
 							<li id="quickCreateModules">
@@ -61,7 +75,7 @@
 						</ul>
 					</div>
 				</div>
-				<div class="pull-right select-search">
+				<div class="pull-right selectSearch">
 					<div class="input-group globalSearchInput">
 						<span class="input-group-btn">
 							<select class="chzn-select col-md-5" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}" id="basicSearchModulesList" >
@@ -80,6 +94,11 @@
 						<span class="input-group-btn">
 							<button class="btn btn-default" id="searchIcon" type="button">
 								<span class="glyphicon glyphicon-search"></span>
+							</button>
+						</span>
+						<span class="input-group-btn">
+							<button class="btn btn-default" id="globalSearch" title="{vtranslate('LBL_ADVANCE_SEARCH')}" type="button">
+								<span class="glyphicon glyphicon-th-large"></span>
 							</button>
 						</span>
 					</div>

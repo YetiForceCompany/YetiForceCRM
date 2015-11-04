@@ -761,6 +761,7 @@ $languageStrings = [
 	'LBL_SUPPORT' => 'Поддержка',
 	'LBL_SYNC_BUTTON' => 'Синхронизировать',
 	'LBL_SYSTEM_SETTINGS' => 'Настройки системы',
+	'LBL_USER_PANEL' => '__UNTRANSLATED__',
 	'LBL_Sat' => 'Суб',
 	'LBL_Sep' => 'Сен',
 	'LBL_Sun' => 'Вск',

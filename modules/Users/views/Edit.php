@@ -66,7 +66,6 @@ Class Users_Edit_View extends Users_PreferenceEdit_View {
 		$viewer->assign('SETTINGS_MENUS', $menuModels);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-        $viewer->assign('LOAD_OLD', Settings_Vtiger_Index_View::$loadOlderSettingUi);
 		$viewer->assign('IS_PREFERENCE', false);
 
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);

@@ -261,6 +261,7 @@ $languageStrings = [
 	'LBL_CREATE_VIEW' => 'Neue Ansicht erstellen',
 	'LBL_CREATING_NEW' => 'Erstelle',
 	'LBL_SYSTEM_SETTINGS' => 'System Einstellungen',
+	'LBL_USER_PANEL' => '__UNTRANSLATED__',
 	'LBL_CURRENCY' => 'Währung',
 	'LBL_CURRENT_FQ' => 'Aktuelles Quartal',
 	'LBL_CURRENT_FY' => 'Aktuelles Jahr',

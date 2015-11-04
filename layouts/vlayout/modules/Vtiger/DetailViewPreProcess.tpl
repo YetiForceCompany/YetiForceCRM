@@ -11,15 +11,8 @@
 -->*}
 {strip}
 	{include file="Header.tpl"|vtemplate_path:$MODULE}
-	{if $COLORLISTHANDLERS}
-		<style>
-			.detailViewContainer{
-				border: 2px solid {$COLORLISTHANDLERS.background};
-			}
-		</style>
-	{/if}
 	<div class="bodyContents">
 		<div class="mainContainer">
-			<div class="contentsDiv col-md-12 marginLeftZero" id="centerPanel">
+			<div class="contentsDiv">
 				{include file="DetailViewHeader.tpl"|vtemplate_path:$MODULE_NAME}
 			{/strip}
