@@ -2,7 +2,7 @@
 {strip}
     {assign var='count' value=0}
 	{assign var="announcement" value=$ANNOUNCEMENT->get('announcement')}
-	<div class="container-fluid bodyHeader noSpaces">
+	<div class="container-fluid bodyHeader noSpaces commonActionsContainer">
 		<div class="row noSpaces">
 			<div class="col-md-3 leftHeader">
 				<div class="pull-left">
@@ -62,30 +62,27 @@
 					</div>
 				</div>
 				<div class="pull-right select-search">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-6 noSpaces">
-								<select class="chzn-select col-md-5" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}" id="basicSearchModulesList" >
-									<option value="" class="globalSearch_module_All">{vtranslate('LBL_ALL_RECORDS', $MODULE_NAME)}</option>
-									{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
-										{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}
-											<option value="{$MODULE_NAME}" class="globalSearch_module_{$MODULE_NAME}" selected>{vtranslate($MODULE_NAME,$MODULE_NAME)}</option>
-										{else}
-											<option value="{$MODULE_NAME}" class="globalSearch_module_{$MODULE_NAME}">{vtranslate($MODULE_NAME,$MODULE_NAME)}</option>
-										{/if}
-									{/foreach}
-								</select>
-							</div>
-							<div class="col-md-6 noSpaces">
-								<div class="form-group">
-									<div class="input-group pull-left globalSearchInput">
-										<input type="text"  class="form-control" title="{vtranslate('LBL_GLOBAL_SEARCH')}" id="globalSearchValue" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
-										<span id="searchIcon" class="input-group-addon cursorPointer"><span class="glyphicon glyphicon-search "></span></span>
-									</div>
-								</div>
-							</div>
-						</div>			
-					</div>		
+					<div class="input-group globalSearchInput">
+						<span class="input-group-btn">
+							<select class="chzn-select col-md-5" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}" id="basicSearchModulesList" >
+								<option value="" class="globalSearch_module_All">{vtranslate('LBL_ALL_RECORDS', $MODULE_NAME)}</option>
+								{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
+									{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}
+										<option value="{$MODULE_NAME}" class="globalSearch_module_{$MODULE_NAME}" selected>{vtranslate($MODULE_NAME,$MODULE_NAME)}</option>
+									{else}
+										<option value="{$MODULE_NAME}" class="globalSearch_module_{$MODULE_NAME}">{vtranslate($MODULE_NAME,$MODULE_NAME)}</option>
+									{/if}
+								{/foreach}
+							</select>
+						</span>
+						<input type="text" class="form-control" title="{vtranslate('LBL_GLOBAL_SEARCH')}" id="globalSearchValue" 
+							   placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
+						<span class="input-group-btn">
+							<button class="btn btn-default" id="searchIcon" type="button">
+								<span class="glyphicon glyphicon-search"></span>
+							</button>
+						</span>
+					</div>
 				</div>
 				<div class="pull-right">
 					{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}

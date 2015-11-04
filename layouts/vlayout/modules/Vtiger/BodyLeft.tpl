@@ -11,53 +11,55 @@
 			</div>
 			<div class="col-md-10 userDetails">
 				<div class="pull-right">
-					{foreach key=index item=obj from=$HEADER_LINKS}
-						{assign var="HREF" value='#'}
-						{assign var="ICON_PATH" value=$obj->getIconPath()}
-						{assign var="LINK" value=$obj->convertToNativeLink()}
-						{assign var="GLYPHICON" value=$obj->getGlyphiconIcon()}
-						{assign var="TITLE" value=$obj->getLabel()}
-						{assign var="CHILD_LINKS" value=$obj->getChildLinks()}
-						<ul class="headerLink noSpaces">
-							<li class="dropdown">
-								{if !empty($LINK)}
-									{assign var="HREF" value=$LINK}
-								{/if}
-								<a class="dropdown-toggle" title="{vtranslate($TITLE,$MODULE)}" {if !empty($CHILD_LINKS)}data-toggle="dropdown"{/if} href="{$HREF}">
-									{if $GLYPHICON}
-										<span class="{$GLYPHICON}" aria-hidden="true"></span>
+					<ul class="headerLink noSpaces">
+						{foreach key=index item=obj from=$HEADER_LINKS}
+							{if $obj->linktype == 'HEADERLINK'}
+								{assign var="HREF" value='#'}
+								{assign var="ICON_PATH" value=$obj->getIconPath()}
+								{assign var="LINK" value=$obj->convertToNativeLink()}
+								{assign var="GLYPHICON" value=$obj->getGlyphiconIcon()}
+								{assign var="TITLE" value=$obj->getLabel()}
+								{assign var="CHILD_LINKS" value=$obj->getChildLinks()}
+								<li class="dropdown">
+									{if !empty($LINK)}
+										{assign var="HREF" value=$LINK}
 									{/if}
-									{if $ICON_PATH}
-										<img src="{$ICON_PATH}" alt="{vtranslate($TITLE,$MODULE)}" title="{vtranslate($TITLE,$MODULE)}" />
-									{/if}
+									<a class="dropdown-toggle" title="{vtranslate($TITLE,$MODULE)}" {if !empty($CHILD_LINKS)}data-toggle="dropdown"{/if} href="{$HREF}">
+										{if $GLYPHICON}
+											<span class="{$GLYPHICON}" aria-hidden="true"></span>
+										{/if}
+										{if $ICON_PATH}
+											<img src="{$ICON_PATH}" alt="{vtranslate($TITLE,$MODULE)}" title="{vtranslate($TITLE,$MODULE)}" />
+										{/if}
+										{if !empty($CHILD_LINKS)}
+											<span class="caret"></span>
+										{/if}
+									</a>
 									{if !empty($CHILD_LINKS)}
-										<span class="caret"></span>
+										<ul class="dropdown-menu pull-right">
+											{foreach key=index item=obj from=$CHILD_LINKS}
+												{if $obj->getLabel() eq NULL}
+													<li class="divider"></li>
+													{else}
+														{assign var="id" value=$obj->getId()}
+														{assign var="href" value=$obj->getUrl()}
+														{assign var="label" value=$obj->getLabel()}
+														{assign var="onclick" value=""}
+														{if stripos($obj->getUrl(), 'javascript:') === 0}
+															{assign var="onclick" value="onclick="|cat:$href}
+															{assign var="href" value="javascript:;"}
+														{/if}
+													<li>
+														<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{vtranslate($label,$MODULE)}</a>
+													</li>
+												{/if}
+											{/foreach}
+										</ul>
 									{/if}
-								</a>
-								{if !empty($CHILD_LINKS)}
-									<ul class="dropdown-menu pull-right">
-										{foreach key=index item=obj from=$CHILD_LINKS}
-											{if $obj->getLabel() eq NULL}
-												<li class="divider"></li>
-												{else}
-													{assign var="id" value=$obj->getId()}
-													{assign var="href" value=$obj->getUrl()}
-													{assign var="label" value=$obj->getLabel()}
-													{assign var="onclick" value=""}
-													{if stripos($obj->getUrl(), 'javascript:') === 0}
-														{assign var="onclick" value="onclick="|cat:$href}
-														{assign var="href" value="javascript:;"}
-													{/if}
-												<li>
-													<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{vtranslate($label,$MODULE)}</a>
-												</li>
-											{/if}
-										{/foreach}
-									</ul>
-								{/if}
-							</li>
-						</ul>
-					{/foreach}
+								</li>
+							{/if}
+						{/foreach}
+					</ul>
 				</div>
 				<p class="noSpaces name">{$CURRENT_USER_MODEL->get('first_name')}&nbsp;</p>
 				<p class="noSpaces name">{$CURRENT_USER_MODEL->get('last_name')}&nbsp;</p>
@@ -67,18 +69,19 @@
 	</div>
 	<div class="container-fluid userActionContainer">
 		<div class="row">
-			<div class="col-md-3 noSpaces">
-				1
-			</div>
-			<div class="col-md-3 noSpaces">
-				2
-			</div>
-			<div class="col-md-3 noSpaces">
-				3
-			</div>
-			<div class="col-md-3 noSpaces">
-				4
-			</div>
+			{foreach key=index item=obj from=$HEADER_LINKS}
+				{if $obj->linktype == 'USERACTION'}
+					{assign var="TITLE" value=$obj->getLabel()}
+					{assign var="GLYPHICON" value=$obj->getGlyphiconIcon()}
+					<div class="col-md-{$obj->span} noSpaces">
+						<a title="{vtranslate($TITLE,$MODULE)}" href="#">
+							{if $GLYPHICON}
+								<span class="{$GLYPHICON}" aria-hidden="true"></span>
+							{/if}
+						</a>
+					</div>
+				{/if}
+			{/foreach}
 		</div>
 	</div>
 	<div class="menuContainer">
