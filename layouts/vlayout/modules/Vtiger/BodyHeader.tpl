@@ -1,7 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
     {assign var='count' value=0}
-	{assign var="announcement" value=$ANNOUNCEMENT->get('announcement')}
 	<div class="container-fluid bodyHeader noSpaces commonActionsContainer{if $LEFTPANELHIDE} open{/if}">
 		<div class="row noSpaces">
 			<div class="col-md-5 leftHeader">
@@ -15,8 +14,6 @@
 				{include file='BodyHidden.tpl'|@vtemplate_path:$MODULE}
 			</div>
 			<div class="col-md-7 rightHeader">
-				{include file='ActionMenu.tpl'|@vtemplate_path:$MODULE}
-				{include file='SearchMenu.tpl'|@vtemplate_path:$MODULE}
 				<div class="pull-right rightHeaderBtn">
 					<div class="dropdown quickAction historyBtn">
 						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">

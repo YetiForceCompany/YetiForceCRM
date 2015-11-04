@@ -2,7 +2,7 @@
 {strip}
 	{assign var=ICON value=Vtiger_Menu_Model::getMenuIcon('home.png', vtranslate('LBL_HOME',$moduleName))}
 	{if $MOREMENU neq true && ($PRIVILEGESMODEL->isAdminUser() || $PRIVILEGESMODEL->hasGlobalReadPermission() || $PRIVILEGESMODEL->hasModulePermission($MENU.tabid)) }
-		<li class="menuHomeIcon {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}" role="menuitem" tabindex="{$TABINDEX}" {if $HASCHILDS}aria-haspopup="{$HASCHILDS}"{/if}>
+		<li class="{if $DEVICE == 'Desktop'}menuHomeIcon{else} menuLabel {/if} {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}" role="menuitem" tabindex="{$TABINDEX}" {if $HASCHILDS}aria-haspopup="{$HASCHILDS}"{/if}>
 			<a class="{if $MODULE eq 'Home'} selected {/if} {if $ICON}hasIcon{/if}" href="{$HOME_MODULE_MODEL->getDefaultUrl()}">
 				{$ICON}
 				{vtranslate('LBL_HOME',$moduleName)}

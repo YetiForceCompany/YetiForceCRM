@@ -68,7 +68,7 @@
 		</div>
 	</div>
 	<div class="menuContainer">
-		{include file='Menu.tpl'|@vtemplate_path:$MODULE}
+		{include file='Menu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
 	</div>
 {/strip}
 

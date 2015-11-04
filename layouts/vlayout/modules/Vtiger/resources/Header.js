@@ -33,14 +33,6 @@ jQuery.Class("Vtiger_Header_Js", {
 	init: function () {
 		this.setContentsContainer('.bodyContent');
 	},
-	setMenuContainer: function (element) {
-		if (element instanceof jQuery) {
-			this.menuContainer = element;
-		} else {
-			this.menuContainer = jQuery(element);
-		}
-		return this;
-	},
 	setContentsContainer: function (element) {
 		if (element instanceof jQuery) {
 			this.contentContainer = element;

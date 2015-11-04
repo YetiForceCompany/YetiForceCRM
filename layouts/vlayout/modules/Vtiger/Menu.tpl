@@ -1,7 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<nav class="contents-bottomscroll" role="navigation">
-		<ul class="nav modulesList">
+	{if $DEVICE == 'Mobile'}
+		<div class="mobileLeftPanelContainer">
+	{else}
+		<nav class="contents-bottomscroll" role="navigation">
+			<ul class="nav modulesList">
+	{/if}	
 			{assign var=PRIVILEGESMODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
 			{assign var=TABINDEX value=0}
 			{foreach key=KEY item=MENU from=$MENUS}
@@ -11,14 +15,17 @@
 				{if isset($MENU['moduleName'])}
 					{assign var=MENU_MODULE value=$MENU['moduleName']}
 				{/if}
-
 				{if $CHILDS|@count neq 0}
 					{assign var=HASCHILDS value='true'}
 				{else}
 					{assign var=HASCHILDS value='false'}
 				{/if}
-				{include file='menu/'|cat:$MENU.type|cat:'.tpl'|@vtemplate_path:$MODULE}
+				{include file='menu/'|cat:$MENU.type|cat:'.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
 			{/foreach}
-		</ul>
-	</nav>
+	{if $DEVICE == 'Mobile'}
+		</div> 
+	{else}
+			</ul>
+		</nav>
+	{/if}
 {/strip}
