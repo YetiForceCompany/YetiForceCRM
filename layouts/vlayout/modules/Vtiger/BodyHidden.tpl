@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="" >
+	<div class="breadCrumbs" >
 		<input type='hidden' value="{$MODULE}" id='module' name='module'/>
 		<input type="hidden" value="{$PARENT_MODULE}" id="parent" name='parent' />
 		<input type='hidden' value="{$VIEW}" id='view' name='view'/>
@@ -8,7 +8,7 @@
 		{assign var=HOMEICON value=Vtiger_Menu_Model::getMenuIcon('home.png', vtranslate('LBL_HOME',$MODULE))}
 		{if $BREADCRUMBS}
 			<div class="breadcrumbsContainer">
-				<h4 class="breadcrumbsLinks">
+				<h2 class="breadcrumbsLinks">
 					<a href='/'>
 						{$HOMEICON}
 					</a>
@@ -20,7 +20,7 @@
 						<span>{$item['name']}</span>
 						{assign var="ITEM_PREV" value=$item['name']}
 					{/foreach}
-				</h4>
+				</h2>
 			</div>
 		{/if}
 		{assign var="MENUSCOLOR" value=Users_Colors_Model::getModulesColors(true)}

@@ -19,7 +19,7 @@
 				{vtranslate('LBL_CHAT',$MODULE)}
 			</div>	
 			<div class="pull-right">
-				<a class="btn btn-default btn-sm" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
+				<a class="btn btn-default" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
 					<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 					<span class="badge hide">0</span>
 				</a>
@@ -32,7 +32,7 @@
 				{vtranslate('LBL_CHAT',$MODULE)}
 			</div>
 			<div class="pull-right">
-				<a class="btn btn-default btn-sm ChatIcon" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
+				<a class="btn btn-default ChatIcon" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
 					<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 				</a>
 			</div>
@@ -45,7 +45,7 @@
 					{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}
 				</div>
 				<div class='pull-right'>
-					<a class="btn btn-default btn-sm" href="#">
+					<a class="btn btn-default" href="#">
 						<img class='alignMiddle imgAnnouncement' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
 					</a>
 				</div>
@@ -58,7 +58,7 @@
 				{vtranslate('LBL_QUICK_CREATE',$MODULE)}
 			</div>
 			<div class='pull-right'>
-				<a id="menubar_quickCreate" class="dropdown-toggle btn btn-default btn-sm" data-toggle="dropdown" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" href="#">
+				<a id="menubar_quickCreate" class="dropdown-toggle btn btn-default" data-toggle="dropdown" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" href="#">
 					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 				</a>
 				<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
@@ -76,7 +76,7 @@
 									{/if}	
 									{if $quickCreateModule == '1'}
 										{if $count % 3 == 0}
-											<div class="">
+											<div class="rows">
 											{/if}
 											<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
 												<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}"

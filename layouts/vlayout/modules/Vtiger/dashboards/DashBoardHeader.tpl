@@ -14,23 +14,28 @@
 	<div class="row">
 		<div class="col-md-3">
 			{if $DASHBOARDHEADER_TITLE}
-				<h2 class="pull-left">{$DASHBOARDHEADER_TITLE}</h2>
+				{*<h2 class="pull-left">{$DASHBOARDHEADER_TITLE}</h2>*}
 			{/if}
 		</div>
 		<div class="col-md-9 h3">
 			<div class="pull-right">
 				<ul class="btn-toolbar">
 					<li class="btn-group">
-						<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
-							<div class='mobileOff'>
-								<strong>{vtranslate('LBL_ADD_WIDGET')}</strong>
-								<span class="caret"></span>
-							</div>
-							<span class='glyphicon glyphicon-th mobileOn'></span>
-						</button>
 						{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
 						{if $WIDGETS|count gt 0}
+							<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
+								<div class='mobileOff'>
+									<strong>{vtranslate('LBL_ADD_WIDGET')}</strong>
+									<span class="caret"></span>
+								</div>
+								<span class='glyphicon glyphicon-th mobileOn'></span>
+							</button>
 							<ul class="dropdown-menu widgetsList pull-right" style="min-width:100%;text-align:left;">
+								<li class='mobileOn'>
+									<a href='#' class='addFilter' data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
+										{vtranslate('LBL_ADD_FILTER')}
+									</a>
+								</li>
 								{assign var="WIDGET" value=""}
 								{foreach from=$WIDGETS item=WIDGET}
 									<li><a onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')" href="javascript:void(0);"
@@ -38,14 +43,21 @@
 										{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</a>
 									</li>
 								{/foreach}
+							</ul>
+						{else if $MODULE_PERMISSION}
+							<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
+								<div class='mobileOff'>
+									<strong>{vtranslate('LBL_ADD_WIDGET')}</strong>
+									<span class="caret"></span>
+								</div>
+								<span class='glyphicon glyphicon-th mobileOn'></span>
+							</button>
+							<ul class="dropdown-menu widgetsList pull-right" style="min-width:100%;text-align:left;">
 								<li class='mobileOn'>
 									<a href='#' class='addFilter' data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
 										{vtranslate('LBL_ADD_FILTER')}
 									</a>
 								</li>
-							</ul>
-						{else if $MODULE_PERMISSION}
-							<ul class="dropdown-menu widgetsList pull-right" style="min-width:100%;text-align:left;">
 							</ul>
 						{/if}
 					</li>
