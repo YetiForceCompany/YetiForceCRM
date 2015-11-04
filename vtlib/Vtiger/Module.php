@@ -197,6 +197,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 						'<entityfieldlabel>' => $entityField->label,
 						'<entitycolumn>' => $entityField->column,
 						'<entityfieldname>' => $entityField->name,
+						'_ModuleName_' => $this->name,
 					];
 					foreach ($replacevars as $key => $value) {
 						$fileContent = str_replace($key, $value, $fileContent);

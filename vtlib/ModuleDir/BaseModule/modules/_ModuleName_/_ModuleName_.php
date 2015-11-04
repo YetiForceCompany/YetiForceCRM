@@ -11,7 +11,7 @@
 
 include_once 'modules/Vtiger/CRMEntity.php';
 
-class <ModuleName> extends Vtiger_CRMEntity {
+class _ModuleName_ extends Vtiger_CRMEntity {
 var $table_name = 'vtiger_<modulename>';
 var $table_index = '<modulename>id';
 
