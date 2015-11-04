@@ -3761,3 +3761,6 @@ span[name=existingImages] img{
 .globalSearchResults .nav li a{
 	padding: 10px 0;
 }
+.bootbox .btn-warning{
+	margin-left: 5px;
+}
