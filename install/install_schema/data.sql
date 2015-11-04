@@ -21619,17 +21619,17 @@ insert  into `vtiger_servicecategory_seq`(`id`) values (6);
 
 /*Data for the table `vtiger_settings_blocks` */
 
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (1,'LBL_USER_MANAGEMENT',1);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (2,'LBL_STUDIO',3);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (3,'LBL_COMPANY',5);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (4,'LBL_OTHER_SETTINGS',20);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (5,'LBL_INTEGRATION',6);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (6,'LBL_PROCESSES',9);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (7,'LBL_SECURITY_MANAGEMENT',2);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (8,'LBL_MAIL',8);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (9,'LBL_About_YetiForce',21);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (10,'LBL_CUSTOMIZE_TRANSLATIONS',4);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (11,'LBL_EXTENDED_MODULES',22);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (1,'LBL_USER_MANAGEMENT',1,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (2,'LBL_STUDIO',3,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (3,'LBL_COMPANY',5,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (4,'LBL_OTHER_SETTINGS',20,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (5,'LBL_INTEGRATION',6,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (6,'LBL_PROCESSES',9,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (7,'LBL_SECURITY_MANAGEMENT',2,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (8,'LBL_MAIL',8,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (9,'LBL_About_YetiForce',21,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (10,'LBL_CUSTOMIZE_TRANSLATIONS',4,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`) values (11,'LBL_EXTENDED_MODULES',22,NULL);
 
 /*Data for the table `vtiger_settings_blocks_seq` */
 

@@ -161,6 +161,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 					'type' => 'Shortcut',
 					'sequence' => $menuModel->get('sequence'),
 					'newwindow' => '0',
+					'icon' => $menuItem->get('iconpath'),
 					'dataurl' => $menuItem->getUrl(),
 					'parent' => 'Settings',
 					'moduleName' => Vtiger_Menu_Model::getModuleNameFromUrl($menuItem->getUrl()),
@@ -174,6 +175,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 				'type' => 'Label',
 				'sequence' => $menuModel->get('sequence'),
 				'childs' => $childs,
+				'icon' => $menuModel->get('icon'),
 				'moduleName' => 'Settings::Vtiger',
 			];
 		}
