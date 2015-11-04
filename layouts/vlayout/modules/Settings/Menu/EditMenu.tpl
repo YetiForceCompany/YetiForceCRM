@@ -17,13 +17,13 @@
 			<div class="modal-body">
 				{assign var=MENU_TYPES value=$MODULE_MODEL->getMenuTypes()}
 				{assign var=MENU_TYPE value=$MENU_TYPES[$RECORD->get('type')]}
-				<form>
+				<form class="form-horizontal">
 					<input type="hidden" id="menuType" value="{$MENU_TYPE}" />
 					<input type="hidden" name="id" value="{$ID}" />
 					<input type="hidden" name="role" value="{$RECORD->get('role')}" />
-					<div class="row">
-						<div class="col-md-5 marginLeftZero">{vtranslate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</div>
-						<div class="col-md-7">
+					<div class="form-group">
+						<label class="col-md-4 control-label">{vtranslate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</label>
+						<div class="col-md-7 form-control-static">
 							{vtranslate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}
 						</div>
 					</div>

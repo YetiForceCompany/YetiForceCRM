@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,9 +7,9 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_MENU_BUILDER' => 'Menu',
+	'LBL_MENU_BUILDER' => 'Menu - Configuration',
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Create and manage menu items.',
 	'LBL_DEFAULT_MENU' => 'Default menu',
 	'LBL_ADD_MENU' => 'Add menu item',
@@ -30,16 +30,16 @@ $languageStrings = [
 	'LBL_TEST_IT' => 'Test it',
 	'LBL_MENU_TYPE' => 'Menu type',
 	'LBL_AVAILABLE_FILTERS' => 'Available filters',
-	
+	'LBL_ICON_NAME' => 'Icon',
 	//Menu types
 	'LBL_MODULE' => 'Module',
 	'LBL_MODULE_DESC' => 'Menu item redirecting to selected module.',
 	'LBL_SHORTCUT' => 'Shortcut',
 	'LBL_SHORTCUT_DESC' => 'Menu item redirecting to entered address.',
 	'LBL_LABEL' => 'Label',
-	'LBL_LABEL_DESC' => 'Allows to group items in menu.',	
+	'LBL_LABEL_DESC' => 'Allows to group items in menu.',
 	'LBL_SCRIPT' => 'Skript',
-	'LBL_SCRIPT_DESC' => 'Triggers javascript',	
+	'LBL_SCRIPT_DESC' => 'Triggers javascript',
 	'LBL_SEPARATOR' => 'Separator',
 	'LBL_SEPARATOR_DESC' => 'Divides large items into smaller parts.',
 	'LBL_QUICKCREATE' => 'Quick create',
@@ -48,12 +48,10 @@ $languageStrings = [
 	'LBL_HOMEICON_DESC' => 'Menu item redirecting to home page.',
 	'LBL_CUSTOMFILTER' => 'Filter',
 	'LBL_CUSTOMFILTER_DESC' => 'Menu item redirecting to selected filter.',
-	
 	//Message
 	'LBL_REMOVED_MENU_ITEM' => 'Menu item has been removed',
 	'LBL_SAVED_MAP_MENU' => 'Menu layout has been saved',
 	'LBL_ITEM_ADDED_TO_MENU' => 'New item has been added to menu',
-
 	//Remove mondal
 	'LBL_REMOVE_TITLE' => 'Remove menu item',
 	'LBL_REMOVE_DESC' => 'Selected item contains submenus. All submenus will be also deleted together with this menu item.',

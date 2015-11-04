@@ -92,4 +92,9 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View {
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
 		return $headerCssInstances;
 	}
+	
+	protected function showBodyHeader()
+	{
+		return false;
+	}
 }

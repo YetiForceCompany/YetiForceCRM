@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_MENU_BUILDER' => 'Menüverwaltung',
+	'LBL_MENU_BUILDER' => 'Menu - Configuration',
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Erzeuge und verwalte Menüeinträge.',
 	'LBL_DEFAULT_MENU' => 'Standard Menü',
 	'LBL_ADD_MENU' => 'Menüeintrag hinzufügen',
@@ -30,7 +30,7 @@ $languageStrings = array(
 	'LBL_TEST_IT' => 'Testen',
 	'LBL_MENU_TYPE' => 'Menüart',
 	'LBL_AVAILABLE_FILTERS' => 'Verfügbare Filter',
-	
+	'LBL_ICON_NAME' => 'Icon',
 	//Menu types
 	'LBL_MODULE' => 'Modul',
 	'LBL_MODULE_DESC' => 'Menüeintrag leitet zum gewählten Modul weiter.',

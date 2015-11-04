@@ -1,5 +1,5 @@
-<div class="row marginBottom5">
-	<div class="col-md-5">{vtranslate('LBL_HOTKEY', $QUALIFIED_MODULE)}:</div>
+<div class="form-group">
+	<label class="col-md-4 control-label">{vtranslate('LBL_HOTKEY', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
 		<div class="input-group">
 			<input name="hotkey" class="form-control" type="text" value="{if $RECORD}{$RECORD->get('hotkey')}{/if}"/>
