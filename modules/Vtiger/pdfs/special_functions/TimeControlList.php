@@ -21,7 +21,7 @@ class Pdf_TimeControlList extends Vtiger_SpecialFunction_Pdf
 			'.table {width: 100%; border-collapse: collapse;}' .
 			'.table thead th {border-bottom: 1px solid grey;}' .
 			'.table tbody tr {border-bottom: 1px solid grey}' .
-			'.table tr:nth-child(even) {background-color: #F7F7F7;}' .
+			'.table tbody tr:nth-child(even) {background-color: #F7F7F7;}' .
 			'.center {text-align: center;}' .
 			'.summary {border-top: 1px solid grey;}' .
 			'</style>';
