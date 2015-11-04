@@ -155,7 +155,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field2->typeofdata = 'V~O';
 		$field2->columntype = 'varchar(32)';
 		$block->addField($field2);
-		
+
 		$field3 = new Vtiger_Field();
 		$field3->name = 'assigned_user_id';
 		$field3->label = 'Assigned To';
@@ -205,7 +205,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		// Create files
 		$module->createFiles($field1);
 		$ModuleInstance = CRMEntity::getInstance($module->name);
-		$ModuleInstance->setModuleSeqNumber('configure',$module->name,'N','1');
+		$ModuleInstance->setModuleSeqNumber('configure', $module->name, 'N', '1');
 	}
 
 	public function toAlphaNumeric($value)

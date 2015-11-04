@@ -83,7 +83,7 @@ class Vtiger_Session
 	{
 		HTTP_Session::set($key, $value);
 	}
-	
+
 	/**
 	 * Set value for the key.
 	 */
