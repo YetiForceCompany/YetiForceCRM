@@ -445,7 +445,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 		// Deleting events before importing them
 		$adb->delete('vtiger_eventhandlers', 'handler_class IN (SELECT handler_class FROM vtiger_eventhandler_module WHERE module_name = ? )', [$moduleInstance->name]);
 		$adb->delete('vtiger_eventhandler_module', 'module_name = ?', [$moduleInstance->name]);
-		
+
 		if (Vtiger_Event::hasSupport()) {
 			foreach ($modulenode->events->event as $eventnode) {
 				$this->update_Event($modulenode, $moduleInstance, $eventnode);

@@ -447,7 +447,7 @@ class PearDatabase
 			$values[] = $value;
 		}
 		$query = trim($query, ',');
-		if($where !== false){
+		if ($where !== false) {
 			$query .= ' WHERE ' . $where;
 		}
 		$this->pquery(trim($query, ','), [array_merge($values, $params)]);
