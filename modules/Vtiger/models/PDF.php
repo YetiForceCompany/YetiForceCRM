@@ -55,7 +55,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	 */
 	public function getMainRecordId()
 	{
-		if(is_array($this->recordId))
+		if (is_array($this->recordId))
 			return reset($this->recordId);
 		return $this->recordId;
 	}
@@ -68,7 +68,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	{
 		return $this->recordId;
 	}
-	
+
 	/**
 	 * Sets record id for which template will be generated
 	 * @param <Integer> $id
@@ -391,9 +391,11 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	 */
 	public function replaceModuleFields(&$content, $recordId, $moduleName)
 	{
+		if (empty($content)) {
+			return $content;
+		}
 		$recordModule = $this->getRecordModelById($recordId);
 		$fieldsModel = $this->getFieldsById($recordId);
-
 		foreach ($fieldsModel as $fieldName => &$fieldModel) {
 			$replaceBy = $recordModule->getDisplayValue($fieldName, $recordId, true);
 			$content = str_replace('$' . $fieldName . '$', $replaceBy, $content);
@@ -433,10 +435,12 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	 */
 	public function replaceRelatedModuleFields(&$content, $recordId)
 	{
+		if (empty($content)) {
+			return $content;
+		}
 		$recordModel = $this->getRecordModelById($recordId);
 		$fieldsModel = $this->getFieldsById($recordId);
 		$fieldsTypes = ['reference', 'owner', 'multireference'];
-
 		foreach ($fieldsModel as $fieldName => &$fieldModel) {
 			$fieldType = $fieldModel->getFieldDataType();
 			if (in_array($fieldType, $fieldsTypes) && $recordModel->get($fieldName) != 0) {
@@ -473,6 +477,9 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	 */
 	public function replaceCompanyFields(&$content)
 	{
+		if (empty($content)) {
+			return $content;
+		}
 		$companyDetails = getCompanyDetails();
 
 		foreach ($companyDetails as $name => $value) {
@@ -495,6 +502,9 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	 */
 	public function replaceSpecialFunctions(&$content)
 	{
+		if (empty($content)) {
+			return $content;
+		}
 		$moduleName = $this->get('module_name');
 		$specialFunctions = self::getSpecialFunctions($moduleName);
 
