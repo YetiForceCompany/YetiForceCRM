@@ -193,11 +193,25 @@ class Vtiger_ThemeExport extends Vtiger_Package
 		$checkres = $adb->pquery('SELECT * FROM ' . self::TABLENAME . ' WHERE name=?', Array($name));
 		$datetime = date('Y-m-d H:i:s');
 		if ($adb->num_rows($checkres)) {
-			$id = $adb->query_result($checkres, 0, 'id');
-			$adb->pquery('UPDATE ' . self::TABLENAME . ' set label=?, name=?, parent=?, lastupdated=?, isdefault=?, active=? WHERE id=?', Array($label, $name, $parent, $datetime, $useisdefault, $useisactive, $id));
+			$adb->update(self::TABLENAME, [
+				'label' => $label,
+				'name' => $name,
+				'parent' => $parent,
+				'lastupdated' => $datetime,
+				'isdefault' => $useisdefault,
+				'active' => $useisactive,
+				], 'id=?', [$adb->query_result($checkres, 0, 'id')]
+			);
 		} else {
-			$uniqueid = self::__getUniqueId();
-			$adb->pquery('INSERT INTO ' . self::TABLENAME . ' (id,name,label,parent,lastupdated,isdefault,active) VALUES(?,?,?,?,?,?)', Array($uniqueid, $name, $label, $parent, $datetime, $useisdefault, $useisactive));
+			$adb->insert(self::TABLENAME, [
+				'id' => self::__getUniqueId(),
+				'label' => $label,
+				'name' => $name,
+				'parent' => $parent,
+				'lastupdated' => $datetime,
+				'isdefault' => $useisdefault,
+				'active' => $useisactive,
+			]);
 		}
 		self::log("Registering Language $label [$prefix] ... DONE");
 	}

@@ -11,8 +11,7 @@
 class Users_ForgotPassword_Handler {
 
     public function changePassword($data) {
-        global $site_URL;
-        $site_URL= rtrim($site_URL,'/'); 
+        $site_URL= rtrim(vglobal('site_URL'),'/'); 
         $request = new Vtiger_Request($data);
         $userName = $request->get('username');
         $viewer = Vtiger_Viewer::getInstance();

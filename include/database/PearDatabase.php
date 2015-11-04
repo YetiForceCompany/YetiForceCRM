@@ -438,7 +438,7 @@ class PearDatabase
 	 * @param array $params Query data
 	 * @return int Number of updated records
 	 */
-	public function update($table, array $columns, $where, array $params)
+	public function update($table, array $columns, $where = false, array $params = [])
 	{
 		$this->log('Update | table: ' . $table . ',columns:' . print_r($columns, true) . ',where:' . $where . ',params:' . print_r($params, true));
 		$query = "UPDATE $table SET ";
@@ -447,7 +447,9 @@ class PearDatabase
 			$values[] = $value;
 		}
 		$query = trim($query, ',');
-		$query .= ' WHERE ' . $where;
+		if($where !== false){
+			$query .= ' WHERE ' . $where;
+		}
 		$this->pquery(trim($query, ','), [array_merge($values, $params)]);
 		return $this->stmt->rowCount();
 	}

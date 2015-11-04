@@ -1051,7 +1051,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		$adb->query("INSERT INTO `yetiforce_updates` (`user`, `name`, `from_version`, `to_version`, `result`) VALUES ('" . $currentUser->get('user_name') . "', '" . $modulenode->label . "', '" . $modulenode->from_version . "', '" . $modulenode->to_version . "','" . $result . "');", true);
 
 		if ($result) {
-			$adb->query("UPDATE vtiger_version SET `current_version` = '" . $modulenode->to_version . "';");
+			$adb->update('vtiger_version', ['current_version' => $modulenode->to_version]);
 		}
 		Vtiger_Functions::recurseDelete($dirName . '/files');
 		Vtiger_Functions::recurseDelete($dirName . '/init.php');

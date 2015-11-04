@@ -135,7 +135,7 @@ class Vtiger_Utils
 		if (!isset($Vtiger_Utils_Log) || $Vtiger_Utils_Log == false)
 			return;
 
-		print_r($message);
+		echo $message;
 		if ($delimit) {
 			if (isset($_REQUEST))
 				echo "<BR>";
