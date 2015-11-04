@@ -1064,6 +1064,8 @@ $languageStrings = [
 	'group' => 'Grupa',
 	'individual' => 'Indywidualny',
 	'LBL_VIEW_FINDDUPLICATES'=> 'Znajdź duplikaty',
+	'Service' => 'Usługa',
+	'Sales' => 'Sprzedaż',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',

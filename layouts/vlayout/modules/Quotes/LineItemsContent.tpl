@@ -208,7 +208,7 @@
 									<span class="input-group-addon">%</span>
 								</div>
 							</td>
-							<td><div class="textOverflowEllipsis">{$tax_data.taxlabel}</div></td>
+							<td><div class="textOverflowEllipsis">{vtranslate($tax_data.taxlabel, $MODULE)}</div></td>
 							<td>
 								<input type="text" name="{$popup_tax_rowname}" class="cursorPointer smallInputBox form-control input-sm taxTotal" value="{$tax_data.amount}" readonly />
 							</td>

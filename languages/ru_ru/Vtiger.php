@@ -1314,6 +1314,8 @@ $languageStrings = [
 	// end pdf
 	'group' => 'Группа',
 	'individual' => 'Индивидуально',
+	'Service' => 'Service',
+	'Sales' => 'Sale',
 ];
 $jsLanguageStrings = [
 	'SINGLE_SalesOrder' => 'Заказ',
