@@ -5,9 +5,14 @@
 		<input type="hidden" value="{$PARENT_MODULE}" id="parent" name='parent' />
 		<input type='hidden' value="{$VIEW}" id='view' name='view'/>
 		{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
+		{assign var=HOMEICON value=Vtiger_Menu_Model::getMenuIcon('home.png', vtranslate('LBL_HOME',$MODULE))}
 		{if $BREADCRUMBS}
 			<div class="breadcrumbsContainer">
 				<h4 class="breadcrumbsLinks">
+					<a href='/'>
+						{$HOMEICON}
+					</a>
+					&nbsp;|&nbsp;
 					{foreach key=key item=item from=$BREADCRUMBS name=breadcrumbs}
 						{if $key != 0 && $ITEM_PREV}
 							<span class="separator">&nbsp;{vglobal('breadcrumbs_separator')}&nbsp;</span>

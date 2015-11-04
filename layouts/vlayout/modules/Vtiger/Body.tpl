@@ -4,6 +4,9 @@
 	<div class="container-fluid container-fluid-main">
 		<div class="baseContainer">
 			{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
+			<div class="mobileLeftPanel mobileMenuOn noSpaces">
+				{include file='MobileBodyLeft.tpl'|@vtemplate_path:$MODULE}
+			</div>
 			<div class="leftPanel noSpaces{if $LEFTPANELHIDE} stillOpen{/if}">
 				{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE}
 			</div>
