@@ -27,7 +27,7 @@
 				</div><hr>
 				<div class="form-group">
 					<div class="col-md-2 control-label">
-						{vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)} <span class="redColor">*</span>
+						<span class="redColor">*</span>{vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)} 
 					</div>
 					<div class="controls pushDown">
 						<strong>{$RECORD_MODEL->getName()}</strong>
@@ -43,7 +43,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 control-label">
-						{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}  <span class="redColor">*</span>
+						 <span class="redColor">*</span>{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)} 
 					</div>
 					<div class="controls pushDown">
 						<div class="row">
@@ -61,7 +61,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 control-label">
-						{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)} <span class="redColor">*</span>
+						<span class="redColor">*</span>{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)} 
 					</div>
 					<div class="col-md-5 controls pushDown">
 						<div class="row">
