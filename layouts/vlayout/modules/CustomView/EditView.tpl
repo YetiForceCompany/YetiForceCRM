@@ -27,83 +27,87 @@
 			<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}">
 			<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
 			<div class="filterBlocksAlignment">
-				<br>
 				<div>
 					<h4 class="filterHeaders">{vtranslate('LBL_BASIC_DETAILS',$MODULE)} :</h4>
 				</div>
-				<br>
-				<div class="row form-group">
-					<label class="col-md-2 control-label"><span class="redColor">*</span> {vtranslate('LBL_VIEW_NAME',$MODULE)}</label>
-					<div class="col-md-4">
-						<input type="text" id="viewname" class="form-control input-sm" data-validation-engine='validate[required]' name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}">
+				<div class="form-group">
+					<div class='col-sm-6 col-xs-12'>
+						<label class="col-xs-4 control-label paddingLRZero"><span class="redColor">*</span> {vtranslate('LBL_VIEW_NAME',$MODULE)}</label>
+						<div class="col-xs-8">
+							<input type="text" id="viewname" class="form-control input-sm" data-validation-engine='validate[required]' name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}">
+						</div>
 					</div>
-
-					<label class="checkbox col-md-3 control-label">
-						<input id="setdefault" type="checkbox" name="setdefault" value="1" {if $CUSTOMVIEW_MODEL->isDefault()} checked="checked"{/if}> {vtranslate('LBL_SET_AS_DEFAULT',$MODULE)}</label>
-					<label class="checkbox col-md-3 control-label"><input id="setmetrics" name="setmetrics" type="checkbox" value="1" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'} checked="checked"{/if}> {vtranslate('LBL_LIST_IN_METRICS',$MODULE)}</label>
-					<label class="checkbox col-md-3 control-label"><input id="status" name="status" type="checkbox" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if}> {vtranslate('LBL_SET_AS_PUBLIC',$MODULE)}</label>
+					
+					<div class='col-sm-6 col-xs-12'>
+						<div class='col-sm-6'>
+							<label class="checkbox  control-label">
+							<input id="setdefault" type="checkbox" name="setdefault" value="1" {if $CUSTOMVIEW_MODEL->isDefault()} checked="checked"{/if}> {vtranslate('LBL_SET_AS_DEFAULT',$MODULE)}</label>
+						</div>
+						<div class='col-sm-6'>
+							<label class="checkbox  control-label"><input id="setmetrics" name="setmetrics" type="checkbox" value="1" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'} checked="checked"{/if}> {vtranslate('LBL_LIST_IN_METRICS',$MODULE)}</label>
+						</div>
+						<div class='col-sm-6'>
+							<label class="checkbox  control-label"><input id="status" name="status" type="checkbox" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if}> {vtranslate('LBL_SET_AS_PUBLIC',$MODULE)}</label>
+						</div>
+					</div>
 				</div>
-				<br>
 				<h4 class="filterHeaders">{vtranslate('LBL_CHOOSE_COLUMNS',$MODULE)} ({vtranslate('LBL_MAX_NUMBER_FILTER_COLUMNS')}) :</h4>
-				<br>
 				<div class="columnsSelectDiv row">
 					{assign var=MANDATORY_FIELDS value=array()}
 					<div class="col-md-12">
-						<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="columnsSelect form-control " id="viewColumnsSelect">
-							{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-								<optgroup label='{vtranslate($BLOCK_LABEL, $SOURCE_MODULE)}'>
-									{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-										{if $FIELD_MODEL->isMandatory()}
-											{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewColumnName())}
-										{/if}
-										<option value="{$FIELD_MODEL->getCustomViewColumnName()}" data-field-name="{$FIELD_NAME}"
-												{if in_array($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
-													selected
-												{/if}
-												>{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
-									{if $FIELD_MODEL->isMandatory() eq true} <span>*</span> {/if}
-									</option>
-								{/foreach}
-								</optgroup>
-							{/foreach}
-							{*Required to include event fields for columns in calendar module advanced filter*}
-							{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
-								<optgroup label='{vtranslate($BLOCK_LABEL, 'Events')}'>
-									{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-										{if $FIELD_MODEL->isMandatory()}
-											{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewColumnName())}
-										{/if}
-										<option value="{$FIELD_MODEL->getCustomViewColumnName()}" data-field-name="{$FIELD_NAME}"
-												{if in_array($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
-													selected
-												{/if}
-												>{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
-									{if $FIELD_MODEL->isMandatory() eq true} <span>*</span> {/if}
-									</option>
-								{/foreach}
-								</optgroup>
-							{/foreach}
-						</select>
+						 <select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="columnsSelect form-control " id="viewColumnsSelect">
+						{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
+							<optgroup label='{vtranslate($BLOCK_LABEL, $SOURCE_MODULE)}'>
+								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
+									{if $FIELD_MODEL->isMandatory()}
+										{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewColumnName())}
+									{/if}
+									<option value="{$FIELD_MODEL->getCustomViewColumnName()}" data-field-name="{$FIELD_NAME}"
+											{if in_array($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
+												selected
+											{/if}
+											>{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+							{if $FIELD_MODEL->isMandatory() eq true} <span>*</span> {/if}
+							</option>
+						{/foreach}
+						</optgroup>
+					{/foreach}
+				{*Required to include event fields for columns in calendar module advanced filter*}
+				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
+					<optgroup label='{vtranslate($BLOCK_LABEL, 'Events')}'>
+					{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
+						{if $FIELD_MODEL->isMandatory()}
+							{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewColumnName())}
+						{/if}
+						<option value="{$FIELD_MODEL->getCustomViewColumnName()}" data-field-name="{$FIELD_NAME}"
+						{if in_array($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
+							selected
+						{/if}
+						>{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+						{if $FIELD_MODEL->isMandatory() eq true} <span>*</span> {/if}
+						</option>
+					{/foreach}
+					</optgroup>
+				{/foreach}
+				</select>
 					</div>
 
-					<input type="hidden" name="columnslist" value='{ZEND_JSON::encode($SELECTED_FIELDS)}' />
-					<input id="mandatoryFieldsList" type="hidden" value='{ZEND_JSON::encode($MANDATORY_FIELDS)}' />
-				</div>
-				<br>
-				<h4 class="filterHeaders">{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE)} :</h4>
-				<br>
-				<div class="filterConditionsDiv">
-					<div class="row">
-						<span class="col-md-12">
-							{include file='AdvanceFilter.tpl'|@vtemplate_path}
-						</span>
-					</div>
+				<input type="hidden" name="columnslist" value='{ZEND_JSON::encode($SELECTED_FIELDS)}' />
+				<input id="mandatoryFieldsList" type="hidden" value='{ZEND_JSON::encode($MANDATORY_FIELDS)}' />
+			</div>
+			<h4 class="filterHeaders">{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE)} :</h4>
+			<div class="filterConditionsDiv">
+				<div class="row">
+					<span class="col-md-12">
+						{include file='AdvanceFilter.tpl'|@vtemplate_path}
+					</span>
 				</div>
 			</div>
-			<div class="filterActions">
-				<button class="cancelLink pull-right btn btn-warning" type="reset" onClick="window.location.reload()">{vtranslate('LBL_CANCEL', $MODULE)}</button>
-				<button class="btn btn-success pull-right" id="customViewSubmit" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-			</div>
-		</form>
-	</div>
+		</div>
+		<div class="filterActions">
+			<button class="cancelLink pull-right btn btn-warning" type="reset" onClick="window.location.reload()">{vtranslate('LBL_CANCEL', $MODULE)}</button>
+			<button class="btn btn-success pull-right" id="customViewSubmit" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+		</div>
+	</form>
+</div>
 {/strip}

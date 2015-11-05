@@ -45,19 +45,19 @@
 		<hr>
 		<div class="row col-md-12" style="margin-bottom:20px;" >
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-				<div class="col-md-12 marginLeftZero">
+				<div class="col-md-12 marginLeftZero paddingLRZero">
 				{if $BLOCK_FIELDS|@count gt 0}
-				<div  class="col-md-12 listViewActionsDiv">
+				<div  class="col-md-12 listViewActionsDiv paddingLRZero">
 					<strong><h4>{vtranslate($BLOCK_LABEL, $MODULE)}</h4></strong>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-6 paddingLRZero">
 				{assign var=COUNTER value=0}
 				{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 					{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 					{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 					{assign var="refrenceListCount" value=count($refrenceList)}
 					{if $COUNTER eq 2}
-						</div><div class="col-md-6">
+						</div><div class="col-md-6 paddingLRZero">
 						{assign var=COUNTER value=1}
 					{else}
 						{assign var=COUNTER value=$COUNTER+1}

@@ -11,7 +11,7 @@
 $languageStrings = [
 	'MobileApps' => 'Mobile Apps',
 	'LBL_MOBILE_CALLLISTENER' => 'Listening connections',
- 	'LBL_MOBILE_KEYS' => 'Mobile application keys',
+ 	'LBL_MOBILE_KEYS' => 'Mobile Applications',
  	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Create and manage mobile application keys.',
  	'LBL_USERNAME' => 'User',
  	'LBL_SERVICE' => 'Application',

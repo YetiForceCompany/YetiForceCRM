@@ -8,13 +8,7 @@
 *************************************************************************************}
 {strip}
     <div class="editContainer" style="padding-left: 3%;padding-right: 3%">
-        <h3>
-            {if $RECORDID eq ''}
-                {vtranslate('LBL_CREATING_WORKFLOW',$QUALIFIED_MODULE)}
-            {else}
-                {vtranslate('LBL_EDITING_WORKFLOW',$QUALIFIED_MODULE)} : {vtranslate($WORKFLOW_MODEL->get('summary'), $QUALIFIED_MODULE)}
-            {/if}
-        </h3>
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
         <hr>
         <div id="breadcrumb">
             <ul class="crumbs marginLeftZero">

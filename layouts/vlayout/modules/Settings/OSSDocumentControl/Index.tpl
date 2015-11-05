@@ -35,7 +35,7 @@
             </div>
             <br>
             <div class="row" id="list_doc">
-                <table class="table table-bordered table-condensed listViewEntriesTable">
+                <table class="table tableRWD table-bordered table-condensed listViewEntriesTable">
                     <thead>
                         <tr class="listViewHeaders" >
                             <th width="30%">{vtranslate('LBL_MODULE_NAME',$MODULE_NAME)}</th>

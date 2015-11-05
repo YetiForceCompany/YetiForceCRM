@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_SALES_PROCESSES' => 'Sales processes',
+	'LBL_SALES_PROCESSES' => 'Sales',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Allows to choose from products list only those that are related to chosen oportunity. Provided for: Calculations, Quotes, Sales Orders and Invoices.',
 	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Products and Services selection list',

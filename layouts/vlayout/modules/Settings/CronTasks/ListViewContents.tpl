@@ -26,25 +26,25 @@
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-	<div class="listViewEntriesDiv" style='overflow-x:auto;'>
+	<div class="listViewEntriesDiv">
 		<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{vtranslate('LBL_LOADING', $MODULE)}"/>
 			<p class="listViewLoadingMsg">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
 		</span>
 		{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 		{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
-		<div class='table-responsive'>
-			<table class="table table-bordered table-condensed listViewEntriesTable">
-				<thead>
+			<table class="table tableRWD table-bordered table-condensed  listViewEntriesTable">
+				<thead col-visible-alltime='2'>
 					<tr class="listViewHeaders">
 						<th width="1%" class="{$WIDTHTYPE}"></th>
 							{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
-							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-							<th width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
+						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+							<th  {if $LISTVIEW_HEADER@last}colspan="1" {/if} class="{$WIDTHTYPE}">
 								<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{vtranslate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
 									{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}<img class="{$SORT_IMAGE} icon-white">{/if}</a>
 							</th>
 						{/foreach}
+						<th  class="{$WIDTHTYPE}"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -60,7 +60,7 @@
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 								{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 								{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
-								<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>
+								<td class="listViewEntryValue {$WIDTHTYPE}"  >
 									&nbsp; {vtranslate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
 									{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 									</td><td nowrap class="{$WIDTHTYPE}">
@@ -88,7 +88,7 @@
 					{/foreach}
 				</tbody>
 			</table>
-		</div>
+		
 		<!--added this div for Temporarily -->
 		{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 			<table class="emptyRecordsDiv">

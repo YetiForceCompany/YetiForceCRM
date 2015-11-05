@@ -38,13 +38,13 @@
 			<div class="clearfix"></div>
 		</div>
 		<div class="contents tabbable table-responsive">
-			<table class="table table-bordered table-condensed listViewEntriesTable" id="modulesEntity">
+			<table class="table customTableRWD table-bordered table-condensed listViewEntriesTable" id="modulesEntity">
 				<thead>
 					<tr class="blockHeader">
 						<th><strong>{vtranslate('Module',$QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('LabelFields',$QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('SearchFields',$QUALIFIED_MODULE)}</strong></th>
-						<th colspan="2"><strong>{vtranslate('Tools',$QUALIFIED_MODULE)}</strong></th>
+						<th data-hide='phone'><strong>{vtranslate('LabelFields',$QUALIFIED_MODULE)}</strong></th>
+						<th data-hide='phone'><strong>{vtranslate('SearchFields',$QUALIFIED_MODULE)}</strong></th>
+						<th data-hide='tablet' colspan="2"><strong>{vtranslate('Tools',$QUALIFIED_MODULE)}</strong></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -59,7 +59,7 @@
 								{vtranslate($item['modulename'],$item['modulename'])}
 							</td>
 							<td>
-								<select multiple class="chzn-select col-md-4 fieldname" name="fieldname">
+								<select multiple class="chzn-select form-control col-md-4 fieldname" name="fieldname">
 									<optgroup>
 										{foreach from=$Field item=fieldTab }
 											<option value="{$fieldTab['columnname']}" {if $MODULE_MODEL->compare_vale($item['fieldname'],$fieldTab['columnname'])}selected{/if}>
@@ -70,7 +70,7 @@
 								</select>
 							</td>
 							<td>
-								<select multiple class="chzn-select col-md-4 searchcolumn" name="searchcolumn">
+								<select multiple class="chzn-select form-control col-md-4 searchcolumn" name="searchcolumn">
 									<optgroup>
 										{foreach from=$Field item=fieldTab }
 											<option value="{$fieldTab['columnname']}" {if $MODULE_MODEL->compare_vale($item['searchcolumn'],$fieldTab['columnname'])}selected{/if}>

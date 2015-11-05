@@ -17,7 +17,7 @@
 			<div class="marginBottom10px">
 				<button type="button" class="btn btn-default addInventory addButton" data-url="{$RECORD_MODEL->getCreateUrl()}" data-type="0"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;<strong>{vtranslate('LBL_ADD', $QUALIFIED_MODULE)} {vtranslate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</strong></button>
 			</div>
-			<table class="table table-bordered inventoryTable themeTableColor">
+			<table class="table tableRWD table-bordered inventoryTable themeTableColor">
 				<thead>
 					<tr class="blockHeader">
 						<th class="themeTextColor textAlignCenter {$WIDTHTYPE}"><strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}</strong></th>

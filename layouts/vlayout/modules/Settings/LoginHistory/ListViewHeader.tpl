@@ -14,7 +14,7 @@
 	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 	<hr>
 	<div class="widget_header row">
-		<div class="col-md-2 pull-left" style="margin-left:5px">
+		<div class="col-md-2 pull-left">
 			<select class="chzn-select form-control" id="usersFilter" >
 				<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 				{foreach item=USERNAME key=USER from=$USERSLIST}

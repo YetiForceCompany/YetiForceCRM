@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'PublicHoliday' => 'Feriados Públicos',
-	'LBL_PUBLIC_HOLIDAY' => 'Feriado Público',
+	'LBL_PUBLIC_HOLIDAY' => 'Calendar - Holidays',
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
 	'LBL_ADD_HOLIDAY' => 'Adicionar feriado',
 	'LBL_HOLIDAY_LIST' => 'Lista de feriados públicos',

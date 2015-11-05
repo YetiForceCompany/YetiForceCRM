@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'QuickCreateEditor' => 'Quick Create Editor',
-    'LBL_QUICK_CREATE_EDITOR'=> 'Quick Create Editor',
+    'LBL_QUICK_CREATE_EDITOR'=> 'Fields – Quick Create',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Module allowing to change the layout of fields within quickcreate window',
 	'LBL_SEQUENCE' => 'Field Sequence',
 	'LBL_SAVE_FIELD_SEQUENCE' => 'Save Field Sequence',

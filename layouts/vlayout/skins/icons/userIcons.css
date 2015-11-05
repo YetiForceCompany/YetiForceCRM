@@ -23,8 +23,15 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.userIcon-profiles:before {
+
+.userIcon-home:before {
+	content: "\e804";
+}
+.userIcon-profil:before {
 	content: "\e6cd";
+}
+.userIcon-changing-the-login-password:before {
+	content: "\e812";
 }
 .userIcon-team-work:before {
 	content: "\e6ce";
@@ -128,83 +135,11 @@
 .userIcon-payments-in:before {
 	content: "\e6b2";
 }
-.userIcon-support .path1:before {
-	content: "\e6b3";
-	color: rgb(255, 255, 255);
+.userIcon-support2:before {
+	content: "\e802";
 }
-.userIcon-support .path2:before {
-	content: "\e6b4";
-	margin-left: -1em;
-	color: rgb(1, 2, 2);
-}
-.userIcon-support .path3:before {
-	content: "\e6b5";
-	margin-left: -1em;
-	color: rgb(1, 2, 2);
-}
-.userIcon-support .path4:before {
-	content: "\e6b6";
-	margin-left: -1em;
-	color: rgb(1, 2, 2);
-}
-.userIcon-support .path5:before {
-	content: "\e6b7";
-	margin-left: -1em;
-	color: rgb(1, 2, 2);
-}
-.userIcon-support .path6:before {
-	content: "\e6b8";
-	margin-left: -1em;
-	color: rgb(1, 2, 2);
-}
-.userIcon-support .path7:before {
-	content: "\e6b9";
-	margin-left: -1em;
-	color: rgb(1, 2, 2);
-}
-.userIcon-support .path8:before {
-	content: "\e6ba";
-	margin-left: -1em;
-	color: rgb(1, 2, 2);
-}
-.userIcon-tickets .path1:before {
-	content: "\e6bb";
-	color: rgb(255, 255, 255);
-}
-.userIcon-tickets .path2:before {
-	content: "\e6bc";
-	margin-left: -1em;
-	color: rgb(1, 2, 2);
-}
-.userIcon-tickets .path3:before {
-	content: "\e6bd";
-	margin-left: -1em;
-	color: rgb(1, 2, 2);
-}
-.userIcon-tickets .path4:before {
-	content: "\e6be";
-	margin-left: -1em;
-	color: rgb(1, 2, 2);
-}
-.userIcon-tickets .path5:before {
-	content: "\e6bf";
-	margin-left: -1em;
-	color: rgb(1, 2, 2);
-}
-.userIcon-tickets .path6:before {
-	content: "\e6c0";
-	margin-left: -1em;
-	color: rgb(1, 2, 2);
-}
-.userIcon-tickets .path7:before {
-	content: "\e6c1";
-	margin-left: -1em;
-	color: rgb(1, 2, 2);
-}
-.userIcon-tickets .path8:before {
-	content: "\e6c2";
-	margin-left: -1em;
-	color: rgb(1, 2, 2);
+.userIcon-tickets:before {
+	content: "\e801";
 }
 .userIcon-service-contracts:before {
 	content: "\e6c3";
@@ -224,50 +159,17 @@
 .userIcon-project-task:before {
 	content: "\e6c8";
 }
+.userIcon-price-book:before {
+	content: "\e805";
+}
 .userIcon-sales:before {
 	content: "\e67c";
 }
 .userIcon-campaigns:before {
 	content: "\e67d";
 }
-.userIcon-opportunites .path1:before {
-	content: "\e67e";
-	color: rgb(0, 0, 0);
-}
-.userIcon-opportunites .path2:before {
-	content: "\e67f";
-	margin-left: -1em;
-	color: rgb(255, 255, 255);
-}
-.userIcon-opportunites .path3:before {
-	content: "\e680";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
-}
-.userIcon-opportunites .path4:before {
-	content: "\e681";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
-}
-.userIcon-opportunites .path5:before {
-	content: "\e682";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
-}
-.userIcon-opportunites .path6:before {
-	content: "\e683";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
-}
-.userIcon-opportunites .path7:before {
-	content: "\e684";
-	margin-left: -1em;
-	color: rgb(255, 255, 255);
-}
-.userIcon-opportunites .path8:before {
-	content: "\e685";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
+.userIcon-opportunites:before {
+	content: "\e803";
 }
 .userIcon-quotes-enquires:before {
 	content: "\e686";
@@ -286,75 +188,6 @@
 }
 .userIcon-purchase-order:before {
 	content: "\e68b";
-}
-.userIcon-price-book .path1:before {
-	content: "\e68c";
-	color: rgb(0, 0, 0);
-}
-.userIcon-price-book .path2:before {
-	content: "\e68d";
-	margin-left: -1em;
-	color: rgb(255, 255, 255);
-}
-.userIcon-price-book .path3:before {
-	content: "\e68e";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
-}
-.userIcon-price-book .path4:before {
-	content: "\e68f";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
-}
-.userIcon-price-book .path5:before {
-	content: "\e690";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
-}
-.userIcon-price-book .path6:before {
-	content: "\e691";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
-}
-.userIcon-price-book .path7:before {
-	content: "\e692";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
-}
-.userIcon-price-book .path8:before {
-	content: "\e693";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
-}
-.userIcon-price-book .path9:before {
-	content: "\e694";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
-}
-.userIcon-price-book .path10:before {
-	content: "\e695";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
-}
-.userIcon-price-book .path11:before {
-	content: "\e696";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
-}
-.userIcon-price-book .path12:before {
-	content: "\e697";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
-}
-.userIcon-price-book .path13:before {
-	content: "\e698";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
-}
-.userIcon-price-book .path14:before {
-	content: "\e699";
-	margin-left: -1em;
-	color: rgb(0, 0, 0);
 }
 .userIcon-accounts:before {
 	content: "\e679";
@@ -383,4 +216,3 @@
 .userIcon-my-mailbox:before {
 	content: "\e678";
 }
-

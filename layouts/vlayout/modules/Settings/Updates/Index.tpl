@@ -20,8 +20,7 @@
 		</div>
 	</div>
 	<hr>
-	<div class='table-responsive'>
-		<table class="table table-bordered table-condensed themeTableColor confTable">
+		<table class="table tableRWD table-bordered table-condensed themeTableColor">
 			<thead>
 				<tr class="blockHeader">
 					<th colspan="1" class="mediumWidthType">
@@ -54,5 +53,4 @@
 				{/foreach}
 			</tbody>
 		</table>
-	</div>
 </div>

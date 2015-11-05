@@ -48,8 +48,8 @@
 						{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name=blockIterator}
 							{if $BLOCK_FIELDS|@count gt 0}
 							<div class="tab-pane {if $smarty.foreach.blockIterator.iteration eq 1}active{/if}" id="block_{$smarty.foreach.blockIterator.iteration}">
-								<table class="massEditTable table table-bordered">
-									<tr>
+								<div class="massEditTable paddingTop20">
+									<div class='col-md-12 '>
 									{assign var=COUNTER value=0}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 										{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
@@ -59,17 +59,17 @@
 											{if $FIELD_MODEL->isEditable() eq true}
 												{if $FIELD_MODEL->get('uitype') eq "19"}
 													{if $COUNTER eq '1'}
-														<td></td><td></td></tr><tr>
+														<div></div><div></div></div><div class='col-md-12'>
 														{assign var=COUNTER value=0}
 													{/if}
 												{/if}
 												{if $COUNTER eq 2}
-													</tr><tr>
+													</div><div class='col-md-12'>
 													{assign var=COUNTER value=1}
 												{else}
 													{assign var=COUNTER value=$COUNTER+1}
 												{/if}
-												<td class="fieldLabel alignMiddle">
+											<div class="  col-md-6 fieldLabel alignMiddle">
 												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 												{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
 												{if {$isReferenceField} eq "reference"}
@@ -84,20 +84,21 @@
 													{/if}
 												{/if}
 												&nbsp;&nbsp;
-											</td>
-											<td class="fieldValue" {if $FIELD_MODEL->getFieldDataType() eq 'boolean'} style="width:25%" {/if} {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+											</div>
+											<div class=" marginBottom10px fieldValue col-md-6" {if $FIELD_MODEL->getFieldDataType() eq 'boolean'} style="width:25%" {/if} {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
 												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) VIEW = 'MassEdit'}
-											</td>
+											</div>
 										{/if}
 									{/if}
 									{/foreach}
+									</div>
 									{*If their are odd number of fields in MassEdit then border top is missing so adding the check*}
 									{if $COUNTER is odd}
-										<td></td>
-										<td></td>
+										<div></div>
+										<div></div>
 									{/if}
-									</tr>
-								</table>
+								
+								</div>
 							</div>
 							{/if}
 						{/foreach}

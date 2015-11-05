@@ -27,7 +27,7 @@
             </ul>
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
 				<div class="tab-pane active" id="calendarColors">
-					<table class="table table-bordered table-condensed listViewEntriesTable">
+					<table class="table tableRWD table-bordered table-condensed listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">
 								<th><strong>{vtranslate('LBL_CALENDAR_TYPE',$QUALIFIED_MODULE)}</strong></th>

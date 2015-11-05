@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 <button class="btn btn-primary add_lang btn-sm pull-right marginBottom10px">{vtranslate('LBL_ADD_LANG', $QUALIFIED_MODULE)}</button>
-<table class="table table-bordered table-condensed listViewEntriesTable">
+<table  class="table tableRWD table-bordered table-condensed listViewEntriesTable">
 	<thead>
 		<tr class="blockHeader">
 			<th><strong>{vtranslate('LBL_Lang_label',$QUALIFIED_MODULE)}</strong></th>

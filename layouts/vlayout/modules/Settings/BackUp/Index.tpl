@@ -185,8 +185,8 @@
 					</div>
 				</div>
 				<br /><br />
-				<div class="table-responsive">
-					<table class="table table-bordered table-condensed themeTableColor brute_force_form">
+				
+					<table class="table tableRWD table-bordered table-condensed themeTableColor brute_force_form">
 						<thead>
 							<tr class="blockHeader">
 								<th class="mediumWidthType">
@@ -218,7 +218,7 @@
 							{/foreach}
 						</tbody>
 					</table>
-				</div>
+				
 			</div>
 			<div class="tab-pane" id="tab_2">
 				<form>

@@ -14,7 +14,7 @@
 			{vtranslate('LBL_MENU_BUILDER_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		<div class="col-md-5 row h3">
-			<div class="col-md-6">
+			<div class="col-md-6 marginBottom5px">
 				<a class="btn btn-default addMenu"><strong>{vtranslate('LBL_ADD_MENU', $QUALIFIED_MODULE)}</strong></a>
 			</div>
 			<div class="col-md-6">

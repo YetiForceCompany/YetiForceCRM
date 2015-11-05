@@ -15,40 +15,44 @@
         <input type="hidden" name="module" value="{$FOR_MODULE}" />
         <input type="hidden" name="view" value="Import" />
         <input type="hidden" name="mode" value="uploadAndParse" />
-        <table style=" width:90%;margin-left: 5% " class="searchUIBasic" cellspacing="12">
-            <tr>
-                <td class="font-x-large" align="left" colspan="2">
-                    <strong>{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$FOR_MODULE}</strong>
-                </td>
-            </tr>
+	<div class='widget_header'>
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	</div>
+	<hr>
+		<div class="row col-xs-12 searchUIBasic" style='margin:0 !important'>            
+		<div class="col-xs-12 font-x-large">
+		<strong>{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$FOR_MODULE}</strong>
+	    </div>
             {if $ERROR_MESSAGE neq ''}
-                <tr>
-                    <td class="style1" align="left" colspan="2">
+				<div class="col-xs-12">
+                    <div class="style1" align="left" colspan="2">
                         <span class="alert-warning">{$ERROR_MESSAGE}</span>
-                    </td>
-                </tr>
+                    </div>
+                </div>
             {/if}
-            <tr>
-                <td class="leftFormBorder1 importContents" width="40%" valign="top">
+			<div class="col-xs-12">
+                <div class='leftFormBorder1 importContents' width="40%" valign="top">
                     {include file='Import_Step1.tpl'|@vtemplate_path:'Import'}
-                </td>
-                <td class="leftFormBorder1 importContents" width="40%" valign="top">
-                    {include file='Import_Step2.tpl'|@vtemplate_path:'Import'}
-                </td>
-            </tr>
+                </div>
+			</div>
+		<div class="col-xs-12">
+		<div class="leftFormBorder1 importContents" width="40%" valign="top">
+			{include file='Import_Step2.tpl'|@vtemplate_path:'Import'}
+		</div>
+		</div>
             {if $DUPLICATE_HANDLING_NOT_SUPPORTED neq 'true'}
-                <tr>
-                    <td class="leftFormBorder1 importContents" colspan="2" valign="top">
+				<div class="col-xs-12">
+                    <div class="leftFormBorder1 importContents" colspan="2" valign="top">
                         {include file='Import_Step3.tpl'|@vtemplate_path:'Import'}
-                    </td>
-                </tr>
+                    </div>
+                </div>
             {/if}
-            <tr>
-                <td align="right" colspan="2">
+			<div class="col-xs-12">
+				<div>
                     {include file='Import_Basic_Buttons.tpl'|@vtemplate_path:'Import'}
-                </td>
-            </tr>
-        </table>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 {/strip}

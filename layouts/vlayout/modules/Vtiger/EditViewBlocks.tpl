@@ -11,6 +11,9 @@
 -->*}
 {strip}
     <div class='editViewContainer'>
+		<div class='col-md-8'>
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
             {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
             {if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
@@ -43,19 +46,15 @@
                 <input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
                 <input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
             {/if}
-            <div class="contentHeader">
-                {assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
-                {if $RECORD_ID neq ''}
-                    <h3 class="col-md-8 textOverflowEllipsis noSpaces" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - <span class="recordLabel" title="{$RECORD_STRUCTURE_MODEL->getRecordName()}">{$RECORD_STRUCTURE_MODEL->getRecordName()}</span></h3>
-					{else}
-                    <h3 class="col-md-8 textOverflowEllipsis noSpaces">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
-                {/if}
-                <span class="pull-right">
-                    <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
-                    <button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
-		</span>
+		<div class="widget_header">
+		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
+		<div class="col-md-4  padding-right paddingLRZero btn-toolbar">
+			<button class="btn btn-warning pull-right" type="reset" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
+			<button class="btn btn-success pull-right" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+		</div>
 		<div class="clearfix"></div>
-            </div>
+        </div>
+		<hr>
 		{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
             {if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 			{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}

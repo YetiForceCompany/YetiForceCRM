@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_SALES_PROCESSES' => 'Procesy sprzedażowe',
+	'LBL_SALES_PROCESSES' => 'Sprzedaż',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Ogranicz wybór produktów/usług tylko do powiązanych z aktualnie wybraną Szansą sprzedaży. Dotyczy modułów: Kalkulacje, Oferty, Zamówienia od Klienta, Faktury sprzedażowe.',
 	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Wybór produktów i usług',

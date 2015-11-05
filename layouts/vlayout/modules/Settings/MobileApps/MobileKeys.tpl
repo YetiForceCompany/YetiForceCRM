@@ -28,8 +28,8 @@
 				</div>	
 			{/if}
 			<div>
-				<div class="contents tabbable table-responsive">
-					<table class="table table-bordered table-condensed listViewEntriesTable">
+				<div class="contents tabbable">
+					<table class="table tableRWD table-bordered table-condensed listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">
 								<th><strong>{vtranslate('LBL_USERNAME',$QUALIFIED_MODULE)}</strong></th>

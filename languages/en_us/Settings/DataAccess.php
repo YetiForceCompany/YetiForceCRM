@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_DATAACCES' => 'Validation of access',
-	'LBL_DATAACCESS' => 'Validation of access',
+	'LBL_DATAACCESS' => 'Recording Control',
 	'DataAccess' => 'Validation of access',
 	'LBL_NEW_TPL' => 'Add new condition',
 	'LBL_MODULE_NAME' => 'Module name',

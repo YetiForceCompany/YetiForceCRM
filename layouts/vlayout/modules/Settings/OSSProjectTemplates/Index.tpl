@@ -50,7 +50,7 @@
 								<tr class="listViewEntries" data-id="{$key}">
 									<td onclick="location.href = jQuery(this).data('url')" data-url="index.php?module=OSSProjectTemplates&parent=Settings&view=Edit&tpl_id={$key}">{$item.tpl_name}</td>
 									<td onclick="location.href = jQuery(this).data('url')" data-url="index.php?module=OSSProjectTemplates&parent=Settings&view=Edit&tpl_id={$key}">{$item.projectname}</td>
-									<td> <a href='index.php?module=OSSProjectTemplates&parent=Settings&action=DeleteTemplate&tpl_id={$key}&base_module=Project' class="pull-right marginRight10px">
+									<td class='actions'> <a href='index.php?module=OSSProjectTemplates&parent=Settings&action=DeleteTemplate&tpl_id={$key}&base_module=Project' class="pull-right marginRight10px">
 											<span type="{vtranslate('REMOVE_TPL', $MODULE_NAME)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 										<a data-toggle="modal" data-target="#edit_project_modal" class="pull-right edit_tpl"><span title="{vtranslate('LBL_EDIT')}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
 									</td>

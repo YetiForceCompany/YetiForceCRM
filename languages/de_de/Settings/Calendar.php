@@ -14,7 +14,7 @@ $languageStrings = [
 	'Meeting' => 'Besprechung',
 	'Call' => 'Anruf',
 	//ActivityTypes
-	'LBL_ACTIVITY_TYPES' => 'Aktivitätstypen',
+	'LBL_ACTIVITY_TYPES' => 'Calendar – Types',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Verwaltung von Aktivitätstypen.',
 	'LBL_ACTIVITY_NAME' => 'Aktivitätsname',
 	'LBL_MODULE' => 'Modul',
@@ -26,7 +26,7 @@ $languageStrings = [
 	'LBL_EDIT_COLOR' => 'Farbe bearbeiten',
 	'LBL_SELECT_COLOR' => 'Farbe wählen:',
 	'LBL_SAVE_COLOR' => 'Farbe gesichert',
-	'LBL_CALENDAR_CONFIG' => 'Kalenderkonfiguration',
+	'LBL_CALENDAR_CONFIG' => 'Calendar - Configuration',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
 	'LBL_USER_COLORS' => 'Benutzerfarben',
 	'LBL_CALENDAR_COLORS' => 'Kalenderfarben',

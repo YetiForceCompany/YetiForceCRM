@@ -44,7 +44,7 @@
 						</table>
 
 
-						<table class="createTable">
+						<table  class="tableRWD createTable">
 							<tr>
 								<td width="450px" colspan="2"><center><b>{vtranslate('AttachInfo', 'OSSPdf')}</b></center> </td><td width="25px"></td><td><b>{vtranslate('LinkInfo', 'OSSPdf')}</b></td>
 				</tr>

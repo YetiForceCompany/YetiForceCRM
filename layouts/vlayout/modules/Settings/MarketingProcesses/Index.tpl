@@ -122,7 +122,7 @@
 		</div>
 		<div class='tab-pane' id="lead_configuration">
 			{assign var=LEAD value=$MODULE_MODEL->getConfig('lead')}
-			<table class="table table-bordered table-condensed themeTableColor userTable">
+			<table class="table tableRWD table-bordered table-condensed themeTableColor userTable">
 				<thead>
 					<tr class="blockHeader" >
 						<th class="mediumWidthType">

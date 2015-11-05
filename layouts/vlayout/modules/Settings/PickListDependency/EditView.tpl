@@ -26,27 +26,31 @@
 				{/if}
 				<div class="row">
 					<div class="col-md-12">
-						<label class="col-md-2 muted control-label">{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
-						<div class="col-md-4 controls">
-							<select name="sourceModule" title="{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}" class="select2 form-control marginLeftZero">
-								{foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}
-									{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
-									<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE} selected {/if}>
-										{if $MODULE_MODEL->get('label') eq 'Calendar'}
-											{vtranslate('LBL_TASK', $MODULE_MODEL->get('label'))}
-										{else}
-											{vtranslate($MODULE_MODEL->get('label'), $MODULE_MODEL->get('label'))}
-										{/if}
-									</option>
-								{/foreach}
-							</select>
+						<div class="row col-md-6 ">
+							<label class="col-md-4 muted control-label">{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
+							<div class="col-md-8 controls">
+								<select name="sourceModule" title="{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}" class="select2 form-control marginLeftZero">
+									{foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}
+										{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
+										<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE} selected {/if}>
+											{if $MODULE_MODEL->get('label') eq 'Calendar'}
+												{vtranslate('LBL_TASK', $MODULE_MODEL->get('label'))}
+											{else}
+												{vtranslate($MODULE_MODEL->get('label'), $MODULE_MODEL->get('label'))}
+											{/if}
+										</option>
+									{/foreach}
+								</select>
+							</div>
 						</div>
-						
+						<div class="col-md-6">
+						</div>
 					</div>
 				</div>
 				<br>
 				<div class="row">
-						<div class="col-md-6 ">
+					<div class="col-md-12">
+						<div class="row col-md-6 ">
 							<label class="col-md-4 muted control-label">{vtranslate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-8 controls">
 								<select id="sourceField" name="sourceField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}"  title="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
@@ -57,7 +61,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="row col-md-6">
 							<label class="col-md-4 muted control-label">{vtranslate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-8 controls">
 								<select id="targetField" name="targetField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}" title="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
@@ -68,7 +72,7 @@
 								</select>
 							</div>
 						</div>
-					
+					</div>
 				</div>
 				<div class=" hide errorMessage">
 					<div class="alert alert-warning">

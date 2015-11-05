@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Dodaj',
     'TreesManager' => 'Zarządzanie szablonami drzew',
-    'LBL_TREES_MANAGER' => 'Zarządzanie szablonami drzew',
+    'LBL_TREES_MANAGER' => 'Pola - foldery',
 	'LBL_TREES_MANAGER_DESCRIPTION' => 'Zarządzanie szablonami drzew',
 	'LBL_NO_RECORDS_FOUND' => 'Brak szablonów drzew',
 	'LBL_EDIT_TEMPLATE_TREES' => 'Edycja szablonu drzewa',

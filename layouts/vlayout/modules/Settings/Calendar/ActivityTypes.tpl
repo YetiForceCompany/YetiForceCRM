@@ -17,15 +17,16 @@
 			{vtranslate('LBL_ACTIVITY_TYPES_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	<hr>
-	<div class="contents tabbable">
-		<table class="table table-bordered table-condensed listViewEntriesTable">
+	</div>
+	<div class=" contents tabbable">
+		<table class="table customTableRWD table-bordered table-condensed listViewEntriesTable">
 			<thead>
 				<tr class="blockHeader">
 					<th><strong>{vtranslate('LBL_ACTIVITY_NAME',$QUALIFIED_MODULE)}</strong></th>
 					<th><strong>{vtranslate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>
 					<th><strong>{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</strong></th>
 					<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
-					<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
+					<th data-hide='phone'><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -34,7 +35,7 @@
 						<td>{vtranslate($item.fieldname,$item.module)}</td>
 						<td>{vtranslate($item.module,$item.module)}</td>
 						<td>
-							<label>
+							<label class="">
 								<input class="activeType" type="checkbox" name="active" value="1" {if $item.active eq '1'}checked=""{/if}>
 							</label> 
 						</td>
@@ -48,7 +49,6 @@
 			</tbody>
 		</table>
 	</div>
-
 	<div class="modal editColorContainer fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">

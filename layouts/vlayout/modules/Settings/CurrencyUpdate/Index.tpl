@@ -83,15 +83,16 @@
 			<h4>{vtranslate('LBL_INFORMATIONS', $QUALIFIED_MODULE)}:</h4>
 			<p><strong>{vtranslate('LBL_MAINCURRENCY', $QUALIFIED_MODULE)}:</strong> {vtranslate($MAINCURR['currency_name'], $QUALIFIED_MODULE)}, <strong>{vtranslate('LBL_CODE', $QUALIFIED_MODULE)}:</strong> {$MAINCURR['currency_code']}, <strong>{vtranslate('LBL_SYMBOL', $QUALIFIED_MODULE)}</strong>: {$MAINCURR['currency_symbol']}</p>
 		</div>
-		<div class='table-responsive'>
-			<table class="table table-bordered blockContainer showInlineTable">
-				<tr>
-					<th class="blockHeader">{vtranslate('LBL_CURRENCY_NAME', $QUALIFIED_MODULE)}</td>
-					<th class="blockHeader">{vtranslate('LBL_CURRENCY_SYMBOL', $QUALIFIED_MODULE)}</td>
-					<th class="blockHeader">{vtranslate('LBL_COURSE', $QUALIFIED_MODULE)}</td>
-					<th class="blockHeader">{vtranslate('LBL_DATE', $QUALIFIED_MODULE)}</td>
-					<th class="blockHeader">{vtranslate('LBL_ACTUAL_DATE_OF_COURSE', $QUALIFIED_MODULE)}</td>
-				</tr>
+			<table class="table tableRWD table-bordered blockContainer showInlineTable">
+				<thead>
+					<tr>
+						<th class="blockHeader">{vtranslate('LBL_CURRENCY_NAME', $QUALIFIED_MODULE)}</td>
+						<th class="blockHeader">{vtranslate('LBL_CURRENCY_SYMBOL', $QUALIFIED_MODULE)}</td>
+						<th class="blockHeader">{vtranslate('LBL_COURSE', $QUALIFIED_MODULE)}</td>
+						<th class="blockHeader">{vtranslate('LBL_DATE', $QUALIFIED_MODULE)}</td>
+						<th class="blockHeader">{vtranslate('LBL_ACTUAL_DATE_OF_COURSE', $QUALIFIED_MODULE)}</td>
+					</tr>
+				</thead>
 				{foreach from=$HISTORIA item=key}
 					<tr>
 						<td>{vtranslate($key.currency_name, 'Settings:Currency')} ({$key.code})</td>
@@ -118,7 +119,7 @@
 					</tr>
 				{/foreach}
 			</table>
-		</div>
+		
 	</form>
 </div>
 {/strip}

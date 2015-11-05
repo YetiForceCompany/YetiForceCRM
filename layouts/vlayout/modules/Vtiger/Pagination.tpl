@@ -52,7 +52,7 @@
 			</a>
 		</li>
 	</ul>
-	<ul class="pageInfo pull-right">	
+	<ul class="pageInfo">
 		<li>
 			<span>
 				<span class="pageNumbersText" style="padding-right:5px">{if $LISTVIEW_ENTRIES_COUNT}{$PAGING_MODEL->getRecordStartRange()} 

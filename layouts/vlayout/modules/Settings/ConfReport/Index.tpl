@@ -10,7 +10,7 @@
     </ul>
     <div class="tab-content">
         <div id="Configuration" class="tab-pane fade in active">
-			<table class="table table-bordered table-condensed themeTableColor confTable">
+			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="1" class="mediumWidthType">
@@ -41,8 +41,7 @@
 				</tbody>
 			</table>
 			<hr/>
-			<div class='table-responsive'>
-				<table class="table table-bordered table-condensed themeTableColor confTable">
+				<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
 					<thead>
 						<tr class="blockHeader">
 							<th colspan="1" class="mediumWidthType">
@@ -66,10 +65,10 @@
 						{/foreach}
 					</tbody>
 				</table>
-			</div>
+			
         </div>
         <div id="Permissions" class="tab-pane fade">
- 			<table class="table table-bordered table-condensed themeTableColor confTable">
+ 			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
 						<th class="mediumWidthType">
@@ -90,8 +89,8 @@
 				</tbody>
 			</table>
 			<br/>
-			<div class='table-responsive'>
-			    <table class="table table-bordered table-condensed themeTableColor confTable">
+			
+			    <table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
 				    <thead>
 					    <tr class="blockHeader">
 						    <th colspan="1" class="mediumWidthType">
@@ -121,7 +120,7 @@
 					    {/foreach}
 				    </tbody>
 			    </table>
-			</div>
+			
         </div>
 		{* check config module *}
 		{if vtlib_isModuleActive('OSSMail')}

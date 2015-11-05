@@ -10,8 +10,10 @@
  ********************************************************************************/
 -->*}
 <div class='listViewPageDiv'>
-	<div class="row  listViewActionsDiv">
-		<span class="btn-toolbar col-md-4">
+	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	<hr>
+	<div class="row  listViewActionsDiv pushDown">
+		<div class="btn-toolbar col-xs-4">
 			<span class="btn-group listViewMassActions">
 				{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS}
 					<span class="btn-group">
@@ -19,10 +21,10 @@
 					</span>
 				{/foreach}
 			</span>
-		</span>
-		<span class='col-md-4'><div class="textAlignCenter"><h3 style='margin-top:2px'>{vtranslate('LBL_DUPLICATE')}  {vtranslate($MODULE, $MODULE)}</h3></div></span>
-		<span class="col-md-4 btn-toolbar">
+		</div>
+		<div class='col-xs-4'><div class="textAlignCenter"><h3 style='margin-top:2px'>{vtranslate('LBL_DUPLICATE')}  {vtranslate($MODULE, $MODULE)}</h3></div></div>
+		<div class="col-xs-12 col-sm-4 btn-toolbar">
 			{include file='ListViewActions.tpl'|@vtemplate_path}
-		</span>
+		</div>
 	</div>
 	<div id="listViewContents" class="listViewContentDiv">
