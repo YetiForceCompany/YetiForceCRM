@@ -18,16 +18,10 @@
 	.login-space{
 	    margin-top: 0;
 	}
-	.img-responsive.logo{
-	    height:70px;
-	}
 }
 @media only screen and (min-height: 340px) and (max-height: 480px){
 	.login-space{
 	    margin-top: 10px;
-	}
-	.img-responsive.logo{
-	    height:120px;
 	}
 }
 @media only screen and (min-height:480px){
@@ -51,9 +45,11 @@ html,body{
 .login-form .form-group.first-group{
 	margin-bottom: 0px;
 }
-.img-responsive.logo{
+.logo{
 	margin: auto;
 	margin-bottom: 0px;
+	max-width: 100%;
+	display: block;
 }
 .fieldContainer{
 	width:100%;

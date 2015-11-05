@@ -197,6 +197,8 @@ $languageStrings = [
 	'LBL_HEIGHT_LOGO' => '__UNTRANSLATED__',
 	//YetiForce
 	'vatid' => 'USt ID',
+	'regon'=>'__UNTRANSLATED__',
+	'krs' => '__UNTRANSLATED__',
 	'LBL_SECURITY_MANAGEMENT' => 'Sicherheit',
 	'LBL_MAIL_TOOLS' => 'Mail Tools',
 	'LBL_PASSWORD_CONF' => 'Passwords - Configuration',

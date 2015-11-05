@@ -115,7 +115,7 @@
 					</td>
 				</tr>
 				<tr class="hide">
-					<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%">
+					<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%">
 						<div class="row" data-togglecontent="{$TABID}-fields">
 							{if $PROFILE_MODULE->getFields()}
 								<div class="col-md-12">
@@ -193,7 +193,7 @@
 				</td>
 			</tr>
 			<tr class="hide">
-				<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%;background-image: none !important;">
+				<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%;background-image: none !important;">
 					<div class="row" data-togglecontent="{$TABID}-fields">
 						{assign var=UTILITY_ACTION_COUNT value=0}
 						{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=array()}

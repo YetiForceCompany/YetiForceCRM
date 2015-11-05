@@ -10,6 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="clearfix"></div><br/>
 	<input id='activityReminder' class='hide noprint' type="hidden" value="{$ACTIVITY_REMINDER}"/>
 	<footer class="footerContainer navbar-default navbar-fixed-bottom noprint">

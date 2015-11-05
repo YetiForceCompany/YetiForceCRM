@@ -24,25 +24,25 @@
 		<strong>{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$FOR_MODULE}</strong>
 	    </div>
             {if $ERROR_MESSAGE neq ''}
-				<div class="col-xs-12">
-                    <div class="style1" align="left" colspan="2">
+		<div class="col-xs-12">
+                    <div class="style1">
                         <span class="alert-warning">{$ERROR_MESSAGE}</span>
                     </div>
                 </div>
             {/if}
-			<div class="col-xs-12">
-                <div class='leftFormBorder1 importContents' width="40%" valign="top">
-                    {include file='Import_Step1.tpl'|@vtemplate_path:'Import'}
-                </div>
-			</div>
 		<div class="col-xs-12">
-		<div class="leftFormBorder1 importContents" width="40%" valign="top">
-			{include file='Import_Step2.tpl'|@vtemplate_path:'Import'}
+			<div class='leftFormBorder1 importContents'>
+			    {include file='Import_Step1.tpl'|@vtemplate_path:'Import'}
+			</div>
 		</div>
+		<div class="col-xs-12">
+			<div class="leftFormBorder1 importContents">
+				{include file='Import_Step2.tpl'|@vtemplate_path:'Import'}
+			</div>
 		</div>
             {if $DUPLICATE_HANDLING_NOT_SUPPORTED neq 'true'}
 				<div class="col-xs-12">
-                    <div class="leftFormBorder1 importContents" colspan="2" valign="top">
+                    <div class="leftFormBorder1 importContents">
                         {include file='Import_Step3.tpl'|@vtemplate_path:'Import'}
                     </div>
                 </div>

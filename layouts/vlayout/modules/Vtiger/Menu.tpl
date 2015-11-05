@@ -2,9 +2,10 @@
 {strip}
 	{if $DEVICE == 'Mobile'}
 		<div class="mobileLeftPanelContainer">
+			<ul class='paddingLRZero' role='menubar'>
 	{else}
-		<nav class="contents-bottomscroll" role="navigation">
-			<ul class="nav modulesList">
+		<nav class="contents-bottomscroll">
+			<ul class="nav modulesList" role="menubar">
 	{/if}	
 			{assign var=PRIVILEGESMODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
 			{assign var=TABINDEX value=0}
@@ -23,6 +24,7 @@
 				{include file='menu/'|cat:$MENU.type|cat:'.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
 			{/foreach}
 	{if $DEVICE == 'Mobile'}
+			</ul>
 		</div> 
 	{else}
 			</ul>

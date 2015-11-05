@@ -1,5 +1,5 @@
 {strip}
-<div class='actionMenu '>
+<div class='actionMenu' aria-hidden="true">
 	<div class="row">
 		<div class="dropdown quickAction historyBtn">
 			<div class="pull-left">
@@ -7,8 +7,7 @@
 			</div>						
 			<div class="pull-right">
 				<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
-					<img class='alignMiddle popoverTooltip' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" 
-						class="dropdown-toggle" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
+					<img class='alignMiddle popoverTooltip dropdown-toggle' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
 				</a>
 			</div>
 		</div>
@@ -58,7 +57,7 @@
 				{vtranslate('LBL_QUICK_CREATE',$MODULE)}
 			</div>
 			<div class='pull-right'>
-				<a id="menubar_quickCreate" class="dropdown-toggle btn btn-default" data-toggle="dropdown" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" href="#">
+				<a id="mobile_menubar_quickCreate" class="dropdown-toggle btn btn-default" data-toggle="dropdown" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" href="#">
 					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 				</a>
 				<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
@@ -68,6 +67,7 @@
 								<h4 class="panel-title"><strong>{vtranslate('LBL_QUICK_CREATE',$MODULE)}</strong></h4>
 							</div>
 							<div class="panel-body paddingLRZero">
+								{assign var='count' value=0}
 								{foreach key=NAME item=MODULEMODEL from=Vtiger_Module_Model::getQuickCreateModules(true)}
 									{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
 									{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
@@ -79,8 +79,9 @@
 											<div class="rows">
 											{/if}
 											<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
-												<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}"
-												   data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}"><span>{vtranslate($singularLabel,$NAME)}</span></a>
+												<a class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">
+												    <span>{vtranslate($singularLabel,$NAME)}</span>
+												</a>
 											</div>
 											{if $count % 3 == 2}
 											</div>
@@ -88,6 +89,9 @@
 										{assign var='count' value=$count+1}
 									{/if}
 								{/foreach}
+								{if $count % 3 == 2}
+									</div>
+								{/if}
 							</div>
 						</div>
 					</li>

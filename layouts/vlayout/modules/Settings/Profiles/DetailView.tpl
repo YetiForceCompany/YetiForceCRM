@@ -36,44 +36,47 @@
             {assign var="ENABLE_IMAGE_PATH" value="{vimage_path('Enable.png')}"}
             {assign var="DISABLE_IMAGE_PATH" value="{vimage_path('Disable.png')}"}
             <div class="summaryWidgetContainer">
-                <div>
-                    <img class="alignMiddle" src="{if $RECORD_MODEL->hasGlobalReadPermission()}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />
-                    &nbsp;{vtranslate('LBL_VIEW_ALL',$QUALIFIED_MODULE)}
-                    <span style="margin-left:25px">
-                        <i class="glyphicon glyphicon-info-sign"></i>
-                        <span style="margin-left:2px">{vtranslate('LBL_VIEW_ALL_DESC',$QUALIFIED_MODULE)}</span>
-                    </span>
+                <div class="row">
+                    <div class="col-md-3 row">
+			<img class="alignMiddle" src="{if $RECORD_MODEL->hasGlobalReadPermission()}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />
+			&nbsp;{vtranslate('LBL_VIEW_ALL',$QUALIFIED_MODULE)}
+		    </div>
+		    <div class="col-md-9 row">
+				<i class="glyphicon glyphicon-info-sign"></i>
+				<span style="margin-left:2px">{vtranslate('LBL_VIEW_ALL_DESC',$QUALIFIED_MODULE)}</span>
+		    </div>
                 </div>
-                <div  style="margin-top: 5px;">
-                   <img class="alignMiddle" src="{if $RECORD_MODEL->hasGlobalWritePermission()}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />
-                   &nbsp;{vtranslate('LBL_EDIT_ALL',$QUALIFIED_MODULE)}
-                   <span style="margin-left:30px">
-                        <i class="glyphicon glyphicon-info-sign"></i>
+                <div  class="row" style="margin-top: 5px;">
+		    <div class="col-md-3 row">
+			<img class="alignMiddle" src="{if $RECORD_MODEL->hasGlobalWritePermission()}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />
+			&nbsp;{vtranslate('LBL_EDIT_ALL',$QUALIFIED_MODULE)}
+		    </div>
+		    <div class="col-md-9 row">
+			<i class="glyphicon glyphicon-info-sign"></i>
                         <span style="margin-left:2px">{vtranslate('LBL_EDIT_ALL_DESC',$QUALIFIED_MODULE)}</span>
-                    </span>
+                    </div>
                 </div>
             </div>
-			<div class="table-responsive">
-				<table class="table table-striped table-bordered">
+				<table class="table customTableRWD table-striped table-bordered">
 					<thead>
 
 						<tr>
 							<th width="27%" style="border-left: 1px solid #DDD !important;">
 								{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
 							</th>
-							<th width="11%" style="border-left: 1px solid #DDD !important;">
+							<th data-hide="phone" width="11%" style="border-left: 1px solid #DDD !important;">
 								<span class="horizontalAlignCenter">
 
 									&nbsp;{'LBL_VIEW_PRIVILEGE'|vtranslate:$QUALIFIED_MODULE}
 								</span>
 							</th>
-							<th width="12%" style="border-left: 1px solid #DDD !important;">
+							<th data-hide="phone" width="12%" style="border-left: 1px solid #DDD !important;">
 								<span class="horizontalAlignCenter" >
 
 									&nbsp;{'LBL_EDIT_PRIVILIGE'|vtranslate:$QUALIFIED_MODULE}
 								</span>
 							</th>
-							<th width="11%" style="border-left: 1px solid #DDD !important;">
+							<th data-hide="phone" width="11%" style="border-left: 1px solid #DDD !important;">
 								<span class="horizontalAlignCenter" >{'LBL_DELETE_PRIVILIGE'|vtranslate:$QUALIFIED_MODULE}</span>
 							</th>
 							<th width="39%" style="border-left: 1px solid #DDD !important;" nowrap="nowrap">{'LBL_FIELD_AND_TOOL_PRVILIGES'|vtranslate:$QUALIFIED_MODULE}</th>
@@ -107,7 +110,7 @@
 								</td>
 							</tr>
 							<tr class="hide">
-								<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%">
+								<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%">
 									<div class="row" data-togglecontent="{$TABID}-fields">
 									{if $PROFILE_MODULE->getFields()}
 										<div class="col-md-12">
@@ -116,15 +119,15 @@
 												<span class="mini-slider-control ui-slider" data-value="0">
 													<a style="margin-top: 4px;" class="ui-slider-handle"></a>
 												</span>
-												<span style="margin-left:15px;">{vtranslate('LBL_INVISIBLE',$QUALIFIED_MODULE)}</span>&nbsp;
+												<span style="margin-left:25px;margin-right: 15px;">{vtranslate('LBL_INVISIBLE',$QUALIFIED_MODULE)}</span>&nbsp;
 												<span class="mini-slider-control ui-slider" data-value="1">
 													<a style="margin-top: 4px;" class="ui-slider-handle"></a>
 												</span>
-												<span style="margin-left:15px;">{vtranslate('LBL_READ_ONLY',$QUALIFIED_MODULE)}</span>&nbsp;
+												<span style="margin-left:25px;margin-right: 15px;">{vtranslate('LBL_READ_ONLY',$QUALIFIED_MODULE)}</span>&nbsp;
 												<span class="mini-slider-control ui-slider" data-value="2">
 													<a style="margin-top: 4px;" class="ui-slider-handle"></a>
 												</span>
-												<span style="margin-left:15px;">{vtranslate('LBL_WRITE',$QUALIFIED_MODULE)}</span>&nbsp;
+												<span style="margin-left:25px;margin-right: 15px;">{vtranslate('LBL_WRITE',$QUALIFIED_MODULE)}</span>&nbsp;
 											</div>
 											<div class="clearfix"></div>
 										</div>
@@ -151,7 +154,7 @@
 														<a style="margin-top: 4px;" class="ui-slider-handle"></a>
 													</span>
 												{/if}
-												<span style="margin-left: 15px">
+												<span style="margin-left: 25px">
 												{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if} {vtranslate($FIELD_MODEL->get('label'), $PROFILE_MODULE->getName())}
 												</span>
 											</td>
@@ -169,7 +172,7 @@
 							</td>
 						</tr>
 						<tr class="hide">
-							<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%">
+							<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%">
 								<div class="row" data-togglecontent="{$TABID}-fields">
 								<div class="col-md-12"><label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
 								<table class="table table-bordered table-striped">
@@ -201,7 +204,6 @@
 					{/foreach}
 				</tbody>
 			</table>
-			</div>
 		</div>
 	</div>
 	<br>
