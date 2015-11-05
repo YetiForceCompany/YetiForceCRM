@@ -11,12 +11,12 @@
 {strip}
 	<div class="" id="AnnouncementContainer">
 		<div class="widget_header">
-			<div class=""><h3>{vtranslate('LBL_ANNOUNCEMENTS', $QUALIFIED_MODULE)}</h3></div>
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		</div>
 		<hr>
 		<div class="contents">
 			<textarea class="announcementContent textarea-autosize boxSizingBorderBox form-control" rows="3" placeholder="{vtranslate('LBL_ENTER_ANNOUNCEMENT_HERE', $QUALIFIED_MODULE)}" style="width:100%">{$ANNOUNCEMENT->get('announcement')}</textarea>
-			<div class="row textAlignCenter">
+			<div class="textAlignCenter">
 				<br>
 				<button class="btn btn-success saveAnnouncement pull-right hide"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 			</div>

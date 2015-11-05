@@ -1,5 +1,7 @@
-<div class=" configContainer" style="margin-top:10px;">
-	<h3>{vtranslate('LBL_MAIL_GENERAL_CONFIGURATION', $QUALIFIED_MODULE)}</h3>&nbsp;{vtranslate('LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION', $QUALIFIED_MODULE)}<hr>
+<div class=" configContainer">
+	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	&nbsp;{vtranslate('LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION', $QUALIFIED_MODULE)}
+	<hr>
 	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
 	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
 		<li class="active"><a href="#configuration" data-toggle="tab">{vtranslate('LBL_MAIL_ICON_CONFIG', $QUALIFIED_MODULE)}</a></li>

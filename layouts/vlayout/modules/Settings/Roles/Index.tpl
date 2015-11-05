@@ -8,11 +8,7 @@
  *************************************************************************************}
 {strip}
 <div class="">
-	<div class="widget_header row">
-		<div class="col-md-8">
-			<h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>
-	</div>	
-	</div>
+	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 	<hr>
 	<div class="clearfix treeView">
 		<ul>

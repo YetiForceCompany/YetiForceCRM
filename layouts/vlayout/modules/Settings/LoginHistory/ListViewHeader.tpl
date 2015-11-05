@@ -11,9 +11,7 @@
 -->*}
 {strip}
 <div class="">
-	<div class="widget_header ">
-		<h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>
-	</div>
+	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 	<hr>
 	<div class="row">
 		<div class="col-md-2 pull-left">

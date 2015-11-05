@@ -12,7 +12,9 @@
 <div class="">
 	<div class="clearfix treeView">
 		<div class="widget_header row">
-			<div class="col-md-8"><h3>{vtranslate('Configuration', 'OSSMailView')}</h3></div>
+			<div class="col-md-8">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			</div>
 		</div>
 		<hr>
 		<form>

@@ -1,5 +1,7 @@
-<div class=" autologinContainer" style="margin-top:10px;">
-	<h3>{vtranslate('LBL_AUTOLOGIN', $QUALIFIED_MODULE)}</h3>&nbsp;{vtranslate('LBL_AUTOLOGIN_DESCRIPTION', $QUALIFIED_MODULE)}<hr>
+<div class=" autologinContainer">
+	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	&nbsp;{vtranslate('LBL_AUTOLOGIN_DESCRIPTION', $QUALIFIED_MODULE)}
+	<hr>
 	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
 	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
 		<li class="active"><a href="#user_list" data-toggle="tab">{vtranslate('LBL_USER_LIST', $QUALIFIED_MODULE)} </a></li>

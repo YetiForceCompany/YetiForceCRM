@@ -10,7 +10,8 @@
 <div class="menuConfigContainer">
 	<div class="row">
 		<div class="col-md-7">
-			<h3>{vtranslate('LBL_MENU_BUILDER', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MENU_BUILDER_DESCRIPTION', $QUALIFIED_MODULE)}
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{vtranslate('LBL_MENU_BUILDER_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		<div class="col-md-5 row h3">
 			<div class="col-md-6">

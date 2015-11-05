@@ -3,7 +3,8 @@
 -->*}
 {strip}
 <div class="" id="salesProcessesContainer">
-	<h3>{vtranslate('LBL_SALES_PROCESSES', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_SALES_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
+ 	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	{vtranslate('LBL_SALES_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
 	<hr>
 	<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
 		<li class="active"><a href="#Potentials" data-toggle="tab">{vtranslate('LBL_POTENTIALS', $QUALIFIED_MODULE)} </a></li>
@@ -20,12 +21,12 @@
 		<div class="tab-pane" id="popup">
 			{assign var=POPUP value=$CONFIG['popup']}
 			<div class="row">
-				<div class="col-md-1 textAlignCenter"><input class="configField" type="checkbox" data-type="popup" name="limit_product_service" id="limit_product_service" value="1"  {if $POPUP['limit_product_service']=='true'}checked=""{/if} /></div>
-				<div class="col-md-11"><label for="limit_product_service">{vtranslate('LBL_LIMIT_PRODUCT_AND_SERVICE',$QUALIFIED_MODULE)}</label></div>
+				<div class="col-md-1 col-sm-1 col-xs-2 textAlignCenter"><input class="configField" type="checkbox" data-type="popup" name="limit_product_service" id="limit_product_service" value="1"  {if $POPUP['limit_product_service']=='true'}checked=""{/if} /></div>
+				<div class="col-md-11 col-sm-11 col-xs-10"><label for="limit_product_service">{vtranslate('LBL_LIMIT_PRODUCT_AND_SERVICE',$QUALIFIED_MODULE)}</label></div>
 			</div>
 			<div class="row">
-				<div class="col-md-1 textAlignCenter"><input class="configField" type="checkbox" data-type="popup" name="update_shared_permissions" id="update_shared_permissions" value="1"  {if $POPUP['update_shared_permissions']=='true'}checked=""{/if} /></div>
-				<div class="col-md-11"><label for="update_shared_permissions">{vtranslate('LBL_UPDATE_SHARED_PERMISSIONS',$QUALIFIED_MODULE)}</label></div>
+				<div class="col-md-1 col-sm-1 col-xs-2 textAlignCenter"><input class="configField" type="checkbox" data-type="popup" name="update_shared_permissions" id="update_shared_permissions" value="1"  {if $POPUP['update_shared_permissions']=='true'}checked=""{/if} /></div>
+				<div class="col-md-11 col-sm-11 col-xs-10"><label for="update_shared_permissions">{vtranslate('LBL_UPDATE_SHARED_PERMISSIONS',$QUALIFIED_MODULE)}</label></div>
 			</div>
 		</div>
 		<div class="tab-pane" id="calculations">

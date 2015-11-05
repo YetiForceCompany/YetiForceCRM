@@ -28,7 +28,9 @@
 	{assign var=CHECK_CRON value=$BACKUP_MODEL->checkCron()}
 	{assign var=CHECK_MAIL value=$BACKUP_MODEL->checkMail()}
 	<div>
-		<h3>{vtranslate('Backup', $QUALIFIED_MODULE_NAME)}</h3>&nbsp;{vtranslate('LBL_BACKUP_DESCRIPTION', $QUALIFIED_MODULE_NAME)}<hr>
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		&nbsp;{vtranslate('LBL_BACKUP_DESCRIPTION', $QUALIFIED_MODULE_NAME)}
+		<hr>
 		{if !extension_loaded('zip')}
 			<div class="alert alert-block alert-danger" style="margin-left: 10px;">
 				<button type="button" class="close" data-dismiss="alert">×</button>

@@ -12,12 +12,13 @@
 {strip}
 <div class='dashboardHeading'>
 	<div class="row">
-		<div class="col-md-3">
+		<div class="pull-left">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			{if $DASHBOARDHEADER_TITLE}
 				{*<h2 class="pull-left">{$DASHBOARDHEADER_TITLE}</h2>*}
 			{/if}
 		</div>
-		<div class="col-md-9 h3">
+		<div class="pull-right h3">
 			<div class="pull-right">
 				<ul class="btn-toolbar">
 					<li class="btn-group">

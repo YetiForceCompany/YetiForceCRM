@@ -10,9 +10,9 @@
 -->*}
 {strip}
 	<div class="">
-		<div class="row settingsHeader padding1per">
+		<div class="settingsHeader">
 			<span class="col-md-8">
-				<span class="font-x-x-large">{vtranslate('LBL_CONVERT_LEAD_FIELD_MAPPING', $QUALIFIED_MODULE)}</span>
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			</span>
 			<span class="col-md-4">
 				<span class="pull-right">
@@ -21,7 +21,8 @@
 					{/foreach}
 				</span>
 			</span>
-		</div><hr>
+		</div>
+		<hr>
 		<div class="contents" id="detailView">
 			<table class="table table-bordered" width="100%">
 				<tbody>

@@ -15,8 +15,11 @@
 <div class=" WidgetsManage">
 	<input type="hidden" name="tabid" value="{$SOURCE}">
 	<div class="widget_header row">
-		<div class="col-md-8"><h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}</div>
-		<div class="pull-right col-md-3 h3">
+		<div class="col-md-8">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{vtranslate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}
+		</div>
+		<div class="pull-right col-md-4 h3">
 			<select class="select2 col-md-3 form-control" name="ModulesList">
 				{foreach from=$MODULE_MODEL->getModulesList() item=item key=key}
 					<option value="{$key}" {if $SOURCE eq $key}selected{/if}>{vtranslate($item['tablabel'], $item['name'])}</option>

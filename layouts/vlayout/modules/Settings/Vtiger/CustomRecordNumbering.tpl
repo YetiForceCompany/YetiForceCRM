@@ -14,9 +14,9 @@
         <div class="">
             <span class="widget_header">
                 <div class="">
-					<h3>{vtranslate('LBL_CUSTOMIZE_RECORD_NUMBERING', $QUALIFIED_MODULE)}</h3>
-					<span style="font-size:12px;color: black;">{vtranslate('LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION', $QUALIFIED_MODULE)}</span>
-				</div>
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			<span style="font-size:12px;color: black;">{vtranslate('LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION', $QUALIFIED_MODULE)}</span>
+		</div>
             </span>
         </div>
         <hr>

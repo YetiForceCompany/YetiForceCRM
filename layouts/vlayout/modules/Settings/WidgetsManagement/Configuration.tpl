@@ -32,10 +32,10 @@ padding: 20px 20px 20px 20px;
 		<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
 		<div class="widget_header row">
 			<div class="col-md-9">
-				<h3>{vtranslate('LBL_WIDGETS_MANAGEMENT', $QUALIFIED_MODULE)}</h3>
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 				{vtranslate('LBL_WIDGETS_MANAGEMENT_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
-			<div class="col-md-3 h3">
+			<div class="col-md-3">
 				<div class="col-md-12 pull-right">
 					<select class="chzn-select form-control" name="widgetsManagementEditorModules">
 						{foreach item=mouleName from=$SUPPORTED_MODULES}
@@ -45,10 +45,11 @@ padding: 20px 20px 20px 20px;
 				</div>
 			</div>
 		</div>
+		<hr>
 
 <div class="contents tabbable">
 	
-	<div class="tab-content layoutContent paddingNoTop20 themeTableColor overflowVisible">
+	<div class="tab-content paddingNoTop10 themeTableColor overflowVisible">
 		
 	<div class="tab-pane active" id="layoutDashBoards">
 		<div class="btn-toolbar marginBottom10px">

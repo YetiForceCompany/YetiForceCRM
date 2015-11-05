@@ -3,7 +3,8 @@
 <input type="hidden" id="view" value="{$VIEW}" />
 <div class="" id="inventoryConfig">
 	<div class="widget_header">
-		<h3>{vtranslate($PAGE_LABELS.title,$QUALIFIED_MODULE)}</h3>{vtranslate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		{vtranslate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
 	</div>
 	<hr>
 	<div class="contents marginTop20 form-horizontal">

@@ -13,7 +13,9 @@
 	<div class="">
 		<form id="EditView" name="EditProfile" action="index.php" method="post" class="form-horizontal">
 			<div class="widget_header row"> 
-				<div class="col-md-8"><h3>{vtranslate('LBL_CREATE_PROFILE', $QUALIFIED_MODULE)}</h3></div> 
+				<div class="col-md-8">
+				    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				</div> 
 				<div class="col-md-4 btn-toolbar">
 					<div class="pull-right"> 
 						<button class="btn btn-success" type="submit">{vtranslate('LBL_SAVE',$QUALIFIED_MODULE)}</button>

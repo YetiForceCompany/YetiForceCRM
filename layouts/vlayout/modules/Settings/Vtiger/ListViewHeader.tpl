@@ -12,10 +12,10 @@
 {strip}
 <div class="">
 	<div class="widget_header">
-		<h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 	</div>
 	<hr>
-	<div class="row">
+	<div class="listViewActionsDiv row">
 		<div class="col-md-8 btn-toolbar">
 			{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 			<button class="btn btn-default addButton" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'

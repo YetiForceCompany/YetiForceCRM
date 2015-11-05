@@ -74,7 +74,7 @@
 						</ul>
 					</div>
 				</div>
-				<div class="pull-right selectSearch">
+				<div class="pull-left selectSearch">
 					<div class="input-group globalSearchInput">
 						<span class="input-group-btn">
 							<select class="chzn-select col-md-5" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}" id="basicSearchModulesList" >
@@ -116,7 +116,7 @@
 						</a>
 					</div>
 				</div>
-				<div class="pull-right searchMenuBtn">
+				<div class="pull-left searchMenuBtn">
 					<div class="quickAction">
 						<a class="btn btn-default btn-sm" href="#">
 							<span aria-hidden="true" class="glyphicon glyphicon-search"></span>

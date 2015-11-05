@@ -20,12 +20,8 @@
 	<input type="hidden" id="access" value="{$ACCESS}" />
 	<input type="hidden" name="tree" id="treeValues" value='{Vtiger_Util_Helper::toSafeHTML($TREE)}' />
 	<input type="hidden" name="replace" id="replaceIds" value="" />
-	<div class="widget_header row">
-		{if $MODE eq 'edit'}
-			<h3>{vtranslate('LBL_EDIT_TEMPLATE_TREES', $QUALIFIED_MODULE)}</h3>
-		{else}
-			<h3>{vtranslate('LBL_CREATING_TEMPLATE_TREES', $QUALIFIED_MODULE)}</h3>
-		{/if}
+	<div class="widget_header">
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 	</div>
 	<hr>
 	<div class="row">

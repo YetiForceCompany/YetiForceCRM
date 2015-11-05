@@ -9,15 +9,14 @@
 *************************************************************************************************************************************/*}
 
 <div class="processesContainer">
-	<h3>{vtranslate('LBL_TIMECONTROL_PROCESSES', $QUALIFIED_MODULE)}</h3>
+	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 	<h5>{vtranslate('LBL_TIMECONTROL_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}</h5>
 	<hr>
-
 	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
 		<li class="active"><a href="#general" data-toggle="tab">{vtranslate('LBL_GENERAL_SETTINGS', $QUALIFIED_MODULE)}</a></li>
 		<li><a href="#timeControlWidget" data-toggle="tab">{vtranslate('LBL_TIME_CONTROL_WIDGET', $QUALIFIED_MODULE)}</a></li>
 	</ul>
-	<br />
+	<br/>
 	<div class="tab-content">
 		<div class='editViewContainer tab-pane active' id="general" data-type="general">
 			{assign var=GENERAL_FIELDS value=$MODULE_MODEL->get('general')}

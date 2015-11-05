@@ -19,6 +19,8 @@
 		</p>
 	</div>	
 {/if}
+{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+<hr>
 <ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
     <li class="active"><a href="#tab_accounts" data-toggle="tab">{vtranslate('E-mail Accounts', 'OSSMailScanner')} </a></li>
     <li><a href="#tab_actions" data-toggle="tab">{vtranslate('Actions', 'OSSMailScanner')}</a></li>

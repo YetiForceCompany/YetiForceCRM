@@ -14,5 +14,7 @@
 	<div class="bodyContents">
 		<div class="mainContainer">
 			<div class="contentsDiv">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				<hr>
 				{include file="ListViewHeader.tpl"|vtemplate_path:$MODULE}
 			{/strip}

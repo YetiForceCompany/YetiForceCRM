@@ -12,8 +12,8 @@
 {strip}
 	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv">
-			<h3>{vtranslate('LBL_PICKLIST_EDITOR',$QUALIFIED_MODULE)}</h3>
-            <hr>
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		<hr>
 		</div>
 		<div class="listViewContentDiv" id="listViewContents" style="padding: 1%;">
 			<br>

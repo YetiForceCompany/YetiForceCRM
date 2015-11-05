@@ -5,7 +5,7 @@
 		<input type="hidden" value="{$PARENT_MODULE}" id="parent" name='parent' />
 		<input type='hidden' value="{$VIEW}" id='view' name='view'/>
 		{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
-		{assign var=HOMEICON value=Vtiger_Menu_Model::getMenuIcon('home.png', vtranslate('LBL_HOME',$MODULE))}
+		{assign var=HOMEICON value=Vtiger_Menu_Model::getMenuIcon('home_black.png', vtranslate('LBL_HOME',$MODULE))}
 		{if $BREADCRUMBS}
 			<div class="breadcrumbsContainer">
 				<h2 class="breadcrumbsLinks">

@@ -21,6 +21,8 @@
 	<![endif]-->
 {/literal}
 {$i=1}
+{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+<hr>
 <div class="" id="importModules">    
 	<ul class="nav nav-tabs layoutTabs margin0px" style="border-bottom: 0px;">
 		<li class="active"><a data-toggle="tab" href="#general"><strong>{vtranslate('LBL_GeneralConfiguration', 'OSSPdf')}</strong></a></li>

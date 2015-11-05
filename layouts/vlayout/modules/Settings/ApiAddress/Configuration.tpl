@@ -11,10 +11,10 @@
 -->*}
 <div class="" id="menuEditorContainer">
     <div class="widget_header row">
-        <div class="col-md-8">
-			<h3>{vtranslate('LBL_API_ADDRESS', $MODULENAME)}</h3>
-			{vtranslate('LBL_API_ADDRESS_DESCRIPTION', $MODULENAME)}
-		</div>
+        <div class="col-md-12">
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		{vtranslate('LBL_API_ADDRESS_DESCRIPTION', $MODULENAME)}
+	</div>
     </div>
     <hr>
 	<div class="main_content" style="padding:30px">

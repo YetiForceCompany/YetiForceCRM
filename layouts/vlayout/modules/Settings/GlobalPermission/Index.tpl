@@ -12,7 +12,9 @@
 {strip}
 <div class=" LangManagement">
 	<div class="widget_header row">
-		<div class="col-md-10"><h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>&nbsp;{vtranslate('LBL_Module_desc', $QUALIFIED_MODULE)}</div>
+		<div class="col-md-10">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
 		<div class="col-md-2"></div>
 	</div>
 	<hr>

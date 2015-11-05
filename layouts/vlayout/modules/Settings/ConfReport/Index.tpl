@@ -1,5 +1,6 @@
 <div class="" style="margin-top:10px;">
-	<h3>{vtranslate('LBL_CONFIGURATION', $MODULE)}</h3>&nbsp;{vtranslate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}<hr>
+	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	{vtranslate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}<hr>
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#Configuration">{vtranslate('LBL_YETIFORCE_ENGINE', $MODULE)}</a></li>
         <li><a data-toggle="tab" href="#Permissions">{vtranslate('LBL_FILES_PERMISSIONS', $MODULE)}</a></li>

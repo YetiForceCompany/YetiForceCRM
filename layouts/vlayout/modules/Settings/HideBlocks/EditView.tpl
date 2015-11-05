@@ -14,7 +14,7 @@
 	<form method="post" action="index.php?module={$MODULE}&parent=Settings&view=Conditions">
 	<input type="hidden" name="record" value="{$RECORD_ID}"/>
 	<div class="widget_header">
-		<h3>{vtranslate('LBL_HIDEBLOCKS', $QUALIFIED_MODULE)}</h3>
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		{vtranslate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 	</div>
 	<hr>
@@ -71,7 +71,7 @@
 		</div>
 	</div>
 	<br>	
-	<div class="row">
+	<div class="">
 		<div class="pull-right">
 			<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
 			<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>

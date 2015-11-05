@@ -11,11 +11,9 @@
 -->*}
 {strip}
 <div class=" listViewPageDiv">
-	<div class="widget_header">
-		<h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>
-	</div>
+	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 	<hr>
-	<div class="row" style="margin-bottom: 2px;">
+	<div class="listViewActionsDiv row" style="margin-bottom: 2px;">
 		<div class="col-md-4 btn-toolbar">
             <span class="btn-group listViewMassActions">
                 {if count($LISTVIEW_MASSACTIONS) gt 0 || $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}

@@ -11,8 +11,10 @@
 {strip}
 	<div id="AsteriskServerDetails">
 		<div class="widget_header row">
-			<div class="col-md-8"><h3>{vtranslate('LBL_PBXMANAGER', $QUALIFIED_MODULE)}</h3></div>
-					{assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}
+			<div class="col-md-8">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			</div>
+			{assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}
 			<div class="col-md-4"><div class="pull-right pushDown"><button class="btn btn-info editButton" data-url='{$MODULE_MODEL->getEditViewUrl()}&mode=showpopup&id={$RECORD_ID}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button></div></div>
 		</div>
 		<hr>

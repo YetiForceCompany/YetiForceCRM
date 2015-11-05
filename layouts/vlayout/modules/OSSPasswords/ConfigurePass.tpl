@@ -10,8 +10,8 @@
 *************************************************************************************************************************************/
 -->*}
 <div class="widget_header row">
-	<div class="col-md-10">
-		<h3>{vtranslate('LBL_VIEW_CONFIGUREPASS', $QUALIFIED_MODULE)}</h3>
+	<div class="col-md-12">
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 	</div>
 </div>
 <br>
