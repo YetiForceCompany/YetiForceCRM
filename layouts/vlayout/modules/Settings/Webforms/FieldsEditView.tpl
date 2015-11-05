@@ -30,15 +30,15 @@
 			</colgroup>
 			<tr class="blockHeader">
 				<th class="blockHeader" colspan="5">
-					{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)} {vtranslate('LBL_FIELD_INFORMATION', $MODULE)}
+					{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)} {vtranslate('LBL_FIELD_INFORMATION', $QUALIFIED_MODULE)} {$QUALIFIED_MODULE}
 				</th>
 			</tr>
 			<tr>
 				<td colspan="5">
 					<span class="">
-						<span class="col-md-1"><span class="pull-right pushDown"><b>{vtranslate('LBL_ADD_FIELDS', $MODULE)}</b></span></span>
+						<span class="col-md-1"><span class="pull-right pushDown"><b>{vtranslate('LBL_ADD_FIELDS', $QUALIFIED_MODULE)}</b></span></span>
 						<span class="col-md-9">
-							<select id="fieldsList" multiple="multiple" name="fieldsList" data-placeholder="{vtranslate('LBL_SELECT_FIELDS_OF_TARGET_MODULE', $MODULE)}" class="row select2 form-control selectizeElement">
+							<select id="fieldsList" multiple="multiple" name="fieldsList" data-placeholder="{vtranslate('LBL_SELECT_FIELDS_OF_TARGET_MODULE', $QUALIFIED_MODULE)}" class="row select2 form-control selectizeElement">
 								{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$ALL_FIELD_MODELS_LIST name="EditViewBlockLevelLoop"}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 										{assign var="FIELD_INFO" value=json_encode($FIELD_MODEL->getFieldInfo())}
@@ -55,18 +55,18 @@
 						</span>
 						<span class="col-md-2">
 							<span class="pull-right">
-								<button type="button" id="saveFieldsOrder" class="btn btn-success" disabled="disabled">{vtranslate('LBL_SAVE_FIELDS_ORDER', $MODULE)}</button>
+								<button type="button" id="saveFieldsOrder" class="btn btn-success" disabled="disabled">{vtranslate('LBL_SAVE_FIELDS_ORDER', $QUALIFIED_MODULE)}</button>
 							</span>
 						</span>
 					</span>
 				</td>
 			</tr>
 			<tr name="fieldHeaders">
-				<td class="textAlignCenter"><b>{vtranslate('LBL_MANDATORY', $MODULE)}</b></td>
-				<td class="textAlignCenter"><b>{vtranslate('LBL_HIDDEN', $MODULE)}</b></td>
-				<td><b>{vtranslate('LBL_FIELD_NAME', $MODULE)}</b></td>
-				<td class="textAlignCenter"><b>{vtranslate('LBL_OVERRIDE_VALUE', $MODULE)}</b></td>
-				<td><b>{vtranslate('LBL_WEBFORM_REFERENCE_FIELD', $MODULE)}</b></td>
+				<td class="textAlignCenter"><b>{vtranslate('LBL_MANDATORY', $QUALIFIED_MODULE)}</b></td>
+				<td class="textAlignCenter"><b>{vtranslate('LBL_HIDDEN', $QUALIFIED_MODULE)}</b></td>
+				<td><b>{vtranslate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}</b></td>
+				<td class="textAlignCenter"><b>{vtranslate('LBL_OVERRIDE_VALUE', $QUALIFIED_MODULE)}</b></td>
+				<td><b>{vtranslate('LBL_WEBFORM_REFERENCE_FIELD', $QUALIFIED_MODULE)}</b></td>
 			</tr>
 
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$ALL_FIELD_MODELS_LIST name="EditViewBlockLevelLoop"}
@@ -107,7 +107,7 @@
 							</td>
 							<td>
 								{if Settings_Webforms_Record_Model::isCustomField($FIELD_MODEL->get('name'))}
-									{vtranslate('LBL_LABEL', $QUALIFIED_MODULE)} : {vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+									{vtranslate('LBL_LABEL', $QUALIFIED_MODULE)} : {vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE)}
 								{else}
 									{vtranslate($FIELD_MODEL->get('name'), $SOURCE_MODULE)}
 								{/if}
