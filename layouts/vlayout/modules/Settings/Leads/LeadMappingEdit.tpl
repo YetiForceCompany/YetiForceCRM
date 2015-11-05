@@ -22,7 +22,7 @@
 					</span>
 				</span>
 			</div><hr>
-			<div class="contents" id="detailView">
+			<div class="contents table-responsive" id="detailView">
 				<table class="table table-bordered" width="100%" id="convertLeadMapping">
 					<tbody>
 						<tr class="blockHeader">

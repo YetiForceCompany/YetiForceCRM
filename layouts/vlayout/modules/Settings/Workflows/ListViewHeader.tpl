@@ -12,7 +12,7 @@
 {strip}
 <div class="listViewPageDiv">
 	<div class="listViewTopMenuDiv">
-        <div class="row">
+        <div class="widget_header row">
             <div class="col-md-6">
                 {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
             </div>
@@ -36,9 +36,9 @@
                 {/if}
                 </b>
             </div>
-        </div>
+		</div>
         <hr>
-		<div class="row">
+		<div class="listViewActionsDiv row">
 			<div class="col-md-4 btn-toolbar">
 				<button class="btn btn-default addButton" {if stripos($MODULE_MODEL->getCreateViewUrl(), 'javascript:')===0} onclick="{$MODULE_MODEL->getCreateViewUrl()|substr:strlen('javascript:')};"
                         {else} onclick='window.location.href="{$MODULE_MODEL->getCreateViewUrl()}"' {/if}>
@@ -46,7 +46,7 @@
 					<strong>{vtranslate('LBL_NEW', $QUALIFIED_MODULE)} {vtranslate('LBL_WORKFLOW',$QUALIFIED_MODULE)}</strong>
 				</button>
 			</div>
-			<div class="col-md-4 btn-toolbar">
+			<div class="col-md-3 btn-toolbar marginLeftZero">
 				<select class="chzn-select form-control" id="moduleFilter" >
 					<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 					{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
@@ -60,7 +60,7 @@
 					{/foreach}
 				</select>
 			</div>
-			<div class="col-md-4 btn-toolbar">
+			<div class="col-md-5 btn-toolbar">
 				{include file='ListViewActions.tpl'|@vtemplate_path}
 			</div>
 		</div>

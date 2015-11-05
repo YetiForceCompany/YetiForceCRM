@@ -33,22 +33,24 @@
 		<hr>
 		{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 		<div id="companyDetailsContainer" class="{if !empty($ERROR_MESSAGE)}hide{/if}">
-			<table class="table table-bordered">
-				<thead>
-					<tr class="blockHeader">
-						<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_LOGO',$QUALIFIED_MODULE)}</strong></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td class="{$WIDTHTYPE}">
-							<div class="companyLogo">
-								<img src="{$MODULE_MODEL->getLogoPath()}" class="alignMiddle"/>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<div class='table-responsive'>
+				<table class="table table-bordered">
+					<thead>
+						<tr class="blockHeader">
+							<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_LOGO',$QUALIFIED_MODULE)}</strong></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="{$WIDTHTYPE}">
+								<div class="companyLogo">
+									<img src="{$MODULE_MODEL->getLogoPath()}" class="alignMiddle"/>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 			<br>
 			<table class="table table-bordered">
 				<thead>
@@ -75,35 +77,37 @@
 			<input type="hidden" name="module" value="Vtiger" />
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" name="action" value="CompanyDetailsSave" />
-			<table class="table table-bordered">
-				<thead>
-					<tr class="blockHeader">
-						<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_LOGO',$QUALIFIED_MODULE)}</strong></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td >
-							<div class="companyLogo" style="max-width: 250px; max-height: 200px;">
-								<img src="{$MODULE_MODEL->getLogoPath()}" class="alignMiddle" />
-							</div>
-						</td>
-						<td>
-							<div>
-								<input type="file" name="logo" id="logoFile" />&nbsp;&nbsp;
-								<span class="alert alert-info pull-right">
-									{vtranslate('LBL_LOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
-								</span>
-								{if !empty($ERROR_MESSAGE)}
-									<br><br><div class="marginLeftZero col-md-9 alert alert-warning">
-										{vtranslate($ERROR_MESSAGE,$QUALIFIED_MODULE)}
-									</div>
-								{/if}
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>	
+			<div class='table-responsive'>
+				<table class="table table-bordered">
+					<thead>
+						<tr class="blockHeader">
+							<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_LOGO',$QUALIFIED_MODULE)}</strong></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td >
+								<div class="companyLogo" style="max-width: 250px; max-height: 200px;">
+									<img src="{$MODULE_MODEL->getLogoPath()}" class="alignMiddle" />
+								</div>
+							</td>
+							<td>
+								<div>
+									<input type="file" name="logo" id="logoFile" />&nbsp;&nbsp;
+									<span class="alert alert-info pull-right">
+										{vtranslate('LBL_LOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
+									</span>
+									{if !empty($ERROR_MESSAGE)}
+										<br><br><div class="marginLeftZero col-md-9 alert alert-warning">
+											{vtranslate($ERROR_MESSAGE,$QUALIFIED_MODULE)}
+										</div>
+									{/if}
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 			<br><br>	
 			<table class="table table-bordered" >
 				<thead>

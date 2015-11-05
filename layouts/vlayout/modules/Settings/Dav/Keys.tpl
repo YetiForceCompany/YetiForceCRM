@@ -28,7 +28,7 @@
 				</div>	
 			{/if}
 			<div>
-				<div class="contents tabbable">
+				<div class="contents tabbable table-responsive">
 					<table class="table table-bordered table-condensed listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">

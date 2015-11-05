@@ -63,12 +63,12 @@ padding: 20px 20px 20px 20px;
 				{assign var=AUTHORIZATION_NAME value=$AUTHORIZATION_INFO.name}
 				<div id="block_{$AUTHORIZATION_KEY}" class="editFieldsTable block_{$AUTHORIZATION_KEY} marginBottom10px border1px blockSortable" data-block-id="{$AUTHORIZATION_KEY}" data-sequence="" data-code="{$AUTHORIZATION_INFO.code}" style="border-radius: 4px 4px 0px 0px;background: white;">
 					<div class="row layoutBlockHeader no-margin">
-						<div class="blockLabel col-md-5 padding10 ">
+						<div class="blockLabel col-sm-5 padding10 ">
 							<span class="marginLeft20">
 								<strong>{vtranslate($AUTHORIZATION_NAME, $SELECTED_MODULE_NAME)}</strong>
 							</span>
 						</div>
-						<div class="col-md-6 marginLeftZero" style="float:right !important;">
+						<div class="col-sm-7 marginLeftZero" style="float:right !important;">
 							<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
 								<div class="btn-group">
 									<button class="btn btn-default addCustomField" type="button"><span class="glyphicon glyphicon-plus"></span>&nbsp;
@@ -99,7 +99,7 @@ padding: 20px 20px 20px 20px;
 						
 					</div>
 					<div class="blockFieldsList blockFieldsSortable row" style="padding:5px;min-height: 27px">
-						<ul name="sortable1" class="connectedSortable col-md-6" style="list-style-type: none; float: left;min-height: 1px;padding:2px;">
+						<ul name="sortable1" class="connectedSortable col-md-6" style="list-style-type: none; min-height: 1px;padding:2px;">
 							{assign var=WIDGETS_AUTHORIZATION value=$WIDGETS_AUTHORIZATION_INFO.$AUTHORIZATION_KEY}
 							{foreach item=WIDGET_MODEL from=$WIDGETS_AUTHORIZATION name=fieldlist}
 								{assign var=WIDGET_INFO value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('data')))}
@@ -108,7 +108,7 @@ padding: 20px 20px 20px 20px;
 									<li class="col-md-12">
 										<div class="opacity editFieldsWidget marginLeftZero border1px" data-block-id="{$AUTHORIZATION_KEY}" data-field-id="{$WIDGET_MODEL->get('id')}" data-linkid="{$LINKID}" data-sequence="">
 											<div class="row padding1per">
-												<div class="col-md-10 " style="word-wrap: break-word;">
+												<div class="pull-left " style="word-wrap: break-word;">
 													<span class="fieldLabel marginLeft20">{vtranslate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</span>
 												</div>
 												<span class="btn-group pull-right marginRight20 actions">
@@ -222,7 +222,7 @@ padding: 20px 20px 20px 20px;
 								{/if}
 							{/foreach}
 						</ul>
-						<ul name="sortable2" class="connectedSortable col-md-6" style="list-style-type: none; margin: 0; float: left;min-height: 1px;padding:2px;">
+						<ul name="sortable2" class="connectedSortable col-md-6" style="list-style-type: none; margin: 0; min-height: 1px;padding:2px;">
 							{foreach item=WIDGET_MODEL from=$WIDGETS_AUTHORIZATION name=fieldlist1}
 								{assign var=WIDGET_INFO value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('data')))}
 								{assign var=LINKID value=$WIDGET_MODEL->get('linkid')}
@@ -230,7 +230,7 @@ padding: 20px 20px 20px 20px;
 									<li class="col-md-12">
 										<div class="opacity editFieldsWidget marginLeftZero border1px" data-block-id="{$AUTHORIZATION_KEY}" data-field-id="{$WIDGET_MODEL->get('id')}" data-linkid="{$LINKID}" data-sequence="">
 											<div class="row padding1per">
-												<div class="col-md-10 " style="">
+												<div class="pull-left" style="">
 													<span class="fieldLabel marginLeft20">{vtranslate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</span>
 													
 												</div>

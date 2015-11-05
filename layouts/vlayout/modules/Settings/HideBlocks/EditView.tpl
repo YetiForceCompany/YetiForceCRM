@@ -19,7 +19,7 @@
 	</div>
 	<hr>
 	<div class="listViewEntriesDiv contents-bottomscroll" style="overflow-x: visible !important;">
-		<div class="bottomscroll-div">
+		<div class="bottomscroll-div table-responsive">
 			<table class="table table-bordered" width="100%" name="targetModuleFields">
 				<tr class="blockHeader">
 					<th class="blockHeader" colspan="2">
@@ -34,7 +34,7 @@
 					<td><b>{vtranslate('LBL_BLOCK', $QUALIFIED_MODULE)}</b></td>
 					<td>
 						<div class="col-md-4">
-							<select class="chzn-select" name="blockid">
+							<select class="chzn-select form-control" name="blockid">
 								{foreach from=$BLOCKS item=MODULES key=key}
 									<optgroup label="{vtranslate($key, $key)}">
 									{foreach from=$MODULES item=item key=key}
@@ -58,7 +58,7 @@
 					<td><b>{vtranslate('LBL_VIEW', $QUALIFIED_MODULE)}</b></td>
 					<td class="col-md-10">
 						<div class="col-md-4">
-							<select multiple class="chzn-select" name="views[]">
+							<select multiple class="chzn-select form-control" name="views[]">
 								{foreach from=$VIEWS item=LABEL key=VIEW_NAME}
 									<option value="{$VIEW_NAME}" {if in_array($VIEW_NAME,$SELECTED_VIEWS)}selected=""{/if}>{vtranslate($LABEL,$QUALIFIED_MODULE)}</option>
 								{/foreach}

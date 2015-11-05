@@ -83,41 +83,42 @@
 			<h4>{vtranslate('LBL_INFORMATIONS', $QUALIFIED_MODULE)}:</h4>
 			<p><strong>{vtranslate('LBL_MAINCURRENCY', $QUALIFIED_MODULE)}:</strong> {vtranslate($MAINCURR['currency_name'], $QUALIFIED_MODULE)}, <strong>{vtranslate('LBL_CODE', $QUALIFIED_MODULE)}:</strong> {$MAINCURR['currency_code']}, <strong>{vtranslate('LBL_SYMBOL', $QUALIFIED_MODULE)}</strong>: {$MAINCURR['currency_symbol']}</p>
 		</div>
-
-		<table class="table table-bordered blockContainer showInlineTable">
-			<tr>
-				<th class="blockHeader">{vtranslate('LBL_CURRENCY_NAME', $QUALIFIED_MODULE)}</td>
-				<th class="blockHeader">{vtranslate('LBL_CURRENCY_SYMBOL', $QUALIFIED_MODULE)}</td>
-				<th class="blockHeader">{vtranslate('LBL_COURSE', $QUALIFIED_MODULE)}</td>
-				<th class="blockHeader">{vtranslate('LBL_DATE', $QUALIFIED_MODULE)}</td>
-				<th class="blockHeader">{vtranslate('LBL_ACTUAL_DATE_OF_COURSE', $QUALIFIED_MODULE)}</td>
-			</tr>
-			{foreach from=$HISTORIA item=key}
+		<div class='table-responsive'>
+			<table class="table table-bordered blockContainer showInlineTable">
 				<tr>
-					<td>{vtranslate($key.currency_name, 'Settings:Currency')} ({$key.code})</td>
-					<td>
-						{if $USER_MODEL->get('currency_symbol_placement') eq '$1.0'}
-							{$key.symbol} 
-						{/if}
-						1 
-						{if $USER_MODEL->get('currency_symbol_placement') eq '1.0$'}
-							{$key.symbol}
-						{/if}
-					</td>
-					<td>
-						{if $USER_MODEL->get('currency_symbol_placement') eq '$1.0'}
-							{$MAINCURR['currency_symbol']} 
-						{/if}
-						{number_format($key.exchange, 4, $USER_MODEL->get('currency_decimal_separator'), $USER_MODEL->get('currency_grouping_separator'))}
-						{if $USER_MODEL->get('currency_symbol_placement') eq '1.0$'}
-							{$MAINCURR['currency_symbol']}
-						{/if}
-					</td>
-					<td>{Vtiger_Date_UIType::getDisplayValue($key.fetch_date)}</td>
-					<td>{Vtiger_Date_UIType::getDisplayValue($key.exchange_date)}</td>
+					<th class="blockHeader">{vtranslate('LBL_CURRENCY_NAME', $QUALIFIED_MODULE)}</td>
+					<th class="blockHeader">{vtranslate('LBL_CURRENCY_SYMBOL', $QUALIFIED_MODULE)}</td>
+					<th class="blockHeader">{vtranslate('LBL_COURSE', $QUALIFIED_MODULE)}</td>
+					<th class="blockHeader">{vtranslate('LBL_DATE', $QUALIFIED_MODULE)}</td>
+					<th class="blockHeader">{vtranslate('LBL_ACTUAL_DATE_OF_COURSE', $QUALIFIED_MODULE)}</td>
 				</tr>
-			{/foreach}
-		</table>
+				{foreach from=$HISTORIA item=key}
+					<tr>
+						<td>{vtranslate($key.currency_name, 'Settings:Currency')} ({$key.code})</td>
+						<td>
+							{if $USER_MODEL->get('currency_symbol_placement') eq '$1.0'}
+								{$key.symbol} 
+							{/if}
+							1 
+							{if $USER_MODEL->get('currency_symbol_placement') eq '1.0$'}
+								{$key.symbol}
+							{/if}
+						</td>
+						<td>
+							{if $USER_MODEL->get('currency_symbol_placement') eq '$1.0'}
+								{$MAINCURR['currency_symbol']} 
+							{/if}
+							{number_format($key.exchange, 4, $USER_MODEL->get('currency_decimal_separator'), $USER_MODEL->get('currency_grouping_separator'))}
+							{if $USER_MODEL->get('currency_symbol_placement') eq '1.0$'}
+								{$MAINCURR['currency_symbol']}
+							{/if}
+						</td>
+						<td>{Vtiger_Date_UIType::getDisplayValue($key.fetch_date)}</td>
+						<td>{Vtiger_Date_UIType::getDisplayValue($key.exchange_date)}</td>
+					</tr>
+				{/foreach}
+			</table>
+		</div>
 	</form>
 </div>
 {/strip}

@@ -16,12 +16,11 @@
             {if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
                 <input type="hidden" name="picklistDependency" value='{Vtiger_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
             {/if}
-
-			{foreach from=$APIADDRESS item=item key=key}
-				{if $item['nominatim']}
-					<input type="hidden" name="apiAddress" value='{$item['key']}' data-max-num="{$APIADDRESS['global']['result_num']}" data-api-name="{$key}" data-url="{$item['source']}" data-lenght="{$APIADDRESS['global']['min_lenght']}"/>
-				{/if}
-			{/foreach}
+		{foreach from=$APIADDRESS item=item key=key}
+			{if $item['nominatim']}
+				<input type="hidden" name="apiAddress" value='{$item['key']}' data-max-num="{$APIADDRESS['global']['result_num']}" data-api-name="{$key}" data-url="{$item['source']}" data-lenght="{$APIADDRESS['global']['min_lenght']}"/>
+			{/if}
+		{/foreach}
 
             {if !empty($MAPPING_RELATED_FIELD)}
                 <input type="hidden" name="mappingRelatedField" value='{Vtiger_Util_Helper::toSafeHTML($MAPPING_RELATED_FIELD)}' />
@@ -54,10 +53,10 @@
                 <span class="pull-right">
                     <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
                     <button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
-				</span>
-				<div class="clearfix"></div>
+		</span>
+		<div class="clearfix"></div>
             </div>
-            {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
+		{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
             {if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 			{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
 			{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
@@ -67,24 +66,24 @@
 					<thead>
 						<tr>
 							<th class="blockHeader" colspan="4">
-					<div class="row">
-						<div class="col-md-12">
-							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
-								{assign var=APIADDRESFIELD value=TRUE}
-							{else}
-								{assign var=APIADDRESFIELD value=FALSE}
-							{/if}
-							<div class="row">
-								<div class=" {if $APIADDRESFIELD}col-md-7 {else}col-md-12{/if}">
-									<img class="cursorPointer alignMiddle blockToggle{if !($IS_HIDDEN)} hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}"  src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
-									<img class="cursorPointer alignMiddle blockToggle{if ($IS_HIDDEN)} hide{/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
-									&nbsp;&nbsp;{vtranslate($BLOCK_LABEL, $MODULE)}
+								<div class="row">
+									<div class="col-md-12">
+										{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
+											{assign var=APIADDRESFIELD value=TRUE}
+										{else}
+											{assign var=APIADDRESFIELD value=FALSE}
+										{/if}
+										<div class="row">
+											<div class=" {if $APIADDRESFIELD}col-md-7 {else}col-md-12{/if}">
+												<img class="cursorPointer alignMiddle blockToggle{if !($IS_HIDDEN)} hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}"  src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
+												<img class="cursorPointer alignMiddle blockToggle{if ($IS_HIDDEN)} hide{/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
+												&nbsp;&nbsp;{vtranslate($BLOCK_LABEL, $MODULE)}
+											</div>
+										</div>
+									</div>
 								</div>
-							</div>
-						</div>
-					</div>
-					</th>
-                    </tr>
+							</th>
+						</tr>
 					</thead>
 					<tbody {if $IS_HIDDEN} class="hide" {/if}>
 						{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}

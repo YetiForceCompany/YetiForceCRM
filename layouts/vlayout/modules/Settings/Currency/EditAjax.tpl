@@ -29,13 +29,13 @@
 				<form id="editCurrency" class="form-horizontal" method="POST">
 					<input type="hidden" name="record" value="{$CURRENCY_ID}" />
 					<div class="modal-body">
-						<div class="row">
+						<div class="">
 							<div class="form-group">
 								<label class="muted col-md-4 control-label">
 									<span class="redColor">*</span>&nbsp;{vtranslate('LBL_CURRENCY_NAME', $QUALIFIED_MODULE)}
 								</label>
 								<div class="controls col-md-6">
-									<select class="chzn-select" name="currency_name">
+									<select class="chzn-select form-control" name="currency_name">
 										{foreach key=CURRENCY_ID item=CURRENCY_MODEL from=$ALL_CURRENCIES name=currencyIterator}
 											{if !$CURRENCY_MODEL_EXISTS && $smarty.foreach.currencyIterator.first}
 												{assign var=RECORD_MODEL value=$CURRENCY_MODEL}
@@ -68,8 +68,8 @@
 								</div>	
 							</div>
 							<div class="form-group">
-								<label class="muted col-md-4 control-label">{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
-								<div class="col-md-6 controls">
+								<label class="muted col-md-4 col-xs-2 control-label">{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
+								<div class="col-xs-6 col-md-6 controls">
 									<label class="checkbox">
 										<input type="hidden" name="currency_status" value="Inactive" />
 										<input type="checkbox" name="currency_status" value="Active" class="currencyStatus alignBottom" 

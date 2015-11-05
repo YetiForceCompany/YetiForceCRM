@@ -17,7 +17,7 @@
 	<br />
 	<div class="tab-content">
 		<div class='editViewContainer tab-pane active' id="general_configuration">
-			<table class="table table-bordered table-condensed themeTableColor userTable">
+			<table class="table tableRWD table-bordered table-condensed themeTableColor userTable">
 				<thead>
 					<tr class="blockHeader" >
 						<th class="mediumWidthType">
@@ -29,11 +29,11 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr data-id="{$ITEM.user_id}">
+					<tr data-id="{$ITEM['user_id']}">
 						<td><label>{vtranslate('LBL_TICKET_STATUS_INFO', $QUALIFIED_MODULE)}</label></td>
-						<td class="col-md-6">
+						<td class="col-xs-6">
 							{assign var=TICKETSTATUSNOTMODIFY value=$TICKETSTATUSNOTMODIFY}
-							<select class="chzn-select status configField" multiple name="status" style="width: 500px;">
+							<select class="chzn-select configField form-control status" multiple name="status">
 								{foreach  item=ITEM from=$TICKETSTATUS}
 									<option value="{$ITEM['status']}" {if in_array($ITEM['status'], $TICKETSTATUSNOTMODIFY)} selected {/if}  >{$ITEM['statusTranslate']}</option>
 								{/foreach}

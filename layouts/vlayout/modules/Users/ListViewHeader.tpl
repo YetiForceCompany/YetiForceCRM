@@ -41,7 +41,7 @@
 			</span>
 			{/foreach}
 		</div>
-        <div class="col-md-4 btn-toolbar">
+        <div class="col-md-4 btn-toolbar marginLeftZero">
             <select class="select2" id="usersFilter" name="status" style="min-width:350px;">
                 <option value="Active">{vtranslate('LBL_ACTIVE_USERS', $QUALIFIED_MODULE)}</option>
                 <option value="Inactive">{vtranslate('LBL_INACTIVE_USERS', $QUALIFIED_MODULE)}</option>
