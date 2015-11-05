@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -4121,9 +4120,15 @@ CREATE TABLE `vtiger_organizationdetails` (
   `phone` varchar(30) DEFAULT NULL,
   `fax` varchar(30) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
+  `panellogoname` varchar(50) DEFAULT NULL,
+  `height_panellogo` smallint(3) DEFAULT NULL,
+  `panellogo` text,
   `logoname` varchar(50) DEFAULT NULL,
   `logo` text,
-  `vatid` varchar(100) DEFAULT NULL,
+  `vatid` varchar(30) DEFAULT NULL,
+  `id1` varchar(30) DEFAULT NULL,
+  `id2` varchar(30) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`organization_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
