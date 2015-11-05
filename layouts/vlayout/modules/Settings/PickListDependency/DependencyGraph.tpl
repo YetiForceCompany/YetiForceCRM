@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class="accordion">
+    <div class="accordion paddingTop20">
         <span><i class="glyphicon glyphicon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_CONFIGURE_DEPENDENCY_INFO', $QUALIFIED_MODULE)}&nbsp;&nbsp;</span>
         <a class="cursorPointer accordion-heading accordion-toggle" data-toggle="collapse" data-target="#dependencyHelp">{vtranslate('LBL_MORE', $QUALIFIED_MODULE)}..</a>
         <div id="dependencyHelp" class="accordion-body collapse">
@@ -39,28 +39,25 @@
     <input type="hidden" class="allSourceValues" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($SOURCE_PICKLIST_VALUES))}' />
 
     <div class="row depandencyTable no-margin">
-        <div class="col-md-2">
+        <div class="col-md-2 col-sm-2 col-xs-2 paddingRightZero">
             <table class="table-condensed themeTableColor" width="100%">
                 <thead>
                     <tr class="blockHeader"><th>{$RECORD_MODEL->getSourceFieldLabel()}</th></tr>
                 </thead>
                 <tbody>
                     {foreach item=TARGET_VALUE from=$TARGET_PICKLIST_VALUES name=targetValuesLoop}
-                        <tr>
-							{if $smarty.foreach.targetValuesLoop.index eq 0}
-                                <td class="tableHeading">
-                                    {$RECORD_MODEL->getTargetFieldLabel()}
-								</td>
-							</tr>
-                        {else}
-                        <td></td>
-						</tr>
-					{/if}
-				{/foreach}
-                </tbody>
+				{if $smarty.foreach.targetValuesLoop.index eq 0}
+					<tr>
+						<td class="tableHeading">
+							{$RECORD_MODEL->getTargetFieldLabel()}
+						</td>
+					</tr>
+				{/if}
+		    {/foreach}
+		</tbody>
             </table>
         </div>
-        <div class="col-md-10 marginLeftZero dependencyMapping">
+        <div class="col-md-10 col-sm-10 col-xs-10 paddingLRZero marginLeftZero dependencyMapping">
             <table class="table-bordered table-condensed themeTableColor pickListDependencyTable">
                 <thead><tr class="blockHeader">
                         {foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}

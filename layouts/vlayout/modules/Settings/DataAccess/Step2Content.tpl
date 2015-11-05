@@ -31,7 +31,7 @@
 						{foreach from=$REQUIRED_CONDITIONS key=cnd_key item=cnd_item name=field_select}
 							<div class="row conditionRow marginBottom10px" id="cnd_num_{$smarty.foreach.field_select.index}">
 								<div class="col-md-4">
-									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select comparator-select field-name-select" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select comparator-select form-control field-name-select" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 										{foreach key=FIELD_MODULE_NAME item=FIELD from=$FIELD_LIST}
 											<optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
 												{foreach from=$FIELD key=key item=item}
@@ -44,7 +44,7 @@
 									</select>
 								</div>
 								<div class="col-md-3">
-									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select" name="comparator">
+									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select form-control" name="comparator">
 										{assign var=CONDITION_LIST value=Settings_DataAccess_Module_Model::getConditionByType($cnd_item['field_type'])}
 										{foreach from=$CONDITION_LIST item=item key=key}
 											<option value="{$item}" {if $cnd_item['comparator'] eq $item}selected{/if}>
@@ -96,7 +96,7 @@
 						{foreach from=$OPTIONAL_CONDITIONS key=cnd_key item=cnd_item name=field_select}
 							<div class="row conditionRow marginBottom10px" id="cnd_num_{$smarty.foreach.field_select.index}">
 								<span class="col-md-4">
-									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select comparator-select field-name-select" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select comparator-select form-control field-name-select" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 										{foreach key=FIELD_MODULE_NAME item=FIELD from=$FIELD_LIST}
 											<optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
 												{foreach from=$FIELD key=key item=item}
@@ -109,7 +109,7 @@
 									</select>
 								</span>
 								<span class="col-md-3">
-									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select" name="comparator">
+									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select form-control" name="comparator">
 										{assign var=CONDITION_LIST value=Settings_DataAccess_Module_Model::getConditionByType($cnd_item['field_type'])}
 										{foreach from=$CONDITION_LIST item=item key=key}
 											<option value="{$item}" {if $cnd_item['comparator'] eq $item}selected{/if}>

@@ -12,7 +12,7 @@
 <div class="row conditionRow marginBottom10px" id="cnd_num_{$NUM}">
 	{assign var=CONDITION_LIST value=''}
 	<span class="col-md-4">
-        <select data-num="{$NUM}" class="chzn-select comparator-select" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+        <select data-num="{$NUM}" class="chzn-select form-control marginBottom5px comparator-select" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
             {foreach key=MODULE_NAME item=FIELD from=$FIELD_LIST}
 				{$CONDITION_LIST = Settings_DataAccess_Module_Model::getConditionByType($FIELD[0]['info']['type'])}
                 <optgroup label='{vtranslate($MODULE_NAME, $MODULE_NAME)}'>
@@ -25,7 +25,7 @@
         </select>
     </span>
     <span class="col-md-3">
-        <select data-num="{$NUM}" class="chzn-select" name="comparator">
+        <select data-num="{$NUM}" class="chzn-select form-control marginBottom5px" name="comparator">
             {foreach from=$CONDITION_LIST item=item key=key}
                 <option value="{$item}">{vtranslate($item,$QUALIFIED_MODULE)}</option>
             {/foreach}

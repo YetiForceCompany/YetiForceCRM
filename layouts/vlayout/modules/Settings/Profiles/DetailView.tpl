@@ -11,8 +11,7 @@
 -->*}
 {strip}
 <div class="">
-	<br>
-	<div class="row">
+	<div class="widget_header row">
 		<div class="col-md-10">{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}</div>
 		<div class="col-md-2">
 			<button class="btn btn-info pull-right" type="button" onclick='window.location.href="{$RECORD_MODEL->getEditViewUrl()}"'>{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
@@ -54,7 +53,7 @@
                     </span>
                 </div>
             </div>
-			<div>
+			<div class="table-responsive">
 				<table class="table table-striped table-bordered">
 					<thead>
 

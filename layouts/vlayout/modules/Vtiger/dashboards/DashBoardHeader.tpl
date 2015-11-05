@@ -11,16 +11,49 @@
 -->*}
 {strip}
 <div class='dashboardHeading'>
-	<div class="row">
+	<div class="row marginLeftZero">
 		<div class="pull-left">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			{if $DASHBOARDHEADER_TITLE}
 				{*<h2 class="pull-left">{$DASHBOARDHEADER_TITLE}</h2>*}
 			{/if}
 		</div>
-		<div class="pull-right h3">
-			<div class="pull-right">
-				<ul class="btn-toolbar">
+	</div>
+	<hr class="col-xs-12">
+</div>
+
+<div class='dashboardHeading'>
+	<div class="row marginLeftZero">
+		<div class="pull-left">
+				<div class="btn-toolbar">
+					<div class="btn-group listViewMassActions modOn_{$MODULE}">
+						{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
+							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+								&nbsp;&nbsp;<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								{foreach item=SIDEBARLINK from=$QUICK_LINKS['SIDEBARLINK']}
+									{assign var=SIDE_LINK_URL value=decode_html($SIDEBARLINK->getUrl())}
+									{assign var="EXPLODED_PARSE_URL" value=explode('?',$SIDE_LINK_URL)}
+									{assign var="COUNT_OF_EXPLODED_URL" value=count($EXPLODED_PARSE_URL)}
+									{if $COUNT_OF_EXPLODED_URL gt 1}
+										{assign var="EXPLODED_URL" value=$EXPLODED_PARSE_URL[$COUNT_OF_EXPLODED_URL-1]}
+									{/if}
+									{assign var="PARSE_URL" value=explode('&',$EXPLODED_URL)}
+									{assign var="CURRENT_LINK_VIEW" value='view='|cat:$CURRENT_VIEW}
+									{assign var="LINK_LIST_VIEW" value=in_array($CURRENT_LINK_VIEW,$PARSE_URL)}
+									{assign var="CURRENT_MODULE_NAME" value='module='|cat:$MODULE}
+									{assign var="IS_LINK_MODULE_NAME" value=in_array($CURRENT_MODULE_NAME,$PARSE_URL)}
+									<li>
+										<a class="quickLinks" href="{$SIDEBARLINK->getUrl()}">
+											{vtranslate($SIDEBARLINK->getLabel(), $MODULE)}
+										</a>
+									</li>
+									{/foreach}
+							</ul>
+						{/if}
+					</div>
 					<li class="btn-group">
 						{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
 						{if $WIDGETS|count gt 0}
@@ -31,7 +64,7 @@
 								</div>
 								<span class='glyphicon glyphicon-th mobileOn'></span>
 							</button>
-							<ul class="dropdown-menu widgetsList pull-right" style="min-width:100%;text-align:left;">
+							<ul class="dropdown-menu widgetsList pull-left" style="min-width:100%;text-align:left;">
 								<li class='mobileOn'>
 									<a href='#' class='addFilter' data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
 										{vtranslate('LBL_ADD_FILTER')}
@@ -53,7 +86,7 @@
 								</div>
 								<span class='glyphicon glyphicon-th mobileOn'></span>
 							</button>
-							<ul class="dropdown-menu widgetsList pull-right" style="min-width:100%;text-align:left;">
+							<ul class="dropdown-menu widgetsList pull-left" style="min-width:100%;text-align:left;">
 								<li class='mobileOn'>
 									<a href='#' class='addFilter' data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
 										{vtranslate('LBL_ADD_FILTER')}
@@ -69,8 +102,7 @@
 							</a>
 						</div>
 					{/if}
-				</ul>
-			</div>
+				</div>
 		</div>
 	</div>
 </div>

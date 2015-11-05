@@ -34,12 +34,12 @@
                                         <select class="select2 form-control" name="{$FIELD_NAME}">
                                             {foreach item=row from=$FIELD_DETAILS['value']}
                                                 <option value="{$row}" {if $row == $FIELD_DATA[$FIELD_NAME]} selected {/if}>
-												{if $FIELD_NAME != 'language'}
-													{vtranslate($FIELD_NAME|cat:'_'|cat:$row, 'OSSMail')}
-												{else}
-													{$row}
-												{/if}
-												</option>
+						{if $FIELD_NAME != 'language'}
+							{vtranslate($FIELD_NAME|cat:'_'|cat:$row, 'OSSMail')}
+						{else}
+							{$row}
+						{/if}
+						</option>
                                             {/foreach}
                                         </select>
                                     </div>
