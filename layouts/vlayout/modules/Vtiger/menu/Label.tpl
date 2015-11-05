@@ -5,12 +5,16 @@
 		{if $HASCHILDS == 'true'}aria-haspopup="{$HASCHILDS}"{/if}>
 		<a class="{if $MENU['active'] || $PARENT_MODULE == $MENU['id']}active {/if}{if $ICON}hasIcon{/if}" {if $CHILDS|@count neq 0}role="button"{/if} href="#">
 			{if $ICON}
-				<div class='' {if $DEVICE == 'Desktop'}style='height:45px;display: table;'{/if}>
-					<div {if $DEVICE == 'Desktop'}style=' display: table-cell;vertical-align: middle;'{/if}>{$ICON}</div>
+				<div  {if $DEVICE == 'Desktop'}class='iconContainer'{/if}>
+					<div {if $DEVICE == 'Desktop'}class="iconImage" {/if}>{$ICON}</div>
 				</div>
 			{/if}
-			<div class='' >
-				<span class="menuName">{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}</span>
+			<div {if $DEVICE == 'Desktop'}class='labelConstainer'{/if}>
+				<div {if $DEVICE == 'Desktop'}class="labelValue" {/if}>
+				    	<span class="menuName">{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}</span>
+			
+				</div>
+				
 			</div>
 		</a>
 		{if $DEVICE == 'Desktop'}

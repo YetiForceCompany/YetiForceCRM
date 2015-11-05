@@ -25,7 +25,7 @@
 					</button>
 					{/foreach}
 				</div>
-				<div class="col-md-4 btn-toolbar">
+				<div class="col-md-4 btn-toolbar marginLeftZero" >
 					<select class="chzn-select form-control" id="moduleFilter" style="margin-left:5px;">
 						<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 						{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
@@ -40,7 +40,7 @@
 					</select>
 					
 				</div>
-				<div class="col-md-4 btn-toolbar">
+				<div class="col-md-4 ">
 					{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 				</div>
 			</div>

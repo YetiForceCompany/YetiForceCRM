@@ -21,7 +21,7 @@
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
 		<div class="relatedHeader calendarRelatedHeader">
 			<div class="btn-toolbar row">
-				<div class="col-md-6">
+				<div class="col-sm-6 col-md-6">
 					{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
 						{if {Users_Privileges_Model::isPermitted($RELATED_MODULE_NAME, 'EditView')} }
 							<div class="btn-group">
@@ -42,7 +42,7 @@
 						<input class="switchBtn" type="checkbox" {if $TIME=='current'}checked{/if} title="{vtranslate('LBL_CHANGE_ACTIVITY_TYPE')}" data-size="normal" data-label-width="5" data-handle-width="90" data-on-text="{vtranslate('LBL_CURRENT')}" data-off-text="{vtranslate('LBL_HISTORY')}">
 					</div>
 				</div>
-				<div class="col-md-6">
+				<div class="col-xs-12 col-sm-6 col-md-6">
 					<div class="paginationDiv pull-right">
 						{include file='RelatedListPagination.tpl'|@vtemplate_path:$MODULE}
 					</div>

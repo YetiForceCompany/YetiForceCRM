@@ -23,6 +23,7 @@
 				<div class="pull-right pushDown">
 					<button class="btn btn-success saveComment" type="button" data-mode="add"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
 				</div>
+				<div class="clearfix"></div>
 			</div>
 		{/if}
 	</div>

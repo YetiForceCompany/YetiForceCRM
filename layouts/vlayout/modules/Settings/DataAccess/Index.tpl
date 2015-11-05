@@ -24,7 +24,7 @@
                         <strong>{vtranslate('LBL_NEW_TPL', $QUALIFIED_MODULE)}</strong>
                     </a>
                 </div>
-                <div class="col-md-3 paddingLRZero btn-toolbar" >
+                <div class="col-md-3 paddingLRZero btn-toolbar marginLeftZero" >
                     <select class="chzn-select form-control" id="moduleFilter" style="margin-left:5px;" >
                         <option value="">{vtranslate('LBL_CONDITION_ALL', $QUALIFIED_MODULE)}</option>
                         {foreach item=item key=key from=$SUPPORTED_MODULE_MODELS}

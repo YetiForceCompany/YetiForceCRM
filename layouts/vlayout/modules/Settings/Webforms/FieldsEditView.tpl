@@ -18,9 +18,11 @@
 	&nbsp;
 </div>
 </div>
+<div class='col-md-12'>
+</div>
 <div class="listViewEntriesDiv contents-bottomscroll" style="overflow-x: visible !important;">
 	<div class="bottomscroll-div">
-		<table class="table table-bordered" width="100%" name="targetModuleFields">
+		<table class="table customTableRWD table-bordered" width="100%" name="targetModuleFields">
 			<colgroup>
 				<col style="width:5%;">
 				<col style="width:5%;">
@@ -28,6 +30,15 @@
 				<col style="width:40%;">
 				<col style="width:25%;">
 			</colgroup>
+			<thead style="display:none">
+				<tr name="fieldHeaders">
+					<th class="textAlignCenter"><b>{vtranslate('LBL_MANDATORY', $QUALIFIED_MODULE)}</b></th>
+					<th class="textAlignCenter"><b>{vtranslate('LBL_HIDDEN', $QUALIFIED_MODULE)}</b></th>
+					<th data-hide="phone"><b>{vtranslate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}</b></th>
+					<th class="textAlignCenter"><b>{vtranslate('LBL_OVERRIDE_VALUE', $QUALIFIED_MODULE)}</b></th>
+					<th data-hide="phone"><b>{vtranslate('LBL_WEBFORM_REFERENCE_FIELD', $QUALIFIED_MODULE)}</b></th>
+				</tr>
+			</thead>
 			<tr class="blockHeader">
 				<th class="blockHeader" colspan="5">
 					{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)} {vtranslate('LBL_FIELD_INFORMATION', $QUALIFIED_MODULE)} {$QUALIFIED_MODULE}
@@ -35,9 +46,13 @@
 			</tr>
 			<tr>
 				<td colspan="5">
-					<span class="">
-						<span class="col-md-1"><span class="pull-right pushDown"><b>{vtranslate('LBL_ADD_FIELDS', $QUALIFIED_MODULE)}</b></span></span>
-						<span class="col-md-9">
+					<div class="">
+						<div class="col-md-1">
+							<div class="">
+								<b>{vtranslate('LBL_ADD_FIELDS', $QUALIFIED_MODULE)}</b>
+							</div>
+						</div>
+						<div class="col-md-9">
 							<select id="fieldsList" multiple="multiple" name="fieldsList" data-placeholder="{vtranslate('LBL_SELECT_FIELDS_OF_TARGET_MODULE', $QUALIFIED_MODULE)}" class="row select2 form-control selectizeElement">
 								{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$ALL_FIELD_MODELS_LIST name="EditViewBlockLevelLoop"}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
@@ -52,23 +67,24 @@
 									{/foreach}
 								{/foreach}
 							</select>
-						</span>
-						<span class="col-md-2">
-							<span class="pull-right">
+						</div>
+						<div class="col-md-2 ">
+							<div class="pull-right">
 								<button type="button" id="saveFieldsOrder" class="btn btn-success" disabled="disabled">{vtranslate('LBL_SAVE_FIELDS_ORDER', $QUALIFIED_MODULE)}</button>
-							</span>
-						</span>
-					</span>
+							</div>
+						</div>
+					</div>
 				</td>
 			</tr>
+			
 			<tr name="fieldHeaders">
-				<td class="textAlignCenter"><b>{vtranslate('LBL_MANDATORY', $QUALIFIED_MODULE)}</b></td>
-				<td class="textAlignCenter"><b>{vtranslate('LBL_HIDDEN', $QUALIFIED_MODULE)}</b></td>
+				<th class="textAlignCenter"><b>{vtranslate('LBL_MANDATORY', $QUALIFIED_MODULE)}</b></th>
+				<th class="textAlignCenter"><b>{vtranslate('LBL_HIDDEN', $QUALIFIED_MODULE)}</b></th>
 				<td><b>{vtranslate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}</b></td>
-				<td class="textAlignCenter"><b>{vtranslate('LBL_OVERRIDE_VALUE', $QUALIFIED_MODULE)}</b></td>
+				<th class="textAlignCenter"><b>{vtranslate('LBL_OVERRIDE_VALUE', $QUALIFIED_MODULE)}</b></th>
 				<td><b>{vtranslate('LBL_WEBFORM_REFERENCE_FIELD', $QUALIFIED_MODULE)}</b></td>
 			</tr>
-
+			
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$ALL_FIELD_MODELS_LIST name="EditViewBlockLevelLoop"}
 				{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 					{if $FIELD_MODEL->isMandatory(true) || array_key_exists($FIELD_NAME,$SELECTED_FIELD_MODELS_LIST)}

@@ -40,7 +40,7 @@
 					{/foreach}
 					&nbsp;
 				</div>
-				<div class="col-md-6 col-sm-6">
+				<div class="col-xs-12 col-md-6 col-sm-6">
 					<div class="paginationDiv pull-right">
 						{include file='RelatedListPagination.tpl'|@vtemplate_path:$MODULE}
 					</div>

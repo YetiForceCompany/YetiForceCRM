@@ -11,7 +11,7 @@
     ********************************************************************************/
     -->*}
     {strip}	
-		<div id="tagRecordInput" class="input-group col-md-2">
+		<div id="tagRecordInput" class="input-group col-xs-6 col-sm-6 col-md-2">
 			<span id="tagRecord" class="glyphicon glyphicon-plus cursorPointer pull-right" aria-hidden="true"></span>
 			<input placeholder="{vtranslate('TAG_PLACEHOLDER')}" type="text" title="{vtranslate('TAG_PLACEHOLDER')}" id="tagRecordText" class="form-control input-sm pull-right"/>
 		</div>

@@ -4,8 +4,18 @@
 	{if $MOREMENU neq true && ($PRIVILEGESMODEL->isAdminUser() || $PRIVILEGESMODEL->hasGlobalReadPermission() || $PRIVILEGESMODEL->hasModulePermission($MENU.tabid)) }
 		<li class="{if $DEVICE == 'Desktop'}menuHomeIcon{else} menuLabel {/if} {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}" role="menuitem" tabindex="{$TABINDEX}" {if $HASCHILDS}aria-haspopup="{$HASCHILDS}"{/if}>
 			<a class="{if $MODULE eq 'Home'} selected {/if} {if $ICON}hasIcon{/if}" href="{$HOME_MODULE_MODEL->getDefaultUrl()}">
-				<span class="menuIcon userIcon-my-home-page" aria-hidden="true"></span>
-				{vtranslate('LBL_HOME',$moduleName)}
+				<div  {if $DEVICE == 'Desktop'}class='iconContainer'{/if}>
+					<div {if $DEVICE == 'Desktop'}class="iconImage" {/if}>
+						<span class="menuIcon userIcon-my-home-page" aria-hidden="true"></span>
+					</div>
+				</div>
+				<div  {if $DEVICE == 'Desktop'}class='iconContainer'{/if}>
+					<div {if $DEVICE == 'Desktop'}class="iconImage" {/if}>
+						{vtranslate('LBL_HOME',$moduleName)}
+					</div>
+				</div>
+				
+				
 			</a>
 			{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE}
 		</li>

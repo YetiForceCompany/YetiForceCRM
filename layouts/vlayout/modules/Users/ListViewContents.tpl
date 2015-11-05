@@ -62,7 +62,7 @@
 			<p class="listViewLoadingMsg">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
 		</span>
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-		<table class="table table-bordered listViewEntriesTable">
+		<table class="table tableRWD table-bordered listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
 					<th width="2%">
@@ -155,7 +155,6 @@
 				</tr>
 			{/foreach}
 		</table>
-
 		{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 			<table class="emptyRecordsDiv">
 				<tbody>
@@ -168,6 +167,5 @@
 				</tbody>
 			</table>
 		{/if}
-
 	</div>
 {/strip}
