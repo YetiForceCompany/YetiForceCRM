@@ -214,6 +214,8 @@ $languageStrings = [
 	'LBL_ADDED_COMPANY_FIELD' => 'Added field',
 	'LBL_FIELD_NOT_VALID' => 'Field must contain only for letters',
 	'LBL_EXTENDED_MODULES'=>'Extended modules',
+	'LBL_COMPANY_LOGO_IN_SYSTEM' => '__UNTRANSLATED__',
+	'LBL_COMPANY_LOGO_IN_LOGIN' => '__UNTRANSLATED__',
 	/* settings menu */
 	'LBL_QUICK_CREATE_EDITOR' => 'Quick Create Editor',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Module allowing to change the layout of fields within quickcreate window',
