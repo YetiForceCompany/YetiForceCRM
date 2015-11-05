@@ -45,7 +45,7 @@
 							<th colspan="2" class="{$WIDTHTYPE}">&nbsp;&nbsp;&nbsp;{vtranslate('LBL_COMPANY_LOGO_IN_LOGIN',$QUALIFIED_MODULE)}</th>
 						</tr>
 						<tr>
-							<td class="{$WIDTHTYPE}">
+							<td class="{$WIDTHTYPE} companyLogoContainerSettings">
 								<div class="companyLogo">
 									<img src="{$MODULE_MODEL->getLogoPath('panellogoname')}" class="alignMiddle"/>
 								</div>
@@ -55,7 +55,7 @@
 							<th colspan="2" class="{$WIDTHTYPE}">&nbsp;&nbsp;&nbsp;{vtranslate('LBL_COMPANY_LOGO_IN_SYSTEM',$QUALIFIED_MODULE)}</th>
 						</tr>
 						<tr>
-							<td class="{$WIDTHTYPE}">
+							<td class="{$WIDTHTYPE} companyLogoContainerSettings">
 								<div class="companyLogo">
 									<img src="{$MODULE_MODEL->getLogoPath('logoname')}" class="alignMiddle"/>
 								</div>
@@ -102,7 +102,7 @@
 							<th colspan="2" class="{$WIDTHTYPE}">&nbsp;&nbsp;&nbsp;{vtranslate('LBL_COMPANY_LOGO_IN_LOGIN',$QUALIFIED_MODULE)}</th>
 						</tr>
 						<tr>
-							<td >
+							<td class="companyLogoContainerSettings" >
 								<div class="companyLogo" style="max-width: 250px; max-height: 200px;">
 									<img src="{$MODULE_MODEL->getLogoPath('panellogoname')}" class="alignMiddle" />
 								</div>
@@ -125,7 +125,7 @@
 							<th colspan="2" class="{$WIDTHTYPE}">&nbsp;&nbsp;&nbsp;{vtranslate('LBL_COMPANY_LOGO_IN_SYSTEM',$QUALIFIED_MODULE)}</th>
 						</tr>
 						<tr>
-							<td >
+							<td class="companyLogoContainerSettings">
 								<div class="companyLogo" style="max-width: 250px; max-height: 200px;">
 									<img src="{$MODULE_MODEL->getLogoPath('logoname')}" class="alignMiddle" />
 								</div>
