@@ -136,7 +136,7 @@
 								<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Encryption password', $MODULENAME)}:</label>
 							</td>
 							<td class="fieldValue" >
-								<div class="row"><span class="col-md-10">
+								<div class="row"><span class="col-md-10 col-sm-10 col-xs-10">
 										<input id="pass_key" type="text" class="form-control nameField" name="pass_key" value="" min="8" /></span>
 								</div>
 							</td>
@@ -168,7 +168,7 @@
 							<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Minimum Length', $MODULENAME)}:</label>
 						</td>
 						<td class="fieldValue" >
-							<div class="row"><span class="col-md-10">
+							<div class="row"><span class="col-md-10 col-sm-10 col-xs-10">
 									<input id="OSSPasswords_editView_fieldName_pass_length_min" type="number" class="form-control nameField" name="pass_length_min" value="{$MIN}" min="1" /></span>
 							</div>
 						</td>
@@ -178,7 +178,7 @@
 							<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Maximum Length', $MODULENAME)}:</label>
 						</td>
 						<td class="fieldValue" >
-							<div class="row"><span class="col-md-10">
+							<div class="row"><span class="col-md-10 col-sm-10 col-xs-10">
 									<input id="OSSPasswords_editView_fieldName_pass_length_max" type="number" class="form-control nameField" name="pass_length_max" value="{$MAX}" min="1" /></span>
 							</div>
 						</td>
@@ -190,7 +190,7 @@
 						<td class="fieldLabel"> </td>
 						<td align="center" class="fieldValue" >
 							<div class="row">
-								<span class="col-md-10"><textarea id="OSSPasswords_editView_fieldName_pass_allow_chars" class="form-control" name="pass_allow_chars" rows="4" cols="80">{$ALLOWEDCHARS}</textarea></span>
+								<span class="col-md-10 col-sm-10 col-xs-10"><textarea id="OSSPasswords_editView_fieldName_pass_allow_chars" class="form-control" name="pass_allow_chars" rows="4" cols="80">{$ALLOWEDCHARS}</textarea></span>
 							</div>
 						</td>
 					</tr>
@@ -201,7 +201,7 @@
 						<td class="fieldLabel"> </td>
 						<td align="center" class="fieldValue" >
 							<div class="row">
-								<span class="col-md-10" style="text-align: left;">
+								<span class="col-md-10 col-sm-10 col-xs-10" style="text-align: left;">
 									<input id="register_changes" type="checkbox" class="nameField" name="register_changes" {$REGISTER} value="1" data-toggle="modal" data-target="#myRegisterModal" /> 
 									{vtranslate('LBL_START_REGISTER', $MODULENAME)}</span>
 							</div>

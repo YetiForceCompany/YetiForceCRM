@@ -47,7 +47,7 @@
 				</button>
 			</div>
 			<div class="col-md-4 btn-toolbar">
-				<select class="chzn-select" id="moduleFilter" >
+				<select class="chzn-select form-control" id="moduleFilter" >
 					<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 					{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 						<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$MODULE_MODEL->getName()}">

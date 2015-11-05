@@ -77,7 +77,7 @@
 				<div class="pull-left selectSearch">
 					<div class="input-group globalSearchInput">
 						<span class="input-group-btn">
-							<select class="chzn-select col-md-5" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}" id="basicSearchModulesList" >
+							<select class="chzn-select form-control col-md-5" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}" id="basicSearchModulesList" >
 								<option value="" class="globalSearch_module_All">{vtranslate('LBL_ALL_RECORDS', $MODULE_NAME)}</option>
 								{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
 									{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}

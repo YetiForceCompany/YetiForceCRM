@@ -74,7 +74,7 @@ padding: 0 20px 20px 20px;
                                     </div>
                                 </div>
                                 <div class="blockFieldsList row no-margin" style="padding:5px;min-height: 27px">
-                                    <ul name="sortable1" class="connectedSortable col-md-6" style="list-style-type: none; float: left;min-height: 1px;padding:2px;">
+                                    <ul name="sortable1" class="connectedSortable col-md-6" style="list-style-type: none; min-height: 1px;padding:2px;">
                                         {foreach  key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=fieldlist}
                                             {assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
                                             {if $smarty.foreach.fieldlist.index % 2 eq 0}
@@ -82,14 +82,14 @@ padding: 0 20px 20px 20px;
                                                     <div class="opacity editFields marginLeftZero border1px"  data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
                                                         <div class="row padding1per">
                                                             {assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-                                                            <div class="col-md-1">&nbsp;
+                                                            <div class="col-sm-1 col-xs-2 col-md-1">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
                                                                         <img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                                                                     </a>
                                                                 {/if}
                                                             </div>
-                                                            <div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
+                                                            <div class="col-sm-11 col-xs-10 col-md-11 marginLeftZero" style="word-wrap: break-word;">
                                                                 <span class="fieldLabel">{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
                                                                 {if $IS_MANDATORY}<span class="redColor">*</span>{/if}</span>
 															</div>
@@ -99,7 +99,7 @@ padding: 0 20px 20px 20px;
 											{/if}
 										{/foreach}
 									</ul>
-									<ul name="sortable2" class="connectedSortable col-md-6" style="list-style-type: none; margin: 0; float: left;min-height: 1px;padding:2px;">
+									<ul name="sortable2" class="connectedSortable col-md-6" style="list-style-type: none; margin: 0;min-height: 1px;padding:2px;">
 										{foreach item=FIELD_MODEL from=$RECORD_STRUCTURE name=fieldlist1}
 											{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 											{if $smarty.foreach.fieldlist1.index % 2 neq 0}
@@ -107,14 +107,14 @@ padding: 0 20px 20px 20px;
 													<div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
 														<div class="row padding1per">
 															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-															<span class="col-md-1">&nbsp;
+															<span class="col-sm-1 col-xs-2 col-md-1">&nbsp;
 																{if $FIELD_MODEL->isEditable()}
 																	<a>
 																		<img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 																	</a>
 																{/if}
 															</span>
-															<div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
+															<div class="col-sm-11 col-xs-10 col-md-11 marginLeftZero" style="word-wrap: break-word;">
 																<span class="fieldLabel">
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>

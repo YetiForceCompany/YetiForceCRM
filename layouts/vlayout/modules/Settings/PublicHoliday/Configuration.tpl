@@ -48,48 +48,63 @@ padding: 5px;
 	<div class="contents tabbable">
 		<div class="tab-content layoutContent paddingNoTop20 themeTableColor overflowVisible">
 		<div class="tab-pane active" id="layoutDashBoards">
-			<div class="btn-toolbar">
+			<div class="btn-toolbar marginBottom10px">
 				<button type="button" class="btn btn-default addDateWindow"><span class="glyphicon glyphicon-plus"></span>&nbsp;{vtranslate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
 			</div>
 			<div id="moduleBlocks">
-				<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 marginBottom10px border1px pushDown">
+				<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 marginBottom10px border1px">
 					<div class="row layoutBlockHeader marginLRZero">
-						<div class="col-md-12" style="padding: 10px 0;">
-							<span class="marginLeft20">
-								<strong>{vtranslate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</strong>
-							</span>
-							<span class="pull-right marginRight20">
+						<div class="col-md-6">
+							<h4>{vtranslate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</h4>
+						</div>
+						<div class="col-md-6">
+							<div class="pull-right">
+								<input type="text" class="dateField dateFilter marginbottomZero form-control" data-date-format="yyyy-mm-dd" data-calendar-type="range" value="{$DATE}" />
+							</div>
+							<div class="pull-right">
 								<strong>{vtranslate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}:</strong>
-								<input type="text" class="dateField dateFilter marginbottomZero" data-date-format="yyyy-mm-dd" data-calendar-type="range" value="{$DATE}" />
-							</span>
+							</div>
 						</div>
 					</div>
-					<div style="padding:5px;min-height: 27px" class="blockFieldsList row marginLRZero">
-						<ul class="col-md-12 holidayList">
-							{foreach item=HOLIDAY from=$HOLIDAYS}
-							<li>
-								<div data-holiday-id="{$HOLIDAY['id']}" data-holiday-type="{$HOLIDAY['type']}" data-holiday-name="{$HOLIDAY['name']}" data-holiday-date="{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}" class="opacity holidayElement marginLeftZero border1px">
-									<div class="row paddingAll5">
-										<div style="word-wrap: break-word;" class="col-md-10 ">
-											<span class="fieldLabel marginLeft20 col-md-2">{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}</span>
-											<span class="fieldLabel marginLeft20 col-md-2">{vtranslate($HOLIDAY['day'], $QUALIFIED_MODULE)}</span>
-											<span class="marginLeft20 col-md-3">{vtranslate($HOLIDAY['name'], $QUALIFIED_MODULE)}</span>
-											<span class="marginLeft20 col-md-3">{vtranslate($HOLIDAY['type'], $QUALIFIED_MODULE)}</span>
-										</div>
-										<span class="btn-group pull-right marginRight20 actions">
-											<a data-holiday-id="{$HOLIDAY['id']}" data-toggle="dropdown" class="dropdown-toggle editHoliday" href="javascript:void(0)">
-												<span title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
-											</a>
-											<a data-holiday-id="{$HOLIDAY['id']}" class="deleteHoliday" href="javascript:void(0)">
-												<span title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
-											</a>
-										</span>
+					<table class="table tableRWD table-bordered table-condensed themeTableColor userTable">						
+						<thead style='text-transform: uppercase;'>
+						    <tr>
+							<th><span class='marginLeft20'>{vtranslate('LBL_DATE', $QUALIFIED_MODULE)}</span></th>
+							<th><span class='marginLeft20'>{vtranslate('LBL_DAY', $QUALIFIED_MODULE)}</span></th>
+							<th><span class='marginLeft20'>{vtranslate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</span></th>
+							<th><span class='marginLeft20'>{vtranslate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</span></th>
+							<th></th>
+						    </tr>
+						</thead>
+						<tbody>
+						{foreach item=HOLIDAY from=$HOLIDAYS}
+							<tr data-holiday-id="{$HOLIDAY['id']}" data-holiday-type="{$HOLIDAY['type']}" data-holiday-name="{$HOLIDAY['name']}" data-holiday-date="{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}">
+								<td>
+									<span class="fieldLabel marginLeft20">{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}</span>
+								</td>
+								<td>
+									<span class="fieldLabel marginLeft20">{vtranslate($HOLIDAY['day'], $QUALIFIED_MODULE)}</span>
+								</td>
+								<td>
+									<span class="marginLeft20">{vtranslate($HOLIDAY['name'], $QUALIFIED_MODULE)}</span>
+								</td>
+								<td>
+									<span class="marginLeft20">{vtranslate($HOLIDAY['type'], $QUALIFIED_MODULE)}</span>
+								</td>
+								<td>
+									<div class='pull-right'>
+										<a data-holiday-id="{$HOLIDAY['id']}" data-toggle="dropdown" class="dropdown-toggle editHoliday" href="javascript:void(0)">
+											<span title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
+										</a>
+										<a data-holiday-id="{$HOLIDAY['id']}" class="deleteHoliday" href="javascript:void(0)">
+											<span title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
+										</a>
 									</div>
-								</div>
-							</li>
-							{/foreach}
-						</ul>
-					</div>
+								</td>
+							</tr>
+						{/foreach}
+						</tbody>
+					</table>
 				</div>
 			</div>
 			{* copy elements hide *}

@@ -36,7 +36,7 @@ padding: 20px 20px 20px 20px;
 				{vtranslate('LBL_WIDGETS_MANAGEMENT_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 			<div class="col-md-3">
-				<div class="col-md-12 pull-right">
+				<div class="pull-right">
 					<select class="chzn-select form-control" name="widgetsManagementEditorModules">
 						{foreach item=mouleName from=$SUPPORTED_MODULES}
 							<option value="{$mouleName}" {if $mouleName eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($mouleName, $QUALIFIED_MODULE)}</option>

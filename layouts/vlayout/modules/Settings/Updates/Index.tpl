@@ -8,8 +8,8 @@
 		vertical-align:middle !important; 
 	}	
 </style>
-<div class="" style="margin-top:10px;">
-	<div class="row">
+<div class="">
+	<div class="widget_header row">
 		<div class="col-md-7">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		</div>

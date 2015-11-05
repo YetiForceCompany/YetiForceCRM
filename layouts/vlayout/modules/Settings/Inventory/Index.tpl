@@ -11,7 +11,7 @@
 		{vtranslate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
 	</div>
 	<hr>
-	<div class="contents row paddingTop20">
+	<div class="contents row">
 		<div class="col-md-12">
 			{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 			<div class="marginBottom10px">

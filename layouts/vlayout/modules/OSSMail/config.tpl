@@ -22,14 +22,15 @@
 <div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
     <div class="editViewContainer tab-pane active" id="tab_rc_config">
         <form id="RCConfigEditorForm" class="form-horizontal">
-            <table class="">
-                <tbody>
                     {assign var=FIELD_DATA value=$RecordModel->getViewableData()}
                     {foreach key=FIELD_NAME item=FIELD_DETAILS from=$RecordModel->getEditableFields()}
-                        <tr><td width="40%"><label class="muted pull-right marginRight10px">{vtranslate($FIELD_DETAILS['label'], 'OSSMail')}</label></td>
-                            <td style="border-left: none;" class="row">
+			<div class="row">
+			<div class="col-md-3">
+				<label class="muted marginRight10px">{vtranslate($FIELD_DETAILS['label'], 'OSSMail')}</label></td>
+			</div>
+			<div class="col-md-9">
                                 {if $FIELD_DETAILS['fieldType'] == 'picklist'}
-                                    <div class="col-md-8">
+                                    <div class="col-sm-8">
                                         <select class="select2 form-control" name="{$FIELD_NAME}">
                                             {foreach item=row from=$FIELD_DETAILS['value']}
                                                 <option value="{$row}" {if $row == $FIELD_DATA[$FIELD_NAME]} selected {/if}>
@@ -60,12 +61,12 @@
 										<input class="form-control" type="text" name="{$FIELD_NAME}" {if $FIELD_DETAILS['required'] == '1'}required{/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
 									</div>
                                     {if $FIELD_NAME == 'upload_maxsize'}&nbsp;{vtranslate('LBL_MB', 'OSSMail')}{/if}
-                                {/if}</td></tr>
-                            {/foreach}
-                </tbody>
-            </table>
+				{/if}
+			</div>
+			</div>
+		    {/foreach}
             <div class="pull-right">
-                <button class="btn btn-success saveButton" type="submit" title=""><strong>{vtranslate('LBL_SAVE', 'OSSMail')}</strong></button>
+                <button class="btn btn-success saveButton" style="margin-top:10px;"type="submit" title=""><strong>{vtranslate('LBL_SAVE', 'OSSMail')}</strong></button>
             </div>
         </form>
     </div>
