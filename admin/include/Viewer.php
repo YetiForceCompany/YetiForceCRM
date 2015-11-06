@@ -174,7 +174,6 @@ class Vtiger_Viewer extends SmartyBC {
 			}
 		}
 		// END
-		
 		if ($templateFound) {
 			if($fetch) {
 				return $this->fetch($templatePath);
