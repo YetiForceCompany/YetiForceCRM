@@ -82,12 +82,12 @@
 						{/foreach}
 					</select>
 				</div>
-				<label class="col-sm-2 control-label">
+				<label class="col-sm-2 control-label" for="name_fields">
 					<input type="hidden" value="" id="specialFieldValue{$STEP_NO}" /><button class="btn btn-sm btn-info pull-left marginRight5px" data-clipboard-target="specialFieldValue{$STEP_NO}" id="specialFieldValueCopy{$STEP_NO}"  title="{vtranslate('LBL_FIELD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-download-alt"></span></button>
 						{vtranslate('LBL_COMPANY_FIELDS', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-4 controls">
-					<select class="chzn-select form-control" name="company_fields">
+					<select class="chzn-select form-control" name="company_fields" id="name_fields">
 						{foreach from=Settings_PDF_Module_Model::getCompanyFields() key=FIELD item=NAME}
 							<option value="{$FIELD}">{$NAME}</option>
 						{/foreach}
@@ -110,7 +110,7 @@
 							{/foreach}
 						</select>
 					</div>
-					<label class="col-sm-2 control-label">
+					<label class="col-sm-2 control-label" for="insert_functions">
 						<input type="hidden" value="" id="insertFieldValue{$STEP_NO}" /><button class="btn btn-sm btn-info pull-left marginRight5px" data-clipboard-target="insertFieldValue{$STEP_NO}" id="insertFieldValueCopy{$STEP_NO}"  title="{vtranslate('LBL_FIELD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-download-alt"></span></button>
 					</label>
 				</div>
