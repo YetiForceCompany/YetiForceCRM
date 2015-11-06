@@ -39,13 +39,13 @@
 				{if !empty($URL)}
 					{assign var="HREF" value=$LINK->getUrl()}
 				{/if}
-				<a class="{if !empty($CHILDLINKS)}dropdown-toggle{/if}" {if !empty($CHILDLINKS)}data-toggle="dropdown"{/if} href="{$HREF}" title="{$TITLE}">
+				<a class="{if !empty($CHILDLINKS)}dropdown-toggle{/if}" {if !empty($CHILDLINKS)}data-toggle="dropdown"{/if} href="{$HREF}" title="{vtranslate($TITLE,$MODULE)}">
 					{if !empty($SRC)}
 						<img src="{$SRC}" alt="{vtranslate($TITLE,$MODULE)}" title="{vtranslate($TITLE,$MODULE)}" />
 					{elseif !empty($ICON)}
 						<span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
 					{else}
-						<strong>{$TITLE}</strong>
+						<strong>{vtranslate($TITLE,$MODULE)}</strong>
 					{/if}
 					{if !empty($CHILDLINKS) && !$LINK->nocaret}
 						<span class="caret"></span>
