@@ -34,8 +34,8 @@
 	font-family: 'Open Sans';
 	font-style: normal;
 	font-weight: 400;
-	src: url('../../../../layouts/vlayout/resources/fonts/OpenSans-Regular-webfont.eot');
-	src: url('../../../../layouts/vlayout/resources/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('../../../../layouts/vlayout/resources/fonts/OpenSans-Regular-webfont.woff') format('woff'), url('../../../../layouts/vlayout/resources/fonts/OpenSans-Regular-webfont.ttf') format('truetype'), url('../../../../layouts/vlayout/resources/fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
+	src: url('../../../../libraries/resources/fonts/OpenSans-Regular-webfont.eot');
+	src: url('../../../../libraries/resources/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('../../../../libraries/resources/fonts/OpenSans-Regular-webfont.woff') format('woff'), url('../../../../libraries/resources/fonts/OpenSans-Regular-webfont.ttf') format('truetype'), url('../../../../libraries/resources/fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
 }
 
 body {

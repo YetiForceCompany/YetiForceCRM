@@ -722,7 +722,12 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	registerEvents: function () {
 		var thisInstance = this;
+		thisInstance.setContentsHeight();
 		thisInstance.recentPageViews();
+
+		jQuery(window).resize(function () {
+			thisInstance.setContentsHeight();
+		})
 
 		jQuery('#globalSearch').click(function () {
 			var advanceSearchInstance = new Vtiger_AdvanceSearch_Js();
@@ -794,13 +799,20 @@ jQuery.Class("Vtiger_Header_Js", {
 		var params = {};
 		if (app.getViewName() == 'List') {
 			var selected = Vtiger_List_Js.getSelectedRecordsParams();
-			if(selected === false){
+			if (selected === false) {
 				return false;
 			}
 			jQuery.extend(params, selected);
 		}
 		url += '&' + jQuery.param(params);
 		app.showModalWindow(null, url);
+	},
+	/**
+	 * Function which will set the contents height to window height
+	 */
+	setContentsHeight: function () {
+		var borderTopWidth = parseInt(jQuery(".mainContainer").css('margin-top')) + 21; // (footer height 21px)
+		jQuery('.bodyContents').css('min-height', (jQuery(window).innerHeight() - borderTopWidth));
 	},
 });
 jQuery(document).ready(function () {

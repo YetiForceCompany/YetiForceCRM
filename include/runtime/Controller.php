@@ -300,11 +300,11 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/jquery.ba-outside-events.js',
 			'~libraries/jquery/jquery.placeholder.js',
 			'~libraries/footable/js/footable.js',
-			'~resources/jquery.additions.js',
-			'resources.app',
-			'resources.helper',
-			'resources.Connector',
-			'resources.ProgressIndicator',
+			'~libraries/resources/jquery.additions.js',
+			'libraries.resources.app',
+			'libraries.resources.helper',
+			'libraries.resources.Connector',
+			'libraries.resources.ProgressIndicator',
 		];
 
 		$languageHandlerShortName = Vtiger_Language_Handler::getShortLanguageName();
