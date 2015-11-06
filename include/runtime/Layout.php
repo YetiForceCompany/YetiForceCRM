@@ -10,7 +10,15 @@
 
 class Yeti_Layout
 {
-
+	public static function getActiveLayout()
+	{
+		$layout = Vtiger_Session::get('layout');
+		if(!empty($layout)){
+			return $layout;
+		}
+		return vglobal('defaultLayout');
+	}
+	
 	public static function getLayoutFile($name)
 	{
 		$basePath = 'layouts' . '/' . vglobal('defaultLayout') . '/';
@@ -20,5 +28,19 @@ class Yeti_Layout
 		}
 		$basePath = 'layouts' . '/' . Vtiger_Viewer::getDefaultLayoutName() . '/';
 		return $basePath . $name;
+	}
+	
+	public static function getAllLayouts()
+	{
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT name,label FROM vtiger_layout');
+		$folders = [
+			'vlayout' => vtranslate('LBL_VTIGER_LAYOUT'),
+			'basic' => vtranslate('LBL_DEFAULT')
+		];
+		while ($row = $db->fetch_array($result)) {
+			$folders[$row['name']] = vtranslate($row['label']);
+		}
+		return $folders;
 	}
 }

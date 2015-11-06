@@ -1317,6 +1317,8 @@ $languageStrings = [
 	'individual' => 'Индивидуально',
 	'Service' => 'Service',
 	'Sales' => 'Sale',
+	'LBL_VTIGER_LAYOUT' => 'Old layout',
+	'LBL_DEFAULT' => 'New layout',
 ];
 $jsLanguageStrings = [
 	'SINGLE_SalesOrder' => 'Заказ',

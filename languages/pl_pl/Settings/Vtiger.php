@@ -305,7 +305,6 @@ $languageStrings = [
 	'INVENTORYTERMSANDCONDITIONS' => 'Warunki i ustalenia',
 	'LBL_SAVE_CONFIG' => 'Zapisano zmiany',
 	'LBL_DEFAULT_LAYOUT' => 'Układ',
-	'LBL_DEFAULT' => 'Domyślny',
 	// history
 	'LBL_VIEW_LICENSE' => 'Licencja',
 	'LBL_VIEW_CONFIGEDITORDETAIL' => 'Ustawienia',

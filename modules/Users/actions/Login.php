@@ -53,7 +53,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 
 		if ($user->doLogin($password)) {
 			if (vglobal('session_regenerate_id'))
-				session_regenerate_id(true); // to overcome session id reuse.
+				Vtiger_Session::regenerateId(true); // to overcome session id reuse.
 			$userid = $user->retrieve_user_id($username);
 			Vtiger_Session::set('AUTHUSERID', $userid);
 
@@ -68,7 +68,10 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			if ($request->has('language')) {
 				Vtiger_Session::set('language', $request->get('language'));
 			}
-
+			if ($request->has('layout')) {
+				Vtiger_Session::set('layout', $request->get('layout'));
+			}
+			
 			//Enabled session variable for KCFINDER 
 			$_SESSION['KCFINDER'] = array();
 			$_SESSION['KCFINDER']['disabled'] = false;

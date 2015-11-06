@@ -44,8 +44,6 @@ class Vtiger_Viewer extends SmartyBC
 		parent::__construct();
 
 		$THISDIR = dirname(__FILE__);
-
-		$templatesDir = '';
 		$compileDir = '';
 		$templateDir = [];
 		if (!empty($media)) {
@@ -53,19 +51,14 @@ class Vtiger_Viewer extends SmartyBC
 			$customTemplatesDir = $THISDIR . '/../../custom/layouts/' . $media;
 			$templateDir[] = $THISDIR . '/../../layouts/' . $media;
 			$compileDir = $THISDIR . '/../../cache/templates_c/' . $media;
-		}else{
-			self::$currentLayout = vglobal('defaultLayout');
+		} else {
+			self::$currentLayout = Yeti_Layout::getActiveLayout();
+			$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::$currentLayout;
+			$templateDir[] = $THISDIR . '/../../layouts/' . self::$currentLayout;
 		}
-		$defaultLayout = vglobal('defaultLayout');
-		if ($defaultLayout && is_dir(vglobal('root_directory') . '/layouts/' . $defaultLayout)) {
-			$templateDir[] = $THISDIR . '/../../custom/layouts/' . $defaultLayout;
-			$templateDir[] = $THISDIR . '/../../layouts/' . $defaultLayout;
-		}
-		if (empty($templatesDir) || !file_exists($templatesDir)) {
-			$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::getDefaultLayoutName();
-			$templateDir[] = $THISDIR . '/../../layouts/' . self::getDefaultLayoutName();
-			$compileDir = $THISDIR . '/../../cache/templates_c/' . self::getDefaultLayoutName();
-		}
+		$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::getDefaultLayoutName();
+		$templateDir[] = $THISDIR . '/../../layouts/' . self::getDefaultLayoutName();
+		$compileDir = $THISDIR . '/../../cache/templates_c/' . self::getDefaultLayoutName();
 		if (!file_exists($compileDir)) {
 			mkdir($compileDir, 0777, true);
 		}

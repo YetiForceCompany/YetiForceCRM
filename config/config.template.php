@@ -255,8 +255,12 @@ $maxExecutionCronTime = 3600;
 // System's language selection in the login window (true/false).
 $langInLoginView = false;
 
+// System's lyout selection in the login window (true/false).
+$layoutInLoginView = false;
+
 // Set the default layout 
 $defaultLayout = 'vlayout';
 
 // Logo is visible in footer.
 $isVisibleLogoInFooter = true;
+

@@ -77,11 +77,11 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	public function getTemplateName($view, $moduleName)
 	{
 		$tpl = $view . $this->name . '.tpl';
-		$filename = 'layouts' . DIRECTORY_SEPARATOR . vglobal('defaultLayout') . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'inventoryfields' . DIRECTORY_SEPARATOR . $tpl;
+		$filename = 'layouts' . DIRECTORY_SEPARATOR . Yeti_Layout::getActiveLayout() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'inventoryfields' . DIRECTORY_SEPARATOR . $tpl;
 		if (is_file($filename)) {
 			return $tpl;
 		}
-		$filename = 'layouts' . DIRECTORY_SEPARATOR . vglobal('defaultLayout') . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'Vtiger' . DIRECTORY_SEPARATOR . 'inventoryfields' . DIRECTORY_SEPARATOR . $tpl;
+		$filename = 'layouts' . DIRECTORY_SEPARATOR . Yeti_Layout::getActiveLayout() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'Vtiger' . DIRECTORY_SEPARATOR . 'inventoryfields' . DIRECTORY_SEPARATOR . $tpl;
 		if (is_file($filename)) {
 			return $tpl;
 		}

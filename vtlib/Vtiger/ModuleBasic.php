@@ -570,11 +570,10 @@ class Vtiger_ModuleBasic
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$modulePath = 'modules/' . $moduleInstance->name;
 		Vtiger_Functions::recurseDelete($modulePath);
-		$layoutPath = 'layouts/' . vglobal('defaultLayout') . '/modules/' . $moduleInstance->name;
-
-		Vtiger_Functions::recurseDelete($layoutPath);
-		$layoutPath = 'layouts/' . Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $moduleInstance->name;
-		Vtiger_Functions::recurseDelete($layoutPath);
+		foreach (Yeti_Layout::getAllLayouts() as $name => $label) {
+			$layoutPath = 'layouts/' . $name . '/modules/' . $moduleInstance->name;
+			Vtiger_Functions::recurseDelete($layoutPath);
+		}
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}
 
@@ -586,7 +585,7 @@ class Vtiger_ModuleBasic
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$iconSize = ['', 48, 64, 128];
 		foreach ($iconSize as $value) {
-			foreach (Vtiger_Theme::getAllLayout() as $name => $label) {
+			foreach (Yeti_Layout::getAllLayouts() as $name => $label) {
 				$fileName = "layouts/$name/skins/images/" . $this->name . $value . ".png";
 				if (file_exists($fileName)) {
 					@unlink($fileName);

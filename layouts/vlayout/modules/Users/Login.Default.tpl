@@ -36,15 +36,24 @@
 					<input name="username" type="text" id="username" class="form-control input-lg" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}" required="" autofocus="">
 					<span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
 				</div>
-				<div class="form-group {if $LANGUAGE_SELECTION}first-group {/if}has-feedback">
+				<div class="form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if}has-feedback">
 					<label for="username" class="sr-only">{vtranslate('Password',$MODULE)}</label>
 					<input name="password" type="password" class="form-control input-lg" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('Password',$MODULE)}">
 					<span class="glyphicon glyphicon-lock form-control-feedback" aria-hidden="true"></span>
 				</div>	
 				{if $LANGUAGE_SELECTION}
-					<div class="form-group">
-						<select class="input-lg form-control" name="language">
+					<div class="form-group {if $LAYOUT_SELECTION}first-group {/if}">
+						<select class="input-lg form-control" title="{vtranslate('LBL_CHOOSE_LANGUAGE',$MODULE)}" name="language">
 							{foreach item=VALUE key=KEY from=Vtiger_Language_Handler::getAllLanguages()}
+								<option value="{Vtiger_Util_Helper::toSafeHTML($KEY)}">{$VALUE}</option>
+							{/foreach}
+						</select>	
+					</div>
+				{/if}
+				{if $LAYOUT_SELECTION}
+					<div class="form-group">
+						<select class="input-lg form-control" title="{vtranslate('LBL_SELECT_LAYOUT',$MODULE)}" name="layout">
+							{foreach item=VALUE key=KEY from=Yeti_Layout::getAllLayouts()}
 								<option value="{Vtiger_Util_Helper::toSafeHTML($KEY)}">{$VALUE}</option>
 							{/foreach}
 						</select>	

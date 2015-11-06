@@ -118,7 +118,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			}
 			return $moduleData;
 		} else if ($fieldName === 'defaultLayout') {
-			return Vtiger_Theme::getAllLayout();
+			return Yeti_Layout::getAllLayouts();
 		}
 		return ['true', 'false'];
 	}

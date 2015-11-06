@@ -1065,6 +1065,8 @@ $languageStrings = [
 	'Sales' => 'Sprzedaż',
 	'BTN_READ_RECORD' => 'Za pomocą tego przycisku oznaczysz, że zapoznałeś się ze wszystkimi zmianami na rekordzie',
 	'LBL_MARK_AS_HELD' => 'Oznacz jako wykonane',
+	'LBL_VTIGER_LAYOUT' => 'Stary - YF',
+	'LBL_DEFAULT' => 'Nowy - VT',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',

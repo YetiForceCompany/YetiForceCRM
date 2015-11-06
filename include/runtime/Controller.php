@@ -355,7 +355,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				}
 
 				// Checking if file exists in selected layout
-				$layoutPath = 'layouts' . '/' . vglobal('defaultLayout');
+				$layoutPath = 'layouts' . '/' . Yeti_Layout::getActiveLayout();
 				$fallBackFilePath = Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
 				if (is_file($fallBackFilePath)) {
 					$filePath = $jsFile;
@@ -429,7 +429,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				}
 
 				// Checking if file exists in selected layout
-				$layoutPath = 'layouts' . '/' . vglobal('defaultLayout');
+				$layoutPath = 'layouts' . '/' . Yeti_Layout::getActiveLayout();
 				$fallBackFilePath = Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
 				if (is_file($fallBackFilePath)) {
 					if (empty($preLayoutPath))

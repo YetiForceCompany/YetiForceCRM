@@ -294,8 +294,8 @@ class Vtiger_Link_Model extends Vtiger_Link
 		}
 		// added support for multilayout
 		if (strpos($linkModel->linkurl, '_layoutName_') !== false) {
-			$filePath1 = str_replace('_layoutName_', vglobal('defaultLayout'), $linkModel->linkurl);
-			$filePath2 = str_replace('_layoutName_', vglobal('defaultLayout'), $linkModel->linkurl);
+			$filePath1 = str_replace('_layoutName_', Yeti_Layout::getActiveLayout(), $linkModel->linkurl);
+			$filePath2 = str_replace('_layoutName_', Yeti_Layout::getActiveLayout(), $linkModel->linkurl);
 			if (is_file(vglobal('root_directory') . $filePath1)) {
 				$linkModel->linkurl = $filePath1;
 			} else if(is_file(vglobal('root_directory') . $filePath2)){

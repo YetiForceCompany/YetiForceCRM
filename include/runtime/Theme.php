@@ -147,20 +147,6 @@ class Vtiger_Theme extends Vtiger_Viewer
 		$baseLayoutPath = self::getBaseThemePath();
 		return $baseLayoutPath . '/' . $themeName;
 	}
-
-	public static function getAllLayout()
-	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT name,label FROM vtiger_layout');
-		$folders = [
-			'vlayout' => vtranslate('LBL_DEFAULT', 'Settings:Vtiger'),
-			'basic' => vtranslate('LBL_BASIC', 'Settings:Vtiger')
-		];
-		while ($row = $db->fetch_array($result)) {
-			$folders[$row['name']] = vtranslate($row['label'], 'Settings:Vtiger');
-		}
-		return $folders;
-	}
 }
 
 function vimage_path($imageName)

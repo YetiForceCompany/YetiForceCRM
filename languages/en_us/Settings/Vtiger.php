@@ -320,7 +320,6 @@ $languageStrings = [
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Announcements',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Outgoing Server',
 	'LBL_DEFAULT_LAYOUT' => 'Layout',
-	'LBL_DEFAULT' => 'Default',
 	'LBL_TIMECONTROL_PROCESSES' => 'Time control processes',
 	//config editor
 	'LBL_POPUP_TYPE' => 'Pop-up window type with record list.  1 - Normal, 2 - Expanded search',

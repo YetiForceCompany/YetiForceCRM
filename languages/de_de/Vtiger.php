@@ -1077,6 +1077,8 @@ $languageStrings = [
 	'LBL_VIEW_FINDDUPLICATES'=> 'Find Duplicates',
 	'Service' => 'Service',
 	'Sales' => 'Sale',
+	'LBL_VTIGER_LAYOUT' => 'Old layout',
+	'LBL_DEFAULT' => 'New layout',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
