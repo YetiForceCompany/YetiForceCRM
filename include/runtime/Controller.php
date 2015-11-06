@@ -185,6 +185,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
 		$viewer->assign('STYLES', $this->getHeaderCss($request));
 		$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
+		$viewer->assign('LAYOUT_PATH', 'layouts' . '/' . Yeti_Layout::getActiveLayout());
 		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 		$viewer->assign('LANGUAGE', Vtiger_Language_Handler::getLanguage());
@@ -254,7 +255,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/timepicker/jquery.timepicker.css',
 			'skins.icons.userIcons',
 			'skins.icons.adminIcons',
-			'resources.styles',
+			'libraries.resources.styles',
 			'modules.OSSMail.resources.OSSMailBoxInfo',
 		];
 		$headerCssInstances = $this->checkAndConvertCssStyles($cssFileNames);
