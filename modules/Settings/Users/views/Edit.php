@@ -45,13 +45,7 @@ Class Settings_Users_Edit_View extends Users_PreferenceEdit_View {
 		$fieldId = $request->get('fieldid');
 		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
 		$menuModels = $settingsModel->getMenus();
-		// To remove - if vlayout will be unnecessary
-		if(vglobal('defaultLayout') == 'vlayout'){
-			$menu = Vtiger_Menu_Model::getAll(true);
-		}
-		else{
-			$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
-		}
+		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
 		$viewer->assign('SELECTED_MENU', $selectedMenuId);
 		$viewer->assign('SETTINGS_MENUS', $menuModels); // used only in old layout 
 		$viewer->assign('MENUS', $menu);

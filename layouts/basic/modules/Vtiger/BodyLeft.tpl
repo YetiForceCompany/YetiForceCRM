@@ -5,7 +5,7 @@
 	<div class="container-fluid userDetailsContainer">
 		<div class="row">
 			<div class="col-md-2 noSpaces">
-				<a class="companyLogoContainer" href="#">
+				<a class="companyLogoContainer" href="index.php">
 					<img class="img-responsive logo" src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/>
 				</a>
 			</div>
