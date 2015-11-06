@@ -15,7 +15,7 @@ class APIException extends Exception
 		}
 
 		header("HTTP/1.1 " . $code . " " . $this->_requestStatus($code));
-		header('encrypted: 0');
+		header('Encrypted: 0');
 		global $showWebserviceError;
 		if (!$showWebserviceError && $code === 200) {
 			$message = 'Internal Server Error';
