@@ -21,17 +21,13 @@ class Vtiger_Index_View extends Vtiger_Basic_View {
 
 	public function preProcess (Vtiger_Request $request, $display=true) {
 		parent::preProcess($request, false);
-
-                $viewer = $this->getViewer($request);
-
+		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		if(!empty($moduleName)) {
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$userPrivilegesModel = Users_Privileges_Model::getInstanceById($currentUser->getId());
 			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
-			$viewer->assign('MODULE', $moduleName);
-
 			if(!$permission) {
 				$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
 				$viewer->view('OperationNotPermitted.tpl', $moduleName);
@@ -43,8 +39,6 @@ class Vtiger_Index_View extends Vtiger_Basic_View {
 
 			$viewer->assign('QUICK_LINKS', $linkModels);
 		}
-		
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('CURRENT_VIEW', $request->get('view'));
 		if($display) {
 			$this->preProcessDisplay($request);

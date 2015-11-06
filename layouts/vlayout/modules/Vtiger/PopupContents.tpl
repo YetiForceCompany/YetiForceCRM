@@ -35,7 +35,7 @@
 		{if $SOURCE_MODULE eq "Emails"}
 			<input type="hidden" value="Vtiger_EmailsRelatedModule_Popup_Js" id="popUpClassName"/>
 		{/if}
-		{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
+		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="bottomscroll-div">
 			<table class="table table-bordered listViewEntriesTable">
 				<thead>
@@ -65,7 +65,7 @@
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 								<td class="{$WIDTHTYPE}">
 									{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
-									{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$CURRENT_USER_MODEL}
+									{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
 								</td>
 							{/foreach}
 							<td class="{$WIDTHTYPE}"><button class="btn btn-default" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE_NAME )}</button></td>

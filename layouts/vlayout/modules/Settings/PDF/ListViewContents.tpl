@@ -13,7 +13,7 @@
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
 	<div class="listViewEntriesDiv overflowXAuto">
-		{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
+		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table table-bordered table-condensed listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">

@@ -25,7 +25,7 @@
                 <table id="customRecordNumbering" class="table table-bordered">
                 {assign var=DEFAULT_MODULE_DATA value=$DEFAULT_MODULE_MODEL->getModuleCustomNumberingData()}
                 {assign var=DEFAULT_MODULE_NAME value=$DEFAULT_MODULE_MODEL->getName()}
-				{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
+				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
                     <thead>
                         <tr>
                             <th width="30%" class="{$WIDTHTYPE}">

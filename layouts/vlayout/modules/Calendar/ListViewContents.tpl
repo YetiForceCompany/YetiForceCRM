@@ -64,7 +64,7 @@
 		<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{vtranslate('LBL_LOADING', $MODULE)}"/>
 		<p class="listViewLoadingMsg">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
 	</span>
-	{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
+	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<table class="table table-bordered listViewEntriesTable">
 		<thead>
 			<tr class="listViewHeaders">
@@ -89,7 +89,7 @@
              <td>
                  {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}     
                 {include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE) 
-                    FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$CURRENT_USER_MODEL}
+                    FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
              </td>
          {/foreach}
          <td> 
@@ -99,7 +99,7 @@
          </td>
         </tr>
 		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
-			{assign var=CURRENT_USER_ID value=$CURRENT_USER_MODEL->getId()}
+			{assign var=CURRENT_USER_ID value=$USER_MODEL->getId()}
 			{assign var=RAWDATA value=$LISTVIEW_ENTRY->getRawData()}
 			{assign var=OWNER_ID value=$RAWDATA['smownerid']}
 			{assign var=DETAIL_VIEW_URL value=$LISTVIEW_ENTRY->getDetailViewUrl()}
@@ -112,7 +112,7 @@
 			{else if $OWNER_ID == $CURRENT_USER_ID}
 				{assign var=visibility value=false}
 			{/if}
-			{if !$CURRENT_USER_MODEL->isAdminUser() && $LISTVIEW_ENTRY->get('activitytype') != 'Task' && $LISTVIEW_ENTRY->get('visibility') == 'Private' && $OWNER_ID && $visibility}
+			{if !$USER_MODEL->isAdminUser() && $LISTVIEW_ENTRY->get('activitytype') != 'Task' && $LISTVIEW_ENTRY->get('visibility') == 'Private' && $OWNER_ID && $visibility}
 				{assign var=DETAIL_VIEW_URL value=''}
 				{assign var=FULL_DETAIL_VIEW_URL value=''}
 				{assign var=EDIT_VIEW_URL value=''}

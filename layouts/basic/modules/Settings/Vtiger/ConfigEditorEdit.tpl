@@ -27,7 +27,7 @@
 					</div>
 				</div>
 				<hr>
-				{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
+				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 				{assign var=FIELD_VALIDATION  value=['HELPDESK_SUPPORT_EMAIL_ID' => ['name'=>'Email'],
 												'upload_maxsize' => ['name' => 'number'],
 												'history_max_viewed' => ['name' => 'NumberRange5'],

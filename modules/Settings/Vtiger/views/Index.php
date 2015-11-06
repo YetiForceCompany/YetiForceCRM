@@ -37,9 +37,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	
 	public function preProcessSettings(Vtiger_Request $request)
 	{
-
 		$viewer = $this->getViewer($request);
-
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$selectedMenuId = $request->get('block');
@@ -50,8 +48,6 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->assign('SELECTED_MENU', $selectedMenuId);
 		$viewer->assign('SETTINGS_MENUS', $menuModels); // used only in old layout 
 		$viewer->assign('MENUS', $menu);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
@@ -76,7 +72,6 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->assign('ACTIVE_WORKFLOWS', $activeWorkFlows);
 		$viewer->assign('ACTIVE_MODULES', $activeModules);
 		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
-		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 

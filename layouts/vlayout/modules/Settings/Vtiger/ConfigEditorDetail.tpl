@@ -10,7 +10,7 @@
 -->*}
 {strip}
 	<div class="" id="ConfigEditorDetails">
-		{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
+		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="widget_header row">
 			<div class="col-md-8"><h3>{vtranslate('LBL_CONFIG_EDITOR', $QUALIFIED_MODULE)}</h3></div>
 			<div class="col-md-4">

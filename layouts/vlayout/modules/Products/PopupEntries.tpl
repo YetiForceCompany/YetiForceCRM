@@ -15,7 +15,7 @@
 	<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 	<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
 	<input type="hidden" value="Inventory_Popup_Js" id="popUpClassName"/>
-	{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
+	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="bottomscroll-div">
 		<table class="table table-bordered listViewEntriesTable">
 			<thead>

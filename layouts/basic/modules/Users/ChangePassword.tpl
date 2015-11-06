@@ -23,7 +23,7 @@
 					<div name='massEditContent'>
 						<div class="modal-body">
 							<div class="form-group">
-								{if !$CURRENT_USER_MODEL->isAdminUser()}
+								{if !$USER_MODEL->isAdminUser()}
 									<label class="control-label col-sm-4" >{vtranslate('LBL_OLD_PASSWORD', $MODULE)}</label>
 									<div class="controls col-sm-6">
 										<input type="password" name="old_password" class="form-control" data-validation-engine="validate[required]"/>

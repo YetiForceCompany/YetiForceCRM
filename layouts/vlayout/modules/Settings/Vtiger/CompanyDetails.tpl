@@ -27,7 +27,7 @@
 			</div>
 		</div>
 		<hr>
-		{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
+		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div id="companyDetailsContainer" class="{if !empty($ERROR_MESSAGE)}hide{/if}">
 			<table class="table table-bordered">
 				<thead>

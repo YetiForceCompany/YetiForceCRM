@@ -61,8 +61,8 @@
 						{/foreach}
 					</ul>
 				</div>
-				<p class="noSpaces name">{$CURRENT_USER_MODEL->get('first_name')}&nbsp;</p>
-				<p class="noSpaces name">{$CURRENT_USER_MODEL->get('last_name')}&nbsp;</p>
+				<p class="noSpaces name">{$USER_MODEL->get('first_name')}&nbsp;</p>
+				<p class="noSpaces name">{$USER_MODEL->get('last_name')}&nbsp;</p>
 				<p class="companyName noSpaces">{$COMPANY_DETAILS->get('organizationname')}&nbsp;</p>
 			</div>
 		</div>

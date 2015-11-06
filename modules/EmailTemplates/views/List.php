@@ -52,7 +52,6 @@ class EmailTemplates_List_View extends Vtiger_Index_View
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 

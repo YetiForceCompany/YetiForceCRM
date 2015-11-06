@@ -13,7 +13,7 @@
 	<hr>
 	<div class="contents row">
 		<div class="col-md-12">
-			{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
+			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<div class="marginBottom10px">
 				<button type="button" class="btn btn-default addInventory addButton" data-url="{$RECORD_MODEL->getCreateUrl()}" data-type="0"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;<strong>{vtranslate('LBL_ADD', $QUALIFIED_MODULE)} {vtranslate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</strong></button>
 			</div>

@@ -17,9 +17,6 @@ class Users_ChangePassword_View extends Vtiger_Index_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('CURRENT_USER_MODEL', $currentUser);
 		$viewer->assign('SCRIPTS', $this->getScripts($request));
 		$viewer->view('ChangePasswordUser.tpl', $moduleName);
 	}

@@ -1,9 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	
 	<div class="container-fluid container-fluid-main">
 		<div class="baseContainer">
-			{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
+			{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
 			{assign var="announcement" value=$ANNOUNCEMENT->get('announcement')}	
 			{include file='ActionMenu.tpl'|@vtemplate_path:$MODULE}
 			{include file='SearchMenu.tpl'|@vtemplate_path:$MODULE}

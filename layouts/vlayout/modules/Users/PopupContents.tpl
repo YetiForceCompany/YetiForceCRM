@@ -29,7 +29,7 @@
 	{if $SOURCE_MODULE eq "Emails"}
 		<input type="hidden" value="Vtiger_EmailsRelatedModule_Popup_Js" id="popUpClassName"/>
 	{/if}
-	{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
+	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="bottomscroll-div">
 		<table class="table table-bordered listViewEntriesTable">
 			<thead>

@@ -33,7 +33,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 		$viewer->assign('CURRENTDATE', $currentDate);
 		$viewer->assign('MODULE', $selectedModule);
 		$viewer->assign('MODULE_NAME', $selectedModule);
-		$viewer->assign('QUALIFIED_MODULE', $selectedModule);
+		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->assign('PARENT_MODULE', $request->get('parent'));
 		$viewer->assign('MENUS', $this->getMenu());
 		$viewer->assign('VIEW', $request->get('view'));

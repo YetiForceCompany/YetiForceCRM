@@ -47,7 +47,7 @@
 						{if is_array($referenceList) && in_array('Users', $referenceList)}
 								{assign var=USERSLIST value=array()}
 								{assign var=CURRENT_USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
-								{assign var=ACCESSIBLE_USERS value = $CURRENT_USER_MODEL->getAccessibleUsers()}
+								{assign var=ACCESSIBLE_USERS value = $USER_MODEL->getAccessibleUsers()}
 								{foreach item=USER_NAME from=$ACCESSIBLE_USERS}
 										{$USERSLIST[$USER_NAME] = $USER_NAME}
 								{/foreach}
@@ -96,7 +96,7 @@
 						{if is_array($referenceList) && in_array('Users', $referenceList)}
 								{assign var=USERSLIST value=array()}
 								{assign var=CURRENT_USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
-								{assign var=ACCESSIBLE_USERS value = $CURRENT_USER_MODEL->getAccessibleUsers()}
+								{assign var=ACCESSIBLE_USERS value = $USER_MODEL->getAccessibleUsers()}
 								{foreach item=USER_NAME from=$ACCESSIBLE_USERS}
 										{$USERSLIST[$USER_NAME] = $USER_NAME}
 								{/foreach}

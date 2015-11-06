@@ -11,7 +11,7 @@
 {strip}
 	<div class="">
 		<div class="contents row">
-			{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
+			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<form id="OutgoingServerForm" class="form-horizontal" data-detail-url="{$MODEL->getDetailViewUrl()}" method="POST">
 				<div class="widget_header row">
 					<div class="col-md-8"><h3>{vtranslate('LBL_OUTGOING_SERVER', $QUALIFIED_MODULE)}</h3>&nbsp;{vtranslate('LBL_OUTGOING_SERVER_DESC', $QUALIFIED_MODULE)}</div>

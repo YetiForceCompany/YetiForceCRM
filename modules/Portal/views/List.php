@@ -23,12 +23,8 @@ class Portal_List_View extends Vtiger_Index_View
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-
 		$viewer = $this->getViewer($request);
-
 		$this->initializeListViewContents($request, $viewer);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 

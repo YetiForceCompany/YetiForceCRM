@@ -37,21 +37,23 @@
 	<body data-skinpath="{$SKIN_PATH}" data-language="{$LANGUAGE}">
 		<div id="js_strings" class="hide noprint">{Zend_Json::encode($LANGUAGE_STRINGS)}</div>
 		{assign var=CURRENT_USER_MODEL value=Users_Record_Model::getCurrentUserModel()}
-		<input type="hidden" id="start_day" value="{$CURRENT_USER_MODEL->get('dayoftheweek')}" />
-		<input type="hidden" id="row_type" value="{$CURRENT_USER_MODEL->get('rowheight')}" />
-		<input type="hidden" id="current_user_id" value="{$CURRENT_USER_MODEL->get('id')}" />
-		<input type="hidden" id="userDateFormat" value="{$CURRENT_USER_MODEL->get('date_format')}" />
-		<input type="hidden" id="userTimeFormat" value="{$CURRENT_USER_MODEL->get('hour_format')}" />
-		<input type="hidden" id="numberOfCurrencyDecimal" value="{$CURRENT_USER_MODEL->get('no_of_currency_decimals')}" />
-		<input type="hidden" id="currencyGroupingSeparator" value="{$CURRENT_USER_MODEL->get('currency_grouping_separator')}" />
-		<input type="hidden" id="currencyDecimalSeparator" value="{$CURRENT_USER_MODEL->get('currency_decimal_separator')}" />
-		<input type="hidden" id="currencyGroupingPattern" value="{$CURRENT_USER_MODEL->get('currency_grouping_pattern')}" />
-		<input type="hidden" id="truncateTrailingZeros" value="{$CURRENT_USER_MODEL->get('truncate_trailing_zeros')}" />
+		<input type="hidden" id="start_day" value="{$USER_MODEL->get('dayoftheweek')}" />
+		<input type="hidden" id="row_type" value="{$USER_MODEL->get('rowheight')}" />
+		<input type="hidden" id="current_user_id" value="{$USER_MODEL->get('id')}" />
+		<input type="hidden" id="userDateFormat" value="{$USER_MODEL->get('date_format')}" />
+		<input type="hidden" id="userTimeFormat" value="{$USER_MODEL->get('hour_format')}" />
+		<input type="hidden" id="numberOfCurrencyDecimal" value="{$USER_MODEL->get('no_of_currency_decimals')}" />
+		<input type="hidden" id="currencyGroupingSeparator" value="{$USER_MODEL->get('currency_grouping_separator')}" />
+		<input type="hidden" id="currencyDecimalSeparator" value="{$USER_MODEL->get('currency_decimal_separator')}" />
+		<input type="hidden" id="currencyGroupingPattern" value="{$USER_MODEL->get('currency_grouping_pattern')}" />
+		<input type="hidden" id="truncateTrailingZeros" value="{$USER_MODEL->get('truncate_trailing_zeros')}" />
 		<input type="hidden" id="backgroundClosingModal" value="{vglobal('backgroundClosingModal')}" />
 		<input type="hidden" id="gsAutocomplete" value="{vglobal('gsAutocomplete')}" />
 		<input type="hidden" id="gsMinLength" value="{vglobal('gsMinLength')}" />
 		<input type="hidden" id="gsAmountResponse" value="{vglobal('gsAmountResponse')}" />
-		
+		<input type='hidden' id="module" value="{$MODULE}"/>
+		<input type="hidden" id="parent" value="{$PARENT_MODULE}"/>
+		<input type='hidden' id="view" value="{$VIEW}"/>
 		<div id="page">
 			<!-- container which holds data temporarly for pjax calls -->
 			<div id="pjaxContainer" class="hide noprint"></div>
