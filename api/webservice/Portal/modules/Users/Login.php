@@ -21,7 +21,7 @@ class API_Users_Login extends BaseAction
 		}
 		
 		return [
-			'Sessionid' => '7vusgoloiklnorojmmf7ogu1p6',
+			'SessionId' => '7vusgoloiklnorojmmf7ogu1p6',
 			'logged' => true,
 			'id' => 111,
 			'firstname' => 'Mariusz',
