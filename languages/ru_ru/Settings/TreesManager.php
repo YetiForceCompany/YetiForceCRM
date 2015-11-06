@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Добавить Каталог',
 	'TreesManager'	=>	'Менеджер Каталогов',
-	'LBL_TREES_MANAGER'	=>	'Менеджер Каталогов',
+	'LBL_TREES_MANAGER'	=>	'Fields – Folders',
 	'LBL_TREES_MANAGER_DESCRIPTION'	=>	'В Менеджере Каталогов, можно создавать шаблоны Каталогов или редактировать существующие Каталоги',
 	'LBL_NO_RECORDS_FOUND'	=>	'Нет шаблонов Каталогов',
 	'LBL_EDIT_TEMPLATE_TREES'	=>	'Редактировать шаблон Каталога',

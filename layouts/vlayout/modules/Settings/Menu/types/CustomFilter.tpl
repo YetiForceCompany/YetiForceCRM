@@ -1,6 +1,7 @@
+<br />
 <input type="hidden" name="module" value="">
-<div class="form-group">
-	<label class="col-md-4 control-label">{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}:</label>
+<div class="row marginBottom5">
+	<div class="col-md-5">{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}:</div>
 	<div class="col-md-7">
 		<select name="dataurl" class="select2 form-control type">
 			{foreach from=$MODULE_MODEL->getCustomViewList() item=ITEM}
@@ -9,11 +10,7 @@
 		</select>
 	</div>
 </div>
+<br />
 {include file='fields/Newwindow.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+<br />
 {include file='fields/Hotkey.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-<div class="form-group">
-	<label class="col-md-4 control-label">{vtranslate('LBL_ICON_NAME', $QUALIFIED_MODULE)}:</label>
-	<div class="col-md-7">
-		<input name="icon" class="form-control" type="text" value="{if $RECORD}{$RECORD->get('icon')}{/if}"/>
-	</div>
-</div>

@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'Widgets' => 'Widgety',
+	'Widgets' => 'Moduły - widżety',
 	'LBL_MODULE_DESC' => 'Moduł zarządzający widgetami na podsumowaniu.',
 	'Add widget' => 'Dodaj widget',
 	'Type widget' => 'Typ',

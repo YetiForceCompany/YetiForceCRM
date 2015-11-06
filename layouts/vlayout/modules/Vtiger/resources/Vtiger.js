@@ -384,19 +384,64 @@ var Vtiger_Index_Js = {
 			});
 		}
 	},
+	registerShowHideLeftPanelEvent: function () {
+		jQuery('#toggleButton').click(function (e) {
+			e.preventDefault();
+			var leftPanel = jQuery('#leftPanel');
+			var centerContents = jQuery('#centerPanel');
+			var rightPanel = document.getElementById('rightPanel');
+			var tButtonImage = jQuery('#tButtonImage');
+			if (leftPanel.attr('class').indexOf(' hide') == -1) {
+				var leftPanelshow = 1;
+				leftPanel.addClass('hide');
+				if (rightPanel && jQuery(rightPanel).attr('class').indexOf('hide') == -1) {
+					centerContents.removeClass('col-md-8').addClass('col-md-10');
+				} else {
+					centerContents.removeClass('col-md-10').addClass('col-md-12');
+				}
+				tButtonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
+			} else {
+				var leftPanelshow = 0;
+				leftPanel.removeClass('hide');
+				if (rightPanel && jQuery(rightPanel).attr('class').indexOf('hide') == -1) {
+					centerContents.removeClass('col-md-10').addClass('col-md-8');
+				} else {
+					centerContents.removeClass('col-md-12').addClass('col-md-10');
+				}
+				tButtonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
+			}
+			var params = {
+				'module': 'Users',
+				'action': 'IndexAjax',
+				'mode': 'toggleLeftPanel',
+				'showPanel': leftPanelshow
+			}
+			AppConnector.request(params);
+		});
+	},
 	registerShowHideRightPanelEvent: function () {
 		jQuery('#toggleRightPanelButton').click(function (e) {
 			e.preventDefault();
+			var leftPanel = jQuery('#leftPanel');
 			var centerContents = jQuery('#centerPanel');
 			var rightPanel = jQuery('#rightPanel');
 			var tButtonImage = jQuery('#tRightPanelButtonImage');
-			if (rightPanel.attr('class').indexOf('move-action') == -1) {
-				rightPanel.addClass('move-action');
-				centerContents.removeClass('col-md-10').addClass('col-md-12');
+			var leftPanelStatus = leftPanel.attr('class').indexOf(' hide');
+			if (rightPanel.attr('class').indexOf('hide') == -1) {
+				rightPanel.addClass('hide');
+				if (leftPanelStatus == -1) {
+					centerContents.removeClass('col-md-8').addClass('col-md-10');
+				} else {
+					centerContents.removeClass('col-md-10').addClass('col-md-12');
+				}
 				tButtonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
 			} else {
-				rightPanel.removeClass('move-action');
-				centerContents.removeClass('col-md-12').addClass('col-md-10');
+				rightPanel.removeClass('hide');
+				if (leftPanelStatus == -1) {
+					centerContents.removeClass('col-md-10').addClass('col-md-8');
+				} else {
+					centerContents.removeClass('col-md-12').addClass('col-md-10');
+				}
 				tButtonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
 			}
 		});
@@ -412,6 +457,7 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.adjustTopMenuBarItems();
 		Vtiger_Index_Js.registerPostAjaxEvents();
 		Vtiger_Index_Js.changeSkin();
+		Vtiger_Index_Js.registerShowHideLeftPanelEvent();
 		Vtiger_Index_Js.registerShowHideRightPanelEvent();
 		Vtiger_Index_Js.registerResizeEvent();
 	},

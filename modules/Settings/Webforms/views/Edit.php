@@ -27,6 +27,8 @@ Class Settings_Webforms_Edit_View extends Settings_Vtiger_Index_View
 	{
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
+		$moduleName = $request->getModule();
+		$parentModuleName = $request->get('parent');
 		$mode = '';
 		$selectedFieldsList = $allFieldsList = array();
 		$viewer = $this->getViewer($request);
@@ -59,7 +61,8 @@ Class Settings_Webforms_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODE', $mode);
 		$viewer->assign('RECORD_ID', $recordId);
 		$viewer->assign('RECORD_MODEL', $recordModel);
-		$viewer->assign('MODULE', $qualifiedModuleName);
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('PARENT_MODULE', $parentModuleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('SOURCE_MODULE', $sourceModule);

@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Hinzufügen',
 	'TreesManager' => 'Baumstruktur Verwaltung',
-	'LBL_TREES_MANAGER' => 'Baumstruktur Verwaltung',
+	'LBL_TREES_MANAGER' => 'Fields – Folders',
 	'LBL_TREES_MANAGER_DESCRIPTION' => 'Verwalten von Vorlagen für Baumstrukturen',
 	'LBL_NO_RECORDS_FOUND' => 'Keine Vorlagen gefunden',
 	'LBL_EDIT_TEMPLATE_TREES' => 'Vorlagen ändern',

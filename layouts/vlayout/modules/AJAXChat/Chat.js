@@ -9,7 +9,6 @@ jQuery(function() {
 			var container = $("#AJAXChatBlock");
 			var icon = $('.headerLinksAJAXChat .ChatIcon');
 			icon.click(function() {
-				$('.actionMenu').removeClass('actionMenuOn');// hide action menu
 				if ( container.hasClass('chat-closed') ) {
 					container.addClass('chat-opened').removeClass('chat-closed');
 				} else {

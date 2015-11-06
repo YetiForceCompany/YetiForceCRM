@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_TIMECONTROL_PROCESSES' => 'Procesy czasu pracy',
+	'LBL_TIMECONTROL_PROCESSES' => 'Przepływ pracy',
 	'TimeControlProcesses' => 'Procesy czasu pracy',
 	'LBL_TIMECONTROL_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_ONEDAY_VALID' => 'Czas pracy ograniczony do 24 godzin',

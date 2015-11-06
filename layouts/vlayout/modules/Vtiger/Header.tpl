@@ -55,7 +55,4 @@
 		<div id="page">
 			<!-- container which holds data temporarly for pjax calls -->
 			<div id="pjaxContainer" class="hide noprint"></div>
-			{if $SHOW_BODY_HEADER}
-				{include file='Body.tpl'|@vtemplate_path:$MODULE}
-			{/if}
 {/strip}

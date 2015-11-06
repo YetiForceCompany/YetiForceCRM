@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_DATAACCES' => 'Walidacja dostępu',
-	'LBL_DATAACCESS' => 'Walidacja dostępu',
+	'LBL_DATAACCESS' => 'Kontrola zapisu',
 	'DataAccess' => 'Walidacja dostępu',
 	'LBL_NEW_TPL' => 'Dodaj nowy warunek',
 	'LBL_MODULE_NAME' => 'Nazwa modułu',

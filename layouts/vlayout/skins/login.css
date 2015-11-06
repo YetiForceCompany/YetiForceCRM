@@ -1,4 +1,4 @@
-@media (min-width: 768px) {
+@media (min-width: 768px) { 
 	.visible-phone{ 
 		visibility: hidden;
 	}
@@ -23,7 +23,4 @@ html,body{
 }
 .login-form .form-group.first-group{
 	margin-bottom: 5px;
-}
-.img-responsive.logo{
-	margin: auto;
 }

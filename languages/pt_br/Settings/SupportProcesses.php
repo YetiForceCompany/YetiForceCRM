@@ -9,7 +9,7 @@
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Language Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_SUPPORT_PROCESSES' => 'Processos de Suporte',
+	'LBL_SUPPORT_PROCESSES' => 'Support',
 	'LBL_GENERAL_CONFIGURATION' => 'Configuração Geral',
 	'LBL_OTHER' => 'Outro',
 	'LBL_INFO' => 'Informação',

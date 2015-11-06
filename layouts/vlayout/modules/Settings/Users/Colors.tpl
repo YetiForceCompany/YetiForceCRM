@@ -16,7 +16,7 @@
 		<div class="col-md-2"></div>
 	</div>
 	<hr>
-	<div class="">
+	<div class="row">
 		<div class="contents tabbable">
 			<ul class="nav nav-tabs layoutTabs massEditTabs">
 				<li class="active"><a data-toggle="tab" href="#userColors"><strong>{vtranslate('LBL_USERS_COLORS', $QUALIFIED_MODULE)}</strong></a></li>

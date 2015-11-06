@@ -12,7 +12,7 @@ $languageStrings = [
 	'LBL_PAGE_NUMBER' => 'Go to page number',
 	'OSSMailScanner_manual' => 'Mail Scanner',
 	'OSSMailScanner' => 'Mail Scanner',
-	'Mail Scanner' => 'Mail Scanner',
+	'Mail Scanner' => 'Mail – Scanner',
 	
 	'LBL_VIEW_LOGS' => 'Mail Logs',
 	'LBL_VIEW_LOGS' => 'Mail Protokolle',

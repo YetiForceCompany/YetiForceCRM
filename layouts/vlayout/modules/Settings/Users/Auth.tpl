@@ -12,10 +12,8 @@
 {strip}
 <div class=" usersAuth">
 	<div class="widget_header row">
-		<div class="col-md-12">
-		    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-		    {vtranslate('LBL_AUTHORIZATION_DESCRIPTION', $QUALIFIED_MODULE)}
-		</div>
+		<div class="col-md-10"><h3>{vtranslate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_AUTHORIZATION_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+		<div class="col-md-2"></div>
 	</div>
 	<hr>
 	<div>
@@ -26,16 +24,17 @@
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
 				{assign var=CONFIG value=$MODULE_MODEL->getConfig('ldap')}
 				<div class="tab-pane active" id="ldap">
-					<div class="row">
-						<div class="col-md-1 col-sm-1 col-xs-2 pagination-centered">
+					<div>
+						<div class="pull-left pagination-centered">
 							<input class="configField" type="checkbox" name="active" id="ldapActive" data-type="ldap" value="1" {if $CONFIG['active']=='true'}checked=""{/if}>
 						</div>
-						<div class="col-md-11 col-sm-11 col-xs-10">
+						<div class="col-md-11">
 							<label for="ldapActive">{vtranslate('LBL_ACTIVE_LDAP_AUTH', $QUALIFIED_MODULE)}</label>
 						</div>
 					</div>
+					<div class="clearfix"></div>
 					<hr />
-					<div class="row m">
+					<div class="row">
 						<div class="col-md-2">
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_SERVER', $QUALIFIED_MODULE)}</label>
 						</div>
@@ -43,7 +42,7 @@
 							<input class="configField form-control" title="{vtranslate('LBL_LDAP_SERVER', $QUALIFIED_MODULE)}" type="text" name="server" data-type="ldap" value="{$CONFIG['server']}">
 						</div>
 					</div>
-					<div class="row paddingTop20">
+					<div class="row">
 						<div class="col-md-2">
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_DOMAIN', $QUALIFIED_MODULE)}</label>
 						</div>
@@ -51,7 +50,7 @@
 							<input class="configField form-control" title="{vtranslate('LBL_LDAP_DOMAIN', $QUALIFIED_MODULE)}" type="text" name="domain" data-type="ldap" value="{$CONFIG['domain']}">
 						</div>
 					</div>
-					<div class="row paddingTop20">
+					<div class="row">
 						<div class="col-md-2">
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_PORT', $QUALIFIED_MODULE)}</label>
 						</div>
@@ -59,7 +58,7 @@
 							<input class="configField form-control" title="{vtranslate('LBL_LDAP_PORT', $QUALIFIED_MODULE)}" type="text" name="port" data-type="ldap" value="{$CONFIG['port']}">
 						</div>
 					</div>
-					<div class="row paddingTop20">
+					<div class="row">
 						<div class="col-md-2">
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_USERS', $QUALIFIED_MODULE)}:</label>
 						</div>

@@ -27,7 +27,7 @@ $languageStrings = [
 	'LBL_MODULE' => 'Moduł',
 	
 	//Auth
-	'LBL_AUTHORIZATION' => 'Autoryzacja',
+	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
 	'LBL_LDAP_AUTH' => 'LDAP',
 	'LBL_ACTIVE_LDAP_AUTH' => 'Autoryzacja za pomocą LDAP',

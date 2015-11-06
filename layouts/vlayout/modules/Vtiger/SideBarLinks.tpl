@@ -11,6 +11,12 @@
 -->*}
 {strip}
 <div class="quickLinksDiv">
+	{assign var=IMAGE value=$MODULE|cat:'.png'}
+	{if file_exists( vimage_path($IMAGE) )}
+		<img style="position: relative;top: -3px;margin-right: 4px;" src="{vimage_path($IMAGE)}" alt="{vtranslate($MODULE, $MODULE)}" class="summaryImg pull-left" />
+	{/if}
+	<h4 class="sideBarTitle">{vtranslate($MODULE, $MODULE)}</h4>
+	<div class="clearfix"></div>
 	<hr />
 	{foreach item=SIDEBARLINK from=$QUICK_LINKS['SIDEBARLINK']}
         {assign var=SIDE_LINK_URL value=decode_html($SIDEBARLINK->getUrl())}

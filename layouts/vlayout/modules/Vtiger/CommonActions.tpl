@@ -96,7 +96,7 @@
 			{/if}
 		</div>
 	</div>	
-	{*{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
+	{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
 	{if $BREADCRUMBS}
 		<div class="breadcrumbsContainer col-md-12" style="display: none;">
 			<div class="breadcrumbsLinks">
@@ -108,7 +108,7 @@
 				{/foreach}
 			</div>
 		</div>
-	{/if}*}
+	{/if}
 	{assign var="MENUSCOLOR" value=Users_Colors_Model::getModulesColors(true)}
 	{if $MENUSCOLOR}
 		<div class="menusColorContainer" style="display: none;">

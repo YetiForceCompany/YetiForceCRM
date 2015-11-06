@@ -17,11 +17,11 @@
 			<div class="modal-body">
 				{assign var=MENU_TYPES value=$MODULE_MODEL->getMenuTypes()}
 				{assign var=MENU_TYPE value=$MENU_TYPES[$TYPE]}
-				<form class="form-horizontal">
+				<form>
 					<input type="hidden" name="type" id="menuType" value="{$MENU_TYPE}" />
-					<div class="form-group">
-						<label class="col-md-4 control-label">{vtranslate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</label>
-						<div class="col-md-7 form-control-static">{vtranslate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}</div>
+					<div class="row">
+						<div class="col-md-5 marginLeftZero">{vtranslate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</div>
+						<div class="col-md-7">{vtranslate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}</div>
 					</div>
 					{include file='types/'|cat:$MENU_TYPE|cat:'.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 				</form>

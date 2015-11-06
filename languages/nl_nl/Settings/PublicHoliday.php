@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'PublicHoliday' => 'Public Holidays',
-	'LBL_PUBLIC_HOLIDAY' => 'Public Holiday',
+	'LBL_PUBLIC_HOLIDAY' => 'Calendar - Holidays',
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
 	'LBL_ADD_HOLIDAY' => 'Add holiday',
 	'LBL_HOLIDAY_LIST' => 'List of public holidays',

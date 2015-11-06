@@ -8,7 +8,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - valmir@ttcasolucoes.com.br
  *************************************************************************************/
 $languageStrings = [
-	'Webforms' => 'Webforms',
+	'Webforms' => 'Online Forms',
 	'SINGLE_Settings:Webforms' => 'Webform',
 	//Basic Field Names
 	'WebForm Name' => 'Nome Webform',
