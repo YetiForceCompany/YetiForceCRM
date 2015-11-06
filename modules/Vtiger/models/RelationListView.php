@@ -474,7 +474,8 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$relationQuery = preg_replace("/[ \t\n\r]+/", " ", $relationQuery);
 		$position = stripos($relationQuery, ' from ');
 		if ($position) {
-			$split = explode(' FROM ', $relationQuery);
+			$relationQuery = str_replace('FROM', 'from', $relationQuery); 
+			$split = explode(' from ', $relationQuery);
 			$splitCount = count($split);
 			$relationQuery = 'SELECT COUNT(DISTINCT vtiger_crmentity.crmid) AS count';
 			for ($i = 1; $i < $splitCount; $i++) {
