@@ -79,7 +79,7 @@ class Vtiger_Link_Model extends Vtiger_Link
 	{
 		return $this->linkicon;
 	}
-	
+
 	/**
 	 * Function to get the link glyphicon name
 	 * @return <String>
@@ -230,7 +230,7 @@ class Vtiger_Link_Model extends Vtiger_Link
 			}
 			$newUrlParts = [];
 			array_push($newUrlParts, $key);
-			if(!empty($value)){
+			if (!empty($value)) {
 				array_push($newUrlParts, $value);
 			}
 			$parametersParts[$index] = implode('=', $newUrlParts);
@@ -291,6 +291,16 @@ class Vtiger_Link_Model extends Vtiger_Link
 		$linkModel = new self();
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$linkModel->$properName = $propertyValue;
+		}
+		// added support for multilayout
+		if (strpos($linkModel->linkurl, '_layoutName_') !== false) {
+			$filePath1 = str_replace('_layoutName_', vglobal('defaultLayout'), $linkModel->linkurl);
+			$filePath2 = str_replace('_layoutName_', vglobal('defaultLayout'), $linkModel->linkurl);
+			if (is_file(vglobal('root_directory') . $filePath1)) {
+				$linkModel->linkurl = $filePath1;
+			} else if(is_file(vglobal('root_directory') . $filePath2)){
+				$linkModel->linkurl = $filePath2;
+			}
 		}
 		return $linkModel;
 	}

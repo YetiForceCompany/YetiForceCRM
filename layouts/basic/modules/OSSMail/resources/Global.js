@@ -325,7 +325,7 @@ function load_oss_bar(inframe, crmid, config, related_records) {
 	var Projekty_icon = '';
 	var HelpDesk_text = '';
 	var HelpDesk_icon = '';
-	var images_path = crm_path + 'layouts/vlayout/skins/images/';
+	var images_path = crm_path + 'layouts/basic/skins/images/';
 	window.images_path = images_path;
 	var Projekty_thead_td = '';
 	var Projekty_tbody_td = '';

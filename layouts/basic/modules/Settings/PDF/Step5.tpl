@@ -15,7 +15,7 @@
 				</label>
 				<br>
 				{assign STEP_NO 5}
-				{include file="layouts/vlayout/modules/Settings/PDF/FieldBlock.tpl"}
+				{include file="layouts/basic/modules/Settings/PDF/FieldBlock.tpl"}
 				<div class="form-group">
 					<div class="col-sm-12 controls">
 						<textarea class="form-control" name="footer_content" id="footer_content">{$PDF_MODEL->get('footer_content')}</textarea>

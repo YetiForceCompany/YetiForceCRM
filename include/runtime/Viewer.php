@@ -14,7 +14,7 @@ class Vtiger_Viewer extends SmartyBC
 {
 
 	const DEFAULTLAYOUT = 'vlayout';
-	const DEFAULTTHEME = 'softed';
+	const DEFAULTTHEME = 'twilight';
 
 	static $currentLayout;
 	// Turn-it on to analyze the data pushed to templates for the request.

@@ -45,12 +45,12 @@
 									<span class="btn-group">
 										{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
 										<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=replyAll{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
-											<img src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL',$MODULE)}" title="{vtranslate('LBL_REPLYALLL',$MODULE)}">
+											<img src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{vtranslate('LBL_REPLYALLL',$MODULE)}" title="{vtranslate('LBL_REPLYALLL',$MODULE)}">
 										</a>
 									</span>
 									<span class="btn-group">
 										<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=reply{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
-											<img src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY',$MODULE)}" title="{vtranslate('LBL_REPLY',$MODULE)}">
+											<img src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY',$MODULE)}" title="{vtranslate('LBL_REPLY',$MODULE)}">
 										</a>
 									</span>
 									<span class="btn-group">
@@ -62,7 +62,7 @@
 								{if Users_Privileges_Model::isPermitted($MODULE, 'PrintMail')}
 									<span class="btn-group">
 										<button id="previewPrint" onclick="printMail();" title="{vtranslate('LBL_PRINT',$MODULE)}" type="button" name="previewPrint" class="btn btn-default" data-mode="previewPrint">
-											<img src="layouts/vlayout/modules/OSSMailView/previewPrint.png" alt="{vtranslate('LBL_PRINT',$MODULE)}" title="{vtranslate('LBL_PRINT',$MODULE)}">
+											<img src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewPrint.png')}" alt="{vtranslate('LBL_PRINT',$MODULE)}" title="{vtranslate('LBL_PRINT',$MODULE)}">
 										</button>
 									</span>
 								{/if}

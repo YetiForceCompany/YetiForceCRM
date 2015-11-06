@@ -73,8 +73,8 @@
 								<div class="row">
 									<div class="col-md-3">&nbsp;</div>
 									<div class="col-md-6">
-										<button type="button" class="btn btn-xs btn-default vtButton arrowDown row" data-handlerfor="fields" data-togglehandler="{$TABID}-rules"><img src="layouts/vlayout/skins/images/Arrow-down.png" alt=""></img></button>
-										<button type="button" class="btn btn-xs btn-default vtButton arrowUp row hide" data-handlerfor="fields" data-togglehandler="{$TABID}-rules"><img src="layouts/vlayout/skins/images/Arrow-up.png" alt=""></img></button>
+										<button type="button" class="btn btn-xs btn-default vtButton arrowDown row" data-handlerfor="fields" data-togglehandler="{$TABID}-rules"><img src="{vimage_path('Arrow-down.png')}" alt=""></img></button>
+										<button type="button" class="btn btn-xs btn-default vtButton arrowUp row hide" data-handlerfor="fields" data-togglehandler="{$TABID}-rules"><img src="{vimage_path('Arrow-up.png')}" alt=""></img></button>
 									</div>
 								</div>
 							</td>

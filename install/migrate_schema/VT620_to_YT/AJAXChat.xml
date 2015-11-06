@@ -15,7 +15,7 @@
 <customlink>
 <linktype>HEADERSCRIPT</linktype>
 <linklabel>Chat</linklabel>
-<linkurl><![CDATA[layouts/vlayout/modules/AJAXChat/Chat.js]]></linkurl>
+<linkurl><![CDATA[layouts/_layoutName_/modules/AJAXChat/Chat.js]]></linkurl>
 <linkicon><![CDATA[]]></linkicon>
 <sequence>0</sequence>
 <handler_path><![CDATA[]]></handler_path>

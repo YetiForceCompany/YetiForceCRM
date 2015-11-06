@@ -133,5 +133,4 @@
 		</div>
 	</div>
 {/strip}
-
-<script type="text/javascript" src="layouts/vlayout/modules/Potentials/resources/PotentialsRelatedList.js"></script>
+<script type="text/javascript" src="{Yeti_Layout::getLayoutFile('modules/Potentials/resources/PotentialsRelatedList.js')}"></script>

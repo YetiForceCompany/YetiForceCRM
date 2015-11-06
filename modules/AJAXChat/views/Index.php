@@ -23,7 +23,7 @@ class AJAXChat_Index_View extends Vtiger_Basic_View
 		global $site_URL;
 		$shortURL = str_replace('index.php', '', $site_URL);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('URLCSS', $shortURL . "layouts/vlayout/modules/AJAXChat/Chat.css");
+		$viewer->assign('URLCSS', $shortURL . Yeti_Layout::getLayoutFile('modules/AJAXChat/Chat.css'));
 		$viewer->assign('URL', $shortURL . "libraries/AJAXChat/index.php");
 		$viewer->view('Index.tpl', 'AJAXChat');
 	}

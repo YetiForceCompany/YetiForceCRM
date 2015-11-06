@@ -16,7 +16,6 @@ class OSSMail {
     function vtlib_handler($moduleName, $eventType) {
 		$adb = PearDatabase::getInstance();
         if ($eventType == 'module.postinstall') {
-            $this->turn_on();
             $displayLabel = 'OSSMail';
 			$adb->pquery("UPDATE vtiger_tab SET customized=0 WHERE name=?", array($displayLabel), true);
             $blockid = $adb->query_result(
@@ -42,11 +41,9 @@ class OSSMail {
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?,?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
         } else if ($eventType == 'module.disabled') {
-            $this->turn_off();
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?,?);", array('Action_DisabledModule', $moduleName, $user_id),false);
         } else if ($eventType == 'module.enabled') {
-            $this->turn_on();
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_EnabledModule', $moduleName, $user_id),false);
         } else if ($eventType == 'module.preuninstall') {
@@ -61,13 +58,5 @@ class OSSMail {
 				$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);
 			}
         }
-    }
-    function turn_on() {
-		$OSSMail = Vtiger_Module::getInstance('OSSMail');
-		//$OSSMail->addLink('HEADERSCRIPT', 'OSSMailJS', 'layouts/vlayout/modules/OSSMail/resources/Global.js');
-    }
-    function turn_off() {
-		$OSSMail = Vtiger_Module::getInstance('OSSMail');
-		//$OSSMail->deleteLink('HEADERSCRIPT', 'OSSMailJS', 'layouts/vlayout/modules/OSSMail/resources/Global.js');
     }
 }

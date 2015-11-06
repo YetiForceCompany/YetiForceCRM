@@ -45,5 +45,4 @@
         <div class="clearfix"></div>
     </div>
 {/strip}
-
-<script type="text/javascript" src="layouts/vlayout/modules/Settings/{$MODULE_NAME}/resources/Edit.js"></script>
+<script type="text/javascript" src="{Yeti_Layout::getLayoutFile('modules/Settings/'|cat:$MODULE_NAME|cat:'/resources/Edit.js')}"></script>

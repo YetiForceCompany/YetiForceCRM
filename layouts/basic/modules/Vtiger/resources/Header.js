@@ -12,7 +12,7 @@
 if (/MSIE 6.0/.test(navigator.userAgent) || /MSIE 7.0/.test(navigator.userAgent) || /MSIE 8.0/.test(navigator.userAgent) || /MSIE 9.0/.test(navigator.userAgent)) {
 	if (app.getCookie('oldbrowser') != 'true') {
 		app.setCookie("oldbrowser", true, 365);
-		window.location.href = 'layouts/vlayout/modules/Vtiger/browsercompatibility/Browser_compatibility.html';
+		window.location.href = 'layouts/basic/modules/Vtiger/browsercompatibility/Browser_compatibility.html';
 	}
 }
 

@@ -11,7 +11,7 @@
 -->*}
 <style>
 {foreach from=Vtiger_Module_Model::getAll() item=MODULE}
-	.modIcon_{$MODULE->get('name')}{ background-image: url("layouts/vlayout/skins/images/{$MODULE->get('name')}.png") !important; }
+	.modIcon_{$MODULE->get('name')}{ background-image: url("{Yeti_Layout::getLayoutFile('skins/images/'|cat:$MODULE->get('name')|cat:'.png')}") !important; }
 {/foreach}
 td{
 	padding-left:10px;

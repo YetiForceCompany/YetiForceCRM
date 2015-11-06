@@ -45,12 +45,12 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 			$unzip = new Vtiger_Unzip($zipfile, $overwrite);
 
 			// Unzip selectively
-			$unzip->unzipAllEx(".", Array(
+			$unzip->unzipAllEx(".", [
 				'include' => ['templates', "modules/$module", 'cron', 'languages', 'layouts',
 					'settings/actions', 'settings/views', 'settings/models', 'settings/templates', 'settings/connectors', 'settings/libraries'],
 				// DEFAULT: excludes all not in include
-				), Array(// Templates folder to be renamed while copying
-				'templates' => "layouts/vlayout/modules/$module",
+				], [// Templates folder to be renamed while copying
+				'templates' => "layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/modules/$module",
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Settings folder
@@ -60,10 +60,12 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 				'settings/connectors' => "modules/Settings/$module/connectors",
 				'settings/libraries' => "modules/Settings/$module/libraries",
 				// Settings templates folder
-				'settings/templates' => "layouts/vlayout/modules/Settings/$module",
+				'settings/templates' => "layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
+				//module images
+				'images' => "layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
 				'settings' => 'modules/Settings',
 				'layouts' => 'layouts',
-				)
+				]
 			);
 
 			// If data is not yet available

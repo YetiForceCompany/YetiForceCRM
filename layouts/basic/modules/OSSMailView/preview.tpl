@@ -18,13 +18,13 @@
 										<span class="btn-group">
 											{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
 											<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=replyAll{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no'{/if})">
-												<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png">&nbsp;&nbsp;
+												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}">&nbsp;&nbsp;
 												<strong>{vtranslate('LBL_REPLYALLL',$MODULE)}</strong>
 											</a>
 										</span>
 										<span class="btn-group">
 											<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=reply{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no'{/if})">
-												<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReply.png" >&nbsp;&nbsp;
+												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" >&nbsp;&nbsp;
 												<strong>{vtranslate('LBL_REPLY',$MODULE)}</strong>
 											</a>
 										</span>

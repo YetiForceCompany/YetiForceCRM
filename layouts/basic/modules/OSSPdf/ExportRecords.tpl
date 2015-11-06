@@ -12,7 +12,7 @@
 {literal}
     <style>
         #submitOSSMail {
-            background-image:url('layouts/vlayout/modules/OSSPdf/email.png');
+            background-image:url('{/literal}{Yeti_Layout::getLayoutFile('modules/OSSPdf/email.png')}{literal}');
             background-repeat: no-repeat;
             background-position:  0px 0px;
             font-size:0;
@@ -60,7 +60,7 @@
         <hr />
     {if $NO_TEMPLATES eq 'yes'}{else}
         <div class="form-group" style="margin-top: 8px;">
-        <img name="{vtranslate('LBL_EXPORT')}" alt="{vtranslate('LBL_CREATE_PDF')}" src="layouts/vlayout/modules/OSSPdf/pdf.png" onclick="
+        <img name="{vtranslate('LBL_EXPORT')}" alt="{vtranslate('LBL_CREATE_PDF')}" src="{Yeti_Layout::getLayoutFile('modules/OSSPdf/pdf.png')}" onclick="
                {literal}
             jQuery('#only_generate').val('0');
             var toExport = false;

@@ -14,7 +14,7 @@
     {assign var=SIDEBARLINK value=$QUICK_LINKS['SIDEBARLINK'][0]}
     <div style="margin-bottom: 5px" class="btn-group">
         <button id="rssAddButton" class="btn btn-default addButton col-md-12 rssAddButton" data-href="{$SIDEBARLINK->getUrl()}">
-            <img src="layouts/vlayout/skins/images/rss_add.png" alt="{vtranslate(LBL_ADD_FEED_SOURCE, $MODULE)}" />
+            <img src="{vimage_path('rss_add.png')}" alt="{vtranslate(LBL_ADD_FEED_SOURCE, $MODULE)}" />
             <strong>&nbsp;&nbsp; {vtranslate($SIDEBARLINK->getLabel(), $MODULE)}</strong>
         </button>
     </div>

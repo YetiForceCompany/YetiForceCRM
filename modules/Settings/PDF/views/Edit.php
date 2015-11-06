@@ -161,9 +161,9 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
-		$cssFileNames = array(
-			"~layouts/vlayout/modules/Settings/$moduleName/Edit.css",
-		);
+		$cssFileNames = [
+			"modules.Settings.$moduleName.Edit",
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
 		return $headerCssInstances;

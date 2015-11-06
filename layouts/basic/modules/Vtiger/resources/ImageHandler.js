@@ -25,7 +25,7 @@
 	this.position = options.position
 
 	this.show = function(){
-		var imagePath = 'themes/vlayout/images/loading.gif';
+		var imagePath = 'themes/basic/images/loading.gif';
 		var imageHtml = '<span class="imageHolder"><img class="loadinImg" src="'+imagePath+'" /></span>';
 
 		switch(thisInstance.position) {

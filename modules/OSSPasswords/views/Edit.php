@@ -18,9 +18,9 @@ Class OSSPasswords_Edit_View extends Vtiger_Edit_View {
 		$headerScriptInstances = parent::getFooterScripts($request);
 
 		$jsFileNames = array(
-			'layouts.vlayout.modules.OSSPasswords.resources.gen_pass',
+			'modules.OSSPasswords.resources.gen_pass',
             'libraries.jquery.ZeroClipboard.ZeroClipboard',
-            'layouts.vlayout.modules.OSSPasswords.resources.zClipDetailView'
+            'modules.OSSPasswords.resources.zClipDetailView'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

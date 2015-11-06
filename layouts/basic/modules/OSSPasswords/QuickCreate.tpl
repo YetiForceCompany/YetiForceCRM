@@ -98,7 +98,6 @@
 		</div>
 	</div>
 </div>
-
-<link rel="stylesheet" type="text/css" href="layouts/vlayout/modules/OSSPasswords/resources/validate_pass.css">
-<script type="text/javascript" src="layouts/vlayout/modules/OSSPasswords/resources/gen_pass.js"></script>
+<link rel="stylesheet" type="text/css" href="{Yeti_Layout::getLayoutFile('modules/OSSPasswords/resources/validate_pass.css')}">
+<script type="text/javascript" src="{Yeti_Layout::getLayoutFile('modules/OSSPasswords/resources/gen_pass.js')}"></script>
 {/strip}

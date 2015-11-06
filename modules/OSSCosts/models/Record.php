@@ -28,39 +28,39 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 		if($val == 'checked'){ $val = 1;
 			copy("modules/OSSCosts/copy/new/DetailView.php", "modules/Vtiger/models/DetailView.php");
 			if($param == 'show_widgets_opportunities'){
-				copy("layouts/vlayout/modules/Potentials/SummaryViewWidgets.tpl", "modules/OSSCosts/copy/old/$param.tpl");
-				copy("modules/OSSCosts/copy/new/$param.tpl", "layouts/vlayout/modules/Potentials/SummaryViewWidgets.tpl");
+				//copy("layouts/vlayout/modules/Potentials/SummaryViewWidgets.tpl", "modules/OSSCosts/copy/old/$param.tpl");
+				//copy("modules/OSSCosts/copy/new/$param.tpl", "layouts/vlayout/modules/Potentials/SummaryViewWidgets.tpl");
 			}elseif($param == 'show_widgets_helpdesk'){
-				copy("layouts/vlayout/modules/HelpDesk/SummaryViewWidgets.tpl", "modules/OSSCosts/copy/old/$param.tpl");
-				copy("modules/OSSCosts/copy/new/$param.tpl", "layouts/vlayout/modules/HelpDesk/SummaryViewWidgets.tpl");
+				//copy("layouts/vlayout/modules/HelpDesk/SummaryViewWidgets.tpl", "modules/OSSCosts/copy/old/$param.tpl");
+				//copy("modules/OSSCosts/copy/new/$param.tpl", "layouts/vlayout/modules/HelpDesk/SummaryViewWidgets.tpl");
 			}elseif($param == 'show_widgets_project'){
-				copy("layouts/vlayout/modules/Project/SummaryViewWidgets.tpl", "modules/OSSCosts/copy/old/$param.tpl");
-				copy("modules/OSSCosts/copy/new/$param.tpl", "layouts/vlayout/modules/Project/SummaryViewWidgets.tpl");
+				//copy("layouts/vlayout/modules/Project/SummaryViewWidgets.tpl", "modules/OSSCosts/copy/old/$param.tpl");
+				//copy("modules/OSSCosts/copy/new/$param.tpl", "layouts/vlayout/modules/Project/SummaryViewWidgets.tpl");
 			}elseif($param == 'restrict_helpdesk'){
-				copy("modules/OSSCosts/copy/new/$param.php", "modules/HelpDesk/views/Popup.php");
+				//copy("modules/OSSCosts/copy/new/$param.php", "modules/HelpDesk/views/Popup.php");
 			}elseif($param == 'restrict_opportunities'){
-				copy("modules/Potentials/views/Popup.php", "modules/OSSCosts/copy/old/$param.php");
-				copy("modules/OSSCosts/copy/new/$param.php", "modules/Potentials/views/Popup.php");
+				//copy("modules/Potentials/views/Popup.php", "modules/OSSCosts/copy/old/$param.php");
+				//copy("modules/OSSCosts/copy/new/$param.php", "modules/Potentials/views/Popup.php");
 			}elseif($param == 'restrict_project'){
-				copy("modules/OSSCosts/copy/new/$param.php", "modules/Project/views/Popup.php");
+				//copy("modules/OSSCosts/copy/new/$param.php", "modules/Project/views/Popup.php");
 			}
 		}else{
 			$result = $db->query("SELECT value FROM vtiger_osscosts_config WHERE value = '1'", true);
 			if( $db->num_rows($result) == 0){
-				copy("modules/OSSCosts/copy/old/DetailView.php", "modules/Vtiger/models/DetailView.php");
+				//copy("modules/OSSCosts/copy/old/DetailView.php", "modules/Vtiger/models/DetailView.php");
 			}
 			if($param == 'show_widgets_opportunities'){
-				copy("modules/OSSCosts/copy/old/$param.tpl", "layouts/vlayout/modules/Potentials/SummaryViewWidgets.tpl");
+				//copy("modules/OSSCosts/copy/old/$param.tpl", "layouts/vlayout/modules/Potentials/SummaryViewWidgets.tpl");
 			}elseif($param == 'show_widgets_helpdesk'){
-				copy("modules/OSSCosts/copy/old/$param.tpl", "layouts/vlayout/modules/HelpDesk/SummaryViewWidgets.tpl");
+				//copy("modules/OSSCosts/copy/old/$param.tpl", "layouts/vlayout/modules/HelpDesk/SummaryViewWidgets.tpl");
 			}elseif($param == 'show_widgets_project'){
-				copy("modules/OSSCosts/copy/old/$param.tpl", "layouts/vlayout/modules/Project/SummaryViewWidgets.tpl");
+				//copy("modules/OSSCosts/copy/old/$param.tpl", "layouts/vlayout/modules/Project/SummaryViewWidgets.tpl");
 			}elseif($param == 'restrict_helpdesk'){
-				unlink("modules/HelpDesk/views/Popup.php");
+				//unlink("modules/HelpDesk/views/Popup.php");
 			}elseif($param == 'restrict_opportunities'){
-				copy("modules/OSSCosts/copy/old/$param.tpl", "modules/Potentials/views/Popup.php");
+				//copy("modules/OSSCosts/copy/old/$param.tpl", "modules/Potentials/views/Popup.php");
 			}elseif($param == 'restrict_opportunities'){
-				unlink("modules/Project/views/Popup.php");
+				//unlink("modules/Project/views/Popup.php");
 			}
 			
 			

@@ -75,5 +75,4 @@
 </div>
 {include file='AddProjectModal.tpl'|@vtemplate_path:$SETTINGS_MODULE_NAME}
 {include file='EditProjectModal.tpl'|@vtemplate_path:$SETTINGS_MODULE_NAME}
-
-<script type="text/javascript" src="layouts/vlayout/modules/Settings/OSSProjectTemplates/resources/Edit.js"></script>
+<script type="text/javascript" src="{Yeti_Layout::getLayoutFile('modules/Settings/OSSProjectTemplates/resources/Edit.js')}"></script>

@@ -1312,7 +1312,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			}).data("ui-autocomplete")._renderItem = function (ul, item) {
 				return jQuery("<li>")
 						.data("item.autocomplete", item)
-						.append('<a><img style="width: 24px; height: 24px;" class="alignMiddle" src="layouts/vlayout/skins/images/'
+						.append('<a><img style="width: 24px; height: 24px;" class="alignMiddle" src="layouts/basic/skins/images/'
 								+ item.source + '.png" title="' + item.source_label + '" alt="' + item.source_label + '">' + item.label + "</a>")
 						.appendTo(ul);
 			};

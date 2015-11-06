@@ -46,10 +46,10 @@
 													<span title="{vtranslate('LBL_FORWARD','OSSMailView')}" class="glyphicon glyphicon-share-alt"></span>
 												</a>
 												<a title="{vtranslate('LBL_REPLYALLL','OSSMailView')}" onclick="window.open('index.php?module=OSSMail&view=compose&id={$ROW['id']}&type=replyAll{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-sm btn-default">
-													<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
+													<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
 												</a>
 												<a title="{vtranslate('LBL_REPLY','OSSMailView')}" onclick="window.open('index.php?module=OSSMail&view=compose&id={$ROW['id']}&type=reply{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-sm btn-default">
-													<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
+													<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
 												</a>
 											{/if}
 										</div>
@@ -72,15 +72,15 @@
 										</h5>
 										<div class="pull-right">
 											{if $ROW['attachments'] eq 1}
-												<img class="pull-right" src="layouts/vlayout/modules/OSSMailView/attachment.png" />
+												<img class="pull-right" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />
 											{/if}
 											<span class="pull-right">
 												{if $ROW['type'] eq 0}
-													<img src="layouts/vlayout/modules/OSSMailView/outgoing.png" />
+													<img src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/outgoing.png')}" />
 												{elseif $ROW['type'] eq 1}
-													<img src="layouts/vlayout/modules/OSSMailView/incoming.png" />
+													<img src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/incoming.png')}" />
 												{elseif $ROW['type'] eq 2}
-													<img src="layouts/vlayout/modules/OSSMailView/internal.png" />
+													<img src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/internal.png')}" />
 												{/if}
 											</span>
 											<span class="pull-right smalSeparator"></span>

@@ -12,4 +12,4 @@
 {include file="EditViewBlocks.tpl"|@vtemplate_path:$MODULE}
 {include file="EditViewActions.tpl"|@vtemplate_path:$MODULE}
 
-<link rel="stylesheet" type="text/css" href="layouts/vlayout/modules/OSSPasswords/resources/validate_pass.css">
+<link rel="stylesheet" type="text/css" href="{Yeti_Layout::getLayoutFile('modules/OSSPasswords/resources/validate_pass.css')}">

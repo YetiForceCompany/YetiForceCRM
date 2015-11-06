@@ -873,7 +873,7 @@
 <customlink>
 <linktype>HEADERSCRIPT</linktype>
 <linklabel>PDFUtils</linklabel>
-<linkurl><![CDATA[layouts/vlayout/modules/OSSPdf/resources/PDFUtils.js]]></linkurl>
+<linkurl><![CDATA[layouts/_layoutName_/modules/OSSPdf/resources/PDFUtils.js]]></linkurl>
 <linkicon><![CDATA[]]></linkicon>
 <sequence>0</sequence>
 <handler_path><![CDATA[]]></handler_path>

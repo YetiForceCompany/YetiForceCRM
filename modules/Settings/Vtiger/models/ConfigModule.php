@@ -118,13 +118,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			}
 			return $moduleData;
 		} else if ($fieldName === 'defaultLayout') {
-			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT name,label FROM vtiger_layout');
-			$folders = ['vlayout' => vtranslate('LBL_DEFAULT', 'Settings:Vtiger')];
-			while ($row = $db->fetch_array($result)) {
-				$folders[$row['name']] = vtranslate($row['label'], 'Settings:Vtiger');
-			}
-			return $folders;
+			return Vtiger_Theme::getAllLayout();
 		}
 		return ['true', 'false'];
 	}
