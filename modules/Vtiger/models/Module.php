@@ -1544,7 +1544,8 @@ class Vtiger_Module_Model extends Vtiger_Module
 			$queryGenerator = new QueryGenerator($relatedModuleName, $currentUser);
 			$queryGenerator->setFields($relatedListFields);
 			$selectColumnSql = $queryGenerator->getSelectClauseColumnSQL();
-			$newQuery = explode('FROM', $query);
+			$query = str_replace('FROM', 'from', $query); 
+			$newQuery = explode('from', $query);
 			$selectColumnSql = 'SELECT DISTINCT vtiger_crmentity.crmid,' . $selectColumnSql;
 			$query = $selectColumnSql . ' FROM ' . $newQuery[1];
 		}
