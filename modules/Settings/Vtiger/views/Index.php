@@ -48,6 +48,8 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$menuModels = $settingsModel->getMenus();
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
 		
+		$viewer->assign('SELECTED_MENU', $selectedMenuId);
+		$viewer->assign('SETTINGS_MENUS', $menuModels); // used only in old layout 
 		$viewer->assign('MENUS', $menu);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
