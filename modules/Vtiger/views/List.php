@@ -81,6 +81,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$viewer->assign('VIEWID', $this->viewName);
 		}
 		$viewer->assign('MODULE_MODEL', $moduleModel);
+		if ($request->isAjax()) {
+			$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		}
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
