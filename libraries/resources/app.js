@@ -1155,7 +1155,7 @@ var app = {
 			e.stopPropagation();
 		});
 	},
-	initFooTable: function(){		
+	registerFooTableEanble: function(){
 		var container = $('.tableRWD');
 		container.find('thead tr th:gt(1)').attr('data-hide','phone');
 		container.find('thead tr th:gt(3)').attr('data-hide','tablet,phone');
@@ -1168,7 +1168,7 @@ var app = {
 				tablet: 1024
 			},
 			addRowToggle: true,
-			toggleSelector: ' > tbody > tr:not(.footable-row-detail)',
+			toggleSelector: ' > tbody > tr:not(.footable-row-detail)'
 		});
 		$('.footable-toggle').click(function(event){	
 		    event.stopPropagation();
@@ -1191,7 +1191,8 @@ jQuery(document).ready(function () {
 
 	//Updating row height
 	app.updateRowHeight();
-	
+	//Enable footable
+	app.registerFooTableEanble();
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();
 		return  value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
