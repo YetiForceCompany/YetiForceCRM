@@ -23,9 +23,9 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 			if(password == '**********'){
 				var params = {};
 				params.data = {
-					'module' : "OSSPasswords",
-					'action' : "GetPass",
-					'record' : id
+					module : "OSSPasswords",
+					action : "GetPass",
+					record : id
 				}
 				params.async = false;
 

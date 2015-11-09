@@ -36,13 +36,13 @@ Inventory_Edit_Js("SalesOrder_Edit_Js", {}, {
 			var form = this.getForm();
 			var parentIdElement  = form.find('[name="account_id"]');
 			if(parentIdElement.length > 0 && parentIdElement.val().length > 0 && parentIdElement.val() != 0) {
-				var closestContainer = parentIdElement.closest('td');
+				var closestContainer = parentIdElement.closest('.fieldValue');
 				params['related_parent_id'] = parentIdElement.val();
 				params['related_parent_module'] = closestContainer.find('[name="popupReferenceModule"]').val();
 			} else if(sourceFieldElement.attr('name') == 'potential_id') {
 				parentIdElement  = form.find('[name="contact_id"]');
 				if(parentIdElement.length > 0 && parentIdElement.val().length > 0) {
-					closestContainer = parentIdElement.closest('td');
+					closestContainer = parentIdElement.closest('.fieldValue');
 					params['related_parent_id'] = parentIdElement.val();
 					params['related_parent_module'] = closestContainer.find('[name="popupReferenceModule"]').val();
 				}
@@ -68,13 +68,13 @@ Inventory_Edit_Js("SalesOrder_Edit_Js", {}, {
 			var form = this.getForm();
 			var parentIdElement  = form.find('[name="account_id"]');
 			if(parentIdElement.length > 0 && parentIdElement.val().length > 0) {
-				var closestContainer = parentIdElement.closest('td');
+				var closestContainer = parentIdElement.closest('.fieldValue');
 				params.parent_id = parentIdElement.val();
 				params.parent_module = closestContainer.find('[name="popupReferenceModule"]').val();
 			} else if(params.search_module == 'Potentials') {
 				parentIdElement  = form.find('[name="contact_id"]');
 				if(parentIdElement.length > 0 && parentIdElement.val().length > 0) {
-					closestContainer = parentIdElement.closest('td');
+					closestContainer = parentIdElement.closest('.fieldValue');
 					params.parent_id = parentIdElement.val();
 					params.parent_module = closestContainer.find('[name="popupReferenceModule"]').val();
 				}
@@ -160,7 +160,7 @@ Inventory_Edit_Js("SalesOrder_Edit_Js", {}, {
 				}
 				relatedField.validationEngine('hide');
 				if(relatedField.is('select') && relatedField.hasClass('chzn-select')){
-					var parentTd = relatedField.closest('td');
+					var parentTd = relatedField.closest('.fieldValue');
 					parentTd.find('.chzn-container').validationEngine('hide');
 				}
 			}
@@ -225,7 +225,7 @@ Inventory_Edit_Js("SalesOrder_Edit_Js", {}, {
 		var lineItemTable = this.getLineItemContentsContainer();
 		lineItemTable.on('click','.clearLineItem',function(e){
 			var elem = jQuery(e.currentTarget);
-			var parentElem = elem.closest('td');
+			var parentElem = elem.closest('.fieldValue');
 			var selectedModuleIdC = parentElem.find('.selectedModuleIdC');
 			if(selectedModuleIdC.length == 1 ){
 				parentElem.find('input.calculation').removeAttr('disabled').val('');

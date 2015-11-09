@@ -155,9 +155,9 @@ Vtiger_Edit_Js("OSSMailTemplates_Edit_Js", {
 		var thisInstance = this;
 		var type = jQuery('[name="ossmailtemplates_type"]');
 		var fieldsList = jQuery('[name="oss_fields_list"]');
-		var fieldsButtons = fieldsList.closest('td').find('button');
+		var fieldsButtons = fieldsList.closest('.fieldValue').find('button');
 		var relatedFieldsList = jQuery('[name="oss_related_fields_list"]');
-		var relatedFieldsListButtons = relatedFieldsList.closest('td').find('button');
+		var relatedFieldsListButtons = relatedFieldsList.closest('.fieldValue').find('button');
 		type.on("change", function () {
 			var value = jQuery(this).val();
 			if (value == 'PLL_MODULE') {

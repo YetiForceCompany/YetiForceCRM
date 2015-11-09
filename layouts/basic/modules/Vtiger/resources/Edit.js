@@ -90,10 +90,10 @@ jQuery.Class("Vtiger_Edit_Js", {
 		}
 
 		var params = {
-			'module': popupReferenceModule,
-			'src_module': sourceModule,
-			'src_field': sourceField,
-			'src_record': sourceRecordId
+			module: popupReferenceModule,
+			src_module: sourceModule,
+			src_field: sourceField,
+			src_record: sourceRecordId
 		}
 
 		if (isMultiple) {

@@ -174,7 +174,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 				endDateElement.val(endDateString);
 				app.registerEventForDatePickerFields(container);
 			}
-            var timeStartElement = startDateElement.closest('td.fieldValue').find('[name="time_start"]');
+            var timeStartElement = startDateElement.closest('.fieldValue').find('[name="time_start"]');
             timeStartElement.trigger('changeTime');
         });
 		
@@ -219,7 +219,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 			if(result != true){
 				return;
 			}
-            var timeDateElement = timeElement.closest('td.fieldValue').find('[name="due_date"]');
+            var timeDateElement = timeElement.closest('.fieldValue').find('[name="due_date"]');
             jQuery('[name="userChangedEndDateTime"]').val('1');
             timeDateElement.data('userChangedTime',true);
         });

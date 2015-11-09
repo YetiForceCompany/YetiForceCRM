@@ -21,7 +21,7 @@ Inventory_Edit_Js("PurchaseOrder_Edit_Js",{},{
 			var form = this.getForm();
 			var parentIdElement  = form.find('[name="vendor_id"]');
 			if(parentIdElement.length > 0 && parentIdElement.val().length > 0 && parentIdElement.val() != 0) {
-				var closestContainer = parentIdElement.closest('td');
+				var closestContainer = parentIdElement.closest('.fieldValue');
 				params['related_parent_id'] = parentIdElement.val();
 				params['related_parent_module'] = closestContainer.find('[name="popupReferenceModule"]').val();
 			}
@@ -46,7 +46,7 @@ Inventory_Edit_Js("PurchaseOrder_Edit_Js",{},{
 			var form = this.getForm();
 			var parentIdElement  = form.find('[name="vendor_id"]');
 			if(parentIdElement.length > 0 && parentIdElement.val().length > 0) {
-				var closestContainer = parentIdElement.closest('td');
+				var closestContainer = parentIdElement.closest('.fieldValue');
 				params.parent_id = parentIdElement.val();
 				params.parent_module = closestContainer.find('[name="popupReferenceModule"]').val();
 			}

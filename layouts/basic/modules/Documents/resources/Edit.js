@@ -77,7 +77,7 @@ Vtiger_Edit_Js("Documents_Edit_Js", {} ,{
 				newFileNameElement.addClass(className);
 			}
 			fileNameElement.replaceWith(newFileNameElement);
-			var fileNameElementTd = newFileNameElement.closest('td');
+			var fileNameElementTd = newFileNameElement.closest('.fieldValue');
 			var uploadFileDetails = fileNameElementTd.find('.uploadedFileDetails');
 			if(thisInstance.isFileLocationExternalType(fileLocationTypeElement)) {
 				uploadFileDetails.addClass('hide').removeClass('show');
