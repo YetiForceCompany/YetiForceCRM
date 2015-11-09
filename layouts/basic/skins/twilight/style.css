@@ -3665,7 +3665,7 @@ span[name=existingImages] img{
 	left: 0;
 	top: 0;
 	bottom: 33px;
-	width: 210px;
+	width: 230px;
 	color: #fff;
 	z-index: 1030;
 	background: #444853;
@@ -3736,7 +3736,7 @@ span[name=existingImages] img{
 	position: fixed;
 	bottom:33px;
 	z-index: -2;
-	width: 210px;
+	width: 230px;
 	height: 100%;
 	background: #4a5364;
 }
@@ -3764,13 +3764,13 @@ span[name=existingImages] img{
 }
 
 .baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel .bodyHeader{
-	left: 210px;
+	left: 230px;
 	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 }
 .baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
 .baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
-	left: 160px;
+	left: 180px;
 	z-index: 0;
 	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
@@ -3798,7 +3798,7 @@ span[name=existingImages] img{
 .nav li:hover > .subMenu{
 	display: block;
 	position: absolute;
-	left: 210px;
+	left: 230px;
 	top: 50px;
 	height: calc(100% - 50px);
 	overflow: auto;
@@ -3932,6 +3932,9 @@ html,body,.baseContainer
 .userDetails .name{
 	line-height: 15px;
 	font-size: 15px;
+}
+.userDetails .headerLink  > li > ul > li > a {
+	color:#000;
 }
 .menuContainer{
 	overflow:auto;

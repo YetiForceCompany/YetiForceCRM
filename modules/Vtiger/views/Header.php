@@ -125,7 +125,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'SwitchUsers',
 				'linkurl' => '',
-				'linkicon' => 'glyphicon glyphicon-transfer',
+				'glyphicon' => 'glyphicon glyphicon-transfer',
 				'nocaret' => true,
 				'childlinks' => $childlinks
 			];

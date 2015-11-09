@@ -31,9 +31,6 @@
 										{if $ICON_PATH}
 											<img src="{$ICON_PATH}" alt="{vtranslate($TITLE,$MODULE)}" title="{vtranslate($TITLE,$MODULE)}" />
 										{/if}
-										{if !empty($CHILD_LINKS)}
-											<span class="caret"></span>
-										{/if}
 									</a>
 									{if !empty($CHILD_LINKS)}
 										<ul class="dropdown-menu pull-right">
@@ -61,9 +58,11 @@
 						{/foreach}
 					</ul>
 				</div>
-				<p class="noSpaces name">{$USER_MODEL->get('first_name')}&nbsp;</p>
-				<p class="noSpaces name">{$USER_MODEL->get('last_name')}&nbsp;</p>
-				<p class="companyName noSpaces">{$COMPANY_DETAILS->get('organizationname')}&nbsp;</p>
+				<div class="pull-left">
+					<p class="noSpaces name">{$USER_MODEL->get('first_name')}&nbsp;</p>
+					<p class="noSpaces name">{$USER_MODEL->get('last_name')}&nbsp;</p>
+					<p class="companyName noSpaces">{$COMPANY_DETAILS->get('organizationname')}&nbsp;</p>
+				</div>
 			</div>
 		</div>
 	</div>
