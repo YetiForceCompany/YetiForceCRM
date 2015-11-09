@@ -58,7 +58,7 @@ html,body{
 .fieldContainer .form-group{
 	padding-bottom: 10px;
 }
-.forgotpass a, .login-text a{
+#forgotpass, .login-text a{
 	color: #adb0b5;
 }
 .fieldContainer span{
