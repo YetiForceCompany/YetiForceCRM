@@ -93,55 +93,33 @@
 								{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 								{if $FIELD_MODEL->get('uitype') eq '20' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '300'}
 									{if $COUNTER eq '1'}
-										</div>
-										<div class="col-md-12 paddingLRZero">
-											{assign var=COUNTER value=0}
-										{/if}
-									{/if}
-									{if $COUNTER eq 2}
 									</div>
 									<div class="col-md-12 paddingLRZero">
-										{assign var=COUNTER value=1}
-									{else}
-										{assign var=COUNTER value=$COUNTER+1}
+										{assign var=COUNTER value=0}
 									{/if}
+								{/if}
+								{if $COUNTER eq 2}
+								</div>
+								<div class="col-md-12 paddingLRZero">
+									{assign var=COUNTER value=1}
+								{else}
+									{assign var=COUNTER value=$COUNTER+1}
+								{/if}
 								<div class="{if $FIELD_MODEL->get('uitype') neq "300"}col-md-6 {/if} fieldRow">
 									<div class="col-md-3 fieldLabel paddingLeft5px">
 										{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 										{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
 										{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 											<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE)}'><i class="glyphicon glyphicon-info-sign"></i></a>
-											{/if}
-											{if $isReferenceField neq "reference"}<label class="muted ">{/if}
-											{if $FIELD_MODEL->isMandatory() eq true && $isReferenceField neq "reference"} <span class="redColor">*</span> {/if}
-											{if $isReferenceField eq "reference"}
-												{assign var="REFERENCE_LIST" value=$FIELD_MODEL->getReferenceList()}
-												{assign var="REFERENCE_LIST_COUNT" value=count($REFERENCE_LIST)}
-												{if $REFERENCE_LIST_COUNT > 1}
-													{assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
-													{assign var="REFERENCED_MODULE_STRUCT" value=$FIELD_MODEL->getUITypeModel()->getReferenceModule($DISPLAYID)}
-													{if !empty($REFERENCED_MODULE_STRUCT)}
-														{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
-													{/if}
-													{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor referenceMandatory">*</span> {/if}
-													<span class="paddingRightZero pull-left">
-														<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" title="{vtranslate('LBL_RELATED_MODULE_TYPE')}" >
-															<optgroup>
-																{foreach key=index item=value from=$REFERENCE_LIST}
-																	<option value="{$value}" title="{vtranslate($value, $QUALIFIED_MODULE_NAME)}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $QUALIFIED_MODULE_NAME)}</option>
-																{/foreach}
-															</optgroup>
-														</select>
-													</span>
-												{else}
-													<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE_NAME)}</label>
-												{/if}
-											{else if $FIELD_MODEL->get('uitype') eq "83"}
+										{/if}
+										<label class="muted">
+											{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
+											{if $FIELD_MODEL->get('uitype') eq "83"}
 												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE}
 											{else}
 												{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE_NAME)}
 											{/if}
-											{if $isReferenceField neq "reference"}</label>{/if}
+										</label>
 									</div>
 									{if $FIELD_MODEL->get('uitype') neq "83"}
 										<div class="{if $FIELD_MODEL->get('uitype') neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
@@ -154,7 +132,7 @@
 									{/if}
 									{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->get('uitype') neq "19" and $FIELD_MODEL->get('uitype') neq "20" and $FIELD_MODEL->get('uitype') neq "30" and $FIELD_MODEL->get('uitype') neq '300' and $FIELD_MODEL->get('name') neq "recurringtype"}
 										<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
-										{/if}
+									{/if}
 								</div>
 							{/foreach}
 							{* adding additional column for odd number of fields in a block *}

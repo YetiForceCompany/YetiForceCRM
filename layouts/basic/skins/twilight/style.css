@@ -4688,9 +4688,6 @@ html,body,.baseContainer
 .blockContainer .blockHeader{
 	cursor:pointer;
 }
-.blockContainer .blockContent .fieldLabel  span{
-	width:100%;
-}
 .blockContainer .blockContent .fieldLabel  label{
 	padding-top:8px;
 }
@@ -4705,4 +4702,27 @@ html,body,.baseContainer
 .blockContainer .blockContent .fieldRow {
 	padding-bottom: 10px;
 	padding: 10px;
+}
+.chosen-container{
+	height: 34px;
+	line-height: 34px;
+}
+.chosen-container-multi .chosen-choices li.search-choice{
+	line-height: 20px;
+}
+.chosen-container-multi .chosen-choices li.search-choice .search-choice-close{
+	top: 8px;
+}
+.referenceGroup .referenceModulesListGroup .chosen-container{
+	min-width: 100px !important;
+    text-align: left;
+	height: 32px;
+}
+.referenceGroup .referenceModulesListGroup .chosen-container .chosen-single{
+	border: 0;
+	height: 32px;
+	border-radius: 0;
+}
+.chosen-container-single .chosen-single{
+	background: #fff;
 }
