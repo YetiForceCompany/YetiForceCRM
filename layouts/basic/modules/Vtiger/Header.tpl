@@ -36,7 +36,6 @@
 	</head>
 	<body data-language="{$LANGUAGE}" data-skinpath="{$SKIN_PATH}" data-layoutpath="{$LAYOUT_PATH}">
 		<div id="js_strings" class="hide noprint">{Zend_Json::encode($LANGUAGE_STRINGS)}</div>
-		{assign var=CURRENT_USER_MODEL value=Users_Record_Model::getCurrentUserModel()}
 		<input type="hidden" id="start_day" value="{$USER_MODEL->get('dayoftheweek')}" />
 		<input type="hidden" id="row_type" value="{$USER_MODEL->get('rowheight')}" />
 		<input type="hidden" id="current_user_id" value="{$USER_MODEL->get('id')}" />

@@ -179,7 +179,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
 	function preProcess(Vtiger_Request $request, $display = true)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PAGETITLE', $this->getPageTitle($request));
 		$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
@@ -190,6 +189,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 		$viewer->assign('LANGUAGE', Vtiger_Language_Handler::getLanguage());
 		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
+		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}

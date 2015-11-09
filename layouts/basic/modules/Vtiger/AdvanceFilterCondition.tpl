@@ -46,7 +46,6 @@
 						{assign var=referenceList value=$FIELD_MODEL->getWebserviceFieldObject()->getReferenceList()}
 						{if is_array($referenceList) && in_array('Users', $referenceList)}
 								{assign var=USERSLIST value=array()}
-								{assign var=CURRENT_USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
 								{assign var=ACCESSIBLE_USERS value = $USER_MODEL->getAccessibleUsers()}
 								{foreach item=USER_NAME from=$ACCESSIBLE_USERS}
 										{$USERSLIST[$USER_NAME] = $USER_NAME}
@@ -95,7 +94,6 @@
 						{assign var=referenceList value=$FIELD_MODEL->getWebserviceFieldObject()->getReferenceList()}
 						{if is_array($referenceList) && in_array('Users', $referenceList)}
 								{assign var=USERSLIST value=array()}
-								{assign var=CURRENT_USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
 								{assign var=ACCESSIBLE_USERS value = $USER_MODEL->getAccessibleUsers()}
 								{foreach item=USER_NAME from=$ACCESSIBLE_USERS}
 										{$USERSLIST[$USER_NAME] = $USER_NAME}

@@ -38,7 +38,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 		$viewer->assign('MENUS', $this->getMenu());
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('COMPANY_LOGO',$companyLogo);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
 		$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
