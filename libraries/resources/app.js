@@ -1154,55 +1154,27 @@ var app = {
 			}
 			e.stopPropagation();
 		});
-	},
-	registerFooTableEanble: function(){
-		var container = $('.tableRWD');
-		container.find('thead tr th:gt(1)').attr('data-hide','phone');
-		container.find('thead tr th:gt(3)').attr('data-hide','tablet,phone');
-		container.find('thead tr th:last').attr('data-hide','');
-		var whichColumnEnable = container.find('thead').attr('col-visible-alltime');
-		container.find('thead tr th:eq('+whichColumnEnable+')').attr('data-hide','');
-		$('.tableRWD, .customTableRWD').footable({
-			breakpoints:{
-				phone: 768,
-				tablet: 1024
-			},
-			addRowToggle: true,
-			toggleSelector: ' > tbody > tr:not(.footable-row-detail)'
-		});
-		$('.footable-toggle').click(function(event){	
-		    event.stopPropagation();
-		    $(this).trigger('footable_toggle_row');
-		});
-		var records = $('.customTableRWD').find('[data-toggle-visible=false]');
-		records.find('.footable-toggle').css("display","none");
 	}
 }
 
 jQuery(document).ready(function () {
 	app.changeSelectElementView();
-
 	//register all select2 Elements
 	app.showSelect2ElementView(jQuery('body').find('select.select2'));
 	app.showSelectizeElementView(jQuery('body').find('select.selectize'));
 	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
 	app.registerModal();
-
 	//Updating row height
 	app.updateRowHeight();
-	//Enable footable
-	app.registerFooTableEanble();
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();
 		return  value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
 	}
-
 	// in IE resize option for textarea is not there, so we have to use .resizable() api
 	if (/MSIE/.test(navigator.userAgent) || (/Trident/).test(navigator.userAgent)) {
 		jQuery('textarea').resizable();
 	}
-
 	// Instantiate Page Controller
 	var pageController = app.getPageController();
 	if (pageController)

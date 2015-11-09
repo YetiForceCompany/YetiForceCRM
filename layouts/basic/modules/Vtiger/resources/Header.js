@@ -740,10 +740,33 @@ jQuery.Class("Vtiger_Header_Js", {
 		url += '&' + jQuery.param(params);
 		app.showModalWindow(null, url);
 	},
+	registerFooTableEanble: function(){
+		var container = $('.tableRWD');
+		container.find('thead tr th:gt(1)').attr('data-hide','phone');
+		container.find('thead tr th:gt(3)').attr('data-hide','tablet,phone');
+		container.find('thead tr th:last').attr('data-hide','');
+		var whichColumnEnable = container.find('thead').attr('col-visible-alltime');
+		container.find('thead tr th:eq('+whichColumnEnable+')').attr('data-hide','');
+		$('.tableRWD, .customTableRWD').footable({
+			breakpoints:{
+				phone: 768,
+				tablet: 1024
+			},
+			addRowToggle: true,
+			toggleSelector: ' > tbody > tr:not(.footable-row-detail)'
+		});
+		$('.footable-toggle').click(function(event){
+			event.stopPropagation();
+			$(this).trigger('footable_toggle_row');
+		});
+		var records = $('.customTableRWD').find('[data-toggle-visible=false]');
+		records.find('.footable-toggle').css("display","none");
+	},
 	registerEvents: function () {
 		var thisInstance = this;
 		thisInstance.recentPageViews();
-
+		//Enable footable
+		thisInstance.registerFooTableEanble();
 		jQuery('#globalSearch').click(function () {
 			thisInstance.hideSearchMenu();
 			var advanceSearchInstance = new Vtiger_AdvanceSearch_Js();
