@@ -225,7 +225,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	registerClearTreeSelectionEvent: function (container) {
 		container.find('.clearTreeSelection').on('click', function (e) {
 			var element = jQuery(e.currentTarget);
-			var parentTdElement = element.closest('td');
+			var parentTdElement = element.closest('.fieldValue');
 			var fieldNameElement = parentTdElement.find('.sourceField');
 			var fieldName = fieldNameElement.attr('name');
 			fieldNameElement.val('');
@@ -235,7 +235,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	},
 	openTreePopUp: function (e) {
 		var thisInstance = this;
-		var parentElem = jQuery(e.target).closest('td');
+		var parentElem = jQuery(e.target).closest('.fieldValue');
 		var form = jQuery(e.target).closest('form');
 		var params = {};
 		var moduleName = jQuery('input[name="module"]', form).val();
@@ -269,7 +269,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 				//here this refers to auto complete instance
 				var inputElement = jQuery(this.element[0]);
 				var searchValue = request.term;
-				var parentElem = inputElement.closest('td');
+				var parentElem = inputElement.closest('.fieldValue');
 				var sourceFieldElement = jQuery('input[class="sourceField"]', parentElem);
 				var allValues = sourceFieldElement.data('allvalues');
 				var reponseDataList = new Array();
@@ -301,10 +301,10 @@ jQuery.Class("Vtiger_Edit_Js", {
 				}
 				selectedItemData.name = selectedItemData.value;
 				var element = jQuery(this);
-				var tdElement = element.closest('td');
-				var sourceField = tdElement.find('input[class="sourceField"]');
+				var parentElem = element.closest('.fieldValue');
+				var sourceField = parentElem.find('input[class="sourceField"]');
 				var sourceFieldDisplay = sourceField.attr('name') + "_display";
-				var fieldDisplayElement = jQuery('input[name="' + sourceFieldDisplay + '"]', tdElement);
+				var fieldDisplayElement = jQuery('input[name="' + sourceFieldDisplay + '"]', parentElem);
 
 				sourceField.val(selectedItemData.id);
 				fieldDisplayElement.val(selectedItemData.label).attr('readonly', true);
@@ -326,7 +326,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		});
 		container.find('.referenceModulesList').chosen().change(function (e) {
 			var element = jQuery(e.currentTarget);
-			var closestTD = element.closest('td').next();
+			var closestTD = element.closest('.fieldLabel').next();
 			var popupReferenceModule = element.val();
 			var referenceModuleElement = jQuery('input[name="popupReferenceModule"]', closestTD);
 			var prevSelectedReferenceModule = referenceModuleElement.val();
@@ -371,7 +371,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	 * Function to get reference search params
 	 */
 	getReferenceSearchParams: function (element) {
-		var tdElement = jQuery(element).closest('td');
+		var tdElement = jQuery(element).closest('.fieldValue');
 		var params = {};
 		var searchModule = this.getReferencedModuleName(tdElement);
 		params.search_module = searchModule;
@@ -420,7 +420,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 				}
 				selectedItemData.name = selectedItemData.value;
 				var element = jQuery(this);
-				var tdElement = element.closest('td');
+				var tdElement = element.closest('.fieldValue');
 				thisInstance.setReferenceFieldValue(tdElement, selectedItemData);
 
 				var sourceField = tdElement.find('input[class="sourceField"]').attr('name');
@@ -432,7 +432,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 				var element = jQuery(this);
 				//if you dont have readonly attribute means the user didnt select the item
 				if (element.attr('readonly') == undefined) {
-					element.closest('td').find('.clearReferenceSelection').trigger('click');
+					element.closest('.fieldValue').find('.clearReferenceSelection').trigger('click');
 				}
 			},
 			open: function (event, ui) {
@@ -448,7 +448,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	registerClearReferenceSelectionEvent: function (container) {
 		container.find('.clearReferenceSelection').on('click', function (e) {
 			var element = jQuery(e.currentTarget);
-			var parentTdElement = element.closest('td');
+			var parentTdElement = element.closest('.fieldValue');
 			var fieldNameElement = parentTdElement.find('.sourceField');
 			var fieldName = fieldNameElement.attr('name');
 			fieldNameElement.val('');
@@ -547,7 +547,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var contact_id = false;
 		var lead_id = false;
 		var vendor_id = false;
-		jQuery("#EditView table td").each(function (index) {
+		jQuery("#EditView table .fieldValue, #EditView table .fieldLabel").each(function (index) {
 			var referenceModulesList = false;
 			var relatedField = $(this).find('[name="popupReferenceModule"]').val();
 			if (relatedField == 'Accounts') {
@@ -566,16 +566,16 @@ jQuery.Class("Vtiger_Edit_Js", {
 			if (referenceModulesList.length > 0) {
 				$.each(referenceModulesList.find('option'), function (key, data) {
 					if (data.value == 'Accounts') {
-						account_id = jQuery("#EditView table td").eq(index + 1).find('.sourceField').attr("name");
+						account_id = $(this).next().find('.sourceField').attr("name");
 					}
 					if (data.value == 'Contacts') {
-						contact_id = jQuery("#EditView table td").eq(index + 1).find('.sourceField').attr("name");
+						contact_id = $(this).next().find('.sourceField').attr("name");
 					}
 					if (data.value == 'Leads') {
-						lead_id = jQuery("#EditView table td").eq(index + 1).find('.sourceField').attr("name");
+						lead_id = $(this).next().find('.sourceField').attr("name");
 					}
 					if (data.value == 'Vendors') {
-						vendor_id = jQuery("#EditView table td").eq(index + 1).find('.sourceField').attr("name");
+						vendor_id = $(this).next().find('.sourceField').attr("name");
 					}
 				});
 			}
@@ -851,7 +851,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var recordId = formElement.find('input[name="record"]').val();
 		formElement.find('.imageDelete').on('click', function (e) {
 			var element = jQuery(e.currentTarget);
-			var parentTd = element.closest('td');
+			var parentTd = element.closest('.fieldValue');
 			var imageUploadElement = parentTd.find('[name="imagename[]"]');
 			var fieldInfo = imageUploadElement.data('fieldinfo');
 			var mandatoryStatus = fieldInfo.mandatory;
@@ -879,7 +879,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	triggerDisplayTypeEvent: function () {
 		var widthType = app.cacheGet('widthType', 'narrowWidthType');
 		if (widthType) {
-			var elements = jQuery('#EditView').find('td');
+			var elements = jQuery('#EditView').find('.fieldValue,.fieldLabel');
 			elements.addClass(widthType);
 		}
 	},
@@ -1052,7 +1052,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		};
 	},
 	stretchCKEditor: function () {
-		var row = jQuery('.ckEditorSource').parents('tr');
+		var row = jQuery('.ckEditorSource').parents('.fieldRow');
 		var td = jQuery('.ckEditorSource').parent();
 		jQuery(row).find('.fieldLabel').remove();
 		jQuery(td).removeClass('col-md-10');
@@ -1095,7 +1095,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			var currentTarget = jQuery(e.currentTarget).find('.blockToggle').not('.hide');
 			var blockId = currentTarget.data('id');
 			var closestBlock = currentTarget.closest('.blockContainer');
-			var bodyContents = closestBlock.find('tbody');
+			var bodyContents = closestBlock.find('.blockContent');
 			var data = currentTarget.data();
 			var module = app.getModuleName();
 			var hideHandler = function () {
