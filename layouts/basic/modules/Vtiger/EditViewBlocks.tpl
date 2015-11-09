@@ -32,14 +32,14 @@
             {assign var=QUALIFIED_MODULE_NAME value={$QUALIFIED_MODULE}}
             {assign var=IS_PARENT_EXISTS value=strpos($MODULE,":")}
             {if $PARENT_MODULE neq ''}
-                <input type="hidden" id="module" name="module" value="{$MODULE}" />
-                <input type="hidden" id="parent" name="parent" value="{$PARENT_MODULE}" />
-				<input type='hidden' value="{$VIEW}" id='view' name='view'/>
+                <input type="hidden" name="module" value="{$MODULE}" />
+                <input type="hidden" name="parent" value="{$PARENT_MODULE}" />
+				<input type="hidden" value="{$VIEW}" name="view"/>
             {else}
-                <input type="hidden" id="module" name="module" value="{$MODULE}" />
+                <input type="hidden" name="module" value="{$MODULE}" />
             {/if}
             <input type="hidden" name="action" value="Save" />
-            <input type="hidden" name="record" value="{$RECORD_ID}" />
+            <input type="hidden" name="record" id="recordId" value="{$RECORD_ID}" />
             <input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
             <input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
             {if $IS_RELATION_OPERATION }

@@ -19,31 +19,31 @@ var app = {
 	 * @return : string - module name
 	 */
 	getModuleName: function () {
-		return jQuery('#module').val();
+		return this.getMainParams('module');
 	},
 	/**
 	 * Function to get the module name. This function will get the value from element which has id module
 	 * @return : string - module name
 	 */
 	getParentModuleName: function () {
-		return jQuery('#parent').val();
+		return this.getMainParams('parent');
 	},
 	/**
 	 * Function returns the current view name
 	 */
 	getViewName: function () {
-		return jQuery('#view').val();
+		return this.getMainParams('view');
 	},
 	/**
 	 * Function returns the record id
 	 */
 	getRecordId: function () {
-		var view = jQuery('[name="view"]').val();
+		var view = this.getViewName();
 		var recordId;
 		if (view == "Edit") {
-			recordId = jQuery('[name="record"]').val();
+			recordId = this.getMainParams('recordId');
 		} else if (view == "Detail") {
-			recordId = jQuery('#recordId').val();
+			recordId = this.getMainParams('recordId');
 		}
 		return recordId;
 	},
