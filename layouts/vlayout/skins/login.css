@@ -24,3 +24,7 @@ html,body{
 .login-form .form-group.first-group{
 	margin-bottom: 5px;
 }
+.logo{
+	margin:0 auto;
+	padding-bottom:10px;
+}
