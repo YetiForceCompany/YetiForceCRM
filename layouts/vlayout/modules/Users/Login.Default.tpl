@@ -43,7 +43,9 @@
 								<input name="password" type="password" class="form-control input-lg" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('Password',$MODULE)}">
 								<span class="userIcon-user-access-control form-control-feedback" aria-hidden="true"></span>
 							</div>
+							{assign var=COUNTERFIELDS value=2}
 							{if $LANGUAGE_SELECTION}
+								{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
 								<div class="form-group {if $LAYOUT_SELECTION}first-group {/if}">
 									<select class="input-lg form-control" title="{vtranslate('LBL_CHOOSE_LANGUAGE',$MODULE)}" name="language">
 										{foreach item=VALUE key=KEY from=Vtiger_Language_Handler::getAllLanguages()}
@@ -53,6 +55,7 @@
 								</div>
 							{/if}
 							{if $LAYOUT_SELECTION}
+								{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
 								<div class="form-group">
 									<select class="input-lg form-control" title="{vtranslate('LBL_SELECT_LAYOUT',$MODULE)}" name="layout">
 										{foreach item=VALUE key=KEY from=Yeti_Layout::getAllLayouts()}
@@ -63,7 +66,7 @@
 							{/if}
 						</div>
 						<div class='col-xs-2 marginRight0' >
-							<button class="btn btn-lg btn-primary btn-block" style='height:102px' type="submit" title="{vtranslate('LBL_SIGN_IN', $MODULE_NAME)}">
+							<button class="btn btn-lg btn-primary btn-block heightDiv_{$COUNTERFIELDS}" type="submit" title="{vtranslate('LBL_SIGN_IN', $MODULE_NAME)}">
 								<strong>></strong>
 							</button>
 						</div>

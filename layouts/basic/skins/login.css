@@ -82,3 +82,22 @@ html,body{
 	margin-right: 0 !important;
 	padding-right: 0 !important;
 }
+@media (min-width: 768px) { 
+	.visible-phone{ 
+		visibility: hidden;
+	}
+}
+@media (max-width: 767px) { 
+	.visible-phone{ 
+		visibility: visible;
+	}
+}
+.heightDiv_2{
+	height: 102px;
+}
+.heightDiv_3{
+	height: 158px;
+}
+.heightDiv_4{
+	height: 214px;
+}
