@@ -3021,22 +3021,18 @@ textarea {
 	width: auto;
 	margin: 0 auto;
 }
-
-.wide,
 .table td.wide,
 .listViewEntries td.wide,
 td.listViewEntryValue.wide {
 	padding: 8px!important;
 	line-height: 31px;
 }
-.medium,
 .table td.medium,
 .listViewEntries td.medium,
 td.listViewEntryValue.medium {
 	padding: 5px 6px!important;
 	line-height: 29px;
 }
-.narrow,
 .table td.narrow,
 .listViewEntries td.narrow,
 td.listViewEntryValue.narrow {
@@ -3242,12 +3238,16 @@ span[name=existingImages] img{
 	width: 300px;
 }
 .narrow.fieldValue .chosen-container-single .chosen-single,
+.narrow.fieldValue .chosen-container-single,
 .narrow.fieldLabel .chosen-container-single .chosen-single {
 	height: 27px;
-	line-height: 27px;
+	line-height: 25px;
 }
 .narrow.fieldValue input:not([type='checkbox']){
 	height: 27px;
+}
+.narrow.fieldValue .input-group-addon.referenceModulesListGroup{
+	padding: 0;
 }
 .narrow.fieldValue .input-group-addon{
 	padding: 4px 10px;
@@ -3255,6 +3255,19 @@ span[name=existingImages] img{
 .narrow.fieldValue .chosen-container-single .chosen-single div b{
 	background-position-y: 4px;
 }
+.narrow .chosen-container{
+	height: 27px;
+	line-height: 27px;
+}
+.narrow .referenceGroup .referenceModulesListGroup .chosen-container{
+	height: 25px;
+}
+.narrow .referenceGroup .referenceModulesListGroup .chosen-container .chosen-single{
+	height: 25px;
+}
+
+
+
 .image-in-button{
 	width: 18px;
 }
@@ -4700,8 +4713,7 @@ html,body,.baseContainer
 	text-align: center;
 }
 .blockContainer .blockContent .fieldRow {
-	padding-bottom: 10px;
-	padding: 10px;
+	padding: 5px;
 }
 .chosen-container{
 	height: 34px;
@@ -4725,4 +4737,10 @@ html,body,.baseContainer
 }
 .chosen-container-single .chosen-single{
 	background: #fff;
+}
+.blockHeader.panel-heading{
+	padding: 0;
+}
+.blockContainer .panel-body.blockContent{
+	padding: 0;
 }

@@ -57,7 +57,6 @@
 					<table class="table table-bordered blockContainer showInlineTable">	
 						<tbody>
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
-								{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 								{if $FIELD_MODEL->get('uitype') neq "83"}
 								<td id="DOC_{$BLOCK_LABEL}" class="{$BLOCK_LABEL} hide fieldValue" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if} {if $FIELD_MODEL->get('uitype') eq '20'} colspan="3"{/if}>
 									{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
@@ -88,8 +87,6 @@
 					<tr>
 						{assign var=COUNTER value=0}
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
-
-							{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 							{if $FIELD_MODEL->get('uitype') eq "20" || $FIELD_MODEL->get('uitype') eq "19" || $FIELD_MODEL->get('uitype') eq '300' || $FIELD_MODEL->getName() eq 'filename'}
 								{if $COUNTER eq '1'}
 									<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
@@ -110,36 +107,14 @@
 								<td class="fieldLabel">
 									<label class="muted pull-right marginRight10px">
 										{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-										{if $isReferenceField eq "reference"}
-											{assign var="REFERENCE_LIST" value=$FIELD_MODEL->getReferenceList()}
-											{assign var="REFERENCE_LIST_COUNT" value=count($REFERENCE_LIST)}
-											{if $REFERENCE_LIST_COUNT > 1}
-												{assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
-												{assign var="REFERENCED_MODULE_STRUCT" value=$FIELD_MODEL->getUITypeModel()->getReferenceModule($DISPLAYID)}
-												{if !empty($REFERENCED_MODULE_STRUCT)}
-													{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
-												{/if}
-												<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" style="width:140px;">
-													<optgroup>
-														{foreach key=index item=value from=$REFERENCE_LIST}
-															<option value="{$value}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $MODULE)}</option>
-														{/foreach}
-													</optgroup>
-												</select>
-											{else}
-												{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
-											{/if}
-										{else if $FIELD_MODEL->get('uitype') eq "83"}
+										{if $FIELD_MODEL->get('uitype') eq "83"}
 											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE}
-
 										{else}
 											{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
 										{/if}
 									</label>
 								</td>
-
 							{/if}
-
 							{if $FIELD_MODEL->get('uitype') neq "83"}
 								<td class="fieldValue" {if $FIELD_MODEL->getName() eq 'filename' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
 									<div class="row">

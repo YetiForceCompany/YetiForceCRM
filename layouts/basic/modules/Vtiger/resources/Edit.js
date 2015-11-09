@@ -326,15 +326,15 @@ jQuery.Class("Vtiger_Edit_Js", {
 		});
 		container.find('.referenceModulesList').chosen().change(function (e) {
 			var element = jQuery(e.currentTarget);
-			var closestTD = element.closest('.fieldLabel').next();
+			var parentElem = element.closest('.fieldValue');
 			var popupReferenceModule = element.val();
-			var referenceModuleElement = jQuery('input[name="popupReferenceModule"]', closestTD);
+			var referenceModuleElement = jQuery('input[name="popupReferenceModule"]', parentElem);
 			var prevSelectedReferenceModule = referenceModuleElement.val();
 			referenceModuleElement.val(popupReferenceModule);
 
 			//If Reference module is changed then we should clear the previous value
 			if (prevSelectedReferenceModule != popupReferenceModule) {
-				closestTD.find('.clearReferenceSelection').trigger('click');
+				parentElem.find('.clearReferenceSelection').trigger('click');
 			}
 		});
 	},
