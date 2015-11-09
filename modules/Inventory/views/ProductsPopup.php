@@ -29,6 +29,7 @@ class Inventory_ProductsPopup_View extends Vtiger_Popup_View {
 		$viewer->assign('COMPANY_LOGO',$companyLogo);
 		$moduleName = $this->getModule($request);
 		$viewer->assign('MODULE_NAME',$moduleName);
+		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
 		$viewer->view('Popup.tpl', $moduleName);
 	}
 
