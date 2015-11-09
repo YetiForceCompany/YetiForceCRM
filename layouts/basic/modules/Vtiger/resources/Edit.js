@@ -103,7 +103,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	},
 	openPopUp: function (e) {
 		var thisInstance = this;
-		var parentElem = jQuery(e.target).closest('div').parent().closest('div');
+		var parentElem = jQuery(e.target).closest('.fieldValue');
 
 		var params = this.getPopUpParams(parentElem);
 
@@ -514,8 +514,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var thisInstance = this;
 		container.on('click', '.createReferenceRecord', function (e) {
 			var element = jQuery(e.currentTarget);
-			var controlElementDiv = element.closest('div').parent().closest('div');
-
+			var controlElementDiv = element.closest('.fieldValue');
 			thisInstance.referenceCreateHandler(controlElementDiv);
 		})
 	},
