@@ -4536,10 +4536,16 @@ html,body,.baseContainer
 		padding-right: 0;
 		padding-left: 0;
 	}
+	.blockContainer .blockContent .fieldLabel{
+		text-align:left;
+	}
 }
 @media only screen and (min-width: 992px) {
 	.conditionList .conditionField{
 		padding-left: 0;
+	}
+	.blockContainer .blockContent .fieldLabel{
+		text-align:right
 	}
 }
 @media only screen and (max-width: 768px){
@@ -4678,4 +4684,33 @@ html,body,.baseContainer
 }
 .menuPanel{
 	padding: 5px;
+}
+.blockContainer{
+	border: 1px #ddd solid;
+	border-radius: 5px;
+}
+.blockContainer .blockHeader{
+	border: 1px #ddd solid;
+	border-radius: 5px;
+	background:#eee;
+	cursor:pointer;
+}
+
+.blockContainer .blockContent .fieldLabel  span{
+	width:100%;
+}
+.blockContainer .blockContent .fieldLabel  label{
+	padding-top:8px;
+}
+.blockContainer .blockContent .actionButtons{
+	border-bottom: 1px #ddd solid;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+.blockContainer .blockContent .actionButtons {
+	text-align: center;
+}
+.blockContainer .blockContent .fieldRow {
+	padding-bottom: 10px;
+	padding: 10px;
 }

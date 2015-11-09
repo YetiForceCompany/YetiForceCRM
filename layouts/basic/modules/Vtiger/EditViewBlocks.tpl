@@ -48,14 +48,6 @@
                 <input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
             {/if}
             <div class="contentHeader">
-				{assign var=IMAGE value=$MODULE|cat:'48.png'}
-				{if file_exists( vimage_path($IMAGE) )}
-					<span class="pull-left moduleIcon{$MODULE_NAME}">
-						<span class="moduleIcon">
-							<img src="{vimage_path($IMAGE)}" class="summaryImg" alt="{vtranslate($MODULE, $QUALIFIED_MODULE_NAME)}"/>
-						</span>
-					</span>
-				{/if}
                 {assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
                 <span class="pull-right">
                     <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong></button>&nbsp;&nbsp;
@@ -70,56 +62,51 @@
 			{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 			{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 			{if $BLOCKS_HIDE}
-				<div class="blockContainer showInlineTable equalSplit" data-label="{$BLOCK_LABEL}">					
-					<div class="row">
-						<div class="col-md-12">
-							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
-								{assign var=APIADDRESFIELD value=TRUE}
-							{else}
-								{assign var=APIADDRESFIELD value=FALSE}
-							{/if}
-							<div class="row">
-								<div class=" {if $APIADDRESFIELD}col-md-7 {else}col-md-12{/if}">
-									<h4>{vtranslate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
-								</div>
-							</div>
+				<div class="row marginLeftZero marginRightZero blockContainer showInlineTable equalSplit" data-label="{$BLOCK_LABEL}">					
+					<div class="row blockHeader marginLeftZero marginRightZero">
+						{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
+							{assign var=APIADDRESFIELD value=TRUE}
+						{else}
+							{assign var=APIADDRESFIELD value=FALSE}
+						{/if}
+						<div class=" {if $APIADDRESFIELD}col-md-7 {else}col-md-12{/if}">
+							<h4>{vtranslate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
 						</div>
 					</div>
-					<div {if $IS_HIDDEN} class="hide" {/if}>
+					<div class="col-md-12 paddingLRZero blockContent"{if $IS_HIDDEN} class="hide" {/if}>
 						{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-							<div class="col-md-12">
+							<div class="col-md-12 actionButtons">
 								{if $APIADDRESFIELD}
 									<div class="col-md-4">
 										<input value="" title="{vtranslate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete form-control pull-right input " placeholder="{vtranslate('LBL_ENTER_SEARCHED_ADDRESS')}" />
 									</div>
 								{/if}
-								<div class="{if $APIADDRESFIELD}col-md-8{else}col-md-8 {/if} paddingLRZero marginBottom10px text-center">
+								<div class="{if $APIADDRESFIELD}col-md-8{else}col-md-12{/if} paddingLRZero marginBottom10px text-center">
 									{include file=vtemplate_path('BlockHeader.tpl',$MODULE)}
 								</div>
 							</div>
 						{/if}
-						<div class="col-md-12">
+						<div class="col-md-12 paddingLRZero">
 							{assign var=COUNTER value=0}
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 
 								{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 								{if $FIELD_MODEL->get('uitype') eq '20' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '300'}
 									{if $COUNTER eq '1'}
-										<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
-										</tr>
-										<tr>
+										</div>
+										<div class="col-md-12 paddingLRZero">
 											{assign var=COUNTER value=0}
 										{/if}
 									{/if}
 									{if $COUNTER eq 2}
-									</tr>
-									<tr>
+									</div>
+									<div class="col-md-12 paddingLRZero">
 										{assign var=COUNTER value=1}
 									{else}
 										{assign var=COUNTER value=$COUNTER+1}
 									{/if}
-								<div class="{if $FIELD_MODEL->get('uitype') neq "300"}row col-md-6 {/if}marginBottom10px">
-									<div class="col-md-3 row fieldLabel ">
+								<div class="{if $FIELD_MODEL->get('uitype') neq "300"}col-md-6 {/if} fieldRow">
+									<div class="col-md-3 fieldLabel paddingLeft5px">
 										{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 										{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
 										{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
