@@ -4685,17 +4685,9 @@ html,body,.baseContainer
 .menuPanel{
 	padding: 5px;
 }
-.blockContainer{
-	border: 1px #ddd solid;
-	border-radius: 5px;
-}
 .blockContainer .blockHeader{
-	border: 1px #ddd solid;
-	border-radius: 5px;
-	background:#eee;
 	cursor:pointer;
 }
-
 .blockContainer .blockContent .fieldLabel  span{
 	width:100%;
 }

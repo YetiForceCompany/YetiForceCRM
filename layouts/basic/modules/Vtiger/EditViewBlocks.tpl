@@ -62,8 +62,8 @@
 			{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 			{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 			{if $BLOCKS_HIDE}
-				<div class="row marginLeftZero marginRightZero blockContainer showInlineTable equalSplit" data-label="{$BLOCK_LABEL}">					
-					<div class="row blockHeader marginLeftZero marginRightZero">
+				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL}">					
+					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
 						{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 							{assign var=APIADDRESFIELD value=TRUE}
 						{else}
@@ -73,7 +73,7 @@
 							<h4>{vtranslate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
 						</div>
 					</div>
-					<div class="col-md-12 paddingLRZero blockContent"{if $IS_HIDDEN} class="hide" {/if}>
+					<div class="col-md-12 paddingLRZero panel-body blockContent"{if $IS_HIDDEN} class="hide" {/if}>
 						{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
 							<div class="col-md-12 actionButtons">
 								{if $APIADDRESFIELD}
@@ -134,7 +134,7 @@
 														</select>
 													</span>
 												{else}
-													<label class="muted pull-left marginRight10px">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE_NAME)}</label>
+													<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE_NAME)}</label>
 												{/if}
 											{else if $FIELD_MODEL->get('uitype') eq "83"}
 												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE}
@@ -164,7 +164,6 @@
 						</div>
 					</div>
 				</div>
-				<br>
 			{/if}
 		{/foreach}
 	{/strip}
