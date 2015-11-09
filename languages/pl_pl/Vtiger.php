@@ -1065,7 +1065,7 @@ $languageStrings = [
 	'Sales' => 'Sprzedaż',
 	'BTN_READ_RECORD' => 'Za pomocą tego przycisku oznaczysz, że zapoznałeś się ze wszystkimi zmianami na rekordzie',
 	'LBL_MARK_AS_HELD' => 'Oznacz jako wykonane',
-	'LBL_VTIGER_LAYOUT' => 'Default',
+	'LBL_VTIGER_LAYOUT' => 'Domyślny',
 	'LBL_DEFAULT' => 'Responsywny',
 ];
 $jsLanguageStrings = [
