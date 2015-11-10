@@ -24,6 +24,8 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 	//contains the filter form element
 	filterForm : false,
 
+	//container which will store the parent elements
+	parentContainer : false,
 	/**
 	 * Function which will give the container
 	 */
@@ -38,6 +40,23 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 	 */
 	setContainer : function(container) {
 		this.elementContainer = container;
+		return this;
+	},
+	
+	/**
+	 * Function which will give the parent container
+	 */
+	getParentContainer : function() {
+		return this.parentContainer;
+	},
+	
+	/**
+	 *Function which is used to set the continaer
+	 *@params : container - element which represent the container
+	 *@return current instance
+	 */
+	setParentContainer : function(container) {
+		this.parentContainer = container;
 		return this;
 	},
 
@@ -98,23 +117,12 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 			thisInstance.setContainer(jQuery('#advanceSearchContainer'));
 			thisInstance.registerEvents();
 			thisInstance.advanceFilter = new Vtiger_SearchAdvanceFilter_Js(jQuery('.filterContainer',uiData));
-			//align it below the search element
-			/*uiData.closest('.blockMsg').position({
-				my: "right top",
-				at: "right bottom",
-				of: ".searchElement",
-				using: function(){
-					jQuery("#globalmodal").css({ 'margin-left': '-65px', 'margin-top':'30px'});
-				}
-			});*/
-			console.log(jQuery('#searchContainer').height())
             if (jQuery('#searchContainer').height() > 200) {
                 app.showScrollBar( jQuery('#searchContainer'), {'height':'400px','railVisible':'true'});
             }
             aDeferred.resolve();
 		}
-
-		this.getAdvanceSearch().then(
+		thisInstance.getAdvanceSearch().then(
 			function(data){
 				var params = {};
 				params.data = data ;
@@ -139,7 +147,11 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
     },
     
     selectBasicSearchValue : function() {
-      var value = jQuery('#globalSearchValue').val();
+		var parent = this.getParentContainer();
+		if(parent == false){
+			return false;
+		}
+      var value = parent.find('.globalSearchValue').val();
       if(value.length > 0 ) {
           var form = this.getFilterForm();
           var labelFieldList = this.getNameFields();

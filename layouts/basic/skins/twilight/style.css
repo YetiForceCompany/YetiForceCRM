@@ -1702,6 +1702,7 @@ th.htColHeader,
 	margin-top: 2px;
 	margin-left: 5px;
 	height: 12px;
+	z-index: 1030;
 }
 .ui-slider-disabled {
 	opacity: 0.5;

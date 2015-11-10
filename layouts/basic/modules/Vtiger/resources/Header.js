@@ -87,7 +87,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		if (show) {
 			var announcement = jQuery('#announcement').outerHeight();
 			navTop = (navTop + announcement);
-		}	
+		}
 		var contentsContainer = this.getContentsContainer();
 		contentsContainer.animate({'margin-top': navTop}, speed, effect);
 		return this;
@@ -489,7 +489,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	basicSearch: function () {
 		var thisInstance = this;
-		jQuery('#globalSearchValue, #globalMobileSearchValue').keypress(function (e) {
+		jQuery('.globalSearchValue').keypress(function (e) {
 			var currentTarget = jQuery(e.currentTarget)
 			if (e.which == 13) {
 				thisInstance.labelSearch(currentTarget);
@@ -522,11 +522,11 @@ jQuery.Class("Vtiger_Header_Js", {
 							.appendTo(ul);
 				},
 			});
-			jQuery('#globalSearchValue, #globalMobileSearchValue').gsAutocomplete({
-				minLength: jQuery('#gsMinLength').val(),
+			jQuery('.globalSearchValue').gsAutocomplete({
+				minLength: app.getMainParams('gsMinLength'),
 				source: function (request, response) {
 					var basicSearch = new Vtiger_BasicSearch_Js();
-					basicSearch.reduceNumberResults = jQuery('#gsAmountResponse').val();
+					basicSearch.reduceNumberResults = app.getMainParams('gsAmountResponse');
 					basicSearch.returnHtml = false;
 					basicSearch.search(request.term).then(function (data) {
 						var data = jQuery.parseJSON(data);
@@ -547,7 +547,7 @@ jQuery.Class("Vtiger_Header_Js", {
 					}
 				},
 				close: function (event, ui) {
-					jQuery('#globalSearchValue, #globalMobileSearchValue').val('');
+					jQuery('.globalSearchValue').val('');
 				}
 			});
 		}
@@ -579,7 +579,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			var item = sp[sp.length - 1].toString().split("|");
 			BtnText = item[0];
 			BtnLink = item[1];
-			
+
 		}
 		var htmlContent = '<ul class="dropdown-menu pull-right historyList" role="menu">';
 		var date = new Date().getTime();
@@ -594,20 +594,20 @@ jQuery.Class("Vtiger_Header_Js", {
 					d.setTime(item[2]);
 					var hours = app.formatDateZ(d.getHours());
 					var minutes = app.formatDateZ(d.getMinutes());
-					if(writeSelector && (howmanyDays != app.howManyDaysFromDate(d))){
+					if (writeSelector && (howmanyDays != app.howManyDaysFromDate(d))) {
 						howmanyDays = app.howManyDaysFromDate(d);
-						if(howmanyDays == 0){
+						if (howmanyDays == 0) {
 							htmlContent += '<li class="selectorHistory">' + app.vtranslate('JS_TODAY') + '</li>';
 						}
-						else if(howmanyDays == 1){
+						else if (howmanyDays == 1) {
 							htmlContent += '<li class="selectorHistory">' + app.vtranslate('JS_YESTERDAY') + '</li>';
 						}
-						else{
+						else {
 							htmlContent += '<li class="selectorHistory">' + app.vtranslate('JS_OLDER') + '</li>';
 							writeSelector = false;
 						}
 					}
-					if(writeSelector)
+					if (writeSelector)
 						t = '<span class="historyHour">' + hours + ":" + minutes + "</span> | ";
 					else
 						t = app.formatDate(d) + ' | ';
@@ -694,19 +694,19 @@ jQuery.Class("Vtiger_Header_Js", {
 		block.css('top', $('.commonActionsContainer').height());
 		block.height($(window).height() - $('footer.navbar-default').height() - $('.commonActionsContainer').height() + 2);
 	},
-	registerMobileEvents: function (){
+	registerMobileEvents: function () {
 		var thisInstance = this;
-		$('.rightHeaderBtnMenu').click(function(){
+		$('.rightHeaderBtnMenu').click(function () {
 			thisInstance.hideActionMenu();
 			thisInstance.hideSearchMenu();
 			$('.mobileLeftPanel ').toggleClass('mobileMenuOn');
 		});
-		$('.actionMenuBtn').click(function (){
+		$('.actionMenuBtn').click(function () {
 			thisInstance.hideSearchMenu();
 			thisInstance.hideMobileMenu();
 			$('.actionMenu').toggleClass('actionMenuOn');
 		});
-		$('.searchMenuBtn').click(function(){
+		$('.searchMenuBtn').click(function () {
 			thisInstance.hideActionMenu();
 			thisInstance.hideMobileMenu();
 			$('.searchMenu').toggleClass('toogleSearchMenu');
@@ -719,20 +719,20 @@ jQuery.Class("Vtiger_Header_Js", {
 			currentTarget.trigger(pressEvent);
 		});
 	},
-	hideMobileMenu: function (){
+	hideMobileMenu: function () {
 		$('.mobileLeftPanel ').removeClass('mobileMenuOn');
 	},
-	hideSearchMenu: function() {
+	hideSearchMenu: function () {
 		$('.searchMenu').removeClass('toogleSearchMenu');
 	},
-	hideActionMenu: function (){
+	hideActionMenu: function () {
 		$('.actionMenu').removeClass('actionMenuOn');
 	},
 	showPdfModal: function (url) {
 		var params = {};
 		if (app.getViewName() == 'List') {
 			var selected = Vtiger_List_Js.getSelectedRecordsParams();
-			if(selected === false){
+			if (selected === false) {
 				return false;
 			}
 			jQuery.extend(params, selected);
@@ -740,42 +740,43 @@ jQuery.Class("Vtiger_Header_Js", {
 		url += '&' + jQuery.param(params);
 		app.showModalWindow(null, url);
 	},
-	registerFooTable: function(){
+	registerFooTable: function () {
 		var container = $('.tableRWD');
-		container.find('thead tr th:gt(1)').attr('data-hide','phone');
-		container.find('thead tr th:gt(3)').attr('data-hide','tablet,phone');
-		container.find('thead tr th:last').attr('data-hide','');
+		container.find('thead tr th:gt(1)').attr('data-hide', 'phone');
+		container.find('thead tr th:gt(3)').attr('data-hide', 'tablet,phone');
+		container.find('thead tr th:last').attr('data-hide', '');
 		var whichColumnEnable = container.find('thead').attr('col-visible-alltime');
-		container.find('thead tr th:eq('+whichColumnEnable+')').attr('data-hide','');
+		container.find('thead tr th:eq(' + whichColumnEnable + ')').attr('data-hide', '');
 		$('.tableRWD, .customTableRWD').footable({
-			breakpoints:{
+			breakpoints: {
 				phone: 768,
 				tablet: 1024
 			},
 			addRowToggle: true,
 			toggleSelector: ' > tbody > tr:not(.footable-row-detail)'
 		});
-		$('.footable-toggle').click(function(event){
+		$('.footable-toggle').click(function (event) {
 			event.stopPropagation();
 			$(this).trigger('footable_toggle_row');
 		});
 		var records = $('.customTableRWD').find('[data-toggle-visible=false]');
-		records.find('.footable-toggle').css("display","none");
+		records.find('.footable-toggle').css("display", "none");
 	},
 	registerEvents: function () {
 		var thisInstance = this;
 		thisInstance.recentPageViews();
-		//Enable footable
-		thisInstance.registerFooTable();
-		jQuery('#globalSearch').click(function () {
+		thisInstance.registerFooTable(); //Enable footable
+		jQuery('.globalSearch').click(function () {
+			var currentTarget = $(this);
 			thisInstance.hideSearchMenu();
 			var advanceSearchInstance = new Vtiger_AdvanceSearch_Js();
+			advanceSearchInstance.setParentContainer(currentTarget.closest('.globalSearchInput'));
 			advanceSearchInstance.initiateSearch().then(function () {
 				advanceSearchInstance.selectBasicSearchValue();
 			});
 		});
-		jQuery('#searchIcon').on('click', function (e) {
-			var currentTarget = jQuery('#globalSearchValue');
+		jQuery('.searchIcon').on('click', function (e) {
+			var currentTarget = $(this).closest('.globalSearchInput').find('.globalSearchValue');
 			var pressEvent = jQuery.Event("keypress");
 			pressEvent.which = 13;
 			currentTarget.trigger(pressEvent);
@@ -786,8 +787,11 @@ jQuery.Class("Vtiger_Header_Js", {
 		thisInstance.registerHotKeys();
 		//this.registerCalendarButtonClickEvent();
 		//After selecting the global search module, focus the input element to type
-		jQuery('#basicSearchModulesList').change(function () {
-			jQuery('#globalSearchValue').focus();
+		jQuery('.basicSearchModulesList').change(function () {
+			var value = $(this).closest('.globalSearchInput').find('.globalSearchValue')
+			setTimeout(function () {
+				value.focus();
+			}, 100);
 		});
 
 		thisInstance.basicSearch();
@@ -795,9 +799,9 @@ jQuery.Class("Vtiger_Header_Js", {
 			var moduleName = jQuery(e.currentTarget).data('name');
 			thisInstance.quickCreateModule(moduleName);
 		});
-		
+
 		thisInstance.registerMobileEvents();
-		
+
 		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 			jQuery('#basicSearchModulesList_chosen').find('.chzn-results').css({'max-height': '350px', 'overflow-y': 'scroll'});
 		}
