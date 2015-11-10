@@ -1319,6 +1319,8 @@ $languageStrings = [
 	'Sales' => 'Sale',
 	'LBL_VTIGER_LAYOUT' => 'Default',
 	'LBL_DEFAULT' => 'Responsive',
+	'BTN_GENERATE_RECORD' => 'Generate record',
+	'LBL_GENERATE_RECORD_FOR_MODULE' => 'Generate record for module',
 ];
 $jsLanguageStrings = [
 	'SINGLE_SalesOrder' => 'Заказ',

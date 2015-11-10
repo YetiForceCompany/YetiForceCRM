@@ -3342,7 +3342,8 @@ span[name=existingImages] img{
 #tagRecord{
 	line-height: 25px;
 }
-#tagsList .btn-info{
+#tagsList .btn-info,
+.modal-body .btn-elements > .btn{
 	margin-left: 5px;
 }
 #tagRecordInput{

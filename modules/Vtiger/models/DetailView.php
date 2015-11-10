@@ -98,6 +98,18 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				'linkhint' => 'BTN_RECORD_EDIT',
 			);
 		}
+		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+		$mfModel = new $handlerClass();
+		if($mfModel && $mfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')){
+			$detailViewLinks[] = [
+				'linktype' => 'DETAILVIEWBASIC',
+				'linklabel' => '',
+				'linkdata' => ['url' => $mfModel->getGenerateModalView() . '&source=' . $moduleName . '&record=' . $recordId],
+				'linkicon' => 'glyphicon glyphicon-new-window',
+				'linkclass' => 'btn showModal',
+				'linkhint' => 'BTN_GENERATE_RECORD',
+			];
+		}
 		foreach ($detailViewLinks as $detailViewLink) {
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 		}
