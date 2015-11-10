@@ -711,13 +711,6 @@ jQuery.Class("Vtiger_Header_Js", {
 			thisInstance.hideMobileMenu();
 			$('.searchMenu').toggleClass('toogleSearchMenu');
 		});
-		$('#searchMobileIcon').on('click', function (e) {
-			var currentTarget = $('#globalMobileSearchValue');
-			thisInstance.hideSearchMenu();
-			var pressEvent = $.Event("keypress");
-			pressEvent.which = 13;
-			currentTarget.trigger(pressEvent);
-		});
 	},
 	hideMobileMenu: function () {
 		$('.mobileLeftPanel ').removeClass('mobileMenuOn');

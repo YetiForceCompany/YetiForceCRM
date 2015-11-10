@@ -363,9 +363,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 		container.on('change','#searchModuleList', function(e){
 			var selectElement = jQuery(e.currentTarget);
 			var selectedModuleName = selectElement.val();
-
 			thisInstance.setSearchModule(selectedModuleName);
-
 			thisInstance.initiateSearch().then(function(){
                 thisInstance.selectBasicSearchValue();
             });

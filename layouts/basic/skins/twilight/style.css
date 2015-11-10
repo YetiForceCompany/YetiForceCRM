@@ -4085,6 +4085,10 @@ html,body,.baseContainer
 	.leftHeader{
 		display: none;
 	}
+	.searchMenu.toogleSearchMenu{
+		left: 0;
+		width: 100%;
+	}
 }
 @media only screen and (min-width: 767px) {
 	.dashboardHeading .h3{
@@ -4274,7 +4278,7 @@ html,body,.baseContainer
 .searchMenu{
 	position: fixed;
 	left: 100%;
-	top: 50px;	
+	top: 42px;	
 	width: 300px;
 	color: #000;
 	background: #fff;
