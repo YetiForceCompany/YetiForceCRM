@@ -63,12 +63,15 @@ class Vtiger_Menu_Model
 		$moduleName = $request->getModule();
 		$view = $request->get('view');
 
-		if ($request->get('parent') != '' && $request->get('parent') != 'Settings') {
+		if ($request->get('parent') != 'Settings') {
 			$parentMenu = self::getParentMenu($parentList, $request->get('parent'), $moduleName);
 			if (count($parentMenu) > 0) {
 				$breadcrumbs = array_reverse($parentMenu);
 			}
-			$breadcrumbs[] = [ 'name' => vtranslate($moduleName, $moduleName)];
+			$breadcrumbs[] = [ 
+				'name' => vtranslate($moduleName, $moduleName),
+				'url' => 'index.php?module='.$moduleName.'&view=List',
+			];
 			if ($view == 'Edit' && $request->get('record') == '') {
 				$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $moduleName)];
 			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
