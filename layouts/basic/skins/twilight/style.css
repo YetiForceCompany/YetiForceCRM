@@ -4765,3 +4765,6 @@ html,body,.baseContainer
 	font-size: 11px;
 	top: -3px;
 }
+.quickCreateContainer .modal-dialog{
+	width: 75%;
+}
