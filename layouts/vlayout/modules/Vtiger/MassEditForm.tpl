@@ -71,7 +71,9 @@
 												{/if}
 												<td class="fieldLabel alignMiddle">
 												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-												{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
+												{if $refrenceListCount lt 2}
+													{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
+												{/if}
 												{if {$isReferenceField} eq "reference"}
 													{if $refrenceListCount > 1}
 														<select style="width: 150px;" class="chzn-select referenceModulesList" id="referenceModulesList_{$FIELD_MODEL->get('id')}">
