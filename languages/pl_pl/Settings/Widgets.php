@@ -53,6 +53,9 @@ $languageStrings = [
 	'None' => 'Brak',
 	'ProductsServices' => 'Usługi produktów',
 	'Campaign status' => 'Status kampanii',
+	'Select button info' => 'Włącz pokazywanie przycisku wybierz',
+	'LBL_CONDITION' => 'Warunek',
+	'LBL_CONDITION_INFO' => 'Wybierz warunek pokazywania rekordów',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Ładowanie danych...',

@@ -54,6 +54,9 @@ $languageStrings = [
 	'None' => 'Нет',
 	'ProductsServices' => 'Products services',
 	'Campaign status' => 'Campaign status',
+	'Select button info' => 'Enable visible select button',
+	'LBL_CONDITION' => 'Condition',
+	'LBL_CONDITION_INFO' => 'Select condition for showing records',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Загрузка...',
