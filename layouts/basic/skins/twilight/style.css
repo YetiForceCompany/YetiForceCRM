@@ -4674,9 +4674,6 @@ html,body,.baseContainer
 #activityStateModal .form-horizontal .form-group .control-label{
 	padding-top: 0;
 }
-.mainContainer.mailContainer{
-	margin-top: 102px !important;
-}
 .pageNumber.active.disabled a{
 	background-color: #337AB7;
 	border-color: #337AB7;
