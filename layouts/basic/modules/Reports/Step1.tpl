@@ -21,12 +21,12 @@
 			<input type="hidden" id="relatedModules" data-value='{ZEND_JSON::encode($RELATED_MODULES)}' />
 			<input type="hidden" id="weekStartDay" data-value='{$WEEK_START_ID}' />
 			<div class="well contentsBackground">
-				<div class="row padding1per">
-					<span class="col-md-3">{vtranslate('LBL_REPORT_NAME',$MODULE)}<span class="redColor">*</span></span>
+				<div class="row marginBottom5px">
+					<span class="col-md-3"><span class="redColor">*</span>{vtranslate('LBL_REPORT_NAME',$MODULE)}</span>
 					<span class="col-md-7 row"><input class="col-md-6 form-control" data-validation-engine='validate[required]' type="text" name="reportname" title="{vtranslate('LBL_REPORT_NAME', $MODULE)}" value="{$REPORT_MODEL->get('reportname')}"/></span>
 				</div>
-				<div class="row padding1per">
-					<span class="col-md-3">{vtranslate('LBL_REPORT_FOLDER',$MODULE)}<span class="redColor">*</span></span>
+				<div class="row marginBottom5px">
+					<span class="col-md-3"><span class="redColor">*</span>{vtranslate('LBL_REPORT_FOLDER',$MODULE)}</span>
 					<span class="col-md-7 row">
 						<select class="chzn-select col-md-6" name="folderid">
 							<optgroup>
@@ -42,8 +42,8 @@
 						</select>
 					</span>
 				</div>
-				<div class="row padding1per">
-					<span class="col-md-3">{vtranslate('PRIMARY_MODULE',$MODULE)}<span class="redColor">*</span></span>
+				<div class="row marginBottom5px">
+					<span class="col-md-3"><span class="redColor">*</span>{vtranslate('PRIMARY_MODULE',$MODULE)}</span>
 					<span class="col-md-7 row">
 						<select class="col-md-6 chzn-select" title="{vtranslate('PRIMARY_MODULE',$MODULE)}" id="primary_module" name="primary_module">
 							<optgroup>
@@ -56,7 +56,7 @@
 						</select>
 					</span>
 				</div>
-				<div class="row padding1per">
+				<div class="row marginBottom5px">
 					<span class="col-md-3">
 						<div>{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}</div>
 						<div>({vtranslate('LBL_MAX',$MODULE)}&nbsp;2)</div>
@@ -80,7 +80,7 @@
 						</select>
 					</span>
 				</div>
-				<div class="row padding1per">
+				<div class="row marginBottom5px">
 					<span class="col-md-3">{vtranslate('LBL_DESCRIPTION',$MODULE)}</span>
 					<span class="col-md-7 row"><textarea class="col-md-6 form-control" type="text" title="{vtranslate('LBL_DESCRIPTION',$MODULE)}" name="description" >{$REPORT_MODEL->get('description')}</textarea></span>
 				</div>
@@ -173,7 +173,7 @@
                     {* show time for all other than Hourly option*}
                     <div class='row' id='scheduledTime' style='padding:5px 0px 10px 0px;'>
                         <div class='col-md-3' style='position:relative;top:5px;'>
-                            {vtranslate('LBL_AT_TIME', $MODULE)}<span class="redColor">*</span>
+                            <span class="redColor">*</span>{vtranslate('LBL_AT_TIME', $MODULE)}
                         </div>
                         <div class='col-md-4' id='schtime'>
                             <div class="input-group time">
@@ -185,7 +185,7 @@
                     {* show all the users,groups,roles and subordinat roles*}
                     <div class='row' id='recipientsList' style='padding:5px 0px 10px 0px;'>
                         <div class='col-md-3' style='position:relative;top:5px;'>
-                            {vtranslate('LBL_SELECT_RECIEPIENTS', $MODULE)}<span class="redColor">*</span>
+                            <span class="redColor">*</span>{vtranslate('LBL_SELECT_RECIEPIENTS', $MODULE)}
                         </div>
                         <div class='col-md-4'>
                             {assign var=ALL_ACTIVEUSER_LIST value=$CURRENT_USER->getAccessibleUsers()}

@@ -10,15 +10,10 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div id="breadcrumb" class="editContainer" style="padding-left: 2%;padding-right: 2%">
-		<br>
-        <h3>
-            {if $RECORD_ID eq ''}
-                {vtranslate('LBL_CREATING_REPORT',$QUALIFIED_MODULE)}
-            {else}
-                {vtranslate('LBL_EDITING_REPORT',$QUALIFIED_MODULE)} : {$REPORT_MODEL->get('reportname')}
-			{/if}
-        </h3>
+    <div id="breadcrumb" class="editContainer">
+		<div class="widget_header">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
         <hr>
         <div>
             <ul class="crumbs marginLeftZero">
