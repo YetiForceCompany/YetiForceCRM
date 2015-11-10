@@ -14,7 +14,13 @@
 						{if $key != 0 && $ITEM_PREV}
 							<span class="separator">&nbsp;{vglobal('breadcrumbs_separator')}&nbsp;</span>
 						{/if}
-						<span>{$item['name']}</span>
+						{if $item['url']}
+							<a href="{$item['url']}">
+								<span>{$item['name']}</span>
+							</a>
+						{else}
+							<span>{$item['name']}</span>
+						{/if}
 						{assign var="ITEM_PREV" value=$item['name']}
 					{/foreach}
 				</h2>

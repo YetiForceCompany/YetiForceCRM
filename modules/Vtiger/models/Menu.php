@@ -48,10 +48,8 @@ class Vtiger_Menu_Model
 	{
 		$breadcrumbs = false;
 		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
-
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
 		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
 		if (file_exists($roleMenu)) {
 			require($roleMenu);
@@ -61,33 +59,62 @@ class Vtiger_Menu_Model
 		if (count($menus) == 0) {
 			require('user_privileges/menu_0.php');
 		}
-		if ($request->get('parent') == 'Settings') {
-			$moduleName = 'Settings:';
-		}
 		$breadcrumbsOn = $purl = false;
-		$moduleName .= $module = $request->get('module');
+		$moduleName = $request->getModule();
 		$view = $request->get('view');
 
 		if ($request->get('parent') != '' && $request->get('parent') != 'Settings') {
-			$parentMenu = self::getParentMenu($parentList, $request->get('parent'), $module);
+			$parentMenu = self::getParentMenu($parentList, $request->get('parent'), $moduleName);
 			if (count($parentMenu) > 0) {
 				$breadcrumbs = array_reverse($parentMenu);
 			}
+			$breadcrumbs[] = [ 'name' => vtranslate($moduleName, $moduleName)];
+			if ($view == 'Edit' && $request->get('record') == '') {
+				$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $moduleName)];
+			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
+				$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $moduleName)];
+			} elseif ($view == '') {
+				$breadcrumbs[] = [ 'name' => vtranslate('LBL_HOME', $moduleName)];
+			}
+			if ($request->get('record') != '') {
+				$recordLabel = Vtiger_Functions::getCRMRecordLabel($request->get('record'));
+				if ($recordLabel != '') {
+					$breadcrumbs[] = [ 'name' => $recordLabel];
+				}
+			}
 		} elseif ($request->get('parent') == 'Settings') {
-			$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_SETTINGS', $moduleName)];
-		}
-		$breadcrumbs[] = [ 'name' => vtranslate($module, $moduleName)];
-		if ($view == 'Edit' && $request->get('record') == '') {
-			$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $moduleName)];
-		} elseif ($view != '' && $view != 'index' && $view != 'Index') {
-			$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $moduleName)];
-		} elseif ($view == '') {
-			$breadcrumbs[] = [ 'name' => vtranslate('LBL_HOME', $moduleName)];
-		}
-		if ($request->get('record') != '') {
-			$recordLabel = Vtiger_Functions::getCRMRecordLabel($request->get('record'));
-			if ($recordLabel != '') {
-				$breadcrumbs[] = [ 'name' => $recordLabel];
+			$qualifiedModuleName = $request->getModule(false);
+			$breadcrumbs[] = [
+				'name' => vtranslate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
+				'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
+			];
+			$selectedMenuId = $request->get('block');
+			$fieldId = $request->get('fieldid');
+			$menu = Settings_Vtiger_MenuItem_Model::getAll($this);
+			foreach ($menu as &$menuModel) {
+				if ($fieldId == $menuModel->getId()) {
+					$parent = $menuModel->getMenu();
+					$breadcrumbs[] = [ 'name' => vtranslate($parent->get('label'), $qualifiedModuleName)];
+					$breadcrumbs[] = [ 'name' => vtranslate($menuModel->get('name'), $qualifiedModuleName)];
+				}
+			}
+			if ($moduleName == 'Users' && count($breadcrumbs) == 1) {
+				$breadcrumbs[] = [ 'name' => vtranslate('LBL_USER_MANAGEMENT', $qualifiedModuleName)];
+				$breadcrumbs[] = [ 
+					'name' => vtranslate('LBL_USERS', $qualifiedModuleName),
+					'url' => 'index.php?module=Users&parent=Settings&view=List',
+				];
+				if ($view == 'Edit' && $request->get('record') == '') {
+					$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $moduleName)];
+				} elseif ($view != '' && $view != 'List') {
+					$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $moduleName)];
+				}
+				if ($request->get('record') != '') {
+					$recordLabel = Vtiger_Functions::getUserRecordLabel($request->get('record'));
+					if ($recordLabel != '') {
+						$breadcrumbs[] = [ 'name' => $recordLabel];
+					}
+				}
 			}
 		}
 		return $breadcrumbs;
