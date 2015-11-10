@@ -40,6 +40,33 @@ CREATE TABLE `a_yf_inventory_limits` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `a_yf_mapped_config` */
+
+CREATE TABLE `a_yf_mapped_config` (
+  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `tabid` int(19) DEFAULT NULL,
+  `reltabid` int(19) DEFAULT NULL,
+  `status` set('active','inactive') DEFAULT NULL,
+  `conditions` text,
+  `permissions` varchar(255) DEFAULT NULL,
+  `params` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=238 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `a_yf_mapped_fields` */
+
+CREATE TABLE `a_yf_mapped_fields` (
+  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `mappedid` int(19) DEFAULT NULL,
+  `type` varchar(30) DEFAULT NULL,
+  `source` int(19) DEFAULT NULL,
+  `target` int(19) DEFAULT NULL,
+  `default` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `a_yf_mapped_fields_ibfk_1` (`mappedid`),
+  CONSTRAINT `a_yf_mapped_fields_ibfk_1` FOREIGN KEY (`mappedid`) REFERENCES `a_yf_mapped_config` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `a_yf_pdf` */
 
 CREATE TABLE `a_yf_pdf` (
