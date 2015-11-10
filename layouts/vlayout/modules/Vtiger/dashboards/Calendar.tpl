@@ -41,8 +41,10 @@
 				</select>
 			{/if}
 			{if CalendarConfig::get('DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'switch'}
+				{assign var=CURRENT_STATUS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
+				{assign var=HISTORY_STATUS value=Calendar_Module_Model::getComponentActivityStateLabel('history')}
 				<input class="switchBtn" type="checkbox" checked data-size="small" data-handle-width="90" data-label-width="5" data-on-text="{vtranslate('LBL_TO_REALIZE')}" data-off-text="{vtranslate('History')}"></span>
-				<input type="hidden" value="current" class="widgetFilterSwitch">
+				<input type="hidden" value="current" data-current="{implode(',',$CURRENT_STATUS)}" data-history="{implode(',',$HISTORY_STATUS)}" class="widgetFilterSwitch">
 			{/if}
 		</div>
 		<div class="col-sm-6">
