@@ -1071,6 +1071,7 @@ $languageStrings = [
 	'LBL_GENERATE_RECORD_FOR_MODULE' => 'Generuj rekord dla modułu',
 	'LBL_REMOVE_SEARCH_OPTION_INFO' => 'Wyczyść parametry wyszukiwań',
 	'LBL_REMOVE_ALPH_SEARCH_INFO' => 'Wyczyść parametr wyszukiwania alfabetycznego',
+	'LBL_CHAT' => 'Chat',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
