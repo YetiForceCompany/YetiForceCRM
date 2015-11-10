@@ -1085,6 +1085,10 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				if (status) {
 					url += '["activitystatus","e","' + container.find('select.widgetFilter.status').val() + '"],';
 				}
+				if (parent.find('.widgetFilterSwitch').length > 0) {
+					var status = parent.find('.widgetFilterSwitch').data();
+					url += '["activitystatus","e","' + status[params.time] + '"],';
+				}
 				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","ir","' + $(this).data('date') + '"]]]';
 			});
 		});
