@@ -92,3 +92,36 @@ class PerformancePrefs
 		return intval(self::get($key, $defvalue));
 	}
 }
+
+/**
+ * Calendar config
+ */
+class CalendarConfig
+{
+
+	/**
+	 * Get calendar config value or default one
+	 */
+	static function get($key, $defvalue = false)
+	{
+		include 'config/calendar.php';
+		if (isset($CALENDAR_CONFIG)) {
+			if (isset($CALENDAR_CONFIG[$key])) {
+				return $CALENDAR_CONFIG[$key];
+			}
+		}
+		return $defvalue;
+	}
+
+	/** Get boolean value */
+	static function getBoolean($key, $defvalue = false)
+	{
+		return self::get($key, $defvalue);
+	}
+
+	/** Get Integer value */
+	static function getInteger($key, $defvalue = false)
+	{
+		return intval(self::get($key, $defvalue));
+	}
+}
