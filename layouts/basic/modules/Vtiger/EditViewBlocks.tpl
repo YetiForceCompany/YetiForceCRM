@@ -79,13 +79,13 @@
 					</div>
 					<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">
 						{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-							<div class="col-md-12 actionButtons">
+							<div class="col-md-12 adressAction">
 								{if $APIADDRESFIELD}
 									<div class="col-md-4">
 										<input value="" title="{vtranslate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete form-control pull-right input " placeholder="{vtranslate('LBL_ENTER_SEARCHED_ADDRESS')}" />
 									</div>
 								{/if}
-								<div class="{if $APIADDRESFIELD}col-md-8{else}col-md-12{/if} paddingLRZero marginBottom10px text-center">
+								<div class="{if $APIADDRESFIELD}col-md-8{else}col-md-12{/if} text-center">
 									{include file=vtemplate_path('BlockHeader.tpl',$MODULE)}
 								</div>
 							</div>

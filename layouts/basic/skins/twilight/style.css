@@ -4715,13 +4715,15 @@ html,body,.baseContainer
 .blockContainer .blockContent .fieldLabel  label{
 	padding-top:8px;
 }
-.blockContainer .blockContent .actionButtons{
+.blockContainer .blockContent .adressAction{
 	border-bottom: 1px #ddd solid;
 	margin-bottom: 10px;
-	margin-top: 10px;
-}
-.blockContainer .blockContent .actionButtons {
+	margin-top: 5px;
+	padding-bottom: 5px;
 	text-align: center;
+}
+.blockContainer .blockContent .adressAction button{
+	margin: 0 10px;
 }
 .blockContainer .blockContent .fieldRow {
 	padding: 5px;
