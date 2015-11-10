@@ -4740,6 +4740,9 @@ html,body,.baseContainer
 	height: 32px;
 	border-radius: 0;
 }
+.quickCreateContent .referenceGroup .referenceModulesListGroup .chosen-container{
+	min-width: 80px !important;
+}
 .chosen-container-single .chosen-single{
 	background: #fff;
 }
@@ -4748,4 +4751,7 @@ html,body,.baseContainer
 }
 .blockContainer .panel-body.blockContent{
 	padding: 0;
+}
+.modal-backdrop{
+	z-index: 1030;
 }

@@ -36,9 +36,6 @@
 								<tr>
 									{assign var=COUNTER value=0}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
-										{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
-										{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
-										{assign var="refrenceListCount" value=count($refrenceList)}
 										{if $FIELD_MODEL->get('uitype') eq "19"}
 											{if $COUNTER eq '1'}
 												<td></td><td></td></tr><tr>
@@ -56,33 +53,11 @@
 											{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
 											{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 												<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE)}'><i class="glyphicon glyphicon-info-sign"></i></a>
-												{/if}
-												{if $isReferenceField neq "reference"}<label class="muted pull-right">{/if}
-												{if $FIELD_MODEL->isMandatory() eq true && $isReferenceField neq "reference"} <span class="redColor">*</span> {/if}
-												{if $isReferenceField eq "reference"}
-													{if $refrenceListCount > 1}
-														{assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
-														{assign var="REFERENCED_MODULE_STRUCT" value=$FIELD_MODEL->getUITypeModel()->getReferenceModule($DISPLAYID)}
-														{if !empty($REFERENCED_MODULE_STRUCT)}
-															{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
-														{/if}
-														<label class="muted textAlignRight">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
-														<span class="pull-right col-md-12 paddingLRZero">
-															<select class="chzn-select referenceModulesList form-control" id="referenceModulesList_{$FIELD_MODEL->get('id')}">
-																<optgroup>
-																	{foreach key=index item=value from=$refrenceList}
-																		<option value="{$value}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if} >{vtranslate($value, $value)}</option>
-																	{/foreach}
-																</optgroup>
-															</select>
-														</span>		
-													{else}
-														<label class="muted pull-right">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
-													{/if}
-												{else}
-													{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
-												{/if}
-												{if $isReferenceField neq "reference"}</label>{/if}
+											{/if}
+											<label class="muted pull-right">
+												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
+												{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
+											</label>
 										</td>
 										<td class="fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
 											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
