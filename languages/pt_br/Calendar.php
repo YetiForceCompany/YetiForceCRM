@@ -149,7 +149,8 @@ $languageStrings = [
 	'PLL_POSTPONED' => 'Postponed',
 	'PLL_CANCELLED' => 'Cancelled',
 	'PLL_COMPLETED' => 'Completed',
-
+	'LBL_RECURRENCE_INFORMATION' => 'Detalhes Recorrência',
+	'LBL_RELATED_TO' => 'Relacionado à',
 	'LBL_NO_AVAILABLE_ACTIONS' => 'No available actions',
 ];
 

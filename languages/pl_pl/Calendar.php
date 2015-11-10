@@ -137,6 +137,8 @@ $languageStrings = [
 	'PLL_CANCELLED' => 'Anulowane',
 	'PLL_COMPLETED' => 'Wykonane',
 	'LBL_NO_AVAILABLE_ACTIONS' => 'Brak dostępnych akcji',
+	'LBL_RELATED_TO' => 'Powiązany z',
+	'LBL_RECURRENCE_INFORMATION' => 'Szczegóły powtarzalności terminu',
 ];
 
 $jsLanguageStrings = [

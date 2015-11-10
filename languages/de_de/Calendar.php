@@ -137,7 +137,8 @@ $languageStrings = [
 	'PLL_POSTPONED' => 'Zurückgestellt',
 	'PLL_CANCELLED' => 'Abgebrichen',
 	'PLL_COMPLETED' => 'Komplett',
-	
+	'LBL_RECURRENCE_INFORMATION' => 'Wiederholungdetails',
+	'LBL_RELATED_TO' => 'zugeordnet',
 	'LBL_NO_AVAILABLE_ACTIONS' => 'Keine verfügbaren Aktionen',
 ];
 $jsLanguageStrings = [
