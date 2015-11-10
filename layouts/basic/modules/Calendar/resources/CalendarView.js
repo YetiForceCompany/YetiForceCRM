@@ -162,7 +162,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 							'<div><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>: ' + app.vtranslate('JS_' + event.vis) + '</div>' + 
 							(event.smownerid ? '<div><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 				});
-				element.find('.fc-content').click(function () {
+				element.find('.fc-content, .fc-info').click(function () {
 					var progressIndicatorElement = jQuery.progressIndicator({
 						position: 'html',
 						blockInfo: {
