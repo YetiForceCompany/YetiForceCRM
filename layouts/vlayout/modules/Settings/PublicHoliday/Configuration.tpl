@@ -46,7 +46,8 @@ padding: 5px;
 	</div>
 
 	<div class="contents tabbable">
-		<div class="tab-content layoutContent paddingNoTop20 themeTableColor overflowVisible">
+		<div class="tab-content layoutContent publicHolidayContent themeTableColor overflowVisible">
+		<hr>
 		<div class="tab-pane active" id="layoutDashBoards">
 			<div class="btn-toolbar">
 				<button type="button" class="btn btn-default addDateWindow"><span class="glyphicon glyphicon-plus"></span>&nbsp;{vtranslate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
