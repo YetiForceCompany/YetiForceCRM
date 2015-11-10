@@ -4770,3 +4770,7 @@ html,body,.baseContainer
 .quickCreateContainer .modal-dialog{
 	width: 75%;
 }
+.currencyTable .fieldLabel{
+	width: 20%;
+	min-width: 150px;
+}
