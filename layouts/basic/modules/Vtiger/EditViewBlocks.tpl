@@ -69,7 +69,11 @@
 						{else}
 							{assign var=APIADDRESFIELD value=FALSE}
 						{/if}
-						<div class=" {if $APIADDRESFIELD}col-md-7 {else}col-md-12{/if}">
+						<div class="iconCollapse">
+							<img class="cursorPointer alignMiddle blockToggle{if !($IS_HIDDEN)} hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}"  src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
+							<img class="cursorPointer alignMiddle blockToggle{if ($IS_HIDDEN)} hide{/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
+						</div>
+						<div>
 							<h4>{vtranslate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
 						</div>
 					</div>

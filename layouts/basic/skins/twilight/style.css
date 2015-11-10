@@ -4701,6 +4701,10 @@ html,body,.baseContainer
 }
 .blockContainer .blockHeader{
 	cursor:pointer;
+	display:flex;
+}
+.blockContainer .blockHeader .iconCollapse{
+	padding:10px;
 }
 .blockContainer .blockContent .fieldLabel  label{
 	padding-top:8px;
