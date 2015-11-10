@@ -77,7 +77,7 @@
 							<h4>{vtranslate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
 						</div>
 					</div>
-					<div class="col-md-12 paddingLRZero panel-body blockContent"{if $IS_HIDDEN} class="hide" {/if}>
+					<div class="col-md-12 paddingLRZero panel-body blockContent{if $IS_HIDDEN} hide {/if}">
 						{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
 							<div class="col-md-12 actionButtons">
 								{if $APIADDRESFIELD}
