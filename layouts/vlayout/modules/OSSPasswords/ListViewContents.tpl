@@ -37,7 +37,7 @@
 			{/foreach}
 			<td class="alphabetSearch textAlignCenter cursorPointer">
 				<a href="index.php?view=List&module={$MODULE}" >
-					<span class="glyphicon glyphicon-remove"></span>
+					<span class="glyphicon glyphicon-remove" title="{vtranslate('LBL_REMOVE_ALPH_SEARCH_INFO')}"></span>
 				</a>
 			</td>
 			</tr>
@@ -82,7 +82,7 @@
         <tr>
             <td>
 				<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);">
-					<span class="glyphicon glyphicon-search"></span>
+					<span class="glyphicon glyphicon-search" title="{vtranslate('LBL_SEARCH')}"></span>
 				</a>
 			</td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -94,7 +94,7 @@
 			{/foreach}
 			<td>
 				<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" >
-					<span class="glyphicon glyphicon-remove"></span>
+					<span class="glyphicon glyphicon-remove"  title="{vtranslate('LBL_REMOVE_SEARCH_OPTION_INFO')}"></span>
 				</a>
 			</td>
         </tr>
