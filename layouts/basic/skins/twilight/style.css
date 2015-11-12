@@ -4771,3 +4771,6 @@ html,body,.baseContainer
 	width: 20%;
 	min-width: 150px;
 }
+.quickAction a{
+	max-height:34px;
+}
