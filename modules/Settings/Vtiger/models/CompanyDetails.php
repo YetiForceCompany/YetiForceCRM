@@ -33,8 +33,8 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 		'email' => 'text',
 		'website' => 'text',
 		'vatid' => 'text',
-		'regon' => 'text',
-		'krs' => 'text',
+		'id1' => 'text',
+		'id2' => 'text',
 		'height_panellogo' => 'text',
 	);
 	var $heights = array(
