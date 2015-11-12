@@ -521,14 +521,14 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	function setRecordFieldValues($parentRecordModel)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$mfInstance = Vtiger_MappedFields_Model::getInstanceByModules($parentRecordModel->getModule()->getId(),$this->getModule()->getId());
-		if($mfInstance){
+		$mfInstance = Vtiger_MappedFields_Model::getInstanceByModules($parentRecordModel->getModule()->getId(), $this->getModule()->getId());
+		if ($mfInstance) {
 			$moduleFields = $this->getModule()->getFields();
 			$fieldsList = array_keys($moduleFields);
 			$parentFieldsList = array_keys($parentRecordModel->getModule()->getFields());
-			
+
 			$params = $mfInstance->get('params');
-			if($params['autofill']){
+			if ($params['autofill']) {
 				$commonFields = array_intersect($fieldsList, $parentFieldsList);
 				foreach ($commonFields as $fieldName) {
 					if (getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $fieldName) == 0) {
@@ -536,16 +536,30 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 					}
 				}
 			}
-			foreach($mfInstance->getMapping() as $mapp){
-				if ((is_object($mapp['target']) && is_object($mapp['source'])) 
-					&& getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $mapp['source']->getName()) == 0 
-					&& in_array($mapp['source']->getName(),$parentFieldsList)) {
+			if ($parentRecordModel->getModule()->isInventory() && $this->getModule()->isInventory()) {
+				$sourceInv = $parentRecordModel->getInventoryData();
+				$newInvData = [];
+			}
+			foreach ($mfInstance->getMapping() as $mapp) {
+				if ($mapp['type'] == 'SELF' && is_object($mapp['target'])) {
+					$referenceList = $mapp['target']->getReferenceList();
+					if (in_array($parentRecordModel->getModuleName(), $referenceList)) {
+						$this->set($mapp['target']->getName(), $parentRecordModel->get($mapp['source']->getName()));
+					}
+				} elseif ($mapp['type'] == 'INVENTORY' && is_array($sourceInv)) {
+					foreach ($sourceInv as $key => $base) {
+						$newInvData[$key][$mapp['target']->getName()] = $base[$mapp['source']->getName()];
+					}
+				} elseif ((is_object($mapp['target']) && is_object($mapp['source'])) && getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $mapp['source']->getName()) == 0 && in_array($mapp['source']->getName(), $parentFieldsList)) {
 					$value = $parentRecordModel->get($mapp['source']->getName());
-					if(!$value){
+					if (!$value) {
 						$value = $mapp['default'];
 					}
 					$this->set($mapp['target']->getName(), $value);
 				}
+			}
+			if ($newInvData) {
+				$this->inventoryData = $newInvData;
 			}
 		}
 	}
@@ -564,27 +578,28 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
+		if(!$this->inventoryData){
+			$module = $this->getModuleName();
+			$record = $this->getId();
+			if (empty($record)) {
+				$record = $this->get('record_id');
+			}
+			if (empty($record)) {
+				return [];
+			}
 
-		$module = $this->getModuleName();
-		$record = $this->getId();
-		if (empty($record)) {
-			$record = $this->get('record_id');
+			$db = PearDatabase::getInstance();
+			$inventoryField = Vtiger_InventoryField_Model::getInstance($module);
+			$table = $inventoryField->getTableName('data');
+			$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE id = ? ORDER BY seq', [$record]);
+			$fields = [];
+			while ($row = $db->fetch_array($result)) {
+				$fields[] = $row;
+			}
+			$this->inventoryData = $fields;
 		}
-		if (empty($record)) {
-			return [];
-		}
-
-		$db = PearDatabase::getInstance();
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($module);
-		$table = $inventoryField->getTableName('data');
-		$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE id = ? ORDER BY seq', [$record]);
-		$fields = [];
-		while ($row = $db->fetch_array($result)) {
-			$fields[] = $row;
-		}
-
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
-		return $fields;
+		return $this->inventoryData;
 	}
 
 	/**

@@ -30,7 +30,7 @@
 					</div>
 				</div>
 				<div class="contents" id="detailView">
-					<table class="table table-bordered" width="100%" id="convertLeadMapping">
+					<table class="table table-bordered" width="100%" id="mappingToGenerate">
 						<tbody>
 							<tr class="blockHeader">
 								<th class='sourceModuleName' width="15%"><b>{vtranslate('SINGLE_'|cat:$SEL_MODULE_MODEL->getName(), $SEL_MODULE_MODEL->getName())}</b></th>
@@ -44,21 +44,21 @@
 								<tr class="listViewEntries" sequence-number="{$SEQ}">
 									<td width="30%">
 										<select class="sourceFields select2" name="mapping[{$SEQ}][source]">
-											{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields()}
+											{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields(true)}
 												<optgroup label="{vtranslate($BLOCK_NAME, $SEL_MODULE_MODEL->getName())}">
 													{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
-														<option data-type="{$FIELD_OBJECT->getFieldDataType()}" {if $FIELD_ID eq $MAPPING_ARRAY['source']->getId()} selected {/if} label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
+														<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-fieldtype="{$FIELD_OBJECT->getFieldType()}" {if $FIELD_ID eq $MAPPING_ARRAY['source']->getId()} selected {/if} label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
 															{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}
 														</option>
 													{/foreach}
 												</optgroup>
 											{/foreach}
 										</select>
+										<input type="hidden" class="mappingType" name="mapping[{$SEQ}][type]" value="{$MAPPING_ARRAY['type']}" />
 									</td>
 									<td width="20%" class="selectedFieldDataType">{vtranslate($MAPPING_ARRAY['source']->getFieldDataType(), $QUALIFIED_MODULE)}</td>
 									<td width="30%">
 										<select class="targetFields select2" name="mapping[{$SEQ}][target]">
-											{*											<option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>*}
 											{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
 												<optgroup label="{vtranslate($BLOCK_NAME, $REL_MODULE_MODEL->getName())}">
 													{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
@@ -88,21 +88,21 @@
 								<td width="15%">
 									<select class="sourceFields newSelect">
 										<option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
-										{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields()}
+										{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields(true)}
 											<optgroup label="{vtranslate($BLOCK_NAME, $SEL_MODULE_MODEL->getName())}">
 												{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
-													<option data-type="{$FIELD_OBJECT->getFieldDataType()}" label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
+													<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-mappingtype="{$FIELD_OBJECT->getFieldType()}" label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
 														{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}
 													</option>
 												{/foreach}
 											</optgroup>
 										{/foreach}
 									</select>
+									<input type="hidden" class="mappingType" value="" />
 								</td>
 								<td width="15%" class="selectedFieldDataType"></td>
 								<td width="13%">
 									<select class="targetFields newSelect">
-										{*										<option data-type="none" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" selected>{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>*}
 										{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
 											<optgroup label="{vtranslate($BLOCK_NAME, $REL_MODULE_MODEL->getName())}">
 												{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
@@ -114,13 +114,6 @@
 										{/foreach}
 									</select>
 								</td>
-								{*{foreach item=LINK_MODEL from=$MF_MODEL->getMappingLinks()}
-								<div class="pull-right actions">
-								<span class="actionImages">
-								<a><span title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteMapping"></span></a>
-								</span>
-								</div>
-								{/foreach}*}
 								<td class="">
 								</td>
 								<td class="textAlignCenter">
@@ -145,25 +138,18 @@
 	<div class="hide" id="defaultValuesElementsContainer">
 		{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
 			{foreach key=_FIELD_ID item=_FIELD_INFO from=$FIELDS}
-				{*{if $BLOCK_NAME eq 'LBL_ADVANCED_BLOCK'}
-				{assign var="_FIELD_TYPE" value=''}
-				{assign var="_FIELD_UITYPE" value=''}
-				{else}*}
 				{assign var="_FIELD_TYPE" value=$_FIELD_INFO->getFieldDataType()}
 				{assign var="_FIELD_UITYPE" value=$_FIELD_INFO->getUIType()}
-				{*					{/if}*}
 				{if $_FIELD_TYPE eq 'picklist' || $_FIELD_TYPE eq 'multipicklist'}
-					<select id="{$_FIELD_ID}_defaultvalue" class="" disabled>
-						{if $_FIELD_INFO->getFieldName() neq 'hdnTaxType'} <option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option> {/if}
+					<select id="{$_FIELD_ID}_defaultvalue" {if $_FIELD_TYPE eq 'multipicklist'} multiple {/if} class="form-control" disabled>
+						{if $_FIELD_INFO->getFieldName() neq 'hdnTaxType' || $_FIELD_TYPE neq 'multipicklist'} <option value=" ">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option> {/if}
 						{foreach item=_PICKLIST_DETAILS from=$_FIELD_INFO->getPicklistDetails()}
-							<option value="{$_PICKLIST_DETAILS.value}">{$_PICKLIST_DETAILS.label|@vtranslate:$FOR_MODULE}</option>
+							<option value="{$_PICKLIST_DETAILS.value}">{$_PICKLIST_DETAILS.label|@vtranslate:$REL_MODULE_MODEL->getName()}</option>
 						{/foreach}
 					</select>
-				{elseif $_FIELD_TYPE eq 'integer'}
-					<input type="text" id="{$_FIELD_ID}_defaultvalue" class="defaultInputTextContainer form-control" value="0" disabled/>
 				{elseif $_FIELD_TYPE eq 'owner' || $_FIELD_UITYPE eq '52'}
 					<select id="{$_FIELD_ID}_defaultvalue" name="{$_FIELD_ID}_defaultvalue" class="" disabled>
-						<option value="">--{'LBL_NONE'|@vtranslate:$FOR_MODULE}--</option>
+						<option value="">--{'LBL_NONE'|@vtranslate:$REL_MODULE_MODEL->getName()}--</option>
 						{foreach key=_ID item=_NAME from=$USERS_LIST}
 							<option value="{$_ID}">{$_NAME}</option>
 						{/foreach}
@@ -179,8 +165,6 @@
 					<input type="text" id="{$_FIELD_ID}_defaultvalue" class="defaultInputTextContainer form-control col-md-2" value="" data-date-format="{$DATE_FORMAT}"/>
 				{elseif $_FIELD_TYPE eq 'boolean'}
 					<input type="checkbox" id="{$_FIELD_ID}_defaultvalue" class="" disabled/>
-					{*{elseif $_FIELD_TYPE eq 'reference'}
-					<input type="input" id="{$_FIELD_ID}_defaultvalue" disabled name="{$_FIELD_ID}_defaultvalue" class="form-control small" />*}
 				{elseif !in_array($_FIELD_TYPE,['sharedOwner','reference'])}
 					<input type="input" id="{$_FIELD_ID}_defaultvalue" class="defaultInputTextContainer form-control" disabled/>
 				{/if}

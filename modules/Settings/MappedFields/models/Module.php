@@ -28,7 +28,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		'params'
 	];
 	public static $step1Fields = ['status', 'tabid', 'reltabid'];
-	public static $step2Fields = ['source', 'target', 'default'];
+	public static $step2Fields = ['source', 'target', 'default', 'type'];
 	public static $step3Fields = ['conditions',];
 	public static $step4Fields = ['permissions'];
 	public $name = 'MappedFields';
@@ -174,10 +174,26 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
+	 * Function to set mapping details
+	 * @return instance
+	 */
+	public static function getSpecialFields()
+	{
+		$db = PearDatabase::getInstance();
+		$fields = ['id' => ['name' => 'id', 'fieldDataType' => 'reference', 'label' => 'LBL_SELF_ID', 'typeofdata' => 'SELF']];
+		$models = [];
+		foreach ($fields as $fieldName => $data) {
+			$fieldInstane = Settings_MappedFields_Field_Model::fromArray($data);
+			$models[$fieldName] = $fieldInstane;
+		}
+		return $models;
+	}
+
+	/**
 	 * Function returns fields of module
 	 * @return <Array of Vtiger_Field>
 	 */
-	public function getFields()
+	public function getFields($source = false)
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
@@ -191,18 +207,24 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 				if (!$blockName) {
 					$blockName = 'LBL_NOT_ASSIGNET_TO_BLOCK';
 				}
-				$fields[$blockName][$fieldInstance->getFieldId()] = $fieldInstance;
+				$fields[$blockName][$fieldInstance->getFieldId()] = Settings_MappedFields_Field_Model::getInstanceFromWebserviceFieldObject($fieldInstance);
 			}
 		}
-//		$isInventory = Vtiger_Module_Model::getInstance($moduleName)->isInventory();
-//		if ($isInventory) {
-//			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($moduleName);
-//			$inventoryFields = $inventoryFieldModel->getFields();
-//			$blockName = 'LBL_ADVANCED_BLOCK';
-//			foreach ($inventoryFields as $field) {
-//				$importableFields[$blockName][$field->get('columnname')] = $field;
-//			}
-//		}
+		if ($source) {
+			foreach ($this->getSpecialFields() as $fieldName => &$fieldInstance) {
+				$fields['LBL_NOT_ASSIGNET_TO_BLOCK'][$fieldName] = $fieldInstance;
+			}
+		}
+
+		$isInventory = $moduleModel->isInventory();
+		if ($isInventory) {
+			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->getName());
+			$inventoryFields = $inventoryFieldModel->getFields();
+			$blockName = 'LBL_ADVANCED_BLOCK';
+			foreach ($inventoryFields as $field) {
+				$fields[$blockName][$field->get('columnname')] = Settings_MappedFields_Field_Model::getInstanceFromInventoryFieldObject($field);
+			}
+		}
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $fields;
 	}

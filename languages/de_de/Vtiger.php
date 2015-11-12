@@ -1084,8 +1084,17 @@ $languageStrings = [
 	'LBL_REMOVE_SEARCH_OPTION_INFO' => 'Reset search parameters',
 	'LBL_REMOVE_ALPH_SEARCH_INFO' => 'Reset alphabetical search parameter',
 	'LBL_CHAT' => 'Chat',
+	'LBL_AUTOGENERATE' => 'Create automatically',
+	'LBL_OPEN_NEW_WINDOWS' => 'Open in a new window',
+	'LBL_AUTOGENERATE_INFO' => 'All records will be saved automatically, without the possibility to edit before creating.',
+	'LBL_OPEN_NEW_WINDOWS_INFO' => 'A new browser tab will be opened with edition view for each record separately.',
+	'LBL_GENERATE_RECORDS' => 'Generate records',
 ];
 $jsLanguageStrings = [
+	'JS_LOADING_PLEASE_WAIT' => 'Laden, bitte warten.',
+	'JS_SELECTED_RECORDS' => 'Selected records',
+	'JS_SUCCESSFULLY_PERFORMED_ACTION_FOR' => 'Successfully performed action for',
+	'JS_ACTION_FAILED_FOR' => 'Action failed for',
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Arbeitszeit darf 24 Stunden nicht überschreiten',
 	'JS_SAVE_NOTIFY_OK' => 'Änderungen gespeichert',

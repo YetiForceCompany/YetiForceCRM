@@ -518,7 +518,17 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkicon' => ''
 			);
 		}
-
+		//TODO add permission
+		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+		$mfModel = new $handlerClass();
+		$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
+		if (count($templates) > 0) {
+			$advancedLinks[] = [
+				'linktype' => 'LISTVIEW',
+				'linklabel' => 'LBL_GENERATE_RECORDS',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerGenerateRecords("index.php?module=' . $moduleModel->getName() . '&view=GenerateModal&fromview=List");',
+			];
+		}
 		return $advancedLinks;
 	}
 	/*
