@@ -45,7 +45,6 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		var formData = form.serializeFormData();
 		var saveData = this.getData(formData);
 		saveData.record = formData.record;
-
 		this.validationMappingFields().then(function (data) {
 			if (data) {
 				var progressIndicatorElement = jQuery.progressIndicator({
@@ -94,7 +93,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 				if (name[1] != 'default]' && data[i] != 0)
 					mappingData[i] = data[i];
 				else if (name[1] == 'default]')
-					mappingData[i] = data[i];
+					mappingData[i] = jQuery.isArray(data[i]) ? data[i].join(',') : data[i].trim();
 			} else if (name.length != 2 && jQuery.inArray(i, this.restictName) == -1) {
 				mappingConditions[i] = data[i];
 			}
@@ -130,15 +129,16 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 	registerEventForAddingNewMapping: function () {
 		var thisInstance = this;
 		jQuery('#addMapping').on('click', function (e) {
-			var convertLeadMappingTable = jQuery('#convertLeadMapping');
-			var lastSequenceNumber = convertLeadMappingTable.find('tr:not(.hide)[sequence-number]').last();
+			var mappingToGenerateTable = jQuery('#mappingToGenerate');
+			var lastSequenceNumber = mappingToGenerateTable.find('tr:not(.hide)[sequence-number]').last();
 			var newSequenceNumber = thisInstance.getSequenceNumber(lastSequenceNumber) + 1;
 			var newMapping = jQuery('.newMapping').clone(true, true);
 			newMapping.attr('sequence-number', newSequenceNumber);
 			newMapping.find('select.sourceFields.newSelect').attr("name", 'mapping[' + newSequenceNumber + '][source]');
 			newMapping.find('select.targetFields.newSelect').attr("name", 'mapping[' + newSequenceNumber + '][target]');
+			newMapping.find('input.mappingType').attr("name", 'mapping[' + newSequenceNumber + '][type]');
 			newMapping.removeClass('hide newMapping');
-			newMapping.appendTo(convertLeadMappingTable);
+			newMapping.appendTo(mappingToGenerateTable);
 			newMapping.find('.newSelect').removeClass('newSelect').addClass('select2');
 			var select2Elements = newMapping.find('.select2');
 			app.showSelect2ElementView(select2Elements);
@@ -167,11 +167,12 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 			var selectedValue = element.val();
 			var selectedOption = element.find('option[value="' + selectedValue + '"]');
 			var selectedDataType = selectedOption.data('type');
+			var mappingType = selectedOption.data('mappingtype');
 			var fieldsSelectElement = container.find('select.targetFields.select2');
-
 			var fieldsBasedOnType = form.find('.newMapping').find('.targetFields').children().clone(true, true);
 			var options = jQuery('<div></div>');
 
+			container.find('.mappingType').val(mappingType);
 			fieldsBasedOnType.each(function (i, e) {
 				var element = jQuery(e);
 				if (element.is('option') && (element.data('type') == selectedDataType || element.data('type') == 'none')) {
@@ -209,7 +210,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 	loadDefaultValueWidget: function (element) {
 		var thisInstance = this;
 		var id = element.val() + '_defaultvalue';
-		var affectedRow = jQuery('#' + id);
+		var affectedRow = jQuery('#defaultValuesElementsContainer').find('#' + id);
 		var dafeultTd = element.closest('td').next();
 		var defaultValueElement = dafeultTd.find('input.default');
 		var defaultValue = '';
@@ -217,8 +218,8 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 			defaultValue = defaultValueElement.val();
 		}
 		dafeultTd.children().remove();
-		var exist = jQuery('#convertLeadMapping').find('#' + id);
-		if (typeof affectedRow == 'undefined' || affectedRow == null || !element.val() || exist.length > 0)
+		var exist = jQuery('#mappingToGenerate').find('#' + id);
+		if (affectedRow.length == 0 || !element.val() || exist.length > 0)
 			return;
 		var seqNumber = thisInstance.getSequenceNumber(element.closest('tr'));
 		var copyOfDefaultValue = affectedRow.clone(true, true);
@@ -226,6 +227,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		if (copyOfDefaultValue.is(':checkbox') && defaultValue) {
 			copyOfDefaultValue.prop('checked', true);
 		} else if (defaultValue) {
+			defaultValue = typeof copyOfDefaultValue.attr('multiple') != 'undefined' ? defaultValue.split(',') : defaultValue;
 			copyOfDefaultValue.val(defaultValue);
 		}
 		copyOfDefaultValue.appendTo(dafeultTd);
@@ -245,23 +247,17 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 	 * Function to register events for edit view of fields mapping
 	 */
 	registerEventsForEditView: function () {
-		//var form = jQuery('#leadsMapping');
-		//var select2Elements = form.find('.select2');
-		//app.showSelect2ElementView(select2Elements);
 		this.registerEventForAddingNewMapping();
 		this.registerOnChangeEventForSourceModule();
 		this.registerEventToDeleteMapping();
 		this.loadDefaultValueWidgetForMappedFields(jQuery('select.targetFields:not(.newSelect)'));
-
-//		this.registerEventForFormSubmit();
-//		this.registerOnChangeEventOfTargetModule();
 	},
 	/*
 	 * Function to register on chnage event of target module
 	 */
 	validationMappingFields: function () {
 		var aDeferred = jQuery.Deferred();
-		var mappingTable = jQuery('#convertLeadMapping tr:not(.hide)');
+		var mappingTable = jQuery('#mappingToGenerate tr:not(.hide)');
 
 		mappingTable.each(function (i, e) {
 			var breakSave = false;
