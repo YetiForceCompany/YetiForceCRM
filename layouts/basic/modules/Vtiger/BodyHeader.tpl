@@ -30,7 +30,7 @@
 					<div class="pull-right rightHeaderBtn">
 						<div class="quickAction">
 							<a class="btn btn-default btn-sm" href="#">
-								<img class='alignMiddle imgAnnouncement' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
+								<img class='alignMiddle imgAnnouncement announcementBtn' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}"/>
 							</a>
 						</div>
 					</div>

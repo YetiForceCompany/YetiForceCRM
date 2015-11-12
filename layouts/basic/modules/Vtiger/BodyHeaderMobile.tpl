@@ -46,7 +46,7 @@
 					</div>
 					<div class='pull-right'>
 						<a class="btn btn-default" href="#">
-							<img class='alignMiddle imgAnnouncement' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
+							<img class='alignMiddle imgAnnouncement announcementBtn' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" />
 						</a>
 					</div>
 				</div>
