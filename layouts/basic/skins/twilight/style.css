@@ -4774,3 +4774,8 @@ html,body,.baseContainer
 .quickAction a{
 	max-height:34px;
 }
+.listViewActionsDiv .btn-group button,
+.listViewActionsDiv .pagination > li > span,
+.listViewActionsDiv .pageInfo {
+	max-height:34px;
+}
