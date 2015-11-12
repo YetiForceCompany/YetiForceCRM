@@ -4124,9 +4124,6 @@ html,body,.baseContainer
 		width: 83.33333333%;
 		float:left;
 	}
-	.mobileOn{
-		display: none !important;
-	}
 	.breadcrumbsLinks{
 		font-size: 19px;
 	}
@@ -4146,9 +4143,6 @@ html,body,.baseContainer
 	}
 	.baseContainer:not(.leftPanelOpen) {
 		margin-left: 0px;
-	}
-	.mobileOff{
-		display: none !important;
 	}
 	.rightHeaderBtnMenu{
 		display: block;
