@@ -166,7 +166,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('APPTITLE', getTranslatedString('APPTITLE'));
 			$viewer->assign('YETIFORCE_VERSION', vglobal('YetiForce_current_version'));
-			$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+			if ($request->isAjax()) {
+				$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+				$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+			}
 			$this->viewer = $viewer;
 		}
 		return $this->viewer;
@@ -190,6 +193,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 		$viewer->assign('LANGUAGE', Vtiger_Language_Handler::getLanguage());
 		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
+		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
