@@ -27,14 +27,6 @@
 			<div class="col-md-8">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			</div>
-			{*{assign var=SINGLE_MODULE_NAME value='Single_'|cat:$MODULE}
-				<span class="col-md-8">
-			{if $RECORD_ID neq ''}
-				<h3 class="col-md-8 marginLeftZero" title='{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} "{$RECORD_STRUCTURE_MODEL->getRecordName()}"'>{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} "{$RECORD_STRUCTURE_MODEL->getRecordName()}"</h3>
-			{else}
-				<h3 class="col-md-8 marginLeftZero" title="{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
-			{/if}
-				</span>*}
 			<div class="col-md-4">
 				<span class="pull-right" style="padding-right: 15px">
 					<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
@@ -43,48 +35,56 @@
 			</div>
 		</div>
 		<hr>
-		<div class="row col-md-12" style="margin-bottom:20px;" >
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-				<div class="col-md-12 marginLeftZero paddingLRZero">
 				{if $BLOCK_FIELDS|@count gt 0}
-				<div  class="col-md-12 listViewActionsDiv paddingLRZero">
-					<strong><h4>{vtranslate($BLOCK_LABEL, $MODULE)}</h4></strong>
-				</div>
-				<div class="col-md-6 paddingLRZero">
+				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{vtranslate($BLOCK_LABEL, $MODULE)}">
+					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+						<div class="iconCollapse">
+							<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)}hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}"  src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
+							<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)}hide{/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
+						</div>
+						<div>
+							<h4>{vtranslate($BLOCK_LABEL, $MODULE)}</h4>
+						</div>
+					</div>
+				<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">	
+					<div class="col-md-12 paddingLRZero">
 				{assign var=COUNTER value=0}
 				{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 					{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 					{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 					{assign var="refrenceListCount" value=count($refrenceList)}
 					{if $COUNTER eq 2}
-						</div><div class="col-md-6 paddingLRZero">
+						</div><div class="col-md-12 paddingLRZero">
 						{assign var=COUNTER value=1}
 					{else}
 						{assign var=COUNTER value=$COUNTER+1}
 					{/if}
-					<div class="col-md-6 fieldLabel {$WIDTHTYPE}">
-					{if {$isReferenceField} eq "reference"}
-						{if $refrenceListCount > 1}
-							<select style="width: 150px;" class="chzn-select form-control" id="referenceModulesList">
-								<optgroup>
-									{foreach key=index item=value from=$refrenceList}
-										<option value="{$value}">{$value}</option>
-									{/foreach}
-								</optgroup>
-							</select>
+					<div class="{if $FIELD_MODEL->get('uitype') neq "300"}col-md-6{/if} fieldRow">
+						<div class="col-md-6 fieldLabel {$WIDTHTYPE}">
+						{if {$isReferenceField} eq "reference"}
+							{if $refrenceListCount > 1}
+								<select style="width: 150px;" class="chzn-select form-control" id="referenceModulesList">
+									<optgroup>
+										{foreach key=index item=value from=$refrenceList}
+											<option value="{$value}">{$value}</option>
+										{/foreach}
+									</optgroup>
+								</select>
+							{/if}
+							{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
+						{else}
+							<label>
+								{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
+							</label>
 						{/if}
-						{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
-					{else}
-						{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
-					{/if}
-					{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
+						{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
+						</div>
+						<div class=" col-md-6 fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+							{include file=$FIELD_MODEL->getUITypeModel()->getTemplateName()|@vtemplate_path:$MODULE}
+						</div>	
 					</div>
-					<div class=" col-md-6 fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
-						{include file=$FIELD_MODEL->getUITypeModel()->getTemplateName()|@vtemplate_path:$MODULE}
-					</div>
-					<div class="clearfix"></div>
 				{/foreach}
-				</div>
 					{if $BLOCK_LABEL eq 'LBL_CALENDAR_SETTINGS'}
 						<div id="selectUsers" {if $SHARED_TYPE != 'seletedusers'} style="display: none;" {/if}>
 							<div class=" col-md-6 fieldLabel {$WIDTHTYPE}">
@@ -102,8 +102,10 @@
 						</div>
 								
 					{/if}
+					</div>
+					</div>
+					</div>
 				{/if}
-				</div>
 				<div class="clearfix"></div>
 			{/foreach}
 			<div class='pull-right'>
