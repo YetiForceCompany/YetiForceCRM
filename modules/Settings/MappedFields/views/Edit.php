@@ -95,16 +95,4 @@ class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
-
-	function getHeaderCss(Vtiger_Request $request)
-	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$moduleName = $request->getModule();
-		$cssFileNames = array(
-			"~layouts/vlayout/modules/Settings/$moduleName/Edit.css",
-		);
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
-		return $headerCssInstances;
-	}
 }

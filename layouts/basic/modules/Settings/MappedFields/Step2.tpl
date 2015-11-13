@@ -47,7 +47,7 @@
 											{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields(true)}
 												<optgroup label="{vtranslate($BLOCK_NAME, $SEL_MODULE_MODEL->getName())}">
 													{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
-														<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-fieldtype="{$FIELD_OBJECT->getFieldType()}" {if $FIELD_ID eq $MAPPING_ARRAY['source']->getId()} selected {/if} label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
+														<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-mappingtype="{$FIELD_OBJECT->getFieldType()}" {if $FIELD_ID eq $MAPPING_ARRAY['source']->getId()} selected {/if} label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
 															{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}
 														</option>
 													{/foreach}

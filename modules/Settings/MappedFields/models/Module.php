@@ -287,7 +287,9 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 				foreach ($stepFields as $name) {
 					$params[$name] = $mapp[$name];
 				}
-				$db->insert($this->mappingTable, $params);
+				if($params['source'] && $params['target']){
+					$db->insert($this->mappingTable, $params);
+				}
 			}
 		}
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');

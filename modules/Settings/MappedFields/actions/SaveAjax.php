@@ -61,7 +61,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$response->setResult(['id' => $moduleInstance->getRecordId()]);
 		$response->emit();
 	}
-	
+
 	public function import(Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
@@ -76,7 +76,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 			$mapping = [];
 			if ($xmlError == UPLOAD_ERR_OK && $extension === 'xml') {
 				$xml = simplexml_load_file($uploadedXml);
-				$cDataColumns = ['conditions'];
+				$cDataColumns = ['conditions', 'params'];
 				$changeNames = ['tabid', 'reltabid'];
 				$i = 0;
 				$instances = [];
@@ -92,7 +92,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 							foreach ($fieldValue as $columnKey => $columnValue) {
 								settype($columnKey, 'string');
 								settype($columnValue, 'string');
-								if ($columnKey == 'default') {
+								if (in_array($columnKey, ['default', 'type'])) {
 									$mapping[$i][$columnKey] = $columnValue;
 									continue;
 								}
