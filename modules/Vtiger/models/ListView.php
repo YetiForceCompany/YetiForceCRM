@@ -518,7 +518,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkicon' => ''
 			);
 		}
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'RecordMapping')) {
+		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'RecordMappingList')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mfModel = new $handlerClass();
 			$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
