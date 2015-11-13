@@ -22,15 +22,14 @@
 			<input type="hidden" id="weekStartDay" data-value='{$WEEK_START_ID}' />
 			<div class="well contentsBackground">
 				<div class="row marginBottom5px">
-					<span class="col-md-3"><span class="redColor">*</span>{vtranslate('LBL_REPORT_NAME',$MODULE)}</span>
-					<span class="col-md-7 row"><input class="col-md-6 form-control" data-validation-engine='validate[required]' type="text" name="reportname" title="{vtranslate('LBL_REPORT_NAME', $MODULE)}" value="{$REPORT_MODEL->get('reportname')}"/></span>
+					<div class="col-md-3"><span class="redColor">*</span>{vtranslate('LBL_REPORT_NAME',$MODULE)}</div>
+					<div class="col-md-7"><input class="col-md-6 form-control" data-validation-engine='validate[required]' type="text" name="reportname" title="{vtranslate('LBL_REPORT_NAME', $MODULE)}" value="{$REPORT_MODEL->get('reportname')}"/></div>
 				</div>
-				<div class="row marginBottom5px">
-					<span class="col-md-3"><span class="redColor">*</span>{vtranslate('LBL_REPORT_FOLDER',$MODULE)}</span>
-					<span class="col-md-7 row">
-						<select class="chzn-select col-md-6" name="folderid">
+				<div class="row marginBottom5px paddingTop10">
+					<div class="col-md-3"><span class="redColor">*</span>{vtranslate('LBL_REPORT_FOLDER',$MODULE)}</div>
+					<div class="col-md-7">
+						<select class="chzn-select col-md-6 form-control" name="folderid">
 							<optgroup>
-
 								{foreach item=REPORT_FOLDER from=$REPORT_FOLDERS}
 									<option value="{$REPORT_FOLDER->getId()}"
 											{if $REPORT_FOLDER->getId() eq $REPORT_MODEL->get('folderid')}
@@ -40,12 +39,12 @@
 								{/foreach}
 							</optgroup>
 						</select>
-					</span>
+					</div>
 				</div>
-				<div class="row marginBottom5px">
-					<span class="col-md-3"><span class="redColor">*</span>{vtranslate('PRIMARY_MODULE',$MODULE)}</span>
-					<span class="col-md-7 row">
-						<select class="col-md-6 chzn-select" title="{vtranslate('PRIMARY_MODULE',$MODULE)}" id="primary_module" name="primary_module">
+				<div class="row marginBottom5px paddingTop10">
+					<div class="col-md-3"><span class="redColor">*</span>{vtranslate('PRIMARY_MODULE',$MODULE)}</div>
+					<div class="col-md-7">
+						<select class="col-md-6 chzn-select form-control" title="{vtranslate('PRIMARY_MODULE',$MODULE)}" id="primary_module" name="primary_module">
 							<optgroup>
 								{foreach key=RELATED_MODULE_KEY item=RELATED_MODULE from=$MODULELIST}
 									<option value="{$RELATED_MODULE_KEY}" {if $REPORT_MODEL->getPrimaryModule() eq $RELATED_MODULE_KEY } selected="selected" {/if}>
@@ -54,14 +53,14 @@
 								{/foreach}
 							</optgroup>
 						</select>
-					</span>
+					</div>
 				</div>
-				<div class="row marginBottom5px">
-					<span class="col-md-3">
+				<div class="row marginBottom5px paddingTop10">
+					<div class="col-md-3">
 						<div>{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}</div>
 						<div>({vtranslate('LBL_MAX',$MODULE)}&nbsp;2)</div>
-					</span>
-					<span class="col-md-7 row">
+					</div>
+					<div class="col-md-7">
 						{assign var=SECONDARY_MODULES_ARR value=explode(':',$REPORT_MODEL->getSecondaryModules())}
 						{assign var=PRIMARY_MODULE value=$REPORT_MODEL->getPrimaryModule()}
 
@@ -78,24 +77,24 @@
 								<option {if in_array($PRIMARY_RELATED_MODULE,$SECONDARY_MODULES_ARR)} selected="" {/if} value="{$PRIMARY_RELATED_MODULE}">{$PRIMARY_RELATED_MODULE_LABEL}</option>
 							{/foreach}
 						</select>
-					</span>
+					</div>
 				</div>
-				<div class="row marginBottom5px">
-					<span class="col-md-3">{vtranslate('LBL_DESCRIPTION',$MODULE)}</span>
-					<span class="col-md-7 row"><textarea class="col-md-6 form-control" type="text" title="{vtranslate('LBL_DESCRIPTION',$MODULE)}" name="description" >{$REPORT_MODEL->get('description')}</textarea></span>
+				<div class="row marginBottom5px paddingTop10">
+					<div class="col-md-3">{vtranslate('LBL_DESCRIPTION',$MODULE)}</div>
+					<div class="col-md-7"><textarea class="col-md-6 form-control" type="text" title="{vtranslate('LBL_DESCRIPTION',$MODULE)}" name="description" >{$REPORT_MODEL->get('description')}</textarea></div>
 				</div>
-				<div class="padding1per">
-					<div>
+				<div class="row paddingTop10">
+					<div class="col-xs-12">
 						<input type="checkbox" title="{vtranslate('LBL_SCHEDULE_REPORTS',$MODULE)}"  {if $SCHEDULEDREPORTS->get('scheduleid') neq ''} checked="" {/if} value="{if $SCHEDULEDREPORTS->get('scheduleid') neq ''}true{/if}" name='enable_schedule' style="margin-top: 0px !important;"> &nbsp;
 						<strong>{vtranslate('LBL_SCHEDULE_REPORTS',$MODULE)}</strong>
 					</div>
 				</div>
 				<div id="scheduleBox" class='well contentsBackground {if $SCHEDULEDREPORTS->get('scheduleid') eq ''} hide {/if}'>
 					<div class='row'>
-						<div class='col-md-3' style='position:relative;top:5px;'>{vtranslate('LBL_RUN_REPORT', $MODULE)}</div>
+						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>{vtranslate('LBL_RUN_REPORT', $MODULE)}</div>
 						<div class='col-md-4'>
 							{assign var=scheduleid value=$SCHEDULEDREPORTS->get('scheduleid')}
-							<select class='chzn-select' id='schtypeid' title="{vtranslate('LBL_SCHEDULE_REPORTS',$MODULE)}" name='schtypeid'>
+							<select class='chzn-select form-control' id='schtypeid' title="{vtranslate('LBL_SCHEDULE_REPORTS',$MODULE)}" name='schtypeid'>
 								<option value="1" {if $scheduleid eq 1}selected{/if}>{vtranslate('LBL_DAILY', $MODULE)}</option>
 								<option value="2" {if $scheduleid eq 2}selected{/if}>{vtranslate('LBL_WEEKLY', $MODULE)}</option>
 								<option value="5" {if $scheduleid eq 5}selected{/if}>{vtranslate('LBL_SPECIFIC_DATE', $QUALIFIED_MODULE)}</option>
@@ -107,10 +106,10 @@
 
 					{* show weekdays for weekly option *}
 					<div class='row {if $scheduleid neq 2} hide {/if}' id='scheduledWeekDay' style='padding:5px 0px;'>
-						<div class='col-md-3' style='position:relative;top:5px;'>{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}</div>
+						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}</div>
 						<div class='col-md-4'>
 							{assign var=dayOfWeek value=Zend_Json::decode($SCHEDULEDREPORTS->get('schdayoftheweek'))}
-							<select style='width:230px;' multiple class='chosen' title="{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name='schdayoftheweek' id='schdayoftheweek'>
+							<select style='width:230px;' multiple class='chosen form-control' title="{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name='schdayoftheweek' id='schdayoftheweek'>
 								<option value="7" {if is_array($dayOfWeek) && in_array('7', $dayOfWeek)} selected {/if}>{vtranslate('LBL_DAY0', 'Calendar')}</option>
 								<option value="1" {if is_array($dayOfWeek) && in_array('1', $dayOfWeek)} selected {/if}>{vtranslate('LBL_DAY1', 'Calendar')}</option>
 								<option value="2" {if is_array($dayOfWeek) && in_array('2', $dayOfWeek)} selected {/if}>{vtranslate('LBL_DAY2', 'Calendar')}</option>
@@ -124,10 +123,10 @@
 
                         {* show month view by dates *}
                         <div class='row {if $scheduleid neq 3} hide {/if}' id='scheduleMonthByDates' style="padding:5px 0px;">
-                            <div class='col-md-3' style='position:relative;top:5px;'>{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}</div>
+                            <div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}</div>
                             <div class='col-md-4'>
                                 {assign var=dayOfMonth value=Zend_Json::decode($SCHEDULEDREPORTS->get('schdayofthemonth'))}
-                                <select style="width: 281px !important;" multiple class="chosen-select col-md-6" title="{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name='schdayofthemonth' id='schdayofthemonth' >
+                                <select style="width: 281px !important;" multiple class="chosen-select col-md-6 form-control" title="{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name='schdayofthemonth' id='schdayofthemonth' >
                                     {section name=foo loop=31}
                                         <option value={$smarty.section.foo.iteration} {if is_array($dayOfMonth) && in_array($smarty.section.foo.iteration, $dayOfMonth)}selected{/if}>{$smarty.section.foo.iteration}</option>
                                     {/section}
@@ -136,7 +135,7 @@
                         </div>
                         {* show specific date *}
                         <div class='row {if $scheduleid neq 5} hide {/if}' id='scheduleByDate' style="padding:5px 0px;">
-                            <div class='col-md-3' style='position:relative;top:5px;'>{vtranslate('LBL_CHOOSE_DATE', $MODULE)}</div>
+                            <div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>{vtranslate('LBL_CHOOSE_DATE', $MODULE)}</div>
                             <div class='col-md-6'>
                                 <div class='input-group row'>
                                     <div class='row date'>
@@ -150,7 +149,7 @@
                         </div>
                     {* show month view by anually *}
                     <div class='row {if $scheduleid neq 4} hide {/if}' id='scheduleAnually' style='padding:5px 0px;'>
-                        <div class='col-md-3' style='position:relative;top:5px;'>
+                        <div class='col-md-3 ' style='position:relative;top:5px;'>
                             {vtranslate('LBL_SELECT_MONTH_AND_DAY', $MODULE)}
                         </div>
                         <div class='col-md-5'>
@@ -172,7 +171,7 @@
 
                     {* show time for all other than Hourly option*}
                     <div class='row' id='scheduledTime' style='padding:5px 0px 10px 0px;'>
-                        <div class='col-md-3' style='position:relative;top:5px;'>
+                        <div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>
                             <span class="redColor">*</span>{vtranslate('LBL_AT_TIME', $MODULE)}
                         </div>
                         <div class='col-md-4' id='schtime'>
@@ -184,14 +183,14 @@
                     </div>
                     {* show all the users,groups,roles and subordinat roles*}
                     <div class='row' id='recipientsList' style='padding:5px 0px 10px 0px;'>
-                        <div class='col-md-3' style='position:relative;top:5px;'>
+                        <div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>
                             <span class="redColor">*</span>{vtranslate('LBL_SELECT_RECIEPIENTS', $MODULE)}
                         </div>
                         <div class='col-md-4'>
                             {assign var=ALL_ACTIVEUSER_LIST value=$CURRENT_USER->getAccessibleUsers()}
                             {assign var=ALL_ACTIVEGROUP_LIST value=$CURRENT_USER->getAccessibleGroups()}
                             {assign var=recipients value=Zend_Json::decode($SCHEDULEDREPORTS->get('recipients'))}
-                            <select multiple data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" title="{vtranslate('LBL_SELECT_RECIEPIENTS', $MODULE)}" class="chosen-select col-md-6" id='recipients' name='recipients' data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" style="width: 281px !important;">
+                            <select multiple data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" title="{vtranslate('LBL_SELECT_RECIEPIENTS', $MODULE)}" class="chosen-select col-md-6 form-control" id='recipients' name='recipients' data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" style="width: 281px !important;">
                                 <optgroup label="{vtranslate('LBL_USERS')}">
                                     {foreach key=USER_ID item=USER_NAME from=$ALL_ACTIVEUSER_LIST}
                                             {assign var=USERID value="USER::{$USER_ID}"}
@@ -214,7 +213,7 @@
                         </div>
                     </div>
                     <div class='row' id='specificemailsids' style='padding:5px 0px 10px 0px;'>
-                        <div class='col-md-3' style='position:relative;top:5px;'>
+                        <div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>
                             {vtranslate('LBL_SPECIFIC_EMAIL_ADDRESS', $MODULE)}
                         </div>
                         <div class='col-md-4'>
@@ -224,7 +223,7 @@
                     </div>
                     {if $SCHEDULEDREPORTS->get('next_trigger_time')}
                         <div class="row">
-                            <div class='col-md-3'>
+                            <div class='col-md-3 marginBottom5px'>
                                 <span class=''>{vtranslate('LBL_NEXT_TRIGGER_TIME', $MODULE)}</span>
                             </div>
                             <div class='span'>
@@ -235,7 +234,7 @@
                     {/if}
                 </div>
 		</div>
-		<div class="pull-right">
+		<div class="row pull-right no-margin">
 			<button type="submit" class="btn btn-success nextStep"><strong>{vtranslate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button onclick='window.history.back()' type="reset" class="cancelLink cursorPointer btn btn-warning">{vtranslate('LBL_CANCEL',$MODULE)}</button>
 		</div>
