@@ -3626,6 +3626,9 @@ span[name=existingImages] img{
 	color:#fff;
 	background: #4a5364;
 }
+.baseContainer .leftPanel .menuContainer .subMenu a{
+	color: #4a5364;
+}
 .baseContainer .leftPanel .menuContainer .subMenu  a.hasIcon,
 .baseContainer .leftPanel .menuContainer .subMenu  button .hasIcon {
 	padding: 6px 10px;
