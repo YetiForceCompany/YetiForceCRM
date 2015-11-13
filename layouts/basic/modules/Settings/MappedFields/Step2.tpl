@@ -30,19 +30,19 @@
 					</div>
 				</div>
 				<div class="contents" id="detailView">
-					<table class="table table-bordered" width="100%" id="mappingToGenerate">
+					<table class="table table-bordered" id="mappingToGenerate">
 						<tbody>
 							<tr class="blockHeader">
-								<th class='sourceModuleName' width="15%"><b>{vtranslate('SINGLE_'|cat:$SEL_MODULE_MODEL->getName(), $SEL_MODULE_MODEL->getName())}</b></th>
-								<th width="15%"><b>{vtranslate('LBL_FIELDS_TYPE', $QUALIFIED_MODULE)}</b></th>
-								<th class='targetModuleName' width="15%"><b>{vtranslate('SINGLE_'|cat:$REL_MODULE_MODEL->getName(), $REL_MODULE_MODEL->getName())}</b></th>
-								<th width="15%"><b>{vtranslate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}</b></th>
-								<th width="15%"><b>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</b></th>
+								<th class='sourceModuleName'><b>{vtranslate('SINGLE_'|cat:$SEL_MODULE_MODEL->getName(), $SEL_MODULE_MODEL->getName())}</b></th>
+								<th><b>{vtranslate('LBL_FIELDS_TYPE', $QUALIFIED_MODULE)}</b></th>
+								<th class='targetModuleName'><b>{vtranslate('SINGLE_'|cat:$REL_MODULE_MODEL->getName(), $REL_MODULE_MODEL->getName())}</b></th>
+								<th class="defaultHeader"><b>{vtranslate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}</b></th>
+								<th class="actionsHeader"><b>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</b></th>
 							</tr>
 							{foreach key=MAPPING_ID item=MAPPING_ARRAY from=$MF_MODEL->getMapping()  name="mappingLoop"}
 								{assign var="SEQ" value=$smarty.foreach.mappingLoop.iteration}
 								<tr class="listViewEntries" sequence-number="{$SEQ}">
-									<td width="30%">
+									<td>
 										<select class="sourceFields select2" name="mapping[{$SEQ}][source]">
 											{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields(true)}
 												<optgroup label="{vtranslate($BLOCK_NAME, $SEL_MODULE_MODEL->getName())}">
@@ -56,8 +56,8 @@
 										</select>
 										<input type="hidden" class="mappingType" name="mapping[{$SEQ}][type]" value="{$MAPPING_ARRAY['type']}" />
 									</td>
-									<td width="20%" class="selectedFieldDataType">{vtranslate($MAPPING_ARRAY['source']->getFieldDataType(), $QUALIFIED_MODULE)}</td>
-									<td width="30%">
+									<td class="selectedFieldDataType text-center alignMiddle">{vtranslate($MAPPING_ARRAY['source']->getFieldDataType(), $QUALIFIED_MODULE)}</td>
+									<td>
 										<select class="targetFields select2" name="mapping[{$SEQ}][target]">
 											{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
 												<optgroup label="{vtranslate($BLOCK_NAME, $REL_MODULE_MODEL->getName())}">
@@ -85,7 +85,7 @@
 								</tr>
 							{/foreach}
 							<tr class="hide newMapping listViewEntries">
-								<td width="15%">
+								<td>
 									<select class="sourceFields newSelect">
 										<option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 										{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields(true)}
@@ -100,8 +100,8 @@
 									</select>
 									<input type="hidden" class="mappingType" value="" />
 								</td>
-								<td width="15%" class="selectedFieldDataType"></td>
-								<td width="13%">
+								<td class="selectedFieldDataType text-center alignMiddle"></td>
+								<td>
 									<select class="targetFields newSelect">
 										{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
 											<optgroup label="{vtranslate($BLOCK_NAME, $REL_MODULE_MODEL->getName())}">

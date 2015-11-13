@@ -4299,6 +4299,15 @@ html,body,.baseContainer
 .listViewActionsDiv .pageInfo {
 	max-height:34px;
 }
+#mappingToGenerate th:not(.defaultHeader):not(.actionsHeader){
+	width: 24%;
+}
+#mappingToGenerate .defaultHeader{
+	width: 20%;
+}
+#mappingToGenerate .actionsHeader{
+	width: 8%;
+}
 @media only screen and (min-width: 1240px){
 	.selectSearch{
 		display: block;
