@@ -66,4 +66,9 @@ class Settings_Roles_Popup_View extends Vtiger_Footer_View
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
+
+	protected function showBodyHeader()
+	{
+		return false;
+	}
 }
