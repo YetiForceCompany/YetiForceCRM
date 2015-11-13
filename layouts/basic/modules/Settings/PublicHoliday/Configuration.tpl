@@ -7,36 +7,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
- 
-<style>
-.fieldDetailsForm .zeroOpacity{
-display: none;
-}
-.visibility{
-visibility: hidden;
-}
-.marginLeft20{
-margin-left: 20px;
-}
-.marginRight20{
-	margin-right: 20px;
-}
-.marginTop5{
-	margin-top: 5px;
-}
-.paddingNoTop20{
-padding: 20px 20px 20px 20px;
-}
-.paddingAll10{
-padding: 10px;
-}.paddingAll5{
-padding: 5px;
-}
-.marginLRZero{
-	margin-left: 0;
-	margin-right: 0;
-}
-</style>
+{strip}
 <div class="" id="widgetsManagementEditorContainer">
 	<div class="widget_header row">
 		<div class="col-md-12">
@@ -44,30 +15,38 @@ padding: 5px;
 			{vtranslate('LBL_PUBLIC_HOLIDAY_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
-
+	<hr>
 	<div class="contents tabbable">
-		<div class="tab-content layoutContent paddingNoTop20 themeTableColor overflowVisible">
+		<div class="tab-content themeTableColor overflowVisible">
 		<div class="tab-pane active" id="layoutDashBoards">
 			<div class="btn-toolbar marginBottom10px">
 				<button type="button" class="btn btn-default addDateWindow"><span class="glyphicon glyphicon-plus"></span>&nbsp;{vtranslate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
 			</div>
 			<div id="moduleBlocks">
 				<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 marginBottom10px border1px">
-					<div class="row layoutBlockHeader marginLRZero">
-						<div class="col-md-6">
-							<h4>{vtranslate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</h4>
-						</div>
-						<div class="col-md-6">
-							<div class="pull-right">
-								<input type="text" class="dateField dateFilter marginbottomZero form-control" data-date-format="yyyy-mm-dd" data-calendar-type="range" value="{$DATE}" />
-							</div>
-							<div class="pull-right">
-								<strong>{vtranslate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}:</strong>
-							</div>
-						</div>
+					<div class="row no-margin">
+						<table class="table table-bordered layoutBlockHeader">
+							<tr>
+								<td>
+									<div class="col-xs-12 col-sm-6 col-md-6 paddingLRZero">
+										<h4>{vtranslate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</h4>
+									</div>
+									<div class="pull-right col-xs-12 col-sm-6 col-md-6 paddingLRZero">
+										<div class="pull-right">
+											<div class="col-xs-3 paddingTop10 paddingLRZero">
+												<strong>{vtranslate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}:</strong>
+											</div>
+											<div class="col-xs-8 col-xs-pull-1">
+												<input type="text" class="dateField dateFilter marginbottomZero form-control" data-date-format="yyyy-mm-dd" data-calendar-type="range" value="{$DATE}" />
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</table>
 					</div>
-					<table class="table tableRWD table-bordered table-condensed themeTableColor userTable">						
-						<thead style='text-transform: uppercase;'>
+					<table class="table tableRWD table-bordered ">
+						<thead class='text-capitalize'>
 						    <tr>
 							<th><span class='marginLeft20'>{vtranslate('LBL_DATE', $QUALIFIED_MODULE)}</span></th>
 							<th><span class='marginLeft20'>{vtranslate('LBL_DAY', $QUALIFIED_MODULE)}</span></th>
@@ -159,3 +138,4 @@ padding: 5px;
 		</div>
 	</div>
 </div>
+{/strip}
