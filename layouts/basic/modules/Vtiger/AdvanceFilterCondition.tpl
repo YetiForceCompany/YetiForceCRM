@@ -6,10 +6,13 @@
    * The Initial Developer of the Original Code is vtiger.
    * Portions created by vtiger are Copyright (C) vtiger.
    * All Rights Reserved.
-  *
+   * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
+{if !$USER_MODEL}
+	{assign var=USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
+{/if}
 <div class="conditionRow marginBottom10px">
 	<div class="col-md-4 conditionField">
 		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="columnname" title="{vtranslate('LBL_CHOOSE_FIELD')}">
