@@ -1089,8 +1089,11 @@ $languageStrings = [
 	'LBL_AUTOGENERATE_INFO' => 'All records will be saved automatically, without the possibility to edit before creating.',
 	'LBL_OPEN_NEW_WINDOWS_INFO' => 'A new browser tab will be opened with edition view for each record separately.',
 	'LBL_GENERATE_RECORDS' => 'Generate records',
+	'LBL_NOT_ASSIGNET_TO_BLOCK' => 'Unassigned',
+	'LBL_SELF_ID' => 'Record Id',
 ];
 $jsLanguageStrings = [
+	'JS_SUMMARY' => 'Summe',
 	'JS_LOADING_PLEASE_WAIT' => 'Laden, bitte warten.',
 	'JS_SELECTED_RECORDS' => 'Selected records',
 	'JS_SUCCESSFULLY_PERFORMED_ACTION_FOR' => 'Successfully performed action for',

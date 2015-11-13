@@ -39,7 +39,7 @@ $languageStrings = [
 	'LBL_NO_PERMISSION_TO_IMPORT' => 'Wystąpił błąd lub kolizja. Nie dokonano importu.',
 	'LBL_IMPORT_OK' => 'Poprawnie zaimportowano szablon',
 
-	'multiSelectCombo' => 'Pole słownikowe (multiwyboru)',
+	'multipicklist' => 'Pole słownikowe (multiwyboru)',
 	'percent' => 'Pole procentowe',
 	'phone' => 'Pole telefonu',
 	'picklist' => 'Pole słownikowe',
@@ -50,6 +50,12 @@ $languageStrings = [
 	'time' => 'Pole czasu',
 	'url' => 'Adres WWW',
 	'reference' => 'Pole referencyjne',
+	'boolean' => 'Pole zaznaczenia',
+	'currency' => 'Pole waluty',
+	'date' => 'Pole daty',
+	'decimal' => 'Pole liczbowe (dziesiętne)',
+	'email' => 'Pole mailowe',
+	'integer' => 'Pole liczbowe (całkowite)',
 ];
 $jsLanguageStrings = [
     'JS_percent' => 'Pole procentowe',
@@ -62,8 +68,15 @@ $jsLanguageStrings = [
 	'JS_time' => 'Pole czasowe',
 	'JS_url' => 'Adres WWW',
 	'JS_reference' => 'Pole referencyjne',
+	'JS_boolean' => 'Pole zaznaczenia',
+	'JS_currency' => 'Pole waluty',
+	'JS_date' => 'Pole daty',
+	'JS_decimal' => 'Pole liczbowe (dziesiętne)',
+	'JS_email' => 'Pole mailowe',
+	'JS_integer' => 'Pole liczbowe (całkowite)',
+	'JS_multipicklist' => 'Pole słownikowe (multiwyboru)',
 
-
+	'JS_IS_ALREADY_BEEN_MAPPED' => 'To pole jest już mapowane.',
 	'JS_YOU_CAN_NOT_SELECT_THE_SAME_MODULES' => 'Nie możesz wybrać tych samych modułów',
 	'JS_MF_SAVED_SUCCESSFULLY' => 'Pomyślnie zapisano zmiany',
 ];

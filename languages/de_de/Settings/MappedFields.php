@@ -39,7 +39,7 @@ $languageStrings = [
 	'LBL_NO_PERMISSION_TO_IMPORT' => 'Error or conflict occurred. Import not finished.',
 	'LBL_IMPORT_OK' => 'Template imported successfully.',
 
-	'multiSelectCombo' => 'Picklist field (multi select)',
+	'multipicklist' => 'Picklist field (multi select)',
 	'percent' => 'Percent field',
 	'phone' => 'Phone field',
 	'picklist' => 'Picklist field',
@@ -50,6 +50,12 @@ $languageStrings = [
 	'time' => 'TIme field',
 	'url' => 'Web address',
 	'reference' => 'Reference field',
+	'boolean' => 'Check Box',
+	'currency' => 'Currency',
+	'date' => 'Date',
+	'decimal' => 'Decimal',
+	'email' => 'Email',
+	'integer' => 'Integer',
 	
 ];
 $jsLanguageStrings = [
@@ -63,8 +69,15 @@ $jsLanguageStrings = [
 	'JS_time' => 'Time field',
 	'JS_url' => 'Web address',
 	'JS_reference' => 'Reference field',
+	'JS_boolean' => 'Check Box',
+	'JS_currency' => 'Currency',
+	'JS_date' => 'Date',
+	'JS_decimal' => 'Decimal',
+	'JS_email' => 'Email',
+	'JS_integer' => 'Integer',
+	'JS_multipicklist' => 'Multi-Select Combo Box',
 
-
+	'JS_IS_ALREADY_BEEN_MAPPED' => 'This field has already been mapped.',
 	'JS_YOU_CAN_NOT_SELECT_THE_SAME_MODULES' => 'You can\'t select the same modules',
 	'JS_MF_SAVED_SUCCESSFULLY' => 'Changes saved successfully',
 ];

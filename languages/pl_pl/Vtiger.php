@@ -1076,10 +1076,13 @@ $languageStrings = [
 	'LBL_OPEN_NEW_WINDOWS' => 'Otwieraj w nowym oknie',
 	'LBL_AUTOGENERATE_INFO' => 'Wszystkie rekordy zostaną zapisane automatycznie, bez możliwości edycji przed utworzeniem.',
 	'LBL_OPEN_NEW_WINDOWS_INFO' => 'Zostanie otwarta nowa karta okna przeglądarki z widokiem edycji dla każdego rekordu osobno.',
-	'LBL_GENERATE_RECORDS' => 'Generate records',
+	'LBL_GENERATE_RECORDS' => 'Generuj rekordy',
+	'LBL_NOT_ASSIGNET_TO_BLOCK' => 'Nieprzypisane',
+	'LBL_SELF_ID' => 'Id rekordu',
 	
 ];
 $jsLanguageStrings = [
+	'JS_SUMMARY' => 'Podsumowanie',
 	'JS_LOADING_PLEASE_WAIT' => 'Proszę czekać..',
 	'JS_SELECTED_RECORDS' => 'Zaznaczonych rekordów',
 	'JS_SUCCESSFULLY_PERFORMED_ACTION_FOR' => 'Poprawnie wykonano akcję dla',
