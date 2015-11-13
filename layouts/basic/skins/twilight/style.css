@@ -4061,6 +4061,7 @@ html,body,.baseContainer
 }
 .mainBody{
 	padding-top:50px;
+	padding-bottom:33px;
 	width: 100%;
 	overflow: hidden;
 }
