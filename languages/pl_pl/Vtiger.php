@@ -1079,6 +1079,7 @@ $languageStrings = [
 	'LBL_GENERATE_RECORDS' => 'Generuj rekordy',
 	'LBL_NOT_ASSIGNET_TO_BLOCK' => 'Nieprzypisane',
 	'LBL_SELF_ID' => 'Id rekordu',
+	'LBL_REMINDER' => "Powiadomienia",
 	
 ];
 $jsLanguageStrings = [
