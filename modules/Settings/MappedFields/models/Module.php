@@ -79,7 +79,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getRestrictedUitypes()
 	{
-		return [4, 51, 52, 53, 57, 58, 69, 70];
+		return [4, 51, 52, 57, 58, 69, 70];
 	}
 
 	/**
