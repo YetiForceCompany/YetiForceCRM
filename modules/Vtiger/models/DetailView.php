@@ -98,18 +98,19 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				'linkhint' => 'BTN_RECORD_EDIT',
 			);
 		}
-		//TODO add permission
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
-		$mfModel = new $handlerClass();
-		if ($mfModel && $mfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
-			$detailViewLinks[] = [
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => '',
-				'linkdata' => ['url' => 'index.php?module=' . $moduleName . '&view=GenerateModal&fromview=Detail&record=' . $recordId],
-				'linkicon' => 'glyphicon glyphicon-new-window',
-				'linkclass' => 'btn showModal',
-				'linkhint' => 'BTN_GENERATE_RECORD',
-			];
+		if (Users_Privileges_Model::isPermitted($moduleName, 'RecordMapping')) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+			$mfModel = new $handlerClass();
+			if ($mfModel && $mfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
+				$detailViewLinks[] = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => '',
+					'linkdata' => ['url' => 'index.php?module=' . $moduleName . '&view=GenerateModal&fromview=Detail&record=' . $recordId],
+					'linkicon' => 'glyphicon glyphicon-new-window',
+					'linkclass' => 'btn showModal',
+					'linkhint' => 'BTN_GENERATE_RECORD',
+				];
+			}
 		}
 		foreach ($detailViewLinks as $detailViewLink) {
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
