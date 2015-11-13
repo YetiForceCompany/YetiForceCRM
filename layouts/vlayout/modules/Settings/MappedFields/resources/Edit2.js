@@ -171,7 +171,6 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 			var fieldsSelectElement = container.find('select.targetFields.select2');
 			var fieldsBasedOnType = form.find('.newMapping').find('.targetFields').children().clone(true, true);
 			var options = jQuery('<div></div>');
-
 			container.find('.mappingType').val(mappingType);
 			fieldsBasedOnType.each(function (i, e) {
 				var element = jQuery(e);
@@ -272,7 +271,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 				breakSave = moduleName + ': ' + targetField.text();
 			}
 			if (breakSave) {
-				var warningMessage = breakSave + ' ' + app.vtranslate('JS_IS_ALREADY_BEEN_MAPPED');
+				var warningMessage = breakSave + ' <br>' + app.vtranslate('JS_IS_ALREADY_BEEN_MAPPED');
 				var notificationParams = {
 					text: warningMessage,
 					'type': 'error'

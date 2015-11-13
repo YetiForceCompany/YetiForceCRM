@@ -40,6 +40,7 @@
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="tabid" name="tabid" required="true" data-validation-engine='validate[required]' {if $RECORDID} disabled {/if}>
 							{foreach from=$ALL_MODULES key=TABID item=MODULE}
+								{if $MODULE->getName() eq 'OSSMailView'} continue {/if}
 								<option value="{$TABID}" {if $MF_MODEL->get('tabid') == $TABID} selected {/if}>
 									{vtranslate($MODULE->getName(), $MODULE->getName())}
 								</option>
@@ -54,6 +55,7 @@
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="reltabid" name="reltabid" required="true" data-validation-engine='validate[required]' {if $RECORDID} disabled {/if}>
 							{foreach from=$ALL_MODULES key=TABID item=MODULE}
+								{if $MODULE->getName() eq 'OSSMailView'} continue {/if}
 								<option value="{$TABID}" {if $MF_MODEL->get('reltabid') == $TABID} selected {/if}>
 									{vtranslate($MODULE->getName(), $MODULE->getName())}
 								</option>
