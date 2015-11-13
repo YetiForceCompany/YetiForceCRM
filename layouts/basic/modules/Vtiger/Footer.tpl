@@ -15,7 +15,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="clearfix"></div><br/>
+	<div class="clearfix"></div>
 	<input id='activityReminder' class='hide noprint' type="hidden" value="{$ACTIVITY_REMINDER}"/>
 	<footer class="footerContainer navbar-default navbar-fixed-bottom noprint">
 		<div class="vtFooter">
