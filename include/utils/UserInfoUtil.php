@@ -378,9 +378,6 @@ function isPermitted($module, $actionname, $record_id = '')
 			foreach ($subordinate_roles_users as $roleid => $userids) {
 				if (in_array($recOwnId, $userids)) {
 					$permission = 'yes';
-					if ($module == 'Calendar') {
-						$permission = isCalendarPermittedBySharing($record_id);
-					}
 					$log->debug('Exiting isPermitted method ...');
 					return $permission;
 				}
@@ -419,16 +416,7 @@ function isPermitted($module, $actionname, $record_id = '')
 		//Checking for Default Org Sharing permission
 		if ($others_permission_id == 0) {
 			if ($actionid == 1 || $actionid == 0) {
-
-				if ($module == 'Calendar') {
-					if ($recOwnType == 'Users') {
-						$permission = isCalendarPermittedBySharing($record_id);
-					} else {
-						$permission = 'no';
-					}
-				} else {
-					$permission = isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id);
-				}
+				$permission = isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id);
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;
 			} elseif ($actionid == 2) {
@@ -455,17 +443,8 @@ function isPermitted($module, $actionname, $record_id = '')
 			$log->debug("Exiting isPermitted method ...");
 			return $permission;
 		} elseif ($others_permission_id == 3) {
-
 			if ($actionid == 3 || $actionid == 4) {
-				if ($module == 'Calendar') {
-					if ($recOwnType == 'Users') {
-						$permission = isCalendarPermittedBySharing($record_id);
-					} else {
-						$permission = 'no';
-					}
-				} else {
-					$permission = isReadPermittedBySharing($module, $tabid, $actionid, $record_id);
-				}
+				$permission = isReadPermittedBySharing($module, $tabid, $actionid, $record_id);
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;
 			} elseif ($actionid == 0 || $actionid == 1) {
@@ -1892,34 +1871,6 @@ function getSharingModuleList($eliminateModules = false)
 	}
 
 	return $sharingModuleArray;
-}
-
-function isCalendarPermittedBySharing($recordId)
-{
-	global $adb;
-	$current_user = vglobal('current_user');
-	$permission = 'no';
-	$query = "SELECT vtiger_sharedcalendar.sharedid, vtiger_users.calendarsharedtype FROM vtiger_sharedcalendar RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status='Active'
-				WHERE vtiger_users.id IN(SELECT vtiger_crmentity.smownerid FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_activity.activityid
-								WHERE activityid=? AND visibility='Public' AND vtiger_crmentity.smownerid !=0)";
-	$result = $adb->pquery($query, array($recordId));
-
-	for ($i = 0; $i < $adb->num_rows($result); $i++) {
-		$sharedDetails = $adb->fetchByAssoc($result, $i);
-		$sharedType = $sharedDetails['calendarsharedtype'];
-		if ($sharedType == 'public') {
-			$permission = 'yes';
-			break;
-		} else if ($sharedType == 'private') {
-			$permission = 'no';
-			break;
-		} else if ($current_user->id == $sharedDetails['sharedid']) {
-			$permission = 'yes';
-			break;
-		}
-	}
-
-	return $permission;
 }
 
 /** Function to check if the field is Active
