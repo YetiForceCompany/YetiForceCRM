@@ -65,7 +65,11 @@
 									<span class="glyphicon glyphicon-plus"></span>
 								{else}
 									<span class="{$LISTVIEW_BASICACTION->linkicon}"></span>
-								{/if}&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong></button>
+								{/if}
+								{if $LISTVIEW_BASICACTION->getLabel() neq ''}
+									&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong>
+								{/if}
+							</button>
 						</div>
 					{/foreach}
 				</div>
