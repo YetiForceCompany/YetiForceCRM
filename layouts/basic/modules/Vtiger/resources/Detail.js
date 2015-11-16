@@ -2287,29 +2287,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 	},
-	/**
-	 * Number of records in hierarchy
-	 * @license licenses/License.html
-	 * @package YetiForce.Detail
-	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
-	 */
-	registerHierarchyRecordCount: function () {
-		var hierarchyButton = $('.detailViewToolbar .hierarchy');
-		if(hierarchyButton.length){
-			var thisInstance = new Vtiger_Detail_Js();
-			var params = {
-				module: app.getModuleName(),
-				action: 'RelationAjax',
-				record: thisInstance.getRecordId(),
-				mode: 'getHierarchyCount',
-			}
-			AppConnector.request(params).then(function (response) {
-				if (response.success) {
-					$('.detailViewToolbar .hierarchy').append(' <span class="badge">' + response.result + '</span>');
-				}
-			});
-		}
-	},
 	registerCommentEvents: function (detailContentsHolder) {
 		var thisInstance = this;
 		detailContentsHolder.on('click', '.addCommentBtn', function (e) {
@@ -2773,7 +2750,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerEventForTotalRecordsCount();
 		this.registerGetAllTagCloudWidgetLoad();
 		this.registerRelatedModulesRecordCount();
-		this.registerHierarchyRecordCount();
 		var header = Vtiger_Header_Js.getInstance();
 		header.registerQuickCreateCallBack(this.registerRelatedModulesRecordCount);
 	}
