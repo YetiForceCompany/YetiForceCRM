@@ -2294,18 +2294,21 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
 	 */
 	registerHierarchyRecordCount: function () {
-		var thisInstance = new Vtiger_Detail_Js();
-		var params = {
-			module: app.getModuleName(),
-			action: 'RelationAjax',
-			record: thisInstance.getRecordId(),
-			mode: 'getHierarchyCount',
-		}
-		AppConnector.request(params).then(function (response) {
-			if (response.success) {
-				$('.detailViewToolbar .hierarchy').append(' <span class="badge">' + response.result + '</span>');
+		var hierarchyButton = $('.detailViewToolbar .hierarchy');
+		if(hierarchyButton.length){
+			var thisInstance = new Vtiger_Detail_Js();
+			var params = {
+				module: app.getModuleName(),
+				action: 'RelationAjax',
+				record: thisInstance.getRecordId(),
+				mode: 'getHierarchyCount',
 			}
-		});
+			AppConnector.request(params).then(function (response) {
+				if (response.success) {
+					$('.detailViewToolbar .hierarchy').append(' <span class="badge">' + response.result + '</span>');
+				}
+			});
+		}
 	},
 	registerCommentEvents: function (detailContentsHolder) {
 		var thisInstance = this;
