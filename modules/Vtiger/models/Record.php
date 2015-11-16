@@ -541,6 +541,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				$newInvData = [];
 			}
 			foreach ($mfInstance->getMapping() as $mapp) {
+				// TODO Validation that specifies whether a value is included in the list of values for a given module field should be added
 				if ($mapp['type'] == 'SELF' && is_object($mapp['target'])) {
 					$referenceList = $mapp['target']->getReferenceList();
 					if (in_array($parentRecordModel->getModuleName(), $referenceList)) {
