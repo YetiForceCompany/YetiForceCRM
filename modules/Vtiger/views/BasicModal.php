@@ -54,7 +54,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		return $scriptInstances;
 	}
 	
-	function getModalCss(Vtiger_Request $request)
+	public function getModalCss(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('view');

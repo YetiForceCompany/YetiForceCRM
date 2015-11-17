@@ -10,7 +10,6 @@
  ********************************************************************************/
 -->*}
 {strip}
-
 <div>
 	{* Summary View Products Widget*}
 	{if vtlib_isModuleActive('Products')}
@@ -21,7 +20,7 @@
 					<div class="col-xs-10 col-sm-10 col-md-9 margin0px"><h4>{vtranslate('Interested products',$MODULE_NAME)}</h4></div>
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 						<div class="pull-right">
-							<button class="btn btn-default addButton selectRelation" type="button" data-modulename="Products" >
+							<button class="btn btn-default showModal" type="button" data-url="index.php?module=Products&view=TreeCategory&src_module={$MODULE_NAME}&src_record={$RECORDID}">
 								<span class="glyphicon glyphicon-zoom-in" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></span>
 							</button>
 						</div>
@@ -32,7 +31,6 @@
 			</div>
 		</div>
 	{/if}
-
 	{* Summary View OutsourcedProducts Widget*}
 	{if vtlib_isModuleActive('OutsourcedProducts')}
 		<div class="summaryWidgetContainer">
@@ -55,7 +53,6 @@
 			</div>
 		</div>
 	{/if}
-
 	{* Summary View Assets Widget*}
 	{if $MODULE_NAME != 'Leads' && vtlib_isModuleActive('Assets')}
 		<div class="summaryWidgetContainer">
@@ -78,7 +75,6 @@
 			</div>
 		</div>
 	{/if}
-
 	{* Summary View Services Widget Ends Here*}
 	{if vtlib_isModuleActive('Services')}
 		<div class="summaryWidgetContainer">
@@ -99,7 +95,6 @@
 			</div>
 		</div>
 	{/if}
-	
 	{* Summary View OSSOutsourcedServices Widget Start Here*}
 	{if vtlib_isModuleActive('OSSOutsourcedServices')}
 	<div class="summaryWidgetContainer">
