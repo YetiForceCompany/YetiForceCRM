@@ -106,8 +106,8 @@ padding: 5px;
 							<div class="modal-body">
 								<div class="form-group">
 									<div class="col-sm-3 control-label">
-										<span>{vtranslate('LBL_DATE', $QUALIFIED_MODULE)}</span>
 										<span class="redColor">*</span>
+										<span>{vtranslate('LBL_DATE', $QUALIFIED_MODULE)}</span>
 									</div>
 									<div class="col-sm-6 controls">
 										<input type="text" name="holidayDate" class="dateField form-control" data-date-format="{$CURRENTUSER->column_fields['date_format']}" value="{Vtiger_Functions::currentUserDisplayDate(date('Y-m-d'))}" required >
@@ -116,8 +116,8 @@ padding: 5px;
 								</div>
 								<div class="form-group">
 									<div class="col-sm-3 control-label">
-										<span>{vtranslate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</span>
 										<span class="redColor">*</span>
+										<span>{vtranslate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</span>
 									</div>
 									<div class="col-sm-6 controls">
 										 <select name="holidayType" class="form-control" required data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" >
@@ -128,8 +128,8 @@ padding: 5px;
 								</div>
 								<div class="form-group">
 									<div class="col-sm-3 control-label">
-										<span>{vtranslate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</span>
 										<span class="redColor">*</span>
+										<span>{vtranslate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</span>
 									</div>
 									<div class="col-sm-6 controls">
 										<input type="text" name="holidayName" value="" class="form-control" placeholder="{vtranslate('LBL_DAY_NAME_DESC', $QUALIFIED_MODULE)}" required data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
