@@ -66,6 +66,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 		});
 
 		container.find('[name="saveButton"]').on('click', function (e) {
+			$(this).attr('disabled','disabled');
 			$.each(thisInstance.treeInstance.jstree("get_selected", true), function (index, value) {
 				if (jQuery.inArray(value.original.record_id, orginalData) == -1) {
 					toAdd.push(value.original.record_id);
@@ -83,8 +84,11 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 				mode: 'updateRelation',
 				toAdd: toAdd,
 				toRemove: toRemove,
+				src_record: app.getRecordId(),
+				related_module: container.find('[name="related_module"]').val(),
 			}).then(function (res) {
-				console.log(res);
+				var relatedTabKey = jQuery('.related li.active');
+				relatedTabKey.trigger('click');
 				app.hideModalWindow();
 			})
 		});

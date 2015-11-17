@@ -63,9 +63,8 @@ class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
 	private function getTemplate()
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?',[302, Vtiger_Functions::getModuleId($this->moduleName) ]);
-		$row = $db->getRow($result);
-		return $row['fieldparams'];
+		$result = $db->pquery('SELECT fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, Vtiger_Functions::getModuleId($this->moduleName)]);
+		return $db->getSingleValue($result);
 	}
 
 	private function getCategory()
@@ -116,16 +115,19 @@ class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
 			$listViewModel->set('src_record', $this->src_record);
 		}
 		$listEntries = $listViewModel->getListViewEntries($pagingModel, true);
+		$tree = [];
 		foreach ($listEntries as $item) {
 			$this->lastIdinTree++;
 			$parent = $item->get('pscategory');
 			$parent = (int) str_replace('T', '', $parent);
-			$tree[] = ['id' => $this->lastIdinTree,
+			$tree[] = [
+				'id' => $this->lastIdinTree,
 				'record_id' => $item->getId(),
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => $item->getName(),
-				'state' => ['selected' => in_array($item->getId(),$selectedRecords)],
-				'icon' => 'glyphicon glyphicon-file'];
+				'state' => ['selected' => in_array($item->getId(), $selectedRecords)],
+				'icon' => 'glyphicon glyphicon-file'
+			];
 		}
 		return $tree;
 	}

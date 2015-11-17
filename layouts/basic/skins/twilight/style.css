@@ -4754,3 +4754,10 @@ html,body,.baseContainer
 	background: #d9534f;
 	border-radius:3px;
 }
+.hideActionImages .listViewEntriesTable tr:hover td .actions .actionImages ,
+.hideActionImages .listViewEntries td:hover .actions {
+	opacity: 0;
+	/*for IE*/
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+}

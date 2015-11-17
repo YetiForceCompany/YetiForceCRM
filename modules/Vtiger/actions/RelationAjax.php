@@ -116,18 +116,39 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	 * 		src_module				source module name
 	 * 		src_record				source record id
 	 * 		related_module			related module name
-	 * 		related_record_list		json encoded of list of related record ids
+	 * 		toRemove				list of related record to remove
+	 * 		toAdd					list of related record to add
 	 */
 	function updateRelation(Vtiger_Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->get('src_record');
 		$relatedModule = $request->get('related_module');
-		$relatedRecordIdList = $request->get('related_record_list');
+		$toRemove = $request->get('toRemove');
+		$toAdd = $request->get('toAdd');
+		vglobal('currentModule', $sourceModule);
 
+		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
+		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
+		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 
+		if(!empty($toAdd)) {
+			foreach ($toAdd as $relatedRecordId) {
+				if(substr($relatedRecordId, 0,1) != 'T'){
+					$relationModel->addRelation($sourceRecordId, $relatedRecordId);
+				}
+			}
+		}
+		if(!empty($toRemove)) {
+			foreach ($toRemove as $relatedRecordId) {
+				if(substr($relatedRecordId, 0,1) != 'T'){
+					$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
+				}
+			}
+		}
+		
 		$response = new Vtiger_Response();
-		$response->setResult([]);
+		$response->setResult(true);
 		$response->emit();
 	}
 
