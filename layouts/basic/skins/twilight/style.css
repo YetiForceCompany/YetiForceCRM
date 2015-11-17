@@ -4749,3 +4749,8 @@ html,body,.baseContainer
 		width: 100%;
 	}
 }
+.jstree-proton .jstree-search {
+	color:#fff !important;
+	background: #d9534f;
+	border-radius:3px;
+}

@@ -26,7 +26,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 				core: {
 					data: thisInstance.getRecords(),
 					themes: {
-						name: 'default',
+						name: 'proton',
 						responsive: true
 					}
 				},

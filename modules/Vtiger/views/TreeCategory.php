@@ -148,7 +148,7 @@ class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
 	{
 		$parentCssInstances = parent::getModalCss($request);
 		$cssFileNames = [
-			'~libraries/jquery/jstree/themes/default/style.css',
+			'~libraries/jquery/jstree/themes/proton/style.css',
 		];
 		$modalInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$cssInstances = array_merge($modalInstances, $parentCssInstances);
