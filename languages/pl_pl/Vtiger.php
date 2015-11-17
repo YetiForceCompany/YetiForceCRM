@@ -1080,6 +1080,8 @@ $languageStrings = [
 	'LBL_NOT_ASSIGNET_TO_BLOCK' => 'Nieprzypisane',
 	'LBL_SELF_ID' => 'Id rekordu',
 	'LBL_REMINDER' => "Powiadomienia",
+	'LBL_CONFREPORT' => 'Serwer - konfiguracja',
+	'LBL_UPDATES_HISTORY' => 'Serwer - aktualizacje',
 	
 ];
 $jsLanguageStrings = [
