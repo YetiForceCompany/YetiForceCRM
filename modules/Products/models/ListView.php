@@ -16,7 +16,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewEntries($pagingModel)
+	public function getListViewEntries($pagingModel, $skipSelected = false)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -104,12 +104,11 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		if ($this->get('subProductsPopup')) {
 			$listQuery = $this->addSubProductsQuery($listQuery);
 		}
-
 		$sourceModule = $this->get('src_module');
 		$sourceField = $this->get('src_field');
 		if (!empty($sourceModule)) {
 			if (method_exists($moduleModel, 'getQueryByModuleField')) {
-				$overrideQuery = $moduleModel->getQueryByModuleField($sourceModule, $sourceField, $this->get('src_record'), $listQuery);
+				$overrideQuery = $moduleModel->getQueryByModuleField($sourceModule, $sourceField, $this->get('src_record'), $listQuery,$skipSelected);
 				if (!empty($overrideQuery)) {
 					$listQuery = $overrideQuery;
 				}
