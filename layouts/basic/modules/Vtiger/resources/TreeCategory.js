@@ -25,12 +25,33 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 			thisInstance.treeInstance.jstree({
 				core: {
 					data: thisInstance.getRecords(),
+					themes: {
+						name: 'default',
+						responsive: true
+					}
 				},
 				plugins: [
-					"checkbox"
+					"checkbox",
+					"search"
 				]
 			});
 		}
+	},
+	searching: function(text){
+		this.treeInstance.jstree(true).search(text);
+	},
+	registerSearchEvent: function (){
+		var thisInstance = this;
+		var valueSearch = $('#valueSearchTree');
+		var btnSearch = $('#btnSearchTree');
+		valueSearch.keypress(function(e) {
+			if(e.which == 13) {
+				thisInstance.searching(valueSearch.val());
+			}
+		});
+		btnSearch.click(function(){
+			thisInstance.searching(valueSearch.val());
+		});
 	},
 	registerSaveRecords: function (container) {
 		var thisInstance = this;
@@ -73,6 +94,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 		this.getRecords(container);
 		this.generateTree(container);
 		this.registerSaveRecords(container);
+		this.registerSearchEvent();
 	}
 });
 jQuery(function () {
