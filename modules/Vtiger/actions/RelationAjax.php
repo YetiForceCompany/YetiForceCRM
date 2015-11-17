@@ -16,6 +16,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		parent::__construct();
 		$this->exposeMethod('addRelation');
 		$this->exposeMethod('deleteRelation');
+		$this->exposeMethod('updateRelation');
 		$this->exposeMethod('getRelatedListPageCount');
 	}
 
@@ -105,6 +106,28 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * Function to update the relation for specified source record id and related record id list
+	 * @param <array> $request
+	 * 		keys					Content
+	 * 		src_module				source module name
+	 * 		src_record				source record id
+	 * 		related_module			related module name
+	 * 		related_record_list		json encoded of list of related record ids
+	 */
+	function updateRelation(Vtiger_Request $request)
+	{
+		$sourceModule = $request->getModule();
+		$sourceRecordId = $request->get('src_record');
+		$relatedModule = $request->get('related_module');
+		$relatedRecordIdList = $request->get('related_record_list');
+
+
+		$response = new Vtiger_Response();
+		$response->setResult([]);
 		$response->emit();
 	}
 
