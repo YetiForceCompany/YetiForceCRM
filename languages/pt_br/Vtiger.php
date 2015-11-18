@@ -1092,6 +1092,10 @@ $languageStrings = [
 	'Roles' => 'Funções',
 	'RoleAndSubordinates' => 'Função e Subordinados',
 	'LBL_COMPANY_LOGO_TITLE' => 'Company logo',
+	'SQuoteEnquiries' => 'Levantamentos Cotações',
+	'SINGLE_SQuoteEnquiries' => 'Levantamentos Cotações',
+	'SSalesProcesses' => 'Sales processes',
+	'SINGLE_SSalesProcesses' => 'Sales process',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Resumo',

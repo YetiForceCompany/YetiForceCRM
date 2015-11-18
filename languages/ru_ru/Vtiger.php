@@ -1333,6 +1333,10 @@ $languageStrings = [
 	'LBL_SELF_ID' => 'Record Id',
 	'LBL_REMINDER' => 'Reminder',
 	'LBL_COMPANY_LOGO_TITLE' => 'Company logo',
+	'SQuoteEnquiries' => 'Запрос Предложения',
+	'SINGLE_SQuoteEnquiries' => 'Запрос Предложения',
+	'SSalesProcesses' => 'Sales processes',
+	'SINGLE_SSalesProcesses' => 'Sales process',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',
