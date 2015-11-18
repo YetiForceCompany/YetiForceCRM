@@ -3723,10 +3723,12 @@ span[name=existingImages] img{
 .quickCreateContent .addedNearCalendarEvent .popover-content{
 	font-size: 12px;
 }
-#activityStateModal .form-horizontal .form-group{
+#activityStateModal .form-horizontal .form-group,
+#sQuoteEnquiriesModal .form-horizontal .form-group{
 	margin-bottom: 2px;
 }
-#activityStateModal .form-horizontal .form-group .control-label{
+#activityStateModal .form-horizontal .form-group .control-label,
+#sQuoteEnquiriesModal .form-horizontal .form-group .control-label{
 	padding-top: 0;
 }
 .mainContainer.mailContainer{
@@ -3766,4 +3768,7 @@ span[name=existingImages] img{
 }
 .publicHolidayContent.layoutContent{
 	border-top: 0px;
+}
+#sQuoteEnquiriesModal .popover.fade{
+	min-width: 400px;
 }
