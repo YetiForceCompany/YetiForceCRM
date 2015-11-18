@@ -2,8 +2,8 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 -->*}
 {strip}
-	{assign var=LOCKEDIT value=Users_Privileges_Model::checkLockEdit($MODULE_NAME, $RELATED_RECORD->getId())}
-	{assign var=QEOPEN value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'QEOpen', $RELATED_RECORD->getId())}
+	{assign var=LOCKEDIT value=Users_Privileges_Model::checkLockEdit($RELATED_MODULE_NAME, $RELATED_RECORD->getId())}
+	{assign var=QEOPEN value=Users_Privileges_Model::isPermitted($RELATED_MODULE_NAME, 'QEOpen', $RELATED_RECORD->getId())}
 	<div class="pull-right actions">
 		<span class="actionImages">
 			{if ($IS_EDITABLE && $LOCKEDIT eq false) || $QEOPEN}
