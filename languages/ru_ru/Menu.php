@@ -25,6 +25,7 @@ $languageStrings = [
 	'MEN_PRODUCTBASE' => 'База товаров',
 	'MEN_LISTS' => 'Список',
 	'MEN_SERVICESBASE' => 'База услуг',
+	'MEN_SALE_PROCESSES' => 'Sale processes',
 	'Menu' => 'Меню',
 	
 	// profile type
