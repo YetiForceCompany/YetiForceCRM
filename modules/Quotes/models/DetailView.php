@@ -11,41 +11,4 @@
 class Quotes_DetailView_Model extends Inventory_DetailView_Model
 {
 
-	/**
-	 * Function to get the detail view links (links and widgets)
-	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
-	 * @return <array> - array of link models in the format as below
-	 *                   array('linktype'=>list of link models);
-	 */
-	public function getDetailViewLinks($linkParams)
-	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
-		$linkModelList = parent::getDetailViewLinks($linkParams);
-		$recordModel = $this->getRecord();
-
-		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
-		if ($currentUserModel->hasModuleActionPermission($invoiceModuleModel->getId(), 'EditView')) {
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => vtranslate('LBL_GENERATE') . ' ' . vtranslate($invoiceModuleModel->getSingularLabelKey(), 'Invoice'),
-				'linkurl' => $recordModel->getCreateInvoiceUrl(),
-				'linkicon' => 'glyphicon glyphicon-list-alt',
-			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-
-		$salesOrderModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
-		if ($currentUserModel->hasModuleActionPermission($salesOrderModuleModel->getId(), 'EditView')) {
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => vtranslate('LBL_GENERATE') . ' ' . vtranslate($salesOrderModuleModel->getSingularLabelKey(), 'SalesOrder'),
-				'linkurl' => $recordModel->getCreateSalesOrderUrl(),
-				'linkicon' => 'glyphicon glyphicon-briefcase'
-			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-
-		return $linkModelList;
-	}
 }
