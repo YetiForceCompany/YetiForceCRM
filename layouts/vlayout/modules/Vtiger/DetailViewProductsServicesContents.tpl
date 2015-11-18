@@ -21,7 +21,7 @@
 					<span class="col-md-9 margin0px"><h4>{vtranslate('Interested products',$MODULE_NAME)}</h4></span>
 					<span class="col-md-3">
 						<span class="pull-right">
-							<button class="btn btn-default addButton selectRelation" type="button" data-modulename="Products" >
+							<button class="btn btn-default showModal" type="button"  data-url="index.php?module=Products&view=TreeCategory&src_module={$MODULE_NAME}&src_record={$RECORDID}" >
 								<span class="glyphicon glyphicon-zoom-in" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></span>
 							</button>
 						</span>
@@ -88,7 +88,7 @@
 					<span class="col-md-9 margin0px"><h4>{vtranslate('Interested services',$MODULE_NAME)}</h4></span>
 					<span class="col-md-3">
 						<span class="pull-right">
-							<button class="btn btn-default addButton selectRelation" style="margin:0 auto;" type="button" data-modulename="Services" >
+							<button class="btn btn-default showModal" style="margin:0 auto;" type="button" data-url="index.php?module=Services&view=TreeCategory&src_module={$MODULE_NAME}&src_record={$RECORDID}" >
 								<span class="glyphicon glyphicon-zoom-in" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></span>
 							</button>
 						</span>

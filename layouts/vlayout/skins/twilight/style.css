@@ -2938,6 +2938,9 @@ textarea {
 .padding1per {
 	padding: 1%;
 }
+.paddingTop10 {
+	padding-top: 10px;
+}
 .paddingTop20 {
 	padding-top: 20px;
 }
@@ -3771,4 +3774,13 @@ span[name=existingImages] img{
 }
 #sQuoteEnquiriesModal .popover.fade{
 	min-width: 400px;
+}
+.jstree-proton .jstree-search {
+	color:#fff !important;
+	background: #d9534f;
+	border-radius:3px;
+}
+#treePopupContainer{
+	overflow: auto;
+	max-height: 500px;
 }
