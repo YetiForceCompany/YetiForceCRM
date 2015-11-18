@@ -15,8 +15,8 @@ $languageStrings = [
 	'LBL_PROFILE_NAME' => 'Profile Name',
 	'LBL_DESCRIPTION' => 'Profile Description',
 	'LBL_VIEW_ALL_DESC' => 'If you tick this option, all the modules will have a marked option of: Browsing',
-	'LBL_VIEW_ALL' => 'Enable preview of all records.',
+	'LBL_VIEW_ALL' => 'Enable preview of all records',
 	'LBL_EDIT_ALL_DESC' => 'If you tick this option, all the modules will have a marked option of: Create/Edit.',
-	'LBL_EDIT_ALL' => 'Enable editing of all records.',
+	'LBL_EDIT_ALL' => 'Enable editing of all records',
 	'LBL_SAVE_OK' => 'Saved change',
 ];
