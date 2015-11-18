@@ -1082,6 +1082,9 @@ $languageStrings = [
 	'LBL_REMINDER' => "Powiadomienia",
 	'LBL_CONFREPORT' => 'Serwer - konfiguracja',
 	'LBL_UPDATES_HISTORY' => 'Serwer - aktualizacje',
+	'Groups' => 'Grupy',
+	'Roles' => 'Role',
+	'RoleAndSubordinates' => 'Role i podporządkowania',
 	
 ];
 $jsLanguageStrings = [
