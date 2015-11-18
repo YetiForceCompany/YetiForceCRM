@@ -739,7 +739,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	function import_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode)
 	{
 		$fieldInstance = new Vtiger_Field();
-		$fieldInstance->name = $fieldnode->fieldname;
+		$fieldInstance->name = (string)$fieldnode->fieldname;
 		$fieldInstance->label = $fieldnode->fieldlabel;
 		$fieldInstance->table = $fieldnode->tablename;
 		$fieldInstance->column = $fieldnode->columnname;
