@@ -99,7 +99,7 @@ class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($this->src_record, $this->src_module);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $this->moduleName);
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('noLimit', true);
+		$pagingModel->set('limit', 'no_limit');
 		$entries = $relationListView->getEntries($pagingModel);
 		return array_keys($entries);
 	}
@@ -108,7 +108,7 @@ class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
 	{
 		$selectedRecords = $this->getSelectedRecords();
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('noLimit', true);
+		$pagingModel->set('limit', 'no_limit');
 		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($this->moduleName, $this->src_module);
 		if (!empty($this->src_module)) {
 			$listViewModel->set('src_module', $this->src_module);
