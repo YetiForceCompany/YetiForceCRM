@@ -32,4 +32,7 @@
 			{/if}
 		</div>
 	</div>
+	<input type="hidden" id="treePopupValues" value='{$TREE}'>
+	<div id="treePopupContents">
+	</div>
 {/strip}
