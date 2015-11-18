@@ -13,7 +13,7 @@ $languageStrings = [
 	'Message' => 'Komunikat',
 	'LBL_NONE' => '--Brak--',
 	'Action_unique_value' => 'Wartość pola jest unikatowa w module',
-	'Action_Desc_unique_value' => 'Sprawdź czy wprowadzona wartość pola jest unikatowa w module',
+	'Action_Desc_unique_value' => 'Sprawdź czy wprowadzona wartość pola jest unikatowa w module.',
 	'Select the fields to be verified' => 'Wybierz pola które mają być porównywane',
 	'Select a field from which the value is to be checked' => 'Wybierz pole z którego wartość ma być sprawdzana',
 	'Field value is not unique' => 'Wartość pola nie jest unikalna',
@@ -38,18 +38,18 @@ $languageStrings = [
 	'Message if the task exist' => 'Komunikat jeśli zadanie istnieje (komunikat jest tłumaczony)',
 	//
 	'Action_show_quick_create' => 'Szybkie tworzenie rekordu',
-	'Action_Desc_show_quick_create' => 'Akcja wyświetlająca okno szybkiego tworzenia rekordu',
+	'Action_Desc_show_quick_create' => 'Akcja wyświetlająca okno szybkiego tworzenia rekordu.',
 	'LBL_SELECT_OPTION' => 'Wybierz',
 	//
 	'Action_blockEditView' => 'Blokada edycji rekordu',
-	'Action_Desc_blockEditView' => 'Akcja umożliwiająca zablokowanie edycji rekordu (szybka i pełna edycja)',
+	'Action_Desc_blockEditView' => 'Akcja umożliwiająca zablokowanie edycji rekordu (szybka i pełna edycja).',
 	//
 	'Action_check_taskdate' => 'Sprawdź planowane daty zakończenia zadania projektowego',
-	'Action_Desc_check_taskdate' => 'Walidacja planowanej daty zakończenia zadania projektowego',
+	'Action_Desc_check_taskdate' => 'Walidacja planowanej daty zakończenia zadania projektowego.',
 	'Date can not be greater' => 'Planowana data zakończenia nie może być większa od Terminu etapu',
 	//
 	'Action_check_taskstatus' => 'Sprawdź wszystkie zadania podrzędne',
-	'Action_Desc_check_taskstatus' => 'Walidacja czy zostały ukończone wszystkie zadania podrzędne',
+	'Action_Desc_check_taskstatus' => 'Walidacja czy zostały ukończone wszystkie zadania podrzędne.',
 	'Subordinate tasks have not been completed yet' => 'Zadania podrzędne nie zostały zakończone',
 	//
 	'Action_unique_modules_value' => 'Wartość pola jest unikatowa w modułach',
@@ -58,7 +58,7 @@ $languageStrings = [
 	//
 	//
 	'Action_validate_mandatory' => 'Sprawdź pola obowiązkowe',
-	'Action_Desc_validate_mandatory' => 'Sprawdza czy wszystkie pola obowiązkowe są wypełnione przy szybkiej edycji',
+	'Action_Desc_validate_mandatory' => 'Sprawdza czy wszystkie pola obowiązkowe są wypełnione przy szybkiej edycji.',
 	//
 	'Action_check_assigneduser' => 'Ograniczenie zmiany właściciela rekordu',
 	'Action_Desc_check_assigneduser' => 'Akcja ogranicza możliwość zmiany właściciela do określonej listy.',
@@ -72,7 +72,7 @@ $languageStrings = [
 	'This name already exists' => 'Nazwa jest już zajęta',
 	'LBL_RECORD_DELETED' => 'Rekord usunięty',
 	'Action_test' => 'Test akcji',
-	'Action_Desc_test' => 'Opis testu akcji',
+	'Action_Desc_test' => 'Opis testu akcji.',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Data Access',

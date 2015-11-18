@@ -14,7 +14,7 @@ $languageStrings = [
 	'LBL_NONE' => '--None--',
 	'Message' => 'Message',
 	'Action_unique_value' => 'Field value is unique.',
-	'Action_Desc_unique_value' => 'Check if entered field value is unique',
+	'Action_Desc_unique_value' => 'Check if entered field value is unique.',
 	'Select the fields to be verified' => 'Select the fields to be verified',
 	'Select a field from which the value is to be checked' => 'Select a field from which the value is to be checked',
 	'Field value is not unique' => 'Field value is not unique',
@@ -39,14 +39,14 @@ $languageStrings = [
 	'Message if the task exist' => 'Message if the task exists (message is being translated)',
 	//
 	'Action_show_quick_create' => 'Quick create',
-	'Action_Desc_show_quick_create' => 'This action shows quick create',
+	'Action_Desc_show_quick_create' => 'This action shows quick create.',
 	'LBL_SELECT_OPTION' => 'Select an Option',
 	//
 	'Action_blockEditView' => 'Block edit view',
-	'Action_Desc_blockEditView' => 'This action blocks edit view (quick and full edit)',
+	'Action_Desc_blockEditView' => 'This action blocks edit view (quick and full edit).',
 	//
 	'Action_check_taskdate' => 'Check planned date for completing project task',
-	'Action_Desc_check_taskdate' => 'Validate planned date for completing project task',
+	'Action_Desc_check_taskdate' => 'Validate planned date for completing project task.',
 	'Date can not be greater' => 'Planned date cannot be greater than stage date',
 	//
 	'Action_unique_modules_value' => 'Value of field is unique in modules',
@@ -54,7 +54,7 @@ $languageStrings = [
 	'Check the value in the module' => 'Check the value in the module',
 	//
 	'Action_check_taskstatus' => 'Check all subordinate tasks',
-	'Action_Desc_check_taskstatus' => 'Check if all subordinate tasks have been completed',
+	'Action_Desc_check_taskstatus' => 'Check if all subordinate tasks have been completed.',
 	'Subordinate tasks have not been completed yet' => 'Subordinate tasks have not been completed yet.',
 	//
 	'Action_validate_mandatory' => 'Check mandatory fields',
@@ -72,7 +72,7 @@ $languageStrings = [
 	'This name already exists' => 'This name already exists',
 	'LBL_RECORD_DELETED' => 'Record deleted',
 	'Action_test' => 'Action test',
-	'Action_Desc_test' => 'Action test description',
+	'Action_Desc_test' => 'Action test description.',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Data Access',
