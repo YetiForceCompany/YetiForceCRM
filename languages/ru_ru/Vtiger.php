@@ -1331,7 +1331,8 @@ $languageStrings = [
 	'LBL_GENERATE_RECORDS' => 'Generate records',
 	'LBL_NOT_ASSIGNET_TO_BLOCK' => 'Unassigned',
 	'LBL_SELF_ID' => 'Record Id',
-	'LBL_REMINDER' => "Reminder",
+	'LBL_REMINDER' => 'Reminder',
+	'LBL_COMPANY_LOGO_TITLE' => 'Company logo',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',

@@ -1085,6 +1085,7 @@ $languageStrings = [
 	'Groups' => 'Grupy',
 	'Roles' => 'Role',
 	'RoleAndSubordinates' => 'Role i podporządkowania',
+	'LBL_COMPANY_LOGO_TITLE' => 'Logo firmy',
 	
 ];
 $jsLanguageStrings = [
