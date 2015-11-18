@@ -13,7 +13,7 @@ $languageStrings = [
 	'Message' => 'Komunikat',
 	'LBL_NONE' => '--Brak--',
 	'Action_unique_value' => 'Wartość pola jest unikatowa w module',
-	'Action_Desc_unique_value' => 'Sprawdz czy wprowadzona wartość pola jest unikatowa w module',
+	'Action_Desc_unique_value' => 'Sprawdź czy wprowadzona wartość pola jest unikatowa w module',
 	'Select the fields to be verified' => 'Wybierz pola które mają być porównywane',
 	'Select a field from which the value is to be checked' => 'Wybierz pole z którego wartość ma być sprawdzana',
 	'Field value is not unique' => 'Wartość pola nie jest unikalna',
@@ -27,13 +27,13 @@ $languageStrings = [
 	'LBL_MESSAGE_LOCK1' => 'Komunikat dla jednego warunku spełnionego',
 	'LBL_MESSAGE_LOCK2' => 'Komunikat dla dwóch warunków spełnionych',
 	//
-	'Action_check_task' => 'Sprawdz zadanie',
+	'Action_check_task' => 'Sprawdź zadanie',
 	'Action_Desc_check_task' => 'Akcja sprawdzająca czy jest podpięte zadanie odpowiedniego tematu i statusu, jeśli nie to jest blokowany zapis.',
 	'Select status' => 'Wybierz status',
 	'Subject tasks' => 'Temat zadania',
 	'Message if the task does not exist' => 'Komunikat jeśli zadanie nie istnieje (komunikat jest tłumaczony)',
 	//
-	'Action_check_alltask' => 'Sprawdz wszystkie zadania',
+	'Action_check_alltask' => 'Sprawdź wszystkie zadania',
 	'Action_Desc_check_alltask' => 'Akcja sprawdzająca czy są podpięte zadania o wybranym statusie, jeśli tak to jest blokowany zapis.',
 	'Message if the task exist' => 'Komunikat jeśli zadanie istnieje (komunikat jest tłumaczony)',
 	//
@@ -53,8 +53,8 @@ $languageStrings = [
 	'Subordinate tasks have not been completed yet' => 'Zadania podrzędne nie zostały zakończone',
 	//
 	'Action_unique_modules_value' => 'Wartość pola jest unikatowa w modułach',
-	'Action_Desc_unique_modules_value' => 'Sprawdz czy wprowadzona wartość pola jest unikatowa w modułach',
-	'Check the value in the module' => 'Sprawdz wartość w module',
+	'Action_Desc_unique_modules_value' => 'Sprawdź czy wprowadzona wartość pola jest unikatowa w modułach',
+	'Check the value in the module' => 'Sprawdź wartość w module',
 	//
 	//
 	'Action_validate_mandatory' => 'Sprawdź pola obowiązkowe',
