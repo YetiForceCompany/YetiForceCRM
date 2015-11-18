@@ -1328,4 +1328,5 @@ $jsLanguageStrings = [
 	'JS_PDF_GENERATING' => 'Trwa generowanie PDF-a',
 	'JS_YESTERDAY' => 'Wczoraj',
 	'JS_OLDER' => 'Starsze',
+	'JS_SELECTED_ELEMENTS' => 'Ilość zaznaczonych elementów',
 ];

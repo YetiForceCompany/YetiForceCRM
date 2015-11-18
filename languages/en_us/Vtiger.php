@@ -1365,4 +1365,5 @@ $jsLanguageStrings = [
 	'JS_PLL_COMPLETED' => 'Completed',
 	'JS_PDF_RECALCULATING' => '__UNTRANSLATED__',
 	'JS_PDF_GENERATING' => '__UNTRANSLATED__',
+	'JS_SELECTED_ELEMENTS' => 'Number of selected elements',
 ];

@@ -19,8 +19,10 @@
 					</span>
 				</div>
 			</div>
-			<div class="col-md-12">
+			<div class="col-md-12 marginBottom10px">
 				<div class="col-md-12" id="treePopupContents"></div>
+			</div>
+			<div class="counterSelected">
 			</div>
 		{else}	
 			<h4 class="textAlignCenter ">{vtranslate('LBL_RECORDS_NO_FOUND', $MODULE_NAME)}</h4>
