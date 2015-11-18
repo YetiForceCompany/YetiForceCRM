@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_DAV_KEYS' => 'DAV Applications',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Create and manage DAV keys',
-	'LBL_KEY' => 'Key:',
+	'LBL_KEY' => 'Key',
 	'LBL_TOOLS' => 'Tools',
 	'LBL_DELETE_KEY' => 'Delete key',
 	'LBL_ADD_KEY' => 'Add key',
