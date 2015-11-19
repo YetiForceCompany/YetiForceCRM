@@ -23,9 +23,9 @@
 					<div class="col-xs-3"><label class="">{vtranslate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</label></div>
 					<div class="col-xs-1"><input class="configField" type="checkbox" data-type="conversion" name="change_owner" value="1"  {if $CONVERSION['change_owner']=='true'}checked=""{/if} /></div>
 					<div class="col-xs-8">
-						<span class="alert alert-info pull-right no-margin">
+						<div class="alert alert-info pull-right no-margin col-xs-12">
 							{vtranslate('LBL_CONVERSION_TO_ACCOUNT_INFO',$QUALIFIED_MODULE)}
-						</span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -34,9 +34,9 @@
 					<div class="col-xs-3"><label class="">{vtranslate('LBL_CONVERT_LEAD_MERGE',$QUALIFIED_MODULE)}</label></div>
 					<div class="col-xs-1"><input class="configField" type="checkbox" data-type="conversion" name="create_always" value="1"  {if $CONVERSION['create_always']=='true'}checked=""{/if} /></div>
 					<div class="col-xs-8">
-						<span class="alert alert-info pull-right no-margin">
+						<div class="alert alert-info pull-right no-margin col-xs-12">
 							{vtranslate('LBL_CONVERT_LEAD_MERGE_ALERT',$QUALIFIED_MODULE)}
-						</span>
+						</div>
 					</div>
 				</div>
 				<div class="mappingTable{if $CONVERSION['create_always']!='true'} hide{/if}">
