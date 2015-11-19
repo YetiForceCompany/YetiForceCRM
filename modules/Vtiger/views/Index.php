@@ -77,12 +77,14 @@ class Vtiger_Index_View extends Vtiger_Basic_View {
 	function getFooterScripts(Vtiger_Request $request) {
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
+		$view = $request->get('view');
 
 		$jsFileNames = array(
 			'modules.Vtiger.resources.Vtiger',
 			"modules.$moduleName.resources.$moduleName",
-            "libraries.jquery.ckeditor.ckeditor",
-            "libraries.jquery.ckeditor.adapters.jquery",
+			"modules.$moduleName.resources.$view",
+            'libraries.jquery.ckeditor.ckeditor',
+            'libraries.jquery.ckeditor.adapters.jquery',
             'modules.Vtiger.resources.CkEditor',
 		);
 
