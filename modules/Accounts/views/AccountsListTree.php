@@ -48,27 +48,73 @@ class Accounts_AccountsListTree_View extends Vtiger_Index_View
 	public function showTree(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
+		$sourceModule = $request->get('selectedModule');
 		$viewer = $this->getViewer($request);
 
 		$this->template = $this->getTemplate();
 		if ($this->template) {
 			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($this->template);
 		} else {
-			Vtiger_Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $this->moduleName));
+			Vtiger_Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
 		}
 		if (!$recordModel)
-			Vtiger_Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $this->moduleName));
+			Vtiger_Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
+		if (!in_array($sourceModule, $this->modules))
+			Vtiger_Functions::throwNewException(vtranslate('ERR_MODULE_NOT_FOUND', $moduleName));
+		
 		$tree = $this->getCategory();
 		$treeWithItems = $this->getRecords();
 		$tree = array_merge($tree, $treeWithItems);
 		$viewer->assign('TREE', Zend_Json::encode($tree));
 		$viewer->assign('MODULES', $this->modules);
+		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->view('AccountsListTree.tpl', $moduleName);
 	}
 
 	public function showAccountsList(Vtiger_Request $request)
 	{
+		$moduleName = $request->getModule();
+		$selected = $request->get('selected');
+		$sourceModule = $request->get('selectedModule');
+		$records = [];
+		if(empty($selected)){
+			return;
+		}
+
+		$multiReferenceFirld = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($moduleName, $sourceModule);
+		if(count($multiReferenceFirld) === 0){
+			return;
+		}
+		$multiReferenceFirld = reset($multiReferenceFirld);
+		//var_dump($multiReferenceFirld);
 		
+		$searchParams = [
+			['columns' => [[
+				'columnname' => $multiReferenceFirld['tablename'].':'.$multiReferenceFirld['columnname'].':'.$multiReferenceFirld['fieldname'],
+				'value' => implode(',', $selected),
+				'column_condition' => '',
+				'comparator' => 'c',
+			]]],
+		];
+		
+
+		//var_dump($moduleName, $sourceModule,$multiReferenceFirld);
+		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel->set('limit', 'no_limit');
+		$listViewModel = Vtiger_ListView_Model::getInstance('Accounts');
+		$listViewModel->set('search_key', $multiReferenceFirld['fieldname']);
+		$listViewModel->set('search_params',$searchParams);
+
+		$listEntries = $listViewModel->getListViewEntries($pagingModel, true);
+		if(count($listEntries) === 0){
+			return;
+		}
+		$listHeaders = $listViewModel->getListViewHeaders();
+	
+		$viewer = $this->getViewer($request);
+		$viewer->assign('ENTRIES', $listEntries);
+		$viewer->assign('HEADERS', $listHeaders);
+		$viewer->view('AccountsList.tpl', $moduleName);
 	}
 
 	private function getCategory()

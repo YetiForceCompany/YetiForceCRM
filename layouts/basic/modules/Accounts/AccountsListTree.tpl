@@ -4,11 +4,11 @@
 		<div class="col-md-6">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		</div>
-		<div class="pull-right col-md-6 form-inline">
+		<div class="pull-right col-md-4 form-inline">
 			<div class="form-group pull-right col-md-6">
 				<select class="chzn-select form-control" id="moduleFilter" >
 					{foreach item=NAME from=$MODULES}
-						<option value="{$NAME}">{vtranslate($NAME,$NAME)}</option>
+						<option value="{$NAME}" {if $NAME eq $SELECTED_MODULE_NAME} selected {/if} >{vtranslate($NAME,$NAME)}</option>
 					{/foreach}
 				</select>
 			</div>
@@ -45,9 +45,9 @@
 			{/if}
 		</div>
 	</div>
-
 	<input type="hidden" id="treePopupValues" value='{$TREE}'>
 	<br />
-	<div id="treePopupContents">
-	</div>
+	<div id="treeContents"></div>
+	<hr />
+	<div id="accountsListContents"></div>
 {/strip}

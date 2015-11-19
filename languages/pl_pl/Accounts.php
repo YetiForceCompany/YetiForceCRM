@@ -88,6 +88,7 @@ $languageStrings = [
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'Europejska spółka wzajemna',
 	'PLL_EUROPEAN_ASSOCIATION' => 'Stowarzyszenie europejskie',
 	'PLL_UFCIITS' => 'Przedsiębiorstwo zbiorowego inwestowania w zbywalne papiery wartościowe',
+	'LBL_VIEW_ACCOUNTSLISTTREE' => 'Produkty i usługi',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Taki kontrahent istnieje. Czy chcesz utworzyć duplikat?',
