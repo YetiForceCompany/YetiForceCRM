@@ -142,7 +142,7 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 			$quickLinks[] = [
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'Products & Service',
-				'linkurl' => 'index.php?module=' . $this->getName() . '&view=AccountsListTree',
+				'linkurl' => 'index.php?module=' . $this->getName() . '&view=AccountsListTree&mode=showTree',
 				'linkicon' => '',
 			];
 		}

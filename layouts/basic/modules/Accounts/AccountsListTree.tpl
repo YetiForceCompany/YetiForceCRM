@@ -1,7 +1,20 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-	<hr>
+	<div class="widget_header row">
+		<div class="col-md-6">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
+		<div class="pull-right col-md-6 form-inline">
+			<div class="form-group pull-right col-md-6">
+				<select class="chzn-select form-control" id="moduleFilter" >
+					{foreach item=NAME from=$MODULES}
+						<option value="{$NAME}">{vtranslate($NAME,$NAME)}</option>
+					{/foreach}
+				</select>
+			</div>
+		</div>
+	</div>
+	<hr />
 	<div class="btn-toolbar">
 		<div class="btn-group">
 			{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
@@ -32,7 +45,9 @@
 			{/if}
 		</div>
 	</div>
+
 	<input type="hidden" id="treePopupValues" value='{$TREE}'>
+	<br />
 	<div id="treePopupContents">
 	</div>
 {/strip}

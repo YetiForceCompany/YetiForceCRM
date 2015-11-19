@@ -1,11 +1,11 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-jQuery.Class("Accounts_ListTree_Js", {}, {
+jQuery.Class("Accounts_AccountsListTree_Js", {}, {
 	modalContainer: false,
 	treeInstance: false,
 	treeData: false,
 	getContainer: function () {
 		if (this.modalContainer == false) {
-			this.modalContainer = jQuery('.mainContainer');
+			this.modalContainer = jQuery('#centerPanel');
 		}
 		return this.modalContainer;
 	},
@@ -30,7 +30,6 @@ jQuery.Class("Accounts_ListTree_Js", {}, {
 				},
 				plugins: [
 					"checkbox",
-					"search"
 				]
 			});
 		}
@@ -41,8 +40,4 @@ jQuery.Class("Accounts_ListTree_Js", {}, {
 		this.generateTree(container);
 		
 	}
-});
-jQuery(function () {
-	var instance = new Accounts_ListTree_Js();
-	instance.registerEvents();
 });
