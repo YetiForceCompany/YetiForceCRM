@@ -1,12 +1,12 @@
 <?php
 
 /**
- * UpdateStatus SRequirementsCards Action Class
+ * UpdateStatus SCalculations Action Class
  * @package YetiForce.Action
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class SRequirementsCards_UpdateStatus_Action extends Vtiger_IndexAjax_View
+class SCalculations_UpdateStatus_Action extends Vtiger_IndexAjax_View
 {
 
 	public function process(Vtiger_Request $request)
@@ -17,7 +17,7 @@ class SRequirementsCards_UpdateStatus_Action extends Vtiger_IndexAjax_View
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$recordModel->set('id', $recordId);
-		$recordModel->set('srequirementscards_status', $state);
+		$recordModel->set('scalculations_status', $state);
 		$recordModel->set('mode', 'edit');
 		if (in_array($state, ['PLL_DISCARDED', 'PLL_ACCEPTED'])) {
 			$currentTime = date('Y-m-d H:i:s');
