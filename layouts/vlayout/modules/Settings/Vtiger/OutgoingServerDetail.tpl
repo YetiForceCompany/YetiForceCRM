@@ -12,7 +12,13 @@
 	<div class="" id="OutgoingServerDetails">
 		<div class="widget_header row">
 			<div class="col-md-8"><h3>{vtranslate('LBL_OUTGOING_SERVER', $QUALIFIED_MODULE)}</h3></div>
-			<div class="col-md-4"><div class="pull-right"><button class="btn btn-default editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button></div></div>
+			<div class="col-md-4">
+				<div class="pull-right pushDown">
+					<button class="btn btn-info editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}">
+						<strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong>
+					</button>
+				</div>
+			</div>
 		</div>
 		<hr>
 		<div class="contents">
