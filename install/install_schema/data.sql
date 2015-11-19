@@ -300,6 +300,16 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 
 /*Data for the table `u_yf_scalculations` */
 
+/*Data for the table `u_yf_scalculations_inventory` */
+
+/*Data for the table `u_yf_scalculations_invfield` */
+
+insert  into `u_yf_scalculations_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":[\"Products\",\"Services\"],\"limit\":\" \"}',1);
+insert  into `u_yf_scalculations_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',2,1,0,'{}',1);
+insert  into `u_yf_scalculations_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'comment1','LBL_COMMENT','Comment',0,'',3,2,0,'{}',0);
+
+/*Data for the table `u_yf_scalculations_invmap` */
+
 /*Data for the table `u_yf_scalculationscf` */
 
 /*Data for the table `u_yf_squoteenquiries` */
@@ -22755,8 +22765,8 @@ insert  into `vtiger_scalculations_status`(`scalculations_statusid`,`scalculatio
 insert  into `vtiger_scalculations_status`(`scalculations_statusid`,`scalculations_status`,`sortorderid`,`presence`) values (2,'PLL_REQUIRES_TO_BE_COMPLEMENTED',2,1);
 insert  into `vtiger_scalculations_status`(`scalculations_statusid`,`scalculations_status`,`sortorderid`,`presence`) values (3,'PLL_REQUIRES_CONSULTATION',3,1);
 insert  into `vtiger_scalculations_status`(`scalculations_statusid`,`scalculations_status`,`sortorderid`,`presence`) values (4,'PLL_WAITING_FOR_APPROVAL',4,1);
-insert  into `vtiger_scalculations_status`(`scalculations_statusid`,`scalculations_status`,`sortorderid`,`presence`) values (5,'PLL_DISCARDED',5,1);
-insert  into `vtiger_scalculations_status`(`scalculations_statusid`,`scalculations_status`,`sortorderid`,`presence`) values (6,'PLL_ACCEPTED',6,1);
+insert  into `vtiger_scalculations_status`(`scalculations_statusid`,`scalculations_status`,`sortorderid`,`presence`) values (5,'PLL_DISCARDED',5,0);
+insert  into `vtiger_scalculations_status`(`scalculations_statusid`,`scalculations_status`,`sortorderid`,`presence`) values (6,'PLL_ACCEPTED',6,0);
 
 /*Data for the table `vtiger_scheduled_reports` */
 
@@ -22962,8 +22972,8 @@ insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`s
 insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`srequirementscards_status`,`sortorderid`,`presence`) values (2,'PLL_REQUIRES_TO_BE_COMPLEMENTED',2,1);
 insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`srequirementscards_status`,`sortorderid`,`presence`) values (3,'PLL_REQUIRES_CONSULTATION',3,1);
 insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`srequirementscards_status`,`sortorderid`,`presence`) values (4,'PLL_WAITING_FOR_APPROVAL',4,1);
-insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`srequirementscards_status`,`sortorderid`,`presence`) values (5,'PLL_DISCARDED',5,1);
-insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`srequirementscards_status`,`sortorderid`,`presence`) values (6,'PLL_ACCEPTED',6,1);
+insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`srequirementscards_status`,`sortorderid`,`presence`) values (5,'PLL_DISCARDED',5,0);
+insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`srequirementscards_status`,`sortorderid`,`presence`) values (6,'PLL_ACCEPTED',6,0);
 
 /*Data for the table `vtiger_ssservicesstatus` */
 
@@ -23154,7 +23164,7 @@ insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`mo
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (85,'SQuoteEnquiries',0,-1,'SQuoteEnquiries',NULL,NULL,0,0,1,'0','',NULL,0,1);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (86,'SSalesProcesses',0,-1,'SSalesProcesses',NULL,NULL,0,0,1,'0','',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (87,'SRequirementsCards',0,-1,'SRequirementsCards',NULL,NULL,0,0,1,'0','',NULL,0,1);
-insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (88,'SCalculations',0,-1,'SCalculations',NULL,NULL,0,0,1,'0','',NULL,0,0);
+insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (88,'SCalculations',0,-1,'SCalculations',NULL,NULL,0,0,1,'0','',NULL,0,1);
 
 /*Data for the table `vtiger_tab_info` */
 
@@ -23653,6 +23663,11 @@ insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nom
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (62,87,'RelatedModule','Documents',2,3,NULL,'{\"limit\":\"\",\"relatedmodule\":\"8\",\"columns\":\"3\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (63,87,'Comments','ModComments',2,2,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (64,87,'Updates','LBL_UPDATES',1,1,NULL,'[]');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (65,88,'Summary',NULL,1,0,NULL,'[]');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (66,88,'Updates','LBL_UPDATES',1,1,NULL,'[]');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (67,88,'Comments','ModComments',2,2,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (68,88,'RelatedModule','Documents',2,3,NULL,'{\"limit\":\"\",\"relatedmodule\":\"8\",\"columns\":\"3\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (69,88,'EmailList','Emails',2,4,NULL,'{\"relatedmodule\":\"Emails\",\"limit\":\"5\"}');
 
 /*Data for the table `vtiger_ws_entity` */
 

@@ -710,6 +710,44 @@ CREATE TABLE `u_yf_scalculations` (
   CONSTRAINT `fk_1_u_yf_scalculations` FOREIGN KEY (`scalculationsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_scalculations_inventory` */
+
+CREATE TABLE `u_yf_scalculations_inventory` (
+  `id` int(19) DEFAULT NULL,
+  `seq` int(10) DEFAULT NULL,
+  `name` int(19) NOT NULL DEFAULT '0',
+  `qty` decimal(25,3) NOT NULL DEFAULT '0.000',
+  `comment1` varchar(500) DEFAULT NULL,
+  KEY `id` (`id`),
+  CONSTRAINT `fk_1_u_yf_scalculations_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_scalculations` (`scalculationsid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_scalculations_invfield` */
+
+CREATE TABLE `u_yf_scalculations_invfield` (
+  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `columnname` varchar(30) NOT NULL,
+  `label` varchar(50) NOT NULL,
+  `invtype` varchar(30) NOT NULL,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `defaultvalue` varchar(255) DEFAULT NULL,
+  `sequence` int(10) unsigned NOT NULL,
+  `block` tinyint(1) unsigned NOT NULL,
+  `displaytype` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `params` text,
+  `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_scalculations_invmap` */
+
+CREATE TABLE `u_yf_scalculations_invmap` (
+  `module` varchar(50) NOT NULL,
+  `field` varchar(50) DEFAULT NULL,
+  `tofield` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`module`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_scalculationscf` */
 
 CREATE TABLE `u_yf_scalculationscf` (
@@ -7943,7 +7981,7 @@ CREATE TABLE `vtiger_widgets` (
   PRIMARY KEY (`id`),
   KEY `tabid` (`tabid`),
   CONSTRAINT `vtiger_widgets_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity` */
 
