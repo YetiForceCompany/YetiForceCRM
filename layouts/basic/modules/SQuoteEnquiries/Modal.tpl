@@ -66,7 +66,7 @@
 			{foreach from=$RESTRICTS_ITEM item=ITEM}
 				{if $QECLOSE && $RECORD->get('squoteenquiries_status') neq $ITEM}
 					<div class="btn-group">
-						<button type="button" class="btn {if $ITEM eq 'LBL_ACCEPTED'} btn-success {else} btn-danger {/if} changeStatus" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
+						<button type="button" class="btn {if $ITEM eq 'PLL_ACCEPTED'} btn-success {else} btn-danger {/if} changeStatus" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
 					</div>
 				{/if}
 			{/foreach}

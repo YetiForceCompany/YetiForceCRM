@@ -698,13 +698,13 @@ CREATE TABLE `u_yf_squoteenquiries` (
   `squoteenquiriesid` int(19) NOT NULL DEFAULT '0',
   `squoteenquiries_no` varchar(255) DEFAULT '',
   `subject` varchar(255) DEFAULT NULL,
-  `potentialid` int(19) DEFAULT NULL,
+  `salesprocessid` int(19) DEFAULT NULL,
   `category` varchar(255) DEFAULT NULL,
   `squoteenquiries_status` varchar(255) DEFAULT NULL,
   `accountid` int(19) DEFAULT NULL,
   `response_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`squoteenquiriesid`),
-  KEY `potentialid` (`potentialid`),
+  KEY `salesprocessid` (`salesprocessid`),
   KEY `accountid` (`accountid`),
   CONSTRAINT `fk_1_u_yf_squoteenquiries` FOREIGN KEY (`squoteenquiriesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
