@@ -12,7 +12,7 @@
 			{if $DETAILVIEWPERMITTED eq 'yes'}
 			<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
 			{/if}
-			{if $IS_EDITABLE}
+			{if $IS_EDITABLE && $LOCKEDIT eq false}
 				<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
 			{/if}
 			{if $IS_DELETABLE}
