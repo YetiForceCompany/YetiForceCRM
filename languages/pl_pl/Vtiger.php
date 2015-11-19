@@ -1090,6 +1090,8 @@ $languageStrings = [
 	'SINGLE_SQuoteEnquiries' => 'Zapytanie ofertowe',
 	'SSalesProcesses' => 'Procesy sprzedażowe',
 	'SINGLE_SSalesProcesses' => 'Proces sprzedaży',
+	'SCalculations' => 'Kalkulacje',
+	'SINGLE_SCalculations' => 'Kalkulacja',
 	
 ];
 $jsLanguageStrings = [

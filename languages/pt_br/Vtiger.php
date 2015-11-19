@@ -1096,6 +1096,8 @@ $languageStrings = [
 	'SINGLE_SQuoteEnquiries' => 'Levantamentos Cotações',
 	'SSalesProcesses' => 'Sales processes',
 	'SINGLE_SSalesProcesses' => 'Sales process',
+	'SCalculations' => 'Calculations',
+	'SINGLE_SCalculations' => 'Calculation',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Resumo',

@@ -6,29 +6,29 @@
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
-class SQuoteEnquiries extends Vtiger_CRMEntity
+class SCalculations extends Vtiger_CRMEntity
 {
 
-	var $table_name = 'u_yf_squoteenquiries';
-	var $table_index = 'squoteenquiriesid';
+	var $table_name = 'u_yf_scalculations';
+	var $table_index = 'scalculationsid';
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('u_yf_squoteenquiriescf', 'squoteenquiriesid');
+	var $customFieldTable = Array('u_yf_scalculationscf', 'scalculationsid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'u_yf_squoteenquiries', 'u_yf_squoteenquiriescf');
+	var $tab_name = Array('vtiger_crmentity', 'u_yf_scalculations', 'u_yf_scalculationscf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
 	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
-		'u_yf_squoteenquiries' => 'squoteenquiriesid',
-		'u_yf_squoteenquiriescf' => 'squoteenquiriesid');
+		'u_yf_scalculations' => 'scalculationsid',
+		'u_yf_scalculationscf' => 'scalculationsid');
 
 	/**
 	 * Mandatory for Listing (Related listview)
@@ -36,7 +36,7 @@ class SQuoteEnquiries extends Vtiger_CRMEntity
 	var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'LBL_SUBJECT' => Array('squoteenquiries', 'subject'),
+		'LBL_SUBJECT' => Array('scalculations', 'subject'),
 		'Assigned To' => Array('crmentity', 'smownerid')
 	);
 	var $list_fields_name = Array(
@@ -50,7 +50,7 @@ class SQuoteEnquiries extends Vtiger_CRMEntity
 	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'LBL_SUBJECT' => Array('squoteenquiries', 'subject'),
+		'LBL_SUBJECT' => Array('scalculations', 'subject'),
 		'Assigned To' => Array('vtiger_crmentity', 'assigned_user_id'),
 	);
 	var $search_fields_name = Array(
@@ -79,21 +79,21 @@ class SQuoteEnquiries extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = CRMEntity::getInstance('SQuoteEnquiries');
-			$moduleInstance->setModuleSeqNumber("configure", 'SQuoteEnquiries', 'S-QE', '1');
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SQuoteEnquiries']);
+			$moduleInstance = CRMEntity::getInstance('SCalculations');
+			$moduleInstance->setModuleSeqNumber("configure", 'SCalculations', 'S-C', '1');
+			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SCalculations']);
 
 			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array('SQuoteEnquiries'));
+					ModComments::addWidgetTo(array('SCalculations'));
 			}
 			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModTracker');
 			if ($modcommentsModuleInstance && file_exists('modules/ModTracker/ModTracker.php')) {
 				include_once('vtlib/Vtiger/Module.php');
 				include_once 'modules/ModTracker/ModTracker.php';
-				$tabid = Vtiger_Functions::getModuleId('SQuoteEnquiries');
+				$tabid = Vtiger_Functions::getModuleId('SCalculations');
 				$moduleModTrackerInstance = new ModTracker();
 				if (!$moduleModTrackerInstance->isModulePresent($tabid)) {
 					$res = $adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 1));
@@ -123,7 +123,7 @@ class SQuoteEnquiries extends Vtiger_CRMEntity
 	function addActions()
 	{
 		$adb = PearDatabase::getInstance();
-		$actions = ['QEOpen', 'QEClose'];
+		$actions = ['OpenCalculation', 'CloseCalculation'];
 		foreach ($actions as $key => $action) {
 			$result = $adb->pquery('SELECT actionid FROM vtiger_actionmapping WHERE actionname=?;', [$action]);
 			if ($adb->getRowCount($result)) {
@@ -132,7 +132,7 @@ class SQuoteEnquiries extends Vtiger_CRMEntity
 			$result = $adb->query("SELECT MAX(actionid) AS max_seq  FROM vtiger_actionmapping ;");
 			$key = (int) $adb->getSingleValue($result) + 1;
 			$adb->pquery("INSERT INTO `vtiger_actionmapping` (`actionid`, `actionname`, `securitycheck`) VALUES (?, ?, ?);", [$key, $action, 0]);
-			$tabid = Vtiger_Functions::getModuleId('SQuoteEnquiries');
+			$tabid = Vtiger_Functions::getModuleId('SCalculations');
 			$resultP = $adb->query("SELECT profileid FROM vtiger_profile;");
 			$rowCountP = $adb->getRowCount($resultP);
 			for ($i = 0; $i < $rowCountP; $i++) {
