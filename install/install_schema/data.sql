@@ -22717,12 +22717,12 @@ insert  into `vtiger_sostatus_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_squoteenquiries_status` */
 
-insert  into `vtiger_squoteenquiries_status`(`squoteenquiries_statusid`,`squoteenquiries_status`,`sortorderid`,`presence`) values (1,'LBL_DRAFT',1,1);
-insert  into `vtiger_squoteenquiries_status`(`squoteenquiries_statusid`,`squoteenquiries_status`,`sortorderid`,`presence`) values (2,'LBL_REQUIRES_TO_BE_COMPLEMENTED',2,1);
-insert  into `vtiger_squoteenquiries_status`(`squoteenquiries_statusid`,`squoteenquiries_status`,`sortorderid`,`presence`) values (3,'LBL_REQUIRES_CONSULTATION',3,1);
-insert  into `vtiger_squoteenquiries_status`(`squoteenquiries_statusid`,`squoteenquiries_status`,`sortorderid`,`presence`) values (4,'LBL_WAITING_FOR_APPROVAL',4,1);
-insert  into `vtiger_squoteenquiries_status`(`squoteenquiries_statusid`,`squoteenquiries_status`,`sortorderid`,`presence`) values (5,'LBL_DISCARDED',5,0);
-insert  into `vtiger_squoteenquiries_status`(`squoteenquiries_statusid`,`squoteenquiries_status`,`sortorderid`,`presence`) values (6,'LBL_ACCEPTED',6,0);
+insert  into `vtiger_squoteenquiries_status`(`squoteenquiries_statusid`,`squoteenquiries_status`,`sortorderid`,`presence`) values (1,'PLL_DRAFT',1,1);
+insert  into `vtiger_squoteenquiries_status`(`squoteenquiries_statusid`,`squoteenquiries_status`,`sortorderid`,`presence`) values (2,'PLL_REQUIRES_TO_BE_COMPLEMENTED',2,1);
+insert  into `vtiger_squoteenquiries_status`(`squoteenquiries_statusid`,`squoteenquiries_status`,`sortorderid`,`presence`) values (3,'PLL_REQUIRES_CONSULTATION',3,1);
+insert  into `vtiger_squoteenquiries_status`(`squoteenquiries_statusid`,`squoteenquiries_status`,`sortorderid`,`presence`) values (4,'PLL_WAITING_FOR_APPROVAL',4,1);
+insert  into `vtiger_squoteenquiries_status`(`squoteenquiries_statusid`,`squoteenquiries_status`,`sortorderid`,`presence`) values (5,'PLL_DISCARDED',5,0);
+insert  into `vtiger_squoteenquiries_status`(`squoteenquiries_statusid`,`squoteenquiries_status`,`sortorderid`,`presence`) values (6,'PLL_ACCEPTED',6,0);
 
 /*Data for the table `vtiger_srequirementscards_status` */
 
