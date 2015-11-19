@@ -1,11 +1,11 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'SCalculations' => 'Kalkulacje',
-	'SINGLE_SCalculations' => 'Kalkulacja',
+	'SQuotes' => 'Oferty',
+	'SINGLE_SQuotes' => 'Oferta',
 	
 	//BLOCKS
-	'LBL_SCALCULATIONS_INFORMATION' => 'Informacje podstawowe',
+	'LBL_SQUOTES_INFORMATION' => 'Informacje podstawowe',
 	'LBL_CUSTOM_INFORMATION' => 'Informacje systemowe',
 	'LBL_DESCRIPTION_INFORMATION' => 'Informacje Opisowe',
 	'LBL_STATISTICS' => 'Statystyka',

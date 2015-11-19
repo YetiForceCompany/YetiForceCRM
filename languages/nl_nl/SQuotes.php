@@ -1,11 +1,11 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'SCalculations' => 'Calculations',
-	'SINGLE_SCalculations' => 'Calculation',
+	'SQuotes' => 'Quotes',
+	'SINGLE_SQuotes' => 'Quote',
 	
 	//BLOCKS
-	'LBL_SCALCULATIONS_INFORMATION' => 'Basic information',
+	'LBL_SQUOTES_INFORMATION' => 'Basic information',
 	'LBL_CUSTOM_INFORMATION' => 'System Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description Details',
 	'LBL_STATISTICS' => 'Statistics',
@@ -14,7 +14,7 @@ $languageStrings = [
 	'LBL_SUBJECT' => 'Subject',
 	'LBL_NUMBER' => 'Number',
 	'LBL_STATUS' => 'Status',
-	'LBL_CLOSED_TIME' => 'Closed Time',
+	'LBL_CLOSED_TIME' => 'Gesloten tijd',
 	'LBL_RESPONSE_TIME' => 'Respone time',
 
 	//PICKLIST VALUES

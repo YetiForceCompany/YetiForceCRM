@@ -1103,7 +1103,9 @@ $languageStrings = [
 	'SCalculations' => 'Calculations',
 	'SINGLE_SCalculations' => 'Calculation',
 	'SRequirementsCards' => 'Requirements Cards',
-	'SINGLE_SRequirementsCards' => 'Requirements Card', 
+	'SINGLE_SRequirementsCards' => 'Requirements Card',
+	'SQuotes' => 'Quotes',
+	'SINGLE_SQuotes' => 'Quote',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',

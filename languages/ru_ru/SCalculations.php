@@ -5,7 +5,7 @@ $languageStrings = [
 	'SINGLE_SCalculations' => 'Calculation',
 
 	//BLOCKS
-	'LBL_SREQUIREMENTSCARDS_INFORMATION' => 'Основная информация',
+	'LBL_SCALCULATIONS_INFORMATION' => 'Основная информация',
 	'LBL_CUSTOM_INFORMATION' => 'System Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description Details',
 	'LBL_STATISTICS' => 'Statistics',
