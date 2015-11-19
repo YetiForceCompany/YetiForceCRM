@@ -4196,11 +4196,13 @@ html,body,.baseContainer
 	font-size: 12px;
 }
 #activityStateModal .form-horizontal .form-group,
-#sQuoteEnquiriesModal .form-horizontal .form-group{
+#sQuoteEnquiriesModal .form-horizontal .form-group,
+#sRequirementsCardsModal .form-horizontal .form-group{
 	margin-bottom: 2px;
 }
 #activityStateModal .form-horizontal .form-group .control-label,
-#sQuoteEnquiriesModal .form-horizontal .form-group .control-label{
+#sQuoteEnquiriesModal .form-horizontal .form-group .control-label,
+#sRequirementsCardsModal .form-horizontal .form-group .control-label{
 	padding-top: 0;
 }
 .pageNumber.active.disabled a{
@@ -4317,7 +4319,8 @@ html,body,.baseContainer
 #mappingToGenerate .actionsHeader{
 	width: 8%;
 }
-#sQuoteEnquiriesModal .popover.fade{
+#sQuoteEnquiriesModal .popover.fade,
+#sRequirementsCardsModal .popover.fade{
 	min-width: 400px;
 }
 @media only screen and (min-width: 1240px){
