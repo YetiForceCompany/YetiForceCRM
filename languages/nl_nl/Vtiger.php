@@ -1070,6 +1070,8 @@ $languageStrings = [
 	'SINGLE_SSalesProcesses' => 'Sales process',
 	'SCalculations' => 'Calculations',
 	'SINGLE_SCalculations' => 'Calculation',
+	'SRequirementsCards' => 'Requirements Cards',
+	'SINGLE_SRequirementsCards' => 'Requirements Card', 
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',
