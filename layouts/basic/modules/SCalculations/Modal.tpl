@@ -13,7 +13,7 @@
 			<h3 class="modal-title">{vtranslate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</h3>
 		</div>
 		<div class="pull-right btn-group">
-			{if $EDITVIEW_PERMITTED && !LOCKEDIT}
+			{if $EDITVIEW_PERMITTED && !$LOCKEDIT}
 				<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"><span class="glyphicon glyphicon-pencil summaryViewEdit"></span></a>
 			{/if}
 			{if $DETAILVIEW_PERMITTED}
@@ -51,7 +51,7 @@
 <div class="modal-footer">
 	<div class="pull-left">
 		<div class="btn-toolbar">
-			{if $OPENCALCULATION || ($EDITVIEW_PERMITTED && !LOCKEDIT)}
+			{if $OPENCALCULATION || ($EDITVIEW_PERMITTED && !$LOCKEDIT)}
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{vtranslate('LBL_CHANGE_STATUS',$MODULE_NAME)} <span class="caret"></span>
