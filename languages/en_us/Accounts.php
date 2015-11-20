@@ -65,6 +65,7 @@ $languageStrings = [
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'European mutual partnership',
 	'PLL_EUROPEAN_ASSOCIATION' => 'European association',
 	'PLL_UFCIITS' => 'Undertakings for collective invesment in transferable securites',
+	'LBL_ACCOUNTS_LIST_TREE_ALERT' => '__UNTRANSLATED__',
 
 	'Calculations all'=>'All calculations',
 	'Calculations accepted'=>'Calculations accepted',
