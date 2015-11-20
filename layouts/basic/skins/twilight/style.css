@@ -2715,7 +2715,12 @@ textarea {
 	word-wrap: break-word;
 	width: 100%;
 }
-
+table.summary-table{
+	table-layout: fixed;
+}
+table.summary-table .summaryViewEdit{
+	padding-left: 0;
+}
 .textOverflowEllipsis {
 	overflow: hidden;
 	padding-bottom: 2px;

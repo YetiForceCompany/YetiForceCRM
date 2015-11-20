@@ -1,13 +1,5 @@
 {*<!--
-/*********************************************************************************
-  ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-   * ("License"); You may not use this file except in compliance with the License
-   * The Original Code is:  vtiger CRM Open Source
-   * The Initial Developer of the Original Code is vtiger.
-   * Portions created by vtiger are Copyright (C) vtiger.
-   * All Rights Reserved.
-   * Contributor(s): YetiForce.com
- ********************************************************************************/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 -->*}
 {strip}
 {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
@@ -19,11 +11,11 @@
 				<td class="fieldLabel {$WIDTHTYPE}" style="width:35%"><label class="muted">{vtranslate($FIELD_MODEL->get('label'),$MODULE_NAME)}</label></td>
 				<td class="fieldValue {$WIDTHTYPE}" style="width:65%">
                     <div class="row">
-                        <span class="value" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
+                        <div class="value textOverflowEllipsis col-xs-10 paddingRightZero" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
                             {include file=$FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName()|@vtemplate_path FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
-                        </span>
+                        </div>
                         {if $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $IS_AJAX_ENABLED && $FIELD_MODEL->isAjaxEditable() eq 'true' && $FIELD_MODEL->get('uitype') neq 69}
-                            <span class="hide edit">
+                             <div class="hide edit col-xs-12">
                                 {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
                                 {if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
                                     <input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}[]' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
@@ -32,10 +24,12 @@
                                 {else}
 									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
 								{/if}
-                            </span>
-                            <span class="summaryViewEdit cursorPointer pull-right">
-                                &nbsp;<i class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></i>
-                            </span>
+                            </div>
+                            <div class="summaryViewEdit col-xs-2 cursorPointer">
+								<div class="pull-right">
+									<span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span>
+								</div>
+                            </div>
                         {/if}
                     </div>
 				</td>

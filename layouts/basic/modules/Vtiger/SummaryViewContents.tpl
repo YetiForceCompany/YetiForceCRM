@@ -24,12 +24,12 @@
 						<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-left" title="" data-placement="top" data-content="{htmlspecialchars(vtranslate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE_NAME)}'><i class="glyphicon glyphicon-info-sign"></i></a>
 					{/if}
 				<td class="fieldValue {$WIDTHTYPE}" style="width:65%">
-                    <div class="">
-                        <span class="value" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
+                    <div class="row">
+                        <div class="value textOverflowEllipsis col-xs-10 paddingRightZero" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
                             {include file=$FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName()|@vtemplate_path FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
-                        </span>
+                        </div>
                         {if $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $IS_AJAX_ENABLED && $FIELD_MODEL->isAjaxEditable() eq 'true' && $FIELD_MODEL->get('uitype') neq 69}
-                            <span class="hide edit">
+                            <div class="hide edit col-xs-12">
                                 {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
                                 {if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
                                     <input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}[]' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
@@ -38,10 +38,12 @@
                                 {else}
 									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue')))}' />
 								{/if}
-                            </span>
-                            <span class="summaryViewEdit cursorPointer pull-right">
-                                &nbsp;<span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span>
-                            </span>
+                            </div>
+                            <div class="summaryViewEdit col-xs-2 cursorPointer">
+								<div class="pull-right">
+									<span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span>
+								</div>
+                            </div>
                         {/if}
                     </div>
 				</td>
