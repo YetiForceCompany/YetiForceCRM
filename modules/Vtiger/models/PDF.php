@@ -443,7 +443,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		$fieldsTypes = ['reference', 'owner', 'multireference'];
 		foreach ($fieldsModel as $fieldName => &$fieldModel) {
 			$fieldType = $fieldModel->getFieldDataType();
-			if (in_array($fieldType, $fieldsTypes) && $recordModel->get($fieldName) != 0) {
+			if (in_array($fieldType, $fieldsTypes)) {
 				$value = $recordModel->get($fieldName);
 				$referenceModules = $fieldModel->getReferenceList();
 				if ($fieldType == 'owner')
@@ -452,10 +452,11 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 					if ($module == 'Users') {
 						$referenceRecordModel = Users_Record_Model::getInstanceById($value, $module);
 					} else {
-						if (!isRecordExists($value)) {
-							continue;
+						if (empty($value)) {
+							$referenceRecordModel = Vtiger_Record_Model::getCleanInstance($module);
+						} else {
+							$referenceRecordModel = $this->getRecordModelById($value);
 						}
-						$referenceRecordModel = $this->getRecordModelById($value);
 					}
 					$moduleModel = $referenceRecordModel->getModule();
 					foreach ($moduleModel->getFields() as $referenceFieldName => &$referenceFieldModel) {
