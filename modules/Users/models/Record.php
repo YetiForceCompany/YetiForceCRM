@@ -743,6 +743,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 		$sql = 'DELETE FROM vtiger_users WHERE id=?';
 		$db->pquery($sql, array($userId));
+		
+		deleteUserRelatedSharingRules($userId);
 	}
 
 	/**

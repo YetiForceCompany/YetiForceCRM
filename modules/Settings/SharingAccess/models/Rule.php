@@ -18,71 +18,110 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 	const RULE_TYPE_GROUPS = 'GRP';
 	const RULE_TYPE_ROLE = 'ROLE';
 	const RULE_TYPE_ROLE_AND_SUBORDINATES = 'RS';
+	const RULE_TYPE_USERS = 'US';
 	const READ_ONLY_PERMISSION = 0;
 	const READ_WRITE_PERMISSION = 1;
 
-	static $allPermissions = array(
+	static $allPermissions = [
 		self::READ_ONLY_PERMISSION => 'Read Only',
 		self::READ_WRITE_PERMISSION => 'Read Write'
-	);
-	static $ruleMemberToRelationMapping = array(
+	];
+	static $ruleMemberToRelationMapping = [
 		self::RULE_TYPE_GROUPS => Settings_SharingAccess_RuleMember_Model::RULE_MEMBER_TYPE_GROUPS,
 		self::RULE_TYPE_ROLE => Settings_SharingAccess_RuleMember_Model::RULE_MEMBER_TYPE_ROLES,
-		self::RULE_TYPE_ROLE_AND_SUBORDINATES => Settings_SharingAccess_RuleMember_Model::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES
-	);
-	static $dataShareTableColArr = array(
-		self::RULE_TYPE_GROUPS => array(
-			self::RULE_TYPE_GROUPS => array(
+		self::RULE_TYPE_ROLE_AND_SUBORDINATES => Settings_SharingAccess_RuleMember_Model::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES,
+		self::RULE_TYPE_USERS => Settings_SharingAccess_RuleMember_Model::RULE_MEMBER_TYPE_USERS
+	];
+	static $dataShareTableColArr = [
+		self::RULE_TYPE_GROUPS => [
+			self::RULE_TYPE_GROUPS => [
 				'table' => 'vtiger_datashare_grp2grp',
 				'source_id' => 'share_groupid',
 				'target_id' => 'to_groupid'
-			),
-			self::RULE_TYPE_ROLE => array(
+			],
+			self::RULE_TYPE_USERS => [
+				'table' => 'vtiger_datashare_grp2us',
+				'source_id' => 'share_groupid',
+				'target_id' => 'to_userid'
+			],
+			self::RULE_TYPE_ROLE => [
 				'table' => 'vtiger_datashare_grp2role',
 				'source_id' => 'share_groupid',
 				'target_id' => 'to_roleid'
-			),
-			self::RULE_TYPE_ROLE_AND_SUBORDINATES => array(
+			],
+			self::RULE_TYPE_ROLE_AND_SUBORDINATES => [
 				'table' => 'vtiger_datashare_grp2rs',
 				'source_id' => 'share_groupid',
 				'target_id' => 'to_roleandsubid'
-			),
-		),
-		self::RULE_TYPE_ROLE => array(
-			self::RULE_TYPE_GROUPS => array(
+			],
+		],
+		self::RULE_TYPE_USERS => [
+			self::RULE_TYPE_GROUPS => [
+				'table' => 'vtiger_datashare_us2grp',
+				'source_id' => 'share_userid',
+				'target_id' => 'to_groupid'
+			],
+			self::RULE_TYPE_USERS => [
+				'table' => 'vtiger_datashare_us2us',
+				'source_id' => 'share_userid',
+				'target_id' => 'to_userid'
+			],
+			self::RULE_TYPE_ROLE => [
+				'table' => 'vtiger_datashare_us2role',
+				'source_id' => 'share_userid',
+				'target_id' => 'to_roleid'
+			],
+			self::RULE_TYPE_ROLE_AND_SUBORDINATES => [
+				'table' => 'vtiger_datashare_us2rs',
+				'source_id' => 'share_userid',
+				'target_id' => 'to_roleandsubid'
+			],
+		],
+		self::RULE_TYPE_ROLE => [
+			self::RULE_TYPE_GROUPS => [
 				'table' => 'vtiger_datashare_role2group',
 				'source_id' => 'share_roleid',
 				'target_id' => 'to_groupid'
-			),
-			self::RULE_TYPE_ROLE => array(
+			],
+			self::RULE_TYPE_USERS => [
+				'table' => 'vtiger_datashare_role2us',
+				'source_id' => 'share_roleid',
+				'target_id' => 'to_userid'
+			],
+			self::RULE_TYPE_ROLE => [
 				'table' => 'vtiger_datashare_role2role',
 				'source_id' => 'share_roleid',
 				'target_id' => 'to_roleid'
-			),
-			self::RULE_TYPE_ROLE_AND_SUBORDINATES => array(
+			],
+			self::RULE_TYPE_ROLE_AND_SUBORDINATES => [
 				'table' => 'vtiger_datashare_role2rs',
 				'source_id' => 'share_roleid',
 				'target_id' => 'to_roleandsubid'
-			),
-		),
-		self::RULE_TYPE_ROLE_AND_SUBORDINATES => array(
-			self::RULE_TYPE_GROUPS => array(
+			],
+		],
+		self::RULE_TYPE_ROLE_AND_SUBORDINATES => [
+			self::RULE_TYPE_GROUPS => [
 				'table' => 'vtiger_datashare_rs2grp',
 				'source_id' => 'share_roleandsubid',
 				'target_id' => 'to_groupid'
-			),
-			self::RULE_TYPE_ROLE => array(
+			],
+			self::RULE_TYPE_USERS => [
+				'table' => 'vtiger_datashare_rs2us',
+				'source_id' => 'share_roleandsubid',
+				'target_id' => 'to_userid'
+			],
+			self::RULE_TYPE_ROLE => [
 				'table' => 'vtiger_datashare_rs2role',
 				'source_id' => 'share_roleandsubid',
 				'target_id' => 'to_roleid'
-			),
-			self::RULE_TYPE_ROLE_AND_SUBORDINATES => array(
+			],
+			self::RULE_TYPE_ROLE_AND_SUBORDINATES => [
 				'table' => 'vtiger_datashare_rs2rs',
 				'source_id' => 'share_roleandsubid',
 				'target_id' => 'to_roleandsubid'
-			),
-		),
-	);
+			],
+		],
+	];
 
 	/**
 	 * Function to get the Id of the Sharing Access Rule
@@ -222,6 +261,8 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 	 */
 	public function getSourceDetailViewUrl()
 	{
+		debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		
 		$sourceMember = $this->getSourceMember()->getId();
 		$sourceMemberDetails = explode(':', $sourceMember);
 
@@ -312,7 +353,10 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 			$ruleId = $db->getUniqueId('vtiger_datashare_module_rel');
 			$this->set('shareid', $ruleId);
 
-			$db->pquery("INSERT INTO vtiger_datashare_module_rel(shareid, tabid) VALUES(?,?)", array($ruleId, $this->getModule()->getId()));
+			$db->insert('vtiger_datashare_module_rel', [
+				'shareid' => $ruleId,
+				'tabid' => $this->getModule()->getId(),
+			]);
 		} else {
 			$relationTypeComponents = explode('::', $this->get('relationtype'));
 			$sourceType = $relationTypeComponents[0];
@@ -323,7 +367,7 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 			$sourceColumnName = $tableColumnInfo['source_id'];
 			$targetColumnName = $tableColumnInfo['target_id'];
 
-			$db->pquery("DELETE FROM $tableName WHERE shareid=?", array($ruleId));
+			$db->delete($tableName, 'shareid = ?', [$ruleId]);
 		}
 
 		$sourceId = $this->get('source_id');
@@ -339,22 +383,24 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 
 		$this->set('relationtype', implode('::', array($sourceType, $targetType)));
 
-		$permission = $this->get('permission');
+		$db->insert($tableName, [
+			'shareid' => $ruleId,
+			$sourceColumnName => $sourceIdComponents[1],
+			$targetColumnName => $targetIdComponents[1],
+			'permission' => $this->get('permission'),
+		]);
 
-		$sql = "INSERT INTO $tableName (shareid, $sourceColumnName, $targetColumnName, permission) VALUES (?,?,?,?)";
-		$params = array($ruleId, $sourceIdComponents[1], $targetIdComponents[1], $permission);
-		$db->pquery($sql, $params);
+		$db->update('vtiger_datashare_module_rel', [
+			'relationtype' => $this->get('relationtype'),
+			], 'shareid = ?', [$ruleId]
+		);
 
-		$sql = 'UPDATE vtiger_datashare_module_rel SET relationtype=? WHERE shareid=?';
-		$params = array($this->get('relationtype'), $ruleId);
-		$db->pquery($sql, $params);
 		Settings_SharingAccess_Module_Model::recalculateSharingRules();
 	}
 
 	public function delete()
 	{
 		$db = PearDatabase::getInstance();
-
 		$ruleId = $this->getId();
 
 		$relationTypeComponents = explode('::', $this->get('relationtype'));
@@ -362,9 +408,10 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 		$targetType = $relationTypeComponents[1];
 		$tableColumnInfo = self::$dataShareTableColArr[$sourceType][$targetType];
 		$tableName = $tableColumnInfo['table'];
-		$db->pquery("DELETE FROM $tableName WHERE shareid=?", array($ruleId));
+		
+		$db->delete($tableName, 'shareid = ?', [$ruleId]);
+		$db->delete('vtiger_datashare_module_rel', 'shareid = ?', [$ruleId]);
 
-		$db->pquery('DELETE FROM vtiger_datashare_module_rel WHERE shareid=?', array($ruleId));
 		Settings_SharingAccess_Module_Model::recalculateSharingRules();
 	}
 
