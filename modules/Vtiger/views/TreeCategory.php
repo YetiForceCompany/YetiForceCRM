@@ -79,14 +79,14 @@ class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
 			$parenttrre = substr($row['parenttrre'], 0, - $cut);
 			$pieces = explode('::', $parenttrre);
 			$parent = (int) str_replace('T', '', end($pieces));
-			$icon = $row['icon'];
+				$icon = $row['icon'];
 			$tree[] = [
 				'id' => $treeID,
 				'record_id' => $row['tree'],
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => vtranslate($row['name'], $this->moduleName),
 				'state' => ($row['state']) ? $row['state'] : '',
-				'icon' => $icon
+				'icon' => $row['icon']
 			];
 			if ($treeID > $lastId) {
 				$lastId = $treeID;

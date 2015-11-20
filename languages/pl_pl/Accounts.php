@@ -68,7 +68,7 @@ $languageStrings = [
 	'LBL_DISCOUNT' => 'Rabat',
 	'LBL_CREDIT_LIMIT' => 'Limit kredytowy',
 	'LBL_VIEW_ACCOUNTSLISTTREE' => 'Produkty i usługi',
-	'LBL_ACCOUNTS_LIST_TREE_ALERT' => 'Lista kontrahentów jest uzależniona od wybranych produktów w drzewie oraz wybranego filtru.',
+	'LBL_ACCOUNTS_LIST_TREE_ALERT' => 'Lista kontrahentów jest uzależniona od wybranych produktów w drzewie oraz filtru.',
 
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Osoba fizyczna',
