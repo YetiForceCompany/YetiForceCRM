@@ -22,7 +22,8 @@ $languageStrings = [
     'PLL_ACCEPTED' => 'Принято',
     'PLL_REQUIRES_TO_BE_COMPLEMENTED' => 'Необходимо дополнить',
     'PLL_REQUIRES_CONSULTATION' => 'Необходима консультация',
-    'PLL_WAITING_FOR_APPROVAL' => 'Ожидает подтверждения',
+    'PLL_WAITING_FOR_SHIPPING' => 'Waiting for shipping',
+	'PLL_WAITING_FOR_SIGNATURE' => 'Waiting for signature',
     'PLL_DISCARDED' => 'Отклонено',
 	
     'LBL_CHANGE_STATUS' => 'Изменить статус',
