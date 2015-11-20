@@ -4780,3 +4780,33 @@ html,body,.baseContainer
     overflow: auto;
     max-height: 500px;
 }
+.siteBarRight{
+	border-left: 1px solid #dddddd;
+	background: #F5F5F5;
+}
+.toggleSiteBarRightButton{
+	background: #F5F5F5;
+	font-weight: bold;
+	padding: 15px 0px !important;
+	position: absolute;
+	top: 400px;
+	left: -16px;
+	cursor: pointer;
+	width: 17px;
+	z-index: 100;
+	border: 1px solid #dddddd;
+	border-right: 0;
+	display: inline-block;
+	border-radius: 0;
+}
+.padding0{
+	padding: 0 !important;
+}
+.hideSiteBar{
+	width: 0px;
+	position: absolute;
+	right: 1px;
+}
+.hideSiteBar .siteBarContent{
+	overflow: auto;
+}
