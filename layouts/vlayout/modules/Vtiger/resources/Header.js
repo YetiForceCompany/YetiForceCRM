@@ -592,11 +592,9 @@ jQuery.Class("Vtiger_Header_Js", {
 			bodyHeight = jQuery('.editViewContainer').outerHeight();
 		} else if (app.getViewName() === 'List') {
 			bodyHeight = jQuery('.remindersNoticeContainer').outerHeight() - 5;
-			jQuery(".contentsDiv").css('min-height', bodyHeight);
 			jQuery(".bodyContents").css('min-height', bodyHeight);
 		} else if (app.getViewName() === 'Calendar') {
 			bodyHeight = jQuery('.calendarViewContainer').outerHeight();
-			jQuery(".contentsDiv").css('height', bodyHeight);
 		} else if (app.getViewName() === 'DashBoard') {
 			bodyHeight = jQuery('.remindersNoticeContainer').outerHeight() - 55;
 			jQuery("div.gridster").css('min-height', jQuery('.contentsDiv').outerHeight() + 24);
@@ -607,6 +605,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		} else {
 			bodyHeight = jQuery('.bodyContents').css('min-height');//.outerHeight();
 		}
+
 		var styles = {
 			'min-height': bodyHeight,
 			'margin-bottom': navBottom + 'px',
@@ -615,6 +614,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		jQuery(".mainContainer").css(styles);
 		jQuery(".mainContainer > .col-md-2 ").css({'margin-bottom': navBottom + 'px', });
 		jQuery(".contentsDiv").css({'margin-bottom': navBottom + 'px', });
+		jQuery(".contentsDiv").css('min-height', bodyHeight);
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 	},
 	recentPageViews: function () {
