@@ -3736,6 +3736,7 @@ span[name=existingImages] img{
 #sCalculationsModal .form-horizontal .form-group,
 #sQuotesModal .form-horizontal .form-group,
 #sSingleOrdersModal .form-horizontal .form-group,
+#sRecurringOrdersModal .form-horizontal .form-group,
 #sRequirementsCardsModal .form-horizontal .form-group{
 	margin-bottom: 2px;
 }
@@ -3744,6 +3745,7 @@ span[name=existingImages] img{
 #sCalculationsModal .form-horizontal .form-group .control-label,
 #sQuotesModal .form-horizontal .form-group .control-label,
 #sSingleOrdersModal .form-horizontal .form-group .control-label,
+#sRecurringOrdersModal .form-horizontal .form-group .control-label,
 #sRequirementsCardsModal .form-horizontal .form-group .control-label{
 	padding-top: 0;
 }
@@ -3789,6 +3791,7 @@ span[name=existingImages] img{
 #sCalculationsModal .popover.fade,
 #sQuotesModal .popover.fade,
 #sSingleOrdersModal .popover.fade,
+#sRecurringOrdersModal .popover.fade,
 #sRequirementsCardsModal .popover.fade{
 	min-width: 400px;
 }
