@@ -124,8 +124,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		unset($headerScriptInstances[$moduleDetailFile]);
 
 		$jsFileNames = array(
-			"modules.Users.resources.Edit",
-			'modules.' . $moduleName . '.resources.PreferenceEdit'
+			'modules.Users.resources.Edit',
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

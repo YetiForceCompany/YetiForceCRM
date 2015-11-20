@@ -81,6 +81,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View {
 
 		$jsFileNames = array(
 			'modules.Vtiger.resources.Vtiger',
+			'modules.Vtiger.resources.'.$view,
 			"modules.$moduleName.resources.$moduleName",
 			"modules.$moduleName.resources.$view",
             'libraries.jquery.ckeditor.ckeditor',
