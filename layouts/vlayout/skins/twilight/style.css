@@ -3730,6 +3730,7 @@ span[name=existingImages] img{
 #sQuoteEnquiriesModal .form-horizontal .form-group,
 #sCalculationsModal .form-horizontal .form-group,
 #sQuotesModal .form-horizontal .form-group,
+#sSingleOrdersModal .form-horizontal .form-group,
 #sRequirementsCardsModal .form-horizontal .form-group{
 	margin-bottom: 2px;
 }
@@ -3737,6 +3738,7 @@ span[name=existingImages] img{
 #sQuoteEnquiriesModal .form-horizontal .form-group .control-label,
 #sCalculationsModal .form-horizontal .form-group .control-label,
 #sQuotesModal .form-horizontal .form-group .control-label,
+#sSingleOrdersModal .form-horizontal .form-group .control-label,
 #sRequirementsCardsModal .form-horizontal .form-group .control-label{
 	padding-top: 0;
 }
@@ -3781,6 +3783,7 @@ span[name=existingImages] img{
 #sQuoteEnquiriesModal .popover.fade,
 #sCalculationsModal .popover.fade,
 #sQuotesModal .popover.fade,
+#sSingleOrdersModal .popover.fade,
 #sRequirementsCardsModal .popover.fade{
 	min-width: 400px;
 }
