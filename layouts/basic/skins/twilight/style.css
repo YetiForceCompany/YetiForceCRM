@@ -4784,8 +4784,17 @@ html,body,.baseContainer
     max-height: 500px;
 }
 .siteBarRight{
+	width:33%;
+	padding: 0 15px;
 	border-left: 1px solid #dddddd;
 	background: #F5F5F5;
+	position: fixed;
+	right: 0px;
+	height:100%;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
 }
 .toggleSiteBarRightButton{
 	background: #F5F5F5;
@@ -4806,9 +4815,7 @@ html,body,.baseContainer
 	padding: 0 !important;
 }
 .hideSiteBar{
-	width: 0px;
-	position: absolute;
-	right: 1px;
+	right: -33%;
 }
 .hideSiteBar .siteBarContent{
 	overflow: auto;

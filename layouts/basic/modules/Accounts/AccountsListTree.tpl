@@ -50,7 +50,7 @@
 			</div>
 			<div id="accountsListContents"></div>
 		</div>
-		<div class="col-md-4 siteBarRight">
+		<div class="siteBarRight">
 			<div class="btn btn-block toggleSiteBarRightButton" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
 				<span class="glyphicon glyphicon-chevron-right"></span>
 			</div>

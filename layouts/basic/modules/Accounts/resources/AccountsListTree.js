@@ -140,14 +140,14 @@ jQuery.Class("Accounts_AccountsListTree_Js", {}, {
 			var siteBarRight = $(this).closest('.siteBarRight');
 			var content = $(this).closest('.row').find('.rowContent');
 			var buttonImage = $(this).find('.glyphicon');
-			if (siteBarRight.hasClass('col-md-4')) {
-				siteBarRight.removeClass('col-md-4').addClass('hideSiteBar');
+			if (siteBarRight.hasClass('hideSiteBar')) {
+				siteBarRight.removeClass('hideSiteBar');
+				content.removeClass('col-md-12').addClass('col-md-8');
+				buttonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
+			} else {
+				siteBarRight.addClass('hideSiteBar');
 				content.removeClass('col-md-8').addClass('col-md-12');
 				buttonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
-			} else {
-				siteBarRight.addClass('col-md-4').removeClass('hideSiteBar');
-				content.addClass('col-md-8').removeClass('col-md-12');
-				buttonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
 			}
 		});
 	},
