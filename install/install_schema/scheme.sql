@@ -853,6 +853,36 @@ CREATE TABLE `u_yf_squotes` (
   CONSTRAINT `fk_1_u_yf_squotes` FOREIGN KEY (`squotesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_squotes_address` */
+
+CREATE TABLE `u_yf_squotes_address` (
+  `squotesaddressid` int(19) NOT NULL,
+  `addresslevel1a` varchar(255) DEFAULT NULL,
+  `addresslevel1c` varchar(255) DEFAULT NULL,
+  `addresslevel2a` varchar(255) DEFAULT NULL,
+  `addresslevel2c` varchar(255) DEFAULT NULL,
+  `addresslevel3a` varchar(255) DEFAULT NULL,
+  `addresslevel3c` varchar(255) DEFAULT NULL,
+  `addresslevel4a` varchar(255) DEFAULT NULL,
+  `addresslevel4c` varchar(255) DEFAULT NULL,
+  `addresslevel5a` varchar(255) DEFAULT NULL,
+  `addresslevel5c` varchar(255) DEFAULT NULL,
+  `addresslevel6a` varchar(255) DEFAULT NULL,
+  `addresslevel6c` varchar(255) DEFAULT NULL,
+  `addresslevel7a` varchar(255) DEFAULT NULL,
+  `addresslevel7c` varchar(255) DEFAULT NULL,
+  `addresslevel8a` varchar(255) DEFAULT NULL,
+  `addresslevel8c` varchar(255) DEFAULT NULL,
+  `buildingnumbera` varchar(100) DEFAULT NULL,
+  `localnumbera` varchar(100) DEFAULT NULL,
+  `buildingnumberc` varchar(100) DEFAULT NULL,
+  `localnumberc` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  `poboxc` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`squotesaddressid`),
+  CONSTRAINT `u_yf_squotes_address_ibfk_1` FOREIGN KEY (`squotesaddressid`) REFERENCES `u_yf_squotes` (`squotesid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_squotes_inventory` */
 
 CREATE TABLE `u_yf_squotes_inventory` (
@@ -923,6 +953,36 @@ CREATE TABLE `u_yf_srecurringorders` (
   KEY `squotesid` (`squotesid`),
   KEY `accountid` (`accountid`),
   CONSTRAINT `fk_1_u_yf_srecurringorders` FOREIGN KEY (`srecurringordersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_srecurringorders_address` */
+
+CREATE TABLE `u_yf_srecurringorders_address` (
+  `srecurringordersaddressid` int(19) NOT NULL,
+  `addresslevel1a` varchar(255) DEFAULT NULL,
+  `addresslevel1c` varchar(255) DEFAULT NULL,
+  `addresslevel2a` varchar(255) DEFAULT NULL,
+  `addresslevel2c` varchar(255) DEFAULT NULL,
+  `addresslevel3a` varchar(255) DEFAULT NULL,
+  `addresslevel3c` varchar(255) DEFAULT NULL,
+  `addresslevel4a` varchar(255) DEFAULT NULL,
+  `addresslevel4c` varchar(255) DEFAULT NULL,
+  `addresslevel5a` varchar(255) DEFAULT NULL,
+  `addresslevel5c` varchar(255) DEFAULT NULL,
+  `addresslevel6a` varchar(255) DEFAULT NULL,
+  `addresslevel6c` varchar(255) DEFAULT NULL,
+  `addresslevel7a` varchar(255) DEFAULT NULL,
+  `addresslevel7c` varchar(255) DEFAULT NULL,
+  `addresslevel8a` varchar(255) DEFAULT NULL,
+  `addresslevel8c` varchar(255) DEFAULT NULL,
+  `buildingnumbera` varchar(100) DEFAULT NULL,
+  `localnumbera` varchar(100) DEFAULT NULL,
+  `buildingnumberc` varchar(100) DEFAULT NULL,
+  `localnumberc` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  `poboxc` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`srecurringordersaddressid`),
+  CONSTRAINT `u_yf_srecurringorders_address_ibfk_1` FOREIGN KEY (`srecurringordersaddressid`) REFERENCES `u_yf_srecurringorders` (`srecurringordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_srecurringorders_inventory` */
@@ -1083,6 +1143,36 @@ CREATE TABLE `u_yf_ssingleorders` (
   KEY `squotesid` (`squotesid`),
   KEY `accountid` (`accountid`),
   CONSTRAINT `fk_1_u_yf_ssingleorders` FOREIGN KEY (`ssingleordersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_ssingleorders_address` */
+
+CREATE TABLE `u_yf_ssingleorders_address` (
+  `ssingleordersaddressid` int(19) NOT NULL,
+  `addresslevel1a` varchar(255) DEFAULT NULL,
+  `addresslevel1c` varchar(255) DEFAULT NULL,
+  `addresslevel2a` varchar(255) DEFAULT NULL,
+  `addresslevel2c` varchar(255) DEFAULT NULL,
+  `addresslevel3a` varchar(255) DEFAULT NULL,
+  `addresslevel3c` varchar(255) DEFAULT NULL,
+  `addresslevel4a` varchar(255) DEFAULT NULL,
+  `addresslevel4c` varchar(255) DEFAULT NULL,
+  `addresslevel5a` varchar(255) DEFAULT NULL,
+  `addresslevel5c` varchar(255) DEFAULT NULL,
+  `addresslevel6a` varchar(255) DEFAULT NULL,
+  `addresslevel6c` varchar(255) DEFAULT NULL,
+  `addresslevel7a` varchar(255) DEFAULT NULL,
+  `addresslevel7c` varchar(255) DEFAULT NULL,
+  `addresslevel8a` varchar(255) DEFAULT NULL,
+  `addresslevel8c` varchar(255) DEFAULT NULL,
+  `buildingnumbera` varchar(100) DEFAULT NULL,
+  `localnumbera` varchar(100) DEFAULT NULL,
+  `buildingnumberc` varchar(100) DEFAULT NULL,
+  `localnumberc` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  `poboxc` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ssingleordersaddressid`),
+  CONSTRAINT `u_yf_ssingleorders_address_ibfk_1` FOREIGN KEY (`ssingleordersaddressid`) REFERENCES `u_yf_ssingleorders` (`ssingleordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_ssingleorders_inventory` */
@@ -3253,7 +3343,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1876 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1942 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
