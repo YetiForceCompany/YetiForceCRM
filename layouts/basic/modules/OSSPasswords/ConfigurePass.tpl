@@ -60,7 +60,7 @@
 									<th class="blockHeader" colspan="4">{vtranslate('Edit Encryption Key', $MODULENAME)}</th>
 								</tr>
 								<tr>
-									<td class="fieldLabel">
+									<td class="fieldLabel col-xs-1">
 										<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Old Key', $MODULENAME)}:</label>
 									</td>
 									<td class="fieldValue" >
@@ -101,7 +101,7 @@
 									<th class="blockHeader" colspan="4">{vtranslate('Enter Your Old Password', $MODULENAME)}</th>
 								</tr>
 								<tr>
-									<td class="fieldLabel">
+									<td class="fieldLabel col-xs-1">
 										<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Encryption Password', $MODULENAME)}:</label>
 									</td>
 									<td class="fieldValue" >
@@ -132,7 +132,7 @@
 							<th class="blockHeader" colspan="4">{vtranslate('Enter encryption password', $MODULENAME)}</th>
 						</tr>
 						<tr>
-							<td class="fieldLabel">
+							<td class="fieldLabel col-xs-1">
 								<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Encryption password', $MODULENAME)}:</label>
 							</td>
 							<td class="fieldValue" >
@@ -158,13 +158,12 @@
 				<div class="contentHeader row">
 					<span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('LBL_ConfigurePass', $MODULENAME)}</span>
 				</div>
-
 				<table class="table table-bordered blockContainer showInlineTable">
 					<tr>
 						<th class="blockHeader" colspan="4">{vtranslate('Password Length', $MODULENAME)}</th>
 					</tr>
 					<tr>
-						<td class="fieldLabel">
+						<td class="fieldLabel col-xs-1" >
 							<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Minimum Length', $MODULENAME)}:</label>
 						</td>
 						<td class="fieldValue" >
