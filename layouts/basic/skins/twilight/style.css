@@ -4837,3 +4837,6 @@ html,body,.baseContainer
 .supportProcessesContainer .well .alert{
 	width:100%;
 }
+.marginTop10{
+	margin-top: 10px !important;
+}
