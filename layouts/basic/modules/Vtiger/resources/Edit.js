@@ -547,7 +547,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var contact_id = false;
 		var lead_id = false;
 		var vendor_id = false;
-		jQuery("#EditView table .fieldValue, #EditView table .fieldLabel").each(function (index) {
+		jQuery("#EditView .blockContainer:not(.inventoryHeader):not(.inventoryItems) .fieldValue, #EditView .blockContainer:not(.inventoryHeader):not(.inventoryItems) .fieldLabel").each(function (index) {
 			var referenceModulesList = false;
 			var relatedField = $(this).find('[name="popupReferenceModule"]').val();
 			if (relatedField == 'Accounts') {
@@ -585,7 +585,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		} else {
 			jQuery('.copyAddressFromAccount').on('click', function (e) {
 				var element = jQuery(this);
-				var block = element.closest('table');
+				var block = element.closest('.blockContainer');
 				var from = element.data('label');
 				var to = block.data('label');
 				var recordRelativeAccountId = jQuery('[name="' + account_id + '"]').val();
@@ -598,7 +598,8 @@ jQuery.Class("Vtiger_Edit_Js", {
 						'selectedName': recordRelativeAccountName,
 						'source_module': "Accounts"
 					}
-					thisInstance.copyAddressDetails(from, to, data, element.closest('table'));
+					
+					thisInstance.copyAddressDetails(from, to, data, element.closest('.blockContainer'));
 					element.attr('checked', 'checked');
 				}
 			})
@@ -608,7 +609,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		} else {
 			jQuery('.copyAddressFromContact').on('click', function (e) {
 				var element = jQuery(this);
-				var block = element.closest('table');
+				var block = element.closest('.blockContainer');
 				var from = element.data('label');
 				var to = block.data('label');
 				var recordRelativeAccountId = jQuery('[name="' + contact_id + '"]').val();
@@ -621,7 +622,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 						'selectedName': recordRelativeAccountName,
 						'source_module': "Contacts"
 					}
-					thisInstance.copyAddressDetails(from, to, data, element.closest('table'));
+					thisInstance.copyAddressDetails(from, to, data, element.closest('.blockContainer'));
 					element.attr('checked', 'checked');
 				}
 			})
@@ -631,7 +632,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		} else {
 			jQuery('.copyAddressFromLead').on('click', function (e) {
 				var element = jQuery(this);
-				var block = element.closest('table');
+				var block = element.closest('.blockContainer');
 				var from = element.data('label');
 				var to = block.data('label');
 				var recordRelativeAccountId = jQuery('[name="' + lead_id + '"]').val();
@@ -644,7 +645,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 						'selectedName': recordRelativeAccountName,
 						'source_module': "Leads"
 					}
-					thisInstance.copyAddressDetails(from, to, data, element.closest('table'));
+					thisInstance.copyAddressDetails(from, to, data, element.closest('.blockContainer'));
 					element.attr('checked', 'checked');
 				}
 			})
@@ -654,7 +655,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		} else {
 			jQuery('.copyAddressFromVendor').on('click', function (e) {
 				var element = jQuery(this);
-				var block = element.closest('table');
+				var block = element.closest('.blockContainer');
 				var from = element.data('label');
 				var to = block.data('label');
 				var recordRelativeAccountId = jQuery('[name="' + vendor_id + '"]').val();
@@ -667,7 +668,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 						'selectedName': recordRelativeAccountName,
 						'source_module': "Vendors"
 					}
-					thisInstance.copyAddressDetails(from, to, data, element.closest('table'));
+					thisInstance.copyAddressDetails(from, to, data, element.closest('.blockContainer'));
 					element.attr('checked', 'checked');
 				}
 			})
@@ -686,21 +687,21 @@ jQuery.Class("Vtiger_Edit_Js", {
 		});
 		jQuery('.copyAddressFromMain').on('click', function (e) {
 			var element = jQuery(this);
-			var block = element.closest('table');
+			var block = element.closest('.blockContainer');
 			var from = element.data('label');
 			var to = block.data('label');
 			thisInstance.copyAddress(from, to, false, false);
 		})
 		jQuery('.copyAddressFromMailing').on('click', function (e) {
 			var element = jQuery(this);
-			var block = element.closest('table');
+			var block = element.closest('.blockContainer');
 			var from = element.data('label');
 			var to = block.data('label');
 			thisInstance.copyAddress(from, to, false, false);
 		})
 		jQuery('.copyAddressFromDelivery').on('click', function (e) {
 			var element = jQuery(this);
-			var block = element.closest('table');
+			var block = element.closest('.blockContainer');
 			var from = element.data('label');
 			var to = block.data('label');
 			thisInstance.copyAddress(from, to, false, false);
@@ -1314,7 +1315,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 				select: function (event, ui) {
 					for (var key in ui.item.components) {
 						var addressType = thisInstance.addressFieldsMappingFromApi[key];
-						jQuery(this).parents('table').find('[name^="' + addressType + '"]').val(ui.item.components[key]);
+						jQuery(this).parents('.blockContainer').find('[name^="' + addressType + '"]').val(ui.item.components[key]);
 					}
 				}
 			}).data("ui-autocomplete")._renderItem = function (ul, item) {
