@@ -71,7 +71,6 @@ class Reports_List_View extends Vtiger_Index_View
 
 		$viewer->assign('LISTVIEW_LINKS', $linkModels);
 		$viewer->assign('FOLDERS', $folders);
-		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('VIEWNAME', $folderId);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('LISTVIEW_MASSACTIONS', $listViewMassActionModels);
@@ -152,7 +151,6 @@ class Reports_List_View extends Vtiger_Index_View
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		$noOfEntries = count($this->listViewEntries);
 
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
@@ -167,8 +165,6 @@ class Reports_List_View extends Vtiger_Index_View
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
 		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
 			if (!$this->listViewCount) {
 				$this->listViewCount = $listViewModel->getListViewCount();

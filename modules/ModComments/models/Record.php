@@ -66,7 +66,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 	 * @param <Integer> $record
 	 * @return ModComment_Record_Model
 	 */
-	public static function getInstanceById($record) {
+	public static function getInstanceById($record, $module = null) {
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT 
 					comm.*,

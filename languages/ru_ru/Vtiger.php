@@ -761,6 +761,7 @@ $languageStrings = [
 	'LBL_SUPPORT' => 'Поддержка',
 	'LBL_SYNC_BUTTON' => 'Синхронизировать',
 	'LBL_SYSTEM_SETTINGS' => 'Настройки системы',
+	'LBL_USER_PANEL' => '__UNTRANSLATED__',
 	'LBL_Sat' => 'Суб',
 	'LBL_Sep' => 'Сен',
 	'LBL_Sun' => 'Вск',
@@ -1299,6 +1300,7 @@ $languageStrings = [
 	'LBL_CURRENT' => "Current",
 	'LBL_SET_RECORD_STATUS' => 'Set status',
 	'LBL_SELECT_SOME_OPTIONS' => 'Выберите опцию',
+	'LBL_NO_DISCOUNTS' => 'Available discounts not found',
 	//PDF
 	'LBL_EXPORT_PDF' => '__UNTRANSLATED__',
 	'LBL_GENERATE_PDF_FILE' => '__UNTRANSLATED__',
@@ -1310,6 +1312,13 @@ $languageStrings = [
 	'LBL_VALID_RECORDS' => '__UNTRANSLATED__',
 	'LBL_EXPORT_ERROR' => '__UNTRANSLATED__',
 	'LBL_PDF_MANY_IN_ONE' => '__UNTRANSLATED__',
+	// end pdf
+	'group' => 'Группа',
+	'individual' => 'Индивидуально',
+	'Service' => 'Service',
+	'Sales' => 'Sale',
+	'LBL_VTIGER_LAYOUT' => 'Default',
+	'LBL_DEFAULT' => 'Responsive',
 ];
 $jsLanguageStrings = [
 	'SINGLE_SalesOrder' => 'Заказ',

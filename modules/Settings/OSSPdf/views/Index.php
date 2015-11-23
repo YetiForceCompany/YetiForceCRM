@@ -27,9 +27,9 @@ class Settings_OSSPdf_Index_View extends Settings_Vtiger_Index_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
-		$jsFileNames = array(
-			'layouts.vlayout.modules.Settings.OSSPdf.general'
-		);
+		$jsFileNames = [
+			'modules.Settings.OSSPdf.general'
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

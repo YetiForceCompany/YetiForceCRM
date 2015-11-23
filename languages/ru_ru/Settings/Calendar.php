@@ -17,7 +17,7 @@ $languageStrings = [
 	'LBL_ACTIVE' => 'Активный',
 	'Calendar' => 'Календарь',
 	//ActivityTypes
-	'LBL_ACTIVITY_TYPES' => 'Редактор типов Календаря',
+	'LBL_ACTIVITY_TYPES' => 'Calendar – Types',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Управление и редактирование типов Календаря',
 	'LBL_ACTIVITY_NAME' => 'Название типа',
 	'LBL_MODULE' => 'Модуль',
@@ -27,7 +27,7 @@ $languageStrings = [
 	'LBL_EDIT_COLOR' => 'Редактировать цвет',
 	'LBL_SELECT_COLOR' => 'Выберите цвет:',
 	'LBL_SAVE_COLOR' => 'Сохранить цвет',
-	'LBL_CALENDAR_CONFIG' => 'Настройки Календаря',
+	'LBL_CALENDAR_CONFIG' => 'Calendar - Configuration',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => 'Менеджер Календаря, позволяет настраивать календарь по своему вкусу',
 	'LBL_USER_COLORS' => 'Цвет Пользователя',
 	'LBL_CALENDAR_COLORS' => 'Цвета Календаря',

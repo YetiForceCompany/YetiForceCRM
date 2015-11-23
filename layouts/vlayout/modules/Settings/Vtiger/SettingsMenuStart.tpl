@@ -9,6 +9,7 @@
 *
  ********************************************************************************/
 -->*}
+{assign var=MENUS value=Vtiger_Menu_Model::getAll(true)}
 {include file="Header.tpl"|vtemplate_path:$MODULE}
 {include file="BasicHeader.tpl"|vtemplate_path:$MODULE}
 

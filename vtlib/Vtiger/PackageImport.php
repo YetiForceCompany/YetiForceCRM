@@ -408,17 +408,17 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		if ($module != null) {
 			$unzip = new Vtiger_Unzip($zipfile, $overwrite);
 			// Unzip selectively
-			$unzip->unzipAllEx(".", Array(
+			$unzip->unzipAllEx(".", [
 				// Include only file/folders that need to be extracted
 				'include' => Array('templates', "modules/$module", 'cron', 'languages',
 					'settings/actions', 'settings/views', 'settings/models', 'settings/templates', 'settings/connectors', 'settings/libraries',
 					"$module.png", 'updates', 'layouts'),
 				// NOTE: If excludes is not given then by those not mentioned in include are ignored.
-				),
+				],
 				// What files needs to be renamed?
-				Array(
+				[
 				// Templates folder
-				'templates' => "layouts/vlayout/modules/$module",
+				'templates' => "layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/modules/$module",
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Settings folder
@@ -428,17 +428,17 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 				'settings/connectors' => "modules/Settings/$module/connectors",
 				'settings/libraries' => "modules/Settings/$module/libraries",
 				// Settings templates folder
-				'settings/templates' => "layouts/vlayout/modules/Settings/$module",
+				'settings/templates' => "layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
 				//module images
-				'images' => "layouts/vlayout/skins/images/$module",
+				'images' => "layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
 				'settings' => "modules/Settings",
 				'updates' => "cache/updates",
 				'layouts' => 'layouts'
-				)
+				]
 			);
 
 			if ($unzip->checkFileExistsInRootFolder("$module.png")) {
-				$unzip->unzip("$module.png", "layouts/vlayout/skins/images/$module.png");
+				$unzip->unzip("$module.png", "layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
 			}
 
 			if ($unzip)
@@ -1051,7 +1051,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		$adb->query("INSERT INTO `yetiforce_updates` (`user`, `name`, `from_version`, `to_version`, `result`) VALUES ('" . $currentUser->get('user_name') . "', '" . $modulenode->label . "', '" . $modulenode->from_version . "', '" . $modulenode->to_version . "','" . $result . "');", true);
 
 		if ($result) {
-			$adb->query("UPDATE vtiger_version SET `current_version` = '" . $modulenode->to_version . "';");
+			$adb->update('vtiger_version', ['current_version' => $modulenode->to_version]);
 		}
 		Vtiger_Functions::recurseDelete($dirName . '/files');
 		Vtiger_Functions::recurseDelete($dirName . '/init.php');

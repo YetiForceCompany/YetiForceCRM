@@ -171,7 +171,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				'newwindow' => $row['newwindow'],
 				'dataurl' => $settingsModel->getMenuUrl($row),
 				//'showicon' => $row['showicon'],
-				//'icon' => $row['icon'],
+				'icon' => $row['icon'],
 				//'sizeicon' => $row['sizeicon'],
 				'parent' => $row['parentid'],
 				'hotkey' => $row['hotkey'],

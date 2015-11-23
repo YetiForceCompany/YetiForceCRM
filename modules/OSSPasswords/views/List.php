@@ -14,7 +14,7 @@ class OSSPasswords_List_View extends Vtiger_List_View {
 
 		$jsFileNames = array(
             'libraries.jquery.ZeroClipboard.ZeroClipboard',
-            'layouts.vlayout.modules.OSSPasswords.resources.showRelatedModulePass',
+            'modules.OSSPasswords.resources.showRelatedModulePass',
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

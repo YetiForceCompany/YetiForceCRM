@@ -1,0 +1,211 @@
+/* The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html */
+@font-face {
+	font-family: 'UserIcons';
+	src:url('userIcons.eot?dfrtuf');
+	src:url('userIcons.eot?dfrtuf#iefix') format('embedded-opentype'),
+		url('userIcons.ttf?dfrtuf') format('truetype'),
+		url('userIcons.woff?dfrtuf') format('woff'),
+		url('userIcons.svg?dfrtuf#icons') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+[class^="userIcon-"], [class*=" userIcon-"] {
+	font-family: 'UserIcons';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.userIcon-my-home-page-1:before {
+	content: "\e804";
+}
+.userIcon-virtual-desk:before {
+	content: "\e675";
+}
+.userIcon-my-home-page:before {
+	content: "\e800";
+}
+.userIcon-calendar:before {
+	content: "\e801";
+}
+.userIcon-my-mailbox:before {
+	content: "\e678";
+}
+.userIcon-compaines-and-contacts:before {
+	content: "\e679";
+}
+.userIcon-leads:before {
+	content: "\e673";
+}
+.userIcon-contacts:before {
+	content: "\e674";
+}
+.userIcon-vendors:before {
+	content: "\e802";
+}
+.userIcon-accounts:before {
+	content: "\e803";
+}
+.userIcon-sales:before {
+	content: "\e806";
+}
+.userIcon-campaigns:before {
+	content: "\e807";
+}
+.userIcon-opportunities:before {
+	content: "\e805";
+}
+.userIcon-quotes-enquires:before {
+	content: "\e82c";
+}
+.userIcon-requirement-cards:before {
+	content: "\e808";
+}
+.userIcon-calculations:before {
+	content: "\e809";
+}
+.userIcon-quotes:before {
+	content: "\e80a";
+}
+.userIcon-sales-order:before {
+	content: "\e82d";
+}
+.userIcon-purchase-order:before {
+	content: "\e80b";
+}
+.userIcon-price-books:before {
+	content: "\e80c";
+}
+.userIcon-projects2:before {
+	content: "\e80d";
+}
+.userIcon-projects:before {
+	content: "\e6c5";
+}
+.userIcon-project_milestones:before {
+	content: "\e813";
+}
+.userIcon-project-task:before {
+	content: "\e6c8";
+}
+.userIcon-support:before {
+	content: "\e80e";
+}
+.userIcon-tickets:before {
+	content: "\e80f";
+}
+.userIcon-service-contracts:before {
+	content: "\e810";
+}
+.userIcon-faq:before {
+	content: "\e811";
+}
+.userIcon-bookkeeping:before {
+	content: "\e812";
+}
+.userIcon-costs:before {
+	content: "\e814";
+}
+.userIcon-invoices:before {
+	content: "\e815";
+}
+.userIcon-payments-out:before {
+	content: "\e816";
+}
+.userIcon-payments-in:before {
+	content: "\e817";
+}
+.userIcon-human-resources:before {
+	content: "\e818";
+}
+.userIcon-employees:before {
+	content: "\e819";
+}
+.userIcon-time-control:before {
+	content: "\e81a";
+}
+.userIcon-annual-holiday-entitlement:before {
+	content: "\e81b";
+}
+.userIcon-secretary:before {
+	content: "\e81c";
+}
+.userIcon-letters-incoming:before {
+	content: "\e6a7";
+}
+.userIcon-letters-outgoing:before {
+	content: "\e6a8";
+}
+.userIcon-reservations:before {
+	content: "\e81d";
+}
+.userIcon-database:before {
+	content: "\e81e";
+}
+.userIcon-products:before {
+	content: "\e81f";
+}
+.userIcon-outsourced-products:before {
+	content: "\e820";
+}
+.userIcon-assets:before {
+	content: "\e821";
+}
+.userIcon-services:before {
+	content: "\e822";
+}
+.userIcon-outsourced-services:before {
+	content: "\e823";
+}
+.userIcon-sold-services:before {
+	content: "\e824";
+}
+.userIcon-corporate-emails:before {
+	content: "\e825";
+}
+.userIcon-text-messages:before {
+	content: "\e826";
+}
+.userIcon-list-of-calls:before {
+	content: "\e827";
+}
+.userIcon-mail-templates:before {
+	content: "\e828";
+}
+.userIcon-documents:before {
+	content: "\e829";
+}
+.userIcon-pdf:before {
+	content: "\e82e";
+}
+.userIcon-user-access-control:before {
+	content: "\e832";
+}
+.userIcon-call-history:before {
+	content: "\e831";
+}
+.userIcon-rss:before {
+	content: "\e830";
+}
+.userIcon-our-sites:before {
+	content: "\e82b";
+}
+.userIcon-reports:before {
+	content: "\e82f";
+}
+.userIcon-new-orders:before {
+	content: "\e82a";
+}
+.userIcon-team-work:before {
+	content: "\e6ce";
+}
+.userIcon-ideas:before {
+	content: "\e6cf";
+}

@@ -271,7 +271,7 @@ class Vtiger_ModuleBasic
 		require_once "modules/$this->name/$this->name.php";
 		$focus = new $this->name();
 		$this->tableName = $focus->table_name;
-		
+
 		if ($this->isentitytype) {
 			$this->deleteFromCRMEntity();
 			Vtiger_Access::deleteSharing($this);
@@ -281,9 +281,8 @@ class Vtiger_ModuleBasic
 			if (method_exists($this, 'deinitWebservice')) {
 				$this->deinitWebservice();
 			}
-			
 		}
-		
+
 		$this->deleteIcons();
 		$this->unsetRelatedList($moduleInstance);
 		ModComments_Module_Model::deleteForModule($moduleInstance);
@@ -373,9 +372,6 @@ class Vtiger_ModuleBasic
 		$adb->pquery('DELETE FROM vtiger_entityname WHERE tabid=?', Array($this->id));
 		self::log('Unsetting entity identifier ... DONE');
 	}
-
-
-
 
 	/**
 	 * Configure default sharing access for the module
@@ -486,11 +482,11 @@ class Vtiger_ModuleBasic
 		create_tab_data_file();
 		self::log("DONE");
 	}
-	
+
 	/**
 	 * Unset related list information that exists with other module
 	 */
-	public  function unsetRelatedList()
+	public function unsetRelatedList()
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$db = PearDatabase::getInstance();
@@ -574,8 +570,10 @@ class Vtiger_ModuleBasic
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$modulePath = 'modules/' . $moduleInstance->name;
 		Vtiger_Functions::recurseDelete($modulePath);
-		$layoutPath = 'layouts/vlayout/modules/' . $moduleInstance->name;
-		Vtiger_Functions::recurseDelete($layoutPath);
+		foreach (Yeti_Layout::getAllLayouts() as $name => $label) {
+			$layoutPath = 'layouts/' . $name . '/modules/' . $moduleInstance->name;
+			Vtiger_Functions::recurseDelete($layoutPath);
+		}
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}
 
@@ -587,13 +585,13 @@ class Vtiger_ModuleBasic
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$iconSize = ['', 48, 64, 128];
 		foreach ($iconSize as $value) {
-			$fileName = "layouts/vlayout/skins/images/" . $this->name . $value . ".png";
-			if (file_exists($fileName)) {
-				@unlink($fileName);
+			foreach (Yeti_Layout::getAllLayouts() as $name => $label) {
+				$fileName = "layouts/$name/skins/images/" . $this->name . $value . ".png";
+				if (file_exists($fileName)) {
+					@unlink($fileName);
+				}
 			}
 		}
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 }
-
-?>

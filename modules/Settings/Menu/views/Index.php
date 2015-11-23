@@ -51,10 +51,10 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
-		$cssFileNames = array(
+		$cssFileNames = [
 			'~libraries/jquery/jstree/themes/default/style.css',
-			"~layouts/vlayout/modules/Settings/$moduleName/Index.css",
-		);
+			"modules.Settings.$moduleName.Index",
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
 		return $headerCssInstances;

@@ -12,11 +12,11 @@
 class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	public function getWidgets($module = false, $record = false)
+	public static function getWidgets($module = false, $record = false)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_widgets';
-		$params = array();
+		$params = [];
 		if ($module) {
 			if (!is_numeric($module)) {
 				$module = Vtiger_Functions::getModuleId($module);
@@ -25,10 +25,9 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			$params[] = $module;
 		}
 		$sql .= ' ORDER BY tabid,sequence ASC';
-		$result = $adb->pquery($sql, $params, true);
+		$result = $db->pquery($sql, $params, true);
 		$widgets = array(1 => array(), 2 => array(), 3 => array());
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
-			$row = $adb->raw_query_result_rowdata($result, $i);
+		while ($row = $db->getRow($result)) {
 			$row['data'] = Zend_Json::decode($row['data']);
 			$widgets[$row["wcol"]][$row["id"]] = $row;
 		}

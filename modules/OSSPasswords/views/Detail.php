@@ -10,9 +10,9 @@ class OSSPasswords_Detail_View extends Vtiger_Detail_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-            'layouts.vlayout.modules.OSSPasswords.resources.gen_pass',
+            'modules.OSSPasswords.resources.gen_pass',
             'libraries.jquery.ZeroClipboard.ZeroClipboard',
-            'layouts.vlayout.modules.OSSPasswords.resources.zClipDetailView'
+            'modules.OSSPasswords.resources.zClipDetailView'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

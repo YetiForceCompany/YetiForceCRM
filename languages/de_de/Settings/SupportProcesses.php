@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_SUPPORT_PROCESSES' => 'Supportprozesse',
+	'LBL_SUPPORT_PROCESSES' => 'Support',
 	'LBL_GENERAL_CONFIGURATION' => 'Allgemeine Konfiguration',
 	'LBL_OTHER' => 'Weitere',
 	'LBL_INFO' => 'Info',

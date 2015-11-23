@@ -213,7 +213,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 			if ($type == 'owner')
 				$referenceModules = ['Users'];
 			foreach ($referenceModules as $module) {
-				$referencedModules[$fieldName . '|' . $module] = ['moduleName' => $module, 'label' => $field->get('label')];
+				$referencedModules[$fieldName . '+' . $module] = ['moduleName' => $module, 'label' => $field->get('label')];
 			}
 		}
 		return $referencedModules;

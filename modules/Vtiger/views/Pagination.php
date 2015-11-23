@@ -15,7 +15,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$pageNumber = $request->get('page');
 		$searchResult = $request->get('searchResult');
 		$moduleName = $request->getModule();
-		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $request->get('viewname'));
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}

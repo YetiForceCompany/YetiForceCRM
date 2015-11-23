@@ -246,6 +246,7 @@ $languageStrings = [
 	'LBL_CREATE_VIEW' => 'Criação nova Visualização',
 	'LBL_CREATING_NEW' => 'Criando Novo(a)',
 	'LBL_SYSTEM_SETTINGS' => 'Configurações Sistema',
+	'LBL_USER_PANEL' => '__UNTRANSLATED__',
 	'LBL_CURRENCY' => 'Moeda',
 	'LBL_CURRENT_FQ' => 'Semestre Atual',
 	'LBL_CURRENT_FY' => 'Ano Atual',
@@ -1054,6 +1055,7 @@ $languageStrings = [
 	'LBL_CURRENT' => 'Atual',
 	'LBL_SET_RECORD_STATUS' => 'Definir status',
 	'LBL_SELECT_SOME_OPTIONS' => 'Selecione um valor',
+	'LBL_NO_DISCOUNTS' => 'Available discounts not found',
 	//PDF
 	'LBL_EXPORT_PDF' => '__UNTRANSLATED__',
 	'LBL_GENERATE_PDF_FILE' => '__UNTRANSLATED__',
@@ -1065,6 +1067,14 @@ $languageStrings = [
 	'LBL_VALID_RECORDS' => '__UNTRANSLATED__',
 	'LBL_EXPORT_ERROR' => '__UNTRANSLATED__',
 	'LBL_PDF_MANY_IN_ONE' => '__UNTRANSLATED__',
+	// end pdf
+	'group' => 'Grupo',
+	'individual' => 'Individual',
+	'LBL_VIEW_FINDDUPLICATES'=> 'Find Duplicates',
+	'Service' => 'Service',
+	'Sales' => 'Sale',
+	'LBL_VTIGER_LAYOUT' => 'Default',
+	'LBL_DEFAULT' => 'Responsive',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',

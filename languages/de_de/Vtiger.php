@@ -261,6 +261,7 @@ $languageStrings = [
 	'LBL_CREATE_VIEW' => 'Neue Ansicht erstellen',
 	'LBL_CREATING_NEW' => 'Erstelle',
 	'LBL_SYSTEM_SETTINGS' => 'System Einstellungen',
+	'LBL_USER_PANEL' => '__UNTRANSLATED__',
 	'LBL_CURRENCY' => 'Währung',
 	'LBL_CURRENT_FQ' => 'Aktuelles Quartal',
 	'LBL_CURRENT_FY' => 'Aktuelles Jahr',
@@ -1058,6 +1059,7 @@ $languageStrings = [
 	'LBL_CURRENT' => 'Aktuell',
 	'LBL_SET_RECORD_STATUS' => 'Status setzen',
 	'LBL_SELECT_SOME_OPTIONS' => 'Wählen Sie einige Werte',
+	'LBL_NO_DISCOUNTS' => 'Available discounts not found',
 	//PDF
 	'LBL_EXPORT_PDF' => '__UNTRANSLATED__',
 	'LBL_GENERATE_PDF_FILE' => '__UNTRANSLATED__',
@@ -1069,6 +1071,14 @@ $languageStrings = [
 	'LBL_VALID_RECORDS' => '__UNTRANSLATED__',
 	'LBL_EXPORT_ERROR' => '__UNTRANSLATED__',
 	'LBL_PDF_MANY_IN_ONE' => '__UNTRANSLATED__',
+	// end pdf
+	'group' => 'Gruppe',
+	'individual' => 'Individuell',
+	'LBL_VIEW_FINDDUPLICATES'=> 'Find Duplicates',
+	'Service' => 'Service',
+	'Sales' => 'Sale',
+	'LBL_VTIGER_LAYOUT' => 'Default',
+	'LBL_DEFAULT' => 'Responsive',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',

@@ -82,12 +82,12 @@
 						{/foreach}
 					</select>
 				</div>
-				<label class="col-sm-2 control-label">
+				<label class="col-sm-2 control-label" for="name_fields">
 					<input type="hidden" value="" id="specialFieldValue{$STEP_NO}" /><button class="btn btn-sm btn-info pull-left marginRight5px" data-clipboard-target="specialFieldValue{$STEP_NO}" id="specialFieldValueCopy{$STEP_NO}"  title="{vtranslate('LBL_FIELD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-download-alt"></span></button>
 						{vtranslate('LBL_COMPANY_FIELDS', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-4 controls">
-					<select class="chzn-select form-control" name="company_fields">
+					<select class="chzn-select form-control" name="company_fields" id="name_fields">
 						{foreach from=Settings_PDF_Module_Model::getCompanyFields() key=FIELD item=NAME}
 							<option value="{$FIELD}">{$NAME}</option>
 						{/foreach}
@@ -98,6 +98,23 @@
 					<input type="hidden" value="" id="companyFieldLabel{$STEP_NO}" /><button class="btn btn-sm btn-warning pull-right marginRight5px" data-clipboard-target="companyFieldLabel{$STEP_NO}" id="companyFieldsLabelCopy{$STEP_NO}"  title="{vtranslate('LBL_LABEL', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-download-alt"></span></button>
 				</div>
 			</div>
+			{if $STEP_NO eq 3 || $STEP_NO eq 5}
+				<div class="form-group row">
+					<label class="col-sm-2 control-label">
+						{vtranslate('LBL_INSERT', $QUALIFIED_MODULE)}
+					</label>
+					<div class="col-sm-3 controls">
+						<select class="chzn-select form-control" name="insert_functions" id="insert_functions">
+							{foreach from=$INSERT key=KEY item=OPERATION name=INSERT_OPERATIONS}
+								<option value="{$OPERATION}">{vtranslate($KEY, $QUALIFIED_MODULE)}</option>
+							{/foreach}
+						</select>
+					</div>
+					<label class="col-sm-2 control-label" for="insert_functions">
+						<input type="hidden" value="" id="insertFieldValue{$STEP_NO}" /><button class="btn btn-sm btn-info pull-left marginRight5px" data-clipboard-target="insertFieldValue{$STEP_NO}" id="insertFieldValueCopy{$STEP_NO}"  title="{vtranslate('LBL_FIELD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-download-alt"></span></button>
+					</label>
+				</div>
+			{/if}
 		</div>
 	</div>
 {/strip}

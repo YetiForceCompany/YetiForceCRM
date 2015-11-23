@@ -35,11 +35,10 @@ class VTSendPdf extends VTTask
 		}
 
 		if (!empty($email)) {
-			$templateRecord = Settings_PDF_Record_Model::getInstanceById($templateId);
-
-			$fileName = $templateRecord->getName() . '_' . time() . '.pdf';
+			$templateRecord = Vtiger_PDF_Model::getInstanceById($templateId);
+			$fileName = Vtiger_Functions::slug($templateRecord->getName()) . '_' . time() . '.pdf';
 			$pdfFile = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $fileName;
-			Settings_PDF_mPDF_Model::exportToPdf($recordId, $module, $templateId, $pdfFile, 'F');
+			Vtiger_PDF_Model::exportToPdf($recordId, $module, $templateId, $pdfFile, 'F');
 			$data = [
 				'id' => $emailTemplateId,
 				'to_email' => $email,

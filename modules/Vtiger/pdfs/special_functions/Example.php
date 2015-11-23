@@ -9,12 +9,12 @@
  */
 /// Variable calling a function => #special_function#example#end_special_function#
 /// function MUST have the same name as FILE
-class Pdf_Example
+class Pdf_Example extends Vtiger_SpecialFunction_Pdf
 {
 
 	public $permittedModules = ['all'];
 
-	function process($module, $id) // unused -> , $templateid, $content, $tcpdf)
+	public function process($module, $id, Vtiger_PDF_Model $pdf)
 	{
 		$db = PearDatabase::getInstance();
 		/// Sample Query

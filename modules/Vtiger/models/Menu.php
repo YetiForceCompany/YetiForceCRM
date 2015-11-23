@@ -93,7 +93,7 @@ class Vtiger_Menu_Model
 		return $breadcrumbs;
 	}
 
-	public function getParentMenu($parentList, $parent, $module, $return = [])
+	public static function getParentMenu($parentList, $parent, $module, $return = [])
 	{
 		if ($parent != 0 && key_exists($parent, $parentList)) {
 			$return [] = [
@@ -105,5 +105,54 @@ class Vtiger_Menu_Model
 			}
 		}
 		return $return;
+	}
+
+	/**
+	 * 
+	 * @param type $url
+	 * @return type modulename 
+	 */
+	public static function getModuleNameFromUrl($url)
+	{
+		$query_str = parse_url(htmlspecialchars_decode($url), PHP_URL_QUERY);
+		parse_str($query_str, $query_params);
+
+		if ($query_params[parent]) {
+			return ("$query_params[parent]:$query_params[module]");
+		}
+
+		return $query_params[module];
+	}
+
+	public static function getMenuIcon($menu, $title = '')
+	{
+		if ($title == '') {
+			$title = Vtiger_Menu_Model::vtranslateMenu($menu['label']);
+		}
+		if (is_string($menu)) {
+			$iconName = vimage_path($menu);
+			if (file_exists($iconName)) {
+				return '<img src="' . $iconName . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
+			}
+		}
+
+		if (!empty($menu['icon'])) {
+			if (strpos($menu['icon'], 'adminIcon-') !== false || strpos($menu['icon'], 'userIcon-') !== false) {
+				return '<span class="menuIcon ' . $menu['icon'] . '" aria-hidden="true"></span>';
+			}
+
+			$icon = vimage_path($menu['icon']);
+			if (file_exists($icon)) {
+				return '<img src="' . $icon . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
+			}
+		}
+		if ($menu['type'] == 'Module') {
+			$iconName = vimage_path($menu['name'] . '.png');
+
+			if (file_exists($iconName)) {
+				return '<img src="' . $iconName . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
+			}
+		}
+		return '';
 	}
 }

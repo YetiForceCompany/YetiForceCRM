@@ -18,21 +18,14 @@ class Vtiger_SharingPrivileges_Handler extends VTEventHandler {
 			$recordId = $entityData->getId();
 			$vtEntityDelta = new VTEntityDelta();
 			$delta = $vtEntityDelta->getEntityDelta($moduleName, $recordId, true);
-			$shownerids = $entityData->get('shownerid');
-			if(array_key_exists("shownerid", $delta)){
+
+			if(array_key_exists("assigned_user_id", $delta)){
 				$usersUpadated = TRUE;
-				$oldValue = Vtiger_Functions::getArrayFromValue($delta['shownerid']['oldValue']);
-				$currentValue = Vtiger_Functions::getArrayFromValue($delta['shownerid']['currentValue']);
+				$oldValue = Vtiger_Functions::getArrayFromValue($delta['assigned_user_id']['oldValue']);
+				$currentValue = Vtiger_Functions::getArrayFromValue($delta['assigned_user_id']['currentValue']);
 				$addUsers = $currentValue;
 				$removeUser = array_diff($oldValue, $currentValue);
-			}else{
-				$usersUpadated = FALSE;
-			}
-			
-			if ($usersUpadated) {				
 				Users_Privileges_Model::setSharedOwnerRecursively($recordId, $addUsers, $removeUser, $moduleName);
-			}else{
-				Users_Privileges_Model::setSharedOwnerRecursively($recordId, [] , $addUsers, $moduleName);
 			}
 		}
 

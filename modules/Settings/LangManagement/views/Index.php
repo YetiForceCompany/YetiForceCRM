@@ -43,11 +43,11 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
-			'~layouts/vlayout/modules/Settings/LangManagement/LangManagement.css',
+		$cssFileNames = [
 			'~libraries/jquery/datatables/media/css/jquery.dataTables_themeroller.css',
 			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.css',
-		);
+			'modules.Settings.LangManagement.LangManagement',
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
 

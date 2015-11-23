@@ -339,12 +339,12 @@ $toHtml = array(
  */
 function to_html($string, $encode = true)
 {
-	global $log, $default_charset;
-	//$log->debug("Entering to_html(".$string.",".$encode.") method ...");
-	global $toHtml;
-	$action = $_REQUEST['action'];
-	$search = $_REQUEST['search'];
+	$default_charset = vglobal('default_charset');
+	$toHtml = vglobal('toHtml');
 
+	$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : false;
+	$search = isset($_REQUEST['search']) ? $_REQUEST['search'] : false;
+	$ajaxAction = false;
 	$doconvert = false;
 
 	// For optimization - default_charset can be either upper / lower case.
@@ -354,10 +354,10 @@ function to_html($string, $encode = true)
 	}
 
 	if (isset($_REQUEST['module']) && isset($_REQUEST['file']) && $_REQUEST['module'] != 'Settings' && $_REQUEST['file'] != 'ListView' && $_REQUEST['module'] != 'Portal' && $_REQUEST['module'] != "Reports")// && $_REQUEST['module'] != 'Emails')
-		$ajax_action = $_REQUEST['module'] . 'Ajax';
+		$ajaxAction = $_REQUEST['module'] . 'Ajax';
 
 	if (is_string($string)) {
-		if ($action != 'CustomView' && $action != 'Export' && $action != $ajax_action && $action != 'LeadConvertToEntities' && $action != 'CreatePDF' && $action != 'ConvertAsFAQ' && $_REQUEST['module'] != 'Dashboard' && $action != 'CreateSOPDF' && $action != 'SendPDFMail' && (!isset($_REQUEST['submode']))) {
+		if ($action != 'CustomView' && $action != 'Export' && $action != $ajaxAction && $action != 'LeadConvertToEntities' && $action != 'CreatePDF' && $action != 'ConvertAsFAQ' && $_REQUEST['module'] != 'Dashboard' && $action != 'CreateSOPDF' && $action != 'SendPDFMail' && (!isset($_REQUEST['submode']))) {
 			$doconvert = true;
 		} else if ($search == true) {
 			// Fix for tickets #4647, #4648. Conversion required in case of search results also.
@@ -372,8 +372,6 @@ function to_html($string, $encode = true)
 				$string = preg_replace(array('/</', '/>/', '/"/'), array('&lt;', '&gt;', '&quot;'), $string);
 		}
 	}
-
-	//$log->debug("Exiting to_html method ...");
 	return $string;
 }
 
@@ -538,20 +536,23 @@ function getUserId_Ol($username)
 function getActionid($action)
 {
 	$log = vglobal('log');
-	$log->debug("Entering getActionid(" . $action . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$log->info("get Actionid " . $action);
+	$log->debug('Entering getActionid(' . $action . ') method ...');
+	$db = PearDatabase::getInstance();
+	$log->info('get Actionid ' . $action);
 	$actionid = '';
 	if (file_exists('user_privileges/tabdata.php') && (filesize('user_privileges/tabdata.php') != 0)) {
 		include('user_privileges/tabdata.php');
-		$actionid = $action_id_array[$action];
-	} else {
-		$query = "select * from vtiger_actionmapping where actionname=?";
-		$result = $adb->pquery($query, array($action));
-		$actionid = $adb->query_result($result, 0, 'actionid');
+		if (isset($action_id_array[$action])) {
+			$actionid = $action_id_array[$action];
+		}
 	}
-	$log->info("action id selected is " . $actionid);
-	$log->debug("Exiting getActionid method ...");
+	if ($actionid == '') {
+		$query = 'select actionid from vtiger_actionmapping where actionname=?';
+		$result = $db->pquery($query, [$action]);
+		$actionid = $db->getSingleValue($result);
+	}
+	$log->info('action id selected is ' . $actionid);
+	$log->debug('Exiting getActionid method ...');
 	return $actionid;
 }
 
@@ -1565,20 +1566,20 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 		$focus->save_related_module($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
 		$focus->trackLinkedInfo($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
 		/*
-		$wfs = new VTWorkflowManager($adb);
-		$workflows = $wfs->getWorkflowsForModule($sourceModule, VTWorkflowManager::$ON_RELATED);
-		$entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
-		$entityData = VTEntityData::fromCRMEntity($focus);
-		$entityData->eventType = VTWorkflowManager::$ON_RELATED;
-		$entityData->relatedInfo = [
-			'destId' => $destinationRecordId,
-			'destModule' => $destinationModule,
-		];
-		foreach ($workflows as $id => $workflow) {
-			if ($workflow->evaluate($entityCache, $entityData->getId())) {
-				$workflow->performTasks($entityData);
-			}
-		}
+		  $wfs = new VTWorkflowManager($adb);
+		  $workflows = $wfs->getWorkflowsForModule($sourceModule, VTWorkflowManager::$ON_RELATED);
+		  $entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
+		  $entityData = VTEntityData::fromCRMEntity($focus);
+		  $entityData->eventType = VTWorkflowManager::$ON_RELATED;
+		  $entityData->relatedInfo = [
+		  'destId' => $destinationRecordId,
+		  'destModule' => $destinationModule,
+		  ];
+		  foreach ($workflows as $id => $workflow) {
+		  if ($workflow->evaluate($entityCache, $entityData->getId())) {
+		  $workflow->performTasks($entityData);
+		  }
+		  }
 		 */
 		$em->triggerEvent('vtiger.entity.link.after', $data);
 	}

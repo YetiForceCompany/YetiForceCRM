@@ -109,7 +109,8 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$item['sta'] = $record['status'];
 			$item['vis'] = $record['visibility'];
 			$item['state'] = $record['state'];
-
+			$item['smownerid'] = Vtiger_Functions::getOwnerRecordLabel($record['smownerid']);
+			
 			//translate
 			$item['labels']['sta'] = vtranslate($record['status'], $this->getModuleName());
 			$item['labels']['pri'] = vtranslate($record['priority'], $this->getModuleName());

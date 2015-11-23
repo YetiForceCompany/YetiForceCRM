@@ -127,7 +127,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		return $groupColors;
 	}
 
-	public function getModulesColors($active = false)
+	public static function getModulesColors($active = false)
 	{
 		$adb = PearDatabase::getInstance();
 		$sql_params = Array();
@@ -138,7 +138,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		}
 		$result = $adb->pquery("SELECT * FROM vtiger_tab $sql;", $sql_params);
 		$rows = $adb->num_rows($result);
-		$modules = Array();
+		$modules = [];
 		for ($i = 0; $i < $rows; $i++) {
 			$row = $adb->query_result_rowdata($result, $i);
 			$modules[] = array(

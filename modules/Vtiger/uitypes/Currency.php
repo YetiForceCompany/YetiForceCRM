@@ -28,9 +28,8 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value, $recordId = false)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		global $default_charset;
 		$uiType = $this->get('field')->get('uitype');
 		if ($value) {
 			if ($uiType == 72) {
@@ -40,7 +39,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 				$value = CurrencyField::convertToUserFormat($value);
 			}
 			if (!$this->edit) {
-				$value = $this->getDetailViewDisplayValue($value, $recordId, $uiType);
+				$value = $this->getDetailViewDisplayValue($value, $record, $uiType);
 			}
 			return $value;
 		}

@@ -21,6 +21,5 @@ $languageStrings = [
 	'LBL_WORKING_DAYS' => 'Working days icons',
 	'LBL_WORKING_TIME' => 'Working time icons',
 ];
-
 $jsLanguageStrings = [
 ];

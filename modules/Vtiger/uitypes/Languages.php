@@ -25,7 +25,7 @@ class Vtiger_Languages_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		return Vtiger_Language_Handler::getLanguageLabel($value);
 	}
@@ -34,7 +34,7 @@ class Vtiger_Languages_UIType extends Vtiger_Base_UIType
 	{
 		return 'uitypes/LanguagesFieldSearchView.tpl';
 	}
-	
+
 	/**
 	 * Function to get all the available picklist values for the current field
 	 * @return <Array> List of picklist values if the field is of type Languages.

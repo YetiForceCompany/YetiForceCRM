@@ -27,7 +27,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		if($rawText){
+		if ($rawText) {
 			return getOwnerName($value);
 		}
 		if (self::getOwnerType($value) === 'User') {
@@ -35,12 +35,12 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 			$userModel->set('id', $value);
 			$detailViewUrl = $userModel->getDetailViewUrl();
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			if (!$currentUser->isAdminUser()) {
+			if (!$currentUser->isAdminUser() || $rawText) {
 				return getOwnerName($value);
 			}
 		} else {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			if (!$currentUser->isAdminUser()) {
+			if (!$currentUser->isAdminUser() || $rawText) {
 				return getOwnerName($value);
 			}
 			$recordModel = new Settings_Groups_Record_Model();

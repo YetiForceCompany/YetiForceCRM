@@ -70,9 +70,14 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$content .= '];' . PHP_EOL . '$switchUsers = [';
 		foreach ($map as $user => $accessList) {
+			$usersForSort = [];
+			foreach ($accessList as $ID) {
+				$usersForSort[$ID] = $this->getUserName($ID);
+			}
+			asort($usersForSort);
 			$users = '';
-			foreach (array_unique($accessList) as $ID) {
-				$users .= "$ID => '" . $this->getUserName($ID) . "',";
+			foreach ($usersForSort as $ID => $name) {
+				$users .= "$ID => '" . $name . "',";
 			}
 			$content .= "'$user'=>[$users],";
 		}
@@ -149,9 +154,14 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 
 		$content .= '];' . PHP_EOL . '$switchUsers = [';
 		foreach ($map as $user => $accessList) {
+			$usersForSort = [];
+			foreach ($accessList as $ID) {
+				$usersForSort[$ID] = $this->getUserName($ID);
+			}
+			asort($usersForSort);
 			$users = '';
-			foreach (array_unique($accessList) as $ID) {
-				$users .= "$ID => '" . $this->getUserName($ID) . "',";
+			foreach ($usersForSort as $ID => $name) {
+				$users .= "$ID => '" . $name . "',";
 			}
 			$content .= "'$user'=>[$users],";
 		}

@@ -36,7 +36,7 @@
                 <input type="hidden" name="module" value="{$MODULE}" />
             {/if}
             <input type="hidden" name="action" value="Save" />
-            <input type="hidden" name="record" value="{$RECORD_ID}" />
+            <input type="hidden" name="record" id="recordId" value="{$RECORD_ID}" />
             <input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
             <input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
             {if $IS_RELATION_OPERATION }

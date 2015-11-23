@@ -128,7 +128,7 @@ class CRMEntity
 	 *      @param array $file_details  - array which contains the file information(name, type, size, tmp_name and error)
 	 *      return void
 	 */
-	function uploadAndSaveFile($id, $module, $file_details, $attachmentType ='Attachment')
+	function uploadAndSaveFile($id, $module, $file_details, $attachmentType = 'Attachment')
 	{
 		$log = vglobal('log');
 		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
@@ -957,7 +957,7 @@ class CRMEntity
 		$adb = PearDatabase::getInstance();
 		$query = "select * from " . $adb->sql_escape_string($tablename);
 		$result = $this->db->pquery($query, array());
-		$testrow = $this->db->num_fields($result);
+		$testrow = $this->db->getFieldsCount($result);
 		if ($testrow > 1) {
 			$exists = true;
 		} else {

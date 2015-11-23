@@ -58,12 +58,10 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('view');
-
 		$cssFileNames = [
-			"~layouts/vlayout/modules/$moduleName/$viewName.css",
-			"~layouts/vlayout/modules/Vtiger/$viewName.css",
+			"modules.$moduleName.$viewName",
+			"modules.Vtiger.$viewName",
 		];
-
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = $cssInstances;
 		return $headerCssInstances;

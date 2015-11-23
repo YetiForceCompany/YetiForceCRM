@@ -59,11 +59,11 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 
 			$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 			$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
-			$viewer->assign('HEADER_LINKS', $this->getHeaderLinks());
+			$viewer->assign('HEADER_LINKS', $this->getHeaderLinks($request));
 			$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
 			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 			$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
-
+			$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 			//Additional parameters
 			$viewer->assign('CURRENT_VIEW', $request->get('view'));
 			$viewer->assign('PAGETITLE', $this->getPageTitle($request));

@@ -118,13 +118,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			}
 			return $moduleData;
 		} else if ($fieldName === 'defaultLayout') {
-			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT name,label FROM vtiger_layout');
-			$folders = ['vlayout' => vtranslate('LBL_DEFAULT', 'Settings:Vtiger')];
-			while ($row = $db->fetch_array($result)) {
-				$folders[$row['name']] = vtranslate($row['label'], 'Settings:Vtiger');
-			}
-			return $folders;
+			return Yeti_Layout::getAllLayouts();
 		}
 		return ['true', 'false'];
 	}
@@ -158,6 +152,8 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			'backgroundClosingModal' => ['label' => 'LBL_BG_CLOSING_MODAL', 'fieldType' => 'checkbox'],
 			'shared_owners' => ['label' => 'LBL_ENABLE_SHARING_RECORDS', 'fieldType' => 'checkbox'],
 			'href_max_length' => ['label' => 'LBL_HREF_MAX_LEGTH', 'fieldType' => 'input'],
+			'langInLoginView' => ['label' => 'LBL_SHOW_LANG_IN_LOGIN_PAGE', 'fieldType' => 'checkbox'],
+			'layoutInLoginView' => ['label' => 'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE', 'fieldType' => 'checkbox'],
 		);
 	}
 
@@ -174,6 +170,9 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 				$patternString = "\$%s = '%s';";
 				if ($fieldName === 'upload_maxsize') {
 					$fieldValue = $fieldValue * 1048576; //(1024 * 1024)
+					$patternString = "\$%s = %s;";
+				}
+				if (in_array($fieldName, ['layoutInLoginView','langInLoginView'])) {
 					$patternString = "\$%s = %s;";
 				}
 				$pattern = '/\$' . $fieldName . '[\s]+=([^;]+);/';

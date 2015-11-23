@@ -7,18 +7,18 @@
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Pdf_ProductsTable
+class Pdf_ProductsTable extends Vtiger_SpecialFunction_Pdf
 {
 
 	public $permittedModules = ['all'];
 
-	function process($module, $id) // unused -> , $templateid, $content, $tcpdf)
+	public function process($module, $id, Vtiger_PDF_Model $pdf)
 	{
 		$html = '';
 		$recordId = $id;
 		$record = Vtiger_Record_Model::getInstanceById($recordId);
 		$moduleModel = $record->getModule();
-		if(!$moduleModel->isInventory()){
+		if (!$moduleModel->isInventory()) {
 			return $html;
 		}
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($module);

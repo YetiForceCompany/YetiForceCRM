@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,9 +7,9 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_MENU_BUILDER' => 'Меню',
+	'LBL_MENU_BUILDER' => 'Menu - Configuration',
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Создание и редактирование пунктов меню',
 	'LBL_DEFAULT_MENU' => 'Меню по умолчанию',
 	'LBL_ADD_MENU' => 'Добавить пункт меню',
@@ -30,7 +30,7 @@ $languageStrings = [
 	'LBL_TEST_IT' => 'Тестировать',
 	'LBL_MENU_TYPE' => 'Тип меню',
 	'LBL_AVAILABLE_FILTERS' => 'Available filters',
-	
+	'LBL_ICON_NAME' => 'Icon',
 	//Menu types
 	'LBL_MODULE' => 'Модуль',
 	'LBL_MODULE_DESC' => 'Пункт меню перенаправлен на выбранный модуль',
@@ -48,12 +48,12 @@ $languageStrings = [
 	'LBL_HOMEICON_DESC' => 'Пункт меню Главной страницы',
 	'LBL_CUSTOMFILTER' => 'Фильтр',
 	'LBL_CUSTOMFILTER_DESC' => 'Пункт меню перенаправлен на выбранный фильтр',
-	
+	'LBL_PROFILE' => 'Profile',
+	'LBL_PROFILE_DESC' => "Menu item that allows changing the user's settings.",
 	//Message
 	'LBL_REMOVED_MENU_ITEM' => 'Пункт меню удален',
 	'LBL_SAVED_MAP_MENU' => 'Структура меню сохранена',
 	'LBL_ITEM_ADDED_TO_MENU' => 'Новый пункт добавлен в меню',
-
 	//Remove mondal
 	'LBL_REMOVE_TITLE' => 'Удалить пункт меню',
 	'LBL_REMOVE_DESC' => 'Выбранный пункт содержит подменю. Все подменю будут также удалены вместе с этим пунктом меню.',

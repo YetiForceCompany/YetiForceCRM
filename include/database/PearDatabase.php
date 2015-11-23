@@ -56,7 +56,7 @@ class PearDatabase
 	/**
 	 * Constructor
 	 */
-	function __construct($dbtype = '', $host = '', $dbname = '', $username = '', $passwd = '', $port = 3306)
+	public function __construct($dbtype = '', $host = '', $dbname = '', $username = '', $passwd = '', $port = 3306)
 	{
 		$this->log = LoggerManager::getLogger('DB');
 		$this->loadDBConfig($dbtype, $host, $dbname, $username, $passwd, $port);
@@ -94,7 +94,7 @@ class PearDatabase
 		return $db;
 	}
 
-	function connect()
+	public function connect()
 	{
 		// Set DSN 
 		$dsn = 'mysql:host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';charset=utf8' . ';port=' . $this->port;
@@ -119,7 +119,7 @@ class PearDatabase
 		}
 	}
 
-	function getDBConfig($type)
+	public static function getDBConfig($type)
 	{
 		if (!self::$dbConfig) {
 			require('config/config.db.php');
@@ -131,7 +131,7 @@ class PearDatabase
 		return self::$dbConfig['base'];
 	}
 
-	function loadDBConfig($dbtype, $host, $dbname, $username, $passwd, $port)
+	protected function loadDBConfig($dbtype, $host, $dbname, $username, $passwd, $port)
 	{
 		if ($host == '_SERVER_') {
 			$this->log('No configuration for the database connection', 'error');
@@ -144,13 +144,12 @@ class PearDatabase
 		$this->port = $port;
 	}
 
-	function println($msg)
+	public function getDatabaseName()
 	{
-		$this->log($msg);
-		return $msg;
+		return $this->dbName;
 	}
 
-	function log($message, $type = 'info')
+	public function log($message, $type = 'info')
 	{
 		if (is_array($message)) {
 			$message = print_r($message, true);
@@ -167,7 +166,13 @@ class PearDatabase
 		return $message;
 	}
 
-	function checkError($message, $dieOnError = false, $query = false, $params = false)
+	public function println($msg)
+	{
+		$this->log($msg);
+		return $msg;
+	}
+
+	public function checkError($message, $dieOnError = false, $query = false, $params = false)
 	{
 		if ($this->hasActiveTransaction) {
 			$this->rollbackTransaction();
@@ -189,38 +194,38 @@ class PearDatabase
 		}
 	}
 
-	function ErrorMsg()
+	public function ErrorMsg()
 	{
 		$error = $this->database->errorInfo();
 		return $error[2];
 	}
 
-	function isMySQL()
+	public function isMySQL()
 	{
 		return (stripos($this->dbType, 'mysql') === 0);
 	}
 
-	function isOracle()
+	public function isOracle()
 	{
 		return $this->dbType == 'oci8';
 	}
 
-	function isPostgres()
+	public function isPostgres()
 	{
 		return $this->dbType == 'pgsql';
 	}
 
-	function setDieOnError($value)
+	public function setDieOnError($value)
 	{
 		$this->dieOnError = $value;
 	}
 
-	function setAttribute()
+	public function setAttribute()
 	{
 		$this->database->setAttribute(func_get_args());
 	}
 
-	function startTransaction()
+	public function startTransaction()
 	{
 		if ($this->hasActiveTransaction) {
 			return false;
@@ -230,18 +235,18 @@ class PearDatabase
 		}
 	}
 
-	function completeTransaction()
+	public function completeTransaction()
 	{
 		$this->database->commit();
 		$this->hasActiveTransaction = false;
 	}
 
-	function hasFailedTransaction()
+	public function hasFailedTransaction()
 	{
 		return $this->hasFailedTransaction;
 	}
 
-	function rollbackTransaction()
+	public function rollbackTransaction()
 	{
 		if ($this->hasActiveTransaction) {
 			$this->hasFailedTransaction = true;
@@ -250,38 +255,44 @@ class PearDatabase
 		return false;
 	}
 
-	function getRowCount(&$result)
+	public function getRowCount(&$result)
 	{
 		return $result->rowCount();
 	}
 
-	//TODO DEPRECATED
-	function num_rows(&$result)
+	//TODO DEPRECATED recommended to use getRowCount
+	public function num_rows(&$result)
 	{
 		return $result->rowCount();
 	}
 
-	function num_fields(&$result)
+	public function getFieldsCount(&$result)
 	{
 		return $result->columnCount();
 	}
 
-	function fetch_array(&$result)
+	//TODO DEPRECATED recommended to use getRow
+	public function fetch_array(&$result)
 	{
 		return $result->fetch(PDO::FETCH_ASSOC);
 	}
 
-	function getSingleValue(&$result)
+	public function getSingleValue(&$result)
 	{
 		return $result->fetchColumn();
 	}
 
-	function getArray(&$result)
+	public function getRow(&$result)
+	{
+		return $result->fetch(PDO::FETCH_ASSOC);
+	}
+
+	public function getArray(&$result)
 	{
 		return $result->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	function disconnect()
+	public function disconnect()
 	{
 		$this->log('Database disconnect');
 		if (isset($this->database)) {
@@ -289,7 +300,7 @@ class PearDatabase
 		}
 	}
 
-	function query($query, $dieOnError = false, $msg = '')
+	public function query($query, $dieOnError = false, $msg = '')
 	{
 		$this->log('Query: ' . $query);
 		$this->stmt = false;
@@ -312,7 +323,7 @@ class PearDatabase
 	 * @param $msg -- Error message on query execution failure
 	 */
 
-	function pquery($query, $params = [], $dieOnError = false, $msg = '')
+	public function pquery($query, $params = [], $dieOnError = false, $msg = '')
 	{
 		$this->log('Query: ' . $query);
 		$this->stmt = false;
@@ -334,13 +345,13 @@ class PearDatabase
 		return $this->stmt;
 	}
 
-	function prepare($query)
+	public function prepare($query)
 	{
 		$this->stmt = $this->database->prepare($query);
 		return $this->stmt;
 	}
 
-	function bind($param, $value, $type = null)
+	public function bind($param, $value, $type = null)
 	{
 		if (is_null($type)) {
 			switch (true) {
@@ -360,7 +371,7 @@ class PearDatabase
 		$this->stmt->bindValue($param, $value, $type);
 	}
 
-	function execute()
+	public function execute()
 	{
 		try {
 			$success = $this->stmt->execute($params);
@@ -379,7 +390,7 @@ class PearDatabase
 	 * @param array $data Query data
 	 * @return array Row count and last insert id
 	 */
-	function insert($table, array $data)
+	public function insert($table, array $data)
 	{
 		if (!$table) {
 			$this->log('Missing table name', 'error');
@@ -406,7 +417,7 @@ class PearDatabase
 	 * @param array $params Query data
 	 * @return int Number of deleted records
 	 */
-	function delete($table, $where = '', array $params = [])
+	public function delete($table, $where = '', array $params = [])
 	{
 		if (!$table) {
 			$this->log('Missing table name', 'error');
@@ -427,7 +438,7 @@ class PearDatabase
 	 * @param array $params Query data
 	 * @return int Number of updated records
 	 */
-	function update($table, array $columns, $where, array $params)
+	public function update($table, array $columns, $where = false, array $params = [])
 	{
 		$this->log('Update | table: ' . $table . ',columns:' . print_r($columns, true) . ',where:' . $where . ',params:' . print_r($params, true));
 		$query = "UPDATE $table SET ";
@@ -436,17 +447,21 @@ class PearDatabase
 			$values[] = $value;
 		}
 		$query = trim($query, ',');
-		$query .= ' WHERE ' . $where;
+		if ($where !== false) {
+			$query .= ' WHERE ' . $where;
+		}
 		$this->pquery(trim($query, ','), [array_merge($values, $params)]);
 		return $this->stmt->rowCount();
 	}
 
-	function query_result(&$result, $row, $col = 0)
+	//TODO DEPRECATED
+	public function query_result(&$result, $row, $col = 0)
 	{
 		return to_html($this->query_result_raw($result, $row, $col));
 	}
 
-	function query_result_raw(&$result, $row, $col = 0)
+	//TODO DEPRECATED
+	public function query_result_raw(&$result, $row, $col = 0)
 	{
 		if (!is_object($result)) {
 			$this->log('Result is not an object', 'error');
@@ -460,7 +475,8 @@ class PearDatabase
 	}
 
 	// Function to get particular row from the query result
-	function query_result_rowdata(&$result, $row = 0)
+	//TODO DEPRECATED
+	public function query_result_rowdata(&$result, $row = 0)
 	{
 		return $this->raw_query_result_rowdata($result, $row);
 	}
@@ -477,7 +493,8 @@ class PearDatabase
 	 * @param $row The row number to fetch. It's default value is 0
 	 *
 	 */
-	function raw_query_result_rowdata(&$result, $row = 0)
+	//TODO DEPRECATED
+	public function raw_query_result_rowdata(&$result, $row = 0)
 	{
 		if (!is_object($result)) {
 			$this->log('Result is not an object', 'error');
@@ -495,7 +512,8 @@ class PearDatabase
 	 * $input = array(10, 20, array(30, 40), array('key1' => '50', 'key2'=>array(60), 70));
 	 * returns array(10, 20, 30, 40, 50, 60, 70);
 	 */
-	function flatten_array($input, $output = null)
+	//TODO DEPRECATED
+	public function flatten_array($input, $output = null)
 	{
 		if ($input == null)
 			return null;
@@ -511,7 +529,7 @@ class PearDatabase
 		return $output;
 	}
 
-	function getColumnNames($tablename)
+	public function getColumnNames($tablename)
 	{
 		$stmt = $this->database->query("SHOW COLUMNS FROM " . $tablename, PDO::FETCH_OBJ);
 		$columns = [];
@@ -521,7 +539,7 @@ class PearDatabase
 		return $columns;
 	}
 
-	function getColumnsMeta($tablename)
+	public function getColumnsMeta($tablename)
 	{
 		$stmt = $this->database->query("SHOW COLUMNS FROM " . $tablename, PDO::FETCH_OBJ);
 		$columns = [];
@@ -557,22 +575,22 @@ class PearDatabase
 		return $columns;
 	}
 
-	function updateBlob($table, $column, $val, $where)
+	public function updateBlob($table, $column, $val, $where)
 	{
 		$this->log("Update Blob: $table, $column, $val, $where, $blobtype");
 		$success = $this->pquery("UPDATE $table SET $column=? WHERE $where", [$val]);
 		return $success;
 	}
 
-	function getEmptyBlob()
+	public function getEmptyBlob()
 	{
 		return 'null';
 	}
 
-	function fetchByAssoc(&$result, $rowNum = -1, $encode = true)
+	public function fetchByAssoc(&$result, $rowNum = -1, $encode = true)
 	{
 		if (isset($result) && $rowNum < 0) {
-			$row = $this->fetch_array($result);
+			$row = $this->getRow($result);
 			if ($encode && is_array($row))
 				return array_map('to_html', $row);
 			return $row;
@@ -586,7 +604,7 @@ class PearDatabase
 	}
 
 	//To get a function name with respect to the database type which escapes strings in given text
-	function sql_escape_string($str, $type = false)
+	public function sql_escape_string($str, $type = false)
 	{
 		if ($type) {
 			$search = ["\\", "\0", "\n", "\r", "\x1a", "'", '"'];
@@ -597,32 +615,31 @@ class PearDatabase
 		}
 	}
 
-	function getUniqueID($seqname)
+	public function getUniqueID($seqname)
 	{
 		$table = $seqname . '_seq';
 		$result = $this->query("SHOW TABLES LIKE '$table'");
 		if ($result->rowCount() > 0) {
 			$result = $this->query('SELECT id FROM ' . $table);
-			$row = $this->fetchByAssoc($result);
-			$id = ((int) $row['id']) + 1;
+			$id = ((int) $this->getSingleValue($result)) + 1;
 			$this->database->query("update $table set id = $id");
 		} else {
 			$result = $this->query('SHOW COLUMNS FROM ' . $this->quote($seqname, false));
 			$column = $this->getSingleValue($result);
 			$result = $this->query("SELECT MAX($column ) AS max FROM " . $this->quote($seqname, false));
-			$id = (int) $this->getSingleValue($result) + 1;
+			$id = ((int) $this->getSingleValue($result)) + 1;
 		}
 		return $id;
 	}
 
 	// Function to get the last insert id based on the type of database
-	function getLastInsertID($seqname = '')
+	public function getLastInsertID($seqname = '')
 	{
 		$lastInsertID = $this->database->lastInsertId();
 		return $lastInsertID;
 	}
 
-	function formatDate($datetime, $strip_quotes = false)
+	public function formatDate($datetime, $strip_quotes = false)
 	{
 		/* remove single quotes to use the date as parameter for Prepared statement */
 		if ($strip_quotes == true) {
@@ -631,7 +648,7 @@ class PearDatabase
 		return $datetime;
 	}
 
-	function getOne($sql, $dieOnError = false, $msg = '')
+	public function getOne($sql, $dieOnError = false, $msg = '')
 	{
 		$this->log('getOne: ' . $sql);
 		$result = $this->query($sql, $dieOnError, $msg);
@@ -639,7 +656,7 @@ class PearDatabase
 		return $val;
 	}
 
-	function getFieldsDefinition(&$result)
+	public function getFieldsDefinition(&$result)
 	{
 		$this->log('getFieldsDefinition');
 		$fieldArray = [];
@@ -657,7 +674,7 @@ class PearDatabase
 		return $fieldArray;
 	}
 
-	function getFieldsArray(&$result)
+	public function getFieldsArray(&$result)
 	{
 		$this->log('getFieldsArray');
 		$fieldArray = [];
@@ -674,7 +691,7 @@ class PearDatabase
 	/**
 	 * Function to generate question marks for a given list of items
 	 */
-	function generateQuestionMarks($items)
+	public function generateQuestionMarks($items)
 	{
 		// array_map will call the function specified in the first parameter for every element of the list in second parameter
 		if (is_array($items)) {
@@ -684,13 +701,13 @@ class PearDatabase
 		}
 	}
 
-	function concat($list)
+	public function concat($list)
 	{
 		return 'concat(' . implode(',', $list) . ')';
 	}
 
 	// create an IN expression from an array/list
-	function sqlExprDatalist($array)
+	public function sqlExprDatalist($array)
 	{
 		if (!is_array($array)) {
 			$this->log('sqlExprDatalist: not an array', 'error');
@@ -705,14 +722,14 @@ class PearDatabase
 		return ' ( ' . $l . ' ) ';
 	}
 
-	function getAffectedRowCount(&$result)
+	public function getAffectedRowCount(&$result)
 	{
 		$rows = $result->rowCount();
 		$this->log('getAffectedRowCount: ' . $rows);
 		return $rows;
 	}
 
-	function requireSingleResult($sql, $dieOnError = false, $msg = '', $encode = true)
+	public function requireSingleResult($sql, $dieOnError = false, $msg = '', $encode = true)
 	{
 		$result = $this->query($sql, $dieOnError, $msg);
 
@@ -725,7 +742,7 @@ class PearDatabase
 	/* function which extends requireSingleResult api to execute prepared statment
 	 */
 
-	function requirePsSingleResult($sql, $params, $dieOnError = false, $msg = '', $encode = true)
+	public function requirePsSingleResult($sql, $params, $dieOnError = false, $msg = '', $encode = true)
 	{
 		$result = $this->pquery($sql, $params, $dieOnError, $msg);
 
@@ -736,7 +753,7 @@ class PearDatabase
 		return '';
 	}
 
-	function columnMeta(&$result, $col)
+	public function columnMeta(&$result, $col)
 	{
 		$meta = $result->getColumnMeta($col);
 		$column = new stdClass();
@@ -746,7 +763,7 @@ class PearDatabase
 		return $column;
 	}
 
-	function quote($input, $quote = true, $type = null)
+	public function quote($input, $quote = true, $type = null)
 	{
 		// handle int directly for better performance
 		if ($type == 'integer' || $type == 'int') {
@@ -773,7 +790,7 @@ class PearDatabase
 
 	protected $logSqlTimeID = false;
 
-	function logSqlTime($startat, $endat, $sql, $params = false)
+	public function logSqlTime($startat, $endat, $sql, $params = false)
 	{
 		if (!PerformancePrefs::getBoolean('SQL_LOG_INCLUDE_CALLER', false)) {
 			return;

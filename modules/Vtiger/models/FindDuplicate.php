@@ -142,7 +142,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 
 			$position = stripos($query, 'from');
 			if ($position) {
-				$split = spliti('from ', $query);
+				$split = explode('from ', $query);
 				$splitCount = count($split);
 				$query = 'SELECT count(*) AS count ';
 				for ($i = 1; $i < $splitCount; $i++) {

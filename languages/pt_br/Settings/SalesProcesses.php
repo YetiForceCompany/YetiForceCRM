@@ -9,7 +9,7 @@
  * All Rights Reserved. Contirbutor: Valmir Carlos Trindade - Brazilian Portuguese Translantion - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_SALES_PROCESSES' => 'Processo de Vendas',
+	'LBL_SALES_PROCESSES' => 'Sales',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Permite escolher a partir da lista de produtos, apenas aqueles que estão relacionados com a Oportunidade relacionada. Disponível para: Cálculos, Cotações, Pedidos de Vendas e Faturas.',
 	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Lista de seleção de Produtos e Serviços',

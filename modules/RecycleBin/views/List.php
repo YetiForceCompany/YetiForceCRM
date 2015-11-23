@@ -52,12 +52,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		$this->initializeListViewContents($request, $viewer);
-
-		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 

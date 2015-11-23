@@ -32,7 +32,7 @@ class Calculations_DetailView_Model extends Inventory_DetailView_Model
 				'linklabel' => '',
 				'linkurl' => "index.php?module=" . $quotesModuleModel->getName() . "&view=" . $quotesModuleModel->getEditViewName() . "&calculation_id=" . $recordModel->getId(),
 				'linkclass' => 'btn-success',
-				'linkimg' => 'layouts/vlayout/skins/images/Quotes.png',
+				'linkimg' => vimage_path('Quotes.png'),
 				'linkhint' => vtranslate('LBL_GENERATE_QUOTES', 'Quotes'),
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);

@@ -28,7 +28,7 @@ class Vtiger_sharedOwner_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($values)
+	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
 	{
 		if ($values == '')
 			return;
@@ -39,14 +39,14 @@ class Vtiger_sharedOwner_UIType extends Vtiger_Base_UIType
 				$userModel->set('id', $value);
 				$detailViewUrl = $userModel->getDetailViewUrl();
 				$currentUser = Users_Record_Model::getCurrentUserModel();
-				if ($currentUser->isAdminUser()) {
+				if ($currentUser->isAdminUser() && !$rawText) {
 					$displayvalue[] = '<a href=' . $detailViewUrl . '>' . rtrim(getOwnerName($value)) . '</a>';
 				} else {
 					$displayvalue[] = rtrim(getOwnerName($value));
 				}
 			} else {
 				$currentUser = Users_Record_Model::getCurrentUserModel();
-				if ($currentUser->isAdminUser()) {
+				if ($currentUser->isAdminUser() && !$rawText) {
 					$recordModel = new Settings_Groups_Record_Model();
 					$recordModel->set('groupid', $value);
 					$detailViewUrl = $recordModel->getDetailViewUrl();

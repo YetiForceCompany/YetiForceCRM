@@ -28,6 +28,8 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 	{
 		$this->setLibraryName('mPDF');
 		$this->pdf = new mPDF();
+		//$this->pdf->debugfonts = true;
+		//$this->pdf->debug = true;
 	}
 
 	/**
@@ -304,9 +306,6 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 		vglobal('default_language', $template->get('language'));
 
 		$pdf->parseParams($template->getParameters());
-
-		$html = '';
-
 		$pdf->setHeader('Header', $template->getHeader());
 		$pdf->setFooter('Footer', $template->getFooter());
 		$html = $template->getBody();

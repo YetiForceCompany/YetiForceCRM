@@ -20,14 +20,14 @@ class RequirementCards_DetailView_Model extends Vtiger_DetailView_Model
 		$moduleName = $recordModel->getModuleName();
 		$targetModuleModel = Vtiger_Module_Model::getInstance('Calculations');
 		if ($currentUserModel->hasModuleActionPermission($targetModuleModel->getId(), 'EditView')) {
-			$basicActionLink = array(
+			$basicActionLink = [
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
 				'linkurl' => "index.php?module=" . $targetModuleModel->getName() . "&view=" . $targetModuleModel->getEditViewName() . "&reference_id=" . $recordModel->getId(),
-				'linkimg' => 'layouts/vlayout/skins/images/Calculations.png',
+				'linkimg' => vimage_path('Calculations.png'),
 				'linkclass' => 'btn-success',
 				'linkhint' => vtranslate('LBL_GENERATE_CALCULATIONS', 'RequirementCards'),
-			);
+			];
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 		return $linkModelList;

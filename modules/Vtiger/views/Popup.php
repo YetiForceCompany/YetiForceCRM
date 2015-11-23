@@ -341,4 +341,10 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		$response->setResult($result);
 		$response->emit();
 	}
+	
+
+	protected function showBodyHeader()
+	{
+		return false;
+	}
 }

@@ -1,0 +1,51 @@
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ *************************************************************************************************************************************/
+#passwordStrength
+{
+        height:10px;
+        display:block;
+        float:left;
+}
+
+.strength0
+{
+        width:250px;
+        background:#cccccc;
+}
+
+.strength1
+{
+        width:50px;
+        background:#ff0000;
+}
+
+.strength2
+{
+        width:100px;    
+        background:#ff5f5f;
+}
+
+.strength3
+{
+        width:150px;
+        background:#56e500;
+}
+
+.strength4
+{
+        background:#4dcd00;
+        width:200px;
+}
+
+.strength5
+{
+        background:#399800;
+        width:250px;
+}

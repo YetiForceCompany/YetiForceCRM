@@ -248,6 +248,7 @@ $languageStrings = [
 	'LBL_CREATE_VIEW' => 'Maak nieuw overzicht',
 	'LBL_CREATING_NEW' => 'Maak nieuw',
 	'LBL_SYSTEM_SETTINGS' => 'Systeem instellingen',
+	'LBL_USER_PANEL' => '__UNTRANSLATED__',
 	'Currency' => 'Muntsoort',
 	'LBL_CURRENT_FQ' => 'Lopende FQ',
 	'LBL_CURRENT_FY' => 'Lopende FY',
@@ -1026,6 +1027,7 @@ $languageStrings = [
 	'LBL_CURRENT' => 'Current',
 	'LBL_SET_RECORD_STATUS' => 'Set status',
 	'LBL_SELECT_SOME_OPTIONS' => 'Select some values',
+	'LBL_NO_DISCOUNTS' => 'Available discounts not found',
 	//PDF
 	'LBL_EXPORT_PDF' => '__UNTRANSLATED__',
 	'LBL_GENERATE_PDF_FILE' => '__UNTRANSLATED__',
@@ -1037,6 +1039,14 @@ $languageStrings = [
 	'LBL_VALID_RECORDS' => '__UNTRANSLATED__',
 	'LBL_EXPORT_ERROR' => '__UNTRANSLATED__',
 	'LBL_PDF_MANY_IN_ONE' => '__UNTRANSLATED__',
+	// end pdf
+	'group' => 'Group',
+	'individual' => 'Individual',
+	'LBL_VIEW_FINDDUPLICATES'=> 'Find Duplicates',
+	'Service' => 'Service',
+	'Sales' => 'Sale',
+	'LBL_VTIGER_LAYOUT' => 'Default',
+	'LBL_DEFAULT' => 'Responsive',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',

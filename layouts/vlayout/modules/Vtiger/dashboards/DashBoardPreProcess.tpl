@@ -14,7 +14,7 @@
 {include file="BasicHeader.tpl"|vtemplate_path:$MODULE}
 <div class="bodyContents">
 	<div class="mainContainer">
-		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
+		{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
 		<div class="col-md-2{if $LEFTPANELHIDE eq '1'} hide {/if}" id="leftPanel" style="min-height:550px;">
 			{include file="ListViewSidebar.tpl"|vtemplate_path:$MODULE_NAME}
 		</div>

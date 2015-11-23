@@ -310,6 +310,7 @@ $languageStrings = [
 	'PLL_POSTPONED' => 'Przełożone',
 	'PLL_CANCELLED' => 'Anulowane',
 	'PLL_COMPLETED' => 'Wykonane',
+	'LBL_SELECT_LAYOUT' => 'Wybierz układ',
 ];
 
 $jsLanguageStrings = [

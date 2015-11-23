@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Adicionar',
 	'TreesManager' => 'Gerenciar Árvore',
-	'LBL_TREES_MANAGER' => 'Gerenciar Árvore',
+	'LBL_TREES_MANAGER' => 'Fields – Folders',
 	'LBL_TREES_MANAGER_DESCRIPTION' => 'Gerenciar Modelo Árvore',
 	'LBL_NO_RECORDS_FOUND' => 'Nenhum modelo de Árvore',
 	'LBL_EDIT_TEMPLATE_TREES' => 'Editar modelo de Árvore',

@@ -23,9 +23,9 @@ class Admin_Users_Login_View extends Vtiger_View_Controller {
 	public function getHeaderCss(Vtiger_Request $request) {
 		$headerCssInstances = parent::getHeaderCss($request);
 
-		$cssFileNames = array(
-			'~layouts/vlayout/skins/login.css',
-		);
+		$cssFileNames = [
+			'skins.login',
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
 

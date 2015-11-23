@@ -68,7 +68,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 	public function getRelatedSummary($query)
 	{
 		$db = PearDatabase::getInstance();
-		$relationQuery = ereg_replace("[ \t\n\r]+", ' ', $query);
+		$relationQuery = preg_replace("/[ \t\n\r]+/", " ", $query);
 		$position = stripos($relationQuery, ' from ');
 		if ($position) {
 			$split = explode(' FROM ', $relationQuery);

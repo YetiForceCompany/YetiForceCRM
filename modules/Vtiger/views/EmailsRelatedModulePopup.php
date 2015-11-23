@@ -20,8 +20,6 @@ class Vtiger_EmailsRelatedModulePopup_View extends Vtiger_Popup_View {
 
 		$viewer->assign('MODULE_NAME',$moduleName);
 		$viewer->assign('COMPANY_LOGO',$companyLogo);
-
-
 		$viewer->view('Popup.tpl', $moduleName);
 	}
 	

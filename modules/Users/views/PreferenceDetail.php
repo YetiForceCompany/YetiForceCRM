@@ -61,10 +61,11 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View {
 			
 			$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 			$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
-			$viewer->assign('HEADER_LINKS',$this->getHeaderLinks());
+			$viewer->assign('HEADER_LINKS',$this->getHeaderLinks($request));
 			$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
 			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 			$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
+			$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 
 			//Additional parameters
 			$recordId = $request->get('record');

@@ -29,7 +29,7 @@ class Vtiger_Session
 	/**
 	 * Destroy session
 	 */
-	static function destroy($sessionid = false)
+	public static function destroy($sessionid = false)
 	{
 		HTTP_Session::destroy($sessionid);
 	}
@@ -37,7 +37,7 @@ class Vtiger_Session
 	/**
 	 * Calls session_regenerate_id() if available
 	 */
-	static function regenerateId($deleteOldSessionData = false)
+	public static function regenerateId($deleteOldSessionData = false)
 	{
 		HTTP_Session::regenerateId($deleteOldSessionData);
 	}
@@ -45,7 +45,7 @@ class Vtiger_Session
 	/**
 	 * Initialize session
 	 */
-	static function init($sessionid = false)
+	public static function init($sessionid = false)
 	{
 		if (empty($sessionid)) {
 			HTTP_Session::start(null, null);
@@ -63,7 +63,7 @@ class Vtiger_Session
 	/**
 	 * Is key defined in session?
 	 */
-	static function has($key)
+	public static function has($key)
 	{
 		return HTTP_Session::is_set($key);
 	}
@@ -71,7 +71,7 @@ class Vtiger_Session
 	/**
 	 * Get value for the key.
 	 */
-	static function get($key, $defvalue = '')
+	public static function get($key, $defvalue = '')
 	{
 		return HTTP_Session::get($key, $defvalue);
 	}
@@ -79,8 +79,16 @@ class Vtiger_Session
 	/**
 	 * Set value for the key.
 	 */
-	static function set($key, $value)
+	public static function set($key, $value)
 	{
 		HTTP_Session::set($key, $value);
+	}
+
+	/**
+	 * Set value for the key.
+	 */
+	public static function remove($name)
+	{
+		unset($_SESSION[$name]);
 	}
 }

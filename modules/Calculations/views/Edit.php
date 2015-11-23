@@ -167,11 +167,11 @@ Class Calculations_Edit_View extends Inventory_Edit_View {
 		unset($headerScriptInstances[$modulePopUpFile]);
 		unset($headerScriptInstances[$moduleEditFile]);
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Inventory.resources.Edit',
 			'modules.Inventory.resources.Popup',
-			'layouts.vlayout.modules.Calculations.resources.Edit',
-		);
+			'modules.Calculations.resources.Edit',
+		];
 		$jsFileNames[] = $moduleEditFile;
 		$jsFileNames[] = $modulePopUpFile;
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
