@@ -4826,3 +4826,11 @@ html,body,.baseContainer
 .hideSiteBar .siteBarContent{
 	overflow: auto;
 }
+.noLeftRadius {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+.noRightRadius {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
