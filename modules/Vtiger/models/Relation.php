@@ -448,13 +448,13 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$relatedModelFields = $relatedModel->getFields();
 
 			foreach ($relatedModelFields as $fieldName => $fieldModel) {
-				if($fieldModel->isViewable()){
+				if ($fieldModel->isViewable()) {
 					$fields[] = $fieldModel;
 				}
 			}
 			$this->set('fields', $fields);
 		}
-		if($type){
+		if ($type) {
 			foreach ($fields as $key => $fieldModel) {
 				if ($fieldModel->getFieldDataType() != $type) {
 					unset($fields[$key]);
@@ -462,5 +462,21 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			}
 		}
 		return $fields;
+	}
+
+	public static function getReferenceTableInfo($moduleName, $refModuleName)
+	{
+		$temp = [$moduleName, $refModuleName];
+		sort($temp);
+		$tableName = 'vtiger_' . strtolower($temp[0]) . '_' . strtolower($temp[1]);
+		
+		if ($temp[0] == $moduleName) {
+			$baseColumn = 'relcrmid';
+			$relColumn = 'crmid';
+		} else {
+			$baseColumn = 'crmid';
+			$relColumn = 'relcrmid';
+		}
+		return ['table' => $tableName, 'module' => $temp[0], 'base' => $baseColumn, 'rel' => $relColumn];
 	}
 }

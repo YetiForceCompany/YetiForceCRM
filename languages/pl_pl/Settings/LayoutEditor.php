@@ -99,6 +99,7 @@ $languageStrings = [
 	'LBL_RELATION_LABLE' => 'Etykieta',
 	'PLL_RELATED_LIST' => 'Wiele do wielu',
 	'PLL_DEPENDENTS_LIST' => 'Jeden do wielu',
+	'PLL_SPLITED_RELATED_LIST' => 'Wiele do wielu - Z separacją danych',
 	'PLL_ADD' => 'Tworzenie',
 	'PLL_SELECT' => 'Wybieranie',
 	// inventory tab

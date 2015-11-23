@@ -1525,11 +1525,15 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$focus = CRMEntity::getInstance($this->getName());
 		$focus->id = $recordId;
 
-		$result = $focus->$functionName($recordId, $this->getId(), $relatedModule->getId());
-		$query = $result['query'] . ' ' . $this->getSpecificRelationQuery($relatedModuleName);
+		if ($functionName == 'get_many_to_many') {
+			$query = $this->getRelationQueryM2M($recordId, $relatedModule, $relationModel);
+		} else {
+			$result = $focus->$functionName($recordId, $this->getId(), $relatedModule->getId());
+			$query = $result['query'] . ' ' . $this->getSpecificRelationQuery($relatedModuleName);
+		}
 
 		//modify query if any module has summary fields, those fields we are displayed in related list of that module
-		$relatedListFields = array();
+		$relatedListFields = [];
 		if ($relationModel)
 			$relatedListFields = $relationModel->getRelationFields(true, true);
 		if (count($relatedListFields) == 0) {
@@ -1544,7 +1548,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 			$queryGenerator = new QueryGenerator($relatedModuleName, $currentUser);
 			$queryGenerator->setFields($relatedListFields);
 			$selectColumnSql = $queryGenerator->getSelectClauseColumnSQL();
-			$query = str_replace('FROM', 'from', $query); 
+			$query = str_replace('FROM', 'from', $query);
 			$newQuery = explode('from', $query);
 			$selectColumnSql = 'SELECT DISTINCT vtiger_crmentity.crmid,' . $selectColumnSql;
 			$query = $selectColumnSql . ' FROM ' . $newQuery[1];
@@ -1768,5 +1772,19 @@ class Vtiger_Module_Model extends Vtiger_Module
 			}
 		}
 		return $data;
+	}
+
+	public function getRelationQueryM2M($recordId, $relatedModule, $relationModel)
+	{
+		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($this->getName(), $relatedModule->getName());
+		$basetable = $relatedModule->get('basetable');
+
+		$query = 'SELECT vtiger_crmentity.*, ' . $basetable . '.*' . ' FROM ' . $basetable;
+		$query .= ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = ' . $basetable . '.' . $relatedModule->get('basetableid');
+		$query .= ' INNER JOIN ' . $referenceInfo['table'] . ' ON ' . $referenceInfo['table'] . '.' . $referenceInfo['base'] . ' = vtiger_crmentity.crmid';
+		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
+		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
+		$query .= ' WHERE vtiger_crmentity.deleted = 0 AND ' . $referenceInfo['table'] . '.' . $referenceInfo['rel'] . ' = ' . $recordId;
+		return $query;
 	}
 }
