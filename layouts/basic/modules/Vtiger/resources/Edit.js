@@ -180,6 +180,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 									if (referenceModulesList.length > 0) {
 										referenceModulesList.val(value[1]).trigger("chosen:updated");
 									}
+									thisInstance.setReferenceFieldValue(mapFieldDisplayElement.closest('.fieldValue'), {name: response[value[0] + '_label'], id: response[value[0]]});
 								}
 							}
 						});
@@ -591,7 +592,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 				var from = element.data('label');
 				var to = block.data('label');
 				var recordRelativeAccountId = jQuery('[name="' + account_id + '"]').val();
-				
+
 				if (recordRelativeAccountId == "" || recordRelativeAccountId == "0") {
 					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS'));
 				} else {

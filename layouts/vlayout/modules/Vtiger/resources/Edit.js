@@ -180,6 +180,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 									if (referenceModulesList.length > 0) {
 										referenceModulesList.val(value[1]).trigger("chosen:updated");
 									}
+									thisInstance.setReferenceFieldValue(mapFieldDisplayElement.closest('.fieldValue'), {name: response[value[0] + '_label'], id: response[value[0]]});
 								}
 							}
 						});
