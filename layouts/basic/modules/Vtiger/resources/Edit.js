@@ -548,38 +548,40 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var lead_id = false;
 		var vendor_id = false;
 		jQuery("#EditView .blockContainer:not(.inventoryHeader):not(.inventoryItems) .fieldValue, #EditView .blockContainer:not(.inventoryHeader):not(.inventoryItems) .fieldLabel").each(function (index) {
+			var block = $(this);
 			var referenceModulesList = false;
-			var relatedField = $(this).find('[name="popupReferenceModule"]').val();
+			var relatedField = block.find('[name="popupReferenceModule"]').val();
 			if (relatedField == 'Accounts') {
-				account_id = $(this).find('.sourceField').attr("name");
+				account_id = block.find('.sourceField').attr("name");
 			}
 			if (relatedField == 'Contacts') {
-				contact_id = $(this).find('.sourceField').attr("name");
+				contact_id = block.find('.sourceField').attr("name");
 			}
 			if (relatedField == 'Leads') {
-				lead_id = $(this).find('.sourceField').attr("name");
+				lead_id = block.find('.sourceField').attr("name");
 			}
 			if (relatedField == 'Vendors') {
-				vendor_id = $(this).find('.sourceField').attr("name");
+				vendor_id = block.find('.sourceField').attr("name");
 			}
-			referenceModulesList = $(this).find('.referenceModulesList');
+			referenceModulesList = block.find('.referenceModulesList');
 			if (referenceModulesList.length > 0) {
 				$.each(referenceModulesList.find('option'), function (key, data) {
 					if (data.value == 'Accounts') {
-						account_id = $(this).next().find('.sourceField').attr("name");
+						account_id = block.find('.sourceField').attr("name");
 					}
 					if (data.value == 'Contacts') {
-						contact_id = $(this).next().find('.sourceField').attr("name");
+						contact_id = block.find('.sourceField').attr("name");
 					}
 					if (data.value == 'Leads') {
-						lead_id = $(this).next().find('.sourceField').attr("name");
+						lead_id = block.find('.sourceField').attr("name");
 					}
 					if (data.value == 'Vendors') {
-						vendor_id = $(this).next().find('.sourceField').attr("name");
+						vendor_id = block.find('.sourceField').attr("name");
 					}
 				});
 			}
 		});
+
 		if (account_id == false) {
 			jQuery(".copyAddressFromAccount").addClass('hide');
 		} else {
@@ -589,6 +591,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 				var from = element.data('label');
 				var to = block.data('label');
 				var recordRelativeAccountId = jQuery('[name="' + account_id + '"]').val();
+				
 				if (recordRelativeAccountId == "" || recordRelativeAccountId == "0") {
 					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS'));
 				} else {
