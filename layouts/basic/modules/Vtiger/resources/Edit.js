@@ -598,7 +598,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 						'selectedName': recordRelativeAccountName,
 						'source_module': "Accounts"
 					}
-					
+
 					thisInstance.copyAddressDetails(from, to, data, element.closest('.blockContainer'));
 					element.attr('checked', 'checked');
 				}
@@ -673,11 +673,11 @@ jQuery.Class("Vtiger_Edit_Js", {
 				}
 			})
 		}
-		
+
 		$("#EditView .blockContainer").each(function (index) {
 			var hideCopyAddressLabel = true;
 			$(this).find(".adressAction button").each(function (index) {
-				if ($(this).hasClass("hide")) {
+				if ($(this).hasClass("hide") == false) {
 					hideCopyAddressLabel = false;
 				}
 			});
