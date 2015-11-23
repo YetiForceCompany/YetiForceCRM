@@ -19,6 +19,7 @@ $languageStrings = [
 	'LBL_REALIZATION_START_DATE' => 'Realization start date',
 	'LBL_REALIZATION_COMPLETION_DATE' => 'Realization completion date',
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Actual completion date',
+	'LBL_COMPANY_NAME' => 'Company name',
 	
     //PICKLIST VALUES
     'PLL_DRAFT' => 'Черновик',

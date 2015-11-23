@@ -846,6 +846,7 @@ CREATE TABLE `u_yf_squotes` (
   `squotes_status` varchar(255) DEFAULT NULL,
   `accountid` int(19) DEFAULT NULL,
   `response_time` decimal(10,2) DEFAULT '0.00',
+  `company` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`squotesid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `scalculationsid` (`scalculationsid`),
@@ -948,6 +949,7 @@ CREATE TABLE `u_yf_srecurringorders` (
   `date_end` date DEFAULT NULL,
   `duedate` date DEFAULT NULL,
   `response_time` decimal(10,2) DEFAULT '0.00',
+  `company` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`srecurringordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
@@ -1138,6 +1140,7 @@ CREATE TABLE `u_yf_ssingleorders` (
   `date_end` date DEFAULT NULL,
   `duedate` date DEFAULT NULL,
   `response_time` decimal(10,2) DEFAULT '0.00',
+  `company` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ssingleordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
@@ -3343,7 +3346,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1942 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1945 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 

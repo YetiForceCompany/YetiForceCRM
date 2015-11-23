@@ -19,6 +19,7 @@ $languageStrings = [
 	'LBL_REALIZATION_START_DATE' => 'Data rozpoczęcia realizacji',
 	'LBL_REALIZATION_COMPLETION_DATE' => 'Data zakończenia realizacji',
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Rzeczywista data zakończenia',
+	'LBL_COMPANY_NAME' => 'Nazwa firmy',
 
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Wersja robocza',

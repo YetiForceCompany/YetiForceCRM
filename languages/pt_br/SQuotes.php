@@ -16,6 +16,7 @@ $languageStrings = [
 	'LBL_STATUS' => 'Status',
 	'LBL_CLOSED_TIME' => 'Hora Fechamento',
 	'LBL_RESPONSE_TIME' => 'Respone time',
+	'LBL_COMPANY_NAME' => 'Company name',
 
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Draft',

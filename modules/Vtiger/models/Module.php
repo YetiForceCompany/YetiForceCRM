@@ -1695,6 +1695,9 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$data['QuotesEnquires']['potentialid'] = ['Potentials' => ['accountid' => ['related_to']]];
 		$data['SCalculations']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
 		$data['SQuotes']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
+		$data['SQuotes']['accountid'] = ['Accounts' => ['company' => ['accountname']]];
+		$data['SSingleOrders']['accountid'] = ['Accounts' => ['company' => ['accountname']]];
+		$data['SRecurringOrders']['accountid'] = ['Accounts' => ['company' => ['accountname']]];
 		$data['SSingleOrders']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
 		$data['SRecurringOrders']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
 		$data['SQuoteEnquiries']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
