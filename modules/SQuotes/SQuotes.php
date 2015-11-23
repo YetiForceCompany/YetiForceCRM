@@ -20,7 +20,7 @@ class SQuotes extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'u_yf_squotes', 'u_yf_squotescf');
+	var $tab_name = Array('vtiger_crmentity', 'u_yf_squotes', 'u_yf_squotescf', 'u_yf_squotes_address');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
@@ -28,7 +28,8 @@ class SQuotes extends Vtiger_CRMEntity
 	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_squotes' => 'squotesid',
-		'u_yf_squotescf' => 'squotesid');
+		'u_yf_squotescf' => 'squotesid',
+		'u_yf_squotes_address' => 'squotesaddressid',);
 
 	/**
 	 * Mandatory for Listing (Related listview)
