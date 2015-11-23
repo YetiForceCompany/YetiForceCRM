@@ -1814,6 +1814,8 @@ insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldnam
 
 /*Data for the table `vtiger_datashare_grp2rs` */
 
+/*Data for the table `vtiger_datashare_grp2us` */
+
 /*Data for the table `vtiger_datashare_module_rel` */
 
 /*Data for the table `vtiger_datashare_relatedmodule_permission` */
@@ -1840,11 +1842,23 @@ insert  into `vtiger_datashare_relatedmodules_seq`(`id`) values (9);
 
 /*Data for the table `vtiger_datashare_role2rs` */
 
+/*Data for the table `vtiger_datashare_role2us` */
+
 /*Data for the table `vtiger_datashare_rs2grp` */
 
 /*Data for the table `vtiger_datashare_rs2role` */
 
 /*Data for the table `vtiger_datashare_rs2rs` */
+
+/*Data for the table `vtiger_datashare_rs2us` */
+
+/*Data for the table `vtiger_datashare_us2grp` */
+
+/*Data for the table `vtiger_datashare_us2role` */
+
+/*Data for the table `vtiger_datashare_us2rs` */
+
+/*Data for the table `vtiger_datashare_us2us` */
 
 /*Data for the table `vtiger_date_format` */
 

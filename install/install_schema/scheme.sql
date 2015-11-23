@@ -2615,6 +2615,18 @@ CREATE TABLE `vtiger_datashare_grp2rs` (
   CONSTRAINT `fk_3_vtiger_datashare_grp2rs` FOREIGN KEY (`to_roleandsubid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_datashare_grp2us` */
+
+CREATE TABLE `vtiger_datashare_grp2us` (
+  `shareid` int(19) NOT NULL,
+  `share_groupid` int(19) DEFAULT NULL,
+  `to_userid` int(19) DEFAULT NULL,
+  `permission` int(19) DEFAULT NULL,
+  PRIMARY KEY (`shareid`),
+  KEY `datashare_grp2us_share_groupid_idx` (`share_groupid`),
+  KEY `datashare_grp2us_to_userid_idx` (`to_userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_datashare_module_rel` */
 
 CREATE TABLE `vtiger_datashare_module_rel` (
@@ -2693,6 +2705,18 @@ CREATE TABLE `vtiger_datashare_role2rs` (
   CONSTRAINT `fk_3_vtiger_datashare_role2rs` FOREIGN KEY (`to_roleandsubid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_datashare_role2us` */
+
+CREATE TABLE `vtiger_datashare_role2us` (
+  `shareid` int(19) NOT NULL,
+  `share_roleid` varchar(255) DEFAULT NULL,
+  `to_userid` int(19) DEFAULT NULL,
+  `permission` int(19) DEFAULT NULL,
+  PRIMARY KEY (`shareid`),
+  KEY `datashare_role2us_share_roleid_idx` (`share_roleid`),
+  KEY `datashare_role2us_to_userid_idx` (`to_userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_datashare_rs2grp` */
 
 CREATE TABLE `vtiger_datashare_rs2grp` (
@@ -2730,6 +2754,66 @@ CREATE TABLE `vtiger_datashare_rs2rs` (
   KEY `datashare_rs2rs_share_roleandsubid_idx` (`share_roleandsubid`),
   KEY `idx_datashare_rs2rs_to_roleandsubid_idx` (`to_roleandsubid`),
   CONSTRAINT `fk_3_vtiger_datashare_rs2rs` FOREIGN KEY (`to_roleandsubid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_datashare_rs2us` */
+
+CREATE TABLE `vtiger_datashare_rs2us` (
+  `shareid` int(19) NOT NULL,
+  `share_roleandsubid` varchar(255) DEFAULT NULL,
+  `to_userid` int(19) DEFAULT NULL,
+  `permission` int(19) DEFAULT NULL,
+  PRIMARY KEY (`shareid`),
+  KEY `datashare_rs2us_share_roleandsubid_idx` (`share_roleandsubid`),
+  KEY `datashare_rs2us_to_userid_idx` (`to_userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_datashare_us2grp` */
+
+CREATE TABLE `vtiger_datashare_us2grp` (
+  `shareid` int(19) NOT NULL,
+  `share_userid` int(19) DEFAULT NULL,
+  `to_groupid` int(19) DEFAULT NULL,
+  `permission` int(19) DEFAULT NULL,
+  PRIMARY KEY (`shareid`),
+  KEY `datashare_us2grp_share_userid_idx` (`share_userid`),
+  KEY `datashare_us2grp_to_groupid_idx` (`to_groupid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_datashare_us2role` */
+
+CREATE TABLE `vtiger_datashare_us2role` (
+  `shareid` int(19) NOT NULL,
+  `share_userid` int(19) DEFAULT NULL,
+  `to_roleid` varchar(255) DEFAULT NULL,
+  `permission` int(19) DEFAULT NULL,
+  PRIMARY KEY (`shareid`),
+  KEY `idx_datashare_us2role_share_userid` (`share_userid`),
+  KEY `idx_datashare_us2role_to_roleid` (`to_roleid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_datashare_us2rs` */
+
+CREATE TABLE `vtiger_datashare_us2rs` (
+  `shareid` int(19) NOT NULL,
+  `share_userid` int(19) DEFAULT NULL,
+  `to_roleandsubid` varchar(255) DEFAULT NULL,
+  `permission` int(19) DEFAULT NULL,
+  PRIMARY KEY (`shareid`),
+  KEY `datashare_us2rs_share_userid_idx` (`share_userid`),
+  KEY `datashare_us2rs_to_roleandsubid_idx` (`to_roleandsubid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_datashare_us2us` */
+
+CREATE TABLE `vtiger_datashare_us2us` (
+  `shareid` int(19) NOT NULL,
+  `share_userid` int(19) DEFAULT NULL,
+  `to_userid` int(19) DEFAULT NULL,
+  `permission` int(19) DEFAULT NULL,
+  PRIMARY KEY (`shareid`),
+  KEY `datashare_us2us_share_userid_idx` (`share_userid`),
+  KEY `datashare_us2us_to_userid_idx` (`to_userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_date_format` */
