@@ -392,10 +392,12 @@ var Vtiger_Index_Js = {
 			var tButtonImage = jQuery('#tRightPanelButtonImage');
 			if (rightPanel.attr('class').indexOf('move-action') == -1) {
 				rightPanel.addClass('move-action');
+				jQuery(this).addClass('hideRightPanelButton');
 				centerContents.removeClass('col-md-10').addClass('col-md-12');
 				tButtonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
 			} else {
 				rightPanel.removeClass('move-action');
+				jQuery(this).removeClass('hideRightPanelButton');
 				centerContents.removeClass('col-md-12').addClass('col-md-10');
 				tButtonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
 			}

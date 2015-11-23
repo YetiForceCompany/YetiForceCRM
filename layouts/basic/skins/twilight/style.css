@@ -4607,11 +4607,14 @@ html,body,.baseContainer
 	.actionMenuBtn{
 		display: none;
 	}
+	.move-action{
+		right: -309px !important;
+	}
 	.rightPanelOpen{
-		position: absolute;
-		min-width: 314px;
-		top: 0px;
-		right: -309px;
+		position: fixed;
+		width: 314px;
+		top: 50px;
+		right: 0px;
 		z-index: 1035;
 		background: rgba(0, 0, 0, 0.4);
 		-webkit-transition: all 0.5s ease;
@@ -4642,12 +4645,15 @@ html,body,.baseContainer
 		-o-transition: all 0.5s ease;
 		transition: all 0.5s ease;
 	}
+	.hideRightPanelButton{
+		right:5px !important;
+	}
 	.toggleRightPanelButton {
 		background: rgba(0, 0, 0, 0.4);
 		padding: 5px 2px !important;
-		position: absolute;
-		top: 80px;
-		right: 5px;
+		position: fixed;
+		top: 130px;
+		right: 314px;
 		width: 12px;
 		z-index: 100;
 		border-radius: 4px 0 0 4px;
