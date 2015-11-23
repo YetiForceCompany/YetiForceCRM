@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'MobileApps' => 'Aplikacje mobilne',
-	'LBL_MOBILE_KEYS' => 'Mobile Applications',
+	'LBL_MOBILE_KEYS' => 'Aplikacje mobilne',
 	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Tworzenie i zarządzanie kluczami aplikacji mobilnych',
 	'LBL_USERNAME' => 'Użytkownik',
 	'LBL_SERVICE' => 'Aplikacja',
