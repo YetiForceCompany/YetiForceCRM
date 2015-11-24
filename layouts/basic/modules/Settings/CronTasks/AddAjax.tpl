@@ -27,7 +27,7 @@
 						 <label class="col-sm-3 control-label">
 							<span class="redColor">*</span> {vtranslate('MODULE', $QUALIFIED_MODULE)}
 						</label>
-						<div class="col-sm-6 controls">
+						<div class="col-sm-8 controls ">
 							<select class="chzn-select form-control" name="cron_module">
 								{foreach from=$MODULE_LIST  item=item key=key}
 									<option value="{$item->name}">{vtranslate($item->name, $item->name)}</option>
@@ -38,19 +38,19 @@
 					</div>
 					<div class="form-group">
 						 <label class="col-sm-3 control-label"><span class="redColor">*</span> {vtranslate('LBL_NAME',$QUALIFIED_MODULE)}</label>
-						<div class="col-sm-6 controls">
+						<div class="col-sm-8 controls">
 							<input value="" name="cron_name" class="form-control" data-validation-engine="validate[required]" id="name" />
 						</div>
 					</div>
 					<div class="form-group">
 						 <label class="col-sm-3 control-label"><span class="redColor">*</span> {vtranslate('LBL_PATH_TO_FILE',$QUALIFIED_MODULE)}</label>
-						<div class="col-sm-6 controls">
+						<div class="col-sm-8 controls">
 							<input value="" name="path" class="form-control" data-validation-engine="validate[required]" id="path" />
 						</div>
 					</div>
 					<div class="form-group">
 						 <label class="col-sm-3 control-label">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</label>
-						<div class="col-sm-6 controls">
+						<div class="col-sm-8 controls">
 							<select class="chzn-select form-control" name="status">
 								<optgroup>
 									<option value="1">{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</option>
