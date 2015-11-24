@@ -113,7 +113,8 @@
 			</div>
 		</div>
 		<div class="detailViewInfo row">
-			<div class="{if $NO_PAGINATION} col-md-12 {else} col-md-10 {/if} details">
+			{include file="RelatedListButtons.tpl"|vtemplate_path:$MODULE}
+			<div class="col-md-12 details">
 				<form id="detailView" data-name-fields='{ZEND_JSON::encode($MODULE_MODEL->getNameFields())}'>
 					<div class="contents">
 					{/strip}

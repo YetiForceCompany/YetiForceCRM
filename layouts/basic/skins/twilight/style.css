@@ -716,19 +716,10 @@ li.ui-timepicker-selected,
 	margin-bottom: 3px;
 }
 .detailViewInfo {
-	box-shadow: 0 -4px 4px -4px #959595;
 	margin-top: 5px;
 }
-/*//
-.detailViewInfo .contents {
- // padding: 2.2% 0 0 2.2%;
- // min-height: 450px;
-}
-*/
 .detailViewInfo .details {
-	// min-height: 600px;
 	padding-right: 1.5%;
-	border-right: 4px solid #404952;
 	padding-bottom: 10px;
 	padding-top: 10px;
 }
@@ -737,7 +728,6 @@ li.ui-timepicker-selected,
 	background: #404952;
 	border-radius: 1px;
 	margin-top: 0;
-	margin-bottom: 2px;
 }
 .fieldLabel {
 	background: #fff;
@@ -4068,7 +4058,6 @@ html,body,.baseContainer
 	padding-top:50px;
 	padding-bottom:33px;
 	width: 100%;
-	overflow: hidden;
 }
 .bootstrap-switch-container{
 	white-space: nowrap;
@@ -4840,3 +4829,9 @@ html,body,.baseContainer
 .marginTop10{
 	margin-top: 10px !important;
 }
+.related .nav li{
+	position: relative !important;
+} 
+.related .nav-pills{
+	border-bottom: 3px solid #404952;
+} 
