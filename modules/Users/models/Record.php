@@ -463,7 +463,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$result = $db->pquery($query, array('ACTIVE', $userIds));
 			while ($row = $db->fetch_array($result)) {
 				$colums = [];
-				foreach (explode(',', $entityData['fieldname']) as &$fieldname) {
+				foreach (explode(',', $entityData['fieldname']) as $fieldname) {
 					$colums[] = $row[$fieldname];
 				}
 				$subUsers[$row['id']] = implode(' ', $colums);
