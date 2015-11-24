@@ -6,6 +6,7 @@
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 {
@@ -23,19 +24,14 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 		}
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($module);
 		$fields = $inventoryField->getFields(true);
-		if ($fields[0] != 0) {
-			$columns = $inventoryField->getColumns();
-			$inventoryRows = $record->getInventoryData();
-			$mainParams = $inventoryField->getMainParams($fields[1]);
-			$countFields0 = count($fields[0]);
-			$countFields1 = count($fields[1]);
-			$countFields2 = count($fields[2]);
-			$baseCurrency = Vtiger_Util_Helper::getBaseCurrency();
-		}
+		$columns = $inventoryField->getColumns();
+		$inventoryRows = $record->getInventoryData();
+
 		if (in_array("currency", $columns)) {
 			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != NULL) {
 				$currency = $inventoryRows[0]['currency'];
 			} else {
+				$baseCurrency = Vtiger_Util_Helper::getBaseCurrency();
 				$currency = $baseCurrency['id'];
 			}
 			$currencySymbolRate = Vtiger_Functions::getCurrencySymbolandRate($currency);
@@ -50,7 +46,7 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 			'.productTable .summaryContainer{background:#ccc;padding:5px}' .
 			'</style>';
 
-		if (count($fields[0]) != 0) {
+		if (count($fields[1]) != 0) {
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
 			$html .= '<table border="0" cellpadding="0" cellspacing="0" class="productTable">
 				<thead>

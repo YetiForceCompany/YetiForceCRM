@@ -24,15 +24,10 @@ class Pdf_TableTaxSummary extends Vtiger_SpecialFunction_Pdf
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($module);
 		$fields = $inventoryField->getFields(true);
 
-		if ($fields[0] != 0) {
-			$columns = $inventoryField->getColumns();
-			$inventoryRows = $record->getInventoryData();
-			$mainParams = $inventoryField->getMainParams($fields[1]);
-			$countFields0 = count($fields[0]);
-			$countFields1 = count($fields[1]);
-			$countFields2 = count($fields[2]);
-			$baseCurrency = Vtiger_Util_Helper::getBaseCurrency();
-		}
+		$columns = $inventoryField->getColumns();
+		$inventoryRows = $record->getInventoryData();
+		$baseCurrency = Vtiger_Util_Helper::getBaseCurrency();
+
 		if (in_array("currency", $columns)) {
 			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != NULL) {
 				$currency = $inventoryRows[0]['currency'];
