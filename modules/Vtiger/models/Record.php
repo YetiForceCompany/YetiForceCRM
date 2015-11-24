@@ -521,20 +521,31 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	function setRecordFieldValues($parentRecordModel)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-
-		$fieldsList = array_keys($this->getModule()->getFields());
-		$parentFieldsList = array_keys($parentRecordModel->getModule()->getFields());
-
-		$commonFields = array_intersect($fieldsList, $parentFieldsList);
-		foreach ($commonFields as $fieldName) {
-			if (getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $fieldName) == 0) {
-				$this->set($fieldName, $parentRecordModel->get($fieldName));
+		$mfInstance = Vtiger_MappedFields_Model::getInstanceByModules($parentRecordModel->getModule()->getId(),$this->getModule()->getId());
+		if($mfInstance){
+			$moduleFields = $this->getModule()->getFields();
+			$fieldsList = array_keys($moduleFields);
+			$parentFieldsList = array_keys($parentRecordModel->getModule()->getFields());
+			
+			$params = $mfInstance->get('params');
+			if($params['autofill']){
+				$commonFields = array_intersect($fieldsList, $parentFieldsList);
+				foreach ($commonFields as $fieldName) {
+					if (getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $fieldName) == 0) {
+						$this->set($fieldName, $parentRecordModel->get($fieldName));
+					}
+				}
 			}
-		}
-		$fieldsToGenerate = $this->getListFieldsToGenerate($parentRecordModel->getModuleName(), $this->getModuleName());
-		foreach ($fieldsToGenerate as $key => $fieldName) {
-			if (getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $key) == 0) {
-				$this->set($fieldName, $parentRecordModel->get($key));
+			foreach($mfInstance->getMapping() as $mapp){
+				if ((is_object($mapp['target']) && is_object($mapp['source'])) 
+					&& getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $mapp['source']->getName()) == 0 
+					&& in_array($mapp['source']->getName(),$parentFieldsList)) {
+					$value = $parentRecordModel->get($mapp['source']->getName());
+					if(!$value){
+						$value = $mapp['default'];
+					}
+					$this->set($mapp['target']->getName(), $value);
+				}
 			}
 		}
 	}

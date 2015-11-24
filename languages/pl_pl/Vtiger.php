@@ -1067,6 +1067,8 @@ $languageStrings = [
 	'LBL_MARK_AS_HELD' => 'Oznacz jako wykonane',
 	'LBL_VTIGER_LAYOUT' => 'Domyślny',
 	'LBL_DEFAULT' => 'Responsywny',
+	'BTN_GENERATE_RECORD' => 'Generuj rekord',
+	'LBL_GENERATE_RECORD_FOR_MODULE' => 'Generuj rekord dla modułu',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',

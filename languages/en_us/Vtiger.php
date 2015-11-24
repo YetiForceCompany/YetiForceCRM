@@ -1062,6 +1062,8 @@ $languageStrings = [
 	'Sales' => 'Sale',
 	'LBL_VTIGER_LAYOUT' => 'Default',
 	'LBL_DEFAULT' => 'Responsive',
+	'BTN_GENERATE_RECORD' => 'Generate record',
+	'LBL_GENERATE_RECORD_FOR_MODULE' => 'Generate record for module',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',

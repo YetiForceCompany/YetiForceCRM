@@ -22,6 +22,10 @@ insert  into `a_yf_discounts_config`(`param`,`value`) values ('discounts','0,1,2
 
 /*Data for the table `a_yf_inventory_limits` */
 
+/*Data for the table `a_yf_mapped_config` */
+
+/*Data for the table `a_yf_mapped_fields` */
+
 /*Data for the table `a_yf_pdf` */
 
 /*Data for the table `a_yf_taxes_config` */
