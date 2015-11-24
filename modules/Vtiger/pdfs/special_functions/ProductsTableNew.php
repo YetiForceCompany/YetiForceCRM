@@ -38,9 +38,9 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 		}
 		$html .='<style>' .
 			'.productTable{color:#000; font-size:10px}' .
-			'.productTable th {text-transform: uppercase;}' .
+			'.productTable th {text-transform: uppercase;font-weight:normal}' .
 			'.productTable tbody tr:nth-child(odd){background:#eee}' .
-			'.productTable tbody tr td{border-bottom: 1px solid #ddd; padding:5px}' .
+			'.productTable tr td{border-bottom: 1px solid #ddd; padding:5px;text-align:center; }' .
 			'.colapseBorder {border-collapse: collapse;}' .
 			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
 			'.productTable .summaryContainer{background:#ccc;padding:5px}' .
@@ -48,9 +48,9 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 
 		if (count($fields[1]) != 0) {
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
-			$html .= '<table border="0" cellpadding="0" cellspacing="0" class="productTable">
+			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable">
 				<thead>
-					<tr>';
+					<tr><td>NR</td>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible($inventoryRows)) {
 					$html .= '<th colspan="' . $field->get('colspan') . '" class="textAlignCenter tBorder tHeader">' . vtranslate($field->get('label'), $module) . '</th>';
@@ -61,7 +61,7 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 				<tbody>';
 			foreach ($inventoryRows as $key => &$inventoryRow) {
 				$rowNo = $key + 1;
-				$html .= '<tr>';
+				$html .= '<tr><td><strong>'.$rowNo.'</strong></td>';
 				foreach ($fields[1] as $field) {
 					if ($field->isVisible($inventoryRows)) {
 						$itemValue = $inventoryRow[$field->get('columnname')];
@@ -86,7 +86,7 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 			}
 			$html .= '</tbody>
 					<tfoot>
-						<tr>';
+						<tr><td></td>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible($inventoryRows)) {
 					$html .= '<td colspan="' . $field->get('colspan') . '" class="textAlignRight ';

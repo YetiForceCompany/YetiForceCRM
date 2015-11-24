@@ -44,7 +44,7 @@ class Pdf_TableDiscountSummary extends Vtiger_SpecialFunction_Pdf
 		$html .=
 			'<style>' .
 			'.productTable{color:#000; font-size:10px}' .
-			'.productTable th {text-transform: uppercase;}' .
+			'.productTable th {text-transform: uppercase;font-weight:normal}' .
 			'.productTable tbody tr:nth-child(odd){background:#eee}' .
 			'.productTable tbody tr td{border-bottom: 1px solid #ddd; padding:5px}' .
 			'.colapseBorder {border-collapse: collapse;}' .
