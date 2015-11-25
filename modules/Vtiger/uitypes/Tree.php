@@ -64,9 +64,9 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	 * @param reference record id
 	 * @return link
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
-		return $this->getDisplayValue($value);
+		return $this->getDisplayValue($value, $record);
 	}
 
 	public function getListSearchTemplateName()

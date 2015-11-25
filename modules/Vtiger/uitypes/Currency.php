@@ -99,7 +99,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 * @param <String> $value
 	 * @return <String>
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
 		if (!empty($value)) {
 			$this->edit = true;

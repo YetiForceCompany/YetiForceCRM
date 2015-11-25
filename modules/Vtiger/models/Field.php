@@ -945,9 +945,9 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 * @param <String> $value - value which need to be converted to display value
 	 * @return <String> - converted display value
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
-		return $this->getUITypeModel()->getEditViewDisplayValue($value);
+		return $this->getUITypeModel()->getEditViewDisplayValue($value, $record);
 	}
 
 	/**

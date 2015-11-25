@@ -11,7 +11,7 @@
 class Calendar_Time_UIType extends Vtiger_Time_UIType
 {
 
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
 		if (!empty($value)) {
 			return parent::getEditViewDisplayValue($value);

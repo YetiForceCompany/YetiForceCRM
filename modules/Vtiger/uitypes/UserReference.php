@@ -25,7 +25,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	 * @param <Integer> crmid of record
 	 * @return <String>
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
 		if ($value) {
 			$userName = getOwnerName($value);

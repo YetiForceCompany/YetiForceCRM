@@ -31,7 +31,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 				$recordFieldValue = $fieldModel->getDBInsertValue($recordFieldValue);
 				$displayValue = Vtiger_Util_Helper::toSafeHTML($fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId()));
 			} elseif ($fieldModel->getFieldDataType() !== 'datetime' && $fieldModel->getFieldDataType() !== 'date') {
-				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
+				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId(), $recordModel);
 			}
 
 			$result[$fieldName] = array('value' => $fieldValue, 'display_value' => $displayValue);

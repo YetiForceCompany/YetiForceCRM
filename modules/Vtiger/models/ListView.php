@@ -245,7 +245,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-
+		
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
 
@@ -289,7 +289,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		ListViewSession::setSessionQuery($moduleName, $listQuery, $viewid);
 
 		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
-
+//var_dump($listQuery);
 		$listResult = $db->pquery($listQuery, array());
 
 		$listViewRecordModels = array();
