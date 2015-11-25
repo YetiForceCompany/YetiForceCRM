@@ -109,7 +109,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($nextRecordId)) {
 			$viewer->assign('NEXT_RECORD_URL', $moduleModel->getDetailViewUrl($nextRecordId));
 		}
-
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$selectedTabLabel = $request->get('tab_label');
 		if (empty($selectedTabLabel)) {
 			if ($currentUserModel->get('default_record_view') === 'Detail') {
@@ -133,7 +133,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$linkModels = $this->record->getSideBarLinks($linkParams);
 		$viewer->assign('QUICK_LINKS', $linkModels);
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
