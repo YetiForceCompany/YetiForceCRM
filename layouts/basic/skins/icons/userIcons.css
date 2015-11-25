@@ -24,188 +24,188 @@
 }
 
 .userIcon-my-home-page-1:before {
-	content: "\e804";
+	content: "\e888";
 }
 .userIcon-virtual-desk:before {
 	content: "\e675";
 }
 .userIcon-my-home-page:before {
-	content: "\e800";
+	content: "\e886";
 }
-.userIcon-calendar:before {
-	content: "\e801";
+.userIcon-Calendar:before {
+	content: "\e887";
 }
-.userIcon-my-mailbox:before {
+.userIcon-OSSMail:before {
 	content: "\e678";
 }
 .userIcon-compaines-and-contacts:before {
 	content: "\e679";
 }
-.userIcon-leads:before {
+.userIcon-Leads:before {
 	content: "\e673";
 }
-.userIcon-contacts:before {
+.userIcon-Contacts:before {
 	content: "\e674";
 }
-.userIcon-vendors:before {
-	content: "\e802";
+.userIcon-Vendors:before {
+	content: "\e885";
 }
-.userIcon-accounts:before {
-	content: "\e803";
+.userIcon-Accounts:before {
+	content: "\e884";
 }
 .userIcon-sales:before {
-	content: "\e806";
+	content: "\e87a";
 }
-.userIcon-campaigns:before {
-	content: "\e807";
+.userIcon-Campaigns:before {
+	content: "\e87b";
 }
-.userIcon-opportunities:before {
-	content: "\e805";
+.userIcon-Potentials:before {
+	content: "\e87c";
 }
-.userIcon-quotes-enquires:before {
-	content: "\e82c";
+.userIcon-QuotesEnquires:before {
+	content: "\e87d";
 }
-.userIcon-requirement-cards:before {
-	content: "\e808";
+.userIcon-RequirementCards:before {
+	content: "\e87e";
 }
-.userIcon-calculations:before {
-	content: "\e809";
+.userIcon-Calculations:before {
+	content: "\e87f";
 }
-.userIcon-quotes:before {
-	content: "\e80a";
+.userIcon-Quotes:before {
+	content: "\e880";
 }
-.userIcon-sales-order:before {
-	content: "\e82d";
+.userIcon-SalesOrder:before {
+	content: "\e881";
 }
-.userIcon-purchase-order:before {
-	content: "\e80b";
+.userIcon-PurchaseOrder:before {
+	content: "\e882";
 }
-.userIcon-price-books:before {
-	content: "\e80c";
+.userIcon-PriceBooks:before {
+	content: "\e883";
 }
-.userIcon-projects2:before {
-	content: "\e80d";
+.userIcon-Project:before {
+	content: "\e879";
 }
 .userIcon-projects:before {
 	content: "\e6c5";
 }
-.userIcon-project_milestones:before {
-	content: "\e813";
+.userIcon-ProjectMilestone:before {
+	content: "\e878";
 }
-.userIcon-project-task:before {
+.userIcon-ProjectTask:before {
 	content: "\e6c8";
 }
 .userIcon-support:before {
-	content: "\e80e";
+	content: "\e873";
 }
-.userIcon-tickets:before {
-	content: "\e80f";
+.userIcon-HelpDesk:before {
+	content: "\e874";
 }
-.userIcon-service-contracts:before {
-	content: "\e810";
+.userIcon-ServiceContracts:before {
+	content: "\e875";
 }
-.userIcon-faq:before {
-	content: "\e811";
+.userIcon-Faq:before {
+	content: "\e876";
 }
 .userIcon-bookkeeping:before {
-	content: "\e812";
+	content: "\e86f";
 }
-.userIcon-costs:before {
-	content: "\e814";
+.userIcon-OSSCosts:before {
+	content: "\e870";
 }
-.userIcon-invoices:before {
-	content: "\e815";
+.userIcon-Invoice:before {
+	content: "\e871";
 }
-.userIcon-payments-out:before {
-	content: "\e816";
+.userIcon-PaymentsOut:before {
+	content: "\e872";
 }
-.userIcon-payments-in:before {
-	content: "\e817";
+.userIcon-PaymentsIn:before {
+	content: "\e877";
 }
 .userIcon-human-resources:before {
-	content: "\e818";
+	content: "\e86b";
 }
-.userIcon-employees:before {
-	content: "\e819";
+.userIcon-OSSEmployees:before {
+	content: "\e86c";
 }
-.userIcon-time-control:before {
-	content: "\e81a";
+.userIcon-OSSTimeControl:before {
+	content: "\e86d";
 }
-.userIcon-annual-holiday-entitlement:before {
-	content: "\e81b";
+.userIcon-HolidaysEntitlement:before {
+	content: "\e86e";
 }
 .userIcon-secretary:before {
-	content: "\e81c";
+	content: "\e869";
 }
-.userIcon-letters-incoming:before {
+.userIcon-LettersIn:before {
 	content: "\e6a7";
 }
-.userIcon-letters-outgoing:before {
+.userIcon-LettersOut:before {
 	content: "\e6a8";
 }
-.userIcon-reservations:before {
-	content: "\e81d";
+.userIcon-Reservations:before {
+	content: "\e86a";
 }
 .userIcon-database:before {
-	content: "\e81e";
+	content: "\e856";
 }
-.userIcon-products:before {
-	content: "\e81f";
+.userIcon-Products:before {
+	content: "\e857";
 }
-.userIcon-outsourced-products:before {
-	content: "\e820";
+.userIcon-OutsourcedProducts:before {
+	content: "\e858";
 }
-.userIcon-assets:before {
-	content: "\e821";
+.userIcon-Assets:before {
+	content: "\e859";
 }
-.userIcon-services:before {
-	content: "\e822";
+.userIcon-Services:before {
+	content: "\e85a";
 }
-.userIcon-outsourced-services:before {
-	content: "\e823";
+.userIcon-OSSOutsourcedServices:before {
+	content: "\e85b";
 }
-.userIcon-sold-services:before {
-	content: "\e824";
+.userIcon-OSSSoldServices:before {
+	content: "\e85c";
 }
-.userIcon-corporate-emails:before {
-	content: "\e825";
+.userIcon-OSSMailView:before {
+	content: "\e85d";
 }
-.userIcon-text-messages:before {
-	content: "\e826";
+.userIcon-SMSNotifier:before {
+	content: "\e85e";
 }
-.userIcon-list-of-calls:before {
-	content: "\e827";
+.userIcon-PBXManager:before {
+	content: "\e85f";
 }
-.userIcon-mail-templates:before {
-	content: "\e828";
+.userIcon-OSSMailTemplates:before {
+	content: "\e860";
 }
-.userIcon-documents:before {
-	content: "\e829";
+.userIcon-Documents:before {
+	content: "\e861";
 }
-.userIcon-pdf:before {
-	content: "\e82e";
+.userIcon-OSSPdf:before {
+	content: "\e862";
 }
-.userIcon-user-access-control:before {
-	content: "\e832";
+.userIcon-OSSPasswords:before {
+	content: "\e863";
 }
-.userIcon-call-history:before {
-	content: "\e831";
+.userIcon-CallHistory:before {
+	content: "\e864";
 }
-.userIcon-rss:before {
-	content: "\e830";
+.userIcon-Rss:before {
+	content: "\e865";
 }
-.userIcon-our-sites:before {
-	content: "\e82b";
+.userIcon-Portal:before {
+	content: "\e866";
 }
-.userIcon-reports:before {
-	content: "\e82f";
+.userIcon-Reports:before {
+	content: "\e867";
 }
-.userIcon-new-orders:before {
-	content: "\e82a";
+.userIcon-NewOrders:before {
+	content: "\e868";
 }
 .userIcon-team-work:before {
 	content: "\e6ce";
 }
-.userIcon-ideas:before {
+.userIcon-Ideas:before {
 	content: "\e6cf";
 }
