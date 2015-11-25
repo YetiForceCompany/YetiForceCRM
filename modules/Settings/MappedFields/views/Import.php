@@ -22,7 +22,7 @@ class Settings_MappedFields_Import_View extends Vtiger_BasicModal_View
 	function process(Vtiger_Request $request)
 	{
 		$log = vglobal('log');
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . print_r($request, true) . ') method ...');
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);

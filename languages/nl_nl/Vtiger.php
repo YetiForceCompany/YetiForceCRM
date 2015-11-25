@@ -1058,6 +1058,7 @@ $languageStrings = [
 	'LBL_OPEN_NEW_WINDOWS_INFO' => 'A new browser tab will be opened with edition view for each record separately.',
 	'LBL_GENERATE_RECORDS' => 'Generate records',
 	'LBL_NOT_ASSIGNET_TO_BLOCK' => 'Unassigned',
+	'LBL_ADVANCED_BLOCK' => 'Advanced Block',
 	'LBL_SELF_ID' => 'Record Id',
 	'LBL_REMINDER' => "Reminder",
 	'Groups' => 'Groups',

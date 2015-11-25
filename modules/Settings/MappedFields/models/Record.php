@@ -60,7 +60,7 @@ class Settings_MappedFields_Record_Model extends Settings_Vtiger_Record_Model
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Vtiger_List_Js.deleteRecord(' . $this->getId() . ');',
+				'class' => 'deleteMap',
 				'linkicon' => 'glyphicon glyphicon-trash'
 			]
 		];

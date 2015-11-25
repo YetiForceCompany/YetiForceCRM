@@ -34,9 +34,9 @@
 						<table class="table table-bordered" id="mappingToGenerate">
 							<tbody>
 								<tr class="blockHeader">
-									<th class='sourceModuleName'><b>{vtranslate('SINGLE_'|cat:$SEL_MODULE_MODEL->getName(), $SEL_MODULE_MODEL->getName())}</b></th>
+									<th class="sourceModuleName"><b>{vtranslate('SINGLE_'|cat:$SEL_MODULE_MODEL->getName(), $SEL_MODULE_MODEL->getName())}</b></th>
 									<th><b>{vtranslate('LBL_FIELDS_TYPE', $QUALIFIED_MODULE)}</b></th>
-									<th class='targetModuleName'><b>{vtranslate('SINGLE_'|cat:$REL_MODULE_MODEL->getName(), $REL_MODULE_MODEL->getName())}</b></th>
+									<th class="targetModuleName"><b>{vtranslate('SINGLE_'|cat:$REL_MODULE_MODEL->getName(), $REL_MODULE_MODEL->getName())}</b></th>
 									<th class="defaultHeader"><b>{vtranslate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}</b></th>
 									<th class="actionsHeader"><b>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</b></th>
 								</tr>
@@ -92,7 +92,7 @@
 											{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields(true)}
 												<optgroup label="{vtranslate($BLOCK_NAME, $SEL_MODULE_MODEL->getName())}">
 													{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
-														<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-mappingtype="{$FIELD_OBJECT->getFieldType()}" label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
+														<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-type-name="{vtranslate($FIELD_OBJECT->getFieldDataType(), $QUALIFIED_MODULE)}" data-mappingtype="{$FIELD_OBJECT->getFieldType()}" label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
 															{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}
 														</option>
 													{/foreach}

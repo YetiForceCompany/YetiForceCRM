@@ -34,12 +34,12 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public $name = 'MappedFields';
 	public $parent = 'Settings';
 
-	public static function getCreateRecordUrl()
+	public function getCreateRecordUrl()
 	{
 		return 'index.php?module=MappedFields&parent=Settings&view=Edit';
 	}
 
-	public static function getImportViewUrl()
+	public function getImportViewUrl()
 	{
 		return 'index.php?module=MappedFields&parent=Settings&view=Import';
 	}
@@ -91,6 +91,18 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		return $this->record->getId();
 	}
 
+	public static function getSupportedModules()
+	{
+		$moduleModels = Settings_Vtiger_CustomRecordNumberingModule_Model::getSupportedModules();
+		$supportedModuleModels = [];
+		foreach ($moduleModels as $tabId => $moduleModel) {
+			if ($moduleModel->getName() != 'OSSMailView') {
+				$supportedModuleModels[$tabId] = $moduleModel;
+			}
+		}
+		return $supportedModuleModels;
+	}
+	
 	/**
 	 * Function to get instance
 	 * @return <Settings_MappedFields_Module_Model>
@@ -98,7 +110,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getCleanInstance($moduleName = 'Vtiger')
 	{
 		$log = vglobal('log');
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . print_r($moduleName, true) . ') method ...');
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
 		$data = [];
@@ -131,7 +143,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getInstance($moduleName)
 	{
 		$log = vglobal('log');
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . print_r($moduleName, true) . ') method ...');
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if ($moduleModel) {
 			$objectProperties = get_object_vars($moduleModel);
@@ -147,7 +159,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
 		$log = vglobal('log');
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . print_r($recordId, true) . ',' . print_r($moduleName, true) . ') method ...');
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
 		$instance = new self();
 		$instance->record = Vtiger_MappedFields_Model::getInstanceById($recordId, $moduleName);
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
@@ -180,7 +192,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getSpecialFields()
 	{
 		$db = PearDatabase::getInstance();
-		$fields = ['id' => ['name' => 'id', 'fieldDataType' => 'reference', 'label' => 'LBL_SELF_ID', 'typeofdata' => 'SELF']];
+		$fields = ['id' => ['name' => 'id', 'id' => 'id', 'fieldDataType' => 'reference', 'label' => 'LBL_SELF_ID', 'typeofdata' => 'SELF']];
 		$models = [];
 		foreach ($fields as $fieldName => $data) {
 			$fieldInstane = Settings_MappedFields_Field_Model::fromArray($data);

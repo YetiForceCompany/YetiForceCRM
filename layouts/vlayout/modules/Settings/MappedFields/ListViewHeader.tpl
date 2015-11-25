@@ -4,17 +4,18 @@
 		<div class="listViewTopMenuDiv">
 			<div class="row">
 				<div class="col-md-12">
-					<h3>{vtranslate($MODULE,$QUALIFIED_MODULE)}</h3>
+					{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					{vtranslate('LBL_MAPPEDFIELDS_DESCRIPTION', $QUALIFIED_MODULE)}
 				</div>
 			</div>
 			<hr>
 			<div class="row">
 				<div class="col-md-4 btn-toolbar">
-					<button class="btn btn-default addButton" id="addButton" data-url="{Settings_MappedFields_Module_Model::getCreateRecordUrl()}">
+					<button class="btn btn-default addButton" id="addButton" data-url="{$MODULE_MODEL->getCreateRecordUrl()}">
 						<span class="glyphicon glyphicon-plus"></span>&nbsp;
 						<strong>{vtranslate('LBL_ADD_TEMPLATE',$QUALIFIED_MODULE)}</strong>
 					</button>
-					<button class="btn btn-default importButton" id="importButton" data-url="{Settings_MappedFields_Module_Model::getImportViewUrl()}" title="{vtranslate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
+					<button class="btn btn-default importButton" id="importButton" data-url="{$MODULE_MODEL->getImportViewUrl()}" title="{vtranslate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
 						<i class="glyphicon glyphicon-import"></i>
 					</button>
 				</div>
