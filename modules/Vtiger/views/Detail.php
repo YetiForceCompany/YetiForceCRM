@@ -110,6 +110,19 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$viewer->assign('NEXT_RECORD_URL', $moduleModel->getDetailViewUrl($nextRecordId));
 		}
 
+		$selectedTabLabel = $request->get('tab_label');
+		if (empty($selectedTabLabel)) {
+			if ($currentUserModel->get('default_record_view') === 'Detail') {
+				$selectedTabLabel = vtranslate('LBL_RECORD_DETAILS', $moduleName);
+			} else {
+				if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
+					$selectedTabLabel = vtranslate('LBL_RECORD_SUMMARY', $moduleName);
+				} else {
+					$selectedTabLabel = vtranslate('LBL_RECORD_DETAILS', $moduleName);
+				}
+			}
+		}
+		$viewer->assign('SELECTED_TAB_LABEL', $selectedTabLabel);
 		$viewer->assign('MODULE_MODEL', $this->record->getModule());
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
 		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
@@ -162,36 +175,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if (!$this->record) {
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
-		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
-		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
-
-		$selectedTabLabel = $request->get('tab_label');
-
-		if (empty($selectedTabLabel)) {
-			if ($currentUserModel->get('default_record_view') === 'Detail') {
-				$selectedTabLabel = vtranslate('LBL_RECORD_DETAILS', $moduleName);
-			} else {
-				if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
-					$selectedTabLabel = vtranslate('LBL_RECORD_SUMMARY', $moduleName);
-				} else {
-					$selectedTabLabel = vtranslate('LBL_RECORD_DETAILS', $moduleName);
-				}
-			}
-		}
-
 		$viewer = $this->getViewer($request);
-
-		$viewer->assign('SELECTED_TAB_LABEL', $selectedTabLabel);
 		$viewer->assign('MODULE_MODEL', $this->record->getModule());
-		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
-
 		$viewer->view('DetailViewPostProcess.tpl', $moduleName);
-
 		parent::postProcess($request);
 	}
 
