@@ -17,7 +17,7 @@
 	{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{if $BLOCKS_HIDE}
-	<div class="table-responsive">
+	<div class="">
 		<table class="table table-bordered equalSplit detailview-table">
 			<thead>
 				<tr>

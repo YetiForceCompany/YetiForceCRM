@@ -68,6 +68,9 @@ class Vtiger_sharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{
+		if($record === false){
+			return [];
+		}
 		$db = PearDatabase::getInstance();
 		$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record);
 		$moduleName = $recordMetaData['setype'];

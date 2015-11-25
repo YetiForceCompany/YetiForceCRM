@@ -240,16 +240,16 @@ class Users_Privileges_Model extends Users_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$userIds = $recordModel->get('shownerid');
+		$record = $recordModel->getId();
+		$shownersTable = Vtiger_sharedOwner_UIType::getShownerTable($recordModel->getModuleName());
+
+		$db->delete($shownersTable, 'crmid = ?', [$record]);
 		if (empty($userIds)) {
 			return false;
 		}
 		if (!is_array($userIds) && $userIds) {
 			$userIds = [$userIds];
 		}
-		$record = $recordModel->getId();
-		$shownersTable = Vtiger_sharedOwner_UIType::getShownerTable($recordModel->getModuleName());
-
-		$db->delete($shownersTable, 'crmid = ?', [$record]);
 		foreach ($userIds as $userId) {
 			$db->insert($shownersTable, [
 				'crmid' => $record,
