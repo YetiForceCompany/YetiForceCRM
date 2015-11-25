@@ -772,6 +772,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$queryGenerator->addCustomColumn($table . '.' . $column);
 		}
 		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
+		$listQuery .= ' ORDER BY last_name ASC, first_name ASC';
 		$result = $db->query($listQuery);
 
 		$users = $group = [];

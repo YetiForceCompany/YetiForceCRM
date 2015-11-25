@@ -149,7 +149,7 @@ function get_user_array($add_blank = true, $status = 'Active', $assigned_user = 
 			array_push($params, $assigned_user);
 		}
 
-		$query .= ' order by last_name ASC, first_name ASC';
+		$query .= ' ORDER BY last_name ASC, first_name ASC';
 		$result = $db->pquery($query, $params, true, 'Error filling in user array: ');
 
 		if ($add_blank == true) {
