@@ -4,7 +4,7 @@
 		<div class="listViewTopMenuDiv">
 			<div class="row">
 				<div class="col-md-12">
-					{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					<h3>{vtranslate('LBL_MAPPEDFIELDS', $QUALIFIED_MODULE)}</h3>
 					{vtranslate('LBL_MAPPEDFIELDS_DESCRIPTION', $QUALIFIED_MODULE)}
 				</div>
 			</div>

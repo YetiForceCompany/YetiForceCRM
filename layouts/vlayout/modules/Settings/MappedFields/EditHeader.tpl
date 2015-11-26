@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="editContainer leftRightPadding3p">
+	<div class="editContainer col-md-12">
 		<h3>
 			{if $RECORDID eq ''}
 				{vtranslate('LBL_CREATING_MF',$QUALIFIED_MODULE)}
