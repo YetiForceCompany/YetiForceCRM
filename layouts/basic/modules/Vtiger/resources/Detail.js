@@ -2282,8 +2282,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 				AppConnector.request(params).then(function (response) {
 					if (response.success) {
-						thisInstance.loadListRelatedModules();
 						$(item).find('.count').text(response.result.numberOfRecords );
+						thisInstance.loadListRelatedModules();
 					}
 				});
 			}
@@ -2721,23 +2721,32 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	loadListRelatedModules: function(){
 		var container = jQuery('.related');	
+		var moreBtn = container.find('.dropdown');
+		var moreList = container.find('.nav .dropdown-menu');
+		var margin = 2;
 		var totalWidth = container.width();
 		var mainNavWidth = 0;
 		var freeSpace = 0;
-		container.find('.nav .mainNav, .dropdown-menu').each(function (e) {
-			mainNavWidth += jQuery(this).width();
-		});
-		freeSpace = totalWidth - mainNavWidth ;
-		var moreList = container.find('.nav .dropdown-menu');
+		container.find('.nav .mainNav').each(function (e) {
+			mainNavWidth += jQuery(this).width() + margin;
+		});	
+		moreBtn.removeClass('hide');
+		var widthMoreBtn = moreBtn.width();
+		moreBtn.addClass('hide');
+		freeSpace = totalWidth - mainNavWidth - widthMoreBtn ;
 		container.find('.nav > .relatedNav').each(function () {
+			jQuery(this).removeClass('hide');
 			if(freeSpace  > jQuery(this).width()){
-				moreList.find('[data-reference="'+jQuery(this).data('reference')+'"]').addClass('hide');
-				jQuery(this).removeClass('hide');
-				freeSpace -= jQuery(this).width();
+				moreList.find('[data-reference="' + jQuery(this).data('reference')+'"]').addClass('hide');				
+				freeSpace -= jQuery(this).width() + margin ;
 			}
 			else{
+				if(freeSpace !== 0){
+					moreBtn.removeClass('hide');
+				}
+				freeSpace = 0;
 				jQuery(this).addClass('hide');
-				moreList.find('[data-reference="'+jQuery(this).data('reference')+'"]').removeClass('hide');
+				moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').removeClass('hide');
 			}
 		});
 	},
