@@ -22,7 +22,8 @@
 					<select class="chzn-select" id="moduleFilter" >
 						<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 						{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
-							<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$MODULE_MODEL->getName()}">
+							{if $MODULE_MODEL->getName() eq 'OSSMailView'} continue {/if}
+							<option {if $SOURCE_MODULE eq $MODULE_MODEL->getId()} selected="" {/if} value="{$MODULE_MODEL->getId()}">
 								{vtranslate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
 							</option>
 						{/foreach}

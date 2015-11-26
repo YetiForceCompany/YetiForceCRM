@@ -12,6 +12,17 @@ class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 	{
 		//TODO Add permission
 	}
+	
+	public function checkMandatoryFields($recordModel)
+	{
+		$mandatoryFields = $recordModel->getModule()->getMandatoryFieldModels();
+		foreach($mandatoryFields as $field){
+			if(empty($recordModel->get($field->getName()))){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	function process(Vtiger_Request $request)
 	{
@@ -20,8 +31,7 @@ class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 		$template = $request->get('template');
 		$targetModuleName = $request->get('target');
 		$method = $request->get('method');
-		$allRecords = count($records);
-		$recordsOk = [];
+		$success = [];
 		if (!empty($template)) {
 			$templateRecord = Vtiger_MappedFields_Model::getInstanceById($template);
 			foreach ($records as $recordId) {
@@ -30,6 +40,9 @@ class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 						$recordModel = Vtiger_Record_Model::getCleanInstance($targetModuleName);
 						$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId);
 						$recordModel->setRecordFieldValues($parentRecordModel);
+						if($this->checkMandatoryFields($recordModel)){
+							continue;
+						}
 						$recordModel->save();
 						if (isRecordExists($recordModel->getId())) {
 							$success[] = $recordId;

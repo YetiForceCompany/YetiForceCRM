@@ -2804,11 +2804,17 @@ textarea {
 .paddingTop20 {
 	padding-top: 20px;
 }
+.paddingTop10 {
+	padding-top: 10px;
+}
 .padding20px {
 	padding: 20px;
 }
 .padding-bottom1per {
 	padding-bottom: 1%;
+}
+.paddingBottom20{
+	padding-bottom: 20px;
 }
 .marginBottom10px {
 	margin-bottom: 10px;
@@ -3620,6 +3626,9 @@ span[name=existingImages] img{
 	color:#fff;
 	background: #4a5364;
 }
+.baseContainer .leftPanel .menuContainer .subMenu a{
+	color: #4a5364;
+}
 .baseContainer .leftPanel .menuContainer .subMenu  a.hasIcon,
 .baseContainer .leftPanel .menuContainer .subMenu  button .hasIcon {
 	padding: 6px 10px;
@@ -4295,6 +4304,15 @@ html,body,.baseContainer
 .listViewActionsDiv .pagination > li > span,
 .listViewActionsDiv .pageInfo {
 	max-height:34px;
+}
+#mappingToGenerate th:not(.defaultHeader):not(.actionsHeader){
+	width: 24%;
+}
+#mappingToGenerate .defaultHeader{
+	width: 20%;
+}
+#mappingToGenerate .actionsHeader{
+	width: 8%;
 }
 @media only screen and (min-width: 1240px){
 	.selectSearch{

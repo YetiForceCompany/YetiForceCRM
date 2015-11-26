@@ -67,6 +67,8 @@ $languageStrings = [
 	'CreateDashboardFilter' => 'Podsumowanie modułu - Tworzenie widgetów z filtrem',
 	'DetailTransferOwnership' => 'Podgląd rekordu - Zmiana właściciela',
 	'ExportPdf' => 'Eksport do PDF',
+	'RecordMapping' => 'Podgląd rekordu - Generowanie rekordu zmapowanych pól',
+	'RecordMappingList' => 'Generowanie rekordów zmapowanych pól',
 	//end actions
 	'Admin Profile' => 'Profil administratora',
 	'Support Profile' => 'Profil wsparcia',

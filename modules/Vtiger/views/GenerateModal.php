@@ -10,6 +10,7 @@ class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 
 	public function checkPermission(Vtiger_Request $request)
 	{
+		// TODO add permission
 		true;
 	}
 
@@ -37,7 +38,6 @@ class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 			$templates = $mfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName);
 			$viewer->assign('RECORD', $recordId);
 		}
-
 
 		$viewer->assign('TEMPLATES', $templates);
 		$viewer->assign('VIEW', $view);

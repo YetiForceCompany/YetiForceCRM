@@ -6,10 +6,13 @@
    * The Initial Developer of the Original Code is vtiger.
    * Portions created by vtiger are Copyright (C) vtiger.
    * All Rights Reserved.
-  *
+   * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
+{if !$USER_MODEL}
+	{assign var=USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
+{/if}
 <div class="row conditionRow marginBottom10px">
 	<span class="col-md-4">
 		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control" name="columnname" title="{vtranslate('LBL_CHOOSE_FIELD')}">
@@ -46,7 +49,6 @@
 						{assign var=referenceList value=$FIELD_MODEL->getWebserviceFieldObject()->getReferenceList()}
 						{if is_array($referenceList) && in_array('Users', $referenceList)}
 								{assign var=USERSLIST value=array()}
-								{assign var=CURRENT_USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
 								{assign var=ACCESSIBLE_USERS value = $USER_MODEL->getAccessibleUsers()}
 								{foreach item=USER_NAME from=$ACCESSIBLE_USERS}
 										{$USERSLIST[$USER_NAME] = $USER_NAME}
@@ -95,7 +97,6 @@
 						{assign var=referenceList value=$FIELD_MODEL->getWebserviceFieldObject()->getReferenceList()}
 						{if is_array($referenceList) && in_array('Users', $referenceList)}
 								{assign var=USERSLIST value=array()}
-								{assign var=CURRENT_USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
 								{assign var=ACCESSIBLE_USERS value = $USER_MODEL->getAccessibleUsers()}
 								{foreach item=USER_NAME from=$ACCESSIBLE_USERS}
 										{$USERSLIST[$USER_NAME] = $USER_NAME}

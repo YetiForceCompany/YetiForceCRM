@@ -65,6 +65,8 @@ $languageStrings = [
 	'CreateDashboardFilter' => 'Filter Widgets erzeugen',
 	'DetailTransferOwnership' => 'Vorschau Datensatz - Zuständigen ändern',
 	'ExportPdf' => '__UNTRANSLATED__',
+	'RecordMapping' => 'Record preview - Generating mapped fields record',
+	'RecordMappingList' => 'Generating mapped fields records',
 	//end Actions
 	'Admin Profile' => 'Admin Profile',
 	'Support Profile' => 'Support Profile',

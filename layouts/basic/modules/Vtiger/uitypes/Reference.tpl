@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
@@ -18,8 +18,8 @@
 	{if {$REFERENCE_LIST_COUNT} eq 1}
 		<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}" value="{reset($REFERENCE_LIST)}" />
 	{/if}
+	{assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
 	{if {$REFERENCE_LIST_COUNT} gt 1}
-		{assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
 		{assign var="REFERENCED_MODULE_STRUCT" value=$FIELD_MODEL->getUITypeModel()->getReferenceModule($DISPLAYID)}
 		{if !empty($REFERENCED_MODULE_STRUCT)}
 			{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}

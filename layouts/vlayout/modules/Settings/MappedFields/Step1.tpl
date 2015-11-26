@@ -10,8 +10,8 @@
 			<input type="hidden" name="record" value="{$RECORDID}" />
 
 			{if $RECORDID}
-				<input type="hidden" name="tabid" value="{$MAPPEDFIELDS_MODULE_MODEL->get('tabid')}" />
-				<input type="hidden" name="reltabid" value="{$MAPPEDFIELDS_MODULE_MODEL->get('reltabid')}" />
+				<input type="hidden" name="tabid" value="{$MF_MODEL->get('tabid')}" />
+				<input type="hidden" name="reltabid" value="{$MF_MODEL->get('reltabid')}" />
 			{/if}
 			<div class="padding1per stepBorder">
 				<label>
@@ -24,10 +24,10 @@
 					</label>
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="status" name="status" required="true">
-							<option value="active" {if $MAPPEDFIELDS_MODULE_MODEL->get('status') eq 'active'} selected {/if}>
+							<option value="active" {if $MF_MODEL->get('status') eq 'active'} selected {/if}>
 								{vtranslate('active', $QUALIFIED_MODULE)}
 							</option>
-							<option value="inactive" {if $MAPPEDFIELDS_MODULE_MODEL->get('status') eq 'inactive'} selected {/if}>
+							<option value="inactive" {if $MF_MODEL->get('status') eq 'inactive'} selected {/if}>
 								{vtranslate('inactive', $QUALIFIED_MODULE)}
 							</option>
 						</select>
@@ -40,7 +40,8 @@
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="tabid" name="tabid" required="true" data-validation-engine='validate[required]' {if $RECORDID} disabled {/if}>
 							{foreach from=$ALL_MODULES key=TABID item=MODULE}
-								<option value="{$TABID}" {if $MAPPEDFIELDS_MODULE_MODEL->get('tabid') == $TABID} selected {/if}>
+								{if $MODULE->getName() eq 'OSSMailView'} continue {/if}
+								<option value="{$TABID}" {if $MF_MODEL->get('tabid') == $TABID} selected {/if}>
 									{vtranslate($MODULE->getName(), $MODULE->getName())}
 								</option>
 							{/foreach}
@@ -54,7 +55,8 @@
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="reltabid" name="reltabid" required="true" data-validation-engine='validate[required]' {if $RECORDID} disabled {/if}>
 							{foreach from=$ALL_MODULES key=TABID item=MODULE}
-								<option value="{$TABID}" {if $MAPPEDFIELDS_MODULE_MODEL->get('reltabid') == $TABID} selected {/if}>
+								{if $MODULE->getName() eq 'OSSMailView'} continue {/if}
+								<option value="{$TABID}" {if $MF_MODEL->get('reltabid') == $TABID} selected {/if}>
 									{vtranslate($MODULE->getName(), $MODULE->getName())}
 								</option>
 							{/foreach}

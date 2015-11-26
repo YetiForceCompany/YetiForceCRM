@@ -13,7 +13,7 @@
 				</div>
 				<div class="pull-right rightHeaderBtn">
 					<div class="remindersNotice quickAction">
-						<a class="btn btn-default btn-sm" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
+						<a class="btn btn-default btn-sm" title="{vtranslate('LBL_REMINDER',$MODULE)}" href="#">
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>

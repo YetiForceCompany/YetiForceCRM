@@ -82,7 +82,7 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT COUNT(1) AS num FROM `vtiger_apiaddress` WHERE `name` = "key" AND `val` != "";';
+		$query = 'SELECT COUNT(1) AS num FROM `vtiger_apiaddress` WHERE `name` = "nominatim" AND `val` > "0";';
 		$result = $db->query($query);
 
 		return (bool) $db->getSingleValue($result);

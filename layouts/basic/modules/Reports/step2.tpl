@@ -36,10 +36,10 @@
 		<input type="hidden" name="schtypeid" value="{$REPORT_MODEL->get('schtypeid')}">
 
 		<input type="hidden" class="step" value="2" />
-		<div class="well padding1per contentsBackground">
-			<div class="row block padding1per">
-				<div class="padding1per"><span class="redColor">*</span><strong>{vtranslate('LBL_SELECT_COLUMNS',$MODULE)}({vtranslate('LBL_MAX',$MODULE)} 25)</strong></div>
-				<div class="padding1per">
+		<div class="well contentsBackground col-xs-12">
+			<div class="block marginBottom10px col-xs-12 paddingLRZero">
+				<div class="col-xs-12 marginBottom10px"><span class="redColor">*</span><strong>{vtranslate('LBL_SELECT_COLUMNS',$MODULE)}({vtranslate('LBL_MAX',$MODULE)} 25)</strong></div>
+				<div class="col-xs-12">
 					<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" id="reportsColumnsList" data-validation-engine="validate[required]" title="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" class="form-control columns" multiple="">
 						{foreach key=PRIMARY_MODULE_NAME item=PRIMARY_MODULE from=$PRIMARY_MODULE_FIELDS}
 							{foreach key=BLOCK_LABEL item=BLOCK from=$PRIMARY_MODULE}
@@ -63,18 +63,18 @@
 					</select>
 				</div>
 			</div>
-			<div class="row block padding1per">
-				<div class="row padding1per">
-					<span class="col-md-6">
+			<div class="block col-xs-12 paddingLRZero paddingTop20">
+				<div class="col-xs-12 paddingLRZero marginBottom10px">
+					<span class="col-xs-6">
 						<strong>{vtranslate('LBL_GROUP_BY',$MODULE)}</strong>
 					</span>
-					<span class="col-md-6">
+					<span class="col-xs-6">
 						<strong>{vtranslate('LBL_SORT_ORDER',$MODULE)}</strong>
 					</span>
 				</div>
 				{assign var=ROW_VAL value=1}
 				{foreach key=SELECTED_SORT_FIELD_KEY item=SELECTED_SORT_FIELD_VALUE from=$SELECTED_SORT_FIELDS}
-					<div class="row padding1per sortFieldRow">
+					<div class="paddingTop20 col-xs-12 marginBottom10px paddingLRZero sortFieldRow">
 						{include file='RelatedFields.tpl'|@vtemplate_path:$MODULE ROW_VAL=$ROW_VAL}
 						{assign var=ROW_VAL value=($ROW_VAL+1)}
 					</div>
@@ -82,17 +82,17 @@
 				{assign var=SELECTED_SORT_FEILDS_ARRAY value=$SELECTED_SORT_FIELDS}
 				{assign var=SELECTED_SORT_FIELDS_COUNT value=count($SELECTED_SORT_FEILDS_ARRAY)}
 				{while $SELECTED_SORT_FIELDS_COUNT lt 3 }
-					<div class="row padding1per sortFieldRow">
+					<div class="col-xs-12 marginBottom10px paddingLRZero sortFieldRow">
 						{include file='RelatedFields.tpl'|@vtemplate_path:$MODULE ROW_VAL=$ROW_VAL}
 						{assign var=ROW_VAL value=($ROW_VAL+1)}
 						{assign var=SELECTED_SORT_FIELDS_COUNT value=($SELECTED_SORT_FIELDS_COUNT+1)}
 					</div>
 				{/while}
 			</div>
-			<div class="row block padding1per">
-				<div class="padding1per"><strong>{vtranslate('LBL_CALCULATIONS',$MODULE)}</strong></div>
-				<div class="padding1per">
-					<table class="table table-bordered CalculationFields" width="100%">
+			<div class="paddingTop20 col-xs-12 block marginBottom10px ">
+				<div class="marginBottom10px"><strong>{vtranslate('LBL_CALCULATIONS',$MODULE)}</strong></div>
+				<div class="">
+					<table class="table tableRWD table-bordered CalculationFields" width="100%">
 						<thead>
 							<tr class="calculationHeaders">
 								<th>{vtranslate('LBL_COLUMNS',$MODULE)}</th>
@@ -126,7 +126,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="pull-right block">
+		<div class="pull-right block paddingBottom20">
 			<button type="button" class="btn btn-danger backStep"><strong>{vtranslate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button type="submit" class="btn btn-success nextStep"><strong>{vtranslate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button class="cancelLink btn btn-warning" onclick="window.history.back()">{vtranslate('LBL_CANCEL',$MODULE)}</a>
