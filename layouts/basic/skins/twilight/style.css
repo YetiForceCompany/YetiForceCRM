@@ -4825,8 +4825,12 @@ html,body,.baseContainer
 .marginTop10{
 	margin-top: 10px !important;
 }
+.related .nav .relatedNav{
+	background: #f1f1f1;
+}
 .related .nav li{
 	position: relative !important;
+	margin-left: 2px !important;
 } 
 .related .nav-pills{
 	border-bottom: 3px solid #404952;

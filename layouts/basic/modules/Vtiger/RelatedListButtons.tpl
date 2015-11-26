@@ -20,21 +20,21 @@
 									<a href="javascript:void(0);" class="textOverflowEllipsis moduleColor_{$RELATED_LINK->getLabel()}" style="width:auto" title="{$DETAILVIEWRELATEDLINKLBL}">
 										<span class="iconModule userIcon-{$RELATED_LINK->get('relatedModuleName')} pull-left">&nbsp;&nbsp;</span>
 										<strong class="pull-left">{$DETAILVIEWRELATEDLINKLBL}</strong>
-										<span class="count badge pull-right"></span></a>
+										<span class="count badge pull-right">{if vglobal('showRecordsCount')}0{/if}</span></a>
 								</li>
 							{/foreach}
 						</ul>
 					</li>
 					{foreach item=RELATED_LINK from=$DETAILVIEW_LINKS['DETAILVIEWRELATED']}
-						<li class="hide pull-right relatedNav{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL} active{/if}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-reference="{$RELATED_LINK->get('relatedModuleName')}" data-count="{vglobal('showRecordsCount')}">
+						{assign var="DETAILVIEWRELATEDLINKLBL" value= vtranslate($RELATED_LINK->getLabel(), $RELATED_LINK->getRelatedModuleName())}
+							<li {if !vglobal('showNameRelatedModules')}data-content="{$DETAILVIEWRELATEDLINKLBL}" data-placement="top"{/if} class="hide pull-left relatedNav {if !vglobal('showNameRelatedModules')}popoverTooltip{/if}{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL} active{/if}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-reference="{$RELATED_LINK->get('relatedModuleName')}" data-count="{vglobal('showRecordsCount')}">
 							{* Assuming most of the related link label would be module name - we perform dual translation *}
-							{assign var="DETAILVIEWRELATEDLINKLBL" value= vtranslate($RELATED_LINK->getLabel(), $RELATED_LINK->getRelatedModuleName())}
-							<a href="javascript:void(0);" class="textOverflowEllipsis moduleColor_{$RELATED_LINK->getLabel()}" style="width:auto" title="{$DETAILVIEWRELATEDLINKLBL}">
+							<a href="javascript:void(0);"  class="textOverflowEllipsis moduleColor_{$RELATED_LINK->getLabel()}" style="width:auto" title="{$DETAILVIEWRELATEDLINKLBL}">
 								<span class="iconModule userIcon-{$RELATED_LINK->get('relatedModuleName')} pull-left">&nbsp;</span>
 								{if vglobal('showNameRelatedModules')}
 									<strong class="pull-left">{$DETAILVIEWRELATEDLINKLBL}</strong>
 								{/if}
-								<span class="count badge pull-right"></span></a>
+								<span class="count badge pull-right">{if vglobal('showRecordsCount')}0{/if}</span></a>
 						</li>
 					{/foreach}
 				</ul>
