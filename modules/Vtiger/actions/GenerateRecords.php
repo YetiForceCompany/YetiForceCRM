@@ -43,6 +43,7 @@ class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 						if($this->checkMandatoryFields($recordModel)){
 							continue;
 						}
+						// TODO Add saving fields that exist in  advanced module
 						$recordModel->save();
 						if (isRecordExists($recordModel->getId())) {
 							$success[] = $recordId;

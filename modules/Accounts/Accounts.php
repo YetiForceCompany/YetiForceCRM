@@ -900,63 +900,85 @@ class Accounts extends CRMEntity
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		$log->debug("Entering getAccountHierarchy(" . $id . ") method ...");
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
-		$listview_header = Array();
-		$listview_entries = array();
+		$listview_header = [];
+		$listview_entries = [];
 
 		foreach ($this->list_fields_name as $fieldname => $colname) {
 			if (getFieldVisibilityPermission('Accounts', $current_user->id, $colname) == '0') {
 				$listview_header[] = getTranslatedString($fieldname);
 			}
 		}
-
-		$accounts_list = Array();
+		$accounts_list = [];
 
 		// Get the accounts hierarchy from the top most account in the hierarch of the current account, including the current account
 		$encountered_accounts = array($id);
 		$accounts_list = $this->__getParentAccounts($id, $accounts_list, $encountered_accounts);
 
+		$baseId = current(array_keys($accounts_list));
+		$accounts_list = [$baseId=>$accounts_list[$baseId]];
+	
 		// Get the accounts hierarchy (list of child accounts) based on the current account
-		$accounts_list = $this->__getChildAccounts($id, $accounts_list, $accounts_list[$id]['depth']);
+		$accounts_list[$baseId] = $this->__getChildAccounts($baseId, $accounts_list[$baseId], $accounts_list[$baseId]['depth']);
 
 		// Create array of all the accounts in the hierarchy
-		foreach ($accounts_list as $account_id => $account_info) {
-			$account_info_data = array();
-
-			$hasRecordViewAccess = (is_admin($current_user)) || (isPermitted('Accounts', 'DetailView', $account_id) == 'yes');
-
-			foreach ($this->list_fields_name as $fieldname => $colname) {
-				// Permission to view account is restricted, avoid showing field values (except account name)
-				if (!$hasRecordViewAccess && $colname != 'accountname') {
-					$account_info_data[] = '';
-				} else if (getFieldVisibilityPermission('Accounts', $current_user->id, $colname) == '0') {
-					$data = $account_info[$colname];
-					if ($colname == 'accountname') {
-						if ($account_id != $id) {
-							if ($hasRecordViewAccess) {
-								$data = '<a href="index.php?module=Accounts&action=DetailView&record=' . $account_id . '">' . $data . '</a>';
-							} else {
-								$data = '<i>' . $data . '</i>';
-							}
-						} else {
-							$data = '<strong>' . $data . '</strong>';
-						}
-						// - to show the hierarchy of the Accounts
-						$account_depth = str_repeat(" .. ", $account_info['depth'] * 2);
-						$data = $account_depth . $data;
-					} else if ($colname == 'website') {
-						$data = '<a href="http://' . $data . '" target="_blank">' . $data . '</a>';
-					}
-					$account_info_data[] = $data;
-				}
-			}
-			$listview_entries[$account_id] = $account_info_data;
-		}
+		$account_hierarchy = $this->getHierarchyData($id,$accounts_list[$baseId],$baseId,$listview_entries);
 
 		$account_hierarchy = array('header' => $listview_header, 'entries' => $listview_entries);
 		$log->debug("Exiting getAccountHierarchy method ...");
 		return $account_hierarchy;
+	}
+	
+	/**
+	 * Function to create array of all the accounts in the hierarchy
+	 * @param  integer   $id - Id of the record highest in hierarchy
+	 * @param  array   $accountInfoBase 
+	 * @param  integer   $accountId - accountid
+	 * @param  array   $listviewEntries 
+	 * returns All the parent accounts of the given accountid in array format
+	 */
+	function getHierarchyData($id, $accountInfoBase, $accountId, &$listviewEntries)
+	{
+		$log = vglobal('log');
+		$log->debug("Entering getHierarchyData(" . $id . "," . $accountInfoBase . "," . $accountId . "," . $listviewEntries . ") method ...");
+		$currentUser = vglobal('current_user');
+		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
+
+		$hasRecordViewAccess = (is_admin($currentUser)) || (isPermitted('Accounts', 'DetailView', $accountId) == 'yes');
+
+		foreach ($this->list_fields_name as $fieldname => $colname) {
+			// Permission to view account is restricted, avoid showing field values (except account name)
+			if (!$hasRecordViewAccess && $colname != 'accountname') {
+				$accountInfoData[] = '';
+			} else if (getFieldVisibilityPermission('Accounts', $currentUser->id, $colname) == '0') {
+				$data = $accountInfoBase[$colname];
+				if ($colname == 'accountname') {
+					if ($accountId != $id) {
+						if ($hasRecordViewAccess) {
+							$data = '<a href="index.php?module=Accounts&action=DetailView&record=' . $accountId . '">' . $data . '</a>';
+						} else {
+							$data = '<span>' . $data . '</span>';
+						}
+					} else {
+						$data = '<strong>' . $data . '</strong>';
+					}
+					// - to show the hierarchy of the Accounts
+					$account_depth = str_repeat(" .. ", $accountInfoBase['depth']);
+					$data = $account_depth . $data;
+				} else if ($colname == 'website') {
+					$data = '<a href="http://' . $data . '" target="_blank">' . $data . '</a>';
+				}
+				$accountInfoData[] = $data;
+			}
+		}
+		$listviewEntries[$accountId] = $accountInfoData;
+		foreach ($accountInfoBase as $accId => $accountInfo) {
+			if (is_array($accountInfo) && intval($accId)) {
+				$listviewEntries = $this->getHierarchyData($id, $accountInfo, $accId, $listviewEntries);
+			}
+		}
+		$log->debug("Exiting getHierarchyData method ...");
+		return $listviewEntries;
 	}
 
 	/**
@@ -1030,11 +1052,11 @@ class Accounts extends CRMEntity
 	 * @param  integer   $depth          - Depth at which the particular account has to be placed in the hierarchy
 	 * returns All the child accounts of the given accountid in array format
 	 */
-	function __getChildAccounts($id, &$child_accounts, $depth)
+	function __getChildAccounts($id, &$child_accounts, $depthBase)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
-		$log->debug("Entering __getChildAccounts(" . $id . "," . $child_accounts . "," . $depth . ") method ...");
+		$log->debug("Entering __getChildAccounts(" . $id . "," . print_r($child_accounts,true) . "," . $depth . ") method ...");
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
@@ -1056,13 +1078,10 @@ class Accounts extends CRMEntity
 		$num_rows = $adb->num_rows($res);
 
 		if ($num_rows > 0) {
-			$depth = $depth + 1;
+			$depth = $depthBase + 1;
 			for ($i = 0; $i < $num_rows; $i++) {
 				$child_acc_id = $adb->query_result($res, $i, 'accountid');
-				if (array_key_exists($child_acc_id, $child_accounts)) {
-					continue;
-				}
-				$child_account_info = array();
+				$child_account_info = [];
 				$child_account_info['depth'] = $depth;
 				foreach ($this->list_fields_name as $fieldname => $columnname) {
 					if ($columnname == 'assigned_user_id') {
@@ -1072,7 +1091,7 @@ class Accounts extends CRMEntity
 					}
 				}
 				$child_accounts[$child_acc_id] = $child_account_info;
-				$this->__getChildAccounts($child_acc_id, $child_accounts, $depth);
+				$this->__getChildAccounts($child_acc_id, $child_accounts[$child_acc_id], $depth);
 			}
 		}
 		$log->debug("Exiting __getChildAccounts method ...");

@@ -31,11 +31,13 @@ Class OSSCosts_Edit_View extends Inventory_Edit_View {
 			$relatedProducts = $recordModel->getProducts();
 			$viewer->assign('RECORD_ID', $record);
 			$viewer->assign('MODE', 'edit');
-		} elseif ($request->get('salesorder_id') || $request->get('quote_id')) {
+		} elseif ($request->get('salesorder_id') || $request->get('quote_id') || $request->get('reference_id')) {
 			if ($request->get('salesorder_id')) {
 				$referenceId = $request->get('salesorder_id');
-			} else {
+			} elseif ($request->has('quote_id')) {
 				$referenceId = $request->get('quote_id');
+			} else {
+				$referenceId = $request->get('reference_id');
 			}
 
 			$parentRecordModel = Inventory_Record_Model::getInstanceById($referenceId);

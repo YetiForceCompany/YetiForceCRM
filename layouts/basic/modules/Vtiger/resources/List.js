@@ -561,10 +561,9 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewContainer = listInstance.getListViewContentContainer();
 		listViewContainer.find('[data-trigger="listSearch"]').trigger("click");
 	},
-	getSelectedRecordsParams: function () {
+	getSelectedRecordsParams: function (checkList) {
 		var listInstance = Vtiger_List_Js.getInstance();
-		var validationResult = listInstance.checkListRecordSelected();
-		if (validationResult != true) {
+		if (checkList == false || listInstance.checkListRecordSelected() != true) {
 			// Compute selected ids, excluded ids values, along with cvid value and pass as url parameters
 			var selectedIds = listInstance.readSelectedIds(true);
 			var excludedIds = listInstance.readExcludedIds(true);

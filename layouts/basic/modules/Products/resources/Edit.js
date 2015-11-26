@@ -69,9 +69,9 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 			var elem = thisInstance.getCurrentElem(e);
 			var taxBox  = elem.data('taxName');
 			if(elem.is(':checked')) {
-				jQuery('input[name='+taxBox+']',formElem).removeClass('hide').show();
+				jQuery('input[name='+taxBox+']',formElem).removeAttr('readonly');
 			}else{
-				jQuery('input[name='+taxBox+']',formElem).addClass('hide');
+				jQuery('input[name='+taxBox+']',formElem).attr('readonly','readonly');
 			}
 
 		});

@@ -68,4 +68,32 @@ Vtiger_Detail_Js("Accounts_Detail_Js",{
 	getDeleteMessageKey : function() {
 		return 'LBL_RELATED_RECORD_DELETE_CONFIRMATION';
 	},
+	
+	/**
+	 * Number of records in hierarchy
+	 * @license licenses/License.html
+	 * @package YetiForce.Detail
+	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+	 */
+	registerHierarchyRecordCount: function () {
+		var hierarchyButton = $('.detailViewToolbar .hierarchy');
+		if(hierarchyButton.length){
+			var thisInstance = new Vtiger_Detail_Js();
+			var params = {
+				module: app.getModuleName(),
+				action: 'RelationAjax',
+				record: thisInstance.getRecordId(),
+				mode: 'getHierarchyCount',
+			}
+			AppConnector.request(params).then(function (response) {
+				if (response.success) {
+					$('.detailViewToolbar .hierarchy').append(' <span class="badge">' + response.result + '</span>');
+				}
+			});
+		}
+	},
+	registerEvents: function () {
+		this._super();
+		this.registerHierarchyRecordCount();
+	}
 });

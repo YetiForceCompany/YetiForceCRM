@@ -19,23 +19,26 @@
 		{assign var=show_value value="hidden"}
 	{/if}
 	{if $tax_count gt 1}
-	<td class="fieldLabel {$WIDTHTYPE}">
+	</div><div class="col-md-6 fieldRow">
+	<div class="fieldLabel {$WIDTHTYPE} col-md-3">
 		<label class="muted pull-right marginRight10px">
 	{/if}
 			<span class="taxLabel alignBottom">{vtranslate($tax.taxlabel, $MODULE)}<span class="paddingLeft10px"> (%)</span></span>
-			<input type="checkbox" name="{$tax.check_name}" id="{$tax.check_name}" title="{vtranslate($tax.taxlabel, $MODULE)}" class="taxes" data-tax-name={$tax.taxname} {$check_value}>
 		</label>
-	</td>
-	<td class="fieldValue {$WIDTHTYPE}">
+	</div>
+	<div class="fieldValue {$WIDTHTYPE} col-md-9">
 		<div class="row">
-			<div class="col-md-10">
-				<input type="text" class="detailedViewTextBox form-control{if $show_value eq "hidden"} hide {else} show {/if}" name="{$tax.taxname}" value="{$tax.percentage}" title="{$tax.percentage}" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" />
+			<div class="input-group">
+				<span class="input-group-addon">
+						<input type="checkbox" name="{$tax.check_name}" id="{$tax.check_name}" title="{vtranslate($tax.taxlabel, $MODULE)}" class="taxes" data-tax-name={$tax.taxname} {$check_value}>
+				</span>
+				<input type="text" {if $show_value eq 'hidden'} readonly="readonly"{/if} class="detailedViewTextBox form-control muted" name="{$tax.taxname}" value="{$tax.percentage}" title="{$tax.percentage}" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" />
 			</div>
 		</div>
-	</td>
+	</div>
 	{assign var="tax_count" value=$tax_count+1}
 	{if $COUNTER eq 2}
-		</tr><tr>
+	</div><div class="col-md-12>"
 		{assign var="COUNTER" value=1}
 	{else}
 		{assign var="COUNTER" value=$COUNTER+1}

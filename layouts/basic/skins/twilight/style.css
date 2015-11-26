@@ -4061,6 +4061,7 @@ html,body,.baseContainer
 }
 .mainBody{
 	padding-top:50px;
+	padding-bottom:33px;
 	width: 100%;
 	overflow: hidden;
 }
@@ -4747,4 +4748,16 @@ html,body,.baseContainer
 		left: 0;
 		width: 100%;
 	}
+}
+.jstree-proton .jstree-search {
+	color:#fff !important;
+	background: #d9534f;
+	border-radius:3px;
+}
+.hideActionImages .listViewEntriesTable tr:hover td .actions .actionImages ,
+.hideActionImages .listViewEntries td:hover .actions {
+	opacity: 0;
+	/*for IE*/
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
 }

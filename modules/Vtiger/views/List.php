@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Vtiger_List_View extends Vtiger_Index_View
@@ -83,6 +84,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		if ($request->isAjax()) {
 			$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+			$viewer->assign('MODULE_NAME', $moduleName);
 		}
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}

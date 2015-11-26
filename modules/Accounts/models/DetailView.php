@@ -51,6 +51,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				$link->linklabel = 'LBL_SHOW_ACCOUNT_HIERARCHY';
 				$linkURL = 'index.php?module=Accounts&view=AccountHierarchy&record=' . $recordId;
 				$link->linkurl = 'javascript:Accounts_Detail_Js.triggerAccountHierarchy("' . $linkURL . '");';
+				$link->linkclass = 'hierarchy';
 				unset($linkModelList['DETAILVIEW'][$index]);
 				$linkModelList['DETAILVIEW'][$index] = $link;
 			}

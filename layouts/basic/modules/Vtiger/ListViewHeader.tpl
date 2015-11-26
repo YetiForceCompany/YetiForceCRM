@@ -14,7 +14,7 @@
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
 				<div class="btn-toolbar col-md-4">
-					<div class="btn-group listViewMassActions">
+					<div class="btn-group">
 						{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
 							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 								<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
@@ -93,7 +93,11 @@
 									<span class="glyphicon glyphicon-plus"></span>
 								{else}
 									<span class="{$LISTVIEW_BASICACTION->linkicon}"></span>
-								{/if}&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong></button>
+								{/if}
+								{if $LISTVIEW_BASICACTION->getLabel() neq ''}
+									&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong>
+								{/if}
+							</button>
 						</div>
 					{/foreach}
 				</div>

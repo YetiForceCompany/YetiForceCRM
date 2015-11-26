@@ -12,6 +12,7 @@
 class RequirementCards_Record_Model extends Vtiger_Record_Model {
 
 	/**
+	 * TODO remove this function
 	 * Function to set record module field values
 	 * @param parent record model
 	 */
@@ -28,6 +29,7 @@ class RequirementCards_Record_Model extends Vtiger_Record_Model {
 					}
 			}
 		}
+		parent::process($parentRecordModel);
 		$log->debug("Exiting RequirementCards_Record_Model::setRecordFieldValues() method ...");
 	}
 }

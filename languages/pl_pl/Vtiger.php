@@ -1080,6 +1080,8 @@ $languageStrings = [
 	'LBL_NOT_ASSIGNET_TO_BLOCK' => 'Nieprzypisane',
 	'LBL_SELF_ID' => 'Id rekordu',
 	'LBL_REMINDER' => "Powiadomienia",
+	'LBL_CONFREPORT' => 'Serwer - konfiguracja',
+	'LBL_UPDATES_HISTORY' => 'Serwer - aktualizacje',
 	
 ];
 $jsLanguageStrings = [
@@ -1102,7 +1104,7 @@ $jsLanguageStrings = [
 	'JS_ACCEPT_ONLY_NUMBER' => 'Akceptuje tylko liczby',
 	'JS_ACCEPT_POSITIVE_NUMBER' => 'Akceptuje tylko dodatnie liczby',
 	'JS_ALLOWED_TO_SELECT_MAX_OF_THREE_RECORDS' => 'Możesz wybrać maksymalnie trzy rekordy',
-	'JS_ARE_YOU_SURE_TO_DELETE_WIDGET' => 'Czy napewno chcesz zamknąć widżet ',
+	'JS_ARE_YOU_SURE_TO_DELETE_WIDGET' => 'Czy na pewno chcesz zamknąć widżet ',
 	'JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO' => 'Będzie on dostępny pod przyciskiem "Dodaj widżet".',
 	'JS_CAN_NOT_REMOVE_DEFAULT_WIDGET' => 'Nie można usunąć domyślnego widżetu',
 	'JS_CHECK_FILE_INTEGRITY' => 'Sprawdź integralność pliku',

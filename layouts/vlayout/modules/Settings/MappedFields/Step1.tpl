@@ -20,7 +20,7 @@
 				<br>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+						<span class="redColor">*</span>{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="status" name="status" required="true">
@@ -35,7 +35,7 @@
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+						<span class="redColor">*</span>{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="tabid" name="tabid" required="true" data-validation-engine='validate[required]' {if $RECORDID} disabled {/if}>
@@ -50,7 +50,7 @@
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_SELECT_REL_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+						<span class="redColor">*</span>{vtranslate('LBL_SELECT_REL_MODULE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="reltabid" name="reltabid" required="true" data-validation-engine='validate[required]' {if $RECORDID} disabled {/if}>

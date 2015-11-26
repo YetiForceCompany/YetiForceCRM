@@ -6,12 +6,12 @@
    * The Initial Developer of the Original Code is vtiger.
    * Portions created by vtiger are Copyright (C) vtiger.
    * All Rights Reserved.
-  *
+   * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
 	<div id="accountHierarchyContainer" class="modelContainer modal fade" tabindex="-1">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
