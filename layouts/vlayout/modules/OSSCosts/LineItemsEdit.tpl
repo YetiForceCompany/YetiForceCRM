@@ -235,7 +235,7 @@
                     </table>
                     <div class="modal-footer lineItemPopupModalFooter modal-footer-padding">
                         <div class=" pull-right cancelLinkContainer">
-                            <a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                            <button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
                         </div>
                         <button class="btn btn-success" type="button" name="lineItemActionSave"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
                     </div>

@@ -662,9 +662,6 @@ li.ui-timepicker-selected,
 	overflow-x: auto !important;
 	overflow-y: visible;
 }
-.contents-bottomscroll {
-	overflow-x: auto !important;
-}
 .bottomscroll-div,
 .topscroll-div {
 	display: table;
@@ -3855,6 +3852,9 @@ html,body,.baseContainer
 	overflow:auto;
 	overflow-x:hidden;
 	height:calc(100% - 50px);
+}
+.nav li:hover > .subMenu::-webkit-scrollbar {
+	display: none;
 }
 .menuContainer::-webkit-scrollbar {
 	display: none;
