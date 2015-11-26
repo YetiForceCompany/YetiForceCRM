@@ -4051,9 +4051,11 @@ html,body,.baseContainer
 	left: 15%;
 }
 .mainBody{
-	padding-top:50px;
-	padding-bottom:33px;
+	position: absolute;
+	top:50px;
+	bottom:33px;
 	width: 100%;
+	overflow-x: hidden;
 }
 .bootstrap-switch-container{
 	white-space: nowrap;
