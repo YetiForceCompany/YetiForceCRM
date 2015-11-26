@@ -241,7 +241,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		$db = PearDatabase::getInstance();
 		$userIds = $recordModel->get('shownerid');
 		$record = $recordModel->getId();
-		$shownersTable = Vtiger_sharedOwner_UIType::getShownerTable($recordModel->getModuleName());
+		$shownersTable = Vtiger_SharedOwner_UIType::getShownerTable($recordModel->getModuleName());
 
 		$db->delete($shownersTable, 'crmid = ?', [$record]);
 		if (empty($userIds)) {
@@ -281,7 +281,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		foreach ($recordsByModule as $parentModuleName => &$records) {
 			$sqlRecords = implode(',', $records);
-			$shownersTable = Vtiger_sharedOwner_UIType::getShownerTable($parentModuleName);
+			$shownersTable = Vtiger_SharedOwner_UIType::getShownerTable($parentModuleName);
 
 			if ($removeUserString !== false) {
 				$db->delete($shownersTable, 'userid IN(' . $removeUserString . ') AND crmid IN (' . $sqlRecords . ')');

@@ -5,8 +5,9 @@
  * @package YetiForce.Fields
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_sharedOwner_UIType extends Vtiger_Base_UIType
+class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 {
 
 	/**

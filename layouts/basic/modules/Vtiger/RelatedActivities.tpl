@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
@@ -20,7 +20,7 @@
 			{assign var=EDITVIEW_PERMITTED value=isPermitted('Calendar', 'EditView', $RECORD->get('crmid'))}
 			{assign var=DETAILVIEW_PERMITTED value=isPermitted('Calendar', 'DetailView', $RECORD->get('crmid'))}
 			{assign var=STATUS value=$RECORD->get('status')}
-			{assign var=SHAREDOWNER value=Vtiger_sharedOwner_UIType::getSharedOwners($RECORD->get('crmid'), $RECORD->getModuleName())}
+			{assign var=SHAREDOWNER value=Vtiger_SharedOwner_UIType::getSharedOwners($RECORD->get('crmid'), $RECORD->getModuleName())}
 			<div class="activityEntries">
 				<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}"/>
 				<div class="row">

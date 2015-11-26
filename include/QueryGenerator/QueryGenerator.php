@@ -1149,7 +1149,7 @@ class QueryGenerator
 				continue;
 			}
 			if ($field->getUIType() == 120) {
-				$shownersTable = Vtiger_sharedOwner_UIType::getShownerTable($this->getModule());
+				$shownersTable = Vtiger_SharedOwner_UIType::getShownerTable($this->getModule());
 				if ($operator == 'om') {
 					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM ' . $shownersTable . ' WHERE userid = '.Users_Record_Model::getCurrentUserModel()->get('id').')';
 				} else if (in_array($operator, ['e', 's', 'ew', 'c'])) {
