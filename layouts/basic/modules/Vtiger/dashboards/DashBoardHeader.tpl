@@ -58,14 +58,14 @@
 						{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
 						{if $WIDGETS|count gt 0}
 							<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
-								<p class='mobileOff no-margin'>
+								<p class='hidden-xs no-margin'>
 									<strong>{vtranslate('LBL_ADD_WIDGET')}</strong>
 									<span class="caret"></span>
 								</p>
-								<span class='glyphicon glyphicon-th mobileOn'></span>
+								<span class='glyphicon glyphicon-th visible-xs-block'></span>
 							</button>
 							<ul class="dropdown-menu widgetsList pull-left" style="min-width:100%;text-align:left;">
-								<li class='mobileOn'>
+								<li class='visible-xs-block'>
 									<a href='#' class='addFilter' data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
 										{vtranslate('LBL_ADD_FILTER')}
 									</a>
@@ -80,12 +80,12 @@
 							</ul>
 						{else if $MODULE_PERMISSION}
 							<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
-									<strong class="mobileOff">{vtranslate('LBL_ADD_WIDGET')}</strong>
-									<span class="mobileOff caret"></span>
-								<span class='glyphicon glyphicon-th mobileOn'></span>
+									<strong class="hidden-xs">{vtranslate('LBL_ADD_WIDGET')}</strong>
+									<span class="hidden-xs caret"></span>
+								<span class='glyphicon glyphicon-th visible-xs-block'></span>
 							</button>
 							<ul class="dropdown-menu widgetsList pull-left" style="min-width:100%;text-align:left;">
-								<li class='mobileOn'>
+								<li class='visible-xs-block'>
 									<a href='#' class='addFilter' data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
 										{vtranslate('LBL_ADD_FILTER')}
 									</a>
@@ -94,7 +94,7 @@
 						{/if}
 					</div>
 					{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
-						<div class="btn-group mobileOff">
+						<div class="btn-group hidden-xs">
 							<a class='btn btn-default addFilter' data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
 								<strong>{vtranslate('LBL_ADD_FILTER')}</strong>
 							</a>

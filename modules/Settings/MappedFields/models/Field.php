@@ -43,9 +43,6 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		} elseif (!$this->fieldDataType) {
 			$this->fieldDataType = parent::getFieldDataType();
 		}
-		if($this->fieldDataType == 'salutation'){
-			$this->fieldDataType = 'string';
-		}
 		return $this->fieldDataType;
 	}
 

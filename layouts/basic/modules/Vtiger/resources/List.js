@@ -589,6 +589,25 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 		return false;
 	},
+	
+	triggerGenerateRecords: function (url) {
+		var selected = Vtiger_List_Js.getSelectedRecordsParams();
+		if (selected === false) {
+			return false;
+		}
+		var params = {};
+		jQuery.extend(params, selected);
+		url += '&' + jQuery.param(params);
+		var progressIndicatorElement = jQuery.progressIndicator({
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
+			}
+		});
+		app.showModalWindow(null, url, function () {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'})
+		});
+	},
 }, {
 	//contains the List View element.
 	listViewContainer: false,

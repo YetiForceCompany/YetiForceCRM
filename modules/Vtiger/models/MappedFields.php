@@ -198,9 +198,10 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 			if ($mapping) {
 				foreach ($mapping as $mappingId => $mappingDetails) {
 					$finalMapping[$mappingId] = [
+						'type' => $mappingDetails['type'],
 						'default' => $mappingDetails['default'],
-						'source' => Vtiger_Field_Model::getInstanceFromFieldId($mappingDetails['source']),
-						'target' => Vtiger_Field_Model::getInstanceFromFieldId($mappingDetails['target'])
+						'source' => Settings_MappedFields_Field_Model::getInstance($mappingDetails['source'], $this->getModule(), $mappingDetails['type']),
+						'target' => Settings_MappedFields_Field_Model::getInstance($mappingDetails['target'], $this->getRelatedModule(), $mappingDetails['type'])
 					];
 				}
 			}
@@ -225,11 +226,6 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 			}
 		}
 		return false;
-	}
-
-	public function getGenerateModalView()
-	{
-		return 'index.php?module=Vtiger&view=GenerateModal';
 	}
 
 	public function getName()

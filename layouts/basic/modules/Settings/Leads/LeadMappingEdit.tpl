@@ -23,7 +23,7 @@
 				</span>
 			</div>
 			<div class="contents" id="detailView">
-				<div class="mobileOff">
+				<div class="hidden-xs">
 				<table class=" table customTableRWD table-bordered" width="100%" id="convertLeadMapping">
 					<thead>
 						<tr class="blockHeader">

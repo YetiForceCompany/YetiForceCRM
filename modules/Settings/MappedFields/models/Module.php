@@ -5,7 +5,6 @@
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -80,7 +79,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getRestrictedUitypes()
 	{
-		return [4, 51, 52, 57, 58, 69, 70];
+		return [4, 51, 52, 53, 57, 58, 69, 70];
 	}
 
 	/**
@@ -92,19 +91,6 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		return $this->record->getId();
 	}
 
-	public static function getSupportedModules()
-	{
-		$restrictedModules = ['OSSMailView'];
-		$moduleModels = Vtiger_Module_Model::getAll([0, 2]);
-		$supportedModuleModels = [];
-		foreach ($moduleModels as $tabId => $moduleModel) {
-			if ($moduleModel->isEntityModule() && !in_array($moduleModel->getName(), $restrictedModules)) {
-				$supportedModuleModels[$tabId] = $moduleModel;
-			}
-		}
-		return $supportedModuleModels;
-	}
-	
 	/**
 	 * Function to get instance
 	 * @return <Settings_MappedFields_Module_Model>
@@ -112,7 +98,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getCleanInstance($moduleName = 'Vtiger')
 	{
 		$log = vglobal('log');
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . print_r($moduleName, true) . ') method ...');
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
 		$data = [];
@@ -146,7 +132,6 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . print_r($moduleName, true) . ') method ...');
-		
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if ($moduleModel) {
 			$objectProperties = get_object_vars($moduleModel);
@@ -155,7 +140,6 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 				$moduleModel->$properName = $propertyValue;
 			}
 		}
-		
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $moduleModel;
 	}
@@ -163,11 +147,9 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
 		$log = vglobal('log');
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
-		
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . print_r($recordId, true) . ',' . print_r($moduleName, true) . ') method ...');
 		$instance = new self();
 		$instance->record = Vtiger_MappedFields_Model::getInstanceById($recordId, $moduleName);
-		
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $instance;
 	}
@@ -215,7 +197,6 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
-
 		$moduleModel = Vtiger_Module_Model::getInstance($this->getName());
 		$moduleMeta = $moduleModel->getModuleMeta();
 		$moduleFields = $moduleMeta->getAccessibleFields($this->getName());
@@ -244,7 +225,6 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 				$fields[$blockName][$field->get('columnname')] = Settings_MappedFields_Field_Model::getInstanceFromInventoryFieldObject($field);
 			}
 		}
-		
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $fields;
 	}
@@ -307,9 +287,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 				foreach ($stepFields as $name) {
 					$params[$name] = $mapp[$name];
 				}
-				if($params['source'] && $params['target']){
-					$db->insert($this->mappingTable, $params);
-				}
+				$db->insert($this->mappingTable, $params);
 			}
 		}
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');

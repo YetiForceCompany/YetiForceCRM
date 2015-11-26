@@ -30,7 +30,7 @@
 					<div class="pull-right rightHeaderBtn">
 						<div class="quickAction">
 							<a class="btn btn-default btn-sm" href="#">
-								<img class='alignMiddle imgAnnouncement' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
+								<img class='alignMiddle imgAnnouncement announcementBtn' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}"/>
 							</a>
 						</div>
 					</div>
@@ -133,12 +133,12 @@
 						<div class="headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
 							<div class="btn-group">
 								<a type="button" class="btn btn-sm btn-default" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=index">
-									<div class="mobileOff">
+									<div class="hidden-xs">
 										{$ITEM.username}
 										<span class="mail_user_name">{$MAIN_MAIL.username}</span>
 										<span class="noMails_{$MAIN_MAIL.rcuser_id}"></span>
 									</div>
-									<div class="mobileOn">
+									<div class="visible-xs-block">
 										<span class="glyphicon glyphicon-list-alt"></span>
 									</div>
 								</a>

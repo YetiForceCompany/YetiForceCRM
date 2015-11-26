@@ -8,7 +8,7 @@
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" class="step" value="2" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
-			{assign var="PARAMS" value=$MAPPEDFIELDS_MODULE_MODEL->get('params')}
+			{assign var="PARAMS" value=$MF_MODEL->get('params')}
 
 			<div class="padding1per stepBorder">
 				<label>
@@ -30,92 +30,52 @@
 					</div>
 				</div>
 				<div class="contents" id="detailView">
-					<div class="table-responsive">
-						<table class="table table-bordered" id="mappingToGenerate">
-							<tbody>
-								<tr class="blockHeader">
-									<th class='sourceModuleName'><b>{vtranslate('SINGLE_'|cat:$SEL_MODULE_MODEL->getName(), $SEL_MODULE_MODEL->getName())}</b></th>
-									<th><b>{vtranslate('LBL_FIELDS_TYPE', $QUALIFIED_MODULE)}</b></th>
-									<th class='targetModuleName'><b>{vtranslate('SINGLE_'|cat:$REL_MODULE_MODEL->getName(), $REL_MODULE_MODEL->getName())}</b></th>
-									<th class="defaultHeader"><b>{vtranslate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}</b></th>
-									<th class="actionsHeader"><b>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</b></th>
-								</tr>
-								{foreach key=MAPPING_ID item=MAPPING_ARRAY from=$MAPPEDFIELDS_MODULE_MODEL->getMapping()  name="mappingLoop"}
-									{assign var="SEQ" value=$smarty.foreach.mappingLoop.iteration}
-									<tr class="listViewEntries" sequence-number="{$SEQ}">
-										<td>
-											<select class="sourceFields select2" name="mapping[{$SEQ}][source]">
-												{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields(true)}
-													<optgroup label="{vtranslate($BLOCK_NAME, $SEL_MODULE_MODEL->getName())}">
-														{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
-															<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-mappingtype="{$FIELD_OBJECT->getFieldType()}" {if $FIELD_ID eq $MAPPING_ARRAY['source']->getId()} selected {/if} label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-																{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}
-															</option>
-														{/foreach}
-													</optgroup>
-												{/foreach}
-											</select>
-											<input type="hidden" class="mappingType" name="mapping[{$SEQ}][type]" value="{$MAPPING_ARRAY['type']}" />
-										</td>
-										<td class="selectedFieldDataType text-center alignMiddle">{vtranslate($MAPPING_ARRAY['source']->getFieldDataType(), $QUALIFIED_MODULE)}</td>
-										<td>
-											<select class="targetFields select2" name="mapping[{$SEQ}][target]">
-												{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
-													<optgroup label="{vtranslate($BLOCK_NAME, $REL_MODULE_MODEL->getName())}">
-														{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
-															{if $MAPPING_ARRAY['target']->getFieldDataType() eq $FIELD_OBJECT->getFieldDataType()}
-																<option data-type="{$FIELD_OBJECT->getFieldDataType()}" {if $FIELD_ID eq $MAPPING_ARRAY['target']->getId()} selected {/if} label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-																	{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $REL_MODULE_MODEL->getName())}
-																</option>
-															{/if}
-														{/foreach}
-													</optgroup>
-												{/foreach}
-											</select>
-										</td>
-										<td class="">
-											{if $MAPPING_ARRAY['default']}
-												<input type="hidden" class="form-control default" value="{$MAPPING_ARRAY['default']}" />
-											{/if}
-										</td>
-										<td class="textAlignCenter">
-											<button title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-default deleteMapping">
-												<i class="glyphicon glyphicon-trash"></i>
-											</button>
-										</td>
-									</tr>
-								{/foreach}
-								<tr class="hide newMapping listViewEntries">
-									<td>
-										<select class="sourceFields newSelect">
-											<option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
+					<table class="table table-bordered" width="100%" id="mappingToGenerate">
+						<tbody>
+							<tr class="blockHeader">
+								<th class='sourceModuleName' width="15%"><b>{vtranslate('SINGLE_'|cat:$SEL_MODULE_MODEL->getName(), $SEL_MODULE_MODEL->getName())}</b></th>
+								<th width="15%"><b>{vtranslate('LBL_FIELDS_TYPE', $QUALIFIED_MODULE)}</b></th>
+								<th class='targetModuleName' width="15%"><b>{vtranslate('SINGLE_'|cat:$REL_MODULE_MODEL->getName(), $REL_MODULE_MODEL->getName())}</b></th>
+								<th width="15%"><b>{vtranslate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}</b></th>
+								<th width="15%"><b>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</b></th>
+							</tr>
+							{foreach key=MAPPING_ID item=MAPPING_ARRAY from=$MF_MODEL->getMapping()  name="mappingLoop"}
+								{assign var="SEQ" value=$smarty.foreach.mappingLoop.iteration}
+								<tr class="listViewEntries" sequence-number="{$SEQ}">
+									<td width="30%">
+										<select class="sourceFields select2" name="mapping[{$SEQ}][source]">
 											{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields(true)}
 												<optgroup label="{vtranslate($BLOCK_NAME, $SEL_MODULE_MODEL->getName())}">
 													{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
-														<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-mappingtype="{$FIELD_OBJECT->getFieldType()}" label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
+														<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-fieldtype="{$FIELD_OBJECT->getFieldType()}" {if $FIELD_ID eq $MAPPING_ARRAY['source']->getId()} selected {/if} label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
 															{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}
 														</option>
 													{/foreach}
 												</optgroup>
 											{/foreach}
 										</select>
-										<input type="hidden" class="mappingType" value="" />
+										<input type="hidden" class="mappingType" name="mapping[{$SEQ}][type]" value="{$MAPPING_ARRAY['type']}" />
 									</td>
-									<td class="selectedFieldDataType text-center alignMiddle"></td>
-									<td>
-										<select class="targetFields newSelect">
+									<td width="20%" class="selectedFieldDataType">{vtranslate($MAPPING_ARRAY['source']->getFieldDataType(), $QUALIFIED_MODULE)}</td>
+									<td width="30%">
+										<select class="targetFields select2" name="mapping[{$SEQ}][target]">
 											{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
 												<optgroup label="{vtranslate($BLOCK_NAME, $REL_MODULE_MODEL->getName())}">
 													{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
-														<option data-type="{$FIELD_OBJECT->getFieldDataType()}" label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-															{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $REL_MODULE_MODEL->getName())}
-														</option>
+														{if $MAPPING_ARRAY['target']->getFieldDataType() eq $FIELD_OBJECT->getFieldDataType()}
+															<option data-type="{$FIELD_OBJECT->getFieldDataType()}" {if $FIELD_ID eq $MAPPING_ARRAY['target']->getId()} selected {/if} label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
+																{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $REL_MODULE_MODEL->getName())}
+															</option>
+														{/if}
 													{/foreach}
 												</optgroup>
 											{/foreach}
 										</select>
 									</td>
 									<td class="">
+										{if $MAPPING_ARRAY['default']}
+											<input type="hidden" class="form-control default" value="{$MAPPING_ARRAY['default']}" />
+										{/if}
 									</td>
 									<td class="textAlignCenter">
 										<button title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-default deleteMapping">
@@ -123,9 +83,47 @@
 										</button>
 									</td>
 								</tr>
-							</tbody>
-						</table>
-					</div>
+							{/foreach}
+							<tr class="hide newMapping listViewEntries">
+								<td width="15%">
+									<select class="sourceFields newSelect">
+										<option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
+										{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields(true)}
+											<optgroup label="{vtranslate($BLOCK_NAME, $SEL_MODULE_MODEL->getName())}">
+												{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
+													<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-mappingtype="{$FIELD_OBJECT->getFieldType()}" label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
+														{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}
+													</option>
+												{/foreach}
+											</optgroup>
+										{/foreach}
+									</select>
+									<input type="hidden" class="mappingType" value="" />
+								</td>
+								<td width="15%" class="selectedFieldDataType"></td>
+								<td width="13%">
+									<select class="targetFields newSelect">
+										{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
+											<optgroup label="{vtranslate($BLOCK_NAME, $REL_MODULE_MODEL->getName())}">
+												{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
+													<option data-type="{$FIELD_OBJECT->getFieldDataType()}" label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
+														{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $REL_MODULE_MODEL->getName())}
+													</option>
+												{/foreach}
+											</optgroup>
+										{/foreach}
+									</select>
+								</td>
+								<td class="">
+								</td>
+								<td class="textAlignCenter">
+									<button title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-default deleteMapping">
+										<i class="glyphicon glyphicon-trash"></i>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 			<br>
@@ -151,15 +149,15 @@
 					</select>
 				{elseif $_FIELD_TYPE eq 'owner' || $_FIELD_UITYPE eq '52'}
 					<select id="{$_FIELD_ID}_defaultvalue" name="{$_FIELD_ID}_defaultvalue" class="" disabled>
-						<option value="0">{'LBL_NONE'|@vtranslate:$QUALIFIED_MODULE}</option>
-						{foreach key=BLOCK_NAME item=ITEM from=$USERS_LIST}
-							{if $_FIELD_UITYPE eq '52'} continue {/if}
-							<optgroup label="{$BLOCK_NAME|@vtranslate:$QUALIFIED_MODULE}">
-								{foreach key=_ID item=_NAME from=$ITEM}
-									<option value="{$_ID}">{$_NAME}</option>
-								{/foreach}
-							</optgroup>
+						<option value="">--{'LBL_NONE'|@vtranslate:$REL_MODULE_MODEL->getName()}--</option>
+						{foreach key=_ID item=_NAME from=$USERS_LIST}
+							<option value="{$_ID}">{$_NAME}</option>
 						{/foreach}
+						{if $_FIELD_UITYPE eq '53'}
+							{foreach key=_ID item=_NAME from=$GROUPS_LIST}
+								<option value="{$_ID}">{$_NAME}</option>
+							{/foreach}
+						{/if}
 					</select>
 				{elseif $_FIELD_TYPE eq 'date'}
 					<input type="text" id="{$_FIELD_ID}_defaultvalue" data-date-format="{$DATE_FORMAT}" class="defaultInputTextContainer form-control col-md-2 dateField" value="" disabled/>
