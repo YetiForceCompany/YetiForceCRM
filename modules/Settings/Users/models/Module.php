@@ -75,11 +75,11 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				$usersForSort[$ID] = $this->getUserName($ID);
 			}
 			asort($usersForSort);
-			$users = '';
+			$users = "$user => '" . $this->getUserName($user) . "',";
 			foreach ($usersForSort as $ID => $name) {
 				$users .= "$ID => '" . $name . "',";
 			}
-			$content .= "'$user'=>[$users],";
+			$content .= "'$user'=>[".trim($users,',')."],";
 		}
 		$content .= '];';
 		$file = 'user_privileges/switchUsers.php';
@@ -159,11 +159,11 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				$usersForSort[$ID] = $this->getUserName($ID);
 			}
 			asort($usersForSort);
-			$users = '';
+			$users = "$user => '" . $this->getUserName($user) . "',";
 			foreach ($usersForSort as $ID => $name) {
 				$users .= "$ID => '" . $name . "',";
 			}
-			$content .= "'$user'=>[$users],";
+			$content .= "'$user'=>[".trim($users,',')."],";
 		}
 		$content .= '];';
 		$file = 'user_privileges/switchUsers.php';

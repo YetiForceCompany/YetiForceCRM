@@ -43,8 +43,10 @@ $languageStrings = [
 	'LBL_SWITCH_USERS_DESCRIPTION' => 'Narzędzie umożliwiające przełączanie się pomiędzy użytkownikami w systemie.',
 	'LBL_SU_BASE_ACCESS' => 'Użytkownik',
 	'LBL_SU_AVAILABLE_ACCESS' => 'Może logować się na',
+	
 ];
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
+	'Changed password successfully' => 'Hasło zmienione poprawnie',
 ];

@@ -64,7 +64,6 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 				orginalData.push(value.record_id);
 			}
 		});
-
 		container.find('[name="saveButton"]').on('click', function (e) {
 			$(this).attr('disabled','disabled');
 			$.each(thisInstance.treeInstance.jstree("get_selected", true), function (index, value) {
@@ -93,12 +92,28 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 			})
 		});
 	},
+	registerCounterSelected: function(){
+		var thisInstance = this;
+		this.treeInstance.on("changed.jstree", function (e, data) {
+			var counterSelected = 0;
+			var html = '';
+			$.each(thisInstance.treeInstance.jstree("get_selected", true), function (index, value) {
+				var id = value.original.record_id.toString();
+				if(id.indexOf("T")){
+					counterSelected++;
+				}
+			});
+			html = app.vtranslate('JS_SELECTED_ELEMENTS')+': '+ counterSelected;
+			$('.counterSelected').text(html);
+		 });
+	},
 	registerEvents: function () {
 		var container = this.getModalContainer();
 		this.getRecords(container);
 		this.generateTree(container);
 		this.registerSaveRecords(container);
 		this.registerSearchEvent();
+		this.registerCounterSelected();
 	}
 });
 jQuery(function () {

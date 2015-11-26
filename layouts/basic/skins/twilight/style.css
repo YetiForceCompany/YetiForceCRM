@@ -4195,10 +4195,12 @@ html,body,.baseContainer
 .quickCreateContent .addedNearCalendarEvent .popover-content{
 	font-size: 12px;
 }
-#activityStateModal .form-horizontal .form-group{
+#activityStateModal .form-horizontal .form-group,
+#sQuoteEnquiriesModal .form-horizontal .form-group{
 	margin-bottom: 2px;
 }
-#activityStateModal .form-horizontal .form-group .control-label{
+#activityStateModal .form-horizontal .form-group .control-label,
+#sQuoteEnquiriesModal .form-horizontal .form-group .control-label{
 	padding-top: 0;
 }
 .pageNumber.active.disabled a{
@@ -4314,6 +4316,9 @@ html,body,.baseContainer
 }
 #mappingToGenerate .actionsHeader{
 	width: 8%;
+}
+#sQuoteEnquiriesModal .popover.fade{
+	min-width: 400px;
 }
 @media only screen and (min-width: 1240px){
 	.selectSearch{
@@ -4754,10 +4759,7 @@ html,body,.baseContainer
 	background: #d9534f;
 	border-radius:3px;
 }
-.hideActionImages .listViewEntriesTable tr:hover td .actions .actionImages ,
-.hideActionImages .listViewEntries td:hover .actions {
-	opacity: 0;
-	/*for IE*/
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-	filter: alpha(opacity=0);
+#treePopupContainer{
+    overflow: auto;
+    max-height: 500px;
 }

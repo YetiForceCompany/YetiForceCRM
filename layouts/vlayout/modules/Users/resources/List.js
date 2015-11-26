@@ -248,7 +248,11 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 					function (data) {
 						if (data.success) {
 							app.hideModalWindow();
-							Vtiger_Helper_Js.showPnotify(app.vtranslate(data.result.message));
+							var params = {
+								text: app.vtranslate(data.result.message),
+								type: 'success'
+							};
+							Vtiger_Helper_Js.showPnotify(params);
 						} else {
 							Vtiger_Helper_Js.showPnotify(data.error.message);
 							return false;

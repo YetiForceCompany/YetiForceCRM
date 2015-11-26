@@ -1060,6 +1060,9 @@ $languageStrings = [
 	'LBL_NOT_ASSIGNET_TO_BLOCK' => 'Unassigned',
 	'LBL_SELF_ID' => 'Record Id',
 	'LBL_REMINDER' => "Reminder",
+	'Groups' => 'Groups',
+	'Roles' => 'Roles',
+	'RoleAndSubordinates' => 'Role And Subordinates',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',
@@ -1342,4 +1345,5 @@ $jsLanguageStrings = [
 	'JS_PLL_COMPLETED' => 'Completed',
 	'JS_PDF_RECALCULATING' => '__UNTRANSLATED__',
 	'JS_PDF_GENERATING' => '__UNTRANSLATED__',
+	'JS_SELECTED_ELEMENTS' => '__UNTRANSLATED__',
 ];

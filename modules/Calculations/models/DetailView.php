@@ -25,18 +25,6 @@ class Calculations_DetailView_Model extends Inventory_DetailView_Model
 				}
 			}
 		}
-		$quotesModuleModel = Vtiger_Module_Model::getInstance('Quotes');
-		if ($currentUserModel->hasModuleActionPermission($quotesModuleModel->getId(), 'EditView')) {
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => '',
-				'linkurl' => "index.php?module=" . $quotesModuleModel->getName() . "&view=" . $quotesModuleModel->getEditViewName() . "&calculation_id=" . $recordModel->getId(),
-				'linkclass' => 'btn-success',
-				'linkimg' => vimage_path('Quotes.png'),
-				'linkhint' => vtranslate('LBL_GENERATE_QUOTES', 'Quotes'),
-			);
-			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
 		return $linkModelList;
 	}
 }

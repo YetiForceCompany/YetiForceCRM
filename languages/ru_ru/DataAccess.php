@@ -73,7 +73,7 @@ $languageStrings = [
 	'This name already exists' => 'Такое название уже существует',
 	'LBL_RECORD_DELETED' => 'Запись удалена',
 	'Action_test' => 'Action test',
-	'Action_Desc_test' => 'Action test description',
+	'Action_Desc_test' => 'Action test description.',
 ];
 $jsLanguageStrings = [
 	'DataAccess'	=>	'Редактор условий',
