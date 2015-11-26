@@ -25,7 +25,7 @@
 	        {/if}
 		</span>
 	</div>
-	<div class="col-xs-10 col-sm-9 col-md-7 margin0px">
+	<div class="col-xs-10 col-sm-9 col-md-6 margin0px">
 		<div>
 			<h4 class="recordLabel pushDown marginbottomZero" title="{$RECORD->getDisplayValue('salutationtype')}&nbsp;{$RECORD->getName()}">
 				{if $RECORD->getDisplayValue('salutationtype')}

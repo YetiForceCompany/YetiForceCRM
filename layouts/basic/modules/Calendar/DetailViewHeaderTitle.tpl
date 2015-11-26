@@ -18,7 +18,7 @@
 			</span>
 		</span>
 	{/if}
-	<div class="col-md-10 margin0px">
+	<div class="col-md-6 margin0px">
 		<div class="row">
 			<span class="recordLabel font-x-x-large textOverflowEllipsis span" title="{$RECORD->getName()}">
 				{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
