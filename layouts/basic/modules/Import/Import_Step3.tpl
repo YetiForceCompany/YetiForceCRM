@@ -11,12 +11,12 @@
 -->*}
 {strip}
 <div class="col-xs-12 row">
-	<div class="col-xs-12 row"> 
-		<div class='col-xs-1'>
+	<div class="col-xs-12"> 
+		<div class='col-xs-2'>
 			<input type="checkbox" class="font-x-small" id="auto_merge" title="{vtranslate('LBL_IMPORT_STEP_3', $MODULE)}" name="auto_merge" onclick="ImportJs.toogleMergeConfiguration();" />
 			<strong>{'LBL_IMPORT_STEP_3'|@vtranslate:$MODULE}:</strong>
 		</div>
-		<div class="col-xs-11">
+		<div class="col-xs-10">
 			<span class="big">{'LBL_IMPORT_STEP_3_DESCRIPTION'|@vtranslate:$MODULE}</span>
 			<span class="font-x-small">({'LBL_IMPORT_STEP_3_DESCRIPTION_DETAILED'|@vtranslate:$MODULE}).</span>
 		</div>

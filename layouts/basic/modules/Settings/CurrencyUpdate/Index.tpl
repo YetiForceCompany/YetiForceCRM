@@ -10,7 +10,7 @@
 		</div>
 	{/if}
 	<form class="form-horizontal" method="post" action="index.php?module={$MODULENAME}&view=Index&parent=Settings">
-		<table class="table table-bordered">
+		<table class="table table-bordered currencyTable">
 			<tr>
 				<th class="blockHeader" colspan="4">{vtranslate('LBL_SELECT_BANK', $QUALIFIED_MODULE)}</th>
 			</tr>
@@ -18,7 +18,7 @@
 				<td class="fieldLabel">
 					<span class="pull-right"><strong>{vtranslate('LBL_BANK', $QUALIFIED_MODULE)}:</strong></span>
 				</td>
-				<td class="fieldValue" >
+				<td class="fieldValue">
 					<div class="row">
 						<div class="col-md-5">
 							<select name="bank" id="bank" class="chzn-select form-control">
@@ -83,7 +83,7 @@
 			<h4>{vtranslate('LBL_INFORMATIONS', $QUALIFIED_MODULE)}:</h4>
 			<p><strong>{vtranslate('LBL_MAINCURRENCY', $QUALIFIED_MODULE)}:</strong> {vtranslate($MAINCURR['currency_name'], $QUALIFIED_MODULE)}, <strong>{vtranslate('LBL_CODE', $QUALIFIED_MODULE)}:</strong> {$MAINCURR['currency_code']}, <strong>{vtranslate('LBL_SYMBOL', $QUALIFIED_MODULE)}</strong>: {$MAINCURR['currency_symbol']}</p>
 		</div>
-			<table class="table tableRWD table-bordered blockContainer showInlineTable">
+			<table class="table table-bordered tableRWD">
 				<thead>
 					<tr>
 						<th class="blockHeader">{vtranslate('LBL_CURRENCY_NAME', $QUALIFIED_MODULE)}</td>

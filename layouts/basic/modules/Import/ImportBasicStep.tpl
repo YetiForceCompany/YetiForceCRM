@@ -20,8 +20,8 @@
 	</div>
 	<hr>
 		<div class="row col-xs-12 searchUIBasic" style='margin:0 !important'>            
-		<div class="col-xs-12 font-x-large">
-		<strong>{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$FOR_MODULE}</strong>
+		<div class="font-x-large">
+			<h4><strong>{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$FOR_MODULE}</strong></h4>
 	    </div>
             {if $ERROR_MESSAGE neq ''}
 		<div class="col-xs-12">
@@ -30,19 +30,19 @@
                     </div>
                 </div>
             {/if}
-		<div class="col-xs-12">
-			<div class='leftFormBorder1 importContents'>
+		<div class="importContents col-xs-12">
+			<div class=''>
 			    {include file='Import_Step1.tpl'|@vtemplate_path:'Import'}
 			</div>
 		</div>
-		<div class="col-xs-12">
-			<div class="leftFormBorder1 importContents">
+		<div class="importContents col-xs-12">
+			<div class=" ">
 				{include file='Import_Step2.tpl'|@vtemplate_path:'Import'}
 			</div>
 		</div>
             {if $DUPLICATE_HANDLING_NOT_SUPPORTED neq 'true'}
-				<div class="col-xs-12">
-                    <div class="leftFormBorder1 importContents">
+				<div class="importContents col-xs-12">
+                    <div class="">
                         {include file='Import_Step3.tpl'|@vtemplate_path:'Import'}
                     </div>
                 </div>

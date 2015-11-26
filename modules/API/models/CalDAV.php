@@ -95,10 +95,14 @@ class API_CalDAV_Model
 		$cal->add($vcalendar->createProperty('DTSTART', $DTSTART));
 		$cal->add($vcalendar->createProperty($endField, $DTEND));
 		$cal->add($vcalendar->createProperty('CLASS', $record['visibility'] == 'Private' ? 'PRIVATE' : 'PUBLIC'));
-		$cal->add($vcalendar->createProperty('PRIORITY', $this->getPriority($record['priority'], FALSE)));
-		$state = $this->getState($record['state']);
+		$cal->add($vcalendar->createProperty('PRIORITY', $this->getPriority($record['priority'], false)));
+
+		$status = $this->getStatus($record['status'], false);
+		if ($status)
+			$cal->add($vcalendar->createProperty('STATUS', $status, false));
+		$state = $this->getState($record['state'], false);
 		if ($state)
-			$cal->add($vcalendar->createProperty('TRANSP', $state, FALSE));
+			$cal->add($vcalendar->createProperty('TRANSP', $state, false));
 
 		if (!empty($record['location']))
 			$cal->add($vcalendar->createProperty('LOCATION', $record['location']));
@@ -151,8 +155,8 @@ class API_CalDAV_Model
 			$DTSTART['VALUE'] = 'DATE';
 			$DTEND['VALUE'] = 'DATE';
 		} else {
-			$DTSTART = new \DateTime($start);
-			$DTEND = new \DateTime($end);
+			$startDT = $DTSTART = new \DateTime($start);
+			$endDT = $DTEND = new \DateTime($end);
 		}
 		foreach ($vcalendar->getBaseComponents() as $component) {
 			if ($component->name = $calType) {
@@ -163,8 +167,11 @@ class API_CalDAV_Model
 				$component->LOCATION = $record['location'];
 				$component->DESCRIPTION = $record['description'];
 				$component->CLASS = $record['visibility'] == 'Private' ? 'PRIVATE' : 'PUBLIC';
-				$component->PRIORITY = $this->getPriority($record['priority'], FALSE);
-				$state = $this->getState($record['state'], FALSE);
+				$component->PRIORITY = $this->getPriority($record['priority'], false);
+				$status = $this->getStatus($record['status'], false);
+				if ($status)
+					$component->STATUS = $status;
+				$state = $this->getState($record['state'], false);
 				if ($state)
 					$component->TRANSP = $state;
 			}
@@ -359,10 +366,10 @@ class API_CalDAV_Model
 		return ($type == 'VEVENT') ? 'DTEND' : 'DUE';
 	}
 
-	public function getState($component, $cal = true)
+	public function getState($component, $toCrm = true)
 	{
 		$state = '';
-		if ($cal) {
+		if ($toCrm) {
 			if (isset($component->TRANSP)) {
 				switch ($component->TRANSP->getValue()) {
 					case 'OPAQUE':
@@ -402,9 +409,9 @@ class API_CalDAV_Model
 		return $visibility;
 	}
 
-	public function getPriority($component, $cal = true)
+	public function getPriority($component, $toCrm = true)
 	{
-		if ($cal) {
+		if ($toCrm) {
 			$priority = 'Medium';
 			if (isset($component->PRIORITY)) {
 				switch ($component->PRIORITY->getValue()) {
@@ -430,28 +437,47 @@ class API_CalDAV_Model
 		return $priority;
 	}
 
-	public function getStatus($component)
+	public function getStatus($component, $toCrm = true)
 	{
-		if ($component->name == 'VTODO') {
-			$status = 'Not Started';
-			if (isset($component->STATUS)) {
-				switch ($component->STATUS->getValue()) {
-					case 'NEEDS-ACTION':
-						$status = 'Pending Input';
-						break;
-					case 'IN-PROCESS':
-						$status = 'In Progress';
-						break;
-					case 'COMPLETED':
-						$status = 'Completed';
-						break;
-					case 'CANCELLED':
-						$status = 'Deferred';
-						break;
+		$status = false;
+		if ($toCrm) {
+			$status = 'PLL_PLANNED';
+			if ($component->name == 'VTODO') {
+				if (isset($component->STATUS)) {
+					switch ($component->STATUS->getValue()) {
+						case 'IN-PROCESS':
+							$status = 'PLL_IN_REALIZATION';
+							break;
+						case 'COMPLETED':
+							$status = 'PLL_COMPLETED';
+							break;
+						case 'CANCELLED':
+							$status = 'PLL_CANCELLED';
+							break;
+					}
 				}
 			}
 		} else {
-			$status = 'Planned';
+			switch ($component) {
+				case 'PLL_PLANNED':
+					$status = 'NEEDS-ACTION';
+					break;
+				case 'PLL_IN_REALIZATION':
+					$status = 'IN-PROCESS';
+					break;
+				case 'PLL_OVERDUE':
+					$status = 'CANCELLED';
+					break;
+				case 'PLL_POSTPONED':
+					$status = 'CANCELLED';
+					break;
+				case 'PLL_CANCELLED':
+					$status = 'CANCELLED';
+					break;
+				case 'PLL_COMPLETED':
+					$status = 'COMPLETED';
+					break;
+			}
 		}
 		return $status;
 	}

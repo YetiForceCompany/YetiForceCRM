@@ -255,7 +255,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 		$sql = 'SELECT * FROM ' . self::$itemsTable;
 		$params = array();
 
-		$conditionsSqls = array();
+		$conditionsSqls = [];
 		if ($menuModel != false) {
 			$conditionsSqls[] = 'blockid = ?';
 			$params[] = $menuModel->getId();
@@ -272,7 +272,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 		$result = $db->pquery($sql, array_merge($params, $skipMenuItemList));
 		$noOfMenus = $db->num_rows($result);
 
-		$menuItemModels = array();
+		$menuItemModels = [];
 		for ($i = 0; $i < $noOfMenus; ++$i) {
 			$fieldId = $db->query_result($result, $i, self::$itemId);
 			$rowData = $db->query_result_rowdata($result, $i);

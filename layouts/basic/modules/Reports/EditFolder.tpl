@@ -24,7 +24,7 @@
 					<input type="hidden" name="folderid" value="{$FOLDER_MODEL->getId()}" />
 					<div class="modal-body">
 						<div class="row verticalBottomSpacing">
-							<span class="col-md-4">{vtranslate('LBL_FOLDER_NAME', $MODULE)}<span class="redColor">*</span></span>
+							<span class="col-md-4"><span class="redColor">*</span>{vtranslate('LBL_FOLDER_NAME', $MODULE)}</span>
 							<span class="col-md-7 row"><input data-validation-engine='validate[required]' id="foldername" title="{vtranslate('LBL_FOLDER_NAME', $MODULE)}" name="foldername" class="form-control" type="text" value="{vtranslate($FOLDER_MODEL->getName(), $MODULE)}"/></span>
 						</div>
 						<div class="row">

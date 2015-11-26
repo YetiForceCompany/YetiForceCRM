@@ -1309,7 +1309,7 @@ td.fieldValue .input-group {
 	border-radius: 2px;
 	background: #ffffff;
 	margin-bottom: 10px;
-	padding: 25px 20px 5px;
+	padding: 0px 10px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -4674,9 +4674,6 @@ html,body,.baseContainer
 #activityStateModal .form-horizontal .form-group .control-label{
 	padding-top: 0;
 }
-.mainContainer.mailContainer{
-	margin-top: 102px !important;
-}
 .pageNumber.active.disabled a{
 	background-color: #337AB7;
 	border-color: #337AB7;
@@ -4715,13 +4712,15 @@ html,body,.baseContainer
 .blockContainer .blockContent .fieldLabel  label{
 	padding-top:8px;
 }
-.blockContainer .blockContent .actionButtons{
+.blockContainer .blockContent .adressAction{
 	border-bottom: 1px #ddd solid;
 	margin-bottom: 10px;
-	margin-top: 10px;
-}
-.blockContainer .blockContent .actionButtons {
+	margin-top: 5px;
+	padding-bottom: 5px;
 	text-align: center;
+}
+.blockContainer .blockContent .adressAction button{
+	margin: 0 10px;
 }
 .blockContainer .blockContent .fieldRow {
 	padding: 5px;
@@ -4764,4 +4763,11 @@ html,body,.baseContainer
 .commonActionsContainer .badge{
 	font-size: 11px;
 	top: -3px;
+}
+.quickCreateContainer .modal-dialog{
+	width: 75%;
+}
+.currencyTable .fieldLabel{
+	width: 20%;
+	min-width: 150px;
 }

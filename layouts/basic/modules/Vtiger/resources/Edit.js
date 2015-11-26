@@ -672,9 +672,18 @@ jQuery.Class("Vtiger_Edit_Js", {
 				}
 			})
 		}
-		if (contact_id == false && account_id == false && lead_id == false && vendor_id == false) {
-			jQuery(".copyAddressLabel").addClass('hide');
-		}
+		
+		$("#EditView .blockContainer").each(function (index) {
+			var hideCopyAddressLabel = true;
+			$(this).find(".adressAction button").each(function (index) {
+				if ($(this).hasClass("hide")) {
+					hideCopyAddressLabel = false;
+				}
+			});
+			if (hideCopyAddressLabel) {
+				$(this).find(".copyAddressLabel").addClass('hide');
+			}
+		});
 		jQuery('.copyAddressFromMain').on('click', function (e) {
 			var element = jQuery(this);
 			var block = element.closest('table');
@@ -1124,7 +1133,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		blocks.each(function (index, block) {
 			var currentBlock = jQuery(block);
 			var headerAnimationElement = currentBlock.find('.blockToggle').not('.hide');
-			var bodyContents = currentBlock.find('tbody')
+			var bodyContents = currentBlock.find('.blockContent')
 			var blockId = headerAnimationElement.data('id');
 			var cacheKey = module + '.' + blockId;
 			var value = app.cacheGet(cacheKey, null);

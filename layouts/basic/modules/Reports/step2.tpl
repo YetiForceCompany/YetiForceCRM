@@ -38,7 +38,7 @@
 		<input type="hidden" class="step" value="2" />
 		<div class="well padding1per contentsBackground">
 			<div class="row block padding1per">
-				<div class="padding1per"><strong>{vtranslate('LBL_SELECT_COLUMNS',$MODULE)}({vtranslate('LBL_MAX',$MODULE)} 25)</strong><span class="redColor"> *</span></div>
+				<div class="padding1per"><span class="redColor">*</span><strong>{vtranslate('LBL_SELECT_COLUMNS',$MODULE)}({vtranslate('LBL_MAX',$MODULE)} 25)</strong></div>
 				<div class="padding1per">
 					<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" id="reportsColumnsList" data-validation-engine="validate[required]" title="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" class="form-control columns" multiple="">
 						{foreach key=PRIMARY_MODULE_NAME item=PRIMARY_MODULE from=$PRIMARY_MODULE_FIELDS}

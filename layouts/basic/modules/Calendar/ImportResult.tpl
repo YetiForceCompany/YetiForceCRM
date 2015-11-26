@@ -53,14 +53,16 @@
 			</td>
 		</tr>
 		<tr>
-			<td align="right" colspan="2">
-				<button name="next" class="create btn btn-default"
-				onclick="location.href='index.php?module={$MODULE}&view=List'" ><strong>{'LBL_FINISH'|@vtranslate:$MODULE}</strong></button>
-			</td>
-			<td align="right" colspan="2">
-				<button name="next" class="delete btn btn-default"
-					onclick="location.href='index.php?module={$MODULE}&view=Import&mode=undoImport'"><strong>{'LBL_UNDO_LAST_IMPORT'|@vtranslate:$MODULE}</strong>
-				</button>
+			<td align="right" colspan="1">
+				<div class="btn-toolbar pull-right">
+					<button name="next" class="delete btn btn-danger" onclick="location.href='index.php?module={$MODULE}&view=Import&mode=undoImport'">
+						<strong>{'LBL_UNDO_LAST_IMPORT'|@vtranslate:$MODULE}</strong>
+					</button>
+					<button name="next" class="create btn btn-success" onclick="location.href='index.php?module={$MODULE}&view=List'" >
+						<strong>{'LBL_FINISH'|@vtranslate:$MODULE}</strong>
+					</button>
+					
+				</div>
 			</td>
 		</tr>
 	</table>

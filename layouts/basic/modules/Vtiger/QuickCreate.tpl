@@ -14,7 +14,7 @@
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-	<div class="modelContainer modal fade" tabindex="-1">
+	<div class="modelContainer modal fade quickCreateContainer" tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
