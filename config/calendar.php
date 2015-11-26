@@ -10,4 +10,7 @@ $CALENDAR_CONFIG = [
 	// Show calendar timeline in day view
 	// false = basicDay, true = agendaDay
 	'SHOW_TIMELINE_DAY' => false, //  Boolean
+	// switch - Switch "To realize" and "History", 
+	// list - list of status
+	'DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE' => 'list',
 ];

@@ -43,6 +43,7 @@
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-success" type="submit" name="saveButton" onclick="app.hideModalWindow();" ><strong>{vtranslate('LBL_EXPORT', $MODULE)}</strong></button>
+					<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
 			</div>
 			</form>
 		</div>

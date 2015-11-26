@@ -1064,6 +1064,9 @@ $languageStrings = [
 	'LBL_DEFAULT' => 'Responsive',
 	'BTN_GENERATE_RECORD' => 'Generate record',
 	'LBL_GENERATE_RECORD_FOR_MODULE' => 'Generate record for module',
+	'LBL_REMOVE_SEARCH_OPTION_INFO' => 'Reset search parameters',
+	'LBL_REMOVE_ALPH_SEARCH_INFO' => 'Reset alphabetical search parameter',
+	'LBL_CHAT' => 'Chat',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',

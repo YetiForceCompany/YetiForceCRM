@@ -4,8 +4,7 @@
 		<div class="baseContainer">
 			{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
 			{assign var="announcement" value=$ANNOUNCEMENT->get('announcement')}	
-			{include file='ActionMenu.tpl'|@vtemplate_path:$MODULE}
-			{include file='SearchMenu.tpl'|@vtemplate_path:$MODULE}
+			{include file='BodyHeaderMobile.tpl'|@vtemplate_path:$MODULE}
 			<div class="mobileLeftPanel noSpaces">
 				{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Mobile}
 			</div>

@@ -168,8 +168,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 			var currentElement = jQuery(e.currentTarget);
 			var drefresh = container.find('a[name="drefresh"]');
 			var url = drefresh.data('url');
-			url = url.replace('&sortorder=desc','');
-			url = url.replace('&sortorder=asc','');
+			url = url.replace('&sortorder=desc', '');
+			url = url.replace('&sortorder=asc', '');
 			url += '&sortorder=';
 			var sort = currentElement.data('sort');
 			var sortorder = 'desc';
@@ -946,8 +946,8 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	},
 	registerCalendar: function () {
 		var thisInstance = this;
-		userDefaultActivityView = 'month';
-
+		var userDefaultActivityView = 'month';
+		var container = thisInstance.getContainer();
 		//Default time format
 		var userDefaultTimeFormat = jQuery('#time_format').val();
 		if (userDefaultTimeFormat == 24) {
@@ -1023,6 +1023,16 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			};
 			Vtiger_Header_Js.getInstance().quickCreateModule('Calendar', params);
 		});
+		var switchBtn = container.find('.switchBtn');
+		app.showBtnSwitch(switchBtn);
+
+		switchBtn.on('switchChange.bootstrapSwitch', function (e, state) {
+			if (state)
+				container.find('.widgetFilterSwitch').val('current');
+			else
+				container.find('.widgetFilterSwitch').val('history');
+			thisInstance.refreshWidget();
+		})
 	},
 	loadCalendarData: function (allEvents) {
 		var thisInstance = this;
@@ -1031,15 +1041,12 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		var start_date = view.start.format();
 		var end_date = view.end.format();
 
-		var parent = this.getContainer();
+		var parent = thisInstance.getContainer();
 		var user = parent.find('.owner').val();
 		if (user == 'all') {
 			user = '';
 		}
-		var status = parent.find('.status').val();
-		if (status == 'all') {
-			status = '';
-		}
+
 		var params = {
 			module: 'Calendar',
 			action: 'Calendar',
@@ -1047,8 +1054,17 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			start: start_date,
 			end: end_date,
 			user: user,
-			activitystatus: status,
 			widget: true
+		}
+		if (parent.find('.status').length > 0) {
+			var status = parent.find('.status').val();
+			if (status == 'all') {
+				status = '';
+			}
+			params.activitystatus = status;
+		}
+		if (parent.find('.widgetFilterSwitch').length > 0) {
+			params.time = parent.find('.widgetFilterSwitch').val();
 		}
 		AppConnector.request(params).then(function (events) {
 			var height = (thisInstance.getCalendarView().find('.fc-bg :first').height() - thisInstance.getCalendarView().find('.fc-day-number').height()) - 10;
@@ -1069,13 +1085,17 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				if (status) {
 					url += '["activitystatus","e","' + container.find('select.widgetFilter.status').val() + '"],';
 				}
+				if (parent.find('.widgetFilterSwitch').length > 0) {
+					var status = parent.find('.widgetFilterSwitch').data();
+					url += '["activitystatus","e","' + status[params.time] + '"],';
+				}
 				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","ir","' + $(this).data('date') + '"]]]';
 			});
 		});
 	},
 	getCalendarView: function () {
 		if (this.calendarView == false) {
-			this.calendarView = jQuery('#calendarview');
+			this.calendarView = this.getContainer().find('#calendarview');
 		}
 		return this.calendarView;
 	},

@@ -100,14 +100,14 @@
 							</div><div class="col-md-1"><a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Filter info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Filter', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a></div>
 							</div>
 							<div class="form-group form-group-sm">
-							<label class="col-md-4 control-label">{vtranslate('Switch', $QUALIFIED_MODULE)}:</label>
+							<label class="col-md-4 control-label">{vtranslate('LBL_CONDITION', $QUALIFIED_MODULE)}:</label>
 							<div class="col-md-7 controls">
 								<input type="hidden" name="checkbox_selected" value="{$WIDGETINFO['data']['checkbox']}">
 								<select name="checkbox" class="select2 form-control marginLeftZero">
 									<option value="-">{vtranslate('None', $QUALIFIED_MODULE)}</option>
 								</select>
 
-							</div><div class="col-md-1"><a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Switch info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Switch', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a></div>
+							</div><div class="col-md-1"><a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('LBL_CONDITION_INFO', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('LBL_CONDITION', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a></div>
 							</div>
 						</div>
 					</div>

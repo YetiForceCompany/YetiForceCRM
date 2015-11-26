@@ -71,7 +71,7 @@
 	{if $CHAT_ACTIVE eq true}
 		<ul class="headerLinksContainer headerLinksAJAXChat nav navbar-nav navbar-right">
 			<li>
-				<a class="ChatIcon" href="#"><img src="layouts/vlayout/skins/images/chat.png" alt="chat_icon"/></a>
+				<a class="ChatIcon" href="#" title="{vtranslate('LBL_CHAT', $MODULE)}"><img src="layouts/vlayout/skins/images/chat.png" alt="chat_icon"/></a>
 			</li>
 		</ul>
 	{/if}

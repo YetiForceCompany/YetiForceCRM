@@ -160,7 +160,8 @@ $languageStrings = [
 	'PLL_POSTPONED' => 'Postponed',
 	'PLL_CANCELLED' => 'Cancelled',
 	'PLL_COMPLETED' => 'Completed',
-
+	'LBL_RECURRENCE_INFORMATION' => 'Повторить',
+	'LBL_RELATED_TO' => 'Связан с',
 	'LBL_NO_AVAILABLE_ACTIONS' => 'No available actions',
 ];
 $jsLanguageStrings = [

@@ -1702,6 +1702,7 @@ th.htColHeader,
 	margin-top: 2px;
 	margin-left: 5px;
 	height: 12px;
+	z-index: 1030;
 }
 .ui-slider-disabled {
 	opacity: 0.5;
@@ -3316,6 +3317,10 @@ span[name=existingImages] img{
 .remindersContent{
 	margin: 5px 8px 0 8px;
 }
+.remindersNoticeContainer .panel-heading{
+	padding: 5px 10px;
+	background: #F1F1F1;
+}
 .activityTypeIcon{
 	height: 20px;
 }
@@ -3323,7 +3328,7 @@ span[name=existingImages] img{
 	margin-bottom: 10px;
 }
 .remindersNoticeContainer .panel-body{
-	padding: 10px;
+	padding: 5px 10px 10px 10px;
 }
 .remindersNoticeContainer .actionRow a.btn{
 	margin-right: 2%;
@@ -3364,9 +3369,6 @@ span[name=existingImages] img{
 }
 .paddingLeftMd{
 	padding-left: 15px;
-}
-.widget_header div:nth-child(2).btn-toolbar,.editViewContainer .contentHeader.row div:nth-child(2),.contentsDiv ul#tabs.nav,.marginTop20{
-	//margin-top: 10px;
 }
 .fieldLabel .referenceMandatory{
 	margin-right: -12px;
@@ -4083,6 +4085,10 @@ html,body,.baseContainer
 	.leftHeader{
 		display: none;
 	}
+	.searchMenu.toogleSearchMenu{
+		left: 0;
+		width: 100%;
+	}
 }
 @media only screen and (min-width: 767px) {
 	.dashboardHeading .h3{
@@ -4272,7 +4278,7 @@ html,body,.baseContainer
 .searchMenu{
 	position: fixed;
 	left: 100%;
-	top: 50px;	
+	top: 42px;	
 	width: 300px;
 	color: #000;
 	background: #fff;
@@ -4701,6 +4707,10 @@ html,body,.baseContainer
 }
 .blockContainer .blockHeader{
 	cursor:pointer;
+	display:flex;
+}
+.blockContainer .blockHeader .iconCollapse{
+	padding:10px;
 }
 .blockContainer .blockContent .fieldLabel  label{
 	padding-top:8px;
@@ -4736,6 +4746,9 @@ html,body,.baseContainer
 	height: 32px;
 	border-radius: 0;
 }
+.quickCreateContent .referenceGroup .referenceModulesListGroup .chosen-container{
+	min-width: 80px !important;
+}
 .chosen-container-single .chosen-single{
 	background: #fff;
 }
@@ -4744,4 +4757,11 @@ html,body,.baseContainer
 }
 .blockContainer .panel-body.blockContent{
 	padding: 0;
+}
+.modal-backdrop{
+	z-index: 1030;
+}
+.commonActionsContainer .badge{
+	font-size: 11px;
+	top: -3px;
 }

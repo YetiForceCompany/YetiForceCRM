@@ -1112,7 +1112,7 @@ var app = {
 			val = val.toString().replace('.', decimalSeparator);
 		}
 		return val;
-	}, 
+	},
 	parseNumberToFloat: function (val) {
 		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
 		var groupingSeparator = app.getMainParams('currencyGroupingSeparator');

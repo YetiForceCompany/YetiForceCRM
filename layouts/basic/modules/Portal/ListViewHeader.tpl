@@ -10,6 +10,10 @@
  ********************************************************************************/
 -->*}
 {strip}
+		<div class="widget_header">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
+		<hr>
     	<div class="listViewPageDiv" id="portalListViewPage">
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">

@@ -33,7 +33,6 @@
 				<input type="hidden" name="operator" value="{$OPERATOR}" />
 				<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
 				<input type="hidden" name="search_params" value='{ZEND_JSON::encode($SEARCH_PARAMS)}' />
-
 				<input type="hidden" id="massEditFieldsNameList" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($MASS_EDIT_FIELD_DETAILS))}' />
 				<div name='massEditContent'>
 					<div class="modal-body tabbable">
@@ -53,8 +52,6 @@
 									{assign var=COUNTER value=0}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 										{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
-										{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
-										{assign var="refrenceListCount" value=count($refrenceList)}
 										{if $FIELD_MODEL->get('uitype') neq 104}
 											{if $FIELD_MODEL->isEditable() eq true}
 												{if $FIELD_MODEL->get('uitype') eq "19"}
@@ -72,17 +69,6 @@
 											<div class="  col-md-6 fieldLabel alignMiddle">
 												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 												{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
-												{if {$isReferenceField} eq "reference"}
-													{if $refrenceListCount > 1}
-														<select style="width: 150px;" class="chzn-select referenceModulesList" id="referenceModulesList_{$FIELD_MODEL->get('id')}">
-															<optgroup>
-																{foreach key=index item=value from=$refrenceList}
-																	<option value="{$value}">{vtranslate($value, $value)}</option>
-																{/foreach}
-															</optgroup>
-														</select>
-													{/if}
-												{/if}
 												&nbsp;&nbsp;
 											</div>
 											<div class=" marginBottom10px fieldValue col-md-6" {if $FIELD_MODEL->getFieldDataType() eq 'boolean'} style="width:25%" {/if} {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
