@@ -1027,12 +1027,15 @@ class Contacts extends CRMEntity
 		$file_saved = false;
 		//This is to added to store the existing attachment id of the contact where we should delete this when we give new image
 		$old_attachmentid = $adb->query_result($adb->pquery("select vtiger_crmentity.crmid from vtiger_seattachmentsrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seattachmentsrel.attachmentsid where  vtiger_seattachmentsrel.crmid=?", array($id)), 0, 'crmid');
-		foreach ($_FILES as $fileindex => $files) {
-			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = vtlib_purify($_REQUEST[$fileindex . '_hidden']);
-				$file_saved = $this->uploadAndSaveFile($id, $module, $files);
+		if($_FILES) {
+			foreach ($_FILES as $fileindex => $files) {
+				if ($files['name'] != '' && $files['size'] > 0) {
+					$files['original_name'] = vtlib_purify($_REQUEST[$fileindex . '_hidden']);
+					$file_saved = $this->uploadAndSaveFile($id, $module, $files);
+				}
 			}
 		}
+
 
 		$imageNameSql = 'SELECT name FROM vtiger_seattachmentsrel INNER JOIN vtiger_attachments ON
 								vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid LEFT JOIN vtiger_contactdetails ON
@@ -1070,7 +1073,7 @@ class Contacts extends CRMEntity
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Potentials" => "vtiger_contpotentialrel", "Products" => "vtiger_seproductsrel", "Documents" => "vtiger_senotesrel",
-			"Attachments" => "vtiger_seattachmentsrel", "Campaigns" => "vtiger_campaigncontrel", 
+			"Attachments" => "vtiger_seattachmentsrel", "Campaigns" => "vtiger_campaigncontrel",
 			'ServiceContracts' => 'vtiger_servicecontracts', 'Project' => 'vtiger_project');
 
 		$tbl_field_arr = Array("vtiger_contpotentialrel" => "potentialid", "vtiger_seproductsrel" => "productid", "vtiger_senotesrel" => "notesid",
