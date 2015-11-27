@@ -51,11 +51,6 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
-
-		foreach ($CalendarActionLinks as $basicLink) {
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
-		}
-
 		return $linkModelList;
 	}
 

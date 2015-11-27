@@ -459,7 +459,8 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 						}
 					}
 					$moduleModel = $referenceRecordModel->getModule();
-					foreach ($moduleModel->getFields() as $referenceFieldName => &$referenceFieldModel) {
+					$fields = $moduleModel->getFields();
+					foreach ($fields as $referenceFieldName => &$referenceFieldModel) {
 						$replaceBy = $referenceRecordModel->getDisplayValue($referenceFieldName, $value, true);
 						$content = str_replace('$' . $fieldName . '+' . $module . '+' . $referenceFieldName . '$', $replaceBy, $content);
 						$newLabel = Vtiger_Language_Handler::getLanguageTranslatedString($this->get('language'), $referenceFieldModel->get('label'), $module);
