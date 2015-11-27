@@ -24,23 +24,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		$recordModel = $this->getRecord();
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$moduleModel = $this->getModule();
-		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
-
-		$emailModuleModel = Vtiger_Module_Model::getInstance('OSSMail');
-		if ($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
-			$config = $emailModuleModel->getComposeParameters();
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => '',
-				'linkurl' => $emailModuleModel->getComposeUrl($moduleName, $recordId, 'Detail', $config['popup']),
-				'linkicon' => 'glyphicon glyphicon-envelope',
-				'linktarget' => $config['target'],
-				'linkPopup' => $config['popup'],
-				'linkhint' => vtranslate('LBL_SEND_EMAIL')
-			);
-			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
 
 		//TODO: update the database so that these separate handlings are not required
 		$index = 0;
@@ -57,36 +41,6 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			}
 			$index++;
 		}
-
-		$CalendarActionLinks = array();
-		$CalendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-		if ($currentUserModel->hasModuleActionPermission($CalendarModuleModel->getId(), 'EditView')) {
-			$CalendarActionLinks[] = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_ADD_EVENT',
-				'linkurl' => $recordModel->getCreateEventUrl(),
-				'linkicon' => 'glyphicon glyphicon-time'
-			);
-
-			$CalendarActionLinks[] = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_ADD_TASK',
-				'linkurl' => $recordModel->getCreateTaskUrl(),
-				'linkicon' => 'glyphicon glyphicon-calendar'
-			);
-		}
-
-		$SMSNotifierModuleModel = Vtiger_Module_Model::getInstance('SMSNotifier');
-		if (!empty($SMSNotifierModuleModel) && $currentUserModel->hasModulePermission($SMSNotifierModuleModel->getId())) {
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => 'LBL_SEND_SMS',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendSms("index.php?module=' . $moduleName . '&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
-				'linkicon' => 'glyphicon glyphicon-comment'
-			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-
 
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'DetailTransferOwnership')) {
 			$massActionLink = array(
@@ -169,8 +123,21 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'related' => 'Updates'
 			);
 		}
-
-
+		
+		$recordModel = $this->getRecord();
+		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$emailModuleModel = Vtiger_Module_Model::getInstance('OSSMail');
+		$recordId =$recordModel->getId();
+		if ($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
+			$config = $emailModuleModel->getComposeParameters();
+			$link = array(
+				'linktype' => 'DETAILVIEWRELATED',
+				'linklabel' => $emailModuleModel->getName(),
+				'linkurl' => $emailModuleModel->getComposeUrl($moduleName, $recordId, 'Detail', $config['popup']),
+				'relatedModuleName' => $emailModuleModel->getName()
+			);
+			$relatedLinks[] = $link;
+		}
 		$relationModels = $parentModuleModel->getRelations();
 
 		foreach ($relationModels as $relation) {
