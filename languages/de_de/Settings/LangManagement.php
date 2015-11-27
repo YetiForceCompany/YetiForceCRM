@@ -57,6 +57,10 @@ $languageStrings = [
 	'LBL_SHOW_EMPTY_VALUES' => 'Zeige leere Werte',
 	'LBL_SHOW_IN'	=> 'Zeige in',
 	'LBL_EDIT_HELP_ICON'	=> 'Hilfe Icons',
+	'LBL_BASE_LANGUAGE'	=> 'Base language',
+	'LBL_LANGUAGE'	=> 'Sprache',
+	'LBL_SHOW'	=> 'Show',
+	'LBL_STATS_INFO'	=> 'The presented statistical values determine the ratio of untranslated labels to all labels that exist in the base language file(s) in percentage.',
 ];
 $jsLanguageStrings = [
 	'Translations' => 'Übersetzungen',

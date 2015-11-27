@@ -2598,6 +2598,9 @@ a:focus {
 	font-size: 18px;
 	line-height: 28px;
 }
+.font-larger {
+	font-size: larger;
+}
 /*//
 img {
   max-width: 95%;
