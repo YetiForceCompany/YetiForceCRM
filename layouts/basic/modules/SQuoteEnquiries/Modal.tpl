@@ -7,12 +7,13 @@
 	{assign var=DETAILVIEW_PERMITTED value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'DetailView', $ID)}
 	{assign var=QEOPEN value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'QEOpen', $ID)}
 	{assign var=QECLOSE value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'QEClose', $ID)}
+	{assign var=LOCKEDIT value=Users_Privileges_Model::checkLockEdit($MODULE_NAME, $ID)}
 	<div class="modal-header">
 		<div class="pull-left">
 			<h3 class="modal-title">{vtranslate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</h3>
 		</div>
 		<div class="pull-right btn-group">
-			{if $EDITVIEW_PERMITTED}
+			{if $EDITVIEW_PERMITTED && !$LOCKEDIT}
 				<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"><span class="glyphicon glyphicon-pencil summaryViewEdit"></span></a>
 			{/if}
 			{if $DETAILVIEW_PERMITTED}
@@ -50,7 +51,7 @@
 <div class="modal-footer">
 	<div class="pull-left">
 		<div class="btn-toolbar">
-			{if $QEOPEN || $EDITVIEW_PERMITTED}
+			{if $QEOPEN || ($EDITVIEW_PERMITTED && !$LOCKEDIT)}
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{vtranslate('LBL_CHANGE_STATUS',$MODULE_NAME)} <span class="caret"></span>

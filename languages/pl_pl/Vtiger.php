@@ -1040,7 +1040,7 @@ $languageStrings = [
 	'LBL_SET_GLOBAL_DISCOUNT' => 'Ustaw',
 	'LBL_EXCHANGE_RATE' => 'Kurs waluty',
 	'LBL_EXCHANGE_DATE' => 'Data kursu',
-	'LBL_NO_EXCHANGE_RATES' => 'Brak kursów walut, sprawdz czy prawidłowo działa pobieranie kursów walut',
+	'LBL_NO_EXCHANGE_RATES' => 'Brak kursów walut, sprawdź czy prawidłowo działa pobieranie kursów walut',
 	'LBL_COMMENT' => 'Komentarz',
 	'LBL_CURRENT' => 'Bieżące',
 	'LBL_SET_RECORD_STATUS' => 'Ustaw status',
@@ -1090,6 +1090,12 @@ $languageStrings = [
 	'SINGLE_SQuoteEnquiries' => 'Zapytanie ofertowe',
 	'SSalesProcesses' => 'Procesy sprzedażowe',
 	'SINGLE_SSalesProcesses' => 'Proces sprzedaży',
+	'SCalculations' => 'Kalkulacje',
+	'SINGLE_SCalculations' => 'Kalkulacja',
+	'SRequirementsCards' => 'Karty wymagań',
+	'SINGLE_SRequirementsCards' => 'Karta wymagań',
+	'SQuotes' => 'Oferty',
+	'SINGLE_SQuotes' => 'Oferta',
 	
 ];
 $jsLanguageStrings = [

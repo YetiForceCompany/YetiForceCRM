@@ -141,8 +141,8 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 		if ($userPrivilegesModel->hasModulePermission($moduleModel->getId())) {
 			$quickLinks[] = [
 				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'Products & Service',
-				'linkurl' => 'index.php?module=' . $this->getName() . '&view=AccountsListTree&mode=showTree',
+				'linklabel' => 'LBL_VIEW_ACCOUNTSLISTTREE',
+				'linkurl' => 'index.php?module=' . $this->getName() . '&view=AccountsListTree&mode=showTree&selectedModule=Products',
 				'linkicon' => '',
 			];
 		}
