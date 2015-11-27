@@ -43,7 +43,6 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit1_Js", {}, {
 		formData['async'] = false;
 
 		var saveData = form.serializeFormData();
-//		saveData['action'] = 'Save';
 		saveData['step'] = 1;
 		saveData['async'] = false;
 		if (this.checkModulesName()) {

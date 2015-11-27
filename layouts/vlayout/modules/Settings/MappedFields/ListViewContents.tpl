@@ -43,9 +43,7 @@
 										<span class="actionImages">
 											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-												{if $RECORD_LINK->getLabel() eq 'LBL_EXPORT_RECORD'}
-													<a href="{$RECORD_LINK_URL}" title="{vtranslate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"><span class="{$RECORD_LINK->getIcon()} alignMiddle"></span></a>
-													{else}
+												{if $RECORD_LINK_URL}
 													<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="
 																										 {$RECORD_LINK_URL|substr:strlen("javascript:")};
 															if (event.stopPropagation){ldelim}
@@ -54,6 +52,8 @@
 																										 " {else} href='{$RECORD_LINK_URL}' {/if} class="{$RECORD_LINK->get('class')}">
 														<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{vtranslate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 													</a>
+												{else}
+													<span class="{$RECORD_LINK->getIcon()} alignMiddle {$RECORD_LINK->get('class')}" title="{vtranslate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 												{/if}
 												{if !$RECORD_LINK@last}
 													&nbsp;&nbsp;

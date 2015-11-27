@@ -1078,6 +1078,7 @@ $languageStrings = [
 	'LBL_OPEN_NEW_WINDOWS_INFO' => 'Zostanie otwarta nowa karta okna przeglądarki z widokiem edycji dla każdego rekordu osobno.',
 	'LBL_GENERATE_RECORDS' => 'Generuj rekordy',
 	'LBL_NOT_ASSIGNET_TO_BLOCK' => 'Nieprzypisane',
+	'LBL_ADVANCED_BLOCK' => 'Blok zaawansowany',
 	'LBL_SELF_ID' => 'Id rekordu',
 	'LBL_REMINDER' => "Powiadomienia",
 	'LBL_CONFREPORT' => 'Serwer - konfiguracja',

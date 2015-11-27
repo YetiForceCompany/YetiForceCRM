@@ -1106,6 +1106,7 @@ $languageStrings = [
 	'SINGLE_SRequirementsCards' => 'Requirements Card',
 	'SQuotes' => 'Quotes',
 	'SINGLE_SQuotes' => 'Quote',
+	'LBL_ADVANCED_BLOCK' => 'Advanced Block',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',

@@ -8,12 +8,6 @@
 class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
-	{
-		// TODO add permission
-		true;
-	}
-
 	public function preProcess(Vtiger_Request $request)
 	{
 		echo '<div class="generateMappingModal modal fade"><div class="modal-dialog"><div class="modal-content">';
@@ -22,7 +16,7 @@ class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 	function process(Vtiger_Request $request)
 	{
 		$log = vglobal('log');
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . print_r($request, true) . ') method ...');
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');

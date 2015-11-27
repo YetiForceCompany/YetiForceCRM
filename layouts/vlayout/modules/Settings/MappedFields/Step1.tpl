@@ -20,7 +20,7 @@
 				<br>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						<span class="redColor">*</span>{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="status" name="status" required="true">
@@ -35,10 +35,10 @@
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						<span class="redColor">*</span>{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" id="tabid" name="tabid" required="true" data-validation-engine='validate[required]' {if $RECORDID} disabled {/if}>
+						<select class="chzn-select form-control" id="tabid" name="tabid" required="true" data-validation-engine="validate[required]" {if $RECORDID} disabled {/if}>
 							{foreach from=$ALL_MODULES key=TABID item=MODULE}
 								{if $MODULE->getName() eq 'OSSMailView'} continue {/if}
 								<option value="{$TABID}" {if $MF_MODEL->get('tabid') == $TABID} selected {/if}>
@@ -50,10 +50,10 @@
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						<span class="redColor">*</span>{vtranslate('LBL_SELECT_REL_MODULE', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_SELECT_REL_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" id="reltabid" name="reltabid" required="true" data-validation-engine='validate[required]' {if $RECORDID} disabled {/if}>
+						<select class="chzn-select form-control" id="reltabid" name="reltabid" required="true" data-validation-engine="validate[required]" {if $RECORDID} disabled {/if}>
 							{foreach from=$ALL_MODULES key=TABID item=MODULE}
 								{if $MODULE->getName() eq 'OSSMailView'} continue {/if}
 								<option value="{$TABID}" {if $MF_MODEL->get('reltabid') == $TABID} selected {/if}>

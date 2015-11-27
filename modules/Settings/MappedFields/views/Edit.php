@@ -45,7 +45,7 @@ class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
 			$moduleInstance = Settings_MappedFields_Module_Model::getCleanInstance();
 		}
 		$viewer->assign('MF_MODEL', $moduleInstance);
-		$allModules = Settings_Vtiger_CustomRecordNumberingModule_Model::getSupportedModules();
+		$allModules = Settings_MappedFields_Module_Model::getSupportedModules();
 		$viewer->assign('ALL_MODULES', $allModules);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

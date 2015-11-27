@@ -147,12 +147,10 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	 */
 	public static function getInstance($value, $module, $type = '')
 	{
-		$isInt = intval($value);
 		switch ($type) {
 			case 'SELF':
-				if ($isInt) {
-					$fieldModel = parent::getInstance($value, $module);
-				} else {
+				$fieldModel = parent::getInstance($value, $module);
+				if(!$fieldModel){
 					$fields = Settings_MappedFields_Module_Model::getSpecialFields();
 					$fieldModel = $fields[$value];
 				}
@@ -165,11 +163,13 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 				$fieldModel = parent::getInstance($value, $module);
 				break;
 		}
-
-		$objectProperties = get_object_vars($fieldModel);
-		$fieldModel = new self();
-		foreach ($objectProperties as $properName => $propertyValue) {
-			$fieldModel->$properName = $propertyValue;
+		
+		if($fieldModel){
+			$objectProperties = get_object_vars($fieldModel);
+			$fieldModel = new self();
+			foreach ($objectProperties as $properName => $propertyValue) {
+				$fieldModel->$properName = $propertyValue;
+			}
 		}
 		return $fieldModel;
 	}

@@ -22,6 +22,7 @@ Settings_Vtiger_List_Js("Settings_MappedFields_List_Js", {}, {
 			thisInstance.getListViewRecords(params).then(
 					function (data) {
 						thisInstance.updatePagination();
+						thisInstance.registerBasic();
 					}
 			);
 		});
@@ -124,11 +125,28 @@ Settings_Vtiger_List_Js("Settings_MappedFields_List_Js", {}, {
 		}
 		return aDeferred.promise();
 	},
+	registerDeleteMap: function () {
+		var thisInstance = this;
+		this.getListContainer().find('.deleteMap').each(function (index) {
+			jQuery(this).on('click', function (e) {
+				e.stopPropagation();
+				e.preventDefault();
+				var templateId = jQuery(this).closest('tr').data('id');
+				Vtiger_List_Js.deleteRecord(templateId).then(function () {
+					thisInstance.registerBasic();
+				});
+			});
+		});
+	},
+	registerBasic: function () {
+		this.registerDeleteMap();
+	},
 	registerEvents: function () {
 		this._super();
 		var container = this.getListContainer();
 		this.registerFilterChangeEvent();
 		this.registerAddNewTemplate(container);
 		this.registerImportTemplate(container);
+		this.registerBasic();
 	}
 });

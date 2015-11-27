@@ -71,22 +71,21 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 			$uploadedXml = $_FILES['imported_xml']['tmp_name'];
 			$xmlError = $_FILES['imported_xml']['error'];
 			$extension = end(explode('.', $xmlName));
-
+			$message = false;
 			$moduleInstance = Settings_MappedFields_Module_Model::getCleanInstance();
 			$mapping = [];
+			$combine = ['tabid' => 'source', 'reltabid' => 'target'];
 			if ($xmlError == UPLOAD_ERR_OK && $extension === 'xml') {
 				$xml = simplexml_load_file($uploadedXml);
-				$cDataColumns = ['conditions', 'params'];
-				$changeNames = ['tabid', 'reltabid'];
 				$i = 0;
 				$instances = [];
 				foreach ($xml as $fieldsKey => $fieldsValue) {
-					if ($fieldsKey == 'tabid') {
+					if (array_key_exists($fieldsKey, $combine)) {
 						$value = (int) Vtiger_Functions::getModuleId((string) $fieldsValue);
-						$instances['source'] = Vtiger_Module_Model::getInstance((string) $fieldsValue);
-					} elseif ($fieldsKey == 'reltabid') {
-						$value = (int) Vtiger_Functions::getModuleId((string) $fieldsValue);
-						$instances['target'] = Vtiger_Module_Model::getInstance((string) $fieldsValue);
+						if (empty($value)) {
+							break;
+						}
+						$instances[$combine[$fieldsKey]] = Vtiger_Module_Model::getInstance((string) $fieldsValue);
 					} elseif ($fieldsKey == 'fields') {
 						foreach ($fieldsValue as $fieldKey => $fieldValue) {
 							foreach ($fieldValue as $columnKey => $columnValue) {
@@ -96,7 +95,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 									$mapping[$i][$columnKey] = $columnValue;
 									continue;
 								}
-								$fieldObject = Vtiger_Field_Model::getInstance($columnValue, $instances[$columnKey]);
+								$fieldObject = Settings_MappedFields_Field_Model::getInstance($columnValue, $instances[$columnKey],$mapping[$i]['type']);
 								if (!$fieldObject) {
 									continue;
 								}
@@ -110,8 +109,10 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 					}
 					$moduleInstance->getRecord()->set($fieldsKey, $value);
 				}
-
-				if (!$moduleInstance->importsAllowed()) {
+				if (empty($moduleInstance->getRecord()->get('tabid')) || empty($moduleInstance->getRecord()->get('reltabid'))) {
+					$message = 'LBL_MODULE_NOT_EXIST';
+				} elseif (!$moduleInstance->importsAllowed()) {
+					
 					$moduleInstance->setMapping($mapping);
 					$moduleInstance->save(true);
 					$message = 'LBL_IMPORT_OK';
