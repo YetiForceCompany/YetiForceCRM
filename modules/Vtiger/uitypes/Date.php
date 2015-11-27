@@ -79,7 +79,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 * @param $value
 	 * @return converted value
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
 		if (empty($value) || $value === ' ') {
 			$value = trim($value);

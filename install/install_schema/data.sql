@@ -412,6 +412,8 @@ insert  into `u_yf_ssingleorders_invfield`(`id`,`columnname`,`label`,`invtype`,`
 
 /*Data for the table `vtiger_account` */
 
+/*Data for the table `vtiger_account_showners` */
+
 /*Data for the table `vtiger_accountaddress` */
 
 /*Data for the table `vtiger_accountbookmails` */
@@ -555,6 +557,8 @@ insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (5,'key','','o
 insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (6,'source','https://api.opencagedata.com/geocode/v1/','opencage_data');
 insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (7,'nominatim','0','opencage_data');
 insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (8,'result_num','10','global');
+
+/*Data for the table `vtiger_asset_showners` */
 
 /*Data for the table `vtiger_assets` */
 
@@ -856,6 +860,8 @@ insert  into `vtiger_bruteforce`(`attempsnumber`,`timelock`,`active`) values (10
 
 /*Data for the table `vtiger_bruteforce_users` */
 
+/*Data for the table `vtiger_calculation_showners` */
+
 /*Data for the table `vtiger_calculations` */
 
 /*Data for the table `vtiger_calculations_cons` */
@@ -920,6 +926,8 @@ insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`
 
 insert  into `vtiger_calendar_default_activitytypes_seq`(`id`) values (8);
 
+/*Data for the table `vtiger_calendar_showners` */
+
 /*Data for the table `vtiger_calendar_user_activitytypes` */
 
 insert  into `vtiger_calendar_user_activitytypes`(`id`,`defaultid`,`userid`,`color`,`visible`) values (1,1,1,'#00ff0d',1);
@@ -974,6 +982,8 @@ insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sor
 insert  into `vtiger_callhistorytype_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_campaign` */
+
+/*Data for the table `vtiger_campaign_showners` */
 
 /*Data for the table `vtiger_campaignaccountrel` */
 
@@ -1035,6 +1045,8 @@ insert  into `vtiger_carrier`(`carrierid`,`carrier`,`presence`,`picklist_valueid
 /*Data for the table `vtiger_carrier_seq` */
 
 insert  into `vtiger_carrier_seq`(`id`) values (5);
+
+/*Data for the table `vtiger_contact_showners` */
 
 /*Data for the table `vtiger_contactaddress` */
 
@@ -1120,33 +1132,33 @@ insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contact
 
 /*Data for the table `vtiger_crmentity` */
 
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (35,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2014-09-22 23:48:32','2014-11-24 10:52:34',NULL,NULL,NULL,0,1,0,'Notify Owner On Ticket Change','Notify Owner On Ticket Change',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (36,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2014-09-22 23:51:21','2014-11-24 10:48:00',NULL,NULL,NULL,0,1,0,'Notify Account On Ticket Change','Notify Account On Ticket Change',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (37,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2014-09-22 23:53:15','2014-11-24 10:48:41',NULL,NULL,NULL,0,1,0,'Notify Contact On Ticket Closed','Notify Contact On Ticket Closed',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (38,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2014-09-22 23:55:03','2014-11-24 10:49:00',NULL,NULL,NULL,0,1,0,'Notify Account On Ticket Closed','Notify Account On Ticket Closed',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (39,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2014-09-22 23:57:26','2015-10-23 08:32:59','2015-10-23 08:33:00',NULL,NULL,0,1,0,'Notify Contact On Ticket Create','Notify Contact On Ticket Create',0);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (40,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2014-09-22 23:58:38','2014-11-24 10:49:39','2015-10-23 08:26:04',NULL,NULL,0,1,0,'Notify Account On Ticket Create','Notify Account On Ticket Create',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (41,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2014-09-23 00:05:38','2014-11-24 10:50:53',NULL,NULL,NULL,0,1,0,'Notify Contact On Ticket Change','Notify Contact On Ticket Change',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (42,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2014-09-23 00:06:31','2014-11-24 10:51:36',NULL,NULL,NULL,0,1,0,'Notify Owner On Ticket Closed','Notify Owner On Ticket Closed',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (43,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2014-09-23 00:07:37','2014-11-24 10:51:59',NULL,NULL,NULL,0,1,0,'Notify Owner On Ticket Create','Notify Owner On Ticket Create',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (44,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2014-09-23 21:39:36','2014-09-23 22:31:59',NULL,NULL,NULL,0,1,0,'Customer Portal Login Details','Customer Portal Login Details',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (45,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2014-09-23 22:57:01','2014-12-23 13:17:47',NULL,NULL,NULL,0,1,0,'Send invitations','Send invitations',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (46,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2014-09-23 23:04:19','2014-09-23 23:04:19',NULL,NULL,NULL,0,1,0,'Send Notification Email to Record Owner','Send Notification Email to Record Owner',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (93,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2014-09-24 20:51:12','2014-09-24 20:51:12',NULL,NULL,NULL,0,1,0,'Activity Reminder Notification','Activity Reminder Notification',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (94,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2014-09-24 20:52:22','2014-09-24 20:52:22',NULL,NULL,NULL,0,1,0,'Activity Reminder Notification','Activity Reminder Notification',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (95,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2014-09-24 21:58:51','2014-09-24 21:58:51',NULL,NULL,NULL,0,1,0,'Test mail about the mail server configuration.','Test mail about the mail server configuration.',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (96,1,1,'',1,'OSSPdf',NULL,NULL,'2014-09-29 08:41:21','2014-10-13 15:48:36',NULL,NULL,NULL,0,1,0,'Quotes PDF','Quotes PDF',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (97,1,1,'',1,'OSSPdf',NULL,NULL,'2014-09-29 08:42:20','2014-10-13 15:49:20',NULL,NULL,NULL,0,1,0,'Sales Order PDF','Sales Order PDF',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (98,1,1,'',1,'OSSPdf',NULL,NULL,'2014-09-29 08:43:47','2014-10-13 15:48:57',NULL,NULL,NULL,0,1,0,'Invoice PDF','Invoice PDF',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (99,1,1,'',1,'OSSPdf',NULL,NULL,'2014-09-29 10:00:45','2014-10-13 15:57:21',NULL,NULL,NULL,0,1,0,'Purchase Order PDF','Purchase Order PDF',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (100,1,1,'',1,'OSSPdf',NULL,NULL,'2014-09-29 10:07:35','2015-07-20 11:59:53','2015-07-20 11:59:58',NULL,NULL,0,1,0,'Calculation PDF','Calculation PDF',0);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (103,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2015-01-24 11:33:24','2015-01-24 11:33:24','2015-02-12 08:37:31',NULL,NULL,0,1,0,'ForgotPassword','ForgotPassword',NULL);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (104,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2015-02-12 09:08:42','2015-02-12 09:26:02','2015-02-12 09:26:03',NULL,NULL,0,1,0,'Customer Portal - ForgotPassword','Customer Portal - ForgotPassword',0);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (105,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2015-02-17 10:11:08','2015-10-23 08:35:22','2015-10-23 08:35:22',NULL,NULL,0,1,0,'Notify Owner On new comment added to ticket from portal','Notify Owner On new comment added to ticket from portal',0);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (106,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2015-02-18 08:35:26','2015-10-23 08:34:38','2015-10-23 08:34:38',NULL,NULL,0,1,0,'Notify Contact On New comment added to ticket','Notify Contact On New comment added to ticket',0);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (107,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2015-02-26 09:59:53','2015-02-26 09:59:53','2015-02-26 09:59:53',NULL,NULL,0,1,0,'Security risk has been detected - Brute Force','Security risk has been detected - Brute Force',0);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (108,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2015-03-12 07:44:12','2015-03-12 07:44:12','2015-03-12 07:44:13',NULL,NULL,0,1,0,'Backup has been made','Backup has been made',0);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (109,1,1,'',1,'OSSMailTemplates',NULL,NULL,'2015-10-23 08:16:58','2015-10-23 08:34:54','2015-10-23 08:34:54',NULL,NULL,0,1,0,'Notify Account On New comment added to ticket','Notify Account On New comment added to ticket',0);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (35,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2014-09-22 23:48:32','2014-11-24 10:52:34',NULL,NULL,NULL,0,1,0,'Notify Owner On Ticket Change','Notify Owner On Ticket Change',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (36,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2014-09-22 23:51:21','2014-11-24 10:48:00',NULL,NULL,NULL,0,1,0,'Notify Account On Ticket Change','Notify Account On Ticket Change',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (37,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2014-09-22 23:53:15','2014-11-24 10:48:41',NULL,NULL,NULL,0,1,0,'Notify Contact On Ticket Closed','Notify Contact On Ticket Closed',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (38,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2014-09-22 23:55:03','2014-11-24 10:49:00',NULL,NULL,NULL,0,1,0,'Notify Account On Ticket Closed','Notify Account On Ticket Closed',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (39,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2014-09-22 23:57:26','2015-10-23 08:32:59','2015-10-23 08:33:00',NULL,NULL,0,1,0,'Notify Contact On Ticket Create','Notify Contact On Ticket Create',0);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (40,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2014-09-22 23:58:38','2014-11-24 10:49:39','2015-10-23 08:26:04',NULL,NULL,0,1,0,'Notify Account On Ticket Create','Notify Account On Ticket Create',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (41,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2014-09-23 00:05:38','2014-11-24 10:50:53',NULL,NULL,NULL,0,1,0,'Notify Contact On Ticket Change','Notify Contact On Ticket Change',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (42,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2014-09-23 00:06:31','2014-11-24 10:51:36',NULL,NULL,NULL,0,1,0,'Notify Owner On Ticket Closed','Notify Owner On Ticket Closed',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (43,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2014-09-23 00:07:37','2014-11-24 10:51:59',NULL,NULL,NULL,0,1,0,'Notify Owner On Ticket Create','Notify Owner On Ticket Create',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (44,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2014-09-23 21:39:36','2014-09-23 22:31:59',NULL,NULL,NULL,0,1,0,'Customer Portal Login Details','Customer Portal Login Details',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (45,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2014-09-23 22:57:01','2014-12-23 13:17:47',NULL,NULL,NULL,0,1,0,'Send invitations','Send invitations',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (46,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2014-09-23 23:04:19','2014-09-23 23:04:19',NULL,NULL,NULL,0,1,0,'Send Notification Email to Record Owner','Send Notification Email to Record Owner',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (93,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2014-09-24 20:51:12','2014-09-24 20:51:12',NULL,NULL,NULL,0,1,0,'Activity Reminder Notification','Activity Reminder Notification',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (94,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2014-09-24 20:52:22','2014-09-24 20:52:22',NULL,NULL,NULL,0,1,0,'Activity Reminder Notification','Activity Reminder Notification',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (95,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2014-09-24 21:58:51','2014-09-24 21:58:51',NULL,NULL,NULL,0,1,0,'Test mail about the mail server configuration.','Test mail about the mail server configuration.',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (96,1,1,0,1,'OSSPdf',NULL,NULL,'2014-09-29 08:41:21','2014-10-13 15:48:36',NULL,NULL,NULL,0,1,0,'Quotes PDF','Quotes PDF',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (97,1,1,0,1,'OSSPdf',NULL,NULL,'2014-09-29 08:42:20','2014-10-13 15:49:20',NULL,NULL,NULL,0,1,0,'Sales Order PDF','Sales Order PDF',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (98,1,1,0,1,'OSSPdf',NULL,NULL,'2014-09-29 08:43:47','2014-10-13 15:48:57',NULL,NULL,NULL,0,1,0,'Invoice PDF','Invoice PDF',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (99,1,1,0,1,'OSSPdf',NULL,NULL,'2014-09-29 10:00:45','2014-10-13 15:57:21',NULL,NULL,NULL,0,1,0,'Purchase Order PDF','Purchase Order PDF',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (100,1,1,0,1,'OSSPdf',NULL,NULL,'2014-09-29 10:07:35','2015-07-20 11:59:53','2015-07-20 11:59:58',NULL,NULL,0,1,0,'Calculation PDF','Calculation PDF',0);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (103,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2015-01-24 11:33:24','2015-01-24 11:33:24','2015-02-12 08:37:31',NULL,NULL,0,1,0,'ForgotPassword','ForgotPassword',NULL);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (104,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2015-02-12 09:08:42','2015-02-12 09:26:02','2015-02-12 09:26:03',NULL,NULL,0,1,0,'Customer Portal - ForgotPassword','Customer Portal - ForgotPassword',0);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (105,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2015-02-17 10:11:08','2015-10-23 08:35:22','2015-10-23 08:35:22',NULL,NULL,0,1,0,'Notify Owner On new comment added to ticket from portal','Notify Owner On new comment added to ticket from portal',0);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (106,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2015-02-18 08:35:26','2015-10-23 08:34:38','2015-10-23 08:34:38',NULL,NULL,0,1,0,'Notify Contact On New comment added to ticket','Notify Contact On New comment added to ticket',0);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (107,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2015-02-26 09:59:53','2015-02-26 09:59:53','2015-02-26 09:59:53',NULL,NULL,0,1,0,'Security risk has been detected - Brute Force','Security risk has been detected - Brute Force',0);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (108,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2015-03-12 07:44:12','2015-03-12 07:44:12','2015-03-12 07:44:13',NULL,NULL,0,1,0,'Backup has been made','Backup has been made',0);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (109,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2015-10-23 08:16:58','2015-10-23 08:34:54','2015-10-23 08:34:54',NULL,NULL,0,1,0,'Notify Account On New comment added to ticket','Notify Account On New comment added to ticket',0);
 
 /*Data for the table `vtiger_crmentity_seq` */
 
@@ -3523,6 +3535,8 @@ insert  into `vtiger_defaulteventstatus`(`defaulteventstatusid`,`defaulteventsta
 
 insert  into `vtiger_defaulteventstatus_seq`(`id`) values (2);
 
+/*Data for the table `vtiger_document_showners` */
+
 /*Data for the table `vtiger_duration_minutes` */
 
 insert  into `vtiger_duration_minutes`(`minutesid`,`duration_minutes`,`sortorderid`,`presence`) values (1,'00',0,1);
@@ -3655,6 +3669,8 @@ insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`e
 insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (90,'SSingleOrders','u_yf_ssingleorders','subject','ssingleordersid','ssingleordersid','subject',1,0);
 insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (91,'SRecurringOrders','u_yf_srecurringorders','subject','srecurringordersid','srecurringordersid','subject',1,0);
 
+/*Data for the table `vtiger_event_showners` */
+
 /*Data for the table `vtiger_eventhandler_module` */
 
 insert  into `vtiger_eventhandler_module`(`eventhandler_module_id`,`module_name`,`handler_class`) values (1,'ModTracker','ModTrackerHandler');
@@ -3695,7 +3711,6 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (25,'vtiger.entity.aftersave.final','modules/OSSTimeControl/handlers/TimeControl.php','TimeControlHandler','',1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (26,'vtiger.entity.aftersave.final','modules/Potentials/handlers/PotentialsHandler.php','PotentialsHandler','',1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (27,'vtiger.entity.aftersave.final','modules/Accounts/handlers/AccountsHandler.php','AccountsHandler',NULL,1,'[]');
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (28,'vtiger.entity.aftersave.final','modules/Vtiger/handlers/SharedOwnerUpdater.php','Vtiger_SharedOwnerUpdater_Handler',NULL,1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (29,'vtiger.entity.aftersave.final','modules/Vtiger/handlers/SharingPrivileges.php','Vtiger_SharingPrivileges_Handler',NULL,1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (30,'vtiger.entity.aftersave','modules/SalesOrder/handlers/RecurringInvoiceHandler.php','RecurringInvoiceHandler','',1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (31,'vtiger.entity.aftersave.final','modules/HelpDesk/handlers/HelpDeskHandler.php','HelpDeskHandler','',1,'[]');
@@ -3741,6 +3756,8 @@ insert  into `vtiger_expectedresponse`(`expectedresponseid`,`expectedresponse`,`
 insert  into `vtiger_expectedresponse_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_faq` */
+
+/*Data for the table `vtiger_faq_showners` */
 
 /*Data for the table `vtiger_faqcategories` */
 
@@ -5558,7 +5575,11 @@ insert  into `vtiger_groups`(`groupid`,`groupname`,`description`,`color`,`module
 insert  into `vtiger_groups`(`groupid`,`groupname`,`description`,`color`,`modules`) values (3,'Marketing Group','Group Related to Marketing Activities','#E6FAD8',NULL);
 insert  into `vtiger_groups`(`groupid`,`groupname`,`description`,`color`,`modules`) values (4,'Support Group','Group Related to providing Support to Customers','#E6FAD8',NULL);
 
+/*Data for the table `vtiger_helpdesk_showners` */
+
 /*Data for the table `vtiger_holidaysentitlement` */
+
+/*Data for the table `vtiger_holidaysentitlement_showners` */
 
 /*Data for the table `vtiger_holidaysentitlement_year` */
 
@@ -5640,6 +5661,8 @@ insert  into `vtiger_hour_format`(`hour_formatid`,`hour_format`,`presence`,`pick
 
 insert  into `vtiger_hour_format_seq`(`id`) values (2);
 
+/*Data for the table `vtiger_idea_showners` */
+
 /*Data for the table `vtiger_ideas` */
 
 /*Data for the table `vtiger_ideascf` */
@@ -5720,6 +5743,8 @@ insert  into `vtiger_inventorytaxinfo_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_invoice_recurring_info` */
 
+/*Data for the table `vtiger_invoice_showners` */
+
 /*Data for the table `vtiger_invoiceaddress` */
 
 /*Data for the table `vtiger_invoicecf` */
@@ -5757,6 +5782,8 @@ insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`seque
 insert  into `vtiger_language_seq`(`id`) values (6);
 
 /*Data for the table `vtiger_layout` */
+
+/*Data for the table `vtiger_lead_showners` */
 
 /*Data for the table `vtiger_lead_view` */
 
@@ -6596,6 +6623,8 @@ insert  into `vtiger_organizationdetails_seq`(`id`) values (1);
 
 /*Data for the table `vtiger_oss_project_templates` */
 
+/*Data for the table `vtiger_osscost_showners` */
+
 /*Data for the table `vtiger_osscosts` */
 
 /*Data for the table `vtiger_osscosts_config` */
@@ -6620,6 +6649,8 @@ insert  into `vtiger_ossdc_status_seq`(`id`) values (2);
 /*Data for the table `vtiger_ossdocumentcontrol` */
 
 /*Data for the table `vtiger_ossdocumentcontrol_cnd` */
+
+/*Data for the table `vtiger_ossemployee_showners` */
 
 /*Data for the table `vtiger_ossemployees` */
 
@@ -6658,6 +6689,8 @@ insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) val
 /*Data for the table `vtiger_ossmailscanner_folders_uid` */
 
 /*Data for the table `vtiger_ossmailscanner_log_cron` */
+
+/*Data for the table `vtiger_ossmailtemplate_showners` */
 
 /*Data for the table `vtiger_ossmailtemplates` */
 
@@ -6737,11 +6770,17 @@ insert  into `vtiger_ossmailview_sendtype`(`ossmailview_sendtypeid`,`ossmailview
 
 insert  into `vtiger_ossmailview_sendtype_seq`(`id`) values (5);
 
+/*Data for the table `vtiger_ossmailview_showners` */
+
 /*Data for the table `vtiger_ossmailviewcf` */
+
+/*Data for the table `vtiger_ossoutsourcedservice_showners` */
 
 /*Data for the table `vtiger_ossoutsourcedservices` */
 
 /*Data for the table `vtiger_ossoutsourcedservicescf` */
+
+/*Data for the table `vtiger_osspassword_showners` */
 
 /*Data for the table `vtiger_osspasswords` */
 
@@ -6877,6 +6916,8 @@ insert  into `vtiger_osspdf_pdf_orientation`(`osspdf_pdf_orientationid`,`osspdf_
 
 insert  into `vtiger_osspdf_pdf_orientation_seq`(`id`) values (2);
 
+/*Data for the table `vtiger_osspdf_showners` */
+
 /*Data for the table `vtiger_osspdf_view` */
 
 insert  into `vtiger_osspdf_view`(`osspdf_viewid`,`osspdf_view`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'List',1,385,1);
@@ -6894,11 +6935,15 @@ insert  into `vtiger_osspdfcf`(`osspdfid`) values (98);
 insert  into `vtiger_osspdfcf`(`osspdfid`) values (99);
 insert  into `vtiger_osspdfcf`(`osspdfid`) values (100);
 
+/*Data for the table `vtiger_osssoldservice_showners` */
+
 /*Data for the table `vtiger_osssoldservices` */
 
 /*Data for the table `vtiger_osssoldservicescf` */
 
 /*Data for the table `vtiger_osstimecontrol` */
+
+/*Data for the table `vtiger_osstimecontrol_showners` */
 
 /*Data for the table `vtiger_osstimecontrol_status` */
 
@@ -6922,6 +6967,8 @@ insert  into `vtiger_othereventduration`(`othereventdurationid`,`othereventdurat
 /*Data for the table `vtiger_othereventduration_seq` */
 
 insert  into `vtiger_othereventduration_seq`(`id`) values (5);
+
+/*Data for the table `vtiger_outsourcedproduct_showners` */
 
 /*Data for the table `vtiger_outsourcedproducts` */
 
@@ -7131,17 +7178,23 @@ insert  into `vtiger_postatus_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_potential` */
 
+/*Data for the table `vtiger_potential_showners` */
+
 /*Data for the table `vtiger_potentialscf` */
 
 /*Data for the table `vtiger_potstagehistory` */
 
 /*Data for the table `vtiger_pricebook` */
 
+/*Data for the table `vtiger_pricebook_showners` */
+
 /*Data for the table `vtiger_pricebookcf` */
 
 /*Data for the table `vtiger_pricebookproductrel` */
 
 /*Data for the table `vtiger_priority` */
+
+/*Data for the table `vtiger_product_showners` */
 
 /*Data for the table `vtiger_productcf` */
 
@@ -18468,6 +18521,8 @@ insert  into `vtiger_progress_seq`(`id`) values (11);
 
 /*Data for the table `vtiger_project` */
 
+/*Data for the table `vtiger_project_showners` */
+
 /*Data for the table `vtiger_projectcf` */
 
 /*Data for the table `vtiger_projectmilestone` */
@@ -18481,6 +18536,8 @@ insert  into `vtiger_projectmilestone_priority`(`projectmilestone_priorityid`,`p
 /*Data for the table `vtiger_projectmilestone_priority_seq` */
 
 insert  into `vtiger_projectmilestone_priority_seq`(`id`) values (3);
+
+/*Data for the table `vtiger_projectmilestone_showners` */
 
 /*Data for the table `vtiger_projectmilestonecf` */
 
@@ -18520,6 +18577,8 @@ insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`
 insert  into `vtiger_projectstatus_seq`(`id`) values (9);
 
 /*Data for the table `vtiger_projecttask` */
+
+/*Data for the table `vtiger_projecttask_showners` */
 
 /*Data for the table `vtiger_projecttaskcf` */
 
@@ -18586,15 +18645,21 @@ insert  into `vtiger_projecttype_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_purchaseorder` */
 
+/*Data for the table `vtiger_purchaseorder_showners` */
+
 /*Data for the table `vtiger_purchaseorderaddress` */
 
 /*Data for the table `vtiger_purchaseordercf` */
+
+/*Data for the table `vtiger_quote_showners` */
 
 /*Data for the table `vtiger_quotes` */
 
 /*Data for the table `vtiger_quotesaddress` */
 
 /*Data for the table `vtiger_quotescf` */
+
+/*Data for the table `vtiger_quotesenquire_showners` */
 
 /*Data for the table `vtiger_quotesenquires` */
 
@@ -19025,6 +19090,8 @@ insert  into `vtiger_reportfolder`(`folderid`,`foldername`,`description`,`state`
 
 /*Data for the table `vtiger_reporttype` */
 
+/*Data for the table `vtiger_requirementcard_showners` */
+
 /*Data for the table `vtiger_requirementcards` */
 
 /*Data for the table `vtiger_requirementcards_cons` */
@@ -19068,6 +19135,8 @@ insert  into `vtiger_requirementcards_status`(`requirementcards_statusid`,`requi
 insert  into `vtiger_requirementcards_status_seq`(`id`) values (8);
 
 /*Data for the table `vtiger_requirementcardscf` */
+
+/*Data for the table `vtiger_reservation_showners` */
 
 /*Data for the table `vtiger_reservations` */
 
@@ -23973,6 +24042,8 @@ insert  into `vtiger_sales_stage_seq`(`id`) values (17);
 
 /*Data for the table `vtiger_salesorder` */
 
+/*Data for the table `vtiger_salesorder_showners` */
+
 /*Data for the table `vtiger_salesorderaddress` */
 
 /*Data for the table `vtiger_salesordercf` */
@@ -23988,6 +24059,8 @@ insert  into `vtiger_salutationtype`(`salutationid`,`salutationtype`,`presence`,
 /*Data for the table `vtiger_salutationtype_seq` */
 
 insert  into `vtiger_salutationtype_seq`(`id`) values (6);
+
+/*Data for the table `vtiger_scalculation_showners` */
 
 /*Data for the table `vtiger_scalculations_status` */
 
@@ -24018,6 +24091,8 @@ insert  into `vtiger_selectquery_seq`(`id`) values (25);
 
 /*Data for the table `vtiger_service` */
 
+/*Data for the table `vtiger_service_showners` */
+
 /*Data for the table `vtiger_service_usageunit` */
 
 insert  into `vtiger_service_usageunit`(`service_usageunitid`,`service_usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Hours',1,226,1);
@@ -24041,6 +24116,8 @@ insert  into `vtiger_servicecategory`(`servicecategoryid`,`servicecategory`,`pre
 insert  into `vtiger_servicecategory_seq`(`id`) values (6);
 
 /*Data for the table `vtiger_servicecf` */
+
+/*Data for the table `vtiger_servicecontract_showners` */
 
 /*Data for the table `vtiger_servicecontracts` */
 
@@ -24187,6 +24264,10 @@ insert  into `vtiger_sostatus_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_sostatushistory` */
 
+/*Data for the table `vtiger_squote_showners` */
+
+/*Data for the table `vtiger_squoteenquirie_showners` */
+
 /*Data for the table `vtiger_squoteenquiries_status` */
 
 insert  into `vtiger_squoteenquiries_status`(`squoteenquiries_statusid`,`squoteenquiries_status`,`sortorderid`,`presence`) values (1,'PLL_DRAFT',1,1);
@@ -24206,6 +24287,8 @@ insert  into `vtiger_squotes_status`(`squotes_statusid`,`squotes_status`,`sortor
 insert  into `vtiger_squotes_status`(`squotes_statusid`,`squotes_status`,`sortorderid`,`presence`) values (6,'PLL_DISCARDED',6,0);
 insert  into `vtiger_squotes_status`(`squotes_statusid`,`squotes_status`,`sortorderid`,`presence`) values (7,'PLL_ACCEPTED',7,0);
 
+/*Data for the table `vtiger_srecurringorder_showners` */
+
 /*Data for the table `vtiger_srecurringorders_status` */
 
 insert  into `vtiger_srecurringorders_status`(`srecurringorders_statusid`,`srecurringorders_status`,`sortorderid`,`presence`) values (1,'PLL_DRAFT',1,1);
@@ -24218,6 +24301,8 @@ insert  into `vtiger_srecurringorders_status`(`srecurringorders_statusid`,`srecu
 insert  into `vtiger_srecurringorders_status`(`srecurringorders_statusid`,`srecurringorders_status`,`sortorderid`,`presence`) values (8,'PLL_UNREALIZED',8,0);
 insert  into `vtiger_srecurringorders_status`(`srecurringorders_statusid`,`srecurringorders_status`,`sortorderid`,`presence`) values (9,'PLL_REALIZED',9,0);
 
+/*Data for the table `vtiger_srequirementscard_showners` */
+
 /*Data for the table `vtiger_srequirementscards_status` */
 
 insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`srequirementscards_status`,`sortorderid`,`presence`) values (1,'PLL_DRAFT',1,1);
@@ -24226,6 +24311,10 @@ insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`s
 insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`srequirementscards_status`,`sortorderid`,`presence`) values (4,'PLL_WAITING_FOR_APPROVAL',4,1);
 insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`srequirementscards_status`,`sortorderid`,`presence`) values (5,'PLL_DISCARDED',5,0);
 insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`srequirementscards_status`,`sortorderid`,`presence`) values (6,'PLL_ACCEPTED',6,0);
+
+/*Data for the table `vtiger_ssalesprocesse_showners` */
+
+/*Data for the table `vtiger_ssingleorder_showners` */
 
 /*Data for the table `vtiger_ssingleorders_status` */
 
@@ -24838,6 +24927,8 @@ insert  into `vtiger_users_seq`(`id`) values (4);
 /*Data for the table `vtiger_userscf` */
 
 /*Data for the table `vtiger_vendor` */
+
+/*Data for the table `vtiger_vendor_showners` */
 
 /*Data for the table `vtiger_vendoraddress` */
 

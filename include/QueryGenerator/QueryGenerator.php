@@ -1149,12 +1149,13 @@ class QueryGenerator
 				continue;
 			}
 			if ($field->getUIType() == 120) {
+				$shownersTable = Vtiger_sharedOwner_UIType::getShownerTable($this->getModule());
 				if ($operator == 'om') {
-					$sql[] = 'FIND_IN_SET(' . Users_Record_Model::getCurrentUserModel()->get('id') . ',' . $this->getSQLColumn($field->getFieldName()) . ')';
+					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM ' . $shownersTable . ' WHERE userid = '.Users_Record_Model::getCurrentUserModel()->get('id').')';
 				} else if (in_array($operator, ['e', 's', 'ew', 'c'])) {
-					$sql[] = 'FIND_IN_SET(' ."' $value '". ',' . $this->getSQLColumn($field->getFieldName()) . ')';
+					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM ' . $shownersTable . ' WHERE userid = '.$value.')';
 				} else if (in_array($operator, ['n', 'k'])) {
-					$sql[] = 'NOT FIND_IN_SET(' ."' $value '". ',' . $this->getSQLColumn($field->getFieldName()) . ')';
+					$sql[] = 'vtiger_crmentity.crmid NOT IN (SELECT DISTINCT crmid FROM ' . $shownersTable . ' WHERE userid = '.$value.')';
 				}
 				continue;
 			}

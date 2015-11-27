@@ -20,7 +20,7 @@
 			{assign var=EDITVIEW_PERMITTED value=isPermitted('Calendar', 'EditView', $RECORD->get('crmid'))}
 			{assign var=DETAILVIEW_PERMITTED value=isPermitted('Calendar', 'DetailView', $RECORD->get('crmid'))}
 			{assign var=STATUS value=$RECORD->get('status')}
-			{assign var=SHAREDOWNER value=Users_Privileges_Model::getSharedOwner($RECORD->get('crmid'))}
+			{assign var=SHAREDOWNER value=Vtiger_sharedOwner_UIType::getSharedOwners($RECORD->get('crmid'), $RECORD->getModuleName())}
 			<div class="activityEntries">
 				<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}"/>
 				<div class="row">

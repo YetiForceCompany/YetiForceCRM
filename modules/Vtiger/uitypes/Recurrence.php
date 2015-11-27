@@ -40,7 +40,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Date_UIType
 	 * @param $value
 	 * @return converted value
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
 		return $this->getDisplayValue($value);
 	}

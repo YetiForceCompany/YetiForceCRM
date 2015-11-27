@@ -7,7 +7,8 @@
 		{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('',$MODULE)}
 		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
 		{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
-		{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
+		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue('', $RECORD->getId())}
+
 		{if $FIELD_VALUE neq '' }
 			{assign var=FIELD_VALUE value=Vtiger_Functions::getArrayFromValue($FIELD_VALUE)}
 		{/if}

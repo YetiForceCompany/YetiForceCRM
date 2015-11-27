@@ -30,33 +30,90 @@ class Vtiger_sharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
 	{
-		if ($values == '')
-			return;
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$displayValue = '';
 
-		foreach (Vtiger_Functions::getArrayFromValue($values) as $value) {
-			if (Vtiger_Owner_UIType::getOwnerType($value) === 'User') {
-				$userModel = Users_Record_Model::getCleanInstance('Users');
-				$userModel->set('id', $value);
-				$detailViewUrl = $userModel->getDetailViewUrl();
-				$currentUser = Users_Record_Model::getCurrentUserModel();
+		if ($recordInstance !== false) {
+			$moduleName = $recordInstance->getModuleName();
+		} elseif ($record !== false) {
+			$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record);
+			$moduleName = $recordMetaData['setype'];
+		}
+
+		$shownersTable = self::getShownerTable($moduleName);
+		$result = $db->pquery('SELECT DISTINCT userid FROM ' . $shownersTable . ' WHERE crmid = ?', [$record]);
+		while (($shownerid = $db->getSingleValue($result)) !== false) {
+			if (Vtiger_Owner_UIType::getOwnerType($shownerid) === 'User') {
 				if ($currentUser->isAdminUser() && !$rawText) {
-					$displayvalue[] = '<a href=' . $detailViewUrl . '>' . rtrim(getOwnerName($value)) . '</a>';
+					$displayValue .= '<a href="index.php?module=User&view=Detail&record=' . $shownerid . '">' . rtrim(getOwnerName($shownerid)) . '</a>,';
 				} else {
-					$displayvalue[] = rtrim(getOwnerName($value));
+					$displayValue .= rtrim(getOwnerName($shownerid)) . ',';
 				}
 			} else {
-				$currentUser = Users_Record_Model::getCurrentUserModel();
 				if ($currentUser->isAdminUser() && !$rawText) {
-					$recordModel = new Settings_Groups_Record_Model();
-					$recordModel->set('groupid', $value);
-					$detailViewUrl = $recordModel->getDetailViewUrl();
-					$displayvalue[] = '<a href=' . $detailViewUrl . '>' . rtrim(getOwnerName($value)) . '</a>';
+					$displayValue .= '<a href="index.php?module=Groups&parent=Settings&view=Detail&record=' . $shownerid . '">' . rtrim(getOwnerName($shownerid)) . '</a>,';
 				} else {
-					$displayvalue[] = rtrim(getOwnerName($value));
+					$displayValue .= rtrim(getOwnerName($shownerid)) . ',';
 				}
 			}
 		}
-		$displayvalue = implode(', ', $displayvalue);
-		return $displayvalue;
+		return rtrim($displayValue, ',');
+	}
+
+	/**
+	 * Function to get the display value in edit view
+	 * @param reference record id
+	 * @return link
+	 */
+	public function getEditViewDisplayValue($value, $record = false)
+	{
+		if($record === false){
+			return [];
+		}
+		$db = PearDatabase::getInstance();
+		$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record);
+		$moduleName = $recordMetaData['setype'];
+		$shownersTable = self::getShownerTable($moduleName);
+		
+		$result = $db->pquery('SELECT DISTINCT userid FROM '.$shownersTable.' WHERE crmid = ?', [$record]);
+		$values = [];
+		while (($shownerid = $db->getSingleValue($result)) !== false) {
+			$values[] = $shownerid;
+		}
+		return $values;
+	}
+
+	/**
+	 * Function to get the share users list
+	 * @param int $record record ID
+	 * @param bool $returnArray whether return data in an array
+	 * @return array
+	 */
+	public static function getSharedOwners($record, $moduleName = false)
+	{
+		$shownerid = Vtiger_Cache::get('SharedOwner', $record);
+		if ($shownerid) {
+			return $shownerid;
+		}
+		
+		$db = PearDatabase::getInstance();
+		if ($moduleName === false) {
+			$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($parentRecord);
+			$moduleName = $recordMetaData['setype'];
+		}
+		$shownersTable = self::getShownerTable($moduleName);
+		$result = $db->pquery('SELECT DISTINCT userid FROM ' . $shownersTable . ' WHERE crmid = ?', [$record]);
+		$values = [];
+		while (($shownerid = $db->getSingleValue($result)) !== false) {
+			$values[] = $shownerid;
+		}
+		Vtiger_Cache::set('SharedOwner', $record, $values);
+		return $values;
+	}
+
+	public static function getShownerTable($module)
+	{
+		return 'vtiger_' . strtolower(rtrim($module, 's')) . '_showners';
 	}
 }

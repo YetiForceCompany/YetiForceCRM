@@ -353,7 +353,7 @@ function isPermitted($module, $actionname, $record_id = '')
 		$recOwnType = '';
 		$recOwnId = '';
 		$recordOwnerArr = getRecordOwnerId($record_id);
-		$shownerids = Users_Privileges_Model::getSharedOwner($record_id);
+		$shownerids = Vtiger_sharedOwner_UIType::getSharedOwners($record_id, $module);
 		foreach ($recordOwnerArr as $type => $id) {
 			$recOwnType = $type;
 			$recOwnId = $id;
@@ -400,9 +400,9 @@ function isPermitted($module, $actionname, $record_id = '')
 				if ($role['permissionsrelatedfield'] == 0) {
 					$relatedPermission = $current_user->id == $recordMetaData['smownerid'];
 				} else if ($role['permissionsrelatedfield'] == 1) {
-					$relatedPermission = in_array($current_user->id, explode(',', $recordMetaData['shownerid']));
+					$relatedPermission = in_array($current_user->id, Vtiger_sharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
 				} else if ($role['permissionsrelatedfield'] == 2) {
-					$relatedPermission = $current_user->id == $recordMetaData['smownerid'] || in_array($current_user->id, explode(',', $recordMetaData['shownerid']));
+					$relatedPermission = $current_user->id == $recordMetaData['smownerid'] || in_array($current_user->id, Vtiger_sharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
 				}
 
 				if ($relatedPermission) {
@@ -1079,6 +1079,7 @@ function deleteGroupRelatedSharingRules($grpId)
 	}
 	$log->debug('Exiting deleteGroupRelatedSharingRules method ...');
 }
+
 function deleteUserRelatedSharingRules($usId)
 {
 	$log = vglobal('log');

@@ -331,6 +331,8 @@ class PearDatabase
 		$params = $this->flatten_array($params);
 		if (count($params) > 0) {
 			$this->log('Query parameters: [' . implode(",", $params) . ']');
+		}else{
+			return $this->query($query, $dieOnError, $msg);
 		}
 
 		try {
@@ -426,7 +428,11 @@ class PearDatabase
 		}
 		if ($where != '')
 			$where = 'WHERE ' . $where;
-		$this->pquery("DELETE FROM $table $where", $params);
+		if (count($params) === 0) {
+			$this->query("DELETE FROM $table $where");
+		} else {
+			$this->pquery("DELETE FROM $table $where", $params);
+		}
 		return $this->stmt->rowCount();
 	}
 

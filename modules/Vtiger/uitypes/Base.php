@@ -92,7 +92,7 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 	 * @param reference record id
 	 * @return link
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
 		return $value;
 	}
