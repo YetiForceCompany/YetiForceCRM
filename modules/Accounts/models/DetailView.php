@@ -124,20 +124,6 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			);
 		}
 		
-		$recordModel = $this->getRecord();
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$emailModuleModel = Vtiger_Module_Model::getInstance('OSSMail');
-		$recordId =$recordModel->getId();
-		if ($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
-			$config = $emailModuleModel->getComposeParameters();
-			$link = array(
-				'linktype' => 'DETAILVIEWRELATED',
-				'linklabel' => $emailModuleModel->getName(),
-				'linkurl' => $emailModuleModel->getComposeUrl($moduleName, $recordId, 'Detail', $config['popup']),
-				'relatedModuleName' => $emailModuleModel->getName()
-			);
-			$relatedLinks[] = $link;
-		}
 		$relationModels = $parentModuleModel->getRelations();
 
 		foreach ($relationModels as $relation) {
