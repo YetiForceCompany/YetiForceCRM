@@ -22,7 +22,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	{
 		$entityData = Vtiger_Functions::getEntityModuleInfo('Users');
 		$colums = [];
-		foreach (explode(',', $entityData['fieldname']) as &$fieldname) {
+		foreach (explode(',', $entityData['fieldname']) as $fieldname) {
 			$colums[] = $this->get($fieldname);
 		}
 		return implode(' ', $colums);

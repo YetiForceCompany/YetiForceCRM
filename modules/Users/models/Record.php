@@ -463,7 +463,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$result = $db->pquery($query, array('ACTIVE', $userIds));
 			while ($row = $db->fetch_array($result)) {
 				$colums = [];
-				foreach (explode(',', $entityData['fieldname']) as &$fieldname) {
+				foreach (explode(',', $entityData['fieldname']) as $fieldname) {
 					$colums[] = $row[$fieldname];
 				}
 				$subUsers[$row['id']] = implode(' ', $colums);
@@ -743,6 +743,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 		$sql = 'DELETE FROM vtiger_users WHERE id=?';
 		$db->pquery($sql, array($userId));
+		
+		deleteUserRelatedSharingRules($userId);
 	}
 
 	/**
@@ -770,6 +772,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$queryGenerator->addCustomColumn($table . '.' . $column);
 		}
 		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
+		$listQuery .= ' ORDER BY last_name ASC, first_name ASC';
 		$result = $db->query($listQuery);
 
 		$users = $group = [];

@@ -18,7 +18,7 @@
 			</span>
 		</div>
 	{/if}
-	<div class="col-xs-10 col-sm-9 col-md-8">
+	<div class="col-xs-10 col-sm-9 col-md-4">
 		<div>
 			<h4 class="recordLabel marginbottomZero pushDown" title="{$RECORD->getName()}">
 				{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}

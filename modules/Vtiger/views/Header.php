@@ -96,7 +96,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				$user = new Users();
 				$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
 				$colums = [];
-				foreach (explode(',', $entityData['fieldname']) as &$fieldname) {
+				foreach (explode(',', $entityData['fieldname']) as $fieldname) {
 					$colums[] = $currentUser->column_fields[$fieldname];
 				}
 				$userName = implode(' ', $colums);

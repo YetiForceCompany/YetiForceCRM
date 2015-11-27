@@ -201,16 +201,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Vtiger.resources.Detail',
-			"modules.$moduleName.resources.Detail",
 			'modules.Vtiger.resources.RelatedList',
 			"modules.$moduleName.resources.RelatedList",
-			'libraries.jquery.jquery_windowmsg',
-			"libraries.jquery.ckeditor.ckeditor",
-			"libraries.jquery.ckeditor.adapters.jquery",
-			"modules.Emails.resources.MassEdit",
-			"modules.Vtiger.resources.CkEditor",
-			"modules.Vtiger.resources.Widgets",
+			'modules.Emails.resources.MassEdit',
+			'modules.Vtiger.resources.Widgets',
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

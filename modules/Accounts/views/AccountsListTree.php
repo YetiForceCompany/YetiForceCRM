@@ -61,13 +61,15 @@ class Accounts_AccountsListTree_View extends Vtiger_Index_View
 			Vtiger_Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
 		if (!in_array($sourceModule, $this->modules))
 			Vtiger_Functions::throwNewException(vtranslate('ERR_MODULE_NOT_FOUND', $moduleName));
-		
+
 		$tree = $this->getCategory();
 		$treeWithItems = $this->getRecords();
 		$tree = array_merge($tree, $treeWithItems);
 		$viewer->assign('TREE', Zend_Json::encode($tree));
 		$viewer->assign('MODULES', $this->modules);
+		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
+		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName));
 		$viewer->view('AccountsListTree.tpl', $moduleName);
 	}
 
@@ -76,6 +78,7 @@ class Accounts_AccountsListTree_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$selected = $request->get('selected');
 		$sourceModule = $request->get('selectedModule');
+		$filter = $request->get('selectedFilter');
 		$records = [];
 		if(empty($selected)){
 			return;
@@ -97,11 +100,9 @@ class Accounts_AccountsListTree_View extends Vtiger_Index_View
 			]]],
 		];
 		
-
-		//var_dump($moduleName, $sourceModule,$multiReferenceFirld);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 'no_limit');
-		$listViewModel = Vtiger_ListView_Model::getInstance('Accounts');
+		$listViewModel = Vtiger_ListView_Model::getInstance('Accounts', $filter);
 		$listViewModel->set('search_key', $multiReferenceFirld['fieldname']);
 		$listViewModel->set('search_params',$searchParams);
 
@@ -114,6 +115,7 @@ class Accounts_AccountsListTree_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('ENTRIES', $listEntries);
 		$viewer->assign('HEADERS', $listHeaders);
+		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('AccountsList.tpl', $moduleName);
 	}
 
@@ -134,7 +136,8 @@ class Accounts_AccountsListTree_View extends Vtiger_Index_View
 				'record_id' => $row['tree'],
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => vtranslate($row['name'], $this->moduleName),
-				'state' => ($row['state']) ? $row['state'] : ''
+				'state' => ($row['state']) ? $row['state'] : '',
+				'icon' => $row['icon']
 			];
 			if ($treeID > $lastId) {
 				$lastId = $treeID;

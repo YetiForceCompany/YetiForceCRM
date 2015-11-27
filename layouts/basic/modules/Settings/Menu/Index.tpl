@@ -14,10 +14,10 @@
 			{vtranslate('LBL_MENU_BUILDER_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		<div class="col-md-5 row h3">
-			<div class="col-md-6 marginBottom5px">
-				<a class="btn btn-default addMenu"><strong>{vtranslate('LBL_ADD_MENU', $QUALIFIED_MODULE)}</strong></a>
+			<div class="col-xs-6 paddingLRZero">
+				<button class="btn btn-default addMenu pull-right"><strong>{vtranslate('LBL_ADD_MENU', $QUALIFIED_MODULE)}</strong></button>
 			</div>
-			<div class="col-md-6">
+			<div class="col-xs-6 pull-right ">
 				<select class="select2 form-control" name="roleMenu">
 					<option value="0" {if $ROLEID eq 0} selected="" {/if}>{vtranslate('LBL_DEFAULT_MENU', $QUALIFIED_MODULE)}</option>
 					{foreach item=ROLE key=KEY from=Settings_Roles_Record_Model::getAll()}

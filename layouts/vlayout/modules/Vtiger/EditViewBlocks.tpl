@@ -146,7 +146,7 @@
 												{if !empty($REFERENCED_MODULE_STRUCT)}
 													{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
 												{/if}
-												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor referenceMandatory">*</span> {/if}
+												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor referenceMandatory"><strong>*</strong></span> {/if}
 												<span class="col-xs-10 paddingRightZero pull-right">
 													<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" title="{vtranslate('LBL_RELATED_MODULE_TYPE')}" >
 														<optgroup>

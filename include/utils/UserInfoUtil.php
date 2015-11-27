@@ -1006,16 +1006,22 @@ function getRoleAndSubordinatesRoleIds($roleId)
 function deleteRoleRelatedSharingRules($roleId)
 {
 	$log = vglobal('log');
-	$log->debug("Entering deleteRoleRelatedSharingRules(" . $roleId . ") method ...");
+	$log->debug('Entering deleteRoleRelatedSharingRules(' . $roleId . ') method ...');
 	$adb = PearDatabase::getInstance();
-	$dataShareTableColArr = Array('vtiger_datashare_grp2role' => 'to_roleid',
+	$dataShareTableColArr = [
+		'vtiger_datashare_us2role' => 'to_roleid',
+		'vtiger_datashare_us2rs' => 'to_roleandsubid',
+		'vtiger_datashare_grp2role' => 'to_roleid',
 		'vtiger_datashare_grp2rs' => 'to_roleandsubid',
 		'vtiger_datashare_role2group' => 'share_roleid',
+		'vtiger_datashare_role2us' => 'share_roleid',
 		'vtiger_datashare_role2role' => 'share_roleid::to_roleid',
 		'vtiger_datashare_role2rs' => 'share_roleid::to_roleandsubid',
 		'vtiger_datashare_rs2grp' => 'share_roleandsubid',
+		'vtiger_datashare_rs2us' => 'share_roleandsubid',
 		'vtiger_datashare_rs2role' => 'share_roleandsubid::to_roleid',
-		'vtiger_datashare_rs2rs' => 'share_roleandsubid::to_roleandsubid');
+		'vtiger_datashare_rs2rs' => 'share_roleandsubid::to_roleandsubid'
+	];
 
 	foreach ($dataShareTableColArr as $tablename => $colname) {
 		$colNameArr = explode('::', $colname);
@@ -1045,11 +1051,14 @@ function deleteGroupRelatedSharingRules($grpId)
 	$log->debug("Entering deleteGroupRelatedSharingRules(" . $grpId . ") method ...");
 
 	$adb = PearDatabase::getInstance();
-	$dataShareTableColArr = Array('vtiger_datashare_grp2grp' => 'share_groupid::to_groupid',
+	$dataShareTableColArr = [
+		'vtiger_datashare_grp2grp' => 'share_groupid::to_groupid',
 		'vtiger_datashare_grp2role' => 'share_groupid',
 		'vtiger_datashare_grp2rs' => 'share_groupid',
+		'vtiger_datashare_grp2us' => 'share_groupid',
 		'vtiger_datashare_role2group' => 'to_groupid',
-		'vtiger_datashare_rs2grp' => 'to_groupid');
+		'vtiger_datashare_rs2grp' => 'to_groupid'
+	];
 
 
 	foreach ($dataShareTableColArr as $tablename => $colname) {
@@ -1068,7 +1077,42 @@ function deleteGroupRelatedSharingRules($grpId)
 			deleteSharingRule($shareid);
 		}
 	}
-	$log->debug("Exiting deleteGroupRelatedSharingRules method ...");
+	$log->debug('Exiting deleteGroupRelatedSharingRules method ...');
+}
+function deleteUserRelatedSharingRules($usId)
+{
+	$log = vglobal('log');
+	$log->debug("Entering deleteGroupRelatedSharingRules(" . $usId . ") method ...");
+
+	$adb = PearDatabase::getInstance();
+	$dataShareTableColArr = [
+		'vtiger_datashare_us2us' => 'share_userid::to_userid',
+		'vtiger_datashare_us2grp' => 'share_userid',
+		'vtiger_datashare_us2role' => 'share_userid',
+		'vtiger_datashare_us2rs' => 'share_userid',
+		'vtiger_datashare_grp2us' => 'to_userid',
+		'vtiger_datashare_rs2us' => 'to_userid',
+		'vtiger_datashare_role2us' => 'to_userid'
+	];
+
+
+	foreach ($dataShareTableColArr as $tablename => $colname) {
+		$colNameArr = explode('::', $colname);
+		$query = "select shareid from " . $tablename . " where " . $colNameArr[0] . "=?";
+		$params = array($grpId);
+		if (sizeof($colNameArr) > 1) {
+			$query .=" or " . $colNameArr[1] . "=?";
+			array_push($params, $grpId);
+		}
+
+		$result = $adb->pquery($query, $params);
+		$num_rows = $adb->num_rows($result);
+		for ($i = 0; $i < $num_rows; $i++) {
+			$shareid = $adb->query_result($result, $i, 'shareid');
+			deleteSharingRule($shareid);
+		}
+	}
+	$log->debug('Exiting deleteGroupRelatedSharingRules method ...');
 }
 
 /** Function to get userid and username of all vtiger_users
@@ -1154,17 +1198,26 @@ function deleteSharingRule($shareid)
 function getDataShareTableName()
 {
 	$log = vglobal('log');
-	$log->debug("Entering getDataShareTableName() method ...");
-	$dataShareTableColArr = Array('GRP::GRP' => 'vtiger_datashare_grp2grp',
+	$log->debug('Entering getDataShareTableName() method ...');
+	$dataShareTableColArr = [
+		'US::GRP' => 'vtiger_datashare_us2grp',
+		'US::ROLE' => 'vtiger_datashare_us2role',
+		'US::RS' => 'vtiger_datashare_us2rs',
+		'US::US' => 'vtiger_datashare_us2us',
+		'GRP::GRP' => 'vtiger_datashare_grp2grp',
 		'GRP::ROLE' => 'vtiger_datashare_grp2role',
 		'GRP::RS' => 'vtiger_datashare_grp2rs',
+		'GRP::US' => 'vtiger_datashare_grp2us',
 		'ROLE::GRP' => 'vtiger_datashare_role2group',
 		'ROLE::ROLE' => 'vtiger_datashare_role2role',
 		'ROLE::RS' => 'vtiger_datashare_role2rs',
+		'ROLE::US' => 'vtiger_datashare_role2us',
 		'RS::GRP' => 'vtiger_datashare_rs2grp',
 		'RS::ROLE' => 'vtiger_datashare_rs2role',
-		'RS::RS' => 'vtiger_datashare_rs2rs');
-	$log->debug("Exiting getDataShareTableName method ...");
+		'RS::RS' => 'vtiger_datashare_rs2rs',
+		'RS::US' => 'vtiger_datashare_rs2us'
+	];
+	$log->debug('Exiting getDataShareTableName method ...');
 	return $dataShareTableColArr;
 }
 

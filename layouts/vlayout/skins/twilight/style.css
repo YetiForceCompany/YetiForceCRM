@@ -2855,7 +2855,12 @@ textarea {
 	word-wrap: break-word;
 	width: 100%;
 }
-
+table.summary-table{
+	table-layout: fixed;
+}
+table.summary-table .summaryViewEdit{
+	padding-left: 0;
+}
 .textOverflowEllipsis {
 	overflow: hidden;
 	padding-bottom: 2px;
@@ -3730,6 +3735,8 @@ span[name=existingImages] img{
 #sQuoteEnquiriesModal .form-horizontal .form-group,
 #sCalculationsModal .form-horizontal .form-group,
 #sQuotesModal .form-horizontal .form-group,
+#sSingleOrdersModal .form-horizontal .form-group,
+#sRecurringOrdersModal .form-horizontal .form-group,
 #sRequirementsCardsModal .form-horizontal .form-group{
 	margin-bottom: 2px;
 }
@@ -3737,6 +3744,8 @@ span[name=existingImages] img{
 #sQuoteEnquiriesModal .form-horizontal .form-group .control-label,
 #sCalculationsModal .form-horizontal .form-group .control-label,
 #sQuotesModal .form-horizontal .form-group .control-label,
+#sSingleOrdersModal .form-horizontal .form-group .control-label,
+#sRecurringOrdersModal .form-horizontal .form-group .control-label,
 #sRequirementsCardsModal .form-horizontal .form-group .control-label{
 	padding-top: 0;
 }
@@ -3781,6 +3790,8 @@ span[name=existingImages] img{
 #sQuoteEnquiriesModal .popover.fade,
 #sCalculationsModal .popover.fade,
 #sQuotesModal .popover.fade,
+#sSingleOrdersModal .popover.fade,
+#sRecurringOrdersModal .popover.fade,
 #sRequirementsCardsModal .popover.fade{
 	min-width: 400px;
 }
@@ -3792,4 +3803,34 @@ span[name=existingImages] img{
 #treePopupContainer{
 	overflow: auto;
 	max-height: 500px;
+}
+.siteBarRight{
+	border-left: 1px solid #dddddd;
+	background: #FFF;
+}
+.toggleSiteBarRightButton{
+	background: #eeeff2;
+	font-weight: bold;
+	padding: 15px 0px !important;
+	position: absolute;
+	top: 400px;
+	left: -16px;
+	cursor: pointer;
+	width: 17px;
+	z-index: 100;
+	border: 1px solid #dddddd;
+	border-right: 0;
+	display: inline-block;
+	border-radius: 0;
+}
+.padding0{
+	padding: 0 !important;
+}
+.hideSiteBar{
+	width: 0px;
+	position: absolute;
+	right: 1px;
+}
+.hideSiteBar .siteBarContent{
+	overflow: auto;
 }

@@ -28,7 +28,7 @@
 				<div class="modal-body tabbable">
 					<div class="form-group">
 						<label class="col-sm-3 control-label">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</label>
-						<div class="col-sm-7 controls">
+						<div class="col-sm-8 controls">
 							<select class="chzn-select form-control" name="status">
 								<optgroup>
 									<option {if $RECORD_MODEL->get('status') eq 1} selected="" {/if} value="1">{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</option>
@@ -41,7 +41,7 @@
 						<label class="col-sm-3 control-label">
 							{vtranslate('Frequency',$QUALIFIED_MODULE)}
 						</label>
-						<div class="controls col-sm-9">
+						<div class="controls col-sm-8">
 							{assign var=VALUES value=':'|explode:$RECORD_MODEL->getDisplayValue('frequency')}
 							{if $VALUES[0] == '00' && $VALUES[1] == '00'}
 								{assign var=MINUTES value="true"}
@@ -56,9 +56,9 @@
 								{assign var=MINUTES value="true"}
 								{assign var=FIELD_VALUE value=($VALUES[0]*60)+$VALUES[1]}
 							{/if}
-							<div class="col-xs-6 col-sm-3 paddingLRZero">
+							<div class="col-xs-6 col-sm-4 paddingLRZero">
 								<input type="text" class="form-control" value="{$FIELD_VALUE}" data-validation-engine="validate[required,funcCall[Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation]]" id="frequencyValue"/></div>
-							<div class="col-xs-6 col-sm-7 paddingLRZero">
+							<div class="col-xs-6 col-sm-8 paddingLRZero">
 								<select class="chzn-select form-control" id="time_format">
 									<optgroup>
 										<option value="mins" {if $MINUTES eq 'true'} selected="" {/if}>{vtranslate(LBL_MINUTES,$QUALIFIED_MODULE)}</option>

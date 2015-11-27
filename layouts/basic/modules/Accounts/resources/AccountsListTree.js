@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 jQuery.Class("Accounts_AccountsListTree_Js", {}, {
 	modalContainer: false,
-	moduleFilter: false,
+	moduleList: false,
 	treeInstance: false,
 	treeData: false,
 	getContainer: function () {
@@ -39,16 +39,17 @@ jQuery.Class("Accounts_AccountsListTree_Js", {}, {
 	/**
 	 * Function to register the change module
 	 */
-	registerModulesChangeEvent: function (contentsDiv) {
+	registerModuleChangeEvent: function (contentsDiv) {
 		var thisInstance = this;
-		if (thisInstance.moduleFilter) {
+		if (thisInstance.moduleList) {
 			return;
 		}
 
-		contentsDiv.on('change', '#moduleFilter', function (e) {
+		contentsDiv.on('change', '#moduleList', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var selectedModule = currentTarget.val();
-			thisInstance.getView('showTree', selectedModule).then(
+			var params = {mode: 'showTree', selectedModule: selectedModule};
+			thisInstance.getView(params).then(
 					function (data) {
 						contentsDiv.html(data);
 						thisInstance.setContainer(contentsDiv);
@@ -57,13 +58,36 @@ jQuery.Class("Accounts_AccountsListTree_Js", {}, {
 					}
 			);
 		});
-		thisInstance.moduleFilter = true;
+		thisInstance.moduleList = true;
+	},
+	registerFilterChangeEvent: function (contentsDiv) {
+		var thisInstance = this;
+		contentsDiv.on('change', '#moduleFilter', function (e) {
+			var currentTarget = jQuery(e.currentTarget);
+			var selectedFilter = currentTarget.val();
+			var selected = [];
+			$.each(thisInstance.treeInstance.jstree("get_selected", true), function (index, value) {
+				selected.push(value.text);
+			});
+			var params = {
+				mode: 'showAccountsList',
+				selectedModule: contentsDiv.find('#moduleList').val(),
+				selectedFilter: selectedFilter,
+				selected: selected,
+			};
+			thisInstance.getView(params).then(
+					function (data) {
+						contentsDiv.find('#accountsListContents').html(data);
+					}
+			);
+		});
 	},
 	/**
 	 * Function to get the respective module layout editor through pjax
 	 */
-	getView: function (mode, selectedModule, selected) {
+	getView: function (data) {
 		var thisInstance = this;
+		var container = thisInstance.getContainer();
 		var aDeferred = jQuery.Deferred();
 		var progressIndicatorElement = jQuery.progressIndicator({
 			position: 'html',
@@ -71,13 +95,13 @@ jQuery.Class("Accounts_AccountsListTree_Js", {}, {
 				enabled: true
 			}
 		});
-
-		var params = {};
-		params['module'] = app.getModuleName();
-		params['view'] = app.getViewName();
-		params['mode'] = mode;
-		params['selectedModule'] = selectedModule;
-		params['selected'] = selected;
+		var params = {
+			module: app.getModuleName(),
+			view: app.getViewName(),
+		};
+		if (data != null) {
+			params = jQuery.extend(data, params);
+		}
 		AppConnector.request(params).then(
 				function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
@@ -92,25 +116,48 @@ jQuery.Class("Accounts_AccountsListTree_Js", {}, {
 	},
 	registerSelectElement: function (container) {
 		var thisInstance = this;
-		var selectedModule = container.find('#moduleFilter').val();
+		var selectedModule = container.find('#moduleList').val();
 		thisInstance.treeInstance.on("changed.jstree", function (e, data) {
 			var selected = [];
 			$.each(thisInstance.treeInstance.jstree("get_selected", true), function (index, value) {
 				selected.push(value.text);
 			});
-
-			thisInstance.getView('showAccountsList', selectedModule, selected).then(
+			var params = {
+				mode: 'showAccountsList',
+				selectedModule: container.find('#moduleList').val(),
+				selectedFilter: container.find('#moduleFilter').val(),
+				selected: selected,
+			};
+			thisInstance.getView(params).then(
 					function (data) {
 						container.find('#accountsListContents').html(data);
 					}
 			);
 		});
 	},
+	registerShowHideRightPanelEvent: function (container) {
+		container.find('.toggleSiteBarRightButton').click(function (e) {
+			var siteBarRight = $(this).closest('.siteBarRight');
+			var content = $(this).closest('.row').find('.rowContent');
+			var buttonImage = $(this).find('.glyphicon');
+			if (siteBarRight.hasClass('hideSiteBar')) {
+				siteBarRight.removeClass('hideSiteBar');
+				content.removeClass('col-md-12').addClass('col-md-8');
+				buttonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
+			} else {
+				siteBarRight.addClass('hideSiteBar');
+				content.removeClass('col-md-8').addClass('col-md-12');
+				buttonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
+			}
+		});
+	},
 	registerEvents: function () {
 		var container = this.getContainer();
 		this.getRecords(container);
 		this.generateTree(container);
-		this.registerModulesChangeEvent(container);
+		this.registerModuleChangeEvent(container);
+		this.registerFilterChangeEvent(container);
 		this.registerSelectElement(container);
+		this.registerShowHideRightPanelEvent(container);
 	}
 });

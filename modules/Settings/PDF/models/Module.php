@@ -178,6 +178,8 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		if(is_array($moduleName)) {
 			$moduleName = $moduleName['moduleName'];
+		} elseif (strpos($moduleName, '+') !== false) {
+			$moduleName = explode('+', $moduleName)[1];
 		}
 		$tabId = getTabid($moduleName);
 		$query = 'SELECT `fieldid`, `fieldlabel`, `fieldname`, `uitype`, `block` FROM `vtiger_field` WHERE `tabid` = ? AND `presence` != ? AND `typeofdata` != ? AND `block` NOT IN (?) ORDER BY block,sequence;';

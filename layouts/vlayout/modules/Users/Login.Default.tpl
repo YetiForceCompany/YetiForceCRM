@@ -36,12 +36,12 @@
 							<div class="form-group first-group has-feedback">
 								<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
 								<input name="username" type="text" id="username" class="form-control input-lg" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}" required="" autofocus="">
-								<span class="adminIcon-user form-control-feedback" aria-hidden="true"></span>
+								<span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
 							</div>
 							<div class="form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if} has-feedback">
 								<label for="password" class="sr-only">{vtranslate('Password',$MODULE)}</label>
 								<input name="password" type="password" class="form-control input-lg" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('Password',$MODULE)}">
-								<span class="userIcon-user-access-control form-control-feedback" aria-hidden="true"></span>
+								<span class="glyphicon glyphicon-lock form-control-feedback" aria-hidden="true"></span>
 							</div>
 							{assign var=COUNTERFIELDS value=2}
 							{if $LANGUAGE_SELECTION}

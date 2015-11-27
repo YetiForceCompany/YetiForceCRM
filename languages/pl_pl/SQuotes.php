@@ -16,13 +16,15 @@ $languageStrings = [
 	'LBL_CLOSED_TIME' => 'Czas zamknięcia',
 	'LBL_STATUS' => 'Status',
 	'LBL_RESPONSE_TIME' => 'Czas reakcji',
+	'LBL_COMPANY_NAME' => 'Nazwa firmy',
 
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Wersja robocza',
 	'PLL_ACCEPTED' => 'Zaakceptowane',
 	'PLL_REQUIRES_TO_BE_COMPLEMENTED' => 'Wymaga uzupełnienia',
 	'PLL_REQUIRES_CONSULTATION' => 'Wymaga konsultacji',
-	'PLL_WAITING_FOR_APPROVAL' => 'Oczekujące na akceptację',
+	'PLL_WAITING_FOR_SHIPPING' => 'Oczekujące do wysyłki',
+	'PLL_WAITING_FOR_SIGNATURE' => 'Oczekujące na podpis',
 	'PLL_DISCARDED' => 'Odrzucone',
 
 	'LBL_CHANGE_STATUS' => 'Zmień status',

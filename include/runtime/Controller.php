@@ -168,7 +168,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			$viewer->assign('YETIFORCE_VERSION', vglobal('YetiForce_current_version'));
 			if ($request->isAjax()) {
 				$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-				$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+				if ($request->get('parent') == 'Settings') {
+					$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+				}
 			}
 			$this->viewer = $viewer;
 		}

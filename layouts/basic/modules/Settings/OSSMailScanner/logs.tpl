@@ -27,13 +27,13 @@
             </tr>
             </table><br />   
 		<div class="row col-xs-12">
-			<div  class="row col-sm-10 col-md-8 marginBottom10px" >
-				<div class="row col-sm-6">{vtranslate('email_to_notify', 'OSSMailScanner')}: &nbsp;</div>
-				<div class="col-sm-6"><input type="text" class="form-control" title="{vtranslate('email_to_notify', 'OSSMailScanner')}" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></div>
+			<div  class="row col-sm-10 col-md-8 col-lg-7 marginBottom10px" >
+				<div class="row col-sm-4">{vtranslate('email_to_notify', 'OSSMailScanner')}: &nbsp;</div>
+				<div class="col-sm-7"><input type="text" class="form-control" title="{vtranslate('email_to_notify', 'OSSMailScanner')}" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></div>
 			</div>
-			<div class='row col-sm-10 col-md-8 marginBottom10px'>
-				<div class="row col-sm-6">{vtranslate('time_to_notify', 'OSSMailScanner')}: &nbsp;</div>
-				<div class="col-sm-6"><input type="text" name="time_to_notify" title="{vtranslate('time_to_notify', 'OSSMailScanner')}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></div>
+			<div class='row col-sm-10 col-md-8 col-lg-7 marginBottom10px'>
+				<div class="row col-sm-4">{vtranslate('time_to_notify', 'OSSMailScanner')}: &nbsp;</div>
+				<div class="col-sm-7"><input type="text" name="time_to_notify" title="{vtranslate('time_to_notify', 'OSSMailScanner')}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></div>
 			</div>
 		</div>
 		<div class="pull-right">

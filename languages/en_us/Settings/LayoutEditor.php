@@ -100,6 +100,7 @@ $languageStrings = [
 	'LBL_RELATION_LABLE' => 'Label',
 	'PLL_RELATED_LIST' => 'Many to many',
 	'PLL_DEPENDENTS_LIST' => 'One to many',
+	'PLL_SPLITED_RELATED_LIST' => 'Many to many - With separation of data',
 	'PLL_ADD' => 'Add',
 	'PLL_SELECT' => 'Select',
 	

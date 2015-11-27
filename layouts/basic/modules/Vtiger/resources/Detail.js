@@ -1997,44 +1997,46 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 		jQuery('.related', detailContainer).on('click', 'li', function (e, urlAttributes) {
 			var tabElement = jQuery(e.currentTarget);
-			var element = jQuery('<div></div>');
-			element.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true,
-					'elementToBlock': detailContainer
-				}
-			});
-			var url = tabElement.data('url');
-			if (typeof urlAttributes != 'undefined') {
-				var callBack = urlAttributes.callback;
-				delete urlAttributes.callback;
-			}
-			thisInstance.loadContents(url, urlAttributes).then(
-					function (data) {
-						thisInstance.deSelectAllrelatedTabs();
-						thisInstance.markTabAsSelected(tabElement);
-						app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
-						Vtiger_Helper_Js.showHorizontalTopScrollBar();
-						element.progressIndicator({'mode': 'hide'});
-						thisInstance.registerHelpInfo();
-						app.registerModal(detailContentsHolder);
-						if (typeof callBack == 'function') {
-							callBack(data);
-						}
-						//Summary tab is clicked
-						if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
-							thisInstance.loadWidgets();
-						}
-						thisInstance.registerBasicEvents();
-						// Let listeners know about page state change.
-						app.notifyPostAjaxReady();
-					},
-					function () {
-						//TODO : handle error
-						element.progressIndicator({'mode': 'hide'});
+			if(!tabElement.hasClass('dropdown')){
+				var element = jQuery('<div></div>');
+				element.progressIndicator({
+					'position': 'html',
+					'blockInfo': {
+						'enabled': true,
+						'elementToBlock': detailContainer
 					}
-			);
+				});
+				var url = tabElement.data('url');
+				if (typeof urlAttributes != 'undefined') {
+					var callBack = urlAttributes.callback;
+					delete urlAttributes.callback;
+				}
+				thisInstance.loadContents(url, urlAttributes).then(
+						function (data) {
+							thisInstance.deSelectAllrelatedTabs();
+							thisInstance.markTabAsSelected(tabElement);
+							app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
+							Vtiger_Helper_Js.showHorizontalTopScrollBar();
+							element.progressIndicator({'mode': 'hide'});
+							thisInstance.registerHelpInfo();
+							app.registerModal(detailContentsHolder);
+							if (typeof callBack == 'function') {
+								callBack(data);
+							}
+							//Summary tab is clicked
+							if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
+								thisInstance.loadWidgets();
+							}
+							thisInstance.registerBasicEvents();
+							// Let listeners know about page state change.
+							app.notifyPostAjaxReady();
+						},
+						function () {
+							//TODO : handle error
+							element.progressIndicator({'mode': 'hide'});
+						}
+				);
+			}
 		});
 	},
 	/** 

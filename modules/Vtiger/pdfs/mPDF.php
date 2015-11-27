@@ -24,10 +24,10 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 	/**
 	 * Constructor
 	 */
-	public function __construct()
+	public function __construct($mode='', $format='A4', $defaultFontSize=0, $defaultFont='', $leftMargin=15, $rightMargin=15, $topMargin=16, $bottomMargin=16, $headerMargin=9, $footerMargin=9, $orientation='P')
 	{
 		$this->setLibraryName('mPDF');
-		$this->pdf = new mPDF();
+		$this->pdf = new mPDF($mode, $format, $defaultFontSize, $defaultFont, $leftMargin, $rightMargin, $topMargin, $bottomMargin, $headerMargin, $footerMargin, $orientation);
 		//$this->pdf->debugfonts = true;
 		//$this->pdf->debug = true;
 	}
@@ -161,19 +161,27 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 					break;
 
 				case 'margin-top':
-					$this->setTopMargin($value);
+					if (is_numeric($value)) {
+						$this->setTopMargin($value);
+					}
 					break;
 
 				case 'margin-bottom':
-					$this->setBottomMargin($value);
+					if (is_numeric($value)) {
+						$this->setBottomMargin($value);
+					}
 					break;
 
 				case 'margin-left':
-					$this->setLeftMargin($value);
+					if (is_numeric($value)) {
+						$this->setLeftMargin($value);
+					}
 					break;
 
 				case 'margin-right':
-					$this->setRightMargin($value);
+					if (is_numeric($value)) {
+						$this->setRightMargin($value);
+					}
 					break;
 
 				case 'title':
@@ -291,13 +299,26 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 	 */
 	public function export($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
-		$pdf = new self();
+		$template = Vtiger_PDF_Model::getInstanceById($templateId, $moduleName);
+		$template->setMainRecordId($recordId);
+
+		$pageOrientation = $template->get('page_orientation') == 'PLL_PORTRAIT' ? 'P' : 'L';
+		$pdf = new self(
+			'c',
+			$template->get('page_format'),
+			0,
+			'',
+			$template->get('margin_left'), 
+			$template->get('margin_right'),
+			$template->get('margin_top'),
+			$template->get('margin_bottom'),
+			$template->get('margin_top'), 
+			$template->get('margin_bottom'),
+			$pageOrientation
+		);
 		$pdf->setTemplateId($templateId);
 		$pdf->setRecordId($recordId);
 		$pdf->setModuleName($moduleName);
-
-		$template = Vtiger_PDF_Model::getInstanceById($templateId, $moduleName);
-		$template->setMainRecordId($recordId);
 
 		$pdf->setLanguage($template->get('language'));
 		$pdf->setFileName($template->get('filename'));
