@@ -4835,3 +4835,10 @@ html,body,.baseContainer
 .related .nav-pills{
 	border-bottom: 3px solid #404952;
 } 
+.related ul .dropdown-menu{
+	min-width: 250px;
+	z-index:1025;
+}
+.related .iconModule{
+	font-size: 17px;
+}

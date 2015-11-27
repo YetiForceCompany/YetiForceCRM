@@ -2270,8 +2270,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 */
 	registerRelatedModulesRecordCount: function () {
 		var thisInstance = new Vtiger_Detail_Js();
-		$('.related .nav li').each(function (n, item) {
-			if ($(item).hasClass('relatedNav') && $(item).data('count') == '1') {
+		$('.related .nav .relatedNav').each(function (n, item) {
+			if ($(item).data('count') == '1') {
 				var params = {
 					module: app.getModuleName(),
 					action: 'RelationAjax',
@@ -2282,10 +2282,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 				AppConnector.request(params).then(function (response) {
 					if (response.success) {
-						$(item).find('.count').text("(" + response.result.numberOfRecords + ")");
+						thisInstance.loadListRelatedModules();
+						$(item).find('.count').text(response.result.numberOfRecords );
 					}
 				});
-
 			}
 		});
 	},
@@ -2719,8 +2719,31 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerBlockAnimationEvent();
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]'));
 	},
+	loadListRelatedModules: function(){
+		var container = jQuery('.related');	
+		var totalWidth = container.width();
+		var mainNavWidth = 0;
+		var freeSpace = 0;
+		container.find('.nav .mainNav, .dropdown-menu').each(function (e) {
+			mainNavWidth += jQuery(this).width();
+		});
+		freeSpace = totalWidth - mainNavWidth ;
+		var moreList = container.find('.nav .dropdown-menu');
+		container.find('.nav > .relatedNav').each(function () {
+			if(freeSpace  > jQuery(this).width()){
+				moreList.find('[data-reference="'+jQuery(this).data('reference')+'"]').addClass('hide');
+				jQuery(this).removeClass('hide');
+				freeSpace -= jQuery(this).width();
+			}
+			else{
+				jQuery(this).addClass('hide');
+				moreList.find('[data-reference="'+jQuery(this).data('reference')+'"]').removeClass('hide');
+			}
+		});
+	},
 	registerEvents: function () {
 		var thisInstance = this;
+		thisInstance.loadListRelatedModules();
 		//thisInstance.triggerDisplayTypeEvent();
 		this.registerHelpInfo();
 		thisInstance.registerSendSmsSubmitEvent();

@@ -264,3 +264,5 @@ $defaultLayout = 'vlayout';
 // Logo is visible in footer.
 $isVisibleLogoInFooter = true;
 
+// show names related modules
+$showNameRelatedModules = true;
