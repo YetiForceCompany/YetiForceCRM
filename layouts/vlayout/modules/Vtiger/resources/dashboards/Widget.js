@@ -878,7 +878,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 			thisInstance.chartData[data['chart'][index].id] = data['chart'][index];
 		}
 
-		return {'chartData': chartData, 'ticks': data['ticks'], 'links': data['links'], 'legend': data['legend']};
+		return {'chartData': chartData, 'ticks': data['ticks'], 'links': data['links'], 'legend': data['legend'], 'valueLabels': data['valueLabels'] ? data['valueLabels'] : {}};
 	},
 	loadChart: function () {
 		var thisInstance = this;
@@ -904,8 +904,9 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 					align: "center",
 					lineWidth: 0
 				},
+				valueLabels: chartData['valueLabels'],
 				stack: true
-			}
+			},
 		};
 		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
 	},
