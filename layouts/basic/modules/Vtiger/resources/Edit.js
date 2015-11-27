@@ -104,7 +104,9 @@ jQuery.Class("Vtiger_Edit_Js", {
 	openPopUp: function (e) {
 		var thisInstance = this;
 		var parentElem = jQuery(e.target).closest('.fieldValue');
-
+		if(parentElem.length <= 0){
+			parentElem = jQuery(e.target).closest('td');
+		}
 		var params = this.getPopUpParams(parentElem);
 
 		var isMultiple = false;

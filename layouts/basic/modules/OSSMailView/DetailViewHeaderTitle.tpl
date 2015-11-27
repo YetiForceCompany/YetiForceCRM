@@ -10,25 +10,21 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-	{assign var=IMAGE value=$MODULE_NAME|cat:'48.png'}
-	{if file_exists( vimage_path($IMAGE) )}
-		<span class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
+	
+    <span class="col-md-4 margin0px">
+		<div class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 			<span class="moduleIcon">
-				<img src="{vimage_path($IMAGE)}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}" />
+				<span class="detailViewIcon userIcon-{$MODULE}"></span>
 			</span>
-		</span>
-	{/if}
-    <span class="col-md-6 margin0px">
-		<div class='row-1'>
-            <h4 style="color: #1560bd;" title="{$RECORD->getName()}">
-                {foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
-                    {assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
-                    {if $FIELD_MODEL->getPermissions()}
-                        <span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>&nbsp;
-                    {/if}
-                {/foreach}
-            </h4>
 		</div>
+		<h4 style="color: #1560bd;" title="{$RECORD->getName()}">
+			{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
+				{assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
+				{if $FIELD_MODEL->getPermissions()}
+					<span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>&nbsp;
+				{/if}
+			{/foreach}
+		</h4>
 		<div>
 			<span class="muted">
 				<small><em>{vtranslate('Sent','OSSMailView')}</em></small>

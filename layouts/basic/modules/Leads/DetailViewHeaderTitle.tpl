@@ -11,35 +11,30 @@
 -->*}
 {strip}
 	<input type="hidden" id="conversion_available_status" value="{Vtiger_Util_Helper::toSafeHTML($CONVERSION_AVAILABLE_STATUS)}">
-	{assign var=IMAGE value=$MODULE_NAME|cat:'48.png'}
-	{if file_exists( vimage_path($IMAGE) )}
-		<span class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
+    <div class="col-xs-10 col-sm-9 col-md-4 margin0px">
+		<div class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 			<span class="moduleIcon">
-				<img src="{vimage_path($IMAGE)}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}" />
+				<span class="detailViewIcon userIcon-{$MODULE}"></span>
 			</span>
-		</span>
-	{/if}
-    <div class="col-xs-10 col-sm-9 col-md-6 margin0px">
-        <div class="row">
-            <h4 class="recordLabel pushDown marginbottomZero" title="{$RECORD->getName()}">
-                {assign var=COUNTER value=0}
-                {foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
-                    {assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
-                    {if $FIELD_MODEL->getPermissions()}
-                        <span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>
-                    {if $COUNTER eq 0 && ($RECORD->get($NAME_FIELD))}&nbsp;{assign var=COUNTER value=$COUNTER+1}{/if}
-                {/if}
-            {/foreach}
-            </h4>
-        </div>
-        <div class="row paddingLeft5px">
+		</div>
+		<h4 class="recordLabel pushDown marginbottomZero" title="{$RECORD->getName()}">
+			{assign var=COUNTER value=0}
+			{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
+				{assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
+				{if $FIELD_MODEL->getPermissions()}
+					<span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>
+				{if $COUNTER eq 0 && ($RECORD->get($NAME_FIELD))}&nbsp;{assign var=COUNTER value=$COUNTER+1}{/if}
+			{/if}
+		{/foreach}
+		</h4>
+		<div class="paddingLeft5px">
             <span class="designation_label">{$RECORD->getDisplayValue('designation')}</span>
             {if $RECORD->getDisplayValue('designation') && $RECORD->getDisplayValue('company')}
                 &nbsp;{vtranslate('LBL_AT')}&nbsp;     
             {/if}
             <span class="company_label">{$RECORD->get('company')}</span>
         </div>
-		<div class="row paddingLeft5px">
+		<div class="paddingLeft5px">
 			<span class="muted">
 				{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				{if $RECORD->get('shownerid') != ''}

@@ -58,6 +58,10 @@ $languageStrings = [
 	'LBL_SHOW_EMPTY_VALUES'	=> 'Pokaż puste wartości',
 	'LBL_SHOW_IN'	=> 'Pokaż w',
 	'LBL_EDIT_HELP_ICON'	=> 'Ikony pomocy',
+	'LBL_BASE_LANGUAGE'	=> 'Język bazowy',
+	'LBL_LANGUAGE'	=> 'Język',
+	'LBL_SHOW'	=> 'Pokaż',
+	'LBL_STATS_INFO'	=> 'Prezentowane wartości statystyczne określają stosunek etykiet nieprzetłumaczonych do wszystkich etykiet występujących w pliku(-ach) języka bazowego w procentach.',
 ];
 $jsLanguageStrings = [
 	'Translations' => 'Tłumaczenia',

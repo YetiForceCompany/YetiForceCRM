@@ -10,25 +10,20 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{assign var=IMAGE value=$MODULE_NAME|cat:'48.png'}
-	{if file_exists( vimage_path($IMAGE) )}
-		<span class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
+    <div class="col-xs-10 col-sm-9 col-md-4 margin0px">
+		<div class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 			<span class="moduleIcon">
-				<img src="{vimage_path($IMAGE)}" class="summaryImg pushDown" alt="{vtranslate($MODULE, $MODULE)}"/>
+				<span class="detailViewIcon userIcon-{$MODULE}"></span>
 			</span>
-		</span>
-	{/if}
-    <div class="col-xs-10 col-sm-9 col-md-6 margin0px">
-        <div>
-            <h4 class="recordLabel pushDown marginbottomZero" title="{$RECORD->getName()}">
-                {foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
-                    {assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
-                    {if $FIELD_MODEL->getPermissions()}
-                        <span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>&nbsp;
-                    {/if}
-                {/foreach}
-            </h4>
-        </div>
+		</div>
+		<h4 class="recordLabel pushDown marginbottomZero" title="{$RECORD->getName()}">
+			{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
+				{assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
+				{if $FIELD_MODEL->getPermissions()}
+					<span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>&nbsp;
+				{/if}
+			{/foreach}
+		</h4>
         {assign var=RELATED_TO value=$RECORD->get('related_to')}
         {if !empty($RELATED_TO)}
             <div class="paddingLeft5px">
