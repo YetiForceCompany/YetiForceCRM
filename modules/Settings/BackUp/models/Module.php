@@ -69,10 +69,12 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 		$this->performDBBackup();
 		$this->performBackupFiles();
 
-		$this->sendBackupToFTP();
-		$this->sendNotification();
-		$this->postBackup();
-		$this->clearStructure();
+		if ($this->get('allfiles')) {
+			$this->sendBackupToFTP();
+			$this->sendNotification();
+			$this->postBackup();
+			$this->clearStructure();
+		}
 	}
 
 	public function backupInit()
@@ -196,7 +198,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 					$tableSchema = $db->query('SHOW CREATE TABLE ' . $tableName);
 					$tableSchemaRowData = $db->raw_query_result_rowdata($tableSchema);
 					$createSchema = $this->strInsert($tableSchemaRowData[1], 'CREATE TABLE', ' IF NOT EXISTS ');
-					$content = $createSchema . ";\n";
+					$content = $createSchema . ';\n';
 					$this->addToSQLFiles($content);
 				}
 				for ($i = 0; $i < $db->num_rows($contentResult); $i++) {
@@ -207,21 +209,25 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 							$row[$j] = $this->cleanSqlVal($row[$j]);
 							$content.= '"' . $row[$j] . '"';
 						} else {
-							$content.= "NULL";
+							$content.= 'NULL';
 						}
 						if ($j < ($numFields - 1)) {
 							$content.= ',';
 						}
 					}
-					$content.= ");\n";
+					$content.= ');\n';
 					$this->addToSQLFiles($content);
 					$numRows++;
-					$db->pquery("Update vtiger_backup_db SET offset = ? WHERE tablename = ?", [$numRows, $tableName]);
+					$db->pquery('Update vtiger_backup_db SET offset = ? WHERE tablename = ?', [$numRows, $tableName]);
 				}
 				if ($numRows == $count) {
-					$db->pquery("Update vtiger_backup_db SET status = ? WHERE tablename = ?", [true, $tableName]);
+					$db->pquery('Update vtiger_backup_db SET status = ? WHERE tablename = ?', [true, $tableName]);
 				}
 				$this->updateDBPrecent(self::getTime() - $start);
+				$info = $this->getBackupInfo();
+				if ($info === false) {
+					return;
+				}
 			}
 		}
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
@@ -350,6 +356,10 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 				}
 				$this->updateProgress('4', ($count / $allDir) * 100, self::getTime() - $start);
 				$count++;
+				$info = $this->getBackupInfo();
+				if ($info === false) {
+					return;
+				}
 			}
 			$this->set('allfiles', $allFiles);
 		} else {
@@ -385,7 +395,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 		$startTime = self::getTime();
 		$singleMode = $mainConfig['type'] == 'true'; // Overall mode or Single mode
 
-		if ($zip->open($destination, ZIPARCHIVE::CREATE)) {
+		if ($zip->open($destination, ZIPARCHIVE::CREATE) && $allFiles != 0) {
 			foreach ($dbFiles as $id => $path) {
 				$start = self::getTime();
 				if (is_dir($path)) {
@@ -542,7 +552,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 		$query = $adb->query('SELECT vtiger_backup_tmp.*, vtiger_backup.filename FROM vtiger_backup_tmp LEFT JOIN vtiger_backup ON vtiger_backup.id = vtiger_backup_tmp.id WHERE ' . $where);
 		$result = $adb->fetch_array($query);
 		if (!$result) {
-			return;
+			return false;
 		}
 		$data = [];
 		foreach ($result as $index => $value) {
@@ -793,5 +803,19 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 	{
 		$a = explode(' ', microtime());
 		return (double) $a[0] + $a[1];
+	}
+
+	public function stopBackup()
+	{
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
+
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_backup_db');
+		$db->delete('vtiger_backup_files');
+		$db->delete('vtiger_backup_tmp');
+		$db->update('vtiger_backup', ['status' => 2], 'status = ? ', [0]);
+		
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 }

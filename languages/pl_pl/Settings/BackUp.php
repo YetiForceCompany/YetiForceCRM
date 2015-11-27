@@ -56,6 +56,7 @@ $languageStrings = [
 	'LBL_STAGE_9' => 'Kończenie kopii zapasowej',
 	'BackUp' => 'Kopie zapasowe',
 	'LBL_TOTAL_PROGRESS' => 'Postęp czałkowity',
+	'LBL_STOP_BACKUP' => 'Zatrzymaj wykonywanie kopii',
 ];
 $jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Pola obowiązkowe nie mogą być puste',

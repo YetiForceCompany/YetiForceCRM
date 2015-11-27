@@ -67,6 +67,9 @@
 			<div class='tab-pane active' id="tab_0">
 				<br/>
 				{if $BACKUP_INFO}
+					<div class="textAlignCenter">
+						<button class="stopBackup btn btn-danger" >{vtranslate('LBL_STOP_BACKUP', $QUALIFIED_MODULE_NAME)}</button>
+					</div>
 					<div class="row-fluid row-bar mainBar">
 						<div class="span4">{vtranslate('LBL_TOTAL_PROGRESS', $QUALIFIED_MODULE_NAME)}
 							<span class="pull-right"><span class="precent">0.00</span>%</span>
