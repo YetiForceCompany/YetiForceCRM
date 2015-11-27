@@ -4,7 +4,7 @@
  * Sharing privileges handler
  * @package YetiForce.Handler
  * @license licenses/License.html
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 require_once 'include/events/VTEventHandler.inc';
 
@@ -37,12 +37,12 @@ class Vtiger_SharingPrivileges_Handler extends VTEventHandler
 				$destinationRecordId = &$entityData['destinationRecordId'];
 
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($sourceRecordId);
-				$shownerIds = Vtiger_sharedOwner_UIType::getSharedOwners($sourceRecordId, $entityData['sourceModule']);
+				$shownerIds = Vtiger_SharedOwner_UIType::getSharedOwners($sourceRecordId, $entityData['sourceModule']);
 				$shownerIds[] = $recordMetaData['smownerid'];
 				$shownerIds = array_unique($shownerIds);
 				
 				$usersExist = [];
-				$shownersTable = Vtiger_sharedOwner_UIType::getShownerTable($entityData['destinationModule']);
+				$shownersTable = Vtiger_SharedOwner_UIType::getShownerTable($entityData['destinationModule']);
 				$result = $db->pquery('SELECT crmid, userid FROM ' . $shownersTable . ' WHERE userid IN(' . implode(',', $shownerIds) . ') AND crmid = ?', [$destinationRecordId]);
 				while ($row = $db->getRow($result)) {
 					$usersExist[$row['crmid']][$row['userid']] = true;

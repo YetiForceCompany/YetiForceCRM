@@ -18,7 +18,7 @@
 			</span>
 		</span>
 	{/if}
-    <span class="col-md-10 margin0px">
+    <span class="col-md-6 margin0px">
 		<div class='row-1'>
             <h4 style="color: #1560bd;" title="{$RECORD->getName()}">
                 {foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="mfTemplateContents leftRightPadding3p">
+	<div class="mfTemplateContents">
 		<form name="editMFTemplate" action="index.php" method="post" id="mf_step4" class="form-horizontal">
 			<input type="hidden" name="module" value="{$MAPPEDFIELDS_MODULE_MODEL->getName()}">
 			<input type="hidden" name="view" value="Edit">
@@ -8,19 +8,20 @@
 			<input type="hidden" name="parent" value="{$MAPPEDFIELDS_MODULE_MODEL->getParentName()}" />
 			<input type="hidden" class="step" value="4" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
-
-			<div class="padding1per stepBorder">
-				<label>
-					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 7)}: {vtranslate('LBL_PERMISSIONS_DETAILS',$QUALIFIED_MODULE)}</strong>
-				</label>
-				<br>
-				<div class="form-group">
-					<div class="col-md-2 control-label">
-						{vtranslate('LBL_GROUP_MEMBERS', 'Settings:Groups')}
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label>
+							<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 4)}: {vtranslate('LBL_PERMISSIONS_DETAILS',$QUALIFIED_MODULE)}</strong>
+						</label>
 					</div>
-					<div class="col-md-6 controls">
-						<div class="row">
-							<div class="col-md-6">
+					<div class="panel-body">
+						<div class="form-group">
+								<label class="col-md-3 control-label">
+									{vtranslate('LBL_GROUP_MEMBERS', 'Settings:Groups')}
+								</label>
+							<div class="col-md-8">
 								<select class="selectize form-control" multiple="true" id="permissions" name="permissions[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', 'Settings:Groups')}">
 									{assign 'TEMPLATE_MEMBERS' explode(',',$MAPPEDFIELDS_MODULE_MODEL->get('permissions'))}
 									{foreach from=Settings_Groups_Member_Model::getAll(false) key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
@@ -34,13 +35,15 @@
 							</div>
 						</div>
 					</div>
+					<div class="panel-footer clearfix">
+						<div class="btn-toolbar pull-right">
+							<button class="btn btn-danger backStep" type="button"><strong>{vtranslate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>
+							<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
+						</div>
+					</div>
 				</div>
 			</div>
-			<br>
-			<div class="pull-right">
-				<button class="btn btn-danger backStep" type="button"><strong>{vtranslate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-				<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
-			</div>
+			<div class="col-md-2"></div>
 		</form>
 	</div>
 {/strip}

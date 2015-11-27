@@ -14,16 +14,24 @@
 	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
 	<div class="detailViewContainer">
 		<div class="row detailViewTitle">
-			<div class="{if $NO_PAGINATION} col-md-12 {else} col-md-10 {/if}">
+			<div class="col-md-12">
 				<div class="row">
 					<div class="col-md-12 marginBottom5px">
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-6 paddingLRZero">
 								{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 							</div>
-							<div class="col-md-6 pull-right">
+							<div class="col-md-6">
 								<div class="col-md-12 detailViewToolbar paddingLRZero" style="text-align: right;">
-									<div class="pull-left paddingLRZero col-md-10">
+									{if !{$NO_PAGINATION}}
+										<div class="detailViewPagingButton pull-right">
+											<span class="btn-group pull-right">
+												<button class="btn btn-default" id="detailViewPreviousRecordButton" {if empty($PREVIOUS_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href = '{$PREVIOUS_RECORD_URL}'" {/if}><span class="glyphicon glyphicon-chevron-left"></span></button>
+												<button class="btn btn-default" id="detailViewNextRecordButton" {if empty($NEXT_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href = '{$NEXT_RECORD_URL}'" {/if}><span class="glyphicon glyphicon-chevron-right"></span></button>
+											</span>
+										</div>
+									{/if}
+									<div class="pull-right">
 										<div class="btn-toolbar">
 											{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 												<span class="btn-group {$DETAIL_VIEW_BASIC_LINK->getGrupClassName()}">
@@ -78,19 +86,14 @@
 									</div>
 								</div>
 							</div>
-						{include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
 					</div>
 				</div>
 			</div>
 		</div>
-		{if !{$NO_PAGINATION}}
-			<div class="col-md-2 detailViewPagingButton pull-right">
-				<span class="btn-group pull-right">
-					<button class="btn btn-default" id="detailViewPreviousRecordButton" {if empty($PREVIOUS_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href = '{$PREVIOUS_RECORD_URL}'" {/if}><span class="glyphicon glyphicon-chevron-left"></span></button>
-					<button class="btn btn-default" id="detailViewNextRecordButton" {if empty($NEXT_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href = '{$NEXT_RECORD_URL}'" {/if}><span class="glyphicon glyphicon-chevron-right"></span></button>
-				</span>
-			</div>
-		{/if}
+		<div class='col-md-12 paddingLRZero'>
+			{include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
+			<div class='pull-right tagContainer col-xs-5 '></div>
+		</div>
 	</div>
 	<div class="detailViewInfo row">
 		{include file="RelatedListButtons.tpl"|vtemplate_path:$MODULE}

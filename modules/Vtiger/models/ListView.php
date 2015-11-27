@@ -227,10 +227,6 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			}
 		}
 
-		$srcRecord = $this->get('src_record');
-		if ($moduleName == $this->get('src_module') && !empty($srcRecord)) {
-			$queryGenerator->addCondition('id', $srcRecord, 'n');
-		}
 		$listQuery = $this->getQuery();
 		if ($searchResult && $searchResult != '' && is_array($searchResult)) {
 			$listQuery .= " AND vtiger_crmentity.crmid IN (" . implode(',', $searchResult) . ") ";
@@ -289,7 +285,6 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		ListViewSession::setSessionQuery($moduleName, $listQuery, $viewid);
 
 		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
-//var_dump($listQuery);
 		$listResult = $db->pquery($listQuery, array());
 
 		$listViewRecordModels = array();

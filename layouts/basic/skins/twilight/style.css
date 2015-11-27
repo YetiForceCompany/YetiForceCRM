@@ -673,9 +673,6 @@ li.ui-timepicker-selected,
 	box-shadow: none;
 	text-align: center;
 }
-.detailViewContainer {
-	padding: 0 20px;
-}
 .userPreferences .contents {
 	padding-left: 0 !important;
 }
@@ -697,8 +694,7 @@ li.ui-timepicker-selected,
 	margin-top: 8px;
 }
 .detailViewTitle .detailViewPagingButton {
-	margin-top: 8px;
-	padding-right: 10px;
+	margin-left: 8px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -4055,9 +4051,11 @@ html,body,.baseContainer
 	left: 15%;
 }
 .mainBody{
-	padding-top:50px;
-	padding-bottom:33px;
+	position: absolute;
+	top:50px;
+	bottom:33px;
 	width: 100%;
+	overflow-x: hidden;
 }
 .bootstrap-switch-container{
 	white-space: nowrap;
@@ -4829,8 +4827,12 @@ html,body,.baseContainer
 .marginTop10{
 	margin-top: 10px !important;
 }
+.related .nav .relatedNav{
+	background: #f1f1f1;
+}
 .related .nav li{
 	position: relative !important;
+	margin-left: 2px !important;
 } 
 .related .nav-pills{
 	border-bottom: 3px solid #404952;
@@ -4841,4 +4843,13 @@ html,body,.baseContainer
 }
 .related .iconModule{
 	font-size: 17px;
+}
+.detailViewIcon{
+	font-size:48px;
+}
+.tag{
+	border-bottom-left-radius: 15px;
+	border-top-left-radius: 15px;
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
 }
