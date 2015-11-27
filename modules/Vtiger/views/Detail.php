@@ -102,7 +102,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			}
 		}
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = $this->record->getModule();
 		if (!empty($prevRecordId)) {
 			$viewer->assign('PREVIOUS_RECORD_URL', $moduleModel->getDetailViewUrl($prevRecordId));
 		}
@@ -123,7 +123,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			}
 		}
 		$viewer->assign('SELECTED_TAB_LABEL', $selectedTabLabel);
-		$viewer->assign('MODULE_MODEL', $this->record->getModule());
+		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
 		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
 

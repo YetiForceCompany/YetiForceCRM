@@ -104,7 +104,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 		$result = $db->pquery($query, [$moduleId, 'active']);
 		$templates = [];
 
-		while ($row = $db->fetchByAssoc($result)) {
+		while ($row = $db->getRow($result)) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mf = new $handlerClass();
 			$mf->setData($row);
@@ -143,7 +143,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
-		$mf->setData($db->fetchByAssoc($result));
+		$mf->setData($db->getRow($result));
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $mf;
 	}
@@ -152,6 +152,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
+		
 		$mf = Vtiger_Cache::get('MappedFieldsModel', $recordId);
 		if ($mf) {
 			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
@@ -167,8 +168,9 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
-		$mf->setData($db->fetchByAssoc($result));
+		$mf->setData($db->getRow($result));
 		Vtiger_Cache::set('MappedFieldsModel', $recordId, $mf);
+		
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $mf;
 	}

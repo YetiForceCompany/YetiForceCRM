@@ -2,10 +2,10 @@
 {strip}
 	<div class="mfTemplateContents">
 		<form name="editMFTemplate" action="index.php" method="post" id="mf_step3" class="form-horizontal">
-			<input type="hidden" name="module" value="{$MF_MODEL->getName()}">
+			<input type="hidden" name="module" value="{$MAPPEDFIELDS_MODULE_MODEL->getName()}">
 			<input type="hidden" name="view" value="Edit">
 			<input type="hidden" name="mode" value="Step4" />
-			<input type="hidden" name="parent" value="{$MF_MODEL->getParentName()}" />
+			<input type="hidden" name="parent" value="{$MAPPEDFIELDS_MODULE_MODEL->getParentName()}" />
 			<input type="hidden" class="step" value="3" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
 			<input type="hidden" name="conditions" id="advanced_filter" value='' />
