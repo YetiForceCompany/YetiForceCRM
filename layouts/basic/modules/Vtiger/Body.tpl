@@ -8,10 +8,10 @@
 			<div class="mobileLeftPanel noSpaces">
 				{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Mobile}
 			</div>
-			<div class="leftPanel noSpaces{if $LEFTPANELHIDE} stillOpen{/if}">
+			<div class="leftPanel noSpaces">
 				{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Desktop}
 			</div>
-			<div class="basePanel noSpaces{if $LEFTPANELHIDE} leftPanelStillOpen{/if}">
+			<div class="basePanel noSpaces">
 				{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
 				{include file='BodyContent.tpl'|@vtemplate_path:$MODULE}
 {/strip}
