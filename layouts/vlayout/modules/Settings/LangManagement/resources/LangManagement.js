@@ -283,7 +283,7 @@ var Settings_Index_Js = {
 	},
 	ShowLangMondal: function(e) {
 		var target = $(e.currentTarget);
-		$('#AddNewLangMondal').modal('show');
+		app.showModalWindow($('#AddNewLangMondal'));
 		$("#AddNewLangMondal").css("z-index", "9999999");
 	},
 	ShowTranslationMondal: function(e) {
@@ -295,7 +295,7 @@ var Settings_Index_Js = {
 		});
 		$('#AddNewTranslationMondal .add_translation_block').html(langs_fields);
 		var target = $(e.currentTarget);
-		$('#AddNewTranslationMondal').modal('show');
+		app.showModalWindow($('#AddNewTranslationMondal'));
 		$("#AddNewTranslationMondal").css("z-index", "9999999");
 	},
 	AddLangMondal: function(e) {
