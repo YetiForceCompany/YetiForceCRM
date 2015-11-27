@@ -32,11 +32,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			if (file_exists($configTemplate)) {
 				unlink($configTemplate);
 			}
-			if (file_exists($dirPath))
-				foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirPath, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
-					$path->isDir() ? rmdir($path->getPathname()) : unlink($path->getPathname());
-				}
-			rmdir($dirPath);
+			Vtiger_Functions::recurseDelete($dirPath);
 		}
 
 		$checkBlocked = Settings_BruteForce_Module_Model::checkBlocked();

@@ -26,7 +26,7 @@
 		<link rel="stylesheet" href="../libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.min.css" />
 		<link rel="stylesheet" href="../libraries/jquery/pnotify/pnotify.custom.min.css"/>
 		<link rel="stylesheet" href="../libraries/jquery/datepicker/css/datepicker.min.css" />
-		<link rel="stylesheet" href="../layouts/vlayout/resources/styles.css" />
+		<link rel="stylesheet" href="../libraries/resources/styles.css" />
 		<link rel="stylesheet" href="tpl/resources/css/style.css"/>
 		<link rel="stylesheet" href="tpl/resources/css/mkCheckbox.css"/>
 		{foreach key=index item=cssModel from=$STYLES}
