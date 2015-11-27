@@ -2,7 +2,7 @@
 
 /**
  * Tree Category Class
- * @package YetiForce.Fields
+ * @package YetiForce.View
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */

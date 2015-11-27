@@ -67,7 +67,7 @@
 					<span class="pull-right"><strong>{vtranslate('LBL_CAL_DATE', $QUALIFIED_MODULE)}:</strong></label>
 				</td>
 				<td class="fieldValue" >
-					<div class="input-group">
+					<div class="input-group col-md-3">
 						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar"></span></span>
 						<input id="datepicker" type="text" class="form-control dateField" name="duedate" data-date-format="{$USER_MODEL->get('date_format')}" value="{$DATE}" />
 						<span class="input-group-btn">

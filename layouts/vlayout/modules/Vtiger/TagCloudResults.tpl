@@ -36,7 +36,7 @@
 					{if $TAGGED_RECORDS}
 						{foreach key=MODULE_NAME item=TAGGED_RECORD_MODELS from=$TAGGED_RECORDS}
 							<div name="tagSearchModuleResults" id="tagSearch_{$MODULE_NAME}">
-								<h5>{vtranslate($MODULE_NAME,$MODULE)} ({count($TAGGED_RECORD_MODELS)})</h5>
+								<h5>{vtranslate($MODULE_NAME,$MODULE_NAME)} ({count($TAGGED_RECORD_MODELS)})</h5>
 								{foreach item=TAGGED_RECORD_MODEL from=$TAGGED_RECORD_MODELS}
 									<div><a href="{$TAGGED_RECORD_MODEL->getDetailViewUrl()}">{$TAGGED_RECORD_MODEL->getName()}</a></div>
 								{/foreach}

@@ -19,12 +19,12 @@ $languageStrings = [
 	'LBL_RESPONSE_TIME' => 'Czas reakcji',
 
 	//PICKLIST VALUES
-	'LBL_DRAFT' => 'Wersja robocza',
-	'LBL_ACCEPTED' => 'Zaakceptowane',
-	'LBL_REQUIRES_TO_BE_COMPLEMENTED' => 'Wymaga uzupełnienia',
-	'LBL_REQUIRES_CONSULTATION' => 'Wymaga konsultacji',
-	'LBL_WAITING_FOR_APPROVAL' => 'Oczekujące na akceptację',
-	'LBL_DISCARDED' => 'Odrzucone',
+	'PLL_DRAFT' => 'Wersja robocza',
+	'PLL_ACCEPTED' => 'Zaakceptowane',
+	'PLL_REQUIRES_TO_BE_COMPLEMENTED' => 'Wymaga uzupełnienia',
+	'PLL_REQUIRES_CONSULTATION' => 'Wymaga konsultacji',
+	'PLL_WAITING_FOR_APPROVAL' => 'Oczekujące na akceptację',
+	'PLL_DISCARDED' => 'Odrzucone',
 
 	'LBL_CHANGE_STATUS' => 'Zmień status',
 	'LBL_PREVIEW' => 'Podgląd',

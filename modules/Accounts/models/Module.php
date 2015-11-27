@@ -127,4 +127,29 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 		}
 		return $matchingRecords;
 	}
+	
+	/**
+	 * Function to get the Quick Links for the module
+	 * @param <Array> $linkParams
+	 * @return <Array> List of Vtiger_Link_Model instances
+	 */
+	public function getSideBarLinks($linkParams)
+	{
+		$links = parent::getSideBarLinks($linkParams);
+		$moduleModel = Vtiger_Module_Model::getInstance('Products');
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if ($userPrivilegesModel->hasModulePermission($moduleModel->getId())) {
+			$quickLinks[] = [
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'Products & Service',
+				'linkurl' => 'index.php?module=' . $this->getName() . '&view=AccountsListTree&mode=showTree',
+				'linkicon' => '',
+			];
+		}
+
+		foreach ($quickLinks as $quickLink) {
+			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+		}
+		return $links;
+	}
 }

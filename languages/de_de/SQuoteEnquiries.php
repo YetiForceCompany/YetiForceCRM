@@ -3,8 +3,6 @@
 $languageStrings = [
 	'SQuoteEnquiries' => 'Angebotsanalyse',
 	'SINGLE_SQuoteEnquiries' => 'Angebotsanalyse',
-	'LBL_ADD_RECORD' => 'Angebotsanalyse hinzufügen',
-	'LBL_RECORDS_LIST' => 'Liste Angebotsanalysen', 
 	
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Informationen',
@@ -21,12 +19,12 @@ $languageStrings = [
 	'LBL_RESPONSE_TIME' => 'Respone time',
 
 	//PICKLIST VALUES
-	'LBL_DRAFT' => 'Draft',
-	'LBL_ACCEPTED' => 'Accepted',
-	'LBL_REQUIRES_TO_BE_COMPLEMENTED' => 'Requires to be complemented',
-	'LBL_REQUIRES_CONSULTATION' => 'Requires consultation',
-	'LBL_WAITING_FOR_APPROVAL' => 'Waiting for approval',
-	'LBL_DISCARDED' => 'Discarded',
+	'PLL_DRAFT' => 'Draft',
+	'PLL_ACCEPTED' => 'Accepted',
+	'PLL_REQUIRES_TO_BE_COMPLEMENTED' => 'Requires to be complemented',
+	'PLL_REQUIRES_CONSULTATION' => 'Requires consultation',
+	'PLL_WAITING_FOR_APPROVAL' => 'Waiting for approval',
+	'PLL_DISCARDED' => 'Discarded',
 
 	'LBL_CHANGE_STATUS' => 'Change Status',
 	'LBL_PREVIEW' => 'Preview',
