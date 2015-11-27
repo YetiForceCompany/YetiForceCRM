@@ -10,23 +10,24 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
-		<span class="moduleIcon">
-	        {assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
-			{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
-				{if !empty($IMAGE_INFO.path)}
-					<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" class="pushDown" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="65" height="80" align="left"><br>
-				{else}
-					<img src="{vimage_path('Contacts48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
-				{/if}
-			{/foreach}
-	        {if empty($IMAGE_DETAILS)}
-	            <img src="{vimage_path('Contacts48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
-	        {/if}
-		</span>
-	</div>
-	<div class="col-xs-10 col-sm-9 col-md-6 margin0px">
+	
+	<div class="col-xs-10 col-sm-9 col-md-4 margin0px">
 		<div>
+			<div class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
+				<span class="moduleIcon">
+					{assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
+					{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
+						{if !empty($IMAGE_INFO.path)}
+							<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" class="pushDown" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="65" height="80" align="left"><br>
+						{else}
+							<img src="{vimage_path('Contacts48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
+						{/if}
+					{/foreach}
+					{if empty($IMAGE_DETAILS)}
+						<span class="detailViewIcon userIcon-{$MODULE}"></span>
+					{/if}
+				</span>
+			</div>
 			<h4 class="recordLabel pushDown marginbottomZero" title="{$RECORD->getDisplayValue('salutationtype')}&nbsp;{$RECORD->getName()}">
 				{if $RECORD->getDisplayValue('salutationtype')}
                     <span class="salutation">{$RECORD->getDisplayValue('salutationtype')}</span>&nbsp;

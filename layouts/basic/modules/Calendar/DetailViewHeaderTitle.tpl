@@ -10,16 +10,13 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{assign var=IMAGE value=$MODULE_NAME|cat:'48.png'}
-	{if file_exists( vimage_path($IMAGE) )}
-		<span class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
+	<div class="col-md-4 margin0px">
+		<div class="">
+			<div class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 			<span class="moduleIcon">
-				<img src="{vimage_path($IMAGE)}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}" />
+				<span class="detailViewIcon userIcon-{$MODULE}"></span>
 			</span>
-		</span>
-	{/if}
-	<div class="col-md-6 margin0px">
-		<div class="row">
+			</div>
 			<span class="recordLabel font-x-x-large textOverflowEllipsis span" title="{$RECORD->getName()}">
 				{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
 					{assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}

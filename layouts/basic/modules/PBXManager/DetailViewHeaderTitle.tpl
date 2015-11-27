@@ -41,7 +41,7 @@
        {/if}    
     </span> 
 
-    <span class="col-md-6 margin0px">
+    <span class="col-md-4 margin0px">
         <span class="row">
             <span class="recordLabel pushDown" title="{$RECORD->getName()}">
                 {assign var=NAME_FIELD value=$MODULE_MODEL->getNameFields()}

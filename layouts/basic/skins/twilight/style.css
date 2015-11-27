@@ -47,7 +47,8 @@ body {
 	color: #2b2b2b;
 }
 hr {
-	margin: 8px 0;
+	margin-top:0px;
+	margin-bottom: 8px;
 	border-bottom: 1px solid #dddddd;
 }
 .navbar.navbar-fixed-top .navbar-collapse {
@@ -680,7 +681,7 @@ li.ui-timepicker-selected,
 	border-right: 0 !important;
 }
 .detailViewTitle {
-	padding: 0.1% 0 0 1%;
+	padding: 0 0 0 15px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -699,6 +700,9 @@ li.ui-timepicker-selected,
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	word-wrap: break-word;
+}
+.detailViewToolbar .btn {
+	margin:0 !important;
 }
 .detailViewTitle .btn-toolbar {
 	margin: 0;
@@ -2940,15 +2944,6 @@ td.listViewEntryValue .row input {
 .fieldLabel .pull-right {
 	text-align: right;
 }
-#tagRecordText {
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border-radius: 2px;
-	width: 80% !important;
-}
-#tagRecord {
-	margin-left: 5px !important;
-}
 .tag {
 	float: right !important;
 }
@@ -2963,9 +2958,6 @@ td.listViewEntryValue .row input {
 }
 .paddingRightZero {
 	padding-right: 0 !important;
-}
-.detailViewToolbar {
-	margin-top: 5px;
 }
 .input-group.input-group-sm > .input-group-addon img {
 	width: 15px;
@@ -3232,7 +3224,7 @@ span[name=existingImages] img{
 	margin-left: 8px;
 }
 #tagRecord{
-	line-height: 25px;
+	line-height: 20px;
 }
 #tagsList .btn-info,
 .modal-body .btn-elements > .btn{
@@ -3869,8 +3861,11 @@ html,body,.baseContainer
 	margin-right: 160px !important;
 }
 .breadcrumbsLinks{
-	margin-top: 5px;
+	margin-top: 7px;
 	margin-left: 0px;
+}
+.breadcrumbsLinks a{
+	font-weight: bold;
 }
 #inventoryViewLayout .inventoryBlock  ul li .editFields{
 	padding: 5px;
@@ -4109,8 +4104,12 @@ html,body,.baseContainer
 .contentsDiv, .centerPanel{
 	padding: 0 10px;
 }
+.detailViewTitle .widget_header{
+	background:#eee;
+}
 .widget_header{
 	padding-top:5px;
+	padding-bottom:5px;
 }
 .sortTableUl{
 	list-style-type: none;
@@ -4695,7 +4694,7 @@ html,body,.baseContainer
 		float:left;
 	}
 	.breadcrumbsLinks{
-		font-size: 19px;
+		font-size: 15px;
 	}
 }
 @media only screen and (max-width: 767px) {
@@ -4830,8 +4829,12 @@ html,body,.baseContainer
 .marginTop10{
 	margin-top: 10px !important;
 }
-.related .nav .relatedNav{
+.related .nav .relatedNav,
+.related .nav .dropdown {
 	background: #f1f1f1;
+}
+.related .nav li a{
+	min-height: 38px;
 }
 .related .nav li{
 	position: relative !important;
@@ -4855,4 +4858,8 @@ html,body,.baseContainer
 	border-top-left-radius: 15px;
 	border-bottom-right-radius: 0;
 	border-top-right-radius: 0;
+}
+.detailViewTitle .spanModuleIcon{
+	margin-right:10px;
+	height:100%;
 }

@@ -11,12 +11,14 @@
     ********************************************************************************/
     -->*}
     {strip}	
-		<div id="tagRecordInput" class="input-group col-xs-12">
-			<div class="input-group col-md-6 pull-right">
-				<span id="tagRecord" class="glyphicon glyphicon-plus cursorPointer pull-right" aria-hidden="true"></span>
-				<input placeholder="{vtranslate('TAG_PLACEHOLDER')}" type="text" title="{vtranslate('TAG_PLACEHOLDER')}" id="tagRecordText" class="col-md-6 form-control input-sm pull-right"/>
+		<div id="tagRecordInput">
+			<div class="input-group col-md-2 col-sm-4 col-xs-12 pull-right paddingRightZero">				
+				<input placeholder="{vtranslate('TAG_PLACEHOLDER')}" type="text" title="{vtranslate('TAG_PLACEHOLDER')}" id="tagRecordText" class="form-control "/>
+				<span id="tagRecord" class="input-group-btn">
+					<button  class="btn btn-default" type="button"><span  class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+				</span>
 			</div>
-			<div class="pull-right">
+			<div class="pull-right col-md-10 col-sm-8 col-xs-12">
 				<input type="hidden" id="maxTagLength" value="{$MAX_TAG_LENGTH}" />	
 				<input type="hidden" id="maxTag" value="{if isset($MAX_TAG)}{$MAX_TAG}{else}5{/if}" />
 				<div id="tagsList" class="pushDown">
@@ -32,5 +34,5 @@
 				</div>
 			</div>
 		</div>
-    {/strip}	
+    {/strip}
 {/if}
