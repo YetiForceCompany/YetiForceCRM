@@ -304,38 +304,22 @@ function DataAccessConditions() {
 			this.showPicklist = function (element) {
 				var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder');
 				var valElement = valPlace.find('[name="val"]');
-
 				valPlace.children().remove();
-
-				var select = jQuery("<select></select>").attr({
-					name: "val",
-					"data-value": "value",
-					class: "select2 form-control"
-				}).appendTo(valPlace);
-
+				jQuery('<select name="val" data-value="value" class="select2 form-control" ></select>').appendTo(valPlace);
 				var fieldInfo = jQuery(element).find('option:selected').data('info');
-
 				jQuery.each(fieldInfo.picklistvalues, function (i, item) {
 					select.append(jQuery('<option>', {
 						value: i,
 						text: item
 					}));
 				});
-
 				app.showSelect2ElementView(jQuery('select.select2'));
 
 			},
 			this.showMultiPicklist = function (element) {
 				var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder');
 				valPlace.children().remove();
-
-				var select = jQuery("<select></select>").attr({
-					multiple: "multiple",
-					name: "val",
-					"data-value": "value",
-					class: "select2 form-control"
-				}).appendTo(valPlace);
-
+				jQuery('<select name="val" multiple="multiple" data-value="value" class="select2 form-control" ></select>').appendTo(valPlace);
 				var fieldInfo = jQuery(element).find('option:selected').data('info');
 
 				jQuery.each(fieldInfo.picklistvalues, function (i, item) {
@@ -353,18 +337,10 @@ function DataAccessConditions() {
 
 				if (valPlace.children().prop('tagName') != 'INPUT') {
 					valPlace.children().remove();
-					jQuery('<input>').attr({
-						type: 'text',
-						name: 'val',
-						"data-value": "value",
-						class: "form-control"
-
-					}).appendTo(valPlace);
-
+					jQuery('<input type="text" name="val" class="form-control" data-value="value" />').appendTo(valPlace);
 				} else {
 					this.showValElement(valPlace.children());
 				}
-
 			},
 			this.showDataInput = function (element) {
 				var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder');
