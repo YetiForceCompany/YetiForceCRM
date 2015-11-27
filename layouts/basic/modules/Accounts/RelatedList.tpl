@@ -30,7 +30,7 @@
 							{if $RELATED_MODULE_NAME eq 'Potentials' && $POTENTIALS.add_potential eq 'true' && array_key_exists($PARENT_RECORD->get('assigned_user_id'),$ACCESSIBLE_GROUP_LIST)}
 								{assign var=ADD_BUTTON value=1}
 							{/if}
-                        <div class="btn-group">
+                        <div class="btn-group paddingRight10">
                             {assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
                             <button type="button" class="btn btn-default addButton {if $ADD_BUTTON } hide {/if}
                             {if $IS_SELECT_BUTTON eq true} selectRelation {/if} moduleColor_{$RELATED_MODULE_NAME} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"

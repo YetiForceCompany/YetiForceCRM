@@ -24,7 +24,7 @@
 				<div class="col-sm-6 col-md-6">
 					{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
 						{if {Users_Privileges_Model::isPermitted($RELATED_MODULE_NAME, 'EditView')} }
-							<div class="btn-group">
+							<div class="btn-group paddingRight10">
 								{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 								<button type="button" class="btn btn-default addButton
 										{if $IS_SELECT_BUTTON eq true} selectRelation {/if} moduleColor_{$RELATED_MODULE_NAME} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"

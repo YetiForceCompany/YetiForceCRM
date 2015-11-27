@@ -29,7 +29,7 @@
                 <div class="btn-toolbar row">
                     <div class="col-md-4">
                         {foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
-                            <div class="btn-group">
+                            <div class="btn-group paddingRight10">
                                 {assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
                                 {assign var=IS_SEND_EMAIL_BUTTON value={$RELATED_LINK->get('_sendEmail')}}
                                 <button type="button" class="btn btn-default addButton

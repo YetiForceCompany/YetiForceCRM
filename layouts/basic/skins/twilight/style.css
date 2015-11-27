@@ -2718,6 +2718,9 @@ td.listViewEntryValue .row input {
 .paddingRightZero {
 	padding-right: 0 !important;
 }
+.paddingRight10{
+	padding-right: 10px !important;
+}
 .input-group.input-group-sm > .input-group-addon img {
 	width: 15px;
 }
@@ -4590,7 +4593,7 @@ html,body,.baseContainer
 .related .nav .dropdown {
 	background: #f1f1f1;
 }
-.related .nav li a{
+.related .nav > li > a{
 	min-height: 38px;
 }
 .related .nav li{
