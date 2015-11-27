@@ -2270,7 +2270,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 */
 	registerRelatedModulesRecordCount: function () {
 		var thisInstance = new Vtiger_Detail_Js();
-		$('.related .nav .relatedNav').each(function (n, item) {
+		var moreList = $('.related .nav .dropdown-menu');
+		$('.related .nav > .relatedNav').each(function (n, item) {
 			if ($(item).data('count') == '1') {
 				var params = {
 					module: app.getModuleName(),
@@ -2283,7 +2284,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 				AppConnector.request(params).then(function (response) {
 					if (response.success) {
 						$(item).find('.count').text(response.result.numberOfRecords );
-						thisInstance.loadListRelatedModules();
+						moreList.find('[data-reference="' + $(item).data('reference') + '"] .count').text(response.result.numberOfRecords);
+						thisInstance.refreshRelatedList();
 					}
 				});
 			}
@@ -2719,7 +2721,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerBlockAnimationEvent();
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]'));
 	},
-	loadListRelatedModules: function(){
+	refreshRelatedList: function(){
 		var container = jQuery('.related');	
 		var moreBtn = container.find('.dropdown');
 		var moreList = container.find('.nav .dropdown-menu');
@@ -2752,7 +2754,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerEvents: function () {
 		var thisInstance = this;
-		thisInstance.loadListRelatedModules();
+		thisInstance.refreshRelatedList();
 		//thisInstance.triggerDisplayTypeEvent();
 		this.registerHelpInfo();
 		thisInstance.registerSendSmsSubmitEvent();

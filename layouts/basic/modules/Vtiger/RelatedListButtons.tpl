@@ -20,7 +20,10 @@
 									<a href="javascript:void(0);" class="textOverflowEllipsis moduleColor_{$RELATED_LINK->getLabel()}" style="width:auto" title="{$DETAILVIEWRELATEDLINKLBL}">
 										<span class="iconModule userIcon-{$RELATED_LINK->get('relatedModuleName')} pull-left">&nbsp;&nbsp;</span>
 										<strong class="pull-left">{$DETAILVIEWRELATEDLINKLBL}</strong>
-										<span class="count badge pull-right">{if vglobal('showRecordsCount')}0{/if}</span></a>
+										{if vglobal('showRecordsCount')}
+											<span class="count badge pull-right">0</span>
+										{/if}
+									</a>
 								</li>
 							{/foreach}
 						</ul>
@@ -34,7 +37,10 @@
 								{if vglobal('showNameRelatedModules')}
 									<strong class="pull-left">{$DETAILVIEWRELATEDLINKLBL}</strong>
 								{/if}
-								<span class="count badge pull-right">{if vglobal('showRecordsCount')}0{/if}</span></a>
+								{if vglobal('showRecordsCount')}
+									<span class="count badge pull-right">0</span>
+								{/if}
+							</a>
 						</li>
 					{/foreach}
 				</ul>
