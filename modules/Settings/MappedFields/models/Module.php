@@ -93,16 +93,17 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getSupportedModules()
 	{
-		$moduleModels = Settings_Vtiger_CustomRecordNumberingModule_Model::getSupportedModules();
+		$restrictedModules = ['OSSMailView'];
+		$moduleModels = Vtiger_Module_Model::getAll([0, 2]);
 		$supportedModuleModels = [];
 		foreach ($moduleModels as $tabId => $moduleModel) {
-			if ($moduleModel->getName() != 'OSSMailView') {
+			if ($moduleModel->isEntityModule() && !in_array($moduleModel->getName(), $restrictedModules)) {
 				$supportedModuleModels[$tabId] = $moduleModel;
 			}
 		}
 		return $supportedModuleModels;
 	}
-	
+
 	/**
 	 * Function to get instance
 	 * @return <Settings_MappedFields_Module_Model>
@@ -299,7 +300,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 				foreach ($stepFields as $name) {
 					$params[$name] = $mapp[$name];
 				}
-				if($params['source'] && $params['target']){
+				if ($params['source'] && $params['target']) {
 					$db->insert($this->mappingTable, $params);
 				}
 			}

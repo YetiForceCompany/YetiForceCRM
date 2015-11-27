@@ -5,6 +5,7 @@
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Model
 {
@@ -35,6 +36,7 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		$params = [];
 		$sourceModule = $this->get('sourceModule');
 		if (!empty($sourceModule)) {
+			$sourceModule = Vtiger_Functions::getModuleName($sourceModule);
 			$listQuery .= ' WHERE `tabid` = ?';
 			$params[] = $sourceModule;
 		}
@@ -53,24 +55,21 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		$listResult = $db->pquery($listQuery, $params);
 
 		$listViewRecordModels = [];
-		while ($row = $db->fetchByAssoc($listResult)) {
-			$record = new $recordModelClass();
+		while ($row = $db->getRow($listResult)) {
+			$recordModel = new $recordModelClass();
 			$moduleName = Vtiger_Functions::getModuleName($row['tabid']);
 			$relModuleName = Vtiger_Functions::getModuleName($row['reltabid']);
 
-			$moduleName = vtranslate($moduleName, $moduleName);
-			$relModuleName = vtranslate($relModuleName, $relModuleName);
+			$row['tabid'] = vtranslate($moduleName, $moduleName);
+			$row['reltabid'] = vtranslate($relModuleName, $relModuleName);
 
-			$row['tabid'] = $moduleName;
-			$row['reltabid'] = $relModuleName;
-
-			$record->setData($row);
-			$listViewRecordModels[$record->getId()] = $record;
+			$recordModel->setData($row);
+			$listViewRecordModels[$recordModel->getId()] = $recordModel;
 		}
 
 		$pagingModel->calculatePageRange($listViewRecordModels);
 
-		if ($db->num_rows($listResult) > $pageLimit) {
+		if ($listResult->rowCount() > $pageLimit) {
 			array_pop($listViewRecordModels);
 			$pagingModel->set('nextPageExists', true);
 		} else {
@@ -78,8 +77,7 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		}
 
 		$nextPageResult = $db->pquery($nextListQuery, $params);
-		$nextPageNumRows = $db->num_rows($nextPageResult);
-		if ($nextPageNumRows <= 0) {
+		if ($nextPageResult->rowCount() <= 0) {
 			$pagingModel->set('nextPageExists', false);
 		}
 		return $listViewRecordModels;
