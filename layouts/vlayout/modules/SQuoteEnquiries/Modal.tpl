@@ -5,8 +5,8 @@
 	{assign var=ID value=$RECORD->get('id')}
 	{assign var=EDITVIEW_PERMITTED value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'EditView', $ID)}
 	{assign var=DETAILVIEW_PERMITTED value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'DetailView', $ID)}
-	{assign var=QEOPEN value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'QEOpen', $ID)}
-	{assign var=QECLOSE value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'QEClose', $ID)}
+	{assign var=OPENRECORD value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'OpenRecord', $ID)}
+	{assign var=CLOSERECORD value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'CloseRecord', $ID)}
 	<div class="modal-header">
 		<div class="pull-left">
 			<h3 class="modal-title">{vtranslate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</h3>
@@ -50,7 +50,7 @@
 <div class="modal-footer">
 	<div class="pull-left">
 		<div class="btn-toolbar">
-			{if $QEOPEN || $EDITVIEW_PERMITTED}
+			{if $OPENRECORD || $EDITVIEW_PERMITTED}
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{vtranslate('LBL_CHANGE_STATUS',$MODULE_NAME)} <span class="caret"></span>
@@ -64,7 +64,7 @@
 				</div>
 			{/if}
 			{foreach from=$RESTRICTS_ITEM item=ITEM}
-				{if $QECLOSE && $RECORD->get('squoteenquiries_status') neq $ITEM}
+				{if $CLOSERECORD && $RECORD->get('squoteenquiries_status') neq $ITEM}
 					<div class="btn-group">
 						<button type="button" class="btn {if $ITEM eq 'PLL_ACCEPTED'} btn-success {else} btn-danger {/if} changeStatus" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
 					</div>

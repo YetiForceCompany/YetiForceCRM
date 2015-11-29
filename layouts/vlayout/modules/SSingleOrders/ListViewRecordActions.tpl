@@ -2,7 +2,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 -->*}
 {strip}
-	{assign var=OPENSINGLEORDERS value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'OpenSingleOrders', $RECORD_ID)}
+	{assign var=OPENSINGLEORDERS value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'OpenRecord', $RECORD_ID)}
 	<div class="actions pull-right">
 		<span class="actionImages">
 			{if ($IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->lockEditView eq false) || $OPENSINGLEORDERS}

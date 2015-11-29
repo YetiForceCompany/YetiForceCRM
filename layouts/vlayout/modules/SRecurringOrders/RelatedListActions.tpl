@@ -3,7 +3,7 @@
 -->*}
 {strip}
 	{assign var=LOCKEDIT value=Users_Privileges_Model::checkLockEdit($RELATED_MODULE_NAME, $RELATED_RECORD->getId())}
-	{assign var=OPENRECURRINGORDERS value=Users_Privileges_Model::isPermitted($RELATED_MODULE_NAME, 'OpenRecurringOrders', $RELATED_RECORD->getId())}
+	{assign var=OPENRECURRINGORDERS value=Users_Privileges_Model::isPermitted($RELATED_MODULE_NAME, 'OpenRecord', $RELATED_RECORD->getId())}
 	<div class="pull-right actions">
 		<span class="actionImages">
 			{if ($IS_EDITABLE && $LOCKEDIT eq false) || $OPENRECURRINGORDERS}

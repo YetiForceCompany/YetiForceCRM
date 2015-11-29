@@ -5,8 +5,8 @@
 	{assign var=ID value=$RECORD->get('id')}
 	{assign var=EDITVIEW_PERMITTED value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'EditView', $ID)}
 	{assign var=DETAILVIEW_PERMITTED value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'DetailView', $ID)}
-	{assign var=OPENSINGLEORDERS value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'OpenSingleOrders', $ID)}
-	{assign var=CLOSESINGLEORDERS value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'CloseSingleOrders', $ID)}
+	{assign var=OPENSINGLEORDERS value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'OpenRecord', $ID)}
+	{assign var=CLOSESINGLEORDERS value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'CloseRecord', $ID)}
 	{assign var=LOCKEDIT value=Users_Privileges_Model::checkLockEdit($MODULE_NAME, $ID)}
 	<div class="modal-header">
 		<div class="pull-left">

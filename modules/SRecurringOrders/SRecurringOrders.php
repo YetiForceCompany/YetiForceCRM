@@ -109,7 +109,6 @@ class SRecurringOrders extends Vtiger_CRMEntity
 					$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
 				}
 			}
-			$this->addActions();
 			// TODO Handle actions after this module is installed.
 		} else if ($eventType == 'module.disabled') {
 			// TODO Handle actions before this module is being uninstalled.
@@ -119,31 +118,6 @@ class SRecurringOrders extends Vtiger_CRMEntity
 			// TODO Handle actions before this module is updated.
 		} else if ($eventType == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
-		}
-	}
-
-	function addActions()
-	{
-		$adb = PearDatabase::getInstance();
-		$actions = ['OpenRecurringOrders', 'CloseRecurringOrders'];
-		foreach ($actions as $key => $action) {
-			$result = $adb->pquery('SELECT actionid FROM vtiger_actionmapping WHERE actionname=?;', [$action]);
-			if ($adb->getRowCount($result)) {
-				continue;
-			}
-			$result = $adb->query("SELECT MAX(actionid) AS max_seq  FROM vtiger_actionmapping ;");
-			$key = (int) $adb->getSingleValue($result) + 1;
-			$adb->pquery("INSERT INTO `vtiger_actionmapping` (`actionid`, `actionname`, `securitycheck`) VALUES (?, ?, ?);", [$key, $action, 0]);
-			$tabid = Vtiger_Functions::getModuleId('SRecurringOrders');
-			$resultP = $adb->query("SELECT profileid FROM vtiger_profile;");
-			$rowCountP = $adb->getRowCount($resultP);
-			for ($i = 0; $i < $rowCountP; $i++) {
-				$profileId = $adb->query_result_raw($resultP, $i, 'profileid');
-				$resultC = $adb->pquery("SELECT activityid FROM vtiger_profile2utility WHERE profileid=? AND tabid=? AND activityid=? ;", [$profileId, $tabid, $key]);
-				if ($adb->getRowCount($resultC) == 0) {
-					$adb->pquery("INSERT INTO vtiger_profile2utility (profileid, tabid, activityid, permission) VALUES  (?, ?, ?, ?)", [$profileId, $tabid, $key, 0]);
-				}
-			}
 		}
 	}
 

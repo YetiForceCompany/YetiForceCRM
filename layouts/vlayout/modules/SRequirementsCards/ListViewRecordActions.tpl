@@ -2,10 +2,10 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 -->*}
 {strip}
-	{assign var=RCOPEN value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'RCOpen', $RECORD_ID)}
+	{assign var=OPENRECORD value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'OpenRecord', $RECORD_ID)}
 	<div class="actions pull-right">
 		<span class="actionImages">
-			{if ($IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->lockEditView eq false) || $RCOPEN}
+			{if ($IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->lockEditView eq false) || $OPENRECORD}
 				<a class="showModal" data-url="{$LISTVIEW_ENTRY->getModalUrl()}"><span title="{vtranslate('LBL_SET_RECORD_STATUS', $MODULE)}" class="glyphicon glyphicon-modal-window alignMiddle"></span></a>&nbsp;
 			{/if}
 			<a href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;

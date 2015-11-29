@@ -6844,41 +6844,6 @@ CREATE TABLE `vtiger_quotesenquires_cons_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_quotesenquires_inventory` */
-
-CREATE TABLE `vtiger_quotesenquires_inventory` (
-  `id` int(19) DEFAULT NULL,
-  `seq` int(10) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_vtiger_quotesenquires_inventory` FOREIGN KEY (`id`) REFERENCES `vtiger_quotesenquires` (`quotesenquiresid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_quotesenquires_invfield` */
-
-CREATE TABLE `vtiger_quotesenquires_invfield` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `columnname` varchar(30) NOT NULL,
-  `label` varchar(50) NOT NULL,
-  `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `defaultvalue` varchar(255) DEFAULT NULL,
-  `sequence` int(10) unsigned NOT NULL,
-  `block` tinyint(1) unsigned NOT NULL,
-  `displaytype` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `params` text,
-  `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_quotesenquires_invmap` */
-
-CREATE TABLE `vtiger_quotesenquires_invmap` (
-  `module` varchar(50) NOT NULL,
-  `field` varchar(50) DEFAULT NULL,
-  `tofield` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`module`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_quotesenquires_pros` */
 
 CREATE TABLE `vtiger_quotesenquires_pros` (

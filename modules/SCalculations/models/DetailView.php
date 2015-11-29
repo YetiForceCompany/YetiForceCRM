@@ -15,7 +15,7 @@ class SCalculations_DetailView_Model extends Vtiger_DetailView_Model
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
-		$openRecord = Users_Privileges_Model::isPermitted($moduleName, 'OpenCalculation', $recordId);
+		$openRecord = Users_Privileges_Model::isPermitted($moduleName, 'OpenRecord', $recordId);
 		if ((Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && !$lockEdit) || $openRecord) {
 			$basicActionLink = [
 				'linktype' => 'DETAILVIEW',

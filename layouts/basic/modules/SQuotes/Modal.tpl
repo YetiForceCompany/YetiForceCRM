@@ -5,8 +5,8 @@
 	{assign var=ID value=$RECORD->get('id')}
 	{assign var=EDITVIEW_PERMITTED value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'EditView', $ID)}
 	{assign var=DETAILVIEW_PERMITTED value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'DetailView', $ID)}
-	{assign var=OPENQUOTES value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'OpenQuotes', $ID)}
-	{assign var=CLOSEQUOTES value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'CloseQuotes', $ID)}
+	{assign var=OPENQUOTES value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'OpenRecord', $ID)}
+	{assign var=CLOSEQUOTES value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'CloseRecord', $ID)}
 	{assign var=LOCKEDIT value=Users_Privileges_Model::checkLockEdit($MODULE_NAME, $ID)}
 	<div class="modal-header">
 		<div class="pull-left">

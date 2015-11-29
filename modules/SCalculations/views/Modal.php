@@ -18,7 +18,6 @@ class SCalculations_Modal_View extends Vtiger_BasicModal_View
 	{
 		$moduleName = $request->getModule();
 		$id = $request->get('record');
-		$recordInstance = Vtiger_Record_Model::getInstanceById($id, $moduleName);
 
 		$recordModel = Vtiger_DetailView_Model::getInstance($moduleName, $id)->getRecord();
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
