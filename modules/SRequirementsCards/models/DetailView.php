@@ -2,7 +2,7 @@
 
 /**
  * DetailView Class for SRequirementsCards
- * @package YetiForce.DetailView
+ * @package YetiForce.Model
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */

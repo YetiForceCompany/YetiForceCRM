@@ -11,7 +11,7 @@ class SCalculations_Modal_View extends Vtiger_BasicModal_View
 
 	public function preProcess(Vtiger_Request $request)
 	{
-		echo '<div class="modal fade" id="sCalculationsModal"><div class="modal-dialog"><div class="modal-content">';
+		echo '<div class="modal fade modalEditStatus" id="sCalculationsModal"><div class="modal-dialog"><div class="modal-content">';
 	}
 
 	function process(Vtiger_Request $request)

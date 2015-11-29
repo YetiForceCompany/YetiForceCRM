@@ -36,7 +36,7 @@
 			{foreach item=TEMPLATE from=$TEMPLATES}
 				{assign var=RELATED_MODEL value=$TEMPLATE->getRelatedModule()}
 				<button class="btn btn-default genetateButton" data-id="{$TEMPLATE->getId()}" data-name="{$RELATED_MODEL->getName()}" data-url="{$RELATED_MODEL->getCreateRecordUrl()|cat:"&reference_id=$RECORD"}">
-					<span class="userIcon-{$TEMPLATE->getRelatedName()|strtolower}"></span>
+					<span class="userIcon-{$TEMPLATE->getRelatedName()}"></span>
 					&nbsp;{vtranslate($TEMPLATE->getRelatedName(), $TEMPLATE->getRelatedName())}
 				</button>
 			{/foreach}

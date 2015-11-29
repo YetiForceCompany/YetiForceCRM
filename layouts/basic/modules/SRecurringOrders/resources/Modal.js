@@ -17,7 +17,7 @@ jQuery.Class("SRecurringOrders_Modal_Js", {}, {
 		var params = {
 			'module': 'SRecurringOrders',
 			'action': "UpdateStatus",
-			'id': currentTarget.data('id'),
+			'record': currentTarget.data('id'),
 			'state': currentTarget.data('state')
 		}
 		app.hideModalWindow();

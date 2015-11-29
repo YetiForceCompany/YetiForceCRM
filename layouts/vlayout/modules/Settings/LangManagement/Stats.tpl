@@ -33,7 +33,7 @@
 		<div class="chartBlock row" id="chartBlock">
 			<div class="col-md-2"></div>
 			<div class="col-md-8">
-				<div class="widgetChartContainer" id="widgetChartContainer" style="width: 100%; height: 300px;"></div>
+				<div class="widgetChartContainer" id="widgetChartContainer"></div>
 			</div>
 			<div class="col-md-2"></div>
 			<input class="widgetData" type="hidden" value=''>

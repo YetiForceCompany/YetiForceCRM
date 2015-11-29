@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Settings_LangManagement_GetChart_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_LangManagement_GetChart_Action extends Settings_Vtiger_Basic_Action
 {
 
 	public function process(Vtiger_Request $request)

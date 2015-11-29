@@ -8,7 +8,7 @@
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" class="step" value="2" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
-			{assign var="PARAMS" value=$MF_MODEL->get('params')}
+			{assign var="PARAMS" value=$MAPPEDFIELDS_MODULE_MODEL->get('params')}
 			<div class="col-md-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -42,7 +42,7 @@
 											<th class="defaultHeader"><b>{vtranslate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}</b></th>
 											<th class="actionsHeader"><b>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</b></th>
 										</tr>
-										{foreach key=MAPPING_ID item=MAPPING_ARRAY from=$MF_MODEL->getMapping()  name="mappingLoop"}
+										{foreach key=MAPPING_ID item=MAPPING_ARRAY from=$MAPPEDFIELDS_MODULE_MODEL->getMapping()  name="mappingLoop"}
 											{assign var="SEQ" value=$smarty.foreach.mappingLoop.iteration}
 											<tr class="listViewEntries" sequence-number="{$SEQ}">
 												<td>

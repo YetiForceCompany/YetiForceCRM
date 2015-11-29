@@ -10,14 +10,17 @@ class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 
 	public function checkPermission(Vtiger_Request $request)
 	{
-		//TODO Add permission
+		$moduleName = $request->getModule();
+		if (!Users_Privileges_Model::isPermitted($moduleName, 'RecordMappingList') || !Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
+		}
 	}
-	
+
 	public function checkMandatoryFields($recordModel)
 	{
 		$mandatoryFields = $recordModel->getModule()->getMandatoryFieldModels();
-		foreach($mandatoryFields as $field){
-			if(empty($recordModel->get($field->getName()))){
+		foreach ($mandatoryFields as $field) {
+			if (empty($recordModel->get($field->getName()))) {
 				return true;
 			}
 		}
@@ -40,7 +43,7 @@ class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 						$recordModel = Vtiger_Record_Model::getCleanInstance($targetModuleName);
 						$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId);
 						$recordModel->setRecordFieldValues($parentRecordModel);
-						if($this->checkMandatoryFields($recordModel)){
+						if ($this->checkMandatoryFields($recordModel)) {
 							continue;
 						}
 						// TODO Add saving fields that exist in  advanced module
@@ -58,5 +61,10 @@ class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 		$response = new Vtiger_Response();
 		$response->setResult($output);
 		$response->emit();
+	}
+
+	public function validateRequest(Vtiger_Request $request)
+	{
+		return $request->validateWriteAccess();
 	}
 }

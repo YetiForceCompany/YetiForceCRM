@@ -17,7 +17,7 @@ jQuery.Class("SQuotes_Modal_Js", {}, {
 		var params = {
 			'module': 'SQuotes',
 			'action': "UpdateStatus",
-			'id': currentTarget.data('id'),
+			'record': currentTarget.data('id'),
 			'state': currentTarget.data('state')
 		}
 		app.hideModalWindow();

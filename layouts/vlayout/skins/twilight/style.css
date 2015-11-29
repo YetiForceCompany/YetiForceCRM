@@ -3734,22 +3734,10 @@ span[name=existingImages] img{
 .quickCreateContent .addedNearCalendarEvent .popover-content{
 	font-size: 12px;
 }
-#activityStateModal .form-horizontal .form-group,
-#sQuoteEnquiriesModal .form-horizontal .form-group,
-#sCalculationsModal .form-horizontal .form-group,
-#sQuotesModal .form-horizontal .form-group,
-#sSingleOrdersModal .form-horizontal .form-group,
-#sRecurringOrdersModal .form-horizontal .form-group,
-#sRequirementsCardsModal .form-horizontal .form-group{
+.modalEditStatus .form-horizontal .form-group{
 	margin-bottom: 2px;
 }
-#activityStateModal .form-horizontal .form-group .control-label,
-#sQuoteEnquiriesModal .form-horizontal .form-group .control-label,
-#sCalculationsModal .form-horizontal .form-group .control-label,
-#sQuotesModal .form-horizontal .form-group .control-label,
-#sSingleOrdersModal .form-horizontal .form-group .control-label,
-#sRecurringOrdersModal .form-horizontal .form-group .control-label,
-#sRequirementsCardsModal .form-horizontal .form-group .control-label{
+.modalEditStatus .form-horizontal .form-group .control-label{
 	padding-top: 0;
 }
 .mainContainer.mailContainer{
@@ -3790,13 +3778,13 @@ span[name=existingImages] img{
 .publicHolidayContent.layoutContent{
 	border-top: 0px;
 }
-#sQuoteEnquiriesModal .popover.fade,
-#sCalculationsModal .popover.fade,
-#sQuotesModal .popover.fade,
-#sSingleOrdersModal .popover.fade,
-#sRecurringOrdersModal .popover.fade,
-#sRequirementsCardsModal .popover.fade{
+.modalEditStatus .popover.fade
+{
 	min-width: 400px;
+}
+.statsContainer .widgetChartContainer{
+	width: 100%;
+	height: 300px;
 }
 .jstree-proton .jstree-search {
 	color:#fff !important;

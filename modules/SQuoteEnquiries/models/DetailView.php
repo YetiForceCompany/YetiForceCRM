@@ -2,7 +2,7 @@
 
 /**
  * DetailView Class for SQuoteEnquiries
- * @package YetiForce.SQuoteEnquiries
+ * @package YetiForce.Model
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */

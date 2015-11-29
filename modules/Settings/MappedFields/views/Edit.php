@@ -24,7 +24,7 @@ class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('RECORDID', $recordId);
 		if ($recordId) {
 			$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
-			$viewer->assign('MF_MODEL', $moduleInstance);
+			$viewer->assign('MAPPEDFIELDS_MODULE_MODEL', $moduleInstance);
 		}
 		$viewer->assign('RECORD_MODE', $request->getMode());
 		$viewer->view('EditHeader.tpl', $request->getModule(false));
@@ -44,7 +44,7 @@ class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
 		} else {
 			$moduleInstance = Settings_MappedFields_Module_Model::getCleanInstance();
 		}
-		$viewer->assign('MF_MODEL', $moduleInstance);
+		$viewer->assign('MAPPEDFIELDS_MODULE_MODEL', $moduleInstance);
 		$allModules = Settings_MappedFields_Module_Model::getSupportedModules();
 		$viewer->assign('ALL_MODULES', $allModules);
 		$viewer->assign('MODULE', $moduleName);

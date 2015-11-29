@@ -1,7 +1,7 @@
 {*<!--
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 -->*}
-<div id="activityStateModal" class="modal fade" tabindex="-1">
+<div id="activityStateModal" class="modal fade modalEditStatus" tabindex="-1">
 	{assign var=ID value=$RECORD->get('id')}
 	{assign var=EDITVIEW_PERMITTED value=isPermitted('Calendar', 'EditView', $ID)}
 	{assign var=DETAILVIEW_PERMITTED value=isPermitted('Calendar', 'DetailView', $ID)}

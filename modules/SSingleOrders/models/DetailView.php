@@ -2,7 +2,7 @@
 
 /**
  * DetailView Class for SSingleOrders
- * @package YetiForce.DetailView
+ * @package YetiForce.Model
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
