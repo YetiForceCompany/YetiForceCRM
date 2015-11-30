@@ -50,7 +50,9 @@ CREATE TABLE `a_yf_mapped_config` (
   `conditions` text,
   `permissions` varchar(255) DEFAULT NULL,
   `params` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `tabid` (`tabid`),
+  KEY `reltabid` (`reltabid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_mapped_fields` */
@@ -768,7 +770,7 @@ CREATE TABLE `u_yf_scalculations_invmap` (
 CREATE TABLE `u_yf_scalculationscf` (
   `scalculationsid` int(19) NOT NULL,
   PRIMARY KEY (`scalculationsid`),
-  CONSTRAINT `fk_1_u_yf_scalculationscf` FOREIGN KEY (`scalculationsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+  CONSTRAINT `fk_1_u_yf_scalculationscf` FOREIGN KEY (`scalculationsid`) REFERENCES `u_yf_scalculations` (`scalculationsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squoteenquiries` */
@@ -831,7 +833,7 @@ CREATE TABLE `u_yf_squoteenquiries_invmap` (
 CREATE TABLE `u_yf_squoteenquiriescf` (
   `squoteenquiriesid` int(19) NOT NULL,
   PRIMARY KEY (`squoteenquiriesid`),
-  CONSTRAINT `fk_1_u_yf_squoteenquiriescf` FOREIGN KEY (`squoteenquiriesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+  CONSTRAINT `fk_1_u_yf_squoteenquiriescf` FOREIGN KEY (`squoteenquiriesid`) REFERENCES `u_yf_squoteenquiries` (`squoteenquiriesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squotes` */
@@ -931,7 +933,7 @@ CREATE TABLE `u_yf_squotes_invmap` (
 CREATE TABLE `u_yf_squotescf` (
   `squotesid` int(19) NOT NULL,
   PRIMARY KEY (`squotesid`),
-  CONSTRAINT `fk_1_u_yf_squotescf` FOREIGN KEY (`squotesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+  CONSTRAINT `fk_1_u_yf_squotescf` FOREIGN KEY (`squotesid`) REFERENCES `u_yf_squotes` (`squotesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_srecurringorders` */
@@ -1036,7 +1038,7 @@ CREATE TABLE `u_yf_srecurringorders_invmap` (
 CREATE TABLE `u_yf_srecurringorderscf` (
   `srecurringordersid` int(19) NOT NULL,
   PRIMARY KEY (`srecurringordersid`),
-  CONSTRAINT `fk_1_u_yf_srecurringorderscf` FOREIGN KEY (`srecurringordersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+  CONSTRAINT `fk_1_u_yf_srecurringorderscf` FOREIGN KEY (`srecurringordersid`) REFERENCES `u_yf_srecurringorders` (`srecurringordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_srequirementscards` */
@@ -1101,7 +1103,7 @@ CREATE TABLE `u_yf_srequirementscards_invmap` (
 CREATE TABLE `u_yf_srequirementscardscf` (
   `srequirementscardsid` int(19) NOT NULL,
   PRIMARY KEY (`srequirementscardsid`),
-  CONSTRAINT `fk_1_u_yf_srequirementscardscf` FOREIGN KEY (`srequirementscardsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+  CONSTRAINT `fk_1_u_yf_srequirementscardscf` FOREIGN KEY (`srequirementscardsid`) REFERENCES `u_yf_srequirementscards` (`srequirementscardsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_ssalesprocesses` */
@@ -1122,7 +1124,7 @@ CREATE TABLE `u_yf_ssalesprocesses` (
 CREATE TABLE `u_yf_ssalesprocessescf` (
   `ssalesprocessesid` int(19) NOT NULL,
   PRIMARY KEY (`ssalesprocessesid`),
-  CONSTRAINT `fk_1_u_yf_ssalesprocessescf` FOREIGN KEY (`ssalesprocessesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+  CONSTRAINT `fk_1_u_yf_ssalesprocessescf` FOREIGN KEY (`ssalesprocessesid`) REFERENCES `u_yf_ssalesprocesses` (`ssalesprocessesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_ssingleorders` */
@@ -1227,7 +1229,7 @@ CREATE TABLE `u_yf_ssingleorders_invmap` (
 CREATE TABLE `u_yf_ssingleorderscf` (
   `ssingleordersid` int(19) NOT NULL,
   PRIMARY KEY (`ssingleordersid`),
-  CONSTRAINT `fk_1_u_yf_ssingleorderscf` FOREIGN KEY (`ssingleordersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+  CONSTRAINT `fk_1_u_yf_ssingleorderscf` FOREIGN KEY (`ssingleordersid`) REFERENCES `u_yf_ssingleorders` (`ssingleordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_account` */
