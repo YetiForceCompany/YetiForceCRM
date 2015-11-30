@@ -342,6 +342,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 			if (parent.find("[name='type']").length > 0) {
 				url += '&type=' + type;
 			}
+			if(parent.find('.changeRecordSort').length > 0){
+				url += '&sortorder='+parent.find('.changeRecordSort').data('sort');
+			}
 			contentContainer.progressIndicator();
 			AppConnector.request(url).then(function (data) {
 				contentContainer.progressIndicator({'mode': 'hide'});
