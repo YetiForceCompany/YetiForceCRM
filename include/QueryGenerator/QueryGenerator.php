@@ -678,9 +678,9 @@ class QueryGenerator
 				}
 			}
 		}
-		foreach ($this->fromClauseCustom as $from) {
-			$sql .= ' ' . $where['joinType'] . ' JOIN ' . $where['relatedTable'] . ' ON ' . $where['relatedTable'] . $where['relatedIndex'] .
-				'=' . $where['baseTable'] . $where['baseIndex'];
+		foreach ($this->fromClauseCustom as $where) {
+			$sql .= ' ' . $where['joinType'] . ' JOIN ' . $where['relatedTable'] . ' ON ' . $where['relatedTable'] . '.' . $where['relatedIndex'] .
+				'=' . $where['baseTable'] . '.' . $where['baseIndex'];
 		}
 		//$sql .= $this->meta->getEntityAccessControlQuery();
 		$this->fromClause = $sql;
@@ -1151,11 +1151,11 @@ class QueryGenerator
 			if ($field->getUIType() == 120) {
 				$shownersTable = Vtiger_SharedOwner_UIType::getShownerTable($this->getModule());
 				if ($operator == 'om') {
-					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM ' . $shownersTable . ' WHERE userid = '.Users_Record_Model::getCurrentUserModel()->get('id').')';
+					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM ' . $shownersTable . ' WHERE userid = ' . Users_Record_Model::getCurrentUserModel()->get('id') . ')';
 				} else if (in_array($operator, ['e', 's', 'ew', 'c'])) {
-					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM ' . $shownersTable . ' WHERE userid = '.$value.')';
+					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM ' . $shownersTable . ' WHERE userid = ' . $value . ')';
 				} else if (in_array($operator, ['n', 'k'])) {
-					$sql[] = 'vtiger_crmentity.crmid NOT IN (SELECT DISTINCT crmid FROM ' . $shownersTable . ' WHERE userid = '.$value.')';
+					$sql[] = 'vtiger_crmentity.crmid NOT IN (SELECT DISTINCT crmid FROM ' . $shownersTable . ' WHERE userid = ' . $value . ')';
 				}
 				continue;
 			}
