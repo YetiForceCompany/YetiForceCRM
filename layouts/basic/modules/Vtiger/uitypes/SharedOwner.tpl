@@ -7,7 +7,7 @@
 		{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('',$MODULE)}
 		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
 		{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
-		{if $MODE neq 'massedit' }
+		{if $MODE neq 'massedit' && $RECORD}
 			{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue('', $RECORD->getId())}
 		{/if}
 		{if $FIELD_VALUE neq '' }
