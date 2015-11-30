@@ -33,4 +33,7 @@ $PERFORMANCE_CONFIG = Array(
 
 	// Enable automatic records list refreshing while changing the value of the selection list
 	'AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE' => true,
+	
+	// All search results will be sorted at the database level after enabling. It might result in a longer search time.
+	'SORT_SEARCH_RESULTS' => false,
 );

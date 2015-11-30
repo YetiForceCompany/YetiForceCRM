@@ -323,17 +323,29 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getSearchResult($searchKey, $module = false, $limit = false)
 	{
-		global $max_number_search_result;
-
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT label, searchlabel, crmid, setype, createdtime, smownerid FROM vtiger_crmentity crm INNER JOIN vtiger_entityname e ON crm.setype = e.modulename WHERE searchlabel LIKE ? AND turn_off = ? AND crm.deleted = 0';
-		$params = array("%$searchKey%", 1);
+		$params = ["%$searchKey%"];
+		$sortColumns = $join = $where = '';
 
 		if ($module !== false) {
-			$query .= ' AND setype = ?';
+			$where .= ' AND vtiger_crmentity.setype = ?';
 			$params[] = $module;
+		} else {
+			$join = 'INNER JOIN vtiger_entityname ON vtiger_crmentity.setype = vtiger_entityname.modulename';
+			$where .= ' AND vtiger_entityname.turn_off = ?';
+			$sortColumns .= 'vtiger_entityname.sequence ASC,';
+			$params[] = 1;
 		}
-		$query .= ' ORDER BY sequence ASC, createdtime DESC';
+
+		if (PerformancePrefs::getBoolean('SORT_SEARCH_RESULTS')) {
+			$sortColumns .= 'vtiger_crmentity.label ASC,';
+		}
+
+		$query = 'SELECT label, searchlabel, crmid, setype, createdtime, smownerid FROM vtiger_crmentity ' . $join . ' WHERE vtiger_crmentity.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0' . $where;
+		if (!empty($sortColumns)) {
+			$query .= ' ORDER BY ' . $sortColumns;
+			$query = rtrim($query, ',');
+		}
 
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);
@@ -351,7 +363,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($user->get('roleid'));
 		$searchunpriv = $roleInstance->get('searchunpriv');
 
-		for ($i = 0, $recordsCount = 0; $i < $noOfRows && $recordsCount < $max_number_search_result; ++$i) {
+		for ($i = 0, $recordsCount = 0; $i < $noOfRows && $recordsCount < vglobal('max_number_search_result'); ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
 				continue;
@@ -579,7 +591,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
-		if(!$this->inventoryData){
+		if (!$this->inventoryData) {
 			$module = $this->getModuleName();
 			$record = $this->getId();
 			if (empty($record)) {
