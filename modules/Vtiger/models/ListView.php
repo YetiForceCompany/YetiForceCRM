@@ -188,11 +188,16 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$queryGenerator = $this->get('query_generator');
 		$listViewContoller = $this->get('listview_controller');
 
+		$srcRecord = $this->get('src_record');
+		if ($moduleName == $this->get('src_module') && !empty($srcRecord)) {
+			$queryGenerator->addCondition('id', $srcRecord, 'n');
+		}
+		
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {
 			$searchParams = array();
 		}
-		$glue = "";
+		$glue = '';
 		if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
 			$glue = QueryGenerator::$AND;
 		}
@@ -204,7 +209,6 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		if (!empty($searchKey)) {
 			$queryGenerator->addUserSearchConditions(array('search_field' => $searchKey, 'search_text' => $searchValue, 'operator' => $operator));
 		}
-
 
 		$orderBy = $this->getForSql('orderby');
 		$sortOrder = $this->getForSql('sortorder');
