@@ -45,6 +45,7 @@ class VTSimpleTemplate{
                 } else {
                     $result ='$'.$fieldname;
                 }
+
             }else{
                 list($full, $referenceField, $referenceModule, $fieldname) = $matches;
                 if($referenceModule === '__VtigerMeta__' || $fieldname === 'dbLabel') {
@@ -244,26 +245,27 @@ class VTSimpleTemplate{
 		$entityMeta = $entityHandler->getMeta();
 		$entityFields = $entityMeta->getModuleFields();
 		$fieldInstance = $entityFields[$fieldName];
-
 		switch($fieldInstance->getFieldDataType()) {
-
-			case 'date'			:	if (($moduleName === 'Events' && in_array($fieldName, array('date_start', 'due_date'))) ||
-										($moduleName === 'Calendar' && $fieldName === 'date_start')) {
+			case 'date'			:	if (in_array($moduleName, ['Events', 'Calendar']) && in_array($fieldName, ['date_start', 'due_date'])) {
 										if ($fieldName === 'date_start') {
 											$dateTime = $this->parent->get('date_start') .' '. $this->parent->get('time_start');
 										} else {
 											$dateTime = $this->parent->get('due_date') .' '. $this->parent->get('time_end');
 										}
-
 										$fieldValue = Vtiger_Util_Helper::convertDateTimeIntoUsersDisplayFormat($dateTime, $ownerObject);
-
 									} else {
 										$dateFieldObj = new DateTimeField($fieldValue);
 										$fieldValue = $dateFieldObj->getDisplayDate($ownerObject);
 									}
 									break;
-
-			case 'datetime'		:	$fieldValue = Vtiger_Util_Helper::convertDateTimeIntoUsersDisplayFormat($fieldValue, $ownerObject);
+			case 'datetime'		:	if (in_array($moduleName, ['Events', 'Calendar']) && in_array($fieldName, ['date_start', 'due_date'])) {
+										if ($fieldName === 'date_start') {
+											$fieldValue = $this->parent->get('date_start') .' '. $this->parent->get('time_start');
+										} else {
+											$fieldValue = $this->parent->get('due_date') .' '. $this->parent->get('time_end');
+										}
+									}
+									$fieldValue = Vtiger_Util_Helper::convertDateTimeIntoUsersDisplayFormat($fieldValue, $ownerObject);
 									break;
 
 			case 'currency'		:	if ($fieldInstance->getUIType() === '72') {
@@ -316,6 +318,13 @@ class VTSimpleTemplate{
 										$fieldValue = decimalFormat($fieldValue);
 									} else {
 										$fieldValue;
+									}
+									break;
+			case 'owner'		:   $id = explode('x', $fieldValue);
+									$webServiceObject = VtigerWebserviceObject::fromId($adb,$id[0]);
+									if($webServiceObject){
+										$Value = getEntityName($webServiceObject->getEntityName(), $id);
+										$fieldValue = $Value[$id[1]];
 									}
 									break;
 			default				:	$fieldValue;
