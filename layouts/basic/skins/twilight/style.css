@@ -4611,3 +4611,7 @@ html,body,.baseContainer
 	margin-right:10px;
 	height:100%;
 }
+.spaceRelatedList{
+	width:50px;
+	min-height:1px;
+}

@@ -8,6 +8,7 @@
 							<a href="javascript:void(0);" class="textOverflowEllipsis" style="width:auto" title="{vtranslate($RELATED_LINK->getLabel(),{$MODULE_NAME})}"><strong>{vtranslate($RELATED_LINK->getLabel(),{$MODULE_NAME})}</strong></a>
 						</li>
 					{/foreach}
+					<li class="mainNav spaceRelatedList"><li>
 					<li role="presentation" class="dropdown pull-right hide">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="true" aria-expanded="true">
 							<strong>{vtranslate('LBL_MORE',$MODULE)}</strong> <span class="caret"></span>
