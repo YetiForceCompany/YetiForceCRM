@@ -151,11 +151,12 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 			}
 			$name = self::getGroupName($id);
 			if($name !== false){
-				$users[$id] = $name;
+				$group[$id] = $name;
 				continue;
 			}
 		}
 		asort ($users);
+		asort ($group);
 		return [ 'users' => $users, 'group' => $group];
 	}
 
@@ -167,7 +168,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		if (!isset(self::$groupIdNameCache[$id])) {
 			$result = $adb->query('SELECT groupname, groupid FROM vtiger_groups');
 			while ($row = $adb->getRow($result)) {
-				self::$groupIdNameCache[$row['groupid']] = $row['groupname'];
+				self::$groupIdNameCache[$row['groupid']] = trim($row['groupname']);
 			}
 		}
 		return (isset(self::$groupIdNameCache[$id])) ? self::$groupIdNameCache[$id] : false;
@@ -184,7 +185,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 			while ($row = $adb->getRow($result)) {
 				$userid = $row['id'];
 				unset($row['id']);
-				self::$userIdNameCache[$userid] = implode(' ', $row);
+				self::$userIdNameCache[$userid] = trim(implode(' ', $row));
 			}
 		}
 		return (isset(self::$userIdNameCache[$id])) ? self::$userIdNameCache[$id] : false;
