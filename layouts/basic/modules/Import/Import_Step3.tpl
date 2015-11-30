@@ -10,20 +10,18 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="col-xs-12 row">
-	<div class="col-xs-12"> 
-		<div class='col-xs-2'>
-			<input type="checkbox" class="font-x-small" id="auto_merge" title="{vtranslate('LBL_IMPORT_STEP_3', $MODULE)}" name="auto_merge" onclick="ImportJs.toogleMergeConfiguration();" />
-			<strong>{'LBL_IMPORT_STEP_3'|@vtranslate:$MODULE}:</strong>
-		</div>
-		<div class="col-xs-10">
-			<span class="big">{'LBL_IMPORT_STEP_3_DESCRIPTION'|@vtranslate:$MODULE}</span>
-			<span class="font-x-small">({'LBL_IMPORT_STEP_3_DESCRIPTION_DETAILED'|@vtranslate:$MODULE}).</span>
-		</div>
+<div class="col-xs-12 paddingLRZero">
+	<div class='col-xs-2 paddingLRZero'>
+		<strong>{'LBL_IMPORT_STEP_3'|@vtranslate:$MODULE}:</strong>&nbsp;&nbsp;&nbsp;
+		<input type="checkbox" class="font-x-small" id="auto_merge" title="{vtranslate('LBL_IMPORT_STEP_3', $MODULE)}" name="auto_merge" onclick="ImportJs.toogleMergeConfiguration();" />
+	</div>
+	<div class="col-xs-10">
+		<span class="big">{'LBL_IMPORT_STEP_3_DESCRIPTION'|@vtranslate:$MODULE}</span>
+		<span class="font-x-small">({'LBL_IMPORT_STEP_3_DESCRIPTION_DETAILED'|@vtranslate:$MODULE}).</span>
 	</div>
 	<div class="col-xs-12">
 			<div class='row' id="duplicates_merge_configuration" style="display:none;">
-				<div class='col-xs-12'>
+				<div class='col-xs-12 paddingBottom10'>
 					<div>
 						<div class="col-md-6 paddingLRZero">
 							<span class="font-x-small">{'LBL_SPECIFY_MERGE_TYPE'|@vtranslate:$MODULE}</span>&nbsp;&nbsp;

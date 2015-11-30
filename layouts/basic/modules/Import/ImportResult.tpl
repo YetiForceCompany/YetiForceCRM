@@ -10,9 +10,13 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div style="padding-left: 15px;">
+<div class='widget_header'>
+	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+</div>
+<hr>
+<div>
     <input type="hidden" name="module" value="{$FOR_MODULE}" />
-    <table style=" width:90%;margin-left: 5% " cellpadding="5" class="searchUIBasic well">
+    <table class="searchUIBasic well col-xs-12 paddingLRZero no-margin">
         <tr>
             <td class="font-x-large" align="left" colspan="2">
                 <strong>{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$FOR_MODULE} - {'LBL_RESULT'|@vtranslate:$MODULE}</strong>

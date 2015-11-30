@@ -10,9 +10,9 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div style="padding-left: 15px;">
+<div>
 	<input type="hidden" name="module" value="{$MODULE}" />
-	<table style=" width:90%;margin-left: 5% "   cellpadding="5" class="searchUIBasic well">
+	<table class="col-xs-12 paddingLRZero no-margin searchUIBasic well">
 		<tr>
 			<td class="font-x-large" align="left" colspan="2">
 				<strong>{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$MODULE} - {'LBL_RESULT'|@vtranslate:$MODULE}</strong>
@@ -29,8 +29,9 @@
 		</tr>
 		<tr>
 			<td align="right" colspan="2">
-				<button name="next" class="create btn btn-default"
-				onclick="location.href='index.php?module={$MODULE}&view=List'" ><strong>{'LBL_FINISH'|@vtranslate:$MODULE}</strong></button>
+				<a href="index.php?module={$MODULE}&view=List" button name="next" class="create btn btn-success">
+					<strong>{'LBL_FINISH'|@vtranslate:$MODULE}</strong>
+				</a>
 			</td>
 		</tr>
 	</table>

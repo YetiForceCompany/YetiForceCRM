@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div style="padding-left: 15px;">
+<div>
     <form onsubmit="" action="index.php" enctype="multipart/form-data" method="POST" name="importBasic">
         <input type="hidden" name="module" value="{$FOR_MODULE}" />
         <input type="hidden" name="view" value="Import" />
@@ -19,39 +19,28 @@
 		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 	</div>
 	<hr>
-		<div class="row col-xs-12 searchUIBasic" style='margin:0 !important'>            
-		<div class="font-x-large">
-			<h4><strong>{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$FOR_MODULE}</strong></h4>
-	    </div>
-            {if $ERROR_MESSAGE neq ''}
-		<div class="col-xs-12">
-                    <div class="style1">
-                        <span class="alert-warning">{$ERROR_MESSAGE}</span>
-                    </div>
-                </div>
-            {/if}
-		<div class="importContents col-xs-12">
-			<div class=''>
-			    {include file='Import_Step1.tpl'|@vtemplate_path:'Import'}
+		<div class="col-xs-12 searchUIBasic paddingLRZero" style='margin:0 !important'>
+			{if $ERROR_MESSAGE neq ''}
+				<div class="col-xs-12">
+					<div class="style1">
+						<span class="alert-warning">{$ERROR_MESSAGE}</span>
+					</div>
+				</div>
+			{/if}
+			<div class="importContents col-xs-12">
+					{include file='Import_Step1.tpl'|@vtemplate_path:'Import'}
 			</div>
-		</div>
-		<div class="importContents col-xs-12">
-			<div class=" ">
+			<div class="importContents col-xs-12">
 				{include file='Import_Step2.tpl'|@vtemplate_path:'Import'}
 			</div>
-		</div>
             {if $DUPLICATE_HANDLING_NOT_SUPPORTED neq 'true'}
 				<div class="importContents col-xs-12">
-                    <div class="">
-                        {include file='Import_Step3.tpl'|@vtemplate_path:'Import'}
-                    </div>
-                </div>
+					{include file='Import_Step3.tpl'|@vtemplate_path:'Import'}
+				</div>
             {/if}
-			<div class="col-xs-12">
-				<div>
-                    {include file='Import_Basic_Buttons.tpl'|@vtemplate_path:'Import'}
-                </div>
-            </div>
+			<div class="col-xs-12 paddingBottom10">
+				{include file='Import_Basic_Buttons.tpl'|@vtemplate_path:'Import'}
+			</div>
         </div>
     </form>
 </div>

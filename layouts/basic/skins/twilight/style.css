@@ -1066,7 +1066,7 @@ td.fieldValue .input-group {
 	border-radius: 2px;
 	background: #ffffff;
 	margin-bottom: 10px;
-	padding: 0px 10px;
+	padding: 10px 10px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -2449,6 +2449,9 @@ i {
 	cursor: pointer;
 	text-decoration: none !important;
 }
+.marginLeft10{
+	margin-left:10px;
+}
 .marginbottomZero {
 	margin-bottom: 0 !important;
 }
@@ -2569,6 +2572,9 @@ table.summary-table .summaryViewEdit{
 }
 .paddingBottom20{
 	padding-bottom: 20px;
+}
+.paddingBottom10{
+	padding-bottom: 10px;
 }
 .marginBottom10px {
 	margin-bottom: 10px;

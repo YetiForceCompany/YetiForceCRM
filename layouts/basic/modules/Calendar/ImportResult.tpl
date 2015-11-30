@@ -10,9 +10,9 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div style="padding-left: 15px;">
+<div>
 	<input type="hidden" name="module" value="{$MODULE}" />
-	<table style=" width:90%;margin-left: 5%" cellpadding="5" class="searchUIBasic well">
+	<table class="col-xs-12 paddingLRZero no-margin searchUIBasic well">
 		<tr>
 			<td class="font-x-large" align="left" colspan="2">
 				<strong>{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$MODULE} - {'LBL_RESULT'|@vtranslate:$MODULE}</strong>
@@ -54,14 +54,13 @@
 		</tr>
 		<tr>
 			<td align="right" colspan="1">
-				<div class="btn-toolbar pull-right">
-					<button name="next" class="delete btn btn-danger" onclick="location.href='index.php?module={$MODULE}&view=Import&mode=undoImport'">
+				<div class="pull-right">
+					<a href="index.php?module={$MODULE}&view=Import&mode=undoImport" name="next" class="marginLeft10 delete btn btn-danger">
 						<strong>{'LBL_UNDO_LAST_IMPORT'|@vtranslate:$MODULE}</strong>
-					</button>
-					<button name="next" class="create btn btn-success" onclick="location.href='index.php?module={$MODULE}&view=List'" >
+					<a/>
+					<a href="index.php?module={$MODULE}&view=List" name="next" class="marginLeft10 create btn btn-success">
 						<strong>{'LBL_FINISH'|@vtranslate:$MODULE}</strong>
-					</button>
-					
+					</a>
 				</div>
 			</td>
 		</tr>
