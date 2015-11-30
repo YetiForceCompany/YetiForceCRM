@@ -8,7 +8,7 @@
 		{assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUES)}
 
 
-		{if $VIEWID}
+		{if $VIEWID && PerformancePrefs::getBoolean('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
 			{assign var=USERS_GROUP_LIST value=Vtiger_SharedOwner_UIType::getSearchViewList($MODULE, $VIEWID)}
 			{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
 			{assign var=ALL_ACTIVEGROUP_LIST value=$USERS_GROUP_LIST['group']}
