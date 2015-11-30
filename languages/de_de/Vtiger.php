@@ -1107,6 +1107,7 @@ $languageStrings = [
 	'SQuotes' => 'Quotes',
 	'SINGLE_SQuotes' => 'Quote',
 	'LBL_ADVANCED_BLOCK' => 'Advanced Block',
+	'LBL_NR' => 'Nr'
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',

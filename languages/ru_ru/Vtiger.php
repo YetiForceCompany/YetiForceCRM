@@ -1344,6 +1344,7 @@ $languageStrings = [
 	'SINGLE_SRequirementsCards' => 'Requirements Card',
 	'SQuotes' => 'Quotes',
 	'SINGLE_SQuotes' => 'Quote',
+	'LBL_NR'	=>	'Номер',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',

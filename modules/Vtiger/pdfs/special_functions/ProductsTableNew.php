@@ -24,20 +24,10 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 		}
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($module);
 		$fields = $inventoryField->getFields(true);
-		$columns = $inventoryField->getColumns();
 		$inventoryRows = $record->getInventoryData();
 
-		if (in_array("currency", $columns)) {
-			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != NULL) {
-				$currency = $inventoryRows[0]['currency'];
-			} else {
-				$baseCurrency = Vtiger_Util_Helper::getBaseCurrency();
-				$currency = $baseCurrency['id'];
-			}
-			$currencySymbolRate = Vtiger_Functions::getCurrencySymbolandRate($currency);
-		}
 		$html .='<style>' .
-			'.productTable{color:#000; font-size:10px}' .
+			'.productTable{color:#000; font-size:10px; width:100%}' .
 			'.productTable th {text-transform: uppercase;font-weight:normal}' .
 			'.productTable tbody tr:nth-child(odd){background:#eee}' .
 			'.productTable tr td{border-bottom: 1px solid #ddd; padding:5px;text-align:center; }' .
@@ -50,7 +40,7 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
 			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable">
 				<thead>
-					<tr><td>NR</td>';
+					<tr><td>'.vtranslate('LBL_NR').'</td>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible($inventoryRows)) {
 					$html .= '<th colspan="' . $field->get('colspan') . '" class="textAlignCenter tBorder tHeader">' . vtranslate($field->get('label'), $module) . '</th>';

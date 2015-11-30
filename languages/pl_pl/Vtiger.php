@@ -1097,6 +1097,7 @@ $languageStrings = [
 	'SINGLE_SRequirementsCards' => 'Karta wymagań',
 	'SQuotes' => 'Oferty',
 	'SINGLE_SQuotes' => 'Oferta',
+	'LBL_NR' => 'L.p'
 	
 ];
 $jsLanguageStrings = [
