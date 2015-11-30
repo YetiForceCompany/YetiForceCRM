@@ -36,4 +36,7 @@ $PERFORMANCE_CONFIG = Array(
 	
 	// All search results will be sorted at the database level after enabling. It might result in a longer search time.
 	'SORT_SEARCH_RESULTS' => false,
+	
+	// Show in search engine/filters only users and groups available in records list. It might result in a longer search time.
+	'SEARCH_SHOW_OWNER_ONLY_IN_LIST' => true,
 );
