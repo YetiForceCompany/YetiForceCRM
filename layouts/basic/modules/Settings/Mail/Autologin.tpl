@@ -40,15 +40,12 @@
 		</div>
 		<div class="tab-pane" id="configuration">
 			{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('autologin')}
-			<div class="row">
-				<div class="col-md-1 col-xs-2 pagination-centered">
-					<input class="configCheckbox" type="checkbox" name="autologinActive" id="autologinActive" value="1" {if $CONFIG['autologinActive']=='true'}checked=""{/if}>
-				</div>
-				<div class="col-md-11 col-xs-10">
-					<label for="autologinActive">{vtranslate('LBL_AUTOLOGIN_ACTIVE', $QUALIFIED_MODULE)}</label>
-				</div>
+			<div class="pull-left pagination-centered ">
+				<input class="configCheckbox" type="checkbox" name="autologinActive" id="autologinActive" value="1" {if $CONFIG['autologinActive']=='true'}checked=""{/if}>
 			</div>
-
+			<div class="col-xs-10 pull-left">
+				<label for="autologinActive">{vtranslate('LBL_AUTOLOGIN_ACTIVE', $QUALIFIED_MODULE)}</label>
+			</div>
 		</div>
 	</div>
 </div>
