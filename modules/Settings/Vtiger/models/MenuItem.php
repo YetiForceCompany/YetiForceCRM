@@ -336,4 +336,14 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 		}
 		return $query_params[module];
 	}
+	/**
+	 * Function to get name module
+	 * @return type module name
+	 */
+	public function getModule(){
+		$url = $this->getUrl();
+		$url = parse_url($url, PHP_URL_QUERY);
+		parse_str($url, $urlParams);
+		return $urlParams['module'];
+	}
 }

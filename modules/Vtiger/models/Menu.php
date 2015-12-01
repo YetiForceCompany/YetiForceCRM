@@ -48,7 +48,6 @@ class Vtiger_Menu_Model
 	{
 		$breadcrumbs = false;
 		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
 		if (file_exists($roleMenu)) {
@@ -59,12 +58,19 @@ class Vtiger_Menu_Model
 		if (count($menus) == 0) {
 			require('user_privileges/menu_0.php');
 		}
-		$breadcrumbsOn = $purl = false;
 		$moduleName = $request->getModule();
 		$view = $request->get('view');
-
-		if ($request->get('parent') != 'Settings') {
-			$parentMenu = self::getParentMenu($parentList, $request->get('parent'), $moduleName);
+		$parent = $request->get('parent');
+		if ($parent !== 'Settings') {
+			if(empty($parent)){
+				foreach($parentList as &$parentItem){
+					if($moduleName == $parentItem['name']){
+						$parent = $parentItem['parent'];
+						break;
+					} 
+				}
+			}
+			$parentMenu = self::getParentMenu($parentList, $parent, $moduleName);
 			if (count($parentMenu) > 0) {
 				$breadcrumbs = array_reverse($parentMenu);
 			}
@@ -85,29 +91,37 @@ class Vtiger_Menu_Model
 					$breadcrumbs[] = [ 'name' => $recordLabel];
 				}
 			}
-		} elseif ($request->get('parent') == 'Settings') {
+		} elseif ($parent === 'Settings') {
 			$qualifiedModuleName = $request->getModule(false);
 			$breadcrumbs[] = [
 				'name' => vtranslate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
 				'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
 			];
-			$selectedMenuId = $request->get('block');
-			$fieldId = $request->get('fieldid');
-			$menu = Settings_Vtiger_MenuItem_Model::getAll($this);
-			foreach ($menu as &$menuModel) {
-				if ($fieldId == $menuModel->getId()) {
-					$parent = $menuModel->getMenu();
-					$breadcrumbs[] = [ 'name' => vtranslate($parent->get('label'), $qualifiedModuleName)];
-					$breadcrumbs[] = [ 'name' => vtranslate($menuModel->get('name'), $qualifiedModuleName)];
+			if($moduleName !== 'Vtiger' || $view !== 'Index'){
+				$fieldId = $request->get('fieldid');
+				$menu = Settings_Vtiger_MenuItem_Model::getAll();
+				foreach ($menu as &$menuModel) {
+					if(empty($fieldId)){
+						if($menuModel->getModule() == $moduleName){
+							$parent = $menuModel->getMenu();
+							$breadcrumbs[] = [ 'name' => vtranslate($parent->get('label'), $qualifiedModuleName)];
+							$breadcrumbs[] = [ 'name' => vtranslate($menuModel->get('name'), $qualifiedModuleName),
+												'url' => $menuModel->getUrl()
+											];
+							break;
+						}
+					} else{
+						if ($fieldId == $menuModel->getId()) {
+							$parent = $menuModel->getMenu();
+							$breadcrumbs[] = [ 'name' => vtranslate($parent->get('label'), $qualifiedModuleName)];
+							$breadcrumbs[] = [ 'name' => vtranslate($menuModel->get('name'), $qualifiedModuleName),
+												'url' => $menuModel->getUrl()
+											];
+							break;
+						}
+					}
 				}
-			}
-			if ($moduleName == 'Users' && count($breadcrumbs) == 1) {
-				$breadcrumbs[] = [ 'name' => vtranslate('LBL_USER_MANAGEMENT', $qualifiedModuleName)];
-				$breadcrumbs[] = [ 
-					'name' => vtranslate('LBL_USERS', $qualifiedModuleName),
-					'url' => 'index.php?module=Users&parent=Settings&view=List',
-				];
-				if ($view == 'Edit' && $request->get('record') == '') {
+				if ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '' ) {
 					$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $moduleName)];
 				} elseif ($view != '' && $view != 'List') {
 					$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $moduleName)];
