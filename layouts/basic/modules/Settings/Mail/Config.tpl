@@ -11,24 +11,24 @@
 	<div class="tab-content">
 		<div class="tab-pane active" id="configuration">
 			{assign var=CONFIG value=$MODULE_MODEL->getConfig('mailIcon')}
-			<div class="row">
-				<div class="col-md-1 col-sm-2 col-xs-2 pagination-centered">
+			<div class="col-xs-12">
+				<div class="pull-left pagination-centered">
 					<input class="configCheckbox" type="checkbox" name="showMailIcon" id="showMailIcon" data-type="mailIcon" value="1" {if $CONFIG['showMailIcon']=='true'}checked=""{/if}>
 				</div>
 				<div class="col-md-11 col-sm-10 col-xs-10">
 					<label for="showMailIcon">{vtranslate('LBL_SHOW_MAIL_ICON', $QUALIFIED_MODULE)}</label>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-1 col-sm-2 col-xs-2 pagination-centered">
+			<div class="col-xs-12">
+				<div class="pull-left pagination-centered">
 					<input class="configCheckbox" type="checkbox" name="showMailAccounts" id="showMailAccounts" data-type="mailIcon" value="1" {if $CONFIG['showMailAccounts']=='true'}checked=""{/if}>
 				</div>
 				<div class="col-md-11 col-sm-10 col-xs-10">
 					<label for="showMailAccounts">{vtranslate('LBL_SHOW_MAIL_ACCOUNTS', $QUALIFIED_MODULE)}</label>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-1 col-sm-2 col-xs-2 pagination-centered">
+			<div class="col-xs-12">
+				<div class="pull-left pagination-centered">
 					<input class="configCheckbox" type="checkbox" name="showNumberUnreadEmails" id="showNumberUnreadEmails" data-type="mailIcon" value="1" {if $CONFIG['showNumberUnreadEmails']=='true'}checked=""{/if}>
 				</div>
 				<div class="col-md-11 col-sm-10 col-xs-10">
