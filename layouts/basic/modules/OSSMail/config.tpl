@@ -48,7 +48,7 @@
                                         </select>
                                     </div>
                                 {else if $FIELD_DETAILS['fieldType'] == 'multipicklist'}
-                                    <div class="col-md-8">
+                                    <div class="row col-md-8">
                                         <select class="form-control" name="{$FIELD_NAME}" multiple>
                                             {foreach item=ITEM key=KEY from=$FIELD_DATA[$FIELD_NAME]}
                                                 <option value="{$KEY}" selected>{$KEY}</option>
