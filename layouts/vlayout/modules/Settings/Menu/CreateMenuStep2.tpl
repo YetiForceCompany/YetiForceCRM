@@ -20,7 +20,7 @@
 				<form>
 					<input type="hidden" name="type" id="menuType" value="{$MENU_TYPE}" />
 					<div class="row">
-						<div class="col-md-5 marginLeftZero">{vtranslate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</div>
+						<div class="col-md-5 marginLeftZero text-right">{vtranslate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</div>
 						<div class="col-md-7">{vtranslate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}</div>
 					</div>
 					{include file='types/'|cat:$MENU_TYPE|cat:'.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
