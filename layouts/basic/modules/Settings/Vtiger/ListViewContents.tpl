@@ -45,7 +45,7 @@
 		<tbody>
 		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
 			<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"
-					{*{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}*}
+					{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
 			 >
 			<td data-recordurl='' width="1%" nowrap class="{$WIDTHTYPE}">
 			    			    

@@ -10,21 +10,20 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class="detailViewInfo" id="groupsDetailContainer" style="box-shadow:0;margin-top: 0;min-height:500px;">
+	<div class="widget_header row">
+		<div class="col-md-8">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
+		<div class="col-md-4 ">
+			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info pull-right">
+				<strong>{vtranslate('LBL_EDIT_RECORD', $MODULE)}</strong>
+			</a>
+		</div>
+	</div>
+	<hr>
+	<div class="detailViewInfo" id="groupsDetailContainer">
 		<div class="">
-			<form id="detailView" class="form-horizontal" style="padding-top: 20px;" method="POST">
-				<div class="row">
-					<h3 class="col-md-6 settingsHeader">
-						{$RECORD_MODEL->get('groupname')}
-					</h3>
-					<div class="col-md-6">
-						<div class="pull-right">
-							<button class="btn btn-info" onclick="window.location.href = '{$RECORD_MODEL->getEditViewUrl()}'" type="button">
-								<strong>{vtranslate('LBL_EDIT_RECORD', $MODULE)}</strong>
-							</button>
-						</div>
-					</div>
-				</div><hr>
+			<form id="detailView" class="form-horizontal" method="POST">
 				<div class="form-group">
 					<div class="col-md-2 control-label">
 						<span class="redColor">*</span>{vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)} 
