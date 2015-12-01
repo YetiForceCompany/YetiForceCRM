@@ -109,7 +109,9 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 					}
 					$moduleInstance->getRecord()->set($fieldsKey, $value);
 				}
-				if (empty($moduleInstance->getRecord()->get('tabid')) || empty($moduleInstance->getRecord()->get('reltabid'))) {
+				$tabid = $moduleInstance->getRecord()->get('tabid');
+				$reltabid = $moduleInstance->getRecord()->get('reltabid');
+				if (empty($tabid) || empty($reltabid)) {
 					$message = 'LBL_MODULE_NOT_EXIST';
 				} elseif (!$moduleInstance->importsAllowed()) {
 					

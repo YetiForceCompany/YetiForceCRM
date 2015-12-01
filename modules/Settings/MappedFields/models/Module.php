@@ -224,7 +224,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 			}
 		}
 		if ($source) {
-			foreach ($this->getSpecialFields() as $fieldName => &$fieldInstance) {
+			foreach ($this->getSpecialFields() as $fieldName => $fieldInstance) {
 				$fields['LBL_NOT_ASSIGNET_TO_BLOCK'][$fieldName] = $fieldInstance;
 			}
 		}

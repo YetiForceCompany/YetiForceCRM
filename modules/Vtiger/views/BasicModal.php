@@ -20,7 +20,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 	public function preProcess(Vtiger_Request $request)
 	{
 		echo '<div class="modal fade"><div class="modal-dialog"><div class="modal-content">';
-		foreach ($this->getModalCss($request) as &$style) {
+		foreach ($this->getModalCss($request) as $style) {
 			echo '<link rel="stylesheet" href="'.$style->getHref().'">';
 		}
 	}
