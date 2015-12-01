@@ -291,6 +291,11 @@ class PearDatabase
 	{
 		return $result->fetchAll(PDO::FETCH_ASSOC);
 	}
+	
+	public function getArrayColumn(&$result, $column = 0)
+	{
+		return $result->fetchAll(PDO::FETCH_COLUMN, $column);
+	}
 
 	public function disconnect()
 	{
