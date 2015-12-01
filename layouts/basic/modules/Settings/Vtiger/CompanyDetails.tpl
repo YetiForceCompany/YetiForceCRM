@@ -101,7 +101,7 @@
 							<tr>
 								<td style="width:25%">
 									<div class=" pull-right">
-										{vtranslate($FIELD,$QUALIFIED_MODULE)}{if $FIELD eq 'organizationname'}<span class="redColor">*</span>{/if}
+										{if $FIELD eq 'organizationname'}<span class="redColor">*</span>{/if}{vtranslate($FIELD,$QUALIFIED_MODULE)}
 									</div>
 								</td>
 								<td>	
