@@ -18,7 +18,7 @@
 					{if $FOR_MODULE == 'Accounts'}{vtranslate($FOR_MODULE, $QUALIFIED_MODULE)}{else}{vtranslate($FOR_MODULE, $FOR_MODULE)}{/if}:</strong>
 			</div>
 			<div class="col-md-6">
-				<button class="btn btn-default addButton addCustomRule" type="button" data-url="{$MODULE_MODEL->getCreateRuleUrl()}">
+				<button class="btn btn-success addButton addCustomRule" type="button" data-url="{$MODULE_MODEL->getCreateRuleUrl()}">
 					<strong>{vtranslate('LBL_ADD_CUSTOM_RULE', $QUALIFIED_MODULE)}</strong></button>
 			</div>
 		</div>
