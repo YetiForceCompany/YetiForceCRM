@@ -69,7 +69,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		var popoverTimeFormat;
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H:mm';
-			popoverTimeFormat = 'HH:MM';
+			popoverTimeFormat = 'HH:mm';
 		} else {
 			userDefaultTimeFormat = 'h:mmt';
 			popoverTimeFormat = 'hh:mm A';
