@@ -4617,6 +4617,10 @@ html,body,.baseContainer
 	margin-right:10px;
 	height:100%;
 }
+.detailViewTitle .moduleIcon{
+	float: left;
+	padding-right:15px;
+}
 .spaceRelatedList{
 	width:50px;
 	min-height:1px;

@@ -11,12 +11,10 @@
 -->*}
 {strip}	
 	<div class="col-xs-12 col-sm-12 col-md-4">
-		<div class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
-			<span class="moduleIcon">
+		<div class="moduleIcon">
 				<span class="detailViewIcon userIcon-{$MODULE}"></span>
-			</span>
 		</div>
-		<div>
+		<div class="paddingLeft5px">
 			<h4 class="recordLabel marginbottomZero pushDown" title="{$RECORD->getName()}">
 				{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
 					{assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
@@ -25,8 +23,6 @@
 						{/if}
 				{/foreach}
 			</h4>
-		</div>
-		<div class="paddingLeft5px">
 			<span class="muted">
 				{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				{if $RECORD->get('shownerid') != ''}
