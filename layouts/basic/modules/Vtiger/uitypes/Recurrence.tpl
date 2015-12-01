@@ -11,7 +11,11 @@
 -->*}
 {strip}
 <div>
-		<input type="checkbox" name="recurringcheck" value="" {if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}checked{/if} title="{vtranslate('Recurrence', $MODULE)}"/>&nbsp;&nbsp;
+	<div class="checkbox">
+		<label>
+			<input type="checkbox" name="recurringcheck" value="" {if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}checked{/if} title="{vtranslate('Recurrence', $MODULE)}"/>
+		</label>
+	</div>
 	<div class="{if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}show{else}hide{/if}" id="repeatUI" >
 		<div class="clearfix">
 			<div class="">

@@ -22,9 +22,11 @@
 {/if}
 
 <div>
-	<div>
+	<div class="checkbox">
 		<input type="hidden" name=set_reminder value=0 />
-		<input type=checkbox name=set_reminder {if $REMINDER_VALUES neq ''}checked{/if} title="{vtranslate('Send Reminder', $MODULE)}" value=1 />&nbsp;&nbsp;
+		<label>
+			<input type=checkbox name=set_reminder {if $REMINDER_VALUES neq ''}checked{/if} title="{vtranslate('Send Reminder', $MODULE)}" value=1 />&nbsp;&nbsp;
+		</label>
 	</div>
 	<div class="{if $REMINDER_VALUES neq ''}show{else}hide{/if} col-md-12">
 		<div class="col-xs-3 ">
