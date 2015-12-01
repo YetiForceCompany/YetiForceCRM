@@ -14,11 +14,15 @@
 		{assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}
 		<form id="MyModal" class="form-horizontal" data-detail-url="{$MODULE_MODEL->getDetailViewUrl()}">
 			<div class="widget_header row">
-				<div class="col-md-8"><h3>{vtranslate('LBL_PBXMANAGER', $QUALIFIED_MODULE)}</h3></div>
-				<div class="col-md-4 btn-toolbar"><div class="pull-right">
+				<div class="col-md-8">
+					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				</div>
+				<div class="col-md-4 btn-toolbar">
+					<div class="pull-right">
 						<button class="btn btn-success saveButton" type="submit" title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button type="reset" class="cancelLink btn btn-warning" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
-					</div></div>
+					</div>
+				</div>
 			</div>
 			<hr>
 			<div class="contents">
@@ -45,7 +49,7 @@
 			</div>
 		</form>
 	</div><br>
-	<div class="col-md-5 ">
+	<div class="col-md-5 paddingLRZero">
 		<div class="alert alert-info">
 			{vtranslate('LBL_NOTE', $QUALIFIED_MODULE)}<br>
 			{vtranslate('LBL_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}<br>
