@@ -1540,8 +1540,8 @@ class Vtiger_Functions
 			$info['conversion'] = 1.0;
 		} else {
 			$value = $currencyUpdateModel->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
-			$info['value'] = round($value, 5);
-			$info['conversion'] = round(1 / $value, 5);
+			$info['value'] = $value == 0 ? 1.0 : round($value, 5);
+			$info['conversion'] = $value == 0 ? 1.0 : round(1 / $value, 5);
 		}
 
 		return $info;
