@@ -2,11 +2,10 @@
 	{assign var=EMAIL_MODULE_MODEL value=Vtiger_Module_Model::getInstance('OSSMail')}
 	{assign var=CONFIG value=$EMAIL_MODULE_MODEL->getComposeParameters()}
 	{assign var=URLDATA value=$EMAIL_MODULE_MODEL->getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', $CONFIG['popup'])}
-	<div class="summaryWidgetContainer summaryWidgetBlock">
+	<div class="summaryWidgetContainer">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
-			<div class="widgetHeader">
+			<div class="widget_header">
 				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
-				<div class="container-fluid">
 					<div class="widgetTitle row">
 						<div class="col-md-9">
 							<h4 class="moduleColor_{$WIDGET['label']}">{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4>
@@ -57,7 +56,6 @@
 							</div>
 						</div>
 					</div>
-				</div>
 			</div>
 			<div class="hide modalView">
 				<div class="modelContainer modal fade" tabindex="-1">
