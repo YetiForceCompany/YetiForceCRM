@@ -22,7 +22,7 @@
 				<div class="btn-toolbar">
 					<span class="btn-group">
 						{if $WIDGETS|count gt 0}
-							<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
+							<button class='btn btn-success addButton dropdown-toggle' data-toggle='dropdown'>
 								<strong>{vtranslate('LBL_ADD_WIDGET')}</strong>
 								<span class="caret"></span>
 							</button>
@@ -36,7 +36,7 @@
 								{/foreach}
 							</ul>
 						{else if $MODULE_PERMISSION}
-							<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown' style="visibility: hidden">
+							<button class='btn btn-success addButton dropdown-toggle' data-toggle='dropdown' style="visibility: hidden">
 								<strong>{vtranslate('LBL_ADD_WIDGET')}</strong> 
 								<span class="caret"></span>
 							</button>
@@ -47,7 +47,7 @@
 					{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
 					{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
 						<span class="btn-group">
-							<button class='btn btn-default addFilter' data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
+							<button class='btn btn-success addFilter' data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
 								<strong>{vtranslate('LBL_ADD_FILTER')}</strong>
 							</button>
 						</span>

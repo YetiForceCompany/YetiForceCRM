@@ -3395,6 +3395,9 @@ span[name=existingImages] img{
 .paddingLeftMd{
 	padding-left: 15px;
 }
+.paddingBottom10{
+	padding-bottom: 10px;
+}
 .paddingRightMd{
 	padding-right: 15px;
 }
