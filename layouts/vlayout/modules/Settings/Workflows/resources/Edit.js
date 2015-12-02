@@ -158,7 +158,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 				} else {
 					value = '';
 				}
-				var clonedDateElement = '<input type="text" class="dateField fieldValue col-md-4" value="' + value + '" data-date-format="' + dataFormat + '" data-input="true" >'
+				var clonedDateElement = '<input type="text" class="dateField form-control fieldValue col-md-4" value="' + value + '" data-date-format="' + dataFormat + '" data-input="true" >'
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedDateElement);
 			} else if (fieldValueElement.hasClass('time')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
@@ -176,7 +176,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 				} else {
 					value = '';
 				}
-				var clonedBooleanElement = '<input type="checkbox" class="fieldValue col-md-4" value="' + value + '" data-input="true" >';
+				var clonedBooleanElement = '<input type="checkbox" class="fieldValue form-control col-md-4" value="' + value + '" data-input="true" >';
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedBooleanElement);
 
 				var fieldValue = clonedPopupUi.find('.fieldValueContainer input').val();

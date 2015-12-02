@@ -65,7 +65,7 @@
 							</select>
 						</span>
 					</div><br>
-					<div class="fieldValueContainer">
+					<div class="fieldValueContainer row paddingLRMd">
 						<textarea data-textarea="true" class="fieldValue form-control"></textarea>
 					</div><br>
 					<div id="rawtext_help" class="alert alert-info helpmessagebox hide">

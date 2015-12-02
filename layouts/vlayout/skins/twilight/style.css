@@ -3397,6 +3397,13 @@ span[name=existingImages] img{
 .paddingLeftMd{
 	padding-left: 15px;
 }
+.paddingRightMd{
+	padding-right: 15px;
+}
+.paddingLRMd{
+	padding-right: 15px;
+	padding-left: 15px;
+}
 .widget_header div:nth-child(2).btn-toolbar,.editViewContainer .contentHeader.row div:nth-child(2),.contentsDiv ul#tabs.nav,.marginTop20{
 	margin-top: 20px;
 }
