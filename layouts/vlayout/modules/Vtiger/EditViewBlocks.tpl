@@ -55,9 +55,9 @@
 				{/if}
                 {assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
                 {if $RECORD_ID neq ''}
-                    <h3 class="col-md-8 textOverflowEllipsis margin0px" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - <span class="recordLabel" title="{$RECORD_STRUCTURE_MODEL->getRecordName()}">{$RECORD_STRUCTURE_MODEL->getRecordName()}</span></h3>
+                    <h3 class="col-md-8 textOverflowEllipsis margin0px" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $QUALIFIED_MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - <span class="recordLabel" title="{$RECORD_STRUCTURE_MODEL->getRecordName()}">{$RECORD_STRUCTURE_MODEL->getRecordName()}</span></h3>
 					{else}
-                    <h3 class="col-md-8 textOverflowEllipsis margin0px">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
+                    <h3 class="col-md-8 textOverflowEllipsis margin0px">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $QUALIFIED_MODULE)}</h3>
                 {/if}
                 <span class="pull-right">
                     <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
@@ -86,7 +86,7 @@
 								<div class=" {if $APIADDRESFIELD}col-md-7 {else}col-md-12{/if}">
 									<img class="cursorPointer alignMiddle blockToggle{if !($IS_HIDDEN)} hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}"  src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
 									<img class="cursorPointer alignMiddle blockToggle{if ($IS_HIDDEN)} hide{/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
-									&nbsp;&nbsp;{vtranslate($BLOCK_LABEL, $MODULE)}
+									&nbsp;&nbsp;{vtranslate($BLOCK_LABEL, $QUALIFIED_MODULE)}
 								</div>
 							</div>
 						</div>
@@ -162,7 +162,7 @@
 										{else if $FIELD_MODEL->get('uitype') eq "83"}
 											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE}
 										{else}
-											{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
+											{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE)}
 										{/if}
 										{if $isReferenceField neq "reference"}</label>{/if}
 								</td>
