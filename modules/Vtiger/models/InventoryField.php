@@ -353,7 +353,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 * @param int $i Sequence number
 	 * @return string
 	 */
-	public function getValueForSave(Vtiger_Request $request, $field, $i)
+	public function getValueForSave($request, $field, $i)
 	{
 		$value = '';
 		if ($request->has($field . $i)) {
