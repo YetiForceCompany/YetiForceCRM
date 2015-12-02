@@ -1663,16 +1663,13 @@ th.htColHeader,
 	padding: 5px;
 	margin-bottom: 2px;
 }
-.collectiveGroupMembers {
-	border: 1px solid #dddddd;
-	border-top: 0;
-}
 .collectiveGroupMembers ul {
 	padding: 0;
 	margin: 0;
 }
 .collectiveGroupMembers ul li {
 	padding: 4px 0;
+	border: 1px solid #dddddd;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -1689,8 +1686,6 @@ th.htColHeader,
 }
 .collectiveGroupMembers ul li.groupLabel {
 	background-color: #f3f3f4;
-	border-bottom: 1px solid #dddddd;
-	border-top: 1px solid #dddddd;
 	padding: 10px 5px;
 	margin: 0;
 	color: #444444;
