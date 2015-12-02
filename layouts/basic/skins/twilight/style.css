@@ -2512,6 +2512,9 @@ table.summary-table .summaryViewEdit{
 	cursor: pointer;
 	text-decoration: none !important;
 }
+.fieldDetailsForm .zeroOpacity{
+	display: none;
+}
 .zeroOpacity {
 	opacity: 0;
 	/*for IE*/

@@ -9,11 +9,6 @@
 * Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
-<style type="text/css">
-	.fieldDetailsForm .zeroOpacity{
-		display: none;
-	}
-</style>
 {strip}
     <div id="layoutEditorContainer">
 
@@ -52,7 +47,7 @@
                     {assign var=ALL_BLOCK_LABELS value=[]}
                     {if $IS_SORTABLE}
                         <div class="btn-toolbar" id="layoutEditorButtons">
-                            <button class="btn btn-default addButton addCustomBlock" type="button">
+                            <button class="btn btn-success addButton addCustomBlock" type="button">
                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;
                                 <strong>{vtranslate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</strong>
                             </button>
@@ -77,13 +72,13 @@
                                     <div class="col-md-6 marginLeftZero" style="float:right !important;"><div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
                                             {if $BLOCK_MODEL->isAddCustomFieldEnabled()}
                                                 <div class="btn-group">
-                                                    <button class="btn btn-default addCustomField" type="button">
+                                                    <button class="btn btn-success addCustomField" type="button">
                                                         <strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
                                                     </button>
                                                 </div>
                                             {/if}
                                             {if $BLOCK_MODEL->isActionsAllowed()}
-                                                <div class="btn-group"><button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                <div class="btn-group"><button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                                                         <strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
                                                         <span class="caret"></span>
                                                     </button>
