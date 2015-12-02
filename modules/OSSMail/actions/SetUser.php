@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,18 +7,24 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-class OSSMail_SetUser_Action extends Vtiger_Action_Controller {
-	public function checkPermission(Vtiger_Request $request) {
-		if(!Users_Privileges_Model::isPermitted('OSSMail', 'index')) {
+ * *********************************************************************************************************************************** */
+
+class OSSMail_SetUser_Action extends Vtiger_Action_Controller
+{
+
+	public function checkPermission(Vtiger_Request $request)
+	{
+		if (!Users_Privileges_Model::isPermitted('OSSMail', 'index')) {
 			throw new AppException('LBL_PERMISSION_DENIED');
 		}
 	}
-	public function process(Vtiger_Request $request) {
+
+	public function process(Vtiger_Request $request)
+	{
 		$user = $request->get('user');
 		$_SESSION['AutoLoginUser'] = $user;
-        $response = new Vtiger_Response();
+		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
-    }
+	}
 }

@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Adicionar',
 	'TreesManager' => 'Gerenciar Árvore',
-	'LBL_TREES_MANAGER' => 'Gerenciar Árvore',
+	'LBL_TREES_MANAGER' => 'Fields – Folders',
 	'LBL_TREES_MANAGER_DESCRIPTION' => 'Gerenciar Modelo Árvore',
 	'LBL_NO_RECORDS_FOUND' => 'Nenhum modelo de Árvore',
 	'LBL_EDIT_TEMPLATE_TREES' => 'Editar modelo de Árvore',
@@ -36,4 +36,6 @@ $jsLanguageStrings = [
 	'JS_NO_ITEM_SELECTED' => 'Nenhum item foi selecionado',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'Você não pode apagar todos os itens',
 	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'Você não pode apagar o item pai',
+	'JS_NEW_ITEM' => 'New node',
+	'JS_ONLY_ONE_ITEM_SELECTED' => 'Only one item can be selected.',
 ];

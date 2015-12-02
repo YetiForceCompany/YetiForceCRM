@@ -1,14 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * Contributor(s): 
- *************************************************************************************************************************************/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
     'OSSMailScanner' => 'Mail Scanner',
     'OSSMailScanner_manual' => 'Mail Scanner',
@@ -36,18 +27,18 @@ $languageStrings = [
     'update_HelpDesk' => 'Update HelpDesk',
     'update_Accounts' => 'Update Account',
     'update_Contacts' => 'Update Contact',
-    'desc_0_created_Email' => 'Add email message to crm',
-    'desc_3_bind_Contacts' => 'Create relation of email message with contact record that contains this email address',
-    'desc_2_bind_Accounts' => 'Create relation of email message with account record that has this email address',
-    'desc_4_bind_Leads' => 'Create relation of email message with lead record that has this email address',
+    'desc_0_created_Email' => 'Add email message to crm.',
+    'desc_3_bind_Contacts' => 'Create relation of email message with contact record that contains this email address.',
+    'desc_2_bind_Accounts' => 'Create relation of email message with account record that has this email address.',
+    'desc_4_bind_Leads' => 'Create relation of email message with lead record that has this email address.',
     'desc_6_bind_Potentials' => 'Create relation of email message with potential record based on prefix with number in subject.',
     'desc_5_bind_HelpDesk' => 'Create relation of email message with helpdesk record based on prefix with number in subject.',
     'desc_7_bind_Project' => 'Create relation of email message with project record based on prefix with number in subject.',
-    'desc_8_bind_ServiceContracts' => 'Create relation of email message with project record based on organization associated with email.',
+    'desc_8_bind_ServiceContracts' => 'Create relation of email message with project record based on account associated with email.',
     'desc_9_bind_Campaigns' => 'Create relation of email message with campaign record based on prefix with number in subject.',
     'desc_created_Accounts' => 'Create Accounts Description',
     'desc_created_Contacts' => 'Create Contacts Description',
-    'desc_1_created_HelpDesk' => 'Create HelpDesk Description',
+    'desc_1_created_HelpDesk' => 'Create HelpDesk Description.',
     'desc_update_HelpDesk' => 'Update HelpDesk Description',
     'desc_update_Accounts' => 'Update Accounts Description',
     'desc_update_Contacts' => 'Update Contacts Description',
@@ -106,7 +97,7 @@ $languageStrings = [
     'In progress' => 'In realization',
     'Error' => 'Error',
     'email_to_notify' => 'Notification email',
-    'time_to_notify' => 'Time to notify',
+    'time_to_notify' => 'Time to notify (min)',
     'StopCron' => 'Manually stop scanning',
     'Manually stopped' => 'Manually stopped',
     'stop_user' => 'Scanning stopped by',
@@ -144,4 +135,8 @@ $languageStrings = [
 	'Group list' => 'Group list',
 	'LBL_ACTIVE_MAIL' => 'Active',
 	'LBL_INACTIVE_MAIL' => 'Inactive',
+	'LBL_EXCEPTIONS' => 'Exceptions',
+	'LBL_EXCEPTIONS_CREATING_EMAIL' => 'Addresses omitted while executing an action creating e-mail messages',
+	'LBL_EXCEPTIONS_CREATING_TICKET' => 'Addresses omitted while executing an action creating tickets',
+	'LBL_WRITE_AND_ENTER' => 'Enter the address and press enter',
 ];

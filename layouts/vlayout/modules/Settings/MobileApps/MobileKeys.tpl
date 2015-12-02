@@ -13,7 +13,7 @@
 	<div class="" id="MobileKeysContainer">
 		<div class="widget_header row">
 			<div class="col-md-8"><h3>{vtranslate('LBL_MOBILE_KEYS', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MOBILE_KEYS_DESCRIPTION', $QUALIFIED_MODULE)}</div>
-			<div class="col-md-4"><button class="btn btn-primary addKey pull-right">{vtranslate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
+			<div class="col-md-4"><button class="btn btn-primary addKey pull-right marginTop20">{vtranslate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
 		</div>
 		<hr>
 		<div class="contents">
@@ -39,7 +39,11 @@
 						<tbody>
 							{foreach from=$MODULE_MODEL->getAllMobileKeys() item=item key=key}
 								<tr data-service="{$item.service}" data-user="{$item.userid}">
-									<td><span title="{$item.first_name} {$item.last_name}">{$item.user_name}</span></td>
+									<td>
+										<span title="{$item['fullusername']}">
+											{$item.user_name}
+										</span>
+									</td>
 									<td>{vtranslate($item.name,$QUALIFIED_MODULE)}</td>
 									<td>{$item.key}</td>
 									<td>

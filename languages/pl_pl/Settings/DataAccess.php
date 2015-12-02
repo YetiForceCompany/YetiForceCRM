@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_DATAACCES' => 'Walidacja dostępu',
-	'LBL_DATAACCESS' => 'Walidacja dostępu',
+	'LBL_DATAACCESS' => 'Kontrola zapisu',
 	'DataAccess' => 'Walidacja dostępu',
 	'LBL_NEW_TPL' => 'Dodaj nowy warunek',
 	'LBL_MODULE_NAME' => 'Nazwa modułu',
@@ -70,7 +70,6 @@ $languageStrings = [
 	'more than hours later' => 'więcej niż godzin po',
 	'has changed' => 'uległ zmianie',
 	'Adding time period to status change' => 'Dodanie czasu pracy podczas zmiany statusu',
-	'Check if there are any tasks that are not closed' => 'Sprawdź czy są niezakończone zadania',
 	'Date validation' => 'Walidacja daty',
 	'Check parent task' => 'Sprawdź zadanie nadrzędne',
 	'Check if there are any tasks that are not closed' => 'Sprawdź czy są niezakończone zadania',

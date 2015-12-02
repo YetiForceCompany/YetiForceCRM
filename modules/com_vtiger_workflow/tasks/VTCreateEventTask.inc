@@ -80,13 +80,12 @@ class VTCreateEventTask extends VTTask{
 			'description'=>$this->description,
 			'subject'=>$this->eventName,
 			'taskpriority'=>$this->priority,
-			'eventstatus'=>$this->status,
+			'activitystatus'=>$this->status,
 			'assigned_user_id'=>$userId,
 			'time_start'=>self::convertToDBFormat($this->startTime),
 			'date_start'=> $startDate,
 			'time_end'=>self::convertToDBFormat($this->endTime),
 			'due_date'=>$endDate,
-			'taskstatus'=>'',
 			'duration_hours'=>'0'
 		);
 		

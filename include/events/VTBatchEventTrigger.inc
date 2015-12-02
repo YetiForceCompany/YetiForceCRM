@@ -8,9 +8,11 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class VTBatchEventTrigger extends VTEventTrigger {
+class VTBatchEventTrigger extends VTEventTrigger
+{
 
-	function trigger($data) {
+	function trigger($data)
+	{
 		$adb = $this->adb;
 
 		$eventInfos = self::lookupCache($this->name);
@@ -25,5 +27,4 @@ class VTBatchEventTrigger extends VTEventTrigger {
 			}
 		}
 	}
-
 }

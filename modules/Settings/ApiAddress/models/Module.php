@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -10,9 +9,11 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model {
+class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
+{
 
-	public function getConfig($type = NULL) {
+	public function getConfig($type = NULL)
+	{
 		$log = vglobal('log');
 
 		$db = PearDatabase::getInstance();
@@ -20,19 +21,19 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model {
 
 		$sql = "SELECT * FROM `vtiger_apiaddress` ";
 		$params = array();
-		
+
 		if ($type) {
 			$params[] = $type;
 			"WHERE `type` = ?;";
 		}
-		
+
 		$result = $db->pquery($sql, $params, true);
-		
+
 		$rawData = array();
-		
+
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
 			$element = $db->query_result_rowdata($result, $i);
-			
+
 			$rawData[$element['type']][$element['name']] = $element['val'];
 		}
 
@@ -41,18 +42,19 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model {
 		return $rawData;
 	}
 
-	public function setConfig(array $elements) {
-		
+	public function setConfig(array $elements)
+	{
+
 		$log = vglobal('log');
 
 		$log->debug("Entering " . __CLASS__ . "::" . __METHOD__ . " method ...");
 
 		$db = PearDatabase::getInstance();
 
-		
+
 		$apiName = $elements['api_name'];
 		unset($elements['api_name']);
-		
+
 		if (count($elements)) {
 			foreach ($elements as $key => $value) {
 				$sqlVar = array();
@@ -60,9 +62,9 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model {
 				$sqlVar[] = $value;
 				$sqlVar[] = $apiName;
 				$sqlVar[] = $key;
-				
+
 				$sql = "UPDATE `vtiger_apiaddress` SET `val` = ? WHERE `type` = ? AND `name` = ?";
-				
+
 				$result = $db->pquery($sql, $sqlVar, true);
 			}
 		}
@@ -72,4 +74,17 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model {
 		return $result;
 	}
 
+	/*
+	 * Function that checks if keys for chosen adress api are entered, hence if this api is active
+	 * @return <Boolean> - true if active, false otherwise
+	 */
+	public static function isActive()
+	{
+		$db = PearDatabase::getInstance();
+
+		$query = 'SELECT COUNT(1) AS num FROM `vtiger_apiaddress` WHERE `name` = "nominatim" AND `val` > "0";';
+		$result = $db->query($query);
+
+		return (bool) $db->getSingleValue($result);
+	}
 }

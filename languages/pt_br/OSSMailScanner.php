@@ -1,14 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
- * All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
- *************************************************************************************************************************************/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
     'OSSMailScanner' => 'Escaner Mensagem',
     'OSSMailScanner_manual' => 'Escaner Mensagem',
@@ -36,10 +27,10 @@ $languageStrings = [
     'update_HelpDesk' => 'Atualizr Chamado',
     'update_Accounts' => 'Atualizar Organização',
     'update_Contacts' => 'Atualizar Contato',
-    'desc_0_created_Email' => 'Adicionar email no CRM',
-    'desc_3_bind_Contacts' => 'Criar relação da mensagem de e-mail com o Contato que possuir este endereço de email',
-    'desc_2_bind_Accounts' => 'Criar relação da mensagem de e-mail com a Organização que possuir este endereço de email',
-    'desc_4_bind_Leads' => 'Criar relação da mensagem de e-mail com o Lead que possuir este endereço de email',
+    'desc_0_created_Email' => 'Adicionar email no CRM.',
+    'desc_3_bind_Contacts' => 'Criar relação da mensagem de e-mail com o Contato que possuir este endereço de email.',
+    'desc_2_bind_Accounts' => 'Criar relação da mensagem de e-mail com a Organização que possuir este endereço de email.',
+    'desc_4_bind_Leads' => 'Criar relação da mensagem de e-mail com o Lead que possuir este endereço de email.',
     'desc_6_bind_Potentials' => 'Criar relação da mensagem de e-mail que possuir no Assunto, o mesmo prefixo atribuído à Oportunidade.',
     'desc_5_bind_HelpDesk' => 'Criar relação da mensagem de e-mail que possuir no Assunto, o mesmo prefixo atribuído ao Chamado.',
     'desc_7_bind_Project' => 'Criar relação da mensagem de e-mail que possuir no Assunto, o mesmo prefixo atribuído ao Projeto.',
@@ -106,7 +97,7 @@ $languageStrings = [
     'In progress' => 'Realizaçao W',
     'Error' => 'Erro',
     'email_to_notify' => 'E-mail de notificação',
-    'time_to_notify' => 'Tempo para notificar',
+    'time_to_notify' => 'Tempo para notificar (min)',
     'StopCron' => 'Parar o escaneamento manualmente',
     'Manually stopped' => 'Parado manualmente',
     'stop_user' => 'Escaneamento parou pelo',
@@ -144,4 +135,8 @@ $languageStrings = [
 	'Group list' => 'Lista Grupo',
 	'LBL_ACTIVE_MAIL' => 'Ativo',
 	'LBL_INACTIVE_MAIL' => 'Inativo',
+	'LBL_EXCEPTIONS' => 'Exceptions',
+	'LBL_EXCEPTIONS_CREATING_EMAIL' => 'Addresses omitted while executing an action creating e-mail messages',
+	'LBL_EXCEPTIONS_CREATING_TICKET' => 'Addresses omitted while executing an action creating tickets',
+	'LBL_WRITE_AND_ENTER' => 'Enter the address and press enter',
 ];

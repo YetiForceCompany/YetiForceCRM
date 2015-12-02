@@ -1,12 +1,12 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Bestellung hinzufügen',
 	'LBL_BALANCE' => 'Saldo',
@@ -19,7 +19,7 @@ $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Liste Bestellungen',
 	'List Price' => 'Listenpreis',
 	'PurchaseOrder No' => 'Bestellnummer',
-	'Received Shipment'=>'Empfangene Lieferung',
+	'Received Shipment' => 'Empfangene Lieferung',
 	'Requisition No' => 'Anforderungsnummer',
 	'Sales Commission' => 'Verkaufsprovision',
 	'SINGLE_PurchaseOrder' => 'Bestellung',
@@ -28,6 +28,8 @@ $languageStrings = [
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Produkt/Dienstleistung wurde aus dem System entfernt. Entfernen Sie es aus dem Datensatz.',
 	'LBL_THIS' => 'Produkt/Dienstleistung (',
 	'SINGLE_Vendors' => 'Lieferant',
+	'Paid' => 'Bezahlt',
+	'Balance' => 'Saldo',
 ];
 
 $jsLanguageStrings = [

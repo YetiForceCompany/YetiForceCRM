@@ -41,7 +41,9 @@ $languageStrings = [
 	'Form of payment' => 'Forma de pagamento',
 	'Transfer' => 'Transferência',
 	'Cash' => 'Dinheiro',
-	'Payment balance' => 'Payment balance',
+	'Payment balance' => 'Saldo Pagamento',
+	'Received' => 'Recebida',
+	'Balance' => 'Balance',
 ];
 
 $jsLanguageStrings = [

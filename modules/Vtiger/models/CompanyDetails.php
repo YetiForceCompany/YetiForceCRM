@@ -25,7 +25,8 @@ class Vtiger_CompanyDetails_Model extends Vtiger_Base_Model
 		if (!empty($logoName)) {
 			$companyLogo = array();
 			$companyLogo['imagepath'] = "storage/Logo/$logoName";
-			$companyLogo['alt'] = $companyLogo['title'] = $companyLogo['imagename'] = $logoName;
+			$companyLogo['alt'] = $companyLogo['imagename'] = $logoName;
+			$companyLogo['title'] = vtranslate('LBL_COMPANY_LOGO_TITLE');
 			$logoModel->setData($companyLogo);
 		}
 		return $logoModel;

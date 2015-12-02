@@ -36,7 +36,7 @@
                 <input type="hidden" name="module" value="{$MODULE}" />
             {/if}
             <input type="hidden" name="action" value="Save" />
-            <input type="hidden" name="record" value="{$RECORD_ID}" />
+            <input type="hidden" name="record" id="recordId" value="{$RECORD_ID}" />
             <input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
             <input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
             {if $IS_RELATION_OPERATION }
@@ -55,14 +55,14 @@
 				{/if}
                 {assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
                 {if $RECORD_ID neq ''}
-                    <h3 class="col-md-8 textOverflowEllipsis margin0px" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - <span class="recordLabel" title="{$RECORD_STRUCTURE_MODEL->getRecordName()}">{$RECORD_STRUCTURE_MODEL->getRecordName()}</span></h3>
+                    <h3 class="col-md-8 textOverflowEllipsis margin0px" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $QUALIFIED_MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - <span class="recordLabel" title="{$RECORD_STRUCTURE_MODEL->getRecordName()}">{$RECORD_STRUCTURE_MODEL->getRecordName()}</span></h3>
 					{else}
-                    <h3 class="col-md-8 textOverflowEllipsis margin0px">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
+                    <h3 class="col-md-8 textOverflowEllipsis margin0px">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $QUALIFIED_MODULE)}</h3>
                 {/if}
                 <span class="pull-right">
-                    <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-                    <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</a>
-                </span>
+                    <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
+                    <button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
+				</span>
 				<div class="clearfix"></div>
             </div>
             {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
@@ -76,8 +76,8 @@
 						<tr>
 							<th class="blockHeader" colspan="4">
 					<div class="row">
-						<div class="col-md-4">
-							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+						<div class="col-md-12">
+							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 								{assign var=APIADDRESFIELD value=TRUE}
 							{else}
 								{assign var=APIADDRESFIELD value=FALSE}
@@ -86,26 +86,29 @@
 								<div class=" {if $APIADDRESFIELD}col-md-7 {else}col-md-12{/if}">
 									<img class="cursorPointer alignMiddle blockToggle{if !($IS_HIDDEN)} hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}"  src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
 									<img class="cursorPointer alignMiddle blockToggle{if ($IS_HIDDEN)} hide{/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
-									&nbsp;&nbsp;{vtranslate($BLOCK_LABEL, $MODULE)}
+									&nbsp;&nbsp;{vtranslate($BLOCK_LABEL, $QUALIFIED_MODULE)}
 								</div>
-
-								{if $APIADDRESFIELD}
-									<div class="col-md-5">
-										<input value="" title="{vtranslate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete form-control pull-right input " />
-									</div>
-								{/if}
 							</div>
-						</div>
-						<div class="col-md-8">
-							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-								{include file=vtemplate_path('BlockHeader.tpl',$MODULE)}
-							{/if}
 						</div>
 					</div>
 					</th>
                     </tr>
 					</thead>
 					<tbody {if $IS_HIDDEN} class="hide" {/if}>
+						{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+							<tr>
+								<th class="blockHeader text-center" colspan="4">
+									{if $APIADDRESFIELD}
+									<div class="col-lg-4">
+										<input value="" title="{vtranslate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete form-control pull-right input " placeholder="{vtranslate('LBL_ENTER_SEARCHED_ADDRESS')}" />
+									</div>
+									{/if}
+									<div class="{if $APIADDRESFIELD}col-lg-8{else}col-lg-9 col-lg-offset-3{/if} text-center">
+										{include file=vtemplate_path('BlockHeader.tpl',$MODULE)}
+									</div>
+								</th>
+							</tr>
+						{/if}
 						<tr>
 							{assign var=COUNTER value=0}
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
@@ -126,7 +129,7 @@
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<td class="fieldLabel {$WIDTHTYPE}">
+								<td class="fieldLabel textAlignRight {$WIDTHTYPE}">
 									{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 									{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
 									{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
@@ -143,8 +146,8 @@
 												{if !empty($REFERENCED_MODULE_STRUCT)}
 													{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
 												{/if}
+												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor referenceMandatory"><strong>*</strong></span> {/if}
 												<span class="col-xs-10 paddingRightZero pull-right">
-													{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 													<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" title="{vtranslate('LBL_RELATED_MODULE_TYPE')}" >
 														<optgroup>
 															{foreach key=index item=value from=$REFERENCE_LIST}
@@ -159,7 +162,7 @@
 										{else if $FIELD_MODEL->get('uitype') eq "83"}
 											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE}
 										{else}
-											{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
+											{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE)}
 										{/if}
 										{if $isReferenceField neq "reference"}</label>{/if}
 								</td>
@@ -177,14 +180,11 @@
 								{/if}
 								{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->get('uitype') neq "19" and $FIELD_MODEL->get('uitype') neq "20" and $FIELD_MODEL->get('uitype') neq "30" and $FIELD_MODEL->get('uitype') neq '300' and $FIELD_MODEL->get('name') neq "recurringtype"}
 									<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
-									{/if}
-									{if $MODULE eq 'Events' && $BLOCK_LABEL eq 'LBL_EVENT_INFORMATION' && $smarty.foreach.blockfields.last }
-										{include file=vtemplate_path('uitypes/FollowUp.tpl',$MODULE) COUNTER=$COUNTER}
-									{/if}
+								{/if}
 								{/foreach}
 								{* adding additional column for odd number of fields in a block *}
 								{if $BLOCK_FIELDS|@end eq true and $BLOCK_FIELDS|@count neq 1 and $COUNTER eq 1}
-								<td class="fieldLabel {$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
+									<td class="fieldLabel {$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
 								{/if}
 						</tr>
 					</tbody>

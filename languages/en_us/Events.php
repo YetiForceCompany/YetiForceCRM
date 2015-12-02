@@ -98,5 +98,15 @@ $languageStrings = [
 	'No Time' => 'No Time',
 	'End Time' => 'End Time',
 	'Status' => 'State',
+	'End Date' => 'End date',
+	'LBL_FOLLOWUP' => 'Related event',
+	
+	'PLL_PLANNED' => 'Planned',
+	'PLL_IN_REALIZATION' => 'To be realized',
+	'PLL_OVERDUE' => 'Overdue',
+	'PLL_POSTPONED' => 'Postponed',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_COMPLETED' => 'Completed',
+
 ];
 

@@ -1,15 +1,18 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-class Settings_BackUp_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 
-	function __construct() {
+class Settings_BackUp_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
+{
+
+	function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('updateUsersForNotifications');
 		$this->exposeMethod('updateSettings');
-
 	}
 
-	public function updateUsersForNotifications(Vtiger_Request $request) {
+	public function updateUsersForNotifications(Vtiger_Request $request)
+	{
 		$params = $request->get('selectedUsers');
 		Settings_BackUp_Module_Model::updateUsersForNotifications($params);
 		$response = new Vtiger_Response();
@@ -20,7 +23,8 @@ class Settings_BackUp_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 		$response->emit();
 	}
 
-	public function updateSettings(Vtiger_Request $request) {
+	public function updateSettings(Vtiger_Request $request)
+	{
 		$param = $request->get('param');
 		$moduleModel = Settings_BackUp_Module_Model::getCleanInstance();
 		$response = new Vtiger_Response();

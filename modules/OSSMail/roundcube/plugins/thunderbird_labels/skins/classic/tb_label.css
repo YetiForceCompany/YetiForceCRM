@@ -6,13 +6,15 @@
 * CSS is Based on a patch for roundcube 0.3 I found a long time ago
 */
 
+#messagetoolbar #tb_label_popuplink,
 #tb_label_popuplink {
   background-image: url(thunderbird_32.png);
   background-repeat: no-repeat;
   width: 32px;
   height: 32px;
-  padding: 0px;
+  padding: 0px !important;
   margin: 0px 5px 0px 5px;
+  text-indent: -5000px;
 }
 
 #tb_label_popup

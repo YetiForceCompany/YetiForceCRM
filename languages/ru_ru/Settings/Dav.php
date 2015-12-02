@@ -10,9 +10,8 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'Dav' => 'Синхронизация',
-	'LBL_DAV_KEYS' => 'Синхронизация',
+	'LBL_DAV_KEYS' => 'DAV Applications',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Настройка Синхронизации',
-	'LBL_KEY' => 'Ключ',
 	'LBL_TOOLS' => 'Инструменты',
 	'LBL_DELETE_KEY' => 'Удалить ключ',
 	'LBL_ADD_KEY' => 'Добавить ключ',
@@ -31,8 +30,9 @@ $languageStrings = [
 	'LBL_SELECT_TYPE' => 'Тип',
 	'LBL_COUNT_CARD' => 'Количество контактов',
 	'LBL_COUNT_CAL' => 'Количество событий',
-	
+	'Dav' => 'Синхронизация',
 	'LBL_VIEW_KEYS' => 'Синхронизация',
+	'LBL_DUPLICATE_USER_SERVICES' => 'Ключ для этого приложения уже существует.',
 ];
 $jsLanguageStrings = [
 	'Adding a Key' => 'Добавление ключа',

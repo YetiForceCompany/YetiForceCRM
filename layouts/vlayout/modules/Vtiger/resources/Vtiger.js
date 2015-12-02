@@ -9,11 +9,10 @@
  *************************************************************************************/
 
 var Vtiger_Index_Js = {
-
 	/**
 	 * Function to show email preview in popup
 	 */
-	showEmailPreview : function(recordId, parentId) {
+	showEmailPreview: function (recordId, parentId) {
 		var popupInstance = Vtiger_Popup_Js.getInstance();
 		var params = {};
 		params['module'] = "Emails";
@@ -24,88 +23,85 @@ var Vtiger_Index_Js = {
 		params['relatedLoad'] = true;
 		popupInstance.show(params);
 	},
-
-	registerWidgetsEvents : function() {
+	registerWidgetsEvents: function () {
 		var widgets = jQuery('div.widgetContainer');
-		widgets.on('shown.bs.collapse',function(e){
+		widgets.on('shown.bs.collapse', function (e) {
 			var widgetContainer = jQuery(e.currentTarget);
 			Vtiger_Index_Js.loadWidgets(widgetContainer);
 			var key = widgetContainer.attr('id');
 			app.cacheSet(key, 1);
 		});
-		widgets.on('hidden.bs.collapse',function(e){
+		widgets.on('hidden.bs.collapse', function (e) {
 			var widgetContainer = jQuery(e.currentTarget);
 			var imageEle = widgetContainer.parent().find('.imageElement');
 			var imagePath = imageEle.data('rightimage');
-			imageEle.attr('src',imagePath);
+			imageEle.attr('src', imagePath);
 			var key = widgetContainer.attr('id');
 			app.cacheSet(key, 0);
 		});
 	},
-
 	/**
 	 * Function is used to load the sidebar widgets
 	 * @param widgetContainer - widget container
 	 * @param open - widget should be open or closed
 	 */
-	loadWidgets : function(widgetContainer, open) {
+	loadWidgets: function (widgetContainer, open) {
 		var message = jQuery('.loadingWidgetMsg').html();
-		if(widgetContainer.find('.panel-body').html() != '') {
+		if (widgetContainer.find('.panel-body').html() != '') {
 			var imageEle = widgetContainer.parent().find('.imageElement');
 			var imagePath = imageEle.data('downimage');
-			imageEle.attr('src',imagePath);
+			imageEle.attr('src', imagePath);
 			widgetContainer.css('height', 'auto');
 			return;
 		}
 
-		widgetContainer.progressIndicator({'message' : message});
+		widgetContainer.progressIndicator({'message': message});
 		var url = widgetContainer.data('url');
 		var listViewWidgetParams = {
-			"type":"GET", "url":"index.php",
-			"dataType":"html", "data":url
+			"type": "GET", "url": "index.php",
+			"dataType": "html", "data": url
 		}
 		AppConnector.request(listViewWidgetParams).then(
-			function(data){
-			if(typeof open == 'undefined') open = true;
-            	if(open){
-					widgetContainer.progressIndicator({'mode':'hide'});
-					var imageEle = widgetContainer.parent().find('.imageElement');
-					var imagePath = imageEle.data('downimage');
-					imageEle.attr('src',imagePath);
-					widgetContainer.css('height', 'auto');
+				function (data) {
+					if (typeof open == 'undefined')
+						open = true;
+					if (open) {
+						widgetContainer.progressIndicator({'mode': 'hide'});
+						var imageEle = widgetContainer.parent().find('.imageElement');
+						var imagePath = imageEle.data('downimage');
+						imageEle.attr('src', imagePath);
+						widgetContainer.css('height', 'auto');
+					}
+					widgetContainer.html(data);
+					var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
+					jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
 				}
-				widgetContainer.html(data);
-				var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
-				jQuery('.bodyContents').trigger('Vtiger.Widget.Load.'+label,jQuery(widgetContainer));
-			}
 		);
 	},
-
-	loadWidgetsOnLoad : function(){
+	loadWidgetsOnLoad: function () {
 		var widgets = jQuery('div.widgetContainer');
-		widgets.each(function(index,element){
+		widgets.each(function (index, element) {
 			var widgetContainer = jQuery(element);
 			var key = widgetContainer.attr('id');
 			var value = app.cacheGet(key);
-			if(value != null){
-				if(value == 1) {
+			if (value != null) {
+				if (value == 1) {
 					Vtiger_Index_Js.loadWidgets(widgetContainer);
 					widgetContainer.addClass('in');
 				} else {
 					var imageEle = widgetContainer.parent().find('.imageElement');
 					var imagePath = imageEle.data('rightimage');
-					imageEle.attr('src',imagePath);
+					imageEle.attr('src', imagePath);
 				}
 			}
 		});
 	},
-
 	/**
 	 * Function to change user theme(colour)
 	 * @params : colour name
 	 */
-	changeSkin : function() {
-		jQuery('.themeElement').on('click', function(e) {
+	changeSkin: function () {
+		jQuery('.themeElement').on('click', function (e) {
 			e.stopPropagation();
 			var currentElement = jQuery(e.currentTarget);
 			currentElement.closest('#themeContainer').hide();
@@ -114,24 +110,23 @@ var Vtiger_Index_Js = {
 			progressElement.progressIndicator();
 
 			var params = {
-				'module' : 'Users',
-				'action' : 'SaveAjax',
-				'record' : jQuery('#current_user_id').val(),
-				'field'	 : 'theme',
-				'value'	 : currentElement.data('skinName')
+				'module': 'Users',
+				'action': 'SaveAjax',
+				'record': jQuery('#current_user_id').val(),
+				'field': 'theme',
+				'value': currentElement.data('skinName')
 			}
-			AppConnector.request(params).then(function(data) {
-				if(data.success && data.result) {
-					progressElement.progressIndicator({'mode':'hide'});
+			AppConnector.request(params).then(function (data) {
+				if (data.success && data.result) {
+					progressElement.progressIndicator({'mode': 'hide'});
 					jQuery('.settingIcons').removeClass('open');
 					window.location.reload();
 				}
 			},
-			function(error,err){
-			});
+					function (error, err) {
+					});
 		})
 	},
-
 	/**
 	 * Function to show compose email popup based on number of
 	 * email fields in given module,if email fields are more than
@@ -142,46 +137,47 @@ var Vtiger_Index_Js = {
 	 * @cb: callback function to recieve the child window reference.
 	 */
 
-	showComposeEmailPopup : function(params, cb){
+	showComposeEmailPopup: function (params, cb) {
 		var currentModule = "Emails";
-		Vtiger_Helper_Js.checkServerConfig(currentModule).then(function(data){
-			if(data == true){
-				var css = jQuery.extend({'text-align' : 'left'},css);
+		Vtiger_Helper_Js.checkServerConfig(currentModule).then(function (data) {
+			if (data == true) {
+				var css = jQuery.extend({'text-align': 'left'}, css);
 				AppConnector.request(params).then(
-					function(data) {
-						var cbargs = [];
-						if(data) {
-							data = jQuery(data);
-							var form = data.find('#SendEmailFormStep1');
-							var emailFields = form.find('.emailField');
-							var length = emailFields.length;
-							var emailEditInstance = new Emails_MassEdit_Js();
-							if(length > 1) {
-								app.showModalWindow(data,function(data){
-									emailEditInstance.registerEmailFieldSelectionEvent();
-									if( jQuery('#multiEmailContainer').height() > 300 ){
-										jQuery('#multiEmailContainer').slimScroll({
-											height: '300px',
-											railVisible: true,
-											alwaysVisible: true,
-											size: '6px'
-										});
-									}
-								},css);
-							} else {
-								emailFields.attr('checked','checked');
-								var params = form.serializeFormData();
-								// http://stackoverflow.com/questions/13953321/how-can-i-call-a-window-child-function-in-javascript
-								// This could be useful for the caller to invoke child window methods post load.
-								var win = emailEditInstance.showComposeEmailForm(params);
-								cbargs.push(win);
+						function (data) {
+							var cbargs = [];
+							if (data) {
+								data = jQuery(data);
+								var form = data.find('#SendEmailFormStep1');
+								var emailFields = form.find('.emailField');
+								var length = emailFields.length;
+								var emailEditInstance = new Emails_MassEdit_Js();
+								if (length > 1) {
+									app.showModalWindow(data, function (data) {
+										emailEditInstance.registerEmailFieldSelectionEvent();
+										if (jQuery('#multiEmailContainer').height() > 300) {
+											jQuery('#multiEmailContainer').slimScroll({
+												height: '300px',
+												railVisible: true,
+												alwaysVisible: true,
+												size: '6px'
+											});
+										}
+									}, css);
+								} else {
+									emailFields.attr('checked', 'checked');
+									var params = form.serializeFormData();
+									// http://stackoverflow.com/questions/13953321/how-can-i-call-a-window-child-function-in-javascript
+									// This could be useful for the caller to invoke child window methods post load.
+									var win = emailEditInstance.showComposeEmailForm(params);
+									cbargs.push(win);
+								}
 							}
-						}
-						if (typeof cb == 'function') cb.apply(null, cbargs);
-					},
-					function(error,err){
+							if (typeof cb == 'function')
+								cb.apply(null, cbargs);
+						},
+						function (error, err) {
 
-					}
+						}
 				);
 			} else {
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_EMAIL_SERVER_CONFIGURATION'));
@@ -189,7 +185,6 @@ var Vtiger_Index_Js = {
 		})
 
 	},
-
 	/**
 	 * Function registers event for Calendar Reminder popups
 	 */
@@ -201,69 +196,64 @@ var Vtiger_Index_Js = {
 			var nextActivityReminderCheck = app.cacheGet('nextActivityReminderCheckTime', 0);
 
 			if ((currentTime + activityReminder) > nextActivityReminderCheck) {
-				Vtiger_Index_Js.requestReminder(true);
+				Vtiger_Index_Js.requestReminder();
 				setTimeout('Vtiger_Index_Js.requestReminder()', activityReminder);
 				app.cacheSet('nextActivityReminderCheckTime', currentTime + parseInt(activityReminder));
 			}
 		}
 	},
-
 	/**
 	 * Function request for reminder popups
 	 */
-	requestReminder: function (typeRemainder) {
+	requestReminder: function () {
+		var thisInstance = this;
 		var content = $('.remindersNoticeContainer');
-		var badge = $(".remindersNotice .badge");
-		var url = 'index.php?module=Calendar&view=Reminders';
-		if (typeRemainder) {
-			url += '&type_remainder=true';
-		}
+		var url = 'index.php?module=Calendar&view=Reminders&type_remainder=true';
 		AppConnector.request(url).then(function (data) {
-			content.append(data);
+			content.html(data);
+			thisInstance.refreshNumberNotifications(content);
+			app.registerModal(content);
 
-			var count = content.find('.panel').length;
-			badge.text(count);
-			badge.removeClass('hide');
-			if (count > 0) {
-				$(".remindersNotice").effect( "pulsate", 1500);
-			} else {
-				badge.addClass('hide');
-			}
-
-			content.find('.reminderAccept').on('click', function (e) {
-				var currentElement = jQuery(e.currentTarget);
-				var recordID = currentElement.closest('.panel').data('record');
-				var url = 'index.php?module=Calendar&action=ActivityReminder&mode=cancelReminder&record=' + recordID;
-				AppConnector.request(url).then(function (data) {
-					currentElement.closest('.panel').hide("slow");
-				});
-			});
 			content.find('.reminderPostpone').on('click', function (e) {
 				var currentElement = jQuery(e.currentTarget);
 				var recordID = currentElement.closest('.panel').data('record');
 				var url = 'index.php?module=Calendar&action=ActivityReminder&mode=postpone&record=' + recordID + '&time=' + currentElement.data('time');
 				AppConnector.request(url).then(function (data) {
-					currentElement.closest('.panel').hide("slow");
+					currentElement.closest('.panel').fadeOut(300, function () {
+						$(this).remove();
+						thisInstance.refreshNumberNotifications(content);
+					});
 				});
 			});
 		});
 	},
-
-	registerResizeEvent: function(){
-		$(window).resize(function() {
-			if(this.resizeTO) clearTimeout(this.resizeTO);
-			this.resizeTO = setTimeout(function() {
+	refreshNumberNotifications: function (content) {
+		var badge = $(".remindersNotice .badge");
+		var count = content.find('.panel:visible').length;
+		badge.text(count);
+		badge.removeClass('hide');
+		if (count > 0) {
+			$(".remindersNotice").effect("pulsate", 1500);
+		} else {
+			badge.addClass('hide');
+		}
+	},
+	registerResizeEvent: function () {
+		$(window).resize(function () {
+			if (this.resizeTO)
+				clearTimeout(this.resizeTO);
+			this.resizeTO = setTimeout(function () {
 				$(this).trigger('resizeEnd');
 			}, 600);
 		});
-		$(window).bind('resizeEnd', function() {
+		$(window).bind('resizeEnd', function () {
 			Vtiger_Index_Js.adjustTopMenuBarItems();
 		});
 	},
 	/**
 	 * Function to make top-bar menu responsive.
 	 */
-	adjustTopMenuBarItems: function() {
+	adjustTopMenuBarItems: function () {
 		// Dedicated space for all dropdown text
 		var TOLERANT_MAX_GAP = 125; // px
 		var menuBarWrapper = ($(window).outerWidth() < 1161) ? jQuery('#mediumNav') : jQuery('#largeNav');
@@ -271,33 +261,39 @@ var Vtiger_Index_Js = {
 		var optionalBarItems = jQuery('.opttabs', menuBarWrapper), optionalBarItemsCount = optionalBarItems.length;
 		var optionalBarItemIndex = optionalBarItemsCount;
 		function enableOptionalTopMenuItem() {
-			var opttab  = (optionalBarItemIndex > 0) ? optionalBarItems[optionalBarItemIndex-1] : null;
-			if (opttab) { opttab = jQuery(opttab); opttab.hide(); optionalBarItemIndex--; }
+			var opttab = (optionalBarItemIndex > 0) ? optionalBarItems[optionalBarItemIndex - 1] : null;
+			if (opttab) {
+				opttab = jQuery(opttab);
+				opttab.hide();
+				optionalBarItemIndex--;
+			}
 			return opttab;
 		}
 		// Loop and enable hidden menu item until the tolerant width is reached.
 		var stopLoop = false;
 		do {
-			if((topMenuBarWidth - menuBarWrapper.outerWidth()) < TOLERANT_MAX_GAP){
+			if ((topMenuBarWidth - menuBarWrapper.outerWidth()) < TOLERANT_MAX_GAP) {
 				var lastOptTab = enableOptionalTopMenuItem();
 				if (lastOptTab == null || (topMenuBarWidth - menuBarWrapper.outerWidth()) > TOLERANT_MAX_GAP) {
-					if(lastOptTab) lastOptTab.hide();
-					stopLoop = true; break;
+					if (lastOptTab)
+						lastOptTab.hide();
+					stopLoop = true;
+					break;
 				}
-			}else{
-				stopLoop = true; break;
+			} else {
+				stopLoop = true;
+				break;
 			}
 		} while (!stopLoop);
 		// Required to get the functionality of All drop-down working.
-		jQuery(window).load(function(){
-			jQuery("#topMenus").css({'overflow':'visible'});
+		jQuery(window).load(function () {
+			jQuery("#topMenus").css({'overflow': 'visible'});
 		});
 	},
-
 	/**
 	 * Function to trigger tooltip feature.
 	 */
-	registerTooltipEvents: function() {
+	registerTooltipEvents: function () {
 		var references = jQuery.merge(jQuery('[data-field-type="reference"] > a'), jQuery('[data-field-type="multireference"] > a'));
 		var lastPopovers = [];
 
@@ -309,7 +305,7 @@ var Vtiger_Index_Js = {
 			hideAllTooltipViews();
 
 			var el = jQuery(this);
-			var url = el.attr('href')? el.attr('href') : '';
+			var url = el.attr('href') ? el.attr('href') : '';
 			if (url == '') {
 				return;
 			}
@@ -317,12 +313,12 @@ var Vtiger_Index_Js = {
 			// Rewrite URL to retrieve Tooltip view.
 			url = url.replace('view=', 'xview=') + '&view=TooltipAjax';
 
-			var cachedView = CACHE_ENABLED ? jQuery('[data-url-cached="'+url+'"]') : null;
+			var cachedView = CACHE_ENABLED ? jQuery('[data-url-cached="' + url + '"]') : null;
 			if (cachedView && cachedView.length) {
 				showTooltip(el, cachedView.html());
 			} else {
-				AppConnector.request(url).then(function(data){
-					cachedView = jQuery('<div>').css({display:'none'}).attr('data-url-cached', url);
+				AppConnector.request(url).then(function (data) {
+					cachedView = jQuery('<div>').css({display: 'none'}).attr('data-url-cached', url);
 					cachedView.html(data);
 					jQuery('body').append(cachedView);
 					showTooltip(el, data);
@@ -331,10 +327,21 @@ var Vtiger_Index_Js = {
 		}
 
 		function get_popover_placement(el) {
-		  var width = window.innerWidth;
-		  var left_pos = jQuery(el).offset().left;
-		  if (width - left_pos > 400) return 'right';
-		  return 'left';
+			var width = window.innerWidth;
+			var left_pos = jQuery(el).offset().left;
+			if (width - left_pos < 400 || checkLastElement(el))
+				return 'left';
+			return 'right';
+		}
+
+		//The function checks if the selected element is the last element of the table in list view.
+		function checkLastElement(el) {
+			var parent = el.closest('tr');
+			var lastElementTd = parent.find('td.listViewEntryValue:last a');
+			if (el.attr('href') == lastElementTd.attr('href')) {
+				return true;
+			}
+			return false;
 		}
 
 		function showTooltip(el, data) {
@@ -345,7 +352,7 @@ var Vtiger_Index_Js = {
 				content: data,
 				animation: false,
 				html: true,
-				placement:  the_placement,
+				placement: the_placement,
 				template: '<div class="popover popover-tooltip"><div class="arrow"></div><div class="popover-inner"><button name="vtTooltipClose" class="close" style="color:white;opacity:1;font-weight:lighter;position:relative;top:3px;right:3px;">x</button><h3 class="popover-title"></h3><div class="popover-content"><div></div></div></div></div>'
 			});
 			lastPopovers.push(el.popover('show'));
@@ -360,7 +367,7 @@ var Vtiger_Index_Js = {
 			}
 		}
 
-		references.each(function(index, el){
+		references.each(function (index, el) {
 			jQuery(el).hoverIntent({
 				interval: 100,
 				sensitivity: 7,
@@ -371,81 +378,79 @@ var Vtiger_Index_Js = {
 		});
 
 		function registerToolTipDestroy() {
-			jQuery('button[name="vtTooltipClose"]').on('click', function(e){
+			jQuery('button[name="vtTooltipClose"]').on('click', function (e) {
 				var lastPopover = lastPopovers.pop();
 				lastPopover.popover('hide');
 			});
 		}
 	},
-
-	registerShowHideLeftPanelEvent : function() {
-		jQuery('#toggleButton').click(function(e){
+	registerShowHideLeftPanelEvent: function () {
+		jQuery('#toggleButton').click(function (e) {
 			e.preventDefault();
 			var leftPanel = jQuery('#leftPanel');
 			var centerContents = jQuery('#centerPanel');
 			var rightPanel = document.getElementById('rightPanel');
 			var tButtonImage = jQuery('#tButtonImage');
 			if (leftPanel.attr('class').indexOf(' hide') == -1) {
-                var leftPanelshow = 1;
+				var leftPanelshow = 1;
 				leftPanel.addClass('hide');
-				if(rightPanel && jQuery(rightPanel).attr('class').indexOf('hide') == -1){
+				if (rightPanel && jQuery(rightPanel).attr('class').indexOf('hide') == -1) {
 					centerContents.removeClass('col-md-8').addClass('col-md-10');
-				}else{
+				} else {
 					centerContents.removeClass('col-md-10').addClass('col-md-12');
 				}
 				tButtonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
 			} else {
-                var leftPanelshow = 0;
+				var leftPanelshow = 0;
 				leftPanel.removeClass('hide');
-				if(rightPanel && jQuery(rightPanel).attr('class').indexOf('hide') == -1){
+				if (rightPanel && jQuery(rightPanel).attr('class').indexOf('hide') == -1) {
 					centerContents.removeClass('col-md-10').addClass('col-md-8');
-				}else{
+				} else {
 					centerContents.removeClass('col-md-12').addClass('col-md-10');
 				}
 				tButtonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
 			}
-            var params = {
-                'module' : 'Users',
-                'action' : 'IndexAjax',
-                'mode' : 'toggleLeftPanel',
-                'showPanel' : leftPanelshow
-            }
-            AppConnector.request(params);
+			var params = {
+				'module': 'Users',
+				'action': 'IndexAjax',
+				'mode': 'toggleLeftPanel',
+				'showPanel': leftPanelshow
+			}
+			AppConnector.request(params);
 		});
 	},
-	registerShowHideRightPanelEvent : function() {
-		jQuery('#toggleRightPanelButton').click(function(e){
+	registerShowHideRightPanelEvent: function () {
+		jQuery('#toggleRightPanelButton').click(function (e) {
 			e.preventDefault();
 			var leftPanel = jQuery('#leftPanel');
 			var centerContents = jQuery('#centerPanel');
 			var rightPanel = jQuery('#rightPanel');
 			var tButtonImage = jQuery('#tRightPanelButtonImage');
 			var leftPanelStatus = leftPanel.attr('class').indexOf(' hide');
-			if (rightPanel.attr('class').indexOf('hide') == -1 ) {
+			if (rightPanel.attr('class').indexOf('hide') == -1) {
 				rightPanel.addClass('hide');
-				if(leftPanelStatus == -1){
+				if (leftPanelStatus == -1) {
 					centerContents.removeClass('col-md-8').addClass('col-md-10');
-				}else{
+				} else {
 					centerContents.removeClass('col-md-10').addClass('col-md-12');
 				}
 				tButtonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
 			} else {
 				rightPanel.removeClass('hide');
-				if(leftPanelStatus == -1){
+				if (leftPanelStatus == -1) {
 					centerContents.removeClass('col-md-10').addClass('col-md-8');
-				}else{
+				} else {
 					centerContents.removeClass('col-md-12').addClass('col-md-10');
 				}
 				tButtonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
 			}
 		});
 	},
-
-	loadPreSaveRecord : function(form) {
+	loadPreSaveRecord: function (form) {
 		SaveResult = new SaveResult()
-		return SaveResult.checkData(form); 
+		return SaveResult.checkData(form);
 	},
-	registerEvents : function(){
+	registerEvents: function () {
 		Vtiger_Index_Js.registerWidgetsEvents();
 		Vtiger_Index_Js.loadWidgetsOnLoad();
 		Vtiger_Index_Js.registerActivityReminder();
@@ -456,17 +461,16 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.registerShowHideRightPanelEvent();
 		Vtiger_Index_Js.registerResizeEvent();
 	},
-
-	registerPostAjaxEvents: function() {
+	registerPostAjaxEvents: function () {
 		Vtiger_Index_Js.registerTooltipEvents();
 	}
 }
 
 
 //On Page Load
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
 	Vtiger_Index_Js.registerEvents();
-	app.listenPostAjaxReady(function() {
+	app.listenPostAjaxReady(function () {
 		Vtiger_Index_Js.registerPostAjaxEvents();
 	});
 });

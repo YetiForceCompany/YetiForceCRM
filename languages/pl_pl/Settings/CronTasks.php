@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,17 +7,19 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Zalecana częstotliwość dla Planowanego Importu to 15 minut.',
 	'Recommended frequency for SendReminder is 15 mins' => 'Zalecana częstotliwość dla wysyłanych Przypomnień to 15 minut',
 	'Recommended frequency for RecurringInvoice is 12 hours' => 'Zalecana częstotliwość dla Cykicznej Faktury to 12 godzin',
-	'Recommended frequency for Workflow is 15 mins' => 'Zalecana częśtotliwość dla Obiegu Informacji to 15 minut',
+	'Recommended frequency for Workflow is 15 mins' => 'Zalecana częstotliwość dla Obiegu Informacji to 15 minut',
 	'Recommended frequency for MailScanner is 15 mins' => 'Zalecana częstotliwość dla Mail Scannera to 15 minut',
+	'Recommended frequency for ScheduleReports is 15 mins' => 'Zalecana częstotliwość dla zaplanowanych raportów to 15 minut',
+	'Recommended frequency for Currency Update is 24 hours' => 'Zalecana częstotliwość dla aktualizacji kursów walut to 24 godziny',
 	'Cron Job' => 'Zadania wyzwalacza',
 	'CronTasks' => 'Harmonogram',
 	'Frequency' => 'Częstotliwość',
-    'Frequency(H:M)' => 'Częstotliwość(G:M)',
+	'Frequency(H:M)' => 'Częstotliwość (G:M)',
 	'Id' => 'Id',
 	'Last End' => 'Koniec ostatniego skanowania',
 	'Last Start' => 'Start ostatniego skanowania',
@@ -30,18 +32,26 @@ $languageStrings = [
 	'LBL_ADD_CRON' => 'Dodaj zadanie',
 	'MODULE' => 'Moduł',
 	'LBL_NAME' => 'Nazwa',
-	'LBL_PATH_TO_FILE' => 'Ścieżka do pliku'
+	'LBL_PATH_TO_FILE' => 'Ścieżka do pliku',
+	'Workflow' => 'Obieg informacji',
+	'RecurringInvoice' => 'Cykliczna faktura',
+	'MailScannerAction' => 'Akcja skanera poczty',
+	'MailScannerVerification' => 'Weryfikacja skanera poczty',
+	'SendReminder' => 'Wyślij przypomnienie',
+	'Scheduled Import' => 'Zaplanowany import',
+	'ScheduleReports' => 'Zaplanuj raporty',
+	'MailScannerBind' => 'Powiąż skaner poczty',
+	'LBL_CURRENCY_UPDATE' => 'Aktualizacja kursów walut',
+	'LBL_MULTI_REFERENCE_VALUE' => 'Aktualizacja pól multireferencji',
 ];
-
-
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Zalecana częstotliwość dla Planowanego Importu to 15 minut.',
 	'Recommended frequency for SendReminder is 15 mins' => 'Zalecana częstotliwość dla wysyłanych Przypomnień to 15 minut.',
 	'Recommended frequency for RecurringInvoice is 12 hours' => 'Zalecana częstotliwość dla Cykicznej Faktury to 12 godzin.',
-	'Recommended frequency for Workflow is 15 mins' => 'Zalecana częśtotliwość dla  Obiegu Informacji to 15 minut.',
+	'Recommended frequency for Workflow is 15 mins' => 'Zalecana częstotliwość dla  Obiegu Informacji to 15 minut.',
 	'Recommended frequency for MailScanner is 15 mins' => 'Zalecana częstotliwość dla Mail Scannera to 15 minut.',
 	'FREQUENCY_NUMBER' => 'Częstotliwość musi być liczbą całkowitą',
 	'FREQUENCY_REQUIRED' => 'Pole częstotliwość jest wymagane',
 	'PATH_REQUIRED' => 'Pole ścieżka jest wymagane',
-	'NAME_REQUIRED' => 'Pole nazwa jest wymagane'
+	'NAME_REQUIRED' => 'Pole nazwa jest wymagane',
 ];

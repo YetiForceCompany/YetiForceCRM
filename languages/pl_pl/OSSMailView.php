@@ -10,14 +10,14 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	// Basic Strings
-	'OSSMailView'        => 'Maile',
+	'OSSMailView'        => 'Maile firmowe',
 	'SINGLE_OSSMailView' => 'Mail firmowy',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_RECORDS_LIST' => 'Lista maili',
 
 	// Blocks
 	'LBL_INFORMATION' => 'Informacje ogólne',
-
+	'LBL_ORIGN_MESSAGE' => 'Oryginalna wiadomość',
 	//Field Labels
     'relatedid' => 'Powiązany z',
 	'yes' => 'Tak',
@@ -61,7 +61,17 @@ $languageStrings = [
 	'RC user' => 'RC użytkownika',
 	'FromID' => 'Id nadawcy',
 	'ToID' => 'Id odbiorcy',
-    
+	'LBL_SHOW_PREVIEW_EMAIL' => 'Pokaż podgląd maila',
+	'LBL_SHOW_PREVIEW_EMAILS' => 'Pokaż podgląd wszystkich maili',
+	'LBL_NO_MAILS' => 'Brak wiadomości e-mail',
+	'LBL_CHANGE_FILTER' => 'Zmiana filtrowania wiadomości',
+	'LBL_FILTER_ALL' => 'Wszystkie',
+	'LBL_FILTER_ACCOUNTS' => 'Wszystkie na kontrahencie',
+	'LBL_FILTER_CONTACTS' => 'Wszystkie na kontakcie',
+	'LBL_EXPAND_ALL' => 'Rozwiń wszystkie',
+	'LBL_COLLAPSE_ALL' => 'Zwiń wszystkie',
+	'LBL_COUNT_ALL_MAILS' => 'Ilość wszystkich maili',
+	
 	'LBL_VERIFY' => 'Do powiązania',
 	'LBL_REL_MOD' => 'Moduły powiazane',
 	'LBL_BindMailsOK' => 'Oznaczono maile do powiązania, przy kolejnym wywołaniu cron-a zostaną wiadomości powiązane',

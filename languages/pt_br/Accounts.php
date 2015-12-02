@@ -84,9 +84,10 @@ $languageStrings = [
 	'Approval for phone calls'=>'Permissão Chamadas',
 	'LBL_CONVERTED_FROM_LEAD' => 'Convertido de Lead',
 	'LBL_LEGAL_FORM' => 'Forma Jurídica',
-	//Missing Fields in Right Bar | Valmir C Trindade
+	'LBL_INVENTORY_BALANCE' => 'Balance',
+	'LBL_DISCOUNT' => 'Discount',
+	'LBL_CREDIT_LIMIT' => 'Credit limit',
 ];
-
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'O nome da Organização já existe. Deseja criar um registro duplicado?',
 	'LBL_DELETE_CONFIRMATION'=> 'Ao apagar esta Organização serão removidas as Oportunidades e Cotações relacionadas. Tem certeza que certeza que deseja apagar esta Organização?',

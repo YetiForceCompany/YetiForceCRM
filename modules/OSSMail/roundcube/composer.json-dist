@@ -9,11 +9,11 @@
         },
         {
             "type": "composer",
-            "url": "http://plugins.roundcube.net/"
+            "url": "https://plugins.roundcube.net/"
         },
         {
             "type": "vcs",
-            "url": "git://git.kolab.org/git/pear/Net_LDAP3"
+            "url": "https://git.kolab.org/diffusion/PNL/php-net_ldap.git"
         },
         {
             "type": "package",
@@ -21,7 +21,7 @@
                 "name": "Net_SMTP",
                 "version": "dev-master",
                 "source": {
-                    "url": "http://github.com/pear/Net_SMTP",
+                    "url": "https://github.com/pear/Net_SMTP",
                     "type": "git",
                     "reference": "master"
                 }

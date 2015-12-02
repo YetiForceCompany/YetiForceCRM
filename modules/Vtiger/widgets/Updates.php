@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 class Vtiger_Updates_Widget extends Vtiger_Basic_Widget {
 	public function getUrl() {
-		return 'module='.$this->Module.'&view=Detail&record='.$this->Record.'&mode=showRecentActivities&page=1&limit='.$this->Data['limit'];
+		return 'module='.$this->Module.'&view=Detail&record='.$this->Record.'&mode=showRecentActivities&page=1&limit=15';
 	}
 	public function getWidget() {
 		$this->Config['url'] = $this->getUrl();

@@ -17,12 +17,11 @@ class Settings_Vtiger_CompanyDetailsFieldSave_Action extends Settings_Vtiger_Bas
 		$log = vglobal('log');
 		Settings_Vtiger_CompanyDetails_Model::addNewField($request);
 		$log->info('Settings_Vtiger_CompanyFieldSave_Action::process - Add field started');
-		
 	}
 
 	public static function addFieldToModule($field)
 	{
-		
+
 		$log = vglobal('log');
 		$fileName = 'modules/Settings/Vtiger/models/CompanyDetails.php';
 		$fileExists = file_exists($fileName);

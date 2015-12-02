@@ -538,14 +538,14 @@ Vtiger_Base_Validator_Js("Vtiger_dateAndTimeGreaterThanDependentField_Validator_
 	 */
 	validate: function (dependentFieldList) {
 		var thisInstance = this;
-		var view = jQuery('#view');
-		if (view.length && view.val() != 'Detail') {
-			return true;
-		}
 		var field = this.getElement();
 		var fieldDateTime = '';
 		var fieldDateTimeInstance = [];
 		var contextFormElem = field.closest('form');
+		var view = contextFormElem.attr('name');
+		if (view == 'EditView') {
+			return true;
+		}
 		var j = 0;
 		for (var i = 0; i < dependentFieldList.length; i++) {
 			var dependentField = dependentFieldList[i];
@@ -712,6 +712,67 @@ Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js', {
 		}
 		if (strippedValue < 0) {
 			errorInfo = app.vtranslate('JS_ACCEPT_POSITIVE_NUMBER');
+			this.setError(errorInfo);
+			return false;
+		}
+		return true;
+	}
+})
+Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
+	/**
+	 *Function which invokes field validation
+	 *@param accepts field element as parameter
+	 * @return error if validation fails true on success
+	 */
+	invokeValidation: function (field, rules, i, options) {
+		var instance = new Vtiger_NumberUserFormat_Validator_Js();
+		instance.setElement(field);
+		var response = instance.validate();
+		if (response != true) {
+			return instance.getError();
+		}
+	}
+
+}, {
+	/**
+	 * Function to validate the Positive Numbers
+	 * @return true if validation is successfull
+	 * @return false if validation error occurs
+	 */
+	validate: function () {
+		var response = this._super();
+		if (response != true) {
+			return response;
+		}
+		var field = this.getElement();
+		var fieldValue = this.getFieldValue();
+		var decimalSeperator = $('#currencyDecimalSeparator').val();
+		var groupSeperator = $('#currencyGroupingSeparator').val();
+
+		var strippedValue = fieldValue.replace(decimalSeperator, '');
+		var spacePattern = /\s/;
+		if (spacePattern.test(decimalSeperator) || spacePattern.test(groupSeperator))
+			strippedValue = strippedValue.replace(/ /g, '');
+		var errorInfo;
+
+		if (groupSeperator == "$") {
+			groupSeperator = "\\$"
+		}
+
+		var regex = new RegExp(groupSeperator, 'g');
+		strippedValue = strippedValue.replace(regex, '');
+		if (isNaN(strippedValue)) {
+			errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
+			this.setError(errorInfo);
+			return false;
+		}
+		if (strippedValue < 0) {
+			errorInfo = app.vtranslate('JS_ACCEPT_POSITIVE_NUMBER');
+			this.setError(errorInfo);
+			return false;
+		}
+		if (parseFloat(strippedValue) != parseInt(strippedValue)) {
+			errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
 			this.setError(errorInfo);
 			return false;
 		}

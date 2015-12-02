@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -8,10 +8,13 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * Contributor(s): ______________________________________.
- *************************************************************************************************************************************/
-class Settings_Vtiger_License_View extends Settings_Vtiger_Index_View {
+ * *********************************************************************************************************************************** */
 
-	public function process(Vtiger_Request $request) {
+class Settings_Vtiger_License_View extends Settings_Vtiger_Index_View
+{
+
+	public function process(Vtiger_Request $request)
+	{
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$currentUser = Users_Record_Model::getCurrentUserModel();

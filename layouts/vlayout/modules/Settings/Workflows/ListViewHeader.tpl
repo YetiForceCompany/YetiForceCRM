@@ -26,9 +26,9 @@
                         {elseif $CRON_RECORD_MODEL->getLastEndDateTime() neq ''}
                             {vtranslate('LBL_LAST_SCAN_AT',$QUALIFIED_MODULE)}
                             {$CRON_RECORD_MODEL->getLastEndDateTime()}
-                            &
-                            {vtranslate('LBL_TIME_TAKEN',$QUALIFIED_MODULE)}:
-                            {$CRON_RECORD_MODEL->getTimeDiff()}
+                            &nbsp;&
+                            {vtranslate('LBL_TIME_TAKEN',$QUALIFIED_MODULE)}:&nbsp;
+                            {$CRON_RECORD_MODEL->getTimeDiff()}&nbsp; 
                             {vtranslate('LBL_SHORT_SECONDS',$QUALIFIED_MODULE)}
                         {else}
 
@@ -40,7 +40,7 @@
         <hr>
 		<div class="row">
 			<div class="col-md-4 btn-toolbar">
-				<button class="btn btn-default addButton" {if stripos($MODULE_MODEL->getCreateViewUrl(), 'javascript:')===0} onclick="{$MODULE_MODEL->getCreateViewUrl()|substr:strlen('javascript:')};"
+				<button class="btn btn-success addButton" {if stripos($MODULE_MODEL->getCreateViewUrl(), 'javascript:')===0} onclick="{$MODULE_MODEL->getCreateViewUrl()|substr:strlen('javascript:')};"
                         {else} onclick='window.location.href="{$MODULE_MODEL->getCreateViewUrl()}"' {/if}>
 					<i class="glyphicon glyphicon-plus"></i>&nbsp;
 					<strong>{vtranslate('LBL_NEW', $QUALIFIED_MODULE)} {vtranslate('LBL_WORKFLOW',$QUALIFIED_MODULE)}</strong>

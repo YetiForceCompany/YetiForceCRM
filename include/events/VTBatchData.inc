@@ -8,13 +8,15 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class VTBatchData {
+class VTBatchData
+{
 
 	/**
 	 * Gets the array of data from the entity object as an array.
 	 * @return An array representation VTEntityData
 	 */
-	function getData() {
+	function getData()
+	{
 		return $this->data;
 	}
 
@@ -22,7 +24,8 @@ class VTBatchData {
 	 * Function gives an array of VTEntityData
 	 * @param <Array of VTEntityData> $data
 	 */
-	function setData($data) {
+	function setData($data)
+	{
 		$this->data = $data;
 	}
 
@@ -30,7 +33,8 @@ class VTBatchData {
 	 * Get the name of the module triggering the event
 	 * @return The module name.
 	 */
-	function getModuleName() {
+	function getModuleName()
+	{
 		return $this->moduleName;
 	}
 
@@ -38,8 +42,8 @@ class VTBatchData {
 	 * Function sets the module name
 	 * @param type $module
 	 */
-	function setModuleName($module) {
+	function setModuleName($module)
+	{
 		$this->moduleName = $module;
 	}
-
 }

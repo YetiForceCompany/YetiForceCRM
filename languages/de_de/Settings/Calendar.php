@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,13 +7,14 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Calendar' => 'Kalender',
 	'Task' => 'Aufgabe',
 	'Meeting' => 'Besprechung',
+	'Call' => 'Anruf',
 	//ActivityTypes
-	'LBL_ACTIVITY_TYPES' => 'Aktivitätstypen',
+	'LBL_ACTIVITY_TYPES' => 'Calendar – Types',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Verwaltung von Aktivitätstypen.',
 	'LBL_ACTIVITY_NAME' => 'Aktivitätsname',
 	'LBL_MODULE' => 'Modul',
@@ -25,7 +26,7 @@ $languageStrings = [
 	'LBL_EDIT_COLOR' => 'Farbe bearbeiten',
 	'LBL_SELECT_COLOR' => 'Farbe wählen:',
 	'LBL_SAVE_COLOR' => 'Farbe gesichert',
-	'LBL_CALENDAR_CONFIG' => 'Kalenderkonfiguration',
+	'LBL_CALENDAR_CONFIG' => 'Calendar - Configuration',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
 	'LBL_USER_COLORS' => 'Benutzerfarben',
 	'LBL_CALENDAR_COLORS' => 'Kalenderfarben',
@@ -45,10 +46,8 @@ $languageStrings = [
 	'PLL_FRIDAY' => 'Freitag',
 	'PLL_SATURDAY' => 'Samstag',
 	'PLL_SUNDAY' => 'Sonntag',
-
 	'LBL_VIEW_USERCOLORS' => 'Kalendar Konfiguration',
 	'LBL_VIEW_ACTIVITYTYPES' => 'Aktivitätstypen',
 ];
 $jsLanguageStrings = [
-
 ];

@@ -9,7 +9,7 @@
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Language Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_SUPPORT_PROCESSES' => 'Processos de Suporte',
+	'LBL_SUPPORT_PROCESSES' => 'Support',
 	'LBL_GENERAL_CONFIGURATION' => 'Configuração Geral',
 	'LBL_OTHER' => 'Outro',
 	'LBL_INFO' => 'Informação',
@@ -17,6 +17,7 @@ $languageStrings = [
 	'LBL_TICKET_STATUS_INFO' => 'O status do Chamado indica fechamento',
 	'LBL_SAVE_CONFIG_OK' => 'As mudanças foram salvas',
 	'LBL_SAVE_CONFIG_ERROR'	=> 'As mudanças foram salvas.',
+	'SupportProcesses' => 'Processos de Suporte',
 	
 ];
 

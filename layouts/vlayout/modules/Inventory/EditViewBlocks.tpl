@@ -28,7 +28,7 @@
 			{/if}
 			<input type="hidden" name="module" value="{$MODULE}" />
 			<input type="hidden" name="action" value="Save" />
-			<input type="hidden" name="record" value="{$RECORD_ID}" />
+			<input type="hidden" name="record" id="recordId" value="{$RECORD_ID}" />
 			<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
 			<input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
 			{if $IS_RELATION_OPERATION }
@@ -50,7 +50,7 @@
 				<div class="col-md-6">
 					<div class="pull-right">
 						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-						<a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 					</div>
 				</div>
 			</div>
@@ -65,25 +65,31 @@
 						<tr>
 							<th class="blockHeader" colspan="4">
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-12">
 							<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if} " alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
 							<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}" alt="{vtranslate('LBL_COLLAPSE_BLOCK')}"  src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
 							&nbsp;&nbsp;
 							{vtranslate($BLOCK_LABEL, $MODULE)}
-							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-								<input value="" type="text" class="api_address_autocomplete form-control pull-right input" title="{vtranslate('LBL_ADDRESS_INFORMATION')}" style="width: 50%;" />
-							{/if}
-						</div>
-						<div class="col-md-8">
-							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-								{include file=vtemplate_path('BlockHeader.tpl',$MODULE)}
-							{/if}
 						</div>
 					</div>
 					</th>
 					</tr>
 					</thead>
 					<tbody {if $IS_HIDDEN} class="hide" {/if}>
+						{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+							<tr>
+								<th class="blockHeader text-center" colspan="4">
+									{if $APIADDRESS_ACTIVE}
+									<div class="col-lg-4">
+										<input value="" title="{vtranslate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete form-control pull-right input " placeholder="{vtranslate('LBL_ENTER_SEARCHED_ADDRESS')}" />
+									</div>
+									{/if}
+									<div class="{if $APIADDRESS_ACTIVE}col-lg-8{else}col-lg-9 col-lg-offset-3{/if} text-center">
+										{include file=vtemplate_path('BlockHeader.tpl',$MODULE)}
+									</div>
+								</th>
+							</tr>
+						{/if}
 						<tr>
 							{assign var=COUNTER value=0}
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
@@ -101,7 +107,7 @@
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<td class="fieldLabel {$WIDTHTYPE}">
+								<td class="fieldLabel textAlignRight {$WIDTHTYPE}">
 									{if $isReferenceField neq "reference"}<label class="muted pull-right marginRight10px">{/if}
 										{if $FIELD_MODEL->isMandatory() eq true && $isReferenceField neq "reference"} <span class="redColor">*</span> {/if}
 										{if $isReferenceField eq "reference"}
@@ -113,8 +119,8 @@
 												{if !empty($REFERENCED_MODULE_STRUCT)}
 													{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
 												{/if}
+												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor referenceMandatory">*</span> {/if}
 												<span class="col-xs-10 paddingRightZero pull-right">
-													{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 													<select class="chzn-select referenceModulesList streched" style="width:140px;">
 														<optgroup>
 															{foreach key=index item=value from=$REFERENCE_LIST}

@@ -1,20 +1,22 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Leads_Record_Model extends Vtiger_Record_Model {
+class Leads_Record_Model extends Vtiger_Record_Model
+{
 
 	/**
 	 * Function returns the url for converting lead
 	 */
-	function getConvertLeadUrl() {
-		return 'index.php?module='.$this->getModuleName().'&view=ConvertLead&record='.$this->getId();
+	function getConvertLeadUrl()
+	{
+		return 'index.php?module=' . $this->getModuleName() . '&view=ConvertLead&record=' . $this->getId();
 	}
 
 	/**
@@ -22,24 +24,25 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 	 * @param <String> $searchKey
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
-	public static function getSearchResult($searchKey, $module=false) {
+	public static function getSearchResult($searchKey, $module = false, $limit = false)
+	{
 		$db = PearDatabase::getInstance();
 
 		$deletedCondition = $this->getModule()->getDeletedRecordCondition();
 		$query = 'SELECT * FROM vtiger_crmentity
                     INNER JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-                    WHERE label LIKE ? AND '.$deletedCondition;
+                    WHERE label LIKE ? AND ' . $deletedCondition;
 		$params = array("%$searchKey%");
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);
 
 		$moduleModels = array();
 		$matchingRecords = array();
-		for($i=0; $i<$noOfRows; ++$i) {
+		for ($i = 0; $i < $noOfRows; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
 			$row['id'] = $row['crmid'];
 			$moduleName = $row['setype'];
-			if(!array_key_exists($moduleName, $moduleModels)) {
+			if (!array_key_exists($moduleName, $moduleModels)) {
 				$moduleModels[$moduleName] = Vtiger_Module_Model::getInstance($moduleName);
 			}
 			$moduleModel = $moduleModels[$moduleName];
@@ -50,11 +53,12 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 		return $matchingRecords;
 	}
 
-	/** 
+	/**
 	 * Function returns Account fields for Lead Convert
 	 * @return Array
 	 */
-	function getAccountFieldsForLeadConvert() {
+	function getAccountFieldsForLeadConvert()
+	{
 		$accountsFields = array();
 		$privilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleName = 'Accounts';
@@ -106,7 +110,8 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 	 * Function returns Contact fields for Lead Convert
 	 * @return Array
 	 */
-	function getContactFieldsForLeadConvert() {
+	function getContactFieldsForLeadConvert()
+	{
 		$contactsFields = array();
 		$privilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleName = 'Contacts';
@@ -156,7 +161,8 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 	 * Function returns Potential fields for Lead Convert
 	 * @return Array
 	 */
-	function getPotentialsFieldsForLeadConvert() {
+	function getPotentialsFieldsForLeadConvert()
+	{
 		$potentialFields = array();
 		$privilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleName = 'Potentials';
@@ -202,7 +208,8 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 	 * @param <String> $fieldName
 	 * @return <String>
 	 */
-	function getConvertLeadMappedField($fieldName, $moduleName) {
+	function getConvertLeadMappedField($fieldName, $moduleName)
+	{
 		$mappingFields = $this->get('mappingFields');
 
 		if (!$mappingFields) {
@@ -224,12 +231,14 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 			$leadInstance = Vtiger_Module_Model::getInstance('Leads');
 			$leadFieldInstances = $leadInstance->getFieldsById();
 
-			for($i=0; $i<$numOfRows; $i++) {
-				$row = $db->query_result_rowdata($result,$i);
-				if(empty($row['leadfid'])) continue;
+			for ($i = 0; $i < $numOfRows; $i++) {
+				$row = $db->query_result_rowdata($result, $i);
+				if (empty($row['leadfid']))
+					continue;
 
 				$leadFieldInstance = $leadFieldInstances[$row['leadfid']];
-				if(!$leadFieldInstance) continue;
+				if (!$leadFieldInstance)
+					continue;
 
 				$leadFieldName = $leadFieldInstance->getName();
 				$accountFieldInstance = $accountFieldInstances[$row['accountfid']];
@@ -254,20 +263,21 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 	 * Function returns the fields required for Lead Convert
 	 * @return <Array of Vtiger_Field_Model>
 	 */
-	function getConvertLeadFields() {
+	function getConvertLeadFields()
+	{
 		$convertFields = array();
 		$accountFields = $this->getAccountFieldsForLeadConvert();
-		if(!empty($accountFields)) {
+		if (!empty($accountFields)) {
 			$convertFields['Accounts'] = $accountFields;
 		}
-/*
-		$contactFields = $this->getContactFieldsForLeadConvert();
-		if(!empty($contactFields)) {
-			$convertFields['Contacts'] = $contactFields;
-		}
-*/
+		/*
+		  $contactFields = $this->getContactFieldsForLeadConvert();
+		  if(!empty($contactFields)) {
+		  $convertFields['Contacts'] = $contactFields;
+		  }
+		 */
 		$potentialsFields = $this->getPotentialsFieldsForLeadConvert();
-		if(!empty($potentialsFields)) {
+		if (!empty($potentialsFields)) {
 			$convertFields['Potentials'] = $potentialsFields;
 		}
 		return $convertFields;
@@ -277,33 +287,36 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 	 * Function returns the url for create event
 	 * @return <String>
 	 */
-	function getCreateEventUrl() {
+	function getCreateEventUrl()
+	{
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-		return $calendarModuleModel->getCreateEventRecordUrl().'&link='.$this->getId();
+		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
 	}
 
 	/**
 	 * Function returns the url for create todo
 	 * @return <String>
 	 */
-	function getCreateTaskUrl() {
+	function getCreateTaskUrl()
+	{
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-		return $calendarModuleModel->getCreateTaskRecordUrl().'&link='.$this->getId();
+		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
 	}
-    
-    /**
+
+	/**
 	 * Function to check whether the lead is converted or not
 	 * @return True if the Lead is Converted false otherwise.
 	 */
-    function isLeadConverted() {
-        $db = PearDatabase::getInstance();
-        $id = $this->getId();
-        $sql = "select converted from vtiger_leaddetails where converted = 1 and leadid=?";
-        $result = $db->pquery($sql,array($id));
-        $rowCount = $db->num_rows($result);
-        if($rowCount > 0){
-            return true;
-        }
-        return false;
-    }
+	function isLeadConverted()
+	{
+		$db = PearDatabase::getInstance();
+		$id = $this->getId();
+		$sql = "select converted from vtiger_leaddetails where converted = 1 and leadid=?";
+		$result = $db->pquery($sql, array($id));
+		$rowCount = $db->num_rows($result);
+		if ($rowCount > 0) {
+			return true;
+		}
+		return false;
+	}
 }

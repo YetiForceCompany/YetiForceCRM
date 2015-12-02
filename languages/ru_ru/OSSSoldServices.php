@@ -10,14 +10,14 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_RECORDS_LIST' => 'Records List',
+	'Potentials' => 'Исходная сделка',
+	'LBL_RECORDS_LIST' => 'Список Услуг',
 	'LBL_ADD_RECORD' => 'Услуга',
 	'Services' => 'Услуги',
-	'Potential' => 'Сделка',
 	'Invoice' => 'Счет',
 	'OSSSoldServices'	=>	'Реализация Услуг',
 	'SINGLE_OSSSoldServices'	=>	'Реализация Услуг',
-	'LBL_INFORMATION'	=>	'Информация',
+	'LBL_INFORMATION' => 'Основная информация',
 
 //fields
 	'Invoice number'	=>	'Счет',
@@ -34,11 +34,11 @@ $languageStrings = [
 	'Date Sold'	=>	'Дата продажи',
 	'Date in Service'	=>	'Дата окончания поддержки',
 	'Description'	=>	'Описание',
-	'LBL_DESCRIPTION_INFORMATION'	=>	'Дополнительная информация',
-	'LBL_CUSTOM_INFORMATION'	=>	'Системная информация',
+	'LBL_DESCRIPTION_INFORMATION' => 'Описание',
+	'LBL_CUSTOM_INFORMATION' => 'Дополнительная информация',
 	'Where bought'	=>	'Где купил',
 	'Number'	=>	'№',
-	'Potential renewal'	=>	'Обновить продажи',
+	'Potential renewal' => 'Потенциальная сделка',
 	'LBL_GENERATE_EXTENSION' => 'Создать Предложение',
 	'LBL_ORDER_TIME'	=>	'Время Заказа',
 ];

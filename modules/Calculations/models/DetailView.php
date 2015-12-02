@@ -17,25 +17,13 @@ class Calculations_DetailView_Model extends Inventory_DetailView_Model
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$recordModel = $this->getRecord();
-		$moduleName = $recordModel->getmoduleName();
+		$moduleName = $recordModel->getModuleName();
 		foreach ($linkModelList as $kaytab => $linktab) {
 			foreach ($linktab as $kay => $link) {
 				if ($link->linklabel == 'LBL_EXPORT_TO_PDF' || $link->linklabel == 'LBL_SEND_MAIL_PDF') {
 					unset($linkModelList[$kaytab][$kay]);
 				}
 			}
-		}
-		$quotesModuleModel = Vtiger_Module_Model::getInstance('Quotes');
-		if ($currentUserModel->hasModuleActionPermission($quotesModuleModel->getId(), 'EditView')) {
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => '',
-				'linkurl' => "index.php?module=" . $quotesModuleModel->getName() . "&view=" . $quotesModuleModel->getEditViewName() . "&calculation_id=" . $recordModel->getId(),
-				'linkclass' => 'btn-success',
-				'linkimg' => 'layouts/vlayout/skins/images/Quotes.png',
-				'linkhint' => vtranslate('LBL_GENERATE_QUOTES', 'Quotes'),
-			);
-			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 		return $linkModelList;
 	}

@@ -10,14 +10,14 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = [
-	'LBL_SUMMARY' => 'Всего рабочего времени',
+	'LBL_SUMMARY' => 'Дополнительная информация',
 	'Actual Duration'              => 'Фактическая продолжительность (в Днях)', 
 	'Contract No'                  => 'Контракт №'        , 
 	'End Date'                     => 'Дата завершения', 
 	'High'							 => 'Высокий',
 	'LBL_ADD_RECORD'	=>	'Сервисный контракт',
 	'LBL_RECORDS_LIST'	=>	'Сервисные контракты',
-	'LBL_SERVICE_CONTRACT_INFORMATION' => 'Информация Сервисного контракта', 
+	'LBL_SERVICE_CONTRACT_INFORMATION' => 'Основная информация',
 	'Low' 							=> 'Низкий',
 	'Planned Duration'             => 'Плановая продолжительность (в Днях)', 
 	'Progress'                     => 'Прогресс (в %)'       , 
@@ -45,7 +45,7 @@ $languageStrings = [
     'Incidents'                    => 'События',
     'Normal'                       => 'Нормальный',
     'On Hold'                      => 'На удержании',
-    'Related to'                   => 'Связан с',
+	'Related to' => 'Контрагент',
     'Support'                      => 'Поддержка',
     'Undefined'                    => 'Неопределенно',
 ];

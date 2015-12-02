@@ -10,8 +10,12 @@ class API
 	 */
 	protected $method = '';
 	protected $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE'];
-	protected $modulesPath = 'api/webservice/modules/';
-
+	protected $acceptableHeaders = ['Apikey', 'Encrypted', 'Sessionid'];
+	protected $modulesPath = 'api/webservice/';
+	protected $data = [];
+	protected $request = [];
+	protected $headers = [];
+	protected $panel = '';
 
 	public function __construct()
 	{
@@ -34,15 +38,108 @@ class API
 			throw new APIException('Invalid Method', 405);
 		}
 
+		$this->initHeaders();
+
+		if (isset($this->headers['Encrypted']) && $this->headers['Encrypted'] == 1) {
+			$requestData = $this->decryptData(file_get_contents('php://input'));
+		} else {
+			$requestData = $_POST;
+		}
+
 		$this->request = new Vtiger_Request($_REQUEST, $_REQUEST);
-		$this->data = new Vtiger_Request($_REQUEST['data'], $_REQUEST['data']);
+		$this->data = new Vtiger_Request($requestData, $requestData);
 	}
 
-	
+	public function preProcess()
+	{
+		if (!$this->validateApiKey($this->headers['Apikey'])) {
+			throw new APIException('Invalid api key', 401);
+		}
+	}
+
+	public function process()
+	{
+		$handlerClass = $this->getModuleClassName();
+		$handler = new $handlerClass();
+		$handler->api = $this;
+		if ($handler->getRequestMethod() != $this->method) {
+			throw new APIException('Invalid request type');
+		}
+
+		if ($this->request->get('action') != '') {
+			$function = $this->request->get('action');
+		}
+
+		$data = [];
+		if (is_a($this->data, 'Vtiger_Request')) {
+			$data = $this->data->getAll();
+		}
+		if(count($data) == 0 && $this->request->has('record')){
+			$data['record'] = $this->request->get('record');
+		}
+
+		if (is_array($data)) {
+			$response = call_user_func_array([$handler, $function], $data);
+		} else {
+			$response = call_user_func([$handler, $function], $data);
+		}
+
+		$response = [
+			'status' => 1,
+			'result' => $response
+		];
+		if (vglobal('encryptDataTransfer')) {
+			$response = $this->encryptData($response);
+		}
+
+		$this->response($response);
+	}
+
+	public function postProcess()
+	{
+		
+	}
+
+	public function encryptData($data)
+	{
+		$publicKey = 'file://' . vglobal('root_directory') . vglobal('publicKey');
+		openssl_public_encrypt(json_encode($data), $encrypted, $publicKey);
+		return $encrypted;
+	}
+
+	public function decryptData($data)
+	{
+		$privateKey = 'file://' . vglobal('root_directory') . vglobal('privateKey');
+		if (!$privateKey = openssl_pkey_get_private($privateKey)) {
+			throw new AppException('Private Key failed');
+		}
+		$privateKey = openssl_pkey_get_private($privateKey);
+		openssl_private_decrypt($data, $decrypted, $privateKey);
+
+		return json_decode($decrypted, 1);
+	}
+
+	public function initHeaders()
+	{
+		$headers = apache_request_headers();
+		foreach ($this->acceptableHeaders as $value) {
+			if (!isset($headers[$value])) {
+				throw new APIException('No parameter: ' . $value, 401);
+			}
+			$this->headers[$value] = $headers[$value];
+		}
+	}
+
 	private function response($data, $status = 200)
 	{
 		header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
-		echo json_encode($data);
+		header('Encrypted: ' . (string) vglobal('encryptDataTransfer'));
+		if (vglobal('encryptDataTransfer')) {
+			$response = $data;
+		} else {
+			$response = json_encode($data);
+		}
+		echo $response;
 	}
 
 	private function _requestStatus($code)
@@ -58,25 +155,42 @@ class API
 		return ($status[$code]) ? $status[$code] : $status[500];
 	}
 
-	public function process()
+	private function validateApiKey($key)
 	{
-		$filePath = $this->modulesPath . $this->request->get('module') . '.php';
-		if (!file_exists($filePath)) {
-			throw new APIException('File does not exist: ' . $filePath);
+		$this->panel = 'Portal';
+		if ($key != 'n8erhg39rbn48nb438bn') {
+			return false;
 		}
-		require_once $filePath;
-		$handlerClass = 'API_' . $this->request->get('module');
-		if (!class_exists($handlerClass)) {
-			throw new APIException('HANDLER_NOT_FOUND: ' . $handlerClass);
+		return true;
+	}
+
+	private function validateFromUrl($url)
+	{
+		if ($url != 'http://portal2') {
+			return false;
+		}
+		return true;
+	}
+
+	public function getModuleName()
+	{
+		return $this->request->get('module');
+	}
+
+	private function getModuleClassName()
+	{
+		$mainFilePath = $filePath = $this->modulesPath . $this->panel . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->request->get('module') . DIRECTORY_SEPARATOR . $this->request->get('action') . '.php';
+		if (file_exists($filePath)) {
+			require_once $filePath;
+			return 'API_' . $this->request->get('module') . '_' . $this->request->get('action');
 		}
 
-		$handler = new $handlerClass();
-		$function = 'process';
-		if ($this->request->get('action') != '') {
-			$function = $this->request->get('action');
+		$filePath = $this->modulesPath . $this->panel . '/modules/Base/' . $this->request->get('action') . '.php';
+		if (file_exists($filePath)) {
+			require_once $filePath;
+			return 'API_Base_' . $this->request->get('action');
 		}
 
-		$response = call_user_func_array([$handler, $function], $this->data->getAll());
-		$this->response($response);
+		throw new APIException('No action found: ' . $mainFilePath, 405);
 	}
 }

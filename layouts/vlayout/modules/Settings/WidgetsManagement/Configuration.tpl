@@ -31,11 +31,11 @@ padding: 20px 20px 20px 20px;
 <div class="" id="widgetsManagementEditorContainer">
 		<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
 		<div class="widget_header row">
-			<div class="col-md-10">
+			<div class="col-md-9">
 				<h3>{vtranslate('LBL_WIDGETS_MANAGEMENT', $QUALIFIED_MODULE)}</h3>
 				{vtranslate('LBL_WIDGETS_MANAGEMENT_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-3 h3">
 				<div class="col-md-12 pull-right">
 					<select class="chzn-select form-control" name="widgetsManagementEditorModules">
 						{foreach item=mouleName from=$SUPPORTED_MODULES}
@@ -51,12 +51,13 @@ padding: 20px 20px 20px 20px;
 	<div class="tab-content layoutContent paddingNoTop20 themeTableColor overflowVisible">
 		
 	<div class="tab-pane active" id="layoutDashBoards">
-		<div class="btn-toolbar">
+		<div class="btn-toolbar marginBottom10px">
 			<button type="button" class="btn btn-default addBlockDashBoard"><span class="glyphicon glyphicon-plus"></span>&nbsp;{vtranslate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</button>
 		</div>
 		
 		<div id="moduleBlocks">
 			<input type="hidden" name="filter_users" value='{Zend_Json::encode($WIDGETS_WITH_FILTER_USERS)}'>
+			<input type="hidden" name="filter_restrict" value='{Zend_Json::encode($RESTRICT_FILTER)}'>
 			{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
 				{assign var=AUTHORIZATION_NAME value=$AUTHORIZATION_INFO.name}
 				<div id="block_{$AUTHORIZATION_KEY}" class="editFieldsTable block_{$AUTHORIZATION_KEY} marginBottom10px border1px blockSortable" data-block-id="{$AUTHORIZATION_KEY}" data-sequence="" data-code="{$AUTHORIZATION_INFO.code}" style="border-radius: 4px 4px 0px 0px;background: white;">
@@ -86,7 +87,7 @@ padding: 20px 20px 20px 20px;
 											<strong>{vtranslate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
-									<div class="btn-group actions">
+									<div class="btn-group actions form-control-static">
 										<a href="javascript:void(0)" class="deleteCustomBlock" >
 											<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 										</a>
@@ -165,41 +166,45 @@ padding: 20px 20px 20px 20px;
 																{/if}
 															</div>
 															{if in_array($WIDGET_MODEL->get('linklabel'),$WIDGETS_WITH_FILTER_USERS)}
-																<div style="border-top:1px solid #dddddd ">
+																<div class="row form-group">
 																	{assign var=WIDGET_OWNERS value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('owners')))}
 																	
-																		<div class="col-md-5">
-																			<select class="widgetFilter col-md-2 form-control" id="owner" name="default_owner">
+																		<div class="col-md-5 filter">
+																			<select class="widgetFilter form-control" id="owner" name="default_owner">
 																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
-																					<option value="{$OWNER_ID}" {if $WIDGET_OWNERS.default eq $OWNER_ID} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+																					{if !(is_array($RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]) && in_array($OWNER_ID, $RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]))}
+																						<option value="{$OWNER_ID}" {if $WIDGET_OWNERS.default eq $OWNER_ID} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+																					{/if}
 																				{/foreach}
 																			</select>
 																		</div>
-																		<label class="col-md-7 marginTop5 pull-left" >
-																			&nbsp;{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}&nbsp;
+																		<label class="col-md-6 marginTop5 paddingLRZero form-control-static pull-left" >
+																			{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
 																		</label>
 																	
 																	{if !is_array($WIDGET_OWNERS.available)}
 																		{$WIDGET_OWNERS.available = array($WIDGET_OWNERS.available)}
 																	{/if}
 																	<div>
-																		<div class="col-md-8">
-																			<select class="widgetFilter col-md-3" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
+																		<div class="col-md-8 filter">
+																			<select class="widgetFilter" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
-																					<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+																					{if !(is_array($RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]) && in_array($OWNER_ID, $RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]))}
+																						<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+																					{/if}
 																				{/foreach}
 																			</select>
 																		</div>
-																		<label class="col-md-4 marginTop5 pull-left" >
-																			&nbsp;{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}&nbsp;
+																		<label class="col-md-3 marginTop5 paddingLRZero form-control-static pull-left" >
+																			{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 																		</label>
 																	</div>	
 																</div>
 															{/if}
-															<div class="modal-footer" style="padding: 0px;">
+															<div class="modal-footer">
 																<span class="pull-right">
-																	<div class="pull-right"><a href="javascript:void(0)" style="margin: 5px;color:#AA3434;margin-top:10px;" class='cancel'>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
-																	<button class="btn btn-success saveFieldDetails" data-field-id="{$WIDGET_MODEL->get('id')}" type="submit" style="margin: 5px;">
+																	<div class="pull-right"><button class='cancel btn btn-warning' type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button></div>
+																	<button class="btn btn-success saveFieldDetails" data-field-id="{$WIDGET_MODEL->get('id')}" type="submit">
 																		<strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong>
 																	</button>
 																</span>
@@ -284,41 +289,45 @@ padding: 20px 20px 20px 20px;
 																{/if}
 															</div>
 															{if in_array($WIDGET_MODEL->get('linklabel'),$WIDGETS_WITH_FILTER_USERS)}
-																<div class="row " style="padding: 0px; border-top:1px solid #dddddd ">
+																<div class="row form-group">
 																	{assign var=WIDGET_OWNERS value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('owners')))}
 																	
-																		<div class="col-md-5">
-																			<select class="widgetFilter col-md-2 form-control" id="owner" name="default_owner">
+																		<div class="col-md-5 filter">
+																			<select class="widgetFilter form-control" id="owner" name="default_owner">
 																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
-																					<option value="{$OWNER_ID}" {if $WIDGET_OWNERS.default eq $OWNER_ID} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+																					{if !(is_array($RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]) && in_array($OWNER_ID, $RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]))}
+																						<option value="{$OWNER_ID}" {if $WIDGET_OWNERS.default eq $OWNER_ID} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+																					{/if}
 																				{/foreach}
 																			</select>
 																		</div>
-																		<label class="col-md-7 marginTop5 pull-left" >
-																			&nbsp;{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}&nbsp;
+																		<label class="col-md-6 marginTop5 paddingLRZero form-control-static pull-left" >
+																			{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
 																		</label>
 																	
 																	{if !is_array($WIDGET_OWNERS.available)}
 																		{$WIDGET_OWNERS.available = array($WIDGET_OWNERS.available)}
 																	{/if}
 																	<div class="">
-																		<span class="col-md-8">
-																			<select class="widgetFilter col-md-3" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
+																		<span class="col-md-8 filter">
+																			<select class="widgetFilter" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
-																					<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+																					{if !(is_array($RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]) && in_array($OWNER_ID, $RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]))}
+																						<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+																					{/if}
 																				{/foreach}
 																			</select>
 																		</span>
-																		<label class="col-md-4 marginTop5 pull-left" >
-																			&nbsp;{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}&nbsp;
+																		<label class="col-md-3 marginTop5 form-control-static paddingLRZero pull-left" >
+																			{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 																		</label>
 																	</div>	
 																</div>
 															{/if}
-															<div class="modal-footer" style="padding: 0px;">
+															<div class="modal-footer">
 																<span class="pull-right">
-																	<div class="pull-right"><a href="javascript:void(0)" style="margin: 5px;color:#AA3434;margin-top:10px;" class='cancel'>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
-																	<button class="btn btn-success saveFieldDetails" data-field-id="{$WIDGET_MODEL->get('id')}" type="submit" style="margin: 5px;">
+																	<div class="pull-right"><button class='cancel btn btn-warning' type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button></div>
+																	<button class="btn btn-success saveFieldDetails" data-field-id="{$WIDGET_MODEL->get('id')}" type="submit">
 																		<strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong>
 																	</button>
 																</span>
@@ -399,7 +408,7 @@ padding: 20px 20px 20px 20px;
 									<strong>{vtranslate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 								</button>
 							</div>
-							<div class="btn-group actions">
+							<div class="btn-group actions form-control-static">
 								<a href="javascript:void(0)" class="deleteCustomBlock" >
 									<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 								</a>
@@ -547,7 +556,7 @@ padding: 20px 20px 20px 20px;
 											&nbsp;{vtranslate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
 										</label>	
 									</div>
-									<div class="row" style="padding: 5px; ">
+									<div class="row limit" style="padding: 5px; ">
 										<div class="col-md-3" style="text-align:center">
 											<input type="text" name="limit" class="col-md-1 form-control" value="10" >
 										</div>
@@ -556,35 +565,35 @@ padding: 20px 20px 20px 20px;
 										</label>
 									</div>
 								</div>
-								<div class="row widgetFilterAll hide" style="padding: 0px; border-top:1px solid #dddddd ">
+								<div class="row widgetFilterAll hide form-group">
 									<div class="">
-										<div class="col-md-5">
-											<select class="widgetFilter col-md-2 form-control" id="owner" name="default_owner">
+										<div class="col-md-5 filter">
+											<select class="widgetFilter form-control" id="owner" name="default_owner">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
 													<option value="{$OWNER_ID}">{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 												{/foreach}
 											</select>
 										</div>
-										<label class="col-md-7 marginTop5 pull-left" >
-											&nbsp;{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}&nbsp;
+										<label class="col-md-6 marginTop5 paddingLRZero form-control-static pull-left" >
+											{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
 										</label>
 									</div>	
 									<div class="">
-										<div class="col-md-8">
-											<select class="widgetFilter col-md-3 form-control" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
+										<div class="col-md-8 filter">
+											<select class="widgetFilter form-control" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
 													<option value="{$OWNER_ID}" selected>{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 												{/foreach}
 											</select>
 										</div>
-										<label class="col-md-4 marginTop5 pull-left" >
-											&nbsp;{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}&nbsp;
+										<label class="col-md-3 marginTop5 paddingLRZero form-control-static pull-left" >
+											{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 										</label>
 									</div>	
 								</div>
 								<div class="modal-footer">
 									<span class="pull-right">
-										<div class="pull-right"><a href="javascript:void(0)" style="margin-top: 5px;margin-left: 10px;color:#AA3434;" class='cancel'>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
+										<div class="pull-right"><button class='cancel btn btn-warning' type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button></div>
 										<button class="btn btn-success saveFieldDetails" data-field-id="" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 									</span>
 								</div>

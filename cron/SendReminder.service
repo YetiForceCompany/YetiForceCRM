@@ -13,7 +13,7 @@ INNER JOIN vtiger_activity_reminder ON vtiger_activity.activityid=vtiger_activit
 LEFT OUTER JOIN vtiger_recurringevents ON vtiger_activity.activityid=vtiger_recurringevents.activityid 
 WHERE DATE_FORMAT(vtiger_activity.date_start,'%Y-%m-%d, %H:%i:%s') >= '".date('Y-m-d')."' 
 AND vtiger_crmentity.crmid != 0 
-AND vtiger_activity.eventstatus = 'Planned' 
+AND vtiger_activity.status = 'PLL_PLANNED' 
 AND vtiger_activity_reminder.reminder_sent = 0 
 GROUP BY vtiger_activity.activityid,vtiger_recurringevents.recurringid";
 
@@ -82,24 +82,24 @@ if($adb->num_rows($result) >= 1)
 				}
 			}
 			if($result_set['activitytype'] == "Task"){
-				$template = 93;
+				$sysname = 'ActivityReminderNotificationTask';
 			}else{
-				$template = 94;
+				$sysname = 'ActivityReminderNotificationEvents';
 			}		
 			
 			if($to_addr != '')
 			{
-				$data = array(
-					'id' => $template,
+				$data = [
+					'sysname' => $sysname,
 					'to_email' => rtrim($to_addr, ','),
 					'module' => 'Calendar',
 					'record' => $activity_id,
-				);
+				];
 				$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 				$recordModel->sendMailFromTemplate($data);
 
-				$upd_query = "UPDATE vtiger_activity_reminder SET reminder_sent=1 where activity_id=?";
-				$upd_params = array($activity_id);
+				$upd_query = 'UPDATE vtiger_activity_reminder SET reminder_sent=1 where activity_id=?';
+				$upd_params = [$activity_id];
 				if($recur_id!=0)
 				{
 					$upd_query.=" and recurringid =?";

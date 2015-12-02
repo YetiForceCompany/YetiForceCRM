@@ -1,29 +1,34 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-Class Settings_Webforms_Edit_View extends Settings_Vtiger_Index_View {
+Class Settings_Webforms_Edit_View extends Settings_Vtiger_Index_View
+{
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Vtiger_Request $request)
+	{
 		parent::checkPermission($request);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleModel->getId())) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new NoPermittedException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
+		$moduleName = $request->getModule();
+		$parentModuleName = $request->get('parent');
 		$mode = '';
 		$selectedFieldsList = $allFieldsList = array();
 		$viewer = $this->getViewer($request);
@@ -32,7 +37,7 @@ Class Settings_Webforms_Edit_View extends Settings_Vtiger_Index_View {
 		if ($recordId) {
 			$recordModel = Settings_Webforms_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
 			$selectedFieldsList = $recordModel->getSelectedFieldsList();
-			
+
 			$sourceModule = $recordModel->get('targetmodule');
 			$mode = 'edit';
 		} else {
@@ -41,10 +46,10 @@ Class Settings_Webforms_Edit_View extends Settings_Vtiger_Index_View {
 			if (!$sourceModule) {
 				$sourceModule = reset(array_keys($supportedModules));
 			}
-            $recordModel->set('targetmodule',$sourceModule);
+			$recordModel->set('targetmodule', $sourceModule);
 		}
-		if(!$supportedModules[$sourceModule]){
-			$message = vtranslate('LBL_ENABLE_TARGET_MODULES_FOR_WEBFORM',$qualifiedModuleName);
+		if (!$supportedModules[$sourceModule]) {
+			$message = vtranslate('LBL_ENABLE_TARGET_MODULES_FOR_WEBFORM', $qualifiedModuleName);
 			$viewer->assign('MESSAGE', $message);
 			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
 			return false;
@@ -56,7 +61,8 @@ Class Settings_Webforms_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('MODE', $mode);
 		$viewer->assign('RECORD_ID', $recordId);
 		$viewer->assign('RECORD_MODEL', $recordModel);
-		$viewer->assign('MODULE', $qualifiedModuleName);
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('PARENT_MODULE', $parentModuleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
@@ -65,7 +71,7 @@ Class Settings_Webforms_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructure);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure->getStructure());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		
+
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 
@@ -74,7 +80,8 @@ Class Settings_Webforms_Edit_View extends Settings_Vtiger_Index_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request) {
+	function getFooterScripts(Vtiger_Request $request)
+	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
@@ -87,5 +94,4 @@ Class Settings_Webforms_Edit_View extends Settings_Vtiger_Index_View {
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
-
 }

@@ -1,19 +1,19 @@
 {*<!--
 /*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
+* The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+* in compliance with the License.
+* Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+* See the License for the specific language governing rights and limitations under the License.
+* The Original Code is YetiForce.
+* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+* All Rights Reserved.
+*************************************************************************************************************************************/
 -->*}
 {strip}
 	<div class="" id="DavKeysContainer">
 		<div class="widget_header row">
 			<div class="col-md-8"><h3>{vtranslate('LBL_DAV_KEYS', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_DAV_KEYS_DESCRIPTION', $QUALIFIED_MODULE)}</div>
-			<div class="col-md-4"><button class="btn btn-primary addKey pull-right">{vtranslate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
+			<div class="col-md-4"><button class="btn btn-primary addKey pull-right marginTop20">{vtranslate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
 		</div>
 		<hr>
 		<div class="contents">
@@ -24,7 +24,7 @@
 					<p>{vtranslate('LBL_ALERT_DAV_NO_ACTIVE_DESC', $QUALIFIED_MODULE)}</p>
 				</div>	
 			{/if}
-			<div class="row">
+			<div>
 				<div class="contents tabbable">
 					<table class="table table-bordered table-condensed listViewEntriesTable">
 						<thead>
@@ -67,7 +67,6 @@
 					</table>
 				</div>
 			</div>
-
 			<div class="modal addKeyContainer fade" tabindex="-1">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -81,9 +80,9 @@
 									<label class="col-sm-3 control-label">{vtranslate('LBL_SELECT_USER', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-6 controls">
 										<select class="select user form-control" name="user" data-validation-engine="validate[required]">
-										{foreach from=$USERS item=item key=key}
-											<option value="{$key}">{$item->getDisplayName()}</option>
-										{/foreach}
+											{foreach from=$USERS item=item key=key}
+												<option value="{$key}">{$item->getDisplayName()}</option>
+											{/foreach}
 										</select>
 									</div>
 								</div>
@@ -91,9 +90,9 @@
 									<label class="col-sm-3 control-label">{vtranslate('LBL_SELECT_TYPE', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-6 controls">
 										<select multiple="" class="select type form-control" name="type">
-										{foreach from=$MODULE_MODEL->getTypes() item=item}
-											<option selected="" value="{$item}">{$item}</option>
-										{/foreach}
+											{foreach from=$MODULE_MODEL->getTypes() item=item}
+												<option selected="" value="{$item}">{$item}</option>
+											{/foreach}
 										</select>
 									</div>
 								</div>	

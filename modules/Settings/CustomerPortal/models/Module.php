@@ -1,14 +1,15 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model {
+class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model
+{
 
 	var $name = 'CustomerPortal';
 
@@ -16,7 +17,8 @@ class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model 
 	 * Function to get Current portal user
 	 * @return <Interger> userId
 	 */
-	public function getCurrentPortalUser() {
+	public function getCurrentPortalUser()
+	{
 		$db = PearDatabase::getInstance();
 
 		$result = $db->pquery("SELECT prefvalue FROM vtiger_customerportal_prefs WHERE prefkey = 'userid' AND tabid = 0", array());
@@ -30,7 +32,8 @@ class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model 
 	 * Function to get current default assignee from portal
 	 * @return <Integer> userId
 	 */
-	public function getCurrentDefaultAssignee() {
+	public function getCurrentDefaultAssignee()
+	{
 		$db = PearDatabase::getInstance();
 
 		$result = $db->pquery("SELECT prefvalue FROM vtiger_customerportal_prefs WHERE prefkey = 'defaultassignee' AND tabid = 0", array());
@@ -44,7 +47,8 @@ class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model 
 	 * Function to get list of portal modules
 	 * @return <Array> list of portal modules <Vtiger_Module_Model>
 	 */
-	public function getModulesList() {
+	public function getModulesList()
+	{
 		if (!$this->portalModules) {
 			$db = PearDatabase::getInstance();
 
@@ -55,7 +59,7 @@ class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model 
 			$result = $db->pquery($query, array());
 			$rows = $db->num_rows($result);
 
-			for($i=0; $i<$rows; $i++) {
+			for ($i = 0; $i < $rows; $i++) {
 				$rowData = $db->query_result_rowdata($result, $i);
 				$tabId = $rowData['tabid'];
 				$moduleModel = Vtiger_Module_Model::getInstance($tabId);
@@ -72,12 +76,13 @@ class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model 
 	/**
 	 * Function to save the details of Portal modules
 	 */
-	public function save() {
+	public function save()
+	{
 		$db = PearDatabase::getInstance();
 		$privileges = $this->get('privileges');
 		$defaultAssignee = $this->get('defaultAssignee');
 		$portalModulesInfo = $this->get('portalModulesInfo');
-		
+
 		//Update details of view all record option for every module from Customer portal
 		$updateQuery = "UPDATE vtiger_customerportal_prefs SET prefvalue = CASE ";
 		foreach ($portalModulesInfo as $tabId => $moduleDetails) {
@@ -104,7 +109,7 @@ class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model 
 			$updateSequenceQuery .= " WHEN tabid = $tabId THEN $sequence ";
 		}
 		$updateSequenceQuery .= "END";
-		
+
 		$db->pquery($updateSequenceQuery, array());
 	}
 }

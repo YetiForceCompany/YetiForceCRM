@@ -1,12 +1,12 @@
 <?php
-/*+*******************************************************************************
+/* +*******************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ******************************************************************************/
+ * **************************************************************************** */
 include_once('vtlib/Vtiger/Utils.php');
 require_once 'include/runtime/Cache.php';
 
@@ -14,35 +14,38 @@ require_once 'include/runtime/Cache.php';
  * Provides API to work with vtiger CRM Module Blocks
  * @package vtlib
  */
-class Vtiger_Block {
+class Vtiger_Block
+{
+
 	/** ID of this block instance */
 	var $id;
+
 	/** Label for this block instance */
 	var $label;
-
 	var $sequence;
 	var $showtitle = 0;
 	var $visible = 0;
 	var $increateview = 0;
 	var $ineditview = 0;
 	var $indetailview = 0;
-
-    var $display_status=1;
-	var $iscustom=0;
-
+	var $display_status = 1;
+	var $iscustom = 0;
 	var $module;
 
 	/**
 	 * Constructor
 	 */
-	function __construct() {
+	function __construct()
+	{
+		
 	}
 
 	/**
 	 * Get unquie id for this instance
 	 * @access private
 	 */
-	function __getUniqueId() {
+	function __getUniqueId()
+	{
 		$adb = PearDatabase::getInstance();
 
 		/** Sequence table was added from 5.1.0 */
@@ -54,11 +57,12 @@ class Vtiger_Block {
 	 * Get next sequence value to use for this block instance
 	 * @access private
 	 */
-	function __getNextSequence() {
+	function __getNextSequence()
+	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT MAX(sequence) as max_sequence from vtiger_blocks where tabid = ?", Array($this->module->id));
 		$maxseq = 0;
-		if($adb->num_rows($result)) {
+		if ($adb->num_rows($result)) {
 			$maxseq = $adb->query_result($result, 0, 'max_sequence');
 		}
 		return ++$maxseq;
@@ -70,32 +74,35 @@ class Vtiger_Block {
 	 * @param Vtiger_Module Instance of module to which this block is associated
 	 * @access private
 	 */
-	function initialize($valuemap, $moduleInstance=false) {
+	function initialize($valuemap, $moduleInstance = false)
+	{
 		$this->id = $valuemap[blockid];
-		$this->label= $valuemap[blocklabel];
-        $this->display_status = $valuemap[display_status];
+		$this->label = $valuemap[blocklabel];
+		$this->display_status = $valuemap[display_status];
 		$this->sequence = $valuemap[sequence];
-        $this->iscustom = $valuemap[iscustom];
-		$this->module=$moduleInstance? $moduleInstance: Vtiger_Module::getInstance($valuemap[tabid]);
+		$this->iscustom = $valuemap[iscustom];
+		$this->module = $moduleInstance ? $moduleInstance : Vtiger_Module::getInstance($valuemap[tabid]);
 	}
 
 	/**
 	 * Create vtiger CRM block
 	 * @access private
 	 */
-	function __create($moduleInstance) {
+	function __create($moduleInstance)
+	{
 		$adb = PearDatabase::getInstance();
 
 		$this->module = $moduleInstance;
 
 		$this->id = $this->__getUniqueId();
-		if(!$this->sequence) $this->sequence = $this->__getNextSequence();
-		if($this->display_status != 0){
+		if (!$this->sequence)
+			$this->sequence = $this->__getNextSequence();
+		if ($this->display_status != 0) {
 			$this->display_status = 1;
 		}
 		$adb->pquery("INSERT INTO vtiger_blocks(blockid,tabid,blocklabel,sequence,show_title,visible,create_view,edit_view,detail_view,display_status,iscustom)
-			VALUES(?,?,?,?,?,?,?,?,?,?,?)", Array($this->id, $this->module->id, $this->label,$this->sequence,
-			$this->showtitle, $this->visible,$this->increateview, $this->ineditview, $this->indetailview, $this->display_status, $this->iscustom));
+			VALUES(?,?,?,?,?,?,?,?,?,?,?)", Array($this->id, $this->module->id, $this->label, $this->sequence,
+			$this->showtitle, $this->visible, $this->increateview, $this->ineditview, $this->indetailview, $this->display_status, $this->iscustom));
 		self::log("Creating Block $this->label ... DONE");
 		self::log("Module language entry for $this->label ... CHECK");
 	}
@@ -105,7 +112,8 @@ class Vtiger_Block {
 	 * @access private
 	 * @internal TODO
 	 */
-	function __update() {
+	function __update()
+	{
 		self::log("Updating Block $this->label ... DONE");
 	}
 
@@ -113,7 +121,8 @@ class Vtiger_Block {
 	 * Delete this instance
 	 * @access private
 	 */
-	function __delete() {
+	function __delete()
+	{
 		$adb = PearDatabase::getInstance();
 		self::log("Deleting Block $this->label ... ", false);
 		$adb->pquery("DELETE FROM vtiger_blocks WHERE blockid=?", Array($this->id));
@@ -124,9 +133,12 @@ class Vtiger_Block {
 	 * Save this block instance
 	 * @param Vtiger_Module Instance of the module to which this block is associated
 	 */
-	function save($moduleInstance=false) {
-		if($this->id) $this->__update();
-		else $this->__create($moduleInstance);
+	function save($moduleInstance = false)
+	{
+		if ($this->id)
+			$this->__update();
+		else
+			$this->__create($moduleInstance);
 		return $this->id;
 	}
 
@@ -134,10 +146,12 @@ class Vtiger_Block {
 	 * Delete block instance
 	 * @param Boolean True to delete associated fields, False to avoid it
 	 */
-	function delete($recursive=true) {
-		if($recursive) {
+	function delete($recursive = true)
+	{
+		if ($recursive) {
 			$fields = Vtiger_Field::getAllForBlock($this);
-			foreach($fields as $fieldInstance) $fieldInstance->delete($recursive);
+			foreach ($fields as $fieldInstance)
+				$fieldInstance->delete($recursive);
 		}
 		$this->__delete();
 	}
@@ -147,7 +161,8 @@ class Vtiger_Block {
 	 * @param Vtiger_Field Instance of field to add to this block.
 	 * @return Reference to this block instance
 	 */
-	function addField($fieldInstance) {
+	function addField($fieldInstance)
+	{
 		$fieldInstance->save($this);
 		return $this;
 	}
@@ -158,7 +173,8 @@ class Vtiger_Block {
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */
-	static function log($message, $delim=true) {
+	static function log($message, $delim = true)
+	{
 		Vtiger_Utils::Log($message, $delim);
 	}
 
@@ -167,16 +183,17 @@ class Vtiger_Block {
 	 * @param mixed block id or block label
 	 * @param Vtiger_Module Instance of the module if block label is passed
 	 */
-	static function getInstance($value, $moduleInstance=false) {
+	static function getInstance($value, $moduleInstance = false)
+	{
 		$adb = PearDatabase::getInstance();
 		$cache = Vtiger_Cache::getInstance();
-		if($moduleInstance && $cache->getBlockInstance($value, $moduleInstance->id)){
+		if ($moduleInstance && $cache->getBlockInstance($value, $moduleInstance->id)) {
 			return $cache->getBlockInstance($value, $moduleInstance->id);
 		} else {
 			$instance = false;
 			$query = false;
 			$queryParams = false;
-			if(Vtiger_Utils::isNumber($value)) {
+			if (Vtiger_Utils::isNumber($value)) {
 				$query = "SELECT * FROM vtiger_blocks WHERE blockid=?";
 				$queryParams = Array($value);
 			} else {
@@ -184,11 +201,11 @@ class Vtiger_Block {
 				$queryParams = Array($value, $moduleInstance->id);
 			}
 			$result = $adb->pquery($query, $queryParams);
-			if($adb->num_rows($result)) {
+			if ($adb->num_rows($result)) {
 				$instance = new self();
 				$instance->initialize($adb->fetch_array($result), $moduleInstance);
 			}
-			$cache->setBlockInstance($value,$instance->module->id, $instance);
+			$cache->setBlockInstance($value, $instance->module->id, $instance);
 			return $instance;
 		}
 	}
@@ -197,7 +214,8 @@ class Vtiger_Block {
 	 * Get all block instances associated with the module
 	 * @param Vtiger_Module Instance of the module
 	 */
-	static function getAllForModule($moduleInstance) {
+	static function getAllForModule($moduleInstance)
+	{
 		$adb = PearDatabase::getInstance();
 		$instances = false;
 
@@ -205,7 +223,7 @@ class Vtiger_Block {
 		$queryParams = Array($moduleInstance->id);
 
 		$result = $adb->pquery($query, $queryParams);
-		for($index = 0; $index < $adb->num_rows($result); ++$index) {
+		for ($index = 0; $index < $adb->num_rows($result); ++$index) {
 			$instance = new self();
 			$instance->initialize($adb->fetch_array($result), $moduleInstance);
 			$instances[] = $instance;
@@ -219,11 +237,20 @@ class Vtiger_Block {
 	 * @param Boolean true to delete associated fields, false otherwise
 	 * @access private
 	 */
-	static function deleteForModule($moduleInstance, $recursive=true) {
+	static function deleteForModule($moduleInstance, $recursive = true)
+	{
 		$adb = PearDatabase::getInstance();
-		if($recursive) Vtiger_Field::deleteForModule($moduleInstance);
-		$adb->pquery("DELETE FROM vtiger_blocks WHERE tabid=?", Array($moduleInstance->id));
+		if ($recursive)
+			Vtiger_Field::deleteForModule($moduleInstance);
+		$adb->delete('vtiger_module_dashboard_blocks', 'tabid = ?', [$moduleInstance->tabId]);
+		$adb->pquery('DELETE vtiger_blocks, vtiger_blocks_hide'
+			. ' FROM vtiger_blocks'
+			. ' INNER JOIN `vtiger_blocks_hide`'
+			. ' ON vtiger_blocks.`blockid` = vtiger_blocks_hide.`blockid`'
+			. '  WHERE vtiger_blocks.`tabid` =?', [$moduleInstance->id]);
+		$adb->delete('vtiger_blocks', 'tabid=?', [$moduleInstance->id]);
 		self::log("Deleting blocks for module ... DONE");
 	}
 }
+
 ?>

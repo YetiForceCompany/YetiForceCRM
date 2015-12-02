@@ -8,13 +8,17 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 
-	public function getAllKeys() {
+class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
+{
+
+	public function getAllKeys()
+	{
 		return API_DAV_Model::getAllUser();
 	}
 
-	public function getAmountData() {
+	public function getAmountData()
+	{
 		$adb = PearDatabase::getInstance();
 		$addressbook = $calendarid = [];
 		$result = $adb->query('SELECT addressbookid, COUNT(id) AS num FROM dav_cards GROUP BY addressbookid;');
@@ -28,7 +32,8 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 		return ['calendar' => $calendarid, 'addressbook' => $addressbook];
 	}
 
-	public function addKey($params) {
+	public function addKey($params)
+	{
 		$adb = PearDatabase::getInstance();
 		$type = (gettype($params['type']) == 'array') ? $params['type'] : [$params['type']];
 		$userID = $params['user'];
@@ -60,32 +65,36 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 		return $key;
 	}
 
-	public function deleteKey($params) {
+	public function deleteKey($params)
+	{
 		$adb = PearDatabase::getInstance();
 		$adb->pquery('DELETE dav_calendars FROM dav_calendars LEFT JOIN dav_principals ON dav_calendars.principaluri = dav_principals.uri WHERE dav_principals.userid = ?;', array($params['user']));
 		$adb->pquery('DELETE FROM dav_users WHERE userid = ?;', array($params['user']));
 		$adb->pquery('DELETE FROM dav_principals WHERE userid = ?;', array($params['user']));
-		
+
 		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
-		$user_name =  $user->get('user_name');
+		$user_name = $user->get('user_name');
 		$davStorageDir = vglobal('davStorageDir');
 		Vtiger_Functions::recurseDelete($davStorageDir . '/' . $user_name);
 	}
 
-	public function getTypes() {
+	public function getTypes()
+	{
 		return ['CalDav', 'CardDav', 'WebDav'];
 	}
-	public function createUserDirectory($params) {
+
+	public function createUserDirectory($params)
+	{
 		$adb = PearDatabase::getInstance();
 		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
-		$user_name =  $user->get('user_name');
+		$user_name = $user->get('user_name');
 
 		$path = '/' . $user_name . '/';
 		$dirHash = sha1($path);
 		$parent_dirid = 0;
 		$davStorageDir = vglobal('davStorageDir');
 		@mkdir($davStorageDir . $path);
-		
+
 		//$adb->pquery('INSERT INTO vtiger_files_dir (name,path,parent_dirid,hash,mtime,userid) VALUES (?,?,?,?, NOW(),?);', 
 		//	array($user_name, $path, $parent_dirid, $dirHash, $params['user']));
 	}

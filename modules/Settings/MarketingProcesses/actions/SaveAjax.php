@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,14 +7,19 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-class Settings_MarketingProcesses_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
-	function __construct() {
+ * *********************************************************************************************************************************** */
+
+class Settings_MarketingProcesses_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
+{
+
+	function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('updateConfig');
 	}
 
-	public function updateConfig(Vtiger_Request $request) {
+	public function updateConfig(Vtiger_Request $request)
+	{
 		$param = $request->get('param');
 		$moduleModel = Settings_MarketingProcesses_Module_Model::getCleanInstance();
 		$response = new Vtiger_Response();
@@ -24,5 +29,4 @@ class Settings_MarketingProcesses_SaveAjax_Action extends Settings_Vtiger_IndexA
 		));
 		$response->emit();
 	}
-
 }

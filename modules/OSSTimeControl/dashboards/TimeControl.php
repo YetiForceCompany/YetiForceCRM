@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,22 +7,27 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View {
+ * *********************************************************************************************************************************** */
 
-	function getSearchParams($assignedto = '',$date) {	
+class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
+{
+
+	function getSearchParams($assignedto = '', $date)
+	{
 		$conditions = array();
 		$listSearchParams = array();
-		if($assignedto != '') array_push($conditions,array('assigned_user_id','e',getUserFullName($assignedto)));
-		if(!empty($date)){
-			array_push($conditions,array('due_date','bw',$date.','.$date.''));
+		if ($assignedto != '')
+			array_push($conditions, array('assigned_user_id', 'e', getUserFullName($assignedto)));
+		if (!empty($date)) {
+			array_push($conditions, array('due_date', 'bw', $date . ',' . $date . ''));
 		}
 		$listSearchParams[] = $conditions;
-		return '&search_params='. json_encode($listSearchParams);
+		return '&search_params=' . json_encode($listSearchParams);
 	}
 
-	public function getWidgetTimeControl($user, $time) {
-		if(!$time){
+	public function getWidgetTimeControl($user, $time)
+	{
+		if (!$time) {
 			return array();
 		}
 
@@ -50,39 +55,46 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View {
 		$response = [];
 
 		$numRows = $db->num_rows($result);
-		for($i=0;$i<$numRows;$i++){
+		for ($i = 0; $i < $numRows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			$workingTimeByType[vtranslate($row['timecontrol_type'], 'OSSTimeControl')] += $row['daytime'];
 			$workingTime[$row['due_date']][$row['timecontrol_type']] += $row['daytime'];
-			if(!array_key_exists($row['timecontrol_type'], $timeTypes)){
+			if (!array_key_exists($row['timecontrol_type'], $timeTypes)) {
 				$timeTypes[$row['timecontrol_type']] = $counter++;
 			}
-			if(!in_array($row['due_date'], $workedDaysAmount) && 'PLL_WORKING_TIME' == $row['timecontrol_type'])
+			if (!in_array($row['due_date'], $workedDaysAmount) && 'PLL_WORKING_TIME' == $row['timecontrol_type'])
 				$workedDaysAmount[$row['due_date']] = 1;
 
 			if (!in_array($row['due_date'], $holidayDaysAmount) && 'PLL_HOLIDAY' == $row['timecontrol_type'])
 				$holidayDaysAmount[$row['due_date']] = 1;
 
-			if('PLL_WORKING_TIME' == $row['timecontrol_type'])
-				$sumWorkTime += $row['daytime']; 
+			if ('PLL_WORKING_TIME' == $row['timecontrol_type'])
+				$sumWorkTime += $row['daytime'];
 
-			if('PLL_BREAK_TIME' == $row['timecontrol_type'])
-				$sumBreakTime += $row['daytime']; 
-				
-			if(!in_array($row['due_date'], $days))
+			if ('PLL_BREAK_TIME' == $row['timecontrol_type'])
+				$sumBreakTime += $row['daytime'];
+
+			if (!in_array($row['due_date'], $days))
 				$days[] = $row['due_date'];
-		}	
-		
-		if($numRows > 0){
+		}
+
+		if ($numRows > 0) {
+			$sql = "SELECT timecontrol_type, color FROM vtiger_timecontrol_type";
+			$result = $db->query($sql);
+			while ($row = $db->fetch_array($result)) {
+				$colors[$row['timecontrol_type']] = $row['color'];
+			}
+			
 			$counter = 0;
 			$result = array();
 			foreach ($workingTime as $timeKey => $timeValue) {
 				foreach ($timeTypes as $timeTypeKey => $timeTypeKey) {
 					$result[$timeTypeKey]['data'][$counter][0] = $counter;
 					$result[$timeTypeKey]['label'] = vtranslate($timeTypeKey, 'OSSTimeControl');
-					if($timeValue[$timeTypeKey]){
+					$result[$timeTypeKey]['color'] = $colors[$timeTypeKey];
+					if ($timeValue[$timeTypeKey]) {
 						$result[$timeTypeKey]['data'][$counter][1] = $timeValue[$timeTypeKey];
-					}else{
+					} else {
 						$result[$timeTypeKey]['data'][$counter][1] = 0;
 					}
 				}
@@ -132,7 +144,8 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View {
 		return $response;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$loggedUserId = $currentUser->get('id');
 		$viewer = $this->getViewer($request);
@@ -158,7 +171,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View {
 		$daysAmount = count($data['ticks']);
 
 		$listViewUrl = 'index.php?module=OSSTimeControl&view=List';
-		for($i = 0;$i<$daysAmount;$i++){
+		for ($i = 0; $i < $daysAmount; $i++) {
 			$data['links'][$i][0] = $i;
 			$data['links'][$i][1] = $listViewUrl . $this->getSearchParams($user, $data['days'][$i]);
 		}
@@ -170,6 +183,9 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View {
 				$viewer->assign($upperCase, $value);
 			}
 		}
+		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
+
+		$viewer->assign('TCPMODULE_MODEL',  $TCPModuleModel->getConfigInstance());
 		$viewer->assign('USERID', $user);
 		$viewer->assign('DTIME', $time);
 		$viewer->assign('WORKDAYS', $data['workDays']);
@@ -193,7 +209,8 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View {
 		}
 	}
 
-	public function getDays($startDate, $endDate) {
+	public function getDays($startDate, $endDate)
+	{
 		$holidayDays = Settings_PublicHoliday_Module_Model::getHolidays([$startDate, $endDate]);
 		$notWorkingDaysType = Settings_Calendar_Module_Model::getNotWorkingDays();
 		$begin = strtotime($startDate);
@@ -238,5 +255,4 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View {
 			return $result;
 		}
 	}
-
 }

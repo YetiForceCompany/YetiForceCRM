@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,10 +7,10 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'PublicHoliday' => 'Праздники',
-	'LBL_PUBLIC_HOLIDAY' => 'Праздники',
+	'LBL_PUBLIC_HOLIDAY' => 'Calendar - Holidays',
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => 'Управление праздничными днями',
 	'LBL_ADD_HOLIDAY' => 'Добавить Праздник',
 	'LBL_HOLIDAY_LIST' => 'Список Праздников',
@@ -22,7 +22,7 @@ $languageStrings = [
 	'JS_HOLIDAY_DELETE_ERROR' => 'Ошибка удаления Праздника',
 	'LBL_ADD_NEW_HOLIDAY' => 'Добавить Праздник',
 	'LBL_DATE' => 'Дата',
-	'LBL_DAY_NAME' => 'Название Праздника',
+	'LBL_DAY_NAME' => 'Name of the holiday',
 	'LBL_DAY_NAME_DESC' => 'Введите название Праздника',
 	'LBL_NEW_DATE_OK' => 'Праздник успешно добавлен',
 	'LBL_NEW_DATE_ERROR' => 'Ошибка добавления Праздника',
@@ -41,9 +41,11 @@ $languageStrings = [
 	'LBL_ECCLESIASTICAL' => 'Церковный',
 	'ecclesiastical' => 'Церковный',
 	'national' => 'Национальный',
-	
 	'LBL_VIEW_CONFIGURATION' => 'Праздники',
+	'LBL_DATE_RANGE' => 'Range',
 ];
 $jsLanguageStrings = [
+	'JS_ADD_NEW_HOLIDAY' => 'Добавить Праздник',
+	'JS_EDIT_HOLIDAY' => 'Edit holiday',
 	'JS_FILL_FORM_ERROR' => 'Необходимо заполнить все поля',
 ];

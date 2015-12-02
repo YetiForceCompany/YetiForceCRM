@@ -60,7 +60,8 @@ class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View {
 		}
 		$showtype = $request->get('showtype');
 		if($showtype == 'common'){
-			$sql .= ' AND FIND_IN_SET( ?, vtiger_crmentity.shownerid )';
+			$shownersTable = Vtiger_SharedOwner_UIType::getShownerTable($module);
+			$sql .= ' AND vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM '.$shownersTable.' WHERE userid = ?';
 		}else{
 			$sql .=	' AND vtiger_crmentity.smownerid = ?';
 		}

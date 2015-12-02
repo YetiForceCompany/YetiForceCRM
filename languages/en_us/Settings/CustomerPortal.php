@@ -18,7 +18,7 @@ $languageStrings = [
 	//Fields
 	'LBL_MODULE_NAME' => 'Module Name',
 	'LBL_ENABLE_MODULE' => 'Enable Module',
-	'LBL_VIEW_ALL_RECORDS' => 'See Records across Organization',
+	'LBL_VIEW_ALL_RECORDS' => 'See Records across Account',
 
 	//Messages
 	'LBL_PRIVILEGES_MESSAGE' => "This Role's privileges will be applied to the Portal User.",

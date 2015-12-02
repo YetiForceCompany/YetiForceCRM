@@ -62,6 +62,9 @@ $languageStrings = [
 	'Approval for phone calls'=>'Berechtigung für Anrufe',
 	'LBL_CONVERTED_FROM_LEAD' => 'Aus Leads konvertiert',
 	'LBL_LEGAL_FORM' => 'Rechtsform',
+	'LBL_INVENTORY_BALANCE' => 'Balance',
+	'LBL_DISCOUNT' => 'Rabatt',
+	'LBL_CREDIT_LIMIT' => 'Kreditlimit',
 
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Natürliche Person',
@@ -84,7 +87,6 @@ $languageStrings = [
 	'PLL_EUROPEAN_ASSOCIATION' => 'Europäische Vereinigung',
 	'PLL_UFCIITS' => 'Organismen für gemeinsame Anlagen in Wertpapieren <OGAW>',
 ];
-
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Organisationsname ist bereits vorhanden. Möchten Sie einen doppelten Datensatz erstellen?',
 	'LBL_DELETE_CONFIRMATION' => 'Beim löschen dieser Organisation, werden die damit verbundenen Verkaufschancen und Angebote mit entfernt. Sind Sie sicher, dass Sie diese Organisation löschen möchten?',

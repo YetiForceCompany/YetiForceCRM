@@ -9,6 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-class PurchaseOrder_Dashboard_View extends Inventory_Dashboard_View {
+class PurchaseOrder_DashBoard_View extends Inventory_DashBoard_View {
 
 }

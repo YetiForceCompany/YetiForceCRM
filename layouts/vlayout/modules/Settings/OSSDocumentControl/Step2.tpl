@@ -190,9 +190,9 @@
     </div>
     <br>
     <div class="pull-right">
-        <button class="btn btn-danger backStep" type="button" onclick="javascript:window.history.back();"><strong>{vtranslate('BACK', $MODULE_NAME)}</strong></button>&nbsp;&nbsp;
+        <button class="btn btn-danger backStep" type="button" onclick="javascript:window.history.back();"><strong>{vtranslate('BACK', $MODULE_NAME)}</strong></button>
         <button class="btn btn-success" type="submit"><strong>{vtranslate('NEXT', $MODULE_NAME)}</strong></button>
-        <a class="cancelLink" href="index.php?module=OSSDocumentControl&parent=Settings&view=Index">{vtranslate('CANCEL', $MODULE_NAME)}</a>
+        <a class="cancelLink btn btn-warning" href="index.php?module=OSSDocumentControl&parent=Settings&view=Index">{vtranslate('CANCEL', $MODULE_NAME)}</a>
     </div>
     <div class="clearfix"></div>
     <input type="hidden" name="condition_all_json" value="" />

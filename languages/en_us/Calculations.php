@@ -28,7 +28,7 @@ $languageStrings = [
 	//Field Labels
     'Title' => 'Title',
 	'Number' => 'No.',
-	'Related to' => 'Organization',
+	'Related to' => 'Account',
 	'Potential' => 'Opportunity',
 	'Comments' => 'Comments',
 	'LBL_TOTAL' => 'Total',

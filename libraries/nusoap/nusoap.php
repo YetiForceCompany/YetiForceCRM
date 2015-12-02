@@ -681,7 +681,7 @@ class nusoap_base {
 	function contractQname($qname){
 		// get element namespace
 		//$this->xdebug("Contract $qname");
-		if (strrpos($qname, ':')) {
+		if (!is_array($qname) && strrpos($qname, ':')) {
 			// get unqualified name
 			$name = substr($qname, strrpos($qname, ':') + 1);
 			// get ns

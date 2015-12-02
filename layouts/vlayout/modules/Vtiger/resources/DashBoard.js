@@ -142,7 +142,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var widgetName = parent.data('name');
 			var widgetTitle = parent.find('.dashboardTitle').attr('title');
 
-			var message = app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET') + "[" + widgetTitle + "]. " + app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
+			var message = app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET') + "[" + widgetTitle + "]? " + app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
 					function (e) {
 						AppConnector.request(url).then(
@@ -284,8 +284,8 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						filterid: filteridSelect2.val()
 					}).then(function (res) {
 						fieldsSelectDOM.empty().html(res).trigger('change');
-						fieldsSelect2.data('select2').$selection.find('.select2-search__field').css('width', '100%');
 						fieldsSelect2.closest('tr').show();
+						fieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
 					});
 				});
 				fieldsSelect2.change(function () {
@@ -343,6 +343,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						paramsForm['id'] = result['id'];
 						paramsForm['status'] = result['status'];
 						params['text'] = result['text'];
+						params['type'] = 'success';
 						var linkElement = element.clone();
 						linkElement.data('name', 'MiniList')
 						Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=MiniList&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0')

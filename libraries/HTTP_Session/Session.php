@@ -1,5 +1,4 @@
 <?php
-
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
@@ -31,7 +30,6 @@
  * @link      http://pear.php.net/package/HTTP_Session
  * @since     File available since Release 0.4.0
  */
-
 // @const HTTP_SESSION_STARTED - The session was started with the current request
 define("HTTP_SESSION_STARTED", 1);
 // @const HTTP_SESSION_STARTED - No new session was started with the current request
@@ -103,702 +101,699 @@ define("HTTP_SESSION_CONTINUED", 2);
  */
 class HTTP_Session
 {
-    /**
-     * Sets user-defined session storage functions
-     *
-     * Sets the user-defined session storage functions which are used
-     * for storing and retrieving data associated with a session.
-     * This is most useful when a storage method other than
-     * those supplied by PHP sessions is preferred.
-     * i.e. Storing the session data in a local database.
-     *
-     * @param string $container         Container name
-     * @param array  $container_options Container options
-     *
-     * @static
-     * @access public
-     * @return void
-     * @see    session_set_save_handler()
-     */
-    function setContainer($container, $container_options = null)
-    {
-        $container_class     = 'HTTP_Session_Container_' . $container;
-        $container_classfile = 'HTTP/Session/Container/' . $container . '.php';
 
-        include_once $container_classfile;
-        $container = new $container_class($container_options);
+	/**
+	 * Sets user-defined session storage functions
+	 *
+	 * Sets the user-defined session storage functions which are used
+	 * for storing and retrieving data associated with a session.
+	 * This is most useful when a storage method other than
+	 * those supplied by PHP sessions is preferred.
+	 * i.e. Storing the session data in a local database.
+	 *
+	 * @param string $container         Container name
+	 * @param array  $container_options Container options
+	 *
+	 * @static
+	 * @access public
+	 * @return void
+	 * @see    session_set_save_handler()
+	 */
+	public static function setContainer($container, $container_options = null)
+	{
+		$container_class = 'HTTP_Session_Container_' . $container;
+		$container_classfile = 'HTTP/Session/Container/' . $container . '.php';
 
-        $container->set();
-    }
+		include_once $container_classfile;
+		$container = new $container_class($container_options);
 
-    /**
-     * Initializes session data
-     *
-     * Creates a session (or resumes the current one
-     * based on the session id being passed
-     * via a GET variable or a cookie).
-     * You can provide your own name and/or id for a session.
-     *
-     * @param string $name string Name of a session, default is 'SessionID'
-     * @param string $id   string Id of a session which will be used
-     *                            only when the session is new
-     *
-     * @static
-     * @access public
-     * @return void
-     * @see    session_name()
-     * @see    session_id()
-     * @see    session_start()
-     */
-    function start($name = 'SessionID', $id = null)
-    {
-        HTTP_Session::name($name);
-        if ($id) {
-            HTTP_Session::id($id);
-        } elseif (is_null(HTTP_Session::detectID())) {
-            HTTP_Session::id($id ? $id : uniqid(dechex(rand())));
-        }
-        session_start();
-        if (!isset($_SESSION['__HTTP_Session_Info'])) {
-            $_SESSION['__HTTP_Session_Info'] = HTTP_SESSION_STARTED;
-        } else {
-            $_SESSION['__HTTP_Session_Info'] = HTTP_SESSION_CONTINUED;
-        }
-    }
+		$container->set();
+	}
 
-    /**
-     * Writes session data and ends session
-     *
-     * Session data is usually stored after your script
-     * terminated without the need to call HTTP_Session::stop(),
-     * but as session data is locked to prevent concurrent
-     * writes only one script may operate on a session at any time.
-     * When using framesets together with sessions you will
-     * experience the frames loading one by one due to this
-     * locking. You can reduce the time needed to load all the
-     * frames by ending the session as soon as all changes
-     * to session variables are done.
-     *
-     * @static
-     * @access public
-     * @return void
-     * @see    session_write_close()
-     */
-    function pause()
-    {
-        session_write_close();
-    }
+	/**
+	 * Initializes session data
+	 *
+	 * Creates a session (or resumes the current one
+	 * based on the session id being passed
+	 * via a GET variable or a cookie).
+	 * You can provide your own name and/or id for a session.
+	 *
+	 * @param string $name string Name of a session, default is 'SessionID'
+	 * @param string $id   string Id of a session which will be used
+	 *                            only when the session is new
+	 *
+	 * @static
+	 * @access public
+	 * @return void
+	 * @see    session_name()
+	 * @see    session_id()
+	 * @see    session_start()
+	 */
+	public static function start($name = 'SessionID', $id = null)
+	{
+		self::name($name);
+		if ($id) {
+			self::id($id);
+		} elseif (is_null(self::detectID())) {
+			self::id($id ? $id : uniqid(dechex(rand())));
+		}
+		session_start();
+		if (!isset($_SESSION['__HTTP_Session_Info'])) {
+			$_SESSION['__HTTP_Session_Info'] = HTTP_SESSION_STARTED;
+		} else {
+			$_SESSION['__HTTP_Session_Info'] = HTTP_SESSION_CONTINUED;
+		}
+	}
 
-    /**
-     * Frees all session variables and destroys all data
-     * registered to a session
-     *
-     * This method resets the $_SESSION variable and
-     * destroys all of the data associated
-     * with the current session in its storage (file or DB).
-     * It forces new session to be started after this method
-     * is called. It does not unset the session cookie.
-     *
-     * @static
-     * @access public
-     * @return void
-     * @see    session_unset()
-     * @see    session_destroy()
-     */
-    function destroy()
-    {
-        session_unset();
-        session_destroy();
+	/**
+	 * Writes session data and ends session
+	 *
+	 * Session data is usually stored after your script
+	 * terminated without the need to call HTTP_Session::stop(),
+	 * but as session data is locked to prevent concurrent
+	 * writes only one script may operate on a session at any time.
+	 * When using framesets together with sessions you will
+	 * experience the frames loading one by one due to this
+	 * locking. You can reduce the time needed to load all the
+	 * frames by ending the session as soon as all changes
+	 * to session variables are done.
+	 *
+	 * @static
+	 * @access public
+	 * @return void
+	 * @see    session_write_close()
+	 */
+	public static function pause()
+	{
+		session_write_close();
+	}
 
-        // set session handlers again to avoid fatal error in case
-        // HTTP_Session::start() will be called afterwards
-        if (isset($GLOBALS['HTTP_Session_Container']) &&
-            is_a($GLOBALS['HTTP_Session_Container'], 'HTTP_Session_Container')) {
-            $GLOBALS['HTTP_Session_Container']->set();
-        }
-    }
+	/**
+	 * Frees all session variables and destroys all data
+	 * registered to a session
+	 *
+	 * This method resets the $_SESSION variable and
+	 * destroys all of the data associated
+	 * with the current session in its storage (file or DB).
+	 * It forces new session to be started after this method
+	 * is called. It does not unset the session cookie.
+	 *
+	 * @static
+	 * @access public
+	 * @return void
+	 * @see    session_unset()
+	 * @see    session_destroy()
+	 */
+	public static function destroy()
+	{
+		session_unset();
+		session_destroy();
 
-    /**
-     * Calls session_regenerate_id() if available
-     *
-     * @param bool $deleteOldSessionData Whether to delete data of old session
-     *
-     * @static
-     * @access public
-     * @return bool
-     */
-    function regenerateId($deleteOldSessionData = false)
-    {
-        if (function_exists('session_regenerate_id')) {
-            return session_regenerate_id($deleteOldSessionData);
+		// set session handlers again to avoid fatal error in case
+		// HTTP_Session::start() will be called afterwards
+		if (isset($GLOBALS['HTTP_Session_Container']) &&
+			is_a($GLOBALS['HTTP_Session_Container'], 'HTTP_Session_Container')) {
+			$GLOBALS['HTTP_Session_Container']->set();
+		}
+	}
 
-            // emulate session_regenerate_id()
-        } else {
+	/**
+	 * Calls session_regenerate_id() if available
+	 *
+	 * @param bool $deleteOldSessionData Whether to delete data of old session
+	 *
+	 * @static
+	 * @access public
+	 * @return bool
+	 */
+	public static function regenerateId($deleteOldSessionData = false)
+	{
+		if (function_exists('session_regenerate_id')) {
+			return session_regenerate_id($deleteOldSessionData);
 
-            do {
-                $newId = uniqid(dechex(rand()));
-            } while ($newId === session_id());
+			// emulate session_regenerate_id()
+		} else {
 
-            if ($deleteOldSessionData) {
-                session_unset();
-            }
+			do {
+				$newId = uniqid(dechex(rand()));
+			} while ($newId === session_id());
 
-            session_id($newId);
+			if ($deleteOldSessionData) {
+				session_unset();
+			}
 
-            return true;
-        }
-    }
+			session_id($newId);
 
-    /**
-     * This function copies session data of specified id to specified table
-     *
-     * @param string $targetTable Table to replicate data to
-     * @param string $id          ID of the session
-     *
-     * @static
-     * @access public
-     * @return bool
-     */
-    function replicate($targetTable, $id = null)
-    {
-        return $GLOBALS['HTTP_Session_Container']->replicate($targetTable, $id);
-    }
+			return true;
+		}
+	}
 
-    /**
-     * Free all session variables
-     *
-     * @todo   TODO Save expire and idle timestamps?
-     * @static
-     * @access public
-     * @return void
-     */
-    function clear()
-    {
-        $info = $_SESSION['__HTTP_Session_Info'];
-        session_unset();
-        $_SESSION['__HTTP_Session_Info'] = $info;
-    }
+	/**
+	 * This function copies session data of specified id to specified table
+	 *
+	 * @param string $targetTable Table to replicate data to
+	 * @param string $id          ID of the session
+	 *
+	 * @static
+	 * @access public
+	 * @return bool
+	 */
+	public static function replicate($targetTable, $id = null)
+	{
+		return $GLOBALS['HTTP_Session_Container']->replicate($targetTable, $id);
+	}
 
-    /**
-     * Tries to find any session id in $_GET, $_POST or $_COOKIE
-     *
-     * @static
-     * @access private
-     * @return string Session ID (if exists) or null
-     */
-    function detectID()
-    {
-        if (HTTP_Session::useCookies()) {
-            if (isset($_COOKIE[HTTP_Session::name()])) {
-                return $_COOKIE[HTTP_Session::name()];
-            }
-        } else {
-            if (isset($_GET[HTTP_Session::name()])) {
-                return $_GET[HTTP_Session::name()];
-            }
-            if (isset($_POST[HTTP_Session::name()])) {
-                return $_POST[HTTP_Session::name()];
-            }
-        }
-        return null;
-    }
+	/**
+	 * Free all session variables
+	 *
+	 * @todo   TODO Save expire and idle timestamps?
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function clear()
+	{
+		$info = $_SESSION['__HTTP_Session_Info'];
+		session_unset();
+		$_SESSION['__HTTP_Session_Info'] = $info;
+	}
 
-    /**
-     * Sets new name of a session
-     *
-     * @param string $name New name of a session
-     *
-     * @static
-     * @access public
-     * @return string Previous name of a session
-     * @see    session_name()
-     */
-    function name($name = null)
-    {
-        return isset($name) ? session_name($name) : session_name();
-    }
+	/**
+	 * Tries to find any session id in $_GET, $_POST or $_COOKIE
+	 *
+	 * @static
+	 * @access private
+	 * @return string Session ID (if exists) or null
+	 */
+	public static function detectID()
+	{
+		if (self::useCookies()) {
+			if (isset($_COOKIE[self::name()])) {
+				return $_COOKIE[self::name()];
+			}
+		} else {
+			if (isset($_GET[self::name()])) {
+				return $_GET[self::name()];
+			}
+			if (isset($_POST[self::name()])) {
+				return $_POST[self::name()];
+			}
+		}
+		return null;
+	}
 
-    /**
-     * Sets new ID of a session
-     *
-     * @param string $id New ID of a session
-     *
-     * @static
-     * @access public
-     * @return string Previous ID of a session
-     * @see    session_id()
-     */
-    function id($id = null)
-    {
-        return isset($id) ? session_id($id) : session_id();
-    }
+	/**
+	 * Sets new name of a session
+	 *
+	 * @param string $name New name of a session
+	 *
+	 * @static
+	 * @access public
+	 * @return string Previous name of a session
+	 * @see    session_name()
+	 */
+	public static function name($name = null)
+	{
+		return isset($name) ? session_name($name) : session_name();
+	}
 
-    /**
-     * Sets the maximum expire time
-     *
-     * @param integer $time Time in seconds
-     * @param bool    $add  Add time to current expire time or not
-     *
-     * @static
-     * @access public
-     * @return void
-     */
-    function setExpire($time, $add = false)
-    {
-        if ($add) {
-            if (!isset($_SESSION['__HTTP_Session_Expire_TS'])) {
-                $_SESSION['__HTTP_Session_Expire_TS'] = time() + $time;
-            }
+	/**
+	 * Sets new ID of a session
+	 *
+	 * @param string $id New ID of a session
+	 *
+	 * @static
+	 * @access public
+	 * @return string Previous ID of a session
+	 * @see    session_id()
+	 */
+	public static function id($id = null)
+	{
+		return isset($id) ? session_id($id) : session_id();
+	}
 
-            // update session.gc_maxlifetime
-            $currentGcMaxLifetime = HTTP_Session::setGcMaxLifetime(null);
-            HTTP_Session::setGcMaxLifetime($currentGcMaxLifetime + $time);
+	/**
+	 * Sets the maximum expire time
+	 *
+	 * @param integer $time Time in seconds
+	 * @param bool    $add  Add time to current expire time or not
+	 *
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function setExpire($time, $add = false)
+	{
+		if ($add) {
+			if (!isset($_SESSION['__HTTP_Session_Expire_TS'])) {
+				$_SESSION['__HTTP_Session_Expire_TS'] = time() + $time;
+			}
 
-        } elseif (!isset($_SESSION['__HTTP_Session_Expire_TS'])) {
-            $_SESSION['__HTTP_Session_Expire_TS'] = $time;
-        }
-    }
+			// update session.gc_maxlifetime
+			$currentGcMaxLifetime = self::setGcMaxLifetime(null);
+			self::setGcMaxLifetime($currentGcMaxLifetime + $time);
+		} elseif (!isset($_SESSION['__HTTP_Session_Expire_TS'])) {
+			$_SESSION['__HTTP_Session_Expire_TS'] = $time;
+		}
+	}
 
-    /**
-     * Sets the maximum idle time
-     *
-     * Sets the time-out period allowed
-     * between requests before the session-state
-     * provider terminates the session.
-     *
-     * @param int  $time Time in seconds
-     * @param bool $add  Add time to current maximum idle time or not
-     *
-     * @static
-     * @access public
-     * @return void
-     */
-    function setIdle($time, $add = false)
-    {
-        if ($add) {
-            $_SESSION['__HTTP_Session_Idle'] = $time;
-        } else {
-            // substract time again because it doesn't make any sense to provide
-            // the idle time as a timestamp
-            // keep $add functionality to provide BC
-            $_SESSION['__HTTP_Session_Idle'] = $time - time();
-        }
-    }
+	/**
+	 * Sets the maximum idle time
+	 *
+	 * Sets the time-out period allowed
+	 * between requests before the session-state
+	 * provider terminates the session.
+	 *
+	 * @param int  $time Time in seconds
+	 * @param bool $add  Add time to current maximum idle time or not
+	 *
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function setIdle($time, $add = false)
+	{
+		if ($add) {
+			$_SESSION['__HTTP_Session_Idle'] = $time;
+		} else {
+			// substract time again because it doesn't make any sense to provide
+			// the idle time as a timestamp
+			// keep $add functionality to provide BC
+			$_SESSION['__HTTP_Session_Idle'] = $time - time();
+		}
+	}
 
-    /**
-     * Returns the time up to the session is valid
-     *
-     * @static
-     * @access public
-     * @return integer Time when the session idles
-     */
-    function sessionValidThru()
-    {
-        if (!isset($_SESSION['__HTTP_Session_Idle_TS']) ||
-            !isset($_SESSION['__HTTP_Session_Idle'])) {
-            return 0;
-        } else {
-            return $_SESSION['__HTTP_Session_Idle_TS'] +
-                   $_SESSION['__HTTP_Session_Idle'];
-        }
-    }
+	/**
+	 * Returns the time up to the session is valid
+	 *
+	 * @static
+	 * @access public
+	 * @return integer Time when the session idles
+	 */
+	public static function sessionValidThru()
+	{
+		if (!isset($_SESSION['__HTTP_Session_Idle_TS']) ||
+			!isset($_SESSION['__HTTP_Session_Idle'])) {
+			return 0;
+		} else {
+			return $_SESSION['__HTTP_Session_Idle_TS'] +
+				$_SESSION['__HTTP_Session_Idle'];
+		}
+	}
 
-    /**
-     * Check if session is expired
-     *
-     * @static
-     * @access public
-     * @return bool
-     */
-    function isExpired()
-    {
-        if (isset($_SESSION['__HTTP_Session_Expire_TS']) &&
-            $_SESSION['__HTTP_Session_Expire_TS'] < time()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+	/**
+	 * Check if session is expired
+	 *
+	 * @static
+	 * @access public
+	 * @return bool
+	 */
+	public static function isExpired()
+	{
+		if (isset($_SESSION['__HTTP_Session_Expire_TS']) &&
+			$_SESSION['__HTTP_Session_Expire_TS'] < time()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-    /**
-     * Check if session is idle
-     *
-     * @static
-     * @access public
-     * @return bool
-     */
-    function isIdle()
-    {
-        if (isset($_SESSION['__HTTP_Session_Idle_TS']) &&
-            (($_SESSION['__HTTP_Session_Idle_TS'] +
-              $_SESSION['__HTTP_Session_Idle']) < time())) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+	/**
+	 * Check if session is idle
+	 *
+	 * @static
+	 * @access public
+	 * @return bool
+	 */
+	public static function isIdle()
+	{
+		if (isset($_SESSION['__HTTP_Session_Idle_TS']) &&
+			(($_SESSION['__HTTP_Session_Idle_TS'] +
+			$_SESSION['__HTTP_Session_Idle']) < time())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-    /**
-     * Updates the idletime
-     *
-     * @static
-     * @access public
-     * @return void
-     */
-    function updateIdle()
-    {
-        $_SESSION['__HTTP_Session_Idle_TS'] = time();
-    }
+	/**
+	 * Updates the idletime
+	 *
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function updateIdle()
+	{
+		$_SESSION['__HTTP_Session_Idle_TS'] = time();
+	}
 
-    /**
-     * If optional parameter is specified it indicates
-     * whether the module will use cookies to store
-     * the session id on the client side
-     *
-     * It returns the previous value of this property
-     *
-     * @param bool $useCookies If specified it will replace the previous value
-     *                         of this property
-     *
-     * @static
-     * @access public
-     *
-     * @return bool The previous value of the property
-     */
-    function useCookies($useCookies = null)
-    {
-        $return = ini_get('session.use_cookies') ? true : false;
-        if (isset($useCookies)) {
-            ini_set('session.use_cookies', $useCookies ? 1 : 0);
-        }
-        return $return;
-    }
+	/**
+	 * If optional parameter is specified it indicates
+	 * whether the module will use cookies to store
+	 * the session id on the client side
+	 *
+	 * It returns the previous value of this property
+	 *
+	 * @param bool $useCookies If specified it will replace the previous value
+	 *                         of this property
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @return bool The previous value of the property
+	 */
+	public static function useCookies($useCookies = null)
+	{
+		$return = ini_get('session.use_cookies') ? true : false;
+		if (isset($useCookies)) {
+			ini_set('session.use_cookies', $useCookies ? 1 : 0);
+		}
+		return $return;
+	}
 
-    /**
-     * Gets a value indicating whether the session
-     * was created with the current request
-     *
-     * You MUST call this method only after you have started
-     * the session with the HTTP_Session::start() method.
-     *
-     * @static
-     * @access public
-     * @return bool   True if the session was created
-     *                with the current request, false otherwise
-     */
-    function isNew()
-    {
-        // The best way to check if a session is new is to check
-        // for existence of a session data storage
-        // with the current session id, but this is impossible
-        // with the default PHP module wich is 'files'.
-        // So we need to emulate it.
-        return !isset($_SESSION['__HTTP_Session_Info']) ||
-            $_SESSION['__HTTP_Session_Info'] == HTTP_SESSION_STARTED;
-    }
+	/**
+	 * Gets a value indicating whether the session
+	 * was created with the current request
+	 *
+	 * You MUST call this method only after you have started
+	 * the session with the HTTP_Session::start() method.
+	 *
+	 * @static
+	 * @access public
+	 * @return bool   True if the session was created
+	 *                with the current request, false otherwise
+	 */
+	public static function isNew()
+	{
+		// The best way to check if a session is new is to check
+		// for existence of a session data storage
+		// with the current session id, but this is impossible
+		// with the default PHP module wich is 'files'.
+		// So we need to emulate it.
+		return !isset($_SESSION['__HTTP_Session_Info']) ||
+			$_SESSION['__HTTP_Session_Info'] == HTTP_SESSION_STARTED;
+	}
 
-    /**
-     * Register variable with the current session
-     *
-     * @param string $name Name of a global variable
-     *
-     * @deprecated Use set()/setRef() instead
-     *
-     * @static
-     * @access public
-     * @return bool
-     * @see    session_register()
-     */
-    function register($name)
-    {
-        return session_register($name);
-    }
+	/**
+	 * Register variable with the current session
+	 *
+	 * @param string $name Name of a global variable
+	 *
+	 * @deprecated Use set()/setRef() instead
+	 *
+	 * @static
+	 * @access public
+	 * @return bool
+	 * @see    session_register()
+	 */
+	public static function register($name)
+	{
+		return session_register($name);
+	}
 
-    /**
-     * Unregister a variable from the current session
-     *
-     * @param string $name Name of a global variable
-     *
-     * @deprecated Use get()/getRef() instead
-     *
-     * @static
-     * @access public
-     * @return bool
-     * @see    session_unregister()
-     */
-    function unregister($name)
-    {
-        return session_unregister($name);
-    }
+	/**
+	 * Unregister a variable from the current session
+	 *
+	 * @param string $name Name of a global variable
+	 *
+	 * @deprecated Use get()/getRef() instead
+	 *
+	 * @static
+	 * @access public
+	 * @return bool
+	 * @see    session_unregister()
+	 */
+	public static function unregister($name)
+	{
+		return session_unregister($name);
+	}
 
-    /**
-     * Checks if a session variable is registered
-     *
-     * @param string $name Variable name
-     *
-     * @deprecated Use is_set() instead
-     *
-     * @static
-     * @access public
-     * @return bool
-     */
-    function registered($name)
-    {
-        return session_is_registered($name);
-    }
+	/**
+	 * Checks if a session variable is registered
+	 *
+	 * @param string $name Variable name
+	 *
+	 * @deprecated Use is_set() instead
+	 *
+	 * @static
+	 * @access public
+	 * @return bool
+	 */
+	public static function registered($name)
+	{
+		return session_is_registered($name);
+	}
 
-    /**
-     * Returns session variable
-     *
-     * @param string $name    Name of a variable
-     * @param mixed  $default Default value of a variable if not set
-     *
-     * @static
-     * @access public
-     * @return mixed  Value of a variable
-     */
-    function get($name, $default = null)
-    {
-        if (!isset($_SESSION[$name]) && isset($default)) {
-            $_SESSION[$name] = $default;
-        }
-        $return = (isset($_SESSION[$name])) ? $_SESSION[$name] : null;
-        return $return;
-    }
+	/**
+	 * Returns session variable
+	 *
+	 * @param string $name    Name of a variable
+	 * @param mixed  $default Default value of a variable if not set
+	 *
+	 * @static
+	 * @access public
+	 * @return mixed  Value of a variable
+	 */
+	public static function get($name, $default = null)
+	{
+		if (!isset($_SESSION[$name]) && isset($default)) {
+			$_SESSION[$name] = $default;
+		}
+		$return = (isset($_SESSION[$name])) ? $_SESSION[$name] : null;
+		return $return;
+	}
 
-    /**
-     * Returns session variable by reference
-     *
-     * @param string $name Name of a variable
-     *
-     * @static
-     * @access public
-     * @return mixed  Value of a variable
-     */
-    function &getRef($name)
-    {
-        if (isset($_SESSION[$name])) {
-            $return =& $_SESSION[$name];
-        } else {
-            $return = null;
-        }
+	/**
+	 * Returns session variable by reference
+	 *
+	 * @param string $name Name of a variable
+	 *
+	 * @static
+	 * @access public
+	 * @return mixed  Value of a variable
+	 */
+	public static function &getRef($name)
+	{
+		if (isset($_SESSION[$name])) {
+			$return = & $_SESSION[$name];
+		} else {
+			$return = null;
+		}
 
-        return $return;
-    }
+		return $return;
+	}
 
-    /**
-     * Sets session variable
-     *
-     * @param string $name  Name of a variable
-     * @param mixed  $value Value of a variable
-     *
-     * @static
-     * @access public
-     * @return mixed  Old value of a variable
-     */
-    function set($name, $value)
-    {
-        $return = (isset($_SESSION[$name])) ? $_SESSION[$name] : null;
-        if (null === $value) {
-            unset($_SESSION[$name]);
-        } else {
-            $_SESSION[$name] = $value;
-        }
-        return $return;
-    }
+	/**
+	 * Sets session variable
+	 *
+	 * @param string $name  Name of a variable
+	 * @param mixed  $value Value of a variable
+	 *
+	 * @static
+	 * @access public
+	 * @return mixed  Old value of a variable
+	 */
+	public static function set($name, $value)
+	{
+		$return = (isset($_SESSION[$name])) ? $_SESSION[$name] : null;
+		if (null === $value) {
+			unset($_SESSION[$name]);
+		} else {
+			$_SESSION[$name] = $value;
+		}
+		return $return;
+	}
 
-    /**
-     * Sets session variable by reference
-     *
-     * @param string $name  Name of a variable
-     * @param mixed  $value Value of a variable
-     *
-     * @static
-     * @access public
-     * @return mixed  Old value of a variable
-     */
-    function setRef($name, &$value)
-    {
-        $return = (isset($_SESSION[$name])) ? $_SESSION[$name] : null;
+	/**
+	 * Sets session variable by reference
+	 *
+	 * @param string $name  Name of a variable
+	 * @param mixed  $value Value of a variable
+	 *
+	 * @static
+	 * @access public
+	 * @return mixed  Old value of a variable
+	 */
+	public static function setRef($name, &$value)
+	{
+		$return = (isset($_SESSION[$name])) ? $_SESSION[$name] : null;
 
-        $_SESSION[$name] =& $value;
+		$_SESSION[$name] = & $value;
 
-        return $return;
-    }
+		return $return;
+	}
 
-    /**
-     * Checks if a session variable is set
-     *
-     * @param string $name Variable name
-     *
-     * @static
-     * @access public
-     * @return bool
-     */
-    function is_set($name)
-    {
-        return isset($_SESSION[$name]);
-    }
+	/**
+	 * Checks if a session variable is set
+	 *
+	 * @param string $name Variable name
+	 *
+	 * @static
+	 * @access public
+	 * @return bool
+	 */
+	public static function is_set($name)
+	{
+		return isset($_SESSION[$name]);
+	}
 
-    /**
-     * Returns local variable of a script
-     *
-     * Two scripts can have local variables with the same names
-     *
-     * @param string $name    Name of a variable
-     * @param mixed  $default Default value of a variable if not set
-     *
-     * @static
-     * @access public
-     * @return mixed  Value of a local variable
-     */
-    function &getLocal($name, $default = null)
-    {
-        $local = md5(HTTP_Session::localName());
-        if (!isset($_SESSION[$local]) || !is_array($_SESSION[$local])) {
-            $_SESSION[$local] = array();
-        }
-        if (!isset($_SESSION[$local][$name]) && isset($default)) {
-            $_SESSION[$local][$name] = $default;
-        }
-        return $_SESSION[$local][$name];
-    }
+	/**
+	 * Returns local variable of a script
+	 *
+	 * Two scripts can have local variables with the same names
+	 *
+	 * @param string $name    Name of a variable
+	 * @param mixed  $default Default value of a variable if not set
+	 *
+	 * @static
+	 * @access public
+	 * @return mixed  Value of a local variable
+	 */
+	public static function &getLocal($name, $default = null)
+	{
+		$local = md5(self::localName());
+		if (!isset($_SESSION[$local]) || !is_array($_SESSION[$local])) {
+			$_SESSION[$local] = array();
+		}
+		if (!isset($_SESSION[$local][$name]) && isset($default)) {
+			$_SESSION[$local][$name] = $default;
+		}
+		return $_SESSION[$local][$name];
+	}
 
-    /**
-     * Sets local variable of a script.
-     * Two scripts can have local variables with the same names.
-     *
-     * @param string $name  Name of a local variable
-     * @param mixed  $value Value of a local variable
-     *
-     * @static
-     * @access public
-     * @return mixed  Old value of a local variable
-     */
-    function setLocal($name, $value)
-    {
-        $local = md5(HTTP_Session::localName());
-        if (!isset($_SESSION[$local]) || !is_array($_SESSION[$local])) {
-            $_SESSION[$local] = array();
-        }
-        $return = (isset($_SESSION[$local][$name])) ? $_SESSION[$local][$name]
-                                                    : null;
+	/**
+	 * Sets local variable of a script.
+	 * Two scripts can have local variables with the same names.
+	 *
+	 * @param string $name  Name of a local variable
+	 * @param mixed  $value Value of a local variable
+	 *
+	 * @static
+	 * @access public
+	 * @return mixed  Old value of a local variable
+	 */
+	public static function setLocal($name, $value)
+	{
+		$local = md5(self::localName());
+		if (!isset($_SESSION[$local]) || !is_array($_SESSION[$local])) {
+			$_SESSION[$local] = array();
+		}
+		$return = (isset($_SESSION[$local][$name])) ? $_SESSION[$local][$name] : null;
 
-        if (null === $value) {
-            unset($_SESSION[$local][$name]);
-        } else {
-            $_SESSION[$local][$name] = $value;
-        }
-        return $return;
-    }
+		if (null === $value) {
+			unset($_SESSION[$local][$name]);
+		} else {
+			$_SESSION[$local][$name] = $value;
+		}
+		return $return;
+	}
 
-    /**
-     * Sets new local name
-     *
-     * @param string $name New local name
-     *
-     * @static
-     * @access public
-     * @return string Previous local name
-     */
-    function localName($name = null)
-    {
-        $return = (isset($GLOBALS['__HTTP_Session_Localname'])) ? $GLOBALS['__HTTP_Session_Localname']
-                                                                : null;
+	/**
+	 * Sets new local name
+	 *
+	 * @param string $name New local name
+	 *
+	 * @static
+	 * @access public
+	 * @return string Previous local name
+	 */
+	public static function localName($name = null)
+	{
+		$return = (isset($GLOBALS['__HTTP_Session_Localname'])) ? $GLOBALS['__HTTP_Session_Localname'] : null;
 
-        if (!empty($name)) {
-            $GLOBALS['__HTTP_Session_Localname'] = $name;
-        }
-        return $return;
-    }
+		if (!empty($name)) {
+			$GLOBALS['__HTTP_Session_Localname'] = $name;
+		}
+		return $return;
+	}
 
-    /**
-     * Initialize
-     *
-     * @static
-     * @access private
-     * @return void
-     */
-    function _init()
-    {
-        // Disable auto-start of a sesion
-        ini_set('session.auto_start', 0);
+	/**
+	 * Initialize
+	 *
+	 * @static
+	 * @access private
+	 * @return void
+	 */
+	public static function _init()
+	{
+		// Disable auto-start of a sesion
+		ini_set('session.auto_start', 0);
 
-        // Set local name equal to the current script name
-        HTTP_Session::localName($_SERVER['PHP_SELF']);
-    }
+		// Set local name equal to the current script name
+		self::localName($_SERVER['PHP_SELF']);
+	}
 
-    /**
-     * If optional parameter is specified it indicates
-     * whether the session id will automatically be appended to
-     * all links
-     *
-     * It returns the previous value of this property
-     *
-     * @param bool $useTransSID If specified it will replace the previous value
-     *                          of this property
-     *
-     * @static
-     * @access public
-     * @return bool   The previous value of the property
-     */
-    function useTransSID($useTransSID = null)
-    {
-        $return = ini_get('session.use_trans_sid') ? true : false;
-        if (isset($useTransSID)) {
-            ini_set('session.use_trans_sid', $useTransSID ? 1 : 0);
-        }
-        return $return;
-    }
+	/**
+	 * If optional parameter is specified it indicates
+	 * whether the session id will automatically be appended to
+	 * all links
+	 *
+	 * It returns the previous value of this property
+	 *
+	 * @param bool $useTransSID If specified it will replace the previous value
+	 *                          of this property
+	 *
+	 * @static
+	 * @access public
+	 * @return bool   The previous value of the property
+	 */
+	public static function useTransSID($useTransSID = null)
+	{
+		$return = ini_get('session.use_trans_sid') ? true : false;
+		if (isset($useTransSID)) {
+			ini_set('session.use_trans_sid', $useTransSID ? 1 : 0);
+		}
+		return $return;
+	}
 
-    /**
-     * If optional parameter is specified it determines the number of seconds
-     * after which session data will be seen as 'garbage' and cleaned up
-     *
-     * It returns the previous value of this property
-     *
-     * @param bool $gcMaxLifetime If specified it will replace the previous value
-     *                            of this property
-     *
-     * @static
-     * @access public
-     * @return bool   The previous value of the property
-     */
-    function setGcMaxLifetime($gcMaxLifetime = null)
-    {
-        $return = ini_get('session.gc_maxlifetime');
-        if (isset($gcMaxLifetime) && is_int($gcMaxLifetime) && $gcMaxLifetime >= 1) {
-            ini_set('session.gc_maxlifetime', $gcMaxLifetime);
-        }
-        return $return;
-    }
+	/**
+	 * If optional parameter is specified it determines the number of seconds
+	 * after which session data will be seen as 'garbage' and cleaned up
+	 *
+	 * It returns the previous value of this property
+	 *
+	 * @param bool $gcMaxLifetime If specified it will replace the previous value
+	 *                            of this property
+	 *
+	 * @static
+	 * @access public
+	 * @return bool   The previous value of the property
+	 */
+	public static function setGcMaxLifetime($gcMaxLifetime = null)
+	{
+		$return = ini_get('session.gc_maxlifetime');
+		if (isset($gcMaxLifetime) && is_int($gcMaxLifetime) && $gcMaxLifetime >= 1) {
+			ini_set('session.gc_maxlifetime', $gcMaxLifetime);
+		}
+		return $return;
+	}
 
-    /**
-     * If optional parameter is specified it determines the
-     * probability that the gc (garbage collection) routine is started
-     * and session data is cleaned up
-     *
-     * It returns the previous value of this property
-     *
-     * @param bool $gcProbability If specified it will replace the previous value
-     *                            of this property
-     *
-     * @static
-     * @access public
-     * @return bool   The previous value of the property
-     */
-    function setGcProbability($gcProbability = null)
-    {
-        $return = ini_get('session.gc_probability');
-        if (isset($gcProbability)  &&
-            is_int($gcProbability) &&
-            $gcProbability >= 1    &&
-            $gcProbability <= 100) {
-            ini_set('session.gc_probability', $gcProbability);
-        }
-        return $return;
-    }
+	/**
+	 * If optional parameter is specified it determines the
+	 * probability that the gc (garbage collection) routine is started
+	 * and session data is cleaned up
+	 *
+	 * It returns the previous value of this property
+	 *
+	 * @param bool $gcProbability If specified it will replace the previous value
+	 *                            of this property
+	 *
+	 * @static
+	 * @access public
+	 * @return bool   The previous value of the property
+	 */
+	public static function setGcProbability($gcProbability = null)
+	{
+		$return = ini_get('session.gc_probability');
+		if (isset($gcProbability) &&
+			is_int($gcProbability) &&
+			$gcProbability >= 1 &&
+			$gcProbability <= 100) {
+			ini_set('session.gc_probability', $gcProbability);
+		}
+		return $return;
+	}
 }
 
 HTTP_Session::_init();
-?>

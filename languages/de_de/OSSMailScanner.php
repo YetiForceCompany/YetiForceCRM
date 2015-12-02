@@ -1,13 +1,5 @@
 <?php
-
-/* +********************************************************************************
- * Terms & Conditions are placed on the: http://opensaas.pl
- * *******************************************************************************
- *  Module				: OSSMailScanner
- *  Author				: OpenSaaS Sp. z o.o. 
- *  Help/Email			: bok@opensaas.pl
- *  Website				: www.opensaas.pl
- * *******************************************************************************+ */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
     'OSSMailScanner' => 'Mail Scanner',
     'OSSMailScanner_manual' => 'Mail Scanner',
@@ -35,7 +27,7 @@ $languageStrings = [
     'update_HelpDesk' => 'HelpDesk aktualisieren',
     'update_Accounts' => 'Konto aktualisieren',
     'update_Contacts' => 'Kontakt aktualisieren',
-    'desc_0_created_Email' => 'E-Mail-Nachricht zum CRM hinzufügen',
+    'desc_0_created_Email' => 'E-Mail-Nachricht zum CRM hinzufügen.',
     'desc_3_bind_Contacts' => 'E-Mail-Nachricht in Beziehung setzen mit dem Kontaktdatensatz, der diese E-Mail-Adresse enthält.',
     'desc_2_bind_Accounts' => 'E-Mail-Nachricht in Beziehung setzen mit dem Kontodatensatz, der diese E-Mail-Adresse enthält.',
     'desc_4_bind_Leads' => 'E-Mail-Nachricht in Beziehung setzen mit dem Leaddatensatz, der diese E-Mail-Adresse enthält.',
@@ -84,7 +76,6 @@ $languageStrings = [
     'Roundcube config' => 'Roundcube Konfiguration',
     'LBL_SAVE' => 'Konfiguration speichern',
     'Spam' => 'Spam',
-    'Spam' => 'Spam',
     'JS_save_info' => 'Gespeicherte Liste von Aktionen',
 	'JS_saveuser_info' => 'Benutzer ist gespeichert',
     'JS_save_folder_info' => 'Gespeicherte Liste von Ordnern',
@@ -105,7 +96,7 @@ $languageStrings = [
     'In progress' => 'In Arbeit...',
     'Error' => 'Fehler',
     'email_to_notify' => 'Benachrichtigung per E-Mail',
-    'time_to_notify' => 'Benachrichtigunszeit',
+    'time_to_notify' => 'Benachrichtigunszeit (min)',
     'StopCron' => 'Scannen manuell stoppen',
     'Manually stopped' => 'Manuell gestoppt',
     'stop_user' => 'Scanning gestoppt von',
@@ -143,4 +134,8 @@ $languageStrings = [
 	'Group list' => 'Gruppenliste',
 	'LBL_ACTIVE_MAIL' => 'Active',
 	'LBL_INACTIVE_MAIL' => 'Inactive',
+	'LBL_EXCEPTIONS' => 'Ausnahmen',
+	'LBL_EXCEPTIONS_CREATING_EMAIL' => 'Adressen ignoriert aufgrund der Erstellung von E-Mail Nachrichten',
+	'LBL_EXCEPTIONS_CREATING_TICKET' => 'Adressen ignoriert aufgrund der Erstellung von Tickets',
+	'LBL_WRITE_AND_ENTER' => 'Adresse eingeben und mit Enter bestätigen',
 ];

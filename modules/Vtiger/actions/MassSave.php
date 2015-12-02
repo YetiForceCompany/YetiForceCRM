@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_MassSave_Action extends Vtiger_Mass_Action
@@ -27,14 +28,17 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordModels = $this->getRecordModelsFromRequest($request);
+		$allRecordSave = true;
 		foreach ($recordModels as $recordId => $recordModel) {
 			if (Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId)) {
 				$recordModel->save();
+			} else {
+				$allRecordSave = false;
 			}
 		}
 
 		$response = new Vtiger_Response();
-		$response->setResult(true);
+		$response->setResult($allRecordSave);
 		$response->emit();
 	}
 
@@ -74,7 +78,7 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 						$recordModel->set($fieldName, $recordModel->get($fieldName));
 					} else {
 						$uiTypeModel = $fieldModel->getUITypeModel();
-						$recordModel->set($fieldName, $uiTypeModel->getUserRequestValue($recordModel->get($fieldName)));
+						$recordModel->set($fieldName, $uiTypeModel->getUserRequestValue($recordModel->get($fieldName), $recordId));
 					}
 				}
 			}

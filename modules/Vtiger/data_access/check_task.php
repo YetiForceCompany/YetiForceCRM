@@ -1,17 +1,21 @@
 <?php
 /*
-Return Description
-------------------------
-Info type: error, info, success
-Info title: optional
-Info text: mandatory
-Type: 0 - notify
-Type: 1 - show quick create mondal
-*/
-Class DataAccess_check_task{
-    var $config = true;
-	
-    public function process($ModuleName, $ID, $record_form, $config) {
+  Return Description
+  ------------------------
+  Info type: error, info, success
+  Info title: optional
+  Info text: mandatory
+  Type: 0 - notify
+  Type: 1 - show quick create mondal
+ */
+
+Class DataAccess_check_task
+{
+
+	var $config = true;
+
+	public function process($ModuleName, $ID, $record_form, $config)
+	{
 		$db = PearDatabase::getInstance();
 		if (!isset($ID) || $ID == 0 || $ID == '')
 			return Array('save_record' => true);
@@ -40,13 +44,14 @@ Class DataAccess_check_task{
 			return Array('save_record' => true);
 	}
 
-	public function getConfig( $id,$module,$baseModule ) {
+	public function getConfig($id, $module, $baseModule)
+	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery( "SELECT * FROM vtiger_taskstatus ORDER BY sortorderid", array() ,true);
+		$result = $db->pquery("SELECT * FROM vtiger_activitystatus ORDER BY sortorderid", array(), true);
 		$fields = array();
-		while ($row = $adb->fetch_array($result)) {
-			array_push($fields, $row['taskstatus'] );
+		while ($row = $db->fetch_array($result)) {
+			array_push($fields, $row['activitystatus']);
 		}
-		return Array('status'=>$fields);
-    }
+		return Array('status' => $fields);
+	}
 }

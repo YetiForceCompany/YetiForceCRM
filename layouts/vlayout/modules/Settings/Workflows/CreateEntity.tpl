@@ -11,7 +11,7 @@
 -->*}
 <input type="hidden" id="fieldValueMapping" name="field_value_mapping" value='{$TASK_OBJECT->field_value_mapping}' />
 <input type="hidden" value="{if $TASK_ID}{$TASK_OBJECT->reference_field}{else}{$REFERENCE_FIELD_NAME}{/if}" name='reference_field' id='reference_field' />
-<div class="row conditionsContainer" id="save_fieldvaluemapping">
+<div class="conditionsContainer" id="save_fieldvaluemapping">
 	{if $RELATED_MODULE_MODEL_NAME neq ''}
 		<div>
 			<button type="button" class="btn btn-default" id="addFieldBtn">{vtranslate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
@@ -22,7 +22,7 @@
 			<div class="row conditionRow padding-bottom1per">
 				<span class="col-md-4">
 					{assign var=SELECTED_FIELD_MODEL value=$RELATED_MODULE_MODEL->getField($FIELD_MAP['fieldname'])}
-					<select name="fieldname" class="select2" style="min-width: 250px" {if $SELECTED_FIELD_MODEL->isMandatory()} disabled="" {/if} >
+					<select name="fieldname" class="select2 form-control" {if $SELECTED_FIELD_MODEL->isMandatory()} disabled="" {/if} >
 						<option value="none"></option>
 						{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
@@ -33,13 +33,13 @@
 					</select>
 				</span>
 				<span class="col-md-3">
-					<select name="modulename" class="select2"  style="width: 184px" {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist')} disabled="" {/if}>
+					<select name="modulename" class="select2 form-control" {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist')} disabled="" {/if}>
 						<option {if $FIELD_MAP['modulename'] eq $SOURCE_MODULE} selected="" {/if} value="{$SOURCE_MODULE}">{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
 						<option {if $FIELD_MAP['modulename'] eq $RELATED_MODULE_MODEL_NAME} selected="" {/if} value="{$RELATED_MODULE_MODEL_NAME}">{vtranslate($RELATED_MODULE_MODEL_NAME, $RELATED_MODULE_MODEL_NAME)}</option>
 					</select>
 				</span>
 				<span class="fieldUiHolder col-md-4">
-					<input type="text" class="getPopupUi row" readonly="" name="fieldValue" value="{$FIELD_MAP['value']}" />
+					<input type="text" class="getPopupUi form-control" readonly="" name="fieldValue" value="{$FIELD_MAP['value']}" />
 					<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']}" />
 				</span>
 				{if $MANDATORY_FIELD neq true}
@@ -63,24 +63,24 @@
 				{/if}
 				<div class="row conditionRow padding-bottom1per">
 					<span class="col-md-4">
-						<select name="fieldname" class="select2" disabled="" style="min-width: 250px">
+						<select name="fieldname" class="select2 form-control" disabled="">
 							<option value="none"></option>
 							{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 								{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 								<option value="{$FIELD_MODEL->get('name')}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" {if $FIELD_MODEL->get('name') eq $MANDATORY_FIELD_MODEL->get('name')} {assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()} selected=""{/if} data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}' >
-								{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}<span class="redColor">*</span>
+								{vtranslate($FIELD_MODEL->get('label'), $RELATED_MODULE_MODEL->getName())}<span class="redColor">*</span>
 								</option>	
 							{/foreach}
 						</select>
 					</span>
 					<span class="col-md-3">
-						<select name="modulename" class="select2"  style="width: 184px" {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist')} disabled="" {/if}>
+						<select name="modulename" class="select2 form-control" {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist')} disabled="" {/if}>
 							<option value="{$SOURCE_MODULE}">{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
 							<option {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist')} selected="" {/if} value="{$RELATED_MODULE_MODEL->get('name')}">{vtranslate($RELATED_MODULE_MODEL->get('name'),$RELATED_MODULE_MODEL->get('name'))}</option>
 						</select>
 					</span>
 					<span class="fieldUiHolder col-md-4">
-						<input type="text" class="getPopupUi row" name="fieldValue" value="" />
+						<input type="text" class="getPopupUi form-control" name="fieldValue" value="" />
 						<input type="hidden" name="valuetype" value="rawtext" />
 					</span>
 				</div>
@@ -92,13 +92,14 @@
 {if $RELATED_MODULE_MODEL}
 	<div class="row basicAddFieldContainer padding-bottom1per hide">
 		<span class="col-md-4">
+			{assign var=RELATED_MODULE_MODEL_NAME value=$RELATED_MODULE_MODEL->get('name')}
 			<select name="fieldname" style="min-width: 250px">
 				<option value="none">{vtranslate('LBL_NONE',$QUALIFIED_MODULE)}</option>
 				{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 					{if !$FIELD_MODEL->isMandatory() && $FIELD_MODEL->getFieldDataType() neq 'reference'}
 					<option value="{$FIELD_MODEL->get('name')}" data-fieldtype="{$FIELD_MODEL->getFieldType()}"  data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}' >
-						{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+						{vtranslate($FIELD_MODEL->get('label'), $RELATED_MODULE_MODEL_NAME)} 
 					</option>
 					{/if}
 				{/foreach}
@@ -111,7 +112,7 @@
 			</select>
 		</span>
 		<span class="fieldUiHolder col-md-4">
-			<input type="text" class="row" readonly="" name="fieldValue" value="" />
+			<input type="text" class="form-control" readonly="" name="fieldValue" value="" />
 			<input type="hidden" name="valuetype" value="rawtext" />
 		</span>
 		<span class="cursorPointer span">

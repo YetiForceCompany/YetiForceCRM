@@ -9,12 +9,17 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_TIMECONTROL_PROCESSES' => 'Time control processes',
+	'LBL_TIMECONTROL_PROCESSES' => 'Zeiterfassungsprozesse',
 	'LBL_TIMECONTROL_PROCESSES_DESCRIPTION' => ' ',
-	'LBL_ONEDAY_VALID' => 'Work time limited to 24 hours',
-	'LBL_TIMEOVERLAP_VALID' => 'Allow time overlapping',
+	'LBL_ONEDAY_VALID' => 'Arbeitszeit auf 24 Stunden limitiert',
+	'LBL_TIMEOVERLAP_VALID' => 'Zeitüberschneidung erlaubt',
 	'LBL_GENERAL_SETTINGS' => 'Allgemeine Einstellungen',
+	'TimeControlProcesses' => 'Zeiterfassungsprozesse',
+	'LBL_TIME_CONTROL_WIDGET' => 'Zitkontrolle Widget',
+	'LBL_TCW_INFO' => 'The options to hide/display icons in the time control widget can be found here.',
+	'LBL_HOLIDAYS' => 'Holiday icons',
+	'LBL_WORKING_DAYS' => 'Working days icons',
+	'LBL_WORKING_TIME' => 'Working time icons',
 ];
-
 $jsLanguageStrings = [
 ];

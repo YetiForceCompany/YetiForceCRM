@@ -45,29 +45,6 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
-
-		$CalendarActionLinks[] = array();
-		$CalendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-		if ($currentUserModel->hasModuleActionPermission($CalendarModuleModel->getId(), 'EditView')) {
-			$CalendarActionLinks[] = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_ADD_EVENT',
-				'linkurl' => $recordModel->getCreateEventUrl(),
-				'linkicon' => 'glyphicon glyphicon-time'
-			);
-
-			$CalendarActionLinks[] = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_ADD_TASK',
-				'linkurl' => $recordModel->getCreateTaskUrl(),
-				'linkicon' => 'glyphicon glyphicon-calendar'
-			);
-		}
-
-		foreach ($CalendarActionLinks as $basicLink) {
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
-		}
-
 		return $linkModelList;
 	}
 
@@ -76,9 +53,10 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$parentModuleModel = $this->getModule();
+		$this->getWidgets();
 		$relatedLinks = array();
 
-		if ($parentModuleModel->isSummaryViewSupported()) {
+		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
 			$relatedLinks = array(array(
 					'linktype' => 'DETAILVIEWTAB',
 					'linklabel' => vtranslate('LBL_RECORD_SUMMARY', $moduleName),

@@ -9,6 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 class Vtiger_Activities_Widget extends Vtiger_Basic_Widget {
+	var $allowedModules  = ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees', 'Campaigns', 'HelpDesk', 'Potentials', 'Project', 'ServiceContracts'];
+		
 	public function getUrl() {
 		return 'module='.$this->Module.'&view=Detail&record='.$this->Record.'&mode=getActivities&page=1&type=current&limit='.$this->Data['limit'];
 	}

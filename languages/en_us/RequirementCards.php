@@ -48,5 +48,5 @@ $languageStrings = [
 	'PLL_SERVICE_DEVELOPMENT' => 'Service development',
 	'PLL_POSSIBILITY_TO_PREPAY' => 'Possibility to prepay',
 	'PLL_POSSIBILITY_TO_ADJUST' => 'Possibility to adjust',
-	'PLL_NEW_ORGANIZATION_ORDER' => 'New organization order',
+	'PLL_NEW_ORGANIZATION_ORDER' => 'New account order',
 ];

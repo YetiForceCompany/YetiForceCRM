@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,27 +7,33 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-class Settings_MobileApps_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
-	function __construct() {
+ * *********************************************************************************************************************************** */
+
+class Settings_MobileApps_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
+{
+
+	function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('addKey');
 		$this->exposeMethod('deleteKey');
 		$this->exposeMethod('changePrivileges');
 	}
-	public function addKey(Vtiger_Request $request) {
+
+	public function addKey(Vtiger_Request $request)
+	{
 		$params = $request->get('params');
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_MobileApps_Module_Model::getInstance($qualifiedModuleName);
 		$result = $moduleModel->addKey($params);
 		$success = true;
-		$message = vtranslate('LBL_SUCCESS_SAVE_KEY', $request->getModule(false) );
-		if( $result === 0){
+		$message = vtranslate('LBL_SUCCESS_SAVE_KEY', $request->getModule(false));
+		if ($result === 0) {
 			$success = false;
-			$message = vtranslate('LBL_ERROR_SAVE_KEY', $request->getModule(false) );
-		}elseif( $result === 1){
+			$message = vtranslate('LBL_ERROR_SAVE_KEY', $request->getModule(false));
+		} elseif ($result === 1) {
 			$success = false;
-			$message = vtranslate('LBL_DUPLICATE_USER_SERVICES', $request->getModule(false) );
+			$message = vtranslate('LBL_DUPLICATE_USER_SERVICES', $request->getModule(false));
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(array(
@@ -37,7 +43,9 @@ class Settings_MobileApps_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		));
 		$response->emit();
 	}
-	public function deleteKey(Vtiger_Request $request) {
+
+	public function deleteKey(Vtiger_Request $request)
+	{
 		$params = $request->get('params');
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_MobileApps_Module_Model::getInstance($qualifiedModuleName);
@@ -49,7 +57,9 @@ class Settings_MobileApps_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		));
 		$response->emit();
 	}
-	public function changePrivileges(Vtiger_Request $request) {
+
+	public function changePrivileges(Vtiger_Request $request)
+	{
 		$params = $request->get('params');
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_MobileApps_Module_Model::getInstance($qualifiedModuleName);

@@ -18,14 +18,14 @@ $languageStrings = [
 	'LBL_RECORDS_LIST'	=>	'Расходы',
 
 	// Blocks
-	'LBL_INFORMATION'	=>	'Информация о расходах',
+	'LBL_INFORMATION' => 'Основная информация',
 	'LBL_ADDRESS_INFORMATION'	=>	'Адрес',
 
 	//Field Labels
 	'Title'	=>	'Название',
 	'Costs_no'	=>	'Номер',
 	'Potential'	=>	'Сделка',
-	'Parent ID'	=>	'Родительские расходы',
+	'Parent ID' => 'Предыдущий расход',
 	'Project'	=>	'Проект',
 	'HelpDesk'	=>	'Заявка',
 	'Related to'	=>	'Связан с',

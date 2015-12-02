@@ -1,5 +1,5 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,33 +7,36 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 
-class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
- 
-    function getSearchParams($value,$assignedto = '') {
+class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
+{
 
-        $listSearchParams = array();
-        $conditions = array(array('ticketstatus','e',$value));
-        if($assignedto != '') array_push($conditions,array('assigned_user_id','e',getUserFullName($assignedto)));
-        $listSearchParams[] = $conditions;
-        return '&search_params='. json_encode($listSearchParams);
-    }
+	function getSearchParams($value, $assignedto = '')
+	{
 
-    /**
+		$listSearchParams = array();
+		$conditions = array(array('ticketstatus', 'e', $value));
+		if ($assignedto != '')
+			array_push($conditions, array('assigned_user_id', 'e', getUserFullName($assignedto)));
+		$listSearchParams[] = $conditions;
+		return '&search_params=' . json_encode($listSearchParams);
+	}
+
+	/**
 	 * Function returns Tickets grouped by Status
 	 * @param type $data
 	 * @return <Array>
 	 */
-	public function getTicketsByStatus($owner) {
+	public function getTicketsByStatus($owner)
+	{
 		$db = PearDatabase::getInstance();
-
-		$vtigerModel = new Vtiger_Module_Model();
-		$ownerSql = $vtigerModel->getOwnerWhereConditionForDashBoards($owner);
+		$module = 'HelpDesk';
+		$moduleModel = Vtiger_Module_Model::getInstance($module);
+		$ownerSql = $moduleModel->getOwnerWhereConditionForDashBoards($owner);
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$params = array();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$module = 'HelpDesk';
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 
@@ -50,10 +53,10 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 					ON vtiger_ticketpriorities.`ticketpriorities` = vtiger_troubletickets.`priority`
 				WHERE
 					vtiger_crmentity.`deleted` = 0';
-		if(!empty($ownerSql)) {
-			$sql .= ' AND '.$ownerSql;
+		if (!empty($ownerSql)) {
+			$sql .= ' AND ' . $ownerSql;
 		}
-		if(!empty($ticketStatus)){
+		if (!empty($ticketStatus)) {
 			$ticketStatusSearch = implode("','", $ticketStatus);
 			$sql .= " AND vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
 		}
@@ -64,7 +67,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 					statusvalue, priority 
 				ORDER BY
 				vtiger_ticketstatus.sortorderid';
-		
+
 		$result = $db->query($sql);
 		$response = array();
 		$priorities = [];
@@ -73,17 +76,17 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 		$colors = [];
 		$numRows = $db->num_rows($result);
 
-		for($i=0; $i<$numRows; $i++) {
+		for ($i = 0; $i < $numRows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			$tickets[$row['statusvalue']][$row['priority']] = $row['count'];
-			if(!array_key_exists($row['priority'], $priorities)){
+			if (!array_key_exists($row['priority'], $priorities)) {
 				$priorities[$row['priority']] = $counter++;
 				$colors[$row['priority']] = $row['color'];
 			}
-			if(!in_array($row['statusvalue'], $status))
+			if (!in_array($row['statusvalue'], $status))
 				$status[] = $row['statusvalue'];
-		}	
-		if($numRows > 0){
+		}
+		if ($numRows > 0) {
 			$counter = 0;
 			$result = array();
 
@@ -92,22 +95,22 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 					$result[$priorityValue]['data'][$counter][0] = $counter;
 					$result[$priorityValue]['label'] = vtranslate($priorityKey, 'HelpDesk');
 					$result[$priorityValue]['color'] = $colors[$priorityKey];
-					if($ticketValue[$priorityKey]){
+					if ($ticketValue[$priorityKey]) {
 						$result[$priorityValue]['data'][$counter][1] = $ticketValue[$priorityKey];
-					}else{
+					} else {
 						$result[$priorityValue]['data'][$counter][1] = 0;
 					}
 				}
 				$counter++;
 			}
 
-			$ticks = [];	
+			$ticks = [];
 			foreach ($status as $key => $value) {
 				$newArray = [$key, vtranslate($value, 'HelpDesk')];
 				array_push($ticks, $newArray);
 				$name[] = $value;
 			}
-			
+
 			$response['chart'] = $result;
 			$response['ticks'] = $ticks;
 			$response['name'] = $name;
@@ -115,7 +118,8 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 		return $response;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -124,28 +128,29 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 		$data = $request->get('data');
 		$createdTime = $request->get('createdtime');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-		if (!$request->has('owner')) 
+		if (!$request->has('owner'))
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, $moduleName);
 		else
 			$owner = $request->get('owner');
-		if($owner == 'all')
+		$ownerForwarded = $owner;
+		if ($owner == 'all')
 			$owner = '';
-		
+
 		//Date conversion from user to database format
-		if(!empty($createdTime)) {
+		if (!empty($createdTime)) {
 			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['start']);
 			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
 		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = ($owner === false)?array():$this->getTicketsByStatus($owner);
+		$data = ($owner === false) ? array() : $this->getTicketsByStatus($owner);
 
-        $listViewUrl = $moduleModel->getListViewUrl();
+		$listViewUrl = $moduleModel->getListViewUrl();
 		$statusmount = count($data['name']);
-        for($i = 0;$i<$statusmount;$i++){   
+		for ($i = 0; $i < $statusmount; $i++) {
 			$data['links'][$i][0] = $i;
-			$data['links'][$i][1] = $listViewUrl.$this->getSearchParams($data['name'][$i],$owner);
-        }
+			$data['links'][$i][1] = $listViewUrl . $this->getSearchParams($data['name'][$i], $owner);
+		}
 		//Include special script and css needed for this widget
 
 		$viewer->assign('WIDGET', $widget);
@@ -157,9 +162,10 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 		$accessibleGroups = $currentUser->getAccessibleGroupForModule($moduleName);
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
+		$viewer->assign('OWNER', $ownerForwarded);
 
 		$content = $request->get('content');
-		if(!empty($content)) {
+		if (!empty($content)) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/TicketsByStatus.tpl', $moduleName);

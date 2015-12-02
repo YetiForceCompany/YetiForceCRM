@@ -9,6 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-class Invoice_Dashboard_View extends Inventory_Dashboard_View {
+class Invoice_DashBoard_View extends Inventory_DashBoard_View {
 
 }

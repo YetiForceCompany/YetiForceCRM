@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-md-3 btn-toolbar" >
                     <select class="chzn-select" id="moduleFilter" >
-                        <option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
+                        <option value="">{vtranslate('LBL_CONDITION_ALL', $QUALIFIED_MODULE)}</option>
                         {foreach item=item key=key from=$SUPPORTED_MODULE_MODELS}
                             <option value="{$item}">{vtranslate($item, $item)}</option>
                         {/foreach}

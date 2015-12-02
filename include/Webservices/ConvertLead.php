@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ******************************************************************************** */
+ * ******************************************************************************* */
 require_once 'config/config.php';
 require_once 'config/debug.php';
 require_once 'config/performance.php';
@@ -16,10 +16,12 @@ require_once 'include/Webservices/Create.php';
 require_once 'include/Webservices/Delete.php';
 require_once 'include/Webservices/DescribeObject.php';
 require_once 'include/Loader.php';
-vimport ('include.runtime.Globals');
-vimport ('include.runtime.BaseModel');
+require_once('include/ConfigUtils.php');
+vimport('include.runtime.Globals');
+vimport('include.runtime.BaseModel');
 
-function vtws_convertlead($entityvalues, $user) {
+function vtws_convertlead($entityvalues, $user)
+{
 	$adb = PearDatabase::getInstance();
 	$log = vglobal('log');
 	$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
@@ -47,12 +49,12 @@ function vtws_convertlead($entityvalues, $user) {
 	if ($result === false) {
 		$log->error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$DATABASEQUERYERROR));
 		throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, vtws_getWebserviceTranslatedString('LBL_' .
-				WebServiceErrorCode::$DATABASEQUERYERROR));
+			WebServiceErrorCode::$DATABASEQUERYERROR));
 	}
 	$rowCount = $adb->num_rows($result);
 	if ($rowCount > 0) {
-		$log->error('Error converting a lead: Lead is already converted');
-		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, "Lead is already converted");
+		$log->error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
+		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
 	}
 
 	require_once("include/events/include.inc");
@@ -104,13 +106,9 @@ function vtws_convertlead($entityvalues, $user) {
 
 			try {
 				$create = true;
-				if ($entityvalue['name'] == 'Accounts' && $entityvalue['create_always']) {
-					$sql = "SELECT vtiger_account.accountid FROM vtiger_account,vtiger_crmentity WHERE vtiger_crmentity.crmid=vtiger_account.accountid AND vtiger_account.accountname=? AND vtiger_crmentity.deleted=0";
-					$result = $adb->pquery($sql, array($entityvalue['accountname']));
-					if ($adb->num_rows($result) > 0) {
-						$entityIds[$entityName] = vtws_getWebserviceEntityId('Accounts', $adb->query_result($result, 0, 'accountid'));
-						$create = false;
-					}
+				if ($entityvalue['name'] == 'Accounts' && $entityvalue['convert_to_id'] && is_int($entityvalue['convert_to_id'])) {
+					$entityIds[$entityName] = vtws_getWebserviceEntityId('Accounts', $entityvalue['convert_to_id']);
+					$create = false;
 				}
 				if ($create) {
 					$entityRecord = vtws_create($entityvalue['name'], $entityObjectValues, $user);
@@ -159,15 +157,16 @@ function vtws_convertlead($entityvalues, $user) {
 	$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 	return $entityIds;
 }
-
 /*
  * populate the entity fields with the lead info.
  * if mandatory field is not provided populate with '????'
  * returns the entity array.
  */
 
-function vtws_populateConvertLeadEntities($entityvalue, $entity, $entityHandler, $leadHandler, $leadinfo) {
-	$adb = PearDatabase::getInstance(); $log = vglobal('log');
+function vtws_populateConvertLeadEntities($entityvalue, $entity, $entityHandler, $leadHandler, $leadinfo)
+{
+	$adb = PearDatabase::getInstance();
+	$log = vglobal('log');
 	$column;
 	$entityName = $entityvalue['name'];
 	$sql = "SELECT * FROM vtiger_convertleadmapping";
@@ -216,15 +215,14 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, $entityHandler,
 	return $entity;
 }
 
-function vtws_validateConvertLeadEntityMandatoryValues($entity, $entityHandler, $leadinfo, $module) {
+function vtws_validateConvertLeadEntityMandatoryValues($entity, $entityHandler, $leadinfo, $module)
+{
 
 	$mandatoryFields = $entityHandler->getMeta()->getMandatoryFields();
 	foreach ($mandatoryFields as $field) {
 		if (empty($entity[$field])) {
 			$fieldInfo = vtws_getConvertLeadFieldInfo($module, $field);
-			if (($fieldInfo['type']['name'] == 'picklist' || $fieldInfo['type']['name'] == 'multipicklist'
-				|| $fieldInfo['type']['name'] == 'date' || $fieldInfo['type']['name'] == 'datetime')
-				&& ($fieldInfo['editable'] == true)) {
+			if (($fieldInfo['type']['name'] == 'picklist' || $fieldInfo['type']['name'] == 'multipicklist' || $fieldInfo['type']['name'] == 'date' || $fieldInfo['type']['name'] == 'datetime') && ($fieldInfo['editable'] == true)) {
 				$entity[$field] = $fieldInfo['default'];
 			} else {
 				$entity[$field] = '????';
@@ -234,8 +232,10 @@ function vtws_validateConvertLeadEntityMandatoryValues($entity, $entityHandler, 
 	return $entity;
 }
 
-function vtws_getConvertLeadFieldInfo($module, $fieldname) {
-	$adb = PearDatabase::getInstance(); $log = vglobal('log');
+function vtws_getConvertLeadFieldInfo($module, $fieldname)
+{
+	$adb = PearDatabase::getInstance();
+	$log = vglobal('log');
 	$describe = vtws_describe($module, vglobal('current_user'));
 	foreach ($describe['fields'] as $index => $fieldInfo) {
 		if ($fieldInfo['name'] == $fieldname) {
@@ -246,7 +246,8 @@ function vtws_getConvertLeadFieldInfo($module, $fieldname) {
 }
 
 //function to handle the transferring of related records for lead
-function vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues) {
+function vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues)
+{
 	try {
 		$entityidComponents = vtws_getIdComponents($entityIds[$entityvalues['transferRelatedRecordsTo']]);
 		vtws_transferLeadRelatedRecords($leadIdComponents[1], $entityidComponents[1], $entityvalues['transferRelatedRecordsTo']);
@@ -256,15 +257,16 @@ function vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityv
 	return true;
 }
 
-function vtws_updateConvertLeadStatus($entityIds, $leadId, $user) {
-	$adb = PearDatabase::getInstance(); $log = vglobal('log');
+function vtws_updateConvertLeadStatus($entityIds, $leadId, $user)
+{
+	$adb = PearDatabase::getInstance();
+	$log = vglobal('log');
 	$leadIdComponents = vtws_getIdComponents($leadId);
 	if ($entityIds['Accounts'] != '' || $entityIds['Contacts'] != '') {
 		$sql = "UPDATE vtiger_leaddetails SET converted = 1 where leadid=?";
 		$result = $adb->pquery($sql, array($leadIdComponents[1]));
 		if ($result === false) {
-			throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_MARK_CONVERTED,
-					"Failed mark lead converted");
+			throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_MARK_CONVERTED, "Failed mark lead converted");
 		}
 		//updating the campaign-lead relation --Minnie
 		$sql = "DELETE FROM vtiger_campaignleadrel WHERE leadid=?";
@@ -278,20 +280,20 @@ function vtws_updateConvertLeadStatus($entityIds, $leadId, $user) {
 		$crmentityUpdateSql = "UPDATE vtiger_crmentity SET modifiedtime=?, modifiedby=? WHERE crmid=?";
 		$adb->pquery($crmentityUpdateSql, array($leadModifiedTime, $user->id, $leadIdComponents[1]));
 	}
-    $moduleArray = array('Accounts','Contacts','Potentials');
+	$moduleArray = array('Accounts', 'Contacts', 'Potentials');
 
-    foreach($moduleArray as $module){
-        if(!empty($entityIds[$module])) {
-            $idComponents = vtws_getIdComponents($entityIds[$module]);
-            $id = $idComponents[1];
-            $webserviceModule = vtws_getModuleHandlerFromName($module, $user);
-            $meta = $webserviceModule->getMeta();
-            $fields = $meta->getModuleFields();
-            $field = $fields['isconvertedfromlead'];
-            $tablename = $field->getTableName();
-            $tableList = $meta->getEntityTableIndexList();
-            $tableIndex = $tableList[$tablename];
-            $adb->pquery("UPDATE $tablename SET isconvertedfromlead = ? WHERE $tableIndex = ?",array(1,$id));
-        }
-    }
+	foreach ($moduleArray as $module) {
+		if (!empty($entityIds[$module])) {
+			$idComponents = vtws_getIdComponents($entityIds[$module]);
+			$id = $idComponents[1];
+			$webserviceModule = vtws_getModuleHandlerFromName($module, $user);
+			$meta = $webserviceModule->getMeta();
+			$fields = $meta->getModuleFields();
+			$field = $fields['isconvertedfromlead'];
+			$tablename = $field->getTableName();
+			$tableList = $meta->getEntityTableIndexList();
+			$tableIndex = $tableList[$tablename];
+			$adb->pquery("UPDATE $tablename SET isconvertedfromlead = ? WHERE $tableIndex = ?", array(1, $id));
+		}
+	}
 }

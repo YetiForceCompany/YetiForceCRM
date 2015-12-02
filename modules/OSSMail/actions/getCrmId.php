@@ -30,12 +30,12 @@ class OSSMail_getCrmId_Action extends Vtiger_Action_Controller
 		$params['folder'] = urldecode($params['folder']);
 		$return = false;
 		if (Vtiger_Functions::getModuleId('OSSMailView') && Vtiger_Functions::getModuleId('OSSMailScanner')) {
-			$return = 0;
+			$return = [];
 			$account = OSSMail_Record_Model::get_account_detail_by_name($params['username']);
 
 			$result = $adb->pquery("SELECT ossmailviewid FROM vtiger_ossmailview WHERE id = ? AND mbox = ? AND rc_user = ?", [$params['uid'], $params['folder'], $account['user_id']]);
 			if ($adb->num_rows($result) > 0) {
-				$return = $adb->query_result($result, 0, 'ossmailviewid');
+				$return = ['id' => $adb->query_result($result, 0, 'ossmailviewid')];
 			} else if (isset($account['actions'])) {
 				$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 				$return = $scannerModel->manualScanMail($params);

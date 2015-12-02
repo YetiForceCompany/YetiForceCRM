@@ -41,7 +41,7 @@
                     </div>
                     <div class="pull-right">
                         <a href="index.php?module=OSSProjectTemplates&parent=Settings&view=Index" class="btn btn-success">{vtranslate('NEXT', $MODULE_NAME)}</a>
-                        <a href="index.php?module=OSSProjectTemplates&parent=Settings&view=Index" class="cancelLink">{vtranslate('CANCEL', $MODULE_NAME)}</a>
+                        <a href="index.php?module=OSSProjectTemplates&parent=Settings&view=Index" class="cancelLink btn btn-warning" type="reset">{vtranslate('CANCEL', $MODULE_NAME)}</a>
                     </div>
                     <input type="hidden" name="next_step" value="Step2" />
         <div class="clearfix"></div>

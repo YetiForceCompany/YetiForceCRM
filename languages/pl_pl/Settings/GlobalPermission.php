@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'Access to record' => 'Uprawnienia globalne do rekordów',
-	'GlobalPermission' => 'Uprawnienia globalne do rekordów',
+	'GlobalPermission' => 'Dostęp specjalny',
 	'LBL_Module_desc' => 'Narzędzie pozwala na ustawienie globalnego dostępu do rekordów (odczyt/modyfikacja) niezależnie od ról.',
 	'LBL_PROFILE_NAME' => 'Nazwa profilu',
 	'LBL_DESCRIPTION' => 'Opis profilu',

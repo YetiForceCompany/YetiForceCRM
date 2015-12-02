@@ -16,7 +16,7 @@
 <customlink>
 <linktype>HEADERSCRIPT</linktype>
 <linklabel>OSSMailJS</linklabel>
-<linkurl><![CDATA[layouts/vlayout/modules/OSSMail/resources/Global.js]]></linkurl>
+<linkurl><![CDATA[layouts/_layoutName_/modules/OSSMail/resources/Global.js]]></linkurl>
 <linkicon><![CDATA[]]></linkicon>
 <sequence>0</sequence>
 <handler_path><![CDATA[]]></handler_path>
@@ -26,7 +26,7 @@
 <customlink>
 <linktype>HEADERSCRIPT</linktype>
 <linklabel>OSSMailJScheckmails</linklabel>
-<linkurl><![CDATA[layouts/vlayout/modules/OSSMail/resources/checkmails.js]]></linkurl>
+<linkurl><![CDATA[layouts/_layoutName_/modules/OSSMail/resources/checkmails.js]]></linkurl>
 <linkicon><![CDATA[]]></linkicon>
 <sequence>0</sequence>
 <handler_path><![CDATA[]]></handler_path>

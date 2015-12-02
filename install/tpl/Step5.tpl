@@ -9,6 +9,7 @@
   *
  ********************************************************************************/
 -->*}
+{strip}
 <form class="form-horizontal" name="step5" method="post" action="Install.php">
 	<input type="hidden" name="mode" value="Step7" />
 	<input type="hidden" name="auth_key" value="{$AUTH_KEY}" />
@@ -19,7 +20,7 @@
 			<hr>
 			{if $DB_CONNECTION_INFO['flag'] neq true}
 				<div class="offset2 row" id="errorMessage">
-					<div class="span8">
+					<div class="col-md-12">
 						<div class="alert alert-danger">
 							{$DB_CONNECTION_INFO['error_msg']}
 							{$DB_CONNECTION_INFO['error_msg_info']}
@@ -117,11 +118,15 @@
 						</tr>
 					</tbody>
 				</table>
-				<div class="button-container">
-					<input type="button" class="btn btn-sm btn-default" value="{vtranslate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled" {/if} name="back"/>
-					{if $DB_CONNECTION_INFO['flag'] eq true}
-						<input type="button" class="btn btn-sm btn-primary" value="{vtranslate('LBL_NEXT','Install')}" name="step6"/>
-					{/if}
+				<div class="row">
+					<div class="col-md-12">
+						<div class="button-container">
+							<input type="button" class="btn btn-sm btn-default" value="{vtranslate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled" {/if} name="back"/>
+							{if $DB_CONNECTION_INFO['flag'] eq true}
+								<input type="button" class="btn btn-sm btn-primary" value="{vtranslate('LBL_NEXT','Install')}" name="step6"/>
+							{/if}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -140,3 +145,4 @@
 		</div>
 	</div>
 </div>
+{/strip}

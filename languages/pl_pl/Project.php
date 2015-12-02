@@ -52,9 +52,9 @@ $languageStrings = [
 	'LBL_MORE' => 'więcej',
 
 	//PickList
-	'PLL_INTERNAL' => 'wewnętrzny',
-	'PLL_EXTERNAL' => 'zewnętrzny',
-	'PLL_COMMON' => 'wspólny',
+	'PLL_INTERNAL' => 'Wewnętrzny',
+	'PLL_EXTERNAL' => 'Zewnętrzny',
+	'PLL_COMMON' => 'Wspólny',
 	
 	//Summary View Widgets
 	'LBL_DOWNLOAD_FILE' => 'Pobierz plik',

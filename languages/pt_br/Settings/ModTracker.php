@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'ModTracker' => 'Histórico de alterações',
-	'LBL_MODTRACKER_SETTINGS' => 'Histórico de alterações',
+	'LBL_MODTRACKER_SETTINGS' => 'Modules – Track Changes / History',
 	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Gerenciar histórico de alterações nos módulos',
 	'LBL_MODULE' => 'Módulo',
 	'LBL_ACTIVE' => 'Rastrear alterações',

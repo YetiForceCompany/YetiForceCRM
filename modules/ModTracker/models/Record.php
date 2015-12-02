@@ -9,7 +9,8 @@
  * *********************************************************************************** */
 vimport('~modules/ModTracker/core/ModTracker_Basic.php');
 
-class ModTracker_Record_Model extends Vtiger_Record_Model {
+class ModTracker_Record_Model extends Vtiger_Record_Model
+{
 
 	const UPDATE = 0;
 	const DELETE = 1;
@@ -25,20 +26,21 @@ class ModTracker_Record_Model extends Vtiger_Record_Model {
 	 * @param <type> $limit - number of latest changes that need to retrieved
 	 * @return <array> - list of  ModTracker_Record_Model
 	 */
-	public static function getUpdates($parentRecordId, $pagingModel) {
+	public static function getUpdates($parentRecordId, $pagingModel)
+	{
 		$db = PearDatabase::getInstance();
 		$recordInstances = array();
 
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
-                
-		$listQuery = "SELECT * FROM vtiger_modtracker_basic WHERE crmid = ? ".
-						" ORDER BY changedon DESC LIMIT $startIndex, $pageLimit";
+
+		$listQuery = "SELECT * FROM vtiger_modtracker_basic WHERE crmid = ? " .
+			" ORDER BY changedon DESC LIMIT $startIndex, $pageLimit";
 
 		$result = $db->pquery($listQuery, array($parentRecordId));
 		$rows = $db->num_rows($result);
 
-		for ($i=0; $i<$rows; $i++) {
+		for ($i = 0; $i < $rows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			$recordInstance = new self();
 			$recordInstance->setData($row)->setParent($row['crmid'], $row['module']);
@@ -47,15 +49,18 @@ class ModTracker_Record_Model extends Vtiger_Record_Model {
 		return $recordInstances;
 	}
 
-	function setParent($id, $moduleName) {
+	function setParent($id, $moduleName)
+	{
 		$this->parent = Vtiger_Record_Model::getInstanceById($id, $moduleName);
 	}
 
-	function getParent() {
+	function getParent()
+	{
 		return $this->parent;
 	}
 
-	function checkStatus($callerStatus) {
+	function checkStatus($callerStatus)
+	{
 		$status = $this->get('status');
 		if ($status == $callerStatus) {
 			return true;
@@ -63,60 +68,72 @@ class ModTracker_Record_Model extends Vtiger_Record_Model {
 		return false;
 	}
 
-	function isConvertToAccount(){
+	function isConvertToAccount()
+	{
 		return $this->checkStatus(self::CONVERTTOACCOUNT);
 	}
 
-	function isCreate() {
+	function isCreate()
+	{
 		return $this->checkStatus(self::CREATE);
 	}
 
-	function isUpdate() {
+	function isUpdate()
+	{
 		return $this->checkStatus(self::UPDATE);
 	}
 
-	function isDelete() {
+	function isDelete()
+	{
 		return $this->checkStatus(self::DELETE);
 	}
 
-	function isRestore() {
+	function isRestore()
+	{
 		return $this->checkStatus(self::RESTORE);
 	}
 
-	function isRelationLink() {
+	function isRelationLink()
+	{
 		return $this->checkStatus(self::LINK);
 	}
 
-	function isRelationUnLink() {
+	function isRelationUnLink()
+	{
 		return $this->checkStatus(self::UNLINK);
 	}
 
-	function getModifiedBy() {
+	function getModifiedBy()
+	{
 		$changeUserId = $this->get('whodid');
 		return Users_Record_Model::getInstanceById($changeUserId, 'Users');
 	}
 
-	function getActivityTime() {
+	function getActivityTime()
+	{
 		return $this->get('changedon');
 	}
 
-	function getFieldInstances() {
+	function getFieldInstances()
+	{
 		$id = $this->get('id');
 		$db = PearDatabase::getInstance();
 
 		$fieldInstances = array();
-		if($this->isCreate() || $this->isUpdate()) {
+		if ($this->isCreate() || $this->isUpdate()) {
 			$result = $db->pquery('SELECT * FROM vtiger_modtracker_detail WHERE id = ?', array($id));
 			$rows = $db->num_rows($result);
-			for($i=0; $i<$rows; $i++) {
+			for ($i = 0; $i < $rows; $i++) {
 				$data = $db->query_result_rowdata($result, $i);
 				$row = array_map('html_entity_decode', $data);
 
-				if($row['fieldname'] == 'record_id' || $row['fieldname'] == 'record_module') continue;
+				if ($row['fieldname'] == 'record_id' || $row['fieldname'] == 'record_module')
+					continue;
 
 				$fieldModel = Vtiger_Field_Model::getInstance($row['fieldname'], $this->getParent()->getModule());
-				if(!$fieldModel) continue;
-				
+				if (!$fieldModel)
+					continue;
+
 				$fieldInstance = new ModTracker_Field_Model();
 				$fieldInstance->setData($row)->setParent($this)->setFieldInstance($fieldModel);
 				$fieldInstances[] = $fieldInstance;
@@ -125,11 +142,12 @@ class ModTracker_Record_Model extends Vtiger_Record_Model {
 		return $fieldInstances;
 	}
 
-	function getRelationInstance() {
+	function getRelationInstance()
+	{
 		$id = $this->get('id');
 		$db = PearDatabase::getInstance();
 
-		if($this->isRelationLink() || $this->isRelationUnLink()) {
+		if ($this->isRelationLink() || $this->isRelationUnLink()) {
 			$result = $db->pquery('SELECT * FROM vtiger_modtracker_relations WHERE id = ?', array($id));
 			$row = $db->query_result_rowdata($result, 0);
 			$relationInstance = new ModTracker_Relation_Model();
@@ -137,21 +155,25 @@ class ModTracker_Record_Model extends Vtiger_Record_Model {
 		}
 		return $relationInstance;
 	}
-        
-	public function getTotalRecordCount($recordId) {
-    	$db = PearDatabase::getInstance();
-        $result = $db->pquery("SELECT COUNT(*) AS count FROM vtiger_modtracker_basic WHERE crmid = ?", array($recordId));
-        return $db->query_result($result, 0, 'count');
+
+	public static function getTotalRecordCount($recordId)
+	{
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery("SELECT COUNT(*) AS count FROM vtiger_modtracker_basic WHERE crmid = ?", array($recordId));
+		return $db->query_result($result, 0, 'count');
 	}
 
-	public static function addConvertToAccountRelation($sourceModule, $sourceId, $current_user) {
+	public static function addConvertToAccountRelation($sourceModule, $sourceId, $current_user)
+	{
 		$adb = PearDatabase::getInstance();
-		$currentTime = date('Y-m-d H:i:s');
-
-		$id = $adb->getUniqueId('vtiger_modtracker_basic');
-		$adb->pquery('INSERT INTO vtiger_modtracker_basic(id, crmid, module, whodid, changedon, status) VALUES(?,?,?,?,?,?)',
-				array($id , $sourceId, $sourceModule, $current_user, $currentTime, 6));
-
+		$adb->insert('vtiger_modtracker_basic', [
+			'id' => $adb->getUniqueId('vtiger_modtracker_basic'),
+			'crmid' => $sourceId,
+			'module' => $sourceModule,
+			'whodid' => $current_user,
+			'changedon' => date('Y-m-d H:i:s'),
+			'status' => 6,
+			'whodidsu' => Vtiger_Session::get('baseUserId'),
+		]);
 	}
-
 }

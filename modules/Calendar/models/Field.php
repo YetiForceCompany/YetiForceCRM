@@ -1,41 +1,39 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
 /**
  * Calendar Field Model Class
  */
-class Calendar_Field_Model extends Vtiger_Field_Model {
+class Calendar_Field_Model extends Vtiger_Field_Model
+{
 
 	/**
 	 * Function returns special validator for fields
 	 * @return <Array>
 	 */
-	function getValidator() {
+	function getValidator()
+	{
 		$validator = array();
 		$fieldName = $this->getName();
 
-		switch($fieldName) {
-			case 'due_date':	$funcName = array('name' => 'greaterThanDependentField',
-												'params' => array('date_start'));
-								array_push($validator, $funcName);
-								break;
-                        case 'eventstatus':	$funcName = array('name' => 'futureEventCannotBeHeld',
-												'params' => array('date_start'));
-								array_push($validator, $funcName);
-								break;
+		switch ($fieldName) {
+			case 'due_date': $funcName = array('name' => 'greaterThanDependentField',
+					'params' => array('date_start'));
+				array_push($validator, $funcName);
+				break;
 			// NOTE: Letting user to add pre or post dated Event.
-			/*case 'date_start' : $funcName = array('name'=>'greaterThanToday');
-								array_push($validator, $funcName);
-								break;*/
+			/* case 'date_start' : $funcName = array('name'=>'greaterThanToday');
+			  array_push($validator, $funcName);
+			  break; */
 			default : $validator = parent::getValidator();
-						break;
+				break;
 		}
 		return $validator;
 	}
@@ -43,13 +41,14 @@ class Calendar_Field_Model extends Vtiger_Field_Model {
 	/**
 	 * Function to get the Webservice Field data type
 	 * @return <String> Data type of the field
-	*/
-	public function getFieldDataType() {
-		if($this->getName() == 'date_start' || $this->getName() == 'due_date') {
+	 */
+	public function getFieldDataType()
+	{
+		if ($this->getName() == 'date_start' || $this->getName() == 'due_date') {
 			return 'datetime';
-		} else if($this->get('uitype') == '30') {
+		} else if ($this->get('uitype') == '30') {
 			return 'reminder';
-		} else if($this->getName() == 'recurringtype') {
+		} else if ($this->getName() == 'recurringtype') {
 			return 'recurrence';
 		}
 		$webserviceField = $this->getWebserviceFieldObject();
@@ -59,7 +58,8 @@ class Calendar_Field_Model extends Vtiger_Field_Model {
 	/**
 	 * Customize the display value for detail view.
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false) {
+	public function getDisplayValue($value, $record = false, $recordInstance = false)
+	{
 		if ($recordInstance) {
 			if ($this->getName() == 'date_start') {
 				$dateTimeValue = $value . ' ' . $recordInstance->get('time_start');
@@ -81,7 +81,8 @@ class Calendar_Field_Model extends Vtiger_Field_Model {
 	 * @param <String> Data base value
 	 * @return <String> value
 	 */
-	public function getEditViewDisplayValue($value) {
+	public function getEditViewDisplayValue($value, $record = false)
+	{
 		$fieldName = $this->getName();
 
 		if ($fieldName == 'time_start' || $fieldName == 'time_end') {
@@ -89,7 +90,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model {
 		}
 
 		//Set the start date and end date
-		if(empty($value)) {
+		if (empty($value)) {
 			if ($fieldName === 'date_start') {
 				return DateTimeField::convertToUserFormat(date('Y-m-d'));
 			} elseif ($fieldName === 'due_date') {
@@ -98,76 +99,103 @@ class Calendar_Field_Model extends Vtiger_Field_Model {
 				return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
 			}
 		}
-		return parent::getEditViewDisplayValue($value);
+		return parent::getEditViewDisplayValue($value, $record);
 	}
-	
+
 	/**
-     * Function which will give the picklist values for a recurrence field
-     * @param type $fieldName -- string
-     * @return type -- array of values
-     */
-    public static function getReccurencePicklistValues() {
+	 * Function which will give the picklist values for a recurrence field
+	 * @param type $fieldName -- string
+	 * @return type -- array of values
+	 */
+	public static function getReccurencePicklistValues()
+	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$fieldModel = Vtiger_Field_Model::getInstance('recurringtype', Vtiger_Module_Model::getInstance('Events'));
-		if($fieldModel->isRoleBased() && !$currentUser->isAdminUser()) {
+		if ($fieldModel->isRoleBased() && !$currentUser->isAdminUser()) {
 			$userModel = Users_Record_Model::getCurrentUserModel();
 			$picklistValues = Vtiger_Util_Helper::getRoleBasedPicklistValues('recurringtype', $userModel->get('roleid'));
-		}else{
+		} else {
 			$picklistValues = Vtiger_Util_Helper::getPickListValues('recurringtype');
 		}
-		foreach($picklistValues as $value) {
-			$fieldPickListValues[$value] = vtranslate($value,'Events');
+		foreach ($picklistValues as $value) {
+			$fieldPickListValues[$value] = vtranslate($value, 'Events');
 		}
 		return $fieldPickListValues;
 	}
-	
+
 	/**
 	 * Function to get the advanced filter option names by Field type
 	 * @return <Array>
 	 */
-	public static function getAdvancedFilterOpsByFieldType() {
-		
+	public static function getAdvancedFilterOpsByFieldType()
+	{
+
 		$filterOpsByFieldType = parent::getAdvancedFilterOpsByFieldType();
-		$filterOpsByFieldType['O'] = array('e','n');
-		
+		$filterOpsByFieldType['O'] = array('e', 'n');
+
 		return $filterOpsByFieldType;
 	}
-	
+
 	/**
-     * Function which will check if empty piclist option should be given
-     */
-    public function isEmptyPicklistOptionAllowed() {
-		if($this->getFieldName() == 'visibility') {
+	 * Function which will check if empty piclist option should be given
+	 */
+	public function isEmptyPicklistOptionAllowed()
+	{
+		if ($this->getFieldName() == 'visibility') {
 			return false;
 		}
-        return true;
-    }
-	
-    /**
-     * Function to get visibilty permissions of a Field
-     * @param <String> $accessmode
-     * @return <Boolean>
-     */
-    public function getPermissions($accessmode = 'readonly') {
-        $user = Users_Record_Model::getCurrentUserModel();
-        $privileges = $user->getPrivileges();
-        if ($privileges->hasGlobalReadPermission()) {
-            return true;
-        } else {
-            $modulePermission = Vtiger_Cache::get('modulePermission-'.$accessmode, $this->getModuleId());
-            if (!$modulePermission) {
-                $modulePermissionCalendar = self::preFetchModuleFieldPermission(Vtiger_Functions::getModuleId('Calendar'), $accessmode);
+		return true;
+	}
+
+	/**
+	 * Function to get visibilty permissions of a Field
+	 * @param <String> $accessmode
+	 * @return <Boolean>
+	 */
+	public function getPermissions($accessmode = 'readonly')
+	{
+		$user = Users_Record_Model::getCurrentUserModel();
+		$privileges = $user->getPrivileges();
+		if ($privileges->hasGlobalReadPermission()) {
+			return true;
+		} else {
+			$modulePermission = Vtiger_Cache::get('modulePermission-' . $accessmode, $this->getModuleId());
+			if (!$modulePermission) {
+				$modulePermissionCalendar = self::preFetchModuleFieldPermission(Vtiger_Functions::getModuleId('Calendar'), $accessmode);
 				$modulePermissionEvents = self::preFetchModuleFieldPermission(Vtiger_Functions::getModuleId('Events'), $accessmode);
 				$modulePermission = $modulePermissionCalendar + $modulePermissionEvents;
-				Vtiger_Cache::set('modulePermission-'.$accessmode,$this->getModuleId(),$modulePermission);
-            }
+				Vtiger_Cache::set('modulePermission-' . $accessmode, $this->getModuleId(), $modulePermission);
+			}
 
-            if (array_key_exists($this->getId(), $modulePermission)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-	
+			if (array_key_exists($this->getId(), $modulePermission)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	/**
+	 * Function to get the field details
+	 * @return <Array> - array of field values
+	 */
+	public function getFieldInfo()
+	{
+		parent::getFieldInfo();
+		//Change the default search operator
+		if ($this->get('name') == 'date_start') {
+			$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+			if ($request->has('search_params')) {
+				$searchParams = $request->get('search_params');
+				if(!empty($searchParams)) {
+					foreach ($searchParams[0] as $value) {
+						if ($value[0] == 'date_start') {
+							$this->fieldInfo['searchOperator'] = $value[1];
+						}
+					}
+				}
+			}
+		}
+		return $this->fieldInfo;
+	}
 }

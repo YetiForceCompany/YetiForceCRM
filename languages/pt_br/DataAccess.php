@@ -14,7 +14,7 @@ $languageStrings = [
 	'LBL_NONE' => '--Nada--',
 	'Message' => 'Mensagem',
 	'Action_unique_value' => 'O valor do campo é único.',
-	'Action_Desc_unique_value' => 'Verificar se o valor do campo especificado é único',
+	'Action_Desc_unique_value' => 'Verificar se o valor do campo especificado é único.',
 	'Select the fields to be verified' => 'Selecionar os campos para serem verificados',
 	'Select a field from which the value is to be checked' => 'Selecionar um campo a partir do qual o valor será verificado',
 	'Field value is not unique' => 'O valor do campo não é único',
@@ -24,7 +24,7 @@ $languageStrings = [
 	'LBL_LOCKS_SAVE_LABEL2' => 'Sim - Uma condição satisfeita',
 	'LBL_LOCKS_SAVE_LABEL3' => 'Sim - Duas condições satisfeitas',
 	'LBL_VALIDATION_TWO_FIELDS' => 'Validação para dois campos',
-	'LBL_MESSAGE_LOCK0' => 'Mensagem quando escrita não é bloqueada (será exibido somente no momento da criação do registro)',
+	'LBL_MESSAGE_LOCK0' => 'Mensagem quando escrita não é bloqueada',
 	'LBL_MESSAGE_LOCK1' => 'Mensagem para uma condição satisfeita',
 	'LBL_MESSAGE_LOCK2' => 'Mensagem para uma condição satisfeita',
 	//
@@ -39,14 +39,14 @@ $languageStrings = [
 	'Message if the task exist' => 'Mensagem se a tarefa existir (mensagem está sendo traduzida)',
 	//
 	'Action_show_quick_create' => 'Criar rápido',
-	'Action_Desc_show_quick_create' => 'Esta ação exibe Criar Rápido',
-	'Select module' => 'Seleciona módulo',
+	'Action_Desc_show_quick_create' => 'Esta ação exibe Criar Rápido.',
+	'LBL_SELECT_OPTION' => 'Selecione Opção',
 	//
 	'Action_blockEditView' => 'Bloco Visualização',
-	'Action_Desc_blockEditView' => 'Esta ação bloqueia a edição (edição rápida e completa)',
+	'Action_Desc_blockEditView' => 'Esta ação bloqueia a edição (edição rápida e completa).',
 	//
 	'Action_check_taskdate' => 'Verificar data prevista para conclusão da tarefa do Projeto',
-	'Action_Desc_check_taskdate' => 'Validar data prevista para conclusão da tarefa do Projeto',
+	'Action_Desc_check_taskdate' => 'Validar data prevista para conclusão da tarefa do Projeto.',
 	'Date can not be greater' => 'A data prevista não pode ser maior do que a data do estágio',
 	//
 	'Action_unique_modules_value' => 'O valor do campos é único nos módulos',
@@ -54,7 +54,7 @@ $languageStrings = [
 	'Check the value in the module' => 'Verificar o valor no módulo',
 	//
 	'Action_check_taskstatus' => 'Verificar todas as tarefas subordinadas',
-	'Action_Desc_check_taskstatus' => 'Verificar se todas as tarefas subordinadas foram concluídas',
+	'Action_Desc_check_taskstatus' => 'Verificar se todas as tarefas subordinadas foram concluídas.',
 	'Subordinate tasks have not been completed yet' => 'As tarefas subordinadas ainda não estão concluídas.',
 	//
 	'Action_validate_mandatory' => 'Verificar campos obrigatórios',
@@ -70,7 +70,9 @@ $languageStrings = [
 	'LBL_BACKGROUND_COLOR' => 'Cor de fundo',
 	'LBL_TEXT_COLOR' => 'Cor do texto',
 	'This name already exists' => 'este nome já existe',
-	'LBL_RECORD_DELETED' => 'Record deleted',
+	'LBL_RECORD_DELETED' => 'Registros apagados',
+	'Action_test' => 'Teste ação',
+	'Action_Desc_test' => 'Descrição teste ação.',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Acesso Dados',

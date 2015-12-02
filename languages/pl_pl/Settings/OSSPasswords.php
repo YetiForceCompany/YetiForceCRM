@@ -10,4 +10,5 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'LBL_VIEW_CONFIGUREPASS' => 'Konfiguracja hasła',
+	'OSSPasswords' => 'Konfiguracja hasła',
 ];

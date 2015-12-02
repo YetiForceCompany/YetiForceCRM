@@ -15,6 +15,7 @@
 
 	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
 		<li class="active"><a href="#general" data-toggle="tab">{vtranslate('LBL_GENERAL_SETTINGS', $QUALIFIED_MODULE)}</a></li>
+		<li><a href="#timeControlWidget" data-toggle="tab">{vtranslate('LBL_TIME_CONTROL_WIDGET', $QUALIFIED_MODULE)}</a></li>
 	</ul>
 	<br />
 	<div class="tab-content">
@@ -31,5 +32,24 @@
 				</label>
 			</div>
 		</div>
-    </div>
+		<div class="tab-pane editViewContainer" id="timeControlWidget" data-type="timeControlWidget">
+			<div class="alert alert-info" role="alert">{vtranslate('LBL_TCW_INFO', $QUALIFIED_MODULE)}</div>
+			{assign var=TCW_FIELDS value=$MODULE_MODEL->get('timeControlWidget')}
+			<div class="" data-toggle="buttons">
+				<label class="btn {if $TCW_FIELDS.holidays eq 'true'}btn-success active{else}btn-default{/if} btn-block">
+					<input autocomplete="off" type="checkbox" name="holidays" {if $TCW_FIELDS.holidays eq 'true'}checked{/if}> {vtranslate('LBL_HOLIDAYS', $QUALIFIED_MODULE)}
+					<span class="glyphicon {if $TCW_FIELDS.holidays eq 'true'}glyphicon-check{else}glyphicon-unchecked{/if} pull-left"></span>
+				</label>
+				<label class="btn {if $TCW_FIELDS.workingDays eq 'true'}btn-success active{else}btn-default{/if} btn-block">
+					<input autocomplete="off" type="checkbox" name="workingDays" {if $TCW_FIELDS.workingDays eq 'true'}checked{/if}> {vtranslate('LBL_WORKING_DAYS', $QUALIFIED_MODULE)}
+					<span class="glyphicon {if $TCW_FIELDS.workingDays eq 'true'}glyphicon-check{else}glyphicon-unchecked{/if} pull-left"></span>
+				</label>
+				<label class="btn {if $TCW_FIELDS.workingTime eq 'true'}btn-success active{else}btn-default{/if} btn-block">
+					<input autocomplete="off" type="checkbox" name="workingTime" {if $TCW_FIELDS.workingTime eq 'true'}checked{/if}> {vtranslate('LBL_WORKING_TIME', $QUALIFIED_MODULE)}
+					<span class="glyphicon {if $TCW_FIELDS.workingTime eq 'true'}glyphicon-check{else}glyphicon-unchecked{/if} pull-left"></span>
+				</label>
+			</div>
+		
+		</div>
+	</div>
 </div>

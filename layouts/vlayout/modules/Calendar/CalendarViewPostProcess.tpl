@@ -28,8 +28,8 @@
 				<div class="pull-right">
 					{$SHIFT_BLOCK_SHOW="{$SIDEBARWIDGET->getLabel()}_BLOCK_SHIFT"}
 					<input id="{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" title="{vtranslate('LBL_SHIFT_BLOCK', $MODULE)}" class="switchBtn label switchsParent" type="checkbox" data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_ON_SWITCH',$MODULE)}" data-off-text="{vtranslate('LBL_OFF_SWITCH',$MODULE)}" checked >&nbsp;&nbsp;
-					<a href="javascript:void(0);" name="drefresh" class="refreshCalendar cursorPointer">
-						<span class="glyphicon glyphicon-refresh" hspace="2" border="0" style="vertical-align: middle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
+					<a href="javascript:void(0);" name="drefresh" class="btn btn-default btn-xs refreshCalendar cursorPointer">
+						<span class="glyphicon glyphicon-refresh icon-white" hspace="2" border="0" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
 					</a>
 				</div>
 				<div class="loadingImg hide pull-right">

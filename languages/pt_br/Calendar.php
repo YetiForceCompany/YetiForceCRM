@@ -114,9 +114,9 @@ $languageStrings = [
 	'Duration Minutes'=>'Duração em Minutos',
 	'No Time'=>'Nenhum',
 
-    'TASK_PREV' => 'Planned for a day before',
-    'TASK_CUR' => 'Planned for a specific day',
-    'TASK_NEXT' => 'Planned for a day after',
+    'TASK_PREV' => 'Planejado para um dia antes',
+    'TASK_CUR' => 'Planejado para um dia específico',
+    'TASK_NEXT' => 'Planejado para um dia depois',
 	'LBL_NO_DESCRIPTION'=>'Sem descrição',
 	'LBL_IMPORT_ICS_ERROR_NO_RECORD'=>'Arquivo ICS incorreto',
 	'LBL_IMPORT_ICS_SUCCESS'=>'Entrada adicionada na Agenda',
@@ -139,8 +139,19 @@ $languageStrings = [
 	'LBL_USERS_BLOCK_SHIFT' => 'Exibir ou ocultar tipo bloco de Usuários',
 	'LBL_GROUPS_BLOCK_SHIFT' => 'Exibir ou ocultar tipo bloco Grupos',
 	'LBL_SHIFT_BLOCK' => 'Exibir ou ocultar bloco',
-	'LBL_ON_SWITCH' => 'ON',
-	'LBL_OFF_SWITCH' => 'OFF',
+	'LBL_ON_SWITCH' => 'Ativar',
+	'LBL_OFF_SWITCH' => 'Desativar',
+	'LBL_FOLLOWUP' => 'Related event',
+	
+	'PLL_PLANNED' => 'Planned',
+	'PLL_IN_REALIZATION' => 'To be realized',
+	'PLL_OVERDUE' => 'Overdue',
+	'PLL_POSTPONED' => 'Postponed',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_COMPLETED' => 'Completed',
+	'LBL_RECURRENCE_INFORMATION' => 'Detalhes Recorrência',
+	'LBL_RELATED_TO' => 'Relacionado à',
+	'LBL_NO_AVAILABLE_ACTIONS' => 'No available actions',
 ];
 
 $jsLanguageStrings = [
@@ -187,4 +198,5 @@ $jsLanguageStrings = [
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Não é possível selecionar Contato relacionado Leads',
 	'Mobile Call' => 'Ligar para Celular',
     'JS_CHANGE_ACTIVITY_TIME' => 'Alterar status para: processando ou histórico',
+	'JS_ASSIGNED_TO' => 'Responsável',
 ];

@@ -10,17 +10,9 @@ $DEVELOPER_CONFIG =[
 	// Enable minimize CSS files
 	'MINIMIZE_CSS' => true,
 	
+	// Change of fields visibility
+	'CHANGE_VISIBILITY' => false,
+	
+	// Adding/Deleting relations between modules.
+	'CHANGE_RELATIONS' => false,
 ];
-class SysDeveloper {
-	static function get($key, $defvalue=FALSE) {
-		global $DEVELOPER_CONFIG;
-		if(isset($DEVELOPER_CONFIG[$key])) {
-			return $DEVELOPER_CONFIG[$key];
-		}
-		return $defvalue;
-	}
-	/** Get boolean value */
-	static function getBoolean($key, $defvalue=FALSE) {
-		return self::get($key, $defvalue);
-	}
-}

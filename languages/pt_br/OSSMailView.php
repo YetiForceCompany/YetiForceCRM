@@ -18,7 +18,7 @@ $languageStrings = [
 
 	// Blocks
 	'LBL_INFORMATION' => 'Informação geral',
-
+	'LBL_ORIGN_MESSAGE' => 'Original message',
 	//Field Labels
     'relatedid' => 'Relacionado à',
 	'number' => 'Número',
@@ -59,9 +59,9 @@ $languageStrings = [
 	'LBL_PRINT' => 'Impressão',
 	'Date of receipt' => 'Dados recebidor',
 	'LBL_FORWARD' => 'Avançar',
-	'RC user' => 'RC user',
-	'FromID' => 'Sender Id',
-	'ToID' => 'Receiver Id',
+	'RC user' => 'Usuário RC',
+	'FromID' => 'Id Remetente',
+	'ToID' => 'Id Destinatário',
 
 	'LBL_VERIFY' => 'Para verificação',
 	'LBL_REL_MOD' => 'Módulos relacionados',
@@ -73,6 +73,7 @@ $languageStrings = [
 	'Alert_ChangeType_desc' => 'Todo tipo de e-mail selecionado será mudado, sem a possibilidade de desfazer as altereções.',
 	'LBL_ChangeTypeOK' => 'Mudar tipo de mensagem',
 	'Configuration' => 'Configuração',
+	'LBL_NO_MAILS' => 'No emails',
 
 	//dashboards
 	'Graf' => 'E-mails Corporativos por Tipo',

@@ -1,12 +1,13 @@
 <?php
-$rootDirectory = dirname(__FILE__) . '/../';
-chdir($rootDirectory);
-session_save_path($rootDirectory.'cache/session');
+chdir(dirname(__FILE__) . '/../');
+
 
 // Adjust error_reporting favourable to deployment.
 include_once 'include/RequirementsValidation.php';
 require_once('include/main/WebUI.php');
-require_once 'libraries/csrf-magic/csrf-magic.php';
+session_save_path( 'cache/session/');
+require_once('libraries/csrf-magic/csrf-magic.php');
+require_once('config/csrf_config.php');
 require_once('install/views/Index.php');
 require_once('install/models/Utils.php');
 require_once('install/models/ConfigFileUtils.php');

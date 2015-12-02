@@ -17,7 +17,7 @@
 			<span class="col-md-4">
 				<span class="pull-right">
 					{foreach item=LINK_MODEL from=$MODULE_MODEL->getDetailViewLinks()}
-						<button type="button" class="btn btn-default" onclick={$LINK_MODEL->getUrl()}><strong>{vtranslate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}</strong></button>
+						<button type="button" class="btn btn-info" onclick={$LINK_MODEL->getUrl()}><strong>{vtranslate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}</strong></button>
 					{/foreach}
 				</span>
 			</span>

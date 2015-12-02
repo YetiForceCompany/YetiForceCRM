@@ -22,7 +22,7 @@ $languageStrings = [
 	'LBL_INVALID_DATA' => 'Dado inválido',
 
 	'WidgetsManagement' => 'Gerenciamento Widgets',
-	'LBL_WIDGETS_MANAGEMENT' => 'Widgets Módulo',
+	'LBL_WIDGETS_MANAGEMENT' => 'Widgets – Configuration',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
 	'LBL_MANDATORY_WIDGET' => 'Widget obrigatório',
 	'LBL_WIDGET' => 'Widgets',
@@ -30,7 +30,7 @@ $languageStrings = [
 	'LBL_DEFAULT_FILTER' => 'Filtro padrão',
 	'LBL_FILTERS_AVAILABLE' => 'Filtros disponíveis',
 	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Por favor, selecione pelo menos uma opção',
-	'LBL_VIEW_CONFIGURATION' => 'Configuration view',
+	'LBL_VIEW_CONFIGURATION' => 'Exibir Configuração',
 	'LBL_WIDGET_ADDED' => 'O Widget foi adicionado com sucesso no bloco',
 ];
 $jsLanguageStrings = [

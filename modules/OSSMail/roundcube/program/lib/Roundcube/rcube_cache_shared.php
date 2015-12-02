@@ -161,7 +161,7 @@ class rcube_cache_shared
         // Remove all keys
         if ($key === null) {
             $this->cache         = array();
-            $this->cache_changed = false;
+            $this->cache_changed = true;
             $this->cache_changes = array();
             $this->cache_sums    = array();
         }
@@ -255,7 +255,15 @@ class rcube_cache_shared
         }
 
         if ($this->type != 'db') {
-            if ($this->type == 'memcache') {
+            $this->load_index();
+
+            // Consistency check (#1490390)
+            if (!in_array($key, $this->index)) {
+                // we always check if the key exist in the index
+                // to have data in consistent state. Keeping the index consistent
+                // is needed for keys delete operation when we delete all keys or by prefix.
+            }
+            else if ($this->type == 'memcache') {
                 $data = $this->db->get($this->ckey($key));
             }
             else if ($this->type == 'apc') {
@@ -330,7 +338,15 @@ class rcube_cache_shared
         }
 
         if ($this->type == 'memcache' || $this->type == 'apc') {
-            return $this->add_record($this->ckey($key), $data);
+            $result = $this->add_record($this->ckey($key), $data);
+
+            // make sure index will be updated
+            if ($result && !array_key_exists($key, $this->cache_sums)) {
+                $this->cache_changed    = true;
+                $this->cache_sums[$key] = true;
+            }
+
+            return $result;
         }
 
         $key_exists = array_key_exists($key, $this->cache_sums);
@@ -426,13 +442,12 @@ class rcube_cache_shared
     /**
      * Adds entry into memcache/apc DB.
      *
-     * @param string  $key   Cache key name
-     * @param mxied   $data  Serialized cache data
-     * @param bollean $index Enables immediate index update
+     * @param string $key  Cache key name
+     * @param mixed  $data Serialized cache data
      *
      * @param boolean True on success, False on failure
      */
-    private function add_record($key, $data, $index=false)
+    private function add_record($key, $data)
     {
         if ($this->type == 'memcache') {
             $result = $this->db->replace($key, $data, MEMCACHE_COMPRESSED, $this->ttl);
@@ -445,17 +460,6 @@ class rcube_cache_shared
                 apc_delete($key);
             }
             $result = apc_store($key, $data, $this->ttl);
-        }
-
-        // Update index
-        if ($index && $result) {
-            $this->load_index();
-
-            if (array_search($key, $this->index) === false) {
-                $this->index[] = $key;
-                $data = serialize($this->index);
-                $this->add_record($this->ikey(), $data);
-            }
         }
 
         return $result;
@@ -500,10 +504,15 @@ class rcube_cache_shared
 
         // Make sure index contains new keys
         foreach ($this->cache as $key => $value) {
-            if ($value !== null) {
-                if (array_search($key, $this->index) === false) {
-                    $this->index[] = $key;
-                }
+            if ($value !== null && !in_array($key, $this->index)) {
+                $this->index[] = $key;
+            }
+        }
+
+        // new keys added using self::write()
+        foreach ($this->cache_sums as $key => $value) {
+            if ($value === true && !in_array($key, $this->index)) {
+                $this->index[] = $key;
             }
         }
 

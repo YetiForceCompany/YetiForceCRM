@@ -11,7 +11,7 @@
 vimport ('~libraries/Smarty/libs/SmartyBC.class.php');
 class Vtiger_Viewer extends SmartyBC {
 	const DEFAULTLAYOUT = 'vlayout';
-	const DEFAULTTHEME  = 'softed';
+	const DEFAULTTHEME  = 'twilight';
 	static $currentLayout;
 	
 	// Turn-it on to analyze the data pushed to templates for the request.
@@ -174,7 +174,6 @@ class Vtiger_Viewer extends SmartyBC {
 			}
 		}
 		// END
-		
 		if ($templateFound) {
 			if($fetch) {
 				return $this->fetch($templatePath);

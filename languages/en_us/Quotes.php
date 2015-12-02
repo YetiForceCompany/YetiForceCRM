@@ -20,7 +20,6 @@ $languageStrings = [
 	'SINGLE_Quotes' => 'Quote',
 	'Valid Till'=>'Valid Until',
     'Shipping' => 'Shipping',
-    'Total time [h]' => 'Total time [h]',
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') was removed from the system. Try to replace it with different product/service.',
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Product/service was removed from the system. Remove it from record.',
 	'LBL_THIS' => 'Product/service (',
@@ -34,7 +33,7 @@ $languageStrings = [
 	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'External consultation required',
 	'PLL_WAITING_FOR_CUSTOMERS_REPLY' => 'Waiting for customer\'s reply',
 	'PLL_IN_PREPARATION' => 'In preparation',
-	'PLL_SENT_TO_ORGANIZATION' => 'Sent to Organization',
+	'PLL_SENT_TO_ORGANIZATION' => 'Sent to Account',
 	'PLL_DECLINED' => 'Declined',
 	'PLL_ACCEPTED' => 'Accepted',
 ];

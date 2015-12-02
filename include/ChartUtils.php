@@ -1,20 +1,22 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 
 require_once('include/utils/utils.php');
 require_once 'include/utils/CommonUtils.php';
 
-Class ChartUtils {
+Class ChartUtils
+{
 
 	// Function to generate Bar Chart
-	public static function getBarChart($xaxisData, $yaxisData, $title='', $width='', $height='', $charttype='vertical', $cachedFileName=false, $target=false, $color='') {
+	public static function getBarChart($xaxisData, $yaxisData, $title = '', $width = '', $height = '', $charttype = 'vertical', $cachedFileName = false, $target = false, $color = '')
+	{
 
 		global $log, $lang_crm, $default_charset;
 
@@ -78,10 +80,10 @@ Class ChartUtils {
 
 		$titlestr = & Image_Graph::factory('title', array($title, 8));
 		$plotarea = & Image_Graph::factory('plotarea', array(
-					'axis',
-					'axis',
-					$charttype
-				));
+				'axis',
+				'axis',
+				$charttype
+		));
 		$graph->add(Image_Graph::vertical($titlestr, $plotarea, 5));
 
 		// Now create a bar plot
@@ -102,12 +104,10 @@ Class ChartUtils {
 			if ($yaxisData[$i] >= $max)
 				$max = $yaxisData[$i];
 			$dataset->addPoint(
-					$x,
-					$yaxisData[$i],
-					array(
-						'url' => $target[$i],
-						'alt' => $alts[$i] . '=' . $yaxisData[$i]
-					)
+				$x, $yaxisData[$i], array(
+				'url' => $target[$i],
+				'alt' => $alts[$i] . '=' . $yaxisData[$i]
+				)
 			);
 			$xlabels[$x] = $xaxisData[$i];
 
@@ -158,8 +158,7 @@ Class ChartUtils {
 		$yaxis->setTickOptions(-2, 0, 2);
 
 		// Create the xaxis labels
-		$array_data = & Image_Graph::factory('Image_Graph_DataPreprocessor_Array',
-						array($xlabels)
+		$array_data = & Image_Graph::factory('Image_Graph_DataPreprocessor_Array', array($xlabels)
 		);
 
 		// The fix the tick marks
@@ -190,19 +189,20 @@ Class ChartUtils {
 
 		//Getting the graph in the form of html page
 		$img = $graph->done(
-						array(
-							'tohtml' => true,
-							'border' => 0,
-							'filename' => $cache_file_name,
-							'filepath' => '',
-							'urlpath' => ''
-				));
+			array(
+				'tohtml' => true,
+				'border' => 0,
+				'filename' => $cache_file_name,
+				'filepath' => '',
+				'urlpath' => ''
+		));
 
 		return $img;
 	}
 
 	// Function to generate Pie Chart
-	public static function getPieChart($xaxisData, $yaxisData, $title='', $width='', $height='', $charttype='vertical', $cachedFileName=false, $target=false, $color='') {
+	public static function getPieChart($xaxisData, $yaxisData, $title = '', $width = '', $height = '', $charttype = 'vertical', $cachedFileName = false, $target = false, $color = '')
+	{
 
 		global $log, $lang_crm, $default_charset;
 
@@ -262,9 +262,9 @@ Class ChartUtils {
 		// create the plotarea layout
 		$title = & Image_Graph::factory('title', array($title, 10));
 		$plotarea = & Image_Graph::factory('plotarea', array(
-					'category',
-					'axis'
-				));
+				'category',
+				'axis'
+		));
 		$graph->add(Image_Graph::vertical($title, $plotarea, 5));
 		// To create unique lables we need to keep track of lable name and its count
 		$uniquex = array();
@@ -288,12 +288,10 @@ Class ChartUtils {
 				$uniquex[$xaxisData[$i]] = $xaxisData_appearance + 1;
 			}
 			$dataset->addPoint(
-					$datalabel,
-					$yaxisData[$i],
-					array(
-						'url' => $target[$i],
-						'alt' => $alts[$i] . '=' . sprintf('%0.1f%%', 100 * $yaxisData[$i] / $sum)
-					)
+				$datalabel, $yaxisData[$i], array(
+				'url' => $target[$i],
+				'alt' => $alts[$i] . '=' . sprintf('%0.1f%%', 100 * $yaxisData[$i] / $sum)
+				)
 			);
 			$pcvalues[$yaxisData[$i]] = sprintf('%0.1f%%', 100 * $yaxisData[$i] / $sum);
 			$fills->addColor($colors[$i]);
@@ -322,17 +320,18 @@ Class ChartUtils {
 		$legend_box->showShadow();
 
 		$img = $graph->done(array(
-					'tohtml' => true,
-					'border' => 0,
-					'filename' => $cache_file_name,
-					'filepath' => '',
-					'urlpath' => ''
-				));
+			'tohtml' => true,
+			'border' => 0,
+			'filename' => $cache_file_name,
+			'filepath' => '',
+			'urlpath' => ''
+		));
 		return $img;
 	}
 
 	//Generates Chart Data in form of an array from the Query Result of reports
-	public static function generateChartDataFromReports($queryResult, $groupbyField, $fieldDetails='', $reportid='') {
+	public static function generateChartDataFromReports($queryResult, $groupbyField, $fieldDetails = '', $reportid = '')
+	{
 		require_once 'modules/Reports/CustomReportUtils.php';
 		require_once('include/Webservices/Utils.php');
 		require_once('include/Webservices/Query.php');
@@ -348,23 +347,24 @@ Class ChartUtils {
 
 		$report = new ReportRun($reportid);
 		$restrictedModules = array();
-		if($report->secondarymodule!='') {
-			$reportModules = explode(":",$report->secondarymodule);
+		if ($report->secondarymodule != '') {
+			$reportModules = explode(":", $report->secondarymodule);
 		} else {
 			$reportModules = array();
 		}
-		array_push($reportModules,$report->primarymodule);
+		array_push($reportModules, $report->primarymodule);
 
 		$restrictedModules = false;
-		foreach($reportModules as $mod) {
-			if(isPermitted($mod,'index') != "yes" || vtlib_isModuleActive($mod) == false) {
-				if(!is_array($restrictedModules)) $restrictedModules = array();
+		foreach ($reportModules as $mod) {
+			if (isPermitted($mod, 'index') != "yes" || vtlib_isModuleActive($mod) == false) {
+				if (!is_array($restrictedModules))
+					$restrictedModules = array();
 				$restrictedModules[] = $mod;
 			}
 		}
 
-		if(is_array($restrictedModules) && count($restrictedModules) > 0) {
-			$ChartDataArray['error'] = "<h4>".getTranslatedString('LBL_NO_ACCESS', 'Reports').' - '.implode(',', $restrictedModules)."</h4>";
+		if (is_array($restrictedModules) && count($restrictedModules) > 0) {
+			$ChartDataArray['error'] = "<h4>" . getTranslatedString('LBL_NO_ACCESS', 'Reports') . ' - ' . implode(',', $restrictedModules) . "</h4>";
 			return $ChartDataArray;
 		}
 
@@ -389,10 +389,10 @@ Class ChartUtils {
 		$meta->retrieveMeta();
 		$referenceFields = $meta->getReferenceFieldDetails();
 
-		if($rows > 0) {
+		if ($rows > 0) {
 			$resultRow = $adb->query_result_rowdata($queryResult, 0);
-			if(!array_key_exists($groupbyField, $resultRow)) {
-				$ChartDataArray['error'] = "<h4>".getTranslatedString('LBL_NO_PERMISSION_FIELD', 'Dashboard')."</h4>";
+			if (!array_key_exists($groupbyField, $resultRow)) {
+				$ChartDataArray['error'] = "<h4>" . getTranslatedString('LBL_NO_PERMISSION_FIELD', 'Dashboard') . "</h4>";
 				return $ChartDataArray;
 			}
 		}
@@ -413,17 +413,16 @@ Class ChartUtils {
 				else if (in_array($fieldname, array_keys($referenceFields))) {
 					if (count($referenceFields[$fieldname]) > 1) {
 						$refenceModule = CustomReportUtils::getEntityTypeFromName($decodedGroupFieldValue, $referenceFields[$fieldname]);
-					}
-					else {
+					} else {
 						$refenceModule = $referenceFields[$fieldname][0];
 					}
 					$groupByFields[] = $groupFieldValue;
 
 					if ($fieldname == 'currency_id' && in_array($module, $inventorymodules)) {
 						$tablename = 'vtiger_currency_info';
-					/*} elseif ($refenceModule == 'DocumentFolders' && $fieldname == 'folderid') {
-						$tablename = 'vtiger_attachmentsfolder';
-						$colname = 'foldername';*/
+						/* } elseif ($refenceModule == 'DocumentFolders' && $fieldname == 'folderid') {
+						  $tablename = 'vtiger_attachmentsfolder';
+						  $colname = 'foldername'; */
 					} else {
 						require_once "modules/$refenceModule/$refenceModule.php";
 						$focus = new $refenceModule();
@@ -440,7 +439,7 @@ Class ChartUtils {
 						$advanceSearchCondition = CustomReportUtils::getAdvanceSearchCondition($fieldDetails, $criteria, $groupFieldValue);
 						if ($module == 'Calendar') {
 							$link_val = "index.php?module=" . $module . "&query=true&action=ListView&" . $advanceSearchCondition;
-						}else
+						} else
 							$link_val = "index.php?module=" . $module . "&query=true&action=index&" . $advanceSearchCondition;
 					}
 					else {
@@ -457,9 +456,9 @@ Class ChartUtils {
 							$tablename = 'vtiger_crmentity';
 							$colname = 'smownerid';
 						}
-                        if ($fieldname == 'serviceid' && in_array($module, getInventoryModules())) {
-                            $fieldname = 'productid';
-                        }
+						if ($fieldname == 'serviceid' && in_array($module, getInventoryModules())) {
+							$fieldname = 'productid';
+						}
 						if ($module == 'Calendar') {
 							$link_val = "index.php?module=" . $module . "&action=ListView&search_text=" . $esc_search_str . "&search_field=" . $fieldname . "&searchtype=BasicSearch&query=true&operator=e&viewname=" . $cvid;
 						} else {
@@ -471,8 +470,8 @@ Class ChartUtils {
 				}
 			}
 		}
-		if(count($groupByFields) == 0) {
-			$ChartDataArray['error'] = "<div class='componentName'>".getTranslatedString('LBL_NO_DATA', 'Reports')."</div";
+		if (count($groupByFields) == 0) {
+			$ChartDataArray['error'] = "<div class='componentName'>" . getTranslatedString('LBL_NO_DATA', 'Reports') . "</div";
 		}
 		$ChartDataArray['xaxisData'] = $groupByFields;
 		$ChartDataArray['yaxisData'] = $yaxisArray;
@@ -481,7 +480,8 @@ Class ChartUtils {
 		return $ChartDataArray;
 	}
 
-	public static function getReportBarChart($queryResult, $groupbyField, $fieldDetails, $reportid, $charttype='horizontal') {
+	public static function getReportBarChart($queryResult, $groupbyField, $fieldDetails, $reportid, $charttype = 'horizontal')
+	{
 		global $theme;
 		$BarChartDetails = self::generateChartDataFromReports($queryResult, $groupbyField, $fieldDetails, $reportid);
 		$groupbyFields = $BarChartDetails['xaxisData'];
@@ -492,7 +492,7 @@ Class ChartUtils {
 		} else {
 			$font_color = "#000000";
 		}
-		if(!empty($BarChartDetails['error'])) {
+		if (!empty($BarChartDetails['error'])) {
 			return $BarChartDetails['error'];
 		} else {
 			$barChart = ChartUtils::getBarChart($groupbyFields, $yaxisArray, '', '350', '300', $charttype, false, $targerLinks, $font_color);
@@ -500,7 +500,8 @@ Class ChartUtils {
 		}
 	}
 
-	public static function getReportPieChart($queryResult, $groupbyField, $fieldDetails, $reportid) {
+	public static function getReportPieChart($queryResult, $groupbyField, $fieldDetails, $reportid)
+	{
 		global $theme;
 		$PieChartDetails = self::generateChartDataFromReports($queryResult, $groupbyField, $fieldDetails, $reportid);
 		$groupbyFields = $PieChartDetails['xaxisData'];
@@ -512,14 +513,13 @@ Class ChartUtils {
 		} else {
 			$font_color = "#000000";
 		}
-		if(!empty($PieChartDetails['error'])) {
+		if (!empty($PieChartDetails['error'])) {
 			return $PieChartDetails['error'];
 		} else {
 			$pieChart = ChartUtils::getPieChart($groupbyFields, $yaxisArray, '', '350', '300', $charttype, false, $targerLinks, $font_color);
 			return $pieChart;
 		}
 	}
-
 }
 
 ?>

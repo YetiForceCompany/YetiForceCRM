@@ -55,38 +55,42 @@
 										{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 										{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 										{assign var="refrenceListCount" value=count($refrenceList)}
-										{if $FIELD_MODEL->isEditable() eq true}
-											{if $FIELD_MODEL->get('uitype') eq "19"}
-												{if $COUNTER eq '1'}
-													<td></td><td></td></tr><tr>
-													{assign var=COUNTER value=0}
+										{if $FIELD_MODEL->get('uitype') neq 104}
+											{if $FIELD_MODEL->isEditable() eq true}
+												{if $FIELD_MODEL->get('uitype') eq "19"}
+													{if $COUNTER eq '1'}
+														<td></td><td></td></tr><tr>
+														{assign var=COUNTER value=0}
+													{/if}
 												{/if}
-											{/if}
-											{if $COUNTER eq 2}
-												</tr><tr>
-												{assign var=COUNTER value=1}
-											{else}
-												{assign var=COUNTER value=$COUNTER+1}
-											{/if}
-											<td class="fieldLabel alignMiddle">
-											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-											{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
-											{if {$isReferenceField} eq "reference"}
-												{if $refrenceListCount > 1}
-													<select style="width: 150px;" class="chzn-select referenceModulesList" id="referenceModulesList_{$FIELD_MODEL->get('id')}">
-														<optgroup>
-															{foreach key=index item=value from=$refrenceList}
-																<option value="{$value}">{vtranslate($value, $value)}</option>
-															{/foreach}
-														</optgroup>
-													</select>
+												{if $COUNTER eq 2}
+													</tr><tr>
+													{assign var=COUNTER value=1}
+												{else}
+													{assign var=COUNTER value=$COUNTER+1}
 												{/if}
-											{/if}
-											&nbsp;&nbsp;
-										</td>
-										<td class="fieldValue" {if $FIELD_MODEL->getFieldDataType() eq 'boolean'} style="width:25%" {/if} {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
-											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
-										</td>
+												<td class="fieldLabel alignMiddle">
+												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
+												{if $refrenceListCount lt 2}
+													{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
+												{/if}
+												{if {$isReferenceField} eq "reference"}
+													{if $refrenceListCount > 1}
+														<select style="width: 150px;" class="chzn-select referenceModulesList" id="referenceModulesList_{$FIELD_MODEL->get('id')}">
+															<optgroup>
+																{foreach key=index item=value from=$refrenceList}
+																	<option value="{$value}">{vtranslate($value, $value)}</option>
+																{/foreach}
+															</optgroup>
+														</select>
+													{/if}
+												{/if}
+												&nbsp;&nbsp;
+											</td>
+											<td class="fieldValue" {if $FIELD_MODEL->getFieldDataType() eq 'boolean'} style="width:25%" {/if} {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) VIEW = 'MassEdit'}
+											</td>
+										{/if}
 									{/if}
 									{/foreach}
 									{*If their are odd number of fields in MassEdit then border top is missing so adding the check*}

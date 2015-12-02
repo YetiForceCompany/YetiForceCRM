@@ -18,7 +18,7 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Товар',
 
 	// Blocks
-	'LBL_INFORMATION' => 'Аутсорсинг Товаров',
+	'LBL_INFORMATION' => 'Основная информация',
 
 	//Field Labels
 	'Assigned To' => 'Ответственный',
@@ -32,9 +32,9 @@ $languageStrings = [
 	'Category' => 'Категория',
 	'Date Sold' => 'Дата начала продаж',
 	'Date in Service' => 'Дата окончания поддержки',
-	'Description' => 'Информация',
-	'LBL_DESCRIPTION_INFORMATION' => 'Информация',
-	'LBL_CUSTOM_INFORMATION' => 'Системная информация',
+	'Description' => 'Описание',
+	'LBL_DESCRIPTION_INFORMATION' => 'Описание',
+	'LBL_CUSTOM_INFORMATION' => 'Дополнительная информация',
 	'Where bought' => 'Где купил',
 	'Number' => 'Номер',
 	'Save' => 'Сохранить',

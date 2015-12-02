@@ -31,7 +31,7 @@
 				<tbody>
 					<tr>
 						<td><label>{vtranslate('LBL_PROJECT_STATUS_INFO', $QUALIFIED_MODULE)}</label></td>
-						<td>
+						<td class="col-md-6">
 							{assign var=STATUS_CLOSED value=$STATUS_NOT_MODIFY['Project']}
 							<select class="chzn-select projectStatus" multiple name="projectStatus" style="width: 500px;" data-moduleid="{$STATUS_CLOSED.id}">
 								{foreach  item=ITEM from=$PROJECT_STATUS}

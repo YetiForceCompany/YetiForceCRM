@@ -1,23 +1,25 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
 /**
  * Roles Record Model Class
  */
-class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
+class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
+{
 
 	/**
 	 * Function to get the Id
 	 * @return <Number> Role Id
 	 */
-	public function getId() {
+	public function getId()
+	{
 		return $this->get('roleid');
 	}
 
@@ -25,7 +27,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get the Role Name
 	 * @return <String>
 	 */
-	public function getName() {
+	public function getName()
+	{
 		return $this->get('rolename');
 	}
 
@@ -33,7 +36,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get the depth of the role
 	 * @return <Number>
 	 */
-	public function getDepth() {
+	public function getDepth()
+	{
 		return $this->get('depth');
 	}
 
@@ -41,7 +45,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get Parent Role hierarchy as a string
 	 * @return <String>
 	 */
-	public function getParentRoleString() {
+	public function getParentRoleString()
+	{
 		return $this->get('parentrole');
 	}
 
@@ -49,7 +54,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to set the immediate parent role
 	 * @return <Settings_Roles_Record_Model> instance
 	 */
-	public function setParent($parentRole) {
+	public function setParent($parentRole)
+	{
 		$this->parent = $parentRole;
 		return $this;
 	}
@@ -58,14 +64,15 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get the immediate parent role
 	 * @return <Settings_Roles_Record_Model> instance
 	 */
-	public function getParent() {
-		if(!$this->parent) {
+	public function getParent()
+	{
+		if (!$this->parent) {
 			$parentRoleString = $this->getParentRoleString();
 			$parentComponents = explode('::', $parentRoleString);
 			$noOfRoles = count($parentComponents);
 			// $currentRole = $parentComponents[$noOfRoles-1];
-			if($noOfRoles > 1) {
-				$this->parent = self::getInstanceById($parentComponents[$noOfRoles-2]);
+			if ($noOfRoles > 1) {
+				$this->parent = self::getInstanceById($parentComponents[$noOfRoles - 2]);
 			} else {
 				$this->parent = null;
 			}
@@ -77,18 +84,19 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get the immediate children roles
 	 * @return <Array> - List of Settings_Roles_Record_Model instances
 	 */
-	public function getChildren() {
+	public function getChildren()
+	{
 		$db = PearDatabase::getInstance();
-		if(!$this->children) {
+		if (!$this->children) {
 			$parentRoleString = $this->getParentRoleString();
 			$currentRoleDepth = $this->getDepth();
 
 			$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ? AND depth = ?';
-			$params = array($parentRoleString.'::%', $currentRoleDepth+1);
+			$params = array($parentRoleString . '::%', $currentRoleDepth + 1);
 			$result = $db->pquery($sql, $params);
 			$noOfRoles = $db->num_rows($result);
 			$roles = array();
-			for ($i=0; $i<$noOfRoles; ++$i) {
+			for ($i = 0; $i < $noOfRoles; ++$i) {
 				$role = self::getInstanceFromQResult($result, $i);
 				$roles[$role->getId()] = $role;
 			}
@@ -96,23 +104,26 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 		}
 		return $this->children;
 	}
-	
-	public function getSameLevelRoles() {
+
+	public function getSameLevelRoles()
+	{
 		$db = PearDatabase::getInstance();
-		if(!$this->children) {
+		if (!$this->children) {
 			$parentRoles = getParentRole($this->getId());
 			$currentRoleDepth = $this->getDepth();
 			$parentRoleString = '';
 			foreach ($parentRoles as $key => $role) {
-				if(empty($parentRoleString)) $parentRoleString = $role;
-				else $parentRoleString = $parentRoleString.'::'.$role;
+				if (empty($parentRoleString))
+					$parentRoleString = $role;
+				else
+					$parentRoleString = $parentRoleString . '::' . $role;
 			}
 			$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ? AND depth = ?';
-			$params = array($parentRoleString.'::%', $currentRoleDepth);
+			$params = array($parentRoleString . '::%', $currentRoleDepth);
 			$result = $db->pquery($sql, $params);
 			$noOfRoles = $db->num_rows($result);
 			$roles = array();
-			for ($i=0; $i<$noOfRoles; ++$i) {
+			for ($i = 0; $i < $noOfRoles; ++$i) {
 				$role = self::getInstanceFromQResult($result, $i);
 				$roles[$role->getId()] = $role;
 			}
@@ -125,76 +136,79 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get all the children roles
 	 * @return <Array> - List of Settings_Roles_Record_Model instances
 	 */
-	public function getAllChildren() {
+	public function getAllChildren()
+	{
 		$db = PearDatabase::getInstance();
 
 		$parentRoleString = $this->getParentRoleString();
 
 		$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ?';
-		$params = array($parentRoleString.'::%');
+		$params = array($parentRoleString . '::%');
 		$result = $db->pquery($sql, $params);
 		$noOfRoles = $db->num_rows($result);
 		$roles = array();
-		for ($i=0; $i<$noOfRoles; ++$i) {
+		for ($i = 0; $i < $noOfRoles; ++$i) {
 			$role = self::getInstanceFromQResult($result, $i);
 			$roles[$role->getId()] = $role;
 		}
 		return $roles;
 	}
-    
+
 	/**
 	 * Function returns profiles related to the current role
 	 * @return <Array> - profile ids
 	 */
-    public function getProfileIdList(){
-        
-        $db = PearDatabase::getInstance();
-        $query = 'SELECT profileid FROM vtiger_role2profile WHERE roleid=?';
-        
-        $result = $db->pquery($query,array($this->getId()));
-        $num_rows = $db->num_rows($result);
-        
-        $profilesList = array();
-        for($i=0; $i<$num_rows; $i++) {
-            $profilesList[] = $db->query_result($result,$i,'profileid');
-        }
-        return $profilesList;
-    }
-    
-    /**
-     * Function to get the profile id if profile is directly related to role
-     * @return id
-     */
-    public function getDirectlyRelatedProfileId() {
-        //TODO : see if you need cache the result
-        $roleId = $this->getId();
-        if(empty($roleId)) {
-            return false;
-        }
-        
-        $db = PearDatabase::getInstance();
-        
-        $query = 'SELECT directly_related_to_role, vtiger_profile.profileid FROM vtiger_role2profile 
+	public function getProfileIdList()
+	{
+
+		$db = PearDatabase::getInstance();
+		$query = 'SELECT profileid FROM vtiger_role2profile WHERE roleid=?';
+
+		$result = $db->pquery($query, array($this->getId()));
+		$num_rows = $db->num_rows($result);
+
+		$profilesList = array();
+		for ($i = 0; $i < $num_rows; $i++) {
+			$profilesList[] = $db->query_result($result, $i, 'profileid');
+		}
+		return $profilesList;
+	}
+
+	/**
+	 * Function to get the profile id if profile is directly related to role
+	 * @return id
+	 */
+	public function getDirectlyRelatedProfileId()
+	{
+		//TODO : see if you need cache the result
+		$roleId = $this->getId();
+		if (empty($roleId)) {
+			return false;
+		}
+
+		$db = PearDatabase::getInstance();
+
+		$query = 'SELECT directly_related_to_role, vtiger_profile.profileid FROM vtiger_role2profile 
                   INNER JOIN vtiger_profile ON vtiger_profile.profileid = vtiger_role2profile.profileid 
                   WHERE vtiger_role2profile.roleid=?';
-        $params = array($this->getId());
-        
-        $result = $db->pquery($query,$params);
-        
-		if($db->num_rows($result) == 1 && $db->query_result($result,0,'directly_related_to_role') == '1'){
-           return $db->query_result($result, 0, 'profileid');
-        }
-        return false;
-    }
+		$params = array($this->getId());
+
+		$result = $db->pquery($query, $params);
+
+		if ($db->num_rows($result) == 1 && $db->query_result($result, 0, 'directly_related_to_role') == '1') {
+			return $db->query_result($result, 0, 'profileid');
+		}
+		return false;
+	}
 
 	/**
 	 * Function to get the Edit View Url for the Role
 	 * @return <String>
 	 */
-	public function getEditViewUrl() {
-		return 'index.php?module=Roles&parent=Settings&view=Edit&record='.$this->getId();
+	public function getEditViewUrl()
+	{
+		return 'index.php?module=Roles&parent=Settings&view=Edit&record=' . $this->getId();
 	}
-
 //	public function getListViewEditUrl() {
 //		return '?module=Roles&parent=Settings&view=Edit&record='.$this->getId();
 //	}
@@ -203,32 +217,36 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get the Create Child Role Url for the current role
 	 * @return <String>
 	 */
-	public function getCreateChildUrl() {
-		return '?module=Roles&parent=Settings&view=Edit&parent_roleid='.$this->getId();
+	public function getCreateChildUrl()
+	{
+		return '?module=Roles&parent=Settings&view=Edit&parent_roleid=' . $this->getId();
 	}
 
 	/**
 	 * Function to get the Delete Action Url for the current role
 	 * @return <String>
 	 */
-	public function getDeleteActionUrl() {
-		return '?module=Roles&parent=Settings&view=DeleteAjax&record='.$this->getId();
+	public function getDeleteActionUrl()
+	{
+		return '?module=Roles&parent=Settings&view=DeleteAjax&record=' . $this->getId();
 	}
 
 	/**
 	 * Function to get the Popup Window Url for the current role
 	 * @return <String>
 	 */
-	public function getPopupWindowUrl() {
-		return 'module=Roles&parent=Settings&view=Popup&src_record='.$this->getId();
+	public function getPopupWindowUrl()
+	{
+		return 'module=Roles&parent=Settings&view=Popup&src_record=' . $this->getId();
 	}
 
 	/**
 	 * Function to get all the profiles associated with the current role
 	 * @return <Array> Settings_Profiles_Record_Model instances
 	 */
-	public function getProfiles() {
-		if(!$this->profiles) {
+	public function getProfiles()
+	{
+		if (!$this->profiles) {
 			$this->profiles = Settings_Profiles_Record_Model::getAllByRole($this->getId());
 		}
 		return $this->profiles;
@@ -239,7 +257,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * @param <Settings_Roles_Record_Model> $role
 	 * @return Settings_Roles_Record_Model instance
 	 */
-	public function addChildRole($role) {
+	public function addChildRole($role)
+	{
 		$role->setParent($this);
 		$role->save();
 		return $role;
@@ -249,12 +268,13 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to move the current role and all its children nodes to the new parent role
 	 * @param <Settings_Roles_Record_Model> $newParentRole
 	 */
-	public function moveTo($newParentRole) {
+	public function moveTo($newParentRole)
+	{
 		$currentDepth = $this->getDepth();
 		$currentParentRoleString = $this->getParentRoleString();
 
 		$newDepth = $newParentRole->getDepth() + 1;
-		$newParentRoleString = $newParentRole->getParentRoleString() .'::'. $this->getId();
+		$newParentRoleString = $newParentRole->getParentRoleString() . '::' . $this->getId();
 
 		$depthDifference = $newDepth - $currentDepth;
 		$allChildren = $this->getAllChildren();
@@ -264,7 +284,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 		$this->set('allowassignedrecordsto', $this->get('allowassignedrecordsto'));
 		$this->save();
 
-		foreach($allChildren as $roleId => $roleModel) {
+		foreach ($allChildren as $roleId => $roleModel) {
 			$oldChildDepth = $roleModel->getDepth();
 			$newChildDepth = $oldChildDepth + $depthDifference;
 
@@ -297,35 +317,47 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 			$this->set('depth', $parentRole->getDepth() + 1);
 			$this->set('parentrole', $parentRole->getParentRoleString() . '::' . $roleId);
 		}
+		$searchunpriv = $this->get('searchunpriv');
+		$searchunpriv = implode(',', empty($searchunpriv) ? [] : $searchunpriv);
+		$values = [
+			'rolename' => $this->getName(),
+			'parentrole' => $this->getParentRoleString(),
+			'depth' => $this->getDepth(),
+			'allowassignedrecordsto' => $this->get('allowassignedrecordsto'),
+			'changeowner' => $this->get('change_owner'),
+			'searchunpriv' => $searchunpriv,
+			'clendarallorecords' => $this->get('clendarallorecords'),
+			'listrelatedrecord' => $this->get('listrelatedrecord'),
+			'previewrelatedrecord' => $this->get('previewrelatedrecord'),
+			'editrelatedrecord' => $this->get('editrelatedrecord'),
+			'permissionsrelatedfield' => $this->get('permissionsrelatedfield'),
+			'globalsearchadv' => $this->get('globalsearchadv'),
+		];
 
-		$searchunpriv = implode(',',$this->get('searchunpriv'));
 		if ($mode == 'edit') {
-			$sql = 'UPDATE vtiger_role SET rolename=?, parentrole=?, depth=?, allowassignedrecordsto=?, changeowner=?, searchunpriv=? WHERE roleid=?';
-			$params = array($this->getName(), $this->getParentRoleString(), $this->getDepth(), $this->get('allowassignedrecordsto'), $this->get('change_owner'), $searchunpriv, $roleId);
-			$db->pquery($sql, $params);
+			$db->update('vtiger_role', $values, 'roleid = ?', [$roleId]);
 		} else {
-			$sql = 'INSERT INTO vtiger_role(roleid, rolename, parentrole, depth, allowassignedrecordsto, changeowner, searchunpriv) VALUES (?,?,?,?,?,?,?)';
-			$params = array($roleId, $this->getName(), $this->getParentRoleString(), $this->getDepth(), $this->get('allowassignedrecordsto'), $this->get('change_owner'), $searchunpriv);
-			$db->pquery($sql, $params);
+			$values['roleid'] = $roleId;
+			$db->insert('vtiger_role', $values);
 			$picklist2RoleSQL = "INSERT INTO vtiger_role2picklist SELECT '" . $roleId . "',picklistvalueid,picklistid,sortid
-					FROM vtiger_role2picklist WHERE roleid = ?";
+				FROM vtiger_role2picklist WHERE roleid = ?";
 			$db->pquery($picklist2RoleSQL, array($parentRole->getId()));
 		}
 
 		$profileIds = $this->get('profileIds');
-		if(empty($profileIds)) {
+		if (empty($profileIds)) {
 			$profiles = $this->getProfiles();
-			if(!empty($profiles) && count($profiles) > 0) {
+			if (!empty($profiles) && count($profiles) > 0) {
 				$profileIds = array_keys($profiles);
 			}
 		}
-		if(!empty($profileIds)) {
+		if (!empty($profileIds)) {
 			$noOfProfiles = count($profileIds);
-			if($noOfProfiles > 0) {
+			if ($noOfProfiles > 0) {
 				$db->pquery('DELETE FROM vtiger_role2profile WHERE roleid=?', array($roleId));
 
 				$sql = 'INSERT INTO vtiger_role2profile(roleid, profileid) VALUES (?,?)';
-				for($i=0; $i<$noOfProfiles; ++$i) {
+				for ($i = 0; $i < $noOfProfiles; ++$i) {
 					$params = array($roleId, $profileIds[$i]);
 					$db->pquery($sql, $params);
 				}
@@ -337,7 +369,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to delete the role
 	 * @param <Settings_Roles_Record_Model> $transferToRole
 	 */
-	public function delete($transferToRole) {
+	public function delete($transferToRole)
+	{
 		$db = PearDatabase::getInstance();
 		$roleId = $this->getId();
 		$transferRoleId = $transferToRole->getId();
@@ -347,15 +380,15 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 		$db->pquery('DELETE FROM vtiger_role2profile WHERE roleid=?', array($roleId));
 		$db->pquery('DELETE FROM vtiger_group2role WHERE roleid=?', array($roleId));
 		$db->pquery('DELETE FROM vtiger_group2rs WHERE roleandsubid=?', array($roleId));
-/*
-		$noOfUsers = $db->num_rows($user_result);
-		$array_users = array();
-		if($noOfUsers > 0) {
-			for($i=0; $i<$noOfUsers; ++$i) {
-				$array_users[] = $db->query_result($user_result, $i, 'userid');
-			}
-		}
-*/
+		/*
+		  $noOfUsers = $db->num_rows($user_result);
+		  $array_users = array();
+		  if($noOfUsers > 0) {
+		  for($i=0; $i<$noOfUsers; ++$i) {
+		  $array_users[] = $db->query_result($user_result, $i, 'userid');
+		  }
+		  }
+		 */
 		//delete handling for sharing rules
 		deleteRoleRelatedSharingRules($roleId);
 
@@ -365,17 +398,17 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 		$transferParentRoleSequence = $transferToRole->getParentRoleString();
 		$currentParentRoleSequence = $this->getParentRoleString();
 
-		foreach($allChildren as $roleId => $roleModel) {
+		foreach ($allChildren as $roleId => $roleModel) {
 			$oldChildParentRoleString = $roleModel->getParentRoleString();
 			$newChildParentRoleString = str_replace($currentParentRoleSequence, $transferParentRoleSequence, $oldChildParentRoleString);
-			$newChildDepth = count(explode('::', $newChildParentRoleString))-1;
+			$newChildDepth = count(explode('::', $newChildParentRoleString)) - 1;
 			$roleModel->set('depth', $newChildDepth);
 			$roleModel->set('parentrole', $newChildParentRoleString);
 			$roleModel->save();
 		}
-		if(is_array($array_users)){
+		if (is_array($array_users)) {
 			require_once('modules/Users/CreateUserPrivilegeFile.php');
-			foreach($array_users as $userid){
+			foreach ($array_users as $userid) {
 				createUserPrivilegesfile($userid);
 				createUserSharingPrivilegesfile($userid);
 			}
@@ -386,10 +419,11 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get the list view actions for the record
 	 * @return <Array> - Associate array of Vtiger_Link_Model instances
 	 */
-	public function getRecordLinks() {
+	public function getRecordLinks()
+	{
 
 		$links = array();
-		if($this->getParent()) {
+		if ($this->getParent()) {
 			$recordLinks = array(
 				array(
 					'linktype' => 'LISTVIEWRECORD',
@@ -404,7 +438,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 					'linkicon' => 'glyphicon glyphicon-trash'
 				)
 			);
-			foreach($recordLinks as $recordLink) {
+			foreach ($recordLinks as $recordLink) {
 				$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 			}
 		}
@@ -418,7 +452,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * @param <Number> $rowNo
 	 * @return Settings_Roles_Record_Model instance
 	 */
-	public static function getInstanceFromQResult($result, $rowNo) {
+	public static function getInstanceFromQResult($result, $rowNo)
+	{
 		$db = PearDatabase::getInstance();
 		$row = $db->raw_query_result_rowdata($result, $rowNo);
 		$role = new self();
@@ -430,7 +465,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * @param <Boolean> $baseRole
 	 * @return <Array> list of Role models <Settings_Roles_Record_Model>
 	 */
-	public static function getAll($baseRole = false) {
+	public static function getAll($baseRole = false)
+	{
 		$db = PearDatabase::getInstance();
 		$params = array();
 
@@ -445,7 +481,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 		$noOfRoles = $db->num_rows($result);
 
 		$roles = array();
-		for ($i=0; $i<$noOfRoles; ++$i) {
+		for ($i = 0; $i < $noOfRoles; ++$i) {
 			$role = self::getInstanceFromQResult($result, $i);
 			$roles[$role->getId()] = $role;
 		}
@@ -457,13 +493,14 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * @param <Integer> $roleId
 	 * @return Settings_Roles_Record_Model instance, if exists. Null otherwise
 	 */
-	public static function getInstanceById($roleId) {
+	public static function getInstanceById($roleId)
+	{
 		$db = PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_role WHERE roleid = ?';
 		$params = array($roleId);
 		$result = $db->pquery($sql, $params);
-		if($db->num_rows($result) > 0) {
+		if ($db->num_rows($result) > 0) {
 			return self::getInstanceFromQResult($result, 0);
 		}
 		return null;
@@ -473,51 +510,54 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get the instance of Base Role model
 	 * @return Settings_Roles_Record_Model instance, if exists. Null otherwise
 	 */
-	public static function getBaseRole() {
+	public static function getBaseRole()
+	{
 		$db = PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_role WHERE depth=0 LIMIT 1';
 		$params = array();
 		$result = $db->pquery($sql, $params);
-		if($db->num_rows($result) > 0) {
+		if ($db->num_rows($result) > 0) {
 			return self::getInstanceFromQResult($result, 0);
 		}
 		return null;
 	}
-	
 	/* Function to get the instance of the role by Name
-    * @param type $name -- name of the role
-    * @return null/role instance
-    */
-   public static function getInstanceByName($name, $excludedRecordId = array()) {
-       $db = PearDatabase::getInstance();
-       $sql = 'SELECT * FROM vtiger_role WHERE rolename=?';
-       $params = array($name);
-       if(!empty($excludedRecordId)){
-           $sql.= ' AND roleid NOT IN ('.generateQuestionMarks($excludedRecordId).')';
-           $params = array_merge($params,$excludedRecordId);
-       }
-       $result = $db->pquery($sql, $params);
-       if($db->num_rows($result) > 0) {
-		   return self::getInstanceFromQResult($result, 0);
-	   }
-	   return null;
-   }
+	 * @param type $name -- name of the role
+	 * @return null/role instance
+	 */
 
-   /**
-    * Function to get Users who are from this role
-    * @return <Array> User record models list <Users_Record_Model>
-    */
-   public function getUsers() {
-	   $db = PearDatabase::getInstance();
-	   $result = $db->pquery('SELECT userid FROM vtiger_user2role WHERE roleid = ?', array($this->getId()));
-	   $numOfRows = $db->num_rows($result);
+	public static function getInstanceByName($name, $excludedRecordId = array())
+	{
+		$db = PearDatabase::getInstance();
+		$sql = 'SELECT * FROM vtiger_role WHERE rolename=?';
+		$params = array($name);
+		if (!empty($excludedRecordId)) {
+			$sql.= ' AND roleid NOT IN (' . generateQuestionMarks($excludedRecordId) . ')';
+			$params = array_merge($params, $excludedRecordId);
+		}
+		$result = $db->pquery($sql, $params);
+		if ($db->num_rows($result) > 0) {
+			return self::getInstanceFromQResult($result, 0);
+		}
+		return null;
+	}
 
-	   $usersList = array();
-	   for($i=0; $i<$numOfRows; $i++) {
-		   $userId = $db->query_result($result, $i, 'userid');
-		   $usersList[$userId] = Users_Record_Model::getInstanceById($userId, 'Users');
-	   }
-	   return $usersList;
-   }
+	/**
+	 * Function to get Users who are from this role
+	 * @return <Array> User record models list <Users_Record_Model>
+	 */
+	public function getUsers()
+	{
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT userid FROM vtiger_user2role WHERE roleid = ?', array($this->getId()));
+		$numOfRows = $db->num_rows($result);
+
+		$usersList = array();
+		for ($i = 0; $i < $numOfRows; $i++) {
+			$userId = $db->query_result($result, $i, 'userid');
+			$usersList[$userId] = Users_Record_Model::getInstanceById($userId, 'Users');
+		}
+		return $usersList;
+	}
 }

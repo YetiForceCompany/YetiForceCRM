@@ -12,7 +12,6 @@ class Calendar_ActivityReminder_Action extends Vtiger_Action_Controller{
 
 	function __construct() {
 		$this->exposeMethod('postpone');
-		$this->exposeMethod('cancelReminder');
 	}
 
 	public function checkPermission(Vtiger_Request $request) {
@@ -42,12 +41,5 @@ class Calendar_ActivityReminder_Action extends Vtiger_Action_Controller{
 		$module = $request->getModule();
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $module);
 		$recordModel->updateReminderPostpone($time);
-	}
-
-    function cancelReminder(Vtiger_Request $request) {
-		$recordId = $request->get('record');
-		$module = $request->getModule();
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $module);
-		$recordModel->updateReminderStatus(1);
 	}
 }

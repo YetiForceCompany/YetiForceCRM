@@ -10,14 +10,15 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * ********************************************************************************** */
 $languageStrings = [
-	'LBL_ADD_RECORD' => 'Добавить Закупку',
+	'Delivered' => 'Поставляется',
+	'LBL_ADD_RECORD' => 'Закупка',
 	'LBL_BALANCE' => 'Баланс',
 	'LBL_COPY_BILLING_ADDRESS' => 'Копировать юридический адрес в фактический',
 	'LBL_COPY_SHIPPING_ADDRESS' => 'Копировать фактический адрес в юридический',
 	'LBL_EXPORT_TO_PDF' => 'Сохранить в PDF:',
 	'LBL_LIST_PRICE' => 'Прайс лист',
 	'LBL_PAID' => 'Оплачено',
-	'LBL_PO_INFORMATION' => 'Закупка',
+	'LBL_PO_INFORMATION' => 'Основная информация',
 	'LBL_RECORDS_LIST' => 'Список Закупок',
 	'List Price' => 'Прайс лист',
 	'PurchaseOrder No' => 'Закупка №',
@@ -30,6 +31,8 @@ $languageStrings = [
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Товар или Услуга были удалены из системы. Попробуйте заменить на другой Товар или Услугу',
 	'LBL_THIS' => 'Товар или Услуга (',
 	'SINGLE_Vendors' => 'Поставщик',
+	'Paid' => 'Оплачен',
+	'Balance' => 'Баланс',
 ];
 
 $jsLanguageStrings = [

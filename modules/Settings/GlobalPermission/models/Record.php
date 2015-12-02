@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,40 +7,52 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Model {
+ * *********************************************************************************************************************************** */
+
+class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Model
+{
+
 	const GLOBAL_ACTION_VIEW = 1;
 	const GLOBAL_ACTION_EDIT = 2;
-	
-	public function getId() {
-		return ;
+
+	public function getId()
+	{
+		return;
 	}
-	public function getName() {
-		return ;
+
+	public function getName()
+	{
+		return;
 	}
-	public function getGlobalPermissions() {
+
+	public function getGlobalPermissions()
+	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_profile2globalpermissions LEFT JOIN vtiger_profile ON vtiger_profile.profileid = vtiger_profile2globalpermissions.profileid', array( ));
-		for($i=0; $i<$db->num_rows($result); ++$i) {
+		$result = $db->pquery('SELECT * FROM vtiger_profile2globalpermissions LEFT JOIN vtiger_profile ON vtiger_profile.profileid = vtiger_profile2globalpermissions.profileid', array());
+		for ($i = 0; $i < $db->num_rows($result); ++$i) {
 			$profileid = $db->query_result($result, $i, 'profileid');
 			$actionId = $db->query_result($result, $i, 'globalactionid');
 			$permissionId = $db->query_result($result, $i, 'globalactionpermission');
 			$profilename = $db->query_result($result, $i, 'profilename');
 			$description = $db->query_result($result, $i, 'description');
-			$globalPermissions[$profileid]['gp_'.$actionId] = $permissionId;
+			$globalPermissions[$profileid]['gp_' . $actionId] = $permissionId;
 			$globalPermissions[$profileid]['profilename'] = $profilename;
 			$globalPermissions[$profileid]['description'] = $description;
 		}
 		return $globalPermissions;
 	}
-	public function save($profileID, $globalactionid, $checked) {
+
+	public function save($profileID, $globalactionid, $checked)
+	{
 		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_profile2globalpermissions WHERE profileid=? AND globalactionid=?', array($profileID,$globalactionid));
+		$db->pquery('DELETE FROM vtiger_profile2globalpermissions WHERE profileid=? AND globalactionid=?', array($profileID, $globalactionid));
 		$sql = 'INSERT INTO vtiger_profile2globalpermissions(profileid, globalactionid, globalactionpermission) VALUES (?,?,?)';
-		$db->pquery($sql, array($profileID, $globalactionid, $checked) );
+		$db->pquery($sql, array($profileID, $globalactionid, $checked));
 		self::recalculate();
 	}
-	public function recalculate() {
+
+	public function recalculate()
+	{
 		$php_max_execution_time = vglobal('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
 		vimport('~~modules/Users/CreateUserPrivilegeFile.php');

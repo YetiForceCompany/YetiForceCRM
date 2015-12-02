@@ -41,8 +41,8 @@
 				</select>
 			</div>
 		</div>
-		<div style="margin-top: 5px;">
-			<button class="btn btn-default refreshCalendar">{vtranslate('LBL_REFRESH',$MODULE)}</button>
+		<div class="pushDown marginBottom5">
+			<button class="btn btn-info refreshCalendar">{vtranslate('LBL_REFRESH',$MODULE)}</button>
 		</div>
 	</div>
 <script type="text/javascript">

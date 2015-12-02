@@ -12,83 +12,90 @@
 -->*}
 {strip}
 {if count($DATA) gt 0 }
+	{assign var=SHOWING_ICON value=$TCPMODULE_MODEL->get('timeControlWidget')}
 	<div class="summary-left pull-left" style="text-align:center;margin-left:2%;">
-		<span class="summary-detail">
-			<img class=" summary-img" src="layouts/vlayout/skins/images/all_days.png" alt="All days" title="{vtranslate('LBL_ALLDAYS_INFO', $MODULE_NAME)}"/>
-			<span class="summary-text">{$ALLDAYS}</span>
-		</span>
-		<span class="summary-detail">
-			<span>
-				<span style="margin-top:6px; vertical-align:top;" class="glyphicon glyphicon-calendar " title="{vtranslate('LBL_WORKDAYS_INFO', $MODULE_NAME)}"></span>
+		{if $SHOWING_ICON.workingDays eq 'true'}
+			<span class="summary-detail">
+				<img class=" summary-img" src="layouts/vlayout/skins/images/all_days.png" alt="All days" title="{vtranslate('LBL_ALLDAYS_INFO', $MODULE_NAME)}"/>
+				<span class="summary-text">{$ALLDAYS}</span>
 			</span>
-			<span class="summary-text">{$WORKDAYS}</span>
-		</span>
-		<span class="summary-detail">
-			<img class=" summary-img" src="layouts/vlayout/skins/images/weekend_days.png" alt="Weekend days" title="{vtranslate('LBL_WEEKENDDAYS_INFO', $MODULE_NAME)}" />
-			<span class="summary-text">
-			{$WEEKENDDAYS}
+			<span class="summary-detail">
+				<span>
+					<span style="margin-top:6px; vertical-align:top;" class="glyphicon glyphicon-calendar " title="{vtranslate('LBL_WORKDAYS_INFO', $MODULE_NAME)}"></span>
+				</span>
+				<span class="summary-text">{$WORKDAYS}</span>
 			</span>
-		</span>
-		<span class="summary-detail">
-			<img class=" summary-img" src="layouts/vlayout/skins/images/ecclesiastical.png" alt="Ecclesiastical" title="{vtranslate('LBL_ECCLESIASTICAL_INFO', $MODULE_NAME)}"/>
-			<span class="summary-text">
-				{if $ECCLESIASTICAL}
-					{$ECCLESIASTICAL}
-				{else}
-					0
-				{/if}
+			<span class="summary-detail">
+				<img class=" summary-img" src="layouts/vlayout/skins/images/weekend_days.png" alt="Weekend days" title="{vtranslate('LBL_WEEKENDDAYS_INFO', $MODULE_NAME)}" />
+				<span class="summary-text">
+				{$WEEKENDDAYS}
+				</span>
 			</span>
-		</span>
-		<span class="summary-detail">
-			<img class=" summary-img"  src="layouts/vlayout/skins/images/national.png" alt="National" title="{vtranslate('LBL_NATIONAL_INFO', $MODULE_NAME)}"/>
-			<span class="summary-text">
-				{if $NATIONAL}
-					{$NATIONAL}
-				{else}
-					0
-				{/if}
+		{/if}
+		{if $SHOWING_ICON.holidays eq 'true'}
+			<span class="summary-detail">
+				<img class=" summary-img" src="layouts/vlayout/skins/images/ecclesiastical.png" alt="Ecclesiastical" title="{vtranslate('LBL_ECCLESIASTICAL_INFO', $MODULE_NAME)}"/>
+				<span class="summary-text">
+					{if $ECCLESIASTICAL}
+						{$ECCLESIASTICAL}
+					{else}
+						0
+					{/if}
+				</span>
 			</span>
-		</span>
+			<span class="summary-detail">
+				<img class=" summary-img"  src="layouts/vlayout/skins/images/national.png" alt="National" title="{vtranslate('LBL_NATIONAL_INFO', $MODULE_NAME)}"/>
+				<span class="summary-text">
+					{if $NATIONAL}
+						{$NATIONAL}
+					{else}
+						0
+					{/if}
+				</span>
+			</span>
+		{/if}
 
 	</div>
-	<div class="summary-right pull-right" style="text-align:center;">
-		<span class="summary-detail">
-			<img class=" summary-img" src="layouts/vlayout/skins/images/worked_days.png" alt="Worked days" title="{vtranslate('LBL_WORKEDDAYS_INFO', $MODULE_NAME)}"/>
-			<span class="summary-text">
-				{if $WORKEDDAYS}
-					{$WORKEDDAYS}
-				{else}
-					0
-				{/if}
+	{if $SHOWING_ICON.workingTime eq 'true'}
+		<div class="summary-right pull-right" style="text-align:center;">
+			<span class="summary-detail">
+				<img class=" summary-img" src="layouts/vlayout/skins/images/worked_days.png" alt="Worked days" title="{vtranslate('LBL_WORKEDDAYS_INFO', $MODULE_NAME)}"/>
+				<span class="summary-text">
+					{if $WORKEDDAYS}
+						{$WORKEDDAYS}
+					{else}
+						0
+					{/if}
+				</span>
 			</span>
-		</span>
-		<span class="summary-detail">
-			<img class=" summary-img" src="layouts/vlayout/skins/images/holiday_days.png" alt="Holiday days" title="{vtranslate('LBL_HOLIDAYDAYS_INFO', $MODULE_NAME)}"/>
-			<span class="summary-text">
-				{if $HOLIDAYDAYS}
-					{$HOLIDAYDAYS}
-				{else}
-					0
-				{/if}
+			<span class="summary-detail">
+				<img class=" summary-img" src="layouts/vlayout/skins/images/holiday_days.png" alt="Holiday days" title="{vtranslate('LBL_HOLIDAYDAYS_INFO', $MODULE_NAME)}"/>
+				<span class="summary-text">
+					{if $HOLIDAYDAYS}
+						{$HOLIDAYDAYS}
+					{else}
+						0
+					{/if}
+				</span>
 			</span>
-		</span>
-		<span class="summary-detail">
-			<img class=" summary-img" src="layouts/vlayout/skins/images/average_working_time.png" alt="Average working time" title="{vtranslate('LBL_AVERAGEWORKTIME_INFO', $MODULE_NAME)}"/>
-			<span class="summary-text">
-				{if $AVERAGEWORKTIME}
-					{$AVERAGEWORKTIME}
-				{else}
-					0
-				{/if}
+			<span class="summary-detail">
+				<img class=" summary-img" src="layouts/vlayout/skins/images/average_working_time.png" alt="Average working time" title="{vtranslate('LBL_AVERAGEWORKTIME_INFO', $MODULE_NAME)}"/>
+				<span class="summary-text">
+					{if $AVERAGEWORKTIME}
+						{$AVERAGEWORKTIME}
+					{else}
+						0
+					{/if}
+				</span>
 			</span>
-		</span>
-		<span class="summary-detail">
-			<img class=" summary-img" src="layouts/vlayout/skins/images/average_break_time.png" alt="Average breaking time" title="{vtranslate('LBL_AVERAGEBREAKTIME_INFO', $MODULE_NAME)}"/>
-			<span class="summary-text">
-				{$AVERAGEBREAKTIME}
+			<span class="summary-detail">
+				<img class=" summary-img" src="layouts/vlayout/skins/images/average_break_time.png" alt="Average breaking time" title="{vtranslate('LBL_AVERAGEBREAKTIME_INFO', $MODULE_NAME)}"/>
+				<span class="summary-text">
+					{$AVERAGEBREAKTIME}
+				</span>
 			</span>
-		</span>
-	</div>
+		</div>
+	{/if}
 	<div class="clearfix"></div>
 	<div class="widgetChartContainer" style="height:90%;width:98%"></div>
 {else}

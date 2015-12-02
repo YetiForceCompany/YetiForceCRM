@@ -16,6 +16,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		parent::__construct();
 		$this->exposeMethod('addRelation');
 		$this->exposeMethod('deleteRelation');
+		$this->exposeMethod('updateRelation');
 		$this->exposeMethod('getRelatedListPageCount');
 	}
 
@@ -101,9 +102,54 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach ($relatedRecordIdList as $relatedRecordId) {
-			$response = $relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
+			$result = $relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
 		}
-		echo $response;
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * Function to update the relation for specified source record id and related record id list
+	 * @param <array> $request
+	 * 		keys					Content
+	 * 		src_module				source module name
+	 * 		src_record				source record id
+	 * 		related_module			related module name
+	 * 		toRemove				list of related record to remove
+	 * 		toAdd					list of related record to add
+	 */
+	function updateRelation(Vtiger_Request $request)
+	{
+		$sourceModule = $request->getModule();
+		$sourceRecordId = $request->get('src_record');
+		$relatedModule = $request->get('related_module');
+		$toRemove = $request->get('toRemove');
+		$toAdd = $request->get('toAdd');
+		vglobal('currentModule', $sourceModule);
+
+		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
+		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
+		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+
+		if(!empty($toAdd)) {
+			foreach ($toAdd as $relatedRecordId) {
+				if(substr($relatedRecordId, 0,1) != 'T'){
+					$relationModel->addRelation($sourceRecordId, $relatedRecordId);
+				}
+			}
+		}
+		if(!empty($toRemove)) {
+			foreach ($toRemove as $relatedRecordId) {
+				if(substr($relatedRecordId, 0,1) != 'T'){
+					$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
+				}
+			}
+		}
+		
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
 	}
 
 	/**

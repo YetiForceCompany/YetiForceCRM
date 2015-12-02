@@ -11,7 +11,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_DATAACCES' => 'Редактор условий',
-	'LBL_DATAACCESS' => 'Редактор условий',
+	'LBL_DATAACCESS' => 'Recording Control',
 	'DataAccess' => 'Редактор условий',
 	'LBL_NEW_TPL' => 'Добавить условие',
 	'LBL_MODULE_NAME' => 'Название модуля',
@@ -78,8 +78,8 @@ $languageStrings = [
 	'Check for duplicate names' => 'Проверка на наличие дубликатов',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Проверка, все ли поля заполнены в форме Быстрого создания',
 	'Lock edit on the status' => 'Блокировка изменения статуса',
-	'is enabled' => 'is enabled',
-	'is disabled' => 'is disabled',
+	'is enabled' => 'Включено',
+	'is disabled' => 'Отключено',
 ];
 
 $jsLanguageStrings = [
@@ -112,6 +112,6 @@ $jsLanguageStrings = [
 	'more than hours before' => 'более часа до',
 	'more than hours later' => 'более часа после',
 	'has changed' => 'изменено',
-	'is enabled' => 'is enabled',
-	'is disabled' => 'is disabled',
+	'is enabled' => 'Включено',
+	'is disabled' => 'Отключено',
 ];

@@ -9,6 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-class Quotes_Dashboard_View extends Inventory_Dashboard_View {
+class Quotes_DashBoard_View extends Inventory_DashBoard_View {
 
 }

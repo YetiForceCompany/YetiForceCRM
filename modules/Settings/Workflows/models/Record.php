@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,24 +7,28 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ * *********************************************************************************** */
 /*
  * Workflow Record Model Class
  */
 require_once 'modules/com_vtiger_workflow/include.inc';
 require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.inc';
 
-class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
+class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
+{
 
-	public function getId() {
+	public function getId()
+	{
 		return $this->get('workflow_id');
 	}
 
-	public function getName() {
+	public function getName()
+	{
 		return $this->get('summary');
 	}
 
-	public function get($key) {
+	public function get($key)
+	{
 //		if($key == 'execution_condition') {
 //			$executionCondition = parent::get($key);
 //			$executionConditionAsLabel = Settings_Workflows_Module_Model::$triggerTypes[$executionCondition];
@@ -36,54 +40,65 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 //		}
 		return parent::get($key);
 	}
-	
-	public function getEditViewUrl() {
-		return 'index.php?module=Workflows&parent=Settings&view=Edit&record='.$this->getId();
+
+	public function getEditViewUrl()
+	{
+		return 'index.php?module=Workflows&parent=Settings&view=Edit&record=' . $this->getId();
 	}
 
-	public function getTasksListUrl() {
-		return 'index.php?module=Workflows&parent=Settings&view=TasksList&record='.$this->getId();
+	public function getTasksListUrl()
+	{
+		return 'index.php?module=Workflows&parent=Settings&view=TasksList&record=' . $this->getId();
 	}
 
-	public function getAddTaskUrl() {
-		return 'index.php?module=Workflows&parent=Settings&view=EditTask&for_workflow='.$this->getId();
+	public function getAddTaskUrl()
+	{
+		return 'index.php?module=Workflows&parent=Settings&view=EditTask&for_workflow=' . $this->getId();
 	}
 
-	protected function setWorkflowObject($wf) {
+	protected function setWorkflowObject($wf)
+	{
 		$this->workflow_object = $wf;
 		return $this;
 	}
 
-	public function getWorkflowObject() {
+	public function getWorkflowObject()
+	{
 		return $this->workflow_object;
 	}
 
-	public function getModule() {
+	public function getModule()
+	{
 		return $this->module;
 	}
 
-	public function setModule($moduleName) {
+	public function setModule($moduleName)
+	{
 		$this->module = Vtiger_Module_Model::getInstance($moduleName);
 		return $this;
 	}
 
-	public function getTasks($active=false) {
+	public function getTasks($active = false)
+	{
 		return Settings_Workflows_TaskRecord_Model::getAllForWorkflow($this, $active);
 	}
 
-	public function getTaskTypes() {
+	public function getTaskTypes()
+	{
 		return Settings_Workflows_TaskType_Model::getAllForModule($this->getModule());
 	}
 
-	public function isDefault() {
+	public function isDefault()
+	{
 		$wf = $this->getWorkflowObject();
-		if($wf->defaultworkflow == 1) {
+		if ($wf->defaultworkflow == 1) {
 			return true;
 		}
 		return false;
 	}
 
-	public function save() {
+	public function save()
+	{
 		$db = PearDatabase::getInstance();
 		$wm = new VTWorkflowManager($db);
 
@@ -106,7 +121,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 		$this->set('workflow_id', $wf->id);
 	}
 
-	public function delete() {
+	public function delete()
+	{
 		$db = PearDatabase::getInstance();
 		$wm = new VTWorkflowManager($db);
 		$wm->delete($this->getId());
@@ -116,7 +132,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Functions returns the Custom Entity Methods that are supported for a module
 	 * @return <Array>
 	 */
-	public function getEntityMethods() {
+	public function getEntityMethods()
+	{
 		$db = PearDatabase::getInstance();
 		$emm = new VTEntityMethodManager($db);
 		$methodNames = $emm->methodsForModule($this->get('module_name'));
@@ -127,7 +144,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get the list view actions for the record
 	 * @return <Array> - Associate array of Vtiger_Link_Model instances
 	 */
-	public function getRecordLinks() {
+	public function getRecordLinks()
+	{
 
 		$links = array();
 
@@ -135,14 +153,14 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_ACTIVATION_TASKS',
-				'linkurl' => 'javascript:Settings_Workflows_List_Js.setChangeStatusTasks(this,'.$this->getId().',true);',
+				'linkurl' => 'javascript:Settings_Workflows_List_Js.setChangeStatusTasks(this,' . $this->getId() . ',true);',
 				'linkicon' => 'glyphicon glyphicon-ok',
 				'class' => 'activeTasks'
 			),
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DEACTIVATION_TASKS',
-				'linkurl' => 'javascript:Settings_Workflows_List_Js.setChangeStatusTasks(this,'.$this->getId().', false);',
+				'linkurl' => 'javascript:Settings_Workflows_List_Js.setChangeStatusTasks(this,' . $this->getId() . ', false);',
 				'linkicon' => 'glyphicon glyphicon-remove',
 				'class' => 'deactiveTasks'
 			),
@@ -155,25 +173,27 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Vtiger_List_Js.deleteRecord('.$this->getId().');',
+				'linkurl' => 'javascript:Vtiger_List_Js.deleteRecord(' . $this->getId() . ');',
 				'linkicon' => 'glyphicon glyphicon-trash'
 			)
 		);
-		foreach($recordLinks as $recordLink) {
+		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
 	}
 
-	public static function getInstance($workflowId) {
+	public static function getInstance($workflowId)
+	{
 		$db = PearDatabase::getInstance();
 		$wm = new VTWorkflowManager($db);
 		$wf = $wm->retrieve($workflowId);
 		return self::getInstanceFromWorkflowObject($wf);
 	}
 
-	public static function getCleanInstance($moduleName) {
+	public static function getCleanInstance($moduleName)
+	{
 		$db = PearDatabase::getInstance();
 		$wm = new VTWorkflowManager($db);
 		$wf = $wm->newWorkflow($moduleName);
@@ -181,7 +201,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 		return self::getInstanceFromWorkflowObject($wf);
 	}
 
-	public static function getInstanceFromWorkflowObject($wf) {
+	public static function getInstanceFromWorkflowObject($wf)
+	{
 		$workflowModel = new self();
 
 		$workflowModel->set('summary', $wf->description);
@@ -195,74 +216,80 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 		return $workflowModel;
 	}
 
-	function executionConditionAsLabel($executionCondition=null){
-		if($executionCondition == null) {
+	function executionConditionAsLabel($executionCondition = null)
+	{
+		if ($executionCondition == null) {
 			$executionCondition = $this->get('execution_condition');
 		}
-		$arr = array('ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', '', 'ON_SCHEDULE', 'MANUAL');
-		return $arr[$executionCondition-1];
+		$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED'];
+		return $arr[$executionCondition - 1];
 	}
 
-    /**
-     * Function to get the count of active workflows
-     * @return <Integer> count of acive workflows
-     */
-    public static function getActiveCount() {
+	/**
+	 * Function to get the count of active workflows
+	 * @return <Integer> count of acive workflows
+	 */
+	public static function getActiveCount()
+	{
 
-        $db = PearDatabase::getInstance();
-        vimport('~modules/com_vtiger_workflow/VTTaskManager.inc');
-        $taskManager = new VTTaskManager($db);
-        $taskList = $taskManager->getTasks();
-
-        $examinedIdList = array();
-        foreach($taskList as $taskDetails) {
-            $workFlowId = $taskDetails->workflowId;
-            if(in_array($workFlowId,$examinedIdList)) {
-                continue;
-            }
-            if($taskDetails->active) {
-                array_push($examinedIdList,$workFlowId);
-            }
-        }
-        return count($examinedIdList);
-    }
-	
-	public static function getActiveCountFromRecord($taskList = array()) {
+		$db = PearDatabase::getInstance();
+		vimport('~modules/com_vtiger_workflow/VTTaskManager.inc');
+		$taskManager = new VTTaskManager($db);
+		$taskList = $taskManager->getTasks();
 
 		$examinedIdList = array();
-		if(!is_array($taskList))
-			$taskList = array();
-		foreach($taskList as $taskDetails) {
-			$workFlowId = $taskDetails->getId();
-			if(in_array($workFlowId,$examinedIdList)) {
+		foreach ($taskList as $taskDetails) {
+			$workFlowId = $taskDetails->workflowId;
+			if (in_array($workFlowId, $examinedIdList)) {
 				continue;
 			}
-			if($taskDetails->isActive()) {
-				array_push($examinedIdList,$workFlowId);
+			if ($taskDetails->active) {
+				array_push($examinedIdList, $workFlowId);
 			}
 		}
 		return count($examinedIdList);
 	}
 
-	function isFilterSavedInNew() {
+	public static function getActiveCountFromRecord($taskList = array())
+	{
+
+		$examinedIdList = array();
+		if (!is_array($taskList))
+			$taskList = array();
+		foreach ($taskList as $taskDetails) {
+			$workFlowId = $taskDetails->getId();
+			if (in_array($workFlowId, $examinedIdList)) {
+				continue;
+			}
+			if ($taskDetails->isActive()) {
+				array_push($examinedIdList, $workFlowId);
+			}
+		}
+		return count($examinedIdList);
+	}
+
+	function isFilterSavedInNew()
+	{
 		$wf = $this->getWorkflowObject();
-		if($wf->filtersavedinnew == '6') {
+		if ($wf->filtersavedinnew == '6') {
 			return true;
 		}
 		return false;
 	}
+
 	/**
 	 * Functions transforms workflow filter to advanced filter
 	 * @return <Array>
 	 */
-	function transformToAdvancedFilterCondition($conditions = false) {
-		if(!$conditions)
+	function transformToAdvancedFilterCondition($conditions = false)
+	{
+		if (!$conditions)
 			$conditions = $this->get('conditions');
 		$transformedConditions = array();
 
-		if(!empty($conditions)) {
-			foreach($conditions as $index => $info) {
-				if(!($info['groupid'])) {
+		if (!empty($conditions)) {
+			foreach ($conditions as $index => $info) {
+				if (!($info['groupid'])) {
 					$firstGroup[] = array('columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
 						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']);
 				} else {
@@ -271,8 +298,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 				}
 			}
 		}
-		$transformedConditions[1] = array('columns'=>$firstGroup);
-		$transformedConditions[2] = array('columns'=>$secondGroup);
+		$transformedConditions[1] = array('columns' => $firstGroup);
+		$transformedConditions[2] = array('columns' => $secondGroup);
 		return $transformedConditions;
 	}
 
@@ -280,11 +307,12 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function returns valuetype of the field filter
 	 * @return <String>
 	 */
-	function getFieldFilterValueType($fieldname) {
+	function getFieldFilterValueType($fieldname)
+	{
 		$conditions = $this->get('conditions');
-		if(!empty($conditions) && is_array($conditions)) {
-			foreach($conditions as $filter) {
-				if($fieldname == $filter['fieldname']) {
+		if (!empty($conditions) && is_array($conditions)) {
+			foreach ($conditions as $filter) {
+				if ($fieldname == $filter['fieldname']) {
 					return $filter['valuetype'];
 				}
 			}
@@ -295,22 +323,23 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 	/**
 	 * Function transforms Advance filter to workflow conditions
 	 */
-	function transformAdvanceFilterToWorkFlowFilter() {
+	function transformAdvanceFilterToWorkFlowFilter()
+	{
 		$conditions = $this->get('conditions');
 		$wfCondition = array();
 
-		if(!empty($conditions)) {
-			foreach($conditions as $index => $condition) {
+		if (!empty($conditions)) {
+			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
-				if($index == '1' && empty($columns)) {
-					$wfCondition[] = array('fieldname'=>'', 'operation'=>'', 'value'=>'', 'valuetype'=>'',
-						'joincondition'=>'', 'groupid'=>'0');
+				if ($index == '1' && empty($columns)) {
+					$wfCondition[] = array('fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
+						'joincondition' => '', 'groupid' => '0');
 				}
-				if(!empty($columns) && is_array($columns)) {
-					foreach($columns as $column) {
-						$wfCondition[] = array('fieldname'=>$column['columnname'], 'operation'=>$column['comparator'],
-							'value'=>$column['value'], 'valuetype'=>$column['valuetype'], 'joincondition'=>$column['column_condition'],
-							'groupjoin'=>$condition['condition'], 'groupid'=>$column['groupid']);
+				if (!empty($columns) && is_array($columns)) {
+					foreach ($columns as $column) {
+						$wfCondition[] = array('fieldname' => $column['columnname'], 'operation' => $column['comparator'],
+							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
+							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid']);
 					}
 				}
 			}
@@ -318,12 +347,12 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 		$this->set('conditions', $wfCondition);
 	}
 
-
 	/**
 	 * Function returns all the related modules for workflows create entity task
 	 * @return <JSON>
 	 */
-	public function getDependentModules() {
+	public function getDependentModules()
+	{
 		$db = PearDatabase::getInstance();
 		$moduleName = $this->getModule()->getName();
 
@@ -349,7 +378,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 			if (in_array($tabModuleName, $filterModules))
 				continue;
 			if ($referenceModule == $moduleName && $tabModuleName != $moduleName) {
-				if(!vtlib_isModuleActive($tabModuleName))continue;
+				if (!vtlib_isModuleActive($tabModuleName))
+					continue;
 				$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => getTranslatedString($tabModuleName, $tabModuleName));
 			} else {
 				$dataTypeInfo = explode('~', $typeOfData);
@@ -373,7 +403,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 	 * @param <String> $relatedModule
 	 * @return <String> fieldname
 	 */
-	public function getReferenceFieldName($relatedModule) {
+	public function getReferenceFieldName($relatedModule)
+	{
 		if ($relatedModule) {
 			$db = PearDatabase::getInstance();
 
@@ -388,7 +419,9 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 		}
 		return false;
 	}
-	public function updateNextTriggerTime() {
+
+	public function updateNextTriggerTime()
+	{
 		$db = PearDatabase::getInstance();
 		$wm = new VTWorkflowManager($db);
 		$wf = $this->getWorkflowObject();

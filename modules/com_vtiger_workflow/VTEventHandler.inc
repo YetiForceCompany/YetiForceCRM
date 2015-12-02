@@ -1,12 +1,12 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 require_once('include/events/SqlResultIterator.inc');
 require_once('VTWorkflowManager.inc');
 require_once('VTEntityCache.inc');
@@ -30,13 +30,15 @@ require_once('VTWorkflowUtils.php');
  * VTEventHandler
  */
 
-class VTWorkflowEventHandler extends VTEventHandler {
+class VTWorkflowEventHandler extends VTEventHandler
+{
 
 	/**
 	 * Push tasks to the task queue if the conditions are true
 	 * @param $entityData A VTEntityData object representing the entity.
 	 */
-	function handleEvent($eventName, $entityData, $entityCache = false) {
+	function handleEvent($eventName, $entityData, $entityCache = false)
+	{
 		$util = new VTWorkflowUtils();
 		$user = $util->adminUser();
 		$adb = PearDatabase::getInstance();
@@ -47,8 +49,7 @@ class VTWorkflowEventHandler extends VTEventHandler {
 		}
 
 		$wsModuleName = $util->toWSModuleName($entityData);
-		$wsId = vtws_getWebserviceEntityId($wsModuleName,
-						$entityData->getId());
+		$wsId = vtws_getWebserviceEntityId($wsModuleName, $entityData->getId());
 		$entityData = $entityCache->forId($wsId);
 
 		/*
@@ -92,11 +93,27 @@ class VTWorkflowEventHandler extends VTEventHandler {
 						$doEvaluate = !($isNew);
 						break;
 					}
-                case VTWorkflowManager::$MANUAL: {
+				case VTWorkflowManager::$MANUAL: {
 						$doEvaluate = false;
 						break;
 					}
-				case VTWorkflowManager::$ON_SCHEDULE:{
+				case VTWorkflowManager::$ON_SCHEDULE: {
+						$doEvaluate = false;
+						break;
+					}
+				case VTWorkflowManager::$ON_DELETE: {
+						$doEvaluate = false;
+						break;
+					}
+				case VTWorkflowManager::$TRIGGER: {
+						$doEvaluate = false;
+						break;
+					}
+				case VTWorkflowManager::$BLOCK_EDIT: {
+						$doEvaluate = false;
+						break;
+					}
+				case VTWorkflowManager::$ON_RELATED: {
 						$doEvaluate = false;
 						break;
 					}
@@ -116,5 +133,4 @@ class VTWorkflowEventHandler extends VTEventHandler {
 		}
 		$util->revertUser();
 	}
-
 }

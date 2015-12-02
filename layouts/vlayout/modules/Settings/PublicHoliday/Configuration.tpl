@@ -46,26 +46,27 @@ padding: 5px;
 	</div>
 
 	<div class="contents tabbable">
-		<div class="tab-content layoutContent paddingNoTop20 themeTableColor overflowVisible">
+		<div class="tab-content layoutContent publicHolidayContent themeTableColor overflowVisible">
+		<hr>
 		<div class="tab-pane active" id="layoutDashBoards">
 			<div class="btn-toolbar">
-				<button type="button" class="btn btn-default addDateWindow"><span class="glyphicon glyphicon-plus"></span>&nbsp;{vtranslate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
+				<button type="button" class="btn btn-success addDateWindow"><span class="glyphicon glyphicon-plus"></span>&nbsp;{vtranslate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
 			</div>
 			<div id="moduleBlocks">
-				<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 marginBottom10px border1px">
+				<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 marginBottom10px border1px pushDown">
 					<div class="row layoutBlockHeader marginLRZero">
 						<div class="col-md-12" style="padding: 10px 0;">
 							<span class="marginLeft20">
 								<strong>{vtranslate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</strong>
 							</span>
 							<span class="pull-right marginRight20">
-								<strong>{vtranslate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</strong>
+								<strong>{vtranslate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}:</strong>
 								<input type="text" class="dateField dateFilter marginbottomZero" data-date-format="yyyy-mm-dd" data-calendar-type="range" value="{$DATE}" />
 							</span>
 						</div>
 					</div>
 					<div style="padding:5px;min-height: 27px" class="blockFieldsList row marginLRZero">
-						<ul style="list-style-type: none; float: left;min-height: 1px;padding:2px; width: 98%; margin:0 !important;" class="col-md-12">
+						<ul class="col-md-12 holidayList">
 							{foreach item=HOLIDAY from=$HOLIDAYS}
 							<li>
 								<div data-holiday-id="{$HOLIDAY['id']}" data-holiday-type="{$HOLIDAY['type']}" data-holiday-name="{$HOLIDAY['name']}" data-holiday-date="{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}" class="opacity holidayElement marginLeftZero border1px">
@@ -93,7 +94,7 @@ padding: 5px;
 				</div>
 			</div>
 			{* copy elements hide *}
-			<div class="modal addDateWindowModal fade" tabindex="-1">
+			<div class="modal addDateWindowModal fade publicHolidayModal" tabindex="-1">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header contentsBackground">
@@ -105,8 +106,8 @@ padding: 5px;
 							<div class="modal-body">
 								<div class="form-group">
 									<div class="col-sm-3 control-label">
-										<span>{vtranslate('LBL_DATE', $QUALIFIED_MODULE)}</span>
 										<span class="redColor">*</span>
+										<span>{vtranslate('LBL_DATE', $QUALIFIED_MODULE)}</span>
 									</div>
 									<div class="col-sm-6 controls">
 										<input type="text" name="holidayDate" class="dateField form-control" data-date-format="{$CURRENTUSER->column_fields['date_format']}" value="{Vtiger_Functions::currentUserDisplayDate(date('Y-m-d'))}" required >
@@ -115,8 +116,8 @@ padding: 5px;
 								</div>
 								<div class="form-group">
 									<div class="col-sm-3 control-label">
-										<span>{vtranslate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</span>
 										<span class="redColor">*</span>
+										<span>{vtranslate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</span>
 									</div>
 									<div class="col-sm-6 controls">
 										 <select name="holidayType" class="form-control" required data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" >
@@ -127,8 +128,8 @@ padding: 5px;
 								</div>
 								<div class="form-group">
 									<div class="col-sm-3 control-label">
-										<span>{vtranslate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</span>
 										<span class="redColor">*</span>
+										<span>{vtranslate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</span>
 									</div>
 									<div class="col-sm-6 controls">
 										<input type="text" name="holidayName" value="" class="form-control" placeholder="{vtranslate('LBL_DAY_NAME_DESC', $QUALIFIED_MODULE)}" required data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />

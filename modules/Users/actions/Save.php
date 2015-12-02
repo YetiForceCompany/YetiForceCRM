@@ -1,22 +1,24 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Users_Save_Action extends Vtiger_Save_Action {
-	
-	public function checkPermission(Vtiger_Request $request) {
+class Users_Save_Action extends Vtiger_Save_Action
+{
+
+	public function checkPermission(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if(!Users_Privileges_Model::isPermitted($moduleName, 'Save', $record) || ($recordModel->isAccountOwner() && 
-							$currentUserModel->get('id') != $recordModel->getId() && !$currentUserModel->isAdminUser())) {
+		if (!Users_Privileges_Model::isPermitted($moduleName, 'Save', $record) || ($recordModel->isAccountOwner() &&
+			$currentUserModel->get('id') != $recordModel->getId() && !$currentUserModel->isAdminUser())) {
 			throw new AppException('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -26,16 +28,17 @@ class Users_Save_Action extends Vtiger_Save_Action {
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	protected function getRecordModelFromRequest(Vtiger_Request $request) {
+	protected function getRecordModelFromRequest(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if(!empty($recordId)) {
+		if (!empty($recordId)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 			$modelData = $recordModel->getData();
 			$recordModel->set('id', $recordId);
 			$sharedType = $request->get('sharedtype');
-			if(!empty($sharedType))
+			if (!empty($sharedType))
 				$recordModel->set('calendarsharedtype', $request->get('sharedtype'));
 			$recordModel->set('mode', 'edit');
 		} else {
@@ -46,7 +49,7 @@ class Users_Save_Action extends Vtiger_Save_Action {
 
 		foreach ($modelData as $fieldName => $value) {
 			$requestFieldExists = $request->has($fieldName);
-			if(!$requestFieldExists){
+			if (!$requestFieldExists) {
 				continue;
 			}
 			$fieldValue = $request->get($fieldName, null);
@@ -61,8 +64,8 @@ class Users_Save_Action extends Vtiger_Save_Action {
 					$recordModel->set('is_owner', 0);
 				}
 			}
-			if($fieldValue !== null) {
-				if(!is_array($fieldValue)) {
+			if ($fieldValue !== null) {
+				if (!is_array($fieldValue)) {
 					$fieldValue = trim($fieldValue);
 				}
 				$recordModel->set($fieldName, $fieldValue);
@@ -71,7 +74,7 @@ class Users_Save_Action extends Vtiger_Save_Action {
 		$homePageComponents = $recordModel->getHomePageComponents();
 		$selectedHomePageComponents = $request->get('homepage_components', array());
 		foreach ($homePageComponents as $key => $value) {
-			if(in_array($key, $selectedHomePageComponents)) {
+			if (in_array($key, $selectedHomePageComponents)) {
 				$request->setGlobal($key, $key);
 			} else {
 				$request->setGlobal($key, '');
@@ -80,7 +83,7 @@ class Users_Save_Action extends Vtiger_Save_Action {
 
 		// Tag cloud save
 		$tagCloud = $request->get('tagcloudview');
-		if($tagCloud == "on") {
+		if ($tagCloud == "on") {
 			$recordModel->set('tagcloud', 0);
 		} else {
 			$recordModel->set('tagcloud', 1);
@@ -88,24 +91,28 @@ class Users_Save_Action extends Vtiger_Save_Action {
 		return $recordModel;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$result = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['imagename'];
 
-        $moduleModel = Vtiger_Module_Model::getInstance('Users');
-        
+		$moduleModel = Vtiger_Module_Model::getInstance('Users');
+
 		if (!$moduleModel->checkMailExist($request->get('email1'), $request->get('record'))) {
-            $recordModel = $this->saveRecord($request);
-		
+			$recordModel = $this->saveRecord($request);
+
+			$settingsModuleModel = Settings_Users_Module_Model::getInstance();
+			$settingsModuleModel->refreshSwitchUsers();
+
 			$sharedIds = $request->get('sharedusers');
 			$sharedType = $request->get('calendarsharedtype');
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 			$accessibleUsers = $currentUserModel->getAccessibleUsersForModule('Calendar');
 
-			if($sharedType == 'private'){
+			if ($sharedType == 'private') {
 				$calendarModuleModel->deleteSharedUsers($currentUserModel->id);
-			}else if($sharedType == 'public'){
+			} else if ($sharedType == 'public') {
 				$allUsers = $currentUserModel->getAll(true);
 				$accessibleUsers = array();
 				foreach ($allUsers as $id => $userModel) {
@@ -113,27 +120,27 @@ class Users_Save_Action extends Vtiger_Save_Action {
 				}
 				$calendarModuleModel->deleteSharedUsers($currentUserModel->id);
 				$calendarModuleModel->insertSharedUsers($currentUserModel->id, array_keys($accessibleUsers));
-			}else{
-				if(!empty($sharedIds)){
+			} else {
+				if (!empty($sharedIds)) {
 					$calendarModuleModel->deleteSharedUsers($currentUserModel->id);
 					$calendarModuleModel->insertSharedUsers($currentUserModel->id, $sharedIds);
-				}else{
+				} else {
 					$calendarModuleModel->deleteSharedUsers($currentUserModel->id);
 				}
 			}
-		
-            if ($request->get('relationOperation')) {
-                $parentRecordModel = Vtiger_Record_Model::getInstanceById($request->get('sourceRecord'), $request->get('sourceModule'));
-                $loadUrl = $parentRecordModel->getDetailViewUrl();
-            } else if ($request->get('isPreference')) {
-                $loadUrl = $recordModel->getPreferenceDetailViewUrl();
-            } else {
-                $loadUrl = $recordModel->getDetailViewUrl();
-            }
-        } else {
-            echo vtranslate('USER_MAIL_EXIST', 'Users');
-            header('Location: index.php?module=Users&parent=Settings&view=Edit');
-        }
+
+			if ($request->get('relationOperation')) {
+				$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->get('sourceRecord'), $request->get('sourceModule'));
+				$loadUrl = $parentRecordModel->getDetailViewUrl();
+			} else if ($request->get('isPreference')) {
+				$loadUrl = $recordModel->getPreferenceDetailViewUrl();
+			} else {
+				$loadUrl = $recordModel->getDetailViewUrl();
+			}
+		} else {
+			echo vtranslate('USER_MAIL_EXIST', 'Users');
+			header('Location: index.php?module=Users&parent=Settings&view=Edit');
+		}
 
 		header("Location: $loadUrl");
 	}

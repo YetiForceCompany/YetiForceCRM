@@ -1,14 +1,5 @@
 <?php
-
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
     'OSSMailScanner' => 'Skaner wiadomości email',
     'OSSMailScanner_manual' => 'Skaner wiadomości email',
@@ -36,18 +27,18 @@ $languageStrings = [
     'update_HelpDesk' => 'Aktualizacja zgłoszenia',
     'update_Accounts' => 'Aktualizacja kontrahenta',
     'update_Contacts' => 'Aktualizacja kontaktu',
-    'desc_0_created_Email' => 'Dodanie wiadomości email do systemu',
-    'desc_3_bind_Contacts' => 'Tworzenie powiązania wiadomości email z rekordem kontaktu w którym znajduje się adres email',
-    'desc_2_bind_Accounts' => 'Tworzenie powiązania wiadomości email z rekordem kontrahenta w którym znajduje się adres email',
-    'desc_4_bind_Leads' => 'Tworzenie powiązania wiadomości email z rekordem potencjalnego klienta w którym znajduje się adres email',
+    'desc_0_created_Email' => 'Dodanie wiadomości email do systemu.',
+    'desc_3_bind_Contacts' => 'Tworzenie powiązania wiadomości email z rekordem kontaktu w którym znajduje się adres email.',
+    'desc_2_bind_Accounts' => 'Tworzenie powiązania wiadomości email z rekordem kontrahenta w którym znajduje się adres email.',
+    'desc_4_bind_Leads' => 'Tworzenie powiązania wiadomości email z rekordem potencjalnego klienta w którym znajduje się adres email.',
     'desc_6_bind_Potentials' => 'Tworzenie powiązania wiadomości email z rekordem szansy sprzedaży na podstawie zawartego w temacie prefix-u z numerem.',
     'desc_5_bind_HelpDesk' => 'Tworzenie powiązania wiadomości email z rekordem zgłoszenia na podstawie zawartego w temacie prefix-u z numerem.',
     'desc_7_bind_Project' => 'Tworzenie powiązania wiadomości email z rekordem projektu na podstawie zawartego w temacie prefix-u z numerem.',
 	'desc_8_bind_ServiceContracts' => 'Tworzenie powiązania wiadomości email z rekordem umowy na podstawie kontrahenta powiązanego z emailem.',
-	'desc_9_bind_Campaigns' => 'Tworzenie powiązania wiadomości email z rekordem kampani na podstawie zawatego w temacie prefix-u z numerem.',
+	'desc_9_bind_Campaigns' => 'Tworzenie powiązania wiadomości email z rekordem kampani na podstawie zawartego w temacie prefix-u z numerem.',
     'desc_created_Accounts' => 'Opis Tworzenie kontrahenta',
     'desc_created_Contacts' => 'Opis Tworzenie kontaktu',
-    'desc_1_created_HelpDesk' => 'Opis Tworzenie zgłoszenia',
+    'desc_1_created_HelpDesk' => 'Opis Tworzenie zgłoszenia.',
     'desc_update_HelpDesk' => 'Opis Aktualizacja zgłoszenia',
     'desc_update_Accounts' => 'Opis Aktualizacja kontrahenta',
     'desc_update_Contacts' => 'Opis Aktualizacja kontaktu',
@@ -60,7 +51,7 @@ $languageStrings = [
 	'Change_ticket_status' => 'Aktualizuj status zgłoszenia',
 	'Alert_info_conftab_change_ticket_status' => 'Opcja umożliwia zmianę statusu zgłoszenia na "Udzielono odpowiedzi" kiedy skaner poczty znajdzie wiadomość od klienta dotyczącą danego zgłoszenia.',
     'Alert_no_module_title' => 'Nie znaleziono modułu lub moduł jest wyłączony.',
-    'Alert_no_module_desc' => 'Moduł skanera wymaga zainstalowanego i aktywnego modułu OSSMail. Sprawdz czy moduł jest zainstalowany jeśli nie to trzeba go zainstalować.',
+    'Alert_no_module_desc' => 'Moduł skanera wymaga zainstalowanego i aktywnego modułu OSSMail. Sprawdź czy moduł jest zainstalowany jeśli nie to trzeba go zainstalować.',
     'Alert_no_accounts_title' => 'Nie znaleziono kont pocztowych',
     'Alert_no_accounts_desc' => 'Aby można było uruchomić skaner poczty należy zalogować się na konto pocztowe w module OSSMail.',
     'Alert_info_tab_actions' => 'Pliki z akcjami znajdują się w katalogu: modules/OSSMailScanner/email_actions/',
@@ -109,12 +100,12 @@ $languageStrings = [
     'In progress' => 'W realizacji',
     'Error' => 'Błąd',
     'email_to_notify' => 'Email do powiadomień',
-    'time_to_notify' => 'Czas do powiadomień',
+    'time_to_notify' => 'Czas do powiadomień (min)',
     'StopCron' => 'Ręczne zatrzymanie skanowania',
     'Manually stopped' => 'Przerwano ręcznie',
     'stop_user' => 'Zatrzymał skanowanie',
 	'Email_Subject' => 'Powiadomienie: CRON wykonuje się za długo',
-	'Email_Body' => 'Witaj<br /><br />CRON wykonuje się za długo, sprawdz czy system pocztowy działa poprawnie.<br /><br />Pozdrawia Admin',
+	'Email_Body' => 'Witaj<br /><br />CRON wykonuje się za długo, sprawdź czy system pocztowy działa poprawnie.<br /><br />Pozdrawia Admin',
 	'Email_FromName' => 'vtiger CRON',
     'JS_info_restart_ok' => 'Odblokowano crona',
     'permissions_all' => 'Widoczne dla wszystkich',
@@ -145,4 +136,8 @@ $languageStrings = [
 	'LBL_MAIL_LOGS' => 'Poczta logi',
 	'LBL_ACTIVE_MAIL' => 'Aktywne',
 	'LBL_INACTIVE_MAIL' => 'Nieaktywne',
+	'LBL_EXCEPTIONS' => 'Wyjątki',
+	'LBL_EXCEPTIONS_CREATING_EMAIL' => 'Adresy pomijane w trakcie wykonywania akcji tworzącej wiadomości e-mail',
+	'LBL_EXCEPTIONS_CREATING_TICKET' => 'Adresy pomijane w trakcie wykonywania akcji tworzącej zgłoszenia',
+	'LBL_WRITE_AND_ENTER' => 'Wpisz adres i wciśnij enter',
 ];

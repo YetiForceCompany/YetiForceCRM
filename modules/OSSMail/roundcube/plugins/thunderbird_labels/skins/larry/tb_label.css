@@ -60,18 +60,20 @@ table.label5
 #messagelist tr.label1 td a,
 .toolbarmenu li.label1,
 .toolbarmenu li.label1 a.active,
-span.label1
+span.label1,
+.records-table tr.selected td span.label1
 {
-  color: #FF0000;
+  color: #FF0000 !important;
 }
 
 #messagelist tr.label2 td,
 #messagelist tr.label2 td a,
 .toolbarmenu li.label2,
 .toolbarmenu li.label2 a.active,
-span.label2
+span.label2,
+.records-table tr.selected td span.label2
 {
-  color: #FF9900;
+  color: #FF9900 !important;
 }
 
 
@@ -79,16 +81,18 @@ span.label2
 #messagelist tr.label3 td a,
 .toolbarmenu li.label3,
 .toolbarmenu li.label3 a.active,
-span.label3
+span.label3,
+.records-table tr.selected td span.label3
 {
-  color: #009900;
+  color: #009900 !important;
 }
 
 #messagelist tr.label4 td,
 #messagelist tr.label4 td a,
-span.label4
+span.label4,
+.records-table tr.selected td span.label4
 {
-  color: #3333FF;
+  color: #3333FF !important;
 }
 
 /* lighter blue for dark-grey popup... */
@@ -100,9 +104,10 @@ span.label4
 
 #messagelist tr.label5 td,
 #messagelist tr.label5 td a,
-span.label5
+span.label5,
+.records-table tr.selected td span.label5
 {
-  color: #993399;
+  color: #993399 !important;
 }
 
 /* lighter purple for dark-grey popup... */
@@ -114,7 +119,7 @@ span.label5
 
 /* Selected messages */
 #messagelist tr.selected.label1 td,
-#messagelist tr.selected.label1 td a,
+#messagelist tr.selected.label1 td a
 {
   color: #FFFFFF;
   background-color: #FF0000;
@@ -128,7 +133,7 @@ span.label5
 }
 
 #messagelist tr.selected.label3 td,
-#messagelist tr.selected.label3 td a,
+#messagelist tr.selected.label3 td a
 {
   color: #FFFFFF;
   background-color: #009900;

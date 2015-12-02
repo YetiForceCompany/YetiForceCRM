@@ -61,8 +61,9 @@ class thunderbird_labels extends rcube_plugin
 					'title' => 'tb_label_button_title',
 					'domain' => $this->ID,
 					'type' => 'link',
-					'content' => ($this->rc->config->get('skin') == 'larry') ? $this->gettext('tb_label_button_label') : ' ', 
-					'class' => ($this->rc->config->get('skin') == 'larry') ? 'button' : 'tb_noclass',
+					'content' => $this->gettext('tb_label_button_label'), 
+					'class' => 'button buttonPas disabled',
+					'classact' => 'button',
 					),
 				'toolbar'
 			);
@@ -168,7 +169,7 @@ class thunderbird_labels extends rcube_plugin
 				'name' => $key,
 				'id' => $key
 			));
-			$select->add(array('thunderbird', 'bullets'), array('thunderbird', 'bullets'));
+			$select->add(array($this->gettext('thunderbird'), $this->gettext('bullets')), array('thunderbird', 'bullets'));
 			$content = $select->show($this->rc->config->get($key));
 			
 			$args['blocks']['tb_label']['options'][$key] = array(
@@ -296,9 +297,11 @@ class thunderbird_labels extends rcube_plugin
 	{
 		#write_log($this->name, print_r($p, true));
 		# -- always write array, even when empty
-		$p['content'] .= '<script type="text/javascript">
-		var tb_labels_for_message = ['.join(',', $this->message_tb_labels).'];
-		</script>';
+		if($p['class'] == 'headers-table'){
+			$p['content'] .= '<script type="text/javascript">
+			var tb_labels_for_message = ['.join(',', $this->message_tb_labels).'];
+			</script>';
+		}
 		return $p;
 	}
 	

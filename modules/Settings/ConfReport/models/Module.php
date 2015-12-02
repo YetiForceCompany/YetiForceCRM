@@ -9,7 +9,8 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
+class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
+{
 
 	/**
 	 * variable has all the files and folder that should be writable
@@ -43,11 +44,10 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 		'Logo directory' => 'storage/Logo/',
 		'MailView attachments directory' => 'storage/OSSMailView/',
 	);
-	
 	public static $library = array(
 		'LBL_IMAP_SUPPORT' => ['type' => 'f', 'name' => 'imap_open', 'mandatory' => true],
 		'LBL_ZLIB_SUPPORT' => ['type' => 'f', 'name' => 'gzinflate', 'mandatory' => true],
-		'LBL_PDO_SUPPORT' => ['type' => 'e', 'name' => 'PDO', 'mandatory' => true],
+		'LBL_PDO_SUPPORT' => ['type' => 'e', 'name' => 'pdo_mysql', 'mandatory' => true],
 		'LBL_OPEN_SSL' => ['type' => 'e', 'name' => 'openssl', 'mandatory' => true],
 		'LBL_CURL' => ['type' => 'e', 'name' => 'curl', 'mandatory' => true],
 		'LBL_GD_LIBRARY' => ['type' => 'e', 'name' => 'gd', 'mandatory' => true],
@@ -59,34 +59,36 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 		'LBL_DOM_LIBRARY' => ['type' => 'e', 'name' => 'dom', 'mandatory' => true],
 	);
 
-	public static function getConfigurationLibrary() {
+	public static function getConfigurationLibrary()
+	{
 		foreach (self::$library as $k => $v) {
-			if($v['type'] == 'f'){
+			if ($v['type'] == 'f') {
 				$status = function_exists($v['name']);
-			}elseif($v['type'] == 'e'){
+			} elseif ($v['type'] == 'e') {
 				$status = extension_loaded($v['name']);
 			}
-			self::$library[$k]['status'] = $status?'LBL_YES':'LBL_NO';
+			self::$library[$k]['status'] = $status ? 'LBL_YES' : 'LBL_NO';
 		}
 		return self::$library;
 	}
-	
-	public static function getConfigurationValue() {
-		$errorReportingValue = 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
+
+	public static function getConfigurationValue($instalMode = false)
+	{
+		$errorReportingValue = 'E_WARNING & E_ERROR & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
 		$directiveValues = array(
 			'PHP' => array('prefer' => '5.4.0'),
 			'error_reporting' => array('prefer' => $errorReportingValue),
 			'output_buffering' => array('prefer' => 'On'),
 			'max_execution_time' => array('prefer' => '600'),
-			'memory_limit' => array('prefer' => '32 MB'),
+			'memory_limit' => array('prefer' => '512 MB'),
 			'safe_mode' => array('prefer' => 'Off'),
 			'display_errors' => array('prefer' => 'Off'),
 			'log_errors' => array('prefer' => 'Off'),
 			'file_uploads' => array('prefer' => 'On'),
 			'register_globals' => array('prefer' => 'On'),
 			'short_open_tag' => array('prefer' => 'On'),
-			'post_max_size' => array('prefer' => '10 MB'),
-			'upload_max_filesize' => array('prefer' => '10 MB'),
+			'post_max_size' => array('prefer' => '50 MB'),
+			'upload_max_filesize' => array('prefer' => '50 MB'),
 			'max_allowed_packet' => array('prefer' => '10 MB'),
 			'max_input_vars' => array('prefer' => '5000'),
 			'magic_quotes_gpc' => array('prefer' => 'Off'),
@@ -218,8 +220,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 			$directiveValues['suhosin.post.max_value_length']['current'] = ini_get('suhosin.post.max_value_length');
 		}
 
-		$db = PearDatabase::getInstance(false);
-		if ($db) {
+		if (!$instalMode) {
+			$db = PearDatabase::getInstance();
 			$result = $db->query('SELECT @@max_allowed_packet');
 			$maxAllowedPacket = $db->getSingleValue($result);
 			if ($maxAllowedPacket < 16777216)
@@ -228,7 +230,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 		}
 
 		$errorReporting = stripos(ini_get('error_reporting'), '_') === false ? self::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
-		if (in_array('E_NOTICE',$errorReporting) || in_array('E_DEPRECATED',$errorReporting) || in_array('E_STRICT',$errorReporting))
+		if (in_array('E_NOTICE', $errorReporting) || in_array('E_DEPRECATED', $errorReporting) || in_array('E_STRICT', $errorReporting))
 			$directiveValues['error_reporting']['status'] = true;
 		$directiveValues['error_reporting']['current'] = implode(' | ', $errorReporting);
 
@@ -239,13 +241,14 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 	 * Function returns permissions to the core files and folder
 	 * @return <Array>
 	 */
-	public static function getPermissionsFiles($onlyError = false) {
+	public static function getPermissionsFiles($onlyError = false)
+	{
 		$writableFilesAndFolders = self::$writableFilesAndFolders;
 		$permissions = array();
 		require_once ('include/utils/VtlibUtils.php');
 		foreach ($writableFilesAndFolders as $index => $value) {
 			$isWriteable = vtlib_isWriteable($value);
-			if(!$isWriteable || !$onlyError){
+			if (!$isWriteable || !$onlyError) {
 				$permissions[$index]['permission'] = 'TruePermission';
 				$permissions[$index]['path'] = $value;
 			}
@@ -256,14 +259,16 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 		return $permissions;
 	}
 
-	public static function getFlag($val) {
+	public static function getFlag($val)
+	{
 		if ($val == 'On' || $val == 1 || stripos($val, 'On') !== false) {
 			return 'On';
 		}
 		return 'Off';
 	}
 
-	function error2string($value) {
+	function error2string($value)
+	{
 		$level_names = array(
 			E_ERROR => 'E_ERROR', E_WARNING => 'E_WARNING',
 			E_PARSE => 'E_PARSE', E_NOTICE => 'E_NOTICE',
@@ -283,5 +288,4 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 				$levels[] = $name;
 		return $levels;
 	}
-
 }

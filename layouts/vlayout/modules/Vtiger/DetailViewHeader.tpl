@@ -14,7 +14,7 @@
 	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
 	<div class="detailViewContainer">
 		<div class="row detailViewTitle">
-			<div class="{if $NO_PAGINATION} col-md-12 {else} col-md-10 {/if} pull-left">
+			<div class="{if $NO_PAGINATION} col-md-12 {else} col-md-10 {/if}">
 				<div class="row">
 					<div class="col-md-12 marginBottom5px">
 						<div class="row">
@@ -22,11 +22,16 @@
 						</div>
 					</div>
 					<div class="col-md-12 detailViewToolbar paddingLRZero" style="text-align: right;">
-						<div class="col-md-10 pull-left paddingLRZero">
+						<div class="pull-left paddingLRZero col-md-10">
 							<div class="btn-toolbar">
 								{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 									<span class="btn-group {$DETAIL_VIEW_BASIC_LINK->getGrupClassName()}">
-										<button {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''}data-content="{vtranslate($DETAIL_VIEW_BASIC_LINK->linkhint, $MODULE_NAME)}" {/if} class="btn btn-default {$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())} {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''} popoverTooltip {/if} {$DETAIL_VIEW_BASIC_LINK->getClassName()}"
+										<button {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''}data-content="{vtranslate($DETAIL_VIEW_BASIC_LINK->linkhint, $MODULE_NAME)}" {/if} class="btn btn-default {$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())} {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''} popoverTooltip {/if} {$DETAIL_VIEW_BASIC_LINK->getClassName()}" 
+																							 {if $DETAIL_VIEW_BASIC_LINK->linkdata && is_array($DETAIL_VIEW_BASIC_LINK->linkdata)}
+																								 {foreach item=DATA_VALUE key=DATA_NAME from=$DETAIL_VIEW_BASIC_LINK->linkdata}
+																									 data-{$DATA_NAME}="{$DATA_VALUE}" 
+																								 {/foreach}
+																							 {/if}
 																							 data-placement="bottom"
 																							 {assign var="LABEL" value=$DETAIL_VIEW_BASIC_LINK->getLabel()}
 																							 {if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink() || $DETAIL_VIEW_BASIC_LINK->linkPopup}
@@ -48,9 +53,14 @@
 								{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
 									{if $DETAIL_VIEW_LINK->getLabel() neq "" OR $DETAIL_VIEW_LINK->linkicon neq ""} 
 										<span class="btn-group">
-											<a class="btn btn-default
+											<a class="btn btn-default {$DETAIL_VIEW_LINK->getClassName()}
 											   {if $DETAIL_VIEW_LINK->linklabel neq ''} popoverTooltip{/if}"
 											   href='{$DETAIL_VIEW_LINK->getUrl()}' 
+											   {if $DETAIL_VIEW_LINK->linkdata && is_array($DETAIL_VIEW_LINK->linkdata)}
+													{foreach item=DATA_VALUE key=DATA_NAME from=$DETAIL_VIEW_LINK->linkdata}
+														data-{$DATA_NAME}="{$DATA_VALUE}" 
+													{/foreach}
+												{/if}
 											   {if $DETAIL_VIEW_LINK->linklabel neq ''}data-content="{vtranslate($DETAIL_VIEW_LINK->linklabel, $MODULE_NAME)}" {/if}>
 												{if $DETAIL_VIEW_LINK->linkicon neq ''}
 													<span class="{$DETAIL_VIEW_LINK->linkicon} icon-in-button"></span> 
@@ -62,19 +72,7 @@
 									{/if}	
 								{/foreach}
 							{/if}
-							{if $DETAILVIEW_LINKS['DETAILVIEWSETTING']|@count gt 0}
-								<div class="btn-group">
-									<button class="btn btn-default dropdown-toggle popoverTooltip" data-content="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" title="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}"></span><span class="caret"></span></button>
-									<ul class="dropdown-menu">
-										{foreach item=DETAILVIEW_SETTING from=$DETAILVIEW_LINKS['DETAILVIEWSETTING']}
-											<li><a href={$DETAILVIEW_SETTING->getUrl()} {if $DETAILVIEW_SETTING->linktarget}target="{$DETAILVIEW_SETTING->linktarget}"{/if} 								{if $DETAIL_VIEW_BASIC_LINK->title neq ''}
-												   title="{$DETAILVIEW_SETTING->title}"
-												   {/if}
-													   >{vtranslate($DETAILVIEW_SETTING->getLabel(), $MODULE_NAME)}</a></li>
-												   {/foreach}
-												</ul>
-											</div>
-											{/if}
+
 											</div>
 										</div>
 									</div>

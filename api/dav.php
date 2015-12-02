@@ -3,12 +3,13 @@
 
 chdir (__DIR__ . '/../');
 
-require_once 'config/api.php';
+require_once('config/api.php');
 if(!in_array('dav',$enabledServices)){
 	die('Dav - Service is not active');
 }
-require_once 'config/debug.php';
-require_once 'config/config.php';
+require_once('config/debug.php');
+require_once('config/config.php');
+require_once('include/ConfigUtils.php');
 ini_set('error_log',$root_directory.'cache/logs/dav.log');
 $baseUri = $_SERVER['SCRIPT_NAME'];
 
@@ -24,7 +25,7 @@ function exception_error_handler($errno, $errstr, $errfile, $errline ) {
 set_error_handler("exception_error_handler");
 */
 // Autoloader
-require_once 'libraries/SabreDAV/autoload.php';
+require_once('libraries/SabreDAV/autoload.php');
 
 // Backends 
 $authBackend      = new Yeti\DAV_Auth_Backend_PDO($pdo);

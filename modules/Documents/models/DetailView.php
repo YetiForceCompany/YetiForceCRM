@@ -47,10 +47,9 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 			if ($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
 				$basicActionLink = array(
 					'linktype' => 'DETAILVIEW',
-					'linklabel' => '',
+					'linklabel' => vtranslate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
 					'linkurl' => "javascript:Documents_Detail_Js.triggerSendEmail('" . ZEND_JSON::encode(array($recordModel->getId())) . "')",
-					'linkicon' => 'glyphicon glyphicon-envelope',
-					'title' => vtranslate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents')
+					'linkicon' => 'glyphicon glyphicon-envelope'
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 			}

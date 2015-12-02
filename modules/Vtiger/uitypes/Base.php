@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,17 +7,22 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Vtiger_Base_UIType extends Vtiger_Base_Model {
-	public function isAjaxEditable() {
+class Vtiger_Base_UIType extends Vtiger_Base_Model
+{
+
+	public function isAjaxEditable()
+	{
 		return true;
 	}
+
 	/**
 	 * Function to get the Template name for the current UI Type Object
 	 * @return <String> - Template Name
 	 */
-	public function getTemplateName() {
+	public function getTemplateName()
+	{
 		return 'uitypes/String.tpl';
 	}
 
@@ -26,7 +31,8 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model {
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDBInsertValue($value) {
+	public function getDBInsertValue($value)
+	{
 		return $value;
 	}
 
@@ -35,7 +41,8 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model {
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getUserRequestValue($value) {
+	public function getUserRequestValue($value, $recordId)
+	{
 		return $value;
 	}
 
@@ -44,33 +51,34 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model {
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value, $record=false, $recordInstance=false) {
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
 		return $value;
 	}
-	
+
 	/**
 	 * Static function to get the UIType object from Vtiger Field Model
 	 * @param Vtiger_Field_Model $fieldModel
 	 * @return Vtiger_Base_UIType or UIType specific object instance
 	 */
-	public static function getInstanceFromField($fieldModel) {
+	public static function getInstanceFromField($fieldModel)
+	{
 		$fieldDataType = $fieldModel->getFieldDataType();
 		$uiTypeClassSuffix = ucfirst($fieldDataType);
 		$moduleName = $fieldModel->getModuleName();
-		$moduleSpecificUiTypeClassName = $moduleName.'_'.$uiTypeClassSuffix.'_UIType';
-		$uiTypeClassName = 'Vtiger_'.$uiTypeClassSuffix.'_UIType';
+		$moduleSpecificUiTypeClassName = $moduleName . '_' . $uiTypeClassSuffix . '_UIType';
+		$uiTypeClassName = 'Vtiger_' . $uiTypeClassSuffix . '_UIType';
 		$fallBackClassName = 'Vtiger_Base_UIType';
 
-		$moduleSpecificFileName = 'modules.'. $moduleName .'.uitypes.'.$uiTypeClassSuffix;
-		$uiTypeClassFileName = 'modules.Vtiger.uitypes.'.$uiTypeClassSuffix;
+		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
+		$uiTypeClassFileName = 'modules.Vtiger.uitypes.' . $uiTypeClassSuffix;
 
 		$moduleSpecificFilePath = Vtiger_Loader::resolveNameToPath($moduleSpecificFileName);
 		$completeFilePath = Vtiger_Loader::resolveNameToPath($uiTypeClassFileName);
 
-		if(file_exists($moduleSpecificFilePath)) {
+		if (file_exists($moduleSpecificFilePath)) {
 			$instance = new $moduleSpecificUiTypeClassName();
-		}
-		else if(file_exists($completeFilePath)) {
+		} else if (file_exists($completeFilePath)) {
 			$instance = new $uiTypeClassName();
 		} else {
 			$instance = new $fallBackClassName();
@@ -84,15 +92,17 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model {
 	 * @param reference record id
 	 * @return link
 	 */
-	public function getEditViewDisplayValue($value) {
+	public function getEditViewDisplayValue($value, $record = false)
+	{
 		return $value;
 	}
 
-    /**
+	/**
 	 * Function to get the Detailview template name for the current UI Type Object
 	 * @return <String> - Template Name
 	 */
-	public function getDetailViewTemplateName() {
+	public function getDetailViewTemplateName()
+	{
 		return 'uitypes/StringDetailView.tpl';
 	}
 
@@ -101,11 +111,13 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model {
 	 * @param <String> $value
 	 * @return <String>
 	 */
-	public function getRelatedListDisplayValue($value) {
+	public function getRelatedListDisplayValue($value)
+	{
 		return $this->getDisplayValue($value);
 	}
-    
-    public function getListSearchTemplateName() {
-        return 'uitypes/FieldSearchView.tpl';
-    }
+
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/FieldSearchView.tpl';
+	}
 }

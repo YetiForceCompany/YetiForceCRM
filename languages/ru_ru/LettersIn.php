@@ -12,11 +12,11 @@ $languageStrings = [
 	// Basic Strings
 	'LettersIn' => 'Входящая корреспонденция',
 	'SINGLE_LettersIn' => 'Входящая корреспонденция',
-	'LBL_ADD_RECORD' => 'Добавить документ',
+	'LBL_ADD_RECORD' => 'Документ',
 	'LBL_RECORDS_LIST' => 'Список Документов',
 
 	// Blocks
-	'LBL_MAIN_INFORMATION' => 'Информация о документе',
+	'LBL_MAIN_INFORMATION' => 'Основная информация',
 
 	//Field Labels
 	'Number' => 'Номер',
@@ -28,7 +28,7 @@ $languageStrings = [
 	'Deadline for reply' => 'Срок для ответа',
 	'Document no' => 'Номер длокумента',
 	'No internal' => 'Внутренний номер',
-	'Parent letters' => 'Связан с',
+	'Parent letters' => 'Предыдущий документ',
 	'Overall dimensions' => 'Размер',
 	'Notes' => 'Примечание',
 	'Related' => 'Получатель',

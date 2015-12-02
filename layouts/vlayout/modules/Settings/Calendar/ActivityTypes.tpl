@@ -33,14 +33,14 @@
 						<td>{vtranslate($item.fieldname,$item.module)}</td>
 						<td>{vtranslate($item.module,$item.module)}</td>
 						<td>
-							<label class="checkbox">
+							<label>
 								<input class="activeType" type="checkbox" name="active" value="1" {if $item.active eq '1'}checked=""{/if}>
 							</label> 
 						</td>
 						<td class="calendarColor" style="background: {$item.color};"></td>
 						<td>
-							<button class="btn btn-default marginLeftZero updateColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-							<button class="btn btn-default generateColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+							<button class="btn btn-primary marginLeftZero updateColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+							<button class="btn btn-info generateColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 						</td>
 					</tr>
 				{/foreach}

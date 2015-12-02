@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,33 +7,37 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 
-Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_IndexAjax_View {
+Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_IndexAjax_View
+{
 
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('saveRule');
 		$this->exposeMethod('deleteRule');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$mode = $request->get('mode');
-		if(!empty($mode)) {
+		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;
 		}
 	}
 
-	public function saveRule(Vtiger_Request $request) {
+	public function saveRule(Vtiger_Request $request)
+	{
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
 		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
-		if(empty($ruleId)) {
+		if (empty($ruleId)) {
 			$ruleModel = new Settings_SharingAccess_Rule_Model();
 			$ruleModel->setModuleFromInstance($moduleModel);
-		}else {
+		} else {
 			$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
 		}
 
@@ -51,7 +55,8 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response->emit();
 	}
 
-	public function deleteRule(Vtiger_Request $request) {
+	public function deleteRule(Vtiger_Request $request)
+	{
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
@@ -67,8 +72,9 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_IndexAjax_
 		}
 		$response->emit();
 	}
-        
-        public function validateRequest(Vtiger_Request $request) { 
-            $request->validateWriteAccess(); 
-        } 
+
+	public function validateRequest(Vtiger_Request $request)
+	{
+		$request->validateWriteAccess();
+	}
 }

@@ -41,7 +41,7 @@ $languageStrings = [
 	// Не работает
 	'Action_show_quick_create' => 'Запустить быстрое создание',
 	'Action_Desc_show_quick_create' => 'Данная опция позволяет запустить быстрое создание для выбранного модуля.',
-	'Select module' => 'Выберите модуль',
+	'LBL_SELECT_OPTION' => 'Выберите опцию',
 	// Не работает
 	'Action_blockEditView' => 'Запретить редактировать блок',
 	'Action_Desc_blockEditView' => 'Данная опция позволяет заблокировать возможность редактирования данных в блоке в кратком или полном виде.',
@@ -72,6 +72,8 @@ $languageStrings = [
 	'LBL_TEXT_COLOR' => 'Цвет текста',
 	'This name already exists' => 'Такое название уже существует',
 	'LBL_RECORD_DELETED' => 'Запись удалена',
+	'Action_test' => 'Action test',
+	'Action_Desc_test' => 'Action test description.',
 ];
 $jsLanguageStrings = [
 	'DataAccess'	=>	'Редактор условий',

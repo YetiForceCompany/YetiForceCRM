@@ -18,12 +18,12 @@ class Calculations extends CRMEntity
 	var $db, $log; // Used in class functions of CRMEntity
 	var $table_name = 'vtiger_calculations';
 	var $table_index = 'calculationsid';
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_calculations', 'vtiger_calculationscf', 'vtiger_inventoryproductrel');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_calculations', 'vtiger_calculationscf', 'vtiger_calculationsproductrel');
 	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_calculations' => 'calculationsid',
 		'vtiger_calculationscf' => 'calculationsid',
-		'vtiger_inventoryproductrel' => 'id');
+		'vtiger_calculationsproductrel' => 'id');
 	var $customFieldTable = Array('vtiger_calculationscf', 'calculationsid');
 	var $entity_table = "vtiger_crmentity";
 	var $column_fields = Array();
@@ -262,9 +262,9 @@ class Calculations extends CRMEntity
 	{
 		$matrix = $queryPlanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_crmentityCalculations', array('vtiger_usersCalculations', 'vtiger_groupsCalculations', 'vtiger_lastModifiedByCalculations'));
-		$matrix->setDependency('vtiger_inventoryproductrelCalculations', array('vtiger_productsCalculations', 'vtiger_serviceCalculations'));
+		$matrix->setDependency('vtiger_calculationsproductrelCalculations', array('vtiger_productsCalculations', 'vtiger_serviceCalculations'));
 		$matrix->setDependency('vtiger_calculations', array('vtiger_crmentityCalculations', "vtiger_currency_info$secmodule",
-			'vtiger_calculationscf', 'vtiger_vendorRelCalculations', 'vtiger_inventoryproductrelCalculations', 'vtiger_contactdetailsCalculations', 'vtiger_contactdetailsRelCalculations', 'vtiger_calculationsRelCalculations', 'vtiger_potentialRelCalculations', 'vtiger_projectRelCalculations', 'vtiger_troubleticketsRelCalculations'));
+			'vtiger_calculationscf', 'vtiger_vendorRelCalculations', 'vtiger_calculationsproductrelCalculations', 'vtiger_contactdetailsCalculations', 'vtiger_contactdetailsRelCalculations', 'vtiger_calculationsRelCalculations', 'vtiger_potentialRelCalculations', 'vtiger_projectRelCalculations', 'vtiger_troubleticketsRelCalculations'));
 
 		if (!$queryPlanner->requireTable('vtiger_calculations', $matrix)) {
 			return '';
@@ -277,14 +277,14 @@ class Calculations extends CRMEntity
 		if ($queryPlanner->requireTable("vtiger_calculationscf")) {
 			$query .= " left join vtiger_calculationscf on vtiger_calculations.calculationsid = vtiger_calculationscf.calculationsid";
 		}
-		if ($queryPlanner->requireTable("vtiger_inventoryproductrelCalculations", $matrix)) {
-			$query .= " left join vtiger_inventoryproductrel as vtiger_inventoryproductrelCalculations on vtiger_calculations.calculationsid = vtiger_inventoryproductrelCalculations.id";
+		if ($queryPlanner->requireTable("vtiger_calculationsproductrelCalculations", $matrix)) {
+			$query .= " left join vtiger_calculationsproductrel as vtiger_calculationsproductrelCalculations on vtiger_calculations.calculationsid = vtiger_calculationsproductrelCalculations.id";
 		}
 		if ($queryPlanner->requireTable("vtiger_productsCalculations")) {
-			$query .= " left join vtiger_products as vtiger_productsCalculations on vtiger_productsCalculations.productid = vtiger_inventoryproductrelCalculations.productid";
+			$query .= " left join vtiger_products as vtiger_productsCalculations on vtiger_productsCalculations.productid = vtiger_calculationsproductrelCalculations.productid";
 		}
 		if ($queryPlanner->requireTable("vtiger_serviceCalculations")) {
-			$query .= " left join vtiger_service as vtiger_serviceCalculations on vtiger_serviceCalculations.serviceid = vtiger_inventoryproductrelCalculations.productid";
+			$query .= " left join vtiger_service as vtiger_serviceCalculations on vtiger_serviceCalculations.serviceid = vtiger_calculationsproductrelCalculations.productid";
 		}
 		if ($queryPlanner->requireTable("vtiger_usersCalculations")) {
 			$query .= " left join vtiger_users as vtiger_usersCalculations on vtiger_usersCalculations.id = vtiger_crmentityCalculations.smownerid";
@@ -331,16 +331,14 @@ class Calculations extends CRMEntity
 			$sql_req = 'UPDATE vtiger_calculations SET relatedid=? WHERE calculationsid = ?';
 			$this->db->pquery($sql_req, array(null, $id));
 		} else {
-			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
-			$params = array($id, $return_module, $return_id, $id, $return_module, $return_id);
-			$this->db->pquery($sql, $params);
+			parent::unlinkRelationship($id, $return_module, $return_id);
 		}
 	}
 
 	function insertIntoEntityTable($table_name, $module, $fileid = '')
 	{
 		//Ignore relation table insertions while saving of the record
-		if ($table_name == 'vtiger_inventoryproductrel') {
+		if ($table_name == 'vtiger_calculationsproductrel') {
 			return;
 		}
 		parent::insertIntoEntityTable($table_name, $module, $fileid);
@@ -394,9 +392,9 @@ class Calculations extends CRMEntity
 		$query = "SELECT $fields_list FROM " . $this->entity_table . "
 				INNER JOIN vtiger_calculations ON vtiger_calculations.calculationsid = vtiger_crmentity.crmid
 				LEFT JOIN vtiger_calculationscf ON vtiger_calculationscf.calculationsid = vtiger_calculations.calculationsid
-				LEFT JOIN vtiger_inventoryproductrel ON vtiger_inventoryproductrel.id = vtiger_calculations.calculationsid
-				LEFT JOIN vtiger_products ON vtiger_products.productid = vtiger_inventoryproductrel.productid
-				LEFT JOIN vtiger_service ON vtiger_service.serviceid = vtiger_inventoryproductrel.productid
+				LEFT JOIN vtiger_calculationsproductrel ON vtiger_calculationsproductrel.id = vtiger_calculations.calculationsid
+				LEFT JOIN vtiger_products ON vtiger_products.productid = vtiger_calculationsproductrel.productid
+				LEFT JOIN vtiger_service ON vtiger_service.serviceid = vtiger_calculationsproductrel.productid
 				LEFT JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_calculations.relatedid
 				LEFT JOIN vtiger_calculations ON vtiger_calculations.calculationsid = vtiger_calculations.relatedid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid

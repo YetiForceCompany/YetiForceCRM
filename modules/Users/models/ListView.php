@@ -75,7 +75,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model {
 	 * @param Vtiger_Paging_Model $pagingModel, $status (Active or Inactive User). Default false
 	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewEntries($pagingModel) {
+	public function getListViewEntries($pagingModel, $searchResult = false) {
 		$queryGenerator = $this->get('query_generator');
                 
 		// Added as Users module do not have custom filters and id column is added by querygenerator.
@@ -130,7 +130,16 @@ class Users_ListView_Model extends Vtiger_ListView_Model {
 		
 		$this->set('search_params', $userFieldsFix);
 		
-		return parent::getListViewEntries($pagingModel);
+		return parent::getListViewEntries($pagingModel, $searchResult);
+	}
+	
+	public function getListViewCount()
+	{
+		$searchParams = $this->get('search_params');
+		if (is_array($searchParams) && count($searchParams[0]['columns']) < 1) {
+			$this->set('search_params',[]);
+		}
+		return parent::getListViewCount();
 	}
 	
 	/*

@@ -1,20 +1,25 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * Contributor(s): YetiForce.com
+ * *********************************************************************************** */
 
-class Vtiger_Currency_UIType extends Vtiger_Base_UIType {
+class Vtiger_Currency_UIType extends Vtiger_Base_UIType
+{
+
+	protected $edit = false;
 
 	/**
 	 * Function to get the Template name for the current UI Type object
 	 * @return <String> - Template Name
 	 */
-	public function getTemplateName() {
+	public function getTemplateName()
+	{
 		return 'uitypes/Currency.tpl';
 	}
 
@@ -23,7 +28,8 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType {
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value) {
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
 		$uiType = $this->get('field')->get('uitype');
 		if ($value) {
 			if ($uiType == 72) {
@@ -31,6 +37,9 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType {
 				$value = CurrencyField::convertToUserFormat($value, null, true);
 			} else {
 				$value = CurrencyField::convertToUserFormat($value);
+			}
+			if (!$this->edit) {
+				$value = $this->getDetailViewDisplayValue($value, $record, $uiType);
 			}
 			return $value;
 		}
@@ -42,22 +51,24 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType {
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getUserRequestValue($value) {
-		return $this->getDisplayValue($value);
+	public function getUserRequestValue($value, $recordId)
+	{
+		return $this->getDisplayValue($value, $recordId);
 	}
-    
-    /**
+
+	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDBInsertValue($value) {
-        $uiType = $this->get('field')->get('uitype');
-        if($uiType == 72) {
-            return self::convertToDBFormat($value,null,true);
-        }else {
-            return self::convertToDBFormat($value);
-        }
+	public function getDBInsertValue($value)
+	{
+		$uiType = $this->get('field')->get('uitype');
+		if ($uiType == 72) {
+			return self::convertToDBFormat($value, null, true);
+		} else {
+			return self::convertToDBFormat($value);
+		}
 	}
 
 	/**
@@ -67,7 +78,8 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType {
 	 * @param <Boolean> Skip Conversion
 	 * @return converted user format value
 	 */
-	public static function transformDisplayValue($value, $user=null, $skipConversion=false) {
+	public static function transformDisplayValue($value, $user = null, $skipConversion = false)
+	{
 		return CurrencyField::convertToUserFormat($value, $user, $skipConversion);
 	}
 
@@ -77,7 +89,8 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType {
 	 * @param <User Object> $user
 	 * @param <Boolean> $skipConversion
 	 */
-	public static function convertToDBFormat($value, $user=null, $skipConversion=false) {
+	public static function convertToDBFormat($value, $user = null, $skipConversion = false)
+	{
 		return CurrencyField::convertToDBFormat($value, $user, $skipConversion);
 	}
 
@@ -86,9 +99,41 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType {
 	 * @param <String> $value
 	 * @return <String>
 	 */
-	public function getEditViewDisplayValue($value) {
-		if(!empty($value))
+	public function getEditViewDisplayValue($value, $record = false)
+	{
+		if (!empty($value)) {
+			$this->edit = true;
 			return $this->getDisplayValue($value);
-        return $value;
+		}
+		return $value;
+	}
+
+	/**
+	 * Function that converts the Number into Users Currency along with currency symbol
+	 * @param Users $user
+	 * @param Boolean $skipConversion
+	 * @return Formatted Currency
+	 */
+	public function getDetailViewDisplayValue($value, $recordId, $uiType)
+	{
+		$currencyModal = new CurrencyField($value);
+		$currencyModal->initialize();
+
+		if ($uiType == '72' && $recordId) {
+			$moduleName = $this->get('field')->getModuleName();
+			if (!$moduleName)
+				$moduleName = Vtiger_Functions::getCRMRecordType($recordId);
+			if ($this->get('field')->getName() == 'unit_price') {
+				$currencyId = getProductBaseCurrency($recordId, $moduleName);
+				$cursym_convrate = getCurrencySymbolandCRate($currencyId);
+				$currencySymbol = $cursym_convrate['symbol'];
+			} else {
+				$currencyInfo = getInventoryCurrencyInfo($moduleName, $recordId);
+				$currencySymbol = $currencyInfo['currency_symbol'];
+			}
+		} else {
+			$currencySymbol = $currencyModal->currencySymbol;
+		}
+		return $currencyModal->appendCurrencySymbol($value, $currencySymbol);
 	}
 }

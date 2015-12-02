@@ -71,34 +71,24 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
 
-		$detailViewLink = array();
-		$recordPermissionToEditView = Users_Privileges_Model::CheckPermissionsToEditView($moduleName, $recordId);
+		$detailViewLinks = [];
+		$adb = PearDatabase::getInstance();
+		vimport('~~modules/com_vtiger_workflow/include.inc');
+		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
+		$wfs = new VTWorkflowManager($adb);
+		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
+		if (Users_Privileges_Model::isPermitted($moduleName, 'WorkflowTrigger') && count($workflows) > 0) {
+			$detailViewLinks[] = array(
+				'linktype' => 'DETAILVIEWBASIC',
+				'linklabel' => '',
+				'linkurl' => 'Vtiger_Detail_Js.showWorkflowTriggerView(this)',
+				'linkicon' => 'glyphicon glyphicon-plus-sign',
+				'linkhint' => 'BTN_WORKFLOW_TRIGGER',
+			);
+		}
+		$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && $recordPermissionToEditView) {
-			$adb = PearDatabase::getInstance();
-			vimport('~~modules/com_vtiger_workflow/include.inc');
-			vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
-			$wfs = new VTWorkflowManager($adb);
-			$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$MANUAL);
-			if (Users_Privileges_Model::isPermitted($moduleName, 'WorkflowTrigger') && count($workflows) > 0) {
-				$detailViewLinks[] = array(
-					'linktype' => 'DETAILVIEWBASIC',
-					'linklabel' => '',
-					'linkurl' => 'Vtiger_Detail_Js.showWorkflowTriggerView(this)',
-					'linkicon' => 'icon-plus-sign',
-					'linkhint' => 'BTN_WORKFLOW_TRIGGER',
-				);
-			}
-			if ($recordModel->get('was_read') == 0 && $recordModel->get('assigned_user_id') == $currentUserModel->get('id') && $currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'ReadRecord')) {
-				$detailViewLinks[] = array(
-					'linktype' => 'DETAILVIEWBASIC',
-					'linklabel' => '',
-					'linkurl' => '',
-					'linkicon' => 'glyphicon glyphicon-ok icon-white',
-					'linkclass' => 'btn-success setReadRecord',
-					'linkhint' => 'BTN_READ_RECORD',
-				);
-			}
+		if (Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && !$lockEdit) {
 			$detailViewLinks[] = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
@@ -107,9 +97,23 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				'linkclass' => 'btn',
 				'linkhint' => 'BTN_RECORD_EDIT',
 			);
-			foreach ($detailViewLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
+		}
+		if (Users_Privileges_Model::isPermitted($moduleName, 'RecordMapping')) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+			$mfModel = new $handlerClass();
+			if ($mfModel && $mfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
+				$detailViewLinks[] = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => '',
+					'linkdata' => ['url' => 'index.php?module=' . $moduleName . '&view=GenerateModal&fromview=Detail&record=' . $recordId],
+					'linkicon' => 'glyphicon glyphicon-new-window',
+					'linkclass' => 'btn showModal',
+					'linkhint' => 'BTN_GENERATE_RECORD',
+				];
 			}
+		}
+		foreach ($detailViewLinks as $detailViewLink) {
+			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 		}
 		$linkModelListDetails = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 		//Mark all detail view basic links as detail view links.
@@ -137,6 +141,22 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				'title' => vtranslate('LBL_DUPLICATE_RECORD')
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
+		}
+
+
+		if (Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
+			$pdfModel = new $handlerClass();
+			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
+				$pdfLink = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => vtranslate('LBL_EXPORT_PDF'),
+					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId . '");',
+					'linkicon' => 'glyphicon glyphicon-save-file',
+					'title' => vtranslate('LBL_EXPORT_PDF')
+				];
+				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($pdfLink);
+			}
 		}
 
 		if (!empty($detailViewBasiclinks)) {
@@ -175,9 +195,10 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$parentModuleModel = $this->getModule();
+		$this->getWidgets();
 		$relatedLinks = array();
 
-		if ($parentModuleModel->isSummaryViewSupported()) {
+		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
 			$relatedLinks = array(array(
 					'linktype' => 'DETAILVIEWTAB',
 					'linklabel' => vtranslate('LBL_RECORD_SUMMARY', $moduleName),

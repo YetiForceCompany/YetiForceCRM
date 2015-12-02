@@ -1,9 +1,11 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-class Settings_BackUp_Index_View extends Settings_Vtiger_Index_View {
+class Settings_BackUp_Index_View extends Settings_Vtiger_Index_View
+{
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$backupModel = Settings_BackUp_Module_Model::getCleanInstance();
 		$ftpSettings = $backupModel->getFTPSettings();

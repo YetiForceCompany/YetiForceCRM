@@ -67,6 +67,9 @@ $languageStrings = [
 	'LBL_ENTITY_FIELDLABEL' => 'Etykieta pola głównego',
 	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'Moduł o takiej nazwie już istnieje',
 	'LBL_INVALID_MODULE_NAME' => 'Błędna nazwa modułu',
+	'LBL_MODULE_TYPE' => 'Typ modułu',
+	'LBL_BASE_MODULE' => 'Modułu podstawowy',
+	'LBL_INVENTORY_MODULE' => 'Modułu rozbudowany',
 ];
 $jsLanguageStrings = [
 	'JS_UPDATED_MODULE' => 'Aktualizacja przebiegła pomyślnie.',
@@ -76,4 +79,5 @@ $jsLanguageStrings = [
 	'JS_FOR_INSTALLATION' => 'dla instalacji',
 	'JS_CLICK_HERE' => 'Kliknij tutaj',
 	'JS_ON' => 'Na',
+	'JS_REMOVED_MODULE' => 'Usunięto moduł',
 ];

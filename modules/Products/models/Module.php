@@ -18,7 +18,7 @@ class Products_Module_Model extends Vtiger_Module_Model {
 	 * @param <String> $listQuery
 	 * @return <String> Listview Query
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
+	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery,$skipSelected) {
 		$supportedModulesList = array($this->getName(), 'Vendors', 'Leads', 'Accounts', 'Contacts', 'Potentials');
 		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList')
 				|| in_array($sourceModule, $supportedModulesList)
@@ -31,7 +31,7 @@ class Products_Module_Model extends Vtiger_Module_Model {
 				$condition .= " AND vtiger_products.productid NOT IN (SELECT productid FROM vtiger_pricebookproductrel WHERE pricebookid = '$record') ";
 			} elseif ($sourceModule === 'Vendors') {
 				$condition .= " AND vtiger_products.vendor_id != '$record' ";
-			} elseif (in_array($sourceModule, $supportedModulesList)) {
+			} elseif (in_array($sourceModule, $supportedModulesList) && $skipSelected === false) {
 				$condition .= " AND vtiger_products.productid NOT IN (SELECT productid FROM vtiger_seproductsrel WHERE crmid = '$record')";
 			}
 

@@ -20,10 +20,12 @@ $enabledServices = [
 ];
 /* +***************   DAV   **************** */
 $enableBrowser = false;
-$enableCardDAV = true;
-$enableCalDAV = true;
+$enableCardDAV = false;
+$enableCalDAV = false;
 $enableWebDAV = false;
 
 /* +*********   Webservice config  ********* */
-$showWebserviceError = true;
-
+$showWebserviceError = false;
+$encryptDataTransfer = false;
+$privateKey = 'config/private.key';
+$publicKey = 'config/public.key';

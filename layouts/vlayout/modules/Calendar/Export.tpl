@@ -34,7 +34,7 @@
 										<input type='radio' name='exportCalendar' value = 'iCal' checked /> {vtranslate('ICAL_FORMAT', $MODULE)}
 									</td>
 									<td class="fieldValue">
-										<input type='text' name='filename' id='filename' size='25' value='vtiger.calendar'/>
+										<input type='text' name='filename' class='form-control' id='filename' size='25' value='vtiger.calendar'/>
 									</td>
 								</tr>
 							</table>
@@ -43,6 +43,7 @@
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-success" type="submit" name="saveButton" onclick="app.hideModalWindow();" ><strong>{vtranslate('LBL_EXPORT', $MODULE)}</strong></button>
+					<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
 			</div>
 			</form>
 		</div>

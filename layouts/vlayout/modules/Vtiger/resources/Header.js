@@ -137,19 +137,19 @@ jQuery.Class("Vtiger_Header_Js", {
 		form.submit();
 	},
 	setAnnouncement: function () {
-//        var announcementoff = app.cacheGet('announcement.turnoff' , false);
-//        var announcementBtn = jQuery('#announcementBtn');
-//        var thisInstance = this;
-//        if(announcementoff === true) {
-//            jQuery('#announcement').hide();
-//            announcementBtn.attr('src', app.vimage_path('btnAnnounceOff.png'));
-//            thisInstance.alignContentsContainer('69px',0,'linear');
-//        }
-//        else{
-//            jQuery('#announcement').show();
-//            announcementBtn.attr('src', app.vimage_path('btnAnnounce.png'));
-//            thisInstance.alignContentsContainer('92px',0,'linear');
-//        }
+		var announcementoff = app.cacheGet('announcement.turnoff', false);
+		var announcementBtn = jQuery('#announcementBtn');
+		var thisInstance = this;
+		if (announcementoff === true) {
+			jQuery('#announcement').hide();
+			announcementBtn.attr('src', app.vimage_path('btnAnnounceOff.png'));
+			thisInstance.alignContentsContainer('69px', 0, 'linear');
+		}
+		else {
+			jQuery('#announcement').show();
+			announcementBtn.attr('src', app.vimage_path('btnAnnounce.png'));
+			thisInstance.alignContentsContainer('92px', 0, 'linear');
+		}
 	},
 	registerAnnouncement: function () {
 		var thisInstance = this;
@@ -283,25 +283,35 @@ jQuery.Class("Vtiger_Header_Js", {
 					icon = 'glyphicon glyphicon-calendar';
 					linkHtml = '';
 					hidden = '';
+					helpIcon = ''
 					if (events[ev]['set'] == 'Task') {
 						icon = 'icon-tasks';
 					}
 					if (events[ev]['linkl']) {
 						linkHtml = '<div class="cut-string"><i class="calIcon modIcon_' + events[ev]['linkm'] + '"></i> ' + events[ev]['linkl'] + '</div>';
 					}
+					helpIcon = '<div><label> ' + app.vtranslate('JS_START_DATE') + ': &nbsp</label>' + events[ev]['start'] + ' </div>\n\
+								<div><label> ' + app.vtranslate('JS_END_DATE') + ': &nbsp</label>' + events[ev]['end'] + ' </div>\n\
+								<div class=' + 'textOverflowEllipsis' + '><label> ' + app.vtranslate('JS_SUBJECT') + ': &nbsp</label>' + events[ev]['title'] + '</div>\n\
+								<div><label> ' + app.vtranslate('JS_STATE') + ': &nbsp</label>' + events[ev]['labels']['state'] + ' </div>\n\
+								<div><label> ' + app.vtranslate('JS_STATUS') + ': &nbsp</label>' + events[ev]['labels']['sta'] + ' </div>\n\
+								<div><label> ' + app.vtranslate('JS_PRIORITY') + ': &nbsp</label>' + events[ev]['labels']['pri'] + ' </div>'
 					/*if(typeActive == 'Task' && events[ev]['set'] != 'Task'){
 					 hidden = 'hide';
 					 }else if(typeActive == 'Event' && events[ev]['set'] == 'Task'){
 					 hidden = 'hide';
 					 }*/
 					if (events[ev]['start'].indexOf(validDateFromat) > -1) {
-						data.find('#prev_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span> ' + events[ev]['title'] + '</span></div></a>' + linkHtml + '</td></tr>');
+						data.find('#prev_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
 					} else if (events[ev]['start'].indexOf(currentDate) > -1) {
-						data.find('#cur_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span> ' + events[ev]['title'] + '</span></div></a>' + linkHtml + '</td></tr>');
+						data.find('#cur_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="glyphicon glyphicon-info-sign"></i></span></div></a>' + linkHtml + '</td></tr>');
 					} else if (events[ev]['start'].indexOf(dateEndFirst) > -1) {
-						data.find('#next_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent"><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span> ' + events[ev]['title'] + '</span></div></a>' + linkHtml + '</td></tr>');
+						data.find('#next_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent"><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
 					}
 				}
+				var quickCreateForm
+				thisInstance.registerHelpInfo(quickCreateForm);
+
 			} else {
 				data.find('.modal-body').css({'max-height': '', 'overflow-y': ''});
 			}
@@ -427,6 +437,7 @@ jQuery.Class("Vtiger_Header_Js", {
 										'name': form.find('[name="module"]').val()
 									});
 								}
+								jQuery('body').trigger(jQuery.Event('QuickCreateSave.PostLoad'), data);
 							},
 							function (error, err) {
 							}
@@ -494,6 +505,62 @@ jQuery.Class("Vtiger_Header_Js", {
 				thisInstance.labelSearch(currentTarget);
 			}
 		});
+		if (jQuery('#gsAutocomplete').val() == 1) {
+			$.widget("custom.gsAutocomplete", $.ui.autocomplete, {
+				_create: function () {
+					this._super();
+					this.widget().menu("option", "items", "> :not(.ui-autocomplete-category)");
+				},
+				_renderMenu: function (ul, items) {
+					var that = this, currentCategory = "";
+					$.each(items, function (index, item) {
+						var li;
+						if (item.category != currentCategory) {
+							ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
+							currentCategory = item.category;
+						}
+						that._renderItemData(ul, item);
+					});
+				},
+				_renderItemData: function (ul, item) {
+					return this._renderItem(ul, item).data("ui-autocomplete-item", item);
+				},
+				_renderItem: function (ul, item) {
+					return $("<li>")
+							.data("item.autocomplete", item)
+							.append($("<a></a>").html(item.label))
+							.appendTo(ul);
+				},
+			});
+			jQuery('#globalSearchValue').gsAutocomplete({
+				minLength: jQuery('#gsMinLength').val(),
+				source: function (request, response) {
+					var basicSearch = new Vtiger_BasicSearch_Js();
+					basicSearch.reduceNumberResults = jQuery('#gsAmountResponse').val();
+					basicSearch.returnHtml = false;
+					basicSearch.search(request.term).then(function (data) {
+						var data = jQuery.parseJSON(data);
+						var serverDataFormat = data.result;
+						var reponseDataList = new Array();
+						for (var id in serverDataFormat) {
+							var responseData = serverDataFormat[id];
+							reponseDataList.push(responseData);
+						}
+						response(reponseDataList);
+					});
+				},
+				select: function (event, ui) {
+					var selectedItemData = ui.item;
+					if (selectedItemData.permitted) {
+						var url = 'index.php?module=' + selectedItemData.module + '&view=Detail&record=' + selectedItemData.id;
+						window.location.href = url;
+					}
+				},
+				close: function (event, ui) {
+					jQuery('#globalSearchValue').val('');
+				}
+			});
+		}
 	},
 	labelSearch: function (currentTarget) {
 		var val = currentTarget.val();
@@ -512,18 +579,33 @@ jQuery.Class("Vtiger_Header_Js", {
 		});
 	},
 	adjustContentHeight: function () {
-		if (app.getViewName() === 'Detail' || app.getViewName() === 'Calendar' || app.getViewName() === 'ExtensionImport') {
+		navTop = jQuery('nav.navbar-fixed-top').outerHeight();
+		navBottom = jQuery('footer.navbar-fixed-bottom').outerHeight();
+
+		if (app.getViewName() === 'Detail' || app.getViewName() === 'ExtensionImport') {
 			if (jQuery('div.detailViewInfo > .related').outerHeight() > jQuery('div.detailViewInfo > div.details ').outerHeight()) {
 				jQuery('div.detailViewInfo > div.details').css('min-height', jQuery('.detailViewInfo > .related').outerHeight());
 			}
 			bodyHeight = jQuery('div.detailViewContainer').outerHeight();
+			jQuery('div.detailViewContainer').css('height', jQuery('div.bodyContents').outerHeight());
+		} else if (app.getViewName() === 'Edit') {
+			bodyHeight = jQuery('.editViewContainer').outerHeight();
+		} else if (app.getViewName() === 'List') {
+			bodyHeight = jQuery('.remindersNoticeContainer').outerHeight() - 5;
+			jQuery(".bodyContents").css('min-height', bodyHeight);
+		} else if (app.getViewName() === 'Calendar') {
+			bodyHeight = jQuery('.calendarViewContainer').outerHeight();
+		} else if (app.getViewName() === 'DashBoard') {
+			bodyHeight = jQuery('.remindersNoticeContainer').outerHeight() - 55;
+			jQuery("div.gridster").css('min-height', jQuery('.contentsDiv').outerHeight() + 24);
+			jQuery("div.bodyContents").css('min-height', bodyHeight);
+		} else if (app.getViewName() === 'Index') {
+			bodyHeight = jQuery('.mainContainer > .col-md-2').outerHeight();
+			jQuery(".mainContainer").css('min-height', bodyHeight);
 		} else {
 			bodyHeight = jQuery('.bodyContents').css('min-height');//.outerHeight();
 		}
 
-		navTop = jQuery('nav.navbar-fixed-top').outerHeight();
-		navBottom = jQuery('footer.navbar-fixed-bottom').outerHeight();
-		bodyHeight = (parseInt(bodyHeight) + parseInt(navTop)) + 'px';
 		var styles = {
 			'min-height': bodyHeight,
 			'margin-bottom': navBottom + 'px',
@@ -532,6 +614,8 @@ jQuery.Class("Vtiger_Header_Js", {
 		jQuery(".mainContainer").css(styles);
 		jQuery(".mainContainer > .col-md-2 ").css({'margin-bottom': navBottom + 'px', });
 		jQuery(".contentsDiv").css({'margin-bottom': navBottom + 'px', });
+		jQuery(".contentsDiv").css('min-height', bodyHeight);
+		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 	},
 	recentPageViews: function () {
 		var maxValues = 20;
@@ -615,6 +699,10 @@ jQuery.Class("Vtiger_Header_Js", {
 			};
 		}
 		var url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
+		if (app.getViewName() === 'Detail' || app.getViewName() === 'Edit') {
+			url += '&sourceModule=' + app.getModuleName();
+			url += '&sourceRecord=' + app.getRecordId();
+		}
 		var progress = jQuery.progressIndicator();
 		thisInstance.getQuickCreateForm(url, moduleName, params).then(function (data) {
 			thisInstance.handleQuickCreateData(data, params);
@@ -634,7 +722,12 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	registerEvents: function () {
 		var thisInstance = this;
+		thisInstance.setContentsHeight();
 		thisInstance.recentPageViews();
+
+		jQuery(window).resize(function () {
+			thisInstance.setContentsHeight();
+		})
 
 		jQuery('#globalSearch').click(function () {
 			var advanceSearchInstance = new Vtiger_AdvanceSearch_Js();
@@ -649,8 +742,8 @@ jQuery.Class("Vtiger_Header_Js", {
 			currentTarget.trigger(pressEvent);
 		});
 		thisInstance.registerAnnouncement();
-		//this.setAnnouncement();
-		jQuery('#announcementBtn').trigger('click');
+		this.setAnnouncement();
+
 		thisInstance.registerHotKeys();
 		//this.registerCalendarButtonClickEvent();
 		jQuery('#moreMenu').click(function (e) {
@@ -701,7 +794,23 @@ jQuery.Class("Vtiger_Header_Js", {
 			});
 			thisInstance.registerReminderNotice();
 		}
-	}
+	},
+	showPdfModal: function (url) {
+		var params = {};
+		if (app.getViewName() == 'List') {
+			var selected = Vtiger_List_Js.getSelectedRecordsParams(false);
+			jQuery.extend(params, selected);
+		}
+		url += '&' + jQuery.param(params);
+		app.showModalWindow(null, url);
+	},
+	/**
+	 * Function which will set the contents height to window height
+	 */
+	setContentsHeight: function () {
+		var borderTopWidth = parseInt(jQuery(".mainContainer").css('margin-top')) + 21; // (footer height 21px)
+		jQuery('.bodyContents').css('min-height', (jQuery(window).innerHeight() - borderTopWidth));
+	},
 });
 jQuery(document).ready(function () {
 	Vtiger_Header_Js.getInstance().registerEvents();

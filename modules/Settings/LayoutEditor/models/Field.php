@@ -25,6 +25,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$tablename = $this->get('table');
 		$columnname = $this->get('column');
 		$fieldtype = explode("~", $typeofdata);
+		$tabId = $this->getModuleId();
 
 		$focus = CRMEntity::getInstance($fld_module);
 
@@ -37,34 +38,37 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$adb->pquery($dbquery, array());
 		}
 		//we have to remove the entries in customview and report related tables which have this field ($colName)
-		$adb->pquery("delete from vtiger_cvcolumnlist where columnname = ? ", array($deletecolumnname));
-		$adb->pquery("delete from vtiger_cvstdfilter where columnname = ?", array($column_cvstdfilter));
-		$adb->pquery("delete from vtiger_cvadvfilter where columnname = ?", array($deletecolumnname));
-		$adb->pquery("delete from vtiger_selectcolumn where columnname = ?", array($select_columnname));
-		$adb->pquery("delete from vtiger_relcriteria where columnname = ?", array($select_columnname));
-		$adb->pquery("delete from vtiger_reportsortcol where columnname = ?", array($select_columnname));
-		$adb->pquery("delete from vtiger_reportdatefilter where datecolumnname = ?", array($column_cvstdfilter));
-		$adb->pquery("delete from vtiger_reportsummary where columnname like ?", array('%' . $reportsummary_column . '%'));
+		$adb->pquery('delete from vtiger_cvcolumnlist where columnname = ? ', array($deletecolumnname));
+		$adb->pquery('delete from vtiger_cvstdfilter where columnname = ?', array($column_cvstdfilter));
+		$adb->pquery('delete from vtiger_cvadvfilter where columnname = ?', array($deletecolumnname));
+		$adb->pquery('delete from vtiger_selectcolumn where columnname = ?', array($select_columnname));
+		$adb->pquery('delete from vtiger_relcriteria where columnname = ?', array($select_columnname));
+		$adb->pquery('delete from vtiger_reportsortcol where columnname = ?', array($select_columnname));
+		$adb->pquery('delete from vtiger_reportdatefilter where datecolumnname = ?', array($column_cvstdfilter));
+		$adb->pquery('delete from vtiger_reportsummary where columnname like ?', array('%' . $reportsummary_column . '%'));
 
 		//Deleting from convert lead mapping vtiger_table- Jaguar
-		if ($fld_module == "Leads") {
+		if ($fld_module == 'Leads') {
 			$deletequery = 'delete from vtiger_convertleadmapping where leadfid=?';
 			$adb->pquery($deletequery, array($id));
-		} elseif ($fld_module == "Accounts" || $fld_module == "Contacts" || $fld_module == "Potentials") {
-			$map_del_id = array("Accounts" => "accountfid", "Contacts" => "contactfid", "Potentials" => "potentialfid");
-			$map_del_q = "update vtiger_convertleadmapping set " . $map_del_id[$fld_module] . "=0 where " . $map_del_id[$fld_module] . "=?";
+		} elseif ($fld_module == 'Accounts' || $fld_module == 'Contacts' || $fld_module == 'Potentials') {
+			$map_del_id = array('Accounts' => 'accountfid', 'Contacts' => 'contactfid', 'Potentials' => 'potentialfid');
+			$map_del_q = 'update vtiger_convertleadmapping set ' . $map_del_id[$fld_module] . '=0 where ' . $map_del_id[$fld_module] . '=?';
 			$adb->pquery($map_del_q, array($id));
 		}
 
 		//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
 		if ($this->getFieldDataType() == 'picklist' || $this->getFieldDataType() == 'multipicklist') {
-			$deltablequery = 'drop table vtiger_' . $adb->sql_escape_string($columnname);
-			$adb->pquery($deltablequery, array());
-			//To Delete Sequence Table 
-			$deltableseqquery = 'drop table vtiger_' . $adb->sql_escape_string($columnname) . '_seq';
-			$adb->pquery($deltableseqquery, array());
-			$adb->pquery("delete from vtiger_picklist where name=? ", array($columnname));
-			$adb->pquery("delete from vtiger_picklist_dependency where sourcefield=? or targetfield=?", array($columnname, $columnname));
+			$result = $adb->pquery('SELECT * FROM `vtiger_field` WHERE `columnname` = ? AND `uitype` IN (?,?,?);', [$columnname, 15, 16, 33]);
+			if (!$adb->num_rows($result)) {
+				$adb->query('drop table vtiger_' . $columnname);
+				//To Delete Sequence Table 
+				if (Vtiger_Utils::CheckTable('vtiger_' . $columnname . '_seq')) {
+					$adb->query('drop table vtiger_' . $columnname . '_seq');
+				}
+				$adb->pquery('delete from vtiger_picklist where name=? ', array($columnname));
+			}
+			$adb->pquery('delete from vtiger_picklist_dependency where `tabid` = ? AND (sourcefield=? or targetfield=?)', array($tabId, $columnname, $columnname));
 		}
 	}
 

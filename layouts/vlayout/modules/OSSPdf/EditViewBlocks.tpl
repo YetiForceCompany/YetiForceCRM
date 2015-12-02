@@ -14,7 +14,7 @@
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 			<input type="hidden" name="module" value="{$MODULE}" />
 			<input type="hidden" name="action" value="Save" />
-			<input type="hidden" name="record" value="{$RECORD_ID}" />
+			<input type="hidden" name="record" id="recordId" value="{$RECORD_ID}" />
 			<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
 			<input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
 			{if $IS_RELATION_OPERATION }
@@ -31,7 +31,7 @@
 				{/if}
 				<span class="pull-right">
 					<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-					<a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+					<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</button>
 				</span>
 			</div>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
@@ -167,9 +167,6 @@
 							{/if}
 
 							{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->get('uitype') neq "19" and $FIELD_MODEL->get('uitype') neq "20" and $FIELD_MODEL->get('uitype') neq "30" and $FIELD_MODEL->get('name') neq "recurringtype" && $FIELD_MODEL->getName() neq 'filename' && $BLOCK_LABEL neq 'LBL_FOOTER_HEADER'}<td></td><td></td>{/if}
-							{if $MODULE eq 'Events' && $BLOCK_LABEL eq 'LBL_EVENT_INFORMATION' && $smarty.foreach.blockfields.last }	
-								{include file=vtemplate_path('uitypes/FollowUp.tpl',$MODULE) COUNTER=$COUNTER}
-							{/if}
 							{* Additional field *}
 							{if $BLOCK_LABEL eq 'LBL_FOOTER_HEADER'}
 								<td class="fieldLabel wideWidthType"><label class="muted pull-right marginRight10px">{vtranslate('LBL_DEFAULT_FIELDS', 'OSSPdf')}</label></td>
@@ -189,7 +186,6 @@
 										<input type="hidden" value="" id="id1"/><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="id1" id="copy-1"  title="{vtranslate('Field', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
 										<input type="hidden" value="" id="id2" /><button class="btn btn-warning pull-right marginRight10px" data-clipboard-target="id2" id="copy-2"  title="{vtranslate('Label', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
 									</div>
-
 								</td>
 							{/if}
 						{/foreach}

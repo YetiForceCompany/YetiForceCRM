@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,9 +7,10 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- * ************************************************************************************/
+ * *********************************************************************************** */
 
-class Accounts_Module_Model extends Vtiger_Module_Model {
+class Accounts_Module_Model extends Vtiger_Module_Model
+{
 
 	/**
 	 * Function to get list view query for popup window
@@ -19,9 +20,9 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 	 * @param <String> $listQuery
 	 * @return <String> Listview Query
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
-		if (($sourceModule == 'Accounts' && $field == 'account_id' && $record)
-				|| in_array($sourceModule, array('Campaigns', 'Products', 'Services', 'Emails','Potentials'))) {
+	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery)
+	{
+		if (($sourceModule == 'Accounts' && $field == 'account_id' && $record) || in_array($sourceModule, array('Campaigns', 'Products', 'Services', 'Emails', 'Potentials'))) {
 
 			if ($sourceModule === 'Campaigns') {
 				$condition = " vtiger_account.accountid NOT IN (SELECT accountid FROM vtiger_campaignaccountrel WHERE campaignid = '$record')";
@@ -31,13 +32,12 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 				$condition = " vtiger_account.accountid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
 			} elseif ($sourceModule === 'Emails') {
 				$condition = ' vtiger_account.emailoptout = 0';
-			
-			}elseif ($sourceModule === 'Potentials') {
+			} elseif ($sourceModule === 'Potentials') {
 				$config = Settings_SalesProcesses_Module_Model::getConfig('potential');
 				$currentUser = Users_Record_Model::getCurrentUserModel();
 				$accessibleGroups = $currentUser->getAccessibleGroupForModule('Accounts');
-				if($config['add_potential'] && $accessibleGroups){
-					$condition = " vtiger_crmentity.smownerid NOT IN (".  implode(',',array_keys($accessibleGroups)).")";
+				if ($config['add_potential'] && $accessibleGroups) {
+					$condition = " vtiger_crmentity.smownerid NOT IN (" . implode(',', array_keys($accessibleGroups)) . ")";
 				} else {
 					return $listQuery;
 				}
@@ -46,10 +46,10 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 			}
 
 			$position = stripos($listQuery, 'where');
-			if($position) {
-				$overRideQuery = $listQuery. ' AND ' . $condition;
+			if ($position) {
+				$overRideQuery = $listQuery . ' AND ' . $condition;
 			} else {
-				$overRideQuery = $listQuery. ' WHERE ' . $condition;
+				$overRideQuery = $listQuery . ' WHERE ' . $condition;
 			}
 			return $overRideQuery;
 		}
@@ -62,7 +62,8 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 	 * @param Vtiger_Module_Model $relatedModule
 	 * @return <String>
 	 */
-	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false) {
+	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false)
+	{
 		if ($functionName === 'get_activities') {
 			$focus = CRMEntity::getInstance($this->getName());
 			$focus->id = $recordId;
@@ -74,25 +75,25 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 			$query = "SELECT CASE WHEN (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name,
 						vtiger_crmentity.*, vtiger_activity.activitytype, vtiger_activity.subject, vtiger_activity.date_start, vtiger_activity.time_start,
 						vtiger_activity.recurringtype, vtiger_activity.due_date, vtiger_activity.time_end, vtiger_activity.visibility, 
-						CASE WHEN (vtiger_activity.activitytype = 'Task') THEN (vtiger_activity.status) ELSE (vtiger_activity.eventstatus) END AS status
+						vtiger_activity.status AS status
 						FROM vtiger_activity
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
 						LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-						WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.link IN (".$entityIds.')';
+						WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.link IN (" . $entityIds . ')';
 			$time = vtlib_purify($_REQUEST['time']);
-			if($time == 'current') {
-				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))
-				OR (vtiger_activity.activitytype not in ('Emails','Task') and vtiger_activity.eventstatus not in ('','Held')))";
+			if ($time == 'current') {
+				$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
+				$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
 			}
-			if($time == 'history') {
-				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status in ('Completed','Deferred'))
-				OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.eventstatus in ('','Held')))";
+			if ($time == 'history') {
+				$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
+				$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
 			}
 			$relatedModuleName = $relatedModule->getName();
 			$query .= $this->getSpecificRelationQuery($relatedModuleName);
 			$instance = CRMEntity::getInstance($relatedModuleName);
-			$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName);
+			$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName, false, $recordId);
 			if ($securityParameter != '')
 				$query .= $securityParameter;
 
@@ -106,7 +107,49 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 		} else {
 			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
 		}
-		
+
 		return $query;
+	}
+
+	/**
+	 * Function searches the records in the module, if parentId & parentModule
+	 * is given then searches only those records related to them.
+	 * @param <String> $searchValue - Search value
+	 * @param <Integer> $parentId - parent recordId
+	 * @param <String> $parentModule - parent module name
+	 * @return <Array of Vtiger_Record_Model>
+	 */
+	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
+	{
+		$matchingRecords = parent::searchRecord($searchValue, $parentId, $parentModule, $relatedModule);
+		if (!empty($parentId) && !empty($parentModule)) {
+			unset($matchingRecords[$relatedModule][$parentId]);
+		}
+		return $matchingRecords;
+	}
+	
+	/**
+	 * Function to get the Quick Links for the module
+	 * @param <Array> $linkParams
+	 * @return <Array> List of Vtiger_Link_Model instances
+	 */
+	public function getSideBarLinks($linkParams)
+	{
+		$links = parent::getSideBarLinks($linkParams);
+		$moduleModel = Vtiger_Module_Model::getInstance('Products');
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if ($userPrivilegesModel->hasModulePermission($moduleModel->getId())) {
+			$quickLinks[] = [
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_VIEW_ACCOUNTSLISTTREE',
+				'linkurl' => 'index.php?module=' . $this->getName() . '&view=AccountsListTree&mode=showTree&selectedModule=Products',
+				'linkicon' => '',
+			];
+		}
+
+		foreach ($quickLinks as $quickLink) {
+			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+		}
+		return $links;
 	}
 }

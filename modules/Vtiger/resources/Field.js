@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 jQuery.Class("Vtiger_Field_Js", {
 	/**
@@ -272,7 +273,7 @@ Vtiger_Field_Js('Vtiger_Currency_Field_Js', {}, {
 		return this.get('currency_symbol');
 	},
 	getUi: function () {
-		var html = '<div class="input-group row">' +
+		var html = '<div class="input-group">' +
 				'<span class="input-group-addon">' + this.getCurrencySymbol() + '</span>' +
 				'<input type="text" class="form-control" name="' + this.getName() + '" value="' + this.getValue() + '"  />' +
 				'</div>';
@@ -280,7 +281,6 @@ Vtiger_Field_Js('Vtiger_Currency_Field_Js', {}, {
 		return this.addValidationToElement(element);
 	}
 });
-
 
 Vtiger_Field_Js('Vtiger_Owner_Field_Js', {}, {
 	/**
@@ -314,8 +314,25 @@ Vtiger_Field_Js('Vtiger_Owner_Field_Js', {}, {
 	}
 })
 
+Vtiger_Multipicklist_Field_Js('Vtiger_Multireferencevalue_Field_Js', {}, {
+})
+
+Vtiger_Multipicklist_Field_Js('Vtiger_Sharedowner_Field_Js', {}, {
+})
+
+Vtiger_Picklist_Field_Js('Vtiger_Tree_Field_Js', {}, {
+})
+
+Vtiger_Picklist_Field_Js('Vtiger_Modules_Field_Js', {}, {
+})
 
 Vtiger_Date_Field_Js('Vtiger_Datetime_Field_Js', {}, {
+});
+
+Vtiger_Picklist_Field_Js('Vtiger_Taxs_Field_Js', {}, {
+});
+
+Vtiger_Picklist_Field_Js('Vtiger_InventoryLimit_Field_Js', {}, {
 });
 
 Vtiger_Field_Js('Vtiger_Time_Field_Js', {}, {

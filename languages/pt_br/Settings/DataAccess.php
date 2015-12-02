@@ -9,7 +9,7 @@
  *  Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_DATAACCESS' => 'Validação de acesso',
+	'LBL_DATAACCESS' => 'Recording Control',
 	'LBL_DATAACCES' => 'Validação de acesso',
 	'DataAccess' => 'Validação de acesso',
 	'LBL_NEW_TPL' => 'Adicionar nova condição',
@@ -77,8 +77,8 @@ $languageStrings = [
 	'Check for duplicate names' => 'Verificar nomes duplicados',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Verificar se todos os campos obrigatórios no Editar Rápido estão são preenchidos',
 	'Lock edit on the status' => 'Bloquear edição no status',
-	'is enabled' => 'is enabled',
-	'is disabled' => 'is disabled',
+	'is enabled' => 'habilitado',
+	'is disabled' => 'desabilitado',
 ];
 
 $jsLanguageStrings = [
@@ -111,6 +111,6 @@ $jsLanguageStrings = [
 	'more than hours before' => 'mais que horas antes',
 	'more than hours later' => 'mais que horas depois',
 	'has changed' => 'Alterado',
-	'is enabled' => 'is enabled',
-	'is disabled' => 'is disabled',
+	'is enabled' => 'habilitado',
+	'is disabled' => 'desabilitado',
 ];

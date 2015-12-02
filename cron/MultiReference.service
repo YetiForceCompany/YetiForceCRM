@@ -1,0 +1,68 @@
+<?php
+/**
+ * Multi reference value cron
+ * @package YetiForce.Cron
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+include_once 'include/Webservices/Relation.php';
+include_once 'include/main/WebUI.php';
+$current_user = Users::getActiveAdminUser();
+
+$db = PearDatabase::getInstance();
+$log = vglobal('log');
+$log = &LoggerManager::getLogger('MultiReferenceValue');
+$log->info('Cron MultiReferenceValue - Start');
+
+$executed = [];
+$result = $db->pquery('SELECT * FROM s_yf_multireference');
+while ($multireference = $db->fetch_array($result)) {
+	if ($multireference['type'] == 0) {
+		$entity = CRMEntity::getInstance($multireference['source_module']);
+		$queryGenerator = new QueryGenerator($multireference['source_module'], $current_user);
+		$queryGenerator->setFields(['id']);
+		$queryGenerator->addCustomWere(['column' => $entity->table_index, 'operator' => '>', 'value' => $multireference['lastid'], 'glue' => 'AND']);
+		$query = $queryGenerator->getQuery();
+		$query .= ' ORDER BY ' . $entity->table_index . ' ASC';
+		$recordsResult = $db->query($query);
+
+		$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($multireference['source_module'], $multireference['dest_module']);
+		while ($id = $db->getSingleValue($recordsResult)) {
+			foreach ($fields as $field) {
+				$fieldModel = new Vtiger_Field_Model ();
+				$fieldModel->initialize($field);
+				$UITypeModel = $fieldModel->getUITypeModel();
+				$UITypeModel->reloadValue($multireference['source_module'], $id);
+			}
+			$db->update('s_yf_multireference', ['lastid' => $id], 'source_module = ? AND dest_module = ?', [$multireference['source_module'], $multireference['dest_module']]);
+		}
+	} else {
+		vglobal('currentModule', $multireference['dest_module']);
+		$sourceRecordModel = Vtiger_Record_Model::getInstanceById($multireference['lastid'], $multireference['dest_module']);
+		$targetModel = Vtiger_RelationListView_Model::getInstance($sourceRecordModel, $multireference['source_module']);
+		$relationModel = $targetModel->getRelationModel();
+		if (!$targetModel->getRelationModel()) {
+			continue;
+		}
+		$query = $targetModel->getRelationQuery();
+		$explodedQuery = explode('FROM', $query, 2);
+		$relationQuery = 'SELECT vtiger_crmentity.crmid FROM' . $explodedQuery[1];
+
+		$result2 = $db->query($relationQuery);
+		while ($crmid = $db->getSingleValue($result2)) {
+			if (in_array($crmid, $executed)) {
+				continue;
+			}
+			$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($multireference['source_module'], $multireference['dest_module']);
+			foreach ($fields as $field) {
+				$fieldModel = new Vtiger_Field_Model();
+				$fieldModel->initialize($field);
+				$UITypeModel = $fieldModel->getUITypeModel();
+				$UITypeModel->reloadValue($multireference['source_module'], $crmid);
+			}
+			$executed[] = $crmid;
+		}
+	}
+	$db->delete('s_yf_multireference', 'source_module = ? AND dest_module = ? AND type = ?', [$multireference['source_module'], $multireference['dest_module'], $multireference['type']]);
+}
+$log->info('Cron MultiReferenceValue - End');

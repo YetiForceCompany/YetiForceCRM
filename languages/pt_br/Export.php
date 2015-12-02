@@ -3,5 +3,6 @@
  * that can be found in the following directory: licenses/License.html]} */
 
 $languageStrings = [
-	'Export' => 'Export',
+	'Export' => 'Exportar',
+	'LBL_INFO_USER_EXPORT_RECORDS' => "It's only possible to export active users",
 ];

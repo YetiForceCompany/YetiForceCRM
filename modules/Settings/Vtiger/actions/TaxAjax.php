@@ -1,5 +1,4 @@
 <?php
-
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -9,14 +8,17 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action {
+class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action
+{
 
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('checkDuplicateName');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$mode = $request->getMode();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!empty($mode)) {
@@ -31,14 +33,14 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action {
 		} else {
 			$taxRecordModel = Settings_Vtiger_TaxRecord_Model::getInstanceById($taxId, $type);
 		}
-		
-		$fields = array('taxlabel','percentage','deleted');
-		foreach($fields as $fieldName) {
-			if($request->has($fieldName)) {
-				$taxRecordModel->set($fieldName,$request->get($fieldName));
+
+		$fields = array('taxlabel', 'percentage', 'deleted');
+		foreach ($fields as $fieldName) {
+			if ($request->has($fieldName)) {
+				$taxRecordModel->set($fieldName, $request->get($fieldName));
 			}
 		}
-		
+
 		$taxRecordModel->setType($type);
 
 		$response = new Vtiger_Response();
@@ -52,7 +54,8 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action {
 		$response->emit();
 	}
 
-	public function checkDuplicateName(Vtiger_Request $request) {
+	public function checkDuplicateName(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$taxId = $request->get('taxid');
@@ -66,13 +69,14 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action {
 		} else {
 			$result = array('success' => true, 'message' => vtranslate('LBL_TAX_NAME_EXIST', $qualifiedModuleName));
 		}
-		
+
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
-        
-        public function validateRequest(Vtiger_Request $request) { 
-            $request->validateWriteAccess(); 
-        } 
+
+	public function validateRequest(Vtiger_Request $request)
+	{
+		$request->validateWriteAccess();
+	}
 }

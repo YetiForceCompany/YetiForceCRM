@@ -9,6 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-class Calculations_Dashboard_View extends Inventory_Dashboard_View {
+class Calculations_DashBoard_View extends Inventory_DashBoard_View {
 
 }

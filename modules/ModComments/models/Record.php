@@ -66,7 +66,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 	 * @param <Integer> $record
 	 * @return ModComment_Record_Model
 	 */
-	public static function getInstanceById($record) {
+	public static function getInstanceById($record, $module = null) {
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT 
 					comm.*,
@@ -167,7 +167,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 		$queryGenerator = $listView->get('query_generator');
 		$queryGenerator->setFields(array('parent_comments', 'createdtime', 'modifiedtime', 'related_to',
 									'assigned_user_id', 'commentcontent', 'creator', 'id', 'customer', 'reasontoedit', 'userid', 'from_mailconverter'));
-
+		$queryGenerator->addSourceRecord($parentRecordId);
 		$query = $queryGenerator->getQuery();
 		$query = $query ." AND related_to = ? ORDER BY vtiger_crmentity.createdtime DESC
 							LIMIT $startIndex, $limit";
@@ -196,6 +196,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 		$queryGenerator = $listView->get('query_generator');
 		$queryGenerator->setFields(array('parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
 											'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid'));
+		$queryGenerator->addSourceRecord($parentId);
 		$query = $queryGenerator->getQuery();
 
 		//Condition are directly added as query_generator transforms the

@@ -30,11 +30,11 @@ $event_fields = getColumnFields('Events');
 $event = $todo = array();
 $keys_to_replace = array(
 	'events'=>array('taskpriority'),
-	'todo'=>array('taskpriority','taskstatus')
+	'todo'=>array('taskpriority','activitystatus')
 );
 $keyvals_to_replace = array(
 	'events'=>array('taskpriority'=>'priority'),
-	'todo'=>array('taskpriority'=>'priority','taskstatus'=>'status')
+	'todo'=>array('taskpriority'=>'priority','activitystatus'=>'status')
 );
 foreach($todo_fields as $key=>$val){
 	if(getFieldVisibilityPermission('Calendar',$current_user->id,$key)==0){

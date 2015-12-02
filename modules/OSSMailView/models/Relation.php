@@ -8,11 +8,14 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class OSSMailView_Relation_Model extends Vtiger_Relation_Model {
-	public function addRelation($sourcerecordId, $destinationRecordId) {
+class OSSMailView_Relation_Model extends Vtiger_Relation_Model
+{
+
+	public function addRelation($sourcerecordId, $destinationRecordId)
+	{
 		$adb = PearDatabase::getInstance();
-		$recordModel = Vtiger_Record_Model::getInstanceById( $sourcerecordId, 'OSSMailView' );
+		$recordModel = Vtiger_Record_Model::getInstanceById($sourcerecordId, 'OSSMailView');
 		$date = $recordModel->get('date');
-		$adb->pquery("INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?, date=?;",  [$sourcerecordId, $destinationRecordId, $date]);
+		$adb->pquery("INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?, date=?;", [$sourcerecordId, $destinationRecordId, $date]);
 	}
 }

@@ -311,7 +311,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	{
 		$primaryModule = $this->getPrimaryModule();
 		$primaryModuleModel = Vtiger_Module_Model::getInstance($primaryModule);
-		$listURL = $primaryModuleModel->getListViewUrl();
+		$listURL = $primaryModuleModel->getListViewUrlWithAllFilter();
 
 		return $listURL;
 	}
@@ -345,9 +345,9 @@ abstract class Base_Chart extends Vtiger_Base_Model
 			}
 		}
 
-		$sql = split(' from ', $this->reportRun->sGetSQLforReport($reportModel->getId(), $advFilterSql, 'PDF'));
+		$sql = explode(' from ', $this->reportRun->sGetSQLforReport($reportModel->getId(), $advFilterSql, 'PDF'));
 
-		$columnLabels = array();
+		$columnLabels = [];
 
 		$chartSQL = "SELECT ";
 		if ($this->isRecordCount()) {

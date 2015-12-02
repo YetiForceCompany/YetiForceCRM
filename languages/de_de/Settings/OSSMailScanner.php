@@ -15,7 +15,12 @@ $languageStrings = [
 	'Mail Scanner' => 'Mail Scanner',
 	
 	'LBL_VIEW_LOGS' => 'Mail Protokolle',
-    
+	'CRM Archive' => 'CRM Archive',
+	'CRM Archive Sent' => 'CRM Archive Sent',
+	'Drafts' => 'Drafts',
+    'INBOX' => 'INBOX',
+	'Junk' => 'JUNK',
+	'Sent' => "SENT",
 ];
 
 $jsLanguageStrings = [

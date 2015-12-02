@@ -10,9 +10,9 @@
  * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_RECORDS_LIST' => 'Records List',
-	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_ORGANIZATION_VAT' => 'VAT ID',
+	'LBL_RECORDS_LIST' => 'Lista registros',
+	'LBL_ADD_RECORD' => 'Adicionar registro',
+	'LBL_ORGANIZATION_VAT' => 'CNPJ',
 	'LBL_NORECORDS_CHECKED' => 'Você ainda não selecionou um registro',
 	'Enable Numbering' => 'Habilitar numeração página',
 	'LBLEdit' => 'Editar',
@@ -325,7 +325,7 @@ $languageStrings = [
 	//
 	'ADD_CONDITIONS' => 'Adicionar uma condição',
 	'LBL_CONDITION_ALL' => 'Todas as Condições',
-	'LBL_CONDITION_ALL_DSC' => 'Todas as condições devem ser atendidas',
+	'LBL_CONDITION_ALL_DSC' => 'Todas as condições devem ser satisfeitas',
 	'LBL_CONDITION_OPTION' => 'Nenhuma Condição',
 	'LBL_CONDITION_OPTION_DSC' => 'Pelo menos uma das condições desta seção deve ser satisfeita',
 	'CONDITIONS' => 'Condições do visor',
@@ -368,7 +368,7 @@ $languageStrings = [
 	'Show in' => 'Visualizar',
 	'List' => 'Listar',
 	'Detail' => 'Visualizar',
-	'LBL_CONDITIONS_INFO' => 'As condições do visor funciona somente para pré-visualizar os registros a partir do qual podemos gerar um PDF',
+	'LBL_CONDITIONS_INFO' => 'As condições funcionam somente para pré-visualizar os registros a partir do qual podemos gerar um PDF',
 	'Enable column with positions no. :' => 'Habilitar coluna com posição do no. do Produto:',
 	'Enable column with product name :' => 'Habilitar coluna com nome Produto:',
 	'Enable column with product`s amount :' => 'Habilitar coluna com quantidade Produto :',
@@ -391,19 +391,19 @@ $languageStrings = [
 	'Field' => 'Campo',
 	'Label' => 'Rótulo',
 	'LBL_SELECT_DATE_TYPE' => 'Selecionar tipo data',
-	'FOLIO' => 'Folio',
-	'LETTER' => 'Letter',
+	'FOLIO' => 'Folha',
+	'LETTER' => 'Carta',
 	'LEGAL' => 'Legal',
-	'EXECUTIVE' => 'Executive',
+	'EXECUTIVE' => 'Executivo',
 ];
 
 $jsLanguageStrings = [
-	'Current date (yyyy/mm/dd)' => 'Current date (yyyy/mm/dd)',
-	'Current date (mm/dd/yyyy)' => 'Current date (mm/dd/yyyy)',
-	'Current date (dd/mm/yyyy)' => 'Current date (dd/mm/yyyy)',
-	'Current date (yyyy.mm.dd)' => 'Current date (yyyy.mm.dd)',
-	'Current date (mm.dd.yyyy)' => 'Current date (mm.dd.yyyy)',
-	'Current date (dd.mm.yyyy)' => 'Current date (dd.mm.yyyy)',
+	'Current date (yyyy/mm/dd)' => 'Data atual (yyyy/mm/dd)',
+	'Current date (mm/dd/yyyy)' => 'Data atual (mm/dd/yyyy)',
+	'Current date (dd/mm/yyyy)' => 'Data atual (dd/mm/yyyy)',
+	'Current date (yyyy.mm.dd)' => 'Data atual (yyyy.mm.dd)',
+	'Current date (mm.dd.yyyy)' => 'Data atual (mm.dd.yyyy)',
+	'Current date (dd.mm.yyyy)' => 'Data atual (dd.mm.yyyy)',
 	// notification
 	'LBL_NotifPassCopied' => 'Copiado para Área de Transferência',
 	'LBL_NotifPassTitle' => 'Texto',

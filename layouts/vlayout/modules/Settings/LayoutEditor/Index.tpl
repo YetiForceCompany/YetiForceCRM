@@ -6,26 +6,28 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
-<style type="text/css">
-	.fieldDetailsForm .zeroOpacity{
-		display: none;
-	}
-</style>
 {strip}
     <div id="layoutEditorContainer">
+
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <h3>{vtranslate('LBL_FIELDS_AND_LAYOUT_EDITOR', $QUALIFIED_MODULE)}</h3>
             </div>
-            <div class="pull-right col-md-3 h3">
-				<select class="select2 col-md-3 form-control" name="layoutEditorModules">
-					{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-						<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
-					{/foreach}
-				</select>
+            <div class="pull-right col-md-6 h3 form-inline">
+				<div class="form-group pull-right col-md-6">
+					<select class="select2 form-control" name="layoutEditorModules">
+						{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
+							<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
+						{/foreach}
+					</select>
+				</div>
+				<div class="form-group pull-right">
+					<input id="inventorySwitch" title="{vtranslate('LBL_CHANGE_BLOCK_ADVANCED', $QUALIFIED_MODULE)}" class="switchBtn" type="checkbox" data-label-width="5" data-handle-width="100" data-on-text="{vtranslate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}" {if !$IS_INVENTORY}checked{/if} >
+				</div>
             </div>
         </div>
         <hr>
@@ -33,6 +35,9 @@
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
                 <li class="active"><a data-toggle="tab" href="#detailViewLayout"><strong>{vtranslate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong></a></li>
+				{if $IS_INVENTORY}
+					<li class="inventoryNav"><a data-toggle="tab" href="#inventoryViewLayout"><strong>{vtranslate('LBL_MANAGING_AN_ADVANCED_BLOCK', $QUALIFIED_MODULE)}</strong></a></li>
+				{/if}
             </ul>
             <div class="tab-content layoutContent padding20 themeTableColor overflowVisible">
                 <div class="tab-pane active" id="detailViewLayout">
@@ -41,8 +46,8 @@
                     {assign var=IS_BLOCK_SORTABLE value=$SELECTED_MODULE_MODEL->isBlockSortableAllowed()}
                     {assign var=ALL_BLOCK_LABELS value=[]}
                     {if $IS_SORTABLE}
-                        <div class="btn-toolbar">
-                            <button class="btn btn-default addButton addCustomBlock" type="button">
+                        <div class="btn-toolbar" id="layoutEditorButtons">
+                            <button class="btn btn-success addButton addCustomBlock" type="button">
                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;
                                 <strong>{vtranslate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</strong>
                             </button>
@@ -53,7 +58,7 @@
                             </span>
                         </div>
                     {/if}
-                    <div id="moduleBlocks">
+                    <div class="moduleBlocks">
                         {foreach key=BLOCK_LABEL_KEY item=BLOCK_MODEL from=$BLOCKS}
                             {assign var=FIELDS_LIST value=$BLOCK_MODEL->getLayoutBlockActiveFields()}
                             {assign var=BLOCK_ID value=$BLOCK_MODEL->get('id')}
@@ -67,13 +72,13 @@
                                     <div class="col-md-6 marginLeftZero" style="float:right !important;"><div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
                                             {if $BLOCK_MODEL->isAddCustomFieldEnabled()}
                                                 <div class="btn-group">
-                                                    <button class="btn btn-default addCustomField" type="button">
+                                                    <button class="btn btn-success addCustomField" type="button">
                                                         <strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
                                                     </button>
                                                 </div>
                                             {/if}
                                             {if $BLOCK_MODEL->isActionsAllowed()}
-                                                <div class="btn-group"><button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                <div class="btn-group"><button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                                                         <strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
                                                         <span class="caret"></span>
                                                     </button>
@@ -107,14 +112,14 @@
                                                     <div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
                                                         <div class="row padding1per">
                                                             {assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-                                                            <span class="col-md-1">&nbsp;
+                                                            <div class="col-md-1">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
                                                                         <img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                                                                     </a>
                                                                 {/if}
-                                                            </span>
-                                                            <div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
+                                                            </div>
+                                                            <div class="col-md-11 marginLeftZero fieldContainer" style="word-wrap: break-word;">
                                                                 <span class="fieldLabel">{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
 																	{if $IS_MANDATORY}<span class="redColor">*</span>{/if}</span>
 																<span class="btn-group pull-right actions">
@@ -141,7 +146,7 @@
 																						<input type="hidden" name="presence" value="1" />
 																						<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 																							<input type="checkbox" name="presence" {if $FIELD_MODEL->isViewable()} checked {/if}
-																								   {if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} {if $IS_MANDATORY} readonly="readonly" {/if} value="2" />&nbsp;
+																								   {if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} {if $IS_MANDATORY} readonly="readonly" {/if} value="{$FIELD_MODEL->get('presence')}" />&nbsp;
 																							{vtranslate('LBL_ACTIVE', $QUALIFIED_MODULE)}
 																						</label>
 																					</span>
@@ -237,35 +242,36 @@
 																							{/if}
 																						</div>
 																					</span>
-																					{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url'])}
-																						<span style="padding-left: 5px;">
+																					{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url','integer','double'])}
+																						<div class="padding1per" style="padding : 0px 10px 0px 25px;">
 																							{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
-																							<span style="margin-left: 26px;display: block;">
-																								<span class="input-group">
-																									<input type="text" class="form-control" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
-																									<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
-																								</span></span>
+																							<div class="input-group">
+																								<input type="text" class="form-control" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
+																								<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-placement="top" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
+																							</div>
+																						</div>
+																					{/if}
+																					{if SysDeveloper::get('CHANGE_VISIBILITY')}
+																						<hr />
+																						<span>
+																							<label class="checkbox" style="padding-left: 5px;">
+																								{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
+																								{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
+																							</label>
+																							<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
+																								<select name="displaytype" class="form-control">
+																									{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
+																										<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_KEY == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
+																									{/foreach}
+																								</select>
+																							</div>
 																						</span>
 																					{/if}
-																					<hr />
-																					<span>
-																						<label class="checkbox" style="padding-left: 5px;">
-																							{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
-																							{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
-																						</label>
-																						<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
-																							<select name="displaytype" class="form-control">
-																								{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
-																									<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
-																								{/foreach}
-																							</select>
-																						</div>
-																					</span>
 																					{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
 																						<span>
 																							<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-																								{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
-																								<input type="checkbox" name="generatedtype" value="1"
+																								&nbsp;{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
+																								<input style="margin-left: -89px;" type="checkbox" name="generatedtype" value="1"
 																									   {if $FIELD_MODEL->get('generatedtype') eq 1} checked {/if} />
 																							</label>
 																						</span>
@@ -303,19 +309,16 @@
 													<div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
 														<div class="row padding1per">
 															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-															<span class="col-md-1">&nbsp;
+															<div class="col-md-1">&nbsp;
 																{if $FIELD_MODEL->isEditable()}
 																	<a>
 																		<img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 																	</a>
 																{/if}
-															</span>
-															<div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
-																<span class="fieldLabel">
-																	{if $IS_MANDATORY}
-																		<span class="redColor">*</span>
-																	{/if}
-																	{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
+															</div>
+															<div class="col-md-11 marginLeftZero fieldContainer" style="word-wrap: break-word;">
+																<span class="fieldLabel">{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
+																	{if $IS_MANDATORY}<span class="redColor">*</span>{/if}
 																</span>
 																<span class="btn-group pull-right actions">
 																	{if $FIELD_MODEL->isEditable()}
@@ -340,7 +343,7 @@
 																						<input type="hidden" name="presence" value="1" />
 																						<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 																							<input type="checkbox" name="presence" {if $FIELD_MODEL->isViewable()} checked {/if}
-																								   {if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} {if $IS_MANDATORY} readonly="readonly" {/if} value="2" />&nbsp;
+																								   {if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} {if $IS_MANDATORY} readonly="readonly" {/if} value="{$FIELD_MODEL->get('presence')}" />&nbsp;
 																							{vtranslate('LBL_ACTIVE', $QUALIFIED_MODULE)}
 																						</label>
 																					</span>
@@ -430,35 +433,37 @@
 																								{/if}
 																							{/if}
 																						</div>
-																					</span>      
-																					{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url'])}
+																					</span>
+																					{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url','integer','double'])}
 																						<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
 																							{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
 																							<div class="input-group">
 																								<input type="text" class="form-control" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
-																								<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
+																								<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-placement="top" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
 																							</div>
 																						</div>
 																					{/if}
-																					<hr />
-																					<span>
-																						<label class="checkbox" style="padding-left: 5px;">
-																							{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
-																							{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
-																						</label>
-																						<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
-																							<select name="displaytype" class="form-control">
-																								{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
-																									<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
-																								{/foreach}
-																							</select>
-																						</div>
-																					</span>
+																					{if SysDeveloper::get('CHANGE_VISIBILITY')}
+																						<hr />
+																						<span>
+																							<label class="checkbox" style="padding-left: 5px;">
+																								{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
+																								{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
+																							</label>
+																							<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
+																								<select name="displaytype" class="form-control">
+																									{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
+																										<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_KEY == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
+																									{/foreach}
+																								</select>
+																							</div>
+																						</span>
+																					{/if}
 																					{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
 																						<span>
 																							<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-																								{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
-																								<input type="checkbox" name="generatedtype" value="1"
+																								&nbsp;{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
+																								<input style="margin-left: -89px;" type="checkbox" name="generatedtype" value="1"
 																									   {if $FIELD_MODEL->get('generatedtype') eq 1} checked {/if} />
 																							</label>
 																						</span>
@@ -466,7 +471,7 @@
 																				</div>
 																				<div class="modal-footer" style="padding: 0px;">
 																					<span class="pull-right">
-																						<div class="pull-right"><a href="javascript:void(0)" style="margin: 5px;color:#AA3434;margin-top:10px;" class="cancel">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
+																						<div class="pull-right"><a href="javascript:void(0)" class="cancel btn btn-warning" style="margin: 5px;">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
 																						<button class="btn btn-success saveFieldDetails" data-field-id="{$FIELD_MODEL->get('id')}" type="submit" style="margin: 5px;">
 																							<strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong>
 																						</button>
@@ -593,30 +598,39 @@
 																{vtranslate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}</label>
 															<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;"></div>
 														</span>
-														<hr />
-														<span>
-															<label class="checkbox" style="padding-left: 5px;">
-																{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
-																<select name="displaytype" class="form-control">
-																	{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE_LIST}
-																		<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_KEY == '1'} selected {/if}>{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
-																	{/foreach}
-																</select>
-															</label>
-														</span>
+														<div class="padding1per maskField" style="padding : 0px 10px 0px 25px;">
+															{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
+															<div class="input-group">
+																<input type="text" class="form-control" name="fieldMask" value="" />
+																<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-placement="top" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
+															</div>
+														</div>
+														{if SysDeveloper::get('CHANGE_VISIBILITY')}
+															<hr />
+															<span>
+																<label class="checkbox" style="padding-left: 5px;">
+																	{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
+																	<select name="displaytype" class="form-control">
+																		{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE_LIST}
+																			<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_KEY == '1'} selected {/if}>{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
+																		{/foreach}
+																	</select>
+																</label>
+															</span>
+														{/if}
 														{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
 															<span>
 																<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-																	{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
-																	<input type="checkbox" name="generatedtype" value="1" />
+																	&nbsp;{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
+																	<input style="margin-left: -89px;" type="checkbox" name="generatedtype" value="1" />
 																</label>
 															</span>
 														{/if}
 													</div>
-													<div class="modal-footer">
+													<div class="modal-footer" style="padding: 0px;">
 														<span class="pull-right">
-															<div class="pull-right"><a href="javascript:void(0)" style="margin-top: 5px;margin-left: 10px;color:#AA3434;" class='cancel'>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
-															<button class="btn btn-success saveFieldDetails" data-field-id="" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+															<div class="pull-right"><a href="javascript:void(0)" style="margin: 5px;" class='cancel btn btn-warning'>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
+															<button class="btn btn-success saveFieldDetails" style="margin: 5px;" data-field-id="" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 														</span>
 													</div>
 												</form>
@@ -748,8 +762,9 @@
 												{vtranslate('LBL_PICKLIST_VALUES', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-md-8 controls">
-												<input type="hidden" id="picklistUi" class="form-control select2" name="pickListValues"
-													   placeholder="{vtranslate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={Zend_Json::encode([['name'=>'PicklistFieldValues']])} />
+												<select id="picklistUi" class="form-control" name="pickListValues" multiple="" tabindex="-1" aria-hidden="true" placeholder="{vtranslate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}" 
+														data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={Zend_Json::encode([['name'=>'PicklistFieldValues']])}>
+												</select>
 											</div>
 										</div>
 										<div class="form-group supportedType preDefinedModuleList hide">
@@ -758,10 +773,70 @@
 												{vtranslate('LBL_RELATION_VALUES', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-md-8 controls">
-												<select {if $FIELD_TYPE_INFO['Related1M']['ModuleListMultiple'] eq true}multiple{/if} class="ModuleList form-control" name="ModuleList">
+												<select {if $FIELD_TYPE_INFO['Related1M']['ModuleListMultiple'] eq true}multiple{/if} class="referenceModule form-control" name="referenceModule">
 													{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 														<option value="{$MODULE_NAME}">{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
 													{/foreach}
+												</select>
+											</div>
+										</div>
+										<div class="form-group supportedType preMultiReferenceValue hide">
+											<div class="col-md-3 control-label">
+												<span class="redColor">*</span>&nbsp;
+												{vtranslate('LBL_MULTI_REFERENCE_VALUE_MODULES', $QUALIFIED_MODULE)}
+											</div>
+											<div class="col-md-8 controls">
+												<select class="MRVModule form-control" name="MRVModule">
+													{foreach item=RELATION from=$SELECTED_MODULE_MODEL->getRelations()}
+														<option value="{$RELATION->get('modulename')}">{vtranslate($RELATION->get('label'), $RELATION->get('modulename'))}</option>
+													{/foreach}
+												</select>
+											</div>
+										</div>
+										<div class="form-group supportedType preMultiReferenceValue hide">
+											<div class="col-md-3 control-label">
+												<span class="redColor">*</span>&nbsp;
+												{vtranslate('LBL_MULTI_REFERENCE_VALUE_FIELDS', $QUALIFIED_MODULE)}
+											</div>
+											<div class="col-md-8 controls">
+												<select class="MRVField form-control" name="MRVField">
+													{foreach item=RELATION from=$SELECTED_MODULE_MODEL->getRelations()}
+														{assign var=COUNT_FIELDS value=count($RELATION->getFields())}
+														{foreach item=FIELD key=KEY from=$RELATION->getFields()}
+															{if !isset($LAST_BLOCK) || $LAST_BLOCK->id != $FIELD->get('block')->id}
+																<optgroup label="{vtranslate($FIELD->get('block')->label, $RELATION->get('modulename'))}" data-module="{$RELATION->get('modulename')}">
+																{/if} 
+																<option value="{$FIELD->getId()}" >{vtranslate($FIELD->get('label'), $RELATION->get('modulename'))}</option>
+																{if $COUNT_FIELDS == ($KEY - 1)}
+																</optgroup>
+															{/if} 
+															{assign var=LAST_BLOCK value=$FIELD->get('block')}
+														{/foreach}
+													{/foreach}
+												</select>
+											</div>
+										</div>
+										<div class="form-group supportedType preMultiReferenceValue hide">
+											<div class="col-md-3 control-label">
+												{vtranslate('LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD', $QUALIFIED_MODULE)}
+											</div>
+											<div class="col-md-8 controls">
+												<select class="filterField form-control" name="MRVFilterField">
+													{foreach item=RELATION from=$SELECTED_MODULE_MODEL->getRelations()}
+														<option value="-" data-module="{$RELATION->get('modulename')}">{vtranslate('--None--')}</option>
+														{foreach item=FIELD key=KEY from=$RELATION->getFields('picklist')}
+															<option value="{$FIELD->getName()}" data-module="{$RELATION->get('modulename')}">{vtranslate($FIELD->get('label'), $RELATION->get('modulename'))}</option>
+														{/foreach}
+													{/foreach}
+												</select>
+											</div>
+										</div>
+										<div class="form-group supportedType preMultiReferenceValue hide">
+											<div class="col-md-3 control-label">
+												{vtranslate('LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE', $QUALIFIED_MODULE)}
+											</div>
+											<div class="col-md-8 controls">
+												<select class="MRVModule form-control" name="MRVFilterValue">
 												</select>
 											</div>
 										</div>
@@ -770,7 +845,7 @@
 												&nbsp;
 											</div>
 											<div class="col-md-8 controls">
-												<label class="checkbox form-control" style="margin-left: 0px;">
+												<label class="checkbox">
 													<input type="checkbox" class="checkbox" name="isRoleBasedPickList" value="1" >&nbsp;{vtranslate('LBL_ROLE_BASED_PICKLIST',$QUALIFIED_MODULE)}
 												</label>
 											</div>
@@ -781,7 +856,7 @@
 												{vtranslate('LBL_TREE_TEMPLATE', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-md-8 controls">
-												<select class="TreeList form-control" name="TreeList">
+												<select class="TreeList form-control" name="tree">
 													{foreach key=key item=item from=$SELECTED_MODULE_MODEL->getTreeTemplates($SELECTED_MODULE_NAME)}
 														<option value="{$key}">{vtranslate($item, $SELECTED_MODULE_NAME)}</option>
 													{foreachelse}
@@ -800,7 +875,7 @@
 
 					<div class="modal inactiveFieldsModal fade" tabindex="-1">
 						<div class="modal-dialog">
-							 <div class="modal-content">
+							<div class="modal-content">
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 									<h3 class="modal-title">{vtranslate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</h3>
@@ -810,7 +885,7 @@
 										<div class="row inActiveList"></div>
 									</div>
 									<div class="modal-footer">
-										<div class=" pull-right col-md-2 cancelLinkContainer">
+										<div class=" pull-right cancelLinkContainer">
 											<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 										</div>
 										<button class="btn btn-success" type="submit" name="reactivateButton">
@@ -822,6 +897,11 @@
 						</div>
 					</div>
 				</div>
+				{if $IS_INVENTORY}
+					<div class="tab-pane" id="inventoryViewLayout">
+						{include file='Inventory.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					</div>	
+				{/if}
 			</div>
 		</div>
 	</div>

@@ -1,0 +1,3 @@
+{strip}
+test
+{/strip}

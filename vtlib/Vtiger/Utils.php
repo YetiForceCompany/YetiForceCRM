@@ -1,12 +1,12 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 include_once('config/config.php');
 include_once('include/utils/utils.php');
 
@@ -14,15 +14,18 @@ include_once('include/utils/utils.php');
  * Provides few utility functions
  * @package vtlib
  */
-class Vtiger_Utils {
-    protected static $logFileName = 'module.log';
-    
+class Vtiger_Utils
+{
+
+	protected static $logFileName = 'module.log';
+
 	/**
 	 * Check if given value is a number or not
 	 * @param mixed String or Integer
 	 */
-	static function isNumber($value) {
-		return is_numeric($value)? intval($value) == $value : false;
+	static function isNumber($value)
+	{
+		return is_numeric($value) ? intval($value) == $value : false;
 	}
 
 	/**
@@ -31,11 +34,12 @@ class Vtiger_Utils {
 	 * @param Integer Number of times 
 	 * @param String suffix to use (optional)
 	 */
-	static function implodestr($prefix, $count, $suffix=false) {
+	static function implodestr($prefix, $count, $suffix = false)
+	{
 		$strvalue = '';
-		for($index = 0; $index < $count; ++$index) {
+		for ($index = 0; $index < $count; ++$index) {
 			$strvalue .= $prefix;
-			if($suffix && $index != ($count-1)) {
+			if ($suffix && $index != ($count - 1)) {
 				$strvalue .= $suffix;
 			}
 		}
@@ -47,12 +51,13 @@ class Vtiger_Utils {
 	 * @param String File path to check
 	 * @param Boolean False to avoid die() if check fails
 	 */
-	static function checkFileAccessForInclusion($filepath, $dieOnFail=true) {
+	static function checkFileAccessForInclusion($filepath, $dieOnFail = true)
+	{
 		$root_directory = vglobal('root_directory');
 		// Set the base directory to compare with
 		$use_root_directory = $root_directory;
-		if(empty($use_root_directory)) {
-			$use_root_directory = realpath(dirname(__FILE__).'/../../.');
+		if (empty($use_root_directory)) {
+			$use_root_directory = realpath(dirname(__FILE__) . '/../../.');
 		}
 
 		$unsafeDirectories = array('storage', 'cache', 'test');
@@ -61,11 +66,11 @@ class Vtiger_Utils {
 
 		/** Replace all \\ with \ first */
 		$realfilepath = str_replace('\\\\', '\\', $realfilepath);
-		$rootdirpath  = str_replace('\\\\', '\\', $use_root_directory);
+		$rootdirpath = str_replace('\\\\', '\\', $use_root_directory);
 
 		/** Replace all \ with / now */
 		$realfilepath = str_replace('\\', '/', $realfilepath);
-		$rootdirpath  = str_replace('\\', '/', $rootdirpath);
+		$rootdirpath = str_replace('\\', '/', $rootdirpath);
 
 		$relativeFilePath = str_replace($rootdirpath, '', $realfilepath);
 		$filePathParts = explode('/', $relativeFilePath);
@@ -81,29 +86,30 @@ class Vtiger_Utils {
 		return true;
 	}
 
-	/** 
+	/**
 	 * Function to check the file access is made within web root directory. 
 	 * @param String File path to check
 	 * @param Boolean False to avoid die() if check fails
 	 */
-	static function checkFileAccess($filepath, $dieOnFail=true) {
+	static function checkFileAccess($filepath, $dieOnFail = true)
+	{
 		$root_directory = vglobal('root_directory');
 
 		// Set the base directory to compare with
 		$use_root_directory = $root_directory;
-		if(empty($use_root_directory)) {
-			$use_root_directory = realpath(dirname(__FILE__).'/../../.');
+		if (empty($use_root_directory)) {
+			$use_root_directory = realpath(dirname(__FILE__) . '/../../.');
 		}
 
 		$realfilepath = realpath($filepath);
 
 		/** Replace all \\ with \ first */
 		$realfilepath = str_replace('\\\\', '\\', $realfilepath);
-		$rootdirpath  = str_replace('\\\\', '\\', $use_root_directory);
+		$rootdirpath = str_replace('\\\\', '\\', $use_root_directory);
 
 		/** Replace all \ with / now */
 		$realfilepath = str_replace('\\', '/', $realfilepath);
-		$rootdirpath  = str_replace('\\', '/', $rootdirpath);
+		$rootdirpath = str_replace('\\', '/', $rootdirpath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0) {
 			if ($dieOnFail) {
@@ -121,16 +127,20 @@ class Vtiger_Utils {
 	 * @param String Log message
 	 * @param Boolean true to append end-of-line, false otherwise
 	 */
-	static function Log($message, $delimit=true) {
+	static function Log($message, $delimit = true)
+	{
 		global $Vtiger_Utils_Log, $log;
-		
-		$log->debug($message);
-		if(!isset($Vtiger_Utils_Log) || $Vtiger_Utils_Log == false) return;
 
-		print_r($message);
-		if($delimit) {
-			if(isset($_REQUEST)) echo "<BR>";
-			else echo "\n";
+		$log->debug($message);
+		if (!isset($Vtiger_Utils_Log) || $Vtiger_Utils_Log == false)
+			return;
+
+		echo $message;
+		if ($delimit) {
+			if (isset($_REQUEST))
+				echo "<BR>";
+			else
+				echo "\n";
 		}
 	}
 
@@ -138,8 +148,10 @@ class Vtiger_Utils {
 	 * Escape the string to avoid SQL Injection attacks.
 	 * @param String Sql statement string
 	 */
-	static function SQLEscape($value) {
-		if($value == null) return $value;
+	static function SQLEscape($value)
+	{
+		if ($value == null)
+			return $value;
 		$adb = PearDatabase::getInstance();
 		return $adb->sql_escape_string($value);
 	}
@@ -148,7 +160,8 @@ class Vtiger_Utils {
 	 * Check if table is present in database
 	 * @param String tablename to check
 	 */
-	static function CheckTable($tablename) {
+	static function CheckTable($tablename)
+	{
 		$adb = PearDatabase::getInstance();
 		$old_dieOnError = $adb->dieOnError;
 		$adb->dieOnError = false;
@@ -156,7 +169,7 @@ class Vtiger_Utils {
 		$tablename = $adb->sql_escape_string($tablename);
 		$tablecheck = $adb->query("SHOW TABLES LIKE $tablename");
 		$tablePresent = true;
-		if(empty($tablecheck) || $adb->num_rows($tablecheck) === 0)
+		if (empty($tablecheck) || $adb->num_rows($tablecheck) === 0)
 			$tablePresent = false;
 
 		$adb->dieOnError = $old_dieOnError;
@@ -171,15 +184,16 @@ class Vtiger_Utils {
 	 * <br>
 	 * will be appended to CREATE TABLE $tablename SQL
 	 */
-	static function CreateTable($tablename, $criteria, $suffixTableMeta=false) {
+	static function CreateTable($tablename, $criteria, $suffixTableMeta = false)
+	{
 		$adb = PearDatabase::getInstance();
 
 		$org_dieOnError = $adb->dieOnError;
 		$adb->dieOnError = false;
-		$sql = "CREATE TABLE " . $tablename . $criteria;
-		if($suffixTableMeta !== false) {
-			if($suffixTableMeta === true) {
-				if($adb->isMySQL()) {
+		$sql = "CREATE TABLE " . $adb->quote($tablename, false) . ' ' . $criteria;
+		if ($suffixTableMeta !== false) {
+			if ($suffixTableMeta === true) {
+				if ($adb->isMySQL()) {
 					$suffixTableMeta = ' ENGINE=InnoDB DEFAULT CHARSET=utf8';
 				} else {
 					// TODO Handle other database types.
@@ -187,8 +201,8 @@ class Vtiger_Utils {
 			}
 			$sql .= $suffixTableMeta;
 		}
-		$adb->pquery($sql, array());
-		$adb->dieOnError = $org_dieOnError;	
+		$adb->query($sql);
+		$adb->dieOnError = $org_dieOnError;
 	}
 
 	/**
@@ -197,7 +211,8 @@ class Vtiger_Utils {
 	 * @param String alter criteria like ' ADD columnname columntype' <br>
 	 * will be appended to ALTER TABLE $tablename SQL
 	 */
-	static function AlterTable($tablename, $criteria) {
+	static function AlterTable($tablename, $criteria)
+	{
 		$adb = PearDatabase::getInstance();
 		$adb->query("ALTER TABLE " . $tablename . $criteria);
 	}
@@ -208,10 +223,11 @@ class Vtiger_Utils {
 	 * @param String columnname to add
 	 * @param String columntype (criteria like 'VARCHAR(100)') 
 	 */
-	static function AddColumn($tablename, $columnname, $criteria) {
+	static function AddColumn($tablename, $columnname, $criteria)
+	{
 		$adb = PearDatabase::getInstance();
-		if(!in_array($columnname, $adb->getColumnNames($tablename))) {
-			self::AlterTable($tablename, " ADD COLUMN $columnname $criteria");
+		if (!in_array($columnname, $adb->getColumnNames($tablename))) {
+			self::AlterTable($tablename, " ADD COLUMN `$columnname` $criteria");
 		}
 	}
 
@@ -219,11 +235,13 @@ class Vtiger_Utils {
 	 * Get SQL query
 	 * @param String SQL query statement
 	 */
-	static function ExecuteQuery($sqlquery, $supressdie=false) {
+	static function ExecuteQuery($sqlquery, $supressdie = false)
+	{
 		$adb = PearDatabase::getInstance();
 		$old_dieOnError = $adb->dieOnError;
 
-		if($supressdie) $adb->dieOnError = false;
+		if ($supressdie)
+			$adb->dieOnError = false;
 
 		$adb->pquery($sqlquery, array());
 
@@ -234,11 +252,13 @@ class Vtiger_Utils {
 	 * Get CREATE SQL for given table
 	 * @param String tablename for which CREATE SQL is requried
 	 */
-	static function CreateTableSql($tablename) {
+	static function CreateTableSql($tablename)
+	{
 		$adb = PearDatabase::getInstance();
 
-		$create_table = $adb->pquery("SHOW CREATE TABLE $tablename", array());
-		$sql = decode_html($adb->query_result($create_table, 0, 1));
+		$result = $adb->query("SHOW CREATE TABLE $tablename");
+		$createTable = $adb->fetch_array($result);
+		$sql = decode_html($createTable['Create Table']);
 		return $sql;
 	}
 
@@ -246,8 +266,9 @@ class Vtiger_Utils {
 	 * Check if the given SQL is a CREATE statement
 	 * @param String SQL String
 	 */
-	static function IsCreateSql($sql) {
-		if(preg_match('/(CREATE TABLE)/', strtoupper($sql))) {
+	static function IsCreateSql($sql)
+	{
+		if (preg_match('/(CREATE TABLE)/', strtoupper($sql))) {
 			return true;
 		}
 		return false;
@@ -257,52 +278,53 @@ class Vtiger_Utils {
 	 * Check if the given SQL is destructive (DELETE's DATA)
 	 * @param String SQL String
 	 */
-	static function IsDestructiveSql($sql) {
-		if(preg_match('/(DROP TABLE)|(DROP COLUMN)|(DELETE FROM)/', 
-			strtoupper($sql))) {
+	static function IsDestructiveSql($sql)
+	{
+		if (preg_match('/(DROP TABLE)|(DROP COLUMN)|(DELETE FROM)/', strtoupper($sql))) {
 			return true;
 		}
 		return false;
 	}
-    
-    /**
-     * funtion to log the exception messge to module.log file
-     * @global type $site_URL
-     * @param <string> $module name of the log file and It should be a alphanumeric string
-     * @param <Exception>/<string> $exception Massage show in the log ,It should be a string or Exception object 
-     * @param <array> $extra extra massages need to be displayed
-     * @param <boolean> $backtrace flag to enable or disable backtrace in log  
-     * @param <boolean> $request flag to enable or disable request in log
-     */
-    static function ModuleLog($module, $mixed, $extra = array()) {
-        if (ALLOW_MODULE_LOGGING) { 
-            global $site_URL;
-            $date = date('Y-m-d H:i:s');
-            $log = array($site_URL,$module, $date);
-            if ($mixed instanceof Exception) {
-                array_push($log, $mixed->getMessage());
-                array_push($log, $mixed->getTraceAsString());
-            } else {
-                array_push($log, $mixed);
-                array_push($log, "");
-            }
-            if (isset($_REQUEST)) {
-                array_push($log, json_encode($_REQUEST));
-            } else {
-                array_push($log, "");
-            };
 
-            if ($extra) {
-                if (is_array($extra))
-                    $extra = json_encode($extra);
-                array_push($log, $extra);
-            } else {
-                array_push($log, "");
-            }
-            $fileName =self::$logFileName;
-            $fp = fopen("cache/logs/$fileName", 'a+');
-            fputcsv($fp, $log);
-            fclose($fp);
-        }
-    }
+	/**
+	 * funtion to log the exception messge to module.log file
+	 * @global type $site_URL
+	 * @param <string> $module name of the log file and It should be a alphanumeric string
+	 * @param <Exception>/<string> $exception Massage show in the log ,It should be a string or Exception object 
+	 * @param <array> $extra extra massages need to be displayed
+	 * @param <boolean> $backtrace flag to enable or disable backtrace in log  
+	 * @param <boolean> $request flag to enable or disable request in log
+	 */
+	static function ModuleLog($module, $mixed, $extra = array())
+	{
+		if (ALLOW_MODULE_LOGGING) {
+			global $site_URL;
+			$date = date('Y-m-d H:i:s');
+			$log = array($site_URL, $module, $date);
+			if ($mixed instanceof Exception) {
+				array_push($log, $mixed->getMessage());
+				array_push($log, $mixed->getTraceAsString());
+			} else {
+				array_push($log, $mixed);
+				array_push($log, "");
+			}
+			if (isset($_REQUEST)) {
+				array_push($log, json_encode($_REQUEST));
+			} else {
+				array_push($log, "");
+			};
+
+			if ($extra) {
+				if (is_array($extra))
+					$extra = json_encode($extra);
+				array_push($log, $extra);
+			} else {
+				array_push($log, "");
+			}
+			$fileName = self::$logFileName;
+			$fp = fopen("cache/logs/$fileName", 'a+');
+			fputcsv($fp, $log);
+			fclose($fp);
+		}
+	}
 }

@@ -91,6 +91,7 @@ $OUTPUT->set_env('compose_id', $COMPOSE['id']);
 $OUTPUT->set_env('session_id', session_id());
 $OUTPUT->set_env('mailbox', $RCMAIL->storage->get_folder());
 $OUTPUT->set_env('top_posting', intval($RCMAIL->config->get('reply_mode')) > 0);
+$OUTPUT->set_env('sig_below', $RCMAIL->config->get('sig_below'));
 $OUTPUT->set_env('recipients_separator', trim($RCMAIL->config->get('recipients_separator', ',')));
 $OUTPUT->set_env('save_localstorage', (bool)$RCMAIL->config->get('compose_save_localstorage'));
 $OUTPUT->set_env('is_sent', false);
@@ -448,6 +449,8 @@ function rcmail_process_compose_params(&$COMPOSE)
 
         // #1486037: remove "mailto:" prefix
         $COMPOSE['param']['to'] = preg_replace('/^mailto:/i', '', $mailto[0]);
+        // #1490346: decode the recipient address
+        $COMPOSE['param']['to'] = urldecode($COMPOSE['param']['to']);
 
         // Supported case-insensitive tokens in mailto URL
         $url_tokens = array('to', 'cc', 'bcc', 'reply-to', 'in-reply-to', 'references', 'subject', 'body');
@@ -527,7 +530,7 @@ function rcmail_process_compose_params(&$COMPOSE)
         }
     }
 	// <--------   YetiForce Sp. z o.o.   -------->
-    if ($_REQUEST['pdf_path']) {
+	if ($_REQUEST['pdf_path']) {
 		// we have structured data
 		$attach = $_REQUEST['pdf_path'];
 		if (is_array($attach)) {
@@ -535,23 +538,34 @@ function rcmail_process_compose_params(&$COMPOSE)
 		}
 		// only a file path is given
 		else {
-			$attachName = explode('/', $attach);
-			$filename = $RCMAIL->config->get('root_directory') . $attach;
+			$fileNames = [];
+			foreach (new DirectoryIterator($RCMAIL->config->get('root_directory') . 'cache' . DIRECTORY_SEPARATOR . 'pdf') as $fileInfo) {
+				if ($fileInfo->isDot() || strpos($fileInfo->getFilename(), $attach . '.pdf') === false) {
+					continue;
+				}
 
-			$attachment = array(
-				'group' => $COMPOSE['id'],
-				'name' => $attachName[count($attachName) - 1],
-				'mimetype' => rcube_mime::file_content_type($attach, $filename),
-				'path' => $filename,
-			);
+				$fileNames[$fileInfo->getFilename()] = $fileInfo->getPath() . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
+			}
+
+			foreach ($fileNames as $file => &$path) {
+				$attachments[] = array(
+					'group' => $COMPOSE['id'],
+					'name' => $file,
+					'mimetype' => rcube_mime::file_content_type($path, $file),
+					'path' => $path
+				);
+			}
 		}
+
 		// save attachment if valid
-		if ($attachment['name'] || ($attachment['path'] && file_exists($attachment['path']))) {
-			$attachment = rcmail::get_instance()->plugins->exec_hook('attachment_save', $attachment);
-		}
-		if ($attachment['status'] && !$attachment['abort']) {
-			unset($attachment['data'], $attachment['status'], $attachment['abort']);
-			$COMPOSE['attachments'][$attachment['id']] = $attachment;
+		foreach ($attachments as $atm) {
+			if ($atm['name'] || ($atm['path'] && file_exists($atm['path']))) {
+				$atm = rcmail::get_instance()->plugins->exec_hook('attachment_save', $atm);
+			}
+			if ($atm['status'] && !$atm['abort']) {
+				unset($atm['data'], $atm['status'], $atm['abort']);
+				$COMPOSE['attachments'][$atm['id']] = $atm;
+			}
 		}
 	}
 	// <--------   YetiForce Sp. z o.o.   -------->
@@ -639,8 +653,10 @@ function rcmail_compose_header_from($attrib)
     if (count($MESSAGE->identities)) {
         $a_signatures = array();
         $identities   = array();
-        $separator    = intval($RCMAIL->config->get('reply_mode')) > 0
-            && ($compose_mode == RCUBE_COMPOSE_REPLY || $compose_mode == RCUBE_COMPOSE_FORWARD) ? '---' : '-- ';
+        $top_posting  = intval($RCMAIL->config->get('reply_mode')) > 0
+            && !$RCMAIL->config->get('sig_below')
+            && ($compose_mode == RCUBE_COMPOSE_REPLY || $compose_mode == RCUBE_COMPOSE_FORWARD);
+        $separator = $top_posting ? '---' : '-- ';
 
         $field_attrib['onchange'] = rcmail_output::JS_OBJECT_NAME.".change_identity(this)";
         $select_from = new html_select($field_attrib);
@@ -655,21 +671,17 @@ function rcmail_compose_header_from($attrib)
                 $text = $html = $sql_arr['signature'];
 
                 if ($sql_arr['html_signature']) {
-                    $h2t  = new rcube_html2text($sql_arr['signature'], false, true);
+                    $h2t  = new rcube_html2text($html, false, true);
                     $text = trim($h2t->get_text());
                 }
                 else {
-                    $html = htmlentities($html, ENT_NOQUOTES, RCUBE_CHARSET);
+                    $t2h  = new rcube_text2html($text, false);
+                    $html = $t2h->get_html();
                 }
 
                 if (!preg_match('/^--[ -]\r?\n/m', $text)) {
                     $text = $separator . "\n" . $text;
                     $html = $separator . "<br>" . $html;
-                }
-
-                if (!$sql_arr['html_signature']) {
-                    $t2h  = new rcube_text2html($sql_arr['signature'], false);
-                    $html = $t2h->get_html();
                 }
 
                 $a_signatures[$identity_id]['text'] = $text;

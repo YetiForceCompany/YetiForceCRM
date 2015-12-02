@@ -28,7 +28,7 @@
 		<p class="listViewLoadingMsg">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
 	</span>
 	{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
-	{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
+	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<table class="table table-bordered table-condensed listViewEntriesTable">
 		<thead>
 			<tr class="listViewHeaders">
@@ -56,7 +56,7 @@
 					{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 					{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
 					<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>
-						&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+						&nbsp;{vtranslate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
 						{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 							</td><td nowrap class="{$WIDTHTYPE}">
 								<div class="pull-right actions">
@@ -67,7 +67,7 @@
 												<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{vtranslate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 											</a>
 											{if !$RECORD_LINK@last}
-												&nbsp;&nbsp;
+												&nbsp;
 											{/if}
 										{/foreach}
 									</span>

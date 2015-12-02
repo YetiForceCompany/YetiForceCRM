@@ -246,7 +246,7 @@ class OSSPdf extends CRMEntity {
 	 */
 	function create_export_query($where)
 	{
-		$current_user = vglobal('current_user');;
+		$current_user = vglobal('current_user');
 		$thismodule = $_REQUEST['module'];
 		
 		include("include/utils/ExportUtils.php");
@@ -472,7 +472,7 @@ class OSSPdf extends CRMEntity {
         Array($fieldid, $blockid, 'PDF', 'Smarty/templates/modules/OSSValidation/currency_update_mini.png', "LBL_OSSPDF_INFO", "index.php?module=OSSPdf&view=Index&parent=Settings", $seq), true);
 
 		$mods = Vtiger_Module::getInstance( "OSSPdf" );
-		$mods->addLink('HEADERSCRIPT', 'PDFUtils', "layouts/vlayout/modules/{$modulename}/resources/PDFUtils.js");
+		$mods->addLink('HEADERSCRIPT', 'PDFUtils', "layouts/_layoutName_/modules/{$modulename}/resources/PDFUtils.js");
 		// block export of module
 			$sql = "UPDATE vtiger_tab SET customized=0 WHERE name='$modulename' LIMIT 1;";
 			$db->query( $sql, true );
@@ -481,11 +481,11 @@ class OSSPdf extends CRMEntity {
 		} else if($event_type == 'module.disabled') {
 			// TODO Handle actions when this module is disabled.
             $mods = Vtiger_Module::getInstance( "OSSPdf" );
-            $mods->deleteLink('HEADERSCRIPT', 'PDFUtils', "layouts/vlayout/modules/{$modulename}/resources/PDFUtils.js");
+            $mods->deleteLink('HEADERSCRIPT', 'PDFUtils', "layouts/_layoutName_/modules/{$modulename}/resources/PDFUtils.js");
 		} else if($event_type == 'module.enabled') {
 			// TODO Handle actions when this module is enabled.
             $mods = Vtiger_Module::getInstance( "OSSPdf" );
-            $mods->addLink('HEADERSCRIPT', 'PDFUtils', "layouts/vlayout/modules/{$modulename}/resources/PDFUtils.js");
+            $mods->addLink('HEADERSCRIPT', 'PDFUtils', "layouts/_layoutName_/modules/{$modulename}/resources/PDFUtils.js");
 		} else if($event_type == 'module.preuninstall') {		
 			// TODO Handle actions when this module is about to be deleted.
 		} else if($event_type == 'module.preupdate') {

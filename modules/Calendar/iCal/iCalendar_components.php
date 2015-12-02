@@ -276,7 +276,7 @@ class iCalendar_component {
 		if($activitytype=='VEVENT'){
 			$activity['activitytype'] = 'Meeting';
 			if(empty($activity['eventstatus'])) {
-				$activity['eventstatus'] = 'Planned';
+				$activity['eventstatus'] = 'PLL_PLANNED';
 			}
 			if(!empty($ical_activity['VALARM'])){
 				$temp = str_replace("P",'',$ical_activity['VALARM']['TRIGGER']);
@@ -316,8 +316,8 @@ class iCalendar_component {
 			}
 		} else {
 			$activity['activitytype'] = 'Task';
-			if(empty($activity['taskstatus'])) {
-				$activity['taskstatus'] = 'Not Started';
+			if(empty($activity['activitystatus'])) {
+				$activity['activitystatus'] = 'PLL_PLANNED';
 			}
 		}
 		if($activity['visibility'] == 'PUBLIC') {
@@ -391,11 +391,11 @@ class iCalendar_event extends iCalendar_component {
     	'DTSTAMP'		=>	array('component'=>array('date_start','time_start'),'function'=>'iCalendar_event_dtstamp','type'=>'datetime'),
     	'LOCATION'		=>	array('component'=>'location','type'=>'string'),
 		'ORGANIZER'		=>	array('component'=>'activityid','function'=>'icalendar_event_organizer','type'=>'user'),
-    	'STATUS'		=>	array('component'=>'eventstatus','type'=>'string'),
+    	'STATUS'		=>	array('component'=>'activitystatus','type'=>'string'),
     	'SUMMARY'		=>	array('component'=>'subject','type'=>'string'),
     	'PRIORITY'		=>	array('component'=>'priority','type'=>'string'),
     	'ATTENDEE'		=>	array('component'=>'activityid','function'=>'iCalendar_event_attendee','type'=>'user'),
-    	'RESOURCES'		=>	array('component'=>array('location','eventstatus'),'type'=>'string'),
+    	'RESOURCES'		=>	array('component'=>array('location','activitystatus'),'type'=>'string'),
 		'DESCRIPTION'	=>	array('component'=>'description','type'=>'string'),
     );
     var $field_mapping_arr = array(
@@ -542,7 +542,7 @@ class iCalendar_todo extends iCalendar_component {
     	'RESOURCES'		=>	array('component'=>array('status'),'type'=>'string'),
     );
     var $field_mapping_arr = array(
-    	'status'=>'taskstatus',
+    	'status'=>'activitystatus',
     	'priority'=>'taskpriority'
     );
 

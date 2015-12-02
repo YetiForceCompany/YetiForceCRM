@@ -33,16 +33,15 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 		$viewer->assign('CURRENTDATE', $currentDate);
 		$viewer->assign('MODULE', $selectedModule);
 		$viewer->assign('MODULE_NAME', $selectedModule);
-		$viewer->assign('QUALIFIED_MODULE', $selectedModule);
+		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->assign('PARENT_MODULE', $request->get('parent'));
-		$viewer->assign('MENUS', Vtiger_Menu_Model::getAll(true));
+		$viewer->assign('MENUS', $this->getMenu());
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('COMPANY_LOGO',$companyLogo);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
 		$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
-		$viewer->assign('HEADER_LINKS',$this->getHeaderLinks());
+		$viewer->assign('HEADER_LINKS',$this->getHeaderLinks($request));
 		$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
 		$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 		$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
@@ -52,6 +51,10 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 		}
 	}
 
+	protected function getMenu() {
+		return Vtiger_Menu_Model::getAll(true);
+	}
+	
 	protected function preProcessTplName(Vtiger_Request $request) {
 		return 'BasicHeader.tpl';
 	}

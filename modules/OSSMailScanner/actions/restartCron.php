@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,23 +7,28 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-class OSSMailScanner_restartCron_Action extends Vtiger_Action_Controller {
-    function checkPermission(Vtiger_Request $request) {
-        $userRecord = Users_Record_Model::getCurrentUserModel();
-        if (!$userRecord->isAdminUser()) {
-            throw new AppException(vtranslate('Brak uprawnień do restartu crona', 'OSSMailScanner'));
-        }
-    }
-	public function process(Vtiger_Request $request) {
-            $param = $request->get('updatedFields');
-            $recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-			$recordModel->runRestartCron();
-			$recordModel->verificationCron();
-			$result = array('success'=>true,'data'=>vtranslate('JS_info_restart_ok', 'OSSMailScanner') );
-            $response = new Vtiger_Response();
-			$response->setResult($result);
-            $response->emit();
-    }
-    
+ * *********************************************************************************************************************************** */
+
+class OSSMailScanner_restartCron_Action extends Vtiger_Action_Controller
+{
+
+	function checkPermission(Vtiger_Request $request)
+	{
+		$userRecord = Users_Record_Model::getCurrentUserModel();
+		if (!$userRecord->isAdminUser()) {
+			throw new AppException(vtranslate('Brak uprawnień do restartu crona', 'OSSMailScanner'));
+		}
+	}
+
+	public function process(Vtiger_Request $request)
+	{
+		$param = $request->get('updatedFields');
+		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+		$recordModel->runRestartCron();
+		$recordModel->verificationCron();
+		$result = array('success' => true, 'data' => vtranslate('JS_info_restart_ok', 'OSSMailScanner'));
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
 }

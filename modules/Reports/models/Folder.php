@@ -308,41 +308,44 @@ class Reports_Folder_Model extends Vtiger_Base_Model {
                 }
             }
         //End
-		$sql = "SELECT count(*) AS count FROM vtiger_report
-				INNER JOIN vtiger_reportfolder ON vtiger_reportfolder.folderid = vtiger_report.folderid AND 
-                vtiger_report.reportid in (".implode(',',$allowedReportIds).")";
-		$fldrId = $this->getId();
-		if($fldrId == 'All') {
-			$fldrId = false;
-		}
-
-		// If information is required only for specific report folder?
-		if($fldrId !== false) {
-			$sql .= " WHERE vtiger_reportfolder.folderid=?";
-			array_push($params,$fldrId);
-		}
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserModel->isAdminUser()) {
-			$currentUserId = $currentUserModel->getId();
-			
-			$groupId = implode(',',$currentUserModel->get('groups'));
-			if ($groupId) {
-				$groupQuery = "(SELECT reportid from vtiger_reportsharing WHERE shareid IN ($groupId) AND setype = 'groups') OR ";
+		if(null != $allowedReportIds){	
+			$sql = "SELECT count(*) AS count FROM vtiger_report
+					INNER JOIN vtiger_reportfolder ON vtiger_reportfolder.folderid = vtiger_report.folderid AND 
+					vtiger_report.reportid in (".implode(',',$allowedReportIds).")";
+			$fldrId = $this->getId();
+			if($fldrId == 'All') {
+				$fldrId = false;
 			}
-			
-			$sql .= " AND (vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $groupQuery shareid = ? AND setype = 'users')
-						OR vtiger_report.sharingtype = 'Public'
-						OR vtiger_report.owner = ?
-						OR vtiger_report.owner IN (SELECT vtiger_user2role.userid FROM vtiger_user2role
-													INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid
-													INNER JOIN vtiger_role ON vtiger_role.roleid = vtiger_user2role.roleid
-													WHERE vtiger_role.parentrole LIKE ?))";
 
-			$parentRoleSeq = $currentUserModel->get('parent_role_seq').'::%';
-			array_push($params, $currentUserId, $currentUserId, $parentRoleSeq);
+			// If information is required only for specific report folder?
+			if($fldrId !== false) {
+				$sql .= " WHERE vtiger_reportfolder.folderid=?";
+				array_push($params,$fldrId);
+			}
+			$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			if (!$currentUserModel->isAdminUser()) {
+				$currentUserId = $currentUserModel->getId();
+
+				$groupId = implode(',',$currentUserModel->get('groups'));
+				if ($groupId) {
+					$groupQuery = "(SELECT reportid from vtiger_reportsharing WHERE shareid IN ($groupId) AND setype = 'groups') OR ";
+				}
+
+				$sql .= " AND (vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $groupQuery shareid = ? AND setype = 'users')
+							OR vtiger_report.sharingtype = 'Public'
+							OR vtiger_report.owner = ?
+							OR vtiger_report.owner IN (SELECT vtiger_user2role.userid FROM vtiger_user2role
+														INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid
+														INNER JOIN vtiger_role ON vtiger_role.roleid = vtiger_user2role.roleid
+														WHERE vtiger_role.parentrole LIKE ?))";
+
+				$parentRoleSeq = $currentUserModel->get('parent_role_seq').'::%';
+				array_push($params, $currentUserId, $currentUserId, $parentRoleSeq);
+			}
+			$result = $db->pquery($sql, $params);
+			return $db->query_result($result, 0, 'count');
 		}
-		$result = $db->pquery($sql, $params);
-		return $db->query_result($result, 0, 'count');
+		return 0;
 	}
 	
     /**

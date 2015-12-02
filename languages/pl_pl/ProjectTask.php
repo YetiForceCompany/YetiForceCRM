@@ -18,6 +18,7 @@ $languageStrings = [
 	'Target End Date'=>'Planowana data zakończenia',
 	'End Date'=>'Rzeczywista data zakończenia',
 	'Related to'=>'Projekt',
+	'Parent ID' => 'Powiązane zadanie',
 	'Project Task Number'=>'Numer wewnętrzny',
 	'description'=>'Opis zadania',
 	'Total time [h]'=>'Czas pracy',

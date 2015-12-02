@@ -9,12 +9,12 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'Email Flag' => 'Email Flag',
-	'Activtiy Type' => 'Activtiy Type',
-	'Sales Enity Module' => 'Sales Enity Module',
-	'Parent ID' => 'Parent ID',
-	'Owner' => 'Owner',
-	'Access Count' => 'Access Count',
+	'Email Flag' => 'Oflaguj wiadomość',
+	'Activtiy Type' => 'Typ czynności',
+	'Sales Enity Module' => 'Moduł sprzedaży podmiotu',
+	'Parent ID' => 'ID Rodzica',
+	'Owner' => 'Właściciel',
+	'Access Count' => 'Liczba wyświetleń',
 	'Date & Time Sent' => 'Data wysłania',
 	'Emails' => 'Maile',
 	'LBL_ADD_BCC' => 'Dodaj do UDW',

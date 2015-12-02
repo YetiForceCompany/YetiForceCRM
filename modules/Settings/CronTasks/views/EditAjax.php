@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -9,9 +8,11 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_CronTasks_EditAjax_View extends Settings_Vtiger_IndexAjax_View {
+class Settings_CronTasks_EditAjax_View extends Settings_Vtiger_IndexAjax_View
+{
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -25,5 +26,4 @@ class Settings_CronTasks_EditAjax_View extends Settings_Vtiger_IndexAjax_View {
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('EditAjax.tpl', $qualifiedModuleName);
 	}
-
 }

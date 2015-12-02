@@ -25,10 +25,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View {
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$this->initializeListViewContents($request, $viewer);
-
-		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('FindDuplicateContents.tpl', $moduleName);
 	}
 
@@ -108,7 +105,15 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View {
 		//for calculating the page range
 		for($i=0; $i<$rowCount; $i++) $dummyListEntries[] = $i;
 		$pagingModel->calculatePageRange($dummyListEntries);
+		
+		$totalCount = $this->rows;
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
+		$viewer->assign('LISTVIEW_COUNT', $totalCount);
+		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('IGNORE_EMPTY', $ignoreEmpty);
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $rowCount);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);

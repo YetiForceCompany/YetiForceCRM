@@ -24,23 +24,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		$recordModel = $this->getRecord();
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$moduleModel = $this->getModule();
-		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
-
-		$emailModuleModel = Vtiger_Module_Model::getInstance('OSSMail');
-		if ($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
-			$config = $emailModuleModel->getComposeParameters();
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => '',
-				'linkurl' => $emailModuleModel->getComposeUrl($moduleName, $recordId, 'Detail', $config['popup']),
-				'linkicon' => 'glyphicon glyphicon-envelope',
-				'linktarget' => $config['target'],
-				'linkPopup' => $config['popup'],
-				'linkhint' => vtranslate('LBL_SEND_EMAIL')
-			);
-			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
 
 		//TODO: update the database so that these separate handlings are not required
 		$index = 0;
@@ -51,43 +35,14 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				$link->linklabel = 'LBL_SHOW_ACCOUNT_HIERARCHY';
 				$linkURL = 'index.php?module=Accounts&view=AccountHierarchy&record=' . $recordId;
 				$link->linkurl = 'javascript:Accounts_Detail_Js.triggerAccountHierarchy("' . $linkURL . '");';
+				$link->linkclass = 'hierarchy';
 				unset($linkModelList['DETAILVIEW'][$index]);
 				$linkModelList['DETAILVIEW'][$index] = $link;
 			}
 			$index++;
 		}
 
-		$CalendarActionLinks = array();
-		$CalendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-		if ($currentUserModel->hasModuleActionPermission($CalendarModuleModel->getId(), 'EditView')) {
-			$CalendarActionLinks[] = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_ADD_EVENT',
-				'linkurl' => $recordModel->getCreateEventUrl(),
-				'linkicon' => 'glyphicon glyphicon-time'
-			);
-
-			$CalendarActionLinks[] = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_ADD_EVENT',
-				'linkurl' => $recordModel->getCreateTaskUrl(),
-				'linkicon' => 'glyphicon glyphicon-calendar'
-			);
-		}
-
-		$SMSNotifierModuleModel = Vtiger_Module_Model::getInstance('SMSNotifier');
-		if (!empty($SMSNotifierModuleModel) && $currentUserModel->hasModulePermission($SMSNotifierModuleModel->getId())) {
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => 'LBL_SEND_SMS',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendSms("index.php?module=' . $moduleName . '&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
-				'linkicon' => 'glyphicon glyphicon-comment'
-			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-
-
-		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'EditView')) {
+		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'DetailTransferOwnership')) {
 			$massActionLink = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
@@ -96,11 +51,6 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
-
-		foreach ($CalendarActionLinks as $basicLink) {
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
-		}
-
 		return $linkModelList;
 	}
 
@@ -109,9 +59,10 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$parentModuleModel = $this->getModule();
+		$this->getWidgets();
 		$relatedLinks = array();
 
-		if ($parentModuleModel->isSummaryViewSupported()) {
+		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
 			$relatedLinks = array(array(
 					'linktype' => 'DETAILVIEWTAB',
 					'linklabel' => vtranslate('LBL_RECORD_SUMMARY', $moduleName),
@@ -167,8 +118,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'related' => 'Updates'
 			);
 		}
-
-
+		
 		$relationModels = $parentModuleModel->getRelations();
 
 		foreach ($relationModels as $relation) {

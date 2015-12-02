@@ -21,6 +21,8 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 		'organizationname' => 'text',
 		'logoname' => 'text',
 		'logo' => 'file',
+		'panellogoname' => 'text',
+		'panellogo' => 'file',
 		'address' => 'textarea',
 		'city' => 'text',
 		'state' => 'text',
@@ -28,8 +30,15 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 		'country' => 'text',
 		'phone' => 'text',
 		'fax' => 'text',
+		'email' => 'text',
 		'website' => 'text',
-		'vatid' => 'text'
+		'vatid' => 'text',
+		'id1' => 'text',
+		'id2' => 'text',
+		'height_panellogo' => 'text',
+	);
+	var $heights = array(
+		'256','192','128','96','64','32','16'
 	);
 
 	/**
@@ -69,16 +78,22 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 	{
 		return $this->fields;
 	}
-
+	/**
+	 * Function to get heights
+	 * @return <Array>
+	 */
+	public function getHeights(){
+		return $this->heights;
+	}
 	/**
 	 * Function to get Logo path to display
 	 * @return <String> path
 	 */
-	public function getLogoPath()
+	public function getLogoPath($name)
 	{
 		$logoPath = $this->logoPath;
-		$handler = @opendir($logoPath);
-		$logoName = $this->get('logoname');
+		$handler = @opendir($logoPath);	
+		$logoName = $this->get($name);
 		if ($logoName && $handler) {
 			while ($file = readdir($handler)) {
 				if ($logoName === $file && in_array(str_replace('.', '', strtolower(substr($file, -4))), self::$logoSupportedFormats) && $file != "." && $file != "..") {
@@ -93,11 +108,11 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to save the logoinfo
 	 */
-	public function saveLogo()
+	public function saveLogo($name)
 	{
 		$uploadDir = vglobal('root_directory') . '/' . $this->logoPath;
-		$logoName = $uploadDir . $_FILES["logo"]["name"];
-		move_uploaded_file($_FILES["logo"]["tmp_name"], $logoName);
+		$logoName = $uploadDir . $_FILES[$name]["name"];
+		move_uploaded_file($_FILES[$name]["tmp_name"], $logoName);
 		copy($logoName, $uploadDir . 'application.ico');
 	}
 

@@ -25,13 +25,13 @@
 		</div>
 	</div>
 	<hr>
-	<div class="btn-toolbar">
-		<span class="pull-left">
+	<div>
+		<div class="col-md-8 paddingLRZero">
 			<h4>{vtranslate('List of widgets for the module', $QUALIFIED_MODULE)}: {vtranslate($SOURCEMODULE, $SOURCEMODULE)}</h4>
-		</span>
-		<span class="pull-right">
-			<button class="btn btn-default addWidget" type="button"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('Add widget', $QUALIFIED_MODULE)}</strong></button>
-		</span>
+		</div>
+		<div class="col-md-4 paddingLRZero">
+			<button class="btn btn-success addWidget pull-right" type="button"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('Add widget', $QUALIFIED_MODULE)}</strong></button>
+		</div>
 		<div class="clearfix"></div>
 	</div>
 	<div class="blocks-content padding1per">

@@ -45,8 +45,8 @@ $languageStrings = [
 	'LBL_PRODUCT_INFORMATION' => 'Szczegóły produktu',
 	'LBL_PRODUCTSMOD_DISABLED' => 'Włącz moduł Produkty, aby zobaczyć produkty',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
-	'LBL_RESET_PRICE' => 'Czyszczenie ceny',
-	'LBL_RESET' => 'Czyszczenie',
+	'LBL_RESET_PRICE' => 'Wyczyść ceny',
+	'LBL_RESET' => 'Wyczyść',
 	'LBL_STOCK_INFORMATION' => 'Szczegóły magazynowe produktu',
 	'Manufacturer' => 'Producent',
 	'Mfr PartNo' => 'Numer partii producenta',
@@ -84,4 +84,5 @@ $languageStrings = [
 	'Support Group' => 'Wsparcie',
 	'Marketing Group' => 'Marketing',
 	'Team Selling' => 'Sprzedaż',
+	'LBL_TAXES' => 'Podatki',
 ];

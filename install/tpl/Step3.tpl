@@ -9,6 +9,7 @@
   *
  ********************************************************************************/
 -->*}
+{strip}
 <form class="form-horizontal" name="step3" method="post" action="Install.php">
 	<input type="hidden" name="mode" value="Step4" />
 	<input type="hidden" name="lang" value="{$LANG}" />
@@ -64,7 +65,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue() key=key item=item}
+								{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue(true) key=key item=item}
 									{if $item.status}
 										<tr class="danger">
 											<td><label>{$key}</label></td>
@@ -112,10 +113,11 @@
 			</div>
 			<div class="row">
 				<div class="button-container">
-					<input type="button" class="btn btn-sm btn-default" value="{vtranslate('LBL_BACK', 'Install')}" name="back"/>
+					<a class="btn btn-sm btn-default" href="Install.php" >{vtranslate('LBL_BACK', 'Install')}</a>
 					<input type="button" class="btn btn-sm btn-primary" value="{vtranslate('LBL_NEXT', 'Install')}" name="step4"/>
 				</div>
 			</div>
 		</div>
 	</div>
 </form>
+{/strip}

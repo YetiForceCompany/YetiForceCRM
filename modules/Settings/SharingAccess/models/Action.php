@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,76 +7,84 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 
 /**
  * Sharing Access Action Model Class
  */
-class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model {
+class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model
+{
 
 	static $nonConfigurableActions = array('Hide Details', 'Hide Details and Add Events', 'Show Details', 'Show Details and Add Events');
 
-	public function getId() {
+	public function getId()
+	{
 		return $this->get('share_action_id');
 	}
 
-	public function getName() {
+	public function getName()
+	{
 		return $this->get('share_action_name');
 	}
 
-	public function isUtilityTool() {
+	public function isUtilityTool()
+	{
 		return false;
 	}
 
-	public function isModuleEnabled($module) {
+	public function isModuleEnabled($module)
+	{
 		$db = PearDatabase::getInstance();
 		$tabId = $module->getId();
 
 		$sql = 'SELECT 1 FROM vtiger_org_share_action2tab WHERE tabid = ? AND share_action_id = ?';
 		$params = array($tabId, $this->getId());
 		$result = $db->pquery($sql, $params);
-		if($result && $db->num_rows($result) > 0) {
+		if ($result && $db->num_rows($result) > 0) {
 			return true;
 		}
 		return false;
 	}
 
-	public static function getInstanceFromQResult($result, $rowNo=0) {
+	public static function getInstanceFromQResult($result, $rowNo = 0)
+	{
 		$db = PearDatabase::getInstance();
 		$row = $db->query_result_rowdata($result, $rowNo);
 		$actionModel = new Settings_SharingAccess_Action_Model();
 		return $actionModel->setData($row);
 	}
 
-	public static function getInstance($value) {
+	public static function getInstance($value)
+	{
 		$db = PearDatabase::getInstance();
 
-		if(Vtiger_Utils::isNumber($value)) {
+		if (Vtiger_Utils::isNumber($value)) {
 			$sql = 'SELECT * FROM vtiger_org_share_action_mapping WHERE share_action_id = ?';
 		} else {
 			$sql = 'SELECT * FROM vtiger_org_share_action_mapping WHERE share_action_name = ?';
 		}
 		$params = array($value);
 		$result = $db->pquery($sql, $params);
-		if($db->num_rows($result) > 0) {
+		if ($db->num_rows($result) > 0) {
 			return self::getInstanceFromQResult($result);
 		}
 		return null;
 	}
 
-	public static function getAll($configurable=true) {
+	public static function getAll($configurable = true)
+	{
 		$db = PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_org_share_action_mapping';
 		$params = array();
-		if($configurable) {
-			$sql .= ' WHERE share_action_name NOT IN ('. generateQuestionMarks(self::$nonConfigurableActions) .')';
+		if ($configurable) {
+			$sql .= ' WHERE share_action_name NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
 			array_push($params, self::$nonConfigurableActions);
 		}
 		$result = $db->pquery($sql, $params);
 		$noOfRows = $db->num_rows($result);
 		$actionModels = array();
-		for($i=0; $i<$noOfRows; ++$i) {
+		for ($i = 0; $i < $noOfRows; ++$i) {
 			$actionModels[] = self::getInstanceFromQResult($result, $i);
 		}
 		return $actionModels;

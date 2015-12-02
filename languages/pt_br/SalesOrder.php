@@ -43,7 +43,6 @@ $languageStrings = [
 	//YetiForce
 	'Recurring Invoice Information' => 'Informação Fatura Recurrente',
     'Attention' => 'Comentários',
-    'Total time [h]' => 'Tempo total [h]',
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') foir removido do Sistema. Tente substituí-lo por um Produto/Serviço diferente.',
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Produt/Serviço foi removido do Sistema. Remova-o do registro.',
 	'LBL_THIS' => 'Produto/Serviço (',

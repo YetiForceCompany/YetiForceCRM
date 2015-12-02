@@ -27,7 +27,10 @@
 							<table class="massEditTable table table-bordered">
 								<tr>
 									<td class="fieldLabel alignMiddle">{vtranslate('LBL_IMPORT_RECORDS', $MODULE)}</td>
-									<td class="fieldValue"><input type="file" data-validation-engine="validate[required]" id="import_file" name="import_file" class="small"></td>
+									<td class="fieldValue">
+										<input type="file" data-validation-engine="validate[required]" id="import_file" name="import_file" accept="{$SUPPORTED_FILE_TYPES_TEXT}" class="small">
+										{'LBL_IMPORT_SUPPORTED_FILE_TYPES'|@vtranslate:'Import'}: {$SUPPORTED_FILE_TYPES_TEXT}
+									</td>
 								</tr>
 							</table>
 						</div>
@@ -35,7 +38,7 @@
 				</div>
 				<div class="modal-footer">
 				<div class=" pull-right cancelLinkContainer">
-					<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+					<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 				</div>
 				<button class="btn btn-success" type="submit" name="saveButton"><strong>{vtranslate('LBL_IMPORT', $MODULE)}</strong></button>
 			</div>

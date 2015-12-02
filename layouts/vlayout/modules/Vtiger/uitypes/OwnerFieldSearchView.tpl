@@ -16,7 +16,7 @@
     {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
     {assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUES)}
 
-	{if $VIEWID}
+	{if $VIEWID && PerformancePrefs::getBoolean('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
 		{assign var=USERS_GROUP_LIST value=$USER_MODEL->getUsersAndGroupForModuleList($MODULE, $VIEWID)}
 		{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
 		{assign var=ALL_ACTIVEGROUP_LIST value=$USERS_GROUP_LIST['group']}
@@ -31,7 +31,8 @@
 	
 	{assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
 	{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
-	<select class="select2noactive listSearchContributor col-md-10 form-control {$ASSIGNED_USER_ID}" title="{vtranslate('LBL_ASSIGNED_TO')}" title="{vtranslate($FIELD_MODEL->get('label'))}"  name="{$ASSIGNED_USER_ID}" multiple data-fieldinfo='{$FIELD_INFO|escape}'>
+	<div class="picklistSearchField">
+	<select class="select2noactive listSearchContributor form-control {$ASSIGNED_USER_ID}" title="{vtranslate('LBL_ASSIGNED_TO')}" title="{vtranslate($FIELD_MODEL->get('label'))}"  name="{$ASSIGNED_USER_ID}" multiple data-fieldinfo='{$FIELD_INFO|escape}'>
 		{if count($ALL_ACTIVEUSER_LIST) gt 0}
 			<optgroup label="{vtranslate('LBL_USERS')}">
 				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
@@ -54,4 +55,5 @@
 			</optgroup>
         {/if}
 	</select>
+	</div>
 {/strip}

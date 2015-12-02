@@ -1,5 +1,5 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,60 +7,64 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 
-class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View {
-    
-    function getSearchParams($value,$assignedto,$dates) {
-        $listSearchParams = array();
-        $conditions = array(array('leadsource','e',$value));
-        if($assignedto != '') array_push($conditions,array('assigned_user_id','e',getUserFullName($assignedto)));
-        if(!empty($dates)){
-            array_push($conditions,array('createdtime','bw',$dates['start'].' 00:00:00,'.$dates['end'].' 23:59:59'));
-        }
-        $listSearchParams[] = $conditions;
-        return '&search_params='. json_encode($listSearchParams);
-    }
+class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
+{
 
-    /**
+	function getSearchParams($value, $assignedto, $dates)
+	{
+		$listSearchParams = array();
+		$conditions = array(array('leadsource', 'e', $value));
+		if ($assignedto != '')
+			array_push($conditions, array('assigned_user_id', 'e', getUserFullName($assignedto)));
+		if (!empty($dates)) {
+			array_push($conditions, array('createdtime', 'bw', $dates['start'] . ' 00:00:00,' . $dates['end'] . ' 23:59:59'));
+		}
+		$listSearchParams[] = $conditions;
+		return '&search_params=' . json_encode($listSearchParams);
+	}
+
+	/**
 	 * Function returns Leads grouped by Source
 	 * @param type $data
 	 * @return <Array>
 	 */
-	public function getLeadsBySource($owner,$dateFilter) {
+	public function getLeadsBySource($owner, $dateFilter)
+	{
 		$db = PearDatabase::getInstance();
-		$vtigerModel = new Vtiger_Module_Model();
-		$ownerSql = $vtigerModel->getOwnerWhereConditionForDashBoards($owner);
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$module = 'Leads';
+		$moduleModel = Vtiger_Module_Model::getInstance($module);
+		$ownerSql = $moduleModel->getOwnerWhereConditionForDashBoards($owner);
+		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
-				
-		if(!empty($ownerSql)) {
-			$ownerSql = ' AND '.$ownerSql;
+
+		if (!empty($ownerSql)) {
+			$ownerSql = ' AND ' . $ownerSql;
 		}
 		if ($securityParameter != '')
-			$securityParameterSql .= $securityParameter;	
-		
+			$securityParameterSql .= $securityParameter;
+
 		$params = array();
-		if(!empty($dateFilter)) {
+		if (!empty($dateFilter)) {
 			$dateFilterSql = ' AND createdtime BETWEEN ? AND ? ';
 			//client is not giving time frame so we are appending it
-			$params[] = $dateFilter['start']. ' 00:00:00';
-			$params[] = $dateFilter['end']. ' 23:59:59';
+			$params[] = $dateFilter['start'] . ' 00:00:00';
+			$params[] = $dateFilter['end'] . ' 23:59:59';
 		}
-		
+
 		$result = $db->pquery('SELECT COUNT(*) as count, CASE WHEN vtiger_leaddetails.leadsource IS NULL OR vtiger_leaddetails.leadsource = "" THEN "" 
 						ELSE vtiger_leaddetails.leadsource END AS leadsourcevalue FROM vtiger_leaddetails 
 						INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-						AND deleted=0 AND converted = 0 '. $ownerSql .' '.$dateFilterSql.' '.$securityParameterSql.
-						'INNER JOIN vtiger_leadsource ON vtiger_leaddetails.leadsource = vtiger_leadsource.leadsource 
+						AND deleted=0 AND converted = 0 ' . $ownerSql . ' ' . $dateFilterSql . ' ' . $securityParameterSql .
+			'INNER JOIN vtiger_leadsource ON vtiger_leaddetails.leadsource = vtiger_leadsource.leadsource 
 						GROUP BY leadsourcevalue ORDER BY vtiger_leadsource.sortorderid', $params);
-		
-		$response = array();		
+
+		$response = array();
 		$numRows = $db->num_rows($result);
-		if($numRows > 0){
-			for($i=0; $i<$numRows; $i++) {
+		if ($numRows > 0) {
+			for ($i = 0; $i < $numRows; $i++) {
 				$row = $db->query_result_rowdata($result, $i);
 				$data[$i]['label'] = vtranslate($row['leadsourcevalue'], 'Leads');
 				$ticks[$i][0] = $i;
@@ -68,48 +72,47 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View {
 				$data[$i]['data'][0][0] = $i;
 				$data[$i]['data'][0][1] = $row['count'];
 				$name[] = $row['leadsourcevalue'];
-
 			}
 			$response['chart'] = $data;
 			$response['ticks'] = $ticks;
 			$response['name'] = $name;
 		}
 		return $response;
-
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		
+
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
 		$createdTime = $request->get('createdtime');
-		
+
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-		if (!$request->has('owner')) 
+		if (!$request->has('owner'))
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Leads');
 		else
 			$owner = $request->get('owner');
-		if($owner == 'all')
+		$ownerForwarded = $owner;
+		if ($owner == 'all')
 			$owner = '';
-		
+
 		//Date conversion from user to database format
-		if(!empty($createdTime)) {
+		if (!empty($createdTime)) {
 			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['start']);
 			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
 		}
-		
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = ($owner === false)?array():$this->getLeadsBySource($owner,$dates);
-        $listViewUrl = $moduleModel->getListViewUrl();
-		$leadSourceAmount = count($data['name']);
-		for($i = 0;$i<$leadSourceAmount;$i++){
-			$data['links'][$i][0] = $i;
-			$data['links'][$i][1] = $listViewUrl.$this->getSearchParams($data['name'][$i],$owner, $dates);
 
-		}		
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$data = ($owner === false) ? array() : $this->getLeadsBySource($owner, $dates);
+		$listViewUrl = $moduleModel->getListViewUrl();
+		$leadSourceAmount = count($data['name']);
+		for ($i = 0; $i < $leadSourceAmount; $i++) {
+			$data['links'][$i][0] = $i;
+			$data['links'][$i][1] = $listViewUrl . $this->getSearchParams($data['name'][$i], $owner, $dates);
+		}
 
 		//Include special script and css needed for this widget
 
@@ -122,8 +125,9 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View {
 		$accessibleGroups = $currentUser->getAccessibleGroupForModule('Leads');
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
+		$viewer->assign('OWNER', $ownerForwarded);
 		$content = $request->get('content');
-		if(!empty($content)) {
+		if (!empty($content)) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/LeadsBySource.tpl', $moduleName);

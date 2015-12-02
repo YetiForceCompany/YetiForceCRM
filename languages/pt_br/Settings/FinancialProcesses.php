@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'LBL_GENERAL' => 'Geral',
+	'FinancialProcesses' => 'Processos Financeiros',
 ];
 
 $jsLanguageStrings = [

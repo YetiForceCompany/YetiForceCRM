@@ -13,7 +13,7 @@ $languageStrings = [
 	'SINGLE_Ideas' => 'Идеи',
 	
 	//Bloks
-	'LBL_IDEAS_INFORMATION' => 'Базовая информация',
+	'LBL_IDEAS_INFORMATION' => 'Основная информация',
 	
 	//Fields
 	'LBL_SUBJECT' => 'Тема',

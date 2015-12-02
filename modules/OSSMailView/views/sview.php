@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,29 +7,35 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-Class OSSMailView_sview_View extends Vtiger_Index_View {
-	public function preProcess(Vtiger_Request $request) {
-        parent::preProcess($request, false);
+ * *********************************************************************************************************************************** */
+
+Class OSSMailView_sview_View extends Vtiger_Index_View
+{
+
+	public function preProcess(Vtiger_Request $request)
+	{
+		parent::preProcess($request, false);
 	}
-	public function process(Vtiger_Request $request) {
-        $db = PearDatabase::getInstance();
-        $moduleName = $request->getModule();
+
+	public function process(Vtiger_Request $request)
+	{
+		$db = PearDatabase::getInstance();
+		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$load = $request->get('noloadlibs');
-        $recordModel = Vtiger_Record_Model::getInstanceById( $record, $moduleName );
-        
-        $from = $recordModel->get( 'from_email' );
-        $to = $recordModel->get( 'to_email' );
-        $to = explode( ',', $to );
-        $cc = $recordModel->get( 'cc_email' );
-        $bcc = $recordModel->get( 'bcc_email' );
-        $subject = $recordModel->get( 'subject' );
-        $owner = $recordModel->get( 'assigned_user_id' );
-        $sent = $recordModel->get( 'createdtime' );
-        
-        // pobierz załączniki
-        $userNameSql = getSqlForNameInDisplayFormat(array('first_name'=> 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+
+		$from = $recordModel->get('from_email');
+		$to = $recordModel->get('to_email');
+		$to = explode(',', $to);
+		$cc = $recordModel->get('cc_email');
+		$bcc = $recordModel->get('bcc_email');
+		$subject = $recordModel->get('subject');
+		$owner = $recordModel->get('assigned_user_id');
+		$sent = $recordModel->get('createdtime');
+
+		// pobierz załączniki
+		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
 				'Documents' ActivityType,vtiger_attachments.type  FileType,vtiger_crmentity.modifiedtime,
 				vtiger_seattachmentsrel.attachmentsid attachmentsid, vtiger_notes.notesid crmid, vtiger_notes.notecontent description,vtiger_notes.*
@@ -42,32 +48,33 @@ Class OSSMailView_sview_View extends Vtiger_Index_View {
 				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid= vtiger_users.id
 				LEFT JOIN vtiger_ossmailview_files ON vtiger_ossmailview_files.documentsid =vtiger_notes.notesid
 				WHERE vtiger_ossmailview_files.ossmailviewid = ?";
-        $params = array( $record );
-        $result = $db->pquery( $query, $params, true );
-        $num = $db->num_rows( $result );
-        
-        $attachments = array();
-        for ( $i=0; $i<$num; $i++ ) {
-            $attachments[$i]['name'] = $db->query_result( $result, $i, 'title' );
-            $attachments[$i]['file'] = $db->query_result( $result, $i, 'filename' );
-            $attachments[$i]['id'] = $db->query_result( $result, $i, 'attachmentsid' );  
-            $attachments[$i]['docid'] = $db->query_result( $result, $i, 'crmid' );          
-        }
-        
+		$params = array($record);
+		$result = $db->pquery($query, $params, true);
+		$num = $db->num_rows($result);
+
+		$attachments = array();
+		for ($i = 0; $i < $num; $i++) {
+			$attachments[$i]['name'] = $db->query_result($result, $i, 'title');
+			$attachments[$i]['file'] = $db->query_result($result, $i, 'filename');
+			$attachments[$i]['id'] = $db->query_result($result, $i, 'attachmentsid');
+			$attachments[$i]['docid'] = $db->query_result($result, $i, 'crmid');
+		}
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $moduleName);
-        $viewer->assign('NOLOADLIBS', $load);
-        $viewer->assign('FROM', $from);
-        $viewer->assign('TO', $to);
-        $viewer->assign('CC', $cc);
-        $viewer->assign('BCC', $bcc);
-        $viewer->assign('SUBJECT', $subject);
-        $viewer->assign('URL', "index.php?module=$moduleName&view=mbody&record=$record");
-        $viewer->assign('OWNER', $owner);
-        $viewer->assign('SENT', $sent);
-        $viewer->assign('ATTACHMENTS', $attachments);
-        $viewer->assign('RECORD', $record);
+		$viewer->assign('NOLOADLIBS', $load);
+		$viewer->assign('FROM', $from);
+		$viewer->assign('TO', $to);
+		$viewer->assign('CC', $cc);
+		$viewer->assign('BCC', $bcc);
+		$viewer->assign('SUBJECT', $subject);
+		$viewer->assign('URL', "index.php?module=$moduleName&view=mbody&record=$record");
+		$viewer->assign('OWNER', $owner);
+		$viewer->assign('SENT', $sent);
+		$viewer->assign('ATTACHMENTS', $attachments);
+		$viewer->assign('RECORD', $record);
 		$viewer->view('sview.tpl', 'OSSMailView');
 	}
 }
+
 ?>

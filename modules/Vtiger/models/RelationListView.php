@@ -15,6 +15,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	protected $relationModel = false;
 	protected $parentRecordModel = false;
 	protected $relatedModuleModel = false;
+	protected $query = false;
 
 	public function setRelationModel($relation)
 	{
@@ -235,7 +236,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$orderByFieldModuleModel = $relationModule->getFieldByColumn($orderBy);
 			if ($orderByFieldModuleModel && $orderByFieldModuleModel->isReferenceField()) {
 				//If reference field then we need to perform a join with crmentity with the related to field
-				$queryComponents = $split = spliti(' where ', $query);
+				$queryComponents = $split = explode(' where ', $query);
 				$selectAndFromClause = $queryComponents[0];
 				$whereCondition = $queryComponents[1];
 				$qualifiedOrderBy = 'vtiger_crmentity' . $orderByFieldModuleModel->get('column');
@@ -245,7 +246,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$query = $selectAndFromClause . ' WHERE ' . $whereCondition;
 				$query .= ' ORDER BY ' . $qualifiedOrderBy . '.label ' . $sortOrder;
 			} elseif ($orderByFieldModuleModel && $orderByFieldModuleModel->isOwnerField()) {
-				$query .= ' ORDER BY COALESCE(CONCAT(vtiger_users.first_name,vtiger_users.last_name),vtiger_groups.groupname) ' . $sortOrder;
+				$query .= ' ORDER BY COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname) ' . $sortOrder;
 			} else {
 				// Qualify the the column name with table to remove ambugity
 				$qualifiedOrderBy = $orderBy;
@@ -370,11 +371,14 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	 */
 	public function getRelationQuery()
 	{
+		if (!empty($this->query)) {
+			return $this->query;
+		}
 		$relationModel = $this->getRelationModel();
 		if (!empty($relationModel) && $relationModel->get('name') != NULL) {
 			$recordModel = $this->getParentRecordModel();
-			$query = $relationModel->getQuery($recordModel, false, $this);
-			return $query;
+			$this->query = $relationModel->getQuery($recordModel, false, $this);
+			return $this->query;
 		}
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {
@@ -404,7 +408,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$joinQuery = ' INNER JOIN ' . $parentModuleBaseTable . ' ON ' . $parentModuleBaseTable . '.' . $parentModuleDirectRelatedField . " = " . $relatedModuleBaseTable . '.' . $relatedModuleEntityIdField;
 
 		$query = $queryGenerator->getQuery();
-		$queryComponents = spliti(' FROM ', $query);
+		$queryComponents = explode(' FROM ', $query);
 		foreach ($queryComponents as $key => $val) {
 			if ($key == 0) {
 				$query = $queryComponents[0] . ' ,vtiger_crmentity.crmid';
@@ -412,7 +416,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$query .= ' FROM ' . $val;
 			}
 		}
-		$whereSplitQueryComponents = spliti(' WHERE ', $query);
+		$whereSplitQueryComponents = explode(' WHERE ', $query);
 		$query = $whereSplitQueryComponents[0] . $joinQuery;
 		foreach ($whereSplitQueryComponents as $key => $val) {
 			if ($key == 0) {
@@ -421,8 +425,8 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$query .= $val . ' WHERE ';
 			}
 		}
-		$query = trim($query, "WHERE ");
-		return $query;
+		$this->query = trim($query, "WHERE ");
+		return $this->query;
 	}
 
 	public static function getInstance($parentRecordModel, $relationModuleName, $label = false)
@@ -467,10 +471,11 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		$relationQuery = $this->getRelationQuery();
-		$relationQuery = ereg_replace("[ \t\n\r]+", " ", $relationQuery);
+		$relationQuery = preg_replace("/[ \t\n\r]+/", " ", $relationQuery);
 		$position = stripos($relationQuery, ' from ');
 		if ($position) {
-			$split = spliti(' FROM ', $relationQuery);
+			$relationQuery = str_replace('FROM', 'from', $relationQuery); 
+			$split = explode(' from ', $relationQuery);
 			$splitCount = count($split);
 			$relationQuery = 'SELECT COUNT(DISTINCT vtiger_crmentity.crmid) AS count';
 			for ($i = 1; $i < $splitCount; $i++) {
@@ -510,7 +515,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 		$pos = stripos($relationQuery, 'where');
 		if ($pos) {
-			$split = spliti('where', $relationQuery);
+			$split = explode('where', $relationQuery);
 			$updatedQuery = $split[0] . ' WHERE ' . $split[1] . ' AND ' . $condition;
 		} else {
 			$updatedQuery = $relationQuery . ' WHERE ' . $condition;

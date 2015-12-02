@@ -9,7 +9,7 @@
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_DAV_KEYS' => 'Chaves Aplicativo DAV',
+	'LBL_DAV_KEYS' => 'DAV Applications',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Criar e gerenciar chave aplicações DAV',
 	'LBL_KEY' => 'Chave',
 	'LBL_TOOLS' => 'Ferramentas',
@@ -18,7 +18,6 @@ $languageStrings = [
 	'LBL_DISPLAY_NAME' => 'Usuário',
 	'LBL_EMAIL' => 'Email',
 	'LBL_LOGIN' => 'Acesso',
-	'LBL_KEY' => 'Chave',
 	'LBL_SELECT_USER' => 'Escolha um Usuário:',
 	'LBL_ALERT_DAV_NO_ACTIVE_TITLE' => 'Aplicação DAV não está ativa',
 	'LBL_ALERT_DAV_NO_ACTIVE_DESC' => 'A aplicação DAV ainda não foi ativada, por favor, ative o "DAV" no arquivo config/api.php',
@@ -30,8 +29,9 @@ $languageStrings = [
 	'LBL_SELECT_TYPE' => 'Tipo',
 	'LBL_COUNT_CARD' => 'Número de Contatos',
 	'LBL_COUNT_CAL' => 'Número de Eventos',
-	
+	'Dav' => 'Chaves DAV',
 	'LBL_VIEW_KEYS' => 'Chaves DAV',
+	'LBL_DUPLICATE_USER_SERVICES' => 'A chave para esta aplicação já existe.',
 ];
 $jsLanguageStrings = [
 	'Adding a Key' => 'Adicionar Chave',

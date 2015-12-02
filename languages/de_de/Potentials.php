@@ -75,7 +75,6 @@ $languageStrings = [
 	'Total time [Sales Order]' => '  Gesamtzeit <br />[Aufträge]',
 	'Total time [Quotes]' => ' Gesamtzeit <br />[Angebote]',
 	'Total time [Sum]' => 'Gesamt <br />[Gesamtsumme]',
-	'Total time [h]'=>'Gesamtzeit [h]',
 	'LBL_FINANSIAL_SUMMARY' => 'Finanzübersicht',
    'Perception Analysis' => 'Erkenntnis Auswertung',
 	'Average profit sales order' => 'Durchschnittsmarge',

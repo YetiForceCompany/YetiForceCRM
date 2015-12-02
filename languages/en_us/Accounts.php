@@ -9,9 +9,9 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 $languageStrings = [
-	'Account Name' => 'Organization Name',
-	'Account No' => 'Organization Number',
-	'Accounts' => 'Organizations',
+	'Account Name' => 'Account Name',
+	'Account No' => 'Account Number',
+	'Accounts' => 'Accounts',
 	'Analyst'=>'Analyst',
 	'Competitor'=>'Competitor',
 	'Customer'=>'Customer',
@@ -20,14 +20,14 @@ $languageStrings = [
 	'industry' => 'Industry',
 	'Integrator'=>'Integrator',
 	'Investor'=>'Investor',
-	'LBL_ACCOUNT_INFORMATION' => 'Organization Details',
-	'LBL_ADD_RECORD' => 'Add Organization',
+	'LBL_ACCOUNT_INFORMATION' => 'Account Details',
+	'LBL_ADD_RECORD' => 'Add Account',
 	'LBL_COPY_BILLING_ADDRESS' => 'Copy Billing Address',
 	'LBL_COPY_SHIPPING_ADDRESS' => 'Copy Shipping Address',
-	'LBL_DUPLICATES_EXIST' => 'Organization Name already exists',
+	'LBL_DUPLICATES_EXIST' => 'Account Name already exists',
 	'LBL_END_DATE' => 'End Date',
-	'LBL_RECORDS_LIST' => 'Organization List',
-	'LBL_SHOW_ACCOUNT_HIERARCHY' => 'Organization Hierarchy',
+	'LBL_RECORDS_LIST' => 'Account List',
+	'LBL_SHOW_ACCOUNT_HIERARCHY' => 'Account Hierarchy',
 	'LBL_START_DATE' => 'Start Date',
 	'Member Of' => 'Member Of',
 	'Other Email' => 'Secondary Email',
@@ -38,7 +38,7 @@ $languageStrings = [
 	'Prospect'=>'Prospect',
 	'Reseller'=>'Reseller',
 	'SIC Code' => 'SIC Code',
-	'SINGLE_Accounts' => 'Organization',
+	'SINGLE_Accounts' => 'Account',
 	'Ticker Symbol' => 'Ticker Symbol',
 	'Payment balance' => 'Payment balance',
 	//OpenSaaS
@@ -65,6 +65,7 @@ $languageStrings = [
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'European mutual partnership',
 	'PLL_EUROPEAN_ASSOCIATION' => 'European association',
 	'PLL_UFCIITS' => 'Undertakings for collective invesment in transferable securites',
+	'LBL_ACCOUNTS_LIST_TREE_ALERT' => 'List of accounts depends on selected filter and selected products in tree.',
 
 	'Calculations all'=>'All calculations',
 	'Calculations accepted'=>'Calculations accepted',
@@ -84,11 +85,13 @@ $languageStrings = [
 	'Approval for phone calls'=>'Permission to call',
 	'LBL_CONVERTED_FROM_LEAD' => 'Converted from lead',
 	'LBL_LEGAL_FORM' => 'Legal form',
+	'LBL_INVENTORY_BALANCE' => 'balance',
+	'LBL_DISCOUNT' => 'Discount',
+	'LBL_CREDIT_LIMIT' => 'Credit limit',
 ];
-
 $jsLanguageStrings = [
-	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Organization Name already Exists.Do you want to create a duplicate record?',
-	'LBL_DELETE_CONFIRMATION' => 'Deleting this Organization will remove its related Opportunities & Quotes. Are you sure you want to delete this Organization?',
-	'LBL_MASS_DELETE_CONFIRMATION' => 'Deleting this Organization(s) will remove its related Opportunities & Quotes. Are you sure you want to delete the selected records?',
+	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Account Name already Exists.Do you want to create a duplicate record?',
+	'LBL_DELETE_CONFIRMATION' => 'Deleting this Account will remove its related Opportunities & Quotes. Are you sure you want to delete this Account?',
+	'LBL_MASS_DELETE_CONFIRMATION' => 'Deleting this Account(s) will remove its related Opportunities & Quotes. Are you sure you want to delete the selected records?',
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Are you sure you want to delete?',
 ];

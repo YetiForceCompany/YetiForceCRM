@@ -10,6 +10,7 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************************************************************/
 -->*}
+{strip}
 {if $ERRORTEXT neq ''}
 	<div class="row main-container">
 		<div class="inner-container">
@@ -27,3 +28,4 @@
 		</div>
 	</div>
 {/if}
+{/strip}

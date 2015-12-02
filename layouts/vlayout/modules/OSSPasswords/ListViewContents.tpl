@@ -19,6 +19,7 @@
 <input type="hidden" id="Operator" value="{$OPERATOR}" />
 <input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}" />
 <input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
+<input type="hidden" id="autoRefreshListOnChange" value="{PerformancePrefs::getBoolean('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 <input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
 <input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 <input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
@@ -34,6 +35,11 @@
 			{foreach item=ALPHABET from=$ALPHABETS}
 				<td class="alphabetSearch textAlignCenter cursorPointer {if $ALPHABET_VALUE eq $ALPHABET} highlightBackgroundColor {/if}" style="padding : 0px !important"><a id="{$ALPHABET}" href="#">{$ALPHABET}</a></td>
 			{/foreach}
+			<td class="alphabetSearch textAlignCenter cursorPointer">
+				<a href="index.php?view=List&module={$MODULE}" >
+					<span class="glyphicon glyphicon-remove" title="{vtranslate('LBL_REMOVE_ALPH_SEARCH_INFO')}"></span>
+				</a>
+			</td>
 			</tr>
 		</tbody>
 	</table>
@@ -57,11 +63,11 @@
 		<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{vtranslate('LBL_LOADING', $MODULE)}"/>
 		<p class="listViewLoadingMsg">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
 	</span>
-	{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
+	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<table class="table table-bordered listViewEntriesTable">
 		<thead>
 			<tr class="listViewHeaders">
-				<th width="5%" class="{$WIDTHTYPE}">
+				<th class="{$WIDTHTYPE}">
 					<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
 				</th>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -74,16 +80,22 @@
 		</thead>
         {if $MODULE_MODEL->isQuickSearchEnabled()}
         <tr>
-            <td><a class="btn" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="glyphicon glyphicon-search"></span></a></td>
+            <td>
+				<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);">
+					<span class="glyphicon glyphicon-search" title="{vtranslate('LBL_SEARCH')}"></span>
+				</a>
+			</td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
              <td>
                  {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
                 {include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME)
-                    FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$CURRENT_USER_MODEL}
+                    FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
              </td>
 			{/foreach}
 			<td>
-				<button class="btn btn-default" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
+				<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" >
+					<span class="glyphicon glyphicon-remove"  title="{vtranslate('LBL_REMOVE_SEARCH_OPTION_INFO')}"></span>
+				</a>
 			</td>
         </tr>
         {/if}
@@ -97,7 +109,7 @@
 				}
 				</style>
 			{/if}
-            <td  width="5%" class="{$WIDTHTYPE}">
+            <td  class="{$WIDTHTYPE}">
 				<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
 			</td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -110,13 +122,6 @@
 			<td class="listViewEntryValue {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" nowrap {if $LISTVIEW_HEADERNAME eq 'password'} id="{$PASS_ID}" {/if}>
 				{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') and $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true }
 					<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</a>
-				{else if $LISTVIEW_HEADER->get('uitype') eq '72'}
-					{assign var=CURRENCY_SYMBOL_PLACEMENT value={$CURRENT_USER_MODEL->get('currency_symbol_placement')}}
-					{if $CURRENCY_SYMBOL_PLACEMENT eq '1.0$'}
-						{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}{$LISTVIEW_ENTRY->get('currencySymbol')}
-					{else}
-						{$LISTVIEW_ENTRY->get('currencySymbol')}{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-					{/if}
 				{else if $LISTVIEW_HEADER->get('uitype') eq '11'}
 					{assign var=PERMISSION value=Vtiger_Mobile_Model::checkPermissionForOutgoingCall()}
 					{if $PERMISSION}

@@ -59,7 +59,7 @@
 	{if !empty($announcement)}
 		<div class="navbar-form navbar-right">
 			<div class="quickActions">
-				<a href="#"><img class='alignMiddle' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" /></a>
+				<img class='alignMiddle' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
 			</div>	
 		</div>
 	{/if}
@@ -81,17 +81,21 @@
 		</select>
 	</div>
 	<div role="search" class="navbar-form navbar-left">
-		<div class="form-group">          
-			<div class="input-group" style="width: 450px;">
+		<div class="form-group">
+			<div class="input-group pull-left globalSearchInput">
 				<input type="text"  class="form-control" title="{vtranslate('LBL_GLOBAL_SEARCH')}" id="globalSearchValue" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
 				<span id="searchIcon" class="input-group-addon cursorPointer"><span class="glyphicon glyphicon-search "></span></span>
-				<span class="adv-search navbar-form pull-left">
-					<a class="alignMiddle" id="globalSearch">{vtranslate('LBL_ADVANCE_SEARCH')}</a>
-				</span>
 			</div>
+			{assign var="ROLE_DETAIL" value=Users_Record_Model::getCurrentUserModel()->getRoleDetail()}
+			{if $ROLE_DETAIL['globalsearchadv'] == 1}
+				<div class="pull-left">
+					<span class="adv-search navbar-form">
+						<button class="alignMiddle btn btn-info" id="globalSearch">{vtranslate('LBL_ADVANCE_SEARCH')}</button>
+					</span>
+				</div>
+			{/if}
 		</div>
 	</div>	
-
 	{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
 	{if $BREADCRUMBS}
 		<div class="breadcrumbsContainer col-md-12" style="display: none;">
@@ -113,9 +117,9 @@
 					.moduleColor_{$item.module}{
 						color: {$item.color} !important;
 					}
-					.moduleIcon{$item.module}{
+					{*.moduleIcon{$item.module}{
 						background: {$item.color} !important;
-					}
+					}*}
 				{/foreach}
 			</style>
 		</div>

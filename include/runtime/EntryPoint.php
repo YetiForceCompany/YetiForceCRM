@@ -1,30 +1,31 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 
-vimport ('include.exceptions.AppException');
+vimport('include.exceptions.AppException');
 
-vimport ('include.http.Request');
-vimport ('include.http.Response');
-vimport ('include.http.Session');
+vimport('include.http.Request');
+vimport('include.http.Response');
+vimport('include.http.Session');
 
-vimport ('include.runtime.Globals');
-vimport ('include.runtime.Controller');
-vimport ('include.runtime.Viewer');
-vimport ('include.runtime.Theme');
-vimport ('include.runtime.BaseModel');
-vimport ('include.runtime.JavaScript');
+vimport('include.runtime.Globals');
+vimport('include.runtime.Controller');
+vimport('include.runtime.Viewer');
+vimport('include.runtime.Theme');
+vimport('include.runtime.BaseModel');
+vimport('include.runtime.JavaScript');
+vimport('include.runtime.LanguageHandler');
+vimport('include.runtime.Cache');
+vimport('include.runtime.Layout');
 
-vimport ('include.runtime.LanguageHandler');
-vimport ('include.runtime.Cache');
-
-abstract class Vtiger_EntryPoint {
+abstract class Vtiger_EntryPoint
+{
 
 	/**
 	 * Login data
@@ -34,25 +35,28 @@ abstract class Vtiger_EntryPoint {
 	/**
 	 * Get login data.
 	 */
-	function getLogin() {
+	function getLogin()
+	{
 		return $this->login;
 	}
 
 	/**
 	 * Set login data.
 	 */
-	function setLogin($login) {
-		if ($this->login) throw new AppException('Login is already set.');
+	function setLogin($login)
+	{
+		if ($this->login)
+			throw new AppException('Login is already set.');
 		$this->login = $login;
 	}
 
 	/**
 	 * Check if login data is present.
 	 */
-	function hasLogin() {
-		return $this->getLogin()? true: false;
+	function hasLogin()
+	{
+		return $this->getLogin() ? true : false;
 	}
 
-	abstract function process (Vtiger_Request $request);
-
+	abstract function process(Vtiger_Request $request);
 }

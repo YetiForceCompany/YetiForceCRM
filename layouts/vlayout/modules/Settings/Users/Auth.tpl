@@ -16,7 +16,7 @@
 		<div class="col-md-2"></div>
 	</div>
 	<hr>
-	<div class="row">
+	<div>
 		<div class="contents tabbable">
 			<ul class="nav nav-tabs layoutTabs massEditTabs">
 				<li class="active"><a data-toggle="tab" href="#ldap"><strong>{vtranslate('LBL_LDAP_AUTH', $QUALIFIED_MODULE)}</strong></a></li>
@@ -24,14 +24,15 @@
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
 				{assign var=CONFIG value=$MODULE_MODEL->getConfig('ldap')}
 				<div class="tab-pane active" id="ldap">
-					<div class="row">
-						<div class="col-md-1 pagination-centered">
+					<div>
+						<div class="pull-left pagination-centered">
 							<input class="configField" type="checkbox" name="active" id="ldapActive" data-type="ldap" value="1" {if $CONFIG['active']=='true'}checked=""{/if}>
 						</div>
 						<div class="col-md-11">
 							<label for="ldapActive">{vtranslate('LBL_ACTIVE_LDAP_AUTH', $QUALIFIED_MODULE)}</label>
 						</div>
 					</div>
+					<div class="clearfix"></div>
 					<hr />
 					<div class="row">
 						<div class="col-md-2">
@@ -62,10 +63,9 @@
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_USERS', $QUALIFIED_MODULE)}:</label>
 						</div>
 						<div class="col-md-8">
-							{assign var=USER_LIST value=$USER_MODEL->getAccessibleUsers()}
 							<select multiple="" name="users" class="select2 configField form-control" data-type="ldap" style="width: 100%;">
-								{foreach key=OWNER_ID item=OWNER_NAME from=$USER_LIST}
-									<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $CONFIG['users'])} selected {/if}>{$OWNER_NAME}</option>
+								{foreach key=KEY item=USER from=$NOT_ADMIN_USERS}
+									<option value="{$USER['id']}" {if in_array($USER['id'], $CONFIG['users'])} selected {/if}>{$USER['user_name']}</option>
 								{/foreach}
 							</select>
 						</div>

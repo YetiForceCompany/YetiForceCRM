@@ -1,30 +1,30 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 
-class Settings_Vtiger_ConfigEditorEdit_View extends Settings_Vtiger_Index_View {
+class Settings_Vtiger_ConfigEditorEdit_View extends Settings_Vtiger_Index_View
+{
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$qualifiedName = $request->getModule(false);
 		$moduleModel = Settings_Vtiger_ConfigModule_Model::getInstance();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODEL', $moduleModel);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('ConfigEditorEdit.tpl', $qualifiedName);
 	}
-	
-		
-	function getPageTitle(Vtiger_Request $request) {
+
+	function getPageTitle(Vtiger_Request $request)
+	{
 		$qualifiedModuleName = $request->getModule(false);
-		return vtranslate('LBL_CONFIG_EDITOR',$qualifiedModuleName);
+		return vtranslate('LBL_CONFIG_EDITOR', $qualifiedModuleName);
 	}
 
 	/**
@@ -32,7 +32,8 @@ class Settings_Vtiger_ConfigEditorEdit_View extends Settings_Vtiger_Index_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request) {
+	function getFooterScripts(Vtiger_Request $request)
+	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 

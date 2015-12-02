@@ -1,24 +1,27 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
 /**
  * Base Model Class
  */
-class Vtiger_Base_Model {
+class Vtiger_Base_Model
+{
+
 	protected $valueMap;
 
 	/**
 	 * Constructor
 	 * @param Array $values
 	 */
-	function  __construct($values=array()) {
+	function __construct($values = array())
+	{
 		$this->valueMap = $values;
 	}
 
@@ -27,8 +30,9 @@ class Vtiger_Base_Model {
 	 * @param $key
 	 * @return Value for the given key
 	 */
-	public function get($key){
-		return $this->valueMap[$key];
+	public function get($key)
+	{
+		return isset($this->valueMap[$key]) ? $this->valueMap[$key] : false;
 	}
 
 	/**
@@ -37,7 +41,8 @@ class Vtiger_Base_Model {
 	 * @param <Boolean> $skipEmpty - Skip the check if string is empty
 	 * @return Value for the given key
 	 */
-	public function getForSql($key, $skipEmtpy=true) {
+	public function getForSql($key, $skipEmtpy = true)
+	{
 		return Vtiger_Util_Helper::validateStringForSql($this->get($key), $skipEmtpy);
 	}
 
@@ -47,7 +52,8 @@ class Vtiger_Base_Model {
 	 * @param $value
 	 * @return Vtiger_Base_Model
 	 */
-	public function set($key,$value){
+	public function set($key, $value)
+	{
 		$this->valueMap[$key] = $value;
 		return $this;
 	}
@@ -57,7 +63,8 @@ class Vtiger_Base_Model {
 	 * @param Array (key-value mapping) $values
 	 * @return Vtiger_Base_Model
 	 */
-	public function setData($values){
+	public function setData($values)
+	{
 		$this->valueMap = $values;
 		return $this;
 	}
@@ -66,7 +73,8 @@ class Vtiger_Base_Model {
 	 * Function to get all the values of the Object
 	 * @return Array (key-value mapping)
 	 */
-	public function getData(){
+	public function getData()
+	{
 		return $this->valueMap;
 	}
 
@@ -74,7 +82,8 @@ class Vtiger_Base_Model {
 	 * Function to check if the key exists.
 	 * @param String $key
 	 */
-	public function has($key) {
+	public function has($key)
+	{
 		return array_key_exists($key, $this->valueMap);
 	}
 
@@ -82,8 +91,8 @@ class Vtiger_Base_Model {
 	 * Function to check if the key is empty.
 	 * @param type $key
 	 */
-	public function isEmpty($key) {
+	public function isEmpty($key)
+	{
 		return (!isset($this->valueMap[$key]) || empty($this->valueMap[$key]));
 	}
-
 }

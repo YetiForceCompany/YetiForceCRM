@@ -103,13 +103,9 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 * @param <String> $value - value which need to be converted to display value
 	 * @return <String> - converted display value
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getDisplayValue($value, $record, $recordInstance);
+		return $this->getUITypeModel()->getDisplayValue($value, $record, $recordInstance, $rawText);
 	}
 
 	/**
@@ -187,6 +183,12 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$fieldDataType = 'modules';
 			} else if ($uiType == '302') {
 				$fieldDataType = 'tree';
+			} else if ($uiType == '303') {
+				$fieldDataType = 'taxes';
+			} else if ($uiType == '304') {
+				$fieldDataType = 'inventoryLimit';
+			} else if ($uiType == '305') {
+				$fieldDataType = 'multiReferenceValue';
 			} else {
 				$webserviceField = $this->getWebserviceFieldObject();
 				$fieldDataType = $webserviceField->getFieldDataType();
@@ -246,7 +248,10 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getUITypeModel()
 	{
-		return Vtiger_Base_UIType::getInstanceFromField($this);
+		if (!$this->get('uitypeModel')) {
+			$this->set('uitypeModel', Vtiger_Base_UIType::getInstanceFromField($this));
+		}
+		return $this->get('uitypeModel');
 	}
 
 	public function isRoleBased()
@@ -274,10 +279,14 @@ class Vtiger_Field_Model extends Vtiger_Field
 			} else {
 				$picklistValues = Vtiger_Util_Helper::getPickListValues($this->getName());
 			}
+
+			$fieldPickListValues = [];
 			foreach ($picklistValues as $value) {
 				$fieldPickListValues[$value] = vtranslate($value, $this->getModuleName());
 			}
 			return $fieldPickListValues;
+		} else if (method_exists($this->getUITypeModel(), 'getPicklistValues')) {
+			return $this->getUITypeModel()->getPicklistValues();
 		}
 		return null;
 	}
@@ -355,7 +364,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function isViewable()
 	{
-		if (!$this->isViewEnabled()) {
+		if (!$this->isViewEnabled() || !$this->isActiveReference()) {
 			return false;
 		}
 		return true;
@@ -409,6 +418,24 @@ class Vtiger_Field_Model extends Vtiger_Field
 		return ($this->get('summaryfield')) ? true : false;
 	}
 
+	public function isActiveReference()
+	{
+		if ($this->getFieldDataType() == 'reference') {
+			$webserviceField = $this->getWebserviceFieldObject();
+			$referenceList = $webserviceField->getReferenceList();
+			foreach ($referenceList as $key => $module) {
+				if (!vtlib_isModuleActive($module)) {
+					unset($referenceList[$key]);
+				}
+			}
+			$webserviceField->setReferenceList($referenceList);
+			if (count($referenceList) == 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * Function to check whether the current field is editable
 	 * @return <Boolean> - true/false
@@ -417,9 +444,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	{
 		if (!$this->isEditEnabled() || !$this->isViewable() ||
 			( ((int) $this->get('displaytype')) != 1 && ((int) $this->get('displaytype')) != 10 ) ||
-			$this->isReadOnly() == true ||
-			$this->get('uitype') == 4) {
-
+			$this->isReadOnly() == true || $this->get('uitype') == 4) {
 			return false;
 		}
 		return true;
@@ -431,7 +456,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function isAjaxEditable()
 	{
-		$ajaxRestrictedFields = array('4', '72', '10', '300');
+		$ajaxRestrictedFields = array('4', '72', '10', '300', '51');
 		if (!$this->isEditable() || in_array($this->get('uitype'), $ajaxRestrictedFields) || !$this->getUITypeModel()->isAjaxEditable()) {
 			return false;
 		}
@@ -563,12 +588,30 @@ class Vtiger_Field_Model extends Vtiger_Field
 		$this->fieldInfo['name'] = $this->get('name');
 		$this->fieldInfo['label'] = vtranslate($this->get('label'), $this->getModuleName());
 
-		if ($fieldDataType == 'picklist' || $fieldDataType == 'multipicklist' || $fieldDataType == 'multiowner') {
+		if (in_array($fieldDataType, ['picklist', 'multipicklist', 'multiowner', 'multiReferenceValue'])) {
 			$pickListValues = $this->getPicklistValues();
 			if (!empty($pickListValues)) {
 				$this->fieldInfo['picklistvalues'] = $pickListValues;
 			} else {
-				$this->fieldInfo['picklistvalues'] = array();
+				$this->fieldInfo['picklistvalues'] = [];
+			}
+		}
+
+		if ($fieldDataType == 'taxes') {
+			$taxs = $this->getUITypeModel()->getTaxes();
+			if (!empty($taxs)) {
+				$this->fieldInfo['picklistvalues'] = $taxs;
+			} else {
+				$this->fieldInfo['picklistvalues'] = [];
+			}
+		}
+
+		if ($fieldDataType == 'inventoryLimit') {
+			$limits = $this->getUITypeModel()->getLimits();
+			if (!empty($limits)) {
+				$this->fieldInfo['picklistvalues'] = $limits;
+			} else {
+				$this->fieldInfo['picklistvalues'] = [];
 			}
 		}
 
@@ -592,9 +635,31 @@ class Vtiger_Field_Model extends Vtiger_Field
 		if ($this->getFieldDataType() == 'owner') {
 			$userList = $currentUser->getAccessibleUsers();
 			$groupList = $currentUser->getAccessibleGroups();
-			$pickListValues = array();
+			$pickListValues = [];
 			$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
 			$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
+			$this->fieldInfo['picklistvalues'] = $pickListValues;
+		}
+
+		if ($this->getFieldDataType() == 'sharedOwner') {
+			$userList = $currentUser->getAccessibleUsers();
+			$pickListValues = [];
+			$this->fieldInfo['picklistvalues'] = $userList;
+		}
+
+		if ($this->getFieldDataType() == 'modules') {
+			foreach ($this->getModulesListValues() as $moduleId => $module) {
+				$modulesList[$module['name']] = $module['label'];
+			}
+			$this->fieldInfo['picklistvalues'] = $modulesList;
+		}
+
+		if ($this->getFieldDataType() == 'tree') {
+			$tree = $this->getUITypeModel()->getAllValue();
+			$pickListValues = [];
+			foreach ($tree as $key => $labels) {
+				$pickListValues[$key] = $labels[0];
+			}
 			$this->fieldInfo['picklistvalues'] = $pickListValues;
 		}
 
@@ -613,171 +678,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	protected static function getDateForStdFilterBytype($type)
 	{
-		$today = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d"), date("Y")));
-		$todayName = date('l', strtotime($today));
-
-		$tomorrow = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 1, date("Y")));
-		$yesterday = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 1, date("Y")));
-
-		$currentmonth0 = date("Y-m-d", mktime(0, 0, 0, date("m"), "01", date("Y")));
-		$currentmonth1 = date("Y-m-t");
-		$lastmonth0 = date("Y-m-d", mktime(0, 0, 0, date("m") - 1, "01", date("Y")));
-		$lastmonth1 = date("Y-m-t", strtotime($lastmonth0));
-		$nextmonth0 = date("Y-m-d", mktime(0, 0, 0, date("m") + 1, "01", date("Y")));
-		$nextmonth1 = date("Y-m-t", strtotime($nextmonth0));
-
-		// (Last Week) If Today is "Sunday" then "-2 week Sunday" will give before last week Sunday date
-		if ($todayName == "Sunday")
-			$lastweek0 = date("Y-m-d", strtotime("-1 week Sunday"));
-		else
-			$lastweek0 = date("Y-m-d", strtotime("-2 week Sunday"));
-		$lastweek1 = date("Y-m-d", strtotime("-1 week Saturday"));
-
-		// (This Week) If Today is "Sunday" then "-1 week Sunday" will give last week Sunday date
-		if ($todayName == "Sunday")
-			$thisweek0 = date("Y-m-d", strtotime("-0 week Sunday"));
-		else
-			$thisweek0 = date("Y-m-d", strtotime("-1 week Sunday"));
-		$thisweek1 = date("Y-m-d", strtotime("this Saturday"));
-
-		// (Next Week) If Today is "Sunday" then "this Sunday" will give Today's date
-		if ($todayName == "Sunday")
-			$nextweek0 = date("Y-m-d", strtotime("+1 week Sunday"));
-		else
-			$nextweek0 = date("Y-m-d", strtotime("this Sunday"));
-		$nextweek1 = date("Y-m-d", strtotime("+1 week Saturday"));
-
-		$next7days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 6, date("Y")));
-		$next30days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 29, date("Y")));
-		$next60days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 59, date("Y")));
-		$next90days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 89, date("Y")));
-		$next120days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 119, date("Y")));
-
-		$last7days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 6, date("Y")));
-		$last30days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 29, date("Y")));
-		$last60days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 59, date("Y")));
-		$last90days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 89, date("Y")));
-		$last120days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 119, date("Y")));
-
-		$currentFY0 = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y")));
-		$currentFY1 = date("Y-m-t", mktime(0, 0, 0, "12", date("d"), date("Y")));
-		$lastFY0 = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y") - 1));
-		$lastFY1 = date("Y-m-t", mktime(0, 0, 0, "12", date("d"), date("Y") - 1));
-		$nextFY0 = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y") + 1));
-		$nextFY1 = date("Y-m-t", mktime(0, 0, 0, "12", date("d"), date("Y") + 1));
-
-		if (date("m") <= 3) {
-			$cFq = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y")));
-			$cFq1 = date("Y-m-d", mktime(0, 0, 0, "03", "31", date("Y")));
-			$nFq = date("Y-m-d", mktime(0, 0, 0, "04", "01", date("Y")));
-			$nFq1 = date("Y-m-d", mktime(0, 0, 0, "06", "30", date("Y")));
-			$pFq = date("Y-m-d", mktime(0, 0, 0, "10", "01", date("Y") - 1));
-			$pFq1 = date("Y-m-d", mktime(0, 0, 0, "12", "31", date("Y") - 1));
-		} else if (date("m") > 3 and date("m") <= 6) {
-			$cFq = date("Y-m-d", mktime(0, 0, 0, "04", "01", date("Y")));
-			$cFq1 = date("Y-m-d", mktime(0, 0, 0, "06", "30", date("Y")));
-			$nFq = date("Y-m-d", mktime(0, 0, 0, "07", "01", date("Y")));
-			$nFq1 = date("Y-m-d", mktime(0, 0, 0, "09", "30", date("Y")));
-			$pFq = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y")));
-			$pFq1 = date("Y-m-d", mktime(0, 0, 0, "03", "31", date("Y")));
-		} else if (date("m") > 6 and date("m") <= 9) {
-			$cFq = date("Y-m-d", mktime(0, 0, 0, "07", "01", date("Y")));
-			$cFq1 = date("Y-m-d", mktime(0, 0, 0, "09", "30", date("Y")));
-			$nFq = date("Y-m-d", mktime(0, 0, 0, "10", "01", date("Y")));
-			$nFq1 = date("Y-m-d", mktime(0, 0, 0, "12", "31", date("Y")));
-			$pFq = date("Y-m-d", mktime(0, 0, 0, "04", "01", date("Y")));
-			$pFq1 = date("Y-m-d", mktime(0, 0, 0, "06", "30", date("Y")));
-		} else {
-			$cFq = date("Y-m-d", mktime(0, 0, 0, "10", "01", date("Y")));
-			$cFq1 = date("Y-m-d", mktime(0, 0, 0, "12", "31", date("Y")));
-			$nFq = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y") + 1));
-			$nFq1 = date("Y-m-d", mktime(0, 0, 0, "03", "31", date("Y") + 1));
-			$pFq = date("Y-m-d", mktime(0, 0, 0, "07", "01", date("Y")));
-			$pFq1 = date("Y-m-d", mktime(0, 0, 0, "09", "30", date("Y")));
-		}
-
-		$dateValues = array();
-		if ($type == "today") {
-			$dateValues[0] = $today;
-			$dateValues[1] = $today;
-		} elseif ($type == "yesterday") {
-			$dateValues[0] = $yesterday;
-			$dateValues[1] = $yesterday;
-		} elseif ($type == "tomorrow") {
-			$dateValues[0] = $tomorrow;
-			$dateValues[1] = $tomorrow;
-		} elseif ($type == "thisweek") {
-			$dateValues[0] = $thisweek0;
-			$dateValues[1] = $thisweek1;
-		} elseif ($type == "lastweek") {
-			$dateValues[0] = $lastweek0;
-			$dateValues[1] = $lastweek1;
-		} elseif ($type == "nextweek") {
-			$dateValues[0] = $nextweek0;
-			$dateValues[1] = $nextweek1;
-		} elseif ($type == "thismonth") {
-			$dateValues[0] = $currentmonth0;
-			$dateValues[1] = $currentmonth1;
-		} elseif ($type == "lastmonth") {
-			$dateValues[0] = $lastmonth0;
-			$dateValues[1] = $lastmonth1;
-		} elseif ($type == "nextmonth") {
-			$dateValues[0] = $nextmonth0;
-			$dateValues[1] = $nextmonth1;
-		} elseif ($type == "next7days") {
-			$dateValues[0] = $today;
-			$dateValues[1] = $next7days;
-		} elseif ($type == "next30days") {
-			$dateValues[0] = $today;
-			$dateValues[1] = $next30days;
-		} elseif ($type == "next60days") {
-			$dateValues[0] = $today;
-			$dateValues[1] = $next60days;
-		} elseif ($type == "next90days") {
-			$dateValues[0] = $today;
-			$dateValues[1] = $next90days;
-		} elseif ($type == "next120days") {
-			$dateValues[0] = $today;
-			$dateValues[1] = $next120days;
-		} elseif ($type == "last7days") {
-			$dateValues[0] = $last7days;
-			$dateValues[1] = $today;
-		} elseif ($type == "last30days") {
-			$dateValues[0] = $last30days;
-			$dateValues[1] = $today;
-		} elseif ($type == "last60days") {
-			$dateValues[0] = $last60days;
-			$dateValues[1] = $today;
-		} else if ($type == "last90days") {
-			$dateValues[0] = $last90days;
-			$dateValues[1] = $today;
-		} elseif ($type == "last120days") {
-			$dateValues[0] = $last120days;
-			$dateValues[1] = $today;
-		} elseif ($type == "thisfy") {
-			$dateValues[0] = $currentFY0;
-			$dateValues[1] = $currentFY1;
-		} elseif ($type == "prevfy") {
-			$dateValues[0] = $lastFY0;
-			$dateValues[1] = $lastFY1;
-		} elseif ($type == "nextfy") {
-			$dateValues[0] = $nextFY0;
-			$dateValues[1] = $nextFY1;
-		} elseif ($type == "nextfq") {
-			$dateValues[0] = $nFq;
-			$dateValues[1] = $nFq1;
-		} elseif ($type == "prevfq") {
-			$dateValues[0] = $pFq;
-			$dateValues[1] = $pFq1;
-		} elseif ($type == "thisfq") {
-			$dateValues[0] = $cFq;
-			$dateValues[1] = $cFq1;
-		} else {
-			$dateValues[0] = "";
-			$dateValues[1] = "";
-		}
-
-		return $dateValues;
+		return DateTimeRange::getDateRangeByType($type);
 	}
 
 	/**
@@ -1044,21 +945,9 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 * @param <String> $value - value which need to be converted to display value
 	 * @return <String> - converted display value
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getEditViewDisplayValue($value);
-	}
-
-	public function getUitypeInstance()
-	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		return $this->uitype_instance;
+		return $this->getUITypeModel()->getEditViewDisplayValue($value, $record);
 	}
 
 	/**
@@ -1093,11 +982,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getRelatedListDisplayValue($value)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getRelatedListDisplayValue($value);
+		return $this->getUITypeModel()->getRelatedListDisplayValue($value);
 	}
 
 	/**
@@ -1116,11 +1001,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getDBInsertValue($value)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getDBInsertValue($value);
+		return $this->getUITypeModel()->getDBInsertValue($value);
 	}
 
 	/**
@@ -1264,25 +1145,17 @@ class Vtiger_Field_Model extends Vtiger_Field
 		return ($this->getFieldDataType() == self::OWNER_TYPE) ? true : false;
 	}
 
-	public static function getInstanceFromFieldId($fieldId, $moduleTabId)
+	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
 	{
-		$db = PearDatabase::getInstance();
-
-		if (is_string($fieldId)) {
-			$fieldId = array($fieldId);
+		$fieldModel = Vtiger_Cache::get('FieldModel', $fieldId);
+		if ($fieldModel) {
+			return $fieldModel;
 		}
-
-		$query = 'SELECT * FROM vtiger_field WHERE fieldid IN (' . generateQuestionMarks($fieldId) . ') AND tabid=?';
-		$result = $db->pquery($query, array($fieldId, $moduleTabId));
-		$fieldModelList = array();
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
-			$fieldModel = new self();
-			$fieldModel->initialize($row);
-			$fieldModelList[] = $fieldModel;
-		}
-		return $fieldModelList;
+		$field = Vtiger_Functions::getModuleFieldInfoWithId($fieldId);
+		$fieldModel = new self();
+		$fieldModel->initialize($field);
+		Vtiger_Cache::set('FieldModel', $fieldId, $fieldModel);
+		return $fieldModel;
 	}
 
 	public function getWithDefaultValue()
@@ -1297,6 +1170,6 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 	public function getFieldParams()
 	{
-		return $this->get('fieldparams');
+		return Zend_Json::decode($this->get('fieldparams'));
 	}
 }

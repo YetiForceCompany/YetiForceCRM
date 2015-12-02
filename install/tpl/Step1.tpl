@@ -9,7 +9,7 @@
   *
  ********************************************************************************/
 -->*}
-
+{strip}
 <div class="row main-container">
 	<div class="inner-container">
 		<form class="form-horizontal" name="step1" method="post" action="Install.php">
@@ -49,3 +49,4 @@
 		</form>
 	</div>
 </div>
+{/strip}

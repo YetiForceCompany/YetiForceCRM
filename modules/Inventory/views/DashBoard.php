@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-class Inventory_Dashboard_View extends Vtiger_Dashboard_View {
+class Inventory_DashBoard_View extends Vtiger_DashBoard_View {
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request

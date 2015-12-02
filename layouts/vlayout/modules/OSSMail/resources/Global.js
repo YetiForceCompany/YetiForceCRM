@@ -49,7 +49,7 @@ function load_all_widgets(inframe, crm_path) {
 			params['from_email'] = fromEmail[1];
 		}
 		params['from_name'] = inframe.find('.from .rcmContactAddress').text();
-		params['title'] = inframe.find('.subject').text();
+		params['title'] = inframe.find('.subject').text().replace("Subject: ", "");
 		params['body'] = inframe.find('#messagebody').text();
 		gcrm['uid'] = params['uid'] = inframe.find('#message-oss-parameters-uid').text();
 		gcrm['folder'] = params['folder'] = inframe.find('#message-oss-parameters-folder').text();
@@ -65,12 +65,12 @@ function load_all_widgets(inframe, crm_path) {
 				params['from_email'] = fromEmail[1];
 			}
 			params['from_name'] = inframe2.find('.from .rcmContactAddress').text();
-			params['title'] = inframe2.find('.subject').text();
+			params['title'] = inframe2.find('.subject').text().replace("Subject: ", "");
 			params['body'] = inframe2.find('#messagebody').text();
 			gcrm['uid'] = params['uid'] = inframe2.find('#message-oss-parameters-uid').text();
 			gcrm['folder'] = params['folder'] = inframe2.find('#message-oss-parameters-folder').text();
 			gcrm['username'] = params['username'] = inframe2.find('#message-oss-parameters-username').text();
-			load_connection(crm_path, gcrm, params, inframe, progressIndicatorElement);
+			load_connection(crm_path, gcrm, params, inframe2, progressIndicatorElement);
 		});
 	});
 
@@ -88,11 +88,18 @@ function load_connection(crm_path, gcrm, params, inframe, progressIndicatorEleme
 		var related_records = find_crm_detail(crm_path, 'all', params);
 		getConfig.done(function (cfg) {
 			related_records.done(function (fcd) {
-				if (data.result != 'false') {
-					if (data.result == 0) {
+				if (data.result !== 'false') {
+					var crmid = 0;
+					if (data.result.id !== undefined) {
+						crmid = data.result.id;
+					}
+					if (data.result['0_created_Email'] !== undefined) {
+						crmid = data.result['0_created_Email']['created_Email'];
+					}
+					if (crmid === 0) {
 						load_oss_bar_no_mail(inframe, params);
 					} else {
-						params['crmid'] = data.result;
+						params['crmid'] = crmid;
 						load_oss_bar(inframe, params['crmid'], cfg.result, fcd.result);
 						load_action(inframe, params);
 					}
@@ -267,7 +274,7 @@ function load_oss_bar_no_mail(inframe, params) {
 	$(inframe.find('#message-oss-header .import_mail')).click(function () {
 		Vtiger_Helper_Js.showPnotify({text: app.vtranslate('StartedDownloadingEmail'), type: 'info'});
 		import_mail(params).then(function (data) {
-			load_all_widgets();
+			load_all_widgets(inframe);
 			Vtiger_Helper_Js.showPnotify({text: app.vtranslate('AddFindEmailInRecord'), type: 'success'});
 		});
 	});

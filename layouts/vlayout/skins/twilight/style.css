@@ -34,8 +34,8 @@
 	font-family: 'Open Sans';
 	font-style: normal;
 	font-weight: 400;
-	src: url('../../../../layouts/vlayout/resources/fonts/OpenSans-Regular-webfont.eot');
-	src: url('../../../../layouts/vlayout/resources/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('../../../../layouts/vlayout/resources/fonts/OpenSans-Regular-webfont.woff') format('woff'), url('../../../../layouts/vlayout/resources/fonts/OpenSans-Regular-webfont.ttf') format('truetype'), url('../../../../layouts/vlayout/resources/fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
+	src: url('../../../../libraries/resources/fonts/OpenSans-Regular-webfont.eot');
+	src: url('../../../../libraries/resources/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('../../../../libraries/resources/fonts/OpenSans-Regular-webfont.woff') format('woff'), url('../../../../libraries/resources/fonts/OpenSans-Regular-webfont.ttf') format('truetype'), url('../../../../libraries/resources/fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
 }
 
 body {
@@ -575,34 +575,20 @@ hr {
 #globalmodal form {
 	margin: 0 0 0;
 }
-.dashboardHeading h2 {
-	padding-bottom: 8px;
+.dashboardContainer .dashboardHeading {
+	background: #f5f5f5;
 }
-.dashboardHeading hr {
-	border-bottom: 1px solid #dddddd;
+.gridster>*{
+	margin: 0 0 0 15px !important;
 }
-.dashboardHeading .dropdown-menu {
-	left: -70px;
-	right: 0;
+.contentsDiv .gridster {
+	padding: 0;
 }
 .dashboardContainer {
 	padding: 0;
 }
-.dashboardContainer .dashboardHeading {
-	padding: 10px 0 0;
-	background: #f5f5f5;
-}
-.dashboardContainer .dashboardHeading h2 {
-	padding: 0 0 8px 20px;
-}
-.dashboardContainer .dashboardHeading .btn-toolbar {
-	padding: 3px 20px 0 0;
-}
 .dashboardContainer .dashboardHeading hr {
 	border-bottom: 1px solid #dddddd;
-}
-.dashboardContainer .dashboardHeading .dropdown-menu {
-	left: -82px;
 }
 .widgetsList {
 	max-height: 400px;
@@ -694,7 +680,7 @@ hr {
 .gridster ul li.dashboardWidget .filterContainer .col-md-5 {
 	margin-top: 3px;
 }
-.gridster ul li.dashboardWidget .dashboardWidgetContent {
+.gridster ul li.dashboardWidget .dashboardWidgetContent:not(.dashboardWidgetCalendar) {
 	padding: 10px 0;
 	line-height: 20px;
 }
@@ -776,7 +762,8 @@ li.ui-timepicker-selected,
 }
 #listViewPageJumpDropDown,
 #relatedListPageJumpDropDown {
-	left: -60px;
+	left: auto;
+	top: 70%;
 }
 .pageNumbers {
 	display: inline-block;
@@ -855,7 +842,7 @@ li.ui-timepicker-selected,
 }
 .detailViewInfo {
 	box-shadow: 0 -4px 4px -4px #959595;
-	margin-top: 10px;
+	margin-top: 5px;
 }
 /*//
 .detailViewInfo .contents {
@@ -994,7 +981,7 @@ li.ui-timepicker-selected,
   }
 }*/
 .recordEditView .contentHeader {
-	padding: 1.5% 0;
+	padding: 0.5% 0 1% 0;
 }
 .recordEditView .table .fieldLabel,
 .recordEditView .table .fieldValue {
@@ -1046,7 +1033,7 @@ li.ui-timepicker-selected,
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	border: 1px solid #dddddd;
 	padding: 12px 12px 5px;
-	min-height: 115px;
+	min-height: 125px;
 	margin-top: 15px;
 	display: block;
 }
@@ -1226,12 +1213,6 @@ td.fieldValue .input-group {
 .listViewEntriesTable .listViewHeaders a.listViewHeaderValues:hover {
 	text-decoration: none;
 }
-.listViewEntriesTable .listViewHeaders a.listViewHeaderValues .glyphicon-chevron-down.icon-white,
-.listViewEntriesTable .listViewHeaders a.listViewHeaderValues .glyphicon-chevron-up.icon-white {
-	background-image: url("../../../../libraries/bootstrap/img/glyphicons-halflings.png");
-	opacity: 0.7;
-	margin-top: 1px;
-}
 .listViewEntriesTable td.listViewEntryValue,
 .listViewEntries td {
 	vertical-align: middle;
@@ -1274,9 +1255,6 @@ td.fieldValue .input-group {
 
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
-}
-.listViewBasicAction.dropdown-menu {
-	width: 100%;
 }
 .listViewBasicAction.dropdown-menu input {
 	border-radius: 2px;
@@ -1327,8 +1305,7 @@ td.fieldValue .input-group {
 .conditionGroup .contents .conditionRow {
 	margin-bottom: 10px;
 }
-.conditionGroup .contents .conditionRow select,
-.conditionGroup .contents .conditionRow input {
+.conditionGroup .contents .conditionRow select{
 	width: 90%;
 }
 .conditionGroup .contents .conditionRow .chzn-results li {
@@ -1360,7 +1337,7 @@ td.fieldValue .input-group {
 	color: #404952;
 }
 .searchUIBasic .listRow .defaultInputTextContainer {
-	max-width: 87% !important;
+	max-width: 100% !important;
 	margin-bottom: 0 !important;
 }
 #lineItemTab.table tr:first-child:hover th ~ td {
@@ -1452,7 +1429,7 @@ td.fieldValue .input-group {
 #shipping_handling_div {
 	position: absolute;
 	left: 46%;
-	width: 27%;
+	width: 30%;
 	z-index: 500;
 	box-shadow: 1px 0px 7px #dddddd;
 	border-radius: 6px;
@@ -1633,7 +1610,9 @@ th.htColHeader,
 .profilesEditView tr.blockHeader th:first-child {
 	text-align: left;
 }
-.profilesEditView input {
+.profilesEditView input,
+.calendarRelatedHeader .addButton,
+.calendarRelatedHeader .selectRelation{
 	margin-right: 5px;
 }
 .profilesEditView tr td.row table.table {
@@ -1684,16 +1663,13 @@ th.htColHeader,
 	padding: 5px;
 	margin-bottom: 2px;
 }
-.collectiveGroupMembers {
-	border: 1px solid #dddddd;
-	border-top: 0;
-}
 .collectiveGroupMembers ul {
 	padding: 0;
 	margin: 0;
 }
 .collectiveGroupMembers ul li {
 	padding: 4px 0;
+	border: 1px solid #dddddd;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -1710,8 +1686,6 @@ th.htColHeader,
 }
 .collectiveGroupMembers ul li.groupLabel {
 	background-color: #f3f3f4;
-	border-bottom: 1px solid #dddddd;
-	border-top: 1px solid #dddddd;
 	padding: 10px 5px;
 	margin: 0;
 	color: #444444;
@@ -1977,13 +1951,14 @@ th.htColHeader,
 	border-top: 1px solid #ffffff;
 	border-bottom: 1px solid #dddddd;
 }
-.layoutContent #moduleBlocks .editFieldsTable .layoutBlockHeader .blockLabel {
+.layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockLabel,
+#salesProcessesContainer .layoutContent {
 	padding-top: 13px;
 }
-.layoutContent #moduleBlocks .editFieldsTable .layoutBlockHeader .blockActions .btn-group {
+.layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockActions .btn-group {
 	margin-top: 5px;
 }
-.layoutContent #moduleBlocks .editFieldsTable .layoutBlockHeader .blockActions .btn-group .dropdown-menu {
+.layoutContent .moduleBlocks .editFieldsTable .layoutBlockHeader .blockActions .btn-group .dropdown-menu {
 	left: -100%;
 }
 .layoutContent .relatedTabModulesList {
@@ -2355,18 +2330,28 @@ th.htColHeader,
 }
 .fc-content {
 	background: #fff;
-	margin-top: 15px;
+	margin-left: 10px;
+}
+.fc-event-container .fc-event.fc-draggable{
+	margin: 0 0px 2px 0px;
+	border-radius: 0;
+}
+.fc-content .fc-title{
+	padding-left: 2px;
 }
 .fc-content td:hover {
 	background: #f3f3f3;
 }
+.calendarPopover.popover{
+	max-width: 100%;
+}
 .btn:focus {
 	outline: 0;
 }
-.btn-primary {
+.reminderPostpone.btn-primary {
 	background: #404952;
 }
-.btn-primary:hover {
+.reminderPostpone.btn-primary:hover {
 	background: #1e2327;
 }
 /*
@@ -2691,10 +2676,12 @@ textarea.col-md-11 {
 	nowrap: nowrap;
 	width: 70%;
 }
+/*
 .bootbox,
 .alert {
 	z-index: 1000023;
 }
+*/
 .chzn-container {
 	vertical-align: middle;
 }
@@ -2759,6 +2746,9 @@ a:focus {
 .font-x-x-large {
 	font-size: 18px;
 	line-height: 28px;
+}
+.font-larger {
+	font-size: larger;
 }
 /*//
 img {
@@ -2863,9 +2853,15 @@ textarea {
 	word-wrap: break-word;
 	width: 100%;
 }
-
+table.summary-table{
+	table-layout: fixed;
+}
+table.summary-table .summaryViewEdit{
+	padding-left: 0;
+}
 .textOverflowEllipsis {
 	overflow: hidden;
+	padding-bottom: 2px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	//width: 9em;
@@ -2898,6 +2894,9 @@ textarea {
 .cursorPointer {
 	cursor: pointer;
 	text-decoration: none !important;
+}
+.fieldDetailsForm .zeroOpacity{
+	display: none;
 }
 .zeroOpacity {
 	opacity: 0;
@@ -2937,13 +2936,16 @@ textarea {
 	text-align: right;
 }
 .alignMiddle {
-	vertical-align: middle;
+	vertical-align: middle !important;
 }
 .alignTop {
 	vertical-align: top;
 }
 .padding1per {
 	padding: 1%;
+}
+.paddingTop10 {
+	padding-top: 10px;
 }
 .paddingTop20 {
 	padding-top: 20px;
@@ -3062,18 +3064,21 @@ textarea {
 .listViewEntries td.wide,
 td.listViewEntryValue.wide {
 	padding: 8px!important;
+	line-height: 31px;
 }
 .medium,
 .table td.medium,
 .listViewEntries td.medium,
 td.listViewEntryValue.medium {
 	padding: 5px 6px!important;
+	line-height: 29px;
 }
 .narrow,
 .table td.narrow,
 .listViewEntries td.narrow,
 td.listViewEntryValue.narrow {
 	padding: 2px 4px!important;
+	line-height: 27px;
 }
 .table thead th.narrow {
 	vertical-align: middle;
@@ -3085,18 +3090,6 @@ td.listViewEntryValue .row input {
 .listViewContentDiv {
 	position: relative;
 }
-.tag {
-	float: left; margin-right: 5px;
-	background: #d9edf7;
-	border: 1px solid #eaeaea;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border-radius: 2px;
-	box-shadow: 1px 1px 3px #dddddd;
-	box-sizing: border-box;
-	padding-left: 2px;
-	padding-right: 2px;
-}
 .fieldLabel .pull-right {
 	text-align: right;
 }
@@ -3104,10 +3097,7 @@ td.listViewEntryValue .row input {
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
 	border-radius: 2px;
-	border: 1px solid #eaeaea;
 	width: 80% !important;
-	padding-left: 5px !important;
-	box-shadow: 1px 1px 3px #dddddd;
 }
 #tagRecord {
 	margin-left: 5px !important;
@@ -3116,10 +3106,7 @@ td.listViewEntryValue .row input {
 	float: right !important;
 }
 .cut-string {
-	text-overflow: ellipsis;
-	-o-text-overflow: ellipsis;
-	-webkit-text-overflow: ellipsis;
-	width: 200px;
+	width: 285px;
 	white-space: nowrap;
 	overflow: hidden;
 }
@@ -3142,7 +3129,7 @@ table tr td .input-sm{
 .modal-footer.backgroundColor{
 	background-color: #f5f5f5;
 }
-.panel-title{
+.panel-title,.message-medium{
 	font-size: 14px;
 }
 .quickWidgetContainer .panel-body{
@@ -3154,6 +3141,7 @@ tr.summaryViewEntries, #detailView table {
 }
 table.listViewEntriesTable {
 	font-size: 13px;
+	margin-top: 5px;
 }
 .no-margin{
 	margin: 0;
@@ -3183,6 +3171,11 @@ table.listViewEntriesTable {
 	margin-bottom: 5px;
 }
 .editViewContainer .recordEditView table.blockContainer tr td.fieldValue {
+	width: 30%;
+}
+.recordEditView[name=QuickCreate] .quickCreateContent table tr td.fieldValue,
+#massEditContainer .massEditContent table tr td.fieldValue,
+#tab_accounts td.functionList{
 	width: 30%;
 }
 .btn {
@@ -3218,11 +3211,7 @@ table.dataTable .form-control {
 	padding-left: 5px;
 	padding-right: 5px;
 }
-.calendarRightPanel img.imageElement,.calendarRightPanel .glyphicon-refresh{
-	padding-top: 5px;
-	padding-bottom: 5px;
-	color: #fff
-}
+
 .calendarRightPanel ul li{
 	margin-bottom: 2px;
 	margin-left:5px; 
@@ -3232,8 +3221,8 @@ table.dataTable .form-control {
 	border-radius: 5px;
 }
 .square9 {
-	width: 9px;
-	height: 9px;
+	width: 12px;
+	height: 12px;
 	margin: 4px;
 }
 .panel-dark {
@@ -3289,12 +3278,13 @@ span[name=existingImages] img{
 	height: 200px;
 	width: 300px;
 }
-.narrow.fieldValue .chosen-container-single .chosen-single{
-	height: 26px;
-	line-height: 26px;
+.narrow.fieldValue .chosen-container-single .chosen-single,
+.narrow.fieldLabel .chosen-container-single .chosen-single {
+	height: 27px;
+	line-height: 27px;
 }
-.narrow.fieldValue input{
-	height: 26px;
+.narrow.fieldValue input:not([type='checkbox']){
+	height: 27px;
 }
 .narrow.fieldValue .input-group-addon{
 	padding: 4px 10px;
@@ -3359,16 +3349,17 @@ span[name=existingImages] img{
 	padding: 10px;
 }
 .remindersNoticeContainer .actionRow a.btn{
-	margin-right: 3%;
+	margin-right: 2%;
 }
 .remindersNotice{
+	cursor: pointer;
 	color: #ffffff;
 	padding: 15px 12px;
 }
 .remindersNotice .glyphicon{
 	font-size: 20px;
 }
-.cancelLink.btn[type='reset'],.cancel.btn[type='reset'] {
+.cancelLink.btn[type='reset'],.cancel.btn[type='reset'],.cancelLink.btn[type='button']  {
 	float: right;
 	margin-left: 5px;
 	margin-bottom: 0;
@@ -3376,9 +3367,466 @@ span[name=existingImages] img{
 .activityWidgetContainer .popover{
 	min-width: 240px;
 }
-.quickCreateContent .minWidth150 .chosen-container{
-	min-width: 150px;
-}
 .filterActionImage {
 	margin-left: 8px;
+}
+#tagRecord{
+	line-height: 25px;
+}
+#tagsList .btn-info{
+	margin-left: 5px;
+}
+#tagRecordInput{
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.clearReferenceSelection,.createReferenceRecord {
+	padding: 0px 6px;
+}
+.relatedPopup {
+	padding: 0px 4px;
+}
+.popupContainer .popupModuleName{
+	margin-top: 0;
+}
+.mailRows hr{
+	margin: 0;
+}
+.paddingLeftMd{
+	padding-left: 15px;
+}
+.paddingRightMd{
+	padding-right: 15px;
+}
+.paddingLRMd{
+	padding-right: 15px;
+	padding-left: 15px;
+}
+.widget_header div:nth-child(2).btn-toolbar,.editViewContainer .contentHeader.row div:nth-child(2),.contentsDiv ul#tabs.nav,.marginTop20{
+	margin-top: 20px;
+}
+.fieldLabel .referenceMandatory{
+	margin-right: -12px;
+}
+.ui-widget-content{
+	padding: .8em;
+}
+.ui-autocomplete .ui-autocomplete-category {
+	font-weight: bold;
+	line-height: 1.5;
+}
+.ui-autocomplete .ui-autocomplete-category:first-child {
+	margin: .8em 0 .2em;
+}
+.ui-autocomplete .ui-menu-item {
+	padding: .2em .8em;
+}
+.ui-autocomplete .ui-state-focus{
+	border: none;
+	background: #ebebeb;
+}
+.widgetHr{
+	margin-top: 0;
+}
+.headerLinksMails .btn-group{
+	margin-top: 11px;
+}
+.finalDiscountUI,.finalTaxUI{
+	bottom: 5px;
+}
+.sideBarTitle{
+	font-size: 20px;
+}
+.globalSearchInput{
+	width: 300px;
+}
+#groupsDetailContainer strong{
+	line-height: 21px;
+}
+#addTaskContainer #taskStatus{
+	margin-left: 10px;
+}
+.scanerMailActionsButtons{
+	min-width: 96px;
+}
+.ui-widget-content {
+	border: 1px solid #aaaaaa;
+	background: #ffffff;
+	color: #404040;
+}
+.ui-menu .ui-menu-item a.ui-state-focus,
+.ui-menu .ui-menu-item a.ui-state-active,
+.ui-menu .ui-menu-item a.ui-widget-content{
+	font-weight: bold;
+	margin: 0;
+    background-color: #428BCA;
+    border-color: #357EBD;
+    color: #FFFFFF;
+    display: block;
+}
+.ui-menu .ui-menu-item a {
+	text-decoration: none;
+	display: block;
+	padding: 2px .4em;
+	line-height: 1.5;
+	min-height: 0; /* support: IE7 */
+	font-weight: normal;
+}
+.ui-menu .ui-menu-item {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	list-style:none;
+}
+#layoutEditorButtons{
+	margin-bottom: 10px;
+	margin-top: -10px;
+}
+.individualTaxContainer {
+	text-align: left !important;
+}
+.roundedCorners :not(:first-child) {
+	padding-left: 0;
+}
+.roundedCorners label {
+	font-weight: normal;
+	min-height: 40px;
+}
+.paginationDiv .pagination{
+	margin: 0;
+}
+.paginationDiv .pagination li{
+	cursor: pointer;
+}
+.paginationDiv .pagination > li > span,
+.paginationDiv .pagination > li > a{
+	padding: 8px 8px;
+}
+.paginationDiv .listViewBasicAction.dropdown-menu{
+	width: 35%;
+}
+.listViewEntriesTable .picklistSearchField{
+	min-width: 150px;
+}
+.listViewEntriesTable .boolenSearchField{
+	min-width: 90px;
+}
+.listViewEntriesTable .searchField{
+	min-width: 100px;
+}
+.pageInfo {
+	border: 1px solid #ddd;
+	color: #337AB7;
+	margin-left: 5px;
+	list-style: none;
+	padding: 8px 5px;
+}
+.listViewEntriesDiv .listViewEntriesCheckBox{
+	margin-left: 2px;
+}
+#widgetsManagementEditorContainer .modal-footer .btn{
+	margin: 5px;
+}
+#widgetsManagementEditorContainer .fieldDetailsForm .modal-footer{
+	padding: 0;
+}
+#widgetsManagementEditorContainer .fieldDetailsForm .filter{
+    padding-top: 5px;
+    margin-left: 5px;
+}
+.dashboardContainer .dashboardHeading .dropdown-menu {
+	left: -82px;
+}
+#VtEmailTaskContainer .addTime{
+	text-align: left;
+}
+.summaryWidgetContainer.summaryWidgetBlock{
+    padding: 0;
+}
+.summaryWidgetContainer .container-fluid{
+	padding: 0 5px 0 5px;
+}
+.summaryWidgetContainer .widgetTitle{
+	padding-left: 10px;
+}
+.summaryWidgetContainer .widgetHeader{
+	background-color: #f5f5f5;
+	background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: -ms-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
+	background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
+	border-color: #f3f3f4 #f3f3f4 #cbcbcf;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	border-top: 1px solid #ffffff;
+	border-bottom: 1px solid #dddddd;
+	text-shadow: 0px 1px #ffffff;
+	color: #444444;
+	padding-bottom: 4px;
+}
+.summaryWidgetContainer .widgetHeader h4{
+	margin: 0;
+}
+.summaryWidgetContainer .widgetContent{
+	padding: 5px;
+	font-size: 13px;
+}
+.mailsList .container-fluid > .row{
+	border-bottom: 1px solid #dddddd;
+	margin-right: -10px;
+	margin-left: -10px;
+	padding: 4px 0;
+}
+.mailsList .container-fluid > .row:last-child{
+	border-bottom: 0;
+}
+.mailsList .smalSeparator {
+    display: block;
+    height: 5px;
+	width: 70px;
+}
+.summaryWidgetContainer .widgetContent hr {
+	margin: 4px 0;
+}
+.mailsList .row{
+	background-color: #fff;
+}
+.mailsList .row.even{
+	background-color: #faf8f8;
+}
+.mailsList .mailTitle{
+	margin: 0;
+}
+.mailsList .mainSubject{
+	font-weight: 800;
+	font-size: 13px;
+}
+.mailsList .mainFrom{
+	font-size: 16px;
+}
+.mailsList .mailActions{
+	margin-top: 3px;
+    z-index: 1020;
+    position: relative;
+}
+.mailsList .mailActions a{
+	margin-left: 3px;
+}
+.mailsList .mailActions a:first-child{
+	margin-left: 0;
+}
+.mailsList .mailBodyContent{
+	overflow: auto;
+}
+.mailsList .mailBodyContent p{
+	margin: 0;
+}
+.rowHr{
+	margin: 4px 0;
+}
+.firstLetter{
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+	display: block;
+    padding: 6px 8px;
+	height: 32px;
+    width: 32px;
+    font-size: 16px;
+	text-align: center;
+	margin: 0 7px 3px 0;
+	-webkit-box-shadow: 0px 0px 8px -1px rgba(156,156,156,1);
+	-moz-box-shadow: 0px 0px 8px -1px rgba(156,156,156,1);
+	box-shadow: 0px 0px 8px -1px rgba(156,156,156,1);
+}
+.modal-blg {
+	width: 90%;
+}
+.modal-blg iframe{
+	height: 420px;
+}
+#emailPreview{
+	margin: 10px 0;
+}
+.modalViewBody .mailsList{
+	max-height: 630px;
+	overflow: auto;
+}
+.domain{
+	padding-left: 2px;
+	padding-right: 2px;
+	background: rgba(91, 234, 81, 0.54) !important;
+	border-radius: 4px;
+}
+.inventoryItems .input-group{
+	max-width: 200px;
+}
+.inventoryItems .rowName .input-group{
+	max-width: 400px;
+}
+.inventoryItems td,
+.inventoryItems th{
+	border: 1px solid #ddd;
+}
+.inventoryItems tfoot td.hideTd{
+	border: 0;
+	background: #fafafb;
+}
+.inventorySummaryContainer .panel-body,.inventorySummaryContainer .panel-footer{
+	padding: 0;
+}
+.inventorySummaryContainer .panel-body .form-group, .inventorySummaryContainer .panel-footer .form-group{
+	margin: 0;
+}
+.inventorySummaryContainer .input-group .form-control{
+	background-color: #F5F5F5;
+}
+.inventorySummaryContainer .panel-body .percent{
+	min-width: 55px;
+}
+.inventoryItems tfoot{
+	font-weight: 800;
+}
+.inventorySummaryContainer img{
+	max-width: 15px;
+}
+.autologinContainer .chosen-container-multi .chosen-choices{
+	padding-left: 6px;
+}
+.checkboxForm{
+	padding-top: 7px;
+}
+#inventoryViewLayout .inventoryBlock  ul li .editFields{
+	padding: 5px;
+}
+#inventoryViewLayout{
+    margin-top: -10px;
+}
+.editFields .fieldContainer{
+	padding-left: 0;
+}
+#layoutEditorContainer .blockActions .dropdown-menu{
+	z-index: 2000;
+}
+.editViewMiniSlider.ui-widget-content{
+	padding: 6px;
+}
+.bootstrap-switch-container{
+	white-space: nowrap;
+}
+.dashboardWidgetCalendar .small-badge{
+	padding: 3% 6%;
+}
+.dashboardWidgetCalendar .big-badge{
+	padding: 6% 12%;
+	margin: 1px 0;
+}
+.dashboardWidgetCalendar .cell-calendar{
+	padding: 1px;
+	margin-top: -5px;
+}
+.dashboardWidgetContent .summary-detail .summary-text{
+	vertical-align: sub;
+}
+.activityWidgetContainer .activityDescription .popover,
+.quickCreateContent .addedNearCalendarEvent .popover{
+	min-width: 300px;
+}
+.activityWidgetContainer .popover-content,
+.quickCreateContent .addedNearCalendarEvent .popover-content{
+	font-size: 12px;
+}
+.modalEditStatus .form-horizontal .form-group{
+	margin-bottom: 2px;
+}
+.modalEditStatus .form-horizontal .form-group .control-label{
+	padding-top: 0;
+}
+.mainContainer.mailContainer{
+	margin-top: 102px !important;
+}
+.pageNumber.active.disabled a{
+	background-color: #337AB7;
+	border-color: #337AB7;
+	color: #FFF;
+}
+#announcementBtn,
+.listViewEntriesCheckBox,
+#listViewEntriesMainCheckBox{
+	cursor: pointer;
+}
+#roleDeleteForm .relatedPopup{
+	padding: 6px 12px;
+}
+.holidayList{
+	list-style-type: none;
+	float: left;
+	min-height: 1px;
+	padding:2px;
+	margin:0 !important;
+}
+.publicHolidayModal .dateField{
+	width: 100%;
+}
+#rssFeedHeading h3{
+	margin-top: 0;
+}
+.globalSearchResults .nav li a{
+	padding: 10px 0;
+}
+.bootbox .btn-warning{
+	margin-left: 5px;
+}
+.publicHolidayContent.layoutContent{
+	border-top: 0px;
+}
+.modalEditStatus .popover.fade
+{
+	min-width: 400px;
+}
+.statsContainer .widgetChartContainer{
+	width: 100%;
+	height: 300px;
+}
+.jstree-proton .jstree-search {
+	color:#fff !important;
+	background: #d9534f;
+	border-radius:3px;
+}
+#treePopupContainer{
+	overflow: auto;
+	max-height: 500px;
+}
+.siteBarRight{
+	border-left: 1px solid #dddddd;
+	background: #FFF;
+}
+.toggleSiteBarRightButton{
+	background: #eeeff2;
+	font-weight: bold;
+	padding: 15px 0px !important;
+	position: absolute;
+	top: 400px;
+	left: -16px;
+	cursor: pointer;
+	width: 17px;
+	z-index: 100;
+	border: 1px solid #dddddd;
+	border-right: 0;
+	display: inline-block;
+	border-radius: 0;
+}
+.padding0{
+	padding: 0 !important;
+}
+.hideSiteBar{
+	width: 0px;
+	position: absolute;
+	right: 1px;
+}
+.hideSiteBar .siteBarContent{
+	overflow: auto;
 }

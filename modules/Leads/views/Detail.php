@@ -11,10 +11,8 @@
 
 class Leads_Detail_View extends Accounts_Detail_View {
 	function preProcess(Vtiger_Request $request) {
-		$moduleName = $request->getModule();
-		$moduleInstance = CRMEntity::getInstance($moduleName);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('CONVERSION_AVAILABLE_STATUS', Zend_Json::encode($moduleInstance->conversion_available_status));
+		$viewer->assign('CONVERSION_AVAILABLE_STATUS', Zend_Json::encode(Leads_Module_Model::getConversionAvaibleStatuses()));
 		parent::preProcess($request);
 	}
 }

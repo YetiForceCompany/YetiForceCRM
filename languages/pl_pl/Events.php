@@ -18,7 +18,6 @@ $languageStrings = [
 	'Daily' => 'Dni',
 	'Events' => 'Terminy',
 	'Held' => 'Odbyte',
-	'Status' => 'Etap',
 	'INVITATION' => ' Zaproszenia ',
 	'LBL_ADD_RECORD' => 'Dodaj termin',
 	'LBL_CALENDAR_VIEW' => 'Kalendarz',
@@ -98,5 +97,15 @@ $languageStrings = [
 	'Duration Minutes' => 'Czas trwania w Minutach',
 	'No Time' => 'Brak czasu',
 	'End Time' => 'Czas zakończenia',
+	'End Date' => 'Data zakończenia',
+	'LBL_FOLLOWUP' => 'Zdarzenie powiązane',
+	
+	'PLL_PLANNED' => 'Planowane',
+	'PLL_IN_REALIZATION' => 'Do realizacji',
+	'PLL_OVERDUE' => 'Zaległe',
+	'PLL_POSTPONED' => 'Przełożone',
+	'PLL_CANCELLED' => 'Anulowane',
+	'PLL_COMPLETED' => 'Wykonane',
+	
 ];
 

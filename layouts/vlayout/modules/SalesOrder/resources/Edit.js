@@ -7,8 +7,12 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-Inventory_Edit_Js("SalesOrder_Edit_Js",{},{
-	
+Inventory_Edit_Js("SalesOrder_Edit_Js", {}, {
+	addressFieldsMappingBlockID: {
+		'LBL_ADDRESS_INFORMATION': 'a',
+		'LBL_ADDRESS_DELIVERY_INFORMATION': 'b'
+	},
+
 	/**
 	 * Function which will register event for Reference Fields Selection
 	 */

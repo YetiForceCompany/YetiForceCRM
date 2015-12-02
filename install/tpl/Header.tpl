@@ -14,7 +14,7 @@
 <html  lang="{$HTMLLANG}">
 	<head>
 		<title>YetiForce</title>
-		<link REL="SHORTCUT ICON" HREF="../layouts/vlayout/skins/images/favicon.ico">
+		<link REL="SHORTCUT ICON" HREF="../{vimage_path('favicon.ico')}">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" href="../libraries/bootstrap3/css/bootstrap.min.css"/>
@@ -26,7 +26,7 @@
 		<link rel="stylesheet" href="../libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.min.css" />
 		<link rel="stylesheet" href="../libraries/jquery/pnotify/pnotify.custom.min.css"/>
 		<link rel="stylesheet" href="../libraries/jquery/datepicker/css/datepicker.min.css" />
-		<link rel="stylesheet" href="../layouts/vlayout/resources/styles.css" />
+		<link rel="stylesheet" href="../libraries/resources/styles.css" />
 		<link rel="stylesheet" href="tpl/resources/css/style.css"/>
 		<link rel="stylesheet" href="tpl/resources/css/mkCheckbox.css"/>
 		{foreach key=index item=cssModel from=$STYLES}

@@ -27,29 +27,16 @@ $PERFORMANCE_CONFIG = Array(
 	
 	// Display administrators in the list of users (Assigned To)
 	'SHOW_ADMINISTRATORS_IN_USERS_LIST' => true,
+	
+	// The numbers of emails downloaded during one scanning
+	'NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING' => 100,
+
+	// Enable automatic records list refreshing while changing the value of the selection list
+	'AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE' => true,
+	
+	// All search results will be sorted at the database level after enabling. It might result in a longer search time.
+	'SORT_SEARCH_RESULTS' => false,
+	
+	// Show in search engine/filters only users and groups available in records list. It might result in a longer search time.
+	'SEARCH_SHOW_OWNER_ONLY_IN_LIST' => true,
 );
-/**
- * Performance perference API
- */
-class PerformancePrefs {
-	/**
-	 * Get performance parameter configured value or default one
-	 */
-	static function get($key, $defvalue=false) {
-		global $PERFORMANCE_CONFIG;
-		if(isset($PERFORMANCE_CONFIG)){
-			if(isset($PERFORMANCE_CONFIG[$key])) {
-				return $PERFORMANCE_CONFIG[$key];
-			}
-		}
-		return $defvalue;
-	}
-	/** Get boolean value */
-	static function getBoolean($key, $defvalue=false) {
-		return self::get($key, $defvalue);
-	}
-	/** Get Integer value */
-	static function getInteger($key, $defvalue=false) {
-		return intval(self::get($key, $defvalue));
-	}
-}

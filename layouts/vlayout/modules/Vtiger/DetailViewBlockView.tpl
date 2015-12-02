@@ -44,7 +44,7 @@
 										{assign var="COUNTER" value=$COUNTER+1}
 									{/if}
 									<td class="fieldLabel {$WIDTHTYPE}">
-										<label class='muted pull-right marginRight10px'>{vtranslate($tax.taxlabel, $MODULE)}(%)</label>
+										<label class='muted pull-right marginRight10px'>{vtranslate($tax.taxlabel, $MODULE)}&nbsp;(%)</label>
 									</td>
 									<td class="fieldValue {$WIDTHTYPE}">
 										<span class="value">
@@ -92,34 +92,34 @@
 									{/if}
 								<label class="muted pull-right marginRight10px">
 									{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
-									{if ($FIELD_MODEL->get('uitype') eq '72') && ($FIELD_MODEL->getName() eq 'unit_price')}
-										({$BASE_CURRENCY_SYMBOL})
-									{/if}
 								</label>
 							</td>
 							<td class="fieldValue {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '300'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
 								<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '21' or $FIELD_MODEL->get('uitype') eq '300'} style="white-space:normal;" {/if}>
 									{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 								</span>
-								{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true'}
+								{assign var=EDIT value=false}
+								{if in_array($FIELD_MODEL->getName(),['date_start','due_date']) && $MODULE eq 'Calendar'}
+									{assign var=EDIT value=true}
+								{/if}
+								{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
 									<span class="summaryViewEdit cursorPointer pull-right">
 										&nbsp;<i class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></i>
 									</span>
 									<span class="hide edit">
 										{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
 										{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist' || $FIELD_MODEL->getFieldDataType() eq 'sharedOwner' }
-											<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}[]' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
+											<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}[]' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD, true)}' />
 										{elseif $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}
 											<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->get('fieldvalue')}' />		
 										{else}
-											<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}' />
-											{if $FIELD_MODEL->get('name') eq 'date_start' && $MODULE eq 'Calendar'}
-												<input type="hidden" class="fieldname" value='time_start' data-prev-value='' />
-											{/if}
-
-											{if $FIELD_MODEL->get('name') eq 'due_date' && $MODULE eq 'Calendar'}
-												<input type="hidden" class="fieldname" value='time_end' data-prev-value='' />
-											{/if}
+											<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue')))}' />
+										{*{if in_array($FIELD_MODEL->getName(),['date_start','due_date']) && $MODULE eq 'Calendar'}
+											{assign var=TIME_FIELDS value=['due_date'=>'time_end','date_start'=>'time_start']}
+											{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
+											{assign var=TIME_FIELD value=$RECORD_STRUCTURE_MODEL->getModule()->getField($TIME_FIELDS.$FIELD_NAME)}
+											<input type="hidden" class="fieldname" value='{$TIME_FIELDS.$FIELD_NAME}' data-prev-value='{$TIME_FIELD->getEditViewDisplayValue($RECORD->get($TIME_FIELDS.$FIELD_NAME))}' />
+										{/if}*}
 										{/if}
 									</span>
 								{/if}

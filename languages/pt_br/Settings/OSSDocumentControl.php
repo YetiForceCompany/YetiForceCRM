@@ -1,8 +1,8 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'Document Control' => 'Document Control',
-	'OSSDocumentControl' => 'Document Control',
+	'Document Control' => 'Document Flow',
+	'OSSDocumentControl' => 'Controle Documento',
 	'LBL_ENTER_BASIC_INFO' => 'Digite a informação básica',
 	'LBL_STEP_1' => 'Passo 1',
 	'NEXT' => 'Próximo',
@@ -42,13 +42,13 @@ $languageStrings = [
 	'Check for duplicate names' => 'Verificar nomes duplicados',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Verificar se todos os campos obrigatórios no Editar Rápido estão são preenchidos',
 	'Lock edit on the status' => 'Bloquear edição no status',
-	'is enabled' => 'is enabled',
-	'is disabled' => 'is disabled',
+	'is enabled' => 'habilitado',
+	'is disabled' => 'desabilitado',
 ];
 
 $jsLanguageStrings = [
-	'Document Control' => 'Document Control',
-	'OSSDocumentControl' => 'Document Control',
+	'Document Control' => 'Controle Documento',
+	'OSSDocumentControl' => 'Controle Documento',
 	'DES_REQUIRED' => 'A descirção do documento é obrigatória',
 	'DES_NAME_REQUIRED' => 'O nome do documento é obrigatório',
 	'starts with' => 'iniciar com',
@@ -86,6 +86,6 @@ $jsLanguageStrings = [
 	'Check for duplicate names' => 'Verificar nomes duplicados',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Verificar se todos os campos obrigatórios no Editar Rápido estão são preenchidos',
 	'Lock edit on the status' => 'Bloquear edição no status',
-	'is enabled' => 'is enabled',
-	'is disabled' => 'is disabled',
+	'is enabled' => 'habilitado',
+	'is disabled' => 'desabilitado',
 ];

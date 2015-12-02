@@ -10,7 +10,7 @@
  * *********************************************************************************** */
 $languageStrings = [
 	'OSSDocumentControl' => 'Менеджер документов',
-	'Document Control' => 'Менеджер документов',
+	'Document Control' => 'Document Flow',
 	'LBL_ENTER_BASIC_INFO' => 'Введите основную информацию',
 	'LBL_STEP_1' => 'Шаг 1',
 	'NEXT' => 'Далее',
@@ -50,8 +50,8 @@ $languageStrings = [
 	'Check for duplicate names' => 'Проверка на наличие дубликатов',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Проверка, все ли поля заполнены в форме Быстрого создания',
 	'Lock edit on the status' => 'Блокировка изменения статуса',
-	'is enabled' => 'is enabled',
-	'is disabled' => 'is disabled',
+	'is enabled' => 'Включено',
+	'is disabled' => 'Отключено',
 ];
 
 $jsLanguageStrings = [
@@ -94,6 +94,6 @@ $jsLanguageStrings = [
 	'Check for duplicate names' => 'Проверка на наличие дубликатов',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Проверка, все ли поля заполнены в форме Быстрого создания',
 	'Lock edit on the status' => 'Блокировка изменения статуса',
-	'is enabled' => 'is enabled',
-	'is disabled' => 'is disabled',
+	'is enabled' => 'Включено',
+	'is disabled' => 'Отключено',
 ];

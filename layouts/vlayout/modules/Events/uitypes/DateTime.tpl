@@ -14,16 +14,21 @@
 	{assign var=DATE_FIELD value=$FIELD_MODEL}
 	{assign var=MODULE_MODEL value=$RECORD_STRUCTURE_MODEL->getModule()}
 	{assign var=TIME_FIELD value=$MODULE_MODEL->getField('time_start')}
+	{assign var=TIME_NAME value='time_start'}
 {else if $FIELD_MODEL->getName() == 'due_date'}
 	{assign var=DATE_FIELD value=$FIELD_MODEL}
 	{assign var=MODULE_MODEL value=$RECORD_STRUCTURE_MODEL->getModule()}
 	{assign var=TIME_FIELD value=$MODULE_MODEL->getField('time_end')}
+	{assign var=TIME_NAME value='time_end'}
 {/if}
 
 {assign var=DATE_TIME_VALUE value=$FIELD_MODEL->get('fieldvalue')}
 {assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
-{assign var=TIME_FIELD value=$TIME_FIELD->set('fieldvalue',$DATE_TIME_COMPONENTS[1])}
-
+{if count($DATE_TIME_COMPONENTS) eq 2}
+	{assign var=TIME_FIELD value=$TIME_FIELD->set('fieldvalue',$DATE_TIME_COMPONENTS[1])}
+{elseif $RECORD}
+	{assign var=TIME_FIELD value=$TIME_FIELD->set('fieldvalue',$RECORD->get($TIME_NAME))}
+{/if}
 {* Set the date after converting with repsect to timezone *}
 {assign var=DATE_TIME_CONVERTED_VALUE value=DateTimeField::convertToUserTimeZone($DATE_TIME_VALUE)->format('Y-m-d H:i:s')}
 {assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_CONVERTED_VALUE)}

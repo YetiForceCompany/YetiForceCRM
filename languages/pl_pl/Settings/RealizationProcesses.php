@@ -16,6 +16,7 @@ $languageStrings = [
 	'LBL_PROJECT_STATUS_INFO' => 'Statusy oznaczające zamknięcie projektu',
 	'LBL_SAVE_CONFIG_OK' => 'Pomyślnie zapisano zmiany.',
 	'LBL_SAVE_CONFIG_ERROR'	=> 'Nie udało się zapisać zmian.',
+	'RealizationProcesses' => 'Procesy realizacji',
 ];
 
 $jsLanguageStrings = [

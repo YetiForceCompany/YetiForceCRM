@@ -68,8 +68,8 @@ class Documents extends CRMEntity {
 	var $mandatory_fields = Array('notes_title','createdtime' ,'modifiedtime','filename','filesize','filetype','filedownloadcount','assigned_user_id');
 
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'title';
-	var $default_sort_order = 'ASC';
+	var $default_order_by = 'createdtime';
+	var $default_sort_order = 'DESC';
 	function Documents() {
 		$this->log = LoggerManager::getLogger('notes');
 		$this->log->debug("Entering Documents() method ...");
@@ -103,8 +103,7 @@ class Documents extends CRMEntity {
 								$filetype = $_FILES[$filename_fieldname]['type'];
 								$filesize = $_FILES[$filename_fieldname]['size'];
 								$filelocationtype = 'I';
-								$binFile = sanitizeUploadFileName($filename, $upload_badext);
-								$filename = ltrim(basename(" ".$binFile)); //allowed filename like UTF-8 characters
+								$filename = ltrim(basename(" ".$filename)); //allowed filename like UTF-8 characters
 							}
 						}
 
@@ -479,7 +478,7 @@ class Documents extends CRMEntity {
 			WHERE `vtiger_field`.`columnname` = ? 
 				AND `vtiger_field`.`tablename` = ?
 				AND `vtiger_trees_templates_data`.`name` = ?;", array('folderid', 'vtiger_notes', 'Default'));
-		return $adb->query_result($result, 0, 'tree');;
+		return $adb->query_result($result, 0, 'tree');
 	}
 
 	/**

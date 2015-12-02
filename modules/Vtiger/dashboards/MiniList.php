@@ -36,7 +36,7 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('USER', $owner);
+		$viewer->assign('OWNER', $owner);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('MINILIST_WIDGET_MODEL', $minilistWidgetModel);
 		$viewer->assign('BASE_MODULE', $minilistWidgetModel->getTargetModule());

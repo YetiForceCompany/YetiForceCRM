@@ -1,20 +1,22 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Vtiger_Owner_UIType extends Vtiger_Base_UIType {
+class Vtiger_Owner_UIType extends Vtiger_Base_UIType
+{
 
 	/**
 	 * Function to get the Template name for the current UI Type object
 	 * @return <String> - Template Name
 	 */
-	public function getTemplateName() {
+	public function getTemplateName()
+	{
 		return 'uitypes/Owner.tpl';
 	}
 
@@ -23,25 +25,29 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType {
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value) {
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		if ($rawText) {
+			return getOwnerName($value);
+		}
 		if (self::getOwnerType($value) === 'User') {
 			$userModel = Users_Record_Model::getCleanInstance('Users');
 			$userModel->set('id', $value);
 			$detailViewUrl = $userModel->getDetailViewUrl();
-            $currentUser = Users_Record_Model::getCurrentUserModel();
-            if(!$currentUser->isAdminUser()){
-                return getOwnerName($value);
-            }
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			if (!$currentUser->isAdminUser() || $rawText) {
+				return getOwnerName($value);
+			}
 		} else {
-            $currentUser = Users_Record_Model::getCurrentUserModel();
-            if(!$currentUser->isAdminUser()){
-                return getOwnerName($value);
-            }
-            $recordModel = new Settings_Groups_Record_Model();
-            $recordModel->set('groupid',$value);
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			if (!$currentUser->isAdminUser() || $rawText) {
+				return getOwnerName($value);
+			}
+			$recordModel = new Settings_Groups_Record_Model();
+			$recordModel->set('groupid', $value);
 			$detailViewUrl = $recordModel->getDetailViewUrl();
 		}
-		return "<a href=" .$detailViewUrl. ">" .getOwnerName($value). "</a>";
+		return "<a href=" . $detailViewUrl . ">" . getOwnerName($value) . "</a>";
 	}
 
 	/**
@@ -49,7 +55,8 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType {
 	 * @param <String> $value
 	 * @return <String>
 	 */
-	public function getRelatedListDisplayValue($value) {
+	public function getRelatedListDisplayValue($value)
+	{
 		return $value;
 	}
 
@@ -58,7 +65,8 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType {
 	 * @param <Integer> userId/GroupId
 	 * @return <String> User/Group
 	 */
-	public static function getOwnerType($id) {
+	public static function getOwnerType($id)
+	{
 		$db = PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT 1 FROM vtiger_users WHERE id = ?', array($id));
@@ -67,8 +75,9 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType {
 		}
 		return 'Group';
 	}
-    
-    public function getListSearchTemplateName() {
-        return 'uitypes/OwnerFieldSearchView.tpl';
-    }
+
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/OwnerFieldSearchView.tpl';
+	}
 }

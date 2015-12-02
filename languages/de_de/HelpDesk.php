@@ -83,7 +83,6 @@ $languageStrings = [
 	'Urgent' => 'Dringend',
 	'Wait For Response' => 'Warte auf Zuarbeit',
 	'LBL_CHARTS' => 'Grafiken',
-	'Total time [h]' => 'Gesamtzeit [h]',
 	'LBL_ORDER_TIME' => 'Auftragszeit',
 	'Rejected' => 'Abgelehnt',
 	'Answered' => 'Beantwortet',

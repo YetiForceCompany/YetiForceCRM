@@ -48,17 +48,17 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 		$this->focus = CRMEntity::getInstance($moduleName);
 
 		$query = $this->getExportQuery($request);
-		$result = $db->pquery($query, array());
+		$result = $db->query($query);
 
-		$headers = array();
+		$headers = [];
 		//Query generator set this when generating the query
 		if (!empty($this->accessibleFields)) {
-			$accessiblePresenceValue = array(0, 2);
+			$accessiblePresenceValue = [0, 2];
 			foreach ($this->accessibleFields as $fieldName) {
 				$fieldModel = $this->moduleFieldInstances[$fieldName];
+
 				// Check added as querygenerator is not checking this for admin users
-				$presence = $fieldModel->get('presence');
-				if (in_array($presence, $accessiblePresenceValue)) {
+				if (isset($fieldModel) && in_array($fieldModel->get('presence'), $accessiblePresenceValue)) {
 					$headers[] = $fieldModel->get('label');
 				}
 			}
@@ -66,15 +66,39 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 			foreach ($this->moduleFieldInstances as $field)
 				$headers[] = $field->get('label');
 		}
-		$translatedHeaders = array();
+
+		$isInventory = $this->moduleInstance->isInventory();
+		if ($isInventory) {
+			//Get inventory headers
+			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($moduleName);
+			$inventoryFields = $inventoryFieldModel->getFields();
+			foreach ($inventoryFields as $field) {
+				$headers[] = $field->get('label');
+			}
+			$table = $inventoryFieldModel->getTableName('data');
+		}
+
+		$translatedHeaders = [];
 		foreach ($headers as $header)
 			$translatedHeaders[] = vtranslate(html_entity_decode($header, ENT_QUOTES), $moduleName);
 
-		$entries = array();
-		for ($j = 0; $j < $db->num_rows($result); $j++) {
-			$entries[] = $this->sanitizeValues($db->fetchByAssoc($result, $j));
+		$entries = [];
+		while ($row = $db->fetch_array($result)) {
+			$sanitizedRow = $this->sanitizeValues($row);
+			if ($isInventory) {
+				$resultInventory = $db->pquery('SELECT * FROM ' . $table . ' WHERE id = ? ORDER BY seq', [$row[$this->focus->table_index]]);
+				if ($db->getRowCount($resultInventory)) {
+					while ($inventoryRow = $db->fetch_array($resultInventory)) {
+						$sanitizedInventoryRow = $this->sanitizeInventoryValues($inventoryRow, $inventoryFields);
+						$entries[] = array_merge($sanitizedRow, $sanitizedInventoryRow);
+					}
+				} else {
+					$entries[] = $sanitizedRow;
+				}
+			} else {
+				$entries[] = $sanitizedRow;
+			}
 		}
-
 		$this->output($request, $translatedHeaders, $entries);
 	}
 
@@ -94,7 +118,8 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 		$queryGenerator->initForCustomViewById($cvId);
 		$fieldInstances = $this->moduleFieldInstances;
 
-		$accessiblePresenceValue = array(0, 2);
+		$accessiblePresenceValue = [0, 2];
+		$fields[] = 'id';
 		foreach ($fieldInstances as $field) {
 			// Check added as querygenerator is not checking this for admin users
 			$presence = $field->get('presence');
@@ -105,6 +130,7 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 		$queryGenerator->setFields($fields);
 		$query = $queryGenerator->getQuery();
 
+		//TODO To be removed together with the old inventory module
 		if (in_array($moduleName, getInventoryModules())) {
 			$query = $this->moduleInstance->getExportQuery($this->focus, $query);
 		}
@@ -172,34 +198,31 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 	function output($request, $headers, $entries)
 	{
 		$moduleName = $request->get('source_module');
-		$fileName = str_replace(' ', '_', decode_html(vtranslate($moduleName, $moduleName)));
+		$fileName = str_replace(' ', '_', decode_html(vtranslate($moduleName, $moduleName))) . '.csv';
 		$exportType = $this->getExportContentType($request);
 
-		header("Content-Disposition:attachment;filename=$fileName.csv");
-		header("Content-Type:$exportType;charset=UTF-8");
+		header("Content-Disposition: attachment; filename=\"$fileName\"");
+		header("Content-Type: $exportType; charset=UTF-8");
 		header("Expires: Mon, 31 Dec 2000 00:00:00 GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Cache-Control: post-check=0, pre-check=0", false);
 
-		$header = implode("\", \"", $headers);
-		$header = "\"" . $header;
-		$header .= "\"\r\n";
-		echo $header;
+		# Start the ouput
+		$output = fopen('php://output', 'w');
+		fputcsv($output, $headers);
 
 		foreach ($entries as $row) {
-			$line = implode("\",\"", $row);
-			$line = "\"" . $line;
-			$line .= "\"\r\n";
-			echo $line;
+			fputcsv($output, $row);
 		}
 	}
 
 	private $picklistValues;
 	private $fieldArray;
-	private $fieldDataTypeCache = array();
+	private $fieldDataTypeCache = [];
 
 	/**
 	 * this function takes in an array of values for an user and sanitizes it for export
+	 * Requires modification after adding a new field type
 	 * @param array $arr - the array of values
 	 */
 	function sanitizeValues($arr)
@@ -212,6 +235,7 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 			foreach ($this->fieldArray as $fieldName => $fieldObj) {
 				//In database we have same column name in two tables. - inventory modules only
 				if ($fieldObj->get('table') == 'vtiger_inventoryproductrel' && ($fieldName == 'discount_amount' || $fieldName == 'discount_percent')) {
+					//TODO To be removed together with the old inventory module
 					$fieldName = 'item_' . $fieldName;
 					$this->fieldArray[$fieldName] = $fieldObj;
 				} else {
@@ -254,28 +278,25 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 			} elseif ($type == 'reference') {
 				$value = trim($value);
 				if (!empty($value)) {
-					$parent_module = getSalesEntityType($value);
-					$displayValueArray = getEntityName($parent_module, $value);
+					$recordModule = Vtiger_Functions::getCRMRecordType($value);
+					$displayValueArray = Vtiger_Functions::computeCRMRecordLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
 							$displayValue = $v;
 						}
 					}
-					if (!empty($parent_module) && !empty($displayValue)) {
-						$value = $parent_module . "::::" . $displayValue;
+					if (!empty($recordModule) && !empty($displayValue)) {
+						$value = $recordModule . '::::' . $displayValue;
 					} else {
-						$value = "";
+						$value = '';
 					}
 				} else {
 					$value = '';
 				}
-			} elseif ($uitype == 72 || $uitype == 71) {
-				$value = CurrencyField::convertToUserFormat($value, null, true, true);
-			} elseif ($uitype == 7 && $fieldInfo->get('typeofdata') == 'N~O' || $uitype == 9) {
-				$value = decimalFormat($value);
-			} else if ($type == 'date' || $type == 'datetime') {
-				$value = DateTimeField::convertToUserFormat($value);
+			} else if (in_array($uitype, [302])) {
+				$value = $fieldInfo->getDisplayValue($value);
 			}
+
 			if ($moduleName == 'Documents' && $fieldname == 'description') {
 				$value = strip_tags($value);
 				$value = str_replace('&nbsp;', '', $value);
@@ -283,5 +304,37 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 			}
 		}
 		return $arr;
+	}
+
+	function sanitizeInventoryValues($inventoryRow, $inventoryFields)
+	{
+		$inventoryEntries = [];
+		foreach ($inventoryFields as $field) {
+			$value = $inventoryRow[$field->getColumnName()];
+
+			if (in_array($field->getName(), ['Name', 'Reference'])) {
+				$value = trim($value);
+				if (!empty($value)) {
+					$recordModule = Vtiger_Functions::getCRMRecordType($value);
+					$displayValueArray = Vtiger_Functions::computeCRMRecordLabels($recordModule, $value);
+					if (!empty($displayValueArray)) {
+						foreach ($displayValueArray as $k => $v) {
+							$displayValue = $v;
+						}
+					}
+					if (!empty($recordModule) && !empty($displayValue)) {
+						$value = $recordModule . '::::' . $displayValue;
+					} else {
+						$value = '';
+					}
+				} else {
+					$value = '';
+				}
+			} else {
+				$value = $field->getDisplayValue($value);
+			}
+			$inventoryEntries['inv_' . $field->getColumnName()] = $value;
+		}
+		return $inventoryEntries;
 	}
 }

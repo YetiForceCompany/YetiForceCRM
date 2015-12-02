@@ -12,7 +12,7 @@
 class Vtiger_Mobile_Model extends Vtiger_Base_Model
 {
 
-	public function checkPermissionForOutgoingCall()
+	public static function checkPermissionForOutgoingCall()
 	{
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -54,7 +54,7 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model
 			$sql .= ' AND yetiforce_mobile_keys.service = ?';
 			$params[] = $service;
 		}
-		$result = $adb->pquery('SELECT yetiforce_mobile_keys.*, vtiger_users.user_name, vtiger_users.first_name, vtiger_users.last_name, vtiger_users.id AS userid FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE vtiger_users.status = ? ' . $sql, $params);
+		$result = $adb->pquery('SELECT yetiforce_mobile_keys.*, vtiger_users.user_name,' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ' as fullusername, vtiger_users.id AS userid FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE vtiger_users.status = ? ' . $sql, $params);
 		$rows = $adb->num_rows($result);
 		$keys = Array();
 		for ($i = 0; $i < $rows; $i++) {
@@ -74,7 +74,7 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model
 		$keys = self::getAllMobileKeys('pushcall', $currentUser->getId());
 		foreach ($keys as $id => $key) {
 			if (in_array($currentUser->getId(), $key['privileges_users']))
-				$users[$key['userid']] = $key['first_name'] . ' ' . $key['last_name'];
+				$users[$key['userid']] = $key['fullusername'];
 		}
 		return $users;
 	}

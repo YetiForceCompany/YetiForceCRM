@@ -23,7 +23,6 @@ $languageStrings = [
 	'SINGLE_Quotes' => 'Oferta',
 	'Valid Till'=>'Data ważności',
     'Shipping' => 'Transport',
-    'Total time [h]' => 'Łączny czas [h]',
 	'LBL_GENERATE_QUOTES' => 'Generuj ofertę',
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Produkt/usługa została usunięta z systemu, usuń ją z rekordu.',
 	'LBL_THIS' => 'Produkt/usługa (',

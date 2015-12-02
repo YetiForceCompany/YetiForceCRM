@@ -10,7 +10,7 @@
 $languageStrings = [
 	'Sharing Rules' => 'Sharing Rules',
 	'SharingAccess' => 'Sharing Rules',
-	'Accounts' => 'Organizations and Contacts',
+	'Accounts' => 'Accounts and Contacts',
 	'LBL_ADD_CUSTOM_RULE' => 'Add Custom Rule',
 	'LBL_ADD_CUSTOM_RULE_TO' => 'Add Custom Rule to',
 	'LBL_ADVANCED_SHARING_RULES' => 'Advanced Sharing Rules',
@@ -40,7 +40,7 @@ $languageStrings = [
 
 $jsLanguageStrings = [
 	'JS_CUSTOM_RULE_SAVED_SUCCESSFULLY' => 'Custom Sharing Rule Saved Successfully',
-	'JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE' => 'Opportunities, Tickets, Quotes, SalesOrder & Invoice Access must be set to Private when the Organization Access is set to Private',
+	'JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE' => 'Opportunities, Tickets, Quotes, SalesOrder & Invoice Access must be set to Private when the Account Access is set to Private',
 	'JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY' => 'New Sharing Rules Applied Successfully',
 	'JS_SELECT_ANY_OTHER_ACCESSING_USER' => 'Select any other accessing user',
 ];

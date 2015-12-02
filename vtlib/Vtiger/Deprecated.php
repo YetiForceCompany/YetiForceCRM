@@ -1,59 +1,62 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
-
+ * ********************************************************************************** */
 
 /**
  * Functions that need-rewrite / to be eliminated.
  */
+class Vtiger_Deprecated
+{
 
-class Vtiger_Deprecated {
-
-	static function getFullNameFromQResult($result, $row_count, $module) {
+	static function getFullNameFromQResult($result, $row_count, $module)
+	{
 		$adb = PearDatabase::getInstance();
 		$rowdata = $adb->query_result_rowdata($result, $row_count);
 		$entity_field_info = getEntityFieldNames($module);
 		$fieldsName = $entity_field_info['fieldname'];
 		$name = '';
 		if ($rowdata != '' && count($rowdata) > 0) {
-			$name = self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $rowdata );
+			$name = self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $rowdata);
 		}
 		$name = textlength_check($name);
 		return $name;
 	}
 
-	static function getFullNameFromArray($module, $fieldValues) {
+	static function getFullNameFromArray($module, $fieldValues)
+	{
 		$entityInfo = getEntityFieldNames($module);
 		$fieldsName = $entityInfo['fieldname'];
 		$displayName = self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues);
 		return $displayName;
 	}
 
-	static function getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues) {
-		$current_user  = vglobal('current_user');
-		if(!is_array($fieldsName)) {
+	static function getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues)
+	{
+		$current_user = vglobal('current_user');
+		if (!is_array($fieldsName)) {
 			return $fieldValues[$fieldsName];
 		} else {
 			$accessibleFieldNames = array();
-			foreach($fieldsName as $field) {
-				if($module == 'Users' || getColumnVisibilityPermission($current_user->id, $field, $module) == '0') {
+			foreach ($fieldsName as $field) {
+				if ($module == 'Users' || getColumnVisibilityPermission($current_user->id, $field, $module) == '0') {
 					$accessibleFieldNames[] = $fieldValues[$field];
 				}
 			}
-			if(count($accessibleFieldNames) > 0) {
+			if (count($accessibleFieldNames) > 0) {
 				return implode(' ', $accessibleFieldNames);
 			}
 		}
 		return '';
 	}
 
-	static function getBlockId($tabid, $label) {
+	static function getBlockId($tabid, $label)
+	{
 		$adb = PearDatabase::getInstance();
 		$query = "select blockid from vtiger_blocks where tabid=? and blocklabel = ?";
 		$result = $adb->pquery($query, array($tabid, $label));
@@ -65,8 +68,9 @@ class Vtiger_Deprecated {
 		}
 		return $blockid;
 	}
-	
-	static function copyValuesFromRequest($focus) {
+
+	static function copyValuesFromRequest($focus)
+	{
 		if (isset($_REQUEST['record'])) {
 			$focus->id = $_REQUEST['record'];
 		}
@@ -84,7 +88,8 @@ class Vtiger_Deprecated {
 		}
 	}
 
-	static function createModuleMetaFile() {
+	static function createModuleMetaFile()
+	{
 		$adb = PearDatabase::getInstance();
 
 		$sql = "select * from vtiger_tab";
@@ -160,7 +165,8 @@ class Vtiger_Deprecated {
 		}
 	}
 
-	static function getTemplateDetails($templateid) {
+	static function getTemplateDetails($templateid)
+	{
 		$adb = PearDatabase::getInstance();
 		$returndata = Array();
 		$result = $adb->pquery("select body, subject from vtiger_emailtemplates where templateid=?", array($templateid));
@@ -170,7 +176,8 @@ class Vtiger_Deprecated {
 		return $returndata;
 	}
 
-	static function getAnnouncements() {
+	static function getAnnouncements()
+	{
 		$adb = PearDatabase::getInstance();
 		$sql = " select * from vtiger_announcement inner join vtiger_users on vtiger_announcement.creatorid=vtiger_users.id";
 		$sql.=" AND vtiger_users.is_admin='on' AND vtiger_users.status='Active' AND vtiger_users.deleted = 0";
@@ -181,13 +188,14 @@ class Vtiger_Deprecated {
 				$announcement.=$announce;
 		}
 
-	   return $announcement;
+		return $announcement;
 	}
 
-	static function getModuleTranslationStrings($language, $module) {
+	static function getModuleTranslationStrings($language, $module)
+	{
 		static $cachedModuleStrings = array();
 
-		if(!empty($cachedModuleStrings[$module])) {
+		if (!empty($cachedModuleStrings[$module])) {
 			return $cachedModuleStrings[$module];
 		}
 		$newStrings = Vtiger_Language_Handler::getModuleStringsFromFile($language, $module);
@@ -196,7 +204,8 @@ class Vtiger_Deprecated {
 		return $cachedModuleStrings[$module];
 	}
 
-	static function getTranslatedCurrencyString($str) {
+	static function getTranslatedCurrencyString($str)
+	{
 		global $app_currency_strings;
 		if (isset($app_currency_strings) && isset($app_currency_strings[$str])) {
 			return $app_currency_strings[$str];
@@ -204,7 +213,8 @@ class Vtiger_Deprecated {
 		return $str;
 	}
 
-	static function getIdOfCustomViewByNameAll($module) {
+	static function getIdOfCustomViewByNameAll($module)
+	{
 		$adb = PearDatabase::getInstance();
 
 		static $cvidCache = array();
@@ -213,10 +223,11 @@ class Vtiger_Deprecated {
 			$cvid = $adb->query_result($qry_res, 0, "cvid");
 			$cvidCache[$module] = $cvid;
 		}
-		return isset($cvidCache[$module])? $cvidCache[$module] : '0';
+		return isset($cvidCache[$module]) ? $cvidCache[$module] : '0';
 	}
 
-	static function SaveTagCloudView($id = "") {
+	static function SaveTagCloudView($id = "")
+	{
 		$adb = PearDatabase::getInstance();
 		$tag_cloud_status = $_REQUEST['tagcloudview'];
 		if ($tag_cloud_status == "true") {
@@ -232,12 +243,13 @@ class Vtiger_Deprecated {
 		}
 	}
 
-	static function clearSmartyCompiledFiles($path = null) {
+	static function clearSmartyCompiledFiles($path = null)
+	{
 		$root_directory = vglobal('root_directory');
 		if ($path == null) {
 			$path = $root_directory . 'cache/templates_c/';
 		}
-		if(file_exists($path) && is_dir($path)){
+		if (file_exists($path) && is_dir($path)) {
 			$mydir = @opendir($path);
 			while (false !== ($file = readdir($mydir))) {
 				if ($file != "." && $file != ".." && $file != ".svn") {
@@ -256,10 +268,10 @@ class Vtiger_Deprecated {
 			}
 			@closedir($mydir);
 		}
-		
 	}
 
-	static function getSmartyCompiledTemplateFile($template_file, $path = null) {
+	static function getSmartyCompiledTemplateFile($template_file, $path = null)
+	{
 		$root_directory = vglobal('root_directory');
 		if ($path == null) {
 			$path = $root_directory . 'cache/templates_c/';
@@ -285,13 +297,15 @@ class Vtiger_Deprecated {
 		return $compiled_file;
 	}
 
-	static function postApplicationMigrationTasks() {
+	static function postApplicationMigrationTasks()
+	{
 		self::clearSmartyCompiledFiles();
 		self::createModuleMetaFile();
 		self::createModuleMetaFile();
 	}
 
-	static function checkFileAccessForInclusion($filepath) {
+	static function checkFileAccessForInclusion($filepath)
+	{
 		$root_directory = vglobal('root_directory');
 		// Set the base directory to compare with
 		$use_root_directory = $root_directory;
@@ -316,13 +330,14 @@ class Vtiger_Deprecated {
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
 			$log = vglobal('log');
-			$log->error(__CLASS__ . ':' . __FUNCTION__ . '('.$filepath.') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			die(Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '" . $realfilepath . "'"));
 		}
 	}
 
-	/** Function to check the file deletion within the deletable (safe) directories*/
-	static function checkFileAccessForDeletion($filepath) {
+	/** Function to check the file deletion within the deletable (safe) directories */
+	static function checkFileAccessForDeletion($filepath)
+	{
 		$root_directory = vglobal('root_directory');
 		// Set the base directory to compare with
 		$use_root_directory = $root_directory;
@@ -347,18 +362,18 @@ class Vtiger_Deprecated {
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || !in_array($filePathParts[0], $safeDirectories)) {
 			$log = vglobal('log');
-			$log->error(__CLASS__ . ':' . __FUNCTION__ . '('.$filepath.') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			die( Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '".$realfilepath."'") );
+			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			die(Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '" . $realfilepath . "'"));
 		}
-
 	}
 
 	/** Function to check the file access is made within web root directory. */
-	static function checkFileAccess($filepath) {
+	static function checkFileAccess($filepath)
+	{
 		if (!self::isFileAccessible($filepath)) {
 			$log = vglobal('log');
-			$log->error(__CLASS__ . ':' . __FUNCTION__ . '('.$filepath.') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			die( Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '".$realfilepath."'") );
+			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			die(Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '" . htmlspecialchars($realfilepath, ENT_QUOTES, vglobal('default_charset')) . "'"));
 		}
 	}
 
@@ -369,7 +384,8 @@ class Vtiger_Deprecated {
 	 * @param String $filepath relative path to the file which need to be verified
 	 * @return Boolean true if file is a valid file within vtiger root directory, false otherwise.
 	 */
-	static function isFileAccessible($filepath) {
+	static function isFileAccessible($filepath)
+	{
 		$root_directory = vglobal('root_directory');
 		// Set the base directory to compare with
 		$use_root_directory = $root_directory;
@@ -393,7 +409,8 @@ class Vtiger_Deprecated {
 		return true;
 	}
 
-	static function getSettingsBlockId($label) {
+	static function getSettingsBlockId($label)
+	{
 		$adb = PearDatabase::getInstance();
 		$blockid = '';
 		$query = "select blockid from vtiger_settings_blocks where label = ?";
@@ -405,11 +422,12 @@ class Vtiger_Deprecated {
 		return $blockid;
 	}
 
-	static function getSqlForNameInDisplayFormat($input, $module, $glue = ' ') {
+	static function getSqlForNameInDisplayFormat($input, $module, $glue = ' ')
+	{
 		$entity_field_info = Vtiger_Functions::getEntityModuleInfoFieldsFormatted($module);
 		$fieldsName = $entity_field_info['fieldname'];
-		if(is_array($fieldsName)) {
-			foreach($fieldsName as $key => $value) {
+		if (is_array($fieldsName)) {
+			foreach ($fieldsName as $key => $value) {
 				$formattedNameList[] = $input[$value];
 			}
 			$formattedNameListString = implode(",'" . $glue . "',", $formattedNameList);
@@ -420,7 +438,8 @@ class Vtiger_Deprecated {
 		return $sqlString;
 	}
 
-	static function getModuleSequenceNumber($module, $recordId) {
+	static function getModuleSequenceNumber($module, $recordId)
+	{
 		$adb = PearDatabase::getInstance();
 		switch ($module) {
 			case "Invoice":
@@ -443,14 +462,15 @@ class Vtiger_Deprecated {
 		return $moduleSeqNo;
 	}
 
-	static function getModuleFieldTypeOfDataInfos($tables, $tabid='') {
+	static function getModuleFieldTypeOfDataInfos($tables, $tabid = '')
+	{
 		$result = array();
 		if (!empty($tabid)) {
 			$module = Vtiger_Functions::getModuleName($tabid);
 			$fieldInfos = Vtiger_Functions::getModuleFieldInfos($tabid);
 			foreach ($fieldInfos as $name => $field) {
 				if (($field['displaytype'] == '1' || $field['displaytype'] == '3') &&
-						($field['presence'] == '0' || $field['presence'] == '2')) {
+					($field['presence'] == '0' || $field['presence'] == '2')) {
 
 					$label = Vtiger_Functions::getTranslatedString($field['fieldlabel'], $module);
 					$result[$name] = array($label => $field['typeofdata']);
@@ -463,7 +483,8 @@ class Vtiger_Deprecated {
 		return $result;
 	}
 
-	static function return_app_list_strings_language($language, $module='Vtiger') {
+	static function return_app_list_strings_language($language, $module = 'Vtiger')
+	{
 		$strings = Vtiger_Language_Handler::getModuleStringsFromFile($language, $module);
 		return $strings['languageStrings'];
 	}

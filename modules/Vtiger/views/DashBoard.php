@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 
-class Vtiger_Dashboard_View extends Vtiger_Index_View {
+class Vtiger_DashBoard_View extends Vtiger_Index_View {
 
 	function checkPermission(Vtiger_Request $request) {
 		$moduleName = $request->getModule();

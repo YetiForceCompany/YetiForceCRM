@@ -31,11 +31,11 @@ $languageStrings = [
 	// Basic Strings
 	'Calculations'	=>	'Расчеты',
 	'SINGLE_Calculations'	=>	'Расчет',
-	'LBL_ADD_RECORD'	=>	'Добавить Расчет',
+	'LBL_ADD_RECORD' => 'Расчет',
 	'LBL_RECORDS_LIST'	=>	'Список Расчетов',
 
 	// Blocks
-	'LBL_INFORMATION'	=>	'Информация',
+	'LBL_INFORMATION' => 'Основная информация',
 	
 	//Field Labels
 	'Title'	=>	'Название',

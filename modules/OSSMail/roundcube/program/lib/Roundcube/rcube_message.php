@@ -570,8 +570,10 @@ class rcube_message
                     $related_part = $p;
                 else if ($sub_mimetype == 'text/plain' && !$plain_part)
                     $plain_part = $p;
-                else if ($sub_mimetype == 'text/html' && !$html_part)
+                else if ($sub_mimetype == 'text/html' && !$html_part) {
                     $html_part = $p;
+                    $this->got_html_part = true;
+                }
                 else if ($sub_mimetype == 'text/enriched' && !$enriched_part)
                     $enriched_part = $p;
                 else {
@@ -696,7 +698,7 @@ class rcube_message
                         continue;
 
                     if ($part_mimetype == 'text/html' && $mail_part->size) {
-                        $got_html_part = true;
+                        $this->got_html_part = true;
                     }
 
                     $mail_part = $plugin['structure'];
@@ -782,6 +784,14 @@ class rcube_message
                 else if ($mail_part->mimetype == 'message/rfc822') {
                     $this->parse_structure($mail_part);
                 }
+                // calendar part not marked as attachment (#1490325)
+                else if ($part_mimetype == 'text/calendar') {
+                    if (!$mail_part->filename) {
+                        $mail_part->filename = 'calendar.ics';
+                    }
+
+                    $this->attachments[] = $mail_part;
+                }
             }
 
             // if this was a related part try to resolve references
@@ -801,7 +811,7 @@ class rcube_message
                         // MS Outlook sends sometimes non-related attachments as related
                         // In this case multipart/related message has only one text part
                         // We'll add all such attachments to the attachments list
-                        if (!isset($got_html_part) && empty($inline_object->content_id)) {
+                        if (!isset($this->got_html_part)) {
                             $this->attachments[] = $inline_object;
                         }
                         // MS Outlook sometimes also adds non-image attachments as related

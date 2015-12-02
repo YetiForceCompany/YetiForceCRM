@@ -1,14 +1,14 @@
 
 {*<!--
 /*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
+* The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+* in compliance with the License.
+* Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+* See the License for the specific language governing rights and limitations under the License.
+* The Original Code is YetiForce.
+* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+* All Rights Reserved.
+*************************************************************************************************************************************/
 -->*}
 {strip}
     <!--
@@ -172,18 +172,18 @@
 										<input type="radio" name="discount_final" class="finalDiscounts" title="{vtranslate('LBL_OF_PRICE',$MODULE)}" data-discount-type="percentage" {if $DISCOUNT_TYPE_FINAL eq 'percentage'}checked{/if} />&nbsp; % {vtranslate('LBL_OF_PRICE',$MODULE)}
 									</div>	
 									<div class="input-group {if $DISCOUNT_TYPE_FINAL neq 'percentage'}hide{/if}"><input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_percentage_final" name="discount_percentage_final" value="{$FINAL.discount_percentage_final}" title="{$FINAL.discount_percentage_final}" class="discount_percentage_final smallInputBox form-control input-sm pull-right discountVal " />
-									<span class="input-group-addon">%</span></div>
+										<span class="input-group-addon">%</span></div>
 								</td>
                             </tr>
                             <tr>
                                 <td><input type="radio" name="discount_final" class="finalDiscounts" data-discount-type="amount" title="{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}" {if $DISCOUNT_TYPE_FINAL eq 'amount'}checked{/if} />&nbsp;{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}
-                                <input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]"  id="discount_amount_final" name="discount_amount_final" value="{$FINAL.discount_amount_final}" title="{$FINAL.discount_amount_final}" class="smallInputBox form-control input-sm pull-right discount_amount_final discountVal {if $DISCOUNT_TYPE_FINAL neq 'amount'}hide{/if}" /></td>
+									<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]"  id="discount_amount_final" name="discount_amount_final" value="{$FINAL.discount_amount_final}" title="{$FINAL.discount_amount_final}" class="smallInputBox form-control input-sm pull-right discount_amount_final discountVal {if $DISCOUNT_TYPE_FINAL neq 'amount'}hide{/if}" /></td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="modal-footer backgroundColor lineItemPopupModalFooter modal-footer-padding">
                         <div class=" pull-right cancelLinkContainer">
-                            <a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                            <a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                         </div>
                         <button class="btn btn-success finalDiscountSave" type="button" name="lineItemActionSave"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
                     </div>
@@ -217,13 +217,13 @@
                         {foreach item=tax_detail name=group_tax_loop key=loop_count from=$TAXES}
                             <tr>
                                 <td class="lineOnTop">
-									 <div class="input-group input-group-sm">
-										 <span class="input-group-addon">
-											 <input type="radio" aria-label="..." name="group_tax_option " class="group_tax_option" value="{$tax_detail.taxname}" title="{$tax_detail.taxname}" {if {$FINAL['tax']} == $tax_detail.taxname}checked{/if}>
-										 </span>
-											 <input type="text" size="5" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" name="{$tax_detail.taxname}_group_percentage" id="group_tax_percentage{$smarty.foreach.group_tax_loop.iteration}" value="{$tax_detail.percentage}" title="{$tax_detail.percentage}" class="smallInputBox form-control input-sm groupTaxPercentage" aria-label="..."/>
-											 <span class="input-group-addon">%</span>
-									 </div>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">
+											<input type="radio" aria-label="..." name="group_tax_option " class="group_tax_option" value="{$tax_detail.taxname}" title="{$tax_detail.taxname}" {if {$FINAL['tax']} == $tax_detail.taxname}checked{/if}>
+										</span>
+										<input type="text" size="5" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" name="{$tax_detail.taxname}_group_percentage" id="group_tax_percentage{$smarty.foreach.group_tax_loop.iteration}" value="{$tax_detail.percentage}" title="{$tax_detail.percentage}" class="smallInputBox form-control input-sm groupTaxPercentage" aria-label="..."/>
+										<span class="input-group-addon">%</span>
+									</div>
                                 </td>
                                 <td class="lineOnTop textAlignCenter"><div class="textOverflowEllipsis">{$tax_detail.taxlabel}</div></td>
                                 <td class="lineOnTop">
@@ -235,7 +235,7 @@
                     </table>
                     <div class="modal-footer lineItemPopupModalFooter modal-footer-padding">
                         <div class=" pull-right cancelLinkContainer">
-                            <a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                            <button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
                         </div>
                         <button class="btn btn-success" type="button" name="lineItemActionSave"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
                     </div>
@@ -265,10 +265,10 @@
                 </td>
                 <td>
                     {if $MODULE eq 'Invoice'}
-                            <span class="pull-right"><input id="received" name="received" type="text" class="lineItemInputBox form-control input-sm" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}" title="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}"></span>
-                    {else}
+						<span class="pull-right"><input id="received" name="received" type="text" class="lineItemInputBox form-control input-sm" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}" title="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}"></span>
+						{else}
                         <span class="pull-right"><input id="paid" name="paid" type="text" class="lineItemInputBox form-control input-sm" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0{/if}" title="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0{/if}"></span>
-                    {/if}
+						{/if}
                 </td>
             </tr>
 			<!--
@@ -286,8 +286,8 @@
         {/if}
     </table>
 </div>
-    <br>
-    <input type="hidden" name="totalProductCount" id="totalProductCount" value="{$row_no}" />
-    <input type="hidden" name="subtotal" id="subtotal" value="" />
-    <input type="hidden" name="total" id="total" value="" />
+<br>
+<input type="hidden" name="totalProductCount" id="totalProductCount" value="{$row_no}" />
+<input type="hidden" name="subtotal" id="subtotal" value="" />
+<input type="hidden" name="total" id="total" value="" />
 {/strip}

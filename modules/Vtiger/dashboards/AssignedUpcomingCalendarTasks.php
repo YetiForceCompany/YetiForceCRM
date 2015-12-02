@@ -48,6 +48,7 @@ class Vtiger_AssignedUpcomingCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vi
 		$viewer->assign('NAMELENGHT', $title_max_length);
 		$viewer->assign('HREFNAMELENGHT', $href_max_length);
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_SCHEDULED_ACTIVITIES');
+		$viewer->assign('OWNER', $owner);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

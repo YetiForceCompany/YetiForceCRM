@@ -36,13 +36,9 @@
 		</div>
 		<div class="tab-pane" id="signature">
 			{assign var=CONFIG_SIGNATURE value=$MODULE_MODEL->getConfig('signature')}
-			<div class="row">
-				<div class="col-md-1 pagination-centered">
-					<input class="configCheckbox" type="checkbox" name="addSignature" id="addSignature" data-type="signature" value="1" {if $CONFIG_SIGNATURE['addSignature']=='true'}checked=""{/if}>
-				</div>
-				<div class="col-md-11">
-					<label for="addSignature">{vtranslate('LBL_ADD_SIGNATURE', $QUALIFIED_MODULE)}</label>
-				</div>
+			<div>
+				<input class="configCheckbox" type="checkbox" name="addSignature" id="addSignature" data-type="signature" value="1" {if $CONFIG_SIGNATURE['addSignature']=='true'}checked=""{/if}>
+				&nbsp;<label for="addSignature">{vtranslate('LBL_ADD_SIGNATURE', $QUALIFIED_MODULE)}</label>
 			</div>
 			<hr />
 			<div class="row">

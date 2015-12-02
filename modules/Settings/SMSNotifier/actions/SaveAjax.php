@@ -1,16 +1,18 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Settings_SMSNotifier_SaveAjax_Action extends Settings_Vtiger_Index_Action {
+class Settings_SMSNotifier_SaveAjax_Action extends Settings_Vtiger_Index_Action
+{
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 
@@ -25,18 +27,18 @@ class Settings_SMSNotifier_SaveAjax_Action extends Settings_Vtiger_Index_Action 
 			$recordModel->set($fieldName, $request->get($fieldName));
 		}
 
-        $parameters = ''; 
+		$parameters = '';
 		$selectedProvider = $request->get('providertype');
 		$allProviders = $recordModel->getModule()->getAllProviders();
 		foreach ($allProviders as $provider) {
 			if ($provider->getName() === $selectedProvider) {
-				$fieldsInfo = Settings_SMSNotifier_ProviderField_Model::getInstanceByProvider($provider); 
-				foreach ($fieldsInfo as $fieldInfo) { 
- 		        	$recordModel->set($fieldInfo['name'], $request->get($fieldInfo['name'])); 
- 		            $parameters[$fieldInfo['name']] = $request->get($fieldInfo['name']); 
-		        } 
- 		        $recordModel->set('parameters', Zend_Json::encode($parameters)); 
- 		        break;
+				$fieldsInfo = Settings_SMSNotifier_ProviderField_Model::getInstanceByProvider($provider);
+				foreach ($fieldsInfo as $fieldInfo) {
+					$recordModel->set($fieldInfo['name'], $request->get($fieldInfo['name']));
+					$parameters[$fieldInfo['name']] = $request->get($fieldInfo['name']);
+				}
+				$recordModel->set('parameters', Zend_Json::encode($parameters));
+				break;
 			}
 		}
 
@@ -49,8 +51,9 @@ class Settings_SMSNotifier_SaveAjax_Action extends Settings_Vtiger_Index_Action 
 		}
 		$response->emit();
 	}
-        
-        public function validateRequest(Vtiger_Request $request) { 
-            $request->validateWriteAccess(); 
-        }
+
+	public function validateRequest(Vtiger_Request $request)
+	{
+		$request->validateWriteAccess();
+	}
 }

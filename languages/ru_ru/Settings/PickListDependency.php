@@ -38,5 +38,5 @@ $jsLanguageStrings = [
 	'JS_DEPENDENCY_ATLEAST_ONE_VALUE' => 'Вы должны выбрать по крайней мере одно значение',
 	'JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME' => 'Исходное и целевое поля не должны совпадать',
 	'JS_SELECT_SOME_VALUE' => 'Выберите значение',
-	'JS_PICKLIST_DEPENDENCY_NO_SAVED' => 'No dependencies were entered. No changes were saved.',
+	'JS_PICKLIST_DEPENDENCY_NO_SAVED' => 'Услевия не указаны, изменения не сохранены.',
 ];

@@ -30,7 +30,7 @@
 				<input type="hidden" name="module" value="{$MODULE}" />
 			{/if}
 			<input type="hidden" name="action" value="Save" />
-			<input type="hidden" name="record" value="{$RECORD_ID}" />
+			<input type="hidden" name="record" id="recordId" value="{$RECORD_ID}" />
 			<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
 			<input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
 			{if $IS_RELATION_OPERATION }
@@ -47,7 +47,7 @@
 				{/if}
 				<span class="pull-right">
 					<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-					<a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+					<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 				</span>
 				<div class="clearfix"></div>
 			</div>
@@ -86,7 +86,7 @@
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<td class="fieldLabel {$WIDTHTYPE}">
+								<td class="fieldLabel textAlignRight {$WIDTHTYPE}">
 									{if $isReferenceField neq "reference"}<label class="muted pull-right marginRight10px">{/if}
 										{if $FIELD_MODEL->isMandatory() eq true && $isReferenceField neq "reference"} <span class="redColor">*</span> {/if}
 										{if $isReferenceField eq "reference"}
@@ -98,8 +98,8 @@
 												{if !empty($REFERENCED_MODULE_STRUCT)}
 													{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
 												{/if}
+												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor referenceMandatory">*</span> {/if}
 												<span class="col-xs-10 paddingRightZero pull-right">
-													{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 													<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" style="width:140px;">
 														<optgroup>
 															{foreach key=index item=value from=$REFERENCE_LIST}
@@ -132,9 +132,6 @@
 								{/if}
 								{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->get('uitype') neq "19" and $FIELD_MODEL->get('uitype') neq "20" and $FIELD_MODEL->get('uitype') neq "30" and $FIELD_MODEL->get('uitype') neq '300' and $FIELD_MODEL->get('name') neq "recurringtype"}
 									<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
-									{/if}
-									{if $MODULE eq 'Events' && $BLOCK_LABEL eq 'LBL_EVENT_INFORMATION' && $smarty.foreach.blockfields.last }
-										{include file=vtemplate_path('uitypes/FollowUp.tpl',$MODULE) COUNTER=$COUNTER}
 									{/if}
 								{/foreach}
 						</tr>

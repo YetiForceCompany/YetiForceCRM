@@ -1,5 +1,4 @@
 <?php
-
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -9,40 +8,53 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Settings_Vtiger_CompanyDetailsSave_Action extends Settings_Vtiger_Basic_Action {
+class Settings_Vtiger_CompanyDetailsSave_Action extends Settings_Vtiger_Basic_Action
+{
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Vtiger_CompanyDetails_Model::getInstance();
 		$status = false;
-
-        if ($request->get('organizationname')) {
-            $saveLogo = $status = true;
-			if(!empty($_FILES['logo']['name'])) {
-                $logoDetails = $_FILES['logo'];
-                $fileType = explode('/', $logoDetails['type']);
-                $fileType = $fileType[1];
-
-                if (!$logoDetails['size'] || !in_array($fileType, Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)) {
-                    $saveLogo = false;
-                }
-				// Check for php code injection
-				$imageContents = file_get_contents($_FILES["logo"]["tmp_name"]);
-				if (preg_match('/(<\?php?(.*?))/i', $imageContents) == 1) {
-					$saveLogo = false;
+		$images=['logo','panellogo'];
+		if ($request->get('organizationname')) {
+			foreach($images as $image){
+				$saveLogo[$image] = $status = true;	
+				if (!empty($_FILES[$image]['name'])) {
+					$logoDetails[$image] = $_FILES[$image];
+					$fileType = explode('/', $logoDetails[$image]['type']);
+					$fileType = $fileType[1];
+					//mime type check 
+					$mimeType = Vtiger_Functions::getMimeContentType($_FILES[$image]["tmp_name"]);
+					$mimeTypeContents = explode('/', $mimeType);
+					if (!$logoDetails['size'] || $mimeTypeContents[0] != 'image' || !in_array($mimeTypeContents[1], Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)) {
+						$saveLogo = false;
+					}
+					// Check for php code injection
+					$imageContents = file_get_contents($_FILES[$image]["tmp_name"]);
+					if (preg_match('/(<\?php?(.*?))/i', $imageContents) == 1) {
+						$saveLogo[$image] = false;
+					}
+					if ($saveLogo[$image]) {
+						$moduleModel->saveLogo($image);
+					}
+				} else {
+					$saveLogo[$image] = true;
 				}
-                if ($saveLogo) {
-                    $moduleModel->saveLogo();
-                }
-            }else{
-                $saveLogo = true;
-            }
+			}
 			$fields = $moduleModel->getFields();
 			foreach ($fields as $fieldName => $fieldType) {
 				$fieldValue = $request->get($fieldName);
 				if ($fieldName === 'logoname') {
-					if (!empty($logoDetails['name'])) {
-						$fieldValue = ltrim(basename(" " . $logoDetails['name']));
+					if (!empty($logoDetails['logo']['name'])) {
+						$fieldValue = ltrim(basename(" " . $logoDetails['logo']['name']));
+					} else {
+						$fieldValue = $moduleModel->get($fieldName);
+					}
+				}
+				if ($fieldName === 'panellogoname') {
+					if (!empty($logoDetails['panellogo']['name'])) {
+						$fieldValue = ltrim(basename(" " . $logoDetails['panellogo']['name']));
 					} else {
 						$fieldValue = $moduleModel->get($fieldName);
 					}
@@ -53,9 +65,9 @@ class Settings_Vtiger_CompanyDetailsSave_Action extends Settings_Vtiger_Basic_Ac
 		}
 
 		$reloadUrl = $moduleModel->getIndexViewUrl();
-		if ($saveLogo && $status) {
-
-		} else if (!$saveLogo) {
+		if ($saveLogo['panellogo'] && $saveLogo['logo'] && $status) {
+			
+		} else if (!($saveLogo['panellogo'] && $saveLogo['logo'])) {
 			$reloadUrl .= '&error=LBL_INVALID_IMAGE';
 		} else {
 			$reloadUrl = $moduleModel->getEditViewUrl() . '&error=LBL_FIELDS_INFO_IS_EMPTY';
@@ -63,7 +75,8 @@ class Settings_Vtiger_CompanyDetailsSave_Action extends Settings_Vtiger_Basic_Ac
 		header('Location: ' . $reloadUrl);
 	}
 
-        public function validateRequest(Vtiger_Request $request) { 
-            $request->validateWriteAccess(); 
-        } 
+	public function validateRequest(Vtiger_Request $request)
+	{
+		$request->validateWriteAccess();
+	}
 }

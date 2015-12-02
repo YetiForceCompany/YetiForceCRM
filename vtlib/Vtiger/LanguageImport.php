@@ -1,37 +1,41 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 include_once('vtlib/Vtiger/LanguageExport.php');
 
 /**
  * Provides API to import language into vtiger CRM
  * @package vtlib
  */
-class Vtiger_LanguageImport extends Vtiger_LanguageExport {
+class Vtiger_LanguageImport extends Vtiger_LanguageExport
+{
 
 	/**
 	 * Constructor
 	 */
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 		$this->_export_tmpdir;
 	}
 
-	function getPrefix() {
-		return (string)$this->_modulexml->prefix;
+	function getPrefix()
+	{
+		return (string) $this->_modulexml->prefix;
 	}
 
 	/**
 	 * Initialize Import
 	 * @access private
 	 */
-	function initImport($zipfile, $overwrite) {
+	function initImport($zipfile, $overwrite)
+	{
 		$this->__initSchema();
 
 		$name = $this->getModuleNameFromZip($zipfile);
@@ -43,7 +47,8 @@ class Vtiger_LanguageImport extends Vtiger_LanguageExport {
 	 * @param String Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
-	function import($zipfile, $overwrite=false) {
+	function import($zipfile, $overwrite = false)
+	{
 		$this->initImport($zipfile, $overwrite);
 
 		// Call module import function
@@ -56,7 +61,8 @@ class Vtiger_LanguageImport extends Vtiger_LanguageExport {
 	 * @param String Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
-	function update($instance, $zipfile, $overwrite=true) {
+	function update($instance, $zipfile, $overwrite = true)
+	{
 		$this->import($zipfile, $overwrite);
 	}
 
@@ -64,7 +70,8 @@ class Vtiger_LanguageImport extends Vtiger_LanguageExport {
 	 * Import Module
 	 * @access private
 	 */
-	function import_Language($zipfile) {
+	function import_Language($zipfile)
+	{
 		$name = $this->_modulexml->name;
 		$prefix = $this->_modulexml->prefix;
 		$label = $this->_modulexml->label;
@@ -74,63 +81,62 @@ class Vtiger_LanguageImport extends Vtiger_LanguageExport {
 		$filelist = $unzip->getList();
 		$vtiger6format = false;
 
-		foreach($filelist as $filename=>$fileinfo) {
-			if(!$unzip->isdir($filename)) {
+		foreach ($filelist as $filename => $fileinfo) {
+			if (!$unzip->isdir($filename)) {
 
-				if(strpos($filename, '/') === false) continue;
+				if (strpos($filename, '/') === false)
+					continue;
 
-				$targetdir  = substr($filename, 0, strripos($filename,'/'));
+				$targetdir = substr($filename, 0, strripos($filename, '/'));
 				$targetfile = basename($filename);
 
 				$prefixparts = split('_', $prefix);
 
 				$dounzip = false;
-				if(is_dir($targetdir)) {
+				if (is_dir($targetdir)) {
 					// Case handling for jscalendar
-					if(stripos($targetdir, 'jscalendar/lang') === 0
-						&& stripos($targetfile, "calendar-".$prefixparts[0].".js")===0) {
+					if (stripos($targetdir, 'jscalendar/lang') === 0 && stripos($targetfile, "calendar-" . $prefixparts[0] . ".js") === 0) {
 
-							if(file_exists("$targetdir/calendar-en.js")) {
-								$dounzip = true;
-							}
+						if (file_exists("$targetdir/calendar-en.js")) {
+							$dounzip = true;
+						}
 					}
 					// Case handling for phpmailer
-				   	else if(stripos($targetdir, 'modules/Emails/language') === 0
-						&& stripos($targetfile, "phpmailer.lang-$prefix.php")===0) {
+					else if (stripos($targetdir, 'modules/Emails/language') === 0 && stripos($targetfile, "phpmailer.lang-$prefix.php") === 0) {
 
-							if(file_exists("$targetdir/phpmailer.lang-en_us.php")) {
-								$dounzip = true;
-							}
+						if (file_exists("$targetdir/phpmailer.lang-en_us.php")) {
+							$dounzip = true;
+						}
 					}
 					// Handle javascript language file
-					else if(preg_match("/$prefix.lang.js/", $targetfile)) {
+					else if (preg_match("/$prefix.lang.js/", $targetfile)) {
 						$corelangfile = "$targetdir/en_us.lang.js";
-						if(file_exists($corelangfile)) {
+						if (file_exists($corelangfile)) {
 							$dounzip = true;
 						}
 					}
 					// Handle php language file
-					else if(preg_match("/$prefix.lang.php/", $targetfile)) {
+					else if (preg_match("/$prefix.lang.php/", $targetfile)) {
 						$corelangfile = "$targetdir/en_us.lang.php";
-						if(file_exists($corelangfile)) {
+						if (file_exists($corelangfile)) {
 							$dounzip = true;
 						}
 					}
 					// vtiger6 format
-					else if ($targetdir == "modules" || $targetdir == "modules/Settings" || $targetdir == "modules". DIRECTORY_SEPARATOR. "Settings") {
+					else if ($targetdir == "modules" || $targetdir == "modules/Settings" || $targetdir == "modules" . DIRECTORY_SEPARATOR . "Settings") {
 						$vtiger6format = true;
 						$dounzip = true;
 					}
-				} 
+				}
 
-				if($dounzip) {
+				if ($dounzip) {
 					// vtiger6 format
 					if ($vtiger6format) {
 						$targetdir = "languages/$prefix/" . str_replace("modules", "", $targetdir);
 						@mkdir($targetdir, 0777, true);
 					}
 
-					if($unzip->unzip($filename, "$targetdir/$targetfile") !== false) {
+					if ($unzip->unzip($filename, "$targetdir/$targetfile") !== false) {
 						self::log("Copying file $filename ... DONE");
 					} else {
 						self::log("Copying file $filename ... FAILED");
@@ -140,7 +146,8 @@ class Vtiger_LanguageImport extends Vtiger_LanguageExport {
 				}
 			}
 		}
-		if($unzip) $unzip->close();
+		if ($unzip)
+			$unzip->close();
 
 		self::register($prefix, $label, $name);
 

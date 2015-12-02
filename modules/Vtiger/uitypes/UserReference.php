@@ -1,20 +1,22 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Vtiger_UserReference_UIType extends Vtiger_Base_UIType {
+class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
+{
 
 	/**
 	 * Function to get the Template name for the current UI Type object
 	 * @return <String> - Template Name
 	 */
-	public function getTemplateName() {
+	public function getTemplateName()
+	{
 		return 'uitypes/Reference.tpl';
 	}
 
@@ -23,8 +25,9 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType {
 	 * @param <Integer> crmid of record
 	 * @return <String>
 	 */
-	public function getEditViewDisplayValue($value) {
-		if($value) {
+	public function getEditViewDisplayValue($value, $record = false)
+	{
+		if ($value) {
 			$userName = getOwnerName($value);
 			return $userName;
 		}
@@ -36,15 +39,15 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType {
 	 * @param <Number> $recordId
 	 * @return <String> display value
 	 */
-	public function getDisplayValue($value, $recordId) {
+	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
+	{
 		$displayValue = $this->getEditViewDisplayValue($value);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if ($currentUserModel->isAdminUser()) {
+		if ($currentUserModel->isAdminUser() && $rawText === false) {
 			$recordModel = Users_Record_Model::getCleanInstance('Users');
 			$recordModel->set('id', $value);
-			return '<a href="'. $recordModel->getDetailViewUrl() .'">'. textlength_check($displayValue) .'</a>';
+			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . textlength_check($displayValue) . '</a>';
 		}
 		return $displayValue;
 	}
-
 }

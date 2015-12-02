@@ -1,5 +1,5 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,23 +7,30 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 require_once 'config/debug.php';
 require_once 'config/developer.php';
+require_once 'config/security.php';
 require_once 'config/secret_keys.php';
 require_once 'config/performance.php';
+require_once('include/ConfigUtils.php');
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
-vimport ('include.runtime.EntryPoint');
-class Vtiger_WebUI extends Vtiger_EntryPoint {
+vimport('include.runtime.EntryPoint');
+
+session_save_path(vglobal('root_directory') . '/cache/session');
+
+class Vtiger_WebUI extends Vtiger_EntryPoint
+{
 
 	/**
 	 * Function to check if the User has logged in
 	 * @param Vtiger_Request $request
 	 * @throws AppException
 	 */
-	protected function checkLogin(Vtiger_Request $request) {
+	protected function checkLogin(Vtiger_Request $request)
+	{
 		if (!$this->hasLogin()) {
 			$return_params = $_SERVER['QUERY_STRING'];
 			if ($return_params && !$_SESSION['return_params']) {
@@ -40,7 +47,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 	 * Function to get the instance of the logged in User
 	 * @return Users object
 	 */
-	function getLogin() {
+	function getLogin()
+	{
 		$user = parent::getLogin();
 		if (!$user) {
 			$userid = Vtiger_Session::get('AUTHUSERID', $_SESSION['authenticated_user_id']);
@@ -53,12 +61,13 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 		return $user;
 	}
 
-	protected function triggerCheckPermission($handler, $request) {
+	protected function triggerCheckPermission($handler, $request)
+	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
 		if (empty($moduleModel)) {
-			throw new AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
+			throw new AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_HANDLER_NOT_FOUND'));
 		}
 
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -68,24 +77,27 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 			$handler->checkPermission($request);
 			return;
 		}
-		throw new AppException(vtranslate($moduleName).' '.vtranslate('LBL_NOT_ACCESSIBLE'));
+		throw new AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
 	}
 
-	protected function triggerPreProcess($handler, $request) {
-		if($request->isAjax()){
+	protected function triggerPreProcess($handler, $request)
+	{
+		if ($request->isAjax()) {
 			return true;
 		}
 		$handler->preProcess($request);
 	}
 
-	protected function triggerPostProcess($handler, $request) {
-		if($request->isAjax()){
+	protected function triggerPostProcess($handler, $request)
+	{
+		if ($request->isAjax()) {
 			return true;
 		}
 		$handler->postProcess($request);
 	}
 
-	function isInstalled() {
+	function isInstalled()
+	{
 		global $dbconfig;
 		if (empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_') {
 			return false;
@@ -93,8 +105,10 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 		return true;
 	}
 
-	function process (Vtiger_Request $request) {
-		vglobal('log', LoggerManager::getLogger('System'));
+	function process(Vtiger_Request $request)
+	{
+		$log = LoggerManager::getLogger('System');
+		vglobal('log', $log);
 		Vtiger_Session::init();
 		$forceSSL = vglobal('forceSSL');
 		if ($forceSSL && !Vtiger_Functions::getBrowserInfo()->https) {
@@ -106,7 +120,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 		$csrfProtection = vglobal('csrfProtection');
 		if ($csrfProtection) {
 			if ($request->get('mode') != 'reset' && $request->get('action') != 'Login')
-				require_once 'libraries/csrf-magic/csrf-magic.php';
+				require_once('libraries/csrf-magic/csrf-magic.php');
+				require_once('config/csrf_config.php');
 		}
 		// TODO - Get rid of global variable $current_user
 		// common utils api called, depend on this variable right now
@@ -114,12 +129,12 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 		vglobal('current_user', $currentUser);
 
 		$currentLanguage = Vtiger_Language_Handler::getLanguage();
-		vglobal('current_language',$currentLanguage);
+		vglobal('current_language', $currentLanguage);
 		$module = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
 		if ($currentUser && $qualifiedModuleName) {
-			$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage,$qualifiedModuleName);
+			$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage, $qualifiedModuleName);
 			vglobal('mod_strings', $moduleLanguageStrings['languageStrings']);
 		}
 
@@ -133,26 +148,32 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 		$response = false;
 
 		try {
-			if($this->isInstalled() === false && $module != 'Install') {
+			if ($this->isInstalled() === false && $module != 'Install') {
 				header('Location:install/Install.php');
 				exit;
 			}
 
-			if(empty($module)) {
+			if (empty($module)) {
 				if ($this->hasLogin()) {
 					$defaultModule = vglobal('default_module');
-					if(!empty($defaultModule) && $defaultModule != 'Home') {
-						$module = $defaultModule; $qualifiedModuleName = $defaultModule; $view = 'List';
-                        if($module == 'Calendar') { 
-                            // To load MyCalendar instead of list view for calendar
-                            //TODO: see if it has to enhanced and get the default view from module model
-                            $view = 'Calendar';
-                        }
+					if (!empty($defaultModule) && $defaultModule != 'Home') {
+						$module = $defaultModule;
+						$qualifiedModuleName = $defaultModule;
+						$view = 'List';
+						if ($module == 'Calendar') {
+							// To load MyCalendar instead of list view for calendar
+							//TODO: see if it has to enhanced and get the default view from module model
+							$view = 'Calendar';
+						}
 					} else {
-						$module = 'Home'; $qualifiedModuleName = 'Home'; $view = 'DashBoard';
+						$module = 'Home';
+						$qualifiedModuleName = 'Home';
+						$view = 'DashBoard';
 					}
 				} else {
-					$module = 'Users'; $qualifiedModuleName = 'Settings:Users'; $view = 'Login';
+					$module = 'Users';
+					$qualifiedModuleName = 'Settings:Users';
+					$view = 'Login';
 				}
 				$request->set('module', $module);
 				$request->set('view', $view);
@@ -163,40 +184,40 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 				$componentName = $action;
 			} else {
 				$componentType = 'View';
-				if(empty($view)) {
+				if (empty($view)) {
 					$view = 'Index';
 				}
 				$componentName = $view;
 			}
 			$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
 			$handler = new $handlerClass();
-            if ($handler) {
-                vglobal('currentModule', $module);
+			if ($handler) {
+				vglobal('currentModule', $module);
 				$csrfProtection = vglobal('csrfProtection');
-                if ($csrfProtection) {
+				if ($csrfProtection) {
 					// Ensure handler validates the request
 					$handler->validateRequest($request);
 				}
 
 				if ($handler->loginRequired()) {
-					$this->checkLogin ($request);
+					$this->checkLogin($request);
 				}
 
 				//TODO : Need to review the design as there can potential security threat
-				$skipList = array('Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger','PriceBooks','Migration','Install');
+				$skipList = array('Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'Migration', 'Install');
 
-				if(!in_array($module, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
+				if (!in_array($module, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
 					$this->triggerCheckPermission($handler, $request);
 				}
 
 				// Every settings page handler should implement this method
-				if(stripos($qualifiedModuleName, 'Settings') === 0 || ($module=='Users')) {
+				if (stripos($qualifiedModuleName, 'Settings') === 0 || ($module == 'Users')) {
 					$handler->checkPermission($request);
 				}
 
-				$notPermittedModules = array('ModComments','Integration' ,'DashBoard');
+				$notPermittedModules = array('ModComments', 'Integration', 'DashBoard');
 
-				if(in_array($module, $notPermittedModules) && $view == 'List'){
+				if (in_array($module, $notPermittedModules) && $view == 'List') {
 					header('Location:index.php?module=Home&view=DashBoard');
 				}
 
@@ -206,20 +227,24 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 			} else {
 				throw new AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
 			}
-		} catch(Exception $e) {
-			$log = vglobal('log');
-			if ($view) {
-				// Log for developement.
-				$log->error($e->getMessage().' => '.$e->getFile().':'.$e->getLine());
-				Vtiger_Functions::throwNewException($e->getMessage());
-			} else {
-				$response = new Vtiger_Response();
-				$response->setEmitType(Vtiger_Response::$EMIT_JSON);
-				$response->setError($e->getMessage());
-				$log->error($e->getMessage().' => '.$e->getFile().':'.$e->getLine());
-			}
+		} catch (AppException $e) {
+			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			Vtiger_Functions::throwNewException($e->getMessage(), false);
 			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
-				die($e->getTraceAsString());
+				exit('<pre>'.$e->getTraceAsString().'</pre>');
+			}
+		} catch (NoPermittedException $e) {
+			//No permissions for the record
+			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			Vtiger_Functions::throwNoPermittedException($e->getMessage(), false);
+			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
+				exit('<pre>'.$e->getTraceAsString().'</pre>');
+			}
+		} catch (Exception $e) {
+			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			Vtiger_Functions::throwNewException($e->getMessage(), false);
+			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
+				exit('<pre>'.$e->getTraceAsString().'</pre>');
 			}
 		}
 

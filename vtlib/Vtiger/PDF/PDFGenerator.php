@@ -1,92 +1,113 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 include_once dirname(__FILE__) . '/TCPDF.php';
 include_once dirname(__FILE__) . '/Frame.php';
 
-class Vtiger_PDF_Generator {
+class Vtiger_PDF_Generator
+{
+
 	private $headerViewer = false, $footerViewer = false, $contentViewer = false, $pagerViewer = false;
 	private $headerFrame, $footerFrame, $contentFrame;
-	
 	private $pdf;
-	
 	private $isFirstPage = false;
 	private $isLastPage = false;
 	private $totalWidth = 0;
 	private $totalHeight = 0;
-	
-	function __construct() {
+
+	function __construct()
+	{
 		$this->pdf = new Vtiger_PDF_TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT);
 
 		$this->pdf->setPrintHeader(false);
 		$this->pdf->setPrintFooter(false);
 	}
 
-	function setHeaderViewer($viewer) {
+	function setHeaderViewer($viewer)
+	{
 		$this->headerViewer = $viewer;
 	}
-	function setFooterViewer($viewer) {
+
+	function setFooterViewer($viewer)
+	{
 		$this->footerViewer = $viewer;
 	}
-	function setContentViewer($viewer) {
+
+	function setContentViewer($viewer)
+	{
 		$this->contentViewer = $viewer;
 	}
-	function setPagerViewer($viewer) {
+
+	function setPagerViewer($viewer)
+	{
 		$this->pagerViewer = $viewer;
 	}
 
-	function getHeaderFrame() {
+	function getHeaderFrame()
+	{
 		return $this->headerFrame;
 	}
-	function getFooterFrame() {
+
+	function getFooterFrame()
+	{
 		return $this->footerFrame;
-	}	
-	function getContentFrame() {
+	}
+
+	function getContentFrame()
+	{
 		return $this->contentFrame;
 	}
 
-	function getPDF() {
+	function getPDF()
+	{
 		return $this->pdf;
 	}
-	
-	function onLastPage() {
+
+	function onLastPage()
+	{
 		return $this->isLastPage;
 	}
-	
-	function onFirstPage() {
+
+	function onFirstPage()
+	{
 		return $this->isFirstPage;
 	}
-	
-	function getTotalWidth() {
+
+	function getTotalWidth()
+	{
 		return $this->totalWidth;
 	}
-	
-	function getTotalHeight() {
+
+	function getTotalHeight()
+	{
 		return $this->totalHeight;
 	}
-	
-	function createLastPage() {
+
+	function createLastPage()
+	{
 		// Detect if there is a last page already.
-		if($this->isLastPage) return false;
+		if ($this->isLastPage)
+			return false;
 		// Check if the last page is required for adding footer
-		if(!$this->footerViewer || !$this->footerViewer->onLastPage()) return false;
-		
+		if (!$this->footerViewer || !$this->footerViewer->onLastPage())
+			return false;
+
 		$pdf = $this->pdf;
-		
+
 		// Create a new page
 		$pdf->AddPage();
-		
+
 		$this->isFirstPage = false;
 		$this->isLastPage = true;
-		
+
 		$margins = $pdf->getMargins();
-		$totalHeightFooter = $this->footerViewer? $this->footerViewer->totalHeight($this) : 0;
+		$totalHeightFooter = $this->footerViewer ? $this->footerViewer->totalHeight($this) : 0;
 
 		if ($totalHeightFooter) {
 			$this->footerFrame = new Vtiger_PDF_Frame();
@@ -94,40 +115,44 @@ class Vtiger_PDF_Generator {
 			$this->footerFrame->y = $margins['top'];
 			$this->footerFrame->h = $totalHeightFooter;
 			$this->footerFrame->w = $this->totalWidth;
-			
+
 			$this->footerViewer->initDisplay($this);
 			$this->footerViewer->display($this);
 		}
-		if($this->pagerViewer) {
+		if ($this->pagerViewer) {
 			$this->pagerViewer->display($this);
 		}
 		return true;
 	}
-	
-	function createPage($isLastPage = false) {
+
+	function createPage($isLastPage = false)
+	{
 		$pdf = $this->pdf;
-		
+
 		// Create a new page
 		$pdf->AddPage();
-		
-		if($isLastPage) {
+
+		if ($isLastPage) {
 			$this->isFirstPage = false;
 			$this->isLastPage = true;
 		} else {
-			if($pdf->getPage() > 1) $this->isFirstPage = false;
-			else $this->isFirstPage = true;
+			if ($pdf->getPage() > 1)
+				$this->isFirstPage = false;
+			else
+				$this->isFirstPage = true;
 		}
-	
-		$margins = $pdf->getMargins();
-		
-		$this->totalWidth  = $pdf->getPageWidth()-$margins['left']-$margins['right'];
-		
-		$this->totalHeight = $totalHeight = $pdf->getPageHeight() - $margins['top'] - $margins['bottom'];
-		$totalHeightHeader = $this->headerViewer? $this->headerViewer->totalHeight($this) : 0;
-		$totalHeightFooter = $this->footerViewer? $this->footerViewer->totalHeight($this) : 0;
 
-		$totalHeightContent= $this->contentViewer->totalHeight($this);
-		if ($totalHeightContent === 0) $totalHeightContent = $totalHeight - $totalHeightHeader - $totalHeightFooter;
+		$margins = $pdf->getMargins();
+
+		$this->totalWidth = $pdf->getPageWidth() - $margins['left'] - $margins['right'];
+
+		$this->totalHeight = $totalHeight = $pdf->getPageHeight() - $margins['top'] - $margins['bottom'];
+		$totalHeightHeader = $this->headerViewer ? $this->headerViewer->totalHeight($this) : 0;
+		$totalHeightFooter = $this->footerViewer ? $this->footerViewer->totalHeight($this) : 0;
+
+		$totalHeightContent = $this->contentViewer->totalHeight($this);
+		if ($totalHeightContent === 0)
+			$totalHeightContent = $totalHeight - $totalHeightHeader - $totalHeightFooter;
 
 		if ($totalHeightHeader) {
 			$this->headerFrame = new Vtiger_PDF_Frame();
@@ -139,39 +164,41 @@ class Vtiger_PDF_Generator {
 			$this->headerViewer->initDisplay($this);
 			$this->headerViewer->display($this);
 		}
-		
+
 		// ContentViewer
 		$this->contentFrame = new Vtiger_PDF_Frame();
-		$this->contentFrame->x = $pdf->GetX();    
-                $this->contentFrame->y = $pdf->GetY()+10.0;
-		
+		$this->contentFrame->x = $pdf->GetX();
+		$this->contentFrame->y = $pdf->GetY() + 10.0;
+
 		$this->contentFrame->h = $totalHeightContent;
 		$this->contentFrame->w = $this->totalWidth;
 
 		$this->contentViewer->initDisplay($this);
-		
+
 		if ($totalHeightFooter) {
 			$this->footerFrame = new Vtiger_PDF_Frame();
 			$this->footerFrame->x = $pdf->GetX();
-			$this->footerFrame->y = $totalHeight+$margins['top']-$totalHeightFooter;
+			$this->footerFrame->y = $totalHeight + $margins['top'] - $totalHeightFooter;
 			$this->footerFrame->h = $totalHeightFooter;
 			$this->footerFrame->w = $this->totalWidth;
 
 			$this->footerViewer->initDisplay($this);
 			$this->footerViewer->display($this);
 		}
-		
-		if($this->pagerViewer) {
+
+		if ($this->pagerViewer) {
 			$this->pagerViewer->display($this);
 		}
 	}
-	
-	function generate($name, $outputMode='D') {
-		$this->contentViewer->display($this);		
+
+	function generate($name, $outputMode = 'D')
+	{
+		$this->contentViewer->display($this);
 		$this->pdf->Output($name, $outputMode);
 	}
 
-	function getImageSize($file) {
+	function getImageSize($file)
+	{
 		// get image dimensions
 		$imsize = @getimagesize($file);
 		if ($imsize === FALSE) {
@@ -186,7 +213,6 @@ class Vtiger_PDF_Generator {
 		}
 		return $imsize;
 	}
-
 }
 
 ?>

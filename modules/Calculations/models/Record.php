@@ -56,7 +56,26 @@ class Calculations_Record_Model extends Inventory_Record_Model {
 		return $currencyInfo;
 	}
 	function getInventoryCurrencyInfo($module, $id)	{
-		return '';
+		$adb = PearDatabase::getInstance();
+		$log = vglobal('log');
+
+		$log->debug("Entering into function getInventoryCurrencyInfo($module, $id).");
+
+		$focus = new $module();
+
+		$res = $adb->pquery("select currency_id, {$focus->table_name}.conversion_rate as conv_rate, vtiger_currency_info.* from {$focus->table_name} "
+			. "inner join vtiger_currency_info on {$focus->table_name}.currency_id = vtiger_currency_info.id where {$focus->table_index}=?", array($id), true);
+
+		$currency_info = array();
+		$currency_info['currency_id'] = $adb->query_result($res, 0, 'currency_id');
+		$currency_info['conversion_rate'] = $adb->query_result($res, 0, 'conv_rate');
+		$currency_info['currency_name'] = $adb->query_result($res, 0, 'currency_name');
+		$currency_info['currency_code'] = $adb->query_result($res, 0, 'currency_code');
+		$currency_info['currency_symbol'] = $adb->query_result($res, 0, 'currency_symbol');
+
+		$log->debug("Exit from function getInventoryCurrencyInfo($module, $id).");
+
+		return $currency_info;
 	}
 	function getInventoryTaxType($module, $id)	{
 		return '';

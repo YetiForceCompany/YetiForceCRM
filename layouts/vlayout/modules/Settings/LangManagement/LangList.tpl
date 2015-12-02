@@ -42,11 +42,11 @@
 					<input type="checkbox" data-name="ac_admin" {if $LANG['ac_admin']}checked{/if}>
 				</td>*}
 				<td>
-					{if $LANG['isdefault'] neq '1'}
-						<button class="btn btn-danger" data-toggle="confirmation" data-original-title="" id="deleteItemC">{vtranslate('LBL_Delete',$QUALIFIED_MODULE)}</button>
-						<button class="btn btn-primary" data-toggle="confirmation" id="setAsDefault">{vtranslate('LBL_DEFAULT',$QUALIFIED_MODULE)}</button>
-					{/if}
 					<a href="index.php?module=LangManagement&parent=Settings&action=Export&lang={$LANG['prefix']}" class="btn btn-primary">{vtranslate('Export',$QUALIFIED_MODULE)}</a>
+					{if $LANG['isdefault'] neq '1'}
+						<button class="btn btn-success" data-toggle="confirmation" id="setAsDefault">{vtranslate('LBL_DEFAULT',$QUALIFIED_MODULE)}</button>
+						<button class="btn btn-danger" data-toggle="confirmation" data-original-title="" id="deleteItemC">{vtranslate('LBL_Delete',$QUALIFIED_MODULE)}</button>
+					{/if}
 				</td>
 			</tr>
 		{/foreach}

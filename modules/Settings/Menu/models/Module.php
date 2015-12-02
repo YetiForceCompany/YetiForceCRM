@@ -21,6 +21,7 @@ class Settings_Menu_Module_Model
 		5 => 'QuickCreate',
 		6 => 'HomeIcon',
 		7 => 'CustomFilter',
+		8 => 'Profile',
 	];
 
 	/**
@@ -49,7 +50,7 @@ class Settings_Menu_Module_Model
 	public function getMenuName($row, $settings = false)
 	{
 		switch ($row['type']) {
-			case 0: $name = $row['name'];
+			case 0: $name = empty($row['label']) ? $row['name'] : $row['label'];
 				break;
 			case 3: $name = 'LBL_SEPARATOR';
 				break;
@@ -83,13 +84,13 @@ class Settings_Menu_Module_Model
 		switch ($row['type']) {
 			case 0:
 				$moduleModel = Vtiger_Module_Model::getInstance($row['module']);
-				$url = $moduleModel->getDefaultUrl() . '&parent=' . $row['parentid'];
+				$url = $moduleModel->getDefaultUrl() . '&mid=' . $row['id'] . '&parent=' . $row['parentid'];
 				break;
 			case 1: $url = $row['dataurl'];
 				break;
 			case 4: $url = addslashes($row['dataurl']);
 				break;
-			case 7: $url = 'index.php?module=' . $row['name'] . '&view=List&viewname=' . $row['dataurl'] . '&parent=' . $row['parentid'];
+			case 7: $url = 'index.php?module=' . $row['name'] . '&view=List&viewname=' . $row['dataurl'] . '&mid=' . $row['id'] . '&parent=' . $row['parentid'];
 				break;
 			default: $url = null;
 				break;
@@ -120,6 +121,25 @@ class Settings_Menu_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 		$list = $db->query('SELECT cvid,viewname,entitytype,vtiger_tab.tabid FROM vtiger_customview LEFT JOIN vtiger_tab ON vtiger_tab.name = vtiger_customview.entitytype');
-		return $db->getArray($list);
+		$filters = $db->getArray($list);
+		foreach (Vtiger_Module_Model::getAll() as $module) {
+			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $module->get('name') . DIRECTORY_SEPARATOR . 'filters';
+			if (file_exists($filterDir)) {
+				$fileFilters = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($filterDir, FilesystemIterator::SKIP_DOTS));
+				foreach ($fileFilters as $filter) {
+					$name = str_replace('.php', '', $filter->getFilename());
+					$handlerClass = Vtiger_Loader::getComponentClassName('Filter', $name, $module->get('name'));
+					if (class_exists($handlerClass)) {
+						$filters[] = [
+							'viewname' => $handler->getViewName(),
+							'cvid' => $name,
+							'entitytype' => $module->get('name'),
+							'tabid' => $module->getId(),
+						];
+					}
+				}
+			}
+		}
+		return $filters;
 	}
 }

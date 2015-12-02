@@ -17,7 +17,7 @@
 	<div class="contents row paddingTop20">
 		<div class="col-md-12">
 			{assign var=CREATE_TAX_URL value=$TAX_RECORD_MODEL->getCreateTaxUrl()}
-			{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
+			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<div class="marginBottom10px">
 				<button type="button" class="btn btn-default addTax addButton" data-url="{$CREATE_TAX_URL}" data-type="0"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;<strong>{vtranslate('LBL_ADD_NEW_TAX', $QUALIFIED_MODULE)}</strong></button>
 			</div>

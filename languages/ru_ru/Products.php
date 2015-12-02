@@ -10,7 +10,7 @@
   * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = [
-	'--None--'                     => '--Нет--'                  , 
+	'--None--' => 'Нет',
 	'300-Sales-Software'           => '300-Продажи-ПО'     , 
 	'301-Sales-Hardware'           => '301-Продажи-Оборудование', 
 	'302-Rental-Income'            => '302-Рента-Доход'   , 
@@ -34,14 +34,14 @@ $languageStrings = [
 	'Hardware'                     => 'Оборудование'    , 
 	'Hours'                        => 'Часов'                  , 
 	'Impressions'                  => 'Показ'                  , 
-	'LBL_ADD_RECORD'               => 'Добавить Товар' ,
+	'LBL_ADD_RECORD' => 'Товар',
 	'LBL_ADD_TO_PRICEBOOKS'        => 'Добавить',
 	'LBL_IMAGE_INFORMATION'        => 'Изображение'     , 
 	'LBL_MORE_CURRENCIES'          => 'Больше валют'     , 
 	'LBL_PRICE'                    => 'Цена'                    , 
 	'LBL_PRICES'                   => 'Цены Товаров'     , 
 	'LBL_PRODUCTSMOD_DISABLED' => 'Включите модуль Товары для просмотра Товаров',
-	'LBL_PRODUCT_INFORMATION'      => 'Описание Товара', 
+	'LBL_PRODUCT_INFORMATION' => 'Основная информация',
 	'LBL_RECORDS_LIST'             => 'Список Товаров'               , 
 	'LBL_RESET'                    => 'Сбросить'            , 
 	'LBL_RESET_PRICE'              => 'Сбросить цену'   , 
@@ -85,4 +85,5 @@ $languageStrings = [
 	'Support Group' => 'Поддержка',
 	'Marketing Group' => 'Маркетинг',
 	'Team Selling' => 'Продажи',
+	'LBL_TAXES' => 'Taxes',
 ];

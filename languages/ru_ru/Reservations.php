@@ -11,8 +11,8 @@
 $languageStrings = [
 	'SINGLE_Reservations' => 'Бронирование',
 	'Reservations' => 'Бронирование',
-	'LBL_MAIN_INFORMATION' => 'Информация о Бронировании',
-	'LBL_BLOCK' => 'Связан с',
+	'LBL_MAIN_INFORMATION' => 'Основная информация',
+	'LBL_BLOCK' => 'Дополнительная информация',
 	'LBL_TOTAL_TIME' => 'Всего времени',
 	'LBL_STATUS' => 'Статус',
 	'Assigned To' => 'Ответственный',

@@ -15,7 +15,7 @@
 			<div class="rulehead col-md-6">
 				<!-- Check if the module should the for module to get the translations-->
 				<strong>{vtranslate('LBL_SHARING_RULE', $QUALIFIED_MODULE)}&nbsp;{vtranslate('LBL_FOR', $MODULE)}&nbsp;
-					{if $FOR_MODULE == 'Accounts'}{vtranslate($FOR_MODULE, $QUALIFIED_MODULE)}{else}{vtranslate($FOR_MODULE, $MODULE)}{/if} :</strong>
+					{if $FOR_MODULE == 'Accounts'}{vtranslate($FOR_MODULE, $QUALIFIED_MODULE)}{else}{vtranslate($FOR_MODULE, $FOR_MODULE)}{/if}:</strong>
 			</div>
 			<div class="col-md-6">
 				<button class="btn btn-default addButton addCustomRule" type="button" data-url="{$MODULE_MODEL->getCreateRuleUrl()}">

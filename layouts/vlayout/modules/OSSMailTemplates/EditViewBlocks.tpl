@@ -29,7 +29,7 @@
                 <input type="hidden" name="module" value="{$MODULE}" />
             {/if}
             <input type="hidden" name="action" value="Save" />
-            <input type="hidden" name="record" value="{$RECORD_ID}" />
+            <input type="hidden" name="record" id="recordId" value="{$RECORD_ID}" />
             <input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
             <input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
             {if $IS_RELATION_OPERATION }
@@ -54,7 +54,7 @@
                 {/if}
                 <span class="pull-right">
                     <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-                    <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                    <button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</button>
                 </span>
 				<div class="clearfix"></div>
             </div>
@@ -74,9 +74,6 @@
 							<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
 							&nbsp;&nbsp;
 							{vtranslate($BLOCK_LABEL, $MODULE)}
-							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-								<input value="" type="text" class="api_address_autocomplete pull-right input " title="{vtranslate('LBL_ADDRESS_INFORMATION')}" style="width: 50%;" />
-							{/if}
 						</div>
 						<div class="col-md-8">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
@@ -161,9 +158,6 @@
 								{/if}
 								{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->get('uitype') neq "19" and $FIELD_MODEL->get('uitype') neq "20" and $FIELD_MODEL->get('uitype') neq "30" and $FIELD_MODEL->get('uitype') neq '300' and $FIELD_MODEL->get('name') neq "recurringtype"}
 									<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
-									{/if}
-									{if $MODULE eq 'Events' && $BLOCK_LABEL eq 'LBL_EVENT_INFORMATION' && $smarty.foreach.blockfields.last }
-										{include file=vtemplate_path('uitypes/FollowUp.tpl',$MODULE) COUNTER=$COUNTER}
 									{/if}
 								{/foreach}
 								{if $smarty.foreach.blockfields.last and $smarty.foreach.EditViewBlockLevelLoop.iteration eq 1}
