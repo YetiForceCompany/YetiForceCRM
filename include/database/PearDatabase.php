@@ -291,7 +291,7 @@ class PearDatabase
 	{
 		return $result->fetchAll(PDO::FETCH_ASSOC);
 	}
-	
+
 	public function getArrayColumn(&$result, $column = 0)
 	{
 		return $result->fetchAll(PDO::FETCH_COLUMN, $column);
@@ -336,7 +336,7 @@ class PearDatabase
 		$params = $this->flatten_array($params);
 		if (count($params) > 0) {
 			$this->log('Query parameters: [' . implode(",", $params) . ']');
-		}else{
+		} else {
 			return $this->query($query, $dieOnError, $msg);
 		}
 
@@ -451,10 +451,10 @@ class PearDatabase
 	 */
 	public function update($table, array $columns, $where = false, array $params = [])
 	{
-		$this->log('Update | table: ' . $table . ',columns:' . print_r($columns, true) . ',where:' . $where . ',params:' . print_r($params, true));
+		$this->log('Update | table: ' . $table . ',columns:' . implode(',', $columns) . ',where:' . $where . ',params:' . implode(',', $params));
 		$query = "UPDATE $table SET ";
 		foreach ($columns as $column => $value) {
-			$query .= $column . ' = ?,';
+			$query .= $this->quote($column, false) . ' = ?,';
 			$values[] = $value;
 		}
 		$query = trim($query, ',');
