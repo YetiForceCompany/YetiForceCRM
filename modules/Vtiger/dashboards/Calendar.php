@@ -34,6 +34,7 @@ class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 
 		$status = $data['status']?$data['status']:'all';
 		$defaultDate = $data['start']?$data['start']:date('Y-m-d');
+		$owner = $owner ? $owner : 'all';
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING', $pagingModel);
