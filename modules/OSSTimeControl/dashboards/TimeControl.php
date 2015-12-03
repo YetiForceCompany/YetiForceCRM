@@ -84,7 +84,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			while ($row = $db->fetch_array($result)) {
 				$colors[$row['timecontrol_type']] = $row['color'];
 			}
-			
+
 			$counter = 0;
 			$result = array();
 			foreach ($workingTime as $timeKey => $timeValue) {
@@ -185,7 +185,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
 
-		$viewer->assign('TCPMODULE_MODEL',  $TCPModuleModel->getConfigInstance());
+		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());
 		$viewer->assign('USERID', $user);
 		$viewer->assign('DTIME', $time);
 		$viewer->assign('WORKDAYS', $data['workDays']);

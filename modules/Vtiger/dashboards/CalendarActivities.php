@@ -27,7 +27,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$orderBy = $request->get('orderby');
 		if ($request->get('switchParams')) {
 			$params = ['status' => $request->get('switchParams')];
-		}else{
+		} else {
 			$data['switchParams'] = $stateActivityLabels['in_realization'];
 			$params = ['status' => $stateActivityLabels['in_realization']];
 		}

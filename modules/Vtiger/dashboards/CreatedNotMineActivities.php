@@ -14,7 +14,7 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$sortOrder = $request->get('sortorder');
 		$orderBy = $request->get('orderby');
 		$data = $request->getAll();
-		
+
 		$params = ['activitesType' => 'upcoming'];
 		if ($request->get('activitesType')) {
 			$params = ['activitesType' => $request->get('activitesType')];

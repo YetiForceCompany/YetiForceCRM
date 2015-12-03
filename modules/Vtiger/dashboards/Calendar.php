@@ -32,8 +32,8 @@ class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 
-		$status = $data['status']?$data['status']:'all';
-		$defaultDate = $data['start']?$data['start']:date('Y-m-d');
+		$status = $data['status'] ? $data['status'] : 'all';
+		$defaultDate = $data['start'] ? $data['start'] : date('Y-m-d');
 		$owner = $owner ? $owner : 'all';
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -48,7 +48,7 @@ class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('DEFAULTDATE', $defaultDate);
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('VIEW', $request->get('view'));
-		
+
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 

@@ -158,8 +158,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerSectionClick();
 		this.registerLoadMore();
 	},
-	setSortingButton: function(currentElement){
-		if(currentElement.length){
+	setSortingButton: function (currentElement) {
+		if (currentElement.length) {
 			var container = this.getContainer();
 			var drefresh = container.find('a[name="drefresh"]');
 			var url = drefresh.data('url');
@@ -207,8 +207,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 			var currentElement = jQuery(e.currentTarget);
 			var dashboardWidgetHeader = currentElement.closest('.dashboardWidgetHeader');
 			var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
-			thisInstance.setUrlSwitch(currentElement).then(function(data){
-				if(data){
+			thisInstance.setUrlSwitch(currentElement).then(function (data) {
+				if (data) {
 					drefresh.click();
 				}
 			});
@@ -235,7 +235,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					url += offval;
 				drefresh.data('url', url);
 				aDeferred.resolve(true);
-			}else{
+			} else {
 				aDeferred.reject();
 			}
 		});
@@ -297,16 +297,16 @@ jQuery.Class('Vtiger_Widget_Js', {
 		refreshContainer.html('');
 		refreshContainer.progressIndicator();
 
-		if(this.paramCache){
+		if (this.paramCache) {
 			thisInstance.setFilterToCache(params.url, params.data);
 		}
-		
+
 		AppConnector.request(params).then(
 				function (data) {
-					
+
 					refreshContainer.progressIndicator({'mode': 'hide'});
 					contentContainer.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
-					
+
 				},
 				function () {
 					refreshContainer.progressIndicator({'mode': 'hide'});
@@ -380,8 +380,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 			if (parent.find("[name='type']").length > 0) {
 				url += '&type=' + type;
 			}
-			if(parent.find('.changeRecordSort').length > 0){
-				url += '&sortorder='+parent.find('.changeRecordSort').data('sort');
+			if (parent.find('.changeRecordSort').length > 0) {
+				url += '&sortorder=' + parent.find('.changeRecordSort').data('sort');
 			}
 			contentContainer.progressIndicator();
 			AppConnector.request(url).then(function (data) {
@@ -406,7 +406,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		app.cacheSet(name + userId, paramCache);
 	},
 	registerCache: function (container) {
-		if(container.data('cache') == 1){
+		if (container.data('cache') == 1) {
 			this.paramCache = true;
 		}
 	}
@@ -1027,10 +1027,10 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		defaultFirstHour = explodedTime['0'];
 
 		var defaultDate = app.getMainParams('defaultDate');
-		if(this.paramCache && defaultDate != moment().format('YYYY-MM-DD')){
+		if (this.paramCache && defaultDate != moment().format('YYYY-MM-DD')) {
 			defaultDate = moment(defaultDate).format('D') == 1 ? moment(defaultDate) : moment(defaultDate).add(1, 'M');
 		}
-		
+
 		thisInstance.getCalendarView().fullCalendar({
 			header: {
 				left: ' ',
@@ -1133,13 +1133,13 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		if (parent.find('.widgetFilterSwitch').length > 0) {
 			params.time = parent.find('.widgetFilterSwitch').val();
 		}
-		if(this.paramCache){
+		if (this.paramCache) {
 			var drefresh = this.getContainer().find('a[name="drefresh"]');
 			var url = drefresh.data('url');
-			var paramCache = {owner: user, status:parent.find('.status').val(),start: start_date};
+			var paramCache = {owner: user, status: parent.find('.status').val(), start: start_date};
 			thisInstance.setFilterToCache(url, paramCache);
 		}
-		
+
 		AppConnector.request(params).then(function (events) {
 			var height = (thisInstance.getCalendarView().find('.fc-bg :first').height() - thisInstance.getCalendarView().find('.fc-day-number').height()) - 10;
 			var width = (thisInstance.getCalendarView().find('.fc-day-number').width() / 2) - 10;

@@ -12,7 +12,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 	gridster: false,
 	//static property which will store the instance of dashboard
 	currentInstance: false,
-	paramCache: false,
 	addWidget: function (element, url) {
 		var element = jQuery(element);
 		var linkId = element.data('linkid');
@@ -103,12 +102,10 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var name = widgetContainer.data('name');
 			var cache = widgetContainer.data('cache');
 			var userId = app.getMainParams('current_user_id');
-//			app.cacheSet(name + userId, false);
-			if(cache == 1){
+			if (cache == 1) {
 				var cecheUrl = app.cacheGet(name + userId, false);
 				urlParams = cecheUrl ? cecheUrl : urlParams;
 			}
-			console.log(urlParams)
 			AppConnector.request(urlParams).then(
 					function (data) {
 						widgetContainer.html(data);
