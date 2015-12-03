@@ -13,11 +13,11 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		var thisInstance = this;
 		if (thisInstance.treeInstance == false) {
 			var data = JSON.parse($('#treeValues').val());
-			if(data.length == 0){
+			if (data.length == 0) {
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_NO_DATA')});
 			}
 			thisInstance.treeInstance = $("#treeContent");
-			thisInstance.treeInstance.jstree({ 
+			thisInstance.treeInstance.jstree({
 				core: {
 					data: data,
 					check_callback: true,
@@ -31,7 +31,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 								var id = inst.get_selected();
 								var menu = inst.get_node(id);
 								var progress = jQuery.progressIndicator();
-								app.showModalWindow(null, "index.php?module=Menu&parent=Settings&view=EditMenu&id="+id, function (container) {
+								app.showModalWindow(null, "index.php?module=Menu&parent=Settings&view=EditMenu&id=" + id, function (container) {
 									thisInstance.registerEditMenu(container);
 									progress.progressIndicator({'mode': 'hide'});
 								});
@@ -43,27 +43,27 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 								var inst = $.jstree.reference(data.reference);
 								var id = inst.get_selected();
 								var menu = inst.get_node(id);
-								if(menu.children.length > 0){
+								if (menu.children.length > 0) {
 									var modal = $('.modal.deleteAlert').clone(true, true);
-									var callBackFunction = function(data) {
+									var callBackFunction = function (data) {
 										data.find('.deleteAlert').removeClass('hide');
 										data.find('.btn-danger').click(function (e) {
-											thisInstance.removeMenu(id,inst);
+											thisInstance.removeMenu(id, inst);
 										});
 									};
-									app.showModalWindow(modal,function(data) {
-										if(typeof callBackFunction == 'function') {
+									app.showModalWindow(modal, function (data) {
+										if (typeof callBackFunction == 'function') {
 											callBackFunction(data);
 										}
 									});
-								}else{
-									thisInstance.removeMenu(id,inst);
+								} else {
+									thisInstance.removeMenu(id, inst);
 								}
 							}
 						},
 					}
 				},
-				plugins: [ "contextmenu", "dnd", "search","state", "types"]
+				plugins: ["contextmenu", "dnd", "search", "state", "types"]
 			});
 		}
 		thisInstance.registerMenuChanges();
@@ -74,7 +74,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		thisInstance.treeInstance.on('move_node.jstree', function (obj) {
 			var progress = jQuery.progressIndicator();
 			var json = thisInstance.treeInstance.jstree("get_json");
-			var menus = thisInstance.getChildrenMenu(json,0);
+			var menus = thisInstance.getChildrenMenu(json, 0);
 			thisInstance.save('updateSequence', JSON.stringify(menus)).then(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 				thisInstance.loadContent();
@@ -86,9 +86,9 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		var menus = [];
 		var thisInstance = this;
 		var roleMenu = $('[name="roleMenu"]').val()
-		$.each( childrens, function( key, value ) {
-			var menu = { i: value.id, s: key, p: parent, r: roleMenu };
-			if(value.children.length > 0){
+		$.each(childrens, function (key, value) {
+			var menu = {i: value.id, s: key, p: parent, r: roleMenu};
+			if (value.children.length > 0) {
 				menu.c = thisInstance.getChildrenMenu(value.children, value.id);
 			}
 			menus.push(menu);
@@ -110,12 +110,12 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		params['view'] = app.getViewName();
 		params['roleid'] = selectedRole;
 		AppConnector.requestPjax(params).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				aDeferred.reject();
-			}
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -131,20 +131,20 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 	},
 	loadContent: function () {
 		var progress = jQuery.progressIndicator({
-			'position' : '#treeContent',
-			'blockInfo' : {
-				'enabled' : true
+			'position': '#treeContent',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 		var thisInstance = this;
 		var contentsDiv = $('.contentsDiv');
 		thisInstance.getMenuData($('[name="roleMenu"]').val()).then(
-			function (data) {
-				contentsDiv.html(data);
-				app.showSelect2ElementView(contentsDiv.find('select'));
-				thisInstance.registerEvents();
-				progress.progressIndicator({'mode': 'hide'});
-			}
+				function (data) {
+					contentsDiv.html(data);
+					app.showSelect2ElementView(contentsDiv.find('select'));
+					thisInstance.registerEvents();
+					progress.progressIndicator({'mode': 'hide'});
+				}
 		);
 	},
 	registerEditMenu: function (container) {
@@ -156,17 +156,17 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		container.find('.saveButton').click(function (e) {
 			var form = container.find('form').serializeFormData();
 			var errorExists = container.find('form').validationEngine('validate');
-			if(errorExists != false){
+			if (errorExists != false) {
 				var progress = jQuery.progressIndicator();
 				thisInstance.save('updateMenu', form).then(function (data) {
-					Settings_Vtiger_Index_Js.showMessage({type: 'success',text: data.result.message});
+					Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 					app.hideModalWindow();
 					thisInstance.loadContent();
 					progress.progressIndicator({'mode': 'hide'});
 				});
 			}
 		});
-		container.find('form').submit(function( event ) {
+		container.find('form').submit(function (event) {
 			event.preventDefault();
 		});
 	},
@@ -191,7 +191,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 			var form = container.find('form').serializeFormData();
 			form.role = $('[name="roleMenu"]').val();
 			var errorExists = container.find('form').validationEngine('validate');
-			if(errorExists != false){
+			if (errorExists != false) {
 				var progress = jQuery.progressIndicator();
 				thisInstance.save('createMenu', form).then(function (data) {
 					Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
@@ -201,7 +201,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 				});
 			}
 		});
-		container.find('form').submit(function( event ) {
+		container.find('form').submit(function (event) {
 			event.preventDefault();
 		});
 	},
@@ -215,12 +215,12 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		params['mode'] = mode;
 		params['mdata'] = data;
 		AppConnector.request(params).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				aDeferred.reject();
-			}
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -236,28 +236,28 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		container.find('.testBtn').click(function (e) {
 			var testBtn = $(this);
 			var key = container.find('[name="hotkey"]').val();
-			Mousetrap.bind(key, function() { 
+			Mousetrap.bind(key, function () {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: app.vtranslate('JS_TEST_HOTKEY_OK')});
 				testBtn.addClass('btn-success');
 				Mousetrap.unbind(key);
 			});
-		}); 
+		});
 	},
 	registerHiddenInput: function (container) {
-		if(container.find('#menuType').val() == 'CustomFilter'){
+		if (container.find('#menuType').val() == 'CustomFilter') {
 			var tabid = container.find('select[name="dataurl"] option:selected').data('tabid');
 			container.find('[name="module"]').val(tabid);
 			container.on('change', 'select[name="dataurl"]', function (e) {
 				var tabid = container.find('select[name="dataurl"] option:selected').data('tabid');
 				container.find('[name="module"]').val(tabid);
 			});
-			
+
 		}
 	},
 	cacheFilters: false,
 	registerFilters: function (container) {
 		var thisInstance = this;
-		if(container.find('#menuType').val() == 'Module'){
+		if (container.find('#menuType').val() == 'Module') {
 			thisInstance.cacheFilters = container.find('[name="filters"]').clone(true, true);
 			container.find('[name="module"]').on('change', function (e) {
 				thisInstance.loadFilters(container, $(this));
