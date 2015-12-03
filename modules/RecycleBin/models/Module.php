@@ -122,17 +122,16 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model {
 	public function emptyRecycleBin(){
 		$db = PearDatabase::getInstance(); 
 		$getIdsQuery='SELECT crmid from vtiger_crmentity WHERE deleted=?';
-		$resultIds=$db->pquery($getIdsQuery,array(1));
-		$recordIds=array();
-		if($db->num_rows($resultIds)){
-			for($i=0;$i<$db->num_rows($resultIds);$i++){
-				$recordIds[$i]=$db->query_result($resultIds,$i,'crmid');
-			}
+		$result=$db->pquery($getIdsQuery,[1]);
+		$recordIds=[];
+		while (($crmid = $db->getSingleValue($result)) !== false) {
+			$recordIds[]=$crmid;
 		}
-		$this->deleteFiles($recordIds);
+		if(count($recordIds)){
+			$this->deleteFiles($recordIds);
+		}
 		$db->query('DELETE FROM vtiger_crmentity WHERE deleted = 1');
 		$db->query('DELETE FROM vtiger_relatedlists_rb');
-		
 		return true;
 	}
 	
