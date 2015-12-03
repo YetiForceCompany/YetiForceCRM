@@ -45,7 +45,6 @@ padding: 20px 20px 20px 20px;
 				</div>
 			</div>
 		</div>
-		<hr>
 
 <div class="contents tabbable">
 	

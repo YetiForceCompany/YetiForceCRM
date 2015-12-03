@@ -15,7 +15,6 @@
 	    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 	</div>
     </div>
-    <hr>
     <div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
         <div class='editViewContainer' id="tpl" style="min-height:300px">
             <div class="row">

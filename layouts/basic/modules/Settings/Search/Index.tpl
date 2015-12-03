@@ -28,7 +28,6 @@
 			</div>
 			
 		</div>
-		<hr>
 		<div class="btn-toolbar">
 			<span class="pull-right group-desc ">
 				<button class="btn btn-success saveModuleSequence hide" type="button">

@@ -11,9 +11,11 @@
 -->*}
 {strip}
 <div class="" id="importModules">
-	<div class="widget_header row">
-		<h3>{vtranslate('LBL_UPDATE_MODULE_FROM_FILE', $QUALIFIED_MODULE)}</h3>
-	</div><hr>
+	<div class='widget_header row '>
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
+	</div>
 	<div class="contents">
 		<div class="row">
 			<div id="vtlib_modulemanager_import_div">

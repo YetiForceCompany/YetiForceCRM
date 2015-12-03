@@ -18,7 +18,6 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
-	<hr>
 	<div class="profileDetailView">
 		<div>
 			<div class="row">

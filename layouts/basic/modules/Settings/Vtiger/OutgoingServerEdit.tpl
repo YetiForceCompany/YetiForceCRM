@@ -23,7 +23,6 @@
 							<buton type="reset" class="cancelLink btn btn-warning" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 						</div></div>
 				</div>
-				<hr>
 				<input type="hidden" name="default" value="false" />
 				<input type="hidden" name="server_port" value="0" />
 				<input type="hidden" name="server_type" value="email" />

@@ -10,10 +10,11 @@
 -->*}
 {strip}
 	<div class="" id="AnnouncementContainer">
-		<div class="widget_header">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		<div class='widget_header row '>
+			<div class="col-xs-12">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			</div>
 		</div>
-		<hr>
 		<div class="contents">
 			<textarea class="announcementContent textarea-autosize boxSizingBorderBox form-control" rows="3" placeholder="{vtranslate('LBL_ENTER_ANNOUNCEMENT_HERE', $QUALIFIED_MODULE)}" style="width:100%">{$ANNOUNCEMENT->get('announcement')}</textarea>
 			<div class="textAlignCenter">

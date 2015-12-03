@@ -18,7 +18,6 @@
 			</div>
 			<div class="col-md-4"><button class="btn btn-primary addKey pull-right marginTop20">{vtranslate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
 		</div>
-		<hr>
 		<div class="contents">
 			{if $ENABLEDAV }
 				<div class="alert alert-block alert-warning fade in" style="margin-left: 10px;">

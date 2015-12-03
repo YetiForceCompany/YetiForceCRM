@@ -45,7 +45,6 @@ padding: 0 20px 20px 20px;
 			</select>
 		</div>
         </div>
-        <hr>
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
                 <li class="active"><a data-toggle="tab" href="#detailViewLayout"><strong>{vtranslate('LBL_SEQUENCE', $QUALIFIED_MODULE)}</strong></a></li>

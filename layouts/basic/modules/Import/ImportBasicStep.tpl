@@ -15,10 +15,11 @@
         <input type="hidden" name="module" value="{$FOR_MODULE}" />
         <input type="hidden" name="view" value="Import" />
         <input type="hidden" name="mode" value="uploadAndParse" />
-	<div class='widget_header'>
-		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	<div class='widget_header row '>
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
 	</div>
-	<hr>
 		<div class="col-xs-12 searchUIBasic paddingLRZero" style='margin:0 !important'>
 			{if $ERROR_MESSAGE neq ''}
 				<div class="col-xs-12">

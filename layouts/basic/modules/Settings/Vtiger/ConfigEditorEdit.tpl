@@ -12,17 +12,15 @@
 	<div class="">
 		<div class="contents">
 			<form id="ConfigEditorForm" class="form-horizontal" data-detail-url="{$MODEL->getDetailViewUrl()}" method="POST">
-				<div class="widget_header">
-					<div class="row marginRightZero">
-						<div class="col-md-8">
-							{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-							{vtranslate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
-						</div>
-						<div class="col-md-4 btn-toolbar paddingRightZero">
-							<div class="pull-right">
-								<button class="btn btn-success saveButton" type="submit" title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-								<button type="reset" class="cancelLink btn btn-warning" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
-							</div>
+				<div class="row widget_header">
+					<div class="col-md-8">
+						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+						{vtranslate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
+					</div>
+					<div class="col-md-4 btn-toolbar paddingRightZero">
+						<div class="pull-right">
+							<button class="btn btn-success saveButton" type="submit" title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+							<button type="reset" class="cancelLink btn btn-warning" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 						</div>
 					</div>
 				</div>

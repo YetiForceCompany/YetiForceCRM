@@ -3869,9 +3869,15 @@ html,body,.baseContainer
 .contentsDiv, .centerPanel{
 	padding: 0 10px;
 }
-.detailViewTitle .widget_header{
+.widget_header{
 	background:#eee;
+	margin-bottom:15px;
 }
+.summaryWidgetContainer .widget_header{
+	background:#fff;
+	margin-bottom:0px;
+}
+
 .widget_header{
 	padding-top:5px;
 	padding-bottom:5px;
@@ -4381,7 +4387,6 @@ html,body,.baseContainer
 		transition: all 0.5s ease;
 	}
 	#centerPanel{
-		padding-right: 25px;
 		-webkit-transition: all 0.5s ease;
 		-moz-transition: all 0.5s ease;
 		-o-transition: all 0.5s ease;
@@ -4623,4 +4628,8 @@ html,body,.baseContainer
 .spaceRelatedList{
 	width:50px;
 	min-height:1px;
+}
+.timelineContainer{
+	z-index:1500;
+	height:500px;
 }

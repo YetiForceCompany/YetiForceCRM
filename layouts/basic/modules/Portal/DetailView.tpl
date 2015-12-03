@@ -10,8 +10,10 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div class="widget_header">
-		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	<div class='widget_header row '>
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
 	</div>
 	<div class="listViewPageDiv">
 		<div class="btn-toolbar col-md-4">

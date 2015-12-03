@@ -27,7 +27,6 @@
 			</select>
 		</div>
 	</div>
-	<hr>
 	<div>
 		<div class="col-md-8 paddingLRZero">
 			<h4>{vtranslate('List of widgets for the module', $QUALIFIED_MODULE)}: {vtranslate($SOURCEMODULE, $SOURCEMODULE)}</h4>

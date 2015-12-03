@@ -34,7 +34,6 @@
 				</span>
 			</div>
 		</div>
-		<hr>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				{if $BLOCK_FIELDS|@count gt 0}
 				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{vtranslate($BLOCK_LABEL, $MODULE)}">

@@ -10,18 +10,11 @@
  ************************************************************************************/
 -->*}
 {strip}
-<div class='dashboardHeading'>
-	<div class="row marginLeftZero">
-		<div class="pull-left">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{if $DASHBOARDHEADER_TITLE}
-				{*<h2 class="pull-left">{$DASHBOARDHEADER_TITLE}</h2>*}
-			{/if}
-		</div>
+<div class='widget_header row '>
+	<div class="col-xs-12">
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 	</div>
-	<hr class="col-xs-12">
 </div>
-
 <div class='dashboardHeading'>
 	<div class="row marginLeftZero">
 		<div class="pull-left">

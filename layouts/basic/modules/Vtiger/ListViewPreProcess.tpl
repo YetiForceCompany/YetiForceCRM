@@ -14,7 +14,10 @@
 	<div class="bodyContents">
 		<div class="mainContainer">
 			<div class="contentsDiv">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-				<hr>
+				<div class="widget_header row marginBottom10px">
+					<div class="col-xs-12">
+						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					</div>
+				</div>
 				{include file="ListViewHeader.tpl"|vtemplate_path:$MODULE}
 			{/strip}
