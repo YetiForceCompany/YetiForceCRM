@@ -4633,3 +4633,10 @@ html,body,.baseContainer
 	z-index:1500;
 	height:500px;
 }
+.basePanel.menuOpen{
+	left:180px;
+	width: calc(100% - 180px);
+}
+.bodyHeader.menuOpen{
+	left: 230px;
+}
