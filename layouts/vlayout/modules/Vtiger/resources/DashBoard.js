@@ -148,7 +148,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var widgetName = parent.data('name');
 			var widgetTitle = parent.find('.dashboardTitle').attr('title');
 
-			var message = app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET') + "[" + widgetTitle + "]? " + app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
+			var message = app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET') + " [" + widgetTitle + "]? " + app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
 					function (e) {
 						AppConnector.request(url).then(
