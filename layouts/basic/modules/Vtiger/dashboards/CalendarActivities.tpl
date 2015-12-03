@@ -28,13 +28,13 @@
 		<div class="col-md-12 widget_header">
 			{if $LISTVIEWLINKS}
 				<div class="pull-right">&nbsp;
-					<button class="btn btn-default btn-sm goToListView">
-						<span title="{vtranslate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" class="glyphicon glyphicon-th-list"></span>
+					<button class="btn btn-default btn-sm goToListView" title="{vtranslate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >
+						<span class="glyphicon glyphicon-th-list"></span>
 					</button>
 				</div>
 			{/if}
 			<div class="pull-right">&nbsp;
-				<button class="btn btn-default btn-sm changeRecordSort" title="{vtranslate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{vtranslate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="asc" data-asc="{vtranslate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{vtranslate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
+				<button class="btn btn-default btn-sm changeRecordSort" title="{vtranslate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{vtranslate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{vtranslate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{vtranslate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
 					<span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true" ></span>
 				</button>
 			</div>
@@ -43,7 +43,7 @@
 			</div>
 			{if $SWITCH}
 				<div class="pull-left">
-					<input class="switchBtn switchBtnReload status" type="checkbox" checked="" data-size="small" data-label-width="5" data-on-text="{$SWITCH[0].label}" data-off-text="{$SWITCH[1].label}" data-on-val="{$SWITCH[0].name}" data-off-val="{$SWITCH[1].name}" data-urlparams="switchParams">
+					<input class="switchBtn switchBtnReload status" type="checkbox" {if $DATA['switchParams'] eq $SWITCH[0].name}checked=""{/if} data-size="small" data-label-width="5" data-on-text="{$SWITCH[0].label}" data-off-text="{$SWITCH[1].label}" data-on-val="{$SWITCH[0].name}" data-off-val="{$SWITCH[1].name}" data-urlparams="switchParams">
 				</div>
 			{/if}
 		</div>

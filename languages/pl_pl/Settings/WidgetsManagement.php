@@ -32,6 +32,7 @@ $languageStrings = [
 	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Wybierz co najmniej jedną opcję',
 	'LBL_VIEW_CONFIGURATION' => 'Widok konfiguracyjny',
 	'LBL_WIDGET_ADDED' => 'Pomyślnie dodano widget',
+	'LBL_CACHE_WIDGET' => 'Pamięć podręczna',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Pomyślnie dodano blok',

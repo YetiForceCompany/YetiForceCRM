@@ -12,6 +12,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 	gridster: false,
 	//static property which will store the instance of dashboard
 	currentInstance: false,
+	paramCache: false,
 	addWidget: function (element, url) {
 		var element = jQuery(element);
 		var linkId = element.data('linkid');
@@ -99,14 +100,20 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		var mode = widgetContainer.data('mode');
 		widgetContainer.progressIndicator();
 		if (mode == 'open') {
+			var name = widgetContainer.data('name');
+			var cache = widgetContainer.data('cache');
+			var userId = app.getMainParams('current_user_id');
+			if(cache == 1){
+				var cecheUrl = app.cacheGet(name + userId, false);
+				urlParams = cecheUrl ? cecheUrl : urlParams;
+			}
 			AppConnector.request(urlParams).then(
 					function (data) {
 						widgetContainer.html(data);
-
 						var headerHeight = widgetContainer.find('.dashboardWidgetHeader').height() + 15;
 						var adjustedHeight = widgetContainer.height() - headerHeight;
 						app.showScrollBar(widgetContainer.find('.dashboardWidgetContent'), {'height': adjustedHeight});
-						var widgetInstance = thisInstance.getWidgetInstance(widgetContainer);
+						thisInstance.getWidgetInstance(widgetContainer);
 						widgetContainer.trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
 					},
 					function () {

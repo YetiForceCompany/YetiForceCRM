@@ -190,12 +190,12 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 					$active = 1;
 				$size = Zend_Json::encode(array('width' => $data['width'], 'height' => $data['height']));
 				$owners = Zend_Json::encode(array('default' => $data['default_owner'], 'available' => $data['owners_all']));
-				$query = 'UPDATE `vtiger_module_dashboard` SET `isdefault` = ?, `size` = ?, `limit` = ?, `owners` = ? WHERE `id` = ? ;';
-				$params = array($data['isdefault'], $size, $data['limit'], $owners, $data['id']);
+				$query = 'UPDATE `vtiger_module_dashboard` SET `isdefault` = ?, `size` = ?, `limit` = ?, `owners` = ?, `cache` = ? WHERE `id` = ? ;';
+				$params = array($data['isdefault'], $size, $data['limit'], $owners, $data['cache'], $data['id']);
 				$adb->pquery($query, $params);
 
-				$query = 'UPDATE `vtiger_module_dashboard_widgets` SET `isdefault` = ?, `size` = ?, `limit` = ?, `owners` = ? ';
-				$params = array($data['isdefault'], $size, $data['limit'], $owners);
+				$query = 'UPDATE `vtiger_module_dashboard_widgets` SET `isdefault` = ?, `size` = ?, `limit` = ?, `cache` = ?, `owners` = ? ';
+				$params = array($data['isdefault'], $size, $data['limit'], $data['cache'], $owners);
 				if ($active) {
 					$query .= ', `active` = ? ';
 					$params[] = $active;
@@ -239,12 +239,12 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 		if ($status && !$data['limit'])
 			$data['limit'] = 10;
-		$query = 'INSERT INTO vtiger_module_dashboard(`linkid`, `blockid`, `filterid`, `title`, `data`, `size`, `limit`, `owners`,`isdefault`) VALUES(?,?,?,?,?,?,?,?,?);';
+		$query = 'INSERT INTO vtiger_module_dashboard(`linkid`, `blockid`, `filterid`, `title`, `data`, `size`, `limit`, `owners`,`isdefault`, `cache`) VALUES(?,?,?,?,?,?,?,?,?,?);';
 		if ($data['isdefault'] != 1 || $data['isdefault'] != '1')
 			$data['isdefault'] = 0;
 		$size = Zend_Json::encode(array('width' => $data['width'], 'height' => $data['height']));
 		$owners = Zend_Json::encode(array('default' => $data['default_owner'], 'available' => $data['owners_all']));
-		$params = array($data['linkid'], $data['blockid'], $data['filterid'], $data['title'], $data['data'], $size, $data['limit'], $owners, $data['isdefault']);
+		$params = array($data['linkid'], $data['blockid'], $data['filterid'], $data['title'], $data['data'], $size, $data['limit'], $owners, $data['isdefault'],$data['cache']);
 
 		$adb->pquery($query, $params);
 		$templateId = $adb->getLastInsertID();
@@ -260,7 +260,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				'linkid' => $data['linkid'], 'userid' => $currentUser->getId(), 'templateid' => $templateId,
 				'filterid' => $data['filterid'], 'title' => $data['title'], 'data' => $data['data'],
 				'size' => $size, 'limit' => $data['limit'], 'owners' => $owners,
-				'isdefault' => $data['isdefault'], 'active' => $active, 'module' => $module
+				'isdefault' => $data['isdefault'], 'active' => $active, 'module' => $module, 'cache' => $data['cache']
 			];
 			$adb->insert('vtiger_module_dashboard_widgets', $insert);
 			$widgetId = $adb->getLastInsertID();
@@ -358,6 +358,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				  mdw.limit,
 				  mdw.isdefault,
 				  mdw.owners,
+				  mdw.cache,
 				  `vtiger_links`.*,
 				  `mdb`.`authorized`
 				FROM

@@ -24,9 +24,10 @@
 	<div class="row" >
 		<div class="col-md-6 pull-right">
 			<select class="widgetFilter form-control input-sm" id="historyType" title="{vtranslate('LBL_HISTORY_TYPE')}" name="type">
-				<option title="{vtranslate('LBL_ALL')}" value="all" >{vtranslate('LBL_ALL')}</option>
-				{if $COMMENTS_MODULE_MODEL->isPermitted('DetailView')}<option title="{vtranslate('LBL_COMMENTS')}" value="comments" >{vtranslate('LBL_COMMENTS')}</option>{/if}
-				<option value="updates" title="{vtranslate('LBL_UPDATES')}">{vtranslate('LBL_UPDATES')}</option>
+				<option title="{vtranslate('LBL_ALL')}" value="all" {if $DATA['type'] eq 'all'}selected{/if}>{vtranslate('LBL_ALL')}</option>
+				{if $COMMENTS_MODULE_MODEL->isPermitted('DetailView')}
+				<option title="{vtranslate('LBL_COMMENTS')}" value="comments" {if $DATA['type'] eq 'comments'}selected{/if}>{vtranslate('LBL_COMMENTS')}</option>{/if}
+				<option value="updates" title="{vtranslate('LBL_UPDATES')}" {if $DATA['type'] eq 'updates'}selected{/if}>{vtranslate('LBL_UPDATES')}</option>
 			</select>
 		</div>
 	</div>

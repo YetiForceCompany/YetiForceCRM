@@ -122,17 +122,25 @@ padding: 20px 20px 20px 20px;
 																<div class="pull-right"><a href="javascript:void(0)" class='cancel'>X</a></div>
 															</div>
 															<div class="clearfix">
-																<div class="row" style="padding: 5px; ">
-																	<div class="col-md-3" style="text-align:center">
+																<div class="row">
+																	<div class="col-md-3 text-center checkboxForm">
 																		<input type="checkbox" name="isdefault" class="" {if $WIDGET_MODEL->get('isdefault') eq 1} checked {/if}>
 																	</div>	
-																	<label class="col-md-9 marginTop5 pull-left" >
-																		&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}&nbsp;
+																	<label class="col-md-9 form-control-static pull-left" >
+																		&nbsp;&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}&nbsp;
+																	</label>
+																</div>
+																<div class="row">
+																	<div class="col-md-3 text-center checkboxForm">
+																		<input type="checkbox" name="cache" class="" {if $WIDGET_MODEL->get('cache') eq 1} checked {/if}>
+																	</div>	
+																	<label class="col-md-9 form-control-static pull-left" >
+																		&nbsp;&nbsp;{vtranslate('LBL_CACHE_WIDGET', $QUALIFIED_MODULE)}&nbsp;
 																	</label>
 																</div>
 																{assign var=WIDGET_SIZE value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('size')))}
-																<div class="row" style="padding: 5px; ">
-																	<div class="col-md-3" style="text-align:center">
+																<div class="row padding1per">
+																	<div class="col-md-3 text-center">
 																		<select class="width col-md-1 pull-left form-control" name="width" >
 																			{foreach from=$SIZE.width item=item}
 																				<option value="{$item}" {if $WIDGET_SIZE.width eq $item} selected {/if}>{$item}</option>
@@ -143,8 +151,8 @@ padding: 20px 20px 20px 20px;
 																		&nbsp;{vtranslate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
 																	</label>
 																</div>
-																<div class="row" style="padding: 5px; ">
-																	<div class="col-md-3" style="text-align:center">
+																<div class="row padding1per">
+																	<div class="col-md-3 text-center">
 																		<select class="height col-md-1 pull-left form-control" name="height">
 																			{foreach from=$SIZE.height item=item}
 																				<option value="{$item}" {if $WIDGET_SIZE.height eq $item} selected {/if}>{$item}</option>
@@ -156,8 +164,8 @@ padding: 20px 20px 20px 20px;
 																	</label>	
 																</div>
 																{if in_array($WIDGET_MODEL->get('linklabel'), $TITLE_OF_LIMIT) }
-																<div class="row" style="padding: 5px; ">
-																	<div class="col-md-3" style="text-align:center">
+																<div class="row padding1per">
+																	<div class="col-md-3 text-center">
 																		<input type="text" name="limit" class="col-md-1 form-control" value="{$WIDGET_MODEL->get('limit')}" >
 																	</div>
 																	<label class="col-md-9 marginTop5 pull-left" >
@@ -167,10 +175,10 @@ padding: 20px 20px 20px 20px;
 																{/if}
 															</div>
 															{if in_array($WIDGET_MODEL->get('linklabel'),$WIDGETS_WITH_FILTER_USERS)}
-																<div class="row form-group">
+																<div class="">
 																	{assign var=WIDGET_OWNERS value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('owners')))}
-																	
-																		<div class="col-md-5 filter">
+																	<div class="row padding1per">
+																		<div class="col-md-5">
 																			<select class="widgetFilter form-control" id="owner" name="default_owner">
 																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
 																					{if !(is_array($RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]) && in_array($OWNER_ID, $RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]))}
@@ -179,16 +187,16 @@ padding: 20px 20px 20px 20px;
 																				{/foreach}
 																			</select>
 																		</div>
-																		<label class="col-md-6 marginTop5 paddingLRZero form-control-static pull-left" >
+																		<label class="col-md-6 form-control-static" >
 																			{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
 																		</label>
-																	
+																	</div>
 																	{if !is_array($WIDGET_OWNERS.available)}
 																		{$WIDGET_OWNERS.available = array($WIDGET_OWNERS.available)}
 																	{/if}
-																	<div>
-																		<div class="col-md-8 filter">
-																			<select class="widgetFilter" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
+																	<div class="row padding1per">
+																		<div class="col-md-8">
+																			<select class="widgetFilter form-control" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
 																					{if !(is_array($RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]) && in_array($OWNER_ID, $RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]))}
 																						<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
@@ -196,7 +204,7 @@ padding: 20px 20px 20px 20px;
 																				{/foreach}
 																			</select>
 																		</div>
-																		<label class="col-md-3 marginTop5 paddingLRZero form-control-static pull-left" >
+																		<label class="col-md-3 form-control-static" >
 																			{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 																		</label>
 																	</div>	
@@ -245,44 +253,52 @@ padding: 20px 20px 20px 20px;
 																<div class="pull-right"><a href="javascript:void(0)" class='cancel'>X</a></div>
 															</div>
 															<div class="clearfix">
-																<div class="row" style="padding: 5px; ">
-																	<span class="col-md-3" style="text-align:center">
+																<div class="row">
+																	<div class="col-md-3 text-center checkboxForm">
 																		<input type="checkbox" name="isdefault" class="" {if $WIDGET_MODEL->get('isdefault') eq 1} checked {/if}>
-																	</span>	
-																	<label class="col-md-9 marginTop5 pull-left" >
-																		&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}&nbsp;
+																	</div>	
+																	<label class="col-md-9 form-control-static pull-left" >
+																		&nbsp;&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}
+																	</label>
+																</div>
+																<div class="row">
+																	<div class="col-md-3 text-center checkboxForm">
+																		<input type="checkbox" name="cache" class="" {if $WIDGET_MODEL->get('cache') eq 1} checked {/if}>
+																	</div>	
+																	<label class="col-md-9 form-control-static pull-left" >
+																		&nbsp;&nbsp;{vtranslate('LBL_CACHE_WIDGET', $QUALIFIED_MODULE)}
 																	</label>
 																</div>
 																{assign var=WIDGET_SIZE value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('size')))}
-																<div class="row" style="padding: 5px; ">
-																	<span class="col-md-3" style="text-align:center">
+																<div class="row padding1per">
+																	<div class="col-md-3 text-center">
 																		<select class="width col-md-1 pull-left form-control" name="width" >
 																			{foreach from=$SIZE.width item=item}
 																				<option value="{$item}" {if $WIDGET_SIZE.width eq $item} selected {/if}>{$item}</option>
 																			{/foreach}
 																		</select>
-																	</span>	
+																	</div>	
 																	<label  class="col-md-9 marginTop5 pull-left" >
 																		&nbsp;{vtranslate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
 																	</label>
 																</div>
-																<div class="row" style="padding: 5px; ">
-																	<span class="col-md-3" style="text-align:center">
+																<div class="row padding1per">
+																	<div class="col-md-3 text-center">
 																		<select class="height col-md-1 pull-left form-control" name="height">
 																			{foreach from=$SIZE.height item=item}
 																				<option value="{$item}" {if $WIDGET_SIZE.height eq $item} selected {/if}>{$item}</option>
 																			{/foreach}
 																		</select>
-																	</span>
+																	</div>
 																	<label class="col-md-9 marginTop5 pull-left" >
 																		&nbsp;{vtranslate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
 																	</label>	
 																</div>
 																{if in_array($WIDGET_MODEL->get('linklabel'), $TITLE_OF_LIMIT) }
-																<div class="row" style="padding: 5px; ">
-																	<span class="col-md-3" style="text-align:center">
+																<div class="row padding1per">
+																	<div class="col-md-3 text-center">
 																		<input type="text" name="limit" class="col-md-1 form-control" value="{$WIDGET_MODEL->get('limit')}" >
-																	</span>
+																	</div>
 																	<label class="col-md-9 marginTop5 pull-left" >
 																		&nbsp;{vtranslate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}&nbsp;
 																	</label>
@@ -290,10 +306,10 @@ padding: 20px 20px 20px 20px;
 																{/if}
 															</div>
 															{if in_array($WIDGET_MODEL->get('linklabel'),$WIDGETS_WITH_FILTER_USERS)}
-																<div class="row form-group">
+																<div class="">
 																	{assign var=WIDGET_OWNERS value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('owners')))}
-																	
-																		<div class="col-md-5 filter">
+																	<div class="row padding1per">
+																		<div class="col-md-5">
 																			<select class="widgetFilter form-control" id="owner" name="default_owner">
 																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
 																					{if !(is_array($RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]) && in_array($OWNER_ID, $RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]))}
@@ -302,15 +318,15 @@ padding: 20px 20px 20px 20px;
 																				{/foreach}
 																			</select>
 																		</div>
-																		<label class="col-md-6 marginTop5 paddingLRZero form-control-static pull-left" >
+																		<label class="col-md-6 form-control-static pull-left" >
 																			{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
 																		</label>
-																	
+																	</div>
 																	{if !is_array($WIDGET_OWNERS.available)}
 																		{$WIDGET_OWNERS.available = array($WIDGET_OWNERS.available)}
 																	{/if}
-																	<div class="">
-																		<span class="col-md-8 filter">
+																	<div class="row padding1per">
+																		<div class="col-md-8">
 																			<select class="widgetFilter" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
 																					{if !(is_array($RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]) && in_array($OWNER_ID, $RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]))}
@@ -318,8 +334,8 @@ padding: 20px 20px 20px 20px;
 																					{/if}
 																				{/foreach}
 																			</select>
-																		</span>
-																		<label class="col-md-3 marginTop5 form-control-static paddingLRZero pull-left" >
+																		</div>
+																		<label class="col-md-3 form-control-static pull-left" >
 																			{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 																		</label>
 																	</div>	
@@ -525,69 +541,77 @@ padding: 20px 20px 20px 20px;
 								<div class="modal-header contentsBackground">
 								</div>
 								<div class="clearfix">
-									<div class="row" style="padding: 5px; ">
-										<div class="col-md-3" style="text-align:center">
+									<div class="row">
+										<div class="col-md-3 text-center checkboxForm">
 											<input type="checkbox" name="isdefault" >
 										</div>	
-										<label class="col-md-9 marginTop5 pull-left" >
-											&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}&nbsp;
+										<label class="col-md-9 form-control-static pull-left" >
+											&nbsp;&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}
 										</label>
 									</div>
-									<div class="row" style="padding: 5px; ">
-										<div class="col-md-3" style="text-align:center">
+									<div class="row">
+										<div class="col-md-3 text-center checkboxForm">
+											<input type="checkbox" name="cache" >
+										</div>	
+										<label class="col-md-9 form-control-static pull-left" >
+											&nbsp;&nbsp;{vtranslate('LBL_CACHE_WIDGET', $QUALIFIED_MODULE)}
+										</label>
+									</div>
+									<div class="row padding1per">
+										<div class="col-md-3 text-center">
 											<select class="width col-md-1 pull-left form-control" name="width" >
 												{foreach from=$SIZE.width item=item}
 													<option value="{$item}">{$item}</option>
 												{/foreach}
 											</select>
 										</div>	
-										<label  class="col-md-9 marginTop5 pull-left" >
+										<label  class="col-md-9 form-control-static pull-left" >
 											&nbsp;{vtranslate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
 										</label>
 									</div>
-									<div class="row" style="padding: 5px; ">
-										<div class="col-md-3" style="text-align:center">
+									<div class="row padding1per">
+										<div class="col-md-3 text-center">
 											<select class="height col-md-1 pull-left form-control" name="height">
 												{foreach from=$SIZE.height item=item}
 													<option value="{$item}" >{$item}</option>
 												{/foreach}
 											</select>
 										</div>
-										<label class="col-md-9 marginTop5 pull-left" >
+										<label class="col-md-9 form-control-static pull-left" >
 											&nbsp;{vtranslate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
 										</label>	
 									</div>
-									<div class="row limit" style="padding: 5px; ">
-										<div class="col-md-3" style="text-align:center">
+									<div class="row limit padding1per">
+										<div class="col-md-3 text-center" >
 											<input type="text" name="limit" class="col-md-1 form-control" value="10" >
 										</div>
-										<label class="col-md-9 marginTop5 pull-left" >
+										<label class="col-md-9 form-control-static pull-left" >
 											&nbsp;{vtranslate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}&nbsp;
 										</label>
 									</div>
 								</div>
-								<div class="row widgetFilterAll hide form-group">
-									<div class="">
-										<div class="col-md-5 filter">
+								<div class="widgetFilterAll hide">
+									<div class="row padding1per">
+										<div class="col-md-5">
 											<select class="widgetFilter form-control" id="owner" name="default_owner">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
 													<option value="{$OWNER_ID}">{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 												{/foreach}
 											</select>
 										</div>
-										<label class="col-md-6 marginTop5 paddingLRZero form-control-static pull-left" >
+										<label class="col-md-6 form-control-static pull-left" >
 											{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
 										</label>
 									</div>	
-									<div class="">
-										<div class="col-md-8 filter">
+									<div class="row padding1per">
+										<div class="col-md-8">
 											<select class="widgetFilter form-control" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
 													<option value="{$OWNER_ID}" selected>{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 												{/foreach}
 											</select>
 										</div>
-										<label class="col-md-3 marginTop5 paddingLRZero form-control-static pull-left" >
+										<label class="col-md-3 form-control-static pull-left" >
 											{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 										</label>
 									</div>	

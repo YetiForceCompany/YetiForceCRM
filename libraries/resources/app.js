@@ -152,6 +152,23 @@ var app = {
 
 	},
 	/**
+	 * Function to destroy the selectize element
+	 */
+	destroySelectizeElement: function (parent) {
+		var selectElements = jQuery();
+		if (typeof parent == 'undefined') {
+			parent = jQuery('body');
+		}
+		selectElements = jQuery('.selectized', parent);
+		//parent itself is the element
+		if (parent.is('select.selectized')) {
+			selectElements = parent;
+		}
+		selectElements.each(function(){
+			$(this)[0].selectize.destroy();
+		});
+	},
+	/**
 	 * Function which will show the select2 element for select boxes . This will use select2 library
 	 */
 	showSelect2ElementView: function (selectElement, params) {

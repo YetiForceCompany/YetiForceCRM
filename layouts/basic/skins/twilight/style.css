@@ -3148,10 +3148,6 @@ span[name=existingImages] img{
 #widgetsManagementEditorContainer .fieldDetailsForm .modal-footer{
 	padding: 0;
 }
-#widgetsManagementEditorContainer .fieldDetailsForm .filter{
-	padding-top: 5px;
-	margin-left: 5px;
-}
 .dashboardContainer .dashboardHeading .dropdown-menu {
 	left: 0px;
 }

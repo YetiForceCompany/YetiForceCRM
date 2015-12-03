@@ -17,6 +17,7 @@ class Vtiger_History_Dashboard extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 
+		$data = $request->getAll();
 		$moduleName = $request->getModule();
 		$type = $request->get('type');
 		$page = $request->get('page');
@@ -45,6 +46,7 @@ class Vtiger_History_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('PAGE', $page);
 		$viewer->assign('NEXTPAGE', (count($history) < $limit) ? 0 : $page + 1);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
+		$viewer->assign('DATA', $data);
 
 		$content = $request->get('content');
 		if (!empty($content)) {

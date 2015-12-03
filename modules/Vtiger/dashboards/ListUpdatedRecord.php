@@ -25,6 +25,7 @@ class Vtiger_ListUpdatedRecord_Dashboard extends Vtiger_IndexAjax_View
 		$linkId = $request->get('linkid');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		$limit = (int) $widget->get('limit');
+		$data = $request->getAll();
 
 		if (empty($limit)) {
 			$limit = 10;
@@ -46,6 +47,7 @@ class Vtiger_ListUpdatedRecord_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('LIST', $recordList);
 		$viewer->assign('PAGE', $page);
 		$viewer->assign('NEXTPAGE', (count($recordList) < $limit) ? 0 : $page + 1);
+		$viewer->assign('DATA', $data);
 
 		$content = $request->get('content');
 		if (!empty($content)) {
