@@ -97,7 +97,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 	},
 	registerChangeRoleMenu: function () {
 		var thisInstance = this;
-		$('.menuContainer').on('change', '[name="roleMenu"]', function (e) {
+		$('.menuConfigContainer').on('change', '[name="roleMenu"]', function (e) {
 			thisInstance.loadContent();
 		});
 	},
