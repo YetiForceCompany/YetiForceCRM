@@ -94,14 +94,14 @@ $languageStrings = [
 	'LBL_REPEAT_FOR' => 'Повторять по:',
 	'LBL_RECURRING_TYPE' => 'Тип повторения',
 	'End Date' => 'Дата окончания',
-	'LBL_FOLLOWUP' => 'Related event',
+	'LBL_FOLLOWUP' => 'Связанные события',
 	
-	'PLL_PLANNED' => 'Planned',
-	'PLL_IN_REALIZATION' => 'To be realized',
-	'PLL_OVERDUE' => 'Overdue',
-	'PLL_POSTPONED' => 'Postponed',
-	'PLL_CANCELLED' => 'Cancelled',
-	'PLL_COMPLETED' => 'Completed',
+	'PLL_PLANNED' => 'Запланировано',
+	'PLL_IN_REALIZATION' => 'В процессе',
+	'PLL_OVERDUE' => 'Просрочено',
+	'PLL_POSTPONED' => 'Отложено',
+	'PLL_CANCELLED' => 'Отменено',
+	'PLL_COMPLETED' => 'Выполнено',
 
 ];
 
