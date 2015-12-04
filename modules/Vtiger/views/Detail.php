@@ -26,6 +26,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRelatedList');
 		$this->exposeMethod('showChildComments');
 		$this->exposeMethod('showAllComments');
+		$this->exposeMethod('showThreadComments');
 		$this->exposeMethod('getActivities');
 		$this->exposeMethod('showRelatedProductsServices');
 		$this->exposeMethod('showRelatedRecords');
@@ -193,13 +194,23 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			"modules.$moduleName.resources.RelatedList",
 			'modules.Emails.resources.MassEdit',
 			'modules.Vtiger.resources.Widgets',
+			'~/libraries/timelineJS3/js/timeline.js'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
-
+	public function getHeaderCss(Vtiger_Request $request)
+	{
+		$headerCssInstances = parent::getHeaderCss($request);
+		$cssFileNames = [
+			'~/libraries/timelineJS3/css/timeline.css'
+		];
+		$cssFileNames = $this->checkAndConvertCssStyles($cssFileNames);
+		$headerCssInstances = array_merge($cssFileNames,$headerCssInstances);
+		return $headerCssInstances;
+	}
 	function showDetailViewByMode($request)
 	{
 		$requestMode = $request->get('requestMode');
@@ -435,7 +446,26 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		return $viewer->view('CommentsList.tpl', $moduleName, 'true');
 	}
-
+	/**
+	 * Function send all the comments in thead
+	 * @param Vtiger_Request $request
+	 * @return <type>
+	 */
+	function showThreadComments(Vtiger_Request $request)
+	{
+		$parentRecordId = $request->get('record');
+		$commentRecordId = $request->get('commentid');
+		$moduleName = $request->getModule();
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId);
+		$currentCommentModel = ModComments_Record_Model::getInstanceById($commentRecordId);
+		
+		$viewer = $this->getViewer($request);
+		$viewer->assign('CURRENTUSER', $currentUserModel);
+		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
+		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
+		return $viewer->view('ShowThreadComments.tpl', $moduleName, 'true');
+	}
 	/**
 	 * Function sends all the comments for a parent(Accounts, Contacts etc)
 	 * @param Vtiger_Request $request
@@ -460,7 +490,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
-
+		$viewer->assign('ALL_COMMENTS_JSON', ModComments_Record_Model::getAllCommentsJSON($parentRecordId));
 		return $viewer->view('ShowAllComments.tpl', $moduleName, 'true');
 	}
 
