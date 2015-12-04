@@ -122,9 +122,9 @@ class Vtiger_Menu_Model
 					}
 				}
 				if ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '' ) {
-					$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $moduleName)];
+					$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $qualifiedModuleName)];
 				} elseif ($view != '' && $view != 'List') {
-					$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $moduleName)];
+					$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 				}
 				if ($request->get('record') != '') {
 					$recordLabel = Vtiger_Functions::getUserRecordLabel($request->get('record'));
