@@ -34,7 +34,7 @@ class Settings_CurrencyUpdate_models_ECB_BankModel extends Settings_CurrencyUpda
 		$XML = simplexml_load_file($source[0]);
 
 		foreach ($XML->Cube->Cube[0] as $currency) {
-			$currencyCode = $currency['currency']->__toString();
+			$currencyCode = (string)$currency['currency'];
 			$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode)] = $currencyCode;
 		}
 
@@ -123,7 +123,7 @@ class Settings_CurrencyUpdate_models_ECB_BankModel extends Settings_CurrencyUpda
 			if ($time["time"] == $dateParam) {
 				$num = count($time->Cube);
 				for ($i = 0; $i < $num; $i++) {
-					$currency = $time->Cube[$i]['currency']->__toString();   // currency code
+					$currency = (string)$time->Cube[$i]['currency'];   // currency code
 					foreach ($otherCurrencyCode as $key => $currId) {
 						if ($key == $currency && $currency != $mainCurrency) {
 							$exchange = $time->Cube[$i]['rate'];

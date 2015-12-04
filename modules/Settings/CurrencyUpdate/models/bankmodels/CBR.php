@@ -2,16 +2,16 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 /**
- * Class for connection to Narodowy Bank Polski currency exchange rates
+ * Class for connection to Central Bank of Russia currency exchange rates
  */
-class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
+class Settings_CurrencyUpdate_models_CBR_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
 {
 	/*
 	 * Returns bank name
 	 */
 	public function getName()
 	{
-		return 'NBP';
+		return 'CBR';
 	}
 	
 	/*
@@ -19,7 +19,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 	 */
 	public function getSource()
 	{
-		return ['http://nbp.pl/kursy/xml/LastA.xml'];
+		return ['http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL'];
 	}
 	
 	/*
@@ -29,56 +29,18 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 	{
 		$supportedCurrencies = [];
 		$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($this->getMainCurrencyCode())] = $this->getMainCurrencyCode();
-		$dateCur = date('Y-m-d', strtotime('last monday'));
-		$date = str_replace('-', '', $dateCur);
-		$date = substr($date, 2);
+		$source = $this->getSource();
 
-		$txtSrc = 'http://www.nbp.pl/kursy/xml/dir.txt';
-		$xmlSrc = 'http://nbp.pl/kursy/xml/';
-		$newXmlSrc = '';
+		$client = new \SoapClient($source[0]);
+		$curs = $client->GetCursOnDate(array("On_date" => date('Y-m-d')));
+		$ratesXml = new \SimpleXMLElement($curs->GetCursOnDateResult->any);
 
-		$file = file($txtSrc);
-		$fileNum = count($file);
-		$numberOfDays = 1;
-		$stateA = false;
-
-		while (!$stateA) {
-			for ($i = 0; $i < $fileNum; $i++) {
-				$lineStart = strstr($file[$i], $date, true);
-				if ($lineStart && $lineStart[0] == 'a') {
-					$stateA = true;
-					$newXmlSrc = $xmlSrc . $lineStart . $date . '.xml';
-				}
-			}
-
-			if (!$stateA) {
-				$newDate = strtotime("-$numberOfDays day", strtotime($dateCur));
-				$newDate = date('Y-m-d', $newDate);
-
-				$date = str_replace('-', '', $newDate);
-				$date = substr($date, 2);
-				$numberOfDays++;
-			}
-		}
-
-		$xml = simplexml_load_file($newXmlSrc);
-
-		$xmlObj = $xml->children();
-
-		$num = count($xmlObj->pozycja);
-
-		for ($i = 0; $i <= $num; $i++) {
-			if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
-				continue;
-			}
-			$currencyCode = (string)$xmlObj->pozycja[$i]->kod_waluty;
-
-			if ($currencyCode == 'XDR') {
-				continue;
-			}
-
+		foreach($ratesXml->ValuteData[0] as $currency) {
+			$currencyCode = (string)$currency->VchCode;
 			$currencyName = Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode);
-			$supportedCurrencies[$currencyName] = $currencyCode;
+			if ($currencyName) {
+				$supportedCurrencies[$currencyName] = $currencyCode;
+			}
 		}
 
 		return $supportedCurrencies;
@@ -89,7 +51,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 	 */
 	public function getMainCurrencyCode()
 	{
-		return 'PLN';
+		return 'RUB';
 	}
 	
 	/*
@@ -112,68 +74,32 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 		$mainCurrency = Vtiger_Functions::getDefaultCurrencyInfo()['currency_code'];
 
 		$dateCur = $dateParam;
-		$chosenYear = date('Y', strtotime($dateCur));
-		$date = str_replace('-', '', $dateCur);
-		$date = substr($date, 2);
 
-		if (date('Y') == $chosenYear) {
-			$txtSrc = 'http://www.nbp.pl/kursy/xml/dir.txt';
-		} else {
-			$txtSrc = 'http://www.nbp.pl/kursy/xml/dir' . $chosenYear . '.txt';
-		}
-		$xmlSrc = 'http://nbp.pl/kursy/xml/';
-		$newXmlSrc = '';
-
-		$file = file($txtSrc);
-		$fileNum = count($file);
-		$numberOfDays = 1;
-		$stateA = false;
-
-		while (!$stateA && $file) {
-			for ($i = 0; $i < $fileNum; $i++) {
-				$lineStart = strstr($file[$i], $date, true);
-				if ($lineStart && $lineStart[0] == 'a') {
-					$stateA = true;
-					$newXmlSrc = $xmlSrc . $lineStart . $date . '.xml';
-				}
-			}
-
-			if ($stateA == false) {
-				$newDate = strtotime("-$numberOfDays day", strtotime($dateCur));
-				$newDate = date('Y-m-d', $newDate);
-
-				$date = str_replace('-', '', $newDate);
-				$date = substr($date, 2);
-				$numberOfDays++;
-			}
-		}
-
-		$xml = simplexml_load_file($newXmlSrc);
-
-		$xmlObj = $xml->children();
-
-		$num = count($xmlObj->pozycja);
-		$datePublicationOfFile = (string)$xmlObj->data_publikacji;
+		$source = $this->getSource();
+		$client = new \SoapClient($source[0]);
+		$curs = $client->GetCursOnDate(array('On_date' => $dateCur));
+		$ratesXml = new \SimpleXMLElement($curs->GetCursOnDateResult->any);
+		
+		$datePublicationOfFile = $dateCur;
 
 		$exchangeRate = 1.0;
-		// if currency is diffrent than PLN we need to calculate rate for converting other currencies to this one from PLN
+		// if currency is diffrent than RUB we need to calculate rate for converting other currencies to this one from RUB
 		if ($mainCurrency != $this->getMainCurrencyCode()) {
-			for ($i = 0; $i <= $num; $i++) {
-				if ($xmlObj->pozycja[$i]->kod_waluty == $mainCurrency) {
-					$exchangeRate = str_replace(',', '.', $xmlObj->pozycja[$i]->kurs_sredni);
+			foreach($ratesXml->ValuteData[0] as $currencyRate) {
+				if ($currencyRate->VchCode == $mainCurrency) { echo $currencyRate->VchCode.' == '.$mainCurrency.' = '.$currencyRate->Vcurs;
+					$exchangeRate = $currencyRate->Vcurs;
 				}
 			}
 		}
 
-		for ($i = 0; $i <= $num; $i++) {
-			if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
-				continue;
-			}
-			$currency = (string)$xmlObj->pozycja[$i]->kod_waluty;
+		foreach($ratesXml->ValuteData[0] as $currencyRate) {
+			$currency = (string)$currencyRate->VchCode;
 			foreach ($otherCurrencyCode as $key => $currId) {
 				if ($key == $currency && $currency != $mainCurrency) {
-					$exchange = str_replace(',', '.', $xmlObj->pozycja[$i]->kurs_sredni);
-					$exchange = $exchange / $xmlObj->pozycja[$i]->przelicznik;
+					$curs = (string)$currencyRate->Vcurs;
+					$nom = (string)$currencyRate->Vnom;
+					$exchange = $curs / $nom;
+
 					$exchangeVtiger = $exchangeRate / $exchange;
 					$exchange = $exchange / $exchangeRate;
 
@@ -192,7 +118,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 			}
 		}
 
-		// currency diffrent than PLN, we need to add manually PLN rates
+		// currency diffrent than RUB, we need to add manually RUB rates
 		if ($mainCurrency != $this->getMainCurrencyCode()) {
 			$exchange = 1.00000 / $exchangeRate;
 			$mainCurrencyId = false;
@@ -208,7 +134,6 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 				}
 
 				$existingId = $moduleModel->getCurrencyRateId($mainCurrencyId, $datePublicationOfFile, $selectedBank);
-
 				if ($existingId > 0) {
 					$moduleModel->updateCurrencyRate($existingId, $exchange);
 				} else {
