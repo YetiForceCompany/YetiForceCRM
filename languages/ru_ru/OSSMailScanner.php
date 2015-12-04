@@ -136,8 +136,8 @@ $languageStrings = [
 	'LBL_MAIL_LOGS' => 'Журнал почты',
 	'LBL_ACTIVE_MAIL' => 'Активный',
 	'LBL_INACTIVE_MAIL' => 'Не активный',
-	'LBL_EXCEPTIONS' => 'Exceptions',
-	'LBL_EXCEPTIONS_CREATING_EMAIL' => 'Addresses omitted while executing an action creating e-mail messages',
-	'LBL_EXCEPTIONS_CREATING_TICKET' => 'Addresses omitted while executing an action creating tickets',
-	'LBL_WRITE_AND_ENTER' => 'Enter the address and press enter',
+	'LBL_EXCEPTIONS' => 'Исключения',
+	'LBL_EXCEPTIONS_CREATING_EMAIL' => 'Следующие адреса исключены, при создании сообщения',
+	'LBL_EXCEPTIONS_CREATING_TICKET' => 'Следующие адреса исключены, при создании заявки',
+	'LBL_WRITE_AND_ENTER' => 'Введите адрес и нажмите клавишу ВВОД',
 ];
