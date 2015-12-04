@@ -261,8 +261,10 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if ($this->getModule()->isInventory()) {
 			$this->initInventoryData();
 		}
+
 		$this->getModule()->saveRecord($this);
-		if ($this->getModule()->isInventory()) {
+
+		if ($this->getModule()->isInventory() && count($this->inventoryData) > 0) {
 			$this->saveInventoryData();
 		}
 	}
@@ -628,29 +630,33 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$table = $inventory->getTableName('data');
 		$summaryFields = $inventory->getSummaryFields();
 		$inventoryData = $summary = [];
-		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
-		$numRow = $request->get('inventoryItemsNo');
-
-		for ($i = 1; $i <= $numRow; $i++) {
-			if (!$request->has(reset($fields)) && !$request->has(reset($fields) . $i)) {
-				continue;
+		if ($this->has('inventoryData')) {
+			$request = $this->get('inventoryData');
+		} else {
+			$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+		}
+		if ($request->has('inventoryItemsNo')) {
+			$numRow = $request->get('inventoryItemsNo');
+			for ($i = 1; $i <= $numRow; $i++) {
+				if (!$request->has(reset($fields)) && !$request->has(reset($fields) . $i)) {
+					continue;
+				}
+				$insertData = ['seq' => $request->get('seq' . $i)];
+				foreach ($fields as $field) {
+					$value = $insertData[$field] = $inventory->getValueForSave($request, $field, $i);
+					if (in_array($field, $summaryFields)) {
+						$summary[$field] += $value;
+					}
+				}
+				$inventoryData[] = $insertData;
 			}
-			$insertData = ['seq' => $request->get('seq' . $i)];
-			foreach ($fields as $field) {
-				$value = $insertData[$field] = $inventory->getValueForSave($request, $field, $i);
-				if (in_array($field, $summaryFields)) {
-					$summary[$field] += $value;
+
+			foreach ($summary as $fieldName => $fieldValue) {
+				if ($this->has($fieldName)) {
+					$this->set($fieldName, CurrencyField::convertToUserFormat($fieldValue, null, true));
 				}
 			}
-			$inventoryData[] = $insertData;
 		}
-
-		foreach ($summary as $fieldName => $fieldValue) {
-			if ($this->has($fieldName)) {
-				$this->set($fieldName, CurrencyField::convertToUserFormat($fieldValue, null, true));
-			}
-		}
-
 		$this->inventoryData = $inventoryData;
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 	}
@@ -670,7 +676,11 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$moduleName = $this->getModuleName();
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$table = $inventory->getTableName('data');
-		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+		if ($this->has('inventoryData')) {
+			$request = $this->get('inventoryData');
+		} else {
+			$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+		}
 		$numRow = $request->get('inventoryItemsNo');
 
 		//In Bulk mode stop triggering events

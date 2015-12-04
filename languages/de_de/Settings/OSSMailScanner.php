@@ -20,7 +20,7 @@ $languageStrings = [
 	'Drafts' => 'Drafts',
     'INBOX' => 'INBOX',
 	'Junk' => 'JUNK',
-    
+	'Sent' => "SENT",
 ];
 
 $jsLanguageStrings = [

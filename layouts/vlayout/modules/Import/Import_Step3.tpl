@@ -28,7 +28,7 @@
 			<table width="100%" cellspacing="0" cellpadding="5" id="duplicates_merge_configuration" style="display:none;">
 				<tr>
 					<td>
-						<div class="col-md-3 paddingLRZero">
+						<div class="col-md-5 paddingLRZero">
 							<span class="font-x-small">{'LBL_SPECIFY_MERGE_TYPE'|@vtranslate:$MODULE}</span>&nbsp;&nbsp;
 						</div>
 						<div class="col-md-2 paddingLRZero">

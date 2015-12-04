@@ -35,4 +35,9 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		return Vtiger_InventoryLimit_UIType::getLimits();
 	}
+
+	public function getConfig()
+	{
+		return Zend_Json::decode($this->get('params'));
+	}
 }

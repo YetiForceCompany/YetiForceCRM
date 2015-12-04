@@ -189,7 +189,7 @@
                         <select multiple id="folder_inputSent" name="folder_inputSent" class="select2 form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
-                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Sent'],$key) } selected="selected"{/if} >{$item}</option>
+                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Sent'],$key) } selected="selected"{/if} >{vtranslate($item, $QUALIFIED_MODULE)}</option>
                                 {/foreach}
                             </optgroup>
                         </select>
@@ -201,7 +201,7 @@
                         <select multiple id="folder_inputSpam" name="folder_inputSpam" class="select2 form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
-                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Spam'],$key) } selected="selected"{/if} >{$item}</option>
+                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Spam'],$key) } selected="selected"{/if} >{vtranslate($item, $QUALIFIED_MODULE)}</option>
                                 {/foreach}
                             </optgroup>
                         </select>
@@ -213,7 +213,7 @@
                         <select multiple id="folder_inputTrash" name="folder_inputTrash" class="select2 form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
-                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Trash'],$key) } selected="selected"{/if} >{$item}</option>
+                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Trash'],$key) } selected="selected"{/if} >{vtranslate($item, $QUALIFIED_MODULE)}</option>
                                 {/foreach}
                             </optgroup>
                         </select>
@@ -225,7 +225,7 @@
                         <select multiple id="folder_inputAll" name="folder_inputAll" class="select2 form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
-                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['All'],$key) } selected="selected"{/if} >{$item}</option>
+                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['All'],$key) } selected="selected"{/if} >{vtranslate($item, $QUALIFIED_MODULE)}</option>
                                 {/foreach}
                             </optgroup>
                         </select>

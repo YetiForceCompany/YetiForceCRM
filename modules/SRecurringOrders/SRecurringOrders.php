@@ -21,6 +21,7 @@ class SRecurringOrders extends Vtiger_CRMEntity
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
 	var $tab_name = Array('vtiger_crmentity', 'u_yf_srecurringorders', 'u_yf_srecurringorderscf', 'u_yf_recurring_info', 'u_yf_srecurringorders_address');
+	var $related_tables = ['u_yf_recurring_info' => ['srecurringordersid', 'u_yf_srecurringorders', 'srecurringordersid']];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
@@ -121,6 +122,14 @@ class SRecurringOrders extends Vtiger_CRMEntity
 		}
 	}
 
+	public function getJoinClause($tableName)
+	{
+		if ($tableName == 'vtiger_recurring_info') {
+			return 'LEFT JOIN';
+		}
+		return parent::getJoinClause($tableName);
+	}
+	
 	function get_emails($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = vglobal('log');

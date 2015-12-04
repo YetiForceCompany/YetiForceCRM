@@ -18,13 +18,13 @@
 			<div class="col-md-5">
 				<span class="btn-toolbar pull-right margin0px">
 					<span class="btn-group">
-						<button class="btn btn-default createModule" type="button">
+						<button class="btn btn-success createModule" type="button">
 							<strong>{vtranslate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</span>
 					{if vglobal('systemMode') != 'demo'}
 					<span class="btn-group">
-						<button class="btn btn-default" type="button" onclick='window.location.href="{$IMPORT_USER_MODULE_URL}"'>
+						<button class="btn btn-primary" type="button" onclick='window.location.href="{$IMPORT_USER_MODULE_URL}"'>
 							<strong>{vtranslate('LBL_IMPORT_ZIP', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</span>

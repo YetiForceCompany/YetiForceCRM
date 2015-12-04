@@ -112,7 +112,7 @@
 			</select>
 		</span>
 		<span class="fieldUiHolder col-md-4">
-			<input type="text" class="row" readonly="" name="fieldValue" value="" />
+			<input type="text" class="form-control" readonly="" name="fieldValue" value="" />
 			<input type="hidden" name="valuetype" value="rawtext" />
 		</span>
 		<span class="cursorPointer span">

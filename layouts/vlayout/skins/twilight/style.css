@@ -1663,16 +1663,13 @@ th.htColHeader,
 	padding: 5px;
 	margin-bottom: 2px;
 }
-.collectiveGroupMembers {
-	border: 1px solid #dddddd;
-	border-top: 0;
-}
 .collectiveGroupMembers ul {
 	padding: 0;
 	margin: 0;
 }
 .collectiveGroupMembers ul li {
 	padding: 4px 0;
+	border: 1px solid #dddddd;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -1689,8 +1686,6 @@ th.htColHeader,
 }
 .collectiveGroupMembers ul li.groupLabel {
 	background-color: #f3f3f4;
-	border-bottom: 1px solid #dddddd;
-	border-top: 1px solid #dddddd;
 	padding: 10px 5px;
 	margin: 0;
 	color: #444444;
@@ -2900,6 +2895,9 @@ table.summary-table .summaryViewEdit{
 	cursor: pointer;
 	text-decoration: none !important;
 }
+.fieldDetailsForm .zeroOpacity{
+	display: none;
+}
 .zeroOpacity {
 	opacity: 0;
 	/*for IE*/
@@ -3395,6 +3393,16 @@ span[name=existingImages] img{
 	margin: 0;
 }
 .paddingLeftMd{
+	padding-left: 15px;
+}
+.paddingBottom10{
+	padding-bottom: 10px;
+}
+.paddingRightMd{
+	padding-right: 15px;
+}
+.paddingLRMd{
+	padding-right: 15px;
 	padding-left: 15px;
 }
 .widget_header div:nth-child(2).btn-toolbar,.editViewContainer .contentHeader.row div:nth-child(2),.contentsDiv ul#tabs.nav,.marginTop20{

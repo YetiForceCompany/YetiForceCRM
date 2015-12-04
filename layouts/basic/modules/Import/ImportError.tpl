@@ -10,7 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div style="padding-left: 15px;">
+<div class='widget_header'>
+	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+</div>
+<hr>
+<div>
     <input type="hidden" name="module" value="{$FOR_MODULE}" />
     <table style=" width:90%;margin-left: 5%  " cellpadding="10" cellspacing="10" class="searchUIBasic well">
         <tr>
@@ -49,10 +53,10 @@
             <td align="right">
                 {if $CUSTOM_ACTIONS neq ''}
                     {foreach key=_LABEL item=_ACTION from=$CUSTOM_ACTIONS}
-                        <button name="{$_LABEL}" onclick="{$_ACTION}" class="create btn btn-default"><strong>{$_LABEL|@vtranslate:$MODULE}</strong></button>
+                        <button name="{$_LABEL}" onclick="{$_ACTION}" class="create btn btn-danger"><strong>{$_LABEL|@vtranslate:$MODULE}</strong></button>
                             {/foreach}
                         {/if}
-                <button name="goback" onclick="window.history.back()" class="edit btn btn-danger"><strong>{'LBL_GO_BACK'|@vtranslate:$MODULE}</strong></button>
+                <button name="goback" onclick="window.history.back()" class="edit btn btn-success"><strong>{'LBL_GO_BACK'|@vtranslate:$MODULE}</strong></button>
             </td>
         </tr>
     </table>

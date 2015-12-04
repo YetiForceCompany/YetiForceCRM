@@ -162,7 +162,7 @@ class Vtiger_Inventory_Model
 			$relationFieldValue = $recordModel->get($accountField);
 			if ($relationFieldValue != 0) {
 				$accountRecordModel = Vtiger_Record_Model::getInstanceById($relationFieldValue, 'Accounts');
-				$accountTaxs = Vtiger_Taxs_UIType::getValues($accountRecordModel->get($taxField));
+				$accountTaxs = Vtiger_Taxes_UIType::getValues($accountRecordModel->get($taxField));
 				$name = $accountRecordModel->getName();
 			}
 		}

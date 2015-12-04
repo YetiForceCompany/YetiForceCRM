@@ -11,7 +11,7 @@
 -->*}
 <div class="commentDiv cursorPointer">
 	<div class="singleComment">
-		<div class="commentInfoHeader row"  data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
+		<div class="commentInfoHeader"  data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
 			<div class="commentTitle" id="{$COMMENT->getId()}">
 				{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 				{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
@@ -36,27 +36,26 @@
 				</div>
 			</div>
 		</div>
-		<div class="row commentActionsContainer">
+		<div class="commentActionsContainer">
 			
 			{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}
-			<div class="row editedStatus"  name="editStatus">
-				<div class="row">
-					<p class="col-md-6 marginLeftZero"><small>
-					<span class="{if empty($REASON_TO_EDIT)}hide{/if} col-md-6 marginLeftZero editReason">
-						[ {vtranslate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span>
-					</span>
-					</small></p>
-					{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-						<span class="{if empty($REASON_TO_EDIT)}row{else} col-md-6{/if}">
-							<span class="pull-right">
-								<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small></p>
-							</span>
+			<div class="editedStatus"  name="editStatus">
+				<p class="col-md-6 marginLeftZero">
+					<small>
+						<span class="{if empty($REASON_TO_EDIT)}hide{/if} marginLeftZero editReason">
+							[ {vtranslate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span>
 						</span>
-					{/if}
-					
-				</div>
+					</small>
+				</p>
+				{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
+					<span class="{if empty($REASON_TO_EDIT)}row{else} col-md-6 paddingRightZero{/if}">
+						<span class="pull-right">
+							<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small></p>
+						</span>
+					</span>
+				{/if}
 			</div>
-			<div class="row commentActionsDiv">
+			<div class="commentActionsDiv">
 				{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
 					<span class="pull-right commentActions">
 						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}

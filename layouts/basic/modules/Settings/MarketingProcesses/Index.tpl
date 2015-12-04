@@ -42,8 +42,8 @@
 				<div class="mappingTable{if $CONVERSION['create_always']!='true'} hide{/if}">
 					<br>
 					<input class="configField" type="hidden" data-type="conversion" name="mapping" value="">
-					<div class="">
-						<button id="addMapping" class="btn btn-default addButton" type="button">
+					<div class="paddingBottom10">
+						<button id="addMapping" class="btn btn-success addButton" type="button">
 							<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate('LBL_CONDITION', $QUALIFIED_MODULE)}</strong>
 						</button>
 						<button id="addMapping" class="pull-right btn btn-success saveMapping" type="button">

@@ -59,7 +59,7 @@
 								</div>
 								<div class="commentActionsContainer">
 									{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}
-									<div class="row editStatus"  name="editStatus">
+									<div class="{if !empty($REASON_TO_EDIT)}row {/if}}editStatus"  name="editStatus">
 										<span class="col-md-6{if empty($REASON_TO_EDIT)} hide{/if}">
 											<p class="muted">
 												<small>
