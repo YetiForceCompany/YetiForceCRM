@@ -311,6 +311,9 @@ $languageStrings = [
 	'PLL_CANCELLED' => 'Anulowane',
 	'PLL_COMPLETED' => 'Wykonane',
 	'LBL_SELECT_LAYOUT' => 'Wybierz układ',
+	'LBL_SWITCH' => 'Przełącz',
+	'LBL_SWITCH_USER' => 'Przełącz na użytkownika',
+	'LBL_SWITCH_TO_YOURSELF' => 'Przełącz na siebie',
 ];
 
 $jsLanguageStrings = [

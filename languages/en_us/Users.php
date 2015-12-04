@@ -313,6 +313,9 @@ $languageStrings = [
 	'PLL_POSTPONED' => 'Postponed',
 	'PLL_CANCELLED' => 'Cancelled',
 	'PLL_COMPLETED' => 'Completed',
+	'LBL_SWITCH' => 'Switch',
+	'LBL_SWITCH_USER' => 'Switch user',
+	'LBL_SWITCH_TO_YOURSELF' => 'Switch to yourself',
 ];
 
 $jsLanguageStrings = [

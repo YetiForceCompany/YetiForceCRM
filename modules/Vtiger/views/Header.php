@@ -82,56 +82,17 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
 			'glyphicon' => 'glyphicon glyphicon-off',
 		];
-
-		require('user_privileges/switchUsers.php');
-		$baseUserId = $userModel->getId();
-		if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {
-			$baseUserId = Vtiger_Session::get('baseUserId');
-		}
-
-		if (key_exists($baseUserId, $switchUsers)) {
-			$childlinks = [];
-			if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {
-				$entityData = Vtiger_Functions::getEntityModuleInfo('Users');
-				$user = new Users();
-				$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
-				$colums = [];
-				foreach (explode(',', $entityData['fieldname']) as $fieldname) {
-					$colums[] = $currentUser->column_fields[$fieldname];
-				}
-				$userName = implode(' ', $colums);
-				$childlinks[] = [
-					'linktype' => 'HEADERLINK',
-					'linklabel' => $userName,
-					'linkurl' => '?module=Users&action=SwitchUsers&id=' . $baseUserId,
-					'linkicon' => '',
-				];
-				$childlinks[] = [
-					'linktype' => 'HEADERLINK',
-					'linklabel' => NULL,
-				];
-			}
-			foreach ($switchUsers[$baseUserId] as $userid => $userName) {
-				if ($userid != $baseUserId) {
-					$childlinks[] = [
-						'linktype' => 'HEADERLINK',
-						'linklabel' => $userName,
-						'linkurl' => '?module=Users&action=SwitchUsers&id=' . $userid,
-						'linkicon' => '',
-					];
-				}
-			}
-			$customHeaderLinks = [
+		
+		if (Users_Module_Model::getSwitchUsers()) {
+			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'SwitchUsers',
 				'linkurl' => '',
 				'glyphicon' => 'glyphicon glyphicon-transfer',
 				'nocaret' => true,
-				'childlinks' => $childlinks
+				'linkdata' => ['url' => $userModel->getSwitchUsersUrl()],
+				'linkclass' => 'showModal',
 			];
-			if(count($childlinks)){
-				array_push($headerLinks, $customHeaderLinks);
-			}
 		}
 		$headerLinkInstances = [];
 		foreach ($headerLinks as $headerLink) {
