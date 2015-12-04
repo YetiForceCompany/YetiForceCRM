@@ -23,7 +23,7 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View {
 		$moduleName = $request->getModule();
 
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 

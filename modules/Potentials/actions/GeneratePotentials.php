@@ -13,7 +13,7 @@ class Potentials_GeneratePotentials_Action extends Vtiger_Action_Controller {
 	public function checkPermission(Vtiger_Request $request) {
 		$recordPermission = Users_Privileges_Model::isPermitted('Potentials', 'EditView');
 		if(!$recordPermission) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 

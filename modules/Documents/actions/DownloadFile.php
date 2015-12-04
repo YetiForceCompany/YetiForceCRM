@@ -14,7 +14,7 @@ class Documents_DownloadFile_Action extends Vtiger_Action_Controller {
 		$moduleName = $request->getModule();
 
 		if(!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', $moduleName));
+			throw new NoPermittedToRecordException(vtranslate('LBL_PERMISSION_DENIED', $moduleName));
 		}
 	}
 

@@ -1,23 +1,39 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Campaigns_DetailAjax_Action extends Vtiger_BasicAjax_Action {
+class Campaigns_DetailAjax_Action extends Vtiger_BasicAjax_Action
+{
 
-	public function __construct() {
+	public function checkPermission(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+
+		if (!$permission) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
+	}
+
+	public function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('getRecordsCount');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$mode = $request->get('mode');
-		if(!empty($mode)) {
+		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;
 		}
@@ -28,7 +44,8 @@ class Campaigns_DetailAjax_Action extends Vtiger_BasicAjax_Action {
 	 * @param <Vtiger_Request> $request
 	 * @return <Number> Number of record from this relation
 	 */
-	public function getRecordsCount(Vtiger_Request $request) {
+	public function getRecordsCount(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
 		$parentId = $request->get('record');
@@ -36,7 +53,7 @@ class Campaigns_DetailAjax_Action extends Vtiger_BasicAjax_Action {
 
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
-		$count =  $relationListView->getRelatedEntriesCount();
+		$count = $relationListView->getRelatedEntriesCount();
 		$result = array();
 		$result['module'] = $moduleName;
 		$result['viewname'] = $cvId;

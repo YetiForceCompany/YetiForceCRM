@@ -9,14 +9,16 @@
 class SRequirementsCards_UpdateStatus_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$recordId = $request->get('record');
 
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'Save', $record)) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId);
+		if (!$recordPermission) {
+			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
+		return true;
 	}
 
 	public function process(Vtiger_Request $request)

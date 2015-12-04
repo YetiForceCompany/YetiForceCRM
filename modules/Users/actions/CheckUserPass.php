@@ -2,9 +2,12 @@
 
 class Users_CheckUserPass_Action extends Vtiger_Action_Controller {
 
-    public function checkPermission(Vtiger_Request $request) {
-        return;
-    }
+	function checkPermission(Vtiger_Request $request) {
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		if(!$currentUser->isAdminUser()) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
+	}
 
     public function process(Vtiger_Request $request) {
         

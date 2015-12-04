@@ -16,7 +16,7 @@ class Rss_MakeDefaultAjax_Action extends Vtiger_Action_Controller {
 
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPrivilegesModel->isPermitted($moduleName, 'ListView', $record)) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 
