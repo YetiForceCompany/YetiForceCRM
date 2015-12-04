@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -4739,6 +4740,7 @@ CREATE TABLE `vtiger_module_dashboard` (
   `limit` tinyint(2) DEFAULT NULL,
   `isdefault` tinyint(1) NOT NULL DEFAULT '0',
   `owners` varchar(100) DEFAULT NULL,
+  `cache` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `vtiger_module_dashboard_ibfk_1` (`blockid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4769,6 +4771,7 @@ CREATE TABLE `vtiger_module_dashboard_widgets` (
   `active` tinyint(1) DEFAULT '0',
   `owners` varchar(100) DEFAULT NULL,
   `module` int(10) DEFAULT '0',
+  `cache` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `vtiger_module_dashboard_widgets_ibfk_1` (`templateid`),
   CONSTRAINT `vtiger_module_dashboard_widgets_ibfk_1` FOREIGN KEY (`templateid`) REFERENCES `vtiger_module_dashboard` (`id`) ON DELETE CASCADE

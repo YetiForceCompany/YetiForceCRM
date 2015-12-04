@@ -18,7 +18,6 @@
 				    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 				    &nbsp;{vtranslate('LBL_PASSWORD_DESCRIPTION', $QUALIFIED_MODULE)}</div>
 			</div>
-			<hr>
 			<table class="table table-bordered table-condensed themeTableColor">
 				<thead>
 					<tr class="blockHeader"><th colspan="2" class="mediumWidthType">{vtranslate('LBL_Password_Header', $QUALIFIED_MODULE)}</th></tr>

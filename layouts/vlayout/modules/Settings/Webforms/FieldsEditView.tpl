@@ -55,7 +55,7 @@
 						</span>
 						<span class="col-md-2">
 							<span class="pull-right">
-								<button type="button" id="saveFieldsOrder" class="btn btn-success" disabled="disabled">{vtranslate('LBL_SAVE_FIELDS_ORDER', $MODULE)}</button>
+								<button type="button" id="saveFieldsOrder" class="btn btn-success" disabled="disabled">{vtranslate('LBL_SAVE_FIELDS_ORDER', $QUALIFIED_MODULE)}</button>
 							</span>
 						</span>
 					</span>

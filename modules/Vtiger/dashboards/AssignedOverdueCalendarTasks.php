@@ -23,6 +23,7 @@ class Vtiger_AssignedOverdueCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$linkId = $request->get('linkid');
 		$sortOrder = $request->get('sortorder');
 		$orderBy = $request->get('orderby');
+		$data = $request->getAll();
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
@@ -51,6 +52,7 @@ class Vtiger_AssignedOverdueCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$viewer->assign('HREFNAMELENGHT', $href_max_length);
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_OVERDUE_ACTIVITIES');
 		$viewer->assign('OWNER', $owner);
+		$viewer->assign('DATA', $data);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

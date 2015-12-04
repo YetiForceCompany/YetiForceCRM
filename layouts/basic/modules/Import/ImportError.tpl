@@ -10,10 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class='widget_header'>
-	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+<div class='widget_header row '>
+	<div class="col-xs-12">
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	</div>
 </div>
-<hr>
 <div>
     <input type="hidden" name="module" value="{$FOR_MODULE}" />
     <table style=" width:90%;margin-left: 5%  " cellpadding="10" cellspacing="10" class="searchUIBasic well">

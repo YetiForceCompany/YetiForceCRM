@@ -24,11 +24,11 @@ $languageStrings = [
 	'UserId' => 'Пользователь',
 	'Customer' => 'Клиент',
 	//Email notifications
-	'LBL_ADDED_COMMENT_TO_TICKET' => 'Added a comment to the ticket',
-	'LBL_NEW_COMMENT_FOR_TICKET' => 'A comment was added to the ticket, the content of the comment can be found below',
-	'LBL_NOTICE_WELCOME' => 'Welcome to platform',
-	'LBL_NOTICE_FOOTER' => 'If you don\'t want to receive any notifications from our project management system, please inform us by sending an email to <a href="mailto:help@yetiforce.com" target="_blank">help@yetiforce.com</a>. If you are not an addressee of this message, please notify us about it and delete the message.',
-	'LBL_NOTICE_CREATED' => 'It was created by',
+	'LBL_ADDED_COMMENT_TO_TICKET' => 'Добавлен комментарий к заявке',
+	'LBL_NEW_COMMENT_FOR_TICKET' => 'Добавлен комментарий к заявке, содержание комментария, можно найти ниже',
+	'LBL_NOTICE_WELCOME' => 'Добро пожаловать в систему',
+	'LBL_NOTICE_FOOTER' => 'Если вы не хотите получать уведомления от нашей системы управления проектами, пожалуйста, сообщите нам, отправив письмо на <a href=\"mailto:help@yetiforce.com\">help@yetiforce.com</a>. Если вы не являетесь адресатом этого сообщения, пожалуйста, сообщите нам об этом и удалить сообщение.',
+	'LBL_NOTICE_CREATED' => 'Успешно',
 ];
 $jsLanguageStrings = [
 ];

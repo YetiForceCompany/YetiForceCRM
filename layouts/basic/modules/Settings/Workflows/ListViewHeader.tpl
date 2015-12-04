@@ -37,7 +37,6 @@
                 </b>
             </div>
 		</div>
-        <hr>
 		<div class="listViewActionsDiv row">
 			<div class="col-md-4 btn-toolbar">
 				<button class="btn btn-default addButton" {if stripos($MODULE_MODEL->getCreateViewUrl(), 'javascript:')===0} onclick="{$MODULE_MODEL->getCreateViewUrl()|substr:strlen('javascript:')};"

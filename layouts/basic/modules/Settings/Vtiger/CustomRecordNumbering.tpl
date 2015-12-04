@@ -11,15 +11,12 @@
 {strip}
 <div class="">
     <form id="EditView" method="POST">
-        <div class="">
-            <span class="widget_header">
-                <div class="">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		<div class='widget_header row '>
+			<div class="col-xs-12">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			</div>
 			<span style="font-size:12px;color: black;">{vtranslate('LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION', $QUALIFIED_MODULE)}</span>
 		</div>
-            </span>
-        </div>
-        <hr>
         <div class="row">
             <div class="col-md-12">
                 <table id="customRecordNumbering" class="table table-bordered">

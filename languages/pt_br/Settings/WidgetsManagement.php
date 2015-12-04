@@ -32,6 +32,7 @@ $languageStrings = [
 	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Por favor, selecione pelo menos uma opção',
 	'LBL_VIEW_CONFIGURATION' => 'Exibir Configuração',
 	'LBL_WIDGET_ADDED' => 'O Widget foi adicionado com sucesso no bloco',
+	'LBL_CACHE_WIDGET' => 'Cache',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'O bloco foi adicionado com sucesso',

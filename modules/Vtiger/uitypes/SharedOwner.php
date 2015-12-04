@@ -69,7 +69,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{
-		if ($record === false) {
+		if ($record == false) {
 			return [];
 		}
 		$db = PearDatabase::getInstance();

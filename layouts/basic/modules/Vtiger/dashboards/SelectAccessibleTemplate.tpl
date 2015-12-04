@@ -16,7 +16,7 @@
 {/if}
 <select class="widgetFilter width90 owner form-control input-sm" name="owner" title="{vtranslate('LBL_OWNER')}">
 	{if array_key_exists( $CURRENTUSER->getId(), $ACCESSIBLE_USERS ) && in_array('mine', $ACCESS_OPTIONS.available)}
-		<option value="{$CURRENTUSER->getId()}" data-name="{$CURRENTUSER->getName()}" title="{vtranslate('LBL_MINE')}" {if $OWNER eq 'mine'} selected {/if}>{vtranslate('LBL_MINE')}</option>
+		<option value="{$CURRENTUSER->getId()}" data-name="{$CURRENTUSER->getName()}" title="{vtranslate('LBL_MINE')}" {if $OWNER eq $CURRENTUSER->getId()} selected {/if}>{vtranslate('LBL_MINE')}</option>
 	{/if}
 	{if array_key_exists( $CURRENTUSER->getId(), $ACCESSIBLE_USERS ) && in_array('all', $ACCESS_OPTIONS.available)}
 		<option value="all" {if $OWNER eq 'all'} data-name="" title="{vtranslate('LBL_ALL')}" selected {/if}>{vtranslate('LBL_ALL')}</option>

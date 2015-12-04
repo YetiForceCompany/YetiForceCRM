@@ -234,6 +234,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 							paramsForm['width'] = form.find('[name="width"]').val();
 							if (form.find('[name="isdefault"]').prop("checked"))
 								paramsForm['isdefault'] = 1;
+							if (form.find('[name="cache"]').prop("checked"))
+								paramsForm['cache'] = 1;
 							if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] == 'undefined') {
 								var result = app.vtranslate('JS_FIELD_EMPTY');
 								form.find('select[name="owners_all"]').prev('div').validationEngine('showPrompt', result, 'error', 'bottomLeft', true);
@@ -326,6 +328,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		if (result['isdefault']) {
 			form.find('[name="isdefault"]').filter(':checkbox').attr('checked', true);
 		}
+		if (result['cache']) {
+			form.find('[name="cache"]').filter(':checkbox').attr('checked', true);
+		}
 		if (result['width']) {
 			form.find('select[name="width"]').find('option').removeAttr('selected');
 			form.find('select[name="width"]').find('option[value="' + result['width'] + '"]').attr('selected', 'selected');
@@ -371,6 +376,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 							paramsForm = form.serializeFormData();
 							if (form.find('[name="isdefault"]').prop("checked"))
 								paramsForm['isdefault'] = 1;
+							if (form.find('[name="cache"]').prop("checked"))
+								paramsForm['cache'] = 1;
 							var id = form.find('.saveFieldDetails').data('field-id');
 							paramsForm['action'] = 'saveDetails';
 							paramsForm['id'] = id;
@@ -389,12 +396,11 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					}
 			dropDownMenu.find('form').validationEngine(params);
 
-			//handled registration of chosen for select element
+			//handled registration of selectize for select element
 			var selectElements = basicDropDown.find('select[name="owners_all"]');
 			if (selectElements.length > 0) {
-				users = dropDownMenu.find('select[name="owners_all"]');
-				users.addClass('chzn-select');
-				app.changeSelectElementView(users);
+				var users = dropDownMenu.find('select[name="owners_all"]');
+				app.showSelectizeElementView(users);
 			}
 
 
@@ -452,7 +458,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		var fieldRow = submitButtton.closest('.editFieldsWidget');
 		fieldRow.addClass('opacity');
 		var dropDownMenu = form.closest('.dropdown-menu');
-		app.destroyChosenElement(form);
+		app.destroySelectizeElement(form)
 		form.find('select').each(function () {
 			var selectedvalue = jQuery(this).val();
 			jQuery(this).find('option').removeAttr('selected');
@@ -635,6 +641,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			paramsForm['name'] = 'Mini List';
 			paramsForm['filterid'] = filterid;
 			paramsForm['isdefault'] = 0;
+			paramsForm['cache'] = 0;
 			paramsForm['height'] = 3;
 			paramsForm['width'] = 4;
 			paramsForm['owners_all'] = ["mine", "all", "users", "groups"];

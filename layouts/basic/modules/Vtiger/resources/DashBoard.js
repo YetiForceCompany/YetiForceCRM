@@ -99,14 +99,20 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		var mode = widgetContainer.data('mode');
 		widgetContainer.progressIndicator();
 		if (mode == 'open') {
+			var name = widgetContainer.data('name');
+			var cache = widgetContainer.data('cache');
+			var userId = app.getMainParams('current_user_id');
+			if (cache == 1) {
+				var cecheUrl = app.cacheGet(name + userId, false);
+				urlParams = cecheUrl ? cecheUrl : urlParams;
+			}
 			AppConnector.request(urlParams).then(
 					function (data) {
 						widgetContainer.html(data);
-
 						var headerHeight = widgetContainer.find('.dashboardWidgetHeader').height() + 15;
 						var adjustedHeight = widgetContainer.height() - headerHeight;
 						app.showScrollBar(widgetContainer.find('.dashboardWidgetContent'), {'height': adjustedHeight});
-						var widgetInstance = thisInstance.getWidgetInstance(widgetContainer);
+						thisInstance.getWidgetInstance(widgetContainer);
 						widgetContainer.trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
 					},
 					function () {
@@ -142,7 +148,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var widgetName = parent.data('name');
 			var widgetTitle = parent.find('.dashboardTitle').attr('title');
 
-			var message = app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET') + "[" + widgetTitle + "]. " + app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
+			var message = app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET') + " [" + widgetTitle + "]. " + app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
 					function (e) {
 						AppConnector.request(url).then(

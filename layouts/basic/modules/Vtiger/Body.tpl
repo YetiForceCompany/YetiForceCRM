@@ -11,7 +11,7 @@
 			<div class="leftPanel noSpaces">
 				{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Desktop}
 			</div>
-			<div class="basePanel noSpaces">
+			<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
 				{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
 				{include file='BodyContent.tpl'|@vtemplate_path:$MODULE}
 {/strip}

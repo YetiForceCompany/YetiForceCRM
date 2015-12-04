@@ -31,6 +31,8 @@ Class Settings_Users_Edit_View extends Users_PreferenceEdit_View {
 	
 	public function preProcess(Vtiger_Request $request) {
 		parent::preProcess($request, false);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('IS_PREFERENCE', false);
 		$this->preProcessSettings($request);
 	}
 

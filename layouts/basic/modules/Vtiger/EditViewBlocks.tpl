@@ -11,9 +11,7 @@
 -->*}
 {strip}
     <div class='editViewContainer'>
-		<div class='col-md-8 row'>
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-		</div>
+		
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
             {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
             {if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
@@ -47,15 +45,21 @@
                 <input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
                 <input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
             {/if}
-            <div class="contentHeader">
-                {assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
-                <span class="pull-right">
-                    <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong></button>&nbsp;&nbsp;
-                    <button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong></button>
-				</span>
-				<div class="clearfix"></div>
-            </div>
-			<hr>
+			<div class='widget_header row'>
+				<div class="col-md-8">
+					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				</div>
+				<div class="col-md-4">
+					<div class="contentHeader">
+						{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
+						<span class="pull-right">
+							<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong></button>&nbsp;&nbsp;
+							<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong></button>
+						</span>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
             {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
             {if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 			{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}

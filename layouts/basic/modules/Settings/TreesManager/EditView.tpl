@@ -20,10 +20,11 @@
 	<input type="hidden" id="access" value="{$ACCESS}" />
 	<input type="hidden" name="tree" id="treeValues" value='{Vtiger_Util_Helper::toSafeHTML($TREE)}' />
 	<input type="hidden" name="replace" id="replaceIds" value="" />
-	<div class="widget_header">
-		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	<div class='widget_header row '>
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
 	</div>
-	<hr>
 	<div class="row">
 		<label class="col-md-3"><strong><span class="redColor">*</span>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}: </strong></label>
 		<div class="col-md-4">

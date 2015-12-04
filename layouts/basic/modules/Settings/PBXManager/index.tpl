@@ -24,7 +24,6 @@
 			</div>
 		</div>
 		<div class='clearfix'></div>
-		<hr>
 		<div class="contents">
 			<table class="table table-bordered table-condensed themeTableColor">
 				<thead>

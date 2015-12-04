@@ -22,8 +22,7 @@
 						<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a> 
 					</div>
 				</div> 
-			</div> 
-			<hr> 
+			</div>
 			<input type="hidden" name="module" value="Profiles" />
 			<input type="hidden" name="action" value="Save" />
 			<input type="hidden" name="parent" value="Settings" />

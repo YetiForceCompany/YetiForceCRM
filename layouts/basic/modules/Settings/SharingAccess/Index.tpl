@@ -18,7 +18,6 @@
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" class="dependentModules" value='{ZEND_JSON::encode($DEPENDENT_MODULES)}' />
 			
-			<div>
 				<div class="widget_header row">
 					<div class="col-md-8">
 					    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -27,8 +26,6 @@
 						<button class="btn btn-success pull-right hide" type="submit" name="saveButton"><strong>{vtranslate('LBL_APPLY_NEW_SHARING_RULES', $QUALIFIED_MODULE)}</strong></button>
 					</div>
 				</div>
-				<hr>
-			</div>
 				<table class="table tableRWD table-bordered table-condensed sharingAccessDetails">
 					<colgroup>
 						<col width="20%">

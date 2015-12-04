@@ -6,11 +6,12 @@
 {/if}
 <input type="hidden" id="view" value="{$VIEW}" />
 <div class="" id="inventory">
-	<div class="widget_header">
-		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-		{vtranslate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
+	<div class="widget_header row">
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{vtranslate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
+		</div>
 	</div>
-	<hr>
 	<div class="contents row">
 		<div class="col-md-12">
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}

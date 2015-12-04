@@ -11,8 +11,11 @@
 -->*}
 {strip}
 <div class=" listViewPageDiv">
-	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-	<hr>
+	<div class='widget_header row '>
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
+	</div>
 	<div class="listViewActionsDiv row" style="margin-bottom: 2px;">
 		<div class="col-md-4 btn-toolbar">
             <span class="btn-group listViewMassActions">

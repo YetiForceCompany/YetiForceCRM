@@ -25,10 +25,10 @@ $languageStrings = [
 	'MEN_PRODUCTBASE' => 'База товаров',
 	'MEN_LISTS' => 'Список',
 	'MEN_SERVICESBASE' => 'База услуг',
-	'MEN_SALE_PROCESSES' => 'Sale processes',
+	'MEN_SALE_PROCESSES' => 'Процессы продаж',
 	'Menu' => 'Меню',
 	
 	// profile type
-	'LBL_CHANGE_LOGIN_PASSWORD' => 'Changing the login password',
-	'LBL_CHANGE' => 'Change',
+	'LBL_CHANGE_LOGIN_PASSWORD' => 'Изменить логин и пароль',
+	'LBL_CHANGE' => 'Изменить',
 ];

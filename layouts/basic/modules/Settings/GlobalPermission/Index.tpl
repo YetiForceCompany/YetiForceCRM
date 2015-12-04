@@ -17,7 +17,6 @@
 		</div>
 		<div class="col-md-2"></div>
 	</div>
-	<hr>
 	<div class="">
 		<table class="table table-bordered table-condensed listViewEntriesTable">
 			<thead>

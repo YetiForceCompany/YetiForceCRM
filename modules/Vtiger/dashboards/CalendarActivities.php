@@ -17,6 +17,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
+		$data = $request->getAll();
 
 		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();
 
@@ -24,9 +25,11 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$linkId = $request->get('linkid');
 		$sortOrder = $request->get('sortorder');
 		$orderBy = $request->get('orderby');
-		$params = ['status' => $stateActivityLabels['in_realization']];
 		if ($request->get('switchParams')) {
 			$params = ['status' => $request->get('switchParams')];
+		} else {
+			$data['switchParams'] = $stateActivityLabels['in_realization'];
+			$params = ['status' => $stateActivityLabels['in_realization']];
 		}
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
@@ -65,6 +68,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('NODATAMSGLABLE', $msgLabel);
 		$viewer->assign('SWITCH', $switchLabels);
 		$viewer->assign('LISTVIEWLINKS', true);
+		$viewer->assign('DATA', $data);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

@@ -32,6 +32,7 @@ $languageStrings = [
 	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Необходимо выбрать, как минимум 1 пункт',
 	'LBL_VIEW_CONFIGURATION' => 'Настройка вида',
 	'LBL_WIDGET_ADDED'	=>	'Виджет успешно добавлен',
+	'LBL_CACHE_WIDGET' => 'Cache',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED'	=>	'Блок Виджетов успешно добавлен',
