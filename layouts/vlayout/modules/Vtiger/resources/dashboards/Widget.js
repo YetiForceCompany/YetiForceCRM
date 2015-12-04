@@ -35,10 +35,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 	plotContainer: false,
 	plotInstance: false,
 	chartData: [],
+	paramCache: false,
 	init: function (container) {
 		this.setContainer(jQuery(container));
 		this.registerWidgetPostLoadEvent(container);
 		this.registerWidgetPostRefreshEvent(container);
+		this.registerCache(container);
 	},
 	getContainer: function () {
 		return this.container;
@@ -156,16 +158,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerSectionClick();
 		this.registerLoadMore();
 	},
-	/**
-	 * Change of widget entries sorting
-	 * @license licenses/License.html
-	 * @package YetiForce.Dashboards
-	 * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
-	 */
-	registerChangeSorting: function () {
-		var container = this.getContainer();
-		container.find('.changeRecordSort').click(function (e) {
-			var currentElement = jQuery(e.currentTarget);
+	setSortingButton: function (currentElement) {
+		if (currentElement.length) {
+			var container = this.getContainer();
 			var drefresh = container.find('a[name="drefresh"]');
 			var url = drefresh.data('url');
 			url = url.replace('&sortorder=desc', '');
@@ -185,12 +180,44 @@ jQuery.Class('Vtiger_Widget_Js', {
 			var glyphicon = currentElement.find('.glyphicon');
 			glyphicon.removeClass().addClass('glyphicon').addClass(icon);
 			drefresh.data('url', url);
+		}
+	},
+	/**
+	 * Change of widget entries sorting
+	 * @license licenses/License.html
+	 * @package YetiForce.Dashboards
+	 * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+	 */
+	registerChangeSorting: function () {
+		var thisInstance = this;
+		var container = this.getContainer();
+		thisInstance.setSortingButton(container.find('.changeRecordSort'));
+		container.find('.changeRecordSort').click(function (e) {
+			var drefresh = container.find('a[name="drefresh"]');
+			thisInstance.setSortingButton(jQuery(e.currentTarget));
 			drefresh.click();
 		});
 	},
 	registerWidgetSwitch: function () {
-		$('.dashboardContainer .widget_header .switchBtnReload').on('switchChange.bootstrapSwitch', function (e, state) {
+		var thisInstance = this;
+		var switchButtons = this.getContainer().find('.dashboardWidgetHeader .widget_header .switchBtnReload');
+		thisInstance.setUrlSwitch(switchButtons);
+		switchButtons.on('switchChange.bootstrapSwitch', function (e, state) {
 			var currentElement = jQuery(e.currentTarget);
+			var dashboardWidgetHeader = currentElement.closest('.dashboardWidgetHeader');
+			var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
+			thisInstance.setUrlSwitch(currentElement).then(function (data) {
+				if (data) {
+					drefresh.click();
+				}
+			});
+		});
+	},
+	setUrlSwitch: function (switchButtons) {
+		var aDeferred = jQuery.Deferred();
+		switchButtons.each(function (index, e) {
+			var currentElement = jQuery(e);
 			var dashboardWidgetHeader = currentElement.closest('.dashboardWidgetHeader');
 			var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
 			var url = drefresh.data('url');
@@ -202,19 +229,23 @@ jQuery.Class('Vtiger_Widget_Js', {
 				url = url.replace('&' + urlparams + '=' + onval, '');
 				url = url.replace('&' + urlparams + '=' + offval, '');
 				url += '&' + urlparams + '=';
-				if (state)
+				if (currentElement.prop('checked'))
 					url += onval;
 				else
 					url += offval;
 				drefresh.data('url', url);
-				drefresh.click();
+				aDeferred.resolve(true);
+			} else {
+				aDeferred.reject();
 			}
 		});
+		return aDeferred.promise();
 	},
 	getFilterData: function () {
 		return {};
 	},
 	refreshWidget: function () {
+		var thisInstance = this;
 		var parent = this.getContainer();
 		var element = parent.find('a[name="drefresh"]');
 		var url = element.data('url');
@@ -265,10 +296,17 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var refreshContainer = parent.find('.dashboardWidgetContent');
 		refreshContainer.html('');
 		refreshContainer.progressIndicator();
+
+		if (this.paramCache) {
+			thisInstance.setFilterToCache(params.url, params.data);
+		}
+
 		AppConnector.request(params).then(
 				function (data) {
+
 					refreshContainer.progressIndicator({'mode': 'hide'});
 					contentContainer.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
+
 				},
 				function () {
 					refreshContainer.progressIndicator({'mode': 'hide'});
@@ -342,8 +380,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 			if (parent.find("[name='type']").length > 0) {
 				url += '&type=' + type;
 			}
-			if(parent.find('.changeRecordSort').length > 0){
-				url += '&sortorder='+parent.find('.changeRecordSort').data('sort');
+			if (parent.find('.changeRecordSort').length > 0) {
+				url += '&sortorder=' + parent.find('.changeRecordSort').data('sort');
 			}
 			contentContainer.progressIndicator();
 			AppConnector.request(url).then(function (data) {
@@ -352,6 +390,25 @@ jQuery.Class('Vtiger_Widget_Js', {
 				element.parent().remove();
 			});
 		});
+	},
+	setFilterToCache: function (url, data) {
+		var paramCache = url;
+		var container = this.getContainer();
+		paramCache = paramCache.replace('&content=', '&notcontent=');
+		for (var i in data) {
+			if (typeof data[i] == 'object') {
+				data[i] = JSON.stringify(data[i]);
+			}
+			paramCache += '&' + i + '=' + data[i];
+		}
+		var userId = app.getMainParams('current_user_id');
+		var name = container.data('name');
+		app.cacheSet(name + userId, paramCache);
+	},
+	registerCache: function (container) {
+		if (container.data('cache') == 1) {
+			this.paramCache = true;
+		}
 	}
 });
 
@@ -969,12 +1026,18 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		var explodedTime = defaultFirstHour.split(':');
 		defaultFirstHour = explodedTime['0'];
 
+		var defaultDate = app.getMainParams('defaultDate');
+		if (this.paramCache && defaultDate != moment().format('YYYY-MM-DD')) {
+			defaultDate = moment(defaultDate).format('D') == 1 ? moment(defaultDate) : moment(defaultDate).add(1, 'M');
+		}
+
 		thisInstance.getCalendarView().fullCalendar({
 			header: {
 				left: ' ',
 				center: 'prev title next',
 				right: ' '
 			},
+			defaultDate: defaultDate,
 			timeFormat: userDefaultTimeFormat,
 			axisFormat: userDefaultTimeFormat,
 			firstHour: defaultFirstHour,
@@ -1070,6 +1133,13 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		if (parent.find('.widgetFilterSwitch').length > 0) {
 			params.time = parent.find('.widgetFilterSwitch').val();
 		}
+		if (this.paramCache) {
+			var drefresh = this.getContainer().find('a[name="drefresh"]');
+			var url = drefresh.data('url');
+			var paramCache = {owner: user, status: parent.find('.status').val(), start: start_date};
+			thisInstance.setFilterToCache(url, paramCache);
+		}
+
 		AppConnector.request(params).then(function (events) {
 			var height = (thisInstance.getCalendarView().find('.fc-bg :first').height() - thisInstance.getCalendarView().find('.fc-day-number').height()) - 10;
 			var width = (thisInstance.getCalendarView().find('.fc-day-number').width() / 2) - 10;
@@ -1107,17 +1177,17 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		var thisInstance = this;
 		var month = thisInstance.getCalendarView().find('.fc-toolbar h2').text();
 		if (month) {
-			headerCalendar = container.find('.headerCalendar .month').html('<h3>' + month + '</h3>');
+			this.getContainer().find('.headerCalendar .month').html('<h3>' + month + '</h3>');
 		}
 	},
 	registerChangeView: function () {
 		var thisInstance = this;
-		container = this.getContainer();
+		var container = this.getContainer();
 		container.find('.fc-toolbar').addClass('hide');
 		var month = container.find('.fc-toolbar h2').text();
 		if (month) {
-			headerCalendar = container.find('.headerCalendar').removeClass('hide').find('.month').append('<h3>' + month + '</h3>');
-			button = container.find('.headerCalendar button');
+			var headerCalendar = container.find('.headerCalendar').removeClass('hide').find('.month').append('<h3>' + month + '</h3>');
+			var button = container.find('.headerCalendar button');
 			button.each(function () {
 				var tag = jQuery(this).data('type');
 				jQuery(this).on('click', function () {

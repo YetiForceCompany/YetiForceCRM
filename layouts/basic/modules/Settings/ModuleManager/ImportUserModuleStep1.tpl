@@ -11,9 +11,12 @@
 -->*}
 {strip}
 	<div class="" id="importModules">
-		<div class="widget_header">
-			<h3>{vtranslate('LBL_IMPORT_MODULE_FROM_FILE', $QUALIFIED_MODULE)}</h3>
-		</div><hr>
+		<div class="widget_header row">
+			<div class="col-xs-12">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{vtranslate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
+			</div>
+		</div>
 		{assign var=MAXUPLOADSIZE value=Vtiger_Functions::getMaxUploadSize()}
 		{if $MAXUPLOADSIZE < 5242880}
 			<div class="alert alert-block alert-danger fade in">

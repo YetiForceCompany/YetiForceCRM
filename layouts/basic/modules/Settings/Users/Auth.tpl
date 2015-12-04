@@ -17,7 +17,6 @@
 		    {vtranslate('LBL_AUTHORIZATION_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
-	<hr>
 	<div>
 		<div class="contents tabbable">
 			<ul class="nav nav-tabs layoutTabs massEditTabs">

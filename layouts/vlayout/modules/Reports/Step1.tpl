@@ -91,7 +91,7 @@
 					</div>
 				</div>
 				<div id="scheduleBox" class='well contentsBackground {if $SCHEDULEDREPORTS->get('scheduleid') eq ''} hide {/if}'>
-					<div class='row'>
+					<div class='row' style='padding:5px 0px;'>
 						<div class='col-md-3' style='position:relative;top:5px;'>{vtranslate('LBL_RUN_REPORT', $MODULE)}</div>
 						<div class='col-md-4'>
 							{assign var=scheduleid value=$SCHEDULEDREPORTS->get('scheduleid')}
@@ -138,15 +138,13 @@
                         <div class='row {if $scheduleid neq 5} hide {/if}' id='scheduleByDate' style="padding:5px 0px;">
                             <div class='col-md-3' style='position:relative;top:5px;'>{vtranslate('LBL_CHOOSE_DATE', $MODULE)}</div>
                             <div class='col-md-6'>
-                                <div class='input-group row'>
-                                    <div class='row date'>
+                                <div class='input-group date' style='width: 185px;'>
                                         {assign var=specificDate value=Zend_Json::decode($SCHEDULEDREPORTS->get('schdate'))}
                                         {if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} {/if}
-                                        <input style='width: 185px;' type="text" class="dateField  col-md-6" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
+                                        <input  type="text" class="dateField  form-control input-sm col-md-6" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    </div>
-                            </div>
                                 </div>
+                            </div>
                         </div>
                     {* show month view by anually *}
                     <div class='row {if $scheduleid neq 4} hide {/if}' id='scheduleAnually' style='padding:5px 0px;'>

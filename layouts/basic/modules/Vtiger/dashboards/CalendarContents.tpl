@@ -15,6 +15,7 @@
 <input type="hidden" id="start_hour" value="{$CURRENT_USER->get('start_hour')}" />
 <input type="hidden" id="end_hour" value="{$CURRENT_USER->get('end_hour')}" />
 <input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}" />
+<input type="hidden" id="defaultDate" value="{$DEFAULTDATE}" />
 <style>
 {foreach from=Settings_Calendar_Module_Model::getCalendarConfig('colors') item=ITEM}
 	.calCol_{$ITEM.label}{ background: {$ITEM.value}!important; }

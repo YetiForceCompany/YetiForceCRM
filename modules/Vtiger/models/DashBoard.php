@@ -54,7 +54,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 
 		if ($action == 'Header')
 			$action = 0;
-		$sql = " SELECT vtiger_links.*, mdw.userid, mdw.data, mdw.active, mdw.title, mdw.size, mdw.filterid, mdw.id as widgetid, mdw.position as position, vtiger_links.linkid as id, mdw.limit, mdw.owners 
+		$sql = " SELECT vtiger_links.*, mdw.userid, mdw.data, mdw.active, mdw.title, mdw.size, mdw.filterid, mdw.id as widgetid, mdw.position as position, vtiger_links.linkid as id, mdw.limit, mdw.cache, mdw.owners 
 			FROM vtiger_links 
 			LEFT JOIN vtiger_module_dashboard_widgets mdw ON vtiger_links.linkid = mdw.linkid
 			WHERE mdw.userid = ? AND vtiger_links.linktype = ? AND mdw.module = ? AND `active` = ?";
@@ -147,11 +147,11 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 			$resultVerify = $adb->pquery($query, $params);
 			if (!$adb->num_rows($resultVerify)) {
 
-				$query = 'INSERT INTO vtiger_module_dashboard_widgets(`linkid`, `userid`, `templateid`, `filterid`, `title`, `data`, `size`, `limit`, `owners`, `isdefault`, `active`, `module`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?);';
+				$query = 'INSERT INTO vtiger_module_dashboard_widgets(`linkid`, `userid`, `templateid`, `filterid`, `title`, `data`, `size`, `limit`, `owners`, `isdefault`, `active`, `module`, `cache`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);';
 				$active = 0;
 				if ($row['isdefault'])
 					$active = 1;
-				$params = array($row['linkid'], $currentUser->getId(), $row['id'], $row['filterid'], $row['title'], $row['data'], $row['size'], $row['limit'], $row['owners'], $row['isdefault'], $active, $row['tabid']);
+				$params = array($row['linkid'], $currentUser->getId(), $row['id'], $row['filterid'], $row['title'], $row['data'], $row['size'], $row['limit'], $row['owners'], $row['isdefault'], $active, $row['tabid'], $row['cache']);
 				$adb->pquery($query, $params);
 			}
 		}

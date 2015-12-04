@@ -10,8 +10,10 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="widget_header row">
-<span class="col-md-8 margin0px"><h4>{vtranslate('LBL_Holidays',$MODULE_NAME)}</h4></span>
+<div class='widget_header row '>
+	<div class="col-xs-12">
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	</div>
 </div>
 <div class="widget_contents">
 							</div>

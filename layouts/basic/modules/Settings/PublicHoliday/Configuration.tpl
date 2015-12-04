@@ -15,7 +15,6 @@
 			{vtranslate('LBL_PUBLIC_HOLIDAY_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
-	<hr>
 	<div class="contents tabbable">
 		<div class="tab-content themeTableColor overflowVisible">
 		<div class="tab-pane active" id="layoutDashBoards">

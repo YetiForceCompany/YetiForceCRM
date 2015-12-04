@@ -16,7 +16,6 @@
 			</div>
 			<div class="col-md-4"><div class="pull-right"><button class="btn btn-default editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button></div></div>
 		</div>
-		<hr>
 		<div class="contents">
 			<table class="table table-bordered table-condensed themeTableColor">
 				<thead>

@@ -34,6 +34,7 @@ class Vtiger_TagCloud_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 
 		$linkId = $request->get('linkid');
+		$data = $request->getAll();
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 
@@ -45,6 +46,7 @@ class Vtiger_TagCloud_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('TAGS', $tags);
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('DATA', $data);
 
 		$content = $request->get('content');
 		if (!empty($content)) {

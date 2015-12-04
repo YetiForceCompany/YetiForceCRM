@@ -10,10 +10,11 @@
 -->*}
 {strip}
 <div class="" id="TaxCalculationsContainer">
-	<div class="widget_header">
-		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	<div class='widget_header row '>
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
 	</div>
-	<hr>
 	<div class="contents row">
 		<div class="col-md-12">
 			{assign var=CREATE_TAX_URL value=$TAX_RECORD_MODEL->getCreateTaxUrl()}

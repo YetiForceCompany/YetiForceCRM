@@ -11,10 +11,11 @@
 -->*}
 {strip}
     <div id="breadcrumb" class="editContainer">
-		<div class="widget_header">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		<div class='widget_header row '>
+			<div class="col-xs-12">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			</div>
 		</div>
-        <hr>
         <div>
             <ul class="crumbs marginLeftZero">
                 <li class="first step"  style="z-index:9" id="step1">

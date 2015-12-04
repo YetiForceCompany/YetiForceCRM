@@ -11,8 +11,8 @@
 {strip}
 	<input type="hidden" id="supportedImageFormats" value='{ZEND_JSON::encode(Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)}' />
 	<div class="padding-left1per">
-		<div class="widget_header form-horizontal">
-			<div class="form-group marginbottomZero">
+		<div class="row widget_header ">
+			<div class="form-group marginbottomZero noSpaces">
 				<div class="col-md-8">
 					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 					{if $DESCRIPTION}
@@ -29,7 +29,6 @@
 				</div>
 			</div>
 		</div>
-		<hr>
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div id="companyDetailsContainer" class="{if !empty($ERROR_MESSAGE)}hide{/if}">
 			<table class="table table-bordered">

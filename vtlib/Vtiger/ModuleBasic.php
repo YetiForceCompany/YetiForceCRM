@@ -284,7 +284,7 @@ class Vtiger_ModuleBasic
 		}
 
 		$this->deleteIcons();
-		$this->unsetRelatedList($moduleInstance);
+		$this->unsetAllRelatedList($moduleInstance);
 		ModComments_Module_Model::deleteForModule($moduleInstance);
 		Vtiger_Language::deleteForModule($moduleInstance);
 		Vtiger_Access::deleteSharing($moduleInstance);
@@ -486,7 +486,7 @@ class Vtiger_ModuleBasic
 	/**
 	 * Unset related list information that exists with other module
 	 */
-	public function unsetRelatedList()
+	public function unsetAllRelatedList()
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$db = PearDatabase::getInstance();

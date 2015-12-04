@@ -20,7 +20,6 @@
 			</a>
 		</div>
 	</div>
-	<hr>
 	<div class="detailViewInfo" id="groupsDetailContainer">
 		<div class="">
 			<form id="detailView" class="form-horizontal" method="POST">

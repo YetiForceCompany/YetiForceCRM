@@ -8,12 +8,11 @@
 *************************************************************************************}
 {strip}
 	<div class="">
-		<div class="widget_header">
-			<div class="col-xsd-12">
+		<div class="row widget_header">
+			<div class="col-xs-12">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			</div> 
 		</div>
-		<hr>
 		<form name="EditRole" action="index.php" method="post" id="EditView" class="form-horizontal">
 			<input type="hidden" name="module" value="Roles">
 			<input type="hidden" name="action" value="Save">

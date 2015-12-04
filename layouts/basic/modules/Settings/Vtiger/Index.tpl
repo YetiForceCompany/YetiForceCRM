@@ -11,10 +11,11 @@
 -->*}
 {strip}
 	<div class="settingsIndexPage">
-		<div class="widget_header ">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+		<div class='widget_header row '>
+			<div class="col-xs-12">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			</div>
 		</div>
-		<hr>
 		<div class="">
 			<span class="col-md-4 settingsSummary">
 				<a href="index.php?module=Users&parent=Settings&view=List">

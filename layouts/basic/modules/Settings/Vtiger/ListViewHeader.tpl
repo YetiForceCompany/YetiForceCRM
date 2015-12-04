@@ -11,10 +11,11 @@
 -->*}
 {strip}
 <div class="">
-	<div class="widget_header">
-		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	<div class='widget_header row '>
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
 	</div>
-	<hr>
 	<div class="listViewActionsDiv row">
 		<div class="col-md-8 btn-toolbar">
 			{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
