@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'PublicHoliday' => 'Праздники',
-	'LBL_PUBLIC_HOLIDAY' => 'Calendar - Holidays',
+	'LBL_PUBLIC_HOLIDAY' => 'Календарь - Праздники',
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => 'Управление праздничными днями',
 	'LBL_ADD_HOLIDAY' => 'Добавить Праздник',
 	'LBL_HOLIDAY_LIST' => 'Список Праздников',
@@ -22,7 +22,7 @@ $languageStrings = [
 	'JS_HOLIDAY_DELETE_ERROR' => 'Ошибка удаления Праздника',
 	'LBL_ADD_NEW_HOLIDAY' => 'Добавить Праздник',
 	'LBL_DATE' => 'Дата',
-	'LBL_DAY_NAME' => 'Name of the holiday',
+	'LBL_DAY_NAME' => 'Название праздника',
 	'LBL_DAY_NAME_DESC' => 'Введите название Праздника',
 	'LBL_NEW_DATE_OK' => 'Праздник успешно добавлен',
 	'LBL_NEW_DATE_ERROR' => 'Ошибка добавления Праздника',
@@ -42,10 +42,10 @@ $languageStrings = [
 	'ecclesiastical' => 'Церковный',
 	'national' => 'Национальный',
 	'LBL_VIEW_CONFIGURATION' => 'Праздники',
-	'LBL_DATE_RANGE' => 'Range',
+	'LBL_DATE_RANGE' => 'Диапазон',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_NEW_HOLIDAY' => 'Добавить Праздник',
-	'JS_EDIT_HOLIDAY' => 'Edit holiday',
+	'JS_EDIT_HOLIDAY' => 'Редактирование Праздника',
 	'JS_FILL_FORM_ERROR' => 'Необходимо заполнить все поля',
 ];
