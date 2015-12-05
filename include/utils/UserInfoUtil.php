@@ -8,18 +8,12 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-require_once 'config/debug.php';
-require_once 'config/performance.php';
-require_once('include/database/PearDatabase.php');
-require_once('include/database/Postgres8.php');
-require_once('include/utils/utils.php');
-require_once('include/utils/GetUserGroups.php');
-include_once('config/config.php');
-require_once("include/events/include.inc");
+require_once 'include/database/PearDatabase.php';
+require_once 'include/utils/utils.php';
+require_once 'include/utils/GetUserGroups.php';
+require_once 'include/events/include.inc';
 require_once 'include/runtime/Globals.php';
 require_once 'include/runtime/Cache.php';
-
-$log = vglobal('log');
 
 /** To retreive the mail server info resultset for the specified user
  * @param $user -- The user object:: Type Object

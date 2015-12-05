@@ -26,7 +26,7 @@
 							{/foreach}
 						</select>
 					</div>
-					{if SysDeveloper::get('CHANGE_RELATIONS')}
+					{if AppConfig::developer('CHANGE_RELATIONS')}
 						<button class="btn btn-primary pull-right addRelation" type="button">{vtranslate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</button>
 					{/if}	
 				</div>
@@ -57,7 +57,7 @@
 							<div class="relatedModule mainBlockTable panel panel-default" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
                                 <div class="mainBlockTableHeader panel-heading">
 									<div class="btn-toolbar btn-group-xs pull-right">
-										{if SysDeveloper::get('CHANGE_RELATIONS')}
+										{if AppConfig::developer('CHANGE_RELATIONS')}
 											<button type="button" class="btn btn-danger removeRelation pull-right" title="{vtranslate('LBL_REMOVE_RELATION', $QUALIFIED_MODULE)}">x</button>
 										{/if}
 			                        	<button type="button" class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;<strong>{vtranslate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>

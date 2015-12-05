@@ -380,7 +380,7 @@ class Activity extends CRMEntity
 		$log->debug("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
-		if (PerformancePrefs::getBoolean('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 

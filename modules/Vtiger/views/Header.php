@@ -67,7 +67,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 			}
 		}
 		//TODO To remove in the future
-		if (SysSecurity::getBoolean('SHOW_MY_PREFERENCES')) {
+		if (AppConfig::security('SHOW_MY_PREFERENCES')) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_MY_PREFERENCES',

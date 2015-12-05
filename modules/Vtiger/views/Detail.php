@@ -634,7 +634,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_LIST_LINKS', $links);
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
-		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 			$pageLimit = $pagingModel->getPageLimit();
 			$pageCount = ceil((int) $totalCount / (int) $pageLimit);

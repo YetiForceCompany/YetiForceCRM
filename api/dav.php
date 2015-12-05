@@ -1,16 +1,12 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
 chdir (__DIR__ . '/../');
-
-require_once('config/api.php');
-if(!in_array('dav',$enabledServices)){
-	die('Dav - Service is not active');
-}
-require_once('config/debug.php');
-require_once('config/config.php');
 require_once('include/ConfigUtils.php');
-ini_set('error_log',$root_directory.'cache/logs/dav.log');
+if(!in_array('dav',$enabledServices)){
+	$apiLog = new APINoPermittedException();
+	$apiLog->stop('Dav - Service is not active');
+}
+AppConfig::iniSet('error_log',$root_directory.'cache/logs/dav.log');
 $baseUri = $_SERVER['SCRIPT_NAME'];
 
 /* Database */
@@ -55,7 +51,7 @@ if($enableWebDAV){
 // The object tree needs in turn to be passed to the server class
 $server = new Yeti\DAV_Server($nodes);
 $server->setBaseUri($baseUri);
-$server->debugExceptions = SysDebug::get('DAV_DEBUG_EXCEPTIONS');
+$server->debugExceptions = AppConfig::debug('DAV_DEBUG_EXCEPTIONS');
 
 // Plugins
 $server->addPlugin(new Sabre\DAV\Auth\Plugin($authBackend,'YetiDAV'));
@@ -75,7 +71,7 @@ if($enableCalDAV){//CalDAV integration
 	$server->addPlugin(new Sabre\CalDAV\Subscriptions\Plugin());
 	$server->addPlugin(new Sabre\CalDAV\Schedule\Plugin());
 }
-if(SysDebug::get('DAV_DEBUG_PLUGIN')){
+if(AppConfig::debug('DAV_DEBUG_PLUGIN')){
 	$server->addPlugin(new Yeti\Debug());
 }
 // And off we go!

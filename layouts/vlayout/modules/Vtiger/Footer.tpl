@@ -13,7 +13,7 @@
 		<input id='activityReminder' class='hide noprint' type="hidden" value="{$ACTIVITY_REMINDER}"/>
 		<footer class="navbar-default navbar-fixed-bottom noprint">
 			<div class="vtFooter">
-				{assign var=SCRIPT_TIME value=round(microtime(true) - vglobal('Start_time'), 3)}
+				{assign var=SCRIPT_TIME value=round(microtime(true) - vglobal('startTime'), 3)}
 				{if $USER_MODEL->is_admin == 'on'}
 					{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:vtranslate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 					{assign var=FOOTOSP value= '<u><a href="index.php?module=Home&view=Credits&parent=Settings">open source project</a></u>'}

@@ -60,7 +60,7 @@ class Vtiger_Viewer extends SmartyBC {
 		$this->setTemplateDir(array($customTemplatesDir,$templatesDir));
 		$this->setCompileDir($compileDir);		
 
-		self::$debugViewer = SysDebug::get('DEBUG_VIEWER');
+		self::$debugViewer = AppConfig::debug('DEBUG_VIEWER');
 		
 		// FOR SECURITY
 		// Escape all {$variable} to overcome XSS

@@ -1317,10 +1317,10 @@ class Vtiger_Functions
 	{
 		switch ($type) {
 			case 'js':
-				$return = SysDeveloper::get('MINIMIZE_JS');
+				$return = AppConfig::developer('MINIMIZE_JS');
 				break;
 			case 'css':
-				$return = SysDeveloper::get('MINIMIZE_CSS');
+				$return = AppConfig::developer('MINIMIZE_CSS');
 				break;
 		}
 		return $return;

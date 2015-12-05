@@ -107,7 +107,7 @@ class Users_ForgotPassword_Action
 	{
 		$instance = new self();
 		if (isset($_REQUEST['user_name']) && isset($_REQUEST['emailId'])) {
-			if (SysSecurity::get('RESET_LOGIN_PASSWORD')) {
+			if (AppConfig::security('RESET_LOGIN_PASSWORD')) {
 				$instance->requestForgotPassword($request);
 			} else {
 				die(vtranslate('LBL_PERMISSION_DENIED'));

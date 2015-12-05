@@ -19,25 +19,23 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
-require_once('include/database/PearDatabase.php');
-require_once('include/ComboUtil.php'); //new
-require_once('include/utils/ListViewUtils.php');
-require_once('include/utils/EditViewUtils.php');
-require_once('include/utils/CommonUtils.php');
-require_once('include/utils/InventoryUtils.php');
-require_once('include/utils/SearchUtils.php');
-require_once('include/FormValidationUtil.php');
-require_once('include/events/SqlResultIterator.inc');
-require_once('include/fields/DateTimeField.php');
-require_once('include/fields/DateTimeRange.php');
-require_once('include/fields/CurrencyField.php');
-require_once('include/CRMEntity.php');
+require_once 'include/database/PearDatabase.php';
+require_once 'include/ComboUtil.php'; //new
+require_once 'include/utils/ListViewUtils.php';
+require_once 'include/utils/EditViewUtils.php';
+require_once 'include/utils/CommonUtils.php';
+require_once 'include/utils/InventoryUtils.php';
+require_once 'include/utils/SearchUtils.php';
+require_once 'include/FormValidationUtil.php';
+require_once 'include/events/SqlResultIterator.inc';
+require_once 'include/fields/DateTimeField.php';
+require_once 'include/fields/DateTimeRange.php';
+require_once 'include/fields/CurrencyField.php';
+require_once 'include/CRMEntity.php';
 require_once 'vtlib/Vtiger/Language.php';
-require_once("include/ListView/ListViewSession.php");
-
+require_once 'include/ListView/ListViewSession.php';
 require_once 'vtlib/Vtiger/Functions.php';
 require_once 'vtlib/Vtiger/Deprecated.php';
-
 require_once 'include/runtime/Cache.php';
 require_once 'modules/Vtiger/helpers/Util.php';
 
@@ -159,7 +157,7 @@ function get_user_array($add_blank = true, $status = 'Active', $assigned_user = 
 
 		// Get the id and the name.
 		while ($row = $db->fetchByAssoc($result)) {
-			if ($current_user->is_admin == 'on' || !(!PerformancePrefs::getBoolean('SHOW_ADMINISTRATORS_IN_USERS_LIST') && $row['is_admin'] == 'on')) {
+			if ($current_user->is_admin == 'on' || !(!AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST') && $row['is_admin'] == 'on')) {
 				$temp_result[$row['id']] = getFullNameFromArray('Users', $row);
 			}
 		}

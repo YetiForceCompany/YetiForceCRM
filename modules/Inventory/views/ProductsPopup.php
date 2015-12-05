@@ -175,7 +175,7 @@ class Inventory_ProductsPopup_View extends Vtiger_Popup_View {
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 		$viewer->assign('POPUPTYPE', vglobal('popupType'));
 		
-		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			if(!$this->listViewCount){
 				$this->listViewCount = $listViewModel->getListViewCount();
 			}

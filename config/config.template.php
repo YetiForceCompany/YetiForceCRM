@@ -12,14 +12,13 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-include_once('config/version.php');
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
-ini_set('memory_limit', '512M');
+AppConfig::iniSet('memory_limit', '512M');
 
 // lifetime of session
-ini_set('session.gc_maxlifetime', '21600');
+AppConfig::iniSet('session.gc_maxlifetime', '21600');
 
 // show or hide calendar, world clock, calculator, chat and CKEditor 
 // Do NOT remove the quotes if you set these to false! 
@@ -182,7 +181,7 @@ if (isset($default_timezone) && function_exists('date_default_timezone_set')) {
 }
 
 // Change of logs directory with PHP errors
-ini_set('error_log', $root_directory . 'cache/logs/phpError.log');
+AppConfig::iniSet('error_log', $root_directory . 'cache/logs/phpError.log');
 
 // Enable sharing of records?
 $shared_owners = true;

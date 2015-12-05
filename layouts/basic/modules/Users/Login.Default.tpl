@@ -72,7 +72,7 @@
 						</div>
 					</form>
 				</div>
-				{if SysSecurity::get('RESET_LOGIN_PASSWORD')}
+				{if AppConfig::security('RESET_LOGIN_PASSWORD')}
 					<div class="form-group">
 						<div class="">
 							<a href="#" id="forgotpass" >{vtranslate('ForgotPassword',$MODULE)}?</a>
@@ -107,7 +107,7 @@
 					{/if}
 				</div>
 			</div>	
-			{if SysSecurity::get('RESET_LOGIN_PASSWORD')}
+			{if AppConfig::security('RESET_LOGIN_PASSWORD')}
 				<div class="hide" id="forgotPasswordDiv">
 					<div class='fieldContainer marginLeft0 marginRight0 row col-md-12'>
 						<form class="login-form" action="modules/Users/actions/ForgotPassword.php" method="POST">

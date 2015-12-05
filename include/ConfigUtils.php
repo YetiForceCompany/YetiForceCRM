@@ -1,127 +1,90 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-class SysDebug
+class AppConfig
 {
 
-	static function get($key, $defvalue = false)
+	protected static $calendar = [];
+	protected static $debug = [];
+	protected static $developer = [];
+	protected static $security = [];
+	protected static $securityKeys = [];
+	protected static $performance = [];
+
+	public static function load($key, $config)
 	{
-		global $DEBUG_CONFIG;
-		if (isset($DEBUG_CONFIG)) {
-			if (isset($DEBUG_CONFIG[$key])) {
-				return $DEBUG_CONFIG[$key];
-			}
+		switch ($key) {
+			case 'calendar':
+				self::$calendar = $config;
+				break;
+			case 'debug':
+				self::$debug = $config;
+				break;
+			case 'developer':
+				self::$developer = $config;
+				break;
+			case 'security':
+				self::$security = $config;
+				break;
+			case 'securityKeys':
+				self::$securityKeys = $config;
+				break;
+			case 'performance':
+				self::$performance = $config;
+				break;
 		}
-		return $defvalue;
 	}
 
-	/** Get boolean value */
-	static function getBoolean($key, $defvalue = false)
+	public static function calendar($key, $defvalue = false)
 	{
-		return self::get($key, $defvalue);
+		return self::$calendar[$key];
+	}
+
+	public static function debug($key, $defvalue = false)
+	{
+		return self::$debug[$key];
+	}
+
+	public static function developer($key, $defvalue = false)
+	{
+		return self::$developer[$key];
+	}
+
+	public static function security($key, $defvalue = false)
+	{
+		return self::$security[$key];
+	}
+
+	public static function securityKeys($key, $defvalue = false)
+	{
+		return self::$securityKeys[$key];
+	}
+
+	public static function performance($key, $defvalue = false)
+	{
+		return self::$performance[$key];
+	}
+	
+	public static function iniSet($key, $value)
+	{
+		@ini_set($key, $value);
 	}
 }
 
-class SysDeveloper
-{
+require_once 'config/api.php';
+require_once 'config/debug.php';
+require_once 'config/developer.php';
+require_once 'config/security.php';
+require_once 'config/config.php';
+require_once 'config/secret_keys.php';
+require_once 'config/performance.php';
+require_once 'config/version.php';
 
-	static function get($key, $defvalue = FALSE)
-	{
-		global $DEVELOPER_CONFIG;
-		if (isset($DEVELOPER_CONFIG[$key])) {
-			return $DEVELOPER_CONFIG[$key];
-		}
-		return $defvalue;
-	}
+AppConfig::load('calendar', $CALENDAR_CONFIG);
+AppConfig::load('debug', $DEBUG_CONFIG);
+AppConfig::load('developer', $DEVELOPER_CONFIG);
+AppConfig::load('security', $SECURITY_CONFIG);
+AppConfig::load('securityKeys', $SECURITY_KEYS_CONFIG);
+AppConfig::load('performance', $PERFORMANCE_CONFIG);
+session_save_path($root_directory . '/cache/session');
 
-	/** Get boolean value */
-	static function getBoolean($key, $defvalue = FALSE)
-	{
-		return self::get($key, $defvalue);
-	}
-}
-
-class SysSecurity
-{
-
-	static function get($key, $defvalue = false)
-	{
-		global $SECURITY_CONFIG;
-		if (isset($SECURITY_CONFIG[$key])) {
-			return $SECURITY_CONFIG[$key];
-		}
-		return $defvalue;
-	}
-
-	/** Get boolean value */
-	static function getBoolean($key, $defvalue = false)
-	{
-		return self::get($key, $defvalue);
-	}
-}
-
-/**
- * Performance perference API
- */
-class PerformancePrefs
-{
-
-	/**
-	 * Get performance parameter configured value or default one
-	 */
-	static function get($key, $defvalue = false)
-	{
-		global $PERFORMANCE_CONFIG;
-		if (isset($PERFORMANCE_CONFIG)) {
-			if (isset($PERFORMANCE_CONFIG[$key])) {
-				return $PERFORMANCE_CONFIG[$key];
-			}
-		}
-		return $defvalue;
-	}
-
-	/** Get boolean value */
-	static function getBoolean($key, $defvalue = false)
-	{
-		return self::get($key, $defvalue);
-	}
-
-	/** Get Integer value */
-	static function getInteger($key, $defvalue = false)
-	{
-		return intval(self::get($key, $defvalue));
-	}
-}
-
-/**
- * Calendar config
- */
-class CalendarConfig
-{
-
-	/**
-	 * Get calendar config value or default one
-	 */
-	static function get($key, $defvalue = false)
-	{
-		include 'config/calendar.php';
-		if (isset($CALENDAR_CONFIG)) {
-			if (isset($CALENDAR_CONFIG[$key])) {
-				return $CALENDAR_CONFIG[$key];
-			}
-		}
-		return $defvalue;
-	}
-
-	/** Get boolean value */
-	static function getBoolean($key, $defvalue = false)
-	{
-		return self::get($key, $defvalue);
-	}
-
-	/** Get Integer value */
-	static function getInteger($key, $defvalue = false)
-	{
-		return intval(self::get($key, $defvalue));
-	}
-}

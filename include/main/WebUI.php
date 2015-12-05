@@ -8,18 +8,11 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once 'config/debug.php';
-require_once 'config/developer.php';
-require_once 'config/security.php';
-require_once 'config/secret_keys.php';
-require_once 'config/performance.php';
-require_once('include/ConfigUtils.php');
+require_once 'include/ConfigUtils.php';
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
 vimport('include.runtime.EntryPoint');
-
-session_save_path(vglobal('root_directory') . '/cache/session');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
 {
@@ -231,7 +224,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 			
 			Vtiger_Functions::throwNewException($e->getMessage(), false);
-			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
+			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
 				exit('<pre>' . $e->getTraceAsString() . '</pre>');
 			}
 		} catch (NoPermittedToRecordException $e) {
@@ -239,14 +232,14 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 			
 			Vtiger_Functions::throwNewException($e->getMessage(), false, 'NoPermissionsForRecord.tpl');
-			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
+			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
 				exit('<pre>' . $e->getTraceAsString() . '</pre>');
 			}
 		} catch (Exception $e) {
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 			
 			Vtiger_Functions::throwNewException($e->getMessage(), false);
-			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
+			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
 				exit('<pre>' . $e->getTraceAsString() . '</pre>');
 			}
 		}

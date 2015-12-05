@@ -339,7 +339,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$params[] = 1;
 		}
 
-		if (PerformancePrefs::getBoolean('SORT_SEARCH_RESULTS')) {
+		if (AppConfig::performance('SORT_SEARCH_RESULTS')) {
 			$sortColumns .= 'vtiger_crmentity.label ASC,';
 		}
 
