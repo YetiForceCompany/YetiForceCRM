@@ -16,35 +16,36 @@
 			<div class="col-xs-12">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			</div>
-			<div class="row">
-				<div class="col-md-4 btn-toolbar">
-					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-					<button class="btn addButton btn-default" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
-							{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
-						<i class="glyphicon glyphicon-plus"></i>&nbsp;
-						<strong>{vtranslate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}</strong>
-					</button>
-					{/foreach}
-				</div>
-				<div class="col-md-4 btn-toolbar marginLeftZero" >
-					<select class="chzn-select form-control" id="moduleFilter" style="margin-left:5px;">
-						<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
-						{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
-							<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$MODULE_MODEL->getName()}">
-								{if $MODULE_MODEL->getName() eq 'Calendar'}
-									{vtranslate('LBL_TASK', $MODULE_MODEL->getName())}
-								{else}
-									{vtranslate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
-								{/if}
-							</option>
-						{/foreach}
-					</select>
-					
-				</div>
-				<div class="col-md-4 ">
-					{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-				</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 btn-toolbar">
+				{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
+				<button class="btn addButton btn-default" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
+						{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
+					<i class="glyphicon glyphicon-plus"></i>&nbsp;
+					<strong>{vtranslate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}</strong>
+				</button>
+				{/foreach}
 			</div>
+			<div class="col-md-4 btn-toolbar marginLeftZero" >
+				<select class="chzn-select form-control" id="moduleFilter" style="margin-left:5px;">
+					<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
+					{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
+						<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$MODULE_MODEL->getName()}">
+							{if $MODULE_MODEL->getName() eq 'Calendar'}
+								{vtranslate('LBL_TASK', $MODULE_MODEL->getName())}
+							{else}
+								{vtranslate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
+							{/if}
+						</option>
+					{/foreach}
+				</select>
+
+			</div>
+			<div class="col-md-4 ">
+				{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+			</div>
+		</div>
 		</div>
 	</div>
 	<div class="listViewContentDiv" id="listViewContents">
