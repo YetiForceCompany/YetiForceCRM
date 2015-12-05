@@ -10,7 +10,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'Widgets' => 'Modules – Widgets',
+	'Widgets' => 'Модуль - Виджеты',
 	'LBL_MODULE_DESC' => 'Модуль управления Виджетами',
 	'Add widget' => 'Добавить Виджет',
 	'Type widget' => 'Тип',
@@ -52,15 +52,15 @@ $languageStrings = [
 	'Filter' => 'Фильтр',
 	'Filter info' => 'Включить фильтрацию данных по выбранному Фильтру',
 	'None' => 'Нет',
-	'ProductsServices' => 'Products services',
-	'Campaign status' => 'Campaign status',
-	'Select button info' => 'Enable visible select button',
-	'LBL_CONDITION' => 'Condition',
-	'LBL_CONDITION_INFO' => 'Select condition for showing records',
+	'ProductsServices' => 'Товары и Услуги',
+	'Campaign status' => 'Статус Компании',
+	'Select button info' => 'Включить видимую кнопку выбора',
+	'LBL_CONDITION' => 'Состояние',
+	'LBL_CONDITION_INFO' => 'Выбор условий для показа записи',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Загрузка...',
 	'Saving changes' => 'Сохранение изменений...',
 	'None' => 'Нет',
-	'JS_EDIT_WIDGET' => 'Edit widget',
+	'JS_EDIT_WIDGET' => 'Изменить Виджет',
 ];

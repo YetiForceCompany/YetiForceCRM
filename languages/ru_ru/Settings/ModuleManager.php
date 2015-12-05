@@ -67,9 +67,9 @@ $languageStrings = [
 	'LBL_ENTITY_FIELDLABEL' => 'Название Поля',
 	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'Модуль с таким названием уже существует',
 	'LBL_INVALID_MODULE_NAME' => 'Неверное название Модуля',
-	'LBL_MODULE_TYPE' => 'Module type',
-	'LBL_BASE_MODULE' => 'Base module',
-	'LBL_INVENTORY_MODULE' => 'Extended module',
+	'LBL_MODULE_TYPE' => 'Тип модуля',
+	'LBL_BASE_MODULE' => 'Стандартный модуль',
+	'LBL_INVENTORY_MODULE' => 'Расширенный модуль',
 ];
 $jsLanguageStrings = [
 	'JS_ON' => 'вкл',
@@ -79,5 +79,5 @@ $jsLanguageStrings = [
 	'JS_IMPORTED_MODULE' => 'Модуль успешно установлен.',
 	'JS_UPDATE_SUCCESSFULL' => 'Обновление успешно',
 	'JS_UPDATED_MODULE' => 'Модуль успешно обновлен',
-	'JS_REMOVED_MODULE' => 'Removed module',
+	'JS_REMOVED_MODULE' => 'Удалить модуль',
 ];
