@@ -265,6 +265,8 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (137);
 
 /*Data for the table `l_yf_access_for_admin` */
 
+/*Data for the table `l_yf_access_for_api` */
+
 /*Data for the table `l_yf_access_for_user` */
 
 /*Data for the table `l_yf_access_to_record` */

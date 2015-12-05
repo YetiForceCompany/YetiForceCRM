@@ -14,19 +14,16 @@ chdir (dirname(__FILE__) . '/../../');
  * URL Verfication - Required to overcome Apache mis-configuration and leading to shared setup mode.
  */
 
-require_once 'config/api.php';
+require_once 'include/main/WebUI.php';
 if(!in_array('mobileModule',$enabledServices)){
-	die("{'status': 0,'message': 'MobileModule - Service is not active'}");
+	$apiLog = new APINoPermittedException();
+	$apiLog->stop(['status' => 0, 'message' => 'MobileModule - Service is not active']);
 }
 
-require_once 'config/config.php';
-require_once 'include/main/WebUI.php';
 include_once dirname(__FILE__) . '/api/Request.php';
 include_once dirname(__FILE__) . '/api/Response.php';
 include_once dirname(__FILE__) . '/api/Session.php';
-
 include_once dirname(__FILE__) . '/api/ws/Controller.php';
-
 include_once dirname(__FILE__) . '/Mobile.php';
 include_once dirname(__FILE__) . '/ui/Viewer.php';
 include_once dirname(__FILE__) . '/ui/models/Module.php'; // Required for auto de-serializatio of session data
