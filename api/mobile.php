@@ -18,6 +18,7 @@ require_once('include/utils/VtlibUtils.php');
 AppConfig::iniSet('error_log', $root_directory . 'cache/logs/mobileApps.log');
 
 if (!in_array('mobile', $enabledServices)) {
+	require_once('include/exceptions/AppException.php');
 	$apiLog = new APINoPermittedException();
 	$apiLog->stop(['status' => 0, 'message' => 'Mobile - Service is not active']);
 }

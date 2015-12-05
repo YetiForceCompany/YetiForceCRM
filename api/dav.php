@@ -3,6 +3,7 @@
 chdir (__DIR__ . '/../');
 require_once('include/ConfigUtils.php');
 if(!in_array('dav',$enabledServices)){
+	require_once('include/exceptions/AppException.php');
 	$apiLog = new APINoPermittedException();
 	$apiLog->stop('Dav - Service is not active');
 }
