@@ -10,6 +10,15 @@
  * Contributor(s): 
  * *********************************************************************************************************************************** */
 $languageStrings = [
+	'LBL_COUNT_ALL_MAILS' => 'Всего сообщений',
+	'LBL_COLLAPSE_ALL' => 'Свернуть',
+	'LBL_EXPAND_ALL' => 'Развернуть',
+	'LBL_FILTER_CONTACTS' => 'Все письма контакта',
+	'LBL_FILTER_ACCOUNTS' => 'Все письма контрагента',
+	'LBL_FILTER_ALL' => 'Все',
+	'LBL_CHANGE_FILTER' => 'Изменение фильтра писем',
+	'LBL_SHOW_PREVIEW_EMAILS' => 'Предварительный просмотр писем',
+	'LBL_SHOW_PREVIEW_EMAIL' => 'Предварительный просмотр письма',
 	'RC user' => 'Пользователь',
 	'ToID' => 'ID получателя',
 	'id' => 'Идентификатор',
@@ -81,7 +90,7 @@ $languageStrings = [
 	'LBL_ChangeTypeOK' => 'Изменен статус сообщения',
 	'Configuration' => 'Настройка просмотра почты',
 	'Date of receipt' => 'Дата поступления',
-	'LBL_NO_MAILS' => 'No emails',
+	'LBL_NO_MAILS' => 'Не указан адрес электронной почты',
 	//dashboards
 	'Graf' => 'Письма по статусу',
 ];

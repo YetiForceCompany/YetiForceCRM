@@ -1,13 +1,13 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'SSalesProcesses' => 'Sales processes',
-	'SINGLE_SSalesProcesses' => 'Sales process',
+	'SSalesProcesses' => 'Процессы продаж',
+	'SINGLE_SSalesProcesses' => 'Процесс продаж',
 
 	//BLOCKS
 	'LBL_SSALESPROCESSES_INFORMATION' => 'Основная информация',
-	'LBL_CUSTOM_INFORMATION' => 'System Information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description Details',
+	'LBL_CUSTOM_INFORMATION' => 'Дополнительная информация',
+	'LBL_DESCRIPTION_INFORMATION' => 'Описание',
 
 	
 	//FIELDS

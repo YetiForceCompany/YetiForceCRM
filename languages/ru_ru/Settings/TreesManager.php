@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Добавить Каталог',
 	'TreesManager'	=>	'Менеджер Каталогов',
-	'LBL_TREES_MANAGER'	=>	'Fields – Folders',
+	'LBL_TREES_MANAGER' => 'Поля - Папки',
 	'LBL_TREES_MANAGER_DESCRIPTION'	=>	'В Менеджере Каталогов, можно создавать шаблоны Каталогов или редактировать существующие Каталоги',
 	'LBL_NO_RECORDS_FOUND'	=>	'Нет шаблонов Каталогов',
 	'LBL_EDIT_TEMPLATE_TREES'	=>	'Редактировать шаблон Каталога',
@@ -36,6 +36,6 @@ $jsLanguageStrings = [
 	'JS_NO_ITEM_SELECTED' => 'Ничего не выбрано',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'Вы не можете удалить все',
 	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'Вы не можете удалять родителя',
-	'JS_NEW_ITEM' => 'New node',
-	'JS_ONLY_ONE_ITEM_SELECTED' => 'Only one item can be selected.',
+	'JS_NEW_ITEM' => 'Добавить Пункт',
+	'JS_ONLY_ONE_ITEM_SELECTED' => 'Можно выбрать только 1 пункт',
 ];

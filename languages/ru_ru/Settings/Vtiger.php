@@ -10,6 +10,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * *********************************************************************************** */
 $languageStrings = [
+	'LBL_VIEW_INDEX' => 'Просмотр',
 	'LBL_PUBLICHOLIDAY_CONFIGURATION_DESCRIPTION' => 'Изменяйте и редактируйте Прздники',
 	'Public Holidays' => 'Праздники',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => 'Управление настройками Календаря',

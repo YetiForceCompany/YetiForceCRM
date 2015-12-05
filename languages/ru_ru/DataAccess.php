@@ -72,8 +72,8 @@ $languageStrings = [
 	'LBL_TEXT_COLOR' => 'Цвет текста',
 	'This name already exists' => 'Такое название уже существует',
 	'LBL_RECORD_DELETED' => 'Запись удалена',
-	'Action_test' => 'Action test',
-	'Action_Desc_test' => 'Action test description.',
+	'Action_test' => 'Тест',
+	'Action_Desc_test' => 'Нажмите Тест для просмотра результата',
 ];
 $jsLanguageStrings = [
 	'DataAccess'	=>	'Редактор условий',
