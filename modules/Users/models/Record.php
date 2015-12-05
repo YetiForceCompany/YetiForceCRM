@@ -789,4 +789,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		return [ 'users' => $users, 'group' => $group];
 	}
+	
+	public function getSwitchUsersUrl()
+	{
+		return 'index.php?module=' . $this->getModuleName() . '&view=SwitchUsers&id=' . $this->getId();
+	}
 }

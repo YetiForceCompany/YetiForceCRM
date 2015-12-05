@@ -291,4 +291,24 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 		return $output;
 	}
+	
+	public static function getSwitchUsers()
+	{
+		$userModel = Users_Record_Model::getCurrentUserModel();
+		require('user_privileges/switchUsers.php');
+		$baseUserId = $userModel->getId();
+		if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {
+			$baseUserId = Vtiger_Session::get('baseUserId');
+		}
+		$users = [];
+		if (array_key_exists($baseUserId, $switchUsers)) {
+			foreach ($switchUsers[$baseUserId] as $userid => $userName) {
+				$users[$userid] = $userName;
+			}
+			if (count($users) > 1) {
+				return $users;
+			}
+		}
+		return [];
+	}
 }

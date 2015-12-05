@@ -2030,6 +2030,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							thisInstance.registerBasicEvents();
 							// Let listeners know about page state change.
 							app.notifyPostAjaxReady();
+							thisInstance.registerTimeline();
 						},
 						function () {
 							//TODO : handle error
@@ -2752,6 +2753,53 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 	},
+	registerTimeline: function(){
+		var thisInstance = this;
+		var commentContainer = $('.commentsBody');
+		var options = {
+			marker_height_min: 30,
+			marker_width_min: 100,
+			marker_padding: 5,
+			scale_factor: 1,
+			optimal_tick_width: 500,
+		};
+		var currentComment = $('#currentComment').val();
+		var allComments = $('#allComments').val();
+		if (typeof allComments !== 'undefined'){
+			if(allComments !== '[]'){
+				var allComments = JSON.parse(allComments);
+				var timeline = new TL.Timeline('timeline', allComments, options);
+				timeline.on('change', function(data) {
+					var infoComment = this.getDataById(data.unique_id).text;
+					var params = {
+						module: app.getModuleName(),
+						view: 'Detail',
+						record: thisInstance.getRecordId(),
+						mode: 'showThreadComments',
+						commentid: infoComment.id
+					}
+					var progressIndicatorElement = jQuery.progressIndicator({
+						position: 'html',
+					});
+					AppConnector.request(params).then(function (data) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						commentContainer.html(data);
+					});
+				});
+				if (!currentComment){
+					timeline.goToId(allComments.events[0].unique_id);
+				}
+				else{
+					for(var i = 0; i<allComments.events.length;i++ ){
+						if(currentComment == allComments.events[i].text.id){
+							timeline.goToId(allComments.events[i].unique_id);
+							break;
+						}
+					}
+				}
+			}
+		}
+	},
 	registerEvents: function () {
 		var thisInstance = this;
 		thisInstance.refreshRelatedList();
@@ -2788,6 +2836,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerRelatedModulesRecordCount();
 		var header = Vtiger_Header_Js.getInstance();
 		header.registerQuickCreateCallBack(this.registerRelatedModulesRecordCount);
+		thisInstance.registerTimeline();
 	}
 });
 

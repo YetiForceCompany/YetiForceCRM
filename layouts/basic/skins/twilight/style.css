@@ -4630,8 +4630,7 @@ html,body,.baseContainer
 	min-height:1px;
 }
 .timelineContainer{
-	z-index:1500;
-	height:500px;
+	z-index:1031;
 }
 .basePanel.menuOpen{
 	left:180px;
@@ -4639,4 +4638,11 @@ html,body,.baseContainer
 }
 .bodyHeader.menuOpen{
 	left: 230px;
+}
+.tl-storyslider,
+.tl-attribution{
+	display:none;
+}
+.tl-menubar{
+	top:0px !important;
 }

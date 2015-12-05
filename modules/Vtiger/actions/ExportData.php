@@ -18,7 +18,7 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'Export')) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
 		}
 	}
 

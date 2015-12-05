@@ -1058,7 +1058,7 @@ class Vtiger_Functions
 		return $array;
 	}
 
-	public static function throwNewException($message, $die = true)
+	public static function throwNewException($message, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
 		$request = new Vtiger_Request($_REQUEST);
 		if ($request->isAjax()) {
@@ -1069,36 +1069,7 @@ class Vtiger_Functions
 		} else {
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('MESSAGE', $message);
-			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
-		}
-		if ($die) {
-			exit();
-		}
-	}
-
-	public static function throwNoPermittedException($message, $die = true)
-	{
-		$request = new Vtiger_Request($_REQUEST);
-		$dbLog = PearDatabase::getInstance('log');
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$dbLog->insert('l_yf_access_to_record', [
-			'username' => $currentUser->getDisplayName(),
-			'date' => date('Y-m-d H:i:s'),
-			'ip' => self::getRemoteIP(),
-			'record' => $request->get('record'),
-			'module' => $request->get('module'),
-			'url' => Vtiger_Functions::getBrowserInfo()->url,
-			'agent' => $_SERVER['HTTP_USER_AGENT'],
-		]);
-		if ($request->isAjax()) {
-			$response = new Vtiger_Response();
-			$response->setEmitType(Vtiger_Response::$EMIT_JSON);
-			$response->setError($message);
-			$response->emit();
-		} else {
-			$viewer = new Vtiger_Viewer();
-			$viewer->assign('MESSAGE', $message);
-			$viewer->view('NoPermissionsForRecord.tpl', 'Vtiger');
+			$viewer->view($tpl, 'Vtiger');
 		}
 		if ($die) {
 			exit();
@@ -1275,7 +1246,7 @@ class Vtiger_Functions
 			$remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
 		}
 
-		if (!empty($remote_ip) && $onlyIP != false) {
+		if (!empty($remote_ip) && $onlyIP == false) {
 			$address .= '(' . implode(',', $remote_ip) . ')';
 		}
 		return $address;

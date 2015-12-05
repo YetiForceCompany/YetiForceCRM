@@ -11,11 +11,15 @@
 
 class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
+		$record = $request->get('record');
 
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', $moduleName));
+		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $record);
+		$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $record);
+		if (!$recordPermission || ($lockEdit && $request->get('isDuplicate') != 'true')) {
+			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 

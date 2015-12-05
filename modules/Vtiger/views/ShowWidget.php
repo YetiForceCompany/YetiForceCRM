@@ -11,10 +11,6 @@
 
 class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View {
 
-	function checkPermission(Vtiger_Request $request) {
-		return true;
-	}
-
 	function process(Vtiger_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 

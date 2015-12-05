@@ -49,7 +49,7 @@
 		{/if}
 		<li class="dropdown">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{vtranslate('LBL_SYSTEM_SETTINGS',$MODULE)}">				
-				Yetiforce Demo
+				{$USER_MODEL->get('first_name')}&nbsp;{$USER_MODEL->get('last_name')}
 			</a>
 			<ul class="dropdown-menu pull-right">
 				<li>

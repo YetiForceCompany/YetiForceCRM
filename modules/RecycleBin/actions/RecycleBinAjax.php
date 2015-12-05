@@ -27,7 +27,7 @@ class RecycleBin_RecycleBinAjax_Action extends Vtiger_Mass_Action {
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
-			throw new AppException(getTranslatedString('LBL_PERMISSION_DENIED'));
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 

@@ -12,7 +12,7 @@ class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'RecordMappingList') || !Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 

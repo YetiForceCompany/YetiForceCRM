@@ -18,7 +18,7 @@ class OSSMailView_MassDelete_Action extends Vtiger_Mass_Action
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 

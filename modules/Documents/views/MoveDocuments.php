@@ -14,7 +14,7 @@ class Documents_MoveDocuments_View extends Vtiger_Index_View {
 		$moduleName = $request->getModule();
 
 		if(!Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', $moduleName));
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 

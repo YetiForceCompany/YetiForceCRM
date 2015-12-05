@@ -12,7 +12,9 @@
 
 {* Change to this also refer: RecentComments.tpl *}
 {assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
-
+<input type="hidden" id="allComments" value='{$ALL_COMMENTS_JSON}'>
+<input type="hidden" id="currentComment" value='{if !empty($CURRENT_COMMENT)}{$CURRENT_COMMENT->getId()}{/if}'>
+<div id="timeline" class="timelineContainer"></div>
 <div class="commentContainer">
 	<div class="commentTitle">
 		{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
@@ -29,7 +31,6 @@
 	</div>
 	<br>
 	<div class="commentsList commentsBody">
-		{include file='CommentsList.tpl'|@vtemplate_path COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
 	</div>
 	<div class="hide basicAddCommentBlock">
 		<div class="row">

@@ -24,7 +24,12 @@
 									{if !empty($LINK)}
 										{assign var="HREF" value=$LINK}
 									{/if}
-									<a class="dropdown-toggle" title="{vtranslate($TITLE,$MODULE)}" {if !empty($CHILD_LINKS)}data-toggle="dropdown"{/if} href="{$HREF}">
+									<a class="dropdown-toggle {$obj->getClassName()}" title="{vtranslate($TITLE,$MODULE)}" {if !empty($CHILD_LINKS)}data-toggle="dropdown"{/if} href="{$HREF}"
+									   {if $obj->linkdata && is_array($obj->linkdata)}
+										   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+											   data-{$DATA_NAME}="{$DATA_VALUE}" 
+										   {/foreach}
+									   {/if}>
 										{if $GLYPHICON}
 											<span class="{$GLYPHICON}" aria-hidden="true"></span>
 										{/if}
@@ -47,7 +52,12 @@
 															{assign var="href" value="javascript:;"}
 														{/if}
 													<li>
-														<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{vtranslate($label,$MODULE)}</a>
+														<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}
+														   {if $obj->linkdata && is_array($obj->linkdata)}
+															   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+																   data-{$DATA_NAME}="{$DATA_VALUE}" 
+															   {/foreach}
+														   {/if}>{vtranslate($label,$MODULE)}</a>
 													</li>
 												{/if}
 											{/foreach}

@@ -28,5 +28,3 @@ Class OSSMailView_summary_View extends Vtiger_Edit_View
 		
 	}
 }
-
-?>

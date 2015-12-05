@@ -16,7 +16,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 
