@@ -3578,7 +3578,7 @@ html,body,.baseContainer
 .userDetails ul.headerLink li{
 	list-style-type: none;
 	display: inline-block;
-	margin-right: 8px;
+	margin-right: 7px;
 	margin-top: 5px;
 }
 .selectSearch{
@@ -3590,8 +3590,19 @@ html,body,.baseContainer
 	padding-left: 16px;
 }
 .userDetails .name{
-	line-height: 15px;
-	font-size: 15px;
+	line-height: 18px;
+	font-size: 14.5px;
+}
+.userDetails .userName{
+	margin-top: 2px;
+	margin-bottom: -2px;
+}
+.userDetails .companyName{
+	font-size: 11px;
+}
+.userDetails .name:nth-child(2){
+	font-size: 13px;
+	line-height: 17px;
 }
 .userDetails .headerLink  > li > ul > li > a {
 	color:#000;

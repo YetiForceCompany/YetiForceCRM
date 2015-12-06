@@ -49,7 +49,7 @@
 		{/if}
 		<li class="dropdown">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{vtranslate('LBL_SYSTEM_SETTINGS',$MODULE)}">				
-				{$USER_MODEL->get('first_name')}&nbsp;{$USER_MODEL->get('last_name')}
+				{$USER_MODEL->getDisplayName()}
 			</a>
 			<ul class="dropdown-menu pull-right">
 				<li>
@@ -60,6 +60,39 @@
 			</ul>
 		<li>
 	</ul>
+	{foreach key=index item=obj from=$HEADER_LINKS}
+		{assign var="TITLE" value=$obj->getLabel()}
+		{if $obj->linktype == 'HEADERLINK' && !in_array($TITLE,['LBL_SYSTEM_SETTINGS','LBL_SIGN_OUT'])}
+			{assign var="HREF" value='#'}
+			{assign var="ICON_PATH" value=$obj->getIconPath()}
+			{assign var="LINK" value=$obj->convertToNativeLink()}
+			{assign var="GLYPHICON" value=$obj->getGlyphiconIcon()}
+			{if stripos($obj->getUrl(), 'javascript:') === 0}
+				{assign var="onclick" value="onclick="|cat:$href}
+				{assign var="href" value="javascript:;"}
+			{/if}
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					{if !empty($LINK)}
+						{assign var="HREF" value=$LINK}
+					{/if}
+					<a class="dropdown-toggle btn {$obj->getClassName()}" title="{vtranslate($TITLE,$MODULE)}" href="{$HREF}"
+					   {if $obj->linkdata && is_array($obj->linkdata)}
+						   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+							   data-{$DATA_NAME}="{$DATA_VALUE}" 
+						   {/foreach}
+					   {/if}>
+						{if $GLYPHICON}
+							<span class="{$GLYPHICON}" aria-hidden="true"></span>
+						{/if}
+						{if $ICON_PATH}
+							<img src="{$ICON_PATH}" alt="{vtranslate($TITLE,$MODULE)}" title="{vtranslate($TITLE,$MODULE)}" />
+						{/if}
+					</a>
+				</li>
+			</ul>
+		{/if}
+	{/foreach}
 	<ul class="headerLinksContainer nav navbar-nav navbar-right">
 		<li>
 			<div class="remindersNotice">
@@ -103,38 +136,5 @@
 				{/if}
 			</div>
 		</div>
-	{/if}
-	<div id="headerLinksCompact" class="hide">
-		<span id="dropdown-headerLinksBig" class="dropdown">
-			<a class="dropdown-toggle navbar-btn" data-toggle="dropdown" href="#">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</a>
-			<ul class="dropdown-menu pull-right">
-				{foreach key=index item=obj from=$HEADER_LINKS name="compactIndex"}
-					{assign var="src" value=$obj->getIconPath()}
-					{assign var="icon" value=$obj->getIcon()}
-					{assign var="title" value=$obj->getLabel()}
-					{assign var="childLinks" value=$obj->getChildLinks()}
-					{if $smarty.foreach.compactIndex.index neq 0}
-						<li class="divider"></li>
-						{/if}
-						{foreach key=index item=obj from=$childLinks}
-							{assign var="id" value=$obj->getId()}
-							{assign var="href" value=$obj->getUrl()}
-							{assign var="label" value=$obj->getLabel()}
-							{assign var="onclick" value=""}
-							{if stripos($obj->getUrl(), 'javascript:') === 0}
-								{assign var="onclick" value="onclick="|cat:$href}
-								{assign var="href" value="javascript:;"}
-							{/if}
-						<li>
-							<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{vtranslate($label,$MODULE)}</a>
-						</li>
-					{/foreach}
-				{/foreach}
-			</ul>
-		</span>
-	</div>
+	{/if}		
 {/strip}
