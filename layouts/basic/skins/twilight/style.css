@@ -3593,10 +3593,6 @@ html,body,.baseContainer
 	line-height: 18px;
 	font-size: 14.5px;
 }
-.userDetails .userName{
-	margin-top: 2px;
-	margin-bottom: -2px;
-}
 .userDetails .companyName{
 	font-size: 11px;
 }
