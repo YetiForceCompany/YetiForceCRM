@@ -3607,6 +3607,7 @@ html,body,.baseContainer
 	overflow:auto;
 	overflow-x:hidden;
 	height:calc(100% - 50px);
+	width: 100%;
 }
 .nav li:hover > .subMenu::-webkit-scrollbar {
 	display: none;
