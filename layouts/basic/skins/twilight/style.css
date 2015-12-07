@@ -754,12 +754,15 @@ li.ui-timepicker-selected,
 .commentContainer .commentsList > .liStyleNone > .commentDetails .commentDiv {
 	width: 100%;
 }
+.commentContainer .singleComment{
+	border-bottom: 1px solid #ddd;
+}
 .commentContainer .commentDetails {
 	background: #ffffff;
-	border: 1px solid #dddddd;
-	margin-bottom: 5px;
+	width:100%;
+	margin-bottom: 0px;
 	border-radius: 2px;
-	padding: 10px 10px 5px;
+	padding: 10px 0px 0px 0px;
 	display: inline-block;
 	min-width: 354px;
 	-webkit-box-sizing: border-box;
@@ -819,7 +822,6 @@ li.ui-timepicker-selected,
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	word-wrap: break-word;
-	padding: 5px 0 5px 32px;
 }
 .singleComment .editedStatus p {
 	margin-bottom: 0;
@@ -855,6 +857,9 @@ li.ui-timepicker-selected,
 }
 .singleComment:hover .commentActions .replyComment {
 	display: inline-block;
+}
+.commentActionsContainer {
+	height: 18px;
 }
 .commentActionsContainer a:hover {
 	text-decoration: none;
