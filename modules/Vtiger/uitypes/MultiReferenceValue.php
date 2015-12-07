@@ -173,8 +173,10 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$currentValue = self::COMMA;
 		}
 		$currentValue .= $values['relatedValue'] . self::COMMA;
-		$query = 'UPDATE ' . $this->get('field')->get('table') . ' SET ' . $this->get('field')->get('column') . ' = ? WHERE ' . $entity->tab_name_index[$this->get('field')->get('table')] . ' = ?';
-		$db->pquery($query, [$currentValue, $sourceRecord]);
+		$db->update($this->get('field')->get('table'), [
+			$this->get('field')->get('column') => $currentValue
+			], $entity->tab_name_index[$this->get('field')->get('table')] . ' = ?', [$sourceRecord]
+		);
 	}
 
 	/**
@@ -192,8 +194,10 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$currentValue = self::COMMA;
 		}
 		$currentValue = str_replace(self::COMMA . $values['relatedValue'] . self::COMMA, self::COMMA, $currentValue);
-		$query = 'UPDATE ' . $this->get('field')->get('table') . ' SET ' . $this->get('field')->get('column') . ' = ? WHERE ' . $entity->tab_name_index[$this->get('field')->get('table')] . ' = ?';
-		$db->pquery($query, [$currentValue, $sourceRecord]);
+		$db->update($this->get('field')->get('table'), [
+			$this->get('field')->get('column') => $currentValue
+			], $entity->tab_name_index[$this->get('field')->get('table')] . ' = ?', [$sourceRecord]
+		);
 	}
 
 	/**
@@ -223,8 +227,10 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		while ($value = $db->getSingleValue($result)) {
 			$currentValue .= $value . self::COMMA;
 		}
-		$query = 'UPDATE ' . $this->get('field')->get('table') . ' SET ' . $this->get('field')->get('column') . ' = ? WHERE ' . $sourceRecordModel->getEntity()->tab_name_index[$this->get('field')->get('table')] . ' = ?';
-		$db->pquery($query, [$currentValue, $sourceRecord]);
+		$db->update($this->get('field')->get('table'), [
+			$this->get('field')->get('column') => $currentValue
+			], $sourceRecordModel->getEntity()->tab_name_index[$this->get('field')->get('table')] . ' = ?', [$sourceRecord]
+		);
 	}
 
 	/**
@@ -247,7 +253,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$value = explode(self::COMMA, trim($value, self::COMMA));
 			$values = array_merge($values, $value);
 		}
-		
+
 		return array_unique($values);
 	}
 }

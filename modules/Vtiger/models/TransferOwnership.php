@@ -84,10 +84,13 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 	{
 		$currentUser = vglobal('current_user');
 		$db = PearDatabase::getInstance();
-
-		$query = 'UPDATE vtiger_crmentity SET smownerid = ?, modifiedby = ?, modifiedtime = NOW() WHERE crmid IN (' . $db->generateQuestionMarks($relatedModuleRecordIds) . ')';
-		$db->pquery($query, [$transferOwnerId, $currentUser->id, $relatedModuleRecordIds]);
-
+		$db->update('vtiger_crmentity', [
+			'smownerid' => $transferOwnerId,
+			'modifiedby' => $currentUser->id,
+			'modifiedtime' => date('Y-m-d H:i:s'),
+			], 'crmid IN (' . implode(',', $relatedModuleRecordIds) . ')'
+		);
+		
 		vimport('~modules/ModTracker/ModTracker.php');
 		$flag = ModTracker::isTrackingEnabledForModule($module);
 		if ($flag) {
