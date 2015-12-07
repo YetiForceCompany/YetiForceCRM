@@ -17,7 +17,7 @@
 				<div >
 					<div class="welcome-div alignCenter">
 						<h3>{vtranslate('LBL_MIGRATION_IN_PROGRESS','Install')}...</h3><br>
-						<img src="../layouts/vlayout/skins/images/install_loading.gif"/>
+						<img src="../layouts/basic/skins/images/install_loading.gif"/>
 						<h6>{vtranslate('LBL_PLEASE_WAIT','Install')}.... </h6>
 					</div>
 				</div>

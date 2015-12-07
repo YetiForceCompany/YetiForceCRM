@@ -86,7 +86,7 @@
             }
                {/literal}
                " />         {if $OSS_MILE_EXISTS}
-            <img src="layouts/vlayout/modules/OSSPdf/email.png" alt="{vtranslate('LBL_CREATE_PDF_SEND_MAIL')}" onclick="
+            <img src="{vimage_path('email.png')}" alt="{vtranslate('LBL_CREATE_PDF_SEND_MAIL')}" onclick="
                 {literal}
                 jQuery('#only_generate').val('1');
                 

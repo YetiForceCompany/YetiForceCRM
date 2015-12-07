@@ -10,7 +10,7 @@
 *************************************************************************************************************************************/
 -->*}
 {$MODULENAME='OSSPdf'}
-<link rel="stylesheet" type="text/css" href="layouts/vlayout/modules/Settings/OSSPdf/general.css">
+<link rel="stylesheet" type="text/css" href="layouts/basic/modules/Settings/OSSPdf/general.css">
 {literal}
 	<!--[if lte IE 6]>
 	<STYLE type=text/css>
@@ -69,12 +69,12 @@
 							{if $BUTTONINFO.$name eq '0'}
 								<span style="color: red;">{vtranslate('ButtonsNo', 'OSSPdf')}</span>
 								<a class="linkes" href="index.php?module=OSSPdf&view=Index&parent=Settings&block={$smarty.get.block}&fieldid={$smarty.get.fieldid}&mode=create_buttons&formodule={$name}" data-mode="create_buttons" data-formodule="{$name}" >
-									<img src="layouts/vlayout/modules/Settings/OSSPdf/delete.png" class="create" alt="{vtranslate('CreateButtons', 'OSSPdf')}" width="25" height="25" title="{vtranslate('CreateButtons', 'OSSPdf')}"></a>
+									<img src="layouts/basic/modules/Settings/OSSPdf/delete.png" class="create" alt="{vtranslate('CreateButtons', 'OSSPdf')}" width="25" height="25" title="{vtranslate('CreateButtons', 'OSSPdf')}"></a>
 
 							{/if}
 							{if $BUTTONINFO.$name eq '1'} 
 								<span style="color: green;">{vtranslate('ButtonsCreated', 'OSSPdf')}</span>
-								<a class="linkes" href="index.php?module=OSSPdf&view=Index&parent=Settings&block={$smarty.get.block}&fieldid={$smarty.get.fieldid}&mode=delete_buttons&formodule={$name}" data-mode="delete_buttons" data-formodule="{$name}"><img src="layouts/vlayout/modules/Settings/OSSPdf/link.png" class="create" alt="{vtranslate('DeleteButtons', 'OSSPdf')}" width="25" height="25" title="{vtranslate('DeleteButtons', 'OSSPdf')}"></a> 
+								<a class="linkes" href="index.php?module=OSSPdf&view=Index&parent=Settings&block={$smarty.get.block}&fieldid={$smarty.get.fieldid}&mode=delete_buttons&formodule={$name}" data-mode="delete_buttons" data-formodule="{$name}"><img src="layouts/basic/modules/Settings/OSSPdf/link.png" class="create" alt="{vtranslate('DeleteButtons', 'OSSPdf')}" width="25" height="25" title="{vtranslate('DeleteButtons', 'OSSPdf')}"></a> 
 
 							{/if}
 							{* {if $created_buttons eq $name} <span style="color: orange;">{vtranslate('ButtonsAdded', 'OSSPdf')} </span>{/if}
@@ -180,7 +180,7 @@
 							<div style='border: 3px solid rgb(153, 153, 153); background-color: rgb(255, 255, 255); width: 55%; position: relative; z-index: 100000020;'>
 								<table border='0' cellpadding='5' cellspacing='0' width='98%'>
 									<tr>
-										<td rowspan='2' width='11%'><img src="layouts/vlayout/skins/images/denied.gif" ></td>
+										<td rowspan='2' width='11%'><img src="layouts/basic/skins/images/denied.gif" ></td>
 										<td style='border-bottom: 1px solid rgb(204, 204, 204);' nowrap='nowrap' width='70%'><span class='genHeaderSmall'>{vtranslate('LBL_PERMISSION_DENIED', 'Vtiger')}</span></td>
 									</tr>
 									<tr>

@@ -139,7 +139,7 @@ class Vtiger_LayoutExport extends Vtiger_Package
 	{
 		$prefix = trim($prefix);
 		// We will not allow registering core layouts unless forced
-		if (strtolower($name) == 'vlayout' && $overrideCore == false)
+		if (strtolower($name) == 'basic' && $overrideCore == false)
 			return;
 
 		$useisdefault = ($isdefault) ? 1 : 0;
@@ -172,7 +172,7 @@ class Vtiger_LayoutExport extends Vtiger_Package
 
 	static function deregister($name)
 	{
-		if (strtolower($name) == 'vlayout')
+		if (strtolower($name) == 'basic')
 			return;
 
 		$adb = PearDatabase::getInstance();
