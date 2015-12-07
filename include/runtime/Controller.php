@@ -407,7 +407,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	 * @return <Array of Vtiger_CssScript_Model>
 	 *
 	 * First check if $cssFileName exists
-	 * if not, check under layout folder $cssFileName eg:layouts/vlayout/$cssFileName
+	 * if not, check under layout folder $cssFileName eg:layouts/basic/$cssFileName
 	 */
 	function checkAndConvertCssStyles($cssFileNames, $fileExtension = 'css')
 	{
