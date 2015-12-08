@@ -2592,6 +2592,7 @@ table.summary-table .summaryViewEdit{
 }
 .liStyleNone {
 	list-style: none outside none;
+	padding-left:60px;
 }
 .fontBold {
 	font-weight: bold !important;
@@ -4657,9 +4658,25 @@ html,body,.baseContainer
 .tl-storyslider{
 	height: 600px;
 }
+.tl-timemarker .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline {
+	line-height: 15px !important;
+}
 .tl-headline-date{
-	font-size: 35px !important;
+	font-size: 15px !important;
 	margin-bottom: 20px !important;
+}
+.tl-timeline{
+	font-family: inherit !important;
+}
+.tl-media .tl-media-content-container .tl-media-content img{
+	max-height: 350px !important;
+}
+.tl-text-content-container{
+	text-align: left;
+}
+.tl-timeline .tl-caption{
+	font-size: 15px;
+	font-weight: bold;
 }
 .tl-slide-media-only .tl-slide-content-container .tl-slide-content .tl-media{
 	width: 50% !important;
