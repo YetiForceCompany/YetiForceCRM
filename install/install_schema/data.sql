@@ -263,19 +263,19 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (137);
 
 /*Data for the table `dav_users` */
 
-/*Data for the table `l_yf_access_for_admin` */
-
-/*Data for the table `l_yf_access_for_api` */
-
-/*Data for the table `l_yf_access_for_user` */
-
-/*Data for the table `l_yf_access_to_record` */
-
-/*Data for the table `l_yf_csrf` */
-
 /*Data for the table `l_yf_sqltime` */
 
 /*Data for the table `l_yf_switch_users` */
+
+/*Data for the table `o_yf_access_for_admin` */
+
+/*Data for the table `o_yf_access_for_api` */
+
+/*Data for the table `o_yf_access_for_user` */
+
+/*Data for the table `o_yf_access_to_record` */
+
+/*Data for the table `o_yf_csrf` */
 
 /*Data for the table `roundcube_cache` */
 
@@ -1358,7 +1358,7 @@ insert  into `vtiger_currency_grouping_separator_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_currency_info` */
 
-insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł','1.00000','Active','-11',0);
+insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł',1.00000,'Active','-11',0);
 
 /*Data for the table `vtiger_currency_info_seq` */
 
@@ -5710,9 +5710,9 @@ insert  into `vtiger_inventoryproductrel_seq`(`id`) values (0);
 
 /*Data for the table `vtiger_inventorytaxinfo` */
 
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT','23.000',0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales','8.000',0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service','5.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT',23.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales',8.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service',5.000,0);
 
 /*Data for the table `vtiger_inventorytaxinfo_seq` */
 

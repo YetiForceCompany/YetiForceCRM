@@ -24,7 +24,7 @@ class NoPermittedException extends Exception
 		$request = new Vtiger_Request($_REQUEST);
 		$dbLog = PearDatabase::getInstance('log');
 		$userName = Vtiger_Session::get('full_user_name');
-		$dbLog->insert('l_yf_access_for_user', [
+		$dbLog->insert('o_yf_access_for_user', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => Vtiger_Functions::getRemoteIP(),
@@ -47,7 +47,7 @@ class NoPermittedToRecordException extends Exception
 		$request = new Vtiger_Request($_REQUEST);
 		$dbLog = PearDatabase::getInstance('log');
 		$userName = Vtiger_Session::get('full_user_name');
-		$dbLog->insert('l_yf_access_to_record', [
+		$dbLog->insert('o_yf_access_to_record', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => Vtiger_Functions::getRemoteIP(),
@@ -71,7 +71,7 @@ class NoPermittedForAdminException extends Exception
 		$request = new Vtiger_Request($_REQUEST);
 		$dbLog = PearDatabase::getInstance('log');
 		$userName = Vtiger_Session::get('full_user_name');
-		$dbLog->insert('l_yf_access_for_admin', [
+		$dbLog->insert('o_yf_access_for_admin', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => Vtiger_Functions::getRemoteIP(),
@@ -93,7 +93,7 @@ class CsrfException extends Exception
 
 		$dbLog = PearDatabase::getInstance('log');
 		$userName = Vtiger_Session::get('full_user_name');
-		$dbLog->insert('l_yf_csrf', [
+		$dbLog->insert('o_yf_csrf', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => Vtiger_Functions::getRemoteIP(),
@@ -115,7 +115,7 @@ class APINoPermittedException extends Exception
 		$request = new Vtiger_Request($_REQUEST);
 		$dbLog = PearDatabase::getInstance('log');
 		$userName = Vtiger_Session::get('full_user_name');
-		$dbLog->insert('l_yf_access_for_api', [
+		$dbLog->insert('o_yf_access_for_api', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => Vtiger_Functions::getRemoteIP(),
