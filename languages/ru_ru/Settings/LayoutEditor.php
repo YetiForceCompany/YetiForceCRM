@@ -146,6 +146,8 @@ $languageStrings = [
 	'LBL_PURCHASE_DESC' => 'Числовое поле используется для ввода значения Количество данного элемента.',
 	'LBL_MARGIN_DESC' => 'Не редактируется поле рассчитывается автоматически, содержит значение прибыли для данного элемента (Розничная цена - Себестоимость), не включают в себя налог.',
 	'LBL_MARGIN_PERCENT_DESC' => 'Не редактируется поле рассчитывается автоматически, содержит значение прибыли, выраженное в процентах.',
+	'LBL_DEACTIVATE_FAVORITES' => 'Deactivate function: Add to favorites',
+	'LBL_ACTIVATE_FAVORITES' => 'Activate function: Add to favorites',
 ];
 
 $jsLanguageStrings = [

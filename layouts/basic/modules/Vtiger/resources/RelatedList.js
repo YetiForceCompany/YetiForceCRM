@@ -580,9 +580,34 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 					return false;
 				});
 	},
+	favoritesRelation: function (relcrmId, state) {
+		var aDeferred = jQuery.Deferred();
+		var params = {};
+		params['action'] = "RelationAjax";
+		params['module'] = this.parentModuleName;
+		params['record'] = this.getParentId();
+		params['relcrmid'] = relcrmId;
+		params['relatedModule'] = this.relatedModulename;
+		params['mode'] = "updateFavoriteForRecord";
+		params['actionMode'] = state ? 'delete' : 'add';
+
+		if (relcrmId) {
+			AppConnector.request(params).then(
+					function (data) {
+						if(data.result)
+							aDeferred.resolve(true);
+					},
+					function (error, err) {
+					}
+			);
+		} else {
+			aDeferred.reject(false);
+		}
+		return aDeferred.promise();
+	},
 	init: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
 		this.selectedRelatedTabElement = selectedRelatedTabElement,
-				this.parentRecordId = parentId;
+		this.parentRecordId = parentId;
 		this.parentModuleName = parentModule;
 		this.relatedModulename = relatedModuleName;
 		this.relatedTabsContainer = selectedRelatedTabElement.closest('div.related');

@@ -1096,7 +1096,9 @@ $languageStrings = [
 	'SINGLE_SRequirementsCards' => 'Karta wymagań',
 	'SQuotes' => 'Oferty',
 	'SINGLE_SQuotes' => 'Oferta',
-	'LBL_NR' => 'L.p'
+	'LBL_NR' => 'L.p',
+	'LBL_ADD_TO_FAVORITES' => 'Dodaj do ulubionych',
+	'LBL_REMOVE_FROM_FAVORITES' => 'Usuń z ulubionych',
 	
 ];
 $jsLanguageStrings = [
@@ -1341,4 +1343,6 @@ $jsLanguageStrings = [
 	'JS_YESTERDAY' => 'Wczoraj',
 	'JS_OLDER' => 'Starsze',
 	'JS_SELECTED_ELEMENTS' => 'Ilość zaznaczonych elementów',
+	'JS_REMOVED_FROM_FAVORITES' => 'Usunięto z ulubionych',
+	'JS_ADDED_TO_FAVORITES' => 'Dodano do ulubionych',
 ];

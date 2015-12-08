@@ -145,6 +145,8 @@ $languageStrings = [
 	'LBL_PURCHASE_DESC' => 'Numeric field used to enter the purchase/acquisition value of a given element.',
 	'LBL_MARGIN_DESC' => 'Non-editable field calculated automatically, contains the profit value for a given element (Price after discount – Purchase), does not include tax.',
 	'LBL_MARGIN_PERCENT_DESC' => 'Non-editable field calculated automatically, contains the profit value, expressed as a percentage.',
+	'LBL_DEACTIVATE_FAVORITES' => 'Deactivate function: Add to favorites',
+	'LBL_ACTIVATE_FAVORITES' => 'Activate function: Add to favorites',
 ];
 
 $jsLanguageStrings = [

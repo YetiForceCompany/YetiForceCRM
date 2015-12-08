@@ -141,6 +141,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var relatedModule = currentTarget.closest('.relatedModule');
 			var selectedFields = thisInstance.updateSelectedFields(currentTarget);
 		})
+		relatedList.on('click', '.addToFavorites', function (e) {
+			var currentTarget = jQuery(e.currentTarget);
+			thisInstance.changeStateFavorites(currentTarget);
+		})
 		relatedList.on('click', '.addRelation', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var container = currentTarget.closest('#relatedTabOrder');
@@ -209,6 +213,37 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				thisInstance.updateSequenceRelatedModule();
 			}
 		});
+	},
+	changeStateFavorites: function (currentTarget) {
+		var thisInstance = this;
+		var relatedModule = currentTarget.closest('.relatedModule');
+		var status = currentTarget.data('state') == 1 ? 0 : 1;
+		var params = {};
+		params['module'] = app.getModuleName();
+		params['parent'] = app.getParentModuleName();
+		params['action'] = 'Relation';
+		params['mode'] = 'updateStateFavorites';
+		params['relationId'] = relatedModule.data('relation-id');
+		params['status'] = status;
+
+		AppConnector.request(params).then(
+				function (data) {
+					currentTarget.data('state', status);
+					currentTarget.find('.glyphicon').each(function () {
+						if (jQuery(this).hasClass('hide')) {
+							jQuery(this).removeClass('hide');
+						} else {
+							jQuery(this).addClass('hide');
+						}
+					})
+					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_NOTIFY_OK')});
+				},
+				function (error) {
+					var params = {};
+					params['text'] = error;
+					Settings_Vtiger_Index_Js.showMessage(params);
+				}
+		);
 	},
 	changeStatusRelatedModule: function (relationId, status) {
 		var thisInstance = this;

@@ -83,6 +83,12 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
 
+		if ($relationModel->isFavorites()) {
+			$favorites = $relationListView->getFavoriteRecords();
+			$viewer->assign('FAVORITES', $favorites);
+		}
+
+		$viewer->assign('IS_FAVORITES', $relationModel->isFavorites());
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());

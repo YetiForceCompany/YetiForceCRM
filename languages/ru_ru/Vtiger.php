@@ -1347,6 +1347,8 @@ $languageStrings = [
 	'SQuotes' => 'Предложения',
 	'SINGLE_SQuotes' => 'Предложение',
 	'LBL_NR'	=>	'Номер',
+	'LBL_ADD_TO_FAVORITES' => 'Add to favorites',
+	'LBL_REMOVE_FROM_FAVORITES' => 'Remove from favorites',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',
@@ -1679,4 +1681,6 @@ $jsLanguageStrings = [
 	'JS_PDF_RECALCULATING' => 'Проверка шаблона PDF',
 	'JS_PDF_GENERATING' => 'Создание PDF',
 	'JS_SELECTED_ELEMENTS' => 'Количество выбранных элементов',
+	'JS_REMOVED_FROM_FAVORITES' => 'Removed from favorites',
+	'JS_ADDED_TO_FAVORITES' => 'Added to favorites',
 ];

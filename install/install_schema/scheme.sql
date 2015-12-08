@@ -750,6 +750,22 @@ CREATE TABLE `s_yf_multireference` (
   KEY `source_module` (`source_module`,`dest_module`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_favorites` */
+
+CREATE TABLE `u_yf_favorites` (
+  `crmid` int(19) DEFAULT NULL,
+  `module` varchar(30) DEFAULT NULL,
+  `relcrmid` int(19) DEFAULT NULL,
+  `relmodule` varchar(30) DEFAULT NULL,
+  `userid` int(19) DEFAULT NULL,
+  `data` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  KEY `crmid` (`crmid`),
+  KEY `relcrmid` (`relcrmid`),
+  KEY `mix` (`crmid`,`module`,`relcrmid`,`relmodule`,`userid`),
+  CONSTRAINT `fk_1_u_yf_favorites` FOREIGN KEY (`relcrmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `fk_u_yf_favorites` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_crmentity_showners` */
 
 CREATE TABLE `u_yf_crmentity_showners` (
@@ -6707,6 +6723,7 @@ CREATE TABLE `vtiger_relatedlists` (
   `label` varchar(100) DEFAULT NULL,
   `presence` int(10) NOT NULL DEFAULT '0',
   `actions` varchar(50) NOT NULL DEFAULT '',
+  `favorites` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`relation_id`),
   KEY `relatedlists_relation_id_idx` (`relation_id`),
   KEY `tabid` (`tabid`),

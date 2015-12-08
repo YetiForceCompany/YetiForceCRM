@@ -907,6 +907,47 @@ jQuery.Class("Vtiger_Detail_Js", {
 					}
 			);
 		});
+		
+		detailContentsHolder.on('click', 'a.favorites', function (e) {
+			var progressInstance = jQuery.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			var element = jQuery(e.currentTarget);
+			var instance = Vtiger_Detail_Js.getInstance();
+
+			var row = element.closest('tr');
+			var relatedRecordid = row.data('id');
+			var widget_contents = element.closest('.widget_contents');
+			var selectedTabElement = thisInstance.getSelectedTab();
+			var relatedModuleName = thisInstance.getRelatedModuleName();
+			if (relatedModuleName == undefined) {
+				relatedModuleName = widget_contents.find('.relatedModuleName').val();
+			}
+			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
+			relatedController.favoritesRelation(relatedRecordid, element.data('state')).then(function (response) {
+				if(response){
+					var state = element.data('state') ? 0 : 1;
+					element.data('state', state);
+					element.find('.glyphicon').each(function () {
+						if (jQuery(this).hasClass('hide')) {
+							jQuery(this).removeClass('hide');
+						} else {
+							jQuery(this).addClass('hide');
+						}
+					})
+					progressInstance.progressIndicator({'mode': 'hide'});
+					var text = app.vtranslate('JS_REMOVED_FROM_FAVORITES');
+					if(state){
+						text = app.vtranslate('JS_ADDED_TO_FAVORITES');
+					}
+					Vtiger_Helper_Js.showPnotify({text: text, type: 'success', animation: 'show'});
+				}
+				
+			});
+		});
 	},
 	registerBlockAnimationEvent: function () {
 		var detailContentsHolder = this.getContentHolder();

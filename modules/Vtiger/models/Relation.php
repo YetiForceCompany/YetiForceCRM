@@ -479,4 +479,38 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		}
 		return ['table' => $tableName, 'module' => $temp[0], 'base' => $baseColumn, 'rel' => $relColumn];
 	}
+	
+	public function updateFavoriteForRecord($action, $data)
+	{
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$moduleName = $this->getParentModuleModel()->get('name');
+		$result = false;
+		if('add' == $action){
+			$query = 'UPDATE vtiger_relatedlists SET `favorites` = ? WHERE `relation_id` = ?;';
+			$result = $db->insert('u_yf_favorites', [
+								'crmid' => $data['crmid'],
+								'module' => $moduleName,
+								'relcrmid' => $data['relcrmid'],
+								'relmodule' => $this->getRelationModuleName(),
+								'userid' => $currentUser->getId()
+							]);
+		}elseif('delete' == $action){
+			$where = 'crmid = ? AND module = ? AND relcrmid = ?  AND relmodule = ? AND userid = ?';
+			$result = $db->delete('u_yf_favorites', $where, [$data['crmid'],$moduleName,$data['relcrmid'],$this->getRelationModuleName(),$currentUser->getId()]);
+		}
+		return $result;
+	}
+	
+	public function updateStateFavorites($relationId, $status)
+	{
+		$adb = PearDatabase::getInstance();
+		$query = 'UPDATE vtiger_relatedlists SET `favorites` = ? WHERE `relation_id` = ?;';
+		$result = $adb->pquery($query, [$status, $relationId]);
+	}
+	
+	public function isFavorites()
+	{
+		return $this->get('favorites') == 1 ? true : false;
+	}
 }

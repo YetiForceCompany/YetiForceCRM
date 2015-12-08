@@ -1106,7 +1106,9 @@ $languageStrings = [
 	'SQuotes' => 'Quotes',
 	'SINGLE_SQuotes' => 'Quote',
 	'LBL_ADVANCED_BLOCK' => 'Advanced Block',
-	'LBL_NR' => 'Nr'
+	'LBL_NR' => 'Nr',
+	'LBL_ADD_TO_FAVORITES' => 'Add to favorites',
+	'LBL_REMOVE_FROM_FAVORITES' => 'Remove from favorites',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
@@ -1345,4 +1347,6 @@ $jsLanguageStrings = [
 	'JS_PDF_RECALCULATING' => '__UNTRANSLATED__',
 	'JS_PDF_GENERATING' => '__UNTRANSLATED__',
 	'JS_SELECTED_ELEMENTS' => '__UNTRANSLATED__',
+	'JS_REMOVED_FROM_FAVORITES' => 'Removed from favorites',
+	'JS_ADDED_TO_FAVORITES' => 'Added to favorites',
 ];
