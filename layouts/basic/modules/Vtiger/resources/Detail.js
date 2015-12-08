@@ -2757,11 +2757,18 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var thisInstance = this;
 		var commentContainer = $('.commentsBody');
 		var options = {
+			width: '100%',
+			height: '100%',
+			layout: 'portrait',
+			timenav_position: 'top', 
 			marker_height_min: 30,
 			marker_width_min: 100,
 			marker_padding: 5,
 			scale_factor: 1,
 			optimal_tick_width: 500,
+			slide_padding_lr: 100, 
+			slide_default_fade: "0%",
+			language: app.getLanguage().substring(0,2) 
 		};
 		var currentComment = $('#currentComment').val();
 		var allComments = $('#allComments').val();

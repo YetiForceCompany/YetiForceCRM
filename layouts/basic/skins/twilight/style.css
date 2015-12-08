@@ -4649,10 +4649,25 @@ html,body,.baseContainer
 .bodyHeader.menuOpen{
 	left: 230px;
 }
-.tl-storyslider,
+.tl-slide-media-only .tl-slide-content-container .tl-slide-content .tl-text{
+	position: relative;
+	float:right;
+	width: 50%;
+}
+.tl-storyslider{
+	height: 600px;
+}
+.tl-headline-date{
+	font-size: 35px !important;
+	margin-bottom: 20px !important;
+}
+.tl-slide-media-only .tl-slide-content-container .tl-slide-content .tl-media{
+	width: 50% !important;
+}
+.tl-slide-scrollable-container,
+.tl-slide-content{
+	width:100% !important;
+}
 .tl-attribution{
 	display:none;
-}
-.tl-menubar{
-	top:0px !important;
 }

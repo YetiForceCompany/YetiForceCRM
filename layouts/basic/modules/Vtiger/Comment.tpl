@@ -18,7 +18,7 @@
 					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
 					<div class="">
 						{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
-						<img class="alignMiddle pull-left" alt="" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
+						<img class="alignMiddle pull-left" alt="" width="48px" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
 					</div>
 					<div class="col-md-11 commentorInfo">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
