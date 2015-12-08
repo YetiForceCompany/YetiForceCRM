@@ -300,9 +300,9 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 										"thumbnail" => $iconPath
 									],
 									"text" => [
-										"headline" => $comment->get('commentcontent'),
-										'id' => $comment->get('modcommentsid')
-									]
+										"headline" => $comment->get('commentcontent')
+									],
+									"unique_id" => 'Id'. $comment->get('modcommentsid')
 								];
 			}
 		}

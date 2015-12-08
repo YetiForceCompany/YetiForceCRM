@@ -788,7 +788,6 @@ li.ui-timepicker-selected,
 	border: 1px solid #dddddd;
 	padding: 12px 12px 5px;
 	min-height: 125px;
-	margin-top: 15px;
 	display: block;
 }
 .commentContainer .addCommentBlock .commentcontent {
@@ -4662,14 +4661,17 @@ html,body,.baseContainer
 	line-height: 15px !important;
 }
 .tl-headline-date{
-	font-size: 15px !important;
+	font-size: 30px !important;
 	margin-bottom: 20px !important;
+}
+.tl-text-content-container .tl-headline{
+	font-size: 20px !important;
 }
 .tl-timeline{
 	font-family: inherit !important;
 }
 .tl-media .tl-media-content-container .tl-media-content img{
-	max-height: 350px !important;
+	max-height: 256px !important;
 }
 .tl-text-content-container{
 	text-align: left;

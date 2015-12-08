@@ -12,11 +12,12 @@
 
 {* Change to this also refer: RecentComments.tpl *}
 {assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
-<input type="hidden" id="allComments" value="{Vtiger_Util_Helper::toSafeHTML($ALL_COMMENTS_JSON)}">
 <input type="hidden" id="currentComment" value="{if !empty($CURRENT_COMMENT)}{$CURRENT_COMMENT->getId()}{/if}">
 <div id="timeline" class="timelineContainer"></div>
 <div class="commentContainer">
-	<div class="commentTitle">
+	<div class="commentsList commentsBody {if !$PARENT_COMMENTS} col-md-12 {else} col-md-9 {/if}">
+	</div>
+	<div class="commentTitle {if !$PARENT_COMMENTS}col-md-12 {else} col-md-3{/if} paddingLRZero">
 		{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
 			<div class="addCommentBlock">
 				<div>
@@ -28,9 +29,6 @@
 				<div class="clearfix"></div>
 			</div>
 		{/if}
-	</div>
-	<br>
-	<div class="commentsList commentsBody col-md-6">
 	</div>
 	<div class="hide basicAddCommentBlock">
 		<div class="row">
