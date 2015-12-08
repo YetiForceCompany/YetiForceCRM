@@ -277,6 +277,12 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (137);
 
 /*Data for the table `o_yf_csrf` */
 
+/*Data for the table `p_yf_servers` */
+
+/*Data for the table `p_yf_sessions` */
+
+/*Data for the table `p_yf_users` */
+
 /*Data for the table `roundcube_cache` */
 
 /*Data for the table `roundcube_cache_index` */
