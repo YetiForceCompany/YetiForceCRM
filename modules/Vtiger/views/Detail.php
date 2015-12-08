@@ -619,7 +619,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
 	
-		if ($relationModel->isFavorites()) {
+		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			$favorites = array_intersect_key($models, $favorites);
 			if (!empty($favorites)) {
