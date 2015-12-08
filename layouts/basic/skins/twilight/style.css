@@ -4677,6 +4677,7 @@ html,body,.baseContainer
 .tl-timeline .tl-caption{
 	font-size: 15px;
 	font-weight: bold;
+	min-width:200px;
 }
 .tl-slide-media-only .tl-slide-content-container .tl-slide-content .tl-media{
 	width: 50% !important;
