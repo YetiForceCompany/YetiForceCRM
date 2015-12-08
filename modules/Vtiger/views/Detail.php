@@ -619,13 +619,14 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
 	
-		if($relationModel->isFavorites()){
+		if ($relationModel->isFavorites()) {
 			$favorites = $relationListView->getFavoriteRecords();
-			if(!empty($favorites)){
-				$models = array_intersect_key($models, $favorites);
+			$favorites = array_intersect_key($models, $favorites);
+			if (!empty($favorites)) {
+				$models = $favorites;
 			}
 		}
-		
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('COLUMNS', $request->get('col'));
