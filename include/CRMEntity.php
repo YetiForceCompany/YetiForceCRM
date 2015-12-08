@@ -2446,8 +2446,7 @@ class CRMEntity
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$securityParameter = $this->getUserAccessConditionsQuery($module, $current_user);
 			$shownerid = array_merge([$current_user->id], $current_user_groups);
-			$shownersTable = Vtiger_SharedOwner_UIType::getShownerTable($module);
-			$sharedParameter .= 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM '.$shownersTable.' WHERE userid IN ('.implode(',', $shownerid).'))';
+			$sharedParameter .= 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid IN ('.implode(',', $shownerid).'))';
 		}
 		if ($shared_owners == true) {
 			if ($securityParameter != '') {

@@ -42,14 +42,13 @@ class Vtiger_SharingPrivileges_Handler extends VTEventHandler
 				$shownerIds = array_unique($shownerIds);
 				
 				$usersExist = [];
-				$shownersTable = Vtiger_SharedOwner_UIType::getShownerTable($entityData['destinationModule']);
-				$result = $db->pquery('SELECT crmid, userid FROM ' . $shownersTable . ' WHERE userid IN(' . implode(',', $shownerIds) . ') AND crmid = ?', [$destinationRecordId]);
+				$result = $db->pquery('SELECT crmid, userid FROM u_yf_crmentity_showners WHERE userid IN(' . implode(',', $shownerIds) . ') AND crmid = ?', [$destinationRecordId]);
 				while ($row = $db->getRow($result)) {
 					$usersExist[$row['crmid']][$row['userid']] = true;
 				}
 				foreach ($shownerIds as $userId) {
 					if (!isset($usersExist[$destinationRecordId][$userId])) {
-						$db->insert($shownersTable, [
+						$db->insert('u_yf_crmentity_showners', [
 							'crmid' => $destinationRecordId,
 							'userid' => $userId,
 						]);

@@ -311,6 +311,8 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 
 /*Data for the table `s_yf_multireference` */
 
+/*Data for the table `u_yf_crmentity_showners` */
+
 /*Data for the table `u_yf_recurring_info` */
 
 /*Data for the table `u_yf_scalculations` */
@@ -419,8 +421,6 @@ insert  into `u_yf_ssingleorders_invfield`(`id`,`columnname`,`label`,`invtype`,`
 /*Data for the table `u_yf_ssingleorderscf` */
 
 /*Data for the table `vtiger_account` */
-
-/*Data for the table `vtiger_account_showners` */
 
 /*Data for the table `vtiger_accountaddress` */
 
@@ -555,8 +555,6 @@ insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (5,'key','','o
 insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (6,'source','https://api.opencagedata.com/geocode/v1/','opencage_data');
 insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (7,'nominatim','0','opencage_data');
 insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (8,'result_num','10','global');
-
-/*Data for the table `vtiger_asset_showners` */
 
 /*Data for the table `vtiger_assets` */
 
@@ -858,8 +856,6 @@ insert  into `vtiger_bruteforce`(`attempsnumber`,`timelock`,`active`) values (10
 
 /*Data for the table `vtiger_bruteforce_users` */
 
-/*Data for the table `vtiger_calculation_showners` */
-
 /*Data for the table `vtiger_calculations` */
 
 /*Data for the table `vtiger_calculations_cons` */
@@ -924,8 +920,6 @@ insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`
 
 insert  into `vtiger_calendar_default_activitytypes_seq`(`id`) values (8);
 
-/*Data for the table `vtiger_calendar_showners` */
-
 /*Data for the table `vtiger_calendar_user_activitytypes` */
 
 insert  into `vtiger_calendar_user_activitytypes`(`id`,`defaultid`,`userid`,`color`,`visible`) values (1,1,1,'#00ff0d',1);
@@ -980,8 +974,6 @@ insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sor
 insert  into `vtiger_callhistorytype_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_campaign` */
-
-/*Data for the table `vtiger_campaign_showners` */
 
 /*Data for the table `vtiger_campaignaccountrel` */
 
@@ -1043,8 +1035,6 @@ insert  into `vtiger_carrier`(`carrierid`,`carrier`,`presence`,`picklist_valueid
 /*Data for the table `vtiger_carrier_seq` */
 
 insert  into `vtiger_carrier_seq`(`id`) values (5);
-
-/*Data for the table `vtiger_contact_showners` */
 
 /*Data for the table `vtiger_contactaddress` */
 
@@ -3533,8 +3523,6 @@ insert  into `vtiger_defaulteventstatus`(`defaulteventstatusid`,`defaulteventsta
 
 insert  into `vtiger_defaulteventstatus_seq`(`id`) values (2);
 
-/*Data for the table `vtiger_document_showners` */
-
 /*Data for the table `vtiger_duration_minutes` */
 
 insert  into `vtiger_duration_minutes`(`minutesid`,`duration_minutes`,`sortorderid`,`presence`) values (1,'00',0,1);
@@ -3667,8 +3655,6 @@ insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`e
 insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (90,'SSingleOrders','u_yf_ssingleorders','subject','ssingleordersid','ssingleordersid','subject',1,0);
 insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (91,'SRecurringOrders','u_yf_srecurringorders','subject','srecurringordersid','srecurringordersid','subject',1,0);
 
-/*Data for the table `vtiger_event_showners` */
-
 /*Data for the table `vtiger_eventhandler_module` */
 
 insert  into `vtiger_eventhandler_module`(`eventhandler_module_id`,`module_name`,`handler_class`) values (1,'ModTracker','ModTrackerHandler');
@@ -3754,8 +3740,6 @@ insert  into `vtiger_expectedresponse`(`expectedresponseid`,`expectedresponse`,`
 insert  into `vtiger_expectedresponse_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_faq` */
-
-/*Data for the table `vtiger_faq_showners` */
 
 /*Data for the table `vtiger_faqcategories` */
 
@@ -5575,11 +5559,7 @@ insert  into `vtiger_groups`(`groupid`,`groupname`,`description`,`color`,`module
 insert  into `vtiger_groups`(`groupid`,`groupname`,`description`,`color`,`modules`) values (3,'Marketing Group','Group Related to Marketing Activities','#E6FAD8',NULL);
 insert  into `vtiger_groups`(`groupid`,`groupname`,`description`,`color`,`modules`) values (4,'Support Group','Group Related to providing Support to Customers','#E6FAD8',NULL);
 
-/*Data for the table `vtiger_helpdesk_showners` */
-
 /*Data for the table `vtiger_holidaysentitlement` */
-
-/*Data for the table `vtiger_holidaysentitlement_showners` */
 
 /*Data for the table `vtiger_holidaysentitlement_year` */
 
@@ -5661,8 +5641,6 @@ insert  into `vtiger_hour_format`(`hour_formatid`,`hour_format`,`presence`,`pick
 
 insert  into `vtiger_hour_format_seq`(`id`) values (2);
 
-/*Data for the table `vtiger_idea_showners` */
-
 /*Data for the table `vtiger_ideas` */
 
 /*Data for the table `vtiger_ideascf` */
@@ -5743,8 +5721,6 @@ insert  into `vtiger_inventorytaxinfo_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_invoice_recurring_info` */
 
-/*Data for the table `vtiger_invoice_showners` */
-
 /*Data for the table `vtiger_invoiceaddress` */
 
 /*Data for the table `vtiger_invoicecf` */
@@ -5781,8 +5757,6 @@ insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`seque
 insert  into `vtiger_language_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_layout` */
-
-/*Data for the table `vtiger_lead_showners` */
 
 /*Data for the table `vtiger_lead_view` */
 
@@ -6622,8 +6596,6 @@ insert  into `vtiger_organizationdetails_seq`(`id`) values (1);
 
 /*Data for the table `vtiger_oss_project_templates` */
 
-/*Data for the table `vtiger_osscost_showners` */
-
 /*Data for the table `vtiger_osscosts` */
 
 /*Data for the table `vtiger_osscosts_config` */
@@ -6648,8 +6620,6 @@ insert  into `vtiger_ossdc_status_seq`(`id`) values (2);
 /*Data for the table `vtiger_ossdocumentcontrol` */
 
 /*Data for the table `vtiger_ossdocumentcontrol_cnd` */
-
-/*Data for the table `vtiger_ossemployee_showners` */
 
 /*Data for the table `vtiger_ossemployees` */
 
@@ -6688,8 +6658,6 @@ insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) val
 /*Data for the table `vtiger_ossmailscanner_folders_uid` */
 
 /*Data for the table `vtiger_ossmailscanner_log_cron` */
-
-/*Data for the table `vtiger_ossmailtemplate_showners` */
 
 /*Data for the table `vtiger_ossmailtemplates` */
 
@@ -6769,17 +6737,11 @@ insert  into `vtiger_ossmailview_sendtype`(`ossmailview_sendtypeid`,`ossmailview
 
 insert  into `vtiger_ossmailview_sendtype_seq`(`id`) values (5);
 
-/*Data for the table `vtiger_ossmailview_showners` */
-
 /*Data for the table `vtiger_ossmailviewcf` */
-
-/*Data for the table `vtiger_ossoutsourcedservice_showners` */
 
 /*Data for the table `vtiger_ossoutsourcedservices` */
 
 /*Data for the table `vtiger_ossoutsourcedservicescf` */
-
-/*Data for the table `vtiger_osspassword_showners` */
 
 /*Data for the table `vtiger_osspasswords` */
 
@@ -6915,8 +6877,6 @@ insert  into `vtiger_osspdf_pdf_orientation`(`osspdf_pdf_orientationid`,`osspdf_
 
 insert  into `vtiger_osspdf_pdf_orientation_seq`(`id`) values (2);
 
-/*Data for the table `vtiger_osspdf_showners` */
-
 /*Data for the table `vtiger_osspdf_view` */
 
 insert  into `vtiger_osspdf_view`(`osspdf_viewid`,`osspdf_view`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'List',1,385,1);
@@ -6934,15 +6894,11 @@ insert  into `vtiger_osspdfcf`(`osspdfid`) values (98);
 insert  into `vtiger_osspdfcf`(`osspdfid`) values (99);
 insert  into `vtiger_osspdfcf`(`osspdfid`) values (100);
 
-/*Data for the table `vtiger_osssoldservice_showners` */
-
 /*Data for the table `vtiger_osssoldservices` */
 
 /*Data for the table `vtiger_osssoldservicescf` */
 
 /*Data for the table `vtiger_osstimecontrol` */
-
-/*Data for the table `vtiger_osstimecontrol_showners` */
 
 /*Data for the table `vtiger_osstimecontrol_status` */
 
@@ -6966,8 +6922,6 @@ insert  into `vtiger_othereventduration`(`othereventdurationid`,`othereventdurat
 /*Data for the table `vtiger_othereventduration_seq` */
 
 insert  into `vtiger_othereventduration_seq`(`id`) values (5);
-
-/*Data for the table `vtiger_outsourcedproduct_showners` */
 
 /*Data for the table `vtiger_outsourcedproducts` */
 
@@ -7177,23 +7131,17 @@ insert  into `vtiger_postatus_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_potential` */
 
-/*Data for the table `vtiger_potential_showners` */
-
 /*Data for the table `vtiger_potentialscf` */
 
 /*Data for the table `vtiger_potstagehistory` */
 
 /*Data for the table `vtiger_pricebook` */
 
-/*Data for the table `vtiger_pricebook_showners` */
-
 /*Data for the table `vtiger_pricebookcf` */
 
 /*Data for the table `vtiger_pricebookproductrel` */
 
 /*Data for the table `vtiger_priority` */
-
-/*Data for the table `vtiger_product_showners` */
 
 /*Data for the table `vtiger_productcf` */
 
@@ -18520,8 +18468,6 @@ insert  into `vtiger_progress_seq`(`id`) values (11);
 
 /*Data for the table `vtiger_project` */
 
-/*Data for the table `vtiger_project_showners` */
-
 /*Data for the table `vtiger_projectcf` */
 
 /*Data for the table `vtiger_projectmilestone` */
@@ -18535,8 +18481,6 @@ insert  into `vtiger_projectmilestone_priority`(`projectmilestone_priorityid`,`p
 /*Data for the table `vtiger_projectmilestone_priority_seq` */
 
 insert  into `vtiger_projectmilestone_priority_seq`(`id`) values (3);
-
-/*Data for the table `vtiger_projectmilestone_showners` */
 
 /*Data for the table `vtiger_projectmilestonecf` */
 
@@ -18576,8 +18520,6 @@ insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`
 insert  into `vtiger_projectstatus_seq`(`id`) values (9);
 
 /*Data for the table `vtiger_projecttask` */
-
-/*Data for the table `vtiger_projecttask_showners` */
 
 /*Data for the table `vtiger_projecttaskcf` */
 
@@ -18644,21 +18586,15 @@ insert  into `vtiger_projecttype_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_purchaseorder` */
 
-/*Data for the table `vtiger_purchaseorder_showners` */
-
 /*Data for the table `vtiger_purchaseorderaddress` */
 
 /*Data for the table `vtiger_purchaseordercf` */
-
-/*Data for the table `vtiger_quote_showners` */
 
 /*Data for the table `vtiger_quotes` */
 
 /*Data for the table `vtiger_quotesaddress` */
 
 /*Data for the table `vtiger_quotescf` */
-
-/*Data for the table `vtiger_quotesenquire_showners` */
 
 /*Data for the table `vtiger_quotesenquires` */
 
@@ -19085,8 +19021,6 @@ insert  into `vtiger_reportfolder`(`folderid`,`foldername`,`description`,`state`
 
 /*Data for the table `vtiger_reporttype` */
 
-/*Data for the table `vtiger_requirementcard_showners` */
-
 /*Data for the table `vtiger_requirementcards` */
 
 /*Data for the table `vtiger_requirementcards_cons` */
@@ -19130,8 +19064,6 @@ insert  into `vtiger_requirementcards_status`(`requirementcards_statusid`,`requi
 insert  into `vtiger_requirementcards_status_seq`(`id`) values (8);
 
 /*Data for the table `vtiger_requirementcardscf` */
-
-/*Data for the table `vtiger_reservation_showners` */
 
 /*Data for the table `vtiger_reservations` */
 
@@ -24037,8 +23969,6 @@ insert  into `vtiger_sales_stage_seq`(`id`) values (17);
 
 /*Data for the table `vtiger_salesorder` */
 
-/*Data for the table `vtiger_salesorder_showners` */
-
 /*Data for the table `vtiger_salesorderaddress` */
 
 /*Data for the table `vtiger_salesordercf` */
@@ -24054,8 +23984,6 @@ insert  into `vtiger_salutationtype`(`salutationid`,`salutationtype`,`presence`,
 /*Data for the table `vtiger_salutationtype_seq` */
 
 insert  into `vtiger_salutationtype_seq`(`id`) values (6);
-
-/*Data for the table `vtiger_scalculation_showners` */
 
 /*Data for the table `vtiger_scalculations_status` */
 
@@ -24086,8 +24014,6 @@ insert  into `vtiger_selectquery_seq`(`id`) values (25);
 
 /*Data for the table `vtiger_service` */
 
-/*Data for the table `vtiger_service_showners` */
-
 /*Data for the table `vtiger_service_usageunit` */
 
 insert  into `vtiger_service_usageunit`(`service_usageunitid`,`service_usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Hours',1,226,1);
@@ -24111,8 +24037,6 @@ insert  into `vtiger_servicecategory`(`servicecategoryid`,`servicecategory`,`pre
 insert  into `vtiger_servicecategory_seq`(`id`) values (6);
 
 /*Data for the table `vtiger_servicecf` */
-
-/*Data for the table `vtiger_servicecontract_showners` */
 
 /*Data for the table `vtiger_servicecontracts` */
 
@@ -24259,10 +24183,6 @@ insert  into `vtiger_sostatus_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_sostatushistory` */
 
-/*Data for the table `vtiger_squote_showners` */
-
-/*Data for the table `vtiger_squoteenquirie_showners` */
-
 /*Data for the table `vtiger_squoteenquiries_status` */
 
 insert  into `vtiger_squoteenquiries_status`(`squoteenquiries_statusid`,`squoteenquiries_status`,`sortorderid`,`presence`) values (1,'PLL_DRAFT',1,1);
@@ -24282,8 +24202,6 @@ insert  into `vtiger_squotes_status`(`squotes_statusid`,`squotes_status`,`sortor
 insert  into `vtiger_squotes_status`(`squotes_statusid`,`squotes_status`,`sortorderid`,`presence`) values (6,'PLL_DISCARDED',6,0);
 insert  into `vtiger_squotes_status`(`squotes_statusid`,`squotes_status`,`sortorderid`,`presence`) values (7,'PLL_ACCEPTED',7,0);
 
-/*Data for the table `vtiger_srecurringorder_showners` */
-
 /*Data for the table `vtiger_srecurringorders_status` */
 
 insert  into `vtiger_srecurringorders_status`(`srecurringorders_statusid`,`srecurringorders_status`,`sortorderid`,`presence`) values (1,'PLL_DRAFT',1,1);
@@ -24296,8 +24214,6 @@ insert  into `vtiger_srecurringorders_status`(`srecurringorders_statusid`,`srecu
 insert  into `vtiger_srecurringorders_status`(`srecurringorders_statusid`,`srecurringorders_status`,`sortorderid`,`presence`) values (8,'PLL_UNREALIZED',8,0);
 insert  into `vtiger_srecurringorders_status`(`srecurringorders_statusid`,`srecurringorders_status`,`sortorderid`,`presence`) values (9,'PLL_REALIZED',9,0);
 
-/*Data for the table `vtiger_srequirementscard_showners` */
-
 /*Data for the table `vtiger_srequirementscards_status` */
 
 insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`srequirementscards_status`,`sortorderid`,`presence`) values (1,'PLL_DRAFT',1,1);
@@ -24306,10 +24222,6 @@ insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`s
 insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`srequirementscards_status`,`sortorderid`,`presence`) values (4,'PLL_WAITING_FOR_APPROVAL',4,1);
 insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`srequirementscards_status`,`sortorderid`,`presence`) values (5,'PLL_DISCARDED',5,0);
 insert  into `vtiger_srequirementscards_status`(`srequirementscards_statusid`,`srequirementscards_status`,`sortorderid`,`presence`) values (6,'PLL_ACCEPTED',6,0);
-
-/*Data for the table `vtiger_ssalesprocesse_showners` */
-
-/*Data for the table `vtiger_ssingleorder_showners` */
 
 /*Data for the table `vtiger_ssingleorders_status` */
 
@@ -24922,8 +24834,6 @@ insert  into `vtiger_users_seq`(`id`) values (4);
 /*Data for the table `vtiger_userscf` */
 
 /*Data for the table `vtiger_vendor` */
-
-/*Data for the table `vtiger_vendor_showners` */
 
 /*Data for the table `vtiger_vendoraddress` */
 

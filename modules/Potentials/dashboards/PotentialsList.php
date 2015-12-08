@@ -65,8 +65,7 @@ class Potentials_PotentialsList_Dashboard extends Vtiger_IndexAjax_View {
 		}
 		$showtype = $request->get('showtype');
 		if($showtype == 'common'){
-			$shownersTable = Vtiger_SharedOwner_UIType::getShownerTable($module);
-			$sql .= ' AND vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM '.$shownersTable.' WHERE userid = ?';
+			$sql .= ' AND vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ?';
 		}else{
 			$sql .=	' AND vtiger_crmentity.smownerid = ?';
 		}

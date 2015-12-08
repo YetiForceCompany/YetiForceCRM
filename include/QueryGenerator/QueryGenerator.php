@@ -1149,13 +1149,12 @@ class QueryGenerator
 				continue;
 			}
 			if ($field->getUIType() == 120) {
-				$shownersTable = Vtiger_SharedOwner_UIType::getShownerTable($this->getModule());
 				if ($operator == 'om') {
-					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM ' . $shownersTable . ' WHERE userid = ' . Users_Record_Model::getCurrentUserModel()->get('id') . ')';
+					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ' . Users_Record_Model::getCurrentUserModel()->get('id') . ')';
 				} else if (in_array($operator, ['e', 's', 'ew', 'c'])) {
-					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM ' . $shownersTable . ' WHERE userid = ' . $value . ')';
+					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ' . $value . ')';
 				} else if (in_array($operator, ['n', 'k'])) {
-					$sql[] = 'vtiger_crmentity.crmid NOT IN (SELECT DISTINCT crmid FROM ' . $shownersTable . ' WHERE userid = ' . $value . ')';
+					$sql[] = 'vtiger_crmentity.crmid NOT IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ' . $value . ')';
 				}
 				continue;
 			}

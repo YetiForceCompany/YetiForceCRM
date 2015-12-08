@@ -241,9 +241,8 @@ class Users_Privileges_Model extends Users_Record_Model
 		$db = PearDatabase::getInstance();
 		$userIds = $recordModel->get('shownerid');
 		$record = $recordModel->getId();
-		$shownersTable = Vtiger_SharedOwner_UIType::getShownerTable($recordModel->getModuleName());
 
-		$db->delete($shownersTable, 'crmid = ?', [$record]);
+		$db->delete('u_yf_crmentity_showners', 'crmid = ?', [$record]);
 		if (empty($userIds)) {
 			return false;
 		}
@@ -251,7 +250,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			$userIds = [$userIds];
 		}
 		foreach ($userIds as $userId) {
-			$db->insert($shownersTable, [
+			$db->insert('u_yf_crmentity_showners', [
 				'crmid' => $record,
 				'userid' => $userId,
 			]);
@@ -281,22 +280,21 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		foreach ($recordsByModule as $parentModuleName => &$records) {
 			$sqlRecords = implode(',', $records);
-			$shownersTable = Vtiger_SharedOwner_UIType::getShownerTable($parentModuleName);
 
 			if ($removeUserString !== false) {
-				$db->delete($shownersTable, 'userid IN(' . $removeUserString . ') AND crmid IN (' . $sqlRecords . ')');
+				$db->delete('u_yf_crmentity_showners', 'userid IN(' . $removeUserString . ') AND crmid IN (' . $sqlRecords . ')');
 			}
 
 			if ($addUserString !== false) {
 				$usersExist = [];
-				$result = $db->query('SELECT crmid, userid FROM ' . $shownersTable . ' WHERE userid IN(' . $addUserString . ') AND crmid IN (' . $sqlRecords . ')');
+				$result = $db->query('SELECT crmid, userid FROM u_yf_crmentity_showners WHERE userid IN(' . $addUserString . ') AND crmid IN (' . $sqlRecords . ')');
 				while ($row = $db->getRow($result)) {
 					$usersExist[$row['crmid']][$row['userid']] = true;
 				}
 				foreach ($records as &$record) {
 					foreach ($addUser as $userId) {
 						if (!isset($usersExist[$record][$userId])) {
-							$db->insert($shownersTable, [
+							$db->insert('u_yf_crmentity_showners', [
 								'crmid' => $record,
 								'userid' => $userId,
 							]);
