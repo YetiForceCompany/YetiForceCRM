@@ -2775,7 +2775,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var mainNavWidth = 0;
 		var freeSpace = 0;
 		container.find('.nav .mainNav').each(function (e) {
-			mainNavWidth += jQuery(this).width() + margin;
+			mainNavWidth += Math.ceil(jQuery(this).width() + margin);
 		});	
 		moreBtn.removeClass('hide');
 		var widthMoreBtn = moreBtn.width();
@@ -2785,7 +2785,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			jQuery(this).removeClass('hide');
 			if(freeSpace  > jQuery(this).width()){
 				moreList.find('[data-reference="' + jQuery(this).data('reference')+'"]').addClass('hide');				
-				freeSpace -= jQuery(this).width() + margin ;
+				freeSpace -= Math.ceil(jQuery(this).width() + margin) ;
 			}
 			else{
 				if(freeSpace !== 0){
@@ -2849,7 +2849,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var allComments = JSON.parse(allComments);
 				var timeline = new TL.Timeline('timeline', allComments, options);
 				timeline.on('change', function(data) {
-					thisInstance.refreshCommentContainer(data.unique_id.substr(2,3));
+					var uniqueId = data.unique_id;
+					thisInstance.refreshCommentContainer(uniqueId.substr(2, uniqueId.length - 2));
 				});
 				if (!currentComment){
 					timeline.goToEnd();
