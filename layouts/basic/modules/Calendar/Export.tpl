@@ -21,8 +21,8 @@
 				<input type="hidden" name="module" value="{$MODULE}" />
 				<input type="hidden" name="action" value="ExportData" />
 				<input type="hidden" name="viewname" value="{$VIEWID}" />
-				<input type="hidden" name="selected_ids" value={ZEND_JSON::encode($SELECTED_IDS)}>
-				<input type="hidden" name="excluded_ids" value={ZEND_JSON::encode($EXCLUDED_IDS)}>
+				<input type="hidden" name="selected_ids" value="{ZEND_JSON::encode($SELECTED_IDS)}">
+				<input type="hidden" name="excluded_ids" value="{ZEND_JSON::encode($EXCLUDED_IDS)}">
 				<input type="hidden" id="page" name="page" value="{$PAGE}" />
 				<div name='exportCalendar'>
 					<input type="hidden" value="export" name="view">
@@ -43,7 +43,9 @@
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-success" type="submit" name="saveButton" onclick="app.hideModalWindow();" ><strong>{vtranslate('LBL_EXPORT', $MODULE)}</strong></button>
-			</div>
+					&nbsp;&nbsp;
+                    <button class="btn btn-warning" type="reset" onclick='window.history.back()'>{vtranslate('LBL_CANCEL', $MODULE)}</button>
+				</div>
 			</form>
 		</div>
 	</div>
