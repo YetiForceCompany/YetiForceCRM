@@ -34,7 +34,7 @@
 				<tr name="fieldHeaders">
 					<td><b>{vtranslate('LBL_BLOCK', $QUALIFIED_MODULE)}</b></td>
 					<td>
-						<div class="col-md-4">
+						<div class="col-md-5">
 							<select class="chzn-select form-control" name="blockid">
 								{foreach from=$BLOCKS item=MODULES key=key}
 									<optgroup label="{vtranslate($key, $key)}">
@@ -50,7 +50,7 @@
 				<tr name="fieldHeaders">
 					<td><b>{vtranslate('LBL_ENABLED', $QUALIFIED_MODULE)}</b></td>
 					<td>
-						<div class="col-md-4">
+						<div class="col-md-5">
 							<input type="checkbox" name="enabled" value="true" {if $ENABLED}checked{/if} />
 						</div>
 					</td>
@@ -58,7 +58,7 @@
 				<tr name="fieldHeaders">
 					<td><b>{vtranslate('LBL_VIEW', $QUALIFIED_MODULE)}</b></td>
 					<td class="col-md-10">
-						<div class="col-md-4">
+						<div class="col-md-5">
 							<select multiple class="chzn-select form-control" name="views[]">
 								{foreach from=$VIEWS item=LABEL key=VIEW_NAME}
 									<option value="{$VIEW_NAME}" {if in_array($VIEW_NAME,$SELECTED_VIEWS)}selected=""{/if}>{vtranslate($LABEL,$QUALIFIED_MODULE)}</option>
