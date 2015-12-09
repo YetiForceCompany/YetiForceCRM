@@ -387,7 +387,7 @@ $languageStrings = [
 	'LBL_PERMISSION_DENIED' => 'Brak uprawnień',
 	'LBL_NO_PERMISSIONS_FOR_THE_RECORD' => 'Próbujesz przeglądać/edytować rekord do którego nie masz wystarczających uprawnień. Jeśli powinieneś mieć do niego dostęp zgłoś problem administratorowi.',
 	'LBL_PLEASE_SELECT_MODULE' => 'Proszę wybrać moduł',
-	'LBL_POST' => 'Zatwierdź',
+	'LBL_POST' => 'Dodaj',
 	'LBL_PREVIOUS_FQ' => 'Poprzedni kwartał',
 	'LBL_PREVIOUS_FY' => 'Poprzedni rok',
 	'LBL_PRE_TAX_TOTAL' => 'Wartość po rabacie (netto)',
@@ -1099,7 +1099,7 @@ $languageStrings = [
 	'LBL_NR' => 'L.p',
 	'LBL_ADD_TO_FAVORITES' => 'Dodaj do ulubionych',
 	'LBL_REMOVE_FROM_FAVORITES' => 'Usuń z ulubionych',
-	
+	'LBL_TIMELINE' => 'Oś czasu',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

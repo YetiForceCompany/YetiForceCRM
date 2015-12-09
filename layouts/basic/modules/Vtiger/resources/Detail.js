@@ -2071,8 +2071,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 							thisInstance.registerBasicEvents();
 							// Let listeners know about page state change.
 							app.notifyPostAjaxReady();
-							if(tabElement.data('label-key') == 'ModComments')
-								thisInstance.registerRefreshTimeline();
 						},
 						function () {
 							//TODO : handle error
@@ -2430,7 +2428,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					var commentInfoBlock = currentTarget.closest('.singleComment');
 					commentTextAreaElement.val('');
 					if (mode == "add") {
-						thisInstance.registerRefreshTimeline();
+						thisInstance.registerRefreshTimeline('last');
 						var commentId = data['result']['id'];
 						var commentHtml = thisInstance.getCommentUI(commentId);
 						commentHtml.then(function (data) {
@@ -2456,7 +2454,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 								}
 							} else {
 								jQuery('<ul class="liStyleNone"><li class="commentDetails">' + data + '</li></ul>').prependTo(closestAddCommentBlock.closest('.commentContainer').find('.commentsList'));
-								commentTextAreaElement.css({height: '71px'});
 							}
 							commentInfoBlock.find('.commentActionsContainer').show();
 						});
@@ -2484,7 +2481,19 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
-
+		detailContentsHolder.find('.commentsBar .switchBtn').on('switchChange.bootstrapSwitch',  function (e, state) {
+			if(state){
+				thisInstance.registerRefreshTimeline();
+			}
+			else{
+				var params = {
+					module: app.getModuleName(),
+					view: 'ShowListComments',
+					record: thisInstance.getRecordId()
+				};
+				
+			}
+		});
 		detailContentsHolder.on('click', '.moreRecentComments', function () {
 			var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
 			recentCommentsTab.trigger('click');
@@ -2631,6 +2640,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	registerBasicEvents: function () {
 		var thisInstance = this;
 		var detailContentsHolder = thisInstance.getContentHolder();
+		var selectedTabElement = thisInstance.getSelectedTab();
 		//register all the events for summary view container
 		thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 		thisInstance.registerCommentEvents(detailContentsHolder);
@@ -2639,7 +2649,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		app.registerEventForTimeFields(detailContentsHolder);
 
 		detailContentsHolder.on('click', '#detailViewNextRecordButton', function (e) {
-			var selectedTabElement = thisInstance.getSelectedTab();
 			var url = selectedTabElement.data('url');
 			var currentPageNum = thisInstance.getRelatedListCurrentPageNum();
 			var requestedPage = parseInt(currentPageNum) + 1;
@@ -2648,7 +2657,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 
 		detailContentsHolder.on('click', '#detailViewPreviousRecordButton', function (e) {
-			var selectedTabElement = thisInstance.getSelectedTab();
 			var url = selectedTabElement.data('url');
 			var currentPageNum = thisInstance.getRelatedListCurrentPageNum();
 			var requestedPage = parseInt(currentPageNum) - 1;
@@ -2765,6 +2773,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerEventForRelatedListPagination();
 		thisInstance.registerBlockAnimationEvent();
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]'));
+		if(selectedTabElement.data('reference') == 'Comments'){
+			thisInstance.registerRefreshTimeline();
+		}
 	},
 	refreshRelatedList: function(){
 		var container = jQuery('.related');	
@@ -2852,12 +2863,20 @@ jQuery.Class("Vtiger_Detail_Js", {
 					var uniqueId = data.unique_id;
 					thisInstance.refreshCommentContainer(uniqueId.substr(2, uniqueId.length - 2));
 				});
-				if (!currentComment){
-					timeline.goToEnd();
+				if (!currentComment || currentComment == 'last'){
+					if(allComments.events.length == 1){
+						var uniqueId = allComments.events[0].unique_id;
+						thisInstance.refreshCommentContainer(uniqueId.substr(2, uniqueId.length - 2));
+					}
+					else{
+						timeline.goToEnd();
+					}
+				}
+				else if(allComments.events[allComments.events.length - 1].unique_id == 'Id' + currentComment){
+					thisInstance.refreshCommentContainer(currentComment);
 				}
 				else{
 					timeline.goToId('Id' + currentComment);
-					thisInstance.refreshCommentContainer(currentComment);
 				}
 			}
 		});
@@ -2898,7 +2917,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerRelatedModulesRecordCount();
 		var header = Vtiger_Header_Js.getInstance();
 		header.registerQuickCreateCallBack(this.registerRelatedModulesRecordCount);
-		thisInstance.registerRefreshTimeline();
 	}
 });
 
