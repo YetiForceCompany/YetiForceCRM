@@ -54,7 +54,7 @@ $languageStrings = [
 	'None' => 'Нет',
 	'ProductsServices' => 'Товары и Услуги',
 	'Campaign status' => 'Статус Компании',
-	'Select button info' => 'Включить видимую кнопку выбора',
+	'LBL_SELECT_BUTTON_INFO' => 'Включить видимую кнопку выбора',
 	'LBL_CONDITION' => 'Состояние',
 	'LBL_CONDITION_INFO' => 'Выбор условий для показа записи',
 ];
