@@ -8,7 +8,6 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = [
-	'Roles' => 'Rollen',
 	'Users' => 'Benutzer',
 	'LBL_ADD_RECORD' => 'Gruppe hinzufügen',
 	'LBL_ADD_USERS_ROLES' => 'Hinzufügen von Benutzern, Rollen, ...',
@@ -18,9 +17,7 @@ $languageStrings = [
 	'LBL_ROLEANDSUBORDINATE' => 'Rolle und Untergebene',
 	'LBL_TO_OTHER_GROUP' => 'An andere Gruppe ',
 	'LBL_TRANSFORM_OWNERSHIP' => 'Berechtigungen übertragen',
-	'RoleAndSubordinates' => 'Rolle und Untergebene',
 	'SINGLE_Groups' => 'Gruppe',
-	'Groups' => 'Gruppen',
 	'Name' => 'Name',
 	'Description' => 'Beschreibung',
 ];
