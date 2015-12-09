@@ -11,43 +11,6 @@
 class Potentials_DetailView_Model extends Vtiger_DetailView_Model
 {
 
-	/**
-	 * Function to get the detail view links (links and widgets)
-	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
-	 * @return <array> - array of link models in the format as below
-	 *                   array('linktype'=>list of link models);
-	 */
-	public function getDetailViewLinks($linkParams)
-	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
-		$linkModelList = parent::getDetailViewLinks($linkParams);
-		$recordModel = $this->getRecord();
-		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
-		$quoteModuleModel = Vtiger_Module_Model::getInstance('Quotes');
-
-		if ($currentUserModel->hasModuleActionPermission($invoiceModuleModel->getId(), 'EditView')) {
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => vtranslate('LBL_CREATE') . ' ' . vtranslate($invoiceModuleModel->getSingularLabelKey(), 'Invoice'),
-				'linkurl' => $recordModel->getCreateInvoiceUrl(),
-				'linkicon' => 'glyphicon glyphicon-list-alt'
-			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-
-		if ($currentUserModel->hasModuleActionPermission($quoteModuleModel->getId(), 'EditView')) {
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => vtranslate('LBL_CREATE') . ' ' . vtranslate($quoteModuleModel->getSingularLabelKey(), 'Quotes'),
-				'linkurl' => $recordModel->getCreateQuoteUrl(),
-				'linkicon' => 'glyphicon glyphicon-briefcase'
-			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-		return $linkModelList;
-	}
-
 	function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();

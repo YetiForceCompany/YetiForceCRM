@@ -11,13 +11,6 @@
 class Potentials_Record_Model extends Vtiger_Record_Model
 {
 
-	function getCreateInvoiceUrl()
-	{
-		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
-		return 'index.php?module=' . $invoiceModuleModel->getName() . '&view=' . $invoiceModuleModel->getEditViewName() . '&account_id=' . $this->get('related_to') .
-			'&potentialid=' . $this->getId() . '&sourceModule=' . $this->getModuleName() . '&sourceRecord=' . $this->getId() . '&relationOperation=true';
-	}
-
 	/**
 	 * Function returns the url for create event
 	 * @return <String>
@@ -47,16 +40,6 @@ class Potentials_Record_Model extends Vtiger_Record_Model
 		return array(
 			array('parentField' => 'related_to', 'inventoryField' => 'account_id', 'defaultValue' => ''),
 		);
-	}
-
-	/**
-	 * Function returns the url for create quote
-	 * @return <String>
-	 */
-	public function getCreateQuoteUrl()
-	{
-		$quoteModuleModel = Vtiger_Module_Model::getInstance('Quotes');
-		return $quoteModuleModel->getCreateRecordUrl() . '&sourceRecord=' . $this->getId() . '&sourceModule=' . $this->getModuleName() . '&potential_id=' . $this->getId() . '&relationOperation=true';
 	}
 
 	public function recalculatePotentials($PotentialsID)
