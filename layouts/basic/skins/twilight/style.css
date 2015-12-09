@@ -584,6 +584,9 @@ li.ui-timepicker-selected,
 	display: table;
 	min-width: 100%;
 }
+.contents-bottomscroll {
+	overflow-x: auto !important;
+}
 .listViewLoadingImageBlock {
 	background: none;
 	border-radius: 0px;
