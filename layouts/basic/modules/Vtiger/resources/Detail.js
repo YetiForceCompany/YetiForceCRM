@@ -2365,7 +2365,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var commentInfoContent = commentInfoBlock.find('.commentInfoContent');
 			var commentReason = commentInfoBlock.find('[name="editReason"]');
 			var editCommentBlock = thisInstance.getEditCommentBlock();
-			editCommentBlock.find('.commentcontent').text(commentInfoContent.text());
+			editCommentBlock.find('.commentcontent').val(commentInfoContent.text());
 			editCommentBlock.find('[name="reasonToEdit"]').val(commentReason.text());
 			commentInfoContent.hide();
 			commentInfoBlock.find('.commentActionsContainer').hide();
@@ -2392,6 +2392,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 									commentDetails.fadeOut(400, function () {
 										commentDetails.remove();
 									});
+									thisInstance.registerRefreshTimeline('last');
 								} else {
 									Vtiger_Helper_Js.showPnotify(data.error.message);
 								}
@@ -2488,7 +2489,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			else{
 				var params = {
 					module: app.getModuleName(),
-					view: 'ShowListComments',
+					view: 'Detail',
+					mode: 'ShowListComments',
 					record: thisInstance.getRecordId()
 				};
 				

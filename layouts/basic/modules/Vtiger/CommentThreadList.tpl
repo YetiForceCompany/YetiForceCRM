@@ -71,6 +71,14 @@
 										<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_EDIT',$MODULE_NAME)}
 									</a>
 								{/if}
+								{if $COMMENTS_MODULE_MODEL->isPermitted('Delete')}
+									<span>
+										<span style="color:black">|</span>&nbsp;
+										<a class="cursorPointer deleteComment">
+											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_DELETE',$MODULE_NAME)}
+										</a>
+									</span>
+								{/if}
 							</span>
 						{/if}
 					</span>
