@@ -19,7 +19,7 @@
 		<div class="tab-content themeTableColor overflowVisible">
 		<div class="tab-pane active" id="layoutDashBoards">
 			<div class="btn-toolbar marginBottom10px">
-				<button type="button" class="btn btn-default addDateWindow"><span class="glyphicon glyphicon-plus"></span>&nbsp;{vtranslate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
+				<button type="button" class="btn btn-success addDateWindow"><span class="glyphicon glyphicon-plus"></span>&nbsp;{vtranslate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
 			</div>
 			<div id="moduleBlocks">
 				<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 marginBottom10px border1px">
