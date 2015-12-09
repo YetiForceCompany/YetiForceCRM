@@ -29,7 +29,7 @@
 
     <table class="table table-bordered blockContainer lineItemTable" id="lineItemTab">
         <tr>
-            <th colspan="2"><span class="inventoryLineItemHeader">{vtranslate('LBL_ITEM_DETAILS', $MODULE)}</span></th>
+            <th colspan="2"><span class="inventoryLineItemHeader"><h4>{vtranslate('LBL_ITEM_DETAILS', $MODULE)}</h4></span></th>
             <th colspan="3" class="chznDropDown">
 		<div class="">
 			<span class="inventoryLineItemHeader">{vtranslate('LBL_CURRENCY', $MODULE)}</span>&nbsp;&nbsp;
