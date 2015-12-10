@@ -9,7 +9,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = [
-	'Webforms'	=>	'Online Forms',
+	'Webforms' => 'Веб-Формы',
 	'SINGLE_Settings:Webforms'	=>	'Веб-Форму',
 	//Basic Field Names
 	'WebForm Name'	=>	'Имя Веб-Формы',
