@@ -22,7 +22,7 @@ $languageStrings = [
 	'LBL_INVALID_DATA'	=>	'Неверные данные',
 
 	'WidgetsManagement'	=>	'Менеджер Виджетов',
-	'LBL_WIDGETS_MANAGEMENT' => 'Widgets – Configuration',
+	'LBL_WIDGETS_MANAGEMENT' => 'Виджеты - Настройка',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION'	=>	' Менеджер управления Виджетами',
 	'LBL_MANDATORY_WIDGET'	=>	'Обязательный Виджет',
 	'LBL_WIDGET' => 'Виджеты',
@@ -32,7 +32,7 @@ $languageStrings = [
 	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Необходимо выбрать, как минимум 1 пункт',
 	'LBL_VIEW_CONFIGURATION' => 'Настройка вида',
 	'LBL_WIDGET_ADDED'	=>	'Виджет успешно добавлен',
-	'LBL_CACHE_WIDGET' => 'Cache',
+	'LBL_CACHE_WIDGET' => 'Кэш',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED'	=>	'Блок Виджетов успешно добавлен',

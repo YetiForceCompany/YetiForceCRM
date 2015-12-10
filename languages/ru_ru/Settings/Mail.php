@@ -9,9 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_AUTOLOGIN' => 'Mail – Auto Login',
+	'LBL_AUTOLOGIN' => 'Почта - Автовход',
 	'LBL_AUTOLOGIN_DESCRIPTION' => 'Конфигурация автоматического входа для модуля электронной почты',
-	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Mail – Configuration',
+	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Почта - Настройка',
 	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => 'Основная конфигурация модуля электронной почты',
 	'LBL_RC_USER' => 'Пользовательская учетная запись электронной почты',
 	'LBL_CRM_USER' => 'Пользователи, имеющие доступ к почтовому ящику',
