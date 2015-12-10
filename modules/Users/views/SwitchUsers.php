@@ -31,6 +31,5 @@ class Users_SwitchUsers_View extends Vtiger_BasicModal_View
 		$this->preProcess($request);
 		$viewer->view('SwitchUsers.tpl', $moduleName);
 		$this->postProcess($request);
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 	}
 }

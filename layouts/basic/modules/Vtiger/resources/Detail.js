@@ -2392,7 +2392,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 									commentDetails.fadeOut(400, function () {
 										commentDetails.remove();
 									});
-									thisInstance.registerRefreshTimeline('last');
+									thisInstance.getSelectedTab().trigger('click');
 								} else {
 									Vtiger_Helper_Js.showPnotify(data.error.message);
 								}
@@ -2483,18 +2483,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 		detailContentsHolder.find('.commentsBar .switchBtn').on('switchChange.bootstrapSwitch',  function (e, state) {
+			var selectedTab = thisInstance.getSelectedTab();
+			var addressUrl = selectedTab.data('url');
 			if(state){
-				thisInstance.registerRefreshTimeline();
+				addressUrl = addressUrl.replace("type=List", "type=Timeline");
+				selectedTab.data('url', addressUrl);
 			}
 			else{
-				var params = {
-					module: app.getModuleName(),
-					view: 'Detail',
-					mode: 'ShowListComments',
-					record: thisInstance.getRecordId()
-				};
-				
+				addressUrl = addressUrl.replace("type=Timeline", "type=List");
+				selectedTab.data('url', addressUrl);
 			}
+			selectedTab.trigger('click');
 		});
 		detailContentsHolder.on('click', '.moreRecentComments', function () {
 			var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
@@ -2822,6 +2821,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 		var progressIndicatorElement = jQuery.progressIndicator({
 			position: 'html',
+			'blockInfo': {
+						'enabled': true,
+						'elementToBlock': commentContainer
+					}
 		});
 		AppConnector.request(params).then(function (data) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
@@ -2829,6 +2832,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerRefreshTimeline: function(currentComment){
+		if($('#typeView').val() == 'List'){
+			return;
+		}
 		var thisInstance = this;
 		var options = {
 			width: '100%',
@@ -2846,11 +2852,16 @@ jQuery.Class("Vtiger_Detail_Js", {
 		};
 		var params = {
 			module: 'ModComments',
+			srcModule: app.getModuleName(),
 			action: 'TimelineAjax',
 			record: thisInstance.getRecordId()
 		};
 		var progressIndicatorElement = jQuery.progressIndicator({
 			position: 'html',
+			'blockInfo': {
+						'enabled': true,
+						'elementToBlock': thisInstance.getContentHolder()
+					}
 		});
 		if(typeof currentComment == 'undefined'){
 			currentComment = $('#currentComment').val();
@@ -2858,8 +2869,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		AppConnector.request(params).then(function (data) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			var allComments = data.result;
-			if(allComments !== '[]'){
-				var allComments = JSON.parse(allComments);
+			if(typeof allComments.events != 'undefined'){
 				var timeline = new TL.Timeline('timeline', allComments, options);
 				timeline.on('change', function(data) {
 					var uniqueId = data.unique_id;
@@ -2880,6 +2890,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 				else{
 					timeline.goToId('Id' + currentComment);
 				}
+			}
+			else{
+				thisInstance.refreshCommentContainer();
 			}
 		});
 	},

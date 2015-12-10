@@ -76,6 +76,38 @@
 								</a>
 							</span>
 						{/if}
+						{if $TYPE_VIEW eq 'List'}
+							{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
+							{if $CHILD_COMMENTS_MODEL neq null and ($CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID)}
+								{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}&nbsp;<span style="color:black">|</span>&nbsp;{/if}
+								<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
+									<a class="cursorPointer viewThread">
+										<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
+										<img class="alignMiddle" src="{vimage_path('rightArrowSmall.png')}" />
+									</a>
+								</span>
+								<span class="hide hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
+									<a class="cursorPointer hideThread">
+										<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
+										<img class="alignMiddle" src="{vimage_path('downArrowSmall.png')}" />
+									</a>
+								</span>
+							{elseif $CHILD_COMMENTS_MODEL neq null and ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
+								{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}&nbsp;<span style="color:black">|</span>&nbsp;{/if}
+								<span class="hide viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
+									<a class="cursorPointer viewThread">
+										<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
+										<img class="alignMiddle" src="{vimage_path('rightArrowSmall.png')}" />
+									</a>
+								</span>
+								<span class="hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
+									<a class="cursorPointer hideThread">
+										<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
+										<img class="alignMiddle" src="{vimage_path('downArrowSmall.png')}" />
+									</a>
+								</span>
+							{/if}
+						{/if}
 						</small></p>
 					</div>
 				</div>
