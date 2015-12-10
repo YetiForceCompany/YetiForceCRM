@@ -73,7 +73,7 @@ jQuery.Class("Vtiger_TreePopup_Js",{
 					data: data
 				}
 			})
-			.on('select_node.jstree', function (event, data) {
+			thisInstance.jstreeInstance.on('select_node.jstree', function (event, data) {
 				thisInstance.registerSelect(data.node);
 			});
 		}
