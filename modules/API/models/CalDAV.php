@@ -99,10 +99,10 @@ class API_CalDAV_Model
 
 		$status = $this->getStatus($record['status'], false);
 		if ($status)
-			$cal->add($vcalendar->createProperty('STATUS', $status, false));
+			$cal->add($vcalendar->createProperty('STATUS', $status));
 		$state = $this->getState($record['state'], false);
 		if ($state)
-			$cal->add($vcalendar->createProperty('TRANSP', $state, false));
+			$cal->add($vcalendar->createProperty('TRANSP', $state));
 
 		if (!empty($record['location']))
 			$cal->add($vcalendar->createProperty('LOCATION', $record['location']));

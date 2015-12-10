@@ -754,12 +754,15 @@ li.ui-timepicker-selected,
 .commentContainer .commentsList > .liStyleNone > .commentDetails .commentDiv {
 	width: 100%;
 }
+.commentContainer .singleComment{
+	border-bottom: 1px solid #ddd;
+}
 .commentContainer .commentDetails {
 	background: #ffffff;
-	border: 1px solid #dddddd;
-	margin-bottom: 5px;
+	width:100%;
+	margin-bottom: 0px;
 	border-radius: 2px;
-	padding: 10px 10px 5px;
+	padding: 10px 0px 0px 0px;
 	display: inline-block;
 	min-width: 354px;
 	-webkit-box-sizing: border-box;
@@ -819,7 +822,6 @@ li.ui-timepicker-selected,
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	word-wrap: break-word;
-	padding: 5px 0 5px 32px;
 }
 .singleComment .editedStatus p {
 	margin-bottom: 0;
@@ -855,6 +857,9 @@ li.ui-timepicker-selected,
 }
 .singleComment:hover .commentActions .replyComment {
 	display: inline-block;
+}
+.commentActionsContainer {
+	height: 18px;
 }
 .commentActionsContainer a:hover {
 	text-decoration: none;
@@ -2587,6 +2592,7 @@ table.summary-table .summaryViewEdit{
 }
 .liStyleNone {
 	list-style: none outside none;
+	padding-left:60px;
 }
 .fontBold {
 	font-weight: bold !important;
@@ -3578,7 +3584,7 @@ html,body,.baseContainer
 .userDetails ul.headerLink li{
 	list-style-type: none;
 	display: inline-block;
-	margin-right: 8px;
+	margin-right: 7px;
 	margin-top: 5px;
 }
 .selectSearch{
@@ -3590,8 +3596,15 @@ html,body,.baseContainer
 	padding-left: 16px;
 }
 .userDetails .name{
-	line-height: 15px;
-	font-size: 15px;
+	line-height: 18px;
+	font-size: 14.5px;
+}
+.userDetails .companyName{
+	font-size: 11px;
+}
+.userDetails .name:nth-child(2){
+	font-size: 13px;
+	line-height: 17px;
 }
 .userDetails .headerLink  > li > ul > li > a {
 	color:#000;
@@ -3600,6 +3613,7 @@ html,body,.baseContainer
 	overflow:auto;
 	overflow-x:hidden;
 	height:calc(100% - 50px);
+	width: 100%;
 }
 .nav li:hover > .subMenu::-webkit-scrollbar {
 	display: none;
@@ -4636,10 +4650,41 @@ html,body,.baseContainer
 .bodyHeader.menuOpen{
 	left: 230px;
 }
-.tl-storyslider,
+.tl-slide-media-only .tl-slide-content-container .tl-slide-content .tl-text{
+	position: relative;
+	float:right;
+	width: 50%;
+}
+.tl-storyslider{
+	height: 600px;
+}
+.tl-timemarker .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline {
+	line-height: 15px !important;
+}
+.tl-headline-date{
+	font-size: 15px !important;
+	margin-bottom: 20px !important;
+}
+.tl-timeline{
+	font-family: inherit !important;
+}
+.tl-media .tl-media-content-container .tl-media-content img{
+	max-height: 350px !important;
+}
+.tl-text-content-container{
+	text-align: left;
+}
+.tl-timeline .tl-caption{
+	font-size: 15px;
+	font-weight: bold;
+}
+.tl-slide-media-only .tl-slide-content-container .tl-slide-content .tl-media{
+	width: 50% !important;
+}
+.tl-slide-scrollable-container,
+.tl-slide-content{
+	width:100% !important;
+}
 .tl-attribution{
 	display:none;
-}
-.tl-menubar{
-	top:0px !important;
 }

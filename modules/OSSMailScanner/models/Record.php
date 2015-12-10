@@ -154,38 +154,48 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public static function createUidFolders($type, $vale)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		if ($vale != null && $vale != 'null') {
 			if (strpos($vale, ',')) {
-				$folders = explode(",", $vale);
+				$folders = explode(',', $vale);
 			} else {
 				$folders[0] = $vale;
 			}
-			$OSSMailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
-			foreach ($OSSMailModel->getAccountsList() as $Account) {
+			$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
+			foreach ($mailModel->getAccountsList() as $account) {
 				foreach ($folders as $folder) {
-					$adb->pquery("INSERT INTO vtiger_ossmailscanner_folders_uid (user_id,type,folder) VALUES (?,?,?)", array($Account['user_id'], $type, $folder));
+					$db->insert('vtiger_ossmailscanner_folders_uid', [
+						'user_id' => $account['user_id'],
+						'type' => $type,
+						'folder' => $folder
+					]);
 				}
 			}
 		}
 	}
 
-	public static function checkFolderUid($user_id, $folder)
+	public static function checkFolderUid($userId, $folder)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT uid FROM vtiger_ossmailscanner_folders_uid WHERE user_id = ? AND folder = ?", array($user_id, $folder), true);
-		if ($adb->num_rows($result) == 0) {
-			$result_type = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' AND value LIKE '%$folder%' ORDER BY parameter", true);
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_folders_uid (user_id,type,folder) VALUES (?,?,?)", array($user_id, $adb->query_result($result_type, 0, 'parameter'), $folder));
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT uid FROM vtiger_ossmailscanner_folders_uid WHERE user_id = ? AND folder = ?', [$userId, $folder]);
+		if ($db->getRowCount($result) == 0) {
+			$resultType = $db->query("SELECT parameter FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' AND value LIKE '%$folder%' ORDER BY parameter");
+			if ($db->getRowCount($resultType) == 0) {
+				$db->insert('vtiger_ossmailscanner_folders_uid', [
+					'user_id' => $userId,
+					'type' => $db->getSingleValue($resultType),
+					'folder' => $folder
+				]);
+			}
 		}
 	}
 
 	public static function deleteUidFolders($type, $vale)
 	{
-		$adb = PearDatabase::getInstance();
-		$OSSMailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
-		foreach ($OSSMailModel->getAccountsList() as $Account) {
-			$adb->pquery("DELETE FROM vtiger_ossmailscanner_folders_uid WHERE user_id = ? AND type = ? ;", array($Account['user_id'], $type));
+		$db = PearDatabase::getInstance();
+		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
+		foreach ($mailModel->getAccountsList() as $account) {
+			$db->delete('vtiger_ossmailscanner_folders_uid', 'user_id = ? AND type = ?', [$account['user_id'], $type]);
 		}
 	}
 

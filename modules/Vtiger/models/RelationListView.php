@@ -552,4 +552,23 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			return $fieldInfo['currency_symbol'];
 		}
 	}
+	
+	public function getFavoriteRecords(){
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$recordId = $this->getParentRecordModel()->getId();
+		$relModuleName = $this->getRelatedModuleModel()->getName();
+		$moduleName = $this->getParentRecordModel()->getModuleName();
+		
+		$query = 'SELECT * FROM `u_yf_favorites` WHERE u_yf_favorites.module = "' . $moduleName . '" 
+		AND u_yf_favorites.relmodule = "' . $relModuleName . '" 
+		AND u_yf_favorites.crmid = ' . $recordId . '
+		AND u_yf_favorites.userid = ' . $currentUser->getId();
+		$result = $db->query($query);
+		$favorites = [];
+		while ($row = $db->getRow($result)) {
+			$favorites[$row['relcrmid']] = $row;
+		}
+		return $favorites;
+	}
 }

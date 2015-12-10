@@ -4,6 +4,13 @@
 {strip}
 	<div class="pull-right actions">
 		<span class="actionImages">
+			{if $IS_FAVORITES}
+				{assign var=RECORD_IS_FAVORITE value=(int)array_key_exists($RELATED_RECORD->getId(),$FAVORITES)}
+				<a class="favorites" data-state="{$RECORD_IS_FAVORITE}">
+					<span title="{vtranslate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
+					<span title="{vtranslate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star-empty alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
+				</a>&nbsp;
+			{/if}
 			{if $RELATED_MODULE_NAME eq 'Calendar'}
 				{assign var=CURRENT_ACTIVITY_LABELS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
 				{if $IS_EDITABLE && in_array($RELATED_RECORD->get('activitystatus'),$CURRENT_ACTIVITY_LABELS)}

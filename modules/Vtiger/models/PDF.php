@@ -199,9 +199,10 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	public function deleteConditions()
 	{
 		$db = PearDatabase::getInstance();
-
-		$query = 'UPDATE `' . self::$baseTable . '` SET `conditions` = "" WHERE `' . self::$baseIndex . '` = ? LIMIT 1;';
-		$db->pquery($query, [$this->getId()]);
+		$db->update(self::$baseTable, [
+			'conditions' => ''
+			], self::$baseIndex.' = ? LIMIT 1', [$this->getId()]
+		);
 	}
 
 	public function isVisible($view)

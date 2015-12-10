@@ -35,7 +35,6 @@ class Yeti_Layout
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT name,label FROM vtiger_layout');
 		$folders = [
-			'vlayout' => vtranslate('LBL_VTIGER_LAYOUT'),
 			'basic' => vtranslate('LBL_DEFAULT')
 		];
 		while ($row = $db->fetch_array($result)) {

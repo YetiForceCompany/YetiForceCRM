@@ -3,15 +3,24 @@
 	{assign var="COMPANY_DETAILS" value=Vtiger_CompanyDetails_Model::getInstanceById()}
 	{assign var="COMPANY_LOGO" value=$COMPANY_DETAILS->getLogo()}
 	<div class="container-fluid userDetailsContainer">
-		<div class="row">
+		<div class="row padding0">
 			<div class="col-md-2 noSpaces">
 				<a class="companyLogoContainer" href="index.php">
 					<img class="img-responsive logo" src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/>
 				</a>
 			</div>
 			<div class="col-md-10 userDetails">
-				<div class="pull-right">
-					<ul class="headerLink noSpaces">
+				<div class="col-xs-8 noSpaces userName">
+					{assign var=USER_NAME_ARRAY value=explode(' ',$USER_MODEL->getDisplayName())}
+					{foreach from=$USER_NAME_ARRAY item=NAME name=userNameIterator}
+						{if $smarty.foreach.userNameIterator.iteration <= 2}
+							<p class="noSpaces name textOverflowEllipsis">{$NAME}&nbsp;</p>
+						{/if}
+					{/foreach}
+					<p class="companyName noSpaces textOverflowEllipsis">{$COMPANY_DETAILS->get('organizationname')}&nbsp;</p>
+				</div>
+				<div class="col-xs-4 noSpaces">
+					<ul class="headerLink noSpaces pull-right">
 						{foreach key=index item=obj from=$HEADER_LINKS}
 							{if $obj->linktype == 'HEADERLINK'}
 								{assign var="HREF" value='#'}
@@ -67,11 +76,6 @@
 							{/if}
 						{/foreach}
 					</ul>
-				</div>
-				<div class="pull-left">
-					<p class="noSpaces name">{$USER_MODEL->get('first_name')}&nbsp;</p>
-					<p class="noSpaces name">{$USER_MODEL->get('last_name')}&nbsp;</p>
-					<p class="companyName noSpaces">{$COMPANY_DETAILS->get('organizationname')}&nbsp;</p>
 				</div>
 			</div>
 		</div>

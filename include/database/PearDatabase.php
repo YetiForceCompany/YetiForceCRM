@@ -433,9 +433,9 @@ class PearDatabase
 		if ($where != '')
 			$where = 'WHERE ' . $where;
 		if (count($params) === 0) {
-			$this->query("DELETE FROM $table $where");
+			$this->query('DELETE FROM ' . $table . ' ' . $where);
 		} else {
-			$this->pquery("DELETE FROM $table $where", $params);
+			$this->pquery('DELETE FROM ' . $table . ' ' . $where, $params);
 		}
 		return $this->stmt->rowCount();
 	}

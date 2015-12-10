@@ -1073,8 +1073,7 @@ $languageStrings = [
 	'LBL_VIEW_FINDDUPLICATES'=> 'Find Duplicates',
 	'Service' => 'Service',
 	'Sales' => 'Sale',
-	'LBL_VTIGER_LAYOUT' => 'Default',
-	'LBL_DEFAULT' => 'Responsive',
+	'LBL_DEFAULT' => 'Default',
 	'BTN_GENERATE_RECORD' => 'Generate record',
 	'LBL_GENERATE_RECORD_FOR_MODULE' => 'Generate record for module',
 	'LBL_REMOVE_SEARCH_OPTION_INFO' => 'Reset search parameters',
@@ -1104,6 +1103,8 @@ $languageStrings = [
 	'SQuotes' => 'Quotes',
 	'SINGLE_SQuotes' => 'Quote',
 	'LBL_NR' => 'No.',
+	'LBL_ADD_TO_FAVORITES' => 'Add to favorites',
+	'LBL_REMOVE_FROM_FAVORITES' => 'Remove from favorites',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Resumo',
@@ -1345,4 +1346,6 @@ $jsLanguageStrings = [
 	'JS_PDF_RECALCULATING' => '__UNTRANSLATED__',
 	'JS_PDF_GENERATING' => '__UNTRANSLATED__',
 	'JS_SELECTED_ELEMENTS' => '__UNTRANSLATED__',
+	'JS_REMOVED_FROM_FAVORITES' => 'Removed from favorites',
+	'JS_ADDED_TO_FAVORITES' => 'Added to favorites',
 ];

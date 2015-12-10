@@ -1320,8 +1320,7 @@ $languageStrings = [
 	'individual' => 'Индивидуально',
 	'Service' => 'Услуга',
 	'Sales' => 'Продажа',
-	'LBL_VTIGER_LAYOUT' => 'По умолчанию',
-	'LBL_DEFAULT' => 'Адаптивный',
+	'LBL_DEFAULT' => 'По умолчанию',
 	'BTN_GENERATE_RECORD' => 'Создать запись',
 	'LBL_GENERATE_RECORD_FOR_MODULE' => 'Создать запись для модуля',
 	'LBL_REMOVE_SEARCH_OPTION_INFO' => 'Сброс параметров поиска',
@@ -1348,6 +1347,8 @@ $languageStrings = [
 	'SQuotes' => 'Предложения',
 	'SINGLE_SQuotes' => 'Предложение',
 	'LBL_NR'	=>	'Номер',
+	'LBL_ADD_TO_FAVORITES' => 'Add to favorites',
+	'LBL_REMOVE_FROM_FAVORITES' => 'Remove from favorites',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',
@@ -1680,4 +1681,6 @@ $jsLanguageStrings = [
 	'JS_PDF_RECALCULATING' => 'Проверка шаблона PDF',
 	'JS_PDF_GENERATING' => 'Создание PDF',
 	'JS_SELECTED_ELEMENTS' => 'Количество выбранных элементов',
+	'JS_REMOVED_FROM_FAVORITES' => 'Removed from favorites',
+	'JS_ADDED_TO_FAVORITES' => 'Added to favorites',
 ];

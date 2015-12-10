@@ -142,6 +142,8 @@ $languageStrings = [
 	'LBL_PURCHASE_DESC' => 'Pole liczbowe przeznaczone na wartość zakupu/pozyskania danej pozycji.',
 	'LBL_MARGIN_DESC' => 'Pole nie edytowalne obliczane automatycznie zawierające wartość zysku dla danej pozycji (Cena po rabacie - Zakup), nie uwzględnia podatku.',
 	'LBL_MARGIN_PERCENT_DESC' => 'Pole nie edytowalne obliczane automatycznie zawierające wartość zysku dla danej pozycji wyrażone w procentach.',
+	'LBL_DEACTIVATE_FAVORITES' => 'Deaktywuj funkcję: Dodaj do ulubionych',
+	'LBL_ACTIVATE_FAVORITES' => 'Aktywuj funkcję: Dodaj do ulubionych',
 ];
 
 $jsLanguageStrings = [

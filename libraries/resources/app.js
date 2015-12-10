@@ -48,6 +48,12 @@ var app = {
 		return recordId;
 	},
 	/**
+	 * Function to get language
+	 */
+	getLanguage: function () {
+		return jQuery('body').data('language');
+	},
+	/**
 	 * Function to get the contents container
 	 * @returns jQuery object
 	 */

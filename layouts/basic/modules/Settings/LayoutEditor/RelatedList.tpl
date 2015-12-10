@@ -60,6 +60,11 @@
 										{if AppConfig::developer('CHANGE_RELATIONS')}
 											<button type="button" class="btn btn-danger removeRelation pull-right" title="{vtranslate('LBL_REMOVE_RELATION', $QUALIFIED_MODULE)}">x</button>
 										{/if}
+										{assign var=FAVORITES value=$MODULE_MODEL->isFavorites()}
+			                        	<button type="button" class="btn btn-default addToFavorites" data-state="{$MODULE_MODEL->get('favorites')}">
+												<span class="glyphicon glyphicon-star {if !$FAVORITES}hide{/if}" title="{vtranslate('LBL_DEACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>
+												<span class="glyphicon glyphicon-star-empty {if $FAVORITES}hide{/if}" title="{vtranslate('LBL_ACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>	
+										</button>
 			                        	<button type="button" class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;<strong>{vtranslate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>
 			                        	<button type="button" class="btn btn-warning activeRelationModule{if $MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-remove"></span>&nbsp;<strong>{vtranslate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>
 			                        </div>

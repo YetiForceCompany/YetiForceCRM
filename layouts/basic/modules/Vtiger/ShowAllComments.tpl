@@ -13,7 +13,7 @@
 {* Change to this also refer: RecentComments.tpl *}
 {assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 <input type="hidden" id="allComments" value="{Vtiger_Util_Helper::toSafeHTML($ALL_COMMENTS_JSON)}">
-<input type="hidden" id="currentComment" value='{if !empty($CURRENT_COMMENT)}{$CURRENT_COMMENT->getId()}{/if}'>
+<input type="hidden" id="currentComment" value="{if !empty($CURRENT_COMMENT)}{$CURRENT_COMMENT->getId()}{/if}">
 <div id="timeline" class="timelineContainer"></div>
 <div class="commentContainer">
 	<div class="commentTitle">
@@ -30,7 +30,7 @@
 		{/if}
 	</div>
 	<br>
-	<div class="commentsList commentsBody">
+	<div class="commentsList commentsBody col-md-6">
 	</div>
 	<div class="hide basicAddCommentBlock">
 		<div class="row">

@@ -271,10 +271,19 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 		$pagingModel->set('limit', 'no_limit');
 		$parentComments = self::getRecentComments($parentId, $pagingModel);
 		$allComments = [];
+		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if(count($parentComments)){
 			foreach($parentComments as $comment){
 				$createdTime = $comment->get('createdtime');
 				$date = DateTime::createFromFormat('Y-m-d H:i:s',$createdTime);
+				$ownerComment = Users_Privileges_Model::getInstanceById($comment->get('userid'));
+				$icon = $ownerComment->getImageDetails();
+				if(empty($icon [0]['path'])){
+					$iconPath = 'layouts/basic/skins/images/DefaultUserIcon.png';
+				}
+				else{
+					$iconPath = $icon [0]['path'].'_'.$icon [0]['orgname'];
+				}
 				$allComments ["events"][] = [
 									"start_date" => [
 										"year" => $date->format('Y'),
@@ -283,6 +292,12 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 										"hour" => $date->format('H'),
 										"minute" => $date->format('i'),
 										"second" => $date->format('s'),
+										"format" => $currentUser->get('date_format')." HH:MM:ss"
+									],
+									"media" => [
+										"caption" => $ownerComment->getName(),
+										"url"=> $iconPath,
+										"thumbnail" => $iconPath
 									],
 									"text" => [
 										"headline" => $comment->get('commentcontent'),

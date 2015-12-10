@@ -44,9 +44,9 @@
         {/if}
     {if $NO_TEMPLATES eq 'yes'}{else}
         <div class="form-group" style="margin-top: 8px;">
-                <img src="layouts/vlayout/modules/OSSPdf/pdf.png" alt="{vtranslate('LBL_CREATE_PDF')}" onclick="jQuery('#only_generate').val('0'); check_params();" />
+                <img src="{vimage_path('pdf.png')}" alt="{vtranslate('LBL_CREATE_PDF')}" onclick="jQuery('#only_generate').val('0'); check_params();" />
         {if $OSS_MILE_EXISTS}
-                <img src="layouts/vlayout/modules/OSSPdf/email.png" alt="{vtranslate('LBL_CREATE_PDF_SEND_MAIL')}" onclick="jQuery('#only_generate').val('1'); check_params();" />
+                <img src="{vimage_path('email.png')}" alt="{vtranslate('LBL_CREATE_PDF_SEND_MAIL')}" onclick="jQuery('#only_generate').val('1'); check_params();" />
         {/if}
         </div>
     {/if}
