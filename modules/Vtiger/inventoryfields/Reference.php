@@ -22,9 +22,12 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value)
 	{
-		if ($value != 0)
-			return Vtiger_Functions::getCRMRecordLabel($value);
-		return '';
+		if ($value == 0){
+			return '';
+		}
+		$metaData = Vtiger_Functions::getCRMRecordMetadata($value);
+		$linkValue = '<a class="moduleColor_'.$metaData['setype'].'" href="index.php?module='.$metaData['setype'].'&view=Detail&record='.$value.'" title="'.vtranslate($metaData['setype'], $metaData['setype']).'">'.$metaData['label'].'</a>';
+		return $linkValue;
 	}
 	
 	public function getReferenceModule()
