@@ -11,16 +11,18 @@
 -->*}
 {strip}
 	{* Change to this also refer: AddCommentForm.tpl *}
-	{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 	<div class="commentContainer recentComments">
 		<div class="commentTitle">
 			{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
 				<div class="addCommentBlock">
-					<div>
-						<textarea name="commentcontent" class="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"></textarea>
-					</div>
-					<div class="pull-right pushDown">
-						<button class="btn btn-success detailViewSaveComment" type="button" data-mode="add"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
+					<div class="input-group">
+						<span class="input-group-addon" >
+							<span class="glyphicon glyphicon-comment"></span>
+						</span>
+						<input type="text"  name="commentcontent" class="commentcontent form-control" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" >
+						<span class="input-group-btn" >
+							<button class="btn btn-success detailViewSaveComment" type="button" data-mode="add"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
+						</span>
 					</div>
 				</div>
 			{/if}
@@ -37,30 +39,30 @@
 										{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 										{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
 										<div class="row">
-											<div class="col-md-1">
+											<div class="paddingLeftMd">
 												{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
-												<img class="alignMiddle pull-left" alt="" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
+												<img class="alignMiddle pull-left" width="48" alt="" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
 											</div>
-											<div class="col-md-11 commentorInfo">
+											<div class="col-md-8 commentorInfo">
 												{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
-												<div class="inner">
-													<span class="commentorName"><strong>{$COMMENTOR->getName()}</strong></span>
-													<span class="pull-right">
-														<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
-													</span>
-													<div class="clearfix"></div>
-												</div>
+												<span class="commentorName"><strong>{$COMMENTOR->getName()}</strong></span>
 												<div class="commentInfoContent">
 													{nl2br($COMMENT->get('commentcontent'))}
 												</div>
+											</div>
+											<div class="inner">
+												<span class="pull-right paddingRight15">
+													<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
+												</span>
+												<div class="clearfix"></div>
 											</div>
 										</div>
 									</div>
 								</div>
 								<div class="commentActionsContainer">
 									{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}
-									<div class="{if !empty($REASON_TO_EDIT)}row {/if}}editStatus"  name="editStatus">
-										<span class="col-md-6{if empty($REASON_TO_EDIT)} hide{/if}">
+									<div class="col-xs-6 {if empty($REASON_TO_EDIT)}hide {/if}editStatus "  name="editStatus">
+										<span class="col-md-6{if empty($REASON_TO_EDIT)} {/if}">
 											<p class="muted">
 												<small>
 													[ {vtranslate('LBL_EDIT_REASON',$MODULE_NAME)} ] :
@@ -116,35 +118,50 @@
 				</div>
 			</div>
 		{/if}
-		<div class="hide basicAddCommentBlock">
+		<div class="hide basicAddCommentBlock marginTop10 marginBottom10px">
 			<div class="row">
-				<span class="col-md-1">&nbsp;</span>
-				<div class="col-md-11">
-					<textarea class="commentcontenthidden fullWidthAlways" name="commentcontent" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
+				<div class="col-md-12">
+					<div class="input-group">
+						<span class="input-group-addon" >
+							<span class="glyphicon glyphicon-comment"></span>
+						</span>
+						<input class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}">
+						<span class="input-group-btn">
+							<button class="btn btn-success saveComment" type="button" data-mode="add"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
+							<button class="cursorPointer closeCommentBlock btn btn-warning" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</button>
+						</span>
+					</div>
 				</div>
 			</div>
-			<div class="pull-right pushDown">
-				<button class="btn btn-success detailViewSaveComment" type="button" data-mode="add"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
-				<button class="cursorPointer closeCommentBlock cancelLink btn btn-warning" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</button>
-			</div>
+			<div class="clearfix"></div>
 		</div>
-		<div class="hide basicEditCommentBlock" style="min-height: 150px;">
+		<div class="hide basicEditCommentBlock" >
 			<div class="row">
-				<span class="col-md-1">&nbsp;</span>
-				<div class="col-md-11">
-					<input type="text" name="reasonToEdit" title="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level"/>
+				<div class="col-md-12 marginTop10 marginBottom10px">
+					<div class="input-group">
+						<span class="input-group-addon" >
+							{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}
+						</span>
+						<input type="text" name="reasonToEdit" title="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level form-control"/>
+					</div>
 				</div>
 			</div>
 			<div class="row">
-				<span class="col-md-1">&nbsp;</span>
-				<div class="col-md-11">
-					<textarea class="commentcontenthidden fullWidthAlways" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" name="commentcontent" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"></textarea>
+
+				<div class="col-md-12 marginBottom10px">
+					<div class="input-group">
+						<span class="input-group-addon" >
+							<span class="glyphicon glyphicon-comment"></span>
+						</span>
+						<input  class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" >
+						<span class="input-group-btn">
+							<button class="btn btn-success saveComment" type="button" data-mode="edit"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
+							<button class="cursorPointer closeCommentBlock btn btn-warning" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</button>
+						</span>
+					</div>
 				</div>
 			</div>
-			<div class="pull-right pushDown">
-				<button class="btn btn-success detailViewSaveComment" type="button" data-mode="edit"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
-				<button class="cursorPointer closeCommentBlock cancelLink btn btn-warning" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</button>
-			</div>
+			<div class="clearfix"></div>
 		</div>
 	</div>
 {/strip}
