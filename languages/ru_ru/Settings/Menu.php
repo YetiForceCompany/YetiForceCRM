@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_MENU_BUILDER' => 'Menu - Configuration',
+	'LBL_MENU_BUILDER' => 'Меню - Настройка',
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Создание и редактирование пунктов меню',
 	'LBL_DEFAULT_MENU' => 'Меню по умолчанию',
 	'LBL_ADD_MENU' => 'Добавить пункт меню',
@@ -30,7 +30,7 @@ $languageStrings = [
 	'LBL_TEST_IT' => 'Тестировать',
 	'LBL_MENU_TYPE' => 'Тип меню',
 	'LBL_AVAILABLE_FILTERS' => 'Available filters',
-	'LBL_ICON_NAME' => 'Icon',
+	'LBL_ICON_NAME' => 'Иконки',
 	//Menu types
 	'LBL_MODULE' => 'Модуль',
 	'LBL_MODULE_DESC' => 'Пункт меню перенаправлен на выбранный модуль.',
@@ -48,7 +48,7 @@ $languageStrings = [
 	'LBL_HOMEICON_DESC' => 'Пункт меню Главной страницы',
 	'LBL_CUSTOMFILTER' => 'Фильтр',
 	'LBL_CUSTOMFILTER_DESC' => 'Пункт меню перенаправлен на выбранный фильтр.',
-	'LBL_PROFILE' => 'Profile',
+	'LBL_PROFILE' => 'Профили',
 	'LBL_PROFILE_DESC' => "Menu item that allows changing the user's settings.",
 	//Message
 	'LBL_REMOVED_MENU_ITEM' => 'Пункт меню удален',
