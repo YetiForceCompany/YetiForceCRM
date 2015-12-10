@@ -279,7 +279,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 			$zip->open($this->tempDir . '/' . $this->get('filename') . '.db.zip', ZipArchive::CREATE);
 			$zip->addFile($this->tempDir . '/' . $this->get('filename') . '.sql', $this->get('filename') . '.sql');
 			if (vglobal('encryptBackup') && version_compare(PHP_VERSION, '5.6.0') >= 0) {
-				$code = $zip->setPassword(vglobal('backupPassword'));
+				$code = $zip->setPassword(AppConfig::securityKeys('backupPassword'));
 				if ($code === true)
 					$log->debug('Backup files password protection is enabled');
 				else
@@ -411,7 +411,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 				}
 			}
 			if (vglobal('encryptBackup') && version_compare(PHP_VERSION, '5.6.0') >= 0) {
-				$code = $zip->setPassword(vglobal('backupPassword'));
+				$code = $zip->setPassword(AppConfig::securityKeys('backupPassword'));
 				if ($code === true)
 					$log->debug('Backup files password protection is enabled');
 				else

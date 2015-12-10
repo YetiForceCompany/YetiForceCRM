@@ -28,4 +28,5 @@ $languageStrings = [
 	// bank labels
 	'NBP' => 'Narodowy Bank Polski',
 	'ECB' => 'Europejski Bank Centralny',
+	'CBR' => 'Centralny Bank Rosji',
 ];

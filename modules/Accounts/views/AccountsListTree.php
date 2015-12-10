@@ -34,7 +34,7 @@ class Accounts_AccountsListTree_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		if (!Users_Privileges_Model::isPermitted($moduleName, $actionName)) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new NoPermittedException(vtranslate('LBL_PERMISSION_DENIED'));
 		}
 	}
 

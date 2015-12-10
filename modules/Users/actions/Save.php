@@ -19,7 +19,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'Save', $record) || ($recordModel->isAccountOwner() &&
 			$currentUserModel->get('id') != $recordModel->getId() && !$currentUserModel->isAdminUser())) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
 		}
 	}
 

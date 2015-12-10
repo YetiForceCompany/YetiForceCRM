@@ -2,22 +2,22 @@
 /* {[The file is published on the basis of YetiForce Public License
  * that can be found in the following directory: licenses/License.html]} */
 
-require_once 'config/api.php';
+require_once('include/ConfigUtils.php');
 if (!in_array('yetiportal', $enabledServices)) {
-	die("{'status': 0,'message': 'YetiPortal - Service is not active'}");
+	require_once('include/exceptions/AppException.php');
+	$apiLog = new APINoPermittedException();
+	$apiLog->stop(['status' => 0, 'message' => 'YetiPortal - Service is not active']);
 }
 
-require_once('include/ConfigUtils.php');
-require_once('config/config.php');
-include_once('vtlib/Vtiger/Module.php');
-include_once('include/main/WebUI.php');
+require_once('vtlib/Vtiger/Module.php');
+require_once('include/main/WebUI.php');
 require_once('libraries/nusoap/nusoap.php');
 require_once('modules/HelpDesk/HelpDesk.php');
 require_once('modules/Emails/mail.php');
 require_once('modules/Users/Users.php');
 require_once('modules/Settings/CustomerPortal/helpers/CustomerPortalPassword.php');
 
-ini_set('error_log', $root_directory . 'cache/logs/yetiportal.log');
+AppConfig::iniSet('error_log', $root_directory . 'cache/logs/yetiportal.log');
 
 /** Configure language for server response translation */
 $current_language = vglobal('current_language');
@@ -28,8 +28,6 @@ $log = &LoggerManager::getLogger('portal');
 $userid = getPortalUserid();
 $user = new Users();
 $current_user = $user->retrieveCurrentUserInfoFromFile($userid);
-
-//error_reporting(0);
 
 $NAMESPACE = 'http://www.yetiforce.com';
 $server = new soap_server;

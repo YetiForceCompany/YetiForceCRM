@@ -251,7 +251,7 @@
 																							</div>
 																						</div>
 																					{/if}
-																					{if SysDeveloper::get('CHANGE_VISIBILITY')}
+																					{if AppConfig::developer('CHANGE_VISIBILITY')}
 																						<hr />
 																						<span>
 																							<label class="checkbox" style="padding-left: 5px;">
@@ -267,7 +267,7 @@
 																							</div>
 																						</span>
 																					{/if}
-																					{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
+																					{if AppConfig::developer('CHANGE_GENERATEDTYPE')}
 																						<span>
 																							<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 																								&nbsp;{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
@@ -443,7 +443,7 @@
 																							</div>
 																						</div>
 																					{/if}
-																					{if SysDeveloper::get('CHANGE_VISIBILITY')}
+																					{if AppConfig::developer('CHANGE_VISIBILITY')}
 																						<hr />
 																						<span>
 																							<label class="checkbox" style="padding-left: 5px;">
@@ -459,7 +459,7 @@
 																							</div>
 																						</span>
 																					{/if}
-																					{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
+																					{if AppConfig::developer('CHANGE_GENERATEDTYPE')}
 																						<span>
 																							<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 																								&nbsp;{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
@@ -605,7 +605,7 @@
 																<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-placement="top" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
 															</div>
 														</div>
-														{if SysDeveloper::get('CHANGE_VISIBILITY')}
+														{if AppConfig::developer('CHANGE_VISIBILITY')}
 															<hr />
 															<span>
 																<label class="checkbox" style="padding-left: 5px;">
@@ -618,7 +618,7 @@
 																</label>
 															</span>
 														{/if}
-														{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
+														{if AppConfig::developer('CHANGE_GENERATEDTYPE')}
 															<span>
 																<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 																	&nbsp;{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}

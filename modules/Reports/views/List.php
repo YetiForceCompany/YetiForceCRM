@@ -22,7 +22,7 @@ class Reports_List_View extends Vtiger_Index_View
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -165,7 +165,7 @@ class Reports_List_View extends Vtiger_Index_View
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
-		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			if (!$this->listViewCount) {
 				$this->listViewCount = $listViewModel->getListViewCount();
 			}

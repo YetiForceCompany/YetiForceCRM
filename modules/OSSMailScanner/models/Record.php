@@ -309,7 +309,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$adb->pquery('update vtiger_ossmailscanner_folders_uid set uid=? where user_id=? AND folder = ?', [$uid, $account['user_id'], $folder]);
 				$countEmails++;
 				self::update_scan_history($scan_id, ['status' => '1', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
-				if ($countEmails >= PerformancePrefs::get('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
+				if ($countEmails >= AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
 					return $countEmails;
 				}
 			}
@@ -545,7 +545,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 						}
 						$countEmails = $OSSMailScannerModel->mail_Scan($mbox, $account, $folder, $scanId, $countEmails);
 						imap_close($mbox);
-						if ($countEmails >= PerformancePrefs::get('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
+						if ($countEmails >= AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
 							$log->warn('Reached the maximum number of scanned mails');
 							$OSSMailScannerModel->update_scan_history($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 							self::setCronStatus('1');

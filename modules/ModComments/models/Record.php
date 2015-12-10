@@ -266,7 +266,33 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 		
 		return $recordInstances;
 	}
-
+	public static function getAllCommentsJSON($parentId){
+		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel->set('limit', 'no_limit');
+		$parentComments = self::getRecentComments($parentId, $pagingModel);
+		$allComments = [];
+		if(count($parentComments)){
+			foreach($parentComments as $comment){
+				$createdTime = $comment->get('createdtime');
+				$date = DateTime::createFromFormat('Y-m-d H:i:s',$createdTime);
+				$allComments ["events"][] = [
+									"start_date" => [
+										"year" => $date->format('Y'),
+										"month" => $date->format('m'),
+										"day" => $date->format('d'),
+										"hour" => $date->format('H'),
+										"minute" => $date->format('i'),
+										"second" => $date->format('s'),
+									],
+									"text" => [
+										"headline" => $comment->get('commentcontent'),
+										'id' => $comment->get('modcommentsid')
+									]
+								];
+			}
+		}
+		return Zend_Json::encode($allComments);
+	}
 	/**
 	 * Function to get details for user have the permissions to do actions
 	 * @return <Boolean> - true/false

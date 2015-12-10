@@ -607,9 +607,6 @@ li.ui-timepicker-selected,
 	font-size: 16px;
 	font-weight: bold;
 }
-.detailViewTitle .detailViewButtoncontainer {
-	margin-top: 8px;
-}
 .detailViewTitle .detailViewPagingButton {
 	margin-left: 8px;
 	-webkit-box-sizing: border-box;
@@ -1257,7 +1254,7 @@ th.htColHeader,
 	background: #f3f3f4;
 }
 #userPageHeader {
-	padding: 8px 0 0;
+	padding: 0px 0 0;
 }
 #userPageHeader #userHeading h3 {
 	margin-top: 10px;
@@ -4630,8 +4627,7 @@ html,body,.baseContainer
 	min-height:1px;
 }
 .timelineContainer{
-	z-index:1500;
-	height:500px;
+	z-index:1031;
 }
 .basePanel.menuOpen{
 	left:180px;
@@ -4639,4 +4635,11 @@ html,body,.baseContainer
 }
 .bodyHeader.menuOpen{
 	left: 230px;
+}
+.tl-storyslider,
+.tl-attribution{
+	display:none;
+}
+.tl-menubar{
+	top:0px !important;
 }

@@ -12,6 +12,19 @@
 class Calendar_Calendar_View extends Vtiger_Index_View
 {
 
+	public function checkPermission(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+
+		if (!$permission) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
+	}
+
 	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);

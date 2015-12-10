@@ -8,18 +8,11 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once 'config/debug.php';
-require_once 'config/developer.php';
-require_once 'config/security.php';
-require_once 'config/secret_keys.php';
-require_once 'config/performance.php';
-require_once('include/ConfigUtils.php');
+require_once 'include/ConfigUtils.php';
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
 vimport('include.runtime.EntryPoint');
-
-session_save_path(vglobal('root_directory') . '/cache/session');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
 {
@@ -77,7 +70,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$handler->checkPermission($request);
 			return;
 		}
-		throw new AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
+		throw new NoPermittedException('LBL_NOT_ACCESSIBLE');
 	}
 
 	protected function triggerPreProcess($handler, $request)
@@ -121,7 +114,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		if ($csrfProtection) {
 			if ($request->get('mode') != 'reset' && $request->get('action') != 'Login')
 				require_once('libraries/csrf-magic/csrf-magic.php');
-				require_once('config/csrf_config.php');
+			require_once('config/csrf_config.php');
 		}
 		// TODO - Get rid of global variable $current_user
 		// common utils api called, depend on this variable right now
@@ -229,22 +222,25 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			}
 		} catch (AppException $e) {
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			
 			Vtiger_Functions::throwNewException($e->getMessage(), false);
-			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
-				exit('<pre>'.$e->getTraceAsString().'</pre>');
+			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
+				exit('<pre>' . $e->getTraceAsString() . '</pre>');
 			}
-		} catch (NoPermittedException $e) {
+		} catch (NoPermittedToRecordException $e) {
 			//No permissions for the record
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-			Vtiger_Functions::throwNoPermittedException($e->getMessage(), false);
-			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
-				exit('<pre>'.$e->getTraceAsString().'</pre>');
+			
+			Vtiger_Functions::throwNewException($e->getMessage(), false, 'NoPermissionsForRecord.tpl');
+			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
+				exit('<pre>' . $e->getTraceAsString() . '</pre>');
 			}
 		} catch (Exception $e) {
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			
 			Vtiger_Functions::throwNewException($e->getMessage(), false);
-			if (SysDebug::get('DISPLAY_DEBUG_BACKTRACE')) {
-				exit('<pre>'.$e->getTraceAsString().'</pre>');
+			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
+				exit('<pre>' . $e->getTraceAsString() . '</pre>');
 			}
 		}
 

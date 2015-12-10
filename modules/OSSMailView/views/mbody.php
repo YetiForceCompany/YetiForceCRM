@@ -23,6 +23,18 @@ Class OSSMailView_mbody_View extends Vtiger_Index_View
 		$GLOBALS['csrf']['frame-breaker'] = false;
 	}
 
+	function checkPermission(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$recordId = $request->get('record');
+
+		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId);
+		if (!$recordPermission) {
+			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		return true;
+	}
+
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();

@@ -9,6 +9,18 @@
 class SSingleOrders_Modal_View extends Vtiger_BasicModal_View
 {
 
+	function checkPermission(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$recordId = $request->get('record');
+
+		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId);
+		if (!$recordPermission) {
+			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		return true;
+	}
+
 	public function preProcess(Vtiger_Request $request)
 	{
 		echo '<div class="modal fade modalEditStatus" id="sSingleOrdersModal"><div class="modal-dialog"><div class="modal-content">';

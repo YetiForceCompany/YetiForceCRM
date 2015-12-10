@@ -467,7 +467,7 @@ class HTTP_Session
 	{
 		$return = ini_get('session.use_cookies') ? true : false;
 		if (isset($useCookies)) {
-			ini_set('session.use_cookies', $useCookies ? 1 : 0);
+			AppConfig::iniSet('session.use_cookies', $useCookies ? 1 : 0);
 		}
 		return $return;
 	}
@@ -718,7 +718,7 @@ class HTTP_Session
 	public static function _init()
 	{
 		// Disable auto-start of a sesion
-		ini_set('session.auto_start', 0);
+		AppConfig::iniSet('session.auto_start', 0);
 
 		// Set local name equal to the current script name
 		self::localName($_SERVER['PHP_SELF']);
@@ -742,7 +742,7 @@ class HTTP_Session
 	{
 		$return = ini_get('session.use_trans_sid') ? true : false;
 		if (isset($useTransSID)) {
-			ini_set('session.use_trans_sid', $useTransSID ? 1 : 0);
+			AppConfig::iniSet('session.use_trans_sid', $useTransSID ? 1 : 0);
 		}
 		return $return;
 	}
@@ -764,7 +764,7 @@ class HTTP_Session
 	{
 		$return = ini_get('session.gc_maxlifetime');
 		if (isset($gcMaxLifetime) && is_int($gcMaxLifetime) && $gcMaxLifetime >= 1) {
-			ini_set('session.gc_maxlifetime', $gcMaxLifetime);
+			AppConfig::iniSet('session.gc_maxlifetime', $gcMaxLifetime);
 		}
 		return $return;
 	}
@@ -790,7 +790,7 @@ class HTTP_Session
 			is_int($gcProbability) &&
 			$gcProbability >= 1 &&
 			$gcProbability <= 100) {
-			ini_set('session.gc_probability', $gcProbability);
+			AppConfig::iniSet('session.gc_probability', $gcProbability);
 		}
 		return $return;
 	}

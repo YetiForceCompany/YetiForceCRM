@@ -13,7 +13,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 	{
 		$moduleName = $request->getModule();
 		if (!Users_Privileges_Model::isPermitted($moduleName, $actionName)) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new NoPermittedException(vtranslate('LBL_PERMISSION_DENIED'));
 		}
 	}
 
