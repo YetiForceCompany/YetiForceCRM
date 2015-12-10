@@ -39,18 +39,14 @@ Class Calculations_Edit_View extends Inventory_Edit_View {
 			} else {
 				$referenceId = $request->get('reference_id');
 			}
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-			if(Vtiger_Functions::getCRMRecordType($referenceId) == 'RequirementCards'){
-				$parentRecordModel = Vtiger_Record_Model::getInstanceById($referenceId);
-				$recordModel->setRecordFieldValues($parentRecordModel);
-				$recordModel->set('requirementcardsid', $referenceId);
-			} else {
-				$parentRecordModel = Inventory_Record_Model::getInstanceById($referenceId);
+			$parentRecordModel = Vtiger_Record_Model::getInstanceById($referenceId);
+			if (method_exists($parentRecordModel, 'getCurrencyInfo')) {
 				$currencyInfo = $parentRecordModel->getCurrencyInfo();
 				$taxes = $parentRecordModel->getProductTaxes();
 				$relatedProducts = $parentRecordModel->getProducts();
-				$recordModel->setRecordFieldValues($parentRecordModel);
 			}
+			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel->setRecordFieldValues($parentRecordModel);
 		} else {
 			$taxes = Inventory_Module_Model::getAllProductTaxes();
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);

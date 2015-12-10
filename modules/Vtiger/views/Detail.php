@@ -490,7 +490,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
-		$viewer->assign('ALL_COMMENTS_JSON', ModComments_Record_Model::getAllCommentsJSON($parentRecordId));
 		return $viewer->view('ShowAllComments.tpl', $moduleName, 'true');
 	}
 
@@ -619,13 +618,14 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
 	
-		if($relationModel->isFavorites()){
+		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
-			if(!empty($favorites)){
-				$models = array_intersect_key($models, $favorites);
+			$favorites = array_intersect_key($models, $favorites);
+			if (!empty($favorites)) {
+				$models = $favorites;
 			}
 		}
-		
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('COLUMNS', $request->get('col'));

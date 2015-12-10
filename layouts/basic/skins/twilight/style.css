@@ -584,6 +584,9 @@ li.ui-timepicker-selected,
 	display: table;
 	min-width: 100%;
 }
+.contents-bottomscroll {
+	overflow-x: auto !important;
+}
 .listViewLoadingImageBlock {
 	background: none;
 	border-radius: 0px;
@@ -632,7 +635,6 @@ li.ui-timepicker-selected,
 	margin-top: 5px;
 }
 .detailViewInfo .details {
-	padding-right: 1.5%;
 	padding-bottom: 10px;
 	padding-top: 10px;
 }
@@ -772,24 +774,6 @@ li.ui-timepicker-selected,
 }
 .commentContainer .commentorInfo p {
 	margin-bottom: 0;
-}
-.commentContainer .addCommentBlock {
-	background-color: #eeeff2;
-	background-image: -moz-linear-gradient(top, #eeeff2, #eeeff2);
-	background-image: -ms-linear-gradient(top, #eeeff2, #eeeff2);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#eeeff2), to(#eeeff2));
-	background-image: -webkit-linear-gradient(top, #eeeff2, #eeeff2);
-	background-image: -o-linear-gradient(top, #eeeff2, #eeeff2);
-	background-image: linear-gradient(top, #eeeff2, #eeeff2);
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeff2', endColorstr='#eeeff2', GradientType=0);
-	border-color: #eeeff2 #eeeff2 #c3c6d1;
-	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-	border: 1px solid #dddddd;
-	padding: 12px 12px 5px;
-	min-height: 125px;
-	margin-top: 15px;
-	display: block;
 }
 .commentContainer .addCommentBlock .commentcontent {
 	padding: 8px !important;
@@ -1674,7 +1658,7 @@ th.htColHeader,
 	z-index: 1000003;
 	padding: 0;
 	left: -260px;
-	top: -300px;
+
 	position: absolute;
 }
 .blockFieldsList .editFieldsWidget .dropdown-menu {
@@ -4653,23 +4637,30 @@ html,body,.baseContainer
 .tl-slide-media-only .tl-slide-content-container .tl-slide-content .tl-text{
 	position: relative;
 	float:right;
-	width: 50%;
+	width: 70%;
+	border-radius: 10px;
+	border: 1px solid #f0f0f0;
+	padding-top: 15px;
+	box-shadow: 0 12px 10px -10px rgba(0,0,0,.6)
 }
 .tl-storyslider{
-	height: 600px;
+	height: 300px !important;
 }
 .tl-timemarker .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline {
 	line-height: 15px !important;
 }
 .tl-headline-date{
-	font-size: 15px !important;
+	font-size: 30px !important;
 	margin-bottom: 20px !important;
+}
+.tl-text-content-container .tl-headline{
+	font-size: 20px !important;
 }
 .tl-timeline{
 	font-family: inherit !important;
 }
 .tl-media .tl-media-content-container .tl-media-content img{
-	max-height: 350px !important;
+	max-height: 256px !important;
 }
 .tl-text-content-container{
 	text-align: left;
@@ -4677,9 +4668,10 @@ html,body,.baseContainer
 .tl-timeline .tl-caption{
 	font-size: 15px;
 	font-weight: bold;
+	min-width:200px;
 }
 .tl-slide-media-only .tl-slide-content-container .tl-slide-content .tl-media{
-	width: 50% !important;
+	width: 30% !important;
 }
 .tl-slide-scrollable-container,
 .tl-slide-content{
@@ -4687,4 +4679,13 @@ html,body,.baseContainer
 }
 .tl-attribution{
 	display:none;
+}
+.commentsBar{
+	height:50px;
+	max-height: 50px;
+	position: relative;
+	top: 0px;
+	left: 0;
+	background: #eee; 
+	padding-top: 8px;
 }

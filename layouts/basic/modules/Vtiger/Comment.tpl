@@ -43,7 +43,7 @@
 							<p><small>[ {vtranslate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span></small></p>
 						</span>
 						{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-							<span class="{if empty($REASON_TO_EDIT)}row{else} col-xs-6{/if}">
+							<span class="{if !empty($REASON_TO_EDIT)} col-xs-6{/if}">
 								<span class="pull-right">
 									<p class="muted"><small><em>{vtranslate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small></p>
 								</span>

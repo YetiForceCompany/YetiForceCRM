@@ -272,6 +272,8 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 		$parentComments = self::getRecentComments($parentId, $pagingModel);
 		$allComments = [];
 		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$formatDate = $currentUser->get('date_format');
+		$formatDate.=$currentUser->get('hour_format') == 24 ? ' HH:MM:ss' : ' hh:MM:ss TT';
 		if(count($parentComments)){
 			foreach($parentComments as $comment){
 				$createdTime = $comment->get('createdtime');
@@ -292,7 +294,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 										"hour" => $date->format('H'),
 										"minute" => $date->format('i'),
 										"second" => $date->format('s'),
-										"format" => $currentUser->get('date_format')." HH:MM:ss"
+										"format" => $formatDate
 									],
 									"media" => [
 										"caption" => $ownerComment->getName(),
@@ -300,9 +302,9 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 										"thumbnail" => $iconPath
 									],
 									"text" => [
-										"headline" => $comment->get('commentcontent'),
-										'id' => $comment->get('modcommentsid')
-									]
+										"headline" => $comment->get('commentcontent')
+									],
+									"unique_id" => 'Id'. $comment->get('modcommentsid')
 								];
 			}
 		}

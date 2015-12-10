@@ -80,7 +80,7 @@
 							<div class="col-md-7 controls">
 								<input name="actionSelect" class="" type="checkbox" value="1" {if $WIDGETINFO['data']['actionSelect'] == 1}checked{/if}/>
 
-							</div><div class="col-md-1"><a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Select button info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Select button', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a></div>
+							</div><div class="col-md-1"><a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('LBL_SELECT_BUTTON_INFO', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Select button', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a></div>
 							</div>
 							<div class="form-group form-group-sm">
 							<label class="col-md-4 control-label">{vtranslate('No message', $QUALIFIED_MODULE)}:</label>

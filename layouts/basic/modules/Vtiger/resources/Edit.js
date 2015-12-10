@@ -104,7 +104,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	openPopUp: function (e) {
 		var thisInstance = this;
 		var parentElem = jQuery(e.target).closest('.fieldValue');
-		if(parentElem.length <= 0){
+		if (parentElem.length <= 0) {
 			parentElem = jQuery(e.target).closest('td');
 		}
 		var params = this.getPopUpParams(parentElem);
@@ -317,7 +317,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			},
 			'open': function (event, ui) {
 				//To Make the menu come up in the case of quick create
-				jQuery(this).data('autocomplete').menu.element.css('z-index', '100001');
+				jQuery(this).data('ui-autocomplete').menu.element.css('z-index', '100001');
 
 			}
 		});
@@ -449,7 +449,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	 * @params - container <jQuery> - element in which auto complete fields needs to be searched
 	 */
 	registerClearReferenceSelectionEvent: function (container) {
-		container.find('.clearReferenceSelection').on('click', function (e) {
+		container.on('click', '.clearReferenceSelection', function (e) {
 			var element = jQuery(e.currentTarget);
 			var parentTdElement = element.closest('.fieldValue');
 			var fieldNameElement = parentTdElement.find('.sourceField');

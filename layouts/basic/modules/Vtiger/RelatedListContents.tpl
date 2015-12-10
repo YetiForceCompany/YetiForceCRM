@@ -5,6 +5,9 @@
 			<thead>
 				<tr class="listViewHeaders">
 					{assign var=COUNT value=0}
+					{if $IS_FAVORITES}
+						<th></th>
+					{/if}
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						{if $COLUMNS != '' && $COUNT == $COLUMNS }
 							{break}
@@ -34,6 +37,15 @@
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 					{/if}>
 					{assign var=COUNT value=0}
+					{if $IS_FAVORITES}
+						<td class="{$WIDTHTYPE} text-center text-center font-larger">
+							{assign var=RECORD_IS_FAVORITE value=(int)array_key_exists($RELATED_RECORD->getId(),$FAVORITES)}
+							<a class="favorites" data-state="{$RECORD_IS_FAVORITE}">
+								<span title="{vtranslate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
+								<span title="{vtranslate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star-empty alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
+							</a>
+						</td>
+					{/if}
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						{if $COLUMNS != '' && $COUNT == $COLUMNS }
 							{break}

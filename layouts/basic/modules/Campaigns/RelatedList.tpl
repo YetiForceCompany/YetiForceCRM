@@ -93,6 +93,9 @@
 								<th width="4%">
 									<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox"/>
 								</th>
+								{if $IS_FAVORITES}
+									<th></th>
+								{/if}
 								{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 									<th nowrap>
 										{if $HEADER_FIELD->get('column') eq 'access_count' or $HEADER_FIELD->get('column') eq 'idlists' }
@@ -115,6 +118,15 @@
 								<td width="4%" class="{$WIDTHTYPE}">
 									<input type="checkbox" value="{$RELATED_RECORD->getId()}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
 								</td>
+								{if $IS_FAVORITES}
+									<td class="{$WIDTHTYPE} text-center text-center font-larger">
+										{assign var=RECORD_IS_FAVORITE value=(int)array_key_exists($RELATED_RECORD->getId(),$FAVORITES)}
+										<a class="favorites" data-state="{$RECORD_IS_FAVORITE}">
+											<span title="{vtranslate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
+											<span title="{vtranslate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star-empty alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
+										</a>
+									</td>
+								{/if}
 								{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 									{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
 									<td nowrap class="{$WIDTHTYPE}">

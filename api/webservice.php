@@ -4,6 +4,7 @@ chdir(__DIR__ . '/../');
 
 require_once 'include/main/WebUI.php';
 require_once 'api/webservice/Core/BaseAction.php';
+require_once 'api/webservice/Core/APISession.php';
 require_once 'api/webservice/API.php';
 
 if (!in_array('webservice', $enabledServices)) {

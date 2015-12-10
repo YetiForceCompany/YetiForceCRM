@@ -824,7 +824,7 @@ $languageStrings = [
 	'Last 5 Comments' => 'Последние 5 комментариев',
 	'Last Comment' => 'Последний комментарий',
 	'Last Modified By' => 'Кем изменено',
-	'Last Name' => 'ФИО',
+	'Last Name' => 'Фамилия',
 	'Last SMS Date' => 'Дата последнего SMS',
 	'LayoutEditor' => 'Поля и связи',
 	'Lead Source' => 'Источник Обращения',
@@ -1349,6 +1349,7 @@ $languageStrings = [
 	'LBL_NR'	=>	'Номер',
 	'LBL_ADD_TO_FAVORITES' => 'Add to favorites',
 	'LBL_REMOVE_FROM_FAVORITES' => 'Remove from favorites',
+	'LBL_TIMELINE' => 'Timeline',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',

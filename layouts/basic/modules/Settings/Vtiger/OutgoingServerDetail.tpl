@@ -14,7 +14,7 @@
 			<div class="col-md-8">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			</div>
-			<div class="col-md-4"><div class="pull-right"><button class="btn btn-default editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button></div></div>
+			<div class="col-md-4"><div class="pull-right"><button class="btn btn-info editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button></div></div>
 		</div>
 		<div class="contents">
 			<table class="table table-bordered table-condensed themeTableColor">

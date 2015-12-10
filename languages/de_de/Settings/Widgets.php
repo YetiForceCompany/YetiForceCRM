@@ -57,7 +57,7 @@ $languageStrings = [
 	'No left margin info' => 'Deaktiviere linken Rand im Widget.',
 	'ProductsServices' => 'Produkte Dienstleistungen',
 	'Campaign status' => 'Kampagnenstatus',
-	'Select button info' => 'Enable visible select button',
+	'LBL_SELECT_BUTTON_INFO' => 'Enable visible select button',
 	'LBL_CONDITION' => 'Condition',
 	'LBL_CONDITION_INFO' => 'Select condition for showing records',
 ];

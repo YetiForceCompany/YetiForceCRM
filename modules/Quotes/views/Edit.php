@@ -41,11 +41,12 @@ Class Quotes_Edit_View extends Inventory_Edit_View {
 			} else {
 				$referenceId = $request->get('reference_id');
 			}
-
-			$parentRecordModel = Inventory_Record_Model::getInstanceById($referenceId);
-			$currencyInfo = $parentRecordModel->getCurrencyInfo();
-			$taxes = $parentRecordModel->getProductTaxes();
-			$relatedProducts = $parentRecordModel->getProducts();
+			$parentRecordModel = Vtiger_Record_Model::getInstanceById($referenceId);
+			if (method_exists($parentRecordModel, 'getCurrencyInfo')) {
+				$currencyInfo = $parentRecordModel->getCurrencyInfo();
+				$taxes = $parentRecordModel->getProductTaxes();
+				$relatedProducts = $parentRecordModel->getProducts();
+			}
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$recordModel->setRecordFieldValues($parentRecordModel);
 			if ($request->get('calculation_id')) {

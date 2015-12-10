@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -447,75 +446,6 @@ CREATE TABLE `dav_users` (
   UNIQUE KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `l_yf_access_for_admin` */
-
-CREATE TABLE `l_yf_access_for_admin` (
-  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
-  `date` datetime NOT NULL,
-  `ip` varchar(100) NOT NULL,
-  `module` varchar(30) NOT NULL,
-  `url` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
-  `request` varchar(300) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `l_yf_access_for_api` */
-
-CREATE TABLE `l_yf_access_for_api` (
-  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
-  `date` datetime NOT NULL,
-  `ip` varchar(100) NOT NULL,
-  `url` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
-  `request` varchar(300) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `l_yf_access_for_user` */
-
-CREATE TABLE `l_yf_access_for_user` (
-  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
-  `date` datetime NOT NULL,
-  `ip` varchar(100) NOT NULL,
-  `module` varchar(30) NOT NULL,
-  `url` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
-  `request` varchar(300) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `l_yf_access_to_record` */
-
-CREATE TABLE `l_yf_access_to_record` (
-  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
-  `date` datetime NOT NULL,
-  `ip` varchar(100) NOT NULL,
-  `record` int(19) NOT NULL,
-  `module` varchar(30) NOT NULL,
-  `url` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
-  `request` varchar(300) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `l_yf_csrf` */
-
-CREATE TABLE `l_yf_csrf` (
-  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
-  `date` datetime NOT NULL,
-  `ip` varchar(100) NOT NULL,
-  `referer` varchar(300) NOT NULL,
-  `url` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `l_yf_sqltime` */
 
 CREATE TABLE `l_yf_sqltime` (
@@ -542,6 +472,119 @@ CREATE TABLE `l_yf_switch_users` (
   PRIMARY KEY (`id`),
   KEY `baseid` (`baseid`),
   KEY `destid` (`destid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `o_yf_access_for_admin` */
+
+CREATE TABLE `o_yf_access_for_admin` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `date` datetime NOT NULL,
+  `ip` varchar(100) NOT NULL,
+  `module` varchar(30) NOT NULL,
+  `url` varchar(300) NOT NULL,
+  `agent` varchar(255) NOT NULL,
+  `request` varchar(300) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `o_yf_access_for_api` */
+
+CREATE TABLE `o_yf_access_for_api` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `date` datetime NOT NULL,
+  `ip` varchar(100) NOT NULL,
+  `url` varchar(300) NOT NULL,
+  `agent` varchar(255) NOT NULL,
+  `request` varchar(300) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `o_yf_access_for_user` */
+
+CREATE TABLE `o_yf_access_for_user` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `date` datetime NOT NULL,
+  `ip` varchar(100) NOT NULL,
+  `module` varchar(30) NOT NULL,
+  `url` varchar(300) NOT NULL,
+  `agent` varchar(255) NOT NULL,
+  `request` varchar(300) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `o_yf_access_to_record` */
+
+CREATE TABLE `o_yf_access_to_record` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `date` datetime NOT NULL,
+  `ip` varchar(100) NOT NULL,
+  `record` int(19) NOT NULL,
+  `module` varchar(30) NOT NULL,
+  `url` varchar(300) NOT NULL,
+  `agent` varchar(255) NOT NULL,
+  `request` varchar(300) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `o_yf_csrf` */
+
+CREATE TABLE `o_yf_csrf` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `date` datetime NOT NULL,
+  `ip` varchar(100) NOT NULL,
+  `referer` varchar(300) NOT NULL,
+  `url` varchar(300) NOT NULL,
+  `agent` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `p_yf_servers` */
+
+CREATE TABLE `p_yf_servers` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) DEFAULT NULL,
+  `acceptable_url` varchar(200) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0',
+  `api_key` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `p_yf_sessions` */
+
+CREATE TABLE `p_yf_sessions` (
+  `id` varchar(32) NOT NULL,
+  `user_id` int(19) DEFAULT NULL,
+  `language` varchar(10) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `changed` datetime DEFAULT NULL,
+  `ip` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `p_yf_users` */
+
+CREATE TABLE `p_yf_users` (
+  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `server_id` int(10) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0',
+  `user_name` varchar(50) NOT NULL,
+  `password_h` varchar(200) DEFAULT NULL,
+  `password_t` varchar(200) DEFAULT NULL,
+  `type` varchar(30) DEFAULT NULL,
+  `parent_id` int(19) DEFAULT NULL,
+  `login_time` datetime DEFAULT NULL,
+  `logout_time` datetime DEFAULT NULL,
+  `first_name` varchar(200) DEFAULT NULL,
+  `last_name` varchar(200) DEFAULT NULL,
+  `language` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_name` (`user_name`),
+  KEY `user_name_2` (`user_name`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `roundcube_cache` */
@@ -750,6 +793,17 @@ CREATE TABLE `s_yf_multireference` (
   KEY `source_module` (`source_module`,`dest_module`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_crmentity_showners` */
+
+CREATE TABLE `u_yf_crmentity_showners` (
+  `crmid` int(19) DEFAULT NULL,
+  `userid` int(19) DEFAULT NULL,
+  UNIQUE KEY `mix` (`crmid`,`userid`),
+  KEY `crmid` (`crmid`),
+  KEY `userid` (`userid`),
+  CONSTRAINT `fk_u_yf_crmentity_showners` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_favorites` */
 
 CREATE TABLE `u_yf_favorites` (
@@ -764,17 +818,6 @@ CREATE TABLE `u_yf_favorites` (
   KEY `mix` (`crmid`,`module`,`relcrmid`,`relmodule`,`userid`),
   CONSTRAINT `fk_1_u_yf_favorites` FOREIGN KEY (`relcrmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
   CONSTRAINT `fk_u_yf_favorites` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `u_yf_crmentity_showners` */
-
-CREATE TABLE `u_yf_crmentity_showners` (
-  `crmid` int(19) DEFAULT NULL,
-  `userid` int(19) DEFAULT NULL,
-  UNIQUE KEY `mix` (`crmid`,`userid`),
-  KEY `crmid` (`crmid`),
-  KEY `userid` (`userid`),
-  CONSTRAINT `fk_u_yf_crmentity_showners` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_recurring_info` */

@@ -11,7 +11,7 @@
 -->*}
 {strip}
 
-	<button type="button" class="btn btn-default addButton addCron"><span class="glyphicon glyphicon-plus"></span> {vtranslate('LBL_ADD_CRON', $QUALIFIED_MODULE)}</button>
+	<button type="button" class="btn btn-success addButton addCron"><span class="glyphicon glyphicon-plus"></span> {vtranslate('LBL_ADD_CRON', $QUALIFIED_MODULE)}</button>
 	<br />
 	<br />
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
