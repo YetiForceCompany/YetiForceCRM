@@ -265,3 +265,6 @@ $isVisibleLogoInFooter = true;
 
 // show names related modules
 $showNameRelatedModules = true;
+
+// default view in Comments (Timeline/List)
+$defaultViewInComments = 'Timeline';

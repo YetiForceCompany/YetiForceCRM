@@ -443,7 +443,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PARENT_COMMENTS', $childComments);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
-
+		$viewer->assign('TYPE_VIEW', "List");
 		return $viewer->view('CommentsList.tpl', $moduleName, 'true');
 	}
 	/**
@@ -490,6 +490,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
+		$viewer->assign('TYPE_VIEW', $request->get('type'));
 		return $viewer->view('ShowAllComments.tpl', $moduleName, 'true');
 	}
 

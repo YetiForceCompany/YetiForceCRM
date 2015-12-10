@@ -9,9 +9,9 @@
 *
  ********************************************************************************/
 -->*}
-
+{strip}
 {* Change to this also refer: RecentComments.tpl *}
-{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
+<input type="hidden" id="typeView" value="{$TYPE_VIEW}">
 <input type="hidden" id="currentComment" value="{if !empty($CURRENT_COMMENT)}{$CURRENT_COMMENT->getId()}{/if}">
 <div class="col-md-12 commentsBar paddingLRZero">
 	{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
@@ -31,13 +31,18 @@
 	{/if}
 	<div class="col-md-4 pull-right">
 		<div class="bootstrap-switch-container pull-right">
-			<input class="switchBtn" type="checkbox" checked="" data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{vtranslate('LBL_RECORDS_LIST', $MODULE_NAME)}" data-on-text="{vtranslate('LBL_TIMELINE', $MODULE_NAME)}">
+			<input class="switchBtn" type="checkbox" {if $TYPE_VIEW neq 'List'}checked{/if} data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{vtranslate('LBL_RECORDS_LIST', $MODULE_NAME)}" data-on-text="{vtranslate('LBL_TIMELINE', $MODULE_NAME)}">
 		</div>
 	</div>
 </div>
-<div id="timeline" class="timelineContainer"></div>
+{if $TYPE_VIEW neq 'List'}
+	<div id="timeline" class="timelineContainer"></div>
+{/if}
 <div class="commentContainer">
 	<div class="commentsList commentsBody  col-md-12 ">
+		{if $TYPE_VIEW eq 'List'}
+			{include file='CommentsList.tpl'|@vtemplate_path COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
+		{/if}
 	</div>
 	<div class="hide basicAddCommentBlock marginTop10 marginBottom10px">
 		<div class="row">
@@ -85,3 +90,4 @@
 		<div class="clearfix"></div>
 	</div>
 </div>
+{/strip}
