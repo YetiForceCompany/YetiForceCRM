@@ -123,7 +123,7 @@
 						{/foreach}
 						{if $IMAGE_DETAILS[0]['id'] eq null}
 							<div class='col-md-6'>
-								<img alt="" src="{vimage_path('DefaultUserIcon.png')}">
+								<img class="list-user-img" alt="" src="{vimage_path('DefaultUserIcon.png')}">
 							</div>
 						{/if}
 					</div>

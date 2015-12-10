@@ -4660,6 +4660,7 @@ html,body,.baseContainer
 	font-family: inherit !important;
 }
 .tl-media .tl-media-content-container .tl-media-content img{
+	width: 256px;
 	max-height: 256px !important;
 }
 .tl-text-content-container{
