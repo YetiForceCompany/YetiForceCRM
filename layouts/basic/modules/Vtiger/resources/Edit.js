@@ -317,7 +317,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			},
 			'open': function (event, ui) {
 				//To Make the menu come up in the case of quick create
-				jQuery(this).data('autocomplete').menu.element.css('z-index', '100001');
+				jQuery(this).data('ui-autocomplete').menu.element.css('z-index', '100001');
 
 			}
 		});
