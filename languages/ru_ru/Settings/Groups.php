@@ -9,6 +9,9 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = [
+	'RoleAndSubordinates' => 'Роли и подчиненные',
+	'Roles' => 'Роли',
+	'Groups' => 'Группы',
 	'LBL_ADD_RECORD' => 'Добавить Группу',
 	'LBL_ADD_USERS_ROLES' => 'Добавьте Пользователей, Роли, Группы ...',
 	'LBL_DUPLICATES_EXIST' => 'Такая группа уже существует',
