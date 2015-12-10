@@ -2717,6 +2717,9 @@ td.listViewEntryValue .row input {
 .paddingRight10{
 	padding-right: 10px !important;
 }
+.paddingRight15{
+	padding-right: 15px !important;
+}
 .input-group.input-group-sm > .input-group-addon img {
 	width: 15px;
 }
