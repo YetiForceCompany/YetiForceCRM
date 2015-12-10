@@ -266,7 +266,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 		
 		return $recordInstances;
 	}
-	public static function getAllCommentsJSON($parentId){
+	public static function getAllCommentsForTimeline($parentId){
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 'no_limit');
 		$parentComments = self::getRecentComments($parentId, $pagingModel);
@@ -308,7 +308,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 								];
 			}
 		}
-		return Zend_Json::encode($allComments);
+		return $allComments;
 	}
 	/**
 	 * Function to get details for user have the permissions to do actions

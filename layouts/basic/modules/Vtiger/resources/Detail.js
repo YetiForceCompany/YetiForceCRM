@@ -2846,6 +2846,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		};
 		var params = {
 			module: 'ModComments',
+			srcModule: app.getModuleName(),
 			action: 'TimelineAjax',
 			record: thisInstance.getRecordId()
 		};
@@ -2858,8 +2859,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		AppConnector.request(params).then(function (data) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			var allComments = data.result;
-			if(allComments !== '[]'){
-				var allComments = JSON.parse(allComments);
+			if(typeof allComments.events != 'undefined'){
 				var timeline = new TL.Timeline('timeline', allComments, options);
 				timeline.on('change', function(data) {
 					var uniqueId = data.unique_id;
