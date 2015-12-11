@@ -13,7 +13,7 @@
 	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
-				<div class="btn-toolbar col-md-4">
+				<div class="btn-toolbar col-md-4 col-sm-5 col-xs-12">
 					<div class="btn-group">
 						{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
 							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -101,7 +101,7 @@
 						</div>
 					{/foreach}
 				</div>
-				<div class="btn-toolbar col-md-3">
+				<div class="btn-toolbar col-md-3 col-sm-5 col-xs-12 pull-right-sm pull-left-xs">
 					<div class="customFilterMainSpan btn-group">
 						{if $CUSTOM_VIEWS|@count gt 0}
 							<select id="customFilter" title="{vtranslate('LBL_CUSTOM_FILTER')}">

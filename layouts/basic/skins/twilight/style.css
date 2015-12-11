@@ -545,13 +545,15 @@ li.ui-timepicker-selected,
 #relatedTabOrder .select2-input {
 	min-width: 200px;
 }
-.alphabetSorting .alphabetSearch a {
-	vertical-align: middle;
+.alphabetSearch {
 	display: inline-block;
-	margin-bottom: 2px;
 }
-.alphabetSorting .alphabetSearch:hover {
-	background: #eeeff2;
+.alphabetSorting{
+	text-align: center;
+}
+.alphabetSorting .alphabetContents{
+	padding:0;
+	margin: 0 auto;
 }
 .listViewActions .settingsIcon {
 	display: inline-block;
@@ -4199,6 +4201,12 @@ html,body,.baseContainer
 	}
 }
 @media screen and (max-width: 960px) {
+	.pull-right-sm{
+		float: right; 
+	}
+	.pull-left-sm{
+		float: left;
+	}
 	.form-horizontal .form-group .description-field{
 		text-align: left;
 	}
@@ -4450,6 +4458,12 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 767px) {
+	.pull-right-xs{
+		float: right; 
+	}
+	.pull-left-xs{
+		float: left;
+	}
 	.layoutBlockHeader .pull-right,
 	.relatedContainer .paginationDiv.pull-right{
 		float: left !important;
