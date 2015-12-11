@@ -72,12 +72,13 @@ class AppConfig
 }
 
 require_once 'config/api.php';
+require_once 'config/calendar.php';
+require_once 'config/config.php';
 require_once 'config/debug.php';
 require_once 'config/developer.php';
-require_once 'config/security.php';
-require_once 'config/config.php';
-require_once 'config/secret_keys.php';
 require_once 'config/performance.php';
+require_once 'config/secret_keys.php';
+require_once 'config/security.php';
 require_once 'config/version.php';
 
 AppConfig::load('calendar', $CALENDAR_CONFIG);

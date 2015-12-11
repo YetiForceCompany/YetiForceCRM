@@ -705,6 +705,9 @@ jQuery.Class("Vtiger_Header_Js", {
 			thisInstance.hideSearchMenu();
 			thisInstance.hideMobileMenu();
 			$('.actionMenu').toggleClass('actionMenuOn');
+			$('#quickCreateModules').click(function(){
+				thisInstance.hideActionMenu();
+			});
 		});
 		$('.searchMenuBtn').click(function () {
 			thisInstance.hideActionMenu();

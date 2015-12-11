@@ -190,12 +190,8 @@ class Vtiger_Menu_Model
 				return '<img src="' . $icon . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
 			}
 		}
-		if ($menu['type'] == 'Module') {
-			$iconName = vimage_path($menu['name'] . '.png');
-
-			if (file_exists($iconName)) {
-				return '<img src="' . $iconName . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
-			}
+		if ($menu['type'] == 'Module') {	
+			return '<span class="menuIcon userIcon-' . $menu['mod'] . '" aria-hidden="true"></span>';
 		}
 		return '';
 	}

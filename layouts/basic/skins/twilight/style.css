@@ -4060,9 +4060,6 @@ html,body,.baseContainer
 	width: 20%;
 	min-width: 150px;
 }
-.quickAction a{
-	max-height:34px;
-}
 .listViewActionsDiv .btn-group button,
 .listViewActionsDiv .pagination > li > span,
 .listViewActionsDiv .pageInfo {
@@ -4508,6 +4505,10 @@ html,body,.baseContainer
 	}
 	.breadcrumbsLinks{
 		font-size: 14px;
+	}
+	.quickCreateContainer .modal-dialog{
+		width: 100%;
+		padding-right:20px;
 	}
 }
 @media only screen and (min-width: 480px){

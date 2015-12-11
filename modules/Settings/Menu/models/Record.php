@@ -269,4 +269,9 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				$this->generateFileMenu($roleId);
 		}
 	}
+	
+	public static function getIcons()
+	{
+		return ['userIcon-compaines-and-contacts', 'userIcon-my-home-page', 'userIcon-virtual-desk', 'userIcon-projects', 'userIcon-support', 'userIcon-bookkeeping', 'userIcon-human-resources', 'userIcon-secretary', 'userIcon-database', 'userIcon-team-work', 'userIcon-sales'];
+	}
 }

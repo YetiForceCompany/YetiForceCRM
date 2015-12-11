@@ -42,14 +42,14 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model
 		}
 
 		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'ConvertLead', $recordModel->getId()) && Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView', $recordModel->getId())) {
+			$convert = !Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus')) ? 'hide' : '';
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
-				'linkclass' => 'btn-info btn-convertLead',
+				'linkclass' => 'btn-info btn-convertLead ' . $convert,
 				'linkhint' => vtranslate('LBL_CONVERT_LEAD', $moduleName),
 				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("' . $recordModel->getConvertLeadUrl() . '",this);',
 				'linkicon' => 'glyphicon glyphicon-transfer',
-				'linkgrupclass' => !Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus')) ? 'hide' : '',
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}

@@ -2847,7 +2847,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			marker_width_min: 150,
 			marker_padding: 5,
 			scale_factor: 1,
-			optimal_tick_width: 500,
+			optimal_tick_width: 700,
 			slide_padding_lr: 100, 
 			slide_default_fade: "0%",
 			language: app.getLanguage().substring(0,2) 

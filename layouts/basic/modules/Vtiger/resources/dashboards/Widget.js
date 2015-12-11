@@ -201,7 +201,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	registerWidgetSwitch: function () {
 		var thisInstance = this;
-		var switchButtons = this.getContainer().find('.dashboardWidgetHeader .widget_header .switchBtnReload');
+		var switchButtons = this.getContainer().find('.dashboardWidgetHeader .switchBtnReload');
 		thisInstance.setUrlSwitch(switchButtons);
 		switchButtons.on('switchChange.bootstrapSwitch', function (e, state) {
 			var currentElement = jQuery(e.currentTarget);
