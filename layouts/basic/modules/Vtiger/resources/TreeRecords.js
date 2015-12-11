@@ -116,11 +116,11 @@ jQuery.Class("Vtiger_TreeRecords_Js", {}, {
 			var buttonImage = $(this).find('.glyphicon');
 			if (siteBarRight.hasClass('hideSiteBar')) {
 				siteBarRight.removeClass('hideSiteBar');
-				content.removeClass('col-md-12').addClass('col-md-8');
+				content.removeClass('col-md-12').addClass('col-md-9');
 				buttonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
 			} else {
 				siteBarRight.addClass('hideSiteBar');
-				content.removeClass('col-md-8').addClass('col-md-12');
+				content.removeClass('col-md-9').addClass('col-md-12');
 				buttonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
 			}
 		});

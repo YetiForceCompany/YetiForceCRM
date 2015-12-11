@@ -4549,7 +4549,7 @@ html,body,.baseContainer
     max-height: 500px;
 }
 .siteBarRight{
-	width: calc(33.33333333% - 15px);
+	width: calc(25% - 15px);
 	padding: 0 15px;
 	border-left: 1px solid #dddddd;
 	background: #F5F5F5;
@@ -4581,7 +4581,7 @@ html,body,.baseContainer
 	padding: 0 !important;
 }
 .hideSiteBar{
-	right: calc(-33.33333333% + 15px);
+	right: calc(-25% + 15px);
 }
 .hideSiteBar .siteBarContent{
 	overflow: hidden;
