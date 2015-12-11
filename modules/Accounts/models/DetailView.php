@@ -103,7 +103,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			$relatedLinks[] = array(
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'ModComments',
-				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments&type='.$modCommentsModel::getDefaultViewComments(),
 				'linkicon' => '',
 				'related' => 'Comments'
 			);

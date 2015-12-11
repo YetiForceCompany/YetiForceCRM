@@ -1093,6 +1093,7 @@ $languageStrings = [
 	'LBL_ADD_TO_FAVORITES' => 'Add to favorites',
 	'LBL_REMOVE_FROM_FAVORITES' => 'Remove from favorites',
 	'LBL_TIMELINE' => 'Timeline',
+	'LBL_TREE_VIEW' => 'Tree records',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',
@@ -1383,4 +1384,16 @@ $jsLanguageStrings = [
 	'JS_SELECTED_ELEMENTS' => 'Number of selected elements',
 	'JS_REMOVED_FROM_FAVORITES' => 'Removed from favorites',
 	'JS_ADDED_TO_FAVORITES' => 'Added to favorites',
+	'JS_LOADING_OF_RECORDS' => 'Loading records list...',
+	'JS_SEARCH' => 'Search:',
+	'JS_S_LENGTH_MENU' => 'Show _MENU_ entries',
+	'JS_S_INFO' => 'Showing _START_ to _END_ of _TOTAL_ entries',
+	'JS_S_INFO_EMPTY' => 'Showing 0 to 0 of 0 entries',
+	'JS_S_INFO_FILTERED' => '(filtered from _MAX_ total entries)',
+	'JS_S_FIRST' => 'First',
+	'JS_S_PREVIOUS' => 'Last',
+	'JS_S_NEXT' => 'Next',
+	'JS_S_LAST' => 'Previous',
+	'JS_S_SORT_ASCENDING' => ': activate to sort column ascending',
+	'JS_S_SORT_DESCENDING' => ': activate to sort column descending',
 ];

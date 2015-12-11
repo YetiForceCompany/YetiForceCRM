@@ -20,19 +20,19 @@
 						{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 						<img class="alignMiddle pull-left" alt="" width="48px" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
 					</div>
-					<div class="col-md-11 commentorInfo">
+					<div class="col-md-10 commentorInfo">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 						<div class="inner">
 							<span class="commentorName pull-left"><strong>{$COMMENTOR->getName()}</strong></span>
-							<span class="pull-right">
-								<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
-							</span>
 							<div class="clearfix"></div>
 						</div>
 						<div class="commentInfoContent">
 							{nl2br($COMMENT->get('commentcontent'))}
 						</div>
 					</div>
+					<span class="pull-right paddingRight15">
+						<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
+					</span>
 				</div>
 			</div>
 			<div class="commentActionsContainer row no-margin">
@@ -75,6 +75,38 @@
 									<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_DELETE',$MODULE_NAME)}
 								</a>
 							</span>
+						{/if}
+						{if $TYPE_VIEW eq 'List'}
+							{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
+							{if $CHILD_COMMENTS_MODEL neq null and ($CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID)}
+								{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}&nbsp;<span style="color:black">|</span>&nbsp;{/if}
+								<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
+									<a class="cursorPointer viewThread">
+										<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
+										<img class="alignMiddle" src="{vimage_path('rightArrowSmall.png')}" />
+									</a>
+								</span>
+								<span class="hide hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
+									<a class="cursorPointer hideThread">
+										<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
+										<img class="alignMiddle" src="{vimage_path('downArrowSmall.png')}" />
+									</a>
+								</span>
+							{elseif $CHILD_COMMENTS_MODEL neq null and ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
+								{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}&nbsp;<span style="color:black">|</span>&nbsp;{/if}
+								<span class="hide viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
+									<a class="cursorPointer viewThread">
+										<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
+										<img class="alignMiddle" src="{vimage_path('rightArrowSmall.png')}" />
+									</a>
+								</span>
+								<span class="hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
+									<a class="cursorPointer hideThread">
+										<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
+										<img class="alignMiddle" src="{vimage_path('downArrowSmall.png')}" />
+									</a>
+								</span>
+							{/if}
 						{/if}
 						</small></p>
 					</div>

@@ -179,8 +179,22 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
 	function getPageTitle(Vtiger_Request $request)
 	{
-		$title = $request->getModule();
-		return $title == 'Vtiger' ? 'YetiForce' : $title;
+		$moduleName = $request->getModule();
+		$moduleName = $moduleName == 'Vtiger' ? 'YetiForce' : $moduleName;
+		$title = vtranslate($moduleName, $moduleName);
+		$pageTitle = $this->getBreadcrumbTitle($request);
+		if ($pageTitle) {
+			$title .= ' - ' . $pageTitle;
+		}
+		return $title;
+	}
+
+	function getBreadcrumbTitle(Vtiger_Request $request)
+	{
+		if (!empty($this->pageTitle)) {
+			return $this->pageTitle;
+		}
+		return 0;
 	}
 
 	function preProcess(Vtiger_Request $request, $display = true)
@@ -188,6 +202,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PAGETITLE', $this->getPageTitle($request));
+		$viewer->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($request));
 		$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
 		$viewer->assign('STYLES', $this->getHeaderCss($request));
 		$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());

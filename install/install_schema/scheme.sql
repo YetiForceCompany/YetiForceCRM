@@ -1394,6 +1394,8 @@ CREATE TABLE `vtiger_account` (
   `inventorybalance` decimal(25,8) DEFAULT '0.00000000',
   `discount` decimal(5,2) DEFAULT '0.00',
   `creditlimit` int(10) DEFAULT NULL,
+  `products` text,
+  `services` text,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -1683,6 +1685,7 @@ CREATE TABLE `vtiger_assets` (
   `parent_id` int(19) DEFAULT NULL,
   `pot_renewal` int(19) DEFAULT NULL,
   `ordertime` decimal(10,2) DEFAULT NULL,
+  `pscategory` varchar(255) DEFAULT '',
   PRIMARY KEY (`assetsid`),
   KEY `parent_id` (`parent_id`),
   KEY `pot_renewal` (`pot_renewal`),
@@ -3474,7 +3477,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1945 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1948 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -8153,7 +8156,7 @@ CREATE TABLE `vtiger_trees_templates` (
   `access` int(1) DEFAULT '1',
   PRIMARY KEY (`templateid`),
   KEY `module` (`module`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates_data` */
 
@@ -8552,7 +8555,7 @@ CREATE TABLE `vtiger_widgets` (
   PRIMARY KEY (`id`),
   KEY `tabid` (`tabid`),
   CONSTRAINT `vtiger_widgets_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity` */
 

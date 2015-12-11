@@ -37,26 +37,18 @@
                 <input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
                 <input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
             {/if}
-            <div class="contentHeader">
-				{assign var=IMAGE value=$MODULE|cat:'48.png'}
-				{if file_exists( vimage_path($IMAGE) )}
-					<span class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
-						<span class="moduleIcon">
-							<img src="{vimage_path($IMAGE)}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}" />
+            <div class="widget_header row">
+				<div class="col-md-8">
+					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				</div>
+				<div class="col-md-4">
+					<div class="contentHeader">
+						<span class="pull-right">
+							<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+							<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</button>
 						</span>
-					</span>
-				{/if}
-                {assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
-                {if $RECORD_ID neq ''}
-                    <h3 class="col-md-8 textOverflowEllipsis margin0px" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - {$RECORD_STRUCTURE_MODEL->getRecordName()}</h3>
-                {else}
-                    <h3 class="col-md-8 textOverflowEllipsis margin0px">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
-                {/if}
-                <span class="pull-right">
-                    <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-                    <button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</button>
-                </span>
-				<div class="clearfix"></div>
+					</div>
+				</div>
             </div>
             {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
             {if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
@@ -64,16 +56,14 @@
 			{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 			{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 			{if $BLOCKS_HIDE}
-				<table class="table table-bordered blockContainer showInlineTable equalSplit" data-label="{$BLOCK_LABEL}">
-					<thead>
-						<tr>
-							<th class="blockHeader" colspan="4">
-					<div class="row">
-						<div class="col-md-4">
+				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL}">	
+					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+						<div class="iconCollapse">
 							<span class="cursorPointer alignMiddle blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 							<span class="cursorPointer alignMiddle blockToggle glyphicon glyphicon glyphicon-menu-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-							&nbsp;&nbsp;
-							{vtranslate($BLOCK_LABEL, $MODULE)}
+						</div>
+						<div>
+							<h4>{vtranslate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
 						</div>
 						<div class="col-md-8">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
@@ -81,11 +71,8 @@
 							{/if}
 						</div>
 					</div>
-					</th>
-                    </tr>
-					</thead>
-					<tbody {if $IS_HIDDEN} class="hide" {/if}>
-						<tr>
+					<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">
+						<div class="col-md-12 paddingLRZero">
 							{assign var=COUNTER value=0}
 							{assign var=MAILTEMPLATES_TYPE value=FALSE}
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
@@ -94,18 +81,20 @@
 								{/if}
 								{if $FIELD_MODEL->get('uitype') eq '20' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '300'}
 									{if $COUNTER eq '1'}
-										<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td></tr><tr>
+										</div>
+										<div class="col-md-12 paddingLRZero">
 											{assign var=COUNTER value=0}
 										{/if}
 									{/if}
 									{if $COUNTER eq 2}
-								</tr>
-								<tr>
+								</div>
+								<div class="col-md-12 paddingLRZero">
 									{assign var=COUNTER value=1}
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<td class="fieldLabel {$WIDTHTYPE}">
+								<div class="{if $FIELD_MODEL->get('uitype') neq "300"}col-md-6{/if} fieldRow">
+									<div class="col-md-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
 									{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 									{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
 									{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
@@ -119,104 +108,111 @@
 											{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
 										{/if}
 									</label>
-								</td>
+								</div>
 								{if $FIELD_MODEL->get('uitype') neq "83"}
-									<td class="fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+									<div class="fieldValue col-md-9 {$WIDTHTYPE}" >
 										<div class="row">
-											<div class="col-md-10">
 												{if $FIELD_MODEL->get('uitype') eq "300"}
 													<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
 												{/if}
 												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
-											</div>
 										</div>
-									</td>
+									</div>
 								{/if}
+								</div>
 								{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->get('uitype') neq "19" and $FIELD_MODEL->get('uitype') neq "20" and $FIELD_MODEL->get('uitype') neq "30" and $FIELD_MODEL->get('uitype') neq '300' and $FIELD_MODEL->get('name') neq "recurringtype"}
-									<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
+									</div>
+									<div class="col-md-12 paddingLRZero">
 									{/if}
 								{/foreach}
 								{if $smarty.foreach.blockfields.last and $smarty.foreach.EditViewBlockLevelLoop.iteration eq 1}
 									{if $COUNTER eq 2}
-								</tr>
-								<tr>
+								</div>
+									<div class="col-md-12 paddingLRZero">
 									{assign var=COUNTER value=0}
 								{/if}
 								{assign var=COUNTER value=$COUNTER+1}
-								<td class="fieldLabel {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('MODULE_FIELD', $MODULE)}</label></td>
-								<td class="fieldValue {$WIDTHTYPE}">
-									<div class="row">
-										<div class="col-md-8">
-											<select class="chzn-select form-control" name="oss_fields_list" title="{vtranslate('LBL_CHOOSE_FIELD')}" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
-											</select>
-										</div>
-										<div class="col-md-4">
-											<button type="button" aria-hidden="true" class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="a" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_VALUE', $MODULE)}">
-												<span class="glyphicon glyphicon-arrow-down icon-black"></span>
-											</button>
-											<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="b" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_LABEL', $MODULE)}">
-												<span class="glyphicon glyphicon-arrow-down"></span>
-											</button>
+								<div class="{if $FIELD_MODEL->get('uitype') neq "300"}col-md-6{/if} fieldRow 234">
+									<div class="fieldLabel col-md-3 paddingLeft5px {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('MODULE_FIELD', $MODULE)}</label></div>
+									<div class="fieldValue col-md-9 {$WIDTHTYPE}">
+										<div class="row">
+											<div class="col-md-8 paddingLRZero">
+												<select class="chzn-select form-control" name="oss_fields_list" title="{vtranslate('LBL_CHOOSE_FIELD')}" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
+												</select>
+											</div>
+											<div class="col-md-4 paddingLRZero">
+												<button type="button" aria-hidden="true" class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="a" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_VALUE', $MODULE)}">
+													<span class="glyphicon glyphicon-arrow-down icon-black"></span>
+												</button>
+												<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="b" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_LABEL', $MODULE)}">
+													<span class="glyphicon glyphicon-arrow-down"></span>
+												</button>
+											</div>	
 										</div>	
-									</div>	
-								</td>
+									</div>
+								</div>
 							{/if}
 
 							{if $COUNTER eq 2}
-							</tr>
-							<tr>
+							</div>
+									<div class="col-md-12 paddingLRZero">
 								{assign var=COUNTER value=0}
 							{/if}
 							{if $smarty.foreach.EditViewBlockLevelLoop.iteration eq 1}
-
-								<td class="fieldLabel {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('RELATED_MODULE_FIELD', $MODULE)}</label></td>
-								<td class="fieldValue {$WIDTHTYPE}">
-									<div class="row">
-										<div class="col-md-8">
-											<select class="chzn-select" name="oss_related_fields_list" title="{vtranslate('LBL_SELECT_RELATED_FIELD')}" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
-											</select>
-										</div>
-										<div class="col-md-4">
-											<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="c" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_VALUE', $MODULE)}">
-												<span class="glyphicon glyphicon-arrow-down"></span>
-											</button>
-											<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="d" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_LABEL', $MODULE)}">
-												<span class="glyphicon glyphicon-arrow-down"></span>
-											</button>
-										</div>
-									</div>	
-								</td>
+								<div class="{if $FIELD_MODEL->get('uitype') neq "300"}col-md-6{/if} fieldRow">
+									<div class="fieldLabel col-md-3 {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('RELATED_MODULE_FIELD', $MODULE)}</label></div>
+									<div class="fieldValue col-md-9 {$WIDTHTYPE}">
+										<div class="row">
+											<div class="col-md-8 paddingLRZero">
+												<select class="chzn-select" name="oss_related_fields_list" title="{vtranslate('LBL_SELECT_RELATED_FIELD')}" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
+												</select>
+											</div>
+											<div class="col-md-4 paddingLRZero">
+												<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="c" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_VALUE', $MODULE)}">
+													<span class="glyphicon glyphicon-arrow-down"></span>
+												</button>
+												<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="d" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_LABEL', $MODULE)}">
+													<span class="glyphicon glyphicon-arrow-down"></span>
+												</button>
+											</div>
+										</div>	
+									</div>
+								</div>
 								{assign var=COUNTER value=$COUNTER+1}
 
 								{if $COUNTER eq 2}
-								</tr>
-								<tr>
+								</div>
+									<div class="col-md-12 paddingLRZero">
 									{assign var=COUNTER value=0}
 								{/if}
-
-								<td class="fieldLabel {$WIDTHTYPE}" ><label class="muted pull-right marginRight10px">{vtranslate('SEPCIAL_FUNCTION', $MODULE)}</label></td>
-								<td class="fieldValue {$WIDTHTYPE}">
-									<div class="row">
-										<div class="col-md-8">
-											<select class="chzn-select" name="oss_special_function_list" title="{vtranslate('SEPCIAL_FUNCTION', $MODULE)}" style="width: 190px;">
-											</select>
-										</div>
-										<div class="col-md-4">
-											<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button" data-prefix="s" data-select="oss_special_function_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}">
-												<span class="glyphicon glyphicon-arrow-down"></span>
-											</button>
-										</div>
-									</div>	
-								</td>
+								<div class="{if $FIELD_MODEL->get('uitype') neq "300"}col-md-6{/if} fieldRow">
+								
+									<div class="fieldLabel col-md-3 {$WIDTHTYPE}" ><label class="muted pull-right marginRight10px">{vtranslate('SEPCIAL_FUNCTION', $MODULE)}</label></div>
+									<div class="fieldValue col-md-9 {$WIDTHTYPE}">
+										<div class="row">
+											<div class="col-md-8 paddingLRZero">
+												<select class="chzn-select" name="oss_special_function_list" title="{vtranslate('SEPCIAL_FUNCTION', $MODULE)}" style="width: 190px;">
+												</select>
+											</div>
+											<div class="col-md-4 paddingLRZero">
+												<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button" data-prefix="s" data-select="oss_special_function_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}">
+													<span class="glyphicon glyphicon-arrow-down"></span>
+												</button>
+											</div>
+										</div>	
+									</div>
+								</div>
 								{assign var=COUNTER value=$COUNTER+1}
 								{if $COUNTER eq '1'}
-									<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td></tr><tr>
+									</div>
+									<div class="col-md-12 paddingLRZero">
 										{assign var=COUNTER value=0}
 									{/if}
-							</tr>
+							</div>
 						{/if}
-				</table>
-				<br>
+					</div>
+				</div>
 			{/if}
 		{/foreach}
+</div>
 	{/strip}

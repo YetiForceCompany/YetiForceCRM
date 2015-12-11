@@ -63,5 +63,15 @@ class ModComments_Module_Model extends Vtiger_Module_Model{
 		$db = PearDatabase::getInstance();
 		$db->delete('vtiger_modcomments', 'related_to IN(SELECT crmid FROM vtiger_crmentity WHERE setype=?)', [$moduleInstance->name]);
 	}
+	
+	static function getDefaultViewComments(){
+		if(vglobal('defaultViewInComments') == 'Timeline'){
+			return 'Timeline';
+		}
+		else{
+			return 'List';
+		}
+	}
 }
-?>
+
+

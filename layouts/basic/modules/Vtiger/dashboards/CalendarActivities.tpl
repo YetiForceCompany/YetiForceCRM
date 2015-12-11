@@ -25,7 +25,7 @@
 	</div>
 	<hr class="widgetHr"/>
 	<div class="row" >
-		<div class="col-md-12 widget_header">
+		<div class="col-md-12">
 			{if $LISTVIEWLINKS}
 				<div class="pull-right">&nbsp;
 					<button class="btn btn-default btn-sm goToListView" title="{vtranslate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >

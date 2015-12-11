@@ -153,6 +153,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		thisInstance.registerHotkeys(container);
 		thisInstance.registerHiddenInput(container);
 		thisInstance.registerFilters(container);
+		thisInstance.registerSelectIcons(container);
 		container.find('.saveButton').click(function (e) {
 			var form = container.find('form').serializeFormData();
 			var errorExists = container.find('form').validationEngine('validate');
@@ -180,12 +181,33 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 			});
 		});
 	},
+
+	registerSelectIcons: function (container) {
+		var iconSelect = container.find('.iconSelect');
+		var icon = container.find('[name="icon"]');
+		var formatState = function (state) {
+			if (!state.id) {
+				return state.text;
+			}
+			var $state = $(
+					'<span class="menuIcon font-larger ' + state.element.value + '" aria-hidden="true"> ' + state.text + '</span>'
+					);
+			return $state;
+		}
+		var params = {};
+		var params = {templateResult: formatState, templateSelection: formatState};
+		app.showSelect2ElementView(iconSelect, params);
+		iconSelect.on('change', function () {
+			icon.val(jQuery(this).val());
+		})
+	},
 	registerStep2: function (container) {
 		var thisInstance = this;
 		container.find('form').validationEngine(app.validationEngineOptions);
 		thisInstance.registerHotkeys(container);
 		thisInstance.registerHiddenInput(container);
 		thisInstance.registerFilters(container);
+		thisInstance.registerSelectIcons(container);
 		app.showPopoverElementView(jQuery(container).find('.popoverTooltip'));
 		container.find('.saveButton').click(function (e) {
 			var form = container.find('form').serializeFormData();

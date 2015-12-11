@@ -2392,7 +2392,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 									commentDetails.fadeOut(400, function () {
 										commentDetails.remove();
 									});
-									thisInstance.registerRefreshTimeline('last');
+									thisInstance.getSelectedTab().trigger('click');
 								} else {
 									Vtiger_Helper_Js.showPnotify(data.error.message);
 								}
@@ -2429,7 +2429,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 					var commentInfoBlock = currentTarget.closest('.singleComment');
 					commentTextAreaElement.val('');
 					if (mode == "add") {
-						thisInstance.registerRefreshTimeline('last');
+						if($('#typeView').val() == 'Timeline'){
+							thisInstance.registerRefreshTimeline('last');
+						}
 						var commentId = data['result']['id'];
 						var commentHtml = thisInstance.getCommentUI(commentId);
 						commentHtml.then(function (data) {
@@ -2454,7 +2456,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 									jQuery('<ul class="liStyleNone"><li class="commentDetails">' + data + '</li></ul>').appendTo(commentBlock);
 								}
 							} else {
-								jQuery('<ul class="liStyleNone"><li class="commentDetails">' + data + '</li></ul>').prependTo(closestAddCommentBlock.closest('.commentContainer').find('.commentsList'));
+								jQuery('<ul class="liStyleNone"><li class="commentDetails">' + data + '</li></ul>').prependTo(closestAddCommentBlock.closest('.contents').find('.commentsList'));
 							}
 							commentInfoBlock.find('.commentActionsContainer').show();
 						});
@@ -2483,18 +2485,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 		detailContentsHolder.find('.commentsBar .switchBtn').on('switchChange.bootstrapSwitch',  function (e, state) {
+			var selectedTab = thisInstance.getSelectedTab();
+			var addressUrl = selectedTab.data('url');
 			if(state){
-				thisInstance.registerRefreshTimeline();
+				addressUrl = addressUrl.replace("type=List", "type=Timeline");
+				selectedTab.data('url', addressUrl);
 			}
 			else{
-				var params = {
-					module: app.getModuleName(),
-					view: 'Detail',
-					mode: 'ShowListComments',
-					record: thisInstance.getRecordId()
-				};
-				
+				addressUrl = addressUrl.replace("type=Timeline", "type=List");
+				selectedTab.data('url', addressUrl);
 			}
+			selectedTab.trigger('click');
 		});
 		detailContentsHolder.on('click', '.moreRecentComments', function () {
 			var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
@@ -2822,6 +2823,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 		var progressIndicatorElement = jQuery.progressIndicator({
 			position: 'html',
+			'blockInfo': {
+						'enabled': true,
+						'elementToBlock': commentContainer
+					}
 		});
 		AppConnector.request(params).then(function (data) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
@@ -2829,6 +2834,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerRefreshTimeline: function(currentComment){
+		if($('#typeView').val() == 'List'){
+			return;
+		}
 		var thisInstance = this;
 		var options = {
 			width: '100%',
@@ -2839,18 +2847,23 @@ jQuery.Class("Vtiger_Detail_Js", {
 			marker_width_min: 150,
 			marker_padding: 5,
 			scale_factor: 1,
-			optimal_tick_width: 500,
+			optimal_tick_width: 700,
 			slide_padding_lr: 100, 
 			slide_default_fade: "0%",
 			language: app.getLanguage().substring(0,2) 
 		};
 		var params = {
 			module: 'ModComments',
+			srcModule: app.getModuleName(),
 			action: 'TimelineAjax',
 			record: thisInstance.getRecordId()
 		};
 		var progressIndicatorElement = jQuery.progressIndicator({
 			position: 'html',
+			'blockInfo': {
+						'enabled': true,
+						'elementToBlock': thisInstance.getContentHolder()
+					}
 		});
 		if(typeof currentComment == 'undefined'){
 			currentComment = $('#currentComment').val();
@@ -2858,8 +2871,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		AppConnector.request(params).then(function (data) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			var allComments = data.result;
-			if(allComments !== '[]'){
-				var allComments = JSON.parse(allComments);
+			if(typeof allComments.events != 'undefined'){
 				var timeline = new TL.Timeline('timeline', allComments, options);
 				timeline.on('change', function(data) {
 					var uniqueId = data.unique_id;
@@ -2880,6 +2892,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 				else{
 					timeline.goToId('Id' + currentComment);
 				}
+			}
+			else{
+				thisInstance.refreshCommentContainer();
 			}
 		});
 	},
