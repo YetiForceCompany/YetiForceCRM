@@ -16,14 +16,14 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
-	<input id='activityReminder' class='hide noprint' type="hidden" value="{$ACTIVITY_REMINDER}"/>
+	<input id="activityReminder" class="hide noprint" type="hidden" value="{$ACTIVITY_REMINDER}"/>
 	<footer class="footerContainer navbar-default navbar-fixed-bottom noprint">
 		<div class="vtFooter">
 			{if vglobal('isVisibleLogoInFooter') == 'true'}
 				<div class='pull-right'>
 					{assign var=ADDRESS value='http://www.yetiforce.com'}
 					<a href='{$ADDRESS}'>
-						<img class='logoFooter' src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/>
+						<img class="logoFooter" src="/storage/Logo/white_logo_yetiforce.png" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/>
 					</a>
 				</div>
 			{/if}
@@ -33,8 +33,8 @@
 				{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:vtranslate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 				{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
 				{assign var=FOOTOSP value= '<u><a href="index.php?module=Home&view=Credits&parent=Settings">open source project</a></u>'}
-				<p class='hidden-xs'>{sprintf( vtranslate('LBL_FOOTER_CONTENT') , $FOOTVR ,$FOOTOSP)}</p>
-				<p class='visible-xs-block'>{sprintf( vtranslate('LBL_FOOTER_CONTENT') , $FOOTVRM ,$FOOTOSP)}</p>
+				<p class="hidden-xs">{sprintf( vtranslate('LBL_FOOTER_CONTENT') , $FOOTVR ,$FOOTOSP)}</p>
+				<p class="visible-xs-block">{sprintf( vtranslate('LBL_FOOTER_CONTENT') , $FOOTVRM ,$FOOTOSP)}</p>
 			{else}
 				<p>{sprintf( vtranslate('LBL_FOOTER_CONTENT') , '['|cat:vtranslate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]', 'open source project' )}</p>
 			{/if}

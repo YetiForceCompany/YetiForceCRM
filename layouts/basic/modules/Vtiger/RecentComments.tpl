@@ -61,8 +61,8 @@
 								</div>
 								<div class="commentActionsContainer">
 									{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}
-									<div class="col-xs-6 {if empty($REASON_TO_EDIT)}hide {/if}editStatus "  name="editStatus">
-										<span class="col-md-6{if empty($REASON_TO_EDIT)} {/if}">
+									<div class="pull-left {if empty($REASON_TO_EDIT)}hide {/if}editStatus "  name="editStatus">
+										<span class="pull-left paddingRight10">
 											<p class="muted">
 												<small>
 													[ {vtranslate('LBL_EDIT_REASON',$MODULE_NAME)} ] :
@@ -71,7 +71,7 @@
 											</p>
 										</span>
 										{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-											<span class="{if empty($REASON_TO_EDIT)}row{else} col-md-6{/if}">
+											<span class="pull-right">
 												<p class="muted pull-right">
 													<small><em>{vtranslate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;
 													<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small>
