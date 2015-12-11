@@ -44,9 +44,38 @@ class Vtiger_TreeView_Model extends Vtiger_Base_Model
 	 */
 	public function getTemplate()
 	{
+		$field = $this->getTreeField();
+		return $field['fieldparams'];
+	}
+
+	/**
+	 * Load tree field info
+	 * @return array
+	 */
+	public function getTreeField()
+	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, Vtiger_Functions::getModuleId($this->getModuleName())]);
-		return $db->getSingleValue($result);
+		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, Vtiger_Functions::getModuleId($this->getModuleName())]);
+		return $db->getRow($result);
+	}
+
+	/**
+	 * Load filter parameters
+	 * @param array $branches selected tree branche
+	 * @return array
+	 */
+	public function getSearchParams($branches)
+	{
+		$field = $this->getTreeField();
+		$searchParams = [
+			['columns' => [[
+					'columnname' => $field['tablename'] . ':' . $field['columnname'] . ':' . $field['fieldname'],
+					'value' => implode(',', $branches),
+					'column_condition' => '',
+					'comparator' => 'c',
+					]]],
+		];
+		return $searchParams;
 	}
 
 	/**

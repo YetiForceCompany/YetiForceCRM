@@ -42,7 +42,7 @@ jQuery.Class("Vtiger_TreeRecords_Js", {}, {
 		var selectedFilter = container.find('#moduleFilter').val();
 		var selected = [];
 		$.each(thisInstance.treeInstance.jstree("get_selected", true), function (index, value) {
-			selected.push(value.text);
+			selected.push(value.original.record_id);
 		});
 		var params = {
 			module: app.getModuleName(),

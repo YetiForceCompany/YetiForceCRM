@@ -11,6 +11,7 @@
 
 class Vtiger_TreeRecords_View extends Vtiger_Index_View
 {
+
 	function preProcess(Vtiger_Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
@@ -23,7 +24,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 
 		$treeList = $treeViewModel->getTreeList();
 		$viewer->assign('TREE_LIST', Zend_Json::encode($treeList));
-		
+
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName);
 		$quickLinkModels = $listViewModel->getSideBarLinks($linkParams);
@@ -35,7 +36,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		
+
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName));
 		$viewer->view('TreeRecordsPostProcess.tpl', $moduleName);
 
@@ -46,20 +47,22 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 	{
 		$branches = $request->get('branches');
 		$filter = $request->get('filter');
-		if(empty($branches)){
+		if (empty($branches)) {
 			return;
 		}
-		
+
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		//$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		//$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleModel);
-		
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleModel);
+
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 'no_limit');
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $filter);
+		$listViewModel->set('search_params', $treeViewModel->getSearchParams($branches));
+
 		$listEntries = $listViewModel->getListViewEntries($pagingModel, true);
-		if(count($listEntries) === 0){
+		if (count($listEntries) === 0) {
 			return;
 		}
 		$listHeaders = $listViewModel->getListViewHeaders();
@@ -69,7 +72,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('TreeRecords.tpl', $moduleName);
 	}
-	
+
 	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$parentScriptInstances = parent::getFooterScripts($request);
