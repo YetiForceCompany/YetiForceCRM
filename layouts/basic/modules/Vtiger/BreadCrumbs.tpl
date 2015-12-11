@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<div class="breadCrumbs" >
-		{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
+		{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs($BREADCRUMB_TITLE)}
 		{assign var=HOMEICON value='userIcon-my-home-page'}
 		{if $BREADCRUMBS}
 			<div class="breadcrumbsContainer">
