@@ -37,6 +37,7 @@ class Settings_Menu_CreateMenu_View extends Settings_Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', Settings_Menu_Module_Model::getInstance());
 		$viewer->assign('RECORD', Settings_Menu_Record_Model::getCleanInstance());
+		$viewer->assign('ICONS_LABEL', Settings_Menu_Record_Model::getIcons());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('TYPE', $type);
 		$viewer->view('CreateMenuStep2.tpl', $qualifiedModuleName);
