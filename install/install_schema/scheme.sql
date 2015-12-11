@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1395,6 +1394,8 @@ CREATE TABLE `vtiger_account` (
   `inventorybalance` decimal(25,8) DEFAULT '0.00000000',
   `discount` decimal(5,2) DEFAULT '0.00',
   `creditlimit` int(10) DEFAULT NULL,
+  `products` text,
+  `services` text,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -3475,7 +3476,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1945 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1947 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
