@@ -4549,17 +4549,18 @@ html,body,.baseContainer
     max-height: 500px;
 }
 .siteBarRight{
-	width:33%;
+	width: calc(33.33333333% - 15px);
 	padding: 0 15px;
 	border-left: 1px solid #dddddd;
 	background: #F5F5F5;
 	position: fixed;
-	right: 0px;
+	right: 0;
 	height:100%;
 	-webkit-transition: all 0.5s ease;
 	-moz-transition: all 0.5s ease;
 	-o-transition: all 0.5s ease;
 	transition: all 0.5s ease;
+	z-index: 100;
 }
 .toggleSiteBarRightButton{
 	background: #F5F5F5;
@@ -4580,10 +4581,10 @@ html,body,.baseContainer
 	padding: 0 !important;
 }
 .hideSiteBar{
-	right: -33%;
+	right: calc(-33.33333333% + 15px);
 }
 .hideSiteBar .siteBarContent{
-	overflow: auto;
+	overflow: hidden;
 }
 .noLeftRadius {
   border-bottom-left-radius: 0;
