@@ -3923,6 +3923,7 @@ html,body,.baseContainer
 }
 .iconContainer{
 	height:45px;
+	min-width: 40px;
 	display: table;
 }
 .iconContainer .iconImage{
