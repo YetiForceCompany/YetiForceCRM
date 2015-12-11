@@ -776,7 +776,7 @@ li.ui-timepicker-selected,
 	margin-bottom: 0;
 }
 .commentContainer .addCommentBlock .commentcontent {
-	padding: 8px !important;
+	padding: 7px !important;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -849,7 +849,6 @@ li.ui-timepicker-selected,
 	text-decoration: none;
 }
 .commentActionsContainer .editStatus {
-	padding: 5px 2px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -2716,6 +2715,9 @@ td.listViewEntryValue .row input {
 }
 .paddingRight10{
 	padding-right: 10px !important;
+}
+.paddingRight15{
+	padding-right: 15px !important;
 }
 .input-group.input-group-sm > .input-group-addon img {
 	width: 15px;

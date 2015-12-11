@@ -2429,7 +2429,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 					var commentInfoBlock = currentTarget.closest('.singleComment');
 					commentTextAreaElement.val('');
 					if (mode == "add") {
-						thisInstance.registerRefreshTimeline('last');
+						if($('#typeView').val() == 'Timeline'){
+							thisInstance.registerRefreshTimeline('last');
+						}
 						var commentId = data['result']['id'];
 						var commentHtml = thisInstance.getCommentUI(commentId);
 						commentHtml.then(function (data) {
@@ -2454,7 +2456,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 									jQuery('<ul class="liStyleNone"><li class="commentDetails">' + data + '</li></ul>').appendTo(commentBlock);
 								}
 							} else {
-								jQuery('<ul class="liStyleNone"><li class="commentDetails">' + data + '</li></ul>').prependTo(closestAddCommentBlock.closest('.commentContainer').find('.commentsList'));
+								jQuery('<ul class="liStyleNone"><li class="commentDetails">' + data + '</li></ul>').prependTo(closestAddCommentBlock.closest('.contents').find('.commentsList'));
 							}
 							commentInfoBlock.find('.commentActionsContainer').show();
 						});

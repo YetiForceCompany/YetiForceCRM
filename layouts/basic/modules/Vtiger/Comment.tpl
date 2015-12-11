@@ -20,19 +20,19 @@
 						{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 						<img class="alignMiddle pull-left" alt="" width="48px" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
 					</div>
-					<div class="col-md-11 commentorInfo">
+					<div class="col-md-10 commentorInfo">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 						<div class="inner">
 							<span class="commentorName pull-left"><strong>{$COMMENTOR->getName()}</strong></span>
-							<span class="pull-right">
-								<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
-							</span>
 							<div class="clearfix"></div>
 						</div>
 						<div class="commentInfoContent">
 							{nl2br($COMMENT->get('commentcontent'))}
 						</div>
 					</div>
+					<span class="pull-right paddingRight15">
+						<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
+					</span>
 				</div>
 			</div>
 			<div class="commentActionsContainer row no-margin">
