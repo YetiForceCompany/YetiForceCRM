@@ -28,7 +28,20 @@
 	{assign var = ALPHABETS_LABEL value = vtranslate('LBL_ALPHABETS', 'Vtiger')}
 	{assign var = ALPHABETS value = ','|explode:$ALPHABETS_LABEL}
 
-	<div class="alphabetSorting noprint">
+	<div class="alphabetSorting noprint pull-left col-xs-12 paddingLRZero">
+		<div class="alphabetContents">
+			{foreach item=ALPHABET from=$ALPHABETS}
+				<div class="alphabetSearch cursorPointer">
+					<a class="btn {if $ALPHABET_VALUE eq $ALPHABET}btn-primary{else}btn-default{/if}" id="{$ALPHABET}" href="#">{$ALPHABET}</a>
+				</div>
+			{/foreach}
+			<div class="alphabetSearch cursorPointer">
+				<a class="btn btn-default " href="index.php?view=List&module={$MODULE}" >
+					<span class="glyphicon glyphicon-remove"></span>
+				</a>
+			</div>
+		</div>
+		{*
 		<table width="100%" class="table-bordered" style="border: 1px solid #ddd;table-layout: fixed">
 			<tbody>
 				<tr>
@@ -42,8 +55,9 @@
 					</td>
 				</tr>
 			</tbody>
-		</table>
+		</table>*}
 	</div>
+	<div class="clearfix"></div>
 	<div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="selectAllMsg">{vtranslate('LBL_SELECT_ALL',$MODULE)}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 	</div>

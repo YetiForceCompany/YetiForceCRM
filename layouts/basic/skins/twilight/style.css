@@ -545,13 +545,15 @@ li.ui-timepicker-selected,
 #relatedTabOrder .select2-input {
 	min-width: 200px;
 }
-.alphabetSorting .alphabetSearch a {
-	vertical-align: middle;
+.alphabetSearch {
 	display: inline-block;
-	margin-bottom: 2px;
 }
-.alphabetSorting .alphabetSearch:hover {
-	background: #eeeff2;
+.alphabetSorting{
+	text-align: center;
+}
+.alphabetSorting .alphabetContents{
+	padding:0;
+	margin: 0 auto;
 }
 .listViewActions .settingsIcon {
 	display: inline-block;
@@ -4199,6 +4201,12 @@ html,body,.baseContainer
 	}
 }
 @media screen and (max-width: 960px) {
+	.pull-right-sm{
+		float: right; 
+	}
+	.pull-left-sm{
+		float: left;
+	}
 	.form-horizontal .form-group .description-field{
 		text-align: left;
 	}
@@ -4450,6 +4458,12 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 767px) {
+	.pull-right-xs{
+		float: right; 
+	}
+	.pull-left-xs{
+		float: left;
+	}
 	.layoutBlockHeader .pull-right,
 	.relatedContainer .paginationDiv.pull-right{
 		float: left !important;
@@ -4535,17 +4549,18 @@ html,body,.baseContainer
     max-height: 500px;
 }
 .siteBarRight{
-	width:33%;
+	width: calc(25% - 15px);
 	padding: 0 15px;
 	border-left: 1px solid #dddddd;
 	background: #F5F5F5;
 	position: fixed;
-	right: 0px;
+	right: 0;
 	height:100%;
 	-webkit-transition: all 0.5s ease;
 	-moz-transition: all 0.5s ease;
 	-o-transition: all 0.5s ease;
 	transition: all 0.5s ease;
+	z-index: 100;
 }
 .toggleSiteBarRightButton{
 	background: #F5F5F5;
@@ -4566,10 +4581,10 @@ html,body,.baseContainer
 	padding: 0 !important;
 }
 .hideSiteBar{
-	right: -33%;
+	right: calc(-25% + 15px);
 }
 .hideSiteBar .siteBarContent{
-	overflow: auto;
+	overflow: hidden;
 }
 .noLeftRadius {
   border-bottom-left-radius: 0;

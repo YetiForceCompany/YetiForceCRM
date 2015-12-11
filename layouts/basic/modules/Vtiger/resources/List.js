@@ -1856,7 +1856,7 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 
 			var select2Instance = filterSelectElement.data('select2');
-			jQuery('span.filterActionsDiv').appendTo(select2Instance.$dropdown.find('.select2-dropdown:last')).removeClass('hide').on('click', function (e) {
+			jQuery('.filterActionsDiv').appendTo(select2Instance.$dropdown.find('.select2-dropdown:last')).removeClass('hide').on('click', function (e) {
 				thisInstance.registerCreateFilterClickEvent(e);
 			});
 		}

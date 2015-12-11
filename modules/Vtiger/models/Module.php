@@ -1000,6 +1000,16 @@ class Vtiger_Module_Model extends Vtiger_Module
 			);
 		}
 
+		$treeViewModel = Vtiger_TreeView_Model::getInstance($this);
+		if ($treeViewModel->isActive()) {
+			$quickLinks[] = [
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => $treeViewModel->getName(),
+				'linkurl' => $treeViewModel->getTreeViewUrl(),
+				'linkicon' => '',
+			];
+		}
+		
 		foreach ($quickLinks as $quickLink) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}

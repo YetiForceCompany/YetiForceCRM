@@ -179,6 +179,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
 	function getPageTitle(Vtiger_Request $request)
 	{
+		if(!empty($this->pageTitle)){
+			return $this->pageTitle;
+		}
 		$title = $request->getModule();
 		return $title == 'Vtiger' ? 'YetiForce' : $title;
 	}

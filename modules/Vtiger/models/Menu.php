@@ -44,7 +44,7 @@ class Vtiger_Menu_Model
 		return vtranslate($key, $module);
 	}
 
-	public static function getBreadcrumbs()
+	public static function getBreadcrumbs($pageTitle = false)
 	{
 		$breadcrumbs = false;
 		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
@@ -62,23 +62,25 @@ class Vtiger_Menu_Model
 		$view = $request->get('view');
 		$parent = $request->get('parent');
 		if ($parent !== 'Settings') {
-			if(empty($parent)){
-				foreach($parentList as &$parentItem){
-					if($moduleName == $parentItem['name']){
+			if (empty($parent)) {
+				foreach ($parentList as &$parentItem) {
+					if ($moduleName == $parentItem['name']) {
 						$parent = $parentItem['parent'];
 						break;
-					} 
+					}
 				}
 			}
 			$parentMenu = self::getParentMenu($parentList, $parent, $moduleName);
 			if (count($parentMenu) > 0) {
 				$breadcrumbs = array_reverse($parentMenu);
 			}
-			$breadcrumbs[] = [ 
+			$breadcrumbs[] = [
 				'name' => vtranslate($moduleName, $moduleName),
-				'url' => 'index.php?module='.$moduleName.'&view=List',
+				'url' => 'index.php?module=' . $moduleName . '&view=List',
 			];
-			if ($view == 'Edit' && $request->get('record') == '') {
+			if ($pageTitle) {
+				$breadcrumbs[] = [ 'name' => vtranslate($namePage, $moduleName)];
+			} elseif ($view == 'Edit' && $request->get('record') == '') {
 				$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $moduleName)];
 			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
 				$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $moduleName)];
@@ -97,31 +99,33 @@ class Vtiger_Menu_Model
 				'name' => vtranslate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
 				'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
 			];
-			if($moduleName !== 'Vtiger' || $view !== 'Index'){
+			if ($moduleName !== 'Vtiger' || $view !== 'Index') {
 				$fieldId = $request->get('fieldid');
 				$menu = Settings_Vtiger_MenuItem_Model::getAll();
 				foreach ($menu as &$menuModel) {
-					if(empty($fieldId)){
-						if($menuModel->getModule() == $moduleName){
+					if (empty($fieldId)) {
+						if ($menuModel->getModule() == $moduleName) {
 							$parent = $menuModel->getMenu();
 							$breadcrumbs[] = [ 'name' => vtranslate($parent->get('label'), $qualifiedModuleName)];
 							$breadcrumbs[] = [ 'name' => vtranslate($menuModel->get('name'), $qualifiedModuleName),
-												'url' => $menuModel->getUrl()
-											];
+								'url' => $menuModel->getUrl()
+							];
 							break;
 						}
-					} else{
+					} else {
 						if ($fieldId == $menuModel->getId()) {
 							$parent = $menuModel->getMenu();
 							$breadcrumbs[] = [ 'name' => vtranslate($parent->get('label'), $qualifiedModuleName)];
 							$breadcrumbs[] = [ 'name' => vtranslate($menuModel->get('name'), $qualifiedModuleName),
-												'url' => $menuModel->getUrl()
-											];
+								'url' => $menuModel->getUrl()
+							];
 							break;
 						}
 					}
 				}
-				if ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '' ) {
+				if ($pageTitle) {
+					$breadcrumbs[] = [ 'name' => vtranslate($namePage, $moduleName)];
+				} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
 					$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $qualifiedModuleName)];
 				} elseif ($view != '' && $view != 'List') {
 					$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
@@ -190,7 +194,7 @@ class Vtiger_Menu_Model
 				return '<img src="' . $icon . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
 			}
 		}
-		if ($menu['type'] == 'Module') {	
+		if ($menu['type'] == 'Module') {
 			return '<span class="menuIcon userIcon-' . $menu['mod'] . '" aria-hidden="true"></span>';
 		}
 		return '';
