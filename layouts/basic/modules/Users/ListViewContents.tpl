@@ -31,21 +31,19 @@
 	{assign var = ALPHABETS_LABEL value = vtranslate('LBL_ALPHABETS', 'Vtiger')}
 	{assign var = ALPHABETS value = ','|explode:$ALPHABETS_LABEL}
 
-	<div class="alphabetSorting">
-		<table width="100%" class="table-bordered" style="border: 1px solid #ddd;table-layout: fixed">
-			<tbody>
-				<tr>
-					{foreach item=ALPHABET from=$ALPHABETS}
-						<td class="alphabetSearch textAlignCenter cursorPointer {if $ALPHABET_VALUE eq $ALPHABET} highlightBackgroundColor {/if}" style="padding : 0px !important"><a id="{$ALPHABET}" href="#">{$ALPHABET}</a></td>
-					{/foreach}
-					<td class="alphabetSearch textAlignCenter cursorPointer">
-						<a href="index.php?view=List&module=Users&parent=Settings" >
-							<span class="glyphicon glyphicon-remove"></span>
-						</a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+	<div class="alphabetSorting noprint paddingLRZero paddingBottom10">
+		<div class="alphabetContents">
+			{foreach item=ALPHABET from=$ALPHABETS}
+				<div class="alphabetSearch cursorPointer">
+					<a class="btn {if $ALPHABET_VALUE eq $ALPHABET}btn-primary{else}btn-default{/if}" id="{$ALPHABET}" href="#">{$ALPHABET}</a>
+				</div>
+			{/foreach}
+			<div class="alphabetSearch cursorPointer">
+				<a class="btn btn-default " href="index.php?view=List&module={$MODULE}" >
+					<span class="glyphicon glyphicon-remove"></span>
+				</a>
+			</div>
+		</div>
 	</div>
 	<div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="selectAllMsg">{vtranslate('LBL_SELECT_ALL',$MODULE)}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;</a></strong>
@@ -53,8 +51,7 @@
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="deSelectAllMsg">{vtranslate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
-	<br>
-	<div class="listViewEntriesDiv" style='overflow-x:auto;'>
+	<div class="listViewEntriesDiv" >
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
 		<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
