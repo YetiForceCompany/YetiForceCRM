@@ -58,8 +58,9 @@
 						</optgroup>
 					{/foreach}
                     <optgroup label="{vtranslate('LBL_SPECIAL_OPTIONS')}">
-                            <option value="copyParentOwner" {if $TASK_OBJECT->assigned_user_id eq 'copyParentOwner'} selected="" {/if}>{vtranslate('LBL_PARENT_OWNER')}</option>
-							<option value="currentUser" {if $TASK_OBJECT->assigned_user_id eq 'currentUser'} selected="" {/if}>{vtranslate('LBL_CURRENT_USER',$QUALIFIED_MODULE)}</option>
+						<option value="copyParentOwner" {if $TASK_OBJECT->assigned_user_id eq 'copyParentOwner'} selected="" {/if}>{vtranslate('LBL_PARENT_OWNER')}</option>
+						<option value="currentUser" {if $TASK_OBJECT->assigned_user_id eq 'currentUser'} selected="" {/if}>{vtranslate('LBL_CURRENT_USER',$QUALIFIED_MODULE)}</option>
+						<option value="triggerUser" {if $TASK_OBJECT->assigned_user_id eq 'triggerUser'} selected="" {/if}>{vtranslate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)}</option>
                     </optgroup>
 				</select>
 			</span>
@@ -68,13 +69,13 @@
 			<span class="col-md-2">{vtranslate('LBL_TIME',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-2">
 				<div class="input-group time input-group-sm">
-				{if $TASK_OBJECT->time neq ''}
-					{assign var=TIME value=$TASK_OBJECT->time}
-				{else}
-					{assign var=DATE_TIME_VALUE value=Vtiger_Datetime_UIType::getDateTimeValue('now')}
-					{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
-					{assign var=TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
-				{/if}
+					{if $TASK_OBJECT->time neq ''}
+						{assign var=TIME value=$TASK_OBJECT->time}
+					{else}
+						{assign var=DATE_TIME_VALUE value=Vtiger_Datetime_UIType::getDateTimeValue('now')}
+						{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
+						{assign var=TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
+					{/if}
 					<input  type="text" class="timepicker-default form-control" value="{$TIME}" name="time" />
 					<span class="input-group-addon cursorPointer">
 						<i class="glyphicon glyphicon-time"></i>

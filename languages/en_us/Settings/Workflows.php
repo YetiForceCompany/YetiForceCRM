@@ -199,6 +199,7 @@ $languageStrings = [
 	'BLOCK_EDIT' => 'Block edition',
 	'UpdateBalance' => 'Update Balance',
 	'UpdateInventory' => 'Update Inventory',
+	'LBL_TRIGGER_USER' => 'User selected in workflow trigger mondal',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Same fields selected more than once',
