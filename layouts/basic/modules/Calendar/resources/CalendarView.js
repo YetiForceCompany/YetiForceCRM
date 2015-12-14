@@ -44,7 +44,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				element.find('.widgetContainer input.switchBtn').bootstrapSwitch('state', false);
 			}
 		});
-		widgetContainer.find(".refreshCalendar").on('click', function () {
+		jQuery('#rightPanel .refreshCalendar').on('click', function () {
+			$(this).closest('.refreshHeader').addClass('hide');
 			thisInstance.loadCalendarData();
 			return false;
 		});
@@ -207,6 +208,35 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			eventLimitText: app.vtranslate('JS_MORE')
 		});
 	},
+	getValuesFromSelect2: function(element, data){
+		if(element.hasClass('select2-hidden-accessible')){
+			var types = (element.select2('data'));
+			for (var i = 0; i < types.length; i++){
+				data.push(types[i].id);
+			}
+		}
+		return data;
+	},
+	registerSelectAll: function(){
+		var selectBtn = $('.selectAllBtn');
+		
+		selectBtn.click(function (e) {
+			var selectAllLabel = $(this).find('.selectAll');
+			var deselectAllLabel = $(this).find('.deselectAll');
+			
+			if(selectAllLabel.hasClass('hide')){
+				selectAllLabel.removeClass('hide');
+				deselectAllLabel.addClass('hide');
+				$(this).closest('.quickWidget').find('select option').prop("selected", false);
+			}
+			else{
+				$(this).closest('.quickWidget').find('select option').prop("selected", true);
+				deselectAllLabel.removeClass('hide');
+				selectAllLabel.addClass('hide');
+			}
+			$(this).closest('.quickWidget').find('select').trigger("change");
+		});	
+	},
 	loadCalendarData: function (allEvents) {
 		var progressInstance = jQuery.progressIndicator();
 		var thisInstance = this;
@@ -214,31 +244,17 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
 		var start_date = view.start.format();
 		var end_date = view.end.format();
-		var typesContainer = document.getElementById('calendarActivityTypeList');
-		types = [];
-		if (typesContainer) {
-			jQuery(typesContainer).find('.switchBtn').each(function () {
-				if (jQuery(this).prop('checked')) {
-					types.push(jQuery(this).data('value'));
-				}
-			})
-		} else {
+		var types = [];
+		types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), types);
+		if (types.length == 0) {
 			allEvents = true;
 		}
-		var userContainer = document.getElementById('calendarUserList');
 		var user = [];
-		if (userContainer) {
-			user = thisInstance.getValues(userContainer, user);
-			if (user.length < 1) {
-				user.push('-1');
-			}
-		} else if (allEvents) {
-			var user = [jQuery('#current_user_id').val()];
+		user = thisInstance.getValuesFromSelect2($("#calendarUserList"), user);
+		if (user.length == 0) {
+			user = [jQuery('#current_user_id').val()];
 		}
-		var groupContainer = document.getElementById('calendarGroupList');
-		if (groupContainer) {
-			user = thisInstance.getValues(groupContainer, user);
-		}
+		user = thisInstance.getValuesFromSelect2($("#calendarGroupList"), user);
 		var time = jQuery('#showType').val();
 		if (allEvents == true || types.length > 0) {
 			var params = {
@@ -259,14 +275,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			thisInstance.getCalendarView().fullCalendar('removeEvents');
 			progressInstance.hide();
 		}
-	},
-	getValues: function (container, values) {
-		jQuery(container).find('.switchBtn').each(function () {
-			if (jQuery(this).prop('checked')) {
-				values.push(jQuery(this).data('value'));
-			}
-		});
-		return values;
 	},
 	updateEvent: function (event, delta, revertFunc) {
 		var progressInstance = jQuery.progressIndicator();
@@ -458,11 +466,20 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				})
 		app.showBtnSwitch(switchBtn.find('.switchBtn'));
 	},
+	registerSelect2Event: function(){
+		app.showSelect2ElementView($('#calendarUserList'));
+		app.showSelect2ElementView($('#calendarActivityTypeList'));
+		app.showSelect2ElementView($('#calendarGroupList'));
+		$('.select2').on('change', function(){
+			$(this).closest('.siteBarContent').find('.refreshHeader').removeClass('hide');
+		});
+	},
 	registerEvents: function () {
 		this.registerCalendar();
 		this.createAddButton();
 		this.createAddSwitch();
 		this.loadCalendarData(true);
+		this.registerSelectAll();
 		this.registerChangeView();
 	}
 });

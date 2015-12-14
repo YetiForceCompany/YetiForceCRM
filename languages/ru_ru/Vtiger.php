@@ -1349,6 +1349,7 @@ $languageStrings = [
 	'LBL_ADD_TO_FAVORITES' => 'Add to favorites',
 	'LBL_REMOVE_FROM_FAVORITES' => 'Remove from favorites',
 	'LBL_TIMELINE' => 'Timeline',
+	'LBL_DESELECT_ALL' => '__UNTRANSLATED__'
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',

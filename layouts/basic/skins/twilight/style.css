@@ -2816,10 +2816,7 @@ table.dataTable .form-control {
 .calendarRightPanel ul li{
 	margin-bottom: 2px;
 	margin-left:5px; 
-}
-.calendarRightPanel ul li:hover{
-	background-color: #eee !important;
-	border-radius: 5px;
+	margin-right:5px;
 }
 .square9 {
 	width: 12px;
