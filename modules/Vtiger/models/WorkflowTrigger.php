@@ -11,7 +11,7 @@
 class Vtiger_WorkflowTrigger_Model
 {
 
-	public function execute($moduleName, $record, $ids)
+	public function execute($moduleName, $record, $ids, $userID)
 	{
 		vimport('~~modules/com_vtiger_workflow/VTEntityCache.inc');
 		vimport('~~modules/com_vtiger_workflow/include.inc');
@@ -19,10 +19,13 @@ class Vtiger_WorkflowTrigger_Model
 		vimport('~~include/Webservices/Retrieve.php');
 
 		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$user = new Users();
+		$executeUser = $user->retrieveCurrentUserInfoFromFile($userID);
+		vglobal('current_user', $executeUser);
 		$wsId = vtws_getWebserviceEntityId($moduleName, $record);
 		$adb = PearDatabase::getInstance();
 		$wfs = new VTWorkflowManager($adb);
-		$entityCache = new VTEntityCache($currentUser);
+		$entityCache = new VTEntityCache($executeUser);
 		$entityData = $entityCache->forId($wsId);
 		foreach ($ids as $id) {
 			$workflow = $wfs->retrieve($id);
@@ -30,5 +33,6 @@ class Vtiger_WorkflowTrigger_Model
 				$workflow->performTasks($entityData);
 			}
 		}
+		vglobal('current_user', $currentUser);
 	}
 }

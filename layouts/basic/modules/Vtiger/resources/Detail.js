@@ -233,6 +233,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						module: app.getModuleName(),
 						action: 'Workflow',
 						mode: 'execute',
+						user: data.find('[name="user"]').val(),
 						record: detailInstance.getRecordId(),
 						ids: ids
 					}
