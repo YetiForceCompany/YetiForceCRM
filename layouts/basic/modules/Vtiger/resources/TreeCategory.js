@@ -86,8 +86,10 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 				src_record: app.getRecordId(),
 				related_module: container.find('[name="related_module"]').val(),
 			}).then(function (res) {
-				var relatedTabKey = jQuery('.related li.active');
-				relatedTabKey.trigger('click');
+				var thisInstance = Vtiger_Detail_Js.getInstance();
+				var selectedTab = thisInstance.getSelectedTab();
+				thisInstance.registerRelatedModulesRecordCount(selectedTab);
+				selectedTab.trigger('click');
 				app.hideModalWindow();
 			})
 		});

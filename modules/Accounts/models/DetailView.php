@@ -95,7 +95,8 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRelatedProductsServices&requestMode=summary',
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
-				'related' => 'ProductsAndServices'
+				'related' => 'ProductsAndServices',
+				'countRelated' => true
 			);
 		}
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
@@ -105,7 +106,8 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linklabel' => 'ModComments',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments&type='.$modCommentsModel::getDefaultViewComments(),
 				'linkicon' => '',
-				'related' => 'Comments'
+				'related' => 'Comments',
+				'countRelated' => true
 			);
 		}
 

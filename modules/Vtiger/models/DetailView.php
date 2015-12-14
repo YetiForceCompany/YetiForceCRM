@@ -225,7 +225,8 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				'linklabel' => 'ModComments',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments&type='.$modCommentsModel::getDefaultViewComments(),
 				'linkicon' => '',
-				'related' => 'Comments'
+				'related' => 'Comments',
+				'countRelated' => true
 			);
 		}
 
