@@ -298,13 +298,9 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 			foreach($parentComments as $comment){
 				$createdTime = $comment->get('createdtime');
 				$date = DateTime::createFromFormat('Y-m-d H:i:s',$createdTime);
-				$ownerComment = Users_Privileges_Model::getInstanceById($comment->get('userid'));
-				$icon = $ownerComment->getImageDetails();
-				if(empty($icon [0]['path'])){
+				$iconPath = $comment->getImagePath();
+				if(!$iconPath){
 					$iconPath = 'layouts/basic/skins/images/DefaultUserIcon.png';
-				}
-				else{
-					$iconPath = $icon [0]['path'].'_'.$icon [0]['orgname'];
 				}
 				$allComments ["events"][] = [
 									"start_date" => [
@@ -317,7 +313,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 										"format" => $formatDate
 									],
 									"media" => [
-										"caption" => $ownerComment->getName(),
+										"caption" => $comment->getCommentedByModel()->getName(),
 										"url"=> $iconPath,
 										"thumbnail" => $iconPath
 									],
