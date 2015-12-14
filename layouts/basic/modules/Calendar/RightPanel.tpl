@@ -12,80 +12,51 @@
 {strip}
 	{if $ALL_ACTIVEUSER_LIST}
 		<div>
-			<ul  class="nav" id="calendarUserList">
-				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-					<li value="{$OWNER_ID}">
-						<div class="row marginRightZero">
-							<div class="col-xs-3">
-								<input id="{$OWNER_ID}" data-value="{$OWNER_ID}"  class="switchBtn label" type="checkbox" {if $USER_MODEL->id eq $OWNER_ID} checked {/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_ON_SWITCH',$MODULE)}" data-off-text="{vtranslate('LBL_OFF_SWITCH',$MODULE)}" data-handle-width="30"/>
-							</div>
-							<div class="col-xs-9 paddingRightZero">
-								<div class="col-xs-10 paddingLRZero">
-									<label for="{$OWNER_ID}" class="muted no-margin cursorPointer">{$OWNER_NAME}
-									</label>
-								</div>
-								<div class="col-xs-2 paddingLRZero">
-									<span class="userCol_{$OWNER_ID} pull-right square9"></span>
-								</div>
-							</div>
-						</div>
-					</li>
-				{/foreach}
-			</ul>					
+			<ul  class="nav" >
+				<li >
+					<div class="marginRightZero ">
+						<select class="select2 form-control" multiple="multiple" id="calendarUserList" >
+							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+
+								<option {if $USER_MODEL->getId() eq $OWNER_ID}selected {/if}value="{$OWNER_ID}">{$OWNER_NAME}</option>
+							{/foreach}
+						</select>
+					</div>
+				</li>
+			</ul>
 		</div>
 	{/if}
 	{if $ALL_ACTIVEGROUP_LIST}
 		<div>
-			<ul  class="nav" id="calendarGroupList">
-				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-					<li value="{$OWNER_ID}" >
+			<ul  class="nav">
+					<li>
 						<div class="row marginRightZero">
-							<div class="col-xs-3">
-								{$SHIFT_USER_TITLE="LBL_SHITF_{$ITEM|upper}_SHOW"}
-								<input id="{$OWNER_ID}" data-value="{$OWNER_ID}"  title="{vtranslate('LBL_SHIFT_USER_SHOW')}" class="switchBtn label" type="checkbox" data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_ON_SWITCH',$MODULE)}" data-off-text="{vtranslate('LBL_OFF_SWITCH',$MODULE)}" data-handle-width="30"/>
-							</div>
-							<div class="col-xs-9 paddingRightZero">
-								<div class="col-xs-10 paddingLRZero">
-									<label for="{$OWNER_ID}" class="muted no-margin cursorPointer" >{$OWNER_NAME}</label>
-								</div>
-								<div class="col-xs-2 paddingLRZero">
-									<span class="userCol_{$OWNER_ID} pull-right square9"></span>
-								</div>
-							</div>
+							<select class="select2 form-control" multiple="multiple" id="calendarGroupList" >
+							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
+									<option class="" value="{$OWNER_ID}">{$OWNER_NAME}</option>
+							{/foreach}
+							</select>
 						</div>
 					</li>
-				{/foreach}
-			</ul>					
+			</ul>
 		</div>
 	{/if}
 	{if $ACTIVITY_TYPE}
 		<div>
-			<ul  class="nav" id="calendarActivityTypeList">
-				{foreach item=ITEM from=$ACTIVITY_TYPE}
-					<li value="{$ITEM}" >
-						<div class="row marginRightZero">
-							<div class="col-xs-3">
-								{$SHIFT_ACTIVITY_TITLE="LBL_SHITF_{$ITEM|upper}_SHOW"}
-								<input id="{$ITEM}" data-value="{$ITEM}" title="{vtranslate($SHIFT_ACTIVITY_TITLE)}" class="switchBtn label" type="checkbox" data-size="mini" data-label-width="5" 
-									   checked="true" data-on-text="{vtranslate('LBL_ON_SWITCH',$MODULE)}" data-off-text="{vtranslate('LBL_OFF_SWITCH',$MODULE)}" data-handle-width="30"/>
-							</div>
-							<div class="col-xs-9 paddingRightZero" >
-								<div class="col-xs-10 paddingLRZero">
-									<label for="{$ITEM}" class="muted no-margin cursorPointer" >{vtranslate($ITEM,$MODULE)}</label>
-								</div>
-								<div class="col-xs-2 paddingLRZero">
-									<span class="listCol_{$ITEM} pull-right square9"></span>
-								</div>
-							</div>
-						</div>
-					</li>
-				{/foreach}
-			</ul>					
+			<ul  class="nav" >
+				<li class="">
+					<select class="select2 form-control" multiple="multiple" id="calendarActivityTypeList" >
+						{foreach item=ITEM from=$ACTIVITY_TYPE}
+							<option selected value="{$ITEM}">{vtranslate($ITEM,$MODULE)}</option>
+						{/foreach}
+					</select>
+				</li>
+			</ul>
 		</div>
 	{/if}
 	<script type="text/javascript">
 		jQuery(document).ready(function () {
-			Calendar_CalendarView_Js.registerSwitches();
+			Calendar_CalendarView_Js.currentInstance.registerSelect2Event();
 		});
 	</script>
 {/strip}
