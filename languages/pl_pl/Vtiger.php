@@ -621,7 +621,6 @@ $languageStrings = [
 	'Delegated (overdue) Events/ToDos' => 'Zlecone (nieterminowe) terminy/zadania',
 	'Delegated project tasks' => 'Zlecone zadania projektu',
 	'Delegated (overdue) project tasks' => 'Zlecone (nieterminowe) zadania projektu',
-	'Credits' => 'Współtwórcy',
 	'Upcoming Tasks' => 'Zadania',
 	'UPS' => 'UPS',
 	'USPS' => 'USPS',

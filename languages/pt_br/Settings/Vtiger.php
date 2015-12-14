@@ -303,6 +303,7 @@ $languageStrings = [
 	'Document Control' => 'Controle de Documento',
 	'Time control' => 'Controle de Tempo',
 	"Credits" => 'Contributors',
+	"LBL_VIEW_CREDITS" => 'Contributors',
 	'LBL_PROCESSES' => 'Processos',
 	'LBL_SALES_PROCESSES' => 'Processo de Vendas',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Gerenciar Processo de Vendas',

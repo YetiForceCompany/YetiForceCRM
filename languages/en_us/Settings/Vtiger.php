@@ -306,6 +306,7 @@ $languageStrings = [
 	'Document Control' => 'Document Control',
 	'Time control' => 'Time control',
 	"Credits" => 'Contributors',
+	"LBL_VIEW_CREDITS" => 'Contributors',
 	'LBL_PROCESSES' => 'Processes',
 	'LBL_SALES_PROCESSES' => 'Sales processes',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Manage sales processes',
