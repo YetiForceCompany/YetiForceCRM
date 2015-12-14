@@ -331,6 +331,20 @@ $languageStrings = [
 	'LBL_HREF_MAX_LEGTH' => 'Maximum length for href tag ',
 	//end config editor
 	'LBL_VIEW_SWITCHUSERS' => 'Switch users',
+	// custom record numbering variables
+	'LBL_USE_POSTFIX' => 'Use postfix',
+	'LBL_USE_CUSTOME_VARIABLES' => 'System variables for building prefixes',
+	'LBL_CUSTOME_VARIABLES' => 'Choose variable',
+	'LBL_COPY_CV' => 'Copy variable',
+	'LBL_NO_PREFIX' => 'No prefix',
+	'LBL_NO_POSTFIX' => 'No postfix',
+	'LBL_CV_FULL_YEAR' => 'Full year (ex. 2015)',
+	'LBL_CV_FULL_MONTH' => 'Month (ex. 01, 05, 12)',
+	'LBL_CV_FULL_DAY' => 'Day (ex. 01, 05, 25)',
+	'LBL_CV_YEAR' => 'Year (ex. 15)',
+	'LBL_CV_MONTH' => 'Month (exp. 1, 5, 12)',
+	'LBL_CV_DAY' => 'Day (ex. 1, 5, 25)',
+	// end of custom record numbering variables
 ];
 
 $jsLanguageStrings = [

@@ -46,7 +46,9 @@ class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_V
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			"modules.Settings.Vtiger.resources.CustomRecordNumbering"
+			'modules.Settings.Vtiger.resources.CustomRecordNumbering',
+			'libraries.jquery.ZeroClipboard.ZeroClipboard',
+			'modules.Settings.Vtiger.resources.Edit',
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
