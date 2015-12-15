@@ -16,6 +16,7 @@ class OSSTimeControl_UsersList_View extends Vtiger_IndexAjax_View
 	{
 		parent::__construct();
 		$this->exposeMethod('getUsersList');
+		$this->exposeMethod('getTypesList');
 	}
 
 	function getUsersList(Vtiger_Request $request)
@@ -23,6 +24,18 @@ class OSSTimeControl_UsersList_View extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('ALL_ACTIVEUSER_LIST', $currentUser->getAccessibleUsers());
+		$viewer->assign('ALL_ACTIVEGROUP_LIST', $currentUser->getAccessibleGroups());
+		$viewer->assign('USER_MODEL', $currentUser);
+		$viewer->view('UsersList.tpl', $moduleName);
+	}
+	function getTypesList(Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$viewer->assign('ALL_ACTIVETYPES_LIST', OSSTimeControl_Calendar_Model::getCalendarTypes() );
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->view('UsersList.tpl', $moduleName);

@@ -24,7 +24,13 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 		$viewer->assign('DAY_VIEW', $CALENDAR_CONFIG['SHOW_TIMELINE_DAY'] ? 'agendaDay' : 'basicDay');
 		$viewer->view('CalendarView.tpl', $request->getModule());
 	}
-
+	function postProcess(Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		$viewer->view('CalendarViewPostProcess.tpl', $moduleName);
+		parent::postProcess($request);
+	}
 	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);

@@ -1103,7 +1103,8 @@ $languageStrings = [
 	'LBL_ADD_TO_FAVORITES' => 'Add to favorites',
 	'LBL_REMOVE_FROM_FAVORITES' => 'Remove from favorites',
 	'LBL_TIMELINE' => 'Timeline',
-	'LBL_DESELECT_ALL' => '__UNTRANSLATED__'
+	'LBL_DESELECT_ALL' => '__UNTRANSLATED__',
+	'LBL_INFO_REFRESH' => 'Introduced changes',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Resumo',

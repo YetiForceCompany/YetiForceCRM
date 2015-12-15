@@ -10,41 +10,40 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
-	{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups()}
-
-	<div class="calendarUserList row" style="margin-left:10px;">
-		<h4>{vtranslate('LBL_USERS',$MODULE)}:</h4>
-		<div class="row">
-			<div class="col-md-10" style="margin: 10px 0;">
-			<select style="width: 100%;" class="chzn-select" id="calendarUserList" name="{$ASSIGNED_USER_ID}" multiple>
-				<optgroup label="{vtranslate('LBL_USERS')}">
-					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-						<option class="userCol_{$OWNER_ID} marginBottom5px" value="{$OWNER_ID}" {if $USER_MODEL->id eq $OWNER_ID} selected {/if}>{$OWNER_NAME}</option>
-					{/foreach}
-				</optgroup>
-				<optgroup label="{vtranslate('LBL_GROUPS')}">
-					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-						<option class="userCol_{$OWNER_ID} marginBottom5px" value="{$OWNER_ID}">{$OWNER_NAME}</option>
-					{/foreach}
-				</optgroup>
-			</select>
-			</div>
-		</div>
-		<h4>{vtranslate('LBL_TIMECONTROL_TYPE',$MODULE)}:</h4>
-		<div class="row">
-			<div class="col-md-10" style="margin: 10px 0;">
-				<select style="width: 100%;" class="chzn-select" id="timecontrolTypes" name="timecontrolTypes" multiple>
-					{foreach item=ITEM from=OSSTimeControl_Calendar_Model::getCalendarTypes()}
-						<option class="calCol_{$ITEM} marginBottom5px" value="{$ITEM}" selected>{vtranslate($ITEM,$MODULE)}</option>
-					{/foreach}
+	{if $ALL_ACTIVEGROUP_LIST || $ALL_ACTIVEUSER_LIST}
+		<div class="calendarUserList row" style="margin-left:20px;">
+			<div class="row">
+				<div class="col-md-10" style="margin: 10px 0;">
+				<select style="width: 100%;" class="select2" id="calendarUserList" name="{$ASSIGNED_USER_ID}" multiple>
+					<optgroup label="{vtranslate('LBL_USERS')}">
+						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+							<option class="userCol_{$OWNER_ID} marginBottom5px" value="{$OWNER_ID}" {if $USER_MODEL->id eq $OWNER_ID} selected {/if}>{$OWNER_NAME}</option>
+						{/foreach}
+					</optgroup>
+					<optgroup label="{vtranslate('LBL_GROUPS')}">
+						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
+							<option class="userCol_{$OWNER_ID} marginBottom5px" value="{$OWNER_ID}">{$OWNER_NAME}</option>
+						{/foreach}
+					</optgroup>
 				</select>
+				</div>
 			</div>
 		</div>
-		<div class="pushDown marginBottom5">
-			<button class="btn btn-info refreshCalendar">{vtranslate('LBL_REFRESH',$MODULE)}</button>
+	{/if}
+	
+	{if $ALL_ACTIVETYPES_LIST}
+		<div class="calendarTypeList row" style="margin-left:20px;">
+			<div class="row">
+				<div class="col-md-10" style="margin: 10px 0;">
+					<select style="width: 100%;" class="select2 form-control" id="timecontrolTypes" name="timecontrolTypes" multiple>
+						{foreach item=ITEM from=OSSTimeControl_Calendar_Model::getCalendarTypes()}
+							<option class="calCol_{$ITEM} marginBottom5px" value="{$ITEM}" selected>{vtranslate($ITEM,$MODULE)}</option>
+						{/foreach}
+					</select>
+				</div>
+			</div>
 		</div>
-	</div>
+	{/if}
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	OSSTimeControl_Calendar_Js.registerUserListWidget();
