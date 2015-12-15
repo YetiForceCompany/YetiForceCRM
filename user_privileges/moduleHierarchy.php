@@ -10,7 +10,6 @@ $modulesMap1M = [
 	'ProjectTask' => ['ProjectMilestone'],
 	'QuotesEnquires' => ['Potentials'],
 	'RequirementCards' => ['Potentials'],
-	'Calculations' => ['Accounts'],
 	'Quotes' => ['Accounts'],
 	'SalesOrder' => ['Accounts'],
 	'PurchaseOrder' => ['Vendors'],

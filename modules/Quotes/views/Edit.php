@@ -31,11 +31,9 @@ Class Quotes_Edit_View extends Inventory_Edit_View {
 			$relatedProducts = $recordModel->getProducts();
 			$viewer->assign('RECORD_ID', $record);
 			$viewer->assign('MODE', 'edit');
-		} elseif ($request->get('salesorder_id') || $request->get('quote_id') || $request->get('calculation_id') || $request->get('reference_id')) {
+		} elseif ($request->get('salesorder_id') || $request->get('quote_id') || $request->get('reference_id')) {
 			if ($request->get('salesorder_id')) {
 				$referenceId = $request->get('salesorder_id');
-			} elseif($request->get('calculation_id')) {
-				$referenceId = $request->get('calculation_id');
 			} elseif ($request->has('quote_id')) {
 				$referenceId = $request->get('quote_id');
 			} else {
@@ -49,12 +47,6 @@ Class Quotes_Edit_View extends Inventory_Edit_View {
 			}
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$recordModel->setRecordFieldValues($parentRecordModel);
-			if ($request->get('calculation_id')) {
-				foreach($relatedProducts as $key => $product) {
-					$relatedProducts[$key]['calculation'.$key] = $parentRecordModel->get('calculations_no');
-					$relatedProducts[$key]['calculationId'.$key] = $referenceId;
-				}
-			}
 		} else {
 			$taxes = Inventory_Module_Model::getAllProductTaxes();
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);

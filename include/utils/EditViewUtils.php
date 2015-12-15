@@ -187,7 +187,6 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		} else {
 			$usageunit = vtranslate($adb->query_result($result, $i - 1, 'usageunit'), $entitytype);
 		}
-		$calculationsid = $adb->query_result($result, $i - 1, 'calculationsid');
 		$purchase = $adb->query_result($result, $i - 1, 'purchase');
 		$margin = $adb->query_result($result, $i - 1, 'margin');
 		$marginp = $adb->query_result($result, $i - 1, 'marginp');
@@ -202,10 +201,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		if (!empty($entitytype)) {
 			$product_Detail[$i]['entityType' . $i] = $entitytype;
 		}
-		if (!empty($calculationsid)) {
-			$product_Detail[$i]['calculationId' . $i] = $calculationsid;
-			$product_Detail[$i]['calculation' . $i] = Vtiger_Functions::getCRMRecordLabel($calculationsid);
-		}
+		
 		if ($listprice == '')
 			$listprice = $unitprice;
 		if ($qty == '')

@@ -438,8 +438,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock = 'fal
 		$listprice = vtlib_purify($_REQUEST['listPrice' . $i]);
 		$comment = vtlib_purify($_REQUEST['comment' . $i]);
 		$purchaseCost = vtlib_purify($_REQUEST['purchaseCost' . $i]);
-		$calculationsid = vtlib_purify($_REQUEST['calculationId' . $i]);
-
+		
 		$purchase = vtlib_purify($_REQUEST['purchase' . $i]);
 		$margin = vtlib_purify($_REQUEST['margin' . $i]);
 		$marginp = vtlib_purify($_REQUEST['marginp' . $i]);
@@ -459,8 +458,8 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock = 'fal
 			}
 		}
 
-		$query = "insert into vtiger_inventoryproductrel(id, productid, sequence_no, quantity, listprice, comment, description, calculationsid, purchase, margin, marginp) values(?,?,?,?,?,?,?,?,?,?,?)";
-		$qparams = array($focus->id, $prod_id, $prod_seq, $qty, $listprice, $comment, $description, $calculationsid, $purchase, $margin, $marginp);
+		$query = "insert into vtiger_inventoryproductrel(id, productid, sequence_no, quantity, listprice, comment, description, purchase, margin, marginp) values(?,?,?,?,?,?,?,?,?,?)";
+		$qparams = array($focus->id, $prod_id, $prod_seq, $qty, $listprice, $comment, $description, $purchase, $margin, $marginp);
 		$adb->pquery($query, $qparams);
 
 		$lineitem_id = $adb->getLastInsertID();

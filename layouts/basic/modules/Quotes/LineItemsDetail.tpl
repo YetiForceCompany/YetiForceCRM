@@ -44,9 +44,6 @@
 	    <strong class="pull-right">{vtranslate('LBL_NET_PRICE',$MODULE_NAME)}</strong>
 	</td>
 	</td>
-        <td>
-	    <strong class="pull-right">{vtranslate('SINGLE_Calculations','Calculations')}</strong>
-	</td>
     </tr>
     {foreach key=INDEX item=LINE_ITEM_DETAIL from=$RELATED_PRODUCTS}
 	<tr>
@@ -131,11 +128,6 @@
 		<td>
 		    <span class="pull-right">
 			{$LINE_ITEM_DETAIL["netPrice$INDEX"]}
-		    </span>
-		</td>
-		<td>
-		    <span class="pull-right">
-				<a href="index.php?module=Calculations&view=Detail&record={$LINE_ITEM_DETAIL["calculationId$INDEX"]}" >{$LINE_ITEM_DETAIL["calculation$INDEX"]}</a>
 		    </span>
 		</td>
 	    </tr>

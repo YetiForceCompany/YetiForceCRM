@@ -18,7 +18,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 	public static function recalculateTimeOldValues($record_id, $data)
 	{
 		require_once 'include/events/VTEntityDelta.php';
-		$relatedField = array('accountid', 'contactid', 'ticketid', 'projectid', 'projecttaskid', 'potentialid', 'servicecontractsid', 'quoteid', 'assetsid', 'salesorderid', 'calculationsid');
+		$relatedField = array('accountid', 'contactid', 'ticketid', 'projectid', 'projecttaskid', 'potentialid', 'servicecontractsid', 'quoteid', 'assetsid', 'salesorderid');
 		$vtEntityDelta = new VTEntityDelta();
 		$delta = $vtEntityDelta->getEntityDelta('OSSTimeControl', $record_id, true);
 		$recalculateOldValue = false;
@@ -45,8 +45,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		$servicecontractsid = $data->get('servicecontractsid');
 		$salesorderid = $data->get('salesorderid');
 		$quoteid = $data->get('quoteid');
-		$calculationsid = $data->get('calculationsid');
-
+		
 		self::recalculateAccounts($accountid);
 		self::recalculateQuotes($quoteid);
 		self::recalculateSalesOrder($salesorderid);
@@ -86,12 +85,6 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 			$ModuleNameInstance = Vtiger_Record_Model::getInstanceById($salesorderid, 'SalesOrder');
 			self::recalculatePotentials($ModuleNameInstance->get('potential_id'));
 		}
-		if (self::checkID($calculationsid)) {
-			$ModuleNameInstance = Vtiger_Record_Model::getInstanceById($calculationsid, 'Calculations');
-			self::recalculatePotentials($ModuleNameInstance->get('potentialid'));
-		}
-		// 4 pola na umowie // czas pod umowe , czas pod projekt (��czny czas) , czas pod zg�oszenie (��czny czas , kt�re nie pod projekt)
-		// doda� walidacj� przy zapisie 
 	}
 
 	public function recalculateQuotes($QuotesID)
@@ -201,7 +194,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$sum_time = 0;
 		//////// sum_time
-		$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND potentialid = ? AND salesorderid = ? AND quoteid = ? AND calculationsid = ?;", array(0, self::recalculateStatus, $PotentialsID, 0, 0, 0), true);
+		$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND potentialid = ? AND salesorderid = ? AND quoteid = ?;", array(0, self::recalculateStatus, $PotentialsID, 0, 0, 0), true);
 		$sum_time = number_format($db->query_result($sum_time_result, 0, 'sum'), 2);
 		//////// sum_time_q
 		$sql_sum_time_q = 'SELECT SUM(vtiger_osstimecontrol.sum_time) AS sum 
@@ -209,7 +202,6 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 						INNER JOIN vtiger_quotes ON vtiger_quotes.quoteid = vtiger_osstimecontrol.quoteid
 						WHERE vtiger_osstimecontrol.deleted = ? 
 						AND vtiger_osstimecontrol.quoteid <> ? 
-						AND vtiger_osstimecontrol.calculationsid = ? 
 						AND osstimecontrol_status = ?
 						AND vtiger_quotes.potentialid = ?;';
 		$sum_time_q_result = $db->pquery($sql_sum_time_q, array(0, 0, 0, 0, self::recalculateStatus, $PotentialsID), true);
@@ -221,24 +213,13 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 						WHERE  vtiger_osstimecontrol.deleted = ? 
 						AND vtiger_osstimecontrol.salesorderid <> ? 
 						AND vtiger_osstimecontrol.quoteid = ? 
-						AND vtiger_osstimecontrol.calculationsid = ?
 						AND vtiger_osstimecontrol.osstimecontrol_status = ?
 						AND vtiger_salesorder.potentialid = ?;';
 		$sum_time_so_result = $db->pquery($sql_sum_time_so, array(0, 0, 0, 0, 0, self::recalculateStatus, $PotentialsID), true);
 		$sum_time_so = number_format($db->query_result($sum_time_so_result, 0, 'sum'), 2);
-		//////// sum_time_k
-		$sql_sum_time_k = 'SELECT SUM(vtiger_osstimecontrol.sum_time) AS sum 
-						FROM vtiger_osstimecontrol 
-						INNER JOIN vtiger_calculations ON vtiger_calculations.calculationsid = vtiger_osstimecontrol.calculationsid
-						WHERE  vtiger_osstimecontrol.deleted = ? 
-						AND vtiger_osstimecontrol.calculationsid <> ?
-						AND vtiger_osstimecontrol.osstimecontrol_status = ?
-						AND vtiger_calculations.potentialid = ?;';
-		$sum_time_k_result = $db->pquery($sql_sum_time_k, array(0, 0, self::recalculateStatus, $PotentialsID), true);
-		$sum_time_k = number_format($db->query_result($sum_time_k_result, 0, 'sum'), 2);
 		//////// Sum
-		$sum_time_all = $sum_time + $sum_time_q + $sum_time_so + $sum_time_k;
-		$db->pquery("UPDATE vtiger_potential SET sum_time = ?,sum_time_k = ?,sum_time_q = ?,sum_time_so = ?,sum_time_all = ? WHERE potentialid = ?;", array($sum_time, $sum_time_k, $sum_time_q, $sum_time_so, $sum_time_all, $PotentialsID), true);
+		$sum_time_all = $sum_time + $sum_time_q + $sum_time_so;
+		$db->pquery("UPDATE vtiger_potential SET sum_time = ?,sum_time_q = ?,sum_time_so = ?,sum_time_all = ? WHERE potentialid = ?;", array($sum_time, $sum_time_q, $sum_time_so, $sum_time_all, $PotentialsID), true);
 		return array($sum_time, $sum_time_q, $sum_time_so, $sum_time_all);
 	}
 

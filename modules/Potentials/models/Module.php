@@ -439,10 +439,8 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		$response[1][1] = vtranslate('Total time [Sales Order]', $this->getName());
 		$response[2][0] = $recordModel->get('sum_time_q');
 		$response[2][1] = vtranslate('Total time [Quotes]', $this->getName());
-		$response[3][0] = $recordModel->get('sum_time_k');
-		$response[3][1] = vtranslate('Total time [Calculation]', $this->getName());
-		$response[4][0] = $recordModel->get('sum_time_all');
-		$response[4][1] = vtranslate('Total time [Sum]', $this->getName());
+		$response[3][0] = $recordModel->get('sum_time_all');
+		$response[3][1] = vtranslate('Total time [Sum]', $this->getName());
 		return $response;
 	}
 	

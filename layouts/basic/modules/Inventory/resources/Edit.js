@@ -492,7 +492,6 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 
 		// narrow popup products list to those related to chosen potential
 		if (moduleName == 'Quotes' ||
-				moduleName == 'Calculations' ||
 				moduleName == 'SalesOrder' ||
 				moduleName == 'Invoice') {
 
@@ -1419,28 +1418,20 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 				var tdElement = element.closest('td');
 				var selectedModule = tdElement.find('.lineItemPopup').data('moduleName');
 				var popupElement = tdElement.find('.lineItemPopup');
-				if (selectedModule == 'Calculations') {
-					var recordData = {};
-					var recordId = {};
-					recordId.name = selectedItemData.label;
-					recordData[selectedItemData.id] = recordId;
-					thisInstance.mapResultsToFields(selectedModule, popupElement, recordData);
-				} else {
-					var dataUrl = "index.php?module=Inventory&action=GetTaxes&record=" + selectedItemData.id + "&currency_id=" + jQuery('#currency_id option:selected').val();
-					AppConnector.request(dataUrl).then(
-							function (data) {
-								for (var id in data) {
-									if (typeof data[id] == "object") {
-										var recordData = data[id];
-										thisInstance.mapResultsToFields(selectedModule, popupElement, recordData);
-									}
+				var dataUrl = "index.php?module=Inventory&action=GetTaxes&record=" + selectedItemData.id + "&currency_id=" + jQuery('#currency_id option:selected').val();
+				AppConnector.request(dataUrl).then(
+						function (data) {
+							for (var id in data) {
+								if (typeof data[id] == "object") {
+									var recordData = data[id];
+									thisInstance.mapResultsToFields(selectedModule, popupElement, recordData);
 								}
-							},
-							function (error, err) {
-
 							}
-					);
-				}
+						},
+						function (error, err) {
+
+						}
+				);
 			},
 			'change': function (event, ui) {
 				var element = jQuery(this);

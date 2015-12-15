@@ -44,9 +44,6 @@
 	    <strong class="pull-right">{vtranslate('LBL_NET_PRICE',$MODULE_NAME)}</strong>
 	</td>
 	</td>
-        <td>
-	    <strong class="pull-right">{vtranslate('SINGLE_Calculations','Calculations')}</strong>
-	</td>
     </tr>
     {foreach key=INDEX item=LINE_ITEM_DETAIL from=$RELATED_PRODUCTS}
 	<tr>

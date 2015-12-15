@@ -18,6 +18,6 @@ class TotalPriceQuotes{
 		$log->debug("Entering TotalPriceQuotes::process() method ...");
 		$sum = $instance->get('sum_quotes')== ''? 0: $instance->get('sum_quotes');
 		$log->debug("Exiting TotalPriceQuotes::process() method ...");
-		return number_format($sum_calculations,0, ',', ' ');
+		return number_format($sum,0, ',', ' ');
     }
 }

@@ -18,6 +18,6 @@ class TotalPriceSalesOrder{
 		$log->debug("Entering TotalPriceSalesOrder::process() method ...");
 		$sum = $instance->get('sum_salesorders')== ''? 0: $instance->get('sum_salesorders');
 		$log->debug("Exiting TotalPriceSalesOrder::process() method ...");
-		return number_format($sum_calculations,0, ',', ' ');
+		return number_format($sum,0, ',', ' ');
     }
 }

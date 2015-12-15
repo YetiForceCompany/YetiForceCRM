@@ -13,8 +13,6 @@
 	{assign var="deleted" value="deleted"|cat:$row_no}
     {assign var="hdnProductId" value="hdnProductId"|cat:$row_no}
     {assign var="productName" value="productName"|cat:$row_no}
-	{assign var="calculationId" value="calculationId"|cat:$row_no}
-	{assign var="calculation" value="calculation"|cat:$row_no}
     {assign var="comment" value="comment"|cat:$row_no}
     {assign var="productDescription" value="productDescription"|cat:$row_no}
     {assign var="qtyInStock" value="qtyInStock"|cat:$row_no}
@@ -238,14 +236,5 @@
 	</td>
 	<td>
 		<span id="netPrice{$row_no}" class="pull-right netPrice">{if $data.$netPrice}{$data.$netPrice}{else}0{/if}</span>
-	</td>
-	<td>
-		<div class="input-group input-group-sm">
-			<input type="text" id="{$calculation}" name="{$calculation}" value="{$data.$calculation}" title="{$data.$calculation}" class="calculation form-control input-sm {if $row_no neq 0} autoComplete {/if}" placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}" {if !empty($data.$calculation)} disabled="disabled" {/if}/>
-			<input type="hidden" id="{$calculationId}" name="{$calculationId}" value="{$data.$calculationId}" class="selectedModuleIdC"/>
-			<input type="hidden" id="lineItemType{$row_no}" name="lineItemTypeC{$row_no}" value="Calculations" class="lineItemTypeC"/>
-			<span class="input-group-addon"><img class="lineItemPopup cursorPointer alignMiddle" data-popup="CalculationsPopup" title="{vtranslate('Calculations','Calculations')}" alt="{vtranslate('Calculations','Calculations')}" data-module-name="Calculations" data-field-name="calculationsid" src="{vimage_path('Mobile.png')}"></span>
-			<span class="input-group-addon clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"><span class="glyphicon glyphicon-remove-sign"></span></span>
-		</div>
 	</td>
 
