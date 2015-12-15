@@ -62,7 +62,9 @@ $languageStrings = [
 	'RC user' => 'RC user',
 	'FromID' => 'Sender Id',
 	'ToID' => 'Receiver Id',
-    
+    'LBL_FILTER_ALL' => 'All',
+	'LBL_FILTER_ACCOUNTS' =>  'All in account',
+	'LBL_FILTER_CONTACTS' => 'All in contact',
 	'LBL_VERIFY' => 'To verification related',
 	'LBL_REL_MOD' => 'Related modules',
 	'LBL_BindMailsOK' => 'Marked emails to bind, the next activation cron messages will be related to record',

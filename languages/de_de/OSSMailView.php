@@ -81,6 +81,9 @@ $languageStrings = [
 	'Previous week' => 'Letzte Woche',	
 	'Current month' => 'Aktueller Monat',
 	'Previous month' => 'Letzter Monat',
+	'LBL_FILTER_ALL' => 'All',
+	'LBL_FILTER_ACCOUNTS' =>  'All in account',
+	'LBL_FILTER_CONTACTS' => 'All in contact',
 ];
 $jsLanguageStrings = [
 	'From' => 'Von',
