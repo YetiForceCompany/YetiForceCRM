@@ -4703,3 +4703,6 @@ html,body,.baseContainer
 	background: #eee; 
 	padding-top: 8px;
 }
+.fieldLabel .HelpInfoPopover {
+	margin-left: 2px;
+}
