@@ -4017,6 +4017,7 @@ html,body,.baseContainer
 }
 .chosen-container-multi .chosen-choices li.search-choice{
 	line-height: 20px;
+	margin: 3px 5px 3px;
 }
 .chosen-container-multi .chosen-choices li.search-choice .search-choice-close{
 	top: 8px;
