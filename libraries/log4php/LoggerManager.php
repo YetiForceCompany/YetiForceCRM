@@ -18,7 +18,7 @@ class LoggerManager {
 		return self::$loggerCache;
 	}
 	
-	static function get() {
+	static function getInstance() {
 		if (self::$loggerCache) {
 			return self::$loggerCache;
 		}
