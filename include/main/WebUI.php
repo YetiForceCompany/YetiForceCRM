@@ -91,7 +91,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 	function isInstalled()
 	{
-		global $dbconfig;
+		$dbconfig = AppConfig::main('dbconfig');
 		if (empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_') {
 			return false;
 		}
@@ -103,17 +103,14 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$log = LoggerManager::getLogger('System');
 		vglobal('log', $log);
 		Vtiger_Session::init();
-		$forceSSL = vglobal('forceSSL');
-		if ($forceSSL && !Vtiger_Functions::getBrowserInfo()->https) {
+		if (AppConfig::main('forceSSL') && !Vtiger_Functions::getBrowserInfo()->https) {
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 		}
 
 		// Better place this here as session get initiated
 		//skipping the csrf checking for the forgot(reset) password
-		$csrfProtection = vglobal('csrfProtection');
-		if ($csrfProtection) {
-			if ($request->get('mode') != 'reset' && $request->get('action') != 'Login')
-				require_once('libraries/csrf-magic/csrf-magic.php');
+		if (AppConfig::main('csrfProtection') && $request->get('mode') != 'reset' && $request->get('action') != 'Login') {
+			require_once('libraries/csrf-magic/csrf-magic.php');
 			require_once('config/csrf_config.php');
 		}
 		// TODO - Get rid of global variable $current_user
@@ -148,7 +145,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 			if (empty($module)) {
 				if ($this->hasLogin()) {
-					$defaultModule = vglobal('default_module');
+					$defaultModule = AppConfig::main('default_module');
 					if (!empty($defaultModule) && $defaultModule != 'Home') {
 						$module = $defaultModule;
 						$qualifiedModuleName = $defaultModule;
@@ -222,7 +219,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			}
 		} catch (AppException $e) {
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-			
+
 			Vtiger_Functions::throwNewException($e->getMessage(), false);
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
 				exit('<pre>' . $e->getTraceAsString() . '</pre>');
@@ -230,14 +227,14 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		} catch (NoPermittedToRecordException $e) {
 			//No permissions for the record
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-			
+
 			Vtiger_Functions::throwNewException($e->getMessage(), false, 'NoPermissionsForRecord.tpl');
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
 				exit('<pre>' . $e->getTraceAsString() . '</pre>');
 			}
 		} catch (Exception $e) {
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-			
+
 			Vtiger_Functions::throwNewException($e->getMessage(), false);
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
 				exit('<pre>' . $e->getTraceAsString() . '</pre>');

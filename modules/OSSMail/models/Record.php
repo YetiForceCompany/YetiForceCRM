@@ -665,7 +665,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	function GetSite_URL()
 	{
-		$site_URL = vglobal('site_URL');
+		$site_URL = AppConfig::main('site_URL');
 		if (substr($site_URL, -1) != '/') {
 			$site_URL = $site_URL . '/';
 		}

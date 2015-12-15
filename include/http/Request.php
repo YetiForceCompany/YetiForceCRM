@@ -231,8 +231,7 @@ class Vtiger_Request
 		$user = vglobal('current_user');
 		// Referer check if present - to over come 
 		if (isset($_SERVER['HTTP_REFERER']) && $user) {//Check for user post authentication.
-			global $site_URL;
-			if ((stripos($_SERVER['HTTP_REFERER'], $site_URL) !== 0) && ($this->get('module') != 'Install')) {
+			if ((stripos($_SERVER['HTTP_REFERER'], AppConfig::main('site_URL')) !== 0) && ($this->get('module') != 'Install')) {
 				throw new CsrfException('Illegal request');
 			}
 		}

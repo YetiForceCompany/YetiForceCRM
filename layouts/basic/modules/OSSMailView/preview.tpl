@@ -14,7 +14,7 @@
 							<h3 class='col-md-4 pushDown'>{vtranslate('emailPreviewHeader',$MODULE)}</h3>
 							<div class='pull-right'>
 								<div class="btn-toolbar" >
-									{if vglobal('isActiveSendingMails')}
+									{if AppConfig::main('isActiveSendingMails')}
 										<span class="btn-group">
 											{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
 											<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=replyAll{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no'{/if})">

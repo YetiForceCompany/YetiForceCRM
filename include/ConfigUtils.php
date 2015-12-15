@@ -4,6 +4,7 @@
 class AppConfig
 {
 
+	protected static $main = [];
 	protected static $calendar = [];
 	protected static $debug = [];
 	protected static $developer = [];
@@ -35,6 +36,17 @@ class AppConfig
 		}
 	}
 
+	public static function main($key, $value = false)
+	{
+		if (key_exists($key, $GLOBALS)) {
+			self::$main[$key] = $GLOBALS[$key];
+			return $GLOBALS[$key];
+		} elseif (key_exists($key, self::$main)) {
+			return self::$main[$key];
+		}
+		return $value;
+	}
+
 	public static function calendar($key, $defvalue = false)
 	{
 		return self::$calendar[$key];
@@ -64,7 +76,7 @@ class AppConfig
 	{
 		return self::$performance[$key];
 	}
-	
+
 	public static function iniSet($key, $value)
 	{
 		@ini_set($key, $value);
