@@ -22,14 +22,19 @@ class Vtiger_List_View extends Vtiger_Index_View
 		parent::__construct();
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function getBreadcrumbTitle(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$this->pageTitle = vtranslate('LBL_VIEW_LIST', $moduleName);
+		return vtranslate('LBL_VIEW_LIST', $moduleName);
+	}
+
+	function preProcess(Vtiger_Request $request, $display = true)
+	{
 		parent::preProcess($request, false);
 
+		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		
+
 		$mid = false;
 		if ($request->has('mid')) {
 			$mid = $request->get('mid');
