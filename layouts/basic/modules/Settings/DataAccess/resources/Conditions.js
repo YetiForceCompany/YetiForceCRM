@@ -247,7 +247,7 @@ function DataAccessConditions() {
 
 				jQuery('[name="comparator"]').on('change', function () {
 					var val = jQuery(this).val(),
-							conditionToHideValElement = ['is not empty', 'is empty', 'is enabled', 'is disabled', 'is today'],
+							conditionToHideValElement = ['is not empty', 'is empty', 'is enabled', 'is disabled', 'is today', 'has changed'],
 							conditionToShowInput = ['is', 'contains', "does not contain", "starts with", "ends with",
 								"less than days ago", "more than days ago", "in less than", "in more than", "days ago",
 								"days later", "before", "after", "is not"]
@@ -269,12 +269,7 @@ function DataAccessConditions() {
 						if (fieldInfo.type == 'date' && (jQuery.inArray(val, exceptions) === -1)) {
 							thisInstance.showDataInput(this);
 						} else {
-
-							if (fieldInfo.type == 'date') {
-								thisInstance.showDataInput(this);
-							} else {
-								thisInstance.showInput(this);
-							}
+							jQuery(this).closest('div').find('.comparator-select').trigger('change');
 						}
 					}
 				})
@@ -305,7 +300,7 @@ function DataAccessConditions() {
 				var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder');
 				var valElement = valPlace.find('[name="val"]');
 				valPlace.children().remove();
-				jQuery('<select name="val" data-value="value" class="select2 form-control" ></select>').appendTo(valPlace);
+				var select = jQuery('<select name="val" data-value="value" class="select2 form-control" ></select>').appendTo(valPlace);
 				var fieldInfo = jQuery(element).find('option:selected').data('info');
 				jQuery.each(fieldInfo.picklistvalues, function (i, item) {
 					select.append(jQuery('<option>', {
@@ -319,7 +314,7 @@ function DataAccessConditions() {
 			this.showMultiPicklist = function (element) {
 				var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder');
 				valPlace.children().remove();
-				jQuery('<select name="val" multiple="multiple" data-value="value" class="select2 form-control" ></select>').appendTo(valPlace);
+				var select = jQuery('<select name="val" multiple="multiple" data-value="value" class="select2 form-control" ></select>').appendTo(valPlace);
 				var fieldInfo = jQuery(element).find('option:selected').data('info');
 
 				jQuery.each(fieldInfo.picklistvalues, function (i, item) {
