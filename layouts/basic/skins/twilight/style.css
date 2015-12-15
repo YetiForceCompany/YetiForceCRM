@@ -4710,3 +4710,8 @@ html,body,.baseContainer
 .fieldLabel .HelpInfoPopover {
 	margin-left: 2px;
 }
+.jstree-node .jstree-category{
+	margin-left: 10px;
+	font-size: 15px;
+	top: 0;
+	vertical-align: middle;

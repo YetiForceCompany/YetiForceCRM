@@ -74,12 +74,12 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 	{
 		$parentScriptInstances = parent::getFooterScripts($request);
 		$scripts = [
-			'~libraries/jquery/jstree/jstree.min.js',
+			'~libraries/jquery/jstree/jstree.js',
 			'~libraries/jquery/datatables/media/js/jquery.dataTables.min.js',
 			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.min.js',
 		];
 		$viewInstances = $this->checkAndConvertJsScripts($scripts);
-		$scriptInstances = array_merge($viewInstances, $parentScriptInstances);
+		$scriptInstances = array_merge($parentScriptInstances, $viewInstances);
 		return $scriptInstances;
 	}
 
@@ -92,7 +92,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.css',
 		];
 		$modalInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$cssInstances = array_merge($modalInstances, $parentCssInstances);
+		$cssInstances = array_merge($parentCssInstances, $modalInstances);
 		return $cssInstances;
 	}
 }

@@ -155,6 +155,34 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return true;
 	}
 
+	public function addCategory($crmid, $category)
+	{
+		$sourceModule = $this->getParentModuleModel();
+		$sourceModuleName = $sourceModule->get('name');
+		$destinationModuleName = $this->getRelationModuleModel()->get('name');
+		$db = PearDatabase::getInstance();
+		$db->insert('vtiger_crmentitycat', [
+			'crmid' => $crmid,
+			'category' => $category,
+			'module' => $sourceModuleName,
+			'relmodule' => $destinationModuleName
+		]);
+	}
+	
+	public function deleteCategory($crmid, $category)
+	{
+		$sourceModule = $this->getParentModuleModel();
+		$sourceModuleName = $sourceModule->get('name');
+		$destinationModuleName = $this->getRelationModuleModel()->get('name');
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_crmentitycat', [
+			'crmid' => $crmid,
+			'category' => $category,
+			'module' => $sourceModuleName,
+			'relmodule' => $destinationModuleName
+		]);
+	}
+
 	public function isDirectRelation()
 	{
 		return ($this->getRelationType() == self::RELATION_DIRECT);

@@ -82,6 +82,7 @@ class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
 				$icon = $row['icon'];
 			$tree[] = [
 				'id' => $treeID,
+				'type' => 'category',
 				'record_id' => $row['tree'],
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => vtranslate($row['name'], $this->moduleName),
@@ -124,6 +125,7 @@ class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
 			$parent = (int) str_replace('T', '', $parent);
 			$tree[] = [
 				'id' => $this->lastIdinTree,
+				'type' => 'record',
 				'record_id' => $item->getId(),
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => $item->getName(),
@@ -139,7 +141,8 @@ class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
 		$parentScriptInstances = parent::getModalScripts($request);
 
 		$scripts = [
-			'~libraries/jquery/jstree/jstree.min.js',
+			'~libraries/jquery/jstree/jstree.js',
+			'~libraries/jquery/jstree/jstree.category.js',
 			'modules.Vtiger.resources.TreeCategory'
 		];
 
