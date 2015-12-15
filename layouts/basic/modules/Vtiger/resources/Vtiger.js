@@ -81,19 +81,7 @@ var Vtiger_Index_Js = {
 	loadWidgetsOnLoad: function () {
 		var widgets = jQuery('div.widgetContainer');
 		widgets.each(function (index, element) {
-			var widgetContainer = jQuery(element);
-			var key = widgetContainer.attr('id');
-			var value = app.cacheGet(key);
-			if (value != null) {
-				if (value == 1) {
-					Vtiger_Index_Js.loadWidgets(widgetContainer);
-					widgetContainer.addClass('in');
-				} else {
-					var imageEle = widgetContainer.parent().find('.imageElement');
-					var imagePath = imageEle.data('rightimage');
-					imageEle.attr('src', imagePath);
-				}
-			}
+			Vtiger_Index_Js.loadWidgets(jQuery(element));
 		});
 	},
 	/**

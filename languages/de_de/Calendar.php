@@ -140,6 +140,7 @@ $languageStrings = [
 	'LBL_RECURRENCE_INFORMATION' => 'Wiederholungdetails',
 	'LBL_RELATED_TO' => 'zugeordnet',
 	'LBL_NO_AVAILABLE_ACTIONS' => 'Keine verfügbaren Aktionen',
+	'LBL_INFO_REFRESH' => 'Introduced changes',
 ];
 $jsLanguageStrings = [
 	'JS_NO_EDIT_PERMISSION' => 'Sie haben keine Berechtigung, die Kalendereinträge zu ändern',
