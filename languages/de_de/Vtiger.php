@@ -924,7 +924,6 @@ $languageStrings = [
 	'LBL_NUMBER_OF_DAYS_WORKED' => 'Anzahl von geleisteten Tagen',
 	'LBL_AVERAGE_WORKING_TIME' => 'Durchschnittliche Arbeitszeit',
 	'Employees Time Control' => 'Zeiterfassung Mitarbeiter',
-	'QuotesEnquires' => 'Angebotsanalyse',
 	'LBL_CURRENTLY_LOGGED_USER' => 'Aktueller eingeloggter User',
 	'LBL_TO_REALIZE' => 'Für Verarbeitung',
 	'LBL_HISTORY' => 'Historie',

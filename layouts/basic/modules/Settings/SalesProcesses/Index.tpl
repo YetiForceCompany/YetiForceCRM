@@ -87,8 +87,8 @@
 					<label class='control-label'>{vtranslate('LBL_STATUSES_CLOSED_SQUOTEENQUIRIES', $QUALIFIED_MODULE)}</label>
 					<div class="">
 						<select class="selectize configField" multiple data-type="squoteenquiries" name="statuses_close"  placeholder='{vtranslate('LBL_SELECT_SOME_OPTIONS')}'>
-							{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('quotesenquires_stage')}
-								<option value="{$ITEM}" {if in_array($ITEM, $SQUOTEENQUIRIES['statuses_close'])} selected {/if}>{vtranslate($ITEM,'QuotesEnquires')}</option>
+							{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('squoteenquiries_status')}
+								<option value="{$ITEM}" {if in_array($ITEM, $SQUOTEENQUIRIES['statuses_close'])} selected {/if}>{vtranslate($ITEM,'SQuoteEnquiries')}</option>
 							{/foreach}
 						</select>
 					</div>

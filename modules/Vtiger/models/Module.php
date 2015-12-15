@@ -1708,7 +1708,6 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$data = array();
 		// Selected field = ( target field => source field )
 		$data['SRequirementsCards']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
-		$data['QuotesEnquires']['potentialid'] = ['Potentials' => ['accountid' => ['related_to']]];
 		$data['SCalculations']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
 		$data['SQuotes']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
 		$data['SQuotes']['accountid'] = ['Accounts' => ['company' => ['accountname']]];

@@ -5415,7 +5415,6 @@ CREATE TABLE `vtiger_osstimecontrol` (
   `deleted` int(1) DEFAULT '0',
   `leadid` int(19) DEFAULT '0',
   `timecontrol_type` varchar(255) DEFAULT NULL,
-  `quotesenquiresid` int(19) DEFAULT NULL,
   PRIMARY KEY (`osstimecontrolid`),
   KEY `osstimecontrol_status` (`osstimecontrol_status`,`ticketid`),
   KEY `osstimecontrol_status_2` (`osstimecontrol_status`,`projectid`),
@@ -5437,7 +5436,6 @@ CREATE TABLE `vtiger_osstimecontrol` (
   KEY `quoteid` (`quoteid`),
   KEY `potentialid` (`potentialid`),
   KEY `osstimecontrol_status_9` (`osstimecontrol_status`,`deleted`),
-  KEY `quotesenquiresid` (`quotesenquiresid`),
   CONSTRAINT `vtiger_osstimecontrol` FOREIGN KEY (`osstimecontrolid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6459,81 +6457,6 @@ CREATE TABLE `vtiger_quotescf` (
   `quoteid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`quoteid`),
   CONSTRAINT `fk_1_vtiger_quotescf` FOREIGN KEY (`quoteid`) REFERENCES `vtiger_quotes` (`quoteid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_quotesenquires` */
-
-CREATE TABLE `vtiger_quotesenquires` (
-  `quotesenquiresid` int(19) NOT NULL DEFAULT '0',
-  `subject` varchar(255) DEFAULT NULL,
-  `potentialid` int(19) DEFAULT NULL,
-  `quotesenquires_no` varchar(255) DEFAULT '',
-  `quotesenquires_stage` varchar(255) DEFAULT NULL,
-  `quotesenquires_cons` text,
-  `quotesenquires_pros` text,
-  `accountid` int(19) DEFAULT NULL,
-  PRIMARY KEY (`quotesenquiresid`),
-  KEY `potentialid` (`potentialid`),
-  KEY `accountid` (`accountid`),
-  CONSTRAINT `fk_1_vtiger_quotesenquires` FOREIGN KEY (`quotesenquiresid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_quotesenquires_cons` */
-
-CREATE TABLE `vtiger_quotesenquires_cons` (
-  `quotesenquires_consid` int(11) NOT NULL AUTO_INCREMENT,
-  `quotesenquires_cons` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`quotesenquires_consid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_quotesenquires_cons_seq` */
-
-CREATE TABLE `vtiger_quotesenquires_cons_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_quotesenquires_pros` */
-
-CREATE TABLE `vtiger_quotesenquires_pros` (
-  `quotesenquires_prosid` int(11) NOT NULL AUTO_INCREMENT,
-  `quotesenquires_pros` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`quotesenquires_prosid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_quotesenquires_pros_seq` */
-
-CREATE TABLE `vtiger_quotesenquires_pros_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_quotesenquires_stage` */
-
-CREATE TABLE `vtiger_quotesenquires_stage` (
-  `quotesenquires_stageid` int(11) NOT NULL AUTO_INCREMENT,
-  `quotesenquires_stage` varchar(200) NOT NULL,
-  `sortorderid` int(11) DEFAULT NULL,
-  `presence` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`quotesenquires_stageid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_quotesenquires_stage_seq` */
-
-CREATE TABLE `vtiger_quotesenquires_stage_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_quotesenquirescf` */
-
-CREATE TABLE `vtiger_quotesenquirescf` (
-  `quotesenquiresid` int(19) NOT NULL,
-  PRIMARY KEY (`quotesenquiresid`),
-  CONSTRAINT `fk_1_vtiger_quotesenquirescf` FOREIGN KEY (`quotesenquiresid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_quotestage` */

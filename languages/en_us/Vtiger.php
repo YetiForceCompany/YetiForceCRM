@@ -57,7 +57,6 @@ $languageStrings = [
 	'Signed in' => 'Signed in',
 	'Events' => 'Events',
 	'OSSPdf' => 'PDF Template List',
-	'QuotesEnquires' => 'Quotes enquires',
 	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Search branches',
 	'Comments' => 'Comments',
 	'Milestone Date' => 'Milestone Date',
