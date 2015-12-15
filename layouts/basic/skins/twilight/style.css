@@ -3008,6 +3008,9 @@ span[name=existingImages] img{
 .paddingLeftMd{
 	padding-left: 15px;
 }
+.marginRightMinus20{
+	margin-right:-20px;
+}
 .fieldLabel .referenceMandatory{
 	margin-right: -12px;
 }
