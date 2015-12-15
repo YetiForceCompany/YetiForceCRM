@@ -5415,7 +5415,6 @@ CREATE TABLE `vtiger_osstimecontrol` (
   `deleted` int(1) DEFAULT '0',
   `leadid` int(19) DEFAULT '0',
   `timecontrol_type` varchar(255) DEFAULT NULL,
-  `requirementcardsid` int(19) DEFAULT NULL,
   `quotesenquiresid` int(19) DEFAULT NULL,
   PRIMARY KEY (`osstimecontrolid`),
   KEY `osstimecontrol_status` (`osstimecontrol_status`,`ticketid`),
@@ -5438,7 +5437,6 @@ CREATE TABLE `vtiger_osstimecontrol` (
   KEY `quoteid` (`quoteid`),
   KEY `potentialid` (`potentialid`),
   KEY `osstimecontrol_status_9` (`osstimecontrol_status`,`deleted`),
-  KEY `requirementcardsid` (`requirementcardsid`),
   KEY `quotesenquiresid` (`quotesenquiresid`),
   CONSTRAINT `vtiger_osstimecontrol` FOREIGN KEY (`osstimecontrolid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -6418,12 +6416,10 @@ CREATE TABLE `vtiger_quotes` (
   `total_margin` decimal(13,2) DEFAULT NULL,
   `total_marginp` decimal(13,2) DEFAULT NULL,
   `form_payment` varchar(255) DEFAULT '',
-  `requirementcards_id` int(19) DEFAULT NULL,
   PRIMARY KEY (`quoteid`),
   KEY `quote_quotestage_idx` (`quotestage`),
   KEY `quotes_potentialid_idx` (`potentialid`),
   KEY `accountid` (`accountid`),
-  KEY `requirementcards_id` (`requirementcards_id`),
   CONSTRAINT `vtiger_quotes_ibfk_1` FOREIGN KEY (`quoteid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6842,84 +6838,6 @@ CREATE TABLE `vtiger_reporttype` (
   `reportid` int(10) NOT NULL,
   `data` text,
   PRIMARY KEY (`reportid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_requirementcards` */
-
-CREATE TABLE `vtiger_requirementcards` (
-  `requirementcardsid` int(19) NOT NULL DEFAULT '0',
-  `requirementcards_no` varchar(255) DEFAULT NULL,
-  `subject` varchar(255) DEFAULT NULL,
-  `potentialid` int(19) DEFAULT NULL,
-  `requirementcards_status` varchar(255) DEFAULT '',
-  `quotesenquiresid` int(19) DEFAULT NULL,
-  `accountid` int(19) DEFAULT NULL,
-  `requirementcards_cons` text,
-  `requirementcards_pros` text,
-  PRIMARY KEY (`requirementcardsid`),
-  KEY `potentialid` (`potentialid`),
-  KEY `quotesenquiresid` (`quotesenquiresid`),
-  KEY `accountid` (`accountid`),
-  CONSTRAINT `fk_1_vtiger_requirementcards` FOREIGN KEY (`requirementcardsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_requirementcards_cons` */
-
-CREATE TABLE `vtiger_requirementcards_cons` (
-  `requirementcards_consid` int(11) NOT NULL AUTO_INCREMENT,
-  `requirementcards_cons` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`requirementcards_consid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_requirementcards_cons_seq` */
-
-CREATE TABLE `vtiger_requirementcards_cons_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_requirementcards_pros` */
-
-CREATE TABLE `vtiger_requirementcards_pros` (
-  `requirementcards_prosid` int(11) NOT NULL AUTO_INCREMENT,
-  `requirementcards_pros` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`requirementcards_prosid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_requirementcards_pros_seq` */
-
-CREATE TABLE `vtiger_requirementcards_pros_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_requirementcards_status` */
-
-CREATE TABLE `vtiger_requirementcards_status` (
-  `requirementcards_statusid` int(11) NOT NULL AUTO_INCREMENT,
-  `requirementcards_status` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`requirementcards_statusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_requirementcards_status_seq` */
-
-CREATE TABLE `vtiger_requirementcards_status_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_requirementcardscf` */
-
-CREATE TABLE `vtiger_requirementcardscf` (
-  `requirementcardsid` int(19) NOT NULL,
-  PRIMARY KEY (`requirementcardsid`),
-  CONSTRAINT `fk_1_vtiger_requirementcardscf` FOREIGN KEY (`requirementcardsid`) REFERENCES `vtiger_requirementcards` (`requirementcardsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_reservations` */

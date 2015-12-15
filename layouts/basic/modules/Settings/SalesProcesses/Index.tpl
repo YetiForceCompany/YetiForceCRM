@@ -102,8 +102,8 @@
 					<label class='control-label'>{vtranslate('LBL_STATUSES_CLOSED_SREQUIREMENTSCARD', $QUALIFIED_MODULE)}</label>
 					<div class="">
 						<select class="selectize configField" multiple data-type="srequirementscard" name="statuses_close"  placeholder='{vtranslate('LBL_SELECT_SOME_OPTIONS')}'>
-							{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('requirementcards_status')}
-								<option value="{$ITEM}" {if in_array($ITEM, $SREQUIREMENTSCARD['statuses_close'])} selected {/if}>{vtranslate($ITEM,'RequirementCards')}</option>
+							{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('srequirementscards_status')}
+								<option value="{$ITEM}" {if in_array($ITEM, $SREQUIREMENTSCARD['statuses_close'])} selected {/if}>{vtranslate($ITEM,'SRequirementsCards')}</option>
 							{/foreach}
 						</select>
 					</div>

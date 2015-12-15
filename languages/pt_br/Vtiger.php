@@ -57,7 +57,6 @@ $languageStrings = [
 	'Signed in' => 'Assinado em',
 	'Events' => 'Eventos',
 	'OSSPdf' => 'Lista de Modelos PDF',
-	'RequirementCards' => 'Cartões de Requisitos',
 	'QuotesEnquires' => 'Dados base Cotação',
 	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Pesquisar em Subcategorias',
 	'Comments' => 'Comentários',

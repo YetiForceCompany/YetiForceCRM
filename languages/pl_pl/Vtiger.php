@@ -702,7 +702,6 @@ $languageStrings = [
 	'Created By' => 'Utworzył',
 	'Parent ID' => 'Powiązany z',
 	'Comments' => 'Komentarze',
-	'RequirementCards' => 'Karty wymagań',
 	'QuotesEnquires' => 'Zapytania ofertowe',
 	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Przeszukaj gałęzie',
 	'LBL_SELECT_SINGLE_ROW' => 'Zaznacz pojedyńczy wiersz',

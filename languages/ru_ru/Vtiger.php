@@ -92,7 +92,6 @@ $languageStrings = [
 	'Signed off' => 'Выход',
 	'Signed in' => 'Вход',
 	'OSSPdf' => 'Список шаблонов PDF',
-	'RequirementCards' => 'Бланк Заявки',
 	'QuotesEnquires' => 'Запрос Предложения',
 	'LBL_SHARING_FOR' => 'Модуль',
 	'LBL_NO_RECORDS_IN_WIDGET' => 'Нет данных для отображения',
