@@ -317,13 +317,16 @@ class Vtiger_Field extends Vtiger_FieldBasic
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT fieldid FROM `vtiger_fieldmodulerel` WHERE relmodule =?';
+		$query = 'SELECT fieldid FROM `vtiger_fieldmodulerel` WHERE relmodule = ?';
 		$result = $db->pquery($query, [$moduleInstance->name]);
 		while ($fieldId = $db->getSingleValue($result)) {
-			$field = Vtiger_Field::getInstance($fieldId);
-			$field->delete();
+			$query = 'SELECT COUNT(1) FROM `vtiger_fieldmodulerel` WHERE fieldid = ?';
+			$resultQuery = $db->pquery($query, [$fieldId]);
+			if ((int) $db->getSingleValue($resultQuery) == 1) {
+				$field = Vtiger_Field::getInstance($fieldId);
+				$field->delete();
+			}
 		}
-
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}
 
@@ -333,10 +336,20 @@ class Vtiger_Field extends Vtiger_FieldBasic
 	 */
 	static function deletePickLists($moduleInstance)
 	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$db = PearDatabase::getInstance();
-		$query = "SELECT columnname FROM `vtiger_field` WHERE `tablename` = '" . $moduleInstance->tableName . "' AND  uitype IN (15, 16, 33)";
+		$query = "SELECT `fieldname` FROM `vtiger_field` WHERE `tabid` = '" . $moduleInstance->getId() . "' AND  uitype IN (15, 16, 33)";
 		$result = $db->query($query);
-		while ($picklistName = $db->getSingleValue($result)) {
+		$modulePicklists = $db->getArrayColumn($result,'fieldname');
+		if (!empty($modulePicklists)) {
+			$params = $modulePicklists;
+			$query = "SELECT `fieldname` FROM `vtiger_field` WHERE `fieldname` IN (" . $db->generateQuestionMarks($modulePicklists) . ") AND `tabid` <> ? AND uitype IN (?, ?, ?)";
+			array_push($params, $moduleInstance->getId(), 15, 16, 33);
+			$result = $db->pquery($query, $params);
+			$picklists = $db->getArrayColumn($result,'fieldname');
+			$modulePicklists = array_diff($modulePicklists, $picklists);
+		}
+		foreach ($modulePicklists as $picklistName) {
 			$db->query('DROP TABLE IF EXISTS vtiger_' . $picklistName . '');
 			$db->query('DROP TABLE IF EXISTS vtiger_' . $picklistName . '_seq');
 			$query = $db->query("SELECT picklistid from vtiger_picklist WHERE name = '$picklistName'");
@@ -344,6 +357,6 @@ class Vtiger_Field extends Vtiger_FieldBasic
 			$db->query("DELETE FROM vtiger_role2picklist WHERE picklistid = '$picklistId'");
 			$db->query("DELETE FROM vtiger_picklist WHERE name = '$picklistName'");
 		}
-	
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}
 }

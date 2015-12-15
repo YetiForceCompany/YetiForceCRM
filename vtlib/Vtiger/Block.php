@@ -242,13 +242,13 @@ class Vtiger_Block
 		$adb = PearDatabase::getInstance();
 		if ($recursive)
 			Vtiger_Field::deleteForModule($moduleInstance);
-		$adb->delete('vtiger_module_dashboard_blocks', 'tabid = ?', [$moduleInstance->tabId]);
+		$adb->delete('vtiger_module_dashboard_blocks', 'tabid = ?', [$moduleInstance->getId()]);
 		$adb->pquery('DELETE vtiger_blocks, vtiger_blocks_hide'
 			. ' FROM vtiger_blocks'
 			. ' INNER JOIN `vtiger_blocks_hide`'
 			. ' ON vtiger_blocks.`blockid` = vtiger_blocks_hide.`blockid`'
-			. '  WHERE vtiger_blocks.`tabid` =?', [$moduleInstance->id]);
-		$adb->delete('vtiger_blocks', 'tabid=?', [$moduleInstance->id]);
+			. '  WHERE vtiger_blocks.`tabid` =?', [$moduleInstance->getId()]);
+		$adb->delete('vtiger_blocks', 'tabid=?', [$moduleInstance->getId()]);
 		self::log("Deleting blocks for module ... DONE");
 	}
 }
