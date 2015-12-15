@@ -119,18 +119,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get Url to Create a new SalesOrder from this record
-	 * @return <String> Url to Create new SalesOrder
-	 */
-	function getCreateSalesOrderUrl()
-	{
-		$salesOrderModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
-
-		return 'index.php?module=' . $salesOrderModuleModel->getName() . '&view=' . $salesOrderModuleModel->getEditViewName() . '&product_id=' . $this->getId() .
-			'&sourceModule=' . $this->getModuleName() . '&sourceRecord=' . $this->getId() . '&relationOperation=true';
-	}
-
-	/**
 	 * Function get details of taxes for this record
 	 * Function calls from Edit/Create view of Inventory Records
 	 * @param <Object> $focus

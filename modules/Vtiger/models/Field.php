@@ -923,7 +923,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$funcName = array('name' => 'ReferenceField');
 				array_push($validator, $funcName);
 				break;
-			//SalesOrder field sepecial validators
+			//SRecurringOrders field sepecial validators
 			case 'end_period' : $funcName1 = array('name' => 'greaterThanDependentField',
 					'params' => array('start_period'));
 				array_push($validator, $funcName1);

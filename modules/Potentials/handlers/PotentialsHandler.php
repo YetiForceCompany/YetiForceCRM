@@ -13,9 +13,6 @@ class PotentialsHandler extends VTEventHandler {
 		if ($moduleName == 'Quotes') {
 			Potentials_Record_Model::recalculatePotentials( $entityData->get('potential_id') );
 		}
-		if ($moduleName == 'SalesOrder') {
-			Potentials_Record_Model::recalculatePotentials( $entityData->get('potential_id') );
-		}
 		if ($moduleName == 'Invoice') {
 			Potentials_Record_Model::recalculatePotentials( $entityData->get('potentialid') );
 		}

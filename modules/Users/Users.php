@@ -75,7 +75,7 @@ class Users extends CRMEntity
 	var $module_name = "Users";
 	var $object_name = "User";
 	var $user_preferences;
-	var $homeorder_array = array('HDB', 'ALVT', 'PLVT', 'QLTQ', 'CVLVT', 'HLT', 'GRT', 'OLTSO', 'ILTI', 'MNL', 'OLTPO', 'LTFAQ', 'UA', 'PA');
+	var $homeorder_array = array('HDB', 'ALVT', 'PLVT', 'QLTQ', 'CVLVT', 'HLT', 'GRT', 'ILTI', 'MNL', 'OLTPO', 'LTFAQ', 'UA', 'PA');
 	var $encodeFields = Array("first_name", "last_name", "description");
 	// This is used to retrieve related fields from form posts.
 	var $additional_column_fields = Array('reports_to_name');
@@ -1214,7 +1214,7 @@ class Users extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		if (!is_array($this->homeorder_array)) {
 			$this->homeorder_array = array('UA', 'PA', 'ALVT', 'HDB', 'PLVT', 'QLTQ', 'CVLVT', 'HLT',
-				'GRT', 'OLTSO', 'ILTI', 'MNL', 'OLTPO', 'LTFAQ');
+				'GRT', 'ILTI', 'MNL', 'OLTPO', 'LTFAQ');
 		}
 		$return_array = Array();
 		$homeorder = Array();
@@ -1300,11 +1300,6 @@ class Users extends CRMEntity
 		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
 		$res = $adb->pquery($sql, array($s8, 8, 'Default', $uid, $visibility, 'My Group Allocation'));
 
-		$s9 = $adb->getUniqueID("vtiger_homestuff");
-		$visibility = $this->getDefaultHomeModuleVisibility('OLTSO', $inVal);
-		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
-		$res = $adb->pquery($sql, array($s9, 9, 'Default', $uid, $visibility, 'Top Sales Orders'));
-
 		$s10 = $adb->getUniqueID("vtiger_homestuff");
 		$visibility = $this->getDefaultHomeModuleVisibility('ILTI', $inVal);
 		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
@@ -1359,9 +1354,6 @@ class Users extends CRMEntity
 		$adb->pquery($sql, array());
 
 		$sql = "insert into vtiger_homedefault values(" . $s8 . ",'GRT',5,'NULL')";
-		$adb->pquery($sql, array());
-
-		$sql = "insert into vtiger_homedefault values(" . $s9 . ",'OLTSO',5,'SalesOrder')";
 		$adb->pquery($sql, array());
 
 		$sql = "insert into vtiger_homedefault values(" . $s10 . ",'ILTI',5,'Invoice')";

@@ -925,13 +925,7 @@ class Vtiger_Functions
 			//Purchase Order Related Fields
 			"vtiger_purchaseorder:vendorid" => "V",
 			"vtiger_purchaseorder:contactid" => "V",
-			//SalesOrder Related Fields
-			"vtiger_salesorder:potentialid" => "V",
-			"vtiger_salesorder:quoteid" => "V",
-			"vtiger_salesorder:contactid" => "V",
-			"vtiger_salesorder:accountid" => "V",
 			//Invoice Related Fields
-			"vtiger_invoice:salesorderid" => "V",
 			"vtiger_invoice:contactid" => "V",
 			"vtiger_invoice:accountid" => "V",
 			//Campaign Related Fields

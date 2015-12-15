@@ -20,7 +20,6 @@ class Inventory_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isQuickCreateSupported()
 	{
-		//SalesOrder module is not enabled for quick create
 		return false;
 	}
 

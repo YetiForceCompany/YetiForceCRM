@@ -68,7 +68,6 @@ function Popup($request) {
             '68' => 'Accounts;Contacts',
             '59' => 'Products',
             '75' => 'Vendors',
-            '80' => 'SalesOrder',
             '76' => 'Potentials',
             '73' => 'Accounts',
             '81' => 'Vendors',

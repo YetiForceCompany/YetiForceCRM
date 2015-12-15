@@ -34,7 +34,6 @@ require_once 'modules/PickList/PickListUtils.php';
 require_once('modules/Invoice/Invoice.php');
 require_once('modules/Quotes/Quotes.php');
 require_once('modules/PurchaseOrder/PurchaseOrder.php');
-require_once('modules/SalesOrder/SalesOrder.php');
 
 // Set the current language and the language strings, if not already set.
 setCurrentLanguage();
@@ -165,9 +164,6 @@ function export($type)
 			array_push($params, $idstring);
 		} elseif ($type == 'Quotes' && count($idstring) > 0) {
 			$query .= ' and vtiger_quotes.quoteid in (' . generateQuestionMarks($idstring) . ')';
-			array_push($params, $idstring);
-		} elseif ($type == 'SalesOrder' && count($idstring) > 0) {
-			$query .= ' and vtiger_salesorder.salesorderid in (' . generateQuestionMarks($idstring) . ')';
 			array_push($params, $idstring);
 		} elseif ($type == 'PurchaseOrder' && count($idstring) > 0) {
 			$query .= ' and vtiger_purchaseorder.purchaseorderid in (' . generateQuestionMarks($idstring) . ')';

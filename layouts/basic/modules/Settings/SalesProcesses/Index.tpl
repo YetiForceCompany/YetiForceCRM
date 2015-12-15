@@ -10,7 +10,7 @@
 		<li><a href="#rc" data-toggle="tab">{vtranslate('LBL_SREQUIREMENTSCARD', $QUALIFIED_MODULE)} </a></li>
 		<li><a href="#calculations" data-toggle="tab">{vtranslate('LBL_SCALCULATIONS', $QUALIFIED_MODULE)} </a></li>
 		<li><a href="#quotes" data-toggle="tab">{vtranslate('LBL_SQUOTES', $QUALIFIED_MODULE)} </a></li>
-		<li><a href="#so" data-toggle="tab">{vtranslate('LBL_SSALESORDER', $QUALIFIED_MODULE)} </a></li>
+{*		<li><a href="#so" data-toggle="tab">{vtranslate('LBL_SSALESORDER', $QUALIFIED_MODULE)} </a></li>*}
 		<li><a href="#Assets" data-toggle="tab">{vtranslate('LBL_ASSETS', $QUALIFIED_MODULE)} </a></li>
 		<li><a href="#popup" data-toggle="tab">{vtranslate('LBL_PRODUCTS_AND_SERVICES_POPUP', $QUALIFIED_MODULE)} </a></li>
 	</ul>
@@ -125,7 +125,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="tab-pane" id="so">
+		{*<div class="tab-pane" id="so">
 			{assign var=SSALESORDER value=$CONFIG['ssalesorder']}
 			<div class="form-horizonta">
 				<div class="form-group col-md-5">
@@ -139,7 +139,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>*}
 	</div>
 </div>
 {/strip}

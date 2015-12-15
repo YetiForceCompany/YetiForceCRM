@@ -146,7 +146,7 @@ function TakeContent(&$pdf, $module, $id, $site_URL) {
     require_once "modules/OSSPdf/Print.php";
     ### Zmienne
 
-    $modulelist = array('Quotes', 'PurchaseOrder', 'SalesOrder', 'Invoice');
+    $modulelist = array('Quotes', 'PurchaseOrder', 'Invoice');
     $focus = new $module();
     $template = $_REQUEST['template_to_perfom'];
     ### pobranie danych danego modułu
@@ -395,7 +395,7 @@ function zipFilesAndDownload($file_names, $archive_file_name, $file_path, $zipna
 
 function GeneratePDF($module, &$pdf, $pdf_orientation) {
     global $adb, $list_max_entries_per_page;
-    $product_module_list = Array('SalesOrder', 'Quotes', 'PurchaseOrder', 'Invoice');
+    $product_module_list = Array('Quotes', 'PurchaseOrder', 'Invoice');
 
     $idlist = trim($_REQUEST['idstring'], ';');
     $idlist = explode(';', $idlist);

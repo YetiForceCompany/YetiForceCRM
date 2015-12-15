@@ -154,7 +154,6 @@ function addInventoryHistory($module, $id, $relatedname, $total, $history_fldval
 
 	$history_table_array = Array(
 		"PurchaseOrder" => "vtiger_postatushistory",
-		"SalesOrder" => "vtiger_sostatushistory",
 		"Quotes" => "vtiger_quotestagehistory",
 		"Invoice" => "vtiger_invoicestatushistory"
 	);
@@ -450,13 +449,6 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock = 'fal
 		if ($module == 'PurchaseOrder' && $update_prod_stock == 'true') {
 			addToProductStock($prod_id, $qty);
 		}
-		if ($module == 'SalesOrder') {
-			if ($updateDemand == '-') {
-				deductFromProductDemand($prod_id, $qty);
-			} elseif ($updateDemand == '+') {
-				addToProductDemand($prod_id, $qty);
-			}
-		}
 
 		$query = "insert into vtiger_inventoryproductrel(id, productid, sequence_no, quantity, listprice, comment, description, purchase, margin, marginp) values(?,?,?,?,?,?,?,?,?,?)";
 		$qparams = array($focus->id, $prod_id, $prod_seq, $qty, $listprice, $comment, $description, $purchase, $margin, $marginp);
@@ -570,7 +562,6 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock = 'fal
 	$updatequery .= " total=?";
 	array_push($updateparams, $total);
 
-	//$id_array = Array('PurchaseOrder'=>'purchaseorderid','SalesOrder'=>'salesorderid','Quotes'=>'quoteid','Invoice'=>'invoiceid');
 	//Added where condition to which entity we want to update these values
 	$updatequery .= " where " . $focus->table_index . "=?";
 	array_push($updateparams, $focus->id);
@@ -591,8 +582,8 @@ function getInventoryTaxType($module, $id)
 
 	$log->debug("Entering into function getInventoryTaxType($module, $id).");
 
-	$inv_table_array = Array('PurchaseOrder' => 'vtiger_purchaseorder', 'SalesOrder' => 'vtiger_salesorder', 'Quotes' => 'vtiger_quotes', 'Invoice' => 'vtiger_invoice');
-	$inv_id_array = Array('PurchaseOrder' => 'purchaseorderid', 'SalesOrder' => 'salesorderid', 'Quotes' => 'quoteid', 'Invoice' => 'invoiceid');
+	$inv_table_array = Array('PurchaseOrder' => 'vtiger_purchaseorder', 'Quotes' => 'vtiger_quotes', 'Invoice' => 'vtiger_invoice');
+	$inv_id_array = Array('PurchaseOrder' => 'purchaseorderid', 'Quotes' => 'quoteid', 'Invoice' => 'invoiceid');
 	if (!array_key_exists($module, $inv_table_array))
 		return '';
 

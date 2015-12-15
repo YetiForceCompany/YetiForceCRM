@@ -25,55 +25,6 @@ require_once('include/ComboUtil.php'); //new
 require_once('include/utils/CommonUtils.php'); //new
 require_once 'modules/PickList/DependentPickListUtils.php';
 
-/** This function returns the vtiger_invoice object populated with the details from sales order object.
- * Param $focus - Invoice object
- * Param $so_focus - Sales order focus
- * Param $soid - sales order id
- * Return type is an object array
- */
-function getConvertSoToInvoice($focus, $so_focus, $soid)
-{
-	$log = vglobal('log');
-	$current_user = vglobal('current_user');
-	$log->debug("Entering getConvertSoToInvoice(" . get_class($focus) . "," . get_class($so_focus) . "," . $soid . ") method ...");
-	$log->info("in getConvertSoToInvoice " . $soid);
-	$xyz = array('bill_street', 'bill_city', 'bill_code', 'bill_pobox', 'bill_country', 'bill_state', 'ship_street', 'ship_city', 'ship_code', 'ship_pobox', 'ship_country', 'ship_state');
-	for ($i = 0; $i < count($xyz); $i++) {
-		if (getFieldVisibilityPermission('SalesOrder', $current_user->id, $xyz[$i]) == '0') {
-			$so_focus->column_fields[$xyz[$i]] = $so_focus->column_fields[$xyz[$i]];
-		} else
-			$so_focus->column_fields[$xyz[$i]] = '';
-	}
-	$focus->column_fields['salesorder_id'] = $soid;
-	$focus->column_fields['subject'] = $so_focus->column_fields['subject'];
-	$focus->column_fields['customerno'] = $so_focus->column_fields['customerno'];
-	$focus->column_fields['duedate'] = $so_focus->column_fields['duedate'];
-	$focus->column_fields['contact_id'] = $so_focus->column_fields['contact_id']; //to include contact name in Invoice
-	$focus->column_fields['account_id'] = $so_focus->column_fields['account_id'];
-	$focus->column_fields['exciseduty'] = $so_focus->column_fields['exciseduty'];
-	$focus->column_fields['salescommission'] = $so_focus->column_fields['salescommission'];
-	$focus->column_fields['purchaseorder'] = $so_focus->column_fields['purchaseorder'];
-	$focus->column_fields['bill_street'] = $so_focus->column_fields['bill_street'];
-	$focus->column_fields['ship_street'] = $so_focus->column_fields['ship_street'];
-	$focus->column_fields['bill_city'] = $so_focus->column_fields['bill_city'];
-	$focus->column_fields['ship_city'] = $so_focus->column_fields['ship_city'];
-	$focus->column_fields['bill_state'] = $so_focus->column_fields['bill_state'];
-	$focus->column_fields['ship_state'] = $so_focus->column_fields['ship_state'];
-	$focus->column_fields['bill_code'] = $so_focus->column_fields['bill_code'];
-	$focus->column_fields['ship_code'] = $so_focus->column_fields['ship_code'];
-	$focus->column_fields['bill_country'] = $so_focus->column_fields['bill_country'];
-	$focus->column_fields['ship_country'] = $so_focus->column_fields['ship_country'];
-	$focus->column_fields['bill_pobox'] = $so_focus->column_fields['bill_pobox'];
-	$focus->column_fields['ship_pobox'] = $so_focus->column_fields['ship_pobox'];
-	$focus->column_fields['description'] = $so_focus->column_fields['description'];
-	$focus->column_fields['terms_conditions'] = $so_focus->column_fields['terms_conditions'];
-	$focus->column_fields['currency_id'] = $so_focus->column_fields['currency_id'];
-	$focus->column_fields['conversion_rate'] = $so_focus->column_fields['conversion_rate'];
-
-	$log->debug("Exiting getConvertSoToInvoice method ...");
-	return $focus;
-}
-
 /** This function returns the detailed list of vtiger_products associated to a given entity or a record.
  * Param $module - module name
  * Param $focus - module object
@@ -96,7 +47,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 	// DG 15 Aug 2006
 	// Add "ORDER BY sequence_no" to retain add order on all inventoryproductrel items
 
-	if ($module == 'Quotes' || $module == 'PurchaseOrder' || $module == 'SalesOrder' || $module == 'Invoice') {
+	if ($module == 'Quotes' || $module == 'PurchaseOrder' || $module == 'Invoice') {
 		$query = "SELECT
 					case when vtiger_products.productid != '' then vtiger_products.productname else vtiger_service.servicename end as productname,
  		            case when vtiger_products.productid != '' then vtiger_products.product_no else vtiger_service.service_no end as productcode,
@@ -182,7 +133,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		$unitprice = $adb->query_result($result, $i - 1, 'unit_price');
 		$listprice = $adb->query_result($result, $i - 1, 'listprice');
 		$entitytype = $adb->query_result($result, $i - 1, 'entitytype');
-		if (($module == 'Quotes' || $module == 'PurchaseOrder' || $module == 'SalesOrder' || $module == 'Invoice') && $entitytype == 'Services') {
+		if (($module == 'Quotes' || $module == 'PurchaseOrder' || $module == 'Invoice') && $entitytype == 'Services') {
 			$usageunit = vtranslate($adb->query_result($result, $i - 1, 'service_usageunit'), $entitytype);
 		} else {
 			$usageunit = vtranslate($adb->query_result($result, $i - 1, 'usageunit'), $entitytype);

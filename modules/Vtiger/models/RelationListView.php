@@ -540,7 +540,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 			$result = $db->pquery($query, array($recordId));
 			return $db->query_result($result, 0, 'currency_symbol');
-		} else if (($tableName == 'vtiger_invoice' || $tableName == 'vtiger_quotes' || $tableName == 'vtiger_purchaseorder' || $tableName == 'vtiger_salesorder') &&
+		} else if (($tableName == 'vtiger_invoice' || $tableName == 'vtiger_quotes' || $tableName == 'vtiger_purchaseorder') &&
 			($columnName == 'total' || $columnName == 'subtotal' || $columnName == 'discount_amount' || $columnName == 'paid' ||
 			$columnName == 'balance' || $columnName == 'received' || $columnName == 'listprice' || $columnName == 'pre_tax_total')) {
 			$focus = CRMEntity::getInstance($moduleName);

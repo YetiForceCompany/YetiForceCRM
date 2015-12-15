@@ -116,43 +116,6 @@ class Quotes extends CRMEntity
 		$tot_no_prod = $_REQUEST['totalProductCount'];
 	}
 
-	/** 	function used to get the list of sales orders which are related to the Quotes
-	 * 	@param int $id - quote id
-	 * 	@return array - return an array which will be returned from the function GetRelatedList
-	 */
-	function get_salesorder($id)
-	{
-		global $log, $singlepane_view;
-		$log->debug("Entering get_salesorder(" . $id . ") method ...");
-		require_once('modules/SalesOrder/SalesOrder.php');
-		$focus = new SalesOrder();
-
-		$button = '';
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=Quotes&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=Quotes&return_action=CallRelatedList&return_id=' . $id;
-
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "select vtiger_crmentity.*, vtiger_salesorder.*, vtiger_quotes.subject as quotename
-			, vtiger_account.accountname,case when (vtiger_users.user_name not like '') then
-			$userNameSql else vtiger_groups.groupname end as user_name
-		from vtiger_salesorder
-		inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_salesorder.salesorderid
-		left outer join vtiger_quotes on vtiger_quotes.quoteid=vtiger_salesorder.quoteid
-		left outer join vtiger_account on vtiger_account.accountid=vtiger_salesorder.accountid
-		left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-        LEFT JOIN vtiger_salesordercf ON vtiger_salesordercf.salesorderid = vtiger_salesorder.salesorderid
-        LEFT JOIN vtiger_invoice_recurring_info ON vtiger_invoice_recurring_info.start_period = vtiger_salesorder.salesorderid
-		LEFT JOIN vtiger_salesorderaddress ON vtiger_salesorderaddress.salesorderaddressid = vtiger_salesorder.salesorderid
-		left join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid
-		where vtiger_crmentity.deleted=0 and vtiger_salesorder.quoteid = " . $id;
-		$log->debug("Exiting get_salesorder method ...");
-		return GetRelatedList('Quotes', 'SalesOrder', $focus, $query, $button, $returnset);
-	}
-
 	/** 	Function used to get the Quote Stage history of the Quotes
 	 * 	@param $id - quote id
 	 * 	@return $return_data - array with header and the entries in format Array('header'=>$header,'entries'=>$entries_list) where as $header and $entries_list are arrays which contains header values and all column values of all entries
@@ -304,7 +267,6 @@ class Quotes extends CRMEntity
 	function setRelationTables($secmodule)
 	{
 		$rel_tables = array(
-			"SalesOrder" => array("vtiger_salesorder" => array("quoteid", "salesorderid"), "vtiger_quotes" => "quoteid"),
 			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"), "vtiger_quotes" => "quoteid"),
 			"Accounts" => array("vtiger_quotes" => array("quoteid", "accountid")),
 			"Contacts" => array("vtiger_quotes" => array("quoteid", "contactid")),
