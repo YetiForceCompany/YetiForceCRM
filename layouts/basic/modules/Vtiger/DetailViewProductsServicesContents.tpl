@@ -29,6 +29,13 @@
 				<div class="widget_contents">
 				</div>
 			</div>
+			<div class="widgetContainer_productsCategory" data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Products&mode=showRelatedTree" data-name="LBL_RELATED_PRODUCTS">
+				<div class="widget_header row">
+					<input type="hidden" name="relatedModule" value="Products" />
+				</div>
+				<div class="widget_contents">
+				</div>
+			</div>
 		</div>
 	{/if}
 	{* Summary View OutsourcedProducts Widget*}

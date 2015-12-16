@@ -11,8 +11,9 @@ class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
 
 	private $src_module;
 	private $src_record;
-	private $moduleName;
+	public $moduleName;
 	private $template;
+	private $fieldTemp = false;
 	private $lastIdinTree;
 
 	public function checkPermission(Vtiger_Request $request)
@@ -60,11 +61,25 @@ class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
 		$this->postProcess($request);
 	}
 
-	private function getTemplate()
+	/**
+	 * Load tree field info
+	 * @return array
+	 */
+	public function getTreeField()
 	{
+		if($this->fieldTemp){
+			return $this->fieldTemp;
+		}
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, Vtiger_Functions::getModuleId($this->moduleName)]);
-		return $db->getSingleValue($result);
+		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldlabel,fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, Vtiger_Functions::getModuleId($this->moduleName)]);
+		$this->fieldTemp = $db->getRow($result);
+		return $this->fieldTemp;
+	}
+	
+	public function getTemplate()
+	{
+		$field = $this->getTreeField();
+		return $field['fieldparams'];
 	}
 
 	private function getCategory()
