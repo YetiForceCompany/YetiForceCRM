@@ -800,7 +800,9 @@ CREATE TABLE `u_yf_crmentity_rel_tree` (
   `crmid` int(11) NOT NULL,
   `module` int(11) NOT NULL,
   `tree` varchar(50) NOT NULL,
-  `relmodule` int(11) NOT NULL
+  `relmodule` int(11) NOT NULL,
+  `user` int(11) NOT NULL,
+  `createdtime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_crmentity_showners` */
