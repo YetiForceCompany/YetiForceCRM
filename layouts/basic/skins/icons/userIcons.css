@@ -182,6 +182,7 @@
 .userIcon-Documents:before {
 	content: "\e861";
 }
+// TODO remove
 .userIcon-OSSPdf:before {
 	content: "\e862";
 }

@@ -56,7 +56,6 @@ $languageStrings = [
 	'Signed off' => 'Abgemeldet',
 	'Signed in' => 'Angemeldet',
 	'Events' => 'Ereignisse',
-	'OSSPdf' => 'PDF-Vorlagen-Liste',
 	'OSSPasswords' => 'Passwörter',
 	'Comments' => 'Kommentare',
 	'VTE_CHANGELOG' => 'Historie',
