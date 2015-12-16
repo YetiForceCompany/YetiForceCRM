@@ -589,7 +589,11 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	public function getTreeHeaders()
 	{
 		$fields = $this->getTreeViewModel()->getTreeField();
-		return ['name' => $fields['fieldlabel']];
+		return [
+			'name' => $fields['fieldlabel'],
+			'user' => 'LBL_USER',
+			'createdtime' => 'Created Time'
+		];
 	}
 
 	public function getTreeEntries()
@@ -602,7 +606,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$fields = $treeViewModel->getTreeField();
 		$template = $treeViewModel->getTemplate();
 
-		$result = $db->pquery('SELECT tr.*,rel.crmid  FROM vtiger_trees_templates_data tr '
+		$result = $db->pquery('SELECT tr.*,rel.crmid,rel.user,rel.createdtime  FROM vtiger_trees_templates_data tr '
 			. 'INNER JOIN u_yf_crmentity_rel_tree rel ON rel.tree = tr.tree '
 			. 'WHERE tr.templateid = ? AND rel.crmid = ? AND rel.relmodule = ?', [$template, $recordId, $relModuleId]);
 		$trees = [];
@@ -621,6 +625,8 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				'id' => $treeID,
 				'name' => $parentName . vtranslate($row['name'], $relModuleName),
 				'parent' => $parent == 0 ? '#' : $parent,
+				'user' => getOwnerName($row['user']),
+				'createdtime' => Vtiger_Datetime_UIType::getDisplayDateTimeValue($row['createdtime'])
 			];
 			if (!empty($row['icon'])) {
 				$tree['icon'] = $row['icon'];

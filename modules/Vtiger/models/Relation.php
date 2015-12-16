@@ -158,12 +158,15 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	public function addRelTree($crmid, $tree)
 	{
 		$sourceModule = $this->getParentModuleModel();
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
 		$db->insert('u_yf_crmentity_rel_tree', [
 			'crmid' => $crmid,
 			'tree' => $tree,
 			'module' => $sourceModule->getId(),
-			'relmodule' => $this->getRelationModuleModel()->getId()
+			'relmodule' => $this->getRelationModuleModel()->getId(),
+			'user' => $currentUserModel->getId(),
+			'createdtime' => date('Y-m-d H:i:s')
 		]);
 	}
 
