@@ -5,10 +5,11 @@
 				<ul class="nav nav-pills">
 					{foreach item=RELATED_LINK from=$DETAILVIEW_LINKS['DETAILVIEWTAB']}
 						<li class="mainNav{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL} active{/if}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-link-key="{$RELATED_LINK->get('linkKey')}"  data-reference="{$RELATED_LINK->get('related')}" {if $RELATED_LINK->get('countRelated')}data-count="{vglobal('showRecordsCount')}{/if}">
-							<a href="javascript:void(0);" class="textOverflowEllipsis" style="width:auto" title="{vtranslate($RELATED_LINK->getLabel(),{$MODULE_NAME})}"><strong>{vtranslate($RELATED_LINK->getLabel(),{$MODULE_NAME})}</strong>
-							{if $RELATED_LINK->get('countRelated') && vglobal('showRecordsCount')}
-								<span class="count badge pull-right">-</span>
-							{/if}
+							<a href="javascript:void(0);" class="textOverflowEllipsis" style="width:auto" title="{vtranslate($RELATED_LINK->getLabel(),{$MODULE_NAME})}">
+								<strong class="pull-left">{vtranslate($RELATED_LINK->getLabel(),{$MODULE_NAME})}</strong>
+								{if $RELATED_LINK->get('countRelated') && vglobal('showRecordsCount')}
+									<span class="count badge pull-right">-</span>
+								{/if}
 							</a>
 						</li>
 					{/foreach}
