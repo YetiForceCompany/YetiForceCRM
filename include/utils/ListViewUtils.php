@@ -299,36 +299,6 @@ function getListQuery($module, $where = '')
 				ON vtiger_pricebook.currency_id = vtiger_currency_info.id
 			WHERE vtiger_crmentity.deleted = 0 " . $where;
 			break;
-		Case "Quotes":
-			//Query modified to sort by assigned to
-			$query = "SELECT vtiger_crmentity.*,
-			vtiger_quotes.*,
-			vtiger_quotesaddress.*,
-			vtiger_potential.potentialname,
-			vtiger_account.accountname,
-			vtiger_currency_info.currency_name
-			FROM vtiger_quotes
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid = vtiger_quotes.quoteid
-			INNER JOIN vtiger_quotesaddress
-				ON vtiger_quotes.quoteid = vtiger_quotesaddress.quoteaddressid
-			LEFT JOIN vtiger_quotescf
-				ON vtiger_quotes.quoteid = vtiger_quotescf.quoteid
-			LEFT JOIN vtiger_currency_info
-				ON vtiger_quotes.currency_id = vtiger_currency_info.id
-			LEFT OUTER JOIN vtiger_account
-				ON vtiger_account.accountid = vtiger_quotes.accountid
-			LEFT OUTER JOIN vtiger_potential
-				ON vtiger_potential.potentialid = vtiger_quotes.potentialid
-			LEFT JOIN vtiger_groups
-				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_users as vtiger_usersQuotes
-			        ON vtiger_usersQuotes.id = vtiger_quotes.inventorymanager";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
-			break;
 		Case "PurchaseOrder":
 			//Query modified to sort by assigned to
 			$query = "SELECT vtiger_crmentity.*,

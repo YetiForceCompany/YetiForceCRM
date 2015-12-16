@@ -75,7 +75,7 @@ class Users extends CRMEntity
 	var $module_name = "Users";
 	var $object_name = "User";
 	var $user_preferences;
-	var $homeorder_array = array('HDB', 'ALVT', 'PLVT', 'QLTQ', 'CVLVT', 'HLT', 'GRT', 'ILTI', 'MNL', 'OLTPO', 'LTFAQ', 'UA', 'PA');
+	var $homeorder_array = array('HDB', 'ALVT', 'PLVT', 'CVLVT', 'HLT', 'GRT', 'ILTI', 'MNL', 'OLTPO', 'LTFAQ', 'UA', 'PA');
 	var $encodeFields = Array("first_name", "last_name", "description");
 	// This is used to retrieve related fields from form posts.
 	var $additional_column_fields = Array('reports_to_name');
@@ -1213,7 +1213,7 @@ class Users extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if (!is_array($this->homeorder_array)) {
-			$this->homeorder_array = array('UA', 'PA', 'ALVT', 'HDB', 'PLVT', 'QLTQ', 'CVLVT', 'HLT',
+			$this->homeorder_array = array('UA', 'PA', 'ALVT', 'HDB', 'PLVT', 'CVLVT', 'HLT',
 				'GRT', 'ILTI', 'MNL', 'OLTPO', 'LTFAQ');
 		}
 		$return_array = Array();
@@ -1275,11 +1275,6 @@ class Users extends CRMEntity
 		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
 		$res = $adb->pquery($sql, array($s3, 3, 'Default', $uid, $visibility, 'Top Potentials'));
 
-		$s4 = $adb->getUniqueID("vtiger_homestuff");
-		$visibility = $this->getDefaultHomeModuleVisibility('QLTQ', $inVal);
-		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
-		$res = $adb->pquery($sql, array($s4, 4, 'Default', $uid, $visibility, 'Top Quotes'));
-
 		$s5 = $adb->getUniqueID("vtiger_homestuff");
 		$visibility = $this->getDefaultHomeModuleVisibility('CVLVT', $inVal);
 		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
@@ -1339,9 +1334,6 @@ class Users extends CRMEntity
 		$adb->pquery($sql, array());
 
 		$sql = "insert into vtiger_homedefault values(" . $s3 . ",'PLVT',5,'Potentials')";
-		$adb->pquery($sql, array());
-
-		$sql = "insert into vtiger_homedefault values(" . $s4 . ",'QLTQ',5,'Quotes')";
 		$adb->pquery($sql, array());
 
 		$sql = "insert into vtiger_homedefault values(" . $s5 . ",'CVLVT',5,'NULL')";

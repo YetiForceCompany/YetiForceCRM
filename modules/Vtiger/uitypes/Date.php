@@ -88,7 +88,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			$fieldName = $fieldInstance->getFieldName();
 
 			//Restricted Fields for to show Default Value
-			if (($fieldName === 'birthday' && $moduleName === 'Contacts') || ($fieldName === 'validtill' && $moduleName === 'Quotes') || $moduleName === 'Products') {
+			if (($fieldName === 'birthday' && $moduleName === 'Contacts') || $moduleName === 'Products') {
 				return $value;
 			}
 

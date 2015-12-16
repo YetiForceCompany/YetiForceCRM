@@ -95,7 +95,7 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model
 	 */
 	public static function isLimitForModule($moduleName)
 	{
-		$validModules = array('Quotes', 'SCalculations', 'Invoice');
+		$validModules = array('SQuotes', 'SCalculations', 'Invoice');
 		return in_array($moduleName, $validModules);
 	}
 }

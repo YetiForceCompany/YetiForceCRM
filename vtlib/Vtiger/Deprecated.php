@@ -450,10 +450,6 @@ class Vtiger_Deprecated
 				$res = $adb->query("SELECT purchaseorder_no FROM vtiger_purchaseorder WHERE purchaseorderid = $recordId");
 				$moduleSeqNo = $adb->query_result($res, 0, 'purchaseorder_no');
 				break;
-			case "Quotes":
-				$res = $adb->query("SELECT quote_no FROM vtiger_quotes WHERE quoteid = $recordId");
-				$moduleSeqNo = $adb->query_result($res, 0, 'quote_no');
-				break;
 		}
 		return $moduleSeqNo;
 	}

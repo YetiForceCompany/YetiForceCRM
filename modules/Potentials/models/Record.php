@@ -49,19 +49,15 @@ class Potentials_Record_Model extends Vtiger_Record_Model
 		if ($PotentialsID == NULL) {
 			return false;
 		}
-		$QuotesStatus = 'Rejected';
 		$InvoiceStatus = 'Cancel';
 		$db = PearDatabase::getInstance();
 
 		$sql = "UPDATE vtiger_potential SET  
 				sum_invoices = (SELECT SUM(total) as total FROM vtiger_invoice 
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_invoice.invoiceid
-						WHERE deleted = 0 AND invoicestatus <> ? AND potentialid = vtiger_potential.potentialid), 
-				sum_quotes = (SELECT SUM(total) as total FROM vtiger_quotes 
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_quotes.quoteid
-						WHERE deleted = 0 AND quotestage <> ? AND potentialid = vtiger_potential.potentialid)
+						WHERE deleted = 0 AND invoicestatus <> ? AND potentialid = vtiger_potential.potentialid)
 				WHERE potentialid = ?;";
-		$db->pquery($sql, array($InvoiceStatus, $QuotesStatus, $PotentialsID), true);
+		$db->pquery($sql, array($InvoiceStatus, $PotentialsID), true);
 		$log->debug("Exiting recalculatePotentials($PotentialsID) method ...");
 	}
 

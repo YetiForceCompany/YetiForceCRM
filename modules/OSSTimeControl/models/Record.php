@@ -18,7 +18,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 	public static function recalculateTimeOldValues($record_id, $data)
 	{
 		require_once 'include/events/VTEntityDelta.php';
-		$relatedField = array('accountid', 'contactid', 'ticketid', 'projectid', 'projecttaskid', 'potentialid', 'servicecontractsid', 'quoteid', 'assetsid');
+		$relatedField = array('accountid', 'contactid', 'ticketid', 'projectid', 'projecttaskid', 'potentialid', 'servicecontractsid', 'assetsid');
 		$vtEntityDelta = new VTEntityDelta();
 		$delta = $vtEntityDelta->getEntityDelta('OSSTimeControl', $record_id, true);
 		$recalculateOldValue = false;
@@ -43,10 +43,8 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		$projectid = $data->get('projectid');
 		$projecttaskid = $data->get('projecttaskid');
 		$servicecontractsid = $data->get('servicecontractsid');
-		$quoteid = $data->get('quoteid');
 		
 		self::recalculateAccounts($accountid);
-		self::recalculateQuotes($quoteid);
 		self::recalculateProjectTask($projecttaskid);
 		self::recalculateHelpDesk($ticketid);
 		self::recalculateProject($projectid);
@@ -75,23 +73,6 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 			$ModuleNameInstance = Vtiger_Record_Model::getInstanceById($ticketid, 'HelpDesk');
 			self::recalculateServiceContracts($ModuleNameInstance->get('servicecontractsid'));
 		}
-		if (self::checkID($quoteid)) {
-			$ModuleNameInstance = Vtiger_Record_Model::getInstanceById($quoteid, 'Quotes');
-			self::recalculatePotentials($ModuleNameInstance->get('potential_id'));
-		}
-	}
-
-	public function recalculateQuotes($QuotesID)
-	{
-		if (!self::checkID($QuotesID)) {
-			return false;
-		}
-		$db = PearDatabase::getInstance();
-		$sum_time = 0;
-		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND quoteid = ?;", array(0, self::recalculateStatus, $QuotesID), true);
-		$sum_time = number_format($db->query_result($sum_result, 0, 'sum'), 2);
-		$db->pquery("UPDATE vtiger_quotes SET  sum_time = ? WHERE quoteid = ?;", array($sum_time, $QuotesID), true);
-		return $sum_time;
 	}
 
 	public function recalculateProjectTask($ProjectTaskID)
@@ -175,22 +156,12 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$sum_time = 0;
 		//////// sum_time
-		$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND potentialid = ? AND quoteid = ?;", array(0, self::recalculateStatus, $PotentialsID, 0, 0, 0), true);
+		$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND potentialid = ?", array(0, self::recalculateStatus, $PotentialsID), true);
 		$sum_time = number_format($db->query_result($sum_time_result, 0, 'sum'), 2);
-		//////// sum_time_q
-		$sql_sum_time_q = 'SELECT SUM(vtiger_osstimecontrol.sum_time) AS sum 
-						FROM vtiger_osstimecontrol 
-						INNER JOIN vtiger_quotes ON vtiger_quotes.quoteid = vtiger_osstimecontrol.quoteid
-						WHERE vtiger_osstimecontrol.deleted = ? 
-						AND vtiger_osstimecontrol.quoteid <> ? 
-						AND osstimecontrol_status = ?
-						AND vtiger_quotes.potentialid = ?;';
-		$sum_time_q_result = $db->pquery($sql_sum_time_q, array(0, 0, 0, 0, self::recalculateStatus, $PotentialsID), true);
-		$sum_time_q = number_format($db->query_result($sum_time_q_result, 0, 'sum'), 2);
 		//////// Sum
-		$sum_time_all = $sum_time + $sum_time_q;
-		$db->pquery("UPDATE vtiger_potential SET sum_time = ?,sum_time_q = ?,sum_time_all = ? WHERE potentialid = ?;", array($sum_time, $sum_time_q, $sum_time_all, $PotentialsID), true);
-		return array($sum_time, $sum_time_q, $sum_time_all);
+		$sum_time_all = $sum_time;
+		$db->pquery("UPDATE vtiger_potential SET sum_time = ?,sum_time_all = ? WHERE potentialid = ?;", array($sum_time, $sum_time_all, $PotentialsID), true);
+		return array($sum_time, $sum_time_all);
 	}
 
 	public static function recalculateProject($ProjectID)

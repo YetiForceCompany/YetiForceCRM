@@ -874,38 +874,6 @@ function getHelpDeskRelatedAccounts($record_id)
 	return $accountid;
 }
 
-/** Function to get Quotes related Accounts
- * @param $record_id -- record id :: Type integer
- * @returns $accountid -- accountid:: Type integer
- */
-function getQuotesRelatedAccounts($record_id)
-{
-	$log = vglobal('log');
-	$log->debug("Entering getQuotesRelatedAccounts(" . $record_id . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$query = "select accountid from vtiger_quotes where quoteid=?";
-	$result = $adb->pquery($query, array($record_id));
-	$accountid = $adb->query_result($result, 0, 'accountid');
-	$log->debug("Exiting getQuotesRelatedAccounts method ...");
-	return $accountid;
-}
-
-/** Function to get Quotes related Potentials
- * @param $record_id -- record id :: Type integer
- * @returns $potid -- potid:: Type integer
- */
-function getQuotesRelatedPotentials($record_id)
-{
-	$log = vglobal('log');
-	$log->debug("Entering getQuotesRelatedPotentials(" . $record_id . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$query = "select potentialid from vtiger_quotes where quoteid=?";
-	$result = $adb->pquery($query, array($record_id));
-	$potid = $adb->query_result($result, 0, 'potentialid');
-	$log->debug("Exiting getQuotesRelatedPotentials method ...");
-	return $potid;
-}
-
 /** Function to get Invoice related Accounts
  * @param $record_id -- record id :: Type integer
  * @returns $accountid -- accountid:: Type integer
@@ -1907,7 +1875,7 @@ function getCurrencyDecimalPlaces()
 
 function getInventoryModules()
 {
-	$inventoryModules = array('Invoice', 'Quotes', 'PurchaseOrder', 'OSSCosts');
+	$inventoryModules = array('Invoice', 'PurchaseOrder', 'OSSCosts');
 	return $inventoryModules;
 }
 /* Function to only initialize the update of Vtlib Compliant modules

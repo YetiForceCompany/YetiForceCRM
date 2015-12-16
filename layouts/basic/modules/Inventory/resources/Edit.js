@@ -491,7 +491,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 		params.module = moduleName;
 
 		// narrow popup products list to those related to chosen potential
-		if (moduleName == 'Quotes' || moduleName == 'Invoice') {
+		if (moduleName == 'Invoice') {
 
 			var potential_id = jQuery('input[name="potential_id"]').val();
 			if (typeof potential_id == 'undefined') { // if potential field has a bit diffrent name

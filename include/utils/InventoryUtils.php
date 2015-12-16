@@ -139,12 +139,12 @@ function getProductTaxPercentage($type, $productid, $default = '')
 		return $taxpercentage;
 }
 
-/** 	Function used to add the history entry in the relevant tables for PO, SO, Quotes and Invoice modules
+/** 	Function used to add the history entry in the relevant tables for PO and Invoice modules
  * 	@param string 	$module		- current module name
  * 	@param int 	$id		- entity id
- * 	@param string 	$relatedname	- parent name of the entity ie, required field venor name for PO and account name for SO, Quotes and Invoice
+ * 	@param string 	$relatedname	- parent name of the entity ie, required field venor name for PO and account name for Invoice
  * 	@param float 	$total		- grand total value of the product details included tax
- * 	@param string 	$history_fldval	- history field value ie., quotestage for Quotes and status for PO, SO and Invoice
+ * 	@param string 	$history_fldval	- history field value ie., status for PO, SO and Invoice
  */
 function addInventoryHistory($module, $id, $relatedname, $total, $history_fldval)
 {
@@ -154,7 +154,6 @@ function addInventoryHistory($module, $id, $relatedname, $total, $history_fldval
 
 	$history_table_array = Array(
 		"PurchaseOrder" => "vtiger_postatushistory",
-		"Quotes" => "vtiger_quotestagehistory",
 		"Invoice" => "vtiger_invoicestatushistory"
 	);
 
@@ -189,7 +188,7 @@ function getAllTaxes($available = 'all', $sh = '', $mode = '', $id = '')
 		$result = $adb->pquery("select taxname,taxid from $tablename", array());
 		$noofrows = $adb->num_rows($result);
 		$inventory_tax_val_result = $adb->pquery("select * from $value_table where id=?", array($id));
-		//Finding which taxes are associated with this (SO,PO,Invoice,Quotes) and getting its taxid.
+		//Finding which taxes are associated with this (PO,Invoice) and getting its taxid.
 		for ($i = 0; $i < $noofrows; $i++) {
 			$taxname = $adb->query_result($result, $i, 'taxname');
 			$taxid = $adb->query_result($result, $i, 'taxid');
@@ -271,7 +270,7 @@ function getTaxDetailsForProduct($productid, $available = 'all')
 }
 
 /** 	Function used to delete the Inventory product details for the passed entity
- * 	@param int $objectid - entity id to which we want to delete the product details from REQUEST values where as the entity will be Purchase Order, Sales Order, Quotes or Invoice
+ * 	@param int $objectid - entity id to which we want to delete the product details from REQUEST values where as the entity will be Purchase Order or Invoice
  * 	@param string $return_old_values - string which contains the string return_old_values or may be empty, if the string is return_old_values then before delete old values will be retrieved
  * 	@return array $ext_prod_arr - if the second input parameter is 'return_old_values' then the array which contains the productid and quantity which will be retrieved before delete the product details will be returned otherwise return empty
  */
@@ -381,7 +380,7 @@ function updateInventoryProductRel($entity)
 }
 
 /** 	Function used to save the Inventory product details for the passed entity
- * 	@param object reference $focus - object reference to which we want to save the product details from REQUEST values where as the entity will be Purchase Order, Sales Order, Quotes or Invoice
+ * 	@param object reference $focus - object reference to which we want to save the product details from REQUEST values where as the entity will be Purchase Order or Invoice
  * 	@param string $module - module name
  * 	@param $update_prod_stock - true or false (default), if true we have to update the stock for PO only
  * 	@return void
@@ -408,7 +407,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock = 'fal
 			$return_old_values = 'return_old_values';
 		}
 
-		//we will retrieve the existing product details and store it in a array and then delete all the existing product details and save new values, retrieve the old value and update stock only for SO, Quotes and Invoice not for PO
+		//we will retrieve the existing product details and store it in a array and then delete all the existing product details and save new values, retrieve the old value and update stock only for Invoice not for PO
 		//$ext_prod_arr = deleteInventoryProductDetails($focus->id,$return_old_values);
 		deleteInventoryProductDetails($focus);
 	} else {
@@ -570,9 +569,9 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock = 'fal
 	$log->debug("Exit from function saveInventoryProductDetails($module).");
 }
 
-/** 	function used to get the tax type for the entity (PO, SO, Quotes or Invoice)
+/** 	function used to get the tax type for the entity (PO or Invoice)
  * 	@param string $module - module name
- * 	@param int $id - id of the PO or SO or Quotes or Invoice
+ * 	@param int $id - id of the PO or Invoice
  * 	@return string $taxtype - taxtype for the given entity which will be individual or group
  */
 function getInventoryTaxType($module, $id)
@@ -582,8 +581,8 @@ function getInventoryTaxType($module, $id)
 
 	$log->debug("Entering into function getInventoryTaxType($module, $id).");
 
-	$inv_table_array = Array('PurchaseOrder' => 'vtiger_purchaseorder', 'Quotes' => 'vtiger_quotes', 'Invoice' => 'vtiger_invoice');
-	$inv_id_array = Array('PurchaseOrder' => 'purchaseorderid', 'Quotes' => 'quoteid', 'Invoice' => 'invoiceid');
+	$inv_table_array = Array('PurchaseOrder' => 'vtiger_purchaseorder', 'Invoice' => 'vtiger_invoice');
+	$inv_id_array = Array('PurchaseOrder' => 'purchaseorderid', 'Invoice' => 'invoiceid');
 	if (!array_key_exists($module, $inv_table_array))
 		return '';
 
@@ -596,9 +595,9 @@ function getInventoryTaxType($module, $id)
 	return $taxtype;
 }
 
-/** 	function used to get the price type for the entity (PO, SO, Quotes or Invoice)
+/** 	function used to get the price type for the entity (PO or Invoice)
  * 	@param string $module - module name
- * 	@param int $id - id of the PO or SO or Quotes or Invoice
+ * 	@param int $id - id of the PO or Invoice
  * 	@return string $pricetype - pricetype for the given entity which will be unitprice or secondprice
  */
 function getInventoryCurrencyInfo($module, $id)
@@ -625,8 +624,8 @@ function getInventoryCurrencyInfo($module, $id)
 	return $currency_info;
 }
 
-/** 	function used to get the taxvalue which is associated with a product for PO/SO/Quotes or Invoice
- * 	@param int $id - id of PO/SO/Quotes or Invoice
+/** 	function used to get the taxvalue which is associated with a product for PO or Invoice
+ * 	@param int $id - id of PO or Invoice
  * 	@param int $productid - product id
  * 	@param string $taxname - taxname to which we want the value
  * 	@return float $taxvalue - tax value

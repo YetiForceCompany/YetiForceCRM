@@ -47,7 +47,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 	// DG 15 Aug 2006
 	// Add "ORDER BY sequence_no" to retain add order on all inventoryproductrel items
 
-	if ($module == 'Quotes' || $module == 'PurchaseOrder' || $module == 'Invoice') {
+	if ($module == 'PurchaseOrder' || $module == 'Invoice') {
 		$query = "SELECT
 					case when vtiger_products.productid != '' then vtiger_products.productname else vtiger_service.servicename end as productname,
  		            case when vtiger_products.productid != '' then vtiger_products.product_no else vtiger_service.service_no end as productcode,
@@ -133,7 +133,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		$unitprice = $adb->query_result($result, $i - 1, 'unit_price');
 		$listprice = $adb->query_result($result, $i - 1, 'listprice');
 		$entitytype = $adb->query_result($result, $i - 1, 'entitytype');
-		if (($module == 'Quotes' || $module == 'PurchaseOrder' || $module == 'Invoice') && $entitytype == 'Services') {
+		if (($module == 'PurchaseOrder' || $module == 'Invoice') && $entitytype == 'Services') {
 			$usageunit = vtranslate($adb->query_result($result, $i - 1, 'service_usageunit'), $entitytype);
 		} else {
 			$usageunit = vtranslate($adb->query_result($result, $i - 1, 'usageunit'), $entitytype);
@@ -261,7 +261,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 			$tax_label = $tax_details[$tax_count]['taxlabel'];
 			$tax_value = '0';
 
-			//condition to avoid this function call when create new PO/SO/Quotes/Invoice from Product module
+			//condition to avoid this function call when create new PO/Invoice from Product module
 			if ($focus->id != '') {
 				if ($taxtype == 'individual')//if individual then show the entered tax percentage
 					$tax_value = getInventoryProductTaxValue($focus->id, $hdnProductId, $tax_name);
@@ -294,7 +294,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		}
 		//Calculate netprice
 		$netPrice = $totalAfterDiscount + number_format($product_Detail[$i]['taxTotal' . $i], $no_of_decimal_places, '.', '');
-		//if condition is added to call this function when we create PO/SO/Quotes/Invoice from Product module
+		//if condition is added to call this function when we create PO/Invoice from Product module
 
 		$product_Detail[$i]['netPrice' . $i] = $netPrice;
 	}

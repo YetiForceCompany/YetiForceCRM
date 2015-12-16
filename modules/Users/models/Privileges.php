@@ -329,7 +329,6 @@ class Users_Privileges_Model extends Users_Record_Model
 			'ProjectTask' => ['key' => 'projecttaskid', 'table' => 'vtiger_projecttask', 'relfield' => 'projectid']
 		];
 		$modulesSchema['Potentials'] = [
-			'Quotes' => ['key' => 'quoteid', 'table' => 'vtiger_quotes', 'relfield' => 'potentialid'],
 			'Invoice' => ['key' => 'invoiceid', 'table' => 'vtiger_invoice', 'relfield' => 'potentialid']
 		];
 		$modulesSchema['HelpDesk'] = [

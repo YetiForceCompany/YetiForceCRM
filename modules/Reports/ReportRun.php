@@ -2098,66 +2098,6 @@ class ReportRun extends CRMEntity
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				" WHERE vtiger_crmentity.deleted=0 and (vtiger_activity.activitytype != 'Emails')";
-		} else if ($module == "Quotes") {
-			$matrix = $this->queryPlanner->newDependencyMatrix();
-
-			$matrix->setDependency('vtiger_inventoryproductrelQuotes', array('vtiger_productsQuotes', 'vtiger_serviceQuotes'));
-
-			$query = "from vtiger_quotes
-			inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_quotes.quoteid";
-
-			if ($this->queryPlanner->requireTable('vtiger_quotesaddress')) {
-				$query .= " inner join vtiger_quotesaddress on vtiger_quotes.quoteid=vtiger_quotesaddress.quoteaddressid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_currency_info$module")) {
-				$query .= " left join vtiger_currency_info as vtiger_currency_info$module on vtiger_currency_info$module.id = vtiger_quotes.currency_id";
-			}
-			if ($type !== 'COLUMNSTOTOTAL' || $this->lineItemFieldsInCalculation == true) {
-				if ($this->queryPlanner->requireTable("vtiger_inventoryproductrelQuotes", $matrix)) {
-					$query .= " left join vtiger_inventoryproductrel as vtiger_inventoryproductrelQuotes on vtiger_quotes.quoteid = vtiger_inventoryproductrelQuotes.id";
-				}
-				if ($this->queryPlanner->requireTable("vtiger_productsQuotes")) {
-					$query .= " left join vtiger_products as vtiger_productsQuotes on vtiger_productsQuotes.productid = vtiger_inventoryproductrelQuotes.productid";
-				}
-				if ($this->queryPlanner->requireTable("vtiger_serviceQuotes")) {
-					$query .= " left join vtiger_service as vtiger_serviceQuotes on vtiger_serviceQuotes.serviceid = vtiger_inventoryproductrelQuotes.productid";
-				}
-			}
-			if ($this->queryPlanner->requireTable("vtiger_quotescf")) {
-				$query .= " left join vtiger_quotescf on vtiger_quotes.quoteid = vtiger_quotescf.quoteid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_groupsQuotes")) {
-				$query .= " left join vtiger_groups as vtiger_groupsQuotes on vtiger_groupsQuotes.groupid = vtiger_crmentity.smownerid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_usersQuotes")) {
-				$query .= " left join vtiger_users as vtiger_usersQuotes on vtiger_usersQuotes.id = vtiger_crmentity.smownerid";
-			}
-
-			// TODO optimize inclusion of these tables
-			$query .= " left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid";
-			$query .= " left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
-
-			if ($this->queryPlanner->requireTable("vtiger_lastModifiedByQuotes")) {
-				$query .= " left join vtiger_users as vtiger_lastModifiedByQuotes on vtiger_lastModifiedByQuotes.id = vtiger_crmentity.modifiedby";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_createdbyQuotes')) {
-				$query .= " left join vtiger_users as vtiger_createdbyQuotes on vtiger_createdbyQuotes.id = vtiger_crmentity.smcreatorid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_usersRel1")) {
-				$query .= " left join vtiger_users as vtiger_usersRel1 on vtiger_usersRel1.id = vtiger_quotes.inventorymanager";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_potentialRelQuotes")) {
-				$query .= " left join vtiger_potential as vtiger_potentialRelQuotes on vtiger_potentialRelQuotes.potentialid = vtiger_quotes.potentialid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_accountQuotes")) {
-				$query .= " left join vtiger_account as vtiger_accountQuotes on vtiger_accountQuotes.accountid = vtiger_quotes.accountid";
-			}
-			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
-				$query .= " left join " . $customTable['refTable'] . " as " . $customTable['reference'] . " on " . $customTable['reference'] . "." . $customTable['refIndex'] . " = " . $customTable['table'] . "." . $customTable['field'];
-			}
-			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
-				" where vtiger_crmentity.deleted=0";
 		} else if ($module == "PurchaseOrder") {
 
 			$matrix = $this->queryPlanner->newDependencyMatrix();
@@ -3352,7 +3292,7 @@ class ReportRun extends CRMEntity
 			$field = " innerService.actual_unit_price";
 			$this->queryPlanner->addTable("innerService");
 		}
-		if (($field_tablename == 'vtiger_invoice' || $field_tablename == 'vtiger_quotes' || $field_tablename == 'vtiger_purchaseorder') && ($field_columnname == 'total' || $field_columnname == 'subtotal' || $field_columnname == 'discount_amount' || $field_columnname == 'paid' || $field_columnname == 'balance' || $field_columnname == 'received')) {
+		if (($field_tablename == 'vtiger_invoice' || $field_tablename == 'vtiger_purchaseorder') && ($field_columnname == 'total' || $field_columnname == 'subtotal' || $field_columnname == 'discount_amount' || $field_columnname == 'paid' || $field_columnname == 'balance' || $field_columnname == 'received')) {
 			$field = " $field_tablename.$field_columnname/$field_tablename.conversion_rate ";
 		}
 
@@ -3854,8 +3794,6 @@ class ReportRun extends CRMEntity
 					$referenceTableName = 'vtiger_potentialRelCalendar';
 				} elseif ($moduleName == 'Calendar' && $referenceModule == 'Invoice') {
 					$referenceTableName = 'vtiger_invoiceRelCalendar';
-				} elseif ($moduleName == 'Calendar' && $referenceModule == 'Quotes') {
-					$referenceTableName = 'vtiger_quotesRelCalendar';
 				} elseif ($moduleName == 'Calendar' && $referenceModule == 'PurchaseOrder') {
 					$referenceTableName = 'vtiger_purchaseorderRelCalendar';
 				} elseif ($moduleName == 'Calendar' && $referenceModule == 'HelpDesk') {
@@ -3884,10 +3822,6 @@ class ReportRun extends CRMEntity
 					$referenceTableName = 'vtiger_contactdetailsPurchaseOrder';
 				} elseif ($moduleName == 'PurchaseOrder' && $referenceModule == 'Vendors') {
 					$referenceTableName = 'vtiger_vendorRelPurchaseOrder';
-				} elseif ($moduleName == 'Quotes' && $referenceModule == 'Potentials') {
-					$referenceTableName = 'vtiger_potentialRelQuotes';
-				} elseif ($moduleName == 'Quotes' && $referenceModule == 'Accounts') {
-					$referenceTableName = 'vtiger_accountQuotes';
 				} elseif ($moduleName == 'Potentials' && $referenceModule == 'Contacts') {
 					$referenceTableName = 'vtiger_contactdetailsPotentials';
 				} elseif ($moduleName == 'Potentials' && $referenceModule == 'Accounts') {

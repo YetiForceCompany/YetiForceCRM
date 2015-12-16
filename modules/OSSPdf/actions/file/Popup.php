@@ -72,8 +72,7 @@ function Popup($request) {
             '73' => 'Accounts',
             '81' => 'Vendors',
             '53' => 'Users',
-            '52' => 'Users',
-            '78' => 'Quotes');
+            '52' => 'Users');
         $pobierz = $db->query("select fieldid,uitype from vtiger_field where tabid = '$moduleid'", true);
         for ($i = 0; $i < $db->num_rows($pobierz); $i++) {
             $uitype = $db->query_result($pobierz, $i, "uitype");

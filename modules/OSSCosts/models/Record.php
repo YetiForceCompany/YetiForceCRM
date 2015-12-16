@@ -413,7 +413,7 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 				$tax_label = $tax_details[$tax_count]['taxlabel'];
 				$tax_value = '0.00';
 
-				//condition to avoid this function call when create new PO/SO/Quotes/Invoice from Product module
+				//condition to avoid this function call when create new PO/Invoice from Product module
 				if($focus->id != '')
 				{
 					if($taxtype == 'individual')//if individual then show the entered tax percentage
@@ -448,7 +448,7 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 			}
 			//Calculate netprice
 			$netPrice = $totalAfterDiscount+number_format($product_Detail[$i]['taxTotal'.$i], $no_of_decimal_places,'.','');
-			//if condition is added to call this function when we create PO/SO/Quotes/Invoice from Product module
+			//if condition is added to call this function when we create PO/Invoice from Product module
 			
 			$product_Detail[$i]['netPrice'.$i] = $netPrice;
 		}

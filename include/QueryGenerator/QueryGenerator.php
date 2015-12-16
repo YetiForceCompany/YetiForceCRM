@@ -768,8 +768,7 @@ class QueryGenerator
 								if ($module == 'Users') {
 									$instance = CRMEntity::getInstance($module);
 									$referenceTable = $instance->table_name;
-									if (count($this->ownerFields) > 0 ||
-										$this->getModule() == 'Quotes') {
+									if (count($this->ownerFields) > 0) {
 										$referenceTable .= $fieldName;
 									}
 								} else {
@@ -1453,9 +1452,6 @@ class QueryGenerator
 		if (isset($_REQUEST['campaignid'])) {
 			$campaignId = vtlib_purify($_REQUEST['campaignid']);
 		}
-		if (isset($_REQUEST['quoteid'])) {
-			$quoteId = vtlib_purify($_REQUEST['quoteid']);
-		}
 		if (isset($_REQUEST['invoiceid'])) {
 			$invoiceId = vtlib_purify($_REQUEST['invoiceid']);
 		}
@@ -1498,10 +1494,6 @@ class QueryGenerator
 		if (!empty($campaignId)) {
 			$relatedConditionList[] = array('relatedModule' => 'Campaigns', 'conditionModule' =>
 				'Campaigns', 'finalValue' => $campaignId, 'SQLOperator' => '=');
-		}
-		if (!empty($quoteId)) {
-			$relatedConditionList[] = array('relatedModule' => 'Quotes', 'conditionModule' =>
-				'Quotes', 'finalValue' => $quoteId, 'SQLOperator' => '=');
 		}
 		if (!empty($invoiceId)) {
 			$relatedConditionList[] = array('relatedModule' => 'Invoice', 'conditionModule' =>

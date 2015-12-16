@@ -147,7 +147,7 @@ class Mobile_WS_FetchRecordWithGrouping extends Mobile_WS_FetchRecord {
 						$field['type']['defaultValue'] = $field['value'];
 					}
                		// Special case handling to pull configured Terms & Conditions given through webservices.
-					else if($field['name'] == 'terms_conditions' && in_array($module, array('Quotes','Invoice','PurchaseOrder'))){ 
+					else if($field['name'] == 'terms_conditions' && in_array($module, array('Invoice','PurchaseOrder'))){ 
    						$field['type']['defaultValue'] = $field['value']; 
                     }
 					$fields[] = $field;

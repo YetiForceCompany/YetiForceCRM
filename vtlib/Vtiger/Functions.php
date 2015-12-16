@@ -932,10 +932,6 @@ class Vtiger_Functions
 			"vtiger_faq:product_id" => "V",
 			//Vendor Related Fields
 			"vtiger_vendor:email" => "V",
-			//Quotes Related Fields
-			"vtiger_quotes:potentialid" => "V",
-			"vtiger_quotes:inventorymanager" => "V",
-			"vtiger_quotes:accountid" => "V",
 			//Purchase Order Related Fields
 			"vtiger_purchaseorder:vendorid" => "V",
 			"vtiger_purchaseorder:contactid" => "V",

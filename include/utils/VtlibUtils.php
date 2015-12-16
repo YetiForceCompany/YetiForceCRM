@@ -60,7 +60,7 @@ function vtlib_getModuleNameForSharing()
 {
 	$adb = PearDatabase::getInstance();
 	$std_modules = array('Calendar', 'Leads', 'Accounts', 'Contacts', 'Potentials',
-		'HelpDesk', 'Campaigns', 'Quotes', 'PurchaseOrder', 'Invoice', 'Events');
+		'HelpDesk', 'Campaigns', 'PurchaseOrder', 'Invoice', 'Events');
 	$modulesList = getSharingModuleList($std_modules);
 	return $modulesList;
 }
@@ -343,14 +343,6 @@ function __vtlib_get_modulevar_value($module, $varname)
 			'related_tables' => Array(
 				'vtiger_potentialscf' => Array('potentialid', 'vtiger_potential', 'potentialid'),
 			),
-		),
-		'Quotes' =>
-		Array(
-			'IsCustomModule' => false,
-			'table_name' => 'vtiger_quotes',
-			'table_index' => 'quoteid',
-			'related_tables' => Array('vtiger_account' => Array('accountid')),
-			'popup_fields' => Array('subject'),
 		),
 		'PurchaseOrder' =>
 		Array(

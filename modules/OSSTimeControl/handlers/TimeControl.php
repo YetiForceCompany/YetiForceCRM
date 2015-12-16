@@ -43,9 +43,6 @@ class TimeControlHandler extends VTEventHandler
 				if ($moduleName == 'Project') {
 					OSSTimeControl_Record_Model::recalculateServiceContracts($data->get('servicecontractsid'));
 				}
-				if ($moduleName == 'Quotes') {
-					OSSTimeControl_Record_Model::recalculatePotentials($data->get('potential_id'));
-				}
 				if ($moduleName == 'Accounts') {
 					OSSTimeControl_Record_Model::recalculateAccounts($record_id);
 				}

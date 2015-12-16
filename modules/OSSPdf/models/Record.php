@@ -115,8 +115,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model
 			'80' => 'SalesOrder',
 			'76' => 'Potentials',
 			'73' => 'Accounts',
-			'81' => 'Vendors',
-			'78' => 'Quotes');
+			'81' => 'Vendors');
 		#################################################################################
 		if ($module == 'Activity') {
 			$wynik = $db->query("select tabid,name from vtiger_tab where name='Calendar'", true);
