@@ -579,7 +579,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			return $this->get('treeViewModel');
 		}
 		$relModuleName = $this->getRelatedModuleModel()->getName();
-		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'TreeCategory', $relModuleName);
+		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'TreeCategoryModal', $relModuleName);
 		$handler = new $handlerClass();
 		$handler->moduleName = $relModuleName;
 		$this->set('treeViewModel', $handler);

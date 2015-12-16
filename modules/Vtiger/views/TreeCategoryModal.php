@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Tree Category Class
+ * Tree Category Modal Class
  * @package YetiForce.View
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
+class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 {
 
 	private $src_module;
@@ -57,7 +57,7 @@ class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
 		$viewer->assign('TEMPLATE', $template);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->view('TreeCategory.tpl', $moduleName);
+		$viewer->view('TreeCategoryModal.tpl', $moduleName);
 		$this->postProcess($request);
 	}
 
@@ -165,7 +165,7 @@ class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
 		$scripts = [
 			'~libraries/jquery/jstree/jstree.js',
 			'~libraries/jquery/jstree/jstree.category.js',
-			'modules.Vtiger.resources.TreeCategory'
+			'modules.Vtiger.resources.TreeCategoryModal'
 		];
 
 		$modalInstances = $this->checkAndConvertJsScripts($scripts);

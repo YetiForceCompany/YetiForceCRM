@@ -20,7 +20,7 @@
 					<div class="col-xs-10 col-sm-10 col-md-9 margin0px"><h4>{vtranslate('Interested products',$MODULE_NAME)}</h4></div>
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 						<div class="pull-right">
-							<button class="btn btn-default showModal" type="button" data-url="index.php?module=Products&view=TreeCategory&src_module={$MODULE_NAME}&src_record={$RECORDID}">
+							<button class="btn btn-default showModal" type="button" data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
 								<span class="glyphicon glyphicon-zoom-in" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></span>
 							</button>
 						</div>
@@ -91,7 +91,7 @@
 					<div class="col-xs-10 col-sm-10 col-md-9 margin0px"><h4>{vtranslate('Interested services',$MODULE_NAME)}</h4></div>
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 						<span class="pull-right">
-							<button class="btn btn-default showModal" type="button" data-url="index.php?module=Services&view=TreeCategory&src_module={$MODULE_NAME}&src_record={$RECORDID}">
+							<button class="btn btn-default showModal" type="button" data-url="index.php?module=Services&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
 								<span class="glyphicon glyphicon-zoom-in" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></span>
 							</button>
 						</span>
