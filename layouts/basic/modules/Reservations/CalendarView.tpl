@@ -14,29 +14,34 @@
 	.userCol_{$ITEM.id}{ background: {$ITEM.color}!important;}
 {/foreach}
 </style>
-<div>
-	<div class="row bottom_margin">
+<div class="rowContent col-md-9 paddingLRZero">
+	<div class="widget_header row marginbottomZero marginRightMinus20">
+		<div class="btn-group listViewMassActions pull-left paddingLeftMd">
+			{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
+				<button class="btn btn-default  dropdown-toggle" data-toggle="dropdown">
+					<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+					&nbsp;&nbsp;<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					{foreach item=SIDEBARLINK from=$QUICK_LINKS['SIDEBARLINK']}
+						<li>
+							<a class="quickLinks" href="{$SIDEBARLINK->getUrl()}">
+								{vtranslate($SIDEBARLINK->getLabel(), $MODULE_NAME)}
+							</a>
+						</li>
+					{/foreach}
+				</ul>
+			{/if}
+		</div>
+		<div class="col-xs-10">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE_NAME}
+		</div>
+	</div>
+	<div class="bottom_margin">
 		<div class="">
 			<p><!-- Divider --></p>
 			<div id="calendarview"></div>
 		</div>
 	</div>
-</div>
-<div class="btn-group listViewMassActions hide">
-	{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
-		<button class="btn btn-default fc-button fc-state-default dropdown-toggle" data-toggle="dropdown">
-			<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-			&nbsp;&nbsp;<span class="caret"></span>
-		</button>
-		<ul class="dropdown-menu">
-			{foreach item=SIDEBARLINK from=$QUICK_LINKS['SIDEBARLINK']}
-				<li>
-					<a class="quickLinks" href="{$SIDEBARLINK->getUrl()}">
-						{vtranslate($SIDEBARLINK->getLabel(), $MODULE_NAME)}
-					</a>
-				</li>
-			{/foreach}
-		</ul>
-	{/if}
 </div>
 {/strip}
