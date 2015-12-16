@@ -1088,7 +1088,7 @@ $languageStrings = [
 	'LBL_REMOVE_FROM_FAVORITES' => 'Remove from favorites',
 	'LBL_TIMELINE' => 'Timeline',
 	'LBL_TREE_VIEW' => 'Tree records',
-	'LBL_DESELECT_ALL' => '__UNTRANSLATED__',
+	'LBL_DESELECT_ALL' => 'Deselect all',
 	'LBL_INFO_REFRESH' => 'Introduced changes',
 ];
 $jsLanguageStrings = [
