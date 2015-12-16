@@ -1,19 +1,14 @@
 <?php
 
 /**
- * Relation Class for Projects
+ * Relation Class for SCalculations
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
-class Project_Relation_Model extends Vtiger_Relation_Model
+class SCalculations_Relation_Model extends Vtiger_Relation_Model
 {
 
-	/**
-	 * Function that deletes Project related records information
-	 * @param <Integer> $sourceRecordId - Project Id
-	 * @param <Integer> $relatedRecordId - Related Record Id
-	 */
 	public function deleteRelation($sourceRecordId, $relatedRecordId)
 	{
 		if ($this->relatedModule->getName() == 'OSSMailView') {
@@ -27,8 +22,8 @@ class Project_Relation_Model extends Vtiger_Relation_Model
 			$sourceModule = $this->getParentModuleModel();
 			$sourceModuleName = $sourceModule->get('name');
 			$destinationModuleName = $this->getRelationModuleModel()->get('name');
-			$sourceModuleFocus = CRMEntity::getInstance($sourceModuleName);
-			$sourceModuleFocus->delete_related_module($sourceModuleName, $sourceRecordId, $destinationModuleName, $relatedRecordId);
+			$destinationModuleFocus = CRMEntity::getInstance($destinationModuleName);
+			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId);
 			return true;
 		}
 	}
