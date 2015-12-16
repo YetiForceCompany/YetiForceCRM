@@ -27,9 +27,7 @@ function SaveInventory(&$focus, $module, $update_prod_stock = 'false', $updateDe
 		if ($_REQUEST['taxtype'] == 'group')
 			$all_available_taxes = getAllTaxes('available', '', 'edit', $id);
 		$return_old_values = '';
-		if ($module != 'PurchaseOrder') {
-			$return_old_values = 'return_old_values';
-		}
+		$return_old_values = 'return_old_values';
 
 		//we will retrieve the existing product details and store it in a array and then delete all the existing product details and save new values, retrieve the old value and update stock only for SO, Quotes and Invoice not for PO
 		//$ext_prod_arr = deleteInventoryProductDetails($focus->id,$return_old_values);
@@ -58,11 +56,6 @@ function SaveInventory(&$focus, $module, $update_prod_stock = 'false', $updateDe
 		$listprice = $_REQUEST['listPrice' . $i];
 		$comment = $_REQUEST['comment' . $i];
 
-		//we have to update the Product stock for PurchaseOrder if $update_prod_stock is true
-		if ($module == 'PurchaseOrder' && $update_prod_stock == 'true') {
-			addToProductStock($prod_id, $qty);
-		}
-
 		$query = "insert into vtiger_inventoryproductrel(id, productid, sequence_no, quantity, listprice, comment, description) values(?,?,?,?,?,?,?)";
 		$qparams = array($focus->id, $prod_id, $prod_seq, $qty, $listprice, $comment, $description);
 		$adb->pquery($query, $qparams);
@@ -80,10 +73,8 @@ function SaveInventory(&$focus, $module, $update_prod_stock = 'false', $updateDe
 		}
 		$prod_seq++;
 
-		if ($module != 'PurchaseOrder') {
-			//update the stock with existing details
-			updateStk($prod_id, $qty, $focus->mode, $ext_prod_arr, $module);
-		}
+		//update the stock with existing details
+		updateStk($prod_id, $qty, $focus->mode, $ext_prod_arr, $module);
 
 		//we should update discount and tax details
 		$updatequery = "update vtiger_inventoryproductrel set ";

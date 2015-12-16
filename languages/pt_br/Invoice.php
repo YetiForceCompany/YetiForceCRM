@@ -27,7 +27,6 @@ $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Lista Faturas',
 	'LBL_SUB_PRODUCTS' => 'Sub Produtos',
 	'Paid' => 'Paga',
-	'Purchase Order' => 'Pedido Compra',
 	'Sales Commission' => 'Comissão Vendas',
 	'Sales Order' => 'Pedido Vendas',
 	'Sent' => 'Enviada',

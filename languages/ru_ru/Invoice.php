@@ -34,7 +34,6 @@ $languageStrings = [
 	'LBL_THIS' => 'Товар / Услуга (',
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Товар / Услуга были удалены из системы. Удалите их из записей.',
 	'Paid' => 'Оплачен',
-	'Purchase Order' => 'Закупка',
 	'SINGLE_Invoice' => 'Счет',
 	'Sales Commission' => 'Комиссия',
 	'Sales Order' => 'Заказ',

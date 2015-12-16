@@ -1875,7 +1875,7 @@ function getCurrencyDecimalPlaces()
 
 function getInventoryModules()
 {
-	$inventoryModules = array('Invoice', 'PurchaseOrder');
+	$inventoryModules = array('Invoice');
 	return $inventoryModules;
 }
 /* Function to only initialize the update of Vtlib Compliant modules

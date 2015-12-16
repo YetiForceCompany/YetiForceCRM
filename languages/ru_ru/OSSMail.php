@@ -101,7 +101,6 @@ $jsLanguageStrings = [
 	'Services' => 'Услуги',
 	'Vendors' => 'Поставщики',
 	'Quotes' => 'Предложения',
-	'PurchaseOrder' => 'Закупки',
 	'Invoice' => 'Счета',
 	'Activities' => 'Деятельность',
 	'HelpDesk' => 'Заявки',

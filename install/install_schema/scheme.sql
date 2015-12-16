@@ -2169,24 +2169,6 @@ CREATE TABLE `vtiger_campaigntype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_carrier` */
-
-CREATE TABLE `vtiger_carrier` (
-  `carrierid` int(19) NOT NULL AUTO_INCREMENT,
-  `carrier` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(19) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`carrierid`),
-  UNIQUE KEY `carrier_carrier_idx` (`carrier`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_carrier_seq` */
-
-CREATE TABLE `vtiger_carrier_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_contactaddress` */
 
 CREATE TABLE `vtiger_contactaddress` (
@@ -3873,7 +3855,6 @@ CREATE TABLE `vtiger_invoice` (
   `shipping` varchar(100) DEFAULT NULL,
   `accountid` int(19) DEFAULT NULL,
   `terms_conditions` text,
-  `purchaseorder` varchar(200) DEFAULT NULL,
   `invoicestatus` varchar(200) DEFAULT NULL,
   `invoice_no` varchar(100) DEFAULT NULL,
   `currency_id` int(19) NOT NULL DEFAULT '1',
@@ -5500,38 +5481,6 @@ CREATE TABLE `vtiger_portalinfo` (
   CONSTRAINT `fk_1_vtiger_portalinfo` FOREIGN KEY (`id`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_postatus` */
-
-CREATE TABLE `vtiger_postatus` (
-  `postatusid` int(19) NOT NULL AUTO_INCREMENT,
-  `postatus` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(19) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`postatusid`),
-  UNIQUE KEY `postatus_postatus_idx` (`postatus`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_postatus_seq` */
-
-CREATE TABLE `vtiger_postatus_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_postatushistory` */
-
-CREATE TABLE `vtiger_postatushistory` (
-  `historyid` int(19) NOT NULL AUTO_INCREMENT,
-  `purchaseorderid` int(19) NOT NULL,
-  `vendorname` varchar(100) DEFAULT NULL,
-  `total` decimal(10,0) DEFAULT NULL,
-  `postatus` varchar(200) DEFAULT NULL,
-  `lastmodified` datetime DEFAULT NULL,
-  PRIMARY KEY (`historyid`),
-  KEY `postatushistory_purchaseorderid_idx` (`purchaseorderid`),
-  CONSTRAINT `fk_1_vtiger_postatushistory` FOREIGN KEY (`purchaseorderid`) REFERENCES `vtiger_purchaseorder` (`purchaseorderid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_potential` */
 
 CREATE TABLE `vtiger_potential` (
@@ -6059,78 +6008,6 @@ CREATE TABLE `vtiger_publicholiday` (
   `holidayname` varchar(255) NOT NULL COMMENT 'name of holiday',
   `holidaytype` varchar(25) DEFAULT NULL COMMENT 'type of holiday',
   PRIMARY KEY (`publicholidayid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_purchaseorder` */
-
-CREATE TABLE `vtiger_purchaseorder` (
-  `purchaseorderid` int(19) NOT NULL DEFAULT '0',
-  `subject` varchar(100) DEFAULT NULL,
-  `vendorid` int(19) DEFAULT NULL,
-  `requisition_no` varchar(100) DEFAULT NULL,
-  `purchaseorder_no` varchar(100) DEFAULT NULL,
-  `tracking_no` varchar(100) DEFAULT NULL,
-  `duedate` date DEFAULT NULL,
-  `carrier` varchar(200) DEFAULT NULL,
-  `type` varchar(100) DEFAULT NULL,
-  `salescommission` decimal(25,3) DEFAULT NULL,
-  `exciseduty` decimal(25,3) DEFAULT NULL,
-  `total` decimal(25,8) DEFAULT NULL,
-  `subtotal` decimal(25,8) DEFAULT NULL,
-  `taxtype` varchar(25) DEFAULT NULL,
-  `discount_percent` decimal(25,3) DEFAULT NULL,
-  `discount_amount` decimal(25,8) DEFAULT NULL,
-  `terms_conditions` text,
-  `postatus` varchar(200) DEFAULT NULL,
-  `currency_id` int(19) NOT NULL DEFAULT '1',
-  `conversion_rate` decimal(10,3) NOT NULL DEFAULT '1.000',
-  `pre_tax_total` decimal(25,8) DEFAULT NULL,
-  `paid` decimal(25,8) DEFAULT NULL,
-  `balance` decimal(25,8) DEFAULT NULL,
-  `total_purchase` decimal(13,2) DEFAULT NULL,
-  `total_margin` decimal(13,2) DEFAULT NULL,
-  `total_marginp` decimal(13,2) DEFAULT NULL,
-  PRIMARY KEY (`purchaseorderid`),
-  KEY `purchaseorder_vendorid_idx` (`vendorid`),
-  CONSTRAINT `vtiger_purchaseorder_ibfk_1` FOREIGN KEY (`purchaseorderid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_purchaseorderaddress` */
-
-CREATE TABLE `vtiger_purchaseorderaddress` (
-  `purchaseorderaddressid` int(19) NOT NULL,
-  `addresslevel1a` varchar(255) DEFAULT NULL,
-  `addresslevel1b` varchar(255) DEFAULT NULL,
-  `addresslevel2a` varchar(255) DEFAULT NULL,
-  `addresslevel2b` varchar(255) DEFAULT NULL,
-  `addresslevel3a` varchar(255) DEFAULT NULL,
-  `addresslevel3b` varchar(255) DEFAULT NULL,
-  `addresslevel4a` varchar(255) DEFAULT NULL,
-  `addresslevel4b` varchar(255) DEFAULT NULL,
-  `addresslevel5a` varchar(255) DEFAULT NULL,
-  `addresslevel5b` varchar(255) DEFAULT NULL,
-  `addresslevel6a` varchar(255) DEFAULT NULL,
-  `addresslevel6b` varchar(255) DEFAULT NULL,
-  `addresslevel7a` varchar(255) DEFAULT NULL,
-  `addresslevel7b` varchar(255) DEFAULT NULL,
-  `addresslevel8a` varchar(255) DEFAULT NULL,
-  `addresslevel8b` varchar(255) DEFAULT NULL,
-  `buildingnumbera` varchar(100) DEFAULT NULL,
-  `localnumbera` varchar(100) DEFAULT NULL,
-  `buildingnumberb` varchar(100) DEFAULT NULL,
-  `localnumberb` varchar(100) DEFAULT NULL,
-  `poboxa` varchar(50) DEFAULT NULL,
-  `poboxb` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`purchaseorderaddressid`),
-  CONSTRAINT `vtiger_purchaseorderaddress_ibfk_1` FOREIGN KEY (`purchaseorderaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_purchaseordercf` */
-
-CREATE TABLE `vtiger_purchaseordercf` (
-  `purchaseorderid` int(19) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`purchaseorderid`),
-  CONSTRAINT `fk_1_vtiger_purchaseordercf` FOREIGN KEY (`purchaseorderid`) REFERENCES `vtiger_purchaseorder` (`purchaseorderid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_realization_process` */

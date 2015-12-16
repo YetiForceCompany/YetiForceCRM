@@ -446,10 +446,6 @@ class Vtiger_Deprecated
 				$res = $adb->query("SELECT invoice_no FROM vtiger_invoice WHERE invoiceid = $recordId");
 				$moduleSeqNo = $adb->query_result($res, 0, 'invoice_no');
 				break;
-			case "PurchaseOrder":
-				$res = $adb->query("SELECT purchaseorder_no FROM vtiger_purchaseorder WHERE purchaseorderid = $recordId");
-				$moduleSeqNo = $adb->query_result($res, 0, 'purchaseorder_no');
-				break;
 		}
 		return $moduleSeqNo;
 	}

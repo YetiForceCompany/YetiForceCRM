@@ -60,7 +60,6 @@ class Invoice extends CRMEntity
 	var $search_fields = Array(
 		//'Invoice No'=>Array('crmentity'=>'crmid'),
 		'Invoice No' => Array('invoice' => 'invoice_no'),
-		'Subject' => Array('purchaseorder' => 'subject'),
 		'Account Name' => Array('contactdetails' => 'account_id'),
 		'Created Date' => Array('crmentity' => 'createdtime'),
 		'Assigned To' => Array('crmentity' => 'smownerid'),

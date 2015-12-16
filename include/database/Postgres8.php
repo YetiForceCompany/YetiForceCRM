@@ -167,7 +167,7 @@ function expandRecord($table, $log)
 
 	//vtiger_invoice
 	elseif ($table == "vtiger_invoice")
-		$subfields = array("invoiceid", "subject", "customerno", "contactid", "notes", "invoicedate", "duedate", "invoiceterms", "type", "salescommission", "exciseduty", "subtotal", "total", "taxtype", "discount_percent", "discount_amount", "shipping", "accountid", "terms_conditions", "purchaseorder", "invoicestatus", "invoice_no");
+		$subfields = array("invoiceid", "subject", "customerno", "contactid", "notes", "invoicedate", "duedate", "invoiceterms", "type", "salescommission", "exciseduty", "subtotal", "total", "taxtype", "discount_percent", "discount_amount", "shipping", "accountid", "terms_conditions", "invoicestatus", "invoice_no");
 
 	//vtiger_seactivityrel
 	elseif ($table == "vtiger_seactivityrel")
@@ -176,10 +176,6 @@ function expandRecord($table, $log)
 	//vtiger_cntactivityrel
 	elseif ($table == "vtiger_cntactivityrel")
 		$subfields = array("contactid", "activityid");
-
-	//vtiger_purchaseorder
-	elseif ($table == "vtiger_purchaseorder")
-		$subfields = array("purchaseorderid", "subject", "quoteid", "vendorid", "requisition_no", "tracking_no", "contactid", "duedate", "carrier", "type", "salescommission", "exciseduty", "total", "subtotal", "taxtype", "discount_percent", "discount_amount", "terms_conditions", "postatus");
 
 	//vtiger_leaddetails
 	elseif ($table == "vtiger_leaddetails")

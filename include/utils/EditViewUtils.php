@@ -47,7 +47,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 	// DG 15 Aug 2006
 	// Add "ORDER BY sequence_no" to retain add order on all inventoryproductrel items
 
-	if ($module == 'PurchaseOrder' || $module == 'Invoice') {
+	if ($module == 'Invoice') {
 		$query = "SELECT
 					case when vtiger_products.productid != '' then vtiger_products.productname else vtiger_service.servicename end as productname,
  		            case when vtiger_products.productid != '' then vtiger_products.product_no else vtiger_service.service_no end as productcode,
@@ -133,7 +133,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		$unitprice = $adb->query_result($result, $i - 1, 'unit_price');
 		$listprice = $adb->query_result($result, $i - 1, 'listprice');
 		$entitytype = $adb->query_result($result, $i - 1, 'entitytype');
-		if (($module == 'PurchaseOrder' || $module == 'Invoice') && $entitytype == 'Services') {
+		if (($module == 'Invoice') && $entitytype == 'Services') {
 			$usageunit = vtranslate($adb->query_result($result, $i - 1, 'service_usageunit'), $entitytype);
 		} else {
 			$usageunit = vtranslate($adb->query_result($result, $i - 1, 'usageunit'), $entitytype);
@@ -203,7 +203,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 			$product_Detail[$i]['comment' . $i] = $comment;
 		}
 
-		if ($module != 'PurchaseOrder' && $focus->object_name != 'Order') {
+		if ($focus->object_name != 'Order') {
 			$product_Detail[$i]['qtyInStock' . $i] = decimalFormat($qtyinstock);
 		}
 		$listprice = number_format($listprice, $no_of_decimal_places, '.', '');

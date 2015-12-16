@@ -121,10 +121,8 @@ function getFieldsListFromQuery($query)
 			continue;
 		} elseif (($tablename == 'vtiger_invoice') && $columnName == 'accountid') {
 			$fields .= 'concat("Accounts::::",vtiger_account.accountname) as "' . $fieldlabel . '",';
-		} elseif (($tablename == 'vtiger_invoice' || $tablename == 'vtiger_purchaseorder') && $columnName == 'contactid') {
+		} elseif (($tablename == 'vtiger_invoice') && $columnName == 'contactid') {
 			$fields .= 'concat("Contacts::::",vtiger_contactdetails.lastname," ",vtiger_contactdetails.firstname) as "' . $fieldlabel . '",';
-		} elseif ($tablename == 'vtiger_purchaseorder' && $columnName == 'vendorid') {
-			$fields .= 'concat("Vendors::::",vtiger_vendor.vendorname) as "' . $fieldlabel . '",';
 		} else {
 			$fields .= $tablename . "." . $columnName . " as '" . $fieldlabel . "',";
 		}

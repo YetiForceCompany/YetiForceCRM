@@ -23,15 +23,12 @@ class Vtiger_InvoicePDFController extends Vtiger_InventoryPDFController{
 	function buildHeaderModelColumnCenter() {
 		$customerName = $this->resolveReferenceLabel($this->focusColumnValue('account_id'), 'Accounts');
 		$contactName = $this->resolveReferenceLabel($this->focusColumnValue('contact_id'), 'Contacts');
-		$purchaseOrder = $this->focusColumnValue('vtiger_purchaseorder');
 
 		$customerNameLabel = getTranslatedString('Customer Name', $this->moduleName);
 		$contactNameLabel = getTranslatedString('Contact Name', $this->moduleName);
-		$purchaseOrderLabel = getTranslatedString('Purchase Order', $this->moduleName);
 
 		$modelColumnCenter = array(
 				$customerNameLabel	=>	$customerName,
-				$purchaseOrderLabel =>	$purchaseOrder,
 				$contactNameLabel	=>	$contactName
 			);
 		return $modelColumnCenter;

@@ -44,12 +44,11 @@ $adv_filter_options = array("e"=>"equals",
 	//	       );
 
 $old_related_modules = Array('Accounts'=>Array('Potentials','Contacts','Products','Invoice'),
-			 'Contacts'=>Array('Accounts','Potentials','PurchaseOrder','Invoice'),
+			 'Contacts'=>Array('Accounts','Potentials','Invoice'),
 			 'Potentials'=>Array('Accounts','Contacts'),
 			 'Calendar'=>Array('Leads','Accounts','Contacts','Potentials'),
 			 'Products'=>Array('Accounts','Contacts'),
 			 'HelpDesk'=>Array('Products'),
-			 'PurchaseOrder'=>Array('Contacts'),
 			 'Invoice'=>Array('Accounts','Contacts'),
 			 'Campaigns'=>Array('Products'),
 			);
@@ -782,7 +781,7 @@ class Reports extends CRMEntity{
 		$log = vglobal('log');
 
 		$blockname = getBlockName($blockid);
-		if($blockname == 'LBL_RELATED_PRODUCTS' && ($module=='PurchaseOrder' || $module=='Invoice')){
+		if($blockname == 'LBL_RELATED_PRODUCTS' && ($module=='Invoice')){
 			$fieldtablename = 'vtiger_inventoryproductrel';
 			$fields = array('productid'=>getTranslatedString('Product Name',$module),
 							'serviceid'=>getTranslatedString('Service Name',$module),
@@ -946,7 +945,7 @@ function getEscapedColumns($selectedfields)
 			}
 			if($this->primarymodule == "Calendar" || $this->secondarymodule == "Calendar")
 			{
-				$querycolumn = "case vtiger_crmentityRelCalendar.setype when 'Accounts' then vtiger_accountRelCalendar.accountname when 'Leads' then vtiger_leaddetailsRelCalendar.lastname when 'Potentials' then vtiger_potentialRelCalendar.potentialname when 'PurchaseOrder' then vtiger_purchaseorderRelCalendar.subject when 'Invoice' then vtiger_invoiceRelCalendar.subject End"." '".$selectedfields[2]."', vtiger_crmentityRelCalendar.setype 'Entity_type'";
+				$querycolumn = "case vtiger_crmentityRelCalendar.setype when 'Accounts' then vtiger_accountRelCalendar.accountname when 'Leads' then vtiger_leaddetailsRelCalendar.lastname when 'Potentials' then vtiger_potentialRelCalendar.potentialname when 'Invoice' then vtiger_invoiceRelCalendar.subject End"." '".$selectedfields[2]."', vtiger_crmentityRelCalendar.setype 'Entity_type'";
 			}
 		}
 		return $querycolumn;

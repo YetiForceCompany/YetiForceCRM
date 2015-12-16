@@ -153,7 +153,6 @@ function addInventoryHistory($module, $id, $relatedname, $total, $history_fldval
 	$log->debug("Entering into function addInventoryHistory($module, $id, $relatedname, $total, $history_fieldvalue)");
 
 	$history_table_array = Array(
-		"PurchaseOrder" => "vtiger_postatushistory",
 		"Invoice" => "vtiger_invoicestatushistory"
 	);
 
@@ -328,9 +327,6 @@ function updateInventoryProductRel($entity)
 	if ($moduleName === 'Invoice') {
 		$statusFieldName = 'invoicestatus';
 		$statusFieldValue = 'Cancel';
-	} elseif ($moduleName === 'PurchaseOrder') {
-		$statusFieldName = 'postatus';
-		$statusFieldValue = 'Received Shipment';
 	}
 
 	$statusChanged = false;
@@ -403,9 +399,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock = 'fal
 		if ($_REQUEST['taxtype'] == 'group')
 			$all_available_taxes = getAllTaxes('available', '', 'edit', $id);
 		$return_old_values = '';
-		if ($module != 'PurchaseOrder') {
-			$return_old_values = 'return_old_values';
-		}
+		$return_old_values = 'return_old_values';
 
 		//we will retrieve the existing product details and store it in a array and then delete all the existing product details and save new values, retrieve the old value and update stock only for Invoice not for PO
 		//$ext_prod_arr = deleteInventoryProductDetails($focus->id,$return_old_values);
@@ -444,11 +438,6 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock = 'fal
 		$total_purchase+= ($purchase * $qty );
 		$total_margin+= $margin;
 
-		//we have to update the Product stock for PurchaseOrder if $update_prod_stock is true
-		if ($module == 'PurchaseOrder' && $update_prod_stock == 'true') {
-			addToProductStock($prod_id, $qty);
-		}
-
 		$query = "insert into vtiger_inventoryproductrel(id, productid, sequence_no, quantity, listprice, comment, description, purchase, margin, marginp) values(?,?,?,?,?,?,?,?,?,?)";
 		$qparams = array($focus->id, $prod_id, $prod_seq, $qty, $listprice, $comment, $description, $purchase, $margin, $marginp);
 		$adb->pquery($query, $qparams);
@@ -466,10 +455,8 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock = 'fal
 		}
 		$prod_seq++;
 
-		if ($module != 'PurchaseOrder') {
-			//update the stock with existing details
-			updateStk($prod_id, $qty, $focus->mode, $ext_prod_arr, $module);
-		}
+		//update the stock with existing details
+		updateStk($prod_id, $qty, $focus->mode, $ext_prod_arr, $module);
 
 		//we should update discount and tax details
 		$updatequery = "update vtiger_inventoryproductrel set ";
@@ -581,8 +568,8 @@ function getInventoryTaxType($module, $id)
 
 	$log->debug("Entering into function getInventoryTaxType($module, $id).");
 
-	$inv_table_array = Array('PurchaseOrder' => 'vtiger_purchaseorder', 'Invoice' => 'vtiger_invoice');
-	$inv_id_array = Array('PurchaseOrder' => 'purchaseorderid', 'Invoice' => 'invoiceid');
+	$inv_table_array = Array('Invoice' => 'vtiger_invoice');
+	$inv_id_array = Array('Invoice' => 'invoiceid');
 	if (!array_key_exists($module, $inv_table_array))
 		return '';
 

@@ -29,7 +29,6 @@ $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	'LBL_SUB_PRODUCTS' => 'Produkty cząstkowe',
 	'Paid' => 'Zapłacona',
-	'Purchase Order' => 'Zamówienie do dostawcy',
 	'Sales Commission' => 'Marża',
 	'Sales Order' => 'Zamówienie',
 	'Sent' => 'Wysłana',

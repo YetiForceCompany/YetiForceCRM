@@ -131,7 +131,6 @@
 	</div>
 </div>
 <table class="table table-bordered blockContainer lineItemTable" id="lineItemResult">
-	{if $MODULE_NAME neq 'PurchaseOrder'}
 		<tr valign="top">
 			<td width="83%" >
 				<div class="pull-right">
@@ -142,7 +141,6 @@
 				<span id="total_purchase" name="total_purchase" class="pull-right total_purchase">{$FINAL.total_purchase}</span>
 			</td>
 		</tr>
-	{/if}
 	<tr>
 		<td  width="83%">
 			<div class="pull-right"><strong>{vtranslate('LBL_ITEMS_TOTAL',$MODULE)}</strong></div>
@@ -215,7 +213,6 @@
 			<input type="hidden" id="pre_tax_total" name="pre_tax_total" value="{if $PRE_TAX_TOTAL}{$PRE_TAX_TOTAL}{else}0{/if}"/>
 		</td>
 	</tr>
-	{if $MODULE_NAME neq 'PurchaseOrder'}
 		<tr valign="top">
 			<td width="83%" >
 				<div class="pull-right">
@@ -236,7 +233,6 @@
 				<span id="total_marginp" name="total_marginp" class="pull-right total_marginp">{$FINAL.total_marginp}</span>
 			</td>
 		</tr>
-	{/if}
 	<!-- Group Tax - starts -->
 	<tr id="group_tax_row" valign="top" class="{if $IS_INDIVIDUAL_TAX_TYPE}hide{/if}">
 		<td width="83%">
@@ -288,7 +284,7 @@
 			<span id="grandTotal" name="grandTotal" class="pull-right grandTotal">{$FINAL.grandTotal}</span>
 		</td>
 	</tr>
-	{if $MODULE eq 'Invoice' or $MODULE eq 'PurchaseOrder'}
+	{if $MODULE eq 'Invoice'}
 		<tr valign="top">
 			<td width="83%" >
 				<div class="pull-right">

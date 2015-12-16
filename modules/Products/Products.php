@@ -574,81 +574,6 @@ class Products extends CRMEntity
 		return $return_value;
 	}
 
-	/** 	function used to get the list of purchase orders which are related to the product
-	 * 	@param int $id - product id
-	 * 	@return array - array which will be returned from the function GetRelatedList
-	 */
-	function get_purchase_orders($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-		$log = vglobal('log');
-		$current_user = vglobal('current_user');
-		$singlepane_view = vglobal('singlepane_view');
-		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_purchase_orders(" . $id . ") method ...");
-		$this_module = $currentModule;
-
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=' . $this_module . '&return_action=CallRelatedList&return_id=' . $id;
-
-		$button = '';
-
-		if ($actions) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname) . "'>&nbsp;";
-			}
-		}
-
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "SELECT vtiger_crmentity.*,
-			vtiger_purchaseorder.*,
-			vtiger_products.productname,
-			vtiger_inventoryproductrel.productid,
-			case when (vtiger_users.user_name not like '') then $userNameSql
-				else vtiger_groups.groupname end as user_name
-			FROM vtiger_purchaseorder
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid = vtiger_purchaseorder.purchaseorderid
-			INNER JOIN vtiger_inventoryproductrel
-				ON vtiger_inventoryproductrel.id = vtiger_purchaseorder.purchaseorderid
-			INNER JOIN vtiger_products
-				ON vtiger_products.productid = vtiger_inventoryproductrel.productid
-			LEFT JOIN vtiger_groups
-				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-            LEFT JOIN vtiger_purchaseordercf
-                ON vtiger_purchaseordercf.purchaseorderid = vtiger_purchaseorder.purchaseorderid
-			LEFT JOIN vtiger_purchaseorderaddress
-				ON vtiger_purchaseorderaddress.purchaseorderaddressid = vtiger_purchaseorder.purchaseorderid
-			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0
-			AND vtiger_products.productid = " . $id;
-
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value == null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		$log->debug("Exiting get_purchase_orders method ...");
-		return $return_value;
-	}
-
 	/** 	function used to get the list of invoices which are related to the product
 	 * 	@param int $id - product id
 	 * 	@return array - array which will be returned from the function GetRelatedList
@@ -974,7 +899,6 @@ class Products extends CRMEntity
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("HelpDesk" => "vtiger_troubletickets", "Products" => "vtiger_seproductsrel", "Attachments" => "vtiger_seattachmentsrel",
-			"PurchaseOrder" => "vtiger_inventoryproductrel",
 			"Invoice" => "vtiger_inventoryproductrel", "PriceBooks" => "vtiger_pricebookproductrel", "Leads" => "vtiger_seproductsrel",
 			"Accounts" => "vtiger_seproductsrel", "Potentials" => "vtiger_seproductsrel", "Contacts" => "vtiger_seproductsrel",
 			"Documents" => "vtiger_senotesrel", 'Assets' => 'vtiger_assets',);
@@ -1070,7 +994,6 @@ class Products extends CRMEntity
 		$rel_tables = array(
 			"HelpDesk" => array("vtiger_troubletickets" => array("product_id", "ticketid"), "vtiger_products" => "productid"),
 			"Quotes" => array("vtiger_inventoryproductrel" => array("productid", "id"), "vtiger_products" => "productid"),
-			"PurchaseOrder" => array("vtiger_inventoryproductrel" => array("productid", "id"), "vtiger_products" => "productid"),
 			"Invoice" => array("vtiger_inventoryproductrel" => array("productid", "id"), "vtiger_products" => "productid"),
 			"Leads" => array("vtiger_seproductsrel" => array("productid", "crmid"), "vtiger_products" => "productid"),
 			"Accounts" => array("vtiger_seproductsrel" => array("productid", "crmid"), "vtiger_products" => "productid"),

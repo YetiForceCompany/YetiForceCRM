@@ -30,7 +30,6 @@ $languageStrings = [
 	'LBL_THIS' => 'Produkt/Service (',
 	'Paid' => 'bezahlt',
 	'Payment balance' => 'Zahlungsbilanz',
-	'Purchase Order' => 'Auftrag:',
 	'Sales Commission' => 'Provision',
 	'Sales Order' => 'Bestellung',
 	'Sent' => 'gesendet',

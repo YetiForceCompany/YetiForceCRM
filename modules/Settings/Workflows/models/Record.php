@@ -367,7 +367,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 		$dependentFields = array();
 		// List of modules which will not be supported by 'Create Entity' workflow task
-		$filterModules = array('Invoice', 'PurchaseOrder', 'Emails', 'Calendar', 'Events', 'Accounts');
+		$filterModules = array('Invoice', 'Emails', 'Calendar', 'Events', 'Accounts');
 		$skipFieldsList = array();
 		for ($i = 0; $i < $noOfFields; ++$i) {
 			$tabId = $db->query_result($result, $i, 'tabid');

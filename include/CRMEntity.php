@@ -589,28 +589,21 @@ class CRMEntity
 					$params = array('', $this->id, $this->column_fields['sum_invoices'], decode_html($sales_stage), $this->column_fields['probability'], 0, $adb->formatDate($closingdate, true), $adb->formatDate($date_var, true));
 					$adb->pquery($sql, $params);
 				}
-			} elseif ($module == 'PurchaseOrder' || $module == 'Invoice') {
-				//added to update the history for PO and Invoice
+			} elseif ($module == 'Invoice') {
+				//added to update the history for Invoice
 				$history_field_array = Array(
-					"PurchaseOrder" => "postatus",
 					"Invoice" => "invoicestatus"
 				);
 
 				$inventory_module = $module;
 
 				if ($_REQUEST['ajxaction'] == 'DETAILVIEW') {//if we use ajax edit
-					if ($inventory_module == "PurchaseOrder")
-						$relatedname = getVendorName($this->column_fields['vendor_id']);
-					else
-						$relatedname = getAccountName($this->column_fields['account_id']);
+					$relatedname = getAccountName($this->column_fields['account_id']);
 
 					$total = $this->column_fields['hdnGrandTotal'];
 				}
 				else {//using edit button and save
-					if ($inventory_module == "PurchaseOrder")
-						$relatedname = $_REQUEST["vendor_name"];
-					else
-						$relatedname = $_REQUEST["account_name"];
+					$relatedname = $_REQUEST["account_name"];
 
 					$total = $_REQUEST['total'];
 				}
@@ -2167,8 +2160,8 @@ class CRMEntity
 			if ($pritablename == 'vtiger_senotesrel') {
 				$query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname
                     AND $tmpname.notesid IN (SELECT crmid FROM vtiger_crmentity WHERE setype='Documents' AND deleted = 0))";
-			} else if ($pritablename == 'vtiger_inventoryproductrel' && ($module == "Products" || $module == "Services") && ($secmodule == "Invoice" || $secmodule == "PurchaseOrder")) {
-				/** In vtiger_inventoryproductrel table, we'll have same product related to invoice/purchaseorder
+			} else if ($pritablename == 'vtiger_inventoryproductrel' && ($module == "Products" || $module == "Services") && ($secmodule == "Invoice")) {
+				/** In vtiger_inventoryproductrel table, we'll have same product related to invoice
 				 *  we need to check whether the product joining is related to secondary module selected or not to eliminate duplicates
 				 */
 				$query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname AND $tmpname.id in 

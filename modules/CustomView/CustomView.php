@@ -339,10 +339,6 @@ class CustomView extends CRMEntity
 		if ($module == 'Calendar' && $block == 19) {
 			$module_columnlist['vtiger_activity:activitytype:activitytype:Calendar_Activity_Type:V'] = 'Activity Type';
 		}
-
-		if ($module == 'PurchaseOrder' && $block == 57)
-			$module_columnlist['vtiger_crmentity:crmid::PurchaseOrder_Order_No:I'] = $app_strings['Order No'];
-
 		if ($module != 'Calendar') {
 			$moduleFieldList = $this->meta->getModuleFields();
 		}
@@ -1162,12 +1158,6 @@ class CustomView extends CRMEntity
 				}
 				$value .= ' vtiger_invoice.subject';
 			}
-			if ($modulename == 'PurchaseOrder') {
-				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
-					$value .= ' vtiger_purchaseorder.subject IS NULL or ';
-				}
-				$value .= ' vtiger_purchaseorder.subject';
-			}
 			if ($modulename == 'Contacts') {
 				$concatSql = getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails.lastname', 'firstname' => 'vtiger_contactdetails.firstname'), 'Contacts');
 				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
@@ -1319,8 +1309,6 @@ class CustomView extends CRMEntity
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_account.accountid " . $listviewquery;
 			} else if ($module == "Invoice") {
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_contactdetails.contactid,vtiger_account.accountid " . $listviewquery;
-			} else if ($module == "PurchaseOrder") {
-				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_contactdetails.contactid " . $listviewquery;
 			} else {
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid " . $listviewquery;
 			}
@@ -1406,7 +1394,6 @@ class CustomView extends CRMEntity
 		$skipBlocksList = array(
 			getTabid('HelpDesk') => array('LBL_COMMENTS'),
 			getTabid('Faq') => array('LBL_COMMENT_INFORMATION'),
-			getTabid('PurchaseOrder') => array('LBL_RELATED_PRODUCTS'),
 			getTabid('Invoice') => array('LBL_RELATED_PRODUCTS')
 		);
 

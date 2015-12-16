@@ -1455,9 +1455,6 @@ class QueryGenerator
 		if (isset($_REQUEST['invoiceid'])) {
 			$invoiceId = vtlib_purify($_REQUEST['invoiceid']);
 		}
-		if (isset($_REQUEST['purchaseorderid'])) {
-			$purchaseOrderId = vtlib_purify($_REQUEST['purchaseorderid']);
-		}
 
 		$conditionList = array();
 		if (!empty($dateClosedStart) && !empty($dateClosedEnd)) {
@@ -1498,10 +1495,6 @@ class QueryGenerator
 		if (!empty($invoiceId)) {
 			$relatedConditionList[] = array('relatedModule' => 'Invoice', 'conditionModule' =>
 				'Invoice', 'finalValue' => $invoiceId, 'SQLOperator' => '=');
-		}
-		if (!empty($purchaseOrderId)) {
-			$relatedConditionList[] = array('relatedModule' => 'PurchaseOrder', 'conditionModule' =>
-				'PurchaseOrder', 'finalValue' => $purchaseOrderId, 'SQLOperator' => '=');
 		}
 		return array('conditions' => $conditionList, 'relatedConditions' => $relatedConditionList);
 	}

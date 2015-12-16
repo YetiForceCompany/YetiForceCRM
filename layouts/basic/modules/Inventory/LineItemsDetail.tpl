@@ -101,14 +101,12 @@
 			    (+)&nbsp;<strong><a href="javascript:void(0)" class="individualTax inventoryLineItemDetails" data-info='{$INDIVIDUAL_TAX_INFO}'>{vtranslate('LBL_TAX',$MODULE_NAME)} </a> : </strong>
 			</div>
 		    {/if}
-			{if $MODULE_NAME neq 'PurchaseOrder'}
 				{vtranslate('LBL_PURCHASE',$MODULE)}:<br />
 				{$LINE_ITEM_DETAIL["purchase$INDEX"]}
 				<br />{vtranslate('LBL_MARGIN',$MODULE)}:<br />
 				{$LINE_ITEM_DETAIL["margin$INDEX"]}
 				<br />{vtranslate('LBL_MARGINP',$MODULE)}:<br />
 				{$LINE_ITEM_DETAIL["marginp$INDEX"]}
-			{/if}
 		</td>
 		<td>
 		    <div>
@@ -187,7 +185,6 @@
 		    </span>
 		</td>
 	    </tr>
-		{if $MODULE_NAME neq 'PurchaseOrder'}
 	    <tr>
 			<td width="83%">
 				<span class="pull-right">
@@ -212,7 +209,6 @@
 				</span>
 			</td>
 	    </tr>
-		{/if}
 	    {if $FINAL_DETAILS.taxtype eq 'group'}
 		<tr>
 		    <td width="83%">
@@ -246,7 +242,7 @@
 		    </span>
 		</td>
 	    </tr>
-		{if $MODULE_NAME eq 'Invoice' or $MODULE_NAME eq 'PurchaseOrder'}
+		{if $MODULE_NAME eq 'Invoice'}
         <tr>
             <td width="83%">
                 {if $MODULE_NAME eq 'Invoice'}

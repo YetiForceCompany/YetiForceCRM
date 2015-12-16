@@ -57,7 +57,6 @@ $languageStrings = [
 	'Activities'=>'Atividades',
 	'Service Contracts'=>'Contratos',
 	'Projects'=>'Projetos',
-	'Purchase Order'=>'Pedido Compras',
 	'Decision maker' => 'Decisor',
 
 	//Activity Types
