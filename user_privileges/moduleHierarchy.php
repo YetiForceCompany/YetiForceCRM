@@ -10,7 +10,6 @@ $modulesMap1M = [
 	'PurchaseOrder' => ['Vendors'],
 	'ServiceContracts' => ['Accounts'],
 	'Faq' => ['Products'],
-	'OSSCosts' => ['Accounts','Vendors'],
 	'Invoice' => ['Accounts'],
 	'PaymentsOut' => ['Accounts'],
 	'PaymentsIn' => ['Accounts'],

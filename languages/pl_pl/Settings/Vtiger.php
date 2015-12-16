@@ -215,7 +215,6 @@ $languageStrings = [
 	'Search Setup' => 'Konfiguracja wyszukiwania',
 	'LBL_EXTENDED_MODULES' => 'Moduły rozszerzone',
 	/* modules */
-	'OSSCosts' => 'Koszty',
 	'CustomView' => 'Widoki',
 	'Widgets' => 'Widgety podsumowania rekordu',
 	'LBL_ADDING_ERROR' => 'Błąd przy dodawaniu pola',

@@ -871,7 +871,6 @@ $languageStrings = [
 	'Not For Profit' => 'Не прибыльные организации',
 	'Notebook' => 'Блокнот',
 	'Notify Owner' => 'Уведомить ответственного',
-	'OSSCosts' => 'Затраты',
 	'OSSEmployees' => 'Сотрудники',
 	'HolidaysEntitlement' => 'Праздники',
 	'OSSMailTemplates' => 'Шаблоны электронной почты',

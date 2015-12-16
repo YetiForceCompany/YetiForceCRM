@@ -131,7 +131,7 @@
 	</div>
 </div>
 <table class="table table-bordered blockContainer lineItemTable" id="lineItemResult">
-	{if $MODULE_NAME neq 'OSSCosts' and $MODULE_NAME neq 'PurchaseOrder'}
+	{if $MODULE_NAME neq 'PurchaseOrder'}
 		<tr valign="top">
 			<td width="83%" >
 				<div class="pull-right">
@@ -215,7 +215,7 @@
 			<input type="hidden" id="pre_tax_total" name="pre_tax_total" value="{if $PRE_TAX_TOTAL}{$PRE_TAX_TOTAL}{else}0{/if}"/>
 		</td>
 	</tr>
-	{if $MODULE_NAME neq 'OSSCosts' and $MODULE_NAME neq 'PurchaseOrder'}
+	{if $MODULE_NAME neq 'PurchaseOrder'}
 		<tr valign="top">
 			<td width="83%" >
 				<div class="pull-right">

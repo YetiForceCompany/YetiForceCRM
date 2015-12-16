@@ -110,6 +110,7 @@
 .userIcon-bookkeeping:before {
 	content: "\e86f";
 }
+// TODO remove
 .userIcon-OSSCosts:before {
 	content: "\e870";
 }

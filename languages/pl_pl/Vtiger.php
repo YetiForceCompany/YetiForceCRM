@@ -10,7 +10,6 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'OSSCosts' => 'Koszty',
 	'GlobalPermission' => 'Uprawnienia globalne',
 	'LBL_SEND_EMAIL' => 'Wyślij maila',
 	'--None--' => '--Brak--',

@@ -19,7 +19,6 @@ $languageStrings = [
 	'LBL_CALENDAR_CONFIG' => 'Настройки Календаря',
 	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Управление модулем История изменений',
 	'LBL_MODTRACKER_SETTINGS' => 'История изменений',
-	'OSSCosts' => 'Расходы',
 	'GlobalPermission' => 'Права доступа',
 	'Mail' => 'Настройка RoundCube',
 	'LBL_PBXMANAGER_DESCRIPTION' => 'Изменений и настройка Менеджера PBX',

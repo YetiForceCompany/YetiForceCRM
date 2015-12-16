@@ -221,7 +221,7 @@
 				</div>
 			</div>
 		</span>
-		{if $MODULE_NAME neq 'OSSCosts' and $MODULE_NAME neq 'PurchaseOrder'}
+		{if $MODULE_NAME neq 'PurchaseOrder'}
 			{vtranslate('LBL_PURCHASE',$MODULE)}:<br />
 			<input id="{$purchase}" name="{$purchase}" value="{if !empty($data.$purchase)}{$data.$purchase}{else}0{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="purchase smallInputBox" />
 			<br />{vtranslate('LBL_MARGIN',$MODULE)}:<br />

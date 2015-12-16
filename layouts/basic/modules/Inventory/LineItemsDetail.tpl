@@ -101,7 +101,7 @@
 			    (+)&nbsp;<strong><a href="javascript:void(0)" class="individualTax inventoryLineItemDetails" data-info='{$INDIVIDUAL_TAX_INFO}'>{vtranslate('LBL_TAX',$MODULE_NAME)} </a> : </strong>
 			</div>
 		    {/if}
-			{if $MODULE_NAME neq 'OSSCosts' and $MODULE_NAME neq 'PurchaseOrder'}
+			{if $MODULE_NAME neq 'PurchaseOrder'}
 				{vtranslate('LBL_PURCHASE',$MODULE)}:<br />
 				{$LINE_ITEM_DETAIL["purchase$INDEX"]}
 				<br />{vtranslate('LBL_MARGIN',$MODULE)}:<br />
@@ -187,7 +187,7 @@
 		    </span>
 		</td>
 	    </tr>
-		{if $MODULE_NAME neq 'OSSCosts' and $MODULE_NAME neq 'PurchaseOrder'}
+		{if $MODULE_NAME neq 'PurchaseOrder'}
 	    <tr>
 			<td width="83%">
 				<span class="pull-right">

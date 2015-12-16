@@ -214,7 +214,6 @@ $languageStrings = [
 	'Mail View' => 'Emails',
 	'Mail' => 'Mail – RoundCube',
 	'GlobalPermission' => 'Global permission',
-	'OSSCosts' => 'Costs',
 	'LBL_ADDING_ERROR' => 'Error in adding a field',
 	'LBL_ADDED_COMPANY_FIELD' => 'Added field',
 	'LBL_FIELD_NOT_VALID' => 'Field must contain only for letters',

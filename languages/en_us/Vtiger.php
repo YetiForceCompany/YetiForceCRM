@@ -855,7 +855,6 @@ $languageStrings = [
 	'LBL_RIGHT_PANEL_SHOW_HIDE' => 'Right Panel Show/Hide',
 	'Total time [h]' => 'Total time [h]',
 	/* modules */
-	'OSSCosts' => 'Costs',
 	'Key Metrics' => 'Key Metrics',
 	'Share with users' => 'Share with users:',
 	'LBL_PURCHASE' => 'Purchase',

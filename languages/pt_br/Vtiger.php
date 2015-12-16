@@ -856,7 +856,6 @@ $languageStrings = [
 	'LBL_LEFT_PANEL_SHOW_HIDE' => 'Exibir/Ocultar Painel Esquerdo',
 	'LBL_RIGHT_PANEL_SHOW_HIDE' => 'Exibir/Ocultar Painel Direito',
 	/* modules */
-	'OSSCosts' => 'Custos',
 	'Key Metrics' => 'Métricas Chave',
 	'Share with users' => 'Compartilhar com Usuários:',
 	'LBL_PURCHASE' => 'Compra',

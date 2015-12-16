@@ -881,7 +881,6 @@ $languageStrings = [
 	'LBL_LEFT_PANEL_SHOW_HIDE' => 'Linken Bereich anzeigen/ausblenden',
 	'LBL_RIGHT_PANEL_SHOW_HIDE' => 'Rechten Bereich anzeigen/ausblenden',
 	/* modules */
-	'OSSCosts' => 'Kosten',
 	'Key Metrics' => 'Schlüssel Metriken',
 	'Share with users' => 'Teilen mit Benutzern:',
 	'LBL_PURCHASE' => 'Einkauf',

@@ -4812,57 +4812,6 @@ CREATE TABLE `vtiger_oss_project_templates` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_osscosts` */
-
-CREATE TABLE `vtiger_osscosts` (
-  `osscostsid` int(19) NOT NULL,
-  `osscosts_no` varchar(30) NOT NULL,
-  `name` varchar(200) DEFAULT NULL,
-  `parentid` int(19) DEFAULT NULL,
-  `potentialid` int(19) DEFAULT NULL,
-  `projectid` int(19) DEFAULT NULL,
-  `ticketid` int(19) DEFAULT NULL,
-  `relategid` int(19) DEFAULT NULL,
-  `street` varchar(250) DEFAULT NULL,
-  `code` varchar(40) DEFAULT NULL,
-  `city` varchar(40) DEFAULT NULL,
-  `country` varchar(40) DEFAULT NULL,
-  `state` varchar(40) DEFAULT NULL,
-  `total` decimal(25,8) DEFAULT NULL,
-  `subtotal` decimal(25,8) DEFAULT NULL,
-  `taxtype` varchar(25) DEFAULT NULL,
-  `discount_percent` decimal(25,3) DEFAULT NULL,
-  `discount_amount` decimal(25,8) DEFAULT NULL,
-  `currency_id` int(19) NOT NULL DEFAULT '1',
-  `conversion_rate` decimal(10,3) NOT NULL DEFAULT '1.000',
-  `pre_tax_total` decimal(25,8) DEFAULT NULL,
-  `total_purchase` decimal(13,2) DEFAULT NULL,
-  `total_margin` decimal(13,2) DEFAULT NULL,
-  `total_marginp` decimal(13,2) DEFAULT NULL,
-  PRIMARY KEY (`osscostsid`),
-  KEY `osscosts_parentid_idx` (`parentid`),
-  KEY `osscosts_potentialid_idx` (`potentialid`),
-  KEY `osscosts_projectid_idx` (`projectid`),
-  KEY `osscosts_ticketid_idx` (`ticketid`),
-  KEY `osscosts_relategid_idx` (`relategid`),
-  CONSTRAINT `fk_1_vtiger_osscosts` FOREIGN KEY (`osscostsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osscosts_config` */
-
-CREATE TABLE `vtiger_osscosts_config` (
-  `param` varchar(100) DEFAULT NULL,
-  `value` varchar(100) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osscostscf` */
-
-CREATE TABLE `vtiger_osscostscf` (
-  `osscostsid` int(19) NOT NULL,
-  PRIMARY KEY (`osscostsid`),
-  CONSTRAINT `fk_1_vtiger_osscostscf` FOREIGN KEY (`osscostsid`) REFERENCES `vtiger_osscosts` (`osscostsid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_ossdc_status` */
 
 CREATE TABLE `vtiger_ossdc_status` (
