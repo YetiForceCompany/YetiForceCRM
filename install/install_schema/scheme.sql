@@ -794,6 +794,15 @@ CREATE TABLE `s_yf_multireference` (
   KEY `source_module` (`source_module`,`dest_module`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_crmentity_rel_tree` */
+
+CREATE TABLE `u_yf_crmentity_rel_tree` (
+  `crmid` int(11) NOT NULL,
+  `module` int(11) NOT NULL,
+  `tree` varchar(50) NOT NULL,
+  `relmodule` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_crmentity_showners` */
 
 CREATE TABLE `u_yf_crmentity_showners` (

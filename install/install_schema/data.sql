@@ -320,6 +320,8 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 insert  into `s_yf_multireference`(`source_module`,`dest_module`,`lastid`,`type`) values ('Accounts','Products',0,0);
 insert  into `s_yf_multireference`(`source_module`,`dest_module`,`lastid`,`type`) values ('Accounts','Services',0,0);
 
+/*Data for the table `u_yf_crmentity_rel_tree` */
+
 /*Data for the table `u_yf_crmentity_showners` */
 
 /*Data for the table `u_yf_favorites` */
