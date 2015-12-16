@@ -55,12 +55,13 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 		});
 	},
 	registerSaveRecords: function (container) {
-		var thisInstance = this, ord = [], ocd = [], selected = [], recordsToAdd = [], recordsToRemove = [], categoryToAdd = [], categoryToRemove = [];
+		var thisInstance = this;
+		var ord = [], ocd = [], rSelected = [], cSelected = [], recordsToAdd = [], recordsToRemove = [], categoryToAdd = [], categoryToRemove = [];
 		$.each(thisInstance.getRecords(), function (index, value) {
-			if (value.state.selected && value.type == "record") {
+			if (value.state && value.state.selected && value.type == "record") {
 				ord.push(value.record_id);
 			}
-			if (value.category && value.category.selected) {
+			if (value.category && value.category.checked) {
 				ocd.push(value.record_id);
 			}
 		});
@@ -71,16 +72,21 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 				if (jQuery.inArray(value.original.record_id, ord) == -1 && value.original.type == "record") {
 					recordsToAdd.push(value.original.record_id);
 				}
-				selected.push(value.original.record_id);
+				rSelected.push(value.original.record_id);
 			});
-			categoryToAdd = thisInstance.treeInstance.jstree("getCategory");
+			cSelected = thisInstance.treeInstance.jstree("getCategory");
 			$.each(ord, function (index, value) {
-				if (jQuery.inArray(value, selected) == -1) {
+				if (jQuery.inArray(value, rSelected) == -1) {
 					recordsToRemove.push(value);
 				}
 			});
+			$.each(cSelected, function (index, value) {
+				if (jQuery.inArray(value, ocd) == -1) {
+					categoryToAdd.push(value);
+				}
+			});
 			$.each(ocd, function (index, value) {
-				if (jQuery.inArray(value, selected) == -1) {
+				if (jQuery.inArray(value, cSelected) == -1) {
 					categoryToRemove.push(value);
 				}
 			});
@@ -90,8 +96,8 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 				mode: 'updateRelation',
 				recordsToAdd: recordsToAdd,
 				recordsToRemove: recordsToRemove,
-				categoryToAdd: recordsToAdd,
-				categoryToRemove: recordsToRemove,
+				categoryToAdd: categoryToAdd,
+				categoryToRemove: categoryToRemove,
 				src_record: app.getRecordId(),
 				related_module: container.find('[name="related_module"]').val(),
 			}).then(function (res) {

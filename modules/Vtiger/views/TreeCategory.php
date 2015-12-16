@@ -69,32 +69,40 @@ class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
 
 	private function getCategory()
 	{
-		$tree = [];
-		$adb = PearDatabase::getInstance();
+		$trees = [];
+		$db = PearDatabase::getInstance();
 		$lastId = 0;
-		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->template]);
-		while ($row = $adb->getRow($result)) {
-			$treeID = (int) str_replace('T', '', $row['tree']);
-			$cut = strlen('::' . $row['tree']);
-			$parenttrre = substr($row['parenttrre'], 0, - $cut);
-			$pieces = explode('::', $parenttrre);
-			$parent = (int) str_replace('T', '', end($pieces));
-				$icon = $row['icon'];
-			$tree[] = [
+		$result = $db->pquery('SELECT tr.*,rel.crmid  FROM vtiger_trees_templates_data tr '
+			. 'LEFT JOIN u_yf_crmentity_rel_tree rel ON rel.tree = tr.tree '
+			. 'WHERE tr.templateid = ?', [$this->template]);
+		while ($row = $db->getRow($result)) {
+			$treeID = (int) ltrim($row['tree'], 'T');
+			$pieces = explode('::', $row['parenttrre']);
+			end($pieces);
+			$parent = (int) ltrim(prev($pieces), 'T');
+			$tree = [
 				'id' => $treeID,
 				'type' => 'category',
 				'record_id' => $row['tree'],
 				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => vtranslate($row['name'], $this->moduleName),
-				'state' => ($row['state']) ? $row['state'] : '',
-				'icon' => $row['icon']
+				'text' => vtranslate($row['name'], $this->moduleName)
 			];
+			if (!empty($row['state'])) {
+				$tree['state'] = $row['state'];
+			}
+			if (!empty($row['icon'])) {
+				$tree['icon'] = $row['icon'];
+			}
+			if (!empty($row['crmid'])) {
+				$tree['category'] = ['checked' => true];
+			}
+			$trees[] = $tree;
 			if ($treeID > $lastId) {
 				$lastId = $treeID;
 			}
 		}
 		$this->lastIdinTree = $lastId;
-		return $tree;
+		return $trees;
 	}
 
 	private function getSelectedRecords()
@@ -121,8 +129,7 @@ class Vtiger_TreeCategory_View extends Vtiger_BasicModal_View
 		$tree = [];
 		foreach ($listEntries as $item) {
 			$this->lastIdinTree++;
-			$parent = $item->get('pscategory');
-			$parent = (int) str_replace('T', '', $parent);
+			$parent = (int) ltrim($item->get('pscategory'), 'T');
 			$tree[] = [
 				'id' => $this->lastIdinTree,
 				'type' => 'record',
