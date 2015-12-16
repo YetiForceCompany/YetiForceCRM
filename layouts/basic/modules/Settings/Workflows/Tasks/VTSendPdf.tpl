@@ -3,7 +3,7 @@
 	{assign var=MAIL_TPL value=OSSMailTemplates_Record_Model::getTempleteList($SOURCE_MODULE)}
 	<div class="well" id="VtVTEmailTemplateTaskContainer">
 		<div class="row">
-			<span class="col-md-4">{vtranslate('LBL_TEMPLATES', 'OSSPdf')}</span>
+			<span class="col-md-4">{vtranslate('LBL_PDF_TEMPLATE', $QUALIFIED_MODULE)}</span>
 			<div class="col-md-6 padding-bottom1per">
 				<select class="chzn-select form-control" name="pdf_tpl" data-validation-engine="validate[required]">
 					<option value="none">{vtranslate('LBL_SELECT_FIELD',$MODULE)}</option>

@@ -280,7 +280,6 @@ $languageStrings = [
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Dostosuj menu określając, które moduły mają być dostępne na pasku głównym a które mają być niewidoczne',
 	'LBL_AUTHORIZATION' => 'Autoryzacja',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
-	'LBL_OSSPDF_INFO' => 'Zarządzaj ustawieniami pdf',
 	'LBL_BACKUP_DESCRIPTION' => 'Tworzy kopie zapasową plików.',
 	'LBL_SCHEDULER_DESCRIPTION' => 'Zarządzaj harmonogramem',
 	'LBL_OSSMAIL_DESCRIPTION' => 'Zarządzaj klientem poczty',

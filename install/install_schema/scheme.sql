@@ -794,6 +794,15 @@ CREATE TABLE `s_yf_multireference` (
   KEY `source_module` (`source_module`,`dest_module`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_crmentity_rel_tree` */
+
+CREATE TABLE `u_yf_crmentity_rel_tree` (
+  `crmid` int(11) NOT NULL,
+  `module` int(11) NOT NULL,
+  `tree` varchar(50) NOT NULL,
+  `relmodule` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_crmentity_showners` */
 
 CREATE TABLE `u_yf_crmentity_showners` (
@@ -5173,171 +5182,6 @@ CREATE TABLE `vtiger_osspasswordscf` (
   `osspasswordsid` int(19) NOT NULL,
   PRIMARY KEY (`osspasswordsid`),
   CONSTRAINT `fk_1_vtiger_osspasswordscf` FOREIGN KEY (`osspasswordsid`) REFERENCES `vtiger_osspasswords` (`osspasswordsid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdf` */
-
-CREATE TABLE `vtiger_osspdf` (
-  `osspdfid` int(11) NOT NULL DEFAULT '0',
-  `oss_mod_no` varchar(255) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `moduleid` varchar(255) DEFAULT NULL,
-  `osspdf_pdf_format` varchar(20) DEFAULT NULL,
-  `osspdf_pdf_orientation` varchar(50) DEFAULT NULL,
-  `content` text,
-  `constraints` text,
-  `filename` varchar(100) DEFAULT NULL,
-  `left_margin` int(15) DEFAULT NULL,
-  `right_margin` int(15) DEFAULT NULL,
-  `top_margin` int(15) DEFAULT NULL,
-  `bottom_margin` int(15) DEFAULT NULL,
-  `osspdf_enable_footer` varchar(15) DEFAULT NULL,
-  `osspdf_enable_header` varchar(15) DEFAULT NULL,
-  `header_content` text,
-  `footer_content` text,
-  `osspdf_enable_numbering` varchar(15) DEFAULT NULL,
-  `height_header` int(10) DEFAULT NULL,
-  `height_footer` int(10) DEFAULT NULL,
-  `selected` varchar(5) DEFAULT NULL,
-  `osspdf_view` varchar(128) DEFAULT NULL,
-  PRIMARY KEY (`osspdfid`),
-  CONSTRAINT `fk_1_vtiger_osspdf` FOREIGN KEY (`osspdfid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdf_config` */
-
-CREATE TABLE `vtiger_osspdf_config` (
-  `id` int(5) NOT NULL AUTO_INCREMENT,
-  `conf_id` varchar(100) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `value` text NOT NULL,
-  `ordering` int(11) NOT NULL,
-  `display` int(3) NOT NULL,
-  `type` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdf_constraints` */
-
-CREATE TABLE `vtiger_osspdf_constraints` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `relid` int(19) NOT NULL,
-  `fieldname` varchar(255) NOT NULL,
-  `comparator` varchar(255) NOT NULL,
-  `val` varchar(255) NOT NULL,
-  `required` tinyint(19) NOT NULL,
-  `field_type` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdf_enable_footer` */
-
-CREATE TABLE `vtiger_osspdf_enable_footer` (
-  `osspdf_enable_footerid` int(11) NOT NULL AUTO_INCREMENT,
-  `osspdf_enable_footer` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`osspdf_enable_footerid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdf_enable_footer_seq` */
-
-CREATE TABLE `vtiger_osspdf_enable_footer_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdf_enable_header` */
-
-CREATE TABLE `vtiger_osspdf_enable_header` (
-  `osspdf_enable_headerid` int(11) NOT NULL AUTO_INCREMENT,
-  `osspdf_enable_header` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`osspdf_enable_headerid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdf_enable_header_seq` */
-
-CREATE TABLE `vtiger_osspdf_enable_header_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdf_enable_numbering` */
-
-CREATE TABLE `vtiger_osspdf_enable_numbering` (
-  `osspdf_enable_numberingid` int(11) NOT NULL AUTO_INCREMENT,
-  `osspdf_enable_numbering` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`osspdf_enable_numberingid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdf_enable_numbering_seq` */
-
-CREATE TABLE `vtiger_osspdf_enable_numbering_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdf_pdf_format` */
-
-CREATE TABLE `vtiger_osspdf_pdf_format` (
-  `osspdf_pdf_formatid` int(11) NOT NULL AUTO_INCREMENT,
-  `osspdf_pdf_format` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`osspdf_pdf_formatid`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdf_pdf_format_seq` */
-
-CREATE TABLE `vtiger_osspdf_pdf_format_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdf_pdf_orientation` */
-
-CREATE TABLE `vtiger_osspdf_pdf_orientation` (
-  `osspdf_pdf_orientationid` int(11) NOT NULL AUTO_INCREMENT,
-  `osspdf_pdf_orientation` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`osspdf_pdf_orientationid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdf_pdf_orientation_seq` */
-
-CREATE TABLE `vtiger_osspdf_pdf_orientation_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdf_view` */
-
-CREATE TABLE `vtiger_osspdf_view` (
-  `osspdf_viewid` int(11) NOT NULL AUTO_INCREMENT,
-  `osspdf_view` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`osspdf_viewid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdf_view_seq` */
-
-CREATE TABLE `vtiger_osspdf_view_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspdfcf` */
-
-CREATE TABLE `vtiger_osspdfcf` (
-  `osspdfid` int(11) NOT NULL,
-  PRIMARY KEY (`osspdfid`),
-  CONSTRAINT `fk_1_vtiger_osspdfcf` FOREIGN KEY (`osspdfid`) REFERENCES `vtiger_osspdf` (`osspdfid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osssoldservices` */

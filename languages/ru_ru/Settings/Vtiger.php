@@ -25,7 +25,6 @@ $languageStrings = [
 	'LBL_PBXMANAGER_DESCRIPTION' => 'Изменений и настройка Менеджера PBX',
 	'LBL_SCHEDULER_DESCRIPTION' => 'Изменение и управление Планировщиком',
 	'LBL_OSSMAIL_DESCRIPTION' => 'Почта пользователей',
-	'LBL_OSSPDF_INFO' => 'Создавайте и изменяйте Шаблоны PDF',
 	'PDF' => 'Шаблоны PDF',
 	'ApiAddress' => 'Поиск адресов',
 	'LBL_SAVE_COLOR' => 'Изменения успешно сохранены',

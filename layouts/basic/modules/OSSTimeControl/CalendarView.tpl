@@ -28,7 +28,7 @@
 	.userCol_{$ITEM.id}{ background: {$ITEM.color}!important; }
 {/foreach}
 </style>
-<div class="rowContent col-md-9 paddingLRZero">
+<div class="rowContent col-md-9 paddingLRZero col-xs-12">
 	<div class="widget_header row marginbottomZero marginRightMinus20">
 		<div class="btn-group listViewMassActions pull-left paddingLeftMd">
 			{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}

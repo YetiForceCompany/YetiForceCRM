@@ -823,7 +823,6 @@ $languageStrings = [
 	'OSSMailView' => 'Maile firmowe',
 	'OSSEmployees' => 'Pracownicy',
 	'HolidaysEntitlement' => 'Roczny wymiar urlopu',
-	'OSSPdf' => 'Lista szablonów PDF',
 	'OSSMailTemplates' => 'Lista szablonów mailowych',
 	'Faq' => 'Instrukcje',
 	'Events' => 'Terminy',
