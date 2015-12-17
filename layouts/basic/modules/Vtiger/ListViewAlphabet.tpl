@@ -9,7 +9,7 @@
 					<div class="modal-header">
 						<div class="row no-margin">
 							<div class="col-xs-1 pull-right">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
+								<button class="btn btn-default" type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
 							</div>
 							<div class="col-md-7 col-xs-10">
 								<h3 class="modal-title">{vtranslate('LBL_ALPABETIC_FILTERING', $MODULE_NAME)}</h3>

@@ -16,10 +16,17 @@
 	{if $MODULE_MODEL && $MODULE_MODEL->getAlphabetSearchField() eq $FIELD_MODEL->get('name')}
 		<div class="input-group col-xs-12">
 			<input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor form-control" value="{$SEARCH_INFO['searchValue']}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}'/>
-			<div  class="input-group-btn alphabetBtnContainer" style="width: auto">
-				<button class=" btn btn-default alphabetBtn">
-					<span class="glyphicon glyphicon-font"></span>
-				</button>
+			<div  class="input-group-btn alphabetBtnContainer">
+				{if $ALPHABET_VALUE}
+					<button class=" btn btn-primary alphabetBtn">
+						{$ALPHABET_VALUE}
+					</button>
+				{else}
+					<button class=" btn btn-default alphabetBtn">
+						<span class="glyphicon glyphicon-font"></span>
+					</button>
+				{/if}
+				
 			</div>
 		</div>
 	{else}
