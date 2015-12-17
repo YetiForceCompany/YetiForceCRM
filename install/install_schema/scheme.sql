@@ -801,8 +801,8 @@ CREATE TABLE `u_yf_crmentity_rel_tree` (
   `module` int(11) NOT NULL,
   `tree` varchar(50) NOT NULL,
   `relmodule` int(11) NOT NULL,
-  `user` int(11) NOT NULL,
-  `createdtime` datetime NOT NULL
+  `rel_created_user` int(11) NOT NULL,
+  `rel_created_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_crmentity_showners` */
@@ -5956,6 +5956,7 @@ CREATE TABLE `vtiger_relatedlists` (
   `presence` int(10) NOT NULL DEFAULT '0',
   `actions` varchar(50) NOT NULL DEFAULT '',
   `favorites` tinyint(1) DEFAULT '0',
+  `creator_detail` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`relation_id`),
   KEY `relatedlists_relation_id_idx` (`relation_id`),
   KEY `tabid` (`tabid`),
@@ -6436,6 +6437,8 @@ CREATE TABLE `vtiger_seproductsrel` (
   `crmid` int(19) NOT NULL DEFAULT '0',
   `productid` int(19) NOT NULL DEFAULT '0',
   `setype` varchar(30) NOT NULL,
+  `rel_created_user` int(11) NOT NULL,
+  `rel_created_time` datetime NOT NULL,
   PRIMARY KEY (`crmid`,`productid`),
   KEY `seproductsrel_productid_idx` (`productid`),
   KEY `seproductrel_crmid_idx` (`crmid`),
