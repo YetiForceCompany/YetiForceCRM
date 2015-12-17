@@ -585,43 +585,9 @@ class CRMEntity
 					$date_var = date("Y-m-d H:i:s");
 					$closingDateField = new DateTimeField($this->column_fields['closingdate']);
 					$closingdate = ($_REQUEST['ajxaction'] == 'DETAILVIEW') ? $this->column_fields['closingdate'] : $closingDateField->getDBInsertDateValue();
-					$sql = "insert into vtiger_potstagehistory values(?,?,?,?,?,?,?,?)";
-					$params = array('', $this->id, $this->column_fields['sum_invoices'], decode_html($sales_stage), $this->column_fields['probability'], 0, $adb->formatDate($closingdate, true), $adb->formatDate($date_var, true));
+					$sql = "insert into vtiger_potstagehistory values(?,?,?,?,?,?,?)";
+					$params = array('', $this->id, decode_html($sales_stage), $this->column_fields['probability'], 0, $adb->formatDate($closingdate, true), $adb->formatDate($date_var, true));
 					$adb->pquery($sql, $params);
-				}
-			} elseif ($module == 'Invoice') {
-				//added to update the history for Invoice
-				$history_field_array = Array(
-					"Invoice" => "invoicestatus"
-				);
-
-				$inventory_module = $module;
-
-				if ($_REQUEST['ajxaction'] == 'DETAILVIEW') {//if we use ajax edit
-					$relatedname = getAccountName($this->column_fields['account_id']);
-
-					$total = $this->column_fields['hdnGrandTotal'];
-				}
-				else {//using edit button and save
-					$relatedname = $_REQUEST["account_name"];
-
-					$total = $_REQUEST['total'];
-				}
-
-				if ($this->column_fields["$history_field_array[$inventory_module]"] == $app_strings['LBL_NOT_ACCESSIBLE']) {
-
-					//If the value in the request is Not Accessible for a picklist, the existing value will be replaced instead of Not Accessible value.
-					$his_col = $history_field_array[$inventory_module];
-					$his_sql = "select $his_col from  $this->table_name where " . $this->table_index . "=?";
-					$his_res = $adb->pquery($his_sql, array($this->id));
-					$status_value = $adb->query_result($his_res, 0, $his_col);
-					$stat_value = $status_value;
-				} else {
-					$stat_value = $this->column_fields["$history_field_array[$inventory_module]"];
-				}
-				$oldvalue = getSingleFieldValue($this->table_name, $history_field_array[$inventory_module], $this->table_index, $this->id);
-				if ($this->column_fields["$history_field_array[$inventory_module]"] != '' && $oldvalue != $stat_value) {
-					addInventoryHistory($inventory_module, $this->id, $relatedname, $total, $stat_value);
 				}
 			}
 			//Check done by Don. If update is empty the the query fails
@@ -2160,12 +2126,6 @@ class CRMEntity
 			if ($pritablename == 'vtiger_senotesrel') {
 				$query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname
                     AND $tmpname.notesid IN (SELECT crmid FROM vtiger_crmentity WHERE setype='Documents' AND deleted = 0))";
-			} else if ($pritablename == 'vtiger_inventoryproductrel' && ($module == "Products" || $module == "Services") && ($secmodule == "Invoice")) {
-				/** In vtiger_inventoryproductrel table, we'll have same product related to invoice
-				 *  we need to check whether the product joining is related to secondary module selected or not to eliminate duplicates
-				 */
-				$query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname AND $tmpname.id in 
-                        (select crmid from vtiger_crmentity where setype='$secmodule' and deleted=0))";
 			} else {
 				$query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname)";
 			}

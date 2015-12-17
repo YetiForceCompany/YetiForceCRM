@@ -9,7 +9,6 @@ $modulesMap1M = [
 	'ProjectTask' => ['ProjectMilestone'],
 	'ServiceContracts' => ['Accounts'],
 	'Faq' => ['Products'],
-	'Invoice' => ['Accounts'],
 	'PaymentsOut' => ['Accounts'],
 	'PaymentsIn' => ['Accounts'],
 	'OSSTimeControl' => ['Accounts','Project','HelpDesk','Potentials','Leads'],

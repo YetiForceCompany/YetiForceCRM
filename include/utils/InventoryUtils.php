@@ -139,32 +139,6 @@ function getProductTaxPercentage($type, $productid, $default = '')
 		return $taxpercentage;
 }
 
-/** 	Function used to add the history entry in the relevant tables for PO and Invoice modules
- * 	@param string 	$module		- current module name
- * 	@param int 	$id		- entity id
- * 	@param string 	$relatedname	- parent name of the entity ie, required field venor name for PO and account name for Invoice
- * 	@param float 	$total		- grand total value of the product details included tax
- * 	@param string 	$history_fldval	- history field value ie., status for PO, SO and Invoice
- */
-function addInventoryHistory($module, $id, $relatedname, $total, $history_fldval)
-{
-	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
-	$log->debug("Entering into function addInventoryHistory($module, $id, $relatedname, $total, $history_fieldvalue)");
-
-	$history_table_array = Array(
-		"Invoice" => "vtiger_invoicestatushistory"
-	);
-
-	$histid = $adb->getUniqueID($history_table_array[$module]);
-	$modifiedtime = $adb->formatDate(date('Y-m-d H:i:s'), true);
-	$query = "insert into $history_table_array[$module] values(?,?,?,?,?,?)";
-	$qparams = array($histid, $id, $relatedname, $total, $history_fldval, $modifiedtime);
-	$adb->pquery($query, $qparams);
-
-	$log->debug("Exit from function addInventoryHistory");
-}
-
 /** 	Function used to get the list of Tax types as a array
  * 	@param string $available - available or empty where as default is all, if available then the taxes which are available now will be returned otherwise all taxes will be returned
  *      @param string $sh - sh or empty, if sh passed then the shipping and handling related taxes will be returned
@@ -324,10 +298,6 @@ function updateInventoryProductRel($entity)
 	}
 
 	$moduleName = $entity->getModuleName();
-	if ($moduleName === 'Invoice') {
-		$statusFieldName = 'invoicestatus';
-		$statusFieldValue = 'Cancel';
-	}
 
 	$statusChanged = false;
 	$vtEntityDelta = new VTEntityDelta ();
@@ -556,6 +526,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock = 'fal
 	$log->debug("Exit from function saveInventoryProductDetails($module).");
 }
 
+// TODO Remove when there are no modules with the old products block.
 /** 	function used to get the tax type for the entity (PO or Invoice)
  * 	@param string $module - module name
  * 	@param int $id - id of the PO or Invoice
@@ -568,8 +539,8 @@ function getInventoryTaxType($module, $id)
 
 	$log->debug("Entering into function getInventoryTaxType($module, $id).");
 
-	$inv_table_array = Array('Invoice' => 'vtiger_invoice');
-	$inv_id_array = Array('Invoice' => 'invoiceid');
+	$inv_table_array = [];
+	$inv_id_array = [];
 	if (!array_key_exists($module, $inv_table_array))
 		return '';
 

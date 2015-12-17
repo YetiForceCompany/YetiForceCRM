@@ -227,13 +227,6 @@ $combo_strings = Array(
 		'Monthly' => 'Monthly',
 		'Yearly' => 'Yearly'
 	),
-	'invoicestatus_dom' => Array('AutoCreated' => 'AutoCreated',
-		'Created' => 'Created',
-		'Approved' => 'Approved',
-		'Sent' => 'Sent',
-		'Credit Invoice' => 'Credit Invoice',
-		'Paid' => 'Paid'
-	),
 	'postatus_dom' => Array('Created' => 'Created',
 		'Approved' => 'Approved',
 		'Delivered' => 'Delivered',

@@ -1719,8 +1719,6 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$data['Potentials']['contact_id'] = ['Contacts' => ['related_to' => ['parent_id']]];
 		$data['ProjectTask']['projectmilestoneid'] = ['ProjectMilestone' => ['projectid' => ['projectid']]];
 		$data['ProjectTask']['parentid'] = ['ProjectTask' => ['projectid' => ['projectid'], 'projectmilestoneid' => ['projectmilestoneid']]];
-		$data['Invoice']['potentialid'] = ['Potentials' => ['account_id' => ['related_to']]];
-		$data['Invoice']['contact_id'] = ['Contacts' => ['account_id' => ['parent_id']]];
 		$data['HelpDesk']['projectid'] = ['Project' => ['parent_id' => ['linktoaccountscontacts']]];
 		$data['HelpDesk']['contact_id'] = ['Contacts' => ['parent_id' => ['parent_id']]];
 		$data['HelpDesk']['pssold_id'] = ['Assets' => ['product_id' => ['product', 'Products']], 'OSSSoldServices' => ['product_id' => ['serviceid', 'Services']]];

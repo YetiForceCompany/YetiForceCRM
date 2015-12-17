@@ -36,13 +36,12 @@ class Potentials extends CRMEntity
 	 */
 	var $customFieldTable = Array('vtiger_potentialscf', 'potentialid');
 	var $column_fields = Array();
-	var $sortby_fields = Array('potentialname', 'sum_invoices', 'closingdate', 'smownerid', 'accountname');
+	var $sortby_fields = Array('potentialname', 'closingdate', 'smownerid', 'accountname');
 	// This is the list of vtiger_fields that are in the lists.
 	var $list_fields = Array(
 		'Potential' => Array('potential' => 'potentialname'),
 		'Organization Name' => Array('potential' => 'related_to'),
 		'Sales Stage' => Array('potential' => 'sales_stage'),
-		'Sum invoices' => Array('potential' => 'sum_invoices'),
 		'Expected Close Date' => Array('potential' => 'closingdate'),
 		'Assigned To' => Array('crmentity', 'smownerid')
 	);
@@ -50,7 +49,6 @@ class Potentials extends CRMEntity
 		'Potential' => 'potentialname',
 		'Organization Name' => 'related_to',
 		'Sales Stage' => 'sales_stage',
-		'Sum invoices' => 'sum_invoices',
 		'Expected Close Date' => 'closingdate',
 		'Assigned To' => 'assigned_user_id');
 	var $list_link_field = 'potentialname';
@@ -329,7 +327,6 @@ class Potentials extends CRMEntity
 		$current_user = vglobal('current_user');
 
 		//If field is accessible then getFieldVisibilityPermission function will return 0 else return 1
-		$amount_access = (getFieldVisibilityPermission('Potentials', $current_user->id, 'sum_invoices') != '0') ? 1 : 0;
 		$probability_access = (getFieldVisibilityPermission('Potentials', $current_user->id, 'probability') != '0') ? 1 : 0;
 		$picklistarray = getAccessPickListValues('Potentials');
 
@@ -341,7 +338,6 @@ class Potentials extends CRMEntity
 		while ($row = $adb->fetch_array($result)) {
 			$entries = Array();
 
-			$entries[] = ($amount_access != 1) ? $row['sum_invoices'] : 0;
 			$entries[] = (in_array($row['stage'], $potential_stage_array)) ? $row['stage'] : $error_msg;
 			$entries[] = ($probability_access != 1) ? $row['probability'] : 0;
 			$entries[] = DateTimeField::convertToUserFormat($row['closedate']);

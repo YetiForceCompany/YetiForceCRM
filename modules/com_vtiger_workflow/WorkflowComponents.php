@@ -40,7 +40,7 @@ function vtJsonDependentModules($adb, $request) {
 	$noOfFields = $adb->num_rows($result);
 	$dependentFields = array();
 	// List of modules which will not be supported by 'Create Entity' workflow task
-	$filterModules = array('Invoice', 'Emails', 'Calendar', 'Events', 'Accounts');
+	$filterModules = array('Emails', 'Calendar', 'Events', 'Accounts');
 	$skipFieldsList = array();
 	for ($i = 0; $i < $noOfFields; ++$i) {
 		$tabId = $adb->query_result($result, $i, 'tabid');

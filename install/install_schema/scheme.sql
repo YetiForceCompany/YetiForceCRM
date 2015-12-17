@@ -1396,7 +1396,6 @@ CREATE TABLE `vtiger_account` (
   `registration_number_2` varchar(30) DEFAULT NULL,
   `verification` text,
   `no_approval` varchar(3) DEFAULT '0',
-  `sum_invoices` decimal(25,8) DEFAULT '0.00000000',
   `balance` decimal(25,8) DEFAULT NULL,
   `payment_balance` decimal(25,8) DEFAULT NULL,
   `legal_form` varchar(255) DEFAULT NULL,
@@ -1409,7 +1408,6 @@ CREATE TABLE `vtiger_account` (
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
-  KEY `sum_invoices` (`sum_invoices`),
   KEY `accountname` (`accountname`),
   KEY `parentid` (`parentid`),
   CONSTRAINT `fk_1_vtiger_account` FOREIGN KEY (`accountid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -1687,7 +1685,6 @@ CREATE TABLE `vtiger_assets` (
   `dateinservice` date DEFAULT NULL,
   `assetstatus` varchar(200) DEFAULT 'In Service',
   `tagnumber` varchar(300) DEFAULT NULL,
-  `invoiceid` int(19) DEFAULT NULL,
   `shippingmethod` varchar(200) DEFAULT NULL,
   `assetname` varchar(100) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
@@ -1700,7 +1697,6 @@ CREATE TABLE `vtiger_assets` (
   KEY `parent_id` (`parent_id`),
   KEY `pot_renewal` (`pot_renewal`),
   KEY `product` (`product`),
-  KEY `invoiceid` (`invoiceid`),
   KEY `potential` (`potential`),
   CONSTRAINT `fk_1_vtiger_assets` FOREIGN KEY (`assetsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -3375,22 +3371,6 @@ CREATE TABLE `vtiger_fieldmodulerel` (
   `sequence` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_form_payment` */
-
-CREATE TABLE `vtiger_form_payment` (
-  `form_paymentid` int(11) NOT NULL AUTO_INCREMENT,
-  `form_payment` varchar(200) NOT NULL,
-  `sortorderid` int(11) DEFAULT NULL,
-  `presence` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`form_paymentid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_form_payment_seq` */
-
-CREATE TABLE `vtiger_form_payment_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_freetagged_objects` */
 
 CREATE TABLE `vtiger_freetagged_objects` (
@@ -3834,122 +3814,6 @@ CREATE TABLE `vtiger_invitees` (
   `inviteeid` int(19) NOT NULL,
   PRIMARY KEY (`activityid`,`inviteeid`),
   CONSTRAINT `vtiger_invitees_ibfk_1` FOREIGN KEY (`activityid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_invoice` */
-
-CREATE TABLE `vtiger_invoice` (
-  `invoiceid` int(19) NOT NULL DEFAULT '0',
-  `subject` varchar(100) DEFAULT NULL,
-  `customerno` varchar(100) DEFAULT NULL,
-  `notes` varchar(100) DEFAULT NULL,
-  `invoicedate` date DEFAULT NULL,
-  `duedate` date DEFAULT NULL,
-  `invoiceterms` varchar(100) DEFAULT NULL,
-  `type` varchar(100) DEFAULT NULL,
-  `salescommission` decimal(25,3) DEFAULT NULL,
-  `exciseduty` decimal(25,3) DEFAULT NULL,
-  `subtotal` decimal(25,8) DEFAULT NULL,
-  `total` decimal(25,8) DEFAULT NULL,
-  `taxtype` varchar(25) DEFAULT NULL,
-  `discount_percent` decimal(25,3) DEFAULT NULL,
-  `discount_amount` decimal(25,8) DEFAULT NULL,
-  `shipping` varchar(100) DEFAULT NULL,
-  `accountid` int(19) DEFAULT NULL,
-  `terms_conditions` text,
-  `invoicestatus` varchar(200) DEFAULT NULL,
-  `invoice_no` varchar(100) DEFAULT NULL,
-  `currency_id` int(19) NOT NULL DEFAULT '1',
-  `conversion_rate` decimal(10,3) NOT NULL DEFAULT '1.000',
-  `pre_tax_total` decimal(25,8) DEFAULT NULL,
-  `received` decimal(25,8) DEFAULT NULL,
-  `balance` decimal(25,8) DEFAULT NULL,
-  `total_purchase` decimal(13,2) DEFAULT NULL,
-  `total_margin` decimal(13,2) DEFAULT NULL,
-  `total_marginp` decimal(13,2) DEFAULT NULL,
-  `potentialid` int(19) DEFAULT NULL,
-  `form_payment` varchar(255) DEFAULT '',
-  `payment_balance` decimal(25,8) DEFAULT NULL,
-  PRIMARY KEY (`invoiceid`),
-  KEY `invoice_purchaseorderid_idx` (`invoiceid`),
-  KEY `potentialid` (`potentialid`),
-  KEY `accountid` (`accountid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_invoiceaddress` */
-
-CREATE TABLE `vtiger_invoiceaddress` (
-  `invoiceaddressid` int(19) NOT NULL,
-  `addresslevel1a` varchar(255) DEFAULT NULL,
-  `addresslevel1b` varchar(255) DEFAULT NULL,
-  `addresslevel2a` varchar(255) DEFAULT NULL,
-  `addresslevel2b` varchar(255) DEFAULT NULL,
-  `addresslevel3a` varchar(255) DEFAULT NULL,
-  `addresslevel3b` varchar(255) DEFAULT NULL,
-  `addresslevel4a` varchar(255) DEFAULT NULL,
-  `addresslevel4b` varchar(255) DEFAULT NULL,
-  `addresslevel5a` varchar(255) DEFAULT NULL,
-  `addresslevel5b` varchar(255) DEFAULT NULL,
-  `addresslevel6a` varchar(255) DEFAULT NULL,
-  `addresslevel6b` varchar(255) DEFAULT NULL,
-  `addresslevel7a` varchar(255) DEFAULT NULL,
-  `addresslevel7b` varchar(255) DEFAULT NULL,
-  `addresslevel8a` varchar(255) DEFAULT NULL,
-  `addresslevel8b` varchar(255) DEFAULT NULL,
-  `buildingnumbera` varchar(100) DEFAULT NULL,
-  `localnumbera` varchar(100) DEFAULT NULL,
-  `buildingnumberb` varchar(100) DEFAULT NULL,
-  `localnumberb` varchar(100) DEFAULT NULL,
-  `poboxa` varchar(50) DEFAULT NULL,
-  `poboxb` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`invoiceaddressid`),
-  CONSTRAINT `vtiger_invoiceaddress_ibfk_1` FOREIGN KEY (`invoiceaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_invoicecf` */
-
-CREATE TABLE `vtiger_invoicecf` (
-  `invoiceid` int(19) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`invoiceid`),
-  CONSTRAINT `fk_1_vtiger_invoicecf` FOREIGN KEY (`invoiceid`) REFERENCES `vtiger_invoice` (`invoiceid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_invoicestatus` */
-
-CREATE TABLE `vtiger_invoicestatus` (
-  `invoicestatusid` int(19) NOT NULL AUTO_INCREMENT,
-  `invoicestatus` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(19) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`invoicestatusid`),
-  UNIQUE KEY `invoicestatus_invoiestatus_idx` (`invoicestatus`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_invoicestatus_seq` */
-
-CREATE TABLE `vtiger_invoicestatus_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_invoicestatushistory` */
-
-CREATE TABLE `vtiger_invoicestatushistory` (
-  `historyid` int(19) NOT NULL AUTO_INCREMENT,
-  `invoiceid` int(19) NOT NULL,
-  `accountname` varchar(100) DEFAULT NULL,
-  `total` decimal(10,0) DEFAULT NULL,
-  `invoicestatus` varchar(200) DEFAULT NULL,
-  `lastmodified` datetime DEFAULT NULL,
-  PRIMARY KEY (`historyid`),
-  KEY `invoicestatushistory_invoiceid_idx` (`invoiceid`),
-  CONSTRAINT `fk_1_vtiger_invoicestatushistory` FOREIGN KEY (`invoiceid`) REFERENCES `vtiger_invoice` (`invoiceid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_invoicestatushistory_seq` */
-
-CREATE TABLE `vtiger_invoicestatushistory_seq` (
-  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_language` */
@@ -5127,7 +4991,6 @@ CREATE TABLE `vtiger_osssoldservices` (
   `datesold` date DEFAULT NULL,
   `dateinservice` date DEFAULT NULL,
   `invoice` varchar(255) DEFAULT '',
-  `invoiceid` int(19) DEFAULT NULL,
   `potential` int(19) DEFAULT NULL,
   `parent_id` int(19) DEFAULT NULL,
   `pot_renewal` int(19) DEFAULT NULL,
@@ -5513,13 +5376,11 @@ CREATE TABLE `vtiger_potential` (
   `isconvertedfromlead` varchar(3) DEFAULT '0',
   `sum_time` decimal(13,2) DEFAULT '0.00',
   `sum_time_all` decimal(13,2) DEFAULT '0.00',
-  `sum_invoices` decimal(25,8) DEFAULT '0.00000000',
   `payment_balance` decimal(25,8) DEFAULT NULL,
   PRIMARY KEY (`potentialid`),
   KEY `potential_relatedto_idx` (`related_to`),
   KEY `potentail_sales_stage_idx` (`sales_stage`),
   KEY `potentail_sales_stage_amount_idx` (`sales_stage`),
-  KEY `sum_invoices` (`sum_invoices`),
   KEY `campaignid` (`campaignid`),
   KEY `productid` (`productid`),
   CONSTRAINT `fk_1_vtiger_potential` FOREIGN KEY (`potentialid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE

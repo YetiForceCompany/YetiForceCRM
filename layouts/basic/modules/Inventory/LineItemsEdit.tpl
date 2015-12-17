@@ -284,38 +284,6 @@
 			<span id="grandTotal" name="grandTotal" class="pull-right grandTotal">{$FINAL.grandTotal}</span>
 		</td>
 	</tr>
-	{if $MODULE eq 'Invoice'}
-		<tr valign="top">
-			<td width="83%" >
-				<div class="pull-right">
-					{if $MODULE eq 'Invoice'}
-						<strong>{vtranslate('LBL_RECEIVED',$MODULE)}</strong>
-					{else}
-						<strong>{vtranslate('LBL_PAID',$MODULE)}</strong>
-					{/if}
-				</div>
-			</td>
-			<td>
-				{if $MODULE eq 'Invoice'}
-					<span class="pull-right"><input id="received" name="received" type="text" class="lineItemInputBox form-control input-sm" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}" title="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}"></span>
-                    {else}
-					<span class="pull-right"><input id="paid" name="paid" type="text" class="lineItemInputBox form-control input-sm" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0{/if}" title="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0{/if}"></span>
-                    {/if}
-			</td>
-		</tr>
-		<!--
-		<tr valign="top">
-			<td width="83%" >
-				<div class="pull-right">
-					<b>{vtranslate('LBL_BALANCE',$MODULE)}</b>
-				</div>
-			</td>
-			<td>
-				<span class="pull-right"><input id="balance" name="balance" type="text" class="lineItemInputBox form-control" value="{if $RECORD->getDisplayValue('balance') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('balance')}{else}0{/if}" readonly></span>
-			</td>
-		</tr>
-		-->
-	{/if}
 </table>
 <br>
 <input type="hidden" name="totalProductCount" id="totalProductCount" value="{$row_no}" />

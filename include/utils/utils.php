@@ -874,22 +874,6 @@ function getHelpDeskRelatedAccounts($record_id)
 	return $accountid;
 }
 
-/** Function to get Invoice related Accounts
- * @param $record_id -- record id :: Type integer
- * @returns $accountid -- accountid:: Type integer
- */
-function getInvoiceRelatedAccounts($record_id)
-{
-	$log = vglobal('log');
-	$log->debug("Entering getInvoiceRelatedAccounts(" . $record_id . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$query = "select accountid from vtiger_invoice where invoiceid=?";
-	$result = $adb->pquery($query, array($record_id));
-	$accountid = $adb->query_result($result, 0, 'accountid');
-	$log->debug("Exiting getInvoiceRelatedAccounts method ...");
-	return $accountid;
-}
-
 /**
  * the function is like unescape in javascript
  * added by dingjianting on 2006-10-1 for picklist editor
@@ -1875,7 +1859,7 @@ function getCurrencyDecimalPlaces()
 
 function getInventoryModules()
 {
-	$inventoryModules = array('Invoice');
+	$inventoryModules = [];
 	return $inventoryModules;
 }
 /* Function to only initialize the update of Vtlib Compliant modules

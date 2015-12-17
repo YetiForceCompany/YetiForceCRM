@@ -10,14 +10,6 @@
 
 class Services_Record_Model extends Products_Record_Model
 {
-	function getCreateInvoiceUrl()
-	{
-		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
-
-		return 'index.php?module=' . $invoiceModuleModel->getName() . '&view=' . $invoiceModuleModel->getEditViewName() . '&service_id=' . $this->getId() .
-			'&sourceModule=' . $this->getModuleName() . '&sourceRecord=' . $this->getId() . '&relationOperation=true';
-	}
-
 	/**
 	 * Function to get acive status of record
 	 */

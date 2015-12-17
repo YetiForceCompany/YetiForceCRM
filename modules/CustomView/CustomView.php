@@ -976,9 +976,6 @@ class CustomView extends CRMEntity
 							if ($columns[1] == 'product') {
 								$advfiltersql = "vtiger_products.productname" . $this->getAdvComparator($comparator, trim($value), $datatype);
 							}
-							if ($columns[1] == 'invoiceid') {
-								$advfiltersql = "vtiger_invoice.subject" . $this->getAdvComparator($comparator, trim($value), $datatype);
-							}
 						} else {
 							$advfiltersql = $this->getRealValues($columns[0], $columns[1], $comparator, trim($value), $datatype);
 						}
@@ -1032,7 +1029,7 @@ class CustomView extends CRMEntity
 			"product_id" => "vtiger_products.productname",
 			"contactid" => 'trim(' . $contactid . ')',
 			"contact_id" => 'trim(' . $contactid . ')',
-			"accountid" => "", //in cvadvfilter accountname is stored for Contact, Potential, Invoice
+			"accountid" => "", //in cvadvfilter accountname is stored for Contact, Potential
 			"account_id" => "", //Same like accountid. No need to change
 			"vendorid" => "vtiger_vendor.vendorname",
 			"vendor_id" => "vtiger_vendor.vendorname",
@@ -1151,12 +1148,6 @@ class CustomView extends CRMEntity
 					$value .= ' vtiger_products.productname IS NULL or ';
 				}
 				$value .= ' vtiger_products.productname';
-			}
-			if ($modulename == 'Invoice') {
-				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
-					$value .= ' vtiger_invoice.subject IS NULL or ';
-				}
-				$value .= ' vtiger_invoice.subject';
 			}
 			if ($modulename == 'Contacts') {
 				$concatSql = getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails.lastname', 'firstname' => 'vtiger_contactdetails.firstname'), 'Contacts');
@@ -1307,8 +1298,6 @@ class CustomView extends CRMEntity
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid " . $listviewquery;
 			} else if ($module == "Potentials" || $module == "Contacts") {
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_account.accountid " . $listviewquery;
-			} else if ($module == "Invoice") {
-				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_contactdetails.contactid,vtiger_account.accountid " . $listviewquery;
 			} else {
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid " . $listviewquery;
 			}
@@ -1393,8 +1382,7 @@ class CustomView extends CRMEntity
 		// Tabid mapped to the list of block labels to be skipped for that tab.
 		$skipBlocksList = array(
 			getTabid('HelpDesk') => array('LBL_COMMENTS'),
-			getTabid('Faq') => array('LBL_COMMENT_INFORMATION'),
-			getTabid('Invoice') => array('LBL_RELATED_PRODUCTS')
+			getTabid('Faq') => array('LBL_COMMENT_INFORMATION')
 		);
 
 		$Sql = "select distinct block,vtiger_field.tabid,name,blocklabel from vtiger_field inner join vtiger_blocks on vtiger_blocks.blockid=vtiger_field.block inner join vtiger_tab on vtiger_tab.tabid=vtiger_field.tabid where vtiger_tab.name in (" . generateQuestionMarks($modules_list) . ") and vtiger_field.presence in (0,2) order by block";

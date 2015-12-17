@@ -512,11 +512,6 @@ function getModuleSequenceNumber($module, $recordId)
 	return Vtiger_Deprecated::getModuleSequenceNumber($module, $recordId);
 }
 
-function getInvoiceStatus($invoiceId)
-{
-	return Vtiger_Functions::getInvoiceStatus($invoiceId);
-}
-
 function decimalFormat($value)
 {
 	return Vtiger_Functions::formatDecimal($value);

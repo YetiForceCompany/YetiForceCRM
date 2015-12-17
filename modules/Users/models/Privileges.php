@@ -328,9 +328,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			'ProjectMilestone' => ['key' => 'projectmilestoneid', 'table' => 'vtiger_projectmilestone', 'relfield' => 'projectid'],
 			'ProjectTask' => ['key' => 'projecttaskid', 'table' => 'vtiger_projecttask', 'relfield' => 'projectid']
 		];
-		$modulesSchema['Potentials'] = [
-			'Invoice' => ['key' => 'invoiceid', 'table' => 'vtiger_invoice', 'relfield' => 'potentialid']
-		];
+		$modulesSchema['Potentials'] = [];
 		$modulesSchema['HelpDesk'] = [
 			'OSSTimeControl' => ['key' => 'osstimecontrolid', 'table' => 'vtiger_osstimecontrol', 'relfield' => 'ticketid']
 		];

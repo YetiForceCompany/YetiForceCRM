@@ -42,25 +42,6 @@ class Potentials_Record_Model extends Vtiger_Record_Model
 		);
 	}
 
-	public function recalculatePotentials($PotentialsID)
-	{
-		$log = vglobal('log');
-		$log->debug("Entering recalculatePotentials($PotentialsID) method ...");
-		if ($PotentialsID == NULL) {
-			return false;
-		}
-		$InvoiceStatus = 'Cancel';
-		$db = PearDatabase::getInstance();
-
-		$sql = "UPDATE vtiger_potential SET  
-				sum_invoices = (SELECT SUM(total) as total FROM vtiger_invoice 
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_invoice.invoiceid
-						WHERE deleted = 0 AND invoicestatus <> ? AND potentialid = vtiger_potential.potentialid)
-				WHERE potentialid = ?;";
-		$db->pquery($sql, array($InvoiceStatus, $PotentialsID), true);
-		$log->debug("Exiting recalculatePotentials($PotentialsID) method ...");
-	}
-
 	public function createSalesOpportunitiesFromRecords($from_module, $recordIds)
 	{
 		$log = vglobal('log');

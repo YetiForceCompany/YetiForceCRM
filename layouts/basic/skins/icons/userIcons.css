@@ -115,6 +115,7 @@
 .userIcon-OSSCosts:before {
 	content: "\e870";
 }
+// TODO remove
 .userIcon-Invoice:before {
 	content: "\e871";
 }

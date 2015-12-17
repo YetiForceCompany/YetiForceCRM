@@ -437,17 +437,10 @@ class Vtiger_Deprecated
 		$sqlString = "CONCAT(" . $formattedNameListString . ")";
 		return $sqlString;
 	}
-
+// TODO Remove when there are no modules with the old products block.
 	static function getModuleSequenceNumber($module, $recordId)
 	{
-		$adb = PearDatabase::getInstance();
-		switch ($module) {
-			case "Invoice":
-				$res = $adb->query("SELECT invoice_no FROM vtiger_invoice WHERE invoiceid = $recordId");
-				$moduleSeqNo = $adb->query_result($res, 0, 'invoice_no');
-				break;
-		}
-		return $moduleSeqNo;
+		return '';
 	}
 
 	static function getModuleFieldTypeOfDataInfos($tables, $tabid = '')

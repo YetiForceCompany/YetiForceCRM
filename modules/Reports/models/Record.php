@@ -1055,6 +1055,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		return false;
 	}
 
+	//Remove when there are no modules with the old products block.
 	/**
 	 * Function is used for Inventory reports, filters should show line items fields only if they are selected in
 	 * calculation otherwise it should not be shown
@@ -1066,7 +1067,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 			$calculationFields = $this->getSelectedCalculationFields();
 
 		$primaryModule = $this->getPrimaryModule();
-		$inventoryModules = array('Invoice');
+		$inventoryModules = [];
 		if (!in_array($primaryModule, $inventoryModules))
 			return false;
 		if (!empty($calculationFields)) {

@@ -43,14 +43,13 @@ $adv_filter_options = array("e"=>"equals",
 //$report_modules = Array('Faq','Rss','Portal','Recyclebin','Emails','Reports','Dashboard','Home','Activities'
 	//	       );
 
-$old_related_modules = Array('Accounts'=>Array('Potentials','Contacts','Products','Invoice'),
-			 'Contacts'=>Array('Accounts','Potentials','Invoice'),
+$old_related_modules = Array('Accounts'=>Array('Potentials','Contacts','Products'),
+			 'Contacts'=>Array('Accounts','Potentials'),
 			 'Potentials'=>Array('Accounts','Contacts'),
 			 'Calendar'=>Array('Leads','Accounts','Contacts','Potentials'),
 			 'Products'=>Array('Accounts','Contacts'),
 			 'HelpDesk'=>Array('Products'),
-			 'Invoice'=>Array('Accounts','Contacts'),
-			 'Campaigns'=>Array('Products'),
+			 'Campaigns'=>Array('Products')
 			);
 
 $related_modules =Array();
@@ -571,7 +570,6 @@ class Reports extends CRMEntity{
 		$allColumnsListByBlocks =& $this->getColumnsListbyBlock($module, array_keys($this->module_list[$module]), true);
 		foreach($this->module_list[$module] as $key=>$value) {
 			$temp = $allColumnsListByBlocks[$key];
-			$this->fixGetColumnsListbyBlockForInventory($module, $key, $temp);
 
 			if (!empty($ret_module_list[$module][$value])) {
 				if (!empty($temp)) {
@@ -641,7 +639,6 @@ class Reports extends CRMEntity{
 	 */
 	public function getBlockFieldList($module, $blockIdList, $currentFieldList,$allColumnsListByBlocks) {
 		$temp = $allColumnsListByBlocks[$blockIdList];
-		$this->fixGetColumnsListbyBlockForInventory($module, $blockIdList, $temp);
 		if(!empty($currentFieldList)){
 			if(!empty($temp)){
 				$currentFieldList = array_merge($currentFieldList,$temp);
@@ -771,40 +768,6 @@ class Reports extends CRMEntity{
 				$module_columnlist[$blockid][$optionvalue] = $fieldlabel;
 			}
 		}
-		if (is_string($block)) {
-		    $this->fixGetColumnsListbyBlockForInventory($module, $block, $module_columnlist);
-		}
-		return $module_columnlist;
-	}
-
-	function fixGetColumnsListbyBlockForInventory($module, $blockid, &$module_columnlist) {
-		$log = vglobal('log');
-
-		$blockname = getBlockName($blockid);
-		if($blockname == 'LBL_RELATED_PRODUCTS' && ($module=='Invoice')){
-			$fieldtablename = 'vtiger_inventoryproductrel';
-			$fields = array('productid'=>getTranslatedString('Product Name',$module),
-							'serviceid'=>getTranslatedString('Service Name',$module),
-							'listprice'=>getTranslatedString('List Price',$module),
-							'discount_amount'=>getTranslatedString('Discount',$module),
-							'quantity'=>getTranslatedString('Quantity',$module),
-							'comment'=>getTranslatedString('Comments',$module),
-			);
-			$fields_datatype = array('productid'=>'V',
-							'serviceid'=>'V',
-							'listprice'=>'I',
-							'discount_amount'=>'I',
-							'quantity'=>'I',
-							'comment'=>'V',
-			);
-			foreach($fields as $fieldcolname=>$label){
-				$column_name = str_replace(' ', '__', $label);
-				$fieldtypeofdata = $fields_datatype[$fieldcolname];
-				$optionvalue =  $fieldtablename.":".$fieldcolname.":".$module."__".$column_name.":".$fieldcolname.":".$fieldtypeofdata;
-				$module_columnlist[$optionvalue] = $label;
-			}
-		}
-		$log->info("Reports :: FieldColumns->Successfully returned ColumnslistbyBlock".$module.$block);
 		return $module_columnlist;
 	}
 
@@ -945,7 +908,7 @@ function getEscapedColumns($selectedfields)
 			}
 			if($this->primarymodule == "Calendar" || $this->secondarymodule == "Calendar")
 			{
-				$querycolumn = "case vtiger_crmentityRelCalendar.setype when 'Accounts' then vtiger_accountRelCalendar.accountname when 'Leads' then vtiger_leaddetailsRelCalendar.lastname when 'Potentials' then vtiger_potentialRelCalendar.potentialname when 'Invoice' then vtiger_invoiceRelCalendar.subject End"." '".$selectedfields[2]."', vtiger_crmentityRelCalendar.setype 'Entity_type'";
+				$querycolumn = "case vtiger_crmentityRelCalendar.setype when 'Accounts' then vtiger_accountRelCalendar.accountname when 'Leads' then vtiger_leaddetailsRelCalendar.lastname when 'Potentials' then vtiger_potentialRelCalendar.potentialname End"." '".$selectedfields[2]."', vtiger_crmentityRelCalendar.setype 'Entity_type'";
 			}
 		}
 		return $querycolumn;
@@ -1322,9 +1285,6 @@ function getEscapedColumns($selectedfields)
 				break;
 			case 21://Purchase Order
 				$ssql.= " and vtiger_field.fieldname not in ('contact_id','vendor_id','currency_id')";
-				break;
-			case 23://Invoice
-				$ssql.= " and vtiger_field.fieldname not in ('contact_id','account_id','currency_id')";
 				break;
 			case 26://Campaigns
 				$ssql.= " and vtiger_field.fieldname not in ('product_id')";

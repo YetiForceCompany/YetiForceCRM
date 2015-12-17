@@ -276,7 +276,7 @@ class Accounts extends CRMEntity
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 
 		$query = "SELECT vtiger_potential.potentialid, vtiger_potential.related_to, vtiger_potential.potentialname, vtiger_potential.sales_stage,
-				vtiger_potential.potentialtype, vtiger_potential.sum_invoices, vtiger_potential.closingdate, vtiger_potential.potentialtype, vtiger_account.accountname,
+				vtiger_potential.potentialtype, vtiger_potential.closingdate, vtiger_potential.potentialtype, vtiger_account.accountname,
 				case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,vtiger_crmentity.crmid, vtiger_crmentity.smownerid
 				FROM vtiger_potential
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_potential.potentialid
@@ -344,71 +344,6 @@ class Accounts extends CRMEntity
 		$return_value['CUSTOM_BUTTON'] = $button;
 
 		$log->debug("Exiting get_emails method ...");
-		return $return_value;
-	}
-
-	/**
-	 * Function to get Account related Invoices
-	 * @param  integer   $id      - accountid
-	 * returns related Invoices record in array format
-	 */
-	function get_invoices($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-		$log = vglobal('log');
-		$singlepane_view = vglobal('singlepane_view');
-		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_invoices(" . $id . ") method ...");
-		$this_module = $currentModule;
-
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=' . $this_module . '&return_action=CallRelatedList&return_id=' . $id;
-
-		$button = '';
-		$current_user = vglobal('current_user');
-		if ($actions && getFieldVisibilityPermission($related_module, $current_user->id, 'account_id', 'readwrite') == '0') {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname) . "'>&nbsp;";
-			}
-		}
-
-		$entityIds = $this->getRelatedContactsIds();
-		$entityIds = implode(',', $entityIds);
-
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-
-		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
-				vtiger_crmentity.*, vtiger_invoice.*, vtiger_account.accountname 
-				FROM vtiger_invoice
-				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_invoice.invoiceid
-				LEFT OUTER JOIN vtiger_account ON vtiger_account.accountid = vtiger_invoice.accountid
-                LEFT JOIN vtiger_invoicecf ON vtiger_invoicecf.invoiceid = vtiger_invoice.invoiceid
-				LEFT JOIN vtiger_invoiceaddress ON vtiger_invoiceaddress.invoiceaddressid = vtiger_invoice.invoiceid
-				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id
-				WHERE vtiger_crmentity.deleted = 0 AND vtiger_invoice.accountid = $id";
-
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value == null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		$log->debug("Exiting get_invoices method ...");
 		return $return_value;
 	}
 
@@ -628,19 +563,16 @@ class Accounts extends CRMEntity
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Contacts" => "vtiger_contactdetails", "Potentials" => "vtiger_potential",
-			"Invoice" => "vtiger_invoice",
 			"Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel", "HelpDesk" => "vtiger_troubletickets",
 			"Products" => "vtiger_seproductsrel", "ServiceContracts" => "vtiger_servicecontracts", "Campaigns" => "vtiger_campaignaccountrel",
 			"Assets" => "vtiger_assets", "Project" => "vtiger_project");
 
 		$tbl_field_arr = Array("vtiger_contactdetails" => "contactid", "vtiger_potential" => "potentialid",
-			"vtiger_invoice" => "invoiceid",
 			"vtiger_senotesrel" => "notesid", "vtiger_seattachmentsrel" => "attachmentsid", "vtiger_troubletickets" => "ticketid",
 			"vtiger_seproductsrel" => "productid", "vtiger_servicecontracts" => "servicecontractsid", "vtiger_campaignaccountrel" => "campaignid",
 			"vtiger_assets" => "assetsid", "vtiger_project" => "projectid", "vtiger_payments" => "paymentsid");
 
 		$entity_tbl_field_arr = Array("vtiger_contactdetails" => "parentid", "vtiger_potential" => "related_to", 
-			"vtiger_invoice" => "accountid",
 			"vtiger_senotesrel" => "crmid", "vtiger_seattachmentsrel" => "crmid", "vtiger_troubletickets" => "parent_id",
 			"vtiger_seproductsrel" => "crmid", "vtiger_servicecontracts" => "sc_related_to", "vtiger_campaignaccountrel" => "accountid",
 			"vtiger_assets" => "parent_id", "vtiger_project" => "linktoaccountscontacts", "vtiger_payments" => "relatedorganization");
@@ -675,7 +607,6 @@ class Accounts extends CRMEntity
 		$rel_tables = array(
 			"Contacts" => array("vtiger_contactdetails" => array("parentid", "contactid"), "vtiger_account" => "accountid"),
 			"Potentials" => array("vtiger_potential" => array("related_to", "potentialid"), "vtiger_account" => "accountid"),
-			"Invoice" => array("vtiger_invoice" => array("accountid", "invoiceid"), "vtiger_account" => "accountid"),
 			"HelpDesk" => array("vtiger_troubletickets" => array("parent_id", "ticketid"), "vtiger_account" => "accountid"),
 			"Products" => array("vtiger_seproductsrel" => array("crmid", "productid"), "vtiger_account" => "accountid"),
 			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"), "vtiger_account" => "accountid"),

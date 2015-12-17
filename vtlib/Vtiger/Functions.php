@@ -932,9 +932,6 @@ class Vtiger_Functions
 			"vtiger_faq:product_id" => "V",
 			//Vendor Related Fields
 			"vtiger_vendor:email" => "V",
-			//Invoice Related Fields
-			"vtiger_invoice:contactid" => "V",
-			"vtiger_invoice:accountid" => "V",
 			//Campaign Related Fields
 			"vtiger_campaign:product_id" => "V",
 			//Related List Entries(For Report Module)
@@ -985,14 +982,6 @@ class Vtiger_Functions
 		$res = $adb->pquery($query, array($id));
 		$activity_type = $adb->query_result($res, 0, "activitytype");
 		return $activity_type;
-	}
-
-	static function getInvoiceStatus($id)
-	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT invoicestatus FROM vtiger_invoice where invoiceid=?", array($id));
-		$invoiceStatus = $adb->query_result($result, 0, 'invoicestatus');
-		return $invoiceStatus;
 	}
 
 	static function mkCountQuery($query)

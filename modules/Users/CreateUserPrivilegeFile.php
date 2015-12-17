@@ -227,16 +227,6 @@ if($handle)
 
 			$newbuf .= "\$Accounts_Emails_share_read_permission=array('ROLE'=>".constructTwoDimensionalCharIntSingleValueArray($acc_email_share_read_per['ROLE']).",'GROUP'=>".constructTwoDimensionalValueArray($acc_email_share_read_per['GROUP']).");\n\n";	
 			$newbuf .= "\$Accounts_Emails_share_write_permission=array('ROLE'=>".constructTwoDimensionalCharIntSingleValueArray($acc_email_share_write_per['ROLE']).",'GROUP'=>".constructTwoDimensionalValueArray($acc_email_share_write_per['GROUP']).");\n\n";
-
-			//Constructing the Account Invoice Related Module Sharing Array
-			$acct_related_inv=getRelatedModuleSharingArray("Accounts","Invoice",$account_sharingrule_members,$account_share_read_per,$account_share_write_per,$def_org_share);
-
-			$acc_inv_share_read_per=$acct_related_inv['read'];
-			$acc_inv_share_write_per=$acct_related_inv['write'];
-
-			$newbuf .= "\$Accounts_Invoice_share_read_permission=array('ROLE'=>".constructTwoDimensionalCharIntSingleValueArray($acc_inv_share_read_per['ROLE']).",'GROUP'=>".constructTwoDimensionalValueArray($acc_inv_share_read_per['GROUP']).");\n\n";	
-			$newbuf .= "\$Accounts_Invoice_share_write_permission=array('ROLE'=>".constructTwoDimensionalCharIntSingleValueArray($acc_inv_share_write_per['ROLE']).",'GROUP'=>".constructTwoDimensionalValueArray($acc_inv_share_write_per['GROUP']).");\n\n";
-
 			
 			//Constructing Potential Sharing Rules
 			$pot_share_per_array=getUserModuleSharingObjects("Potentials",$userid,$def_org_share,$current_user_roles,$parent_roles,$current_user_groups);
@@ -267,18 +257,11 @@ if($handle)
 			$newbuf .= "\$Campaigns_share_read_permission=array('ROLE'=>".constructTwoDimensionalCharIntSingleValueArray($campaign_share_read_per['ROLE']).",'GROUP'=>".constructTwoDimensionalValueArray($campaign_share_read_per['GROUP']).");\n\n";	
 			$newbuf .= "\$Campaigns_share_write_permission=array('ROLE'=>".constructTwoDimensionalCharIntSingleValueArray($campaign_share_write_per['ROLE']).",'GROUP'=>".constructTwoDimensionalValueArray($campaign_share_write_per['GROUP']).");\n\n";
 
-			//Constructing Invoice Sharing Rules
-			$inv_share_per_array=getUserModuleSharingObjects("Invoice",$userid,$def_org_share,$current_user_roles,$parent_roles,$current_user_groups);
-			$inv_share_read_per=$inv_share_per_array['read'];
-			$inv_share_write_per=$inv_share_per_array['write'];
-			$newbuf .= "\$Invoice_share_read_permission=array('ROLE'=>".constructTwoDimensionalCharIntSingleValueArray($inv_share_read_per['ROLE']).",'GROUP'=>".constructTwoDimensionalArray($inv_share_read_per['GROUP']).");\n\n";	
-			$newbuf .= "\$Invoice_share_write_permission=array('ROLE'=>".constructTwoDimensionalCharIntSingleValueArray($inv_share_write_per['ROLE']).",'GROUP'=>".constructTwoDimensionalArray($inv_share_write_per['GROUP']).");\n\n";
-	
 			// Writing Sharing Rules For Custom Modules.
 			// TODO: We are ignoring rules that has already been calculated above, it is good to add GENERIC logic here.
 			$custom_modules = getSharingModuleList(
 				Array('Leads', 'Accounts', 'Contacts', 'Potentials', 'HelpDesk', 
-				'Emails', 'Campaigns', 'Invoice'));
+				'Emails', 'Campaigns'));
 
 			for($idx = 0; $idx < count($custom_modules); ++$idx) {
 				$module_name = $custom_modules[$idx];

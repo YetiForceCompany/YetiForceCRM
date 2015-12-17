@@ -88,30 +88,6 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 	}
 
 	/**
-	 * Function returns Potentials sum_invoices for each Sales Person
-	 * @return <Array>
-	 */
-	function getPotentialsPipelinedAmountPerSalesPerson() {
-		$db = PearDatabase::getInstance();
-		//TODO need to handle security
-		$usersSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$params = [];
-		$result = $db->pquery('SELECT sum(sum_invoices) AS sum_invoices, '.$usersSqlFullName.' as last_name, vtiger_potential.sales_stage FROM vtiger_potential
-						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
-						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid AND vtiger_users.status="ACTIVE"
-						AND vtiger_crmentity.deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).
-						'INNER JOIN vtiger_sales_stage ON vtiger_potential.sales_stage =  vtiger_sales_stage.sales_stage 
-						WHERE vtiger_potential.sales_stage NOT IN ("Closed Won", "Closed Lost")
-						GROUP BY smownerid, sales_stage ORDER BY vtiger_sales_stage.sortorderid', $params);
-		for($i=0; $i<$db->num_rows($result); $i++) {
-			$row = $db->query_result_rowdata($result, $i);
-                        $row['last_name'] = decode_html($row['last_name']);
-			$data[] = $row;
-		}
-		return $data;
-	}
-
-	/**
 	 * Function returns Total Revenue for each Sales Person
 	 * @return <Array>
 	 */
@@ -127,7 +103,7 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 			$params[] = $dateFilter['end']. ' 23:59:59';
 		}
 		$usersSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$result = $db->pquery('SELECT sum(sum_invoices) sum_invoices, '.$usersSqlFullName.' as last_name,vtiger_users.id as id,DATE_FORMAT(closingdate, "%d-%m-%Y") AS closingdate  FROM vtiger_potential
+		$result = $db->pquery('SELECT '.$usersSqlFullName.' as last_name,vtiger_users.id as id,DATE_FORMAT(closingdate, "%d-%m-%Y") AS closingdate  FROM vtiger_potential
 						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
 						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid AND vtiger_users.status="ACTIVE"
 						AND vtiger_crmentity.deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).'WHERE sales_stage = ? '.' '.$dateFilterSql.' GROUP BY smownerid', $params);
@@ -146,7 +122,7 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 	 */
 	function getTopPotentialsHeader() {
 		$headerArray = array('potentialname' => 'Potential Name');
-		$fieldsToDisplay = array('sum_invoices', 'related_to');
+		$fieldsToDisplay = array( 'related_to');
 		$moduleModel = Vtiger_Module_Model::getInstance('Potentials');
 		foreach ($fieldsToDisplay as $value) {
 			$fieldInstance = Vtiger_Field_Model::getInstance($value, $moduleModel);
@@ -165,7 +141,7 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
         $moduleModel = Vtiger_Module_Model::getInstance('Potentials');
-        $fieldsToDisplay=  array("sum_invoices","related_to");
+        $fieldsToDisplay=  array("related_to");
          
         $query = "SELECT crmid , potentialname ";
 		foreach ($fieldsToDisplay as $value) {
@@ -177,15 +153,13 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		$query = $query . ' FROM vtiger_potential
 						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
 							AND deleted = 0 ' . Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()) . "
-						WHERE sales_stage NOT IN ('Closed Won', 'Closed Lost') AND sum_invoices > 0
-						ORDER BY sum_invoices DESC LIMIT " . $pagingModel->getStartIndex() . ', ' . $pagingModel->getPageLimit();
+						WHERE sales_stage NOT IN ('Closed Won', 'Closed Lost') LIMIT " . $pagingModel->getStartIndex() . ', ' . $pagingModel->getPageLimit();
 		$result = $db->pquery($query, []);
 
 		$models = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
 			$modelInstance = Vtiger_Record_Model::getCleanInstance('Potentials');
 			$modelInstance->setId($db->query_result($result, $i, 'crmid'));
-			$modelInstance->set('sum_invoices', $db->query_result($result, $i, 'sum_invoices'));
 			$modelInstance->set('potentialname', $db->query_result($result, $i, 'potentialname'));
 			$modelInstance->set('related_to', $db->query_result($result, $i, 'related_to'));
 			$models[] = $modelInstance;
@@ -276,35 +250,6 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		return $query;
 	}
 	
-	/**
-	 * Function returns Potentials sum_invoices for each Sales Stage
-	 * @return <Array>
-	 */
-	function getPotentialTotalAmountBySalesStage() {
-		//$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
-
-		$picklistValues = Vtiger_Util_Helper::getPickListValues('sales_stage');
-		$data = array();
-		foreach ($picklistValues as $key => $picklistValue) {
-			$result = $db->pquery('SELECT SUM(sum_invoices) AS sum_invoices FROM vtiger_potential
-								   INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
-								   AND deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).' WHERE sales_stage = ?', array($picklistValue));
-			$num_rows = $db->num_rows($result);
-			for($i=0; $i<$num_rows; $i++) {
-				$values = array();
-				$sum_invoices = $db->query_result($result, $i, 'sum_invoices');
-				if(!empty($sum_invoices)){
-					$values[0] = $db->query_result($result, $i, 'sum_invoices');
-					$values[1] = vtranslate($picklistValue, $this->getName());
-					$data[] = $values;
-				}
-				
-			}
-		}
-		return $data;
-	}
-
 	/**
 	 * Function to get list view query for popup window
 	 * @param <String> $sourceModule Parent module

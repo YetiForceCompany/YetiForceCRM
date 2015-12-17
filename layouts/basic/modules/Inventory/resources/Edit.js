@@ -490,17 +490,6 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 		params.view = popupImageElement.data('popup');
 		params.module = moduleName;
 
-		// narrow popup products list to those related to chosen potential
-		if (moduleName == 'Invoice') {
-
-			var potential_id = jQuery('input[name="potential_id"]').val();
-			if (typeof potential_id == 'undefined') { // if potential field has a bit diffrent name
-				potential_id = jQuery('input[name="potentialid"]').val();
-			}
-			if (potential_id) {
-				params.potentialid = potential_id;
-			}
-		}
 		params.currency_id = jQuery('#currency_id option:selected').val();
 
 		this.showPopup(params).then(function (data) {
