@@ -998,7 +998,11 @@ class Products extends CRMEntity
 				$with_module == 'Contacts' || $with_module == 'Potentials' || $with_module == 'Products') {
 				$query = $adb->pquery("SELECT * from vtiger_seproductsrel WHERE crmid=? and productid=?", array($crmid, $with_crmid));
 				if ($adb->num_rows($query) == 0) {
-					$adb->pquery("insert into vtiger_seproductsrel values (?,?,?)", array($with_crmid, $crmid, $with_module));
+					$adb->insert('vtiger_seproductsrel', [
+						'crmid' => $with_crmid,
+						'productid' => $crmid,
+						'setype' => $with_module
+					]);
 				}
 			} else {
 				parent::save_related_module($module, $crmid, $with_module, $with_crmid);

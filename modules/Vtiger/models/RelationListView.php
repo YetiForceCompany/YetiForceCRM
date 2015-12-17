@@ -258,13 +258,13 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			}
 		}
 		$limitQuery = $query . ' LIMIT ' . $startIndex . ',' . $pageLimit;
-		$result = $db->pquery($limitQuery, array());
-		$relatedRecordList = array();
+		$result = $db->query($limitQuery);
+		$relatedRecordList = [];
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$groupsIds = Vtiger_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
 		while ($row = $db->fetchByAssoc($result)) {
 			$recordId = $row['crmid'];
-			$newRow = array();
+			$newRow = [];
 			foreach ($row as $col => $val) {
 				if (array_key_exists($col, $relatedColumnFields)) {
 					if ($relationModuleName == 'Documents' && $col == 'filename') {

@@ -129,7 +129,11 @@ class Potentials_Record_Model extends Vtiger_Record_Model
 						}
 						$product = $recordModel->get('product');
 						if ($schema['relateProduct'] && $product != '' && $product != 0) {
-							$db->pquery('INSERT INTO vtiger_seproductsrel (crmid, productid, setype) VALUES (?,?,?);', array($newId, $product, 'Potentials'));
+							$db->insert('vtiger_seproductsrel', [
+								'crmid' => $newId,
+								'productid' => $product,
+								'setype' => 'Potentials'
+							]);
 						}
 						$content = vtranslate('LBL_GENERATING_COMMENT', 'Potentials') . ' ' . vtranslate($from_module, $from_module) . ': ' . $recordModel->get($schema['num']);
 						$rekord = Vtiger_Record_Model::getCleanInstance('ModComments');

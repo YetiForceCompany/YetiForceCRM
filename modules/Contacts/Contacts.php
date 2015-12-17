@@ -1076,16 +1076,30 @@ class Contacts extends CRMEntity
 		$adb = PearDatabase::getInstance();
 
 		if (!is_array($with_crmids))
-			$with_crmids = Array($with_crmids);
+			$with_crmids = [$with_crmids];
 		foreach ($with_crmids as $with_crmid) {
 			if ($with_module == 'Products') {
-				$adb->pquery("insert into vtiger_seproductsrel values (?,?,?)", array($crmid, $with_crmid, 'Contacts'));
-			} elseif ($with_module == 'Campaigns') {
-				$adb->pquery("insert into vtiger_campaigncontrel values(?,?,1)", array($with_crmid, $crmid));
-			} elseif ($with_module == 'Potentials') {
-				$adb->pquery("insert into vtiger_contpotentialrel values(?,?)", array($crmid, $with_crmid));
+				$adb->insert('vtiger_seproductsrel', [
+					'crmid' => $crmid,
+					'productid' => $with_crmid,
+					'setype' => 'Contacts'
+				]);
+			} else if ($with_module == 'Campaigns') {
+				$adb->insert('vtiger_campaigncontrel', [
+					'campaignid' => $with_crmid,
+					'contactid' => $crmid,
+					'campaignrelstatusid' => 1
+				]);
+			} else if ($with_module == 'Potentials') {
+				$adb->insert('vtiger_contpotentialrel', [
+					'contactid' => $crmid,
+					'potentialid' => $with_crmid
+				]);
 			} else if ($with_module == 'Vendors') {
-				$adb->pquery("insert into vtiger_vendorcontactrel values (?,?)", array($with_crmid, $crmid));
+				$adb->insert('vtiger_vendorcontactrel', [
+					'vendorid' => $with_crmid,
+					'contactid' => $crmid
+				]);
 			} else {
 				parent::save_related_module($module, $crmid, $with_module, $with_crmid);
 			}

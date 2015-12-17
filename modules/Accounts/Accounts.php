@@ -965,19 +965,27 @@ class Accounts extends CRMEntity
 
 	function save_related_module($module, $crmid, $with_module, $with_crmids)
 	{
-		$adb = $this->db;
+		$db = PearDatabase::getInstance();
 
 		if (!is_array($with_crmids))
-			$with_crmids = Array($with_crmids);
+			$with_crmids = [$with_crmids];
 		foreach ($with_crmids as $with_crmid) {
-			if ($with_module == 'Products')
-				$adb->pquery("insert into vtiger_seproductsrel values(?,?,?)", array($crmid, $with_crmid, $module));
-			elseif ($with_module == 'Campaigns') {
-				$checkResult = $adb->pquery('SELECT 1 FROM vtiger_campaignaccountrel WHERE campaignid = ? AND accountid = ?', array($with_crmid, $crmid));
-				if ($checkResult && $adb->num_rows($checkResult) > 0) {
+			if ($with_module == 'Products'){
+				$insert = $db->insert('vtiger_seproductsrel', [
+					'crmid' => $crmid,
+					'productid' => $with_crmid,
+					'setype' => $module
+				]);
+			}elseif ($with_module == 'Campaigns') {
+				$checkResult = $db->pquery('SELECT 1 FROM vtiger_campaignaccountrel WHERE campaignid = ? AND accountid = ?', [$with_crmid, $crmid]);
+				if ($db->getRowCount($checkResult) > 0) {
 					continue;
 				}
-				$adb->pquery("insert into vtiger_campaignaccountrel values(?,?,1)", array($with_crmid, $crmid));
+				$db->insert('vtiger_campaignaccountrel', [
+					'campaignid' => $with_crmid,
+					'accountid' => $crmid,
+					'campaignrelstatusid' => 1
+				]);
 			} else {
 				parent::save_related_module($module, $crmid, $with_module, $with_crmid);
 			}
