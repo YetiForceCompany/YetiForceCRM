@@ -84,7 +84,7 @@ class AppConfig
 }
 
 require_once 'config/api.php';
-require_once 'config/calendar.php';
+require_once 'config/modules/calendar.php';
 require_once 'config/config.php';
 require_once 'config/debug.php';
 require_once 'config/developer.php';
