@@ -1345,6 +1345,8 @@ $languageStrings = [
 	'LBL_INFO_REFRESH' => 'Introduced changes',
 	'LBL_RELATION_CREATED_TIME' => '__UNTRANSLATED__',
 	'LBL_RELATION_CREATED_USER' => '__UNTRANSLATED__',
+	'LBL_ALPABETIC_FILTERING' => "Alphabetic filtering",
+	'LBL_REMOVE FILTERING' => "Remove filtering",
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',

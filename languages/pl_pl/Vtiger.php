@@ -1096,6 +1096,8 @@ $languageStrings = [
 	'LBL_INFO_REFRESH' => 'Wprowadzono zmiany',
 	'LBL_RELATION_CREATED_TIME' => 'Czas utworzenia',
 	'LBL_RELATION_CREATED_USER' => 'Utworzył użytkownik',
+	'LBL_ALPABETIC_FILTERING' => "Filtrowanie alfabetyczne",
+	'LBL_REMOVE FILTERING' => "Wyczyść filtrowanie",
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
