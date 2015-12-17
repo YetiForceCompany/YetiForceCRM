@@ -108,8 +108,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 
 		$queryGenerator->initForCustomViewById($view);
 		$queryGenerator->setFields([]);
-		$queryGenerator->addCustomColumn('userid');
-		$queryGenerator->addCustomFrom([
+		$queryGenerator->setCustomColumn('userid');
+		$queryGenerator->setCustomFrom([
 			'joinType' => 'INNER',
 			'relatedTable' => 'u_yf_crmentity_showners',
 			'relatedIndex' => 'crmid',

@@ -1094,6 +1094,8 @@ $languageStrings = [
 	'LBL_TREE_VIEW' => 'Drzewo rekordów',
 	'LBL_DESELECT_ALL' => 'Odznacz wszystko',
 	'LBL_INFO_REFRESH' => 'Wprowadzono zmiany',
+	'LBL_RELATION_CREATED_TIME' => 'Czas utworzenia',
+	'LBL_RELATION_CREATED_USER' => 'Utworzył użytkownik',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

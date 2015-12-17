@@ -147,27 +147,27 @@ class QueryGenerator
 		return $this->whereFields;
 	}
 
-	public function addCustomColumn($columns)
+	public function setCustomColumn($columns)
 	{
 		$this->columnsCustom[] = $columns;
 	}
 
-	public function addCustomFrom($from)
+	public function setCustomFrom($from)
 	{
 		$this->fromClauseCustom[] = $from;
 	}
 
-	public function addCustomWere($where)
+	public function setCustomCondition($where)
 	{
 		$this->whereClauseCustom[] = $where;
 	}
 
-	public function addWhereField($fieldName)
+	public function setConditionField($fieldName)
 	{
 		$this->whereFields[] = $fieldName;
 	}
 
-	public function addSourceRecord($sourceRecord)
+	public function setSourceRecord($sourceRecord)
 	{
 		$this->sourceRecord = $sourceRecord;
 	}

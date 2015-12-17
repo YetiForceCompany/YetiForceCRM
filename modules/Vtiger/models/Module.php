@@ -179,7 +179,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$focus->id = $recordModel->getId();
 		$focus->save($moduleName);
 		$recordModel->setData($focus->column_fields)->setId($focus->id)->setEntity($focus);
-		if($recordModel->has('shownerid')){
+		if ($recordModel->has('shownerid')) {
 			Users_Privileges_Model::setSharedOwner($recordModel);
 		}
 		return $recordModel;
@@ -1560,6 +1560,10 @@ class Vtiger_Module_Model extends Vtiger_Module
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$queryGenerator = new QueryGenerator($relatedModuleName, $currentUser);
 			$queryGenerator->setFields($relatedListFields);
+			if ($relationModel->get('creator_detail')) {
+				$queryGenerator->setCustomColumn('rel_created_user');
+				$queryGenerator->setCustomColumn('rel_created_time');
+			}
 			$selectColumnSql = $queryGenerator->getSelectClauseColumnSQL();
 			$query = str_replace('FROM', 'from', $query);
 			$newQuery = explode('from', $query);

@@ -452,7 +452,7 @@ class Accounts extends CRMEntity
 		$entityIds = implode(',', $entityIds);
 
 		$query = "SELECT vtiger_products.productid, vtiger_products.productname, vtiger_products.productcode, vtiger_products.commissionrate,
-				vtiger_products.qty_per_unit, vtiger_products.unit_price, vtiger_crmentity.crmid, vtiger_crmentity.smownerid
+				vtiger_products.qty_per_unit, vtiger_products.unit_price, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_seproductsrel.rel_created_user, vtiger_seproductsrel.rel_created_time
 				FROM vtiger_products
 				INNER JOIN vtiger_seproductsrel ON vtiger_products.productid = vtiger_seproductsrel.productid
 				and vtiger_seproductsrel.setype IN ('Accounts', 'Contacts')
@@ -572,7 +572,7 @@ class Accounts extends CRMEntity
 			"vtiger_seproductsrel" => "productid", "vtiger_servicecontracts" => "servicecontractsid", "vtiger_campaignaccountrel" => "campaignid",
 			"vtiger_assets" => "assetsid", "vtiger_project" => "projectid", "vtiger_payments" => "paymentsid");
 
-		$entity_tbl_field_arr = Array("vtiger_contactdetails" => "parentid", "vtiger_potential" => "related_to", 
+		$entity_tbl_field_arr = Array("vtiger_contactdetails" => "parentid", "vtiger_potential" => "related_to",
 			"vtiger_senotesrel" => "crmid", "vtiger_seattachmentsrel" => "crmid", "vtiger_troubletickets" => "parent_id",
 			"vtiger_seproductsrel" => "crmid", "vtiger_servicecontracts" => "sc_related_to", "vtiger_campaignaccountrel" => "accountid",
 			"vtiger_assets" => "parent_id", "vtiger_project" => "linktoaccountscontacts", "vtiger_payments" => "relatedorganization");
@@ -708,19 +708,19 @@ class Accounts extends CRMEntity
 		$accounts_list = $this->__getParentAccounts($id, $accounts_list, $encountered_accounts);
 
 		$baseId = current(array_keys($accounts_list));
-		$accounts_list = [$baseId=>$accounts_list[$baseId]];
-	
+		$accounts_list = [$baseId => $accounts_list[$baseId]];
+
 		// Get the accounts hierarchy (list of child accounts) based on the current account
 		$accounts_list[$baseId] = $this->__getChildAccounts($baseId, $accounts_list[$baseId], $accounts_list[$baseId]['depth']);
 
 		// Create array of all the accounts in the hierarchy
-		$account_hierarchy = $this->getHierarchyData($id,$accounts_list[$baseId],$baseId,$listview_entries);
+		$account_hierarchy = $this->getHierarchyData($id, $accounts_list[$baseId], $baseId, $listview_entries);
 
 		$account_hierarchy = array('header' => $listview_header, 'entries' => $listview_entries);
 		$log->debug("Exiting getAccountHierarchy method ...");
 		return $account_hierarchy;
 	}
-	
+
 	/**
 	 * Function to create array of all the accounts in the hierarchy
 	 * @param  integer   $id - Id of the record highest in hierarchy
@@ -848,7 +848,7 @@ class Accounts extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
-		$log->debug("Entering __getChildAccounts(" . $id . "," . print_r($child_accounts,true) . "," . $depth . ") method ...");
+		$log->debug("Entering __getChildAccounts(" . $id . "," . print_r($child_accounts, true) . "," . $depth . ") method ...");
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
@@ -966,17 +966,20 @@ class Accounts extends CRMEntity
 	function save_related_module($module, $crmid, $with_module, $with_crmids)
 	{
 		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		if (!is_array($with_crmids))
 			$with_crmids = [$with_crmids];
 		foreach ($with_crmids as $with_crmid) {
-			if ($with_module == 'Products'){
+			if ($with_module == 'Products') {
 				$insert = $db->insert('vtiger_seproductsrel', [
 					'crmid' => $crmid,
 					'productid' => $with_crmid,
-					'setype' => $module
+					'setype' => $module,
+					'rel_created_user' => $currentUser->getId(),
+					'rel_created_time' => date('Y-m-d H:i:s')
 				]);
-			}elseif ($with_module == 'Campaigns') {
+			} elseif ($with_module == 'Campaigns') {
 				$checkResult = $db->pquery('SELECT 1 FROM vtiger_campaignaccountrel WHERE campaignid = ? AND accountid = ?', [$with_crmid, $crmid]);
 				if ($db->getRowCount($checkResult) > 0) {
 					continue;

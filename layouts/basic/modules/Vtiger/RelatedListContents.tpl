@@ -24,6 +24,10 @@
 							{/if}
 						</th>
 					{/foreach}
+					{if $RELATED_RECORDS_CREATOR_DETAIL}
+						<th>{vtranslate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
+						<th>{vtranslate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
+					{/if}
 				</tr>
 			</thead>
 			{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
@@ -75,6 +79,10 @@
 						{/if}
 						</td>
 					{/foreach}
+					{if $RELATED_RECORDS_CREATOR_DETAIL}
+						<td class="medium" data-field-type="rel_created_time" nowrap>{$RELATED_RECORD->get('relCreatedTime')}</td>
+						<td class="medium" data-field-type="rel_created_user" nowrap>{$RELATED_RECORD->get('relCreatedUser')}</td>
+					{/if}
 				</tr>
 			{/foreach}
 		</table>

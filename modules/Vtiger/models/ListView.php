@@ -226,7 +226,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			if ($orderByFieldModel && $orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
 				//IF it is reference add it in the where fields so that from clause will be having join of the table
 				$queryGenerator = $this->get('query_generator');
-				$queryGenerator->addWhereField($orderByFieldName);
+				$queryGenerator->setConditionField($orderByFieldName);
 				//$queryGenerator->whereFields[] = $orderByFieldName;
 			}
 		}

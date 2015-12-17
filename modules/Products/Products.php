@@ -989,19 +989,22 @@ class Products extends CRMEntity
 
 	function save_related_module($module, $crmid, $with_module, $with_crmids)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		if (!is_array($with_crmids))
 			$with_crmids = Array($with_crmids);
 		foreach ($with_crmids as $with_crmid) {
 			if ($with_module == 'Leads' || $with_module == 'Accounts' ||
 				$with_module == 'Contacts' || $with_module == 'Potentials' || $with_module == 'Products') {
-				$query = $adb->pquery("SELECT * from vtiger_seproductsrel WHERE crmid=? and productid=?", array($crmid, $with_crmid));
-				if ($adb->num_rows($query) == 0) {
-					$adb->insert('vtiger_seproductsrel', [
+				$query = $db->pquery("SELECT * from vtiger_seproductsrel WHERE crmid=? and productid=?", array($crmid, $with_crmid));
+				if ($db->getRowCount($result) == 0) {
+					$db->insert('vtiger_seproductsrel', [
 						'crmid' => $with_crmid,
 						'productid' => $crmid,
-						'setype' => $with_module
+						'setype' => $with_module,
+						'rel_created_user' => $currentUser->getId(),
+						'rel_created_time' => date('Y-m-d H:i:s')
 					]);
 				}
 			} else {

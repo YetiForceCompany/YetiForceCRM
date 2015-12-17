@@ -1074,6 +1074,7 @@ class Contacts extends CRMEntity
 	function save_related_module($module, $crmid, $with_module, $with_crmids)
 	{
 		$adb = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		if (!is_array($with_crmids))
 			$with_crmids = [$with_crmids];
@@ -1082,7 +1083,9 @@ class Contacts extends CRMEntity
 				$adb->insert('vtiger_seproductsrel', [
 					'crmid' => $crmid,
 					'productid' => $with_crmid,
-					'setype' => 'Contacts'
+					'setype' => 'Contacts',
+					'rel_created_user' => $currentUser->getId(),
+					'rel_created_time' => date('Y-m-d H:i:s')
 				]);
 			} else if ($with_module == 'Campaigns') {
 				$adb->insert('vtiger_campaigncontrel', [

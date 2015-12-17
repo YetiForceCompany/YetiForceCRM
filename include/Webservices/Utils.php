@@ -642,7 +642,8 @@ function vtws_getRelatedNotesAttachments($id, $relatedId)
 function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
 {
 	$db = PearDatabase::getInstance();
-
+	$currentUser = Users_Record_Model::getCurrentUserModel();
+	
 	$result = $db->pquery('select productid from vtiger_seproductsrel where crmid=?', [$leadId]);
 	if ($db->getRowCount($result) == 0) {
 		return false;
@@ -651,7 +652,9 @@ function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
 		$resultNew = $db->insert('vtiger_seproductsrel', [
 			'crmid' => $relatedId,
 			'productid' => $productId,
-			'setype' => $setype
+			'setype' => $setype,
+			'rel_created_user' => $currentUser->getId(),
+			'rel_created_time' => date('Y-m-d H:i:s')
 		]);
 		if ($resultNew['rowCount'] == 0) {
 			return false;

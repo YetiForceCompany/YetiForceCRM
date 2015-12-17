@@ -560,6 +560,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	public static function addRelated($params)
 	{
 		$adb = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		
 		$crmid = $params['crmid'];
 		$newModule = $params['newModule'];
 		$newCrmId = $params['newCrmId'];
@@ -569,7 +571,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$adb->insert('vtiger_seproductsrel', [
 				'crmid' => $crmid,
 				'productid' => $newCrmId,
-				'setype' => $params['mod']
+				'setype' => $params['mod'],
+				'rel_created_user' => $currentUser->getId(),
+				'rel_created_time' => date('Y-m-d H:i:s')
 			]);
 		} elseif ($newModule == 'Services') {
 			$adb->insert('vtiger_crmentityrel', [

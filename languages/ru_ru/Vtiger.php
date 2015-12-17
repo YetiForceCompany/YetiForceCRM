@@ -1343,6 +1343,8 @@ $languageStrings = [
 	'LBL_TIMELINE' => 'Timeline',
 	'LBL_DESELECT_ALL' => 'Deselect all',
 	'LBL_INFO_REFRESH' => 'Introduced changes',
+	'LBL_RELATION_CREATED_TIME' => '__UNTRANSLATED__',
+	'LBL_RELATION_CREATED_USER' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',
