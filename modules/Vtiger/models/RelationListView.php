@@ -572,15 +572,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 	public function getTreeViewModel()
 	{
-		if ($this->has('treeViewModel')) {
-			return $this->get('treeViewModel');
-		}
-		$relModuleName = $this->getRelatedModuleModel()->getName();
-		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'TreeCategoryModal', $relModuleName);
-		$handler = new $handlerClass();
-		$handler->moduleName = $relModuleName;
-		$this->set('treeViewModel', $handler);
-		return $handler;
+		return Vtiger_TreeCategoryModal_Model::getInstance($this->getRelatedModuleModel());
 	}
 
 	public function getTreeHeaders()
@@ -603,7 +595,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$fields = $treeViewModel->getTreeField();
 		$template = $treeViewModel->getTemplate();
 
-		$result = $db->pquery('SELECT tr.*,rel.crmid,rel.rel_created_time,rel.rel_created_user  FROM vtiger_trees_templates_data tr '
+		$result = $db->pquery('SELECT tr.*,rel.crmid,rel.rel_created_time,rel.rel_created_user FROM vtiger_trees_templates_data tr '
 			. 'INNER JOIN u_yf_crmentity_rel_tree rel ON rel.tree = tr.tree '
 			. 'WHERE tr.templateid = ? AND rel.crmid = ? AND rel.relmodule = ?', [$template, $recordId, $relModuleId]);
 		$trees = [];
@@ -613,7 +605,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			end($pieces);
 			$parent = prev($pieces);
 			$parentName = '';
-			if (false && $row['depth'] > 0) {
+			if ($row['depth'] > 0) {
 				$result2 = $db->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $parent]);
 				$parentName = $db->getSingleValue($result2);
 				$parentName = '(' . vtranslate($parentName, $relModuleName) . ') ';

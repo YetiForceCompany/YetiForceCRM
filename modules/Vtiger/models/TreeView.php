@@ -17,7 +17,7 @@ class Vtiger_TreeView_Model extends Vtiger_Base_Model
 	 */
 	public function getModuleName()
 	{
-		return $this->get('module')->get('name');
+		return $this->get('moduleName');
 	}
 
 	/**
@@ -44,8 +44,7 @@ class Vtiger_TreeView_Model extends Vtiger_Base_Model
 	 */
 	public function getTemplate()
 	{
-		$field = $this->getTreeField();
-		return $field['fieldparams'];
+		return $this->getTreeField()['fieldparams'];
 	}
 
 	/**
@@ -54,9 +53,17 @@ class Vtiger_TreeView_Model extends Vtiger_Base_Model
 	 */
 	public function getTreeField()
 	{
+		if ($this->has('fieldTemp')) {
+			return $this->get('fieldTemp');
+		}
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, Vtiger_Functions::getModuleId($this->getModuleName())]);
-		return $db->getRow($result);
+		if ($db->getRowCount($result) == 0) {
+			Vtiger_Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $this->getModuleName()));
+		}
+		$fieldTemp = $db->getRow($result);
+		$this->set('fieldTemp', $fieldTemp);
+		return $fieldTemp;
 	}
 
 	/**
@@ -100,7 +107,7 @@ class Vtiger_TreeView_Model extends Vtiger_Base_Model
 		}
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TreeView', $moduleName);
 		$instance = new $modelClassName();
-		self::$_cached_instance[$moduleName] = $instance->set('module', $moduleModel);
+		self::$_cached_instance[$moduleName] = $instance->set('module', $moduleModel)->set('moduleName', $moduleName);
 		return self::$_cached_instance[$moduleName];
 	}
 

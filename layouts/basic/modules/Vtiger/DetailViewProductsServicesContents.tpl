@@ -100,6 +100,13 @@
 				<div class="widget_contents">
 				</div>
 			</div>
+			<div class="widgetContainer_productsCategory" data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Services&mode=showRelatedTree" data-name="LBL_RELATED_SERVICES">
+				<div class="widget_header row">
+					<input type="hidden" name="relatedModule" value="Services" />
+				</div>
+				<div class="widget_contents">
+				</div>
+			</div>
 		</div>
 	{/if}
 	{* Summary View OSSOutsourcedServices Widget Start Here*}

@@ -99,7 +99,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 				categoryToAdd: categoryToAdd,
 				categoryToRemove: categoryToRemove,
 				src_record: app.getRecordId(),
-				related_module: container.find('[name="related_module"]').val(),
+				related_module: container.find('#related_module').val(),
 			}).then(function (res) {
 				var thisInstance = Vtiger_Detail_Js.getInstance();
 				var selectedTab = thisInstance.getSelectedTab();
