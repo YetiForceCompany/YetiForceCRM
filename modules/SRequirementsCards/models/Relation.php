@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Relation Class for SCalculations
+ * Relation Class for Requirements Cards
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
-class SCalculations_Relation_Model extends Vtiger_Relation_Model
+class SRequirementsCards_Relation_Model extends Vtiger_Relation_Model
 {
 
 	public function deleteRelation($sourceRecordId, $relatedRecordId)
