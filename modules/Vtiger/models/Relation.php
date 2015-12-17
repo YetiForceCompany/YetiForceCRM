@@ -165,8 +165,8 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			'tree' => $tree,
 			'module' => $sourceModule->getId(),
 			'relmodule' => $this->getRelationModuleModel()->getId(),
-			'user' => $currentUserModel->getId(),
-			'createdtime' => date('Y-m-d H:i:s')
+			'rel_created_user' => $currentUserModel->getId(),
+			'rel_created_time' => date('Y-m-d H:i:s')
 		]);
 	}
 
