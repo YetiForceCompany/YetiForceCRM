@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package YetiForce.Modal
+ * @package YetiForce.ModalView
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */

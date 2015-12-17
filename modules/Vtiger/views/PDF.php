@@ -2,7 +2,7 @@
 
 /**
  * Export PDF Modal View Class
- * @package YetiForce.View
+ * @package YetiForce.ModalView
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
