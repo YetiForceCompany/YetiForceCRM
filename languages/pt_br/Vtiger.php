@@ -1099,8 +1099,8 @@ $languageStrings = [
 	'LBL_TIMELINE' => 'Timeline',
 	'LBL_DESELECT_ALL' => 'Deselect all',
 	'LBL_INFO_REFRESH' => 'Introduced changes',
-	'LBL_RELATION_CREATED_TIME' => '__UNTRANSLATED__',
-	'LBL_RELATION_CREATED_USER' => '__UNTRANSLATED__',
+	'LBL_RELATION_CREATED_TIME' => 'Creation time',
+	'LBL_RELATION_CREATED_USER' => 'Created by user',
 	'LBL_ALPABETIC_FILTERING' => "Alphabetic filtering",
 	'LBL_REMOVE FILTERING' => "Remove filtering",
 ];
