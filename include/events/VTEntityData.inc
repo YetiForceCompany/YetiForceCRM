@@ -121,7 +121,6 @@ class VTEntityData
 			"ImportLead" => "Leads",
 			"ImportAccount" => "Accounts",
 			"ImportContact" => "Contacts",
-			"ImportOpportunity" => "Potentials",
 			"ImportProduct" => "Products",
 			"ImportTicket" => "HelpDesk",
 			"ImportVendors" => "Vendors"

@@ -525,40 +525,6 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 		})
 	},
-	generatePotentials: function () {
-		var listInstance = Vtiger_List_Js.getInstance();
-		var validationResult = listInstance.checkListRecordSelected();
-		if (validationResult != true) {
-			var progressIndicatorElement = jQuery.progressIndicator();
-			var selectedIds = listInstance.readSelectedIds(true);
-			var excludedIds = listInstance.readExcludedIds(true);
-			var cvId = listInstance.getCurrentCvId();
-			var params = {
-				'module': 'Potentials',
-				'action': 'GeneratePotentials',
-				"selected_ids": selectedIds,
-				"excluded_ids": excludedIds,
-				"viewname": cvId,
-				'from_module': app.getModuleName(),
-			}
-			AppConnector.request(params).then(
-					function (data) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						var params = {
-							title: app.vtranslate('JS_MESSAGE'),
-							text: data.result,
-							animation: 'show',
-							type: 'info'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-						Vtiger_List_Js.clearList();
-
-					}
-			);
-		} else {
-			listInstance.noRecordSelectedAlert();
-		}
-	},
 	triggerListSearch: function () {
 		var listInstance = Vtiger_List_Js.getInstance();
 		var listViewContainer = listInstance.getListViewContentContainer();

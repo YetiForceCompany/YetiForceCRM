@@ -146,7 +146,7 @@ function OSSDocumentControlSave() {
                 var thisInstance = this;
                 var view = app.getViewName();
 				var moduleName = app.getModuleName();
-				if(moduleName == 'Potentials' || moduleName == 'HelpDesk' || moduleName == 'Project'){
+				if(moduleName == 'HelpDesk' || moduleName == 'Project'){
 					jQuery('body').append('<div id="oss_check_doc" style="display:none;"></div>');
 
 					if ('Detail' == view) {

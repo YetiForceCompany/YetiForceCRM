@@ -86,29 +86,6 @@
 										{/foreach}
 									</select>
 								</td>
-								<td width="20%">
-									<select class="potentialFields select2" style="width:180px" name="mapping[{$smarty.foreach.mappingLoop.iteration}][potential]">
-										<option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
-										{foreach key=FIELD_TYPE item=FIELDS_INFO from=$POTENTIALS_MODULE_MODEL->getFields()}
-											{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS_INFO}
-												{if $MAPPING_ARRAY['Leads']['fieldDataType'] eq $FIELD_TYPE}
-													<option data-type="{$FIELD_TYPE}" {if $FIELD_ID eq $MAPPING_ARRAY['Potentials']['id']} selected {/if} label="{vtranslate($FIELD_OBJECT->get('label'), $POTENTIALS_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-														{vtranslate($FIELD_OBJECT->get('label'), $POTENTIALS_MODULE_MODEL->getName())}
-													</option>
-												{/if}
-											{/foreach}
-										{/foreach}
-									</select>
-									{if $MAPPING_ARRAY['editable'] eq 1}
-										{foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
-											<div class="pull-right actions">
-												<span class="actionImages">
-													<a><span title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteMapping"></span></a>
-												</span>
-											</div>
-										{/foreach}
-									{/if}
-								</td>
 							</tr>
 						{/foreach}
 						<tr class="hide newMapping listViewEntries">
@@ -148,25 +125,6 @@
 										{/foreach}
 									{/foreach}
 								</select>
-							</td>
-							<td width="13%">
-								<select class="potentialFields newSelect" style="width:180px">
-									<option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
-									{foreach key=FIELD_TYPE item=FIELDS_INFO from=$POTENTIALS_MODULE_MODEL->getFields()}
-										{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS_INFO}
-												<option data-type="{$FIELD_TYPE}" label="{vtranslate($FIELD_OBJECT->get('label'), $POTENTIALS_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-													{vtranslate($FIELD_OBJECT->get('label'), $POTENTIALS_MODULE_MODEL->getName())}
-												</option>
-										{/foreach}
-									{/foreach}
-								</select>
-								{foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
-									<div class="pull-right actions">
-										<span class="actionImages">
-											<a><span title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteMapping"></span></a>
-										</span>
-									</div>
-								{/foreach}
 							</td>
 						</tr>
 					</tbody>

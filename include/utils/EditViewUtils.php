@@ -47,23 +47,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 	// DG 15 Aug 2006
 	// Add "ORDER BY sequence_no" to retain add order on all inventoryproductrel items
 
-	if ($module == 'Potentials') {
-		$query = "SELECT
- 		                        vtiger_products.productname,
- 		                        vtiger_products.productcode,
- 		                        vtiger_products.unit_price,
- 		                        vtiger_products.usageunit,
- 		                        vtiger_products.qtyinstock,
- 		                        vtiger_seproductsrel.*,vtiger_crmentity.deleted,
- 		                        vtiger_crmentity.description AS product_description
- 		                        FROM vtiger_products
- 		                        INNER JOIN vtiger_crmentity
- 		                                ON vtiger_crmentity.crmid=vtiger_products.productid
- 		                        INNER JOIN vtiger_seproductsrel
- 		                                ON vtiger_seproductsrel.productid=vtiger_products.productid
- 		                        WHERE vtiger_seproductsrel.crmid=?";
-		$params = array($seid);
-	} elseif ($module == 'Products') {
+	if ($module == 'Products') {
 		$query = "SELECT
  		                        vtiger_products.productid,
  		                        vtiger_products.productcode,
@@ -172,7 +156,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 			$product_Detail[$i]['productName' . $i] = htmlspecialchars($product_Detail[$i]['productName' . $i]);
 		$product_Detail[$i]['hdnProductcode' . $i] = $hdnProductcode;
 		$product_Detail[$i]['productDescription' . $i] = from_html($productdescription);
-		if ($module == 'Potentials' || $module == 'Products' || $module == 'Services') {
+		if ($module == 'Products' || $module == 'Services') {
 			$product_Detail[$i]['comment' . $i] = $productdescription;
 		} else {
 			$product_Detail[$i]['comment' . $i] = $comment;

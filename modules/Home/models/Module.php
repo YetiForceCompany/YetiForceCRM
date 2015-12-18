@@ -162,12 +162,6 @@ class Home_Module_Model extends Vtiger_Module_Model
 					$record = Vtiger_Record_Model::getInstanceById($row['parent_id']);
 					if ($record->getModuleName() == 'Accounts') {
 						$model->set('contractor', $record);
-					} else if ($record->getModuleName() == 'Potentials') {
-						if (isRecordExists($record->get('related_to'))) {
-							$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('related_to'));
-							;
-							$model->set('contractor', $recordContractor);
-						}
 					} else if ($record->getModuleName() == 'Project') {
 						if (isRecordExists($record->get('linktoaccountscontacts'))) {
 							$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('linktoaccountscontacts'));

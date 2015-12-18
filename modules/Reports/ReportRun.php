@@ -1912,45 +1912,9 @@ class ReportRun extends CRMEntity
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				" where vtiger_crmentity.deleted=0";
-		} else if ($module == "Potentials") {
-			$query = "from vtiger_potential
-				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_potential.potentialid";
-
-			if ($this->queryPlanner->requireTable('vtiger_potentialscf')) {
-				$query .= " inner join vtiger_potentialscf on vtiger_potentialscf.potentialid = vtiger_potential.potentialid";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_accountPotentials')) {
-				$query .= " left join vtiger_account as vtiger_accountPotentials on vtiger_potential.related_to = vtiger_accountPotentials.accountid";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_campaignPotentials')) {
-				$query .= " left join vtiger_campaign as vtiger_campaignPotentials on vtiger_potential.campaignid = vtiger_campaignPotentials.campaignid";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_groupsPotentials')) {
-				$query .= " left join vtiger_groups vtiger_groupsPotentials on vtiger_groupsPotentials.groupid = vtiger_crmentity.smownerid";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_usersPotentials')) {
-				$query .= " left join vtiger_users as vtiger_usersPotentials on vtiger_usersPotentials.id = vtiger_crmentity.smownerid";
-			}
-
-			// TODO optimize inclusion of these tables
-			$query .= " left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid";
-			$query .= " left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
-
-			if ($this->queryPlanner->requireTable('vtiger_lastModifiedByPotentials')) {
-				$query .= " left join vtiger_users as vtiger_lastModifiedByPotentials on vtiger_lastModifiedByPotentials.id = vtiger_crmentity.modifiedby";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_createdbyPotentials')) {
-				$query .= " left join vtiger_users as vtiger_createdbyPotentials on vtiger_createdbyPotentials.id = vtiger_crmentity.smcreatorid";
-			}
-			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
-				$query .= " left join " . $customTable['refTable'] . " as " . $customTable['reference'] . " on " . $customTable['reference'] . "." . $customTable['refIndex'] . " = " . $customTable['table'] . "." . $customTable['field'];
-			}
-			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
-				" where vtiger_crmentity.deleted=0 ";
 		}
 
-		//For this Product - we can related Accounts, Contacts (Also Leads, Potentials)
+		//For this Product - we can related Accounts, Contacts (Also Leads)
 		else if ($module == "Products") {
 			$query .= " from vtiger_products";
 			$query .= " inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_products.productid";
@@ -2072,9 +2036,6 @@ class ReportRun extends CRMEntity
 			}
 			if ($this->queryPlanner->requireTable('vtiger_leaddetailsRelCalendar')) {
 				$query .= " left join vtiger_leaddetails as vtiger_leaddetailsRelCalendar on vtiger_leaddetailsRelCalendar.leadid = vtiger_activity.link";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_potentialRelCalendar')) {
-				$query .= " left join vtiger_potential as vtiger_potentialRelCalendar on vtiger_potentialRelCalendar.potentialid = vtiger_activity.process";
 			}
 			if ($this->queryPlanner->requireTable('vtiger_troubleticketsRelCalendar')) {
 				$query .= " left join vtiger_troubletickets as vtiger_troubleticketsRelCalendar on vtiger_troubleticketsRelCalendar.ticketid = vtiger_activity.process";
@@ -3665,8 +3626,6 @@ class ReportRun extends CRMEntity
 					$referenceTableName = 'vtiger_contactdetailsCalendar';
 				} elseif ($moduleName == 'Calendar' && $referenceModule == 'Leads') {
 					$referenceTableName = 'vtiger_leaddetailsRelCalendar';
-				} elseif ($moduleName == 'Calendar' && $referenceModule == 'Potentials') {
-					$referenceTableName = 'vtiger_potentialRelCalendar';
 				} elseif ($moduleName == 'Calendar' && $referenceModule == 'HelpDesk') {
 					$referenceTableName = 'vtiger_troubleticketsRelCalendar';
 				} elseif ($moduleName == 'Calendar' && $referenceModule == 'Campaigns') {
@@ -3681,14 +3640,8 @@ class ReportRun extends CRMEntity
 					$referenceTableName = 'vtiger_productsCampaigns';
 				} elseif ($moduleName == 'Faq' && $referenceModule == 'Products') {
 					$referenceTableName = 'vtiger_productsFaq';
-				} elseif ($moduleName == 'Potentials' && $referenceModule == 'Campaigns') {
-					$referenceTableName = 'vtiger_campaignPotentials';
 				} elseif ($moduleName == 'Products' && $referenceModule == 'Vendors') {
 					$referenceTableName = 'vtiger_vendorRelProducts';
-				} elseif ($moduleName == 'Potentials' && $referenceModule == 'Contacts') {
-					$referenceTableName = 'vtiger_contactdetailsPotentials';
-				} elseif ($moduleName == 'Potentials' && $referenceModule == 'Accounts') {
-					$referenceTableName = 'vtiger_accountPotentials';
 				} elseif ($moduleName == 'ModComments' && $referenceModule == 'Users') {
 					$referenceTableName = 'vtiger_usersModComments';
 				} elseif (in_array($referenceModule, $reportSecondaryModules)) {

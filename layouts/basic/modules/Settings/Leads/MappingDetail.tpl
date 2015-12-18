@@ -47,18 +47,6 @@
 								<td width="20%">{vtranslate($MAPPING['Leads']['fieldDataType'], $QUALIFIED_MODULE)}</td>
 								<td width="20%">{vtranslate({$MAPPING['Accounts']['label']}, 'Accounts')}</td>
 								<td width="20%">{vtranslate({$MAPPING['Contacts']['label']}, 'Contacts')}</td>
-								<td width="20%">
-									{vtranslate({$MAPPING['Potentials']['label']}, 'Potentials')}
-									{if $MAPPING['editable'] eq 1}
-										{foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
-											<div class="pull-right actions">
-												<span class="actionImages">
-													<a onclick={$LINK_MODEL->getUrl()}><span title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
-												</span>
-											</div>
-										{/foreach}
-									{/if}
-								</td>
 							</tr>
 						{/foreach}
 					</tbody>

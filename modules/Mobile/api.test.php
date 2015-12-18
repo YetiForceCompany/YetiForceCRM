@@ -27,7 +27,6 @@ $mobileAPITestController->doLoginAndFetchModules('admin','admin');
 //$mobileAPITestController->doSave('Leads', '2x0', array('lastname'=>'Testing', 'company'=>'Company'));
 //$mobileAPITestController->doSync('HelpDesk');//, 0, 1277646523, 'public');//, 0, 1277234885);// 1271240542);
 //$mobileAPITestController->doScanImage();
-//$mobileAPITestController->doFetchRecordsWithGrouping('Potentials', 'alertid', '4')
 //$mobileAPITestController->doQuery('Contacts', "SELECT firstname,lastname,account_id FROM Contacts LIMIT 1,2;");
 //$mobileAPITestController->doQuery('Contacts', "SELECT * FROM Contacts;", 0, true);
 //$mobileAPITestController->doRelatedRecordsWithGrouping('3x2', 'Contacts', 1);

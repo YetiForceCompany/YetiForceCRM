@@ -50,7 +50,6 @@ class Inventory_ServicesPopup_View extends Vtiger_Popup_View {
 		$currencyId = $request->get('currency_id');
 		$relatedParentModule = $request->get('related_parent_module');
 		$relatedParentId = $request->get('related_parent_id');
-		$potentialId = $request->get('potentialid');
 		$searchParams = $request->get('search_params');
 		//To handle special operation when selecting record from Popup
 		$getUrl = $request->get('get_url');
@@ -122,12 +121,6 @@ class Inventory_ServicesPopup_View extends Vtiger_Popup_View {
         		$searchParmams[$fieldName] = $fieldSearchInfo;
         	}
         }
-		if(Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit() && Settings_SalesProcesses_Module_Model::isLimitForModule( $sourceModule ) ) {
-			if ( $potentialId == '' ) $potentialId = -1;
-			$listViewModel->set('potential_id', $potentialId);
-			$viewer->assign('INVENTORY_LIMITED_FROM_POTENTIALS', true);
-		}
-		
 		if(!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$this->listViewHeaders = $listViewModel->getHeaders();
 			

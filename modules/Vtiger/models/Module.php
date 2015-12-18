@@ -1166,7 +1166,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		if (in_array($this->getName(), ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees'])) {
 			$relationField = 'link';
 		}
-		if (in_array($this->getName(), ['Campaigns', 'HelpDesk', 'Potentials', 'Project', 'ServiceContracts'])) {
+		if (in_array($this->getName(), ['Campaigns', 'HelpDesk', 'Project', 'ServiceContracts'])) {
 			$relationField = 'process';
 		}
 		$query = "SELECT vtiger_crmentity.crmid, crmentity2.crmid AS parent_id, vtiger_crmentity.description as description, vtiger_crmentity.smownerid, vtiger_crmentity.smcreatorid, vtiger_crmentity.setype, vtiger_activity.* FROM vtiger_activity
@@ -1720,7 +1720,6 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$data['SSingleOrders']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
 		$data['SRecurringOrders']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
 		$data['SQuoteEnquiries']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
-		$data['Potentials']['contact_id'] = ['Contacts' => ['related_to' => ['parent_id']]];
 		$data['ProjectTask']['projectmilestoneid'] = ['ProjectMilestone' => ['projectid' => ['projectid']]];
 		$data['ProjectTask']['parentid'] = ['ProjectTask' => ['projectid' => ['projectid'], 'projectmilestoneid' => ['projectmilestoneid']]];
 		$data['HelpDesk']['projectid'] = ['Project' => ['parent_id' => ['linktoaccountscontacts']]];

@@ -730,7 +730,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public function BindRecords()
 	{
 		$adb = PearDatabase::getInstance();
-		$actions = array('2_bind_Accounts', '3_bind_Contacts', '4_bind_Leads', '5_bind_HelpDesk', '6_bind_Potentials', '7_bind_Project', '8_bind_ServiceContracts', '9_bind_Campaigns',);
+		$actions = array('2_bind_Accounts', '3_bind_Contacts', '4_bind_Leads', '5_bind_HelpDesk', '7_bind_Project', '8_bind_ServiceContracts', '9_bind_Campaigns',);
 		$result = $adb->pquery("SELECT * FROM vtiger_ossmailview WHERE verify = '1' ", array());
 		$num_rows = $adb->num_rows($result);
 		if ($num_rows == 0) {

@@ -22,7 +22,7 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery)
 	{
-		if (($sourceModule == 'Accounts' && $field == 'account_id' && $record) || in_array($sourceModule, array('Campaigns', 'Products', 'Services', 'Emails', 'Potentials'))) {
+		if (($sourceModule == 'Accounts' && $field == 'account_id' && $record) || in_array($sourceModule, array('Campaigns', 'Products', 'Services', 'Emails'))) {
 
 			if ($sourceModule === 'Campaigns') {
 				$condition = " vtiger_account.accountid NOT IN (SELECT accountid FROM vtiger_campaignaccountrel WHERE campaignid = '$record')";
@@ -32,15 +32,6 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 				$condition = " vtiger_account.accountid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
 			} elseif ($sourceModule === 'Emails') {
 				$condition = ' vtiger_account.emailoptout = 0';
-			} elseif ($sourceModule === 'Potentials') {
-				$config = Settings_SalesProcesses_Module_Model::getConfig('potential');
-				$currentUser = Users_Record_Model::getCurrentUserModel();
-				$accessibleGroups = $currentUser->getAccessibleGroupForModule('Accounts');
-				if ($config['add_potential'] && $accessibleGroups) {
-					$condition = " vtiger_crmentity.smownerid NOT IN (" . implode(',', array_keys($accessibleGroups)) . ")";
-				} else {
-					return $listQuery;
-				}
 			} else {
 				$condition = " vtiger_account.accountid != '$record'";
 			}
@@ -99,9 +90,6 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 
 			// There could be more than one contact for an activity.
 			$query .= ' GROUP BY vtiger_activity.activityid';
-		} elseif ($functionName === 'get_dependents_list' && $relatedModule->getName() == 'OutsourcedProducts') {
-			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
-			$query .= " OR potential IN (SELECT potentialid FROM vtiger_potential INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_potential.potentialid WHERE vtiger_crmentity.deleted = 0 AND related_to = '$recordId')";
 		} elseif ($functionName === 'get_mails' && $relatedModule->getName() == 'OSSMailView') {
 			$query = OSSMailView_Record_Model::getMailsQuery($recordId, $relatedModule->getName());
 		} else {

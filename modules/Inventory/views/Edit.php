@@ -77,8 +77,7 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 				}
 				$relatedProducts = $serviceRecordModel->getDetailsForInventoryModule($recordModel);
 			} elseif ($sourceRecord && ($sourceModule === 'Accounts'
-						|| $sourceModule === 'Contacts'
-						|| $sourceModule === 'Potentials')) {
+						|| $sourceModule === 'Contacts')) {
 				$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
 				$recordModel->setParentRecordData($parentRecordModel);
 			}

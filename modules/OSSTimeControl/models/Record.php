@@ -18,7 +18,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 	public static function recalculateTimeOldValues($record_id, $data)
 	{
 		require_once 'include/events/VTEntityDelta.php';
-		$relatedField = array('accountid', 'contactid', 'ticketid', 'projectid', 'projecttaskid', 'potentialid', 'servicecontractsid', 'assetsid');
+		$relatedField = array('accountid', 'contactid', 'ticketid', 'projectid', 'projecttaskid', 'servicecontractsid', 'assetsid');
 		$vtEntityDelta = new VTEntityDelta();
 		$delta = $vtEntityDelta->getEntityDelta('OSSTimeControl', $record_id, true);
 		$recalculateOldValue = false;
@@ -39,7 +39,6 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		//$assetsid = $data->get('assetsid');
 		$accountid = $data->get('accountid');
 		$ticketid = $data->get('ticketid');
-		$potentialid = $data->get('potentialid');
 		$projectid = $data->get('projectid');
 		$projecttaskid = $data->get('projecttaskid');
 		$servicecontractsid = $data->get('servicecontractsid');
@@ -48,7 +47,6 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		self::recalculateProjectTask($projecttaskid);
 		self::recalculateHelpDesk($ticketid);
 		self::recalculateProject($projectid);
-		self::recalculatePotentials($potentialid);
 		self::recalculateServiceContracts($servicecontractsid);
 
 		if (self::checkID($projecttaskid)) {
@@ -146,22 +144,6 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		$sum_time_all = $sum_time + $sum_time_h + $sum_time_p;
 		$db->pquery("UPDATE vtiger_servicecontracts SET sum_time = ?,sum_time_h = ?,sum_time_p = ?,sum_time_all = ? WHERE servicecontractsid = ?;", array($sum_time, $sum_time_h, $sum_time_p, $sum_time_all, $ServiceContractsID), true);
 		return array($sum_time, $sum_time_h, $sum_time_p, $sum_time_all);
-	}
-
-	public static function recalculatePotentials($PotentialsID)
-	{
-		if (!self::checkID($PotentialsID)) {
-			return false;
-		}
-		$db = PearDatabase::getInstance();
-		$sum_time = 0;
-		//////// sum_time
-		$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND potentialid = ?", array(0, self::recalculateStatus, $PotentialsID), true);
-		$sum_time = number_format($db->query_result($sum_time_result, 0, 'sum'), 2);
-		//////// Sum
-		$sum_time_all = $sum_time;
-		$db->pquery("UPDATE vtiger_potential SET sum_time = ?,sum_time_all = ? WHERE potentialid = ?;", array($sum_time, $sum_time_all, $PotentialsID), true);
-		return array($sum_time, $sum_time_all);
 	}
 
 	public static function recalculateProject($ProjectID)

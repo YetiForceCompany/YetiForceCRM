@@ -64,8 +64,6 @@ class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View {
 		}else{
 			$sql .=	' AND vtiger_crmentity.smownerid = ?';
 		}
-		$sql .=	' AND vtiger_assets.pot_renewal = 0';
-		
 		
 		$params[] = $currentUser->getId();
 		$sql.= ' ORDER BY vtiger_assets.dateinservice ASC LIMIT '.$limit;

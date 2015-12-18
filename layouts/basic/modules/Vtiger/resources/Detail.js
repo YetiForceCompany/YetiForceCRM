@@ -300,29 +300,24 @@ jQuery.Class("Vtiger_Detail_Js", {
 			'OSSEmployees': 'link',
 			'Campaigns': 'process',
 			'HelpDesk': 'process',
-			'Potentials': 'process',
 			'Projects': 'process',
 			'ServiceContracts': 'process',
 		},
 		'OutsourcedProducts': {
-			'Potentials': 'potential',
 			'Leads': 'parent_id',
 			'Accounts': 'parent_id',
 			'Contacts': 'parent_id'
 		},
 		'Assets': {
-			'Potentials': 'potential',
 			'Accounts': 'parent_id',
 			'Contacts': 'parent_id'
 		},
 		'OSSOutsourcedServices': {
-			'Potentials': 'potential',
 			'Leads': 'parent_id',
 			'Accounts': 'parent_id',
 			'Contacts': 'parent_id'
 		},
 		'OSSSoldServices': {
-			'Potentials': 'potential',
 			'Accounts': 'parent_id',
 			'Contacts': 'parent_id'
 		},
@@ -1455,21 +1450,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			thisInstance.loadWidget($(widget));
 		});
 		$('.calculationsWidgetContainer .calculationsSwitch').on('switchChange.bootstrapSwitch', function (e, state) {
-			var currentElement = jQuery(e.currentTarget);
-			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
-			var widget = summaryWidgetContainer.find('.widgetContentBlock');
-			var url = widget.data('url');
-			url = url.replace('&showtype=open', '');
-			url = url.replace('&showtype=archive', '');
-			url += '&showtype=';
-			if (state)
-				url += 'open';
-			else
-				url += 'archive';
-			widget.data('url', url);
-			thisInstance.loadWidget($(widget));
-		});
-		$('.potentialsWidgetContainer .potentialsSwitch').on('switchChange.bootstrapSwitch', function (e, state) {
 			var currentElement = jQuery(e.currentTarget);
 			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
 			var widget = summaryWidgetContainer.find('.widgetContentBlock');

@@ -75,7 +75,7 @@ jQuery.Class("Settings_LeadMapping_Js",{
 		this.registerEventToDeleteMapping();
 		this.registerEventForFormSubmit();
 		this.registerOnChangeEventOfTargetModule();
-		jQuery('select.accountsFields.select2,select.contactFields.select2,select.potentialFields.select2').trigger('change',false);
+		jQuery('select.accountsFields.select2,select.contactFields.select2').trigger('change',false);
 	},
 	
 	/**
@@ -91,13 +91,12 @@ jQuery.Class("Settings_LeadMapping_Js",{
 			newMapping.find('select.leadsFields.newSelect').attr("name",'mapping['+newSequenceNumber+'][lead]');
 			newMapping.find('select.accountsFields.newSelect').attr("name",'mapping['+newSequenceNumber+'][account]');
 			newMapping.find('select.contactFields.newSelect').attr("name",'mapping['+newSequenceNumber+'][contact]');
-			newMapping.find('select.potentialFields.newSelect').attr("name",'mapping['+newSequenceNumber+'][potential]');
 			newMapping.removeClass('hide newMapping');
 			newMapping.appendTo(convertLeadMappingTable);
 			newMapping.find('.newSelect').removeClass('newSelect').addClass('select2');
 			var select2Elements = newMapping.find('.select2');
 			app.showSelect2ElementView(select2Elements);
-			jQuery('select.accountsFields.select2,select.contactFields.select2,select.potentialFields.select2',newMapping).trigger('change',false);
+			jQuery('select.accountsFields.select2,select.contactFields.select2',newMapping).trigger('change',false);
 		})
 	},
 	
@@ -114,28 +113,24 @@ jQuery.Class("Settings_LeadMapping_Js",{
 			var selectedDataType = selectedOption.data('type');
 			var accountFieldsSelectElement = container.find('select.accountsFields.select2');
 			var contactFieldsSelectElement = container.find('select.contactFields.select2');
-			var potentialFieldsSelectElement = container.find('select.potentialFields.select2');
 			
 			var accountFieldsBasedOnType = form.find('.newMapping').find('.accountsFields').children().filter('[data-type="'+selectedDataType+'"]').clone(true,true);
 			var contactFieldsBasedOnType = form.find('.newMapping').find('.contactFields').children().filter('option[data-type="'+selectedDataType+'"]').clone(true,true);
-			var potentialFieldsBasedOnType = form.find('.newMapping').find('.potentialFields').children().filter('option[data-type="'+selectedDataType+'"]').clone(true,true);
 			selectedDataType = app.vtranslate("JS_"+selectedDataType);
 			container.find('.selectedFieldDataType').html(selectedDataType);
 			
 			var noneValue = app.vtranslate('JS_NONE');
 			accountFieldsSelectElement.html(accountFieldsBasedOnType);
 			contactFieldsSelectElement.html(contactFieldsBasedOnType);
-			potentialFieldsSelectElement.html(potentialFieldsBasedOnType);
 			
 			if(selectedDataType != "None"){
 				accountFieldsSelectElement.prepend('<option data-type="'+noneValue+'" label="'+noneValue+'" value="0" selected>'+noneValue+'</option>');
 				contactFieldsSelectElement.prepend('<option data-type="'+noneValue+'" label="'+noneValue+'" value="0" selected>'+noneValue+'</option>');
-				potentialFieldsSelectElement.prepend('<option data-type="'+noneValue+'" label="'+noneValue+'" value="0" selected>'+noneValue+'</option>');
 			}
 			
 			accountFieldsSelectElement.trigger("chosen:updated").trigger('change',false);
 			contactFieldsSelectElement.trigger("chosen:updated").trigger('change',false);
-			potentialFieldsSelectElement.trigger("chosen:updated").trigger('change',false);
+
 		})
 	},
 	
@@ -222,7 +217,7 @@ jQuery.Class("Settings_LeadMapping_Js",{
 	 */
 	registerOnChangeEventOfTargetModule : function(){
 		var form = jQuery('#leadsMapping');
-		form.on('change','select.accountsFields.select2,select.contactFields.select2,select.potentialFields.select2',function(e,executeChange){
+		form.on('change','select.accountsFields.select2,select.contactFields.select2',function(e,executeChange){
 			if(typeof executeChange == "undefined"){
 				executeChange = true;
 			}
@@ -259,8 +254,6 @@ jQuery.Class("Settings_LeadMapping_Js",{
 				existingIdElement = jQuery('select.accountsFields.select2[selectedid="'+selectedOptionId+'"]')
 			} else if(selectElement.hasClass('contactFields')){
 				existingIdElement = jQuery('select.contactFields.select2[selectedid="'+selectedOptionId+'"]')
-			} else if(selectElement.hasClass('potentialFields')){
-				existingIdElement = jQuery('select.potentialFields.select2[selectedid="'+selectedOptionId+'"]')
 			}
 
 			if(existingIdElement.length > 0){

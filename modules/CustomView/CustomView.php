@@ -1033,7 +1033,6 @@ class CustomView extends CRMEntity
 			"account_id" => "", //Same like accountid. No need to change
 			"vendorid" => "vtiger_vendor.vendorname",
 			"vendor_id" => "vtiger_vendor.vendorname",
-			"potentialid" => "vtiger_potential.potentialname",
 			"vtiger_account.parentid" => "vtiger_account2.accountname",
 			"campaignid" => "vtiger_campaign.campaignname",
 			"vtiger_contactdetails.reportsto" => getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails2.lastname', 'firstname' => 'vtiger_contactdetails2.firstname'), 'Contacts'),
@@ -1135,13 +1134,6 @@ class CustomView extends CRMEntity
 					$value .= " $concatSql IS NULL or ";
 				}
 				$value .= " $concatSql";
-			}
-			if ($modulename == 'Potentials') {
-				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
-
-					$value .= ' vtiger_potential.potentialname IS NULL or ';
-				}
-				$value .= ' vtiger_potential.potentialname';
 			}
 			if ($modulename == 'Products') {
 				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
@@ -1296,7 +1288,7 @@ class CustomView extends CRMEntity
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid " . $listviewquery;
 			} else if ($module == "Faq") {
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid " . $listviewquery;
-			} else if ($module == "Potentials" || $module == "Contacts") {
+			} else if ($module == "Contacts") {
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_account.accountid " . $listviewquery;
 			} else {
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid " . $listviewquery;

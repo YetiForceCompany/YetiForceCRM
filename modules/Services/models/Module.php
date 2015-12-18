@@ -19,7 +19,7 @@ class Services_Module_Model extends Products_Module_Model {
 	 * @return <String> Listview Query
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery,$skipSelected) {
-		$supportedModulesList = array('Leads', 'Accounts', 'HelpDesk', 'Potentials');
+		$supportedModulesList = array('Leads', 'Accounts', 'HelpDesk');
 		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList')
 				|| in_array($sourceModule, $supportedModulesList)
 				|| in_array($sourceModule, getInventoryModules())) {

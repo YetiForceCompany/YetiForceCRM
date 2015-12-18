@@ -95,15 +95,10 @@ function getFieldsListFromQuery($query)
 			$fields .= "vtiger_account.accountname as '" . $fieldlabel . "',";
 		} elseif ($tablename == 'vtiger_contactdetails' && $columnName == 'reportsto') {//Contact - Reports To
 			$fields .= " concat(vtiger_contactdetails2.lastname,' ',vtiger_contactdetails2.firstname) as 'Reports To Contact',";
-		} elseif ($tablename == 'vtiger_potential' && $columnName == 'related_to') {//Potential - Related to (changed for B2C model support)
-			$fields .= "vtiger_potential.related_to as '" . $fieldlabel . "',";
-		} elseif ($tablename == 'vtiger_potential' && $columnName == 'campaignid') {//Potential - Campaign Source
-			$fields .= "vtiger_campaign.campaignname as '" . $fieldlabel . "',";
 		} elseif ($tablename == 'vtiger_seproductsrel' && $columnName == 'crmid') {//Product - Related To
 			$fields .= "case vtiger_crmentityRelatedTo.setype
 					when 'Leads' then concat('Leads :::: ',vtiger_ProductRelatedToLead.lastname,' ',vtiger_ProductRelatedToLead.firstname)
 					when 'Accounts' then concat('Accounts :::: ',vtiger_ProductRelatedToAccount.accountname)
-					when 'Potentials' then concat('Potentials :::: ',vtiger_ProductRelatedToPotential.potentialname)
 				    End as 'Related To',";
 		} elseif ($tablename == 'vtiger_products' && $columnName == 'contactid') {//Product - Contact
 			$fields .= " concat(vtiger_contactdetails.lastname,' ',vtiger_contactdetails.firstname) as 'Contact Name',";
