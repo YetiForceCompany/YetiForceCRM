@@ -15,7 +15,6 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 	var $moduleName = 'Calendar';
 	var $relationAcounts = [
 		'Contacts' => ['vtiger_contactdetails', 'contactid', 'parentid'],
-		'Potentials' => ['vtiger_potential', 'potentialid', 'related_to'],
 		'Project' => ['vtiger_project', 'projectid', 'linktoaccountscontacts'],
 		'HelpDesk' => ['vtiger_troubletickets', 'ticketid', 'parent_id'],
 		'ServiceContracts' => ['vtiger_servicecontracts', 'servicecontractsid', 'sc_related_to'],

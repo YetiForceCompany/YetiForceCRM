@@ -6,7 +6,7 @@
 			<a class="{if $MODULE eq 'Home'} selected {/if} {if $ICON}hasIcon{/if}" href="{$HOME_MODULE_MODEL->getDefaultUrl()}">
 				<div  {if $DEVICE == 'Desktop'}class='iconContainer'{/if}>
 					<div {if $DEVICE == 'Desktop'}class="iconImage" {/if}>
-						<span class="menuIcon userIcon-my-home-page" aria-hidden="true"></span>
+						<span class="menuIcon userIcon-Home" aria-hidden="true"></span>
 					</div>
 				</div>
 				<div class='{if $DEVICE == 'Desktop'}iconContainer{/if}'>

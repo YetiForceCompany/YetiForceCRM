@@ -158,52 +158,6 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function returns Potential fields for Lead Convert
-	 * @return Array
-	 */
-	function getPotentialsFieldsForLeadConvert()
-	{
-		$potentialFields = array();
-		$privilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$moduleName = 'Potentials';
-
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
-			return;
-		}
-
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		if ($moduleModel->isActive()) {
-			$fieldModels = $moduleModel->getFields();
-
-			$complusoryFields = array();
-			foreach ($fieldModels as $fieldName => $fieldModel) {
-				if ($fieldModel->isMandatory() && $fieldName != 'assigned_user_id' && $fieldName != 'related_to' && $fieldName != 'contact_id') {
-					$keyIndex = array_search($fieldName, $complusoryFields);
-					if ($keyIndex !== false) {
-						unset($complusoryFields[$keyIndex]);
-					}
-					$leadMappedField = $this->getConvertLeadMappedField($fieldName, $moduleName);
-					$fieldModel->set('fieldvalue', $this->get($leadMappedField));
-					if ($fieldModel->get('fieldvalue') == '') {
-						$fieldModel->set('fieldvalue', $fieldModel->getDefaultFieldValue());
-					}
-					$potentialFields[] = $fieldModel;
-				}
-			}
-			foreach ($complusoryFields as $complusoryField) {
-				$fieldModel = Vtiger_Field_Model::getInstance($complusoryField, $moduleModel);
-				if ($fieldModel->getPermissions('readwrite')) {
-					$fieldModel = $moduleModel->getField($complusoryField);
-					$amountLeadMappedField = $this->getConvertLeadMappedField($complusoryField, $moduleName);
-					$fieldModel->set('fieldvalue', $this->get($amountLeadMappedField));
-					$potentialFields[] = $fieldModel;
-				}
-			}
-		}
-		return $potentialFields;
-	}
-
-	/**
 	 * Function returns field mapped to Leads field, used in Lead Convert for settings the field values
 	 * @param <String> $fieldName
 	 * @return <String>
@@ -225,9 +179,6 @@ class Leads_Record_Model extends Vtiger_Record_Model
 			$contactInstance = Vtiger_Module_Model::getInstance('Contacts');
 			$contactFieldInstances = $contactInstance->getFieldsById();
 
-			$potentialInstance = Vtiger_Module_Model::getInstance('Potentials');
-			$potentialFieldInstances = $potentialInstance->getFieldsById();
-
 			$leadInstance = Vtiger_Module_Model::getInstance('Leads');
 			$leadFieldInstances = $leadInstance->getFieldsById();
 
@@ -248,10 +199,6 @@ class Leads_Record_Model extends Vtiger_Record_Model
 				$contactFieldInstance = $contactFieldInstances[$row['contactfid']];
 				if ($row['contactfid'] && $contactFieldInstance) {
 					$mappingFields['Contacts'][$contactFieldInstance->getName()] = $leadFieldName;
-				}
-				$potentialFieldInstance = $potentialFieldInstances[$row['potentialfid']];
-				if ($row['potentialfid'] && $potentialFieldInstance) {
-					$mappingFields['Potentials'][$potentialFieldInstance->getName()] = $leadFieldName;
 				}
 			}
 			$this->set('mappingFields', $mappingFields);
@@ -276,10 +223,6 @@ class Leads_Record_Model extends Vtiger_Record_Model
 		  $convertFields['Contacts'] = $contactFields;
 		  }
 		 */
-		$potentialsFields = $this->getPotentialsFieldsForLeadConvert();
-		if (!empty($potentialsFields)) {
-			$convertFields['Potentials'] = $potentialsFields;
-		}
 		return $convertFields;
 	}
 

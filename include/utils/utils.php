@@ -810,22 +810,6 @@ function getParentRecordOwner($tabid, $parModId, $record_id)
 	return $parentRecOwner;
 }
 
-/** Function to get potential related accounts
- * @param $record_id -- record id :: Type integer
- * @returns $accountid -- accountid:: Type integer
- */
-function getPotentialsRelatedAccounts($record_id)
-{
-	$log = vglobal('log');
-	$log->debug("Entering getPotentialsRelatedAccounts(" . $record_id . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$query = "select related_to from vtiger_potential where potentialid=?";
-	$result = $adb->pquery($query, array($record_id));
-	$accountid = $adb->query_result($result, 0, 'related_to');
-	$log->debug("Exiting getPotentialsRelatedAccounts method ...");
-	return $accountid;
-}
-
 /** Function to get email related accounts
  * @param $record_id -- record id :: Type integer
  * @returns $accountid -- accountid:: Type integer

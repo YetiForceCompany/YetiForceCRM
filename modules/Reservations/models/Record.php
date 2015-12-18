@@ -13,7 +13,7 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 	const recalculateStatus = 'Accepted';
 	public function recalculateTimeOldValues($record_id, $data) {
 		require_once 'include/events/VTEntityDelta.php';
-		$relatedField = array('accountid','contactid','ticketid','projectid','projecttaskid','potentialid','servicecontractsid','assetsid','reservationsid');
+		$relatedField = array('accountid','contactid','ticketid','projectid','projecttaskid','servicecontractsid','assetsid','reservationsid');
 		$vtEntityDelta = new VTEntityDelta();
 		$delta = $vtEntityDelta->getEntityDelta('Reservations', $record_id, true);
 		$recalculateOldValue = false;
@@ -32,7 +32,6 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 		$db = PearDatabase::getInstance();     
 		//$assetsid = $data->get('assetsid');
 		$ticketid = $data->get('ticketid');
-		$potentialid=$data->get('potentialid');
 		$projectid = $data->get('projectid');
 		$projecttaskid = $data->get('projecttaskid');
 		$servicecontractsid = $data->get('servicecontractsid');
@@ -41,7 +40,6 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 		self::recalculateProjectTask($projecttaskid);
 		self::recalculateHelpDesk($ticketid);
 		self::recalculateProject($projectid);
-		self::recalculatePotentials($potentialid);
 		self::recalculateServiceContracts($servicecontractsid);
 		
 		if( self::checkID($projecttaskid) ){
@@ -138,20 +136,7 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 			array($sum_time,$sum_time_h,$sum_time_p,$sum_time_all,$ServiceContractsID), true );
 		return array($sum_time,$sum_time_h,$sum_time_p,$sum_time_all);
 	}
-	public function recalculatePotentials($PotentialsID) {
-		if( ! self::checkID($PotentialsID) ){ return false;}
-		$db = PearDatabase::getInstance(); 
-		$sum_time = 0;
-		//////// sum_time
-		$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? AND reservations_status = ? AND potentialid = ? AND reservationsid = ?;", 
-			array(0,self::recalculateStatus,$PotentialsID,0) , true);
-		$sum_time = number_format($db->query_result( $sum_time_result, 0, 'sum' ),2);
-		//////// Sum
-		$sum_time_all = $sum_time;
-		$db->pquery( "UPDATE vtiger_potential SET sum_time = ?,sum_time_all = ? WHERE potentialid = ?;",
-			array($sum_time,$sum_time_all,$PotentialsID), true );
-		return array($sum_time,$sum_time_all);
-	}
+
 	public function recalculateProject($ProjectID) {
 		if( ! self::checkID($ProjectID) ){ return false;}
 		$db = PearDatabase::getInstance(); 

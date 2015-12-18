@@ -261,81 +261,6 @@ class Contacts extends CRMEntity
 		return $response;
 	}
 
-	/** Returns a list of the associated opportunities
-	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
-	 * All Rights Reserved..
-	 * Contributor(s): ______________________________________..
-	 */
-	function get_opportunities($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-		$log = vglobal('log');
-		$current_user = vglobal('current_user');
-		$singlepane_view = vglobal('singlepane_view');
-		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_opportunities(" . $id . ") method ...");
-		$this_module = $currentModule;
-
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=' . $this_module . '&return_action=CallRelatedList&return_id=' . $id;
-
-		$button = '';
-
-		if ($actions) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_NEW') . " " . getTranslatedString($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\";this.form.return_action.value=\"updateRelations\"' type='submit' name='button'" .
-					" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname) . "'>&nbsp;";
-			}
-		}
-
-		// Should Opportunities be listed on Secondary Contacts ignoring the boundaries of Organization.
-		// Useful when the Reseller are working to gain Potential for other Organization.
-		$ignoreOrganizationCheck = true;
-
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = 'select case when (vtiger_users.user_name not like "") then ' . $userNameSql . ' else vtiger_groups.groupname end as user_name,
-		vtiger_contactdetails.parentid, vtiger_contactdetails.contactid , vtiger_potential.potentialid, vtiger_potential.potentialname,
-		vtiger_potential.potentialtype, vtiger_potential.sales_stage, vtiger_potential.closingdate,
-		vtiger_potential.related_to, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_account.accountname
-		from vtiger_contactdetails
-		left join vtiger_contpotentialrel on vtiger_contpotentialrel.contactid=vtiger_contactdetails.contactid
-		left join vtiger_potential on vtiger_potential.potentialid = vtiger_contpotentialrel.potentialid
-		inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_potential.potentialid
-		left join vtiger_account on vtiger_account.accountid=vtiger_contactdetails.parentid
-		LEFT JOIN vtiger_potentialscf ON vtiger_potential.potentialid = vtiger_potentialscf.potentialid
-		left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-		left join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid
-		where  vtiger_crmentity.deleted=0 and vtiger_contactdetails.contactid =' . $id;
-
-		if (!$ignoreOrganizationCheck) {
-			// Restrict the scope of listing to only related contacts of the organization linked to potential via related_to of Potential
-			$query .= ' and vtiger_contactdetails.parentid = vtiger_potential.related_to ';
-		}
-
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value == null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		$log->debug("Exiting get_opportunities method ...");
-		return $return_value;
-	}
-
 	/**
 	 * Function to get Contact related Tickets.
 	 * @param  integer   $id      - contactid
@@ -890,16 +815,16 @@ class Contacts extends CRMEntity
 		$log = vglobal('log');
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("Potentials" => "vtiger_contpotentialrel", "Products" => "vtiger_seproductsrel", "Documents" => "vtiger_senotesrel",
+		$rel_table_arr = Array("Products" => "vtiger_seproductsrel", "Documents" => "vtiger_senotesrel",
 			"Attachments" => "vtiger_seattachmentsrel", "Campaigns" => "vtiger_campaigncontrel",
 			'ServiceContracts' => 'vtiger_servicecontracts', 'Project' => 'vtiger_project');
 
-		$tbl_field_arr = Array("vtiger_contpotentialrel" => "potentialid", "vtiger_seproductsrel" => "productid", "vtiger_senotesrel" => "notesid",
+		$tbl_field_arr = Array("vtiger_seproductsrel" => "productid", "vtiger_senotesrel" => "notesid",
 			"vtiger_seattachmentsrel" => "attachmentsid", "vtiger_campaigncontrel" => "campaignid",
 			'vtiger_servicecontracts' => 'servicecontractsid', 'vtiger_project' => 'projectid',
 			'vtiger_payments' => 'paymentsid');
 
-		$entity_tbl_field_arr = Array("vtiger_contpotentialrel" => "contactid", "vtiger_seproductsrel" => "crmid", "vtiger_senotesrel" => "crmid",
+		$entity_tbl_field_arr = Array("vtiger_seproductsrel" => "crmid", "vtiger_senotesrel" => "crmid",
 			"vtiger_seattachmentsrel" => "crmid", "vtiger_campaigncontrel" => "contactid",
 			'vtiger_servicecontracts' => 'sc_related_to', 'vtiger_project' => 'linktoaccountscontacts',
 			'vtiger_payments' => 'relatedcontact');
@@ -919,7 +844,6 @@ class Contacts extends CRMEntity
 					}
 				}
 			}
-			$adb->pquery("UPDATE vtiger_potential SET related_to = ? WHERE related_to = ?", array($entityId, $transferId));
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
 		$log->debug("Exiting transferRelatedRecords...");
@@ -1006,23 +930,6 @@ class Contacts extends CRMEntity
 	{
 		$log = vglobal('log');
 
-		//Deleting Contact related Potentials.
-		$pot_q = 'SELECT vtiger_crmentity.crmid FROM vtiger_crmentity
-			INNER JOIN vtiger_potential ON vtiger_crmentity.crmid=vtiger_potential.potentialid
-			LEFT JOIN vtiger_account ON vtiger_account.accountid=vtiger_potential.related_to
-			WHERE vtiger_crmentity.deleted=0 AND vtiger_potential.related_to=?';
-		$pot_res = $this->db->pquery($pot_q, array($id));
-		$pot_ids_list = array();
-		for ($k = 0; $k < $this->db->num_rows($pot_res); $k++) {
-			$pot_id = $this->db->query_result($pot_res, $k, "crmid");
-			$pot_ids_list[] = $pot_id;
-			$sql = 'UPDATE vtiger_crmentity SET deleted = 1 WHERE crmid = ?';
-			$this->db->pquery($sql, array($pot_id));
-		}
-		//Backup deleted Contact related Potentials.
-		$params = array($id, RB_RECORD_UPDATED, 'vtiger_crmentity', 'deleted', 'crmid', implode(",", $pot_ids_list));
-		$this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES(?,?,?,?,?,?)', $params);
-
 		//Backup Contact-Trouble Tickets Relation
 		/* $tkt_q = 'SELECT ticketid FROM vtiger_troubletickets WHERE contact_id=?';
 		  $tkt_res = $this->db->pquery($tkt_q, array($id));
@@ -1054,9 +961,6 @@ class Contacts extends CRMEntity
 		if ($return_module == 'Accounts') {
 			$sql = 'UPDATE vtiger_contactdetails SET parentid = ? WHERE contactid = ?';
 			$this->db->pquery($sql, array(null, $id));
-		} elseif ($return_module == 'Potentials') {
-			$sql = 'DELETE FROM vtiger_contpotentialrel WHERE contactid=? AND potentialid=?';
-			$this->db->pquery($sql, array($id, $return_id));
 		} elseif ($return_module == 'Campaigns') {
 			$sql = 'DELETE FROM vtiger_campaigncontrel WHERE contactid=? AND campaignid=?';
 			$this->db->pquery($sql, array($id, $return_id));
@@ -1092,11 +996,6 @@ class Contacts extends CRMEntity
 					'campaignid' => $with_crmid,
 					'contactid' => $crmid,
 					'campaignrelstatusid' => 1
-				]);
-			} else if ($with_module == 'Potentials') {
-				$adb->insert('vtiger_contpotentialrel', [
-					'contactid' => $crmid,
-					'potentialid' => $with_crmid
 				]);
 			} else if ($with_module == 'Vendors') {
 				$adb->insert('vtiger_vendorcontactrel', [

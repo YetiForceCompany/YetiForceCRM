@@ -2,7 +2,6 @@
 // Base => Parent
 $modulesMap1M = [
 	'Contacts' => ['Accounts'],
-	'Potentials' => ['Accounts'],
 	'HelpDesk' => ['Accounts','Vendors'],
 	'Project' => ['Accounts'],
 	'ProjectMilestone' => ['Project'],
@@ -11,14 +10,14 @@ $modulesMap1M = [
 	'Faq' => ['Products'],
 	'PaymentsOut' => ['Accounts'],
 	'PaymentsIn' => ['Accounts'],
-	'OSSTimeControl' => ['Accounts','Project','HelpDesk','Potentials','Leads'],
+	'OSSTimeControl' => ['Accounts','Project','HelpDesk','Leads'],
 	'HolidaysEntitlement' => ['OSSEmployees'],
 	'OSSSoldServices' => ['Accounts','Leads'],
 	'OSSOutsourcedServices' => ['Accounts','Leads'],
 	'Assets' => ['Accounts','Leads'],
 	'OutsourcedProducts' => ['Accounts','Leads'],
 	'OSSPasswords' => ['Accounts','Leads','HelpDesk','Vendors'],
-	'Calendar' => ['Accounts','Contacts','OSSEmployees','Leads','Vendors','HelpDesk','Project','HelpDesk','Potentials','ServiceContracts','Campaigns'],
+	'Calendar' => ['Accounts','Contacts','OSSEmployees','Leads','Vendors','HelpDesk','Project','HelpDesk','ServiceContracts','Campaigns'],
 ];
 
 $modulesMapMMBase = ['Services','Reservations'];

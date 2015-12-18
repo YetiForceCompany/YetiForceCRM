@@ -32,7 +32,7 @@ class Leads extends CRMEntity
 	var $column_fields = Array();
 	var $sortby_fields = Array('email', 'phone', 'company', 'smownerid', 'website');
 	// This is used to retrieve related vtiger_fields from form posts.
-	var $additional_column_fields = Array('smcreatorid', 'smownerid', 'contactid', 'potentialid', 'crmid');
+	var $additional_column_fields = Array('smcreatorid', 'smownerid', 'contactid', 'crmid');
 	// This is the list of vtiger_fields that are in the lists.
 	var $list_fields = Array(
 		'Company' => Array('leaddetails' => 'company'),

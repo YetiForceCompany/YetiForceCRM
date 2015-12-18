@@ -108,7 +108,7 @@ class VTCreateEventTask extends VTTask{
 		if(in_array($moduleName, ['Accounts','Leads','Contacts','Vendors','OSSEmployees'])){
 			$fields['link'] = $id;
 		}
-		if(in_array($moduleName, ['Campaigns','HelpDesk','Potentials','Project','ServiceContracts'])){
+		if(in_array($moduleName, ['Campaigns','HelpDesk','Project','ServiceContracts'])){
 			$fields['process'] = $id;
 		}
 

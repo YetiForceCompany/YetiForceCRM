@@ -272,6 +272,6 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	
 	public static function getIcons()
 	{
-		return ['userIcon-compaines-and-contacts', 'userIcon-my-home-page', 'userIcon-virtual-desk', 'userIcon-projects', 'userIcon-support', 'userIcon-bookkeeping', 'userIcon-human-resources', 'userIcon-secretary', 'userIcon-database', 'userIcon-team-work', 'userIcon-sales'];
+		return ['userIcon-VirtualDesk', 'userIcon-Home2', 'userIcon-CompainesAndContacts', 'userIcon-Sales', 'userIcon-Support', 'userIcon-Projects2', 'userIcon-BookKeeping', 'userIcon-HumanResources', 'userIcon-Secretary', 'userIcon-Database', 'userIcon-TeamWork', 'userIcon-Potentials'];
 	}
 }

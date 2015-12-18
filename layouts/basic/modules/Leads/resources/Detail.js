@@ -151,26 +151,12 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		var instance = this;
 		var container = this.getConvertLeadContainer();
 		var referenceField = jQuery('.reference', container);
-		var oppAccMandatory = jQuery('#oppAccMandatory').val();
-		var oppConMandatory = jQuery('#oppConMandatory').val();
 		var conAccMandatory = jQuery('#conAccMandatory').val();
 
-		jQuery('#PotentialsModule').on('click', function () {
-			if ((jQuery('#PotentialsModule').is(':checked')) && oppAccMandatory) {
-				jQuery('#AccountsModule').attr({'disabled': 'disabled', 'checked': 'checked'});
-			} else if (!conAccMandatory || !jQuery('#ContactsModule').is(':checked')) {
-				jQuery('#AccountsModule').removeAttr('disabled');
-			}
-			if ((jQuery('#PotentialsModule').is(':checked')) && oppConMandatory) {
-				jQuery('#ContactsModule').attr({'disabled': 'disabled', 'checked': 'checked'});
-			} else {
-				jQuery('#ContactsModule').removeAttr('disabled');
-			}
-		});
 		jQuery('#ContactsModule').on('click', function () {
 			if ((jQuery('#ContactsModule').is(':checked')) && conAccMandatory) {
 				jQuery('#AccountsModule').attr({'disabled': 'disabled', 'checked': 'checked'});
-			} else if (!oppAccMandatory || !jQuery('#PotentialsModule').is(':checked')) {
+			} else {
 				jQuery('#AccountsModule').removeAttr('disabled');
 			}
 		});

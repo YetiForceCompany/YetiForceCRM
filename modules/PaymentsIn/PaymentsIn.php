@@ -147,19 +147,6 @@ class PaymentsIn extends Vtiger_CRMEntity {
 			$fieldInstance->displaytype = 2;
 			$blockInstance->addField($fieldInstance);
 
-			$moduleInstance = Vtiger_Module::getInstance('Potentials');
-			$blockInstance = Vtiger_Block::getInstance('LBL_OPPORTUNITY_INFORMATION',$moduleInstance);
-			$fieldInstance = new Vtiger_Field();
-			$fieldInstance->name = 'payment_balance';
-			$fieldInstance->table = 'vtiger_potential';
-			$fieldInstance->label = 'Payment balance';
-			$fieldInstance->column = 'payment_balance';
-			$fieldInstance->columntype = 'decimal(25,8)';
-			$fieldInstance->uitype = 7;
-			$fieldInstance->typeofdata = 'NN~O';
-			$fieldInstance->displaytype = 2;
-			$blockInstance->addField($fieldInstance);
-
 			$this->addWorkflow($modulename);
 		} else if($event_type == 'module.disabled') {
 			// TODO Handle actions when this module is disabled.

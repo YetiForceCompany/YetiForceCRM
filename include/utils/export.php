@@ -23,7 +23,6 @@ require_once('modules/Contacts/Contacts.php');
 require_once('modules/Emails/Emails.php');
 require_once('modules/Calendar/Activity.php');
 require_once('modules/Documents/Documents.php');
-require_once('modules/Potentials/Potentials.php');
 require_once('modules/Users/Users.php');
 require_once('modules/Products/Products.php');
 require_once('modules/HelpDesk/HelpDesk.php');
@@ -137,9 +136,6 @@ function export($type)
 			array_push($params, $idstring);
 		} elseif ($type == 'Contacts' && count($idstring) > 0) {
 			$query .= ' and vtiger_contactdetails.contactid in (' . generateQuestionMarks($idstring) . ')';
-			array_push($params, $idstring);
-		} elseif ($type == 'Potentials' && count($idstring) > 0) {
-			$query .= ' and vtiger_potential.potentialid in (' . generateQuestionMarks($idstring) . ')';
 			array_push($params, $idstring);
 		} elseif ($type == 'Leads' && count($idstring) > 0) {
 			$query .= ' and vtiger_leaddetails.leadid in (' . generateQuestionMarks($idstring) . ')';

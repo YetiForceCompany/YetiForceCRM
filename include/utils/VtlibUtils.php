@@ -59,7 +59,7 @@ function vtlib_getModuleNameById($tabid)
 function vtlib_getModuleNameForSharing()
 {
 	$adb = PearDatabase::getInstance();
-	$std_modules = array('Calendar', 'Leads', 'Accounts', 'Contacts', 'Potentials',
+	$std_modules = array('Calendar', 'Leads', 'Accounts', 'Contacts',
 		'HelpDesk', 'Campaigns', 'Events');
 	$modulesList = getSharingModuleList($std_modules);
 	return $modulesList;
@@ -331,18 +331,6 @@ function __vtlib_get_modulevar_value($module, $varname)
 			'table_name' => 'vtiger_campaign',
 			'table_index' => 'campaignid',
 			'popup_fields' => Array('campaignname'),
-		),
-		'Potentials' =>
-		Array(
-			'IsCustomModule' => false,
-			'table_name' => 'vtiger_potential',
-			'table_index' => 'potentialid',
-			// NOTE: UIType 10 is being used instead of direct relationship from 5.1.0
-			//'related_tables' => Array ('vtiger_account' => Array('accountid')),
-			'popup_fields' => Array('potentialname'),
-			'related_tables' => Array(
-				'vtiger_potentialscf' => Array('potentialid', 'vtiger_potential', 'potentialid'),
-			),
 		),
 		'HelpDesk' =>
 		Array(

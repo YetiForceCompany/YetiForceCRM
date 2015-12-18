@@ -91,11 +91,6 @@ function getProductName($product_id)
 	return Vtiger_Functions::getCRMRecordLabel($product_id);
 }
 
-function getPotentialName($potential_id)
-{
-	return Vtiger_Functions::getCRMRecordLabel($potential_id);
-}
-
 function getContactName($contact_id)
 {
 	return Vtiger_Functions::getCRMRecordLabel($contact_id);

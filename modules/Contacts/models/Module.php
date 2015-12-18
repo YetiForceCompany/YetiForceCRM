@@ -26,14 +26,6 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 						INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
 						WHERE deleted = 0 AND vtiger_contactdetails.parentid = $parentId AND label like '%$searchValue%'";
 			return $query;
-		} else if ($parentId && $parentModule == 'Potentials') {
-			$query = "SELECT * FROM vtiger_crmentity
-						INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
-						LEFT JOIN vtiger_contpotentialrel ON vtiger_contpotentialrel.contactid = vtiger_contactdetails.contactid
-						WHERE deleted = 0 AND vtiger_contpotentialrel.potentialid = $parentId
-						AND label like '%$searchValue%'";
-
-			return $query;
 		} else if ($parentId && $parentModule == 'HelpDesk') {
 			$query = "SELECT * FROM vtiger_crmentity
                         INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
@@ -116,15 +108,11 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery)
 	{
-		if (in_array($sourceModule, array('Campaigns', 'Potentials', 'Vendors', 'Products', 'Services', 'Emails')) || ($sourceModule === 'Contacts' && $field === 'contact_id' && $record)) {
+		if (in_array($sourceModule, array('Campaigns', 'Vendors', 'Products', 'Services', 'Emails')) || ($sourceModule === 'Contacts' && $field === 'contact_id' && $record)) {
 			switch ($sourceModule) {
 				case 'Campaigns' : $tableName = 'vtiger_campaigncontrel';
 					$fieldName = 'contactid';
 					$relatedFieldName = 'campaignid';
-					break;
-				case 'Potentials' : $tableName = 'vtiger_contpotentialrel';
-					$fieldName = 'contactid';
-					$relatedFieldName = 'potentialid';
 					break;
 				case 'Vendors' : $tableName = 'vtiger_vendorcontactrel';
 					$fieldName = 'contactid';

@@ -5,7 +5,6 @@
 	{vtranslate('LBL_SALES_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
 	<hr>
 	<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
-		<li class="active"><a href="#Potentials" data-toggle="tab">{vtranslate('LBL_POTENTIALS', $QUALIFIED_MODULE)} </a></li>
 		<li><a href="#qe" data-toggle="tab">{vtranslate('LBL_SQUOTEENQUIRIES', $QUALIFIED_MODULE)} </a></li>
 		<li><a href="#rc" data-toggle="tab">{vtranslate('LBL_SREQUIREMENTSCARD', $QUALIFIED_MODULE)} </a></li>
 		<li><a href="#calculations" data-toggle="tab">{vtranslate('LBL_SCALCULATIONS', $QUALIFIED_MODULE)} </a></li>
@@ -41,27 +40,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="tab-pane active" id="Potentials">
-			{assign var=POTENTIALS value=$CONFIG['potential']}
-			<table class="table table-bordered table-condensed themeTableColor userTable listViewEntries">
-				<tbody>
-					<tr>
-						<td><label for="add_potential">{vtranslate('LBL_CREATE_POTENTIALS',$QUALIFIED_MODULE)}</label></td>
-						<td><input class="configField" type="checkbox" data-type="potential" name="add_potential" id="add_potential" value="1"  {if $POTENTIALS['add_potential']=='true'}checked=""{/if} /></td>
-					</tr>
-					<tr>
-						<td><label>{vtranslate('LBL_STATUSES_CLOSED_POTENTIAL', $QUALIFIED_MODULE)}</label></td>
-						<td class="col-xs-6">
-							<select class="chzn-select col-md-8 configField" multiple data-type="potential" name="salesstage">
-								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('sales_stage')}
-									<option value="{$ITEM}" {if in_array($ITEM, $POTENTIALS['salesstage'])} selected {/if}  >{vtranslate($ITEM,'Potentials')}</option>
-								{/foreach}
-							</select>
-						</td>
-					</tr>
-				</tbody>
-			</table>
 		</div>
 		<div class="tab-pane" id="Assets">
 			{assign var=ASSETS value=$CONFIG['asset']}

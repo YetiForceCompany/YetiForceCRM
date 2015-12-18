@@ -30,7 +30,7 @@ class OSSMail_GetPermissions_Action extends Vtiger_Action_Controller
 			$View = 'EditView';
 		}
 		$Permissions = array();
-		$modules = array('Leads', 'Accounts', 'Contacts', 'Calendar', 'Potentials', 'Products', 'HelpDesk', 'Campaigns', 'Project', 'Services', 'ModComments');
+		$modules = array('Leads', 'Accounts', 'Contacts', 'Calendar', 'Products', 'HelpDesk', 'Campaigns', 'Project', 'Services', 'ModComments');
 		foreach ($modules as $module) {
 			$Permitted = Users_Privileges_Model::isPermitted($module, $View);
 			$Permissions[$module] = $Permitted;

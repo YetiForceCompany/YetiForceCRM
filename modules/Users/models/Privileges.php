@@ -319,7 +319,6 @@ class Users_Privileges_Model extends Users_Record_Model
 		$modulesSchema[$moduleName] = [];
 		$modulesSchema['Accounts'] = [
 			'Contacts' => ['key' => 'contactid', 'table' => 'vtiger_contactdetails', 'relfield' => 'parentid'],
-			'Potentials' => ['key' => 'potentialid', 'table' => 'vtiger_potential', 'relfield' => 'related_to'],
 			'Campaigns' => ['key' => 'campaignid', 'table' => 'vtiger_campaignaccountrel', 'relfield' => 'accountid'],
 			'Project' => ['key' => 'projectid', 'table' => 'vtiger_project', 'relfield' => 'linktoaccountscontacts'],
 			'HelpDesk' => ['key' => 'ticketid', 'table' => 'vtiger_troubletickets', 'relfield' => 'parent_id']
@@ -328,7 +327,6 @@ class Users_Privileges_Model extends Users_Record_Model
 			'ProjectMilestone' => ['key' => 'projectmilestoneid', 'table' => 'vtiger_projectmilestone', 'relfield' => 'projectid'],
 			'ProjectTask' => ['key' => 'projecttaskid', 'table' => 'vtiger_projecttask', 'relfield' => 'projectid']
 		];
-		$modulesSchema['Potentials'] = [];
 		$modulesSchema['HelpDesk'] = [
 			'OSSTimeControl' => ['key' => 'osstimecontrolid', 'table' => 'vtiger_osstimecontrol', 'relfield' => 'ticketid']
 		];

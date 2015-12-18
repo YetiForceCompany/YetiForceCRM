@@ -15,31 +15,31 @@
 			<div class="commentTitle" id="{$COMMENT->getId()}">
 				{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 				{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
-				<div class="row">
+				<div class="row no-margin">
 					<div class="">
 						{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 						<img class="alignMiddle pull-left" width="48px" alt="" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
 					</div>
-					<div class="col-md-11 commentorInfo">
+					<div class="col-xs-8 commentorInfo">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 						<div class="inner">
 							<span class="commentorName pull-left"><strong>{$COMMENTOR->getName()}</strong></span>
-							<span class="pull-right">
-								<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
-							</span>
 							<div class="clearfix"></div>
 						</div>
 						<div class="commentInfoContent">
 							{nl2br($COMMENT->get('commentcontent'))}
 						</div>
 					</div>
+					<span class="pull-right paddingRight15">
+							<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
+					</span>
 				</div>
 			</div>
 		</div>
 		<div class="commentActionsContainer row no-margin ">
 			
 			{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}
-			<div class="editedStatus col-xs-6"  name="editStatus">
+			<div class="editedStatus visible-lg-block col-xs-6"  name="editStatus">
 				<p class="col-xs-6 marginLeftZero">
 					<small>
 						<span class="{if empty($REASON_TO_EDIT)}hide{/if} marginLeftZero editReason">

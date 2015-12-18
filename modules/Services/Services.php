@@ -636,7 +636,7 @@ class Services extends CRMEntity {
 	   	$current_user  = vglobal('current_user');
 
 			$matrix = $queryPlanner->newDependencyMatrix();
-			$matrix->setDependency('vtiger_seproductsrel',array('vtiger_crmentityRelServices','vtiger_accountRelServices','vtiger_leaddetailsRelServices','vtiger_servicecf','vtiger_potentialRelServices'));
+			$matrix->setDependency('vtiger_seproductsrel',array('vtiger_crmentityRelServices','vtiger_accountRelServices','vtiger_leaddetailsRelServices','vtiger_servicecf'));
 			$query = "from vtiger_service
 				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_service.serviceid";
 			if ($queryPlanner->requireTable("vtiger_servicecf")){
@@ -659,9 +659,6 @@ class Services extends CRMEntity {
 			}
 			if ($queryPlanner->requireTable("vtiger_leaddetailsRelServices")){
 			    $query .= " left join vtiger_leaddetails as vtiger_leaddetailsRelServices on vtiger_leaddetailsRelServices.leadid = vtiger_seproductsrel.crmid";
-			}
-			if ($queryPlanner->requireTable("vtiger_potentialRelServices")){
-			    $query .= " left join vtiger_potential as vtiger_potentialRelServices on vtiger_potentialRelServices.potentialid = vtiger_seproductsrel.crmid";
 			}
 			if ($queryPlanner->requireTable("vtiger_lastModifiedByServices")){
 			    $query .= " left join vtiger_users as vtiger_lastModifiedByServices on vtiger_lastModifiedByServices.id = vtiger_crmentity.modifiedby";
@@ -777,9 +774,6 @@ class Services extends CRMEntity {
 
 			$conModuleInstance = Vtiger_Module::getInstance('Contacts');
 			$conModuleInstance->setRelatedList($moduleInstance,'Services',array('select'));
-
-			$potModuleInstance = Vtiger_Module::getInstance('Potentials');
-			$potModuleInstance->setRelatedList($moduleInstance,'Services',array('select'));
 
 			$pbModuleInstance = Vtiger_Module::getInstance('PriceBooks');
 			$pbModuleInstance->setRelatedList($moduleInstance,'Services',array('select'),'get_pricebook_services');

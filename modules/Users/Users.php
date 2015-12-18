@@ -75,7 +75,7 @@ class Users extends CRMEntity
 	var $module_name = "Users";
 	var $object_name = "User";
 	var $user_preferences;
-	var $homeorder_array = array('HDB', 'ALVT', 'PLVT', 'CVLVT', 'HLT', 'GRT', 'MNL', 'LTFAQ', 'UA', 'PA');
+	var $homeorder_array = array('HDB', 'ALVT', 'CVLVT', 'HLT', 'GRT', 'MNL', 'LTFAQ', 'UA', 'PA');
 	var $encodeFields = Array("first_name", "last_name", "description");
 	// This is used to retrieve related fields from form posts.
 	var $additional_column_fields = Array('reports_to_name');
@@ -109,7 +109,7 @@ class Users extends CRMEntity
 	var $new_schema = true;
 	var $DEFAULT_PASSWORD_CRYPT_TYPE; //'BLOWFISH', /* before PHP5.3*/ MD5;
 	//Default Widgests
-	var $default_widgets = array('PLVT', 'CVLVT', 'UA');
+	var $default_widgets = array('CVLVT', 'UA');
 
 	/** constructor function for the main user class
 	  instantiates the Logger class and PearDatabase Class
@@ -1213,7 +1213,7 @@ class Users extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if (!is_array($this->homeorder_array)) {
-			$this->homeorder_array = array('UA', 'PA', 'ALVT', 'HDB', 'PLVT', 'CVLVT', 'HLT',
+			$this->homeorder_array = array('UA', 'PA', 'ALVT', 'HDB', 'CVLVT', 'HLT',
 				'GRT', 'MNL', 'LTFAQ');
 		}
 		$return_array = Array();
@@ -1270,11 +1270,6 @@ class Users extends CRMEntity
 		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
 		$res = $adb->pquery($sql, array($s2, 2, 'Default', $uid, $visibility, 'Home Page Dashboard'));
 
-		$s3 = $adb->getUniqueID("vtiger_homestuff");
-		$visibility = $this->getDefaultHomeModuleVisibility('PLVT', $inVal);
-		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
-		$res = $adb->pquery($sql, array($s3, 3, 'Default', $uid, $visibility, 'Top Potentials'));
-
 		$s5 = $adb->getUniqueID("vtiger_homestuff");
 		$visibility = $this->getDefaultHomeModuleVisibility('CVLVT', $inVal);
 		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
@@ -1321,9 +1316,6 @@ class Users extends CRMEntity
 		$adb->pquery($sql, array());
 
 		$sql = "insert into vtiger_homedefault values(" . $s2 . ",'HDB',5,'Dashboard')";
-		$adb->pquery($sql, array());
-
-		$sql = "insert into vtiger_homedefault values(" . $s3 . ",'PLVT',5,'Potentials')";
 		$adb->pquery($sql, array());
 
 		$sql = "insert into vtiger_homedefault values(" . $s5 . ",'CVLVT',5,'NULL')";
