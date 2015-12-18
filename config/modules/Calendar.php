@@ -1,6 +1,6 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-$CALENDAR_CONFIG = [
+$CONFIG = [
 	// Limits the number of events displayed on a day.
 	// Boolean, Integer. default: false
 	'EVENT_LIMIT' => 10,
