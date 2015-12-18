@@ -5,7 +5,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 	treeData: false,
 	getModalContainer: function () {
 		if (this.modalContainer == false) {
-			this.modalContainer = jQuery('#modalProductsTreeCategoryModal');
+			this.modalContainer = jQuery('#modalTreeCategoryModal');
 		}
 		return this.modalContainer;
 	},
