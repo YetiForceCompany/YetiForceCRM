@@ -7,12 +7,12 @@
 					{assign var=COUNT value=0}
 					{if $IS_FAVORITES}
 						<th></th>
-					{/if}
-					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-						{if $COLUMNS != '' && $COUNT == $COLUMNS }
-							{break}
 						{/if}
-						{assign var=COUNT value=$COUNT+1}
+						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+							{if $COLUMNS != '' && $COUNT == $COLUMNS }
+								{break}
+							{/if}
+							{assign var=COUNT value=$COUNT+1}
 						<th {if $HEADER_FIELD@last} colspan="2" {/if} nowrap>
 							{if $HEADER_FIELD->get('column') eq 'access_count' or $HEADER_FIELD->get('column') eq 'idlists' }
 								<a href="javascript:void(0);" class="noSorting">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}</a>
@@ -24,9 +24,12 @@
 							{/if}
 						</th>
 					{/foreach}
-					{if $RELATED_RECORDS_CREATOR_DETAIL}
+					{if $SHOW_CREATOR_DETAIL}
 						<th>{vtranslate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
 						<th>{vtranslate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
+					{/if}
+					{if $SHOW_COMMENT}
+						<th>{vtranslate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
 					{/if}
 				</tr>
 			</thead>
@@ -79,9 +82,12 @@
 						{/if}
 						</td>
 					{/foreach}
-					{if $RELATED_RECORDS_CREATOR_DETAIL}
+					{if $SHOW_CREATOR_DETAIL}
 						<td class="medium" data-field-type="rel_created_time" nowrap>{$RELATED_RECORD->get('relCreatedTime')}</td>
 						<td class="medium" data-field-type="rel_created_user" nowrap>{$RELATED_RECORD->get('relCreatedUser')}</td>
+					{/if}
+					{if $SHOW_COMMENT}
+						<td class="medium" data-field-type="rel_comment" nowrap>{$RELATED_RECORD->get('relComment')}</td>
 					{/if}
 				</tr>
 			{/foreach}

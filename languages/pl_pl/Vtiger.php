@@ -1091,6 +1091,9 @@ $languageStrings = [
 	'LBL_INFO_REFRESH' => 'Wprowadzono zmiany',
 	'LBL_RELATION_CREATED_TIME' => 'Czas utworzenia',
 	'LBL_RELATION_CREATED_USER' => 'Utworzył użytkownik',
+	'LBL_RELATION_COMMENT' => 'Konentarz',
+	'LBL_SAVED_RELATION_COMMENT' => 'Zapisano komentarz',
+	'LBL_EDIT_RELATED_COMMENT' => 'Edycja komentarza',
 	'LBL_ALPHABETIC_FILTERING' => 'Filtrowanie alfabetyczne',
 	'LBL_REMOVE_FILTERING' => 'Wyczyść filtrowanie',
 ];

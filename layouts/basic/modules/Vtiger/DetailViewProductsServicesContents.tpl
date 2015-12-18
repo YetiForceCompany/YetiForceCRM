@@ -46,13 +46,11 @@
 					<input type="hidden" name="relatedModule" value="OutsourcedProducts" />
 					<div class="col-xs-10 col-sm-10 col-md-9 margin0px"><h4>{vtranslate('LBL_RELATED_OP',$MODULE_NAME)}</h4></div>
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
-						{if {Users_Privileges_Model::isPermitted('OutsourcedProducts', 'EditView')}}
-							<span class="pull-right">
-								<button class="btn btn-default createRecord" type="button" data-url="index.php?module=OutsourcedProducts&view=QuickCreateAjax">
-									<span class="glyphicon glyphicon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></span>
-								</button>
-							</span>
-						{/if}
+						<div class="pull-right">
+							<button class="btn btn-default showModal" type="button" data-url="index.php?module=OutsourcedProducts&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
+								<span class="glyphicon glyphicon-zoom-in" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></span>
+							</button>
+						</div>
 					</div>
 				</div>
 				<div class="widget_contents">

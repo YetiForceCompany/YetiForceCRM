@@ -1085,6 +1085,9 @@ $languageStrings = [
 	'LBL_INFO_REFRESH' => 'Introduced changes',
 	'LBL_RELATION_CREATED_TIME' => 'Creation time',
 	'LBL_RELATION_CREATED_USER' => 'Created by user',
+	'LBL_RELATION_COMMENT' => '__UNTRANSLATED__',
+	'LBL_SAVED_RELATION_COMMENT' => '__UNTRANSLATED__',
+	'LBL_EDIT_RELATED_COMMENT' => '__UNTRANSLATED__',
 	'LBL_ALPHABETIC_FILTERING' => 'Alphabetic filtering',
 	'LBL_REMOVE_FILTERING' => 'Remove filtering',
 ];

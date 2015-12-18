@@ -646,7 +646,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relatedModuleModel);
 		$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
-		$viewer->assign('RELATED_RECORDS_CREATOR_DETAIL', $relationModel->get('creator_detail'));
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
@@ -674,6 +673,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COLUMN_NAME', $orderBy);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
+		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
+		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		return $viewer->view('SummaryWidgets.tpl', $moduleName, 'true');
 	}
 
@@ -685,15 +686,19 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
+		$relationModel = $relationListView->getRelationModel();
 		
 		$header = $relationListView->getTreeHeaders();
 		$entries = $relationListView->getTreeEntries();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('RECORDID', $parentId);
 		$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
 		$viewer->assign('RELATED_RECORDS', $entries);
 		$viewer->assign('RELATED_HEADERS', $header);
+		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
+		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		return $viewer->view('RelatedTreeContent.tpl', $moduleName, 'true');
 	}

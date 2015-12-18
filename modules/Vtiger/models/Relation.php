@@ -211,6 +211,16 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $this->getRelationModuleModel()->isPermitted('Delete');
 	}
 
+	public function showCreatorDetail()
+	{
+		return $this->get('creator_detail');
+	}
+
+	public function showComment()
+	{
+		return $this->get('relation_comment');
+	}
+
 	public static function getInstance($parentModuleModel, $relatedModuleModel, $label = false)
 	{
 		$db = PearDatabase::getInstance();

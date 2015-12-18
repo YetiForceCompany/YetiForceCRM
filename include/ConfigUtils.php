@@ -11,6 +11,7 @@ class AppConfig
 	protected static $security = [];
 	protected static $securityKeys = [];
 	protected static $performance = [];
+	protected static $relation = [];
 
 	public static function load($key, $config)
 	{
@@ -32,6 +33,9 @@ class AppConfig
 				break;
 			case 'performance':
 				self::$performance = $config;
+				break;
+			case 'relation':
+				self::$relation = $config;
 				break;
 		}
 	}
@@ -77,6 +81,11 @@ class AppConfig
 		return self::$performance[$key];
 	}
 
+	public static function relation($key, $defvalue = false)
+	{
+		return self::$relation[$key];
+	}
+	
 	public static function iniSet($key, $value)
 	{
 		@ini_set($key, $value);
@@ -89,6 +98,7 @@ require_once 'config/config.php';
 require_once 'config/debug.php';
 require_once 'config/developer.php';
 require_once 'config/performance.php';
+require_once 'config/relation.php';
 require_once 'config/secret_keys.php';
 require_once 'config/security.php';
 require_once 'config/version.php';
@@ -99,5 +109,6 @@ AppConfig::load('developer', $DEVELOPER_CONFIG);
 AppConfig::load('security', $SECURITY_CONFIG);
 AppConfig::load('securityKeys', $SECURITY_KEYS_CONFIG);
 AppConfig::load('performance', $PERFORMANCE_CONFIG);
+AppConfig::load('relation', $RELATION_CONFIG);
 session_save_path($root_directory . '/cache/session');
 

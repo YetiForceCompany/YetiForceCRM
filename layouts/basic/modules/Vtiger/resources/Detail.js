@@ -346,22 +346,23 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var relatedModuleName = contentHeader.find('[name="relatedModule"]').val();
 
 		var params = {
-			'type': 'GET',
-			'dataType': 'html',
-			'data': urlParams
+			type: 'GET',
+			dataType: 'html',
+			data: urlParams
 		};
 		contentContainer.progressIndicator({});
 		AppConnector.request(params).then(
 				function (data) {
-					contentContainer.progressIndicator({'mode': 'hide'});
+					contentContainer.progressIndicator({mode: 'hide'});
 					contentContainer.html(data);
 					app.registerEventForTextAreaFields(jQuery(".commentcontent"))
 					contentContainer.trigger(thisInstance.widgetPostLoad, {'widgetName': relatedModuleName})
 					app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
+					app.registerModal(contentContainer);
 					aDeferred.resolve(params);
 				},
 				function (e) {
-					contentContainer.progressIndicator({'mode': 'hide'});
+					contentContainer.progressIndicator({mode: 'hide'});
 					aDeferred.reject();
 				}
 		);
