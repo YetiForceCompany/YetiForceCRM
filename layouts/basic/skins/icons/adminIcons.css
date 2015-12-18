@@ -1,4 +1,3 @@
-/* The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html */
 @font-face {
 	font-family: 'AdminIcons';
 	src:url('adminIcons.eot?5bzxui');
@@ -9,6 +8,7 @@
 	font-weight: normal;
 	font-style: normal;
 }
+
 [class^="adminIcon-"], [class*=" adminIcon-"] {
 	font-family: 'AdminIcons';
 	speak: none;
@@ -22,6 +22,7 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
 .adminIcon-permissions:before {
 	content: "\e800";
 }
@@ -90,6 +91,9 @@
 }
 .adminIcon-widgets-configuration:before {
 	content: "\e814";
+}
+.adminIcon-mapped-fields:before {
+	content: "\e900";
 }
 .adminIcon-advenced-modules:before {
 	content: "\e815";
@@ -166,10 +170,10 @@
 .adminIcon-integration:before {
 	content: "\e82e";
 }
-.adminIcon-ldap:before {
+.adminIcon-pbx-manager:before {
 	content: "\e834";
 }
-.adminIcon-currency:before {
+.adminIcon-currencies:before {
 	content: "\e82f";
 }
 .adminIcon-customer-portal:before {
@@ -223,6 +227,9 @@
 .adminIcon-mail-smtp-server:before {
 	content: "\e83f";
 }
+.adminIcon-oss_mailview:before {
+	content: "\e902";
+}
 .adminIcon-system-tools:before {
 	content: "\e842";
 }
@@ -237,6 +244,9 @@
 }
 .adminIcon-system-configuration:before {
 	content: "\e846";
+}
+.adminIcon-users:before {
+	content: "\e901";
 }
 .adminIcon-company-information:before {
 	content: "\e848";
@@ -283,3 +293,4 @@
 .adminIcon-license:before {
 	content: "\e854";
 }
+

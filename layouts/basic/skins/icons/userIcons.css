@@ -23,13 +23,22 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.userIcon-my-home-page-1:before {
+.userIcon-BookKeeping:before {
+	content: "\e8dd";
+}
+.userIcon-Sales:before {
+	content: "\e8b5";
+}
+.userIcon-Potentials:before {
+	content: "\e8c7";
+}
+.userIcon-Home2:before {
 	content: "\e888";
 }
-.userIcon-virtual-desk:before {
+.userIcon-VirtualDesk:before {
 	content: "\e675";
 }
-.userIcon-my-home-page:before {
+.userIcon-Home:before {
 	content: "\e886";
 }
 .userIcon-Calendar:before {
@@ -38,7 +47,7 @@
 .userIcon-OSSMail:before {
 	content: "\e678";
 }
-.userIcon-compaines-and-contacts:before {
+.userIcon-CompainesAndContacts:before {
 	content: "\e679";
 }
 .userIcon-Leads:before {
@@ -53,14 +62,8 @@
 .userIcon-Accounts:before {
 	content: "\e884";
 }
-.userIcon-sales:before {
-	content: "\e87a";
-}
-.userIcon-Campaigns:before {
-	content: "\e87b";
-}
 .userIcon-SSalesProcesses:before {
-	content: "\e87c";
+	content: "\e900";
 }
 .userIcon-SQuoteEnquiries:before {
 	content: "\e87d";
@@ -77,17 +80,19 @@
 .userIcon-SSingleOrders:before {
 	content: "\e881";
 }
-// TODO removed
-.userIcon-PurchaseOrder:before {
-	content: "\e882";
+.userIcon-SRecurringOrders:before {
+	content: "\e902";
+}
+.userIcon-Campaigns:before {
+	content: "\e901";
 }
 .userIcon-PriceBooks:before {
-	content: "\e883";
+	content: "\e903";
 }
-.userIcon-Project:before {
+.userIcon-Projects2:before {
 	content: "\e879";
 }
-.userIcon-projects:before {
+.userIcon-Project:before {
 	content: "\e6c5";
 }
 .userIcon-ProjectMilestone:before {
@@ -96,7 +101,7 @@
 .userIcon-ProjectTask:before {
 	content: "\e6c8";
 }
-.userIcon-support:before {
+.userIcon-Support:before {
 	content: "\e873";
 }
 .userIcon-HelpDesk:before {
@@ -108,24 +113,13 @@
 .userIcon-Faq:before {
 	content: "\e876";
 }
-.userIcon-bookkeeping:before {
-	content: "\e86f";
-}
-// TODO remove
-.userIcon-OSSCosts:before {
-	content: "\e870";
-}
-// TODO remove
-.userIcon-Invoice:before {
-	content: "\e871";
-}
 .userIcon-PaymentsOut:before {
 	content: "\e872";
 }
 .userIcon-PaymentsIn:before {
 	content: "\e877";
 }
-.userIcon-human-resources:before {
+.userIcon-HumanResources:before {
 	content: "\e86b";
 }
 .userIcon-OSSEmployees:before {
@@ -137,7 +131,7 @@
 .userIcon-HolidaysEntitlement:before {
 	content: "\e86e";
 }
-.userIcon-secretary:before {
+.userIcon-Secretary:before {
 	content: "\e869";
 }
 .userIcon-LettersIn:before {
@@ -149,7 +143,7 @@
 .userIcon-Reservations:before {
 	content: "\e86a";
 }
-.userIcon-database:before {
+.userIcon-Database:before {
 	content: "\e856";
 }
 .userIcon-Products:before {
@@ -185,8 +179,7 @@
 .userIcon-Documents:before {
 	content: "\e861";
 }
-// TODO remove
-.userIcon-OSSPdf:before {
+.userIcon-:before {
 	content: "\e862";
 }
 .userIcon-OSSPasswords:before {
@@ -207,9 +200,10 @@
 .userIcon-NewOrders:before {
 	content: "\e868";
 }
-.userIcon-team-work:before {
+.userIcon-TeamWork:before {
 	content: "\e6ce";
 }
 .userIcon-Ideas:before {
 	content: "\e6cf";
 }
+
