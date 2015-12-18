@@ -41,6 +41,7 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('SRC_MODULE', $srcModule);
 		$viewer->assign('TEMPLATE', $treeCategoryModel->getTemplate());
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('SELECTABLE_CATEGORY', AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('TreeCategoryModal.tpl', $moduleName);
 		$this->postProcess($request);
@@ -51,10 +52,12 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$parentScriptInstances = parent::getModalScripts($request);
 
 		$scripts = [
-			'~libraries/jquery/jstree/jstree.js',
-			'~libraries/jquery/jstree/jstree.category.js',
-			'modules.Vtiger.resources.TreeCategoryModal'
+			'~libraries/jquery/jstree/jstree.js'
 		];
+		if (AppConfig::relation('SELECTABLE_CATEGORY')) {
+			$scripts[] = '~libraries/jquery/jstree/jstree.category.js';
+		}
+		$scripts[] = 'modules.Vtiger.resources.TreeCategoryModal';
 
 		$modalInstances = $this->checkAndConvertJsScripts($scripts);
 		$scriptInstances = array_merge($modalInstances, $parentScriptInstances);
