@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -802,7 +801,8 @@ CREATE TABLE `u_yf_crmentity_rel_tree` (
   `tree` varchar(50) NOT NULL,
   `relmodule` int(11) NOT NULL,
   `rel_created_user` int(11) NOT NULL,
-  `rel_created_time` datetime NOT NULL
+  `rel_created_time` datetime NOT NULL,
+  `rel_comment` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_crmentity_showners` */
@@ -2384,7 +2384,10 @@ CREATE TABLE `vtiger_crmentityrel` (
   `crmid` int(11) NOT NULL,
   `module` varchar(100) NOT NULL,
   `relcrmid` int(11) NOT NULL,
-  `relmodule` varchar(100) NOT NULL
+  `relmodule` varchar(100) NOT NULL,
+  `rel_created_user` int(11) DEFAULT NULL,
+  `rel_created_time` datetime DEFAULT NULL,
+  `rel_comment` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cron_task` */
@@ -3165,7 +3168,7 @@ CREATE TABLE `vtiger_eventhandler_module` (
   `module_name` varchar(100) DEFAULT NULL,
   `handler_class` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`eventhandler_module_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventhandler_module_seq` */
 
@@ -5852,6 +5855,7 @@ CREATE TABLE `vtiger_relatedlists` (
   `actions` varchar(50) NOT NULL DEFAULT '',
   `favorites` tinyint(1) DEFAULT '0',
   `creator_detail` tinyint(1) DEFAULT '0',
+  `relation_comment` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`relation_id`),
   KEY `relatedlists_relation_id_idx` (`relation_id`),
   KEY `tabid` (`tabid`),
@@ -6316,6 +6320,7 @@ CREATE TABLE `vtiger_seproductsrel` (
   `setype` varchar(30) NOT NULL,
   `rel_created_user` int(11) NOT NULL,
   `rel_created_time` datetime NOT NULL,
+  `rel_comment` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`crmid`,`productid`),
   KEY `seproductsrel_productid_idx` (`productid`),
   KEY `seproductrel_crmid_idx` (`crmid`),
