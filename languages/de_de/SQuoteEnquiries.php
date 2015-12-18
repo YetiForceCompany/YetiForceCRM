@@ -12,7 +12,6 @@ $languageStrings = [
 
 	//FIELDS
 	'LBL_SUBJECT' => 'Bezeichnung',
-	'LBL_POTENTIAL' => 'Verkaufschance',
 	'LBL_NUMBER' => 'Nummer',
 	'LBL_STATUS' => 'Status',
 	'LBL_CLOSED_TIME' => 'Beendigungszeit',
