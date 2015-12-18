@@ -16,13 +16,13 @@
 		<div class="row detailViewTitle">
 			<div class="">
 				<div class="row">
-					<div class="col-md-12 marginBottom5px widget_header ">
+					<div class="col-md-12 marginBottom5px widget_header row no-margin">
 						<div class="">
 							<div class="col-md-6 paddingLRZero">
 								{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 							</div>
-							<div class="col-md-6">
-								<div class="col-md-12 detailViewToolbar paddingLRZero" style="text-align: right;">
+							<div class="col-md-6 col-xs-12 paddingLRZero">
+								<div class="col-xs-12 detailViewToolbar paddingLRZero" style="text-align: right;">
 									{if !{$NO_PAGINATION}}
 										<div class="detailViewPagingButton pull-right">
 											<span class="btn-group pull-right">
@@ -31,7 +31,7 @@
 											</span>
 										</div>
 									{/if}
-									<div class="pull-right">
+									<div class="pull-right-md pull-left-sm pull-right-lg">
 										<div class="btn-toolbar">
 											<span class="btn-group ">
 											{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}												

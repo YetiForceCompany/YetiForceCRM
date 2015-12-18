@@ -620,7 +620,7 @@ li.ui-timepicker-selected,
 	border-right: 0 !important;
 }
 .detailViewTitle {
-	padding: 0 0 0 15px;
+	padding: 0 15px 0 15px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -2718,9 +2718,6 @@ td.listViewEntryValue .row input {
 .fieldLabel .pull-right {
 	text-align: right;
 }
-.tag {
-	float: right !important;
-}
 .cut-string {
 	width: 285px;
 	white-space: nowrap;
@@ -2729,6 +2726,9 @@ td.listViewEntryValue .row input {
 .paddingLRZero {
 	padding-left: 0px;
 	padding-right: 0px;
+}
+.paddingLefttZero {
+	padding-left: 0 !important;
 }
 .paddingRightZero {
 	padding-right: 0 !important;
@@ -4120,6 +4120,12 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width:1240px){
+	.pull-left-md{
+		float:left;
+	}
+	.pull-right-md{
+		float:right;
+	}
 	.tl-media-content-container{
 		width: 60%;
 	}
@@ -4178,12 +4184,6 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 992px) {
-	.pull-left-md{
-		float:left;
-	}
-	.pull-right-md{
-		float:right;
-	}
 	.listViewActionsDiv .btn-toolbar,
 	.editViewContainer .btn-toolbar{
 		margin-bottom: 5px;
@@ -4197,9 +4197,6 @@ html,body,.baseContainer
 	}
 	.textAlignRight{
 		text-align: left;
-	}
-	.widget_header .pull-right{
-		float:left !important;
 	}
 	.sortTableUl{
 		list-style-type: none;
@@ -4713,6 +4710,7 @@ html,body,.baseContainer
 	font-size:48px;
 }
 .tag{
+	margin: 2px;
 	border-bottom-left-radius: 15px;
 	border-top-left-radius: 15px;
 	border-bottom-right-radius: 0;
@@ -4808,4 +4806,7 @@ html,body,.baseContainer
 }
 .alphabetBtnContainer{
 	width: auto;
+}
+.detailViewTitle .btn-toolbar .btn-group:first-child {
+	margin:0;
 }

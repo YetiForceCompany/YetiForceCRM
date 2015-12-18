@@ -3,10 +3,10 @@
 		<div class="widget_header">
 			<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
 			<div class="row">
-				<div class="col-md-9">
+				<div class="col-xs-9">
 					<div class="widgetTitle textOverflowEllipsis"><h4 class="moduleColor_{$WIDGET['label']}">{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4></div>
 				</div>
-				<div class="col-md-3">
+				<div class="col-xs-3">
 					<div class="pull-right">
 						{if $WIDGET['data']['action'] eq 1}
 							{assign var=VRM value=Vtiger_Record_Model::getInstanceById($RECORD->getId(), $MODULE_NAME)}
