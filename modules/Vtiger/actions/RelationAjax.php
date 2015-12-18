@@ -149,8 +149,12 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			}
 		}
 		if (!empty($recordsToRemove)) {
-			foreach ($recordsToRemove as $relatedRecordId) {
-				$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
+			if ($relationModel->isDeletable()) {
+				foreach ($recordsToRemove as $relatedRecordId) {
+					$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
+				}
+			} else {
+				throw new NoPermittedException('LBL_PERMISSION_DENIED');
 			}
 		}
 		if (!empty($categoryToAdd)) {
@@ -159,8 +163,12 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			}
 		}
 		if (!empty($categoryToRemove)) {
-			foreach ($categoryToRemove as $category) {
-				$relationModel->deleteRelTree($sourceRecordId, $category);
+			if ($relationModel->isDeletable()) {
+				foreach ($categoryToRemove as $category) {
+					$relationModel->deleteRelTree($sourceRecordId, $category);
+				}
+			} else {
+				throw new NoPermittedException('LBL_PERMISSION_DENIED');
 			}
 		}
 
