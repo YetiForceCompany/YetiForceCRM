@@ -355,7 +355,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				function (data) {
 					contentContainer.progressIndicator({mode: 'hide'});
 					contentContainer.html(data);
-					app.registerEventForTextAreaFields(jQuery(".commentcontent"))
 					contentContainer.trigger(thisInstance.widgetPostLoad, {'widgetName': relatedModuleName})
 					app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
 					app.registerModal(contentContainer);
@@ -396,8 +395,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 					app.changeSelectElementView(detailContentsHolder);
 					//Attach date picker event to date fields
 					app.registerEventForDatePickerFields(detailContentsHolder);
-					app.registerEventForTextAreaFields(jQuery(".commentcontent"));
-					jQuery('.commentcontent').autosize();
 					thisInstance.getForm().validationEngine();
 					detailContentsHolder.trigger(jQuery.Event('Detail.LoadContents.PostLoad'), responseData);
 					aDeferred.resolve(responseData);
@@ -2343,7 +2340,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var addCommentBlock = thisInstance.getCommentBlock();
 			commentInfoBlock.find('.commentActionsContainer').hide();
 			addCommentBlock.appendTo(commentInfoBlock).show();
-			app.registerEventForTextAreaFields(jQuery('.commentcontent', commentInfoBlock));
 		});
 
 		detailContentsHolder.on('click', '.editComment', function (e) {
@@ -2358,7 +2354,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			commentInfoContent.hide();
 			commentInfoBlock.find('.commentActionsContainer').hide();
 			editCommentBlock.appendTo(commentInfoBlock).show();
-			app.registerEventForTextAreaFields(jQuery('.commentcontent', commentInfoBlock));
 		});
 
 		detailContentsHolder.on('click', '.deleteComment', function (e) {
@@ -2918,7 +2913,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.getForm().validationEngine(app.validationEngineOptionsForRecord);
 		thisInstance.loadWidgets();
 
-		app.registerEventForTextAreaFields(jQuery('.commentcontent'));
 		this.registerEventForTotalRecordsCount();
 		this.registerGetAllTagCloudWidgetLoad();
 		this.registerRelatedModulesRecordCount();
