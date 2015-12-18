@@ -12,32 +12,33 @@
 {strip}
 	<div class="commentDiv">
 		<div class="singleComment">
-			<div class="commentInfoHeader row" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
-				<div class="commentTitle" id="{$COMMENT->getId()}">
-					{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
-					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
-					<div class="">
+			<div class="commentInfoHeader row no-margin" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
+				<div class="pull-left">
 						{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 						<img class="alignMiddle pull-left" alt="" width="48px" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
-					</div>
-					<div class="col-md-10 commentorInfo">
+				</div>
+				<div class="commentTitle row no-margin" id="{$COMMENT->getId()}">
+					{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
+					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
+					<div class="pull-left commentorInfo">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 						<div class="inner">
 							<span class="commentorName pull-left"><strong>{$COMMENTOR->getName()}</strong></span>
-							<div class="clearfix"></div>
-						</div>
-						<div class="commentInfoContent">
-							{nl2br($COMMENT->get('commentcontent'))}
 						</div>
 					</div>
 					<span class="pull-right paddingRight15">
 						<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
 					</span>
+					<br>
+					<div class="commentInfoContent ">
+						{nl2br($COMMENT->get('commentcontent'))}
+					</div>
 				</div>
+				
 			</div>
 			<div class="commentActionsContainer row no-margin">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}
-				<div class="editedStatus"  name="editStatus">
+				<div class="editedStatus visible-lg-block"  name="editStatus">
 					<div class="col-xs-6">
 						<span class="{if empty($REASON_TO_EDIT)}hide{/if} col-xs-6 editReason">
 							<p><small>[ {vtranslate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span></small></p>

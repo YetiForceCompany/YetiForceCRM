@@ -786,7 +786,6 @@ li.ui-timepicker-selected,
 	border-radius: 2px;
 	padding: 10px 0px 0px 0px;
 	display: inline-block;
-	min-width: 354px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -1719,6 +1718,7 @@ th.htColHeader,
 .popover {
 	z-index: 1000023 !important;
 	min-width: 200px;
+	word-wrap: break-word;
 }
 .popover-content .fieldLabel {
 	width: 35%;
@@ -4120,8 +4120,14 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width:1240px){
+	.tl-media-content-container{
+		width: 60%;
+	}
 	.opacity .actions{
 		opacity: 1;
+	}
+	.singleComment .commentActionsDiv{
+		display: block;
 	}
 	.selectSearch{
 		display: none;
@@ -4212,7 +4218,7 @@ html,body,.baseContainer
 		white-space:nowrap;
 	}
 	.commentsList.commentsBody .liStyleNone{
-		padding-left: 0;
+		padding-left: 20px;
 	}
 	.commentContainer .commentDetails {
 		width: 100%;
@@ -4518,6 +4524,13 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 767px) {
+	.tl-skinny .tl-media .tl-media-content-container .tl-caption{
+		font-size:12px !important;
+	}
+	.tl-skinny .tl-slide.tl-slide-media-only .tl-slide-content-container .tl-slide-content .tl-media,
+	.tl-media-content-container {
+		margin: 5px auto;
+	}
 	.alphabet_30{
 		width: 340px;
 	}
@@ -4597,6 +4610,9 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 480px){
+	.tl-text .tl-headline-date, .tl-text h3.tl-headline-date{
+		line-height: 31px;
+	}
 	.alphabet_30{
 		width: 245px;
 	}
@@ -4772,13 +4788,11 @@ html,body,.baseContainer
 	display:none;
 }
 .commentsBar{
-	height:50px;
-	max-height: 50px;
 	position: relative;
 	top: 0px;
 	left: 0;
 	background: #eee; 
-	padding-top: 8px;
+	padding-bottom: 8px;
 }
 .fieldLabel .HelpInfoPopover {
 	margin-left: 2px;
