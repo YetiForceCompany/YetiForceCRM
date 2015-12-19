@@ -558,7 +558,7 @@ li.ui-timepicker-selected,
 }
 .alphabetSorting{
 	text-align: center;
-	
+
 }
 .alphabetContents{
 	padding:0;
@@ -4191,7 +4191,7 @@ html,body,.baseContainer
 	.widget_header .btn-toolbar{
 		margin-bottom: 5px;
 	}
-	
+
 	.listViewActionsDiv .pull-right{
 		float: left !important;
 	}
@@ -4669,12 +4669,12 @@ html,body,.baseContainer
 	overflow: hidden;
 }
 .noLeftRadius {
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
 }
 .noRightRadius {
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
 }
 .supportProcessesContainer .well .alert{
 	width:100%;
@@ -4795,7 +4795,7 @@ html,body,.baseContainer
 .fieldLabel .HelpInfoPopover {
 	margin-left: 2px;
 }
-.jstree-node .jstree-category{
+.jstree-node .jstree-category, .jstree-node .jstree-edit{
 	margin-left: 10px;
 	font-size: 15px;
 	top: 0;
@@ -4809,4 +4809,7 @@ html,body,.baseContainer
 }
 .detailViewTitle .btn-toolbar .btn-group:first-child {
 	margin:0;
+}
+.select2-dropdown [aria-selected="true"] {
+	display:none;
 }
