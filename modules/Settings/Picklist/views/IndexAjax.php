@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
@@ -106,7 +107,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$qualifiedName = $request->getModule(false);
 
-		if(!empty($pickFieldId)){
+		if (!empty($pickFieldId)) {
 			$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
 			$selectedFieldAllPickListValues = Vtiger_Util_Helper::getPickListValues($fieldModel->getName());
 		}
