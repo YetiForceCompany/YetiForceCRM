@@ -801,7 +801,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			return $this->get('locks');
 		}
 		require('user_privileges/locks.php');
-		if (key_exists($this->getId(), $locks)) {
+		if ($this->getId() && key_exists($this->getId(), $locks)) {
 			$this->set('locks', $locks[$this->getId()]);
 			return $locks[$this->getId()];
 		}
