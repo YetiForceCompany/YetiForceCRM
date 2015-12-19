@@ -43,7 +43,15 @@ $languageStrings = [
 	'LBL_SWITCH_USERS_DESCRIPTION' => 'Narzędzie umożliwiające przełączanie się pomiędzy użytkownikami w systemie.',
 	'LBL_SU_BASE_ACCESS' => 'Użytkownik',
 	'LBL_SU_AVAILABLE_ACCESS' => 'Może logować się na',
-	
+	// Locks
+	'LBL_LOCKS' => 'Blokady',
+	'LBL_LOCKS_DESCRIPTION' => 'Narzędzie do blokowania czynności dostępnych w przeglądarce np. kopiowanie, wycinanie...',
+	'LBL_LOCK_COPY' => 'Blokada kopiowania',
+	'LBL_LOCK_CUT' => 'Blokada wycinania',
+	'LBL_LOCK_PASTE' => 'Blokada wklejania',
+	'LBL_LOCK_RIGHT_MENU' => 'Blokada prawego klawisza myszki',
+	'LBL_LOCK_SELECT_TEXT' => 'Blokada zaznaczania',
+	'LBL_LOCK_DRAG' => 'Blokada przeciągania elementów strony',
 ];
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',

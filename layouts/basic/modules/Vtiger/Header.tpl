@@ -25,7 +25,6 @@
 		{foreach key=index item=jsModel from=$HEADER_SCRIPTS}
 				<script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>
 		{/foreach}
-
 		<!--[if IE]>
 			<script type="text/javascript" src="libraries/html5shim/html5.js"></script>
 			<script type="text/javascript" src="libraries/html5shim/respond.js"></script>
@@ -33,8 +32,12 @@
 		{* ends *}
 
 		{* ADD <script> INCLUDES in JSResources.tpl - for better performance *}
+		{assign var="HEAD_LOCKS" value=$USER_MODEL->getHeadLocks()}
+		{if $HEAD_LOCKS}
+			<script type="text/javascript">{$HEAD_LOCKS}</script>
+		{/if}
 	</head>
-	<body data-language="{$LANGUAGE}" data-skinpath="{$SKIN_PATH}" data-layoutpath="{$LAYOUT_PATH}" {if isset($ROLE_MODEL) && $ROLE_MODEL->get('blockcopy') == 1}oncopy="return false"{/if} {if isset($ROLE_MODEL) && $ROLE_MODEL->get('blockcut') == 1}oncut="return false"{/if} {if isset($ROLE_MODEL) && $ROLE_MODEL->get('blockpaste') == 1}onpaste="return false"{/if}>
+	<body data-language="{$LANGUAGE}" data-skinpath="{$SKIN_PATH}" data-layoutpath="{$LAYOUT_PATH}" {$USER_MODEL->getBodyLocks()}>
 		<div id="js_strings" class="hide noprint">{Zend_Json::encode($LANGUAGE_STRINGS)}</div>
 		<input type="hidden" id="start_day" value="{$USER_MODEL->get('dayoftheweek')}" />
 		<input type="hidden" id="row_type" value="{$USER_MODEL->get('rowheight')}" />

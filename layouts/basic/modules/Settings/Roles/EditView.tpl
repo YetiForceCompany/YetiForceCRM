@@ -148,33 +148,6 @@
 						</select>
 					</div>
 				</div>
-				<br><hr/>
-				<div class="row">
-					<label class="col-md-4"><strong>{vtranslate('LBL_BLOCK_COPY',$QUALIFIED_MODULE)}:</strong></label>
-					<div class="col-md-7 fieldValue">
-						<div class="pull-left">
-							<input type="checkbox" value="1" {if $RECORD_MODEL->get('blockcopy')} checked="" {/if} name="blockcopy" class="alignTop"/>
-						</div>
-					</div>
-				</div>
-				<br>
-				<div class="row">
-					<label class="col-md-4"><strong>{vtranslate('LBL_BLOCK_CUT',$QUALIFIED_MODULE)}:</strong></label>
-					<div class="col-md-7 fieldValue">
-						<div class="pull-left">
-							<input type="checkbox" value="1" {if $RECORD_MODEL->get('blockcut')} checked="" {/if} name="blockcut" class="alignTop"/>
-						</div>
-					</div>
-				</div>
-				<br>
-				<div class="row">
-					<label class="col-md-4"><strong>{vtranslate('LBL_BLOCK_PASTE',$QUALIFIED_MODULE)}:</strong></label>
-					<div class="col-md-7 fieldValue">
-						<div class="pull-left">
-							<input type="checkbox" value="1" {if $RECORD_MODEL->get('blockpaste')} checked="" {/if} name="blockpaste" class="alignTop"/>
-						</div>
-					</div>
-				</div>
 			</div>
 			<div class="pull-right marginRight10px paddingTop20">
 				<button class="btn btn-success" type="submit">{vtranslate('LBL_SAVE',$MODULE)}</button>
