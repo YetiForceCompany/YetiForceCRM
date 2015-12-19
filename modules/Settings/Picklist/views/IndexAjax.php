@@ -103,12 +103,14 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 	{
 		$sourceModule = $request->get('source_module');
 		$pickFieldId = $request->get('pickListFieldId');
-		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
-
 		$moduleName = $request->getModule();
 		$qualifiedName = $request->getModule(false);
 
-		$selectedFieldAllPickListValues = Vtiger_Util_Helper::getPickListValues($fieldModel->getName());
+		if(!empty($pickFieldId)){
+			$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
+			$selectedFieldAllPickListValues = Vtiger_Util_Helper::getPickListValues($fieldModel->getName());
+		}
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_PICKLIST_FIELDMODEL', $fieldModel);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
