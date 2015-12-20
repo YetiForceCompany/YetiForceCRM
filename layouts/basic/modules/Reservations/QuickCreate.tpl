@@ -31,44 +31,41 @@
 					<input type="hidden" name="module" value="{$MODULE}">
 					<input type="hidden" name="action" value="SaveAjax">
 					<div class="quickCreateContent">
-						<div class="modal-body">
-							<table class="massEditTable table table-bordered">
-								<tr>
+						<div class="modal-body row no-margin">
+							<div class="massEditTable row no-margin">
+								<div class="col-xs-12 paddingLRZero fieldRow">
 									{assign var=COUNTER value=0}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 
 										{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 										{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 										{assign var="refrenceListCount" value=count($refrenceList)}
-										{if $FIELD_MODEL->get('uitype') eq "19"}
-											{if $COUNTER eq '1'}
-												<td></td><td></td></tr><tr>
-												{assign var=COUNTER value=0}
-											{/if}
-										{/if}
 										{if $COUNTER eq 2}
-										</tr><tr>
+										</div>
+										<div class="col-xs-12 paddingLRZero fieldRow">
 											{assign var=COUNTER value=1}
 										{else}
 											{assign var=COUNTER value=$COUNTER+1}
 										{/if}
-										<td class='fieldLabel {$WIDTHTYPE}'>
-											{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-											{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
-											{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-												<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE)}'><i class="glyphicon glyphicon-info-sign"></i></a>
-											{/if}
-											<label class="muted pull-right">
-												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
-												{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
-											</label>
-										</td>
-										<td class="fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
-											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
-										</td>
+										<div class="col-xs-12 col-md-6 fieldsLabelValue {$WIDTHTYPE} paddingLRZero">
+											<div class="fieldLabel col-xs-12 col-sm-5">
+												{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
+												{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
+												{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
+													<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE)}'><i class="glyphicon glyphicon-info-sign"></i></a>
+												{/if}
+												<label class="muted pull-left-xs pull-right-sm pull-right-lg">
+													{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
+													{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
+												</label>
+											</div>
+											<div class="fieldValue col-xs-12 col-sm-7" >
+													{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
+											</div>
+										</div>
 									{/foreach}
-								</tr>
-							</table>
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="modal-footer quickCreateActions">
