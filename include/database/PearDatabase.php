@@ -178,18 +178,17 @@ class PearDatabase
 			$this->rollbackTransaction();
 		}
 		if ($this->dieOnError || $dieOnError) {
+			$backtrace = false;
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				$queryInfo = '';
-				if ($query !== false) {
-					$queryInfo .= 'Query: ' . $query . PHP_EOL;
-				}
-				if ($params !== false && $params != NULL) {
-					$queryInfo .= 'Params: ' . implode(',', $params) . PHP_EOL;
-				}
 				$backtrace = Vtiger_Functions::getBacktrace();
-				$trace = '<pre>' . $queryInfo . $backtrace . '</pre>';
 			}
-			Vtiger_Functions::throwNewException('Database ERROR: ' . PHP_EOL . $message . PHP_EOL . $trace);
+			$message = [
+				'message' => $message, 
+				'trace' => $backtrace,
+				'query' => $query,
+				'params' => $params,
+			];
+			Vtiger_Functions::throwNewException($message, true, 'DatabaseException.tpl');
 		}
 	}
 
@@ -313,7 +312,7 @@ class PearDatabase
 		try {
 			$this->stmt = $this->database->query($query);
 			$this->logSqlTime($sqlStartTime, microtime(true), $query);
-		} catch (AppException $e) {
+		} catch (PDOException $e) {
 			$error = $this->database->errorInfo();
 			$this->log($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage(), 'error');
 			$this->checkError($e->getMessage(), $dieOnError, $query);
@@ -343,7 +342,7 @@ class PearDatabase
 			$this->stmt = $this->database->prepare($query);
 			$success = $this->stmt->execute($params);
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
-		} catch (AppException $e) {
+		} catch (PDOException $e) {
 			$error = $this->database->errorInfo();
 			$this->log($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage(), 'error');
 			$this->checkError($e->getMessage(), $dieOnError, $query, $params);
