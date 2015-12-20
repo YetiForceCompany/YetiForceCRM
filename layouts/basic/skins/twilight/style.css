@@ -2739,6 +2739,9 @@ td.listViewEntryValue .row input {
 .paddingRight15{
 	padding-right: 15px !important;
 }
+.padding5{
+	padding: 5px !important;
+}
 .input-group.input-group-sm > .input-group-addon img {
 	width: 15px;
 }
@@ -4017,6 +4020,7 @@ html,body,.baseContainer
 .blockContainer .blockHeader .iconCollapse{
 	padding:10px;
 }
+.quickCreateContent .fieldLabel  label,
 .blockContainer .blockContent .fieldLabel  label{
 	padding-top:8px;
 }
@@ -4236,7 +4240,22 @@ html,body,.baseContainer
 		text-align:right
 	}
 }
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 960px) { 
+	.quickCreateContent .fieldsLabelValue.narrow{
+		padding-top: 5px;
+		padding-bottom: 2px;
+	}
+	.quickCreateContent .fieldsLabelValue.medium{
+		padding-top:10px;
+		padding-bottom: 10px;
+	}
+	.quickCreateContent .fieldsLabelValue.wide{
+		padding-top:15px;
+		padding-bottom: 15px;
+	}
+	.quickCreateContent .fieldsLabelValue{
+		border-bottom: 1px solid #eee;
+	}
 	.siteBarRight{
 		width: 100%;
 		padding: 0;
@@ -4400,6 +4419,30 @@ html,body,.baseContainer
 	}
 }
 @media screen and (min-width: 960px) {
+	.quickCreateContent .fieldRow{
+		border-top: 1px solid #ddd;
+		display: table;
+	}
+	.quickCreateContent .fieldsLabelValue.narrow{
+		padding-top: 5px;
+		padding-bottom: 2px;
+	}
+	.quickCreateContent .fieldsLabelValue.medium{
+		padding: 10px 0;
+	}
+	.quickCreateContent .fieldsLabelValue.wide{
+		padding-top:15px;
+		padding-bottom: 15px;
+	}
+	.quickCreateContent .fieldsLabelValue{
+		vertical-align:top;
+		border-right: 1px solid #ddd;
+		display: table-cell;
+		float: none;
+	}
+	.quickCreateContent .fieldsLabelValue::before{
+		width: 41.66666667%;
+	}
 	.siteBarRight{
 		width: calc(25% - 15px);
 		padding: 0 15px;
@@ -4483,6 +4526,21 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (min-width: 767px) {
+	.quickCreateContent .fieldsLabelValue::before{
+		content: "";
+		float: left;
+		position: absolute;
+		top: 0;
+		left: 0px;
+		height: 100%;
+		border-right:1px solid #ddd;
+	}
+	.quickCreateContent .fieldLabel{
+		border-right: 1px solid #ddd;
+	}
+	.fieldsLabelValue::before{
+		width: 41.6666667%;
+	}
 	.dashboardHeading .h3{
 		margin-bottom: 0px;
 		margin-right: 45px;
@@ -4521,6 +4579,17 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 767px) {
+	.quickCreateContent .fieldsLabelValue.wide{
+		padding-top:5px;
+		padding-bottom: 15px;
+	}
+	.quickCreateContent .fieldsLabelValue.narrow{
+		padding-bottom: 5px;
+	}
+	.quickCreateContent .fieldsLabelValue.medium{
+		padding-top:0px;
+		padding-bottom: 10px;
+	}
 	.tl-skinny .tl-media .tl-media-content-container .tl-caption{
 		font-size:12px !important;
 	}
@@ -4812,4 +4881,11 @@ html,body,.baseContainer
 }
 .select2-dropdown [aria-selected="true"] {
 	display:none;
+}
+.quickCreateContent .massEditTable{
+	border: 1px solid #ddd;
+}
+.quickCreateContent .eventsTable td{
+	padding-left:0;
+	padding-right:0;
 }
