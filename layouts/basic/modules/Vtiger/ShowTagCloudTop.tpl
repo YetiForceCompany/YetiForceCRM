@@ -12,8 +12,8 @@
     -->*}
     {strip}	
 		<div id="tagRecordInput">
-			<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 paddingLRZero pull-left">
-				<div class="input-group input-group-sm">
+			<div class="col-lg-2 col-md-3 col-sm-8 col-xs-12 paddingLRZero pull-left tagInputs">
+				<div class="input-group">
 					<span class="tagAsterisk input-group-addon">
 						<span class="glyphicon glyphicon-asterisk"></span>
 					</span>
