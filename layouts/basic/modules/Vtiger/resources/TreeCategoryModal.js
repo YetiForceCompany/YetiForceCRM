@@ -21,11 +21,16 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 		if (thisInstance.treeInstance == false) {
 			thisInstance.treeInstance = container.find("#treePopupContents");
 			var plugins = [
-				"checkbox",
 				"search"
 			];
 			if (thisInstance.isActiveCategory()) {
 				plugins.push("category");
+			}
+			if (thisInstance.getRelationType() == '2') {
+				plugins.push("checkbox");
+			}
+			if (thisInstance.getRelationType() == '1') {
+				plugins.push("edit");
 			}
 			thisInstance.treeInstance.jstree({
 				core: {
@@ -41,6 +46,9 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 	},
 	isActiveCategory: function () {
 		return this.getModalContainer().find('#isActiveCategory').val() == '1';
+	},
+	getRelationType: function () {
+		return this.getModalContainer().find('#relationType').val();
 	},
 	searching: function (text) {
 		this.treeInstance.jstree(true).search(text);
