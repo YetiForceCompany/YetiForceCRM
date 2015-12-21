@@ -135,7 +135,7 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 		return $db->getArrayColumn($result);
 	}
 
-	private function getSelectedRecords()
+	private function getSelectedRecords($onlyKeys = true)
 	{
 		$currentModule = vglobal('currentModule');
 		vglobal('currentModule', $this->get('srcModule'));
@@ -147,21 +147,37 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 		$entries = $relationListView->getEntries($pagingModel);
 
 		vglobal('currentModule', $currentModule);
-		return array_keys($entries);
+		if ($onlyKeys) {
+			return array_keys($entries);
+		} else {
+			return $entries;
+		}
+	}
+
+	private function getAllRecords()
+	{
+
+		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($this->getModuleName(), $this->get('srcModule'));
+		if (!empty($this->get('srcModule'))) {
+			$listViewModel->set('src_module', $this->get('srcModule'));
+			$listViewModel->set('src_record', $this->get('srcRecord'));
+		}
+		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel->set('limit', 'no_limit');
+		$listEntries = $listViewModel->getListViewEntries($pagingModel, true);
+		return $listEntries;
 	}
 
 	private function getRecords()
 	{
 		$selectedRecords = $this->getSelectedRecords();
 		$isDeletable = $this->isDeletable();
-		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 'no_limit');
-		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($this->getModuleName(), $this->get('srcModule'));
-		if (!empty($this->get('srcModule'))) {
-			$listViewModel->set('src_module', $this->get('srcModule'));
-			$listViewModel->set('src_record', $this->get('srcRecord'));
+		if ($this->getRelationType() == 2) {
+			$listEntries = $this->getAllRecords();
+		} else {
+			$listEntries = $this->getSelectedRecords(false);
 		}
-		$listEntries = $listViewModel->getListViewEntries($pagingModel, true);
+
 		$fieldName = $this->getTreeField()['fieldname'];
 		$tree = [];
 		foreach ($listEntries as $item) {

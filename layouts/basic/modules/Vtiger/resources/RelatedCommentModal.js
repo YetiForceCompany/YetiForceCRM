@@ -32,7 +32,7 @@ jQuery.Class("Vtiger_RelatedCommentModal_Js", {
 		});
 	},
 	registerEvents: function () {
-		var container = jQuery('#modalAccountsRelatedCommentModal');
+		var container = jQuery('#modalRelatedCommentModal');
 		this.registerSubmitEvent(container);
 	}
 });
