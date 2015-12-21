@@ -33,7 +33,7 @@ jQuery.Class("Vtiger_TreeRecords_Js", {}, {
 				}
 			},
 			plugins: [
-				"checkbox",
+				"checkbox","category",
 			]
 		});
 	},
@@ -58,13 +58,6 @@ jQuery.Class("Vtiger_TreeRecords_Js", {}, {
 		var progressIndicator = jQuery.progressIndicator({message: app.vtranslate('JS_LOADING_OF_RECORDS'), blockInfo: {enabled: true}});
 
 		$.extend($.fn.dataTable.defaults, {
-			//searching: true,
-			//ordering: false,
-			//bFilter: false,
-			//bLengthChange: false,
-			//bPaginate: false,
-			//bInfo: false,
-			//pageLength: -1,
 			language: {
 				sLengthMenu: app.vtranslate('JS_S_LENGTH_MENU'),
 				sZeroRecords: app.vtranslate('JS_NO_RESULTS_FOUND'),

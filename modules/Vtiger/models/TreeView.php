@@ -128,6 +128,7 @@ class Vtiger_TreeView_Model extends Vtiger_Base_Model
 			$parent = (int) ltrim(prev($pieces), 'T');
 			$tree[] = [
 				'id' => $treeID,
+				'type' => 'category',
 				'record_id' => $row['tree'],
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => vtranslate($row['name'], $this->getModuleName()),
