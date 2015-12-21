@@ -1185,6 +1185,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						} else if (selectedTabElement.data('linkKey') == thisInstance.detailViewDetailsTabLabel) {
 							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 						}
+						thisInstance.updateRecordsPDFTemplateBtn(thisInstance.getForm());
 					},
 							function (error) {
 								//TODO : Handle error
@@ -2882,6 +2883,39 @@ jQuery.Class("Vtiger_Detail_Js", {
 				thisInstance.refreshCommentContainer();
 			}
 		});
+	},
+	updateRecordsPDFTemplateBtn: function(form) {
+		var params = {};
+		params.data = {
+			module: 'Vtiger',
+			action: 'PDF',
+			mode: 'hasValidTemplate',
+			record: app.getRecordId(),
+			modulename: app.getModuleName(),
+			view: app.getViewName()
+		};
+		params.dataType = 'json';
+		AppConnector.request(params).then(
+				function (data) {
+					var response = data['result'];console.log(response);
+					var btnToolbar = jQuery('.detailViewToolbar .btn-toolbar');
+					if (response.valid == false) {
+						var btn = btnToolbar.find('.btn-group:eq(1) [href*="showPdfModal"]');
+						if (btn.length) {
+							btn.remove();
+						}
+					} else {
+						var btnGroup = btnToolbar.find('.btn-group:eq(1)');
+						var btn = btnToolbar.find('.btn-group:eq(1) [href*="showPdfModal"]');
+						if (btn.length == 0) {
+							btnGroup.append('<a class="btn btn-default popoverTooltip" href=\'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module='+app.getModuleName()+'&view=PDF&fromview=Detail&record='+app.getRecordId()+'");\' data-content="'+app.vtranslate('LBL_EXPORT_PDF')+'" data-original-title="" title=""><span class="glyphicon glyphicon-save-file icon-in-button"></span></a>');
+						}
+					}
+				},
+				function (data, err) {
+					app.errorLog(data, err);
+				}
+		);
 	},
 	registerEvents: function () {
 		var thisInstance = this;
