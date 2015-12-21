@@ -200,10 +200,10 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			$pagingModel = new Vtiger_Paging_Model();
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 			foreach ($relModules as $relatedModuleName) {
-				if (!vtlib_isModuleActive($relatedModuleName)) {
+				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
+				if (!vtlib_isModuleActive($relatedModuleName) || !$relationListView->getRelationModel()) {
 					continue;
 				}
-				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
 				$totalCount += (int) $relationListView->getRelatedEntriesCount();
 				$pageLimit = $pagingModel->getPageLimit();
 				$pageCount = ceil((int) $totalCount / (int) $pageLimit);
