@@ -12,6 +12,7 @@
 	</div>
 	<div id="treePopupContainer" class="modal-body col-md-12">
 		<input type="hidden" id="isActiveCategory" value="{$SELECTABLE_CATEGORY}" />
+		<input type="hidden" id="relationType" value="{$RELATION_TYPE}" />
 		<input type="hidden" id="relatedModule" value="{$MODULE}" />
 		<input type="hidden" name="tree" id="treePopupValues" value="{Vtiger_Util_Helper::toSafeHTML($TREE)}" />
 		{if count($TREE) != 0}

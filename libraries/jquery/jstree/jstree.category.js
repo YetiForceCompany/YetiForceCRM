@@ -18,7 +18,7 @@
 		return;
 	}
 	$.jstree.defaults.category = {
-		checkClass: ' glyphicon-ok-circle',
+		checkClass: ' glyphicon-check',
 		uncheckClass: ' glyphicon-unchecked'
 	};
 	var _i = document.createElement('I');

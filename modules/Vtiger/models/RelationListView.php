@@ -321,11 +321,15 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				}
 			}
 			if ($relationModel->showCreatorDetail()) {
-				$newRow['relCreatedUser'] = getOwnerName($row['rel_created_user']);
-				$newRow['relCreatedTime'] = Vtiger_Datetime_UIType::getDisplayDateTimeValue($row['rel_created_time']);
+				if (!empty($row['rel_created_user'])) {
+					$newRow['relCreatedUser'] = getOwnerName($row['rel_created_user']);
+				}
+				if (!empty($row['rel_created_time'])) {
+					$newRow['relCreatedTime'] = Vtiger_Datetime_UIType::getDisplayDateTimeValue($row['rel_created_time']);
+				}
 			}
 			if ($relationModel->showComment()) {
-				if(strlen($row['rel_comment']) > AppConfig::relation('COMMENT_MAX_LENGTH')){
+				if (strlen($row['rel_comment']) > AppConfig::relation('COMMENT_MAX_LENGTH')) {
 					$newRow['relCommentFull'] = $row['rel_comment'];
 				}
 				$newRow['relComment'] = Vtiger_Functions::textLength($row['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'));
@@ -619,18 +623,18 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				'name' => $parentName . vtranslate($row['name'], $relModuleName),
 				'parent' => $parent == 0 ? '#' : $parent
 			];
-			
+
 			if ($relationModel->showCreatorDetail()) {
 				$tree['relCreatedUser'] = getOwnerName($row['rel_created_user']);
 				$tree['relCreatedTime'] = Vtiger_Datetime_UIType::getDisplayDateTimeValue($row['rel_created_time']);
-			}
+			} 
 			if ($relationModel->showComment()) {
-				if(strlen($row['rel_comment']) > AppConfig::relation('COMMENT_MAX_LENGTH')){
+				if (strlen($row['rel_comment']) > AppConfig::relation('COMMENT_MAX_LENGTH')) {
 					$tree['relCommentFull'] = $row['rel_comment'];
 				}
 				$tree['relComment'] = Vtiger_Functions::textLength($row['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'));
 			}
-			
+
 			if (!empty($row['icon'])) {
 				$tree['icon'] = $row['icon'];
 			}

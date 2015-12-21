@@ -58,13 +58,20 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 		}
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TreeCategoryModal', $moduleName);
 		$instance = new $modelClassName();
-		self::$_cached_instance[$moduleName] = $instance->set('module', $moduleModel)->set('moduleName', $moduleName);
+		$instance->set('module', $moduleModel)->set('moduleName', $moduleName)->set('moduleName', $moduleName);
+		self::$_cached_instance[$moduleName] = $instance;
 		return self::$_cached_instance[$moduleName];
 	}
 
-	public function getTreeData()
+	public function getRelationType()
 	{
-		return array_merge($this->getTreeList(), $this->getRecords());
+		if ($this->has('relationType')) {
+			return $this->get('relationType');
+		}
+		$srcModuleModel = Vtiger_Module_Model::getInstance($this->get('srcModule'));
+		$relationModel = Vtiger_Relation_Model::getInstance($srcModuleModel, $this->get('module'));
+		$this->set('relationType', $relationModel->getRelationType());
+		return $this->get('relationType');
 	}
 
 	public function isDeletable()
@@ -72,6 +79,11 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 		$srcModuleModel = Vtiger_Module_Model::getInstance($this->get('srcModule'));
 		$relationModel = Vtiger_Relation_Model::getInstance($srcModuleModel, $this->get('module'));
 		return $relationModel->isDeletable();
+	}
+
+	public function getTreeData()
+	{
+		return array_merge($this->getTreeList(), $this->getRecords());
 	}
 
 	/**
@@ -127,13 +139,13 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 	{
 		$currentModule = vglobal('currentModule');
 		vglobal('currentModule', $this->get('srcModule'));
-		
+
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($this->get('srcRecord'), $this->get('srcModule'));
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $this->getModuleName());
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 'no_limit');
 		$entries = $relationListView->getEntries($pagingModel);
-		
+
 		vglobal('currentModule', $currentModule);
 		return array_keys($entries);
 	}
