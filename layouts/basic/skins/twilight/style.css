@@ -3010,6 +3010,12 @@ span[name=existingImages] img{
 .modal-body .btn-elements > .btn{
 	margin-left: 5px;
 }
+#tagsList{
+	margin-top:3px;
+}
+#tagsList a{
+	color: #fff;
+}
 #tagRecordInput{
 	padding-left: 15px;
 	padding-right: 15px;
@@ -4888,4 +4894,25 @@ html,body,.baseContainer
 .quickCreateContent .eventsTable td{
 	padding-left:0;
 	padding-right:0;
+}
+.tagAsterisk{
+	border-bottom-left-radius: 15px !important;
+	border-top-left-radius: 15px !important;
+	background:#5bc0de;
+	border-color:#46b8da;
+	color:#fff;
+}
+.tagText{
+	background:#5bc0de;
+	border-color:#46b8da;
+	color:#fff;
+}
+.tagText::-webkit-input-placeholder { 
+	color:#ddd; 
+}
+.tagText::-moz-placeholder { 
+	color:#ddd; 
+}
+.tagText::-ms-input-placeholder { 
+	color:#ddd; 
 }
