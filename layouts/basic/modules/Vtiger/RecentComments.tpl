@@ -21,7 +21,7 @@
 						</span>
 						<input type="text"  name="commentcontent" class="commentcontent form-control" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" >
 						<span class="input-group-btn" >
-							<button class="btn btn-success saveComment" type="button" data-mode="add">
+							<button class="btn btn-success detailViewSaveComment" type="button" data-mode="add">
 								<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
 								<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
 							</button>
@@ -64,8 +64,8 @@
 								</div>
 								<div class="commentActionsContainer">
 									{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}
-									<div class="pull-left {if empty($REASON_TO_EDIT)}hide {/if}editStatus visible-lg-block"  name="editStatus">
-										<span class="pull-left paddingRight10">
+									<div class="pull-left {if empty($REASON_TO_EDIT)}hide {/if}editStatus"  name="editStatus">
+										<span class="pull-left paddingRight10 visible-lg-block">
 											<p class="muted">
 												<small>
 													[ {vtranslate('LBL_EDIT_REASON',$MODULE_NAME)} ] :
@@ -74,7 +74,7 @@
 											</p>
 										</span>
 										{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-											<span class="pull-right">
+											<span class="pull-right visible-lg-block">
 												<p class="muted pull-right">
 													<small><em>{vtranslate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;
 													<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small>

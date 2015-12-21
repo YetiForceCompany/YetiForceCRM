@@ -8,13 +8,12 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<div class="row no-margin">
-							
 							<div class="col-md-7 col-xs-10">
 								<h3 class="modal-title">{vtranslate('LBL_ALPHABETIC_FILTERING', $MODULE_NAME)}</h3>
 							</div>
 							<div class="pull-right">
 								<div class="pull-right">
-									<button class="btn btn-default" type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
+									<button class="btn btn-default close" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
 								</div>
 							</div>
 						</div>

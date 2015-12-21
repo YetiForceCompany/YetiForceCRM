@@ -17,6 +17,9 @@
 	text-indent: 100%;
 	white-space: nowrap;
 }
+.noWrap{
+	white-space:nowrap;
+}
 .input-block-level {
 	display: block;
 	width: 100%;
@@ -4581,6 +4584,9 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 767px) {
+	.mainBody{
+		bottom:17px;
+	}
 	.quickCreateContent .fieldsLabelValue.wide{
 		padding-top:5px;
 		padding-bottom: 15px;
