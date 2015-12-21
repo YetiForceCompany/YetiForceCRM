@@ -17,6 +17,7 @@ $languageStrings = [
 	'LBL_STATUS' => 'Status',
 	'LBL_RESPONSE_TIME' => 'Czas reakcji',
 	'LBL_COMPANY_NAME' => 'Nazwa firmy',
+	'SINGLE_SSalesProcesses' => 'Szansa sprzedaży',
 
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Wersja robocza',

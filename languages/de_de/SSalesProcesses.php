@@ -1,8 +1,8 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'SSalesProcesses' => 'Sales processes',
-	'SINGLE_SSalesProcesses' => 'Sales process',
+	'SSalesProcesses' => 'Verkaufschancen',
+	'SINGLE_SSalesProcesses' => 'Verkaufschance',
 	
 	//BLOCKS
 	'LBL_SSALESPROCESSES_INFORMATION' => 'Informationen',

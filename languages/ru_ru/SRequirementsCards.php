@@ -14,6 +14,7 @@ $languageStrings = [
 	'LBL_NUMBER' => 'Номер',
 	'LBL_STATUS' => 'Статус',
 	'LBL_RESPONSE_TIME' => 'Время отклика',
+	'SINGLE_SSalesProcesses' => 'Сделка',
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Черновик',
 	'PLL_ACCEPTED' => 'Принято',

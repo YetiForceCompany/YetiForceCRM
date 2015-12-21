@@ -22,6 +22,7 @@ $languageStrings = [
 	'LBL_REALIZATION_COMPLETION_DATE' => 'Data zakończenia realizacji',
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Rzeczywista data zakończenia',
 	'LBL_COMPANY_NAME' => 'Nazwa firmy',
+	'SINGLE_SSalesProcesses' => 'Szansa sprzedaży',
 	
 	'LBL_END_PERIOD' => 'Data zakończenia',
 	'LBL_FREQUENCY' => 'Częstotliwość',
