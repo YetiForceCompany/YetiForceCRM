@@ -16,7 +16,7 @@
 					</div>
 					<hr class="rowHr"/>
 					<div class="row">
-						<div class="col-xs-4">
+						<div class="col-xs-5 paddingRightZero">
 							<select name="mail-type" title="{vtranslate('LBL_CHANGE_MAIL_TYPE')}" class="form-control input-sm">
 								<option value="All" {if $TYPE eq 'all'} selected="selected"{/if}>
 									{vtranslate('LBL_ALL', 'OSSMailView')}
@@ -41,11 +41,10 @@
 								</select>
 							{/if}
 						</div>
-						<div class="col-xs-3">
+						<div class="col-xs-2">
 							<div class="pull-right">
-								<button type="button" class="btn btn-sm btn-default showMailsModal" title="{vtranslate('LBL_SHOW_PREVIEW_EMAILS','OSSMailView')}"
-										data-url="index.php?module=OSSMailView&view=MailsPreview&smodule={$MODULE_NAME}&srecord={$RECORD->getId()}&mode=showEmailsList">
-									<span class="body-icon glyphicon glyphicon-search"></span>
+								<button type="button" class="btn btn-sm btn-default showMailsModal" data-url="index.php?module=OSSMailView&view=MailsPreview&smodule={$MODULE_NAME}&srecord={$RECORD->getId()}&mode=showEmailsList">
+									<span class="body-icon glyphicon glyphicon-search" title="{vtranslate('LBL_SHOW_PREVIEW_EMAILS','OSSMailView')}"></span>
 								</button>
 								&nbsp;
 								{if AppConfig::main('isActiveSendingMails')}

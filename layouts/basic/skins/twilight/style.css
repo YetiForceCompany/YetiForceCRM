@@ -4406,7 +4406,7 @@ html,body,.baseContainer
 	.customFilterMainSpan .select2-container {
 		width: 300px !important;
 	}
-	#quickCreateModules {
+	.quickCreateModules {
 		width: 100% !important;
 		padding: 0 !important;
 	}
@@ -4908,11 +4908,11 @@ html,body,.baseContainer
 	color:#fff;
 }
 .tagText::-webkit-input-placeholder { 
-	color:#ddd; 
+	color:#b1e5f4; 
 }
 .tagText::-moz-placeholder { 
-	color:#ddd; 
+	color:#b1e5f4; 
 }
 .tagText::-ms-input-placeholder { 
-	color:#ddd; 
+	color:#b1e5f4; 
 }

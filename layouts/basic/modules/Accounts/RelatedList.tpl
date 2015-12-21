@@ -21,7 +21,7 @@
         <input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
         <div class="relatedHeader ">
             <div class="btn-toolbar row">
-                <div class="col-md-6">
+                <div class="col-md-6 col-sm-6 col-xs-12">
 
                     {foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
 						{if {Users_Privileges_Model::isPermitted($RELATED_MODULE_NAME, 'EditView')} }
@@ -40,7 +40,7 @@
 {/foreach}
 &nbsp;
 </div>
-<div class="col-md-6">
+<div class="col-md-6 col-sm-6 col-xs-12">
 	<div class="paginationDiv pull-right">
 		{include file='RelatedListPagination.tpl'|@vtemplate_path:$MODULE}
 	</div>

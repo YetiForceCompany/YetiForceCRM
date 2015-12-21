@@ -706,7 +706,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			thisInstance.hideSearchMenu();
 			thisInstance.hideMobileMenu();
 			$('.actionMenu').toggleClass('actionMenuOn');
-			$('#quickCreateModules').click(function(){
+			$('.quickCreateModules').click(function(){
 				thisInstance.hideActionMenu();
 			});
 		});
@@ -821,7 +821,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		});
 
 		thisInstance.basicSearch();
-		jQuery('#quickCreateModules,#compactquickCreate,#topMenus').on("click", ".quickCreateModule", function (e, params) {
+		jQuery('.quickCreateModules,#compactquickCreate,#topMenus').on("click", ".quickCreateModule", function (e, params) {
 			var moduleName = jQuery(e.currentTarget).data('name');
 			thisInstance.quickCreateModule(moduleName);
 		});

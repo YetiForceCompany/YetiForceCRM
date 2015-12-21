@@ -21,7 +21,10 @@
 						</span>
 						<input type="text"  name="commentcontent" class="commentcontent form-control" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" >
 						<span class="input-group-btn" >
-							<button class="btn btn-success detailViewSaveComment" type="button" data-mode="add"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
+							<button class="btn btn-success saveComment" type="button" data-mode="add">
+								<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+								<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
+							</button>
 						</span>
 					</div>
 				</div>
@@ -43,7 +46,7 @@
 												{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 												<img class="alignMiddle pull-left" width="48" alt="" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
 											</div>
-											<div class="col-md-8 commentorInfo">
+											<div class="col-xs-8 commentorInfo">
 												{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 												<span class="commentorName"><strong>{$COMMENTOR->getName()}</strong></span>
 												<div class="commentInfoContent">
@@ -61,7 +64,7 @@
 								</div>
 								<div class="commentActionsContainer">
 									{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}
-									<div class="pull-left {if empty($REASON_TO_EDIT)}hide {/if}editStatus"  name="editStatus">
+									<div class="pull-left {if empty($REASON_TO_EDIT)}hide {/if}editStatus visible-lg-block"  name="editStatus">
 										<span class="pull-left paddingRight10">
 											<p class="muted">
 												<small>
