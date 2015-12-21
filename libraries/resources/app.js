@@ -1159,7 +1159,7 @@ var app = {
 		if (typeof container == 'undefined') {
 			container = jQuery('body');
 		}
-		container.find('button.showModal, a.showModal').on('click', function (e) {
+		container.on('click', 'button.showModal, a.showModal', function (e) {
 			e.preventDefault();
 			var currentElement = jQuery(e.currentTarget);
 			var url = currentElement.data('url');
