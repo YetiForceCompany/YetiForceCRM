@@ -13,7 +13,8 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 	{
 		$branches = $request->get('branches');
 		$filter = $request->get('filter');
-		if (empty($branches)) {
+		$category = $request->get('category');
+		if (empty($branches) && empty($category)) {
 			return;
 		}
 		$moduleName = $request->getModule();
@@ -21,24 +22,32 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 		$baseModuleName = 'Accounts';
 
 		$multiReferenceFirld = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($baseModuleName, $moduleName);
+		$multiReferenceFirld = reset($multiReferenceFirld);
 		if (count($multiReferenceFirld) === 0) {
 			return;
 		}
-		$multiReferenceFirld = reset($multiReferenceFirld);
-		$searchParams = [
-			['columns' => [[
-					'columnname' => $multiReferenceFirld['tablename'] . ':' . $multiReferenceFirld['columnname'] . ':' . $multiReferenceFirld['fieldname'],
-					'value' => implode(',', $branches),
-					'column_condition' => '',
-					'comparator' => 'c',
-					]]],
-		];
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 'no_limit');
 		$listViewModel = Vtiger_ListView_Model::getInstance($baseModuleName, $filter);
-		$listViewModel->set('search_key', $multiReferenceFirld['fieldname']);
-		$listViewModel->set('search_params', $searchParams);
+		$queryGenerator = $listViewModel->get('query_generator');
+		$glue = '';
+		if (!empty($branches)) {
+			if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
+				$glue = QueryGenerator::$AND;
+			}
+			$queryGenerator->addCondition($multiReferenceFirld['columnname'], implode(',', $branches), 'c');
+		}
+		if (!empty($category)) {
+			$baseModuleName = Vtiger_Functions::getModuleId($baseModuleName);
+			$moduleName = Vtiger_Functions::getModuleId($moduleName);
+			$query = 'SELECT crmid FROM u_yf_crmentity_rel_tree WHERE module = ' . $baseModuleName . ' AND relmodule = ' . $moduleName . ' AND tree IN (\'' . implode("','", $category) . '\')';
+			if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
+				$glue = QueryGenerator::$AND;
+			}
+			$queryGenerator->addCondition($multiReferenceFirld['columnname'], $query, 'subQuery', 'OR', true);
+		}
+		$listViewModel->set('query_generator', $queryGenerator);
 
 		$listEntries = $listViewModel->getListViewEntries($pagingModel, true);
 		if (count($listEntries) === 0) {

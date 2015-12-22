@@ -37,7 +37,6 @@ class Services_TreeRecords_View extends Vtiger_TreeRecords_View
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 'no_limit');
 		$listViewModel = Vtiger_ListView_Model::getInstance($baseModuleName, $filter);
-		$listViewModel->set('search_key', $multiReferenceFirld['fieldname']);
 		$listViewModel->set('search_params', $searchParams);
 
 		$listEntries = $listViewModel->getListViewEntries($pagingModel, true);

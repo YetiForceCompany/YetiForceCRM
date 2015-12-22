@@ -149,6 +149,7 @@
 				this._data.category.selected.push(obj.id);
 				if (dom && dom.length) {
 					dom.children('.jstree-anchor').find('.jstree-category').addClass(options.checkClass).removeClass(options.uncheckClass);
+					this.trigger('changed', {action: 'select_node', node: obj, selected: this._data.core.selected, event: e});
 				}
 			}
 
@@ -160,6 +161,7 @@
 				this._data.category.selected = $.vakata.array_remove_item(this._data.category.selected, obj.id);
 				if (dom && dom.length) {
 					dom.children('.jstree-anchor').find('.jstree-category').removeClass(options.checkClass).addClass(options.uncheckClass);
+					this.trigger('changed', {action: 'deselect_node', node: obj, selected: this._data.core.selected, event: e});
 				}
 			}
 		};
