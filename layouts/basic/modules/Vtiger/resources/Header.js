@@ -493,6 +493,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		jQuery('.globalSearchValue').keypress(function (e) {
 			var currentTarget = jQuery(e.currentTarget)
 			if (e.which == 13) {
+				thisInstance.hideSearchMenu();
 				thisInstance.labelSearch(currentTarget);
 			}
 		});
@@ -562,6 +563,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		}
 		var basicSearch = new Vtiger_BasicSearch_Js();
 		var progress = jQuery.progressIndicator();
+		basicSearch.setMainContainer(currentTarget.closest('.globalSearchInput'));
 		basicSearch.search(val).then(function (data) {
 			basicSearch.showSearchResults(data);
 			progress.progressIndicator({
