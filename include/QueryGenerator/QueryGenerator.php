@@ -345,7 +345,7 @@ class QueryGenerator
 						$value[] = $this->fixDateTimeValue($name, $dateFilterResolvedList['startdate']);
 						$value[] = $this->fixDateTimeValue($name, $dateFilterResolvedList['enddate'], false);
 						$this->addCondition($name, $value, 'BETWEEN');
-					} else if ($nameComponents[4] == 'DT' && ($filter['comparator'] == 'e' || $filter['comparator'] == 'n')) {
+					} elseif ($nameComponents[4] == 'DT' && ($filter['comparator'] == 'e' || $filter['comparator'] == 'n')) {
 						$filter['stdfilter'] = $filter['comparator'];
 						$dateTimeComponents = explode(' ', $filter['value']);
 						$filter['startdate'] = DateTimeField::convertToDBFormat($dateTimeComponents[0]);
@@ -370,7 +370,7 @@ class QueryGenerator
 						} else {
 							$this->addCondition($name, $value, 'BETWEEN');
 						}
-					} else if ($nameComponents[4] == 'DT' && ($filter['comparator'] == 'a' || $filter['comparator'] == 'b')) {
+					} elseif ($nameComponents[4] == 'DT' && ($filter['comparator'] == 'a' || $filter['comparator'] == 'b')) {
 						$dateTime = explode(' ', $filter['value']);
 						$date = DateTimeField::convertToDBFormat($dateTime[0]);
 						$value = array();
@@ -470,7 +470,7 @@ class QueryGenerator
 				if ($field == 'date_start') {
 					$timeField = 'time_start';
 					$sql = $this->getSQLColumn($timeField);
-				} else if ($field == 'due_date') {
+				} elseif ($field == 'due_date') {
 					$timeField = 'time_end';
 					$sql = $this->getSQLColumn($timeField);
 				}
@@ -709,7 +709,7 @@ class QueryGenerator
 		$moduleTableIndexList = $this->meta->getEntityTableIndexList();
 		$baseTableIndex = $moduleTableIndexList[$baseTable];
 		$groupSql = $this->groupInfo;
-		$fieldSqlList = array();
+		$fieldSqlList = [];
 		foreach ($this->conditionals as $index => $conditionInfo) {
 			$fieldName = $conditionInfo['name'];
 			$field = $moduleFieldList[$fieldName];
@@ -723,7 +723,7 @@ class QueryGenerator
 			}
 			$fieldSql = '(';
 			$fieldGlue = '';
-			$valueSqlList = $this->getConditionValue($conditionInfo['value'], $conditionInfo['operator'], $field);
+			$valueSqlList = $this->getConditionValue($conditionInfo['value'], $conditionInfo['operator'], $field, $conditionInfo['custom']);
 			$operator = strtolower($conditionInfo['operator']);
 			if ($operator == 'between' && $this->isDateType($field->getFieldDataType())) {
 				$start = explode(' ', $conditionInfo['value'][0]);
@@ -870,7 +870,7 @@ class QueryGenerator
 							$fieldSql .= "$fieldGlue " . $field->getTableName() . '.' . $field->getColumnName() . ' ' . $valueSql;
 						}
 					}
-				} else if (($baseModule == 'Events' || $baseModule == 'Calendar') && ($field->getColumnName() == 'status')) {
+				} elseif (($baseModule == 'Events' || $baseModule == 'Calendar') && ($field->getColumnName() == 'status')) {
 					$otherFieldName = 'activitystatus';
 					$otherField = $moduleFieldList[$otherFieldName];
 
@@ -896,10 +896,10 @@ class QueryGenerator
 						$fieldSql .= $conditionGlue . '(' . $otherField->getTableName() . '.' . $otherField->getColumnName() . ' ' . $otherFieldValueSql . ' ' . $specialConditionForOtherField . '))';
 					else
 						$fieldSql .= ')';
-				}
-				else {
-					if ($fieldName == 'birthday' && !$this->isRelativeSearchOperators(
-							$conditionInfo['operator'])) {
+				} elseif ($conditionInfo['custom']) {
+					$fieldSql .= $fieldGlue . 'vtiger_crmentity.crmid ' . $valueSql;
+				} else {
+					if ($fieldName == 'birthday' && !$this->isRelativeSearchOperators($conditionInfo['operator'])) {
 						$fieldSql .= "$fieldGlue DATE_FORMAT(" . $field->getTableName() . '.' .
 							$field->getColumnName() . ",'%m%d') " . $valueSql;
 					} else {
@@ -969,7 +969,7 @@ class QueryGenerator
 	 * @param String $operator
 	 * @param WebserviceField $field
 	 */
-	private function getConditionValue($value, $operator, $field)
+	private function getConditionValue($value, $operator, $field, $custom = false)
 	{
 
 		$operator = strtolower($operator);
@@ -986,7 +986,7 @@ class QueryGenerator
 						$valueArray[$key] = ltrim($value, ' |##| ');
 					}
 				}
-			} else if ($field->getFieldDataType() == 'multiReferenceValue') {
+			} elseif ($field->getFieldDataType() == 'multiReferenceValue' && !$custom) {
 				$valueArray = explode(',', $value);
 				foreach ($valueArray as $key => $value) {
 					$valueArray[$key] = '|#|' . $value . '|#|';
@@ -1048,6 +1048,9 @@ class QueryGenerator
 				}
 			}
 			return $sql;
+		} elseif ($custom && $operator == 'subQuery') {
+			$sql[] = 'IN (' . $value . ')';
+			return $sql;
 		}
 		foreach ($valueArray as $value) {
 			if (!$this->isStringType($field->getFieldDataType())) {
@@ -1103,17 +1106,17 @@ class QueryGenerator
 						$value = $dateTime[0];
 					}
 				}
-			} else if (in_array($field->getFieldDataType(), $inEqualityFieldTypes)) {
+			} elseif (in_array($field->getFieldDataType(), $inEqualityFieldTypes)) {
 				$table = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, vglobal('default_charset'));
 				$chars = implode('', array_keys($table));
 				if (preg_match("/[{$chars}]+/", $value) === 1) {
 					if ($operator == 'g' || $operator == 'l') {
 						$value = substr($value, 4);
-					} else if ($operator == 'h' || $operator == 'm') {
+					} elseif ($operator == 'h' || $operator == 'm') {
 						$value = substr($value, 5);
 					}
 				}
-			} else if ($field->getFieldDataType() === 'currency') {
+			} elseif ($field->getFieldDataType() === 'currency') {
 				$uiType = $field->getUIType();
 				if ($uiType == 72) {
 					$value = CurrencyField::convertToDBFormat($value, null, true);
@@ -1132,7 +1135,7 @@ class QueryGenerator
 			if ($field->getFieldDataType() == 'multiReferenceValue' && in_array($operator, ['e', 's', 'ew', 'c'])) {
 				$sql[] = "LIKE '%$value%'";
 				continue;
-			} else if ($field->getFieldDataType() == 'multiReferenceValue' && in_array($operator, ['n', 'k'])) {
+			} elseif ($field->getFieldDataType() == 'multiReferenceValue' && in_array($operator, ['n', 'k'])) {
 				$sql[] = "NOT LIKE '%$value%'";
 				continue;
 			}
@@ -1150,9 +1153,9 @@ class QueryGenerator
 			if ($field->getUIType() == 120) {
 				if ($operator == 'om') {
 					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ' . Users_Record_Model::getCurrentUserModel()->get('id') . ')';
-				} else if (in_array($operator, ['e', 's', 'ew', 'c'])) {
+				} elseif (in_array($operator, ['e', 's', 'ew', 'c'])) {
 					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ' . $value . ')';
-				} else if (in_array($operator, ['n', 'k'])) {
+				} elseif (in_array($operator, ['n', 'k'])) {
 					$sql[] = 'vtiger_crmentity.crmid NOT IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ' . $value . ')';
 				}
 				continue;
@@ -1232,7 +1235,7 @@ class QueryGenerator
 		return $value;
 	}
 
-	public function addCondition($fieldname, $value, $operator, $glue = null, $newGroup = false, $newGroupType = null, $ignoreComma = false)
+	public function addCondition($fieldname, $value, $operator, $glue = null, $custom = false, $newGroupType = null, $ignoreComma = false)
 	{
 		$conditionNumber = $this->conditionInstanceCount++;
 		if ($glue != null && $conditionNumber > 0)
@@ -1242,7 +1245,7 @@ class QueryGenerator
 		$this->whereFields[] = $fieldname;
 		$this->ignoreComma = $ignoreComma;
 		$this->reset();
-		$this->conditionals[$conditionNumber] = $this->getConditionalArray($fieldname, $value, $operator);
+		$this->conditionals[$conditionNumber] = $this->getConditionalArray($fieldname, $value, $operator, $custom);
 	}
 
 	public function addRelatedModuleCondition($relatedModule, $column, $value, $SQLOperator)
@@ -1264,14 +1267,14 @@ class QueryGenerator
 			'SQLOperator' => $SQLOperator);
 	}
 
-	private function getConditionalArray($fieldname, $value, $operator)
+	private function getConditionalArray($fieldname, $value, $operator, $custom = false)
 	{
 		if (is_string($value)) {
 			$value = trim($value);
 		} elseif (is_array($value)) {
 			$value = array_map(trim, $value);
 		}
-		return array('name' => $fieldname, 'value' => $value, 'operator' => $operator);
+		return array('name' => $fieldname, 'value' => $value, 'operator' => $operator, 'custom' => $custom);
 	}
 
 	public function startGroup($groupType)
@@ -1522,33 +1525,35 @@ class QueryGenerator
 	public function getSqlOperator($operator, $value = false)
 	{
 		switch ($operator) {
-			case 'e': $sqlOperator = "=";
+			case 'e': $sqlOperator = '=';
 				break;
-			case 'n': $sqlOperator = "<>";
+			case 'n': $sqlOperator = '<>';
 				break;
-			case 's': $sqlOperator = "LIKE";
-				$value = "$value%";
+			case 's': $sqlOperator = 'LIKE';
+				$value = '$value%';
 				break;
-			case 'ew': $sqlOperator = "LIKE";
-				$value = "%$value";
+			case 'ew': $sqlOperator = 'LIKE';
+				$value = '%$value';
 				break;
-			case 'c': $sqlOperator = "LIKE";
-				$value = "%$value%";
+			case 'c': $sqlOperator = 'LIKE';
+				$value = '%$value%';
 				break;
-			case 'k': $sqlOperator = "NOT LIKE";
-				$value = "%$value%";
+			case 'k': $sqlOperator = 'NOT LIKE';
+				$value = '%$value%';
 				break;
-			case 'l': $sqlOperator = "<";
+			case 'l': $sqlOperator = '<';
 				break;
-			case 'g': $sqlOperator = ">";
+			case 'g': $sqlOperator = '>';
 				break;
-			case 'm': $sqlOperator = "<=";
+			case 'm': $sqlOperator = '<=';
 				break;
-			case 'h': $sqlOperator = ">=";
+			case 'h': $sqlOperator = '>=';
 				break;
-			case 'a': $sqlOperator = ">";
+			case 'a': $sqlOperator = '>';
 				break;
-			case 'b': $sqlOperator = "<";
+			case 'b': $sqlOperator = '<';
+				break;
+			case 'subQuery': $sqlOperator = 'IN';
 				break;
 		}
 		if (!$value) {
