@@ -1048,7 +1048,7 @@ class QueryGenerator
 				}
 			}
 			return $sql;
-		} elseif ($custom && $operator == 'subQuery') {
+		} elseif ($custom && $operator == 'subquery') {
 			$sql[] = 'IN (' . $value . ')';
 			return $sql;
 		}
