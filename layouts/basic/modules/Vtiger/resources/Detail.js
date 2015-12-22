@@ -439,6 +439,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	markTabAsSelected: function (tabElement) {
 		tabElement.addClass('active');
+		jQuery('.related .dropdown [data-reference="' + tabElement.data('reference') +'"]').addClass('active');
 	},
 	reloadTabContent: function () {
 		this.getSelectedTab().trigger('click');
@@ -1180,7 +1181,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						var selectedTabElement = thisInstance.getSelectedTab();
 						if (selectedTabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
 							var detailContentsHolder = thisInstance.getContentHolder();
-							jQuery('.detailViewInfo .related li.active').trigger("click");
+							thisInstance.reloadTabContent();
 							thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 							thisInstance.registerEventForRelatedList();
@@ -2224,7 +2225,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				Vtiger_Helper_Js.showPnotify(params);
 				var relatedTabKey = jQuery('.related li.active');
 				if (relatedTabKey.data('linkKey') == thisInstance.detailViewSummaryTabLabel || relatedTabKey.data('linkKey') == thisInstance.detailViewDetailsTabLabel) {
-					relatedTabKey.trigger('click');
+					thisInstance.reloadTabContent();
 				}
 			});
 		});
@@ -2265,7 +2266,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 			if (Vtiger_Detail_Js.SaveResultInstance.checkData(formData) == false) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				jQuery('.detailViewInfo .related li.active').trigger("click");
+				thisInstance.reloadTabContent();
 				return;
 			}
 			var fieldNameValueMap = {};
@@ -2280,7 +2281,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				animation: 'show'
 			};
 			Vtiger_Helper_Js.showPnotify(params);
-			jQuery('.detailViewInfo .related li.active').trigger("click");
+			thisInstance.reloadTabContent();
 		});
 	},
 	registerHelpInfo: function () {
@@ -2664,7 +2665,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		detailContentsHolder.on('click', 'div.recordDetails span.squeezedWell', function (e) {
 			var currentElement = jQuery(e.currentTarget);
 			var relatedLabel = currentElement.data('reference');
-			jQuery('.detailViewInfo .related li[data-reference="' + relatedLabel + '"]').trigger("click");
+			jQuery('.detailViewInfo .related .nav > li[data-reference="' + relatedLabel + '"]').trigger("click");
 		});
 
 		detailContentsHolder.on('click', '.relatedPopup', function (e) {
@@ -2918,7 +2919,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		params.dataType = 'json';
 		AppConnector.request(params).then(
 				function (data) {
-					var response = data['result'];console.log(response);
+					var response = data['result'];
 					var btnToolbar = jQuery('.detailViewToolbar .btn-toolbar');
 					if (response.valid == false) {
 						var btn = btnToolbar.find('.btn-group:eq(1) [href*="showPdfModal"]');
