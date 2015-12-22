@@ -1,8 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<div class="siteBarRight calendarRightPanel col-xs-12" id="rightPanel">
+<div class="siteBarRight calendarRightPanel {if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}hideSiteBar{/if} col-xs-12" id="rightPanel">
 	<div class="btn btn-block toggleSiteBarRightButton hidden-xs hidden-sm" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
-		<span class="glyphicon glyphicon-chevron-right"></span>
+		{if AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		{else}
+			<span class="glyphicon glyphicon-chevron-left"></span>	
+		{/if}
 	</div>
 	<div class="siteBarContent paddingTop10">
 		<div class="panel panel-primary refreshHeader hide">
@@ -12,7 +16,7 @@
 						<h5 class="noSpaces">{vtranslate('LBL_INFO_REFRESH', $MODULE)}</h5>
 					</div>
 					<div class="col-lg-6 col-md-12 col-xs-5 paddingTop10-md paddingLRZero pull-right">
-						<a href="javascript:void(0);" name="drefresh" class="btn btn-default btn-xs refreshCalendar cursorPointer">
+						<a href="javascript:void(0);" name="drefresh" class="btn btn-default btn-xs pull-left-md pull-right-lg pull-right-xs pull-right-sm refreshCalendar cursorPointer">
 							<span class="glyphicon glyphicon-refresh icon-white" hspace="0" border="0" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
 							&nbsp;{vtranslate('LBL_REFRESH')}
 						</a>
