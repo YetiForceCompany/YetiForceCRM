@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1768,9 +1767,11 @@ CREATE TABLE `vtiger_assets` (
   `parent_id` int(19) DEFAULT NULL,
   `ordertime` decimal(10,2) DEFAULT NULL,
   `pscategory` varchar(255) DEFAULT '',
+  `ssalesprocessesid` int(19) DEFAULT NULL,
   PRIMARY KEY (`assetsid`),
   KEY `parent_id` (`parent_id`),
   KEY `product` (`product`),
+  KEY `ssalesprocessesid` (`ssalesprocessesid`),
   CONSTRAINT `fk_1_vtiger_assets` FOREIGN KEY (`assetsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2725,7 +2726,7 @@ CREATE TABLE `vtiger_dataaccess` (
   `data` text,
   PRIMARY KEY (`dataaccessid`),
   KEY `dataaccesid` (`dataaccessid`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_dataaccess_cnd` */
 
@@ -2738,7 +2739,7 @@ CREATE TABLE `vtiger_dataaccess_cnd` (
   `required` tinyint(19) NOT NULL,
   `field_type` varchar(100) NOT NULL,
   PRIMARY KEY (`dataaccess_cndid`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_datashare_grp2grp` */
 
@@ -3417,7 +3418,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1988 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1992 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4990,8 +4991,10 @@ CREATE TABLE `vtiger_ossoutsourcedservices` (
   `dateinservice` date DEFAULT NULL,
   `wherebought` varchar(100) DEFAULT '',
   `parent_id` int(19) DEFAULT NULL,
+  `ssalesprocessesid` int(19) DEFAULT NULL,
   PRIMARY KEY (`ossoutsourcedservicesid`),
   KEY `parent_id` (`parent_id`),
+  KEY `ssalesprocessesid` (`ssalesprocessesid`),
   CONSTRAINT `fk_1_vtiger_ossoutsourcedservices` FOREIGN KEY (`ossoutsourcedservicesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5039,9 +5042,11 @@ CREATE TABLE `vtiger_osssoldservices` (
   `parent_id` int(19) DEFAULT NULL,
   `serviceid` int(19) DEFAULT NULL,
   `ordertime` decimal(10,2) DEFAULT NULL,
+  `ssalesprocessesid` int(19) DEFAULT NULL,
   PRIMARY KEY (`osssoldservicesid`),
   KEY `parent_id` (`parent_id`),
   KEY `serviceid` (`serviceid`),
+  KEY `ssalesprocessesid` (`ssalesprocessesid`),
   CONSTRAINT `fk_1_vtiger_osssoldservices` FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5148,8 +5153,10 @@ CREATE TABLE `vtiger_outsourcedproducts` (
   `wherebought` varchar(255) DEFAULT '',
   `prodcount` varchar(255) DEFAULT '',
   `parent_id` int(19) DEFAULT NULL,
+  `ssalesprocessesid` int(19) DEFAULT NULL,
   PRIMARY KEY (`outsourcedproductsid`),
   KEY `parent_id` (`parent_id`),
+  KEY `ssalesprocessesid` (`ssalesprocessesid`),
   CONSTRAINT `fk_1_vtiger_outsourcedproducts` FOREIGN KEY (`outsourcedproductsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
