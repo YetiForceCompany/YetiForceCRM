@@ -285,19 +285,24 @@ class Vtiger_List_View extends Vtiger_Index_View
 
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-
-		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
-
 		$searchParmams = $request->get('search_params');
+		$operator = $request->get('operator');
+		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		
+		if (empty($searchParmams) || !is_array($searchParmams)) {
+			$searchParmams = [];
+		}
+		
 		$listViewModel->set('search_params', $this->transferListSearchParamsToFilterCondition($searchParmams, $listViewModel->getModule()));
+		if (!empty($operator)) {
+			$listViewModel->set('operator', $operator);
+		}
+		if (!empty($searchKey) && !empty($searchValue)) {
+			$listViewModel->set('search_key', $searchKey);
+			$listViewModel->set('search_value', $searchValue);
+		}
 
-		$listViewModel->set('search_key', $searchKey);
-		$listViewModel->set('search_value', $searchValue);
-		$listViewModel->set('operator', $request->get('operator'));
-
-		$count = $listViewModel->getListViewCount();
-
-		return $count;
+		return $listViewModel->getListViewCount();
 	}
 
 	/**
