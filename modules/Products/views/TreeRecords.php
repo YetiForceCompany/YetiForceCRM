@@ -8,7 +8,12 @@
  */
 class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 {
-
+	public function preProcess(Vtiger_Request $request, $display = true)
+	{
+		parent::preProcess($request);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('SELECTABLE_CATEGORY', AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
+	}
 	function process(Vtiger_Request $request)
 	{
 		$branches = $request->get('branches');
