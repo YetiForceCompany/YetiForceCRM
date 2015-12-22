@@ -2770,32 +2770,53 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var container = jQuery('.related');	
 		var moreBtn = container.find('.dropdown');
 		var moreList = container.find('.nav .dropdown-menu');
-		var margin = 2;
+		var margin = 3;
 		var totalWidth = container.width();
 		var mainNavWidth = 0;
 		var freeSpace = 0;
-		container.find('.nav .mainNav').each(function (e) {
-			mainNavWidth += Math.ceil(jQuery(this).width() + margin);
-		});	
 		moreBtn.removeClass('hide');
-		var widthMoreBtn = moreBtn.width();
+		var widthMoreBtn = moreBtn.width() + margin;
 		moreBtn.addClass('hide');
-		freeSpace = totalWidth - mainNavWidth - widthMoreBtn ;
-		container.find('.nav > .relatedNav').each(function () {
+		freeSpace = totalWidth - widthMoreBtn ;
+		container.find('.nav > .mainNav').each(function (e) {
 			jQuery(this).removeClass('hide');
-			if(freeSpace  > jQuery(this).width()){
-				moreList.find('[data-reference="' + jQuery(this).data('reference')+'"]').addClass('hide');				
-				freeSpace -= Math.ceil(jQuery(this).width() + margin) ;
+			if(freeSpace > jQuery(this).width()){
+				moreList.find('[data-reference="' + jQuery(this).data('reference')+'"]').addClass('hide');	
+				freeSpace -= Math.ceil(jQuery(this).width()) + margin;
 			}
 			else{
 				if(freeSpace !== 0){
 					moreBtn.removeClass('hide');
 				}
-				freeSpace = 0;
 				jQuery(this).addClass('hide');
 				moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').removeClass('hide');
+				freeSpace = 0;
 			}
 		});
+		
+		if(freeSpace === 0){
+			moreList.find('.relatedNav').removeClass('hide');
+			container.find('.spaceRelatedList').addClass('hide');
+		}
+		else{
+			freeSpace -= container.find('.spaceRelatedList').removeClass('hide').width() + margin;
+			container.find('.nav > .relatedNav').each(function () {
+				jQuery(this).removeClass('hide');
+				if(freeSpace  > jQuery(this).width()){
+					moreList.find('[data-reference="' + jQuery(this).data('reference')+'"]').addClass('hide');				
+					freeSpace -= Math.ceil(jQuery(this).width()) + margin ;
+				}
+				else{
+					if(freeSpace !== 0){
+						moreBtn.removeClass('hide');
+					}
+					freeSpace = 0;
+					jQuery(this).addClass('hide');
+					moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').removeClass('hide');
+				}
+			});
+		}
+		
 	},
 	refreshCommentContainer: function(commentId){
 		var thisInstance = this;
