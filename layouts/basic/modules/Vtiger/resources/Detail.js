@@ -358,6 +358,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					contentContainer.trigger(thisInstance.widgetPostLoad, {'widgetName': relatedModuleName})
 					app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
 					app.registerModal(contentContainer);
+					thisInstance.registerRelatedModulesRecordCount();
 					aDeferred.resolve(params);
 				},
 				function (e) {
@@ -439,9 +440,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 	markTabAsSelected: function (tabElement) {
 		tabElement.addClass('active');
 	},
+	reloadTabContent: function () {
+		this.getSelectedTab().trigger('click');
+	},
 	getSelectedTab: function () {
 		var tabContainer = this.getTabContainer();
-		return tabContainer.find('li.active');
+		return tabContainer.find('.nav > li.active');
 	},
 	getTabContainer: function () {
 		return jQuery('div.related');
@@ -575,8 +579,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					aDeferred.resolve(data);
-					var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
-					thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
 				},
 				function (textStatus, errorThrown) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
@@ -2293,7 +2295,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
 	 */
 	registerRelatedModulesRecordCount: function (tabContainer) {
-		var thisInstance = new Vtiger_Detail_Js();
+		var thisInstance = this;
 		var moreList = $('.related .nav .dropdown-menu');
 		var relationContainer = tabContainer;
 		if (!relationContainer)
@@ -2377,8 +2379,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 										commentDetails.remove();
 									});
 									thisInstance.getSelectedTab().trigger('click');
-									var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
-									thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
 								} else {
 									Vtiger_Helper_Js.showPnotify(data.error.message);
 								}
@@ -2970,7 +2970,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 		this.registerEventForTotalRecordsCount();
 		this.registerGetAllTagCloudWidgetLoad();
-		this.registerRelatedModulesRecordCount();
 		var header = Vtiger_Header_Js.getInstance();
 		header.registerQuickCreateCallBack(this.registerRelatedModulesRecordCount());
 	}

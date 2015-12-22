@@ -25,7 +25,7 @@ jQuery.Class("Vtiger_RelatedCommentModal_Js", {
 				Vtiger_Helper_Js.showMessage({text: data.result});
 				app.hideModalWindow();
 				progressLoader.progressIndicator({mode: 'hide'});
-				jQuery('.detailViewInfo .related li.active').trigger("click");
+				Vtiger_Detail_Js.getInstance().reloadTabContent();
 			}, function (error) {
 				progressLoader.progressIndicator({mode: 'hide'});
 			});

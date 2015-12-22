@@ -114,10 +114,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 				src_record: app.getRecordId(),
 				related_module: container.find('#relatedModule').val(),
 			}).then(function (res) {
-				var thisInstance = Vtiger_Detail_Js.getInstance();
-				var selectedTab = thisInstance.getSelectedTab();
-				thisInstance.registerRelatedModulesRecordCount(selectedTab);
-				selectedTab.trigger('click');
+				Vtiger_Detail_Js.getInstance().reloadTabContent();
 				app.hideModalWindow();
 			})
 		});
