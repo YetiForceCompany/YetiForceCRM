@@ -398,13 +398,14 @@ class Vtiger_Functions
 
 	static function getOwnerRecordLabels($ids)
 	{
-		if (!is_array($ids))
-			$ids = array($ids);
-
-		$nameList = array();
+		$nameList = [];
+		
+		if ($ids && !is_array($ids))
+			$ids = [$ids];
+		
 		if ($ids) {
 			$nameList = self::getCRMRecordLabels('Users', $ids);
-			$groups = array();
+			$groups = [];
 			$diffIds = array_diff($ids, array_keys($nameList));
 			if ($diffIds) {
 				$groups = self::getCRMRecordLabels('Groups', array_values($diffIds));
