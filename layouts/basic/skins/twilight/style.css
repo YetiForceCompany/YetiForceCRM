@@ -4888,7 +4888,7 @@ html,body,.baseContainer
 .detailViewTitle .btn-toolbar .btn-group:first-child {
 	margin:0;
 }
-.select2-dropdown [aria-selected="true"] {
+.select2-dropdown ul[aria-multiselectable="true"]  [aria-selected="true"] {
 	display:none;
 }
 .quickCreateContent .massEditTable{
