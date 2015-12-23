@@ -909,8 +909,6 @@ class Vtiger_Functions
 			"vtiger_contactsubdetails:birthday" => "D",
 			"vtiger_contactdetails:email" => "V",
 			"vtiger_contactdetails:secondaryemail" => "V",
-			//Potential Related Fields
-			"vtiger_potential:campaignid" => "V",
 			//Account Related Fields
 			"vtiger_account:parentid" => "V",
 			"vtiger_account:email1" => "V",
@@ -941,8 +939,6 @@ class Vtiger_Functions
 			"vtiger_campaigncontrel:contactid" => "V",
 			"vtiger_campaignleadrel:campaignid" => "V",
 			"vtiger_campaignleadrel:leadid" => "V",
-			"vtiger_contpotentialrel:contactid" => "V",
-			"vtiger_contpotentialrel:potentialid" => "V",
 			"vtiger_pricebookproductrel:pricebookid" => "V",
 			"vtiger_pricebookproductrel:productid" => "V",
 			"vtiger_senotesrel:crmid" => "V",

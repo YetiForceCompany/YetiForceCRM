@@ -30,7 +30,7 @@ class Settings_OSSDocumentControl_Module_Model extends Vtiger_Module_Model
 
 		$presence = array(0, 2);
 		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter');
-		$module = array('Potentials', 'Project', 'HelpDesk');
+		$module = array('Project', 'HelpDesk');
 
 		$query = 'SELECT name FROM vtiger_tab WHERE
                     presence IN (' . generateQuestionMarks($presence) . ')

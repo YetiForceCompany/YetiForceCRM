@@ -98,8 +98,6 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$InstanceModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			if ($moduleName == 'HelpDesk') {
 				$urldata = '&subject=' . $InstanceModel->get('ticket_no') . ' - ' . $InstanceModel->get('ticket_title');
-			} elseif ($moduleName == 'Potentials') {
-				$urldata = '&subject=' . $InstanceModel->get('potential_no') . ' - ' . $InstanceModel->get('potentialname');
 			} elseif ($moduleName == 'Project') {
 				$urldata = '&subject=' . $InstanceModel->get('project_no') . ' - ' . $InstanceModel->get('projectname');
 			}

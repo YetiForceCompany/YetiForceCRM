@@ -163,14 +163,11 @@ $server->register(
 $server->register(
 	'get_product_urllist', array('customerid' => 'xsd:string', 'productid' => 'xsd:string', 'block' => 'xsd:string'), array('return' => 'tns:field_datalist_array'), $NAMESPACE);
 
-$server->register(
-	'get_pdf', array('id' => 'xsd:string', 'block' => 'xsd:string', 'contactid' => 'xsd:string', 'sessionid' => 'xsd:string'), array('return' => 'tns:field_datalist_array'), $NAMESPACE);
+//$server->register(
+//	'get_pdf', array('id' => 'xsd:string', 'block' => 'xsd:string', 'contactid' => 'xsd:string', 'sessionid' => 'xsd:string'), array('return' => 'tns:field_datalist_array'), $NAMESPACE);
 
 $server->register(
 	'get_filecontent_detail', array('id' => 'xsd:string', 'folderid' => 'xsd:string', 'block' => 'xsd:string', 'contactid' => 'xsd:string', 'sessionid' => 'xsd:string'), array('return' => 'tns:get_ticket_attachments_array'), $NAMESPACE);
-
-$server->register(
-	'get_invoice_detail', array('id' => 'xsd:string', 'block' => 'xsd:string', 'contactid' => 'xsd:string', 'sessionid' => 'xsd:string'), array('return' => 'tns:field_details_array'), $NAMESPACE);
 
 $server->register(
 	'get_inventory_products', array('id' => 'xsd:string', 'sessionid' => 'xsd:string'), array('return' => 'tns:field_details_array'), $NAMESPACE);
@@ -1478,15 +1475,7 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 		}
 	}
 
-	if ($module == 'Invoice') {
-		$query = "select distinct vtiger_invoice.*,vtiger_crmentity.smownerid, vtiger_invoice.accountid as entityid,
-		'Accounts' as setype
-		from vtiger_invoice
-		left join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_invoice.invoiceid
-		where vtiger_crmentity.deleted=0 and accountid in (" . generateQuestionMarks($entity_ids_list) . ")";
-		$params = array($entity_ids_list);
-		$fields_list['Related To'] = 'entityid';
-	} else if ($module == 'Documents') {
+	if ($module == 'Documents') {
 		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE columnname = ? AND tablename = ?', ['folderid', 'vtiger_notes']);
 		$tree = $adb->query_result($result, 0, 'fieldparams');
 
@@ -1550,20 +1539,6 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 			$fieldvalue = $adb->query_result($res, $j, $fieldname);
 			$fieldValuesToRound = array('total', 'subtotal', 'discount_amount', 'pre_tax_total', 'received', 'balance', 'unit_price');
 
-			if ($module == 'Invoice') {
-				if ($fieldname == 'subject') {
-					$fieldid = $adb->query_result($res, $j, 'invoiceid');
-					$filename = $fieldid . '_Invoice.pdf';
-					$fieldvalue = '<a href="index.php?&module=Invoice&action=index&status=true&id=' . $fieldid . '">' . $fieldvalue . '</a>';
-				}
-				if (in_array($fieldname, $fieldValuesToRound)) {
-					$fieldvalue = round($fieldvalue, 2);
-				}
-				if ($fieldname == 'total') {
-					$sym = getCurrencySymbol($res, $j, 'currency_id');
-					$fieldvalue = $sym . $fieldvalue;
-				}
-			}
 			if ($module == 'Documents') {
 				if ($fieldname == 'title') {
 					$fieldid = $adb->query_result($res, $j, 'notesid');
@@ -1637,7 +1612,7 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 					$fieldvalue = '<a href="index.php?module=ProjectMilestone&action=index&id=' . $fieldid . '">' . $fieldvalue . '</a>';
 				}
 			}
-			if ($fieldname == 'entityid' || $fieldname == 'contactid' || $fieldname == 'accountid' || $fieldname == 'potentialid' || $fieldname == 'account' || $fieldname == 'linktoaccountscontacts') {
+			if ($fieldname == 'entityid' || $fieldname == 'contactid' || $fieldname == 'accountid' || $fieldname == 'account' || $fieldname == 'linktoaccountscontacts') {
 				$crmid = $fieldvalue;
 				$modulename = getSalesEntityType($crmid);
 				if ($crmid != '' && $modulename != '') {
@@ -1646,9 +1621,6 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 						$fieldvalue = '<a href="index.php?module=Contacts&action=index&id=' . $crmid . '">' . $fieldvalues[$crmid] . '</a>';
 					elseif ($modulename == 'Accounts')
 						$fieldvalue = '<a href="index.php?module=Accounts&action=index&id=' . $crmid . '">' . $fieldvalues[$crmid] . '</a>';
-					elseif ($modulename == 'Potentials') {
-						$fieldvalue = $adb->query_result($res, $j, 'potentialname');
-					}
 				} else {
 					$fieldvalue = '';
 				}
@@ -1769,50 +1741,50 @@ function updateDownloadCount($id)
  * 	@param int $id - id -id
  * 	return string $output - pd link value
  */
-function get_pdf($id, $block, $customerid, $sessionid)
-{
-	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
-	global $currentModule, $mod_strings, $app_strings, $app_list_strings;
-	$log->debug("Entering customer portal function get_pdf");
-	$isPermitted = check_permission($customerid, $block, $id);
-	if ($isPermitted == false) {
-		return array("#NOT AUTHORIZED#");
-	}
-
-	if (!validateSession($customerid, $sessionid))
-		return null;
-
-	require_once("config/config.php");
-	$current_user = Users::getActiveAdminUser();
-
-	$currentModule = $block;
-	$current_language = vglobal('current_language');
-	$app_strings = return_application_language($current_language);
-	$app_list_strings = return_app_list_strings_language($current_language);
-	$mod_strings = return_module_language($current_language, $currentModule);
-
-	$_REQUEST['record'] = $id;
-	$_REQUEST['savemode'] = 'file';
-	$sequenceNo = getModuleSequenceNumber($block, $id);
-	$filenamewithpath = 'storage/Products/' . $id . '_' . $block . '_' . $sequenceNo . '.pdf';
-	if (file_exists($filenamewithpath) && (filesize($filenamewithpath) != 0))
-		unlink($filenamewithpath);
-
-	checkFileAccessForInclusion("modules/$block/CreatePDF.php");
-	include("modules/$block/CreatePDF.php");
-
-	if (file_exists($filenamewithpath) && (filesize($filenamewithpath) != 0)) {
-		//we have to pass the file content
-		$filecontents[] = base64_encode(file_get_contents($filenamewithpath));
-		unlink($filenamewithpath);
-		// TODO: Delete the file to avoid public access.
-	} else {
-		$filecontents = "failure";
-	}
-	$log->debug("Exiting customer portal function get_pdf");
-	return $filecontents;
-}
+//function get_pdf($id, $block, $customerid, $sessionid)
+//{
+//	$adb = PearDatabase::getInstance();
+//	$log = vglobal('log');
+//	global $currentModule, $mod_strings, $app_strings, $app_list_strings;
+//	$log->debug("Entering customer portal function get_pdf");
+//	$isPermitted = check_permission($customerid, $block, $id);
+//	if ($isPermitted == false) {
+//		return array("#NOT AUTHORIZED#");
+//	}
+//
+//	if (!validateSession($customerid, $sessionid))
+//		return null;
+//
+//	require_once("config/config.php");
+//	$current_user = Users::getActiveAdminUser();
+//
+//	$currentModule = $block;
+//	$current_language = vglobal('current_language');
+//	$app_strings = return_application_language($current_language);
+//	$app_list_strings = return_app_list_strings_language($current_language);
+//	$mod_strings = return_module_language($current_language, $currentModule);
+//
+//	$_REQUEST['record'] = $id;
+//	$_REQUEST['savemode'] = 'file';
+//	$sequenceNo = getModuleSequenceNumber($block, $id);
+//	$filenamewithpath = 'storage/Products/' . $id . '_' . $block . '_' . $sequenceNo . '.pdf';
+//	if (file_exists($filenamewithpath) && (filesize($filenamewithpath) != 0))
+//		unlink($filenamewithpath);
+//
+//	checkFileAccessForInclusion("modules/$block/CreatePDF.php");
+//	include("modules/$block/CreatePDF.php");
+//
+//	if (file_exists($filenamewithpath) && (filesize($filenamewithpath) != 0)) {
+//		//we have to pass the file content
+//		$filecontents[] = base64_encode(file_get_contents($filenamewithpath));
+//		unlink($filenamewithpath);
+//		// TODO: Delete the file to avoid public access.
+//	} else {
+//		$filecontents = "failure";
+//	}
+//	$log->debug("Exiting customer portal function get_pdf");
+//	return $filecontents;
+//}
 
 function get_inventory_products($id, $module, $customerid, $sessionid)
 {
@@ -1834,91 +1806,6 @@ function get_inventory_products($id, $module, $customerid, $sessionid)
 	return $output;
 }
 
-function get_invoice_detail($id, $module, $customerid, $sessionid)
-{
-	require_once('include/utils/UserInfoUtil.php');
-	require_once('include/utils/utils.php');
-
-	global $adb, $site_URL, $log;
-	$log->debug("Entering customer portal function get_invoice_details $id - $module - $customerid - $sessionid");
-	$user = new Users();
-	$userid = getPortalUserid();
-	$current_user = $user->retrieveCurrentUserInfoFromFile($userid);
-
-	$isPermitted = check_permission($customerid, $module, $id);
-	if ($isPermitted == false) {
-		return array("#NOT AUTHORIZED#");
-	}
-
-	if (!validateSession($customerid, $sessionid))
-		return null;
-
-	$fieldquery = "SELECT fieldname, columnname, fieldlabel,block,uitype FROM vtiger_field WHERE tabid = ? AND displaytype in (1,2,4,10) ORDER BY block,sequence";
-	$fieldres = $adb->pquery($fieldquery, array(getTabid($module)));
-	$nooffields = $adb->num_rows($fieldres);
-	$query = "select vtiger_invoice.*,vtiger_crmentity.* ,vtiger_invoiceaddress.*,
-		vtiger_invoicecf.* from vtiger_invoice
-		inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_invoice.invoiceid
-		LEFT JOIN vtiger_invoiceaddress ON vtiger_invoice.invoiceid = vtiger_invoiceaddress.invoiceaddressid
-		INNER JOIN vtiger_invoicecf ON vtiger_invoice.invoiceid = vtiger_invoicecf.invoiceid
-		where vtiger_invoice.invoiceid=?";
-	$res = $adb->pquery($query, array($id));
-
-	for ($i = 0; $i < $nooffields; $i++) {
-		$fieldname = $adb->query_result($fieldres, $i, 'columnname');
-		$uitype = $adb->query_result($fieldres, $i, 'uitype');
-		$fieldlabel = Vtiger_Language_Handler::getTranslatedString($adb->query_result($fieldres, $i, 'fieldlabel'), 'Invoice', vglobal('default_language'));
-
-		$blockid = $adb->query_result($fieldres, $i, 'block');
-		$blocknameQuery = "select blocklabel from vtiger_blocks where blockid = ?";
-		$blockPquery = $adb->pquery($blocknameQuery, array($blockid));
-		$blocklabel = $adb->query_result($blockPquery, 0, 'blocklabel');
-
-		$fieldper = getFieldVisibilityPermission($module, $current_user->id, $fieldname);
-		if ($fieldper == '1') {
-			continue;
-		}
-
-		$fieldvalue = $adb->query_result($res, 0, $fieldname);
-		if ($fieldname == 'subject' && $fieldvalue != '') {
-			$fieldid = $adb->query_result($res, 0, 'invoiceid');
-			//$fieldlabel = "(Download PDF)  ".$fieldlabel;
-			$fieldvalue = '<a href="index.php?downloadfile=true&module=Invoice&action=index&id=' . $fieldid . '">' . $fieldvalue . '</a>';
-		}
-		if ($fieldname == 'contactid' || $fieldname == 'accountid' || $fieldname == 'potentialid') {
-			$crmid = $fieldvalue;
-			$Entitymodule = getSalesEntityType($crmid);
-			if ($crmid != '' && $Entitymodule != '') {
-				$fieldvalues = getEntityName($Entitymodule, array($crmid));
-				if ($Entitymodule == 'Contacts')
-					$fieldvalue = '<a href="index.php?module=Contacts&action=index&id=' . $crmid . '">' . $fieldvalues[$crmid] . '</a>';
-				elseif ($Entitymodule == 'Accounts')
-					$fieldvalue = '<a href="index.php?module=Accounts&action=index&id=' . $crmid . '">' . $fieldvalues[$crmid] . '</a>';
-				else
-					$fieldvalue = $fieldvalues[$crmid];
-			} else {
-				$fieldvalue = '';
-			}
-		}
-		if ($fieldname == 'total') {
-			$sym = getCurrencySymbol($res, 0, 'currency_id');
-			$fieldvalue = $sym . $fieldvalue;
-		}
-		if ($fieldname == 'smownerid') {
-			$fieldvalue = getOwnerName($fieldvalue);
-		}
-		if (in_array($uitype, array('15', '16', '120'))) {
-			$output[0][$module][$i]['orgfieldvalue'] = $fieldvalue;
-			$fieldvalue = Vtiger_Language_Handler::getTranslatedString($fieldvalue, $module, vglobal('default_language'));
-		}
-		$output[0][$module][$i]['fieldlabel'] = $fieldlabel;
-		$output[0][$module][$i]['fieldvalue'] = $fieldvalue;
-		$output[0][$module][$i]['blockname'] = Vtiger_Language_Handler::getTranslatedString($blocklabel, $module, vglobal('default_language'));
-	}
-
-	$log->debug("Entering customer portal function get_invoice_detail ..");
-	return $output;
-}
 /* Function to get contactid's and account's product details'
  *
  */
@@ -1978,16 +1865,6 @@ function get_product_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 		WHERE vtiger_seproductsrel.crmid in (" . generateQuestionMarks($entity_ids_list) . ") and vtiger_crmentity.deleted = 0 ";
 	$params[] = array($entity_ids_list);
 
-	$checkInvoices = checkModuleActive('Invoice');
-	if ($checkInvoices == true) {
-		$query[] = "select distinct vtiger_products.*, vtiger_invoice.accountid as entityid, 'Accounts' as setype
-			from vtiger_invoice
-			INNER join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_invoice.invoiceid
-			left join vtiger_inventoryproductrel on vtiger_inventoryproductrel.id=vtiger_invoice.invoiceid
-			left join vtiger_products on vtiger_products.productid = vtiger_inventoryproductrel.productid
-			where vtiger_inventoryproductrel.productid = vtiger_products.productid AND vtiger_crmentity.deleted=0 and accountid in (" . generateQuestionMarks($entity_ids_list) . ")";
-		$params[] = array($entity_ids_list, $entity_ids_list);
-	}
 	$fieldValuesToRound = array('unit_price', 'weight', 'commissionrate', 'qtyinstock');
 	for ($k = 0; $k < count($query); $k++) {
 		$res[$k] = $adb->pquery($query[$k], $params[$k]);
@@ -2209,7 +2086,7 @@ function get_details($id, $module, $customerid, $sessionid)
 				$fieldvalue = Vtiger_Language_Handler::getTranslatedString('LBL_NO', $module, vglobal('default_language'));
 			}
 		}
-		if ($columnname == 'parent_id' || $columnname == 'contactid' || $columnname == 'accountid' || $columnname == 'potentialid' || $fieldname == 'account_id' || $fieldname == 'contact_id' || $columnname == 'linktoaccountscontacts') {
+		if ($columnname == 'parent_id' || $columnname == 'contactid' || $columnname == 'accountid' || $fieldname == 'account_id' || $fieldname == 'contact_id' || $columnname == 'linktoaccountscontacts') {
 			$crmid = $fieldvalue;
 			$modulename = getSalesEntityType($crmid);
 			if ($crmid != '' && $modulename != '') {
@@ -2286,12 +2163,6 @@ function get_details($id, $module, $customerid, $sessionid)
 				$productres = $adb->pquery("select vtiger_products.productname from vtiger_products where productid=?", array($productid));
 				$productname = $adb->query_result($productres, 0, 'productname');
 				$fieldvalue = $productname;
-			}
-			if ($fieldname == 'invoiceid') {
-				$invoiceid = $adb->query_result($res, 0, 'invoiceid');
-				$invoiceres = $adb->pquery("select vtiger_invoice.subject from vtiger_invoice where invoiceid=?", array($invoiceid));
-				$invoicename = $adb->query_result($invoiceres, 0, 'subject');
-				$fieldvalue = $invoicename;
 			}
 		}
 		if (in_array($uitype, array('15', '16', '120'))) {
@@ -2389,33 +2260,7 @@ function check_permission($customerid, $module, $entityid)
 			if ($adb->num_rows($res) > 0) {
 				return true;
 			}
-			$query = "SELECT vtiger_inventoryproductrel.productid, vtiger_inventoryproductrel.id
-													FROM vtiger_inventoryproductrel
-													INNER JOIN vtiger_crmentity
-													ON vtiger_inventoryproductrel.productid=vtiger_crmentity.crmid
-													LEFT JOIN vtiger_invoice
-													ON vtiger_inventoryproductrel.id = vtiger_invoice.invoiceid
-													WHERE vtiger_crmentity.deleted=0
-														AND (vtiger_invoice.contactid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . ") or vtiger_invoice.accountid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . "))
-														AND vtiger_inventoryproductrel.productid = ?";
-			$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $allowed_contacts_and_accounts, $entityid));
-			if ($adb->num_rows($res) > 0) {
-				return true;
-			}
 			break;
-		case 'Invoice' : $query = "SELECT vtiger_invoice.invoiceid
-								FROM vtiger_invoice
-								INNER JOIN vtiger_crmentity
-								ON vtiger_invoice.invoiceid=vtiger_crmentity.crmid
-								WHERE vtiger_crmentity.deleted=0
-									AND vtiger_invoice.accountid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . ")
-									AND vtiger_invoice.invoiceid = ?";
-			$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $entityid));
-			if ($adb->num_rows($res) > 0) {
-				return true;
-			}
-			break;
-
 		case 'Documents' : $query = "SELECT vtiger_senotesrel.notesid FROM vtiger_senotesrel
 									INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_senotesrel.notesid AND vtiger_crmentity.deleted = 0
 									WHERE vtiger_senotesrel.crmid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . ")
@@ -2479,20 +2324,6 @@ function check_permission($customerid, $module, $entityid)
 									WHERE (vtiger_crmentityrel.crmid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . ")  OR " .
 				"(vtiger_crmentityrel.relcrmid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . ") AND vtiger_crmentityrel.module = 'Services'))
 									AND vtiger_service.serviceid = ?";
-			$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $allowed_contacts_and_accounts, $entityid));
-			if ($adb->num_rows($res) > 0) {
-				return true;
-			}
-
-			$query = "SELECT vtiger_inventoryproductrel.productid, vtiger_inventoryproductrel.id
-									FROM vtiger_inventoryproductrel
-									INNER JOIN vtiger_crmentity
-									ON vtiger_inventoryproductrel.productid=vtiger_crmentity.crmid
-									LEFT JOIN vtiger_invoice
-									ON vtiger_inventoryproductrel.id = vtiger_invoice.invoiceid
-									WHERE vtiger_crmentity.deleted=0
-										AND (vtiger_invoice.contactid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . ") or vtiger_invoice.accountid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . "))
-										AND vtiger_inventoryproductrel.productid = ?";
 			$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $allowed_contacts_and_accounts, $entityid));
 			if ($adb->num_rows($res) > 0) {
 				return true;
@@ -2859,17 +2690,6 @@ function get_service_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 		")";
 
 	$params[] = array($entity_ids_list, $entity_ids_list);
-
-	$checkInvoices = checkModuleActive('Invoice');
-	if ($checkInvoices == true) {
-		$query[] = "select distinct vtiger_service.*, vtiger_invoice.accountid as entityid, 'Accounts' as setype
-			from vtiger_invoice
-			INNER join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_invoice.invoiceid
-			left join vtiger_inventoryproductrel on vtiger_inventoryproductrel.id=vtiger_invoice.invoiceid
-			left join vtiger_service on vtiger_service.serviceid = vtiger_inventoryproductrel.productid
-			where vtiger_inventoryproductrel.productid = vtiger_service.serviceid AND vtiger_crmentity.deleted=0 and accountid in (" . generateQuestionMarks($entity_ids_list) . ")";
-		$params[] = array($entity_ids_list, $entity_ids_list);
-	}
 
 	$ServicesfieldVisibilityPermissions = array();
 	foreach ($fields_list as $fieldlabel => $fieldname) {

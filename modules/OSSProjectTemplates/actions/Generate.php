@@ -22,7 +22,7 @@ class OSSProjectTemplates_Generate_Action extends Vtiger_Action_Controller {
         $generator = new GenerateRecords();
         $generator->generate($id, $relId);   
         
-        header("Location: index.php?module=Potentials&relatedModule=Project&view=Detail&record=$relId&mode=showRelatedList&tab_label=Projects");
+        header("Location: index.php");
     }
 }
 

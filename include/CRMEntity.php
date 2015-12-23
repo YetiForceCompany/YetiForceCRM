@@ -578,18 +578,6 @@ class CRMEntity
 		}
 
 		if ($insertion_mode == 'edit') {
-			if ($module == 'Potentials') {
-				$dbquery = 'select sales_stage from vtiger_potential where potentialid = ?';
-				$sales_stage = $adb->query_result($adb->pquery($dbquery, array($this->id)), 0, 'sales_stage');
-				if ($sales_stage != $_REQUEST['sales_stage'] && $_REQUEST['sales_stage'] != '') {
-					$date_var = date("Y-m-d H:i:s");
-					$closingDateField = new DateTimeField($this->column_fields['closingdate']);
-					$closingdate = ($_REQUEST['ajxaction'] == 'DETAILVIEW') ? $this->column_fields['closingdate'] : $closingDateField->getDBInsertDateValue();
-					$sql = "insert into vtiger_potstagehistory values(?,?,?,?,?,?,?)";
-					$params = array('', $this->id, decode_html($sales_stage), $this->column_fields['probability'], 0, $adb->formatDate($closingdate, true), $adb->formatDate($date_var, true));
-					$adb->pquery($sql, $params);
-				}
-			}
 			//Check done by Don. If update is empty the the query fails
 			if (count($update) > 0) {
 				$sql1 = "update $table_name set " . implode(",", $update) . " where " . $this->tab_name_index[$table_name] . "=?";
@@ -2134,14 +2122,6 @@ class CRMEntity
 			} else if ($secmodule == 'Leads') {
 				$condition .= " AND $table_name.converted = 0";
 			}
-		} else if ($module == "Contacts" && $secmodule == "Potentials") {
-			// To get all the Contacts from vtiger_contpotentialrel table
-			$condition .= " OR $table_name.potentialid = vtiger_contpotentialrel.potentialid";
-			$query .= " left join vtiger_contpotentialrel on  vtiger_contpotentialrel.contactid = vtiger_contactdetails.contactid";
-		} else if ($module == "Potentials" && $secmodule == "Contacts") {
-			// To get all the Potentials from vtiger_contpotentialrel table
-			$condition .= " OR $table_name.contactid = vtiger_contpotentialrel.contactid";
-			$query .= " left join vtiger_contpotentialrel on vtiger_potential.potentialid = vtiger_contpotentialrel.potentialid";
 		}
 
 		$query .= " left join $secQueryTempTableQuery as $table_name on {$condition}";

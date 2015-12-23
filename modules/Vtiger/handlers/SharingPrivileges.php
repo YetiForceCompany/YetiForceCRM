@@ -28,33 +28,5 @@ class Vtiger_SharingPrivileges_Handler extends VTEventHandler
 				Users_Privileges_Model::setSharedOwnerRecursively($recordId, $addUsers, $removeUser, $moduleName);
 			}
 		}
-
-		if ($eventName == 'vtiger.entity.link.after' && vglobal('shared_owners') == true && Vtiger_Processes_Model::getConfig('sales', 'popup', 'update_shared_permissions') == 'true') {
-			$destinationModule = ['Products', 'Services'];
-			if ($entityData['sourceModule'] == 'Potentials' && in_array($entityData['destinationModule'], $destinationModule)) {
-				$db = PearDatabase::getInstance();
-				$sourceRecordId = &$entityData['sourceRecordId'];
-				$destinationRecordId = &$entityData['destinationRecordId'];
-
-				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($sourceRecordId);
-				$shownerIds = Vtiger_SharedOwner_UIType::getSharedOwners($sourceRecordId, $entityData['sourceModule']);
-				$shownerIds[] = $recordMetaData['smownerid'];
-				$shownerIds = array_unique($shownerIds);
-				
-				$usersExist = [];
-				$result = $db->pquery('SELECT crmid, userid FROM u_yf_crmentity_showners WHERE userid IN(' . implode(',', $shownerIds) . ') AND crmid = ?', [$destinationRecordId]);
-				while ($row = $db->getRow($result)) {
-					$usersExist[$row['crmid']][$row['userid']] = true;
-				}
-				foreach ($shownerIds as $userId) {
-					if (!isset($usersExist[$destinationRecordId][$userId])) {
-						$db->insert('u_yf_crmentity_showners', [
-							'crmid' => $destinationRecordId,
-							'userid' => $userId,
-						]);
-					}
-				}
-			}
-		}
 	}
 }

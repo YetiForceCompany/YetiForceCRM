@@ -142,9 +142,6 @@ function SaveResult() {
 			if (sourceModule == 'ProjectTask') {
 				jQuery('<input type="hidden" name="projecttaskid" value="' + sourceRecord + '">').appendTo(data);
 			}
-			if (sourceModule == 'Potentials') {
-				jQuery('<input type="hidden" name="potentialid" value="' + sourceRecord + '">').appendTo(data);
-			}
 			jQuery('<input type="hidden" name="sourceModule" value="' + sourceModule + '" />').appendTo(data);
 			jQuery('<input type="hidden" name="sourceRecord" value="' + sourceRecord + '" />').appendTo(data);
 			jQuery('<input type="hidden" name="relationOperation" value="true" />').appendTo(data);

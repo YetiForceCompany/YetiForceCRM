@@ -25,14 +25,9 @@
 
                     {foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
 						{if {Users_Privileges_Model::isPermitted($RELATED_MODULE_NAME, 'EditView')} }
-							{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
-							{assign var=POTENTIALS value=Settings_SalesProcesses_Module_Model::getConfig('potential')}
-							{if $RELATED_MODULE_NAME eq 'Potentials' && $POTENTIALS.add_potential eq 'true' && array_key_exists($PARENT_RECORD->get('assigned_user_id'),$ACCESSIBLE_GROUP_LIST)}
-								{assign var=ADD_BUTTON value=1}
-							{/if}
                         <div class="btn-group paddingRight10">
                             {assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
-                            <button type="button" class="btn btn-default addButton {if $ADD_BUTTON } hide {/if}
+                            <button type="button" class="btn btn-default addButton
                             {if $IS_SELECT_BUTTON eq true} selectRelation {/if} moduleColor_{$RELATED_MODULE_NAME} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
                         {if $IS_SELECT_BUTTON eq true} data-moduleName={$RELATED_LINK->get('_module')->get('name')} {/if}
                         {if ($RELATED_LINK->isPageLoadLink())}

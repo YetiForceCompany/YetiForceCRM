@@ -23,12 +23,6 @@
 			&nbsp;
 		</div>
 	</div>
-	{if $INVENTORY_LIMITED_FROM_POTENTIALS}
-		<div class="alert alert-info">
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			{vtranslate('LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO', $MODULE)}
-		</div>
-	{/if}
 	<div class="popupEntriesDiv relatedContents contents-bottomscroll">
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">

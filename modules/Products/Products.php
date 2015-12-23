@@ -434,73 +434,6 @@ class Products extends CRMEntity
 		return $return_value;
 	}
 
-	/** 	function used to get the list of potentials which are related to the product
-	 * 	@param int $id - product id
-	 * 	@return array - array which will be returned from the function GetRelatedList
-	 */
-	function get_opportunities($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-		$log = vglobal('log');
-		$current_user = vglobal('current_user');
-		$singlepane_view = vglobal('singlepane_view');
-		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_opportunities(" . $id . ") method ...");
-		$this_module = $currentModule;
-
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=' . $this_module . '&return_action=CallRelatedList&return_id=' . $id;
-
-		$button = '';
-
-		if ($actions) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_NEW') . " " . getTranslatedString($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname) . "'>&nbsp;";
-			}
-		}
-
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "SELECT vtiger_potential.potentialid, vtiger_crmentity.crmid,
-			vtiger_potential.potentialname, vtiger_account.accountname, vtiger_potential.related_to,
-			vtiger_potential.sales_stage, vtiger_potential.amount, vtiger_potential.closingdate,
-			case when (vtiger_users.user_name not like '') then $userNameSql else
-			vtiger_groups.groupname end as user_name, vtiger_crmentity.smownerid,
-			vtiger_products.productname, vtiger_products.qty_per_unit, vtiger_products.unit_price,
-			vtiger_products.expiry_date FROM vtiger_potential
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_potential.potentialid
-			INNER JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_potential.potentialid
-			INNER JOIN vtiger_products ON vtiger_seproductsrel.productid = vtiger_products.productid
-			INNER JOIN vtiger_potentialscf ON vtiger_potential.potentialid = vtiger_potentialscf.potentialid
-			LEFT JOIN vtiger_account ON vtiger_potential.related_to = vtiger_account.accountid
-			LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_products.productid = " . $id;
-
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value == null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		$log->debug("Exiting get_opportunities method ...");
-		return $return_value;
-	}
-
 	/** 	function used to get the list of tickets which are related to the product
 	 * 	@param int $id - product id
 	 * 	@return array - array which will be returned from the function GetRelatedList
@@ -825,7 +758,7 @@ class Products extends CRMEntity
 
 		$rel_table_arr = Array("HelpDesk" => "vtiger_troubletickets", "Products" => "vtiger_seproductsrel", "Attachments" => "vtiger_seattachmentsrel",
 			"PriceBooks" => "vtiger_pricebookproductrel", "Leads" => "vtiger_seproductsrel",
-			"Accounts" => "vtiger_seproductsrel", "Potentials" => "vtiger_seproductsrel", "Contacts" => "vtiger_seproductsrel",
+			"Accounts" => "vtiger_seproductsrel", "Contacts" => "vtiger_seproductsrel",
 			"Documents" => "vtiger_senotesrel", 'Assets' => 'vtiger_assets',);
 
 		$tbl_field_arr = Array("vtiger_troubletickets" => "ticketid", "vtiger_seproductsrel" => "crmid", "vtiger_seattachmentsrel" => "attachmentsid",
@@ -922,7 +855,6 @@ class Products extends CRMEntity
 			"Leads" => array("vtiger_seproductsrel" => array("productid", "crmid"), "vtiger_products" => "productid"),
 			"Accounts" => array("vtiger_seproductsrel" => array("productid", "crmid"), "vtiger_products" => "productid"),
 			"Contacts" => array("vtiger_seproductsrel" => array("productid", "crmid"), "vtiger_products" => "productid"),
-			"Potentials" => array("vtiger_seproductsrel" => array("productid", "crmid"), "vtiger_products" => "productid"),
 			"Products" => array("vtiger_products" => array("productid", "product_id"), "vtiger_products" => "productid"),
 			"PriceBooks" => array("vtiger_pricebookproductrel" => array("productid", "pricebookid"), "vtiger_products" => "productid"),
 			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"), "vtiger_products" => "productid"),
@@ -972,7 +904,7 @@ class Products extends CRMEntity
 		if (empty($return_module) || empty($return_id))
 			return;
 
-		if ($return_module == 'Leads' || $return_module == 'Contacts' || $return_module == 'Potentials') {
+		if ($return_module == 'Leads' || $return_module == 'Contacts') {
 			$sql = 'DELETE FROM vtiger_seproductsrel WHERE productid = ? AND crmid = ?';
 			$this->db->pquery($sql, array($id, $return_id));
 		} elseif ($return_module == 'Vendors') {
@@ -996,7 +928,7 @@ class Products extends CRMEntity
 			$with_crmids = Array($with_crmids);
 		foreach ($with_crmids as $with_crmid) {
 			if ($with_module == 'Leads' || $with_module == 'Accounts' ||
-				$with_module == 'Contacts' || $with_module == 'Potentials' || $with_module == 'Products') {
+				$with_module == 'Contacts' || $with_module == 'Products') {
 				$query = $db->pquery("SELECT * from vtiger_seproductsrel WHERE crmid=? and productid=?", array($crmid, $with_crmid));
 				if ($db->getRowCount($result) == 0) {
 					$db->insert('vtiger_seproductsrel', [

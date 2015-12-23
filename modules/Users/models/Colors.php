@@ -17,7 +17,6 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		$modulesFields['marketing'][] = ['module' => 'Leads', 'nameField' => 'leadstatus'];
 		$modulesFields['support'][] = ['module' => 'HelpDesk', 'nameField' => 'ticketpriorities'];
 		$modulesFields['support'][] = ['module' => 'HelpDesk', 'nameField' => 'ticketstatus'];
-		$modulesFields['sales'][] = ['module' => 'Potentials', 'nameField' => 'sales_stage'];
 		$modulesFields['realization'][] = ['module' => 'Project', 'nameField' => 'projectstatus'];
 		$modulesFields['financial'][] = [];
 		$modulesFields['timecontrol'][] = ['module' => 'OSSTimeControl', 'nameField' => 'timecontrol_type'];

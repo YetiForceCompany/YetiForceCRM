@@ -342,9 +342,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	public function getRestrictionsPopupField($recordModel)
 	{
 		$fields = [];
-		$map = [
-			'Contacts::Potentials' => ['parent_id', 'related_to'],
-		];
+		$map = [];
 		$relatedModel = $this->getRelationModuleModel();
 		$parentModule = $this->getParentModuleModel();
 		$relatedModuleName = $relatedModel->getName();

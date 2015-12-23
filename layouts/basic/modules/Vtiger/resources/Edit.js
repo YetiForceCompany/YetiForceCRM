@@ -355,10 +355,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 			params.action = 'BasicAjax';
 		}
 
-		if (params.search_module == 'Products' || params.search_module == 'Services') {
-			params.potentialid = jQuery('[name="potentialid"]').val();
-		}
-
 		AppConnector.request(params).then(
 				function (data) {
 					aDeferred.resolve(data);

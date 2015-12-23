@@ -20,7 +20,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$this->modules_email_actions_widgets['Contacts'] = true;
 		$this->modules_email_actions_widgets['Leads'] = true;
 		$this->modules_email_actions_widgets['HelpDesk'] = true;
-		$this->modules_email_actions_widgets['Potentials'] = true;
 		$this->modules_email_actions_widgets['Project'] = true;
 		parent::__construct();
 	}
@@ -189,7 +188,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		if (!isRecordExists($id))
 			return false;
 		$returnEmail = '';
-		if (strcmp($module, 'HelpDesk') != 0 && strcmp($module, 'Potentials') != 0 && strcmp($module, 'Project') != 0) {
+		if (strcmp($module, 'HelpDesk') != 0 && strcmp($module, 'Project') != 0) {
 			$polaEmail = OSSMailScanner_Record_Model::getEmailSearch($module);
 			if (count($polaEmail) > 0) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($id, $module);
@@ -207,9 +206,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				$helpdeskRecord = Vtiger_Record_Model::getInstanceById($id, $module);
 				$kontrahentId = $helpdeskRecord->get('parent_id');
 				$kontaktId = $helpdeskRecord->get('contact_id');
-			} else if (strcmp($module, 'Potentials') == 0) {
-				$helpdeskRecord = Vtiger_Record_Model::getInstanceById($id, $module);
-				$kontrahentId = $helpdeskRecord->get('related_to');
 			} else if (strcmp($module, 'Project') == 0) {
 				$helpdeskRecord = Vtiger_Record_Model::getInstanceById($id, $module);
 				$kontrahentId = $helpdeskRecord->get('linktoaccountscontacts');

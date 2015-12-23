@@ -126,9 +126,6 @@ function load_action(inframe, params) {
 	$(inframe.find('#message-oss-header .oss-add-Leads')).click(function () {
 		loadQuickCreateForm('Leads', params, inframe);
 	});
-	$(inframe.find('#message-oss-header .oss-add-Potentials')).click(function () {
-		loadQuickCreateForm('Potentials', params, inframe);
-	});
 	$(inframe.find('#message-oss-header .oss-add-Project')).click(function () {
 		loadQuickCreateForm('Project', params, inframe);
 	});
@@ -313,7 +310,6 @@ function load_oss_bar(inframe, crmid, config, related_records) {
 	params['username'] = inframe.find('#message-oss-parameters-username').text();
 	var module_permissions = get_module_permissions(crm_path);
 	var show_Marketing = false;
-	var show_Sprzedaz = false;
 	var show_Projekty = false;
 	var show_HelpDesk = false;
 	var show_ServiceContracts = false;
@@ -370,17 +366,7 @@ function load_oss_bar(inframe, crmid, config, related_records) {
 		if (Marketing_text == '') {
 			show_Marketing = true;
 		}
-		////////  Potentials ///////////
-		if (!related_records['Potentials']) {
-			show_Sprzedaz = true;
-		} else {
-			for (var i = 0; i < related_records['Potentials']['rows'].length; i++) {
-				var row = {};
-				row = related_records['Potentials']['rows'][i];
-				Sprzedaz_text += '<div class="oss-border-top"><a href="' + crm_path + 'index.php?module=' + row['module'] + '&view=Detail&record=' + row['crmid'] + '" title="' + row['label'] + '" class="btn link">' + row['label'] + '</a><span class="pull-right"><a href="#" title="' + app.vtranslate('Add Potentials') + '" class="oss-add-Potentials btn  small-icon"><img src="' + images_path + 'btnColorAdd.png" alt="' + app.vtranslate('Add Potentials') + '"></a><a  data-crmid="' + row['crmid'] + '" data-module="' + row['module'] + '" href="#" title="' + app.vtranslate('Related To Potentials') + '" class="oss-Related btn small-icon"><img src="' + images_path + 'search.png" alt="' + app.vtranslate('Related To Potentials') + '"></a><a data-crmid="' + row['crmid'] + '" data-module="' + row['module'] + '" href="#" title="' + app.vtranslate('Remove relation') + '" class="oss-remove-relation btn small-icon"><img src="' + images_path + 'no.png" alt="' + app.vtranslate('Remove relation') + '"></a></span></div>';
-				Sprzedaz_text += '<div>' + load_icons('Potentials', row['crmid'], module_permissions, images_path) + '</div>';
-			}
-		}
+
 		////////  Campaigns ///////////
 		if (related_records['Campaigns']) {
 			for (var i = 0; i < related_records['Campaigns']['rows'].length; i++) {
@@ -423,7 +409,6 @@ function load_oss_bar(inframe, crmid, config, related_records) {
 		}
 	} else {
 		var show_Marketing = true;
-		var show_Sprzedaz = true;
 		var show_Projekty = true;
 		var show_HelpDesk = true;
 		var show_ServiceContracts = true;
@@ -433,9 +418,6 @@ function load_oss_bar(inframe, crmid, config, related_records) {
 		Marketing_text += '<div><span class="vtop inline-block">' + app.vtranslate('Add or related to Contacts') + '</span><span class="pull-right"><a href="#" title="' + app.vtranslate('Add Contacts') + '" class="oss-add-Contacts btn small-icon"><img src="' + images_path + 'btnColorAdd.png" alt="' + app.vtranslate('Add Contacts') + '"></a><a data-module="Contacts" href="#" title="' + app.vtranslate('Related To Contacts') + '" class="oss-Related btn small-icon"><img src="' + images_path + 'search.png" alt="' + app.vtranslate('Related To Contacts') + '"></a></span></div>';
 		Marketing_text += '<div><span class="vtop inline-block">' + app.vtranslate('Add or related to Accounts') + '</span><span class="pull-right"><a href="#" title="' + app.vtranslate('Add Accounts') + '" class="oss-add-Accounts btn small-icon"><img src="' + images_path + 'btnColorAdd.png" alt="' + app.vtranslate('Add Accounts') + '"></a><a data-module="Accounts" href="#" title="' + app.vtranslate('Related To Accounts') + '" class="oss-Related btn small-icon"><img src="' + images_path + 'search.png" alt="' + app.vtranslate('Related To Accounts') + '"></a></span></div>';
 		Marketing_text += '<div><span class="vtop inline-block">' + app.vtranslate('Add or related to Vendors') + '</span><span class="pull-right"><a href="#" title="' + app.vtranslate('Add Vendors') + '" class="oss-add-Vendors btn small-icon"><img src="' + images_path + 'btnColorAdd.png" alt="' + app.vtranslate('Add Vendors') + '"></a><a data-module="Vendors" href="#" title="' + app.vtranslate('Related To Vendors') + '" class="oss-Related btn small-icon"><img src="' + images_path + 'search.png" alt="' + app.vtranslate('Related To Vendors') + '"></a></span></div>';
-	}
-	if (show_Sprzedaz) {
-		Sprzedaz_text += '<span class="vtop inline-block">' + app.vtranslate('Add or related to Potentials') + '</span><span class="pull-right"><a href="#" title="' + app.vtranslate('Add Potentials') + '" class="oss-add-Potentials btn small-icon"><img src="' + images_path + 'btnColorAdd.png" alt="' + app.vtranslate('Add Potentials') + '"></a><a data-module="Potentials" href="#" title="' + app.vtranslate('Related To Potentials') + '" class="oss-Related btn small-icon"><img src="' + images_path + 'search.png" alt="' + app.vtranslate('Related To Potentials') + '"></a></span>';
 	}
 	if (show_Projekty) {
 		Projekty_text += '<span class="vtop inline-block">' + app.vtranslate('Add or related to Project') + '</span><span class="pull-right"><a href="#" title="' + app.vtranslate('Add Project') + '" class="oss-add-Project btn small-icon"><img src="' + images_path + 'btnColorAdd.png" alt="' + app.vtranslate('Add Project') + '"></a><a data-module="Project" href="#" title="' + app.vtranslate('Related To Project') + '" class="oss-Related btn small-icon"><img src="' + images_path + 'search.png" alt="' + app.vtranslate('Related To Project') + '"></a></span>';
@@ -450,7 +432,7 @@ function load_oss_bar(inframe, crmid, config, related_records) {
 		html_1 += '<td>' + app.vtranslate('Marketing') + '</td>';
 		html_2 += '<td class="Marketing">' + Marketing_text + '</td>';
 	}
-	if (module_permissions['Potentials'] || module_permissions['Campaigns']) {
+	if (module_permissions['Campaigns']) {
 		html_1 += '<td>' + app.vtranslate('MPotentials') + '</td>';
 		html_2 += '<td class="Potentials">' + Sprzedaz_text + '</td>';
 	}
@@ -479,7 +461,7 @@ function load_icons(module, id, module_permissions, images_path) {
 	if (module_permissions['ModComments']) {
 		return_text += '<a data-crmid="' + id + '" data-module="' + module + '" href="#" title="' + app.vtranslate('Add ModComments') + '" class="oss-add-modcomments btn"><img src="' + images_path + 'ModComments.png" alt="' + app.vtranslate('Add ModComments') + '"></a>';
 	}
-	if (module == 'Accounts' || module == 'Contacts' || module == 'Leads' || module == 'Potentials') {
+	if (module == 'Accounts' || module == 'Contacts' || module == 'Leads') {
 		if (module_permissions['Products']) {
 			return_text += '<a data-crmid="' + id + '" data-module="' + module + '" href="#" title="' + app.vtranslate('Add Products') + '" class="oss-add-products btn"><img src="' + images_path + 'Products.png" alt="' + app.vtranslate('Add Products') + '"></a>';
 		}
@@ -489,7 +471,7 @@ function load_icons(module, id, module_permissions, images_path) {
 			return_text += '<a data-crmid="' + id + '" data-module="' + module + '" href="#" title="' + app.vtranslate('Add HelpDesk') + '" class="oss-add-HelpDesk btn"><img src="' + images_path + 'HelpDesk.png" alt="' + app.vtranslate('Add HelpDesk') + '"></a>';
 		}
 	}
-	if (module == 'Accounts' || module == 'Contacts' || module == 'Leads' || module == 'HelpDesk' || module == 'Potentials') {
+	if (module == 'Accounts' || module == 'Contacts' || module == 'Leads' || module == 'HelpDesk') {
 		if (module_permissions['Services']) {
 			return_text += '<a data-crmid="' + id + '" data-module="' + module + '" href="#" title="' + app.vtranslate('Add Services') + '" class="oss-add-services btn"><img src="' + images_path + 'Services.png" alt="' + app.vtranslate('Add Services') + '"></a>';
 		}
@@ -628,7 +610,7 @@ function loadQuickCreateForm(moduleName, params, inframe) {
 			}
 		}
 		var links = ['Leads', 'Contacts', 'Vendors', 'Accounts'];
-		var process = ['Campaigns', 'HelpDesk', 'Potentials', 'Project', 'ServiceContracts'];
+		var process = ['Campaigns', 'HelpDesk', 'Project', 'ServiceContracts'];
 		if ($.inArray(params['sourceModule'], links) >= 0) {
 			relatedParams['link'] = params['crmid'];
 		}
@@ -641,7 +623,6 @@ function loadQuickCreateForm(moduleName, params, inframe) {
 	}
 	var quickcreateUrl = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
 	relatedParams['email'] = params['from_email'];
-	relatedParams['potentialname'] = params['title'];
 	relatedParams['projectname'] = params['title'];
 	relatedParams['ticket_title'] = params['title'];
 	relatedParams['description'] = params['body'];

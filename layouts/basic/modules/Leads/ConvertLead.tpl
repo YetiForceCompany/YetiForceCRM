@@ -35,12 +35,6 @@
 										<div data-parent="#leadAccordion" data-toggle="collapse" class="panel-heading paddingTBZero accordion-toggle table-bordered moduleSelection" href="#{$MODULE_NAME}_FieldInfo">
 											<div class="form-control-static checkbox">
 												<label>
-													{if $ACCOUNT_FIELD_MODEL->isMandatory()}
-														<input type="hidden" id="oppAccMandatory" value={$ACCOUNT_FIELD_MODEL->isMandatory()} />
-													{/if}
-													{if $CONTACT_FIELD_MODEL && $CONTACT_FIELD_MODEL->isMandatory()}
-														<input type="hidden" id="oppConMandatory" value={$CONTACT_FIELD_MODEL->isMandatory()} />
-													{/if}
 													{if $CONTACT_ACCOUNT_FIELD_MODEL->isMandatory()}
 														<input type="hidden" id="conAccMandatory" value={$CONTACT_ACCOUNT_FIELD_MODEL->isMandatory()} />
 													{/if}
@@ -124,28 +118,6 @@
 											{/if}
 										</td>
 									</tr>
-									<!--
-									<tr>
-										<td class="fieldLabel">
-											<label class='muted pull-right'>
-									{vtranslate('LBL_TRANSFER_RELATED_RECORD', $MODULE)}
-								</label>
-							</td>
-							<td class="fieldValue">
-									{foreach item=MODULE_FIELD_MODEL key=MODULE_NAME from=$CONVERT_LEAD_FIELDS}
-										{if $MODULE_NAME != 'Potentials'}
-											<input type="radio" id="transfer{$MODULE_NAME}" class="transferModule alignBottom" name="transferModule" value="{$MODULE_NAME}"
-											{if $CONVERT_LEAD_FIELDS['Contacts'] && $MODULE_NAME=="Contacts"} checked="" {elseif !$CONVERT_LEAD_FIELDS['Contacts'] && $MODULE_NAME=="Accounts"} checked="" {/if}/>
-											{if $MODULE_NAME eq 'Contacts'}
-												&nbsp; {vtranslate('SINGLE_Contacts',$MODULE_NAME)} &nbsp;&nbsp;
-											{else}
-												&nbsp; {vtranslate('SINGLE_Accounts',$MODULE_NAME)} &nbsp;&nbsp;
-											{/if}
-										{/if}
-									{/foreach}
-								</td>
-							</tr>
-									-->
 								</table>
 							</div>
 						</div>

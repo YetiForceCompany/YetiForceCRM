@@ -10,16 +10,11 @@
 					<div class="pull-right">
 						{if $WIDGET['data']['action'] eq 1}
 							{assign var=VRM value=Vtiger_Record_Model::getInstanceById($RECORD->getId(), $MODULE_NAME)}
-							{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE_NAME)}
-							{assign var=POTENTIALS value=Settings_SalesProcesses_Module_Model::getConfig('potential')}
-							{if $MODULE_NAME eq 'Accounts' && $WIDGET['label'] eq 'Potentials' && $POTENTIALS.add_potential eq 'true' && array_key_exists($VRM->get('assigned_user_id'),$ACCESSIBLE_GROUP_LIST)}
-								{assign var=ADD_BUTTON value=1}
-							{/if}
 							{assign var=VRMM value=Vtiger_RelationListView_Model::getInstance($VRM, $WIDGET['data']['relatedmodule'])}
 							{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
 							{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
 							{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
-							<button style="margin-left: 4px;" class="btn btn-sm pull-right btn-default createRecordFromFilter {if $ADD_BUTTON } hide {/if}" type="button" data-url="{$WIDGET['actionURL']}"
+							<button style="margin-left: 4px;" class="btn btn-sm pull-right btn-default createRecordFromFilter" type="button" data-url="{$WIDGET['actionURL']}"
 									{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{Zend_Json::encode($AUTOCOMPLETE_FIELD)}'{/if}>
 								<span class="glyphicon glyphicon-plus" border="0" title="{vtranslate('LBL_ADD',$MODULE_NAME)}" alt="{vtranslate('LBL_ADD',$MODULE_NAME)}"></span>
 							</button>

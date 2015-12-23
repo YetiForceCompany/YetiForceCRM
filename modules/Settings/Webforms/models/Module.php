@@ -19,7 +19,7 @@ class Settings_Webforms_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getSupportedModulesList()
 	{
-		$webformModules = array('Contacts', 'Accounts', 'Leads', 'Potentials', 'HelpDesk');
+		$webformModules = array('Contacts', 'Accounts', 'Leads', 'HelpDesk');
 		$sourceModule = array();
 		foreach ($webformModules as $key => $moduleName) {
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);

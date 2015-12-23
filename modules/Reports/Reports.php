@@ -43,10 +43,9 @@ $adv_filter_options = array("e"=>"equals",
 //$report_modules = Array('Faq','Rss','Portal','Recyclebin','Emails','Reports','Dashboard','Home','Activities'
 	//	       );
 
-$old_related_modules = Array('Accounts'=>Array('Potentials','Contacts','Products'),
-			 'Contacts'=>Array('Accounts','Potentials'),
-			 'Potentials'=>Array('Accounts','Contacts'),
-			 'Calendar'=>Array('Leads','Accounts','Contacts','Potentials'),
+$old_related_modules = Array('Accounts'=>Array('Contacts','Products'),
+			 'Contacts'=>Array('Accounts'),
+			 'Calendar'=>Array('Leads','Accounts','Contacts'),
 			 'Products'=>Array('Accounts','Contacts'),
 			 'HelpDesk'=>Array('Products'),
 			 'Campaigns'=>Array('Products')
@@ -904,11 +903,11 @@ function getEscapedColumns($selectedfields)
 			}
 			if($this->primarymodule == "Products" || $this->secondarymodule == "Products")
 			{
-				$querycolumn = "case vtiger_crmentityRelProducts.setype when 'Accounts' then vtiger_accountRelProducts.accountname when 'Leads' then vtiger_leaddetailsRelProducts.lastname when 'Potentials' then vtiger_potentialRelProducts.potentialname End"." '".$selectedfields[2]."', vtiger_crmentityRelProducts.setype 'Entity_type'";
+				$querycolumn = "case vtiger_crmentityRelProducts.setype when 'Accounts' then vtiger_accountRelProducts.accountname when 'Leads' then vtiger_leaddetailsRelProducts.lastname End"." '".$selectedfields[2]."', vtiger_crmentityRelProducts.setype 'Entity_type'";
 			}
 			if($this->primarymodule == "Calendar" || $this->secondarymodule == "Calendar")
 			{
-				$querycolumn = "case vtiger_crmentityRelCalendar.setype when 'Accounts' then vtiger_accountRelCalendar.accountname when 'Leads' then vtiger_leaddetailsRelCalendar.lastname when 'Potentials' then vtiger_potentialRelCalendar.potentialname End"." '".$selectedfields[2]."', vtiger_crmentityRelCalendar.setype 'Entity_type'";
+				$querycolumn = "case vtiger_crmentityRelCalendar.setype when 'Accounts' then vtiger_accountRelCalendar.accountname when 'Leads' then vtiger_leaddetailsRelCalendar.lastname End"." '".$selectedfields[2]."', vtiger_crmentityRelCalendar.setype 'Entity_type'";
 			}
 		}
 		return $querycolumn;
@@ -1264,10 +1263,6 @@ function getEscapedColumns($selectedfields)
 		//Added to avoid display the Related fields (Account name,Vandor name,product name, etc) in Report Calculations(SUM,AVG..)
 		switch($tabid)
 		{
-			case 2://Potentials
-				//ie. Campaign name will not displayed in Potential's report calcullation
-				$ssql.= " and vtiger_field.fieldname not in ('campaignid')";
-				break;
 			case 4://Contacts
 				$ssql.= " and vtiger_field.fieldname not in ('account_id')";
 				break;

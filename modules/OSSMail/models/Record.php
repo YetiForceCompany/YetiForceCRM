@@ -507,17 +507,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	{
 		$OSSMailViewModel = Vtiger_Record_Model::getCleanInstance('OSSMailView');
 		$Array = $OSSMailViewModel->findCrmRecordsByMessage_id($params, $metod);
-		if (count($Array['Potentials'])) {
-			$crmid = $Array['Potentials']['record']['crmid'];
-			$module = $Array['Potentials']['record']['module'];
-			$PotentialsRecord_Model = Vtiger_Record_Model::getInstanceById($crmid, $module);
-			$related_to = $PotentialsRecord_Model->get('related_to');
-			$contact_id = $PotentialsRecord_Model->get('contact_id');
-			if ($related_to != 0 && $related_to != '')
-				$Array['Potentials']['Accounts'] = array('crmid' => $related_to, 'label' => Vtiger_Functions::getCRMRecordLabel($related_to));
-			if ($contact_id != 0 && $contact_id != '')
-				$Array['Potentials']['Contacts'] = array('crmid' => $contact_id, 'label' => Vtiger_Functions::getCRMRecordLabel($contact_id));
-		}
 		if (count($Array['Project'])) {
 			$crmid = $Array['Project']['record']['crmid'];
 			$module = $Array['Project']['record']['module'];

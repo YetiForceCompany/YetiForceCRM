@@ -4,7 +4,7 @@
 class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 {
 
-	private $prefixesForModules = ['Contacts', 'Leads', 'Potentials', 'Project', 'HelpDesk', 'Accounts', 'Campaigns'];
+	private $prefixesForModules = ['Contacts', 'Leads', 'Project', 'HelpDesk', 'Accounts', 'Campaigns'];
 
 	public function process(Vtiger_Request $request)
 	{

@@ -585,8 +585,7 @@ function vtws_getConvertLeadFieldMapping()
 	$rowCount = $adb->num_rows($result);
 	for ($i = 0; $i < $rowCount; ++$i) {
 		$row = $adb->query_result_rowdata($result, $i);
-		$mapping[$row['leadfid']] = array('Accounts' => $row['accountfid'],
-			'Potentials' => $row['potentialfid'], 'Contacts' => $row['contactfid']);
+		$mapping[$row['leadfid']] = array('Accounts' => $row['accountfid'],'Contacts' => $row['contactfid']);
 	}
 	return $mapping;
 }
@@ -637,7 +636,7 @@ function vtws_getRelatedNotesAttachments($id, $relatedId)
 /** 	Function used to save the lead related products with other entities Account, Contact and Potential
  * 	$leadid - leadid
  * 	$relatedid - related entity id (accountid/contactid/potentialid)
- * 	$setype - related module(Accounts/Contacts/Potentials)
+ * 	$setype - related module(Accounts/Contacts)
  */
 function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
 {
@@ -666,7 +665,7 @@ function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
 /** 	Function used to save the lead related services with other entities Account, Contact and Potential
  * 	$leadid - leadid
  * 	$relatedid - related entity id (accountid/contactid/potentialid)
- * 	$setype - related module(Accounts/Contacts/Potentials)
+ * 	$setype - related module(Accounts/Contacts)
  */
 function vtws_saveLeadRelations($leadId, $relatedId, $setype)
 {

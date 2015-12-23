@@ -819,9 +819,6 @@ class Activity extends CRMEntity
 		if ($queryPlanner->requireTable("vtiger_leaddetailsRelCalendar")) {
 			$query .=" 	left join vtiger_leaddetails as vtiger_leaddetailsRelCalendar on vtiger_leaddetailsRelCalendar.leadid = vtiger_activity.link";
 		}
-		if ($queryPlanner->requireTable("vtiger_potentialRelCalendar")) {
-			$query .=" 	left join vtiger_potential as vtiger_potentialRelCalendar on vtiger_potentialRelCalendar.potentialid = vtiger_activity.process";
-		}
 		if ($queryPlanner->requireTable("vtiger_troubleticketsRelCalendar")) {
 			$query .=" left join vtiger_troubletickets as vtiger_troubleticketsRelCalendar on vtiger_troubleticketsRelCalendar.ticketid = vtiger_activity.process";
 		}

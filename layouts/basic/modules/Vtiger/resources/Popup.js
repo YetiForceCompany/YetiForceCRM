@@ -383,11 +383,6 @@ jQuery.Class("Vtiger_Popup_Js",{
 		params['page'] = this.getPageNumber();
 		params['related_parent_module'] = this.getRelatedParentModule();
 		params['related_parent_id'] = this.getRelatedParentRecord();
-		// narrow popup products list to those related to chosen potential
-		var vars = thisInstance.getVarFromUrl();
-		if ( typeof vars['potentialid'] != 'undefined' ) {
-			params['potentialid'] = vars['potentialid'];
-		}
 		params['search_params'] = JSON.stringify(this.getListSearchParams());
 		if(this.isMultiSelectMode()) {
 			params['multi_select'] = true;
