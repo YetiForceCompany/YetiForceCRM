@@ -8,7 +8,7 @@
 							<a href="javascript:void(0);" class="textOverflowEllipsis" style="width:auto" title="{vtranslate($RELATED_LINK->getLabel(),{$MODULE_NAME})}">
 								<strong class="pull-left">{vtranslate($RELATED_LINK->getLabel(),{$MODULE_NAME})}</strong>
 								{if $RELATED_LINK->get('countRelated') && AppConfig::relation('SHOW_RECORDS_COUNT')}
-									<span class="count badge pull-right">-</span>
+									<span class="count badge pull-right">0</span>
 								{/if}
 							</a>
 						</li>

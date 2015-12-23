@@ -7,10 +7,10 @@
 			<div class="widget_header">
 				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
 					<div class="widgetTitle row">
-						<div class="col-xs-9">
+						<div class="col-xs-7">
 							<h4 class="moduleColor_{$WIDGET['label']}">{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4>
 						</div>
-						<div class="col-xs-3">
+						<div class="col-xs-5">
 							<div class="pull-right">
 								<button type="button" class="btn btn-sm btn-default showMailsModal" data-url="index.php?module=OSSMailView&view=MailsPreview&smodule={$MODULE_NAME}&srecord={$RECORD->getId()}&mode=showEmailsList">
 									<span class="body-icon glyphicon glyphicon-search" title="{vtranslate('LBL_SHOW_PREVIEW_EMAILS','OSSMailView')}"></span>

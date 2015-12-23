@@ -25,70 +25,74 @@
 		<input name="inventoryItemsNo" id="inventoryItemsNo" type="hidden" value="{count($INVENTORY_ROWS)}" />
 		<input id="accountReferenceField" type="hidden" value="{$ACCOUNT_REFERENCE_FIELD}" />
 		<input id="inventoryLimit" type="hidden" value="{$MAIN_PARAMS['limit']}" />
-		<table class="table table-bordered inventoryHeader blockContainer">
-			<thead>
-				<tr data-rownumber="0">
-					<th class="btn-toolbar">
-						{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
-							{assign var="CRMENTITY" value=CRMEntity::getInstance($MAIN_MODULE)}
-							<span class="btn-group">
-								<button type="button" data-module="{$MAIN_MODULE}" data-field="{$CRMENTITY->table_index}" 
-										data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}" class="btn btn-default addButton">
-									<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate('LBL_ADD',$MODULE)} {vtranslate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
-								</button>
-							</span>
-						{/foreach}
-					</th>
-					{foreach item=FIELD from=$FIELDS[0]}
-						<th colspan="{$FIELD->get('colspan')}" {if !$FIELD->isEditable()}class="hide"{/if}>
-							<span class="inventoryLineItemHeader">{vtranslate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
-							{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
-							{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
-						</th>
-					{/foreach}
-				</tr>
-			</thead>
-		</table>
-		<table class="table blockContainer inventoryItems">
-			{if count($FIELDS[1]) neq 0}
+		<div class="table-responsive">
+			<table class="table table-bordered inventoryHeader blockContainer">
 				<thead>
-					<tr>
-						<th style="min-width: 50px">&nbsp;&nbsp;</th>
-						{foreach item=FIELD from=$FIELDS[1]}
-							<th colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()} {if !$FIELD->isEditable()} hide{/if} textAlignCenter">
-								{vtranslate($FIELD->get('label'), $MODULE)}
+					<tr data-rownumber="0">
+						<th class="btn-toolbar">
+							{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
+								{assign var="CRMENTITY" value=CRMEntity::getInstance($MAIN_MODULE)}
+								<span class="btn-group">
+									<button type="button" data-module="{$MAIN_MODULE}" data-field="{$CRMENTITY->table_index}" 
+											data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}" class="btn btn-default addButton">
+										<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate('LBL_ADD',$MODULE)} {vtranslate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
+									</button>
+								</span>
+							{/foreach}
+						</th>
+						{foreach item=FIELD from=$FIELDS[0]}
+							<th colspan="{$FIELD->get('colspan')}" {if !$FIELD->isEditable()}class="hide"{/if}>
+								<span class="inventoryLineItemHeader">{vtranslate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
+								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
+								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
 							</th>
 						{/foreach}
 					</tr>
 				</thead>
-			{/if}
-			<tbody>
-				{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
-					{assign var="ROW_NO" value=$KEY+1}
-					{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
-				{/foreach}
-			</tbody>
-			<tfoot>
-				<tr>
-					<td class="hideTd" style="min-width: 50px">&nbsp;&nbsp;</td>
-					{foreach item=FIELD from=$FIELDS[1]}
-						<td colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if} textAlignRight 
-							{if !$FIELD->isSummary()} hideTd{else} wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
-							{if $FIELD->isSummary()}
-								{assign var="SUM" value=0}
-								{foreach key=KEY item=ITEM_VALUE from=$INVENTORY_ROWS}
-									{assign var="SUM" value=($SUM + $ITEM_VALUE[$FIELD->get('columnname')])}
-								{/foreach}
-								{CurrencyField::convertToUserFormat($SUM, null, true)}
-							{/if}
-							{if $FIELD->getName() == 'Name' && in_array("price",$COLUMNS)}
-								{vtranslate('LBL_SUMMARY', $MODULE)}
-							{/if}
-						</td>
+			</table>
+		</div>
+		<div class="table-responsive">
+			<table class="table blockContainer inventoryItems">
+				{if count($FIELDS[1]) neq 0}
+					<thead>
+						<tr>
+							<th style="min-width: 50px">&nbsp;&nbsp;</th>
+							{foreach item=FIELD from=$FIELDS[1]}
+								<th colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()} {if !$FIELD->isEditable()} hide{/if} textAlignCenter">
+									{vtranslate($FIELD->get('label'), $MODULE)}
+								</th>
+							{/foreach}
+						</tr>
+					</thead>
+				{/if}
+				<tbody>
+					{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
+						{assign var="ROW_NO" value=$KEY+1}
+						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
 					{/foreach}
-				</tr>
-			</tfoot>
-		</table>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td class="hideTd" style="min-width: 50px">&nbsp;&nbsp;</td>
+						{foreach item=FIELD from=$FIELDS[1]}
+							<td colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if} textAlignRight 
+								{if !$FIELD->isSummary()} hideTd{else} wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
+								{if $FIELD->isSummary()}
+									{assign var="SUM" value=0}
+									{foreach key=KEY item=ITEM_VALUE from=$INVENTORY_ROWS}
+										{assign var="SUM" value=($SUM + $ITEM_VALUE[$FIELD->get('columnname')])}
+									{/foreach}
+									{CurrencyField::convertToUserFormat($SUM, null, true)}
+								{/if}
+								{if $FIELD->getName() == 'Name' && in_array("price",$COLUMNS)}
+									{vtranslate('LBL_SUMMARY', $MODULE)}
+								{/if}
+							</td>
+						{/foreach}
+					</tr>
+				</tfoot>
+			</table>
+		</div>
 		{include file='EditViewInventorySummary.tpl'|@vtemplate_path:$MODULE}
 		{assign var="ITEM_DATA" value=[]}
 		<table id="blackIthemTable" class="noValidate hide">

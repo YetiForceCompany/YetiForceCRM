@@ -4763,7 +4763,7 @@ html,body,.baseContainer
 	margin-top: 20px !important;
 }
 .related .nav .relatedNav,
-.related .nav .mainNav,
+.related .nav .dropdown .mainNav,
 .related .nav .dropdown {
 	background: #f1f1f1;
 }
@@ -4932,7 +4932,9 @@ html,body,.baseContainer
 	font-size:12px;
 	padding:0 5px;
 }
-
 .tagInputs .form-control{
 	height: 20px !important;
+}
+.inventoryItems .colName {
+	min-width: 250px;
 }
