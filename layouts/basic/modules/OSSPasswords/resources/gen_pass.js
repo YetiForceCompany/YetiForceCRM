@@ -8,43 +8,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 // Function to generate new password
-function generate_password( min, max, allowed_chars ) {
-    var password = '';   // variable holding new password
-     
-    // array of allowed characters that will consist of password
-    // if there there is something wrong build the password from only exclamation marks
-    if ( typeof(allowed_chars) === 'undefined' )
-        allowed_chars = '!'; 
-    var chArray = allowed_chars.split(',');
-    
-    // min length of a password
-    if ( typeof(min) === 'undefined' )
-        min = 10;   // default 10
-        
-    // max length of a password
-    if ( typeof(max) === 'undefined' )
-        max = 15;   // default 15
-        
-    // get the password lenght
-    var passlength = parseInt(Math.random() * (max - min) + min);
-        
-    var i = 0;    // index for the loop
-    
-    
-    // loop to get random string with *pass_length* characters
-    for( i = 0; i<=passlength; i++ ) {
-        var charIndex = parseInt( Math.random()*chArray.length );
-        password += chArray[charIndex];
-    }
-    
-    // get desired text field
-    var passForm = document.getElementsByName( 'password' )[0];
-    // change its value to the generated password
-    passForm.value = password;
-    
-    passForm.onchange();    // uruchom even on change
-}
-
 function passwordStrength(password, translations)
 { 
     if ( password == '' )

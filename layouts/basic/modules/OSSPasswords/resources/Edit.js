@@ -79,9 +79,45 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 				return false;
 		})
 	},
-	
+	generatePassword: function () {
+		var min = parseInt(jQuery('#minChars').val());
+		var max = parseInt(jQuery('#maxChars').val());
+		var allowedChars = jQuery('#allowedLetters').val();
+		var password = '';   // variable holding new password
+		// array of allowed characters that will consist of password
+		// if there there is something wrong build the password from only exclamation marks
+		if ( typeof(allowedChars) === 'undefined' )
+			allowedChars = '!'; 
+		var chArray = allowedChars.split(',');
+		// min length of a password
+		if ( typeof(min) === 'undefined' )
+			min = 10;   // default 10
+		// max length of a password
+		if ( typeof(max) === 'undefined' )
+			max = 15;   // default 15
+		// get the password lenght
+		var passlength = parseInt(Math.random() * (max - min) + min);
+		var i = 0;    // index for the loop
+		// loop to get random string with *pass_length* characters
+		for( i = 0; i<=passlength; i++ ) {
+			var charIndex = parseInt( Math.random()*chArray.length );
+			password += chArray[charIndex];
+		}
+		// get desired text field
+		var passForm = document.getElementsByName( 'password' )[0];
+		// change its value to the generated password
+		passForm.value = password;
+		passForm.onchange();    // uruchom even on change
+	},
+	registerButtonsEvents : function(){
+		var thisInstance = this;
+		$('.generatePass').click(function() {
+			thisInstance.generatePassword();
+		});
+	},
 	registerBasicEvents : function(container){
 		this._super(container);
+		this.registerButtonsEvents();
 		this.registerRecordPreSaveEvent(container);
 	}
 })

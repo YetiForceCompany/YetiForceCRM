@@ -86,7 +86,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View {
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
 		$cssFileNames = array(
-			'~libraries/jquery/jstree/themes/default/style.css',
+			'~libraries/jquery/jstree/themes/proton/style.css',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);

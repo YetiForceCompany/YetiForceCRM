@@ -4684,6 +4684,17 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 480px){
+	.detailViewToolbar{
+		text-align: center !important;
+	}
+	.detailViewPagingButton {
+		margin-bottom: 5px;
+	}
+	.detailViewPagingButton,
+	.detailViewToolbar .btn-group,
+	.detailViewToolbar > div {
+		float: none !important;
+	}
 	.tl-text .tl-headline-date, .tl-text h3.tl-headline-date{
 		line-height: 31px;
 	}
@@ -4763,7 +4774,7 @@ html,body,.baseContainer
 	margin-top: 20px !important;
 }
 .related .nav .relatedNav,
-.related .nav .mainNav,
+.related .nav .dropdown .mainNav,
 .related .nav .dropdown {
 	background: #f1f1f1;
 }
@@ -4932,7 +4943,9 @@ html,body,.baseContainer
 	font-size:12px;
 	padding:0 5px;
 }
-
 .tagInputs .form-control{
 	height: 20px !important;
+}
+.inventoryItems .colName {
+	min-width: 250px;
 }

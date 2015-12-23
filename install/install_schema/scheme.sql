@@ -3806,7 +3806,7 @@ CREATE TABLE `vtiger_inventorynotification` (
   `label` varchar(50) DEFAULT NULL,
   `status` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`notificationid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_inventorynotification_seq` */
 

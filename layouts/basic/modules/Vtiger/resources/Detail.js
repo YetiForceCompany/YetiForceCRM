@@ -2380,7 +2380,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 										commentDetails.remove();
 									});
 									thisInstance.reloadTabContent();
-									thisInstance.registerRelatedModulesRecordCount();
+									var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
+									thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
 								} else {
 									Vtiger_Helper_Js.showPnotify(data.error.message);
 								}
@@ -2413,7 +2414,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var mode = currentTarget.data('mode');
 				var dataObj = thisInstance.saveComment(e);
 				dataObj.then(function (data) {
-					thisInstance.registerRelatedModulesRecordCount();
+					var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
+					thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
 					var closestAddCommentBlock = currentTarget.closest('.addCommentBlock');
 					var commentTextAreaElement = closestAddCommentBlock.find('.commentcontent');
 					var commentInfoBlock = currentTarget.closest('.singleComment');
