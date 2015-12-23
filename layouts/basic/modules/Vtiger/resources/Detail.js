@@ -336,6 +336,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var widgetContainer = jQuery(widgetContainerELement);
 			thisInstance.loadWidget(widgetContainer);
 		});
+		thisInstance.registerRelatedModulesRecordCount();
 	},
 	loadWidget: function (widgetContainer) {
 		var thisInstance = this;
@@ -358,7 +359,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 					contentContainer.trigger(thisInstance.widgetPostLoad, {'widgetName': relatedModuleName})
 					app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
 					app.registerModal(contentContainer);
-					thisInstance.registerRelatedModulesRecordCount();
 					aDeferred.resolve(params);
 				},
 				function (e) {
@@ -2379,7 +2379,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 									commentDetails.fadeOut(400, function () {
 										commentDetails.remove();
 									});
-									thisInstance.getSelectedTab().trigger('click');
+									thisInstance.reloadTabContent();
+									thisInstance.registerRelatedModulesRecordCount();
 								} else {
 									Vtiger_Helper_Js.showPnotify(data.error.message);
 								}
@@ -2396,6 +2397,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (!element.is(":disabled")) {
 				var dataObj = thisInstance.saveComment(e);
 				dataObj.then(function () {
+					thisInstance.registerRelatedModulesRecordCount();
 					var commentsContainer = detailContentsHolder.find("[data-type='Comments']");
 					thisInstance.loadWidget(commentsContainer).then(function () {
 						element.removeAttr('disabled');
@@ -2411,6 +2413,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var mode = currentTarget.data('mode');
 				var dataObj = thisInstance.saveComment(e);
 				dataObj.then(function (data) {
+					thisInstance.registerRelatedModulesRecordCount();
 					var closestAddCommentBlock = currentTarget.closest('.addCommentBlock');
 					var commentTextAreaElement = closestAddCommentBlock.find('.commentcontent');
 					var commentInfoBlock = currentTarget.closest('.singleComment');
@@ -2972,7 +2975,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerEventForTotalRecordsCount();
 		this.registerGetAllTagCloudWidgetLoad();
 		var header = Vtiger_Header_Js.getInstance();
-		header.registerQuickCreateCallBack(this.registerRelatedModulesRecordCount());
+		header.registerQuickCreateCallBack(this.registerRelatedModulesRecordCount);
 	}
 });
-
