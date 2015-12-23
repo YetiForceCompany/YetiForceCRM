@@ -1800,10 +1800,7 @@ function get_inventory_products($id, $module, $customerid, $sessionid)
 	if ($isPermitted == false) {
 		return array("#NOT AUTHORIZED#");
 	}
-	$recordModel = Inventory_Record_Model::getInstanceById($id);
-	$relatedProducts = $recordModel->getProducts();
-	$output[0] = $relatedProducts;
-	return $output;
+	return [];
 }
 
 /* Function to get contactid's and account's product details'
