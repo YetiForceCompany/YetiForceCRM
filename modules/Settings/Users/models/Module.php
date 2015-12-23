@@ -79,7 +79,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			foreach ($usersForSort as $ID => $name) {
 				$users .= "$ID => '" . $name . "',";
 			}
-			$content .= "'$user'=>[".trim($users,',')."],";
+			$content .= "'$user'=>[" . rtrim($users, ',') . "],";
 		}
 		$content .= '];';
 		$file = 'user_privileges/switchUsers.php';
@@ -163,10 +163,66 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			foreach ($usersForSort as $ID => $name) {
 				$users .= "$ID => '" . $name . "',";
 			}
-			$content .= "'$user'=>[".trim($users,',')."],";
+			$content .= "'$user'=>[" . rtrim($users, ',') . "],";
 		}
 		$content .= '];';
 		$file = 'user_privileges/switchUsers.php';
+		file_put_contents($file, $content);
+	}
+
+	public function getLocks()
+	{
+		require('user_privileges/locks.php');
+		return $locksRaw;
+	}
+
+	public function getLocksTypes()
+	{
+		return [
+			'copy' => 'LBL_LOCK_COPY',
+			'cut' => 'LBL_LOCK_CUT',
+			'paste' => 'LBL_LOCK_PASTE',
+			'contextmenu' => 'LBL_LOCK_RIGHT_MENU',
+			'selectstart' => 'LBL_LOCK_SELECT_TEXT',
+			'drag' => 'LBL_LOCK_DRAG'
+		];
+	}
+
+	public function saveLocks($data)
+	{
+		$content = '<?php' . PHP_EOL . '$locksRaw = [';
+		$map = $toSave = [];
+		if (!empty($data)) {
+			foreach ($data as &$row) {
+				if(empty($row['locks'])){
+					continue;
+				}
+				if (key_exists($row['user'], $toSave)) {
+					$toSave[$row['user']] = array_merge($toSave[$row['user']], $row['locks']);
+				} else {
+					$toSave[$row['user']] = $row['locks'];
+				}
+			}
+			foreach ($toSave as $user => &$locks) {
+				$locks = array_unique($locks);
+				$content .= "'" . $user . "'=>['" . implode("','", $locks) . "'],";
+				foreach ($this->getUserID($user) as $userID) {
+					$map[$userID] = array_merge(isset($map[$userID]) ? $map[$userID] : [], $locks);
+				}
+			}
+		}
+		$content = rtrim($content, ',');
+		$content .= '];' . PHP_EOL . '$locks = [';
+		foreach ($map as $user => &$lockList) {
+			$userLocks = '';
+			foreach ($lockList as $name) {
+				$userLocks .= "'" . $name . "',";
+			}
+			$content .= "$user=>[" . rtrim($userLocks, ',') . "],";
+		}
+		$content = rtrim($content, ',');
+		$content .= '];';
+		$file = 'user_privileges/locks.php';
 		file_put_contents($file, $content);
 	}
 }

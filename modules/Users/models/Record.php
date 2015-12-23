@@ -743,7 +743,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 		$sql = 'DELETE FROM vtiger_users WHERE id=?';
 		$db->pquery($sql, array($userId));
-		
+
 		deleteUserRelatedSharingRules($userId);
 	}
 
@@ -789,9 +789,65 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		return [ 'users' => $users, 'group' => $group];
 	}
-	
+
 	public function getSwitchUsersUrl()
 	{
 		return 'index.php?module=' . $this->getModuleName() . '&view=SwitchUsers&id=' . $this->getId();
+	}
+
+	public function getLocks()
+	{
+		if ($this->has('locks')) {
+			return $this->get('locks');
+		}
+		require('user_privileges/locks.php');
+		if ($this->getId() && key_exists($this->getId(), $locks)) {
+			$this->set('locks', $locks[$this->getId()]);
+			return $locks[$this->getId()];
+		}
+		return [];
+	}
+
+	public function getBodyLocks()
+	{
+		$return = '';
+		foreach ($this->getLocks() as $lock) {
+			switch ($lock) {
+				case 'copy': $return .= ' oncopy = "return false"';
+					break;
+				case 'cut': $return .= ' oncut = "return false"';
+					break;
+				case 'paste': $return .= ' onpaste = "return false"';
+					break;
+				case 'contextmenu': $return .= ' oncontextmenu = "return false"';
+					break;
+				case 'selectstart': $return .= ' onselectstart = "return false" onselect = "return false"';
+					break;
+				case 'drag': $return .= ' ondragstart = "return false" ondrag = "return false"';
+					break;
+			}
+		}
+		return '';
+	}
+	public function getHeadLocks()
+	{
+		$return = 'function lockFunction() {return false;}';
+		foreach ($this->getLocks() as $lock) {
+			switch ($lock) {
+				case 'copy': $return .= ' document.oncopy = lockFunction;';
+					break;
+				case 'cut': $return .= ' document.oncut = lockFunction;';
+					break;
+				case 'paste': $return .= ' document.onpaste = lockFunction;';
+					break;
+				case 'contextmenu': $return .= ' document.oncontextmenu = function(event) {if(event.button==2){return false;}}; document.oncontextmenu = lockFunction;';
+					break;
+				case 'selectstart': $return .= ' document.onselectstart = lockFunction; document.onselect = lockFunction;';
+					break;
+				case 'drag': $return .= ' document.ondragstart = lockFunction; document.ondrag = lockFunction;';
+					break;
+			}
+		}
+		return $return;
 	}
 }

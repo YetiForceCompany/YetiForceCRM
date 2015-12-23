@@ -117,27 +117,9 @@ $default_action = 'index';
 // default_theme default value = blue
 $default_theme = 'softed';
 
-// show or hide time to compose each page
-// calculate_response_time default value = true
-$calculate_response_time = true;
-
 // default text that is placed initially in the login form for user name
 // no default_user_name default value
 $default_user_name = '';
-
-// default text that is placed initially in the login form for password
-// no default_password default value
-$default_password = '';
-
-// create user with default username and password
-// create_default_user default value = false
-$create_default_user = false;
-// default_user_is_admin default value = false
-$default_user_is_admin = false;
-
-// if your MySQL/PHP configuration does not support persistent connections set this to true to avoid a large performance slowdown
-// disable_persistent_connections default value = false
-$disable_persistent_connections = false;
 
 //Master currency name
 $currency_name = '_MASTER_CURRENCY_';
@@ -219,9 +201,6 @@ $systemMode = 'prod';
 // Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.
 $forceSSL = FALSE;
 
-// show record count in tabs related modules
-$showRecordsCount = TRUE;
-
 // Maximum number of records in a mass edition
 $listMaxEntriesMassEdit = 500;
 
@@ -262,9 +241,3 @@ $defaultLayout = 'basic';
 
 // Logo is visible in footer.
 $isVisibleLogoInFooter = true;
-
-// show names related modules
-$showNameRelatedModules = true;
-
-// default view in Comments (Timeline/List)
-$defaultViewInComments = 'Timeline';

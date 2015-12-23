@@ -70,7 +70,7 @@ class ModComments_Module_Model extends Vtiger_Module_Model
 
 	static function getDefaultViewComments()
 	{
-		if (AppConfig::main('defaultViewInComments') == 'Timeline') {
+		if (AppConfig::module('ModComments','DEFAULT_VIEW') == 'Timeline') {
 			return 'Timeline';
 		} else {
 			return 'List';

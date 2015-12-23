@@ -60,27 +60,27 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		$moduleName = $recordModel->getModuleName();
 		$parentModuleModel = $this->getModule();
 		$this->getWidgets();
-		$relatedLinks = array();
+		$relatedLinks = [];
 
 		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
-			$relatedLinks = array(array(
+			$relatedLinks = [[
 					'linktype' => 'DETAILVIEWTAB',
 					'linklabel' => vtranslate('LBL_RECORD_SUMMARY', $moduleName),
 					'linkKey' => 'LBL_RECORD_SUMMARY',
 					'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=summary',
 					'linkicon' => '',
 					'related' => 'Summary'
-			));
+			]];
 		}
 		//link which shows the summary information(generally detail of record)
-		$relatedLinks[] = array(
+		$relatedLinks[] = [
 			'linktype' => 'DETAILVIEWTAB',
 			'linklabel' => vtranslate('LBL_RECORD_DETAILS', $moduleName),
 			'linkKey' => 'LBL_RECORD_DETAILS',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=full',
 			'linkicon' => '',
 			'related' => 'Details'
-		);
+		];
 
 		if ($moduleName == 'Leads') {
 			$showPSTab = vtlib_isModuleActive('OutsourcedProducts') || vtlib_isModuleActive('Products') || vtlib_isModuleActive('Services') || vtlib_isModuleActive('OSSOutsourcedServices');

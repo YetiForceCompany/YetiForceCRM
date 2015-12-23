@@ -5,19 +5,17 @@ class AppConfig
 {
 
 	protected static $main = [];
-	protected static $calendar = [];
 	protected static $debug = [];
 	protected static $developer = [];
 	protected static $security = [];
 	protected static $securityKeys = [];
 	protected static $performance = [];
+	protected static $relation = [];
+	protected static $modules = [];
 
 	public static function load($key, $config)
 	{
 		switch ($key) {
-			case 'calendar':
-				self::$calendar = $config;
-				break;
 			case 'debug':
 				self::$debug = $config;
 				break;
@@ -33,6 +31,9 @@ class AppConfig
 			case 'performance':
 				self::$performance = $config;
 				break;
+			case 'relation':
+				self::$relation = $config;
+				break;
 		}
 	}
 
@@ -47,9 +48,17 @@ class AppConfig
 		return $value;
 	}
 
-	public static function calendar($key, $defvalue = false)
+	public static function module($module, $key, $defvalue = false)
 	{
-		return self::$calendar[$key];
+		if (key_exists($module, self::$modules)) {
+			return self::$modules[$module][$key];
+		}
+		require_once 'config/modules/' . $module . '.php';
+		if(empty($CONFIG)){
+			return false;
+		}
+		self::$modules[$module] = $CONFIG;
+		return $CONFIG[$key];
 	}
 
 	public static function debug($key, $defvalue = false)
@@ -77,6 +86,11 @@ class AppConfig
 		return self::$performance[$key];
 	}
 
+	public static function relation($key, $defvalue = false)
+	{
+		return self::$relation[$key];
+	}
+
 	public static function iniSet($key, $value)
 	{
 		@ini_set($key, $value);
@@ -84,20 +98,20 @@ class AppConfig
 }
 
 require_once 'config/api.php';
-require_once 'config/modules/calendar.php';
 require_once 'config/config.php';
 require_once 'config/debug.php';
 require_once 'config/developer.php';
 require_once 'config/performance.php';
+require_once 'config/relation.php';
 require_once 'config/secret_keys.php';
 require_once 'config/security.php';
 require_once 'config/version.php';
 
-AppConfig::load('calendar', $CALENDAR_CONFIG);
 AppConfig::load('debug', $DEBUG_CONFIG);
 AppConfig::load('developer', $DEVELOPER_CONFIG);
 AppConfig::load('security', $SECURITY_CONFIG);
 AppConfig::load('securityKeys', $SECURITY_KEYS_CONFIG);
 AppConfig::load('performance', $PERFORMANCE_CONFIG);
+AppConfig::load('relation', $RELATION_CONFIG);
 session_save_path($root_directory . '/cache/session');
 

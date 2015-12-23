@@ -1565,28 +1565,40 @@ class CRMEntity
 	 * @param String Related module name
 	 * @param mixed Integer or Array of related module record number
 	 */
-	function save_related_module($module, $crmid, $with_module, $with_crmid)
+	function save_related_module($module, $crmid, $withModule, $withCrmid)
 	{
-		$adb = PearDatabase::getInstance();
-		if (!is_array($with_crmid))
-			$with_crmid = Array($with_crmid);
-		foreach ($with_crmid as $relcrmid) {
+		$db = PearDatabase::getInstance();
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
-			if ($with_module == 'Documents') {
-				$checkpresence = $adb->pquery("SELECT crmid FROM vtiger_senotesrel WHERE crmid = ? AND notesid = ?", Array($crmid, $relcrmid));
+		if (!is_array($withCrmid))
+			$withCrmid = [$withCrmid];
+		foreach ($withCrmid as $relcrmid) {
+			if ($withModule == 'Documents') {
+				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_senotesrel WHERE crmid = ? AND notesid = ?', [$crmid, $relcrmid]);
 				// Relation already exists? No need to add again
-				if ($checkpresence && $adb->num_rows($checkpresence))
+				if ($checkpresence && $db->num_rows($checkpresence))
 					continue;
 
-				$adb->pquery("INSERT INTO vtiger_senotesrel(crmid, notesid) VALUES(?,?)", array($crmid, $relcrmid));
+				$db->insert('vtiger_senotesrel', [
+					'crmid' => $crmid,
+					'notesid' => $relcrmid
+				]);
 			} else {
-				$checkpresence = $adb->pquery("SELECT crmid FROM vtiger_crmentityrel WHERE
-					crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?", Array($crmid, $module, $relcrmid, $with_module));
+				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?', 
+					[$crmid, $module, $relcrmid, $withModule]
+				);
 				// Relation already exists? No need to add again
-				if ($checkpresence && $adb->num_rows($checkpresence))
+				if ($checkpresence && $db->num_rows($checkpresence))
 					continue;
 
-				$adb->pquery("INSERT INTO vtiger_crmentityrel(crmid, module, relcrmid, relmodule) VALUES(?,?,?,?)", Array($crmid, $module, $relcrmid, $with_module));
+				$db->insert('vtiger_crmentityrel', [
+					'crmid' => $crmid,
+					'module' => $module,
+					'relcrmid' => $relcrmid,
+					'relmodule' => $withModule,
+					'rel_created_user' => $currentUserModel->getId(),
+					'rel_created_time' => date('Y-m-d H:i:s')
+				]);
 			}
 		}
 	}
@@ -1598,17 +1610,19 @@ class CRMEntity
 	 * @param String Related module name
 	 * @param mixed Integer or Array of related module record number
 	 */
-	function delete_related_module($module, $crmid, $with_module, $with_crmid)
+	function delete_related_module($module, $crmid, $withModule, $withCrmid)
 	{
-		$adb = PearDatabase::getInstance();
-		if (!is_array($with_crmid))
-			$with_crmid = Array($with_crmid);
-		foreach ($with_crmid as $relcrmid) {
+		$db = PearDatabase::getInstance();
+		if (!is_array($withCrmid))
+			$withCrmid = Array($withCrmid);
+		foreach ($withCrmid as $relcrmid) {
 
-			if ($with_module == 'Documents') {
-				$adb->pquery("DELETE FROM vtiger_senotesrel WHERE crmid=? AND notesid=?", Array($crmid, $relcrmid));
+			if ($withModule == 'Documents') {
+				$db->delete('vtiger_senotesrel', 'crmid=? AND notesid=?', [$crmid, $relcrmid]);
 			} else {
-				$adb->pquery("DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND module=? AND relcrmid=? AND relmodule=?) OR (relcrmid=? AND relmodule=? AND crmid=? AND module=?)", Array($crmid, $module, $relcrmid, $with_module, $crmid, $module, $relcrmid, $with_module));
+				$db->delete('vtiger_crmentityrel', '(crmid=? AND module=? AND relcrmid=? AND relmodule=?) OR (relcrmid=? AND relmodule=? AND crmid=? AND module=?)', 
+					[$crmid, $module, $relcrmid, $withModule, $crmid, $module, $relcrmid, $withModule]
+				);
 			}
 		}
 	}

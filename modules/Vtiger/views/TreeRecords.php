@@ -33,6 +33,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName);
 		$quickLinkModels = $listViewModel->getSideBarLinks($linkParams);
 		$viewer->assign('QUICK_LINKS', $quickLinkModels);
+		$viewer->assign('SELECTABLE_CATEGORY', 0);
 		$viewer->view('TreeRecordsPreProcess.tpl', $moduleName);
 	}
 
@@ -82,6 +83,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$parentScriptInstances = parent::getFooterScripts($request);
 		$scripts = [
 			'~libraries/jquery/jstree/jstree.js',
+			'~libraries/jquery/jstree/jstree.category.js',
 			'~libraries/jquery/datatables/media/js/jquery.dataTables.min.js',
 			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.min.js',
 		];

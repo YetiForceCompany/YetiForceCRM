@@ -47,6 +47,10 @@ var Settings_Index_Js = {
 		var target = $(e.currentTarget);
 		var name = target.attr("name");
 		var value = target.val();
+		target.trigger("chosen:updated")
+		if(value.length == 1){
+			app.getChosenElementFromSelect(target).find('.search-choice-close').remove();
+		}
 		var closestTrElement = target.closest('tr');
 		var progress = $.progressIndicator({
 			'message': app.vtranslate('Saving changes'),
@@ -58,7 +62,7 @@ var Settings_Index_Js = {
 			'name': name,
 			'value': value,
 			'tabid': closestTrElement.data('tabid'),
-		});
+		});		
 		progress.progressIndicator({'mode': 'hide'});
 	},
 	registerSaveEvent: function (mode, data) {
@@ -198,10 +202,20 @@ var Settings_Index_Js = {
 			thisInstance.updateModulesSequence();
 		});
 	},
+	checkCountItems: function (element) {
+		element.each(function (e) {
+			var value = jQuery(this).val();
+			if (value && value.length == 1) {
+				app.getChosenElementFromSelect(jQuery(this)).find('.search-choice-close').remove();
+			}
+		})
+	},
 	registerEvents: function () {
 		Settings_Index_Js.initEvants();
 		this.makeFieldsListSortable();
 		this.registerModuleSequenceSaveClick();
+		this.checkCountItems($('.SearchFieldsEdit .fieldname'));
+		this.checkCountItems($('.SearchFieldsEdit .searchcolumn'));
 	}
 }
 $(document).ready(function () {

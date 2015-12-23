@@ -398,13 +398,14 @@ class Vtiger_Functions
 
 	static function getOwnerRecordLabels($ids)
 	{
-		if (!is_array($ids))
-			$ids = array($ids);
-
-		$nameList = array();
+		$nameList = [];
+		
+		if ($ids && !is_array($ids))
+			$ids = [$ids];
+		
 		if ($ids) {
 			$nameList = self::getCRMRecordLabels('Users', $ids);
-			$groups = array();
+			$groups = [];
 			$diffIds = array_diff($ids, array_keys($nameList));
 			if ($diffIds) {
 				$groups = self::getCRMRecordLabels('Groups', array_values($diffIds));
@@ -1320,14 +1321,16 @@ class Vtiger_Functions
 		return $initial;
 	}
 
-	public function getBacktrace($ignore = 2)
+	public static function getBacktrace($ignore = 2)
 	{
 		$trace = '';
+		$rootDirectory = rtrim(AppConfig::main('root_directory'), '/');
 		foreach (debug_backtrace() as $k => $v) {
 			if ($k < $ignore) {
 				continue;
 			}
-			$trace .= '#' . ($k - $ignore) . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '() in ' . $v['file'] . '(' . $v['line'] . '): ' . PHP_EOL;
+			$file = str_replace($rootDirectory . DIRECTORY_SEPARATOR, '', $v['file']);
+			$trace .= '#' . ($k - $ignore) . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '() in ' . $file . '(' . $v['line'] . '): ' . PHP_EOL;
 		}
 
 		return $trace;

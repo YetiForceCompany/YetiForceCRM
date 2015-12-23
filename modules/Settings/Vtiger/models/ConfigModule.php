@@ -145,7 +145,6 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			'defaultLayout' => array('label' => 'LBL_DEFAULT_LAYOUT', 'fieldType' => 'picklist'),
 			'popupType' => ['label' => 'LBL_POPUP_TYPE', 'fieldType' => 'input'],
 			'breadcrumbs' => ['label' => 'LBL_SHOWING_BREADCRUMBS', 'fieldType' => 'checkbox'],
-			'calculate_response_time' => ['label' => 'LBL_SHOW_RESPONSE_TIME', 'fieldType' => 'checkbox'],
 			'title_max_length ' => ['label' => 'LBL_TITLE_MAX_LENGHT', 'fieldType' => 'input'],
 			'MINIMUM_CRON_FREQUENCY' => ['label' => 'LBL_MINIMUM_CRON_FREQUENCY', 'fieldType' => 'input'],
 			'listMaxEntriesMassEdit' => ['label' => 'LBL_LIST_MAX_ENTRIES_MASSEDIT', 'fieldType' => 'input'],

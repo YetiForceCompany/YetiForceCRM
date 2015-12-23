@@ -182,12 +182,16 @@ class EmailTemplates_List_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-
+		$operator = $request->get('operator');
+		
 		$listViewModel = EmailTemplates_ListView_Model::getInstance($moduleName);
-		$listViewModel->set('search_key', $searchKey);
-		$listViewModel->set('search_value', $searchValue);
-		$listViewModel->set('operator', $request->get('operator'));
-
+		if (!empty($operator)) {
+			$listViewModel->set('operator', $operator);
+		}
+		if (!empty($searchKey) && !empty($searchValue)) {
+			$listViewModel->set('search_key', $searchKey);
+			$listViewModel->set('search_value', $searchValue);
+		}
 		return $listViewModel->getListViewCount();
 	}
 

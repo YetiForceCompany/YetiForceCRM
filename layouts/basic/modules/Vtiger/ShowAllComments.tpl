@@ -13,23 +13,26 @@
 {* Change to this also refer: RecentComments.tpl *}
 <input type="hidden" id="typeView" value="{$TYPE_VIEW}">
 <input type="hidden" id="currentComment" value="{if !empty($CURRENT_COMMENT)}{$CURRENT_COMMENT->getId()}{/if}">
-<div class="col-md-12 commentsBar paddingLRZero">
+<div class="col-md-12 row no-margin commentsBar paddingLRZero">
 	{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
-		<div class="commentTitle" >
-			<div class="addCommentBlock col-md-8 pull-left">
+		<div class="commentTitle col-sm-8 paddingTop10" >
+			<div class="addCommentBlock pull-left">
 				<div class="input-group">
 					<span class="input-group-addon " >
 						<span class="glyphicon glyphicon-comment"></span>
 					</span>
 					<input type="text" name="commentcontent" class="commentcontent form-control" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}">
 					<span class="input-group-btn">
-						<button class="btn btn-success saveComment" type="button" data-mode="add"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
+						<button class="btn btn-success saveComment" type="button" data-mode="add">
+							<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+							<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
+						</button>
 					</span>
 				</div>
 			</div>
 		</div>
 	{/if}
-	<div class="col-md-4 pull-right">
+	<div class="col-sm-4 pull-right paddingTop10">
 		<div class="bootstrap-switch-container pull-right">
 			<input class="switchBtn" type="checkbox" {if $TYPE_VIEW neq 'List'}checked{/if} data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{vtranslate('LBL_RECORDS_LIST', $MODULE_NAME)}" data-on-text="{vtranslate('LBL_TIMELINE', $MODULE_NAME)}">
 		</div>
@@ -39,7 +42,7 @@
 	<div id="timeline" class="timelineContainer"></div>
 {/if}
 <div class="commentContainer">
-	<div class="commentsList commentsBody  col-md-12 ">
+	<div class="commentsList commentsBody  col-md-12 paddingLRZero">
 		{if $TYPE_VIEW eq 'List'}
 			{include file='CommentsList.tpl'|@vtemplate_path COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
 		{/if}
@@ -53,8 +56,14 @@
 					</span>
 					<input class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}">
 					<span class="input-group-btn">
-						<button class="btn btn-success saveComment" type="button" data-mode="add"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
-						<button class="cursorPointer closeCommentBlock btn btn-warning" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</button>
+						<button class="btn btn-success saveComment" type="button" data-mode="add">
+							<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+							<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
+						</button>
+						<button class="cursorPointer closeCommentBlock btn btn-warning" type="reset">
+							<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
+							<strong class="hidden-xs">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</strong>
+						</button>
 					</span>
 				</div>
 			</div>
@@ -64,16 +73,10 @@
 	<div class="hide basicEditCommentBlock" >
 		<div class="row">
 			<div class="col-md-12 marginTop10 marginBottom10px">
-				<div class="input-group">
-					<span class="input-group-addon" >
-						{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}
-					</span>
 					<input type="text" name="reasonToEdit" title="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level form-control"/>
-				</div>
 			</div>
 		</div>
 		<div class="row">
-			
 			<div class="col-md-12 marginBottom10px">
 				<div class="input-group">
 					<span class="input-group-addon" >
@@ -81,8 +84,14 @@
 					</span>
 					<input  class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" >
 					<span class="input-group-btn">
-						<button class="btn btn-success saveComment" type="button" data-mode="edit"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
-						<button class="cursorPointer closeCommentBlock btn btn-warning" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</button>
+						<button class="btn btn-success saveComment" type="button" data-mode="edit">
+							<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+							<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
+						</button>
+						<button class="cursorPointer closeCommentBlock btn btn-warning" type="reset">
+							<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
+							<strong class="hidden-xs">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</strong>
+						</button>
 					</span>
 				</div>
 			</div>

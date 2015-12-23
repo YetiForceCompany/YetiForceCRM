@@ -39,7 +39,7 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 			return $this->get('fieldTemp');
 		}
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, Vtiger_Functions::getModuleId($this->getModuleName())]);
+		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldlabel,fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, Vtiger_Functions::getModuleId($this->getModuleName())]);
 		$fieldTemp = $db->getRow($result);
 		$this->set('fieldTemp', $fieldTemp);
 		return $fieldTemp;
@@ -58,13 +58,20 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 		}
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TreeCategoryModal', $moduleName);
 		$instance = new $modelClassName();
-		self::$_cached_instance[$moduleName] = $instance->set('module', $moduleModel)->set('moduleName', $moduleName);
+		$instance->set('module', $moduleModel)->set('moduleName', $moduleName)->set('moduleName', $moduleName);
+		self::$_cached_instance[$moduleName] = $instance;
 		return self::$_cached_instance[$moduleName];
 	}
 
-	public function getTreeData()
+	public function getRelationType()
 	{
-		return array_merge($this->getTreeList(), $this->getRecords());
+		if ($this->has('relationType')) {
+			return $this->get('relationType');
+		}
+		$srcModuleModel = Vtiger_Module_Model::getInstance($this->get('srcModule'));
+		$relationModel = Vtiger_Relation_Model::getInstance($srcModuleModel, $this->get('module'));
+		$this->set('relationType', $relationModel->getRelationType());
+		return $this->get('relationType');
 	}
 
 	public function isDeletable()
@@ -72,6 +79,11 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 		$srcModuleModel = Vtiger_Module_Model::getInstance($this->get('srcModule'));
 		$relationModel = Vtiger_Relation_Model::getInstance($srcModuleModel, $this->get('module'));
 		return $relationModel->isDeletable();
+	}
+
+	public function getTreeData()
+	{
+		return array_merge($this->getTreeList(), $this->getRecords());
 	}
 
 	/**
@@ -123,28 +135,49 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 		return $db->getArrayColumn($result);
 	}
 
-	private function getSelectedRecords()
+	private function getSelectedRecords($onlyKeys = true)
 	{
+		$currentModule = vglobal('currentModule');
+		vglobal('currentModule', $this->get('srcModule'));
+
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($this->get('srcRecord'), $this->get('srcModule'));
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $this->getModuleName());
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 'no_limit');
 		$entries = $relationListView->getEntries($pagingModel);
-		return array_keys($entries);
+
+		vglobal('currentModule', $currentModule);
+		if ($onlyKeys) {
+			return array_keys($entries);
+		} else {
+			return $entries;
+		}
+	}
+
+	private function getAllRecords()
+	{
+
+		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($this->getModuleName(), $this->get('srcModule'));
+		if (!empty($this->get('srcModule'))) {
+			$listViewModel->set('src_module', $this->get('srcModule'));
+			$listViewModel->set('src_record', $this->get('srcRecord'));
+		}
+		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel->set('limit', 'no_limit');
+		$listEntries = $listViewModel->getListViewEntries($pagingModel, true);
+		return $listEntries;
 	}
 
 	private function getRecords()
 	{
 		$selectedRecords = $this->getSelectedRecords();
 		$isDeletable = $this->isDeletable();
-		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 'no_limit');
-		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($this->getModuleName(), $this->get('srcModule'));
-		if (!empty($this->get('srcModule'))) {
-			$listViewModel->set('src_module', $this->get('srcModule'));
-			$listViewModel->set('src_record', $this->get('srcRecord'));
+		if ($this->getRelationType() == 2) {
+			$listEntries = $this->getAllRecords();
+		} else {
+			$listEntries = $this->getSelectedRecords(false);
 		}
-		$listEntries = $listViewModel->getListViewEntries($pagingModel, true);
+
 		$fieldName = $this->getTreeField()['fieldname'];
 		$tree = [];
 		foreach ($listEntries as $item) {

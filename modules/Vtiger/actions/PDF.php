@@ -21,6 +21,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 	function __construct()
 	{
 		parent::__construct();
+		$this->exposeMethod('hasValidTemplate');
 		$this->exposeMethod('validateRecords');
 		$this->exposeMethod('generate');
 	}
@@ -209,5 +210,26 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 				}
 			}
 		}
+	}
+
+	/**
+	 * Checks if given record has valid pdf template
+	 * @param Vtiger_Request $request
+	 * @return boolean true if valid template exists for this record
+	 */
+	function hasValidTemplate(Vtiger_Request $request)
+	{
+		$recordId = $request->get('record');
+		$moduleName = $request->get('modulename');
+		$view = $request->get('view');
+
+		$pdfModel = new Vtiger_PDF_Model();
+		$pdfModel->setMainRecordId($recordId);
+		$valid = $pdfModel->checkActiveTemplates($recordId, $moduleName, $view);
+		$output = ['valid' => $valid];
+
+		$response = new Vtiger_Response();
+		$response->setResult($output);
+		$response->emit();
 	}
 }

@@ -13,8 +13,11 @@ Vtiger_TreeRecords_Js("Products_TreeRecords_Js",{},{
 			module: app.getModuleName(),
 			view: app.getViewName(),
 			branches: selected,
-			filter: selectedFilter,
+			filter: selectedFilter
 		};
+		if(app.getMainParams('isActiveCategory') == '1'){
+			params.category = thisInstance.treeInstance.jstree("getCategory");
+		}
 		return params;
 	},
 });

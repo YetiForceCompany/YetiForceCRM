@@ -11,7 +11,7 @@
 /* Performance paramters can be configured to fine tune vtiger CRM runtime */
 $PERFORMANCE_CONFIG = [
 	// Should the caller information be captured in SQL Logging?
-	// It adds little overhead for performance but will be useful to debug
+	// It adds little overhead for performance but will be useful to debug. All data can be found in the table "l_yf_sqltime"
 	'SQL_LOG_INCLUDE_CALLER' => false,
 
 	// If database default charset is UTF-8, set this to true 

@@ -17,6 +17,8 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 	reduceNumberResults: false,
 	// Should the result be in html
 	returnHtml: true,
+	// Main conatiner with modules, value and buttons
+	mainConatiner: false,
 	/**
 	 * Function to get the search module
 	 */
@@ -40,11 +42,18 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		return this;
 	},
 	/**
+	 * Function to set main conatainer 
+	 */
+	setMainContainer:function(container){
+		this.mainConatiner = container;
+		return this;
+	},
+	/**
 	 * Function to get the user selected search module
 	 */
 	getCurrentSearchModule: function () {
 		if (this.currentSearchModule === false) {
-			this.currentSearchModule = jQuery('#basicSearchModulesList').val();
+			this.currentSearchModule = this.mainConatiner.find('.basicSearchModulesList').val();
 		}
 		return this.currentSearchModule;
 	},

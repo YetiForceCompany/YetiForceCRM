@@ -44,6 +44,15 @@ $languageStrings = [
 	'LBL_SWITCH_USERS_DESCRIPTION' => 'Tool that allows switching users in the system.',
 	'LBL_SU_BASE_ACCESS' => 'User',
 	'LBL_SU_AVAILABLE_ACCESS' => 'Is allowed to log in',
+	// Locks
+	'LBL_LOCKS' => '__UNTRANSLATED__',
+	'LBL_LOCKS_DESCRIPTION' => '__UNTRANSLATED__',
+	'LBL_LOCK_COPY' => '__UNTRANSLATED__',
+	'LBL_LOCK_CUT' => '__UNTRANSLATED__',
+	'LBL_LOCK_PASTE' => '__UNTRANSLATED__',
+	'LBL_LOCK_RIGHT_MENU' => '__UNTRANSLATED__',
+	'LBL_LOCK_SELECT_TEXT' => '__UNTRANSLATED__',
+	'LBL_LOCK_DRAG' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'User with this e-mail address exists',

@@ -331,10 +331,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			'previewrelatedrecord' => $this->get('previewrelatedrecord'),
 			'editrelatedrecord' => $this->get('editrelatedrecord'),
 			'permissionsrelatedfield' => $this->get('permissionsrelatedfield'),
-			'globalsearchadv' => $this->get('globalsearchadv'),
-			'blockcopy' => $this->get('blockCopy'),
-			'blockcut' => $this->get('blockCut'),
-			'blockpaste' => $this->get('blockPaste')
+			'globalsearchadv' => $this->get('globalsearchadv')
 		];
 
 		if ($mode == 'edit') {

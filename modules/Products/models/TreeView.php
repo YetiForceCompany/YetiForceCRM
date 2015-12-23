@@ -27,6 +27,7 @@ class Products_TreeView_Model extends Vtiger_TreeView_Model
 			$parent = (int) str_replace('T', '', $parent);
 			$tree[] = [
 				'id' => $this->lastTreeId,
+				'type' => 'record',
 				'record_id' => $item->getId(),
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => $item->getName(),

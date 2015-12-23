@@ -10,9 +10,13 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class="siteBarRight calendarRightPanel col-xs-12" id="rightPanel">
+<div class="siteBarRight calendarRightPanel col-xs-12 {if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}hideSiteBar{/if}" id="rightPanel">
 	<div class="btn btn-block toggleSiteBarRightButton hidden-xs hidden-sm" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
-		<span class="glyphicon glyphicon-chevron-right"></span>
+		{if AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		{else}
+			<span class="glyphicon glyphicon-chevron-left"></span>	
+		{/if}
 	</div>
 	<div class="siteBarContent paddingTop10">
 		<div class="panel panel-primary refreshHeader hide">

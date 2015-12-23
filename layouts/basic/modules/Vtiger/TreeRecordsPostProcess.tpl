@@ -27,6 +27,7 @@
 			</div>
 		</div>
 		<input type="hidden" id="treeListValues" value="{Vtiger_Util_Helper::toSafeHTML($TREE_LIST)}">
+		<input type="hidden" id="isActiveCategory" value="{$SELECTABLE_CATEGORY}" />
 		<div id="treeListContents"></div>
 	</div>
 </div>

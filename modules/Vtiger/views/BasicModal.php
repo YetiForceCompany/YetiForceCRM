@@ -21,7 +21,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('view');
-		echo '<div class="modal fade modal'.$moduleName.''.$viewName.'"><div class="modal-dialog"><div class="modal-content">';
+		echo '<div class="modal fade modal'.$moduleName.''.$viewName.'" id="modal'.$viewName.'"><div class="modal-dialog"><div class="modal-content">';
 		foreach ($this->getModalCss($request) as $style) {
 			echo '<link rel="stylesheet" href="'.$style->getHref().'">';
 		}

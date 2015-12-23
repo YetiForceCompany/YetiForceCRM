@@ -119,7 +119,7 @@
 			</div>
 			<div class="modal-footer">
 				<div class="pull-left">
-					{assign var=SHOW_QUICK_CREATE value=AppConfig::calendar('SHOW_QUICK_CREATE_BY_STATUS')}
+					{assign var=SHOW_QUICK_CREATE value=AppConfig::module('Calendar','SHOW_QUICK_CREATE_BY_STATUS')}
 					{if $ACTIVITYCANCEL eq 'yes' && $EMPTY}
 						<button type="button" class="btn btn-danger {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}" data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}" data-type="1">{vtranslate($ACTIVITY_STATE_LABEL.cancelled, $MODULE_NAME)}</button>
 					{/if}

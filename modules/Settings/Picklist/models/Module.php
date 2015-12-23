@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Settings_Picklist_Module_Model extends Vtiger_Module_Model
@@ -56,7 +57,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		} else {
 			if (in_array('color', $columnNames)) {
 				$sql = 'INSERT INTO ' . $tableName . ' VALUES (?,?,?,?,?)';
-				$db->pquery($sql,[$id, $newValue, ++$sequence, 1, '#E6FAD8']);
+				$db->pquery($sql, [$id, $newValue, ++$sequence, 1, '#E6FAD8']);
 			} else {
 				$sql = 'INSERT INTO ' . $tableName . ' VALUES (?,?,?,?)';
 				$db->pquery($sql, [$id, $newValue, ++$sequence, 1]);
@@ -269,7 +270,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		}
 		$query = 'INSERT IGNORE INTO vtiger_role2picklist (roleid,picklistvalueid,picklistid) VALUES ' . implode(',', $insertValueList);
 		$result = $db->pquery($query, array());
-		if($deleteValueList){
+		if ($deleteValueList) {
 			$deleteQuery = 'DELETE FROM vtiger_role2picklist WHERE ' . implode(' OR ', $deleteValueList);
 			$result = $db->pquery($deleteQuery, array());
 		}

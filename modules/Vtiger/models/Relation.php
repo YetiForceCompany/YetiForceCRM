@@ -12,6 +12,7 @@
 class Vtiger_Relation_Model extends Vtiger_Base_Model
 {
 
+	static $_cached_instance = [];
 	protected $parentModule = false;
 	protected $relatedModule = false;
 	protected $relationType = false;
@@ -211,26 +212,45 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $this->getRelationModuleModel()->isPermitted('Delete');
 	}
 
+	public function showCreatorDetail()
+	{
+		if($this->getRelationType() != 2){
+			return false;
+		}
+		return $this->get('creator_detail');
+	}
+
+	public function showComment()
+	{
+		if($this->getRelationType() != 2){
+			return false;
+		}
+		return $this->get('relation_comment');
+	}
+
 	public static function getInstance($parentModuleModel, $relatedModuleModel, $label = false)
 	{
+		$relKey = $parentModuleModel->getId() . '_' . $relatedModuleModel->getId() . '_' . ($label ? 1 : 0);
+		if (key_exists($relKey, self::$_cached_instance)) {
+			return self::$_cached_instance[$relKey];
+		}
 		$db = PearDatabase::getInstance();
-
 		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename FROM vtiger_relatedlists
 					INNER JOIN vtiger_tab on vtiger_tab.tabid = vtiger_relatedlists.related_tabid AND vtiger_tab.presence != 1
 					WHERE vtiger_relatedlists.tabid = ? AND related_tabid = ?';
-		$params = array($parentModuleModel->getId(), $relatedModuleModel->getId());
-
+		$params = [$parentModuleModel->getId(), $relatedModuleModel->getId()];
 		if (!empty($label)) {
 			$query .= ' AND label = ?';
 			$params[] = $label;
 		}
 
 		$result = $db->pquery($query, $params);
-		if ($db->num_rows($result)) {
-			$row = $db->query_result_rowdata($result, 0);
+		if ($db->getRowCount($result)) {
+			$row = $db->getRow($result);
 			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
+			self::$_cached_instance[$relKey] = $relationModel;
 			return $relationModel;
 		}
 		return false;

@@ -1,6 +1,6 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-$CALENDAR_CONFIG = [
+$CONFIG = [
 	// Limits the number of events displayed on a day.
 	// Boolean, Integer. default: false
 	'EVENT_LIMIT' => 10,
@@ -16,4 +16,7 @@ $CALENDAR_CONFIG = [
 	// Show the Event/To Do quick create window after changing the status
 	// array - PLL_COMPLETED, PLL_CANCELLED
 	'SHOW_QUICK_CREATE_BY_STATUS' => [],
+	// Right calendar panel visible by default
+	// true - show right panel, false - hide right panel;
+	'SHOW_RIGHT_PANEL' => true, // Boolean
 ];

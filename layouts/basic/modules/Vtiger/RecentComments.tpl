@@ -21,7 +21,10 @@
 						</span>
 						<input type="text"  name="commentcontent" class="commentcontent form-control" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" >
 						<span class="input-group-btn" >
-							<button class="btn btn-success detailViewSaveComment" type="button" data-mode="add"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
+							<button class="btn btn-success detailViewSaveComment" type="button" data-mode="add">
+								<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+								<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
+							</button>
 						</span>
 					</div>
 				</div>
@@ -43,7 +46,7 @@
 												{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 												<img class="alignMiddle pull-left" width="48" alt="" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
 											</div>
-											<div class="col-md-8 commentorInfo">
+											<div class="col-xs-8 commentorInfo">
 												{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 												<span class="commentorName"><strong>{$COMMENTOR->getName()}</strong></span>
 												<div class="commentInfoContent">
@@ -61,8 +64,8 @@
 								</div>
 								<div class="commentActionsContainer">
 									{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}
-									<div class="pull-left {if empty($REASON_TO_EDIT)}hide {/if}editStatus "  name="editStatus">
-										<span class="pull-left paddingRight10">
+									<div class="pull-left {if empty($REASON_TO_EDIT)}hide {/if}editStatus"  name="editStatus">
+										<span class="pull-left paddingRight10 visible-lg-block">
 											<p class="muted">
 												<small>
 													[ {vtranslate('LBL_EDIT_REASON',$MODULE_NAME)} ] :
@@ -71,7 +74,7 @@
 											</p>
 										</span>
 										{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-											<span class="pull-right">
+											<span class="pull-right visible-lg-block">
 												<p class="muted pull-right">
 													<small><em>{vtranslate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;
 													<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small>
@@ -83,10 +86,11 @@
 										{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
 											<span>
 												<a class="cursorPointer replyComment feedback">
-													<span class="icon-share-alt"></span>{vtranslate('LBL_REPLY',$MODULE_NAME)}
+													<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;
+													{vtranslate('LBL_REPLY',$MODULE_NAME)}
 												</a>
 												{if Users_Privileges_Model::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-													&nbsp;<span>|</span>&nbsp;
+													&nbsp;<span>|</span><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;
 													<a class="cursorPointer editComment feedback">
 														{vtranslate('LBL_EDIT',$MODULE_NAME)}
 													</a>
@@ -127,8 +131,14 @@
 						</span>
 						<input class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}">
 						<span class="input-group-btn">
-							<button class="btn btn-success saveComment" type="button" data-mode="add"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
-							<button class="cursorPointer closeCommentBlock btn btn-warning" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</button>
+							<button class="btn btn-success saveComment" type="button" data-mode="add">
+								<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+								<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
+							</button>
+							<button class="cursorPointer closeCommentBlock btn btn-warning" type="reset">
+								<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
+								<strong class="hidden-xs">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</strong>
+							</button>
 						</span>
 					</div>
 				</div>
@@ -138,12 +148,7 @@
 		<div class="hide basicEditCommentBlock" >
 			<div class="row">
 				<div class="col-md-12 marginTop10 marginBottom10px">
-					<div class="input-group">
-						<span class="input-group-addon" >
-							{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}
-						</span>
 						<input type="text" name="reasonToEdit" title="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level form-control"/>
-					</div>
 				</div>
 			</div>
 			<div class="row">
@@ -155,8 +160,14 @@
 						</span>
 						<input  class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" >
 						<span class="input-group-btn">
-							<button class="btn btn-success saveComment" type="button" data-mode="edit"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
-							<button class="cursorPointer closeCommentBlock btn btn-warning" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</button>
+							<button class="btn btn-success saveComment" type="button" data-mode="edit">
+								<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+								<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
+							</button>
+							<button class="cursorPointer closeCommentBlock btn btn-warning" type="reset">
+								<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
+								<strong class="hidden-xs">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</strong>
+							</button>
 						</span>
 					</div>
 				</div>

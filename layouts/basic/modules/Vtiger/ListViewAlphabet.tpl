@@ -8,16 +8,13 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<div class="row no-margin">
-							<div class="col-xs-1 pull-right">
-								<button class="btn btn-default" type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
-							</div>
 							<div class="col-md-7 col-xs-10">
-								<h3 class="modal-title">{vtranslate('LBL_ALPABETIC_FILTERING', $MODULE_NAME)}</h3>
+								<h3 class="modal-title">{vtranslate('LBL_ALPHABETIC_FILTERING', $MODULE_NAME)}</h3>
 							</div>
-							<div class="col-md-4 paddingLRZero">
-								<a class="btn btn-danger pull-right" href="{$MODULE_MODEL->getListViewUrl()}" title="{vtranslate('LBL_REMOVE_ALPH_SEARCH_INFO', $MODULE_NAME)}" >
-									{vtranslate('LBL_REMOVE FILTERING', $MODULE_NAME)}
-								</a>
+							<div class="pull-right">
+								<div class="pull-right">
+									<button class="btn btn-default close" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -31,6 +28,13 @@
 									</div>
 								{/foreach}
 							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="pull-right">
+							<a class="btn btn-danger" href="{$MODULE_MODEL->getListViewUrl()}" title="{vtranslate('LBL_REMOVE_ALPH_SEARCH_INFO', $MODULE_NAME)}" >
+								{vtranslate('LBL_REMOVE_FILTERING', $MODULE_NAME)}
+							</a>
 						</div>
 					</div>
 				</div>

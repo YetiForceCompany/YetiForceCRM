@@ -93,7 +93,7 @@
 						  {if count($RECORD->get('selectedusers')) > 0}
 							  <br />{vtranslate('LBL_INVITE_USER_BLOCK',$MODULE_NAME)}: 
 							  {foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
-								  {Vtiger_Functions::getOwnerRecordLabel( $USER )}
+								  {if $USER}{Vtiger_Functions::getOwnerRecordLabel( $USER )}{/if}
 							  {/foreach}
 						  {/if}" >
 						<span class="glyphicon glyphicon-info-sign"></span>

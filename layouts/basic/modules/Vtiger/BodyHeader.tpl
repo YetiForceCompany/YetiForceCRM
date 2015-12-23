@@ -41,7 +41,7 @@
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
-							<li id="quickCreateModules">
+							<li class="quickCreateModules">
 								<div class="panel-default">
 									<div class="panel-heading">
 										<h4 class="panel-title"><strong>{vtranslate('LBL_QUICK_CREATE',$MODULE)}</strong></h4>
@@ -68,7 +68,7 @@
 												{assign var='count' value=$count+1}
 											{/if}
 										{/foreach}
-										{if $count % 3 == 2}
+										{if $count % 3 >= 1}
 											</div>
 										{/if}
 									</div>

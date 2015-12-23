@@ -49,6 +49,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 	 *@return current instance
 	 */
 	setParentContainer: function (container) {
+		this.setMainContainer(container);
 		this.parentContainer = container;
 		return this;
 	},
@@ -63,7 +64,6 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 		var aDeferred = jQuery.Deferred();
 		var moduleName = app.getModuleName();
 		var searchModule = this.getSearchModule();
-
 		//Exists in the cache
 		if (searchModule in Vtiger_AdvanceSearch_Js.cache) {
 			aDeferred.resolve(Vtiger_AdvanceSearch_Js.cache[searchModule]);

@@ -289,7 +289,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		ListViewSession::setSessionQuery($moduleName, $listQuery, $viewid);
 
 		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
-		$listResult = $db->pquery($listQuery, array());
+		$listResult = $db->query($listQuery);
 
 		$listViewRecordModels = array();
 		$listViewEntries = $listViewContoller->getListViewRecords($moduleFocus, $moduleName, $listResult);

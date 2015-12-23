@@ -21,6 +21,7 @@ $languageStrings = [
 	'LBL_REALIZATION_COMPLETION_DATE' => 'Дата окончания продаж',
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Фактическая дата окончания продаж',
 	'LBL_COMPANY_NAME' => 'Название компании',
+	'SINGLE_SSalesProcesses' => 'Сделка',
 	
 	'LBL_END_PERIOD' => 'Конец периода',
 	'LBL_FREQUENCY' => 'Частота',

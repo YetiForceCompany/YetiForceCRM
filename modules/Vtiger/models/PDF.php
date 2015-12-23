@@ -113,7 +113,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 
 		$templates = $this->getTemplatesByModule($moduleName);
 		foreach ($templates as $id => &$template) {
-			$active = true;
+			$template->setMainRecordId($recordId);
 			if (!$template->isVisible($view) || !$template->checkFiltersForRecord($recordId) || !$template->checkUserPermissions()) {
 				unset($templates[$id]);
 			}
@@ -218,7 +218,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	{
 		$test = Vtiger_Cache::get('PdfCheckFiltersForRecord' . $this->getId(), $recordId);
 		if ($test !== false) {
-			return $test;
+			return (bool)$test;
 		}
 		vimport("~/modules/com_vtiger_workflow/VTJsonCondition.inc");
 		vimport("~/modules/com_vtiger_workflow/VTEntityCache.inc");
@@ -228,8 +228,9 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$entityCache = new VTEntityCache($currentUser);
 		$wsId = vtws_getWebserviceEntityId($this->get('module_name'), $recordId);
-		$test = $conditionStrategy->evaluate($this->getRaw('conditions'), $entityCache, $wsId);
-		Vtiger_Cache::set('PdfCheckFiltersForRecord' . $this->getId(), $recordId, $test);
+		$conditions = htmlspecialchars_decode($this->getRaw('conditions'));
+		$test = $conditionStrategy->evaluate($conditions, $entityCache, $wsId);
+		Vtiger_Cache::set('PdfCheckFiltersForRecord' . $this->getId(), $recordId, intval($test));
 		return $test;
 	}
 
@@ -462,7 +463,11 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 					$moduleModel = $referenceRecordModel->getModule();
 					$fields = $moduleModel->getFields();
 					foreach ($fields as $referenceFieldName => &$referenceFieldModel) {
-						$replaceBy = $referenceRecordModel->getDisplayValue($referenceFieldName, $value, true);
+						if (empty($value)) {
+							$replaceBy = '';
+						} else {
+							$replaceBy = $referenceRecordModel->getDisplayValue($referenceFieldName, $value, true);
+						}
 						$content = str_replace('$' . $fieldName . '+' . $module . '+' . $referenceFieldName . '$', $replaceBy, $content);
 						$newLabel = Vtiger_Language_Handler::getLanguageTranslatedString($this->get('language'), $referenceFieldModel->get('label'), $module);
 						$content = str_replace('%' . $fieldName . '+' . $module . '+' . $referenceFieldName . '%', $newLabel, $content);
