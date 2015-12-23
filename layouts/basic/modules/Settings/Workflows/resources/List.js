@@ -126,9 +126,14 @@ Settings_Vtiger_List_Js("Settings_Workflows_List_Js",{
 
 		return params;
 	},
-	
+	registerImportTemplate: function () {
+		jQuery('#importButton').on('click', function () {
+			window.location.href = jQuery(this).data('url');
+		});
+	},
 	registerEvents : function() {
 		this._super();
 		this.registerFilterChangeEvent();
+		this.registerImportTemplate();
 	}
 });

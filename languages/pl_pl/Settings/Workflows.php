@@ -188,6 +188,15 @@ $languageStrings = [
 	'UpdateInventory' => 'Zaktualizuj inwentarz',
 	'LBL_TRIGGER_USER' => 'Użytkownik wybrany w oknie ręcznego wywoływania',
 	'LBL_PDF_TEMPLATE' => 'Wybierz szablon PDF',
+	'LBL_IMPORT_TEMPLATE' => 'Importuj automatyzację',
+	'LBL_EXPORT_RECORD' => 'Eksportuj rekord',
+	'LBL_IMPORT_VIEW' => 'Import automatyzacji',
+	'LBL_TRIGGER_XML' => 'Plik XML',
+	'LBL_UPLOAD_TRIGGER' => 'Importuj',
+	'LBL_UPLOAD_ERROR' => 'Import pliku XML automatyzacji nie powiódł się!',
+	'LBL_UPLOAD_OK' => 'Pomyślnie zaimportowano plik automatyzacji.',
+	'LBL_RETURN' => 'Wróć',
+	'LBL_GO_TO_TEMPLATE' => 'Kliknij aby przejść do zaimportowanego rekordu.',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Te same pola zaznaczono więcej niż jedej raz',

@@ -164,6 +164,12 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				'linkicon' => 'glyphicon glyphicon-remove',
 				'class' => 'deactiveTasks'
 			),
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_EXPORT_RECORD',
+				'linkurl' => 'index.php?module=Workflows&parent=Settings&action=ExportWorkflow&id=' . $this->getId(),
+				'linkicon' => 'glyphicon glyphicon-export'
+			],
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
@@ -426,5 +432,24 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$wm = new VTWorkflowManager($db);
 		$wf = $this->getWorkflowObject();
 		$wm->updateNexTriggerTime($wf);
+	}
+
+	/**
+	 * Returns array of tasks for active workflow
+	 * @return array tasks
+	 */
+	public function getTasksForExport()
+	{
+		$db = PearDatabase::getInstance();
+
+		$query = 'SELECT summary, task FROM com_vtiger_workflowtasks WHERE workflow_id = ?;';
+		$result = $db->pquery($query, [$this->getId()]);
+
+		$tasks = [];
+		while ($row = $db->fetchByAssoc($result)) {
+			$tasks[] = $row;
+		}
+
+		return $tasks;
 	}
 }

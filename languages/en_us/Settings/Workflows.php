@@ -201,6 +201,15 @@ $languageStrings = [
 	'UpdateInventory' => 'Update Inventory',
 	'LBL_TRIGGER_USER' => 'User selected in workflow trigger mondal',
 	'LBL_PDF_TEMPLATE' => 'Select PDF template',
+	'LBL_IMPORT_TEMPLATE' => 'Import trigger',
+	'LBL_EXPORT_RECORD' => 'Export record',
+	'LBL_IMPORT_VIEW' => 'Trigger import',
+	'LBL_TRIGGER_XML' => 'XML File',
+	'LBL_UPLOAD_TRIGGER' => 'Import',
+	'LBL_UPLOAD_ERROR' => 'Import of trigger record from XML file was unsuccessful!',
+	'LBL_UPLOAD_OK' => 'Trigger XML file imported successfully.',
+	'LBL_RETURN' => 'Return',
+	'LBL_GO_TO_TEMPLATE' => 'Click to go to imported record.',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Same fields selected more than once',

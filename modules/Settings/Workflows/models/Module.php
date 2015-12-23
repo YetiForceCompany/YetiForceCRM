@@ -17,6 +17,21 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	var $baseTable = 'com_vtiger_workflows';
 	var $baseIndex = 'workflow_id';
 	var $listFields = array('summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition', 'all_tasks' => 'LBL_ALL_TASKS', 'active_tasks' => 'LBL_ACTIVE_TASKS');
+	public static $allFields = [
+		'module_name',
+		'summary',
+		'conditions',
+		'execution_condition',
+		'filtersavedinnew',
+		'defaultworkflow',
+		'type',
+		'schtypeid',
+		'schdayofmonth',
+		'schdayofweek',
+		'schannualdates',
+		'schtime',
+		'nexttrigger_time'
+	];
 	var $name = 'Workflows';
 	static $metaVariables = array(
 		'Current Date' => '(general : (__VtigerMeta__) date) ($_DATE_FORMAT_)',
@@ -67,6 +82,15 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		return 'index.php?module=Workflows&parent=Settings&view=Edit';
 	}
 
+	/**
+	 * Returns url for import view
+	 * @return string url
+	 */
+	public static function getImportViewUrl()
+	{
+		return 'index.php?module=Workflows&parent=Settings&view=Import';
+	}
+
 	public static function getSupportedModules()
 	{
 		$moduleModels = Vtiger_Module_Model::getAll(array(0, 2));
@@ -114,7 +138,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		return $this->listFieldModels;
 	}
-	
+
 	/**
 	 * Delete all worklflows associated with module
 	 * @param Vtiger_Module Instnace of module to use
@@ -125,5 +149,35 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		$db->pquery('DELETE com_vtiger_workflows,com_vtiger_workflowtasks FROM `com_vtiger_workflows` 
 			LEFT JOIN `com_vtiger_workflowtasks` ON com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id
 			WHERE `module_name` =?', [$moduleInstance->name]);
+	}
+
+	/**
+	 * Imports workflow template xml file
+	 * @param array $data
+	 * @return int workflow id
+	 */
+	public function importWorkflow(array $data)
+	{
+		$db = PearDatabase::getInstance();
+
+		$db->insert($this->getBaseTable(), $data['fields']);
+
+		$workflowId = $db->getLastInsertID();
+		$db->update($this->getBaseTable() . '_seq', ['id' => $workflowId]);
+
+		foreach ($data['workflow_tasks'] as $task) {
+			$db->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']]);
+			$taskId = $db->getLastInsertID();
+
+			include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
+			$taskObject = unserialize($task['task']);
+			$taskObject->workflowId = intval($workflowId);
+			$taskObject->id = intval($taskId);
+
+			$db->update('com_vtiger_workflowtasks', ['task' => serialize($taskObject)], 'task_id = ?', [$taskId]);
+			$db->update('com_vtiger_workflowtasks_seq', ['id' => $taskId]);
+		}
+		
+		
 	}
 }
