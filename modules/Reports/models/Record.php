@@ -299,7 +299,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$selectedColumns = array();
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
 			$column = $db->query_result($result, $i, 'columnname');
-			list($tableName, $columnName, $moduleFieldLabel, $fieldName, $type) = split(':', $column);
+			list($tableName, $columnName, $moduleFieldLabel, $fieldName, $type) = explode(':', $column);
 			$fieldLabel = explode('__', $moduleFieldLabel);
 			$module = $fieldLabel[0];
 			$dbFieldLabel = trim(str_replace(array($module, '__'), " ", $moduleFieldLabel));
@@ -526,10 +526,15 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	function saveSharingInformation()
 	{
 		$db = PearDatabase::getInstance();
-
 		$sharingInfo = $this->get('sharingInfo');
-		for ($i = 0; $i < count($sharingInfo); $i++) {
-			$db->pquery('INSERT INTO vtiger_reportsharing(reportid, shareid, setype) VALUES (?,?,?)', array($this->getId(), $sharingInfo[$i]['id'], $sharingInfo[$i]['type']));
+		if ($sharingInfo) {
+			foreach ($sharingInfo as $key => $value) {
+				$db->insert('vtiger_reportsharing', [
+					'reportid' => $this->getId(),
+					'shareid' => $value['id'],
+					'setype' => $value['type']
+				]);
+			}
 		}
 	}
 
