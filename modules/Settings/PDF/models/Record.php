@@ -187,7 +187,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function transforms Advance filter to workflow conditions
 	 */
-	function transformAdvanceFilterToWorkFlowFilter(Vtiger_PDF_Model &$pdfModel)
+	public static function transformAdvanceFilterToWorkFlowFilter(Vtiger_PDF_Model &$pdfModel)
 	{
 		$conditions = $pdfModel->get('conditions');
 		$wfCondition = [];

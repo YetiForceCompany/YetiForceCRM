@@ -7,7 +7,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 $languageStrings = [
-	'LBL_PDF' => 'New PDF',
+	'LBL_PDF' => 'PDF',
 	'LBL_PDF_DESCRIPTION' => 'Test version of the PDF template configuration',
 	'LBL_CREATING_PDF' => 'Create PDF template',
 	'LBL_EDITING_PDF' => 'Edit PDF template',
