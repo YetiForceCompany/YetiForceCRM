@@ -10,7 +10,7 @@
 		<li><a href="#rc" data-toggle="tab">{vtranslate('LBL_SREQUIREMENTSCARD', $QUALIFIED_MODULE)} </a></li>
 		<li><a href="#calculations" data-toggle="tab">{vtranslate('LBL_SCALCULATIONS', $QUALIFIED_MODULE)} </a></li>
 		<li><a href="#quotes" data-toggle="tab">{vtranslate('LBL_SQUOTES', $QUALIFIED_MODULE)} </a></li>
-		<li><a href="#so" data-toggle="tab">{vtranslate('LBL_SSALESORDER', $QUALIFIED_MODULE)} </a></li>
+{*		<li><a href="#so" data-toggle="tab">{vtranslate('LBL_SSALESORDER', $QUALIFIED_MODULE)} </a></li>*}
 		<li><a href="#Assets" data-toggle="tab">{vtranslate('LBL_ASSETS', $QUALIFIED_MODULE)} </a></li>
 		<li><a href="#popup" data-toggle="tab">{vtranslate('LBL_PRODUCTS_AND_SERVICES_POPUP', $QUALIFIED_MODULE)} </a></li>
 	</ul>
@@ -87,8 +87,8 @@
 					<label class='control-label'>{vtranslate('LBL_STATUSES_CLOSED_SQUOTEENQUIRIES', $QUALIFIED_MODULE)}</label>
 					<div class="">
 						<select class="selectize configField" multiple data-type="squoteenquiries" name="statuses_close"  placeholder='{vtranslate('LBL_SELECT_SOME_OPTIONS')}'>
-							{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('quotesenquires_stage')}
-								<option value="{$ITEM}" {if in_array($ITEM, $SQUOTEENQUIRIES['statuses_close'])} selected {/if}>{vtranslate($ITEM,'QuotesEnquires')}</option>
+							{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('squoteenquiries_status')}
+								<option value="{$ITEM}" {if in_array($ITEM, $SQUOTEENQUIRIES['statuses_close'])} selected {/if}>{vtranslate($ITEM,'SQuoteEnquiries')}</option>
 							{/foreach}
 						</select>
 					</div>
@@ -102,8 +102,8 @@
 					<label class='control-label'>{vtranslate('LBL_STATUSES_CLOSED_SREQUIREMENTSCARD', $QUALIFIED_MODULE)}</label>
 					<div class="">
 						<select class="selectize configField" multiple data-type="srequirementscard" name="statuses_close"  placeholder='{vtranslate('LBL_SELECT_SOME_OPTIONS')}'>
-							{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('requirementcards_status')}
-								<option value="{$ITEM}" {if in_array($ITEM, $SREQUIREMENTSCARD['statuses_close'])} selected {/if}>{vtranslate($ITEM,'RequirementCards')}</option>
+							{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('srequirementscards_status')}
+								<option value="{$ITEM}" {if in_array($ITEM, $SREQUIREMENTSCARD['statuses_close'])} selected {/if}>{vtranslate($ITEM,'SRequirementsCards')}</option>
 							{/foreach}
 						</select>
 					</div>
@@ -125,7 +125,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="tab-pane" id="so">
+		{*<div class="tab-pane" id="so">
 			{assign var=SSALESORDER value=$CONFIG['ssalesorder']}
 			<div class="form-horizonta">
 				<div class="form-group col-md-5">
@@ -139,7 +139,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>*}
 	</div>
 </div>
 {/strip}

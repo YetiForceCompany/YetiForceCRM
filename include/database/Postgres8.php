@@ -169,13 +169,9 @@ function expandRecord($table, $log)
 	elseif ($table == "vtiger_crmentity")
 		$subfields = array("crmid", "smcreatorid", "smownerid", "modifiedby", "setype", "description", "createdtime", "modifiedtime", "viewedtime", "status", "version", "presence", "deleted");
 
-	//vtiger_salesorder
-	elseif ($table == "vtiger_salesorder")
-		$subfields = array("salesorderid", "subject", "potentialid", "customerno", "quoteid", "vendorterms", "contactid", "vendorid", "duedate", "carrier", "pending", "type", "salescommission", "exciseduty", "total", "subtotal", "taxtype", "discount_percent", "discount_amount", "accountid", "terms_conditions", "purchaseorder", "sostatus");
-
 	//vtiger_invoice
 	elseif ($table == "vtiger_invoice")
-		$subfields = array("invoiceid", "subject", "salesorderid", "customerno", "contactid", "notes", "invoicedate", "duedate", "invoiceterms", "type", "salescommission", "exciseduty", "subtotal", "total", "taxtype", "discount_percent", "discount_amount", "shipping", "accountid", "terms_conditions", "purchaseorder", "invoicestatus", "invoice_no");
+		$subfields = array("invoiceid", "subject", "customerno", "contactid", "notes", "invoicedate", "duedate", "invoiceterms", "type", "salescommission", "exciseduty", "subtotal", "total", "taxtype", "discount_percent", "discount_amount", "shipping", "accountid", "terms_conditions", "purchaseorder", "invoicestatus", "invoice_no");
 
 	//vtiger_seactivityrel
 	elseif ($table == "vtiger_seactivityrel")

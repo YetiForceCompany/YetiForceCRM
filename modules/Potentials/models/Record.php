@@ -50,24 +50,18 @@ class Potentials_Record_Model extends Vtiger_Record_Model
 			return false;
 		}
 		$QuotesStatus = 'Rejected';
-		$SalesOrderStatus = 'Cancelled';
 		$InvoiceStatus = 'Cancel';
 		$db = PearDatabase::getInstance();
 
 		$sql = "UPDATE vtiger_potential SET  
-				sum_salesorders = (SELECT SUM(total) as total FROM vtiger_salesorder 
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_salesorder.salesorderid
-						WHERE deleted = 0 AND sostatus <> ? AND potentialid = vtiger_potential.potentialid), 
 				sum_invoices = (SELECT SUM(total) as total FROM vtiger_invoice 
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_invoice.invoiceid
 						WHERE deleted = 0 AND invoicestatus <> ? AND potentialid = vtiger_potential.potentialid), 
 				sum_quotes = (SELECT SUM(total) as total FROM vtiger_quotes 
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_quotes.quoteid
-						WHERE deleted = 0 AND quotestage <> ? AND potentialid = vtiger_potential.potentialid),
-				average_profit_so = (SELECT ((SUM(total)-SUM(total_purchase))/SUM(total_purchase))*100 AS pro FROM 
-				vtiger_salesorder INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_salesorder.salesorderid WHERE deleted = 0 AND sostatus <> 'Cancelled' AND vtiger_salesorder.accountid = vtiger_potential.related_to )
+						WHERE deleted = 0 AND quotestage <> ? AND potentialid = vtiger_potential.potentialid)
 				WHERE potentialid = ?;";
-		$db->pquery($sql, array($SalesOrderStatus, $InvoiceStatus, $QuotesStatus, $PotentialsID), true);
+		$db->pquery($sql, array($InvoiceStatus, $QuotesStatus, $PotentialsID), true);
 		$log->debug("Exiting recalculatePotentials($PotentialsID) method ...");
 	}
 

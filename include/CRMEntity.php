@@ -589,11 +589,10 @@ class CRMEntity
 					$params = array('', $this->id, $this->column_fields['sum_invoices'], decode_html($sales_stage), $this->column_fields['probability'], 0, $adb->formatDate($closingdate, true), $adb->formatDate($date_var, true));
 					$adb->pquery($sql, $params);
 				}
-			} elseif ($module == 'PurchaseOrder' || $module == 'SalesOrder' || $module == 'Quotes' || $module == 'Invoice') {
+			} elseif ($module == 'PurchaseOrder' || $module == 'Quotes' || $module == 'Invoice') {
 				//added to update the history for PO, SO, Quotes and Invoice
 				$history_field_array = Array(
 					"PurchaseOrder" => "postatus",
-					"SalesOrder" => "sostatus",
 					"Quotes" => "quotestage",
 					"Invoice" => "invoicestatus"
 				);
@@ -2169,8 +2168,8 @@ class CRMEntity
 			if ($pritablename == 'vtiger_senotesrel') {
 				$query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname
                     AND $tmpname.notesid IN (SELECT crmid FROM vtiger_crmentity WHERE setype='Documents' AND deleted = 0))";
-			} else if ($pritablename == 'vtiger_inventoryproductrel' && ($module == "Products" || $module == "Services") && ($secmodule == "Invoice" || $secmodule == "SalesOrder" || $secmodule == "PurchaseOrder" || $secmodule == "Quotes")) {
-				/** In vtiger_inventoryproductrel table, we'll have same product related to quotes/invoice/salesorder/purchaseorder
+			} else if ($pritablename == 'vtiger_inventoryproductrel' && ($module == "Products" || $module == "Services") && ($secmodule == "Invoice" || $secmodule == "PurchaseOrder" || $secmodule == "Quotes")) {
+				/** In vtiger_inventoryproductrel table, we'll have same product related to quotes/invoice/purchaseorder
 				 *  we need to check whether the product joining is related to secondary module selected or not to eliminate duplicates
 				 */
 				$query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname AND $tmpname.id in 

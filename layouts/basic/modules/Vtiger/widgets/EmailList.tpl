@@ -48,7 +48,7 @@
 									<span class="body-icon glyphicon glyphicon-search"></span>
 								</button>
 								&nbsp;
-								{if vglobal('isActiveSendingMails')}
+								{if AppConfig::main('isActiveSendingMails')}
 									<a title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}" data-url="{$URLDATA}" data-popup="{$CONFIG['popup']}" class="btn btn-default btn-sm addButton sendMailBtn">
 										<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
 									</a>

@@ -21,14 +21,7 @@ class Quotes_Record_Model extends Inventory_Record_Model
 		return 'index.php?module=' . $invoiceModuleModel->getName() . '&view=' . $invoiceModuleModel->getEditViewName() . '&quote_id=' . $this->getId() .
 			'&sourceModule=' . $this->getModuleName() . '&sourceRecord=' . $this->getId() . '&relationOperation=true';
 	}
-
-	public function getCreateSalesOrderUrl()
-	{
-		$salesOrderModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
-
-		return 'index.php?module=' . $salesOrderModuleModel->getName() . '&view=' . $salesOrderModuleModel->getEditViewName() . '&quote_id=' . $this->getId();
-	}
-
+	
 	/**
 	 * Function to get this record and details as PDF
 	 */

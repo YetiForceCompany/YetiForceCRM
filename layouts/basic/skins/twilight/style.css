@@ -3008,6 +3008,9 @@ span[name=existingImages] img{
 .paddingLeftMd{
 	padding-left: 15px;
 }
+.marginRightMinus20{
+	margin-right:-20px;
+}
 .fieldLabel .referenceMandatory{
 	margin-right: -12px;
 }
@@ -4707,3 +4710,8 @@ html,body,.baseContainer
 .fieldLabel .HelpInfoPopover {
 	margin-left: 2px;
 }
+.jstree-node .jstree-category{
+	margin-left: 10px;
+	font-size: 15px;
+	top: 0;
+	vertical-align: middle;

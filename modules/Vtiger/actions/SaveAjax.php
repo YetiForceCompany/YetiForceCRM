@@ -22,8 +22,9 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 			$recordFieldValue = $recordModel->get($fieldName);
 			if (is_array($recordFieldValue) && $fieldModel->getFieldDataType() == 'multipicklist') {
 				$recordFieldValue = implode(' |##| ', $recordFieldValue);
-			}
-			if (is_array($recordFieldValue) && $fieldModel->getFieldDataType() == 'sharedOwner') {
+			} elseif (is_array($recordFieldValue) && $fieldModel->getFieldDataType() == 'sharedOwner') {
+				$recordFieldValue = implode(',', $recordFieldValue);
+			} elseif (is_array($recordFieldValue) && $fieldModel->getFieldDataType() == 'taxes') {
 				$recordFieldValue = implode(',', $recordFieldValue);
 			}
 			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordFieldValue);

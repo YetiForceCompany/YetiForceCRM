@@ -62,13 +62,6 @@ function SaveInventory(&$focus, $module, $update_prod_stock = 'false', $updateDe
 		if ($module == 'PurchaseOrder' && $update_prod_stock == 'true') {
 			addToProductStock($prod_id, $qty);
 		}
-		if ($module == 'SalesOrder') {
-			if ($updateDemand == '-') {
-				deductFromProductDemand($prod_id, $qty);
-			} elseif ($updateDemand == '+') {
-				addToProductDemand($prod_id, $qty);
-			}
-		}
 
 		$query = "insert into vtiger_inventoryproductrel(id, productid, sequence_no, quantity, listprice, comment, description) values(?,?,?,?,?,?,?)";
 		$qparams = array($focus->id, $prod_id, $prod_seq, $qty, $listprice, $comment, $description);
@@ -162,7 +155,6 @@ function SaveInventory(&$focus, $module, $update_prod_stock = 'false', $updateDe
 	$updatequery .= " total=?,";
 	array_push($updateparams, $total);
 
-	//$id_array = Array('PurchaseOrder'=>'purchaseorderid','SalesOrder'=>'salesorderid','Quotes'=>'quoteid','Invoice'=>'invoiceid');
 	//Added where condition to which entity we want to update these values
 	$updatequery .= " where " . $focus->table_index . "=?";
 	array_push($updateparams, $focus->id);

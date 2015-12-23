@@ -44,12 +44,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return true;
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function getBreadcrumbTitle(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$this->pageTitle = vtranslate('LBL_VIEW_DETAIL', $moduleName);
-		parent::preProcess($request, false);
+		return vtranslate('LBL_VIEW_DETAIL', $moduleName);
+	}
 
+	function preProcess(Vtiger_Request $request, $display = true)
+	{
+		parent::preProcess($request, false);
+		
+		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		if (!$this->record) {
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
@@ -202,6 +207,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
+
 	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
@@ -209,9 +215,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~/libraries/timelineJS3/css/timeline.css'
 		];
 		$cssFileNames = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($cssFileNames,$headerCssInstances);
+		$headerCssInstances = array_merge($cssFileNames, $headerCssInstances);
 		return $headerCssInstances;
 	}
+
 	function showDetailViewByMode($request)
 	{
 		$requestMode = $request->get('requestMode');
@@ -447,6 +454,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('TYPE_VIEW', "List");
 		return $viewer->view('CommentsList.tpl', $moduleName, 'true');
 	}
+
 	/**
 	 * Function send all the comments in thead
 	 * @param Vtiger_Request $request
@@ -460,13 +468,14 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId);
 		$currentCommentModel = ModComments_Record_Model::getInstanceById($commentRecordId);
-		
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
 		return $viewer->view('ShowThreadComments.tpl', $moduleName, 'true');
 	}
+
 	/**
 	 * Function sends all the comments for a parent(Accounts, Contacts etc)
 	 * @param Vtiger_Request $request
@@ -619,7 +628,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
-	
+
 		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			$favorites = array_intersect_key($models, $favorites);

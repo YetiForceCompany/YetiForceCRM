@@ -18,7 +18,6 @@ $languageStrings = [
 	'ILTI' => 'Top Invoices',
 	'LTFAQ' => 'My Recent FAQs',
 	'OLTPO' => 'Top Purchase Orders',
-	'OLTSO' => 'Top Sales Orders',
 	'PA' => 'Pending Activities',
 	'PLVT' => 'Top Opportunities',
 	'QLTQ' => 'Top Quotes',

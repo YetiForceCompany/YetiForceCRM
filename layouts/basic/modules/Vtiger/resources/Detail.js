@@ -1150,7 +1150,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					currentTdElement.progressIndicator();
 					editElement.addClass('hide');
 					var fieldNameValueMap = {};
-					if (fieldInfo.getType() == 'multipicklist' || fieldInfo.getType() == 'sharedOwner') {
+					if (fieldInfo.getType() == 'multipicklist' || fieldInfo.getType() == 'sharedOwner' || fieldInfo.getType() == 'taxes') {
 						var multiPicklistFieldName = fieldName.split('[]');
 						fieldName = multiPicklistFieldName[0];
 					}

@@ -35,14 +35,6 @@ class Services_Record_Model extends Products_Record_Model
 			'&sourceModule=' . $this->getModuleName() . '&sourceRecord=' . $this->getId() . '&relationOperation=true';
 	}
 
-	function getCreateSalesOrderUrl()
-	{
-		$salesOrderModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
-
-		return 'index.php?module=' . $salesOrderModuleModel->getName() . '&view=' . $salesOrderModuleModel->getEditViewName() . '&service_id=' . $this->getId() .
-			'&sourceModule=' . $this->getModuleName() . '&sourceRecord=' . $this->getId() . '&relationOperation=true';
-	}
-
 	/**
 	 * Function to get acive status of record
 	 */

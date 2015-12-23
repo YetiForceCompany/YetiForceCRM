@@ -11,9 +11,18 @@
 /** Classes to avoid logging */
 
 class LoggerManager {
+	protected static $loggerCache = false;
 	static function getlogger($name = 'ROOT') {
 		$configinfo = LoggerPropertyConfigurator::getInstance()->getConfigInfo($name);
-		return new Logger($name, $configinfo);
+		self::$loggerCache = new Logger($name, $configinfo);
+		return self::$loggerCache;
+	}
+	
+	static function getInstance() {
+		if (self::$loggerCache) {
+			return self::$loggerCache;
+		}
+		return LoggerManager::getLogger();
 	}
 }
 

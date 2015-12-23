@@ -41,7 +41,7 @@
 					<div class="col-md-6">
 						<div class="pull-right detailViewButtoncontainer">
 							<div class="btn-toolbar">
-								{if vglobal('isActiveSendingMails')}
+								{if AppConfig::main('isActiveSendingMails')}
 									<span class="btn-group">
 										{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
 										<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=replyAll{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">

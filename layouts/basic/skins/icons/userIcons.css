@@ -62,10 +62,10 @@
 .userIcon-Potentials:before {
 	content: "\e87c";
 }
-.userIcon-QuotesEnquires:before {
+.userIcon-SQuoteEnquiries:before {
 	content: "\e87d";
 }
-.userIcon-RequirementCards:before {
+.userIcon-SRequirementsCards:before {
 	content: "\e87e";
 }
 .userIcon-SCalculations:before {
@@ -74,7 +74,7 @@
 .userIcon-Quotes:before {
 	content: "\e880";
 }
-.userIcon-SalesOrder:before {
+.userIcon-SSingleOrders:before {
 	content: "\e881";
 }
 .userIcon-PurchaseOrder:before {

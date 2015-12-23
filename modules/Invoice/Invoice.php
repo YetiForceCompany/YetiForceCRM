@@ -45,7 +45,6 @@ class Invoice extends CRMEntity
 		//'Invoice No'=>Array('crmentity'=>'crmid'),
 		'Invoice No' => Array('invoice' => 'invoice_no'),
 		'Subject' => Array('invoice' => 'subject'),
-		'Sales Order' => Array('invoice' => 'salesorderid'),
 		'Status' => Array('invoice' => 'invoicestatus'),
 		'Total' => Array('invoice' => 'total'),
 		'Assigned To' => Array('crmentity' => 'smownerid')
@@ -53,7 +52,6 @@ class Invoice extends CRMEntity
 	var $list_fields_name = Array(
 		'Invoice No' => 'invoice_no',
 		'Subject' => 'subject',
-		'Sales Order' => 'salesorder_id',
 		'Status' => 'invoicestatus',
 		'Total' => 'hdnGrandTotal',
 		'Assigned To' => 'assigned_user_id'
@@ -82,7 +80,6 @@ class Invoice extends CRMEntity
 	//var $groupTable = Array('vtiger_invoicegrouprelation','invoiceid');
 
 	var $mandatory_fields = Array('subject', 'createdtime', 'modifiedtime', 'assigned_user_id');
-	var $_salesorderid;
 	var $_recurring_mode;
 	// For Alphabetical search
 	var $def_basicsearch_col = 'subject';
@@ -110,10 +107,7 @@ class Invoice extends CRMEntity
 		$updateInventoryProductRel_deduct_stock = true;
 
 		//in ajax save we should not call this function, because this will delete all the existing product values
-		if (isset($this->_recurring_mode) && $this->_recurring_mode == 'recurringinvoice_from_so' && isset($this->_salesorderid) && $this->_salesorderid != '') {
-			// We are getting called from the RecurringInvoice cron service!
-			$this->createRecurringInvoiceFromSO();
-		} else if (isset($_REQUEST)) {
+		if (isset($_REQUEST)) {
 			if ($_REQUEST['action'] != 'InvoiceAjax' && $_REQUEST['ajxaction'] != 'DETAILVIEW' && $_REQUEST['action'] != 'MassEditSave' && $_REQUEST['action'] != 'ProcessDuplicates' && $_REQUEST['action'] != 'SaveAjax' && $this->isLineItemUpdate != false && $_REQUEST['action'] != 'FROM_WS') {
 				//Based on the total Number of rows we will save the product relationship with this entity
 				saveInventoryProductDetails($this, 'Invoice');
@@ -222,15 +216,6 @@ class Invoice extends CRMEntity
 		return $return_data;
 	}
 
-	// Function to get column name - Overriding function of base class
-	function get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype = '')
-	{
-		if ($columname == 'salesorderid') {
-			if ($fldvalue == '')
-				return null;
-		}
-		return parent::get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype);
-	}
 	/*
 	 * Function to get the secondary query part of a report
 	 * @param - $module primary module name
@@ -263,9 +248,6 @@ class Invoice extends CRMEntity
 		}
 		if ($queryPlanner->requireTable("vtiger_currency_info$secmodule")) {
 			$query .= " left join vtiger_currency_info as vtiger_currency_info$secmodule on vtiger_currency_info$secmodule.id = vtiger_invoice.currency_id";
-		}
-		if ($queryPlanner->requireTable('vtiger_salesorderInvoice')) {
-			$query .= " left join vtiger_salesorder as vtiger_salesorderInvoice on vtiger_salesorderInvoice.salesorderid=vtiger_invoice.salesorderid";
 		}
 		if ($queryPlanner->requireTable('vtiger_invoiceaddress')) {
 			$query .= " left join vtiger_invoiceaddress on vtiger_invoice.invoiceid=vtiger_invoiceaddress.invoiceaddressid";
@@ -332,94 +314,8 @@ class Invoice extends CRMEntity
 
 		if ($return_module == 'Accounts' || $return_module == 'Contacts') {
 			$this->trash('Invoice', $id);
-		} elseif ($return_module == 'SalesOrder') {
-			$relation_query = 'UPDATE vtiger_invoice set salesorderid=? where invoiceid=?';
-			$this->db->pquery($relation_query, array(null, $id));
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id);
-		}
-	}
-	/*
-	 * Function to get the relations of salesorder to invoice for recurring invoice procedure
-	 * @param - $salesorder_id Salesorder ID
-	 */
-
-	function createRecurringInvoiceFromSO()
-	{
-		$adb = PearDatabase::getInstance();
-		$salesorder_id = $this->_salesorderid;
-		$query1 = "SELECT * FROM vtiger_inventoryproductrel WHERE id=?";
-		$res = $adb->pquery($query1, array($salesorder_id));
-		$no_of_products = $adb->num_rows($res);
-		$fieldsList = $adb->getFieldsArray($res);
-		$update_stock = array();
-		for ($j = 0; $j < $no_of_products; $j++) {
-			$row = $adb->query_result_rowdata($res, $j);
-			$col_value = array();
-			for ($k = 0; $k < count($fieldsList); $k++) {
-				if ($fieldsList[$k] != 'lineitem_id') {
-					$col_value[$fieldsList[$k]] = $row[$fieldsList[$k]];
-				}
-			}
-			if (count($col_value) > 0) {
-				$col_value['id'] = $this->id;
-				$columns = array_keys($col_value);
-				$values = array_values($col_value);
-				$query2 = "INSERT INTO vtiger_inventoryproductrel(" . implode(",", $columns) . ") VALUES (" . generateQuestionMarks($values) . ")";
-				$adb->pquery($query2, array($values));
-				$prod_id = $col_value['productid'];
-				$qty = $col_value['quantity'];
-				$update_stock[$col_value['sequence_no']] = $qty;
-				updateStk($prod_id, $qty, '', array(), 'Invoice');
-			}
-		}
-
-		$query1 = "SELECT * FROM vtiger_inventorysubproductrel WHERE id=?";
-		$res = $adb->pquery($query1, array($salesorder_id));
-		$no_of_products = $adb->num_rows($res);
-		$fieldsList = $adb->getFieldsArray($res);
-		for ($j = 0; $j < $no_of_products; $j++) {
-			$row = $adb->query_result_rowdata($res, $j);
-			$col_value = array();
-			for ($k = 0; $k < count($fieldsList); $k++) {
-				$col_value[$fieldsList[$k]] = $row[$fieldsList[$k]];
-			}
-			if (count($col_value) > 0) {
-				$col_value['id'] = $this->id;
-				$columns = array_keys($col_value);
-				$values = array_values($col_value);
-				$query2 = "INSERT INTO vtiger_inventorysubproductrel(" . implode(",", $columns) . ") VALUES (" . generateQuestionMarks($values) . ")";
-				$adb->pquery($query2, array($values));
-				$prod_id = $col_value['productid'];
-				$qty = $update_stock[$col_value['sequence_no']];
-				updateStk($prod_id, $qty, '', array(), 'Invoice');
-			}
-		}
-
-		//Update the netprice (subtotal), taxtype, discount, S&H charge and total for the Invoice
-
-		$updatequery = " UPDATE vtiger_invoice SET ";
-		$updateparams = array();
-		// Remaining column values to be updated -> column name to field name mapping
-		$invoice_column_field = Array(
-			'subtotal' => 'hdnSubTotal',
-			'total' => 'hdnGrandTotal',
-			'taxtype' => 'hdnTaxType',
-			'discount_percent' => 'hdnDiscountPercent',
-			'discount_amount' => 'hdnDiscountAmount',
-		);
-		$updatecols = array();
-		foreach ($invoice_column_field as $col => $field) {
-			$updatecols[] = "$col=?";
-			$updateparams[] = $this->column_fields[$field];
-		}
-		if (count($updatecols) > 0) {
-			$updatequery .= implode(",", $updatecols);
-
-			$updatequery .= " WHERE invoiceid=?";
-			array_push($updateparams, $this->id);
-
-			$adb->pquery($updatequery, $updateparams);
 		}
 	}
 
@@ -482,7 +378,6 @@ class Invoice extends CRMEntity
 		$query = "SELECT $fields_list FROM " . $this->entity_table . "
 				INNER JOIN vtiger_invoice ON vtiger_invoice.invoiceid = vtiger_crmentity.crmid
 				LEFT JOIN vtiger_invoicecf ON vtiger_invoicecf.invoiceid = vtiger_invoice.invoiceid
-				LEFT JOIN vtiger_salesorder ON vtiger_salesorder.salesorderid = vtiger_invoice.salesorderid
 				LEFT JOIN vtiger_invoiceaddress ON vtiger_invoiceaddress.invoiceaddressid = vtiger_invoice.invoiceid
 				LEFT JOIN vtiger_inventoryproductrel ON vtiger_inventoryproductrel.id = vtiger_invoice.invoiceid
 				LEFT JOIN vtiger_products ON vtiger_products.productid = vtiger_inventoryproductrel.productid

@@ -62,13 +62,6 @@ class Contacts_Module_Model extends Vtiger_Module_Model
                         WHERE deleted=0 AND vtiger_purchaseorder.purchaseorderid  = $parentId  AND label like '%$searchValue%'";
 
 			return $query;
-		} else if ($parentId && $parentModule == 'SalesOrder') {
-			$query = "SELECT * FROM vtiger_crmentity
-                        INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
-                        INNER JOIN vtiger_salesorder ON vtiger_salesorder.contactid = vtiger_contactdetails.contactid
-                        WHERE deleted=0 AND vtiger_salesorder.salesorderid  = $parentId  AND label like '%$searchValue%'";
-
-			return $query;
 		} else if ($parentId && $parentModule == 'Invoice') {
 			$query = "SELECT * FROM vtiger_crmentity
                         INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid

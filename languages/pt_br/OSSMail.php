@@ -112,7 +112,6 @@ $jsLanguageStrings = [
 	'Vendors' => 'Fornecedores',
 	'Quotes' => 'Cotações',
 	'PurchaseOrder' => 'Pedido Compra',
-	'SalesOrder' => 'Pedido Vendas',
 	'Invoice' => 'Fartura',
 	'Activities' => 'Atividades',
 	'HelpDesk' => 'Chamados',

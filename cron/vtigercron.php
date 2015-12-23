@@ -13,8 +13,8 @@ chdir(dirname(__FILE__) . '/../');
  */
 include_once 'include/Webservices/Relation.php';
 include_once 'include/main/WebUI.php';
-require_once('vtlib/Vtiger/Cron.php');
-require_once('modules/Emails/mail.php');
+require_once 'vtlib/Vtiger/Cron.php';
+require_once 'modules/Emails/mail.php';
 
 Vtiger_Session::init();
 $authenticatedUserId = Vtiger_Session::get('authenticated_user_id');
@@ -45,7 +45,7 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || (!empty($authenticatedUserI
 			// and affect the next task. Which need to be handled in this cycle.				
 			if ($cronTask->hadTimeout()) {
 				echo sprintf('%s | %s - Cron task had timedout as it was not completed last time it run' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
-				if (vglobal('unblockedTimeoutCronTasks')) {
+				if (AppConfig::main('unblockedTimeoutCronTasks')) {
 					$cronTask->unlockTask();
 				}
 			}
@@ -88,5 +88,5 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || (!empty($authenticatedUserI
 	}
 	echo sprintf('===============  %s | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
 } else {
-	echo("Access denied!");
+	echo('Access denied!');
 }

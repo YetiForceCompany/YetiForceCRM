@@ -133,26 +133,34 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->get('src_record');
 		$relatedModule = $request->get('related_module');
-		$toRemove = $request->get('toRemove');
-		$toAdd = $request->get('toAdd');
+		$recordsToRemove = $request->get('recordsToRemove');
+		$recordsToAdd = $request->get('recordsToAdd');
+		$categoryToAdd = $request->get('categoryToAdd');
+		$categoryToRemove = $request->get('categoryToRemove');
 		vglobal('currentModule', $sourceModule);
 
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 
-		if (!empty($toAdd)) {
-			foreach ($toAdd as $relatedRecordId) {
-				if (substr($relatedRecordId, 0, 1) != 'T') {
-					$relationModel->addRelation($sourceRecordId, $relatedRecordId);
-				}
+		if (!empty($recordsToAdd)) {
+			foreach ($recordsToAdd as $relatedRecordId) {
+				$relationModel->addRelation($sourceRecordId, $relatedRecordId);
 			}
 		}
-		if (!empty($toRemove)) {
-			foreach ($toRemove as $relatedRecordId) {
-				if (substr($relatedRecordId, 0, 1) != 'T') {
-					$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
-				}
+		if (!empty($recordsToRemove)) {
+			foreach ($recordsToRemove as $relatedRecordId) {
+				$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
+			}
+		}
+		if (!empty($categoryToAdd)) {
+			foreach ($categoryToAdd as $category) {
+				$relationModel->addCategory($sourceRecordId, $category);
+			}
+		}
+		if (!empty($categoryToRemove)) {
+			foreach ($categoryToRemove as $category) {
+				$relationModel->deleteCategory($sourceRecordId, $category);
 			}
 		}
 

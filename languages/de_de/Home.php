@@ -17,7 +17,6 @@ $languageStrings = [
 	'ILTI' => 'Top Rechnungen',
 	'LTFAQ' => 'Meine neuesten FAQs',
 	'OLTPO' => 'Top Bestellungen',
-	'OLTSO' => 'Top Kundenaufträge',
 	'PA' => 'Schwebende Aktivitäten',
 	'PLVT' => 'Top Chancen',
 	'QLTQ' => 'Top Angebote',

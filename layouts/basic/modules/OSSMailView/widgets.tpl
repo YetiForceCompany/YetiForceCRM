@@ -14,7 +14,7 @@
 						</button>
 					</div>
 					<div class="pull-right">
-						{if vglobal('isActiveSendingMails')}
+						{if AppConfig::main('isActiveSendingMails')}
 							<a title="{vtranslate('LBL_FORWARD','OSSMailView')}" onclick="window.open('index.php?module=OSSMail&view=compose&id={$ROW['id']}&type=forward{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-sm btn-default">
 								<span title="{vtranslate('LBL_FORWARD','OSSMailView')}" class="glyphicon glyphicon-share-alt"></span>
 							</a>

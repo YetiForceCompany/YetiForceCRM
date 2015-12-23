@@ -1707,9 +1707,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 	{
 		$data = array();
 		// Selected field = ( target field => source field )
-		$data['RequirementCards']['potentialid'] = ['Potentials' => ['accountid' => ['related_to']]];
 		$data['SRequirementsCards']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
-		$data['QuotesEnquires']['potentialid'] = ['Potentials' => ['accountid' => ['related_to']]];
 		$data['SCalculations']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
 		$data['SQuotes']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
 		$data['SQuotes']['accountid'] = ['Accounts' => ['company' => ['accountname']]];
@@ -1723,14 +1721,8 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$data['ProjectTask']['parentid'] = ['ProjectTask' => ['projectid' => ['projectid'], 'projectmilestoneid' => ['projectmilestoneid']]];
 		$data['Quotes']['potential_id'] = ['Potentials' => ['account_id' => ['related_to']]];
 		$data['Quotes']['contact_id'] = ['Contacts' => ['account_id' => ['parent_id']]];
-		$data['Quotes']['requirementcards_id'] = ['RequirementCards' => ['potential_id' => ['potentialid'], 'account_id' => ['accountid']]];
-		$data['SalesOrder']['potential_id'] = ['Potentials' => ['account_id' => ['related_to']]];
-		$data['SalesOrder']['quote_id'] = ['Quotes' => ['account_id' => ['account_id']]];
-		$data['SalesOrder']['contact_id'] = ['Contacts' => ['account_id' => ['parent_id']]];
 		$data['Invoice']['potentialid'] = ['Potentials' => ['account_id' => ['related_to']]];
-		$data['Invoice']['salesorder_id'] = ['SalesOrder' => ['account_id' => ['account_id']]];
 		$data['Invoice']['contact_id'] = ['Contacts' => ['account_id' => ['parent_id']]];
-		$data['Invoice']['salesorder_id'] = ['SalesOrder' => ['potentialid' => ['potential_id']]];
 		$data['HelpDesk']['projectid'] = ['Project' => ['parent_id' => ['linktoaccountscontacts']]];
 		$data['HelpDesk']['contact_id'] = ['Contacts' => ['parent_id' => ['parent_id']]];
 		$data['HelpDesk']['pssold_id'] = ['Assets' => ['product_id' => ['product', 'Products']], 'OSSSoldServices' => ['product_id' => ['serviceid', 'Services']]];

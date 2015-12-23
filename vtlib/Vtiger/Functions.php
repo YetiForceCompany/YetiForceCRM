@@ -424,33 +424,28 @@ class Vtiger_Functions
 		$adb = PearDatabase::getInstance();
 
 		if (!is_array($ids))
-			$ids = array($ids);
+			$ids = [$ids];
 
 		if ($module == 'Events') {
 			$module = 'Calendar';
 		}
 
 		if ($module) {
-			$entityDisplay = array();
+			$entityDisplay = [];
 
 			if ($ids) {
 
 				if ($module == 'Groups') {
-					$metainfo = array('tablename' => 'vtiger_groups', 'entityidfield' => 'groupid', 'fieldname' => 'groupname');
-					/* } else if ($module == 'DocumentFolders') { 
-					  $metainfo = array('tablename' => 'vtiger_attachmentsfolder','entityidfield' => 'folderid','fieldname' => 'foldername'); */
+					$metainfo = ['tablename' => 'vtiger_groups', 'entityidfield' => 'groupid', 'fieldname' => 'groupname'];
 				} else {
 					$metainfo = self::getEntityModuleInfo($module);
 				}
 
 				$table = $metainfo['tablename'];
 				$idcolumn = $metainfo['entityidfield'];
-				$columns_name = explode(',', $metainfo['fieldname']);
-				$columns_search = explode(',', $metainfo['searchcolumn']);
-				$columns = array_unique(array_merge($columns_name, $columns_search));
-
-				$sql = sprintf('SELECT ' . implode(',', array_filter($columns)) . ', %s AS id FROM %s WHERE %s IN (%s)', $idcolumn, $table, $idcolumn, generateQuestionMarks($ids));
-				$result = $adb->pquery($sql, $ids);
+				$columnsName = explode(',', $metainfo['fieldname']);
+				$columnsSearch = explode(',', $metainfo['searchcolumn']);
+				$columns = array_unique(array_merge($columnsName, $columnsSearch));
 
 				$moduleInfo = self::getModuleFieldInfos($module);
 				$moduleInfoExtend = [];
@@ -459,24 +454,41 @@ class Vtiger_Functions
 						$moduleInfoExtend[$fieldInfo['columnname']] = $fieldInfo;
 					}
 				}
+				$leftJoin = '';
+				$paramsCol = [];
+				$focus = CRMEntity::getInstance($module);
+				foreach (array_filter($columns) as $column) {
+					if (array_key_exists($column, $moduleInfoExtend)) {
+						$paramsCol[] = $column;
+						if ($moduleInfoExtend[$column]['tablename'] != $table) {
+							$otherTable = $moduleInfoExtend[$column]['tablename'];
+							$focusTables = $focus->tab_name_index;
+							$leftJoin .= ' LEFT JOIN ' . $otherTable . ' ON ' . $otherTable . '.' . $focusTables[$otherTable] . ' = ' . $table . '.' . $focusTables[$table];
+						}
+					}
+				}
+				$paramsCol[] = $idcolumn;
+				$sql = sprintf('SELECT ' . implode(',', $paramsCol) . ' AS id FROM %s ' . $leftJoin . ' WHERE %s IN (%s)', $table, $idcolumn, generateQuestionMarks($ids));
+				$result = $adb->pquery($sql, $ids);
+
 				for ($i = 0; $i < $adb->num_rows($result); $i++) {
 					$row = $adb->raw_query_result_rowdata($result, $i);
-					$label_name = array();
-					$label_search = array();
-					foreach ($columns_name as $columnName) {
-						if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], array(10, 51, 75, 81)))
+					$label_name = [];
+					$label_search = [];
+					foreach ($columnsName as $columnName) {
+						if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 75, 81]))
 							$label_name[] = Vtiger_Functions::getCRMRecordLabel($row[$columnName]);
 						else
 							$label_name[] = $row[$columnName];
 					}
 					if ($search) {
-						foreach ($columns_search as $columnName) {
-							if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], array(10, 51, 75, 81)))
+						foreach ($columnsSearch as $columnName) {
+							if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 75, 81]))
 								$label_search[] = Vtiger_Functions::getCRMRecordLabel($row[$columnName]);
 							else
 								$label_search[] = $row[$columnName];
 						}
-						$entityDisplay[$row['id']] = array('name' => implode(' ', $label_name), 'search' => implode(' ', $label_search));
+						$entityDisplay[$row['id']] = ['name' => implode(' ', $label_name), 'search' => implode(' ', $label_search)];
 					}else {
 						$entityDisplay[$row['id']] = trim(implode(' ', $label_name));
 					}
@@ -925,13 +937,7 @@ class Vtiger_Functions
 			//Purchase Order Related Fields
 			"vtiger_purchaseorder:vendorid" => "V",
 			"vtiger_purchaseorder:contactid" => "V",
-			//SalesOrder Related Fields
-			"vtiger_salesorder:potentialid" => "V",
-			"vtiger_salesorder:quoteid" => "V",
-			"vtiger_salesorder:contactid" => "V",
-			"vtiger_salesorder:accountid" => "V",
 			//Invoice Related Fields
-			"vtiger_invoice:salesorderid" => "V",
 			"vtiger_invoice:contactid" => "V",
 			"vtiger_invoice:accountid" => "V",
 			//Campaign Related Fields

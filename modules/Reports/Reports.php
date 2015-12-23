@@ -783,7 +783,7 @@ class Reports extends CRMEntity{
 		$log = vglobal('log');
 
 		$blockname = getBlockName($blockid);
-		if($blockname == 'LBL_RELATED_PRODUCTS' && ($module=='PurchaseOrder' || $module=='SalesOrder' || $module=='Quotes' || $module=='Invoice')){
+		if($blockname == 'LBL_RELATED_PRODUCTS' && ($module=='PurchaseOrder'|| $module=='Quotes' || $module=='Invoice')){
 			$fieldtablename = 'vtiger_inventoryproductrel';
 			$fields = array('productid'=>getTranslatedString('Product Name',$module),
 							'serviceid'=>getTranslatedString('Service Name',$module),
@@ -1328,11 +1328,8 @@ function getEscapedColumns($selectedfields)
 			case 21://Purchase Order
 				$ssql.= " and vtiger_field.fieldname not in ('contact_id','vendor_id','currency_id')";
 				break;
-			case 22://SalesOrder
-				$ssql.= " and vtiger_field.fieldname not in ('potential_id','account_id','contact_id','quote_id','currency_id')";
-				break;
 			case 23://Invoice
-				$ssql.= " and vtiger_field.fieldname not in ('salesorder_id','contact_id','account_id','currency_id')";
+				$ssql.= " and vtiger_field.fieldname not in ('contact_id','account_id','currency_id')";
 				break;
 			case 26://Campaigns
 				$ssql.= " and vtiger_field.fieldname not in ('product_id')";

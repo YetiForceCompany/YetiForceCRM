@@ -356,47 +356,12 @@ function getListQuery($module, $where = '')
 			$query .= getNonAdminAccessControlQuery($module, $current_user);
 			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
 			break;
-		Case "SalesOrder":
-			//Query modified to sort by assigned to
-			$query = "SELECT vtiger_crmentity.*,
-			vtiger_salesorder.*,
-			vtiger_salesorderaddress.*,
-			vtiger_quotes.subject AS quotename,
-			vtiger_account.accountname,
-			vtiger_currency_info.currency_name
-			FROM vtiger_salesorder
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid = vtiger_salesorder.salesorderid
-			INNER JOIN vtiger_salesorderaddress
-				ON vtiger_salesorder.salesorderid = vtiger_salesorderaddress.salesorderaddressid
-			LEFT JOIN vtiger_salesordercf
-				ON vtiger_salesordercf.salesorderid = vtiger_salesorder.salesorderid
-			LEFT JOIN vtiger_currency_info
-				ON vtiger_salesorder.currency_id = vtiger_currency_info.id
-			LEFT OUTER JOIN vtiger_quotes
-				ON vtiger_quotes.quoteid = vtiger_salesorder.quoteid
-			LEFT OUTER JOIN vtiger_account
-				ON vtiger_account.accountid = vtiger_salesorder.accountid
-			LEFT JOIN vtiger_contactdetails
-				ON vtiger_salesorder.contactid = vtiger_contactdetails.contactid
-			LEFT JOIN vtiger_potential
-				ON vtiger_potential.potentialid = vtiger_salesorder.potentialid
-			LEFT JOIN vtiger_invoice_recurring_info
-				ON vtiger_invoice_recurring_info.salesorderid = vtiger_salesorder.salesorderid
-			LEFT JOIN vtiger_groups
-				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
-			break;
 		Case "Invoice":
 			//Query modified to sort by assigned to
 			//query modified -Code contribute by Geoff(http://forums.vtiger.com/viewtopic.php?t=3376)
 			$query = "SELECT vtiger_crmentity.*,
 			vtiger_invoice.*,
 			vtiger_invoiceaddress.*,
-			vtiger_salesorder.subject AS salessubject,
 			vtiger_account.accountname,
 			vtiger_currency_info.currency_name
 			FROM vtiger_invoice
@@ -406,8 +371,6 @@ function getListQuery($module, $where = '')
 				ON vtiger_invoice.invoiceid = vtiger_invoiceaddress.invoiceaddressid
 			LEFT JOIN vtiger_currency_info
 				ON vtiger_invoice.currency_id = vtiger_currency_info.id
-			LEFT OUTER JOIN vtiger_salesorder
-				ON vtiger_salesorder.salesorderid = vtiger_invoice.salesorderid
 			LEFT OUTER JOIN vtiger_account
 			        ON vtiger_account.accountid = vtiger_invoice.accountid
 			LEFT JOIN vtiger_contactdetails

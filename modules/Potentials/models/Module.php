@@ -352,17 +352,13 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		
 		$QuoteId = array();
 		$sumAllTime = 0;
-		$SalesId = array();
 		$PotentialId = array();
-		$sales=array();
 		$quote=array();
 		$sql = "SELECT * FROM vtiger_crmentityrel WHERE crmid=$id ";
 		$resultSource = $db->query($sql, true);
 		$num = $db->num_rows( $resultSource );
 		for($i=0; $i<$num; $i++) { 
-			if($db->query_result( $resultSource, $i, 'relmodule' )=='SalesOrder'){
-				$sales[]=$db->query_result( $resultSource, $i, 'relcrmid' );
-			}elseif($db->query_result( $resultSource, $i, 'relmodule' )=='Quotes'){
+			if($db->query_result( $resultSource, $i, 'relmodule' )=='Quotes'){
 				$quote[]=$db->query_result( $resultSource, $i, 'relcrmid' );
 			}
 		}
@@ -372,7 +368,7 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		$q=0;
 		for($i=0; $i<$num; $i++) { 
 			$q=$i;
-			if(($db->query_result( $resultTC, $i, 'quoteid' ) == 0) && ($db->query_result( $resultTC, $i, 'potentialid' ) == $id) && ($db->query_result( $resultTC, $i, 'salesorderid' ) == 0)){
+			if(($db->query_result( $resultTC, $i, 'quoteid' ) == 0) && ($db->query_result( $resultTC, $i, 'potentialid' ) == $id)){
 				$PotentialId[] = $db->query_result( $resultTC, $i, 'osstimecontrolid' ) ;
 				$q++;
 			}
@@ -388,20 +384,9 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 					}
 				}
 			}
-
-			if($q==$i && ($db->query_result( $resultTC, $i, 'salesorderid' ) != 0) && ($db->query_result( $resultTC, $i, 'potentialid' ) == $id) ){
-						$SalesId[] = $db->query_result( $resultTC, $i, 'osstimecontrolid' ) ;
-			}
-			elseif($q==$i && $db->query_result( $resultTC, $i, 'salesorderid' ) != 0 && ($db->query_result( $resultTC, $i, 'potentialid' ) != $id)){
-				for($j=0; $j<count($sales); $j++) { 
-					if($db->query_result( $resultTC, $i, 'quoteid' ) == $sales[$j]){
-						$SalesId[] = $db->query_result( $resultTC, $i, 'osstimecontrolid' ) ;
-					}
-				}
-			}
 		
 		}
-		$Ids = array($QuoteId , $PotentialId , $SalesId);
+		$Ids = array($QuoteId , $PotentialId);
 
 		foreach($Ids as $module){
 			foreach ($module as $moduleId){
@@ -435,12 +420,10 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		$response = array();
 		$response[0][0] = $recordModel->get('sum_time');
 		$response[0][1] = vtranslate('Total time [h]', $this->getName());
-		$response[1][0] = $recordModel->get('sum_time_so');
-		$response[1][1] = vtranslate('Total time [Sales Order]', $this->getName());
-		$response[2][0] = $recordModel->get('sum_time_q');
-		$response[2][1] = vtranslate('Total time [Quotes]', $this->getName());
-		$response[3][0] = $recordModel->get('sum_time_all');
-		$response[3][1] = vtranslate('Total time [Sum]', $this->getName());
+		$response[1][0] = $recordModel->get('sum_time_q');
+		$response[1][1] = vtranslate('Total time [Quotes]', $this->getName());
+		$response[2][0] = $recordModel->get('sum_time_all');
+		$response[2][1] = vtranslate('Total time [Sum]', $this->getName());
 		return $response;
 	}
 	

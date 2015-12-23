@@ -1499,15 +1499,6 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 		where vtiger_crmentity.deleted=0 and accountid in (" . generateQuestionMarks($entity_ids_list) . ")";
 		$params = array($entity_ids_list);
 		$fields_list['Related To'] = 'entityid';
-	} else if ($module == 'SalesOrder') {
-		$query = "select distinct vtiger_salesorder.*,vtiger_crmentity.smownerid, vtiger_salesorder.accountid as entityid,
-		'Accounts' as setype
-		from vtiger_salesorder
-		left join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_salesorder.salesorderid
-		where vtiger_crmentity.deleted=0 and accountid in (" . generateQuestionMarks($entity_ids_list) . ")";
-		$params = array($entity_ids_list);
-
-		$fields_list['Related To'] = 'entityid';
 	} else if ($module == 'Documents') {
 		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE columnname = ? AND tablename = ?', ['folderid', 'vtiger_notes']);
 		$tree = $adb->query_result($result, 0, 'fieldparams');
@@ -1600,20 +1591,6 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 					$fieldvalue = $sym . $fieldvalue;
 				}
 			}
-			if ($module == 'SalesOrder') {
-				if ($fieldname == 'subject') {
-					$fieldid = $adb->query_result($res, $j, 'salesorderid');
-					$filename = $fieldid . '_SalesOrder.pdf';
-					$fieldvalue = '<a href="index.php?&module=SalesOrder&action=index&status=true&id=' . $fieldid . '">' . $fieldvalue . '</a>';
-				}
-				if (in_array($fieldname, $fieldValuesToRound)) {
-					$fieldvalue = round($fieldvalue, 2);
-				}
-				if ($fieldname == 'total') {
-					$sym = getCurrencySymbol($res, $j, 'currency_id');
-					$fieldvalue = $sym . $fieldvalue;
-				}
-			}
 			if ($module == 'Documents') {
 				if ($fieldname == 'title') {
 					$fieldid = $adb->query_result($res, $j, 'notesid');
@@ -1641,11 +1618,6 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 					$fieldvalue = Vtiger_Language_Handler::getTranslatedString($adb->query_result($res, $j, 'foldername'), $module, vglobal('default_language'));
 				}
 			}
-			if ($module == 'Invoice' && $fieldname == 'salesorderid') {
-				if ($fieldvalue != '')
-					$fieldvalue = get_salesorder_name($fieldvalue);
-			}
-
 			if ($module == 'Services') {
 				if ($fieldname == 'servicename') {
 					$fieldid = $adb->query_result($res, $j, 'serviceid');
@@ -1869,21 +1841,6 @@ function get_pdf($id, $block, $customerid, $sessionid)
 	return $filecontents;
 }
 
-/** 	function used to get the salesorder name
- * 	@param int $id -  id
- * 	return string $name - Salesorder name returned
- */
-function get_salesorder_name($id)
-{
-	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
-	$log->debug("Entering customer portal function get_salesorder_name");
-	$res = $adb->pquery(" select subject from vtiger_salesorder where salesorderid=?", array($id));
-	$name = $adb->query_result($res, 0, 'subject');
-	$log->debug("Exiting customer portal function get_salesorder_name");
-	return $name;
-}
-
 function get_inventory_products($id, $module, $customerid, $sessionid)
 {
 	require_once('include/utils/UserInfoUtil.php');
@@ -1955,7 +1912,7 @@ function get_invoice_detail($id, $module, $customerid, $sessionid)
 			//$fieldlabel = "(Download PDF)  ".$fieldlabel;
 			$fieldvalue = '<a href="index.php?downloadfile=true&module=Invoice&action=index&id=' . $fieldid . '">' . $fieldvalue . '</a>';
 		}
-		if ($fieldname == 'salesorderid' || $fieldname == 'contactid' || $fieldname == 'accountid' || $fieldname == 'potentialid') {
+		if ($fieldname == 'contactid' || $fieldname == 'accountid' || $fieldname == 'potentialid') {
 			$crmid = $fieldvalue;
 			$Entitymodule = getSalesEntityType($crmid);
 			if ($crmid != '' && $Entitymodule != '') {
@@ -2155,14 +2112,6 @@ function get_details($id, $module, $customerid, $sessionid)
 			LEFT JOIN vtiger_quotescf
 				ON vtiger_quotes.quoteid = vtiger_quotescf.quoteid
 			WHERE vtiger_quotes.quoteid=(" . generateQuestionMarks($id) . ") AND vtiger_crmentity.deleted = 0";
-	} else if ($module == 'SalesOrder') {
-		$query = "SELECT vtiger_salesorder.*,vtiger_crmentity.*,vtiger_salesorderaddress.*,
-			vtiger_salesordercf.* 
-			FROM vtiger_salesorder
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_salesorder.salesorderid
-			INNER JOIN vtiger_salesorderaddress ON vtiger_salesorder.salesorderid = vtiger_salesorderaddress.salesorderaddressid
-			LEFT JOIN vtiger_salesordercf ON vtiger_salesorder.salesorderid = vtiger_salesordercf.salesorderid
-			WHERE vtiger_salesorder.salesorderid=(" . generateQuestionMarks($id) . ") AND vtiger_crmentity.deleted = 0";
 	} else if ($module == 'Documents') {
 		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE columnname = ? AND tablename = ?', ['folderid', 'vtiger_notes']);
 		$tree = $adb->query_result($result, 0, 'fieldparams');
@@ -2534,18 +2483,6 @@ function check_permission($customerid, $module, $entityid)
 								WHERE vtiger_crmentity.deleted=0
 									AND (vtiger_quotes.accountid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . "))
 									AND vtiger_quotes.quoteid = ?";
-			$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $entityid));
-			if ($adb->num_rows($res) > 0) {
-				return true;
-			}
-			break;
-		case 'SalesOrder' :
-			$query = "SELECT vtiger_salesorder.salesorderid
-				FROM vtiger_salesorder
-				INNER JOIN vtiger_crmentity ON vtiger_salesorder.salesorderid = vtiger_crmentity.crmid
-				WHERE vtiger_crmentity.deleted=0
-					AND vtiger_salesorder.accountid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . ")
-					AND vtiger_salesorder.salesorderid = ?";
 			$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $entityid));
 			if ($adb->num_rows($res) > 0) {
 				return true;

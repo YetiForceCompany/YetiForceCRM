@@ -31,17 +31,17 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		}
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function getBreadcrumbTitle(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		if ($request->has('isDuplicate')) {
-			$this->pageTitle = vtranslate('LBL_VIEW_DUPLICATE', $moduleName);
+			$pageTitle = vtranslate('LBL_VIEW_DUPLICATE', $moduleName);
 		} elseif ($request->has('record')) {
-			$this->pageTitle = vtranslate('LBL_VIEW_EDIT', $moduleName);
+			$pageTitle = vtranslate('LBL_VIEW_EDIT', $moduleName);
 		} else {
-			$this->pageTitle = vtranslate('LBL_VIEW_CREATE', $moduleName);
+			$pageTitle = vtranslate('LBL_VIEW_CREATE', $moduleName);
 		}
-		parent::preProcess($request);
+		return $pageTitle;
 	}
 
 	public function process(Vtiger_Request $request)

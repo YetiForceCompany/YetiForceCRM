@@ -340,9 +340,6 @@ class CustomView extends CRMEntity
 			$module_columnlist['vtiger_activity:activitytype:activitytype:Calendar_Activity_Type:V'] = 'Activity Type';
 		}
 
-		if ($module == 'SalesOrder' && $block == 63)
-			$module_columnlist['vtiger_crmentity:crmid::SalesOrder_Order_No:I'] = $app_strings['Order No'];
-
 		if ($module == 'PurchaseOrder' && $block == 57)
 			$module_columnlist['vtiger_crmentity:crmid::PurchaseOrder_Order_No:I'] = $app_strings['Order No'];
 
@@ -1048,7 +1045,6 @@ class CustomView extends CRMEntity
 			"potentialid" => "vtiger_potential.potentialname",
 			"vtiger_account.parentid" => "vtiger_account2.accountname",
 			"quoteid" => "vtiger_quotes.subject",
-			"salesorderid" => "vtiger_salesorder.subject",
 			"campaignid" => "vtiger_campaign.campaignname",
 			"vtiger_contactdetails.reportsto" => getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails2.lastname', 'firstname' => 'vtiger_contactdetails2.firstname'), 'Contacts'),
 			"vtiger_pricebook.currency_id" => "vtiger_currency_info.currency_name",
@@ -1174,12 +1170,6 @@ class CustomView extends CRMEntity
 					$value .= ' vtiger_purchaseorder.subject IS NULL or ';
 				}
 				$value .= ' vtiger_purchaseorder.subject';
-			}
-			if ($modulename == 'SalesOrder') {
-				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
-					$value .= ' vtiger_salesorder.subject IS NULL or ';
-				}
-				$value .= ' vtiger_salesorder.subject';
 			}
 			if ($modulename == 'Quotes') {
 
@@ -1337,7 +1327,7 @@ class CustomView extends CRMEntity
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid " . $listviewquery;
 			} else if ($module == "Potentials" || $module == "Contacts") {
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_account.accountid " . $listviewquery;
-			} else if ($module == "Invoice" || $module == "SalesOrder" || $module == "Quotes") {
+			} else if ($module == "Invoice" || $module == "Quotes") {
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_contactdetails.contactid,vtiger_account.accountid " . $listviewquery;
 			} else if ($module == "PurchaseOrder") {
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_contactdetails.contactid " . $listviewquery;
@@ -1428,7 +1418,6 @@ class CustomView extends CRMEntity
 			getTabid('Faq') => array('LBL_COMMENT_INFORMATION'),
 			getTabid('Quotes') => array('LBL_RELATED_PRODUCTS'),
 			getTabid('PurchaseOrder') => array('LBL_RELATED_PRODUCTS'),
-			getTabid('SalesOrder') => array('LBL_RELATED_PRODUCTS'),
 			getTabid('Invoice') => array('LBL_RELATED_PRODUCTS')
 		);
 
