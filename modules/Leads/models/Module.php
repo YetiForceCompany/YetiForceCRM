@@ -177,16 +177,14 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	 * @param <array> $recordIdsList
 	 * @return <array> converted Info
 	 */
-	public static function getConvertedInfo($recordIdsList = array())
+	public static function getConvertedInfo($recordIdsList = [])
 	{
-		$convertedInfo = array();
+		$convertedInfo = [];
 		if ($recordIdsList) {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery("SELECT converted FROM vtiger_leaddetails WHERE leadid IN (" . generateQuestionMarks($recordIdsList) . ")", $recordIdsList);
-			$numOfRows = $db->num_rows($result);
-
-			for ($i = 0; $i < $numOfRows; $i++) {
-				$convertedInfo[$recordIdsList[$i]] = $db->query_result($result, $i, 'converted');
+			$result = $db->query('SELECT leadid,converted FROM vtiger_leaddetails WHERE leadid IN (' . implode(',',$recordIdsList) . ')');
+			while ($row = $db->getRow($result)) {
+				$convertedInfo[$row['leadid']] = $row['converted'];
 			}
 		}
 		return $convertedInfo;

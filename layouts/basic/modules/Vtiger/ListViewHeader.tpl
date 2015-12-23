@@ -13,7 +13,7 @@
 	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
-				<div class="btn-toolbar col-md-4 col-sm-5 col-xs-12">
+				<div class="btn-toolbar col-md-4 col-sm-6 col-xs-12">
 					<div class="btn-group">
 						{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
 							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -139,7 +139,7 @@
 						{/if}
 					</div>
 				</div>
-				<div class="col-md-5 btn-toolbar paddingRightZero">
+				<div class="col-xs-12 col-md-5 btn-toolbar paddingRightZero">
 					{include file='ListViewActions.tpl'|@vtemplate_path}
 				</div>
 				<span class="hide filterActionImages pull-right">

@@ -334,6 +334,20 @@ $languageStrings = [
 	'LBL_ENABLE_SHARING_RECORDS' => 'Włączenie dzielenia (udostępniania) rekordów',
 	'LBL_HREF_MAX_LEGTH' => 'Maksymalna długość dla tagu href',
 	//end config editor
+	// custom record numbering variables
+	'LBL_USE_POSTFIX' => 'Używaj postfiksu',
+	'LBL_USE_CUSTOME_VARIABLES' => 'Systemowe zmienne do budowania prefiksów',
+	'LBL_CUSTOME_VARIABLES' => 'Wybór zmiennej',
+	'LBL_COPY_CV' => 'Skopiuj zmienną',
+	'LBL_NO_PREFIX' => 'Brak prefiksu',
+	'LBL_NO_POSTFIX' => 'Brak postfiksu',
+	'LBL_CV_FULL_YEAR' => 'Pełny rok (np. 2015)',
+	'LBL_CV_FULL_MONTH' => 'Miesiąc (np. 01, 05, 12)',
+	'LBL_CV_FULL_DAY' => 'Dzień (np. 01, 05, 25)',
+	'LBL_CV_YEAR' => 'Rok (np. 15)',
+	'LBL_CV_MONTH' => 'Miesiąc (np. 1, 5, 12)',
+	'LBL_CV_DAY' => 'Dzień (np. 1, 5, 25)',
+	// end of custom record numbering variables
 ];
 
 $jsLanguageStrings = [

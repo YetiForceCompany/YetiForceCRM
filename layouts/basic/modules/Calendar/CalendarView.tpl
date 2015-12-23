@@ -32,7 +32,7 @@
 	.modIcon_{$MODULE->get('name')}{ background-image: url("{Yeti_Layout::getLayoutFile('skins/images/'|cat:$MODULE->get('name')|cat:'.png')}"); }
 {/foreach}
 </style>
-<div class="calendarViewContainer">
+<div class="calendarViewContainer rowContent col-md-9">
 	<div class="bottom_margin">
 		<div class="">
 			<p><!-- Divider --></p>

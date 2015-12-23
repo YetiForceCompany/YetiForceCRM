@@ -109,27 +109,10 @@ jQuery.Class("Vtiger_TreeRecords_Js", {}, {
 			thisInstance.getRecordsList();
 		});
 	},
-	registerShowHideRightPanelEvent: function (container) {
-		container.find('.toggleSiteBarRightButton').click(function (e) {
-			var siteBarRight = $(this).closest('.siteBarRight');
-			var content = $(this).closest('.row').find('.rowContent');
-			var buttonImage = $(this).find('.glyphicon');
-			if (siteBarRight.hasClass('hideSiteBar')) {
-				siteBarRight.removeClass('hideSiteBar');
-				content.removeClass('col-md-12').addClass('col-md-9');
-				buttonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
-			} else {
-				siteBarRight.addClass('hideSiteBar');
-				content.removeClass('col-md-9').addClass('col-md-12');
-				buttonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
-			}
-		});
-	},
 	registerEvents: function () {
 		var container = this.getContainer();
 		this.generateTree(container);
 		this.registerFilterChangeEvent(container);
 		this.registerSelectBrancheEvent(container);
-		this.registerShowHideRightPanelEvent(container);
 	}
 });

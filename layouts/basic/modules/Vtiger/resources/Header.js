@@ -755,6 +755,22 @@ jQuery.Class("Vtiger_Header_Js", {
 		var records = $('.customTableRWD').find('[data-toggle-visible=false]');
 		records.find('.footable-toggle').css("display", "none");
 	},
+	registerShowHideRightPanelEvent: function (container) {
+		container.find('.toggleSiteBarRightButton').click(function (e) {
+			var siteBarRight = $(this).closest('.siteBarRight');
+			var content = container.find('.rowContent');
+			var buttonImage = $(this).find('.glyphicon');
+			if (siteBarRight.hasClass('hideSiteBar')) {
+				siteBarRight.removeClass('hideSiteBar');
+				content.removeClass('col-md-12').addClass('col-md-9');
+				buttonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
+			} else {
+				siteBarRight.addClass('hideSiteBar');
+				content.removeClass('col-md-9').addClass('col-md-12');
+				buttonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
+			}
+		});
+	},
 	registerScrollForMenu: function() {
 		app.showScrollBar($(".slimScrollMenu"),
 		{
@@ -774,6 +790,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		thisInstance.recentPageViews();
 		thisInstance.registerFooTable(); //Enable footable
 		thisInstance.registerScrollForMenu();
+		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));
 		jQuery('.globalSearch').click(function () {
 			var currentTarget = $(this);
 			thisInstance.hideSearchMenu();

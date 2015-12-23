@@ -40,6 +40,7 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 					function(data){
 						if(data){
 							editViewForm.find('[name="prefix"]').val(data.result.prefix);
+							editViewForm.find('[name="postfix"]').val(data.result.postfix);
 							editViewForm.find('[name="sequenceNumber"]').val(data.result.sequenceNumber);
 							editViewForm.find('[name="sequenceNumber"]').data('oldSequenceNumber',data.result.sequenceNumber);
 						}
@@ -63,11 +64,14 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 		var prefix = editViewForm.find('[name="prefix"]');
 		var currentPrefix = jQuery.trim(prefix.val());
 		var oldPrefix = prefix.data('oldPrefix');
+		var postfix = editViewForm.find('[name="postfix"]');
+		var currentPostfix = jQuery.trim(postfix.val());
+		var oldPostfix = postfix.data('oldPostfix');
 		var sequenceNumberElement = editViewForm.find('[name="sequenceNumber"]');
 		var sequenceNumber = sequenceNumberElement.val();
 		var oldSequenceNumber = sequenceNumberElement.data('oldSequenceNumber');
 
-		if((sequenceNumber < oldSequenceNumber) && (currentPrefix == oldPrefix)){
+		if((sequenceNumber < oldSequenceNumber) && (currentPrefix == oldPrefix) && (currentPostfix == oldPostfix)){
 			var errorMessage = app.vtranslate('JS_SEQUENCE_NUMBER_MESSAGE')+" "+oldSequenceNumber;
 			sequenceNumberElement.validationEngine('showPrompt', errorMessage , 'error','topLeft',true);
 			return;
@@ -80,6 +84,7 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 			'mode' : "saveModuleCustomNumberingData",
 			'sourceModule' : sourceModule,
 			'prefix' : currentPrefix,
+			'postfix' : currentPostfix,
 			'sequenceNumber' : sequenceNumber
 		}
 		
@@ -150,7 +155,37 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 			jQuery('.saveButton').removeAttr('disabled');
 		})
 	},
-	
+
+	registerRelatedFieldsChangeEvent: function (form) {
+		var thisInstance = this;
+		form.find('[name="custom_variables"]').on('change', function () {
+			thisInstance.updateRelatedFieldsValue(form);
+		});
+	},
+
+	updateRelatedFieldsValue: function (container) {
+		var value = '{{' + container.find('[name="custom_variables"]').val() + '}}';
+		container.find('#customVariable').val(value);
+	},
+
+	registerCopyClipboard: function (element) {
+		var clip = new ZeroClipboard(
+				element, {
+					moviePath: "libraries/jquery/ZeroClipboard/ZeroClipboard.swf"
+				});
+
+		clip.on('complete', function (client, args) {
+			// notification about copy to clipboard
+			var params = {
+				text: app.vtranslate('LBL_NOTIFY_COPY_TEXT'),
+				animation: 'show',
+				title: app.vtranslate('LBL_NOTIFY_COPY_TITLE'),
+				type: 'success'
+			};
+			Vtiger_Helper_Js.showPnotify(params);
+		});
+	},
+
 	/**
 	 * Function to register events
 	 */
@@ -170,6 +205,9 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 		}
 		editViewForm.validationEngine('detach');
 		editViewForm.validationEngine('attach',params);
+		this.registerRelatedFieldsChangeEvent(editViewForm);
+		this.updateRelatedFieldsValue(editViewForm);
+		this.registerCopyClipboard(editViewForm.find('#customVariableCopy'));
 	}
 })
 jQuery(document).ready(function() {

@@ -28,7 +28,7 @@
 	{assign var = ALPHABETS_LABEL value = vtranslate('LBL_ALPHABETS', 'Vtiger')}
 	{assign var = ALPHABETS value = ','|explode:$ALPHABETS_LABEL}
 
-	<div class="alphabetSorting noprint pull-left col-xs-12 paddingLRZero">
+	<div class="alphabetSorting noprint paddingLRZero">
 		<div class="alphabetContents">
 			{foreach item=ALPHABET from=$ALPHABETS}
 				<div class="alphabetSearch cursorPointer">

@@ -1100,6 +1100,7 @@ $languageStrings = [
 	'LBL_REMOVE_FROM_FAVORITES' => 'Usuń z ulubionych',
 	'LBL_TIMELINE' => 'Oś czasu',
 	'LBL_TREE_VIEW' => 'Drzewo rekordów',
+	'LBL_DESELECT_ALL' => 'Odznacz wszystko'
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

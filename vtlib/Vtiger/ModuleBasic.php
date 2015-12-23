@@ -274,7 +274,6 @@ class Vtiger_ModuleBasic
 
 		if ($this->isentitytype) {
 			$this->deleteFromCRMEntity();
-			Vtiger_Access::deleteSharing($this);
 			Vtiger_Access::deleteTools($this);
 			Vtiger_Filter::deleteForModule($this);
 			Vtiger_Block::deleteForModule($this);

@@ -455,8 +455,9 @@ class CRMEntity
 			if ($uitype == 4 && $insertion_mode != 'edit') {
 				$fldvalue = '';
 				// Bulk Save Mode: Avoid generation of module sequence number, take care later.
-				if (!CRMEntity::isBulkSaveMode())
+				if (!CRMEntity::isBulkSaveMode()) {
 					$fldvalue = $this->setModuleSeqNumber("increment", $module);
+				}
 				$this->column_fields[$fieldname] = $fldvalue;
 			}
 			if (isset($this->column_fields[$fieldname])) {
@@ -1350,42 +1351,47 @@ class CRMEntity
 	}
 	/* Function to set the Sequence string and sequence number starting value */
 
-	function setModuleSeqNumber($mode, $module, $req_str = '', $req_no = '')
+	function setModuleSeqNumber($mode, $module, $req_str = '', $req_no = '', $reqPostfix = '')
 	{
 		$adb = PearDatabase::getInstance();
 		//when we configure the invoice number in Settings this will be used
-		if ($mode == "configure" && $req_no != '') {
-			$check = $adb->pquery("select cur_id from vtiger_modentity_num where semodule=? and prefix = ?", array($module, $req_str));
-			if ($adb->num_rows($check) == 0) {
-				$numid = $adb->getUniqueId("vtiger_modentity_num");
-				$active = $adb->pquery("select num_id from vtiger_modentity_num where semodule=? and active=1", array($module));
-				$adb->pquery("UPDATE vtiger_modentity_num SET active=0 where num_id=?", array($adb->query_result($active, 0, 'num_id')));
+		if ($mode == 'configure' && $req_no != '') {
+			$query = 'SELECT cur_id FROM vtiger_modentity_num WHERE semodule = ? AND prefix = ? AND postfix = ?;';
+			$check = $adb->pquery($query, [$module, $req_str, $reqPostfix]);
+			$numRows = $adb->num_rows($check);
+			if ($numRows == 0) {
+				$numid = $adb->getUniqueId('vtiger_modentity_num');
+				$active = $adb->pquery('SELECT num_id FROM vtiger_modentity_num WHERE semodule = ? AND active = 1;', [$module]);
+				$adb->pquery('UPDATE vtiger_modentity_num SET active = 0 WHERE num_id = ?;', [$adb->query_result($active, 0, 'num_id')]);
 
-				$adb->pquery("INSERT into vtiger_modentity_num values(?,?,?,?,?,?)", array($numid, $module, $req_str, $req_no, $req_no, 1));
+				$adb->pquery('INSERT INTO vtiger_modentity_num VALUES(?,?,?,?,?,?,?);', [$numid, $module, $req_str, $reqPostfix, $req_no, $req_no, 1]);
 				return true;
-			} else if ($adb->num_rows($check) != 0) {
+			} else if ($numRows != 0) {
 				$num_check = $adb->query_result($check, 0, 'cur_id');
 				if ($req_no < $num_check) {
 					return false;
 				} else {
-					$adb->pquery("UPDATE vtiger_modentity_num SET active=0 where active=1 and semodule=?", array($module));
-					$adb->pquery("UPDATE vtiger_modentity_num SET cur_id=?, active = 1 where prefix=? and semodule=?", array($req_no, $req_str, $module));
+					$adb->pquery('UPDATE vtiger_modentity_num SET active = 0 WHERE active = 1 AND semodule = ?;', [$module]);
+					$query = 'UPDATE vtiger_modentity_num SET cur_id = ?, active = 1 WHERE prefix = ? AND postfix = ? AND semodule = ?;';
+					$adb->pquery($query, [$req_no, $req_str, $reqPostfix, $module]);
 					return true;
 				}
 			}
 		} else if ($mode == "increment") {
 			//when we save new invoice we will increment the invoice id and write
-			$check = $adb->pquery("select cur_id,prefix from vtiger_modentity_num where semodule=? and active = 1", array($module));
+			$check = $adb->pquery('SELECT cur_id, prefix, postfix FROM vtiger_modentity_num WHERE semodule = ? AND active = 1;', [$module]);
 			$prefix = $adb->query_result($check, 0, 'prefix');
+			$postfix = $adb->query_result($check, 0, 'postfix');
 			$curid = $adb->query_result($check, 0, 'cur_id');
-			$prev_inv_no = $prefix . $curid;
+			$fullPrefix = Settings_Vtiger_CustomRecordNumberingModule_Model::parseNumberingVariables($prefix . $curid . $postfix);
 			$strip = strlen($curid) - strlen($curid + 1);
-			if ($strip < 0)
+			if ($strip < 0) {
 				$strip = 0;
-			$temp = str_repeat("0", $strip);
-			$req_no.= $temp . ($curid + 1);
-			$adb->pquery("UPDATE vtiger_modentity_num SET cur_id=? where cur_id=? and active=1 AND semodule=?", array($req_no, $curid, $module));
-			return decode_html($prev_inv_no);
+			}
+			$temp = str_repeat('0', $strip);
+			$req_no .= $temp . ($curid + 1);
+			$adb->pquery('UPDATE vtiger_modentity_num SET cur_id = ? WHERE cur_id = ? AND active = 1 AND semodule = ?;', [$req_no, $curid, $module]);
+			return decode_html($fullPrefix);
 		}
 	}
 
@@ -1406,10 +1412,11 @@ class CRMEntity
 	function getModuleSeqInfo($module)
 	{
 		$adb = PearDatabase::getInstance();
-		$check = $adb->pquery("select cur_id,prefix from vtiger_modentity_num where semodule=? and active = 1", array($module));
+		$check = $adb->pquery('SELECT cur_id, prefix, postfix FROM vtiger_modentity_num WHERE semodule = ? AND active = 1;', [$module]);
 		$prefix = $adb->query_result($check, 0, 'prefix');
 		$curid = $adb->query_result($check, 0, 'cur_id');
-		return array($prefix, $curid);
+		$postfix = $adb->query_result($check, 0, 'postfix');
+		return [$prefix, $curid, $postfix];
 	}
 
 	// END
@@ -1466,10 +1473,11 @@ class CRMEntity
 					$modseqinfo = $this->getModuleSeqInfo($module);
 					$prefix = $modseqinfo[0];
 					$cur_id = $modseqinfo[1];
+					$postfix = $modseqinfo[2];
 
 					$old_cur_id = $cur_id;
 					while ($recordinfo = $adb->fetch_array($records)) {
-						$value = "$prefix" . "$cur_id";
+						$value = $prefix . $cur_id . $postfix;
 						$adb->pquery("UPDATE $fld_table SET $fld_column = ? WHERE $this->table_index = ?", Array($value, $recordinfo['recordid']));
 						$cur_id += 1;
 						$returninfo['updatedrecords'] = $returninfo['updatedrecords'] + 1;

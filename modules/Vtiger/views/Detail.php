@@ -46,10 +46,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	function preProcess(Vtiger_Request $request, $display = true)
 	{
+		$moduleName = $request->getModule();
+		$this->pageTitle = vtranslate('LBL_VIEW_DETAIL', $moduleName);
 		parent::preProcess($request, false);
 
 		$recordId = $request->get('record');
-		$moduleName = $request->getModule();
 		if (!$this->record) {
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}

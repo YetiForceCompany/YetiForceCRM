@@ -24,10 +24,12 @@ class Vtiger_List_View extends Vtiger_Index_View
 
 	function preProcess(Vtiger_Request $request, $display = true)
 	{
+		$moduleName = $request->getModule();
+		$this->pageTitle = vtranslate('LBL_VIEW_LIST', $moduleName);
 		parent::preProcess($request, false);
 
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
+		
 		$mid = false;
 		if ($request->has('mid')) {
 			$mid = $request->get('mid');

@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -4636,6 +4637,7 @@ CREATE TABLE `vtiger_modentity_num` (
   `num_id` int(19) NOT NULL,
   `semodule` varchar(50) NOT NULL,
   `prefix` varchar(50) NOT NULL DEFAULT '',
+  `postfix` varchar(50) NOT NULL,
   `start_id` varchar(50) NOT NULL,
   `cur_id` varchar(50) NOT NULL,
   `active` varchar(2) NOT NULL,
