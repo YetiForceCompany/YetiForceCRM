@@ -55,6 +55,10 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 			thisInstance.jstreeInstance.jstree({
 				core: {
 					data: data,
+					themes: {
+						name: 'proton',
+						responsive: true
+					},
 					check_callback: true,
 				},
 				contextmenu: {
