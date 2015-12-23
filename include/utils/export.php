@@ -31,8 +31,6 @@ require_once('modules/Vendors/Vendors.php');
 require_once('include/utils/UserInfoUtil.php');
 require_once('modules/CustomView/CustomView.php');
 require_once 'modules/PickList/PickListUtils.php';
-require_once('modules/Invoice/Invoice.php');
-require_once('modules/PurchaseOrder/PurchaseOrder.php');
 
 // Set the current language and the language strings, if not already set.
 setCurrentLanguage();
@@ -157,12 +155,6 @@ function export($type)
 			array_push($params, $idstring);
 		} elseif ($type == 'Vendors' && count($idstring) > 0) {
 			$query .= ' and vtiger_vendor.vendorid in (' . generateQuestionMarks($idstring) . ')';
-			array_push($params, $idstring);
-		} elseif ($type == 'Invoice' && count($idstring) > 0) {
-			$query .= ' and vtiger_invoice.invoiceid in (' . generateQuestionMarks($idstring) . ')';
-			array_push($params, $idstring);
-		} elseif ($type == 'PurchaseOrder' && count($idstring) > 0) {
-			$query .= ' and vtiger_purchaseorder.purchaseorderid in (' . generateQuestionMarks($idstring) . ')';
 			array_push($params, $idstring);
 		} else if (count($idstring) > 0) {
 			// vtlib customization: Hook to make the export feature available for custom modules.

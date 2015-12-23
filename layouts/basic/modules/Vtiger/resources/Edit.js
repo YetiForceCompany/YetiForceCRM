@@ -744,12 +744,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var BlockIds = this.addressFieldsMappingBlockID;
 
 		from = BlockIds[fromLabel];
-		if (app.getModuleName() == 'Invoice') {
-			BlockIds = {
-				'LBL_ADDRESS_INFORMATION': 'a',
-				'LBL_ADDRESS_DELIVERY_INFORMATION': 'b'
-			};
-		}
 		if (reletedRecord === false || sourceModule === false)
 			from = BlockIds[fromLabel];
 		to = BlockIds[toLabel];

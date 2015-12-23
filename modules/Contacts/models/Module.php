@@ -55,20 +55,6 @@ class Contacts_Module_Model extends Vtiger_Module_Model
                         WHERE deleted=0 AND vtiger_vendorcontactrel.vendorid = $parentId AND label like '%$searchValue%'";
 
 			return $query;
-		} else if ($parentId && $parentModule == 'PurchaseOrder') {
-			$query = "SELECT * FROM vtiger_crmentity
-                        INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
-                        INNER JOIN vtiger_purchaseorder ON vtiger_purchaseorder.contactid = vtiger_contactdetails.contactid
-                        WHERE deleted=0 AND vtiger_purchaseorder.purchaseorderid  = $parentId  AND label like '%$searchValue%'";
-
-			return $query;
-		} else if ($parentId && $parentModule == 'Invoice') {
-			$query = "SELECT * FROM vtiger_crmentity
-                        INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
-                        INNER JOIN vtiger_invoice ON vtiger_invoice.contactid = vtiger_contactdetails.contactid
-                        WHERE deleted=0 AND vtiger_invoice.invoiceid  = $parentId  AND label like '%$searchValue%'";
-
-			return $query;
 		}
 
 		return parent::getSearchRecordsQuery($parentId, $parentModule);

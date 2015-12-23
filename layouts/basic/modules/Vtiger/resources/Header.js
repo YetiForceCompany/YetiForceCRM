@@ -244,7 +244,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	getNearCalendarEvent: function (data, module) {
 		var thisInstance = this;
-		typeActive = data.find('ul li.active a').data('tab-name');
+		var typeActive = data.find('ul li.active a').data('tab-name');
 		var user = data.find('[name="assigned_user_id"]');
 		var dateStartEl = data.find('[name="date_start"]');
 		var dateStartVal = dateStartEl.val();
@@ -263,17 +263,18 @@ jQuery.Class("Vtiger_Header_Js", {
 			mode: 'getEvents',
 			start: validDateFromat,
 			end: dateEnd,
-			user: user.val()
+			user: user.val(),
+			time: 'current'
 		}
 		AppConnector.request(params).then(function (events) {
 			if (typeof events.result != 'undefined' && events.result.length > 0) {
 				events = events.result;
 				data.find('.modal-body').css({'max-height': '500px', 'overflow-y': 'auto'});
 				for (var ev in events) {
-					icon = 'glyphicon glyphicon-calendar';
-					linkHtml = '';
-					hidden = '';
-					helpIcon = ''
+					var icon = 'glyphicon glyphicon-calendar';
+					var linkHtml = '';
+					var hidden = '';
+					var helpIcon = ''
 					if (events[ev]['set'] == 'Task') {
 						icon = 'icon-tasks';
 					}

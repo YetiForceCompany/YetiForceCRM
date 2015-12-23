@@ -134,19 +134,6 @@ class PaymentsIn extends Vtiger_CRMEntity {
 				$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')",'','',array('path'=>'modules/ModTracker/ModTracker.php','class'=>'ModTracker','method'=>'isViewPermitted'));
 			}
 			vimport('~~vtlib/Vtiger/Module.php');
-			$moduleInstance = Vtiger_Module::getInstance('Invoice');
-			$blockInstance = Vtiger_Block::getInstance('LBL_INVOICE_INFORMATION',$moduleInstance);
-			$fieldInstance = new Vtiger_Field();
-			$fieldInstance->name = 'payment_balance';
-			$fieldInstance->table = 'vtiger_invoice';
-			$fieldInstance->label = 'Payment balance';
-			$fieldInstance->column = 'payment_balance';
-			$fieldInstance->columntype = 'decimal(25,8)';
-			$fieldInstance->uitype = 7;
-			$fieldInstance->typeofdata = 'NN~O';
-			$fieldInstance->displaytype = 2;
-			$blockInstance->addField($fieldInstance);
-
 			$moduleInstance = Vtiger_Module::getInstance('Accounts');
 			$blockInstance = Vtiger_Block::getInstance('LBL_ACCOUNT_INFORMATION',$moduleInstance);
 			$fieldInstance = new Vtiger_Field();
@@ -174,7 +161,6 @@ class PaymentsIn extends Vtiger_CRMEntity {
 			$blockInstance->addField($fieldInstance);
 
 			$this->addWorkflow($modulename);
-			$this->addWorkflow('Invoice');
 		} else if($event_type == 'module.disabled') {
 			// TODO Handle actions when this module is disabled.
 		} else if($event_type == 'module.enabled') {

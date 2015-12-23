@@ -26,23 +26,7 @@
 <input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
 
-{assign var = ALPHABETS_LABEL value = vtranslate('LBL_ALPHABETS', 'Vtiger')}
-{assign var = ALPHABETS value = ','|explode:$ALPHABETS_LABEL}
-
-<div class="alphabetSorting noprint paddingLRZero">
-	<div class="alphabetContents">
-		{foreach item=ALPHABET from=$ALPHABETS}
-			<div class="alphabetSearch cursorPointer">
-				<a class="btn {if $ALPHABET_VALUE eq $ALPHABET}btn-primary{else}btn-default{/if}" id="{$ALPHABET}" href="#">{$ALPHABET}</a>
-			</div>
-		{/foreach}
-		<div class="alphabetSearch cursorPointer">
-			<a class="btn btn-default " href="index.php?view=List&module={$MODULE}" >
-				<span class="glyphicon glyphicon-remove"></span>
-			</a>
-		</div>
-	</div>
-</div>
+{include file=vtemplate_path('ListViewAlphabet.tpl',$MODULE)}
 <div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
 	<strong><a id="selectAllMsg">{vtranslate('LBL_SELECT_ALL',$MODULE)}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 </div>

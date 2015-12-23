@@ -11,10 +11,7 @@
 		</div>
 	</div>
 	<div id="treePopupContainer" class="modal-body col-md-12">
-		<input type="hidden" name="related_module" value="{$MODULE}" />
-		<input type="hidden" name="src_record" value="{$SRC_RECORD}" />
-		<input type="hidden" name="src_module" value="{$SRC_MODULE}" />
-		<input type="hidden" name="template" value="{$TEMPLATE}" />
+		<input type="hidden" id="related_module" value="{$MODULE}" />
 		<input type="hidden" name="tree" id="treePopupValues" value="{Vtiger_Util_Helper::toSafeHTML($TREE)}" />
 		{if count($TREE) != 0}
 			<div class="col-md-12 marginBottom10px">

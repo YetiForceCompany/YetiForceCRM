@@ -97,7 +97,7 @@
 									{/foreach}
 									</tr>
 								</table>
-								<div class="row" style="margin-top: 5px;">
+								<div class="row no-margin" style="margin-top: 5px;">
 									<div class="col-md-4" id="prev_events">
 										<table class="table">
 											<tr><th>{vtranslate('TASK_PREV', $MODULE)}</th></tr>

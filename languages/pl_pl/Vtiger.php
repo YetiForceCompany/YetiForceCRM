@@ -10,7 +10,6 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'OSSCosts' => 'Koszty',
 	'GlobalPermission' => 'Uprawnienia globalne',
 	'LBL_SEND_EMAIL' => 'Wyślij maila',
 	'--None--' => '--Brak--',
@@ -561,8 +560,6 @@ $languageStrings = [
 	'ProjectTask' => 'Zadania projektów',
 	'Public Relations' => 'Public Relations',
 	'Public' => 'Publiczne',
-	'Purchase Order' => 'Zamówienia do dostawcy',
-	'PurchaseOrder' => 'Zamówienia do dostawców',
 	'Quantity' => 'Ilość',
 	'Quotes' => 'Oferty',
 	'Rating' => 'Ocena',
@@ -1097,6 +1094,10 @@ $languageStrings = [
 	'LBL_TREE_VIEW' => 'Drzewo rekordów',
 	'LBL_DESELECT_ALL' => 'Odznacz wszystko',
 	'LBL_INFO_REFRESH' => 'Wprowadzono zmiany',
+	'LBL_RELATION_CREATED_TIME' => 'Czas utworzenia',
+	'LBL_RELATION_CREATED_USER' => 'Utworzył użytkownik',
+	'LBL_ALPABETIC_FILTERING' => "Filtrowanie alfabetyczne",
+	'LBL_REMOVE FILTERING' => "Wyczyść filtrowanie",
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

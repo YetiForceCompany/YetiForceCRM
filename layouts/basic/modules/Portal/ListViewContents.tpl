@@ -23,23 +23,6 @@
         <input type="hidden" id="nextPageExist" value="{$PAGING_INFO['nextPageExists']}" />
         <input type="hidden" id="pageLimit" value="{$PAGING_INFO['pageLimit']}" />
         <input type="hidden" id="noOfEntries" value="{$PAGING_INFO['recordCount']}" />
-        {assign var = ALPHABETS_LABEL value = vtranslate('LBL_ALPHABETS', 'Vtiger')}
-        {assign var = ALPHABETS value = ','|explode:$ALPHABETS_LABEL}
-
-		<div class="alphabetSorting paddingLRZero">
-			<div class="alphabetContents">
-				{foreach item=ALPHABET from=$ALPHABETS}
-					<div class="alphabetSearch cursorPointer">
-						<a class="btn {if $ALPHABET_VALUE eq $ALPHABET}btn-primary{else}btn-default{/if}" id="{$ALPHABET}" href="#">{$ALPHABET}</a>
-					</div>
-				{/foreach}
-				<div class="alphabetSearch cursorPointer">
-					<a class="btn btn-default " href="index.php?view=List&module={$MODULE}" >
-						<span class="glyphicon glyphicon-remove"></span>
-					</a>
-				</div>
-			</div>
-		</div>
         <div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
             <strong><a id="selectAllMsg">{vtranslate('LBL_SELECT_ALL',$MODULE)}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
         </div>

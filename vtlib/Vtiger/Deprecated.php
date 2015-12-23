@@ -329,18 +329,17 @@ class Vtiger_Deprecated
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
-			$log = vglobal('log');
+			$log = LoggerManager::getInstance();
 			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			die(Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '" . $realfilepath . "'"));
+			throw new AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
 
 	/** Function to check the file deletion within the deletable (safe) directories */
 	static function checkFileAccessForDeletion($filepath)
 	{
-		$root_directory = vglobal('root_directory');
 		// Set the base directory to compare with
-		$use_root_directory = $root_directory;
+		$use_root_directory = AppConfig::main('root_directory');
 		if (empty($use_root_directory)) {
 			$use_root_directory = realpath(dirname(__FILE__) . '/../../.');
 		}
@@ -361,9 +360,9 @@ class Vtiger_Deprecated
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || !in_array($filePathParts[0], $safeDirectories)) {
-			$log = vglobal('log');
+			$log = LoggerManager::getInstance();
 			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			die(Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '" . $realfilepath . "'"));
+			throw new AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
 
@@ -373,7 +372,7 @@ class Vtiger_Deprecated
 		if (!self::isFileAccessible($filepath)) {
 			$log = vglobal('log');
 			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			die(Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '" . htmlspecialchars($realfilepath, ENT_QUOTES, vglobal('default_charset')) . "'"));
+			throw new AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
 
@@ -386,9 +385,8 @@ class Vtiger_Deprecated
 	 */
 	static function isFileAccessible($filepath)
 	{
-		$root_directory = vglobal('root_directory');
 		// Set the base directory to compare with
-		$use_root_directory = $root_directory;
+		$use_root_directory = AppConfig::main('root_directory');
 		if (empty($use_root_directory)) {
 			$use_root_directory = realpath(dirname(__FILE__) . '/../../.');
 		}
@@ -437,21 +435,10 @@ class Vtiger_Deprecated
 		$sqlString = "CONCAT(" . $formattedNameListString . ")";
 		return $sqlString;
 	}
-
+// TODO Remove when there are no modules with the old products block.
 	static function getModuleSequenceNumber($module, $recordId)
 	{
-		$adb = PearDatabase::getInstance();
-		switch ($module) {
-			case "Invoice":
-				$res = $adb->query("SELECT invoice_no FROM vtiger_invoice WHERE invoiceid = $recordId");
-				$moduleSeqNo = $adb->query_result($res, 0, 'invoice_no');
-				break;
-			case "PurchaseOrder":
-				$res = $adb->query("SELECT purchaseorder_no FROM vtiger_purchaseorder WHERE purchaseorderid = $recordId");
-				$moduleSeqNo = $adb->query_result($res, 0, 'purchaseorder_no');
-				break;
-		}
-		return $moduleSeqNo;
+		return '';
 	}
 
 	static function getModuleFieldTypeOfDataInfos($tables, $tabid = '')

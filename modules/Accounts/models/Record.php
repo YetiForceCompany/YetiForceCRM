@@ -79,15 +79,5 @@ class Accounts_Record_Model extends Vtiger_Record_Model {
 			array('parentField'=>'addresslevel8c', 'inventoryField'=>'addresslevel8b', 'defaultValue'=>''),
 		);
 	}
-	
-	public function recalculateAccounts($AccountsID) {
-		if($AccountsID == NULL){return false;}
-		$InvoiceStatus = 'Cancel';
-		$db = PearDatabase::getInstance(); 
-		$sql = "UPDATE vtiger_account, (SELECT SUM(total) as total FROM vtiger_invoice INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_invoice.invoiceid WHERE deleted = 0 AND invoicestatus <> ? AND accountid = ?) invoices SET
-			vtiger_account.sum_invoices = invoices.total
-			WHERE vtiger_account.accountid = ?;";
-		$db->pquery( $sql, 	array($InvoiceStatus, $AccountsID, $AccountsID), true );
-	}
 
 }

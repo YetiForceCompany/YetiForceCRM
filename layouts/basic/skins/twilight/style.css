@@ -545,15 +545,33 @@ li.ui-timepicker-selected,
 #relatedTabOrder .select2-input {
 	min-width: 200px;
 }
+.alphabetSearch a{
+	width:45px;
+}
 .alphabetSearch {
 	display: inline-block;
+	margin: 2px;
+}
+.alphabetSorting a{
+	font-size:18px;
+	font-weight:bold;
 }
 .alphabetSorting{
 	text-align: center;
+	
 }
-.alphabetSorting .alphabetContents{
+.alphabetContents{
 	padding:0;
 	margin: 0 auto;
+}
+.alphabet_30{
+	width: 490px;
+}
+.alphabet_28{
+	width: 490px;
+}
+.alphabet_26{
+	width: 489px;
 }
 .listViewActions .settingsIcon {
 	display: inline-block;
@@ -3919,7 +3937,8 @@ html,body,.baseContainer
 	text-align: right;
 }
 .iconContainer{
-	height:45px;
+	padding-top:2px;
+	height:30px;
 	min-width: 40px;
 	display: table;
 }
@@ -3928,8 +3947,8 @@ html,body,.baseContainer
 	vertical-align: middle;
 }
 .labelConstainer{
-	height:45px;
-	display: table;   
+	height:30px;
+	display: table;
 	width: 145px;
 }
 .labelConstainer .labelValue{
@@ -4166,9 +4185,7 @@ html,body,.baseContainer
 	.widget_header .btn-toolbar{
 		margin-bottom: 5px;
 	}
-	.modal-header .pull-right{
-		float: left !important;
-	}
+	
 	.listViewActionsDiv .pull-right{
 		float: left !important;
 	}
@@ -4220,7 +4237,6 @@ html,body,.baseContainer
 	.siteBarRight{
 		width: 100%;
 		padding: 0;
-		border-left: 1px solid #dddddd;
 		position: relative;
 		-webkit-transition: all 0.5s ease;
 		-moz-transition: all 0.5s ease;
@@ -4502,6 +4518,12 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 767px) {
+	.alphabet_30{
+		width: 340px;
+	}
+	.alphabet_28{
+		width: 390px;
+	}
 	.pull-right-xs{
 		float: right; 
 	}
@@ -4575,6 +4597,15 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 480px){
+	.alphabet_30{
+		width: 245px;
+	}
+	.alphabet_28{
+		width: 200px;
+	}
+	.alphabet_26{
+		width: 295px;
+	}
 	.leftHeader{
 		display: none;
 	}
@@ -4637,6 +4668,9 @@ html,body,.baseContainer
 }
 .marginTop10{
 	margin-top: 10px !important;
+}
+.marginTop20{
+	margin-top: 20px !important;
 }
 .related .nav .relatedNav,
 .related .nav .dropdown {
@@ -4757,4 +4791,7 @@ html,body,.baseContainer
 }
 .widgetContainer select[multiple]{
 	height: 0px;
+}
+.alphabetBtnContainer{
+	width: auto;
 }

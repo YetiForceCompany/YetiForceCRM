@@ -753,6 +753,7 @@ jQuery.Class("Vtiger_List_Js", {
 						// Let listeners know about page state change.
 						app.notifyPostAjaxReady();
 					});
+					thisInstance.registerAlphabetClick();
 				},
 				function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
@@ -1868,10 +1869,17 @@ jQuery.Class("Vtiger_List_Js", {
 			elements.attr('class', widthType);
 		}
 	},
+	registerAlphabetClick: function() {
+		var thisInstance = this;
+		$('.alphabetBtn').click(function() {
+			app.showModalWindow($('.alphabetModal').html());
+			thisInstance.registerEventForAlphabetSearch();
+		});
+	},
 	registerEventForAlphabetSearch: function () {
 		var thisInstance = this;
-		var listViewPageDiv = this.getListViewContentContainer();
-		listViewPageDiv.on('click', '.alphabetSearch', function (e) {
+		var listViewPageDiv = $('#globalmodal');
+		listViewPageDiv.find('.alphabetSearch').on('click',  function (e) {
 			var alphabet = jQuery(e.currentTarget).find('a').text();
 			var cvId = thisInstance.getCurrentCvId();
 			var AlphabetSearchKey = thisInstance.getAlphabetSearchField();
@@ -1896,6 +1904,7 @@ jQuery.Class("Vtiger_List_Js", {
 					function (textStatus, errorThrown) {
 					}
 			);
+			app.hideModalWindow($('.alphabetModal'));
 		});
 	},
 	updatePaginationOnAlphabetChange: function (alphabet, AlphabetSearchKey) {
@@ -1962,8 +1971,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerDeleteRecordClickEvent();
 		this.registerHeadersClickEvent();
 		this.registerMassActionSubmitEvent();
-		this.registerEventForAlphabetSearch();
-
+		this.registerAlphabetClick();
 		this.changeCustomFilterElementView();
 		this.registerChangeCustomFilterEvent();
 		this.registerDuplicateFilterClickEvent();

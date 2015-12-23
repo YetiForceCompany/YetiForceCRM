@@ -543,7 +543,7 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 		var chartData = [];
 		for (var index in data) {
 			var row = data[index];
-			var rowData = [row.last_name, parseFloat(row.sum_invoices), row.id];
+			var rowData = [row.last_name, row.id];
 			chartData.push(rowData);
 		}
 		return {'chartData': chartData};

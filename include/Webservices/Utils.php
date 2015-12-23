@@ -641,17 +641,22 @@ function vtws_getRelatedNotesAttachments($id, $relatedId)
  */
 function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
 {
-	$adb = PearDatabase::getInstance();
-
-	$result = $adb->pquery("select * from vtiger_seproductsrel where crmid=?", array($leadId));
-	if ($result === false) {
+	$db = PearDatabase::getInstance();
+	$currentUser = Users_Record_Model::getCurrentUserModel();
+	
+	$result = $db->pquery('select productid from vtiger_seproductsrel where crmid=?', [$leadId]);
+	if ($db->getRowCount($result) == 0) {
 		return false;
 	}
-	$rowCount = $adb->num_rows($result);
-	for ($i = 0; $i < $rowCount; ++$i) {
-		$productId = $adb->query_result($result, $i, 'productid');
-		$resultNew = $adb->pquery("insert into vtiger_seproductsrel values(?,?,?)", array($relatedId, $productId, $setype));
-		if ($resultNew === false) {
+	while ($productId = $db->getSingleValue($result)) {
+		$resultNew = $db->insert('vtiger_seproductsrel', [
+			'crmid' => $relatedId,
+			'productid' => $productId,
+			'setype' => $setype,
+			'rel_created_user' => $currentUser->getId(),
+			'rel_created_time' => date('Y-m-d H:i:s')
+		]);
+		if ($resultNew['rowCount'] == 0) {
 			return false;
 		}
 	}
@@ -665,35 +670,38 @@ function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
  */
 function vtws_saveLeadRelations($leadId, $relatedId, $setype)
 {
-	$adb = PearDatabase::getInstance();
+	$db = PearDatabase::getInstance();
 
-	$result = $adb->pquery("select * from vtiger_crmentityrel where crmid=?", array($leadId));
-	if ($result === false) {
+	$result = $db->pquery("select * from vtiger_crmentityrel where crmid=?", [$leadId]);
+	if ($db->getRowCount($result) == 0) {
 		return false;
 	}
-	$rowCount = $adb->num_rows($result);
-	for ($i = 0; $i < $rowCount; ++$i) {
-		$recordId = $adb->query_result($result, $i, 'relcrmid');
-		$recordModule = $adb->query_result($result, $i, 'relmodule');
-		$adb->pquery("insert into vtiger_crmentityrel values(?,?,?,?)", array($relatedId, $setype, $recordId, $recordModule));
-		if ($resultNew === false) {
+	while ($row = $db->getRow($result)) {
+		$resultNew = $db->insert('vtiger_crmentityrel', [
+			'crmid' => $relatedId,
+			'module' => $setype,
+			'relcrmid' => $row['relcrmid'],
+			'relmodule' => $row['relmodule']
+		]);
+		if ($resultNew['rowCount'] == 0) {
 			return false;
 		}
 	}
-	$result = $adb->pquery("select * from vtiger_crmentityrel where relcrmid=?", array($leadId));
-	if ($result === false) {
+	$result = $db->pquery("select * from vtiger_crmentityrel where relcrmid=?", [$leadId]);
+	if ($db->getRowCount($result) == 0) {
 		return false;
 	}
-	$rowCount = $adb->num_rows($result);
-	for ($i = 0; $i < $rowCount; ++$i) {
-		$recordId = $adb->query_result($result, $i, 'crmid');
-		$recordModule = $adb->query_result($result, $i, 'module');
-		$adb->pquery("insert into vtiger_crmentityrel values(?,?,?,?)", array($relatedId, $setype, $recordId, $recordModule));
-		if ($resultNew === false) {
+	while ($row = $db->getRow($result)) {
+		$resultNew = $db->insert('vtiger_crmentityrel', [
+			'crmid' => $relatedId,
+			'module' => $setype,
+			'relcrmid' => $row['crmid'],
+			'relmodule' => $row['module']
+		]);
+		if ($resultNew['rowCount'] == 0) {
 			return false;
 		}
 	}
-
 	return true;
 }
 

@@ -646,6 +646,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relatedModuleModel);
 		$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
+		$viewer->assign('RELATED_RECORDS_CREATOR_DETAIL', $relationModel->get('creator_detail'));
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 

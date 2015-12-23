@@ -101,14 +101,12 @@
 			    (+)&nbsp;<strong><a href="javascript:void(0)" class="individualTax inventoryLineItemDetails" data-info='{$INDIVIDUAL_TAX_INFO}'>{vtranslate('LBL_TAX',$MODULE_NAME)} </a> : </strong>
 			</div>
 		    {/if}
-			{if $MODULE_NAME neq 'OSSCosts' and $MODULE_NAME neq 'PurchaseOrder'}
 				{vtranslate('LBL_PURCHASE',$MODULE)}:<br />
 				{$LINE_ITEM_DETAIL["purchase$INDEX"]}
 				<br />{vtranslate('LBL_MARGIN',$MODULE)}:<br />
 				{$LINE_ITEM_DETAIL["margin$INDEX"]}
 				<br />{vtranslate('LBL_MARGINP',$MODULE)}:<br />
 				{$LINE_ITEM_DETAIL["marginp$INDEX"]}
-			{/if}
 		</td>
 		<td>
 		    <div>
@@ -187,7 +185,6 @@
 		    </span>
 		</td>
 	    </tr>
-		{if $MODULE_NAME neq 'OSSCosts' and $MODULE_NAME neq 'PurchaseOrder'}
 	    <tr>
 			<td width="83%">
 				<span class="pull-right">
@@ -212,7 +209,6 @@
 				</span>
 			</td>
 	    </tr>
-		{/if}
 	    {if $FINAL_DETAILS.taxtype eq 'group'}
 		<tr>
 		    <td width="83%">
@@ -246,56 +242,4 @@
 		    </span>
 		</td>
 	    </tr>
-		{if $MODULE_NAME eq 'Invoice' or $MODULE_NAME eq 'PurchaseOrder'}
-        <tr>
-            <td width="83%">
-                {if $MODULE_NAME eq 'Invoice'}
-                    <span class="pull-right">
-                        <strong>{vtranslate('LBL_RECEIVED',$MODULE_NAME)}</strong>
-                    </span>
-                {else}
-                    <span class="pull-right">
-                        <strong>{vtranslate('LBL_PAID',$MODULE_NAME)}</strong>
-                    </span>
-                {/if}
-            </td>
-
-            <td>
-                {if $MODULE_NAME eq 'Invoice'}
-                    <span class="pull-right">
-                        {if $RECORD->getDisplayValue('received')}
-							{$RECORD->getDisplayValue('received')}
-                        {else}
-                            0
-                        {/if}
-                    </span>
-                {else}
-                    <span class="pull-right">
-                        {if $RECORD->getDisplayValue('paid')}
-							{$RECORD->getDisplayValue('paid')}
-                        {else}
-                            0
-                        {/if}
-                    </span>
-                {/if}
-            </td>
-        </tr>
-		<!--
-        <tr>
-            <td width="83%">
-                <span class="pull-right">
-                    <b>{vtranslate('LBL_BALANCE',$MODULE_NAME)}</b>
-                </span>
-            </td>
-            <td>
-                <span class="pull-right">
-                    {if $RECORD->getDisplayValue('balance')}
-						{$RECORD->getDisplayValue('balance')}
-                    {else}0
-                    {/if}
-                </span>
-            </td>
-        </tr>
-		-->
-        {/if}
 	</table>

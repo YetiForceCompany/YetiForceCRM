@@ -767,9 +767,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$queryGenerator = new QueryGenerator($module, $currentUser);
 		$queryGenerator->initForCustomViewById($view);
 		$queryGenerator->setFields(['assigned_user_id']);
-		$queryGenerator->addCustomColumn('vtiger_groups.groupname');
+		$queryGenerator->setCustomColumn('vtiger_groups.groupname');
 		foreach ($columnsName as &$column) {
-			$queryGenerator->addCustomColumn($table . '.' . $column);
+			$queryGenerator->setCustomColumn($table . '.' . $column);
 		}
 		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
 		$listQuery .= ' ORDER BY last_name ASC, first_name ASC';

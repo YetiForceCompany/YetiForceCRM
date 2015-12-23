@@ -77,6 +77,7 @@
 .userIcon-SSingleOrders:before {
 	content: "\e881";
 }
+// TODO removed
 .userIcon-PurchaseOrder:before {
 	content: "\e882";
 }
@@ -110,9 +111,11 @@
 .userIcon-bookkeeping:before {
 	content: "\e86f";
 }
+// TODO remove
 .userIcon-OSSCosts:before {
 	content: "\e870";
 }
+// TODO remove
 .userIcon-Invoice:before {
 	content: "\e871";
 }

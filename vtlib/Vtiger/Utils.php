@@ -53,15 +53,13 @@ class Vtiger_Utils
 	 */
 	static function checkFileAccessForInclusion($filepath, $dieOnFail = true)
 	{
-		$root_directory = vglobal('root_directory');
 		// Set the base directory to compare with
-		$use_root_directory = $root_directory;
+		$use_root_directory = AppConfig::main('root_directory');
 		if (empty($use_root_directory)) {
 			$use_root_directory = realpath(dirname(__FILE__) . '/../../.');
 		}
 
 		$unsafeDirectories = array('storage', 'cache', 'test');
-
 		$realfilepath = realpath($filepath);
 
 		/** Replace all \\ with \ first */
@@ -77,9 +75,9 @@ class Vtiger_Utils
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
 			if ($dieOnFail) {
-				$log = vglobal('log');
+				$log = LoggerManager::getInstance();
 				$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-				die("Sorry! Attempt to access restricted file.");
+				throw new AppException('Sorry! Attempt to access restricted file.');
 			}
 			return false;
 		}
@@ -93,10 +91,8 @@ class Vtiger_Utils
 	 */
 	static function checkFileAccess($filepath, $dieOnFail = true)
 	{
-		$root_directory = vglobal('root_directory');
-
 		// Set the base directory to compare with
-		$use_root_directory = $root_directory;
+		$use_root_directory = AppConfig::main('root_directory');
 		if (empty($use_root_directory)) {
 			$use_root_directory = realpath(dirname(__FILE__) . '/../../.');
 		}
@@ -113,9 +109,9 @@ class Vtiger_Utils
 
 		if (stripos($realfilepath, $rootdirpath) !== 0) {
 			if ($dieOnFail) {
-				$log = vglobal('log');
+				$log = LoggerManager::getInstance();
 				$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-				die("Sorry! Attempt to access restricted file.");
+				throw new AppException('Sorry! Attempt to access restricted file.');
 			}
 			return false;
 		}

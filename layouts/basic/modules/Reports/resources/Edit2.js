@@ -186,7 +186,7 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	registerLineItemCalculationLimit : function() {
 		var thisInstance = this;
 		var primaryModule = jQuery('input[name="primary_module"]').val();
-        var inventoryModules = ['Invoice', 'PurchaseOrder'];
+        var inventoryModules = [];
         // To limit the calculation fields if secondary module contains inventoryModule
         var secodaryModules = jQuery('input[name="secondary_modules"]').val();
         var secondaryIsInventory = false;

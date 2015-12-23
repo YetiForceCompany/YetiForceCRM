@@ -61,7 +61,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 * @param string $destinationModule Destination module name
 	 * @return array
 	 */
-	public function getFieldsByModules($sourceModule, $destinationModule)
+	public static function getFieldsByModules($sourceModule, $destinationModule)
 	{
 		$return = Vtiger_Cache::get('mrvfm-' . $sourceModule, $destinationModule);
 		if (!$return) {

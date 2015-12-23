@@ -14,31 +14,33 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 			if (currentTarget.data('type') == '1') {
 				thisInstance.updateActivityState(currentTarget);
 			}
-			var progressIndicatorElement = jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
-				}
-			});
-			var moduleName = 'Calendar';
-			var url = 'index.php?module=Calendar&view=QuickCreateAjax&sourceModule=Calendar&sourceRecord=' + currentTarget.data('id');
-			var params = {};
-			params.noCache = true;
-			var headerInstance = Vtiger_Header_Js.getInstance();
-			headerInstance.getQuickCreateForm(url, moduleName, params).then(function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'})
-				headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
-						if (data && data.success && currentTarget.data('type') == '0') {
-							thisInstance.updateActivityState(currentTarget);
-						}
-						var formData2 = {};
-						formData2.record = currentTarget.data('id');
-						formData2.module = 'Calendar';
-						formData2.view = 'quick_edit';
-						formData2['activitystatus'] = currentTarget.data('state');
-						thisInstance.saveResultInstance.checkData(formData2);
-					}});
-			});
+			if (currentTarget.hasClass('showQuickCreate')) {
+				var progressIndicatorElement = jQuery.progressIndicator({
+					'position': 'html',
+					'blockInfo': {
+						'enabled': true
+					}
+				});
+				var moduleName = 'Calendar';
+				var url = 'index.php?module=Calendar&view=QuickCreateAjax&sourceModule=Calendar&sourceRecord=' + currentTarget.data('id');
+				var params = {};
+				params.noCache = true;
+				var headerInstance = Vtiger_Header_Js.getInstance();
+				headerInstance.getQuickCreateForm(url, moduleName, params).then(function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'})
+					headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
+							if (data && data.success && currentTarget.data('type') == '0') {
+								thisInstance.updateActivityState(currentTarget);
+							}
+							var formData2 = {};
+							formData2.record = currentTarget.data('id');
+							formData2.module = 'Calendar';
+							formData2.view = 'quick_edit';
+							formData2['activitystatus'] = currentTarget.data('state');
+							thisInstance.saveResultInstance.checkData(formData2);
+						}});
+				});
+			}
 		});
 	},
 	updateActivityState: function (currentTarget) {

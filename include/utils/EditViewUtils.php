@@ -47,28 +47,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 	// DG 15 Aug 2006
 	// Add "ORDER BY sequence_no" to retain add order on all inventoryproductrel items
 
-	if ($module == 'PurchaseOrder' || $module == 'Invoice') {
-		$query = "SELECT
-					case when vtiger_products.productid != '' then vtiger_products.productname else vtiger_service.servicename end as productname,
- 		            case when vtiger_products.productid != '' then vtiger_products.product_no else vtiger_service.service_no end as productcode,
-					case when vtiger_products.productid != '' then vtiger_products.unit_price else vtiger_service.unit_price end as unit_price,
- 		            case when vtiger_products.productid != '' then vtiger_products.qtyinstock else 'NA' end as qtyinstock,
- 		            case when vtiger_products.productid != '' then 'Products' else 'Services' end as entitytype,
- 		                        vtiger_inventoryproductrel.listprice,
- 		                        vtiger_inventoryproductrel.description AS product_description,
- 		                        vtiger_inventoryproductrel.*,vtiger_crmentity.deleted,
- 		                        vtiger_products.usageunit,
- 		                        vtiger_service.service_usageunit
- 	                            FROM vtiger_inventoryproductrel
-								LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_inventoryproductrel.productid
- 		                        LEFT JOIN vtiger_products
- 		                                ON vtiger_products.productid=vtiger_inventoryproductrel.productid
- 		                        LEFT JOIN vtiger_service
- 		                                ON vtiger_service.serviceid=vtiger_inventoryproductrel.productid
- 		                        WHERE id=?
- 		                        ORDER BY sequence_no";
-		$params = array($focus->id);
-	} elseif ($module == 'Potentials') {
+	if ($module == 'Potentials') {
 		$query = "SELECT
  		                        vtiger_products.productname,
  		                        vtiger_products.productcode,
@@ -133,11 +112,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		$unitprice = $adb->query_result($result, $i - 1, 'unit_price');
 		$listprice = $adb->query_result($result, $i - 1, 'listprice');
 		$entitytype = $adb->query_result($result, $i - 1, 'entitytype');
-		if (($module == 'PurchaseOrder' || $module == 'Invoice') && $entitytype == 'Services') {
-			$usageunit = vtranslate($adb->query_result($result, $i - 1, 'service_usageunit'), $entitytype);
-		} else {
-			$usageunit = vtranslate($adb->query_result($result, $i - 1, 'usageunit'), $entitytype);
-		}
+		$usageunit = vtranslate($adb->query_result($result, $i - 1, 'usageunit'), $entitytype);
 		$purchase = $adb->query_result($result, $i - 1, 'purchase');
 		$margin = $adb->query_result($result, $i - 1, 'margin');
 		$marginp = $adb->query_result($result, $i - 1, 'marginp');
@@ -203,7 +178,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 			$product_Detail[$i]['comment' . $i] = $comment;
 		}
 
-		if ($module != 'PurchaseOrder' && $focus->object_name != 'Order') {
+		if ($focus->object_name != 'Order') {
 			$product_Detail[$i]['qtyInStock' . $i] = decimalFormat($qtyinstock);
 		}
 		$listprice = number_format($listprice, $no_of_decimal_places, '.', '');

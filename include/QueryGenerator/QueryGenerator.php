@@ -147,27 +147,27 @@ class QueryGenerator
 		return $this->whereFields;
 	}
 
-	public function addCustomColumn($columns)
+	public function setCustomColumn($columns)
 	{
 		$this->columnsCustom[] = $columns;
 	}
 
-	public function addCustomFrom($from)
+	public function setCustomFrom($from)
 	{
 		$this->fromClauseCustom[] = $from;
 	}
 
-	public function addCustomWere($where)
+	public function setCustomCondition($where)
 	{
 		$this->whereClauseCustom[] = $where;
 	}
 
-	public function addWhereField($fieldName)
+	public function setConditionField($fieldName)
 	{
 		$this->whereFields[] = $fieldName;
 	}
 
-	public function addSourceRecord($sourceRecord)
+	public function setSourceRecord($sourceRecord)
 	{
 		$this->sourceRecord = $sourceRecord;
 	}
@@ -1452,12 +1452,6 @@ class QueryGenerator
 		if (isset($_REQUEST['campaignid'])) {
 			$campaignId = vtlib_purify($_REQUEST['campaignid']);
 		}
-		if (isset($_REQUEST['invoiceid'])) {
-			$invoiceId = vtlib_purify($_REQUEST['invoiceid']);
-		}
-		if (isset($_REQUEST['purchaseorderid'])) {
-			$purchaseOrderId = vtlib_purify($_REQUEST['purchaseorderid']);
-		}
 
 		$conditionList = array();
 		if (!empty($dateClosedStart) && !empty($dateClosedEnd)) {
@@ -1494,14 +1488,6 @@ class QueryGenerator
 		if (!empty($campaignId)) {
 			$relatedConditionList[] = array('relatedModule' => 'Campaigns', 'conditionModule' =>
 				'Campaigns', 'finalValue' => $campaignId, 'SQLOperator' => '=');
-		}
-		if (!empty($invoiceId)) {
-			$relatedConditionList[] = array('relatedModule' => 'Invoice', 'conditionModule' =>
-				'Invoice', 'finalValue' => $invoiceId, 'SQLOperator' => '=');
-		}
-		if (!empty($purchaseOrderId)) {
-			$relatedConditionList[] = array('relatedModule' => 'PurchaseOrder', 'conditionModule' =>
-				'PurchaseOrder', 'finalValue' => $purchaseOrderId, 'SQLOperator' => '=');
 		}
 		return array('conditions' => $conditionList, 'relatedConditions' => $relatedConditionList);
 	}

@@ -42,29 +42,10 @@ class Potentials_Record_Model extends Vtiger_Record_Model
 		);
 	}
 
-	public function recalculatePotentials($PotentialsID)
-	{
-		$log = vglobal('log');
-		$log->debug("Entering recalculatePotentials($PotentialsID) method ...");
-		if ($PotentialsID == NULL) {
-			return false;
-		}
-		$InvoiceStatus = 'Cancel';
-		$db = PearDatabase::getInstance();
-
-		$sql = "UPDATE vtiger_potential SET  
-				sum_invoices = (SELECT SUM(total) as total FROM vtiger_invoice 
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_invoice.invoiceid
-						WHERE deleted = 0 AND invoicestatus <> ? AND potentialid = vtiger_potential.potentialid)
-				WHERE potentialid = ?;";
-		$db->pquery($sql, array($InvoiceStatus, $PotentialsID), true);
-		$log->debug("Exiting recalculatePotentials($PotentialsID) method ...");
-	}
-
 	public function createSalesOpportunitiesFromRecords($from_module, $recordIds)
 	{
-		$log = vglobal('log');
-		$current_user = vglobal('current_user');
+		$log = LoggerManager::getInstance();
+		$currentUser = vglobal('current_user');
 		$log->info("Entering Into createSalesOpportunitiesFromRecords( $from_module, $recordIds )");
 		$db = PearDatabase::getInstance();
 
@@ -121,7 +102,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model
 							if (!empty($ownerIdInfo['Users'])) {
 								$usersPrivileges = Users_Privileges_Model::getInstanceById($assigned_user_id);
 								if ($usersPrivileges->status != 'Active') {
-									$record->set($name, $current_user->id);
+									$record->set($name, $currentUser->id);
 								}
 							}
 						}
@@ -148,12 +129,18 @@ class Potentials_Record_Model extends Vtiger_Record_Model
 						}
 						$product = $recordModel->get('product');
 						if ($schema['relateProduct'] && $product != '' && $product != 0) {
-							$db->pquery('INSERT INTO vtiger_seproductsrel (crmid, productid, setype) VALUES (?,?,?);', array($newId, $product, 'Potentials'));
+							$db->insert('vtiger_seproductsrel', [
+								'crmid' => $newId,
+								'productid' => $product,
+								'setype' => 'Potentials',
+								'rel_created_user' => $currentUser->id,
+								'rel_created_time' => date('Y-m-d H:i:s')
+							]);
 						}
 						$content = vtranslate('LBL_GENERATING_COMMENT', 'Potentials') . ' ' . vtranslate($from_module, $from_module) . ': ' . $recordModel->get($schema['num']);
 						$rekord = Vtiger_Record_Model::getCleanInstance('ModComments');
 						$rekord->set('commentcontent', $content);
-						$rekord->set('assigned_user_id', $current_user->id);
+						$rekord->set('assigned_user_id', $currentUser->id);
 						$rekord->set('related_to', $newId);
 						$rekord->save();
 					}

@@ -236,9 +236,6 @@ if (typeof (ImportJs) == 'undefined') {
 
 			var mandatoryFields = JSON.parse(jQuery('#mandatory_fields').val());
 			var moduleName = app.getModuleName();
-			if (moduleName == 'PurchaseOrder' || moduleName == 'Invoice') {
-				mandatoryFields.hdnTaxType = app.vtranslate('Tax Type');
-			}
 			var missingMandatoryFields = [];
 			for (var mandatoryFieldName in mandatoryFields) {
 				if (mandatoryFieldName in mappedFields) {

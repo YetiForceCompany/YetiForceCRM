@@ -122,7 +122,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			$currencyField = new CurrencyField($value);
 			$fieldvalue = $currencyField->getDisplayValue();
 		}
-	} elseif ($dbField->name == "PurchaseOrder_Currency" || $dbField->name == "Invoice_Currency" || $dbField->name == "Quotes_Currency" || $dbField->name == "PriceBooks_Currency") {
+	} elseif ($dbField->name == "PriceBooks_Currency") {
 		if ($value != '') {
 			$fieldvalue = getTranslatedCurrencyString($value);
 		}

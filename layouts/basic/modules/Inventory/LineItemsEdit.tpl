@@ -131,7 +131,6 @@
 	</div>
 </div>
 <table class="table table-bordered blockContainer lineItemTable" id="lineItemResult">
-	{if $MODULE_NAME neq 'OSSCosts' and $MODULE_NAME neq 'PurchaseOrder'}
 		<tr valign="top">
 			<td width="83%" >
 				<div class="pull-right">
@@ -142,7 +141,6 @@
 				<span id="total_purchase" name="total_purchase" class="pull-right total_purchase">{$FINAL.total_purchase}</span>
 			</td>
 		</tr>
-	{/if}
 	<tr>
 		<td  width="83%">
 			<div class="pull-right"><strong>{vtranslate('LBL_ITEMS_TOTAL',$MODULE)}</strong></div>
@@ -215,7 +213,6 @@
 			<input type="hidden" id="pre_tax_total" name="pre_tax_total" value="{if $PRE_TAX_TOTAL}{$PRE_TAX_TOTAL}{else}0{/if}"/>
 		</td>
 	</tr>
-	{if $MODULE_NAME neq 'OSSCosts' and $MODULE_NAME neq 'PurchaseOrder'}
 		<tr valign="top">
 			<td width="83%" >
 				<div class="pull-right">
@@ -236,7 +233,6 @@
 				<span id="total_marginp" name="total_marginp" class="pull-right total_marginp">{$FINAL.total_marginp}</span>
 			</td>
 		</tr>
-	{/if}
 	<!-- Group Tax - starts -->
 	<tr id="group_tax_row" valign="top" class="{if $IS_INDIVIDUAL_TAX_TYPE}hide{/if}">
 		<td width="83%">
@@ -288,38 +284,6 @@
 			<span id="grandTotal" name="grandTotal" class="pull-right grandTotal">{$FINAL.grandTotal}</span>
 		</td>
 	</tr>
-	{if $MODULE eq 'Invoice' or $MODULE eq 'PurchaseOrder'}
-		<tr valign="top">
-			<td width="83%" >
-				<div class="pull-right">
-					{if $MODULE eq 'Invoice'}
-						<strong>{vtranslate('LBL_RECEIVED',$MODULE)}</strong>
-					{else}
-						<strong>{vtranslate('LBL_PAID',$MODULE)}</strong>
-					{/if}
-				</div>
-			</td>
-			<td>
-				{if $MODULE eq 'Invoice'}
-					<span class="pull-right"><input id="received" name="received" type="text" class="lineItemInputBox form-control input-sm" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}" title="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}"></span>
-                    {else}
-					<span class="pull-right"><input id="paid" name="paid" type="text" class="lineItemInputBox form-control input-sm" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0{/if}" title="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0{/if}"></span>
-                    {/if}
-			</td>
-		</tr>
-		<!--
-		<tr valign="top">
-			<td width="83%" >
-				<div class="pull-right">
-					<b>{vtranslate('LBL_BALANCE',$MODULE)}</b>
-				</div>
-			</td>
-			<td>
-				<span class="pull-right"><input id="balance" name="balance" type="text" class="lineItemInputBox form-control" value="{if $RECORD->getDisplayValue('balance') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('balance')}{else}0{/if}" readonly></span>
-			</td>
-		</tr>
-		-->
-	{/if}
 </table>
 <br>
 <input type="hidden" name="totalProductCount" id="totalProductCount" value="{$row_no}" />
