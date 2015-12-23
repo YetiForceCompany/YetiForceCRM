@@ -34,8 +34,8 @@
 					<label class='control-label'>{vtranslate('LBL_STATUSES_CLOSED_CALCULATION', $QUALIFIED_MODULE)}</label>
 					<div class="">
 						<select class="selectize configField" multiple data-type="scalculations" name="statuses_close" placeholder='{vtranslate('LBL_SELECT_SOME_OPTIONS')}'>
-							{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('calculationsstatus')}
-								<option value="{$ITEM}" {if in_array($ITEM, $SCALCULATIONS['statuses_close'])} selected {/if}>{vtranslate($ITEM,'Calculations')}</option>
+							{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('scalculations_status')}
+								<option value="{$ITEM}" {if in_array($ITEM, $SCALCULATIONS['statuses_close'])} selected {/if}>{vtranslate($ITEM,'SCalculations')}</option>
 							{/foreach}
 						</select>
 					</div>

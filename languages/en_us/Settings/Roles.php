@@ -46,6 +46,9 @@ $languageStrings = [
 	'LBL_ONLY_PARENT' => 'Parent record',
 	'LBL_ACCORDING_TO_HIERARCHY' => 'According to hierarchy',
 	'LBL_SHOW_GLOBAL_SEARCH_ADVANCED' => 'Enable advanced search',
+	'LBL_BLOCK_COPY' => 'Block copying',
+	'LBL_BLOCK_CUT' => 'Block cutting',
+	'LBL_BLOCK_PASTE' => 'Block pasting',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'No Permissions to Move',

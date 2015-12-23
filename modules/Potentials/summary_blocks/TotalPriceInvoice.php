@@ -18,6 +18,6 @@ class TotalPriceInvoice{
 		$log->debug("Entering TotalPriceInvoice::process() method ...");
 		$sum = $instance->get('sum_invoices')== ''? 0: $instance->get('sum_invoices');
 		$log->debug("Exiting TotalPriceInvoice::process() method ...");
-		return number_format($sum_calculations,0, ',', ' ');
+		return number_format($sum,0, ',', ' ');
     }
 }

@@ -114,18 +114,6 @@ class Quotes extends CRMEntity
 		$adb->pquery($update_query, $update_params);
 
 		$tot_no_prod = $_REQUEST['totalProductCount'];
-		$calculationList = array();
-		for ($i = 1; $i <= $tot_no_prod; $i++) {
-			$calculationsid = vtlib_purify($_REQUEST['calculationId' . $i]);
-			$calculationsid_old = vtlib_purify($_REQUEST['old_calculationId' . $i]);
-			if ($calculationsid_old != '' && !in_array($calculationsid_old, $calculationList) && $calculationsid != $calculationsid_old) {
-				$this->delete_related_module('Quotes', $this->id, 'Calculations', $calculationsid_old);
-			}
-			if ($calculationsid != '') {
-				$calculationList[] = $calculationsid;
-				$this->save_related_module('Quotes', $this->id, 'Calculations', $calculationsid);
-			}
-		}
 	}
 
 	/** 	function used to get the list of sales orders which are related to the Quotes

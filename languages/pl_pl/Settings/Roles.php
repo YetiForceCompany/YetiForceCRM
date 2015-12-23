@@ -47,6 +47,9 @@ $languageStrings = [
 	'LBL_ONLY_PARENT' => 'Tylko nadrzędny',
 	'LBL_ACCORDING_TO_HIERARCHY' => 'Zgodnie z hierarchią',
 	'LBL_SHOW_GLOBAL_SEARCH_ADVANCED' => 'Czy włączyć możliwość zaawansowanego wyszukiwania?',
+	'LBL_BLOCK_COPY' => 'Blokuj kopiowanie',
+	'LBL_BLOCK_CUT' => 'Blokuj wycinanie',
+	'LBL_BLOCK_PASTE' => 'Blokuj wklejanie',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Brak uprawnień do przeniesienia',

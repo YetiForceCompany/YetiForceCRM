@@ -11,6 +11,5 @@
 // Action translation
 $languageStrings = [
 	'Accounts|Account Name' => 'Pole przeznaczone na nazwę firmy',
-	'Accounts|Average profit sales order' => 'sss',
 	
 ];

@@ -168,11 +168,7 @@ Inventory_Edit_Js("SalesOrder_Edit_Js", {}, {
 	},
     mapResultsToFields: function(referenceModule,element,responseData){
 		var parentRow = jQuery(element).closest('tr.'+this.rowClass);
-		if(referenceModule == 'Calculations'){
-			var lineItemNameElment = jQuery('input.calculation',parentRow);
-		}else{
-			var lineItemNameElment = jQuery('input.productName',parentRow);
-		}
+		var lineItemNameElment = jQuery('input.productName',parentRow);
 		for(var id in responseData){
 			var recordId = id;
 			var recordData = responseData[id];
@@ -188,37 +184,30 @@ Inventory_Edit_Js("SalesOrder_Edit_Js", {}, {
 
 			lineItemNameElment.val(selectedName);
 			lineItemNameElment.attr('disabled', 'disabled');
-			if(referenceModule == 'Calculations'){
-				jQuery('input.selectedModuleIdC',parentRow).val(recordId);
-				jQuery('input.lineItemTypeC',parentRow).val(referenceModule);
+			jQuery('input.selectedModuleId',parentRow).val(recordId);
+			jQuery('input.lineItemType',parentRow).val(referenceModule);
+			jQuery('input.listPrice',parentRow).val(unitPrice);
+			jQuery('span.usageUnit',parentRow).text(usageUnit);
+			var currencyId = jQuery("#currency_id").val();
+			var listPriceValuesJson  = JSON.stringify(listPriceValues);
+			if(typeof listPriceValues[currencyId]!= 'undefined') {
+				this.setListPriceValue(parentRow, listPriceValues[currencyId]);
+				this.lineItemRowCalculations(parentRow);
+			}
+			jQuery('input.listPrice',parentRow).attr('list-info',listPriceValuesJson);
+			jQuery('textarea.lineItemCommentBox',parentRow).val(description);
+			var taxUI = this.getTaxDiv(taxes,parentRow);
+			jQuery('.taxDivContainer',parentRow).html(taxUI);
+			if(this.isIndividualTaxMode()) {
+				parentRow.find('.productTaxTotal').removeClass('hide')
 			}else{
-				jQuery('input.selectedModuleId',parentRow).val(recordId);
-				jQuery('input.lineItemType',parentRow).val(referenceModule);
-				jQuery('input.listPrice',parentRow).val(unitPrice);
-				jQuery('span.usageUnit',parentRow).text(usageUnit);
-				var currencyId = jQuery("#currency_id").val();
-				var listPriceValuesJson  = JSON.stringify(listPriceValues);
-				if(typeof listPriceValues[currencyId]!= 'undefined') {
-					this.setListPriceValue(parentRow, listPriceValues[currencyId]);
-					this.lineItemRowCalculations(parentRow);
-				}
-				jQuery('input.listPrice',parentRow).attr('list-info',listPriceValuesJson);
-				jQuery('textarea.lineItemCommentBox',parentRow).val(description);
-				var taxUI = this.getTaxDiv(taxes,parentRow);
-				jQuery('.taxDivContainer',parentRow).html(taxUI);
-				if(this.isIndividualTaxMode()) {
-					parentRow.find('.productTaxTotal').removeClass('hide')
-				}else{
-					parentRow.find('.productTaxTotal').addClass('hide')
-				}
+				parentRow.find('.productTaxTotal').addClass('hide')
 			}
 		}
 		if(referenceModule == 'Products'){
 			this.loadSubProducts(parentRow);
 		}
-		if(referenceModule != 'Calculations'){
-			jQuery('.qty',parentRow).trigger('focusout');
-		}
+		jQuery('.qty',parentRow).trigger('focusout');
     },
 	registerClearLineItemSelection : function() {
 		var thisInstance = this;

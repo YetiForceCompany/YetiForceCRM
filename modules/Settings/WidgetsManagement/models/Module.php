@@ -28,7 +28,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log = vglobal('log');
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getWidgetsWithLimit() method ...");
 
-		$widgetWithLimit = ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos', 'Calculations', 'PotentialsList', 'LBL_EXPIRING_SOLD_PRODUCTS', "LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES"];
+		$widgetWithLimit = ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos', 'PotentialsList', 'LBL_EXPIRING_SOLD_PRODUCTS', "LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES"];
 
 		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getWidgetsWithLimit() method ...");
 		return $widgetWithLimit;

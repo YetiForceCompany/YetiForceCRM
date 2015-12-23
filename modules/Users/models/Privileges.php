@@ -331,8 +331,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		$modulesSchema['Potentials'] = [
 			'Quotes' => ['key' => 'quoteid', 'table' => 'vtiger_quotes', 'relfield' => 'potentialid'],
 			'SalesOrder' => ['key' => 'salesorderid', 'table' => 'vtiger_salesorder', 'relfield' => 'potentialid'],
-			'Invoice' => ['key' => 'invoiceid', 'table' => 'vtiger_invoice', 'relfield' => 'potentialid'],
-			'Calculations' => ['key' => 'calculationsid', 'table' => 'vtiger_calculations', 'relfield' => 'potentialid']
+			'Invoice' => ['key' => 'invoiceid', 'table' => 'vtiger_invoice', 'relfield' => 'potentialid']
 		];
 		$modulesSchema['HelpDesk'] = [
 			'OSSTimeControl' => ['key' => 'osstimecontrolid', 'table' => 'vtiger_osstimecontrol', 'relfield' => 'ticketid']

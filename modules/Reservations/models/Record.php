@@ -78,12 +78,6 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 			$ModuleNameInstance = Vtiger_Record_Model::getInstanceById( $salesorderid , 'SalesOrder' );
 			self::recalculatePotentials( $ModuleNameInstance->get('potential_id') );
 		}
-		if( self::checkID($reservationsid) ){
-			$ModuleNameInstance = Vtiger_Record_Model::getInstanceById( $reservationsid , 'Calculations' );
-			self::recalculatePotentials( $ModuleNameInstance->get('potentialid') );
-		}
-		// 4 pola na umowie // czas pod umowe , czas pod projekt (��czny czas) , czas pod zg�oszenie (��czny czas , kt�re nie pod projekt)
-		// doda� walidacj� przy zapisie 
 	}
 	public function recalculateQuotes($QuotesID) {
 		if( ! self::checkID($QuotesID) ){ return false;}
@@ -209,20 +203,10 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 						AND vtiger_salesorder.potentialid = ?;';
 		$sum_time_so_result = $db->pquery($sql_sum_time_so, array(0,0,0,0,0,self::recalculateStatus,$PotentialsID) , true);
 		$sum_time_so = number_format($db->query_result( $sum_time_so_result, 0, 'sum' ),2);
-		//////// sum_time_k
-		$sql_sum_time_k = 'SELECT SUM(vtiger_reservations.sum_time) AS sum 
-						FROM vtiger_reservations 
-						INNER JOIN vtiger_calculations ON vtiger_calculations.reservationsid = vtiger_reservations.reservationsid
-						WHERE  vtiger_reservations.deleted = ? 
-						AND vtiger_reservations.reservationsid <> ?
-						AND vtiger_reservations.reservations_status = ?
-						AND vtiger_calculations.potentialid = ?;';
-		$sum_time_k_result = $db->pquery($sql_sum_time_k, array(0,0,self::recalculateStatus,$PotentialsID) , true);
-		$sum_time_k = number_format($db->query_result( $sum_time_k_result, 0, 'sum' ),2);
 		//////// Sum
-		$sum_time_all = $sum_time + $sum_time_q + $sum_time_so + $sum_time_k;
-		$db->pquery( "UPDATE vtiger_potential SET sum_time = ?,sum_time_k = ?,sum_time_q = ?,sum_time_so = ?,sum_time_all = ? WHERE potentialid = ?;",
-			array($sum_time,$sum_time_k,$sum_time_q,$sum_time_so,$sum_time_all,$PotentialsID), true );
+		$sum_time_all = $sum_time + $sum_time_q + $sum_time_so;
+		$db->pquery( "UPDATE vtiger_potential SET sum_time = ?,sum_time_q = ?,sum_time_so = ?,sum_time_all = ? WHERE potentialid = ?;",
+			array($sum_time,$sum_time_q,$sum_time_so,$sum_time_all,$PotentialsID), true );
 		return array($sum_time,$sum_time_q,$sum_time_so,$sum_time_all);
 	}
 	public function recalculateProject($ProjectID) {
