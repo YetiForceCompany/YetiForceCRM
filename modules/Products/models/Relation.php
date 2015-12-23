@@ -105,7 +105,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 	{
 		$relatedModuleModel = $this->getRelationModuleModel();
 		$relatedModuleName = $relatedModuleModel->get('name');
-		$inventoryModulesList = array('Invoice', 'Quotes', 'PurchaseOrder');
+		$inventoryModulesList = array('Invoice', 'PurchaseOrder');
 
 		//Inventoty relationship cannot be deleted from the related list
 		if (in_array($relatedModuleName, $inventoryModulesList)) {

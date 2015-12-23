@@ -1118,9 +1118,7 @@ class Contacts extends CRMEntity
 	{
 		$rel_tables = array(
 			//"HelpDesk" => array("vtiger_troubletickets"=>array("contact_id","ticketid"),"vtiger_contactdetails"=>"contactid"),
-			//"Quotes" => array("vtiger_quotes"=>array("contactid","quoteid"),"vtiger_contactdetails"=>"contactid"),
 			//"PurchaseOrder" => array("vtiger_purchaseorder"=>array("contactid","purchaseorderid"),"vtiger_contactdetails"=>"contactid"),
-			//"SalesOrder" => array("vtiger_salesorder"=>array("contactid","salesorderid"),"vtiger_contactdetails"=>"contactid"),
 			"Products" => array("vtiger_seproductsrel" => array("crmid", "productid"), "vtiger_contactdetails" => "contactid"),
 			"Campaigns" => array("vtiger_campaigncontrel" => array("contactid", "campaignid"), "vtiger_contactdetails" => "contactid"),
 			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"), "vtiger_contactdetails" => "contactid"),
@@ -1197,20 +1195,6 @@ class Contacts extends CRMEntity
 		  //removing the relationship of contacts with SalesOrder
 		  $this->db->pquery('UPDATE vtiger_salesorder SET contactid=0 WHERE contactid=?', array($id));
 
-		  //Backup Contact-Quotes Relation
-		  $quo_q = 'SELECT quoteid FROM vtiger_quotes WHERE contactid=?';
-		  $quo_res = $this->db->pquery($quo_q, array($id));
-		  if ($this->db->num_rows($quo_res) > 0) {
-		  $quo_ids_list = array();
-		  for($k=0;$k < $this->db->num_rows($quo_res);$k++)
-		  {
-		  $quo_ids_list[] = $this->db->query_result($quo_res,$k,"quoteid");
-		  }
-		  $params = array($id, RB_RECORD_UPDATED, 'vtiger_quotes', 'contactid', 'quoteid', implode(",", $quo_ids_list));
-		  $this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES (?,?,?,?,?,?)', $params);
-		  }
-		  //removing the relationship of contacts with Quotes
-		  $this->db->pquery('UPDATE vtiger_quotes SET contactid=0 WHERE contactid=?', array($id));
 		 */
 		//remove the portal info the contact
 		$this->db->pquery('DELETE FROM vtiger_portalinfo WHERE id = ?', array($id));

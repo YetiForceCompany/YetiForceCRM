@@ -36,7 +36,7 @@
 			<div class="row">
 				<div class="col-md-10" style="margin: 10px 0;">
 					<select style="width: 100%;" class="select2 form-control" id="timecontrolTypes" name="timecontrolTypes" multiple>
-						{foreach item=ITEM from=OSSTimeControl_Calendar_Model::getCalendarTypes()}
+						{foreach item=ITEM from=$ALL_ACTIVETYPES_LIST}
 							<option class="calCol_{$ITEM} marginBottom5px" value="{$ITEM}" selected>{vtranslate($ITEM,$MODULE)}</option>
 						{/foreach}
 					</select>

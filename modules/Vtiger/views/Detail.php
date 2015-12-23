@@ -30,6 +30,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('getActivities');
 		$this->exposeMethod('showRelatedProductsServices');
 		$this->exposeMethod('showRelatedRecords');
+		$this->exposeMethod('showRelatedTree');
 	}
 
 	function checkPermission(Vtiger_Request $request)
@@ -53,7 +54,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		
+
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		if (!$this->record) {
@@ -673,6 +674,27 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
 		return $viewer->view('SummaryWidgets.tpl', $moduleName, 'true');
+	}
+
+	function showRelatedTree(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$parentId = $request->get('record');
+		$relatedModuleName = $request->get('relatedModule');
+
+		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
+		
+		$header = $relationListView->getTreeHeaders();
+		$entries = $relationListView->getTreeEntries();
+
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
+		$viewer->assign('RELATED_RECORDS', $entries);
+		$viewer->assign('RELATED_HEADERS', $header);
+		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		return $viewer->view('RelatedTreeContent.tpl', $moduleName, 'true');
 	}
 
 	function showRelatedProductsServices(Vtiger_Request $request)

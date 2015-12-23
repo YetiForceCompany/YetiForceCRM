@@ -872,7 +872,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 					INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid
 					WHERE (quickcreate=0 OR quickcreate=2) AND vtiger_tab.presence != 1';
 		if ($restrictList) {
-			$sql .= " AND vtiger_tab.name NOT IN ('ModComments','PriceBooks','Events','OSSPdf')";
+			$sql .= " AND vtiger_tab.name NOT IN ('ModComments','PriceBooks','Events')";
 		}
 		$params = array();
 		$result = $db->pquery($sql, $params);
@@ -1719,8 +1719,6 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$data['Potentials']['contact_id'] = ['Contacts' => ['related_to' => ['parent_id']]];
 		$data['ProjectTask']['projectmilestoneid'] = ['ProjectMilestone' => ['projectid' => ['projectid']]];
 		$data['ProjectTask']['parentid'] = ['ProjectTask' => ['projectid' => ['projectid'], 'projectmilestoneid' => ['projectmilestoneid']]];
-		$data['Quotes']['potential_id'] = ['Potentials' => ['account_id' => ['related_to']]];
-		$data['Quotes']['contact_id'] = ['Contacts' => ['account_id' => ['parent_id']]];
 		$data['Invoice']['potentialid'] = ['Potentials' => ['account_id' => ['related_to']]];
 		$data['Invoice']['contact_id'] = ['Contacts' => ['account_id' => ['parent_id']]];
 		$data['HelpDesk']['projectid'] = ['Project' => ['parent_id' => ['linktoaccountscontacts']]];

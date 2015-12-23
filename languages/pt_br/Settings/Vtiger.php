@@ -276,7 +276,6 @@ $languageStrings = [
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => 'Gerenciar Configuração Agenda',
 	'LBL_AUTHORIZATION' => 'Autorização',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
-	'LBL_OSSPDF_INFO' => 'Gerenciar Configurações PDF',
 	'LBL_BACKUP_DESCRIPTION' => 'Criar arquivo de backup.',
 	'LBL_SCHEDULER_DESCRIPTION' => 'Gerenciar Agendador',
 	'LBL_OSSMAIL_DESCRIPTION' => 'Gerenciar Cliente E-mail',

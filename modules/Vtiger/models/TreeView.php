@@ -115,11 +115,10 @@ class Vtiger_TreeView_Model extends Vtiger_Base_Model
 		$lastId = 0;
 		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getTemplate()]);
 		while ($row = $db->getRow($result)) {
-			$treeID = (int) str_replace('T', '', $row['tree']);
-			$cut = strlen('::' . $row['tree']);
-			$parenttrre = substr($row['parenttrre'], 0, - $cut);
-			$pieces = explode('::', $parenttrre);
-			$parent = (int) str_replace('T', '', end($pieces));
+			$treeID = (int) ltrim($row['tree'], 'T');
+			$pieces = explode('::', $row['parenttrre']);
+			end($pieces);
+			$parent = (int) ltrim(prev($pieces), 'T');
 			$tree[] = [
 				'id' => $treeID,
 				'record_id' => $row['tree'],

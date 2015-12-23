@@ -455,13 +455,15 @@ class Vtiger_Functions
 					}
 				}
 				$leftJoin = '';
+				$leftJoinTables = [];
 				$paramsCol = [];
 				$focus = CRMEntity::getInstance($module);
 				foreach (array_filter($columns) as $column) {
 					if (array_key_exists($column, $moduleInfoExtend)) {
 						$paramsCol[] = $column;
-						if ($moduleInfoExtend[$column]['tablename'] != $table) {
+						if ($moduleInfoExtend[$column]['tablename'] != $table && !in_array($moduleInfoExtend[$column]['tablename'], $leftJoinTables)) {
 							$otherTable = $moduleInfoExtend[$column]['tablename'];
+							$leftJoinTables[] = $otherTable;
 							$focusTables = $focus->tab_name_index;
 							$leftJoin .= ' LEFT JOIN ' . $otherTable . ' ON ' . $otherTable . '.' . $focusTables[$otherTable] . ' = ' . $table . '.' . $focusTables[$table];
 						}
@@ -930,10 +932,6 @@ class Vtiger_Functions
 			"vtiger_faq:product_id" => "V",
 			//Vendor Related Fields
 			"vtiger_vendor:email" => "V",
-			//Quotes Related Fields
-			"vtiger_quotes:potentialid" => "V",
-			"vtiger_quotes:inventorymanager" => "V",
-			"vtiger_quotes:accountid" => "V",
 			//Purchase Order Related Fields
 			"vtiger_purchaseorder:vendorid" => "V",
 			"vtiger_purchaseorder:contactid" => "V",

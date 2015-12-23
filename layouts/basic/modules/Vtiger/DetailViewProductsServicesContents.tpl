@@ -20,11 +20,18 @@
 					<div class="col-xs-10 col-sm-10 col-md-9 margin0px"><h4>{vtranslate('Interested products',$MODULE_NAME)}</h4></div>
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 						<div class="pull-right">
-							<button class="btn btn-default showModal" type="button" data-url="index.php?module=Products&view=TreeCategory&src_module={$MODULE_NAME}&src_record={$RECORDID}">
+							<button class="btn btn-default showModal" type="button" data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
 								<span class="glyphicon glyphicon-zoom-in" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></span>
 							</button>
 						</div>
 					</div>
+				</div>
+				<div class="widget_contents">
+				</div>
+			</div>
+			<div class="widgetContainer_productsCategory" data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Products&mode=showRelatedTree" data-name="LBL_RELATED_PRODUCTS">
+				<div class="widget_header row">
+					<input type="hidden" name="relatedModule" value="Products" />
 				</div>
 				<div class="widget_contents">
 				</div>
@@ -84,7 +91,7 @@
 					<div class="col-xs-10 col-sm-10 col-md-9 margin0px"><h4>{vtranslate('Interested services',$MODULE_NAME)}</h4></div>
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 						<span class="pull-right">
-							<button class="btn btn-default showModal" type="button" data-url="index.php?module=Services&view=TreeCategory&src_module={$MODULE_NAME}&src_record={$RECORDID}">
+							<button class="btn btn-default showModal" type="button" data-url="index.php?module=Services&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
 								<span class="glyphicon glyphicon-zoom-in" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></span>
 							</button>
 						</span>

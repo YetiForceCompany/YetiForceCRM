@@ -10,15 +10,6 @@
 
 class Services_Record_Model extends Products_Record_Model
 {
-
-	function getCreateQuoteUrl()
-	{
-		$quotesModuleModel = Vtiger_Module_Model::getInstance('Quotes');
-
-		return 'index.php?module=' . $quotesModuleModel->getName() . '&view=' . $quotesModuleModel->getEditViewName() . '&service_id=' . $this->getId() .
-			'&sourceModule=' . $this->getModuleName() . '&sourceRecord=' . $this->getId() . '&relationOperation=true';
-	}
-
 	function getCreateInvoiceUrl()
 	{
 		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');

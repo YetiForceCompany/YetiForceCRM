@@ -281,7 +281,6 @@ $languageStrings = [
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Erzeuge und verwalte Menüeinträge',
 	'LBL_AUTHORIZATION' => 'Authorisierung',
 	'LBL_AUTHORIZATION_DESCRIPTION' => 'Verwalten der Anmeldemöglichkeitne (LDAP)',
-	'LBL_OSSPDF_INFO' => 'Verwalte PDF Einstellungen',
 	'LBL_BACKUP_DESCRIPTION' => 'Verwaltung von Sicherungen',
 	'LBL_SCHEDULER_DESCRIPTION' => 'Verwalte Manage Scheduler',
 	'LBL_OSSMAIL_DESCRIPTION' => 'Verwalte Email Client',

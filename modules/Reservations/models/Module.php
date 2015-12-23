@@ -43,6 +43,12 @@ class Reservations_Module_Model extends Vtiger_Module_Model {
 				'linkurl' => 'module='.$this->get('name').'&view=UsersList&mode=getUsersList',
 				'linkicon' => ''
 			);
+			$quickWidgets[] = array(
+				'linktype' => 'SIDEBARWIDGET',
+				'linklabel' => 'LBL_TYPE',
+				'linkurl' => 'module='.$this->get('name').'&view=UsersList&mode=getTypesList',
+				'linkicon' => ''
+			);
 			foreach($quickWidgets as $quickWidget) {
 				$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
 			}

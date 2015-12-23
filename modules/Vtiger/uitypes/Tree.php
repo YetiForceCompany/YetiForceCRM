@@ -44,11 +44,11 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		if ($adb->num_rows($result)) {
 			if ($adb->query_result_raw($result, 0, 'depth') > 0) {
 				$parenttrre = $adb->query_result_raw($result, 0, 'parenttrre');
-				$cut = strlen('::' . $tree);
-				$parenttrre = substr($parenttrre, 0, - $cut);
 				$pieces = explode('::', $parenttrre);
-				$parent = end($pieces);
-				$result2 = $adb->pquery("SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?", [$template, $parent]);
+				end($pieces);
+				$parent = prev($pieces);
+
+				$result2 = $adb->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $parent]);
 				$parentName = $adb->query_result_raw($result2, 0, 'name');
 
 				$parentName = '(' . vtranslate($parentName, $module) . ') ';

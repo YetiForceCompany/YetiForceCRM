@@ -71,7 +71,7 @@
 .userIcon-SCalculations:before {
 	content: "\e87f";
 }
-.userIcon-Quotes:before {
+.userIcon-SQuotes:before {
 	content: "\e880";
 }
 .userIcon-SSingleOrders:before {
@@ -182,6 +182,7 @@
 .userIcon-Documents:before {
 	content: "\e861";
 }
+// TODO remove
 .userIcon-OSSPdf:before {
 	content: "\e862";
 }

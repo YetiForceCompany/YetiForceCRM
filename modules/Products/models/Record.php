@@ -83,18 +83,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get Url to Create a new Quote from this record
-	 * @return <String> Url to Create new Quote
-	 */
-	function getCreateQuoteUrl()
-	{
-		$quotesModuleModel = Vtiger_Module_Model::getInstance('Quotes');
-
-		return 'index.php?module=' . $quotesModuleModel->getName() . '&view=' . $quotesModuleModel->getEditViewName() . '&product_id=' . $this->getId() .
-			'&sourceModule=' . $this->getModuleName() . '&sourceRecord=' . $this->getId() . '&relationOperation=true';
-	}
-
-	/**
 	 * Function to get Url to Create a new Invoice from this record
 	 * @return <String> Url to Create new Invoice
 	 */

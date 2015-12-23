@@ -56,7 +56,6 @@ $languageStrings = [
 	'Signed off' => 'Assinado',
 	'Signed in' => 'Assinado em',
 	'Events' => 'Eventos',
-	'OSSPdf' => 'Lista de Modelos PDF',
 	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Pesquisar em Subcategorias',
 	'Comments' => 'Comentários',
 	'Milestone Date' => 'Data do Milestone',

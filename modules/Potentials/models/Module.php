@@ -349,44 +349,26 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 	}
 	public function getTimeEmployee($id) {
 		$db = PearDatabase::getInstance();
-		
-		$QuoteId = array();
+
 		$sumAllTime = 0;
 		$PotentialId = array();
-		$quote=array();
 		$sql = "SELECT * FROM vtiger_crmentityrel WHERE crmid=$id ";
 		$resultSource = $db->query($sql, true);
 		$num = $db->num_rows( $resultSource );
-		for($i=0; $i<$num; $i++) { 
-			if($db->query_result( $resultSource, $i, 'relmodule' )=='Quotes'){
-				$quote[]=$db->query_result( $resultSource, $i, 'relcrmid' );
-			}
-		}
+
 		$sqlTC="SELECT * FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ?";
 		$resultTC = $db->pquery($sqlTC, array(0,'Accepted'), true);
 		$num = $db->num_rows( $resultTC );
 		$q=0;
 		for($i=0; $i<$num; $i++) { 
 			$q=$i;
-			if(($db->query_result( $resultTC, $i, 'quoteid' ) == 0) && ($db->query_result( $resultTC, $i, 'potentialid' ) == $id)){
+			if(($db->query_result( $resultTC, $i, 'potentialid' ) == $id)){
 				$PotentialId[] = $db->query_result( $resultTC, $i, 'osstimecontrolid' ) ;
 				$q++;
 			}
-			if($q==$i && ($db->query_result( $resultTC, $i, 'quoteid' ) != 0) && ($db->query_result( $resultTC, $i, 'potentialid' ) == $id) ){
-				$QuoteId[] = $db->query_result( $resultTC, $i, 'osstimecontrolid' ) ;
-				$q++;
-			}
-			elseif($q==$i && $db->query_result( $resultTC, $i, 'quoteid' ) != 0 && ($db->query_result( $resultTC, $i, 'potentialid' ) != $id)){
-				for($j=0; $j<count($quote); $j++) { 
-					if($db->query_result( $resultTC, $i, 'quoteid' ) == $quote[$j]){
-						$QuoteId[] = $db->query_result( $resultTC, $i, 'osstimecontrolid' ) ;
-						$q++;
-					}
-				}
-			}
 		
 		}
-		$Ids = array($QuoteId , $PotentialId);
+		$Ids = array($PotentialId);
 
 		foreach($Ids as $module){
 			foreach ($module as $moduleId){
@@ -420,10 +402,8 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		$response = array();
 		$response[0][0] = $recordModel->get('sum_time');
 		$response[0][1] = vtranslate('Total time [h]', $this->getName());
-		$response[1][0] = $recordModel->get('sum_time_q');
-		$response[1][1] = vtranslate('Total time [Quotes]', $this->getName());
-		$response[2][0] = $recordModel->get('sum_time_all');
-		$response[2][1] = vtranslate('Total time [Sum]', $this->getName());
+		$response[1][0] = $recordModel->get('sum_time_all');
+		$response[1][1] = vtranslate('Total time [Sum]', $this->getName());
 		return $response;
 	}
 	

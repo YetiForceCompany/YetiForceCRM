@@ -155,12 +155,12 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		}
 		if (!empty($categoryToAdd)) {
 			foreach ($categoryToAdd as $category) {
-				$relationModel->addCategory($sourceRecordId, $category);
+				$relationModel->addRelTree($sourceRecordId, $category);
 			}
 		}
 		if (!empty($categoryToRemove)) {
 			foreach ($categoryToRemove as $category) {
-				$relationModel->deleteCategory($sourceRecordId, $category);
+				$relationModel->deleteRelTree($sourceRecordId, $category);
 			}
 		}
 

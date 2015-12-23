@@ -4084,6 +4084,12 @@ html,body,.baseContainer
 	height: 300px;
 }
 @media only screen and (min-width: 1240px){
+	.pull-right-lg{
+		float:right;
+	}
+	.pull-left-lg{
+		float:left;
+	}
 	.selectSearch{
 		display: block;
 	}
@@ -4119,6 +4125,11 @@ html,body,.baseContainer
 		display: inline !important;
 	}
 }
+@media only screen and (max-width:1240px) and (min-width: 960px){
+	.paddingTop10-md{
+		padding-top: 10px;
+	}
+}
 @media screen and (min-width: 1161px) {
 	#mediumNav,
 	#shortNav,
@@ -4142,6 +4153,12 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 992px) {
+	.pull-left-md{
+		float:left;
+	}
+	.pull-right-md{
+		float:right;
+	}
 	.listViewActionsDiv .btn-toolbar,
 	.editViewContainer .btn-toolbar{
 		margin-bottom: 5px;
@@ -4200,6 +4217,20 @@ html,body,.baseContainer
 	}
 }
 @media screen and (max-width: 960px) {
+	.siteBarRight{
+		width: 100%;
+		padding: 0;
+		border-left: 1px solid #dddddd;
+		position: relative;
+		-webkit-transition: all 0.5s ease;
+		-moz-transition: all 0.5s ease;
+		-o-transition: all 0.5s ease;
+		transition: all 0.5s ease;
+		z-index: 100;
+	}
+	.hideSiteBar{
+		right: 0 !important;
+	}
 	.pull-right-sm{
 		float: right; 
 	}
@@ -4350,6 +4381,20 @@ html,body,.baseContainer
 	}
 }
 @media screen and (min-width: 960px) {
+	.siteBarRight{
+		width: calc(25% - 15px);
+		padding: 0 15px;
+		border-left: 1px solid #dddddd;
+		background: #F5F5F5;
+		position: fixed;
+		right: 0;
+		height:100%;
+		-webkit-transition: all 0.5s ease;
+		-moz-transition: all 0.5s ease;
+		-o-transition: all 0.5s ease;
+		transition: all 0.5s ease;
+		z-index: 100;
+	}
 	.rightHeaderBtn{
 		display: block;
 	}
@@ -4537,6 +4582,14 @@ html,body,.baseContainer
 		left: 0;
 		width: 100%;
 	}
+	.fc-toolbar .fc-left{
+		float:none !important;
+		display:inline-block;
+	}
+	.fc-toolbar .fc-right{
+		float:none !important;
+		display:inline-block;
+	}
 }
 .jstree-proton .jstree-search {
 	color:#fff !important;
@@ -4546,20 +4599,6 @@ html,body,.baseContainer
 #treePopupContainer{
     overflow: auto;
     max-height: 500px;
-}
-.siteBarRight{
-	width: calc(25% - 15px);
-	padding: 0 15px;
-	border-left: 1px solid #dddddd;
-	background: #F5F5F5;
-	position: fixed;
-	right: 0;
-	height:100%;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-	transition: all 0.5s ease;
-	z-index: 100;
 }
 .toggleSiteBarRightButton{
 	background: #F5F5F5;
@@ -4715,3 +4754,7 @@ html,body,.baseContainer
 	font-size: 15px;
 	top: 0;
 	vertical-align: middle;
+}
+.widgetContainer select[multiple]{
+	height: 0px;
+}

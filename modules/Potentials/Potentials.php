@@ -359,69 +359,6 @@ class Potentials extends CRMEntity
 	}
 
 	/**
-	 * Function to get Potential related Quotes
-	 * @param  integer   $id  - potentialid
-	 * returns related Quotes record in array format
-	 */
-	function get_quotes($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-		$log = vglobal('log');
-		$current_user = vglobal('current_user');
-		$singlepane_view = vglobal('singlepane_view');
-		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_quotes(" . $id . ") method ...");
-		$this_module = $currentModule;
-
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=' . $this_module . '&return_action=CallRelatedList&return_id=' . $id;
-
-		$button = '';
-
-		if ($actions && getFieldVisibilityPermission($related_module, $current_user->id, 'potential_id', 'readwrite') == '0') {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname) . "'>&nbsp;";
-			}
-		}
-
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "select case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
-					vtiger_account.accountname, vtiger_crmentity.*, vtiger_quotes.*, vtiger_potential.potentialname from vtiger_quotes
-					inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_quotes.quoteid
-					left outer join vtiger_potential on vtiger_potential.potentialid=vtiger_quotes.potentialid
-					left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-                    LEFT JOIN vtiger_quotescf ON vtiger_quotescf.quoteid = vtiger_quotes.quoteid
-					LEFT JOIN vtiger_quotesaddress ON vtiger_quotesaddress.quoteaddressid = vtiger_quotes.quoteid
-					left join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid
-					LEFT join vtiger_account on vtiger_account.accountid=vtiger_quotes.accountid
-					where vtiger_crmentity.deleted=0 and vtiger_potential.potentialid=" . $id;
-
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value == null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		$log->debug("Exiting get_quotes method ...");
-		return $return_value;
-	}
-
-	/**
 	 * Move the related records of the specified list of id's to the given record.
 	 * @param String This module name
 	 * @param Array List of Entity Id's from which related records need to be transfered
@@ -434,15 +371,15 @@ class Potentials extends CRMEntity
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Contacts" => "vtiger_contpotentialrel", "Products" => "vtiger_seproductsrel",
-			"Attachments" => "vtiger_seattachmentsrel", "Quotes" => "vtiger_quotes",
+			"Attachments" => "vtiger_seattachmentsrel",
 			"Documents" => "vtiger_senotesrel");
 
 		$tbl_field_arr = Array("vtiger_contpotentialrel" => "contactid", "vtiger_seproductsrel" => "productid",
-			"vtiger_seattachmentsrel" => "attachmentsid", "vtiger_quotes" => "quoteid",
+			"vtiger_seattachmentsrel" => "attachmentsid",
 			"vtiger_senotesrel" => "notesid");
 
 		$entity_tbl_field_arr = Array("vtiger_contpotentialrel" => "potentialid", "vtiger_seproductsrel" => "crmid",
-			"vtiger_seattachmentsrel" => "crmid", "vtiger_quotes" => "potentialid",	"vtiger_senotesrel" => "crmid");
+			"vtiger_seattachmentsrel" => "crmid","vtiger_senotesrel" => "crmid");
 
 		foreach ($transferEntityIds as $transferId) {
 			foreach ($rel_table_arr as $rel_module => $rel_table) {
@@ -520,7 +457,6 @@ class Potentials extends CRMEntity
 	{
 		$rel_tables = array(
 			"Products" => array("vtiger_seproductsrel" => array("crmid", "productid"), "vtiger_potential" => "potentialid"),
-			"Quotes" => array("vtiger_quotes" => array("potentialid", "quoteid"), "vtiger_potential" => "potentialid"),
 			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"), "vtiger_potential" => "potentialid"),
 			"Accounts" => array("vtiger_potential" => array("potentialid", "related_to")),
 		);

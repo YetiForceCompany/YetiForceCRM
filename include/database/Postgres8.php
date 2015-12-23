@@ -161,10 +161,6 @@ function expandRecord($table, $log)
 	elseif ($table == "vtiger_contactdetails")
 		$subfields = array("lastname", "contactid", "accountid", "salutation", "firstname", "email", "phone", "mobile", "title", "department", "fax", "reportsto", "training", "usertype", "contacttype", "otheremail", "yahooid", "donotcall", "emailoptout", "imagename", "reference", "notify_owner");
 
-	//vtiger_quotes
-	elseif ($table == "vtiger_quotes")
-		$subfields = array("quoteid", "subject", "potentialid", "quotestage", "validtill", "contactid", "currency", "subtotal", "carrier", "shipping", "inventorymanager", "type", "total", "taxtype", "discount_percent", "discount_amount", "accountid", "terms_conditions");
-
 	//vtiger_crmentity
 	elseif ($table == "vtiger_crmentity")
 		$subfields = array("crmid", "smcreatorid", "smownerid", "modifiedby", "setype", "description", "createdtime", "modifiedtime", "viewedtime", "status", "version", "presence", "deleted");

@@ -256,7 +256,7 @@ function getTemplateDetails($templateid)
 /** 	Function used to retrieve a single field value from database
  * 	@param string $tablename - tablename from which we will retrieve the field value
  * 	@param string $fieldname - fieldname to which we want to get the value from database
- * 	@param string $idname	 - idname which is the name of the entity id in the table like, inoviceid, quoteid, etc.,
+ * 	@param string $idname	 - idname which is the name of the entity id in the table like, inoviceid, etc.,
  * 	@param int    $id	 - entity id
  * 	return string $fieldval  - field value of the needed fieldname from database will be returned
  */

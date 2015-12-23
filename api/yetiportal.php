@@ -149,7 +149,7 @@ $server->register(
 $server->register(
 	'get_check_account_id', array('id' => 'xsd:string'), array('return' => 'xsd:string'), $NAMESPACE);
 
-//to get details of quotes,invoices and documents
+//to get details of invoices and documents
 $server->register(
 	'get_details', array('id' => 'xsd:string', 'block' => 'xsd:string', 'contactid' => 'xsd:string', 'sessionid' => 'xsd:string'), array('return' => 'tns:field_details_array'), $NAMESPACE);
 
@@ -1424,9 +1424,9 @@ function get_vendor_name($vendorid)
 	return $name;
 }
 
-/** 	function used to get the Quotes/Invoice List
+/** 	function used to get the Invoice List
  * 	@param int $id - id -Contactid
- * 	return string $output - Quotes/Invoice list Array
+ * 	return string $output - Invoice list Array
  */
 function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 {
@@ -1478,20 +1478,7 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 		}
 	}
 
-	if ($module == 'Quotes') {
-		$query = "select distinct vtiger_quotes.*,vtiger_crmentity.smownerid,
-		vtiger_quotes.accountid as entityid,
-		'Accounts' as setype,
-		vtiger_potential.potentialname,vtiger_account.accountid
-		from vtiger_quotes left join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_quotes.quoteid
-		LEFT OUTER JOIN vtiger_account
-		ON vtiger_account.accountid = vtiger_quotes.accountid
-		LEFT OUTER JOIN vtiger_potential
-		ON vtiger_potential.potentialid = vtiger_quotes.potentialid
-		where vtiger_crmentity.deleted=0 and (vtiger_quotes.accountid in  (" . generateQuestionMarks($entity_ids_list) . ") )";
-		$params = array($entity_ids_list);
-		$fields_list['Related To'] = 'entityid';
-	} else if ($module == 'Invoice') {
+	if ($module == 'Invoice') {
 		$query = "select distinct vtiger_invoice.*,vtiger_crmentity.smownerid, vtiger_invoice.accountid as entityid,
 		'Accounts' as setype
 		from vtiger_invoice
@@ -1563,20 +1550,6 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 			$fieldvalue = $adb->query_result($res, $j, $fieldname);
 			$fieldValuesToRound = array('total', 'subtotal', 'discount_amount', 'pre_tax_total', 'received', 'balance', 'unit_price');
 
-			if ($module == 'Quotes') {
-				if ($fieldname == 'subject') {
-					$fieldid = $adb->query_result($res, $j, 'quoteid');
-					$filename = $fieldid . '_Quotes.pdf';
-					$fieldvalue = '<a href="index.php?&module=Quotes&action=index&id=' . $fieldid . '">' . $fieldvalue . '</a>';
-				}
-				if (in_array($fieldname, $fieldValuesToRound)) {
-					$fieldvalue = round($fieldvalue, 2);
-				}
-				if ($fieldname == 'total') {
-					$sym = getCurrencySymbol($res, $j, 'currency_id');
-					$fieldvalue = $sym . $fieldvalue;
-				}
-			}
 			if ($module == 'Invoice') {
 				if ($fieldname == 'subject') {
 					$fieldid = $adb->query_result($res, $j, 'invoiceid');
@@ -1792,7 +1765,7 @@ function updateDownloadCount($id)
 	return true;
 }
 
-/** 	function used to get the Quotes/Invoice pdf
+/** 	function used to get the Invoice pdf
  * 	@param int $id - id -id
  * 	return string $output - pd link value
  */
@@ -2005,17 +1978,6 @@ function get_product_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 		WHERE vtiger_seproductsrel.crmid in (" . generateQuestionMarks($entity_ids_list) . ") and vtiger_crmentity.deleted = 0 ";
 	$params[] = array($entity_ids_list);
 
-	$checkQuotes = checkModuleActive('Quotes');
-	if ($checkQuotes == true) {
-		$query[] = "select distinct vtiger_products.*,
-			vtiger_quotes.accountid as entityid,
-			'Accounts' as setype
-			from vtiger_quotes INNER join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_quotes.quoteid
-			left join vtiger_inventoryproductrel on vtiger_inventoryproductrel.id=vtiger_quotes.quoteid
-			left join vtiger_products on vtiger_products.productid = vtiger_inventoryproductrel.productid
-			where vtiger_inventoryproductrel.productid = vtiger_products.productid AND vtiger_crmentity.deleted=0 and (accountid in (" . generateQuestionMarks($entity_ids_list) . ") )";
-		$params[] = array($entity_ids_list);
-	}
 	$checkInvoices = checkModuleActive('Invoice');
 	if ($checkInvoices == true) {
 		$query[] = "select distinct vtiger_products.*, vtiger_invoice.accountid as entityid, 'Accounts' as setype
@@ -2075,8 +2037,8 @@ function get_product_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 	$log->debug("Exiting function get_product_list_values.....");
 	return $output;
 }
-/* function used to get details of tickets,quotes,documents,Products,Contacts,Accounts
- * 	@param int $id - id of quotes or invoice or notes
+/* function used to get details of tickets,documents,Products,Contacts,Accounts
+ * 	@param int $id - id of invoice or notes
  * 	return string $message - Account informations will be returned from :Accountdetails table
  */
 
@@ -2101,18 +2063,7 @@ function get_details($id, $module, $customerid, $sessionid)
 		return null;
 
 	$params = array($id);
-	if ($module == 'Quotes') {
-		$query = "SELECT
-			vtiger_quotes.*,vtiger_crmentity.*,vtiger_quotesaddress.*,
-			vtiger_quotescf.* FROM vtiger_quotes
-			INNER JOIN vtiger_crmentity " .
-			"ON vtiger_crmentity.crmid = vtiger_quotes.quoteid
-			INNER JOIN vtiger_quotesaddress
-				ON vtiger_quotes.quoteid = vtiger_quotesaddress.quoteaddressid
-			LEFT JOIN vtiger_quotescf
-				ON vtiger_quotes.quoteid = vtiger_quotescf.quoteid
-			WHERE vtiger_quotes.quoteid=(" . generateQuestionMarks($id) . ") AND vtiger_crmentity.deleted = 0";
-	} else if ($module == 'Documents') {
+	if ($module == 'Documents') {
 		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE columnname = ? AND tablename = ?', ['folderid', 'vtiger_notes']);
 		$tree = $adb->query_result($result, 0, 'fieldparams');
 
@@ -2274,16 +2225,6 @@ function get_details($id, $module, $customerid, $sessionid)
 			}
 		}
 
-		if ($module == 'Quotes') {
-			if ($fieldname == 'subject' && $fieldvalue != '') {
-				$fieldid = $adb->query_result($res, 0, 'quoteid');
-				$fieldvalue = '<a href="index.php?downloadfile=true&module=Quotes&action=index&id=' . $fieldid . '">' . $fieldvalue . '</a>';
-			}
-			if ($fieldname == 'total') {
-				$sym = getCurrencySymbol($res, 0, 'currency_id');
-				$fieldvalue = $sym . $fieldvalue;
-			}
-		}
 		if ($module == 'Services') {
 			if ($fieldname == 'pscategory' && $fieldvalue != '') {
 				$fieldvalue = Vtiger_Language_Handler::getTranslatedString($fieldvalue, $module, vglobal('default_language'));
@@ -2452,38 +2393,12 @@ function check_permission($customerid, $module, $entityid)
 													FROM vtiger_inventoryproductrel
 													INNER JOIN vtiger_crmentity
 													ON vtiger_inventoryproductrel.productid=vtiger_crmentity.crmid
-													LEFT JOIN vtiger_quotes
-													ON vtiger_inventoryproductrel.id = vtiger_quotes.quoteid
-													WHERE vtiger_crmentity.deleted=0
-														AND (vtiger_quotes.accountid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . "))
-														AND vtiger_inventoryproductrel.productid = ?";
-			$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $entityid));
-			if ($adb->num_rows($res) > 0) {
-				return true;
-			}
-			$query = "SELECT vtiger_inventoryproductrel.productid, vtiger_inventoryproductrel.id
-													FROM vtiger_inventoryproductrel
-													INNER JOIN vtiger_crmentity
-													ON vtiger_inventoryproductrel.productid=vtiger_crmentity.crmid
 													LEFT JOIN vtiger_invoice
 													ON vtiger_inventoryproductrel.id = vtiger_invoice.invoiceid
 													WHERE vtiger_crmentity.deleted=0
 														AND (vtiger_invoice.contactid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . ") or vtiger_invoice.accountid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . "))
 														AND vtiger_inventoryproductrel.productid = ?";
 			$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $allowed_contacts_and_accounts, $entityid));
-			if ($adb->num_rows($res) > 0) {
-				return true;
-			}
-			break;
-
-		case 'Quotes' : $query = "SELECT vtiger_quotes.quoteid
-								FROM vtiger_quotes
-								INNER JOIN vtiger_crmentity
-								ON vtiger_quotes.quoteid=vtiger_crmentity.crmid
-								WHERE vtiger_crmentity.deleted=0
-									AND (vtiger_quotes.accountid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . "))
-									AND vtiger_quotes.quoteid = ?";
-			$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $entityid));
 			if ($adb->num_rows($res) > 0) {
 				return true;
 			}
@@ -2565,20 +2480,6 @@ function check_permission($customerid, $module, $entityid)
 				"(vtiger_crmentityrel.relcrmid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . ") AND vtiger_crmentityrel.module = 'Services'))
 									AND vtiger_service.serviceid = ?";
 			$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $allowed_contacts_and_accounts, $entityid));
-			if ($adb->num_rows($res) > 0) {
-				return true;
-			}
-
-			$query = "SELECT vtiger_inventoryproductrel.productid, vtiger_inventoryproductrel.id
-									FROM vtiger_inventoryproductrel
-									INNER JOIN vtiger_crmentity
-									ON vtiger_inventoryproductrel.productid=vtiger_crmentity.crmid
-									LEFT JOIN vtiger_quotes
-									ON vtiger_inventoryproductrel.id = vtiger_quotes.quoteid
-									WHERE vtiger_crmentity.deleted=0
-									AND (vtiger_quotes.accountid IN (" . generateQuestionMarks($allowed_contacts_and_accounts) . "))
-									AND vtiger_inventoryproductrel.productid = ?";
-			$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $entityid));
 			if ($adb->num_rows($res) > 0) {
 				return true;
 			}
@@ -2959,17 +2860,6 @@ function get_service_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 
 	$params[] = array($entity_ids_list, $entity_ids_list);
 
-	$checkQuotes = checkModuleActive('Quotes');
-	if ($checkQuotes == true) {
-		$query[] = "select distinct vtiger_service.*,
-			vtiger_quotes.accountid as entityid,
-			'Accounts' as setype
-			from vtiger_quotes INNER join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_quotes.quoteid
-			left join vtiger_inventoryproductrel on vtiger_inventoryproductrel.id=vtiger_quotes.quoteid
-			left join vtiger_service on vtiger_service.serviceid = vtiger_inventoryproductrel.productid
-			where vtiger_inventoryproductrel.productid = vtiger_service.serviceid AND vtiger_crmentity.deleted=0 and accountid in  (" . generateQuestionMarks($entity_ids_list) . ")";
-		$params[] = array($entity_ids_list);
-	}
 	$checkInvoices = checkModuleActive('Invoice');
 	if ($checkInvoices == true) {
 		$query[] = "select distinct vtiger_service.*, vtiger_invoice.accountid as entityid, 'Accounts' as setype

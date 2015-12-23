@@ -474,7 +474,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$relationQuery = preg_replace("/[ \t\n\r]+/", " ", $relationQuery);
 		$position = stripos($relationQuery, ' from ');
 		if ($position) {
-			$relationQuery = str_replace('FROM', 'from', $relationQuery); 
+			$relationQuery = str_replace('FROM', 'from', $relationQuery);
 			$split = explode(' from ', $relationQuery);
 			$splitCount = count($split);
 			$relationQuery = 'SELECT COUNT(DISTINCT vtiger_crmentity.crmid) AS count';
@@ -540,7 +540,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 			$result = $db->pquery($query, array($recordId));
 			return $db->query_result($result, 0, 'currency_symbol');
-		} else if (($tableName == 'vtiger_invoice' || $tableName == 'vtiger_quotes' || $tableName == 'vtiger_purchaseorder') &&
+		} else if (($tableName == 'vtiger_invoice' || $tableName == 'vtiger_purchaseorder') &&
 			($columnName == 'total' || $columnName == 'subtotal' || $columnName == 'discount_amount' || $columnName == 'paid' ||
 			$columnName == 'balance' || $columnName == 'received' || $columnName == 'listprice' || $columnName == 'pre_tax_total')) {
 			$focus = CRMEntity::getInstance($moduleName);
@@ -552,7 +552,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			return $fieldInfo['currency_symbol'];
 		}
 	}
-	
+
 	public function getFavoriteRecords()
 	{
 		$db = PearDatabase::getInstance();
@@ -571,5 +571,69 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$favorites[$row['relcrmid']] = $row;
 		}
 		return $favorites;
+	}
+
+	public function getTreeViewModel()
+	{
+		if ($this->has('treeViewModel')) {
+			return $this->get('treeViewModel');
+		}
+		$relModuleName = $this->getRelatedModuleModel()->getName();
+		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'TreeCategoryModal', $relModuleName);
+		$handler = new $handlerClass();
+		$handler->moduleName = $relModuleName;
+		$this->set('treeViewModel', $handler);
+		return $handler;
+	}
+
+	public function getTreeHeaders()
+	{
+		$fields = $this->getTreeViewModel()->getTreeField();
+		return [
+			'name' => $fields['fieldlabel'],
+			'user' => 'LBL_USER',
+			'createdtime' => 'Created Time'
+		];
+	}
+
+	public function getTreeEntries()
+	{
+		$db = PearDatabase::getInstance();
+		$recordId = $this->getParentRecordModel()->getId();
+		$relModuleId = $this->getRelatedModuleModel()->getId();
+		$relModuleName = $this->getRelatedModuleModel()->getName();
+		$treeViewModel = $this->getTreeViewModel();
+		$fields = $treeViewModel->getTreeField();
+		$template = $treeViewModel->getTemplate();
+
+		$result = $db->pquery('SELECT tr.*,rel.crmid,rel.user,rel.createdtime  FROM vtiger_trees_templates_data tr '
+			. 'INNER JOIN u_yf_crmentity_rel_tree rel ON rel.tree = tr.tree '
+			. 'WHERE tr.templateid = ? AND rel.crmid = ? AND rel.relmodule = ?', [$template, $recordId, $relModuleId]);
+		$trees = [];
+		while ($row = $db->getRow($result)) {
+			$treeID = $row['tree'];
+			$pieces = explode('::', $row['parenttrre']);
+			end($pieces);
+			$parent = prev($pieces);
+			$parentName = '';
+			if (false && $row['depth'] > 0) {
+				$result2 = $db->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $parent]);
+				$parentName = $db->getSingleValue($result2);
+				$parentName = '(' . vtranslate($parentName, $relModuleName) . ') ';
+			}
+			$tree = [
+				'id' => $treeID,
+				'name' => $parentName . vtranslate($row['name'], $relModuleName),
+				'parent' => $parent == 0 ? '#' : $parent,
+				'user' => getOwnerName($row['user']),
+				'createdtime' => Vtiger_Datetime_UIType::getDisplayDateTimeValue($row['createdtime'])
+			];
+			if (!empty($row['icon'])) {
+				$tree['icon'] = $row['icon'];
+			}
+			$trees[] = $tree;
+		}
+
+		return $trees;
 	}
 }

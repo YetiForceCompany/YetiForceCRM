@@ -185,6 +185,7 @@ $languageStrings = [
 	'BLOCK_EDIT' => 'Block edition',
 	'UpdateBalance' => 'Update Balance',
 	'UpdateInventory' => 'Update Inventory',
+	'LBL_PDF_TEMPLATE' => 'Select PDF template',
 ];
 
 $jsLanguageStrings = [

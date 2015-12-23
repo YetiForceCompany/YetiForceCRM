@@ -155,7 +155,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	public static function getDependentModules()
 	{
 		$dependentModulesList = array();
-		$dependentModulesList['Accounts'] = array('Potentials', 'HelpDesk', 'Quotes', 'Invoice');
+		$dependentModulesList['Accounts'] = array('Potentials', 'HelpDesk', 'Invoice');
 
 		return $dependentModulesList;
 	}
