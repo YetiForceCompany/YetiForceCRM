@@ -78,6 +78,8 @@ class VTCreateTodoTask extends VTTask
 
 		if ($this->assigned_user_id == 'currentUser' && isset($current_user)) {
 			$userId = vtws_getWebserviceEntityId('Users', $current_user->id);
+		} else if ($this->assigned_user_id == 'triggerUser' && isset($entityData->executeUser)) {
+			$userId = vtws_getWebserviceEntityId('Users', $entityData->executeUser);
 		}
 
 		if ($this->assigned_user_id == 'copyParentOwner') {

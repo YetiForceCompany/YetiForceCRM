@@ -233,6 +233,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						module: app.getModuleName(),
 						action: 'Workflow',
 						mode: 'execute',
+						user: data.find('[name="user"]').val(),
 						record: detailInstance.getRecordId(),
 						ids: ids
 					}
@@ -581,6 +582,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 				function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					aDeferred.resolve(data);
+					var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
+					thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
 				},
 				function (textStatus, errorThrown) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
@@ -2308,11 +2311,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * @license licenses/License.html
 	 * @package YetiForce.Detail
 	 * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
 	 */
-	registerRelatedModulesRecordCount: function () {
+	registerRelatedModulesRecordCount: function (tabContainer) {
 		var thisInstance = new Vtiger_Detail_Js();
 		var moreList = $('.related .nav .dropdown-menu');
-		$('.related .nav > .relatedNav').each(function (n, item) {
+		var relationContainer = tabContainer;
+		if (!relationContainer)
+			relationContainer = $('.related .nav > .relatedNav, .related .nav > .mainNav');
+		relationContainer.each(function (n, item) {
 			if ($(item).data('count') == '1') {
 				var params = {
 					module: app.getModuleName(),
@@ -2393,6 +2400,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 										commentDetails.remove();
 									});
 									thisInstance.getSelectedTab().trigger('click');
+									var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
+									thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
 								} else {
 									Vtiger_Helper_Js.showPnotify(data.error.message);
 								}
@@ -2933,7 +2942,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerGetAllTagCloudWidgetLoad();
 		this.registerRelatedModulesRecordCount();
 		var header = Vtiger_Header_Js.getInstance();
-		header.registerQuickCreateCallBack(this.registerRelatedModulesRecordCount);
+		header.registerQuickCreateCallBack(this.registerRelatedModulesRecordCount());
 	}
 });
 

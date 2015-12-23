@@ -49,7 +49,8 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRelatedProductsServices&requestMode=summary',
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
-				'related' => 'ProductsAndServices'
+				'related' => 'ProductsAndServices',
+				'countRelated' => true
 			);
 		}
 
@@ -60,7 +61,8 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model
 				'linklabel' => 'ModComments',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments&type='.$modCommentsModel::getDefaultViewComments(),
 				'linkicon' => '',
-				'related' => 'Comments'
+				'related' => 'Comments',
+				'countRelated' => true
 			);
 		}
 

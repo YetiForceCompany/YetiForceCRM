@@ -171,13 +171,28 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$relatedModuleName = $request->get('relatedModule');
 		$parentId = $request->get('record');
 		$label = $request->get('tab_label');
-		$pagingModel = new Vtiger_Paging_Model();
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
-		$totalCount = $relationListView->getRelatedEntriesCount();
-		$pageLimit = $pagingModel->getPageLimit();
-		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
+		$totalCount = 0;
+		$relModules = [$relatedModuleName];
 
+		if (in_array('ProductsAndServices', $relModules)) {
+			$label = '';
+			$relModules = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 'OSSOutsourcedServices', 'OSSSoldServices'];
+		}
+		if (in_array('Comments', $relModules)) {
+			$totalCount = ModComments_Record_Model::getCommentsCount($parentId);
+		} else {
+			$pagingModel = new Vtiger_Paging_Model();
+			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
+			foreach ($relModules as $relatedModuleName) {
+				if (!vtlib_isModuleActive($relatedModuleName)) {
+					continue;
+				}
+				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
+				$totalCount += (int) $relationListView->getRelatedEntriesCount();
+				$pageLimit = $pagingModel->getPageLimit();
+				$pageCount = ceil((int) $totalCount / (int) $pageLimit);
+			}
+		}
 		if ($pageCount == 0) {
 			$pageCount = 1;
 		}

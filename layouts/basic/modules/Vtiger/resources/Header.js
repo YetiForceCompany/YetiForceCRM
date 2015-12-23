@@ -755,10 +755,25 @@ jQuery.Class("Vtiger_Header_Js", {
 		var records = $('.customTableRWD').find('[data-toggle-visible=false]');
 		records.find('.footable-toggle').css("display", "none");
 	},
+	registerScrollForMenu: function() {
+		app.showScrollBar($(".slimScrollMenu"),
+		{
+			height : 'calc(100% - 24px)',
+			width : '100%',
+		});
+		app.showScrollBar($(".slimScrollSubMenu"),
+		{
+			height : 'calc(100% - 50px)',
+		});
+		$(".slimScrollSubMenu .slimScrollDiv").each(function(){
+			$(this).closest(' .slimScrollSubMenu').css('overflow','initial');
+		});
+	},
 	registerEvents: function () {
 		var thisInstance = this;
 		thisInstance.recentPageViews();
 		thisInstance.registerFooTable(); //Enable footable
+		thisInstance.registerScrollForMenu();
 		jQuery('.globalSearch').click(function () {
 			var currentTarget = $(this);
 			thisInstance.hideSearchMenu();

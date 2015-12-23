@@ -880,7 +880,6 @@ $languageStrings = [
 	'Information Technology' => 'Informationstechnologie',
 	'Telecommunication' => 'Telekommunikation',
 	'Media' => 'Medien',
-	'Credits' => 'Credits',
 	'COPY_ADRESS_FROM' => 'Adresse kopieren von:',
 	'LBL_LEFT_PANEL_SHOW_HIDE' => 'Linken Bereich anzeigen/ausblenden',
 	'LBL_RIGHT_PANEL_SHOW_HIDE' => 'Rechten Bereich anzeigen/ausblenden',

@@ -59,6 +59,8 @@
 					{/foreach}
                     <optgroup label="{vtranslate('LBL_SPECIAL_OPTIONS')}">
 						<option value="copyParentOwner" {if $TASK_OBJECT->assigned_user_id eq 'copyParentOwner'} selected="" {/if}>{vtranslate('LBL_PARENT_OWNER')}</option>
+						<option value="currentUser" {if $TASK_OBJECT->assigned_user_id eq 'currentUser'} selected="" {/if}>{vtranslate('LBL_CURRENT_USER',$QUALIFIED_MODULE)}</option>
+						<option value="triggerUser" {if $TASK_OBJECT->assigned_user_id eq 'triggerUser'} selected="" {/if}>{vtranslate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)}</option>
                     </optgroup>
 				</select>
 			</span>

@@ -3387,6 +3387,14 @@ span[name=existingImages] img{
 	margin-right: 12px;
 	font-size: 20px;
 }
+
+.leftPanel  .slimScrollDiv{
+	overflow: unset !important;
+	position: static !important;
+}
+.leftPanel .slimScrollBar{
+	display: none !important;
+}
 .baseContainer .leftPanel:after {
 	content: "";
 	position: fixed;
@@ -3450,17 +3458,15 @@ span[name=existingImages] img{
 .nav li{
 	position: static;
 }
-.nav li:hover > .subMenu{
+.nav li:hover > .slimScrollDiv >.subMenu{
 	display: block;
 	position: absolute;
 	left: 230px;
 	top: 50px;
 	height: calc(100% - 50px);
-	overflow: auto;
-	overflow-x:hidden;
 }
-.nav li:hover > .subMenu .subMenu{
-	left: 260px;
+.nav li:hover > .slimScrollDiv >.subMenu > li > .slimScrollDiv >.subMenu{
+	left: 280px;
 	top: 0;
 }
 .nav li:hover .subMenu a{
@@ -3598,16 +3604,10 @@ html,body,.baseContainer
 	color:#000;
 }
 .menuContainer{
-	overflow:auto;
-	overflow-x:hidden;
+	overflow-y:auto;
+	overflow-x:hidden !important;
 	height:calc(100% - 50px);
 	width: 100%;
-}
-.nav li:hover > .subMenu::-webkit-scrollbar {
-	display: none;
-}
-.menuContainer::-webkit-scrollbar {
-	display: none;
 }
 .globalSearchInput .chosen-container-single .chosen-single span{
 	min-width: 130px;
@@ -3744,9 +3744,6 @@ html,body,.baseContainer
 	overflow: scroll;
 	-webkit-transition: left ease-in-out 0.35s;
 	transition: left ease-in-out 0.35s;
-}
-.mobileLeftPanel::-webkit-scrollbar { 
-	display: none; 
 }
 .mobileLeftPanel{
 	font-size:14px;

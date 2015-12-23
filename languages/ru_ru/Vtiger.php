@@ -1136,7 +1136,6 @@ $languageStrings = [
 	'LBL_VIEW_COMPOSE' => 'Написать Письмо',
 	'LBL_VIEW_PREFERENCEDETAIL' => 'Мои настройки',
 	'LBL_VIEW_PREFERENCEEDIT' => 'Изменить настройки',
-	'Credits' => 'Благодарности',
 	'LBL_VIEW_DASHBOARD' => 'Суммирование',
 	'LBL_SEARCH_MODULE' => 'Модуль поиска',
 	'LBL_SELECT_SINGLE_ROW' => 'Выберите строку',

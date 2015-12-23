@@ -685,7 +685,6 @@ $languageStrings = [
 	'Web Site' => 'Web Site',
 	'Website: ' => 'Website: ',
 	'Word of mouth' => 'Word of mouth',
-	'Credits' => 'Credits',
 	'PotentialsList' => 'Opportunities',
 	'WEBLOADTIME' => 'Page loading time', //OpenSaaS VTE
 	'LBL_FOOTER_CONTENT' => 'Copyright 2014 YetiForce.com All rights reserved. %s<br/>Creating YetiForce software was possible thanks to the %s called Vtiger CRM and other programs that have open source codes.',

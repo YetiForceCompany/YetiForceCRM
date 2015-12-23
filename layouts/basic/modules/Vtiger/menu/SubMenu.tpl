@@ -3,7 +3,7 @@
 {assign var=MENUS value=$MENU.childs}
 {if $MENUS|@count neq 0}
 	{if $DEVICE == 'Desktop'}
-		<ul class="nav subMenu {if $MENU['active'] || $PARENT_MODULE == $MENU['id']}in{/if}" role="menu" aria-hidden="true">
+		<ul class="slimScrollSubMenu nav subMenu {if $MENU['active'] || $PARENT_MODULE == $MENU['id']}in{/if}" role="menu" aria-hidden="true">
 	{/if}
 		{assign var=TABINDEX value=$TABINDEX-1}
 		{foreach key=KEY item=MENU from=$MENUS}

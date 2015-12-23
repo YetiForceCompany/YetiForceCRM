@@ -44,7 +44,8 @@ class Vtiger_Workflow_Action extends Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$ids = $request->get('ids');
-		Vtiger_WorkflowTrigger_Model::execute($moduleName, $record, $ids);
+		$user = $request->get('user');
+		Vtiger_WorkflowTrigger_Model::execute($moduleName, $record, $ids, $user);
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit($taggedInfo);
