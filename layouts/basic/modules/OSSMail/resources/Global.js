@@ -623,7 +623,6 @@ function loadQuickCreateForm(moduleName, params, inframe) {
 	}
 	var quickcreateUrl = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
 	relatedParams['email'] = params['from_email'];
-	relatedParams['potentialname'] = params['title'];
 	relatedParams['projectname'] = params['title'];
 	relatedParams['ticket_title'] = params['title'];
 	relatedParams['description'] = params['body'];
