@@ -21,7 +21,7 @@ $languageStrings = [
 	
 	'LBL_DISCOUNTCONFIGURATION' => 'Rabaty - konfiguracja',
 	'LBL_DISCOUNTCONFIGURATION_DESCRIPTION' => ' ',
-	'LBL_TAXCONFIGURATION' => 'Rabaty - konfiguracja',
+	'LBL_TAXCONFIGURATION' => 'Podatki - konfiguracja',
 	'LBL_TAXCONFIGURATION_DESCRIPTION' => ' ',
 	'LBL_CANNOT_BE_COMBINED' => 'Nie wolno łączyć',
 	'LBL_IN_TOTAL' => 'Sumarycznie',
