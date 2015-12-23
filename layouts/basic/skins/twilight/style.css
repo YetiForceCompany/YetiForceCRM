@@ -4684,6 +4684,17 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 480px){
+	.detailViewToolbar{
+		text-align: center !important;
+	}
+	.detailViewPagingButton {
+		margin-bottom: 5px;
+	}
+	.detailViewPagingButton,
+	.detailViewToolbar .btn-group,
+	.detailViewToolbar > div {
+		float: none !important;
+	}
 	.tl-text .tl-headline-date, .tl-text h3.tl-headline-date{
 		line-height: 31px;
 	}
