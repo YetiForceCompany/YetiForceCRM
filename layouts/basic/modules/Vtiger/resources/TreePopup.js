@@ -70,7 +70,11 @@ jQuery.Class("Vtiger_TreePopup_Js",{
 			thisInstance.jstreeInstance = $("#treePopupContents");
 			thisInstance.jstreeInstance.jstree({ 
 				core: {
-					data: data
+					data: data,
+					themes: {
+						name: 'proton',
+						responsive: true
+					}
 				}
 			})
 			thisInstance.jstreeInstance.on('select_node.jstree', function (event, data) {
