@@ -4926,6 +4926,7 @@ html,body,.baseContainer
 	background:#5bc0de;
 	border-color:#46b8da;
 	color:#fff;
+	padding: 0px 12px;
 }
 .tagText::-webkit-input-placeholder { 
 	color:#b1e5f4; 
