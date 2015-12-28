@@ -10,9 +10,6 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div id="toggleButton" class="toggleButton" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
-		<span id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></span>
-	</div>
     <div>
         <div class="reportsDetailHeader">
 			<input type="hidden" name="date_filters" data-value='{ZEND_JSON::encode($DATE_FILTERS)}' />
@@ -37,7 +34,7 @@
 							</div>
 						</div>
 					</div>
-					<div class='col-md-5 textAlignCenter'>
+					<div class="col-md-5 textAlignCenter">
 						<h3>{$REPORT_MODEL->getName()}</h3>
 						<div id="noOfRecords">{vtranslate('LBL_NO_OF_RECORDS',$MODULE)} <span id="countValue">{$COUNT}</span>
 							{if $COUNT > 1000}
@@ -47,7 +44,7 @@
 							{/if}
 						</div>
 					</div>
-					<div class='col-md-4'>
+					<div class="col-md-4">
 						<span class="pull-right">
 							<div class="btn-toolbar">
 								{foreach item=DETAILVIEW_LINK from=$DETAILVIEW_LINKS}
