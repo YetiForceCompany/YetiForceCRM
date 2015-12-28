@@ -36,7 +36,7 @@
 			<div class="input-group-addon noSpaces referenceModulesListGroup">
 				<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="referenceModulesList" title="{vtranslate('LBL_RELATED_MODULE_TYPE')}" required="required">
 					{foreach key=index item=value from=$REFERENCE_LIST}
-						<option value="{$value}" title="{vtranslate($value, $QUALIFIED_MODULE_NAME)}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $QUALIFIED_MODULE_NAME)}</option>
+						<option value="{$value}" title="{vtranslate($value, $value)}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $value)}</option>
 					{/foreach}
 				</select>
 			</div>
@@ -45,22 +45,24 @@
 			   value="{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getEditViewDisplayValue($DISPLAYID))}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}"{/if}
 			   {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if}/>
+		<span class="input-group-btn cursorPointer">
 		{if $FIELD_MODEL->get('displaytype') != 10}
-			<span class="input-group-addon clearReferenceSelection cursorPointer">
+			<button class="btn btn-default clearReferenceSelection">
 				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class='glyphicon glyphicon-remove-sign' title="{vtranslate('LBL_CLEAR', $MODULE)}"></span>
-			</span>
+			</button>
 		{/if}
 		{if $FIELD_MODEL->get('displaytype') != 10}
-			<span class="input-group-addon relatedPopup cursorPointer">
-				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="glyphicon glyphicon-search relatedPopup" title="{vtranslate('LBL_SELECT', $MODULE)}" ></span>
-			</span>
+			<button class="btn btn-default relatedPopup">
+				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="glyphicon glyphicon-search" title="{vtranslate('LBL_SELECT', $MODULE)}" ></span>
+			</button>
 		{/if}
 		{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_LIST[0])}
 		<!-- Show the add button only if it is edit view  -->
 		{if (($VIEW eq 'Edit') or ($MODULE_NAME eq 'Webforms')) && $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && $FIELD_MODEL->get('displaytype') != 10}
-			<span class="input-group-addon cursorPointer createReferenceRecord">
+			<button class="btn btn-default createReferenceRecord">
 				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class='glyphicon glyphicon-plus' title="{vtranslate('LBL_CREATE', $MODULE)}"></span>
-			</span>
+			</button>
 		{/if}
+		</span>
 	</div>
 {/strip}

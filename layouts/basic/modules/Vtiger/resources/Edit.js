@@ -1386,6 +1386,18 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerApiAddress();
 		//this.triggerDisplayTypeEvent();
 	},
+	setEnabledFields: function(referenceObj){
+		var group = referenceObj.closest('.referenceGroup'); 
+		group.find('button').removeAttr('disabled');
+		group.find('input').removeAttr('readonly');
+		group.find('.referenceModulesListGroup').removeClass('hide');
+	},
+	setDisabledFields: function(referenceObj){
+		var group = referenceObj.closest('.referenceGroup');
+		group.find('input').attr('readonly','readonly');
+		group.find('button').attr('disabled','disabled');
+		group.find('.referenceModulesListGroup').addClass('hide');
+	},
 	getMappingRelatedField: function (sourceField, sourceFieldModule, container) {
 		var mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
 		var mappingRelatedModule = JSON.parse(mappingRelatedField);
