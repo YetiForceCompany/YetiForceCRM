@@ -22,6 +22,7 @@ $languageStrings = [
 	'LBL_LOCKS_SAVE_LABEL1' => 'Nie',
 	'LBL_LOCKS_SAVE_LABEL2' => 'Tak - Jeden warunek spełniony',
 	'LBL_LOCKS_SAVE_LABEL3' => 'Tak - Dwa warunki spełnione',
+	'LBL_LOCKS_SAVE_LABEL4' => 'Tak - Okno modalne',
 	'LBL_VALIDATION_TWO_FIELDS' => 'Walidacja dla dwóch pól',
 	'LBL_MESSAGE_LOCK0' => 'Komunikat w momencie nie blokowania zapisu',
 	'LBL_MESSAGE_LOCK1' => 'Komunikat dla jednego warunku spełnionego',
@@ -73,6 +74,13 @@ $languageStrings = [
 	'LBL_RECORD_DELETED' => 'Rekord usunięty',
 	'Action_test' => 'Test akcji',
 	'Action_Desc_test' => 'Opis testu akcji.',
+	//
+	'Action_unique_account' => 'Sprawdź czy istnieje duplikat dla kontrahenta',
+	'Action_Desc_unique_account' => 'Sprawdź czy kontrahent jest unikatowy w module.',
+	'LBL_DUPLICATED_FOUND' => 'Znaleziono duplikaty',
+	'LBL_DUPLICTAE_CREATION_CONFIRMATION' => 'Wykryto duplikat. Czy na pewno chcesz dokonać zapisu?',
+	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Dokonano próbę zmiany wartości w rekordzie w trybie szybkiej edycji.<br>Chcąc dokonać zmiany w tym widoku zaznacz poniższe pole checkbox i zatwierdź wybór.<br><strong>Uwaga!</strong><br>Należy ponownie wprowadzić zamierzone modyfikacje na rekordzie.',
+	'LBL_DONT_ASK_AGAIN' => 'Nie pytaj ponownie dla tego rekordu.',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Data Access',
