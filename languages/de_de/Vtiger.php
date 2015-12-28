@@ -1100,6 +1100,9 @@ $languageStrings = [
 	'LBL_RELATION_CREATED_USER' => 'Created by user',
 	'LBL_ALPHABETIC_FILTERING' => 'Alphabetic filtering',
 	'LBL_REMOVE_FILTERING' => 'Remove filtering',
+	'FL_RELATION' => 'Beziehung',
+	'FL_PROCESS' => 'Prozess',
+	'FL_SUB_PROCESS' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
@@ -1260,8 +1263,6 @@ $jsLanguageStrings = [
 	'JS_SELECT_AN_OPTION' => 'Wählen Sie eine Option',
 	'JS_MAIL_NOTIFICATION' => 'Neue E-Mail empfangen',
 	'JS_NO_Discount' => 'Kein Rabatt',
-	'JS_RELATION' => 'Beziehung',
-	'JS_PROCESS' => 'Prozess',
 	'JS_MOBILE_PERFORM_CALL_OK' => 'Rufnummer wurde an Ihr Mobiltelefon übergeben',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Fehler beim Versuch die Rufnummer zu übergeben',
 	'JS_SET_READ_RECORD' => 'Sie haben alle Änderungen die auf diesem Datensatz durchgeführt wurden gelesen',
@@ -1340,4 +1341,7 @@ $jsLanguageStrings = [
 	'JS_SELECTED_ELEMENTS' => '__UNTRANSLATED__',
 	'JS_REMOVED_FROM_FAVORITES' => 'Removed from favorites',
 	'JS_ADDED_TO_FAVORITES' => 'Added to favorites',
+	'JS_RELATION' => 'Beziehung',
+	'JS_PROCESS' => 'Prozess',
+	'JS_SUB_PROCESS' => '__UNTRANSLATED__',
 ];

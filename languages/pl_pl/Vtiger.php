@@ -1094,6 +1094,9 @@ $languageStrings = [
 	'LBL_EDIT_RELATED_COMMENT' => 'Edycja komentarza',
 	'LBL_ALPHABETIC_FILTERING' => 'Filtrowanie alfabetyczne',
 	'LBL_REMOVE_FILTERING' => 'Wyczyść filtrowanie',
+	'FL_RELATION' => 'Powiązanie',
+	'FL_PROCESS' => 'Proces',
+	'FL_SUB_PROCESS' => 'Pod proces',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
@@ -1254,8 +1257,6 @@ $jsLanguageStrings = [
 	'JS_SELECT_AN_OPTION' => 'Wybierz',
 	'JS_MAIL_NOTIFICATION' => 'Odebrano nową wiadomość e-mail',
 	'JS_NO_Discount' => 'Brak rabatu',
-	'JS_RELATION' => 'Powiązanie',
-	'JS_PROCESS' => 'Proces',
 	'JS_MOBILE_PERFORM_CALL_OK' => 'Numer telefonu został wysłany do telefonu',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Błąd podczas próby wysłania numeru telefonu',
 	'JS_SET_READ_RECORD' => 'Zapoznałeś się ze wszystkimi zmianami w rekordzie.',
@@ -1351,4 +1352,7 @@ $jsLanguageStrings = [
 	'JS_S_LAST' => 'Ostatnia',
 	'JS_S_SORT_ASCENDING' => ': aktywuj, by posortować kolumnę rosnąco',
 	'JS_S_SORT_DESCENDING' => ': aktywuj, by posortować kolumnę malejąco',
+	'JS_RELATION' => 'Powiązanie',
+	'JS_PROCESS' => 'Proces',
+	'JS_SUB_PROCESS' => 'Pod proces',
 ];

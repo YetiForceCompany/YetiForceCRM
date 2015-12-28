@@ -1088,6 +1088,9 @@ $languageStrings = [
 	'LBL_EDIT_RELATED_COMMENT' => '__UNTRANSLATED__',
 	'LBL_ALPHABETIC_FILTERING' => 'Alphabetic filtering',
 	'LBL_REMOVE_FILTERING' => 'Remove filtering',
+	'FL_RELATION' => 'Relation',
+	'FL_PROCESS' => 'Process',
+	'FL_SUB_PROCESS' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',
@@ -1248,8 +1251,6 @@ $jsLanguageStrings = [
 	'JS_SELECT_AN_OPTION' => 'Select an Option',
 	'JS_MAIL_NOTIFICATION' => 'Received a new email message',
 	'JS_NO_Discount' => 'No discount',
-	'JS_RELATION' => 'Relation',
-	'JS_PROCESS' => 'Process',
 	'JS_MOBILE_PERFORM_CALL_OK' => 'Phone number has been sent to your phone',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Error while trying to send a phone number',
 	'JS_SET_READ_RECORD' => 'You read all changes performed on this record',
@@ -1389,4 +1390,7 @@ $jsLanguageStrings = [
 	'JS_S_LAST' => 'Previous',
 	'JS_S_SORT_ASCENDING' => ': activate to sort column ascending',
 	'JS_S_SORT_DESCENDING' => ': activate to sort column descending',
+	'JS_RELATION' => 'Relation',
+	'JS_PROCESS' => 'Process',
+	'JS_SUB_PROCESS' => '__UNTRANSLATED__',
 ];

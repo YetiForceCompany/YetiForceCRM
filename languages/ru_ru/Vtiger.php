@@ -1340,6 +1340,9 @@ $languageStrings = [
 	'LBL_RELATION_CREATED_USER' => 'Created by user',
 	'LBL_ALPHABETIC_FILTERING' => 'Alphabetic filtering',
 	'LBL_REMOVE_FILTERING' => 'Remove filtering',
+	'FL_RELATION' => 'Отношение',
+	'FL_PROCESS' => 'Процесс',
+	'FL_SUB_PROCESS' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',
@@ -1464,8 +1467,6 @@ $jsLanguageStrings = [
 	'JS_NUMBER_SHOULD_BE_LESS_THAN_32' => 'Число должно быть меньше 32',
 	'JS_OF' => 'из',
 	'JS_PAGE_NOT_EXIST' => 'Страница не существует',
-	'JS_RELATION' => 'Отношение',
-	'JS_PROCESS' => 'Процесс',
 	'JS_PBX_CALL_FROM' => 'Звонок от',
 	'JS_PBX_FILL_ALL_FIELDS' => 'Пожалуйста, заполните все поля',
 	'JS_PBX_INCOMING_CALL' => 'Входящий вызов',
@@ -1673,4 +1674,7 @@ $jsLanguageStrings = [
 	'JS_SELECTED_ELEMENTS' => 'Количество выбранных элементов',
 	'JS_REMOVED_FROM_FAVORITES' => 'Removed from favorites',
 	'JS_ADDED_TO_FAVORITES' => 'Added to favorites',
+	'JS_RELATION' => 'Отношение',
+	'JS_PROCESS' => 'Процесс',
+	'JS_SUB_PROCESS' => '__UNTRANSLATED__',
 ];
