@@ -51,8 +51,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		} else if ($this->getName() == 'recurringtype') {
 			return 'recurrence';
 		}
-		$webserviceField = $this->getWebserviceFieldObject();
-		return $webserviceField->getFieldDataType();
+		return parent::getFieldDataType();
 	}
 
 	/**

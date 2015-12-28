@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * UIType ReferenceLink Field Class
+ * @package YetiForce.Fields
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+class Vtiger_ReferenceLink_UIType extends Vtiger_Reference_UIType
+{
+
+	public function getReferenceList()
+	{
+		return ['Accounts', 'Contacts', 'Leads', 'Vendors', 'Partners', 'Competition', 'OSSEmployees'];
+	}
+
+	public function getListSearchTemplateName()
+	{
+		return Vtiger_Base_UIType::getListSearchTemplateName();
+	}
+}
