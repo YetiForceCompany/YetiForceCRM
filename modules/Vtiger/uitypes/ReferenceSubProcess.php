@@ -11,6 +11,6 @@ class Vtiger_ReferenceSubProcess_UIType extends Vtiger_ReferenceLink_UIType
 
 	public function getReferenceList()
 	{
-		return [];
+		return ['ProjectTask','ProjectMilestone'];
 	}
 }

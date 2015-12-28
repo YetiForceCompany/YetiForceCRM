@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1605,6 +1604,7 @@ CREATE TABLE `vtiger_activity` (
   `state` varchar(255) DEFAULT NULL,
   `link` int(19) DEFAULT NULL,
   `process` int(19) DEFAULT NULL,
+  `subprocess` int(19) DEFAULT NULL,
   `followup` int(19) DEFAULT NULL,
   PRIMARY KEY (`activityid`),
   KEY `activity_activityid_subject_idx` (`activityid`,`subject`),
@@ -1617,6 +1617,7 @@ CREATE TABLE `vtiger_activity` (
   KEY `process` (`process`),
   KEY `followup` (`followup`),
   KEY `activitytype` (`activitytype`,`date_start`,`due_date`,`time_start`,`time_end`,`deleted`,`smownerid`),
+  KEY `subprocess` (`subprocess`),
   CONSTRAINT `fk_1_vtiger_activity` FOREIGN KEY (`activityid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3419,7 +3420,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1992 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1997 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -5080,6 +5081,9 @@ CREATE TABLE `vtiger_osstimecontrol` (
   `deleted` int(1) DEFAULT '0',
   `leadid` int(19) DEFAULT '0',
   `timecontrol_type` varchar(255) DEFAULT NULL,
+  `process` int(19) DEFAULT NULL,
+  `link` int(19) DEFAULT NULL,
+  `subprocess` int(19) DEFAULT NULL,
   PRIMARY KEY (`osstimecontrolid`),
   KEY `osstimecontrol_status` (`osstimecontrol_status`,`ticketid`),
   KEY `osstimecontrol_status_2` (`osstimecontrol_status`,`projectid`),
@@ -5096,6 +5100,9 @@ CREATE TABLE `vtiger_osstimecontrol` (
   KEY `assetsid` (`assetsid`),
   KEY `osstimecontrol_status_9` (`osstimecontrol_status`,`deleted`),
   KEY `osstimecontrol_status_6` (`osstimecontrol_status`),
+  KEY `subprocess` (`subprocess`),
+  KEY `link` (`link`),
+  KEY `process` (`process`),
   CONSTRAINT `vtiger_osstimecontrol` FOREIGN KEY (`osstimecontrolid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
