@@ -300,7 +300,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 				$date = DateTime::createFromFormat('Y-m-d H:i:s',$createdTime);
 				$iconPath = $comment->getImagePath();
 				if(!$iconPath){
-					$iconPath = 'layouts/basic/skins/images/DefaultUserIcon.png';
+					$iconPath = vimage_path('DefaultUserIcon.png');
 				}
 				$allComments ["events"][] = [
 									"start_date" => [

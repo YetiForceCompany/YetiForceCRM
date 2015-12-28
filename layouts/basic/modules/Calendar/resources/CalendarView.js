@@ -217,7 +217,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		}
 		return data;
 	},
-	registerSelectAll: function(){
+	registerButtonSelectAll: function(){
 		var selectBtn = $('.selectAllBtn');
 		
 		selectBtn.click(function (e) {
@@ -476,7 +476,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		this.createAddButton();
 		this.createAddSwitch();
 		this.loadCalendarData(true);
-		this.registerSelectAll();
+		this.registerButtonSelectAll();
 		this.registerChangeView();
 	}
 });
@@ -484,4 +484,5 @@ jQuery(document).ready(function () {
 	var instance = Calendar_CalendarView_Js.getInstanceByView();
 	instance.registerEvents()
 	Calendar_CalendarView_Js.currentInstance = instance;
+	Calendar_CalendarView_Js.registerWidget();
 })

@@ -11,10 +11,10 @@
 -->*}
 {strip}
 	{if $ALL_ACTIVEGROUP_LIST || $ALL_ACTIVEUSER_LIST}
-		<div class="calendarUserList row" style="margin-left:20px;">
-			<div class="row">
-				<div class="col-md-10" style="margin: 10px 0;">
-				<select style="width: 100%;" class="select2" id="calendarUserList" name="{$ASSIGNED_USER_ID}" multiple>
+		<div class="calendarUserList">
+			<div class="row no-margin">
+				<div class="col-xs-12 marginTB10">
+				<select class="select2 col-xs-12" id="calendarUserList" name="{$ASSIGNED_USER_ID}" multiple>
 					<optgroup label="{vtranslate('LBL_USERS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 							<option class="userCol_{$OWNER_ID} marginBottom5px" value="{$OWNER_ID}" {if $USER_MODEL->id eq $OWNER_ID} selected {/if}>{$OWNER_NAME}</option>
@@ -31,10 +31,10 @@
 		</div>
 	{/if}
 	{if $ALL_ACTIVETYPES_LIST}
-		<div class="calendarTypeList row" style="margin-left:20px;">
-			<div class="row">
-				<div class="col-md-10" style="margin: 10px 0;">
-					<select style="width: 100%;" class="select2 form-control" id="timecontrolTypes" name="timecontrolTypes" multiple>
+		<div class="calendarTypeList">
+			<div class="row no-margin">
+				<div class="col-xs-12 marginTB10">
+					<select class="select2 form-control col-xs-12" id="timecontrolTypes" name="timecontrolTypes" multiple>
 						{foreach key=ITEM_ID item=ITEM from=$ALL_ACTIVETYPES_LIST}
 							<option class="calCol_{$ITEM} marginBottom5px" value="{$ITEM_ID}" selected>{vtranslate($ITEM,$MODULE)}</option>
 						{/foreach}

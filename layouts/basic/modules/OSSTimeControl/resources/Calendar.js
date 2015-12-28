@@ -20,7 +20,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		);
 		this.registerColorField(widgetContainer.find('#calendarUserList'), 'userCol');
 		this.registerColorField(widgetContainer.find('#timecontrolTypes'), 'listCol');
-		$('.select2').on('change', function(){
+		widgetContainer.find('.select2').on('change', function(){
 			$(this).closest('.siteBarContent').find('.refreshHeader').removeClass('hide');
 		});
 	},
@@ -156,7 +156,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			thisInstance.loadCalendarData();
 		});
 	},
-	registerSelectAll: function(){
+	registerButtonSelectAll: function(){
 		var selectBtn = $('.selectAllBtn');
 		
 		selectBtn.click(function (e) {
@@ -362,7 +362,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		this.registerCalendar();
 		this.loadCalendarData(true);
 		this.registerChangeView();
-		this.registerSelectAll();
+		this.registerButtonSelectAll();
 		this.registerRefreshEvent();
 	}
 });

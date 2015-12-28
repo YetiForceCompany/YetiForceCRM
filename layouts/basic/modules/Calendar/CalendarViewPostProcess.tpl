@@ -26,10 +26,10 @@
 						<h5 class="noSpaces">{vtranslate('LBL_INFO_REFRESH', $MODULE)}</h5>
 					</div>
 					<div class="col-lg-6 col-md-12 col-xs-5 paddingTop10-md paddingLRZero pull-right">
-						<a href="javascript:void(0);" name="drefresh" class="btn btn-default btn-xs pull-left-md pull-right-lg pull-right-xs pull-right-sm refreshCalendar cursorPointer">
+						<button name="drefresh" class="btn btn-default btn-xs pull-left-md pull-right-lg pull-right-xs pull-right-sm refreshCalendar cursorPointer">
 							<span class="glyphicon glyphicon-refresh icon-white" hspace="0" border="0" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
 							&nbsp;{vtranslate('LBL_REFRESH')}
-						</a>
+						</button>
 					</div>
 				</div> 
 			</div>			
@@ -59,9 +59,4 @@
 </div>
 </div>
 </div>
-<script type="text/javascript">
-	jQuery(document).ready(function () {
-		Calendar_CalendarView_Js.registerWidget();
-	});
-</script>
 {/strip}

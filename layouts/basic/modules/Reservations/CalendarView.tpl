@@ -38,10 +38,8 @@
 		</div>
 	</div>
 	<div class="bottom_margin">
-		<div class="">
-			<p><!-- Divider --></p>
-			<div id="calendarview"></div>
-		</div>
+		<p><!-- Divider --></p>
+		<div id="calendarview"></div>
 	</div>
 </div>
 {/strip}
