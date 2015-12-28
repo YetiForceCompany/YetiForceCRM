@@ -19,13 +19,14 @@ class Vtiger_Viewer extends SmartyBC
 	static $currentLayout;
 	// Turn-it on to analyze the data pushed to templates for the request.
 	protected static $debugViewer = false;
+	protected static $instance = false;
 
 	/**
 	 * log message into the file if in debug mode.
 	 * @param type $message
 	 * @param type $delimiter 
 	 */
-	protected function log($message, $delimiter = "\n")
+	protected function log($message, $delimiter = '\n')
 	{
 		static $file = null;
 		if ($file == null)
@@ -205,7 +206,11 @@ class Vtiger_Viewer extends SmartyBC
 	 */
 	static function getInstance($media = '')
 	{
+		if (self::$instance) {
+			return self::$instance;
+		}
 		$instance = new self($media);
+		self::$instance = $instance;
 		return $instance;
 	}
 }
