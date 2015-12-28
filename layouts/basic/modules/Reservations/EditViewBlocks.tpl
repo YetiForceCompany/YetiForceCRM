@@ -11,10 +11,7 @@
 -->*}
 
 {strip}
-	<div class='editViewContainer'>
-		<div class='col-md-8 row'>
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-		</div>
+	<div class="editViewContainer">
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
@@ -41,12 +38,16 @@
 				<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
 				<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
 			{/if}
-			<div class="contentHeader">
-				<span class="pull-right">
-					<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-					<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</a>
-				</span>
-				<div class="clearfix"></div>
+			<div class="widget_header row">
+				<div class="col-md-8">
+					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				</div>
+				<div class="col-md-4">
+					<div class="pull-right">
+						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+						<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+					</div>
+				</div>
 			</div>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
 			{if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
@@ -69,8 +70,8 @@
 							<h4>{vtranslate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
 						</div>
 					</div>
-					<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">
-						<div class="col-md-12 paddingLRZero">
+					<div class="col-xs-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">
+						<div class="col-xs-12 paddingLRZero">
 							{assign var=COUNTER value=0}
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 								{if $FIELD_MODEL->get('uitype') eq '20' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '300'}
@@ -80,14 +81,14 @@
 										{/if}
 									{/if}
 									{if $COUNTER eq 2}
-								</div><div class="col-md-12 paddingLRZero">
+								</div><div class="col-xs-12 paddingLRZero">
 									{assign var=COUNTER value=1}
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<div class="{if $FIELD_MODEL->get('uitype') eq '300'}col-md-12 {else} col-md-6{/if} fieldRow">
-									<div class="col-md-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
-										<label class="muted pull-right marginRight10px">
+								<div class="{if $FIELD_MODEL->get('uitype') eq '300'}col-md-12 {else} col-md-6 col-xs-12{/if} fieldRow marginBottom5px">
+									<div class="col-xs-12 col-sm-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
+										<label class="muted pull-right-md pull-right-lg pull-left-sm pull-left-xs marginRight10px">
 											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
 											{if $FIELD_MODEL->get('uitype') eq "83"}
 												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE}
@@ -97,15 +98,11 @@
 										</label>
 									</div>
 									{if $FIELD_MODEL->get('uitype') neq "83"}
-										<div class="col-md-9 fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
-											<div class="row">
-												<div class="col-md-10">
-													{if $FIELD_MODEL->get('uitype') eq "300"}
-														<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
-													{/if}
-													{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
-												</div>
-											</div>
+										<div class="col-xs-12 col-sm-9 fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+											{if $FIELD_MODEL->get('uitype') eq "300"}
+												<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
+											{/if}
+											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 										</div>
 									{/if}
 								</div>
