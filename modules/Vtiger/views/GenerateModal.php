@@ -38,7 +38,7 @@ class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('BASE_MODULE_NAME', 'Vtiger');
 		$this->preProcess($request);
-		$viewer->view('GenerateModal.tpl', $qualifiedModule);
+		$viewer->view('GenerateModal.tpl', $moduleName);
 		$this->postProcess($request);
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 	}
