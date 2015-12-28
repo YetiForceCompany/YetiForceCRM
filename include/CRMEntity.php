@@ -175,49 +175,53 @@ class CRMEntity
 
 		if ($save_file == 'true' && $upload_status == 'true') {
 			//This is only to update the attached filename in the vtiger_notes vtiger_table for the Notes module
+			$params = [
+				'crmid' => $current_id,
+				'smcreatorid' => $current_user->id,
+				'smownerid' => $ownerid,
+				'setype' => $module . " Image",
+				'description' => $this->column_fields['description'],
+				'createdtime' => $adb->formatDate($date_var, true),
+				'modifiedtime' => $adb->formatDate($date_var, true)
+			];
 			if ($module == 'Contacts' || $module == 'Products') {
-				$sql1 = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?, ?, ?, ?, ?, ?, ?)";
-				$params1 = array($current_id, $current_user->id, $ownerid, $module . " Image", $this->column_fields['description'], $adb->formatDate($date_var, true), $adb->formatDate($date_var, true));
+				$params['setype'] = $module . " Image";
 			} else {
-				$sql1 = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?, ?, ?, ?, ?, ?, ?)";
-				$params1 = array($current_id, $current_user->id, $ownerid, $module . " Attachment", $this->column_fields['description'], $adb->formatDate($date_var, true), $adb->formatDate($date_var, true));
+				$params['setype'] = $module . " Attachment";
 			}
-			$adb->pquery($sql1, $params1);
+			$adb->insert('vtiger_crmentity', $params);
 
-			$sql2 = "insert into vtiger_attachments(attachmentsid, name, description, type, path) values(?, ?, ?, ?, ?)";
-			$params2 = array($current_id, $filename, $this->column_fields['description'], $filetype, $upload_file_path);
-			$result = $adb->pquery($sql2, $params2);
+			$params = [
+				'attachmentsid' => $current_id,
+				'name' => $filename,
+				'description' => $this->column_fields['description'],
+				'type' => $filetype,
+				'path' => $upload_file_path
+			];
+			$adb->insert('vtiger_attachments', $params);
 
 			if ($_REQUEST['mode'] == 'edit') {
 				if ($id != '' && vtlib_purify($_REQUEST['fileid']) != '') {
-					$delquery = 'delete from vtiger_seattachmentsrel where crmid = ? and attachmentsid = ?';
-					$delparams = array($id, vtlib_purify($_REQUEST['fileid']));
-					$adb->pquery($delquery, $delparams);
+					$delparams = [$id, vtlib_purify($_REQUEST['fileid'])];
+					$adb->delete('vtiger_seattachmentsrel', 'crmid = ? AND attachmentsid = ?', $delparams);
 				}
 			}
 			if ($module == 'Documents') {
-				$query = "delete from vtiger_seattachmentsrel where crmid = ?";
-				$qparams = array($id);
-				$adb->pquery($query, $qparams);
+				$adb->delete('vtiger_seattachmentsrel', 'crmid = ?', [$id]);
 			}
 			if ($module == 'Contacts') {
 				$att_sql = "select vtiger_seattachmentsrel.attachmentsid  from vtiger_seattachmentsrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seattachmentsrel.attachmentsid where vtiger_crmentity.setype='Contacts Image' and vtiger_seattachmentsrel.crmid=?";
 				$res = $adb->pquery($att_sql, array($id));
 				$attachmentsid = $adb->query_result($res, 0, 'attachmentsid');
 				if ($attachmentsid != '') {
-					$delquery = 'delete from vtiger_seattachmentsrel where crmid=? and attachmentsid=?';
-					$adb->pquery($delquery, array($id, $attachmentsid));
-					$crm_delquery = "delete from vtiger_crmentity where crmid=?";
-					$adb->pquery($crm_delquery, array($attachmentsid));
-					$sql5 = 'insert into vtiger_seattachmentsrel values(?,?)';
-					$adb->pquery($sql5, array($id, $current_id));
+					$adb->delete('vtiger_seattachmentsrel', 'crmid = ? AND attachmentsid = ?', [$id, $attachmentsid]);
+					$adb->delete('vtiger_crmentity', 'crmid = ?', [$attachmentsid]);
+					$adb->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $current_id]);
 				} else {
-					$sql3 = 'insert into vtiger_seattachmentsrel values(?,?)';
-					$adb->pquery($sql3, array($id, $current_id));
+					$adb->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $current_id]);
 				}
 			} else {
-				$sql3 = 'insert into vtiger_seattachmentsrel values(?,?)';
-				$adb->pquery($sql3, array($id, $current_id));
+				$adb->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $current_id]);
 			}
 
 			return true;
@@ -260,8 +264,14 @@ class CRMEntity
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			$tabid = getTabid($module);
 			if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-				$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?,description=?,attention=?, modifiedtime=?, was_read=? where crmid=?";
-				$params = array($ownerid, $current_user->id, $description_val, $attention_val, $adb->formatDate($date_var, true), $was_read, $this->id);
+				$columns = [
+					'smownerid' => $ownerid,
+					'modifiedby' => $current_user->id,
+					'description' => $description_val,
+					'attention' => $attention_val,
+					'modifiedtime' => $adb->formatDate($date_var, true),
+					'was_read' => $was_read
+				];
 			} else {
 				$profileList = getCurrentUserProfileList();
 				$perm_qry = "SELECT columnname FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid = vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid WHERE vtiger_field.tabid = ? AND vtiger_profile2field.visible = 0 AND vtiger_profile2field.readonly = 0 AND vtiger_profile2field.profileid IN (" . generateQuestionMarks($profileList) . ") AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename='vtiger_crmentity' and vtiger_field.presence in (0,2);";
@@ -271,14 +281,24 @@ class CRMEntity
 					$columname[] = $adb->query_result($perm_result, $i, "columnname");
 				}
 				if (is_array($columname) && in_array("description", $columname)) {
-					$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?,description=?, attention=?, modifiedtime=?,was_read=? where crmid=?";
-					$params = array($ownerid, $current_user->id, $description_val, $attention_val, $adb->formatDate($date_var, true), $was_read, $this->id);
+					$columns = [
+						'smownerid' => $ownerid,
+						'modifiedby' => $current_user->id,
+						'description' => $description_val,
+						'attention' => $attention_val,
+						'modifiedtime' => $adb->formatDate($date_var, true),
+						'was_read' => $was_read
+					];
 				} else {
-					$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?, modifiedtime=? where crmid=?";
-					$params = array($ownerid, $current_user->id, $adb->formatDate($date_var, true), $this->id);
+					$columns = [
+						'smownerid' => $ownerid,
+						'modifiedby' => $current_user->id,
+						'modifiedtime' => $adb->formatDate($date_var, true)
+					];
 				}
 			}
-			$adb->pquery($sql, $params);
+			$params = [$this->id];
+			$adb->update('vtiger_crmentity', $columns, 'crmid = ?', $params);
 			$this->column_fields['modifiedtime'] = $adb->formatDate($date_var, true);
 			$this->column_fields['modifiedby'] = $current_user->id;
 		} else {
@@ -302,9 +322,18 @@ class CRMEntity
 
 			$description_val = from_html($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 			$attention_val = from_html($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
-			$sql = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,attention,modifiedby,createdtime,modifiedtime) values(?,?,?,?,?,?,?,?,?)";
-			$params = array($current_id, $current_user->id, $ownerid, $module, $description_val, $attention_val, $current_user->id, $created_date_var, $modified_date_var);
-			$adb->pquery($sql, $params);
+			$params = [
+				'crmid' => $current_id,
+				'smcreatorid' => $current_user->id,
+				'smownerid' => $ownerid,
+				'setype' => $module,
+				'description' => $description_val,
+				'attention' => $attention_val,
+				'modifiedby' => $current_user->id,
+				'createdtime' => $created_date_var,
+				'modifiedtime' => $modified_date_var
+			];
+			$adb->INSERT('vtiger_crmentity', $params);
 
 			$this->column_fields['createdtime'] = $created_date_var;
 			$this->column_fields['modifiedtime'] = $modified_date_var;
@@ -355,8 +384,7 @@ class CRMEntity
 			$tabid = getTabid('Events');
 		}
 		if ($insertion_mode == 'edit') {
-			$update = array();
-			$update_params = array();
+			$updateColumns = [];
 			checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
@@ -558,8 +586,7 @@ class CRMEntity
 
 			if ($insertion_mode == 'edit') {
 				if ($table_name != 'vtiger_ticketcomments' && $uitype != 4) {
-					array_push($update, $columname . "=?");
-					array_push($update_params, $fldvalue);
+					$updateColumns[$columname] = $fldvalue;
 				}
 			} else {
 				array_push($column, $columname);
@@ -569,14 +596,12 @@ class CRMEntity
 
 		if ($insertion_mode == 'edit') {
 			//Check done by Don. If update is empty the the query fails
-			if (count($update) > 0) {
-				$sql1 = "update $table_name set " . implode(",", $update) . " where " . $this->tab_name_index[$table_name] . "=?";
-				array_push($update_params, $this->id);
-				$adb->pquery($sql1, $update_params);
+			if (count($updateColumns) > 0) {
+				$adb->update($table_name, $updateColumns, $this->tab_name_index[$table_name] . ' = ?', [$this->id]);
 			}
 		} else {
-			$sql1 = "insert into $table_name(" . implode(",", $column) . ") values(" . generateQuestionMarks($value) . ")";
-			$adb->pquery($sql1, $value);
+			$params = array_combine($column, $value);
+			$adb->insert($table_name, $params);
 		}
 	}
 
@@ -592,8 +617,7 @@ class CRMEntity
 		$num_rows = $adb->num_rows($check_result);
 
 		if ($num_rows == 1) {
-			$del_query = "DELETE from $table_name where " . $this->tab_name_index[$table_name] . "=?";
-			$adb->pquery($del_query, array($this->id));
+			$adb->delete($table_name, $this->tab_name_index[$table_name].' = ?', [$this->id]);
 		}
 	}
 
@@ -1101,8 +1125,7 @@ class CRMEntity
 		$freetag = new freetag();
 		$freetag->delete_all_object_tags_for_user($current_user->id, $id);
 
-		$sql_recentviewed = 'DELETE FROM vtiger_tracker WHERE user_id = ? AND item_id = ?';
-		$this->db->pquery($sql_recentviewed, array($current_user->id, $id));
+		$this->db->delete('vtiger_tracker', 'user_id = ? AND item_id = ?', [$current_user->id, $id]);
 
 		if ($em) {
 			$em->triggerEvent("vtiger.entity.afterdelete", $entityData);
@@ -1139,8 +1162,15 @@ class CRMEntity
 				for ($k = 0; $k < $numOfRelRecords; $k++) {
 					$recordIdsList[] = $this->db->query_result($relResult, $k, $focusObj->table_index);
 				}
-				$params = array($id, RB_RECORD_UPDATED, $tableName, $columnName, $focusObj->table_index, implode(",", $recordIdsList));
-				$this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES (?,?,?,?,?,?)', $params);
+				$params = [
+					'entityid' => $id,
+					'action' => RB_RECORD_UPDATED,
+					'rel_table' => $tableName,
+					'rel_column' => $columnName,
+					'ref_column' => $focusObj->table_index,
+					'related_crm_ids' => implode(",", $recordIdsList)
+				];
+				$this->db->insert('vtiger_relatedlists_rb', $params);
 			}
 		}
 	}
@@ -1150,9 +1180,9 @@ class CRMEntity
 	{
 		global $log, $currentModule;
 
-		$query = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
-		$params = array($id, $return_module, $return_id, $id, $return_module, $return_id);
-		$this->db->pquery($query, $params);
+		$where = '(crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
+		$params = [$id, $return_module, $return_id, $id, $return_module, $return_id];
+		$this->db->delete('vtiger_crmentityrel', $where, $params);
 
 		$fieldRes = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
 			SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule=?)', array($currentModule, $return_module));
@@ -1165,9 +1195,10 @@ class CRMEntity
 			$relatedModule = vtlib_getModuleNameById($tabId);
 			$focusObj = CRMEntity::getInstance($relatedModule);
 
-			$updateQuery = "UPDATE $tableName SET $columnName=? WHERE $columnName=? AND $focusObj->table_index=?";
-			$updateParams = array(null, $return_id, $id);
-			$this->db->pquery($updateQuery, $updateParams);
+			$columns = [$columnName => null];
+			$where = "$columnName = ? AND $focusObj->table_index = ?";
+			$params = [$return_id, $id];
+			$this->db->update($tableName, $columns, $where, $params);
 		}
 	}
 
@@ -1223,25 +1254,23 @@ class CRMEntity
 			if (strtoupper($action) == RB_RECORD_UPDATED) {
 				$related_ids = explode(",", $related_crm_ids);
 				if ($rel_table == 'vtiger_crmentity' && $rel_column == 'deleted') {
-					$sql = "UPDATE $rel_table set $rel_column = 0 WHERE $ref_column IN (" . generateQuestionMarks($related_ids) . ")";
-					$this->db->pquery($sql, array($related_ids));
+					$this->db->update($rel_table, [$rel_column => 0], "$ref_column IN (" . generateQuestionMarks($related_ids) . ")", [$related_ids]);
 				} else {
-					$sql = "UPDATE $rel_table set $rel_column = ? WHERE $rel_column = 0 AND $ref_column IN (" . generateQuestionMarks($related_ids) . ")";
-					$this->db->pquery($sql, array($record, $related_ids));
+					$this->db->update($rel_table, [$rel_column => $record], "$rel_column = 0 AND $ref_column IN (" . generateQuestionMarks($related_ids) . ")", [$related_ids]);
 				}
 			} elseif (strtoupper($action) == RB_RECORD_DELETED) {
 				if ($rel_table == 'vtiger_seproductrel') {
-					$sql = "INSERT INTO $rel_table($rel_column, $ref_column, 'setype') VALUES (?,?,?)";
-					$this->db->pquery($sql, array($record, $related_crm_ids, $module));
+					$params = [$rel_column => $record, $ref_column => $related_crm_ids, 'setype' => $module];
+					$this->db->insert($rel_table, $params);
 				} else {
-					$sql = "INSERT INTO $rel_table($rel_column, $ref_column) VALUES (?,?)";
-					$this->db->pquery($sql, array($record, $related_crm_ids));
+					$params = [$rel_column => $record, $ref_column => $related_crm_ids];
+					$this->db->insert($rel_table, $params);
 				}
 			}
 		}
 
 		//Clean up the the backup data also after restoring
-		$this->db->pquery('DELETE FROM vtiger_relatedlists_rb WHERE entityid = ?', array($record));
+		$this->db->delete('vtiger_relatedlists_rb', 'entityid = ?', [$record]);
 	}
 
 	/**
@@ -1298,18 +1327,26 @@ class CRMEntity
 			if ($numRows == 0) {
 				$numid = $adb->getUniqueId('vtiger_modentity_num');
 				$active = $adb->pquery('SELECT num_id FROM vtiger_modentity_num WHERE semodule = ? AND active = 1;', [$module]);
-				$adb->pquery('UPDATE vtiger_modentity_num SET active = 0 WHERE num_id = ?;', [$adb->query_result($active, 0, 'num_id')]);
+				$adb->update('vtiger_modentity_num', ['active' => 0], 'num_id = ?', [$adb->query_result($active, 0, 'num_id')]);
 
-				$adb->pquery('INSERT INTO vtiger_modentity_num VALUES(?,?,?,?,?,?,?);', [$numid, $module, $req_str, $reqPostfix, $req_no, $req_no, 1]);
+				$params = [
+					'num_id'=>$numid,
+					'semodule'=>$module,
+					'prefix'=>$req_str,
+					'postfix'=>$reqPostfix,
+					'start_id'=>$req_no,
+					'cur_id'=>$req_no,
+					'active'=>1
+				];
+				$adb->insert('vtiger_modentity_num', $params);
 				return true;
 			} else if ($numRows != 0) {
 				$num_check = $adb->query_result($check, 0, 'cur_id');
 				if ($req_no < $num_check) {
 					return false;
 				} else {
-					$adb->pquery('UPDATE vtiger_modentity_num SET active = 0 WHERE active = 1 AND semodule = ?;', [$module]);
-					$query = 'UPDATE vtiger_modentity_num SET cur_id = ?, active = 1 WHERE prefix = ? AND postfix = ? AND semodule = ?;';
-					$adb->pquery($query, [$req_no, $req_str, $reqPostfix, $module]);
+					$adb->update('vtiger_modentity_num', ['active' => 0], 'active = 1 AND semodule = ?', [$module]);
+					$adb->update('vtiger_modentity_num', ['cur_id' => $req_no, 'active' => 1], 'prefix = ? AND postfix = ? AND semodule = ?', [$req_str, $reqPostfix, $module]);
 					return true;
 				}
 			}
@@ -1326,7 +1363,7 @@ class CRMEntity
 			}
 			$temp = str_repeat('0', $strip);
 			$req_no .= $temp . ($curid + 1);
-			$adb->pquery('UPDATE vtiger_modentity_num SET cur_id = ? WHERE cur_id = ? AND active = 1 AND semodule = ?;', [$req_no, $curid, $module]);
+			$adb->update('vtiger_modentity_num', ['cur_id' => $req_no], 'cur_id = ? AND active = 1 AND semodule = ?', [$curid, $module]);
 			return decode_html($fullPrefix);
 		}
 	}
@@ -1414,12 +1451,12 @@ class CRMEntity
 					$old_cur_id = $cur_id;
 					while ($recordinfo = $adb->fetch_array($records)) {
 						$value = $prefix . $cur_id . $postfix;
-						$adb->pquery("UPDATE $fld_table SET $fld_column = ? WHERE $this->table_index = ?", Array($value, $recordinfo['recordid']));
+						$adb->update($fld_table, [$fld_column => $value], $this->table_index.' = ?', [$recordinfo['recordid']]);
 						$cur_id += 1;
 						$returninfo['updatedrecords'] = $returninfo['updatedrecords'] + 1;
 					}
 					if ($old_cur_id != $cur_id) {
-						$adb->pquery("UPDATE vtiger_modentity_num set cur_id=? where semodule=? and active=1", Array($cur_id, $module));
+						$adb->update('vtiger_modentity_num', ['cur_id' => $cur_id], 'semodule = ? and active = 1', [$module]);
 					}
 				}
 			} else {
@@ -1546,7 +1583,7 @@ class CRMEntity
 	function markAsViewed($userid)
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("UPDATE vtiger_crmentity set viewedtime=? WHERE crmid=? AND smownerid=?", Array(date('Y-m-d H:i:s', time()), $this->id, $userid));
+		$adb->update('vtiger_crmentity', ['viewedtime' => date('Y-m-d H:i:s')], 'crmid = ? AND smownerid = ?', [$this->id, $userid]);
 	}
 
 	/**
@@ -1807,7 +1844,10 @@ class CRMEntity
 			for ($i = 0; $i < $numOfRecords; $i++) {
 				$relcrmid = $adb->query_result($relatedRecords, $i, 'relcrmid');
 				$relmodule = $adb->query_result($relatedRecords, $i, 'relmodule');
-				$adb->pquery("UPDATE vtiger_crmentityrel SET crmid=? WHERE relcrmid=? AND relmodule=? AND crmid=? AND module=?", array($entityId, $relcrmid, $relmodule, $transferId, $module));
+
+				$where = 'relcrmid = ? AND relmodule = ? AND crmid = ? AND module = ?';
+				$params = [$relcrmid, $relmodule, $transferId, $module];
+				$adb->update('vtiger_crmentityrel', ['crmid' => $entityId], $where, $params);
 			}
 
 			// Pick the records to which the entity to be transfered is related, but do not pick the once to which current entity is already related.
@@ -1817,9 +1857,11 @@ class CRMEntity
 			for ($i = 0; $i < $numOfRecords; $i++) {
 				$parcrmid = $adb->query_result($parentRecords, $i, 'crmid');
 				$parmodule = $adb->query_result($parentRecords, $i, 'module');
-				$adb->pquery("UPDATE vtiger_crmentityrel SET relcrmid=? WHERE crmid=? AND module=? AND relcrmid=? AND relmodule=?", array($entityId, $parcrmid, $parmodule, $transferId, $module));
+				$where = 'crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?';
+				$params = [$parcrmid, $parmodule, $transferId, $module];
+				$adb->update('vtiger_crmentityrel', ['relcrmid' => $entityId], $where, $params);
 			}
-			$adb->pquery("UPDATE vtiger_modcomments SET related_to = ? WHERE related_to = ?", array($entityId, $transferId));
+			$adb->update('vtiger_modcomments', ['related_to' => $entityId], 'related_to = ?', [$transferId]);
 		}
 		$log->debug("Exiting transferRelatedRecords...");
 	}
@@ -2569,7 +2611,7 @@ class CRMEntity
 		$adb = PearDatabase::getInstance();
 		$currentTime = date('Y-m-d H:i:s');
 
-		$adb->pquery('UPDATE vtiger_crmentity SET modifiedtime = ?, modifiedby = ? WHERE crmid = ?', array($currentTime, $current_user->id, $crmid));
+		$adb->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], 'crmid = ?', [$crmid]);
 	}
 
 	/**
@@ -2639,7 +2681,7 @@ class CRMEntity
 		$adb = PearDatabase::getInstance();
 		$currentTime = date('Y-m-d H:i:s');
 
-		$adb->pquery('UPDATE vtiger_crmentity SET modifiedtime = ?, modifiedby = ? WHERE crmid = ?', array($currentTime, $current_user->id, $crmid));
+		$adb->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], 'crmid = ?', [$crmid]);
 	}
 
 	/**
