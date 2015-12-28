@@ -97,23 +97,6 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		}
 	}
 
-	/**
-	 * Function which will specify whether the relation is deletable
-	 * @return <Boolean>
-	 */
-	public function isDeletable()
-	{
-		$relatedModuleModel = $this->getRelationModuleModel();
-		$relatedModuleName = $relatedModuleModel->get('name');
-		$inventoryModulesList = [];
-
-		//Inventoty relationship cannot be deleted from the related list
-		if (in_array($relatedModuleName, $inventoryModulesList)) {
-			return false;
-		}
-		return parent::isDeletable();
-	}
-
 	public function isSubProduct($subProductId)
 	{
 		if (!empty($subProductId)) {

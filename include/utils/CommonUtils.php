@@ -502,11 +502,6 @@ function getSqlForNameInDisplayFormat($input, $module, $glue = ' ')
 	return Vtiger_Deprecated::getSqlForNameInDisplayFormat($input, $module, $glue);
 }
 
-function getModuleSequenceNumber($module, $recordId)
-{
-	return Vtiger_Deprecated::getModuleSequenceNumber($module, $recordId);
-}
-
 function decimalFormat($value)
 {
 	return Vtiger_Functions::formatDecimal($value);

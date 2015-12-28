@@ -435,11 +435,6 @@ class Vtiger_Deprecated
 		$sqlString = "CONCAT(" . $formattedNameListString . ")";
 		return $sqlString;
 	}
-// TODO Remove when there are no modules with the old products block.
-	static function getModuleSequenceNumber($module, $recordId)
-	{
-		return '';
-	}
 
 	static function getModuleFieldTypeOfDataInfos($tables, $tabid = '')
 	{
