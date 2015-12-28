@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -5095,8 +5096,6 @@ CREATE TABLE `vtiger_osstimecontrol` (
   KEY `assetsid` (`assetsid`),
   KEY `osstimecontrol_status_9` (`osstimecontrol_status`,`deleted`),
   KEY `osstimecontrol_status_6` (`osstimecontrol_status`),
-  KEY `osstimecontrol_status_7` (`osstimecontrol_status`),
-  KEY `osstimecontrol_status_8` (`osstimecontrol_status`),
   CONSTRAINT `vtiger_osstimecontrol` FOREIGN KEY (`osstimecontrolid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
