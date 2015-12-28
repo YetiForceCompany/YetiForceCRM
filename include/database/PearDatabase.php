@@ -41,6 +41,8 @@ class PearDatabase
 	protected $isdb_default_utf8_charset = false;
 	protected $hasActiveTransaction = false;
 	protected $hasFailedTransaction = false;
+	protected $transCnt = 0;
+	protected $autoCommit = false;
 
 	const DEFAULT_QUOTE = '`';
 
@@ -183,7 +185,7 @@ class PearDatabase
 				$backtrace = Vtiger_Functions::getBacktrace();
 			}
 			$message = [
-				'message' => $message, 
+				'message' => $message,
 				'trace' => $backtrace,
 				'query' => $query,
 				'params' => $params,
@@ -218,16 +220,20 @@ class PearDatabase
 		$this->dieOnError = $value;
 	}
 
-	public function setAttribute()
+	public function setAttribute($attribute, $value)
 	{
-		$this->database->setAttribute(func_get_args());
+		$this->database->setAttribute($attribute, $value);
 	}
 
 	public function startTransaction()
 	{
+		$this->transCnt += 1;
+
 		if ($this->hasActiveTransaction) {
-			return false;
+			return $this->hasActiveTransaction;
 		} else {
+			$this->autoCommit = false;
+			$this->setAttribute(PDO::ATTR_AUTOCOMMIT, false);
 			$this->hasActiveTransaction = $this->database->beginTransaction();
 			return $this->hasActiveTransaction;
 		}
@@ -235,8 +241,14 @@ class PearDatabase
 
 	public function completeTransaction()
 	{
-		$this->database->commit();
-		$this->hasActiveTransaction = false;
+		$this->transCnt -= 1;
+
+		if ($this->transCnt == 0) {
+			$this->database->commit();
+			$this->autoCommit = false;
+			$this->setAttribute(PDO::ATTR_AUTOCOMMIT, true);
+			$this->hasActiveTransaction = false;
+		}
 	}
 
 	public function hasFailedTransaction()
@@ -248,7 +260,11 @@ class PearDatabase
 	{
 		if ($this->hasActiveTransaction) {
 			$this->hasFailedTransaction = true;
-			return $this->database->rollback();
+			$result = $this->database->rollback();
+			$this->autoCommit = false;
+			$this->setAttribute(PDO::ATTR_AUTOCOMMIT, true);
+			$this->transCnt -= 1;
+			return $result;
 		}
 		return false;
 	}

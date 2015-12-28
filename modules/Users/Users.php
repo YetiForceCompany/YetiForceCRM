@@ -469,70 +469,61 @@ class Users extends CRMEntity
 
 	/**
 	 * @param string $user name - Must be non null and at least 1 character.
-	 * @param string $user_password - Must be non null and at least 1 character.
-	 * @param string $new_password - Must be non null and at least 1 character.
+	 * @param string $userPassword - Must be non null and at least 1 character.
+	 * @param string $newPassword - Must be non null and at least 1 character.
 	 * @return boolean - If passwords pass verification and query succeeds, return true, else return false.
 	 * @desc Verify that the current password is correct and write the new password to the DB.
 	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
 	 */
-	function change_password($user_password, $new_password, $dieOnError = true)
+	function change_password($userPassword, $newPassword, $dieOnError = true)
 	{
-		$usr_name = $this->column_fields["user_name"];
-		global $mod_strings;
-		$current_user = vglobal('current_user');
-		$this->log->debug("Starting password change for $usr_name");
+		$db = PearDatabase::getInstance();
+		$log = LoggerManager::getInstance();
 
-		if (!isset($new_password) || $new_password == "") {
-			$this->error_string = $mod_strings['ERR_PASSWORD_CHANGE_FAILED_1'] . $user_name . $mod_strings['ERR_PASSWORD_CHANGE_FAILED_2'];
+		$usr_name = $this->column_fields['user_name'];
+		$current_user = vglobal('current_user');
+		$log->debug('Starting password change for ' . $usr_name);
+
+		if (!isset($newPassword) || $newPassword == "") {
+			$this->error_string = vtranslate('ERR_PASSWORD_CHANGE_FAILED_1') . $user_name . vtranslate('ERR_PASSWORD_CHANGE_FAILED_2');
 			return false;
 		}
 
 		if (!is_admin($current_user)) {
-			if (!$this->verifyPassword($user_password)) {
-				$this->log->warn("Incorrect old password for $usr_name");
-				$this->error_string = $mod_strings['ERR_PASSWORD_INCORRECT_OLD'];
-				return false;
-			}
-			if ($this->db->hasFailedTransaction()) {
-				if ($dieOnError) {
-					die("error verifying old transaction[" . $this->db->database->ErrorNo() . "] " .
-						$this->db->database->ErrorMsg());
-				}
+			if (!$this->verifyPassword($userPassword)) {
+				$log->warn('Incorrect old password for ' . $usr_name);
+				$this->error_string = vtranslate('ERR_PASSWORD_INCORRECT_OLD');
 				return false;
 			}
 		}
-
-
-		$user_hash = $this->get_user_hash($new_password);
+		$userHash = $this->get_user_hash($newPassword);
 
 		//set new password
 		$crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
-		$encrypted_new_password = $this->encrypt_password($new_password, $crypt_type);
+		$encryptedNewPassword = $this->encrypt_password($newPassword, $crypt_type);
 
-		$query = "UPDATE $this->table_name SET user_password=?, confirm_password=?, user_hash=?, " .
-			"crypt_type=? where id=?";
-		$this->db->startTransaction();
-		$this->db->pquery($query, array($encrypted_new_password, $encrypted_new_password,
-			$user_hash, $crypt_type, $this->id));
-		if ($this->db->hasFailedTransaction()) {
-			if ($dieOnError) {
-				die("error setting new password: [" . $this->db->database->ErrorNo() . "] " .
-					$this->db->database->ErrorMsg());
-			}
-			return false;
-		}
-		$this->db->completeTransaction();
+		$db->startTransaction();
+		$db->update($this->table_name, [
+			'user_password' => $encryptedNewPassword,
+			'confirm_password' => $encryptedNewPassword,
+			'user_hash' => $userHash,
+			'crypt_type' => $crypt_type,
+			], 'id = ?', [$this->id]
+		);
+
 		// Fill up the post-save state of the instance.
 		if (empty($this->column_fields['user_hash'])) {
-			$this->column_fields['user_hash'] = $user_hash;
+			$this->column_fields['user_hash'] = $userHash;
 		}
 
-		$this->column_fields['user_password'] = $encrypted_new_password;
-		$this->column_fields['confirm_password'] = $encrypted_new_password;
+		$this->column_fields['user_password'] = $encryptedNewPassword;
+		$this->column_fields['confirm_password'] = $encryptedNewPassword;
 
 		$this->triggerAfterSaveEventHandlers();
+		$db->completeTransaction();
+		$log->debug('Ending password change for ' . $usr_name);
 		return true;
 	}
 
@@ -686,7 +677,7 @@ class Users extends CRMEntity
 	 */
 	function saveentity($module)
 	{
-		global $current_user; //$adb added by raju for mass mailing
+		$db = PearDatabase::getInstance();
 		$insertion_mode = $this->mode;
 		if (empty($this->column_fields['time_zone'])) {
 			$dbDefaultTimeZone = DateTimeField::getDBTimeZone();
@@ -744,8 +735,7 @@ class Users extends CRMEntity
 			$this->column_fields['currency_grouping_separator'] = ' ';
 		}
 
-		$this->db->println("TRANS saveentity starts $module");
-		$this->db->startTransaction();
+		$db->startTransaction();
 		foreach ($this->tab_name as $table_name) {
 			if ($table_name == 'vtiger_attachments') {
 				$this->insertIntoAttachment($this->id, $module);
@@ -753,7 +743,6 @@ class Users extends CRMEntity
 				$this->insertIntoEntityTable($table_name, $module);
 			}
 		}
-		;
 
 		if (Settings_Roles_Record_Model::getInstanceById($this->column_fields['roleid']) == null) {
 			$roleid = Settings_Roles_Record_Model::getInstanceByName($this->column_fields['roleid']);
@@ -772,8 +761,7 @@ class Users extends CRMEntity
 		if ($insertion_mode != 'edit') {
 			$this->createAccessKey();
 		}
-		$this->db->completeTransaction();
-		$this->db->println("TRANS saveentity ends");
+		$db->completeTransaction();
 	}
 
 	function createAccessKey()

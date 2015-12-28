@@ -71,7 +71,6 @@ class CRMEntity
 
 	function saveentity($module, $fileid = '')
 	{
-		global $adb; //$adb added by raju for mass mailing
 		$insertion_mode = $this->mode;
 
 		$columnFields = $this->column_fields;
@@ -83,16 +82,11 @@ class CRMEntity
 			}
 		}
 		if (!$anyValue) {
-			die("<center>" . getTranslatedString('LBL_MANDATORY_FIELD_MISSING') . "</center>");
+			throw new AppException(vtranslate('LBL_MANDATORY_FIELD_MISSING'));
 		}
 
-		$this->db->println("TRANS saveentity starts $module");
-		$this->db->startTransaction();
-
-
 		foreach ($this->tab_name as $table_name) {
-
-			if ($table_name == "vtiger_crmentity") {
+			if ($table_name == 'vtiger_crmentity') {
 				$this->insertIntoCrmEntity($module, $fileid);
 			} else {
 				$this->insertIntoEntityTable($table_name, $module, $fileid);
@@ -101,9 +95,6 @@ class CRMEntity
 
 		//Calling the Module specific save code
 		$this->save_module($module);
-
-		$this->db->completeTransaction();
-		$this->db->println("TRANS saveentity ends");
 
 		// vtlib customization: Hook provide to enable generic module relation.
 		if ($_REQUEST['createmode'] == 'link') {
@@ -130,11 +121,10 @@ class CRMEntity
 	 */
 	function uploadAndSaveFile($id, $module, $file_details, $attachmentType = 'Attachment')
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
 
-		global $adb;
-		global $upload_badext;
+		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$date_var = date("Y-m-d H:i:s");
 
@@ -162,11 +152,11 @@ class CRMEntity
 			return false;
 		}
 
-		$binFile = sanitizeUploadFileName($file_name, $upload_badext);
+		$binFile = sanitizeUploadFileName($file_name, AppConfig::main('upload_badext'));
 
-		$current_id = $adb->getUniqueID("vtiger_crmentity");
+		$current_id = $adb->getUniqueID('vtiger_crmentity');
 
-		$filename = ltrim(basename(" " . $binFile)); //allowed filename like UTF-8 characters
+		$filename = ltrim(basename(' ' . $binFile)); //allowed filename like UTF-8 characters
 		$filetype = $file_details['type'];
 		$filesize = $file_details['size'];
 		$filetmp_name = $file_details['tmp_name'];
@@ -175,7 +165,7 @@ class CRMEntity
 		$upload_file_path = decideFilePath($module);
 
 		//upload the file in server
-		$upload_status = move_uploaded_file($filetmp_name, $upload_file_path . $current_id . "_" . $binFile);
+		$upload_status = move_uploaded_file($filetmp_name, $upload_file_path . $current_id . '_' . $binFile);
 
 		$save_file = 'true';
 		//only images are allowed for these modules
@@ -1187,21 +1177,23 @@ class CRMEntity
 	 */
 	function restore($module, $id)
 	{
-		global $current_user, $adb;
-
-		$this->db->println("TRANS restore starts $module");
-		$this->db->startTransaction();
-
-		$date_var = date("Y-m-d H:i:s");
-		$query = 'UPDATE vtiger_crmentity SET deleted=0,modifiedtime=?,modifiedby=? WHERE crmid = ?';
-		$this->db->pquery($query, array($this->db->formatDate($date_var, true), $current_user->id, $id), true, "Error restoring records :");
+		$db = PearDatabase::getInstance();
+		$currentUser = vglobal('current_user');
+		
+		$db->startTransaction();
+		$db->update('vtiger_crmentity', [
+			'deleted' => 0,
+			'modifiedtime' => date('Y-m-d H:i:s'),
+			'modifiedby' => $currentUser->id,
+			], 'crmid = ?', [$id]
+		);
+		
 		//Restore related entities/records
 		$this->restoreRelatedRecords($module, $id);
 
 		//Event triggering code
-		require_once("include/events/include.inc");
-		$adb = PearDatabase::getInstance();
-		$em = new VTEventsManager($adb);
+		require_once('include/events/include.inc');
+		$em = new VTEventsManager($db);
 
 		// Initialize Event trigger cache
 		$em->initTriggerCache();
@@ -1209,11 +1201,10 @@ class CRMEntity
 		$this->id = $id;
 		$entityData = VTEntityData::fromCRMEntity($this);
 		//Event triggering code
-		$em->triggerEvent("vtiger.entity.afterrestore", $entityData);
+		$em->triggerEvent('vtiger.entity.afterrestore', $entityData);
 		//Event triggering code ends
 
-		$this->db->completeTransaction();
-		$this->db->println("TRANS restore ends");
+		$db->completeTransaction();
 	}
 
 	/** Function to restore all the related records of a given record by id */
@@ -1584,8 +1575,7 @@ class CRMEntity
 					'notesid' => $relcrmid
 				]);
 			} else {
-				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?', 
-					[$crmid, $module, $relcrmid, $withModule]
+				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?', [$crmid, $module, $relcrmid, $withModule]
 				);
 				// Relation already exists? No need to add again
 				if ($checkpresence && $db->num_rows($checkpresence))
@@ -1620,8 +1610,7 @@ class CRMEntity
 			if ($withModule == 'Documents') {
 				$db->delete('vtiger_senotesrel', 'crmid=? AND notesid=?', [$crmid, $relcrmid]);
 			} else {
-				$db->delete('vtiger_crmentityrel', '(crmid=? AND module=? AND relcrmid=? AND relmodule=?) OR (relcrmid=? AND relmodule=? AND crmid=? AND module=?)', 
-					[$crmid, $module, $relcrmid, $withModule, $crmid, $module, $relcrmid, $withModule]
+				$db->delete('vtiger_crmentityrel', '(crmid=? AND module=? AND relcrmid=? AND relmodule=?) OR (relcrmid=? AND relmodule=? AND crmid=? AND module=?)', [$crmid, $module, $relcrmid, $withModule, $crmid, $module, $relcrmid, $withModule]
 				);
 			}
 		}
@@ -1807,7 +1796,7 @@ class CRMEntity
 	function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 		foreach ($transferEntityIds as $transferId) {
 
@@ -2399,7 +2388,7 @@ class CRMEntity
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$securityParameter = $this->getUserAccessConditionsQuery($module, $current_user);
 			$shownerid = array_merge([$current_user->id], $current_user_groups);
-			$sharedParameter .= 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid IN ('.implode(',', $shownerid).'))';
+			$sharedParameter .= 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid IN (' . implode(',', $shownerid) . '))';
 		}
 		if ($shared_owners == true) {
 			if ($securityParameter != '') {

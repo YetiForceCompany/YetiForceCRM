@@ -258,6 +258,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function save()
 	{
+		$db = PearDatabase::getInstance();
+		$db->startTransaction();
 		if ($this->getModule()->isInventory()) {
 			$this->initInventoryData();
 		}
@@ -267,6 +269,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if ($this->getModule()->isInventory() && count($this->inventoryData) > 0) {
 			$this->saveInventoryData();
 		}
+		$db->completeTransaction();
 	}
 
 	/**
@@ -274,7 +277,12 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function delete()
 	{
+		$db = PearDatabase::getInstance();
+		$db->startTransaction();
+		
 		$this->getModule()->deleteRecord($this);
+		
+		$db->completeTransaction();
 	}
 
 	/**

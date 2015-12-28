@@ -1371,7 +1371,7 @@ function getRelationTables($module, $secmodule)
 function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRecordId, $sourceRecordId)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering DeleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
 	require_once('include/events/include.inc');
 	if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
