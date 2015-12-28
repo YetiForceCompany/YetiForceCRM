@@ -2727,7 +2727,7 @@ CREATE TABLE `vtiger_dataaccess` (
   `data` text,
   PRIMARY KEY (`dataaccessid`),
   KEY `dataaccesid` (`dataaccessid`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_dataaccess_cnd` */
 
@@ -2740,7 +2740,7 @@ CREATE TABLE `vtiger_dataaccess_cnd` (
   `required` tinyint(19) NOT NULL,
   `field_type` varchar(100) NOT NULL,
   PRIMARY KEY (`dataaccess_cndid`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_datashare_grp2grp` */
 

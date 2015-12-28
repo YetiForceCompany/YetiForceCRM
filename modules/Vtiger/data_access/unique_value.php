@@ -16,10 +16,10 @@ Class DataAccess_unique_value
 
 	var $config = true;
 
-	public function process($ModuleName, $ID, $record_form, $config)
+	public function process($moduleName, $iD, $record_form, $config)
 	{
 		$db = PearDatabase::getInstance();
-		$ModuleNameID = Vtiger_Functions::getModuleId($ModuleName);
+		$moduleNameID = Vtiger_Functions::getModuleId($moduleName);
 		$fieldlabel = $sql_ext = '';
 		$save_record1 = true;
 		$save_record2 = true;
@@ -27,16 +27,16 @@ Class DataAccess_unique_value
 		$type = 0;
 		$typeInfo = 'info';
 		$info = false;
-		if ($ID != 0 && $ID != '' && !array_key_exists($config['what1'], $record_form)) {
-			$Record_Model = Vtiger_Record_Model::getInstanceById($ID, $ModuleName);
+		if ($iD != 0 && $iD != '' && !array_key_exists($config['what1'], $record_form)) {
+			$Record_Model = Vtiger_Record_Model::getInstanceById($iD, $moduleName);
 			$value1 = $Record_Model->get($config['what1']);
 		} else {
 			if (array_key_exists($config['what1'], $record_form))
 				$value1 = $record_form[$config['what1']];
 		}
 
-		if ($ID != 0 && $ID != '' && !array_key_exists($config['what2'], $record_form)) {
-			$Record_Model = Vtiger_Record_Model::getInstanceById($ID, $ModuleName);
+		if ($iD != 0 && $iD != '' && !array_key_exists($config['what2'], $record_form)) {
+			$Record_Model = Vtiger_Record_Model::getInstanceById($iD, $moduleName);
 			$value2 = $Record_Model->get($config['what2']);
 		} else {
 			if (array_key_exists($config['what2'], $record_form))
@@ -62,8 +62,8 @@ Class DataAccess_unique_value
 				$sql_ext = '';
 				$spacialCondition = '';
 				$sqlSpecial = '';
-				if ($ModuleNameID == $where[2] && $ID != 0 && $ID != '') {
-					$sql_param[] = $ID;
+				if ($moduleNameID == $where[2] && $iD != 0 && $iD != '') {
+					$sql_param[] = $iD;
 					$sql_ext = 'AND ' . $index . ' <> ?';
 				}
 				if ($DestModuleName == 'Leads') {
@@ -96,8 +96,8 @@ Class DataAccess_unique_value
 				$sql_ext = '';
 				$spacialCondition = '';
 				$sqlSpecial = '';
-				if ($ModuleNameID == $where[2] && $ID != 0 && $ID != '') {
-					$sql_param[] = $ID;
+				if ($moduleNameID == $where[2] && $iD != 0 && $iD != '') {
+					$sql_param[] = $iD;
 					$sql_ext = 'AND ' . $index . ' <> ?';
 				}
 				if ($DestModuleName == 'Leads') {
@@ -132,12 +132,34 @@ Class DataAccess_unique_value
 			$save_record = false;
 			$info = $config['info1'];
 		}
+		if ($config['locksave'] == 3 && !$save_record) {
+			$type = $config['locksave'];
+			$permission = Users_Privileges_Model::isPermitted($moduleName, 'DuplicateRecord');
+			$text = '<div class="marginLeft10">' . vtranslate('LBL_DUPLICATED_FOUND', 'DataAccess') . ': <br/ >' . trim($fieldlabel, ',') . '</div>';
+
+			if ($permission) {
+				$title = '<strong>' . vtranslate('LBL_DUPLICTAE_CREATION_CONFIRMATION', 'DataAccess') . '</strong>';
+				if (!empty($iD)) {
+					$text .= '<form class="form-horizontal"><div class="checkbox">
+							<label>
+								<input type="checkbox" name="cache"> ' . vtranslate('LBL_DONT_ASK_AGAIN', 'DataAccess') . '
+							</label>
+						</div></form>';
+				}
+				if ($record_form['view'] == 'quick_edit') {
+					$text = '<div class="alert alert-warning" role="alert">' . vtranslate('LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION', 'DataAccess') . '</div>' . $text;
+				}
+			}
+			$info = ['text' => $text,
+				'title' => $title,
+				'type' => $permission ? 1 : 0];
+		}
 
 		if (!$save_record || $info)
 			return Array(
 				'save_record' => $save_record,
 				'type' => $type,
-				'info' => [
+				'info' => $info ? $info : [
 					'text' => vtranslate($info, 'DataAccess') . ' <br/ >' . trim($fieldlabel, ','),
 					'ntype' => $typeInfo,
 					'hide' => false,

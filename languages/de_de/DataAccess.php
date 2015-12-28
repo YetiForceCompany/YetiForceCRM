@@ -22,6 +22,7 @@ $languageStrings = [
 	'LBL_LOCKS_SAVE_LABEL1' => 'Nein',
 	'LBL_LOCKS_SAVE_LABEL2' => 'Ja - Eine Bedingung erfüllt',
 	'LBL_LOCKS_SAVE_LABEL3' => 'Ja - Zwei Bedingungen erfüllt',
+	'LBL_LOCKS_SAVE_LABEL4' => 'Yes - Modal window',
 	'LBL_VALIDATION_TWO_FIELDS' => 'Zwei Felder bestätigen',
 	'LBL_MESSAGE_LOCK0' => 'Nachricht, wenn Schrieben nicht gesperrt ist',
 	'LBL_MESSAGE_LOCK1' => 'Nachricht für eine erfüllte Bedingung',
@@ -72,6 +73,13 @@ $languageStrings = [
 	'LBL_RECORD_DELETED' => 'Datensatz gelöscht',
 	'Action_test' => 'Testaktion',
 	'Action_Desc_test' => 'Testaktion Beschreibung.',
+	//
+	'Action_unique_account' => 'Check for account duplicates',
+	'Action_Desc_unique_account' => 'Check if account is unique in the module.',
+	'LBL_DUPLICATED_FOUND' => 'Duplicates found',
+	'LBL_DUPLICTAE_CREATION_CONFIRMATION' => 'Duplicate found. Are you sure you want to save?',
+	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'An attempt was made to change values in a record in Quick Edition mode.<br>Select the checkbox field below and accept in order to apply changes in this view.<br>Attention!<br>Re-enter the modifications in the record.',
+	'LBL_DONT_ASK_AGAIN' => 'Don\'t ask again for this record.',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Datenzugriff',

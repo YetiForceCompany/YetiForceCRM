@@ -70,6 +70,11 @@
 						<input type="radio" name="locksave" id="locksave3" value="2" {if $LOCKSAVE eq 2}checked{/if}>{vtranslate('LBL_LOCKS_SAVE_LABEL3', 'DataAccess')}
 					</label>
 				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="locksave" id="locksave4" value="3" {if $LOCKSAVE eq 3}checked{/if}>{vtranslate('LBL_LOCKS_SAVE_LABEL4', 'DataAccess')}
+					</label>
+				</div>
 			</div>
 		</div>
 		<div class="col-md-6 {if $VAL2FIELD neq 1}hide{/if} val2fieldBlock">

@@ -55,6 +55,7 @@ function SaveResult() {
 		return staus; // staus ==  true = ok, false = block edit
 	}
 	this.executeTask = function (data, key, form) {
+		var instance = this;
 		switch (data.type) {
 			case 0:
 				this.showNotify(data.info)
@@ -78,8 +79,54 @@ function SaveResult() {
 					this.executeTaskStatus = false
 				}
 				break;
+			case 3:
+				if (data.save_record) {
+					this.executeTaskStatus = data.save_record;
+					break;
+				}
+				var userId = app.getMainParams('current_user_id');
+				var recordId = app.getMainParams('recordId');
+				var saveDuplicateCache = app.cacheGet('SaveDuplicateCache_' + recordId + '_' + userId, false);
+				if (!saveDuplicateCache) {
+					this.showBootBoxModal(data.info, form, key);
+					this.executeTaskStatus = false;
+				} else {
+					this.executeTaskStatus = true;
+				}
+				break;
 		}
 		return this.executeTaskStatus; // true = ok, false = block edit
+	}
+	this.showBootBoxModal = function (info, form, key) {
+		var instance = this;
+		bootbox.dialog({
+			message: info.text,
+			title: info.title,
+			buttons: {
+				success: {
+					label: app.vtranslate('JS_LBL_SAVE'),
+					className: info.type ? "btn-success" : 'hide',
+					callback: function () {
+						var cache = $("input[name='cache']:checked").val();
+						if (cache) {
+							var userId = app.getMainParams('current_user_id');
+							var recordId = app.getMainParams('recordId');
+							app.cacheSet('SaveDuplicateCache_' + recordId + '_' + userId, true);
+						}
+						if (typeof form != 'undefined') {
+							instance.skipCheckDataOneTime = key;
+							form.submit();
+						}
+					}
+				},
+				danger: {
+					label: app.vtranslate('JS_LBL_CANCEL'),
+					className: "btn-warning",
+					callback: function () {
+					}
+				}
+			}
+		});
 	}
 	this.showNotify = function (info, type, form, key) {
 		var instance = this;

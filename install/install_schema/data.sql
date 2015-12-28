@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1576,9 +1577,10 @@ insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) 
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (5,'ProjectTask','Date validation','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:22:\"Vtiger!!check_taskdate\";}}');
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (6,'ProjectTask','Check parent task','a:1:{i:0;a:3:{s:2:\"an\";s:24:\"Vtiger!!check_taskstatus\";s:6:\"status\";a:2:{i:0;s:4:\"Open\";i:1;s:11:\"In Progress\";}s:2:\"cf\";b:1;}}');
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (7,'Leads','Check if there are any tasks that are not closed','a:1:{i:0;a:4:{s:2:\"an\";s:21:\"Vtiger!!check_alltask\";s:6:\"status\";a:5:{i:0;s:11:\"Not Started\";i:1;s:11:\"In Progress\";i:2;s:13:\"Pending Input\";i:3;s:8:\"Deferred\";i:4;s:7:\"Planned\";}s:7:\"message\";s:67:\"There are unsolved tasks, complete them to be able to change status\";s:2:\"cf\";b:1;}}');
-insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (8,'Accounts','Check for duplicate names','a:1:{i:0;a:8:{s:2:\"an\";s:20:\"Vtiger!!unique_value\";s:5:\"what1\";s:11:\"accountname\";s:6:\"where1\";a:2:{i:0;s:28:\"vtiger_account=accountname=6\";i:1;s:28:\"vtiger_leaddetails=company=7\";}s:5:\"info0\";s:24:\"This name already exists\";s:5:\"info1\";s:24:\"This name already exists\";s:5:\"info2\";s:0:\"\";s:8:\"locksave\";s:1:\"1\";s:2:\"cf\";b:1;}}');
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (9,'All','Check whether all mandatory fields in quick edit are filled in','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:26:\"Vtiger!!validate_mandatory\";}}');
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (10,'HelpDesk','Lock edit on the status','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:21:\"Vtiger!!blockEditView\";}}');
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (11,'Accounts','Check for duplicates','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:24:\"Accounts!!unique_account\";}}');
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (12,'Leads','Check for duplicates','a:1:{i:0;a:8:{s:2:\"an\";s:20:\"Vtiger!!unique_value\";s:5:\"what1\";s:6:\"vat_id\";s:6:\"where1\";a:2:{i:0;s:23:\"vtiger_account=vat_id=6\";i:1;s:27:\"vtiger_leaddetails=vat_id=7\";}s:5:\"info0\";s:0:\"\";s:5:\"info1\";s:0:\"\";s:5:\"info2\";s:0:\"\";s:8:\"locksave\";s:1:\"3\";s:2:\"cf\";b:1;}}');
 
 /*Data for the table `vtiger_dataaccess_cnd` */
 
@@ -1586,9 +1588,10 @@ insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldnam
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (39,3,'projecttaskstatus','has changed','Open',1,'picklist');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (42,5,'projectmilestoneid','is not empty','',1,'reference');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (46,7,'leadstatus','is','LBL_LEAD_ACQUIRED',1,'picklist');
-insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (49,8,'accountname','is not empty','',1,'string');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (50,10,'ticketstatus','is','Rejected',0,'picklist');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (51,10,'ticketstatus','is','Closed',0,'picklist');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (52,11,'accountname','is not empty','',1,'string');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (53,12,'vat_id','is not empty','',1,'string');
 
 /*Data for the table `vtiger_datashare_grp2grp` */
 
