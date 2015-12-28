@@ -56,17 +56,16 @@
 											{if $FIELD_MODEL->isEditable() eq true}
 												{if $FIELD_MODEL->get('uitype') eq "19"}
 													{if $COUNTER eq '1'}
-														<div></div><div></div></div><div class='col-md-12'>
 														{assign var=COUNTER value=0}
 													{/if}
 												{/if}
 												{if $COUNTER eq 2}
-													</div><div class='col-md-12'>
+													</div><div class="col-md-12">
 													{assign var=COUNTER value=1}
 												{else}
 													{assign var=COUNTER value=$COUNTER+1}
 												{/if}
-											<div class="  col-md-6 fieldLabel alignMiddle">
+											<div class="col-md-6 fieldLabel alignMiddle">
 												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 												{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
 												&nbsp;&nbsp;

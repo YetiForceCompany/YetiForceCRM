@@ -1782,7 +1782,7 @@ jQuery.Class("Vtiger_List_Js", {
 		})
 	},
 	registerSlimScrollMassEdit: function () {
-		app.showScrollBar(jQuery('div[name="massEditContent"]'), {'height': '400px'});
+		app.showScrollBar(jQuery('div[name="massEditContent"]'), {'height': '100%'});
 	},
 	/*
 	 * Function to register the submit event for mass Actions save
@@ -1838,13 +1838,14 @@ jQuery.Class("Vtiger_List_Js", {
 	registerAlphabetClick: function() {
 		var thisInstance = this;
 		$('.alphabetBtn').click(function() {
-			app.showModalWindow($('.alphabetModal').html());
-			thisInstance.registerEventForAlphabetSearch();
+			app.showModalWindow($('.alphabetModal').html(),function(){
+				thisInstance.registerEventForAlphabetSearch();
+			});
 		});
 	},
 	registerEventForAlphabetSearch: function () {
 		var thisInstance = this;
-		var listViewPageDiv = $('#globalmodal');
+		var listViewPageDiv = $('.modal .alphabetSorting ');
 		listViewPageDiv.find('.alphabetSearch').on('click',  function (e) {
 			var alphabet = jQuery(e.currentTarget).find('a').text();
 			var cvId = thisInstance.getCurrentCvId();
@@ -1870,7 +1871,7 @@ jQuery.Class("Vtiger_List_Js", {
 					function (textStatus, errorThrown) {
 					}
 			);
-			app.hideModalWindow($('.alphabetModal'));
+			app.hideModalWindow();
 		});
 	},
 	updatePaginationOnAlphabetChange: function (alphabet, AlphabetSearchKey) {
