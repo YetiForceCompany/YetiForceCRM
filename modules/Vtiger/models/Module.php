@@ -1159,20 +1159,35 @@ class Vtiger_Module_Model extends Vtiger_Module
 		if (!$user) {
 			$user = $currentUser->getId();
 		}
+		$moduleName = 'Calendar';
 		$currentActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
 		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateValue(date('Y-m-d H:i:s'));
 		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
-		if (in_array($this->getName(), ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees'])) {
-			$relationField = 'link';
+		
+		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $moduleName);
+		$referenceLinkInstance = new $referenceLinkClass();
+		if (in_array($this->getName(), $referenceLinkInstance->getReferenceList())) {
+			$relationField = '`link`';
+		} else {
+			$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $moduleName);
+			$referenceProcessInstance = new $referenceProcessClass();
+			if (in_array($this->getName(), $referenceProcessInstance->getReferenceList())) {
+				$relationField = '`process`';
+			} else {
+				$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $moduleName);
+				$referenceSubProcessInstance = new $referenceSubProcessClass();
+				if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
+					$relationField = '`subprocess`';
+				} else {
+					throw new AppException('LBL_HANDLER_NOT_FOUND');
+				}
+			}
 		}
-		if (in_array($this->getName(), ['Campaigns', 'HelpDesk', 'Project', 'ServiceContracts'])) {
-			$relationField = 'process';
-		}
-		$query = "SELECT vtiger_crmentity.crmid, crmentity2.crmid AS parent_id, vtiger_crmentity.description as description, vtiger_crmentity.smownerid, vtiger_crmentity.smcreatorid, vtiger_crmentity.setype, vtiger_activity.* FROM vtiger_activity
+		$query = 'SELECT vtiger_crmentity.crmid, crmentity2.crmid AS parent_id, vtiger_crmentity.description as description, vtiger_crmentity.smownerid, vtiger_crmentity.smcreatorid, vtiger_crmentity.setype, vtiger_activity.* FROM vtiger_activity
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_activity." . $relationField . " = crmentity2.crmid AND crmentity2.deleted = 0 AND crmentity2.setype = ?
-					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid WHERE vtiger_crmentity.deleted=0";
+					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_activity.' . $relationField . ' = crmentity2.crmid AND crmentity2.deleted = 0 AND crmentity2.setype = ?
+					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid WHERE vtiger_crmentity.deleted=0';
 		$params = [$this->getName()];
 		if ($recordId) {
 			$query .= ' AND vtiger_activity.' . $relationField . ' = ?';
@@ -1201,7 +1216,6 @@ class Vtiger_Module_Model extends Vtiger_Module
 				array_push($params, $user);
 			}
 		}
-		$moduleName = 'Calendar';
 		$instance = CRMEntity::getInstance($moduleName);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser, $recordId);
 		if ($securityParameter != '')
