@@ -1342,7 +1342,7 @@ $languageStrings = [
 	'LBL_REMOVE_FILTERING' => 'Remove filtering',
 	'FL_RELATION' => 'Отношение',
 	'FL_PROCESS' => 'Процесс',
-	'FL_SUB_PROCESS' => '__UNTRANSLATED__',
+	'FL_SUB_PROCESS' => 'Subprocess',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',
@@ -1676,5 +1676,5 @@ $jsLanguageStrings = [
 	'JS_ADDED_TO_FAVORITES' => 'Added to favorites',
 	'JS_RELATION' => 'Отношение',
 	'JS_PROCESS' => 'Процесс',
-	'JS_SUB_PROCESS' => '__UNTRANSLATED__',
+	'JS_SUB_PROCESS' => 'Subprocess',
 ];
