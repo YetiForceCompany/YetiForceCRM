@@ -214,7 +214,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public function showCreatorDetail()
 	{
-		if($this->getRelationType() != 2){
+		if ($this->getRelationType() != 2) {
 			return false;
 		}
 		return $this->get('creator_detail');
@@ -222,7 +222,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public function showComment()
 	{
-		if($this->getRelationType() != 2){
+		if ($this->getRelationType() != 2) {
 			return false;
 		}
 		return $this->get('relation_comment');
@@ -414,30 +414,34 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public function removeRelationById($relationId)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		if ($relationId) {
-			$adb->pquery("DELETE FROM `vtiger_relatedlists` WHERE `relation_id` = ?;", [$relationId]);
+			$db->delete('vtiger_relatedlists', 'relation_id = ?', [$relationId]);
 		}
 	}
 
-	public function updateRelationSequence($modules)
+	public static function updateRelationSequence($modules)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		foreach ($modules as $module) {
-			$sequence = (int) $module['index'] + 1;
-			$query = 'UPDATE vtiger_relatedlists SET `sequence` = ? WHERE `relation_id` = ?;';
-			$result = $adb->pquery($query, array($sequence, $module['relationId']));
+			$db->update('vtiger_relatedlists', [
+				'sequence' => (int) $module['index'] + 1
+				], 'relation_id = ?', [$module['relationId']]
+			);
 		}
 	}
 
 	public function updateModuleRelatedFields($relationId, $fields)
 	{
-		$adb = PearDatabase::getInstance();
-		$query = 'DELETE FROM `vtiger_relatedlists_fields` WHERE `relation_id` = ?;';
-		$adb->pquery($query, array($relationId));
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
 		foreach ($fields as $key => $field) {
-			$query = 'INSERT INTO `vtiger_relatedlists_fields` (`relation_id`, `fieldid`, `fieldname`, `sequence`) VALUES (?, ?, ?, ?);';
-			$result = $adb->pquery($query, array($relationId, $field['id'], $field['name'], $key));
+			$db->insert('vtiger_relatedlists_fields', [
+				'relation_id' => $relationId,
+				'fieldid' => $field['id'],
+				'fieldname' => $field['name'],
+				'sequence' => $key
+			]);
 		}
 	}
 
