@@ -46,21 +46,17 @@
 			   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}"{/if}
 			   {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if}/>
 		<span class="input-group-btn cursorPointer">
-			{if $FIELD_MODEL->get('displaytype') != 10}
-				<button class="btn btn-default clearReferenceSelection" type="button">
-					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="glyphicon glyphicon-remove-sign" title="{vtranslate('LBL_CLEAR', $MODULE)}"></span>
-				</button>
-			{/if}
-			{if $FIELD_MODEL->get('displaytype') != 10}
-				<button class="btn btn-default relatedPopup" type="button">
-					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="glyphicon glyphicon-search" title="{vtranslate('LBL_SELECT', $MODULE)}" ></span>
-				</button>
-			{/if}
+			<button class="btn btn-default clearReferenceSelection" type="button" {if $FIELD_MODEL->get('displaytype') == 10}disabled{/if}>
+				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="glyphicon glyphicon-remove-sign" title="{vtranslate('LBL_CLEAR', $MODULE)}"></span>
+			</button>
+			<button class="btn btn-default relatedPopup" type="button" {if $FIELD_MODEL->get('displaytype') == 10}disabled{/if}>
+				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="glyphicon glyphicon-search" title="{vtranslate('LBL_SELECT', $MODULE)}" ></span>
+			</button>
 			{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_LIST[0])}
 			<!-- Show the add button only if it is edit view  -->
-			{if (($VIEW eq 'Edit') or ($MODULE_NAME eq 'Webforms')) && $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && $FIELD_MODEL->get('displaytype') != 10}
-				<button class="btn btn-default createReferenceRecord" type="button">
-					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class='glyphicon glyphicon-plus' title="{vtranslate('LBL_CREATE', $MODULE)}"></span>
+			{if (($VIEW eq 'Edit') or ($MODULE_NAME eq 'Webforms')) && $REFERENCE_MODULE_MODEL->isQuickCreateSupported()}
+				<button class="btn btn-default createReferenceRecord" type="button" {if $FIELD_MODEL->get('displaytype') == 10}disabled {/if}>
+					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="glyphicon glyphicon-plus" title="{vtranslate('LBL_CREATE', $MODULE)}"></span>
 				</button>
 			{/if}
 		</span>
