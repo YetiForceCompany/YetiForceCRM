@@ -1102,7 +1102,7 @@ $languageStrings = [
 	'LBL_REMOVE_FILTERING' => 'Remove filtering',
 	'FL_RELATION' => 'Beziehung',
 	'FL_PROCESS' => 'Prozess',
-	'FL_SUB_PROCESS' => '__UNTRANSLATED__',
+	'FL_SUB_PROCESS' => 'Subprocess',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
@@ -1336,12 +1336,12 @@ $jsLanguageStrings = [
 	'JS_PLL_POSTPONED' => 'Zurückgestellt',
 	'JS_PLL_CANCELLED' => 'Abgebrichen',
 	'JS_PLL_COMPLETED' => 'Komplett',
-	'JS_PDF_RECALCULATING' => '__UNTRANSLATED__',
-	'JS_PDF_GENERATING' => '__UNTRANSLATED__',
-	'JS_SELECTED_ELEMENTS' => '__UNTRANSLATED__',
+	'JS_PDF_RECALCULATING' => 'Checking templates',
+	'JS_PDF_GENERATING' => 'Generating PDF in progress',
+	'JS_SELECTED_ELEMENTS' => 'Number of selected elements',
 	'JS_REMOVED_FROM_FAVORITES' => 'Removed from favorites',
 	'JS_ADDED_TO_FAVORITES' => 'Added to favorites',
 	'JS_RELATION' => 'Beziehung',
 	'JS_PROCESS' => 'Prozess',
-	'JS_SUB_PROCESS' => '__UNTRANSLATED__',
+	'JS_SUB_PROCESS' => 'Subprocess',
 ];
