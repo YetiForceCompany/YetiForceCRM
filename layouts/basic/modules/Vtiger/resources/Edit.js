@@ -1318,16 +1318,26 @@ jQuery.Class("Vtiger_Edit_Js", {
 		'village': 'addresslevel5'
 	},
 	setEnabledFields: function (element) {
-		var group = element.closest('.fieldValue');
-		group.find('button').removeAttr('disabled');
-		group.find('input').removeAttr('readonly');
-		group.find('.referenceModulesListGroup').removeClass('hide');
+		var fieldValue = element.closest('.fieldValue');
+		var fieldName = fieldValue.find('input.sourceField').attr('name');
+		var fieldDisplay = fieldValue.find('#' + fieldName + '_display');
+		fieldValue.find('button').removeAttr('disabled');
+		fieldValue.find('input').removeAttr('readonly');
+		fieldValue.find('.referenceModulesListGroup').removeClass('hide');
+		var placeholder = fieldDisplay.attr('placeholderDisabled');
+		fieldDisplay.removeAttr('placeholderDisabled');
+		fieldDisplay.attr('placeholder', placeholder);
 	},
 	setDisabledFields: function (element) {
 		var fieldValue = element.closest('.fieldValue');
+		var fieldName = fieldValue.find('input.sourceField').attr('name');
+		var fieldDisplay =  fieldValue.find('#' + fieldName + '_display');
 		fieldValue.find('input').attr('readonly', 'readonly');
 		fieldValue.find('button').attr('disabled', 'disabled');
 		fieldValue.find('.referenceModulesListGroup').addClass('hide');
+		var placeholder = fieldDisplay.attr('placeholder');
+		fieldDisplay.removeAttr('placeholder');
+		fieldDisplay.attr('placeholderDisabled', placeholder);
 	},
 	getMappingRelatedField: function (sourceField, sourceFieldModule, container) {
 		var mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
@@ -1368,14 +1378,14 @@ jQuery.Class("Vtiger_Edit_Js", {
 	checkReferencesField: function (container) {
 		var thisInstance = this;
 		var activeProcess = true, activeSubProcess = true;
-		container.find('[data-fieldtype="referenceLink"]').each(function (index, element) {
+		container.find('input[data-fieldtype="referenceLink"]').each(function (index, element) {
 			element = $(element);
 			var referenceLink = element.val();
 			if (referenceLink == '' || referenceLink == '0') {
 				activeProcess = false;
 			}
 		});
-		container.find('[data-fieldtype="referenceProcess"]').each(function (index, element) {
+		container.find('input[data-fieldtype="referenceProcess"]').each(function (index, element) {
 			element = $(element);
 			if (activeProcess) {
 				thisInstance.setEnabledFields(element);
@@ -1388,7 +1398,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 				activeSubProcess = false;
 			}
 		});
-		container.find('[data-fieldtype="referenceSubProcess"]').each(function (index, element) {
+		container.find('input[data-fieldtype="referenceSubProcess"]').each(function (index, element) {
 			element = $(element);
 			if (activeSubProcess) {
 				thisInstance.setEnabledFields(element);
@@ -1397,6 +1407,18 @@ jQuery.Class("Vtiger_Edit_Js", {
 				thisInstance.setDisabledFields(element);
 			}
 		});
+	},
+	getReferenceModule: function (name) {
+		var editViewForm = this.getForm();
+		var fieldElement = editViewForm.find('input[name="' + name + '"]').closest('.fieldValue');
+		return fieldElement.find('input[name="popupReferenceModule"]').val();
+	},
+	checkReferenceModulesList: function (container) {
+		var thisInstance = this;
+		var processfieldElement = container.find('input[data-fieldtype="referenceProcess"]').closest('.fieldValue');
+		var referenceProcess = processfieldElement.find('input[name="popupReferenceModule"]').val();
+		var subProcessfieldElement = container.find('input[data-fieldtype="referenceSubProcess"]').closest('.fieldValue');
+		Vtiger_Helper_Js.hideOptions(subProcessfieldElement.find('.referenceModulesList'), 'parent', referenceProcess);
 	},
 	registerReferenceFields: function (container) {
 		var thisInstance = this;
