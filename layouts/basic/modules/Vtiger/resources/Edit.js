@@ -1322,7 +1322,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var fieldName = fieldValue.find('input.sourceField').attr('name');
 		var fieldDisplay = fieldValue.find('#' + fieldName + '_display');
 		fieldValue.find('button').removeAttr('disabled');
-		if(fieldDisplay.val() == ''){
+		if (fieldDisplay.val() == '') {
 			fieldValue.find('input').removeAttr('readonly');
 		}
 		fieldValue.find('input').removeAttr('readonly');
@@ -1334,7 +1334,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	setDisabledFields: function (element) {
 		var fieldValue = element.closest('.fieldValue');
 		var fieldName = fieldValue.find('input.sourceField').attr('name');
-		var fieldDisplay =  fieldValue.find('#' + fieldName + '_display');
+		var fieldDisplay = fieldValue.find('#' + fieldName + '_display');
 		fieldValue.find('input').attr('readonly', 'readonly');
 		fieldValue.find('button').attr('disabled', 'disabled');
 		fieldValue.find('.referenceModulesListGroup').addClass('hide');
@@ -1403,18 +1403,15 @@ jQuery.Class("Vtiger_Edit_Js", {
 		});
 		container.find('input[data-fieldtype="referenceSubProcess"]').each(function (index, element) {
 			element = $(element);
-			if (activeSubProcess) {
+			var processfieldElement = element.closest('.fieldValue');
+			var length = processfieldElement.find('.referenceModulesList option[disabled!="disabled"]').length;
+			if (activeSubProcess && length > 0) {
 				thisInstance.setEnabledFields(element);
 			} else {
 				thisInstance.clearFieldValue(element);
 				thisInstance.setDisabledFields(element);
 			}
 		});
-	},
-	getReferenceModule: function (name) {
-		var editViewForm = this.getForm();
-		var fieldElement = editViewForm.find('input[name="' + name + '"]').closest('.fieldValue');
-		return fieldElement.find('input[name="popupReferenceModule"]').val();
 	},
 	checkReferenceModulesList: function (container) {
 		var thisInstance = this;
@@ -1435,7 +1432,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		container.find('.sourceField').on(Vtiger_Edit_Js.referenceDeSelectionEvent, function (e) {
 			thisInstance.checkReferencesField(container);
 		});
-		container.find('input[data-fieldtype="referenceProcess"]').closest('.fieldValue').find('.referenceModulesList').on('change', function(){
+		container.find('input[data-fieldtype="referenceProcess"]').closest('.fieldValue').find('.referenceModulesList').on('change', function () {
 			thisInstance.checkReferenceModulesList(container);
 		});
 	},
