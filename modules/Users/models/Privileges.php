@@ -328,7 +328,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			'ProjectTask' => ['key' => 'projecttaskid', 'table' => 'vtiger_projecttask', 'relfield' => 'projectid']
 		];
 		$modulesSchema['HelpDesk'] = [
-			'OSSTimeControl' => ['key' => 'osstimecontrolid', 'table' => 'vtiger_osstimecontrol', 'relfield' => 'ticketid']
+			'OSSTimeControl' => ['key' => 'osstimecontrolid', 'table' => 'vtiger_osstimecontrol', 'relfield' => 'link']
 		];
 		$sql = '';
 		$params = [];
