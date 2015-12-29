@@ -295,6 +295,23 @@ jQuery.Class("Vtiger_Helper_Js", {
 			}
 		}
 		return app.getStringDate(newDate);
+	},
+	hideOptions: function (element, attr, value) {
+		var opval = ''; 
+		element.find('option').each(function (index, option) {
+			option = $(option);
+			if (value != option.data(attr)) {
+				option.addClass("hide");
+				option.attr("disabled","disabled");
+			} else {
+				if(opval == ''){
+					opval = option.val();
+				}
+				option.removeClass('hide');
+				option.removeAttr("disabled");
+			}
+		});
+		element.val(opval);
+		element.trigger('chosen:updated');
 	}
-
 }, {});

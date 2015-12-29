@@ -1419,19 +1419,22 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var referenceProcess = processfieldElement.find('input[name="popupReferenceModule"]').val();
 		var subProcessfieldElement = container.find('input[data-fieldtype="referenceSubProcess"]').closest('.fieldValue');
 		Vtiger_Helper_Js.hideOptions(subProcessfieldElement.find('.referenceModulesList'), 'parent', referenceProcess);
+		var subProcessValue = subProcessfieldElement.find('.referenceModulesList').val();
+		subProcessfieldElement.find('[name="popupReferenceModule"]').val(subProcessValue);
 	},
 	registerReferenceFields: function (container) {
 		var thisInstance = this;
 		thisInstance.checkReferencesField(container);
-
+		thisInstance.checkReferenceModulesList(container);
 		container.find('.sourceField').on(Vtiger_Edit_Js.referenceSelectionEvent, function (e, data) {
 			thisInstance.checkReferencesField(container);
 		});
 		container.find('.sourceField').on(Vtiger_Edit_Js.referenceDeSelectionEvent, function (e) {
 			thisInstance.checkReferencesField(container);
 		});
-		
-		
+		container.find('input[data-fieldtype="referenceProcess"]').closest('.fieldValue').find('.referenceModulesList').on('change', function(){
+			thisInstance.checkReferenceModulesList(container);
+		});
 	},
 	/**
 	 * Function which will register basic events which will be used in quick create as well
