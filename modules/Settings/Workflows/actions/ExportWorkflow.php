@@ -14,6 +14,7 @@ class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Act
 		$recordId = $request->get('id');
 		$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
 		$workflowObject = $workflowModel->getWorkflowObject();
+		$workflowMethods = [];
 
 		header('content-type: application/xml; charset=utf-8');
 		header('Pragma: public');
@@ -56,11 +57,35 @@ class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Act
 			$xmlColumn = $xml->createElement('summary', html_entity_decode($task['summary'], ENT_COMPAT, 'UTF-8'));
 			$xmlTask->appendChild($xmlColumn);
 
+			if (strpos($task['task'], 'VTEntityMethodTask') !== false) {
+				require_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
+				$taskObject = unserialize(html_entity_decode($task['task']));
+				$method = Settings_Workflows_Module_Model::exportTaskMethod($taskObject->methodName);
+
+				if (!array_key_exists($method['workflowtasks_entitymethod_id'], $method)) {
+					$workflowMethods[$method['workflowtasks_entitymethod_id']] = $method;
+				}
+			}
+
 			$name = $xmlTask->appendChild($xml->createElement('task'));
 			$name->appendChild($xml->createCDATASection(html_entity_decode($task['task'])));
 
 			$xmlTasks->appendChild($xmlTask);
 			$xmlTemplate->appendChild($xmlTasks);
+		}
+
+		$xmlMethods = $xml->createElement('workflow_methods');
+		foreach($workflowMethods as $method) {
+			$xmlMethod = $xml->createElement('workflow_method');
+			$xmlMethod->appendChild($xml->createElement('module_name', html_entity_decode($method['module_name'], ENT_COMPAT, 'UTF-8')));
+			$xmlMethod->appendChild($xml->createElement('method_name', html_entity_decode($method['method_name'], ENT_COMPAT, 'UTF-8')));
+			$xmlMethod->appendChild($xml->createElement('function_path', html_entity_decode($method['function_path'], ENT_COMPAT, 'UTF-8')));
+			$xmlMethod->appendChild($xml->createElement('function_name', html_entity_decode($method['function_name'], ENT_COMPAT, 'UTF-8')));
+			$script = $xmlMethod->appendChild($xml->createElement('script_content'));
+			$script->appendChild($xml->createCDATASection(html_entity_decode($method['script_content'])));
+
+			$xmlMethods->appendChild($xmlMethod);
+			$xmlTemplate->appendChild($xmlMethods);
 		}
 
 		$xml->appendChild($xmlTemplate);

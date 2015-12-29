@@ -10,8 +10,11 @@
 		{if isset($UPLOAD)}
 			{if $UPLOAD eq true}
 				<p class="bgMessage bgOK">
-					{vtranslate('LBL_UPLOAD_OK', $QUALIFIED_MODULE)} <a href="index.php?module=Workflows&parent=Settings&view=Edit&record={$RECORDID}">{vtranslate('LBL_GO_TO_TEMPLATE', $QUALIFIED_MODULE)}</a>
+					<i class="glyphicon glyphicon-ok-sign"></i> {vtranslate('LBL_UPLOAD_OK', $QUALIFIED_MODULE)} <a href="index.php?module=Workflows&parent=Settings&view=Edit&record={$RECORDID}">{vtranslate('LBL_GO_TO_TEMPLATE', $QUALIFIED_MODULE)}</a>
 				</p>
+				{foreach from=$MESSAGES['error'] item=msg}
+					<p class="bgMessage bgWARNING"><i class="glyphicon glyphicon-info-sign"></i> {$msg}</p>
+				{/foreach}
 			{elseif $UPLOAD eq false}
 				<p class="bgMessage bgERROR">
 					{vtranslate('LBL_UPLOAD_ERROR', $QUALIFIED_MODULE)} <a href="{Settings_Workflows_Module_Model::getDefaultUrl()}">{vtranslate('LBL_RETURN', $QUALIFIED_MODULE)}</a>

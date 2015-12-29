@@ -26,7 +26,7 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 				$xml = simplexml_load_file($uploadedXml);
 
 				$params = [];
-				$taskIndex = 0;
+				$taskIndex = $methodIndex = 0;
 				foreach ($xml as $fieldsKey => $fieldsValue) {
 					foreach ($fieldsValue as $fieldKey => $fieldValue) {
 						foreach ($fieldValue as $columnKey => $columnValue) {
@@ -36,6 +36,10 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 								$columnValue = 'basic';
 							}
 							switch ($fieldKey) {
+								case 'workflow_method':
+									$params[$fieldsKey][$methodIndex][$columnKey] = (string) $columnValue;
+									break;
+
 								case 'workflow_task':
 									$params[$fieldsKey][$taskIndex][$columnKey] = (string) $columnValue;
 									break;
@@ -46,14 +50,17 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 						}
 						if ($fieldKey === 'workflow_task') {
 							$taskIndex++;
+						} elseif ($fieldKey === 'workflow_method') {
+							$methodIndex++;
 						}
 					}
 				}
 				$workflowModel = Settings_Workflows_Module_Model::getInstance('Settings:Workflows');
-				$recordId = $workflowModel->importWorkflow($params);
+				$messages = $workflowModel->importWorkflow($params);
 
-				$viewer->assign('RECORDID', $recordId);
+				$viewer->assign('RECORDID', $messages['id']);
 				$viewer->assign('UPLOAD', true);
+				$viewer->assign('MESSAGES', $messages);
 			} else {
 				$viewer->assign('UPLOAD_ERROR', vtranslate('LBL_UPLOAD_ERROR', $qualifiedModule));
 				$viewer->assign('UPLOAD', false);

@@ -165,6 +165,11 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		$workflowId = $db->getLastInsertID();
 		$db->update($this->getBaseTable() . '_seq', ['id' => $workflowId]);
 
+		$messages = ['id' => $workflowId];
+		foreach($data['workflow_methods'] as $method) {
+			$this->importTaskMethod($method, $messages);
+		}
+
 		foreach ($data['workflow_tasks'] as $task) {
 			$db->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']]);
 			$taskId = $db->getLastInsertID();
@@ -177,7 +182,56 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 			$db->update('com_vtiger_workflowtasks', ['task' => serialize($taskObject)], 'task_id = ?', [$taskId]);
 			$db->update('com_vtiger_workflowtasks_seq', ['id' => $taskId]);
 		}
+
+		return $messages;
+	}
+
+	/**
+	 * Returns infor for exporting of task method
+	 * @param int $methodName name of method
+	 * @return array task method data
+	 */
+	public static function exportTaskMethod($methodName) {
+		$db = PearDatabase::getInstance();
 		
+		$query = 'SELECT workflowtasks_entitymethod_id, module_name, method_name, function_path, function_name FROM com_vtiger_workflowtasks_entitymethod WHERE method_name = ?;';
+		$result = $db->pquery($query, [$methodName]);
+		$method = $db->getRow($result);
+
+		$method['script_content'] = base64_encode(file_get_contents($method['function_path']));
 		
+		return $method;
+	}
+
+	/**
+	 * Function that creates task method
+	 * @param array $method array containing method data
+	 * @param array $messages array containing returned error messages
+	 */
+	public function importTaskMethod(array &$method, array &$messages) {
+		$db = PearDatabase::getInstance();
+
+		if (!file_exists($method['function_path'])) {
+			$scriptData = base64_decode($method['script_content']);
+			if (file_put_contents($method['function_path'], $scriptData) === false) {
+				$messages['error'][] = vtranslate('LBL_FAILED_TO_SAVE_SCRIPT', $this->getName(true), basename($method['function_path']), $method['function_path']);
+			}
+		} else {
+			require_once $method['function_path'];
+			if (!function_exists($method['function_name'])) {
+				$messages['error'][] = vtranslate('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $this->getName(true), $method['function_name'], $method['function_path']);
+			}
+		}
+
+		$query = 'SELECT COUNT(1) AS num FROM com_vtiger_workflowtasks_entitymethod WHERE module_name = ? AND method_name = ? AND function_path = ? AND function_name = ?;';
+		$params = [$method['module_name'], $method['method_name'], $method['function_path'], $method['function_name']];
+		$result = $db->pquery($query, $params);
+		$num = $db->getSingleValue($result);
+
+		if ($num == 0) {
+			require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
+			$emm = new VTEntityMethodManager($db);
+			$emm->addEntityMethod($method['module_name'], $method['method_name'], $method['function_path'], $method['function_name']);
+		}
 	}
 }

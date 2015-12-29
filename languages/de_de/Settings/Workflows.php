@@ -195,6 +195,8 @@ $languageStrings = [
 	'LBL_UPLOAD_OK' => 'Trigger XML file imported successfully.',
 	'LBL_RETURN' => 'Return',
 	'LBL_GO_TO_TEMPLATE' => 'Click to go to imported record.',
+	'LBL_SCRIPT_EXISTS_FUNCTION_NOT' => 'Script physically exists but doesn\'t contain imported function name. Manually add %s to %s.',
+	'LBL_FAILED_TO_SAVE_SCRIPT' => 'Failed to save workflow methods script file. Manually copy %s to %s.',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Dieselben Felder mehr als einmal ausgewählt',

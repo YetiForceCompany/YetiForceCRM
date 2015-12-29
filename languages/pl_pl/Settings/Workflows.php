@@ -197,6 +197,8 @@ $languageStrings = [
 	'LBL_UPLOAD_OK' => 'Pomyślnie zaimportowano plik automatyzacji.',
 	'LBL_RETURN' => 'Wróć',
 	'LBL_GO_TO_TEMPLATE' => 'Kliknij aby przejść do zaimportowanego rekordu.',
+	'LBL_SCRIPT_EXISTS_FUNCTION_NOT' => 'Skrypt fizycznie istnieje ale nie zawiera importowanej funkcji. Ręcznie skopiuj %s do %s.',
+	'LBL_FAILED_TO_SAVE_SCRIPT' => 'Nie udało się zapisać importowanego skryptu z funkcją obiegu informacji. Ręcznie skopiuj %s do %s.',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Te same pola zaznaczono więcej niż jedej raz',
