@@ -40,7 +40,7 @@
 					{/if}
 					{if $RECORD->get('link') neq '' }
 						<div>
-							{vtranslate('Relation',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('link')}</strong>
+							{vtranslate('FL_RELATION',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('link')}</strong>
 							{if $PERMISSION_TO_SENDE_MAIL}
 								<a target="_blank" class="pull-right btn btn-default btn-xs " href="index.php?module=OSSMail&view=compose&mod={Vtiger_Functions::getCRMRecordType($RECORD->get('link'))}&record={$RECORD->get('link')}">
 									<span class="glyphicon glyphicon-envelope icon-white" aria-hidden="true"></span>
@@ -50,7 +50,12 @@
 					{/if}
 					{if $RECORD->get('process') neq '' }
 						<div>
-							{vtranslate('Process',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('process')}</strong>
+							{vtranslate('FL_PROCESS',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('process')}</strong>
+						</div>
+					{/if}
+					{if $RECORD->get('subprocess') neq '' }
+						<div>
+							{vtranslate('FL_SUB_PROCESS',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('subprocess')}</strong>
 						</div>
 					{/if}
 					{if $RECORD->get('location') neq '' }
