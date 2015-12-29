@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div class="widget_header row">
-	<div class="col-xs-6">
+	<div class="col-xs-9 col-sm-6">
 		<div class="btn-group listViewMassActions modOn_{$MODULE} pull-left paddingRight10">
 			{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
 				<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -42,7 +42,7 @@
 		</div>
 		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 	</div>
-	<div class="dashboardHeading col-xs-6">
+	<div class="dashboardHeading col-xs-3 col-sm-6">
 		<div class="marginLeftZero">
 			<div class="pull-right">
 					<div class="btn-toolbar">
