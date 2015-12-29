@@ -490,7 +490,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$relationQuery = str_replace('FROM', 'from', $relationQuery);
 			$split = explode(' from ', $relationQuery);
 			$splitCount = count($split);
-			$relationQuery = 'SELECT COUNT(DISTINCT vtiger_crmentity.crmid) AS count';
+			$relationQuery = 'SELECT COUNT(1) AS count';
 			for ($i = 1; $i < $splitCount; $i++) {
 				$relationQuery = $relationQuery . ' FROM ' . $split[$i];
 			}

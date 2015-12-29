@@ -9,6 +9,11 @@
 class Vtiger_ReferenceLink_UIType extends Vtiger_Reference_UIType
 {
 
+	public function isAjaxEditable()
+	{
+		return false;
+	}
+
 	public function getReferenceList()
 	{
 		return ['Accounts', 'Contacts', 'Leads', 'Vendors', 'Partners', 'Competition', 'OSSEmployees'];

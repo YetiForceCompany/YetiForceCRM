@@ -1322,6 +1322,9 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var fieldName = fieldValue.find('input.sourceField').attr('name');
 		var fieldDisplay = fieldValue.find('#' + fieldName + '_display');
 		fieldValue.find('button').removeAttr('disabled');
+		if(fieldDisplay.val() == ''){
+			fieldValue.find('input').removeAttr('readonly');
+		}
 		fieldValue.find('input').removeAttr('readonly');
 		fieldValue.find('.referenceModulesListGroup').removeClass('hide');
 		var placeholder = fieldDisplay.attr('placeholderDisabled');

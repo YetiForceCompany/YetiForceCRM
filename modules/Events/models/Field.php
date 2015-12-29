@@ -46,7 +46,8 @@ class Events_Field_Model extends Calendar_Field_Model {
 	 */
 	public function isAjaxEditable()
 	{
-		if (!$this->isEditable() || in_array($this->get('uitype'), [30, 66, 67]) || 'recurringtype' == $this->getFieldName()) {
+		$return = parent::isAjaxEditable();
+		if (!$return || 'recurringtype' == $this->getFieldName()) {
 			return false;
 		}
 		return true;

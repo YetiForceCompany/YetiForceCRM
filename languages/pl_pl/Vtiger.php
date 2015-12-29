@@ -1096,7 +1096,7 @@ $languageStrings = [
 	'LBL_REMOVE_FILTERING' => 'Wyczyść filtrowanie',
 	'FL_RELATION' => 'Powiązanie',
 	'FL_PROCESS' => 'Proces',
-	'FL_SUB_PROCESS' => 'Pod proces',
+	'FL_SUB_PROCESS' => 'Podproces',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
@@ -1354,5 +1354,5 @@ $jsLanguageStrings = [
 	'JS_S_SORT_DESCENDING' => ': aktywuj, by posortować kolumnę malejąco',
 	'JS_RELATION' => 'Powiązanie',
 	'JS_PROCESS' => 'Proces',
-	'JS_SUB_PROCESS' => 'Pod proces',
+	'JS_SUB_PROCESS' => 'Podproces',
 ];

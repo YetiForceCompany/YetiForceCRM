@@ -1009,7 +1009,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 				'linkicon' => '',
 			];
 		}
-		
+
 		foreach ($quickLinks as $quickLink) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}
@@ -1538,12 +1538,19 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$focus = CRMEntity::getInstance($this->getName());
 		$focus->id = $recordId;
 
-		if ($functionName == 'get_many_to_many') {
-			$query = $this->getRelationQueryM2M($recordId, $relatedModule, $relationModel);
-		} else {
-			$result = $focus->$functionName($recordId, $this->getId(), $relatedModule->getId());
-			$query = $result['query'] . ' ' . $this->getSpecificRelationQuery($relatedModuleName);
+		switch ($functionName) {
+			case 'get_many_to_many':
+				$query = $this->getRelationQueryM2M($recordId, $relatedModule, $relationModel);
+				break;
+			case 'get_activities':
+				$query = $this->getRelationQueryForActivities($recordId, $relatedModule, $relationModel);
+				break;
+			default:
+				$result = $focus->$functionName($recordId, $this->getId(), $relatedModule->getId());
+				$query = $result['query'] . ' ' . $this->getSpecificRelationQuery($relatedModuleName);
+				break;
 		}
+
 
 		//modify query if any module has summary fields, those fields we are displayed in related list of that module
 		$relatedListFields = [];
@@ -1790,6 +1797,44 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
 		$query .= ' WHERE vtiger_crmentity.deleted = 0 AND ' . $referenceInfo['table'] . '.' . $referenceInfo['rel'] . ' = ' . $recordId;
+		return $query;
+	}
+
+	public function getRelationQueryForActivities($recordId, $relatedModule, $relationModel)
+	{
+		$query = 'SELECT vtiger_crmentity.*,vtiger_activity.* FROM vtiger_activity '
+			. ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid'
+			. ' WHERE vtiger_activity.deleted = 0';
+		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModule->getName());
+		$referenceLinkInstance = new $referenceLinkClass();
+		if (in_array($this->getName(), $referenceLinkInstance->getReferenceList())) {
+			$query .= ' AND vtiger_activity.`link` = ';
+		} else {
+			$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $relatedModule->getName());
+			$referenceProcessInstance = new $referenceProcessClass();
+			if (in_array($this->getName(), $referenceProcessInstance->getReferenceList())) {
+				$query .= ' AND vtiger_activity.`process` = ';
+			} else {
+				$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $relatedModule->getName());
+				$referenceSubProcessInstance = new $referenceSubProcessClass();
+				if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
+					$query .= ' AND vtiger_activity.`subprocess` = ';
+				} else {
+					throw new AppException('LBL_HANDLER_NOT_FOUND');
+				}
+			}
+		}
+		$query .= $recordId;
+
+		$time = vtlib_purify($_REQUEST['time']);
+		if ($time == 'current') {
+			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
+			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
+		}
+		if ($time == 'history') {
+			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
+			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
+		}
 		return $query;
 	}
 }
