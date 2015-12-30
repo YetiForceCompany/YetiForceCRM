@@ -2351,7 +2351,7 @@ textarea.col-md-11 {
 }
 
 .ui-autocomplete-loading {
-	background: url('../images/load.gif') no-repeat right center;
+	background: #eee url('../images/load.gif') no-repeat right center;
 }
 .ui-autocomplete {
 	height: auto !important;
