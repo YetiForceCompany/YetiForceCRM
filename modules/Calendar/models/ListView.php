@@ -16,23 +16,22 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 
 	public function getBasicLinks()
 	{
-		$basicLinks = array();
+		$basicLinks = [];
 		$moduleModel = $this->getModule();
 		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView');
 		if ($createPermission) {
-			$basicLinks[] = array(
-				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => 'LBL_ADD_TASK',
-				'linkurl' => $this->getModule()->getCreateTaskRecordUrl(),
-				'linkicon' => ''
-			);
-
-			$basicLinks[] = array(
+			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_EVENT',
 				'linkurl' => $this->getModule()->getCreateEventRecordUrl(),
 				'linkicon' => ''
-			);
+			];
+			$basicLinks[] = [
+				'linktype' => 'LISTVIEWBASIC',
+				'linklabel' => 'LBL_ADD_TASK',
+				'linkurl' => $this->getModule()->getCreateTaskRecordUrl(),
+				'linkicon' => ''
+			];
 		}
 		return $basicLinks;
 	}
