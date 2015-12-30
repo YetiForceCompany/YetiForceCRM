@@ -102,21 +102,20 @@
 								<div class="row noSpaces col-xs-12 eventsTable" style="margin-top: 5px;">
 									<div class="col-xs-12 col-md-4 paddingLRZero" id="prev_events">
 										<table class="table">
-											<tr><th>{vtranslate('TASK_PREV', $MODULE)}</th></tr>
+											<tr><th class="taskPrev">{Vtiger_Date_UIType::getDisplayDateValue($PREVIOUSDATE)}</th></tr>
 										</table>
 									</div>
 									<div class="col-xs-12 col-md-4 paddingLRZero" id="cur_events">
 										 <table class="table">
-											<tr><th>{vtranslate('TASK_CUR', $MODULE)}</th></tr>
+											<tr><th class="taskCur">{Vtiger_Date_UIType::getDisplayDateValue($CURRENTDATE)}</th></tr>
 										</table>
 									</div>
 									<div class="col-xs-12 col-md-4 paddingLRZero" id="next_events">
 										<table class="table">
-											<tr><th>{vtranslate('TASK_NEXT', $MODULE)}</th></tr>
+											<tr><th class="taskNext">{Vtiger_Date_UIType::getDisplayDateValue($NEXTDATE)}</th></tr>
 										</table>
 									</div>
 								</div>
-							
 						</div>
 					</div>
 					{/foreach}

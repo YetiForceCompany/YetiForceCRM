@@ -1524,4 +1524,31 @@ class Vtiger_Functions
 		}
 		return $fileMimeContentType;
 	}
+
+	/**
+	 * Function returning difference in minutes between date times
+	 * @param string $startDateTime
+	 * @param string $endDateTime
+	 * @return int difference in minutes
+	 */
+	public static function getDateTimeMinutesDiff($startDateTime, $endDateTime) {
+		$start = new DateTime($startDateTime);
+		$end = new DateTime($endDateTime);
+		$interval = $start->diff($end);
+
+		$intervalInSeconds = (new DateTime())->setTimeStamp(0)->add($interval)->getTimeStamp();
+		$intervalInMinutes = ($intervalInSeconds/60);
+
+		return $intervalInMinutes;
+	}
+
+	/**
+	 * Function returning difference in hours between date times
+	 * @param string $startDateTime
+	 * @param string $endDateTime
+	 * @return int difference in hours
+	 */
+	public static function getDateTimeHoursDiff($startDateTime, $endDateTime) {
+		return self::getDateTimeMinutesDiff($startDateTime, $endDateTime)/60;
+	}
 }

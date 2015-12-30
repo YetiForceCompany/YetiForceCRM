@@ -114,9 +114,6 @@ $languageStrings = [
 	'Duration Minutes'=>'Duração em Minutos',
 	'No Time'=>'Nenhum',
 
-    'TASK_PREV' => 'Planejado para um dia antes',
-    'TASK_CUR' => 'Planejado para um dia específico',
-    'TASK_NEXT' => 'Planejado para um dia depois',
 	'LBL_NO_DESCRIPTION'=>'Sem descrição',
 	'LBL_IMPORT_ICS_ERROR_NO_RECORD'=>'Arquivo ICS incorreto',
 	'LBL_IMPORT_ICS_SUCCESS'=>'Entrada adicionada na Agenda',
