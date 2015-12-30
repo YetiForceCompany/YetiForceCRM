@@ -151,7 +151,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	public function getAddRelationLinks()
 	{
 		$relationModel = $this->getRelationModel();
-		$addLinkModel = array();
+		$addLinkModel = [];
 
 		if (!$relationModel->isAddActionSupported()) {
 			return $addLinkModel;
@@ -159,33 +159,33 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$relatedModel = $relationModel->getRelationModuleModel();
 
 		if ($relatedModel->get('label') == 'Calendar') {
-			$addLinkList[] = array(
+			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => vtranslate('LBL_ADD_EVENT'),
 				'linkurl' => $this->getCreateEventRecordUrl(),
-				'linkicon' => '',
-			);
-			$addLinkList[] = array(
+				'linkqcs' => $relatedModel->isQuickCreateSupported(),
+				'linkicon' => ''
+			];
+			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => vtranslate('LBL_ADD_TASK'),
 				'linkurl' => $this->getCreateTaskRecordUrl(),
-				'linkicon' => '',
-			);
+				'linkqcs' => $relatedModel->isQuickCreateSupported(),
+				'linkicon' => ''
+			];
 		} else {
-			$addLinkList = array(
-				array(
-					'linktype' => 'LISTVIEWBASIC',
-					// NOTE: $relatedModel->get('label') assuming it to be a module name - we need singular label for Add action.
-					//'linklabel' => vtranslate('LBL_ADD')." ".vtranslate('SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
-					'linklabel' => vtranslate('LBL_ADD_RELATION'),
-					'linkurl' => $this->getCreateViewUrl(),
-					'linkqcs' => $relatedModel->isQuickCreateSupported(),
-					'linkicon' => '',
-				)
-			);
+			$addLinkList = [[
+				'linktype' => 'LISTVIEWBASIC',
+				// NOTE: $relatedModel->get('label') assuming it to be a module name - we need singular label for Add action.
+				//'linklabel' => vtranslate('LBL_ADD')." ".vtranslate('SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
+				'linklabel' => vtranslate('LBL_ADD_RELATION'),
+				'linkurl' => $this->getCreateViewUrl(),
+				'linkqcs' => $relatedModel->isQuickCreateSupported(),
+				'linkicon' => ''
+			]];
 		}
 
-		foreach ($addLinkList as $addLink) {
+		foreach ($addLinkList as &$addLink) {
 			$addLinkModel[] = Vtiger_Link_Model::getInstanceFromValues($addLink);
 		}
 		return $addLinkModel;
@@ -627,7 +627,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			if ($relationModel->showCreatorDetail()) {
 				$tree['relCreatedUser'] = getOwnerName($row['rel_created_user']);
 				$tree['relCreatedTime'] = Vtiger_Datetime_UIType::getDisplayDateTimeValue($row['rel_created_time']);
-			} 
+			}
 			if ($relationModel->showComment()) {
 				if (strlen($row['rel_comment']) > AppConfig::relation('COMMENT_MAX_LENGTH')) {
 					$tree['relCommentFull'] = $row['rel_comment'];
