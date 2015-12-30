@@ -107,13 +107,32 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 			}
 		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
+		$recordStructure = $recordStructureInstance->getStructure();
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
+		$isRelationOperation = $request->get('relationOperation');
+		//if it is relation edit
+		$viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);
+		if ($isRelationOperation) {
+			$sourceModule = $request->get('sourceModule');
+			$sourceRecord = $request->get('sourceRecord');
+
+			$viewer->assign('SOURCE_MODULE', $sourceModule);
+			$viewer->assign('SOURCE_RECORD', $sourceRecord);
+			$sourceRelatedField = $moduleModel->getValuesFromSource($moduleName, $sourceModule, $sourceRecord);
+			foreach ($recordStructure as &$block) {
+				foreach ($sourceRelatedField as $field => &$value) {
+					if (isset($block[$field]) && empty($block[$field]->get('fieldvalue'))) {
+						$block[$field]->set('fieldvalue', $value);
+						unset($sourceRelatedField[$field]);
+					}
+				}
+			}
+		}
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Zend_Json::encode($picklistDependencyDatasource));
-		$mappingRelatedField = $moduleModel->getMappingRelatedField($moduleName);
-		$viewer->assign('MAPPING_RELATED_FIELD', Zend_Json::encode($mappingRelatedField));
+		$viewer->assign('MAPPING_RELATED_FIELD', Zend_Json::encode($moduleModel->getMappingRelatedField($moduleName)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
-		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
+		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
 		$viewer->assign('RECORD', $recordModel);
@@ -122,16 +141,6 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('APIADDRESS', Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->getConfig());
 		$viewer->assign('APIADDRESS_ACTIVE', Settings_ApiAddress_Module_Model::isActive());
-
-		$isRelationOperation = $request->get('relationOperation');
-
-		//if it is relation edit
-		$viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);
-		if ($isRelationOperation) {
-			$viewer->assign('SOURCE_MODULE', $request->get('sourceModule'));
-			$viewer->assign('SOURCE_RECORD', $request->get('sourceRecord'));
-		}
-
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
 		$viewer->view('EditView.tpl', $moduleName);

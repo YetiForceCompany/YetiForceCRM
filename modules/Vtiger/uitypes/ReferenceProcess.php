@@ -11,6 +11,7 @@ class Vtiger_ReferenceProcess_UIType extends Vtiger_ReferenceLink_UIType
 
 	public function getReferenceList()
 	{
-		return ['SSalesProcesses', 'HelpDesk', 'Project', 'ServiceContracts', 'Campaigns'];
+		$modules = Vtiger_Module_Model::getModulesByLevel(1);
+		return array_keys($modules);
 	}
 }

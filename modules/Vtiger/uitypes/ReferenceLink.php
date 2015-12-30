@@ -16,7 +16,8 @@ class Vtiger_ReferenceLink_UIType extends Vtiger_Reference_UIType
 
 	public function getReferenceList()
 	{
-		return ['Accounts', 'Contacts', 'Leads', 'Vendors', 'Partners', 'Competition', 'OSSEmployees'];
+		$modules = Vtiger_Module_Model::getModulesByLevel();
+		return array_keys($modules);
 	}
 
 	public function getListSearchTemplateName()

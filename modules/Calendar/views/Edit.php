@@ -91,7 +91,8 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 			}
 		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
-
+		$recordStructure = $recordStructureInstance->getStructure();
+		
 		$viewMode = $request->get('view_mode');
 		if (!empty($viewMode)) {
 			$viewer->assign('VIEW_MODE', $viewMode);
@@ -113,6 +114,25 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 			$viewer->assign('FOLLOW_UP_STATUS', TRUE);
 		}
 
+		$isRelationOperation = $request->get('relationOperation');
+		//if it is relation edit
+		$viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);
+		if ($isRelationOperation) {
+			$sourceModule = $request->get('sourceModule');
+			$sourceRecord = $request->get('sourceRecord');
+
+			$viewer->assign('SOURCE_MODULE', $sourceModule);
+			$viewer->assign('SOURCE_RECORD', $sourceRecord);
+			$sourceRelatedField = $moduleModel->getValuesFromSource($moduleName, $sourceModule, $sourceRecord);
+			foreach ($recordStructure as &$block) {
+				foreach ($sourceRelatedField as $field => &$value) {
+					if (isset($block[$field]) && empty($block[$field]->get('fieldvalue'))) {
+						$block[$field]->set('fieldvalue', $value);
+						unset($sourceRelatedField[$field]);
+					}
+				}
+			}
+		}
 		$viewer->assign('USER_CHANGED_END_DATE_TIME', $userChangedEndDateTime);
 		$viewer->assign('FOLLOW_UP_DATE', $followUpDate);
 		$viewer->assign('FOLLOW_UP_TIME', $followUpTime);
@@ -120,20 +140,13 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('TOMORROWDATE', Vtiger_Date_UIType::getDisplayDateValue(date('Y-m-d', time() + 86400)));
 
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
-		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
+		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$isRelationOperation = $request->get('relationOperation');
 
-		//if it is relation edit
-		$viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);
-		if ($isRelationOperation) {
-			$viewer->assign('SOURCE_MODULE', $request->get('sourceModule'));
-			$viewer->assign('SOURCE_RECORD', $request->get('sourceRecord'));
-		}
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$accessibleUsers = $currentUser->getAccessibleUsers();
 

@@ -9,12 +9,8 @@
 class Calendar_ReferenceSubProcess_UIType extends Vtiger_ReferenceSubProcess_UIType
 {
 
-	protected $referenceMap = [
-		'SQuoteEnquiries' => 'SSalesProcesses',
-		'SRequirementsCards' => 'SSalesProcesses',
-		'SCalculations' => 'SSalesProcesses',
-		'SQuotes' => 'SSalesProcesses',
-		'SSingleOrders' => 'SSalesProcesses',
-		'SRecurringOrders' => 'SSalesProcesses',
-	];
+	public function getReferenceList()
+	{
+		return ['SQuoteEnquiries', 'SRequirementsCards', 'SCalculations', 'SQuotes', 'SSingleOrders', 'SRecurringOrders'];
+	}
 }

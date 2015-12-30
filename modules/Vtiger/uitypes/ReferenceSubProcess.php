@@ -9,17 +9,6 @@
 class Vtiger_ReferenceSubProcess_UIType extends Vtiger_ReferenceLink_UIType
 {
 
-	protected $referenceMap = [
-		'ProjectTask' => 'Project',
-		'ProjectMilestone' => 'Project',
-		'SQuoteEnquiries' => 'SSalesProcesses',
-		'SRequirementsCards' => 'SSalesProcesses',
-		'SCalculations' => 'SSalesProcesses',
-		'SQuotes' => 'SSalesProcesses',
-		'SSingleOrders' => 'SSalesProcesses',
-		'SRecurringOrders' => 'SSalesProcesses',
-	];
-
 	/**
 	 * Function to get the Template name for the current UI Type object
 	 * @return <String> - Template Name
@@ -31,13 +20,15 @@ class Vtiger_ReferenceSubProcess_UIType extends Vtiger_ReferenceLink_UIType
 
 	public function getReferenceList()
 	{
-		return array_keys($this->referenceMap);
+		$modules = Vtiger_Module_Model::getModulesByLevel(2);
+		return array_keys($modules);
 	}
 
 	public function getParentModule($module)
 	{
-		if (key_exists($module, $this->referenceMap)) {
-			return $this->referenceMap[$module];
+		$modules = Vtiger_Module_Model::getModulesByLevel(2);
+		if (isset($modules[$module]['parentModule'])) {
+			return $modules[$module]['parentModule'];
 		}
 		return '';
 	}

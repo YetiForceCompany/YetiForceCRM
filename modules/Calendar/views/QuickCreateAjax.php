@@ -16,11 +16,11 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	{
 		$moduleName = $request->getModule();
 
-		$moduleList = array('Calendar', 'Events');
+		$moduleList = ['Calendar', 'Events'];
 
-		$quickCreateContents = array();
+		$quickCreateContents = [];
 		foreach ($moduleList as $module) {
-			$info = array();
+			$info = [];
 
 			$recordModel = Vtiger_Record_Model::getCleanInstance($module);
 			$moduleModel = $recordModel->getModule();
@@ -37,13 +37,14 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 
 			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
 			$recordStructure = $recordStructureInstance->getStructure();
-			$sourceRelatedField = $moduleModel->getSourceRelatedFieldToQuickCreate($moduleName, $request->get('sourceModule'), $request->get('sourceRecord'));
+			$sourceRelatedField = $moduleModel->getValuesFromSource($moduleName, $request->get('sourceModule'), $request->get('sourceRecord'));
 			foreach ($sourceRelatedField as $field => $value) {
-				if (array_key_exists($field, $recordStructure)) {
+				if (isset($recordStructure[$field]) && empty($recordStructure[$field]->get('fieldvalue'))) {
 					$recordStructure[$field]->set('fieldvalue', $value);
 					unset($sourceRelatedField[$field]);
 				}
 			}
+
 			$info['recordStructureModel'] = $recordStructureInstance;
 			$info['recordStructure'] = $recordStructure;
 			$info['moduleModel'] = $moduleModel;

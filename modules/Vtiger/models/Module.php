@@ -1164,7 +1164,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateValue(date('Y-m-d H:i:s'));
 		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
-		
+
 		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $moduleName);
 		$referenceLinkInstance = new $referenceLinkClass();
 		if (in_array($this->getName(), $referenceLinkInstance->getReferenceList())) {
@@ -1731,58 +1731,66 @@ class Vtiger_Module_Model extends Vtiger_Module
 		return true;
 	}
 
-	public function getMappingRelatedField($moduleName, $field = false)
-	{
-		$data = array();
-		// Selected field = ( target field => source field )
-		$data['SRequirementsCards']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
-		$data['SCalculations']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
-		$data['SQuotes']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
-		$data['SQuotes']['accountid'] = ['Accounts' => ['company' => ['accountname']]];
-		$data['SSingleOrders']['accountid'] = ['Accounts' => ['company' => ['accountname']]];
-		$data['SRecurringOrders']['accountid'] = ['Accounts' => ['company' => ['accountname']]];
-		$data['SSingleOrders']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
-		$data['SRecurringOrders']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
-		$data['SQuoteEnquiries']['salesprocessid'] = ['SSalesProcesses' => ['accountid' => ['related_to']]];
-		$data['ProjectTask']['projectmilestoneid'] = ['ProjectMilestone' => ['projectid' => ['projectid']]];
-		$data['ProjectTask']['parentid'] = ['ProjectTask' => ['projectid' => ['projectid'], 'projectmilestoneid' => ['projectmilestoneid']]];
-		$data['HelpDesk']['projectid'] = ['Project' => ['parent_id' => ['linktoaccountscontacts']]];
-		$data['HelpDesk']['contact_id'] = ['Contacts' => ['parent_id' => ['parent_id']]];
-		$data['HelpDesk']['pssold_id'] = ['Assets' => ['product_id' => ['product', 'Products']], 'OSSSoldServices' => ['product_id' => ['serviceid', 'Services']]];
-		$data['OSSTimeControl']['projectid'] = ['Project' => ['accountid' => ['linktoaccountscontacts']]];
+	protected static $modulesHierarchy = [];
+	protected static $modulesByLevels = [];
+	protected static $modulesMapRelatedFields = [];
 
-		if (array_key_exists($moduleName, $data) && $field != false && array_key_exists($field, $data[$moduleName]))
-			return $data[$moduleName][$field];
-		if (array_key_exists($moduleName, $data))
-			return $data[$moduleName];
-		return array();
+	public static function initModulesHierarchy()
+	{
+		if (!empty(self::$modulesByLevels)) {
+			return true;
+		}
+		include('user_privileges/moduleHierarchy.php');
+		self::$modulesHierarchy = $modulesHierarchy;
+		self::$modulesMapRelatedFields = $modulesMapRelatedFields;
+		foreach (self::$modulesHierarchy as $module => &$details) {
+			self::$modulesByLevels[$details['level']][$module] = $details;
+		}
 	}
 
-	public function getSourceRelatedFieldToQuickCreate($moduleName, $sourceModule = false, $sourceRecord = false)
+	public static function getModulesByLevel($level = 0)
+	{
+		self::initModulesHierarchy();
+		return self::$modulesByLevels[$level];
+	}
+
+	public function getMappingRelatedField($moduleName, $field = false)
+	{
+		self::initModulesHierarchy();
+		if ($field != false && isset(self::$modulesMapRelatedFields[$moduleName][$field])) {
+			return self::$modulesMapRelatedFields[$moduleName][$field];
+		}
+		if (isset(self::$modulesMapRelatedFields[$moduleName])) {
+			return self::$modulesMapRelatedFields[$moduleName];
+		}
+		return [];
+	}
+
+	public function getValuesFromSource($moduleName, $sourceModule = false, $sourceRecord = false)
 	{
 		$data = [];
 		if ($sourceModule && $sourceRecord) {
-
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 			$recordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
+			$sourceModuleModel = $recordModel->getModule();
 			$relationField = false;
 			$fieldMap = [];
+			
 			$modelFields = $moduleModel->getFields();
 			foreach ($modelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+				if (in_array($fieldModel->getFieldDataType(), Vtiger_Field_Model::REFERENCE_TYPES)) {
 					$referenceList = $fieldModel->getReferenceList();
 					foreach ($referenceList as $referenceModule) {
 						$fieldMap[$referenceModule] = $fieldName;
 					}
-					if (in_array($sourceModule, $referenceList) && !($sourceModule == 'Accounts' && in_array('Accounts', $referenceList))) {
+					if (in_array($sourceModule, $referenceList)) {
 						$relationField = $fieldName;
 					}
 				}
 			}
 			$sourceModelFields = $sourceModuleModel->getFields();
 			foreach ($sourceModelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+				if (in_array($fieldModel->getFieldDataType(), Vtiger_Field_Model::REFERENCE_TYPES)) {
 					$referenceList = $fieldModel->getReferenceList();
 					foreach ($referenceList as $referenceModule) {
 						if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
@@ -1793,7 +1801,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 					}
 				}
 			}
-			if ($relationField) {
+			if ($relationField && $moduleName != $sourceModule) {
 				$data[$relationField] = $sourceRecord;
 			}
 		}
