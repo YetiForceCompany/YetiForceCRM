@@ -281,8 +281,8 @@ jQuery.Class("Vtiger_Header_Js", {
 					if (events[ev]['linkl']) {
 						linkHtml = '<div class="cut-string"><i class="calIcon modIcon_' + events[ev]['linkm'] + '"></i> ' + events[ev]['linkl'] + '</div>';
 					}
-					helpIcon = '<div><label> ' + app.vtranslate('JS_START_DATE') + ': &nbsp</label>' + events[ev]['start'] + ' </div>\n\
-								<div><label> ' + app.vtranslate('JS_END_DATE') + ': &nbsp</label>' + events[ev]['end'] + ' </div>\n\
+					helpIcon = '<div><label> ' + app.vtranslate('JS_START_DATE') + ': &nbsp</label>' + events[ev]['start_display'] + ' </div>\n\
+								<div><label> ' + app.vtranslate('JS_END_DATE') + ': &nbsp</label>' + events[ev]['end_display'] + ' </div>\n\
 								<div class=' + 'textOverflowEllipsis' + '><label> ' + app.vtranslate('JS_SUBJECT') + ': &nbsp</label>' + events[ev]['title'] + '</div>\n\
 								<div><label> ' + app.vtranslate('JS_STATE') + ': &nbsp</label>' + events[ev]['labels']['state'] + ' </div>\n\
 								<div><label> ' + app.vtranslate('JS_STATUS') + ': &nbsp</label>' + events[ev]['labels']['sta'] + ' </div>\n\
@@ -293,20 +293,26 @@ jQuery.Class("Vtiger_Header_Js", {
 					 hidden = 'hide';
 					 }*/
 					if (events[ev]['start'].indexOf(validDateFromat) > -1) {
-						data.find('#prev_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
+						data.find('#prev_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['hour_start'] + ' (' + events[ev]['hours'] + ')</strong></span><span> ' + events[ev]['title'].substring(0, 22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
 					} else if (events[ev]['start'].indexOf(currentDate) > -1) {
-						data.find('#cur_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="glyphicon glyphicon-info-sign"></i></span></div></a>' + linkHtml + '</td></tr>');
+						data.find('#cur_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['hour_start'] + ' (' + events[ev]['hours'] + ')</strong></span><span> ' + events[ev]['title'].substring(0, 22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="glyphicon glyphicon-info-sign"></i></span></div></a>' + linkHtml + '</td></tr>');
 					} else if (events[ev]['start'].indexOf(dateEndFirst) > -1) {
-						data.find('#next_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent"><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
+						data.find('#next_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent"><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['hour_start'] + ' (' + events[ev]['hours'] + ')</strong></span><span> ' + events[ev]['title'].substring(0, 22) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
 					}
 				}
-				var quickCreateForm
+				var quickCreateForm;
 				thisInstance.registerHelpInfo(quickCreateForm);
-
 			} else {
 				data.find('.modal-body').css({'max-height': '', 'overflow-y': ''});
 			}
-		})
+		});
+
+		var dayBefore = app.getDateInVtigerFormat(dateStartFormat, new Date(validDateFromat));
+		var currentDay = app.getDateInVtigerFormat(dateStartFormat, new Date(currentDate));
+		var nextDay = app.getDateInVtigerFormat(dateStartFormat, new Date(dateEndFirst));
+		data.find('.taskPrev').html(dayBefore);
+		data.find('.taskCur').html(currentDay);
+		data.find('.taskNext').html(nextDay);
 	},
 	registerChangeNearCalendarEvent: function (data, module) {
 		var thisInstance = this;

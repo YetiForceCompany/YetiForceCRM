@@ -81,7 +81,7 @@ class Partners extends Vtiger_CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('Partners');
-			$moduleInstance->setModuleSeqNumber("configure", 'Partners', 'P', '1');
+			$moduleInstance->setModuleSeqNumber("configure", 'Partners', 'PR', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['Partners']);
 
 			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');

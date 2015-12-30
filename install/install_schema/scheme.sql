@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -3798,24 +3799,6 @@ CREATE TABLE `vtiger_inventory_tandc_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_inventorynotification` */
-
-CREATE TABLE `vtiger_inventorynotification` (
-  `notificationid` int(19) NOT NULL AUTO_INCREMENT,
-  `notificationname` varchar(200) DEFAULT NULL,
-  `notificationsubject` varchar(200) DEFAULT NULL,
-  `notificationbody` text,
-  `label` varchar(50) DEFAULT NULL,
-  `status` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`notificationid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_inventorynotification_seq` */
-
-CREATE TABLE `vtiger_inventorynotification_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_inventoryproductrel` */
 
 CREATE TABLE `vtiger_inventoryproductrel` (
@@ -5183,7 +5166,6 @@ CREATE TABLE `vtiger_paymentsin` (
   `bank_account` varchar(128) DEFAULT NULL,
   `paymentsin_status` varchar(128) DEFAULT NULL,
   `relatedid` int(19) DEFAULT NULL,
-  `salesid` int(19) DEFAULT NULL,
   PRIMARY KEY (`paymentsinid`),
   CONSTRAINT `fk_1_vtiger_paymentsin` FOREIGN KEY (`paymentsinid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -5225,7 +5207,6 @@ CREATE TABLE `vtiger_paymentsout` (
   `bank_account` varchar(128) DEFAULT NULL,
   `paymentsout_status` varchar(128) DEFAULT NULL,
   `relatedid` int(19) DEFAULT NULL,
-  `salesid` int(19) DEFAULT NULL,
   `parentid` int(19) DEFAULT NULL,
   PRIMARY KEY (`paymentsoutid`),
   CONSTRAINT `fk_1_vtiger_paymentsout` FOREIGN KEY (`paymentsoutid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE

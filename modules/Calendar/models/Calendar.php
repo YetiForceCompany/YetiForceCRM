@@ -156,6 +156,8 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getFullcalenderDateTimevalue($currentUser);
+			$startDateTimeDisplay = $dateTimeFieldInstance->getDisplayDateTimeValue();
+			$startTimeDisplay = $dateTimeFieldInstance->getDisplayTime();
 			$dateTimeComponents = explode(' ', $userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
 			$startTimeFormated = $dateTimeComponents[1];
@@ -164,6 +166,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 
 			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
 			$userDateTimeString = $dateTimeFieldInstance->getFullcalenderDateTimevalue($currentUser);
+			$endDateTimeDisplay = $dateTimeFieldInstance->getDisplayDateTimeValue();
 			$dateTimeComponents = explode(' ', $userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
 			$endTimeFormated = $dateTimeComponents[1];
@@ -172,6 +175,13 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 
 			$item['start'] = $startDateFormated . ' ' . $startTimeFormated;
 			$item['end'] = $endDateFormated . ' ' . $endTimeFormated;
+
+			// display date time values
+			$item['start_display'] = $startDateTimeDisplay;
+			$item['end_display'] = $endDateTimeDisplay;
+			$item['hour_start'] = $startTimeDisplay;
+			$hours = Vtiger_Functions::getDateTimeHoursDiff($item['start'], $item['end']);
+			$item['hours'] = Vtiger_Functions::decimalTimeFormat($hours)['short'];
 			$item['allDay'] = $record['allday'] == 1 ? true : false;
 			$item['className'] = ' userCol_' . $record['smownerid'] . ' calCol_' . $activitytype;
 			$return[] = $item;

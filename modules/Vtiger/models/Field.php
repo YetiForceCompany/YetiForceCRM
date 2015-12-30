@@ -19,7 +19,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	var $webserviceField = false;
 
 	const REFERENCE_TYPE = 'reference';
-	const REFERENCE_TYPES = ['reference','referenceLink','referenceProcess','referenceSubProcess'];
+	public static $REFERENCE_TYPES = ['reference','referenceLink','referenceProcess','referenceSubProcess'];
 	const OWNER_TYPE = 'owner';
 	const CURRENCY_LIST = 'currencyList';
 	const QUICKCREATE_MANDATORY = 0;

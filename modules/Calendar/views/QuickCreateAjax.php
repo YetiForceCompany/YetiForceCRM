@@ -57,7 +57,9 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$mappingRelatedField = $moduleModel->getMappingRelatedField($moduleName);
 		$viewer->assign('MAPPING_RELATED_FIELD', Zend_Json::encode($mappingRelatedField));
 		$viewer->assign('SOURCE_RELATED_FIELD', $sourceRelatedField);
+		$viewer->assign('PREVIOUSDATE', date('Y-n-j', strtotime('yesterday')));
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
+		$viewer->assign('NEXTDATE', date('Y-n-j', strtotime('tomorrow')));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUICK_CREATE_CONTENTS', $quickCreateContents);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());

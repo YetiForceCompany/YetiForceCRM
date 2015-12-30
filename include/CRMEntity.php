@@ -333,7 +333,7 @@ class CRMEntity
 				'createdtime' => $created_date_var,
 				'modifiedtime' => $modified_date_var
 			];
-			$adb->INSERT('vtiger_crmentity', $params);
+			$adb->insert('vtiger_crmentity', $params);
 
 			$this->column_fields['createdtime'] = $created_date_var;
 			$this->column_fields['modifiedtime'] = $modified_date_var;

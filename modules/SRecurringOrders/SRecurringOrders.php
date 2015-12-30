@@ -83,7 +83,7 @@ class SRecurringOrders extends Vtiger_CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('SRecurringOrders');
-			$moduleInstance->setModuleSeqNumber("configure", 'SRecurringOrders', 'S-SO', '1');
+			$moduleInstance->setModuleSeqNumber("configure", 'SRecurringOrders', 'S-RO', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SRecurringOrders']);
 
 			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
