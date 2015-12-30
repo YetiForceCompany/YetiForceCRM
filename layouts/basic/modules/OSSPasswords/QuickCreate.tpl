@@ -15,7 +15,7 @@
 {/foreach}
 {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 <div class="modelContainer modal fade" tabindex="-1">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-full">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button class="close" aria-hidden="true" data-dismiss="modal" type="button" title="{vtranslate('LBL_CLOSE')}">x</button>

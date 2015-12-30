@@ -4949,3 +4949,6 @@ html,body,.baseContainer
 .inventoryItems .colName {
 	min-width: 250px;
 }
+.modal-full{
+	width: 95% !important;
+}

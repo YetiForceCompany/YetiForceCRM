@@ -15,7 +15,7 @@
     {/foreach}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
     <div class="modelContainer modal fade" tabindex="-1">
-		 <div class="modal-dialog modal-lg">
+		 <div class="modal-dialog modal-full">
             <div class="modal-content">
 				<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
 					<div class="modal-header contentsBackground">
