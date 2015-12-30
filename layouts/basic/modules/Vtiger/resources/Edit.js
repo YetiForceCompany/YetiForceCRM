@@ -1381,10 +1381,12 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var thisInstance = this;
 		var activeProcess = true, activeSubProcess = true;
 		container.find('input[data-fieldtype="referenceLink"]').each(function (index, element) {
-			element = $(element);
-			var referenceLink = element.val();
-			if (referenceLink == '' || referenceLink == '0') {
-				activeProcess = false;
+			if($(this).closest('.fieldValue').is(':visible')){
+				element = $(element);
+				var referenceLink = element.val();
+				if (referenceLink == '' || referenceLink == '0') {
+					activeProcess = false;
+				}
 			}
 		});
 		container.find('input[data-fieldtype="referenceProcess"]').each(function (index, element) {
@@ -1423,8 +1425,8 @@ jQuery.Class("Vtiger_Edit_Js", {
 	},
 	registerReferenceFields: function (container) {
 		var thisInstance = this;
-		thisInstance.checkReferencesField(container);
 		thisInstance.checkReferenceModulesList(container);
+		thisInstance.checkReferencesField(container);
 		container.find('.sourceField').on(Vtiger_Edit_Js.referenceSelectionEvent, function (e, data) {
 			thisInstance.checkReferencesField(container);
 		});
