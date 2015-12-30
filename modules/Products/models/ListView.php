@@ -59,7 +59,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 			$columnFieldMapping = $moduleModel->getColumnFieldMapping();
 			$orderByFieldName = $columnFieldMapping[$orderBy];
 			$orderByFieldModel = $moduleModel->getField($orderByFieldName);
-			if ($orderByFieldModel && $orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+			if ($orderByFieldModel && $orderByFieldModel->isReferenceField()) {
 				//IF it is reference add it in the where fields so that from clause will be having join of the table
 				$queryGenerator = $this->get('query_generator');
 				$queryGenerator->setConditionField($orderByFieldName);
@@ -93,7 +93,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		$pageLimit = $pagingModel->getPageLimit();
 
 		if (!empty($orderBy)) {
-			if ($orderByFieldModel && $orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+			if ($orderByFieldModel && $orderByFieldModel->isReferenceField()) {
 				$referenceModules = $orderByFieldModel->getReferenceList();
 				$referenceNameFieldOrderBy = array();
 				foreach ($referenceModules as $referenceModuleName) {

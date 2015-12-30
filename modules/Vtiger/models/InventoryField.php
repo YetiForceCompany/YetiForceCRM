@@ -283,7 +283,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			$modelFields = $moduleModel->getFields();
 			$relationField = false;
 			foreach ($modelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
 					if (in_array($mainModule, $referenceList)) {
 						$relationField = $fieldName;

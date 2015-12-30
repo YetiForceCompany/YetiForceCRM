@@ -371,7 +371,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			$parentModelFields = $parentModuleModel->getFields();
 
 			foreach ($parentModelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE && count(array_intersect($parentModule, $fieldModel->getReferenceList())) > 0) {
+				if ($fieldModel->isReferenceField() && count(array_intersect($parentModule, $fieldModel->getReferenceList())) > 0) {
 					$recordModel = Vtiger_Record_Model::getInstanceById($record);
 					$value = $recordModel->get($fieldName);
 					if ($value != '' && $value != 0) {

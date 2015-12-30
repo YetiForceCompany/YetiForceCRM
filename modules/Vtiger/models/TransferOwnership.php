@@ -125,7 +125,7 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 
 		$relatedModules = [];
 		foreach ($relatedModelFields as $fieldName => $fieldModel) {
-			if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
 				foreach ($referenceList as $relation) {
 					if (Users_Privileges_Model::isPermitted($relation, 'EditView')) {
@@ -162,7 +162,7 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relatedModelFields = $relatedModuleModel->getFields();
 		foreach ($relatedModelFields as $fieldName => $fieldModel) {
-			if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
 				foreach ($referenceList as $relation) {
 					if ($relation == $findModule) {

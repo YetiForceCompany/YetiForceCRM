@@ -82,7 +82,7 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 			$relatedModelFields = $relatedModel->getFields();
 
 			foreach ($relatedModelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
 					if (in_array($parentModule->getName(), $referenceList)) {
 						$relationFieldArray[$fieldName] = $fieldModel;

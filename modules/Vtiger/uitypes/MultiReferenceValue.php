@@ -101,7 +101,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$fieldsModel = $moduleModel->getFields();
 			$relatedModules = [];
 			foreach ($fieldsModel as $fieldName => $fieldModel) {
-				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
 					$relatedModules = array_merge($relatedModules, $referenceList);
 				}

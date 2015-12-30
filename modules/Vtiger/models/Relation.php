@@ -304,7 +304,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$relatedModelFields = $relatedModel->getFields();
 
 			foreach ($relatedModelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
 					if (in_array($parentModule->getName(), $referenceList)) {
 						$this->set('relationField', $fieldModel);
@@ -329,7 +329,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 		$parentModelFields = $parentModule->getFields();
 		foreach ($parentModelFields as $fieldName => $fieldModel) {
-			if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
 				foreach ($referenceList as $module) {
 					if (!in_array($module, $excludedModules) && !in_array($fieldName, $excludedFields)) {
@@ -343,7 +343,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		}
 		$relatedModelFields = $relatedModel->getFields();
 		foreach ($relatedModelFields as $fieldName => $fieldModel) {
-			if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
 				foreach ($referenceList as $module) {
 					if (array_key_exists($module, $fieldsReferenceList) && $module != $recordModel->getModuleName()) {

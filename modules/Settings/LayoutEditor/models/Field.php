@@ -195,7 +195,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isDefaultValueOptionDisabled()
 	{
-		if ($this->isMandatoryOptionDisabled() || $this->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE || $this->get('uitype') == 69) {
+		if ($this->isMandatoryOptionDisabled() || $this->isReferenceField() || $this->get('uitype') == 69) {
 			return true;
 		}
 		return false;
