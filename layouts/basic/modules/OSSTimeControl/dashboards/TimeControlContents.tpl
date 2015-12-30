@@ -14,7 +14,7 @@
 {if count($DATA) gt 0 }
 	{assign var=SHOWING_ICON value=$TCPMODULE_MODEL->get('timeControlWidget')}
 	<div class="summary-left pull-left" style="text-align:center;margin-left:2%;">
-		{if $SHOWING_ICON.workingDays eq 'true'}
+		{*if $SHOWING_ICON.workingDays eq 'true'}
 			<span class="summary-detail">
 				<img class=" summary-img" src="{vimage_path('all_days.png')}" alt="All days" title="{vtranslate('LBL_ALLDAYS_INFO', $MODULE_NAME)}"/>
 				<span class="summary-text">{$ALLDAYS}</span>
@@ -53,10 +53,10 @@
 					{/if}
 				</span>
 			</span>
-		{/if}
+		{/if*}
 
 	</div>
-	{if $SHOWING_ICON.workingTime eq 'true'}
+	{*if $SHOWING_ICON.workingTime eq 'true'}
 		<div class="summary-right pull-right" style="text-align:center;">
 			<span class="summary-detail">
 				<img class=" summary-img" src="{vimage_path('worked_days.png')}" alt="Worked days" title="{vtranslate('LBL_WORKEDDAYS_INFO', $MODULE_NAME)}"/>
@@ -95,9 +95,9 @@
 				</span>
 			</span>
 		</div>
-	{/if}
+	{/if*}
 	<div class="clearfix"></div>
-	<div class="widgetChartContainer" style="height:90%;width:98%"></div>
+	<div class="widgetChartContainer" style="height:100%;width:98%"></div>
 {else}
 	<span class="noDataMsg">
 		{vtranslate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
