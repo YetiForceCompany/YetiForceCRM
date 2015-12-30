@@ -212,7 +212,6 @@ jQuery.Class("Vtiger_Header_Js", {
 		var thisInstance = this;
 		app.showModalWindow(data, function (data) {
 			var quickCreateForm = data.find('form[name="QuickCreate"]');
-			thisInstance.registerHelpInfo(quickCreateForm);
 			var moduleName = quickCreateForm.find('[name="module"]').val();
 			var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 			editViewInstance.registerBasicEvents(quickCreateForm);
@@ -223,7 +222,6 @@ jQuery.Class("Vtiger_Header_Js", {
 			}
 			thisInstance.registerQuickCreatePostLoadEvents(quickCreateForm, params);
 			thisInstance.toggleTimesInputs(quickCreateForm);
-			app.registerEventForDatePickerFields(quickCreateForm);
 			var quickCreateContent = quickCreateForm.find('.quickCreateContent');
 			var quickCreateContentHeight = quickCreateContent.height();
 			var contentHeight = parseInt(quickCreateContentHeight);
