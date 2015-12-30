@@ -1379,14 +1379,19 @@ jQuery.Class("Vtiger_Edit_Js", {
 	},
 	checkReferencesField: function (container) {
 		var thisInstance = this;
-		var activeProcess = true, activeSubProcess = true;
+		var activeProcess = false, activeSubProcess = false;
 		container.find('input[data-fieldtype="referenceLink"]').each(function (index, element) {
-			if($(this).closest('.fieldValue').is(':visible')){
-				element = $(element);
-				var referenceLink = element.val();
-				if (referenceLink == '' || referenceLink == '0') {
-					activeProcess = false;
+			element = $(element);
+			var t = true;
+			if (element.closest('.tab-pane').length > 0) {
+				t = false;
+				if (element.closest('.tab-pane.active').length > 0) {
+					t = true;
 				}
+			}
+			var referenceLink = element.val();
+			if (t && referenceLink != '' && referenceLink != '0') {
+				activeProcess = true;
 			}
 		});
 		container.find('input[data-fieldtype="referenceProcess"]').each(function (index, element) {
@@ -1397,9 +1402,18 @@ jQuery.Class("Vtiger_Edit_Js", {
 				thisInstance.clearFieldValue(element);
 				thisInstance.setDisabledFields(element);
 			}
+			
+			var t = true;
+			if (element.closest('.tab-pane').length > 0) {
+				t = false;
+				if (element.closest('.tab-pane.active').length > 0) {
+					t = true;
+				}
+			}
+			
 			var referenceLink = element.val();
-			if (referenceLink == '' || referenceLink == '0') {
-				activeSubProcess = false;
+			if (t && referenceLink != '' && referenceLink != '0') {
+				activeSubProcess = true;
 			}
 		});
 		container.find('input[data-fieldtype="referenceSubProcess"]').each(function (index, element) {
@@ -1455,7 +1469,8 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerRecordPreSaveEventEvent(container);
 		this.registerReferenceSelectionEvent(container);
 		this.registerMaskFields(container);
-		this.registerMaskFields(container);
+		this.registerHelpInfo();
+		app.registerEventForDatePickerFields(container);
 		this.registerReferenceFields(container);
 	},
 	registerEvents: function () {
@@ -1464,7 +1479,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 		if (!statusToProceed) {
 			return;
 		}
-		this.registerHelpInfo();
 		this.registerBlockAnimationEvent();
 		this.registerBlockStatusCheckOnLoad();
 		this.registerEventForCkEditor();
@@ -1475,9 +1489,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerSubmitEvent();
 		this.registerLeavePageWithoutSubmit(editViewForm);
 		this.registerValidationsFields(editViewForm);
-
-		app.registerEventForDatePickerFields('#EditView');
-
 		this.registerReferenceCreate(editViewForm);
 		this.registerApiAddress();
 		//this.triggerDisplayTypeEvent();
