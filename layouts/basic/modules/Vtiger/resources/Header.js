@@ -272,9 +272,9 @@ jQuery.Class("Vtiger_Header_Js", {
 					var icon = 'glyphicon glyphicon-calendar';
 					var linkHtml = '';
 					var hidden = '';
-					var helpIcon = ''
+					var helpIcon = '';
 					if (events[ev]['set'] == 'Task') {
-						icon = 'icon-tasks';
+						icon = 'glyphicon glyphicon-tasks';
 					}
 					if (events[ev]['linkl']) {
 						linkHtml = '<div class="cut-string"><i class="calIcon modIcon_' + events[ev]['linkm'] + '"></i> ' + events[ev]['linkl'] + '</div>';
