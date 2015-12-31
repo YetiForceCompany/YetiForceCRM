@@ -1094,7 +1094,7 @@ $languageStrings = [
 	'LBL_EDIT_RELATED_COMMENT' => 'Edycja komentarza',
 	'LBL_ALPHABETIC_FILTERING' => 'Filtrowanie alfabetyczne',
 	'LBL_REMOVE_FILTERING' => 'Wyczyść filtrowanie',
-	'FL_RELATION' => 'Powiązanie',
+	'FL_RELATION' => 'Firma/Kontakt',
 	'FL_PROCESS' => 'Proces',
 	'FL_SUB_PROCESS' => 'Podproces',
 ];
@@ -1352,7 +1352,7 @@ $jsLanguageStrings = [
 	'JS_S_LAST' => 'Ostatnia',
 	'JS_S_SORT_ASCENDING' => ': aktywuj, by posortować kolumnę rosnąco',
 	'JS_S_SORT_DESCENDING' => ': aktywuj, by posortować kolumnę malejąco',
-	'JS_RELATION' => 'Powiązanie',
+	'JS_RELATION' => 'Firma/Kontakt',
 	'JS_PROCESS' => 'Proces',
 	'JS_SUB_PROCESS' => 'Podproces',
 ];

@@ -1088,7 +1088,7 @@ $languageStrings = [
 	'LBL_EDIT_RELATED_COMMENT' => 'Edit comment',
 	'LBL_ALPHABETIC_FILTERING' => 'Alphabetic filtering',
 	'LBL_REMOVE_FILTERING' => 'Remove filtering',
-	'FL_RELATION' => 'Relation',
+	'FL_RELATION' => 'Company/Contact',
 	'FL_PROCESS' => 'Process',
 	'FL_SUB_PROCESS' => 'Subprocess',
 ];
@@ -1390,7 +1390,7 @@ $jsLanguageStrings = [
 	'JS_S_LAST' => 'Previous',
 	'JS_S_SORT_ASCENDING' => ': activate to sort column ascending',
 	'JS_S_SORT_DESCENDING' => ': activate to sort column descending',
-	'JS_RELATION' => 'Relation',
+	'JS_RELATION' => 'Company/Contact',
 	'JS_PROCESS' => 'Process',
 	'JS_SUB_PROCESS' => 'Subprocess',
 ];
