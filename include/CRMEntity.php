@@ -1744,7 +1744,6 @@ class CRMEntity
 		$app_strings = vglobal('app_strings');
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
-		$currentModule = vglobal('currentModule');
 
 		$current_module = vtlib_getModuleNameById($cur_tab_id);
 		$related_module = vtlib_getModuleNameById($rel_tab_id);
@@ -1766,10 +1765,9 @@ class CRMEntity
 			$returnset = "&return_module=$current_module&return_action=CallRelatedList&return_id=$id";
 
 		$return_value = null;
-		$dependentFieldSql = $this->db->pquery("SELECT tabid, fieldname, columnname FROM vtiger_field WHERE uitype='10' AND" .
-			" fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=? AND module=?)", array($current_module, $related_module));
+		$dependentFieldSql = $this->db->pquery('SELECT tabid, fieldname, columnname FROM vtiger_field WHERE (uitype = 10 AND' .
+			' fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=? AND module=?)) OR (uitype IN (66,67,68)) ORDER BY uitype', array($current_module, $related_module));
 		$numOfFields = $this->db->num_rows($dependentFieldSql);
-
 		if ($numOfFields > 0) {
 			$dependentColumn = $this->db->query_result($dependentFieldSql, 0, 'columnname');
 			$dependentField = $this->db->query_result($dependentFieldSql, 0, 'fieldname');
@@ -1820,7 +1818,7 @@ class CRMEntity
 		if ($return_value == null)
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
-
+		
 		return $return_value;
 	}
 

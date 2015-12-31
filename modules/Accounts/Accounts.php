@@ -1000,9 +1000,11 @@ class Accounts extends CRMEntity
 	 */
 	function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-
-		global $currentModule, $app_strings, $singlepane_view;
+		$app_strings = vglobal('app_strings');
 		$current_user = vglobal('current_user');
+		$singlepane_view = vglobal('singlepane_view');
+		
+		$currentModule = vtlib_getModuleNameById($cur_tab_id);
 		$related_module = vtlib_getModuleNameById($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 
@@ -1021,8 +1023,8 @@ class Accounts extends CRMEntity
 			$returnset = "&return_module=$currentModule&return_action=CallRelatedList&return_id=$id";
 
 		$return_value = null;
-		$dependentFieldSql = $this->db->pquery("SELECT tabid, fieldname, columnname FROM vtiger_field WHERE uitype='10' AND" .
-			" fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=? AND module=?)", array($currentModule, $related_module));
+		$dependentFieldSql = $this->db->pquery('SELECT tabid, fieldname, columnname FROM vtiger_field WHERE (uitype = 10 AND' .
+			' fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=? AND module=?)) OR (uitype IN (66,67,68)) ORDER BY uitype', array($currentModule, $related_module));
 		$numOfFields = $this->db->num_rows($dependentFieldSql);
 
 		if ($numOfFields > 0) {
