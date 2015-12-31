@@ -1594,6 +1594,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 * Register the event to edit Description for related activities
 		 */
 		summaryViewContainer.on('click', '.editDescription', function (e) {
+			var thisInstance = this;
 			var currentTarget = jQuery(e.currentTarget);
 			var currentDiv = currentTarget.closest('.activityDescription');
 			var editElement = currentDiv.find('.edit');
@@ -1672,8 +1673,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 */
 
 		jQuery('.changeDetailViewMode').on('click', function (e) {
-			var detailContentsHolder = jQuery('.detailViewContainer');
-			detailContentsHolder.find('.nav li[data-link-key="LBL_RECORD_DETAILS"]').trigger('click');
+			thisInstance.getTabs().filter('[data-link-key="' + thisInstance.detailViewDetailsTabLabel + '"]:not(.hide)').trigger('click');
 		});
 
 		/*
