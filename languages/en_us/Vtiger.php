@@ -846,7 +846,7 @@ $languageStrings = [
 	'COPY_ADRESS_FROM' => 'Copy address from:',
 	'LBL_LEFT_PANEL_SHOW_HIDE' => 'Left Panel Show/Hide',
 	'LBL_RIGHT_PANEL_SHOW_HIDE' => 'Right Panel Show/Hide',
-	'Total time [h]' => 'Total time [h]',
+	'FL_TOTAL_TIME_H' => 'Total time [h]',
 	/* modules */
 	'Key Metrics' => 'Key Metrics',
 	'Share with users' => 'Share with users:',

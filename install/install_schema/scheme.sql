@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -801,6 +800,7 @@ CREATE TABLE `u_yf_competition` (
   `competition_no` varchar(255) DEFAULT '',
   `subject` varchar(255) DEFAULT NULL,
   `vat_id` varchar(30) DEFAULT NULL,
+  `sum_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`competitionid`),
   CONSTRAINT `fk_1_u_yf_competition` FOREIGN KEY (`competitionid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -878,6 +878,7 @@ CREATE TABLE `u_yf_partners` (
   `partners_no` varchar(255) DEFAULT '',
   `subject` varchar(255) DEFAULT NULL,
   `vat_id` varchar(30) DEFAULT NULL,
+  `sum_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`partnersid`),
   CONSTRAINT `fk_1_u_yf_partners` FOREIGN KEY (`partnersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -935,6 +936,7 @@ CREATE TABLE `u_yf_scalculations` (
   `scalculations_status` varchar(255) DEFAULT NULL,
   `accountid` int(19) DEFAULT NULL,
   `response_time` decimal(10,2) DEFAULT '0.00',
+  `sum_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`scalculationsid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `accountid` (`accountid`),
@@ -999,6 +1001,7 @@ CREATE TABLE `u_yf_squoteenquiries` (
   `squoteenquiries_status` varchar(255) DEFAULT NULL,
   `accountid` int(19) DEFAULT NULL,
   `response_time` decimal(10,2) DEFAULT '0.00',
+  `sum_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`squoteenquiriesid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `accountid` (`accountid`),
@@ -1064,6 +1067,7 @@ CREATE TABLE `u_yf_squotes` (
   `accountid` int(19) DEFAULT NULL,
   `response_time` decimal(10,2) DEFAULT '0.00',
   `company` varchar(255) DEFAULT NULL,
+  `sum_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`squotesid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `scalculationsid` (`scalculationsid`),
@@ -1167,6 +1171,7 @@ CREATE TABLE `u_yf_srecurringorders` (
   `duedate` date DEFAULT NULL,
   `response_time` decimal(10,2) DEFAULT '0.00',
   `company` varchar(255) DEFAULT NULL,
+  `sum_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`srecurringordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
@@ -1268,6 +1273,7 @@ CREATE TABLE `u_yf_srequirementscards` (
   `srequirementscards_status` varchar(255) DEFAULT NULL,
   `accountid` int(19) DEFAULT NULL,
   `response_time` decimal(10,2) DEFAULT '0.00',
+  `sum_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`srequirementscardsid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `accountid` (`accountid`),
@@ -1329,6 +1335,7 @@ CREATE TABLE `u_yf_ssalesprocesses` (
   `subject` varchar(255) DEFAULT NULL,
   `category` varchar(255) DEFAULT NULL,
   `related_to` int(19) DEFAULT NULL,
+  `sum_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`ssalesprocessesid`),
   KEY `related_to` (`related_to`),
   CONSTRAINT `fk_1_u_yf_ssalesprocesses` FOREIGN KEY (`ssalesprocessesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -1358,6 +1365,7 @@ CREATE TABLE `u_yf_ssingleorders` (
   `duedate` date DEFAULT NULL,
   `response_time` decimal(10,2) DEFAULT '0.00',
   `company` varchar(255) DEFAULT NULL,
+  `sum_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`ssingleordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
@@ -2149,6 +2157,7 @@ CREATE TABLE `vtiger_campaign` (
   `actualroi` decimal(25,8) DEFAULT NULL,
   `campaignid` int(19) NOT NULL,
   `closingdate` date DEFAULT NULL,
+  `sum_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`campaignid`),
   KEY `campaign_campaignstatus_idx` (`campaignstatus`),
   KEY `campaign_campaignname_idx` (`campaignname`),
@@ -2302,6 +2311,7 @@ CREATE TABLE `vtiger_contactdetails` (
   `dav_status` tinyint(1) DEFAULT '1',
   `jobtitle` varchar(100) DEFAULT '',
   `decision_maker` tinyint(1) DEFAULT '0',
+  `sum_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`contactid`),
   KEY `contactdetails_accountid_idx` (`parentid`),
   KEY `email_idx` (`email`),
@@ -3421,7 +3431,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1997 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2012 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -3994,6 +4004,7 @@ CREATE TABLE `vtiger_leaddetails` (
   `atenttion` text,
   `leads_relation` varchar(255) DEFAULT NULL,
   `legal_form` varchar(255) DEFAULT NULL,
+  `sum_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`leadid`),
   KEY `leaddetails_converted_leadstatus_idx` (`converted`,`leadstatus`),
   KEY `email_idx` (`email`),
@@ -4763,6 +4774,7 @@ CREATE TABLE `vtiger_ossemployees` (
   `ship_state` varchar(200) DEFAULT NULL,
   `ship_country` varchar(200) DEFAULT NULL,
   `dav_status` tinyint(1) DEFAULT '1',
+  `sum_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`ossemployeesid`),
   CONSTRAINT `fk_1_vtiger_ossemployees` FOREIGN KEY (`ossemployeesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -5611,6 +5623,7 @@ CREATE TABLE `vtiger_projectmilestone` (
   `projectmilestonetype` varchar(100) DEFAULT NULL,
   `projectmilestone_priority` varchar(255) DEFAULT NULL,
   `projectmilestone_progress` varchar(10) DEFAULT NULL,
+  `sum_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`projectmilestoneid`),
   KEY `projectid` (`projectid`),
   CONSTRAINT `vtiger_projectmilestone_ibfk_1` FOREIGN KEY (`projectmilestoneid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -7306,6 +7319,7 @@ CREATE TABLE `vtiger_vendor` (
   `registration_number_1` varchar(30) DEFAULT NULL,
   `registration_number_2` varchar(30) DEFAULT NULL,
   `verification` text,
+  `sum_time` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`vendorid`),
   KEY `vendorname` (`vendorname`),
   CONSTRAINT `fk_1_vtiger_vendor` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE

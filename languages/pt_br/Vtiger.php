@@ -689,7 +689,7 @@ $languageStrings = [
 	'Interested services' => 'Interessados em Serviços',
 	'Recycle Bin' => 'Lixeira',
 	/* YetiForce */
-	'Total time [h]' => 'Tempo Total [h]',
+	'FL_TOTAL_TIME_H' => 'Tempo Total [h]',
 	'LBL_NO_RELATED_RECORDS_FOUND' => 'Nenhum registro a ser exibido',
 	'LBL_RECORD_SUMMARY' => 'Resumo',
 	'LBL_RECORD_DETAILS' => 'Detalhes',

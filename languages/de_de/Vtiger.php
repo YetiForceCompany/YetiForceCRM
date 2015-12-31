@@ -814,7 +814,7 @@ $languageStrings = [
 	'LBL_SELECT_RELATED_FIELD' => 'Wähle zugehöriges Modulfeld',
 	'LBL_COMPARISON_VALUE' => 'Wert vergleichen',
 	'Website' => 'Webseite',
-	'Total time [h]' => 'Gesamtzeit [h]',
+	'FL_TOTAL_TIME_H' => 'Gesamtzeit [h]',
 	/* industry */
 	'Administration' => 'Verwaltung',
 	'Construction Industry' => 'Baubranche',
