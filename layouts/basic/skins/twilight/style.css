@@ -4953,3 +4953,14 @@ html,body,.baseContainer
 	width: 95% !important;
 	max-width: 1250px;
 }
+.dateTimeField .date{
+	margin-right: -2px;
+}
+.dateTimeField .date span{
+	border-top-right-radius:0px !important;
+	border-bottom-right-radius:0px !important;
+}
+.dateTimeField .time input{
+	border-top-left-radius:0px !important;
+	border-bottom-left-radius:0px !important;
+}
