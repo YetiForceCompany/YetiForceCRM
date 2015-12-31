@@ -4951,4 +4951,5 @@ html,body,.baseContainer
 }
 .modal-full{
 	width: 95% !important;
+	max-width: 1250px;
 }
