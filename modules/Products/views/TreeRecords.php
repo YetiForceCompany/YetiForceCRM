@@ -38,16 +38,16 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 		$queryGenerator = $listViewModel->get('query_generator');
 		$glue = '';
 		if (!empty($branches)) {
-			if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
+			if (count($queryGenerator->getWhereFields()) > 0) {
 				$glue = QueryGenerator::$AND;
 			}
-			$queryGenerator->addCondition($multiReferenceFirld['columnname'], implode(',', $branches), 'c');
+			$queryGenerator->addCondition($multiReferenceFirld['columnname'], implode(',', $branches), 'c',  $glue);
 		}
 		if (!empty($category)) {
 			$baseModuleId = Vtiger_Functions::getModuleId($baseModuleName);
 			$moduleId = Vtiger_Functions::getModuleId($moduleName);
 			$query = 'SELECT crmid FROM u_yf_crmentity_rel_tree WHERE module = ' . $baseModuleId . ' AND relmodule = ' . $moduleId . ' AND tree IN (\'' . implode("','", $category) . '\')';
-			if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
+			if (count($queryGenerator->getWhereFields()) > 0) {
 				$glue = QueryGenerator::$AND;
 			}
 			$queryGenerator->addCondition($multiReferenceFirld['columnname'], $query, 'subQuery', 'OR', true);
