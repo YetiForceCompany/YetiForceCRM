@@ -399,7 +399,7 @@ class ListViewController
 					} else {
 						$value = textlength_check($value);
 					}
-				} elseif ($field->getFieldDataType() == 'reference') {
+				} elseif (in_array($field->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES)) {
 					$referenceFieldInfoList = $this->queryGenerator->getReferenceFieldInfoList();
 					$moduleList = $referenceFieldInfoList[$fieldName];
 					if (count($moduleList) == 1) {
