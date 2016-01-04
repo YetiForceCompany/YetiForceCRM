@@ -65,6 +65,9 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			if ($filter != 'Contacts') {
 				$relatedID[] = $srecord;
 			}
+			if (count($relatedID) == 0) {
+				return [];
+			}
 			$query = 'SELECT ossmailviewid FROM vtiger_ossmailview_relation WHERE crmid IN(' . implode(',', $relatedID) . ') AND `deleted` = ? ORDER BY `date` DESC';
 			$result = $adb->pquery($query, [0]);
 			
