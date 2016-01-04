@@ -4964,3 +4964,6 @@ html,body,.baseContainer
 	border-top-left-radius:0px !important;
 	border-bottom-left-radius:0px !important;
 }
+#quickCreate .modal-body{
+	max-height: none !important;
+}
