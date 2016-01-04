@@ -1772,7 +1772,7 @@ class CRMEntity
 		if ($dependentFieldSql->rowCount()) {
 			$row = $this->db->getRow($dependentFieldSql);
 		} else {
-			$depProcessFieldSql = $this->db->pquery('SELECT * FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [$relTabId]);
+			$depProcessFieldSql = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [$relTabId]);
 			while ($rowProc = $this->db->getRow($depProcessFieldSql)) {
 				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $relatedModule);
 				$fieldModel = new $className();
