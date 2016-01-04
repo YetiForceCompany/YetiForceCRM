@@ -9,14 +9,6 @@
  *************************************************************************************/
 
 class Vendors_Module_Model extends Vtiger_Module_Model {
-    
-    /**
-	 * Function to check whether the module is summary view supported
-	 * @return <Boolean> - true/false
-	 */
-	public function isSummaryViewSupported() {
-		return false;
-	}
 
 	/**
 	 * Function to get relation query for particular module with function name
