@@ -73,7 +73,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 									recentActivitiesTab.trigger('click');
 								}
 								if (app.getModuleName() == 'Calendar') {
-									recentActivitiesTab = ((!thisInstance.getSelectedTab().length || thisInstance.getSelectedTab().data('linkKey') == thisInstance.detailViewDetailsTabLabel) ? thisInstance.getTabContainer().find('[data-link-key="' + thisInstance.detailViewDetailsTabLabel + '"]') : jQuery('<div></div>'));
+									recentActivitiesTab = ((!thisInstance.getSelectedTab().length || thisInstance.getSelectedTab().data('linkKey') == thisInstance.detailViewDetailsTabLabel) ? thisInstance.getTabContainer().find('[data-link-key="' + thisInstance.detailViewDetailsTabLabel + '"]:not(.hide)') : jQuery('<div></div>'));
 									jQuery('.showModal.closeCalendarRekord').addClass('hide');
 									recentActivitiesTab.trigger('click');
 								}
