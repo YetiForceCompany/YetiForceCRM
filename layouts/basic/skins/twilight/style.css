@@ -4446,8 +4446,8 @@ html,body,.baseContainer
 	.siteBarRight{
 		width: calc(25% - 15px);
 		padding: 0 15px;
-		border-left: 1px solid #dddddd;
-		background: #F5F5F5;
+		border-left: 1px solid #ccc;
+		background: #eee;
 		position: fixed;
 		right: 0;
 		height:calc(100% - 83px);
@@ -4729,7 +4729,7 @@ html,body,.baseContainer
     max-height: 500px;
 }
 .toggleSiteBarRightButton{
-	background: #F5F5F5;
+	background: #eee;
 	font-weight: bold;
 	padding: 15px 0px !important;
 	position: fixed;
