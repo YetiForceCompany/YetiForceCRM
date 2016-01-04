@@ -4450,7 +4450,8 @@ html,body,.baseContainer
 		background: #F5F5F5;
 		position: fixed;
 		right: 0;
-		height:100%;
+		height:calc(100% - 83px);
+		overflow: auto;
 		-webkit-transition: all 0.5s ease;
 		-moz-transition: all 0.5s ease;
 		-o-transition: all 0.5s ease;
@@ -4731,9 +4732,9 @@ html,body,.baseContainer
 	background: #F5F5F5;
 	font-weight: bold;
 	padding: 15px 0px !important;
-	position: absolute;
+	position: fixed;
 	top: 400px;
-	left: -16px;
+	right: calc(25% - 16px);
 	cursor: pointer;
 	width: 17px;
 	z-index: 100;
@@ -4741,6 +4742,10 @@ html,body,.baseContainer
 	border-right: 0;
 	display: inline-block;
 	border-radius: 0;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
 }
 .padding0{
 	padding: 0 !important;
@@ -4966,4 +4971,7 @@ html,body,.baseContainer
 }
 #quickCreate .modal-body{
 	max-height: none !important;
+}
+.hideToggleSiteBarRightButton{
+	right: 0px;
 }

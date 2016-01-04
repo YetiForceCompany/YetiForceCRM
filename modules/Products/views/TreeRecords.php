@@ -68,14 +68,10 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 
 	public function postProcess(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-
 		$baseModuleName = 'Accounts';
-
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($baseModuleName));
-		$viewer->view('TreeRecordsPostProcess.tpl', $moduleName);
-
-		parent::postProcess($request);
+		$viewer->view('TreeRecordsPostProcess.tpl' , $request->getModule());
+		parent::postProcess($request,false);
 	}
 }
