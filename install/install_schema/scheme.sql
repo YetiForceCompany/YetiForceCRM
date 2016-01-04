@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -7500,7 +7501,7 @@ CREATE TABLE `vtiger_widgets` (
   PRIMARY KEY (`id`),
   KEY `tabid` (`tabid`),
   CONSTRAINT `vtiger_widgets_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity` */
 

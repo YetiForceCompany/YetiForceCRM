@@ -4445,6 +4445,7 @@ insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`se
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (1989,'Assets','SSalesProcesses',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (1990,'OSSOutsourcedServices','SSalesProcesses',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (1991,'OSSSoldServices','SSalesProcesses',NULL,NULL);
+insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (601,'ModComments','Vendors',NULL,NULL);
 
 /*Data for the table `vtiger_freetagged_objects` */
 
@@ -4900,10 +4901,12 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (249,92,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,'','','');
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (250,93,'DETAILVIEWBASIC','View History','javascript:ModTrackerCommon.showhistory(\'$RECORD$\')','',0,'modules/ModTracker/ModTracker.php','ModTracker','isViewPermitted');
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (251,93,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,'','','');
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (252,18,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (253,18,'DETAILVIEWBASIC','View History','javascript:ModTrackerCommon.showhistory(\'$RECORD$\')','',0,'modules/ModTracker/ModTracker.php','ModTracker','isViewPermitted');
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (251);
+insert  into `vtiger_links_seq`(`id`) values (253);
 
 /*Data for the table `vtiger_loginhistory` */
 
@@ -15252,6 +15255,9 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (418,89,9,'get_activities',1,'Activities',0,'ADD',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (419,90,9,'get_activities',1,'Activities',0,'ADD',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (420,91,9,'get_activities',1,'Activities',0,'ADD',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (421,18,51,'get_dependents_list',15,'OSSTimeControl',0,'ADD',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (422,92,51,'get_dependents_list',4,'OSSTimeControl',0,'ADD',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (423,93,51,'get_dependents_list',4,'OSSTimeControl',0,'ADD',0,0,0);
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
@@ -15259,7 +15265,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 
 /*Data for the table `vtiger_relatedlists_seq` */
 
-insert  into `vtiger_relatedlists_seq`(`id`) values (420);
+insert  into `vtiger_relatedlists_seq`(`id`) values (423);
 
 /*Data for the table `vtiger_relcriteria` */
 
@@ -19620,6 +19626,11 @@ insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nom
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (92,93,'Comments','ModComments',2,2,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (93,93,'RelatedModule','Documents',2,3,NULL,'{\"limit\":\"\",\"relatedmodule\":\"8\",\"columns\":\"3\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (94,93,'EmailList','Emails',2,4,NULL,'{\"relatedmodule\":\"Emails\",\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (95,18,'Summary',NULL,1,0,NULL,'[]');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (96,18,'Updates','LBL_UPDATES',1,1,NULL,'[]');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (97,18,'Comments','ModComments',2,2,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (98,18,'RelatedModule','Documents',2,3,NULL,'{\"limit\":\"\",\"relatedmodule\":\"8\",\"columns\":\"3\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (99,18,'EmailList','Emails',2,4,NULL,'{\"relatedmodule\":\"Emails\",\"limit\":\"5\"}');
 
 /*Data for the table `vtiger_ws_entity` */
 
