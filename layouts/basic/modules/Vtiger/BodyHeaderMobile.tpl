@@ -26,18 +26,20 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="headerLinksAJAXChat quickAction">
-				<div class="pull-left">
-					{vtranslate('LBL_CHAT',$MODULE)}
-				</div>
-				<div class="pull-right">
-					<a class="btn btn-default ChatIcon" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
-						<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-					</a>
+		{if $CHAT_ACTIVE}
+			<div class="row">
+				<div class="headerLinksAJAXChat quickAction">
+					<div class="pull-left">
+						{vtranslate('LBL_CHAT',$MODULE)}
+					</div>
+					<div class="pull-right">
+						<a class="btn btn-default ChatIcon" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
+							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+						</a>
+					</div>
 				</div>
 			</div>
-		</div>
+		{/if}
 		{if !empty($announcement)}
 			<div class="row">
 				<div class="quickAction">
