@@ -1343,6 +1343,7 @@ $languageStrings = [
 	'FL_RELATION' => 'Отношение',
 	'FL_PROCESS' => 'Процесс',
 	'FL_SUB_PROCESS' => 'Subprocess',
+	'LBL_VIEW_DUPLICATE' => 'Duplicate',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',

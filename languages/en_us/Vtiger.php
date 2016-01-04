@@ -1091,6 +1091,7 @@ $languageStrings = [
 	'FL_RELATION' => 'Company/Contact',
 	'FL_PROCESS' => 'Process',
 	'FL_SUB_PROCESS' => 'Subprocess',
+	'LBL_VIEW_DUPLICATE' => 'Duplicate',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',
