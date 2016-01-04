@@ -1739,48 +1739,67 @@ class CRMEntity
 	 * For eg: A trouble ticket can be related to an Account or a Contact.
 	 * From a given Contact/Account if we need to fetch all such dependent trouble tickets, get_dependents_list function can be used.
 	 */
-	function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	function get_dependents_list($id, $cur_tab_id, $relTabId, $actions = false)
 	{
 		$app_strings = vglobal('app_strings');
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 
-		$current_module = vtlib_getModuleNameById($cur_tab_id);
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
-		$other = CRMEntity::getInstance($related_module);
+		$currentModule = vtlib_getModuleNameById($cur_tab_id);
+		$relatedModule = vtlib_getModuleNameById($relTabId);
+		$other = CRMEntity::getInstance($relatedModule);
 
 		// Some standard module class doesn't have required variables
 		// that are used in the query, they are defined in this generic API
-		vtlib_setup_modulevars($current_module, $this);
-		vtlib_setup_modulevars($related_module, $other);
+		vtlib_setup_modulevars($currentModule, $this);
+		vtlib_setup_modulevars($relatedModule, $other);
 
-		$singular_modname = 'SINGLE_' . $related_module;
+		$singular_modname = 'SINGLE_' . $relatedModule;
 
 		$button = '';
+		$row = [];
 
 		// To make the edit or del link actions to return back to same view.
 		if ($singlepane_view == 'true')
-			$returnset = "&return_module=$current_module&return_action=DetailView&return_id=$id";
+			$returnset = "&return_module=$currentModule&return_action=DetailView&return_id=$id";
 		else
-			$returnset = "&return_module=$current_module&return_action=CallRelatedList&return_id=$id";
+			$returnset = "&return_module=$currentModule&return_action=CallRelatedList&return_id=$id";
 
 		$return_value = null;
-		$dependentFieldSql = $this->db->pquery('SELECT tabid, fieldname, columnname FROM vtiger_field WHERE (uitype = 10 AND' .
-			' fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=? AND module=?)) OR (uitype IN (66,67,68)) ORDER BY uitype', array($current_module, $related_module));
-		$numOfFields = $this->db->num_rows($dependentFieldSql);
-		if ($numOfFields > 0) {
-			$dependentColumn = $this->db->query_result($dependentFieldSql, 0, 'columnname');
-			$dependentField = $this->db->query_result($dependentFieldSql, 0, 'fieldname');
+		
+		$dependentFieldSql = $this->db->pquery('SELECT tabid, fieldname, columnname FROM vtiger_field WHERE uitype = 10 AND' .
+			' fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=? AND module=?)', [$currentModule, $relatedModule]);
+		if ($dependentFieldSql->rowCount()) {
+			$row = $this->db->getRow($dependentFieldSql);
+		} else {
+			$depProcessFieldSql = $this->db->pquery('SELECT * FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [$relTabId]);
+			while ($rowProc = $this->db->getRow($depProcessFieldSql)) {
+				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $relatedModule);
+				$fieldModel = new $className();
+				foreach ($rowProc as $properName => $propertyValue) {
+					$fieldModel->$properName = $propertyValue;
+				}
+				$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
+				if (in_array($currentModule, $moduleList)) {
+					$row = $rowProc;
+					break;
+				}
+			}
+		}
+
+		if (!empty($row)) {
+			$dependentColumn = $row['columnname'];
+			$dependentField = $row['fieldname'];
 
 			$button .= '<input type="hidden" name="' . $dependentColumn . '" id="' . $dependentColumn . '" value="' . $id . '">';
-			$button .= '<input type="hidden" name="' . $dependentColumn . '_type" id="' . $dependentColumn . '_type" value="' . $current_module . '">';
+			$button .= '<input type="hidden" name="' . $dependentColumn . '_type" id="' . $dependentColumn . '_type" value="' . $currentModule . '">';
 			if ($actions) {
 				if (is_string($actions))
 					$actions = explode(',', strtoupper($actions));
-				if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes' && getFieldVisibilityPermission($related_module, $current_user->id, $dependentField, 'readwrite') == '0') {
-					$button .= "<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname, $related_module) . "' class='crmbutton small create'" .
-						" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-						" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname, $related_module) . "'>&nbsp;";
+				if (in_array('ADD', $actions) && isPermitted($relatedModule, 1, '') == 'yes' && getFieldVisibilityPermission($relatedModule, $current_user->id, $dependentField, 'readwrite') == '0') {
+					$button .= "<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname, $relatedModule) . "' class='crmbutton small create'" .
+						" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$relatedModule\"' type='submit' name='button'" .
+						" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname, $relatedModule) . "'>&nbsp;";
 				}
 			}
 
@@ -1813,7 +1832,7 @@ class CRMEntity
 
 			$query .= " WHERE vtiger_crmentity.deleted = 0 AND $this->table_name.$this->table_index = $id";
 
-			$return_value = GetRelatedList($current_module, $related_module, $other, $query, $button, $returnset);
+			$return_value = GetRelatedList($currentModule, $relatedModule, $other, $query, $button, $returnset);
 		}
 		if ($return_value == null)
 			$return_value = Array();
