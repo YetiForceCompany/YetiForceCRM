@@ -49,7 +49,11 @@ class Pdf_TimeControlUserGroup extends Vtiger_SpecialFunction_Pdf
 	{
 		$users = [];
 		$db = PearDatabase::getInstance();
-		foreach ($pdf->getRecordIds() as $recordId) {
+		$ids = $pdf->getRecordIds();
+		if(!is_array($ids)){
+			$ids = [$ids];
+		}
+		foreach ($ids as $recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 			$user = $recordModel->getDisplayValue('assigned_user_id', $recordId, true);
 			$time = (isset($users[$user]['time']) ? $users[$user]['time'] : 0) + $recordModel->get('sum_time');

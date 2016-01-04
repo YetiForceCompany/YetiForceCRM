@@ -10,13 +10,17 @@ class Pdf_TimeControlList extends Vtiger_SpecialFunction_Pdf
 {
 
 	public $permittedModules = ['OSSTimeControl'];
-	protected $columnNames = ['name', 'accountid', 'time_start', 'time_end', 'sum_time'];
+	protected $columnNames = ['name', 'link', 'time_start', 'time_end', 'sum_time'];
 
 	public function process($moduleName, $id, Vtiger_PDF_Model $pdf)
 	{
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$fields = $moduleModel->getFields();
-
+		$ids = $pdf->getRecordIds();
+		if(!is_array($ids)){
+			$ids = [$ids];
+		}
+		
 		$html = '<br><style>' .
 			'.table {width: 100%; border-collapse: collapse;}' .
 			'.table thead th {border-bottom: 1px solid grey;}' .
@@ -34,7 +38,7 @@ class Pdf_TimeControlList extends Vtiger_SpecialFunction_Pdf
 		$html .= '</tr></thead><tbody>';
 
 		$summary = [];
-		foreach ($pdf->getRecordIds() as $recordId) {
+		foreach ($ids as $recordId) {
 			$html .= '<tr>';
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 			foreach ($this->columnNames as $key => $column) {
