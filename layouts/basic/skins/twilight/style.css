@@ -4446,12 +4446,11 @@ html,body,.baseContainer
 	.siteBarRight{
 		width: calc(25% - 15px);
 		padding: 0 15px;
-		border-left: 1px solid #ccc;
-		background: #eee;
+		border-left: 1px solid #dddddd;
+		background: #F5F5F5;
 		position: fixed;
 		right: 0;
-		height:calc(100% - 83px);
-		overflow: auto;
+		height:100%;
 		-webkit-transition: all 0.5s ease;
 		-moz-transition: all 0.5s ease;
 		-o-transition: all 0.5s ease;
@@ -4729,12 +4728,12 @@ html,body,.baseContainer
     max-height: 500px;
 }
 .toggleSiteBarRightButton{
-	background: #eee;
+	background: #F5F5F5;
 	font-weight: bold;
 	padding: 15px 0px !important;
-	position: fixed;
+	position: absolute;
 	top: 400px;
-	right: calc(25% - 16px);
+	left: -16px;
 	cursor: pointer;
 	width: 17px;
 	z-index: 100;
@@ -4742,10 +4741,6 @@ html,body,.baseContainer
 	border-right: 0;
 	display: inline-block;
 	border-radius: 0;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-	transition: all 0.5s ease;
 }
 .padding0{
 	padding: 0 !important;
@@ -4793,7 +4788,7 @@ html,body,.baseContainer
 	border-bottom: 3px solid #404952;
 } 
 .related ul .dropdown-menu{
-	min-width: 300px;
+	min-width: 250px;
 	z-index:1025;
 }
 .related .iconModule{
@@ -4956,22 +4951,4 @@ html,body,.baseContainer
 }
 .modal-full{
 	width: 95% !important;
-	max-width: 1250px;
-}
-.dateTimeField .date{
-	margin-right: -2px;
-}
-.dateTimeField .date span{
-	border-top-right-radius:0px !important;
-	border-bottom-right-radius:0px !important;
-}
-.dateTimeField .time input{
-	border-top-left-radius:0px !important;
-	border-bottom-left-radius:0px !important;
-}
-#quickCreate .modal-body{
-	max-height: none !important;
-}
-.hideToggleSiteBarRightButton{
-	right: 0px;
 }

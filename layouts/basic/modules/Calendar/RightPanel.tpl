@@ -54,11 +54,9 @@
 			</ul>
 		</div>
 	{/if}
-	{if $ACTIVITY_TYPE || $ALL_ACTIVEGROUP_LIST || $ALL_ACTIVEUSER_LIST}
-		<script type="text/javascript">
-			jQuery(document).ready(function () {
-				Calendar_CalendarView_Js.currentInstance.registerSelect2Event();
-			});
-		</script>
-	{/if}
+	<script type="text/javascript">
+		jQuery(document).ready(function () {
+			Calendar_CalendarView_Js.currentInstance.registerSelect2Event();
+		});
+	</script>
 {/strip}

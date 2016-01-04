@@ -37,21 +37,17 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$viewer->view('TreeRecordsPreProcess.tpl', $moduleName);
 	}
 
-	public function postProcess(Vtiger_Request $request, $display = true)
+	public function postProcess(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
+
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName));
-		if($display){
-			$this->postProcessDisplay($request);
-		}	
+		$viewer->view('TreeRecordsPostProcess.tpl', $moduleName);
+
 		parent::postProcess($request);
 	}
-	protected function postProcessDisplay(Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$viewer->view('TreeRecordsPostProcess.tpl' , $request->getModule());
-	}
+
 	function process(Vtiger_Request $request)
 	{
 		$branches = $request->get('branches');

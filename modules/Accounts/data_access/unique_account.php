@@ -76,7 +76,7 @@ Class DataAccess_unique_account
 				if ($row['accountname'] == $accountName) {
 					$metaData = Vtiger_Functions::getCRMRecordMetadata($row['accountid']);
 					$save = false;
-					$fieldlabel .= '<li><a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $row['accountid'] . '"><strong>' . Vtiger_Functions::getCRMRecordLabel($row['accountid']) . '</strong></a> (' . Vtiger_Functions::getOwnerRecordLabel($metaData['smownerid']) . '),</li>';
+					$fieldlabel .= '<a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $row['accountid'] . '">&bull; ' . Vtiger_Functions::getCRMRecordLabel($row['accountid']) . '</a> (' . Vtiger_Functions::getOwnerRecordLabel($metaData['smownerid']) . '),<br/>';
 				}
 			}
 		}
@@ -87,7 +87,7 @@ Class DataAccess_unique_account
 				$metaData = Vtiger_Functions::getCRMRecordMetadata($id);
 				$save = false;
 				$deletedLabel = $metaData['deleted'] ? ' - ' . vtranslate('LBL_RECORD_DELETED', 'DataAccess') : '';
-				$fieldlabel .= '<li><a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $id . '"><strong>' . Vtiger_Functions::getCRMRecordLabel($id) . '</strong></a> (' . Vtiger_Functions::getOwnerRecordLabel($metaData['smownerid']) . ')' . $deletedLabel . ',</li>';
+				$fieldlabel .= '<a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $id . '">&bull; ' . Vtiger_Functions::getCRMRecordLabel($id) . '</a> (' . Vtiger_Functions::getOwnerRecordLabel($metaData['smownerid']) . ')' . $deletedLabel . ',<br/>';
 			}
 		}
 

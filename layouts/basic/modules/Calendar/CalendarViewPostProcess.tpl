@@ -19,20 +19,20 @@
 		{/if}
 	</div>
 	<div class="siteBarContent paddingTop10">
-		<div class="alert alert-danger refreshHeader hide" role="alert">
-			<div class="quickWidgetHeader calendarRightPanel clearfix">
+		<div class="panel panel-primary refreshHeader hide">
+			<div class="panel-heading quickWidgetHeader calendarRightPanel clearfix">
 				<div class="col-xs-12 paddingLRZero">
 					<div class="col-lg-6 col-md-12 paddingLRZero pull-left">
 						<h5 class="noSpaces">{vtranslate('LBL_INFO_REFRESH', $MODULE)}</h5>
 					</div>
 					<div class="col-lg-6 col-md-12 col-xs-5 paddingTop10-md paddingLRZero pull-right">
-						<button name="drefresh" class="btn btn-danger btn-xs pull-left-md pull-right-lg pull-right-xs pull-right-sm refreshCalendar cursorPointer">
+						<button name="drefresh" class="btn btn-default btn-xs pull-left-md pull-right-lg pull-right-xs pull-right-sm refreshCalendar cursorPointer">
 							<span class="glyphicon glyphicon-refresh icon-white" hspace="0" border="0" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
 							&nbsp;{vtranslate('LBL_REFRESH')}
 						</button>
 					</div>
 				</div> 
-			</div>
+			</div>			
 		</div>
 		{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGETRIGHT']}
 			<div class="panel panel-primary quickWidget">

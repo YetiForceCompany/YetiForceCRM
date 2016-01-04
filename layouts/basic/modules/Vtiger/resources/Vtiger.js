@@ -73,13 +73,8 @@ var Vtiger_Index_Js = {
 						widgetContainer.css('height', 'auto');
 					}
 					widgetContainer.html(data);
-					if(data == ''){
-						widgetContainer.closest('.quickWidget').addClass('hide');
-					}
-					else{
-						var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
-						jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
-					}
+					var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
+					jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
 				}
 		);
 	},

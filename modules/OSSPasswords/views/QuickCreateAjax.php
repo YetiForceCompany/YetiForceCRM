@@ -34,12 +34,9 @@ class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$recordStructure = $recordStructureInstance->getStructure();
 		$sourceRelatedField = $moduleModel->getValuesFromSource($moduleName, $request->get('sourceModule'), $request->get('sourceRecord'));
 		foreach ($sourceRelatedField as $field => $value) {
-			if (isset($recordStructure[$field])) {
-				$fieldvalue = $recordStructure[$field]->get('fieldvalue');
-				if (empty($fieldvalue)) {
-					$recordStructure[$field]->set('fieldvalue', $value);
-					unset($sourceRelatedField[$field]);
-				}
+			if (isset($recordStructure[$field]) && empty($recordStructure[$field]->get('fieldvalue'))) {
+				$recordStructure[$field]->set('fieldvalue', $value);
+				unset($sourceRelatedField[$field]);
 			}
 		}
 

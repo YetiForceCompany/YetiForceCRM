@@ -44,17 +44,19 @@
 					<div class="{$span} small-select">
 						{assign var=filter value=$WIDGET['data']['filter']}
 						<input type="hidden" name="filter_data" value="{$filter}" />
-						{assign var=RELATED_MODULE_MODEL value=Vtiger_Module_Model::getInstance($WIDGET['data']['relatedmodule'])}
-						{assign var=FIELD_MODEL value=$RELATED_MODULE_MODEL->getField($filter)}
-						{assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
-						{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
-						{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-						<select class="chzn-select col-md-12 filterField" name="{$FIELD_MODEL->get('name')}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} data-fieldlable='{vtranslate($FIELD_MODEL->get('label'),$WIDGET['data']['relatedmodule'])}'>
-							<option>{vtranslate($FIELD_MODEL->get('label'),$WIDGET['data']['relatedmodule'])}</option>
-							{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-								<option value="{$PICKLIST_NAME}" {if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME} selected {/if}>{$PICKLIST_VALUE}</option>
-							{/foreach}
-						</select>
+						<div class="row">
+							{assign var=RELATED_MODULE_MODEL value=Vtiger_Module_Model::getInstance($WIDGET['data']['relatedmodule'])}
+							{assign var=FIELD_MODEL value=$RELATED_MODULE_MODEL->getField($filter)}
+							{assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
+							{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
+							{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
+							<select class="chzn-select col-md-12 filterField" name="{$FIELD_MODEL->get('name')}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} data-fieldlable='{vtranslate($FIELD_MODEL->get('label'),$WIDGET['data']['relatedmodule'])}'>
+								<option>{vtranslate($FIELD_MODEL->get('label'),$WIDGET['data']['relatedmodule'])}</option>
+								{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
+									<option value="{$PICKLIST_NAME}" {if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME} selected {/if}>{$PICKLIST_VALUE}</option>
+								{/foreach}
+							</select>
+						</div>
 					</div>
 				{/if}
 				{if isset($WIDGET['data']['checkbox']) && $WIDGET['data']['checkbox'] neq '-'}

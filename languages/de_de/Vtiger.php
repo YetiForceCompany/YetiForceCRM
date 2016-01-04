@@ -814,7 +814,7 @@ $languageStrings = [
 	'LBL_SELECT_RELATED_FIELD' => 'Wähle zugehöriges Modulfeld',
 	'LBL_COMPARISON_VALUE' => 'Wert vergleichen',
 	'Website' => 'Webseite',
-	'FL_TOTAL_TIME_H' => 'Gesamtzeit [h]',
+	'Total time [h]' => 'Gesamtzeit [h]',
 	/* industry */
 	'Administration' => 'Verwaltung',
 	'Construction Industry' => 'Baubranche',
@@ -1103,7 +1103,6 @@ $languageStrings = [
 	'FL_RELATION' => 'Beziehung',
 	'FL_PROCESS' => 'Prozess',
 	'FL_SUB_PROCESS' => 'Subprocess',
-	'LBL_VIEW_DUPLICATE' => 'Duplicate',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',

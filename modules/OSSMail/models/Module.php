@@ -95,13 +95,11 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			if ($email) {
 				$url = '&to=' . $email;
 			}
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$InstanceModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			if ($moduleName == 'HelpDesk') {
-				$urldata = '&subject=' . $recordModel->get('ticket_no') . ' - ' . $recordModel->get('ticket_title');
-			} elseif ($moduleName == 'SSalesProcesses') {
-				$urldata = '&subject=' . $recordModel->get('ssalesprocesses_no') . ' - ' . $recordModel->get('subject');
+				$urldata = '&subject=' . $InstanceModel->get('ticket_no') . ' - ' . $InstanceModel->get('ticket_title');
 			} elseif ($moduleName == 'Project') {
-				$urldata = '&subject=' . $recordModel->get('project_no') . ' - ' . $recordModel->get('projectname');
+				$urldata = '&subject=' . $InstanceModel->get('project_no') . ' - ' . $InstanceModel->get('projectname');
 			}
 			$url .= $urldata;
 		}

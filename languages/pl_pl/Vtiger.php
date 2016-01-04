@@ -795,7 +795,7 @@ $languageStrings = [
 	'LBL_LEFT_PANEL_SHOW_HIDE' => 'Lewy panel (ukryj/pokaż)',
 	'LBL_RIGHT_PANEL_SHOW_HIDE' => 'Prawy panel (ukryj/pokaż)',
 	/* YetiForce */
-	'FL_TOTAL_TIME_H' => 'Łączny czas [h]',
+	'Total time [h]' => 'Łączny czas [h]',
 	'COPY_ADRESS_FROM' => 'Kopiuj adres z:',
 	'LBL_WIDGETS_MANAGMENT' => 'Widżety',
 	'Attention' => 'Uwagi',
@@ -1094,10 +1094,9 @@ $languageStrings = [
 	'LBL_EDIT_RELATED_COMMENT' => 'Edycja komentarza',
 	'LBL_ALPHABETIC_FILTERING' => 'Filtrowanie alfabetyczne',
 	'LBL_REMOVE_FILTERING' => 'Wyczyść filtrowanie',
-	'FL_RELATION' => 'Firma/Kontakt',
+	'FL_RELATION' => 'Powiązanie',
 	'FL_PROCESS' => 'Proces',
 	'FL_SUB_PROCESS' => 'Podproces',
-	'LBL_VIEW_DUPLICATE' => 'Duplikat',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
@@ -1353,7 +1352,7 @@ $jsLanguageStrings = [
 	'JS_S_LAST' => 'Ostatnia',
 	'JS_S_SORT_ASCENDING' => ': aktywuj, by posortować kolumnę rosnąco',
 	'JS_S_SORT_DESCENDING' => ': aktywuj, by posortować kolumnę malejąco',
-	'JS_RELATION' => 'Firma/Kontakt',
+	'JS_RELATION' => 'Powiązanie',
 	'JS_PROCESS' => 'Proces',
 	'JS_SUB_PROCESS' => 'Podproces',
 ];

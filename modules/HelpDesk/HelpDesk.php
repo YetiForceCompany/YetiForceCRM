@@ -42,7 +42,7 @@ class HelpDesk extends CRMEntity
 		'Status' => Array('troubletickets' => 'status'),
 		'Priority' => Array('troubletickets' => 'priority'),
 		'Assigned To' => Array('crmentity', 'smownerid'),
-		'FL_TOTAL_TIME_H' => Array('troubletickets', 'sum_time')
+		'Total time [h]' => Array('troubletickets', 'sum_time')
 	);
 	var $list_fields_name = Array(
 		'Ticket No' => 'ticket_no',
@@ -52,7 +52,7 @@ class HelpDesk extends CRMEntity
 		'Status' => 'ticketstatus',
 		'Priority' => 'ticketpriorities',
 		'Assigned To' => 'assigned_user_id',
-		'FL_TOTAL_TIME_H' => 'sum_time'
+		'Total time [h]' => 'sum_time'
 	);
 	var $list_link_field = 'ticket_title';
 	var $range_fields = Array(

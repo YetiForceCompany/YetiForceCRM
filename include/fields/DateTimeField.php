@@ -380,7 +380,7 @@ class DateTimeField
 		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
 		$date = self::convertToUserTimeZone($this->datetime, $user);
-		$time = $date->format("H:i");
+		$time = $date->format("H:i:s");
 
 		//Convert time to user preferred value
 		$userModel = Users_Privileges_Model::getCurrentUserModel();

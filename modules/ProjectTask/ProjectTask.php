@@ -47,7 +47,7 @@ class ProjectTask extends CRMEntity {
         'Type'=>Array('projecttask','projecttasktype'),
         'Progress'=>Array('projecttask','projecttaskprogress'),
         'Assigned To' => Array('crmentity','smownerid'),
-		'FL_TOTAL_TIME_H'=>Array('projecttask','sum_time')
+		'Total time [h]'=>Array('projecttask','sum_time')
 
     );
     var $list_fields_name = Array(
@@ -58,7 +58,7 @@ class ProjectTask extends CRMEntity {
         'Type'=>'projecttasktype',
         'Progress'=>'projecttaskprogress',
         'Assigned To' => 'assigned_user_id',
-		'FL_TOTAL_TIME_H'=>'sum_time'
+		'Total time [h]'=>'sum_time'
     );
 
     // Make the field link to detail view from list view (Fieldname)

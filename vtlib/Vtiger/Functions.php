@@ -435,6 +435,7 @@ class Vtiger_Functions
 			$entityDisplay = [];
 
 			if ($ids) {
+
 				if ($module == 'Groups') {
 					$metainfo = ['tablename' => 'vtiger_groups', 'entityidfield' => 'groupid', 'fieldname' => 'groupname'];
 				} else {
@@ -457,21 +458,17 @@ class Vtiger_Functions
 				$leftJoin = '';
 				$leftJoinTables = [];
 				$paramsCol = [];
-				if ($module != 'Groups') {
-					$focus = CRMEntity::getInstance($module);
-					foreach (array_filter($columns) as $column) {
-						if (array_key_exists($column, $moduleInfoExtend)) {
-							$paramsCol[] = $column;
-							if ($moduleInfoExtend[$column]['tablename'] != $table && !in_array($moduleInfoExtend[$column]['tablename'], $leftJoinTables)) {
-								$otherTable = $moduleInfoExtend[$column]['tablename'];
-								$leftJoinTables[] = $otherTable;
-								$focusTables = $focus->tab_name_index;
-								$leftJoin .= ' LEFT JOIN ' . $otherTable . ' ON ' . $otherTable . '.' . $focusTables[$otherTable] . ' = ' . $table . '.' . $focusTables[$table];
-							}
+				$focus = CRMEntity::getInstance($module);
+				foreach (array_filter($columns) as $column) {
+					if (array_key_exists($column, $moduleInfoExtend)) {
+						$paramsCol[] = $column;
+						if ($moduleInfoExtend[$column]['tablename'] != $table && !in_array($moduleInfoExtend[$column]['tablename'], $leftJoinTables)) {
+							$otherTable = $moduleInfoExtend[$column]['tablename'];
+							$leftJoinTables[] = $otherTable;
+							$focusTables = $focus->tab_name_index;
+							$leftJoin .= ' LEFT JOIN ' . $otherTable . ' ON ' . $otherTable . '.' . $focusTables[$otherTable] . ' = ' . $table . '.' . $focusTables[$table];
 						}
 					}
-				} else {
-					$paramsCol = $columnsName;
 				}
 				$paramsCol[] = $idcolumn;
 				$sql = sprintf('SELECT ' . implode(',', $paramsCol) . ' AS id FROM %s ' . $leftJoin . ' WHERE %s IN (%s)', $table, $idcolumn, generateQuestionMarks($ids));

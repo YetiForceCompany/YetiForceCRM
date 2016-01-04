@@ -348,6 +348,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			data.find('[name="due_date"]').val(endDateString);
 			data.find('[name="time_start"]').val(startTimeString);
 			data.find('[name="time_end"]').val(endTimeString);
+			data.find('.tabbable').before('<input type="hidden" name="selectedTimeStart" value="' + endTimeString + '">');
 
 			var headerInstance = new Vtiger_Header_Js();
 			headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {

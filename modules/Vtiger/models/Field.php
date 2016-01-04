@@ -1153,7 +1153,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 	public function isReferenceField()
 	{
-		return in_array($this->getFieldDataType(), self::$REFERENCE_TYPES);
+		return in_array($this->getFieldDataType(), self::REFERENCE_TYPES);
 	}
 
 	public function isOwnerField()

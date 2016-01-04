@@ -80,7 +80,7 @@ Class DataAccess_unique_value
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record1 = false;
 						$deletedLabel = $metadata['deleted'] ? ' - ' . vtranslate('LBL_RECORD_DELETED', 'DataAccess') : '';
-						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . Vtiger_Functions::getCRMRecordLabel($id) . '</strong></a> (' . Vtiger_Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
+						$fieldlabel .= '<a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '">&bull; ' . Vtiger_Functions::getCRMRecordLabel($id) . '</a> (' . Vtiger_Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',<br/>';
 					}
 				}
 			}
@@ -114,7 +114,7 @@ Class DataAccess_unique_value
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record2 = false;
 						$deletedLabel = $metadata['deleted'] ? ' - ' . vtranslate('LBL_RECORD_DELETED', 'DataAccess') : '';
-						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . Vtiger_Functions::getCRMRecordLabel($id) . '</strong></a> (' . Vtiger_Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
+						$fieldlabel .= '<a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '">&bull; ' . Vtiger_Functions::getCRMRecordLabel($id) . '</a> (' . Vtiger_Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',<br/>';
 					}
 				}
 			}

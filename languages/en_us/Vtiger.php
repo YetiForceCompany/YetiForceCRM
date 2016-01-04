@@ -846,7 +846,7 @@ $languageStrings = [
 	'COPY_ADRESS_FROM' => 'Copy address from:',
 	'LBL_LEFT_PANEL_SHOW_HIDE' => 'Left Panel Show/Hide',
 	'LBL_RIGHT_PANEL_SHOW_HIDE' => 'Right Panel Show/Hide',
-	'FL_TOTAL_TIME_H' => 'Total time [h]',
+	'Total time [h]' => 'Total time [h]',
 	/* modules */
 	'Key Metrics' => 'Key Metrics',
 	'Share with users' => 'Share with users:',
@@ -1088,10 +1088,9 @@ $languageStrings = [
 	'LBL_EDIT_RELATED_COMMENT' => 'Edit comment',
 	'LBL_ALPHABETIC_FILTERING' => 'Alphabetic filtering',
 	'LBL_REMOVE_FILTERING' => 'Remove filtering',
-	'FL_RELATION' => 'Company/Contact',
+	'FL_RELATION' => 'Relation',
 	'FL_PROCESS' => 'Process',
 	'FL_SUB_PROCESS' => 'Subprocess',
-	'LBL_VIEW_DUPLICATE' => 'Duplicate',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',
@@ -1391,7 +1390,7 @@ $jsLanguageStrings = [
 	'JS_S_LAST' => 'Previous',
 	'JS_S_SORT_ASCENDING' => ': activate to sort column ascending',
 	'JS_S_SORT_DESCENDING' => ': activate to sort column descending',
-	'JS_RELATION' => 'Company/Contact',
+	'JS_RELATION' => 'Relation',
 	'JS_PROCESS' => 'Process',
 	'JS_SUB_PROCESS' => 'Subprocess',
 ];

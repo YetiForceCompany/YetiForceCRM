@@ -64,7 +64,7 @@ $languageStrings = [
 	'QuickExportToExcel' => 'Excelexport',
 	'CreateDashboardFilter' => 'Filter Widgets erzeugen',
 	'DetailTransferOwnership' => 'Vorschau Datensatz - Zuständigen ändern',
-	'ExportPdf' => 'Export to PDF',
+	'ExportPdf' => '__UNTRANSLATED__',
 	'RecordMapping' => 'Record preview - Generating mapped fields record',
 	'RecordMappingList' => 'Generating mapped fields records',
 	//end Actions

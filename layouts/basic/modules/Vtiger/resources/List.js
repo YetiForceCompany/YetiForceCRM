@@ -557,6 +557,7 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 		return false;
 	},
+	
 	triggerGenerateRecords: function (url) {
 		var selected = Vtiger_List_Js.getSelectedRecordsParams();
 		if (selected === false) {
@@ -1619,8 +1620,6 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var listViewContentDiv = this.getListViewContentContainer();
 		listViewContentDiv.on('click', '.listViewEntries', function (e) {
-			if (jQuery(e.target).closest('div').hasClass('actions'))
-				return;
 			if (jQuery(e.target).closest('a').hasClass('noLinkBtn'))
 				return;
 			if (jQuery(e.target, jQuery(e.currentTarget)).is('td:first-child'))
@@ -1836,10 +1835,10 @@ jQuery.Class("Vtiger_List_Js", {
 			elements.attr('class', widthType);
 		}
 	},
-	registerAlphabetClick: function () {
+	registerAlphabetClick: function() {
 		var thisInstance = this;
-		$('.alphabetBtn').click(function () {
-			app.showModalWindow($('.alphabetModal').html(), function () {
+		$('.alphabetBtn').click(function() {
+			app.showModalWindow($('.alphabetModal').html(),function(){
 				thisInstance.registerEventForAlphabetSearch();
 			});
 		});
@@ -1847,7 +1846,7 @@ jQuery.Class("Vtiger_List_Js", {
 	registerEventForAlphabetSearch: function () {
 		var thisInstance = this;
 		var listViewPageDiv = $('.modal .alphabetSorting ');
-		listViewPageDiv.find('.alphabetSearch').on('click', function (e) {
+		listViewPageDiv.find('.alphabetSearch').on('click',  function (e) {
 			var alphabet = jQuery(e.currentTarget).find('a').text();
 			var cvId = thisInstance.getCurrentCvId();
 			var AlphabetSearchKey = thisInstance.getAlphabetSearchField();
