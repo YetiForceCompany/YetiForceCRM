@@ -24,6 +24,11 @@ class Contacts_Popup_View extends Vtiger_Popup_View {
 			$helpDeskRecord = Vtiger_Record_Model::getInstanceById( $sourceRecord, 'HelpDesk' );
 			$request->set('related_parent_id', $helpDeskRecord->get('parent_id'));
 		}
+		if ($moduleName == 'Contacts' && $sourceModule == 'SSalesProcesses' && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=SSalesProcesses') === 0) {
+			$request->set('related_parent_module', 'Accounts');
+			$moduleRecord = Vtiger_Record_Model::getInstanceById($sourceRecord, 'SSalesProcesses');
+			$request->set('related_parent_id', $moduleRecord->get('related_to'));
+		}
 
 		parent::initializeListViewContents( $request, $viewer );
 	}

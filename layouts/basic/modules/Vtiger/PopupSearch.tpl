@@ -62,13 +62,7 @@
 				{/if}
 			</form>
 		</div>
-		<div class="col-md-2 form-group pull-left">
-			{if $MULTI_SELECT}
-				{if !empty($LISTVIEW_ENTRIES)}<button class="select btn btn-default"><strong>{vtranslate('LBL_SELECT', $MODULE)}</strong></button>{/if}
-					{else}
-				&nbsp;
-			{/if}
-		</div>
+		{include file='PopupSearchActions.tpl'|vtemplate_path:$MODULE_NAME}
 		<div class="col-md-4 form-group pull-right">
 			{if $SOURCE_MODULE neq 'PriceBooks' && $SOURCE_FIELD neq 'productsRelatedList'}
 				<div class="popupPaging">
