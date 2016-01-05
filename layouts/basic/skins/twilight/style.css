@@ -646,14 +646,6 @@ li.ui-timepicker-selected,
 .detailViewTitle .btn-toolbar {
 	margin: 0;
 }
-.detailview-table th,
-.detailview-table td {
-	vertical-align: middle;
-}
-.detailview-table th label,
-.detailview-table td label {
-	margin-bottom: 3px;
-}
 .detailViewInfo {
 	margin-top: 5px;
 }
@@ -2875,10 +2867,7 @@ table.dataTable .form-control {
 .marginBottom5px {
 	margin-bottom: 5px;
 }
-.detailview-table  .fieldValue  .summaryViewEdit {
-	display:none;
-}
-.detailview-table  .fieldValue:hover  .summaryViewEdit { 
+.detailViewTable  .fieldValue:hover  .summaryViewEdit { 
 	display: inherit;
 }
 .icon-in-history-widget{
@@ -4122,6 +4111,9 @@ html,body,.baseContainer
 	.searchMenuBtn{
 		display: none;
 	}
+	.detailViewTable  .fieldValue  .summaryViewEdit {
+		display:none;
+	}
 }
 @media only screen and (max-width:1240px){
 	.pull-left-md{
@@ -4241,6 +4233,9 @@ html,body,.baseContainer
 	}
 }
 @media screen and (max-width: 960px) { 
+	.detailViewTable .fieldsLabelValue{
+		border-bottom: 1px solid #ddd;
+	}
 	.quickCreateContent .fieldsLabelValue.narrow{
 		padding-top: 5px;
 		padding-bottom: 2px;
@@ -4419,6 +4414,16 @@ html,body,.baseContainer
 	}
 }
 @media screen and (min-width: 960px) {
+	.detailViewTable .fieldsLabelValue{
+		vertical-align: top;
+		border-right: 1px solid #ddd;
+		display: table-cell;
+		float: none;
+	}
+	.detailViewTable .fieldRow{
+		display:table;
+		border-top: 1px solid #ddd;
+	}
 	.quickCreateContent .fieldRow{
 		border-top: 1px solid #ddd;
 		display: table;
@@ -4974,4 +4979,36 @@ html,body,.baseContainer
 }
 .hideToggleSiteBarRightButton{
 	right: 0px;
+}
+.detailViewTable .blockHeader{
+	cursor: pointer;
+	display:flex;
+}
+.detailViewTable .blockHeader .iconCollapse{
+	padding: 10px;
+}
+.detailViewTable .fieldLabel.medium,
+.detailViewTable .fieldValue.medium{
+	padding: 10px;
+	min-height: 40px;
+}
+.detailViewTable .fieldLabel.narrow,
+.detailViewTable .fieldValue.narrow{
+	padding: 5px;
+	min-height: 25px;
+}
+.detailViewTable .fieldLabel.wide,
+.detailViewTable .fieldValue.wide{
+	padding: 15px;
+	min-height: 50px;
+}
+.detailViewTable .fieldsLabelValue::before {
+    content: "";
+    float: left;
+    position: absolute;
+    top: 0;
+    left: 0px;
+    height: 100%;
+    border-right: 1px solid #ddd;
+	z-index: 10;
 }

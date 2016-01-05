@@ -953,8 +953,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 		detailContentsHolder.find('.blockHeader').click(function () {
 			var currentTarget = $(this).find('.blockToggle').not('.hide');
 			var blockId = currentTarget.data('id');
-			var closestBlock = currentTarget.closest('.detailview-table');
-			var bodyContents = closestBlock.find('tbody');
+			var closestBlock = currentTarget.closest('.detailViewTable');
+			var bodyContents = closestBlock.find('.blockContent');
 			var data = currentTarget.data();
 			var module = app.getModuleName();
 			var hideHandler = function () {
@@ -978,12 +978,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerBlockStatusCheckOnLoad: function () {
-		var blocks = this.getContentHolder().find('.detailview-table');
+		var blocks = this.getContentHolder().find('.detailViewTable');
 		var module = app.getModuleName();
 		blocks.each(function (index, block) {
 			var currentBlock = jQuery(block);
 			var headerAnimationElement = currentBlock.find('.blockToggle').not('.hide');
-			var bodyContents = currentBlock.find('tbody')
+			var bodyContents = currentBlock.find('.blockContent')
 			var blockId = headerAnimationElement.data('id');
 			var cacheKey = module + '.' + blockId;
 			var value = app.cacheGet(cacheKey, null);
@@ -1060,7 +1060,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var preventDefault = false;
 			var saveHandler = function (e) {
 				var element = jQuery(e.target);
-				if ((element.closest('td').is(currentTdElement))) {
+				if ((element.closest('.fieldValue').is(currentTdElement))) {
 					return;
 				}
 				fieldElement.inputmask('remove');
@@ -1487,7 +1487,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		summaryViewContainer.off('click').on('click', '.row .summaryViewEdit', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.addClass('hide');
-			var currentTdElement = currentTarget.closest('td.fieldValue');
+			var currentTdElement = currentTarget.closest('div.fieldValue');
 			thisInstance.ajaxEditHandling(currentTdElement);
 			Vtiger_Detail_Js.SaveResultInstance.loadFormData(formData);
 		});
@@ -2663,7 +2663,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			thisInstance.loadContents(nextPageUrl);
 		});
 
-		detailContentsHolder.on('click', 'table.detailview-table td.fieldValue', function (e) {
+		detailContentsHolder.on('click', 'div.detailViewTable div.fieldValue', function (e) {
 			if (jQuery(e.target).closest('a').hasClass('btnNoFastEdit'))
 				return;
 			var currentTdElement = jQuery(e.currentTarget);
