@@ -27,8 +27,8 @@ class Settings_Vtiger_CompanyDetailsSave_Action extends Settings_Vtiger_Basic_Ac
 					//mime type check 
 					$mimeType = Vtiger_Functions::getMimeContentType($_FILES[$image]["tmp_name"]);
 					$mimeTypeContents = explode('/', $mimeType);
-					if (!$logoDetails['size'] || $mimeTypeContents[0] != 'image' || !in_array($mimeTypeContents[1], Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)) {
-						$saveLogo = false;
+					if (!$logoDetails[$image]['size'] || $mimeTypeContents[0] != 'image' || !in_array($mimeTypeContents[1], Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)) {
+						$saveLogo[$image] = false;
 					}
 					// Check for php code injection
 					$imageContents = file_get_contents($_FILES[$image]["tmp_name"]);
