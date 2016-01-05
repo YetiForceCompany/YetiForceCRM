@@ -74,7 +74,30 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		}
 
 		$listQuery = $this->getQuery();
-		
+
+		// Limit the choice of products/services only to the ones related to currently selected Opportunity - last step.
+		if (Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit($this->get('src_module'))) {
+			$salesProcessId = $this->get('salesprocessid');
+			if (empty($salesProcessId)) {
+				$salesProcessId = -1;
+			}
+			$newListQuery = '';
+			$explodedListQuery = explode('INNER JOIN', $listQuery);
+			foreach ($explodedListQuery as $key => $value) {
+				$newListQuery .= 'INNER JOIN' . $value;
+				if ($key == 0 && $moduleName == 'Products') {
+					$newListQuery .= ' INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_products.productid OR vtiger_crmentityrel.crmid = vtiger_products.productid) ';
+				} elseif ($key == 0 && $moduleName == 'Services') {
+					$newListQuery .= ' INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_service.serviceid OR vtiger_crmentityrel.crmid = vtiger_service.serviceid) ';
+				}
+			}
+			$newListQuery = trim($newListQuery, 'INNER JOIN');
+			if (in_array($moduleName, ['Products', 'Services'])) {
+				$newListQuery .= " AND ( (vtiger_crmentityrel.crmid = '$salesProcessId' AND module = 'SSalesProcesses') OR (vtiger_crmentityrel.relcrmid = '$salesProcessId' AND relmodule = 'SSalesProcesses')) ";
+			}
+			$listQuery = $newListQuery;
+		}
+
 		if ($this->get('subProductsPopup')) {
 			$listQuery = $this->addSubProductsQuery($listQuery);
 		}

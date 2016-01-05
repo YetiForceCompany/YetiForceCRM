@@ -20051,13 +20051,6 @@ insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('convers
 /*Data for the table `yetiforce_proc_sales` */
 
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('popup','limit_product_service','false');
-insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('popup','update_shared_permissions','false');
-insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('scalculations','statuses_close','');
-insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('asset','assetstatus','');
-insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('squoteenquiries','statuses_close','');
-insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('ssalesorder','statuses_close','');
-insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('squotes','statuses_close','');
-insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('srequirementscard','statuses_close','');
 
 /*Data for the table `yetiforce_proc_tc` */
 

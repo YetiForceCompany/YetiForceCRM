@@ -85,4 +85,5 @@ $languageStrings = [
 	'Marketing Group' => 'Marketing',
 	'Team Selling' => 'Sales',
 	'LBL_TAXES' => 'Taxes',
+	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'List of records is limited to the products and services associated with the sales opportunity',
 ];

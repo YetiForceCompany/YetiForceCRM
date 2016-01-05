@@ -881,7 +881,6 @@ $languageStrings = [
 	'Service Requests' => 'Solicitações de Serviço',
 	'LBL_NULL_VALUE' => '(Nenhum valor)',
 	'LBL_QUICK_CREATE_EDITOR' => 'Editor Criar Rápido',
-	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'A lista de registros está limitada aos Produtos e Serviços associados com a Oportunidade de venda',
 	'LBL_UPDATES_HISTORY' => 'Atualizações',
 	'LBL_UPDATES_HISTORY_DESCRIPTION' => 'Histórico Atualizações',
 	'LBL_CONFREPORT' => 'Configuração Servidor',

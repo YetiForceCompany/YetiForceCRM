@@ -62,4 +62,5 @@ $languageStrings = [
 	'Migration' => 'Migração',
 	'Customization' => 'Customização',
 	'Training' => 'Treinamento',
+	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'A lista de registros está limitada aos Produtos e Serviços associados com a Oportunidade de venda',
 ];

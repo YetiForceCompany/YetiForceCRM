@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_SALES_PROCESSES' => 'Sales',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => ' ',
-	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Allows to choose from products list only those that are related to chosen oportunity. Provided for: Calculations, Quotes, Sales Orders and Invoices.',
+	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Limit the choice of products/services only to the ones related to currently selected Opportunity. Applies to modules: Quote Enquiries, Requirements Cards, Calculations, Quotes, Single Orders, Periodically recurring orders.',
 	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Products and Services selection list',
 	'LBL_UPDATE_SHARED_PERMISSIONS' => 'Updates sharing permissions from product/service in opportunity when relation between opportunity and product/service is created.',
 	'LBL_STATUSES_CLOSED_CALCULATION' => 'Statuses determining that calculation is closed',

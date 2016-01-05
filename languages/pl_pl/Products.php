@@ -85,4 +85,5 @@ $languageStrings = [
 	'Marketing Group' => 'Marketing',
 	'Team Selling' => 'Sprzedaż',
 	'LBL_TAXES' => 'Podatki',
+	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Lista rekordów jest ograniczona do produktów i usług powiązanych z szansą sprzedaży',
 ];

@@ -539,7 +539,6 @@ $languageStrings = [
 	'LBL_IN' => 'в',
 	'LBL_INDIVIDUAL' => 'Индивидуально',
 	'LBL_INVENTORY' => 'Склад',
-	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Ограниченный список продуктов и услуг, связанных с возможностью продажи',
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => 'удалена из системы',
 	'LBL_IS_EMPTY' => 'пустое',
 	'LBL_IS_NOT_EMPTY' => 'не пустое',
