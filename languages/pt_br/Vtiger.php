@@ -1099,6 +1099,7 @@ $languageStrings = [
 	'FL_PROCESS' => 'Processo',
 	'FL_SUB_PROCESS' => 'Subprocess',
 	'LBL_VIEW_DUPLICATE' => 'Duplicate',
+	'LBL_VIEW_INDEX' => 'Start',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Resumo',

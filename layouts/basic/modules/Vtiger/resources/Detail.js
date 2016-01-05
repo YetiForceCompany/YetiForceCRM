@@ -2780,13 +2780,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var moreBtn = container.find('.dropdown');
 		var moreList = container.find('.nav .dropdown-menu');
 		var margin = 3;
+		var widthScroll = 15;
 		var totalWidth = container.width();
 		var mainNavWidth = 0;
 		var freeSpace = 0;
 		moreBtn.removeClass('hide');
 		var widthMoreBtn = moreBtn.width() + margin;
 		moreBtn.addClass('hide');
-		freeSpace = totalWidth - widthMoreBtn;
+		freeSpace = totalWidth - widthMoreBtn - widthScroll;
 		container.find('.nav > .mainNav').each(function (e) {
 			jQuery(this).removeClass('hide');
 			if (freeSpace > jQuery(this).width()) {
@@ -2794,18 +2795,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 				freeSpace -= Math.ceil(jQuery(this).width()) + margin;
 			}
 			else {
-				if (freeSpace !== 0) {
-					moreBtn.removeClass('hide');
-				}
 				jQuery(this).addClass('hide');
 				moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').removeClass('hide');
 				freeSpace = 0;
 			}
 		});
-
 		if (freeSpace === 0) {
 			moreList.find('.relatedNav').removeClass('hide');
 			container.find('.spaceRelatedList').addClass('hide');
+			moreBtn.removeClass('hide');
 		}
 		else {
 			freeSpace -= container.find('.spaceRelatedList').removeClass('hide').width() + margin;
@@ -2816,14 +2814,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 					freeSpace -= Math.ceil(jQuery(this).width()) + margin;
 				}
 				else {
-					if (freeSpace !== 0) {
-						moreBtn.removeClass('hide');
-					}
 					freeSpace = 0;
 					jQuery(this).addClass('hide');
 					moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').removeClass('hide');
 				}
 			});
+			if (freeSpace === 0) {
+				moreBtn.removeClass('hide');
+			}
 		}
 
 	},

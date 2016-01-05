@@ -17,11 +17,19 @@
 	<div class="modelContainer modal fade" tabindex="-1">
 		<div class="modal-dialog modal-full">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
-					<button class="close" aria-hidden="true" data-dismiss="modal" type="button" title="{vtranslate('LBL_CLOSE')}">x</button>
-					<h3 class="modal-title">{vtranslate('LBL_QUICK_CREATE', $MODULE)} {vtranslate($SINGLE_MODULE, $MODULE)}</h3>
-				</div>
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
+					<div class="modal-header contentsBackground">
+						<div class="pull-left">
+							<h3 class="modal-title">{vtranslate('LBL_QUICK_CREATE', $MODULE)} {vtranslate($SINGLE_MODULE, $MODULE)}</h3>
+						</div>
+						<div class="pull-right quickCreateActions">
+							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
+							<button class="btn btn-default" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
+							<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+							<button class="cancelLink  btn btn-warning" aria-hidden="true" data-dismiss="modal" type="button" title="{vtranslate('LBL_CLOSE')}">x</button>
+						</div>
+						<div class="clearfix"></div>
+					</div>
 					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 						<input type="hidden" name="picklistDependency" value='{Vtiger_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
 					{/if}
@@ -66,12 +74,6 @@
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="modal-footer quickCreateActions">
-						{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
-						<button class="cancelLink cancelLinkContainer pull-right btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
-						<button class="btn btn-success test" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-						<button class="btn btn-default" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>
 					</div>
 					{if !empty($SOURCE_RELATED_FIELD)}
 						{foreach key=RELATED_FIELD_NAME item=RELATED_FIELD_VALUE from=$SOURCE_RELATED_FIELD}
