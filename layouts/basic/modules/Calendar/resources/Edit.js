@@ -64,7 +64,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			//If repeatDay radio button is checked then only select2 elements will be enable
 			thisInstance.repeatMonthOptionsChangeHandling();
 		});
-},
+	},
 	/**
 	 * Function which will change the UI styles based on recurring type
 	 * @params - recurringType - which recurringtype is selected
@@ -97,56 +97,67 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			jQuery('#repeatMonthDay').prop("disabled", true);
 		}
 	},
+	setDefaultEndTime: function (container) {
+		var dateStartElement = container.find('[name="date_start"]');
+		var startTimeElement = container.find('[name="time_start"]');
+		var endTimeElement = container.find('[name="time_end"]');
+		var endDateElement = container.find('[name="due_date"]');
+
+		if (endDateElement.data('userChangedTime') == true) {
+			return;
+		}
+		if (jQuery('[name="userChangedEndDateTime"]').val() == '1') {
+			return;
+		}
+
+		var startDate = dateStartElement.val();
+		var startTime = startTimeElement.val();
+
+		var result = Vtiger_Time_Validator_Js.invokeValidation(startTimeElement);
+		if (result != true) {
+			return;
+		}
+		var startDateTime = startDate + ' ' + startTime;
+		var dateFormat = container.find('[name="due_date"]').data('dateFormat');
+		var timeFormat = endTimeElement.data('format');
+		var startDate = Vtiger_Helper_Js.getDateInstance(startDateTime, dateFormat);
+		var startDateInstance = Date.parse(startDate);
+		var endDateInstance = false;
+
+		if (container.find('[name="activitytype"]').val() == 'Call') {
+			var defaulCallDuration = container.find('[name="defaultCallDuration"]').val();
+			endDateInstance = startDateInstance.addMinutes(defaulCallDuration);
+		} else {
+			var defaultOtherEventDuration = container.find('[name="defaultOtherEventDuration"]').val();
+			endDateInstance = startDateInstance.addMinutes(defaultOtherEventDuration);
+		}
+		var endDateString = app.getDateInVtigerFormat(dateFormat, endDateInstance);
+		if (timeFormat == 24) {
+			var defaultTimeFormat = 'HH:mm';
+		} else {
+			defaultTimeFormat = 'hh:mm tt';
+		}
+		var endTimeString = startDateInstance.toString(defaultTimeFormat);
+
+		endDateElement.val(endDateString);
+		endTimeElement.val(endTimeString);
+	},
+	/**
+	 * Function to change the end time based on default call duration
+	 */
+	registerActivityTypeChangeEvent: function (container) {
+		var thisInstance = this;
+		container.on('change', 'select[name="activitytype"]', function (e) {
+			thisInstance.setDefaultEndTime(container);
+		});
+	},
 	/**
 	 * Function to change the end time based on default call duration
 	 */
 	registerTimeStartChangeEvent: function (container) {
 		var thisInstance = this;
 		container.on('changeTime', 'input[name="time_start"]', function (e) {
-			var dateStartElement = container.find('[name="date_start"]');
-			var startTimeElement = jQuery(e.currentTarget);
-			var endTimeElement = container.find('[name="time_end"]');
-			var endDateElement = container.find('[name="due_date"]');
-
-			if (endDateElement.data('userChangedTime') == true) {
-				return;
-			}
-			if (jQuery('[name="userChangedEndDateTime"]').val() == '1') {
-				return;
-			}
-
-			var startDate = dateStartElement.val();
-			var startTime = startTimeElement.val();
-
-			var result = Vtiger_Time_Validator_Js.invokeValidation(startTimeElement);
-			if (result != true) {
-				return;
-			}
-			var startDateTime = startDate + ' ' + startTime;
-			var dateFormat = container.find('[name="due_date"]').data('dateFormat');
-			var timeFormat = endTimeElement.data('format');
-			var startDate = Vtiger_Helper_Js.getDateInstance(startDateTime, dateFormat);
-			var startDateInstance = Date.parse(startDate);
-			var endDateInstance = false;
-
-
-			if (container.find('[name="activitytype"]').val() == 'Call') {
-				var defaulCallDuration = container.find('[name="defaultCallDuration"]').val();
-				endDateInstance = startDateInstance.addMinutes(defaulCallDuration);
-			} else {
-				var defaultOtherEventDuration = container.find('[name="defaultOtherEventDuration"]').val();
-				endDateInstance = startDateInstance.addMinutes(defaultOtherEventDuration);
-			}
-			var endDateString = app.getDateInVtigerFormat(dateFormat, endDateInstance);
-			if (timeFormat == 24) {
-				var defaultTimeFormat = 'HH:mm';
-			} else {
-				defaultTimeFormat = 'hh:mm tt';
-			}
-			var endTimeString = startDateInstance.toString(defaultTimeFormat);
-
-			endDateElement.val(endDateString);
-			endTimeElement.val(endTimeString);
+			thisInstance.setDefaultEndTime(container);
 		});
 
 		container.find('[name="date_start"]').on('change', function (e) {
@@ -249,6 +260,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		this.toggleTimesInputs(container);
 		this.registerTimesInputs(container);
 		this.registerTimeStartChangeEvent(container);
+		this.registerActivityTypeChangeEvent(container);
 		this.registerEndDateTimeChangeLogger(container);
 		//Required to set the end time based on the default ActivityType selected
 		container.find('[name="activitytype"]').trigger('change');
