@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * Mail cction bar class
+ * @package YetiForce.View
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+class OSSMail_MailActionBar_View extends Vtiger_Index_View
+{
+
+	public function preProcess(Vtiger_Request $request, $display = true)
+	{
+		
+	}
+
+	public function postProcess(Vtiger_Request $request)
+	{
+		
+	}
+
+	public function process(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$uid = $request->get('uid');
+		$folder = $request->get('folder');
+		$rcId = $request->get('rcId');
+
+		$account = OSSMail_Record_Model::getAccountByHash($rcId);
+		if (!$account) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
+		$rcId = $account['user_id'];
+		$mailViewModel = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
+		$record = $mailViewModel->checkMailExist($uid, $folder, $rcId);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('RECORD', $record);
+		if ($record) {
+			$reletedRecords = $mailViewModel->getReletedRecords($record);
+			$viewer->assign('RELETED_RECORDS', $reletedRecords);
+		}
+		Vtiger_Module_Model::getModulesByLevel();
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('URL', AppConfig::main('site_URL'));
+		$viewer->view('MailActionBar.tpl', $moduleName);
+	}
+}

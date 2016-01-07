@@ -70,7 +70,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			}
 			$query = 'SELECT ossmailviewid FROM vtiger_ossmailview_relation WHERE crmid IN(' . implode(',', $relatedID) . ') AND `deleted` = ? ORDER BY `date` DESC';
 			$result = $adb->pquery($query, [0]);
-			
+
 			while ($row = $adb->fetch_array($result)) {
 				$ids[] = $row['ossmailviewid'];
 			}
@@ -91,7 +91,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			if ($securityParameter != '')
 				$query .= $securityParameter;
 			$query .= ' ORDER BY ossmailviewid DESC';
-			if($config['widget_limit'] != ''){
+			if ($config['widget_limit'] != '') {
 				$query .= ' LIMIT ' . $config['widget_limit'];
 			}
 
@@ -139,51 +139,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		return trim($return, ',');
-	}
-
-	public function findCrmRecordsByMessage_id($params, $metod)
-	{
-		$adb = PearDatabase::getInstance();
-		$id = FALSE;
-		$return = [];
-		if (isset($params['crmid']['id'])) {
-			$id = $params['crmid']['id'];
-		} else {
-			$result = $adb->pquery('SELECT ossmailviewid FROM vtiger_ossmailview WHERE id = ? AND mbox = ?', [$params['uid'], $params['folder']]);
-			if ($adb->num_rows($result) > 0) {
-				$id = $adb->query_result_raw($result, 0, 'ossmailviewid');
-			}
-		}
-		if ($id) {
-			if ($metod != 'all') {
-				
-			}
-			$result = $adb->pquery('SELECT crmid FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND `deleted` = ? ', [$id, 0]);
-			for ($i = 0; $i < $adb->num_rows($result); $i++) {
-				$crmid = $adb->query_result($result, $i, 'crmid');
-				$resultSetype = $adb->pquery('SELECT setype,label FROM vtiger_crmentity WHERE crmid=? AND deleted=?', [$crmid, 0]);
-				if ($adb->num_rows($resultSetype) == 1) {
-					$module = $adb->query_result($resultSetype, 0, 'setype');
-					$label = $adb->query_result($resultSetype, 0, 'label');
-					$return[$module]['record'] = ['crmid' => $crmid, 'module' => $module, 'label' => $label];
-					$return[$module]['rows'][] = ['crmid' => $crmid, 'module' => $module, 'label' => $label];
-				}
-			}
-		}
-		return $return;
-	}
-
-	public function findCrm($text)
-	{
-		$limit = 45;
-		$count = strlen($text);
-		if ($count >= $limit) {
-			$limit_text = substr($text, 0, $limit);
-			$txt = $limit_text . "...";
-		} else {
-			$txt = $text;
-		}
-		return $txt;
 	}
 
 	public function findEmail($id, $module)
@@ -307,5 +262,77 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$adb = PearDatabase::getInstance();
 		$adb->pquery('UPDATE vtiger_ossmailview_relation SET `deleted` = ? WHERE ossmailviewid = ?;', [1, $this->getId()]);
 		parent::delete();
+	}
+
+	public function checkMailExist($uid, $folder, $rcId)
+	{
+		$db = PearDatabase::getInstance();
+		$query = 'SELECT ossmailviewid FROM vtiger_ossmailview WHERE id = ? AND mbox = ? AND rc_user = ?';
+		$result = $db->pquery($query, [$uid, $folder, $rcId]);
+		return $db->getRowCount($result) > 0 ? $db->getSingleValue($result) : false;
+	}
+
+	public function getReletedRecords($record)
+	{
+		$db = PearDatabase::getInstance();
+		$relations = [];
+		$query = 'SELECT vtiger_crmentity.crmid, vtiger_crmentity.setype, vtiger_crmentity.label FROM vtiger_ossmailview_relation'
+			. ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview_relation.crmid'
+			. ' WHERE ossmailviewid = ? AND vtiger_crmentity.deleted = ? AND vtiger_crmentity.deleted = ? ';
+		$result = $db->pquery($query, [$record, 0, 0]);
+		while ($row = $db->getRow($result)) {
+			$module = $row['setype'];
+			$relations[$module][] = [
+				'id' => $row['crmid'],
+				'module' => $module,
+				'label' => $row['label']
+			];
+		}
+		return $relations;
+	}
+
+	public static function addRelated($params)
+	{
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+
+		$crmid = $params['crmid'];
+		$newModule = $params['newModule'];
+		$newCrmId = $params['newCrmId'];
+		$mailId = $params['mailId'];
+
+		if ($newModule == 'Products') {
+			$db->insert('vtiger_seproductsrel', [
+				'crmid' => $crmid,
+				'productid' => $newCrmId,
+				'setype' => $params['mod'],
+				'rel_created_user' => $currentUser->getId(),
+				'rel_created_time' => date('Y-m-d H:i:s')
+			]);
+		} elseif ($newModule == 'Services') {
+			$db->insert('vtiger_crmentityrel', [
+				'crmid' => $crmid,
+				'module' => $params['mod'],
+				'relcrmid' => $newCrmId,
+				'relmodule' => $newModule
+			]);
+		} else {
+			$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND crmid = ?';
+			$result = $db->pquery($query, [$mailId, $newCrmId]);
+			if ($db->getRowCount($result) == 0) {
+				$db->insert('vtiger_ossmailview_relation', [
+					'ossmailviewid' => $mailId,
+					'crmid' => $newCrmId
+				]);
+			}
+		}
+		return vtranslate('Add relationship', 'OSSMail');
+	}
+
+	public static function removeRelated($params)
+	{
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_ossmailview_relation', 'ossmailviewid = ? AND crmid = ?', [$params['mailId'], $params['crmid']]);
+		return vtranslate('Removed relationship', 'OSSMail');
 	}
 }

@@ -65,7 +65,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
 			var responseData = JSON.parse(data);
 			var length = Object.keys(responseData).length;
 			for (var id in responseData) {
-				getMail(mailField, module, id, length);
+				getMailFromCRM(mailField, module, id, length);
 			}
 		});
 	});
@@ -158,7 +158,7 @@ function getCrmWindow() {
 	return false;
 }
 
-function getMail(mailField, module, record, length) {
+function getMailFromCRM(mailField, module, record, length) {
 	var params = {
 		module: 'OSSMail',
 		action: 'getContactMail',

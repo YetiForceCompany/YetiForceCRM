@@ -24,16 +24,15 @@ class OSSMail_executeActions_Action extends Vtiger_Action_Controller
 
 	public function process(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$action_name = $request->get('action_name');
+		$mode = $request->get('mode');
 		$params = $request->get('params');
-		$OSSMailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
+		$instance = Vtiger_Record_Model::getCleanInstance('OSSMailView');
 
-		if ($action_name == 'addRelated')
-			$data = $OSSMailModel->addRelated($params);
+		if ($mode == 'addRelated')
+			$data = $instance->addRelated($params);
 
-		if ($action_name == 'removeRelated')
-			$data = $OSSMailModel->removeRelated($params);
+		if ($mode == 'removeRelated')
+			$data = $instance->removeRelated($params);
 
 		$result = array('success' => true, 'data' => $data);
 		$response = new Vtiger_Response();
