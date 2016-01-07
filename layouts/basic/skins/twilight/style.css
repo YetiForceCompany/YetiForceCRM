@@ -3933,6 +3933,7 @@ html,body,.baseContainer
 	height:30px;
 	min-width: 40px;
 	display: table;
+	float:left
 }
 .iconContainer .iconImage{
 	display: table-cell;
@@ -4449,13 +4450,14 @@ html,body,.baseContainer
 		width: 41.66666667%;
 	}
 	.siteBarRight{
-		width: calc(25% - 15px);
+		width: 25%;
 		padding: 0 15px;
 		border-left: 1px solid #ccc;
 		background: #eee;
 		position: fixed;
 		right: 0;
-		height:calc(100% - 83px);
+		top:50px;
+		bottom:33px;
 		overflow: auto;
 		-webkit-transition: all 0.5s ease;
 		-moz-transition: all 0.5s ease;
@@ -4739,7 +4741,7 @@ html,body,.baseContainer
 	padding: 15px 0px !important;
 	position: fixed;
 	top: 400px;
-	right: calc(25% - 16px);
+	right: 25% ;
 	cursor: pointer;
 	width: 17px;
 	z-index: 100;
