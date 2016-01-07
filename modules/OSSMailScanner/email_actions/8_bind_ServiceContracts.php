@@ -13,13 +13,12 @@ function _8_bind_ServiceContracts($user_id, $mail_detail, $folder, $return)
 {
 	$adb = PearDatabase::getInstance();
 	$ModuleName = 'ServiceContracts';
-	$ossmailviewTab = 'vtiger_ossmailview_accounts';
 	$result_ossmailview = $adb->pquery("SELECT ossmailviewid FROM vtiger_ossmailview where uid = ? ", array($mail_detail['message_id']), true);
 	if ($adb->num_rows($result_ossmailview) == 0) {
 		return false;
 	}
 	$ossmailviewid = $adb->query_result($result_ossmailview, 0, 'ossmailviewid');
-	$SC_list = Array();
+	$SC_list = [];
 	foreach ($return as $row) {
 		if (count($row['bind_Accounts']) > 0) {
 			foreach ($row['bind_Accounts'] as $row) {

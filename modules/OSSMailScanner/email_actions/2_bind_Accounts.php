@@ -12,9 +12,8 @@
 function _2_bind_Accounts($user_id, $mail_detail, $folder, $return)
 {
 	$ModuleName = 'Accounts';
-	$ossmailviewTab = 'vtiger_ossmailview_accounts';
 
 	require_once("modules/OSSMailScanner/template_actions/email.php");
-	$ids = bind_email($user_id, $mail_detail, $folder, $ModuleName, $ossmailviewTab);
+	$ids = bind_email($user_id, $mail_detail, $folder, $ModuleName);
 	return Array('bind_Accounts' => $ids);
 }

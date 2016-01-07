@@ -12,9 +12,8 @@
 function _3_bind_Contacts($user_id, $mail_detail, $folder, $return)
 {
 	$ModuleName = 'Contacts';
-	$ossmailviewTab = 'vtiger_ossmailview_contacts';
 
 	require_once("modules/OSSMailScanner/template_actions/email.php");
-	$ids = bind_email($user_id, $mail_detail, $folder, $ModuleName, $ossmailviewTab);
+	$ids = bind_email($user_id, $mail_detail, $folder, $ModuleName);
 	return Array('bind_Contacts' => $ids);
 }

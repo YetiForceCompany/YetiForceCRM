@@ -14,9 +14,8 @@ function _7_bind_Project($user_id, $mail_detail, $folder, $return)
 	$ModuleName = 'Project';
 	$table_name = 'vtiger_project';
 	$table_col = 'project_no';
-	$ossmailviewTab = 'vtiger_ossmailview_project';
 
 	require_once("modules/OSSMailScanner/template_actions/prefix.php");
-	$ids = bind_prefix($user_id, $mail_detail, $folder, $ModuleName, $table_name, $table_col, $ossmailviewTab);
+	$ids = bind_prefix($user_id, $mail_detail, $folder, $ModuleName, $table_name, $table_col);
 	return Array('bind_Project' => $ids);
 }

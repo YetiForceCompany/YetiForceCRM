@@ -15,7 +15,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-function bind_email($user_id, $mailDetail, $folder, $moduleName, $ossmailviewTab)
+function bind_email($user_id, $mailDetail, $folder, $moduleName)
 {
 	$adb = PearDatabase::getInstance();
 
