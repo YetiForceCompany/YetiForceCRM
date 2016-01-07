@@ -5012,3 +5012,8 @@ html,body,.baseContainer
     border-right: 1px solid #ddd;
 	z-index: 10;
 }
+select.form-control {
+	padding-right: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+ }

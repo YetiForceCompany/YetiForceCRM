@@ -101,3 +101,8 @@ html,body{
 .heightDiv_4{
 	height: 214px;
 }
+select.form-control {
+	padding-right: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+ }
