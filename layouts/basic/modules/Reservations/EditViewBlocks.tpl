@@ -74,6 +74,7 @@
 						<div class="col-xs-12 paddingLRZero">
 							{assign var=COUNTER value=0}
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
+								{if in_array($FIELD_NAME, ['time_start','time_end'])}{continue}{/if}
 								{if $FIELD_MODEL->get('uitype') eq '20' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '300'}
 									{if $COUNTER eq '1'}
 										<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td></tr><tr>
