@@ -135,6 +135,7 @@ $languageStrings = [
 	'LBL_RECURRENCE_INFORMATION' => 'Recurrence Details',
 	'LBL_RELATED_TO' => 'Related To',
 	'LBL_NO_AVAILABLE_ACTIONS' => 'No available actions',
+	'LBL_INVITE_USER_BLOCK' => 'Invite',
 ];
 
 $jsLanguageStrings = [

@@ -134,6 +134,7 @@ $languageStrings = [
 	'LBL_NO_AVAILABLE_ACTIONS' => 'Brak dostępnych akcji',
 	'LBL_RELATED_TO' => 'Powiązany z',
 	'LBL_RECURRENCE_INFORMATION' => 'Szczegóły powtarzalności terminu',
+	'LBL_INVITE_USER_BLOCK' => 'Zaproszeni użytkownicy',
 ];
 
 $jsLanguageStrings = [

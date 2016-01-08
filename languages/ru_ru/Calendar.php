@@ -158,6 +158,7 @@ $languageStrings = [
 	'LBL_RECURRENCE_INFORMATION' => 'Повторить',
 	'LBL_RELATED_TO' => 'Связан с',
 	'LBL_NO_AVAILABLE_ACTIONS' => 'Нет доступных действий',
+	'LBL_INVITE_USER_BLOCK' => 'Пригласить',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_EVENT_TASK' => '+ Событие | Задача',
