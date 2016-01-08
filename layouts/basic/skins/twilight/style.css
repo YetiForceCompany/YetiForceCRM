@@ -604,7 +604,6 @@ li.ui-timepicker-selected,
 }
 .bottomscroll-div,
 .topscroll-div {
-	display: table;
 	min-width: 100%;
 }
 .contents-bottomscroll {
@@ -3388,6 +3387,12 @@ span[name=existingImages] img{
 .baseContainer .leftPanel .menuContainer .subMenu button .menuName{
 	top: 2px;
 }
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+	::i-block-chrome,.baseContainer .leftPanel .menuContainer .subMenu a .menuName,
+	::i-block-chrome,.baseContainer .leftPanel .menuContainer .subMenu button .menuName{
+		top: -4px;
+	}
+} 
 .baseContainer .leftPanel .menuContainer a.hasIcon img{
 	height: 20px;
 }
@@ -4002,10 +4007,6 @@ html,body,.baseContainer
 }
 .menuPanel{
 	padding: 5px;
-}
-.blockContainer .blockHeader{
-	cursor:pointer;
-	display:flex;
 }
 .blockContainer .blockHeader .iconCollapse{
 	padding:10px;
@@ -4982,12 +4983,18 @@ html,body,.baseContainer
 .hideToggleSiteBarRightButton{
 	right: 0px;
 }
+.blockContainer .blockHeader,
 .detailViewTable .blockHeader{
 	cursor: pointer;
-	display:flex;
+	display:inline-block;
+	width:100%;
 }
 .detailViewTable .blockHeader .iconCollapse{
 	padding: 10px;
+}
+.blockHeader .iconCollapse h4{
+	display: inline-block;
+	margin: 0 5px;
 }
 .detailViewTable .fieldLabel.medium,
 .detailViewTable .fieldValue.medium{
