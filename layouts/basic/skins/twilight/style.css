@@ -5026,3 +5026,6 @@ select.form-control {
 	padding-top: 0;
 	padding-bottom: 0;
  }
+.table .chosen-container{
+	height: auto;
+}
