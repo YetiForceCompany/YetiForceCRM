@@ -689,7 +689,7 @@ $languageStrings = [
 	'Interested services' => 'Interessados em Serviços',
 	'Recycle Bin' => 'Lixeira',
 	/* YetiForce */
-	'Total time [h]' => 'Tempo Total [h]',
+	'FL_TOTAL_TIME_H' => 'Tempo Total [h]',
 	'LBL_NO_RELATED_RECORDS_FOUND' => 'Nenhum registro a ser exibido',
 	'LBL_RECORD_SUMMARY' => 'Resumo',
 	'LBL_RECORD_DETAILS' => 'Detalhes',
@@ -881,7 +881,6 @@ $languageStrings = [
 	'Service Requests' => 'Solicitações de Serviço',
 	'LBL_NULL_VALUE' => '(Nenhum valor)',
 	'LBL_QUICK_CREATE_EDITOR' => 'Editor Criar Rápido',
-	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'A lista de registros está limitada aos Produtos e Serviços associados com a Oportunidade de venda',
 	'LBL_UPDATES_HISTORY' => 'Atualizações',
 	'LBL_UPDATES_HISTORY_DESCRIPTION' => 'Histórico Atualizações',
 	'LBL_CONFREPORT' => 'Configuração Servidor',
@@ -1099,6 +1098,8 @@ $languageStrings = [
 	'FL_RELATION' => 'Relação',
 	'FL_PROCESS' => 'Processo',
 	'FL_SUB_PROCESS' => 'Subprocess',
+	'LBL_VIEW_DUPLICATE' => 'Duplicate',
+	'LBL_VIEW_INDEX' => 'Start',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Resumo',

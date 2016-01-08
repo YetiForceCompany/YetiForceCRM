@@ -12,11 +12,13 @@
 {strip}
 <div class="">
 	<form id="EditView" method="POST">
-		<div class='widget_header row '>
+		<div class="widget_header row">
 			<div class="col-xs-12">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			</div>
-			<span style="font-size:12px;color: black;">{vtranslate('LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION', $QUALIFIED_MODULE)}</span>
+			<div class="col-xs-12">
+				<span>{vtranslate('LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION', $QUALIFIED_MODULE)}</span>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">

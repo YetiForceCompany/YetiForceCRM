@@ -86,4 +86,5 @@ $languageStrings = [
 	'Marketing Group' => 'Маркетинг',
 	'Team Selling' => 'Продажи',
 	'LBL_TAXES' => 'Taxes',
+	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Ограниченный список продуктов и услуг, связанных с возможностью продажи',
 ];

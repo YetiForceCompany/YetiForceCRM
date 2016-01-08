@@ -814,7 +814,7 @@ $languageStrings = [
 	'LBL_SELECT_RELATED_FIELD' => 'Wähle zugehöriges Modulfeld',
 	'LBL_COMPARISON_VALUE' => 'Wert vergleichen',
 	'Website' => 'Webseite',
-	'Total time [h]' => 'Gesamtzeit [h]',
+	'FL_TOTAL_TIME_H' => 'Gesamtzeit [h]',
 	/* industry */
 	'Administration' => 'Verwaltung',
 	'Construction Industry' => 'Baubranche',
@@ -901,7 +901,6 @@ $languageStrings = [
 	'LBL_GENERATE_FROM_TEMPLATE' => 'Aus Vorlage generieren',
 	'Permission to perform the operation is denied' => 'Die Erlaubnis zum Ausführen des Vorgangs wird verweigert',
 	'LBL_NO_FOUND_VIEW' => 'Benutzerdefinierte Ansicht nicht gefunden',
-	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Liste von Datensätzen beschränkt sich auf die Produkte und Dienstleistungen, die mit der Verkaufschance verknüpft sind',
 	'LBL_UPDATES_HISTORY' => 'Updates',
 	'LBL_UPDATES_HISTORY_DESCRIPTION' => 'Updates Historie',
 	'LBL_TREES_MANAGER' => 'Baum Manager',
@@ -1103,6 +1102,8 @@ $languageStrings = [
 	'FL_RELATION' => 'Beziehung',
 	'FL_PROCESS' => 'Prozess',
 	'FL_SUB_PROCESS' => 'Subprocess',
+	'LBL_VIEW_DUPLICATE' => 'Duplicate',
+	'LBL_VIEW_INDEX' => 'Start',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
