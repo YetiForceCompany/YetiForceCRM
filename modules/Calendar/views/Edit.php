@@ -92,7 +92,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
-		
+
 		$viewMode = $request->get('view_mode');
 		if (!empty($viewMode)) {
 			$viewer->assign('VIEW_MODE', $viewMode);
@@ -126,9 +126,12 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 			$sourceRelatedField = $moduleModel->getValuesFromSource($moduleName, $sourceModule, $sourceRecord);
 			foreach ($recordStructure as &$block) {
 				foreach ($sourceRelatedField as $field => &$value) {
-					if (isset($block[$field]) && empty($block[$field]->get('fieldvalue'))) {
-						$block[$field]->set('fieldvalue', $value);
-						unset($sourceRelatedField[$field]);
+					if (isset($block[$field])) {
+						$fieldvalue = $block[$field]->get('fieldvalue');
+						if (empty($fieldvalue)) {
+							$block[$field]->set('fieldvalue', $value);
+							unset($sourceRelatedField[$field]);
+						}
 					}
 				}
 			}

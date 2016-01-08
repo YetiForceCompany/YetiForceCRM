@@ -84,7 +84,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$sql = 'SELECT vtiger_relatedlists.*,vtiger_tab.name FROM vtiger_relatedlists
-				LEFT JOIN vtiger_tab ON vtiger_tab.tabid=vtiger_relatedlists.related_tabid WHERE vtiger_relatedlists.tabid = ?';
+				LEFT JOIN vtiger_tab ON vtiger_tab.tabid=vtiger_relatedlists.related_tabid WHERE vtiger_relatedlists.tabid = ? AND vtiger_relatedlists.related_tabid != 0' ;
 		$result = $adb->pquery($sql, array($tabid));
 		$relation = array();
 		while ($row = $adb->fetch_array($result)) {

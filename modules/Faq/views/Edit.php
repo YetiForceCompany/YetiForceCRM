@@ -66,9 +66,12 @@ class Faq_Edit_View extends Vtiger_Edit_View {
 			$sourceRelatedField = $moduleModel->getValuesFromSource($moduleName, $sourceModule, $sourceRecord);
 			foreach ($recordStructure as &$block) {
 				foreach ($sourceRelatedField as $field => &$value) {
-					if (isset($block[$field]) && empty($block[$field]->get('fieldvalue'))) {
-						$block[$field]->set('fieldvalue', $value);
-						unset($sourceRelatedField[$field]);
+					if (isset($block[$field])) {
+						$fieldvalue = $block[$field]->get('fieldvalue');
+						if (empty($fieldvalue)) {
+							$block[$field]->set('fieldvalue', $value);
+							unset($sourceRelatedField[$field]);
+						}
 					}
 				}
 			}

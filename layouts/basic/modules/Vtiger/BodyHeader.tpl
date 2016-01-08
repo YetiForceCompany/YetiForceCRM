@@ -19,13 +19,15 @@
 						</a>
 					</div>
 				</div>
-				<div class="pull-right rightHeaderBtn">
-					<div class="headerLinksAJAXChat quickAction">
-						<a class="btn btn-default btn-sm ChatIcon" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
-							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-						</a>
+				{if $CHAT_ACTIVE}
+					<div class="pull-right rightHeaderBtn">
+						<div class="headerLinksAJAXChat quickAction">
+							<a class="btn btn-default btn-sm ChatIcon" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
+								<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+							</a>
+						</div>
 					</div>
-				</div>
+				{/if}
 				{if !empty($announcement)}
 					<div class="pull-right rightHeaderBtn">
 						<div class="quickAction">

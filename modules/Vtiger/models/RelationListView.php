@@ -526,9 +526,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			}
 		}
 
-		$pos = stripos($relationQuery, 'where');
+		$relationQuery = str_replace('where', 'WHERE', $relationQuery);
+		$pos = stripos($relationQuery, 'WHERE');
 		if ($pos) {
-			$split = explode('where', $relationQuery);
+			$split = explode('WHERE', $relationQuery);
 			$updatedQuery = $split[0] . ' WHERE ' . $split[1] . ' AND ' . $condition;
 		} else {
 			$updatedQuery = $relationQuery . ' WHERE ' . $condition;

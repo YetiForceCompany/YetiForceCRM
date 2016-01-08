@@ -1792,7 +1792,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 
 			$modelFields = $moduleModel->getFields();
 			foreach ($modelFields as $fieldName => $fieldModel) {
-				if (in_array($fieldModel->getFieldDataType(), Vtiger_Field_Model::REFERENCE_TYPES)) {
+				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
 					foreach ($referenceList as $referenceModule) {
 						$fieldMap[$referenceModule] = $fieldName;
@@ -1804,7 +1804,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 			}
 			$sourceModelFields = $sourceModuleModel->getFields();
 			foreach ($sourceModelFields as $fieldName => $fieldModel) {
-				if (in_array($fieldModel->getFieldDataType(), Vtiger_Field_Model::REFERENCE_TYPES)) {
+				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
 					foreach ($referenceList as $referenceModule) {
 						if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
