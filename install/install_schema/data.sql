@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -2920,10 +2919,6 @@ insert  into `vtiger_duration_minutes_seq`(`id`) values (4);
 /*Data for the table `vtiger_durationhrs` */
 
 /*Data for the table `vtiger_durationmins` */
-
-/*Data for the table `vtiger_email_access` */
-
-/*Data for the table `vtiger_email_track` */
 
 /*Data for the table `vtiger_emaildetails` */
 

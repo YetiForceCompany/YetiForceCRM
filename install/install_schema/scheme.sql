@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -3152,24 +3151,6 @@ CREATE TABLE `vtiger_durationmins` (
   `sortorderid` int(19) NOT NULL DEFAULT '0',
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`minsid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_email_access` */
-
-CREATE TABLE `vtiger_email_access` (
-  `crmid` int(11) DEFAULT NULL,
-  `mailid` int(11) DEFAULT NULL,
-  `accessdate` date DEFAULT NULL,
-  `accesstime` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_email_track` */
-
-CREATE TABLE `vtiger_email_track` (
-  `crmid` int(11) DEFAULT NULL,
-  `mailid` int(11) DEFAULT NULL,
-  `access_count` int(11) DEFAULT NULL,
-  UNIQUE KEY `link_tabidtype_idx` (`crmid`,`mailid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_emaildetails` */
