@@ -193,7 +193,7 @@ function get_group_array($add_blank = true, $status = "Active", $assigned_user =
 		$query = 'SELECT groupid, groupname FROM vtiger_groups';
 		$params = [];
 
-		if ($module) {
+		if ($module && $module != 'CustomView') {
 			$query .= ' WHERE groupid IN (SELECT groupid FROM vtiger_group2modules WHERE tabid = ?)';
 			$params[] = $tabid;
 		}
