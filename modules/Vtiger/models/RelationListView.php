@@ -321,10 +321,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				}
 			}
 			if ($relationModel->showCreatorDetail()) {
-				if (!empty($row['rel_created_user'])) {
+				if (!empty($row['rel_created_user']) && $row['rel_created_user'] != 0) {
 					$newRow['relCreatedUser'] = getOwnerName($row['rel_created_user']);
 				}
-				if (!empty($row['rel_created_time'])) {
+				if (!empty($row['rel_created_time']) && $row['rel_created_time'] != '0000-00-00 00:00:00') {
 					$newRow['relCreatedTime'] = Vtiger_Datetime_UIType::getDisplayDateTimeValue($row['rel_created_time']);
 				}
 			}
