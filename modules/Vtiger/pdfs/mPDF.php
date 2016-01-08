@@ -24,7 +24,7 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 	/**
 	 * Constructor
 	 */
-	public function __construct($mode='', $format='A4', $defaultFontSize=0, $defaultFont='', $leftMargin=15, $rightMargin=15, $topMargin=16, $bottomMargin=16, $headerMargin=9, $footerMargin=9, $orientation='P')
+	public function __construct($mode='', $format='A4', $defaultFontSize=0, $defaultFont='', $orientation='P', $leftMargin=15, $rightMargin=15, $topMargin=16, $bottomMargin=16, $headerMargin=9, $footerMargin=9)
 	{
 		$this->setLibraryName('mPDF');
 		$this->pdf = new mPDF($mode, $format, $defaultFontSize, $defaultFont, $leftMargin, $rightMargin, $topMargin, $bottomMargin, $headerMargin, $footerMargin, $orientation);
@@ -303,19 +303,23 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 		$template->setMainRecordId($recordId);
 
 		$pageOrientation = $template->get('page_orientation') == 'PLL_PORTRAIT' ? 'P' : 'L';
-		$pdf = new self(
-			'c',
-			$template->get('page_format'),
-			0,
-			'',
-			$template->get('margin_left'), 
-			$template->get('margin_right'),
-			$template->get('margin_top'),
-			$template->get('margin_bottom'),
-			$template->get('margin_top'), 
-			$template->get('margin_bottom'),
-			$pageOrientation
-		);
+		if ($template->get('margin_chkbox') == 1) {
+			$pdf = new self('utf-8', $template->get('page_format'), 0, '', $pageOrientation);
+		}else{
+			$pdf = new self(
+				'utf-8',
+				$template->get('page_format'),
+				0,
+				'',
+				$pageOrientation,
+				$template->get('margin_left'), 
+				$template->get('margin_right'),
+				$template->get('margin_top'),
+				$template->get('margin_bottom'),
+				$template->get('margin_top'), 
+				$template->get('margin_bottom')
+			);
+		}
 		$pdf->setTemplateId($templateId);
 		$pdf->setRecordId($recordId);
 		$pdf->setModuleName($moduleName);
