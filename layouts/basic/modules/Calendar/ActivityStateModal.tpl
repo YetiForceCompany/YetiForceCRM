@@ -3,7 +3,7 @@
 -->*}
 <div id="activityStateModal" class="modal fade modalEditStatus" tabindex="-1">
 	{assign var=ID value=$RECORD->get('id')}
-	{assign var=EDITVIEW_PERMITTED value=isPermitted('Calendar', 'EditView', $ID)}
+	{assign var=EDITVIEW_PERMITTED value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'EditView', $ID)}
 	{assign var=DETAILVIEW_PERMITTED value=isPermitted('Calendar', 'DetailView', $ID)}
 	<div class="modal-dialog">
         <div class="modal-content">
@@ -17,7 +17,7 @@
 							<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
 						</a>
 					{/if}
-					{if $EDITVIEW_PERMITTED == 'yes'}
+					{if $EDITVIEW_PERMITTED}
 						<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default"><span class="glyphicon glyphicon-pencil summaryViewEdit" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></a>
 					{/if}
 					{if $DETAILVIEW_PERMITTED == 'yes'}
@@ -118,21 +118,23 @@
 			</div>
 			</div>
 			<div class="modal-footer">
-				<div class="pull-left">
-					{assign var=SHOW_QUICK_CREATE value=AppConfig::module('Calendar','SHOW_QUICK_CREATE_BY_STATUS')}
-					{if $ACTIVITYCANCEL eq 'yes' && $EMPTY}
-						<button type="button" class="btn btn-danger {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}" data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}" data-type="1">{vtranslate($ACTIVITY_STATE_LABEL.cancelled, $MODULE_NAME)}</button>
-					{/if}
-					{if $ACTIVITYCOMPLETE eq 'yes' && $EMPTY}
-						<button type="button" class="btn btn-success {if in_array($ACTIVITY_STATE_LABEL.completed,$SHOW_QUICK_CREATE)}showQuickCreate{/if}" data-state="{$ACTIVITY_STATE_LABEL.completed}" data-id="{$ID}" data-type="1">{vtranslate($ACTIVITY_STATE_LABEL.completed, $MODULE_NAME)}</button>
-					{/if}
-					{if $ACTIVITYPOSTPONED eq 'yes' && $EMPTY}
-						<button type="button" class="btn btn-primary showQuickCreate" data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}" data-type="0">{vtranslate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}</button>
-					{/if}
-					{if !$EMPTY}
-						{vtranslate('LBL_NO_AVAILABLE_ACTIONS', $MODULE_NAME)}
-					{/if}
-				</div>
+				{if $EDITVIEW_PERMITTED}
+					<div class="pull-left">
+						{assign var=SHOW_QUICK_CREATE value=AppConfig::module('Calendar','SHOW_QUICK_CREATE_BY_STATUS')}
+						{if $ACTIVITYCANCEL eq 'yes' && $EMPTY}
+							<button type="button" class="btn btn-danger {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}" data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}" data-type="1">{vtranslate($ACTIVITY_STATE_LABEL.cancelled, $MODULE_NAME)}</button>
+						{/if}
+						{if $ACTIVITYCOMPLETE eq 'yes' && $EMPTY}
+							<button type="button" class="btn btn-success {if in_array($ACTIVITY_STATE_LABEL.completed,$SHOW_QUICK_CREATE)}showQuickCreate{/if}" data-state="{$ACTIVITY_STATE_LABEL.completed}" data-id="{$ID}" data-type="1">{vtranslate($ACTIVITY_STATE_LABEL.completed, $MODULE_NAME)}</button>
+						{/if}
+						{if $ACTIVITYPOSTPONED eq 'yes' && $EMPTY}
+							<button type="button" class="btn btn-primary showQuickCreate" data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}" data-type="0">{vtranslate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}</button>
+						{/if}
+						{if !$EMPTY}
+							{vtranslate('LBL_NO_AVAILABLE_ACTIONS', $MODULE_NAME)}
+						{/if}
+					</div>
+				{/if}
 				<a href="#" class="btn btn-warning" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</a>
 			</div>      
 		</div>
