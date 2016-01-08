@@ -118,10 +118,11 @@ var app = {
 				select.on('chosen:updated', function () {
 					if (select.attr('readonly')) {
 						var wasDisabled = select.is(':disabled');
-
+						var selectData = select.data('chosen');
 						select.attr('disabled', 'disabled');
-						select.data('chosen').search_field_disabled();
-
+						if(typeof selectData == 'object'){
+							selectData.search_field_disabled();
+						}
 						if (wasDisabled) {
 							select.attr('disabled', 'disabled');
 						} else {
