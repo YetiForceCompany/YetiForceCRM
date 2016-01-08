@@ -446,7 +446,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	getSelectedTab: function () {
 		var tabContainer = this.getTabContainer();
-		return tabContainer.find('.nav > li.active');
+		return tabContainer.find('.nav li.active:not(.hide)');
 	},
 	getTabContainer: function () {
 		return jQuery('div.related');
