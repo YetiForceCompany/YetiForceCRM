@@ -54,6 +54,11 @@ $languageStrings = [
 	'SINGLE_Vendors' => 'Поставщик',
 	'Job title' => 'Должность',
 	'Decision maker' => 'Принимающий решения',
+	
+	// popup
+	'LBL_ACCOUNT' => 'Account',
+	'LBL_SWITCH_BUTTON' => 'Switch button',
+	'LBL_NARROW_DOWN_RECORDS_LIST' => 'Narrow down the records list to the ones related to Account',
 ];
 $jsLanguageStrings = [
 ];

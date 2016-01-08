@@ -44,6 +44,7 @@
 								<div class="col-xs-12 paddingLRZero fieldRow">
 									{assign var=COUNTER value=0}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
+										{if in_array($FIELD_NAME, ['time_start','time_end'])}{continue}{/if}
 										{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 										{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 										{assign var="refrenceListCount" value=count($refrenceList)}

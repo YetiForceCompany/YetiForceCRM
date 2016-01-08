@@ -941,7 +941,22 @@ jQuery.Class("Vtiger_Popup_Js",{
 	     });
 	     return new Array(searchParams);
 	 },
-	
+	registerSwitchButton: function () {
+		var popupContainer = this.getPopupPageContainer();
+		var thisInstance = this;
+		popupContainer.off('switchChange.bootstrapSwitch').on('switchChange.bootstrapSwitch', '.switchPopup', function (event, state) {
+			var target = jQuery(event.currentTarget);
+			if (state) {
+				jQuery('#' + target.data('field')).val(target.data('onVal'))
+			} else {
+				jQuery('#' + target.data('field')).val(target.data('offVal'))
+			}
+			if (app.getMainParams('popupType') == 1)
+				jQuery('#popupSearchButton').trigger('click');
+			else
+				thisInstance.triggerListSearch();
+		});
+	},
 	registerEvents: function(){
 		var pageNumber = jQuery('#pageNumber').val();
 		if(pageNumber == 1){
@@ -949,6 +964,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 		}
 		this.registerEventForSelectAllInCurrentPage();
 		this.registerSelectButton();
+		this.registerSwitchButton();
 		this.registerEventForCheckboxChange();
 		this.registerEventForSort();
 		this.registerEventForListViewEntries();

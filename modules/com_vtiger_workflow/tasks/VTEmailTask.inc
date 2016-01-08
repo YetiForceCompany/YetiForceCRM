@@ -40,12 +40,6 @@ class VTEmailTask extends VTTask{
 			$entityIdDetails = vtws_getIdComponents($entity->getId());
 			$entityId = $entityIdDetails[1];
 
-			//Including email tracking details
-			global $site_URL, $application_unique_key;
-			$emailId = $emailFocus->id;
-			$trackURL = "$site_URL/modules/Emails/actions/TrackAccess.php?record=$entityId&mailid=$emailId&app_key=$application_unique_key";
-			$content = "<img src='$trackURL' alt='' width='1' height='1'>$content";
-
 			if (stripos($content, '<img src="cid:logo" />')) {
 				$logo = 1;
 			}

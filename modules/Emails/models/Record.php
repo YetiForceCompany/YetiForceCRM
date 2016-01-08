@@ -115,11 +115,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 			}
 
 			foreach ($emails as $email) {
-				$mailer->Body = '';
-				if ($parentModule) {
-					$mailer->Body = $this->getTrackImageDetails($id, $this->isEmailTrackEnabled());
-				}
-				$mailer->Body .= $description;
+				$mailer->Body = $description;
 				$mailer->Signature = str_replace(array('\r\n', '\n'), '<br>', $currentUserModel->get('signature'));
 				if ($mailer->Signature != '') {
 					$mailer->Body.= '<br><br>' . decode_html($mailer->Signature);
@@ -360,52 +356,6 @@ class Emails_Record_Model extends Vtiger_Record_Model
 			return false;
 		}
 		return true;
-	}
-
-	/**
-	 * Function to get Track image details
-	 * @param <Integer> $crmId
-	 * @param <boolean> $emailTrack true/false
-	 * @return <String>
-	 */
-	public function getTrackImageDetails($crmId, $emailTrack = true)
-	{
-		$siteURL = vglobal('site_URL');
-		$applicationKey = vglobal('application_unique_key');
-		$emailId = $this->getId();
-
-		$trackURL = "$siteURL/modules/Emails/actions/TrackAccess.php?record=$emailId&parentId=$crmId&applicationKey=$applicationKey";
-		$imageDetails = "<img src='$trackURL' alt='' width='1' height='1'>";
-		return $imageDetails;
-	}
-
-	/**
-	 * Function check email track enabled or not
-	 * @return <boolean> true/false
-	 */
-	public function isEmailTrackEnabled()
-	{
-		//In future this track will be coming from client side/User preferences
-		return true;
-	}
-
-	/**
-	 * Function to update Email track details
-	 * @param <String> $parentId
-	 */
-	public function updateTrackDetails($parentId)
-	{
-		$db = PearDatabase::getInstance();
-		$recordId = $this->getId();
-
-		$db->pquery("INSERT INTO vtiger_email_access(crmid, mailid, accessdate, accesstime) VALUES(?, ?, ?, ?)", array($parentId, $recordId, date('Y-m-d'), date('Y-m-d H:i:s')));
-
-		$result = $db->pquery("SELECT 1 FROM vtiger_email_track WHERE crmid = ? AND mailid = ?", array($parentId, $recordId));
-		if ($db->num_rows($result) > 0) {
-			$db->pquery("UPDATE vtiger_email_track SET access_count = access_count+1 WHERE crmid = ? AND mailid = ?", array($parentId, $recordId));
-		} else {
-			$db->pquery("INSERT INTO vtiger_email_track(crmid, mailid, access_count) values(?, ?, ?)", array($parentId, $recordId, 1));
-		}
 	}
 
 	/**

@@ -12,10 +12,9 @@
 <script>
 var height = window.innerHeight;
 $(document).ready( function(){
-	$('#roundcube_interface').css('height', height-70)
+	$('#roundcube_interface').css('height', height-87)
 } );
 </script>
-<iframe id="roundcube_interface" style="width: 100%; height: 590px;" src="{$URL}" frameborder="0"> </iframe>
-<input type="hidden" value="" id="temp_field" name="temp_field"/>
-<input type="hidden" value="{vglobal('site_URL')}" id="site_URL"/>
+<input type="hidden" value="" id="tempField" name="tempField"/>
 <input type="hidden" value="{vtlib_isModuleActive('OSSMailTemplates')}" id="activeMailTemplates"/>
+<iframe id="roundcube_interface" style="width: 100%; height: 590px;" frameborder="0" src="{$URL}" frameborder="0"> </iframe>

@@ -210,9 +210,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $uid;
 	}
 
-	public static function executeActions($account, $mail_detail, $folder, $params = false)
+	public static function executeActions($account, $mailDetail, $folder, $params = false)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug('Start execute actions: ' . $account['username']);
 		global $who_trigger;
 		$actions = $return = [];
@@ -230,13 +230,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			foreach ($actions as $user_action) {
 				if ($action[0] == $user_action) {
 					$url = str_replace('|', '/', $action[1]);
-					$OSSMailScanner_Module_Model = Vtiger_Module_Model::getCleanInstance('OSSMailScanner');
-					$action_adress = $OSSMailScanner_Module_Model->ActionsDirector . '/' . $url . '.php';
+					$scannerModuleModel = Vtiger_Module_Model::getCleanInstance('OSSMailScanner');
+					$action_adress = $scannerModuleModel->ActionsDirector . '/' . $url . '.php';
 					if (file_exists($action_adress)) {
 						require_once $action_adress;
 						$fn_name = '_' . $action[0];
 						$log->debug('Start action: ' . $fn_name);
-						$return[$user_action] = $fn_name($account['user_id'], $mail_detail, $folder, $return);
+						$return[$user_action] = $fn_name($account['user_id'], $mailDetail, $folder, $return);
 						$log->debug('End action: ' . $fn_name);
 					}
 				}
@@ -263,16 +263,15 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	function manualScanMail($params)
 	{
+		$account = OSSMail_Record_Model::getAccountByHash($params['rcId']);
+		if (!$account) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
 		$params['folder'] = urldecode($params['folder']);
 		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
-		$account = $mailModel->get_account_detail_by_name($params['username']);
-		if ($account === false) {
-			return false;
-		}
-
 		$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $params['folder']);
-		$mail_detail = $mailModel->get_mail_detail($mbox, $params['uid']);
-		$return = self::executeActions($account, $mail_detail, $params['folder'], $params);
+		$mailDetail = $mailModel->get_mail_detail($mbox, $params['uid']);
+		$return = self::executeActions($account, $mailDetail, $params['folder'], $params);
 		return $return;
 	}
 

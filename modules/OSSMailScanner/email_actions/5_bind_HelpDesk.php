@@ -14,11 +14,10 @@ function _5_bind_HelpDesk($user_id, $mail_detail, $folder, $return)
 	$ModuleName = 'HelpDesk';
 	$table_name = 'vtiger_troubletickets';
 	$table_col = 'ticket_no';
-	$ossmailviewTab = 'vtiger_ossmailview_tickets';
 	$answered_status = 'Answered';
 
 	require_once("modules/OSSMailScanner/template_actions/prefix.php");
-	$ids = bind_prefix($user_id, $mail_detail, $folder, $ModuleName, $table_name, $table_col, $ossmailviewTab);
+	$ids = bind_prefix($user_id, $mail_detail, $folder, $ModuleName, $table_name, $table_col);
 	if ($ids) {
 		$conf = OSSMailScanner_Record_Model::getConfig('emailsearch');
 		$type = OSSMailScanner_Record_Model::getTypeEmail($mail_detail);

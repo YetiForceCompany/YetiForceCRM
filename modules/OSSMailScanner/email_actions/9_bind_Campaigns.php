@@ -14,9 +14,8 @@ function _9_bind_Campaigns($user_id, $mail_detail, $folder, $return)
 	$ModuleName = 'Campaigns';
 	$table_name = 'vtiger_campaign';
 	$table_col = 'campaign_no';
-	$ossmailviewTab = 'vtiger_ossmailview_campaign';
 
 	require_once("modules/OSSMailScanner/template_actions/prefix.php");
-	$ids = bind_prefix($user_id, $mail_detail, $folder, $ModuleName, $table_name, $table_col, $ossmailviewTab);
-	return Array('bind_Campaigns' => $ids);
+	$ids = bind_prefix($user_id, $mail_detail, $folder, $ModuleName, $table_name, $table_col);
+	return ['bind_Campaigns' => $ids];
 }

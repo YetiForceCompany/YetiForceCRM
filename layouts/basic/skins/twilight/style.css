@@ -646,14 +646,6 @@ li.ui-timepicker-selected,
 .detailViewTitle .btn-toolbar {
 	margin: 0;
 }
-.detailview-table th,
-.detailview-table td {
-	vertical-align: middle;
-}
-.detailview-table th label,
-.detailview-table td label {
-	margin-bottom: 3px;
-}
 .detailViewInfo {
 	margin-top: 5px;
 }
@@ -978,7 +970,7 @@ td.fieldValue .input-group {
 }
 /*opacity applied for summary view edit, comment actions, activity widget edit*/
 .summaryViewEntries .summaryViewEdit,
-.activityStatus .editStatus, .activityDescription .editDescription,
+.activityDescription .editDescription,
 .addedCalendars .actionImage {
 	opacity: 0;
 	/*for IE*/
@@ -987,7 +979,7 @@ td.fieldValue .input-group {
 	filter: alpha(opacity=0);
 }
 .summaryViewEntries:hover .fieldValue .summaryViewEdit,
-.activityStatus:hover .editStatus, .activityDescription:hover .editDescription,
+.activityDescription:hover .editDescription,
 .addedCalendars:hover .actionImage  {
 	opacity: 1;
 	/*for IE*/
@@ -2875,10 +2867,7 @@ table.dataTable .form-control {
 .marginBottom5px {
 	margin-bottom: 5px;
 }
-.detailview-table  .fieldValue  .summaryViewEdit {
-	display:none;
-}
-.detailview-table  .fieldValue:hover  .summaryViewEdit { 
+.detailViewTable  .fieldValue:hover  .summaryViewEdit { 
 	display: inherit;
 }
 .icon-in-history-widget{
@@ -3944,6 +3933,7 @@ html,body,.baseContainer
 	height:30px;
 	min-width: 40px;
 	display: table;
+	float:left
 }
 .iconContainer .iconImage{
 	display: table-cell;
@@ -4122,6 +4112,9 @@ html,body,.baseContainer
 	.searchMenuBtn{
 		display: none;
 	}
+	.detailViewTable  .fieldValue  .summaryViewEdit {
+		display:none;
+	}
 }
 @media only screen and (max-width:1240px){
 	.pull-left-md{
@@ -4241,6 +4234,9 @@ html,body,.baseContainer
 	}
 }
 @media screen and (max-width: 960px) { 
+	.detailViewTable .fieldsLabelValue{
+		border-bottom: 1px solid #ddd;
+	}
 	.quickCreateContent .fieldsLabelValue.narrow{
 		padding-top: 5px;
 		padding-bottom: 2px;
@@ -4419,6 +4415,16 @@ html,body,.baseContainer
 	}
 }
 @media screen and (min-width: 960px) {
+	.detailViewTable .fieldsLabelValue{
+		vertical-align: top;
+		border-right: 1px solid #ddd;
+		display: table-cell;
+		float: none;
+	}
+	.detailViewTable .fieldRow{
+		display:table;
+		border-top: 1px solid #ddd;
+	}
 	.quickCreateContent .fieldRow{
 		border-top: 1px solid #ddd;
 		display: table;
@@ -4444,13 +4450,15 @@ html,body,.baseContainer
 		width: 41.66666667%;
 	}
 	.siteBarRight{
-		width: calc(25% - 15px);
+		width: 25%;
 		padding: 0 15px;
-		border-left: 1px solid #dddddd;
-		background: #F5F5F5;
+		border-left: 1px solid #ccc;
+		background: #eee;
 		position: fixed;
 		right: 0;
-		height:100%;
+		top:50px;
+		bottom:33px;
+		overflow: auto;
 		-webkit-transition: all 0.5s ease;
 		-moz-transition: all 0.5s ease;
 		-o-transition: all 0.5s ease;
@@ -4728,12 +4736,12 @@ html,body,.baseContainer
     max-height: 500px;
 }
 .toggleSiteBarRightButton{
-	background: #F5F5F5;
+	background: #eee;
 	font-weight: bold;
 	padding: 15px 0px !important;
-	position: absolute;
+	position: fixed;
 	top: 400px;
-	left: -16px;
+	right: 25% ;
 	cursor: pointer;
 	width: 17px;
 	z-index: 100;
@@ -4741,6 +4749,10 @@ html,body,.baseContainer
 	border-right: 0;
 	display: inline-block;
 	border-radius: 0;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
 }
 .padding0{
 	padding: 0 !important;
@@ -4788,7 +4800,7 @@ html,body,.baseContainer
 	border-bottom: 3px solid #404952;
 } 
 .related ul .dropdown-menu{
-	min-width: 250px;
+	min-width: 300px;
 	z-index:1025;
 }
 .related .iconModule{
@@ -4951,4 +4963,59 @@ html,body,.baseContainer
 }
 .modal-full{
 	width: 95% !important;
+	max-width: 1250px;
 }
+.dateTimeField .date{
+	margin-right: -2px;
+}
+.dateTimeField .date span{
+	border-top-right-radius:0px !important;
+	border-bottom-right-radius:0px !important;
+}
+.dateTimeField .time input{
+	border-top-left-radius:0px !important;
+	border-bottom-left-radius:0px !important;
+}
+#quickCreate .modal-body{
+	max-height: none !important;
+}
+.hideToggleSiteBarRightButton{
+	right: 0px;
+}
+.detailViewTable .blockHeader{
+	cursor: pointer;
+	display:flex;
+}
+.detailViewTable .blockHeader .iconCollapse{
+	padding: 10px;
+}
+.detailViewTable .fieldLabel.medium,
+.detailViewTable .fieldValue.medium{
+	padding: 10px;
+	min-height: 40px;
+}
+.detailViewTable .fieldLabel.narrow,
+.detailViewTable .fieldValue.narrow{
+	padding: 5px;
+	min-height: 25px;
+}
+.detailViewTable .fieldLabel.wide,
+.detailViewTable .fieldValue.wide{
+	padding: 15px;
+	min-height: 50px;
+}
+.detailViewTable .fieldsLabelValue::before {
+    content: "";
+    float: left;
+    position: absolute;
+    top: 0;
+    left: 0px;
+    height: 100%;
+    border-right: 1px solid #ddd;
+	z-index: 10;
+}
+select.form-control {
+	padding-right: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+ }

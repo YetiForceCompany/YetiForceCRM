@@ -43,25 +43,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		header('Location: ' . self::GetSite_URL() . 'index.php?module=OSSMail&view=compose');
 	}
 
-	public static function getConfig($conf_type)
-	{
-		$adb = PearDatabase::getInstance();
-		$queryParams = array();
-		if ($conf_type != '' || $conf_type != false) {
-			$sql = "WHERE conf_type = ?";
-			$queryParams[] = $conf_type;
-		}
-		$result = $adb->pquery("SELECT * FROM vtiger_ossmailscanner_config $sql ORDER BY parameter DESC", $queryParams, true);
-		while ($row = $adb->fetch_array($result)) {
-			if ($conf_type != '' || $conf_type != false) {
-				$return[$row['parameter']] = $row['value'];
-			} else {
-				$return[$row['conf_type']][$row['parameter']] = $row['value'];
-			}
-		}
-		return $return;
-	}
-
 	public static function load_roundcube_config()
 	{
 		global $no_include_config;
@@ -232,13 +213,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		} else {
 			return false;
 		}
-	}
-
-	public static function get_account_detail_by_name($name)
-	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM roundcube_users where username = ?', [$name]);
-		return $db->fetch_array($result);
 	}
 
 	public static function _decode_text($text)
@@ -503,90 +477,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $value;
 	}
 
-	function findCrmDetail($params, $metod)
-	{
-		$OSSMailViewModel = Vtiger_Record_Model::getCleanInstance('OSSMailView');
-		$Array = $OSSMailViewModel->findCrmRecordsByMessage_id($params, $metod);
-		if (count($Array['Project'])) {
-			$crmid = $Array['Project']['record']['crmid'];
-			$module = $Array['Project']['record']['module'];
-			$ProjectRecord_Model = Vtiger_Record_Model::getInstanceById($crmid, $module);
-			$acc_cont = $ProjectRecord_Model->get('linktoaccountscontacts');
-			if ($acc_cont != 0 && $acc_cont != '')
-				$Array['Project']['RelRecord'] = array('crmid' => $acc_cont, 'label' => Vtiger_Functions::getCRMRecordLabel($acc_cont), 'module' => Vtiger_Functions::getCRMRecordType($acc_cont));
-		}
-		if (count($Array['HelpDesk'])) {
-			$crmid = $Array['HelpDesk']['record']['crmid'];
-			$module = $Array['HelpDesk']['record']['module'];
-			$HelpDeskRecord_Model = Vtiger_Record_Model::getInstanceById($crmid, $module);
-			$parent_id = $HelpDeskRecord_Model->get('parent_id');
-			$contact_id = $HelpDeskRecord_Model->get('contact_id');
-			if ($parent_id != 0 && $parent_id != '')
-				$Array['HelpDesk']['Accounts'] = array('crmid' => $parent_id, 'label' => Vtiger_Functions::getCRMRecordLabel($parent_id));
-			if ($contact_id != 0 && $contact_id != '')
-				$Array['HelpDesk']['Contacts'] = array('crmid' => $contact_id, 'label' => Vtiger_Functions::getCRMRecordLabel($contact_id));
-		}
-		return $Array;
-	}
-
-	function get_message_id_uid($params)
-	{
-		$account = $this->getAccountByName($params['username']);
-		$mbox = $this->imapConnect($params['username'], $account['password'], $account['mail_host'], $params['folder']);
-		$msgno = imap_msgno($mbox, $params['uid']);
-		$header = imap_header($mbox, $msgno);
-		$message_id = $header->message_id;
-		return $header->message_id;
-	}
-
-	public static function getAccountByName($username)
-	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT password FROM roundcube_users where username = ?', [$username]);
-		return $adb->query_result($result, 0, 'password');
-	}
-
-	public static function addRelated($params)
-	{
-		$adb = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		
-		$crmid = $params['crmid'];
-		$newModule = $params['newModule'];
-		$newCrmId = $params['newCrmId'];
-		$mailId = $params['mailId'];
-
-		if ($newModule == 'Products') {
-			$adb->insert('vtiger_seproductsrel', [
-				'crmid' => $crmid,
-				'productid' => $newCrmId,
-				'setype' => $params['mod'],
-				'rel_created_user' => $currentUser->getId(),
-				'rel_created_time' => date('Y-m-d H:i:s')
-			]);
-		} elseif ($newModule == 'Services') {
-			$adb->insert('vtiger_crmentityrel', [
-				'crmid' => $crmid,
-				'module' => $params['mod'],
-				'relcrmid' => $newCrmId,
-				'relmodule' => $newModule
-			]);
-		} else {
-			$adb->pquery('INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?;', [$mailId, $newCrmId]);
-			$adb->pquery('DELETE FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND crmid = ?', [$mailId, $crmid]);
-		}
-		return vtranslate('Add relationship', 'OSSMail');
-	}
-
-	public static function removeRelated($params)
-	{
-		$adb = PearDatabase::getInstance();
-		$mailID = $params['mailId'];
-		$crmid = $params['crmid'];
-		$adb->pquery("DELETE FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND crmid = ?", [$mailID, $crmid]);
-		return vtranslate('Removed relationship', 'OSSMail');
-	}
-
 	public static function getViewableData()
 	{
 		global $no_include_config;
@@ -693,5 +583,16 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			imap_close($imap);
 		}
 		return $mails;
+	}
+
+	public static function getAccountByHash($hash)
+	{
+		$db = PearDatabase::getInstance();
+		$result = $db->query('SELECT * FROM roundcube_users WHERE preferences LIKE \'%"' . $hash . '";}\'');
+		if ($db->getRowCount($result) > 0) {
+			return $db->getRow($result);
+		} else {
+			return false;
+		}
 	}
 }

@@ -1744,7 +1744,9 @@ class Vtiger_Module_Model extends Vtiger_Module
 		self::$modulesHierarchy = $modulesHierarchy;
 		self::$modulesMapRelatedFields = $modulesMapRelatedFields;
 		foreach (self::$modulesHierarchy as $module => &$details) {
-			self::$modulesByLevels[$details['level']][$module] = $details;
+			if (vtlib_isModuleActive($module)) {
+				self::$modulesByLevels[$details['level']][$module] = $details;
+			}
 		}
 	}
 
@@ -1752,6 +1754,18 @@ class Vtiger_Module_Model extends Vtiger_Module
 	{
 		self::initModulesHierarchy();
 		return self::$modulesByLevels[$level];
+	}
+
+	public static function accessModulesByLevel($level = 0, $actionName = 'EditView')
+	{
+		self::initModulesHierarchy();
+		$modules = [];
+		foreach (self::$modulesByLevels[$level] as $module => &$details) {
+			if (Users_Privileges_Model::isPermitted($module, $actionName)) {
+				$modules[$module] = $details;
+			}
+		}
+		return $modules;
 	}
 
 	public function getMappingRelatedField($moduleName, $field = false)
@@ -1775,7 +1789,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 			$sourceModuleModel = $recordModel->getModule();
 			$relationField = false;
 			$fieldMap = [];
-			
+
 			$modelFields = $moduleModel->getFields();
 			foreach ($modelFields as $fieldName => $fieldModel) {
 				if (in_array($fieldModel->getFieldDataType(), Vtiger_Field_Model::REFERENCE_TYPES)) {

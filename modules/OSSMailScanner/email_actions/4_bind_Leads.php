@@ -12,9 +12,8 @@
 function _4_bind_Leads($user_id, $mail_detail, $folder, $return)
 {
 	$ModuleName = 'Leads';
-	$ossmailviewTab = 'vtiger_ossmailview_leads';
 
 	require_once("modules/OSSMailScanner/template_actions/email.php");
-	$ids = bind_email($user_id, $mail_detail, $folder, $ModuleName, $ossmailviewTab);
+	$ids = bind_email($user_id, $mail_detail, $folder, $ModuleName);
 	return Array('bind_Leads' => $ids);
 }
