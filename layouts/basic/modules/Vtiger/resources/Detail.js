@@ -1487,7 +1487,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		summaryViewContainer.off('click').on('click', '.row .summaryViewEdit', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.addClass('hide');
-			var currentTdElement = currentTarget.closest('div.fieldValue');
+			var currentTdElement = currentTarget.closest('.fieldValue');
 			thisInstance.ajaxEditHandling(currentTdElement);
 			Vtiger_Detail_Js.SaveResultInstance.loadFormData(formData);
 		});
