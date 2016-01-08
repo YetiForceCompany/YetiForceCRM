@@ -46,12 +46,14 @@
 						{assign var=MODULE_NAME value=$RECORD->getModuleName()}
 						<input type="hidden" class="activityModule" value="{$RECORD->getModuleName()}"/>
 						<input type="hidden" class="activityType" value="{$RECORD->get('activitytype')}"/>
-						<div>
-							<strong><span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
-							{if $DATA_TYPE != 'history'}
-								<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{vtranslate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
-							{/if}
-						</div>
+						{if $EDITVIEW_PERMITTED == 'yes'}
+							<div>
+								<strong><span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
+								{if $DATA_TYPE != 'history'}
+									<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{vtranslate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
+								{/if}
+							</div>
+						{/if}
 					{else}
 						{assign var=MODULE_NAME value="Events"}
 						<input type="hidden" class="activityModule" value="Events"/>
@@ -59,9 +61,9 @@
 						{if $EDITVIEW_PERMITTED == 'yes'}
 							<div>
 								<strong><span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
-									{if $DATA_TYPE != 'history'}
+								{if $DATA_TYPE != 'history'}
 									<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{vtranslate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
-									{/if}
+								{/if}
 							</div>
 						{/if}
 					{/if}
@@ -80,47 +82,47 @@
 					<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}: {$RECORD->get('subject')}" 
 						  data-content="{vtranslate('Status',$MODULE_NAME)}: {vtranslate($STATUS,$MODULE_NAME)}<br />{vtranslate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{vtranslate('End Time','Calendar')}: {$END_DATE} {$END_TIME}<hr />{vtranslate('Created By',$MODULE_NAME)}: {Vtiger_Functions::getOwnerRecordLabel( $RECORD->get('smcreatorid') )}<br />{vtranslate('Assigned To',$MODULE_NAME)}: {Vtiger_Functions::getOwnerRecordLabel( $RECORD->get('smownerid') )}
 						  {if $SHAREDOWNER}<div> 
-							{vtranslate('Share with users',$MODULE_NAME)}:&nbsp;
-							{foreach $SHAREDOWNER item=SOWNERID name=sowner}
-								{if $smarty.foreach.sowner.last}
-									,&nbsp;
-								{/if}
-								{Vtiger_Functions::getUserRecordLabel($SOWNERID)}
-							{/foreach}
-							</div>
+							  {vtranslate('Share with users',$MODULE_NAME)}:&nbsp;
+							  {foreach $SHAREDOWNER item=SOWNERID name=sowner}
+								  {if $smarty.foreach.sowner.last}
+									  ,&nbsp;
+								  {/if}
+								  {Vtiger_Functions::getUserRecordLabel($SOWNERID)}
+							  {/foreach}
+							  </div>
 						  {/if}
 						  {if count($RECORD->get('selectedusers')) > 0}
 							  <br />{vtranslate('LBL_INVITE_USER_BLOCK',$MODULE_NAME)}: 
 							  {foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
-								  {if $USER}{Vtiger_Functions::getOwnerRecordLabel( $USER )}{/if}
-							  {/foreach}
-						  {/if}" >
-						<span class="glyphicon glyphicon-info-sign"></span>
+							  {if $USER}{Vtiger_Functions::getOwnerRecordLabel( $USER )}{/if}
+						  {/foreach}
+					{/if}" >
+					<span class="glyphicon glyphicon-info-sign"></span>
+				</span>
+				{if $EDITVIEW_PERMITTED == 'yes'}
+					<span class="2 edit hide row">
+						{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('description')}
+						{assign var=FIELD_VALUE value=$FIELD_MODEL->set('fieldvalue', $RECORD->get('description'))}
+						{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME OCCUPY_COMPLETE_WIDTH=false}
+						{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
+							<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}[]' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
+						{else}
+							<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
+						{/if}
 					</span>
-					{if $EDITVIEW_PERMITTED == 'yes'}
-						<span class="2 edit hide row">
-							{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('description')}
-							{assign var=FIELD_VALUE value=$FIELD_MODEL->set('fieldvalue', $RECORD->get('description'))}
-							{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME OCCUPY_COMPLETE_WIDTH=false}
-							{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
-								<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}[]' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
-							{else}
-								<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
-							{/if}
-						</span>
-					{/if}
-					{if $RECORD->get('location') neq '' }
-						<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($RECORD->get('location'))}" class="pull-right popoverTooltip delay0" data-original-title="{vtranslate('Location', 'Calendar')}" data-content="{$RECORD->get('location')}">
-							<span class="icon-map-marker"></span>&nbsp
-						</a>
-					{/if}
-				</div>
+				{/if}
+				{if $RECORD->get('location') neq '' }
+					<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($RECORD->get('location'))}" class="pull-right popoverTooltip delay0" data-original-title="{vtranslate('Location', 'Calendar')}" data-content="{$RECORD->get('location')}">
+						<span class="icon-map-marker"></span>&nbsp
+					</a>
+				{/if}
 			</div>
 		</div>
-		{if !$smarty.foreach.activities.last}
-			<hr>
-		{/if}
-	{/foreach}
+	</div>
+	{if !$smarty.foreach.activities.last}
+		<hr>
+	{/if}
+{/foreach}
 {else}
 	<div class="summaryWidgetContainer">
 		<p class="textAlignCenter">{vtranslate('LBL_NO_PENDING_ACTIVITIES',$MODULE_NAME)}</p>
