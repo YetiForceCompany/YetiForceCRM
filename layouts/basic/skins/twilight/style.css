@@ -970,7 +970,7 @@ td.fieldValue .input-group {
 }
 /*opacity applied for summary view edit, comment actions, activity widget edit*/
 .summaryViewEntries .summaryViewEdit,
-.activityStatus .editStatus, .activityDescription .editDescription,
+.activityDescription .editDescription,
 .addedCalendars .actionImage {
 	opacity: 0;
 	/*for IE*/
@@ -979,7 +979,7 @@ td.fieldValue .input-group {
 	filter: alpha(opacity=0);
 }
 .summaryViewEntries:hover .fieldValue .summaryViewEdit,
-.activityStatus:hover .editStatus, .activityDescription:hover .editDescription,
+.activityDescription:hover .editDescription,
 .addedCalendars:hover .actionImage  {
 	opacity: 1;
 	/*for IE*/

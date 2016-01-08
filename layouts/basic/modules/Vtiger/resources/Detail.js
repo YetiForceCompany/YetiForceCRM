@@ -1511,86 +1511,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 
 		/*
-		 * Register the event to edit the status for for related activities
-		 */
-		summaryViewContainer.on('click', '.editStatus', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var currentDiv = currentTarget.closest('.activityStatus');
-			var editElement = currentDiv.find('.edit');
-			var detailViewElement = currentDiv.find('.value');
-
-			currentTarget.hide();
-			detailViewElement.addClass('hide');
-			editElement.removeClass('hide').show();
-
-			var callbackFunction = function () {
-				var fieldnameElement = jQuery('.fieldname', editElement);
-				var fieldName = fieldnameElement.val();
-				var fieldElement = jQuery('[name="' + fieldName + '"]', editElement);
-				var previousValue = fieldnameElement.data('prevValue');
-				var ajaxEditNewValue = fieldElement.find('option:selected').val();
-				var ajaxEditNewLable = fieldElement.find('option:selected').text();
-				var activityDiv = currentDiv.closest('.activityEntries');
-				var activityId = activityDiv.find('.activityId').val();
-				var moduleName = activityDiv.find('.activityModule').val();
-				var activityType = activityDiv.find('.activityType').val();
-
-				if (Vtiger_Detail_Js.SaveResultInstance == false) {
-					Vtiger_Detail_Js.SaveResultInstance = new SaveResult();
-				}
-				var formData2 = {};
-				formData2.record = activityId;
-				formData2.module = moduleName;
-				formData2.view = 'quick_edit';
-				formData2[fieldName] = ajaxEditNewValue;
-				formData2['p_' + fieldName] = previousValue;
-				if (Vtiger_Detail_Js.SaveResultInstance.checkData(formData2) == false) {
-					return;
-				}
-				if (previousValue == ajaxEditNewValue) {
-					editElement.addClass('hide');
-					detailViewElement.removeClass('hide');
-					currentTarget.show();
-				} else {
-					var errorExists = fieldElement.validationEngine('validate');
-					//If validation fails  
-					if (errorExists) {
-						Vtiger_Helper_Js.addClickOutSideEvent(currentDiv, callbackFunction);
-						return;
-					}
-					editElement.addClass('hide');
-					var params = {
-						action: 'SaveAjax',
-						record: activityId,
-						field: fieldName,
-						value: ajaxEditNewValue,
-						module: moduleName,
-						activitytype: activityType
-					};
-
-					AppConnector.request(params).then(
-							function (data) {
-								detailViewElement.removeClass('hide');
-								currentTarget.show();
-								detailViewElement.html(ajaxEditNewLable);
-								fieldnameElement.data('prevValue', ajaxEditNewValue);
-								if ('Held' == ajaxEditNewValue || 'Completed' == ajaxEditNewValue) {
-									var recordWidget = currentTarget.closest('.activityEntries');
-									recordWidget.find('popoverTooltip').popover('hide');
-									var widget = currentTarget.closest('.widgetContentBlock');
-									var widgetContainer = jQuery(widget);
-									thisInstance.loadWidget(widgetContainer);
-								}
-							}
-					);
-				}
-			}
-
-			//adding clickoutside event on the currentDiv - to save the ajax edit of status values
-			Vtiger_Helper_Js.addClickOutSideEvent(currentDiv, callbackFunction);
-		});
-
-		/*
 		 * Register the event to edit Description for related activities
 		 */
 		summaryViewContainer.on('click', '.editDescription', function (e) {
@@ -1663,8 +1583,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 			}
 
-			//adding clickoutside event on the currentDiv - to save the ajax edit of description values
-			Vtiger_Helper_Js.addClickOutSideEvent(currentDiv, callbackFunction);
+			//adding focusout event on the currentDiv - to save the ajax edit of description values
+			currentDiv.one('focusout', callbackFunction);
 		});
 
 		/*
