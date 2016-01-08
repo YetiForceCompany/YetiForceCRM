@@ -1524,10 +1524,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			detailViewElement.addClass('hide');
 			editElement.removeClass('hide').show();
 
+			var fieldnameElement = jQuery('.fieldname', editElement);
+			var fieldName = fieldnameElement.val();
+			var fieldElement = jQuery('[name="' + fieldName + '"]', editElement);
+
 			var callbackFunction = function () {
-				var fieldnameElement = jQuery('.fieldname', editElement);
-				var fieldName = fieldnameElement.val();
-				var fieldElement = jQuery('[name="' + fieldName + '"]', editElement);
 				var previousValue = fieldnameElement.data('prevValue');
 				var ajaxEditNewValue = fieldElement.val();
 				var ajaxEditNewLable = fieldElement.val();
@@ -1583,6 +1584,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 			}
 
+			fieldElement.focus();
 			//adding focusout event on the currentDiv - to save the ajax edit of description values
 			currentDiv.one('focusout', callbackFunction);
 		});
