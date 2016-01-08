@@ -68,6 +68,9 @@
 											</div>
 										</div>
 									{/foreach}
+									{if $COUNTER eq 1}
+										<div class="col-xs-12 col-md-6 fieldsLabelValue {$WIDTHTYPE} paddingLRZero"></div>
+									{/if}
 								</div>
 							</div>
 						</div>
