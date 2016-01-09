@@ -54,6 +54,12 @@ var app = {
 		return jQuery('body').data('language');
 	},
 	/**
+	 * Function to get height of window
+	 */
+	getHeightWindow: function(){
+		return jQuery(window).height();
+	},
+	/**
 	 * Function to get the contents container
 	 * @returns jQuery object
 	 */
@@ -1178,9 +1184,49 @@ var app = {
 			}
 			e.stopPropagation();
 		});
+	},
+	registerSticky: function(){
+		var elements = jQuery('.stick');
+		elements.each(function(){
+			var currentElement = jQuery(this);
+			var position = currentElement.data('position');
+			if(position == 'top'){
+				var offsetTop = currentElement.offset().top - 50;
+				jQuery('.mainBody').scroll(function() {
+					if ($(this).scrollTop() > offsetTop) 
+						currentElement.css({
+							'position':'fixed',
+							'top':'50px',
+							'width':currentElement.width()
+						});
+					else if ($(this).scrollTop() <= offsetTop) 
+						currentElement.css({
+							'position':'',
+							'top':'',
+							'width':''
+						});
+				});
+			}
+			if(position == 'bottom'){ 
+				var offsetTop = currentElement.offset().top - app.getHeightWindow();
+				jQuery('.mainBody').scroll(function() {
+					if ($(this).scrollTop()  < offsetTop) 
+						currentElement.css({
+							'position':'fixed',
+							'bottom':'33px',
+							'width':currentElement.width()
+						});
+					else if ($(this).scrollTop() >= offsetTop) 
+						currentElement.css({
+							'position':'',
+							'bottom':'',
+							'width':''
+						});
+				});
+			}
+		});
 	}
 }
-
 jQuery(document).ready(function () {
 	app.changeSelectElementView();
 	//register all select2 Elements
@@ -1188,6 +1234,7 @@ jQuery(document).ready(function () {
 	app.showSelectizeElementView(jQuery('body').find('select.selectize'));
 	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
+	app.registerSticky();
 	app.registerModal();
 	//Updating row height
 	app.updateRowHeight();

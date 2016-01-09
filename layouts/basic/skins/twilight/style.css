@@ -601,10 +601,14 @@ li.ui-timepicker-selected,
 #reportDetails {
 	overflow-x: auto !important;
 	overflow-y: visible;
+	z-index: 10;
+	background: #fff;
 }
 .bottomscroll-div,
 .topscroll-div {
 	min-width: 100%;
+	display: table;
+	min-height: 1px;
 }
 .contents-bottomscroll {
 	overflow-x: auto !important;
