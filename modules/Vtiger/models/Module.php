@@ -1798,9 +1798,9 @@ class Vtiger_Module_Model extends Vtiger_Module
 						foreach ($referenceList as $referenceModule) {
 							$fieldMap[$referenceModule] = $fieldName;
 						}
-					}
-					if (in_array($sourceModule, $referenceList)) {
-						$relationField = $fieldName;
+						if (in_array($sourceModule, $referenceList)) {
+							$relationField = $fieldName;
+						}
 					}
 				}
 			}
