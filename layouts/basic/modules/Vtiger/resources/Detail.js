@@ -1498,7 +1498,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 */
 		summaryViewContainer.on(thisInstance.fieldUpdatedEvent, '.recordDetails', function (e, params) {
 			var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
-			thisInstance.loadWidget(updatesWidget);
+			if (updatesWidget.length) {
+				thisInstance.loadWidget(updatesWidget);
+			}
 		});
 
 		summaryViewContainer.on('click', '.editDefaultStatus', function (e) {
@@ -2867,7 +2869,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 		);
 	},
-	registerKeyEvents: function(detailContentsHolder){
+	registerKeyEvents: function (detailContentsHolder) {
 		detailContentsHolder.on('keypress', '.commentcontent', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			if (e.which == 13) {

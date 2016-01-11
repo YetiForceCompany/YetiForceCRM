@@ -24,7 +24,7 @@ function SaveResult() {
 		delete thisInstnce.recordValue['picklistDependency'];
 		delete formData['__vtrftk'];
 		delete formData['picklistDependency'];
-		if (thisInstnce.recordValue != false){
+		if (thisInstnce.recordValue != false) {
 			$.each(thisInstnce.recordValue, function (key, value) {
 				formData['p_' + key] = value;
 			});
@@ -174,21 +174,12 @@ function SaveResult() {
 		var instance = this;
 		var moduleName = data.module;
 		var sourceRecord = jQuery('input[name="record"]').val();
-		if (sourceRecord == undefined) {
-			sourceRecord = jQuery('#recordId').val();
+		if (typeof sourceRecord == 'undefined') {
+			sourceRecord = app.getRecordId();
 		}
-		var sourceModule = jQuery('input[name="module"]').val();
+		var sourceModule = app.getModuleName();
 		var preQuickCreateSave = function (data) {
 			var index, queryParam, queryParamComponents;
-			if (moduleName == 'Calendar') {
-				jQuery('<input type="hidden" name="parent_id" value="' + sourceRecord + '">').appendTo(data);
-			}
-			if (sourceModule == 'HelpDesk') {
-				jQuery('<input type="hidden" name="ticketid" value="' + sourceRecord + '">').appendTo(data);
-			}
-			if (sourceModule == 'ProjectTask') {
-				jQuery('<input type="hidden" name="projecttaskid" value="' + sourceRecord + '">').appendTo(data);
-			}
 			jQuery('<input type="hidden" name="sourceModule" value="' + sourceModule + '" />').appendTo(data);
 			jQuery('<input type="hidden" name="sourceRecord" value="' + sourceRecord + '" />').appendTo(data);
 			jQuery('<input type="hidden" name="relationOperation" value="true" />').appendTo(data);
