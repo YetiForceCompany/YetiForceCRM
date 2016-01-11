@@ -1794,8 +1794,10 @@ class Vtiger_Module_Model extends Vtiger_Module
 			foreach ($modelFields as $fieldName => $fieldModel) {
 				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
-					foreach ($referenceList as $referenceModule) {
-						$fieldMap[$referenceModule] = $fieldName;
+					if (!empty($referenceList)) {
+						foreach ($referenceList as $referenceModule) {
+							$fieldMap[$referenceModule] = $fieldName;
+						}
 					}
 					if (in_array($sourceModule, $referenceList)) {
 						$relationField = $fieldName;
@@ -1806,11 +1808,13 @@ class Vtiger_Module_Model extends Vtiger_Module
 			foreach ($sourceModelFields as $fieldName => $fieldModel) {
 				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
-					foreach ($referenceList as $referenceModule) {
-						if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
-							$fieldValue = $recordModel->get($fieldName);
-							if ($fieldValue != 0 && Vtiger_Functions::getCRMRecordType($fieldValue) == $referenceModule)
-								$data[$fieldMap[$referenceModule]] = $fieldValue;
+					if (!empty($referenceList)) {
+						foreach ($referenceList as $referenceModule) {
+							if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
+								$fieldValue = $recordModel->get($fieldName);
+								if ($fieldValue != 0 && Vtiger_Functions::getCRMRecordType($fieldValue) == $referenceModule)
+									$data[$fieldMap[$referenceModule]] = $fieldValue;
+							}
 						}
 					}
 				}
