@@ -60,6 +60,12 @@ var app = {
 		return jQuery(window).height();
 	},
 	/**
+	 * Function to get path to layout
+	 */
+	getLayoutPath: function(){
+		return jQuery('body').data('layoutpath');
+	},
+	/**
 	 * Function to get the contents container
 	 * @returns jQuery object
 	 */
@@ -1184,6 +1190,12 @@ var app = {
 			}
 			e.stopPropagation();
 		});
+	},
+	playSound: function (action){
+		var soundsConfig = app.getMainParams('sounds');
+		soundsConfig = JSON.parse(soundsConfig);
+		var audio = new Audio(app.getLayoutPath() + '/sounds/' + soundsConfig[action]);
+		audio.play();
 	},
 	registerSticky: function(){
 		var elements = jQuery('.stick');

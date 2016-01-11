@@ -56,6 +56,7 @@
 		<input type='hidden' id="module" value="{$MODULE}"/>
 		<input type="hidden" id="parent" value="{$PARENT_MODULE}"/>
 		<input type='hidden' id="view" value="{$VIEW}"/>
+		<input type='hidden' id="sounds" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode(AppConfig::sounds()))}"/>
 		<div id="page">
 			<!-- container which holds data temporarly for pjax calls -->
 			<div id="pjaxContainer" class="hide noprint"></div>

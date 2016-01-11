@@ -12,29 +12,11 @@ class AppConfig
 	protected static $performance = [];
 	protected static $relation = [];
 	protected static $modules = [];
+	protected static $sounds = [];
 
 	public static function load($key, $config)
 	{
-		switch ($key) {
-			case 'debug':
-				self::$debug = $config;
-				break;
-			case 'developer':
-				self::$developer = $config;
-				break;
-			case 'security':
-				self::$security = $config;
-				break;
-			case 'securityKeys':
-				self::$securityKeys = $config;
-				break;
-			case 'performance':
-				self::$performance = $config;
-				break;
-			case 'relation':
-				self::$relation = $config;
-				break;
-		}
+		self::$$key = $config;
 	}
 
 	public static function main($key, $value = false)
@@ -90,7 +72,15 @@ class AppConfig
 	{
 		return self::$relation[$key];
 	}
-
+	public static function sounds()
+	{
+		if (func_num_args() == 0){
+			return self::$sounds;
+		}
+		$key = func_get_args(1);
+		return self::$sounds[$key];
+	}
+	
 	public static function iniSet($key, $value)
 	{
 		@ini_set($key, $value);
@@ -106,6 +96,7 @@ require_once 'config/relation.php';
 require_once 'config/secret_keys.php';
 require_once 'config/security.php';
 require_once 'config/version.php';
+require_once 'config/sounds.php';
 
 AppConfig::load('debug', $DEBUG_CONFIG);
 AppConfig::load('developer', $DEVELOPER_CONFIG);
@@ -113,5 +104,6 @@ AppConfig::load('security', $SECURITY_CONFIG);
 AppConfig::load('securityKeys', $SECURITY_KEYS_CONFIG);
 AppConfig::load('performance', $PERFORMANCE_CONFIG);
 AppConfig::load('relation', $RELATION_CONFIG);
+AppConfig::load('sounds', $SOUNDS_CONFIG);
 session_save_path($root_directory . '/cache/session');
 
