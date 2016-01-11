@@ -617,7 +617,7 @@ class CRMEntity
 		$num_rows = $adb->num_rows($check_result);
 
 		if ($num_rows == 1) {
-			$adb->delete($table_name, $this->tab_name_index[$table_name].' = ?', [$this->id]);
+			$adb->delete($table_name, $this->tab_name_index[$table_name] . ' = ?', [$this->id]);
 		}
 	}
 
@@ -1210,7 +1210,7 @@ class CRMEntity
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = vglobal('current_user');
-		
+
 		$db->startTransaction();
 		$db->update('vtiger_crmentity', [
 			'deleted' => 0,
@@ -1218,7 +1218,7 @@ class CRMEntity
 			'modifiedby' => $currentUser->id,
 			], 'crmid = ?', [$id]
 		);
-		
+
 		//Restore related entities/records
 		$this->restoreRelatedRecords($module, $id);
 
@@ -1330,13 +1330,13 @@ class CRMEntity
 				$adb->update('vtiger_modentity_num', ['active' => 0], 'num_id = ?', [$adb->query_result($active, 0, 'num_id')]);
 
 				$params = [
-					'num_id'=>$numid,
-					'semodule'=>$module,
-					'prefix'=>$req_str,
-					'postfix'=>$reqPostfix,
-					'start_id'=>$req_no,
-					'cur_id'=>$req_no,
-					'active'=>1
+					'num_id' => $numid,
+					'semodule' => $module,
+					'prefix' => $req_str,
+					'postfix' => $reqPostfix,
+					'start_id' => $req_no,
+					'cur_id' => $req_no,
+					'active' => 1
 				];
 				$adb->insert('vtiger_modentity_num', $params);
 				return true;
@@ -1451,7 +1451,7 @@ class CRMEntity
 					$old_cur_id = $cur_id;
 					while ($recordinfo = $adb->fetch_array($records)) {
 						$value = $prefix . $cur_id . $postfix;
-						$adb->update($fld_table, [$fld_column => $value], $this->table_index.' = ?', [$recordinfo['recordid']]);
+						$adb->update($fld_table, [$fld_column => $value], $this->table_index . ' = ?', [$recordinfo['recordid']]);
 						$cur_id += 1;
 						$returninfo['updatedrecords'] = $returninfo['updatedrecords'] + 1;
 					}
@@ -1766,7 +1766,7 @@ class CRMEntity
 			$returnset = "&return_module=$currentModule&return_action=CallRelatedList&return_id=$id";
 
 		$return_value = null;
-		
+
 		$dependentFieldSql = $this->db->pquery('SELECT tabid, fieldname, columnname FROM vtiger_field WHERE uitype = 10 AND' .
 			' fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=? AND module=?)', [$currentModule, $relatedModule]);
 		if ($dependentFieldSql->rowCount()) {
@@ -1780,7 +1780,7 @@ class CRMEntity
 					$fieldModel->$properName = $propertyValue;
 				}
 				$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
-				if (in_array($currentModule, $moduleList)) {
+				if (!empty($moduleList) && in_array($currentModule, $moduleList)) {
 					$row = $rowProc;
 					break;
 				}
@@ -1837,7 +1837,7 @@ class CRMEntity
 		if ($return_value == null)
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
-		
+
 		return $return_value;
 	}
 
@@ -2435,10 +2435,10 @@ class CRMEntity
 
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($relatedRecord);
 				/*
-				$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
-				if (!$recordPermission) {
-					throw new AppException('LBL_PERMISSION_DENIED');
-				}
+				  $recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
+				  if (!$recordPermission) {
+				  throw new AppException('LBL_PERMISSION_DENIED');
+				  }
 				 */
 				if ($recordMetaData['smownerid'] == $current_user->id) {
 					return '';
