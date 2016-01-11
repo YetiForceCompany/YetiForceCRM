@@ -179,7 +179,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$focus->id = $recordModel->getId();
 		$focus->save($moduleName);
 		$recordModel->setData($focus->column_fields)->setId($focus->id)->setEntity($focus);
-		if (!empty($recordModel->get('shownerid'))) {
+		if ($recordModel->has('shownerid')) {
 			Users_Privileges_Model::setSharedOwner($recordModel);
 		}
 		return $recordModel;
