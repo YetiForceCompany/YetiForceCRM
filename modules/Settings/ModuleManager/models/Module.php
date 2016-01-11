@@ -148,7 +148,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		/** Common fields that should be in every module, linked to vtiger CRM core table */
 		$field2 = new Vtiger_Field();
 		$field2->name = 'number';
-		$field2->label = 'Numer';
+		$field2->label = 'Number';
 		$field2->column = 'number';
 		$field2->table = $module->basetable;
 		$field2->uitype = 4;
