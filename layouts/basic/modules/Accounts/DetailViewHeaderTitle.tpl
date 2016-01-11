@@ -27,7 +27,10 @@
 				{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 				{if $SHOWNERS != ''}
-				<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+					<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+				{/if}
+				{if $RECORD->get('accounttype') != ''}
+					<br/>{vtranslate('Type',$MODULE_NAME)}: {vtranslate($RECORD->get('accounttype'),$MODULE_NAME)}
 				{/if}
 			</span>
 		</div>

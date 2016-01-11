@@ -27,8 +27,9 @@
 				<div class="paddingLeft5px">
 					<span class="muted">
 						{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
-						{if $RECORD->get('shownerid') != ''}
-						<br/>{vtranslate('Share with users',$MODULE_NAME)} {$RECORD->getDisplayValue('shownerid')}
+						{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
+						{if $SHOWNERS != ''}
+						<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
 						{/if}
 					</span>
 				</div>
