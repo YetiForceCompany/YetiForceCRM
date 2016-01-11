@@ -548,12 +548,16 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$moduleFields = $this->getModule()->getFields();
 			$fieldsList = array_keys($moduleFields);
 			$parentFieldsList = array_keys($parentRecordModel->getModule()->getFields());
-
+			$this->set('mode', 'fromMapping');
 			$params = $mfInstance->get('params');
 			if ($params['autofill']) {
 				$commonFields = array_intersect($fieldsList, $parentFieldsList);
 				foreach ($commonFields as $fieldName) {
 					if (getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $fieldName) == 0) {
+						if ($fieldName == 'shownerid') {
+							$fieldInstance = Vtiger_Field_Model::getInstance($fieldName, $parentRecordModel->getModule());
+							$parentRecordModel->set($fieldName, $fieldInstance->getUITypeModel()->getEditViewDisplayValue('', $parentRecordModel->getId()));
+						}
 						$this->set($fieldName, $parentRecordModel->get($fieldName));
 					}
 				}
@@ -574,6 +578,10 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 						$newInvData[$key][$mapp['target']->getName()] = $base[$mapp['source']->getName()];
 					}
 				} elseif ((is_object($mapp['target']) && is_object($mapp['source'])) && getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $mapp['source']->getName()) == 0 && in_array($mapp['source']->getName(), $parentFieldsList)) {
+					if ($mapp['source']->getName() == 'shownerid' && empty($parentRecordModel->get($mapp['source']->getName()))) {
+						$fieldInstance = Vtiger_Field_Model::getInstance($mapp['source']->getName(), $parentRecordModel->getModule());
+						$parentRecordModel->set($mapp['source']->getName(), $fieldInstance->getUITypeModel()->getEditViewDisplayValue('', $parentRecordModel->getId()));
+					}
 					$value = $parentRecordModel->get($mapp['source']->getName());
 					if (!$value) {
 						$value = $mapp['default'];
