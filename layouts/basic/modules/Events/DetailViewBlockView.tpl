@@ -14,26 +14,32 @@
     {include file='DetailViewBlockView.tpl'|@vtemplate_path:'Vtiger' RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
 
     {assign var="IS_HIDDEN" value=false}
-    <table class="table table-bordered equalSplit detailview-table">
-		<thead>
-		<tr>
-				<th class="blockHeader" colspan="4">
-						<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if} "  alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id='INVITE_USER_BLOCK_ID'>
-						<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id='INVITE_USER_BLOCK_ID'>
-						&nbsp;&nbsp;{vtranslate('LBL_INVITE_USER_BLOCK',{$MODULE_NAME})}
-				</th>
-		</tr>
-		</thead>
-        <tr>
-            <td class="fieldLabel {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('LBL_INVITE_USERS',$MODULE_NAME)}</label></td>
-            <td class="fieldValue {$WIDTHTYPE}">
-                 {foreach key=USER_ID item=USER_NAME from=$ACCESSIBLE_USERS}
-					{if in_array($USER_ID,$INVITIES_SELECTED)}
-                        {$USER_NAME}
-                        <br>
-                    {/if}
-                {/foreach}
-            </td>
-        </tr>
-   </table>
+	<div class="detailViewTable">
+		<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL}">
+			<div class="row blockHeader panel-heading no-margin">
+				<div class="iconCollapse">
+					<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id='INVITE_USER_BLOCK_ID'></span>
+					<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id='INVITE_USER_BLOCK_ID'></span>
+					<h4>{vtranslate('LBL_INVITE_USER_BLOCK',{$MODULE_NAME})}</h4>
+				</div>
+			</div>
+			<div class="col-xs-12 noSpaces panel-body blockContent {if $IS_HIDDEN} hide{/if}">
+				<div class="col-xs-12 paddingLRZero fieldRow">
+					<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
+						<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}">
+							<label class="muted pull-right marginRight10px">{vtranslate('LBL_INVITE_USERS',$MODULE_NAME)}</label></td>
+						</div>
+						<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
+							{foreach key=USER_ID item=USER_NAME from=$ACCESSIBLE_USERS}
+								{if in_array($USER_ID,$INVITIES_SELECTED)}
+									{$USER_NAME}
+									<br>
+								{/if}
+							{/foreach}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {/strip}
