@@ -8,6 +8,8 @@ $RELATION_CONFIG = [
 	'SELECTABLE_CATEGORY' => true,
 	// show names related modules
 	'SHOW_RELATED_MODULE_NAME' => true,
+	// show icon related modules
+	'SHOW_RELATED_ICON' => true,
 	// show record count in tabs related modules
 	'SHOW_RECORDS_COUNT' => true,
 ];
