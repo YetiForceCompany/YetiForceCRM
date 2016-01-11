@@ -23,11 +23,10 @@ class OSSMailScanner_ImportMail_Action extends Vtiger_Action_Controller
 	function process(Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		$params['actions'] = ['0_created_Email', '2_bind_Accounts', '3_bind_Contacts', '4_bind_Leads'];
 		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$mailScanMail = $scannerModel->manualScanMail($params);
-		if ($mailScanMail['0_created_Email']) {
-			$return = $mailScanMail['0_created_Email']['created_Email'];
+		if ($mailScanMail['CreatedEmail']) {
+			$return = $mailScanMail['CreatedEmail'];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($return);

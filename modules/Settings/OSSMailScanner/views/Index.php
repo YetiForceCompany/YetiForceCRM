@@ -4,7 +4,7 @@
 class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 {
 
-	private $prefixesForModules = ['Contacts', 'Leads', 'Project', 'HelpDesk', 'Accounts', 'Campaigns'];
+	private $prefixesForModules = ['Project', 'HelpDesk', 'SSalesProcesses', 'Campaigns'];
 
 	public function process(Vtiger_Request $request)
 	{
@@ -15,9 +15,10 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 			$accountsList = $mailRecordModel->getAccountsList();
 			$mailboxes = $mailRecordModel->get_default_mailboxes();
 		}
-
+		
 		$mailScannerRecordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$identityList = [];
+		/*
 		if ($accountsList) {
 			foreach ($accountsList as $key => $account) {
 				$identityList[$account['user_id']] = $mailScannerRecordModel->getIdentities($account['user_id']);
@@ -25,15 +26,13 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 				$accountsList[$key]['status'] = $mbox ? 'LBL_ACTIVE_MAIL' : 'LBL_INACTIVE_MAIL';
 			}
 		}
-
-		$EmailActionsList = $mailScannerRecordModel->getEmailActionsList();
-		$EmailActionsListName = $mailScannerRecordModel->getEmailActionsListName($EmailActionsList);
+*/
+		$actionsList = $mailScannerRecordModel->getActionsList();
 		$ConfigFolderList = $mailScannerRecordModel->getConfigFolderList();
-		$EmailSearch = $mailScannerRecordModel->getEmailSearch();
+		$emailSearch = $mailScannerRecordModel->getEmailSearch();
 		$EmailSearchList = $mailScannerRecordModel->getEmailSearchList();
 		$widgetCfg = $mailScannerRecordModel->getConfig(false);
 		$supportedModules = Settings_Vtiger_CustomRecordNumberingModule_Model::getSupportedModules();
-
 		foreach ($supportedModules as $supportedModule) {
 			if (in_array($supportedModule->name, $this->prefixesForModules)) {
 				$moduleModel = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($supportedModule->name);
@@ -45,13 +44,12 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 		$check_cron = $mailScannerRecordModel->get_cron();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODEL', $mailScannerRecordModel);
-		$viewer->assign('ACCOUNTLIST', $accountsList);
-		$viewer->assign('EMAILACTIONSLIST', $EmailActionsList);
-		$viewer->assign('EMAILACTIONSLISTNAME', $EmailActionsListName);
+		$viewer->assign('ACCOUNTS_LIST', $accountsList);
+		$viewer->assign('ACTIONS_LIST', $actionsList);
 		$viewer->assign('FOLDERMAILBOXES', $mailboxes);
 		$viewer->assign('CONFIGFOLDERLIST', $ConfigFolderList);
 		$viewer->assign('WIDGET_CFG', $widgetCfg);
-		$viewer->assign('EMAILSEARCH', $EmailSearch);
+		$viewer->assign('EMAILSEARCH', $emailSearch);
 		$viewer->assign('EMAILSEARCHLIST', $EmailSearchList);
 		$viewer->assign('RECORDNUMBERING', $RecordNumbering);
 		$viewer->assign('ERRORNOMODULE', !$OSSMail_active);
