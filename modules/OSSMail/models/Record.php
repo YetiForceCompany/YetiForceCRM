@@ -386,34 +386,34 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$adb->insert('vtiger_crmentity', $params);
 				$issaved = self::_SaveAttachmentFile($attachid, $filename, $filecontent);
 				if ($issaved) {
-					$rekord = Vtiger_Record_Model::getCleanInstance('Documents');
-					$rekord->set('assigned_user_id', $userid);
-					$rekord->set('notes_title', $filename);
-					$rekord->set('filename', $filename);
-					$rekord->set('filestatus', 1);
-					$rekord->set('filelocationtype', 'I');
-					$rekord->set('folderid', 1);
+					$record = Vtiger_Record_Model::getCleanInstance('Documents');
+					$record->set('assigned_user_id', $userid);
+					$record->set('notes_title', $filename);
+					$record->set('filename', $filename);
+					$record->set('filestatus', 1);
+					$record->set('filelocationtype', 'I');
+					$record->set('folderid', 1);
 					$record->set('mode', 'new');
 					$record->set('id', '');
-					$rekord->save();
-					$IDs[] = $rekord->getId();
+					$record->save();
+					$IDs[] = $record->getId();
 
 					$adb->insert('vtiger_seattachmentsrel', [
-						'crmid' => $rekord->getId(),
+						'crmid' => $record->getId(),
 						'attachmentsid' => $attachid
 					]);
 					$adb->update('vtiger_crmentity', [
 						'createdtime' => $usetime,
 						'smcreatorid' => $userid,
 						'modifiedby' => $userid,
-						], 'crmid = ?', [$rekord->getId()]
+						], 'crmid = ?', [$record->getId()]
 					);
 					if ($relID && $relID != 0 && $relID != '') {
 						$dirname = Vtiger_Functions::initStorageFileDirectory('OSSMailView');
 						$url_to_image = $dirname . $attachid . '_' . $filename;
 						$adb->insert('vtiger_ossmailview_files', [
 							'ossmailviewid' => $relID,
-							'documentsid' => $rekord->getId(),
+							'documentsid' => $record->getId(),
 							'attachmentsid' => $attachid
 						]);
 						$result = $adb->pquery('SELECT content FROM vtiger_ossmailview where ossmailviewid = ?', [$relID]);
@@ -469,26 +469,21 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return true;
 	}
 
-	public static function get_default_mailboxes()
+	public static function getFolders($user)
 	{
-		$accounts = self::getAccountsList(false, false, true);
-		$mailboxs = [];
-		if ($accounts) {
-			foreach ($accounts as $account) {
-				$mbox = self::imapConnect($account['username'], $account['password'], $account['mail_host'], 'INBOX', false);
-				if ($mbox) {
-					$ref = "{" . $account['mail_host'] . "}";
-					$list = imap_list($mbox, $ref, "*");
-					foreach ($list as $mailboxname) {
-						$name = str_replace($ref, '', $mailboxname);
-						$mailboxs[$name] = self::convertCharacterEncoding($name, 'UTF-8', 'UTF7-IMAP');
-					}
-				}
+		$account = self::getAccountsList($user);
+		$account = reset($account);
+		$folders = [];
+		$mbox = self::imapConnect($account['username'], $account['password'], $account['mail_host'], 'INBOX', false);
+		if ($mbox) {
+			$ref = '{' . $account['mail_host'] . '}';
+			$list = imap_list($mbox, $ref, '*');
+			foreach ($list as $mailboxname) {
+				$name = str_replace($ref, '', $mailboxname);
+				$folders[$name] = self::convertCharacterEncoding($name, 'UTF-8', 'UTF7-IMAP');
 			}
-			return $mailboxs;
-		} else {
-			return false;
 		}
+		return $folders;
 	}
 
 	function convertCharacterEncoding($value, $toCharset, $fromCharset)

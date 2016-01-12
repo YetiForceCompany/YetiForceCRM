@@ -24,7 +24,6 @@
 <ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
     <li class="active"><a href="#tab_accounts" data-toggle="tab">{vtranslate('E-mail Accounts', 'OSSMailScanner')} </a></li>
     <li><a href="#tab_actions" data-toggle="tab">{vtranslate('Actions', 'OSSMailScanner')}</a></li>
-    <li><a href="#tab_folder" data-toggle="tab">{vtranslate('Folder configuration', 'OSSMailScanner')}</a></li> 
     <li><a href="#tab_email_search" data-toggle="tab">{vtranslate('General Configuration', 'OSSMailScanner')}</a></li>  
     <li><a href="#tab_record_numbering" data-toggle="tab">{vtranslate('Record Numbering', 'OSSMailScanner')}</a></li>
 	<li><a href="#exceptions" data-toggle="tab">{vtranslate('LBL_EXCEPTIONS', 'OSSMailScanner')}</a></li>
@@ -58,13 +57,13 @@
 						<th data-tablesaw-priority="2">{vtranslate('mail_host', 'OSSMailScanner')}</th>
 						<th data-tablesaw-priority="3">{vtranslate('Actions', 'OSSMailScanner')}</th>
 						<th data-tablesaw-priority="4">{vtranslate('User', 'OSSMailScanner')}</th>
-						<th data-tablesaw-priority="5">{vtranslate('Status', 'OSSMailScanner')}</th>
-						<th data-tablesaw-priority="6">&nbsp;</th>
+						<th data-tablesaw-priority="5">&nbsp;</th>
 					</tr>
 				</thead>
 				<tbody>
 					{assign var=USERS_ENTITY_INFO value=Vtiger_Functions::getEntityModuleInfoFieldsFormatted('Users')}
 					{foreach from=$ACCOUNTS_LIST item=row}
+						{assign var=FOLDERS value=$RECORD_MODEL->getFolders($row['crm_user_id'])}
 						<tr id="row_account_{$row['user_id']}" style="{cycle values="'',background-color: #f9f9f9"}">
 							<td>{$row['username']}</td>
 							<td>{$row['mail_host']}</td>
@@ -96,34 +95,58 @@
 									</optgroup>
 								</select>
 							</td>
-							<td>{vtranslate($row['status'], 'OSSMailScanner')}</td>
 							<td class='scanerMailActionsButtons'>
 								<div class="btn-toolbar">
 									<div class="btn-group">
-										<button title="{vtranslate('show_identities', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default expand-hide"><i class="glyphicon glyphicon-chevron-down"></i></button>
-										<button title="{vtranslate('delate_accont', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont"><i class="glyphicon glyphicon-trash"></i></button>
+										<button title="{vtranslate('LBL_SHOW_ACCOUNT_DETAILS', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default expand-hide">
+											<span class="glyphicon glyphicon-chevron-down"></span>
+										</button>
+										<button title="{vtranslate('LBL_EDIT_FOLDER_ACCOUNT', 'OSSMailScanner')}" type="button" data-user="{$row['user_id']}" class="btn btn-default editFolders">
+											<span class="glyphicon glyphicon-folder-open"></span>
+										</button>
+										<button title="{vtranslate('delate_accont', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont">
+											<span class="glyphicon glyphicon-trash"></span>
+										</button>
 									</div>
 								</div>
+								{if empty($FOLDERS)}
+									<span class="label label-danger">{vtranslate('ERR_NO_CONFIGURATION_FOLDERS', 'OSSMailScanner')}</span>
+								{/if}
 							</td>
 						</tr>
 						<tr style="display: none;" data-user-id="{$row['user_id']}">
 							<td colspan="6">
-								<table class="table">
-									<thead>
-										<tr>
-											<th style="color: black; background-color: #d3d3d3;">{vtranslate('identities_name', 'OSSMailScanner')}</th>
-											<th style="color: black; background-color: #d3d3d3;">{vtranslate('identities_adress', 'OSSMailScanner')}</th>
-											<th colspan="2" style="color: black; background-color: #d3d3d3;">{vtranslate('identities_del', 'OSSMailScanner')}</th>
-										</tr>
-									</thead>
-									{foreach item=item from=$IDENTITYLIST[$row['user_id']]}
-										<tr style="{cycle values="'',background-color: #f9f9f9"}">
-											<td>{$item['name']}</td>
-											<td>{$item['email']}</td>
-											<td colspan="2" style="text-align: center;"><button data-id="{$item['identity_id']}" type="button" class="btn btn-danger identities_del">{vtranslate('identities_del', 'OSSMailScanner')}</button></td>
-										</tr>
-									{/foreach}
-								</table>
+								<div>
+									<h5>
+										<strong {if empty($FOLDERS)}class="text-danger"{/if}>
+											{vtranslate('Folder configuration', 'OSSMailScanner')}:
+										</strong>
+										{foreach item=FOLDER from=$FOLDERS}
+											{$FOLDER['folder']} ({vtranslate($FOLDER['type'], 'OSSMailScanner')}),
+										{foreachelse}
+											{vtranslate('--None--', 'OSSMailScanner')}
+										{/foreach}
+									</h5>
+								</div>
+								<hr/>
+								<div>
+									<table class="table">
+										<thead>
+											<tr>
+												<th style="color: black; background-color: #d3d3d3;">{vtranslate('identities_name', 'OSSMailScanner')}</th>
+												<th style="color: black; background-color: #d3d3d3;">{vtranslate('identities_adress', 'OSSMailScanner')}</th>
+												<th colspan="2" style="color: black; background-color: #d3d3d3;">{vtranslate('identities_del', 'OSSMailScanner')}</th>
+											</tr>
+										</thead>
+										{foreach item=item from=$IDENTITYLIST[$row['user_id']]}
+											<tr style="{cycle values="'',background-color: #f9f9f9"}">
+												<td>{$item['name']}</td>
+												<td>{$item['email']}</td>
+												<td colspan="2" style="text-align: center;"><button data-id="{$item['identity_id']}" type="button" class="btn btn-danger identities_del">{vtranslate('identities_del', 'OSSMailScanner')}</button></td>
+											</tr>
+										{/foreach}
+									</table>
+								</div>
 							</td>
 						</tr>
 					{/foreach}
@@ -161,10 +184,10 @@
 				{foreach item=item key=key from=$EMAILSEARCH}
 					{if $last_value neq $item['name']}
 						<optgroup label="{vtranslate($item['name'], $item['name'])}">
-					{/if}
+						{/if}
 						<option value="{$item['key']}" {if in_array($item['key'], $EMAILSEARCHLIST) } selected="selected"{/if}>{vtranslate($item['name'], $item['name'])} - {vtranslate($item['fieldlabel'], $item['name'])}</option>
-					{assign var=last_value value=$item['name']}
-					{if $last_value neq $item['name']}
+						{assign var=last_value value=$item['name']}
+						{if $last_value neq $item['name']}
 						</optgroup>
 					{/if}
 				{/foreach}
