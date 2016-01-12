@@ -110,14 +110,15 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => vtranslate($row['name'], $this->getModuleName())
 			];
-			if (!$isDeletable) {
-				$tree['state']['disabled'] = true;
-			}
 			if (!empty($row['icon'])) {
 				$tree['icon'] = $row['icon'];
 			}
-			if (in_array($row['tree'], $selected)) {
+			$checked = in_array($row['tree'], $selected);
+			if ($checked) {
 				$tree['category'] = ['checked' => true];
+			}
+			if (!$isDeletable && $checked) {
+				$tree['state']['disabled'] = true;
 			}
 			$trees[] = $tree;
 			if ($treeID > $lastId) {
@@ -183,8 +184,9 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 		foreach ($listEntries as $item) {
 			$this->lastIdinTree++;
 			$parent = (int) ltrim($item->get($fieldName), 'T');
-			$state = ['selected' => in_array($item->getId(), $selectedRecords)];
-			if (!$isDeletable) {
+			$selected = in_array($item->getId(), $selectedRecords);
+			$state = ['selected' => $selected];
+			if (!$isDeletable && $selected) {
 				$state['disabled'] = true;
 			}
 			$tree[] = [

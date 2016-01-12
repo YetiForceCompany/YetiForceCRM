@@ -2434,13 +2434,8 @@ class CRMEntity
 				}
 
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($relatedRecord);
-				/*
-				  $recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
-				  if (!$recordPermission) {
-				  throw new AppException('LBL_PERMISSION_DENIED');
-				  }
-				 */
-				if ($recordMetaData['smownerid'] == $current_user->id) {
+				$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
+				if ($recordPermission) {
 					return '';
 				}
 			}
