@@ -1768,6 +1768,18 @@ class Vtiger_Module_Model extends Vtiger_Module
 		return $modules;
 	}
 
+	public static function accessModulesByParent($parent, $actionName = 'EditView')
+	{
+		self::initModulesHierarchy();
+		$modules = [];
+		foreach (self::$modulesHierarchy as $module => &$details) {
+			if (Users_Privileges_Model::isPermitted($module, $actionName)) {
+				$modules[$details['parentModule']][$module] = $details;
+			}
+		}
+		return $modules[$parent];
+	}
+
 	public function getMappingRelatedField($moduleName, $field = false)
 	{
 		self::initModulesHierarchy();
