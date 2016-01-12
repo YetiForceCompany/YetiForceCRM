@@ -608,7 +608,7 @@ li.ui-timepicker-selected,
 .topscroll-div {
 	min-width: 100%;
 	display: table;
-	min-height: 1px;
+	height: 1px;
 }
 .contents-bottomscroll {
 	overflow-x: auto !important;
@@ -5032,4 +5032,7 @@ select.form-control {
  }
 .table .chosen-container{
 	height: auto;
+}
+.addCommentBlock .commentcontent{
+	resize: vertical;
 }
