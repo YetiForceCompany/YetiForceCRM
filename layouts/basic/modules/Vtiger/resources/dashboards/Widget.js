@@ -1149,12 +1149,13 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 					);
 			thisInstance.getCalendarView().find(".fc-event-container a").click(function () {
 				var container = thisInstance.getContainer();
-				var url = 'index.php?module=Calendar&view=List&search_params=[[';
+				var url = 'index.php?module=Calendar&view=List';
+				if (customFilter) {
+					url += '&viewname=' + container.find('select.widgetFilter.customFilter').val();
+				}
+				url += '&search_params=[[';
 				if (container.find('.widgetFilter.owner option:selected').val() != 'all') {
 					url += '["assigned_user_id","c","' + container.find('.widgetFilter.owner option:selected').data('name') + '"],';
-				}
-				if (status) {
-					url += '["activitystatus","e","' + container.find('select.widgetFilter.status').val() + '"],';
 				}
 				if (parent.find('.widgetFilterSwitch').length > 0) {
 					var status = parent.find('.widgetFilterSwitch').data();
