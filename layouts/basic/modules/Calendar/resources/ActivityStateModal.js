@@ -25,9 +25,17 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 				var url = 'index.php?module=Calendar&view=QuickCreateAjax&sourceModule=Calendar&sourceRecord=' + currentTarget.data('id');
 				var params = {};
 				params.noCache = true;
+				var subject = currentTarget.closest('.modalEditStatus').find('.modalSummaryValues .fieldVal').data('subject');
 				var headerInstance = Vtiger_Header_Js.getInstance();
 				headerInstance.getQuickCreateForm(url, moduleName, params).then(function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'})
+					if (currentTarget.data('type') == '0' && typeof subject != 'undefinied' && subject.length > 0) {
+						data = jQuery(data);
+						var element = data.find('[name="subject"]');
+						if (element.length) {
+							element.val(subject);
+						}
+					}
 					headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
 							if (data && data.success && currentTarget.data('type') == '0') {
 								thisInstance.updateActivityState(currentTarget);

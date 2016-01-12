@@ -38,14 +38,12 @@
 			{assign var=START_TIME value=$RECORD->get('time_start')}
 			{assign var=END_DATE value=$RECORD->get('due_date')}
 			{assign var=END_TIME value=$RECORD->get('time_end')}
-			<div class="form-horizontal">
+			<div class="form-horizontal modalSummaryValues">
 				<div class="form-group">
 					<label class="col-sm-4 control-label">{vtranslate('Subject',$MODULE_NAME)}:</label>
-					<div class="col-sm-8">
+					<div class="col-sm-8 textOverflowEllipsis fieldVal" data-subject="{Vtiger_Util_Helper::toSafeHTML($RECORD->get('subject'))}">
 						{$RECORD->get('subject')}
-						
 					</div>
-					
 				</div>
 				<div class="">
 					<div class="form-group">
@@ -72,7 +70,7 @@
 					{if $RECORD->get('link') neq '' }
 						<div class="form-group">
 							<label class="col-sm-4 control-label">{vtranslate('Relation',$MODULE_NAME)}: </label>
-							<div class="col-sm-8">
+							<div class="col-sm-8 textOverflowEllipsis">
 								{$RECORD->getDisplayValue('link')}
 							</div>
 						</div>
@@ -80,7 +78,7 @@
 					{if $RECORD->get('process') neq '' }
 						<div class="form-group">
 							<label class="col-sm-4 control-label">{vtranslate('Process',$MODULE_NAME)}: </label>
-							<div class="col-sm-8">
+							<div class="col-sm-8 textOverflowEllipsis">
 								{$RECORD->getDisplayValue('process')}
 							</div>
 						</div>
@@ -99,13 +97,13 @@
 					<hr />
 					<div class="form-group">
 						<label class="col-sm-4 control-label">{vtranslate('Created By',$MODULE_NAME)}: </label>
-						<div class="col-sm-8">
+						<div class="col-sm-8 textOverflowEllipsis">
 							{Vtiger_Functions::getOwnerRecordLabel( $RECORD->get('created_user_id') )}
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">{vtranslate('Assigned To',$MODULE_NAME)}: </label>
-						<div class="col-sm-8">{Vtiger_Functions::getOwnerRecordLabel( $RECORD->get('assigned_user_id') )}</div>
+						<div class="col-sm-8 textOverflowEllipsis">{Vtiger_Functions::getOwnerRecordLabel( $RECORD->get('assigned_user_id') )}</div>
 					</div>
 					{if $RECORD->get('shownerid')}
 						<div class="form-group">
