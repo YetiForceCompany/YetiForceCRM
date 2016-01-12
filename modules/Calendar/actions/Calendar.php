@@ -54,7 +54,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$record->set('end', $request->get('end'));
 		}
 		if ($request->get('widget')) {
-			$record->set('activitystatus', $request->get('activitystatus'));
+			$record->set('customFilter', $request->get('customFilter'));
 			$entity = $record->getEntityCount();
 		} else {
 			$entity = $record->getEntity();

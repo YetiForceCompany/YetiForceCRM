@@ -79,6 +79,9 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		if ($this->get('activitystatus')) {
 			$query .= " AND vtiger_activity.status IN ('" . $this->get('activitystatus') . "')";
 		}
+		if ($this->get('restrict') && is_array($this->get('restrict'))) {
+			$query .= " AND vtiger_activity.activityid IN ('" . implode("','", $this->get('restrict')) . "')";
+		}
 		if ($this->get('user')) {
 			if (is_array($this->get('user'))) {
 				$query.= ' AND vtiger_crmentity.smownerid IN (' . implode(",", $this->get('user')) . ')';
@@ -112,7 +115,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$item['vis'] = $record['visibility'];
 			$item['state'] = $record['state'];
 			$item['smownerid'] = Vtiger_Functions::getOwnerRecordLabel($record['smownerid']);
-			
+
 			//translate
 			$item['labels']['sta'] = vtranslate($record['status'], $this->getModuleName());
 			$item['labels']['pri'] = vtranslate($record['priority'], $this->getModuleName());
@@ -130,7 +133,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$item['subprocess'] = $record['subprocess'];
 			$item['subprocl'] = $record['subprocesslabel'];
 			$item['subprocm'] = $record['subprocessmod'];
-			
+
 			if ($record['linkmod'] != 'Accounts' && (!empty($record['link']) || !empty($record['process']))) {
 				$findId = 0;
 				$findMod = '';
@@ -198,6 +201,9 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		$endDate = DateTimeField::convertToDBTimeZone($this->get('end'));
 		$endDate = strtotime($endDate->format('Y-m-d H:i:s'));
 
+		if ($this->get('customFilter')) {
+			$this->set('restrict', CustomView_Record_Model::getInstanceById($this->get('customFilter'))->getRecordIds());
+		}
 		$data = $this->getQuery();
 		$result = $db->pquery($data['query'], $data['params']);
 		$return = [];

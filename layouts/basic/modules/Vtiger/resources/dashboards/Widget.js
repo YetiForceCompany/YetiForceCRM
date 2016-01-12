@@ -1123,12 +1123,9 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			user: user,
 			widget: true
 		}
-		if (parent.find('.status').length > 0) {
-			var status = parent.find('.status').val();
-			if (status == 'all') {
-				status = '';
-			}
-			params.activitystatus = status;
+		if (parent.find('.customFilter').length > 0) {
+			var customFilter = parent.find('.customFilter').val();
+			params.customFilter = customFilter;
 		}
 		if (parent.find('.widgetFilterSwitch').length > 0) {
 			params.time = parent.find('.widgetFilterSwitch').val();
@@ -1136,7 +1133,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		if (this.paramCache) {
 			var drefresh = this.getContainer().find('a[name="drefresh"]');
 			var url = drefresh.data('url');
-			var paramCache = {owner: user, status: parent.find('.status').val(), start: start_date};
+			var paramCache = {owner: user, customFilter: customFilter, start: start_date};
 			thisInstance.setFilterToCache(url, paramCache);
 		}
 
