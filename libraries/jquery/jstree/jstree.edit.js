@@ -27,7 +27,6 @@
 	$.jstree.plugins.edit = function (options, parent) {
 		this.bind = function () {
 			parent.bind.call(this);
-			this._data.category.selected = [];
 			this.element.on('select_node.jstree', $.proxy(function (obj, data) {
 				var modal = $(data.event.currentTarget).closest('#treePopupContainer');
 				var module = modal.find('#relatedModule').val();
