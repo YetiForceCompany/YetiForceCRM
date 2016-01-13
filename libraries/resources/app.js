@@ -722,6 +722,18 @@ var app = {
 			currentElement.val(date);
 		});
 	},
+	registerEventForClockPicker: function (){
+		var formatTime = app.getMainParams('userTimeFormat');
+		formatTime = formatTime == 12 ? true : false;
+		var params ={
+			placement: 'bottom',
+			autoclose: true,
+			twelvehour: formatTime,
+			minutestep: 5,
+			ampmSubmit: false,
+		};
+		$('.clockPicker').clockpicker(params);
+	},
 	/**
 	 * Function which will register time fields
 	 *
@@ -1248,6 +1260,7 @@ jQuery(document).ready(function () {
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
 	app.registerSticky();
 	app.registerModal();
+	app.registerEventForClockPicker();
 	//Updating row height
 	app.updateRowHeight();
 	String.prototype.toCamelCase = function () {

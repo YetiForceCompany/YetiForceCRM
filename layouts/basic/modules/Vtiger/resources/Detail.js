@@ -1198,8 +1198,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					)
 				}
 			}
-
-			jQuery(document).on('click', '*', saveHandler);
+			jQuery('body :not(.popover *)').click(saveHandler);
 		})
 	},
 	triggerDisplayTypeEvent: function () {
@@ -2663,7 +2662,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerCommentEvents(detailContentsHolder);
 		app.registerEventForDatePickerFields(detailContentsHolder);
 		//Attach time picker event to time fields
-		app.registerEventForTimeFields(detailContentsHolder);
+		app.registerEventForClockPicker();
 
 		detailContentsHolder.on('click', '#detailViewNextRecordButton', function (e) {
 			var url = selectedTabElement.data('url');
