@@ -345,6 +345,9 @@ $languageStrings = [
 	'LBL_CV_YEAR' => 'Rok (np. 15)',
 	'LBL_CV_MONTH' => 'Miesiąc (np. 1, 5, 12)',
 	'LBL_CV_DAY' => 'Dzień (np. 1, 5, 25)',
+	'LBL_DONATE_US' => 'Wspieraj nas',
+	'LBL_START' => 'Start',
+	'LBL_GITHUB' => 'Github',
 	// end of custom record numbering variables
 ];
 

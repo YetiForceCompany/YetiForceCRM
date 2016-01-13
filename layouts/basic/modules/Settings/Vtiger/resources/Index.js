@@ -214,7 +214,28 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
                                                 
                                                 });
         },
-
+	registerTabEvents: function(){
+		var thisInstance = this;
+		jQuery('.massEditTabs li').on('click', function(){
+			var currentTarget = jQuery(this);
+			console.log(currentTarget.data('mode'));
+			thisInstance.loadContent(currentTarget.data('mode'));
+		});
+	},
+	loadContent: function(mode){
+		var container = jQuery('.indexContainer');
+		 var params = {
+			'mode'  : mode,
+			'module'  : 'Vtiger',
+			'parent' : 'Settings',
+			'view' : 'Index'
+		};
+		container.progressIndicator({});
+		AppConnector.request(params).then(function(data){
+			container.progressIndicator({mode: 'hide'});
+			container.html(data);
+		});
+	},
 	registerEvents: function() {
 		this.registerSettingsShortcutClickEvent();
 		this.registerDeleteShortCutEvent();
@@ -222,6 +243,8 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 		this.registerPinUnpinShortCutEvent();
 		this.registerAddShortcutDragDropEvent();
 		this.registerSettingShortCutAlignmentEvent();
+		this.registerTabEvents();
+		jQuery('.massEditTabs .active').trigger('click');
 	}
 
 });

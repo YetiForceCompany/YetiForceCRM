@@ -5036,3 +5036,6 @@ select.form-control {
 .addCommentBlock .commentcontent{
 	resize: vertical;
 }
+.indexContainer{
+	border-top: 4px solid #404952;
+}

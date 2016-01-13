@@ -1104,6 +1104,9 @@ $languageStrings = [
 	'FL_SUB_PROCESS' => 'Subprocess',
 	'LBL_VIEW_DUPLICATE' => 'Duplicate',
 	'LBL_VIEW_INDEX' => 'Start',
+	'LBL_DONATE_US' => '__UNSTRANLATED__',
+	'LBL_START' => '__UNSTRANLATED__',
+	'LBL_GITHUB' => 'Github',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
