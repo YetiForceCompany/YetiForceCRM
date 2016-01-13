@@ -2963,14 +2963,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 		);
 	},
-	registerKeyEvents: function (detailContentsHolder) {
-		detailContentsHolder.on('keypress', '.commentcontent', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			if (e.which == 13) {
-				currentTarget.closest('.addCommentBlock ').find('.saveComment, .detailViewSaveComment').trigger('click');
-			}
-		});
-	},
 	registerEvents: function () {
 		var thisInstance = this;
 		thisInstance.refreshRelatedList();
@@ -2996,7 +2988,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 		this.registerBasicEvents();
 		this.registerSetReadRecord(detailViewContainer);
-		this.registerKeyEvents(detailViewContainer);
 		thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 
 		thisInstance.getForm().validationEngine(app.validationEngineOptionsForRecord);
