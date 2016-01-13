@@ -25,7 +25,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$values = explode(',', $value);
 		$taxs = $this->getTaxes();

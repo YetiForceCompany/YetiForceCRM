@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_DAV_KEYS' => 'DAV Schlüssel',
+	'LBL_DAV_KEYS' => 'DAV Applications',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Anlegen und Bearbeiten von DAV Schlüssel',
 	'LBL_KEY' => 'Schlüssel',
 	'LBL_TOOLS' => 'Tools',
@@ -18,7 +18,6 @@ $languageStrings = [
 	'LBL_DISPLAY_NAME' => 'Anwender',
 	'LBL_EMAIL' => 'Email',
 	'LBL_LOGIN' => 'Login',
-	'LBL_KEY' => 'Schlüssel',
 	'LBL_SELECT_USER' => 'Wähle Benutzer:',
 	'LBL_ALERT_DAV_NO_ACTIVE_TITLE' => 'DAV Anwendung ist nicht aktiv',
 	'LBL_ALERT_DAV_NO_ACTIVE_DESC' => 'DAV Anwendung wurde noch nicht aktiviert, bitte in config/api.php aktivieren',

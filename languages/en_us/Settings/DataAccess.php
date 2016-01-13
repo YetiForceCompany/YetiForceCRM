@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_DATAACCES' => 'Validation of access',
-	'LBL_DATAACCESS' => 'Validation of access',
+	'LBL_DATAACCESS' => 'Recording Control',
 	'DataAccess' => 'Validation of access',
 	'LBL_NEW_TPL' => 'Add new condition',
 	'LBL_MODULE_NAME' => 'Module name',
@@ -74,7 +74,7 @@ $languageStrings = [
 	'Date validation' => 'Date validation',
 	'Check parent task' => 'Check parent task',
 	'Check if there are any tasks that are not closed' => 'Check if there are any tasks that are not closed',
-	'Check for duplicate names' => 'Check for duplicate names',
+	'Check for duplicates' => 'Check for duplicates',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Check whether all mandatory fields in quick edit are filled in',
 	'Lock edit on the status' => 'Lock edit on the status',
 	'is enabled' => 'is enabled',

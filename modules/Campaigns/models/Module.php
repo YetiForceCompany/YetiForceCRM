@@ -115,45 +115,4 @@ class Campaigns_Module_Model extends Vtiger_Module_Model
 		return $query;
 	}
 
-	/**
-	 * Function returns number of Open Potentials in each of the sales stage
-	 * @param <Integer> $owner - userid
-	 * @return <Array>
-	 */
-	public function getCampaignsWidget($owner, $dateFilter)
-	{
-		$db = PearDatabase::getInstance();
-
-		if (!$owner) {
-			$currenUserModel = Users_Record_Model::getCurrentUserModel();
-			$owner = $currenUserModel->getId();
-		} else if ($owner === 'all') {
-			$owner = '';
-		}
-
-		$params = array();
-		if (!empty($owner)) {
-			$ownerSql = ' AND smownerid = ? ';
-			$params[] = $owner;
-		}
-		if (!empty($dateFilter)) {
-			$dateFilterSql = ' AND closingdate BETWEEN ? AND ? ';
-			$params[] = $dateFilter['start'];
-			$params[] = $dateFilter['end'];
-		}
-
-		$result = $db->pquery('SELECT COUNT(*) count, sales_stage FROM vtiger_potential
-						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
-						AND deleted = 0 ' . Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()) . $ownerSql . $dateFilterSql . ' AND sales_stage NOT IN ("Closed Won", "Closed Lost")
-							GROUP BY sales_stage ORDER BY count desc', $params);
-
-		$response = array();
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$saleStage = $db->query_result($result, $i, 'sales_stage');
-			$response[$i][0] = $saleStage;
-			$response[$i][1] = $db->query_result($result, $i, 'count');
-			$response[$i][2] = vtranslate($saleStage, $this->getName());
-		}
-		return $response;
-	}
 }

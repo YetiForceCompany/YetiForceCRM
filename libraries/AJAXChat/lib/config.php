@@ -10,12 +10,7 @@
 $currentPath = dirname(__FILE__);
 $crmPath =  $currentPath . '/../../../';
 chdir ($crmPath);
-ini_set('include_path',$crmPath);
-
-include_once('config/config.inc.php');
-if (file_exists('config/config_override.php')) {
-	include_once 'config/config_override.php';
-}
+include_once('include/ConfigUtils.php');
 chdir ($currentPath);
 
 // Define AJAX Chat user roles:

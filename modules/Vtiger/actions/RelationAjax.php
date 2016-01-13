@@ -16,12 +16,22 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		parent::__construct();
 		$this->exposeMethod('addRelation');
 		$this->exposeMethod('deleteRelation');
+		$this->exposeMethod('updateRelation');
 		$this->exposeMethod('getRelatedListPageCount');
+		$this->exposeMethod('updateFavoriteForRecord');
 	}
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
-		
+		$moduleName = $request->getModule();
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+
+		if (!$permission) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
 	}
 
 	function preProcess(Vtiger_Request $request)
@@ -109,6 +119,65 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	}
 
 	/**
+	 * Function to update the relation for specified source record id and related record id list
+	 * @param <array> $request
+	 * 		keys					Content
+	 * 		src_module				source module name
+	 * 		src_record				source record id
+	 * 		related_module			related module name
+	 * 		toRemove				list of related record to remove
+	 * 		toAdd					list of related record to add
+	 */
+	function updateRelation(Vtiger_Request $request)
+	{
+		$sourceModule = $request->getModule();
+		$sourceRecordId = $request->get('src_record');
+		$relatedModule = $request->get('related_module');
+		$recordsToRemove = $request->get('recordsToRemove');
+		$recordsToAdd = $request->get('recordsToAdd');
+		$categoryToAdd = $request->get('categoryToAdd');
+		$categoryToRemove = $request->get('categoryToRemove');
+		vglobal('currentModule', $sourceModule);
+
+		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
+		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
+		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+
+		if (!empty($recordsToAdd)) {
+			foreach ($recordsToAdd as $relatedRecordId) {
+				$relationModel->addRelation($sourceRecordId, $relatedRecordId);
+			}
+		}
+		if (!empty($recordsToRemove)) {
+			if ($relationModel->isDeletable()) {
+				foreach ($recordsToRemove as $relatedRecordId) {
+					$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
+				}
+			} else {
+				throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			}
+		}
+		if (!empty($categoryToAdd)) {
+			foreach ($categoryToAdd as $category) {
+				$relationModel->addRelTree($sourceRecordId, $category);
+			}
+		}
+		if (!empty($categoryToRemove)) {
+			if ($relationModel->isDeletable()) {
+				foreach ($categoryToRemove as $category) {
+					$relationModel->deleteRelTree($sourceRecordId, $category);
+				}
+			} else {
+				throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			}
+		}
+
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
+	}
+
+	/**
 	 * Function to get the page count for reltedlist
 	 * @return total number of pages
 	 */
@@ -118,13 +187,28 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$relatedModuleName = $request->get('relatedModule');
 		$parentId = $request->get('record');
 		$label = $request->get('tab_label');
-		$pagingModel = new Vtiger_Paging_Model();
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
-		$totalCount = $relationListView->getRelatedEntriesCount();
-		$pageLimit = $pagingModel->getPageLimit();
-		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
+		$totalCount = 0;
+		$relModules = [$relatedModuleName];
 
+		if (in_array('ProductsAndServices', $relModules)) {
+			$label = '';
+			$relModules = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 'OSSOutsourcedServices', 'OSSSoldServices'];
+		}
+		if (in_array('Comments', $relModules)) {
+			$totalCount = ModComments_Record_Model::getCommentsCount($parentId);
+		} else {
+			$pagingModel = new Vtiger_Paging_Model();
+			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
+			foreach ($relModules as $relatedModuleName) {
+				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
+				if (!vtlib_isModuleActive($relatedModuleName) || !$relationListView->getRelationModel()) {
+					continue;
+				}
+				$totalCount += (int) $relationListView->getRelatedEntriesCount();
+				$pageLimit = $pagingModel->getPageLimit();
+				$pageCount = ceil((int) $totalCount / (int) $pageLimit);
+			}
+		}
 		if ($pageCount == 0) {
 			$pageCount = 1;
 		}
@@ -133,6 +217,25 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$result['page'] = $pageCount;
 		$response = new Vtiger_Response();
 		$response->setResult($result);
+		$response->emit();
+	}
+
+	function updateFavoriteForRecord(Vtiger_Request $request)
+	{
+		$sourceModule = $request->getModule();
+		$relatedModule = $request->get('relatedModule');
+		$actionMode = $request->get('actionMode');
+
+		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
+		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
+		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+
+		if (!empty($relationModel)) {
+			$result = $relationModel->updateFavoriteForRecord($actionMode, ['crmid' => $request->get('record'), 'relcrmid' => $request->get('relcrmid')]);
+		}
+
+		$response = new Vtiger_Response();
+		$response->setResult((bool) $result);
 		$response->emit();
 	}
 

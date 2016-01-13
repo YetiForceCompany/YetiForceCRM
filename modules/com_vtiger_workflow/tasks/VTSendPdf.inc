@@ -1,67 +1,58 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
-class VTSendPdf extends VTTask {
+class VTSendPdf extends VTTask
+{
 
 	public $executeImmediately = true;
 
-	public function doTask($entity) {
-		list(, $entityId) = explode('x', $entity->getId());
+	public function doTask($entity)
+	{
+		$request = new Vtiger_Request($_REQUEST);
+		$templateId = $this->pdf_tpl;
+		$emailTemplateId = $this->email_tpl;
+		$emailField = $this->email_fld;
+		$recordId = explode('x', $entity->getId())[1];
 		$module = $entity->getModuleName();
 
-		if ((is_numeric($this->pdf_tpl) && $this->pdf_tpl != 0) && (is_numeric($this->email_tpl) && $this->email_tpl != 0)) {
-			if (false === strpos($this->email_fld, '=')) {
-				$email = $entity->get($this->email_fld);
+		if ((is_numeric($templateId) && $templateId != 0) && (is_numeric($emailTemplateId) && $emailTemplateId != 0)) {
+			if (false === strpos($emailField, '=')) {
+				$email = $entity->get($emailField);
 			} else {
-				list($parentIdFieldName, $relModuleName, $relModuleField) = explode("=", $this->email_fld);
-				list(, $relRecord) = explode('x', $entity->get($parentIdFieldName));
-				if ($module == $relModuleName)
-					$relRecord = $entityId;
-				if (is_numeric($relRecord) && $relRecord != '' && $relRecord != 0) {
-					$Record_Model = Vtiger_Record_Model::getInstanceById($relRecord, $relModuleName);
-					$email = $Record_Model->get($relModuleField);
+				list($parentIdFieldName, $relModuleName, $relModuleField) = explode('=', $emailField);
+				$relRecord = explode('x', $entity->get($parentIdFieldName))[1];
+				if ($module == $relModuleName) {
+					$relRecord = $recordId;
+				}
+				if (is_numeric($relRecord) && intval($relRecord) > 0) {
+					$recordModel = Vtiger_Record_Model::getInstanceById($relRecord, $relModuleName);
+					$email = $recordModel->get($relModuleField);
+					var_Dump($email);
 				}
 			}
 		}
 
-		$_REQUEST['recordid'] = $entityId;
-		$_REQUEST['pdfajax'] = 'true';
-		$_REQUEST['fromdetailview'] = 'yes';
-		$_REQUEST['template'] = $this->pdf_tpl;
-		$_REQUEST['export_data'] = 'all';
-		$_REQUEST['ParticularSave'] = '';
-		$_REQUEST['return_name'] = 'yes';
-		$_REQUEST['soap_pdf'] = 'yes';
-		$_REQUEST['pdf_lang'] = 'pl_pl';
-		$_REQUEST['usingmodule'] = $module;
-
-		require_once( 'modules/OSSPdf/PDFExport.php' );
-		$pdfName = Soap_generatePDF(1);
-		if ($email != '') {
-			$data = array(
-				'id' => $this->email_tpl,
+		if (!empty($email)) {
+			$templateRecord = Vtiger_PDF_Model::getInstanceById($templateId);
+			$fileName = Vtiger_Functions::slug($templateRecord->getName()) . '_' . time() . '.pdf';
+			$pdfFile = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $fileName;
+			Vtiger_PDF_Model::exportToPdf($recordId, $module, $templateId, $pdfFile, 'F');
+			$data = [
+				'id' => $emailTemplateId,
 				'to_email' => $email,
 				'module' => $module,
-				'record' => $entityId,
-				'attachment_src' => array("$pdfName" => 'storage' . DIRECTORY_SEPARATOR . $pdfName),
-			);
-			$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
-			$recordModel->sendMailFromTemplate($data);
+				'record' => $recordId,
+				'attachment_src' => [$fileName => $pdfFile],
+			];
+			$emailTemplateRecord = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
+			$emailTemplateRecord->sendMailFromTemplate($data);
 		}
 	}
 
-	public function getFieldNames() {
-		return array("pdf_tpl", "email_tpl", "email_fld");
+	public function getFieldNames()
+	{
+		return ['pdf_tpl', 'email_tpl', 'email_fld'];
 	}
-
 }

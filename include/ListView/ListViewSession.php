@@ -59,7 +59,7 @@ class ListViewSession
 		return $start;
 	}
 
-	function getListViewNavigation($currentRecordId)
+	public static function getListViewNavigation($currentRecordId)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -216,14 +216,14 @@ class ListViewSession
 		return $start;
 	}
 
-	function setSessionQuery($currentModule, $query, $viewid)
+	public static function setSessionQuery($currentModule, $query, $viewid)
 	{
-		if (isset($_SESSION[$currentModule . '_listquery'])) {
-			if ($_SESSION[$currentModule . '_listquery'] != $query) {
-				unset($_SESSION[$currentModule . '_DetailView_Navigation' . $viewid]);
+		if (Vtiger_Session::has($currentModule . '_listquery')) {
+			if (Vtiger_Session::get($currentModule . '_listquery') != $query) {
+				Vtiger_Session::remove($currentModule . '_DetailView_Navigation' . $viewid);
 			}
 		}
-		$_SESSION[$currentModule . '_listquery'] = $query;
+		Vtiger_Session::set($currentModule . '_listquery', $query);
 	}
 
 	function hasViewChanged($currentModule)

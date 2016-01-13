@@ -22,7 +22,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller{
 		$record = $request->get('record');
 
 		if(!Users_Privileges_Model::isPermitted($moduleName, 'Save', $record)) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
 		}
 	}
 	

@@ -15,7 +15,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View {
 
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPrivilegesModel->hasModulePermission($moduleModel->getId())) {
-			throw new AppException(vtranslate($moduleName).' '.vtranslate('LBL_NOT_ACCESSIBLE'));
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -49,6 +49,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View {
 		$viewer->assign('SRC_FIELD', $srcField);
 		$viewer->assign('TEMPLATE', $template);
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('TreePopup.tpl', $moduleName);
 	}
@@ -85,10 +86,15 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View {
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
 		$cssFileNames = array(
-			'~libraries/jquery/jstree/themes/default/style.css',
+			'~libraries/jquery/jstree/themes/proton/style.css',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
 		return $headerCssInstances;
+	}
+	
+	protected function showBodyHeader()
+	{
+		return false;
 	}
 }

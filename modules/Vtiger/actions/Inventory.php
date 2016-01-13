@@ -23,7 +23,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -155,7 +155,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 			$recordId => [
 				'id' => $recordId,
 				'name' => decode_html($recordModel->getName()),
-				'price' => CurrencyField::convertToUserFormat($unitPrice, null, true),
+				'price' => $unitPrice,
 				'unitPriceValues' => $unitPriceValues,
 				'description' => decode_html($recordModel->get('description')),
 				'autoFields' => $autoFields,

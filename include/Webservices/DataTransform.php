@@ -40,7 +40,7 @@ class DataTransform
 		return $newRow;
 	}
 
-	function filterAndSanitize($row, $meta)
+	public static function filterAndSanitize($row, $meta)
 	{
 
 		$row = DataTransform::filterAllColumns($row, $meta);
@@ -48,7 +48,7 @@ class DataTransform
 		return $row;
 	}
 
-	function sanitizeData($newRow, $meta, $t = null)
+	public static function sanitizeData($newRow, $meta, $t = null)
 	{
 
 		$newRow = DataTransform::sanitizeReferences($newRow, $meta);
@@ -141,7 +141,7 @@ class DataTransform
 		return $row;
 	}
 
-	function filterAllColumns($row, $meta)
+	public static function filterAllColumns($row, $meta)
 	{
 
 		$recordString = DataTransform::$recordString;
@@ -157,7 +157,7 @@ class DataTransform
 		return $newRow;
 	}
 
-	function sanitizeFields($row, $meta)
+	public static function sanitizeFields($row, $meta)
 	{
 		$default_charset = VTWS_PreserveGlobal::getGlobal('default_charset');
 		$recordString = DataTransform::$recordString;
@@ -196,7 +196,7 @@ class DataTransform
 		return $row;
 	}
 
-	function sanitizeReferences($row, $meta)
+	public static function sanitizeReferences($row, $meta)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -237,7 +237,7 @@ class DataTransform
 		return $row;
 	}
 
-	function sanitizeOwnerFields($row, $meta, $t = null)
+	public static function sanitizeOwnerFields($row, $meta, $t = null)
 	{
 		$adb = PearDatabase::getInstance();
 		$ownerFields = $meta->getOwnerFields();

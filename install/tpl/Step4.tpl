@@ -9,6 +9,7 @@
   *
  ********************************************************************************/
 -->*}
+{strip}
 <form class="form-horizontal" name="step4" method="post" action="Install.php">
 	<input type="hidden" name="mode" value="Step5" />
 	<input type="hidden" name="lang" value="{$LANG}" />
@@ -42,10 +43,10 @@
 							<tr><td colspan="2"><input type="checkbox" name="create_db"/><div class="chkbox"></div><label for="checkbox-1">{vtranslate('LBL_CREATE_NEW_DB','Install')}</label></td>
 							</tr>
 							<tr class="hide" id="root_user"><td>{vtranslate('LBL_ROOT_USERNAME', 'Install')}<span class="no">*</span></td>
-								<td><input type="text" value="" name="db_root_username"></td>
+								<td><input type="text" class="form-control" value="" name="db_root_username"></td>
 							</tr>
 							<tr class="hide" id="root_password"><td>{vtranslate('LBL_ROOT_PASSWORD', 'Install')}</td>
-								<td><input type="password" value="" name="db_root_password"></td>
+								<td><input type="password" class="form-control" value="" name="db_root_password"></td>
 							</tr>
 							<!--tr><td colspan="2"><input type="checkbox" checked name="populate"/><div class="chkbox"></div><label for="checkbox-1"> Populate database with demo data</label></td-->
 							</tr>
@@ -137,3 +138,4 @@
 		</div>
 	</div>
 </form>
+{/strip}

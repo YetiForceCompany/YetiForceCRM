@@ -1,13 +1,4 @@
-# For security purpose we deny web-access to this folder.
-deny from all
-allow from 127.0.0.1
-<Files mobile.php>
-    Order Allow,Deny
-    Allow from all
-</Files>
 <Files dav.php>
-    Order Allow,Deny
-    Allow from all
 	<IfModule mod_rewrite.c>
 		RewriteEngine On
 		RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
@@ -24,5 +15,5 @@ allow from 127.0.0.1
 	</IfModule>
 </Files>
 <IfModule mod_php5.c>
-	php_flag	display_errors				Off
+	php_flag	display_errors	Off
 </IfModule>

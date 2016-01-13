@@ -17,6 +17,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('changeStatusRelation');
 		$this->exposeMethod('updateSequenceRelatedModule');
 		$this->exposeMethod('updateSelectedFields');
+		$this->exposeMethod('updateStateFavorites');
 		$this->exposeMethod('addRelation');
 		$this->exposeMethod('removeRelation');
 	}
@@ -86,6 +87,20 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		try {
 			Vtiger_Relation_Model::removeRelationById($relationId);
 			$response->setResult(['success' => true]);
+		} catch (Exception $e) {
+			$response->setError($e->getCode(), $e->getMessage());
+		}
+		$response->emit();
+	}
+	
+	public function updateStateFavorites(Vtiger_Request $request)
+	{
+		$relationId = $request->get('relationId');
+		$status = $request->get('status');
+		$response = new Vtiger_Response();
+		try {
+			Vtiger_Relation_Model::updateStateFavorites($relationId, $status);
+			$response->setResult(array('success' => true));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

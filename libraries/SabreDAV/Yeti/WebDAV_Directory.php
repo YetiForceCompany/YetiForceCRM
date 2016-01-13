@@ -58,17 +58,17 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		file_put_contents($this->exData->localStorageDir . $localPath, $data);
 		
 		if($rows){
-			$rekord = \Vtiger_Record_Model::getInstanceById( $rows['crmid'], 'Files' );
-			$rekord->set('mode', 'edit');
+			$record = \Vtiger_Record_Model::getInstanceById( $rows['crmid'], 'Files' );
+			$record->set('mode', 'edit');
 		}else{
-			$rekord = \Vtiger_Record_Model::getCleanInstance( 'Files' );
-			$rekord->set( 'assigned_user_id', $this->exData->crmUserId );
+			$record = \Vtiger_Record_Model::getCleanInstance( 'Files' );
+			$record->set( 'assigned_user_id', $this->exData->crmUserId );
 		}
-		$rekord->set( 'title', $pathParts['filename'] );
-		$rekord->set( 'name', $pathParts['filename'] );
-		$rekord->set( 'path', $localPath );
-		$rekord->save();
-		$id = $rekord->getId();
+		$record->set( 'title', $pathParts['filename'] );
+		$record->set( 'name', $pathParts['filename'] );
+		$record->set( 'path', $localPath );
+		$record->save();
+		$id = $record->getId();
 		
 		$stmt = $this->exData->pdo->prepare('UPDATE vtiger_files SET dirid=?,extension=?,size=?,hash=?,ctime=? WHERE filesid=?;');
 		$stmt->execute([$this->dirid, $pathParts['extension'], filesize ( $this->exData->localStorageDir . $localPath ), $hash, date('Y-m-d H:i:s'), $id]);

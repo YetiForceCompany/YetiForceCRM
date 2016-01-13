@@ -2,6 +2,7 @@
 // The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html
 
 $languageStrings = [
+	'CurrencyUpdate' => 'Currency Update',
 	'LBL_CURRENCY_UPDATE' => 'Currency Update',
 	'LBL_CURRENCY_UPDATE_DESCRIPTION' => 'Options for setting systems built in currency conversion rates.',
 	'LBL_SELECT_BANK' => 'Select the Bank',
@@ -27,4 +28,5 @@ $languageStrings = [
 	// bank labels
 	'NBP' => 'National Bank of Poland',
 	'ECB' => 'European Central Bank',
+	'CBR' => 'Central Bank of Russia',
 ];

@@ -9,7 +9,7 @@
   *
  ********************************************************************************/
 -->*}
-
+{strip}
 <div class="row main-container">
 	<div class="inner-container">
 		<form class="form-horizontal" name="step1" method="post" action="Install.php">
@@ -28,7 +28,7 @@
 			<hr>
 			<input type="hidden" name="mode" value="Step2" />
 			<div class="col-md-4 welcome-image">
-				<img src="../layouts/vlayout/skins/images/wizard_screen.png" alt="Vtiger Logo"/>
+				<img src="../layouts/basic/skins/images/wizard_screen.png" alt="Vtiger Logo"/>
 			</div>
 			<div class="col-md-8">
 				<div class="welcome-div">
@@ -49,3 +49,4 @@
 		</form>
 	</div>
 </div>
+{/strip}

@@ -16,7 +16,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewEntries($pagingModel)
+	public function getListViewEntries($pagingModel, $skipSelected = false)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -59,57 +59,53 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 			$columnFieldMapping = $moduleModel->getColumnFieldMapping();
 			$orderByFieldName = $columnFieldMapping[$orderBy];
 			$orderByFieldModel = $moduleModel->getField($orderByFieldName);
-			if ($orderByFieldModel && $orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+			if ($orderByFieldModel && $orderByFieldModel->isReferenceField()) {
 				//IF it is reference add it in the where fields so that from clause will be having join of the table
 				$queryGenerator = $this->get('query_generator');
-				$queryGenerator->addWhereField($orderByFieldName);
+				$queryGenerator->setConditionField($orderByFieldName);
 			}
 		}
 
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
 			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
-				$orderBy = 'COALESCE(CONCAT(vtiger_users.first_name,vtiger_users.last_name),vtiger_groups.groupname)';
+				$orderBy = 'COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 			}
 		}
 
 		$listQuery = $this->getQuery();
-		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
-		$potential_id = $this->get('potential_id');
-		if (Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit() && Settings_SalesProcesses_Module_Model::isLimitForModule($request->get('module'))) {
-			if (empty($potential_id)) {
-				$potential_id = $this->get('potentialid');
-				if ($potential_id == '') {
-					$potential_id = -1;
-				}
+
+		// Limit the choice of products/services only to the ones related to currently selected Opportunity - last step.
+		if (Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit($this->get('src_module'))) {
+			$salesProcessId = $this->get('salesprocessid');
+			if (empty($salesProcessId)) {
+				$salesProcessId = -1;
 			}
 			$newListQuery = '';
 			$explodedListQuery = explode('INNER JOIN', $listQuery);
 			foreach ($explodedListQuery as $key => $value) {
 				$newListQuery .= 'INNER JOIN' . $value;
 				if ($key == 0 && $moduleName == 'Products') {
-					$newListQuery .= ' INNER JOIN vtiger_seproductsrel AS seproductsrel ON vtiger_products.productid = seproductsrel.productid ';
+					$newListQuery .= ' INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_products.productid OR vtiger_crmentityrel.crmid = vtiger_products.productid) ';
 				} elseif ($key == 0 && $moduleName == 'Services') {
 					$newListQuery .= ' INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_service.serviceid OR vtiger_crmentityrel.crmid = vtiger_service.serviceid) ';
 				}
 			}
 			$newListQuery = trim($newListQuery, 'INNER JOIN');
-			if ($moduleName == 'Products') {
-				$newListQuery .= " AND seproductsrel.crmid = '$potential_id' ";
-			} elseif ($moduleName == 'Services') {
-				$newListQuery .= " AND ( (vtiger_crmentityrel.crmid = '$potential_id' AND module = 'Potentials') OR (vtiger_crmentityrel.relcrmid = '$potential_id' AND relmodule = 'Potentials')) ";
+			if (in_array($moduleName, ['Products', 'Services'])) {
+				$newListQuery .= " AND ( (vtiger_crmentityrel.crmid = '$salesProcessId' AND module = 'SSalesProcesses') OR (vtiger_crmentityrel.relcrmid = '$salesProcessId' AND relmodule = 'SSalesProcesses')) ";
 			}
 			$listQuery = $newListQuery;
 		}
+
 		if ($this->get('subProductsPopup')) {
 			$listQuery = $this->addSubProductsQuery($listQuery);
 		}
-
 		$sourceModule = $this->get('src_module');
 		$sourceField = $this->get('src_field');
 		if (!empty($sourceModule)) {
 			if (method_exists($moduleModel, 'getQueryByModuleField')) {
-				$overrideQuery = $moduleModel->getQueryByModuleField($sourceModule, $sourceField, $this->get('src_record'), $listQuery);
+				$overrideQuery = $moduleModel->getQueryByModuleField($sourceModule, $sourceField, $this->get('src_record'), $listQuery,$skipSelected);
 				if (!empty($overrideQuery)) {
 					$listQuery = $overrideQuery;
 				}
@@ -120,7 +116,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		$pageLimit = $pagingModel->getPageLimit();
 
 		if (!empty($orderBy)) {
-			if ($orderByFieldModel && $orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+			if ($orderByFieldModel && $orderByFieldModel->isReferenceField()) {
 				$referenceModules = $orderByFieldModel->getReferenceList();
 				$referenceNameFieldOrderBy = array();
 				foreach ($referenceModules as $referenceModuleName) {
@@ -258,7 +254,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		}
 		$position = stripos($listQuery, ' from ');
 		if ($position) {
-			$split = spliti(' from ', $listQuery);
+			$split = explode(' from ', $listQuery);
 			$splitCount = count($split);
 			$listQuery = 'SELECT count(*) AS count ';
 			for ($i = 1; $i < $splitCount; $i++) {

@@ -18,6 +18,7 @@ class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model
 	const RULE_MEMBER_TYPE_GROUPS = 'Groups';
 	const RULE_MEMBER_TYPE_ROLES = 'Roles';
 	const RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES = 'RoleAndSubordinates';
+	const RULE_MEMBER_TYPE_USERS = 'Users';
 
 	/**
 	 * Function to get the Qualified Id of the Group RuleMember
@@ -101,6 +102,19 @@ class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model
 			}
 		}
 
+		if ($type == self::RULE_MEMBER_TYPE_USERS) {
+			$sql = 'SELECT * FROM vtiger_users WHERE id = ?';
+			$result = $db->pquery($sql, [$memberId]);
+
+			if ($result->rowCount()) {
+				$row = $db->query_result_rowdata($result, 0);
+				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_USERS, $row['id']);
+				$name = $row['first_name'].' '.$row['last_name'];
+				$rule = new self();
+				return $rule->set('id', $qualifiedId)->set('name', $name);
+			}
+		}
+		
 		if ($type == self::RULE_MEMBER_TYPE_ROLES) {
 			$sql = 'SELECT * FROM vtiger_role WHERE roleid = ?';
 			$params = array($memberId);
@@ -138,7 +152,7 @@ class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model
 	 */
 	public static function getAll()
 	{
-		$rules = array();
+		$rules = [];
 
 		$allGroups = Settings_Groups_Record_Model::getAll();
 		foreach ($allGroups as $groupId => $groupModel) {
@@ -158,6 +172,13 @@ class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model
 			$rules[self::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES][$qualifiedId] = $rule->set('id', $qualifiedId)->set('name', $roleModel->getName());
 		}
 
+		$allUsers = Users_Record_Model::getAll();
+		foreach ($allUsers as $userId => $userModel) {
+			$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_USERS, $userId);
+			$rule = new self();
+			$rules[self::RULE_MEMBER_TYPE_USERS][$qualifiedId] = $rule->set('id', $qualifiedId)->set('name', $userModel->getDisplayName());
+		}
+		
 		return $rules;
 	}
 }

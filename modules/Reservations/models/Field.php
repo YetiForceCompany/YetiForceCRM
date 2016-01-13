@@ -17,7 +17,7 @@ class Reservations_Field_Model extends Vtiger_Field_Model
 	 * @param <String> Data base value
 	 * @return <String> value
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
 		$fieldName = $this->getName();
 
@@ -31,7 +31,7 @@ class Reservations_Field_Model extends Vtiger_Field_Model
 				return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
 			}
 		}
-		return parent::getEditViewDisplayValue($value);
+		return parent::getEditViewDisplayValue($value, $record);
 	}
 
 	/**

@@ -9,7 +9,7 @@
  * All Rights Reserved. Contributors: Brazilian Portuguese Translation - Valmir Carlos Trindade e Gabriel Trindade - valmir@ttcasolucoes.com.br
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'Widgets' => 'Widgets',
+	'Widgets' => 'Modules – Widgets',
 	'LBL_MODULE_DESC' => 'Informação do Módulo',
 	'Add widget' => 'Adicionar Widget',
 	'Type widget' => 'Tipo',
@@ -53,6 +53,9 @@ $languageStrings = [
 	'None' => 'Nada',
 	'ProductsServices' => 'Products services',
 	'Campaign status' => 'Campaign status',
+	'LBL_SELECT_BUTTON_INFO' => 'Enable visible select button',
+	'LBL_CONDITION' => 'Condition',
+	'LBL_CONDITION_INFO' => 'Select condition for showing records',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Carregando...',

@@ -25,7 +25,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Base_UIType
 	 * @param <Integer> crmid of record
 	 * @return <String>
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
 		if ($value) {
 			$userName = getRoleName($value);
@@ -39,11 +39,11 @@ class Vtiger_UserRole_UIType extends Vtiger_Base_UIType
 	 * @param <Number> $recordId
 	 * @return <String> display value
 	 */
-	public function getDisplayValue($value, $recordId)
+	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{
 		$displayValue = $this->getEditViewDisplayValue($value);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if ($currentUserModel->isAdminUser()) {
+		if ($currentUserModel->isAdminUser() && $rawText === false) {
 			$roleRecordModel = new Settings_Roles_Record_Model();
 			$roleRecordModel->set('roleid', $value);
 			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . textlength_check($displayValue) . '</a>';

@@ -236,7 +236,7 @@ $languageStrings = [
 	'Day ends at' => 'Godzina zakończenia pracy',
 	'Default Event Status' => 'Domyślny status terminu',
 	'Default Activity Type' => 'Domyślny rodzaj terminu',
-	'Left Panel Hide' => 'Domyślnie ukryj lewy panel',
+	'LBL_MENU_EXPANDED_BY_DEFAULT' => 'Menu domyślnie rozwinięte',
 	'Row Height' => 'Wysokość wiersza',
 	'Default Record View' => 'Domyślny widok rekordu',
 	'CRM Phone Extension' => 'Wewnętrzny numer telefonu',
@@ -304,6 +304,16 @@ $languageStrings = [
 	'LBL_EMAIL' => 'e-mail',
 	'LBL_SPACE' => 'Spacja',
 	'Account Owner' => 'Właściciel konta',
+	'PLL_PLANNED' => 'Planowane',
+	'PLL_IN_REALIZATION' => 'Do realizacji',
+	'PLL_OVERDUE' => 'Zaległe',
+	'PLL_POSTPONED' => 'Przełożone',
+	'PLL_CANCELLED' => 'Anulowane',
+	'PLL_COMPLETED' => 'Wykonane',
+	'LBL_SELECT_LAYOUT' => 'Wybierz układ',
+	'LBL_SWITCH' => 'Przełącz',
+	'LBL_SWITCH_USER' => 'Przełącz na użytkownika',
+	'LBL_SWITCH_TO_YOURSELF' => 'Przełącz na siebie',
 ];
 
 $jsLanguageStrings = [

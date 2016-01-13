@@ -28,7 +28,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($tree)
+	public function getDisplayValue($tree, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$template = $this->get('field')->getFieldParams();
 		$name = Vtiger_Cache::get('TreeData' . $template, $tree);
@@ -44,11 +44,11 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		if ($adb->num_rows($result)) {
 			if ($adb->query_result_raw($result, 0, 'depth') > 0) {
 				$parenttrre = $adb->query_result_raw($result, 0, 'parenttrre');
-				$cut = strlen('::' . $tree);
-				$parenttrre = substr($parenttrre, 0, - $cut);
 				$pieces = explode('::', $parenttrre);
-				$parent = end($pieces);
-				$result2 = $adb->pquery("SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?", [$template, $parent]);
+				end($pieces);
+				$parent = prev($pieces);
+
+				$result2 = $adb->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $parent]);
 				$parentName = $adb->query_result_raw($result2, 0, 'name');
 
 				$parentName = '(' . vtranslate($parentName, $module) . ') ';
@@ -64,9 +64,9 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	 * @param reference record id
 	 * @return link
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
-		return $this->getDisplayValue($value);
+		return $this->getDisplayValue($value, $record);
 	}
 
 	public function getListSearchTemplateName()

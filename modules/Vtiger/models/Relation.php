@@ -12,6 +12,7 @@
 class Vtiger_Relation_Model extends Vtiger_Base_Model
 {
 
+	static $_cached_instance = [];
 	protected $parentModule = false;
 	protected $relatedModule = false;
 	protected $relationType = false;
@@ -72,8 +73,12 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public function getListUrl($parentRecordModel)
 	{
-		return 'module=' . $this->getParentModuleModel()->get('name') . '&relatedModule=' . $this->get('modulename') .
+		$url = 'module=' . $this->getParentModuleModel()->get('name') . '&relatedModule=' . $this->get('modulename') .
 			'&view=Detail&record=' . $parentRecordModel->getId() . '&mode=showRelatedList';
+		if ($this->get('modulename') == 'Calendar') {
+			$url .= '&time=current';
+		}
+		return $url;
 	}
 
 	public function setRelationModuleModel($relationModel)
@@ -151,6 +156,28 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return true;
 	}
 
+	public function addRelTree($crmid, $tree)
+	{
+		$sourceModule = $this->getParentModuleModel();
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$db = PearDatabase::getInstance();
+		$db->insert('u_yf_crmentity_rel_tree', [
+			'crmid' => $crmid,
+			'tree' => $tree,
+			'module' => $sourceModule->getId(),
+			'relmodule' => $this->getRelationModuleModel()->getId(),
+			'rel_created_user' => $currentUserModel->getId(),
+			'rel_created_time' => date('Y-m-d H:i:s')
+		]);
+	}
+
+	public function deleteRelTree($crmid, $tree)
+	{
+		$sourceModule = $this->getParentModuleModel();
+		$db = PearDatabase::getInstance();
+		$db->delete('u_yf_crmentity_rel_tree', 'crmid = ? AND tree = ? AND module = ? AND relmodule = ?', [$crmid, $tree, $sourceModule->getId(), $this->getRelationModuleModel()->getId()]);
+	}
+
 	public function isDirectRelation()
 	{
 		return ($this->getRelationType() == self::RELATION_DIRECT);
@@ -185,26 +212,45 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $this->getRelationModuleModel()->isPermitted('Delete');
 	}
 
+	public function showCreatorDetail()
+	{
+		if ($this->getRelationType() != 2) {
+			return false;
+		}
+		return $this->get('creator_detail');
+	}
+
+	public function showComment()
+	{
+		if ($this->getRelationType() != 2) {
+			return false;
+		}
+		return $this->get('relation_comment');
+	}
+
 	public static function getInstance($parentModuleModel, $relatedModuleModel, $label = false)
 	{
+		$relKey = $parentModuleModel->getId() . '_' . $relatedModuleModel->getId() . '_' . ($label ? 1 : 0);
+		if (key_exists($relKey, self::$_cached_instance)) {
+			return self::$_cached_instance[$relKey];
+		}
 		$db = PearDatabase::getInstance();
-
 		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename FROM vtiger_relatedlists
 					INNER JOIN vtiger_tab on vtiger_tab.tabid = vtiger_relatedlists.related_tabid AND vtiger_tab.presence != 1
 					WHERE vtiger_relatedlists.tabid = ? AND related_tabid = ?';
-		$params = array($parentModuleModel->getId(), $relatedModuleModel->getId());
-
+		$params = [$parentModuleModel->getId(), $relatedModuleModel->getId()];
 		if (!empty($label)) {
 			$query .= ' AND label = ?';
 			$params[] = $label;
 		}
 
 		$result = $db->pquery($query, $params);
-		if ($db->num_rows($result)) {
-			$row = $db->query_result_rowdata($result, 0);
+		if ($db->getRowCount($result)) {
+			$row = $db->getRow($result);
 			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
+			self::$_cached_instance[$relKey] = $relationModel;
 			return $relationModel;
 		}
 		return false;
@@ -258,9 +304,9 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$relatedModelFields = $relatedModel->getFields();
 
 			foreach ($relatedModelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
-					if (in_array($parentModule->getName(), $referenceList)) {
+					if (!empty($referenceList) && in_array($parentModule->getName(), $referenceList)) {
 						$this->set('relationField', $fieldModel);
 						$relationField = $fieldModel;
 						break;
@@ -283,7 +329,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 		$parentModelFields = $parentModule->getFields();
 		foreach ($parentModelFields as $fieldName => $fieldModel) {
-			if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
 				foreach ($referenceList as $module) {
 					if (!in_array($module, $excludedModules) && !in_array($fieldName, $excludedFields)) {
@@ -297,7 +343,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		}
 		$relatedModelFields = $relatedModel->getFields();
 		foreach ($relatedModelFields as $fieldName => $fieldModel) {
-			if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
 				foreach ($referenceList as $module) {
 					if (array_key_exists($module, $fieldsReferenceList) && $module != $recordModel->getModuleName()) {
@@ -316,9 +362,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	public function getRestrictionsPopupField($recordModel)
 	{
 		$fields = [];
-		$map = [
-			'Contacts::Potentials' => ['parent_id', 'related_to'],
-		];
+		$map = [];
 		$relatedModel = $this->getRelationModuleModel();
 		$parentModule = $this->getParentModuleModel();
 		$relatedModuleName = $relatedModel->getName();
@@ -370,30 +414,34 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public function removeRelationById($relationId)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		if ($relationId) {
-			$adb->pquery("DELETE FROM `vtiger_relatedlists` WHERE `relation_id` = ?;", [$relationId]);
+			$db->delete('vtiger_relatedlists', 'relation_id = ?', [$relationId]);
 		}
 	}
 
-	public function updateRelationSequence($modules)
+	public static function updateRelationSequence($modules)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		foreach ($modules as $module) {
-			$sequence = (int) $module['index'] + 1;
-			$query = 'UPDATE vtiger_relatedlists SET `sequence` = ? WHERE `relation_id` = ?;';
-			$result = $adb->pquery($query, array($sequence, $module['relationId']));
+			$db->update('vtiger_relatedlists', [
+				'sequence' => (int) $module['index'] + 1
+				], 'relation_id = ?', [$module['relationId']]
+			);
 		}
 	}
 
 	public function updateModuleRelatedFields($relationId, $fields)
 	{
-		$adb = PearDatabase::getInstance();
-		$query = 'DELETE FROM `vtiger_relatedlists_fields` WHERE `relation_id` = ?;';
-		$adb->pquery($query, array($relationId));
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
 		foreach ($fields as $key => $field) {
-			$query = 'INSERT INTO `vtiger_relatedlists_fields` (`relation_id`, `fieldid`, `fieldname`, `sequence`) VALUES (?, ?, ?, ?);';
-			$result = $adb->pquery($query, array($relationId, $field['id'], $field['name'], $key));
+			$db->insert('vtiger_relatedlists_fields', [
+				'relation_id' => $relationId,
+				'fieldid' => $field['id'],
+				'fieldname' => $field['name'],
+				'sequence' => $key
+			]);
 		}
 	}
 
@@ -444,13 +492,13 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$relatedModelFields = $relatedModel->getFields();
 
 			foreach ($relatedModelFields as $fieldName => $fieldModel) {
-				if($fieldModel->isViewable()){
+				if ($fieldModel->isViewable()) {
 					$fields[] = $fieldModel;
 				}
 			}
 			$this->set('fields', $fields);
 		}
-		if($type){
+		if ($type) {
 			foreach ($fields as $key => $fieldModel) {
 				if ($fieldModel->getFieldDataType() != $type) {
 					unset($fields[$key]);
@@ -458,5 +506,54 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			}
 		}
 		return $fields;
+	}
+
+	public static function getReferenceTableInfo($moduleName, $refModuleName)
+	{
+		$temp = [$moduleName, $refModuleName];
+		sort($temp);
+		$tableName = 'vtiger_' . strtolower($temp[0]) . '_' . strtolower($temp[1]);
+
+		if ($temp[0] == $moduleName) {
+			$baseColumn = 'relcrmid';
+			$relColumn = 'crmid';
+		} else {
+			$baseColumn = 'crmid';
+			$relColumn = 'relcrmid';
+		}
+		return ['table' => $tableName, 'module' => $temp[0], 'base' => $baseColumn, 'rel' => $relColumn];
+	}
+
+	public function updateFavoriteForRecord($action, $data)
+	{
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$moduleName = $this->getParentModuleModel()->get('name');
+		$result = false;
+		if ('add' == $action) {
+			$result = $db->insert('u_yf_favorites', [
+				'crmid' => $data['crmid'],
+				'module' => $moduleName,
+				'relcrmid' => $data['relcrmid'],
+				'relmodule' => $this->getRelationModuleName(),
+				'userid' => $currentUser->getId()
+			]);
+		} elseif ('delete' == $action) {
+			$where = 'crmid = ? AND module = ? AND relcrmid = ?  AND relmodule = ? AND userid = ?';
+			$result = $db->delete('u_yf_favorites', $where, [$data['crmid'], $moduleName, $data['relcrmid'], $this->getRelationModuleName(), $currentUser->getId()]);
+		}
+		return $result;
+	}
+
+	public function updateStateFavorites($relationId, $status)
+	{
+		$adb = PearDatabase::getInstance();
+		$query = 'UPDATE vtiger_relatedlists SET `favorites` = ? WHERE `relation_id` = ?;';
+		$result = $adb->pquery($query, [$status, $relationId]);
+	}
+
+	public function isFavorites()
+	{
+		return $this->get('favorites') == 1 ? true : false;
 	}
 }

@@ -15,18 +15,10 @@
 /* IMPORTANT!!! Do not comment or remove uncommented settings in this file
    even if you are using session configuration.
    See http://kcfinder.sunhater.com/install for setting descriptions */
-//$include_path = ini_get('include_path');
 $currentPath = getcwd();
-$crmPath =  $currentPath . '/../../';
-chdir ($crmPath);
-ini_set('include_path',$crmPath);
-
-include_once('config/config.inc.php');
-if (file_exists('config/config_override.php')) {
-	include_once 'config/config_override.php';
-}
-chdir ($currentPath);
-ini_set('include_path',$include_path);
+chdir(dirname(__FILE__) . '/../../../');
+include_once('include/ConfigUtils.php');
+chdir($currentPath);
 $_CONFIG = array(
 
 

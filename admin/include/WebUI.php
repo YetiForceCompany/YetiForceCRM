@@ -32,7 +32,7 @@ class Admin_WebUI extends Admin_EntryPoint {
 				Vtiger_Session::set('return_params', $return_params);
 			}
 			header('Location: index.php');
-			throw new AppException('Login is required');
+			throw new NoPermittedException('Login is required');
 		}
 	}
 
@@ -68,7 +68,7 @@ class Admin_WebUI extends Admin_EntryPoint {
 			$handler->checkPermission($request);
 			return;
 		}
-		throw new AppException(vtranslate($moduleName).' '.vtranslate('LBL_NOT_ACCESSIBLE'));
+		throw new NoPermittedException('LBL_NOT_ACCESSIBLE');
 	}
 
 	protected function triggerPreProcess($handler, $request) {
@@ -106,7 +106,8 @@ class Admin_WebUI extends Admin_EntryPoint {
 		$csrfProtection = vglobal('csrfProtection');
 		if ($csrfProtection) {
 			if ($request->get('mode') != 'reset' && $request->get('action') != 'Login')
-				require_once 'libraries/csrf-magic/csrf-magic.php';
+				require_once('libraries/csrf-magic/csrf-magic.php');
+				require_once('config/csrf_config.php');
 		}
 		// TODO - Get rid of global variable $current_user
 		// common utils api called, depend on this variable right now

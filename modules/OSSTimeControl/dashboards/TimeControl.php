@@ -79,12 +79,19 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		}
 
 		if ($numRows > 0) {
+			$sql = "SELECT timecontrol_type, color FROM vtiger_timecontrol_type";
+			$result = $db->query($sql);
+			while ($row = $db->fetch_array($result)) {
+				$colors[$row['timecontrol_type']] = $row['color'];
+			}
+
 			$counter = 0;
 			$result = array();
 			foreach ($workingTime as $timeKey => $timeValue) {
 				foreach ($timeTypes as $timeTypeKey => $timeTypeKey) {
 					$result[$timeTypeKey]['data'][$counter][0] = $counter;
 					$result[$timeTypeKey]['label'] = vtranslate($timeTypeKey, 'OSSTimeControl');
+					$result[$timeTypeKey]['color'] = $colors[$timeTypeKey];
 					if ($timeValue[$timeTypeKey]) {
 						$result[$timeTypeKey]['data'][$counter][1] = $timeValue[$timeTypeKey];
 					} else {
@@ -178,7 +185,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
 
-		$viewer->assign('TCPMODULE_MODEL',  $TCPModuleModel->getConfigInstance());
+		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());
 		$viewer->assign('USERID', $user);
 		$viewer->assign('DTIME', $time);
 		$viewer->assign('WORKDAYS', $data['workDays']);

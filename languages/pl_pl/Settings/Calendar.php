@@ -11,7 +11,7 @@
 $languageStrings = [
 	'Calendar' => 'Kalendarz',
 	//ActivityTypes
-	'LBL_ACTIVITY_TYPES' => 'Filtry kalendarza',
+	'LBL_ACTIVITY_TYPES' => 'Kalendarz - typy',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Zarządzanie dostępnymi filtrami zdarzeń w kalendarzu.',
 	'LBL_ACTIVITY_NAME' => 'Nazwa filtru',
 	'LBL_MODULE' => 'Moduł',
@@ -23,7 +23,7 @@ $languageStrings = [
 	'LBL_EDIT_COLOR' => 'Edycja koloru',
 	'LBL_SELECT_COLOR' => 'Wybierz kolor:',
 	'LBL_SAVE_COLOR' => 'Zapisano kolor',
-	'LBL_CALENDAR_CONFIG' => 'Konfiguracja kalendarza',
+	'LBL_CALENDAR_CONFIG' => 'Kalendarz - konfiguracja',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
 	'LBL_USER_COLORS' => 'Kolory użytkowników',
 	'LBL_CALENDAR_COLORS' => 'Kolory kalendarza',
@@ -35,7 +35,7 @@ $languageStrings = [
 	'LBL_GENERATE_COLOR' => 'Generuj losowy kolor',
 	'LBL_GENERATED_COLOR' => 'Wygenerowano kolor',
 	'LBL_NOTWORKING_DAYS' => 'Dni wolne od pracy',
-	'LBL_NOTWORKEDDAYS_INFO' => 'Lista dni które są dniami wolnymi od pracy',
+	'LBL_NOTWORKEDDAYS_INFO' => 'Lista dni, które są dniami wolnymi od pracy',
 	'PLL_MONDAY' => 'Poniedziałek',
 	'PLL_TUESDAY' => 'Wtorek',
 	'PLL_WEDNESDAY' => 'Środa',

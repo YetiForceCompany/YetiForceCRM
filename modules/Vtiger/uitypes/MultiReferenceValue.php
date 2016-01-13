@@ -31,8 +31,9 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function getPicklistValues()
 	{
-		if (!empty($this->get('picklistValues'))) {
-			return $this->get('picklistValues');
+		$picklistValues = $this->get('picklistValues');
+		if (!empty($picklistValues)) {
+			return $picklistValues;
 		}
 		$params = $this->get('field')->getFieldParams();
 		$db = PearDatabase::getInstance();
@@ -60,7 +61,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 * @param string $destinationModule Destination module name
 	 * @return array
 	 */
-	public function getFieldsByModules($sourceModule, $destinationModule)
+	public static function getFieldsByModules($sourceModule, $destinationModule)
 	{
 		$return = Vtiger_Cache::get('mrvfm-' . $sourceModule, $destinationModule);
 		if (!$return) {
@@ -82,7 +83,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 * @param string $destinationModule Destination module name
 	 * @return array
 	 */
-	public function getRelatedModules($moduleName)
+	public static function getRelatedModules($moduleName)
 	{
 		$return = Vtiger_Cache::get('mrvf', $moduleName);
 		if (!$return) {
@@ -100,7 +101,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$fieldsModel = $moduleModel->getFields();
 			$relatedModules = [];
 			foreach ($fieldsModel as $fieldName => $fieldModel) {
-				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
 					$relatedModules = array_merge($relatedModules, $referenceList);
 				}
@@ -172,8 +173,10 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$currentValue = self::COMMA;
 		}
 		$currentValue .= $values['relatedValue'] . self::COMMA;
-		$query = 'UPDATE ' . $this->get('field')->get('table') . ' SET ' . $this->get('field')->get('column') . ' = ? WHERE ' . $entity->tab_name_index[$this->get('field')->get('table')] . ' = ?';
-		$db->pquery($query, [$currentValue, $sourceRecord]);
+		$db->update($this->get('field')->get('table'), [
+			$this->get('field')->get('column') => $currentValue
+			], $entity->tab_name_index[$this->get('field')->get('table')] . ' = ?', [$sourceRecord]
+		);
 	}
 
 	/**
@@ -191,8 +194,10 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$currentValue = self::COMMA;
 		}
 		$currentValue = str_replace(self::COMMA . $values['relatedValue'] . self::COMMA, self::COMMA, $currentValue);
-		$query = 'UPDATE ' . $this->get('field')->get('table') . ' SET ' . $this->get('field')->get('column') . ' = ? WHERE ' . $entity->tab_name_index[$this->get('field')->get('table')] . ' = ?';
-		$db->pquery($query, [$currentValue, $sourceRecord]);
+		$db->update($this->get('field')->get('table'), [
+			$this->get('field')->get('column') => $currentValue
+			], $entity->tab_name_index[$this->get('field')->get('table')] . ' = ?', [$sourceRecord]
+		);
 	}
 
 	/**
@@ -222,8 +227,10 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		while ($value = $db->getSingleValue($result)) {
 			$currentValue .= $value . self::COMMA;
 		}
-		$query = 'UPDATE ' . $this->get('field')->get('table') . ' SET ' . $this->get('field')->get('column') . ' = ? WHERE ' . $sourceRecordModel->getEntity()->tab_name_index[$this->get('field')->get('table')] . ' = ?';
-		$db->pquery($query, [$currentValue, $sourceRecord]);
+		$db->update($this->get('field')->get('table'), [
+			$this->get('field')->get('column') => $currentValue
+			], $sourceRecordModel->getEntity()->tab_name_index[$this->get('field')->get('table')] . ' = ?', [$sourceRecord]
+		);
 	}
 
 	/**
@@ -242,10 +249,11 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$result = $db->query($listQuery);
 
 		$values = [];
-		while ($value = $db->getSingleValue($result)) {
+		while (($value = $db->getSingleValue($result)) !== false) {
 			$value = explode(self::COMMA, trim($value, self::COMMA));
 			$values = array_merge($values, $value);
 		}
+
 		return array_unique($values);
 	}
 }

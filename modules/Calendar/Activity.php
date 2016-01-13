@@ -380,7 +380,7 @@ class Activity extends CRMEntity
 		$log->debug("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
-		if (PerformancePrefs::getBoolean('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 
@@ -818,9 +818,6 @@ class Activity extends CRMEntity
 		}
 		if ($queryPlanner->requireTable("vtiger_leaddetailsRelCalendar")) {
 			$query .=" 	left join vtiger_leaddetails as vtiger_leaddetailsRelCalendar on vtiger_leaddetailsRelCalendar.leadid = vtiger_activity.link";
-		}
-		if ($queryPlanner->requireTable("vtiger_potentialRelCalendar")) {
-			$query .=" 	left join vtiger_potential as vtiger_potentialRelCalendar on vtiger_potentialRelCalendar.potentialid = vtiger_activity.process";
 		}
 		if ($queryPlanner->requireTable("vtiger_troubleticketsRelCalendar")) {
 			$query .=" left join vtiger_troubletickets as vtiger_troubleticketsRelCalendar on vtiger_troubleticketsRelCalendar.ticketid = vtiger_activity.process";

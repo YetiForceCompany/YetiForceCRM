@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Search Configuration' => 'Such-Konfiguration',
-	'Search Setup' => 'Such-Einstellungen',
+	'Search Setup' => 'Search - Configuration',
 	'Search' => 'Such-Konfiguration',
 	'LBL_Module_desc' => 'In diesem Bereich können Sie Bezeichnungen für uitype 10 Felder und Suchmechanismen einstellen. Dieser Mechanismus arbeitet unabhängig - man kann während der Suche viele Spalten in einem Feld zu sehen, aber wenn Sie einen Datensatz auswählen, wird ein Name aus einer Bezeichnung angezeigt.',
 	'Module' => 'Modul',

@@ -25,7 +25,7 @@ $languageStrings = [
 	'LBL_PRIVILEGES_MESSAGE' => "Ten profil będzie zastosowany dla użytkowników portalu.",
 	'LBL_DEFAULT_ASSIGNEE_MESSAGE' => 'Zgłoszenia zostaną przydzielone do wybranego użytkownika/grupy w CRM.',
 	'LBL_PORTAL_URL_MESSAGE' => 'To jest adres portalu, w którym Kontrahenci będą mogli przeglądać udostępnione im informacje.',
-	'LBL_DRAG_AND_DROP_MESSAGE' => 'Chwyć i przemieść moduły w celu uporządkowania ich kolejności wyświetlania.',
+	'LBL_DRAG_AND_DROP_MESSAGE' => 'Chwyć i przenieś moduły w celu uporządkowania ich kolejności wyświetlania.',
 ];
 
 $jsLanguageStrings = [

@@ -21,7 +21,7 @@ while ($multireference = $db->fetch_array($result)) {
 		$entity = CRMEntity::getInstance($multireference['source_module']);
 		$queryGenerator = new QueryGenerator($multireference['source_module'], $current_user);
 		$queryGenerator->setFields(['id']);
-		$queryGenerator->addCustomWere(['column' => $entity->table_index, 'operator' => '>', 'value' => $multireference['lastid'], 'glue' => 'AND']);
+		$queryGenerator->setCustomCondition(['column' => $entity->table_index, 'operator' => '>', 'value' => $multireference['lastid'], 'glue' => 'AND']);
 		$query = $queryGenerator->getQuery();
 		$query .= ' ORDER BY ' . $entity->table_index . ' ASC';
 		$recordsResult = $db->query($query);

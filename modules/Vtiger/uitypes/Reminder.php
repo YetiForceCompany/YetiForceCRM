@@ -34,7 +34,7 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$reminder_value = '';
 		$reminder_time = $this->getEditViewDisplayValue($value);
@@ -56,7 +56,7 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	 * @param $value
 	 * @return converted value
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
 		if ($value != 0) {
 			$rem_days = floor($value / (24 * 60));

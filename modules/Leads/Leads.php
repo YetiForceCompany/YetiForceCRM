@@ -32,7 +32,7 @@ class Leads extends CRMEntity
 	var $column_fields = Array();
 	var $sortby_fields = Array('email', 'phone', 'company', 'smownerid', 'website');
 	// This is used to retrieve related vtiger_fields from form posts.
-	var $additional_column_fields = Array('smcreatorid', 'smownerid', 'contactid', 'potentialid', 'crmid');
+	var $additional_column_fields = Array('smcreatorid', 'smownerid', 'contactid', 'crmid');
 	// This is the list of vtiger_fields that are in the lists.
 	var $list_fields = Array(
 		'Company' => Array('leaddetails' => 'company'),
@@ -489,15 +489,26 @@ class Leads extends CRMEntity
 	function save_related_module($module, $crmid, $with_module, $with_crmids)
 	{
 		$adb = PearDatabase::getInstance();
-
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		
 		if (!is_array($with_crmids))
 			$with_crmids = Array($with_crmids);
 		foreach ($with_crmids as $with_crmid) {
-			if ($with_module == 'Products')
-				$adb->pquery("insert into vtiger_seproductsrel values (?,?,?)", array($crmid, $with_crmid, $module));
-			elseif ($with_module == 'Campaigns')
-				$adb->pquery("insert into  vtiger_campaignleadrel values(?,?,1)", array($with_crmid, $crmid));
-			else {
+			if ($with_module == 'Products') {
+				$adb->insert('vtiger_seproductsrel', [
+					'crmid' => $crmid,
+					'productid' => $with_crmid,
+					'setype' => $module,
+					'rel_created_user' => $currentUser->getId(),
+					'rel_created_time' => date('Y-m-d H:i:s')
+				]);
+			} elseif ($with_module == 'Campaigns') {
+				$adb->insert('vtiger_campaignleadrel', [
+					'campaignid' => $with_crmid,
+					'leadid' => $crmid,
+					'campaignrelstatusid' => 1
+				]);
+			} else {
 				parent::save_related_module($module, $crmid, $with_module, $with_crmid);
 			}
 		}

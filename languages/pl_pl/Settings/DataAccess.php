@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_DATAACCES' => 'Walidacja dostępu',
-	'LBL_DATAACCESS' => 'Walidacja dostępu',
+	'LBL_DATAACCESS' => 'Kontrola zapisu',
 	'DataAccess' => 'Walidacja dostępu',
 	'LBL_NEW_TPL' => 'Dodaj nowy warunek',
 	'LBL_MODULE_NAME' => 'Nazwa modułu',
@@ -73,7 +73,7 @@ $languageStrings = [
 	'Date validation' => 'Walidacja daty',
 	'Check parent task' => 'Sprawdź zadanie nadrzędne',
 	'Check if there are any tasks that are not closed' => 'Sprawdź czy są niezakończone zadania',
-	'Check for duplicate names' => 'Sprawdź czy są zduplikowane nazwy',
+	'Check for duplicates' => 'Sprawdź czy istnieją duplikaty',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Sprawdź czy wszystkie pola obowiązkowe w widoku szybkiej edycji są wypełnione',
 	'Lock edit on the status' => 'Zablokuj edycję statusu',
 	'is enabled' => 'jest włączony',

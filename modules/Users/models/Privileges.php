@@ -15,6 +15,20 @@ class Users_Privileges_Model extends Users_Record_Model
 {
 
 	/**
+	 * Function to get the Display Name for the record
+	 * @return <String> - Entity Display Name for the record
+	 */
+	public function getName()
+	{
+		$entityData = Vtiger_Functions::getEntityModuleInfo('Users');
+		$colums = [];
+		foreach (explode(',', $entityData['fieldname']) as $fieldname) {
+			$colums[] = $this->get($fieldname);
+		}
+		return implode(' ', $colums);
+	}
+
+	/**
 	 * Function to get the Global Read Permission for the user
 	 * @return <Number> 0/1
 	 */
@@ -114,7 +128,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 * @param <Number> $userId
 	 * @return Users_Privilege_Model object
 	 */
-	public static function getInstanceById($userId)
+	public static function getInstanceById($userId, $module = null)
 	{
 		if (empty($userId))
 			return null;
@@ -192,11 +206,17 @@ class Users_Privileges_Model extends Users_Record_Model
 			return self::$lockEditCache[$moduleName . $record];
 		}
 		$return = false;
+		if (empty($record)) {
+			self::$lockEditCache[$moduleName . $record] = $return;
+			return $return;
+		}
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$currentUserId = $currentUserModel->getId();
 
 		vimport('~~modules/com_vtiger_workflow/include.inc');
 		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
+		vimport('~~modules/com_vtiger_workflow/VTEntityCache.inc');
+		vimport('~~include/Webservices/Retrieve.php');
 		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
 		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
 		if (count($workflows)) {
@@ -216,110 +236,116 @@ class Users_Privileges_Model extends Users_Record_Model
 	/**
 	 * Function to set Shared Owner
 	 */
-	public function setSharedOwner($userid, $record)
+	public static function setSharedOwner($recordModel)
 	{
 		$db = PearDatabase::getInstance();
-		$shownerid = '';
-		if (!is_array($userid) && $userid) {
-			$userid = [$userid];
-		}
-		if ($userid) {
-			$shownerid = implode(',', $userid);
-		}
-		$db->pquery('UPDATE vtiger_crmentity SET shownerid=? WHERE crmid=?', [$shownerid, $record]);
-	}
+		$userIds = $recordModel->get('shownerid');
+		$record = $recordModel->getId();
 
-	/**
-	 * Function to get Shared Owner from record
-	 */
-	public function getSharedOwner($record)
-	{
-		$log = vglobal('log');
-		$log->info("Entering Into fn getSharedOwner($record)");
-		$db = PearDatabase::getInstance();
-		$shownerid = Vtiger_Cache::get('SharedOwner', $record);
-		if (!$shownerid) {
-			$result = $db->pquery('SELECT shownerid FROM vtiger_crmentity WHERE crmid = ?', [$record]);
-			$shownerid = $db->getSingleValue($result);
-			Vtiger_Cache::set('SharedOwner', $record, $shownerid);
+		$db->delete('u_yf_crmentity_showners', 'crmid = ?', [$record]);
+		if (empty($userIds)) {
+			return false;
 		}
-		$log->info("Exiting fn getSharedOwner()");
-		return Vtiger_Functions::getArrayFromValue($shownerid);
+		if (!is_array($userIds) && $userIds) {
+			$userIds = [$userIds];
+		}
+		foreach ($userIds as $userId) {
+			$db->insert('u_yf_crmentity_showners', [
+				'crmid' => $record,
+				'userid' => $userId,
+			]);
+		}
 	}
 
 	/**
 	 * Function to get set Shared Owner Recursively
 	 */
-	public function setSharedOwnerRecursively($recordId, $addUser, $removeUser, $moduleName)
+	public static function setSharedOwnerRecursively($recordId, $addUser, $removeUser, $moduleName)
 	{
 		$log = vglobal('log');
 		$db = PearDatabase::getInstance();
-		$log->info("Entering Into fn setSharedOwnerRecursively( $recordId , $addUser, $removeUser, $moduleName )");
-		$records = self::getSharedRecordsRecursively($recordId, $moduleName);
-		$sqlRecords = implode("','", $records);
-		$result = $db->pquery("SELECT crmid, shownerid FROM vtiger_crmentity WHERE crmid in ('$sqlRecords');");
-		$sqlUpdate = '';
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$crmid = $db->query_result_raw($result, $i, 'crmid');
-			$shownerid = $db->query_result_raw($result, $i, 'shownerid');
-			$shownerIdArray = Vtiger_Functions::getArrayFromValue($shownerid);
-			foreach ($shownerIdArray as $key => $user) {
-				if (in_array($user, $removeUser)) {
-					unset($shownerIdArray[$key]);
+		$log->info('Entering Into setSharedOwnerRecursively( ' . $recordId . ', ' . $moduleName . ')');
+
+		$recordsByModule = self::getSharedRecordsRecursively($recordId, $moduleName);
+		if (count($recordsByModule) === 0) {
+			$log->info('Exiting setSharedOwnerRecursively() - No shared records');
+			return false;
+		}
+		$removeUserString = $addUserString = false;
+		if (count($removeUser) > 0) {
+			$removeUserString = implode(',', $removeUser);
+		}
+		if (count($addUser) > 0) {
+			$addUserString = implode(',', $addUser);
+		}
+		foreach ($recordsByModule as $parentModuleName => &$records) {
+			$sqlRecords = implode(',', $records);
+
+			if ($removeUserString !== false) {
+				$db->delete('u_yf_crmentity_showners', 'userid IN(' . $removeUserString . ') AND crmid IN (' . $sqlRecords . ')');
+			}
+
+			if ($addUserString !== false) {
+				$usersExist = [];
+				$result = $db->query('SELECT crmid, userid FROM u_yf_crmentity_showners WHERE userid IN(' . $addUserString . ') AND crmid IN (' . $sqlRecords . ')');
+				while ($row = $db->getRow($result)) {
+					$usersExist[$row['crmid']][$row['userid']] = true;
+				}
+				foreach ($records as &$record) {
+					foreach ($addUser as $userId) {
+						if (!isset($usersExist[$record][$userId])) {
+							$db->insert('u_yf_crmentity_showners', [
+								'crmid' => $record,
+								'userid' => $userId,
+							]);
+						}
+					}
 				}
 			}
-			$newArray = array_merge($shownerIdArray, $addUser);
-			$db->query("UPDATE vtiger_crmentity SET shownerid='" . implode(",", $newArray) . "' WHERE crmid='$crmid';");
 		}
-		$log->info("Exiting fn setSharedOwnerRecursively()");
+		$log->info('Exiting setSharedOwnerRecursively()');
 	}
 
 	/**
 	 * Function to get set Shared Owner Recursively
 	 */
-	public function getSharedRecordsRecursively($recordId, $moduleName)
+	public static function getSharedRecordsRecursively($recordId, $moduleName)
 	{
 		$log = vglobal('log');
-		$log->info("Entering Into fn getSharedRecordsRecursively( $recordId, $moduleName )");
+		$log->info('Entering Into getSharedRecordsRecursively( ' . $recordId . ', ' . $moduleName . ')');
+
 		$db = PearDatabase::getInstance();
 		$modulesSchema = [];
 		$modulesSchema[$moduleName] = [];
-		$modulesSchema['Accounts'] = array(
-			'Contacts' => array('key' => 'contactid', 'table' => 'vtiger_contactdetails', 'relfield' => 'parentid'),
-			'Potentials' => array('key' => 'potentialid', 'table' => 'vtiger_potential', 'relfield' => 'related_to'),
-			'Campaigns' => array('key' => 'campaignid', 'table' => 'vtiger_campaignaccountrel', 'relfield' => 'accountid'),
-			'Project' => array('key' => 'projectid', 'table' => 'vtiger_project', 'relfield' => 'linktoaccountscontacts'),
-			'HelpDesk' => array('key' => 'ticketid', 'table' => 'vtiger_troubletickets', 'relfield' => 'parent_id'),
-		);
-		$modulesSchema['Project'] = array(
-			'ProjectMilestone' => array('key' => 'projectmilestoneid', 'table' => 'vtiger_projectmilestone', 'relfield' => 'projectid'),
-			'ProjectTask' => array('key' => 'projecttaskid', 'table' => 'vtiger_projecttask', 'relfield' => 'projectid'),
-		);
-		$modulesSchema['Potentials'] = array(
-			'Quotes' => array('key' => 'quoteid', 'table' => 'vtiger_quotes', 'relfield' => 'potentialid'),
-			'SalesOrder' => array('key' => 'salesorderid', 'table' => 'vtiger_salesorder', 'relfield' => 'potentialid'),
-			'Invoice' => array('key' => 'invoiceid', 'table' => 'vtiger_invoice', 'relfield' => 'potentialid'),
-			'Calculations' => array('key' => 'calculationsid', 'table' => 'vtiger_calculations', 'relfield' => 'potentialid'),
-		);
-		$modulesSchema['HelpDesk'] = array(
-			'OSSTimeControl' => array('key' => 'osstimecontrolid', 'table' => 'vtiger_osstimecontrol', 'relfield' => 'ticketid'),
-		);
+		$modulesSchema['Accounts'] = [
+			'Contacts' => ['key' => 'contactid', 'table' => 'vtiger_contactdetails', 'relfield' => 'parentid'],
+			'Campaigns' => ['key' => 'campaignid', 'table' => 'vtiger_campaignaccountrel', 'relfield' => 'accountid'],
+			'Project' => ['key' => 'projectid', 'table' => 'vtiger_project', 'relfield' => 'linktoaccountscontacts'],
+			'HelpDesk' => ['key' => 'ticketid', 'table' => 'vtiger_troubletickets', 'relfield' => 'parent_id']
+		];
+		$modulesSchema['Project'] = [
+			'ProjectMilestone' => ['key' => 'projectmilestoneid', 'table' => 'vtiger_projectmilestone', 'relfield' => 'projectid'],
+			'ProjectTask' => ['key' => 'projecttaskid', 'table' => 'vtiger_projecttask', 'relfield' => 'projectid']
+		];
+		$modulesSchema['HelpDesk'] = [
+			'OSSTimeControl' => ['key' => 'osstimecontrolid', 'table' => 'vtiger_osstimecontrol', 'relfield' => 'link']
+		];
 		$sql = '';
-		$params = array();
-		$array = array();
+		$params = [];
+		$array = [];
 		foreach ($modulesSchema[$moduleName] as $key => $module) {
 			$sql .= " UNION SELECT " . $module['key'] . " AS id , '" . $key . "' AS module FROM " . $module['table'] . " WHERE " . $module['relfield'] . " = ?";
 			$params[] = $recordId;
 		}
 		if ($sql != '' && $params) {
 			$result = $db->pquery(substr($sql, 6), $params);
-			for ($i = 0; $i < $db->num_rows($result); $i++) {
-				$array = array_merge($array, self::getSharedRecordsRecursively($db->query_result_raw($result, $i, 'id'), $db->query_result_raw($result, $i, 'module')));
-				$array[] = $db->query_result_raw($result, $i, 'id');
+			while ($row = $db->getRow($result)) {
+				$array = array_merge($array, self::getSharedRecordsRecursively($row['id'], $row['module']));
+				$array[$row['module']][] = $row['id'];
 			}
 		}
 		return $array;
-		$log->info("Exiting fn getSharedRecordsRecursively()");
+		$log->info('Exiting getSharedRecordsRecursively()');
 	}
 
 	protected static $parentRecordCache = [];
@@ -345,7 +371,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			$parentModelFields = $parentModuleModel->getFields();
 
 			foreach ($parentModelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE && count(array_intersect($parentModule, $fieldModel->getReferenceList())) > 0) {
+				if ($fieldModel->isReferenceField() && count(array_intersect($parentModule, $fieldModel->getReferenceList())) > 0) {
 					$recordModel = Vtiger_Record_Model::getInstanceById($record);
 					$value = $recordModel->get($fieldName);
 					if ($value != '' && $value != 0) {

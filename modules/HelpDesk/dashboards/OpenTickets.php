@@ -21,10 +21,11 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View {
 		$module = 'HelpDesk';
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
+		$usersSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		
-		$sql = 'SELECT count(*) AS count, case when ( concat(vtiger_users.last_name, " ", vtiger_users.first_name)  not like "") then
-			concat(vtiger_users.last_name, " ", vtiger_users.first_name) else vtiger_groups.groupname end as name, 
-			case when ( concat(vtiger_users.last_name, " ", vtiger_users.first_name)  not like "") then
+		$sql = 'SELECT count(*) AS count, case when ('.$usersSqlFullName.' not like "") then
+			'.$usersSqlFullName.' else vtiger_groups.groupname end as name, 
+			case when ('.$usersSqlFullName.' not like "") then
 			vtiger_users.cal_color else vtiger_groups.color end as color, smownerid as id
 			FROM vtiger_troubletickets
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid

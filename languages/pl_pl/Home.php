@@ -18,7 +18,6 @@ $languageStrings = [
 	'ILTI' => 'Najlepsze faktury',
 	'LTFAQ' => 'Moje ostatnie instrukcje',
 	'OLTPO' => 'Najlepsze zamówienia do dostawców',
-	'OLTSO' => 'Najlepsze zamówienia',
 	'PA' => 'Oczekujące zdarzenia',
 	'PLVT' => 'Najlepsze szanse sprzedaży',
 	'QLTQ' => 'Najlepsze oferty',

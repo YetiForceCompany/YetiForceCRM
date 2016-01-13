@@ -79,25 +79,5 @@ class Accounts_Record_Model extends Vtiger_Record_Model {
 			array('parentField'=>'addresslevel8c', 'inventoryField'=>'addresslevel8b', 'defaultValue'=>''),
 		);
 	}
-	
-	public function recalculateAccounts($AccountsID) {
-		if($AccountsID == NULL){return false;}
-		$SalesOrderStatus = 'Cancelled';
-		$InvoiceStatus = 'Cancel';
-		$db = PearDatabase::getInstance(); 
-		$sql = "UPDATE vtiger_account, (SELECT SUM(total) as total FROM vtiger_salesorder INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_salesorder.salesorderid WHERE deleted = 0 AND sostatus <> ? AND accountid = ?) salesorders, (SELECT SUM(total) as total FROM vtiger_invoice INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_invoice.invoiceid WHERE deleted = 0 AND invoicestatus <> ? AND accountid = ?) invoices
-			SET vtiger_account.sum_salesorders = salesorders.total,
-			vtiger_account.sum_invoices = invoices.total
-			WHERE vtiger_account.accountid = ?;";
-		$db->pquery( $sql, 	array($SalesOrderStatus, $AccountsID, $InvoiceStatus, $AccountsID, $AccountsID), true );
-	}
-	public function recalculateAccountsAverageProfit($AccountsID) {
-		if($AccountsID == NULL){return false;}
-		$db = PearDatabase::getInstance(); 
-		$sql = "UPDATE vtiger_account SET average_profit_so = (SELECT ((SUM(total)-SUM(total_purchase))/SUM(total_purchase))*100 AS pro FROM vtiger_salesorder 
-		INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_salesorder.salesorderid
-		WHERE deleted = 0 AND sostatus <> ? AND vtiger_salesorder.accountid = vtiger_account.accountid
-		) WHERE accountid = ?;";
-		$db->pquery( $sql, 	array('Cancelled',$AccountsID), true );
-	}
+
 }

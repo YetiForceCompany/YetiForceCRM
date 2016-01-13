@@ -1,0 +1,79 @@
+.pull-right{
+	float: right!important;
+}
+#ytActionBarContent select{
+	padding: 0;
+}
+#ytActionBarContent .col{
+	padding-left: 4px;
+}
+#ytActionBarContent .col-4{
+    width: 33.33333333%;
+	min-height: 1px;
+	float: left;
+	position: relative;
+}
+#ytActionBarContent .row:before{
+	display: table;
+    content: " ";
+}
+#ytActionBarContent .row:after {
+    clear: both;
+	display: table;
+    content: " ";
+}
+#ytActionBarContent .ytHeader{
+	position: relative;
+	border-bottom: 1px solid #69a3cb;
+}
+#ytActionBarContent .head{
+	color: #fff;
+	background-color: #4979aa;
+	height: 20px;
+    padding-top: 2px;
+}
+#ytActionBarContent .data{
+	color: #000;
+	background: #ecf6ff;
+}
+#ytActionBarContent .rowReletedRecord .rowActions{
+	display: none;
+}
+#ytActionBarContent .rowReletedRecord:hover .rowActions{
+	display: block;
+}
+#ytActionBarContent .noRecords{
+	background: #70a8cb; 
+	text-align: center;
+	color: #fff;
+	padding: 2px 0px;
+}
+#ytActionBarContent .noRecords a.importMail{
+	color: #ecf6ff;
+	cursor: pointer;
+	font-weight: 800;
+}
+#ytActionBarContent .rowReletedRecord{
+	margin: 3px 0 6px 0;
+}
+#ytActionBarContent .rowReletedRecord{
+	margin: 3px 0 6px 0;
+}
+#ytActionBarContent .pull-right button{
+	line-height: 11px;
+	margin-left: 3px;
+	padding: 0px 6px;
+	height: 18px;
+}
+#ytActionBarContent .pull-right button .glyphicon{
+	top: 0;
+}
+#ytActionBarContent .data a{
+	text-decoration: none;
+	color: #000;
+    font-size: 14px;
+    line-height: 14px;
+}
+#ytActionBarContent .relatedModuleIcon{
+	margin-right: 5px;
+}

@@ -88,9 +88,6 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$viewer->assign('TASK_MODEL', $taskModel);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$metaVariables = Settings_Workflows_Module_Model::getMetaVariables();
-		if ($moduleModel->getName() == 'Invoice' || $moduleModel->getName() == 'Quotes') {
-			$metaVariables['Portal Pdf Url'] = '(general : (__VtigerMeta__) portalpdfurl)';
-		}
 
 		// Adding option Line Item block for Individual tax mode
 		$individualTaxBlockLabel = vtranslate("LBL_LINEITEM_BLOCK_GROUP", $qualifiedModuleName);

@@ -20,27 +20,11 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$linkModelList = Vtiger_DetailView_Model::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
-
-		$emailModuleModel = Vtiger_Module_Model::getInstance('OSSMail');
-		if ($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
-			$config = $emailModuleModel->getComposeParameters();
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => '',
-				'linkurl' => $emailModuleModel->getComposeUrl($moduleName, $recordId, 'Detail', $config['popup']),
-				'linkicon' => 'glyphicon glyphicon-envelope',
-				'linktarget' => $config['target'],
-				'linkPopup' => $config['popup'],
-				'linkhint' => 'LBL_SEND_EMAIL'
-			);
-			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
 
 		//TODO: update the database so that these separate handlings are not required
 		$index = 0;
@@ -57,50 +41,15 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model
 			$index++;
 		}
 
-		$CalendarActionLinks[] = array();
-		$CalendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-		if ($currentUserModel->hasModuleActionPermission($CalendarModuleModel->getId(), 'EditView')) {
-			$CalendarActionLinks[] = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_ADD_EVENT',
-				'linkurl' => $recordModel->getCreateEventUrl(),
-				'linkicon' => 'glyphicon glyphicon-time'
-			);
-
-			$CalendarActionLinks[] = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_ADD_TASK',
-				'linkurl' => $recordModel->getCreateTaskUrl(),
-				'linkicon' => 'glyphicon glyphicon-calendar'
-			);
-		}
-
-		$SMSNotifierModuleModel = Vtiger_Module_Model::getInstance('SMSNotifier');
-		if (!empty($SMSNotifierModuleModel) && $currentUserModel->hasModulePermission($SMSNotifierModuleModel->getId())) {
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => 'LBL_SEND_SMS',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendSms("index.php?module=' . $this->getModule()->getName() .
-				'&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
-				'linkicon' => 'glyphicon glyphicon-comment',
-				'title' => vtranslate('LBL_SEND_SMS')
-			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-
-		foreach ($CalendarActionLinks as $basicLink) {
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
-		}
-
 		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'ConvertLead', $recordModel->getId()) && Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView', $recordModel->getId())) {
+			$convert = !Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus')) ? 'hide' : '';
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
-				'linkclass' => 'btn-info btn-convertLead',
+				'linkclass' => 'btn-info btn-convertLead ' . $convert,
 				'linkhint' => vtranslate('LBL_CONVERT_LEAD', $moduleName),
 				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("' . $recordModel->getConvertLeadUrl() . '",this);',
 				'linkicon' => 'glyphicon glyphicon-transfer',
-				'linkgrupclass' => !Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus')) ? 'hide' : '',
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}

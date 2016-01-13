@@ -95,7 +95,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return $value
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$userModel = Users_Privileges_Model::getCurrentUserModel();
 		$value = DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value);
@@ -111,7 +111,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	 * @param $value
 	 * @return converted value
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
 		$value = DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value);
 		$value = $value->format('H:i:s');

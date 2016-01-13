@@ -27,7 +27,7 @@ $languageStrings = [
 	'LBL_MODULE' => 'Módulo',
 	
 	//Auth
-	'LBL_AUTHORIZATION' => 'Autorização',
+	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
 	'LBL_LDAP_AUTH' => 'LDAP',
 	'LBL_ACTIVE_LDAP_AUTH' => 'Autorização com LDAP',
@@ -48,4 +48,5 @@ $languageStrings = [
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Já existe um Usuário com este endereço de e-mail',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'O separador de casas decimais e separador de milhar não podem ser iguais',
+	'Changed password successfully' => 'Changed password successfully',
 ];

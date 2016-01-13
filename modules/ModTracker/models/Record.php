@@ -156,7 +156,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return $relationInstance;
 	}
 
-	public function getTotalRecordCount($recordId)
+	public static function getTotalRecordCount($recordId)
 	{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery("SELECT COUNT(*) AS count FROM vtiger_modtracker_basic WHERE crmid = ?", array($recordId));

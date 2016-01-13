@@ -24,6 +24,7 @@ $languageStrings = [
 	'LBL_LOCKS_SAVE_LABEL1' => 'Нет',
 	'LBL_LOCKS_SAVE_LABEL2' => 'Да - Если одно из условий выполнено',
 	'LBL_LOCKS_SAVE_LABEL3' => 'Да - Если оба условия выполнены',
+	'LBL_LOCKS_SAVE_LABEL4' => 'Yes - Modal window',
 	'LBL_VALIDATION_TWO_FIELDS' => 'Проверка двух полей',
 	'LBL_MESSAGE_LOCK0' => 'Сообщение отображаемое при сохранении записи.',
 	'LBL_MESSAGE_LOCK1' => 'Сообщение при выполнении первого условия',
@@ -72,8 +73,15 @@ $languageStrings = [
 	'LBL_TEXT_COLOR' => 'Цвет текста',
 	'This name already exists' => 'Такое название уже существует',
 	'LBL_RECORD_DELETED' => 'Запись удалена',
-	'Action_test' => 'Action test',
-	'Action_Desc_test' => 'Action test description',
+	'Action_test' => 'Тест',
+	'Action_Desc_test' => 'Нажмите Тест для просмотра результата',
+	//
+	'Action_unique_account' => 'Check for account duplicates',
+	'Action_Desc_unique_account' => 'Check if account is unique in the module.',
+	'LBL_DUPLICATED_FOUND' => 'Duplicates found',
+	'LBL_DUPLICTAE_CREATION_CONFIRMATION' => 'Duplicate found. Are you sure you want to save?',
+	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'An attempt was made to change values in a record in Quick Edition mode.<br>Select the checkbox field below and accept in order to apply changes in this view.<br>Attention!<br>Re-enter the modifications in the record.',
+	'LBL_DONT_ASK_AGAIN' => 'Don\'t ask again for this record.',
 ];
 $jsLanguageStrings = [
 	'DataAccess'	=>	'Редактор условий',

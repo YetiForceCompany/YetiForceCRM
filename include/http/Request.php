@@ -219,7 +219,7 @@ class Vtiger_Request
 	{
 		if (!$skipRequestTypeCheck) {
 			if ($_SERVER['REQUEST_METHOD'] != 'POST')
-				throw new Exception('Invalid request - validate Write Access');
+				throw new CsrfException('Invalid request - validate Write Access');
 		}
 		$this->validateReadAccess();
 		$this->validateCSRF();
@@ -231,9 +231,8 @@ class Vtiger_Request
 		$user = vglobal('current_user');
 		// Referer check if present - to over come 
 		if (isset($_SERVER['HTTP_REFERER']) && $user) {//Check for user post authentication.
-			global $site_URL;
-			if ((stripos($_SERVER['HTTP_REFERER'], $site_URL) !== 0) && ($this->get('module') != 'Install')) {
-				throw new Exception('Illegal request');
+			if ((stripos($_SERVER['HTTP_REFERER'], AppConfig::main('site_URL')) !== 0) && ($this->get('module') != 'Install')) {
+				throw new CsrfException('Illegal request');
 			}
 		}
 		return true;
@@ -242,7 +241,7 @@ class Vtiger_Request
 	protected function validateCSRF()
 	{
 		if (!csrf_check(false)) {
-			throw new Exception('Unsupported request');
+			throw new CsrfException('Unsupported request');
 		}
 	}
 }

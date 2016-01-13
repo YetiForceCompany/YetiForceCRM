@@ -17,8 +17,9 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_LangManagement_Module_Model::getInstance($qualifiedModuleName);
-		$Config = $moduleModel->getLang();
+		$langs = $moduleModel->getLang();
 		$viewer = $this->getViewer($request);
+		$viewer->assign('LANGS', $langs);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
@@ -34,6 +35,10 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 			"modules.Settings.$moduleName.resources.LangManagement",
 			'~libraries/jquery/datatables/media/js/jquery.dataTables.min.js',
 			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.min.js',
+			'modules.Vtiger.resources.dashboards.Widget',
+			'~libraries/jquery/flot/jquery.flot.min.js',
+			'~libraries/jquery/flot/jquery.flot.stack.min.js',
+			'~libraries/jquery/flot/jquery.flot.valuelabels.min.js',
 		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -43,11 +48,12 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
-			'~layouts/vlayout/modules/Settings/LangManagement/LangManagement.css',
+		$cssFileNames = [
 			'~libraries/jquery/datatables/media/css/jquery.dataTables_themeroller.css',
 			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.css',
-		);
+			'~libraries/jquery/flot/jquery.flot.valuelabels.css',
+			'modules.Settings.LangManagement.LangManagement',
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
 

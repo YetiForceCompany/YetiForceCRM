@@ -17,7 +17,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 
 	public function getWidth()
 	{
-		$largerSizedWidgets = array('GroupedBySalesPerson', 'PipelinedAmountPerSalesPerson', 'GroupedBySalesStage', 'Funnel Amount', 'LeadsByIndustry');
+		$largerSizedWidgets = array('GroupedBySalesPerson', 'GroupedBySalesStage', 'Funnel Amount', 'LeadsByIndustry');
 		$title = $this->getName();
 		$size = Zend_Json::decode(html_entity_decode($this->get('size')));
 		$width = $size['width'];

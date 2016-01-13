@@ -16,19 +16,19 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$record = $request->get('record');
-		if (!SysSecurity::getBoolean('SHOW_MY_PREFERENCES')) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
+			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
 		}
 		if (!empty($record) && $currentUserModel->get('id') != $record) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			if ($recordModel->get('status') != 'Active') {
-				throw new AppException('LBL_PERMISSION_DENIED');
+				throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
 			}
 		}
 		if (($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record)) {
 			return true;
 		} else {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -59,11 +59,11 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 
 			$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 			$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
-			$viewer->assign('HEADER_LINKS', $this->getHeaderLinks());
+			$viewer->assign('HEADER_LINKS', $this->getHeaderLinks($request));
 			$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
 			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 			$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
-
+			$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 			//Additional parameters
 			$viewer->assign('CURRENT_VIEW', $request->get('view'));
 			$viewer->assign('PAGETITLE', $this->getPageTitle($request));
@@ -124,8 +124,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		unset($headerScriptInstances[$moduleDetailFile]);
 
 		$jsFileNames = array(
-			"modules.Users.resources.Edit",
-			'modules.' . $moduleName . '.resources.PreferenceEdit'
+			'modules.Users.resources.Edit',
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

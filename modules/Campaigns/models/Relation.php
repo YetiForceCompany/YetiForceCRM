@@ -82,7 +82,7 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 			$relatedModelFields = $relatedModel->getFields();
 
 			foreach ($relatedModelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
 					if (in_array($parentModule->getName(), $referenceList)) {
 						$relationFieldArray[$fieldName] = $fieldModel;
@@ -101,5 +101,24 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 			}
 		}
 		return $relationField;
+	}
+
+	public function deleteRelation($sourceRecordId, $relatedRecordId)
+	{
+		if ($this->relatedModule->getName() == 'OSSMailView') {
+			$db = PearDatabase::getInstance();
+			if ($db->delete('vtiger_ossmailview_relation', 'crmid = ? AND ossmailviewid = ?', [$sourceRecordId, $relatedRecordId]) > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			$sourceModule = $this->getParentModuleModel();
+			$sourceModuleName = $sourceModule->get('name');
+			$destinationModuleName = $this->getRelationModuleModel()->get('name');
+			$destinationModuleFocus = CRMEntity::getInstance($destinationModuleName);
+			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId);
+			return true;
+		}
 	}
 }

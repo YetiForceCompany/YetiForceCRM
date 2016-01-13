@@ -18,6 +18,7 @@ class Vtiger_KeyMetrics_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 
 		$linkId = $request->get('linkid');
+		$data = $request->getAll();
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 
@@ -27,6 +28,7 @@ class Vtiger_KeyMetrics_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('KEYMETRICS', $keyMetrics);
+		$viewer->assign('DATA', $data);
 
 		$content = $request->get('content');
 		if (!empty($content)) {

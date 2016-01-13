@@ -12,11 +12,11 @@
 class OSSMailScanner_restartCron_Action extends Vtiger_Action_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
-		$userRecord = Users_Record_Model::getCurrentUserModel();
-		if (!$userRecord->isAdminUser()) {
-			throw new AppException(vtranslate('Brak uprawnień do restartu crona', 'OSSMailScanner'));
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if (!$currentUserModel->isAdminUser()) {
+			throw new NoPermittedForAdminException('LBL_PERMISSION_DENIED');
 		}
 	}
 

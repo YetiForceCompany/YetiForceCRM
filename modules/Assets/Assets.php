@@ -379,9 +379,6 @@ class Assets extends CRMEntity {
 			$productInstance = Vtiger_Module::getInstance('Products');
 			$productInstance->setRelatedlist($assetInstance,$assetLabel,array(ADD),'get_dependents_list');
 
-			$InvoiceInstance = Vtiger_Module::getInstance('Invoice');
-			$InvoiceInstance->setRelatedlist($assetInstance,$assetLabel,array(ADD),'get_dependents_list');
-
 			$result = $adb->pquery("SELECT 1 FROM vtiger_modentity_num WHERE semodule = ? AND active = 1", array($moduleName));
 			if (!($adb->num_rows($result))) {
 				//Initialize module sequence for the module

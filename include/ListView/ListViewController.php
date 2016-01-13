@@ -399,7 +399,7 @@ class ListViewController
 					} else {
 						$value = textlength_check($value);
 					}
-				} elseif ($field->getFieldDataType() == 'reference') {
+				} elseif (in_array($field->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES)) {
 					$referenceFieldInfoList = $this->queryGenerator->getReferenceFieldInfoList();
 					$moduleList = $referenceFieldInfoList[$fieldName];
 					if (count($moduleList) == 1) {
@@ -440,7 +440,7 @@ class ListViewController
 						$valueArray = ($value != "") ? explode(',', $value) : [];
 						$tmp = '';
 						$tmpArray = [];
-						$taxs = Vtiger_Taxs_UIType::getTaxes();
+						$taxs = Vtiger_Taxes_UIType::getTaxes();
 						foreach ($valueArray as $index => $tax) {
 							if (isset($taxs[$tax])) {
 								$tmpArray[] = $taxs[$tax]['value'] . '% - ' . $taxs[$tax]['name'];

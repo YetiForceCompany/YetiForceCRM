@@ -42,9 +42,9 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
-		$cssFileNames = array(
-			"~layouts/vlayout/modules/Settings/$moduleName/resources/$moduleName.css",
-		);
+		$cssFileNames = [
+			"modules.Settings.$moduleName.resources.$moduleName",
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
 

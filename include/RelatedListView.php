@@ -46,7 +46,7 @@ if (!function_exists('GetHistory')) {
  */
 function GetRelatedListBase($module, $relatedmodule, $focus, $query, $button, $returnset, $id = '', $edit_val = '', $del_val = '', $skipActions = false)
 {
-	
+	return ['query' => $query];
 }
 
 /** Function to get related list entries in detailed array format
@@ -88,7 +88,7 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 	$image_path = $theme_path . "images/";
 
 	$computeCount = $_REQUEST['withCount'];
-	if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true ||
+	if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true ||
 		((boolean) $computeCount) == true) {
 		$noofrows = $adb->query_result($adb->query(Vtiger_Functions::mkCountQuery($query)), 0, 'count');
 	} else {

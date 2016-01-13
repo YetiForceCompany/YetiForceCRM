@@ -93,10 +93,10 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 			$orderByFieldName = $columnFieldMapping[$orderBy];
 			$orderByFieldModel = $moduleModel->getField($orderByFieldName);
 
-			if ($orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+			if ($orderByFieldModel && $orderByFieldModel->isReferenceField()) {
 				//IF it is reference add it in the where fields so that from clause will be having join of the table
 				$queryGenerator = $this->get('query_generator');
-				$queryGenerator->addWhereField($orderByFieldName);
+				$queryGenerator->setConditionField($orderByFieldName);
 				//$queryGenerator->whereFields[] = $orderByFieldName;
 			}
 		}

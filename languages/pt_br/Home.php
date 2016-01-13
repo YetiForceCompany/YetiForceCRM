@@ -18,7 +18,6 @@ $languageStrings = [
 	'ILTI' => 'Principais Faturas',
 	'LTFAQ' => 'Minhas FAQs Recentes',
 	'OLTPO' => 'Principais Pedidos Compras',
-	'OLTSO' => 'Principais Pedidos Vendas',
 	'PA' => 'Atividades Pendentes',
 	'PLVT' => 'Principais Oportunidades',
 	'QLTQ' => 'Principais Cotações',

@@ -19,6 +19,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	var $webserviceField = false;
 
 	const REFERENCE_TYPE = 'reference';
+	public static $REFERENCE_TYPES = ['reference','referenceLink','referenceProcess','referenceSubProcess'];
 	const OWNER_TYPE = 'owner';
 	const CURRENCY_LIST = 'currencyList';
 	const QUICKCREATE_MANDATORY = 0;
@@ -103,9 +104,9 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 * @param <String> $value - value which need to be converted to display value
 	 * @return <String> - converted display value
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return $this->getUITypeModel()->getDisplayValue($value, $record, $recordInstance);
+		return $this->getUITypeModel()->getDisplayValue($value, $record, $recordInstance, $rawText);
 	}
 
 	/**
@@ -155,43 +156,54 @@ class Vtiger_Field_Model extends Vtiger_Field
 	{
 		if (!$this->fieldDataType) {
 			$uiType = $this->get('uitype');
-			if ($uiType == '69') {
-				$fieldDataType = 'image';
-			} else if ($uiType == '26') {
-				$fieldDataType = 'documentsFolder';
-			} else if ($uiType == '27') {
-				$fieldDataType = 'fileLocationType';
-			} else if ($uiType == '9') {
-				$fieldDataType = 'percentage';
-			} else if ($uiType == '28') {
-				$fieldDataType = 'documentsFileUpload';
-			} else if ($uiType == '32') {
-				$fieldDataType = 'languages';
-			} else if ($uiType == '83') {
-				$fieldDataType = 'productTax';
-			} else if ($uiType == '117') {
-				$fieldDataType = 'currencyList';
-			} else if ($uiType == '55' && $this->getName() === 'salutationtype') {
-				$fieldDataType = 'picklist';
-			} else if ($uiType == '55' && $this->getName() === 'firstname') {
-				$fieldDataType = 'salutation';
-			} else if ($uiType == '54') {
-				$fieldDataType = 'multiowner';
-			} else if ($uiType == '120') {
-				$fieldDataType = 'sharedOwner';
-			} else if ($uiType == '301') {
-				$fieldDataType = 'modules';
-			} else if ($uiType == '302') {
-				$fieldDataType = 'tree';
-			} else if ($uiType == '303') {
-				$fieldDataType = 'taxes';
-			} else if ($uiType == '304') {
-				$fieldDataType = 'inventoryLimit';
-			} else if ($uiType == '305') {
-				$fieldDataType = 'multiReferenceValue';
-			} else {
-				$webserviceField = $this->getWebserviceFieldObject();
-				$fieldDataType = $webserviceField->getFieldDataType();
+			switch ($uiType) {
+				case 9: $fieldDataType = 'percentage';
+					break;
+				case 26: $fieldDataType = 'documentsFolder';
+					break;
+				case 27: $fieldDataType = 'fileLocationType';
+					break;
+				case 28: $fieldDataType = 'documentsFileUpload';
+					break;
+				case 32: $fieldDataType = 'languages';
+					break;
+				case 54: $fieldDataType = 'multiowner';
+					break;
+				case 55:
+					if ($this->getName() === 'salutationtype') {
+						$fieldDataType = 'picklist';
+					} else if ($this->getName() === 'firstname') {
+						$fieldDataType = 'salutation';
+					}
+					break;
+				case 66: $fieldDataType = 'referenceProcess';
+					break;
+				case 67: $fieldDataType = 'referenceLink';
+					break;
+				case 68: $fieldDataType = 'referenceSubProcess';
+					break;	
+				case 69: $fieldDataType = 'image';
+					break;
+				case 83: $fieldDataType = 'productTax';
+					break;
+				case 117: $fieldDataType = 'currencyList';
+					break;
+				case 120: $fieldDataType = 'sharedOwner';
+					break;
+				case 301: $fieldDataType = 'modules';
+					break;
+				case 302: $fieldDataType = 'tree';
+					break;
+				case 303: $fieldDataType = 'taxes';
+					break;
+				case 304: $fieldDataType = 'inventoryLimit';
+					break;
+				case 305: $fieldDataType = 'multiReferenceValue';
+					break;
+				default:
+					$webserviceField = $this->getWebserviceFieldObject();
+					$fieldDataType = $webserviceField->getFieldDataType();
+					break;
 			}
 			$this->fieldDataType = $fieldDataType;
 		}
@@ -204,6 +216,10 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getReferenceList()
 	{
+		if (method_exists($this->getUITypeModel(), 'getReferenceList')) {
+			return $this->getUITypeModel()->getReferenceList();
+		}
+
 		$webserviceField = $this->getWebserviceFieldObject();
 		return $webserviceField->getReferenceList();
 	}
@@ -456,8 +472,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function isAjaxEditable()
 	{
-		$ajaxRestrictedFields = array('4', '72', '10', '300');
-		if (!$this->isEditable() || in_array($this->get('uitype'), $ajaxRestrictedFields) || !$this->getUITypeModel()->isAjaxEditable()) {
+		$ajaxRestrictedFields = array('4', '72', '10', '300', '51');
+		if (!$this->isEditable() || in_array($this->get('uitype'), $ajaxRestrictedFields) || !$this->getUITypeModel()->isAjaxEditable() || (int) $this->get('displaytype') == 10) {
 			return false;
 		}
 		return true;
@@ -923,7 +939,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$funcName = array('name' => 'ReferenceField');
 				array_push($validator, $funcName);
 				break;
-			//SalesOrder field sepecial validators
+			//SRecurringOrders field sepecial validators
 			case 'end_period' : $funcName1 = array('name' => 'greaterThanDependentField',
 					'params' => array('start_period'));
 				array_push($validator, $funcName1);
@@ -945,9 +961,9 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 * @param <String> $value - value which need to be converted to display value
 	 * @return <String> - converted display value
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
-		return $this->getUITypeModel()->getEditViewDisplayValue($value);
+		return $this->getUITypeModel()->getEditViewDisplayValue($value, $record);
 	}
 
 	/**
@@ -1137,7 +1153,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 	public function isReferenceField()
 	{
-		return ($this->getFieldDataType() == self::REFERENCE_TYPE) ? true : false;
+		return in_array($this->getFieldDataType(), self::$REFERENCE_TYPES);
 	}
 
 	public function isOwnerField()

@@ -25,19 +25,22 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
+		if ($rawText) {
+			return getOwnerName($value);
+		}
 		if (self::getOwnerType($value) === 'User') {
 			$userModel = Users_Record_Model::getCleanInstance('Users');
 			$userModel->set('id', $value);
 			$detailViewUrl = $userModel->getDetailViewUrl();
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			if (!$currentUser->isAdminUser()) {
+			if (!$currentUser->isAdminUser() || $rawText) {
 				return getOwnerName($value);
 			}
 		} else {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			if (!$currentUser->isAdminUser()) {
+			if (!$currentUser->isAdminUser() || $rawText) {
 				return getOwnerName($value);
 			}
 			$recordModel = new Settings_Groups_Record_Model();
@@ -76,5 +79,15 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/OwnerFieldSearchView.tpl';
+	}
+	
+	public function isAjaxEditable()
+	{
+		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$roleModel = Settings_Roles_Record_Model::getInstanceById($userPrivModel->get('roleid'));
+		if($roleModel->get('changeowner')){
+			return true;
+		}
+		return false;
 	}
 }

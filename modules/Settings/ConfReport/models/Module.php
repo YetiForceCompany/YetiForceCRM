@@ -47,7 +47,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	public static $library = array(
 		'LBL_IMAP_SUPPORT' => ['type' => 'f', 'name' => 'imap_open', 'mandatory' => true],
 		'LBL_ZLIB_SUPPORT' => ['type' => 'f', 'name' => 'gzinflate', 'mandatory' => true],
-		'LBL_PDO_SUPPORT' => ['type' => 'e', 'name' => 'PDO', 'mandatory' => true],
+		'LBL_PDO_SUPPORT' => ['type' => 'e', 'name' => 'pdo_mysql', 'mandatory' => true],
 		'LBL_OPEN_SSL' => ['type' => 'e', 'name' => 'openssl', 'mandatory' => true],
 		'LBL_CURL' => ['type' => 'e', 'name' => 'curl', 'mandatory' => true],
 		'LBL_GD_LIBRARY' => ['type' => 'e', 'name' => 'gd', 'mandatory' => true],
@@ -74,7 +74,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getConfigurationValue($instalMode = false)
 	{
-		$errorReportingValue = 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
+		$errorReportingValue = 'E_WARNING & E_ERROR & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
 		$directiveValues = array(
 			'PHP' => array('prefer' => '5.4.0'),
 			'error_reporting' => array('prefer' => $errorReportingValue),
@@ -221,7 +221,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 
 		if (!$instalMode) {
-			$db = PearDatabase::getInstance(false);
+			$db = PearDatabase::getInstance();
 			$result = $db->query('SELECT @@max_allowed_packet');
 			$maxAllowedPacket = $db->getSingleValue($result);
 			if ($maxAllowedPacket < 16777216)

@@ -26,7 +26,9 @@ class API_Base_GetRecordDetail extends BaseAction
 		foreach ($moduleBlockFields as $moduleFields) {
 			foreach ($moduleFields as $moduleField) {
 				$block = $moduleField->get('block');
-				$fields[$block->label][$moduleField->get('name')] = $rawData[$moduleField->get('name')];
+				$blockLabel = vtranslate($block->label,$moduleName);
+				$fieldLabel = vtranslate($moduleField->get('label'),$moduleName);
+				$fields[$blockLabel][$fieldLabel] = $recordModel->getDisplayValue($moduleField->getName(), $record);
 				if (empty($block)) {
 					continue;
 				}

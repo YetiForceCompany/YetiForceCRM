@@ -18,7 +18,7 @@ class API_Base_GetModulesList extends BaseAction
 		$result = $db->pquery($query, [1, 0]);
 		$modules = [];
 		while ($row = $db->fetch_array($result)) {
-			$modules[$row['name']] = $row['name'];
+			$modules[$row['name']] = vtranslate($row['name']);
 		}
 		return $modules;
 	}

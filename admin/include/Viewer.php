@@ -10,8 +10,8 @@
  ************************************************************************************/
 vimport ('~libraries/Smarty/libs/SmartyBC.class.php');
 class Vtiger_Viewer extends SmartyBC {
-	const DEFAULTLAYOUT = 'vlayout';
-	const DEFAULTTHEME  = 'softed';
+	const DEFAULTLAYOUT = 'basic';
+	const DEFAULTTHEME  = 'twilight';
 	static $currentLayout;
 	
 	// Turn-it on to analyze the data pushed to templates for the request.
@@ -60,7 +60,7 @@ class Vtiger_Viewer extends SmartyBC {
 		$this->setTemplateDir(array($customTemplatesDir,$templatesDir));
 		$this->setCompileDir($compileDir);		
 
-		self::$debugViewer = SysDebug::get('DEBUG_VIEWER');
+		self::$debugViewer = AppConfig::debug('DEBUG_VIEWER');
 		
 		// FOR SECURITY
 		// Escape all {$variable} to overcome XSS
@@ -174,7 +174,6 @@ class Vtiger_Viewer extends SmartyBC {
 			}
 		}
 		// END
-		
 		if ($templateFound) {
 			if($fetch) {
 				return $this->fetch($templatePath);

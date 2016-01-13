@@ -262,7 +262,7 @@ class Vtiger_Functions
 
 	static function getEntityModuleSQLColumnString($mixed)
 	{
-		$data = array();
+		$data = [];
 		$info = self::getEntityModuleInfo($mixed);
 		if ($info) {
 			$data['tablename'] = $info['tablename'];
@@ -271,6 +271,11 @@ class Vtiger_Functions
 				$fieldnames = sprintf("concat(%s)", implode(",' ',", explode(',', $fieldnames)));
 			}
 			$data['fieldname'] = $fieldnames;
+			$colums = [];
+			foreach (explode(',', $info['fieldname']) as $fieldname) {
+				$colums[] = $info['tablename'] . '.' . $fieldname;
+			}
+			$data['colums'] = implode(',', $colums);
 		}
 		return $data;
 	}
@@ -304,7 +309,7 @@ class Vtiger_Functions
 		}
 
 		if ($missing) {
-			$sql = sprintf("SELECT crmid, setype, deleted, smownerid, shownerid, label, searchlabel FROM vtiger_crmentity WHERE %s", implode(' OR ', array_fill(0, count($missing), 'crmid=?')));
+			$sql = sprintf("SELECT crmid, setype, deleted, smownerid, label, searchlabel FROM vtiger_crmentity WHERE %s LIMIT 1", implode(' OR ', array_fill(0, count($missing), 'crmid=?')));
 			$result = $adb->pquery($sql, $missing);
 			while ($row = $adb->fetch_array($result)) {
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;
@@ -393,13 +398,14 @@ class Vtiger_Functions
 
 	static function getOwnerRecordLabels($ids)
 	{
-		if (!is_array($ids))
-			$ids = array($ids);
-
-		$nameList = array();
+		$nameList = [];
+		
+		if ($ids && !is_array($ids))
+			$ids = [$ids];
+		
 		if ($ids) {
 			$nameList = self::getCRMRecordLabels('Users', $ids);
-			$groups = array();
+			$groups = [];
 			$diffIds = array_diff($ids, array_keys($nameList));
 			if ($diffIds) {
 				$groups = self::getCRMRecordLabels('Groups', array_values($diffIds));
@@ -419,33 +425,27 @@ class Vtiger_Functions
 		$adb = PearDatabase::getInstance();
 
 		if (!is_array($ids))
-			$ids = array($ids);
+			$ids = [$ids];
 
 		if ($module == 'Events') {
 			$module = 'Calendar';
 		}
 
 		if ($module) {
-			$entityDisplay = array();
+			$entityDisplay = [];
 
 			if ($ids) {
-
 				if ($module == 'Groups') {
-					$metainfo = array('tablename' => 'vtiger_groups', 'entityidfield' => 'groupid', 'fieldname' => 'groupname');
-					/* } else if ($module == 'DocumentFolders') { 
-					  $metainfo = array('tablename' => 'vtiger_attachmentsfolder','entityidfield' => 'folderid','fieldname' => 'foldername'); */
+					$metainfo = ['tablename' => 'vtiger_groups', 'entityidfield' => 'groupid', 'fieldname' => 'groupname'];
 				} else {
 					$metainfo = self::getEntityModuleInfo($module);
 				}
 
 				$table = $metainfo['tablename'];
 				$idcolumn = $metainfo['entityidfield'];
-				$columns_name = explode(',', $metainfo['fieldname']);
-				$columns_search = explode(',', $metainfo['searchcolumn']);
-				$columns = array_unique(array_merge($columns_name, $columns_search));
-
-				$sql = sprintf('SELECT ' . implode(',', array_filter($columns)) . ', %s AS id FROM %s WHERE %s IN (%s)', $idcolumn, $table, $idcolumn, generateQuestionMarks($ids));
-				$result = $adb->pquery($sql, $ids);
+				$columnsName = explode(',', $metainfo['fieldname']);
+				$columnsSearch = explode(',', $metainfo['searchcolumn']);
+				$columns = array_unique(array_merge($columnsName, $columnsSearch));
 
 				$moduleInfo = self::getModuleFieldInfos($module);
 				$moduleInfoExtend = [];
@@ -454,26 +454,49 @@ class Vtiger_Functions
 						$moduleInfoExtend[$fieldInfo['columnname']] = $fieldInfo;
 					}
 				}
+				$leftJoin = '';
+				$leftJoinTables = [];
+				$paramsCol = [];
+				if ($module != 'Groups') {
+					$focus = CRMEntity::getInstance($module);
+					foreach (array_filter($columns) as $column) {
+						if (array_key_exists($column, $moduleInfoExtend)) {
+							$paramsCol[] = $column;
+							if ($moduleInfoExtend[$column]['tablename'] != $table && !in_array($moduleInfoExtend[$column]['tablename'], $leftJoinTables)) {
+								$otherTable = $moduleInfoExtend[$column]['tablename'];
+								$leftJoinTables[] = $otherTable;
+								$focusTables = $focus->tab_name_index;
+								$leftJoin .= ' LEFT JOIN ' . $otherTable . ' ON ' . $otherTable . '.' . $focusTables[$otherTable] . ' = ' . $table . '.' . $focusTables[$table];
+							}
+						}
+					}
+				} else {
+					$paramsCol = $columnsName;
+				}
+				$paramsCol[] = $idcolumn;
+				$sql = sprintf('SELECT ' . implode(',', $paramsCol) . ' AS id FROM %s ' . $leftJoin . ' WHERE %s IN (%s)', $table, $idcolumn, generateQuestionMarks($ids));
+				$result = $adb->pquery($sql, $ids);
+
 				for ($i = 0; $i < $adb->num_rows($result); $i++) {
 					$row = $adb->raw_query_result_rowdata($result, $i);
-					$label_name = array();
-					$label_search = array();
-					foreach ($columns_name as $columnName) {
-						if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], array(10, 51, 75, 81)))
+					$label_name = [];
+					$label_search = [];
+					foreach ($columnsName as $columnName) {
+						if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 75, 81]))
 							$label_name[] = Vtiger_Functions::getCRMRecordLabel($row[$columnName]);
 						else
 							$label_name[] = $row[$columnName];
 					}
 					if ($search) {
-						foreach ($columns_search as $columnName) {
-							if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], array(10, 51, 75, 81)))
+						foreach ($columnsSearch as $columnName) {
+							if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 75, 81]))
 								$label_search[] = Vtiger_Functions::getCRMRecordLabel($row[$columnName]);
 							else
 								$label_search[] = $row[$columnName];
 						}
-						$entityDisplay[$row['id']] = array('name' => implode(' ', $label_name), 'search' => implode(' ', $label_search));
+						$entityDisplay[$row['id']] = ['name' => implode(' ', $label_name), 'search' => implode(' ', $label_search)];
 					}else {
-						$entityDisplay[$row['id']] = implode(' ', $label_name);
+						$entityDisplay[$row['id']] = trim(implode(' ', $label_name));
 					}
 				}
 			}
@@ -689,38 +712,35 @@ class Vtiger_Functions
 		return $filepath;
 	}
 
-	static function validateImage($file_details)
+	static public function validateImage($fileDetails)
 	{
-		global $app_strings;
-		$file_type_details = explode("/", $file_details['type']);
-		$filetype = $file_type_details['1'];
-		if (!empty($filetype))
-			$filetype = strtolower($filetype);
-		if (($filetype == "jpeg" ) || ($filetype == "png") || ($filetype == "jpg" ) || ($filetype == "pjpeg" ) || ($filetype == "x-png") || ($filetype == "gif") || ($filetype == 'bmp')) {
-			$saveimage = 'true';
-		} else {
-			$saveimage = 'false';
-			$_SESSION['image_type_error'] .= "<br> &nbsp;&nbsp;<b>" . $file_details[name] . "</b>" . $app_strings['MSG_IS_NOT_UPLOADED'];
-		}
-		return $saveimage;
-	}
+		$allowedImageFormats = ['jpeg', 'png', 'jpg', 'pjpeg', 'x-png', 'gif', 'bmp'];
+		$mimeTypesList = array_merge($allowedImageFormats, ['x-ms-bmp']); //bmp another format
 
-	static function getMergedDescription($description, $id, $parent_type)
-	{
-		$current_user = vglobal('current_user');
-		$token_data_pair = explode('$', $description);
-		$emailTemplate = new EmailTemplate($parent_type, $description, $id, $current_user);
-		$description = $emailTemplate->getProcessedDescription();
-		$tokenDataPair = explode('$', $description);
-		$fields = Array();
-		for ($i = 1; $i < count($token_data_pair); $i+=2) {
-			$module = explode('-', $tokenDataPair[$i]);
-			$fields[$module[0]][] = $module[1];
+		$fileTypeDetails = explode('/', $fileDetails['type']);
+		$fileType = $fileTypeDetails['1'];
+		if ($fileType) {
+			$fileType = strtolower($fileType);
 		}
-		if (is_array($fields['custom']) && count($fields['custom']) > 0) {
-			$description = self::getMergedDescriptionCustomVars($fields, $description);
+
+		$saveImage = 'true';
+		if (!in_array($fileType, $allowedImageFormats)) {
+			$saveImage = 'false';
 		}
-		return $description;
+
+		//mime type check
+		$mimeType = self::getMimeContentType($fileDetails['tmp_name']);
+		$mimeTypeContents = explode('/', $mimeType);
+		if (!$fileDetails['size'] || !in_array($mimeTypeContents[1], $mimeTypesList)) {
+			$saveImage = 'false';
+		}
+
+		// Check for php code injection
+		$imageContents = file_get_contents($fileDetails['tmp_name']);
+		if (preg_match('/(<\?php?(.*?))/i', $imageContents) == 1) {
+			$saveImage = 'false';
+		}
+		return $saveImage;
 	}
 
 	static function getMergedDescriptionCustomVars($fields, $description)
@@ -893,8 +913,6 @@ class Vtiger_Functions
 			"vtiger_contactsubdetails:birthday" => "D",
 			"vtiger_contactdetails:email" => "V",
 			"vtiger_contactdetails:secondaryemail" => "V",
-			//Potential Related Fields
-			"vtiger_potential:campaignid" => "V",
 			//Account Related Fields
 			"vtiger_account:parentid" => "V",
 			"vtiger_account:email1" => "V",
@@ -916,22 +934,6 @@ class Vtiger_Functions
 			"vtiger_faq:product_id" => "V",
 			//Vendor Related Fields
 			"vtiger_vendor:email" => "V",
-			//Quotes Related Fields
-			"vtiger_quotes:potentialid" => "V",
-			"vtiger_quotes:inventorymanager" => "V",
-			"vtiger_quotes:accountid" => "V",
-			//Purchase Order Related Fields
-			"vtiger_purchaseorder:vendorid" => "V",
-			"vtiger_purchaseorder:contactid" => "V",
-			//SalesOrder Related Fields
-			"vtiger_salesorder:potentialid" => "V",
-			"vtiger_salesorder:quoteid" => "V",
-			"vtiger_salesorder:contactid" => "V",
-			"vtiger_salesorder:accountid" => "V",
-			//Invoice Related Fields
-			"vtiger_invoice:salesorderid" => "V",
-			"vtiger_invoice:contactid" => "V",
-			"vtiger_invoice:accountid" => "V",
 			//Campaign Related Fields
 			"vtiger_campaign:product_id" => "V",
 			//Related List Entries(For Report Module)
@@ -941,8 +943,6 @@ class Vtiger_Functions
 			"vtiger_campaigncontrel:contactid" => "V",
 			"vtiger_campaignleadrel:campaignid" => "V",
 			"vtiger_campaignleadrel:leadid" => "V",
-			"vtiger_contpotentialrel:contactid" => "V",
-			"vtiger_contpotentialrel:potentialid" => "V",
 			"vtiger_pricebookproductrel:pricebookid" => "V",
 			"vtiger_pricebookproductrel:productid" => "V",
 			"vtiger_senotesrel:crmid" => "V",
@@ -982,14 +982,6 @@ class Vtiger_Functions
 		$res = $adb->pquery($query, array($id));
 		$activity_type = $adb->query_result($res, 0, "activitytype");
 		return $activity_type;
-	}
-
-	static function getInvoiceStatus($id)
-	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT invoicestatus FROM vtiger_invoice where invoiceid=?", array($id));
-		$invoiceStatus = $adb->query_result($result, 0, 'invoicestatus');
-		return $invoiceStatus;
 	}
 
 	static function mkCountQuery($query)
@@ -1056,7 +1048,7 @@ class Vtiger_Functions
 		return $array;
 	}
 
-	public static function throwNewException($message, $die = true)
+	public static function throwNewException($message, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
 		$request = new Vtiger_Request($_REQUEST);
 		if ($request->isAjax()) {
@@ -1067,36 +1059,7 @@ class Vtiger_Functions
 		} else {
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('MESSAGE', $message);
-			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
-		}
-		if ($die) {
-			exit();
-		}
-	}
-
-	public static function throwNoPermittedException($message, $die = true)
-	{
-		$request = new Vtiger_Request($_REQUEST);
-		$dbLog = PearDatabase::getInstance('log');
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$dbLog->insert('l_yf_access_to_record', [
-			'username' => $currentUser->getDisplayName(),
-			'date' => date('Y-m-d H:i:s'),
-			'ip' => self::getRemoteIP(),
-			'record' => $request->get('record'),
-			'module' => $request->get('module'),
-			'url' => Vtiger_Functions::getBrowserInfo()->url,
-			'agent' => $_SERVER['HTTP_USER_AGENT'],
-		]);
-		if ($request->isAjax()) {
-			$response = new Vtiger_Response();
-			$response->setEmitType(Vtiger_Response::$EMIT_JSON);
-			$response->setError($message);
-			$response->emit();
-		} else {
-			$viewer = new Vtiger_Viewer();
-			$viewer->assign('MESSAGE', $message);
-			$viewer->view('NoPermissionsForRecord.tpl', 'Vtiger');
+			$viewer->view($tpl, 'Vtiger');
 		}
 		if ($die) {
 			exit();
@@ -1206,7 +1169,7 @@ class Vtiger_Functions
 
 	protected static $browerCache = false;
 
-	public function getBrowserInfo()
+	public static function getBrowserInfo()
 	{
 		if (!self::$browerCache) {
 			$HTTP_USER_AGENT = strtolower($_SERVER['HTTP_USER_AGENT']);
@@ -1273,7 +1236,7 @@ class Vtiger_Functions
 			$remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
 		}
 
-		if (!empty($remote_ip) && $onlyIP != false) {
+		if (!empty($remote_ip) && $onlyIP == false) {
 			$address .= '(' . implode(',', $remote_ip) . ')';
 		}
 		return $address;
@@ -1344,10 +1307,10 @@ class Vtiger_Functions
 	{
 		switch ($type) {
 			case 'js':
-				$return = SysDeveloper::get('MINIMIZE_JS');
+				$return = AppConfig::developer('MINIMIZE_JS');
 				break;
 			case 'css':
-				$return = SysDeveloper::get('MINIMIZE_CSS');
+				$return = AppConfig::developer('MINIMIZE_CSS');
 				break;
 		}
 		return $return;
@@ -1361,14 +1324,16 @@ class Vtiger_Functions
 		return $initial;
 	}
 
-	public function getBacktrace($ignore = 2)
+	public static function getBacktrace($ignore = 2)
 	{
 		$trace = '';
+		$rootDirectory = rtrim(AppConfig::main('root_directory'), '/');
 		foreach (debug_backtrace() as $k => $v) {
 			if ($k < $ignore) {
 				continue;
 			}
-			$trace .= '#' . ($k - $ignore) . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '() in ' . $v['file'] . '(' . $v['line'] . '): ' . PHP_EOL;
+			$file = str_replace($rootDirectory . DIRECTORY_SEPARATOR, '', $v['file']);
+			$trace .= '#' . ($k - $ignore) . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '() in ' . $file . '(' . $v['line'] . '): ' . PHP_EOL;
 		}
 
 		return $trace;
@@ -1385,7 +1350,7 @@ class Vtiger_Functions
 		return ['total' => $total, 'free' => $free, 'used' => $used];
 	}
 
-	public function textLength($text, $length = false, $addDots = true)
+	public static function textLength($text, $length = false, $addDots = true)
 	{
 		if (!$length) {
 			$length = vglobal('listview_max_textlength');
@@ -1538,10 +1503,55 @@ class Vtiger_Functions
 			$info['conversion'] = 1.0;
 		} else {
 			$value = $currencyUpdateModel->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
-			$info['value'] = round($value, 5);
-			$info['conversion'] = round(1 / $value, 5);
+			$info['value'] = $value == 0 ? 1.0 : round($value, 5);
+			$info['conversion'] = $value == 0 ? 1.0 : round(1 / $value, 5);
 		}
 
 		return $info;
+	}
+
+	static public function getMimeContentType($filename)
+	{
+		require 'config/mimetypes.php';
+		$ext = strtolower(array_pop(explode('.', $filename)));
+		if (array_key_exists($ext, $mimeTypes)) {
+			$fileMimeContentType = $mimeTypes[$ext];
+		} elseif (function_exists('mime_content_type')) {
+			$fileMimeContentType = mime_content_type($filename);
+		} elseif (function_exists('finfo_open')) {
+			$finfo = finfo_open(FILEINFO_MIME);
+			$fileMimeContentType = finfo_file($finfo, $filename);
+			finfo_close($finfo);
+		} else {
+			$fileMimeContentType = 'application/octet-stream';
+		}
+		return $fileMimeContentType;
+	}
+
+	/**
+	 * Function returning difference in minutes between date times
+	 * @param string $startDateTime
+	 * @param string $endDateTime
+	 * @return int difference in minutes
+	 */
+	public static function getDateTimeMinutesDiff($startDateTime, $endDateTime) {
+		$start = new DateTime($startDateTime);
+		$end = new DateTime($endDateTime);
+		$interval = $start->diff($end);
+
+		$intervalInSeconds = (new DateTime())->setTimeStamp(0)->add($interval)->getTimeStamp();
+		$intervalInMinutes = ($intervalInSeconds/60);
+
+		return $intervalInMinutes;
+	}
+
+	/**
+	 * Function returning difference in hours between date times
+	 * @param string $startDateTime
+	 * @param string $endDateTime
+	 * @return int difference in hours
+	 */
+	public static function getDateTimeHoursDiff($startDateTime, $endDateTime) {
+		return self::getDateTimeMinutesDiff($startDateTime, $endDateTime)/60;
 	}
 }

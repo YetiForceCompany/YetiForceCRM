@@ -26,7 +26,7 @@ $languageStrings = [
 	'LBL_PRIORITY' => 'Priorität',
 	
 	//Auth
-	'LBL_AUTHORIZATION' => 'Autorisierung',
+	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
 	'LBL_LDAP_AUTH' => 'LDAP',
 	'LBL_ACTIVE_LDAP_AUTH' => 'Autorisierung mit LDAP',
@@ -47,4 +47,5 @@ $languageStrings = [
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen kann nicht gleich sein',
+	'Changed password successfully' => 'Changed password successfully',
 ];

@@ -93,8 +93,10 @@ abstract class EntityMeta
 
 			$moduleFields = $this->getModuleFields();
 			foreach ($moduleFields as $fieldName => $webserviceField) {
-				if (strcasecmp($webserviceField->getFieldDataType(), 'reference') === 0) {
-					$this->referenceFieldDetails[$fieldName] = $webserviceField->getReferenceList();
+				foreach (Vtiger_Field_Model::$REFERENCE_TYPES as $type) {
+					if (strcasecmp($webserviceField->getFieldDataType(), $type) === 0) {
+						$this->referenceFieldDetails[$fieldName] = $webserviceField->getReferenceList();
+					}
 				}
 			}
 		}

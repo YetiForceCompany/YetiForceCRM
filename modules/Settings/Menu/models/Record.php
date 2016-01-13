@@ -171,7 +171,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				'newwindow' => $row['newwindow'],
 				'dataurl' => $settingsModel->getMenuUrl($row),
 				//'showicon' => $row['showicon'],
-				//'icon' => $row['icon'],
+				'icon' => $row['icon'],
 				//'sizeicon' => $row['sizeicon'],
 				'parent' => $row['parentid'],
 				'hotkey' => $row['hotkey'],
@@ -268,5 +268,10 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			if (file_exists('user_privileges/menu_' . $roleId . '.php'))
 				$this->generateFileMenu($roleId);
 		}
+	}
+	
+	public static function getIcons()
+	{
+		return ['userIcon-VirtualDesk', 'userIcon-Home2', 'userIcon-CompainesAndContacts', 'userIcon-Sales', 'userIcon-Support', 'userIcon-Projects2', 'userIcon-BookKeeping', 'userIcon-HumanResources', 'userIcon-Secretary', 'userIcon-Database', 'userIcon-TeamWork', 'userIcon-Potentials'];
 	}
 }

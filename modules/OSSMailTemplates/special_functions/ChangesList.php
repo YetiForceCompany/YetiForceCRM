@@ -19,10 +19,14 @@ class ChangesList
 		$adb = PearDatabase::getInstance();
 		$html = '';
 		if ($data['record'] != '') {
-			$html = '<ul>';
+
 			$vtEntityDelta = new VTEntityDelta();
-			$delta = $vtEntityDelta->getEntityDelta($data['module'], $data['record'], true);
+			$delta = $vtEntityDelta->getEntityDelta($data['module'], $data['record']);
+			if (count($delta) == 0) {
+				return '';
+			}
 			$tabid = getTabid($data['module']);
+			$html = '<ul>';
 			foreach ($delta as $fieldName => $values) {
 				if ($fieldName != 'modifiedtime' && in_array($fieldName, array('record_id', 'record_module')) == false && strstr($fieldName, 'label') === false) {
 					$result = $adb->pquery("SELECT uitype,fieldlabel FROM vtiger_field WHERE fieldname = ? AND tabid = ?", array($fieldName, $tabid), true);
