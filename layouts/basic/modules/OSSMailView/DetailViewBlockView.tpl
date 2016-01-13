@@ -89,13 +89,11 @@
 					{assign var=COUNTER value=$COUNTER+1}
 				 {/if}
 				 <div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
-					{if $FIELD_MODEL->getName() neq 'content'}
-					   <div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
-						   <label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
-							   {vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
-						   </label>
-					   </div>
-					{/if}
+					<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
+						<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
+							{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
+						</label>
+					</div>
 					<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
 						<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}">
 						   {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
@@ -114,6 +112,7 @@
 				 </div>
 			 {/if}
 		{/foreach}
+		</div>
 		</div>
 		</div>
 	</div>
