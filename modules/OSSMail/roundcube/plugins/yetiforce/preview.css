@@ -1,6 +1,9 @@
 .pull-right{
 	float: right!important;
 }
+#ytActionBarContent select{
+	padding: 0;
+}
 #ytActionBarContent .col{
 	padding-left: 4px;
 }
@@ -57,7 +60,13 @@
 	margin: 3px 0 6px 0;
 }
 #ytActionBarContent .pull-right button{
+	line-height: 11px;
 	margin-left: 3px;
+	padding: 0px 6px;
+	height: 18px;
+}
+#ytActionBarContent .pull-right button .glyphicon{
+	top: 0;
 }
 #ytActionBarContent .data a{
 	text-decoration: none;
