@@ -2578,51 +2578,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 		container.find('.sendMailBtn').click(function (e) {
 			var sendButton = jQuery(e.currentTarget);
 			var url = sendButton.data("url");
-			var mod = sendButton.data("mod");
+			var module = sendButton.data("module");
 			var record = sendButton.data("record");
 			var popup = sendButton.data("popup");
-			if (mod == 'Contacts' || mod == 'Leads' || mod == 'Accounts') {
-				var params = {};
-				var resp = {};
-				params.data = {module: 'OSSMail', action: 'getContactMail', mod: mod, ids: record}
-				params.async = false;
-				params.dataType = 'json';
-				AppConnector.request(params).then(
-						function (response) {
-							resp = response['result'];
-							if (resp.length > 1) {
-								var getConfig = jQuery.ajax({
-									type: "GET",
-									async: false,
-									url: 'index.php?module=OSSMail&view=selectEmail',
-									data: {resp: resp}
-								});
-								var callback = function (container) {
-									$('#sendEmailContainer #selectEmail').click(function (e) {
-										url += '&to=' + $('input[name=selectedFields]:checked').val();
-										thisInstance.sendMailWindow(url, popup);
-									});
-								}
-								getConfig.done(function (cfg) {
-									var data = {}
-									data.css = {'width': '700px'};
-									data.cb = callback;
-									data.data = cfg;
-									app.showModalWindow(data);
-								});
-							}
-							if (resp.length == 1) {
-								url += '&to=' + resp[0].email;
-								thisInstance.sendMailWindow(url, popup);
-							}
-							if (resp.length == 0) {
-								thisInstance.sendMailWindow(url, popup);
-							}
-						}
-				);
-			} else {
+			Vtiger_Index_Js.getEmailFromRecord(record, module).then(function (data) {
+				if (data != '') {
+					url += '&to=' + data;
+				}
 				thisInstance.sendMailWindow(url, popup);
-			}
+			});
 		});
 	},
 	sendMailWindow: function (url, popup) {

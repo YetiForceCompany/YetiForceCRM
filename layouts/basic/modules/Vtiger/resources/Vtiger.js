@@ -23,6 +23,36 @@ var Vtiger_Index_Js = {
 		params['relatedLoad'] = true;
 		popupInstance.show(params);
 	},
+	getEmailFromRecord: function (record, module, maxEmails) {
+		var aDeferred = jQuery.Deferred();
+		AppConnector.request({
+			dataType: 'html',
+			data: {
+				module: 'OSSMail',
+				action: 'GetMail',
+				sourceModule: module,
+				sourceRecord: record,
+				maxEmails: maxEmails,
+			}
+		}).then(function (data) {
+			if (data.substring(0, 1) == '{') {
+				data = $.parseJSON(data);
+				data = data['result'];
+				aDeferred.resolve(data);
+			} else {
+				app.showModalWindow(data, function (data) {
+					data.find('.selectButton').click(function (e) {
+						var email = data.find('input:checked').val();
+						app.hideModalWindow(data);
+						aDeferred.resolve(email);
+					});
+				});
+			}
+		}, function (error, err) {
+			aDeferred.reject(error);
+		})
+		return aDeferred.promise();
+	},
 	registerWidgetsEvents: function () {
 		var widgets = jQuery('div.widgetContainer');
 		widgets.on('shown.bs.collapse', function (e) {
@@ -73,10 +103,10 @@ var Vtiger_Index_Js = {
 						widgetContainer.css('height', 'auto');
 					}
 					widgetContainer.html(data);
-					if(data == ''){
+					if (data == '') {
 						widgetContainer.closest('.quickWidget').addClass('hide');
 					}
-					else{
+					else {
 						var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
 						jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
 					}
@@ -227,9 +257,9 @@ var Vtiger_Index_Js = {
 		badge.removeClass('hide');
 		if (count > 0) {
 			$(".remindersNotice").effect("pulsate", 1500);
-			if(app.cacheGet('countRemindersNotice') != count){
+			if (app.cacheGet('countRemindersNotice') != count) {
 				app.playSound('REMINDERS');
-				app.cacheSet('countRemindersNotice',count);
+				app.cacheSet('countRemindersNotice', count);
 			}
 		} else {
 			badge.addClass('hide');
