@@ -56,13 +56,13 @@ var app = {
 	/**
 	 * Function to get height of window
 	 */
-	getHeightWindow: function(){
+	getHeightWindow: function () {
 		return jQuery(window).height();
 	},
 	/**
 	 * Function to get path to layout
 	 */
-	getLayoutPath: function(){
+	getLayoutPath: function () {
 		return jQuery('body').data('layoutpath');
 	},
 	/**
@@ -132,7 +132,7 @@ var app = {
 						var wasDisabled = select.is(':disabled');
 						var selectData = select.data('chosen');
 						select.attr('disabled', 'disabled');
-						if(typeof selectData == 'object'){
+						if (typeof selectData == 'object') {
 							selectData.search_field_disabled();
 						}
 						if (wasDisabled) {
@@ -183,7 +183,7 @@ var app = {
 		if (parent.is('select.selectized')) {
 			selectElements = parent;
 		}
-		selectElements.each(function(){
+		selectElements.each(function () {
 			$(this)[0].selectize.destroy();
 		});
 	},
@@ -722,10 +722,10 @@ var app = {
 			currentElement.val(date);
 		});
 	},
-	registerEventForClockPicker: function (){
+	registerEventForClockPicker: function () {
 		var formatTime = app.getMainParams('userTimeFormat');
 		formatTime = formatTime == 12 ? true : false;
-		var params ={
+		var params = {
 			placement: 'bottom',
 			autoclose: true,
 			twelvehour: formatTime,
@@ -1141,12 +1141,15 @@ var app = {
 		rand = Math.floor(Math.random() * chars.length);
 		return newchar = chars.substring(rand, rand + 1);
 	},
-	getMainParams: function (params) {
-		if (app.cacheParams[params] != undefined) {
-			return app.cacheParams[params];
+	getMainParams: function (param, json) {
+		if (app.cacheParams[param] == undefined) {
+			var value = $('#' + param).val();
+			app.cacheParams[param] = value;
 		}
-		var value = $('#' + params).val();
-		app.cacheParams[params] = value;
+		var value = app.cacheParams[param];
+		if (json) {
+			value = $.parseJSON(value);
+		}
 		return value;
 	},
 	parseNumberToShow: function (val) {
@@ -1203,48 +1206,48 @@ var app = {
 			e.stopPropagation();
 		});
 	},
-	playSound: function (action){
+	playSound: function (action) {
 		var soundsConfig = app.getMainParams('sounds');
 		soundsConfig = JSON.parse(soundsConfig);
 		var audio = new Audio(app.getLayoutPath() + '/sounds/' + soundsConfig[action]);
 		audio.play();
 	},
-	registerSticky: function(){
+	registerSticky: function () {
 		var elements = jQuery('.stick');
-		elements.each(function(){
+		elements.each(function () {
 			var currentElement = jQuery(this);
 			var position = currentElement.data('position');
-			if(position == 'top'){
+			if (position == 'top') {
 				var offsetTop = currentElement.offset().top - 50;
-				jQuery('.mainBody').scroll(function() {
-					if ($(this).scrollTop() > offsetTop) 
+				jQuery('.mainBody').scroll(function () {
+					if ($(this).scrollTop() > offsetTop)
 						currentElement.css({
-							'position':'fixed',
-							'top':'50px',
-							'width':currentElement.width()
+							'position': 'fixed',
+							'top': '50px',
+							'width': currentElement.width()
 						});
-					else if ($(this).scrollTop() <= offsetTop) 
+					else if ($(this).scrollTop() <= offsetTop)
 						currentElement.css({
-							'position':'',
-							'top':'',
-							'width':''
+							'position': '',
+							'top': '',
+							'width': ''
 						});
 				});
 			}
-			if(position == 'bottom'){ 
+			if (position == 'bottom') {
 				var offsetTop = currentElement.offset().top - app.getHeightWindow();
-				jQuery('.mainBody').scroll(function() {
-					if ($(this).scrollTop()  < offsetTop) 
+				jQuery('.mainBody').scroll(function () {
+					if ($(this).scrollTop() < offsetTop)
 						currentElement.css({
-							'position':'fixed',
-							'bottom':'33px',
-							'width':currentElement.width()
+							'position': 'fixed',
+							'bottom': '33px',
+							'width': currentElement.width()
 						});
-					else if ($(this).scrollTop() >= offsetTop) 
+					else if ($(this).scrollTop() >= offsetTop)
 						currentElement.css({
-							'position':'',
-							'bottom':'',
-							'width':''
+							'position': '',
+							'bottom': '',
+							'width': ''
 						});
 				});
 			}
