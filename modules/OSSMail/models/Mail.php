@@ -113,17 +113,20 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 
 	public function getMailCrmId()
 	{
-		if ($this->mailCrmId) {
+		if ($this->mailCrmId != false) {
 			return $this->mailCrmId;
 		}
 		$db = PearDatabase::getInstance();
-		$account = $this->getAccountOwner();
-
 		$result = $db->pquery('SELECT ossmailviewid FROM vtiger_ossmailview where uid = ? AND rc_user = ? ', [$this->get('message_id'), $this->getAccountOwner()]);
 		if ($db->getRowCount($result) > 0) {
 			$this->mailCrmId = $db->getSingleValue($result);
 		}
 		return $this->mailCrmId;
+	}
+
+	public function setMailCrmId($id)
+	{
+		$this->mailCrmId = $id;
 	}
 
 	public function getEmail($name)

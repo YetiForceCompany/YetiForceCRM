@@ -66,6 +66,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction extends OSSMailScanner_BaseScann
 			$record->save();
 			$id = $record->getId();
 
+			$mail->setMailCrmId($id);
 			OSSMail_Record_Model::_SaveAttachements($id, $mail);
 			$db = PearDatabase::getInstance();
 			$db->update('vtiger_crmentity', [
