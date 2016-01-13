@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -5392,11 +5391,6 @@ insert  into `vtiger_osservicesstatus_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_ossmailscanner_config` */
 
-insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('folders','Received',NULL);
-insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('folders','Sent',NULL);
-insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('folders','Spam',NULL);
-insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('folders','Trash',NULL);
-insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('folders','All',NULL);
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('emailsearch','fields',NULL);
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('cron','email','');
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('cron','time','');
