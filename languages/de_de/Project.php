@@ -53,9 +53,9 @@ $languageStrings = [
 	'LBL_MORE' => 'weiter',
 
 	//PickList
-	'PLL_INTERNAL' => 'intern',
-	'PLL_EXTERNAL' => 'extern',
-	'PLL_COMMON' => 'allgemein',
+	'PLL_INTERNAL' => 'Intern',
+	'PLL_EXTERNAL' => 'Extern',
+	'PLL_COMMON' => 'Allgemein',
 	
 	//Summary View Widgets
 	'LBL_DOWNLOAD_FILE' => 'Datei herunterladen',

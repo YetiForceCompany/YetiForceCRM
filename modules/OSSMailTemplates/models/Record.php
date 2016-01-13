@@ -16,31 +16,37 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_ossmailtemplates WHERE oss_module_list = ?";
-		$result = $db->pquery($sql, array($module), TRUE);
-		$list = array();
+		$result = $db->pquery($sql, [$module]);
+		$list = [];
 		while ($row = $db->fetch_array($result)) {
-			$list[$row["ossmailtemplatesid"]] = $row;
+			$list[$row['ossmailtemplatesid']] = $row;
 		}
 		return $list;
 	}
 
-	function getTemplete($id)
+	function getTemplete($id = false, $sysname = false)
 	{
 		$db = PearDatabase::getInstance();
-		$sql = "SELECT * FROM vtiger_ossmailtemplates WHERE ossmailtemplatesid = ?";
-		$result = $db->pquery($sql, [$id], TRUE);
-		$output = [];
-		$row = $db->raw_query_result_rowdata($result);
-		$output['subject'] = $row['subject'];
-		$output['content'] = $row['content'];
-
+		$sql = 'SELECT * FROM vtiger_ossmailtemplates WHERE ';
+		if ($sysname) {
+			$id = $sysname;
+			$sql .= 'sysname = ?';
+		} else {
+			$sql .= 'ossmailtemplatesid = ?';
+		}
+		$result = $db->pquery($sql, [$id]);
+		$row = $db->fetch_array($result);
+		$output = [
+			'subject' => $row['subject'],
+			'content' => $row['content'],
+		];
 		$query = 'SELECT notesid FROM vtiger_senotesrel '
 			. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_senotesrel.notesid '
 			. 'WHERE vtiger_crmentity.deleted = 0 AND vtiger_senotesrel.crmid = ?';
 		$res = $db->pquery($query, [$id]);
 		$aid = [];
-		for ($i = 0; $i < $db->num_rows($res); $i++) {
-			$aid[] = $db->query_result_raw($res, $i, 'notesid');
+		while ($notesid = $db->getSingleValue($res)) {
+			$aid[] = $notesid;
 		}
 		if (count($aid) > 0) {
 			$output['attachments'] = ['ids' => $aid];
@@ -52,12 +58,14 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 	{
 		require_once('modules/Emails/mail.php');
 		global $site_URL, $HELPDESK_SUPPORT_NAME, $HELPDESK_SUPPORT_EMAIL_ID;
-		$output = self::getTemplete($data['id']);
+		$id = key_exists('id', $data) ? $data['id'] : false;
+		$sysname = key_exists('sysname', $data) ? $data['sysname'] : false;
+		$output = self::getTemplete($id, $sysname);
 		$logo = 0;
 		$request = array();
 		$entityId = $data['record'];
 		$module = $data['module'];
-		$to_email = $data['to_email'];
+		$toEmail = $data['to_email'];
 		if ($entityId && $module) {
 			$data['Model'] = Vtiger_Record_Model::getInstanceById($entityId, $module);
 		} elseif ($data['request']) {
@@ -77,7 +85,9 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		if (@strpos($output['content'], '#s#LogoImage#sEnd#') !== false)
 			$logo = 1;
 
+		$translatedLanguage = '';
 		if ($data['notifilanguage'] != '') {
+			$translatedLanguage = vglobal('translated_language');
 			vglobal('translated_language', $data['notifilanguage']);
 		}
 		$this->findVar($output['content'], 0, $entityId, $module, 'a', $data);
@@ -94,9 +104,9 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		$this->findVar($output['subject'], 0, $entityId, $module, 's', $data);
 		$this->findVar($output['subject'], 0, $entityId, $module, 't', $data);
 
-		vglobal('translated_language', '');
-		$mail_status = send_mail($module, $to_email, $HELPDESK_SUPPORT_NAME, $HELPDESK_SUPPORT_EMAIL_ID, $output['subject'], $output['content'], $cc, $bcc, $attachment, $emailid, $logo, false, $data['attachment_src']);
-		return $mail_status;
+		vglobal('translated_language', $translatedLanguage);
+		$mailStatus = send_mail($module, $toEmail, $HELPDESK_SUPPORT_NAME, $HELPDESK_SUPPORT_EMAIL_ID, $output['subject'], $output['content'], $cc, $bcc, $attachment, $emailid, $logo, false, $data['attachment_src']);
+		return $mailStatus;
 	}
 
 	function findVar(&$tpl, $offset, $recordId, $module, $type, $request)

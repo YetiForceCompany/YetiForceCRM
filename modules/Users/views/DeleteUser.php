@@ -25,15 +25,12 @@ class Users_DeleteUser_View extends Vtiger_Index_View {
 		if(array_key_exists($userid, $usersList)){
 			unset($usersList[$userid]);
 		}
-		
-		$viewer->assign('MODULE', $moduleName);
+
 		$viewer->assign('USERID', $userid);
 		$viewer->assign('DELETE_USER_NAME', $userRecordModel->getName());
 		$viewer->assign('USER_LIST', $usersList);
         if($request->get('mode') == 'permanent')
-        	$viewer->assign('PERMANENT', true);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		
+			$viewer->assign('PERMANENT', true);
 		$viewer->view('DeleteUser.tpl', $moduleName);
 	}
 }

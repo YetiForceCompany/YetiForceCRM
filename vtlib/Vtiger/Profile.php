@@ -160,9 +160,12 @@ class Vtiger_Profile
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("DELETE FROM vtiger_profile2tab WHERE tabid=?", Array($moduleInstance->id));
-		$adb->pquery("DELETE FROM vtiger_profile2standardpermissions WHERE tabid=?", Array($moduleInstance->id));
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_def_org_field', 'tabid = ?', [$moduleInstance->id]);
+		$db->delete('vtiger_def_org_share', 'tabid = ?', [$moduleInstance->id]);
+		$db->delete('vtiger_profile2field', 'tabid = ?', [$moduleInstance->id]);
+		$db->delete('vtiger_profile2standardpermissions', 'tabid = ?', [$moduleInstance->id]);
+		$db->delete('vtiger_profile2tab', 'tabid = ?', [$moduleInstance->id]);
 	}
 }
 

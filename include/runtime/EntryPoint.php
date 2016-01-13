@@ -20,9 +20,9 @@ vimport('include.runtime.Viewer');
 vimport('include.runtime.Theme');
 vimport('include.runtime.BaseModel');
 vimport('include.runtime.JavaScript');
-
 vimport('include.runtime.LanguageHandler');
 vimport('include.runtime.Cache');
+vimport('include.runtime.Layout');
 
 abstract class Vtiger_EntryPoint
 {

@@ -80,4 +80,5 @@ $jsLanguageStrings = [
 	'JS_FOR_INSTALLATION' => 'for installation',
 	'JS_CLICK_HERE' => 'Click Here',
 	'JS_ON' => 'On',
+	'JS_REMOVED_MODULE' => 'Removed module',
 ];

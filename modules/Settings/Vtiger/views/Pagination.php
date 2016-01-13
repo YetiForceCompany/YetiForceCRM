@@ -1,6 +1,6 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-class Settings_Vtiger_Pagination_View extends Vtiger_IndexAjax_View
+class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 {
 
 	public function __construct()
@@ -58,21 +58,11 @@ class Settings_Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		}
 		$noOfEntries = count($this->listViewEntries);
 		$totalCount = $this->listViewCount;
-		$pageLimit = $pagingModel->getPageLimit();
-		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
-		if ($pageCount == 0) {
-			$pageCount = 1;
-		}
 		$viewer->assign('PAGE_COUNT', $pageCount);
-
-		$startPaginFrom = $pageNumber - 2;
-
-		if ($pageNumber == $totalCount && 1 != $pageNumber)
-			$startPaginFrom = $pageNumber - 4;
-		if ($startPaginFrom <= 0 || 1 == $pageNumber)
-			$startPaginFrom = 1;
-
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);

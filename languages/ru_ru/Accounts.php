@@ -9,6 +9,8 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = [
+	'LBL_VIEW_ACCOUNTSLISTTREE' => 'Товары и Услуги',
+	'LBL_ACCOUNTS_LIST_TREE_ALERT' => 'Список Контрагентов зависит от выбранных продуктов в фильтре.',
 	'Account Name'                 => 'Контрагент'        , 
 	'Account No'                   => 'Контрагент №'    , 
 	'Accounts'                     => 'Контрагенты'      , 
@@ -62,9 +64,9 @@ $languageStrings = [
 	'LBL_CONVERTED_FROM_LEAD' => 'Создано из Обращения',
 	'LBL_LEGAL_FORM' => 'Юридическая форма организации',
 	'Payment balance' => 'Баланс',
-	'LBL_INVENTORY_BALANCE' => 'Balance',
-	'LBL_DISCOUNT' => 'Discount',
-	'LBL_CREDIT_LIMIT' => 'Credit limit',
+	'LBL_INVENTORY_BALANCE' => 'Баланс',
+	'LBL_DISCOUNT' => 'Скидка',
+	'LBL_CREDIT_LIMIT' => 'Кредитный лимит',
 
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Физическое лицо',

@@ -1,26 +1,17 @@
 <?php
 /*
-Disable SSL for IMAP/SMTP
-If your IMAP/SMTP servers are on the same host or are connected via a secure network, not using SSL connections improves performance. So don't use "ssl://" or "tls://" urls for 'default_host' and 'smtp_server' config options.
-*/
-if(!$no_include_config){
-	$include_path = ini_get('include_path');
+  Disable SSL for IMAP/SMTP
+  If your IMAP/SMTP servers are on the same host or are connected via a secure network, not using SSL connections improves performance. So don't use "ssl://" or "tls://" urls for 'default_host' and 'smtp_server' config options.
+ */
+if (!$no_include_config) {
 	$currentPath = getcwd();
-	$crmPath =  $currentPath . '/../../../';
-	chdir ($crmPath);
-	ini_set('include_path',$crmPath);
-
-	include_once('config/config.inc.php');
-	if (file_exists('config/config_override.php')) {
-		include_once 'config/config_override.php';
-	}
-	@include_once('config/debug.php');
-	chdir ($currentPath);
-	ini_set('include_path',$include_path);
+	chdir(dirname(__FILE__) . '/../../../../');
+	include_once('include/ConfigUtils.php');
+	chdir($currentPath);
 }
-$config['db_dsnw'] = 'mysql://'.$dbconfig['db_username'].':'.$dbconfig['db_password'].'@'.$dbconfig['db_server'].':'.$dbconfig['db_port'].'/'.$dbconfig['db_name'];
+$config['db_dsnw'] = 'mysql://' . $dbconfig['db_username'] . ':' . $dbconfig['db_password'] . '@' . $dbconfig['db_server'] . ':' . $dbconfig['db_port'] . '/' . $dbconfig['db_name'];
 $config['db_prefix'] = 'roundcube_';
-$config['default_host'] = 'ssl://imap.gmail.com';
+$config['default_host'] = ['ssl://smtp.gmail.com' => 'ssl://smtp.gmail.com',];
 $config['validate_cert'] = false;
 $config['default_port'] = 993;
 $config['smtp_server'] = 'ssl://smtp.gmail.com';
@@ -31,11 +22,11 @@ $config['support_url'] = 'http://yetiforce.com';
 $config['des_key'] = 'rGOQ26hR%gxlZk=QA!$HMOvb';
 $config['username_domain'] = 'gmail.com';
 $config['product_name'] = 'YetiForce';
-$config['plugins'] = array('autologon','identity_smtp','ical_attachments','yetiforce','thunderbird_labels');
+$config['plugins'] = array('autologon', 'identity_smtp', 'ical_attachments', 'yetiforce', 'thunderbird_labels');
 $config['language'] = 'en_US';
 $config['mime_param_folding'] = 0;
 $config['skin_logo'] = array("*" => "/images/null.png");
-$config['ip_check'] = false;///
+$config['ip_check'] = false; ///
 $config['enable_spellcheck'] = true;
 $config['identities_level'] = '0';
 $config['auto_create_user'] = true;
@@ -69,14 +60,14 @@ $config['devel_mode'] = $DEBUG_CONFIG['ROUNDCUBE_DEVEL_MODE'];
 
 $config['imap_conn_options'] = [
 	'ssl' => [
-		'verify_peer'       => false,
+		'verify_peer' => false,
 		'verfify_peer_name' => false,
 	],
 ];
 $config['smtp_timeout'] = 5;
 $config['smtp_conn_options'] = [
 	'ssl' => [
-		'verify_peer'       => false,
+		'verify_peer' => false,
 		'verfify_peer_name' => false,
 	],
 ];

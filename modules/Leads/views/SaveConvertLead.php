@@ -17,9 +17,20 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModuleActionPermission($moduleModel->getId(), 'ConvertLead')) {
-			throw new AppException(vtranslate('LBL_CONVERT_LEAD_PERMISSION_DENIED', $moduleName));
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'ConvertLead')) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
+
+		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId);
+		if (!$recordPermission) {
+			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		
+		$recordId = $request->get('record');
+		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		if (!Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -43,7 +54,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $request->getModule());
 		$convertLeadFields = $recordModel->getConvertLeadFields();
-		$availableModules = array('Accounts', 'Contacts', 'Potentials');
+		$availableModules = array('Accounts', 'Contacts');
 		foreach ($availableModules as $module) {
 			if (vtlib_isModuleActive($module) && in_array($module, $modules)) {
 				$entityValues['entities'][$module]['create'] = true;

@@ -13,7 +13,7 @@ $languageStrings = [
 	'LBL_NONE' => '--Keine--',
 	'Message' => 'Nachricht',
 	'Action_unique_value' => 'Feld Wert ist einzigartig.',
-	'Action_Desc_unique_value' => 'Prüfen ob der Feld Wert einzigartig ist',
+	'Action_Desc_unique_value' => 'Prüfen ob der Feld Wert einzigartig ist.',
 	'Select the fields to be verified' => 'Die zu überprüfenden Felder auswählen',
 	'Select a field from which the value is to be checked' => 'Feld auswählen, dessen Wert überprüft werden soll',
 	'Field value is not unique' => 'Feldwert ist nicht einzigartig',
@@ -22,6 +22,7 @@ $languageStrings = [
 	'LBL_LOCKS_SAVE_LABEL1' => 'Nein',
 	'LBL_LOCKS_SAVE_LABEL2' => 'Ja - Eine Bedingung erfüllt',
 	'LBL_LOCKS_SAVE_LABEL3' => 'Ja - Zwei Bedingungen erfüllt',
+	'LBL_LOCKS_SAVE_LABEL4' => 'Yes - Modal window',
 	'LBL_VALIDATION_TWO_FIELDS' => 'Zwei Felder bestätigen',
 	'LBL_MESSAGE_LOCK0' => 'Nachricht, wenn Schrieben nicht gesperrt ist',
 	'LBL_MESSAGE_LOCK1' => 'Nachricht für eine erfüllte Bedingung',
@@ -38,14 +39,14 @@ $languageStrings = [
 	'Message if the task exist' => 'Nachricht, wenn die Aufgabe existiert',
 	//
 	'Action_show_quick_create' => 'Schnellerfassung',
-	'Action_Desc_show_quick_create' => 'Diese Aktion zeigt die Schnellerfassung',
+	'Action_Desc_show_quick_create' => 'Diese Aktion zeigt die Schnellerfassung.',
 	'LBL_SELECT_OPTION' => 'Option auswählen',
 	//
 	'Action_blockEditView' => 'Bearbeitungsansicht blockieren',
-	'Action_Desc_blockEditView' => 'Diese Aktion blockiert Bearbeitungsansicht (Schnell und vollständiges Bearbeiten)',
+	'Action_Desc_blockEditView' => 'Diese Aktion blockiert Bearbeitungsansicht (Schnell und vollständiges Bearbeiten).',
 	//
 	'Action_check_taskdate' => 'Überprüfen Sie den geplanten Termin für den Abschluss der Projektaufgabe',
-	'Action_Desc_check_taskdate' => 'Bestätigen Sie den geplanten Termin für den Abschluss der Projektaufgabe',
+	'Action_Desc_check_taskdate' => 'Bestätigen Sie den geplanten Termin für den Abschluss der Projektaufgabe.',
 	'Date can not be greater' => 'Geplanter Termin kann nicht größer als Bühne Datum sein',
 	//
 	'Action_unique_modules_value' => 'Wert des Feldes ist einzigartig in Modulen',
@@ -53,7 +54,7 @@ $languageStrings = [
 	'Check the value in the module' => 'Überprüfen Sie den Wert in dem Modul',
 	//
 	'Action_check_taskstatus' => 'Überprüfen Sie alle untergeordneten Aufgaben',
-	'Action_Desc_check_taskstatus' => 'Überprüfen Sie, ob alle untergeordneten Aufgaben abgeschlossen sind',
+	'Action_Desc_check_taskstatus' => 'Überprüfen Sie, ob alle untergeordneten Aufgaben abgeschlossen sind.',
 	'Subordinate tasks have not been completed yet' => 'Untergeordnete Aufgaben sind noch nicht abgeschlossen.',
 	//
 	'Action_validate_mandatory' => 'Überprüfen Sie Pflichtfelder',
@@ -70,8 +71,15 @@ $languageStrings = [
 	'LBL_TEXT_COLOR' => 'Text Farbe',
 	'This name already exists' => 'Der Name existiert schon',
 	'LBL_RECORD_DELETED' => 'Datensatz gelöscht',
-	'Action_test' => 'Action test',
-	'Action_Desc_test' => 'Action test description',
+	'Action_test' => 'Testaktion',
+	'Action_Desc_test' => 'Testaktion Beschreibung.',
+	//
+	'Action_unique_account' => 'Check for account duplicates',
+	'Action_Desc_unique_account' => 'Check if account is unique in the module.',
+	'LBL_DUPLICATED_FOUND' => 'Duplicates found',
+	'LBL_DUPLICTAE_CREATION_CONFIRMATION' => 'Duplicate found. Are you sure you want to save?',
+	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'An attempt was made to change values in a record in Quick Edition mode.<br>Select the checkbox field below and accept in order to apply changes in this view.<br>Attention!<br>Re-enter the modifications in the record.',
+	'LBL_DONT_ASK_AGAIN' => 'Don\'t ask again for this record.',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Datenzugriff',

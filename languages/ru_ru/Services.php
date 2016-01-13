@@ -52,4 +52,5 @@ $languageStrings = [
     'Migration'                    => 'Миграция',
     'Support'                      => 'Поддержка',
     'Training'                     => 'Тренинг',
+	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Ограниченный список продуктов и услуг, связанных с возможностью продажи',
 ];

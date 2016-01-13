@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_MOBILE_CALLLISTENER' => 'Список Звонков',
 	'MobileApps'	=>	'Мобильные приложения',
-	'LBL_MOBILE_KEYS'	=>	'Мобильные приложения',
+	'LBL_MOBILE_KEYS' => 'Мобильные приложения',
 	'LBL_MOBILE_KEYS_DESCRIPTION'	=>	'Создание и управление ключами мобильных приложений',
 	'LBL_USERNAME'	=>	'Пользователь',
 	'LBL_SERVICE'	=>	'Приложение',

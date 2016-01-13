@@ -28,7 +28,7 @@ $languageStrings = [
 	'LBL_MODULE' => 'Модуль',
 
 	//Auth
-	'LBL_AUTHORIZATION' => 'Авторизация',
+	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => 'Настройка способа Авторизации',
 	'LBL_LDAP_AUTH' => 'LDAP',
 	'LBL_ACTIVE_LDAP_AUTH' => 'Авторизация через LDAP',
@@ -40,8 +40,14 @@ $languageStrings = [
 	
 	'LBL_VIEW_AUTH' => 'Авторизация',
 	'LBL_VIEW_COLORS' => 'Цвета',
+	
+	'LBL_SWITCH_USERS' => 'Переключатель пользователей',
+	'LBL_SWITCH_USERS_DESCRIPTION' => 'Данная опция, позволяет сменить пользователя в системе, не выходя из нее',
+	'LBL_SU_BASE_ACCESS' => 'Пользователь',
+	'LBL_SU_AVAILABLE_ACCESS' => 'Разрешено входить под',
 ];
 $jsLanguageStrings = [
 	'JS_USER_MAIL_EXIST'	=>	'Пользователь с такой электронной почтой уже существует',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Разделитель десятичных и тысячных не могут быть одинаковыми',
+	'Changed password successfully' => 'Пароль успешно изменен',
 ];

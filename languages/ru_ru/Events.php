@@ -86,15 +86,21 @@ $languageStrings = [
 	'LBL_STATE' => 'Состояние',
 	'PLL_OPAQUE' => 'Занят',
 	'PLL_TRANSPARENT' => 'Доступен',
-	'Relation' => 'Связь',
-	'Process' => 'Процесс',
 	'LBL_REPEAT_EACH_MONTH' => 'Повторять, выбранный день, каждый месяц',
 	'LBL_REPEAT_MONTH_DAY' => 'Пофторять, каждое первое и последнее число месяца',
 	'LBL_REMAIND_DAYS' => 'Повторять, через указанное количество дней',
 	'LBL_REPEAT_FOR' => 'Повторять по:',
 	'LBL_RECURRING_TYPE' => 'Тип повторения',
 	'End Date' => 'Дата окончания',
-	'LBL_FOLLOWUP' => 'Follow up',
+	'LBL_FOLLOWUP' => 'Связанные события',
+	
+	'PLL_PLANNED' => 'Запланировано',
+	'PLL_IN_REALIZATION' => 'В процессе',
+	'PLL_OVERDUE' => 'Просрочено',
+	'PLL_POSTPONED' => 'Отложено',
+	'PLL_CANCELLED' => 'Отменено',
+	'PLL_COMPLETED' => 'Выполнено',
+
 ];
 
 $jsLanguageStrings = [

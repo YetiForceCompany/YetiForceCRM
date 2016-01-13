@@ -100,7 +100,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$oldValue = $request->getRaw('oldValue');
 		$id = $request->getRaw('id');
 
-		if ($moduleName == 'Events' && ($pickListFieldName == 'activitytype' || $pickListFieldName == 'eventstatus')) {
+		if ($moduleName == 'Events' && ($pickListFieldName == 'activitytype' || $pickListFieldName == 'activitystatus')) {
 			$this->updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue);
 		}
 		$moduleModel = new Settings_Picklist_Module_Model();
@@ -121,7 +121,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$replaceValue = $request->getRaw('replace_value');
 		$pickListFieldName = $request->get('picklistName');
 
-		if ($moduleName == 'Events' && ($pickListFieldName == 'activitytype' || $pickListFieldName == 'eventstatus')) {
+		if ($moduleName == 'Events' && ($pickListFieldName == 'activitytype' || $pickListFieldName == 'activitystatus')) {
 			$this->updateDefaultPicklistValues($pickListFieldName, $valueToDelete, $replaceValue);
 		}
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);

@@ -21,7 +21,7 @@ $languageStrings = [
 	'LBL_MORE_CURRENCIES' => 'więcej walut', 
 	'LBL_PRICES' => 'Cena usługi',
 	'LBL_PRICE' => 'Cena',
-	'LBL_RESET_PRICE' => 'Wyczyść cenę',
+	'LBL_RESET_PRICE' => 'Wyczyść ceny',
 	'LBL_RESET' => 'Wyczyść',
 	
 	//Services popup of pricebook
@@ -63,4 +63,5 @@ $languageStrings = [
 	'Migration' => 'Migracja',
 	'Customization' => 'Dostosowywanie', 
 	'Training' => 'Szkolenie',
+	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Lista rekordów jest ograniczona do produktów i usług powiązanych z szansą sprzedaży',
 ];

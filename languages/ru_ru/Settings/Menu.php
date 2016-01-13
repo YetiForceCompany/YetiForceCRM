@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,9 +7,9 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_MENU_BUILDER' => 'Меню',
+	'LBL_MENU_BUILDER' => 'Меню - Настройка',
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Создание и редактирование пунктов меню',
 	'LBL_DEFAULT_MENU' => 'Меню по умолчанию',
 	'LBL_ADD_MENU' => 'Добавить пункт меню',
@@ -29,36 +29,38 @@ $languageStrings = [
 	'LBL_NAME' => 'Имя',
 	'LBL_TEST_IT' => 'Тестировать',
 	'LBL_MENU_TYPE' => 'Тип меню',
-	'LBL_ICON_NAME' => 'Icon',
-	
+	'LBL_AVAILABLE_FILTERS' => 'Available filters',
+	'LBL_ICON_NAME' => 'Иконки',
 	//Menu types
 	'LBL_MODULE' => 'Модуль',
-	'LBL_MODULE_DESC' => 'Пункт меню перенаправлен на выбранный модуль',
+	'LBL_MODULE_DESC' => 'Пункт меню перенаправлен на выбранный модуль.',
 	'LBL_SHORTCUT' => 'Ярлык',
-	'LBL_SHORTCUT_DESC' => 'Пункт меню перенаправлен по указанному адресу',
+	'LBL_SHORTCUT_DESC' => 'Пункт меню перенаправлен по указанному адресу.',
 	'LBL_LABEL' => 'Метка',
-	'LBL_LABEL_DESC' => 'Группировка элементов в меню',
+	'LBL_LABEL_DESC' => 'Группировка элементов в меню.',
 	'LBL_SCRIPT' => 'Скрипт',
-	'LBL_SCRIPT_DESC' => 'При нажатии будет выполняться указанный скрипт',
+	'LBL_SCRIPT_DESC' => 'При нажатии будет выполняться указанный скрипт.',
 	'LBL_SEPARATOR' => 'Разделитель',
-	'LBL_SEPARATOR_DESC' => 'Разделитель позволяет разделить меню на несколько разделов',
+	'LBL_SEPARATOR_DESC' => 'Разделитель позволяет разделить меню на несколько разделов.',
 	'LBL_QUICKCREATE' => 'Быстрое создание',
-	'LBL_QUICKCREATE_DESC' => 'Раздел меню, позволяющий редактировать меню Быстрое создание',
+	'LBL_QUICKCREATE_DESC' => 'Раздел меню, позволяющий редактировать меню Быстрое создание.',
 	'LBL_HOMEICON' => 'Иконка Главной страницы',
 	'LBL_HOMEICON_DESC' => 'Пункт меню Главной страницы',
 	'LBL_CUSTOMFILTER' => 'Фильтр',
-	'LBL_CUSTOMFILTER_DESC' => 'Пункт меню перенаправлен на выбранный фильтр',
-	
+	'LBL_CUSTOMFILTER_DESC' => 'Пункт меню перенаправлен на выбранный фильтр.',
+	'LBL_PROFILE' => 'Профили',
+	'LBL_PROFILE_DESC' => "Menu item that allows changing the user's settings.",
 	//Message
 	'LBL_REMOVED_MENU_ITEM' => 'Пункт меню удален',
 	'LBL_SAVED_MAP_MENU' => 'Структура меню сохранена',
 	'LBL_ITEM_ADDED_TO_MENU' => 'Новый пункт добавлен в меню',
-
 	//Remove mondal
 	'LBL_REMOVE_TITLE' => 'Удалить пункт меню',
 	'LBL_REMOVE_DESC' => 'Выбранный пункт содержит подменю. Все подменю будут также удалены вместе с этим пунктом меню.',
 	'LBL_REMOVE' => 'Удалить',
 	'LBL_CANCEL' => 'Отмена',
+	//End remove modal
+	'LBL_MORE_INFO' => 'Click here for more information',
 ];
 $jsLanguageStrings = [
 	'JS_EDIT' => 'Редактировать',

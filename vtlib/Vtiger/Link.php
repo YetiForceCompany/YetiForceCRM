@@ -163,7 +163,7 @@ class Vtiger_Link
 	{
 		$adb = PearDatabase::getInstance();
 		self::__initSchema();
-		$adb->pquery('DELETE FROM vtiger_links WHERE tabid=?', Array($tabid));
+		$adb->delete('vtiger_links', 'tabid=?', [$tabid]);
 		self::log("Deleting Links ... DONE");
 	}
 

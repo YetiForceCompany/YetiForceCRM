@@ -9,13 +9,13 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  * ********************************************************************************** */
 $languageStrings = [
-	'LBL_SETUP_WEBFORMS' => 'Configurar Webforms',
-	'Verification data' => 'Verification data',
+	'LBL_SETUP_WEBFORMS' => 'Configurar Web Forms',
+	'Verification data' => 'VVerificação de dados',
 	'Orders accepted' => 'Pedidos aceitos',
 	'Attempted to Contact' => 'Tentativa Contato',
 	'CANNOT_CONVERT' => 'Não pode ser Convertido',
 	'Cold' => 'Frio',
-	'Company' => 'Nome Lead',
+	'Company' => 'Empresa',
 	'Contacted' => 'Contactado',
 	'Contact in Future' => 'Contactar no Futuro',
 	'Designation' => 'Título',
@@ -37,6 +37,7 @@ $languageStrings = [
 	'LBL_LEADS_FIELD_MAPPING_INCOMPLETE' => 'O mapeamento dos campos do Lead está incompleto (Configurações > Gerenciador Módulo > Leads > Mapeamento Campo Leads)',
 	'LBL_LEADS_FIELD_MAPPING' => 'Mapeamento Campos Lead',
 	'LBL_MANDATORY_FIELDS_ARE_EMPTY' => 'Campos obrigatórios estão vazios',
+	'LBL_LEAD_ALREADY_CONVERTED' => 'Lead is already converted',
 	'LBL_RECORDS_LIST' => 'Lista Leads',
 	'LBL_TRANSFER_RELATED_RECORD' => 'Transferir registro relacionado para',
 	'Lead No' => 'Cod. Lead',

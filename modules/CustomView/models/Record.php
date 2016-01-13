@@ -1,17 +1,18 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
 /**
  * CustomView Record Model Class
  */
-class CustomView_Record_Model extends Vtiger_Base_Model {
+class CustomView_Record_Model extends Vtiger_Base_Model
+{
 
 	// Constants to identify different status of the custom view
 	const CV_STATUS_DEFAULT = 0;
@@ -24,7 +25,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function to get the Id
 	 * @return <Number> Custom View Id
 	 */
-	public function getId() {
+	public function getId()
+	{
 		return $this->get('cvid');
 	}
 
@@ -32,7 +34,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function to get the Owner Id
 	 * @return <Number> Id of the User who created the Custom View
 	 */
-	public function getOwnerId() {
+	public function getOwnerId()
+	{
 		return $this->get('userid');
 	}
 
@@ -40,7 +43,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function to get the Owner Name
 	 * @return <String> Custom View creator User Name
 	 */
-	public function getOwnerName() {
+	public function getOwnerName()
+	{
 		$ownerId = $this->getOwnerId();
 		$entityNames = getEntityName('Users', array($ownerId));
 		return $entityNames[$ownerId];
@@ -50,7 +54,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function to get the Module to which the record belongs
 	 * @return Vtiger_Module_Model
 	 */
-	public function getModule() {
+	public function getModule()
+	{
 		return $this->module;
 	}
 
@@ -59,7 +64,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * @param <String> $moduleName
 	 * @return Vtiger_Record_Model or Module Specific Record Model instance
 	 */
-	public function setModule($moduleName) {
+	public function setModule($moduleName)
+	{
 		$this->module = Vtiger_Module_Model::getInstance($moduleName);
 		return $this;
 	}
@@ -69,7 +75,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * @param <Vtiger_Module_Model> $module
 	 * @return Vtiger_Record_Model or Module Specific Record Model instance
 	 */
-	public function setModuleFromInstance($module) {
+	public function setModuleFromInstance($module)
+	{
 		$this->module = $module;
 		return $this;
 	}
@@ -78,14 +85,14 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function to check if the view is marked as default
 	 * @return <Boolean> true/false
 	 */
-	public function isDefault() {
+	public function isDefault()
+	{
 		$db = PearDatabase::getInstance();
 		$userPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$result = $db->pquery('SELECT default_cvid FROM vtiger_user_module_preferences WHERE userid = ? AND tabid = ?',
-				array($userPrivilegeModel->getId(), $this->getModule()->getId()));
-		if($db->num_rows($result)) {
+		$result = $db->pquery('SELECT default_cvid FROM vtiger_user_module_preferences WHERE userid = ? AND tabid = ?', array($userPrivilegeModel->getId(), $this->getModule()->getId()));
+		if ($db->num_rows($result)) {
 			$cvId = $db->query_result($result, 0, 'default_cvid');
-			if($cvId === $this->getId()) {
+			if ($cvId === $this->getId()) {
 				return true;
 			} else {
 				return false;
@@ -94,15 +101,17 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 		return ($this->get('setdefault') == 1);
 	}
 
-	public function isSystem() {
+	public function isSystem()
+	{
 		return $this->get('status') == self::CV_STATUS_SYSTEM;
 	}
-	
+
 	/**
 	 * Function to check if the view is created by the current user or is default view
 	 * @return <Boolean> true/false
 	 */
-	public function isMine() {
+	public function isMine()
+	{
 		$userPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		return ($this->get('status') == self::CV_STATUS_DEFAULT || $this->get('userid') == $userPrivilegeModel->getId());
 	}
@@ -111,7 +120,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function to check if the view is approved to be Public
 	 * @return <Boolean> true/false
 	 */
-	public function isPublic() {
+	public function isPublic()
+	{
 		return (!$this->isMine() && $this->get('status') == self::CV_STATUS_PUBLIC);
 	}
 
@@ -119,7 +129,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function to check if the view is marked as Private
 	 * @return <Boolean> true/false
 	 */
-	public function isPrivate() {
+	public function isPrivate()
+	{
 		return ($this->get('status') == self::CV_STATUS_PRIVATE);
 	}
 
@@ -127,7 +138,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function to check if the view is requested to be Public and is awaiting for Approval
 	 * @return <Boolean> true/false
 	 */
-	public function isPending() {
+	public function isPending()
+	{
 		return (!$this->isMine() && $this->get('status') == self::CV_STATUS_PENDING);
 	}
 
@@ -135,7 +147,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function to check if the view is created by one of the users, who is below the current user in the role hierarchy
 	 * @return <Boolean> true/false
 	 */
-	public function isOthers() {
+	public function isOthers()
+	{
 		return (!$this->isMine() && $this->get('status') != self::CV_STATUS_PUBLIC);
 	}
 
@@ -143,26 +156,35 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function which checks if a view is set to Public by the user which may/may not be approved.
 	 * @return <Boolean> true/false
 	 */
-	public function isSetPublic() {
+	public function isSetPublic()
+	{
 		return ($this->get('status') == self::CV_STATUS_PUBLIC || $this->get('status') == self::CV_STATUS_PENDING);
 	}
 
-	public function isEditable() {
-		if($this->get('privileges') == 0) {
+	public function isEditable()
+	{
+		if ($this->get('privileges') == 0) {
 			return false;
 		}
-        $currentUser = Users_Record_Model::getCurrentUserModel();
-        if($currentUser->isAdminUser()) {
-            return true;
-        }
-        
-		if($this->isMine() || $this->isOthers()) {
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		if ($currentUser->isAdminUser()) {
+			return true;
+		}
+
+		$moduleModel = $this->getModule();
+		$moduleName = $moduleModel->get('name');
+		if (!Users_Privileges_Model::isPermitted($moduleName, 'CreateCustomFilter')) {
+			return false;
+		}
+
+		if ($this->isMine() || $this->isOthers()) {
 			return true;
 		}
 		return false;
 	}
 
-	public function isDeletable() {
+	public function isDeletable()
+	{
 		return $this->isEditable() && $this->get('viewname') != 'All';
 	}
 
@@ -171,7 +193,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * @param <Boolean> $skipRecords - List of the RecordIds to be skipped
 	 * @return <Array> List of RecordsIds
 	 */
-	public function getRecordIds($skipRecords=false, $module= false) {
+	public function getRecordIds($skipRecords = false, $module = false)
+	{
 		$db = PearDatabase::getInstance();
 		$cvId = $this->getId();
 		$moduleModel = $this->getModule();
@@ -182,32 +205,32 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 		$queryGenerator = $listViewModel->get('query_generator');
 
-        $searchKey = $this->get('search_key');
+		$searchKey = $this->get('search_key');
 		$searchValue = $this->get('search_value');
 		$operator = $this->get('operator');
-		if(!empty($searchValue)) {
+		if (!empty($searchValue)) {
 			$queryGenerator->addUserSearchConditions(array('search_field' => $searchKey, 'search_text' => $searchValue, 'operator' => $operator));
 		}
-        
-        $searchParams = $this->get('search_params');
-        if(empty($searchParams)) {
-            $searchParams = array();
-        }
-        $transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParams, $moduleModel);
-        $queryGenerator->parseAdvFilterList($transformedSearchParams);
+
+		$searchParams = $this->get('search_params');
+		if (empty($searchParams)) {
+			$searchParams = array();
+		}
+		$transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParams, $moduleModel);
+		$queryGenerator->parseAdvFilterList($transformedSearchParams);
 
 		$listQuery = $queryGenerator->getQuery();
-		if($module == 'RecycleBin'){
+		if ($module == 'RecycleBin') {
 			$listQuery = preg_replace("/vtiger_crmentity.deleted\s*=\s*0/i", 'vtiger_crmentity.deleted = 1', $listQuery);
 		}
 
-		if($skipRecords && !empty($skipRecords) && is_array($skipRecords) && count($skipRecords) > 0) {
-			$listQuery .= ' AND '.$baseTableName.'.'.$baseTableId.' NOT IN ('. implode(',', $skipRecords) .')';
+		if ($skipRecords && !empty($skipRecords) && is_array($skipRecords) && count($skipRecords) > 0) {
+			$listQuery .= ' AND ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $skipRecords) . ')';
 		}
 		$result = $db->query($listQuery);
 		$noOfRecords = $db->num_rows($result);
 		$recordIds = array();
-		for($i=0; $i<$noOfRecords; ++$i) {
+		for ($i = 0; $i < $noOfRecords; ++$i) {
 			$recordIds[] = $db->query_result($result, $i, $baseTableId);
 		}
 		return $recordIds;
@@ -216,7 +239,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	/**
 	 * Function to save the custom view record
 	 */
-	public function save() {
+	public function save()
+	{
 		$db = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
@@ -228,20 +252,19 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 		$setMetrics = $this->get('setmetrics');
 		$status = $this->get('status');
 
-		if($status == self::CV_STATUS_PENDING) {
-			if($currentUserModel->isAdminUser()) {
+		if ($status == self::CV_STATUS_PENDING) {
+			if ($currentUserModel->isAdminUser()) {
 				$status = self::CV_STATUS_PUBLIC;
 			}
 		}
 
-		if(!$cvId) {
+		if (!$cvId) {
 			$cvId = $db->getUniqueID("vtiger_customview");
 			$this->set('cvid', $cvId);
 
 			$sql = 'INSERT INTO vtiger_customview(cvid, viewname, setdefault, setmetrics, entitytype, status, userid) VALUES (?,?,?,?,?,?,?)';
 			$params = array($cvId, $viewName, $setDefault, $setMetrics, $moduleName, $status, $currentUserModel->getId());
 			$db->pquery($sql, $params);
-
 		} else {
 
 			$sql = 'UPDATE vtiger_customview SET viewname=?, setdefault=?, setmetrics=?, status=? WHERE cvid=?';
@@ -254,11 +277,11 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 			$db->pquery('DELETE FROM vtiger_cvadvfilter_grouping WHERE cvid = ?', array($cvId));
 		}
 
-		if($setDefault == 1) {
+		if ($setDefault == 1) {
 			$query = 'SELECT 1 FROM vtiger_user_module_preferences WHERE userid = ? AND tabid = ?';
 			$queryParams = array($currentUserModel->getId(), $moduleModel->getId());
 			$queryResult = $db->pquery($query, $queryParams);
-			if($db->num_rows($queryResult) > 0) {
+			if ($db->num_rows($queryResult) > 0) {
 				$updateSql = 'UPDATE vtiger_user_module_preferences SET default_cvid = ? WHERE userid = ? AND tabid = ?';
 				$updateParams = array($cvId, $currentUserModel->getId(), $moduleModel->getId());
 				$db->pquery($updateSql, $updateParams);
@@ -274,28 +297,27 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 		}
 
 		$selectedColumnsList = $this->get('columnslist');
-		if(!empty($selectedColumnsList)) {
+		if (!empty($selectedColumnsList)) {
 			$noOfColumns = count($selectedColumnsList);
-			for($i=0; $i<$noOfColumns; $i++) {
+			for ($i = 0; $i < $noOfColumns; $i++) {
 				$columnSql = 'INSERT INTO vtiger_cvcolumnlist (cvid, columnindex, columnname) VALUES (?,?,?)';
 				$columnParams = array($cvId, $i, $selectedColumnsList[$i]);
 				$db->pquery($columnSql, $columnParams);
 			}
 		} else {
 			//no fields were sent so add default All filter columns
-			$defaultModuleFilter = $db->pquery('SELECT cvid FROM vtiger_customview WHERE setdefault = 1 AND entitytype = ?',
-					array($moduleName));
+			$defaultModuleFilter = $db->pquery('SELECT cvid FROM vtiger_customview WHERE setdefault = 1 AND entitytype = ?', array($moduleName));
 			$defaultViewId = $db->query_result($defaultModuleFilter, 0, 'cvid');
 
 			//User Specific filterId
-			if(empty($defaultViewId)) {
+			if (empty($defaultViewId)) {
 				$userDefaultModuleFilter = $db->pquery('SELECT default_cvid FROM vtiger_user_module_preferences WHERE
 											userid = ? AND tabid = ?', array($currentUserModel->id, $moduleModel->getId()));
 				$defaultViewId = $db->query_result($userDefaultModuleFilter, 0, 'default_cvid');
 			}
 
 			//First filterid of module
-			if(empty($defaultViewId)) {
+			if (empty($defaultViewId)) {
 				$firstDefaultFilter = $db->pquery('SELECT cvid FROM vtiger_customview WHERE entitytype = ?', array($moduleName));
 				$defaultViewId = $db->query_result($firstDefaultFilter, 0, 'cvid');
 			}
@@ -307,74 +329,76 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 		}
 
 		$stdFilterList = $this->get('stdfilterlist');
-		if(!empty($stdFilterList) && !empty($stdFilterList['columnname'])) {
+		if (!empty($stdFilterList) && !empty($stdFilterList['columnname'])) {
 			$stdFilterSql = 'INSERT INTO vtiger_cvstdfilter(cvid,columnname,stdfilter,startdate,enddate) VALUES (?,?,?,?,?)';
 			$stdFilterParams = array($cvId, $stdFilterList['columnname'], $stdFilterList['stdfilter'],
-					$db->formatDate($stdFilterList['startdate'], true),
-					$db->formatDate($stdFilterList['enddate'], true));
+				$db->formatDate($stdFilterList['startdate'], true),
+				$db->formatDate($stdFilterList['enddate'], true));
 			$db->pquery($stdFilterSql, $stdFilterParams);
 		}
 
 		$advFilterList = $this->get('advfilterlist');
-		if(!empty($advFilterList)) {
-			foreach($advFilterList as $groupIndex => $groupInfo) {
-				if(empty($groupInfo)) continue;
+		if (!empty($advFilterList)) {
+			foreach ($advFilterList as $groupIndex => $groupInfo) {
+				if (empty($groupInfo))
+					continue;
 
 				$groupColumns = $groupInfo['columns'];
 				$groupCondition = $groupInfo['condition'];
 
-				foreach($groupColumns as $columnIndex => $columnCondition) {
-					if(empty($columnCondition)) continue;
+				foreach ($groupColumns as $columnIndex => $columnCondition) {
+					if (empty($columnCondition))
+						continue;
 
 					$advFilterColumn = $columnCondition['columnname'];
 					$advFilterComparator = $columnCondition['comparator'];
 					$advFitlerValue = $columnCondition['value'];
 					$advFilterColumnCondition = $columnCondition['column_condition'];
 
-					$columnInfo = explode(":",$advFilterColumn);
+					$columnInfo = explode(":", $advFilterColumn);
 					$fieldName = $columnInfo[2];
 					$fieldModel = $moduleModel->getField($fieldName);
-                    //Required if Events module fields are selected for the condition
-                     if(!$fieldModel) {
-                        $modulename = $moduleModel->get('name');
-                        if($modulename == 'Calendar') {
-                            $eventModuleModel = Vtiger_Module_model::getInstance('Events');
-                            $fieldModel  = $eventModuleModel->getField($fieldName);
-                        }
-                    }
+					//Required if Events module fields are selected for the condition
+					if (!$fieldModel) {
+						$modulename = $moduleModel->get('name');
+						if ($modulename == 'Calendar') {
+							$eventModuleModel = Vtiger_Module_model::getInstance('Events');
+							$fieldModel = $eventModuleModel->getField($fieldName);
+						}
+					}
 					$fieldType = $fieldModel->getFieldDataType();
 
-					if($fieldType == 'currency') {
-						if($fieldModel->get('uitype') == '72') {
-                            // Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
+					if ($fieldType == 'currency') {
+						if ($fieldModel->get('uitype') == '72') {
+							// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
 							$advFitlerValue = CurrencyField::convertToDBFormat($advFitlerValue, null, true);
 						} else {
 							$advFitlerValue = CurrencyField::convertToDBFormat($advFitlerValue);
 						}
 					}
 
-					$temp_val = explode(",",$advFitlerValue);
-					if(($fieldType == 'date' || ($fieldType == 'time' && $fieldName != 'time_start' && $fieldName != 'time_end') || ($fieldType == 'datetime')) && ($fieldType != '' && $advFitlerValue != '' )) {
+					$temp_val = explode(",", $advFitlerValue);
+					if (($fieldType == 'date' || ($fieldType == 'time' && $fieldName != 'time_start' && $fieldName != 'time_end') || ($fieldType == 'datetime')) && ($fieldType != '' && $advFitlerValue != '' )) {
 						$val = Array();
-						for($x=0;$x<count($temp_val);$x++) {
+						for ($x = 0; $x < count($temp_val); $x++) {
 							//if date and time given then we have to convert the date and
 							//leave the time as it is, if date only given then temp_time
 							//value will be empty
-							if(trim($temp_val[$x]) != '') {
+							if (trim($temp_val[$x]) != '') {
 								$date = new DateTimeField(trim($temp_val[$x]));
-								if($fieldType == 'date') {
+								if ($fieldType == 'date') {
 									$val[$x] = DateTimeField::convertToDBFormat(
 											trim($temp_val[$x]));
-								} elseif($fieldType == 'datetime') {
+								} elseif ($fieldType == 'datetime') {
 									$val[$x] = $date->getDBInsertDateTimeValue();
 								} else {
 									$val[$x] = $date->getDBInsertTimeValue();
 								}
 							}
 						}
-						$advFitlerValue = implode(",",$val);
+						$advFitlerValue = implode(",", $val);
 					}
-					if(in_array($advFilterComparator, ['om'])){
+					if (in_array($advFilterComparator, ['om'])) {
 						$advFitlerValue = '';
 					}
 					$advCriteriaSql = 'INSERT INTO vtiger_cvadvfilter(cvid,columnindex,columnname,comparator,value,groupid,column_condition)
@@ -384,15 +408,16 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 
 					// Update the condition expression for the group to which the condition column belongs
 					$groupConditionExpression = '';
-					if(!empty($advFilterList[$groupIndex]["conditionexpression"])) {
+					if (!empty($advFilterList[$groupIndex]["conditionexpression"])) {
 						$groupConditionExpression = $advFilterList[$groupIndex]["conditionexpression"];
 					}
-					$groupConditionExpression = $groupConditionExpression .' '. $columnIndex .' '. $advFilterColumnCondition;
+					$groupConditionExpression = $groupConditionExpression . ' ' . $columnIndex . ' ' . $advFilterColumnCondition;
 					$advFilterList[$groupIndex]["conditionexpression"] = $groupConditionExpression;
 				}
 
 				$groupConditionExpression = $advFilterList[$groupIndex]["conditionexpression"];
-				if(empty($groupConditionExpression)) continue; // Case when the group doesn't have any column criteria
+				if (empty($groupConditionExpression))
+					continue; // Case when the group doesn't have any column criteria
 
 				$advGroupSql = 'INSERT INTO vtiger_cvadvfilter_grouping(groupid,cvid,group_condition,condition_expression) VALUES (?,?,?,?)';
 				$advGroupParams = array($groupIndex, $cvId, $groupCondition, $groupConditionExpression);
@@ -404,7 +429,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	/**
 	 * Function to delete the custom view record
 	 */
-	public function delete() {
+	public function delete()
+	{
 		$db = PearDatabase::getInstance();
 		$cvId = $this->getId();
 
@@ -413,16 +439,17 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 		$db->pquery('DELETE FROM vtiger_cvstdfilter WHERE cvid = ?', array($cvId));
 		$db->pquery('DELETE FROM vtiger_cvadvfilter WHERE cvid = ?', array($cvId));
 		$db->pquery('DELETE FROM vtiger_cvadvfilter_grouping WHERE cvid = ?', array($cvId));
-                
+
 		// To Delete the mini list widget associated with the filter 
-        $db->pquery('DELETE FROM vtiger_module_dashboard_widgets WHERE filterid = ?', array($cvId));               
-    }
+		$db->pquery('DELETE FROM vtiger_module_dashboard_widgets WHERE filterid = ?', array($cvId));
+	}
 
 	/**
 	 * Function to get the list of selected fields for the current custom view
 	 * @return <Array> List of Field Column Names
 	 */
-	public function getSelectedFields() {
+	public function getSelectedFields()
+	{
 		$db = PearDatabase::getInstance();
 
 		$query = 'SELECT vtiger_cvcolumnlist.* FROM vtiger_cvcolumnlist
@@ -433,7 +460,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 		$result = $db->pquery($query, $params);
 		$noOfFields = $db->num_rows($result);
 		$selectedFields = array();
-		for($i=0; $i<$noOfFields; ++$i) {
+		for ($i = 0; $i < $noOfFields; ++$i) {
 			$columnIndex = $db->query_result($result, $i, 'columnindex');
 			$columnName = $db->query_result($result, $i, 'columnname');
 			$selectedFields[$columnIndex] = $columnName;
@@ -445,11 +472,12 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function to get the Standard filter condition for the current custom view
 	 * @return <Array> Standard filter condition
 	 */
-	public function getStandardCriteria() {
+	public function getStandardCriteria()
+	{
 		$db = PearDatabase::getInstance();
 
 		$cvId = $this->getId();
-		if(empty($cvId)) {
+		if (empty($cvId)) {
 			return array();
 		}
 
@@ -459,7 +487,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 		$params = array($this->getId());
 		$result = $db->pquery($query, $params);
 		$stdfilterrow = $db->fetch_array($result);
-		if(!empty($stdfilterrow)){
+		if (!empty($stdfilterrow)) {
 			$stdfilterlist = array();
 			$stdfilterlist["columnname"] = $stdfilterrow["columnname"];
 			$stdfilterlist["stdfilter"] = $stdfilterrow["stdfilter"];
@@ -488,13 +516,14 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function to get the list of advanced filter conditions for the current custom view
 	 * @return <Array> - All the advanced filter conditions for the custom view, grouped by the condition grouping
 	 */
-	public function getAdvancedCriteria() {
+	public function getAdvancedCriteria()
+	{
 		$db = PearDatabase::getInstance();
 		$default_charset = vglobal('default_charset');
 
 		$cvId = $this->getId();
 		$advft_criteria = array();
-		if(empty($cvId)) {
+		if (empty($cvId)) {
 			return $advft_criteria;
 		}
 
@@ -529,21 +558,21 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 					$val = Array();
 					for ($x = 0; $x < count($temp_val); $x++) {
 						if ($col[4] == 'D') {
-                            /** while inserting in db for due_date it was taking date and time values also as it is 
-                            * date time field. We only need to take date from that value
-                            */
-							if($col[0] == 'vtiger_activity' && $col[1] == 'due_date'){
-                                $originalValue = $temp_val[$x];
-								$dateTime = explode(' ',$originalValue);
+							/** while inserting in db for due_date it was taking date and time values also as it is 
+							 * date time field. We only need to take date from that value
+							 */
+							if ($col[0] == 'vtiger_activity' && $col[1] == 'due_date') {
+								$originalValue = $temp_val[$x];
+								$dateTime = explode(' ', $originalValue);
 								$temp_val[$x] = $dateTime[0];
-                            }
+							}
 							$date = new DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDisplayDate();
 						} elseif ($col[4] == 'DT') {
-							$comparator = array('e','n','b','a');
-							if(in_array($criteria['comparator'], $comparator)) {
+							$comparator = array('e', 'n', 'b', 'a');
+							if (in_array($criteria['comparator'], $comparator)) {
 								$originalValue = $temp_val[$x];
-								$dateTime = explode(' ',$originalValue);
+								$dateTime = explode(' ', $originalValue);
 								$temp_val[$x] = $dateTime[0];
 							}
 							$date = new DateTimeField(trim($temp_val[$x]));
@@ -578,7 +607,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function returns standard filter sql
 	 * @return <String>
 	 */
-	public function getCVStdFilterSQL() {
+	public function getCVStdFilterSQL()
+	{
 		$customView = new CustomView();
 		return $customView->getCVStdFilterSQL($this->getId());
 	}
@@ -587,69 +617,78 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function returns Advanced filter sql
 	 * @return <String>
 	 */
-	public function getCVAdvFilterSQL() {
+	public function getCVAdvFilterSQL()
+	{
 		$customView = new CustomView();
 		return $customView->getCVAdvFilterSQL($this->getId());
 	}
+
 	/**
 	 * Function returns approve url
 	 * @return String - approve url
 	 */
-	public function getCreateUrl() {
-		return 'index.php?module=CustomView&view=EditAjax&source_module='.$this->getModule()->get('name');
+	public function getCreateUrl()
+	{
+		return 'index.php?module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name');
 	}
 
 	/**
 	 * Function returns approve url
 	 * @return String - approve url
 	 */
-	public function getEditUrl() {
-		return 'module=CustomView&view=EditAjax&source_module='.$this->getModule()->get('name').'&record='.$this->getId();
+	public function getEditUrl()
+	{
+		return 'module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId();
 	}
 
 	/**
 	 * Function returns approve url
 	 * @return String - approve url
 	 */
-	public function getApproveUrl() {
-		return 'index.php?module=CustomView&action=Approve&sourceModule='.$this->getModule()->get('name').'&record='.$this->getId();
+	public function getApproveUrl()
+	{
+		return 'index.php?module=CustomView&action=Approve&sourceModule=' . $this->getModule()->get('name') . '&record=' . $this->getId();
 	}
 
 	/**
 	 * Function returns deny url
 	 * @return String - deny url
 	 */
-	public function getDenyUrl() {
-		return 'index.php?module=CustomView&action=Deny&sourceModule='.$this->getModule()->get('name').'&record='.$this->getId();
+	public function getDenyUrl()
+	{
+		return 'index.php?module=CustomView&action=Deny&sourceModule=' . $this->getModule()->get('name') . '&record=' . $this->getId();
 	}
-	
+
 	/**
 	 * Function returns duplicate url
 	 * @return String - duplicate url
 	 */
-	public function getDuplicateUrl() {
-		return 'module=CustomView&view=EditAjax&source_module='.$this->getModule()->get('name').'&record='.$this->getId().'&duplicate=1';
+	public function getDuplicateUrl()
+	{
+		return 'module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId() . '&duplicate=1';
 	}
 
 	/**
 	 *  Functions returns delete url
 	 * @return String - delete url
 	 */
-	public function getDeleteUrl() {
-		return 'index.php?module=CustomView&action=Delete&sourceModule='.$this->getModule()->get('name').'&record='.$this->getId();
+	public function getDeleteUrl()
+	{
+		return 'index.php?module=CustomView&action=Delete&sourceModule=' . $this->getModule()->get('name') . '&record=' . $this->getId();
 	}
 
-	public function approve() {
+	public function approve()
+	{
 		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?',
-				array(self::CV_STATUS_PUBLIC, $this->getId()));
+		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(self::CV_STATUS_PUBLIC, $this->getId()));
 	}
 
-	public function deny() {
+	public function deny()
+	{
 		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?',
-				array(self::CV_STATUS_PRIVATE, $this->getId()));
+		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(self::CV_STATUS_PRIVATE, $this->getId()));
 	}
+
 	/**
 	 * Function to get the date values for the given type of Standard filter
 	 * @param <String> $type
@@ -664,35 +703,36 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function to get all the date filter type informations
 	 * @return <Array>
 	 */
-	public static function getDateFilterTypes() {
+	public static function getDateFilterTypes()
+	{
 		$dateFilters = Array('custom' => array('label' => 'LBL_CUSTOM'),
-				'prevfy' => array('label' => 'LBL_PREVIOUS_FY'),
-				'thisfy' => array('label' => 'LBL_CURRENT_FY'),
-				'nextfy' => array('label' => 'LBL_NEXT_FY'),
-				'prevfq' => array('label' => 'LBL_PREVIOUS_FQ'),
-				'thisfq' => array('label' => 'LBL_CURRENT_FQ'),
-				'nextfq' => array('label' => 'LBL_NEXT_FQ'),
-				'yesterday' => array('label' => 'LBL_YESTERDAY'),
-				'today' => array('label' => 'LBL_TODAY'),
-				'tomorrow' => array('label' => 'LBL_TOMORROW'),
-				'lastweek' => array('label' => 'LBL_LAST_WEEK'),
-				'thisweek' => array('label' => 'LBL_CURRENT_WEEK'),
-				'nextweek' => array('label' => 'LBL_NEXT_WEEK'),
-				'lastmonth' => array('label' => 'LBL_LAST_MONTH'),
-				'thismonth' => array('label' => 'LBL_CURRENT_MONTH'),
-				'nextmonth' => array('label' => 'LBL_NEXT_MONTH'),
-				'last7days' => array('label' => 'LBL_LAST_7_DAYS'),
-				'last30days' => array('label' => 'LBL_LAST_30_DAYS'),
-				'last60days' => array('label' => 'LBL_LAST_60_DAYS'),
-				'last90days' => array('label' => 'LBL_LAST_90_DAYS'),
-				'last120days' => array('label' => 'LBL_LAST_120_DAYS'),
-				'next30days' => array('label' => 'LBL_NEXT_30_DAYS'),
-				'next60days' => array('label' => 'LBL_NEXT_60_DAYS'),
-				'next90days' => array('label' => 'LBL_NEXT_90_DAYS'),
-				'next120days' => array('label' => 'LBL_NEXT_120_DAYS')
+			'prevfy' => array('label' => 'LBL_PREVIOUS_FY'),
+			'thisfy' => array('label' => 'LBL_CURRENT_FY'),
+			'nextfy' => array('label' => 'LBL_NEXT_FY'),
+			'prevfq' => array('label' => 'LBL_PREVIOUS_FQ'),
+			'thisfq' => array('label' => 'LBL_CURRENT_FQ'),
+			'nextfq' => array('label' => 'LBL_NEXT_FQ'),
+			'yesterday' => array('label' => 'LBL_YESTERDAY'),
+			'today' => array('label' => 'LBL_TODAY'),
+			'tomorrow' => array('label' => 'LBL_TOMORROW'),
+			'lastweek' => array('label' => 'LBL_LAST_WEEK'),
+			'thisweek' => array('label' => 'LBL_CURRENT_WEEK'),
+			'nextweek' => array('label' => 'LBL_NEXT_WEEK'),
+			'lastmonth' => array('label' => 'LBL_LAST_MONTH'),
+			'thismonth' => array('label' => 'LBL_CURRENT_MONTH'),
+			'nextmonth' => array('label' => 'LBL_NEXT_MONTH'),
+			'last7days' => array('label' => 'LBL_LAST_7_DAYS'),
+			'last30days' => array('label' => 'LBL_LAST_30_DAYS'),
+			'last60days' => array('label' => 'LBL_LAST_60_DAYS'),
+			'last90days' => array('label' => 'LBL_LAST_90_DAYS'),
+			'last120days' => array('label' => 'LBL_LAST_120_DAYS'),
+			'next30days' => array('label' => 'LBL_NEXT_30_DAYS'),
+			'next60days' => array('label' => 'LBL_NEXT_60_DAYS'),
+			'next90days' => array('label' => 'LBL_NEXT_90_DAYS'),
+			'next120days' => array('label' => 'LBL_NEXT_120_DAYS')
 		);
 
-		foreach($dateFilters as $filterType => $filterDetails) {
+		foreach ($dateFilters as $filterType => $filterDetails) {
 			$dateValues = self::getDateForStdFilterBytype($filterType);
 			$dateFilters[$filterType]['startdate'] = $dateValues[0];
 			$dateFilters[$filterType]['enddate'] = $dateValues[1];
@@ -704,40 +744,41 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function to get all the supported advanced filter operations
 	 * @return <Array>
 	 */
-	public static function getAdvancedFilterOptions() {
+	public static function getAdvancedFilterOptions()
+	{
 		return array(
-				'e' => 'LBL_EQUALS',
-				'n' => 'LBL_NOT_EQUAL_TO',
-				's' => 'LBL_STARTS_WITH',
-				'ew' => 'LBL_ENDS_WITH',
-				'c' => 'LBL_CONTAINS',
-				'k' => 'LBL_DOES_NOT_CONTAIN',
-				'l' => 'LBL_LESS_THAN',
-				'g' => 'LBL_GREATER_THAN',
-				'm' => 'LBL_LESS_THAN_OR_EQUAL',
-				'h' => 'LBL_GREATER_OR_EQUAL',
-				'b' => 'LBL_BEFORE',
-				'a' => 'LBL_AFTER',
-				'bw' => 'LBL_BETWEEN',
+			'e' => 'LBL_EQUALS',
+			'n' => 'LBL_NOT_EQUAL_TO',
+			's' => 'LBL_STARTS_WITH',
+			'ew' => 'LBL_ENDS_WITH',
+			'c' => 'LBL_CONTAINS',
+			'k' => 'LBL_DOES_NOT_CONTAIN',
+			'l' => 'LBL_LESS_THAN',
+			'g' => 'LBL_GREATER_THAN',
+			'm' => 'LBL_LESS_THAN_OR_EQUAL',
+			'h' => 'LBL_GREATER_OR_EQUAL',
+			'b' => 'LBL_BEFORE',
+			'a' => 'LBL_AFTER',
+			'bw' => 'LBL_BETWEEN',
 		);
 	}
-
 
 	/**
 	 * Function to get the advanced filter option names by Field type
 	 * @return <Array>
 	 */
-	public static function getAdvancedFilterOpsByFieldType() {
+	public static function getAdvancedFilterOpsByFieldType()
+	{
 		return array(
-				'V' => array('e','n','s','ew','c','k'),
-				'N' => array('e','n','l','g','m','h'),
-				'T' => array('e','n','l','g','m','h','bw','b','a'),
-				'I' => array('e','n','l','g','m','h'),
-				'C' => array('e','n'),
-				'D' => array('e','n','bw','b','a'),
-				'DT' => array('e','n','bw','b','a'),
-				'NN' => array('e','n','l','g','m','h'),
-				'E' => array('e','n','s','ew','c','k')
+			'V' => array('e', 'n', 's', 'ew', 'c', 'k'),
+			'N' => array('e', 'n', 'l', 'g', 'm', 'h'),
+			'T' => array('e', 'n', 'l', 'g', 'm', 'h', 'bw', 'b', 'a'),
+			'I' => array('e', 'n', 'l', 'g', 'm', 'h'),
+			'C' => array('e', 'n'),
+			'D' => array('e', 'n', 'bw', 'b', 'a'),
+			'DT' => array('e', 'n', 'bw', 'b', 'a'),
+			'NN' => array('e', 'n', 'l', 'g', 'm', 'h'),
+			'E' => array('e', 'n', 's', 'ew', 'c', 'k')
 		);
 	}
 
@@ -746,7 +787,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * @param <String> $moduleName
 	 * @return <Array> - Array of Vtiger_CustomView_Record models
 	 */
-	public static function getAll($moduleName='') {
+	public static function getAll($moduleName = '')
+	{
 		$db = PearDatabase::getInstance();
 		$userPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -754,33 +796,33 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 		$sql = 'SELECT * FROM vtiger_customview';
 		$params = array();
 
-		if(!empty($moduleName)) {
+		if (!empty($moduleName)) {
 			$sql .= ' WHERE entitytype=?';
 			$params[] = $moduleName;
 		}
-		if(!$userPrivilegeModel->isAdminUser()) {
+		if (!$userPrivilegeModel->isAdminUser()) {
 			$userParentRoleSeq = $userPrivilegeModel->get('parent_role_seq');
 			$sql .= " AND ( vtiger_customview.userid = ? OR vtiger_customview.status = 0 OR vtiger_customview.status = 3
 							OR vtiger_customview.userid IN (
 								SELECT vtiger_user2role.userid FROM vtiger_user2role
 									INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid
 									INNER JOIN vtiger_role ON vtiger_role.roleid = vtiger_user2role.roleid
-								WHERE vtiger_role.parentrole LIKE '".$userParentRoleSeq."::%')
+								WHERE vtiger_role.parentrole LIKE '" . $userParentRoleSeq . "::%')
 						)";
 			$params[] = $currentUser->getId();
 		}
 		$sql .= ' ORDER BY setdefault ASC';
-		
+
 		$result = $db->pquery($sql, $params);
 		$customViews = [];
 		while ($row = $db->fetch_array($result)) {
 			$customView = new self();
-            if(strlen(decode_html($row['viewname'])) > 40) {
-                $row['viewname'] = substr(decode_html($row['viewname']), 0, 36).'...';
-            }
+			if (strlen(decode_html($row['viewname'])) > 40) {
+				$row['viewname'] = substr(decode_html($row['viewname']), 0, 36) . '...';
+			}
 			$customViews[] = $customView->setData($row)->setModule($row['entitytype']);
 		}
-		
+
 		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'filters';
 		if ($moduleName && file_exists($filterDir)) {
 			$view = ['setdefault' => 0, 'setmetrics' => 0, 'status' => 0, 'privileges' => 0];
@@ -798,7 +840,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 				}
 			}
 		}
-		
+
 		return $customViews;
 	}
 
@@ -807,13 +849,14 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * @param <Integer> $cvId
 	 * @return CustomView_Record_Model instance, if exists. Null otherwise
 	 */
-	public static function getInstanceById($cvId) {
+	public static function getInstanceById($cvId)
+	{
 		$db = PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_customview WHERE cvid = ?';
 		$params = array($cvId);
 		$result = $db->pquery($sql, $params);
-		if($db->num_rows($result) > 0) {
+		if ($db->num_rows($result) > 0) {
 			$row = $db->query_result_rowdata($result, 0);
 			$customView = new self();
 			return $customView->setData($row)->setModule($row['entitytype']);
@@ -826,16 +869,36 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * @param <String> $moduleName
 	 * @return <Array> - Associative array of Status label to an array of Vtiger_CustomView_Record models
 	 */
-	public static function getAllByGroup($moduleName='') {
+	public static function getAllByGroup($moduleName = '', $menuId = false)
+	{
 		$customViews = self::getAll($moduleName);
-		$groupedCustomViews = array();
+		$filters = $groupedCustomViews = [];
+		$menuFilter = false;
+		if ($menuId) {
+			$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
+			if (file_exists($roleMenu)) {
+				require($roleMenu);
+			} else {
+				require('user_privileges/menu_0.php');
+			}
+			if (count($menus) == 0) {
+				require('user_privileges/menu_0.php');
+			}
+			if (array_key_exists($menuId, $filterList)) {
+				$filters = explode(',', $filterList[$menuId]['filters']);
+				$menuFilter = true;
+			}
+		}
 		foreach ($customViews as $index => $customView) {
-			
-			if($customView->isSystem()) {
+			if ($menuFilter && !in_array($customView->getId(), $filters)) {
+				continue;
+			}
+			if ($customView->isSystem()) {
 				$groupedCustomViews['System'][] = $customView;
-			} elseif($customView->isMine()) {
+			} elseif ($customView->isMine()) {
 				$groupedCustomViews['Mine'][] = $customView;
-			} elseif($customView->isPending()) {
+			} elseif ($customView->isPending()) {
 				$groupedCustomViews['Pending'][] = $customView;
 			} else {
 				$groupedCustomViews['Others'][] = $customView;
@@ -848,7 +911,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * Function to get Clean instance of this record
 	 * @return self
 	 */
-	public static function getCleanInstance() {
+	public static function getCleanInstance()
+	{
 		return new self();
 	}
 
@@ -858,7 +922,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * @param <type> module name entity type in database
 	 * @return <boolean> true/false
 	 */
-	public function checkDuplicate() {
+	public function checkDuplicate()
+	{
 		$db = PearDatabase::getInstance();
 
 		$query = "SELECT 1 FROM vtiger_customview WHERE viewname = ? AND entitytype = ?";
@@ -885,35 +950,36 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * match ALL conditions group and the rest of it will be placed under match Any group.
 	 * @return <Array>
 	 */
-	function transformToNewAdvancedFilter() {
+	function transformToNewAdvancedFilter()
+	{
 		$standardFilter = $this->transformStandardFilter();
 		$advancedFilter = $this->getAdvancedCriteria();
 		$allGroupColumns = $anyGroupColumns = array();
-		foreach($advancedFilter as $index=>$group) {
+		foreach ($advancedFilter as $index => $group) {
 			$columns = $group['columns'];
 			$and = $or = 0;
 			$block = $group['condition'];
-			if(count($columns) != 1) {
-                foreach($columns as $column) {
-					if($column['column_condition'] == 'and') {
+			if (count($columns) != 1) {
+				foreach ($columns as $column) {
+					if ($column['column_condition'] == 'and') {
 						++$and;
 					} else {
 						++$or;
 					}
-                }
-                if($and == count($columns)-1 && count($columns) != 1) {
+				}
+				if ($and == count($columns) - 1 && count($columns) != 1) {
 					$allGroupColumns = array_merge($allGroupColumns, $group['columns']);
-                } else {
+				} else {
 					$anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
-                }
-            } else if($block == 'and'  || $index == 1) {
-                $allGroupColumns = array_merge($allGroupColumns, $group['columns']);
-            } else {
-                $anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
-            }
+				}
+			} else if ($block == 'and' || $index == 1) {
+				$allGroupColumns = array_merge($allGroupColumns, $group['columns']);
+			} else {
+				$anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
+			}
 		}
-		if($standardFilter){
-			$allGroupColumns = array_merge($allGroupColumns,$standardFilter);
+		if ($standardFilter) {
+			$allGroupColumns = array_merge($allGroupColumns, $standardFilter);
 		}
 		$transformedAdvancedCondition = array();
 		$transformedAdvancedCondition[1] = array('columns' => $allGroupColumns, 'condition' => 'and');
@@ -921,30 +987,31 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 
 		return $transformedAdvancedCondition;
 	}
-
 	/*
 	 *  Function used to tranform the standard filter as like as advanced filter format
-	 *	@returns array of tranformed standard filter
+	 * 	@returns array of tranformed standard filter
 	 */
-	public function transformStandardFilter(){
+
+	public function transformStandardFilter()
+	{
 		$standardFilter = $this->getStandardCriteria();
-		if(!empty($standardFilter)){
+		if (!empty($standardFilter)) {
 			$tranformedStandardFilter = array();
 			$tranformedStandardFilter['comparator'] = 'bw';
 
-			$fields = explode(':',$standardFilter['columnname']);
+			$fields = explode(':', $standardFilter['columnname']);
 
-			if($fields[1] == 'createdtime' || $fields[1] == 'modifiedtime' ||($fields[0] == 'vtiger_activity' && $fields[1] == 'date_start')){
-				$tranformedStandardFilter['columnname'] = $standardFilter['columnname'].':DT';
-				$date[] = $standardFilter['startdate'].' 00:00:00';
-				$date[] = $standardFilter['enddate'].' 00:00:00';
-				$tranformedStandardFilter['value'] =  implode(',',$date);
-			} else{
-				$tranformedStandardFilter['columnname'] = $standardFilter['columnname'].':D';
-				$tranformedStandardFilter['value'] = $standardFilter['startdate'].','.$standardFilter['enddate'];
+			if ($fields[1] == 'createdtime' || $fields[1] == 'modifiedtime' || ($fields[0] == 'vtiger_activity' && $fields[1] == 'date_start')) {
+				$tranformedStandardFilter['columnname'] = $standardFilter['columnname'] . ':DT';
+				$date[] = $standardFilter['startdate'] . ' 00:00:00';
+				$date[] = $standardFilter['enddate'] . ' 00:00:00';
+				$tranformedStandardFilter['value'] = implode(',', $date);
+			} else {
+				$tranformedStandardFilter['columnname'] = $standardFilter['columnname'] . ':D';
+				$tranformedStandardFilter['value'] = $standardFilter['startdate'] . ',' . $standardFilter['enddate'];
 			}
 			return array($tranformedStandardFilter);
-		} else{
+		} else {
 			return false;
 		}
 	}
@@ -954,12 +1021,13 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 * @param <String> $module
 	 * @return <CustomView_Record_Model>
 	 */
-	public static function getAllFilterByModule($module) {
+	public static function getAllFilterByModule($module)
+	{
 		$db = PearDatabase::getInstance();
 		$query = "SELECT cvid FROM vtiger_customview WHERE viewname='All' AND entitytype = ?";
 		$result = $db->pquery($query, array($module));
 		$viewId = $db->query_result($result, 0, 'cvid');
-		if(!$viewId) {
+		if (!$viewId) {
 			$customView = new CustomView($module);
 			$viewId = $customView->getViewId($module);
 		}

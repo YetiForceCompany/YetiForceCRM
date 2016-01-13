@@ -16,11 +16,8 @@ $languageStrings = [
 	'LBL_ROLEANDSUBORDINATE' => 'Função e Subordinados',
 	'LBL_TO_OTHER_GROUP' => 'Para Outro Grupo ',
 	'LBL_TRANSFORM_OWNERSHIP'=> 'Transferir propriedade',
-	'RoleAndSubordinates' => 'Função e Subordinados',
 	'SINGLE_Groups' => 'Grupo',
-	'Groups' => 'Grupos',
 	'Users' => 'Usuários',
-	'Roles' => 'Funções',
 	'Name' => 'Nome Grupo',
 	'Description' => 'Descrição',
 ];

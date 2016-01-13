@@ -36,9 +36,9 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		if (!$currentUserModel->isAdminUser()) {
 			$mode = $request->getMode();
 			if ($mode == 'savePassword' && (isset($userId) && $currentUserModel->getId() != $userId)) {
-				throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+				throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
 			} else if ($mode != 'savePassword' && ($currentUserModel->getId() != $request->get('record'))) {
-				throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+				throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
 			}
 		}
 	}
@@ -53,7 +53,8 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		}
 
 		$recordModel = $this->saveRecord($request);
-
+		$settingsModuleModel = Settings_Users_Module_Model::getInstance();
+		$settingsModuleModel->refreshSwitchUsers();
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = array();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {

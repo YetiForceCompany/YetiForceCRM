@@ -22,7 +22,7 @@ $languageStrings = [
 	'LBL_INVALID_DATA' => 'Invalid data',
 
 	'WidgetsManagement' => 'Widget management',
-	'LBL_WIDGETS_MANAGEMENT' => 'Module widgets',
+	'LBL_WIDGETS_MANAGEMENT' => 'Widgets – Configuration',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
 	'LBL_MANDATORY_WIDGET' => 'Mandatory widget',
 	'LBL_WIDGET' => 'Widgets',
@@ -32,6 +32,7 @@ $languageStrings = [
 	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Please select at least one option',
 	'LBL_VIEW_CONFIGURATION' => 'Configuration view',
 	'LBL_WIDGET_ADDED' => 'Widget has been added successfully',
+	'LBL_CACHE_WIDGET' => 'Cache',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Block has been added successfully',

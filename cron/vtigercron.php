@@ -11,16 +11,15 @@ chdir(dirname(__FILE__) . '/../');
 /**
  * Start the cron services configured.
  */
-require_once('config/config.php');
-require_once('config/debug.php');
-require_once('config/performance.php');
-require_once('include/ConfigUtils.php');
-require_once('vtlib/Vtiger/Cron.php');
-require_once('modules/Emails/mail.php');
-require_once('include/Loader.php');
-vimport('include.runtime.EntryPoint');
+include_once 'include/Webservices/Relation.php';
+include_once 'include/main/WebUI.php';
+require_once 'vtlib/Vtiger/Cron.php';
+require_once 'modules/Emails/mail.php';
 
-if (PHP_SAPI === "cli" || PHP_SAPI === "cgi-fcgi" || (isset($_SESSION["authenticated_user_id"]) && isset($_SESSION["app_unique_key"]) && $_SESSION["app_unique_key"] == $application_unique_key)) {
+Vtiger_Session::init();
+$authenticatedUserId = Vtiger_Session::get('authenticated_user_id');
+$appUniqueKey = Vtiger_Session::get('app_unique_key');
+if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey == vglobal('application_unique_key'))) {
 	$log = LoggerManager::getLogger('CRON');
 	vglobal('log', $log);
 
@@ -46,7 +45,7 @@ if (PHP_SAPI === "cli" || PHP_SAPI === "cgi-fcgi" || (isset($_SESSION["authentic
 			// and affect the next task. Which need to be handled in this cycle.				
 			if ($cronTask->hadTimeout()) {
 				echo sprintf('%s | %s - Cron task had timedout as it was not completed last time it run' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
-				if(vglobal('unblockedTimeoutCronTasks')){
+				if (AppConfig::main('unblockedTimeoutCronTasks')) {
 					$cronTask->unlockTask();
 				}
 			}
@@ -89,5 +88,5 @@ if (PHP_SAPI === "cli" || PHP_SAPI === "cgi-fcgi" || (isset($_SESSION["authentic
 	}
 	echo sprintf('===============  %s | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
 } else {
-	echo("Access denied!");
+	echo('Access denied!');
 }

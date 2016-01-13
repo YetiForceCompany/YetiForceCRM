@@ -65,18 +65,9 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('RELATION_FIELD', $relationField);
 
 		$totalCount = $relationListView->getRelatedEntriesCount();
-		$pageLimit = $pagingModel->getPageLimit();
-		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
-
-		if ($pageCount == 0) {
-			$pageCount = 1;
-		}
-		
-		$startPaginFrom = $pageNumber - 2;
-		if($pageNumber == $totalCount && 1 !=  $pageNumber)
-			$startPaginFrom = $pageNumber - 4;
-		if($startPaginFrom <= 0 || 1 ==  $pageNumber)
-			$startPaginFrom = 1;
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
 		$viewer->assign('PAGE_NUMBER', $pageNumber);	
 		$viewer->assign('PAGE_COUNT', $pageCount);
@@ -92,6 +83,14 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
 
+		$isFavorites = false;
+		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
+			$favorites = $relationListView->getFavoriteRecords();
+			$viewer->assign('FAVORITES', $favorites);
+			$isFavorites = $relationModel->isFavorites();
+		}
+
+		$viewer->assign('IS_FAVORITES', $isFavorites);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());

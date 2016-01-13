@@ -82,5 +82,6 @@ $languageStrings = [
 	'Support Group' => 'Support',
 	'Marketing Group' => 'Marketing',
 	'Team Selling' => 'Verkauf',
-	'LBL_TAXES' => 'Taxes',
+	'LBL_TAXES' => 'Steuern',
+	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Liste von Datensätzen beschränkt sich auf die Produkte und Dienstleistungen, die mit der Verkaufschance verknüpft sind',
 ];

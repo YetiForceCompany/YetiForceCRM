@@ -11,8 +11,28 @@
 
 Class Settings_Users_Edit_View extends Users_PreferenceEdit_View {
 
+	public function checkPermission(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$record = $request->get('record');
+		if (!empty($record) && $currentUserModel->get('id') != $record) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			if ($recordModel->get('status') != 'Active') {
+				throw new AppException('LBL_PERMISSION_DENIED');
+			}
+		}
+		if (($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record)) {
+			return true;
+		} else {
+			throw new AppException('LBL_PERMISSION_DENIED');
+		}
+	}
+	
 	public function preProcess(Vtiger_Request $request) {
 		parent::preProcess($request, false);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('IS_PREFERENCE', false);
 		$this->preProcessSettings($request);
 	}
 
@@ -28,7 +48,8 @@ Class Settings_Users_Edit_View extends Users_PreferenceEdit_View {
 		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
 		$menuModels = $settingsModel->getMenus();
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
-		
+		$viewer->assign('SELECTED_MENU', $selectedMenuId);
+		$viewer->assign('SETTINGS_MENUS', $menuModels); // used only in old layout 
 		$viewer->assign('MENUS', $menu);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

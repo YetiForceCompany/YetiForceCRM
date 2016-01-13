@@ -57,9 +57,8 @@ $languageStrings = [
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Modul ist nicht in Standardsprache (__DEFAULTLANGUAGE__) enthalten.',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Fehler, keine Layout Datei',
 	'LBL_IMPORT' => 'Import',
-	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'Upload limit is too small',
-	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'Upload limit is too small (%s) so the file cannot be uploaded to the server. It is recommended to check the system configuration <a href="index.php?parent=Settings&module=ConfReport&view=Index">Sprawdź konfigurację serwera</a>',
-	
+	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'Upload limit ist zu klein',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'Upload limit ist zu klein (%s) daher kann die Datei nicht auf den Server geladen werden. Es ist erforderlich die Systemkonfiguration zu prüfen <a href="index.php?parent=Settings&module=ConfReport&view=Index">Systemkonfiguration prüfen</a>',	
 	'LBL_CREATE_MODULE' => 'Modul erstellen',
 	'LBL_CREATING_MODULE' => 'Neues Modul erstellen',
 	'LBL_ENTER_MODULE_NAME' => 'Modulname',
@@ -68,9 +67,9 @@ $languageStrings = [
 	'LBL_ENTITY_FIELDLABEL' => 'Zugehöriges Feldlabel',
 	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'Der Modulname existiert bereits, bitte anderen Namen wählen',
 	'LBL_INVALID_MODULE_NAME' => 'Fehlerhafter Modulname',
-	'LBL_MODULE_TYPE' => 'Module type',
-	'LBL_BASE_MODULE' => 'Base module',
-	'LBL_INVENTORY_MODULE' => 'Extended module',
+	'LBL_MODULE_TYPE' => 'Modultyp',
+	'LBL_BASE_MODULE' => 'Basis Modul',
+	'LBL_INVENTORY_MODULE' => 'Erweitertes Modul',
 ];
 $jsLanguageStrings = [
 	'JS_UPDATED_MODULE' => 'Update Erfolgreich',
@@ -80,4 +79,5 @@ $jsLanguageStrings = [
 	'JS_FOR_INSTALLATION' => 'für Installation',
 	'JS_CLICK_HERE' => 'Hier Klicken',
 	'JS_ON' => 'Ein',
+	'JS_REMOVED_MODULE' => 'Gelöschtes Modul',
 ];

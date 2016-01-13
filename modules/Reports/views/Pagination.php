@@ -1,7 +1,19 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
 class Reports_Pagination_View extends Vtiger_IndexAjax_View
 {
+
+	public function checkPermission(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$moduleModel = Reports_Module_Model::getInstance($moduleName);
+
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
+	}
 
 	public function __construct()
 	{
@@ -65,18 +77,10 @@ class Reports_Pagination_View extends Vtiger_IndexAjax_View
 			$this->listViewCount = $listViewModel->getListViewCount();
 		}
 		$totalCount = $this->listViewCount;
-		$pageLimit = $pagingModel->getPageLimit();
-		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
-		if ($pageCount == 0) {
-			$pageCount = 1;
-		}
-		$startPaginFrom = $pageNumber - 2;
-		if($pageNumber == $totalCount && 1 !=  $pageNumber)
-			$startPaginFrom = $pageNumber - 4;
-		if($startPaginFrom <= 0 || 1 ==  $pageNumber)
-			$startPaginFrom = 1;
-		
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);

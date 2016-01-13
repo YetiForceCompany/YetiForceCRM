@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Search Configuration' => 'Konfiguracja wyszukiwania',
-	'Search Setup' => 'Konfiguracja wyszukiwania',
+	'Search Setup' => 'Szukaj - konfiguracja',
 	'Search' => 'Dostosowanie wyszukiwania',
 	'LBL_Module_desc' => 'Panel pozwala na ustawienie etykiet dla pól uitype 10 jak również dla mechanizmów wyszukujących. Mechanizmy te działają niezależnie, oznacza to, że przy wyszukiwaniu możemy w polu widzieć wiele kolumn, ale po wybraniu rekordu wczyta się nazwa z etykiety.',
 	'Module' => 'Moduł',

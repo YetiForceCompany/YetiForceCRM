@@ -156,8 +156,8 @@ $languageStrings = [
 	'Currency Name' => 'Валюта',
 	'Symbol' => 'Символ',
 	'Conversion Rate' => 'Курс',
-	'Active' => 'Active',
-	'Inactive' => 'Inactive',
+	'Active' => 'Активна',
+	'Inactive' => 'Не активна',
 ];
 
 $jsLanguageStrings = [

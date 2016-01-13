@@ -12,17 +12,17 @@
 class Users_Login_View extends Vtiger_View_Controller
 {
 
-	function loginRequired()
+	public function loginRequired()
 	{
 		return false;
 	}
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -39,30 +39,35 @@ class Users_Login_View extends Vtiger_View_Controller
 			$this->preProcessDisplay($request);
 		}
 	}
-
-	function process(Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		include_once 'config/api.php';
-		$moduleName = $request->getModule();
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('ENABLED_MOBILE_MODULE', in_array('mobileModule', $enabledServices));
-		$viewer->assign('CURRENT_VERSION', vglobal('YetiForce_current_version'));
-		$viewer->view('Login.tpl', 'Users');
-	}
-
+	
 	public function postProcess(Vtiger_Request $request)
 	{
 		
+	}
+
+	public function process(Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('ENABLED_MOBILE_MODULE', in_array('mobileModule', vglobal('enabledServices')));
+		$viewer->assign('CURRENT_VERSION', vglobal('YetiForce_current_version'));
+		$viewer->assign('LANGUAGE_SELECTION', AppConfig::main('langInLoginView'));
+		$viewer->assign('LAYOUT_SELECTION', AppConfig::main('layoutInLoginView'));
+		$viewer->assign('ERROR', $request->get('error'));
+		$viewer->assign('FPERROR', $request->get('fpError'));
+		$viewer->assign('STATUS', $request->get('status'));
+		$viewer->assign('STATUS_ERROR', $request->get('statusError'));
+		$viewer->view('Login.tpl', 'Users');
 	}
 
 	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 
-		$cssFileNames = array(
-			'~layouts/vlayout/skins/login.css',
-		);
+		$cssFileNames = [
+			'skins.login',
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
 

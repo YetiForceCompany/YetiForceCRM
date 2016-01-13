@@ -228,75 +228,75 @@ class API_CardDAV_Model {
 		}
 		$head = $vcard->N->getParts();
 
-		$rekord = Vtiger_Record_Model::getCleanInstance($module);
-		$rekord->set('assigned_user_id', $this->user->get('id'));
+		$record = Vtiger_Record_Model::getCleanInstance($module);
+		$record->set('assigned_user_id', $this->user->get('id'));
 		if($module == 'Contacts'){
-			$rekord->set('firstname', $head[1]);
-			$rekord->set('lastname', $head[0]);
+			$record->set('firstname', $head[1]);
+			$record->set('lastname', $head[0]);
 		}
 		if($module == 'OSSEmployees'){
-			$rekord->set('name', $head[1]);
-			$rekord->set('last_name', $head[0]);
+			$record->set('name', $head[1]);
+			$record->set('last_name', $head[0]);
 		}
 
 		if ($leadId != '') {
-			$rekord->set('parent_id', $leadId);
+			$record->set('parent_id', $leadId);
 		}
 		foreach ($this->telFields[$module] as $key => $val) {
-			$rekord->set($key, $this->getCardTel($vcard, $val));
+			$record->set($key, $this->getCardTel($vcard, $val));
 		}
 		foreach ($this->mailFields[$module] as $key => $val) {
-			$rekord->set($key, $this->getCardMail($vcard, $val));
+			$record->set($key, $this->getCardMail($vcard, $val));
 		}
-		$rekord->save();
+		$record->save();
 
 		$stmt = $this->pdo->prepare('UPDATE dav_cards SET crmid = ? WHERE id = ?;');
 		$stmt->execute([
-			$rekord->getId(),
+			$record->getId(),
 			$card['id']
 		]);
 		$stmt = $this->pdo->prepare('UPDATE vtiger_crmentity SET modifiedtime = ? WHERE crmid = ?;');
 		$stmt->execute([
 			date('Y-m-d H:i:s', $card['lastmodified']),
-			$rekord->getId()
+			$record->getId()
 		]);
 		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
-	public function updateRecord($rekord, $card) {
+	public function updateRecord($record, $card) {
 		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | Start Card ID:'.$card['id']);
 		$vcard = Sabre\VObject\Reader::read($card['carddata']);
 		$head = $vcard->N->getParts();
-		$module = $rekord->getModuleName();
-		$rekord->set('mode', 'edit');
+		$module = $record->getModuleName();
+		$record->set('mode', 'edit');
 		if($module == 'Contacts'){
-			$rekord->set('firstname', $head[1]);
-			$rekord->set('lastname', $head[0]);
+			$record->set('firstname', $head[1]);
+			$record->set('lastname', $head[0]);
 		}
 		if($module == 'OSSEmployees'){
-			$rekord->set('name', $head[1]);
-			$rekord->set('last_name', $head[0]);
+			$record->set('name', $head[1]);
+			$record->set('last_name', $head[0]);
 		}
 		if ($leadId != '') {
-			$rekord->set('parent_id', $leadId);
+			$record->set('parent_id', $leadId);
 		}
 		foreach ($this->telFields[$module] as $key => $val) {
-			$rekord->set($key, $this->getCardTel($vcard, $val));
+			$record->set($key, $this->getCardTel($vcard, $val));
 		}
 		foreach ($this->mailFields[$module] as $key => $val) {
-			$rekord->set($key, $this->getCardMail($vcard, $val));
+			$record->set($key, $this->getCardMail($vcard, $val));
 		}
-		$rekord->save();
+		$record->save();
 
 		$stmt = $this->pdo->prepare('UPDATE dav_cards SET crmid = ? WHERE id = ?;');
 		$stmt->execute([
-			$rekord->getId(),
+			$record->getId(),
 			$card['id']
 		]);
 		$stmt = $this->pdo->prepare('UPDATE vtiger_crmentity SET modifiedtime = ? WHERE crmid = ?;');
 		$stmt->execute([
 			date('Y-m-d H:i:s', $card['lastmodified']),
-			$rekord->getId()
+			$record->getId()
 		]);
 		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End');
 	}

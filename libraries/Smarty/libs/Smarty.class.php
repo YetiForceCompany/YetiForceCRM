@@ -695,7 +695,7 @@ class Smarty extends Smarty_Internal_TemplateBase
         if (isset($_SERVER['SCRIPT_NAME'])) {
             $this->assignGlobal('SCRIPT_NAME', $_SERVER['SCRIPT_NAME']);
         }
-		$this->debugging = SysDebug::get('DISPLAY_DEBUG_VIEWER'); // YetiForce Sp. z o.o. //
+		$this->debugging = AppConfig::debug('DISPLAY_DEBUG_VIEWER'); // YetiForce Sp. z o.o. //
     }
 
     /**

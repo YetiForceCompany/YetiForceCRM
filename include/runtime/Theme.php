@@ -13,25 +13,15 @@ class Vtiger_Theme extends Vtiger_Viewer
 
 	/**
 	 * Function to get the path of a given style sheet or default style sheet
-	 * @param <String> $fileName
 	 * @return <string / Boolean> - file path , false if not exists
 	 */
-	public static function getStylePath($fileName = '')
+	public static function getThemeStyle()
 	{
-		// Default CSS for better performance, LESS format for development.
-		if (empty($fileName)) {
-			$fileName = 'style.css';
-		}
-		$filePath = self::getThemePath() . '/' . $fileName;
-		$fallbackPath = self::getBaseThemePath() . '/' . self::getDefaultThemeName() . '/' . 'style.less';
-
+		$filePath = self::getThemePath() . '/' . 'style.css';
 		$completeFilePath = Vtiger_Loader::resolveNameToPath('~' . $filePath);
-		$completeFallBackPath = Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
 
 		if (file_exists($completeFilePath)) {
 			return $filePath;
-		} else if (file_exists($completeFallBackPath)) {
-			return $fallbackPath;
 		}
 		// Exception should be thrown???
 		return false;
@@ -54,6 +44,43 @@ class Vtiger_Theme extends Vtiger_Viewer
 			return $imageFilePath;
 		} else if (file_exists($completeFallBackThemePath)) {
 			return $fallbackPath;
+		}
+		return false;
+	}
+
+	/**
+	 * Function to get the image path or get defaulf
+	 * This function searches for an image, it takes a default name in case it's missing,
+	 * if there's no image with a default name it will return false
+	 * @param <string> $imageFileName - file name 
+	 * @param <string> $defaultFileName - file name 
+	 * @return <string/boolean> - returns file path if exists or false;
+	 */
+	public static function getOrignOrDefaultImgPath($imageFileName, $defaultFileName)
+	{
+		$allowedImgTypes = ['.gif', '.jpg', '.png'];
+		foreach ($allowedImgTypes as $type) {
+			$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $imageFileName . $type;
+			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~' . $imageFilePath);
+			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $imageFileName . $type;
+			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
+			if (file_exists($completeImageFilePath)) {
+				return $imageFilePath;
+			} else if (file_exists($completeFallBackThemePath)) {
+				return $fallbackPath;
+			}
+		}
+
+		foreach ($allowedImgTypes as $type) {
+			$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
+			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~' . $imageFilePath);
+			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
+			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
+			if (file_exists($completeImageFilePath)) {
+				return $imageFilePath;
+			} else if (file_exists($completeFallBackThemePath)) {
+				return $fallbackPath;
+			}
 		}
 		return false;
 	}
@@ -126,4 +153,10 @@ function vimage_path($imageName)
 {
 	$args = func_get_args();
 	return call_user_func_array(array('Vtiger_Theme', 'getImagePath'), $args);
+}
+
+function vimage_path_default($imageName, $defaultImageName)
+{
+	$args = func_get_args();
+	return call_user_func_array(array('Vtiger_Theme', 'getOrignOrDefaultImgPath'), $args);
 }

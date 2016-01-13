@@ -10,12 +10,6 @@
 
 class Vendors_Record_Model extends Vtiger_Record_Model {
 
-	function getCreatePurchaseOrderUrl() {
-		$purchaseOrderModuleModel = Vtiger_Module_Model::getInstance('PurchaseOrder');
-
-		return "index.php?module=".$purchaseOrderModuleModel->getName()."&view=".$purchaseOrderModuleModel->getEditViewName()."&vendor_id=".$this->getId();
-	}
-
 	/**
 	 * Function to get List of Fields which are related from Vendors to Inventyory Record
 	 * @return <array>

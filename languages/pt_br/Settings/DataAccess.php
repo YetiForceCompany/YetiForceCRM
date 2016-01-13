@@ -9,7 +9,7 @@
  *  Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_DATAACCESS' => 'Validação de acesso',
+	'LBL_DATAACCESS' => 'Recording Control',
 	'LBL_DATAACCES' => 'Validação de acesso',
 	'DataAccess' => 'Validação de acesso',
 	'LBL_NEW_TPL' => 'Adicionar nova condição',
@@ -74,7 +74,7 @@ $languageStrings = [
 	'Date validation' => 'Data da validação',
 	'Check parent task' => 'Verifica tarefa pai',
 	'Check if there are any tasks that are not closed' => 'Verificar se existe alguma tarefa que não esta fechada',
-	'Check for duplicate names' => 'Verificar nomes duplicados',
+	'Check for duplicates' => 'Check for duplicates',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Verificar se todos os campos obrigatórios no Editar Rápido estão são preenchidos',
 	'Lock edit on the status' => 'Bloquear edição no status',
 	'is enabled' => 'habilitado',

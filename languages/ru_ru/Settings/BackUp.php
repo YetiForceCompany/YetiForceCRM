@@ -1,6 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
+	'LBL_STOP_BACKUP' => 'Остановить резервное копирование',
 	'LBL_PORT' => 'Порт:',
 	'BackUp' => 'Резервное копирование',
 	'LBL_BACKUP_DESCRIPTION' => 'Создание резервных копий системы',
@@ -58,7 +59,8 @@ $languageStrings = [
 	'LBL_STAGE_7' => 'Очистка временных данных',
 	'LBL_STAGE_8' => 'Отправка данных по FTP',
 	'LBL_STAGE_9' => 'Завершение резервного копирования',
-	'BackUp' => 'Backup',
+	'BackUp' => 'Резервное копирование',
+	'LBL_TOTAL_PROGRESS' => 'Состояние',
 ];
 $jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Необходимо заполнить Обязательные поля',

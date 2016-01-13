@@ -19,25 +19,23 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
-require_once('include/database/PearDatabase.php');
-require_once('include/ComboUtil.php'); //new
-require_once('include/utils/ListViewUtils.php');
-require_once('include/utils/EditViewUtils.php');
-require_once('include/utils/CommonUtils.php');
-require_once('include/utils/InventoryUtils.php');
-require_once('include/utils/SearchUtils.php');
-require_once('include/FormValidationUtil.php');
-require_once('include/events/SqlResultIterator.inc');
-require_once('include/fields/DateTimeField.php');
-require_once('include/fields/DateTimeRange.php');
-require_once('include/fields/CurrencyField.php');
-require_once('include/CRMEntity.php');
+require_once 'include/database/PearDatabase.php';
+require_once 'include/ComboUtil.php'; //new
+require_once 'include/utils/ListViewUtils.php';
+require_once 'include/utils/EditViewUtils.php';
+require_once 'include/utils/CommonUtils.php';
+require_once 'include/utils/InventoryUtils.php';
+require_once 'include/utils/SearchUtils.php';
+require_once 'include/FormValidationUtil.php';
+require_once 'include/events/SqlResultIterator.inc';
+require_once 'include/fields/DateTimeField.php';
+require_once 'include/fields/DateTimeRange.php';
+require_once 'include/fields/CurrencyField.php';
+require_once 'include/CRMEntity.php';
 require_once 'vtlib/Vtiger/Language.php';
-require_once("include/ListView/ListViewSession.php");
-
+require_once 'include/ListView/ListViewSession.php';
 require_once 'vtlib/Vtiger/Functions.php';
 require_once 'vtlib/Vtiger/Deprecated.php';
-
 require_once 'include/runtime/Cache.php';
 require_once 'modules/Vtiger/helpers/Util.php';
 
@@ -108,10 +106,10 @@ function return_name(&$row, $first_column, $last_column)
  *
  */
 //used in module file
-function get_user_array($add_blank = true, $status = "Active", $assigned_user = "", $private = "", $module = false)
+function get_user_array($add_blank = true, $status = 'Active', $assigned_user = '', $private = '', $module = false)
 {
 	$log = vglobal('log');
-	$log->debug("Entering get_user_array(" . $add_blank . "," . $status . "," . $assigned_user . "," . $private . ") method ...");
+	$log->debug('Entering get_user_array(' . $add_blank . ',' . $status . ',' . $assigned_user . ',' . $private . ') method ...');
 	$current_user = vglobal('current_user');
 	if (isset($current_user) && $current_user->id != '') {
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
@@ -121,19 +119,17 @@ function get_user_array($add_blank = true, $status = "Active", $assigned_user = 
 	if (!$module) {
 		$module = $_REQUEST['module'];
 	}
-
-
 	if ($user_array == null) {
 		require_once('include/database/PearDatabase.php');
 		$db = PearDatabase::getInstance();
 		$temp_result = Array();
 		// Including deleted vtiger_users for now.
 		if (empty($status)) {
-			$query = "SELECT id, user_name, is_admin from vtiger_users";
+			$query = 'SELECT id, user_name, is_admin from vtiger_users';
 			$params = array();
 		} else {
 			if ($private == 'private') {
-				$log->debug("Sharing is Private. Only the current user should be listed");
+				$log->debug('Sharing is Private. Only the current user should be listed');
 				$query = "select id as id,user_name as user_name,first_name,last_name,is_admin from vtiger_users where id=? and status='Active' union select vtiger_user2role.userid as id,vtiger_users.user_name as user_name ,
 							  vtiger_users.first_name as first_name ,vtiger_users.last_name as last_name, is_admin 
 							  from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ? and status='Active' union
@@ -141,19 +137,18 @@ function get_user_array($add_blank = true, $status = "Active", $assigned_user = 
 							  vtiger_users.first_name as first_name ,vtiger_users.last_name as last_name, is_admin from vtiger_tmp_write_user_sharing_per inner join vtiger_users on vtiger_users.id=vtiger_tmp_write_user_sharing_per.shareduserid where status='Active' and vtiger_tmp_write_user_sharing_per.userid=? and vtiger_tmp_write_user_sharing_per.tabid=?";
 				$params = array($current_user->id, $current_user_parent_role_seq . "::%", $current_user->id, getTabid($module));
 			} else {
-				$log->debug("Sharing is Public. All vtiger_users should be listed");
-				$query = "SELECT id, user_name,first_name,last_name,is_admin from vtiger_users WHERE status=?";
+				$log->debug('Sharing is Public. All vtiger_users should be listed');
+				$query = 'SELECT id, user_name,first_name,last_name,is_admin from vtiger_users WHERE status=?';
 				$params = array($status);
 			}
 		}
 		if (!empty($assigned_user)) {
-			$query .= " OR id=?";
+			$query .= ' OR id=?';
 			array_push($params, $assigned_user);
 		}
 
-		$query .= " order by user_name ASC";
-
-		$result = $db->pquery($query, $params, true, "Error filling in user array: ");
+		$query .= ' ORDER BY last_name ASC, first_name ASC';
+		$result = $db->pquery($query, $params, true, 'Error filling in user array: ');
 
 		if ($add_blank == true) {
 			// Add in a blank row
@@ -162,7 +157,7 @@ function get_user_array($add_blank = true, $status = "Active", $assigned_user = 
 
 		// Get the id and the name.
 		while ($row = $db->fetchByAssoc($result)) {
-			if ($current_user->is_admin == 'on' || !(!PerformancePrefs::getBoolean('SHOW_ADMINISTRATORS_IN_USERS_LIST') && $row['is_admin'] == 'on')) {
+			if ($current_user->is_admin == 'on' || !(!AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST') && $row['is_admin'] == 'on')) {
 				$temp_result[$row['id']] = getFullNameFromArray('Users', $row);
 			}
 		}
@@ -170,7 +165,7 @@ function get_user_array($add_blank = true, $status = "Active", $assigned_user = 
 		$user_array = &$temp_result;
 	}
 
-	$log->debug("Exiting get_user_array method ...");
+	$log->debug('Exiting get_user_array method ...');
 	return $user_array;
 }
 
@@ -198,7 +193,7 @@ function get_group_array($add_blank = true, $status = "Active", $assigned_user =
 		$query = 'SELECT groupid, groupname FROM vtiger_groups';
 		$params = [];
 
-		if ($module) {
+		if ($module && $module != 'CustomView') {
 			$query .= ' WHERE groupid IN (SELECT groupid FROM vtiger_group2modules WHERE tabid = ?)';
 			$params[] = $tabid;
 		}
@@ -339,12 +334,12 @@ $toHtml = array(
  */
 function to_html($string, $encode = true)
 {
-	global $log, $default_charset;
-	//$log->debug("Entering to_html(".$string.",".$encode.") method ...");
-	global $toHtml;
-	$action = $_REQUEST['action'];
-	$search = $_REQUEST['search'];
+	$default_charset = vglobal('default_charset');
+	$toHtml = vglobal('toHtml');
 
+	$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : false;
+	$search = isset($_REQUEST['search']) ? $_REQUEST['search'] : false;
+	$ajaxAction = false;
 	$doconvert = false;
 
 	// For optimization - default_charset can be either upper / lower case.
@@ -354,10 +349,10 @@ function to_html($string, $encode = true)
 	}
 
 	if (isset($_REQUEST['module']) && isset($_REQUEST['file']) && $_REQUEST['module'] != 'Settings' && $_REQUEST['file'] != 'ListView' && $_REQUEST['module'] != 'Portal' && $_REQUEST['module'] != "Reports")// && $_REQUEST['module'] != 'Emails')
-		$ajax_action = $_REQUEST['module'] . 'Ajax';
+		$ajaxAction = $_REQUEST['module'] . 'Ajax';
 
 	if (is_string($string)) {
-		if ($action != 'CustomView' && $action != 'Export' && $action != $ajax_action && $action != 'LeadConvertToEntities' && $action != 'CreatePDF' && $action != 'ConvertAsFAQ' && $_REQUEST['module'] != 'Dashboard' && $action != 'CreateSOPDF' && $action != 'SendPDFMail' && (!isset($_REQUEST['submode']))) {
+		if ($action != 'CustomView' && $action != 'Export' && $action != $ajaxAction && $action != 'LeadConvertToEntities' && $action != 'CreatePDF' && $action != 'ConvertAsFAQ' && $_REQUEST['module'] != 'Dashboard' && $action != 'CreateSOPDF' && $action != 'SendPDFMail' && (!isset($_REQUEST['submode']))) {
 			$doconvert = true;
 		} else if ($search == true) {
 			// Fix for tickets #4647, #4648. Conversion required in case of search results also.
@@ -372,8 +367,6 @@ function to_html($string, $encode = true)
 				$string = preg_replace(array('/</', '/>/', '/"/'), array('&lt;', '&gt;', '&quot;'), $string);
 		}
 	}
-
-	//$log->debug("Exiting to_html method ...");
 	return $string;
 }
 
@@ -538,20 +531,23 @@ function getUserId_Ol($username)
 function getActionid($action)
 {
 	$log = vglobal('log');
-	$log->debug("Entering getActionid(" . $action . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$log->info("get Actionid " . $action);
+	$log->debug('Entering getActionid(' . $action . ') method ...');
+	$db = PearDatabase::getInstance();
+	$log->info('get Actionid ' . $action);
 	$actionid = '';
 	if (file_exists('user_privileges/tabdata.php') && (filesize('user_privileges/tabdata.php') != 0)) {
 		include('user_privileges/tabdata.php');
-		$actionid = $action_id_array[$action];
-	} else {
-		$query = "select * from vtiger_actionmapping where actionname=?";
-		$result = $adb->pquery($query, array($action));
-		$actionid = $adb->query_result($result, 0, 'actionid');
+		if (isset($action_id_array[$action])) {
+			$actionid = $action_id_array[$action];
+		}
 	}
-	$log->info("action id selected is " . $actionid);
-	$log->debug("Exiting getActionid method ...");
+	if ($actionid == '') {
+		$query = 'select actionid from vtiger_actionmapping where actionname=?';
+		$result = $db->pquery($query, [$action]);
+		$actionid = $db->getSingleValue($result);
+	}
+	$log->info('action id selected is ' . $actionid);
+	$log->debug('Exiting getActionid method ...');
 	return $actionid;
 }
 
@@ -592,7 +588,7 @@ function getRecordOwnerId($record)
 	$ownerArr = [];
 
 	$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record);
-	
+
 	if ($recordMetaData) {
 		$ownerId = $recordMetaData['smownerid'];
 		// Look at cache first for information
@@ -814,22 +810,6 @@ function getParentRecordOwner($tabid, $parModId, $record_id)
 	return $parentRecOwner;
 }
 
-/** Function to get potential related accounts
- * @param $record_id -- record id :: Type integer
- * @returns $accountid -- accountid:: Type integer
- */
-function getPotentialsRelatedAccounts($record_id)
-{
-	$log = vglobal('log');
-	$log->debug("Entering getPotentialsRelatedAccounts(" . $record_id . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$query = "select related_to from vtiger_potential where potentialid=?";
-	$result = $adb->pquery($query, array($record_id));
-	$accountid = $adb->query_result($result, 0, 'related_to');
-	$log->debug("Exiting getPotentialsRelatedAccounts method ...");
-	return $accountid;
-}
-
 /** Function to get email related accounts
  * @param $record_id -- record id :: Type integer
  * @returns $accountid -- accountid:: Type integer
@@ -876,118 +856,6 @@ function getHelpDeskRelatedAccounts($record_id)
 	$accountid = $adb->query_result($result, 0, 'parent_id');
 	$log->debug("Exiting getHelpDeskRelatedAccounts method ...");
 	return $accountid;
-}
-
-/** Function to get Quotes related Accounts
- * @param $record_id -- record id :: Type integer
- * @returns $accountid -- accountid:: Type integer
- */
-function getQuotesRelatedAccounts($record_id)
-{
-	$log = vglobal('log');
-	$log->debug("Entering getQuotesRelatedAccounts(" . $record_id . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$query = "select accountid from vtiger_quotes where quoteid=?";
-	$result = $adb->pquery($query, array($record_id));
-	$accountid = $adb->query_result($result, 0, 'accountid');
-	$log->debug("Exiting getQuotesRelatedAccounts method ...");
-	return $accountid;
-}
-
-/** Function to get Quotes related Potentials
- * @param $record_id -- record id :: Type integer
- * @returns $potid -- potid:: Type integer
- */
-function getQuotesRelatedPotentials($record_id)
-{
-	$log = vglobal('log');
-	$log->debug("Entering getQuotesRelatedPotentials(" . $record_id . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$query = "select potentialid from vtiger_quotes where quoteid=?";
-	$result = $adb->pquery($query, array($record_id));
-	$potid = $adb->query_result($result, 0, 'potentialid');
-	$log->debug("Exiting getQuotesRelatedPotentials method ...");
-	return $potid;
-}
-
-/** Function to get Quotes related Potentials
- * @param $record_id -- record id :: Type integer
- * @returns $accountid -- accountid:: Type integer
- */
-function getSalesOrderRelatedAccounts($record_id)
-{
-	$log = vglobal('log');
-	$log->debug("Entering getSalesOrderRelatedAccounts(" . $record_id . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$query = "select accountid from vtiger_salesorder where salesorderid=?";
-	$result = $adb->pquery($query, array($record_id));
-	$accountid = $adb->query_result($result, 0, 'accountid');
-	$log->debug("Exiting getSalesOrderRelatedAccounts method ...");
-	return $accountid;
-}
-
-/** Function to get SalesOrder related Potentials
- * @param $record_id -- record id :: Type integer
- * @returns $potid -- potid:: Type integer
- */
-function getSalesOrderRelatedPotentials($record_id)
-{
-	$log = vglobal('log');
-	$log->debug("Entering getSalesOrderRelatedPotentials(" . $record_id . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$query = "select potentialid from vtiger_salesorder where salesorderid=?";
-	$result = $adb->pquery($query, array($record_id));
-	$potid = $adb->query_result($result, 0, 'potentialid');
-	$log->debug("Exiting getSalesOrderRelatedPotentials method ...");
-	return $potid;
-}
-
-/** Function to get SalesOrder related Quotes
- * @param $record_id -- record id :: Type integer
- * @returns $qtid -- qtid:: Type integer
- */
-function getSalesOrderRelatedQuotes($record_id)
-{
-	$log = vglobal('log');
-	$log->debug("Entering getSalesOrderRelatedQuotes(" . $record_id . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$query = "select quoteid from vtiger_salesorder where salesorderid=?";
-	$result = $adb->pquery($query, array($record_id));
-	$qtid = $adb->query_result($result, 0, 'quoteid');
-	$log->debug("Exiting getSalesOrderRelatedQuotes method ...");
-	return $qtid;
-}
-
-/** Function to get Invoice related Accounts
- * @param $record_id -- record id :: Type integer
- * @returns $accountid -- accountid:: Type integer
- */
-function getInvoiceRelatedAccounts($record_id)
-{
-	$log = vglobal('log');
-	$log->debug("Entering getInvoiceRelatedAccounts(" . $record_id . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$query = "select accountid from vtiger_invoice where invoiceid=?";
-	$result = $adb->pquery($query, array($record_id));
-	$accountid = $adb->query_result($result, 0, 'accountid');
-	$log->debug("Exiting getInvoiceRelatedAccounts method ...");
-	return $accountid;
-}
-
-/** Function to get Invoice related SalesOrder
- * @param $record_id -- record id :: Type integer
- * @returns $soid -- soid:: Type integer
- */
-function getInvoiceRelatedSalesOrder($record_id)
-{
-	$log = vglobal('log');
-	$log->debug("Entering getInvoiceRelatedSalesOrder(" . $record_id . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$query = "select salesorderid from vtiger_invoice where invoiceid=?";
-	$result = $adb->pquery($query, array($record_id));
-	$soid = $adb->query_result($result, 0, 'salesorderid');
-	$log->debug("Exiting getInvoiceRelatedSalesOrder method ...");
-	return $soid;
 }
 
 /**
@@ -1191,7 +1059,7 @@ function getAccessPickListValues($module)
 			$fieldvalues[] = $adb->query_result($mulselresult, $j, $fieldname);
 		}
 		$field_count = count($fieldvalues);
-		if ($uitype == 15 && $field_count > 0 && ($fieldname == 'taskstatus' || $fieldname == 'eventstatus')) {
+		if ($uitype == 15 && $field_count > 0 && ($fieldname == 'activitystatus')) {
 			$temp_count = count($temp_status[$keyvalue]);
 			if ($temp_count > 0) {
 				for ($t = 0; $t < $field_count; $t++) {
@@ -1503,7 +1371,7 @@ function getRelationTables($module, $secmodule)
 function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRecordId, $sourceRecordId)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering DeleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
 	require_once('include/events/include.inc');
 	if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
@@ -1544,7 +1412,9 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 	$adb = PearDatabase::getInstance();
 	$log = vglobal('log');
 	$log->debug("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
-	require_once("include/events/include.inc");
+	require_once('include/events/include.inc');
+	//require_once('modules/com_vtiger_workflow/VTWorkflowManager.inc');
+	//require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
 	$em = new VTEventsManager($adb);
 	$em->initTriggerCache();
 	if (!is_array($destinationRecordIds))
@@ -1562,7 +1432,22 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 
 		$focus->save_related_module($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
 		$focus->trackLinkedInfo($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
-
+		/*
+		  $wfs = new VTWorkflowManager($adb);
+		  $workflows = $wfs->getWorkflowsForModule($sourceModule, VTWorkflowManager::$ON_RELATED);
+		  $entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
+		  $entityData = VTEntityData::fromCRMEntity($focus);
+		  $entityData->eventType = VTWorkflowManager::$ON_RELATED;
+		  $entityData->relatedInfo = [
+		  'destId' => $destinationRecordId,
+		  'destModule' => $destinationModule,
+		  ];
+		  foreach ($workflows as $id => $workflow) {
+		  if ($workflow->evaluate($entityCache, $entityData->getId())) {
+		  $workflow->performTasks($entityData);
+		  }
+		  }
+		 */
 		$em->triggerEvent('vtiger.entity.link.after', $data);
 	}
 	$log->debug("Exiting relateEntities method ...");
@@ -1958,7 +1843,7 @@ function getCurrencyDecimalPlaces()
 
 function getInventoryModules()
 {
-	$inventoryModules = array('Invoice', 'Quotes', 'PurchaseOrder', 'SalesOrder', 'Calculations', 'OSSCosts');
+	$inventoryModules = [];
 	return $inventoryModules;
 }
 /* Function to only initialize the update of Vtlib Compliant modules

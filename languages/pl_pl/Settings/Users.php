@@ -27,7 +27,7 @@ $languageStrings = [
 	'LBL_MODULE' => 'Moduł',
 	
 	//Auth
-	'LBL_AUTHORIZATION' => 'Autoryzacja',
+	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
 	'LBL_LDAP_AUTH' => 'LDAP',
 	'LBL_ACTIVE_LDAP_AUTH' => 'Autoryzacja za pomocą LDAP',
@@ -39,8 +39,22 @@ $languageStrings = [
 	
 	'LBL_VIEW_AUTH' => 'Autoryzacja',
 	'LBL_VIEW_COLORS' => 'Kolory',
+	'LBL_SWITCH_USERS' => 'Przełączanie użytkowników',
+	'LBL_SWITCH_USERS_DESCRIPTION' => 'Narzędzie umożliwiające przełączanie się pomiędzy użytkownikami w systemie.',
+	'LBL_SU_BASE_ACCESS' => 'Użytkownik',
+	'LBL_SU_AVAILABLE_ACCESS' => 'Może logować się na',
+	// Locks
+	'LBL_LOCKS' => 'Blokady',
+	'LBL_LOCKS_DESCRIPTION' => 'Narzędzie do blokowania czynności dostępnych w przeglądarce np. kopiowanie, wycinanie...',
+	'LBL_LOCK_COPY' => 'Blokada kopiowania',
+	'LBL_LOCK_CUT' => 'Blokada wycinania',
+	'LBL_LOCK_PASTE' => 'Blokada wklejania',
+	'LBL_LOCK_RIGHT_MENU' => 'Blokada prawego klawisza myszki',
+	'LBL_LOCK_SELECT_TEXT' => 'Blokada zaznaczania',
+	'LBL_LOCK_DRAG' => 'Blokada przeciągania elementów strony',
 ];
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
+	'Changed password successfully' => 'Hasło zmienione poprawnie',
 ];

@@ -16,7 +16,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -24,11 +24,11 @@ class Users_List_View extends Settings_Vtiger_List_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
-		$jsFileNames = array(
-			'layouts.vlayout.modules.Vtiger.resources.List',
+		$jsFileNames = [
+			'modules.Vtiger.resources.List',
 			'modules.Users.resources.List',
-			"modules.Emails.resources.MassEdit",
-		);
+			'modules.Emails.resources.MassEdit',
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -156,18 +156,9 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$this->listViewCount = $listViewModel->getListViewCount();
 		}
 		$totalCount = $this->listViewCount;
-		$pageLimit = $pagingModel->getPageLimit();
-		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
-
-		if ($pageCount == 0) {
-			$pageCount = 1;
-		}
-		
-		$startPaginFrom = $pageNumber - 2;
-		if($pageNumber == $totalCount && 1 !=  $pageNumber)
-			$startPaginFrom = $pageNumber - 4;
-		if($startPaginFrom <= 0 || 1 ==  $pageNumber)
-			$startPaginFrom = 1;
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
@@ -214,19 +205,24 @@ class Users_List_View extends Settings_Vtiger_List_View
 
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-
-		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
-
 		$searchParmams = $request->get('search_params');
+		$operator = $request->get('operator');
+		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		
+		if (empty($searchParmams) || !is_array($searchParmams)) {
+			$searchParmams = [];
+		}
+		
 		$listViewModel->set('search_params', $this->transferListSearchParamsToFilterCondition($searchParmams, $listViewModel->getModule()));
+		if (!empty($operator)) {
+			$listViewModel->set('operator', $operator);
+		}
+		if (!empty($searchKey) && !empty($searchValue)) {
+			$listViewModel->set('search_key', $searchKey);
+			$listViewModel->set('search_value', $searchValue);
+		}
 
-		$listViewModel->set('search_key', $searchKey);
-		$listViewModel->set('search_value', $searchValue);
-		$listViewModel->set('operator', $request->get('operator'));
-
-		$count = $listViewModel->getListViewCount();
-
-		return $count;
+		return $listViewModel->getListViewCount();
 	}
 
 	/**

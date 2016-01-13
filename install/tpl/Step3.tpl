@@ -9,6 +9,7 @@
   *
  ********************************************************************************/
 -->*}
+{strip}
 <form class="form-horizontal" name="step3" method="post" action="Install.php">
 	<input type="hidden" name="mode" value="Step4" />
 	<input type="hidden" name="lang" value="{$LANG}" />
@@ -64,7 +65,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue() key=key item=item}
+								{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue(true) key=key item=item}
 									{if $item.status}
 										<tr class="danger">
 											<td><label>{$key}</label></td>
@@ -119,3 +120,4 @@
 		</div>
 	</div>
 </form>
+{/strip}

@@ -20,6 +20,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('updateUserModuleStep3');
 		$this->exposeMethod('checkModuleName');
 		$this->exposeMethod('createModule');
+		$this->exposeMethod('deleteModule');
 	}
 
 	function process(Vtiger_Request $request)
@@ -59,6 +60,9 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$importType = $request->get('module_import_type');
 		if (strtolower($importType) == 'language') {
 			$package = new Vtiger_Language();
+		} else if (strtolower($importType) == 'layout') {
+			vimport('vtlib.Vtiger.Layout');
+			$package = new Vtiger_Layout();
 		} else {
 			$package = new Vtiger_Package();
 		}
@@ -81,14 +85,17 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$uploadFileName = "$uploadDir/$uploadFile";
 		checkFileAccess($uploadFileName);
 
-		$importType = $request->get('module_import_type');
-		if (strtolower($importType) == 'language') {
+		$importType = strtolower($request->get('module_import_type'));
+		if ($importType == 'language') {
 			$package = new Vtiger_Language();
+		} else if ($importType == 'layout') {
+			vimport('vtlib.Vtiger.Layout');
+			$package = new Vtiger_Layout();
 		} else {
 			$package = new Vtiger_Package();
 		}
 
-		if (strtolower($importType) == 'language') {
+		if ($importType == 'language' || $importType == 'layout') {
 			$package->import($uploadFileName);
 		} else {
 			$package->update(Vtiger_Module::getInstance($importModuleName), $uploadFileName);
@@ -136,6 +143,20 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		} catch (Exception $e) {
 			$result = array('success' => false, 'text' => $e->getMessage());
 		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	public function deleteModule(Vtiger_Request $request)
+	{
+		$moduleName = $request->get('forModule');
+		$moduleInstance = Vtiger_Module::getInstance($moduleName);
+		if ($moduleInstance) {
+			$moduleInstance->delete();
+			$result = array('success' => true);
+		} else
+			$result = array('success' => false);
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

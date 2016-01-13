@@ -19,7 +19,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPrivilegesModel->hasModulePermission($moduleModel->getId())) {
-			throw new AppException(vtranslate($moduleName).' '.vtranslate('LBL_NOT_ACCESSIBLE'));
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -40,7 +40,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		$companyLogo = $companyDetails->getLogo();
 
 		$this->initializeListViewContents($request, $viewer);
-
+		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
 		$viewer->assign('COMPANY_LOGO',$companyLogo);
 		$viewer->view('Popup.tpl', $moduleName);
 	}
@@ -122,10 +122,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 		
         $isRecordExists = Vtiger_Util_Helper::checkRecordExistance($relatedParentId);
-        if($isRecordExists) {
-            $relatedParentModule = '';
-            $relatedParentId = '';
-        } else if($isRecordExists === NULL) {
+        if($isRecordExists || $isRecordExists === NULL) {
             $relatedParentModule = '';
             $relatedParentId = '';
         }
@@ -254,7 +251,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 		
-		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			if(!$this->listViewCount){
 				$this->listViewCount = $listViewModel->getListViewCount();
 			}

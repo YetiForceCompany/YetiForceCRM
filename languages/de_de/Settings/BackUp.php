@@ -25,8 +25,8 @@ $languageStrings = [
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Benutzer für Benachrichtungen',
 	'LBL_SAVE_CHANGES' => 'Änderungen Sichern',
 	'LBL_GENERAL_SETTINGS' => 'Allgemeine Einstellungen',
-	'LBL_STORAGEFOLDER_INFO' => 'Wollen Sie eine Datensicherung des Speicherverzeichnissen durchführen',
-	'LBL_BACKUPFOLDER_INFO' => 'Wollen Sie eine Datensicherung des Sicherungsverzeichnissen durchführen',
+	'LBL_STORAGEFOLDER_INFO' => 'Wollen Sie eine Datensicherung des Speicherverzeichnissen durchführen?',
+	'LBL_BACKUPFOLDER_INFO' => 'Wollen Sie eine Datensicherung des Sicherungsverzeichnissen durchführen?',
 	'LBL_VALUES' => 'Values',
 	'LBL_DETAIL' => 'Detail',
 	'LBL_BACKUP_COPY_TYPE' => 'Backup save type',
@@ -37,7 +37,7 @@ $languageStrings = [
 	'LBL_ALERT_CRON_NOT_ACTIVE_TITLE' => 'Cron - backup of data is not active',
 	'LBL_ALERT_CRON_NOT_ACTIVE_DESC' => 'Making a backup copy will not be possible, to enable it go to <a href="index.php?module=CronTasks&parent=Settings&view=List" target="_blank">Harmonogram</a> and activate Backup',
 	'LBL_ALERT_OUTGOING_MAIL_NOT_CONFIGURED_TITLE' => 'Outgoing mail server is not configured',
-	'LBL_ALERT_OUTGOING_MAIL_NOT_CONFIGUREDE_DESC' => 'All email notifications that should be sent after backup will not be sent',
+	'LBL_ALERT_OUTGOING_MAIL_NOT_CONFIGUREDE_DESC' => 'All email notifications after backup will not be sent',
 	'LBL_END_TIME' => 'End time',
 	'LBL_BACKUP_TIME' => 'Backup duration time',
 	'LBL_LOGS' => 'Logs',
@@ -56,6 +56,7 @@ $languageStrings = [
 	'LBL_STAGE_8' => 'Sending data to FTP',
 	'LBL_STAGE_9' => 'Completing backup',
 	'BackUp' => 'Backup',
+	'LBL_TOTAL_PROGRESS' => 'Total progress',
 ];
 $jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Pflichtfelder dürfen nicht leer sein',

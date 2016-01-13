@@ -70,7 +70,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 			$currNum = $db->getSingleValue($existResult);
 			// download only if its not in archives
-			if ($currNum != $numToConvert) {
+			if ($currNum != $numToConvert && class_exists($activeBankName)) {
 				$bank = new $activeBankName();
 				$bank->getRates($otherCurrencyCode, $dateCur, false);
 				$notifyNewRates = true;

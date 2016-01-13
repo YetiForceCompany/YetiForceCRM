@@ -65,6 +65,24 @@ class Vtiger_Menu
 	{
 		Vtiger_Utils::Log($message, $delim);
 	}
+	
+	/**
+	 * Delete all menus associated with module
+	 * @param Vtiger_Module Instnace of module to use
+	 */
+	static function deleteForModule($moduleInstance)
+	{
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT id FROM  yetiforce_menu WHERE module=?', [$moduleInstance->id]);
+		$db->delete('yetiforce_menu', 'module = ?', [$moduleInstance->id]);
+		$numRows = $db->getRowCount($result);
+		if($numRows){
+			$menuRecordModel = new Settings_Menu_Record_Model();
+			$menuRecordModel->refreshMenuFiles();
+		}
+	}
+	
+
 }
 
 ?>

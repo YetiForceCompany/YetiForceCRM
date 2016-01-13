@@ -309,21 +309,17 @@ class Vtiger_Filter
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 
-		$cvidres = $adb->pquery("SELECT cvid FROM vtiger_customview WHERE entitytype=?", Array($moduleInstance->name));
-		if ($adb->num_rows($cvidres)) {
-			$cvids = Array();
-			for ($index = 0; $index < $adb->num_rows($cvidres); ++$index) {
-				$cvids[] = $adb->query_result($cvidres, $index, 'cvid');
-			}
-			if (!empty($cvids)) {
-				$adb->pquery("DELETE FROM vtiger_cvadvfilter WHERE cvid  IN (" . implode(',', $cvids) . ")", array());
-				$adb->pquery("DELETE FROM vtiger_cvcolumnlist WHERE cvid IN (" . implode(',', $cvids) . ")", array());
-				$adb->pquery("DELETE FROM vtiger_customview WHERE cvid   IN (" . implode(',', $cvids) . ")", array());
-			}
+		$cvidres = $db->pquery('SELECT cvid FROM vtiger_customview WHERE entitytype=?', [$moduleInstance->name]);
+		$cvids = [];
+		while (($cvid = $db->getSingleValue($cvidres)) !== false) {
+			$cvids[] = $cvid;
+		}
+		if (!empty($cvids)) {
+			$db->delete('vtiger_cvadvfilter', 'cvid IN (' . implode(',', $cvids) . ')');
+			$db->delete('vtiger_cvcolumnlist', 'cvid IN (' . implode(',', $cvids) . ')');
+			$db->delete('vtiger_customview', 'cvid IN (' . implode(',', $cvids) . ')');
 		}
 	}
 }
-
-?>

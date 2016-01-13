@@ -61,4 +61,6 @@ $languageStrings = [
 	'Incidents' => 'Vorfälle',
 	'Sales' => 'Verkauf',
 	'Service' => 'Dienstleistung',
+	
+	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Liste von Datensätzen beschränkt sich auf die Produkte und Dienstleistungen, die mit der Verkaufschance verknüpft sind',
 ];

@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Leads_Detail_View extends Accounts_Detail_View {
+class Leads_Detail_View extends Vtiger_Detail_View {
 	function preProcess(Vtiger_Request $request) {
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CONVERSION_AVAILABLE_STATUS', Zend_Json::encode(Leads_Module_Model::getConversionAvaibleStatuses()));

@@ -7,5 +7,5 @@
 /config/csrf_secret.php
 /config/config_override.php
 /cache/logs/*.log
-/test/templates_c/vlayout/*.php
+/test/templates_c/basic/*.php
 /nbproject/private/

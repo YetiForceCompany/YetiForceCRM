@@ -1,5 +1,5 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,22 +7,26 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 
-class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View {
-    
-    function getSearchParams($value,$assignedto,$dates) {
-        $listSearchParams = array();
-        $conditions = array(array('leadstatus','e',$value));
-        if($assignedto != '') array_push($conditions,array('assigned_user_id','e',getUserFullName($assignedto)));
-        if(!empty($dates)){
-            array_push($conditions,array('createdtime','bw',$dates['start'].' 00:00:00,'.$dates['end'].' 23:59:59'));
-        }
-        $listSearchParams[] = $conditions;
-        return '&search_params='. json_encode($listSearchParams);
-    }
+class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
+{
 
-	public function process(Vtiger_Request $request) {
+	function getSearchParams($value, $assignedto, $dates)
+	{
+		$listSearchParams = array();
+		$conditions = array(array('leadstatus', 'e', $value));
+		if ($assignedto != '')
+			array_push($conditions, array('assigned_user_id', 'e', getUserFullName($assignedto)));
+		if (!empty($dates)) {
+			array_push($conditions, array('createdtime', 'bw', $dates['start'] . ' 00:00:00,' . $dates['end'] . ' 23:59:59'));
+		}
+		$listSearchParams[] = $conditions;
+		return '&search_params=' . json_encode($listSearchParams);
+	}
+
+	public function process(Vtiger_Request $request)
+	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -30,27 +34,28 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View {
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
 		$createdTime = $request->get('createdtime');
-		
+
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-		if (!$request->has('owner')) 
+		if (!$request->has('owner'))
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Leads');
 		else
 			$owner = $request->get('owner');
-		if($owner == 'all')
+		$ownerForwarded = $owner;
+		if ($owner == 'all')
 			$owner = '';
-		
+
 		//Date conversion from user to database format
-		if(!empty($createdTime)) {
+		if (!empty($createdTime)) {
 			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['start']);
 			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
 		}
-		
+
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = ($owner === false)?array():$moduleModel->getLeadsByStatusConverted($owner,$dates);
-        $listViewUrl = $moduleModel->getListViewUrl();
-        for($i = 0;$i<count($data);$i++){
-            $data[$i]["links"] = $listViewUrl.$this->getSearchParams($data[$i][2],$owner,$dates);
-        }
+		$data = ($owner === false) ? array() : $moduleModel->getLeadsByStatusConverted($owner, $dates);
+		$listViewUrl = $moduleModel->getListViewUrl();
+		for ($i = 0; $i < count($data); $i++) {
+			$data[$i]["links"] = $listViewUrl . $this->getSearchParams($data[$i][2], $owner, $dates);
+		}
 		//Include special script and css needed for this widget
 
 		$viewer->assign('WIDGET', $widget);
@@ -62,9 +67,10 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View {
 		$accessibleGroups = $currentUser->getAccessibleGroupForModule('Leads');
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
-		
+		$viewer->assign('OWNER', $ownerForwarded);
+
 		$content = $request->get('content');
-		if(!empty($content)) {
+		if (!empty($content)) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/LeadsByStatusConverted.tpl', $moduleName);

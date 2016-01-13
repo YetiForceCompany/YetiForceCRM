@@ -15,15 +15,15 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		parent::__construct();
 	}
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new NoPermittedForAdminException('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display=true)
 	{
 		parent::preProcess($request, false);
 		$this->preProcessSettings($request);
@@ -37,9 +37,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	
 	public function preProcessSettings(Vtiger_Request $request)
 	{
-
 		$viewer = $this->getViewer($request);
-
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$selectedMenuId = $request->get('block');
@@ -47,10 +45,9 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
 		$menuModels = $settingsModel->getMenus();
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
-		
+		$viewer->assign('SELECTED_MENU', $selectedMenuId);
+		$viewer->assign('SETTINGS_MENUS', $menuModels); // used only in old layout 
 		$viewer->assign('MENUS', $menu);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
@@ -75,7 +72,6 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->assign('ACTIVE_WORKFLOWS', $activeWorkFlows);
 		$viewer->assign('ACTIVE_MODULES', $activeModules);
 		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
-		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
@@ -88,7 +84,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

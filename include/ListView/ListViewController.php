@@ -272,6 +272,7 @@ class ListViewController
 					} else {
 						$value = ' --';
 					}
+					$value = Vtiger_Functions::textLength($value);
 				} elseif ($field->getFieldDataType() == 'picklist') {
 					$value = Vtiger_Language_Handler::getTranslatedString($value, $module);
 					$value = textlength_check($value);
@@ -398,7 +399,7 @@ class ListViewController
 					} else {
 						$value = textlength_check($value);
 					}
-				} elseif ($field->getFieldDataType() == 'reference') {
+				} elseif (in_array($field->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES)) {
 					$referenceFieldInfoList = $this->queryGenerator->getReferenceFieldInfoList();
 					$moduleList = $referenceFieldInfoList[$fieldName];
 					if (count($moduleList) == 1) {
@@ -434,21 +435,21 @@ class ListViewController
 						$json = new Zend_Json();
 						$value = vt_suppressHTMLTags(implode(',', $json->decode($temp_val)));
 					}
-				} elseif ($field->getUIType() == 303) {
+				} elseif ($field->getFieldDataType() == 'taxes') {
 					if (!empty($value)) {
 						$valueArray = ($value != "") ? explode(',', $value) : [];
 						$tmp = '';
 						$tmpArray = [];
-						$taxs = Vtiger_Taxs_UIType::getTaxes();
+						$taxs = Vtiger_Taxes_UIType::getTaxes();
 						foreach ($valueArray as $index => $tax) {
 							if (isset($taxs[$tax])) {
 								$tmpArray[] = $taxs[$tax]['value'] . '% - ' . $taxs[$tax]['name'];
 							}
 						}
 						$value = implode(', ', $tmpArray);
-						$value = textlength_check($value);
+						$value = Vtiger_Functions::textLength($value);
 					}
-				} elseif ($field->getUIType() == 304) {
+				} elseif ($field->getFieldDataType() == 'inventoryLimit') {
 					if (!empty($value)) {
 						$valueArray = ($value != "") ? explode(',', $value) : [];
 						$tmp = '';
@@ -460,12 +461,22 @@ class ListViewController
 							}
 						}
 						$value = implode(', ', $tmpArray);
-						$value = textlength_check($value);
+						$value = Vtiger_Functions::textLength($value);
 					}
+				} elseif ($field->getFieldDataType() == 'multiReferenceValue') {
+					$params = $field->getFieldParams();
+					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($params['field']);
+					$valueTmp = trim($value, '|#|');
+					$valueTmp = ($valueTmp != "") ? explode('|#|', $valueTmp) : [];
+					foreach ($valueTmp as $index => $tmp) {
+						$valueTmp[$index] = $fieldModel->getUITypeModel()->getDisplayValue($tmp);
+					}
+					$value = implode(', ', $valueTmp);
+					$value = Vtiger_Functions::textLength($value);
 				} elseif (in_array($uitype, array(7, 9, 90))) {
 					$value = "<span align='right'>" . textlength_check($value) . "</div>";
 				} else {
-					$value = textlength_check($value);
+					$value = Vtiger_Functions::textLength($value);
 				}
 
 //				// vtlib customization: For listview javascript triggers

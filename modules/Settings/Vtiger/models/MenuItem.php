@@ -255,7 +255,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 		$sql = 'SELECT * FROM ' . self::$itemsTable;
 		$params = array();
 
-		$conditionsSqls = array();
+		$conditionsSqls = [];
 		if ($menuModel != false) {
 			$conditionsSqls[] = 'blockid = ?';
 			$params[] = $menuModel->getId();
@@ -272,7 +272,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 		$result = $db->pquery($sql, array_merge($params, $skipMenuItemList));
 		$noOfMenus = $db->num_rows($result);
 
-		$menuItemModels = array();
+		$menuItemModels = [];
 		for ($i = 0; $i < $noOfMenus; ++$i) {
 			$fieldId = $db->query_result($result, $i, self::$itemId);
 			$rowData = $db->query_result_rowdata($result, $i);
@@ -322,5 +322,28 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 		}
 		return $menuItemModels;
 	}
-
+	/**
+	 * used only in old layout 
+	 * @param type $url
+	 * @return type modulename 
+	 */
+	public function getModuleNameFromUrl($url)
+	{
+		$query_str = parse_url(htmlspecialchars_decode($url), PHP_URL_QUERY);
+		parse_str($query_str, $query_params);
+		if ($query_params[parent]) {
+			return ("$query_params[parent]:$query_params[module]");
+		}
+		return $query_params[module];
+	}
+	/**
+	 * Function to get name module
+	 * @return type module name
+	 */
+	public function getModule(){
+		$url = $this->getUrl();
+		$url = parse_url($url, PHP_URL_QUERY);
+		parse_str($url, $urlParams);
+		return $urlParams['module'];
+	}
 }

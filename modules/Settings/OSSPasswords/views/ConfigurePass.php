@@ -29,9 +29,9 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
-		$jsFileNames = array(
-			'layouts.vlayout.modules.OSSPasswords.resources.general'
-		);
+		$jsFileNames = [
+			'modules.OSSPasswords.resources.general'
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($jsScriptInstances, $headerScriptInstances);

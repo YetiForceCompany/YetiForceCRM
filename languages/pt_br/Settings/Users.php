@@ -20,14 +20,14 @@ $languageStrings = [
 	'LBL_EDIT_COLOR' => 'Editar Cor',
 	'LBL_SELECT_COLOR' => 'Selecionar cor:',
 	'LBL_SAVE_COLOR' => 'Cor salva',
-	'LBL_GROUPS_COLORS' => 'Grupo de cores',
+	'LBL_GROUPS_COLORS' => 'Cores de Grupos',
 	'LBL_GROUP_NAME' => 'Nome grupo',
 	'LBL_COLORS' => 'Cores',
 	'LBL_PRIORITY' => 'Prioridade',
 	'LBL_MODULE' => 'Módulo',
 	
 	//Auth
-	'LBL_AUTHORIZATION' => 'Autorização',
+	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
 	'LBL_LDAP_AUTH' => 'LDAP',
 	'LBL_ACTIVE_LDAP_AUTH' => 'Autorização com LDAP',
@@ -39,8 +39,14 @@ $languageStrings = [
 	
 	'LBL_VIEW_AUTH' => 'Autorização',
 	'LBL_VIEW_COLORS' => 'Cores',
+	
+	'LBL_SWITCH_USERS' => 'Switch users',
+	'LBL_SWITCH_USERS_DESCRIPTION' => 'Tool that allows switching users in the system.',
+	'LBL_SU_BASE_ACCESS' => 'User',
+	'LBL_SU_AVAILABLE_ACCESS' => 'Is allowed to log in',
 ];
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Já existe um Usuário com este endereço de e-mail',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'O separador de casas decimais e separador de milhar não podem ser iguais',
+	'Changed password successfully' => 'Changed password successfully',
 ];

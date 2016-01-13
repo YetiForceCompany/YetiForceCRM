@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Leads_Module_Model extends Vtiger_Module_Model
@@ -135,34 +136,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false)
 	{
-		if ($functionName === 'get_activities') {
-			$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-
-			$query = "SELECT CASE WHEN (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name,
-						vtiger_crmentity.*, vtiger_activity.activitytype, vtiger_activity.subject, vtiger_activity.date_start, vtiger_activity.time_start,
-						vtiger_activity.recurringtype, vtiger_activity.due_date, vtiger_activity.time_end, vtiger_activity.visibility,
-						CASE WHEN (vtiger_activity.activitytype = 'Task') THEN (vtiger_activity.status) ELSE (vtiger_activity.eventstatus) END AS status
-						FROM vtiger_activity
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-						LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-						WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.link = " . $recordId;
-			$time = vtlib_purify($_REQUEST['time']);
-			if ($time == 'current') {
-				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))
-				OR (vtiger_activity.activitytype not in ('Emails','Task') and vtiger_activity.eventstatus not in ('','Held')))";
-			}
-			if ($time == 'history') {
-				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status in ('Completed','Deferred'))
-				OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.eventstatus in ('','Held')))";
-			}
-			$relatedModuleName = $relatedModule->getName();
-			$query .= $this->getSpecificRelationQuery($relatedModuleName);
-			$instance = CRMEntity::getInstance($relatedModuleName);
-			$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName, false, $recordId);
-			if ($securityParameter != '')
-				$query .= $securityParameter;
-		} elseif ($functionName === 'get_mails' && $relatedModule->getName() == 'OSSMailView') {
+		if ($functionName === 'get_mails' && $relatedModule->getName() == 'OSSMailView') {
 			$query = OSSMailView_Record_Model::getMailsQuery($recordId, $relatedModule->getName());
 		} else {
 			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
@@ -170,22 +144,20 @@ class Leads_Module_Model extends Vtiger_Module_Model
 
 		return $query;
 	}
-
+	
 	/**
 	 * Function to get Converted Information for selected records
 	 * @param <array> $recordIdsList
 	 * @return <array> converted Info
 	 */
-	public static function getConvertedInfo($recordIdsList = array())
+	public static function getConvertedInfo($recordIdsList = [])
 	{
-		$convertedInfo = array();
+		$convertedInfo = [];
 		if ($recordIdsList) {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery("SELECT converted FROM vtiger_leaddetails WHERE leadid IN (" . generateQuestionMarks($recordIdsList) . ")", $recordIdsList);
-			$numOfRows = $db->num_rows($result);
-
-			for ($i = 0; $i < $numOfRows; $i++) {
-				$convertedInfo[$recordIdsList[$i]] = $db->query_result($result, $i, 'converted');
+			$result = $db->query('SELECT leadid,converted FROM vtiger_leaddetails WHERE leadid IN (' . implode(',',$recordIdsList) . ')');
+			while ($row = $db->getRow($result)) {
+				$convertedInfo[$row['leadid']] = $row['converted'];
 			}
 		}
 		return $convertedInfo;

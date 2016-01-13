@@ -1,7 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'Document Control' => 'Dokumentenkontrolle',
+	'Document Control' => 'Document Flow',
 	'OSSDocumentControl' => 'Dokumentenkontrolle',
 	'LBL_ENTER_BASIC_INFO' => 'Geben Sie die grundlegenden Informationen ein',
 	'LBL_STEP_1' => 'Schritt 1',

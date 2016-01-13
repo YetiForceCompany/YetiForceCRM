@@ -26,6 +26,7 @@ class Settings_Webforms_GetSourceModuleFields_View extends Settings_Vtiger_Index
 	public function process(Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
+		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$sourceModule = $request->get('sourceModule');
 		$viewer = $this->getViewer($request);
@@ -41,10 +42,10 @@ class Settings_Webforms_GetSourceModuleFields_View extends Settings_Vtiger_Index
 		} else {
 			$recordModel = Settings_Webforms_Record_Model::getCleanInstance($qualifiedModuleName);
 		}
-
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODE', $mode);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
-		$viewer->assign('MODULE', $qualifiedModuleName);
+		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('SELECTED_FIELD_MODELS_LIST', $selectedFieldsList);
 		$viewer->assign('ALL_FIELD_MODELS_LIST', $recordModel->getAllFieldsList($sourceModule));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());

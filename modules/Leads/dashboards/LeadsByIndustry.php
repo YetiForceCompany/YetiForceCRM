@@ -93,6 +93,7 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Leads');
 		else
 			$owner = $request->get('owner');
+		$ownerForwarded = $owner;
 		if ($owner == 'all')
 			$owner = '';
 
@@ -123,6 +124,7 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$accessibleGroups = $currentUser->getAccessibleGroupForModule('Leads');
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
+		$viewer->assign('OWNER', $ownerForwarded);
 
 		$content = $request->get('content');
 		if (!empty($content)) {

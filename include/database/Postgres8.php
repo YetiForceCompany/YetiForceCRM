@@ -161,21 +161,9 @@ function expandRecord($table, $log)
 	elseif ($table == "vtiger_contactdetails")
 		$subfields = array("lastname", "contactid", "accountid", "salutation", "firstname", "email", "phone", "mobile", "title", "department", "fax", "reportsto", "training", "usertype", "contacttype", "otheremail", "yahooid", "donotcall", "emailoptout", "imagename", "reference", "notify_owner");
 
-	//vtiger_quotes
-	elseif ($table == "vtiger_quotes")
-		$subfields = array("quoteid", "subject", "potentialid", "quotestage", "validtill", "contactid", "currency", "subtotal", "carrier", "shipping", "inventorymanager", "type", "total", "taxtype", "discount_percent", "discount_amount", "accountid", "terms_conditions");
-
 	//vtiger_crmentity
 	elseif ($table == "vtiger_crmentity")
 		$subfields = array("crmid", "smcreatorid", "smownerid", "modifiedby", "setype", "description", "createdtime", "modifiedtime", "viewedtime", "status", "version", "presence", "deleted");
-
-	//vtiger_salesorder
-	elseif ($table == "vtiger_salesorder")
-		$subfields = array("salesorderid", "subject", "potentialid", "customerno", "quoteid", "vendorterms", "contactid", "vendorid", "duedate", "carrier", "pending", "type", "salescommission", "exciseduty", "total", "subtotal", "taxtype", "discount_percent", "discount_amount", "accountid", "terms_conditions", "purchaseorder", "sostatus");
-
-	//vtiger_invoice
-	elseif ($table == "vtiger_invoice")
-		$subfields = array("invoiceid", "subject", "salesorderid", "customerno", "contactid", "notes", "invoicedate", "duedate", "invoiceterms", "type", "salescommission", "exciseduty", "subtotal", "total", "taxtype", "discount_percent", "discount_amount", "shipping", "accountid", "terms_conditions", "purchaseorder", "invoicestatus", "invoice_no");
 
 	//vtiger_seactivityrel
 	elseif ($table == "vtiger_seactivityrel")
@@ -184,10 +172,6 @@ function expandRecord($table, $log)
 	//vtiger_cntactivityrel
 	elseif ($table == "vtiger_cntactivityrel")
 		$subfields = array("contactid", "activityid");
-
-	//vtiger_purchaseorder
-	elseif ($table == "vtiger_purchaseorder")
-		$subfields = array("purchaseorderid", "subject", "quoteid", "vendorid", "requisition_no", "tracking_no", "contactid", "duedate", "carrier", "type", "salescommission", "exciseduty", "total", "subtotal", "taxtype", "discount_percent", "discount_amount", "terms_conditions", "postatus");
 
 	//vtiger_leaddetails
 	elseif ($table == "vtiger_leaddetails")

@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Search Configuration' => 'Configurações Pesquisa',
-	'Search Setup' => 'Configurar Pesquisa',
+	'Search Setup' => 'Search - Configuration',
 	'Search' => 'Procurar configuração',
 	'LBL_Module_desc' => 'Este painel permite a configuração do rótulo para campos uitype 10 e para os mecanismos de busca. Estes mecanismos trabalham independentemente - você pode visualizar várias colunas em um campo enquanto procura, mas quando você seleciona um registro, um nome de um rótulo será carregado.',
 	'Module' => 'Módulo',
@@ -19,7 +19,7 @@ $languageStrings = [
 	'SearchFields' => 'Colunas para mecanismos de busca',
 	'Tools' => 'Ações',
 	'Update labels' => 'Atualizar nomes',
-	'LBL_SAVE_CHANGES_SEARCHING' => 'Saved changes.',
+	'LBL_SAVE_CHANGES_SEARCHING' => 'Salvar alterações.',
 	'LBL_SAVE_CHANGES_LABLE' => 'As mudanças na configuração foram salvas, você tem que atualizar esse módulo para visualizar as mudanças no Sistema.',
 	'Update has been completed' => 'A atualização para este módulo foram concluídas com sucesso. As mudanças estarão visíveis no Sistema.',
 	'LBL_SAVE_MODULE_SEQUENCE' => 'Salvar sequência dos módulos',

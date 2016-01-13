@@ -263,7 +263,7 @@ class Vtiger_Cron
 		}
 		$maxExecutionTime = intval(ini_get('max_execution_time'));
 		if ($maxExecutionTime == 0) {
-			$maxExecutionTime = vglobal('maxExecutionCronTime');
+			$maxExecutionTime = AppConfig::main('maxExecutionCronTime');
 		}
 		$time = $this->getLastEnd();
 		if ($time == 0) {
@@ -308,14 +308,14 @@ class Vtiger_Cron
 	static function nextSequence()
 	{
 		$adb = PearDatabase::getInstance();
-		$result = self::querySilent('SELECT MAX(sequence) FROM vtiger_cron_task ORDER BY SEQUENCE');
-		if ($result && $adb->num_rows($result)) {
-			$row = $adb->fetch_array($result);
+		$result = self::querySilent('SELECT MAX(sequence) as sequence FROM vtiger_cron_task ORDER BY SEQUENCE');
+		if ($result && $adb->getRowCount($result)) {
+			$sequence = $adb->getSingleValue($result);
 		}
-		if ($row == NULL) {
-			$row['max(sequence)'] = 1;
+		if ($sequence == NULL) {
+			$sequence = 1;
 		}
-		return $row['max(sequence)'] + 1;
+		return $sequence + 1;
 	}
 
 	/**
@@ -423,5 +423,15 @@ class Vtiger_Cron
 	function unlockTask()
 	{
 		$this->updateStatus(self::$STATUS_ENABLED);
+	}
+
+	/**
+	 * Delete all cron tasks associated with module
+	 * @param Vtiger_Module Instnace of module to use
+	 */
+	static function deleteForModule($moduleInstance)
+	{
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_cron_task', 'module = ?', [$moduleInstance->name]);
 	}
 }

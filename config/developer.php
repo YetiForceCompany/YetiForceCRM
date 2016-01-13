@@ -5,10 +5,10 @@ $DEVELOPER_CONFIG =[
 	'CHANGE_GENERATEDTYPE' => false,
 	
 	// Enable minimize JS files
-	'MINIMIZE_JS' => false,
+	'MINIMIZE_JS' => true,
 
 	// Enable minimize CSS files
-	'MINIMIZE_CSS' => false,
+	'MINIMIZE_CSS' => true,
 	
 	// Change of fields visibility
 	'CHANGE_VISIBILITY' => false,

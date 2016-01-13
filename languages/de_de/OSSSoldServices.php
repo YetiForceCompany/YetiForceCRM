@@ -10,7 +10,6 @@
 
 $languageStrings = [
 	'Services' => 'Service Name',
-	'Potential' => 'Quelle Verkaufschance',
 	'Invoice' => 'Rechnungsnummer',
 	'OSSSoldServices' => 'Verkaufte Dienstleistungen',
 	'SINGLE_OSSSoldServices' => 'Verkaufte Dienstleistung',
@@ -37,7 +36,6 @@ $languageStrings = [
 'LBL_CUSTOM_INFORMATION' => 'System Information',
 'Where bought' => 'Wo gekauft',
 'Number' => 'Nummer',
-'Potential renewal'=>'Verkaufschance erneuern',
 'LBL_GENERATE_EXTENSION' => 'Erweiterung generieren',
 'LBL_ORDER_TIME'=>'Bestellzeit',
 ];

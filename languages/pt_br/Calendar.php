@@ -114,9 +114,6 @@ $languageStrings = [
 	'Duration Minutes'=>'Duração em Minutos',
 	'No Time'=>'Nenhum',
 
-    'TASK_PREV' => 'Planejado para um dia antes',
-    'TASK_CUR' => 'Planejado para um dia específico',
-    'TASK_NEXT' => 'Planejado para um dia depois',
 	'LBL_NO_DESCRIPTION'=>'Sem descrição',
 	'LBL_IMPORT_ICS_ERROR_NO_RECORD'=>'Arquivo ICS incorreto',
 	'LBL_IMPORT_ICS_SUCCESS'=>'Entrada adicionada na Agenda',
@@ -129,8 +126,6 @@ $languageStrings = [
     'Calendar Hour Format'=>'Formato Hora',
     'Time Zone'=>'Fuso Horário',
     'Default Activity View'=>'Padrão Visualização Atividade',
-	'Relation' => 'Relação',
-	'Process' => 'Processo',
 	'LBL_SHITF_TASK_SHOW' => 'Exibir ou ocultar tipo Atividade: Tarefa',
 	'LBL_SHITF_MEETING_SHOW' => 'Exibir ou ocultar tipo Atividade: Reunião',
 	'LBL_SHITF_CALL_SHOW' => 'Exibir ou ocultar tipo Atividade: Usuário',
@@ -141,6 +136,18 @@ $languageStrings = [
 	'LBL_SHIFT_BLOCK' => 'Exibir ou ocultar bloco',
 	'LBL_ON_SWITCH' => 'Ativar',
 	'LBL_OFF_SWITCH' => 'Desativar',
+	'LBL_FOLLOWUP' => 'Related event',
+	
+	'PLL_PLANNED' => 'Planned',
+	'PLL_IN_REALIZATION' => 'To be realized',
+	'PLL_OVERDUE' => 'Overdue',
+	'PLL_POSTPONED' => 'Postponed',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_COMPLETED' => 'Completed',
+	'LBL_RECURRENCE_INFORMATION' => 'Detalhes Recorrência',
+	'LBL_RELATED_TO' => 'Relacionado à',
+	'LBL_NO_AVAILABLE_ACTIONS' => 'No available actions',
+	'LBL_INVITE_USER_BLOCK' => 'Convite',
 ];
 
 $jsLanguageStrings = [
@@ -175,8 +182,6 @@ $jsLanguageStrings = [
 	'JS_Normal' => 'Normal',
 	'JS_High' => 'Alta',
 	'JS_Medium' => 'Média',
-	'JS_RELATION' => 'Relação',
-	'JS_PROCESS' => 'Processo',
 	'JS_ACCOUNTS' => 'Organização',
 	'JS_STATE' => 'Exibir como',
 	'JS_VISIBILITY' => 'Visibilidade',
@@ -187,4 +192,5 @@ $jsLanguageStrings = [
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Não é possível selecionar Contato relacionado Leads',
 	'Mobile Call' => 'Ligar para Celular',
     'JS_CHANGE_ACTIVITY_TIME' => 'Alterar status para: processando ou histórico',
+	'JS_ASSIGNED_TO' => 'Responsável',
 ];

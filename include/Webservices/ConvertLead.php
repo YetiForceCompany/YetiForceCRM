@@ -53,8 +53,8 @@ function vtws_convertlead($entityvalues, $user)
 	}
 	$rowCount = $adb->num_rows($result);
 	if ($rowCount > 0) {
-		$log->error('Error converting a lead: Lead is already converted');
-		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, "Lead is already converted");
+		$log->error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
+		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
 	}
 
 	require_once("include/events/include.inc");
@@ -66,7 +66,7 @@ function vtws_convertlead($entityvalues, $user)
 	$em->triggerEvent('entity.convertlead.before', [$entityvalues, $user, $leadInfo]);
 
 	$entityIds = [];
-	$availableModules = ['Accounts', 'Contacts', 'Potentials'];
+	$availableModules = ['Accounts', 'Contacts'];
 
 	if (!(($entityvalues['entities']['Accounts']['create']) || ($entityvalues['entities']['Contacts']['create']))) {
 		return null;
@@ -86,16 +86,6 @@ function vtws_convertlead($entityvalues, $user)
 			$entityObjectValues = array();
 			$entityObjectValues['assigned_user_id'] = $entityvalues['assignedTo'];
 			$entityObjectValues = vtws_populateConvertLeadEntities($entityvalue, $entityObjectValues, $entityHandler, $leadHandler, $leadInfo);
-
-			//update potential related to property
-			if ($entityvalue['name'] == 'Potentials') {
-				if (!empty($entityIds['Accounts'])) {
-					$entityObjectValues['related_to'] = $entityIds['Accounts'];
-				}
-				if (!empty($entityIds['Contacts'])) {
-					$entityObjectValues['contact_id'] = $entityIds['Contacts'];
-				}
-			}
 
 			//update the contacts relation
 			if ($entityvalue['name'] == 'Contacts') {
@@ -128,16 +118,6 @@ function vtws_convertlead($entityvalues, $user)
 
 		$contactIdComponents = vtws_getIdComponents($entityIds['Contacts']);
 		$contactId = $contactIdComponents[1];
-
-		if (!empty($accountId) && !empty($contactId) && !empty($entityIds['Potentials'])) {
-			$potentialIdComponents = vtws_getIdComponents($entityIds['Potentials']);
-			$potentialId = $potentialIdComponents[1];
-			$sql = "insert into vtiger_contpotentialrel values(?,?)";
-			$result = $adb->pquery($sql, array($contactId, $potentialIdComponents[1]));
-			if ($result === false) {
-				throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_CREATE_RELATION, "Failed to related Contact with the Potential");
-			}
-		}
 
 		$transfered = vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues);
 
@@ -176,8 +156,6 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, $entityHandler,
 			case 'Accounts':$column = 'accountfid';
 				break;
 			case 'Contacts':$column = 'contactfid';
-				break;
-			case 'Potentials':$column = 'potentialfid';
 				break;
 			default:$column = 'leadfid';
 				break;
@@ -280,7 +258,7 @@ function vtws_updateConvertLeadStatus($entityIds, $leadId, $user)
 		$crmentityUpdateSql = "UPDATE vtiger_crmentity SET modifiedtime=?, modifiedby=? WHERE crmid=?";
 		$adb->pquery($crmentityUpdateSql, array($leadModifiedTime, $user->id, $leadIdComponents[1]));
 	}
-	$moduleArray = array('Accounts', 'Contacts', 'Potentials');
+	$moduleArray = array('Accounts', 'Contacts');
 
 	foreach ($moduleArray as $module) {
 		if (!empty($entityIds[$module])) {

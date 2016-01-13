@@ -192,7 +192,7 @@ class WebserviceField
 
 	public function getFieldParams()
 	{
-		return $this->fieldparams;
+		return Zend_Json::decode($this->fieldparams);
 	}
 
 	public function isReadOnly()
@@ -448,6 +448,22 @@ class WebserviceField
 	{
 		return $this->presence;
 	}
-}
 
-?>
+	private static $treeDetails = [];
+
+	function getTreeDetails()
+	{
+		if (count(self::$treeDetails) > 0) {
+			return self::$treeDetails;
+		}
+		$result = $this->pearDB->pquery('SELECT module FROM vtiger_trees_templates WHERE templateid = ?', [$this->getFieldParams()]);
+		$module = $this->pearDB->getSingleValue($result);
+		$moduleName = getTabModuleName($module);
+
+		$result = $this->pearDB->pquery('SELECT tree,label FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getFieldParams()]);
+		while ($row = $this->pearDB->fetch_array($result)) {
+			self::$treeDetails[$row['tree']] = getTranslatedString($row['label'], $moduleName);
+		}
+		return self::$treeDetails;
+	}
+}

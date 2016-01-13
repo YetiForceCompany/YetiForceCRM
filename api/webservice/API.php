@@ -10,7 +10,7 @@ class API
 	 */
 	protected $method = '';
 	protected $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE'];
-	protected $acceptableHeaders = ['apiKey', 'encrypted', 'sessionID'];
+	protected $acceptableHeaders = ['Apikey', 'Encrypted', 'Sessionid'];
 	protected $modulesPath = 'api/webservice/';
 	protected $data = [];
 	protected $request = [];
@@ -40,7 +40,7 @@ class API
 
 		$this->initHeaders();
 
-		if (isset($this->headers['encrypted']) && $this->headers['encrypted'] == 1) {
+		if (isset($this->headers['Encrypted']) && $this->headers['Encrypted'] == 1) {
 			$requestData = $this->decryptData(file_get_contents('php://input'));
 		} else {
 			$requestData = $_POST;
@@ -52,7 +52,7 @@ class API
 
 	public function preProcess()
 	{
-		if (!$this->validateApiKey($this->headers['apiKey'])) {
+		if (!$this->validateApiKey($this->headers['Apikey'])) {
 			throw new APIException('Invalid api key', 401);
 		}
 	}
@@ -133,7 +133,7 @@ class API
 	private function response($data, $status = 200)
 	{
 		header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
-		header('encrypted: ' . (string) vglobal('encryptDataTransfer'));
+		header('Encrypted: ' . (string) vglobal('encryptDataTransfer'));
 		if (vglobal('encryptDataTransfer')) {
 			$response = $data;
 		} else {

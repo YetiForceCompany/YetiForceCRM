@@ -28,9 +28,8 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value, $recordId = false)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		global $default_charset;
 		$uiType = $this->get('field')->get('uitype');
 		if ($value) {
 			if ($uiType == 72) {
@@ -40,7 +39,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 				$value = CurrencyField::convertToUserFormat($value);
 			}
 			if (!$this->edit) {
-				$value = $this->getDetailViewDisplayValue($value, $recordId, $uiType);
+				$value = $this->getDetailViewDisplayValue($value, $record, $uiType);
 			}
 			return $value;
 		}
@@ -100,7 +99,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 * @param <String> $value
 	 * @return <String>
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
 		if (!empty($value)) {
 			$this->edit = true;
@@ -122,7 +121,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 
 		if ($uiType == '72' && $recordId) {
 			$moduleName = $this->get('field')->getModuleName();
-			if(!$moduleName)
+			if (!$moduleName)
 				$moduleName = Vtiger_Functions::getCRMRecordType($recordId);
 			if ($this->get('field')->getName() == 'unit_price') {
 				$currencyId = getProductBaseCurrency($recordId, $moduleName);

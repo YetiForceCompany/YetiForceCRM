@@ -18,9 +18,9 @@ $languageStrings = [
 	'LBL_NO_RECORDS_FOUND' => 'Nenhum registro foi encontrado para Restaurar no módulo',
 ];
 $jsLanguageStrings = [
-	'JS_DELETE_CONFIRMATION_RB' => 'Are you sure you want to permanently remove all the deleted records from your database?',
-	'JS_MASS_DELETE_CONFIRMATION_RB' => 'Are you sure you want to permanently remove all the deleted records from your database?',
-	'JS_LBL_RESTORE_RECORD_CONFIRMATION' => 'Are you sure you want to restore the records?',
+	'JS_DELETE_CONFIRMATION_RB' => 'Tem certeza que deseja remover permanentemente, da sua base de dados, todos os registros apagados?',
+	'JS_MASS_DELETE_CONFIRMATION_RB' => 'Tem certeza que deseja remover permanentemente, da sua base de dados, todos os registros apagados?',
+	'JS_LBL_RESTORE_RECORD_CONFIRMATION' => 'Tem certeza que deseja restaurar os registros?',
 	'JS_MSG_EMPTY_RB_CONFIRMATION' => 'Tem certeza que deseja remover permanentemente, de sua base de dados, todos os registros apagados?',
 	'JS_LBL_RESTORE_RECORDS_CONFIRMATION' => 'Tem certeza que deseja restaurar os registros?',
 	'JS_RESTORING_RECORDS' => 'Restaurando registros',

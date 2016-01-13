@@ -58,6 +58,10 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 		$relationModel = $relationListView->getRelationModel();
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
+		$totalCount = $relationListView->getRelatedEntriesCount();
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RELATED_RECORDS', $models);
@@ -68,22 +72,6 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
 		$viewer->assign('TIME', $time);
-
-
-		$totalCount = $relationListView->getRelatedEntriesCount();
-		$pageLimit = $pagingModel->getPageLimit();
-		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
-
-		if ($pageCount == 0) {
-			$pageCount = 1;
-		}
-		
-		$startPaginFrom = $pageNumber - 2;
-		if($pageNumber == $totalCount && 1 !=  $pageNumber)
-			$startPaginFrom = $pageNumber - 4;
-		if($startPaginFrom <= 0 || 1 ==  $pageNumber)
-			$startPaginFrom = 1;
-		
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		$viewer->assign('PERFORMANCE', true);

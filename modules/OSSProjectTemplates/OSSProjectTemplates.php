@@ -21,7 +21,6 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
         if ($eventType == 'module.postinstall') {
 
             $this->addLink($moduleName);
-            $this->addRelationModue();
             $this->addWidgetToListView('Project', 'LBL_GENERATE_FROM_TEMPLATE');
             
             $db->query("UPDATE vtiger_tab SET customized=0 WHERE name='$moduleName'");
@@ -51,17 +50,6 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
         $fieldid = $adb->getUniqueId('vtiger_settings_field');
         $adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
 				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Project Templates', '', 'LBL_PROJECT_TEMPLATES_DESCRIPTION', 'index.php?module=' . $moduleName . '&parent=Settings&view=Index'));
-    }
-
-    private function addRelationModue() {
-        $adb = PearDatabase::getInstance();
-
-        $id = $adb->getUniqueID('vtiger_relatedlists');
-        $projectTabId = getTabid('Project');
-        $potentialsTabId = getTabid('Potentials');
-
-        $adb->query("INSERT INTO vtiger_relatedlists VALUES ($id, $potentialsTabId, $projectTabId, 'get_related_list', 16, 'Projects', 0, 'ADD,SELECT')", true);
-        
     }
 
     private function addWidgetToListView($moduleNames, $widgetName, $widgetType = 'LISTVIEWSIDEBARWIDGET') {

@@ -11,7 +11,7 @@
 $languageStrings = [
 	'OSSMailScanner_manual' => 'Skaner mailowy',
 	'OSSMailScanner' => 'Skaner mailowy',
-	'Mail Scanner' => 'Skaner mailowy',
+	'Mail Scanner' => 'Poczta - skaner',
 	
 	'LBL_VIEW_LOGS' => 'Poczta logi',
     'LBL_PAGE_NUMBER' => 'Przejdź do strony numer',
@@ -20,6 +20,7 @@ $languageStrings = [
 	'Drafts' => 'Szkice',
     'INBOX' => 'Skrzynka odbiorcza',
 	'Junk' => 'Kosz',
+	'Sent' => "Wysłane",
 ];
 
 $jsLanguageStrings = [

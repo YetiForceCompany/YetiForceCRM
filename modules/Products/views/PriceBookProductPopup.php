@@ -20,6 +20,7 @@ class Products_PriceBookProductPopup_View extends Vtiger_Popup_View {
 
 		$viewer->assign('MODULE_NAME',$moduleName);
 		$viewer->assign('COMPANY_LOGO',$companyLogo);
+		$viewer->assign('TRIGGER_EVENT_NAME',$request->get('triggerEventName'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
 		$viewer->view('PriceBookProductPopup.tpl', 'Products');

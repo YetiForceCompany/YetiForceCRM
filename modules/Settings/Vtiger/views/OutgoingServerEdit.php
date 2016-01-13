@@ -18,8 +18,6 @@ class Settings_Vtiger_OutgoingServerEdit_View extends Settings_Vtiger_Index_View
 		$qualifiedName = $request->getModule(false);
 
 		$viewer->assign('MODEL', $systemDetailsModel);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('OutgoingServerEdit.tpl', $qualifiedName);
 	}
 

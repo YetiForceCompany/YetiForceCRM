@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'Widgets' => 'Widget Modulverwaltung',
+	'Widgets' => 'Modules – Widgets',
 	'LBL_MODULE_DESC' => 'Widget Modulverwaltung',
 	'Add widget' => 'Widget hinzufügen',
 	'Type widget' => 'Typ',
@@ -55,12 +55,15 @@ $languageStrings = [
 	'Columns info' => 'Wie viele Spalten werden von Datensätzen in der Liste angezeigt. Die Spalten werden von der ersten angezeigten Spalte des übergeordneten Moduls aus gezählt.',
 	'Add button info' => 'Knopf hinzufügen, um einen Datensatz in der Widget Datensatzansicht hinzu zufügen',
 	'No left margin info' => 'Deaktiviere linken Rand im Widget.',
-	'ProductsServices' => 'Products services',
-	'Campaign status' => 'Campaign status',
+	'ProductsServices' => 'Produkte Dienstleistungen',
+	'Campaign status' => 'Kampagnenstatus',
+	'LBL_SELECT_BUTTON_INFO' => 'Enable visible select button',
+	'LBL_CONDITION' => 'Condition',
+	'LBL_CONDITION_INFO' => 'Select condition for showing records',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Laden...',
 	'Saving changes' => 'Speichere Änderungen...',
 	'None' => 'Keine',
-	'JS_EDIT_WIDGET' => 'Edit widget',
+	'JS_EDIT_WIDGET' => 'Widget bearbeiten',
 ];

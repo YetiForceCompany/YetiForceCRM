@@ -41,10 +41,9 @@ $languageStrings = [
 	'Scheduled Import' => 'Scheduled Import',
 	'ScheduleReports' => 'Schedule Reports',
 	'MailScannerBind' => 'Mail Scanner Bind',
-	'LBL_CURRENCY_UPDATE' => 'Currency Update'
+	'LBL_CURRENCY_UPDATE' => 'Currency Update',
+	'LBL_MULTI_REFERENCE_VALUE' => 'Multireference fields update',
 ];
-
-
 $jsLanguageStrings = [
 	'FREQUENCY_NUMBER' => 'Частота указывается в целых числах',
 	'FREQUENCY_REQUIRED' => 'Необходимо заполнить поле Частота',

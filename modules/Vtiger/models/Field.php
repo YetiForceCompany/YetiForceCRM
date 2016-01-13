@@ -19,6 +19,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	var $webserviceField = false;
 
 	const REFERENCE_TYPE = 'reference';
+	public static $REFERENCE_TYPES = ['reference','referenceLink','referenceProcess','referenceSubProcess'];
 	const OWNER_TYPE = 'owner';
 	const CURRENCY_LIST = 'currencyList';
 	const QUICKCREATE_MANDATORY = 0;
@@ -103,13 +104,9 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 * @param <String> $value - value which need to be converted to display value
 	 * @return <String> - converted display value
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getDisplayValue($value, $record, $recordInstance);
+		return $this->getUITypeModel()->getDisplayValue($value, $record, $recordInstance, $rawText);
 	}
 
 	/**
@@ -159,41 +156,54 @@ class Vtiger_Field_Model extends Vtiger_Field
 	{
 		if (!$this->fieldDataType) {
 			$uiType = $this->get('uitype');
-			if ($uiType == '69') {
-				$fieldDataType = 'image';
-			} else if ($uiType == '26') {
-				$fieldDataType = 'documentsFolder';
-			} else if ($uiType == '27') {
-				$fieldDataType = 'fileLocationType';
-			} else if ($uiType == '9') {
-				$fieldDataType = 'percentage';
-			} else if ($uiType == '28') {
-				$fieldDataType = 'documentsFileUpload';
-			} else if ($uiType == '32') {
-				$fieldDataType = 'languages';
-			} else if ($uiType == '83') {
-				$fieldDataType = 'productTax';
-			} else if ($uiType == '117') {
-				$fieldDataType = 'currencyList';
-			} else if ($uiType == '55' && $this->getName() === 'salutationtype') {
-				$fieldDataType = 'picklist';
-			} else if ($uiType == '55' && $this->getName() === 'firstname') {
-				$fieldDataType = 'salutation';
-			} else if ($uiType == '54') {
-				$fieldDataType = 'multiowner';
-			} else if ($uiType == '120') {
-				$fieldDataType = 'sharedOwner';
-			} else if ($uiType == '301') {
-				$fieldDataType = 'modules';
-			} else if ($uiType == '302') {
-				$fieldDataType = 'tree';
-			} else if ($uiType == '303') {
-				$fieldDataType = 'taxes';
-			} else if ($uiType == '304') {
-				$fieldDataType = 'inventoryLimit';
-			} else {
-				$webserviceField = $this->getWebserviceFieldObject();
-				$fieldDataType = $webserviceField->getFieldDataType();
+			switch ($uiType) {
+				case 9: $fieldDataType = 'percentage';
+					break;
+				case 26: $fieldDataType = 'documentsFolder';
+					break;
+				case 27: $fieldDataType = 'fileLocationType';
+					break;
+				case 28: $fieldDataType = 'documentsFileUpload';
+					break;
+				case 32: $fieldDataType = 'languages';
+					break;
+				case 54: $fieldDataType = 'multiowner';
+					break;
+				case 55:
+					if ($this->getName() === 'salutationtype') {
+						$fieldDataType = 'picklist';
+					} else if ($this->getName() === 'firstname') {
+						$fieldDataType = 'salutation';
+					}
+					break;
+				case 66: $fieldDataType = 'referenceProcess';
+					break;
+				case 67: $fieldDataType = 'referenceLink';
+					break;
+				case 68: $fieldDataType = 'referenceSubProcess';
+					break;	
+				case 69: $fieldDataType = 'image';
+					break;
+				case 83: $fieldDataType = 'productTax';
+					break;
+				case 117: $fieldDataType = 'currencyList';
+					break;
+				case 120: $fieldDataType = 'sharedOwner';
+					break;
+				case 301: $fieldDataType = 'modules';
+					break;
+				case 302: $fieldDataType = 'tree';
+					break;
+				case 303: $fieldDataType = 'taxes';
+					break;
+				case 304: $fieldDataType = 'inventoryLimit';
+					break;
+				case 305: $fieldDataType = 'multiReferenceValue';
+					break;
+				default:
+					$webserviceField = $this->getWebserviceFieldObject();
+					$fieldDataType = $webserviceField->getFieldDataType();
+					break;
 			}
 			$this->fieldDataType = $fieldDataType;
 		}
@@ -206,6 +216,10 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getReferenceList()
 	{
+		if (method_exists($this->getUITypeModel(), 'getReferenceList')) {
+			return $this->getUITypeModel()->getReferenceList();
+		}
+
 		$webserviceField = $this->getWebserviceFieldObject();
 		return $webserviceField->getReferenceList();
 	}
@@ -250,7 +264,10 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getUITypeModel()
 	{
-		return Vtiger_Base_UIType::getInstanceFromField($this);
+		if (!$this->get('uitypeModel')) {
+			$this->set('uitypeModel', Vtiger_Base_UIType::getInstanceFromField($this));
+		}
+		return $this->get('uitypeModel');
 	}
 
 	public function isRoleBased()
@@ -284,6 +301,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$fieldPickListValues[$value] = vtranslate($value, $this->getModuleName());
 			}
 			return $fieldPickListValues;
+		} else if (method_exists($this->getUITypeModel(), 'getPicklistValues')) {
+			return $this->getUITypeModel()->getPicklistValues();
 		}
 		return null;
 	}
@@ -453,8 +472,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function isAjaxEditable()
 	{
-		$ajaxRestrictedFields = array('4', '72', '10', '300');
-		if (!$this->isEditable() || in_array($this->get('uitype'), $ajaxRestrictedFields) || !$this->getUITypeModel()->isAjaxEditable()) {
+		$ajaxRestrictedFields = array('4', '72', '10', '300', '51');
+		if (!$this->isEditable() || in_array($this->get('uitype'), $ajaxRestrictedFields) || !$this->getUITypeModel()->isAjaxEditable() || (int) $this->get('displaytype') == 10) {
 			return false;
 		}
 		return true;
@@ -585,12 +604,12 @@ class Vtiger_Field_Model extends Vtiger_Field
 		$this->fieldInfo['name'] = $this->get('name');
 		$this->fieldInfo['label'] = vtranslate($this->get('label'), $this->getModuleName());
 
-		if ($fieldDataType == 'picklist' || $fieldDataType == 'multipicklist' || $fieldDataType == 'multiowner') {
+		if (in_array($fieldDataType, ['picklist', 'multipicklist', 'multiowner', 'multiReferenceValue'])) {
 			$pickListValues = $this->getPicklistValues();
 			if (!empty($pickListValues)) {
 				$this->fieldInfo['picklistvalues'] = $pickListValues;
 			} else {
-				$this->fieldInfo['picklistvalues'] = array();
+				$this->fieldInfo['picklistvalues'] = [];
 			}
 		}
 
@@ -602,7 +621,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$this->fieldInfo['picklistvalues'] = [];
 			}
 		}
-		
+
 		if ($fieldDataType == 'inventoryLimit') {
 			$limits = $this->getUITypeModel()->getLimits();
 			if (!empty($limits)) {
@@ -611,7 +630,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$this->fieldInfo['picklistvalues'] = [];
 			}
 		}
-		
+
 		if ($this->getFieldDataType() == 'date' || $this->getFieldDataType() == 'datetime') {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$this->fieldInfo['date-format'] = $currentUser->get('date_format');
@@ -920,7 +939,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 				$funcName = array('name' => 'ReferenceField');
 				array_push($validator, $funcName);
 				break;
-			//SalesOrder field sepecial validators
+			//SRecurringOrders field sepecial validators
 			case 'end_period' : $funcName1 = array('name' => 'greaterThanDependentField',
 					'params' => array('start_period'));
 				array_push($validator, $funcName1);
@@ -942,21 +961,9 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 * @param <String> $value - value which need to be converted to display value
 	 * @return <String> - converted display value
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getEditViewDisplayValue($value);
-	}
-
-	public function getUitypeInstance()
-	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		return $this->uitype_instance;
+		return $this->getUITypeModel()->getEditViewDisplayValue($value, $record);
 	}
 
 	/**
@@ -991,11 +998,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getRelatedListDisplayValue($value)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getRelatedListDisplayValue($value);
+		return $this->getUITypeModel()->getRelatedListDisplayValue($value);
 	}
 
 	/**
@@ -1014,11 +1017,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getDBInsertValue($value)
 	{
-		if (!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
-		$uiTypeInstance = $this->uitype_instance;
-		return $uiTypeInstance->getDBInsertValue($value);
+		return $this->getUITypeModel()->getDBInsertValue($value);
 	}
 
 	/**
@@ -1154,7 +1153,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 	public function isReferenceField()
 	{
-		return ($this->getFieldDataType() == self::REFERENCE_TYPE) ? true : false;
+		return in_array($this->getFieldDataType(), self::$REFERENCE_TYPES);
 	}
 
 	public function isOwnerField()
@@ -1162,25 +1161,17 @@ class Vtiger_Field_Model extends Vtiger_Field
 		return ($this->getFieldDataType() == self::OWNER_TYPE) ? true : false;
 	}
 
-	public static function getInstanceFromFieldId($fieldId, $moduleTabId)
+	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
 	{
-		$db = PearDatabase::getInstance();
-
-		if (is_string($fieldId)) {
-			$fieldId = array($fieldId);
+		$fieldModel = Vtiger_Cache::get('FieldModel', $fieldId);
+		if ($fieldModel) {
+			return $fieldModel;
 		}
-
-		$query = 'SELECT * FROM vtiger_field WHERE fieldid IN (' . generateQuestionMarks($fieldId) . ') AND tabid=?';
-		$result = $db->pquery($query, array($fieldId, $moduleTabId));
-		$fieldModelList = array();
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
-			$fieldModel = new self();
-			$fieldModel->initialize($row);
-			$fieldModelList[] = $fieldModel;
-		}
-		return $fieldModelList;
+		$field = Vtiger_Functions::getModuleFieldInfoWithId($fieldId);
+		$fieldModel = new self();
+		$fieldModel->initialize($field);
+		Vtiger_Cache::set('FieldModel', $fieldId, $fieldModel);
+		return $fieldModel;
 	}
 
 	public function getWithDefaultValue()
@@ -1195,6 +1186,6 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 	public function getFieldParams()
 	{
-		return $this->get('fieldparams');
+		return Zend_Json::decode($this->get('fieldparams'));
 	}
 }

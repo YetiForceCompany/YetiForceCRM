@@ -25,7 +25,7 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$values = explode(',', $value);
 		$limits = $this->getLimits();
@@ -54,7 +54,7 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Base_UIType
 
 		return $display;
 	}
-	
+
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/InventoryLimitSearchView.tpl';

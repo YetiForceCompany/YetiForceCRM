@@ -9,7 +9,16 @@
  *************************************************************************************/
 
 class Reports_DetailAjax_Action extends Vtiger_BasicAjax_Action{
-    
+	public function checkPermission(Vtiger_Request $request) {
+		$moduleName = $request->getModule();
+		$moduleModel = Reports_Module_Model::getInstance($moduleName);
+
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
+	}
+	
     public function __construct() {
         parent::__construct();
 		$this->exposeMethod('getRecordsCount');

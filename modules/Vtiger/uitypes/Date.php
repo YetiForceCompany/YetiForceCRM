@@ -1,20 +1,22 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Vtiger_Date_UIType extends Vtiger_Base_UIType {
+class Vtiger_Date_UIType extends Vtiger_Base_UIType
+{
 
 	/**
 	 * Function to get the Template name for the current UI Type object
 	 * @return <String> - Template Name
 	 */
-	public function getTemplateName() {
+	public function getTemplateName()
+	{
 		return 'uitypes/Date.tpl';
 	}
 
@@ -23,14 +25,15 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType {
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value) {
-		if(empty($value)){
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		if (empty($value)) {
 			return $value;
 		} else {
 			$dateValue = self::getDisplayDateValue($value);
 		}
 
-		if($dateValue == '--') {
+		if ($dateValue == '--') {
 			return "";
 		} else {
 			return $dateValue;
@@ -42,16 +45,18 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType {
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getUserRequestValue($value) {
+	public function getUserRequestValue($value, $recordId)
+	{
 		return $this->getDisplayValue($value);
 	}
 
-    /**
+	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDBInsertValue($value) {
+	public function getDBInsertValue($value)
+	{
 		if (!empty($value)) {
 			return self::getDBInsertedValue($value);
 		} else {
@@ -64,7 +69,8 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType {
 	 * @param <String> $value
 	 * @return <String>
 	 */
-	public static function getDBInsertedValue($value) {
+	public static function getDBInsertedValue($value)
+	{
 		return DateTimeField::convertToDBFormat($value);
 	}
 
@@ -73,7 +79,8 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType {
 	 * @param $value
 	 * @return converted value
 	 */
-	public function getEditViewDisplayValue($value) {
+	public function getEditViewDisplayValue($value, $record = false)
+	{
 		if (empty($value) || $value === ' ') {
 			$value = trim($value);
 			$fieldInstance = $this->get('field')->getWebserviceFieldObject();
@@ -81,9 +88,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType {
 			$fieldName = $fieldInstance->getFieldName();
 
 			//Restricted Fields for to show Default Value
-			if (($fieldName === 'birthday' && $moduleName === 'Contacts')
-					|| ($fieldName === 'validtill' && $moduleName === 'Quotes')
-					|| $moduleName === 'Products' ) {
+			if (($fieldName === 'birthday' && $moduleName === 'Contacts') || $moduleName === 'Products') {
 				return $value;
 			}
 
@@ -104,7 +109,8 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType {
 	 * @param <type> $date
 	 * @return <String>
 	 */
-	public static function getDisplayDateValue($date) {
+	public static function getDisplayDateValue($date)
+	{
 		$date = new DateTimeField($date);
 		return $date->getDisplayDate();
 	}
@@ -114,13 +120,14 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType {
 	 * @param <type> $dateTime
 	 * @return <String>
 	 */
-	public static function getDisplayDateTimeValue($dateTime) {
+	public static function getDisplayDateTimeValue($dateTime)
+	{
 		$date = new DateTimeField($dateTime);
 		return $date->getDisplayDateTimeValue();
 	}
 
-     public function getListSearchTemplateName() {
-        return 'uitypes/DateFieldSearchView.tpl';
-    }
-
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/DateFieldSearchView.tpl';
+	}
 }

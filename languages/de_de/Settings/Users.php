@@ -26,7 +26,7 @@ $languageStrings = [
 	'LBL_PRIORITY' => 'Priorität',
 	
 	//Auth
-	'LBL_AUTHORIZATION' => 'Autorisierung',
+	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
 	'LBL_LDAP_AUTH' => 'LDAP',
 	'LBL_ACTIVE_LDAP_AUTH' => 'Autorisierung mit LDAP',
@@ -38,8 +38,14 @@ $languageStrings = [
 	
 	'LBL_VIEW_AUTH' => 'Authorisierung',
 	'LBL_VIEW_COLORS' => 'Farben',
+	
+	'LBL_SWITCH_USERS' => 'Benutzer wechseln',
+	'LBL_SWITCH_USERS_DESCRIPTION' => 'Funktion um den User zu wechseln.',
+	'LBL_SU_BASE_ACCESS' => 'User',
+	'LBL_SU_AVAILABLE_ACCESS' => 'Es ist erlaubt, sich anzumelden.',
 ];
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen kann nicht gleich sein',
+	'Changed password successfully' => 'Changed password successfully',
 ];

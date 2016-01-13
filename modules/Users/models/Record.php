@@ -240,7 +240,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if ($subordinateRoleUsers) {
 			foreach ($subordinateRoleUsers as $role => $users) {
 				foreach ($users as $user) {
-					$subordinateUsers[$user] = $privilegesModel->get('first_name') . ' ' . $privilegesModel->get('last_name');
+					$subordinateUsers[$user] = $privilegesModel->getDisplayName();
 				}
 			}
 		}
@@ -277,6 +277,23 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 
 		return $privilegesModel->get('roleid');
+	}
+
+	function getRoleDetail()
+	{
+		$roleDetail = $this->get('roleDetail');
+		if (!empty($roleDetail)) {
+			return $this->get('roleDetail');
+		}
+		$privileges = $this->get('privileges');
+		if (empty($privileges)) {
+			$privilegesModel = Users_Privileges_Model::getInstanceById($this->getId());
+			$this->set('privileges', $privilegesModel);
+		}
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT * FROM vtiger_role WHERE roleid = ?', [$this->get('privileges')->get('roleid')]);
+		$this->set('roleDetail', $db->fetch_array($result));
+		return $this->get('roleDetail');
 	}
 
 	/**
@@ -371,7 +388,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$accessibleUser = Vtiger_Cache::get('vtiger-' . $this->getRole() . '-' . $currentUserRoleModel->get('allowassignedrecordsto'), 'accessibleusers');
 		if (empty($accessibleUser)) {
 			if ($currentUserRoleModel->get('allowassignedrecordsto') == '1' || $private == 'Public') {
-				$accessibleUser = get_user_array(false, "ACTIVE", "", $private, $module);
+				$accessibleUser = get_user_array(false, 'ACTIVE', '', $private, $module);
 			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '2') {
 				$accessibleUser = $this->getSameLevelUsersWithSubordinates();
 			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '3') {
@@ -409,7 +426,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
 		$childernRoles = $currentUserRoleModel->getAllChildren();
 		$users = $this->getAllUsersOnRoles($childernRoles);
-		$currentUserDetail = array($this->getId() => $this->get('first_name') . ' ' . $this->get('last_name'));
+		$currentUserDetail = array($this->getId() => $this->getDisplayName());
 		$users = $currentUserDetail + $users;
 		return $users;
 	}
@@ -440,14 +457,16 @@ class Users_Record_Model extends Vtiger_Record_Model
 			for ($i = 0; $i < $noOfUsers; ++$i) {
 				$userIds[] = $db->query_result($result, $i, 'userid');
 			}
-			$query = 'SELECT id, first_name, last_name FROM vtiger_users WHERE status = ? AND id IN (' . generateQuestionMarks($userIds) . ')';
+			$entityData = Vtiger_Functions::getEntityModuleSQLColumnString('Users');
+			$query = 'SELECT id, ' . $entityData['colums'] . ' FROM vtiger_users WHERE status = ? AND id IN (' . generateQuestionMarks($userIds) . ')';
+			$query .= ' order by last_name ASC, first_name ASC';
 			$result = $db->pquery($query, array('ACTIVE', $userIds));
-			$noOfUsers = $db->num_rows($result);
-			for ($j = 0; $j < $noOfUsers; ++$j) {
-				$userId = $db->query_result($result, $j, 'id');
-				$firstName = $db->query_result($result, $j, 'first_name');
-				$lastName = $db->query_result($result, $j, 'last_name');
-				$subUsers[$userId] = $firstName . ' ' . $lastName;
+			while ($row = $db->fetch_array($result)) {
+				$colums = [];
+				foreach (explode(',', $entityData['fieldname']) as $fieldname) {
+					$colums[] = $row[$fieldname];
+				}
+				$subUsers[$row['id']] = implode(' ', $colums);
 			}
 		}
 		return $subUsers;
@@ -724,6 +743,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 		$sql = 'DELETE FROM vtiger_users WHERE id=?';
 		$db->pquery($sql, array($userId));
+
+		deleteUserRelatedSharingRules($userId);
 	}
 
 	/**
@@ -739,15 +760,19 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
+		$userEntityInfo = Vtiger_Functions::getEntityModuleInfo('Users');
+		$table = $userEntityInfo['tablename'];
+		$columnsName = explode(',', $userEntityInfo['fieldname']);
 
 		$queryGenerator = new QueryGenerator($module, $currentUser);
 		$queryGenerator->initForCustomViewById($view);
 		$queryGenerator->setFields(['assigned_user_id']);
-		$queryGenerator->addCustomColumn('vtiger_users.first_name');
-		$queryGenerator->addCustomColumn('vtiger_users.last_name');
-		$queryGenerator->addCustomColumn('vtiger_groups.groupname');
-
+		$queryGenerator->setCustomColumn('vtiger_groups.groupname');
+		foreach ($columnsName as &$column) {
+			$queryGenerator->setCustomColumn($table . '.' . $column);
+		}
 		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
+		$listQuery .= ' ORDER BY last_name ASC, first_name ASC';
 		$result = $db->query($listQuery);
 
 		$users = $group = [];
@@ -755,9 +780,74 @@ class Users_Record_Model extends Vtiger_Record_Model
 			if (isset($row['groupname'])) {
 				$group[$row['smownerid']] = $row['groupname'];
 			} else {
-				$users[$row['smownerid']] = $row['last_name'] . ' ' . $row['first_name'];
+				$name = '';
+				foreach ($columnsName as &$column) {
+					$name .= $row[$column] . ' ';
+				}
+				$users[$row['smownerid']] = trim($name);
 			}
 		}
 		return [ 'users' => $users, 'group' => $group];
+	}
+
+	public function getSwitchUsersUrl()
+	{
+		return 'index.php?module=' . $this->getModuleName() . '&view=SwitchUsers&id=' . $this->getId();
+	}
+
+	public function getLocks()
+	{
+		if ($this->has('locks')) {
+			return $this->get('locks');
+		}
+		require('user_privileges/locks.php');
+		if ($this->getId() && key_exists($this->getId(), $locks)) {
+			$this->set('locks', $locks[$this->getId()]);
+			return $locks[$this->getId()];
+		}
+		return [];
+	}
+
+	public function getBodyLocks()
+	{
+		$return = '';
+		foreach ($this->getLocks() as $lock) {
+			switch ($lock) {
+				case 'copy': $return .= ' oncopy = "return false"';
+					break;
+				case 'cut': $return .= ' oncut = "return false"';
+					break;
+				case 'paste': $return .= ' onpaste = "return false"';
+					break;
+				case 'contextmenu': $return .= ' oncontextmenu = "return false"';
+					break;
+				case 'selectstart': $return .= ' onselectstart = "return false" onselect = "return false"';
+					break;
+				case 'drag': $return .= ' ondragstart = "return false" ondrag = "return false"';
+					break;
+			}
+		}
+		return '';
+	}
+	public function getHeadLocks()
+	{
+		$return = 'function lockFunction() {return false;}';
+		foreach ($this->getLocks() as $lock) {
+			switch ($lock) {
+				case 'copy': $return .= ' document.oncopy = lockFunction;';
+					break;
+				case 'cut': $return .= ' document.oncut = lockFunction;';
+					break;
+				case 'paste': $return .= ' document.onpaste = lockFunction;';
+					break;
+				case 'contextmenu': $return .= ' document.oncontextmenu = function(event) {if(event.button==2){return false;}}; document.oncontextmenu = lockFunction;';
+					break;
+				case 'selectstart': $return .= ' document.onselectstart = lockFunction; document.onselect = lockFunction;';
+					break;
+				case 'drag': $return .= ' document.ondragstart = lockFunction; document.ondrag = lockFunction;';
+					break;
+			}
+		}
+		return $return;
 	}
 }

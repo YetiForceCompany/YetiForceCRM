@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'Widgets' => 'Widgety',
+	'Widgets' => 'Moduły - widżety',
 	'LBL_MODULE_DESC' => 'Moduł zarządzający widgetami na podsumowaniu.',
 	'Add widget' => 'Dodaj widget',
 	'Type widget' => 'Typ',
@@ -53,6 +53,9 @@ $languageStrings = [
 	'None' => 'Brak',
 	'ProductsServices' => 'Usługi produktów',
 	'Campaign status' => 'Status kampanii',
+	'LBL_SELECT_BUTTON_INFO' => 'Włącz pokazywanie przycisku wybierz',
+	'LBL_CONDITION' => 'Warunek',
+	'LBL_CONDITION_INFO' => 'Wybierz warunek pokazywania rekordów',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Ładowanie danych...',

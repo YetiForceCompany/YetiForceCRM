@@ -45,7 +45,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 * Function to get the list of Header Links
 	 * @return <Array> - List of Vtiger_Link_Model instances
 	 */
-	function getHeaderLinks(Vtiger_Request $request)
+	public function getHeaderLinks(Vtiger_Request $request)
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$headerLinks = [];
@@ -66,12 +66,34 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				];
 			}
 		}
+		//TODO To remove in the future
+		if (AppConfig::security('SHOW_MY_PREFERENCES')) {
+			$headerLinks[] = [
+				'linktype' => 'HEADERLINK',
+				'linklabel' => 'LBL_MY_PREFERENCES',
+				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
+				'glyphicon' => 'glyphicon glyphicon-tasks',
+			];
+		}
+		
 		$headerLinks[] = [
 			'linktype' => 'HEADERLINK',
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
 			'glyphicon' => 'glyphicon glyphicon-off',
 		];
+		
+		if (Users_Module_Model::getSwitchUsers()) {
+			$headerLinks[] = [
+				'linktype' => 'HEADERLINK',
+				'linklabel' => 'SwitchUsers',
+				'linkurl' => '',
+				'glyphicon' => 'glyphicon glyphicon-transfer',
+				'nocaret' => true,
+				'linkdata' => ['url' => $userModel->getSwitchUsersUrl()],
+				'linkclass' => 'showModal',
+			];
+		}
 		$headerLinkInstances = [];
 		foreach ($headerLinks as $headerLink) {
 			$headerLinkInstance = Vtiger_Link_Model::getInstanceFromValues($headerLink);
@@ -82,7 +104,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 			}
 			$headerLinkInstances[] = $headerLinkInstance;
 		}
-		$headerLinks = Vtiger_Link_Model::getAllByType(Vtiger_Link::IGNORE_MODULE, array('HEADERLINK'));
+		$headerLinks = Vtiger_Link_Model::getAllByType(Vtiger_Link::IGNORE_MODULE, ['HEADERLINK']);
 		foreach ($headerLinks as $headerType => $headerLinks) {
 			foreach ($headerLinks as $headerLink) {
 				$headerLinkInstances[] = Vtiger_Link_Model::getInstanceFromLinkObject($headerLink);
@@ -118,15 +140,10 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	function getHeaderCss(Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$headerCss = Vtiger_Link_Model::getAllByType(Vtiger_Link::IGNORE_MODULE, array('HEADERCSS'));
-		$selectedThemeCssPath = Vtiger_Theme::getStylePath();
-		//TODO : check the filename whether it is less or css and add relative less
-		$isLessType = (strpos($selectedThemeCssPath, ".less") !== false) ? true : false;
+		$headerCss = Vtiger_Link_Model::getAllByType(Vtiger_Link::IGNORE_MODULE, ['HEADERCSS']);
+		$selectedThemeCssPath = Vtiger_Theme::getThemeStyle();
 		$cssScriptModel = new Vtiger_CssScript_Model();
-		$headerCssInstances[] = $cssScriptModel->set('href', $selectedThemeCssPath)
-			->set('rel', $isLessType ?
-				Vtiger_CssScript_Model::LESS_REL :
-				Vtiger_CssScript_Model::DEFAULT_REL);
+		$headerCssInstances[] = $cssScriptModel->set('href', $selectedThemeCssPath);
 
 		foreach ($headerCss as $headerType => $cssLinks) {
 			foreach ($cssLinks as $cssLink) {

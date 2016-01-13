@@ -17,6 +17,7 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
+		$data = $request->getAll();
 
 		// Initialize Widget to the right-state of information
 		if ($widget && !$request->has('widgetid')) {
@@ -36,18 +37,18 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('USER', $owner);
+		$viewer->assign('OWNER', $owner);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('MINILIST_WIDGET_MODEL', $minilistWidgetModel);
 		$viewer->assign('BASE_MODULE', $minilistWidgetModel->getTargetModule());
 		$viewer->assign('SCRIPTS', $this->getFooterScripts());
+		$viewer->assign('DATA', $data);
 
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/MiniListContents.tpl', $moduleName);
 		} else {
 			$widget->set('title', $minilistWidgetModel->getTitle());
-
 			$viewer->view('dashboards/MiniList.tpl', $moduleName);
 		}
 	}

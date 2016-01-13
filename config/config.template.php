@@ -12,14 +12,13 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-include_once('config/version.php');
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
-ini_set('memory_limit', '512M');
+AppConfig::iniSet('memory_limit', '512M');
 
 // lifetime of session
-ini_set('session.gc_maxlifetime', '21600');
+AppConfig::iniSet('session.gc_maxlifetime', '21600');
 
 // show or hide calendar, world clock, calculator, chat and CKEditor 
 // Do NOT remove the quotes if you set these to false! 
@@ -32,7 +31,7 @@ $USE_RTE = 'true';
 // url for customer portal (Example: https://portal.yetiforce.com/)
 $PORTAL_URL = 'https://portal.yetiforce.com';
 
-// helpdesk support email id and support name (Example: 'support@vtiger.com' and 'vtiger support')
+// helpdesk support email id and support name (Example: 'support@yetiforce.com' and 'yetiforce support')
 $HELPDESK_SUPPORT_EMAIL_ID = '_USER_SUPPORT_EMAIL_';
 $HELPDESK_SUPPORT_NAME = 'your-support name';
 $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
@@ -118,27 +117,9 @@ $default_action = 'index';
 // default_theme default value = blue
 $default_theme = 'softed';
 
-// show or hide time to compose each page
-// calculate_response_time default value = true
-$calculate_response_time = true;
-
 // default text that is placed initially in the login form for user name
 // no default_user_name default value
 $default_user_name = '';
-
-// default text that is placed initially in the login form for password
-// no default_password default value
-$default_password = '';
-
-// create user with default username and password
-// create_default_user default value = false
-$create_default_user = false;
-// default_user_is_admin default value = false
-$default_user_is_admin = false;
-
-// if your MySQL/PHP configuration does not support persistent connections set this to true to avoid a large performance slowdown
-// disable_persistent_connections default value = false
-$disable_persistent_connections = false;
 
 //Master currency name
 $currency_name = '_MASTER_CURRENCY_';
@@ -182,7 +163,7 @@ if (isset($default_timezone) && function_exists('date_default_timezone_set')) {
 }
 
 // Change of logs directory with PHP errors
-ini_set('error_log', $root_directory . 'cache/logs/phpError.log');
+AppConfig::iniSet('error_log', $root_directory . 'cache/logs/phpError.log');
 
 // Enable sharing of records?
 $shared_owners = true;
@@ -220,9 +201,6 @@ $systemMode = 'prod';
 // Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.
 $forceSSL = FALSE;
 
-// show record count in tabs related modules
-$showRecordsCount = TRUE;
-
 // Maximum number of records in a mass edition
 $listMaxEntriesMassEdit = 500;
 
@@ -237,7 +215,6 @@ $encryptBackup = false;
 
 // autocomplete global search - Whether or not automated search should be turned on"
 $gsAutocomplete = 1; // 0 or 1
-
 // autocomplete global search - The minimum number of characters a user must type before a search is performed. 
 $gsMinLength = 3;
 
@@ -252,6 +229,15 @@ $unblockedTimeoutCronTasks = true;
 
 // The maximum time of executing a cron. Recommended same as the max_exacution_time parameter value.
 $maxExecutionCronTime = 3600;
+
+// System's language selection in the login window (true/false).
+$langInLoginView = false;
+
+// System's lyout selection in the login window (true/false).
+$layoutInLoginView = false;
+
+// Set the default layout 
+$defaultLayout = 'basic';
 
 // Logo is visible in footer.
 $isVisibleLogoInFooter = true;

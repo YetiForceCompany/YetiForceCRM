@@ -58,6 +58,11 @@ $languageStrings = [
 	'Birthdays of contacts' => 'Birthdays of contacts',
 	'SINGLE_Leads' => 'Lead',
 	'SINGLE_Vendors' => 'Vendor',
+	
+	// popup
+	'LBL_ACCOUNT' => 'Account',
+	'LBL_SWITCH_BUTTON' => 'Switch button',
+	'LBL_NARROW_DOWN_RECORDS_LIST' => 'Narrow down the records list to the ones related to Account',
 ];
 
 $jsLanguageStrings = [

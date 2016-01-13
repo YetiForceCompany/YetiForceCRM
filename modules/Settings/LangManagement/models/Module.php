@@ -281,6 +281,8 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				$lang_array = explode("|", $lang);
 				unset($langs[$key]);
 				$settings[$key] = vtranslate($lang_array[1], 'Settings:' . $lang_array[1]);
+			}else{
+				$langs[$key] = vtranslate($key, $key);
 			}
 		}
 		return array('mods' => $langs, 'settings' => $settings);
@@ -405,5 +407,42 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			$status = false;
 		$log->debug("Exiting Settings_LangManagement_Module_Model::setAsDefault() method ...");
 		return array('success' => $status, 'prefixOld' => $prefixOld);
+	}
+	
+	function getStatsData($langBase, $langs)
+	{
+		$filesName = $this->getModFromLang($langBase);
+		if (strpos($langs, $langBase) === false) {
+			$langs .= ',' . $langBase;
+		}
+		foreach ($filesName as $gropu) {
+			foreach ($gropu as $mode => $name) {
+				$data[$mode] = $this->getStats($this->loadLangTranslation($langs, $mode), $langBase, $mode);
+			}
+		}
+		return $data;
+	}
+
+	function getStats($data, $langBase, $mode)
+	{
+		$differences = [];
+		$i = 0;
+		foreach ($data as $id => $dataLang) {
+			if (!in_array($id, ['php', 'js']))
+				continue;
+			foreach ($dataLang as $key => $langs) {
+				foreach ($langs as $lang => $value) {
+					if ($lang == $langBase) {
+						++$i;
+						continue;
+					}
+					if (!empty($langs[$langBase]) && ($value == $langs[$langBase] || empty($value))) {
+						$differences[$lang][] = $key;
+					}
+				}
+			}
+		}
+		array_unshift($differences, $i);
+		return $differences;
 	}
 }

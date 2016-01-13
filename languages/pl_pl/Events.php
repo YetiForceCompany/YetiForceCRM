@@ -18,7 +18,6 @@ $languageStrings = [
 	'Daily' => 'Dni',
 	'Events' => 'Terminy',
 	'Held' => 'Odbyte',
-	'Status' => 'Etap',
 	'INVITATION' => ' Zaproszenia ',
 	'LBL_ADD_RECORD' => 'Dodaj termin',
 	'LBL_CALENDAR_VIEW' => 'Kalendarz',
@@ -86,8 +85,6 @@ $languageStrings = [
 	'LBL_STATE' => 'Stan',
 	'PLL_OPAQUE' => 'Zajęty',
 	'PLL_TRANSPARENT' => 'Dostępny',
-	'Relation' => 'Powiązanie',
-	'Process' => 'Proces',
 	'LBL_REPEAT_EACH_MONTH' => 'Powtarzaj co wybrany dzień miesiąca',
 	'LBL_REPEAT_MONTH_DAY' => 'Powtarzaj co pierwszy lub ostatni dzień miesiąca',
 	'LBL_REMAIND_DAYS' => 'Przypomnij po wybranej ilości dni',
@@ -99,6 +96,14 @@ $languageStrings = [
 	'No Time' => 'Brak czasu',
 	'End Time' => 'Czas zakończenia',
 	'End Date' => 'Data zakończenia',
-	'LBL_FOLLOWUP' => 'Kontynuacja w',
+	'LBL_FOLLOWUP' => 'Zdarzenie powiązane',
+	
+	'PLL_PLANNED' => 'Planowane',
+	'PLL_IN_REALIZATION' => 'Do realizacji',
+	'PLL_OVERDUE' => 'Zaległe',
+	'PLL_POSTPONED' => 'Przełożone',
+	'PLL_CANCELLED' => 'Anulowane',
+	'PLL_COMPLETED' => 'Wykonane',
+	
 ];
 

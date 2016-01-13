@@ -18,6 +18,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('delete');
 		$this->exposeMethod('move');
 		$this->exposeMethod('unHide');
+		$this->exposeMethod('getPicklist');
 	}
 
 	public function add(Vtiger_Request $request)
@@ -123,6 +124,24 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
+		$response->emit();
+	}
+
+	public function getPicklist(Vtiger_Request $request)
+	{
+		$response = new Vtiger_Response();
+		$fieldName = $request->get('rfield');
+		$moduleName = $request->get('rmodule');
+		$picklistValues = [];
+		if (!empty($fieldName) && !empty($moduleName) && $fieldName != '-') {
+			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$fieldInstance = Vtiger_Field_Model::getInstance($fieldName, $moduleModel);
+			$picklistValues = $fieldInstance->getPicklistValues();
+			if($picklistValues == NULL){
+				$picklistValues = [];
+			}
+		}
+		$response->setResult($picklistValues);
 		$response->emit();
 	}
 

@@ -59,9 +59,9 @@ $languageStrings = [
 	'LBL_PRINT' => 'Impressão',
 	'Date of receipt' => 'Dados recebidor',
 	'LBL_FORWARD' => 'Avançar',
-	'RC user' => 'RC user',
-	'FromID' => 'Sender Id',
-	'ToID' => 'Receiver Id',
+	'RC user' => 'Usuário RC',
+	'FromID' => 'Id Remetente',
+	'ToID' => 'Id Destinatário',
 
 	'LBL_VERIFY' => 'Para verificação',
 	'LBL_REL_MOD' => 'Módulos relacionados',
@@ -83,6 +83,9 @@ $languageStrings = [
 	'Previous week' => 'Semana anterior',
 	'Current month' => 'Mês atual',
 	'Previous month' => 'Mês anterior',
+	'LBL_FILTER_ALL' => 'All',
+	'LBL_FILTER_ACCOUNTS' =>  'All in account',
+	'LBL_FILTER_CONTACTS' => 'All in contact',
 ];
 $jsLanguageStrings = [
 	'From' => 'A partir de',

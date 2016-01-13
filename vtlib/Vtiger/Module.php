@@ -29,16 +29,6 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 	}
 
 	/**
-	 * Get unique id for related list
-	 * @access private
-	 */
-	function __getRelatedListUniqueId()
-	{
-		$adb = PearDatabase::getInstance();
-		return $adb->getUniqueID('vtiger_relatedlists');
-	}
-
-	/**
 	 * Get related list sequence to use
 	 * @access private
 	 */
@@ -61,7 +51,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 	 *
 	 * @internal Creates table vtiger_crmentityrel if it does not exists
 	 */
-	function setRelatedList($moduleInstance, $label = '', $actions = false, $function_name = 'get_related_list')
+	function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'get_related_list')
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -70,26 +60,41 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 		if (empty($label))
 			$label = $moduleInstance->name;
 
-		$result = $adb->pquery("SELECT relation_id FROM vtiger_relatedlists WHERE tabid=? AND related_tabid = ? AND name = ? AND label = ?;", Array($this->id, $moduleInstance->id, $function_name, $label));
-		if ($adb->num_rows($result) > 0) {
+		$result = $adb->pquery('SELECT relation_id FROM vtiger_relatedlists WHERE tabid=? AND related_tabid = ? AND name = ? AND label = ?;', [$this->id, $moduleInstance->id, $functionName, $label]);
+		if ($result->rowCount() > 0) {
 			self::log("Setting relation with $moduleInstance->name [$useactions_text] ... Error, the related module already exists");
 			return;
 		}
 
-		$relation_id = $this->__getRelatedListUniqueId();
 		$sequence = $this->__getNextRelatedListSequence();
 		$presence = 0; // 0 - Enabled, 1 - Disabled
 		// Allow ADD action of other module records (default)
 		if ($actions === false)
-			$actions = Array('ADD');
+			$actions = ['ADD'];
 
-		$useactions_text = $actions;
+		$useactionsText = $actions;
 		if (is_array($actions))
-			$useactions_text = implode(',', $actions);
-		$useactions_text = strtoupper($useactions_text);
+			$useactionsText = implode(',', $actions);
+		$useactionsText = strtoupper($useactionsText);
 
-		$adb->pquery("INSERT INTO vtiger_relatedlists(relation_id,tabid,related_tabid,name,sequence,label,presence,actions) VALUES(?,?,?,?,?,?,?,?)", Array($relation_id, $this->id, $moduleInstance->id, $function_name, $sequence, $label, $presence, $useactions_text));
+		$adb->insert('vtiger_relatedlists', [
+			'relation_id' => $adb->getUniqueID('vtiger_relatedlists'),
+			'tabid' => $this->id,
+			'related_tabid' => $moduleInstance->id,
+			'name' => $functionName,
+			'sequence' => $sequence,
+			'label' => $label,
+			'presence' => $presence,
+			'actions' => $useactionsText,
+		]);
 
+		if ($functionName == 'get_many_to_many') {
+			$refTableName = Vtiger_Relation_Model::getReferenceTableInfo($moduleInstance->name, $this->name);
+			if (!Vtiger_Utils::CheckTable($refTableName['table'])) {
+				Vtiger_Utils::CreateTable(
+					$refTableName['table'], '(crmid INT(19) ,relcrmid INT(19),KEY crmid (crmid),KEY relcrmid (relcrmid))', true);
+			}
+		}
 		self::log("Setting relation with $moduleInstance->name [$useactions_text] ... DONE");
 	}
 
@@ -197,6 +202,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 						'<entityfieldlabel>' => $entityField->label,
 						'<entitycolumn>' => $entityField->column,
 						'<entityfieldname>' => $entityField->name,
+						'_ModuleName_' => $this->name,
 					];
 					foreach ($replacevars as $key => $value) {
 						$fileContent = str_replace($key, $value, $fileContent);

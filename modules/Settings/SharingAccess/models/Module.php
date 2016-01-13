@@ -155,7 +155,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	public static function getDependentModules()
 	{
 		$dependentModulesList = array();
-		$dependentModulesList['Accounts'] = array('Potentials', 'HelpDesk', 'Quotes', 'SalesOrder', 'Invoice');
+		$dependentModulesList['Accounts'] = array('HelpDesk');
 
 		return $dependentModulesList;
 	}
@@ -165,16 +165,15 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function recalculateSharingRules()
 	{
-		$php_max_execution_time = vglobal('php_max_execution_time');
-		set_time_limit($php_max_execution_time);
+		$phpMaxExecutionTime = vglobal('php_max_execution_time');
+		set_time_limit($phpMaxExecutionTime);
 		$db = PearDatabase::getInstance();
 
 		require_once('modules/Users/CreateUserPrivilegeFile.php');
-		$result = $db->pquery('SELECT id FROM vtiger_users WHERE deleted = ?', array(0));
-		$numOfRows = $db->num_rows($result);
+		$result = $db->pquery('SELECT id FROM vtiger_users WHERE deleted = ?', [0]);
 
-		for ($i = 0; $i < $numOfRows; $i++) {
-			createUserSharingPrivilegesfile($db->query_result($result, $i, 'id'));
+		while (($id = $db->getSingleValue($result)) !== false) {
+			createUserSharingPrivilegesfile($id);
 		}
 	}
 }

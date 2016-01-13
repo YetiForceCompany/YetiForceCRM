@@ -1,21 +1,24 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 require_once("include/Zend/Json.php");
 
-class VTJsonCondition {
+class VTJsonCondition
+{
 
-	function __construct() {
-
+	function __construct()
+	{
+		
 	}
 
-	function evaluate($condition, $entityCache, $id) {
+	function evaluate($condition, $entityCache, $id)
+	{
 		$expr = Zend_Json::decode($condition);
 		$finalResult = TRUE;
 		if (is_array($expr)) {
@@ -93,7 +96,8 @@ class VTJsonCondition {
 		return $finalResult;
 	}
 
-	function startsWith($str, $subStr) {
+	function startsWith($str, $subStr)
+	{
 		$sl = strlen($str);
 		$ssl = strlen($subStr);
 		if ($sl >= $ssl) {
@@ -103,7 +107,8 @@ class VTJsonCondition {
 		}
 	}
 
-	function endsWith($str, $subStr) {
+	function endsWith($str, $subStr)
+	{
 		$sl = strlen($str);
 		$ssl = strlen($subStr);
 		if ($sl >= $ssl) {
@@ -113,12 +118,14 @@ class VTJsonCondition {
 		}
 	}
 
-	function checkCondition($entityData, $cond, $referredEntityData=null) {
+	function checkCondition($entityData, $cond, $referredEntityData = null)
+	{
 		$data = $entityData->getData();
 
 		$condition = $cond['operation'];
-		if(empty($condition)) return false;
-          if ($cond['fieldname'] == 'date_start' || $cond['fieldname'] == 'due_date') {
+		if (empty($condition))
+			return false;
+		if ($cond['fieldname'] == 'date_start' || $cond['fieldname'] == 'due_date') {
 			$fieldName = $cond['fieldname'];
 			$dateTimePair = array('date_start' => 'time_start', 'due_date' => 'time_end');
 			if (array_key_exists($dateTimePair[$fieldName], $data)) {
@@ -155,43 +162,47 @@ class VTJsonCondition {
 			}
 		}
 
-		$current_user  = vglobal('current_user');
+		$current_user = vglobal('current_user');
 		$handler = vtws_getModuleHandlerFromName($entityData->getModuleName(), $current_user);
 		$moduleFields = $handler->getMeta()->getModuleFields();
 		$fieldInstance = $moduleFields[$cond['fieldname']];
 
-		if($fieldInstance && $fieldInstance->getFieldDataType() == 'datetime') {
+		if ($fieldInstance && $fieldInstance->getFieldDataType() == 'datetime') {
 			//Convert the DB Date Time Format to User Date Time Format
 			$rawFieldValue = $fieldValue;
 			$date = new DateTimeField($fieldValue);
 			$fieldValue = $date->getDisplayDateTimeValue();
 			$valueArray = explode(' ', $value);
-			if(count($valueArray) == 1) {
+			if (count($valueArray) == 1) {
 				$fieldValueArray = explode(' ', $fieldValue);
 				$fieldValue = $fieldValueArray[0];
 			}
 		}
+		if ($fieldInstance && $fieldInstance->getFieldDataType() == 'multiReferenceValue') {
+			$value = Vtiger_MultiReferenceValue_UIType::COMMA . $value . Vtiger_MultiReferenceValue_UIType::COMMA;
+		}
+
 		//strtotime condition is added for days before, days after where we give integer values, so strtotime will return 0 for such cases.
-		if($fieldInstance && $fieldInstance->getFieldDataType() == 'date' && $condition != 'between' && strtotime($value)) {
+		if ($fieldInstance && $fieldInstance->getFieldDataType() == 'date' && $condition != 'between' && strtotime($value)) {
 			//Convert User Date Format filter value to DB date format
 			$value = getValidDBInsertDateValue($value);
 		}
 
-		if($fieldInstance && $fieldInstance->getFieldDataType() == 'time') {
-			$value = $value.':00';	// time fields will not have seconds appended to it, so we are adding 
+		if ($fieldInstance && $fieldInstance->getFieldDataType() == 'time') {
+			$value = $value . ':00'; // time fields will not have seconds appended to it, so we are adding 
 		}
-        
-        if($fieldInstance && $fieldInstance->getFieldDataType() == 'owner' ) { 
-            if($condition == 'is' || $condition == 'is not') { 
-                //To avoid again checking whether it is user or not 
-                $idList = array();
-                $idList[] = vtws_getWebserviceEntityId('Users',$value); 
-                $idList[] = vtws_getWebserviceEntityId('Groups',$value);
-                $value = $idList;
-                $condition = ($condition == 'is') ? 'contains' : 'does not contain';
-            } 
-        }
 
+		if ($fieldInstance && $fieldInstance->getFieldDataType() == 'owner') {
+			if ($condition == 'is' || $condition == 'is not') {
+				//To avoid again checking whether it is user or not 
+				$idList = array();
+				$idList[] = vtws_getWebserviceEntityId('Users', $value);
+				$idList[] = vtws_getWebserviceEntityId('Groups', $value);
+				$value = $idList;
+				$condition = ($condition == 'is') ? 'contains' : 'does not contain';
+			}
+		}
+		
 		switch ($condition) {
 			case "equal to":
 				return $fieldValue == $value;
@@ -228,15 +239,16 @@ class VTJsonCondition {
 					return $fieldValue != $value;
 				}
 			case "contains":
-                if(is_array($value)){ 
-                    return in_array($fieldValue, $value); 
-                }
+				if (is_array($value)) {
+					return in_array($fieldValue, $value);
+				}
 				return strpos($fieldValue, $value) !== FALSE;
 			case "does not contain":
-				if(empty($value)) unset($value);
-                if(is_array($value)){ 
-                    return !in_array($fieldValue, $value); 
-                } 
+				if (empty($value))
+					unset($value);
+				if (is_array($value)) {
+					return !in_array($fieldValue, $value);
+				}
 				return strpos($fieldValue, $value) === FALSE;
 			case "starts with":
 				return $this->startsWith($fieldValue, $value);
@@ -255,142 +267,142 @@ class VTJsonCondition {
 					return $hasChanged && $fieldValue == $value;
 				}
 			case "is empty":
-				if(empty($fieldValue)) {
+				if (empty($fieldValue)) {
 					return true;
 				}
 				return false;
 			case "is not empty":
-				if(empty($fieldValue)) {
+				if (empty($fieldValue)) {
 					return false;
 				}
 				return true;
 			case "before":
-				if(empty($fieldValue)) {
+				if (empty($fieldValue)) {
 					return false;
 				}
-				if($fieldValue < $value) {
+				if ($fieldValue < $value) {
 					return true;
 				}
 				return false;
 			case "after":
-				if(empty($fieldValue)) {
+				if (empty($fieldValue)) {
 					return false;
 				}
-				if($fieldValue > $value) {
+				if ($fieldValue > $value) {
 					return true;
 				}
 				return false;
 			case "between":
-				if(empty($fieldValue)) {
+				if (empty($fieldValue)) {
 					return false;
 				}
 				$values = explode(',', $value);
-				$values = array_map('getValidDBInsertDateValue',$values);
-				if($fieldValue > $values[0] && $fieldValue < $values[1]) {
+				$values = array_map('getValidDBInsertDateValue', $values);
+				if ($fieldValue > $values[0] && $fieldValue < $values[1]) {
 					return true;
 				}
 				return false;
 			case 'is today':
 				$today = date('Y-m-d');
 
-				if($fieldValue == $today) {
+				if ($fieldValue == $today) {
 					return true;
 				}
 				return false;
 			case 'less than days ago':
-				if(empty($fieldValue) || empty($value)) {
+				if (empty($fieldValue) || empty($value)) {
 					return false;
 				}
 				$today = date('Y-m-d');
-				$olderDate = date('Y-m-d', strtotime('-'.$value.' days'));
-				if($olderDate <= $fieldValue && $fieldValue <= $today) {
+				$olderDate = date('Y-m-d', strtotime('-' . $value . ' days'));
+				if ($olderDate <= $fieldValue && $fieldValue <= $today) {
 					return true;
 				}
 				return false;
 			case 'more than days ago':
-				if(empty($fieldValue) || empty($value)) {
+				if (empty($fieldValue) || empty($value)) {
 					return false;
 				}
-				$olderDate = date('Y-m-d', strtotime('-'.$value.' days'));
-				if($fieldValue <= $olderDate) {
+				$olderDate = date('Y-m-d', strtotime('-' . $value . ' days'));
+				if ($fieldValue <= $olderDate) {
 					return true;
 				}
 				return false;
 			case 'in less than':
-				if(empty($fieldValue) || empty($value)) {
+				if (empty($fieldValue) || empty($value)) {
 					return false;
 				}
 				$today = date('Y-m-d');
-				$futureDate = date('Y-m-d', strtotime('+'.$value.' days'));
-				if($today <= $fieldValue && $fieldValue <= $futureDate) {
+				$futureDate = date('Y-m-d', strtotime('+' . $value . ' days'));
+				if ($today <= $fieldValue && $fieldValue <= $futureDate) {
 					return true;
 				}
 				return false;
 			case 'in more than':
-				if(empty($fieldValue) || empty($value)) {
+				if (empty($fieldValue) || empty($value)) {
 					return false;
 				}
-				$futureDate = date('Y-m-d', strtotime('+'.$value.' days'));
-				if($fieldValue >= $futureDate) {
+				$futureDate = date('Y-m-d', strtotime('+' . $value . ' days'));
+				if ($fieldValue >= $futureDate) {
 					return true;
 				}
 				return false;
 			case 'days ago':
-				if(empty($fieldValue) || empty($value)) {
+				if (empty($fieldValue) || empty($value)) {
 					return false;
 				}
-				$olderDate = date('Y-m-d', strtotime('-'.$value.' days'));
-				if($fieldValue == $olderDate) {
+				$olderDate = date('Y-m-d', strtotime('-' . $value . ' days'));
+				if ($fieldValue == $olderDate) {
 					return true;
 				}
 				return false;
 			case 'days later':
-				if(empty($fieldValue) || empty($value)) {
+				if (empty($fieldValue) || empty($value)) {
 					return false;
 				}
-				$futureDate = date('Y-m-d', strtotime('+'.$value.' days'));
-				if($fieldValue == $futureDate) {
+				$futureDate = date('Y-m-d', strtotime('+' . $value . ' days'));
+				if ($fieldValue == $futureDate) {
 					return true;
 				}
 				return false;
 
 			case 'less than hours before':
-				if(empty($rawFieldValue) || empty($value)) {
+				if (empty($rawFieldValue) || empty($value)) {
 					return false;
 				}
 				$currentTime = date('Y-m-d H:i:s');
-				$olderDateTime = date('Y-m-d H:i:s', strtotime('-'.$value.' hours'));
-				if($olderDateTime <= $rawFieldValue && $rawFieldValue <= $currentTime) {
+				$olderDateTime = date('Y-m-d H:i:s', strtotime('-' . $value . ' hours'));
+				if ($olderDateTime <= $rawFieldValue && $rawFieldValue <= $currentTime) {
 					return true;
 				}
 				return false;
 
 			case 'less than hours later':
-				if(empty($rawFieldValue) || empty($value)) {
+				if (empty($rawFieldValue) || empty($value)) {
 					return false;
 				}
 				$currentTime = date('Y-m-d H:i:s');
-				$futureDateTime = date('Y-m-d H:i:s', strtotime('+'.$value.' hours'));
-				if($currentTime <= $rawFieldValue && $rawFieldValue <= $futureDateTime) {
+				$futureDateTime = date('Y-m-d H:i:s', strtotime('+' . $value . ' hours'));
+				if ($currentTime <= $rawFieldValue && $rawFieldValue <= $futureDateTime) {
 					return true;
 				}
 				return false;
 
 			case 'more than hours before':
-				if(empty($rawFieldValue) || empty($value)) {
+				if (empty($rawFieldValue) || empty($value)) {
 					return false;
 				}
-				$olderDateTime = date('Y-m-d H:i:s', strtotime('-'.$value.' hours'));
-				if($rawFieldValue <= $olderDateTime) {
+				$olderDateTime = date('Y-m-d H:i:s', strtotime('-' . $value . ' hours'));
+				if ($rawFieldValue <= $olderDateTime) {
 					return true;
 				}
 				return false;
 			case 'more than hours later':
-				if(empty($rawFieldValue) || empty($value)) {
+				if (empty($rawFieldValue) || empty($value)) {
 					return false;
 				}
-				$futureDateTime = date('Y-m-d H:i:s', strtotime('+'.$value.' hours'));
-				if($rawFieldValue >= $futureDateTime) {
+				$futureDateTime = date('Y-m-d H:i:s', strtotime('+' . $value . ' hours'));
+				if ($rawFieldValue >= $futureDateTime) {
 					return true;
 				}
 				return false;
@@ -406,5 +418,4 @@ class VTJsonCondition {
 				throw new Exception("Found an unexpected condition: " . $condition);
 		}
 	}
-
 }

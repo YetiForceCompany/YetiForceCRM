@@ -11,7 +11,7 @@
 class Vtiger_WorkflowTrigger_Model
 {
 
-	public function execute($moduleName, $record, $ids)
+	public function execute($moduleName, $record, $ids, $userID)
 	{
 		vimport('~~modules/com_vtiger_workflow/VTEntityCache.inc');
 		vimport('~~modules/com_vtiger_workflow/include.inc');
@@ -24,6 +24,7 @@ class Vtiger_WorkflowTrigger_Model
 		$wfs = new VTWorkflowManager($adb);
 		$entityCache = new VTEntityCache($currentUser);
 		$entityData = $entityCache->forId($wsId);
+		$entityData->executeUser = $userID;
 		foreach ($ids as $id) {
 			$workflow = $wfs->retrieve($id);
 			if ($workflow->evaluate($entityCache, $entityData->getId())) {

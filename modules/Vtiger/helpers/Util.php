@@ -145,9 +145,9 @@ class Vtiger_Util_Helper
 	public static function checkRecordExistance($recordId)
 	{
 		$adb = PearDatabase::getInstance();
-		$query = 'Select deleted from vtiger_crmentity where crmid=?';
-		$result = $adb->pquery($query, array($recordId));
-		return $adb->query_result($result, 'deleted');
+		$query = 'SELECT deleted FROM vtiger_crmentity WHERE crmid=?';
+		$result = $adb->pquery($query, [$recordId]);
+		return $adb->getSingleValue($result);
 	}
 
 	/**
@@ -471,11 +471,6 @@ class Vtiger_Util_Helper
 
 		$date = $dateTimeField->getDisplayDate($userModel);
 		$time = $dateTimeField->getDisplayTime($userModel);
-
-		//Convert time to user preferred value 
-		if ($userModel->get('hour_format') == '12') {
-			$time = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
-		}
 		return $date . ' ' . $time;
 	}
 

@@ -60,15 +60,22 @@ class VTCreateEventTask extends VTTask{
 		$endDate = $this->calculateDate($entityData, $this->endDays,
 															$this->endDirection, $this->endDatefield);
 
-		// Added to check if the user/group is active
-		if(!empty($this->assigned_user_id)) {
+		if ($this->assigned_user_id == 'currentUser' && isset($current_user)) {
+			$userId = vtws_getWebserviceEntityId('Users', $current_user->id);
+		} else if ($this->assigned_user_id == 'triggerUser' && isset($entityData->executeUser)) {
+			$userId = vtws_getWebserviceEntityId('Users', $entityData->executeUser);
+		}
+
+		if ($this->assigned_user_id == 'copyParentOwner') {
+			$userId = $entityData->get('assigned_user_id');
+		} else if (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
 			$userExists = $adb->pquery('SELECT 1 FROM vtiger_users WHERE id = ? AND status = ?', array($this->assigned_user_id, 'Active'));
-			if($adb->num_rows($userExists)) {
+			if ($adb->num_rows($userExists)) {
 				$assignedUserId = vtws_getWebserviceEntityId('Users', $this->assigned_user_id);
 				$userId = $assignedUserId;
 			} else {
 				$groupExist = $adb->pquery('SELECT 1 FROM vtiger_groups WHERE groupid = ?', array($this->assigned_user_id));
-				if($adb->num_rows($groupExist)) {
+				if ($adb->num_rows($groupExist)) {
 					$assignedGroupId = vtws_getWebserviceEntityId('Groups', $this->assigned_user_id);
 					$userId = $assignedGroupId;
 				}
@@ -80,13 +87,12 @@ class VTCreateEventTask extends VTTask{
 			'description'=>$this->description,
 			'subject'=>$this->eventName,
 			'taskpriority'=>$this->priority,
-			'eventstatus'=>$this->status,
+			'activitystatus'=>$this->status,
 			'assigned_user_id'=>$userId,
 			'time_start'=>self::convertToDBFormat($this->startTime),
 			'date_start'=> $startDate,
 			'time_end'=>self::convertToDBFormat($this->endTime),
 			'due_date'=>$endDate,
-			'taskstatus'=>'',
 			'duration_hours'=>'0'
 		);
 		
@@ -102,7 +108,7 @@ class VTCreateEventTask extends VTTask{
 		if(in_array($moduleName, ['Accounts','Leads','Contacts','Vendors','OSSEmployees'])){
 			$fields['link'] = $id;
 		}
-		if(in_array($moduleName, ['Campaigns','HelpDesk','Potentials','Project','ServiceContracts'])){
+		if(in_array($moduleName, ['Campaigns','HelpDesk','Project','ServiceContracts'])){
 			$fields['process'] = $id;
 		}
 

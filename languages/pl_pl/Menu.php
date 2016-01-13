@@ -15,7 +15,8 @@ $languageStrings = [
 	'MEN_VIRTUAL_DESK' => 'Wirtualne biurko',
 	'MEN_COMPANIES_CONTACTS' => 'Firmy i Kontakty',
 	'MEN_SALES' => 'Sprzedaż',
-	'MEN_PROJECTS' => 'Projekty',
+	'MEN_PROJECTS' => 'Realizacja',
+	'MEN_MARKETING' => 'Marketing',
 	'MEN_SUPPORT' => 'Wsparcie',
 	'MEN_BOOKKEEPING' => 'Księgowość',
 	'MEN_HUMAN_RESOURCES' => 'Kadry',
@@ -25,5 +26,10 @@ $languageStrings = [
 	'MEN_PRODUCTBASE' => 'Baza produktów',
 	'MEN_LISTS' => 'Wykazy',
 	'MEN_SERVICESBASE' => 'Baza usług',
+	'MEN_SALE_PROCESSES' => 'Procesy sprzedaży',
 	'Menu' => 'Menu',
+	
+	// profile type
+	'LBL_CHANGE_LOGIN_PASSWORD' => 'Zmiana hasła logowania',
+	'LBL_CHANGE' => 'Zmień',
 ];

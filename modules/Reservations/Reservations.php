@@ -112,8 +112,6 @@ class Reservations extends Vtiger_CRMEntity {
 			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'),'get_dependents_list');	
 			$targetModule = Vtiger_Module::getInstance('Leads');
 			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'),'get_dependents_list');	
-			$targetModule = Vtiger_Module::getInstance('Potentials');
-			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'),'get_dependents_list');	
 			$targetModule = Vtiger_Module::getInstance('Project');
 			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'),'get_dependents_list');	
 			$targetModule = Vtiger_Module::getInstance('Vendors');

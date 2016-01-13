@@ -1,7 +1,7 @@
 <?php
 
 $languageStrings = [
-	'CustomView'	=> 'Visualização Customizada',
+	'CustomView'	=> 'Filters - Configuration',
 	'LBL_MODULE_DESC'	=> 'Esta ferramenta permite configurar visualizações customizadas para os módulos. Estes módulos devem conter registros e utilizar filtros padrões do YetiForce CRM.',
 	'Module'	=> 'Módulo',
 	'ViewName'	=> 'Nome da Visualização',
@@ -9,7 +9,7 @@ $languageStrings = [
 	'Privileges'	=> 'Privilégios',
 	'Delete'	=> 'Apagar',
 	'Delete CustomView'	=> 'A visualização customizada foi apagada',
-	'Saving CustomView'	=> 'View has been saved',
+	'Saving CustomView'	=> 'A visualização foi salva',
 	'Actions'	=> 'Ações',
 	'Edit'	=> 'Editar',
 ];

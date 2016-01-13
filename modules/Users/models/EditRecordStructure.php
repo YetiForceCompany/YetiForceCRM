@@ -48,7 +48,12 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 						}
 						$recordModel->set($fieldName, $fieldValue);
 					}
-					if ($fieldModel->isEditable()) {
+					if ($fieldName == 'is_owner') {
+						$fieldModel->set('editable', false);
+					} else if ($fieldName == 'reports_to_id' && !$currentUserModel->isAdminUser()) {
+						continue;
+					}
+					if ($fieldModel->isEditable() && $fieldName != 'is_owner') {
 						if ($recordModel->get($fieldName) != '') {
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 						} else {

@@ -9,9 +9,9 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = [
-	'RoleAndSubordinates' => 'Роли и Подчиненные',
 	'Groups' => 'Группы',
 	'Roles' => 'Роли',
+	'RoleAndSubordinates' => 'Роли и Подчиненные',
 	'SharingAccess'	=>	'Совместный доступ',
 	'Sharing Rules'	=>	'Совместный доступ',
 	'Accounts' => 'Контрагенты и Контакты',

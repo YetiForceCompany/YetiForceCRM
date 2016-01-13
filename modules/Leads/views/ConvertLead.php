@@ -18,13 +18,18 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'ConvertLead')) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', $moduleName));
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 
+		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId);
+		if (!$recordPermission) {
+			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		
 		$recordId = $request->get('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		if (!Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', $moduleName));
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -48,12 +53,6 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 		$assignedToFieldModel = $moduleModel->getField('assigned_user_id');
 		$assignedToFieldModel->set('fieldvalue', $recordModel->get('assigned_user_id'));
 		$viewer->assign('ASSIGN_TO', $assignedToFieldModel);
-
-		$potentialModuleModel = Vtiger_Module_Model::getInstance('Potentials');
-		$accountField = Vtiger_Field_Model::getInstance('related_to', $potentialModuleModel);
-		$contactField = Vtiger_Field_Model::getInstance('contact_id', $potentialModuleModel);
-		$viewer->assign('ACCOUNT_FIELD_MODEL', $accountField);
-		$viewer->assign('CONTACT_FIELD_MODEL', $contactField);
 
 		$contactsModuleModel = Vtiger_Module_Model::getInstance('Contacts');
 		$accountField = Vtiger_Field_Model::getInstance('parent_id', $contactsModuleModel);

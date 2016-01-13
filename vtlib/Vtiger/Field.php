@@ -267,7 +267,7 @@ class Vtiger_Field extends Vtiger_FieldBasic
 		$adb = PearDatabase::getInstance();
 		$instances = false;
 
-		$query = "SELECT * FROM vtiger_field WHERE tabid=? ORDER BY sequence";
+		$query = "SELECT * FROM vtiger_field WHERE tabid=? ORDER BY block,sequence";
 		$queryParams = Array($moduleInstance->id);
 
 		$result = $adb->pquery($query, $queryParams);
@@ -287,7 +287,10 @@ class Vtiger_Field extends Vtiger_FieldBasic
 	static function deleteForModule($moduleInstance)
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("DELETE FROM vtiger_field WHERE tabid=?", Array($moduleInstance->id));
+		self::deletePickLists($moduleInstance);
+		self::deleteUiType10Fields($moduleInstance);
+		$adb->delete('vtiger_field', 'tabid=?', [$moduleInstance->id]);
+		$adb->delete('vtiger_fieldmodulerel', 'module = ? OR relmodule = ?', [$moduleInstance->name, $moduleInstance->name] );
 		self::log("Deleting fields of the module ... DONE");
 	}
 
@@ -304,5 +307,56 @@ class Vtiger_Field extends Vtiger_FieldBasic
 		}
 		self::log("Add tree template $tree->name ... DONE");
 		return $templateid;
+	}
+	
+	/**
+	 * Function to remove uitype10 fields
+	 * @param Vtiger_Module Instance of module
+	 */
+	static function deleteUiType10Fields($moduleInstance)
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$query = 'SELECT fieldid FROM `vtiger_fieldmodulerel` WHERE relmodule = ?';
+		$result = $db->pquery($query, [$moduleInstance->name]);
+		while ($fieldId = $db->getSingleValue($result)) {
+			$query = 'SELECT COUNT(1) FROM `vtiger_fieldmodulerel` WHERE fieldid = ?';
+			$resultQuery = $db->pquery($query, [$fieldId]);
+			if ((int) $db->getSingleValue($resultQuery) == 1) {
+				$field = Vtiger_Field::getInstance($fieldId);
+				$field->delete();
+			}
+		}
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+	}
+
+	/**
+	 * Function to remove picklist-type or multiple choice picklist-type table
+	 * @param Vtiger_Module Instance of module
+	 */
+	static function deletePickLists($moduleInstance)
+	{
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		$db = PearDatabase::getInstance();
+		$query = "SELECT `fieldname` FROM `vtiger_field` WHERE `tabid` = '" . $moduleInstance->getId() . "' AND  uitype IN (15, 16, 33)";
+		$result = $db->query($query);
+		$modulePicklists = $db->getArrayColumn($result,'fieldname');
+		if (!empty($modulePicklists)) {
+			$params = $modulePicklists;
+			$query = "SELECT `fieldname` FROM `vtiger_field` WHERE `fieldname` IN (" . $db->generateQuestionMarks($modulePicklists) . ") AND `tabid` <> ? AND uitype IN (?, ?, ?)";
+			array_push($params, $moduleInstance->getId(), 15, 16, 33);
+			$result = $db->pquery($query, $params);
+			$picklists = $db->getArrayColumn($result,'fieldname');
+			$modulePicklists = array_diff($modulePicklists, $picklists);
+		}
+		foreach ($modulePicklists as $picklistName) {
+			$db->query('DROP TABLE IF EXISTS vtiger_' . $picklistName . '');
+			$db->query('DROP TABLE IF EXISTS vtiger_' . $picklistName . '_seq');
+			$query = $db->query("SELECT picklistid from vtiger_picklist WHERE name = '$picklistName'");
+			$picklistId = $db->getSingleValue($query);
+			$db->query("DELETE FROM vtiger_role2picklist WHERE picklistid = '$picklistId'");
+			$db->query("DELETE FROM vtiger_picklist WHERE name = '$picklistName'");
+		}
+		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}
 }

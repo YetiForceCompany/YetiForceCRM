@@ -83,54 +83,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get Url to Create a new Quote from this record
-	 * @return <String> Url to Create new Quote
-	 */
-	function getCreateQuoteUrl()
-	{
-		$quotesModuleModel = Vtiger_Module_Model::getInstance('Quotes');
-
-		return "index.php?module=" . $quotesModuleModel->getName() . "&view=" . $quotesModuleModel->getEditViewName() . "&product_id=" . $this->getId() .
-			"&sourceModule=" . $this->getModuleName() . "&sourceRecord=" . $this->getId() . "&relationOperation=true";
-	}
-
-	/**
-	 * Function to get Url to Create a new Invoice from this record
-	 * @return <String> Url to Create new Invoice
-	 */
-	function getCreateInvoiceUrl()
-	{
-		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
-
-		return "index.php?module=" . $invoiceModuleModel->getName() . "&view=" . $invoiceModuleModel->getEditViewName() . "&product_id=" . $this->getId() .
-			"&sourceModule=" . $this->getModuleName() . "&sourceRecord=" . $this->getId() . "&relationOperation=true";
-	}
-
-	/**
-	 * Function to get Url to Create a new PurchaseOrder from this record
-	 * @return <String> Url to Create new PurchaseOrder
-	 */
-	function getCreatePurchaseOrderUrl()
-	{
-		$purchaseOrderModuleModel = Vtiger_Module_Model::getInstance('PurchaseOrder');
-
-		return "index.php?module=" . $purchaseOrderModuleModel->getName() . "&view=" . $purchaseOrderModuleModel->getEditViewName() . "&product_id=" . $this->getId() .
-			"&sourceModule=" . $this->getModuleName() . "&sourceRecord=" . $this->getId() . "&relationOperation=true";
-	}
-
-	/**
-	 * Function to get Url to Create a new SalesOrder from this record
-	 * @return <String> Url to Create new SalesOrder
-	 */
-	function getCreateSalesOrderUrl()
-	{
-		$salesOrderModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
-
-		return "index.php?module=" . $salesOrderModuleModel->getName() . "&view=" . $salesOrderModuleModel->getEditViewName() . "&product_id=" . $this->getId() .
-			"&sourceModule=" . $this->getModuleName() . "&sourceRecord=" . $this->getId() . "&relationOperation=true";
-	}
-
-	/**
 	 * Function get details of taxes for this record
 	 * Function calls from Edit/Create view of Inventory Records
 	 * @param <Object> $focus
@@ -461,6 +413,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 				if ($currency_id == $product_currency_id) {
 					$is_basecurrency = true;
 				}
+
 				if ($cur_value == null || $cur_value == '') {
 					$price_details[$i]['check_value'] = false;
 					if ($unit_price != null) {
@@ -468,7 +421,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 					} else {
 						$cur_value = '0';
 					}
-				} else if ($is_basecurrency) {
+				} else {
 					$price_details[$i]['check_value'] = true;
 				}
 				$price_details[$i]['curvalue'] = CurrencyField::convertToUserFormat($cur_value, null, true);

@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'CustomView'	=> 'Widoki',
+	'CustomView'	=> 'Filtry - konfiguracja',
 	'LBL_MODULE_DESC'	=> 'Narzędzie pozwala zarządzać filtrami dla modułów, które mają rekordy i obsługują standardowe filtrowanie w systemie YetiForce.',
 	'Module'	=> 'Moduł',
 	'ViewName'	=> 'Nazwa widoku',

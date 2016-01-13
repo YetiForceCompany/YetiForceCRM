@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	// Basic Strings
-	'OSSMailView'        => 'Maile',
+	'OSSMailView'        => 'Maile firmowe',
 	'SINGLE_OSSMailView' => 'Mail firmowy',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_RECORDS_LIST' => 'Lista maili',

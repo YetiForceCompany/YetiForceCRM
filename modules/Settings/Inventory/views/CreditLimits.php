@@ -26,7 +26,6 @@ class Settings_Inventory_CreditLimits_View extends Settings_Vtiger_Index_View
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('INVENTORY_DATA', $allData);
 		$viewer->assign('VIEW', $view);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('CURRENCY', Vtiger_Util_Helper::getBaseCurrency());
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}

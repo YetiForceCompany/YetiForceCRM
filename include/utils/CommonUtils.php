@@ -22,7 +22,6 @@
 
 require_once('include/utils/utils.php'); //new
 require_once('include/utils/RecurringType.php');
-require_once('include/utils/EmailTemplate.php');
 require_once 'include/QueryGenerator/QueryGenerator.php';
 require_once 'include/ListView/ListViewController.php';
 require_once 'include/runtime/Cache.php';
@@ -90,11 +89,6 @@ function getAccountName($account_id)
 function getProductName($product_id)
 {
 	return Vtiger_Functions::getCRMRecordLabel($product_id);
-}
-
-function getPotentialName($potential_id)
-{
-	return Vtiger_Functions::getCRMRecordLabel($potential_id);
 }
 
 function getContactName($contact_id)
@@ -254,22 +248,10 @@ function getTemplateDetails($templateid)
 	return Vtiger_Deprecated::getTemplateDetails($templateid);
 }
 
-/**
- * 	This function is used to merge the Template Details with the email description
- *  @param string $description  -body of the mail(ie template)
- * 	@param integer $tid  - Id of the entity
- *  @param string $parent_type - module of the entity
- * 	return string $description - Returns description, merged with the input template.
- */
-function getMergedDescription($description, $id, $parent_type)
-{
-	return Vtiger_Functions::getMergedDescription($description, $id, $parent_type);
-}
-
 /** 	Function used to retrieve a single field value from database
  * 	@param string $tablename - tablename from which we will retrieve the field value
  * 	@param string $fieldname - fieldname to which we want to get the value from database
- * 	@param string $idname	 - idname which is the name of the entity id in the table like, inoviceid, quoteid, etc.,
+ * 	@param string $idname	 - idname which is the name of the entity id in the table like, inoviceid, etc.,
  * 	@param int    $id	 - entity id
  * 	return string $fieldval  - field value of the needed fieldname from database will be returned
  */
@@ -518,16 +500,6 @@ function vt_suppressHTMLTags($string)
 function getSqlForNameInDisplayFormat($input, $module, $glue = ' ')
 {
 	return Vtiger_Deprecated::getSqlForNameInDisplayFormat($input, $module, $glue);
-}
-
-function getModuleSequenceNumber($module, $recordId)
-{
-	return Vtiger_Deprecated::getModuleSequenceNumber($module, $recordId);
-}
-
-function getInvoiceStatus($invoiceId)
-{
-	return Vtiger_Functions::getInvoiceStatus($invoiceId);
 }
 
 function decimalFormat($value)

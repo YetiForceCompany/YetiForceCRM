@@ -1,0 +1,4 @@
+.bgMessage {font-weight: bold; padding: 25px; margin: 25px;}
+.bgOK {background-color: #dff0d8 !important;}
+.bgWARNING {background-color: #fcf8e3 !important;}
+.bgERROR {background-color: #f2dede !important;}

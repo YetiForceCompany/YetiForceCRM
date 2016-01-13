@@ -308,10 +308,10 @@ class Reports_Folder_Model extends Vtiger_Base_Model {
                 }
             }
         //End
-		if(null != $vtiger_reportmodules){	
+		if(null != $allowedReportIds){	
 			$sql = "SELECT count(*) AS count FROM vtiger_report
 					INNER JOIN vtiger_reportfolder ON vtiger_reportfolder.folderid = vtiger_report.folderid AND 
-					vtiger_report.reportid in (".implode(',',$vtiger_reportmodules).")";
+					vtiger_report.reportid in (".implode(',',$allowedReportIds).")";
 			$fldrId = $this->getId();
 			if($fldrId == 'All') {
 				$fldrId = false;
@@ -345,6 +345,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model {
 			$result = $db->pquery($sql, $params);
 			return $db->query_result($result, 0, 'count');
 		}
+		return 0;
 	}
 	
     /**

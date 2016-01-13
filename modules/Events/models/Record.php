@@ -87,7 +87,7 @@ class Events_Record_Model extends Calendar_Record_Model {
             $mail_data['user_id'] = $this->get('assigned_user_id');
             $mail_data['subject'] = $this->get('subject');
             $moduleName = $this->getModuleName();
-            $mail_data['status'] = (($moduleName=='Calendar')?($this->get('taskstatus')):($this->get('eventstatus')));
+            $mail_data['status'] = $this->get('activitystatus');
             $mail_data['activity_mode'] = (($moduleName=='Calendar')?('Task'):('Events'));
             $mail_data['taskpriority'] = $this->get('taskpriority');
             $mail_data['relatedto'] = $parentName;

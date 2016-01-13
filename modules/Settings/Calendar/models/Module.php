@@ -151,7 +151,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 		return $fields = ['activitytype'];
 	}
 
-	public function getPicklistValue()
+	public static function getPicklistValue()
 	{
 		$keys = ['name', 'label', 'value', 'table', 'field'];
 		$calendarConfig = [];

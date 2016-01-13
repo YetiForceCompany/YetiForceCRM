@@ -150,13 +150,13 @@ class PickListHandler extends VTEventHandler
 				}
 			} else {
 				if ($className == 'VTCreateEventTask') {
-					if ($pickListFieldName == 'eventstatus') {
+					if ($pickListFieldName == 'activitystatus') {
 						$pickListFieldName = 'status';
 					} elseif ($pickListFieldName == 'activitytype') {
 						$pickListFieldName = 'eventType';
 					}
 				} elseif ($className == 'VTCreateTodoTask') {
-					if ($pickListFieldName == 'taskstatus') {
+					if ($pickListFieldName == 'activitystatus') {
 						$pickListFieldName = 'status';
 					} elseif ($pickListFieldName == 'taskpriority') {
 						$pickListFieldName = 'priority';
@@ -309,13 +309,13 @@ class PickListHandler extends VTEventHandler
 					}
 				} else {
 					if ($className == 'VTCreateEventTask') {
-						if ($pickListFieldName == 'eventstatus') {
+						if ($pickListFieldName == 'activitystatus') {
 							$pickListFieldName = 'status';
 						} elseif ($pickListFieldName == 'activitytype') {
 							$pickListFieldName = 'eventType';
 						}
 					} elseif ($className == 'VTCreateTodoTask') {
-						if ($pickListFieldName == 'taskstatus') {
+						if ($pickListFieldName == 'activitystatus') {
 							$pickListFieldName = 'status';
 						} elseif ($pickListFieldName == 'taskpriority') {
 							$pickListFieldName = 'priority';

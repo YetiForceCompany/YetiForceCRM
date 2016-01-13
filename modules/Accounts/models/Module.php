@@ -22,7 +22,7 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery)
 	{
-		if (($sourceModule == 'Accounts' && $field == 'account_id' && $record) || in_array($sourceModule, array('Campaigns', 'Products', 'Services', 'Emails', 'Potentials'))) {
+		if (($sourceModule == 'Accounts' && $field == 'account_id' && $record) || in_array($sourceModule, array('Campaigns', 'Products', 'Services', 'Emails'))) {
 
 			if ($sourceModule === 'Campaigns') {
 				$condition = " vtiger_account.accountid NOT IN (SELECT accountid FROM vtiger_campaignaccountrel WHERE campaignid = '$record')";
@@ -32,15 +32,6 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 				$condition = " vtiger_account.accountid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
 			} elseif ($sourceModule === 'Emails') {
 				$condition = ' vtiger_account.emailoptout = 0';
-			} elseif ($sourceModule === 'Potentials') {
-				$config = Settings_SalesProcesses_Module_Model::getConfig('potential');
-				$currentUser = Users_Record_Model::getCurrentUserModel();
-				$accessibleGroups = $currentUser->getAccessibleGroupForModule('Accounts');
-				if ($config['add_potential'] && $accessibleGroups) {
-					$condition = " vtiger_crmentity.smownerid NOT IN (" . implode(',', array_keys($accessibleGroups)) . ")";
-				} else {
-					return $listQuery;
-				}
 			} else {
 				$condition = " vtiger_account.accountid != '$record'";
 			}
@@ -64,45 +55,7 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false)
 	{
-		if ($functionName === 'get_activities') {
-			$focus = CRMEntity::getInstance($this->getName());
-			$focus->id = $recordId;
-			$entityIds = $focus->getRelatedContactsIds();
-			$entityIds[] = $recordId;
-			$entityIds = implode(',', $entityIds);
-			$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-
-			$query = "SELECT CASE WHEN (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name,
-						vtiger_crmentity.*, vtiger_activity.activitytype, vtiger_activity.subject, vtiger_activity.date_start, vtiger_activity.time_start,
-						vtiger_activity.recurringtype, vtiger_activity.due_date, vtiger_activity.time_end, vtiger_activity.visibility, 
-						CASE WHEN (vtiger_activity.activitytype = 'Task') THEN (vtiger_activity.status) ELSE (vtiger_activity.eventstatus) END AS status
-						FROM vtiger_activity
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-						LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-						WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.link IN (" . $entityIds . ')';
-			$time = vtlib_purify($_REQUEST['time']);
-			if ($time == 'current') {
-				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))
-				OR (vtiger_activity.activitytype not in ('Emails','Task') and vtiger_activity.eventstatus not in ('','Held')))";
-			}
-			if ($time == 'history') {
-				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status in ('Completed','Deferred'))
-				OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.eventstatus in ('','Held')))";
-			}
-			$relatedModuleName = $relatedModule->getName();
-			$query .= $this->getSpecificRelationQuery($relatedModuleName);
-			$instance = CRMEntity::getInstance($relatedModuleName);
-			$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName, false, $recordId);
-			if ($securityParameter != '')
-				$query .= $securityParameter;
-
-			// There could be more than one contact for an activity.
-			$query .= ' GROUP BY vtiger_activity.activityid';
-		} elseif ($functionName === 'get_dependents_list' && $relatedModule->getName() == 'OutsourcedProducts') {
-			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
-			$query .= " OR potential IN (SELECT potentialid FROM vtiger_potential INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_potential.potentialid WHERE vtiger_crmentity.deleted = 0 AND related_to = '$recordId')";
-		} elseif ($functionName === 'get_mails' && $relatedModule->getName() == 'OSSMailView') {
+		if ($functionName === 'get_mails' && $relatedModule->getName() == 'OSSMailView') {
 			$query = OSSMailView_Record_Model::getMailsQuery($recordId, $relatedModule->getName());
 		} else {
 			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);

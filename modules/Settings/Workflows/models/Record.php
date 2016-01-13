@@ -164,6 +164,12 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				'linkicon' => 'glyphicon glyphicon-remove',
 				'class' => 'deactiveTasks'
 			),
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_EXPORT_RECORD',
+				'linkurl' => 'index.php?module=Workflows&parent=Settings&action=ExportWorkflow&id=' . $this->getId(),
+				'linkicon' => 'glyphicon glyphicon-export'
+			],
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
@@ -221,7 +227,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		if ($executionCondition == null) {
 			$executionCondition = $this->get('execution_condition');
 		}
-		$arr = array('ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', '', 'ON_SCHEDULE', 'MANUAL');
+		$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED'];
 		return $arr[$executionCondition - 1];
 	}
 
@@ -367,7 +373,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 		$dependentFields = array();
 		// List of modules which will not be supported by 'Create Entity' workflow task
-		$filterModules = array('Invoice', 'Quotes', 'SalesOrder', 'PurchaseOrder', 'Emails', 'Calendar', 'Events', 'Accounts');
+		$filterModules = array('Emails', 'Calendar', 'Events', 'Accounts');
 		$skipFieldsList = array();
 		for ($i = 0; $i < $noOfFields; ++$i) {
 			$tabId = $db->query_result($result, $i, 'tabid');
@@ -426,5 +432,24 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$wm = new VTWorkflowManager($db);
 		$wf = $this->getWorkflowObject();
 		$wm->updateNexTriggerTime($wf);
+	}
+
+	/**
+	 * Returns array of tasks for active workflow
+	 * @return array tasks
+	 */
+	public function getTasksForExport()
+	{
+		$db = PearDatabase::getInstance();
+
+		$query = 'SELECT summary, task FROM com_vtiger_workflowtasks WHERE workflow_id = ?;';
+		$result = $db->pquery($query, [$this->getId()]);
+
+		$tasks = [];
+		while ($row = $db->fetchByAssoc($result)) {
+			$tasks[] = $row;
+		}
+
+		return $tasks;
 	}
 }

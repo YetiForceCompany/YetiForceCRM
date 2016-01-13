@@ -1,0 +1,3 @@
+<?php
+$switchUsersRaw = [];
+$switchUsers = [];

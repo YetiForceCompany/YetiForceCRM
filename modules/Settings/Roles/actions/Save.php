@@ -34,32 +34,7 @@ class Settings_Roles_Save_Action extends Vtiger_Action_Controller
 			$recordModel = new Settings_Roles_Record_Model();
 		}
 
-		if ($request->get('profile_directly_related_to_role') == '1') {
-			$profileId = $request->get('profile_directly_related_to_role_id');
-			$profileName = $request->get('profilename');
-			if (empty($profileName)) {
-				$profileName = $roleName . '+' . vtranslate('LBL_PROFILE', $qualifiedModuleName);
-			}
-			if ($profileId) {
-				$profileRecordModel = Settings_Profiles_Record_Model::getInstanceById($profileId);
-			} else {
-				$profileRecordModel = Settings_Profiles_Record_Model::getInstanceByName($profileName, true);
-				if (empty($profileRecordModel)) {
-					$profileRecordModel = new Settings_Profiles_Record_Model();
-				}
-			}
-			$profileRecordModel->set('directly_related_to_role', '1');
-
-			$profileRecordModel->set('profilename', $profileName)
-				->set('profile_permissions', $request->get('permissions'));
-			$profileRecordModel->set('viewall', $request->get('viewall'));
-			$profileRecordModel->set('editall', $request->get('editall'));
-			$savedProfileId = $profileRecordModel->save();
-			$roleProfiles = array($savedProfileId);
-		} else {
-			$roleProfiles = $request->get('profiles');
-		}
-
+		$roleProfiles = $request->get('profiles');
 		$parentRoleId = $request->get('parent_roleid');
 		if ($recordModel && !empty($parentRoleId)) {
 			$parentRole = Settings_Roles_Record_Model::getInstanceById($parentRoleId);
@@ -69,6 +44,7 @@ class Settings_Roles_Save_Action extends Vtiger_Action_Controller
 				->set('previewrelatedrecord', $request->get('previewRelatedRecord'))
 				->set('editrelatedrecord', $request->get('editRelatedRecord'))
 				->set('permissionsrelatedfield', $request->get('permissionsRelatedField'))
+				->set('globalsearchadv', $request->get('globalSearchAdvanced'))
 				->set('clendarallorecords', $request->get('clendarallorecords'));
 			if (!empty($allowassignedrecordsto))
 				$recordModel->set('allowassignedrecordsto', $allowassignedrecordsto); // set the value of assigned records to

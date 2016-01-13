@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_MENU_BUILDER' => 'Menüverwaltung',
+	'LBL_MENU_BUILDER' => 'Menu - Configuration',
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Erzeuge und verwalte Menüeinträge.',
 	'LBL_DEFAULT_MENU' => 'Standard Menü',
 	'LBL_ADD_MENU' => 'Menüeintrag hinzufügen',
@@ -25,12 +25,12 @@ $languageStrings = array(
 	'LBL_EDITION_MENU' => 'Editieren Menü',
 	'LBL_SAVE_MENU' => 'Speichern',
 	'LBL_SAVED_MENU' => 'Änderungen wurden gespeichert.',
-	'LBL_HOTKEY' => 'Hot key',
+	'LBL_HOTKEY' => 'Hotkey',
 	'LBL_NAME' => 'Name',
 	'LBL_TEST_IT' => 'Testen',
-	'LBL_MENU_TYPE' => 'Menu type',
+	'LBL_MENU_TYPE' => 'Menüart',
+	'LBL_AVAILABLE_FILTERS' => 'Verfügbare Filter',
 	'LBL_ICON_NAME' => 'Icon',
-	
 	//Menu types
 	'LBL_MODULE' => 'Modul',
 	'LBL_MODULE_DESC' => 'Menüeintrag leitet zum gewählten Modul weiter.',
@@ -39,7 +39,7 @@ $languageStrings = array(
 	'LBL_LABEL' => 'Label',
 	'LBL_LABEL_DESC' => 'Erlaubt Menüeinträge zu gruppieren.',	
 	'LBL_SCRIPT' => 'Skript',
-	'LBL_SCRIPT_DESC' => 'Javascript Trigger',	
+	'LBL_SCRIPT_DESC' => 'Javascript Trigger.',	
 	'LBL_SEPARATOR' => 'Trennzeichen',
 	'LBL_SEPARATOR_DESC' => 'Unterteilt Einträge in kleinere Abschnitte.',
 	'LBL_QUICKCREATE' => 'Schnellerfassung',
@@ -48,6 +48,8 @@ $languageStrings = array(
 	'LBL_HOMEICON_DESC' => 'Menüeintrag der zur Startseite führt.',
 	'LBL_CUSTOMFILTER' => 'Filter',
 	'LBL_CUSTOMFILTER_DESC' => 'Menüeintrag führt zum gwählten Filter.',
+	'LBL_PROFILE' => 'Profile',
+	'LBL_PROFILE_DESC' => "Menu item that allows changing the user's settings.",
 	
 	//Message
 	'LBL_REMOVED_MENU_ITEM' => 'Menüeintrag wurde gelöscht',
@@ -59,6 +61,8 @@ $languageStrings = array(
 	'LBL_REMOVE_DESC' => 'Gewählter Eintrag enthält Untermenüs. Alle Untermenüs werden ebenfalls gelöscht.',
 	'LBL_REMOVE' => 'Löschen',
 	'LBL_CANCEL' => 'Abbrechen',
+	//End Remove modal
+	'LBL_MORE_INFO' => 'Click here for more information',
 );
 $jsLanguageStrings = array(
 	'JS_EDIT' => 'Ändern',

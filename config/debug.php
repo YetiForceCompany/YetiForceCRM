@@ -9,9 +9,9 @@ $DEBUG_CONFIG = [
 	// Enable log4php -> cache/logs/system.log
 	'LOG4PHP_DEBUG' => false,
 	// Stop the running process of the system if there is and error in sql query
-	'SQL_DIE_ON_ERROR' => true,
+	'SQL_DIE_ON_ERROR' => false,
 	// Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true
-	'DISPLAY_DEBUG_BACKTRACE' => true,
+	'DISPLAY_DEBUG_BACKTRACE' => false,
 	// Debug Viewer => cache/logs/viewer-debug.log
 	'DEBUG_VIEWER' => false,
 	// Display Smarty Debug Console

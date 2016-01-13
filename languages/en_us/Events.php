@@ -85,8 +85,6 @@ $languageStrings = [
 	'LBL_STATE' => 'Show as',
 	'PLL_OPAQUE' => 'Busy',
 	'PLL_TRANSPARENT' => 'Free',
-	'Relation' => 'Relation',
-	'Process' => 'Process',
 	'LBL_REPEAT_EACH_MONTH' => 'Repeat each month on',
 	'LBL_REPEAT_MONTH_DAY' => 'Repeat every first or last day of a month',
 	'LBL_REMAIND_DAYS' => 'Remaind after defined number of days',
@@ -99,6 +97,14 @@ $languageStrings = [
 	'End Time' => 'End Time',
 	'Status' => 'State',
 	'End Date' => 'End date',
-	'LBL_FOLLOWUP' => 'Follow up',
+	'LBL_FOLLOWUP' => 'Related event',
+	
+	'PLL_PLANNED' => 'Planned',
+	'PLL_IN_REALIZATION' => 'To be realized',
+	'PLL_OVERDUE' => 'Overdue',
+	'PLL_POSTPONED' => 'Postponed',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_COMPLETED' => 'Completed',
+
 ];
 

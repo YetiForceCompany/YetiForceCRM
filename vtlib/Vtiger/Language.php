@@ -23,6 +23,21 @@ class Vtiger_Language extends Vtiger_LanguageImport
 	{
 		parent::__construct();
 	}
+	
+	/**
+	 * Function to remove language files related to a module
+	 * @param Vtiger_Module Instance of module
+	 */
+	static function deleteForModule($moduleInstance)
+	{
+		$db = PearDatabase::getInstance();
+		$result = $db->query('SELECT prefix FROM vtiger_language');
+		while ($lang = $db->getSingleValue($result)) {
+			$langFilePath = "languages/$lang/" . $moduleInstance->name . ".php";
+			if (file_exists($langFilePath))
+				@unlink($langFilePath);
+		}
+	}
 }
 
 ?>

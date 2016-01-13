@@ -30,5 +30,3 @@ Class OSSMailTemplates_Edit_View extends Vtiger_Edit_View
 		return $headerScriptInstances;
 	}
 }
-
-?>

@@ -161,6 +161,7 @@ $languageStrings = [
 	'LBL_WORKFLOWS_RUN_TIME' => 'Workflow run time and date',
 	'Sales stage - Negotiations' => 'Sales stage - Negotiations',
 	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Update the dates of the generated events when the base date changes',
+	'LBL_CURRENT_USER' => 'Currently logged in user',
 	//workflow task
 	'EmailTempleteList' => 'Select a template email to be sent',
 	'Do you send all attachments' => 'Send all attachments?',
@@ -193,8 +194,25 @@ $languageStrings = [
 	'Invoice Date' => 'Invoice Date',
 	'Start Date & Time' => 'Start Date & Time',
 	'End Date & Time' => 'End Date & Time',
+	'ON_DELETE' => 'While deleting',
+	'TRIGGER' => 'Trigger manually',
+	'BLOCK_EDIT' => 'Block edition',
+	'UpdateBalance' => 'Update Balance',
+	'UpdateInventory' => 'Update Inventory',
+	'LBL_TRIGGER_USER' => 'User selected in workflow trigger mondal',
+	'LBL_PDF_TEMPLATE' => 'Select PDF template',
+	'LBL_IMPORT_TEMPLATE' => 'Import trigger',
+	'LBL_EXPORT_RECORD' => 'Export record',
+	'LBL_IMPORT_VIEW' => 'Trigger import',
+	'LBL_TRIGGER_XML' => 'XML File',
+	'LBL_UPLOAD_TRIGGER' => 'Import',
+	'LBL_UPLOAD_ERROR' => 'Import of trigger record from XML file was unsuccessful!',
+	'LBL_UPLOAD_OK' => 'Trigger XML file imported successfully.',
+	'LBL_RETURN' => 'Return',
+	'LBL_GO_TO_TEMPLATE' => 'Click to go to imported record.',
+	'LBL_SCRIPT_EXISTS_FUNCTION_NOT' => 'Script physically exists but doesn\'t contain imported function name. Manually add %s to %s.',
+	'LBL_FAILED_TO_SAVE_SCRIPT' => 'Failed to save workflow methods script file. Manually copy %s to %s.'
 ];
-
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Same fields selected more than once',
 	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Status changed successfully',
