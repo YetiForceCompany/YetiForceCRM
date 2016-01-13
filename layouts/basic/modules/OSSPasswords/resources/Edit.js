@@ -104,10 +104,10 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 			password += chArray[charIndex];
 		}
 		// get desired text field
-		var passForm = document.getElementsByName( 'password' )[0];
+		var passForm = jQuery('[name ="password"]');
 		// change its value to the generated password
-		passForm.value = password;
-		passForm.onchange();    // uruchom even on change
+		passForm.val(password);
+		passForm.trigger('change');
 	},
 	registerButtonsEvents : function(){
 		var thisInstance = this;
