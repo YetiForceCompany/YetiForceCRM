@@ -65,6 +65,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 			'libraries.bootstrap.js.eternicode-bootstrap-datepicker.js.bootstrap-datepicker',
 			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.'.Vtiger_Language_Handler::getShortLanguageName().'.js',
 			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
+			'~libraries/jquery/clockpicker/jquery-clockpicker.min.js',
 			'modules.Vtiger.resources.Popup',
 			"modules.$moduleName.resources.Popup",
 			'modules.Vtiger.resources.BaseList',
