@@ -92,7 +92,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if (!empty($record) && isRecordExists($record)) {
 			$recordModel_OSSMailView = Vtiger_Record_Model::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
-			if ($email) {
+			if (!empty($email)) {
 				$url = '&to=' . $email;
 			}
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);

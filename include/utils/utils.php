@@ -1596,7 +1596,7 @@ function isRecordExists($recordId, $cache = true)
 {
 	if (!isset($recordExistsCache[$recordId])) {
 		$db = PearDatabase::getInstance();
-		$query = "SELECT crmid FROM vtiger_crmentity where crmid=? AND deleted=0";
+		$query = 'SELECT crmid FROM vtiger_crmentity where crmid=? AND deleted=0';
 		$result = $db->pquery($query, [$recordId]);
 		if ($db->num_rows($result)) {
 			$return = true;
