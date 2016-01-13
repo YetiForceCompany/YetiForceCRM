@@ -161,7 +161,7 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	registerSelect2ElementForReportColumns : function() {
 		var selectElement = this.getReportsColumnsList();
 		var selectedFields = JSON.parse(this.getSelectedFields().val());
-		selectElement = app.changeSelectElementView(selectElement, 'selectize', {plugins: ['drag_drop', 'remove_button'], maxItems: 25});
+		selectElement = app.changeSelectElementView(selectElement, 'selectize', {plugins: ['drag_drop', 'remove_button'], maxItems: 100});
 		var selectizeInstance = selectElement[0].selectize;
 		selectizeInstance.clear();
 		for (i in selectedFields) {
