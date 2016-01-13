@@ -533,7 +533,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	/**
 	 * Function to save comment
 	 */
-	saveCommentAjax: function(element, commentMode, commentContentValue, editCommentReason,  commentId, parentCommentId, aDeferred){
+	saveCommentAjax: function (element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId, aDeferred) {
 		var thisInstance = this;
 		var progressIndicatorElement = jQuery.progressIndicator({});
 		var postData = {
@@ -587,7 +587,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var commentInfoHeader = closestCommentBlock.closest('.commentDetails').find('.commentInfoHeader');
 		var commentId = commentInfoHeader.data('commentid');
 		var parentCommentId = commentInfoHeader.data('parentcommentid');
-		thisInstance.saveCommentAjax(element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId,aDeferred);
+		thisInstance.saveCommentAjax(element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId, aDeferred);
 		return aDeferred.promise();
 	},
 	/**
@@ -2247,7 +2247,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 	},
-	saveCommentModal: function(element, moreBtn){
+	saveCommentModal: function (element, moreBtn) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var currentTarget = element;
@@ -2269,10 +2269,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var commentInfoHeader = moreBtn.closest('.commentDetails').find('.commentInfoHeader');
 		var commentId = commentInfoHeader.data('commentid');
 		var parentCommentId = commentInfoHeader.data('parentcommentid');
-		thisInstance.saveCommentAjax(element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId,aDeferred);
+		thisInstance.saveCommentAjax(element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId, aDeferred);
 		return aDeferred.promise();
 	},
-	registerCommentModalEvents: function(detailContentsHolder){
+	registerCommentModalEvents: function (detailContentsHolder) {
 		var thisInstance = this;
 		detailContentsHolder.on('click', '.detailViewCommentModalBtn', function (e) {
 			var moreBtn = jQuery(e.currentTarget);
@@ -2283,13 +2283,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var commentModal = $('.commentModalContent');
 				commentModal.find('.commentcontent').html(commentValue);
 				commentModal.find('[name="reasonToEdit"]').val(reasonValue);
-				if(moreBtn.data('mode') == 'edit'){
+				if (moreBtn.data('mode') == 'edit') {
 					commentModal.find('.reason').removeClass('hide');
 				}
-				else{
+				else {
 					commentModal.find('.reason').addClass('hide');
 				}
-				$('.modalSaveComment').on('click', function(e){
+				$('.modalSaveComment').on('click', function (e) {
 					var element = jQuery(e.currentTarget);
 					if (!element.is(":disabled")) {
 						var dataObj = thisInstance.saveCommentModal(element, moreBtn);
@@ -2305,7 +2305,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			});
 		});
-		
+
 		detailContentsHolder.on('click', '.commentModalBtn', function (e) {
 			var moreBtn = jQuery(e.currentTarget);
 			var blockComment = moreBtn.closest('.addCommentBlock');
@@ -2315,20 +2315,20 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var commentModal = $('.commentModalContent');
 				commentModal.find('.commentcontent').html(commentValue);
 				commentModal.find('[name="reasonToEdit"]').val(reasonValue);
-				if(moreBtn.data('mode') == 'edit'){
+				if (moreBtn.data('mode') == 'edit') {
 					commentModal.find('.reason').removeClass('hide');
 				}
-				else{
+				else {
 					commentModal.find('.reason').addClass('hide');
 				}
-				$('.modalSaveComment').on('click', function(e){
+				$('.modalSaveComment').on('click', function (e) {
 					var element = jQuery(e.currentTarget);
 					if (!element.is(":disabled")) {
 						var dataObj = thisInstance.saveCommentModal(element, moreBtn);
 						dataObj.then(function (data) {
 							var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
 							thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
-							thisInstance.addComment(moreBtn,data);
+							thisInstance.addComment(moreBtn, data);
 							app.hideModalWindow();
 						});
 					}
@@ -2339,7 +2339,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	/**
 	 * Function to display a new comments
 	 */
-	addComment: function(currentTarget, data){
+	addComment: function (currentTarget, data) {
 		var thisInstance = this;
 		var mode = currentTarget.data('mode');
 		var closestAddCommentBlock = currentTarget.closest('.addCommentBlock');
@@ -2492,7 +2492,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				dataObj.then(function (data) {
 					var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
 					thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
-					thisInstance.addComment(currentTarget,data);
+					thisInstance.addComment(currentTarget, data);
 					element.removeAttr('disabled');
 				});
 			}
@@ -2627,7 +2627,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	sendMailWindow: function (url, popup) {
 		if (popup) {
-			window.open(url, '_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no');
+			var width = screen.width - 15;
+			var height = screen.height - 150;
+			var left = 0;
+			var top = 30;
+			var params = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top;
+			window.open(url, '_blank', params + ',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,status=nomenubar=no');
 		} else {
 			window.location.href = url;
 		}
