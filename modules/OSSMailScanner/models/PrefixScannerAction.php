@@ -37,12 +37,11 @@ class OSSMailScanner_PrefixScannerAction_Model extends OSSMailScanner_BaseScanne
 		$name = 'MSFindPrevix';
 		$cache = Vtiger_Cache::get($name, $prefix);
 		if ($cache !== false) {
-			$db->insert('vtiger_ossmailview_relation', [
-				'ossmailviewid' => $mailId,
-				'crmid' => $cache,
-				'date' => $mail->get('udate_formated')
-			]);
-			return [$cache];
+			$status = OSSMailView_Relation_Model::addRelation($mailId, $cache, $mail->get('udate_formated'));
+			if ($status) {
+				$returnIds[] = $cache;
+			}
+			return $returnIds;
 		} else {
 			require_once("modules/$moduleName/$moduleName.php");
 			$moduleObject = new $moduleName();
@@ -54,14 +53,8 @@ class OSSMailScanner_PrefixScannerAction_Model extends OSSMailScanner_BaseScanne
 			if ($db->getRowCount($result) > 0) {
 				$crmid = $db->getSingleValue($result);
 
-				$resultRelation = $db->pquery('SELECT crmid FROM vtiger_ossmailview_relation WHERE ossmailviewid=? AND crmid=?', [$mailId, $crmid]);
-				if ($db->getRowCount($resultRelation) == 0) {
-					$db->insert('vtiger_ossmailview_relation', [
-						'ossmailviewid' => $mailId,
-						'crmid' => $crmid,
-						'date' => $mail->get('udate_formated')
-					]);
-					Vtiger_Cache::set($name, $prefix, $crmid);
+				$status = OSSMailView_Relation_Model::addRelation($mailId, $crmid, $mail->get('udate_formated'));
+				if ($status) {
 					$returnIds[] = $crmid;
 				}
 			}

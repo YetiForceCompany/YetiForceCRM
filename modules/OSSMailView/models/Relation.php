@@ -9,19 +9,24 @@
 class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 {
 
-	public function addRelation($sourceRecordId, $destinationRecordId)
+	public function addRelation($mailId, $crmid, $date = false)
 	{
+		$return = false;
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND crmid = ?';
-		$result = $db->pquery($query, [$sourceRecordId, $destinationRecordId]);
+		$result = $db->pquery($query, [$mailId, $crmid]);
 		if ($db->getRowCount($result) == 0) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, 'OSSMailView');
-			$date = $recordModel->get('date');
+			if (!$date) {
+				$recordModel = Vtiger_Record_Model::getInstanceById($mailId, 'OSSMailView');
+				$date = $recordModel->get('date');
+			}
 			$db->insert('vtiger_ossmailview_relation', [
-				'ossmailviewid' => $sourceRecordId,
-				'crmid' => $destinationRecordId,
+				'ossmailviewid' => $mailId,
+				'crmid' => $crmid,
 				'date' => $date
 			]);
+			$return = true;
 		}
+		return $return;
 	}
 }

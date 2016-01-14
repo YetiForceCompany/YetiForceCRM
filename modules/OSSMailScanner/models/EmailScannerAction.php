@@ -30,16 +30,10 @@ class OSSMailScanner_EmailScannerAction_Model extends OSSMailScanner_BaseScanner
 
 		if (!empty($crmIds)) {
 			foreach ($crmIds as $crmId) {
-				$result = $db->pquery('SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid=? AND crmid=?', [$mailId, $crmId]);
-				if ($db->getRowCount($result)) {
-					continue;
+				$status = OSSMailView_Relation_Model::addRelation($mailId, $crmId, $mail->get('udate_formated'));
+				if ($status) {
+					$returnIds[] = $crmId;
 				}
-				$db->insert('vtiger_ossmailview_relation', [
-					'ossmailviewid' => $mailId,
-					'crmid' => $crmId,
-					'date' => $mail->get('udate_formated')
-				]);
-				$returnIds[] = $crmId;
 			}
 		}
 		return $returnIds;

@@ -61,11 +61,10 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BaseSc
 
 			$mailId = $mail->getMailCrmId();
 			if ($mailId) {
-				$db->insert('vtiger_ossmailview_relation', [
-					'ossmailviewid' => $mailId,
-					'crmid' => $id,
-					'date' => $mail->get('udate_formated')
-				]);
+				$status = OSSMailView_Relation_Model::addRelation($mailId, $id, $mail->get('udate_formated'));
+				if ($status) {
+					$returnIds[] = $crmid;
+				}
 			}
 			$db->update('vtiger_crmentity', [
 				'createdtime' => $mail->get('udate_formated'),

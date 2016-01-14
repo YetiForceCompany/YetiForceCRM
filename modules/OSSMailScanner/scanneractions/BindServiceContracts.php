@@ -29,13 +29,8 @@ class OSSMailScanner_BindServiceContracts_ScannerAction extends OSSMailScanner_P
 			if ($db->getRowCount($result)) {
 				$serviceContractsId = $db->getSingleValue($result);
 
-				$result = $db->pquery('SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid=? AND crmid=?', [$mailId, $serviceContractsId]);
-				if ($db->getRowCount($result) == 0) {
-					$db->insert('vtiger_ossmailview_relation', [
-						'ossmailviewid' => $mailId,
-						'crmid' => $serviceContractsId,
-						'date' => $mail->get('udate_formated')
-					]);
+				$status = OSSMailView_Relation_Model::addRelation($mailId, $serviceContractsId, $mail->get('udate_formated'));
+				if ($status) {
 					$returnIds[] = $serviceContractsId;
 				}
 			}

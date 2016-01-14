@@ -316,14 +316,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				'relmodule' => $newModule
 			]);
 		} else {
-			$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND crmid = ?';
-			$result = $db->pquery($query, [$mailId, $newCrmId]);
-			if ($db->getRowCount($result) == 0) {
-				$db->insert('vtiger_ossmailview_relation', [
-					'ossmailviewid' => $mailId,
-					'crmid' => $newCrmId
-				]);
-			}
+			OSSMailView_Relation_Model::addRelation($mailId, $newCrmId);
 		}
 		return vtranslate('Add relationship', 'OSSMail');
 	}
