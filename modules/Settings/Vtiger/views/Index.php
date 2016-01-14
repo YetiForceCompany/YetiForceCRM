@@ -93,7 +93,25 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$qualifiedModuleName = 'Settings:Github';
 		$clientModel = Settings_Github_Client_Model::getInstance();
 		$clientModel->authorization();
-		$issues = $clientModel->getAllIssues();
+		
+		$pageNumber = $request->get('page');
+		if(empty($pageNumber)){
+			$pageNumber = 1;
+		}
+		$issues = $clientModel->getAllIssues($pageNumber);
+		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel->set('page', $pageNumber);
+		$pagingModel->set('totalCount', (int) $clientModel->infoRepo->getOpenIssues());
+		
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
+
+		$viewer->assign('PAGE_NUMBER',$pageNumber );
+		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('LISTVIEW_COUNT', $clientModel->infoRepo->getOpenIssues());
+		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
+		
+		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('QUALIFIED_MODULE_NAME', $qualifiedModuleName);
 		$viewer->assign('GITHUB_ISSUES', $issues);
 		$viewer->assign('GITHUB_CLIENT_MODEL', $clientModel);

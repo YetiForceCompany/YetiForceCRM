@@ -268,6 +268,13 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 			thisInstance.loadContent(jQuery(this).data('mode'));
 		});
 	},
+	registerPagination: function(){
+		var page = jQuery('.pagination .pageNumber');
+		var thisInstance = this;
+		page.click(function(){
+			thisInstance.loadContent('Github', $(this).data('id'));
+		});
+	},
 	registerAuthorizedEvent: function(){
 		var thisInstance = this;
 		jQuery('.showModal').on('click', function(){
@@ -276,14 +283,15 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 			});
 		});
 	},
-	loadContent: function(mode){
+	loadContent: function(mode, page){
 		var thisInstance = this;
 		var container = jQuery('.indexContainer');
 		var params = {
-			'mode'  : mode,
-			'module'  : app.getModuleName(),
-			'parent' : 'Settings',
-			'view' : 'Index'
+			mode  : mode,
+			module  : app.getModuleName(),
+			parent : 'Settings',
+			view : 'Index',
+			page : page
 		};
 		container.progressIndicator({});
 		AppConnector.request(params).then(function(data){
@@ -292,6 +300,7 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 			thisInstance.registerAuthorizedEvent();
 			thisInstance.loadCkEditorElement();
 			thisInstance.registerSaveIssues();
+			thisInstance.registerPagination();
 		});
 	},
 	registerEvents: function() {

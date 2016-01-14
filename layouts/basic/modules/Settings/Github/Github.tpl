@@ -41,6 +41,9 @@
 			</button>
 		</div>
 	{/if}
+	<div class="listViewActions pull-right paginationDiv paddingLeft5px">
+		{include file='Pagination.tpl'|@vtemplate_path}
+	</div>
 	<table class="table">
 		<thead>
 			<th>{vtranslate('LBL_TITLE', $QUALIFIED_MODULE_NAME)}</th>

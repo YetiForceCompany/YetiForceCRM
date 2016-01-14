@@ -13,17 +13,23 @@ class Settings_Github_Client_Model
 	private $clientId;
 	private $clientToken;
 	private $githubClient;
-	
+	public $infoRepo;
 	static private function loadLibrary(){
 		require_once($root_directory. 'libraries/github-php-client/client/GitHubClient.php');
 	}
 	public function setClientId($id){
 		$this->clientId = $id;
 	}
+	public function getInfoRepo(){
+		$this->infoRepo = $this->githubClient->repos->get(self::ownerRepository,self::repository);
+	}
 	public function setToken($token){
 		$this->clientToken = $token;
 	}
-	public function getAllIssues(){
+	public function getAllIssues($numPage){
+		$this->getInfoRepo();
+		$this->githubClient->setPage($numPage);
+		$this->githubClient->setPageSize(20);
 		$issues = $this->githubClient->issues->listIssues(self::ownerRepository, self::repository);
 		return $issues;
 	}
