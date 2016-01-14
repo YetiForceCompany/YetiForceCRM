@@ -10,8 +10,8 @@
 	RewriteRule ^api/webservice/(.*)$ api/webservice.php?module=$1 [QSA,NC,L]
 </ifModule>
 <IfModule mod_php5.c>
-	php_flag	log_errors					Off
-	php_flag	display_errors				Off
+	php_flag	log_errors					On
+	php_flag	display_errors				On
 	php_value	memory_limit				512M
 	php_flag	output_buffering			On
 	php_flag    zlib.output_compression		Off
@@ -32,6 +32,12 @@
 	php_value	session.gc_divisor			500
 	php_value	session.gc_probability		1
 	php_value	error_log					cache/logs/phpError.log
+</IfModule>
+<IfModule fcgid_module.c>
+	FcgidIOTimeout 600
+	FcgidConnectTimeout 600
+	FcgidBusyTimeout 600
+	FcgidIdleTimeout 600
 </IfModule>
 ########################
 # <FilesMatch "\.(inc|php|php3|php4|php5|php6|phtml|phps)$">
