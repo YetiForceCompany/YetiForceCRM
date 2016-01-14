@@ -1263,7 +1263,6 @@ jQuery(document).ready(function () {
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
 	app.registerSticky();
 	app.registerModal();
-	app.registerEventForClockPicker();
 	//Updating row height
 	app.updateRowHeight();
 	String.prototype.toCamelCase = function () {
