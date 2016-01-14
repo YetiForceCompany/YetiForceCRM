@@ -72,4 +72,69 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 		}
 		return $response;
 	}
+
+	/**
+	 * Function to get relation query for particular module with function name
+	 * @param <record> $recordId
+	 * @param <String> $functionName
+	 * @param Vtiger_Module_Model $relatedModule
+	 * @return <String>
+	 */
+	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false)
+	{
+		if ($functionName === 'get_record2mails') {
+			$query = $this->reletedQueryRecords2Mail($recordId, $relatedModule, $relationModel);
+		} else {
+			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
+		}
+
+		return $query;
+	}
+
+	public function reletedQueryRecords2Mail($recordId, $relatedModule, $relationModel)
+	{
+		$relatedModuleName = $relatedModule->getName();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$queryGenerator = new QueryGenerator($relatedModuleName, $currentUser);
+		$relatedListFields = [];
+		if ($relationModel)
+			$relatedListFields = $relationModel->getRelationFields(true, true);
+		if (count($relatedListFields) == 0) {
+			$relatedListFields = $relatedModule->getConfigureRelatedListFields();
+		}
+		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
+		$queryGenerator->setFields($relatedListFields);//ossmailviewid
+		$queryGenerator->setCustomFrom([
+			'joinType' => 'INNER',
+			'relatedTable' => 'vtiger_ossmailview_relation',
+			'relatedIndex' => 'crmid',
+			'baseTable' => 'vtiger_crmentity',
+			'baseIndex' => 'crmid',
+		]);
+		$query = $queryGenerator->getQuery();
+		return $query;
+	}
+	public function reletedQueryMail2Records($recordId, $relatedModule, $relationModel)
+	{
+		$relatedModuleName = $relatedModule->getName();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$queryGenerator = new QueryGenerator($relatedModuleName, $currentUser);
+		$relatedListFields = [];
+		if ($relationModel)
+			$relatedListFields = $relationModel->getRelationFields(true, true);
+		if (count($relatedListFields) == 0) {
+			$relatedListFields = $relatedModule->getConfigureRelatedListFields();
+		}
+		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
+		$queryGenerator->setFields($relatedListFields);//ossmailviewid
+		$queryGenerator->setCustomFrom([
+			'joinType' => 'INNER',
+			'relatedTable' => 'vtiger_ossmailview_relation',
+			'relatedIndex' => 'crmid',
+			'baseTable' => 'vtiger_crmentity',
+			'baseIndex' => 'crmid',
+		]);
+		$query = $queryGenerator->getQuery();
+		return $query;
+	}
 }

@@ -1553,6 +1553,9 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$focus->id = $recordId;
 
 		switch ($functionName) {
+			case 'get_mails':
+				$query = $relatedModule->reletedQueryMail2Records($recordId, $relatedModule, $relationModel);
+				break;
 			case 'get_many_to_many':
 				$query = $this->getRelationQueryM2M($recordId, $relatedModule, $relationModel);
 				break;

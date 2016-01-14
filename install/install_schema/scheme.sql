@@ -4928,6 +4928,7 @@ CREATE TABLE `vtiger_ossmailview_relation` (
   `crmid` int(19) NOT NULL,
   `date` datetime DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
+  UNIQUE KEY `ossmailviewid_2` (`ossmailviewid`,`crmid`),
   KEY `ossmailviewid` (`ossmailviewid`),
   KEY `crmid` (`crmid`,`deleted`),
   CONSTRAINT `vtiger_ossmailview_relation_ibfk_1` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_ossmailview` (`ossmailviewid`) ON DELETE CASCADE
