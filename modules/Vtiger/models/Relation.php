@@ -137,13 +137,13 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $query;
 	}
 
-	public function addRelation($sourcerecordId, $destinationRecordId)
+	public function addRelation($sourceRecordId, $destinationRecordId)
 	{
 		$sourceModule = $this->getParentModuleModel();
 		$sourceModuleName = $sourceModule->get('name');
-		$sourceModuleFocus = CRMEntity::getInstance($sourceModuleName);
 		$destinationModuleName = $this->getRelationModuleModel()->get('name');
-		relateEntities($sourceModuleFocus, $sourceModuleName, $sourcerecordId, $destinationModuleName, $destinationRecordId);
+		$sourceModuleFocus = CRMEntity::getInstance($sourceModuleName);
+		relateEntities($sourceModuleFocus, $sourceModuleName, $sourceRecordId, $destinationModuleName, $destinationRecordId);
 	}
 
 	public function deleteRelation($sourceRecordId, $relatedRecordId)
@@ -151,9 +151,26 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$sourceModule = $this->getParentModuleModel();
 		$sourceModuleName = $sourceModule->get('name');
 		$destinationModuleName = $this->getRelationModuleModel()->get('name');
-		$destinationModuleFocus = CRMEntity::getInstance($destinationModuleName);
-		DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId);
-		return true;
+
+		if ($destinationModuleName == 'OSSMailView' || $sourceModuleName == 'OSSMailView') {
+			if ($destinationModuleName == 'OSSMailView') {
+				$mailId = $relatedRecordId;
+				$crmid = $sourceRecordId;
+			} else {
+				$mailId = $sourceRecordId;
+				$crmid = $relatedRecordId;
+			}
+			$db = PearDatabase::getInstance();
+			if ($db->delete('vtiger_ossmailview_relation', 'crmid = ? AND ossmailviewid = ?', [$crmid, $mailId]) > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			$destinationModuleFocus = CRMEntity::getInstance($destinationModuleName);
+			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId);
+			return true;
+		}
 	}
 
 	public function addRelTree($crmid, $tree)
