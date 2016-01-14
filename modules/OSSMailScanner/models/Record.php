@@ -213,7 +213,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$handler = new $handlerClass();
 			if ($handler) {
 				$log->debug('Start action: ' . $action);
-				
+
 				$mail->addActionResult($action, $handler->process($mail));
 
 				$log->debug('End action');
@@ -324,7 +324,11 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$result = $db->query("SELECT value FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' AND parameter = 'fields'", true);
 		if ($result->rowCount()) {
-			return explode(',', $db->getSingleValue($result));
+			$value = $db->getSingleValue($result);
+			if (empty($value)) {
+				return [];
+			}
+			return explode(',', $value);
 		}
 		return [];
 	}
@@ -400,7 +404,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 					$log->fatal('Incorrect mail access data: ' . $account['username']);
 					continue;
 				}
-				
+
 				$countEmails = $scannerModel->mail_Scan($mbox, $account, $folder, $scanId, $countEmails);
 
 				imap_close($mbox);
