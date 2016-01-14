@@ -5037,5 +5037,6 @@ select.form-control {
 	resize: vertical;
 }
 .indexContainer{
+	padding-top:10px;
 	border-top: 4px solid #404952;
 }

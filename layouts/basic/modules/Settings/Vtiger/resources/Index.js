@@ -214,19 +214,74 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
                                                 
                                                 });
         },
+	loadCkEditorElement: function (noteContentElement) {
+		var customConfig = {};
+		noteContentElement = jQuery('.ckEditorSource');
+		if (noteContentElement.is(':visible')){
+			var ckEditorInstance = new Vtiger_CkEditor_Js();
+			ckEditorInstance.loadCkEditor(noteContentElement, customConfig);
+		}
+	},
+	registerSaveIssues: function(){
+		var title = jQuery('#titleIssues');
+		var CKEditorInstance = CKEDITOR.instances['bodyIssues'];
+		var thisInstance = this;
+		jQuery('.saveIssues').click(function(){
+			var body = jQuery.trim(CKEditorInstance.document.getBody().getText());
+			var params = {
+				module  : 'Github',
+				parent : 'Settings',
+				action : 'SaveIssuesAJAX',
+				title: title.val(),
+				body: body
+			};
+			AppConnector.request(params).then(function(data){
+				thisInstance.reloadContent();
+			});
+		});
+	},
+	reloadContent: function(){
+		jQuery('.massEditTabs li.active').trigger('click');
+	},
+	resisterSaveKeys: function(){
+		var thisInstance = this;
+		var container = jQuery('.authModalContent');
+		jQuery('.saveKeys').click(function(){
+			var params = {
+				module : 'Github',
+				parent : 'Settings',
+				action : 'SaveKeysAJAX',
+				client_id : $('[name="client_id"]').val(),
+				token: $('[name="token"]').val()
+			};
+			container.progressIndicator({});
+			AppConnector.request(params).then(function(data){
+				container.progressIndicator({mode: 'hide'});
+				app.hideModalWindow();
+				thisInstance.reloadContent();
+			});
+		});
+	},
 	registerTabEvents: function(){
 		var thisInstance = this;
 		jQuery('.massEditTabs li').on('click', function(){
-			var currentTarget = jQuery(this);
-			console.log(currentTarget.data('mode'));
-			thisInstance.loadContent(currentTarget.data('mode'));
+			thisInstance.loadContent(jQuery(this).data('mode'));
+		});
+	},
+	registerAuthorizedEvent: function(){
+		var thisInstance = this;
+		jQuery('.showModal').on('click', function(){
+			app.showModalWindow(jQuery('.authModal'),function(){
+				thisInstance.resisterSaveKeys();
+			});
 		});
 	},
 	loadContent: function(mode){
+		var thisInstance = this;
 		var container = jQuery('.indexContainer');
-		 var params = {
+		var params = {
 			'mode'  : mode,
-			'module'  : 'Vtiger',
+			'module'  : app.getModuleName(),
 			'parent' : 'Settings',
 			'view' : 'Index'
 		};
@@ -234,6 +289,9 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 		AppConnector.request(params).then(function(data){
 			container.progressIndicator({mode: 'hide'});
 			container.html(data);
+			thisInstance.registerAuthorizedEvent();
+			thisInstance.loadCkEditorElement();
+			thisInstance.registerSaveIssues();
 		});
 	},
 	registerEvents: function() {
@@ -244,7 +302,7 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 		this.registerAddShortcutDragDropEvent();
 		this.registerSettingShortCutAlignmentEvent();
 		this.registerTabEvents();
-		jQuery('.massEditTabs .active').trigger('click');
+		this.reloadContent();
 	}
 
 });

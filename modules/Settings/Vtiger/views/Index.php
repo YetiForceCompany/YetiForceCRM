@@ -90,7 +90,13 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	public function Github(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
+		$qualifiedModuleName = 'Settings:Github';
+		$clientModel = Settings_Github_Client_Model::getInstance();
+		$clientModel->authorization();
+		$issues = $clientModel->getAllIssues();
+		$viewer->assign('QUALIFIED_MODULE_NAME', $qualifiedModuleName);
+		$viewer->assign('GITHUB_ISSUES', $issues);
+		$viewer->assign('GITHUB_CLIENT_MODEL', $clientModel);
 		$viewer->view('Github.tpl', $qualifiedModuleName);
 	}
 	public function DonateUs(Vtiger_Request $request)
