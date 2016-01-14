@@ -39,7 +39,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$sql = "SELECT * FROM roundcube_identities WHERE user_id = ?";
 		$result = $db->pquery($sql, array($id), true);
 		$output = array();
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		for ($i = 0; $i < $db->getRowCount($result); $i++) {
 			$output[$i]['name'] = $db->query_result($result, $i, 'name');
 			$output[$i]['email'] = $db->query_result($result, $i, 'email');
 			$output[$i]['identity_id'] = $db->query_result($result, $i, 'identity_id');
@@ -336,7 +336,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		if ($vale == null || $vale == 'null') {
 			$adb->query("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = 'emailsearch' AND parameter = 'fields'", true);
 		} else {
-			if ($adb->num_rows($result) == 0) {
+			if ($adb->getRowCount($result) == 0) {
 				$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('emailsearch', 'fields', $vale));
 			} else {
 				$adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = 'emailsearch' AND parameter = 'fields'", array($vale), true);
@@ -362,7 +362,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$adb = PearDatabase::getInstance();
 		$return = false;
 		$result = $adb->pquery("SELECT * FROM vtiger_cron_task WHERE module = ?", array('OSSMailScanner'));
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		for ($i = 0; $i < $adb->getRowCount($result); $i++) {
 			$rowData = $adb->query_result_rowdata($result, $i);
 			$return[] = Array('name' => $rowData['name'], 'status' => $rowData['status'], 'frequency' => $rowData['frequency']);
 		}
@@ -445,7 +445,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$endNumber = $startNumber + $limit;
 		$result = $adb->query("SELECT * FROM vtiger_ossmails_logs ORDER BY id DESC LIMIT $startNumber , $endNumber");
 		$output = array();
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		for ($i = 0; $i < $adb->getRowCount($result); $i++) {
 			$output[$i]['id'] = $adb->query_result($result, $i, 'id');
 			$output[$i]['start_time'] = DateTimeField::convertToUserFormat($adb->query_result($result, $i, 'start_time'));
 			$output[$i]['end_time'] = DateTimeField::convertToUserFormat($adb->query_result($result, $i, 'end_time'));
@@ -481,7 +481,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$adb = PearDatabase::getInstance();
 		$return = false;
 		$result = $adb->pquery("SELECT * FROM vtiger_ossmails_logs ORDER BY id DESC", array());
-		if ($adb->num_rows($result) > 0) {
+		if ($adb->getRowCount($result) > 0) {
 			$row = $adb->query_result_rowdata($result, 0);
 			if ($row['status'] == 1) {
 				$config = self::getConfig('cron');
@@ -500,7 +500,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_ossmails_logs WHERE status = '1'", array(''));
-		return $adb->num_rows($result);
+		return $adb->getRowCount($result);
 	}
 
 	public function getCronStatus()
@@ -508,7 +508,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$adb = PearDatabase::getInstance();
 		$return = false;
 		$result = $adb->pquery("SELECT * FROM vtiger_cron_task WHERE name = ? AND status = '2'", array('MailScannerAction'));
-		if ($adb->num_rows($result) > 0) {
+		if ($adb->getRowCount($result) > 0) {
 			$return = $adb->query_result_rowdata($result, 0);
 		}
 		return $return;
@@ -541,7 +541,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		if ($checkCronStatus != false) {
 			$adb = PearDatabase::getInstance();
 			$result = $adb->pquery("SELECT * FROM vtiger_ossmailscanner_log_cron WHERE laststart = ?", array($checkCronStatus));
-			if ($adb->num_rows($result) == 0) {
+			if ($adb->getRowCount($result) == 0) {
 				$adb->pquery("INSERT INTO vtiger_ossmailscanner_log_cron (laststart,status) VALUES (?,0)", array($checkCronStatus));
 				$SUPPORT_NAME = vglobal('HELPDESK_SUPPORT_NAME');
 				$config = self::getConfig('cron');
@@ -593,14 +593,14 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$adb = PearDatabase::getInstance();
 		$actions = array('BindAccounts', 'BindContacts', 'BindLeads', 'BindHelpDesk', 'BindProject', 'BindServiceContracts', 'BindCampaigns');
 		$result = $adb->query("SELECT * FROM vtiger_ossmailview WHERE verify = '1' ");
-		$num_rows = $adb->num_rows($result);
-		if ($num_rows == 0) {
+		$getRowCount = $adb->getRowCount($result);
+		if ($getRowCount == 0) {
 			return false;
 		}
 		$return = [];
 		$OSSMailScannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$scan_id = $OSSMailScannerModel->add_scan_history(Array('user' => PHP_SAPI));
-		for ($i = 0; $i < $num_rows; $i++) {
+		for ($i = 0; $i < $getRowCount; $i++) {
 			$mail_detail['ossmailviewid'] = $adb->query_result($result, $i, 'ossmailviewid');
 			$mail_detail['message_id'] = $adb->query_result($result, $i, 'uid');
 			$mail_detail['fromaddress'] = $adb->query_result($result, $i, 'from_email');
@@ -621,7 +621,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$adb->pquery("update vtiger_ossmailview set verify = '0' WHERE ossmailviewid = ?", array($mail_detail['ossmailviewid']));
 			self::update_scan_history($scan_id, Array('status' => '1', 'count' => $i, 'action' => 'Action_CronBind'));
 		}
-		$OSSMailScannerModel->update_scan_history($scan_id, Array('status' => '0', 'count' => $num_rows, 'action' => 'Action_CronBind'));
+		$OSSMailScannerModel->update_scan_history($scan_id, Array('status' => '0', 'count' => $getRowCount, 'action' => 'Action_CronBind'));
 		return $return;
 	}
 

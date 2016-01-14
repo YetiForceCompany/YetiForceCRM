@@ -80,6 +80,7 @@ class yetiforce extends rcube_plugin
 		$crmmodule = rcube_utils::get_input_value('crmmodule', rcube_utils::INPUT_GPC);
 		$crmrecord = rcube_utils::get_input_value('crmrecord', rcube_utils::INPUT_GPC);
 		$crmview = rcube_utils::get_input_value('crmview', rcube_utils::INPUT_GPC);
+		$crmSubject = rcube_utils::get_input_value('subject', rcube_utils::INPUT_GPC);
 		if ($crmmodule) {
 			$_SESSION['compose_data_' . $id]['param']['module'] = $crmmodule;
 		}
@@ -118,6 +119,9 @@ class yetiforce extends rcube_plugin
 				else
 					$subject = 'Fwd: ' . $row['subject'];
 				break;
+		}
+		if(!empty($crmSubject)){
+			$subject .= ' ['.$crmSubject.']';
 		}
 		$args['param']['to'] = $to;
 		$args['param']['cc'] = $cc;

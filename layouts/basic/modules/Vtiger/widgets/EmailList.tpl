@@ -1,7 +1,6 @@
 {strip}
-	{assign var=EMAIL_MODULE_MODEL value=Vtiger_Module_Model::getInstance('OSSMail')}
-	{assign var=CONFIG value=$EMAIL_MODULE_MODEL->getComposeParameters()}
-	{assign var=URLDATA value=$EMAIL_MODULE_MODEL->getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', $CONFIG['popup'])}
+	{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
+	{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
 	<div class="summaryWidgetContainer">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 			<div class="widget_header">

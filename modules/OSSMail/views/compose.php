@@ -37,13 +37,13 @@ class OSSMail_compose_View extends Vtiger_Index_View
 			}
 		}
 		$config = OSSMail_Module_Model::getComposeParameters();
-		$param = OSSMail_Module_Model::getComposeUrlParam($request->get('crmModule'), $request->get('crmRecord'), $request->get('crmView'));
-		if ($request->get('id') != '' && $request->get('type') != '') {
-			$param .= '&crmid=' . (int) $request->get('id') . '&type=' . $request->get('type');
+		$param = OSSMail_Module_Model::getComposeUrlParam($request->get('crmModule'), $request->get('crmRecord'), $request->get('type'), $request->get('crmView'));
+		if ($request->get('mid') != '' && $request->get('type') != '') {
+			$param .= '&crmid=' . (int) $request->get('mid') . '&type=' . $request->get('type');
 		}
 		$this->mainUrl = $this->mainUrl . $param;
 
-		if ($config['popup'] && $request->get('popup') == 1) {
+		if ($config['popup']) {
 			header('Location: ' . $this->mainUrl . '&_extwin=1');
 			exit;
 		}

@@ -53,6 +53,40 @@ var Vtiger_Index_Js = {
 		})
 		return aDeferred.promise();
 	},
+	registerMailButtons: function (container) {
+		var thisInstance = this;
+
+		container.find('.sendMailBtn').click(function (e) {
+			var sendButton = jQuery(this);
+			var url = sendButton.data("url");
+			var module = sendButton.data("module");
+			var record = sendButton.data("record");
+			var popup = sendButton.data("popup");
+
+			if (module != undefined && record != undefined ){
+				thisInstance.getEmailFromRecord(record, module).then(function (data) {
+					if (data != '') {
+						url += '&to=' + data;
+					}
+					thisInstance.sendMailWindow(url, popup);
+				});
+			}else{
+				thisInstance.sendMailWindow(url, popup);
+			}
+		});
+	},
+	sendMailWindow: function (url, popup) {
+		if (popup) {
+			var width = screen.width - 15;
+			var height = screen.height - 150;
+			var left = 0;
+			var top = 30;
+			var params = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top;
+			window.open(url, '_blank', params + ',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,status=nomenubar=no');
+		} else {
+			window.location.href = url;
+		}
+	},
 	registerWidgetsEvents: function () {
 		var widgets = jQuery('div.widgetContainer');
 		widgets.on('shown.bs.collapse', function (e) {

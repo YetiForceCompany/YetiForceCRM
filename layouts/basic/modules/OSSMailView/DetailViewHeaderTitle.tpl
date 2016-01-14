@@ -10,6 +10,13 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
+	<input id="from_email" type="hidden" value="{$RECORD->get('from_email')}" />
+	<input id="to_email" type="hidden" value="{$RECORD->get('to_email')}" />
+	<input id="cc_email" type="hidden" value="{$RECORD->get('cc_email')}" />
+	<input id="subject" type="hidden" value="{$RECORD->get('subject')}" />
+	<input id="createdtime" type="hidden" value="{$RECORD->get('createdtime')}" />
+	<div id="content" style="display: none;">{$RECORD->get('content')}</div>
 	<div class="col-xs-10 col-sm-9 col-md-8 margin0px">
 		<div class="moduleIcon">
 			<span class="detailViewIcon userIcon-{$MODULE}"></span>

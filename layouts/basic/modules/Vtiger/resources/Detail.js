@@ -2548,6 +2548,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			app.showModalWindow("", url, function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.registerMailPreviewWidget(data);
+				Vtiger_Index_Js.registerMailButtons(data);
 				data.find('.expandAllMails').click();
 				data.find('.showMailModal').click(function (e) {
 					var progressIndicatorElement = jQuery.progressIndicator();
@@ -2568,6 +2569,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			container.find('.showMailBody .glyphicon').removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
 		});
 		container.find('.widget_contents').on(thisInstance.widgetPostLoad, function (e, widgetName) {
+			Vtiger_Index_Js.registerMailButtons(container);
 			container.find('.showMailModal').click(function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator();
 				app.showModalWindow("", $(e.currentTarget).data('url'), function () {
@@ -2575,31 +2577,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			});
 		});
-		container.find('.sendMailBtn').click(function (e) {
-			var sendButton = jQuery(e.currentTarget);
-			var url = sendButton.data("url");
-			var module = sendButton.data("module");
-			var record = sendButton.data("record");
-			var popup = sendButton.data("popup");
-			Vtiger_Index_Js.getEmailFromRecord(record, module).then(function (data) {
-				if (data != '') {
-					url += '&to=' + data;
-				}
-				thisInstance.sendMailWindow(url, popup);
-			});
-		});
-	},
-	sendMailWindow: function (url, popup) {
-		if (popup) {
-			var width = screen.width - 15;
-			var height = screen.height - 150;
-			var left = 0;
-			var top = 30;
-			var params = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top;
-			window.open(url, '_blank', params + ',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,status=nomenubar=no');
-		} else {
-			window.location.href = url;
-		}
 	},
 	loadMailPreviewWidget: function (widgetContent) {
 		var thisInstance = this;
