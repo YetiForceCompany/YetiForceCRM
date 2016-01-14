@@ -871,6 +871,15 @@ CREATE TABLE `u_yf_favorites` (
   CONSTRAINT `fk_u_yf_favorites` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_github` */
+
+CREATE TABLE `u_yf_github` (
+  `github_id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` varchar(20) DEFAULT NULL,
+  `token` varchar(100) DEFAULT NULL,
+  KEY `github_id` (`github_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_partners` */
 
 CREATE TABLE `u_yf_partners` (
