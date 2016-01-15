@@ -41,10 +41,15 @@
 			</button>
 		</div>
 	{/if}
+	<div class="pull-left">
+		<button class="btn btn-primary addIssuesBtn">
+			{vtranslate('LBL_ADD_ISSUES', $QUALIFIED_MODULE_NAME)}
+		</button>
+	</div>
 	<div class="listViewActions pull-right paginationDiv paddingLeft5px">
 		{include file='Pagination.tpl'|@vtemplate_path}
 	</div>
-	<div class="col-sm-4 pull-right ">
+	<div class="col-sm-4 pull-right">
 		<div class="bootstrap-switch-container pull-right">
 			<input class="switchBtn" {if $ISSUES_STATE eq 'closed'}checked {/if}type="checkbox" data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{vtranslate('LBL_OPEN', $QUALIFIED_MODULE_NAME)}" data-on-text="{vtranslate('LBL_CLOSED', $QUALIFIED_MODULE_NAME)}">
 		</div>
@@ -79,27 +84,4 @@
 			{/foreach}
 		</tbody>
 	</table>
-	{if $GITHUB_CLIENT_MODEL->isAuthorized()}
-		<hr>
-		<div class="col-xs-12 paddingLRZero">
-			<div class="col-xs-8 paddingLRZero">
-				<h4>{vtranslate('LBL_ADD_ISSUE', $QUALIFIED_MODULE_NAME)}</h4>
-			</div>
-			<div class="pull-right">
-				<button class="btn btn-success pull-right saveIssues" type="submit">
-					{vtranslate('LBL_ADD_ISSUES', $QUALIFIED_MODULE_NAME)}
-				</button>
-			</div>
-		</div>
-		<div class="col-xs-12 paddingLRZero">
-			<div class="col-xs-12 paddingLRZero marginBottom10px">
-				{vtranslate('LBL_TITLE', $QUALIFIED_MODULE_NAME)}
-				<input id="titleIssues" class="form-control" type="text" name="title" value="">
-			</div>
-			<div class="col-xs-12 paddingLRZero marginBottom10px">
-				{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE_NAME)}
-				<textarea id="bodyIssues" class="form-control ckEditorSource" type="text" name="title"></textarea>
-			</div>
-		</div>
-	{/if}
 {/strip}

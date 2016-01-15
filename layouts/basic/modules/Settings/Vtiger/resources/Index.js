@@ -214,13 +214,11 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
                                                 
                                                 });
         },
-	loadCkEditorElement: function (noteContentElement) {
+	loadCkEditorElement: function () {
 		var customConfig = {};
-		noteContentElement = jQuery('.ckEditorSource');
-		if (noteContentElement.is(':visible')){
-			var ckEditorInstance = new Vtiger_CkEditor_Js();
-			ckEditorInstance.loadCkEditor(noteContentElement, customConfig);
-		}
+		var noteContentElement = jQuery('.ckEditorSource');
+		var ckEditorInstance = new Vtiger_CkEditor_Js();
+		ckEditorInstance.loadCkEditor(noteContentElement, customConfig);
 	},
 	registerSaveIssues: function(){
 		var title = jQuery('#titleIssues');
@@ -286,15 +284,30 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 	registerEventsForGithub: function (container){
 		var thisInstance = this;
 		thisInstance.registerAuthorizedEvent();
-		thisInstance.loadCkEditorElement();
 		thisInstance.registerSaveIssues();
 		thisInstance.registerPagination();
 		app.showBtnSwitch(container.find('.switchBtn'));
 		container.find('.switchBtn').on('switchChange.bootstrapSwitch', function (e, state) {
-		if(state)
-			thisInstance.loadContent('Github', 1, 'closed');
-		else
-			thisInstance.loadContent('Github', 1, 'open');
+			if(state)
+				thisInstance.loadContent('Github', 1, 'closed');
+			else
+				thisInstance.loadContent('Github', 1, 'open');
+		});
+		
+		$('.addIssuesBtn').on('click', function(){
+			var params = {
+				module  : 'Github',
+				parent : 'Settings',
+				view : 'AddIssueAJAX'
+			};
+
+			container.progressIndicator({});
+			AppConnector.request(params).then(function(data){
+				container.progressIndicator({mode: 'hide'});
+				app.showModalWindow(data, function(){
+					thisInstance.loadCkEditorElement();
+				});
+			});
 		});
 	},
 	loadContent: function(mode, page, state){
