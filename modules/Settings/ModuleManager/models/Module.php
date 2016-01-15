@@ -127,7 +127,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$module->initTables();
 
 		$block = new Vtiger_Block();
-		$block->label = 'LBL_' . $module->name . '_INFORMATION';
+		$block->label = 'LBL_' . strtoupper($module->name) . '_INFORMATION';
 		$module->addBlock($block);
 
 		$blockcf = new Vtiger_Block();
@@ -148,7 +148,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		/** Common fields that should be in every module, linked to vtiger CRM core table */
 		$field2 = new Vtiger_Field();
 		$field2->name = 'number';
-		$field2->label = 'Number';
+		$field2->label = 'FL_NUMBER';
 		$field2->column = 'number';
 		$field2->table = $module->basetable;
 		$field2->uitype = 4;
