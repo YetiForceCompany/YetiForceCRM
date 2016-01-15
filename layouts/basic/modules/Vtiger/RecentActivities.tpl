@@ -35,16 +35,7 @@
 						{else if $RECENT_ACTIVITY->isUpdate()}
 							<li>
 								<div>
-									<span>
-										<strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}</strong> 
-										&nbsp;&nbsp;{vtranslate('LBL_UPDATED', $MODULE_NAME)}
-										{if $RECENT_ACTIVITY->get('whodidsu') != 0}
-											&nbsp;&nbsp;
-											<span class="popoverTooltip" data-original-title="{vtranslate('LBL_SU_UPDATED', $MODULE_NAME)}" data-content="{$RECENT_ACTIVITY->getModifiedBy(true)->getDisplayName()}" data-placement="top">
-												<span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
-											</span>
-										{/if}
-									</span>
+									<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}</strong> {vtranslate('LBL_UPDATED', $MODULE_NAME)}</span>
 									<span class="pull-right"><p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($RECENT_ACTIVITY->getActivityTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</small></p></span>
 								</div>
 								{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}

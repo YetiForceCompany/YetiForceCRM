@@ -263,12 +263,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if ($this->getModule()->isInventory()) {
 			$this->initInventoryData();
 		}
-
-		if (Vtiger_Session::has('baseUserId') && !empty(Vtiger_Session::get('baseUserId'))) {
-			$baseUserId = Vtiger_Session::get('baseUserId');
-			$this->set('assigned_user_id', $baseUserId);
-		}
-
+		
 		$this->getModule()->saveRecord($this);
 
 		if ($this->getModule()->isInventory() && count($this->inventoryData) > 0) {
