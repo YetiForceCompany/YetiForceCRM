@@ -395,8 +395,7 @@ class ModTracker
 			'module' => $sourceModule,
 			'whodid' => $current_user->id,
 			'changedon' => $currentTime,
-			'status' => $type,
-			'whodidsu' => Vtiger_Session::get('baseUserId'),
+			'status' => $type
 		]);
 		$adb->insert('vtiger_modtracker_relations', [
 			'id' => $id,

@@ -4429,7 +4429,6 @@ CREATE TABLE `vtiger_modtracker_basic` (
   `whodid` int(20) DEFAULT NULL,
   `changedon` datetime DEFAULT NULL,
   `status` int(1) DEFAULT '0',
-  `whodidsu` int(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `crmidx` (`crmid`),
   KEY `idx` (`id`),
