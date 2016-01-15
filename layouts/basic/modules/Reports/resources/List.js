@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 Vtiger_List_Js("Reports_List_Js",{
 
@@ -177,6 +178,7 @@ Vtiger_List_Js("Reports_List_Js",{
 	},
 
 	updateCustomFilter : function (info){
+		var thisInstance = this;
 		var folderId = info.folderId;
 		var customFilter =  jQuery("#customFilter");
 		var constructedOption = this.constructOptionElement(info);
@@ -184,10 +186,14 @@ Vtiger_List_Js("Reports_List_Js",{
 		var optionElement = jQuery('#'+optionId);
 		if(optionElement.length > 0){
 			optionElement.replaceWith(constructedOption);
-			customFilter.trigger("chosen:updated");
-		} else {
-			customFilter.find('#foldersBlock').append(constructedOption).trigger("chosen:updated");
 			app.showSelect2ElementView(customFilter);
+		} else {
+			customFilter.find('#foldersBlock').append(constructedOption);
+			app.showSelect2ElementView(customFilter);
+			this.filterBlock = false;
+			thisInstance.registerCustomFilterOptionsHoverEvent();
+			thisInstance.registerDeleteFilterClickEvent();
+			thisInstance.registerEditFilterClickEvent();
 		}
 	},
 
@@ -233,14 +239,25 @@ Vtiger_List_Js("Reports_List_Js",{
 		AppConnector.request(url).then(
 			function(data){
 				if(data.success) {
-					var chosenOption = jQuery(event.currentTarget).closest('.select2-result-selectable');
-					var selectOption = thisInstance.getSelectOptionFromChosenOption(chosenOption);
-					selectOption.remove();
-					var customFilterElement = thisInstance.getFilterSelectElement();
-					customFilterElement.trigger("chosen:updated");
-					var defaultCvid = customFilterElement.find('option:first').val();
-					customFilterElement.select2("val", defaultCvid);
-					customFilterElement.trigger('change');
+					var response = data.result
+					if (response.success) {
+						var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
+						var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
+						var deleteUrl = currentOptionElement.data('deleteurl');
+						var newEle = '<form action="index.php?module=Reports&view=List" method="POST">';
+						if (typeof csrfMagicName !== 'undefined') {
+							newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
+						}
+						newEle += '</form>';
+						var formElement = jQuery(newEle);
+						formElement.appendTo('body').submit();
+					} else {
+						var params = {
+							title: app.vtranslate('JS_INFORMATION'),
+							text: response.message
+						}
+						Vtiger_Helper_Js.showPnotify(params);
+					}
 				} else {
 					app.hideModalWindow();
 					var params = {
@@ -259,7 +276,7 @@ Vtiger_List_Js("Reports_List_Js",{
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
 		listViewFilterBlock.on('mouseup','li span.editFilter',function(event){
-			var liElement = jQuery(event.currentTarget).closest('.select2-result-selectable');
+			var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
 			var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 			var editUrl = currentOptionElement.data('editurl');
 			Reports_List_Js.triggerAddFolder(editUrl);
@@ -277,7 +294,7 @@ Vtiger_List_Js("Reports_List_Js",{
 		listViewFilterBlock.on('mouseup','li span.deleteFilter',function(event){
 			// To close the custom filter Select Element drop down
 			thisInstance.getFilterSelectElement().data('select2').close();
-			var liElement = jQuery(event.currentTarget).closest('.select2-result-selectable');
+			var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
 			Vtiger_Helper_Js.showConfirmationBox({'message' : message}).then(
 				function(e) {

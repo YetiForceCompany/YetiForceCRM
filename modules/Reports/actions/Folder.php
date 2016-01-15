@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Reports_Folder_Action extends Vtiger_Action_Controller {
@@ -74,15 +75,18 @@ class Reports_Folder_Action extends Vtiger_Action_Controller {
 			$folderModel = Reports_Folder_Model::getInstanceById($folderId);
 
 			if ($folderModel->isDefault()) {
-				throw new AppException(vtranslate('LBL_FOLDER_CAN_NOT_BE_DELETED', $moduleName));
+				$message = vtranslate('LBL_FOLDER_CAN_NOT_BE_DELETED', $moduleName);
 			} else {
 				if ($folderModel->hasReports()) {
-					throw new AppException(vtranslate('LBL_FOLDER_NOT_EMPTY', $moduleName));
+					$message = vtranslate('LBL_FOLDER_NOT_EMPTY', $moduleName);
 				}
 			}
-
-			$folderModel->delete();
-			$result = array('success'=>true, 'message'=>vtranslate('LBL_FOLDER_DELETED', $moduleName));
+			if($message){
+				$result = array('success'=>false, 'message'=>$message);
+			}else{
+				$folderModel->delete();
+				$result = array('success'=>true, 'message'=>vtranslate('LBL_FOLDER_DELETED', $moduleName));
+			}
 
 			$response = new Vtiger_Response();
 			$response->setResult($result);
