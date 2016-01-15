@@ -1098,6 +1098,7 @@ $languageStrings = [
 	'FL_SUB_PROCESS' => 'Podproces',
 	'LBL_VIEW_DUPLICATE' => 'Duplikat',
 	'LBL_VIEW_INDEX' => 'Start',
+	'LBL_SU_UPDATED' => 'Record zaktualizowany przez innego użytkownika',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

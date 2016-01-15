@@ -35,10 +35,18 @@
 						{else if $RECENT_ACTIVITY->isUpdate()}
 							<li>
 								<div>
-									<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}</strong> {vtranslate('LBL_UPDATED', $MODULE_NAME)}</span>
+									<span>
+										<strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}</strong> 
+										&nbsp;&nbsp;{vtranslate('LBL_UPDATED', $MODULE_NAME)}
+										{if $RECENT_ACTIVITY->get('whodidsu') != 0}
+											&nbsp;&nbsp;
+											<span class="popoverTooltip" data-original-title="{vtranslate('LBL_SU_UPDATED', $MODULE_NAME)}" data-content="{$RECENT_ACTIVITY->getModifiedBy(true)->getDisplayName()}" data-placement="top">
+												<span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
+											</span>
+										{/if}
+									</span>
 									<span class="pull-right"><p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($RECENT_ACTIVITY->getActivityTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</small></p></span>
 								</div>
-	
 								{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 									{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
 										<div class='font-x-small updateInfoContainer'>
@@ -55,11 +63,9 @@
 													&nbsp;{vtranslate('LBL_TO')}&nbsp;<strong style="white-space:pre-wrap;">
 													{vtranslate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue')))),$MODULE_NAME)}</strong>
 												{/if}
-	
 										</div>
 									{/if}
 								{/foreach}
-	
 							</li>
 						{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
 							<li>

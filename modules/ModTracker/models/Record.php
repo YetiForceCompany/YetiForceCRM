@@ -103,9 +103,13 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return $this->checkStatus(self::UNLINK);
 	}
 
-	function getModifiedBy()
+	function getModifiedBy($orginal = false)
 	{
-		$changeUserId = $this->get('whodid');
+		if($orginal){
+			$changeUserId = $this->get('whodidsu');
+		} else {
+			$changeUserId = $this->get('whodid');
+		}
 		return Users_Record_Model::getInstanceById($changeUserId, 'Users');
 	}
 
