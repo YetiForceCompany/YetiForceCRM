@@ -26,22 +26,6 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		$moduleModel = $this->getModule();
 		$recordId = $recordModel->getId();
 
-		//TODO: update the database so that these separate handlings are not required
-		$index = 0;
-		foreach ($linkModelList['DETAILVIEW'] as $link) {
-			if ($link->linklabel == 'View History' || $link->linklabel == 'Send SMS') {
-				unset($linkModelList['DETAILVIEW'][$index]);
-			} else if ($link->linklabel == 'LBL_SHOW_ACCOUNT_HIERARCHY') {
-				$link->linklabel = 'LBL_SHOW_ACCOUNT_HIERARCHY';
-				$linkURL = 'index.php?module=Accounts&view=AccountHierarchy&record=' . $recordId;
-				$link->linkurl = 'javascript:Accounts_Detail_Js.triggerAccountHierarchy("' . $linkURL . '");';
-				$link->linkclass = 'hierarchy';
-				unset($linkModelList['DETAILVIEW'][$index]);
-				$linkModelList['DETAILVIEW'][$index] = $link;
-			}
-			$index++;
-		}
-
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'DetailTransferOwnership')) {
 			$massActionLink = array(
 				'linktype' => 'LISTVIEWMASSACTION',
@@ -64,12 +48,12 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 
 		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
 			$relatedLinks = [[
-					'linktype' => 'DETAILVIEWTAB',
-					'linklabel' => vtranslate('LBL_RECORD_SUMMARY', $moduleName),
-					'linkKey' => 'LBL_RECORD_SUMMARY',
-					'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=summary',
-					'linkicon' => '',
-					'related' => 'Summary'
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => vtranslate('LBL_RECORD_SUMMARY', $moduleName),
+				'linkKey' => 'LBL_RECORD_SUMMARY',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=summary',
+				'linkicon' => '',
+				'related' => 'Summary'
 			]];
 		}
 		//link which shows the summary information(generally detail of record)
@@ -104,7 +88,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			$relatedLinks[] = array(
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'ModComments',
-				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments&type='.$modCommentsModel::getDefaultViewComments(),
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments&type=' . $modCommentsModel::getDefaultViewComments(),
 				'linkicon' => '',
 				'related' => 'Comments',
 				'countRelated' => true
@@ -120,7 +104,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'related' => 'Updates'
 			);
 		}
-		
+
 		$relationModels = $parentModuleModel->getRelations();
 
 		foreach ($relationModels as $relation) {
