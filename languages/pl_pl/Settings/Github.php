@@ -8,4 +8,6 @@ $languageStrings = [
 	'LBL_AUTHOR' => 'Autor',
 	'LBL_ADD_ISSUES' => 'Dodaj',
 	'LBL_ADD_ISSUE' => 'Dodaj problem',
+	'LBL_CLOSED' => 'Zamknięte',
+	'LBL_OPEN' => 'Otwarte',
 ];

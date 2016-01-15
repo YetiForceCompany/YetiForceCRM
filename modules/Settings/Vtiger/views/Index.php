@@ -98,7 +98,8 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		if(empty($pageNumber)){
 			$pageNumber = 1;
 		}
-		$issues = $clientModel->getAllIssues($pageNumber);
+		$state = empty($request->get('state')) ? 'open' : $request->get('state');
+		$issues = $clientModel->getAllIssues($pageNumber, $state);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('totalCount', (int) $clientModel->infoRepo->getOpenIssues());
@@ -106,7 +107,8 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
-		$viewer->assign('PAGE_NUMBER',$pageNumber );
+		$viewer->assign('PAGE_NUMBER',$pageNumber);
+		$viewer->assign('ISSUES_STATE',$state);
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('LISTVIEW_COUNT', $clientModel->infoRepo->getOpenIssues());
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);

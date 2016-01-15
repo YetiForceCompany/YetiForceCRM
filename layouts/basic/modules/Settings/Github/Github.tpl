@@ -44,6 +44,11 @@
 	<div class="listViewActions pull-right paginationDiv paddingLeft5px">
 		{include file='Pagination.tpl'|@vtemplate_path}
 	</div>
+	<div class="col-sm-4 pull-right ">
+		<div class="bootstrap-switch-container pull-right">
+			<input class="switchBtn" {if $ISSUES_STATE eq 'closed'}checked {/if}type="checkbox" data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{vtranslate('LBL_OPEN', $QUALIFIED_MODULE_NAME)}" data-on-text="{vtranslate('LBL_CLOSED', $QUALIFIED_MODULE_NAME)}">
+		</div>
+	</div>
 	<table class="table">
 		<thead>
 			<th>{vtranslate('LBL_TITLE', $QUALIFIED_MODULE_NAME)}</th>

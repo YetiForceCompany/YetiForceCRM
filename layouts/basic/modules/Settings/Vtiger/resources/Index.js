@@ -283,7 +283,21 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 			});
 		});
 	},
-	loadContent: function(mode, page){
+	registerEventsForGithub: function (container){
+		var thisInstance = this;
+		thisInstance.registerAuthorizedEvent();
+		thisInstance.loadCkEditorElement();
+		thisInstance.registerSaveIssues();
+		thisInstance.registerPagination();
+		app.showBtnSwitch(container.find('.switchBtn'));
+		container.find('.switchBtn').on('switchChange.bootstrapSwitch', function (e, state) {
+		if(state)
+			thisInstance.loadContent('Github', 1, 'closed');
+		else
+			thisInstance.loadContent('Github', 1, 'open');
+		});
+	},
+	loadContent: function(mode, page, state){
 		var thisInstance = this;
 		var container = jQuery('.indexContainer');
 		var params = {
@@ -291,16 +305,15 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 			module  : app.getModuleName(),
 			parent : 'Settings',
 			view : 'Index',
-			page : page
+			page : page,
+			state: state
 		};
+		
 		container.progressIndicator({});
 		AppConnector.request(params).then(function(data){
 			container.progressIndicator({mode: 'hide'});
 			container.html(data);
-			thisInstance.registerAuthorizedEvent();
-			thisInstance.loadCkEditorElement();
-			thisInstance.registerSaveIssues();
-			thisInstance.registerPagination();
+			thisInstance.registerEventsForGithub(container);
 		});
 	},
 	registerEvents: function() {
