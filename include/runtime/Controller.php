@@ -33,6 +33,11 @@ abstract class Vtiger_Controller
 		
 	}
 
+	function preProcessAjax(Vtiger_Request $request)
+	{
+		
+	}
+
 	function preProcess(Vtiger_Request $request)
 	{
 		
