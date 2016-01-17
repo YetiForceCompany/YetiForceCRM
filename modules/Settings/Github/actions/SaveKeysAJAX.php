@@ -12,11 +12,18 @@ class Settings_Github_SaveKeysAJAX_Action extends Settings_Vtiger_Basic_Action
 	{
 		$clientId = $request->get('client_id');
 		$token = $request->get('token');
+		$username = $request->get('username');
 		$clientModel = Settings_Github_Client_Model::getInstance();
 		$clientModel->setToken($token);
 		$clientModel->setClientId($clientId);
-		$success = $clientModel->saveKeys();
-		$success = $success ? true : false;
+		$clientModel->setUsername($username);
+		if($clientModel->checkToken()){
+			$success = $clientModel->saveKeys();
+			$success = $success ? true : false;
+		}
+		else{
+			$success = false;
+		}
 		$responce = new Vtiger_Response();
 		$responce->setResult(array('success' => $success));
 		$responce->emit();

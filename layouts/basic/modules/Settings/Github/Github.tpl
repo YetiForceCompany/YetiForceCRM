@@ -21,6 +21,13 @@
 							</div>
 						</div>
 						<div class="modal-body row ">
+							<div class="col-xs-12">
+								<div class="alert alert-danger errorMsg hide"></div>
+							</div>
+							<div class="col-xs-12 marginBottom10px">
+								{vtranslate('LBL_USER_NAME', $QUALIFIED_MODULE_NAME)}
+								<input class="form-control" name="username" value="" type="text">
+							</div>
 							<div class="col-xs-12 marginBottom10px">
 								{vtranslate('LBL_ID_CLIENT', $QUALIFIED_MODULE_NAME)}
 								<input class="form-control" name="client_id" value="" type="text">
@@ -41,47 +48,66 @@
 			</button>
 		</div>
 	{/if}
-	<div class="pull-left">
-		<button class="btn btn-primary addIssuesBtn">
-			{vtranslate('LBL_ADD_ISSUES', $QUALIFIED_MODULE_NAME)}
-		</button>
-	</div>
-	<div class="listViewActions pull-right paginationDiv paddingLeft5px">
-		{include file='Pagination.tpl'|@vtemplate_path}
-	</div>
-	<div class="col-sm-4 pull-right">
-		<div class="bootstrap-switch-container pull-right">
-			<input class="switchBtn" {if $ISSUES_STATE eq 'closed'}checked {/if}type="checkbox" data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{vtranslate('LBL_OPEN', $QUALIFIED_MODULE_NAME)}" data-on-text="{vtranslate('LBL_CLOSED', $QUALIFIED_MODULE_NAME)}">
+	{if $GITHUB_ISSUES !== false}
+		{if $GITHUB_CLIENT_MODEL->isAuthorized()}
+			<div class="pull-left">
+				<button class="btn btn-primary addIssuesBtn">
+					{vtranslate('LBL_ADD_ISSUES', $QUALIFIED_MODULE_NAME)}
+				</button>
+			</div>
+		{/if}
+		<div class="listViewActions pull-right paginationDiv paddingLeft5px">
+			{include file='Pagination.tpl'|@vtemplate_path}
 		</div>
-	</div>
-	<table class="table">
-		<thead>
-			<th>{vtranslate('LBL_TITLE', $QUALIFIED_MODULE_NAME)}</th>
-			<th>{vtranslate('LBL_AUTHOR', $QUALIFIED_MODULE_NAME)}</th>
-			<th>{vtranslate('LBL_STATUS', $QUALIFIED_MODULE_NAME)}</th>
-			<th></th>
-		</thead>
-		<tbody>
-			{foreach from=$GITHUB_ISSUES item=ISSUE}
-				<tr>
-					<td>
-						{$ISSUE->getTitle()}
-					</td>
-					<td>
-						{$ISSUE->getUser()->getLogin()}
-					</td>
-					<td>
-						{$ISSUE->getState()}
-					</td>
-					<td>
-						<div class="pull-right actions">
-							<a href="{$ISSUE->getHtmlUrl()}">
-								<span title="" class="glyphicon glyphicon-pencil alignMiddle"></span>
-							</a>
-						</div>
-					</td>
-				</tr>	
-			{/foreach}
-		</tbody>
-	</table>
+		<div class="col-sm-4 pull-right">
+			{if $GITHUB_CLIENT_MODEL->isAuthorized()}
+				<div class="bootstrap-switch-container pull-right marginLeft10">
+					<input class="switchBtn switchAuthor" {if $IS_AUTHOR} checked {/if}type="checkbox" data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{vtranslate('LBL_ALL', $QUALIFIED_MODULE_NAME)}" data-on-text="{vtranslate('LBL_ME', $QUALIFIED_MODULE_NAME)}">
+				</div>
+			{/if}
+			<div class="bootstrap-switch-container pull-right">
+				<input class="switchBtn switchState" {if $ISSUES_STATE eq 'closed'}checked {/if}type="checkbox" data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{vtranslate('LBL_OPEN', $QUALIFIED_MODULE_NAME)}" data-on-text="{vtranslate('LBL_CLOSED', $QUALIFIED_MODULE_NAME)}">
+			</div>
+		</div>
+		<table class="table">
+			<thead>
+				<th>{vtranslate('LBL_TITLE', $QUALIFIED_MODULE_NAME)}</th>
+				<th>{vtranslate('LBL_AUTHOR', $QUALIFIED_MODULE_NAME)}</th>
+				<th>{vtranslate('LBL_STATUS', $QUALIFIED_MODULE_NAME)}</th>
+				<th></th>
+			</thead>
+			<tbody>
+				{foreach from=$GITHUB_ISSUES item=ISSUE}
+					<tr>
+						<td>
+							{$ISSUE->get('title')}
+						</td>
+						<td>
+							{$ISSUE->get('user')->login}
+						</td>
+						<td>
+							{$ISSUE->get('state')}
+						</td>
+						<td>
+							<div class="pull-right actions">
+								<a href="{$ISSUE->get('html_url')}">
+									<span title="" class="glyphicon glyphicon-pencil alignMiddle"></span>
+								</a>
+							</div>
+						</td>
+					</tr>	
+				{foreachelse}
+					<tr>
+						<td>
+							{vtranslate('LBL_NO_ISSUES', $QUALIFIED_MODULE_NAME)}
+						</td>
+					</tr>
+				{/foreach}
+			</tbody>
+		</table>
+	{else}
+		<div class="alert alert-danger">
+			{vtranslate('LBL_ERROR_CONNECTED', $QUALIFIED_MODULE_NAME)}
+		</div>
+	{/if}
 {/strip}

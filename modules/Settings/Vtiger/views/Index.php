@@ -92,27 +92,28 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = 'Settings:Github';
 		$clientModel = Settings_Github_Client_Model::getInstance();
-		$clientModel->authorization();
-		
+		$isAuthor = $request->get('author');
+		$isAuthor = $isAuthor == 'true' ? true : false;
 		$pageNumber = $request->get('page');
 		if(empty($pageNumber)){
 			$pageNumber = 1;
 		}
+		
 		$state = empty($request->get('state')) ? 'open' : $request->get('state');
-		$issues = $clientModel->getAllIssues($pageNumber, $state);
+		$issues = $clientModel->getAllIssues($pageNumber, $state, $isAuthor);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		$pagingModel->set('totalCount', (int) $clientModel->infoRepo->getOpenIssues());
+		$pagingModel->set('totalCount', Settings_Github_Issues_Model::$totalCount);
 		
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
+		$viewer->assign('IS_AUTHOR', $isAuthor);
 		$viewer->assign('PAGE_NUMBER',$pageNumber);
 		$viewer->assign('ISSUES_STATE',$state);
 		$viewer->assign('PAGE_COUNT', $pageCount);
-		$viewer->assign('LISTVIEW_COUNT', $clientModel->infoRepo->getOpenIssues());
+		$viewer->assign('LISTVIEW_COUNT', Settings_Github_Issues_Model::$totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
-		
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('QUALIFIED_MODULE_NAME', $qualifiedModuleName);
 		$viewer->assign('GITHUB_ISSUES', $issues);

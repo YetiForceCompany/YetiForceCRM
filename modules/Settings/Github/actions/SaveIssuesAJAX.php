@@ -14,7 +14,6 @@ class Settings_Github_SaveIssuesAJAX_Action extends Settings_Vtiger_Basic_Action
 		$title = $request->get('title');
 		$body = $request->get('body');
 		$clientModel = Settings_Github_Client_Model::getInstance();
-		$clientModel->authorization();
 		$success = $clientModel->createIssue($body, $title);
 		$success = $success ? true : false;
 		$responce = new Vtiger_Response();
