@@ -1,3 +1,5 @@
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+
 {if $API_INFO["key"] }
 	<table cellpadding="10" data-api-name="{$API_NAME}">
 		<tr>
