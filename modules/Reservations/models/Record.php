@@ -72,8 +72,8 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? AND reservations_status = ? AND projecttaskid = ?;", 
 			array(0,self::recalculateStatus,$ProjectTaskID) , true);
 		$sum_time = number_format($db->query_result( $sum_result, 0, 'sum' ),2);
-		$db->pquery( "UPDATE vtiger_projecttask SET sum_time = ? WHERE projecttaskid = ?;",
-			array($sum_time,$ProjectTaskID), true );
+//		$db->pquery( "UPDATE vtiger_projecttask SET sum_time = ? WHERE projecttaskid = ?;",
+//			array($sum_time,$ProjectTaskID), true );
 		return $sum_time;
 	}
 	public function recalculateServiceContracts($ServiceContractsID) {
@@ -132,8 +132,8 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 		//////////////////
 		//////// Sum
 		$sum_time_all = $sum_time + $sum_time_h + $sum_time_p;
-		$db->pquery( "UPDATE vtiger_servicecontracts SET sum_time = ?,sum_time_h = ?,sum_time_p = ?,sum_time_all = ? WHERE servicecontractsid = ?;",
-			array($sum_time,$sum_time_h,$sum_time_p,$sum_time_all,$ServiceContractsID), true );
+//		$db->pquery( "UPDATE vtiger_servicecontracts SET sum_time = ?,sum_time_h = ?,sum_time_p = ?,sum_time_all = ? WHERE servicecontractsid = ?;",
+//			array($sum_time,$sum_time_h,$sum_time_p,$sum_time_all,$ServiceContractsID), true );
 		return array($sum_time,$sum_time_h,$sum_time_p,$sum_time_all);
 	}
 
@@ -168,8 +168,8 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 		$sum_time_pt = number_format($db->query_result( $sum_time_pt_result, 0, 'sum' ),2);
 		//////// Sum
 		$sum_time_all = $sum_time + $sum_time_h + $sum_time_pt;
-		$db->pquery( "UPDATE vtiger_project SET sum_time = ?,sum_time_h = ?,sum_time_pt = ?,sum_time_all = ? WHERE projectid = ?;",
-			array($sum_time,$sum_time_h,$sum_time_pt,$sum_time_all,$ProjectID), true );
+//		$db->pquery( "UPDATE vtiger_project SET sum_time = ?,sum_time_h = ?,sum_time_pt = ?,sum_time_all = ? WHERE projectid = ?;",
+//			array($sum_time,$sum_time_h,$sum_time_pt,$sum_time_all,$ProjectID), true );
 		return array($sum_time,$sum_time_h,$sum_time_pt,$sum_time_all);
 	}
 	public function recalculateHelpDesk($HelpDeskID) {
@@ -179,8 +179,8 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? AND reservations_status = ? AND ticketid = ?;", 
 			array(0,self::recalculateStatus,$HelpDeskID) , true);
 		$sum_time = number_format($db->query_result( $sum_result, 0, 'sum' ),2);
-		$db->pquery( "UPDATE vtiger_troubletickets SET sum_time = ? WHERE ticketid = ?;",
-			array($sum_time,$HelpDeskID), true );
+//		$db->pquery( "UPDATE vtiger_troubletickets SET sum_time = ? WHERE ticketid = ?;",
+//			array($sum_time,$HelpDeskID), true );
 		return $sum_time;
 	}
 	public function getProjectRelatedIDS($ProjectID) {

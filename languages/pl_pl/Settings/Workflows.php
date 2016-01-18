@@ -168,6 +168,8 @@ $languageStrings = [
 	'Send Notification' => 'Wyślij zaproszenie',
 	'Create Address Book' => 'Generuj książkę adresową mail',
 	'LBL_UPDATE_DATES_CREATED_EVENTS_AUTOMATICALLY' => 'Aktualizuj daty automatycznie utworzonych wydarzeń',
+	'LBL_UPDATE_WORK_TIME_AUTOMATICALLY' => 'Automatycznie aktualizuj czas pracy',
+	'LBL_UPDATE_WORK_TIME' => 'Aktualizacja czasu pracy',
 	//workflow add time
 	'Current Date' => 'Aktualna data',
 	'Current Time' => 'Aktualny czas',

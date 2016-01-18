@@ -181,6 +181,8 @@ $languageStrings = [
 	'Send Notification' => 'Convites - Enviar Notificação',
 	'Create Address Book' => 'Criar Livro de Endereços',
 	'LBL_UPDATE_DATES_CREATED_EVENTS_AUTOMATICALLY' => 'Update the dates of created events automatically',
+	'LBL_UPDATE_WORK_TIME_AUTOMATICALLY' => 'Automatically update working time',
+	'LBL_UPDATE_WORK_TIME' => 'Update working time',
 	//workflow add time
 	'Current Date' => 'Data Atual',
 	'Current Time' => 'Hora Atual',
