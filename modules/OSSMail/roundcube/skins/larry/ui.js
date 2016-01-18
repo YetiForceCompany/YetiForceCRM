@@ -458,7 +458,8 @@ function rcube_mail_ui()
    */
   function layout_messageview()
   {
-    $('#messagecontent').css('top', ($('#messageheader').outerHeight() + 1) + 'px');
+    //$('#messagecontent').css('top', ($('#messageheader').outerHeight() + 1) + 'px');
+	$('#messagecontent').css('top', ($('.ytHeader').outerHeight() + $('#messageheader').outerHeight()) + 'px'); //  YetiForce Sp. z o.o. //
     $('#message-objects div a').addClass('button');
 
     if (!$('#attachment-list li').length) {

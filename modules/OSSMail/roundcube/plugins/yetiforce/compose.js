@@ -38,8 +38,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
 			var prePopupOpenEvent = jQuery.Event(crm.Vtiger_Edit_Js.preReferencePopUpOpenEvent);
 			sourceFieldElement.trigger(prePopupOpenEvent);
 			var data = {};
-			var popupInstance = crm.Vtiger_Popup_Js.getInstance();
-			crm.show(params, function (data) {
+			show(params, function (data) {
 				var responseData = JSON.parse(data);
 				var ids = [];
 				for (var id in responseData) {

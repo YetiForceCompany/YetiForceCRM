@@ -37,7 +37,7 @@ $labels['to']      = 'Кому';
 $labels['cc']      = 'Копия';
 $labels['bcc']     = 'Скрытая';
 $labels['replyto'] = 'Ответить';
-$labels['followupto'] = 'Followup-To';
+$labels['followupto'] = 'Еще от';
 $labels['date']    = 'Дата';
 $labels['size']    = 'Размер';
 $labels['priority'] = 'Приоритет';
@@ -258,7 +258,7 @@ $labels['maxuploadsize'] = 'Максимальный размер файла $si
 $labels['addcc'] = 'Копия';
 $labels['addbcc'] = 'Скрытая копия';
 $labels['addreplyto'] = 'Кому ответить';
-$labels['addfollowupto'] = 'Добавить Followup-To';
+$labels['addfollowupto'] = 'Добавить еще от';
 $labels['mdnrequest'] = 'Отправитель этого сообщения запросил уведомление о прочтении. Отправить уведомление?';
 $labels['receiptread'] = 'Уведомление о прочтении';
 $labels['yourmessage'] = 'Это уведомление о прочтении вашего сообщения';
@@ -512,7 +512,7 @@ $labels['B'] = 'Б';
 $labels['KB'] = 'КБ';
 $labels['MB'] = 'МБ';
 $labels['GB'] = 'ГБ';
-$labels['unicode'] = 'Unicode';
+$labels['unicode'] = 'Юникод';
 $labels['english'] = 'Английский';
 $labels['westerneuropean'] = 'Западноевропейский';
 $labels['easterneuropean'] = 'Восточноевропейский';
@@ -579,4 +579,15 @@ $labels['helplistkeyboardnavmessages'] = "Стрелки вправо/влево
 Enter: Открыть выделенное сообщение.
 Delete: Переместить выбранные сообщения в Корзину.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Открыть выбранный контакт.";
+// <--------   YetiForce Sp. z o.o.   -------->
+$labels['selectmodule'] = 'Select the module for the template';
+$labels['selecttemplate'] = 'Templates';
+$labels['tpl'] = 'Template';
+$labels['vtmodule'] = 'Module';
+$labels['module_Contacts'] = 'Contacts';
+$labels['module_Accounts'] = 'Accounts';
+$labels['module_Leads'] = 'Leads';
+$labels['module_Vendors'] = 'Vendors';
+$labels['module_OSSEmployees'] = 'Employees';
+// <--------   YetiForce Sp. z o.o.   -------->
 ?>

@@ -578,4 +578,15 @@ $labels['helplistkeyboardnavmessages'] = "Strzałki prawo/lewo: Rozwiniecie/zwin
 ENTER: Otwarcie bieżącej wiadomości.
 DELETE: Usunięcie/Przeniesienie wiadomości do Kosza.";
 $labels['helplistkeyboardnavcontacts'] = "ENTER: Otwarcie bieżącego kontaktu.";
+// <--------   YetiForce Sp. z o.o.   -------->
+$labels['selectmodule'] = 'Wybierz moduł szablonu';
+$labels['selecttemplate'] = 'Wybierz szablon';
+$labels['tpl'] = 'Szablony';
+$labels['vtmodule'] = 'Moduły';
+$labels['module_Contacts'] = 'Kontakty';
+$labels['module_Accounts'] = 'Kontrahenci';
+$labels['module_Leads'] = 'Potencjalni klienci';
+$labels['module_Vendors'] = 'Dostawcy';
+$labels['module_OSSEmployees'] = 'Pracownicy';
+// <--------   YetiForce Sp. z o.o.   -------->
 ?>

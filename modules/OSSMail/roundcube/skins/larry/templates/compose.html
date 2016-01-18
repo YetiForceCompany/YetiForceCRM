@@ -6,6 +6,7 @@
 <roundcube:if condition="config:enable_spellcheck" />
 <link rel="stylesheet" type="text/css" href="/googiespell.css" />
 <roundcube:endif />
+<link rel="stylesheet" type="text/css" src="../../../layouts/basic/modules/OSSMail/resources/find_contact.css" />
 </head>
 <roundcube:if condition="env:extwin" /><body class="extwin"><roundcube:else /><body><roundcube:endif />
 
@@ -33,42 +34,12 @@
 	<roundcube:button name="addattachment" type="link" class="button attach" label="attach" title="addattachment" onclick="UI.show_uploadform(event);return false" aria-haspopup="true" aria-expanded="false"tabindex="2" />
 	<roundcube:button command="insert-sig" type="link" class="button insertsig disabled" classAct="button insertsig" label="signature" title="insertsignature" tabindex="2" />
 	<a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" id="responsesmenulink" unselectable="on" onmousedown="return false" onclick="UI.toggle_popup('responsesmenu',event);return false" tabindex="2" aria-haspopup="true" aria-expanded="false" aria-owns="textresponsesmenu"><roundcube:label name="responses" /></a>
+	<a href="#vtmodule" class="button archive disabled" label="vtmodule" title="<roundcube:label name='selectmodule' />" id="vtmodulemenulink" unselectable="on" onmousedown="return false" onclick="UI.show_popup('vtmodulemenu');return false"><roundcube:label name="vtmodule" /></a>
+	<a href="#tpl" class="button download disabled" label="tpl" title="<roundcube:label name='selecttemplate' />" id="tplmenulink" unselectable="on" onmousedown="return false" onclick="UI.show_popup('tplmenu');return false"><roundcube:label name="tpl" /></a>
 	<roundcube:container name="toolbar" id="compose-toolbar" />
 </div>
 
 <div id="mainscreencontent">
-
-<div id="composeview-left">
-
-<!-- inline address book -->
-<div id="compose-contacts" class="uibox listbox" role="region" aria-labelledby="aria-label-composecontacts">
-<h2 id="aria-label-composecontacts" class="boxtitle"><roundcube:label name="contacts" /></h2>
-	<div class="listsearchbox" role="search" aria-labelledby="aria-label-composequicksearch">
-		<h3 id="aria-label-composequicksearch" class="voice"><roundcube:label name="arialabelcontactquicksearch" /></h3>
-		<div class="searchbox">
-			<label for="contactsearchbox" class="voice"><roundcube:label name="arialabelcontactsearchbox" /></label>
-			<roundcube:object name="searchform" id="contactsearchbox" />
-			<a id="searchmenulink" class="iconbutton searchicon"> </a>
-			<roundcube:button command="reset-search" class="iconbutton reset" title="resetsearch" content=" " />
-		</div>
-	</div>
-	<roundcube:object name="addressbooks" id="directorylist" class="treelist listing" summary="ariasummarycomposecontacts" />
-	<div class="scroller withfooter" tabindex="-1">
-		<roundcube:object name="addresslist" id="contacts-table" class="listing iconized" noheader="true" role="listbox" />
-	</div>
-<div class="boxfooter">
-	<roundcube:button command="add-recipient" prop="to" type="link" title="to" class="listbutton addto disabled" classAct="listbutton addto" innerClass="inner" content="To+" /><roundcube:button command="add-recipient" prop="cc" type="link" title="cc" class="listbutton addcc disabled" classAct="listbutton addcc" innerClass="inner" content="Cc+" /><roundcube:button command="add-recipient" prop="bcc" type="link" title="bcc" class="listbutton addbcc disabled" classAct="listbutton addbcc" innerClass="inner" content="Bcc+" />
-</div>
-<div class="boxpagenav">
-	<roundcube:button command="firstpage" type="link" class="icon firstpage disabled" classAct="icon firstpage" title="firstpage" label="first" />
-	<roundcube:button command="previouspage" type="link" class="icon prevpage disabled" classAct="icon prevpage" title="previouspage" label="previous" />
-	<roundcube:button command="nextpage" type="link" class="icon nextpage disabled" classAct="icon nextpage" title="nextpage" label="next" />
-	<roundcube:button command="lastpage" type="link" class="icon lastpage disabled" classAct="icon lastpage" title="lastpage" label="last" />
-</div>
-</div>
-
-</div>
-
 <div id="composeview-right" role="main">
 
 <roundcube:form name="form" method="post" id="compose-content" class="uibox">
@@ -89,31 +60,126 @@
 		</td>
 	</tr><tr>
 		<td class="title top"><label for="_to"><roundcube:label name="to" /></label></td>
-		<td class="editfield"><roundcube:object name="composeHeaders" part="to" form="form" id="_to" cols="70" rows="1" tabindex="1" aria-required="true" /></td>
+		<td class="editfield">
+			<roundcube:object name="composeHeaders" part="to" form="form" id="_to" cols="70" rows="1" tabindex="1" aria-required="true" />
+			<div id="oss_btn_bar">
+				<button class="btn oss_btn" data-input="_to" data-module="Contacts" onclick="return false;">
+					<strong><roundcube:label name="module_Contacts" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_to" data-module="Accounts" onclick="return false;">
+					<strong><roundcube:label name="module_Accounts" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_to" data-module="Leads" onclick="return false;" >
+					<strong><roundcube:label name="module_Leads" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_to" data-module="Vendors" onclick="return false;" >
+					<strong><roundcube:label name="module_Vendors" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_to" data-module="OSSEmployees" onclick="return false;" >
+					<strong><roundcube:label name="module_OSSEmployees" /></strong>
+				</button>
+			</div>
+		</td>
 	</tr><tr id="compose-cc">
 		<td class="title top">
 			<label for="_cc"><roundcube:label name="cc" /></label>
 			<a href="#cc" onclick="return UI.hide_header_row('cc');" class="iconbutton cancel" title="<roundcube:label name='delete' />" tabindex="3"><roundcube:label name="delete" /> <roundcube:label name="cc" /></a>
 		</td>
-		<td class="editfield"><roundcube:object name="composeHeaders" part="cc" form="form" id="_cc" cols="70" rows="1" tabindex="1" /></td>
+		<td class="editfield">
+			<roundcube:object name="composeHeaders" part="cc" form="form" id="_cc" cols="70" rows="1" tabindex="1" />
+			<div id="oss_btn_bar">
+				<button class="btn oss_btn" data-input="_cc" data-module="Contacts" onclick="return false;">
+					<strong><roundcube:label name="module_Contacts" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_cc" data-module="Accounts" onclick="return false;">
+					<strong><roundcube:label name="module_Accounts" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_cc" data-module="Leads" onclick="return false;" >
+					<strong><roundcube:label name="module_Leads" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_cc" data-module="Vendors" onclick="return false;" >
+					<strong><roundcube:label name="module_Vendors" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_cc" data-module="OSSEmployees" onclick="return false;" >
+					<strong><roundcube:label name="module_OSSEmployees" /></strong>
+				</button>
+			</div>
+		</td>
 	</tr><tr id="compose-bcc">
 		<td class="title top">
 			<label for="_bcc"><roundcube:label name="bcc" /></label>
 			<a href="#bcc" onclick="return UI.hide_header_row('bcc');" class="iconbutton cancel" title="<roundcube:label name='delete' />" tabindex="3"><roundcube:label name="delete" /> <roundcube:label name="bcc" /></a>
 		</td>
-		<td class="editfield"><roundcube:object name="composeHeaders" part="bcc" form="form" id="_bcc" cols="70" rows="1" tabindex="1" /></td>
+		<td class="editfield">
+			<roundcube:object name="composeHeaders" part="bcc" form="form" id="_bcc" cols="70" rows="1" tabindex="1" />
+			<div id="oss_btn_bar">
+				<button class="btn oss_btn" data-input="_bcc" data-module="Contacts" onclick="return false;">
+					<strong><roundcube:label name="module_Contacts" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_bcc" data-module="Accounts" onclick="return false;">
+					<strong><roundcube:label name="module_Accounts" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_bcc" data-module="Leads" onclick="return false;" >
+					<strong><roundcube:label name="module_Leads" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_bcc" data-module="Vendors" onclick="return false;" >
+					<strong><roundcube:label name="module_Vendors" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_bcc" data-module="OSSEmployees" onclick="return false;" >
+					<strong><roundcube:label name="module_OSSEmployees" /></strong>
+				</button>
+			</div>
+		</td>
 	</tr><tr id="compose-replyto">
 		<td class="title top">
 			<label for="_replyto"><roundcube:label name="replyto" /></label>
 			<a href="#replyto" onclick="return UI.hide_header_row('replyto');" class="iconbutton cancel" title="<roundcube:label name='delete' />" tabindex="3"><roundcube:label name="delete" /> <roundcube:label name="replyto" /></a>
 		</td>
-		<td class="editfield"><roundcube:object name="composeHeaders" part="replyto" form="form" id="_replyto" size="70" tabindex="1" /></td>
+		<td class="editfield">
+			<roundcube:object name="composeHeaders" part="replyto" form="form" id="_replyto" size="70" tabindex="1" />
+			<div id="oss_btn_bar">
+				<button class="btn oss_btn" data-input="_replyto" data-module="Contacts" onclick="return false;">
+					<strong><roundcube:label name="module_Contacts" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_replyto" data-module="Accounts" onclick="return false;">
+					<strong><roundcube:label name="module_Accounts" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_replyto" data-module="Leads" onclick="return false;" >
+					<strong><roundcube:label name="module_Leads" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_replyto" data-module="Vendors" onclick="return false;" >
+					<strong><roundcube:label name="module_Vendors" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_replyto" data-module="OSSEmployees" onclick="return false;" >
+					<strong><roundcube:label name="module_OSSEmployees" /></strong>
+				</button>
+			</div>
+		</td>
 	</tr><tr id="compose-followupto">
 		<td class="title top">
 			<label for="_followupto"><roundcube:label name="followupto" /></label>
 			<a href="#followupto" onclick="return UI.hide_header_row('followupto');" class="iconbutton cancel" title="<roundcube:label name='delete' />" tabindex="3"><roundcube:label name="delete" /> <roundcube:label name="followupto" /></a>
 		</td>
-		<td class="editfield"><roundcube:object name="composeHeaders" part="followupto" form="form" id="_followupto" size="70" tabindex="1" /></td>
+		<td class="editfield">
+			<roundcube:object name="composeHeaders" part="followupto" form="form" id="_followupto" size="70" tabindex="1" />
+			<div id="oss_btn_bar">
+				<button class="btn oss_btn" data-input="_followupto" data-module="Contacts" onclick="return false;">
+					<strong><roundcube:label name="module_Contacts" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_followupto" data-module="Accounts" onclick="return false;">
+					<strong><roundcube:label name="module_Accounts" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_followupto" data-module="Leads" onclick="return false;" >
+					<strong><roundcube:label name="module_Leads" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_followupto" data-module="Vendors" onclick="return false;" >
+					<strong><roundcube:label name="module_Vendors" /></strong>
+				</button>
+				<button class="btn oss_btn" data-input="_followupto" data-module="OSSEmployees" onclick="return false;" >
+					<strong><roundcube:label name="module_OSSEmployees" /></strong>
+				</button>
+			</div>
+		</td>
 	</tr><tr>
 		<td></td>
 		<td class="formlinks">
@@ -176,6 +242,7 @@
 		<h2 id="aria-label-composeattachments" class="voice"><roundcube:label name="attachments" /></h2>
 		<div style="text-align:center; margin-bottom:20px">
 			<roundcube:button name="addattachment" type="input" class="button" classSel="button pressed" label="addattachment" onclick="UI.show_uploadform(event);return false" tabindex="1" />
+			<roundcube:button type="input" class="button" classSel="button pressed" label="FileFromCRM" domain="yetiforce" command="yetiforce.addFilesFromCRM" tabindex="1" />
 		</div>
 		<roundcube:object name="composeAttachmentList" id="attachment-list" class="attachmentslist" tabindex="1" />
 		<roundcube:object name="fileDropArea" id="compose-attachments" />
@@ -218,7 +285,15 @@
 		<roundcube:button command="responses" type="link-menuitem" label="editresponses" classAct="active" />
 	</ul>
 </div>
-
+<div id="tplmenu" class="popupmenu">
+    <ul class="toolbarmenu" id="texttplsmenu">
+    </ul>
+</div>
+<div id="vtmodulemenu" class="popupmenu">
+    <ul class="toolbarmenu" id="texttplsmenu">
+        <li><a href="#" class="active all-module"><roundcube:label name="all" /></a></li>
+    </ul>
+</div>
 <roundcube:include file="/includes/footer.html" />
 
 </body>
