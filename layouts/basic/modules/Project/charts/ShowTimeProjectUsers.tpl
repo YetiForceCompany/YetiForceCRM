@@ -44,13 +44,13 @@
 	</script>
 	<div style="width: 80%; margin: auto; text-align:center; margin-bottom:20px;">
 		{vtranslate('LBL_TOTAL_TIME')}<br/>
-		{vtranslate('LBL_EMPLOYEE')}<br/>
+		{vtranslate('LBL_USER')}<br/>
 		<input class="chartData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}' />
 		<div id="timeEmployees" style="height:400px;width:100%;"></div>
 	</div>
 {else}
 <div class="alert alert-warning">
-	<p>{vtranslate('LBL_TOTAL_TIME')}  {vtranslate('LBL_EMPLOYEE')}</p>
+	<p>{vtranslate('LBL_TOTAL_TIME')}  {vtranslate('LBL_USER')}</p>
 	{vtranslate('LBL_RECORDS_NO_FOUND')}
 </div>	
 {/if}

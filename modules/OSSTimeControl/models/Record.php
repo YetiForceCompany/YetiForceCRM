@@ -21,57 +21,6 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	public function getProjectRelatedIDS($ProjectID)
-	{
-		if (!self::checkID($ProjectID)) {
-			return false;
-		}
-		$db = PearDatabase::getInstance();
-		//////// sum_time
-		$projectIDS = array();
-		$sum_time_result = $db->pquery("SELECT osstimecontrolid FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND projectid = ? AND projecttaskid = ? AND ticketid = ?;", array(0, self::recalculateStatus, $ProjectID, 0, 0), true);
-		for ($i = 0; $i < $db->num_rows($sum_time_result); $i++) {
-			$projectIDS[] = $db->query_result($sum_time_result, $i, 'osstimecontrolid');
-		}
-		//////// sum_time_h
-		$ticketsIDS = array();
-		$sql_sum_time_h = 'SELECT osstimecontrolid 
-						FROM vtiger_osstimecontrol 
-						INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_osstimecontrol.ticketid
-						WHERE vtiger_osstimecontrol.deleted = ? 
-						AND vtiger_osstimecontrol.ticketid <> ? 
-						AND osstimecontrol_status = ?
-						AND vtiger_troubletickets.projectid = ?;';
-		$sum_time_h_result = $db->pquery($sql_sum_time_h, array(0, 0, self::recalculateStatus, $ProjectID), true);
-		for ($i = 0; $i < $db->num_rows($sum_time_h_result); $i++) {
-			$ticketsIDS[] = $db->query_result($sum_time_h_result, $i, 'osstimecontrolid');
-		}
-		//////// sum_time_pt
-		$taskIDS = array();
-		$sql_sum_time_pt = 'SELECT osstimecontrolid 
-						FROM vtiger_osstimecontrol 
-						INNER JOIN vtiger_projecttask ON vtiger_projecttask.projecttaskid = vtiger_osstimecontrol.projecttaskid
-						WHERE vtiger_osstimecontrol.deleted = ? 
-						AND vtiger_osstimecontrol.projecttaskid <> ? 
-						AND vtiger_osstimecontrol.ticketid = ? 
-						AND vtiger_osstimecontrol.projectid = ?
-						AND vtiger_osstimecontrol.osstimecontrol_status = ?
-						AND vtiger_projecttask.projectid = ?;';
-		$sum_time_pt_result = $db->pquery($sql_sum_time_pt, array(0, 0, 0, 0, self::recalculateStatus, $ProjectID), true);
-		for ($i = 0; $i < $db->num_rows($sum_time_pt_result); $i++) {
-			$taskIDS[] = $db->query_result($sum_time_pt_result, $i, 'osstimecontrolid');
-		}
-		return array($taskIDS, $ticketsIDS, $projectIDS);
-	}
-
-	public static function checkID($ID)
-	{
-		if ($ID == 0 || $ID == '') {
-			return false;
-		}
-		return true;
-	}
-
 	public function getDuplicateRecordUrl()
 	{
 		$module = $this->getModule();
