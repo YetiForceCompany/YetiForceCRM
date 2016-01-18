@@ -7,10 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Roundcube\\Composer' => array($vendorDir . '/roundcube/plugin-installer/src'),
-    'Patchwork' => array($vendorDir . '/patchwork/utf8/class'),
-    'PEAR' => array($vendorDir . '/pear/pear_exception'),
-    'Normalizer' => array($vendorDir . '/patchwork/utf8/class'),
-    'Net' => array($vendorDir . '/pear/net_socket', $vendorDir . '/pear/net_smtp'),
-    'Mail_mimeDecode' => array($vendorDir . '/pear/mail_mime-decode'),
-    'Mail' => array($vendorDir . '/pear/mail_mime'),
 );

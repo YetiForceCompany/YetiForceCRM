@@ -165,7 +165,7 @@ class PluginInstaller extends LibraryInstaller
             foreach (array('min-version' => '>=', 'max-version' => '<=') as $key => $operator) {
                 if (!empty($extra['roundcube'][$key])) {
                     $version = $parser->normalize(str_replace('-git', '.999', $extra['roundcube'][$key]));
-                    $constraint = new VersionConstraint($version, $operator);
+                    $constraint = new VersionConstraint($operator, $version);
                     if (!$constraint->versionCompare($rcubeVersion, $version, $operator)) {
                         throw new \Exception("Version check failed! " . $package->getName() . " requires Roundcube version $operator $version, $rcubeVersion was detected.");
                     }
@@ -185,25 +185,39 @@ class PluginInstaller extends LibraryInstaller
         $varname = '$config';
 
         if (empty($config) && !empty($rcmail_config)) {
-            $config = $rcmail_config;
+            $config  = $rcmail_config;
             $varname = '$rcmail_config';
         }
 
         if (is_array($config) && is_writeable($config_file)) {
-            $config_templ = @file_get_contents($config_file);
-            $active_plugins = (array) $config['plugins'];
+            $config_templ   = @file_get_contents($config_file) ?: '';
+            $config_plugins = !empty($config['plugins']) ? ((array) $config['plugins']) : array();
+            $active_plugins = $config_plugins;
+
             if ($add && !in_array($plugin_name, $active_plugins)) {
                 $active_plugins[] = $plugin_name;
             } elseif (!$add && ($i = array_search($plugin_name, $active_plugins)) !== false) {
                 unset($active_plugins[$i]);
             }
 
-            if ($active_plugins != $config['plugins']) {
+            if ($active_plugins != $config_plugins) {
+                $count      = 0;
                 $var_export = "array(\n\t'" . join("',\n\t'", $active_plugins) . "',\n);";
                 $new_config = preg_replace(
                     "/(\\$varname\['plugins'\])\s+=\s+(.+);/Uims",
                     "\\1 = " . $var_export,
-                    $config_templ);
+                    $config_templ, -1, $count);
+
+                // 'plugins' option does not exist yet, add it...
+                if (!$count) {
+                    $var_txt    = "\n{$varname}['plugins'] = $var_export;\n";
+                    $new_config = str_replace('?>', $var_txt . '?>', $config_templ, $count);
+
+                    if (!$count) {
+                        $new_config = $config_templ . $var_txt;
+                    }
+                }
+
                 $success = file_put_contents($config_file, $new_config);
             }
         }

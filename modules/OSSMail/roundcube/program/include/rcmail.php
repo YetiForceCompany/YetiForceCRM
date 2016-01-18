@@ -174,9 +174,11 @@ class rcmail extends rcube
         // set localization
         setlocale(LC_ALL, $lang . '.utf8', $lang . '.UTF-8', 'en_US.utf8', 'en_US.UTF-8');
 
-        // workaround for http://bugs.php.net/bug.php?id=18556
-        if (PHP_VERSION_ID < 50500 && in_array($lang, array('tr_TR', 'ku', 'az_AZ'))) {
-            setlocale(LC_CTYPE, 'en_US.utf8', 'en_US.UTF-8');
+        // Workaround for http://bugs.php.net/bug.php?id=18556
+        // Also strtoupper/strtolower and other methods are locale-aware
+        // for these locales it is problematic (#1490519)
+        if (in_array($lang, array('tr_TR', 'ku', 'az_AZ'))) {
+            setlocale(LC_CTYPE, 'en_US.utf8', 'en_US.UTF-8', 'C');
         }
     }
 
@@ -590,6 +592,8 @@ class rcmail extends rcube
 
         // try to log in
         if (!$storage->connect($host, $username, $pass, $port, $ssl)) {
+            // Wait a second to slow down brute-force attacks (#1490549)
+            sleep(1);
             return false;
         }
 
@@ -1584,7 +1588,7 @@ class rcmail extends rcube
             // skip folders in which it isn't possible to create subfolders
             if (!empty($opts['skip_noinferiors'])) {
                 $attrs = $this->storage->folder_attributes($folder['id']);
-                if ($attrs && in_array('\\Noinferiors', $attrs)) {
+                if ($attrs && in_array_nocase('\\Noinferiors', $attrs)) {
                     continue;
                 }
             }

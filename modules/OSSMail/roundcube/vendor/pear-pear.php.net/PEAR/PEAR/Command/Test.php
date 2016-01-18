@@ -11,7 +11,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -31,7 +30,7 @@ require_once 'PEAR/Command/Common.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.5
+ * @version    Release: 1.10.1
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -87,6 +86,10 @@ If none is found, all .phpt tests will be tried instead.',
                     'shortopt' => 'x',
                     'doc'      => 'Generate a code coverage report (requires Xdebug 2.0.0+)',
                 ),
+                'showdiff' => array(
+                    'shortopt' => 'd',
+                    'doc' => 'Output diff on test failure',
+                ),
             ),
             'doc' => '[testfile|dir ...]
 Run regression tests with PHP\'s regression testing script (run-tests.php).',
@@ -100,9 +103,9 @@ Run regression tests with PHP\'s regression testing script (run-tests.php).',
      *
      * @access public
      */
-    function PEAR_Command_Test(&$ui, &$config)
+    function __construct(&$ui, &$config)
     {
-        parent::PEAR_Command_Common($ui, $config);
+        parent::__construct($ui, $config);
     }
 
     function doRunTests($command, $options, $params)
@@ -332,6 +335,9 @@ Run regression tests with PHP\'s regression testing script (run-tests.php).',
             }
         }
 
-        return count($failed) == 0;
+        if (count($failed) == 0) {
+            return true;
+        }
+        return $this->raiseError('Some tests failed');
     }
 }

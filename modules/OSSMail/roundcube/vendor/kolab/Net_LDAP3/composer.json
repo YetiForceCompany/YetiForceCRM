@@ -2,7 +2,7 @@
 	"name": "kolab/Net_LDAP3",
 	"description": "A successor of the PEAR:Net_LDAP2 module providing advanced functionality for accessing LDAP directories",
 	"type": "library",
-	"version": "1.0.2",
+	"version": "1.0.4",
 	"keywords": ["pear", "ldap", "vlv"],
 	"homepage": "http://git.kolab.org/pear/Net_LDAP3/",
 	"license": "GPL-3.0+",

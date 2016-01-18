@@ -4,10 +4,10 @@
 if test "x$PHP_PEAR_PHP_BIN" != "x"; then
   PHP="$PHP_PEAR_PHP_BIN"
 else
-  if test "/usr/bin/env /www/roundcube/releases/roundcubemail-1.1.1/vendor/bin/composer-php" = '@'php_bin'@'; then
+  if test "/usr/bin/env /www/roundcube/releases/roundcubemail-1.1.4/vendor/bin/composer-php" = '@'php_bin'@'; then
     PHP=php
   else
-    PHP="/usr/bin/env /www/roundcube/releases/roundcubemail-1.1.1/vendor/bin/composer-php"
+    PHP="/usr/bin/env /www/roundcube/releases/roundcubemail-1.1.4/vendor/bin/composer-php"
   fi
 fi
 
@@ -16,12 +16,12 @@ if test "x$PHP_PEAR_INSTALL_DIR" != "x"; then
   INCDIR=$PHP_PEAR_INSTALL_DIR
   INCARG="-d include_path=$PHP_PEAR_INSTALL_DIR"
 else
-  if test "/www/roundcube/releases/roundcubemail-1.1.1/vendor/pear-pear.php.net/PEAR" = '@'php_dir'@'; then
+  if test "/www/roundcube/releases/roundcubemail-1.1.4/vendor/pear-pear.php.net/PEAR" = '@'php_dir'@'; then
     INCDIR=`dirname $0`
     INCARG=""
   else
-    INCDIR="/www/roundcube/releases/roundcubemail-1.1.1/vendor/pear-pear.php.net/PEAR"
-    INCARG="-d include_path=/www/roundcube/releases/roundcubemail-1.1.1/vendor/pear-pear.php.net/PEAR"
+    INCDIR="/www/roundcube/releases/roundcubemail-1.1.4/vendor/pear-pear.php.net/PEAR"
+    INCARG="-d include_path=/www/roundcube/releases/roundcubemail-1.1.4/vendor/pear-pear.php.net/PEAR"
   fi
 fi
 

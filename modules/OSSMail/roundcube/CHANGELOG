@@ -1,6 +1,70 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.1.4
+-------------
+- Add workaround for https://bugs.php.net/bug.php?id=70757 (#1490582)
+- Fix duplicate messages in list and wrong count after delete (#1490572)
+- Fix so Installer requires PHP5
+- Make brute force attacks harder by re-generating security token on every failed login (#1490549)
+- Slow down brute-force attacks by waiting for a second after failed login (#1490549)
+- Fix .htaccess rewrite rules to not block .well-known URIs (#1490615)
+- Fix mail view scaling on iOS (#1490551)
+- Fix so database_attachments::cleanup() does not remove attachments from other sessions (#1490542)
+- Fix responses list update issue after response name change (#1490555)
+- Fix bug where message preview was unintentionally reset on check-recent action (#1490563)
+- Fix bug where HTML messages with invalid/excessive css styles couldn't be displayed (#1490539)
+- Fix redundant blank lines when using HTML and top posting (#1490576)
+- Fix redundant blank lines on start of text after html to text conversion (#1490577)
+- Fix HTML sanitizer to skip <!-- node type X --> in output (#1490583)
+- Fix invalid LDAP query in ACL user autocompletion (#1490591)
+- Fix regression in displaying contents of message/rfc822 parts (#1490606)
+- Fix handling of message/rfc822 attachments on replies and forwards (#1490607)
+- Fix PDF support detection in Firefox > 19 (#1490610)
+- Fix path traversal vulnerability (CWE-22) in setting a skin (#1490620)
+- Fix so drag-n-drop of text (e.g. recipient addresses) on compose page actually works (#1490619)
+
+RELEASE 1.1.3
+-------------
+- Fix closing of nested menus (#1490443)
+- Fix so E_DEPRECATED errors from PEAR libs are ignored by error_reporting change (#1490281)
+- Fix compatibility with PHP 5.3 in rcube_ldap class (#1490424)
+- Get rid of Mail_mimeDecode package dependency (#1490416)
+- Fix "Importing..." message does not hide on error (#1490422)
+- Fix SQL error on logout when using session_storage=php (#1490421)
+- Update to jQuery 2.1.4 (#1490406)
+- Fix Compose action in addressbook for results from multiple addressbooks (#1490413)
+- Fix bug where some messages in multi-folder search couldn't be viewed/printed/downloaded (#1490426)
+- Fix unintentional messages list page change on page switch in compose addressbook (#1490427)
+- Fix race-condition in saving user preferences and loading plugin config (#1490431)
+- Fix so plain text signature field uses monospace font (#1490435)
+- Fix so links with href == content aren't added to links list on html to text conversion (#1490434)
+- Fix handling of non-break spaces in html to text conversion (#1490436)
+- Fix self-reply detection issues (#1490439)
+- Fix multi-folder search result sorting by arrival date (#1490450)
+- Fix so *-request@ addresses in Sender: header are also ignored on reply-all (#1490452)
+- Update to TinyMCE 4.1.10 (#1490405)
+- Fix draft removal after a message is sent and storing sent message is disabled (#1490467)
+- Fix so imap folder attribute comparisons are case-insensitive (#1490466)
+- Fix bug where new messages weren't added to the list in search mode
+- Fix wrong positioning of message list header on page scroll in Webkit browsers (#1490035)
+- Fix some javascript errors in rare situations (#1490441)
+- Fix error when using back button after sending an email (#1490009)
+- Fix removing signature when switching to identity with an empty sig in HTML mode (#1490470)
+- Disable links list generation on html-to-text conversion of identities or composed message (#1490437)
+- Fix "washing" of style elements wrapped into many lines
+- Fix so input field (e.g. search box) does not loose focus on list load (#1490455)
+- Fix so css of one html part does not apply to other text parts on message display (#1490505)
+- Fix handling of plus character in mailto: links (#1490510)
+- Fix so adding CC/BCC recipients from the sidebar unhides compose form fields in Classic skin (#1490472)
+- Fix so gc.sh script removes also expired sessions from sql database (#1490512)
+- Fix support for Mozilla-based browsers, e.g. Pale Moon (#1490517)
+- Fix various issues with Turkish (and similar) locales (#1490519)
+- Fix so In-Reply-To header is set also for MDN receipts (#1490523)
+- Fix missing HTTP_X_FORWARDED_FOR address in generated Received header
+- Fix XSS issue in drag-n-drop file uploads (#1490530)
+- Fix issue where Content-Length of some attachments could be set to wrong value causing browser errors (#1490482)
+
 RELEASE 1.1.2
 -------------
 - Add new plugin hook 'identity_create_after' providing the ID of the inserted identity (#1490358)

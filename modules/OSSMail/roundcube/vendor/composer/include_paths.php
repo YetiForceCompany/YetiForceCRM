@@ -6,14 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    $vendorDir . '/pear/pear_exception',
-    $vendorDir . '/pear/mail_mime',
-    $vendorDir . '/pear/net_socket',
-    $vendorDir . '/pear/net_smtp',
     $vendorDir . '/pear-pear.php.net/Auth_SASL',
     $vendorDir . '/pear-pear.php.net/Net_IDNA2',
-    $vendorDir . '/pear-pear.php.net/Net_LDAP2',
-    $vendorDir . '/pear/mail_mime-decode',
     $vendorDir . '/pear-pear.php.net/Console_Getopt',
     $vendorDir . '/pear-pear.php.net/Archive_Tar',
     $vendorDir . '/pear-pear.php.net/Structures_Graph',
@@ -21,4 +15,7 @@ return array(
     $vendorDir . '/pear-pear.php.net/PEAR',
     $vendorDir . '/pear-pear.php.net/Net_Socket',
     $vendorDir . '/pear-pear.php.net/Net_Sieve',
+    $vendorDir . '/pear-pear.php.net/Net_SMTP',
+    $vendorDir . '/pear-pear.php.net/Net_LDAP2',
+    $vendorDir . '/pear-pear.php.net/Mail_Mime',
 );

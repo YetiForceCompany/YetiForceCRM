@@ -647,15 +647,5 @@ $labels['helplistkeyboardnavmessages'] = "Arrows right/left: expand/collapse mes
 Enter: Open the selected/focused message.
 Delete: Move selected messages to Trash.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Open the selected/focused contact.";
-// <--------   YetiForce Sp. z o.o.   -------->
-$labels['selectmodule'] = 'Select the module for the template';
-$labels['selecttemplate'] = 'Templates';
-$labels['tpl'] = 'Template';
-$labels['vtmodule'] = 'Module';
-$labels['module_Contacts'] = 'Contacts';
-$labels['module_Accounts'] = 'Accounts';
-$labels['module_Leads'] = 'Leads';
-$labels['module_Vendors'] = 'Vendors';
-$labels['module_OSSEmployees'] = 'Employees';
-// <--------   YetiForce Sp. z o.o.   -------->
+
 ?>

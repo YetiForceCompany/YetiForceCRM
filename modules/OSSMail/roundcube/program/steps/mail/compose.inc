@@ -47,9 +47,11 @@ while ($COMPOSE_ID && !is_array($COMPOSE) && $RCMAIL->db->is_replicated() && $re
 if (!is_array($COMPOSE)) {
     // Infinite redirect prevention in case of broken session (#1487028)
     if ($COMPOSE_ID) {
-        rcube::raise_error(array('code' => 500, 'type' => 'php',
-            'file' => __FILE__, 'line' => __LINE__,
-            'message' => "Invalid compose ID"), true, true);
+        // if we know the message with specified ID was already sent
+        // we can ignore the error and compose a new message (#1490009)
+        if ($COMPOSE_ID != $_SESSION['last_compose_session']) {
+            rcube::raise_error(array('code' => 450), false, true);
+        }
     }
 
     $COMPOSE_ID = uniqid(mt_rand());
@@ -332,12 +334,17 @@ foreach ($parts as $header) {
             else if (!empty($MESSAGE->headers->from))
                 $fvalue = $MESSAGE->headers->from;
 
-            // Reply to message sent by yourself (#1487074, #1489230)
+            // Reply to message sent by yourself (#1487074, #1489230, #1490439)
             // Reply-To address need to be unset (#1490233)
-            if (!empty($ident) && empty($replyto)
-                && in_array($ident['ident'], array($fvalue, $MESSAGE->headers->from))
-            ) {
-                $fvalue = $MESSAGE->headers->to;
+            if (!empty($ident) && empty($replyto)) {
+                foreach (array($fvalue, $MESSAGE->headers->from) as $sender) {
+                    $senders = rcube_mime::decode_address_list($sender, null, false, $charset, true);
+
+                    if (in_array($ident['email_ascii'], $senders)) {
+                        $fvalue = $MESSAGE->headers->to;
+                        break;
+                    }
+                }
             }
         }
         // add recipient of original message if reply to all
@@ -347,8 +354,12 @@ foreach ($parts as $header) {
             if ($v = $MESSAGE->headers->cc)
                 $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
             // Use Sender header (#1489011)
-            if (($v = $MESSAGE->headers->get('Sender', false)) && strpos($v, '-bounces@') === false)
-                $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
+            if ($v = $MESSAGE->headers->get('Sender', false)) {
+                // Skip common mailing lists addresses: *-bounces@ and *-request@ (#1490452)
+                if (empty($MESSAGE->headers->others['list-post']) || !preg_match('/-(bounces|request)@/', $v)) {
+                    $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
+                }
+            }
 
             // When To: and Reply-To: are the same we add From: address to the list (#1489037)
             if ($v = $MESSAGE->headers->from) {
@@ -450,7 +461,8 @@ function rcmail_process_compose_params(&$COMPOSE)
         // #1486037: remove "mailto:" prefix
         $COMPOSE['param']['to'] = preg_replace('/^mailto:/i', '', $mailto[0]);
         // #1490346: decode the recipient address
-        $COMPOSE['param']['to'] = urldecode($COMPOSE['param']['to']);
+        // #1490510: use raw encoding for correct "+" character handling as specified in RFC6068
+        $COMPOSE['param']['to'] = rawurldecode($COMPOSE['param']['to']);
 
         // Supported case-insensitive tokens in mailto URL
         $url_tokens = array('to', 'cc', 'bcc', 'reply-to', 'in-reply-to', 'references', 'subject', 'body');
@@ -529,46 +541,6 @@ function rcmail_process_compose_params(&$COMPOSE)
             }
         }
     }
-	// <--------   YetiForce Sp. z o.o.   -------->
-	if ($_REQUEST['pdf_path']) {
-		// we have structured data
-		$attach = $_REQUEST['pdf_path'];
-		if (is_array($attach)) {
-			$attachment = $attach;
-		}
-		// only a file path is given
-		else {
-			$fileNames = [];
-			foreach (new DirectoryIterator($RCMAIL->config->get('root_directory') . 'cache' . DIRECTORY_SEPARATOR . 'pdf') as $fileInfo) {
-				if ($fileInfo->isDot() || strpos($fileInfo->getFilename(), $attach . '.pdf') === false) {
-					continue;
-				}
-
-				$fileNames[$fileInfo->getFilename()] = $fileInfo->getPath() . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
-			}
-
-			foreach ($fileNames as $file => &$path) {
-				$attachments[] = array(
-					'group' => $COMPOSE['id'],
-					'name' => $file,
-					'mimetype' => rcube_mime::file_content_type($path, $file),
-					'path' => $path
-				);
-			}
-		}
-
-		// save attachment if valid
-		foreach ($attachments as $atm) {
-			if ($atm['name'] || ($atm['path'] && file_exists($atm['path']))) {
-				$atm = rcmail::get_instance()->plugins->exec_hook('attachment_save', $atm);
-			}
-			if ($atm['status'] && !$atm['abort']) {
-				unset($atm['data'], $atm['status'], $atm['abort']);
-				$COMPOSE['attachments'][$atm['id']] = $atm;
-			}
-		}
-	}
-	// <--------   YetiForce Sp. z o.o.   -------->
 }
 
 function rcmail_compose_headers($attrib)
@@ -713,7 +685,6 @@ function rcmail_compose_header_from($attrib)
     return $out;
 }
 
-
 function rcmail_compose_editor_mode()
 {
     global $RCMAIL, $compose_mode;
@@ -778,11 +749,9 @@ function rcmail_prepare_message_body()
 
         if (!empty($MESSAGE->parts)) {
             // collect IDs of message/rfc822 parts
-            if ($compose_mode == RCUBE_COMPOSE_EDIT || $compose_mode == RCUBE_COMPOSE_DRAFT) {
-                foreach ($MESSAGE->attachments as $part) {
-                    if ($part->mimetype == 'message/rfc822') {
-                        $messages[] = $part->mime_id;
-                    }
+            foreach ($MESSAGE->mime_parts as $part) {
+                if ($part->mimetype == 'message/rfc822') {
+                    $messages[] = $part->mime_id;
                 }
             }
 
@@ -792,7 +761,7 @@ function rcmail_prepare_message_body()
                     continue;
                 }
 
-                // skip all content parts inside the message/rfc822 part in DRAFT/EDIT mode
+                // skip all content parts inside the message/rfc822 part
                 foreach ($messages as $mimeid) {
                     if (strpos($part->mime_id, $mimeid . '.') === 0) {
                         continue 2;
@@ -1209,6 +1178,10 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
     $messages = array();
 
     foreach ((array)$message->mime_parts as $pid => $part) {
+        if ($part->mimetype == 'message/rfc822') {
+            $messages[] = $part->mime_id;
+        }
+
         if ($part->disposition == 'attachment' || ($part->disposition == 'inline' && $bodyIsHtml) || $part->filename) {
             // skip parts that aren't valid attachments
             if ($part->ctype_primary == 'multipart' || $part->mimetype == 'application/ms-tnef') {
@@ -1225,23 +1198,10 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
                 continue;
             }
 
-            // skip message/rfc822 attachments on forwards (#1489214)
-            // Thunderbird when forwarding in inline mode displays such attachments
-            // and skips any attachments from inside of such part, this however
-            // skipped e.g. images used in HTML body or other attachments. So,
-            // better to skip .eml attachments but not their content (included files).
-            if ($part->mimetype == 'message/rfc822') {
-                if ($compose_mode == RCUBE_COMPOSE_FORWARD) {
-                    continue;
-                }
-                $messages[] = $part->mime_id;
-            }
-            else if ($compose_mode != RCUBE_COMPOSE_FORWARD) {
-                // skip attachments included in message/rfc822 attachment (#1486487)
-                foreach ($messages as $mimeid) {
-                    if (strpos($part->mime_id, $mimeid . '.') === 0) {
-                        continue 2;
-                    }
+            // skip attachments included in message/rfc822 attachment (#1486487, #1490607)
+            foreach ($messages as $mimeid) {
+                if (strpos($part->mime_id, $mimeid . '.') === 0) {
+                    continue 2;
                 }
             }
 
@@ -1273,9 +1233,22 @@ function rcmail_write_inline_attachments(&$message)
 {
     global $RCMAIL, $COMPOSE;
 
-    $cid_map = array();
+    $cid_map  = array();
+    $messages = array();
+
     foreach ((array)$message->mime_parts as $pid => $part) {
+        if ($part->mimetype == 'message/rfc822') {
+            $messages[] = $part->mime_id;
+        }
+
         if (($part->content_id || $part->content_location) && $part->filename) {
+            // skip attachments included in message/rfc822 attachment (#1486487, #1490607)
+            foreach ($messages as $mimeid) {
+                if (strpos($part->mime_id, $mimeid . '.') === 0) {
+                    continue 2;
+                }
+            }
+
             if ($attachment = rcmail_save_attachment($message, $pid)) {
                 $COMPOSE['attachments'][$attachment['id']] = $attachment;
                 $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',

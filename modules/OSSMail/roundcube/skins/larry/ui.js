@@ -174,7 +174,6 @@ function rcube_mail_ui()
       }
       else if (rcmail.env.action == 'compose') {
         rcmail.addEventListener('aftersend-attachment', show_uploadform)
-          .addEventListener('add-recipient', function(p){ show_header_row(p.field, true); })
           .addEventListener('aftertoggle-editor', function(e){
             window.setTimeout(function(){ layout_composeview() }, 200);
             if (e && e.mode)
@@ -459,8 +458,7 @@ function rcube_mail_ui()
    */
   function layout_messageview()
   {
-    //$('#messagecontent').css('top', ($('#messageheader').outerHeight() + 1) + 'px');
-	$('#messagecontent').css('top', ($('.ytHeader').outerHeight() + $('#messageheader').outerHeight()) + 'px'); //  YetiForce Sp. z o.o. //
+    $('#messagecontent').css('top', ($('#messageheader').outerHeight() + 1) + 'px');
     $('#message-objects div a').addClass('button');
 
     if (!$('#attachment-list li').length) {
