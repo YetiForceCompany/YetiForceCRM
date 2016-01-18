@@ -19,7 +19,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 
 	public function getSideBarLinks($linkParams)
 	{
-		$linkTypes =['SIDEBARLINK', 'SIDEBARWIDGET'];
+		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
 		$links = [];
 
 		$quickLinks = [
@@ -108,8 +108,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 	public function getTimeUsers($id, $moduleName)
 	{
 		$db = PearDatabase::getInstance();
-		$moduleModel = Vtiger_Module_Model::getCleanInstance($this->getName());
-		$fieldName = $moduleModel->getMappingRelatedField($moduleName);
+		$fieldName = $this->getMappingRelatedField($moduleName);
 
 		if (empty($id) || empty($fieldName))
 			$response = false;
