@@ -313,6 +313,7 @@ $languageStrings = [
 	// history
 	'LBL_VIEW_LICENSE' => 'Licencja',
 	'LBL_VIEW_CONFIGEDITORDETAIL' => 'Ustawienia',
+	'LBL_VIEW_CONFIGEDITOREDIT' => 'Edycja ustawień',
 	'LBL_VIEW_TAXINDEX' => 'Podatki',
 	'LBL_VIEW_CUSTOMRECORDNUMBERING' => 'Dostosowanie prefiksów dla rekordów',
 	'LBL_VIEW_TERMSANDCONDITIONSEDIT' => 'Warunki i ustalenia',
@@ -346,6 +347,8 @@ $languageStrings = [
 	'LBL_CV_MONTH' => 'Miesiąc (np. 1, 5, 12)',
 	'LBL_CV_DAY' => 'Dzień (np. 1, 5, 25)',
 	// end of custom record numbering variables
+	'LBL_SHOW_LANG_IN_LOGIN_PAGE' => 'Pokaż wybór języka na stronie logowania',
+	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Pokaż wybór layout-u na stronie logowania',
 ];
 
 $jsLanguageStrings = [

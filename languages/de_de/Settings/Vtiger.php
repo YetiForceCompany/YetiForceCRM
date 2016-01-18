@@ -312,6 +312,7 @@ $languageStrings = [
 	'LBL_SAVE_CONFIG' => 'Änderungen wurden gesichert',
 	'LBL_VIEW_LICENSE' => 'Lizenz',
 	'LBL_VIEW_CONFIGEDITORDETAIL' => 'Konfiguration Editor',
+	'LBL_VIEW_CONFIGEDITOREDIT' => 'Konfiguration Editor',
 	'LBL_VIEW_TAXINDEX' => 'Steuerkalkulationen',
 	'LBL_VIEW_CUSTOMRECORDNUMBERING' => 'Datensatznummerierung pflegen',
 	'LBL_VIEW_TERMSANDCONDITIONSEDIT' => 'Allgemeine Geschäftsbedingungen',
@@ -347,6 +348,8 @@ $languageStrings = [
 	'LBL_CV_MONTH' => 'Month (exp. 1, 5, 12)',
 	'LBL_CV_DAY' => 'Day (ex. 1, 5, 25)',
 	// end of custom record numbering variables
+	'LBL_SHOW_LANG_IN_LOGIN_PAGE' => 'Show language selection on the login page',
+	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Show layout selection on the login page',
 ];
 $jsLanguageStrings = [
 	'JS_ANNOUNCEMENT_SAVED' => 'Bekanntmachung gespeichert',

@@ -331,6 +331,7 @@ $languageStrings = [
 	'LBL_SAVE_CONFIG' => 'Изменения успешно сохранены',
 	'LBL_VIEW_LICENSE' => 'Лицензия',
 	'LBL_VIEW_CONFIGEDITORDETAIL' => 'Редактор конфигурации',
+	'LBL_VIEW_CONFIGEDITOREDIT' => 'Редактор конфигурации',
 	'LBL_VIEW_TAXINDEX' => 'Налоги',
 	'LBL_VIEW_CUSTOMRECORDNUMBERING' => 'Настройка нумерации записей',
 	'LBL_VIEW_TERMSANDCONDITIONSEDIT' => 'Сроки и условия',
@@ -364,6 +365,8 @@ $languageStrings = [
 	'LBL_CV_MONTH' => 'Month (exp. 1, 5, 12)',
 	'LBL_CV_DAY' => 'Day (ex. 1, 5, 25)',
 	// end of custom record numbering variables
+	'LBL_SHOW_LANG_IN_LOGIN_PAGE' => 'Show language selection on the login page',
+	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Show layout selection on the login page',
 ];
 
 $jsLanguageStrings = [
