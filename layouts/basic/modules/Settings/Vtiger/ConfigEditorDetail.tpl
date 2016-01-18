@@ -44,6 +44,9 @@
 										{else}
 											{vtranslate(LBL_NO)}
 										{/if}
+									{elseif $FIELD_DETAILS['fieldType'] == 'picklist'}
+										{assign var=PICKLIST value=$MODEL->getPicklistValues($FIELD_NAME)}
+										{$PICKLIST[$FIELD_DATA[$FIELD_NAME]]}
 									{else}
 										{$FIELD_DATA[$FIELD_NAME]}
 									{/if}
