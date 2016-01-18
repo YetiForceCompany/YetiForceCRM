@@ -3020,6 +3020,9 @@ span[name=existingImages] img{
 .paddingLeftMd{
 	padding-left: 15px;
 }
+.marginRight10{
+	margin-right: 10px;
+}
 .marginRightMinus20{
 	margin-right:-20px;
 }
@@ -5040,4 +5043,8 @@ select.form-control {
 	position: absolute;
 	top: -10px;
 	left: 55px;
+}
+.indexContainer{
+	padding-top:10px;
+	border-top: 4px solid #404952;
 }

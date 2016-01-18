@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * Show modal to add issue 
+ * @package YetiForce.Github
+ * @license licenses/License.html
+ * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
+class Settings_Github_AddIssueAJAX_View extends Vtiger_BasicModal_View
+{
+	public function checkPermission(Vtiger_Request $request)
+	{
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if (!$currentUserModel->isAdminUser()) {
+			throw new NoPermittedForAdminException('LBL_PERMISSION_DENIED');
+		}
+	}
+	public function process(Vtiger_Request $request)
+	{
+		$qualifiedModule = $request->getModule(false);
+		$viewer = $this->getViewer($request);
+		$clientModel = Settings_Github_Client_Model::getInstance();
+		$viewer->assign('GITHUB_CLIENT_MODEL', $clientModel);
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
+		$viewer->view('AddIssueModal.tpl', $qualifiedModule);
+	}
+}

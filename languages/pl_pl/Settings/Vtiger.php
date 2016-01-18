@@ -346,12 +346,18 @@ $languageStrings = [
 	'LBL_CV_YEAR' => 'Rok (np. 15)',
 	'LBL_CV_MONTH' => 'Miesiąc (np. 1, 5, 12)',
 	'LBL_CV_DAY' => 'Dzień (np. 1, 5, 25)',
+	'LBL_DONATE_US' => 'Wspieraj nas',
+	'LBL_START' => 'Start',
+	'LBL_GITHUB' => 'Github',
 	// end of custom record numbering variables
 	'LBL_SHOW_LANG_IN_LOGIN_PAGE' => 'Pokaż wybór języka na stronie logowania',
 	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Pokaż wybór layout-u na stronie logowania',
 ];
 
 $jsLanguageStrings = [
+	'JS_AUTHORIZATION_COMPLETE' => 'Autoryzacja zakończona pomyślnie',
+	'JS_ADDED_ISSUE_COMPLETE' => 'Poprawnie dodano problem.',
+	'JS_ERROR_KEY' => 'Wystąpił błąd podczas autoryzacji. Sprawdz poprawność kluczy.',
 	'JS_ANNOUNCEMENT_SAVED' => 'Ogłoszenie systemowe zapisano',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Szczegóły konfiguracji zostały zapisane',
 	'JS_CONFIRM_DEFAULT_SETTINGS' => 'Czy jesteś pewien, że chcesz zmienić dane serwera do wartości domyślnych serwera',

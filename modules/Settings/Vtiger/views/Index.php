@@ -13,6 +13,9 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	function __construct()
 	{
 		parent::__construct();
+		$this->exposeMethod('DonateUs');
+		$this->exposeMethod('Index');
+		$this->exposeMethod('Github');
 	}
 
 	public function checkPermission(Vtiger_Request $request)
@@ -50,7 +53,17 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->assign('MENUS', $menu);
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
-
+	function process(Vtiger_Request $request)
+	{
+		$mode = $request->getMode();
+		if (!empty($mode)) {
+			echo $this->invokeExposedMethod($mode, $request);
+			return;
+		}
+		$viewer = $this->getViewer($request);
+		$qualifiedModuleName = $request->getModule(false);
+		$viewer->view('SettingsIndexHeader.tpl', $qualifiedModuleName);
+	}
 	public function postProcessSettings(Vtiger_Request $request)
 	{
 
@@ -59,7 +72,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->view('SettingsMenuEnd.tpl', $qualifiedModuleName);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function Index(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -74,7 +87,45 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
+	public function Github(Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$qualifiedModuleName = 'Settings:Github';
+		$clientModel = Settings_Github_Client_Model::getInstance();
+		$isAuthor = $request->get('author');
+		$isAuthor = $isAuthor == 'true' ? true : false;
+		$pageNumber = $request->get('page');
+		if(empty($pageNumber)){
+			$pageNumber = 1;
+		}
+		
+		$state = empty($request->get('state')) ? 'open' : $request->get('state');
+		$issues = $clientModel->getAllIssues($pageNumber, $state, $isAuthor);
+		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel->set('page', $pageNumber);
+		$pagingModel->set('totalCount', Settings_Github_Issues_Model::$totalCount);
+		
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
+		$viewer->assign('IS_AUTHOR', $isAuthor);
+		$viewer->assign('PAGE_NUMBER',$pageNumber);
+		$viewer->assign('ISSUES_STATE',$state);
+		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('LISTVIEW_COUNT', Settings_Github_Issues_Model::$totalCount);
+		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
+		$viewer->assign('QUALIFIED_MODULE_NAME', $qualifiedModuleName);
+		$viewer->assign('GITHUB_ISSUES', $issues);
+		$viewer->assign('GITHUB_CLIENT_MODEL', $clientModel);
+		$viewer->view('Github.tpl', $qualifiedModuleName);
+	}
+	public function DonateUs(Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$qualifiedModuleName = $request->getModule(false);
+		$viewer->view('DonateUs.tpl', $qualifiedModuleName);
+	}
 	protected function getMenu() {
 		return [];
 	}
