@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -4347,13 +4348,6 @@ insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`se
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (72,'Contacts','Leads',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (1043,'HelpDesk','Project',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (1044,'Project','ServiceContracts',NULL,NULL);
-insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (237,'Calendar','HelpDesk',NULL,NULL);
-insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (237,'Calendar','Campaigns',NULL,NULL);
-insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (238,'Calendar','Contacts',NULL,NULL);
-insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (238,'Calendar','Leads',NULL,NULL);
-insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (238,'Calendar','OSSEmployees',NULL,NULL);
-insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (238,'Calendar','Vendors',NULL,NULL);
-insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (238,'Calendar','Accounts',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (1049,'HelpDesk','ServiceContracts',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (1314,'Assets','Accounts',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (1314,'Assets','Leads',NULL,NULL);
@@ -19889,17 +19883,6 @@ insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (32,'Leads')
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (32,'Users');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (32,'Vendors');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (33,'Products');
-insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (34,'Campaigns');
-insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (34,'HelpDesk');
-insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (34,'Project');
-insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (34,'ServiceContracts');
-insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (35,'Accounts');
-insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (35,'Contacts');
-insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (35,'Leads');
-insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (35,'OSSEmployees');
-insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (35,'Vendors');
-insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (36,'Accounts');
-insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (36,'Contacts');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (37,'Currency');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (38,'DocumentFolders');
 

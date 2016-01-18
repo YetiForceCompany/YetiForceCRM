@@ -144,4 +144,48 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		$this->column_fields['date_start'] = $date_start;
 		$this->column_fields['due_date'] = $due_date;
 	}
+
+	/** Function to unlink an entity with given Id from another entity */
+	// TODO This function was placed here because uitype fields (67, 68, 69) exist in this module. Once the way of getting modules for these fields is improved, you should correct the parent::unlinkRelationship() function, and remove this one.
+	function unlinkRelationship($id, $returnModule, $returnId)
+	{
+		global $log, $currentModule;
+		$results = [];
+
+		$where = '(crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
+		$params = [$id, $returnModule, $returnId, $id, $returnModule, $returnId];
+		$this->db->delete('vtiger_crmentityrel', $where, $params);
+
+		$fieldRes = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
+			SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule=?)', [$currentModule, $returnModule]);
+		$numOfFields = $this->db->num_rows($fieldRes);
+		if ($fieldRes->rowCount()) {
+			$results = $this->db->getArray($fieldRes);
+		} else {
+			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [Vtiger_Functions::getModuleId($currentModule)]);
+			while ($row = $this->db->getRow($fieldRes)) {
+				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $currentModule);
+				$fieldModel = new $className();
+				foreach ($row as $properName => $propertyValue) {
+					$fieldModel->$properName = $propertyValue;
+				}
+				$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
+				if (!empty($moduleList) && in_array($returnModule, $moduleList)) {
+					$results[] = $row;
+					break;
+				}
+			}
+		}
+		foreach ($results as $result) {
+			$columnName = $result['columnname'];
+
+			$relatedModule = vtlib_getModuleNameById($result['tabid']);
+			$focusObj = CRMEntity::getInstance($relatedModule);
+
+			$columns = [$columnName => null];
+			$where = "$columnName = ? AND $focusObj->table_index = ?";
+			$params = [$returnId, $id];
+			$this->db->update($result['tablename'], $columns, $where, $params);
+		}
+	}
 }
