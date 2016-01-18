@@ -14,10 +14,11 @@
 		<div class="widget_header row">
 			<div class="col-md-8">
 			    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{vtranslate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 			<div class="col-md-4">
 				<div class="pull-right">
-					<button class="btn btn-success editButton pushDown" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn btn-success editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
 				</div>
 			</div>
 		</div>
