@@ -254,7 +254,7 @@ insert  into `s_yf_multireference`(`source_module`,`dest_module`,`lastid`,`type`
 
 /*Data for the table `u_yf_github` */
 
-insert  into `u_yf_github`(`github_id`,`client_id`,`token`) values (1,'','');
+insert  into `u_yf_github`(`github_id`,`client_id`,`token`,`username`) values (1,'','','');
 
 /*Data for the table `u_yf_partners` */
 
