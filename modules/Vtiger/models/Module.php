@@ -1815,6 +1815,21 @@ class Vtiger_Module_Model extends Vtiger_Module
 	public function getMappingRelatedField($moduleName, $field = false)
 	{
 		self::initModulesHierarchy();
+		$module = self::$modulesHierarchy[$moduleName];
+		switch ($module['level']) {
+			case 0: $return = 'link';
+				break;
+			case 1: $return = 'process';
+				break;
+			case 2: $return = 'subprocess';
+				break;
+		}
+		return $return;
+	}
+
+	public function getRelationFieldByHierarchy($moduleName)
+	{
+		self::initModulesHierarchy();
 		if ($field != false && isset(self::$modulesMapRelatedFields[$moduleName][$field])) {
 			return self::$modulesMapRelatedFields[$moduleName][$field];
 		}
