@@ -4909,6 +4909,9 @@ html,body,.baseContainer
 	top: 0;
 	vertical-align: middle;
 }
+.jstree-node input{
+	color: #000;
+}
 .widgetContainer select[multiple]{
 	height: 0px;
 }
