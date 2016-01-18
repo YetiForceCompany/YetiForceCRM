@@ -34,9 +34,9 @@ $languageStrings = [
     
 ];
 $jsLanguageStrings = [
-    'Could not finnish reaction.' => 'Could not finnish this action.',
+    'Could not finnish reaction.' => 'Could not finish this action.',
     'Complete the fields' => 'Complete the fields',
-    'LBL_SAVE_SUCCESS' => 'Changes has been saved ',
+    'LBL_SAVE_SUCCESS' => 'Changes have been saved ',
     'LBL_FAIL' => 'Changes have not been saved', 
     'LBL_UNBLOCK_FAIL' => 'IP address has not been unblocked',
     'LBL_UNBLOCK_SUCCESS' => 'IP address has been unblocked',   
