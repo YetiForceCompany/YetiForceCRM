@@ -25,6 +25,21 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 				'crmid' => $crmid,
 				'date' => $date
 			]);
+
+			if ($parentId = Users_Privileges_Model::getParentRecord($crmid)) {
+				$db->insert('vtiger_ossmailview_relation', [
+					'ossmailviewid' => $mailId,
+					'crmid' => $parentId,
+					'date' => $date
+				]);
+				if ($parentId = Users_Privileges_Model::getParentRecord($parentId)) {
+					$db->insert('vtiger_ossmailview_relation', [
+						'ossmailviewid' => $mailId,
+						'crmid' => $parentId,
+						'date' => $date
+					]);
+				}
+			}
 			$return = true;
 		}
 		return $return;
