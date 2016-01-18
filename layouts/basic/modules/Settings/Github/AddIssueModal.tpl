@@ -1,8 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 {if $GITHUB_CLIENT_MODEL->isAuthorized()}
-	<div class="addIssuesModal" tabindex="-1">
-		<div  class="modal fade authModalContent ">
+	
+	<div class="addIssuesModal validationEngineContainer" tabindex="-1">
+		<div  class="modal fade authModalContent">
 			<div class="modal-dialog modal-lg ">
 				<div class="modal-content">
 					<div class="modal-header row no-margin">
@@ -18,11 +19,12 @@
 							</div>
 						</div>
 					</div>
-					<div class="modal-body row ">
+					<div class="modal-body row">
 						<div class="col-xs-12">
 							<div class="col-xs-12 paddingLRZero marginBottom10px">
+								<span class="redColor">*</span>
 								{vtranslate('LBL_TITLE', $QUALIFIED_MODULE)}
-								<input id="titleIssues" class="form-control" type="text" name="title" value="">
+								<input id="titleIssues" class="form-control" data-validation-engine="validate[required]" type="text" name="title" value="">
 							</div>
 							<div class="col-xs-12 paddingLRZero marginBottom10px">
 								<div class="checkbox">
@@ -31,7 +33,6 @@
 										{vtranslate('LBL_CONFIRM_REGULATIONS', $QUALIFIED_MODULE)}
 									</label>
 								</div>
-								<input id="titleIssues" class="form-control" type="text" name="title" value="">
 							</div>
 							<div class="col-xs-12 paddingLRZero marginBottom10px">
 								{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}

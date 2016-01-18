@@ -3020,6 +3020,9 @@ span[name=existingImages] img{
 .paddingLeftMd{
 	padding-left: 15px;
 }
+.marginRight10{
+	margin-right: 10px;
+}
 .marginRightMinus20{
 	margin-right:-20px;
 }

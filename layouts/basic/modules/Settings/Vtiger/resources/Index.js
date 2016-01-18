@@ -221,23 +221,36 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 		ckEditorInstance.loadCkEditor(noteContentElement, customConfig);
 	},
 	registerSaveIssues: function(){
+		var container = jQuery('.addIssuesModal');
+		container.validationEngine(app.validationEngineOptions);
 		var title = jQuery('#titleIssues');
 		var CKEditorInstance = CKEDITOR.instances['bodyIssues'];
 		var thisInstance = this;
-		var saveBtn = jQuery('.saveIssues');
+		var saveBtn = container.find('.saveIssues');
 		saveBtn.click(function(){
-			var body = jQuery.trim(CKEditorInstance.document.getBody().getText());
-			var params = {
-				module  : 'Github',
-				parent : 'Settings',
-				action : 'SaveIssuesAJAX',
-				title: title.val(),
-				body: body
-			};
-			AppConnector.request(params).then(function(){
-				app.hideModalWindow();
-				thisInstance.reloadContent();
-			});
+			if (container.validationEngine('validate')) {
+				var body = jQuery.trim(CKEditorInstance.document.getBody().getText());
+				var params = {
+					module  : 'Github',
+					parent : 'Settings',
+					action : 'SaveIssuesAJAX',
+					title: title.val(),
+					body: body
+				};
+				AppConnector.request(params).then(function(data){
+					app.hideModalWindow();
+					thisInstance.reloadContent();
+					if(data.result.success == true){
+						var params = {
+							title : app.vtranslate('JS_LBL_PERMISSION'),
+							text: app.vtranslate('JS_ADDED_ISSUE_COMPLETE'),
+							type: 'success',
+							animation: 'show'
+						};
+						Vtiger_Helper_Js.showMessage(params);
+					}
+				});
+			}
 		});
 		jQuery('[name="confirmRegulations"]').on('click', function(){
 			var currentTarget = jQuery(this);
@@ -247,7 +260,6 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 			else{
 				saveBtn.attr('disabled','disabled');
 			}
-			
 		});
 	},
 	reloadContent: function(){
@@ -255,33 +267,44 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 	},
 	resisterSaveKeys: function(){
 		var thisInstance = this;
-		var container = jQuery('.authModalContent');
-		jQuery('.saveKeys').click(function(){
-			var params = {
-				module : 'Github',
-				parent : 'Settings',
-				action : 'SaveKeysAJAX',
-				username : $('[name="username"]').val(), 
-				client_id : $('[name="client_id"]').val(),
-				token: $('[name="token"]').val()
-			};
-			container.progressIndicator({});
-			AppConnector.request(params).then(function(data){
-				container.progressIndicator({mode: 'hide'});
-				if(data.result.success == false){
-					var errorDiv = container.find('.errorMsg');
-					errorDiv.removeClass('hide');
-					errorDiv.html(app.vtranslate('JS_ERROR_KEY'));
-				}
-				else{
+		var container = jQuery('#globalmodal .authModalContent');
+		container.validationEngine(app.validationEngineOptions);
+		container.find('.saveKeys').click(function(){
+			if (container.validationEngine('validate')) {
+				var params = {
+					module : 'Github',
+					parent : 'Settings',
+					action : 'SaveKeysAJAX',
+					username : $('[name="username"]').val(), 
+					client_id : $('[name="client_id"]').val(),
+					token: $('[name="token"]').val()
+				};
+				container.progressIndicator({});
+				AppConnector.request(params).then(function(data){
+					container.progressIndicator({mode: 'hide'});
+					if(data.result.success == false){
+						var errorDiv = container.find('.errorMsg');
+						errorDiv.removeClass('hide');
+						errorDiv.html(app.vtranslate('JS_ERROR_KEY'));
+					}
+					else{
+						app.hideModalWindow();
+						thisInstance.reloadContent();
+						var params = {
+							title : app.vtranslate('JS_LBL_PERMISSION'),
+							text: app.vtranslate('JS_AUTHORIZATION_COMPLETE'),
+							type: 'success',
+							animation: 'show'
+						};
+						Vtiger_Helper_Js.showMessage(params);
+					}
+				},
+				function (error, err) {
+					container.progressIndicator({mode: 'hide'});
 					app.hideModalWindow();
-					thisInstance.reloadContent();
-				}
-			},
-			function (error, err) {
-				container.progressIndicator({mode: 'hide'});
-				app.hideModalWindow();
-			});
+				});
+			}
+		
 		});
 	},
 	registerTabEvents: function(){

@@ -1,8 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	{if !$GITHUB_CLIENT_MODEL->isAuthorized()}
 		<div class="authModal" tabindex="-1">
-			<div  class="modal fade authModalContent ">
+			<div  class="modal fade authModalContent validationEngineContainer ">
 				<div class="modal-dialog ">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -25,33 +24,41 @@
 								<div class="alert alert-danger errorMsg hide"></div>
 							</div>
 							<div class="col-xs-12 marginBottom10px">
+								<span class="redColor">*</span>
 								{vtranslate('LBL_USER_NAME', $QUALIFIED_MODULE_NAME)}
-								<input class="form-control" name="username" value="" type="text">
+								<input class="form-control" name="username" data-validation-engine="validate[required]" value="" type="text">
 							</div>
 							<div class="col-xs-12 marginBottom10px">
+								<span class="redColor">*</span>
 								{vtranslate('LBL_ID_CLIENT', $QUALIFIED_MODULE_NAME)}
-								<input class="form-control" name="client_id" value="" type="text">
+								<input class="form-control" data-validation-engine="validate[required]" name="client_id" value="" type="text">
 							</div>
 							<div class="col-xs-12">
+								<span class="redColor">*</span>
 								{vtranslate('LBL_TOKEN', $QUALIFIED_MODULE_NAME)}
-								<input class="form-control" name="token" value="" type="text">
+								<input class="form-control" data-validation-engine="validate[required]" name="token" value="" type="text">
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	{if !$GITHUB_CLIENT_MODEL->isAuthorized()}
 		<div class="alert alert-danger" role="alert">
 			{vtranslate('LBL_NOT_AUTHORIZED', $QUALIFIED_MODULE_NAME)}
-			<button class="btn btn-danger showModal marginLeft10 ">
+			<button class="btn btn-danger showModal marginLeft10">
 				{vtranslate('LBL_AUTHORIZATION', $QUALIFIED_MODULE_NAME)}
 			</button>
 		</div>
+	{else}
+		<button class="btn btn-primary showModal">
+			{vtranslate('LBL_CHANGE_AUTHORIZATION', $QUALIFIED_MODULE_NAME)}
+		</button>
 	{/if}
 	{if $GITHUB_ISSUES !== false}
 		{if $GITHUB_CLIENT_MODEL->isAuthorized()}
 			<div class="pull-left">
-				<button class="btn btn-primary addIssuesBtn">
+				<button class="btn btn-primary addIssuesBtn marginRight10">
 					{vtranslate('LBL_ADD_ISSUES', $QUALIFIED_MODULE_NAME)}
 				</button>
 			</div>
@@ -106,7 +113,7 @@
 			</tbody>
 		</table>
 	{else}
-		<div class="alert alert-danger">
+		<div class="alert alert-danger marginTop10">
 			{vtranslate('LBL_ERROR_CONNECTED', $QUALIFIED_MODULE_NAME)}
 		</div>
 	{/if}

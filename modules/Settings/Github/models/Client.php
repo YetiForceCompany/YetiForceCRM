@@ -78,8 +78,10 @@ class Settings_Github_Client_Model
 	public function checkToken(){
 		$data['access_token'] = $this->clientToken;
 		$userInfo = $this->doRequest('/user', 'GET', $data, '200 OK');
-		if($userInfo->login == $this->username){
-			return true;
+		if(!(empty($userInfo->login) || empty($this->username))){
+			if($userInfo->login == $this->username){
+				return true;
+			}
 		}
 		return false;
 	}
