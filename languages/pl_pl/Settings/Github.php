@@ -3,7 +3,7 @@
 $languageStrings = [
 	'LBL_ID_CLIENT' => 'ID klienta',
 	'LBL_TOKEN' => 'Token',
-	'LBL_NOT_AUTHORIZED' => 'By w pełni korzystać z możliwości modułu prosimy o autoryzację',
+	'LBL_NOT_AUTHORIZED' => 'Wymagana jest autoryzacja do korzystania ze wszystkich możliwości modułu.',
 	'LBL_TITLE' => 'Tytuł', 
 	'LBL_AUTHOR' => 'Autor',
 	'LBL_ADD_ISSUES' => 'Dodaj',
