@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -802,6 +801,7 @@ CREATE TABLE `u_yf_competition` (
   `subject` varchar(255) DEFAULT NULL,
   `vat_id` varchar(30) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
+  `email` varchar(50) DEFAULT '',
   PRIMARY KEY (`competitionid`),
   CONSTRAINT `fk_1_u_yf_competition` FOREIGN KEY (`competitionid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -890,6 +890,7 @@ CREATE TABLE `u_yf_partners` (
   `subject` varchar(255) DEFAULT NULL,
   `vat_id` varchar(30) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
+  `email` varchar(50) DEFAULT '',
   PRIMARY KEY (`partnersid`),
   CONSTRAINT `fk_1_u_yf_partners` FOREIGN KEY (`partnersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -3424,7 +3425,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2012 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2014 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
