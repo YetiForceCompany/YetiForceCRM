@@ -65,6 +65,13 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BaseSc
 				if ($status) {
 					$returnIds[] = $crmid;
 				}
+				$result = $db->pquery('SELECT documentsid FROM vtiger_ossmailview_files WHERE ossmailviewid = ?;', [$mailId]);
+				while ($documentId = $db->getSingleValue($result)) {
+					$db->insert('vtiger_senotesrel', [
+						'crmid' => $id,
+						'notesid' => $documentId
+					]);
+				}
 			}
 			$db->update('vtiger_crmentity', [
 				'createdtime' => $mail->get('udate_formated'),
