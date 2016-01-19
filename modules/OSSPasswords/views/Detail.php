@@ -1,9 +1,9 @@
 <?php
 /**
- * 
  * @package YetiForce.views
  * @license licenses/License.html
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>; Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class OSSPasswords_Detail_View extends Vtiger_Detail_View {
 	protected $record = false;
