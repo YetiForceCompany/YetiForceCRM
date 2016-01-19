@@ -1,7 +1,10 @@
 <?php
-/* OpenSaaS 
-* Rules: http://opensaas.pl/rules.html
-*/
+/**
+ * 
+ * @package YetiForce.views
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>; Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
 class OSSPasswords_List_View extends Vtiger_List_View {	
 	/**
 	 * Function to get the list of Script models to be included
