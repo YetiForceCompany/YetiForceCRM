@@ -2452,6 +2452,10 @@ i {
 	cursor: pointer;
 	text-decoration: none !important;
 }
+.marginTB3{
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
 .marginLeft10{
 	margin-left:10px;
 }
@@ -2864,6 +2868,10 @@ table.dataTable .form-control {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+.paddingLR10{
+	padding-left:10px !important;
+	padding-right: 10px !important;
+}
 .paddingLeft5px{
 	padding-left: 5px;
 }
@@ -3025,6 +3033,9 @@ span[name=existingImages] img{
 }
 .marginRightMinus20{
 	margin-right:-20px;
+}
+.marginTopMinus10{
+	margin-top:-10px;
 }
 .fieldLabel .referenceMandatory{
 	margin-right: -12px;

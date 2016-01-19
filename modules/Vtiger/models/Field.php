@@ -1147,7 +1147,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 	public function isHeaderField()
 	{
-		return $this->header_field != '' ? true : false;
+		return  !empty($this->header_field) ? true : false;
 	}
 	/**
 	 * Function which will check if empty piclist option should be given
