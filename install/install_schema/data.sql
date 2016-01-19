@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v12.12 (64 bit)
+SQLyog Ultimate v12.18 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -229,6 +229,8 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (138);
 /*Data for the table `roundcube_searches` */
 
 /*Data for the table `roundcube_session` */
+
+insert  into `roundcube_session`(`sess_id`,`created`,`changed`,`ip`,`vars`) values ('kp7b33s0oqj0gp1od2q1a3pri6','2016-01-19 08:42:11','2016-01-19 08:42:11','127.0.0.1','dGVtcHxiOjE7bGFuZ3VhZ2V8czo1OiJlbl9VUyI7cmVxdWVzdF90b2tlbnxzOjMyOiI2Y2U2YTAzYjEwMzZjM2Y4NzRmZDA5ZTU1MTBkMDhjZiI7');
 
 /*Data for the table `roundcube_system` */
 
@@ -4834,7 +4836,6 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (113,43,'DETAILVIEWBASIC','Add Note','index.php?module=Documents&action=EditView&return_module=Project&return_action=DetailView&return_id=$RECORD$&parent_id=$RECORD$','glyphicon glyphicon-file',1,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (114,43,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (116,45,'HEADERSCRIPT','SMSNotifierCommonJS','modules/SMSNotifier/SMSNotifierCommon.js','',0,NULL,NULL,NULL);
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (185,48,'HEADERSCRIPT','OSSMailJS','layouts/_layoutName_/modules/OSSMail/resources/Global.js','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (186,51,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (188,54,'DASHBOARDWIDGET','Graf','index.php?module=OSSMailView&view=ShowWidget&name=Graf','',1,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (191,43,'LISTVIEWSIDEBARWIDGET','LBL_GENERATE_FROM_TEMPLATE','module=OSSProjectTemplates&view=GenerateProject','',0,NULL,NULL,NULL);
