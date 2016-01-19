@@ -116,7 +116,10 @@
 		this.spanHours = popover.find('.clockpicker-span-hours');
 		this.spanMinutes = popover.find('.clockpicker-span-minutes');
 		this.spanAmPm = popover.find('.clockpicker-span-am-pm');
-		this.amOrPm = "PM";
+		// <--------   YetiForce Sp. z o.o.   -------->
+		// this.amOrPm = "PM";
+		this.amOrPm = " PM";
+		// <--------   YetiForce Sp. z o.o.   -------->
 		
 		// Setup for for 12 hour clock if option is selected
 		if (options.twelvehour) {
@@ -146,14 +149,20 @@
 	
 			$('<button type="button" class="btn btn-sm btn-default clockpicker-button am-button">' + "AM" + '</button>')
 				.on("click", function() {
-					self.amOrPm = "AM";
+					// <--------   YetiForce Sp. z o.o.   -------->
+					// self.amOrPm = "AM";
+					self.amOrPm = " AM";
+					// <--------   YetiForce Sp. z o.o.   -------->
 					$('.clockpicker-span-am-pm').empty().append('AM');
 				}).appendTo(this.amPmBlock);
 				
 				
 			$('<button type="button" class="btn btn-sm btn-default clockpicker-button pm-button">' + "PM" + '</button>')
 				.on("click", function() {
-					self.amOrPm = 'PM';
+					// <--------   YetiForce Sp. z o.o.   -------->
+					// self.amOrPm = 'PM';
+					self.amOrPm = ' PM';
+					// <--------   YetiForce Sp. z o.o.   -------->
 					$('.clockpicker-span-am-pm').empty().append('PM');
 				}).appendTo(this.amPmBlock);
 				

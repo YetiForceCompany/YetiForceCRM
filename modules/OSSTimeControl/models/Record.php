@@ -5,6 +5,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 {
 
 	const recalculateStatus = 'Accepted';
+
 	public static $referenceFieldsToTime = ['link', 'process', 'subprocess'];
 
 	public static function recalculateTimeControl($id, $name)
@@ -19,6 +20,15 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		if ($result->rowCount()) {
 			$db->update($table, ['sum_time' => $sumTime], '`' . $focus->table_index . '` = ?', [$id]);
 		}
+	}
+
+	public static function setSumTime($data)
+	{
+		$db = PearDatabase::getInstance();
+		$start = strtotime($data->get('date_start') . ' ' . $data->get('time_start'));
+		$end = strtotime($data->get('due_date') . ' ' . $data->get('time_end'));
+		$time = round(abs($end - $start) / 3600, 2);
+		$db->update('vtiger_osstimecontrol', ['sum_time' => $time], '`osstimecontrolid` = ?', [$data->getId()]);
 	}
 
 	public function getDuplicateRecordUrl()

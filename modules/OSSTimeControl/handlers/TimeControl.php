@@ -17,6 +17,9 @@ class TimeControlHandler extends VTEventHandler
 		}
 		$moduleName = $data->getModuleName();
 		if ($moduleName == 'OSSTimeControl' && in_array($eventName, ['vtiger.entity.aftersave.final', 'vtiger.entity.afterrestore', 'vtiger.entity.afterdelete', 'vtiger.entity.unlink.after'])) {
+			if ($eventName == 'vtiger.entity.aftersave.final') {
+				OSSTimeControl_Record_Model::setSumTime($data);
+			}
 			vimport('~~modules/com_vtiger_workflow/include.inc');
 			vimport('~~modules/com_vtiger_workflow/VTEntityCache.inc');
 			vimport('~~include/Webservices/Utils.php');
