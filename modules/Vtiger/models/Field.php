@@ -599,6 +599,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 		$this->fieldInfo['presence'] = $this->isActiveField();
 		$this->fieldInfo['quickcreate'] = $this->isQuickCreateEnabled();
 		$this->fieldInfo['masseditable'] = $this->isMassEditable();
+		$this->fieldInfo['header_field'] = $this->isHeaderField();
 		$this->fieldInfo['defaultvalue'] = $this->hasDefaultValue();
 		$this->fieldInfo['type'] = $fieldDataType;
 		$this->fieldInfo['name'] = $this->get('name');
@@ -1089,12 +1090,13 @@ class Vtiger_Field_Model extends Vtiger_Field
 	{
 		$db = PearDatabase::getInstance();
 		$this->get('generatedtype') == 1 ? $generatedtype = 1 : $generatedtype = 2;
-		$query = 'UPDATE vtiger_field SET typeofdata=?, presence=?, quickcreate=?, masseditable=?, defaultvalue=?, summaryfield=?, displaytype=?, helpinfo=?, generatedtype=?, fieldparams=? WHERE fieldid=?';
+		$query = 'UPDATE vtiger_field SET typeofdata=?, presence=?, quickcreate=?, masseditable=?, header_field=?, defaultvalue=?, summaryfield=?, displaytype=?, helpinfo=?, generatedtype=?, fieldparams=? WHERE fieldid=?';
 		$params = array(
 			$this->get('typeofdata'),
 			$this->get('presence'),
 			$this->get('quickcreate'),
 			$this->get('masseditable'),
+			$this->get('header_field'),
 			$this->get('defaultvalue'),
 			$this->get('summaryfield'),
 			$this->get('displaytype'),
@@ -1143,6 +1145,10 @@ class Vtiger_Field_Model extends Vtiger_Field
 		return $this->masseditable == 1 ? true : false;
 	}
 
+	public function isHeaderField()
+	{
+		return $this->header_field != '' ? true : false;
+	}
 	/**
 	 * Function which will check if empty piclist option should be given
 	 */

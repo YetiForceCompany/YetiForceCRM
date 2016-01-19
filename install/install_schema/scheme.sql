@@ -3418,6 +3418,7 @@ CREATE TABLE `vtiger_field` (
   `helpinfo` varchar(30) DEFAULT '',
   `summaryfield` int(10) NOT NULL DEFAULT '0',
   `fieldparams` varchar(255) DEFAULT '',
+  `header_field` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`fieldid`),
   KEY `field_tabid_idx` (`tabid`),
   KEY `field_fieldname_idx` (`fieldname`),
