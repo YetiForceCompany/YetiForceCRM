@@ -130,7 +130,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
 				success: function (data) {
 					var oldSubject = jQuery('[name="_subject"]').val();
 					var html = jQuery("<div/>").html(data.result['content']).html();
-					jQuery('[name="_subject"]').val(oldSubject + data.result['subject']);
+					jQuery('[name="_subject"]').val(oldSubject + ' ' + data.result['subject']);
 					if (window.tinyMCE && (ed = tinyMCE.get(rcmail.env.composebody))) {
 						var oldBody = tinyMCE.activeEditor.getContent();
 						tinymce.activeEditor.setContent(html + oldBody);
