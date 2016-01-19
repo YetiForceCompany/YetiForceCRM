@@ -230,8 +230,6 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (138);
 
 /*Data for the table `roundcube_session` */
 
-insert  into `roundcube_session`(`sess_id`,`created`,`changed`,`ip`,`vars`) values ('kp7b33s0oqj0gp1od2q1a3pri6','2016-01-19 08:42:11','2016-01-19 08:42:11','127.0.0.1','dGVtcHxiOjE7bGFuZ3VhZ2V8czo1OiJlbl9VUyI7cmVxdWVzdF90b2tlbnxzOjMyOiI2Y2U2YTAzYjEwMzZjM2Y4NzRmZDA5ZTU1MTBkMDhjZiI7');
-
 /*Data for the table `roundcube_system` */
 
 insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','2015030800');
@@ -241,9 +239,6 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 /*Data for the table `roundcube_users_autologin` */
 
 /*Data for the table `s_yf_multireference` */
-
-insert  into `s_yf_multireference`(`source_module`,`dest_module`,`lastid`,`type`) values ('Accounts','Products',0,0);
-insert  into `s_yf_multireference`(`source_module`,`dest_module`,`lastid`,`type`) values ('Accounts','Services',0,0);
 
 /*Data for the table `u_yf_competition` */
 
@@ -19390,7 +19385,6 @@ insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`) val
 
 /*Data for the table `vtiger_trees_templates_data` */
 
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`,`icon`) values (1,'Default','T1','T1',0,'Default',NULL,NULL);
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`,`icon`) values (2,'Hardware','T1','T1',0,'Hardware',NULL,NULL);
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`,`icon`) values (2,'Software','T2','T2',0,'Software',NULL,NULL);
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`,`icon`) values (2,'CRM Applications','T3','T3',0,'CRM Applications',NULL,NULL);
@@ -19427,6 +19421,8 @@ insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrr
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`,`icon`) values (13,'none','T1','T1',0,'LBL_NONE','',NULL);
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`,`icon`) values (14,'none','T1','T1',0,'LBL_NONE','',NULL);
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`,`icon`) values (15,'Brak','T1','T1',0,'Brak','',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`,`icon`) values (1,'Default','T1','T1',0,'Default','',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`,`icon`) values (1,'Mails','T2','T2',0,'Mails','',NULL);
 
 /*Data for the table `vtiger_troubletickets` */
 

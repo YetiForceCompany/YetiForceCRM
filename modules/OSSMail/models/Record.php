@@ -392,7 +392,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 					$record->set('filename', $filename);
 					$record->set('filestatus', 1);
 					$record->set('filelocationtype', 'I');
-					$record->set('folderid', 1);
+					$record->set('folderid', 'T2');
 					$record->set('mode', 'new');
 					$record->set('id', '');
 					$record->save();
