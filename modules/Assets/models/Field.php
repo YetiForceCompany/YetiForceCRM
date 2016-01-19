@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ *
+ * @package YetiForce.models
+ * @license licenses/License.html
+ * @author Adrian Koń <a.kon@yetiforce.com>
+ */
 
 class Assets_Field_Model extends Vtiger_Field_Model
 {
