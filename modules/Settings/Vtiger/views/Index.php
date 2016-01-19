@@ -115,7 +115,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->assign('LISTVIEW_COUNT', Settings_Github_Issues_Model::$totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$viewer->assign('QUALIFIED_MODULE_NAME', $qualifiedModuleName);
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('GITHUB_ISSUES', $issues);
 		$viewer->assign('GITHUB_CLIENT_MODEL', $clientModel);
 		$viewer->view('Github.tpl', $qualifiedModuleName);
