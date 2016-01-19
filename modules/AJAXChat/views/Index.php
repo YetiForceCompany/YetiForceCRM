@@ -1,3 +1,10 @@
+/**
+ * Save issue to github
+ * @package YetiForce.Github
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+ 
 <?php
 
 class AJAXChat_Index_View extends Vtiger_Basic_View
