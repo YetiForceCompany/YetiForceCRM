@@ -1,6 +1,5 @@
 /**
- * Save issue to github
- * @package YetiForce.Github
+ * @package YetiForce.views
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
