@@ -1,12 +1,5 @@
 <?php
- /*+********************************************************************************
- * Terms & Conditions are placed on the: http://opensaas.pl
- ********************************************************************************
- *  Module				: LangManagement
- *  Author				: OpenSaaS Sp. z o.o.
- *  Help/Email			: bok@opensaas.pl | Website				: www.opensaas.pl
- *  Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br*
- ********************************************************************************+*/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'No data available in table' => 'Nenhum dado disponível na tabela',
 	'Translations' => 'Traduções',
