@@ -232,7 +232,7 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 				var body = jQuery.trim(CKEditorInstance.document.getBody().getText());
 				var params = {
 					module  : 'Github',
-					parent : 'Settings',
+					parent : app.getParentModuleName(),
 					action : 'SaveIssuesAJAX',
 					title: title.val(),
 					body: body
@@ -273,7 +273,7 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 			if (container.validationEngine('validate')) {
 				var params = {
 					module : 'Github',
-					parent : 'Settings',
+					parent : app.getParentModuleName(),
 					action : 'SaveKeysAJAX',
 					username : $('[name="username"]').val(), 
 					client_id : $('[name="client_id"]').val(),
@@ -343,7 +343,7 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 		$('.addIssuesBtn').on('click', function(){
 			var params = {
 				module  : 'Github',
-				parent : 'Settings',
+				parent : app.getParentModuleName(),
 				view : 'AddIssueAJAX'
 			};
 			container.progressIndicator({});
@@ -365,7 +365,7 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 		var params = {
 			mode  : mode,
 			module  : app.getModuleName(),
-			parent : 'Settings',
+			parent : app.getParentModuleName(),
 			view : 'Index',
 			page : page
 		};
@@ -376,9 +376,15 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 			params.state = 'open';
 		}
 		params.author = author.is(':checked');
-		container.progressIndicator({});
+		var progressIndicatorElement = jQuery.progressIndicator({
+			position: 'html',
+			'blockInfo': {
+				'enabled': true,
+				'elementToBlock': container
+			}
+		});
 		AppConnector.request(params).then(function(data){
-			container.progressIndicator({mode: 'hide'});
+			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			container.html(data);
 			thisInstance.registerEventsForGithub(container);
 		});
