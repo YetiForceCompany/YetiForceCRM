@@ -374,6 +374,9 @@ $languageStrings = [
 
 $jsLanguageStrings = [
 	'LangManagement' => 'Редактор языков',
+	'JS_AUTHORIZATION_COMPLETE' => 'Authorization successful',
+	'JS_ADDED_ISSUE_COMPLETE' => 'New issue added successfully',
+	'JS_ERROR_KEY' => 'Authorization error. Check if all keys are valid.',
 	'JS_ANNOUNCEMENT_SAVED' => 'Оповещение сохранено',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Конфигурация сохранена',
 	'JS_CONFIRM_DEFAULT_SETTINGS' => 'Вы уверены, что хотите установить значения сервера по умолчанию?',
