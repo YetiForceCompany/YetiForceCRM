@@ -355,6 +355,9 @@ $languageStrings = [
 	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Show layout selection on the login page',
 ];
 $jsLanguageStrings = [
+	'JS_AUTHORIZATION_COMPLETE' => 'Authorization successful',
+	'JS_ADDED_ISSUE_COMPLETE' => 'New issue added successfully',
+	'JS_ERROR_KEY' => 'Authorization error. Check if all keys are valid.',
 	'JS_ANNOUNCEMENT_SAVED' => 'Bekanntmachung gespeichert',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Konfigurationsdetails gespeichert',
 	'JS_CONFIRM_DEFAULT_SETTINGS' => 'Sind Sie sicher, dass Sie die Serverdetails auf die Standardserverwerte zurücksetzen wollen',
