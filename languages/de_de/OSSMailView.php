@@ -1,12 +1,5 @@
 <?php
- /*+********************************************************************************
- * Terms & Conditions are placed on the: http://opensaas.pl/ruls.html
- ********************************************************************************
- *  Module				: OSSMailView
- *  Author				: OpenSaaS Sp. z o.o. 
- *  Help/Email			: bok@opensaas.pl
- *  Website				: www.opensaas.pl
- ********************************************************************************+*/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	// Basic Strings
 	'OSSMailView'        => 'Unternehmens-E-Mails',
