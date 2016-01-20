@@ -352,6 +352,9 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
+	'JS_AUTHORIZATION_COMPLETE' => 'Authorization successful',
+	'JS_ADDED_ISSUE_COMPLETE' => 'New issue added successfully',
+	'JS_ERROR_KEY' => 'Authorization error. Check if all keys are valid.',
 	'JS_ANNOUNCEMENT_SAVED' => 'Anúncio Salvo',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Os detalhes da Configuração foram salvos',
 	'JS_CONFIRM_DEFAULT_SETTINGS' => 'Você tem certeza que deseja alterar os detalhes do Servidor para os valores padrões',
