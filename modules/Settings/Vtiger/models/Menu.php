@@ -36,6 +36,27 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 	{
 		return $this->get('label');
 	}
+	
+	/**
+	 * Function to get the menu type
+	 * @return <String> - Menu Label
+	 */
+	public function getType()
+	{
+		return $this->get('type');
+	}
+
+	/**
+	 * Function to get the url to get to the Settings Menu Block
+	 * @return <String> - Menu Item landing url
+	 */
+	public function getUrl()
+	{
+		$url = $this->get('linkto');
+		$url = decode_html($url);
+		$url .= '&block=' . $this->getId();
+		return $url;
+	}
 
 	/**
 	 * Function to get the url to list the items of the Menu
