@@ -1,13 +1,5 @@
 <?php
- /*+********************************************************************************
- * Terms & Conditions are placed on the: http://opensaas.pl
- ********************************************************************************
- *  Module				: LangManagement
- *  Author				: OpenSaaS Sp. z o.o. 
- *  Help/Email			: bok@opensaas.pl
- *  Website				: www.opensaas.pl
- * VERSION YetiForceCRM: 1.1.0 RC
- ********************************************************************************+*/
+ /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'Language editor'	=>	'Редактор языков',
 	'Translations'	=>	'Редактор языков',
