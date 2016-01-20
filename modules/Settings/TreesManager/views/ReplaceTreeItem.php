@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_TreesManager_ReplaceTreeItem_View extends Vtiger_Index_View
+class Settings_TreesManager_ReplaceTreeItem_View extends Settings_Vtiger_Index_View
 {
 
 	function process(Vtiger_Request $request)

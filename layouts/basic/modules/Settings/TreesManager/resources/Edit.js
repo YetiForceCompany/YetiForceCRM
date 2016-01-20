@@ -161,7 +161,11 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 			jstreeInstanceReplace = wizardContainer.find('#treePopupContents');
 			jstreeInstanceReplace.jstree({
 				core: {
-					data: data
+					data: data,
+					themes: {
+						name: 'proton',
+						responsive: true
+					},
 				},
 			}).bind("loaded.jstree", function (event, data) {
 				$(this).jstree("open_all");
