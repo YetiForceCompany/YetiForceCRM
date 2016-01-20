@@ -17,7 +17,7 @@
 	<input id="subject" type="hidden" value="{$RECORD->get('subject')}" />
 	<input id="createdtime" type="hidden" value="{$RECORD->get('createdtime')}" />
 	<div id="content" style="display: none;">{$RECORD->get('content')}</div>
-	<div class="col-xs-10 col-sm-9 col-md-8 margin0px">
+	<div class="col-xs-10 col-sm-9 col-md-4 margin0px">
 		<div class="moduleIcon">
 			<span class="detailViewIcon userIcon-{$MODULE}"></span>
 		</div>
@@ -39,24 +39,5 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-12 col-sm-12 col-md-8 marginTopMinus10">
-		{if $FIELDS_HEADER}
-			{foreach from=$FIELDS_HEADER key=LABEL item=VALUE}
-				<div class="col-md-12 marginTB3 paddingLRZero">
-					<div class="row col-lg-6 col-md-6 pull-right paddingLRZero">
-						<button class="btn  {$VALUE['class']} btn-xs col-md-12">
-							<div class="col-md-6 text-left">
-								{vtranslate($LABEL,$MODULE_NAME)} 
-							</div>
-							<div class="col-md-6 paddingLRZero">
-								<span class="badge marginTB3 paddingLR10">
-									{$VALUE['value']}
-								</span>
-							</div>
-						</button>
-					</div>
-				</div>
-			{/foreach}
-		{/if}
-	</div>
+	{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
 {/strip}
