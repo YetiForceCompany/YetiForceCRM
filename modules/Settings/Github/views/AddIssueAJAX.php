@@ -20,7 +20,25 @@ class Settings_Github_AddIssueAJAX_View extends Vtiger_BasicModal_View
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$clientModel = Settings_Github_Client_Model::getInstance();
+		$configuration = Settings_ConfReport_Module_Model::getConfigurationValue();
+		$libraries = Settings_ConfReport_Module_Model::getConfigurationLibrary();
+		$errorLibraries = [];
+		foreach($libraries as $key => $value){
+			if($value['status'] == 'LBL_NO'){
+				$errorLibraries[$key] = $value;
+			}
+		}
+		$errorConfig = [];
+		foreach($configuration as $key => $value){
+			if($value['status']){
+				$errorConfig[$key] = $value;
+			}
+		}
+		$phpVersion = PHP_VERSION;
 		$viewer->assign('GITHUB_CLIENT_MODEL', $clientModel);
+		$viewer->assign('PHP_VERSION', $phpVersion);
+		$viewer->assign('ERROR_CONFIGURATION', $errorConfig);
+		$viewer->assign('ERROR_LIBRARIES', $errorLibraries);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('AddIssueModal.tpl', $qualifiedModule);
 	}

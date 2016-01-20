@@ -39,10 +39,27 @@
 								<textarea id="bodyIssues" class="form-control ckEditorSource" type="text" name="title">
 									<br>
 									<hr>
-									<p>
-										{vtranslate('LBL_DEFAULT_DESCRIPTION', $QUALIFIED_MODULE)}
-										{Vtiger_Session::get('yetiforce_version')}
-									</p>
+									{vtranslate('LBL_DEFAULT_DESCRIPTION', $QUALIFIED_MODULE)}
+									{Vtiger_Session::get('yetiforce_version')}
+									<br>
+									{vtranslate('LBL_PHP_VERSION', $QUALIFIED_MODULE)}: {$PHP_VERSION}
+									<br>
+									{if $ERROR_CONFIGURATION}
+										<br>
+										<strong>{vtranslate('LBL_CONFIGURATION_ERROR', $QUALIFIED_MODULE)}:</strong>
+										{foreach from=$ERROR_CONFIGURATION key=NAME item=CONFIG}
+											<br>
+											{$NAME}: {$CONFIG['current']}
+										{/foreach}
+									{/if}
+									{if $ERROR_LIBRARIES}
+										<br>
+										<strong>{vtranslate('LBL_LIBRARIES_ERROR', $QUALIFIED_MODULE)}:</strong>
+										{foreach from=$ERROR_LIBRARIES key=NAME item=LIBRARY}
+											<br>
+											{$LIBRARY['name']}
+										{/foreach}
+									{/if}
 								</textarea>
 							</div>
 						</div>

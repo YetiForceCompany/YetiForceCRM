@@ -19,4 +19,7 @@ $languageStrings = [
 	'LBL_ID_CLIENT_DESCRIPTION' => '24 znakowy unikalny kod klienta wygenerowany przy rejestracji aplikacji',
 	'LBL_TOKEN_DESCRIPTION' => '40 znakowy unikalny kod dostępu do konta. Instrukcja tworzenia tokenu dostępna pod tym <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/">linkiem</a>',
 	'LBL_NO_ISSUES' => 'Brak zgłoszonych problemów',
+	'LBL_PHP_VERSION' => 'PHP',
+	'LBL_LIBRARIES_ERROR' => 'Library errors',
+	'LBL_CONFIGURATION_ERROR' => 'Server configuration errors',
 ];
