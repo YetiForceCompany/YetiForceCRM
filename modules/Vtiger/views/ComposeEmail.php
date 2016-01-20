@@ -31,7 +31,7 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View {
         if($request->getMode() == 'previewPrint'){
             return;
         }
-        return parent::preProcess($request,$display);
+        return parent::preProcess($request,false);
     }
 
 	public function composeMailData($request){

@@ -201,8 +201,8 @@ class yetiforce extends rcube_plugin
 				$prefix .= "\n";
 				$body = $prefix . $body . $suffix;
 			} else {
-				$body = $prefix . '<blockquote>' . $body . '</blockquote>' . $suffix;
 				$prefix = '<p>' . rcube::Q($prefix) . "</p>\n";
+				$body = $prefix . '<blockquote>' . $body . '</blockquote>' . $suffix;
 			}
 		}
 		$args['body'] = $body;

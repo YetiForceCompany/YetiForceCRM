@@ -51,6 +51,7 @@ Class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
 		$viewer->assign('SRECORD', $srecord);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('POPUP', $config['popup']);
+		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('MailsPreview.tpl', 'OSSMailView');
 	}
 }

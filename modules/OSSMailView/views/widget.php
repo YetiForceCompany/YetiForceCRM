@@ -57,6 +57,7 @@ Class OSSMailView_widget_View extends Vtiger_Edit_View
 		$viewer->assign('SRECORD', $srecord);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('POPUP', $config['popup']);
+		$viewer->assign('PRIVILEGESMODEL', Users_Privileges_Model::getCurrentUserPrivilegesModel());
 		$viewer->view('widgets.tpl', 'OSSMailView');
 	}
 }

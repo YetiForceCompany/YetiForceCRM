@@ -24,33 +24,64 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		if ($permission && AppConfig::main('isActiveSendingMails')) {
 			$recordId = $recordModel->getId();
-			$config = OSSMail_Module_Model::getComposeParameters();
-			$url = OSSMail_Module_Model::getComposeUrl();
+			if ($currentUserModel->get('internal_mailer') == 1) {
+				$config = OSSMail_Module_Model::getComposeParameters();
+				$url = OSSMail_Module_Model::getComposeUrl();
 
-			$detailViewLinks[] = [
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => '',
-				'linkhint' => 'LBL_REPLY',
-				'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=reply', 'popup' => $config['popup']],
-				'linkimg' => Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png'),
-				'linkclass' => 'sendMailBtn'
-			];
-			$detailViewLinks[] = [
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => '',
-				'linkhint' => 'LBL_REPLYALLL',
-				'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=replyAll', 'popup' => $config['popup']],
-				'linkimg' => Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png'),
-				'linkclass' => 'sendMailBtn'
-			];
-			$detailViewLinks[] = [
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => '',
-				'linkhint' => 'LBL_FORWARD',
-				'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=forward', 'popup' => $config['popup']],
-				'linkicon' => 'glyphicon glyphicon-share-alt',
-				'linkclass' => 'sendMailBtn'
-			];
+				$detailViewLinks[] = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => '',
+					'linkhint' => 'LBL_REPLY',
+					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=reply', 'popup' => $config['popup']],
+					'linkimg' => Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png'),
+					'linkclass' => 'sendMailBtn'
+				];
+				$detailViewLinks[] = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => '',
+					'linkhint' => 'LBL_REPLYALLL',
+					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=replyAll', 'popup' => $config['popup']],
+					'linkimg' => Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png'),
+					'linkclass' => 'sendMailBtn'
+				];
+				$detailViewLinks[] = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => '',
+					'linkhint' => 'LBL_FORWARD',
+					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=forward', 'popup' => $config['popup']],
+					'linkicon' => 'glyphicon glyphicon-share-alt',
+					'linkclass' => 'sendMailBtn'
+				];
+			} else {
+				$detailViewLinks[] = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linkhref' => true,
+					'linklabel' => '',
+					'linkhint' => 'LBL_REPLY',
+					'linkurl' => OSSMail_Module_Model::getExternalUrlForWidget($recordModel, 'reply'),
+					'linkimg' => Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png'),
+					'linkclass' => 'sendMailBtn'
+				];
+				$detailViewLinks[] = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linkhref' => true,
+					'linklabel' => '',
+					'linkhint' => 'LBL_REPLYALLL',
+					'linkurl' => OSSMail_Module_Model::getExternalUrlForWidget($recordModel, 'replyAll'),
+					'linkimg' => Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png'),
+					'linkclass' => 'sendMailBtn'
+				];
+				$detailViewLinks[] = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linkhref' => true,
+					'linklabel' => '',
+					'linkhint' => 'LBL_FORWARD',
+					'linkurl' => OSSMail_Module_Model::getExternalUrlForWidget($recordModel, 'forward'),
+					'linkicon' => 'glyphicon glyphicon-share-alt',
+					'linkclass' => 'sendMailBtn'
+				];
+			}
+
 			if (Users_Privileges_Model::isPermitted('OSSMailView', 'PrintMail')) {
 				$detailViewLinks[] = [
 					'linktype' => 'DETAILVIEWBASIC',

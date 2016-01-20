@@ -53,6 +53,7 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RELATEDMODULES', $RelatedModule);
+		$viewer->assign('PRIVILEGESMODEL', Users_Privileges_Model::getCurrentUserPrivilegesModel());
 		if (class_exists($widgetName)) {
 			$widgetInstance = new $widgetName();
 			$tplName = $widgetInstance->getConfigTplName();
