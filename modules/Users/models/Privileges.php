@@ -384,7 +384,7 @@ class Users_Privileges_Model extends Users_Record_Model
 					$parentRecord = $rparentRecord;
 				}
 			}
-			return $record != $parentRecord ? $parentRecord : false;
+			$parentRecord = $record != $parentRecord ? $parentRecord : false;
 		} else if (in_array($moduleName, Vtiger_Module_Model::getModulesMapMMBase())) {
 			$currentUser = vglobal('current_user');
 			$db = PearDatabase::getInstance();
