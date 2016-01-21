@@ -73,6 +73,8 @@ $languageStrings = [
 	'Alert_ChangeType_desc' => 'Todo tipo de e-mail selecionado será mudado, sem a possibilidade de desfazer as altereções.',
 	'LBL_ChangeTypeOK' => 'Mudar tipo de mensagem',
 	'Configuration' => 'Configuração',
+	'LBL_MAIL_REPLY_INTRO' => 'On the %s, %s wrote:',
+	'LBL_MAIL_FORWARD_INTRO' => '-------- Original message --------',
 	'LBL_NO_MAILS' => 'No emails',
 
 	//dashboards
