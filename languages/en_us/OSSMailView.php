@@ -75,6 +75,8 @@ $languageStrings = [
 	'Alert_ChangeType_desc' => 'All types of selected e-mail will be changed, without the possibility to undo the changes.',
 	'LBL_ChangeTypeOK' => 'Changed message type',
 	'Configuration' => 'Configuration',
+	'LBL_MAIL_REPLY_INTRO' => 'On the %s, %s wrote:',
+	'LBL_MAIL_FORWARD_INTRO' => '-------- Original message --------',
 	'LBL_NO_MAILS' => 'No emails',
 	
 	//dashboards
