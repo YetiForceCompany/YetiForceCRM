@@ -237,11 +237,13 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$body = preg_replace('/\r?\n/', "\n", $body);
 			$content = vtranslate('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . "\n";
 			foreach (explode("\n", $body) as $line) {
+				$line = trim($line);
 				if (!empty($line)) {
 					$content .= '> ' . $line . "\n";
 				}
 			}
 		}
+
 		$url .= '&body=' . rawurlencode($content);
 		return $url;
 	}
