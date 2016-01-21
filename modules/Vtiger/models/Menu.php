@@ -74,10 +74,17 @@ class Vtiger_Menu_Model
 			if (count($parentMenu) > 0) {
 				$breadcrumbs = array_reverse($parentMenu);
 			}
-			$breadcrumbs[] = [
-				'name' => vtranslate($moduleName, $moduleName),
-				'url' => 'index.php?module=' . $moduleName . '&view=List',
-			];
+			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			if ($moduleModel && $moduleModel->getListViewUrl()) {
+				$breadcrumbs[] = [
+					'name' => vtranslate($moduleName, $moduleName),
+					'url' => $moduleModel->getListViewUrl()
+				];
+			} else {
+				$breadcrumbs[] = [
+					'name' => vtranslate($moduleName, $moduleName)
+				];
+			}
 
 			if ($pageTitle) {
 				$breadcrumbs[] = [ 'name' => vtranslate($pageTitle, $moduleName)];
@@ -124,7 +131,7 @@ class Vtiger_Menu_Model
 						}
 					}
 				}
-				
+
 				if ($pageTitle) {
 					$breadcrumbs[] = [ 'name' => vtranslate($pageTitle, $moduleName)];
 				} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
@@ -189,10 +196,10 @@ class Vtiger_Menu_Model
 		if (!empty($menu['icon'])) {
 			if (strpos($menu['icon'], 'adminIcon-') !== false || strpos($menu['icon'], 'userIcon-') !== false) {
 				return '<span class="menuIcon ' . $menu['icon'] . '" aria-hidden="true"></span>';
-			}else if (strpos($menu['icon'], 'glyphicon-') !== false) {
+			} else if (strpos($menu['icon'], 'glyphicon-') !== false) {
 				return '<span class="glyphicon ' . $menu['icon'] . '" aria-hidden="true"></span>';
 			}
-			
+
 			$icon = vimage_path($menu['icon']);
 			if (file_exists($icon)) {
 				return '<img src="' . $icon . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';

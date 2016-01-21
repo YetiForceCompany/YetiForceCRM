@@ -10,6 +10,16 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<div class='widget_header row'>
+		<div class="col-xs-12">
+			{if !$RECORD_ID}
+				{assign var=BREADCRUMB_TITLE value='LBL_VIEW_CREATE'}
+			{else}
+				{assign var=BREADCRUMB_TITLE value=$CUSTOMVIEW_MODEL->get('viewname')}
+			{/if}
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>	
+	</div>	
 	{assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
 	<div class="">
 		<form class="form-inline" id="CustomView" name="CustomView" method="post" action="index.php">
@@ -20,10 +30,7 @@
 			<input type="hidden" id="stdfilterlist" name="stdfilterlist" value=""/>
 			<input type="hidden" id="advfilterlist" name="advfilterlist" value=""/>
 			<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}"/>
-			<div class="CustomFilterViewTitle">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			</div>	
-			<hr>
+			
 			<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}">
 			<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
 			<div class="filterBlocksAlignment">
