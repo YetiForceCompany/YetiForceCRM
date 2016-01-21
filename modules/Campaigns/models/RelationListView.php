@@ -25,7 +25,7 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model {
 				$emailLink = Vtiger_Link_Model::getInstanceFromValues(array(
 						'linktype' => 'LISTVIEWBASIC',
 						'linklabel' => vtranslate('LBL_SEND_EMAIL', $relatedModuleName),
-						'linkurl' => "javascript:Campaigns_RelatedList_Js.triggerSendEmail('index.php?module=$relatedModuleName&view=MassActionAjax&mode=showComposeEmailForm&step=step1','Emails');",
+						'linkurl' => "javascript:Campaigns_RelatedList_Js.triggerSendEmail();",
 						'linkicon' => ''
 				));
 				$emailLink->set('_sendEmail',true);

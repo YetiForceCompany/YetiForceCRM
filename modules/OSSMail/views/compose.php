@@ -1,11 +1,11 @@
 <?php
+
 /**
  *
  * @package YetiForce.views
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
 class OSSMail_compose_View extends Vtiger_Index_View
 {
 
@@ -17,7 +17,7 @@ class OSSMail_compose_View extends Vtiger_Index_View
 		$this->mainUrl = OSSMail_Record_Model::GetSite_URL() . 'modules/OSSMail/roundcube/?_task=mail&_action=compose';
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	function initAutologin()
 	{
 		$config = Settings_Mail_Config_Model::getConfig('autologin');
 		if ($config['autologinActive'] == 'true') {
@@ -41,6 +41,17 @@ class OSSMail_compose_View extends Vtiger_Index_View
 				}
 			}
 		}
+	}
+
+	function preProcessAjax(Vtiger_Request $request)
+	{
+		$this->initAutologin();
+		$this->mainUrl = $this->mainUrl . '&_extwin=1';
+	}
+
+	public function preProcess(Vtiger_Request $request, $display = true)
+	{
+		$this->initAutologin();
 		$config = OSSMail_Module_Model::getComposeParameters();
 		$param = OSSMail_Module_Model::getComposeUrlParam($request->get('crmModule'), $request->get('crmRecord'), $request->get('type'), $request->get('crmView'));
 		if ($request->get('mid') != '' && $request->get('type') != '') {
@@ -58,35 +69,19 @@ class OSSMail_compose_View extends Vtiger_Index_View
 	public function process(Vtiger_Request $request)
 	{
 		$url = '';
+		$post = [];
+		$crmModule = $request->get('crmModule');
+		$crmRecord = $request->get('crmRecord');
+
 		if ($request->get('to') != '') {
 			$to = $request->get('to');
 		}
 		if ($request->get('subject') != '') {
 			$subject = $request->get('subject');
 		}
-		if (!empty($_SESSION['POST']['to'])) {
-			$to = implode(",", $_SESSION['POST']['to']);
-		}
-		if (!empty($_SESSION['POST']['cc'])) {
-			$cc = implode(",", $_SESSION['POST']['cc']);
-		}
-		if (!empty($_SESSION['POST']['bcc'])) {
-			$bcc = implode(",", $_SESSION['POST']['bcc']);
-		}
-		if (!empty($_SESSION['POST']['subject'])) {
-			$subject = implode(",", $_SESSION['POST']['subject']);
-		}
-		$mod = $_SESSION['POST']['sourceModule'];
-
-		if ($mod == 'Campaigns') {
-			if ($to != '') {
-				$url .= '&bcc=' . $to;
-			}
-			if ($_SESSION['POST']['sourceRecord'] != '') {
-				$Record_Model = Vtiger_Record_Model::getInstanceById($_SESSION['POST']['sourceRecord'], $mod);
-				$campaign_no = $Record_Model->get('campaign_no');
-				$url .= '&subject=' . $campaign_no . ': ' . $Record_Model->get('campaignname');
-			}
+		if ($crmModule == 'Campaigns' && !empty($crmRecord)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($crmRecord, $crmModule);
+			$subject = $recordModel->get('campaign_no') . ' - ' . $recordModel->get('campaignname');
 		} else {
 			if ($to != '') {
 				$url .= '&to=' . $to;
@@ -107,8 +102,38 @@ class OSSMail_compose_View extends Vtiger_Index_View
 			$url .= '&pdf_path=' . $pdfPath;
 		}
 
+		if ($request->has('emails')) {
+			$post['emails'] = Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($request->get('emails')));
+		}
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT vars FROM roundcube_session WHERE sess_id=?', [$_COOKIE['roundcube_sessid']]);
+		$vars = $db->getSingleValue($result);
+		if (!empty($vars)) {
+			$vars = base64_decode($vars);
+			$vars = $this->unSerializeSession($vars);
+			$post['_token'] = $vars['request_token'];
+		}
+
 		$viewer = $this->getViewer($request);
+		$viewer->assign('POST_DATA', $post);
 		$viewer->assign('URL', $this->mainUrl . $url);
-		$viewer->view('index.tpl', 'OSSMail');
+
+		if ($request->isAjax()) {
+			$viewer->view('ComposePopup.tpl', 'OSSMail');
+		} else {
+			$viewer->view('index.tpl', 'OSSMail');
+		}
+	}
+
+	function unSerializeSession($data)
+	{
+		$vars = preg_split(
+			'/([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\|/', $data, -1, PREG_SPLIT_NO_EMPTY |
+			PREG_SPLIT_DELIM_CAPTURE
+		);
+		for ($i = 0; $vars[$i]; $i++) {
+			$result[$vars[$i++]] = unserialize($vars[$i]);
+		}
+		return $result;
 	}
 }

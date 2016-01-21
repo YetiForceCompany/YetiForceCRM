@@ -16,10 +16,11 @@ class yetiforce extends rcube_plugin
 		$this->rc = rcmail::get_instance();
 		$this->add_hook('login_after', [$this, 'savePassword']);
 
+
 		if ($this->rc->task == 'mail') {
 			$this->register_action('plugin.yetiforce.addFilesToMail', [$this, 'addFilesToMail']);
 			$this->rc->output->set_env('site_URL', $this->rc->config->get('site_URL'));
-			
+
 			if ($this->rc->action == 'compose') {
 				$this->add_texts('localization/', false);
 				$this->include_script('compose.js');
@@ -56,12 +57,12 @@ class yetiforce extends rcube_plugin
 		}
 		$this->rc->output->set_env('subject', $args['object']->headers->subject);
 		$from = $args['object']->headers->from;
-		$from = explode('<', rtrim($from, '>'),2);
+		$from = explode('<', rtrim($from, '>'), 2);
 		$fromName = '';
-		if(count($from) > 1){
+		if (count($from) > 1) {
 			$fromName = $from[0];
 			$fromMail = $from[1];
-		}else{
+		} else {
 			$fromMail = $from[0];
 		}
 		$this->rc->output->set_env('fromName', $fromName);
@@ -81,6 +82,10 @@ class yetiforce extends rcube_plugin
 		$crmrecord = rcube_utils::get_input_value('crmrecord', rcube_utils::INPUT_GPC);
 		$crmview = rcube_utils::get_input_value('crmview', rcube_utils::INPUT_GPC);
 		$crmSubject = rcube_utils::get_input_value('subject', rcube_utils::INPUT_GPC);
+		$emails = rcube_utils::get_input_value('emails', rcube_utils::INPUT_GPC);
+		if (!empty($emails)) {
+			$args['param']['bcc'] = implode(',', json_decode($emails,true));
+		}
 		if ($crmmodule) {
 			$_SESSION['compose_data_' . $id]['param']['module'] = $crmmodule;
 		}
@@ -92,7 +97,7 @@ class yetiforce extends rcube_plugin
 		}
 
 		if (!$crmid) {
-			return;
+			return $args;
 		}
 		$crmid = filter_var($crmid, FILTER_SANITIZE_STRING);
 		$result = $db->query("SELECT content,reply_to_email,date,from_email,to_email,cc_email,subject FROM vtiger_ossmailview WHERE ossmailviewid = '$crmid';");
@@ -120,8 +125,8 @@ class yetiforce extends rcube_plugin
 					$subject = 'Fwd: ' . $row['subject'];
 				break;
 		}
-		if(!empty($crmSubject)){
-			$subject .= ' ['.$crmSubject.']';
+		if (!empty($crmSubject)) {
+			$subject .= ' [' . $crmSubject . ']';
 		}
 		$args['param']['to'] = $to;
 		$args['param']['cc'] = $cc;

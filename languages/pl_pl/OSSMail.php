@@ -78,6 +78,9 @@ $languageStrings = [
 	'LBL_ADD_HELPDESK' => 'Dodaj zgłoszenie',
 	'LBL_ADD_PRODUCTS' => 'Dodaj produkt',
 	'LBL_ADD_SERVICES' => 'Dodaj usługę',
+	'LBL_SEND_MASS_EMAIL' => 'Masowe wysyłanie wiadomości email',
+	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Ilość znalezionych adresów e-mail',
+	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Ilość zaznaczonych rekordów',
 ];
 $jsLanguageStrings = [
 	'NoFindEmailInRecord' => 'Rekord nie posiada adresu email',

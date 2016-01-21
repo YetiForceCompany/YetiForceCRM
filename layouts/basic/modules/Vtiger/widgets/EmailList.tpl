@@ -15,10 +15,10 @@
 								</button>
 								&nbsp;
 								{if AppConfig::main('isActiveSendingMails')}
-									{if $PRIVILEGESMODEL->internal_mailer == 1}
+									{if $USER_MODEL->get('internal_mailer') == 1}
 										{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
 										<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$URLDATA}" data-module="{$MODULE_NAME}" data-record="{$RECORD->getId()}" data-popup="{$CONFIG['popup']}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
-											
+											<span class="glyphicon glyphicon-envelope" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
 										</button>
 									{else}
 										{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}

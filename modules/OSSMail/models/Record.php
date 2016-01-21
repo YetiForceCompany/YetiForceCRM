@@ -45,7 +45,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	function ComposeEmail($params, $ModuleName)
 	{
-		$_SESSION['POST'] = $params;
 		header('Location: ' . self::GetSite_URL() . 'index.php?module=OSSMail&view=compose');
 	}
 
