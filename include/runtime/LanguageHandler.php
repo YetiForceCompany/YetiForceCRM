@@ -256,12 +256,12 @@ class Vtiger_Language_Handler
 
 function vtranslate($key, $moduleName = '')
 {
+	$formattedString = Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
 	$args = func_get_args();
-	$formattedString = call_user_func_array(array('Vtiger_Language_Handler', 'getTranslatedString'), $args);
 	array_shift($args);
 	array_shift($args);
 	if (is_array($args) && !empty($args)) {
-		$formattedString = call_user_func_array('vsprintf', array($formattedString, $args));
+		$formattedString = call_user_func_array('vsprintf', [$formattedString, $args]);
 	}
 	return $formattedString;
 }
