@@ -16,16 +16,19 @@
 		margin-bottom:0px !important;
 	}
 </style>
-<div class="" style="margin-top:10px;">
-	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-	&nbsp;{vtranslate('LBL_BRUTEFORCE_DESCRIPTION', $MODULE)}
-	<hr>
+<div class="">
+	<div class="widget_header row">
+		<div class="col-md-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			&nbsp;{vtranslate('LBL_BRUTEFORCE_DESCRIPTION', $MODULE)}
+		</div>
+	</div>
 	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
 		<li class="active" id="brutalforce_tab_btn_1" ><a href="#tab_1">{vtranslate('Settings', $MODULE)}</a></li>
 		<li  id="brutalforce_tab_btn_2" ><a href="#tab_2">{vtranslate('Blocked IP', $MODULE)}</a></li>
 	</ul>
 	<div id="my-tab-content" class="tab-content" >
-		<div class='editViewContainer tab-panel' id="brutalforce_tab_1">
+		<div class="editViewContainer tab-panel" id="brutalforce_tab_1">
 			<form id="brutalforce_tab_form_1" name="brutalforce_tab_1">
 				<table class="table table-bordered table-condensed themeTableColor">
 					<thead>
@@ -38,7 +41,7 @@
 					<tbody>
 						<tr>
 							<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Number of attempts', $MODULE)}</label></td>
-							<td style="border-left: none;">
+							<td>
 								<div class="col-md-2">
 									<input type="text" class="form-control" name="attempsnumber" id="min_length" value="{$ATTEMPS_NUMBER}" />
 								</div>
@@ -46,7 +49,7 @@
 						</tr>
 						<tr>
 							<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Time lock', $MODULE)}</label></td>
-							<td style="border-left: none;">
+							<td>
 								<div class="col-md-2">
 									<input type="text" class="form-control" name="timelock" id="min_length" value="{$BLOCK_TIME}" />
 								</div>
@@ -54,7 +57,7 @@
 						</tr>
 						<tr>
 							<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('LBL_USERS_FOR_NOTIFICATIONS', $MODULE)}</label></td>
-							<td style="border-left: none;">
+							<td >
 								<div class="col-md-8">
 									<select class="chzn-select form-control" name="selectedUsers" multiple>
 										{foreach key=KEY  item=USER from=$ADMINUSERS}
@@ -66,7 +69,7 @@
 						</tr>
 						<tr style="height:46px;">
 							<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('LBL_BRUTEFORCE_ACTIVE', $MODULE)}</label></td>
-							<td style="border-left: none;">
+							<td>
 								<div class="col-md-3">
 									<input type="checkbox" name="active" {if $BRUTEFORCEACTIVE} checked {/if} />
 								</div>
@@ -78,7 +81,7 @@
 					<button class="btn btn-success saveButton" type="submit" id='saveConfig' title="{vtranslate('LBL_SAVE', $MODULE)}"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button></div>
 			</form>
 		</div>
-		<div class='editViewContainer tab-pane' id="brutalforce_tab_2" style="display:none;">
+		<div class="editViewContainer tab-pane" id="brutalforce_tab_2" style="display:none;">
 			<form id="brutalforce_tab_form_1" name="brutalforce_tab_2">
 				<div class="table-responsive">
 					<table  class="table tableRWD table-bordered table-condensed themeTableColor brute_force_form">

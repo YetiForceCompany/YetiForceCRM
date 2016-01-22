@@ -1,6 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
-{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-<hr>
+<div class="widget_header row">
+	<div class="col-xs-12">
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	</div>
+</div>
 {if ($CHECKCRON[0]['status'] == 0 ) || !$CHECKCRON || ($CHECKCRON[1]['status'] == 0)}
 	<div class="alert alert-block alert-warning fade in" style="margin-left: 10px;">
 		<button type="button" class="close" data-dismiss="alert">×</button>

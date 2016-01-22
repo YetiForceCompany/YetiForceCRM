@@ -8,12 +8,12 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
 <div class="menuConfigContainer">
-	<div class="row">
+	<div class="widget_header row">
 		<div class="col-md-7">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			{vtranslate('LBL_MENU_BUILDER_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
-		<div class="col-md-5 row h3">
+		<div class="col-md-5 row">
 			<div class="col-xs-6 paddingLRZero">
 				<button class="btn btn-default addMenu pull-right"><strong>{vtranslate('LBL_ADD_MENU', $QUALIFIED_MODULE)}</strong></button>
 			</div>

@@ -1,8 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 
-<div class="" style="margin-top:10px;">
-	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-	{vtranslate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}<hr>
+<div class="">
+	<div class="widget_header row">
+		 <div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{vtranslate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}
+		</div>
+	</div>
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#Configuration">{vtranslate('LBL_YETIFORCE_ENGINE', $MODULE)}</a></li>
         <li><a data-toggle="tab" href="#Permissions">{vtranslate('LBL_FILES_PERMISSIONS', $MODULE)}</a></li>

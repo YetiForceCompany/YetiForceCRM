@@ -8,8 +8,11 @@
  *************************************************************************************}
 {strip}
 <div class="">
-	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-	<hr>
+	<div class="widget_header row">
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
+	</div>
 	<div class="clearfix treeView">
 		<ul>
 			<li data-role="{$ROOT_ROLE->getParentRoleString()}" data-roleid="{$ROOT_ROLE->getId()}">
