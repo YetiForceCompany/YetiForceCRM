@@ -45,6 +45,15 @@ $languageStrings = [
 	'LBL_SWITCH_USERS_DESCRIPTION' => 'Данная опция, позволяет сменить пользователя в системе, не выходя из нее',
 	'LBL_SU_BASE_ACCESS' => 'Пользователь',
 	'LBL_SU_AVAILABLE_ACCESS' => 'Разрешено входить под',
+	// Locks
+	'LBL_LOCKS' => 'Locks',
+	'LBL_LOCKS_DESCRIPTION' => 'Tool to block browser actions (copy, cut, etc)',
+	'LBL_LOCK_COPY' => 'Lock copying',
+	'LBL_LOCK_CUT' => 'Lock cutting',
+	'LBL_LOCK_PASTE' => 'Lock pasting',
+	'LBL_LOCK_RIGHT_MENU' => 'Lock right mouse button',
+	'LBL_LOCK_SELECT_TEXT' => 'Lock selecting',
+	'LBL_LOCK_DRAG' => 'Lock dragging',
 ];
 $jsLanguageStrings = [
 	'JS_USER_MAIL_EXIST'	=>	'Пользователь с такой электронной почтой уже существует',
