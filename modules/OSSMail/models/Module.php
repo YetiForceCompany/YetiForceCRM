@@ -224,26 +224,39 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$url .= '&cc=' . $cc;
 		}
 		$body = preg_replace('/<[^>]*>/', '', $body);
+		$body = preg_replace('/\r?\n/', "\n", $body);
+		$content = '';
+		$mailtoLimit = AppConfig::module('Email', 'MAILTO_LIMIT');
+
 		if ($type == 'forward') {
-			$content = vtranslate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . "\n";
+			$content .= vtranslate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . "\n";
 			$content .= vtranslate('Subject', 'OSSMailView') . ': ' . $subject . "\n";
 			$content .= vtranslate('Date', 'OSSMailView') . ': ' . $date . "\n";
 			$content .= vtranslate('From', 'OSSMailView') . ': ' . $from . "\n";
 			$content .= vtranslate('To', 'OSSMailView') . ': ' . $to . "\n";
-			$content .= $body;
-		} else {
-			//$body = str_replace('&nbsp;', '', $body);
-			//$body = str_replace('"', '&quot;', $body);
-			$body = preg_replace('/\r?\n/', "\n", $body);
-			$content = vtranslate('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . "\n";
 			foreach (explode("\n", $body) as $line) {
 				$line = trim($line);
 				if (!empty($line)) {
-					$content .= '> ' . $line . "\n";
+					$line = '> ' . $line . "\n";
+					if (strlen($url . '&body=' . rawurlencode($content . $line)) > $mailtoLimit) {
+						break;
+					}
+					$content .= $line;
+				}
+			}
+		} else {
+			$content .= vtranslate('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . "\n";
+			foreach (explode("\n", $body) as $line) {
+				$line = trim($line);
+				if (!empty($line)) {
+					$line = '> ' . $line . "\n";
+					if (strlen($url . '&body=' . rawurlencode($content . $line)) > $mailtoLimit) {
+						break;
+					}
+					$content .= $line;
 				}
 			}
 		}
-
 		$url .= '&body=' . rawurlencode($content);
 		return $url;
 	}

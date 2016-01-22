@@ -29,13 +29,13 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 
 		$records = $this->getRecordsListFromRequest($request);
 		$allRecords = $this->getRecordsCount($request);
-
+		$url = 'mailto:?bcc=' . implode(',', $records);
+		
 		if ($sourceModule == 'Campaigns' && !empty($relatedModule)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $request->get('sourceModule'));
-			$url = 'mailto:?bcc=' . implode(',', $records);
 			$url .= '&subject='.$recordModel->get('campaign_no').' - '.$recordModel->get('campaignname');
-			$viewer->assign('URL', $url);
 		}
+		$viewer->assign('URL', $url);
 		$viewer->assign('SOURCE_RECORD', $sourceRecord);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('RECORDS', $records);

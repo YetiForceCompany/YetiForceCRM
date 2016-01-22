@@ -4,7 +4,7 @@
 		<a href="{$URL}index.php?module={$RELETED['module']}&amp;view=Detail&amp;record={$RELETED['id']}" title="{vtranslate('SINGLE_'|cat:$RELETED['module'],$RELETED['module'])}: {$RELETED['label']}" target="_blank">
 			<span class="relatedModuleIcon userIcon-{$RELETED['module']}" aria-hidden="true"></span>
 			<span class="relatedName">
-				{Vtiger_Functions::textLength($RELETED['label'],40)}
+				{Vtiger_Functions::textLength($RELETED['label'],38)}
 			</span>
 		</a>
 		<div class="pull-right rowActions">
