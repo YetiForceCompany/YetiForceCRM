@@ -45,20 +45,8 @@ class Campaigns_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery)
 	{
-		if (in_array($sourceModule, array('Leads', 'Accounts', 'Contacts'))) {
-			switch ($sourceModule) {
-				case 'Leads' : $tableName = 'vtiger_campaignleadrel';
-					$relatedFieldName = 'leadid';
-					break;
-				case 'Accounts' : $tableName = 'vtiger_campaignaccountrel';
-					$relatedFieldName = 'accountid';
-					break;
-				case 'Contacts' : $tableName = 'vtiger_campaigncontrel';
-					$relatedFieldName = 'contactid';
-					break;
-			}
-
-			$condition = " vtiger_campaign.campaignid NOT IN (SELECT campaignid FROM $tableName WHERE $relatedFieldName = '$record')";
+		if (in_array($sourceModule, array('Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'))) {
+			$condition = " vtiger_campaign.campaignid NOT IN (SELECT campaignid FROM vtiger_campaign_records WHERE crmid = '$record')";
 			$pos = stripos($listQuery, 'where');
 
 			if ($pos) {

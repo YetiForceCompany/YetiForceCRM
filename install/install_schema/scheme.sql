@@ -1,9 +1,8 @@
 /*
-SQLyog Ultimate v12.12 (64 bit)
+SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -2177,34 +2176,15 @@ CREATE TABLE `vtiger_campaign` (
   KEY `campaign_campaignid_idx` (`campaignid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_campaignaccountrel` */
+/*Table structure for table `vtiger_campaign_records` */
 
-CREATE TABLE `vtiger_campaignaccountrel` (
-  `campaignid` int(19) DEFAULT NULL,
-  `accountid` int(19) DEFAULT NULL,
-  `campaignrelstatusid` int(19) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_campaigncontrel` */
-
-CREATE TABLE `vtiger_campaigncontrel` (
+CREATE TABLE `vtiger_campaign_records` (
   `campaignid` int(19) NOT NULL DEFAULT '0',
-  `contactid` int(19) NOT NULL DEFAULT '0',
+  `crmid` int(19) NOT NULL DEFAULT '0',
   `campaignrelstatusid` int(19) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`campaignid`,`contactid`,`campaignrelstatusid`),
-  KEY `campaigncontrel_contractid_idx` (`contactid`),
-  CONSTRAINT `fk_2_vtiger_campaigncontrel` FOREIGN KEY (`contactid`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_campaignleadrel` */
-
-CREATE TABLE `vtiger_campaignleadrel` (
-  `campaignid` int(19) NOT NULL DEFAULT '0',
-  `leadid` int(19) NOT NULL DEFAULT '0',
-  `campaignrelstatusid` int(19) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`campaignid`,`leadid`,`campaignrelstatusid`),
-  KEY `campaignleadrel_leadid_campaignid_idx` (`leadid`,`campaignid`),
-  CONSTRAINT `fk_2_vtiger_campaignleadrel` FOREIGN KEY (`leadid`) REFERENCES `vtiger_leaddetails` (`leadid`) ON DELETE CASCADE
+  PRIMARY KEY (`campaignid`,`crmid`,`campaignrelstatusid`),
+  KEY `campaigncontrel_contractid_idx` (`crmid`),
+  CONSTRAINT `fk_vtiger_crmentity` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_campaignrelstatus` */

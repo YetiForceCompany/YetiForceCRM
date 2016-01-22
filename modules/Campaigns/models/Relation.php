@@ -12,19 +12,6 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 {
 
 	/**
-	 * Function to get Email enabled modules list for detail view of record
-	 * @return <array> List of modules
-	 */
-	public function getEmailEnabledModulesInfoForDetailView()
-	{
-		return array(
-			'Leads' => array('fieldName' => 'leadid', 'tableName' => 'vtiger_campaignleadrel'),
-			'Accounts' => array('fieldName' => 'accountid', 'tableName' => 'vtiger_campaignaccountrel'),
-			'Contacts' => array('fieldName' => 'contactid', 'tableName' => 'vtiger_campaigncontrel')
-		);
-	}
-
-	/**
 	 * Function to get Campaigns Relation status values
 	 * @return <array> List of status values
 	 */
@@ -50,18 +37,15 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 	{
 		if ($sourceRecordId && $statusDetails) {
 			$relatedModuleName = $this->getRelationModuleModel()->getName();
-			$emailEnabledModulesInfo = $this->getEmailEnabledModulesInfoForDetailView();
 
-			if (array_key_exists($relatedModuleName, $emailEnabledModulesInfo)) {
-				$fieldName = $emailEnabledModulesInfo[$relatedModuleName]['fieldName'];
-				$tableName = $emailEnabledModulesInfo[$relatedModuleName]['tableName'];
+			if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
 				$db = PearDatabase::getInstance();
 
-				$updateQuery = "UPDATE $tableName SET campaignrelstatusid = CASE $fieldName ";
+				$updateQuery = 'UPDATE vtiger_campaign_records SET campaignrelstatusid = CASE crmid ';
 				foreach ($statusDetails as $relatedRecordId => $status) {
 					$updateQuery .= " WHEN $relatedRecordId THEN $status ";
 				}
-				$updateQuery .= "ELSE campaignrelstatusid END WHERE campaignid = ?";
+				$updateQuery .= 'ELSE campaignrelstatusid END WHERE campaignid = ?';
 				$db->pquery($updateQuery, array($sourceRecordId));
 			}
 		}

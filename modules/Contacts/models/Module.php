@@ -36,8 +36,8 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 		} else if ($parentId && $parentModule == 'Campaigns') {
 			$query = "SELECT * FROM vtiger_crmentity
                         INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
-                        INNER JOIN vtiger_campaigncontrel ON vtiger_campaigncontrel.contactid = vtiger_contactdetails.contactid
-                        WHERE deleted=0 AND vtiger_campaigncontrel.campaignid = $parentId AND label like '%$searchValue%'";
+                        INNER JOIN vtiger_campaign_records ON vtiger_campaign_records.crmid = vtiger_contactdetails.contactid
+                        WHERE deleted=0 AND vtiger_campaign_records.campaignid = $parentId AND label like '%$searchValue%'";
 
 			return $query;
 		} else if ($parentId && $parentModule == 'Vendors') {
@@ -64,8 +64,8 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 	{
 		if (in_array($sourceModule, array('Campaigns', 'Vendors', 'Products', 'Services', 'Emails')) || ($sourceModule === 'Contacts' && $field === 'contact_id' && $record)) {
 			switch ($sourceModule) {
-				case 'Campaigns' : $tableName = 'vtiger_campaigncontrel';
-					$fieldName = 'contactid';
+				case 'Campaigns' : $tableName = 'vtiger_campaign_records';
+					$fieldName = 'crmid';
 					$relatedFieldName = 'campaignid';
 					break;
 				case 'Vendors' : $tableName = 'vtiger_vendorcontactrel';

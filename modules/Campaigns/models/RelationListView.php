@@ -19,7 +19,7 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model {
 		$relationModel = $this->getRelationModel();
 		$relatedModuleName = $relationModel->getRelationModuleModel()->getName();
 
-		if (array_key_exists($relatedModuleName, $relationModel->getEmailEnabledModulesInfoForDetailView())) {
+		if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
 			$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			if ($currentUserPriviligesModel->hasModulePermission(getTabid('Emails'))) {
 				$emailLink = Vtiger_Link_Model::getInstanceFromValues(array(
@@ -46,18 +46,13 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model {
 		$relatedModuleName = $relationModel->getRelationModuleModel()->getName();
 
 		$relatedRecordModelsList = parent::getEntries($pagingModel);
-		$emailEnabledModulesInfo = $relationModel->getEmailEnabledModulesInfoForDetailView();
-
-		if (array_key_exists($relatedModuleName, $emailEnabledModulesInfo) && $relatedRecordModelsList) {
-			$fieldName = $emailEnabledModulesInfo[$relatedModuleName]['fieldName'];
-			$tableName = $emailEnabledModulesInfo[$relatedModuleName]['tableName'];
-
+		if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition']) && $relatedRecordModelsList ) {
 			$db = PearDatabase::getInstance();
 			$relatedRecordIdsList = array_keys($relatedRecordModelsList);
 
-			$query = "SELECT campaignrelstatus, $fieldName FROM $tableName
-						INNER JOIN vtiger_campaignrelstatus ON vtiger_campaignrelstatus.campaignrelstatusid = $tableName.campaignrelstatusid
-						WHERE $fieldName IN (". generateQuestionMarks($relatedRecordIdsList).") AND campaignid = ?";
+			$query = "SELECT campaignrelstatus, crmid FROM vtiger_campaign_records
+						INNER JOIN vtiger_campaignrelstatus ON vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaign_records.campaignrelstatusid
+						WHERE crmid IN (". generateQuestionMarks($relatedRecordIdsList).") AND campaignid = ?";
 			array_push($relatedRecordIdsList, $parentRecordModel->getId());
 
 			$result = $db->pquery($query, $relatedRecordIdsList);

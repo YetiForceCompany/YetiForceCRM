@@ -1919,24 +1919,18 @@ function isLeadConverted($leadId)
 function getSelectedRecords($input, $module, $idstring, $excludedRecords)
 {
 	global $current_user, $adb;
-
+	var_dump($idstring);
 	if ($idstring == 'relatedListSelectAll') {
-
 		$recordid = vtlib_purify($input['recordid']);
-		if ($module == 'Accounts') {
-			$result = getCampaignAccountIds($recordid);
+		$adb = PearDatabase::getInstance();
+		$sql = 'SELECT vtiger_crmentity.crmid as id FROM vtiger_crmentity
+		INNER JOIN vtiger_campaign_records ON vtiger_campaign_records.crmid = vtiger_crmentity.crmid
+		WHERE vtiger_crmentity.crmid = ? AND vtiger_crmentity.deleted=0';
+		$result = $adb->pquery($sql, array($recordid));
+		$storearray = [];
+		while (($id = $adb->getSingleValue($result)) !== false) {
+			$storearray[] = $id;
 		}
-		if ($module == 'Contacts') {
-			$result = getCampaignContactIds($recordid);
-		}
-		if ($module == 'Leads') {
-			$result = getCampaignLeadIds($recordid);
-		}
-		$storearray = array();
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
-			$storearray[] = $adb->query_result($result, $i, 'id');
-		}
-
 		$excludedRecords = explode(';', $excludedRecords);
 		$storearray = array_diff($storearray, $excludedRecords);
 	} else if ($module == 'Documents') {
@@ -2015,39 +2009,6 @@ function getSelectAllQuery($input, $module)
 	}
 
 	$result = $adb->pquery($query, array());
-	return $result;
-}
-
-function getCampaignAccountIds($id)
-{
-	$adb = PearDatabase::getInstance();
-	$sql = "SELECT vtiger_account.accountid as id FROM vtiger_account
-		INNER JOIN vtiger_campaignaccountrel ON vtiger_campaignaccountrel.accountid = vtiger_account.accountid
-		LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_account.accountid
-		WHERE vtiger_campaignaccountrel.campaignid = ? AND vtiger_crmentity.deleted=0";
-	$result = $adb->pquery($sql, array($id));
-	return $result;
-}
-
-function getCampaignContactIds($id)
-{
-	$adb = PearDatabase::getInstance();
-	$sql = "SELECT vtiger_contactdetails.contactid as id FROM vtiger_contactdetails
-		INNER JOIN vtiger_campaigncontrel ON vtiger_campaigncontrel.contactid = vtiger_contactdetails.contactid
-		LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid
-		WHERE vtiger_campaigncontrel.campaignid = ? AND vtiger_crmentity.deleted=0";
-	$result = $adb->pquery($sql, array($id));
-	return $result;
-}
-
-function getCampaignLeadIds($id)
-{
-	$adb = PearDatabase::getInstance();
-	$sql = "SELECT vtiger_leaddetails.leadid as id FROM vtiger_leaddetails
-		INNER JOIN vtiger_campaignleadrel ON vtiger_campaignleadrel.leadid = vtiger_leaddetails.leadid
-		LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_leaddetails.leadid
-		WHERE vtiger_campaignleadrel.campaignid = ? AND vtiger_crmentity.deleted=0";
-	$result = $adb->pquery($sql, array($id));
 	return $result;
 }
 

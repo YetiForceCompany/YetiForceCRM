@@ -585,7 +585,7 @@ function vtws_getConvertLeadFieldMapping()
 	$rowCount = $adb->num_rows($result);
 	for ($i = 0; $i < $rowCount; ++$i) {
 		$row = $adb->query_result_rowdata($result, $i);
-		$mapping[$row['leadfid']] = array('Accounts' => $row['accountfid'],'Contacts' => $row['contactfid']);
+		$mapping[$row['leadfid']] = array('Accounts' => $row['accountfid'], 'Contacts' => $row['contactfid']);
 	}
 	return $mapping;
 }
@@ -642,7 +642,7 @@ function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
 {
 	$db = PearDatabase::getInstance();
 	$currentUser = Users_Record_Model::getCurrentUserModel();
-	
+
 	$result = $db->pquery('select productid from vtiger_seproductsrel where crmid=?', [$leadId]);
 	if ($db->getRowCount($result) == 0) {
 		return false;
@@ -745,23 +745,13 @@ function vtws_getRelatedActivities($leadId, $accountId, $contactId, $relatedId)
  */
 function vtws_saveLeadRelatedCampaigns($leadId, $relatedId, $seType)
 {
-	$adb = PearDatabase::getInstance();
-
-	$result = $adb->pquery("select * from vtiger_campaignleadrel where leadid=?", array($leadId));
-	if ($result === false) {
+	$db = PearDatabase::getInstance();
+	$rowCount = $db->update('vtiger_campaign_records', [
+		'crmid' => $relatedId
+		], 'crmid = ?', [$leadId]
+	);
+	if ($rowCount == 0) {
 		return false;
-	}
-	$rowCount = $adb->num_rows($result);
-	for ($i = 0; $i < $rowCount; ++$i) {
-		$campaignId = $adb->query_result($result, $i, 'campaignid');
-		if ($seType == 'Accounts') {
-			$resultNew = $adb->pquery("insert into vtiger_campaignaccountrel (campaignid, accountid) values(?,?)", array($campaignId, $relatedId));
-		} elseif ($seType == 'Contacts') {
-			$resultNew = $adb->pquery("insert into vtiger_campaigncontrel (campaignid, contactid) values(?,?)", array($campaignId, $relatedId));
-		}
-		if ($resultNew === false) {
-			return false;
-		}
 	}
 	return true;
 }

@@ -319,7 +319,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		$modulesSchema[$moduleName] = [];
 		$modulesSchema['Accounts'] = [
 			'Contacts' => ['key' => 'contactid', 'table' => 'vtiger_contactdetails', 'relfield' => 'parentid'],
-			'Campaigns' => ['key' => 'campaignid', 'table' => 'vtiger_campaignaccountrel', 'relfield' => 'accountid'],
+			'Campaigns' => ['key' => 'campaignid', 'table' => 'vtiger_campaign_records', 'relfield' => 'crmid'],
 			'Project' => ['key' => 'projectid', 'table' => 'vtiger_project', 'relfield' => 'linktoaccountscontacts'],
 			'HelpDesk' => ['key' => 'ticketid', 'table' => 'vtiger_troubletickets', 'relfield' => 'parent_id']
 		];

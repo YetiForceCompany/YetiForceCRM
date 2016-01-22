@@ -172,7 +172,7 @@ function getListQuery($module, $where = '')
 				ON vtiger_customerdetails.customerid = vtiger_contactdetails.contactid";
 			if ((isset($_REQUEST["from_dashboard"]) && $_REQUEST["from_dashboard"] == true) &&
 				(isset($_REQUEST["type"]) && $_REQUEST["type"] == "dbrd")) {
-				$query .= " INNER JOIN vtiger_campaigncontrel on vtiger_campaigncontrel.contactid = " .
+				$query .= " INNER JOIN vtiger_campaign_records on vtiger_campaign_records.crmid = " .
 					"vtiger_contactdetails.contactid";
 			}
 			$query .= getNonAdminAccessControlQuery($module, $current_user);
