@@ -40,4 +40,7 @@ jQuery(document).ready(function ($) {
     $('#confirmRegistration').click(function() {
         $('#register_changes').prop("checked", $('#statusRegistration').prop("checked"));
     });
+	$('#register_changes').click(function(){
+		app.showModalWindow($('#myRegisterModal'));
+	});
 });

@@ -14,7 +14,6 @@
 		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 	</div>
 </div>
-<br>
 {if $ISADMIN eq 1}
 
 	{if $ERROR|count_characters:true gt 0}
@@ -38,7 +37,7 @@
 	<br>
 	<div id="my-tab-content" class="tab-content">
 		{* encryption configuration *}
-		<div class='editViewContainer tab-pane active' id="encoding">
+		<div class="editViewContainer tab-pane active" id="encoding">
 			{* check if the ini file exists *}
 			{if $CONFIG neq false}
 				<ul id="pills" class="nav nav-pills">
@@ -48,38 +47,40 @@
 					<li><a href="#stop" data-toggle="tab">{vtranslate('Stop Password Encryption', $MODULENAME)}</a></li>
 				</ul>
 				<div id="my-tab-content2" class="tab-content">
-					<div class='editViewContainer tab-pane active' id="edit">
+					<div class="editViewContainer tab-pane active" id="edit">
 						<form class="form-horizontal recordEditView" id="EditView" name="edit_pass_key" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings&parent=Settings">                
 							<input type="hidden" name="encrypt" value="edit" />
 							<div class="contentHeader row">
 								<span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('Change Password Key', $MODULENAME)}</span>
 							</div>
 
-							<table class="table table-bordered blockContainer showInlineTable">
-								<tr>
-									<th class="blockHeader" colspan="4">{vtranslate('Edit Encryption Key', $MODULENAME)}</th>
-								</tr>
-								<tr>
-									<td class="fieldLabel col-xs-1">
-										<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Old Key', $MODULENAME)}:</label>
-									</td>
-									<td class="fieldValue" >
-										<div class="row"><span class="col-md-10">
-												<input id="oldKey" type="text" class="form-control nameField" name="oldKey" value="" min="8" /></span>
+							<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
+								<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+									<h5>&nbsp;{vtranslate('Edit Encryption Key', $MODULENAME)}</h5>
+								</div>
+								<div class="col-md-12 paddingLRZero panel-body blockContent">									
+									<div class="fieldRow col-md-8 col-xs-12">
+										<div class="fieldLabel col-xs-5 col-sm-2">
+											<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Old Key', $MODULENAME)}:</label>
 										</div>
-									</td>
-								</tr>
-								<tr>
-									<td class="fieldLabel">
-										<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('New Key', $MODULENAME)}:</label>
-									</td>
-									<td class="fieldValue" >
-										<div class="row"><span class="col-md-10">
-												<input id="newKey" type="text" class="form-control nameField" name="newKey" value="" min="8" /></span>
+										<div class="fieldValue col-xs-7 col-sm-10" >
+											<div class="row">
+												<input id="oldKey" type="text" class="form-control nameField" name="oldKey" value="" min="8" />
+											</div>
 										</div>
-									</td>
-								</tr>
-							</table>
+									</div>
+									<div class="fieldRow col-md-8 col-xs-12">
+										<div class="fieldLabel col-xs-5 col-sm-2">
+											<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('New Key', $MODULENAME)}:</label>
+										</div>
+										<div class="fieldValue col-xs-7 col-sm-10" >
+											<div class="row">
+												<input id="newKey" type="text" class="form-control nameField" name="newKey" value="" min="8" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 							<div class="contentHeader">
 								<span class="pull-right">
 									<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
@@ -89,28 +90,29 @@
 						</form>
 					</div>
 					{* stop encrypting passwords *}
-					<div class='editViewContainer tab-pane' id="stop">
+					<div class="editViewContainer tab-pane" id="stop">
 						<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">                
 							<input type="hidden" name="encrypt" value="stop" />
 							<div class="contentHeader row">
 								<span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('Cancel Encrypting Passwords', $MODULENAME)}</span>
 							</div>
-
-							<table class="table table-bordered blockContainer showInlineTable">
-								<tr>
-									<th class="blockHeader" colspan="4">{vtranslate('Enter Your Old Password', $MODULENAME)}</th>
-								</tr>
-								<tr>
-									<td class="fieldLabel col-xs-1">
-										<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Encryption Password', $MODULENAME)}:</label>
-									</td>
-									<td class="fieldValue" >
-										<div class="row"><span class="col-md-10">
-												<input id="passKey" type="text" class="form-control nameField" name="passKey" value="" min="8" /></span>
+							<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
+								<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+									<h5>&nbsp;{vtranslate('Enter Your Old Password', $MODULENAME)}</h5>
+								</div>
+								<div class="col-md-12 paddingLRZero panel-body blockContent">									
+									<div class="fieldRow col-md-8 col-xs-12">
+										<div class="fieldLabel col-xs-5 col-sm-2">
+											<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Encryption Password', $MODULENAME)}:</label>
 										</div>
-									</td>
-								</tr>
-							</table>
+										<div class="fieldValue col-xs-7 col-sm-10" >
+											<div class="row">
+												<input id="passKey" type="text" class="form-control nameField" name="passKey" value="" min="8" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 							<div class="contentHeader">
 								<span class="pull-right">
 									<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
@@ -127,21 +129,23 @@
 						<span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('Encrypt Passwords', $MODULENAME)}</span>
 					</div>
 
-					<table class="table table-bordered blockContainer showInlineTable">
-						<tr>
-							<th class="blockHeader" colspan="4">{vtranslate('Enter encryption password', $MODULENAME)}</th>
-						</tr>
-						<tr>
-							<td class="fieldLabel col-xs-1">
-								<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Encryption password', $MODULENAME)}:</label>
-							</td>
-							<td class="fieldValue" >
-								<div class="row"><span class="col-md-10 col-sm-10 col-xs-10">
-										<input id="pass_key" type="text" class="form-control nameField" name="pass_key" value="" min="8" /></span>
+					<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
+						<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+							<h5>&nbsp;{vtranslate('Enter encryption password', $MODULENAME)}</h5>
+						</div>
+						<div class="col-md-12 paddingLRZero panel-body blockContent">
+							<div class="fieldRow col-md-8 col-xs-12">
+								<div class="fieldLabel col-xs-5 col-sm-2">
+									<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Encryption password', $MODULENAME)}:</label>
 								</div>
-							</td>
-						</tr>
-					</table>
+								<div class="fieldValue col-xs-7 col-sm-10">
+									<div class="row">
+										<input id="pass_key" type="text" class="form-control nameField" name="pass_key" value="" min="8" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="contentHeader">
 						<span class="pull-right">
 							<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
@@ -153,60 +157,70 @@
 		</div>
 
 		{* password configuration form *}
-		<div class='editViewContainer tab-pane' id="confpass">
+		<div class="editViewContainer tab-pane" id="confpass">
 			<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">
 				<div class="contentHeader row">
 					<span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('LBL_ConfigurePass', $MODULENAME)}</span>
 				</div>
-				<table class="table table-bordered blockContainer showInlineTable">
-					<tr>
-						<th class="blockHeader" colspan="4">{vtranslate('Password Length', $MODULENAME)}</th>
-					</tr>
-					<tr>
-						<td class="fieldLabel col-xs-1" >
-							<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Minimum Length', $MODULENAME)}:</label>
-						</td>
-						<td class="fieldValue" >
-							<div class="row"><span class="col-md-10 col-sm-10 col-xs-10">
-									<input id="OSSPasswords_editView_fieldName_pass_length_min" type="number" class="form-control nameField" name="pass_length_min" value="{$MIN}" min="1" /></span>
+				
+				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
+					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+						<h5>&nbsp;{vtranslate('Password Length', $MODULENAME)}</h5>
+					</div>
+					<div class="col-md-12 paddingLRZero panel-body blockContent">
+						<div class="fieldRow col-md-8 col-xs-12">
+							<div class="fieldLabel col-xs-5 col-sm-2">
+								<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Minimum Length', $MODULENAME)}:</label>
 							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="fieldLabel">
-							<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Maximum Length', $MODULENAME)}:</label>
-						</td>
-						<td class="fieldValue" >
-							<div class="row"><span class="col-md-10 col-sm-10 col-xs-10">
-									<input id="OSSPasswords_editView_fieldName_pass_length_max" type="number" class="form-control nameField" name="pass_length_max" value="{$MAX}" min="1" /></span>
+							<div class="fieldValue col-xs-7 col-sm-10">
+								<div class="row">
+									<input id="OSSPasswords_editView_fieldName_pass_length_min" type="number" class="form-control nameField" name="pass_length_min" value="{$MIN}" min="1" />
+								</div>
 							</div>
-						</td>
-					</tr>
-					<tr>
-						<th class="blockHeader" colspan="4">{vtranslate('Allowed Characters', $MODULENAME)}</th>
-					</tr>
-					<tr>
-						<td class="fieldLabel"> </td>
-						<td align="center" class="fieldValue" >
-							<div class="row">
-								<span class="col-md-10 col-sm-10 col-xs-10"><textarea id="OSSPasswords_editView_fieldName_pass_allow_chars" class="form-control" name="pass_allow_chars" rows="4" cols="80">{$ALLOWEDCHARS}</textarea></span>
+						</div>
+						<div class="fieldRow col-md-8 col-xs-12">
+							<div class="fieldLabel col-xs-5 col-sm-2">
+								<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Maximum Length', $MODULENAME)}:</label>
 							</div>
-						</td>
-					</tr>
-					<tr>
-						<th class="blockHeader" colspan="4">{vtranslate('LBL_REGISTER_CHANGES', $MODULENAME)}</th>
-					</tr>
-					<tr>
-						<td class="fieldLabel"> </td>
-						<td align="center" class="fieldValue" >
-							<div class="row">
-								<span class="col-md-10 col-sm-10 col-xs-10" style="text-align: left;">
-									<input id="register_changes" type="checkbox" class="nameField" name="register_changes" {$REGISTER} value="1" data-toggle="modal" data-target="#myRegisterModal" /> 
-									{vtranslate('LBL_START_REGISTER', $MODULENAME)}</span>
+							<div class="fieldValue col-xs-7 col-sm-10">
+								<div class="row">
+									<input id="OSSPasswords_editView_fieldName_pass_length_max" type="number" class="form-control nameField" name="pass_length_max" value="{$MAX}" min="1" />
+								</div>
 							</div>
-						</td>
-					</tr>
-				</table>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
+					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+						<h5>&nbsp;{vtranslate('Allowed Characters', $MODULENAME)}</h5>
+					</div>
+					<div class="col-md-12 paddingLRZero panel-body blockContent">
+						<div class="fieldRow col-md-8 col-xs-12">
+							<div class="fieldLabel"> </div>
+							<div align="center" class="fieldValue col-xs-12">
+								<div class="row">
+									<textarea id="OSSPasswords_editView_fieldName_pass_allow_chars" class="form-control" name="pass_allow_chars" rows="4" cols="80">{$ALLOWEDCHARS}</textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
+					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+						<h5>&nbsp;{vtranslate('LBL_REGISTER_CHANGES', $MODULENAME)}</h5>
+					</div>
+					<div class="col-md-12 paddingLRZero panel-body blockContent">
+						<div class="fieldRow col-md-8 col-xs-12">
+							<div class="fieldLabel"> </div>
+							<div align="center" class="fieldValue col-xs-7 col-sm-10">
+								<div class="row pull-left">
+									<input id="register_changes" type="checkbox" class="nameField" name="register_changes" {$REGISTER} value="1" /> 
+										{vtranslate('LBL_START_REGISTER', $MODULENAME)}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="contentHeader">
 					<span class="pull-right">
 						<button class="btn btn-success" name="save" value="save" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
