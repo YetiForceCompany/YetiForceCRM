@@ -347,8 +347,8 @@ $languageStrings = [
 	'LBL_CV_YEAR' => 'Year (ex. 15)',
 	'LBL_CV_MONTH' => 'Month (exp. 1, 5, 12)',
 	'LBL_CV_DAY' => 'Day (ex. 1, 5, 25)',
-	'LBL_DONATE_US' => '__UNSTRANLATED__',
-	'LBL_START' => '__UNSTRANLATED__',
+	'LBL_DONATE_US' => 'Donate to YetiForce',
+	'LBL_START' => 'Start',
 	'LBL_GITHUB' => 'Github',
 	// end of custom record numbering variables
 	'LBL_SHOW_LANG_IN_LOGIN_PAGE' => 'Show language selection on the login page',
