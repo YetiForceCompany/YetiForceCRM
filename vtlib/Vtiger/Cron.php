@@ -263,7 +263,7 @@ class Vtiger_Cron
 		}
 		$maxExecutionTime = intval(ini_get('max_execution_time'));
 		if ($maxExecutionTime == 0) {
-			$maxExecutionTime = vglobal('maxExecutionCronTime');
+			$maxExecutionTime = AppConfig::main('maxExecutionCronTime');
 		}
 		$time = $this->getLastEnd();
 		if ($time == 0) {

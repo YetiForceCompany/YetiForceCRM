@@ -254,7 +254,7 @@ $languageStrings = [
 	'Default Activity Type' => 'Standard Activitäts-Typ',
 	'Calendar Shared Type' => 'Kalender Freigabe-Typ',
 	'CRM Phone Extension' => 'CRM Telefon Extension',
-	'Left Panel Hide' => 'Linke Bereich ausblenden',
+	'LBL_MENU_EXPANDED_BY_DEFAULT' => 'Menu expanded by default',
 	'Row Height' => 'Zeilenhöhe',
 	'Default Record View' => 'Standard Datensatz Ansicht',
 	'Last 2 Days' => 'Letzte 2 Tage',
@@ -312,6 +312,15 @@ $languageStrings = [
 	'LBL_EMAIL' => 'E-Mail',
 	'LBL_SPACE' => 'Space',
 	'Account Owner' => 'Konteninhaber',
+	'PLL_PLANNED' => 'Geplant',
+	'PLL_IN_REALIZATION' => 'Zu realisieren',
+	'PLL_OVERDUE' => 'Überfällig',
+	'PLL_POSTPONED' => 'Zurückgestellt',
+	'PLL_CANCELLED' => 'Abgebrichen',
+	'PLL_COMPLETED' => 'Komplett',
+	'LBL_SWITCH' => 'Switch',
+	'LBL_SWITCH_USER' => 'Switch user',
+	'LBL_SWITCH_TO_YOURSELF' => 'Switch to yourself',
 ];
 
 $jsLanguageStrings = [

@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Add',
 	'TreesManager' => 'Tree Manager',
-	'LBL_TREES_MANAGER' => 'Tree Manager',
+	'LBL_TREES_MANAGER' => 'Fields – Folders',
 	'LBL_TREES_MANAGER_DESCRIPTION' => 'Tree Template Manager',
 	'LBL_NO_RECORDS_FOUND' => 'No tree templates',
 	'LBL_EDIT_TEMPLATE_TREES' => 'Edit tree template',

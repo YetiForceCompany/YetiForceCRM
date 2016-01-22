@@ -10,7 +10,6 @@
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since PEAR 0.1
  */
@@ -87,7 +86,7 @@
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.5
+ * @version    Release: 1.10.1
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -99,7 +98,7 @@ class OS_Guess
     var $release;
     var $extra;
 
-    function OS_Guess($uname = null)
+    function __construct($uname = null)
     {
         list($this->sysname,
              $this->release,

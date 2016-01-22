@@ -20,7 +20,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		return 'uitypes/Url.tpl';
 	}
 
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$matchPattern = "^[\w]+:\/\/^";
 		preg_match($matchPattern, $value, $matches);

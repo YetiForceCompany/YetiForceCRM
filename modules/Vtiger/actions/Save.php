@@ -17,7 +17,29 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		$record = $request->get('record');
 
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'Save', $record)) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+		}
+	}
+
+	public function preProcess(Vtiger_Request $request)
+	{
+		parent::preProcess($request);
+		if (Vtiger_Session::has('baseUserId') && !empty(Vtiger_Session::get('baseUserId'))) {
+			$baseUserId = Vtiger_Session::get('baseUserId');
+			$user = new Users();
+			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
+			vglobal('current_user', $currentUser);
+		}
+	}
+
+	public function preProcessAjax(Vtiger_Request $request)
+	{
+		parent::preProcessAjax($request);
+		if (Vtiger_Session::has('baseUserId') && !empty(Vtiger_Session::get('baseUserId'))) {
+			$baseUserId = Vtiger_Session::get('baseUserId');
+			$user = new Users();
+			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
+			vglobal('current_user', $currentUser);
 		}
 	}
 

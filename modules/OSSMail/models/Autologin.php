@@ -12,7 +12,7 @@
 class OSSMail_Autologin_Model
 {
 
-	public function getAutologinUsers()
+	public static function getAutologinUsers()
 	{
 		$db = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();

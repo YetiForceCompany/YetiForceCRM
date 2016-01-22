@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * CustomView save class
+ * @package YetiForce.Action
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
 

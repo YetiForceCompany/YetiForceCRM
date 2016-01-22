@@ -339,15 +339,6 @@ class CustomView extends CRMEntity
 		if ($module == 'Calendar' && $block == 19) {
 			$module_columnlist['vtiger_activity:activitytype:activitytype:Calendar_Activity_Type:V'] = 'Activity Type';
 		}
-
-		if ($module == 'SalesOrder' && $block == 63)
-			$module_columnlist['vtiger_crmentity:crmid::SalesOrder_Order_No:I'] = $app_strings['Order No'];
-
-		if ($module == 'PurchaseOrder' && $block == 57)
-			$module_columnlist['vtiger_crmentity:crmid::PurchaseOrder_Order_No:I'] = $app_strings['Order No'];
-
-		if ($module == 'Quotes' && $block == 51)
-			$module_columnlist['vtiger_crmentity:crmid::Quotes_Quote_No:I'] = $app_strings['Quote No'];
 		if ($module != 'Calendar') {
 			$moduleFieldList = $this->meta->getModuleFields();
 		}
@@ -985,9 +976,6 @@ class CustomView extends CRMEntity
 							if ($columns[1] == 'product') {
 								$advfiltersql = "vtiger_products.productname" . $this->getAdvComparator($comparator, trim($value), $datatype);
 							}
-							if ($columns[1] == 'invoiceid') {
-								$advfiltersql = "vtiger_invoice.subject" . $this->getAdvComparator($comparator, trim($value), $datatype);
-							}
 						} else {
 							$advfiltersql = $this->getRealValues($columns[0], $columns[1], $comparator, trim($value), $datatype);
 						}
@@ -1041,14 +1029,11 @@ class CustomView extends CRMEntity
 			"product_id" => "vtiger_products.productname",
 			"contactid" => 'trim(' . $contactid . ')',
 			"contact_id" => 'trim(' . $contactid . ')',
-			"accountid" => "", //in cvadvfilter accountname is stored for Contact, Potential, Quotes, SO, Invoice
+			"accountid" => "", //in cvadvfilter accountname is stored for Contact, Potential
 			"account_id" => "", //Same like accountid. No need to change
 			"vendorid" => "vtiger_vendor.vendorname",
 			"vendor_id" => "vtiger_vendor.vendorname",
-			"potentialid" => "vtiger_potential.potentialname",
 			"vtiger_account.parentid" => "vtiger_account2.accountname",
-			"quoteid" => "vtiger_quotes.subject",
-			"salesorderid" => "vtiger_salesorder.subject",
 			"campaignid" => "vtiger_campaign.campaignname",
 			"vtiger_contactdetails.reportsto" => getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails2.lastname', 'firstname' => 'vtiger_contactdetails2.firstname'), 'Contacts'),
 			"vtiger_pricebook.currency_id" => "vtiger_currency_info.currency_name",
@@ -1150,43 +1135,11 @@ class CustomView extends CRMEntity
 				}
 				$value .= " $concatSql";
 			}
-			if ($modulename == 'Potentials') {
-				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
-
-					$value .= ' vtiger_potential.potentialname IS NULL or ';
-				}
-				$value .= ' vtiger_potential.potentialname';
-			}
 			if ($modulename == 'Products') {
 				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
 					$value .= ' vtiger_products.productname IS NULL or ';
 				}
 				$value .= ' vtiger_products.productname';
-			}
-			if ($modulename == 'Invoice') {
-				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
-					$value .= ' vtiger_invoice.subject IS NULL or ';
-				}
-				$value .= ' vtiger_invoice.subject';
-			}
-			if ($modulename == 'PurchaseOrder') {
-				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
-					$value .= ' vtiger_purchaseorder.subject IS NULL or ';
-				}
-				$value .= ' vtiger_purchaseorder.subject';
-			}
-			if ($modulename == 'SalesOrder') {
-				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
-					$value .= ' vtiger_salesorder.subject IS NULL or ';
-				}
-				$value .= ' vtiger_salesorder.subject';
-			}
-			if ($modulename == 'Quotes') {
-
-				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
-					$value .= ' vtiger_quotes.subject IS NULL or ';
-				}
-				$value .= ' vtiger_quotes.subject';
 			}
 			if ($modulename == 'Contacts') {
 				$concatSql = getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails.lastname', 'firstname' => 'vtiger_contactdetails.firstname'), 'Contacts');
@@ -1335,12 +1288,8 @@ class CustomView extends CRMEntity
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid " . $listviewquery;
 			} else if ($module == "Faq") {
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid " . $listviewquery;
-			} else if ($module == "Potentials" || $module == "Contacts") {
+			} else if ($module == "Contacts") {
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_account.accountid " . $listviewquery;
-			} else if ($module == "Invoice" || $module == "SalesOrder" || $module == "Quotes") {
-				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_contactdetails.contactid,vtiger_account.accountid " . $listviewquery;
-			} else if ($module == "PurchaseOrder") {
-				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_contactdetails.contactid " . $listviewquery;
 			} else {
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid " . $listviewquery;
 			}
@@ -1425,11 +1374,7 @@ class CustomView extends CRMEntity
 		// Tabid mapped to the list of block labels to be skipped for that tab.
 		$skipBlocksList = array(
 			getTabid('HelpDesk') => array('LBL_COMMENTS'),
-			getTabid('Faq') => array('LBL_COMMENT_INFORMATION'),
-			getTabid('Quotes') => array('LBL_RELATED_PRODUCTS'),
-			getTabid('PurchaseOrder') => array('LBL_RELATED_PRODUCTS'),
-			getTabid('SalesOrder') => array('LBL_RELATED_PRODUCTS'),
-			getTabid('Invoice') => array('LBL_RELATED_PRODUCTS')
+			getTabid('Faq') => array('LBL_COMMENT_INFORMATION')
 		);
 
 		$Sql = "select distinct block,vtiger_field.tabid,name,blocklabel from vtiger_field inner join vtiger_blocks on vtiger_blocks.blockid=vtiger_field.block inner join vtiger_tab on vtiger_tab.tabid=vtiger_field.tabid where vtiger_tab.name in (" . generateQuestionMarks($modules_list) . ") and vtiger_field.presence in (0,2) order by block";

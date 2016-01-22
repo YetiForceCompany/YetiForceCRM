@@ -47,7 +47,7 @@ class ProjectTask extends CRMEntity {
         'Type'=>Array('projecttask','projecttasktype'),
         'Progress'=>Array('projecttask','projecttaskprogress'),
         'Assigned To' => Array('crmentity','smownerid'),
-		'Total time [h]'=>Array('projecttask','sum_time')
+		'FL_TOTAL_TIME_H'=>Array('projecttask','sum_time')
 
     );
     var $list_fields_name = Array(
@@ -58,7 +58,7 @@ class ProjectTask extends CRMEntity {
         'Type'=>'projecttasktype',
         'Progress'=>'projecttaskprogress',
         'Assigned To' => 'assigned_user_id',
-		'Total time [h]'=>'sum_time'
+		'FL_TOTAL_TIME_H'=>'sum_time'
     );
 
     // Make the field link to detail view from list view (Fieldname)
@@ -99,8 +99,8 @@ class ProjectTask extends CRMEntity {
     // Callback function list during Importing
     var $special_functions = Array('set_import_assigned_user');
 
-    var $default_order_by = 'projecttaskname';
-    var $default_sort_order='ASC';
+    var $default_order_by = 'vtiger_projecttask.startdate';
+    var $default_sort_order='DESC';
     // Used when enabling/disabling the mandatory fields for the module.
     // Refers to vtiger_field.fieldname values.
     var $mandatory_fields = Array('createdtime', 'modifiedtime', 'projecttaskname', 'projectid', 'assigned_user_id');

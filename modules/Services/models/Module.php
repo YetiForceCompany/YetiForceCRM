@@ -18,8 +18,8 @@ class Services_Module_Model extends Products_Module_Model {
 	 * @param <String> $listQuery
 	 * @return <String> Listview Query
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
-		$supportedModulesList = array('Leads', 'Accounts', 'HelpDesk', 'Potentials');
+	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery,$skipSelected) {
+		$supportedModulesList = array('Leads', 'Accounts', 'HelpDesk');
 		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList')
 				|| in_array($sourceModule, $supportedModulesList)
 				|| in_array($sourceModule, getInventoryModules())) {
@@ -28,7 +28,7 @@ class Services_Module_Model extends Products_Module_Model {
 
 			if ($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') {
 				$condition .= " AND vtiger_service.serviceid NOT IN (SELECT productid FROM vtiger_pricebookproductrel WHERE pricebookid = '$record') ";
-			} elseif (in_array($sourceModule, $supportedModulesList)) {
+			} elseif (in_array($sourceModule, $supportedModulesList) && $skipSelected === false) {
 				$condition .= " AND vtiger_service.serviceid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
 			}
 

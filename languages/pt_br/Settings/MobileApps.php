@@ -11,7 +11,7 @@
 $languageStrings = [
 	'MobileApps' => 'Aplicativos Dispositivos Móveis',
 	'LBL_MOBILE_CALLLISTENER' => 'Conexões escutadas',
- 	'LBL_MOBILE_KEYS' => 'Chaves aplicação Dispositivo Móvel',
+ 	'LBL_MOBILE_KEYS' => 'Mobile Applications',
  	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Criar e gerenciar chaves de aplicações para dispositivos Móveis.',
  	'LBL_USERNAME' => 'Usuário',
  	'LBL_SERVICE' => 'Aplicação',
@@ -21,7 +21,7 @@ $languageStrings = [
  	'LBL_DELETE_KEY' => 'Apagar chave',
  	'LBL_ADD_KEY' => 'Adicionar chave',
  	'LBL_SELECT_USER' => 'Selecionar usuário:',
- 	'LBL_SELECT_SERVICE' => 'Selecionar aplicação',
+ 	'LBL_SELECT_SERVICE' => 'Selecionar aplicação:',
  	'LBL_SUCCESS_SAVE_KEY' => 'Nova chave foi salva',
  	'LBL_ERROR_SAVE_KEY' => 'Erro ao salvar a chave',
  	'LBL_DUPLICATE_USER_SERVICES' => 'A chave para esta aplicação já existe.',

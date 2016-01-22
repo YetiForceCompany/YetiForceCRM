@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * CustomView module model class
+ * @package YetiForce.Model
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 {
 

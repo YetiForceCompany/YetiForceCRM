@@ -9,7 +9,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -32,7 +31,7 @@ require_once 'PEAR/Validator/PECL.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.5
+ * @version    Release: 1.10.1
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -85,9 +84,8 @@ class PEAR_Validate
      * to the PEAR naming convention, so the method is final and static.
      * @param string
      * @final
-     * @static
      */
-    function validGroupName($name)
+    public static function validGroupName($name)
     {
         return (bool) preg_match('/^' . _PEAR_COMMON_PACKAGE_NAME_PREG . '\\z/', $name);
     }
@@ -96,10 +94,9 @@ class PEAR_Validate
      * Determine whether $state represents a valid stability level
      * @param string
      * @return bool
-     * @static
      * @final
      */
-    function validState($state)
+    public static function validState($state)
     {
         return in_array($state, array('snapshot', 'devel', 'alpha', 'beta', 'stable'));
     }
@@ -107,10 +104,9 @@ class PEAR_Validate
     /**
      * Get a list of valid stability levels
      * @return array
-     * @static
      * @final
      */
-    function getValidStates()
+    public static function getValidStates()
     {
         return array('snapshot', 'devel', 'alpha', 'beta', 'stable');
     }
@@ -120,10 +116,9 @@ class PEAR_Validate
      * by version_compare
      * @param string
      * @return bool
-     * @static
      * @final
      */
-    function validVersion($ver)
+    public static function validVersion($ver)
     {
         return (bool) preg_match(PEAR_COMMON_PACKAGE_VERSION_PREG, $ver);
     }
@@ -207,7 +202,8 @@ class PEAR_Validate
                   $this->_packagexml->getExtends()) {
                 $version = $this->_packagexml->getVersion() . '';
                 $name = $this->_packagexml->getPackage();
-                $test = array_shift($a = explode('.', $version));
+                $a = explode('.', $version);
+                $test = array_shift($a);
                 if ($test == '0') {
                     return true;
                 }

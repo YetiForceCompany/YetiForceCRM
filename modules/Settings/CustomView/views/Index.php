@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * CustomView config view class
+ * @package YetiForce.View
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 {
 

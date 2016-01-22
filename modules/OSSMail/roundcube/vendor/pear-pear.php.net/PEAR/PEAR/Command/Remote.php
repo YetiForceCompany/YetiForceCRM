@@ -11,7 +11,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -31,7 +30,7 @@ require_once 'PEAR/REST.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.5
+ * @version    Release: 1.10.1
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -155,9 +154,9 @@ parameter.
      *
      * @access public
      */
-    function PEAR_Command_Remote(&$ui, &$config)
+    function __construct(&$ui, &$config)
     {
-        parent::PEAR_Command_Common($ui, $config);
+        parent::__construct($ui, $config);
     }
 
     function _checkChannelForStatus($channel, $chan)
@@ -579,7 +578,7 @@ parameter.
         if (!class_exists('PEAR_Downloader')) {
             require_once 'PEAR/Downloader.php';
         }
-        $a = &new PEAR_Downloader($this->ui, $options, $this->config);
+        $a = new PEAR_Downloader($this->ui, $options, $this->config);
         return $a;
     }
 
@@ -668,13 +667,13 @@ parameter.
             $preferred_mirror = $this->config->get('preferred_mirror');
             if ($chan->supportsREST($preferred_mirror) &&
                 (
-                   //($base2 = $chan->getBaseURL('REST1.4', $preferred_mirror)) ||
-                   ($base  = $chan->getBaseURL('REST1.0', $preferred_mirror))
+                   ($base2 = $chan->getBaseURL('REST1.3', $preferred_mirror))
+                   || ($base  = $chan->getBaseURL('REST1.0', $preferred_mirror))
                 )
 
             ) {
                 if ($base2) {
-                    $rest = &$this->config->getREST('1.4', array());
+                    $rest = &$this->config->getREST('1.3', array());
                     $base = $base2;
                 } else {
                     $rest = &$this->config->getREST('1.0', array());

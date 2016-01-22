@@ -6,11 +6,10 @@ $log = &LoggerManager::getLogger('CurrencyUpdate');
 $log->debug('Start CRON:' . __FILE__);
 
 $moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
-
-if (!empty($moduleModel->getActiveBankId())) {
+$activeBankId = $moduleModel->getActiveBankId();
+if (!empty($activeBankId)) {
 	$yesterday = date('Y-m-d', strtotime('-1 day'));
 	$lastWorkingDay = Vtiger_Functions::getLastWorkingDay($yesterday);
-
 	$status = $moduleModel->fetchCurrencyRates($lastWorkingDay, true);
 
 	if ($status) {
@@ -21,5 +20,4 @@ if (!empty($moduleModel->getActiveBankId())) {
 } else {
 	$log->warn('Update of system currency rates ignored, no active bankin settings.');
 }
-
 $log->debug('End CRON:' . __FILE__);

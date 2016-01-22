@@ -4,7 +4,7 @@
  * 
  * <p>This framework is based on log4j (see {@link http://jakarta.apache.org/log4j log4j} for details).</p>
  * <p>Design, strategies and part of the methods documentation are developed by log4j team 
- * (Ceki Gülcü as log4j project founder and 
+ * (Ceki GÃ¼lcÃ¼ as log4j project founder and 
  * {@link http://jakarta.apache.org/log4j/docs/contributors.html contributors}).</p>
  *
  * <p>PHP port, extensions and modifications by VxR. All rights reserved.<br>
@@ -38,7 +38,15 @@ require_once(LOG4PHP_DIR . '/LoggerHierarchy.php');
  * @todo create a configurator selector  
  */
 class LoggerManager {
+	protected static $loggerCache = false;
 
+	static function getInstance($name = 'ROOT')
+	{
+		if (self::$loggerCache) {
+			return self::$loggerCache;
+		}
+		return self::getLogger($name);
+	}
     /**
      * check if a given logger exists.
      * 
@@ -258,5 +266,3 @@ function LoggerManagerDefaultInit()
         return false;
     }
 }
-
-?>

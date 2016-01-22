@@ -8,9 +8,6 @@
 <style type="text/css">
 #mailboxlist-container { width: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv-5 : 170" />px; }
 #messageframe { left: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 180" />px; }
-#moreheaderstoggle{float: left; width: 18px;z-index: 9; position: relative;}
-.oss-header #moreheaderstoggle a.small-icon img{height: 18px !important;}
-.oss-header{background: #69a3cb;}
 </style>
 </head>
 <roundcube:if condition="env:extwin" />
@@ -51,17 +48,6 @@
     <roundcube:endif />
   </div>
 <roundcube:object name="messageHeaders" class="headers-table" cellspacing="0" cellpadding="2" addicon="/images/icons/silhouette.png" summary="Message headers" />
-<!--------   YetiForce Sp. z o.o.   -------->
-<span id="moreheaderstoggle" class="moreheaderstoggle" data-widthswitch="true"></span>
-<div class="oss-header">
-	<div style="display: none;" id="message-oss-parameters">
-		<div id="message-oss-parameters-uid"></div>
-		<div id="message-oss-parameters-folder"></div>
-		<div id="message-oss-parameters-username"><roundcube:object name="plugin.getusername" /></div>
-	</div>
-	<div id="message-oss-header"></div>
-</div>
-<!--------   YetiForce Sp. z o.o.   -------->
 <roundcube:object name="messageFullHeaders" id="full-headers" />
 <roundcube:object name="messageAttachments" id="attachment-list" maxlength="50" />
 <roundcube:object name="messageObjects" id="message-objects" />
@@ -98,9 +84,6 @@
 <script type="text/javascript">
 rcube_init_mail_ui();
 </script>
-<!--------   YetiForce Sp. z o.o.   -------->
-<script type="text/javascript" src="../RoundCube.js"></script>
-<link rel="stylesheet" type="text/css" href="../../../layouts/vlayout/modules/OSSMail/inframe.css" />
-<!--------   YetiForce Sp. z o.o.   -------->
+
 </body>
 </html>

@@ -1,16 +1,8 @@
 <?php
-/*+**********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- ************************************************************************************/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 $languageStrings = [
 	'Services' => 'Service Name',
-	'Potential' => 'Quelle Verkaufschance',
 	'Invoice' => 'Rechnungsnummer',
 	'OSSSoldServices' => 'Verkaufte Dienstleistungen',
 	'SINGLE_OSSSoldServices' => 'Verkaufte Dienstleistung',
@@ -37,7 +29,6 @@ $languageStrings = [
 'LBL_CUSTOM_INFORMATION' => 'System Information',
 'Where bought' => 'Wo gekauft',
 'Number' => 'Nummer',
-'Potential renewal'=>'Verkaufschance erneuern',
 'LBL_GENERATE_EXTENSION' => 'Erweiterung generieren',
 'LBL_ORDER_TIME'=>'Bestellzeit',
 ];

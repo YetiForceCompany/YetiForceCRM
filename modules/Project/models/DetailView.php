@@ -15,26 +15,30 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model {
 	 * Function to get the detail view related links
 	 * @return <array> - list of links parameters
 	 */
-	public function getDetailViewRelatedLinks() {
+	public function getDetailViewRelatedLinks()
+	{
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-		$relatedLinks[] = array(
+		$parentModel = Vtiger_Module_Model::getInstance('OSSTimeControl');
+		if ($parentModel->isActive()) {
+			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => vtranslate('LBL_CHARTS', $moduleName),
-				'linkurl' => $recordModel->getDetailViewUrl().'&mode=showCharts&requestMode=charts',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showCharts&requestMode=charts',
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'Charts'
-		);
-		$relatedLinks[] = array(
-				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_GANTT', $moduleName),
-				'linkurl' => $recordModel->getDetailViewUrl().'&mode=showGantt',
-				'linkicon' => '',
-				'linkKey' => 'LBL_GANTT',
-				'related' => 'Gantt'
-		);
+			];
+		}
+		$relatedLinks[] = [
+			'linktype' => 'DETAILVIEWTAB',
+			'linklabel' => vtranslate('LBL_GANTT', $moduleName),
+			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showGantt',
+			'linkicon' => '',
+			'linkKey' => 'LBL_GANTT',
+			'related' => 'Gantt'
+		];
 
 		return $relatedLinks;
 	}

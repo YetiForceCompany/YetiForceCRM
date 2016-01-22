@@ -1063,14 +1063,14 @@ Vtiger_Base_Validator_Js("Vtiger_AlphaNumeric_Validator_Js", {
 		return true;
 	}
 })
-Vtiger_Base_Validator_Js("Vtiger_AlphaNumericWithSlashes_Validator_Js", {
+Vtiger_Base_Validator_Js("Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js", {
 	/**
 	 *Function which invokes field validation
 	 *@param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
 	invokeValidation: function (field, rules, i, options) {
-		var alphaNumericInstance = new Vtiger_AlphaNumericWithSlashes_Validator_Js();
+		var alphaNumericInstance = new Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js();
 		alphaNumericInstance.setElement(field);
 		var response = alphaNumericInstance.validate();
 		if (response != true) {
@@ -1087,7 +1087,7 @@ Vtiger_Base_Validator_Js("Vtiger_AlphaNumericWithSlashes_Validator_Js", {
 	validate: function () {
 		var field = this.getElement();
 		var fieldValue = field.val();
-		var alphaNumericRegex = /^[\/a-z\\0-9 _-]*$/i;
+		var alphaNumericRegex = /^[\/a-z\\0-9{} _-]*$/i;
 		if (!fieldValue.match(alphaNumericRegex)) {
 			var errorInfo = app.vtranslate("JS_CONTAINS_ILLEGAL_CHARACTERS");
 			this.setError(errorInfo);

@@ -13,7 +13,7 @@ class Reports_ChartSaveAjax_View extends Vtiger_IndexAjax_View {
 	public function checkPermission(Vtiger_Request $request) {
 		$record = $request->get('record');
 		if (!$record) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 
 		$moduleName = $request->getModule();
@@ -22,7 +22,7 @@ class Reports_ChartSaveAjax_View extends Vtiger_IndexAjax_View {
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId()) && !$reportModel->isEditable()) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 

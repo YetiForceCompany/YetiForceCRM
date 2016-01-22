@@ -15,8 +15,8 @@ $languageStrings = [
 	'LBL_PROFILE_NAME' => 'Nome do Perfil',
 	'LBL_DESCRIPTION' => 'Descrição do Perfil',
 	'LBL_VIEW_ALL_DESC' => 'Se você marcar esta opção, todos os módulos terão esta opção marcada por: Examinando',
-	'LBL_VIEW_ALL' => 'Habilitar visaulização de todos os registros.',
+	'LBL_VIEW_ALL' => 'Habilitar visaulização de todos os registros',
 	'LBL_EDIT_ALL_DESC' => 'Se você marcar esta opção, todos os módulos terão esta opção marcada por: Criar/Editar.',
-	'LBL_EDIT_ALL' => 'Habilitar edição de todos os registros.',
+	'LBL_EDIT_ALL' => 'Habilitar edição de todos os registros',
 	'LBL_SAVE_OK' => 'As alterações foram salvas',
 ];

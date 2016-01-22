@@ -14,22 +14,19 @@ class OSSMailScanner_ImportMail_Action extends Vtiger_Action_Controller
 
 	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if (!$currentUserModel->isAdminUser()) {
+			throw new NoPermittedForAdminException('LBL_PERMISSION_DENIED');
 		}
 	}
 
 	function process(Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		$params['actions'] = ['0_created_Email', '2_bind_Accounts', '3_bind_Contacts', '4_bind_Leads'];
 		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$mailScanMail = $scannerModel->manualScanMail($params);
-		if ($mailScanMail['0_created_Email']) {
-			$return = $mailScanMail['0_created_Email']['created_Email'];
+		if ($mailScanMail['CreatedEmail']) {
+			$return = $mailScanMail['CreatedEmail'];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($return);

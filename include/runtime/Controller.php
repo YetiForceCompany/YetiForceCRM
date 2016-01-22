@@ -33,6 +33,11 @@ abstract class Vtiger_Controller
 		
 	}
 
+	function preProcessAjax(Vtiger_Request $request)
+	{
+		
+	}
+
 	function preProcess(Vtiger_Request $request)
 	{
 		
@@ -163,9 +168,15 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	function getViewer(Vtiger_Request $request)
 	{
 		if (!$this->viewer) {
-			$viewer = new Vtiger_Viewer();
+			$viewer = Vtiger_Viewer::getInstance();
 			$viewer->assign('APPTITLE', getTranslatedString('APPTITLE'));
 			$viewer->assign('YETIFORCE_VERSION', vglobal('YetiForce_current_version'));
+			if ($request->isAjax()) {
+				$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+				if ($request->get('parent') == 'Settings') {
+					$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+				}
+			}
 			$this->viewer = $viewer;
 		}
 		return $this->viewer;
@@ -173,21 +184,43 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
 	function getPageTitle(Vtiger_Request $request)
 	{
-		$title = $request->getModule();
-		return $title == 'Vtiger' ? 'YetiForce' : $title;
+		$moduleName = $request->getModule();
+		$moduleName = $moduleName == 'Vtiger' ? 'YetiForce' : $moduleName;
+		$title = vtranslate($moduleName, $moduleName);
+		$pageTitle = $this->getBreadcrumbTitle($request);
+		if ($pageTitle) {
+			$title .= ' - ' . $pageTitle;
+		}
+		return $title;
+	}
+
+	function getBreadcrumbTitle(Vtiger_Request $request)
+	{
+		if (!empty($this->pageTitle)) {
+			return $this->pageTitle;
+		}
+		return 0;
 	}
 
 	function preProcess(Vtiger_Request $request, $display = true)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PAGETITLE', $this->getPageTitle($request));
+		$viewer->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($request));
 		$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
 		$viewer->assign('STYLES', $this->getHeaderCss($request));
 		$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
+		$viewer->assign('LAYOUT_PATH', 'layouts' . '/' . Yeti_Layout::getActiveLayout());
 		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 		$viewer->assign('LANGUAGE', Vtiger_Language_Handler::getLanguage());
+		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
+		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('PARENT_MODULE', $request->get('parent'));
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -196,6 +229,11 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	protected function preProcessTplName(Vtiger_Request $request)
 	{
 		return 'Header.tpl';
+	}
+
+	protected function showBodyHeader()
+	{
+		return true;
 	}
 
 	//Note : To get the right hook for immediate parent in PHP,
@@ -233,7 +271,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	 */
 	function getHeaderCss(Vtiger_Request $request)
 	{
-		$cssFileNames = array(
+		$cssFileNames = [
 			'~libraries/bootstrap3/css/bootstrap.css',
 			'~libraries/jquery/chosen/chosen.css',
 			'~libraries/jquery/chosen/chosen.bootstrap.css',
@@ -244,10 +282,14 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css',
 			'~libraries/jquery/pnotify/pnotify.custom.css',
 			'~libraries/jquery/datepicker/css/datepicker.css',
-			'~layouts/vlayout/resources/styles.css',
+			'~libraries/footable/css/footable.core.css',
 			'~libraries/jquery/timepicker/jquery.timepicker.css',
-			'~layouts/vlayout/modules/OSSMail/resources/OSSMailBoxInfo.css',
-		);
+			'~libraries/jquery/clockpicker/bootstrap-clockpicker.css',
+			'skins.icons.userIcons',
+			'skins.icons.adminIcons',
+			'libraries.resources.styles',
+			'modules.OSSMail.resources.OSSMailBoxInfo',
+		];
 		$headerCssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return $headerCssInstances;
 	}
@@ -285,16 +327,17 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/bootstrap3/js/bootstrap-switch.js',
 			'~libraries/bootstrap3/js/bootbox.js',
 			'~libraries/jquery/selectize/js/selectize.js',
-			'~layouts/vlayout/resources/jquery.additions.js',
-			'~layouts/vlayout/resources/app.js',
-			'~layouts/vlayout/resources/helper.js',
-			'~layouts/vlayout/resources/Connector.js',
-			'~layouts/vlayout/resources/ProgressIndicator.js',
 			'~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js',
 			'~libraries/jquery/datepicker/js/datepicker.js',
 			'~libraries/jquery/dangrossman-bootstrap-daterangepicker/date.js',
 			'~libraries/jquery/jquery.ba-outside-events.js',
 			'~libraries/jquery/jquery.placeholder.js',
+			'~libraries/footable/js/footable.js',
+			'~libraries/resources/jquery.additions.js',
+			'libraries.resources.app',
+			'libraries.resources.helper',
+			'libraries.resources.Connector',
+			'libraries.resources.ProgressIndicator',
 		];
 
 		$languageHandlerShortName = Vtiger_Language_Handler::getShortLanguageName();
@@ -312,10 +355,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	function checkAndConvertJsScripts($jsFileNames)
 	{
 		$fileExtension = 'js';
+		$jsScriptInstances = [];
 
-		$jsScriptInstances = array();
 		foreach ($jsFileNames as $jsFileName) {
-			// TODO Handle absolute inclusions (...) like in checkAndConvertCssStyles
 			$jsScript = new Vtiger_JsScript_Model();
 
 			// external javascript source file handling
@@ -323,39 +365,56 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $jsFileName);
 				continue;
 			}
-
 			$completeFilePath = Vtiger_Loader::resolveNameToPath($jsFileName, $fileExtension);
-			$minFilePath = str_replace('.js', '.min.js', $completeFilePath);
-
-			if (Vtiger_Functions::getMinimizationOptions($fileExtension) && file_exists($minFilePath)) {
-				$minjsFileName = str_replace('.js', '.min.js', $jsFileName);
-				if (strpos($minjsFileName, '~') === 0) {
-					$minjsFileName = ltrim(ltrim($minjsFileName, '~'), '/');
-				} else {
-					$minjsFileName = str_replace('.', '/', $jsFileName) . '.' . $fileExtension;
-				}
-
-				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $minjsFileName);
-			} else if (file_exists($completeFilePath)) {
+			if (is_file($completeFilePath)) {
 				if (strpos($jsFileName, '~') === 0) {
 					$filePath = ltrim(ltrim($jsFileName, '~'), '/');
 				} else {
 					$filePath = str_replace('.', '/', $jsFileName) . '.' . $fileExtension;
 				}
-
-				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
-			} else {
-				if (Vtiger_Functions::getMinimizationOptions($fileExtension)) {
-					$fallBackFilePath = Vtiger_Loader::resolveNameToPath(Vtiger_JavaScript::getBaseJavaScriptPath() . '/' . $jsFileName . $min, 'js');
-					if (file_exists($fallBackFilePath)) {
-						$filePath = str_replace('.', '/', $jsFileName) . $min . '.js';
-						$jsScriptInstances[$jsFileName] = $jsScript->set('src', Vtiger_JavaScript::getFilePath($filePath));
-					}
+				$minFilePath = str_replace('.js', '.min.js', $filePath);
+				if (Vtiger_Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
+					$filePath = $minFilePath;
 				}
-				$fallBackFilePath = Vtiger_Loader::resolveNameToPath(Vtiger_JavaScript::getBaseJavaScriptPath() . '/' . $jsFileName, 'js');
-				if (file_exists($fallBackFilePath)) {
-					$filePath = str_replace('.', '/', $jsFileName) . '.js';
-					$jsScriptInstances[$jsFileName] = $jsScript->set('src', Vtiger_JavaScript::getFilePath($filePath));
+				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
+				continue;
+			} else {
+				$preLayoutPath = '';
+				if (strpos($jsFileName, '~') === 0) {
+					$jsFile = ltrim(ltrim($jsFileName, '~'), '/');
+					$preLayoutPath = '~';
+				} else {
+					$jsFile = $jsFileName;
+				}
+
+				// Checking if file exists in selected layout
+				$layoutPath = 'layouts' . '/' . Yeti_Layout::getActiveLayout();
+				$fallBackFilePath = Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
+				if (is_file($fallBackFilePath)) {
+					$filePath = $jsFile;
+					if (empty($preLayoutPath))
+						$filePath = str_replace('.', '/', $filePath) . '.js';
+					$minFilePath = str_replace('.js', '.min.js', $filePath);
+					if (Vtiger_Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+						$filePath = $minFilePath;
+					}
+					$jsScriptInstances[$jsFileName] = $jsScript->set('src', $layoutPath . '/' . $filePath);
+					continue;
+				}
+
+				// Checking if file exists in default layout
+				$layoutPath = 'layouts' . '/' . Vtiger_Viewer::getDefaultLayoutName();
+				$fallBackFilePath = Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
+				if (is_file($fallBackFilePath)) {
+					$filePath = $jsFile;
+					if (empty($preLayoutPath))
+						$filePath = str_replace('.', '/', $jsFile) . '.js';
+					$minFilePath = str_replace('.js', '.min.js', $filePath);
+					if (Vtiger_Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+						$filePath = $minFilePath;
+					}
+					$jsScriptInstances[$jsFileName] = $jsScript->set('src', $layoutPath . '/' . $filePath);
+					continue;
 				}
 			}
 		}
@@ -369,46 +428,66 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	 * @return <Array of Vtiger_CssScript_Model>
 	 *
 	 * First check if $cssFileName exists
-	 * if not, check under layout folder $cssFileName eg:layouts/vlayout/$cssFileName
+	 * if not, check under layout folder $cssFileName eg:layouts/basic/$cssFileName
 	 */
 	function checkAndConvertCssStyles($cssFileNames, $fileExtension = 'css')
 	{
-		$cssStyleInstances = array();
+		$cssStyleInstances = [];
 		foreach ($cssFileNames as $cssFileName) {
 			$cssScriptModel = new Vtiger_CssScript_Model();
-
 			if (strpos($cssFileName, 'http://') === 0 || strpos($cssFileName, 'https://') === 0) {
 				$cssStyleInstances[] = $cssScriptModel->set('href', $cssFileName);
 				continue;
 			}
 			$completeFilePath = Vtiger_Loader::resolveNameToPath($cssFileName, $fileExtension);
-			$filePath = NULL;
-			$minFilePath = str_replace('.css', '.min.css', $completeFilePath);
-			if (Vtiger_Functions::getMinimizationOptions($fileExtension) && file_exists($minFilePath)) {
-				if (strpos($cssFileName, '~') === 0) {
-					$minFilePath = str_replace('.css', '.min.css', $cssFileName);
-					$filePath = ltrim(ltrim($minFilePath, '~'), '/');
-					// if ~~ (reference is outside vtiger6 folder)
-					if (substr_count($minFilePath, "~") == 2) {
-						$filePath = "../" . $filePath;
-					}
-				} else {
-					$filePath = str_replace('.', '/', $cssFileName) . '.min.' . $fileExtension;
-					$filePath = Vtiger_Theme::getStylePath($filePath);
-				}
-				$cssStyleInstances[] = $cssScriptModel->set('href', $filePath);
-			} else if (file_exists($completeFilePath)) {
+			if (file_exists($completeFilePath)) {
 				if (strpos($cssFileName, '~') === 0) {
 					$filePath = ltrim(ltrim($cssFileName, '~'), '/');
-					// if ~~ (reference is outside vtiger6 folder)
-					if (substr_count($cssFileName, "~") == 2) {
-						$filePath = "../" . $filePath;
-					}
 				} else {
 					$filePath = str_replace('.', '/', $cssFileName) . '.' . $fileExtension;
-					$filePath = Vtiger_Theme::getStylePath($filePath);
 				}
-				$cssStyleInstances[] = $cssScriptModel->set('href', $filePath);
+				$minFilePath = str_replace('.css', '.min.css', $filePath);
+				if (Vtiger_Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
+					$filePath = $minFilePath;
+				}
+				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
+				continue;
+			} else {
+				$preLayoutPath = '';
+				if (strpos($cssFileName, '~') === 0) {
+					$cssFile = ltrim(ltrim($cssFileName, '~'), '/');
+					$preLayoutPath = '~';
+				} else {
+					$cssFile = $cssFileName;
+				}
+
+				// Checking if file exists in selected layout
+				$layoutPath = 'layouts' . '/' . Yeti_Layout::getActiveLayout();
+				$fallBackFilePath = Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
+				if (is_file($fallBackFilePath)) {
+					if (empty($preLayoutPath))
+						$filePath = str_replace('.', '/', $cssFile) . '.css';
+					$minFilePath = str_replace('.css', '.min.css', $filePath);
+					if (Vtiger_Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+						$filePath = $minFilePath;
+					}
+					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $layoutPath . '/' . $filePath);
+					continue;
+				}
+
+				// Checking if file exists in default layout
+				$layoutPath = 'layouts' . '/' . Vtiger_Viewer::getDefaultLayoutName();
+				$fallBackFilePath = Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
+				if (is_file($fallBackFilePath)) {
+					if (empty($preLayoutPath))
+						$filePath = str_replace('.', '/', $cssFile) . '.css';
+					$minFilePath = str_replace('.css', '.min.css', $filePath);
+					if (Vtiger_Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+						$filePath = $minFilePath;
+					}
+					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $layoutPath . '/' . $filePath);
+					continue;
+				}
 			}
 		}
 		return $cssStyleInstances;

@@ -112,13 +112,8 @@ class VtigerCRMObject
 	public function read($id)
 	{
 		$adb = PearDatabase::getInstance();
-
-		$error = false;
-		$adb->startTransaction();
 		$this->instance->retrieve_entity_info($id, $this->getTabName());
-		$error = $adb->hasFailedTransaction();
-		$adb->completeTransaction();
-		return !$error;
+		return true;
 	}
 
 	public function create($element)

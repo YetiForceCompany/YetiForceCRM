@@ -20,8 +20,6 @@ class Vtiger_EmailsRelatedModulePopup_View extends Vtiger_Popup_View {
 
 		$viewer->assign('MODULE_NAME',$moduleName);
 		$viewer->assign('COMPANY_LOGO',$companyLogo);
-
-
 		$viewer->view('Popup.tpl', $moduleName);
 	}
 	
@@ -135,7 +133,7 @@ class Vtiger_EmailsRelatedModulePopup_View extends Vtiger_Popup_View {
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 		
-		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			if(!$this->listViewCount){
 				$this->listViewCount = $listViewModel->getListViewCount();
 			}

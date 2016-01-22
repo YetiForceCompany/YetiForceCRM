@@ -127,8 +127,9 @@ class SyncServer {
 
 	function deleteQueueRecords($syncServerIdList){
 		$db= PearDatabase::getInstance();
-		$deleteQuery = "DELETE FROM vtiger_wsapp_queuerecords WHERE syncserverid IN (".generateQuestionMarks($syncServerIdList).")";
-		$result = $db->pquery($deleteQuery,$syncServerIdList);
+		if (!empty($syncServerIdList)) {
+			$db->delete('vtiger_wsapp_queuerecords', 'cvid IN (' . implode(',', $syncServerIdList) . ')');
+		}
 	}
 	
 	/**

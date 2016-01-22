@@ -1,7 +1,10 @@
 <?php
-/* OpenSaaS 
-* Rules: http://opensaas.pl/rules.html
-*/
+/**
+ * @package YetiForce.views
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
 class OSSPasswords_Detail_View extends Vtiger_Detail_View {
 	protected $record = false;
 
@@ -10,9 +13,9 @@ class OSSPasswords_Detail_View extends Vtiger_Detail_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-            'layouts.vlayout.modules.OSSPasswords.resources.gen_pass',
+            'modules.OSSPasswords.resources.gen_pass',
             'libraries.jquery.ZeroClipboard.ZeroClipboard',
-            'layouts.vlayout.modules.OSSPasswords.resources.zClipDetailView'
+            'modules.OSSPasswords.resources.zClipDetailView'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

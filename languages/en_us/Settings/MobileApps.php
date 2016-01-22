@@ -11,7 +11,7 @@
 $languageStrings = [
 	'MobileApps' => 'Mobile Apps',
 	'LBL_MOBILE_CALLLISTENER' => 'Listening connections',
- 	'LBL_MOBILE_KEYS' => 'Mobile application keys',
+ 	'LBL_MOBILE_KEYS' => 'Mobile Applications',
  	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Create and manage mobile application keys.',
  	'LBL_USERNAME' => 'User',
  	'LBL_SERVICE' => 'Application',
@@ -21,7 +21,7 @@ $languageStrings = [
  	'LBL_DELETE_KEY' => 'Delete key',
  	'LBL_ADD_KEY' => 'Add key',
  	'LBL_SELECT_USER' => 'Select user:',
- 	'LBL_SELECT_SERVICE' => 'Select application',
+ 	'LBL_SELECT_SERVICE' => 'Select application:',
  	'LBL_SUCCESS_SAVE_KEY' => 'New key saved',
  	'LBL_ERROR_SAVE_KEY' => 'Error saving key',
  	'LBL_DUPLICATE_USER_SERVICES' => 'Key for this application already exists.',

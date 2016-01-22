@@ -12,7 +12,7 @@
 $languageStrings = [
 	'LBL_SAVE' => 'Save',
 	'ApiAddress' => 'Address Search',
-	'LBL_API_ADDRESS' => 'Address Search',
+	'LBL_API_ADDRESS' => 'Maps [Google & OSM]',
 	'LBL_API_ADDRESS_DESCRIPTION' => 'Module allowing to search/ autocomplete address during creating/editing data within the system.',
 	'LBL_USE_OPENCAGE_GEOCODER' => 'Use OpenCage Geocoder',
 	'LBL_REMOVE_CONNECTION' => 'Remove Connection',

@@ -18,7 +18,9 @@
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
  * Contributor(s): ______________________________________..
- * ****************************************************************************** */
+ * ****************************************************************************** 
+ * Contributor(s): YetiForce.com
+ */
 
 require_once('modules/Calendar/RenderRelatedListUI.php');
 require_once('modules/Calendar/CalendarCommon.php');
@@ -380,7 +382,7 @@ class Activity extends CRMEntity
 		$log->debug("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
-		if (PerformancePrefs::getBoolean('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 
@@ -819,9 +821,6 @@ class Activity extends CRMEntity
 		if ($queryPlanner->requireTable("vtiger_leaddetailsRelCalendar")) {
 			$query .=" 	left join vtiger_leaddetails as vtiger_leaddetailsRelCalendar on vtiger_leaddetailsRelCalendar.leadid = vtiger_activity.link";
 		}
-		if ($queryPlanner->requireTable("vtiger_potentialRelCalendar")) {
-			$query .=" 	left join vtiger_potential as vtiger_potentialRelCalendar on vtiger_potentialRelCalendar.potentialid = vtiger_activity.process";
-		}
 		if ($queryPlanner->requireTable("vtiger_troubleticketsRelCalendar")) {
 			$query .=" left join vtiger_troubletickets as vtiger_troubleticketsRelCalendar on vtiger_troubleticketsRelCalendar.ticketid = vtiger_activity.process";
 		}
@@ -930,6 +929,49 @@ class Activity extends CRMEntity
 		$shared_ids = implode(",", $userid);
 		return $shared_ids;
 	}
+
+	/** Function to unlink an entity with given Id from another entity */
+	// TODO This function was placed here because uitype fields (67, 68, 69) exist in this module. Once the way of getting modules for these fields is improved, you should correct the parent::unlinkRelationship() function, and remove this one.
+	function unlinkRelationship($id, $returnModule, $returnId)
+	{
+		global $log, $currentModule;
+		$results = [];
+
+		$where = '(crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
+		$params = [$id, $returnModule, $returnId, $id, $returnModule, $returnId];
+		$this->db->delete('vtiger_crmentityrel', $where, $params);
+
+		$fieldRes = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
+			SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule=?)', [$currentModule, $returnModule]);
+		$numOfFields = $this->db->num_rows($fieldRes);
+		if ($fieldRes->rowCount()) {
+			$results = $this->db->getArray($fieldRes);
+		} else {
+			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [Vtiger_Functions::getModuleId($currentModule)]);
+			while ($row = $this->db->getRow($fieldRes)) {
+				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $currentModule);
+				$fieldModel = new $className();
+				foreach ($row as $properName => $propertyValue) {
+					$fieldModel->$properName = $propertyValue;
+				}
+				$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
+				if (!empty($moduleList) && in_array($returnModule, $moduleList)) {
+					$results[] = $row;
+					break;
+				}
+			}
+		}
+		foreach ($results as $result) {
+			$columnName = $result['columnname'];
+
+			$relatedModule = vtlib_getModuleNameById($result['tabid']);
+			$focusObj = CRMEntity::getInstance($relatedModule);
+
+			$columns = [$columnName => null];
+			$where = "$columnName = ? AND $focusObj->table_index = ?";
+			$params = [$returnId, $id];
+			$this->db->update($result['tablename'], $columns, $where, $params);
+		}
+	}
 }
 
-?>

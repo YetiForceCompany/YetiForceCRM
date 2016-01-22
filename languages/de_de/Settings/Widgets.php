@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'Widgets' => 'Widget Modulverwaltung',
+	'Widgets' => 'Modules – Widgets',
 	'LBL_MODULE_DESC' => 'Widget Modulverwaltung',
 	'Add widget' => 'Widget hinzufügen',
 	'Type widget' => 'Typ',
@@ -57,6 +57,9 @@ $languageStrings = [
 	'No left margin info' => 'Deaktiviere linken Rand im Widget.',
 	'ProductsServices' => 'Produkte Dienstleistungen',
 	'Campaign status' => 'Kampagnenstatus',
+	'LBL_SELECT_BUTTON_INFO' => 'Enable visible select button',
+	'LBL_CONDITION' => 'Condition',
+	'LBL_CONDITION_INFO' => 'Select condition for showing records',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Laden...',

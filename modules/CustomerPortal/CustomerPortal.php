@@ -21,7 +21,7 @@ class CustomerPortal {
 		global $adb,$mod_strings;
 
  		if($eventType == 'module.postinstall') {
-			$portalModules = array("HelpDesk","Faq","Invoice","Quotes","Products","Services","Documents",
+			$portalModules = array("HelpDesk","Faq","Products","Services","Documents",
 									"Contacts","Accounts","Project","ProjectTask","ProjectMilestone","Assets");
 
 			$query = "SELECT max(sequence) AS max_tabseq FROM vtiger_customerportal_tabs";

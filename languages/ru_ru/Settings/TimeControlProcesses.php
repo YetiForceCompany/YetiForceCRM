@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'TimeControlProcesses' => 'Процесс Учета времени',
-	'LBL_TIMECONTROL_PROCESSES' => 'Процесс Учета времени',
+	'LBL_TIMECONTROL_PROCESSES' => 'Workflow',
 	'LBL_TIMECONTROL_PROCESSES_DESCRIPTION' => ' Настройка процесса учета рабочего вермени',
 	'LBL_ONEDAY_VALID' => 'Время работы ограничено до 24 часов',
 	'LBL_TIMEOVERLAP_VALID' => 'Укажите время повторения',

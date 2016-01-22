@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 class Vtiger_ProductsServices_Widget extends Vtiger_Basic_Widget {
-	var $allowedModules  = ['Accounts','Potentials'];
+	var $allowedModules  = ['Accounts'];
 	
 	public function getUrl() {
 		return 'module=Products&view=Widget&fromModule='.$this->Module.'&record='.$this->Record.'&mode=showProductsServices&page=1&mod=Products&limit='.$this->Data['limit'];

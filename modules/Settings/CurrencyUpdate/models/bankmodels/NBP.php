@@ -1,6 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * @package YetiForce.models
+ * @license licenses/License.html
+ * @author Maciej Stencel <m.stencel@yetiforce.com>
+ */
+ 
 /**
  * Class for connection to Narodowy Bank Polski currency exchange rates
  */
@@ -71,7 +75,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 			if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
 				continue;
 			}
-			$currencyCode = $xmlObj->pozycja[$i]->kod_waluty->__toString();
+			$currencyCode = (string)$xmlObj->pozycja[$i]->kod_waluty;
 
 			if ($currencyCode == 'XDR') {
 				continue;
@@ -153,7 +157,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 		$xmlObj = $xml->children();
 
 		$num = count($xmlObj->pozycja);
-		$datePublicationOfFile = $xmlObj->data_publikacji->__toString();
+		$datePublicationOfFile = (string)$xmlObj->data_publikacji;
 
 		$exchangeRate = 1.0;
 		// if currency is diffrent than PLN we need to calculate rate for converting other currencies to this one from PLN
@@ -169,7 +173,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 			if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
 				continue;
 			}
-			$currency = $xmlObj->pozycja[$i]->kod_waluty->__toString();
+			$currency = (string)$xmlObj->pozycja[$i]->kod_waluty;
 			foreach ($otherCurrencyCode as $key => $currId) {
 				if ($key == $currency && $currency != $mainCurrency) {
 					$exchange = str_replace(',', '.', $xmlObj->pozycja[$i]->kurs_sredni);

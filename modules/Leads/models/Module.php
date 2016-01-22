@@ -126,67 +126,20 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		}
 		return $response;
 	}
-
-	/**
-	 * Function to get relation query for particular module with function name
-	 * @param <record> $recordId
-	 * @param <String> $functionName
-	 * @param Vtiger_Module_Model $relatedModule
-	 * @return <String>
-	 */
-	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false)
-	{
-		if ($functionName === 'get_activities') {
-			$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-
-			$query = "SELECT CASE WHEN (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name,
-						vtiger_crmentity.*, vtiger_activity.activitytype, vtiger_activity.subject, vtiger_activity.date_start, vtiger_activity.time_start,
-						vtiger_activity.recurringtype, vtiger_activity.due_date, vtiger_activity.time_end, vtiger_activity.visibility,
-						vtiger_activity.status AS status
-						FROM vtiger_activity
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-						LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-						WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.link = " . $recordId;
-			$time = vtlib_purify($_REQUEST['time']);
-			if ($time == 'current') {
-				$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
-				$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
-			}
-			if ($time == 'history') {
-				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status in ('Completed','Deferred'))
-				OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.status in ('Completed','Deferred')))";
-			}
-			$relatedModuleName = $relatedModule->getName();
-			$query .= $this->getSpecificRelationQuery($relatedModuleName);
-			$instance = CRMEntity::getInstance($relatedModuleName);
-			$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName, false, $recordId);
-			if ($securityParameter != '')
-				$query .= $securityParameter;
-		} elseif ($functionName === 'get_mails' && $relatedModule->getName() == 'OSSMailView') {
-			$query = OSSMailView_Record_Model::getMailsQuery($recordId, $relatedModule->getName());
-		} else {
-			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
-		}
-
-		return $query;
-	}
-
+	
 	/**
 	 * Function to get Converted Information for selected records
 	 * @param <array> $recordIdsList
 	 * @return <array> converted Info
 	 */
-	public static function getConvertedInfo($recordIdsList = array())
+	public static function getConvertedInfo($recordIdsList = [])
 	{
-		$convertedInfo = array();
+		$convertedInfo = [];
 		if ($recordIdsList) {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery("SELECT converted FROM vtiger_leaddetails WHERE leadid IN (" . generateQuestionMarks($recordIdsList) . ")", $recordIdsList);
-			$numOfRows = $db->num_rows($result);
-
-			for ($i = 0; $i < $numOfRows; $i++) {
-				$convertedInfo[$recordIdsList[$i]] = $db->query_result($result, $i, 'converted');
+			$result = $db->query('SELECT leadid,converted FROM vtiger_leaddetails WHERE leadid IN (' . implode(',',$recordIdsList) . ')');
+			while ($row = $db->getRow($result)) {
+				$convertedInfo[$row['leadid']] = $row['converted'];
 			}
 		}
 		return $convertedInfo;
@@ -204,8 +157,8 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	{
 		if (in_array($sourceModule, array('Campaigns', 'Products', 'Services', 'Emails'))) {
 			switch ($sourceModule) {
-				case 'Campaigns' : $tableName = 'vtiger_campaignleadrel';
-					$fieldName = 'leadid';
+				case 'Campaigns' : $tableName = 'vtiger_campaign_records';
+					$fieldName = 'crmid';
 					$relatedFieldName = 'campaignid';
 					break;
 				case 'Products' : $tableName = 'vtiger_seproductsrel';

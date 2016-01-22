@@ -90,33 +90,6 @@ function getListQuery($module, $where = '')
 			$query .= getNonAdminAccessControlQuery($module, $current_user);
 			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
 			break;
-
-		Case "Potentials":
-			//Query modified to sort by assigned to
-			$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
-			vtiger_account.accountname,
-			vtiger_potential.related_to, vtiger_potential.potentialname,
-			vtiger_potential.sales_stage, vtiger_potential.amount,
-			vtiger_potential.currency, vtiger_potential.closingdate,
-			vtiger_potential.typeofrevenue,
-			vtiger_potentialscf.*
-			FROM vtiger_potential
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid = vtiger_potential.potentialid
-			INNER JOIN vtiger_potentialscf
-				ON vtiger_potentialscf.potentialid = vtiger_potential.potentialid
-			LEFT JOIN vtiger_account
-				ON vtiger_potential.related_to = vtiger_account.accountid
-			LEFT JOIN vtiger_campaign
-				ON vtiger_campaign.campaignid = vtiger_potential.campaignid
-			LEFT JOIN vtiger_groups
-				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
-			break;
-
 		Case "Leads":
 			$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
 			vtiger_leaddetails.company, vtiger_leadaddress.phone,
@@ -199,7 +172,7 @@ function getListQuery($module, $where = '')
 				ON vtiger_customerdetails.customerid = vtiger_contactdetails.contactid";
 			if ((isset($_REQUEST["from_dashboard"]) && $_REQUEST["from_dashboard"] == true) &&
 				(isset($_REQUEST["type"]) && $_REQUEST["type"] == "dbrd")) {
-				$query .= " INNER JOIN vtiger_campaigncontrel on vtiger_campaigncontrel.contactid = " .
+				$query .= " INNER JOIN vtiger_campaign_records on vtiger_campaign_records.crmid = " .
 					"vtiger_contactdetails.contactid";
 			}
 			$query .= getNonAdminAccessControlQuery($module, $current_user);
@@ -298,128 +271,6 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_currency_info
 				ON vtiger_pricebook.currency_id = vtiger_currency_info.id
 			WHERE vtiger_crmentity.deleted = 0 " . $where;
-			break;
-		Case "Quotes":
-			//Query modified to sort by assigned to
-			$query = "SELECT vtiger_crmentity.*,
-			vtiger_quotes.*,
-			vtiger_quotesaddress.*,
-			vtiger_potential.potentialname,
-			vtiger_account.accountname,
-			vtiger_currency_info.currency_name
-			FROM vtiger_quotes
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid = vtiger_quotes.quoteid
-			INNER JOIN vtiger_quotesaddress
-				ON vtiger_quotes.quoteid = vtiger_quotesaddress.quoteaddressid
-			LEFT JOIN vtiger_quotescf
-				ON vtiger_quotes.quoteid = vtiger_quotescf.quoteid
-			LEFT JOIN vtiger_currency_info
-				ON vtiger_quotes.currency_id = vtiger_currency_info.id
-			LEFT OUTER JOIN vtiger_account
-				ON vtiger_account.accountid = vtiger_quotes.accountid
-			LEFT OUTER JOIN vtiger_potential
-				ON vtiger_potential.potentialid = vtiger_quotes.potentialid
-			LEFT JOIN vtiger_groups
-				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_users as vtiger_usersQuotes
-			        ON vtiger_usersQuotes.id = vtiger_quotes.inventorymanager";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
-			break;
-		Case "PurchaseOrder":
-			//Query modified to sort by assigned to
-			$query = "SELECT vtiger_crmentity.*,
-			vtiger_purchaseorder.*,
-			vtiger_purchaseorderaddress.*,
-			vtiger_vendor.vendorname,
-			vtiger_currency_info.currency_name
-			FROM vtiger_purchaseorder
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid = vtiger_purchaseorder.purchaseorderid
-			LEFT OUTER JOIN vtiger_vendor
-				ON vtiger_purchaseorder.vendorid = vtiger_vendor.vendorid
-			LEFT JOIN vtiger_contactdetails
-				ON vtiger_purchaseorder.contactid = vtiger_contactdetails.contactid
-			INNER JOIN vtiger_purchaseorderaddress
-				ON vtiger_purchaseorder.purchaseorderid = vtiger_purchaseorderaddress.purchaseorderaddressid
-			LEFT JOIN vtiger_purchaseordercf
-				ON vtiger_purchaseordercf.purchaseorderid = vtiger_purchaseorder.purchaseorderid
-			LEFT JOIN vtiger_currency_info
-				ON vtiger_purchaseorder.currency_id = vtiger_currency_info.id
-			LEFT JOIN vtiger_groups
-				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
-			break;
-		Case "SalesOrder":
-			//Query modified to sort by assigned to
-			$query = "SELECT vtiger_crmentity.*,
-			vtiger_salesorder.*,
-			vtiger_salesorderaddress.*,
-			vtiger_quotes.subject AS quotename,
-			vtiger_account.accountname,
-			vtiger_currency_info.currency_name
-			FROM vtiger_salesorder
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid = vtiger_salesorder.salesorderid
-			INNER JOIN vtiger_salesorderaddress
-				ON vtiger_salesorder.salesorderid = vtiger_salesorderaddress.salesorderaddressid
-			LEFT JOIN vtiger_salesordercf
-				ON vtiger_salesordercf.salesorderid = vtiger_salesorder.salesorderid
-			LEFT JOIN vtiger_currency_info
-				ON vtiger_salesorder.currency_id = vtiger_currency_info.id
-			LEFT OUTER JOIN vtiger_quotes
-				ON vtiger_quotes.quoteid = vtiger_salesorder.quoteid
-			LEFT OUTER JOIN vtiger_account
-				ON vtiger_account.accountid = vtiger_salesorder.accountid
-			LEFT JOIN vtiger_contactdetails
-				ON vtiger_salesorder.contactid = vtiger_contactdetails.contactid
-			LEFT JOIN vtiger_potential
-				ON vtiger_potential.potentialid = vtiger_salesorder.potentialid
-			LEFT JOIN vtiger_invoice_recurring_info
-				ON vtiger_invoice_recurring_info.salesorderid = vtiger_salesorder.salesorderid
-			LEFT JOIN vtiger_groups
-				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
-			break;
-		Case "Invoice":
-			//Query modified to sort by assigned to
-			//query modified -Code contribute by Geoff(http://forums.vtiger.com/viewtopic.php?t=3376)
-			$query = "SELECT vtiger_crmentity.*,
-			vtiger_invoice.*,
-			vtiger_invoiceaddress.*,
-			vtiger_salesorder.subject AS salessubject,
-			vtiger_account.accountname,
-			vtiger_currency_info.currency_name
-			FROM vtiger_invoice
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid = vtiger_invoice.invoiceid
-			INNER JOIN vtiger_invoiceaddress
-				ON vtiger_invoice.invoiceid = vtiger_invoiceaddress.invoiceaddressid
-			LEFT JOIN vtiger_currency_info
-				ON vtiger_invoice.currency_id = vtiger_currency_info.id
-			LEFT OUTER JOIN vtiger_salesorder
-				ON vtiger_salesorder.salesorderid = vtiger_invoice.salesorderid
-			LEFT OUTER JOIN vtiger_account
-			        ON vtiger_account.accountid = vtiger_invoice.accountid
-			LEFT JOIN vtiger_contactdetails
-				ON vtiger_contactdetails.contactid = vtiger_invoice.contactid
-			INNER JOIN vtiger_invoicecf
-				ON vtiger_invoice.invoiceid = vtiger_invoicecf.invoiceid
-			LEFT JOIN vtiger_groups
-				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
 			break;
 		Case "Campaigns":
 			//Query modified to sort by assigned to
@@ -557,7 +408,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 		onkeypress=\"$jsHandler\">";
 	$output .= "<span name='listViewCountContainerName' class='small' style='white-space: nowrap;'>";
 	$computeCount = $_REQUEST['withCount'];
-	if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true || ((boolean) $computeCount) == true) {
+	if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true || ((boolean) $computeCount) == true) {
 		$output .= $app_strings['LBL_LIST_OF'] . ' ' . $navigation_array['verylast'];
 	} else {
 		$output .= "<img src='" . vtiger_imageurl('windowRefresh.gif', $theme) . "' alt='" . $app_strings['LBL_HOME_COUNT'] . "'
@@ -718,7 +569,7 @@ function getRecordRangeMessage($listResult, $limitStartRecord, $totalRows = '')
 	if ($numRows > 0) {
 		$recordListRangeMsg = $app_strings['LBL_SHOWING'] . ' ' . $app_strings['LBL_RECORDS'] .
 			' ' . ($limitStartRecord + 1) . ' - ' . ($limitStartRecord + $numRows);
-		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true) {
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true) {
 			$recordListRangeMsg .= ' ' . $app_strings['LBL_LIST_OF'] . " $totalRows";
 		}
 	}

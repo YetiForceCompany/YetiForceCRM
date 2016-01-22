@@ -10,6 +10,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * ********************************************************************************** */
 $languageStrings = [
+	'LBL_SELECT_LAYOUT' => 'Выберите макет',
 	'SINGLE_Users' => 'Пользователь',
 	'yyyy/mm/dd' => 'гггг/мм/дд',
 	'mm/dd/yyyy' => 'мм/дд/гггг',
@@ -238,7 +239,7 @@ $languageStrings = [
 	'Last 2 Days' => 'Последние 2 дня',
 	'Last Name' => 'Фамилия',
 	'Last Week' => 'Последняя неделя',
-	'Left Panel Hide' => 'Левая панель свернута',
+	'LBL_MENU_EXPANDED_BY_DEFAULT' => 'Menu expanded by default',
 	'Login' => 'Вход',
 	'Logistics Department' => 'Отдел снабжения',
 	'Meeting' => 'Встреча',
@@ -317,7 +318,13 @@ $languageStrings = [
 	'LBL_SAVE_COLOR' => 'Сохранить цвет',
 	'LBL_EMAIL' => 'Почта',
 	'LBL_SPACE' => 'Пробел',
-	'Account Owner' => 'Account Owner',
+	'Account Owner' => 'Владелец счета',
+	'PLL_PLANNED' => 'Запланировано',
+	'PLL_IN_REALIZATION' => 'В процессе',
+	'PLL_OVERDUE' => 'Просрочено',
+	'PLL_POSTPONED' => 'Отложено',
+	'PLL_CANCELLED' => 'Отменено',
+	'PLL_COMPLETED' => 'Выполнено',
 ];
 
 $jsLanguageStrings = [

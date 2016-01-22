@@ -14,9 +14,11 @@ class Accounts_AccountHierarchy_View extends Vtiger_View_Controller {
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if(!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new AppException(vtranslate($moduleName).' '.vtranslate('LBL_NOT_ACCESSIBLE'));
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+
+		if(!$permission) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 	

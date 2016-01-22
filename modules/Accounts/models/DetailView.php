@@ -24,83 +24,17 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		$recordModel = $this->getRecord();
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$moduleModel = $this->getModule();
-		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
-
-		$emailModuleModel = Vtiger_Module_Model::getInstance('OSSMail');
-		if ($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
-			$config = $emailModuleModel->getComposeParameters();
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => '',
-				'linkurl' => $emailModuleModel->getComposeUrl($moduleName, $recordId, 'Detail', $config['popup']),
-				'linkicon' => 'glyphicon glyphicon-envelope',
-				'linktarget' => $config['target'],
-				'linkPopup' => $config['popup'],
-				'linkhint' => vtranslate('LBL_SEND_EMAIL')
-			);
-			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-
-		//TODO: update the database so that these separate handlings are not required
-		$index = 0;
-		foreach ($linkModelList['DETAILVIEW'] as $link) {
-			if ($link->linklabel == 'View History' || $link->linklabel == 'Send SMS') {
-				unset($linkModelList['DETAILVIEW'][$index]);
-			} else if ($link->linklabel == 'LBL_SHOW_ACCOUNT_HIERARCHY') {
-				$link->linklabel = 'LBL_SHOW_ACCOUNT_HIERARCHY';
-				$linkURL = 'index.php?module=Accounts&view=AccountHierarchy&record=' . $recordId;
-				$link->linkurl = 'javascript:Accounts_Detail_Js.triggerAccountHierarchy("' . $linkURL . '");';
-				unset($linkModelList['DETAILVIEW'][$index]);
-				$linkModelList['DETAILVIEW'][$index] = $link;
-			}
-			$index++;
-		}
-
-		$CalendarActionLinks = array();
-		$CalendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-		if ($currentUserModel->hasModuleActionPermission($CalendarModuleModel->getId(), 'EditView')) {
-			$CalendarActionLinks[] = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_ADD_EVENT',
-				'linkurl' => $recordModel->getCreateEventUrl(),
-				'linkicon' => 'glyphicon glyphicon-time'
-			);
-
-			$CalendarActionLinks[] = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_ADD_EVENT',
-				'linkurl' => $recordModel->getCreateTaskUrl(),
-				'linkicon' => 'glyphicon glyphicon-calendar'
-			);
-		}
-
-		$SMSNotifierModuleModel = Vtiger_Module_Model::getInstance('SMSNotifier');
-		if (!empty($SMSNotifierModuleModel) && $currentUserModel->hasModulePermission($SMSNotifierModuleModel->getId())) {
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => 'LBL_SEND_SMS',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendSms("index.php?module=' . $moduleName . '&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
-				'linkicon' => 'glyphicon glyphicon-comment'
-			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-
 
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'DetailTransferOwnership')) {
 			$massActionLink = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => 'glyphicon glyphicon-random'
+				'linkicon' => 'glyphicon glyphicon-user'
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
-
-		foreach ($CalendarActionLinks as $basicLink) {
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
-		}
-
 		return $linkModelList;
 	}
 
@@ -110,27 +44,27 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		$moduleName = $recordModel->getModuleName();
 		$parentModuleModel = $this->getModule();
 		$this->getWidgets();
-		$relatedLinks = array();
+		$relatedLinks = [];
 
 		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
-			$relatedLinks = array(array(
-					'linktype' => 'DETAILVIEWTAB',
-					'linklabel' => vtranslate('LBL_RECORD_SUMMARY', $moduleName),
-					'linkKey' => 'LBL_RECORD_SUMMARY',
-					'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=summary',
-					'linkicon' => '',
-					'related' => 'Summary'
-			));
+			$relatedLinks = [[
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => vtranslate('LBL_RECORD_SUMMARY', $moduleName),
+				'linkKey' => 'LBL_RECORD_SUMMARY',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=summary',
+				'linkicon' => '',
+				'related' => 'Summary'
+			]];
 		}
 		//link which shows the summary information(generally detail of record)
-		$relatedLinks[] = array(
+		$relatedLinks[] = [
 			'linktype' => 'DETAILVIEWTAB',
 			'linklabel' => vtranslate('LBL_RECORD_DETAILS', $moduleName),
 			'linkKey' => 'LBL_RECORD_DETAILS',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=full',
 			'linkicon' => '',
 			'related' => 'Details'
-		);
+		];
 
 		if ($moduleName == 'Leads') {
 			$showPSTab = vtlib_isModuleActive('OutsourcedProducts') || vtlib_isModuleActive('Products') || vtlib_isModuleActive('Services') || vtlib_isModuleActive('OSSOutsourcedServices');
@@ -145,7 +79,8 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRelatedProductsServices&requestMode=summary',
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
-				'related' => 'ProductsAndServices'
+				'related' => 'ProductsAndServices',
+				'countRelated' => true
 			);
 		}
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
@@ -153,9 +88,10 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			$relatedLinks[] = array(
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'ModComments',
-				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments&type=' . $modCommentsModel::getDefaultViewComments(),
 				'linkicon' => '',
-				'related' => 'Comments'
+				'related' => 'Comments',
+				'countRelated' => true
 			);
 		}
 
@@ -168,7 +104,6 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'related' => 'Updates'
 			);
 		}
-
 
 		$relationModels = $parentModuleModel->getRelations();
 

@@ -9,10 +9,9 @@
 <script type="text/javascript" src="/functions.js"></script>
 <script type="text/javascript" src="/splitter.js"></script>
 <style type="text/css">
-#compose-container { left: 0px; }
-#messagetoolbar { left: 0px; }
+#compose-contacts { width: <roundcube:exp expression="!empty(cookie:composesplitterv1) ? cookie:composesplitterv1-5 : 195" />px; }
+#compose-container { left: <roundcube:exp expression="!empty(cookie:composesplitterv1) ? cookie:composesplitterv1+5 : 205" />px; }
 </style>
-<link rel="stylesheet" type="text/css" src="../../../layouts/vlayout/modules/OSSMail/resources/find_contact.css" />
 </head>
 <roundcube:if condition="env:extwin" />
 <body class="extwin">
@@ -31,7 +30,7 @@
 <roundcube:endif />
     <roundcube:button command="send" type="link" class="buttonPas send" classAct="button send" classSel="button sendSel" title="sendmessage" content=" " />
     <roundcube:button name="addattachment" type="link" class="button attach" classAct="button attach" classSel="button attachSel" title="addattachment" onclick="rcmail_ui.show_popup('uploadmenu', true);return false" content=" " />
-	<roundcube:button command="insert-sig" type="link" class="buttonPas insertsig" classAct="button insertsig" classSel="button insertsigSel" title="insertsignature" content=" " />
+    <roundcube:button command="insert-sig" type="link" class="buttonPas insertsig" classAct="button insertsig" classSel="button insertsigSel" title="insertsignature" content=" " />
     <roundcube:button command="savedraft" type="link" class="buttonPas savedraft" classAct="button savedraft" classSel="button savedraftSel" title="savemessage" content=" " />
 <roundcube:if condition="config:enable_spellcheck" />
     <span class="dropbutton">
@@ -40,8 +39,6 @@
     </span>
 <roundcube:endif />
     <a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" id="responsesmenulink" unselectable="on" onmousedown="return false" onclick="rcmail_ui.show_popup('responsesmenu');return false">&nbsp;</a>
-	<a href="#vtmodule" class="button archive" label="vtmodule" title="<roundcube:label name='selectmodule' />" id="vtmodulemenulink" unselectable="on" onmousedown="return false" onclick="rcmail_ui.show_popup('vtmodulemenu');return false">&nbsp;</a>
-	<a href="#tpl" class="button download" label="tpl" title="<roundcube:label name='selecttemplate' />" id="tplmenulink" unselectable="on" onmousedown="return false" onclick="rcmail_ui.show_popup('tplmenu');return false">&nbsp;</a>
     <roundcube:container name="toolbar" id="compose-toolbar" />
     <roundcube:button name="messageoptions" id="composemenulink" type="link" class="button messagemenu" title="messageoptions" onclick="rcmail_ui.show_popup('composemenu', true);return false" content=" " />
 </div>
@@ -49,6 +46,38 @@
 <roundcube:form name="form" method="post">
 
 <div id="mainscreen">
+
+<div id="compose-contacts">
+<div class="boxtitle"><roundcube:label name="contacts" /></div>
+<div class="boxlistcontent">
+    <div class="searchbox">
+        <img id="searchmenulink" src="/images/icons/glass.png" width="16" height="16" />
+        <roundcube:object name="searchform" id="quicksearchbox" form="true" tabindex="13" />
+        <roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" width="13" height="13" />
+    </div>
+    <roundcube:object name="addressbooks" id="directorylist" />
+    <roundcube:object name="addresslist" id="contacts-table" class="records-table" cellspacing="0" noheader="true" />
+</div>
+<div class="boxfooter">
+    <div id="abookactions" class="pagenav">
+        <roundcube:button command="add-recipient" prop="to" type="link" title="to" class="button disabled" classAct="button" content="To &amp;raquo;" />
+        <roundcube:button command="add-recipient" prop="cc" type="link" title="cc" class="button disabled" classAct="button" content="Cc &amp;raquo;" />
+        <roundcube:button command="add-recipient" prop="bcc" type="link" title="bcc" class="button disabled" classAct="button" content="Bcc &amp;raquo;" />
+    </div>
+    <div id="abookcountbar" class="pagenav">
+        <roundcube:button command="firstpage" type="link" class="buttonPas firstpage" classAct="button firstpage" classSel="button firstpageSel" title="firstpage" content=" " />
+        <roundcube:button command="previouspage" type="link" class="buttonPas prevpage" classAct="button prevpage" classSel="button prevpageSel" title="previouspage" content=" " />
+        <span style="float:left">&nbsp;</span>
+        <roundcube:button command="nextpage" type="link" class="buttonPas nextpage" classAct="button nextpage" classSel="button nextpageSel" title="nextpage" content=" " />
+        <roundcube:button command="lastpage" type="link" class="buttonPas lastpage" classAct="button lastpage" classSel="button lastpageSel" title="lastpage" content=" " />
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+  var composesplitv1 = new rcube_splitter({id:'composesplitterv1', p1: 'compose-contacts', p2: 'compose-container', orientation: 'v', relative: true, start: 200});
+  rcmail.add_onload('composesplitv1.init()');
+</script>
 
 <div id="compose-container">
     <div id="compose-headers-div" style="width: 100%;">
@@ -62,136 +91,41 @@
             </td>
         </tr><tr>
             <td class="title top"><label for="_to"><roundcube:label name="to" /></label></td>
-			<td class="editfield">
-				<roundcube:object name="composeHeaders" part="to" form="form" id="_to" cols="70" rows="2" tabindex="2" aria-required="true" />
-				<div id="oss_btn_bar">
-					<button class="btn oss_btn" data-input="_to" data-module="Contacts" onclick="return false;">
-						<strong><roundcube:label name="module_Contacts" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_to" data-module="Accounts" onclick="return false;">
-						<strong><roundcube:label name="module_Accounts" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_to" data-module="Leads" onclick="return false;" >
-						<strong><roundcube:label name="module_Leads" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_to" data-module="Vendors" onclick="return false;" >
-						<strong><roundcube:label name="module_Vendors" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_to" data-module="OSSEmployees" onclick="return false;" >
-						<strong><roundcube:label name="module_OSSEmployees" /></strong>
-					</button>
-				</div>
-			</td>
+            <td class="editfield"><roundcube:object name="composeHeaders" part="to" form="form" id="_to" cols="70" rows="2" tabindex="2" /></td>
         </tr><tr id="compose-cc">
             <td class="title top">
                 <a href="#cc" onclick="return rcmail_ui.hide_header_form('cc');"><img src="/images/icons/minus.gif" alt="" width="13" height="11" title="<roundcube:label name='delete' />" /></a>
                 <label for="_cc"><roundcube:label name="cc" /></label>
             </td>
-			<td class="editfield">
-				<roundcube:object name="composeHeaders" part="cc" form="form" id="_cc" cols="70" rows="2" tabindex="3" />
-				<div id="oss_btn_bar">
-					<button class="btn oss_btn" data-input="_cc" data-module="Contacts" onclick="return false;">
-						<strong><roundcube:label name="module_Contacts" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_cc" data-module="Accounts" onclick="return false;">
-						<strong><roundcube:label name="module_Accounts" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_cc" data-module="Leads" onclick="return false;" >
-						<strong><roundcube:label name="module_Leads" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_cc" data-module="Vendors" onclick="return false;" >
-						<strong><roundcube:label name="module_Vendors" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_cc" data-module="OSSEmployees" onclick="return false;" >
-						<strong><roundcube:label name="module_OSSEmployees" /></strong>
-					</button>
-				</div>
-			</td>
+            <td class="editfield"><roundcube:object name="composeHeaders" part="cc" form="form" id="_cc" cols="70" rows="2" tabindex="3" /></td>
         </tr><tr id="compose-bcc">
             <td class="title top">
                 <a href="#bcc" onclick="return rcmail_ui.hide_header_form('bcc');"><img src="/images/icons/minus.gif" alt="" width="13" height="11" title="<roundcube:label name='delete' />" /></a>
                 <label for="_bcc"><roundcube:label name="bcc" /></label>
             </td>
-			<td class="editfield">
-				<roundcube:object name="composeHeaders" part="bcc" form="form" id="_bcc" cols="70" rows="2" tabindex="4" />
-				<div id="oss_btn_bar">
-					<button class="btn oss_btn" data-input="_bcc" data-module="Contacts" onclick="return false;">
-						<strong><roundcube:label name="module_Contacts" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_bcc" data-module="Accounts" onclick="return false;">
-						<strong><roundcube:label name="module_Accounts" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_bcc" data-module="Leads" onclick="return false;" >
-						<strong><roundcube:label name="module_Leads" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_bcc" data-module="Vendors" onclick="return false;" >
-						<strong><roundcube:label name="module_Vendors" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_bcc" data-module="OSSEmployees" onclick="return false;" >
-						<strong><roundcube:label name="module_OSSEmployees" /></strong>
-					</button>
-				</div>
-			</td>
+            <td class="editfield"><roundcube:object name="composeHeaders" part="bcc" form="form" id="_bcc" cols="70" rows="2" tabindex="4" /></td>
         </tr><tr id="compose-replyto">
             <td class="title top">
                 <a href="#replyto" onclick="return rcmail_ui.hide_header_form('replyto');"><img src="/images/icons/minus.gif" alt="" width="13" height="11" title="<roundcube:label name='delete' />" /></a>
                 <label for="_replyto"><roundcube:label name="replyto" /></label>
             </td>
-			<td class="editfield">
-				<roundcube:object name="composeHeaders" part="replyto" form="form" id="_replyto" size="70" tabindex="5" />
-				<div id="oss_btn_bar">
-					<button class="btn oss_btn" data-input="_replyto" data-module="Contacts" onclick="return false;">
-						<strong><roundcube:label name="module_Contacts" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_replyto" data-module="Accounts" onclick="return false;">
-						<strong><roundcube:label name="module_Accounts" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_replyto" data-module="Leads" onclick="return false;" >
-						<strong><roundcube:label name="module_Leads" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_replyto" data-module="Vendors" onclick="return false;" >
-						<strong><roundcube:label name="module_Vendors" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_replyto" data-module="OSSEmployees" onclick="return false;" >
-						<strong><roundcube:label name="module_OSSEmployees" /></strong>
-					</button>
-				</div>
-			</td>
+            <td class="editfield"><roundcube:object name="composeHeaders" part="replyto" form="form" id="_replyto" size="70" tabindex="5" /></td>
         </tr><tr id="compose-followupto">
             <td class="title top">
                 <a href="#followupto" onclick="return rcmail_ui.hide_header_form('followupto');"><img src="/images/icons/minus.gif" alt="" width="13" height="11" title="<roundcube:label name='delete' />" /></a>
                 <label for="_followupto"><roundcube:label name="followupto" /></label>
             </td>
-			<td class="editfield">
-				<roundcube:object name="composeHeaders" part="followupto" form="form" id="_followupto" size="70" tabindex="7" />
-				<div id="oss_btn_bar">
-					<button class="btn oss_btn" data-input="_followupto" data-module="Contacts" onclick="return false;">
-						<strong><roundcube:label name="module_Contacts" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_followupto" data-module="Accounts" onclick="return false;">
-						<strong><roundcube:label name="module_Accounts" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_followupto" data-module="Leads" onclick="return false;" >
-						<strong><roundcube:label name="module_Leads" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_followupto" data-module="Vendors" onclick="return false;" >
-						<strong><roundcube:label name="module_Vendors" /></strong>
-					</button>
-					<button class="btn oss_btn" data-input="_followupto" data-module="OSSEmployees" onclick="return false;" >
-						<strong><roundcube:label name="module_OSSEmployees" /></strong>
-					</button>
-				</div>
-			</td>
+            <td class="editfield"><roundcube:object name="composeHeaders" part="followupto" form="form" id="_followupto" size="70" tabindex="7" /></td>
         </tr><tr>
             <td></td>
             <td class="formlinks">
-                <a href="#cc" onclick="return rcmail_ui.show_header_form('cc')" id="cc-link"><roundcube:label name="cc" /></a>
+                <a href="#cc" onclick="return rcmail_ui.show_header_form('cc')" id="cc-link"><roundcube:label name="addcc" /></a>
                 <span class="separator">|</span>
-                <a href="#bcc" onclick="return rcmail_ui.show_header_form('bcc')" id="bcc-link"><roundcube:label name="bcc" /></a>
+                <a href="#bcc" onclick="return rcmail_ui.show_header_form('bcc')" id="bcc-link"><roundcube:label name="addbcc" /></a>
                 <span class="separator">|</span>
-                <a href="#reply-to" onclick="return rcmail_ui.show_header_form('replyto')" id="replyto-link"><roundcube:label name="replyto" /></a>
+                <a href="#reply-to" onclick="return rcmail_ui.show_header_form('replyto')" id="replyto-link"><roundcube:label name="addreplyto" /></a>
                 <span class="separator">|</span>
-                <a href="#followup-to" onclick="return rcmail_ui.show_header_form('followupto')" id="followupto-link"><roundcube:label name="followupto" /></a>
+                <a href="#followup-to" onclick="return rcmail_ui.show_header_form('followupto')" id="followupto-link"><roundcube:label name="addfollowupto" /></a>
             </td>
         </tr><tr>
             <td class="title"><label for="compose-subject"><roundcube:label name="subject" /></label></td>
@@ -230,8 +164,7 @@
             </div>
             <div class="boxfooter">
                 <roundcube:button name="uploadmenulink" id="uploadmenulink" type="link" title="addattachment" class="button addgroup" onclick="rcmail_ui.show_popup('uploadmenu', true);return false" content=" " />
-				<roundcube:button type="input" class="button" classSel="button pressed" label="FileFromCRM" domain="yetiforce" command="yetiforce.addFilesFromCRM" tabindex="1" />
-			</div>
+            </div>
         </div>
         <roundcube:object name="fileDropArea" id="compose-attachments" />
     </div>
@@ -275,15 +208,7 @@
         <roundcube:button command="responses" type="link-menuitem" label="editresponses" classAct="active" />
     </ul>
 </div>
-<div id="tplmenu" class="popupmenu">
-    <ul class="toolbarmenu" id="texttplsmenu">
-    </ul>
-</div>
-<div id="vtmodulemenu" class="popupmenu">
-    <ul class="toolbarmenu" id="texttplsmenu">
-        <li><a href="#" class="active all-module"><roundcube:label name="all" /></a></li>
-    </ul>
-</div>
+
 <div id="spellmenu" class="popupmenu selectable"></div>
 
 </form>

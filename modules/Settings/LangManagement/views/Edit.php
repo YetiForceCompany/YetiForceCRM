@@ -39,9 +39,10 @@ class Settings_LangManagement_Edit_View extends Settings_Vtiger_Index_View
 				$data = $moduleModel->loadAllFieldsFromModule($lang, $mod, $ShowDifferences);
 			}
 		}
-		$Mods = $moduleModel->getModFromLang($lang);
+		$mods = $moduleModel->getModFromLang($lang);
+		unset($mods['mods']['HelpInfo']);
 		$Langs = $moduleModel->getLang();
-		$viewer->assign('MODS', $Mods);
+		$viewer->assign('MODS', $mods);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('REQUEST', $request);
 		$viewer->assign('LANGS', $Langs);

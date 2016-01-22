@@ -9,6 +9,9 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = [
+	'RoleAndSubordinates' => 'Роли и подчиненные',
+	'Roles' => 'Роли',
+	'Groups' => 'Группы',
 	'LBL_ADD_RECORD' => 'Добавить Группу',
 	'LBL_ADD_USERS_ROLES' => 'Добавьте Пользователей, Роли, Группы ...',
 	'LBL_DUPLICATES_EXIST' => 'Такая группа уже существует',
@@ -17,11 +20,8 @@ $languageStrings = [
 	'LBL_ROLEANDSUBORDINATE' => 'Роли и подчиненные',
 	'LBL_TO_OTHER_GROUP' => 'Для другой Группы',
 	'LBL_TRANSFORM_OWNERSHIP' => 'Передача права собственности',
-	'RoleAndSubordinates' => 'Роли и подчиненные',
 	'SINGLE_Groups' => 'Группа',
-	'Groups' => 'Группы',
 	'Users' => 'Пользователи',
-	'Roles' => 'Роли',
 	'Name' => 'Название Группы',
 	'Description' => 'Описание',
 ];

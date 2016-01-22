@@ -1,0 +1,7 @@
+# For security purpose we deny web-access to this folder.
+
+deny from all
+<Files ~ "\.(jpg|jpeg|png|gif)$">
+	Order allow,deny
+	Allow from all
+</Files>

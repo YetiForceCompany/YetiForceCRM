@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'RealizationProcesses' => 'Процесс Реализации',
+	'RealizationProcesses' => 'Процессы продаж',
 	'LBL_PROJECT_CONFIGURATION' => 'Проект',
 	'LBL_INFO' => 'Информация',
 	'LBL_TYPE' => 'Состояние',
@@ -17,7 +17,7 @@ $languageStrings = [
 	'LBL_PROJECT_STATUS_INFO' => 'Состояние определяющее закрытие проекта',
 	'LBL_SAVE_CONFIG_OK' => 'Изменения успешно сохранены',
 	'LBL_SAVE_CONFIG_ERROR' => 'Ошибка сохранения изменений',
-	'RealizationProcesses' => 'Realization processes',
+	'RealizationProcesses' => 'Процессы продаж',
 ];
 
 $jsLanguageStrings = [

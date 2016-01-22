@@ -1,13 +1,5 @@
 <?php
-/*+***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
- ************************************************************************************/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'CRM Applications' => 'Aplicações CRM',
 	'Software' => 'Software',
@@ -62,4 +54,5 @@ $languageStrings = [
 	'Migration' => 'Migração',
 	'Customization' => 'Customização',
 	'Training' => 'Treinamento',
+	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'A lista de registros está limitada aos Produtos e Serviços associados com a Oportunidade de venda',
 ];

@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -9,13 +8,11 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Contacts_Detail_View extends Accounts_Detail_View {
+class Contacts_Detail_View extends Vtiger_Detail_View
+{
 
-	function __construct() {
-		parent::__construct();
-	}
-
-	public function showModuleDetailView(Vtiger_Request $request) {
+	public function showModuleDetailView(Vtiger_Request $request)
+	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 

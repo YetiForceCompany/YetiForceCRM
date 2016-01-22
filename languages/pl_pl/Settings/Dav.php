@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_DAV_KEYS' => 'Klucze aplikacji DAV',
+	'LBL_DAV_KEYS' => 'Aplikacje DAV',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Tworzenie i zarządzanie kluczami aplikacji DAV',
 	'LBL_KEY' => 'Klucz',
 	'LBL_TOOLS' => 'Narzędzia',
@@ -18,7 +18,6 @@ $languageStrings = [
 	'LBL_DISPLAY_NAME' => 'Użytkownik',
 	'LBL_EMAIL' => 'Email',
 	'LBL_LOGIN' => 'Login',
-	'LBL_KEY' => 'Klucz',
 	'LBL_SELECT_USER' => 'Wybierz użytkownika:',
 	'LBL_ALERT_DAV_NO_ACTIVE_TITLE' => 'Aplikacja DAV jest nieaktywna',
 	'LBL_ALERT_DAV_NO_ACTIVE_DESC' => 'Aplikacja DAV nie została jeszcze aktywowana, proszę o włączenie usuługi "DAV" w pliku config/api.php',

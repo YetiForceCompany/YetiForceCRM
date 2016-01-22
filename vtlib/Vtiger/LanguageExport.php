@@ -174,14 +174,28 @@ class Vtiger_LanguageExport extends Vtiger_Package
 		$useisactive = ($isactive) ? 1 : 0;
 
 		$adb = PearDatabase::getInstance();
-		$checkres = $adb->pquery('SELECT * FROM ' . self::TABLENAME . ' WHERE prefix=?', Array($prefix));
+		$checkres = $adb->pquery('SELECT id FROM ' . self::TABLENAME . ' WHERE prefix=?', Array($prefix));
 		$datetime = date('Y-m-d H:i:s');
 		if ($adb->num_rows($checkres)) {
 			$id = $adb->query_result($checkres, 0, 'id');
-			$adb->pquery('UPDATE ' . self::TABLENAME . ' set label=?, name=?, lastupdated=?, isdefault=?, active=? WHERE id=?', Array($label, $name, $datetime, $useisdefault, $useisactive, $id));
+			$adb->update(self::TABLENAME, [
+				'label' => $label,
+				'name' => $name,
+				'lastupdated' => $datetime,
+				'isdefault' => $useisdefault,
+				'active' => $useisactive,
+				], 'id=?', [$adb->getSingleValue($checkres)]
+			);
 		} else {
-			$uniqueid = self::__getUniqueId();
-			$adb->pquery('INSERT INTO ' . self::TABLENAME . ' (id,name,prefix,label,lastupdated,isdefault,active) VALUES(?,?,?,?,?,?,?)', Array($uniqueid, $name, $prefix, $label, $datetime, $useisdefault, $useisactive));
+			$adb->insert(self::TABLENAME, [
+				'id' => self::__getUniqueId(),
+				'name' => $name,
+				'prefix' => $prefix,
+				'label' => $label,
+				'lastupdated' => $datetime,
+				'isdefault' => $useisdefault,
+				'active' => $useisactive,
+			]);
 		}
 		self::log("Registering Language $label [$prefix] ... DONE");
 	}
@@ -200,7 +214,7 @@ class Vtiger_LanguageExport extends Vtiger_Package
 		self::__initSchema();
 
 		$adb = PearDatabase::getInstance();
-		$checkres = $adb->pquery('DELETE FROM ' . self::TABLENAME . ' WHERE prefix=?', Array($prefix));
+		$adb->delete(self::TABLENAME, 'prefix=?', [$prefix]);
 		self::log("Deregistering Language $prefix ... DONE");
 	}
 

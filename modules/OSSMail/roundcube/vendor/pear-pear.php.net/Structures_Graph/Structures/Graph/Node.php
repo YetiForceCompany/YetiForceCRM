@@ -75,7 +75,7 @@ class Structures_Graph_Node {
     *
     * @access	public
     */
-    function Structures_Graph_Node() {
+    function __construct() {
     }
     /* }}} */
 

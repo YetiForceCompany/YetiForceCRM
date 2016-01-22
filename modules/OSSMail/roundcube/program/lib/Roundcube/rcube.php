@@ -524,8 +524,13 @@ class rcube
         // use database for storing session data
         $this->session = new rcube_session($this->get_dbh(), $this->config);
 
+        $path = $_SERVER['SCRIPT_NAME'];
+        if (strpos($path, '://')) {
+            $path = parse_url($path, PHP_URL_PATH); // #1490582
+        }
+
         $this->session->register_gc_handler(array($this, 'gc'));
-        $this->session->set_secret($this->config->get('des_key') . dirname($_SERVER['SCRIPT_NAME']));
+        $this->session->set_secret($this->config->get('des_key') . dirname($path));
         $this->session->set_ip_check($this->config->get('ip_check'));
 
         if ($this->config->get('session_auth_name')) {
@@ -1027,15 +1032,14 @@ class rcube
      */
     public function get_request_token()
     {
-        $sess_id = $_COOKIE[ini_get('session.name')];
-        if (!$sess_id) {
-            $sess_id = session_id();
+        if (empty($_SESSION['request_token'])) {
+            $plugin = $this->plugins->exec_hook('request_token', array(
+                'value' => rcube_utils::random_bytes(32)));
+
+            $_SESSION['request_token'] = $plugin['value'];
         }
 
-        $plugin = $this->plugins->exec_hook('request_token', array(
-            'value' => md5('RT' . $this->get_user_id() . $this->config->get('des_key') . $sess_id)));
-
-        return $plugin['value'];
+        return $_SESSION['request_token'];
     }
 
 
@@ -1670,13 +1674,8 @@ class rcube
             if (strlen($headers['Bcc']))
                 $a_recipients[] = $headers['Bcc'];
 
-            // clean Bcc from header for recipients
-            $send_headers = $headers;
-            unset($send_headers['Bcc']);
-            // here too, it because txtHeaders() below use $message->_headers not only $send_headers
-            unset($message->_headers['Bcc']);
-
-            $smtp_headers = $message->txtHeaders($send_headers, true);
+            // remove Bcc header and get the whole head of the message as string
+            $smtp_headers = $this->message_head($message, array('Bcc'));
 
             if ($message->getParam('delay_file_io')) {
                 // use common temp dir
@@ -1716,19 +1715,13 @@ class rcube
         }
         // send mail using PHP's mail() function
         else {
-            // unset some headers because they will be added by the mail() function
-            $headers_enc = $message->headers($headers);
-            $headers_php = $message->_headers;
-            unset($headers_php['To'], $headers_php['Subject']);
-
-            // reset stored headers and overwrite
-            $message->_headers = array();
-            $header_str = $message->txtHeaders($headers_php);
+            // unset To,Subject headers because they will be added by the mail() function
+            $header_str = $this->message_head($message, array('To', 'Subject'));
 
             // #1485779
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                if (preg_match_all('/<([^@]+@[^>]+)>/', $headers_enc['To'], $m)) {
-                    $headers_enc['To'] = implode(', ', $m[1]);
+                if (preg_match_all('/<([^@]+@[^>]+)>/', $headers['To'], $m)) {
+                    $headers['To'] = implode(', ', $m[1]);
                 }
             }
 
@@ -1742,8 +1735,8 @@ class rcube
             }
             else {
                 $delim   = $this->config->header_delimiter();
-                $to      = $headers_enc['To'];
-                $subject = $headers_enc['Subject'];
+                $to      = $headers['To'];
+                $subject = $headers['Subject'];
                 $header_str = rtrim($header_str);
 
                 if ($delim != "\r\n") {
@@ -1796,12 +1789,32 @@ class rcube
             fclose($msg_body);
         }
 
-        $message->_headers = array();
-        $message->headers($headers);
+        $message->headers($headers, true);
 
         return $sent;
     }
 
+    /**
+     * Return message headers as a string
+     */
+    protected function message_head($message, $unset = array())
+    {
+        // Mail_mime >= 1.9.0
+        if (method_exists($message, 'isMultipart')) {
+            foreach ($unset as $header) {
+                $headers[$header] = null;
+            }
+        }
+        else {
+            $headers = $message->headers();
+            foreach ($unset as $header) {
+                unset($headers[$header]);
+            }
+            $message->_headers = array();
+        }
+
+        return $message->txtHeaders($headers, true);
+    }
 }
 
 

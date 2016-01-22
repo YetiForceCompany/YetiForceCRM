@@ -59,8 +59,8 @@ function vtlib_getModuleNameById($tabid)
 function vtlib_getModuleNameForSharing()
 {
 	$adb = PearDatabase::getInstance();
-	$std_modules = array('Calendar', 'Leads', 'Accounts', 'Contacts', 'Potentials',
-		'HelpDesk', 'Campaigns', 'Quotes', 'PurchaseOrder', 'SalesOrder', 'Invoice', 'Events');
+	$std_modules = array('Calendar', 'Leads', 'Accounts', 'Contacts',
+		'HelpDesk', 'Campaigns', 'Events');
 	$modulesList = getSharingModuleList($std_modules);
 	return $modulesList;
 }
@@ -332,51 +332,6 @@ function __vtlib_get_modulevar_value($module, $varname)
 			'table_index' => 'campaignid',
 			'popup_fields' => Array('campaignname'),
 		),
-		'Potentials' =>
-		Array(
-			'IsCustomModule' => false,
-			'table_name' => 'vtiger_potential',
-			'table_index' => 'potentialid',
-			// NOTE: UIType 10 is being used instead of direct relationship from 5.1.0
-			//'related_tables' => Array ('vtiger_account' => Array('accountid')),
-			'popup_fields' => Array('potentialname'),
-			'related_tables' => Array(
-				'vtiger_potentialscf' => Array('potentialid', 'vtiger_potential', 'potentialid'),
-			),
-		),
-		'Quotes' =>
-		Array(
-			'IsCustomModule' => false,
-			'table_name' => 'vtiger_quotes',
-			'table_index' => 'quoteid',
-			'related_tables' => Array('vtiger_account' => Array('accountid')),
-			'popup_fields' => Array('subject'),
-		),
-		'SalesOrder' =>
-		Array(
-			'IsCustomModule' => false,
-			'table_name' => 'vtiger_salesorder',
-			'table_index' => 'salesorderid',
-			'related_tables' => Array('vtiger_account' => Array('accountid')),
-			'popup_fields' => Array('subject'),
-		),
-		'PurchaseOrder' =>
-		Array(
-			'IsCustomModule' => false,
-			'table_name' => 'vtiger_purchaseorder',
-			'table_index' => 'purchaseorderid',
-			'popup_fields' => Array('subject'),
-		),
-		'Invoice' =>
-		Array(
-			'IsCustomModule' => false,
-			'table_name' => 'vtiger_invoice',
-			'table_index' => 'invoiceid',
-			'popup_fields' => Array('subject'),
-			'related_tables' => Array(
-				'vtiger_invoicecf' => Array('invoiceid', 'vtiger_invoice', 'invoiceid')
-			),
-		),
 		'HelpDesk' =>
 		Array(
 			'IsCustomModule' => false,
@@ -489,17 +444,19 @@ function vtlib_tosingular($text)
 /**
  * Get picklist values that is accessible by all roles.
  */
-function vtlib_getPicklistValues_AccessibleToAll($field_columnname)
+function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 {
+	$log = vglobal('log');
+	$log->debug('Entering ' . __METHOD__ . '(' . print_r($fieldColumnname, true) . ') method ...');
 	$adb = PearDatabase::getInstance();
 
-	$columnname = $adb->sql_escape_string($field_columnname);
-	$tablename = "vtiger_$columnname";
-
+	$columnname = $adb->sql_escape_string($fieldColumnname);
+	$tablename = 'vtiger_' . $fieldColumnname;
+	
 	// Gather all the roles (except H1 which is organization role)
 	$roleres = $adb->query("SELECT roleid FROM vtiger_role WHERE roleid != 'H1'");
 	$roleresCount = $adb->num_rows($roleres);
-	$allroles = Array();
+	$allroles =[];
 	if ($roleresCount) {
 		for ($index = 0; $index < $roleresCount; ++$index)
 			$allroles[] = $adb->query_result($roleres, $index, 'roleid');
@@ -531,6 +488,7 @@ function vtlib_getPicklistValues_AccessibleToAll($field_columnname)
 			$allrolevalues[] = $picklistval;
 	}
 
+	$log->debug('Exiting ' . __METHOD__ . ' method ...');
 	return $allrolevalues;
 }
 
@@ -632,7 +590,7 @@ function vtlib_purify($input, $ignore = false)
 
 	static $purified_cache = array();
 	$value = $input;
-	
+
 	if (!is_array($input)) {
 		$md5OfInput = md5($input);
 		if (array_key_exists($md5OfInput, $purified_cache)) {
@@ -640,7 +598,7 @@ function vtlib_purify($input, $ignore = false)
 			//to escape cleaning up again
 			$ignore = true;
 		}
-	}  else {
+	} else {
 		$md5OfInput = md5(json_encode($input));
 	}
 	$use_charset = $default_charset;
@@ -676,6 +634,7 @@ function vtlib_purify($input, $ignore = false)
 		}
 		$purified_cache[$md5OfInput] = $value;
 	}
+
 	$value = str_replace('&amp;', '&', $value);
 	return $value;
 }

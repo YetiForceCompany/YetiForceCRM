@@ -69,7 +69,7 @@ class Settings_Workflows_Field_Model extends Vtiger_Field_Model
 			'integer' => array('equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'),
 			'double' => array('equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'),
 			'currency' => array('equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'is not empty'),
-			'picklist' => array('is', 'is not', 'has changed', 'has changed to', 'starts with', 'ends with', 'contains', 'does not contain', 'is empty', 'is not empty'),
+			'picklist' => array('is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'),
 			'multipicklist' => array('is', 'is not', 'has changed', 'has changed to'),
 			'datetime' => array('is', 'is not', 'has changed', 'less than hours before', 'less than hours later', 'more than hours before', 'more than hours later', 'is not empty'),
 			'time' => array('is', 'is not', 'has changed', 'is not empty'),
@@ -83,6 +83,7 @@ class Settings_Workflows_Field_Model extends Vtiger_Field_Model
 			'image' => array('is', 'is not', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty'),
 			'percentage' => array('equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'is not empty'),
 			'multiReferenceValue' => array('contains', 'does not contain', 'has changed', 'is empty', 'is not empty'),
+			'tree' => array('is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'),
 		);
 	}
 

@@ -161,12 +161,17 @@ function rcmail_init_env()
     if (!strlen($mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true))) {
         $mbox = strlen($_SESSION['mbox']) ? $_SESSION['mbox'] : 'INBOX';
     }
-    if (!($page = intval($_GET['_page']))) {
-        $page = $_SESSION['page'] ? $_SESSION['page'] : 1;
+
+    if ($RCMAIL->action == 'list') {
+        if (!($page = intval($_GET['_page']))) {
+            $page = $_SESSION['page'] ? $_SESSION['page'] : 1;
+        }
+
+        $_SESSION['page'] = $page;
     }
 
     $RCMAIL->storage->set_folder($_SESSION['mbox'] = $mbox);
-    $RCMAIL->storage->set_page($_SESSION['page'] = $page);
+    $RCMAIL->storage->set_page($_SESSION['page']);
 
     // set default sort col/order to session
     if (!isset($_SESSION['sort_col'])) {
@@ -943,6 +948,13 @@ function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
         break;
 
     case 'style':
+        // Crazy big styles may freeze the browser (#1490539)
+        // remove content with more than 5k lines
+        if (substr_count($content, "\n") > 5000) {
+            $out = '';
+            break;
+        }
+
         // decode all escaped entities and reduce to ascii strings
         $stripped = preg_replace('/[^a-zA-Z\(:;]/', '', rcube_utils::xss_entity_decode($content));
 
@@ -1167,7 +1179,8 @@ function rcmail_message_body($attrib)
         $attrib['id'] = 'rcmailMsgBody';
 
     $safe_mode = $MESSAGE->is_safe || intval($_GET['_safe']);
-    $out = '';
+    $out       = '';
+    $part_no   = 0;
 
     $header_attrib = array();
     foreach ($attrib as $attr => $value) {
@@ -1205,15 +1218,6 @@ function rcmail_message_body($attrib)
                 // fetch part body
                 $body = $MESSAGE->get_part_body($part->mime_id, true);
 
-                // extract headers from message/rfc822 parts
-                if ($part->mimetype == 'message/rfc822') {
-                    $msgpart = rcube_mime::parse_message($body);
-                    if (!empty($msgpart->headers)) {
-                        $part = $msgpart;
-                        $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
-                    }
-                }
-
                 // message is cached but not exists (#1485443), or other error
                 if ($body === false) {
                     rcmail_message_error($MESSAGE->uid);
@@ -1225,9 +1229,10 @@ function rcmail_message_body($attrib)
                 $body = rcmail_print_body($body, $part, array('safe' => $safe_mode, 'plain' => !$RCMAIL->config->get('prefer_html')));
 
                 if ($part->ctype_secondary == 'html') {
-                    $body     = rcmail_html4inline($body, $attrib['id'], 'rcmBody', $attrs, $safe_mode);
-                    $div_attr = array('class' => 'message-htmlpart');
-                    $style    = array();
+                    $container_id = 'message-htmlpart' . (++$part_no);
+                    $body         = rcmail_html4inline($body, $container_id, 'rcmBody', $attrs, $safe_mode);
+                    $div_attr     = array('class' => 'message-htmlpart', 'id' => $container_id);
+                    $style        = array();
 
                     if (!empty($attrs)) {
                         foreach ($attrs as $a_idx => $a_val)
@@ -1368,10 +1373,10 @@ function rcmail_part_image_type($part)
 /**
  * modify a HTML message that it can be displayed inside a HTML page
  */
-function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null, $allow_remote=false)
+function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=null, $allow_remote=false)
 {
     $last_style_pos = 0;
-    $cont_id        = $container_id.($body_id ? ' div.'.$body_id : '');
+    $cont_id        = $container_id . ($body_class ? ' div.'.$body_class : '');
 
     // find STYLE tags
     while (($pos = stripos($body, '<style', $last_style_pos)) && ($pos2 = stripos($body, '</style>', $pos))) {
@@ -1415,7 +1420,7 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
             '<!--\\1-->',
             '&lt;?',
             '?&gt;',
-            '<div class="'.$body_id.'"\\1>',
+            '<div class="' . $body_class . '"\\1>',
             '</div>',
         ),
         $body);
@@ -1423,7 +1428,7 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
     $attributes = array();
 
     // Handle body attributes that doesn't play nicely with div elements
-    $regexp = '/<div class="' . preg_quote($body_id, '/') . '"([^>]*)/';
+    $regexp = '/<div class="' . preg_quote($body_class, '/') . '"([^>]*)/';
     if (preg_match($regexp, $body, $m)) {
         $attrs = $m[0];
 
@@ -1460,7 +1465,7 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
     // make sure there's 'rcmBody' div, we need it for proper css modification
     // its name is hardcoded in rcmail_message_body() also
     else {
-        $body = '<div class="' . $body_id . '">' . $body . '</div>';
+        $body = '<div class="' . $body_class . '">' . $body . '</div>';
     }
 
     return $body;
@@ -1749,20 +1754,6 @@ function rcmail_draftinfo_decode($str)
 }
 
 /**
- * clear message composing settings
- */
-function rcmail_compose_cleanup($id)
-{
-    if (!isset($_SESSION['compose_data_'.$id])) {
-        return;
-    }
-
-    $rcmail = rcmail::get_instance();
-    $rcmail->plugins->exec_hook('attachments_cleanup', array('group' => $id));
-    $rcmail->session->remove('compose_data_'.$id);
-}
-
-/**
  * Send the MDN response
  *
  * @param mixed $message    Original message object (rcube_message) or UID
@@ -1805,6 +1796,7 @@ function rcmail_send_mdn($message, &$smtp_error)
             'Message-ID' => $RCMAIL->gen_message_id(),
             'X-Sender'   => $identity['email'],
             'References' => trim($message->headers->references . ' ' . $message->headers->messageID),
+            'In-Reply-To' => $message->headers->messageID,
         );
 
         $report = "Final-Recipient: rfc822; {$identity['email']}\r\n"
@@ -1820,20 +1812,21 @@ function rcmail_send_mdn($message, &$smtp_error)
             $report .= "Reporting-UA: $agent\r\n";
         }
 
+        $to   = rcube_mime::decode_mime_string($message->headers->to, $message->headers->charset);
+        $date = $RCMAIL->format_date($message->headers->date, $RCMAIL->config->get('date_long'));
         $body = $RCMAIL->gettext("yourmessage") . "\r\n\r\n" .
-            "\t" . $RCMAIL->gettext("to") . ': ' . rcube_mime::decode_mime_string($message->headers->to, $message->headers->charset) . "\r\n" .
-            "\t" . $RCMAIL->gettext("subject") . ': ' . $message->subject . "\r\n" .
-            "\t" . $RCMAIL->gettext("date") . ': ' . $RCMAIL->format_date($message->headers->date, $RCMAIL->config->get('date_long')) . "\r\n" .
+            "\t" . $RCMAIL->gettext("to") . ": {$to}\r\n" .
+            "\t" . $RCMAIL->gettext("subject") . ": {$message->subject}\r\n" .
+            "\t" . $RCMAIL->gettext("date") . ": {$date}\r\n" .
             "\r\n" . $RCMAIL->gettext("receiptnote");
 
-        $compose->headers($headers);
+        $compose->headers(array_filter($headers));
         $compose->setContentType('multipart/report', array('report-type'=> 'disposition-notification'));
         $compose->setTXTBody(rcube_mime::wordwrap($body, 75, "\r\n"));
         $compose->addAttachment($report, 'message/disposition-notification', 'MDNPart2.txt', false, '7bit', 'inline');
 
-        if ($RCMAIL->config->get('mdn_use_from')) {
-            $options['mdn_use_from'] = true;
-        }
+        // SMTP options
+        $options = array('mdn_use_from' => (bool) $RCMAIL->config->get('mdn_use_from'));
 
         $sent = $RCMAIL->deliver_message($compose, $identity['email'], $mailto, $smtp_error, $body_file, $options);
 

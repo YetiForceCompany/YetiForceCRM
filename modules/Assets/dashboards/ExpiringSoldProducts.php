@@ -60,12 +60,10 @@ class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View {
 		}
 		$showtype = $request->get('showtype');
 		if($showtype == 'common'){
-			$sql .= ' AND FIND_IN_SET( ?, vtiger_crmentity.shownerid )';
+			$sql .= ' AND vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ?)';
 		}else{
 			$sql .=	' AND vtiger_crmentity.smownerid = ?';
 		}
-		$sql .=	' AND vtiger_assets.pot_renewal = 0';
-		
 		
 		$params[] = $currentUser->getId();
 		$sql.= ' ORDER BY vtiger_assets.dateinservice ASC LIMIT '.$limit;

@@ -33,9 +33,6 @@ $languageStrings = [
 	'Public: Read Only' => 'Öffentlich: Nur Lesen',
 	'Public: Read, Create/Edit, Delete' => 'Öffentlich: Lesen, Erstellen / Bearbeiten, Löschen',
 	'Public: Read, Create/Edit' => 'Öffentlich: Lesen, Erstellen / Bearbeiten',
-	'RoleAndSubordinates' => 'Rolle und Untergeordnete',
-	'Roles' => 'Rollen',
-	'Groups' => 'Gruppen',
 ];
 
 $jsLanguageStrings = [

@@ -35,7 +35,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller{
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 
 		if(!$permission) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
     

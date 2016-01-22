@@ -25,7 +25,7 @@ class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$allSkins = Vtiger_Theme::getAllSkins();
 		$skinColor = $allSkins[$value];

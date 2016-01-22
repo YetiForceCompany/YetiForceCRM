@@ -1,6 +1,11 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * @package YetiForce.actions
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Adrian Koń <a.kon@yetiforce.com>
+ */
+ 
 class Settings_BackUp_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
 

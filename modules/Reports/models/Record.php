@@ -299,7 +299,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$selectedColumns = array();
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
 			$column = $db->query_result($result, $i, 'columnname');
-			list($tableName, $columnName, $moduleFieldLabel, $fieldName, $type) = split(':', $column);
+			list($tableName, $columnName, $moduleFieldLabel, $fieldName, $type) = explode(':', $column);
 			$fieldLabel = explode('__', $moduleFieldLabel);
 			$module = $fieldLabel[0];
 			$dbFieldLabel = trim(str_replace(array($module, '__'), " ", $moduleFieldLabel));
@@ -526,10 +526,15 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	function saveSharingInformation()
 	{
 		$db = PearDatabase::getInstance();
-
 		$sharingInfo = $this->get('sharingInfo');
-		for ($i = 0; $i < count($sharingInfo); $i++) {
-			$db->pquery('INSERT INTO vtiger_reportsharing(reportid, shareid, setype) VALUES (?,?,?)', array($this->getId(), $sharingInfo[$i]['id'], $sharingInfo[$i]['type']));
+		if ($sharingInfo) {
+			foreach ($sharingInfo as $key => $value) {
+				$db->insert('vtiger_reportsharing', [
+					'reportid' => $this->getId(),
+					'shareid' => $value['id'],
+					'setype' => $value['type']
+				]);
+			}
 		}
 	}
 
@@ -1055,6 +1060,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		return false;
 	}
 
+	//Remove when there are no modules with the old products block.
 	/**
 	 * Function is used for Inventory reports, filters should show line items fields only if they are selected in
 	 * calculation otherwise it should not be shown
@@ -1066,7 +1072,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 			$calculationFields = $this->getSelectedCalculationFields();
 
 		$primaryModule = $this->getPrimaryModule();
-		$inventoryModules = array('Invoice', 'Quotes', 'SalesOrder', 'PurchaseOrder');
+		$inventoryModules = [];
 		if (!in_array($primaryModule, $inventoryModules))
 			return false;
 		if (!empty($calculationFields)) {

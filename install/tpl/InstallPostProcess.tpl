@@ -9,6 +9,7 @@
 *
 ********************************************************************************/
 -->*}
+{strip}
 <br>
 <center>
 	<footer class="noprint">
@@ -25,3 +26,4 @@
 </center>
 {include file='JSResources.tpl'}
 </div>
+{/strip}

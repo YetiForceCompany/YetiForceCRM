@@ -29,7 +29,7 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model
 		}
 		$db = PearDatabase::getInstance();
 		$params = [];
-		$returnArrayForFields = ['groups', 'status', 'calculationsstatus', 'salesstage', 'salesstage', 'assetstatus'];
+		$returnArrayForFields = ['groups', 'status', 'calculationsstatus', 'salesstage', 'salesstage', 'assetstatus', 'statuses_close'];
 		$sql = 'SELECT * FROM yetiforce_proc_sales';
 		if ($type) {
 			$sql .= ' WHERE type = ?';
@@ -73,15 +73,15 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Checks if products are set to be narrowed to only those related to Potential
+	 * Checks if products are set to be narrowed to only those related to Opportunity
 	 * @return - true or false
 	 */
-	public static function checkRelatedToPotentialsLimit()
+	public static function checkRelatedToPotentialsLimit($moduleName)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit() method ...");
+		if (!self::isLimitForModule($moduleName)) {
+			return false;
+		}
 		$popup = self::getConfig('popup');
-		$log->debug("Exiting Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit() method ...");
 		if ($popup['limit_product_service'] == 'true') {
 			return true;
 		} else {
@@ -95,7 +95,7 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model
 	 */
 	public static function isLimitForModule($moduleName)
 	{
-		$validModules = array('Quotes', 'Calculations', 'SalesOrder', 'Invoice');
+		$validModules = array('SQuotes', 'SCalculations', 'SQuoteEnquiries', 'SRequirementsCards', 'SSingleOrders', 'SRecurringOrders');
 		return in_array($moduleName, $validModules);
 	}
 }

@@ -40,8 +40,6 @@ $languageStrings = [
 	'description'=>'Opis',
 	'attentions'=>'Uwagi',
 	'BLOCK_INFORMATION_TIME'=>'Informacje czasowe',
-	'Potential'=>'Źródło sprzedaży',
-	'Potential renewal'=>'Odnowienie sprzedaży',
 	'LBL_ORDER_TIME'=>'Czas realizacji',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Wygasające produkty sprzedane',
 ];

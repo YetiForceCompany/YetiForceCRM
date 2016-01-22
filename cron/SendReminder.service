@@ -82,24 +82,24 @@ if($adb->num_rows($result) >= 1)
 				}
 			}
 			if($result_set['activitytype'] == "Task"){
-				$template = 93;
+				$sysname = 'ActivityReminderNotificationTask';
 			}else{
-				$template = 94;
+				$sysname = 'ActivityReminderNotificationEvents';
 			}		
 			
 			if($to_addr != '')
 			{
-				$data = array(
-					'id' => $template,
+				$data = [
+					'sysname' => $sysname,
 					'to_email' => rtrim($to_addr, ','),
 					'module' => 'Calendar',
 					'record' => $activity_id,
-				);
+				];
 				$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 				$recordModel->sendMailFromTemplate($data);
 
-				$upd_query = "UPDATE vtiger_activity_reminder SET reminder_sent=1 where activity_id=?";
-				$upd_params = array($activity_id);
+				$upd_query = 'UPDATE vtiger_activity_reminder SET reminder_sent=1 where activity_id=?';
+				$upd_params = [$activity_id];
 				if($recur_id!=0)
 				{
 					$upd_query.=" and recurringid =?";

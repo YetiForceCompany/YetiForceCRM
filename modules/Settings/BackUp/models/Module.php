@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * @package YetiForce.models
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Adrian Koń <a.kon@yetiforce.com>
+ */
 
 class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 {
@@ -69,10 +74,12 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 		$this->performDBBackup();
 		$this->performBackupFiles();
 
-		$this->sendBackupToFTP();
-		$this->sendNotification();
-		$this->postBackup();
-		$this->clearStructure();
+		if ($this->get('allfiles')) {
+			$this->sendBackupToFTP();
+			$this->sendNotification();
+			$this->postBackup();
+			$this->clearStructure();
+		}
 	}
 
 	public function backupInit()
@@ -175,7 +182,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 				$numRows = $offset;
 
 				$contentResult = $db->query('SELECT * FROM ' . $tableName . $sqlLimit);
-				$numFields = $db->num_fields($contentResult);
+				$numFields = $db->getFieldsCount($contentResult);
 				$fields = $db->getFieldsArray($contentResult);
 				$fieldsList = '';
 
@@ -196,7 +203,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 					$tableSchema = $db->query('SHOW CREATE TABLE ' . $tableName);
 					$tableSchemaRowData = $db->raw_query_result_rowdata($tableSchema);
 					$createSchema = $this->strInsert($tableSchemaRowData[1], 'CREATE TABLE', ' IF NOT EXISTS ');
-					$content = $createSchema . ";\n";
+					$content = $createSchema . ';\n';
 					$this->addToSQLFiles($content);
 				}
 				for ($i = 0; $i < $db->num_rows($contentResult); $i++) {
@@ -207,21 +214,25 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 							$row[$j] = $this->cleanSqlVal($row[$j]);
 							$content.= '"' . $row[$j] . '"';
 						} else {
-							$content.= "NULL";
+							$content.= 'NULL';
 						}
 						if ($j < ($numFields - 1)) {
 							$content.= ',';
 						}
 					}
-					$content.= ");\n";
+					$content.= ');\n';
 					$this->addToSQLFiles($content);
 					$numRows++;
-					$db->pquery("Update vtiger_backup_db SET offset = ? WHERE tablename = ?", [$numRows, $tableName]);
+					$db->pquery('Update vtiger_backup_db SET offset = ? WHERE tablename = ?', [$numRows, $tableName]);
 				}
 				if ($numRows == $count) {
-					$db->pquery("Update vtiger_backup_db SET status = ? WHERE tablename = ?", [true, $tableName]);
+					$db->pquery('Update vtiger_backup_db SET status = ? WHERE tablename = ?', [true, $tableName]);
 				}
 				$this->updateDBPrecent(self::getTime() - $start);
+				$info = $this->getBackupInfo();
+				if ($info === false) {
+					return;
+				}
 			}
 		}
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
@@ -240,7 +251,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 	{
 		if (@isset($str)) {
 			$sqlstr = addslashes($str);
-			$sqlstr = ereg_replace("\n", "\\n", $sqlstr);
+			$sqlstr = preg_replace("/\n/", "\\n", $sqlstr);
 			$sqlstr = preg_replace("/\r\n/", "\\r\\n", $sqlstr);
 			return $sqlstr;
 		} else {
@@ -273,7 +284,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 			$zip->open($this->tempDir . '/' . $this->get('filename') . '.db.zip', ZipArchive::CREATE);
 			$zip->addFile($this->tempDir . '/' . $this->get('filename') . '.sql', $this->get('filename') . '.sql');
 			if (vglobal('encryptBackup') && version_compare(PHP_VERSION, '5.6.0') >= 0) {
-				$code = $zip->setPassword(vglobal('backupPassword'));
+				$code = $zip->setPassword(AppConfig::securityKeys('backupPassword'));
 				if ($code === true)
 					$log->debug('Backup files password protection is enabled');
 				else
@@ -350,6 +361,10 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 				}
 				$this->updateProgress('4', ($count / $allDir) * 100, self::getTime() - $start);
 				$count++;
+				$info = $this->getBackupInfo();
+				if ($info === false) {
+					return;
+				}
 			}
 			$this->set('allfiles', $allFiles);
 		} else {
@@ -385,7 +400,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 		$startTime = self::getTime();
 		$singleMode = $mainConfig['type'] == 'true'; // Overall mode or Single mode
 
-		if ($zip->open($destination, ZIPARCHIVE::CREATE)) {
+		if ($zip->open($destination, ZIPARCHIVE::CREATE) && $allFiles != 0) {
 			foreach ($dbFiles as $id => $path) {
 				$start = self::getTime();
 				if (is_dir($path)) {
@@ -401,7 +416,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 				}
 			}
 			if (vglobal('encryptBackup') && version_compare(PHP_VERSION, '5.6.0') >= 0) {
-				$code = $zip->setPassword(vglobal('backupPassword'));
+				$code = $zip->setPassword(AppConfig::securityKeys('backupPassword'));
 				if ($code === true)
 					$log->debug('Backup files password protection is enabled');
 				else
@@ -542,7 +557,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 		$query = $adb->query('SELECT vtiger_backup_tmp.*, vtiger_backup.filename FROM vtiger_backup_tmp LEFT JOIN vtiger_backup ON vtiger_backup.id = vtiger_backup_tmp.id WHERE ' . $where);
 		$result = $adb->fetch_array($query);
 		if (!$result) {
-			return;
+			return false;
 		}
 		$data = [];
 		foreach ($result as $index => $value) {
@@ -584,11 +599,11 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 				$emails[] = $userEmail;
 			}
 			$emailsList = implode(',', $emails);
-			$data = array(
-				'id' => 108,
+			$data = [
+				'sysname' => 'BackupHasBeenMade',
 				'to_email' => $emailsList,
 				'module' => 'Contacts',
-			);
+			];
 			$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 			$mail_status = $recordModel->sendMailFromTemplate($data);
 
@@ -793,5 +808,19 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 	{
 		$a = explode(' ', microtime());
 		return (double) $a[0] + $a[1];
+	}
+
+	public function stopBackup()
+	{
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
+
+		$db = PearDatabase::getInstance();
+		$db->delete('vtiger_backup_db');
+		$db->delete('vtiger_backup_files');
+		$db->delete('vtiger_backup_tmp');
+		$db->update('vtiger_backup', ['status' => 2], 'status = ? ', [0]);
+		
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 }

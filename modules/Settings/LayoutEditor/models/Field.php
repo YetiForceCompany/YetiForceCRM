@@ -51,8 +51,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		if ($fld_module == 'Leads') {
 			$deletequery = 'delete from vtiger_convertleadmapping where leadfid=?';
 			$adb->pquery($deletequery, array($id));
-		} elseif ($fld_module == 'Accounts' || $fld_module == 'Contacts' || $fld_module == 'Potentials') {
-			$map_del_id = array('Accounts' => 'accountfid', 'Contacts' => 'contactfid', 'Potentials' => 'potentialfid');
+		} elseif ($fld_module == 'Accounts' || $fld_module == 'Contacts') {
+			$map_del_id = array('Accounts' => 'accountfid', 'Contacts' => 'contactfid');
 			$map_del_q = 'update vtiger_convertleadmapping set ' . $map_del_id[$fld_module] . '=0 where ' . $map_del_id[$fld_module] . '=?';
 			$adb->pquery($map_del_q, array($id));
 		}
@@ -195,7 +195,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isDefaultValueOptionDisabled()
 	{
-		if ($this->isMandatoryOptionDisabled() || $this->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE || $this->get('uitype') == 69) {
+		if ($this->isMandatoryOptionDisabled() || $this->isReferenceField() || $this->get('uitype') == 69) {
 			return true;
 		}
 		return false;

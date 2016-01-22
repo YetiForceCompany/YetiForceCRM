@@ -23,7 +23,6 @@ require_once('modules/Contacts/Contacts.php');
 require_once('modules/Emails/Emails.php');
 require_once('modules/Calendar/Activity.php');
 require_once('modules/Documents/Documents.php');
-require_once('modules/Potentials/Potentials.php');
 require_once('modules/Users/Users.php');
 require_once('modules/Products/Products.php');
 require_once('modules/HelpDesk/HelpDesk.php');
@@ -31,10 +30,6 @@ require_once('modules/Vendors/Vendors.php');
 require_once('include/utils/UserInfoUtil.php');
 require_once('modules/CustomView/CustomView.php');
 require_once 'modules/PickList/PickListUtils.php';
-require_once('modules/Invoice/Invoice.php');
-require_once('modules/Quotes/Quotes.php');
-require_once('modules/PurchaseOrder/PurchaseOrder.php');
-require_once('modules/SalesOrder/SalesOrder.php');
 
 // Set the current language and the language strings, if not already set.
 setCurrentLanguage();
@@ -142,9 +137,6 @@ function export($type)
 		} elseif ($type == 'Contacts' && count($idstring) > 0) {
 			$query .= ' and vtiger_contactdetails.contactid in (' . generateQuestionMarks($idstring) . ')';
 			array_push($params, $idstring);
-		} elseif ($type == 'Potentials' && count($idstring) > 0) {
-			$query .= ' and vtiger_potential.potentialid in (' . generateQuestionMarks($idstring) . ')';
-			array_push($params, $idstring);
 		} elseif ($type == 'Leads' && count($idstring) > 0) {
 			$query .= ' and vtiger_leaddetails.leadid in (' . generateQuestionMarks($idstring) . ')';
 			array_push($params, $idstring);
@@ -159,18 +151,6 @@ function export($type)
 			array_push($params, $idstring);
 		} elseif ($type == 'Vendors' && count($idstring) > 0) {
 			$query .= ' and vtiger_vendor.vendorid in (' . generateQuestionMarks($idstring) . ')';
-			array_push($params, $idstring);
-		} elseif ($type == 'Invoice' && count($idstring) > 0) {
-			$query .= ' and vtiger_invoice.invoiceid in (' . generateQuestionMarks($idstring) . ')';
-			array_push($params, $idstring);
-		} elseif ($type == 'Quotes' && count($idstring) > 0) {
-			$query .= ' and vtiger_quotes.quoteid in (' . generateQuestionMarks($idstring) . ')';
-			array_push($params, $idstring);
-		} elseif ($type == 'SalesOrder' && count($idstring) > 0) {
-			$query .= ' and vtiger_salesorder.salesorderid in (' . generateQuestionMarks($idstring) . ')';
-			array_push($params, $idstring);
-		} elseif ($type == 'PurchaseOrder' && count($idstring) > 0) {
-			$query .= ' and vtiger_purchaseorder.purchaseorderid in (' . generateQuestionMarks($idstring) . ')';
 			array_push($params, $idstring);
 		} else if (count($idstring) > 0) {
 			// vtlib customization: Hook to make the export feature available for custom modules.

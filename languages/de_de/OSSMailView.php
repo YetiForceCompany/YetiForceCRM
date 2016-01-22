@@ -1,12 +1,5 @@
 <?php
- /*+********************************************************************************
- * Terms & Conditions are placed on the: http://opensaas.pl/ruls.html
- ********************************************************************************
- *  Module				: OSSMailView
- *  Author				: OpenSaaS Sp. z o.o. 
- *  Help/Email			: bok@opensaas.pl
- *  Website				: www.opensaas.pl
- ********************************************************************************+*/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	// Basic Strings
 	'OSSMailView'        => 'Unternehmens-E-Mails',
@@ -71,6 +64,8 @@ $languageStrings = [
 	'Alert_ChangeType_desc' => 'Alle Arten der ausgewählten E-Mails werden geändert, ohne die Möglichkeit die Änderungen rückgängig zu machen.',
 	'LBL_ChangeTypeOK' => 'E-Mail-Typ geändert',
 	'Configuration' => 'Konfiguration',
+	'LBL_MAIL_REPLY_INTRO' => 'On the %s, %s wrote:',
+	'LBL_MAIL_FORWARD_INTRO' => '-------- Original message --------',
 	'LBL_NO_MAILS' => 'Keine E-Mails',
 	
 	//dashboards
@@ -81,6 +76,9 @@ $languageStrings = [
 	'Previous week' => 'Letzte Woche',	
 	'Current month' => 'Aktueller Monat',
 	'Previous month' => 'Letzter Monat',
+	'LBL_FILTER_ALL' => 'All',
+	'LBL_FILTER_ACCOUNTS' =>  'All in account',
+	'LBL_FILTER_CONTACTS' => 'All in contact',
 ];
 $jsLanguageStrings = [
 	'From' => 'Von',

@@ -27,7 +27,7 @@ $languageStrings = [
 	'LBL_MODULE' => 'Módulo',
 	
 	//Auth
-	'LBL_AUTHORIZATION' => 'Autorização',
+	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
 	'LBL_LDAP_AUTH' => 'LDAP',
 	'LBL_ACTIVE_LDAP_AUTH' => 'Autorização com LDAP',
@@ -44,8 +44,18 @@ $languageStrings = [
 	'LBL_SWITCH_USERS_DESCRIPTION' => 'Tool that allows switching users in the system.',
 	'LBL_SU_BASE_ACCESS' => 'User',
 	'LBL_SU_AVAILABLE_ACCESS' => 'Is allowed to log in',
+	// Locks
+	'LBL_LOCKS' => 'Locks',
+	'LBL_LOCKS_DESCRIPTION' => 'Tool to block browser actions (copy, cut, etc)',
+	'LBL_LOCK_COPY' => 'Lock copying',
+	'LBL_LOCK_CUT' => 'Lock cutting',
+	'LBL_LOCK_PASTE' => 'Lock pasting',
+	'LBL_LOCK_RIGHT_MENU' => 'Lock right mouse button',
+	'LBL_LOCK_SELECT_TEXT' => 'Lock selecting',
+	'LBL_LOCK_DRAG' => 'Lock dragging',
 ];
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Já existe um Usuário com este endereço de e-mail',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'O separador de casas decimais e separador de milhar não podem ser iguais',
+	'Changed password successfully' => 'Changed password successfully',
 ];

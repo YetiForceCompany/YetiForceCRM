@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -10,15 +9,18 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Install_Index_view extends Vtiger_View_Controller {
+class Install_Index_view extends Vtiger_View_Controller
+{
 
 	protected $debug = false;
 
-	function loginRequired() {
+	function loginRequired()
+	{
 		return false;
 	}
 
-	public function setLanguage($request) {
+	public function setLanguage($request)
+	{
 		if (!$request->get('lang')) {
 
 			$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
@@ -35,7 +37,8 @@ class Install_Index_view extends Vtiger_View_Controller {
 		return $request;
 	}
 
-	public function __construct() {
+	public function __construct()
+	{
 		//Install
 		$this->exposeMethod('Step1');
 		$this->exposeMethod('Step2');
@@ -51,7 +54,8 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$this->exposeMethod('mStep3');
 	}
 
-	public function preProcess(Vtiger_Request $request) {
+	public function preProcess(Vtiger_Request $request)
+	{
 		date_default_timezone_set('Europe/London'); // to overcome the pre configuration settings
 		// Added to redirect to default module if already installed
 
@@ -80,7 +84,8 @@ class Install_Index_view extends Vtiger_View_Controller {
 		echo $viewer->fetch('InstallPreProcess.tpl');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		global $default_charset;
 		if (empty($default_charset))
 			$default_charset = 'UTF-8';
@@ -91,14 +96,16 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$this->Step1($request);
 	}
 
-	public function postProcess(Vtiger_Request $request) {
+	public function postProcess(Vtiger_Request $request)
+	{
 		$viewer = new Vtiger_Viewer();
 		$viewer->setTemplateDir('install/tpl/');
 		$moduleName = $request->getModule();
 		echo $viewer->fetch('InstallPostProcess.tpl');
 	}
 
-	public function Step1(Vtiger_Request $request) {
+	public function Step1(Vtiger_Request $request)
+	{
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('LANGUAGES', Install_Utils_Model::getLanguages());
 
@@ -108,14 +115,16 @@ class Install_Index_view extends Vtiger_View_Controller {
 		echo $viewer->fetch('Step1.tpl');
 	}
 
-	public function Step2(Vtiger_Request $request) {
+	public function Step2(Vtiger_Request $request)
+	{
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('LANG', $request->get('lang'));
 		$viewer->setTemplateDir('install/tpl/');
 		echo $viewer->fetch('Step2.tpl');
 	}
 
-	public function Step3(Vtiger_Request $request) {
+	public function Step3(Vtiger_Request $request)
+	{
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('LANG', $request->get('lang'));
 		$viewer->setTemplateDir('install/tpl/');
@@ -124,7 +133,8 @@ class Install_Index_view extends Vtiger_View_Controller {
 		echo $viewer->fetch('Step3.tpl');
 	}
 
-	public function Step4(Vtiger_Request $request) {
+	public function Step4(Vtiger_Request $request)
+	{
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('LANG', $request->get('lang'));
 		$viewer->setTemplateDir('install/tpl/');
@@ -147,7 +157,8 @@ class Install_Index_view extends Vtiger_View_Controller {
 		echo $viewer->fetch('Step4.tpl');
 	}
 
-	public function Step5(Vtiger_Request $request) {
+	public function Step5(Vtiger_Request $request)
+	{
 		set_time_limit(0); // Override default limit to let install complete.
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('LANG', $request->get('lang'));
@@ -201,7 +212,8 @@ class Install_Index_view extends Vtiger_View_Controller {
 		echo $viewer->fetch('Step5.tpl');
 	}
 
-	public function Step6(Vtiger_Request $request) {
+	public function Step6(Vtiger_Request $request)
+	{
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('LANG', $request->get('lang'));
 		$viewer->setTemplateDir('install/tpl/');
@@ -210,7 +222,8 @@ class Install_Index_view extends Vtiger_View_Controller {
 		echo $viewer->fetch('Step6.tpl');
 	}
 
-	public function Step7(Vtiger_Request $request) {
+	public function Step7(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$webuiInstance = new Vtiger_WebUI();
 		$isInstalled = $webuiInstance->isInstalled();
@@ -226,7 +239,7 @@ class Install_Index_view extends Vtiger_View_Controller {
 			$configFile->createConfigFile();
 
 			$db = new PearDatabase($configParams['db_type'], $configParams['db_hostname'], $configParams['db_name'], $configParams['db_username'], $configParams['db_password']);
-			vglobal('adb', $db);
+			$db->setDBCache();
 
 			// Initialize and set up tables
 			$initSchema = new Install_InitSchema_Model($db);
@@ -247,7 +260,8 @@ class Install_Index_view extends Vtiger_View_Controller {
 		}
 	}
 
-	public function mStep0(Vtiger_Request $request) {
+	public function mStep0(Vtiger_Request $request)
+	{
 		$initSchema = new Install_InitSchema_Model();
 		$schemaLists = $initSchema->getMigrationSchemaList();
 		$root_directory = getcwd();
@@ -262,7 +276,8 @@ class Install_Index_view extends Vtiger_View_Controller {
 		echo $viewer->fetch('mStep0.tpl');
 	}
 
-	public function mStep1(Vtiger_Request $request) {
+	public function mStep1(Vtiger_Request $request)
+	{
 		$initSchema = new Install_InitSchema_Model();
 		$schemaLists = $initSchema->getMigrationSchemaList();
 		$root_directory = getcwd();
@@ -277,7 +292,8 @@ class Install_Index_view extends Vtiger_View_Controller {
 		echo $viewer->fetch('mStep1.tpl');
 	}
 
-	public function mStep2(Vtiger_Request $request) {
+	public function mStep2(Vtiger_Request $request)
+	{
 		$initSchema = new Install_InitSchema_Model();
 		$schemaLists = $initSchema->getMigrationSchemaList();
 		$root_directory = getcwd();
@@ -292,7 +308,8 @@ class Install_Index_view extends Vtiger_View_Controller {
 		echo $viewer->fetch('mStep2.tpl');
 	}
 
-	public function mStep3(Vtiger_Request $request) {
+	public function mStep3(Vtiger_Request $request)
+	{
 		$system = $request->get('system');
 		$source_directory = $request->get('source_directory');
 		$username = $request->get('username');
@@ -348,17 +365,19 @@ class Install_Index_view extends Vtiger_View_Controller {
 	}
 
 	// Helper function as configuration file is still not loaded.
-	protected function retrieveConfiguredAppUniqueKey() {
+	protected function retrieveConfiguredAppUniqueKey()
+	{
 		include_once 'config/config.php';
 		return $application_unique_key;
 	}
 
-	protected function preProcessDisplay(Vtiger_Request $request) {
+	protected function preProcessDisplay(Vtiger_Request $request)
+	{
 		
 	}
 
-	public function validateRequest(Vtiger_Request $request) {
+	public function validateRequest(Vtiger_Request $request)
+	{
 		return $request->validateWriteAccess(true);
 	}
-
 }

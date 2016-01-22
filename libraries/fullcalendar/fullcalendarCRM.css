@@ -7,16 +7,9 @@ overflow: hidden;
 .fc-event.fc-draggable .fc-content{
 overflow: visible;
 }
-.fc-event.fc-draggable .fc-content .fc-time{
-position: absolute;top: -15px;
-}
 .fc-event.fc-draggable .fc-info{
 right: 0;position: absolute;
 z-index: 999;
-}
-.fc-event.fc-draggable{
-margin: 3px 1px 0 1px;
-padding: 0 1px;
 }
 .calIcon{
 background-size: 14px 14px;
@@ -40,4 +33,10 @@ width: 440px;
 width: 204px;
 display: inline-block;
   vertical-align: top;
+}
+.fc-event .fc-info{
+	display: none;
+}
+.fc-event:hover .fc-info{
+	display: block;
 }

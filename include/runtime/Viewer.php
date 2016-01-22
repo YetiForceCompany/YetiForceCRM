@@ -13,19 +13,20 @@ vimport('~libraries/Smarty/libs/SmartyBC.class.php');
 class Vtiger_Viewer extends SmartyBC
 {
 
-	const DEFAULTLAYOUT = 'vlayout';
-	const DEFAULTTHEME = 'softed';
+	const DEFAULTLAYOUT = 'basic';
+	const DEFAULTTHEME = 'twilight';
 
 	static $currentLayout;
 	// Turn-it on to analyze the data pushed to templates for the request.
 	protected static $debugViewer = false;
+	protected static $instance = false;
 
 	/**
 	 * log message into the file if in debug mode.
 	 * @param type $message
 	 * @param type $delimiter 
 	 */
-	protected function log($message, $delimiter = "\n")
+	protected function log($message, $delimiter = '\n')
 	{
 		static $file = null;
 		if ($file == null)
@@ -44,29 +45,28 @@ class Vtiger_Viewer extends SmartyBC
 		parent::__construct();
 
 		$THISDIR = dirname(__FILE__);
-
-		$templatesDir = '';
 		$compileDir = '';
+		$templateDir = [];
 		if (!empty($media)) {
 			self::$currentLayout = $media;
 			$customTemplatesDir = $THISDIR . '/../../custom/layouts/' . $media;
-			$templatesDir = $THISDIR . '/../../layouts/' . $media;
+			$templateDir[] = $THISDIR . '/../../layouts/' . $media;
 			$compileDir = $THISDIR . '/../../cache/templates_c/' . $media;
+		} else {
+			self::$currentLayout = Yeti_Layout::getActiveLayout();
+			$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::$currentLayout;
+			$templateDir[] = $THISDIR . '/../../layouts/' . self::$currentLayout;
 		}
-		if (empty($templatesDir) || !file_exists($templatesDir)) {
-			self::$currentLayout = self::getDefaultLayoutName();
-			$customTemplatesDir = $THISDIR . '/../../custom/layouts/' . self::getDefaultLayoutName();
-			$templatesDir = $THISDIR . '/../../layouts/' . self::getDefaultLayoutName();
-			$compileDir = $THISDIR . '/../../cache/templates_c/' . self::getDefaultLayoutName();
-		}
-
+		$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::getDefaultLayoutName();
+		$templateDir[] = $THISDIR . '/../../layouts/' . self::getDefaultLayoutName();
+		$compileDir = $THISDIR . '/../../cache/templates_c/' . self::getDefaultLayoutName();
 		if (!file_exists($compileDir)) {
 			mkdir($compileDir, 0777, true);
 		}
-		$this->setTemplateDir(array($customTemplatesDir, $templatesDir));
+		$this->setTemplateDir($templateDir);
 		$this->setCompileDir($compileDir);
 
-		self::$debugViewer = SysDebug::get('DEBUG_VIEWER');
+		self::$debugViewer = AppConfig::debug('DEBUG_VIEWER');
 
 		// FOR SECURITY
 		// Escape all {$variable} to overcome XSS
@@ -206,7 +206,11 @@ class Vtiger_Viewer extends SmartyBC
 	 */
 	static function getInstance($media = '')
 	{
+		if (self::$instance) {
+			return self::$instance;
+		}
 		$instance = new self($media);
+		self::$instance = $instance;
 		return $instance;
 	}
 }

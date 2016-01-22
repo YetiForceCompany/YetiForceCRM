@@ -34,7 +34,7 @@ class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 

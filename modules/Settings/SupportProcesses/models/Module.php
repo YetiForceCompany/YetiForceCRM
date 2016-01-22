@@ -11,6 +11,12 @@
 
 class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Model
 {
+	
+	public static function getCleanInstance()
+	{
+		$instance = new self();
+		return $instance;
+	}
 
 	/**
 	 * Gets ticket status for support processes
@@ -68,10 +74,10 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 		$log->debug("Entering Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
 		$deleteQuery = "UPDATE `vtiger_support_processes` SET `ticket_status_indicate_closing` = NULL WHERE `id` = 1";
 		$adb->query($deleteQuery);
-		if ('null' != $data) {
+		if ('null' != $data['val']) {
 			$insertQuery = "UPDATE `vtiger_support_processes` SET `ticket_status_indicate_closing` = ? WHERE `id` = 1";
-			$data = implode(',', $data);
-			$adb->pquery($insertQuery, array($data));
+			$data = implode(',', $data['val']);
+			$adb->pquery($insertQuery, [$data]);
 		}
 		$log->debug("Exiting Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
 		return TRUE;

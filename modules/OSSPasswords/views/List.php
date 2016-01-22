@@ -1,7 +1,10 @@
 <?php
-/* OpenSaaS 
-* Rules: http://opensaas.pl/rules.html
-*/
+/**
+ * @package YetiForce.views
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
 class OSSPasswords_List_View extends Vtiger_List_View {	
 	/**
 	 * Function to get the list of Script models to be included
@@ -14,7 +17,7 @@ class OSSPasswords_List_View extends Vtiger_List_View {
 
 		$jsFileNames = array(
             'libraries.jquery.ZeroClipboard.ZeroClipboard',
-            'layouts.vlayout.modules.OSSPasswords.resources.showRelatedModulePass',
+            'modules.OSSPasswords.resources.showRelatedModulePass',
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

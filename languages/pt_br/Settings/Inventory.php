@@ -1,7 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'LBL_CREDITLIMITS' => 'Credit limit base',
+	'LBL_CREDITLIMITS' => 'Credit Limits',
 	'LBL_CREDITLIMITS_DESCRIPTION' => ' ',
 	'LBL_CREDITLIMITS_SINGLE' => 'Credit limit',
 	'LBL_ENTER_NAME' => 'Enter the name',
@@ -11,17 +11,17 @@ $languageStrings = [
 	'LBL_NAME_EXIST' => 'This name already exists.',
 	'LBL_EDITING' => 'Edit',
 	
-	'LBL_TAXES' => 'Tax base',
+	'LBL_TAXES' => 'Taxes – Rates',
 	'LBL_TAXES_DESCRIPTION' => ' ',
 	'LBL_TAXES_SINGLE' => 'Tax',
 	'LBL_DISCOUNTS_SINGLE' => 'Discount',
-	'LBL_DISCOUNTS' => 'Discount base',
+	'LBL_DISCOUNTS' => 'Discounts – Rates',
 	'LBL_DISCOUNTS_DESCRIPTION' => ' ',
 	'LBL_DELETE_OK' => 'Successfully removed the value',
 	
-	'LBL_DISCOUNTCONFIGURATION' => 'Discount configuration',
+	'LBL_DISCOUNTCONFIGURATION' => 'Discounts – Configuration',
 	'LBL_DISCOUNTCONFIGURATION_DESCRIPTION' => ' ',
-	'LBL_TAXCONFIGURATION' => 'Tax configuration',
+	'LBL_TAXCONFIGURATION' => 'Taxes – Configuration / Customization',
 	'LBL_TAXCONFIGURATION_DESCRIPTION' => ' ',
 	
 	'LBL_CANNOT_BE_COMBINED' => 'Cannot be combined',
@@ -38,6 +38,14 @@ $languageStrings = [
 	'LBL_AVAILABLE_DISCOUNTS' => 'Available discounts',
 	'LBL_YES' => 'Yes',
 	'LBL_NO' => 'No',
+	
+	//history
+	'Inventory' => 'Extended modules',
+	'LBL_VIEW_CREDITLIMITS' => 'Credit limit base',
+	'LBL_VIEW_TAXES' => 'Tax base',
+	'LBL_VIEW_TAXCONFIGURATION' => 'Tax configuration',
+	'LBL_VIEW_DISCOUNTCONFIGURATION' => 'Discount configuration',
+	'LBL_VIEW_DISCOUNTS' => 'Discount base',
 ];
 $jsLanguageStrings = [
 	'JS_SAVE_CHANGES' => 'Changes saved successfully.',

@@ -78,6 +78,8 @@ class VTCreateTodoTask extends VTTask
 
 		if ($this->assigned_user_id == 'currentUser' && isset($current_user)) {
 			$userId = vtws_getWebserviceEntityId('Users', $current_user->id);
+		} else if ($this->assigned_user_id == 'triggerUser' && isset($entityData->executeUser)) {
+			$userId = vtws_getWebserviceEntityId('Users', $entityData->executeUser);
 		}
 
 		if ($this->assigned_user_id == 'copyParentOwner') {
@@ -168,7 +170,7 @@ class VTCreateTodoTask extends VTTask
 		if (in_array($moduleName, ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees'])) {
 			$fields['link'] = $id;
 		}
-		if (in_array($moduleName, ['Campaigns', 'HelpDesk', 'Potentials', 'Project', 'ServiceContracts'])) {
+		if (in_array($moduleName, ['Campaigns', 'HelpDesk', 'Project', 'ServiceContracts'])) {
 			$fields['process'] = $id;
 		}
 

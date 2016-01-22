@@ -18,6 +18,8 @@ function vglobal($key, $value = null)
 {
 	if ($value !== null) {
 		$GLOBALS[$key] = $value;
+	} else if (key_exists($key, $GLOBALS)) {
+		return $GLOBALS[$key];
 	}
-	return $GLOBALS[$key];
+	return false;
 }

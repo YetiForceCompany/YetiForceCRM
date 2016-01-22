@@ -16,23 +16,22 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 
 	public function getBasicLinks()
 	{
-		$basicLinks = array();
+		$basicLinks = [];
 		$moduleModel = $this->getModule();
 		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView');
 		if ($createPermission) {
-			$basicLinks[] = array(
-				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => 'LBL_ADD_TASK',
-				'linkurl' => $this->getModule()->getCreateTaskRecordUrl(),
-				'linkicon' => ''
-			);
-
-			$basicLinks[] = array(
+			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_EVENT',
 				'linkurl' => $this->getModule()->getCreateEventRecordUrl(),
 				'linkicon' => ''
-			);
+			];
+			$basicLinks[] = [
+				'linktype' => 'LISTVIEWBASIC',
+				'linklabel' => 'LBL_ADD_TASK',
+				'linkurl' => $this->getModule()->getCreateTaskRecordUrl(),
+				'linkicon' => ''
+			];
 		}
 		return $basicLinks;
 	}
@@ -197,17 +196,18 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 			$columnFieldMapping = $moduleModel->getColumnFieldMapping();
 			$orderByFieldName = $columnFieldMapping[$orderBy];
 			$orderByFieldModel = $moduleModel->getField($orderByFieldName);
-			if ($orderByFieldModel && $orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+			if ($orderByFieldModel && $orderByFieldModel->isReferenceField()) {
 				//IF it is reference add it in the where fields so that from clause will be having join of the table
 				$queryGenerator = $this->get('query_generator');
-				$queryGenerator->addWhereField($orderByFieldName);
+				$queryGenerator->setConditionField($orderByFieldName);
 				//$queryGenerator->whereFields[] = $orderByFieldName;
 			}
 		}
+
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
 			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
-				$orderBy = 'COALESCE(CONCAT(vtiger_users.first_name,vtiger_users.last_name),vtiger_groups.groupname)';
+				$orderBy = 'COALESCE('.getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users', '').', vtiger_groups.groupname)';
 			}
 		}
 		//To combine date and time fields for sorting
@@ -219,7 +219,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 
 		$listQuery = $this->getQuery();
 		if ($searchResult && $searchResult != '' && is_array($searchResult)) {
-			$listQuery .= " AND vtiger_crmentity.crmid IN (" . implode(',', $searchResult) . ") ";
+			$listQuery .= " AND vtiger_crmentity.crmid IN (" . implode(', ', $searchResult) . ") ";
 		}
 		unset($searchResult);
 
@@ -257,7 +257,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
 					}
 				}
-				$listQuery .= ' ORDER BY ' . implode(',', $referenceNameFieldOrderBy);
+				$listQuery .= ' ORDER BY ' . implode(', ', $referenceNameFieldOrderBy);
 			} else {
 				$listQuery .= ' ORDER BY ' . $orderBy . ' ' . $sortOrder;
 			}
@@ -317,7 +317,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 			$record['id'] = $recordId;
 			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $rawData);
 			$listViewRecordModels[$recordId]->lockEditView = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
-			$listViewRecordModels[$recordId]->isPermittedToEditView = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId);
+			$listViewRecordModels[$recordId]->isPermittedToEditView = Users_Privileges_Model::isPermitted($moduleName, 'EditView  ', $recordId);
 			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $listViewRecordModels[$recordId]);
 		}
 		return $listViewRecordModels;

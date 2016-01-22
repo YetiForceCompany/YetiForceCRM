@@ -45,104 +45,56 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 * Function to get the list of Header Links
 	 * @return <Array> - List of Vtiger_Link_Model instances
 	 */
-	function getHeaderLinks()
+	public function getHeaderLinks(Vtiger_Request $request)
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$headerLinks = [];
-
-		$userPersonalSettingsLinks = [
-			'linktype' => 'HEADERLINK',
-			'linklabel' => $userModel->getDisplayName(),
-			'linkurl' => '',
-			'linkicon' => '',
-		];
-		if (SysSecurity::getBoolean('SHOW_MY_PREFERENCES')) {
-			$userPersonalSettingsLinks['childlinks'][] = [
+		if ($userModel->isAdminUser()) {
+			if($request->get('parent') != 'Settings') {
+				$headerLinks[] = [
+					'linktype' => 'HEADERLINK',
+					'linklabel' => 'LBL_SYSTEM_SETTINGS',
+					'linkurl' => 'index.php?module=Vtiger&parent=Settings&view=Index',
+					'glyphicon' => 'glyphicon glyphicon-cog',
+				];
+			}else{
+				$headerLinks[] = [
+					'linktype' => 'HEADERLINK',
+					'linklabel' => 'LBL_USER_PANEL',
+					'linkurl' => 'index.php',
+					'glyphicon' => 'glyphicon glyphicon-user',
+				];
+			}
+		}
+		//TODO To remove in the future
+		if (AppConfig::security('SHOW_MY_PREFERENCES')) {
+			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_MY_PREFERENCES',
 				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
-				'linkicon' => '',
+				'glyphicon' => 'glyphicon glyphicon-tasks',
 			];
 		}
-		$userPersonalSettingsLinks['childlinks'][] = [
+		
+		$headerLinks[] = [
 			'linktype' => 'HEADERLINK',
 			'linklabel' => 'LBL_SIGN_OUT',
-			'linkurl' => '?module=Users&parent=Settings&action=Logout',
-			'linkicon' => '',
+			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
+			'glyphicon' => 'glyphicon glyphicon-off',
 		];
-
-		array_push($headerLinks, $userPersonalSettingsLinks);
-		if ($userModel->isAdminUser()) {
-			$crmSettingsLink = array(
-				'linktype' => 'HEADERLINK',
-				'linklabel' => 'LBL_SYSTEM_SETTINGS',
-				'linkurl' => '',
-				'linkicon' => 'setting.png',
-				'nocaret' => true,
-				'childlinks' => array(
-					array(
-						'linktype' => 'HEADERLINK',
-						'linklabel' => 'LBL_SYSTEM_SETTINGS',
-						'linkurl' => '?module=Vtiger&parent=Settings&view=Index',
-						'linkicon' => '',
-					),
-					array(
-						'linktype' => 'HEADERLINK',
-						'linklabel' => 'LBL_MANAGE_USERS',
-						'linkurl' => '?module=Users&parent=Settings&view=List',
-						'linkicon' => '',
-					),
-				)
-			);
-			array_push($headerLinks, $crmSettingsLink);
-		}
-
-		require('user_privileges/switchUsers.php');
-		$baseUserId = $userModel->getId();
-		if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {
-			$baseUserId = Vtiger_Session::get('baseUserId');
-		}
-
-		if (key_exists($baseUserId, $switchUsers)) {
-			$childlinks = [];
-			if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {
-				$user = new Users();
-				$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
-				$userName = $currentUser->column_fields['first_name'] . ' ' . $currentUser->column_fields['last_name'];
-				$childlinks[] = [
-					'linktype' => 'HEADERLINK',
-					'linklabel' => $userName,
-					'linkurl' => '?module=Users&action=SwitchUsers&id=' . $baseUserId,
-					'linkicon' => '',
-				];
-				$childlinks[] = [
-					'linktype' => 'HEADERLINK',
-					'linklabel' => NULL,
-				];
-			}
-			foreach ($switchUsers[$baseUserId] as $userid => $userName) {
-				if ($userid != $baseUserId) {
-					$childlinks[] = [
-						'linktype' => 'HEADERLINK',
-						'linklabel' => $userName,
-						'linkurl' => '?module=Users&action=SwitchUsers&id=' . $userid,
-						'linkicon' => '',
-					];
-				}
-			}
-			$customHeaderLinks = [
+		
+		if (Users_Module_Model::getSwitchUsers()) {
+			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'SwitchUsers',
 				'linkurl' => '',
-				'linkicon' => 'glyphicon glyphicon-transfer',
+				'glyphicon' => 'glyphicon glyphicon-transfer',
 				'nocaret' => true,
-				'childlinks' => $childlinks
+				'linkdata' => ['url' => $userModel->getSwitchUsersUrl()],
+				'linkclass' => 'showModal',
 			];
-			array_push($headerLinks, $customHeaderLinks);
 		}
 		$headerLinkInstances = [];
-
-		$index = 0;
 		foreach ($headerLinks as $headerLink) {
 			$headerLinkInstance = Vtiger_Link_Model::getInstanceFromValues($headerLink);
 			if (isset($headerLink['childlinks'])) {
@@ -150,12 +102,12 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 					$headerLinkInstance->addChildLink(Vtiger_Link_Model::getInstanceFromValues($childLink));
 				}
 			}
-			$headerLinkInstances[$index++] = $headerLinkInstance;
+			$headerLinkInstances[] = $headerLinkInstance;
 		}
 		$headerLinks = Vtiger_Link_Model::getAllByType(Vtiger_Link::IGNORE_MODULE, ['HEADERLINK']);
 		foreach ($headerLinks as $headerType => $headerLinks) {
 			foreach ($headerLinks as $headerLink) {
-				$headerLinkInstances[$index++] = Vtiger_Link_Model::getInstanceFromLinkObject($headerLink);
+				$headerLinkInstances[] = Vtiger_Link_Model::getInstanceFromLinkObject($headerLink);
 			}
 		}
 		return $headerLinkInstances;
@@ -188,15 +140,10 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	function getHeaderCss(Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$headerCss = Vtiger_Link_Model::getAllByType(Vtiger_Link::IGNORE_MODULE, array('HEADERCSS'));
-		$selectedThemeCssPath = Vtiger_Theme::getStylePath();
-		//TODO : check the filename whether it is less or css and add relative less
-		$isLessType = (strpos($selectedThemeCssPath, ".less") !== false) ? true : false;
+		$headerCss = Vtiger_Link_Model::getAllByType(Vtiger_Link::IGNORE_MODULE, ['HEADERCSS']);
+		$selectedThemeCssPath = Vtiger_Theme::getThemeStyle();
 		$cssScriptModel = new Vtiger_CssScript_Model();
-		$headerCssInstances[] = $cssScriptModel->set('href', $selectedThemeCssPath)
-			->set('rel', $isLessType ?
-				Vtiger_CssScript_Model::LESS_REL :
-				Vtiger_CssScript_Model::DEFAULT_REL);
+		$headerCssInstances[] = $cssScriptModel->set('href', $selectedThemeCssPath);
 
 		foreach ($headerCss as $headerType => $cssLinks) {
 			foreach ($cssLinks as $cssLink) {

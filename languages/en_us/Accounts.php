@@ -58,13 +58,14 @@ $languageStrings = [
 	'PLL_ASSOCIATION' => 'Association',
 	'PLL_COOPERATIVE' => 'Cooperative',
 	'PLL_FOUNDATION' => 'Foundation',
-	'PLL_EUROPEAN_PARTNERSHIP' => 'Europen partnership',
-	'PLL_EUROPEAN_ECONOMIC_INTEREST_GROUPING' => 'Europen economic interest grouping',
+	'PLL_EUROPEAN_PARTNERSHIP' => 'European partnership',
+	'PLL_EUROPEAN_ECONOMIC_INTEREST_GROUPING' => 'European economic interest grouping',
 	'PLL_EUROPEAN_COOPERATIVE' => 'European cooperative', 
 	'PLL_EUROPEAN_PRIVATE_PARTNERSHIP' => 'European private partnership',
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'European mutual partnership',
 	'PLL_EUROPEAN_ASSOCIATION' => 'European association',
 	'PLL_UFCIITS' => 'Undertakings for collective invesment in transferable securites',
+	'LBL_ACCOUNTS_LIST_TREE_ALERT' => 'List of accounts depends on selected filter and selected products in tree.',
 
 	'Calculations all'=>'All calculations',
 	'Calculations accepted'=>'Calculations accepted',
@@ -89,7 +90,7 @@ $languageStrings = [
 	'LBL_CREDIT_LIMIT' => 'Credit limit',
 ];
 $jsLanguageStrings = [
-	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Account Name already Exists.Do you want to create a duplicate record?',
+	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Account Name already exists. Do you want to create a duplicate record?',
 	'LBL_DELETE_CONFIRMATION' => 'Deleting this Account will remove its related Opportunities & Quotes. Are you sure you want to delete this Account?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Deleting this Account(s) will remove its related Opportunities & Quotes. Are you sure you want to delete the selected records?',
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Are you sure you want to delete?',

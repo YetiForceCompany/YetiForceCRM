@@ -12,14 +12,21 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!Users_Privileges_Model::isPermitted($moduleName, $actionName)) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($moduleModel->getId())) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 
 	public function preProcess(Vtiger_Request $request)
 	{
-		echo '<div class="modal fade"><div class="modal-dialog"><div class="modal-content">';
+		$moduleName = $request->getModule();
+		$viewName = $request->get('view');
+		echo '<div class="modal fade modal'.$moduleName.''.$viewName.'" id="modal'.$viewName.'"><div class="modal-dialog"><div class="modal-content">';
+		foreach ($this->getModalCss($request) as $style) {
+			echo '<link rel="stylesheet" href="'.$style->getHref().'">';
+		}
 	}
 
 	public function postProcess(Vtiger_Request $request)
@@ -49,5 +56,18 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
 		return $scriptInstances;
+	}
+	
+	public function getModalCss(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$viewName = $request->get('view');
+		$cssFileNames = [
+			"modules.$moduleName.$viewName",
+			"modules.Vtiger.$viewName",
+		];
+		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		$headerCssInstances = $cssInstances;
+		return $headerCssInstances;
 	}
 }

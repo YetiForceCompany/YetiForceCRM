@@ -12,9 +12,24 @@
 class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
-		return;
+		$moduleName = $request->getModule();
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+		if (!$permission) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
+
+		$srecord = $request->get('id');
+		$smodule = $request->get('sourceModule');
+
+		$recordPermission = Users_Privileges_Model::isPermitted($smodule, 'DetailView', $srecord);
+		if (!$recordPermission) {
+			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 	}
 
 	public function process(Vtiger_Request $request)

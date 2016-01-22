@@ -9,9 +9,9 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 /* Performance paramters can be configured to fine tune vtiger CRM runtime */
-$PERFORMANCE_CONFIG = Array(
+$PERFORMANCE_CONFIG = [
 	// Should the caller information be captured in SQL Logging?
-	// It adds little overhead for performance but will be useful to debug
+	// It adds little overhead for performance but will be useful to debug. All data can be found in the table "l_yf_sqltime"
 	'SQL_LOG_INCLUDE_CALLER' => false,
 
 	// If database default charset is UTF-8, set this to true 
@@ -30,4 +30,13 @@ $PERFORMANCE_CONFIG = Array(
 	
 	// The numbers of emails downloaded during one scanning
 	'NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING' => 100,
-);
+
+	// Enable automatic records list refreshing while changing the value of the selection list
+	'AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE' => true,
+	
+	// All search results will be sorted at the database level after enabling. It might result in a longer search time.
+	'SORT_SEARCH_RESULTS' => false,
+	
+	// Show in search engine/filters only users and groups available in records list. It might result in a longer search time.
+	'SEARCH_SHOW_OWNER_ONLY_IN_LIST' => true,
+];

@@ -9,7 +9,6 @@
  * @author     Alexander Merz <alexmerz@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.2.0
  */
@@ -27,7 +26,7 @@ require_once 'PEAR/Command/Common.php';
  * @author     Alexander Merz <alexmerz@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.5
+ * @version    Release: 1.10.1
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.2.0
  */
@@ -60,9 +59,9 @@ packages within preferred_state ({config preferred_state}) will be downloaded'
      * @param object PEAR_Frontend a reference to an frontend
      * @param object PEAR_Config a reference to the configuration data
      */
-    function PEAR_Command_Mirror(&$ui, &$config)
+    function __construct(&$ui, &$config)
     {
-        parent::PEAR_Command_Common($ui, $config);
+        parent::__construct($ui, $config);
     }
 
     /**

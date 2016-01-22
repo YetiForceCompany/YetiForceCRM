@@ -25,7 +25,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		if (empty($value)) {
 			return $value;
@@ -45,7 +45,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getUserRequestValue($value)
+	public function getUserRequestValue($value, $recordId)
 	{
 		return $this->getDisplayValue($value);
 	}
@@ -79,7 +79,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 * @param $value
 	 * @return converted value
 	 */
-	public function getEditViewDisplayValue($value)
+	public function getEditViewDisplayValue($value, $record = false)
 	{
 		if (empty($value) || $value === ' ') {
 			$value = trim($value);
@@ -88,7 +88,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			$fieldName = $fieldInstance->getFieldName();
 
 			//Restricted Fields for to show Default Value
-			if (($fieldName === 'birthday' && $moduleName === 'Contacts') || ($fieldName === 'validtill' && $moduleName === 'Quotes') || $moduleName === 'Products') {
+			if (($fieldName === 'birthday' && $moduleName === 'Contacts') || $moduleName === 'Products') {
 				return $value;
 			}
 

@@ -1,6 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * @package YetiForce.actions
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+ 
 class Settings_BackUp_Backup_Action extends Settings_Vtiger_Basic_Action
 {
 
@@ -10,6 +14,7 @@ class Settings_BackUp_Backup_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('perform');
 		$this->exposeMethod('progress');
 		$this->exposeMethod('saveftp');
+		$this->exposeMethod('stopBackup');
 	}
 
 	public function perform(Vtiger_Request $request)
@@ -74,6 +79,15 @@ class Settings_BackUp_Backup_Action extends Settings_Vtiger_Basic_Action
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
+		$response->emit();
+	}
+	
+	public static function stopBackup()
+	{
+		$log = vglobal('log');
+		Settings_BackUp_Module_Model::stopBackup();
+		$response = new Vtiger_Response();
+		$response->setResult([]);
 		$response->emit();
 	}
 }

@@ -13,7 +13,6 @@ $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Lista registros',
 	'LBL_ADD_RECORD' => 'Adicionar registro',
 	'Services' => 'Serviços',
-	'Potential' => 'Oportunidade',
 	'Invoice' => 'Fatura',
 'OSSSoldServices' => 'Serviços Vendidos',
 'SINGLE_OSSSoldServices' => 'Serviço Vendido',
@@ -38,7 +37,6 @@ $languageStrings = [
 'LBL_CUSTOM_INFORMATION' => 'Informação do Sistema',
 'Where bought' => 'Onde comprou',
 'Number' => 'Número',
-'Potential renewal'=>'Renovar venda',
 'LBL_GENERATE_EXTENSION' => 'Gerar extensão',
 'LBL_ORDER_TIME' => 'Hora Pedido',
 ];

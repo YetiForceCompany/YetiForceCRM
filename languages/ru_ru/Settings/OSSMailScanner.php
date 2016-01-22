@@ -10,17 +10,18 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'LBL_PAGE_NUMBER' => 'Перейти к номеру страницы',
-	'Mail Scanner' => 'Настройка почты',
+	'Mail Scanner' => 'Почта - Сканнер',
 	'OSSMailScanner' => 'Настройка почты',
 	'OSSMailScanner_manual' => 'Настройка почты',
 	
-	'LBL_VIEW_LOGS' => 'Журнал Почты',
-	'LBL_VIEW_LOGS' => 'Mail Protokolle',
-	'CRM Archive' => 'CRM Archive',
-	'CRM Archive Sent' => 'CRM Archive Sent',
-	'Drafts' => 'Drafts',
-    'INBOX' => 'INBOX',
-	'Junk' => 'JUNK',
+	'LBL_VIEW_LOGS' => 'Протокол почты',
+	'LBL_VIEW_LOGS' => 'Протокол почты',
+	'CRM Archive' => 'Архив',
+	'CRM Archive Sent' => 'Архив отправлен',
+	'Drafts' => 'Черновики',
+	'INBOX' => 'Входящие',
+	'Junk' => 'Спам',
+	'Sent' => 'Отправленные',
 ];
 
 $jsLanguageStrings = [

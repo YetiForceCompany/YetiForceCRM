@@ -12,12 +12,11 @@
 class OSSMailScanner_Module_Model extends Vtiger_Module_Model
 {
 
-	var $ActionsDirector = false;
+	var $actionsDir = false;
 
 	function OSSMailScanner_Module_Model()
 	{
-		$root_directory = vglobal('root_directory');
-		$this->ActionsDirector = $root_directory . '/modules/OSSMailScanner/email_actions';
+		$this->actionsDir = AppConfig::main('root_directory') . '/modules/OSSMailScanner/scanneractions';
 	}
 
 	public function getDefaultViewName()
@@ -29,9 +28,9 @@ class OSSMailScanner_Module_Model extends Vtiger_Module_Model
 	{
 		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
-		$settingsLinks = array();
+		$settingsLinks = [];
 		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMailScanner' AND description =  'OSSMailScanner'", true);
+		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name = 'OSSMailScanner' AND description = 'OSSMailScanner'");
 
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',

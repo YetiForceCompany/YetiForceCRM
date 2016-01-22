@@ -1,23 +1,27 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ *
+ * @package YetiForce.views
+ * @license licenses/License.html
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
 class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 {
 
 	function process(Vtiger_Request $request)
 	{
-		
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $request->getModule();
-		$id =  $request->get('record');
-		$recordInstance = Vtiger_Record_Model::getInstanceById($id,$moduleName);
-		$permissionToSendEmail = vtlib_isModuleActive('OSSMail') && Users_Privileges_Model::isPermitted('OSSMail','compose');
-		
+		$id = $request->get('record');
+		$recordInstance = Vtiger_Record_Model::getInstanceById($id, $moduleName);
+		$permissionToSendEmail = vtlib_isModuleActive('OSSMail') && Users_Privileges_Model::isPermitted('OSSMail', 'compose');
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD', $recordInstance);
-		$viewer->assign('CURRENT_USER_MODEL', $currentUser);
+		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SCRIPTS', $this->getScripts($request));
 		$viewer->view('ActivityStateModal.tpl', $moduleName);
 	}

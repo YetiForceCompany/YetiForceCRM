@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,15 +7,15 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Calendar' => 'Do wykonania',
 	'Checkbox' => 'Pole zaznaczenia',
-	'Currency'=>'Pole walutowe',
-	'Date'=>'Pole daty',
-	'Decimal'=>'Pole liczbowe (dziesiętne)',
-	'Email'=>'Pole mailowe',
-	'Integer'=>'Pole liczbowe (całkowite)',
+	'Currency' => 'Pole walutowe',
+	'Date' => 'Pole daty',
+	'Decimal' => 'Pole liczbowe (dziesiętne)',
+	'Email' => 'Pole mailowe',
+	'Integer' => 'Pole liczbowe (całkowite)',
 	'LayoutEditor' => 'Edytor pól',
 	'LBL_ACTIONS' => 'Akcje',
 	'LBL_ACTIVE' => 'Aktywne',
@@ -24,7 +24,7 @@ $languageStrings = [
 	'LBL_ADD_CUSTOM_FIELD' => 'Dodaj nowe pole',
 	'LBL_ALWAYS_SHOW' => 'Zawsze widoczne',
 	'LBL_ARRANGE_RELATED_LIST' => 'Powiązane moduły',
-	'LBL_ARRANGE_RELATED_TABS' => 'Moduły powiązane',
+	'LBL_ARRANGE_RELATED_TABS' => 'Moduły - powiązania',
 	'LBL_BLOCK_NAME' => 'Nazwa bloku',
 	'LBL_CLICK_HERE_TO_EDIT' => 'Kliknij, aby edytować',
 	'LBL_CREATE_CUSTOM_FIELD' => 'Utwórz nowe pole',
@@ -53,26 +53,25 @@ $languageStrings = [
 	'LBL_SELECT_MODULE' => 'Zaznacz moduł..',
 	'LBL_SUMMARY_FIELD' => 'Widoczne na podsumowaniu',
 	'LBL_WRONG_FIELD_TYPE' => 'Zły typ pola',
-	'MultiSelectCombo'=>'Pole słownikowe (wielokrotnego wyboru)',
-	'Percent'=>'Pole procentowe',
-	'Phone'=>'Pole telefonu',
-	'Picklist'=>'Pole słownikowe',
-	'Skype'=>'Pole Skype',
+	'MultiSelectCombo' => 'Pole słownikowe (wielokrotnego wyboru)',
+	'Percent' => 'Pole procentowe',
+	'Phone' => 'Pole telefonu',
+	'Picklist' => 'Pole słownikowe',
+	'Skype' => 'Pole Skype',
 	'TextArea' => 'Obszar tekstowy',
-	'Text'=>'Pole tekstowe',
-	'Time'=>'Pole czasu',
+	'Text' => 'Pole tekstowe',
+	'Time' => 'Pole czasu',
 	'URL' => 'Adres WWW',
-    'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Edytor modułów powiązanych',
+	'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Edytor modułów powiązanych',
 	'LBL_VISIBLE' => 'Widoczny',
 	'LBL_HIDDEN' => 'Ukryty',
-
 	//Yetiforce
 	'LBL_RELATION_VALUES' => 'Wybierz moduły',
 	'LBL_FIELD_NAME' => 'Nazwa systemowa',
 	'LBL_FIELD_TYPE' => 'Tabela',
 	'LBL_FIELD_TYPE0' => 'Podstawowa (np. vtiger_account)',
 	'LBL_FIELD_TYPE1' => 'Dodatkowa (np. vtiger_accountcf)',
-    'Editor' => 'Edytor WYSIWYG',
+	'Editor' => 'Edytor WYSIWYG',
 	'Related1M' => 'Pole powiązane 1:M',
 	'LBL_DISPLAY_TYPE' => 'Widoczność',
 	'LBL_DISPLAY_TYPE_1' => 'Pole widoczne wszędzie',
@@ -91,7 +90,6 @@ $languageStrings = [
 	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'Pole powiązane',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD' => 'Fitruj po polu',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE' => 'Filtruj po wartości',
-	
 	'LBL_ADD_RELATION' => 'Dodaj relację',
 	'LBL_REMOVE_RELATION' => 'Usuń relację',
 	'LBL_RELATION_TYPE' => 'Typ relacji',
@@ -101,9 +99,9 @@ $languageStrings = [
 	'LBL_RELATION_LABLE' => 'Etykieta',
 	'PLL_RELATED_LIST' => 'Wiele do wielu',
 	'PLL_DEPENDENTS_LIST' => 'Jeden do wielu',
+	'PLL_SPLITED_RELATED_LIST' => 'Wiele do wielu - Z separacją danych',
 	'PLL_ADD' => 'Tworzenie',
 	'PLL_SELECT' => 'Wybieranie',
-	
 	// inventory tab
 	'LBL_MANAGING_AN_ADVANCED_BLOCK' => 'Zarządzanie blokiem zaawansowanym',
 	'LBL_HEADLINE' => 'Nagłówek',
@@ -111,7 +109,6 @@ $languageStrings = [
 	'LBL_ADDITIONAL_VERSE' => 'Wiersz dodatkowy',
 	'LBL_ADVANCED_MODULE' => 'Zaawansowany',
 	'LBL_BASIC_MODULE' => 'Podstawowy',
-	
 	'LBL_EDITING_INVENTORY_FIELD' => 'Edycja',
 	'LBL_CREATING_INVENTORY_FIELD' => 'Dodaj',
 	'LBL_NAME_FIELD' => 'Nazwa',
@@ -122,10 +119,32 @@ $languageStrings = [
 	'LBL_PARAMS_MODULES' => 'Moduły',
 	'LBL_PARAMS_LIMIT' => 'Limit',
 	'LBL_DISPLAY_TYPE' => 'Typ pola',
-	'LBL_EDITABLE' => 'Edytowalne',
-	'LBL_READONLY' => 'Tylko do odczytu',
+	'LBL_DISPLAYTYPE_ALL' => 'Widoczne wszędzie',
+	'LBL_DISPLAYTYPE_READONLY' => 'Tylko do odczytu',
+	'LBL_DISPLAYTYPE_ONLY_DETAIL' => 'Widoczne w podglądzie',
+	'LBL_DISPLAYTYPE_HIDDEN' => 'Ukryte',
 	'LBL_FIELDS_EXISTS_IN_BLOCK' => 'Nie można usunąc bloku bo zawiera pola',
 	'LBL_DELETE_CUSTOM_BLOCKS' => 'Nie można usunąć standardowych (nie stworzonych przez użytkownika) bloków',
+	'LBL_CURRENCY_DESC' => 'Lista dostępnych walut w systemie, dodanie waluty włączy mechanizm przeliczania ceny na podstawie aktualnego kursu waluty.',
+	'LBL_DISCOUNT_MODE_DESC' => 'Lista umożliwiająca zmianę sposobu wyliczania rabatu: grupowy lub indywidualny.',
+	'LBL_TAX_MODE_DESC' => 'Lista umożliwiająca zmianę sposobu wyliczania podatku: grupowy lub indywidualny.',
+	'LBL_COMMENT_DESC' => 'Pole WYSIWYG umożliwiające wprowadzanie dowolnego opisu do danej pozycji, pole w edycji jest domyślnie zwinięte.',
+	'LBL_DISCOUNT_DESC' => 'Pole liczbowe przeznaczone na wartość rabatu dla wybranej pozycji, wybór rabatu jest możliwy z okna zawierającego listę dostępnych rabatów. Sposób sumowania rabatu jest konfigurowalny w administracji systemu.',
+	'LBL_GROSS_PRICE_DESC' => 'Pole nie edytowalne obliczane automatycznie, zawierające cenę ostateczną danej pozycji (Cena po rabacie + Podatek).',
+	'LBL_ITEM_NAME_DESC' => 'Pole podstawowe i obowiązkowe, określa dla jakich modułów ma umożliwiać wybór rekordów. Dodatkowo zawiera ustawienia limitów do blokowania zapisu rekordów kiedy limit kredytowy zostanie przekroczony.',
+	'LBL_QUANTITY_DESC' => 'Pole liczbowe przeznaczone na ilość sztuk dla danego rekordu np. ilość sztuk produktu. Wartość musi być większa od zera.',
+	'LBL_UNIT_PRICE_DESC' => 'Pole liczbowe przeznaczone na cenę za jedną sztukę dla danego rekordu np. cena jednej sztuki produktu.',
+	'LBL_TOTAL_PRICE_DESC' => 'Pole nie edytowalne obliczane automatycznie zawierające cenę Netto danej pozycji (Ilość * Cena jednostkowa).',
+	'LBL_DISCOUNT_PRICE_DESC' => 'Pole nie edytowalne obliczane automatycznie zawierające cenę Netto z uwzględnieniem rabatu (Netto - Rabat).',
+	'LBL_TAX_DESC' => 'Pole liczbowe przeznaczone na wartość podatku dla wybranej pozycji, wybór podatku jest możliwy z okna zawierającego listę dostępnych podatków. Sposób sumowania podatku jest konfigurowalny w administracji systemu.',
+	'LBL_VALUE_DESC' => 'Pole dodatkowe przeznaczone na dowolną wartość wprowadzoną przez użytkownika.',
+	'LBL_REFERENCE_DESC' => 'Pole dodatkowe umożliwiające na powiązanie danej pozycji z dowolnym rekordem w systemie.',
+	'LBL_PURCHASE_DESC' => 'Pole liczbowe przeznaczone na wartość zakupu/pozyskania danej pozycji.',
+	'LBL_MARGIN_DESC' => 'Pole nie edytowalne obliczane automatycznie zawierające wartość zysku dla danej pozycji (Cena po rabacie - Zakup), nie uwzględnia podatku.',
+	'LBL_MARGIN_PERCENT_DESC' => 'Pole nie edytowalne obliczane automatycznie zawierające wartość zysku dla danej pozycji wyrażone w procentach.',
+	'LBL_DEACTIVATE_FAVORITES' => 'Deaktywuj funkcję: Dodaj do ulubionych',
+	'LBL_ACTIVATE_FAVORITES' => 'Aktywuj funkcję: Dodaj do ulubionych',
+	'LBL_HEADER_FIELD' => 'Widoczne w nagłówku podglądu',
 ];
 
 $jsLanguageStrings = [

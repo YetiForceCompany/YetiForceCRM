@@ -317,8 +317,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$this->set('depth', $parentRole->getDepth() + 1);
 			$this->set('parentrole', $parentRole->getParentRoleString() . '::' . $roleId);
 		}
-
-		$searchunpriv = implode(',', empty($this->get('searchunpriv')) ? [] : $this->get('searchunpriv'));
+		$searchunpriv = $this->get('searchunpriv');
+		$searchunpriv = implode(',', empty($searchunpriv) ? [] : $searchunpriv);
 		$values = [
 			'rolename' => $this->getName(),
 			'parentrole' => $this->getParentRoleString(),
@@ -331,7 +331,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			'previewrelatedrecord' => $this->get('previewrelatedrecord'),
 			'editrelatedrecord' => $this->get('editrelatedrecord'),
 			'permissionsrelatedfield' => $this->get('permissionsrelatedfield'),
-			'globalsearchadv' => $this->get('globalsearchadv'),
+			'globalsearchadv' => $this->get('globalsearchadv')
 		];
 
 		if ($mode == 'edit') {

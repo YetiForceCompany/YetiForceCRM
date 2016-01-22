@@ -1,37 +1,33 @@
 <?php
-/*+***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- *************************************************************************************/
 
-class Vendors_Module_Model extends Vtiger_Module_Model {
-    
-    /**
-	 * Function to check whether the module is summary view supported
-	 * @return <Boolean> - true/false
-	 */
-	public function isSummaryViewSupported() {
-		return false;
-	}
+/**
+ * Vendors module model Class
+ * @package YetiForce.Model
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+class Vendors_Module_Model extends Vtiger_Module_Model
+{
 
 	/**
-	 * Function to get relation query for particular module with function name
-	 * @param <record> $recordId
-	 * @param <String> $functionName
-	 * @param Vtiger_Module_Model $relatedModule
-	 * @return <String>
+	 * Function to get list view query for popup window
+	 * @param <String> $sourceModule Parent module
+	 * @param <String> $field parent fieldname
+	 * @param <Integer> $record parent id
+	 * @param <String> $listQuery
+	 * @return <String> Listview Query
 	 */
-	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false) {
-		if ($functionName === 'get_mails' && $relatedModule->getName() == 'OSSMailView') {
-			$query = OSSMailView_Record_Model::getMailsQuery($recordId, $relatedModule->getName());
-		} else {
-			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
+	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery)
+	{
+		if ($sourceModule == 'Campaigns') {
+			$condition = " vtiger_vendor.vendorid NOT IN (SELECT crmid FROM vtiger_campaign_records WHERE campaignid = '$record')";
+			$position = stripos($listQuery, 'where');
+			if ($position) {
+				$overRideQuery = $listQuery . ' AND ' . $condition;
+			} else {
+				$overRideQuery = $listQuery . ' WHERE ' . $condition;
+			}
+			return $overRideQuery;
 		}
-		
-		return $query;
 	}
 }

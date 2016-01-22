@@ -226,17 +226,6 @@ class Vtiger_InventoryPDFController
 
 		$summaryModel->set(getTranslatedString("Grand Total:", $this->moduleName) . "(in $currencySymbol)", $this->formatPrice($final_details['grandTotal'])); // TODO add currency string
 
-		if ($this->moduleName == 'Invoice') {
-			$receivedVal = $this->focusColumnValue("received");
-			if (!$receivedVal) {
-				$this->focus->column_fields["received"] = 0;
-			}
-			//If Received value is exist then only Recieved, Balance details should present in PDF
-			if ($this->formatPrice($this->focusColumnValue("received")) > 0) {
-				$summaryModel->set(getTranslatedString("Received", $this->moduleName), $this->formatPrice($this->focusColumnValue("received")));
-				//$summaryModel->set(getTranslatedString("Balance", $this->moduleName), $this->formatPrice($this->focusColumnValue("balance")));
-			}
-		}
 		return $summaryModel;
 	}
 

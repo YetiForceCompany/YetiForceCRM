@@ -12,7 +12,6 @@
  * @author     Tomas V.V.Cox <cox@idecnet.com>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  */
 
@@ -21,8 +20,8 @@
  */
 //the space is needed for windows include paths with trailing backslash
 // http://pear.php.net/bugs/bug.php?id=19482
-if ('/www/roundcube/releases/roundcubemail-1.1.1/vendor/pear-pear.php.net/PEAR ' != '@'.'include_path'.'@ ') {
-    ini_set('include_path', trim('/www/roundcube/releases/roundcubemail-1.1.1/vendor/pear-pear.php.net/PEAR '));
+if ('/www/roundcube/releases/roundcubemail-1.1.4/vendor/pear-pear.php.net/PEAR ' != '@'.'include_path'.'@ ') {
+    ini_set('include_path', trim('/www/roundcube/releases/roundcubemail-1.1.4/vendor/pear-pear.php.net/PEAR '). PATH_SEPARATOR .  get_include_path());
     $raw = false;
 } else {
     // this is a raw, uninstalled pear, either a cvs checkout, or php distro

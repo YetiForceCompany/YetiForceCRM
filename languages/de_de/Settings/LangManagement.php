@@ -1,12 +1,6 @@
 <?php
- /*+********************************************************************************
- * Terms & Conditions are placed on the: http://opensaas.pl
- ********************************************************************************
- *  Module				: LangManagement
- *  Author				: OpenSaaS Sp. z o.o. 
- *  Help/Email			: bok@opensaas.pl
- *  Website				: www.opensaas.pl
- ********************************************************************************+*/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
 $languageStrings = [
 	'No data available in table' => 'Keine Daten in Tabelle verfügbar',
 	'Translations' => 'Übersetzungen',
@@ -57,6 +51,10 @@ $languageStrings = [
 	'LBL_SHOW_EMPTY_VALUES' => 'Zeige leere Werte',
 	'LBL_SHOW_IN'	=> 'Zeige in',
 	'LBL_EDIT_HELP_ICON'	=> 'Hilfe Icons',
+	'LBL_BASE_LANGUAGE'	=> 'Base language',
+	'LBL_LANGUAGE'	=> 'Sprache',
+	'LBL_SHOW'	=> 'Show',
+	'LBL_STATS_INFO'	=> 'The presented statistical values determine the ratio of untranslated labels to all labels that exist in the base language file(s) in percentage.',
 ];
 $jsLanguageStrings = [
 	'Translations' => 'Übersetzungen',

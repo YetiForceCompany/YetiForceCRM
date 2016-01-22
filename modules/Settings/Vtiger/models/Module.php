@@ -132,4 +132,86 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 	{
 		return 'index.php?module=' . $this->getName() . '&parent=' . $this->getParentName() . '&view=Index';
 	}
+
+	public function prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId)
+	{
+		if (!empty($selectedMenuId)) {
+			$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($selectedMenuId);
+		} elseif (!empty($moduleName) && $moduleName != 'Vtiger') {
+			$fieldItem = Settings_Vtiger_Index_View::getSelectedFieldFromModule($menuModels, $moduleName);
+			if ($fieldItem) {
+				$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($fieldItem->get('blockid'));
+				$fieldId = $fieldItem->get('fieldid');
+			} else {
+				reset($menuModels);
+				$firstKey = key($menuModels);
+				$selectedMenu = $menuModels[$firstKey];
+			}
+		} else {
+			$selectedMenu = false;
+		}
+		$menu = [];
+		foreach ($menuModels as $blockId => $menuModel) {
+			$childs = [];
+			foreach ($menuModel->getMenuItems() as $menuItem) {
+				$childs[] = [
+					'id' => $menuItem->getId(),
+					'active' => $menuItem->getId() == $fieldId ? true : false,
+					'name' => $menuItem->get('name'),
+					'type' => 'Shortcut',
+					'sequence' => $menuModel->get('sequence'),
+					'newwindow' => '0',
+					'icon' => $menuItem->get('iconpath'),
+					'dataurl' => $menuItem->getUrl(),
+					'parent' => 'Settings',
+					'moduleName' => Vtiger_Menu_Model::getModuleNameFromUrl($menuItem->getUrl()),
+				];
+			}
+			if ($menuModel->getType() != 1) {
+				$menu[] = [
+					'id' => $blockId,
+					'active' => ($selectedMenu && $selectedMenu->get('blockid') == $blockId) ? true : false,
+					'name' => $menuModel->getLabel(),
+					'type' => 'Label',
+					'sequence' => $menuModel->get('sequence'),
+					'childs' => $childs,
+					'icon' => $menuModel->get('icon'),
+					'moduleName' => 'Settings::Vtiger',
+				];
+			} else {
+				$menu[] = [
+					'id' => $blockId,
+					'active' => ($selectedMenu && $selectedMenu->get('blockid') == $blockId) ? true : false,
+					'name' => $menuModel->getLabel(),
+					'type' => 'Shortcut',
+					'sequence' => $menuModel->get('sequence'),
+					'newwindow' => '0',
+					'icon' => $menuModel->get('icon'),
+					'dataurl' => $menuModel->getUrl(),
+					'moduleName' => 'Settings::Vtiger',
+				];
+			}
+		}
+		return $menu;
+	}
+
+	public static function addSettingsField($block, $params)
+	{
+		$db = PearDatabase::getInstance();
+		$blockId = Vtiger_Deprecated::getSettingsBlockId($block);
+		$result = $db->pquery('SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?', [$blockId]);
+		$sequence = $db->getSingleValue($result);
+		$fieldId = $db->getUniqueId('vtiger_settings_field');
+		$params['fieldid'] = $fieldId;
+		$params['blockid'] = $blockId;
+		$params['sequence'] = $sequence;
+		$db->insert('vtiger_settings_field', $params);
+	}
+	
+	public static function deleteSettingsField($block, $name)
+	{
+		$db = PearDatabase::getInstance();
+		$blockId = Vtiger_Deprecated::getSettingsBlockId($block);
+		$db->delete('vtiger_settings_field', 'name = ? AND blockid=?', [$name, $blockId]);
+	}
 }

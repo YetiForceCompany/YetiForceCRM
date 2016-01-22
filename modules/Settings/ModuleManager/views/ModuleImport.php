@@ -91,21 +91,22 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 				// We need these information to push for Update if module is detected to be present.
 				$moduleLicence = vtlib_purify($package->getLicense());
 
-				$viewer->assign("MODULEIMPORT_FILE", $uploadFile);
-				$viewer->assign("MODULEIMPORT_TYPE", $package->type());
-				$viewer->assign("MODULEIMPORT_NAME", $importModuleName);
-				$viewer->assign("MODULEIMPORT_PACKAGE", $package);
-				$viewer->assign("MODULEIMPORT_DEP_VTVERSION", $importModuleDepVtVersion);
-				$viewer->assign("MODULEIMPORT_LICENSE", $moduleLicence);
+				$viewer->assign('MODULEIMPORT_FILE', $uploadFile);
+				$viewer->assign('MODULEIMPORT_TYPE', $package->type());
+				$viewer->assign('MODULEIMPORT_NAME', $importModuleName);
+				$viewer->assign('MODULEIMPORT_PACKAGE', $package);
+				$viewer->assign('MODULEIMPORT_DEP_VTVERSION', $importModuleDepVtVersion);
+				$viewer->assign('MODULEIMPORT_LICENSE', $moduleLicence);
+				$viewer->assign('MODULEIMPORT_PARAMETERS', $package->getParameters());
 
 				if (!$package->isLanguageType() && !$package->isUpdateType() && !$package->isModuleBundle()) {
 					$moduleInstance = Vtiger_Module::getInstance($importModuleName);
 					$moduleimport_exists = ($moduleInstance) ? "true" : "false";
 					$moduleimport_dir_name = "modules/$importModuleName";
 					$moduleimport_dir_exists = (is_dir($moduleimport_dir_name) ? "true" : "false");
-					$viewer->assign("MODULEIMPORT_EXISTS", $moduleimport_exists);
-					$viewer->assign("MODULEIMPORT_DIR", $moduleimport_dir_name);
-					$viewer->assign("MODULEIMPORT_DIR_EXISTS", $moduleimport_dir_exists);
+					$viewer->assign('MODULEIMPORT_EXISTS', $moduleimport_exists);
+					$viewer->assign('MODULEIMPORT_DIR', $moduleimport_dir_name);
+					$viewer->assign('MODULEIMPORT_DIR_EXISTS', $moduleimport_dir_exists);
 				}
 			}
 		}
@@ -127,10 +128,14 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		if (strtolower($importType) == 'language') {
 			$package = new Vtiger_Language();
 			$viewer->assign("IMPORT_MODULE_TYPE", 'Language');
+		} else if (strtolower($importType) == 'layout') {
+			vimport('vtlib.Vtiger.Layout');
+			$package = new Vtiger_Layout();
+			$viewer->assign("IMPORT_MODULE_TYPE", 'Layout');
 		} else {
 			$package = new Vtiger_Package();
 		}
-
+		$package->initParameters($request);
 		$package->import($uploadFileName);
 		if ($package->packageType) {
 			$viewer->assign("IMPORT_MODULE_TYPE", $package->packageType);
@@ -162,6 +167,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		} else {
 			$package = new Vtiger_Package();
 		}
+		$package->initParameters($request);
 
 		if (strtolower($importType) == 'language') {
 			$package->import($uploadFileName);

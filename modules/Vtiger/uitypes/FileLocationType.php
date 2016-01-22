@@ -25,7 +25,7 @@ class Vtiger_FileLocationType_UIType extends Vtiger_Base_UIType
 	 * @param <String> value of field
 	 * @return <String> Converted value
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		if ($value === 'I') {
 			$value = 'LBL_INTERNAL';

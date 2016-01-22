@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Vtiger_List_View extends Vtiger_Index_View
@@ -21,12 +22,19 @@ class Vtiger_List_View extends Vtiger_Index_View
 		parent::__construct();
 	}
 
+	public function getBreadcrumbTitle(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		return vtranslate('LBL_VIEW_LIST', $moduleName);
+	}
+
 	function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 
-		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+
 		$mid = false;
 		if ($request->has('mid')) {
 			$mid = $request->get('mid');
@@ -81,7 +89,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$viewer->assign('VIEWID', $this->viewName);
 		}
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		if ($request->isAjax()) {
+			$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+			$viewer->assign('MODULE_NAME', $moduleName);
+		}
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
@@ -274,19 +285,24 @@ class Vtiger_List_View extends Vtiger_Index_View
 
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-
-		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
-
 		$searchParmams = $request->get('search_params');
+		$operator = $request->get('operator');
+		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		
+		if (empty($searchParmams) || !is_array($searchParmams)) {
+			$searchParmams = [];
+		}
+		
 		$listViewModel->set('search_params', $this->transferListSearchParamsToFilterCondition($searchParmams, $listViewModel->getModule()));
+		if (!empty($operator)) {
+			$listViewModel->set('operator', $operator);
+		}
+		if (!empty($searchKey) && !empty($searchValue)) {
+			$listViewModel->set('search_key', $searchKey);
+			$listViewModel->set('search_value', $searchValue);
+		}
 
-		$listViewModel->set('search_key', $searchKey);
-		$listViewModel->set('search_value', $searchValue);
-		$listViewModel->set('operator', $request->get('operator'));
-
-		$count = $listViewModel->getListViewCount();
-
-		return $count;
+		return $listViewModel->getListViewCount();
 	}
 
 	/**

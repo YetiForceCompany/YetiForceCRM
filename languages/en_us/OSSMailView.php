@@ -62,7 +62,9 @@ $languageStrings = [
 	'RC user' => 'RC user',
 	'FromID' => 'Sender Id',
 	'ToID' => 'Receiver Id',
-    
+    'LBL_FILTER_ALL' => 'All',
+	'LBL_FILTER_ACCOUNTS' =>  'All in account',
+	'LBL_FILTER_CONTACTS' => 'All in contact',
 	'LBL_VERIFY' => 'To verification related',
 	'LBL_REL_MOD' => 'Related modules',
 	'LBL_BindMailsOK' => 'Marked emails to bind, the next activation cron messages will be related to record',
@@ -73,6 +75,8 @@ $languageStrings = [
 	'Alert_ChangeType_desc' => 'All types of selected e-mail will be changed, without the possibility to undo the changes.',
 	'LBL_ChangeTypeOK' => 'Changed message type',
 	'Configuration' => 'Configuration',
+	'LBL_MAIL_REPLY_INTRO' => 'On the %s, %s wrote:',
+	'LBL_MAIL_FORWARD_INTRO' => '-------- Original message --------',
 	'LBL_NO_MAILS' => 'No emails',
 	
 	//dashboards

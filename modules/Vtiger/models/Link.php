@@ -81,6 +81,15 @@ class Vtiger_Link_Model extends Vtiger_Link
 	}
 
 	/**
+	 * Function to get the link glyphicon name
+	 * @return <String>
+	 */
+	public function getGlyphiconIcon()
+	{
+		return $this->glyphicon;
+	}
+
+	/**
 	 * Function to check whether link has icon or not
 	 * @return <Boolean> true/false
 	 */
@@ -219,9 +228,11 @@ class Vtiger_Link_Model extends Vtiger_Link
 			if (strcmp($key, 'sourceModule') == 0) {
 				$sourceModule = $value;
 			}
-			$newUrlParts = array();
+			$newUrlParts = [];
 			array_push($newUrlParts, $key);
-			array_push($newUrlParts, $value);
+			if (!empty($value)) {
+				array_push($newUrlParts, $value);
+			}
 			$parametersParts[$index] = implode('=', $newUrlParts);
 		}
 
@@ -233,7 +244,7 @@ class Vtiger_Link_Model extends Vtiger_Link
 			if ($relationModel->isDirectRelation()) {
 				$fieldList = $relatedModuleModel->getFields();
 				foreach ($fieldList as $fieldName => $fieldModel) {
-					if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+					if ($fieldModel->isReferenceField()) {
 						$referenceList = $fieldModel->getReferenceList();
 						if (in_array($sourceModuleModel->get('name'), $referenceList)) {
 							$parametersParts[] = $fieldModel->get('name') . '=' . $sourceRecord;
@@ -280,6 +291,16 @@ class Vtiger_Link_Model extends Vtiger_Link
 		$linkModel = new self();
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$linkModel->$properName = $propertyValue;
+		}
+		// added support for multilayout
+		if (strpos($linkModel->linkurl, '_layoutName_') !== false) {
+			$filePath1 = str_replace('_layoutName_', Yeti_Layout::getActiveLayout(), $linkModel->linkurl);
+			$filePath2 = str_replace('_layoutName_', Yeti_Layout::getActiveLayout(), $linkModel->linkurl);
+			if (is_file(vglobal('root_directory') . $filePath1)) {
+				$linkModel->linkurl = $filePath1;
+			} else if(is_file(vglobal('root_directory') . $filePath2)){
+				$linkModel->linkurl = $filePath2;
+			}
 		}
 		return $linkModel;
 	}

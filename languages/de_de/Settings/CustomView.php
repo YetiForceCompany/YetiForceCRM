@@ -1,7 +1,8 @@
 <?php
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 $languageStrings = [
-	'CustomView'	=> 'Benutzerdefinierte Ansichten',
+	'CustomView'	=> 'Filters - Configuration',
 	'LBL_MODULE_DESC'	=> 'Dieses Tool ermöglicht die Erstellung benutzerdefinierter Ansichten für Module. Diese Module müssen Datensätze enthalten und verwenden Standard-Filter im CRM.',
 	'Module'	=> 'Modul',
 	'ViewName'	=> 'Ansichtsname',

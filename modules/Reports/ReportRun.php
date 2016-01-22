@@ -248,12 +248,7 @@ class ReportRun extends CRMEntity
 	var $_columnstotallist = false;
 	var $_advfiltersql = false;
 	// All UItype 72 fields are added here so that in reports the values are append currencyId::value
-	var $append_currency_symbol_to_value = array('Products_Unit_Price', 'Services_Price',
-		'Invoice_Total', 'Invoice_Sub_Total', 'Invoice_Pre_Tax_Total', 'Invoice_S&H_Amount', 'Invoice_Discount_Amount',
-		'Quotes_Total', 'Quotes_Sub_Total', 'Quotes_Pre_Tax_Total', 'Quotes_S&H_Amount', 'Quotes_Discount_Amount',
-		'SalesOrder_Total', 'SalesOrder_Sub_Total', 'SalesOrder_Pre_Tax_Total', 'SalesOrder_S&H_Amount', 'SalesOrder_Discount_Amount',
-		'PurchaseOrder_Total', 'PurchaseOrder_Sub_Total', 'PurchaseOrder_Pre_Tax_Total', 'PurchaseOrder_S&H_Amount', 'PurchaseOrder_Discount_Amount',
-		'Invoice_Received', 'PurchaseOrder_Paid', 'Invoice_Balance', 'PurchaseOrder_Balance'
+	var $append_currency_symbol_to_value = array('Products_Unit_Price', 'Services_Price'
 	);
 	var $ui10_fields = array();
 	var $ui101_fields = array();
@@ -321,8 +316,8 @@ class ReportRun extends CRMEntity
 		while ($columnslistrow = $adb->fetch_array($result)) {
 			$fieldname = "";
 			$fieldcolname = $columnslistrow["columnname"];
-			list($tablename, $colname, $module_field, $fieldname, $single) = split(":", $fieldcolname);
-			list($module, $field) = split("__", $module_field, 2);
+			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
+			list($module, $field) = explode('__', $module_field, 2);
 			$inventory_fields = array('serviceid');
 			$inventory_modules = getInventoryModules();
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -397,7 +392,7 @@ class ReportRun extends CRMEntity
 		// Save the information
 		$this->_columnslist = $columnslist;
 
-		$log->info("ReportRun :: Successfully returned getQueryColumnsList" . $reportid);
+		$log->info('ReportRun :: Successfully returned getQueryColumnsList' . $reportid);
 		return $columnslist;
 	}
 
@@ -406,21 +401,21 @@ class ReportRun extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		$header_label = $selectedfields[2]; // Header label to be displayed in the reports table
 
-		list($module, $field) = split("__", $selectedfields[2]);
+		list($module, $field) = explode('__', $selectedfields[2]);
 		$concatSql = getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
 		$moduleInstance = CRMEntity::getInstance($module);
 		$this->queryPlanner->addTable($moduleInstance->table_name);
 		if ($selectedfields[4] == 'C') {
-			$field_label_data = split("__", $selectedfields[2]);
+			$field_label_data = explode('__', $selectedfields[2]);
 			$module = $field_label_data[0];
 			if ($module != $this->primarymodule) {
-				$columnSQL = "case when (" . $selectedfields[0] . "." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity$module.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
+				$columnSQL = 'case when (' . $selectedfields[0] . "." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity$module.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
 				$this->queryPlanner->addTable("vtiger_crmentity$module");
 			} else {
-				if ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule) {
-					$columnSQL = "case when ( vtiger_crmentity." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
+				if ($selectedfields[0] == 'vtiger_crmentity' . $this->primarymodule) {
+					$columnSQL = 'case when ( vtiger_crmentity.' . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
 				} else {
-					$columnSQL = "case when (" . $selectedfields[0] . "." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
+					$columnSQL = 'case when (' . $selectedfields[0] . "." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
 					$this->queryPlanner->addTable($selectedfields[0]);
 				}
 			}
@@ -795,7 +790,7 @@ class ReportRun extends CRMEntity
 				$this->queryPlanner->addTable($secondary->table_name);
 			}
 		}
-		$field = split('#', $field);
+		$field = explode('#', $field);
 		$module = $field[0];
 		$fieldname = trim($field[1]);
 		$tabid = getTabId($module);
@@ -1588,7 +1583,7 @@ class ReportRun extends CRMEntity
 		$inventoryModules = getInventoryModules();
 		while ($reportsortrow = $adb->fetch_array($result)) {
 			$fieldcolname = $reportsortrow["columnname"];
-			list($tablename, $colname, $module_field, $fieldname, $single) = split(":", $fieldcolname);
+			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
 			$sortorder = $reportsortrow["sortorder"];
 
 			if ($sortorder == "Ascending") {
@@ -1621,7 +1616,7 @@ class ReportRun extends CRMEntity
 					$sqlvalue = implode(", ", $groupByCondition);
 				}
 				$grouplist[$fieldcolname] = $sqlvalue;
-				$temp = split("__", $selectedfields[2], 2);
+				$temp = explode('__', $selectedfields[2], 2);
 				$module = $temp[0];
 				if (in_array($module, $inventoryModules) && $fieldname == 'serviceid') {
 					$grouplist[$fieldcolname] = $sqlvalue;
@@ -1917,45 +1912,9 @@ class ReportRun extends CRMEntity
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				" where vtiger_crmentity.deleted=0";
-		} else if ($module == "Potentials") {
-			$query = "from vtiger_potential
-				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_potential.potentialid";
-
-			if ($this->queryPlanner->requireTable('vtiger_potentialscf')) {
-				$query .= " inner join vtiger_potentialscf on vtiger_potentialscf.potentialid = vtiger_potential.potentialid";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_accountPotentials')) {
-				$query .= " left join vtiger_account as vtiger_accountPotentials on vtiger_potential.related_to = vtiger_accountPotentials.accountid";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_campaignPotentials')) {
-				$query .= " left join vtiger_campaign as vtiger_campaignPotentials on vtiger_potential.campaignid = vtiger_campaignPotentials.campaignid";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_groupsPotentials')) {
-				$query .= " left join vtiger_groups vtiger_groupsPotentials on vtiger_groupsPotentials.groupid = vtiger_crmentity.smownerid";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_usersPotentials')) {
-				$query .= " left join vtiger_users as vtiger_usersPotentials on vtiger_usersPotentials.id = vtiger_crmentity.smownerid";
-			}
-
-			// TODO optimize inclusion of these tables
-			$query .= " left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid";
-			$query .= " left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
-
-			if ($this->queryPlanner->requireTable('vtiger_lastModifiedByPotentials')) {
-				$query .= " left join vtiger_users as vtiger_lastModifiedByPotentials on vtiger_lastModifiedByPotentials.id = vtiger_crmentity.modifiedby";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_createdbyPotentials')) {
-				$query .= " left join vtiger_users as vtiger_createdbyPotentials on vtiger_createdbyPotentials.id = vtiger_crmentity.smcreatorid";
-			}
-			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
-				$query .= " left join " . $customTable['refTable'] . " as " . $customTable['reference'] . " on " . $customTable['reference'] . "." . $customTable['refIndex'] . " = " . $customTable['table'] . "." . $customTable['field'];
-			}
-			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
-				" where vtiger_crmentity.deleted=0 ";
 		}
 
-		//For this Product - we can related Accounts, Contacts (Also Leads, Potentials)
+		//For this Product - we can related Accounts, Contacts (Also Leads)
 		else if ($module == "Products") {
 			$query .= " from vtiger_products";
 			$query .= " inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_products.productid";
@@ -2078,9 +2037,6 @@ class ReportRun extends CRMEntity
 			if ($this->queryPlanner->requireTable('vtiger_leaddetailsRelCalendar')) {
 				$query .= " left join vtiger_leaddetails as vtiger_leaddetailsRelCalendar on vtiger_leaddetailsRelCalendar.leadid = vtiger_activity.link";
 			}
-			if ($this->queryPlanner->requireTable('vtiger_potentialRelCalendar')) {
-				$query .= " left join vtiger_potential as vtiger_potentialRelCalendar on vtiger_potentialRelCalendar.potentialid = vtiger_activity.process";
-			}
 			if ($this->queryPlanner->requireTable('vtiger_troubleticketsRelCalendar')) {
 				$query .= " left join vtiger_troubletickets as vtiger_troubleticketsRelCalendar on vtiger_troubleticketsRelCalendar.ticketid = vtiger_activity.process";
 			}
@@ -2099,253 +2055,6 @@ class ReportRun extends CRMEntity
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				" WHERE vtiger_crmentity.deleted=0 and (vtiger_activity.activitytype != 'Emails')";
-		} else if ($module == "Quotes") {
-			$matrix = $this->queryPlanner->newDependencyMatrix();
-
-			$matrix->setDependency('vtiger_inventoryproductrelQuotes', array('vtiger_productsQuotes', 'vtiger_serviceQuotes'));
-
-			$query = "from vtiger_quotes
-			inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_quotes.quoteid";
-
-			if ($this->queryPlanner->requireTable('vtiger_quotesaddress')) {
-				$query .= " inner join vtiger_quotesaddress on vtiger_quotes.quoteid=vtiger_quotesaddress.quoteaddressid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_currency_info$module")) {
-				$query .= " left join vtiger_currency_info as vtiger_currency_info$module on vtiger_currency_info$module.id = vtiger_quotes.currency_id";
-			}
-			if ($type !== 'COLUMNSTOTOTAL' || $this->lineItemFieldsInCalculation == true) {
-				if ($this->queryPlanner->requireTable("vtiger_inventoryproductrelQuotes", $matrix)) {
-					$query .= " left join vtiger_inventoryproductrel as vtiger_inventoryproductrelQuotes on vtiger_quotes.quoteid = vtiger_inventoryproductrelQuotes.id";
-				}
-				if ($this->queryPlanner->requireTable("vtiger_productsQuotes")) {
-					$query .= " left join vtiger_products as vtiger_productsQuotes on vtiger_productsQuotes.productid = vtiger_inventoryproductrelQuotes.productid";
-				}
-				if ($this->queryPlanner->requireTable("vtiger_serviceQuotes")) {
-					$query .= " left join vtiger_service as vtiger_serviceQuotes on vtiger_serviceQuotes.serviceid = vtiger_inventoryproductrelQuotes.productid";
-				}
-			}
-			if ($this->queryPlanner->requireTable("vtiger_quotescf")) {
-				$query .= " left join vtiger_quotescf on vtiger_quotes.quoteid = vtiger_quotescf.quoteid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_groupsQuotes")) {
-				$query .= " left join vtiger_groups as vtiger_groupsQuotes on vtiger_groupsQuotes.groupid = vtiger_crmentity.smownerid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_usersQuotes")) {
-				$query .= " left join vtiger_users as vtiger_usersQuotes on vtiger_usersQuotes.id = vtiger_crmentity.smownerid";
-			}
-
-			// TODO optimize inclusion of these tables
-			$query .= " left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid";
-			$query .= " left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
-
-			if ($this->queryPlanner->requireTable("vtiger_lastModifiedByQuotes")) {
-				$query .= " left join vtiger_users as vtiger_lastModifiedByQuotes on vtiger_lastModifiedByQuotes.id = vtiger_crmentity.modifiedby";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_createdbyQuotes')) {
-				$query .= " left join vtiger_users as vtiger_createdbyQuotes on vtiger_createdbyQuotes.id = vtiger_crmentity.smcreatorid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_usersRel1")) {
-				$query .= " left join vtiger_users as vtiger_usersRel1 on vtiger_usersRel1.id = vtiger_quotes.inventorymanager";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_potentialRelQuotes")) {
-				$query .= " left join vtiger_potential as vtiger_potentialRelQuotes on vtiger_potentialRelQuotes.potentialid = vtiger_quotes.potentialid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_accountQuotes")) {
-				$query .= " left join vtiger_account as vtiger_accountQuotes on vtiger_accountQuotes.accountid = vtiger_quotes.accountid";
-			}
-			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
-				$query .= " left join " . $customTable['refTable'] . " as " . $customTable['reference'] . " on " . $customTable['reference'] . "." . $customTable['refIndex'] . " = " . $customTable['table'] . "." . $customTable['field'];
-			}
-			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
-				" where vtiger_crmentity.deleted=0";
-		} else if ($module == "PurchaseOrder") {
-
-			$matrix = $this->queryPlanner->newDependencyMatrix();
-
-			$matrix->setDependency('vtiger_inventoryproductrelPurchaseOrder', array('vtiger_productsPurchaseOrder', 'vtiger_servicePurchaseOrder'));
-
-			$query = "from vtiger_purchaseorder
-			inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_purchaseorder.purchaseorderid";
-
-			if ($this->queryPlanner->requireTable("vtiger_purchaseorderaddress")) {
-				$query .= " inner join vtiger_purchaseorderaddress on vtiger_purchaseorder.purchaseorderid=vtiger_purchaseorderaddress.purchaseorderaddressid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_currency_info$module")) {
-				$query .= " left join vtiger_currency_info as vtiger_currency_info$module on vtiger_currency_info$module.id = vtiger_purchaseorder.currency_id";
-			}
-			if ($type !== 'COLUMNSTOTOTAL' || $this->lineItemFieldsInCalculation == true) {
-				if ($this->queryPlanner->requireTable("vtiger_inventoryproductrelPurchaseOrder", $matrix)) {
-					$query .= " left join vtiger_inventoryproductrel as vtiger_inventoryproductrelPurchaseOrder on vtiger_purchaseorder.purchaseorderid = vtiger_inventoryproductrelPurchaseOrder.id";
-				}
-				if ($this->queryPlanner->requireTable("vtiger_productsPurchaseOrder")) {
-					$query .= " left join vtiger_products as vtiger_productsPurchaseOrder on vtiger_productsPurchaseOrder.productid = vtiger_inventoryproductrelPurchaseOrder.productid";
-				}
-				if ($this->queryPlanner->requireTable("vtiger_servicePurchaseOrder")) {
-					$query .= " left join vtiger_service as vtiger_servicePurchaseOrder on vtiger_servicePurchaseOrder.serviceid = vtiger_inventoryproductrelPurchaseOrder.productid";
-				}
-			}
-			if ($this->queryPlanner->requireTable("vtiger_purchaseordercf")) {
-				$query .= " left join vtiger_purchaseordercf on vtiger_purchaseorder.purchaseorderid = vtiger_purchaseordercf.purchaseorderid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_groupsPurchaseOrder")) {
-				$query .= " left join vtiger_groups as vtiger_groupsPurchaseOrder on vtiger_groupsPurchaseOrder.groupid = vtiger_crmentity.smownerid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_usersPurchaseOrder")) {
-				$query .= " left join vtiger_users as vtiger_usersPurchaseOrder on vtiger_usersPurchaseOrder.id = vtiger_crmentity.smownerid";
-			}
-
-			// TODO optimize inclusion of these tables
-			$query .= " left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid";
-			$query .= " left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
-
-			if ($this->queryPlanner->requireTable("vtiger_lastModifiedByPurchaseOrder")) {
-				$query .= " left join vtiger_users as vtiger_lastModifiedByPurchaseOrder on vtiger_lastModifiedByPurchaseOrder.id = vtiger_crmentity.modifiedby";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_createdbyPurchaseOrder')) {
-				$query .= " left join vtiger_users as vtiger_createdbyPurchaseOrder on vtiger_createdbyPurchaseOrder.id = vtiger_crmentity.smcreatorid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_vendorRelPurchaseOrder")) {
-				$query .= " left join vtiger_vendor as vtiger_vendorRelPurchaseOrder on vtiger_vendorRelPurchaseOrder.vendorid = vtiger_purchaseorder.vendorid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_contactdetailsPurchaseOrder")) {
-				$query .= " left join vtiger_contactdetails as vtiger_contactdetailsPurchaseOrder on vtiger_contactdetailsPurchaseOrder.contactid = vtiger_purchaseorder.contactid";
-			}
-			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
-				$query .= " left join " . $customTable['refTable'] . " as " . $customTable['reference'] . " on " . $customTable['reference'] . "." . $customTable['refIndex'] . " = " . $customTable['table'] . "." . $customTable['field'];
-			}
-			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
-				" where vtiger_crmentity.deleted=0";
-		} else if ($module == "Invoice") {
-			$matrix = $this->queryPlanner->newDependencyMatrix();
-
-			$matrix->setDependency('vtiger_inventoryproductrelInvoice', array('vtiger_productsInvoice', 'vtiger_serviceInvoice'));
-
-			$query = "from vtiger_invoice
-			inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_invoice.invoiceid";
-
-			if ($this->queryPlanner->requireTable("vtiger_invoiceaddress")) {
-				$query .=" inner join vtiger_invoiceaddress on vtiger_invoice.invoiceid=vtiger_invoiceaddress.invoiceaddressid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_currency_info$module")) {
-				$query .=" left join vtiger_currency_info as vtiger_currency_info$module on vtiger_currency_info$module.id = vtiger_invoice.currency_id";
-			}
-			// lineItemFieldsInCalculation - is used to when line item fields are used in calculations
-			if ($type !== 'COLUMNSTOTOTAL' || $this->lineItemFieldsInCalculation == true) {
-				// should be present on when line item fields are selected for calculation
-				if ($this->queryPlanner->requireTable("vtiger_inventoryproductrelInvoice", $matrix)) {
-					$query .=" left join vtiger_inventoryproductrel as vtiger_inventoryproductrelInvoice on vtiger_invoice.invoiceid = vtiger_inventoryproductrelInvoice.id";
-				}
-				if ($this->queryPlanner->requireTable("vtiger_productsInvoice")) {
-					$query .=" left join vtiger_products as vtiger_productsInvoice on vtiger_productsInvoice.productid = vtiger_inventoryproductrelInvoice.productid";
-				}
-				if ($this->queryPlanner->requireTable("vtiger_serviceInvoice")) {
-					$query .=" left join vtiger_service as vtiger_serviceInvoice on vtiger_serviceInvoice.serviceid = vtiger_inventoryproductrelInvoice.productid";
-				}
-			}
-			if ($this->queryPlanner->requireTable("vtiger_salesorderInvoice")) {
-				$query .= " left join vtiger_salesorder as vtiger_salesorderInvoice on vtiger_salesorderInvoice.salesorderid=vtiger_invoice.salesorderid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_invoicecf")) {
-				$query .= " left join vtiger_invoicecf on vtiger_invoice.invoiceid = vtiger_invoicecf.invoiceid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_groupsInvoice")) {
-				$query .= " left join vtiger_groups as vtiger_groupsInvoice on vtiger_groupsInvoice.groupid = vtiger_crmentity.smownerid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_usersInvoice")) {
-				$query .= " left join vtiger_users as vtiger_usersInvoice on vtiger_usersInvoice.id = vtiger_crmentity.smownerid";
-			}
-
-			// TODO optimize inclusion of these tables
-			$query .= " left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid";
-			$query .= " left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
-
-			if ($this->queryPlanner->requireTable("vtiger_lastModifiedByInvoice")) {
-				$query .= " left join vtiger_users as vtiger_lastModifiedByInvoice on vtiger_lastModifiedByInvoice.id = vtiger_crmentity.modifiedby";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_createdbyInvoice')) {
-				$query .= " left join vtiger_users as vtiger_createdbyInvoice on vtiger_createdbyInvoice.id = vtiger_crmentity.smcreatorid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_accountInvoice")) {
-				$query .= " left join vtiger_account as vtiger_accountInvoice on vtiger_accountInvoice.accountid = vtiger_invoice.accountid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_contactdetailsInvoice")) {
-				$query .= " left join vtiger_contactdetails as vtiger_contactdetailsInvoice on vtiger_contactdetailsInvoice.contactid = vtiger_invoice.contactid";
-			}
-			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
-				$query .= " left join " . $customTable['refTable'] . " as " . $customTable['reference'] . " on " . $customTable['reference'] . "." . $customTable['refIndex'] . " = " . $customTable['table'] . "." . $customTable['field'];
-			}
-
-			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
-				" where vtiger_crmentity.deleted=0";
-		} else if ($module == "SalesOrder") {
-			$matrix = $this->queryPlanner->newDependencyMatrix();
-
-			$matrix->setDependency('vtiger_inventoryproductrelSalesOrder', array('vtiger_productsSalesOrder', 'vtiger_serviceSalesOrder'));
-
-			$query = "from vtiger_salesorder
-			inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_salesorder.salesorderid";
-
-			if ($this->queryPlanner->requireTable("vtiger_salesorderaddress")) {
-				$query .= " inner join vtiger_salesorderaddress on vtiger_salesorder.salesorderid=vtiger_salesorderaddress.salesorderaddressid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_currency_info$module")) {
-				$query .= " left join vtiger_currency_info as vtiger_currency_info$module on vtiger_currency_info$module.id = vtiger_salesorder.currency_id";
-			}
-			if ($type !== 'COLUMNSTOTOTAL' || $this->lineItemFieldsInCalculation == true) {
-				if ($this->queryPlanner->requireTable("vtiger_inventoryproductrelSalesOrder", $matrix)) {
-					$query .= " left join vtiger_inventoryproductrel as vtiger_inventoryproductrelSalesOrder on vtiger_salesorder.salesorderid = vtiger_inventoryproductrelSalesOrder.id";
-				}
-				if ($this->queryPlanner->requireTable("vtiger_productsSalesOrder")) {
-					$query .= " left join vtiger_products as vtiger_productsSalesOrder on vtiger_productsSalesOrder.productid = vtiger_inventoryproductrelSalesOrder.productid";
-				}
-				if ($this->queryPlanner->requireTable("vtiger_serviceSalesOrder")) {
-					$query .= " left join vtiger_service as vtiger_serviceSalesOrder on vtiger_serviceSalesOrder.serviceid = vtiger_inventoryproductrelSalesOrder.productid";
-				}
-			}
-			if ($this->queryPlanner->requireTable("vtiger_salesordercf")) {
-				$query .=" left join vtiger_salesordercf on vtiger_salesorder.salesorderid = vtiger_salesordercf.salesorderid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_contactdetailsSalesOrder")) {
-				$query .= " left join vtiger_contactdetails as vtiger_contactdetailsSalesOrder on vtiger_contactdetailsSalesOrder.contactid = vtiger_salesorder.contactid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_quotesSalesOrder")) {
-				$query .= " left join vtiger_quotes as vtiger_quotesSalesOrder on vtiger_quotesSalesOrder.quoteid = vtiger_salesorder.quoteid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_accountSalesOrder")) {
-				$query .= " left join vtiger_account as vtiger_accountSalesOrder on vtiger_accountSalesOrder.accountid = vtiger_salesorder.accountid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_potentialRelSalesOrder")) {
-				$query .= " left join vtiger_potential as vtiger_potentialRelSalesOrder on vtiger_potentialRelSalesOrder.potentialid = vtiger_salesorder.potentialid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_invoice_recurring_info")) {
-				$query .= " left join vtiger_invoice_recurring_info on vtiger_invoice_recurring_info.salesorderid = vtiger_salesorder.salesorderid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_groupsSalesOrder")) {
-				$query .= " left join vtiger_groups as vtiger_groupsSalesOrder on vtiger_groupsSalesOrder.groupid = vtiger_crmentity.smownerid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_usersSalesOrder")) {
-				$query .= " left join vtiger_users as vtiger_usersSalesOrder on vtiger_usersSalesOrder.id = vtiger_crmentity.smownerid";
-			}
-
-			// TODO optimize inclusion of these tables
-			$query .= " left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid";
-			$query .= " left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
-
-			if ($this->queryPlanner->requireTable("vtiger_lastModifiedBySalesOrder")) {
-				$query .= " left join vtiger_users as vtiger_lastModifiedBySalesOrder on vtiger_lastModifiedBySalesOrder.id = vtiger_crmentity.modifiedby";
-			}
-			if ($this->queryPlanner->requireTable('vtiger_createdbySalesOrder')) {
-				$query .= " left join vtiger_users as vtiger_createdbySalesOrder on vtiger_createdbySalesOrder.id = vtiger_crmentity.smcreatorid";
-			}
-			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
-				$query .= " left join " . $customTable['refTable'] . " as " . $customTable['reference'] . " on " . $customTable['reference'] . "." . $customTable['refIndex'] . " = " . $customTable['table'] . "." . $customTable['field'];
-			}
-			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
-				" where vtiger_crmentity.deleted=0";
 		} else if ($module == "Campaigns") {
 			$query = "from vtiger_campaign
 			inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_campaign.campaignid";
@@ -2577,7 +2286,7 @@ class ReportRun extends CRMEntity
 		$modules_selected = array();
 		$modules_selected[] = $this->primarymodule;
 		if (!empty($this->secondarymodule)) {
-			$sec_modules = split(":", $this->secondarymodule);
+			$sec_modules = explode(':', $this->secondarymodule);
 			for ($i = 0; $i < count($sec_modules); $i++) {
 				$modules_selected[] = $sec_modules[$i];
 			}
@@ -2624,7 +2333,7 @@ class ReportRun extends CRMEntity
 			if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
 				$picklistarray = $this->getAccessPickListValues();
 			if ($result) {
-				$y = $adb->num_fields($result);
+				$y = $adb->getFieldsCount($result);
 				$arrayHeaders = Array();
 				for ($x = 0; $x < $y; $x++) {
 					$fld = $adb->columnMeta($result, $x);
@@ -2637,7 +2346,7 @@ class ReportRun extends CRMEntity
 						$arrayHeaders[] = $headerLabel;
 					}
 					/* STRING TRANSLATION starts */
-					$mod_name = split(' ', $headerLabel, 2);
+					$mod_name = explode(' ', $headerLabel, 2);
 					$moduleLabel = '';
 					if (in_array($mod_name[0], $modules_selected)) {
 						$moduleLabel = getTranslatedString($mod_name[0], $mod_name[0]);
@@ -2832,7 +2541,7 @@ class ReportRun extends CRMEntity
 				$picklistarray = $this->getAccessPickListValues();
 
 			if ($result) {
-				$y = $adb->num_fields($result);
+				$y = $adb->getFieldsCount($result);
 				$noofrows = $adb->num_rows($result);
 				$custom_field_values = $adb->fetch_array($result);
 				$column_definitions = $adb->getFieldsDefinition($result);
@@ -2869,7 +2578,7 @@ class ReportRun extends CRMEntity
 			if (isset($this->totallist)) {
 				if ($sSQL != "") {
 					$result = $adb->query($sSQL);
-					$y = $adb->num_fields($result);
+					$y = $adb->getFieldsCount($result);
 					$custom_field_values = $adb->fetch_array($result);
 
 					foreach ($this->totallist as $key => $value) {
@@ -2967,7 +2676,7 @@ class ReportRun extends CRMEntity
 			if (isset($this->totallist)) {
 				if ($sSQL != "") {
 					$result = $adb->query($sSQL);
-					$y = $adb->num_fields($result);
+					$y = $adb->getFieldsCount($result);
 					$custom_field_values = $adb->fetch_array($result);
 					$coltotalhtml .= "<table align='center' width='60%' cellpadding='3' cellspacing='0' border='0' class='rptTable'><tr><td class='rptCellLabel'>" . $mod_strings[Totals] . "</td><td class='rptCellLabel'>" . $mod_strings[SUM] . "</td><td class='rptCellLabel'>" . $mod_strings[AVG] . "</td><td class='rptCellLabel'>" . $mod_strings[MIN] . "</td><td class='rptCellLabel'>" . $mod_strings[MAX] . "</td></tr>";
 
@@ -3094,7 +2803,7 @@ class ReportRun extends CRMEntity
 				$picklistarray = $this->getAccessPickListValues();
 
 			if ($result) {
-				$y = $adb->num_fields($result);
+				$y = $adb->getFieldsCount($result);
 				$arrayHeaders = Array();
 				for ($x = 0; $x < $y - 1; $x++) {
 					$fld = $adb->columnMeta($result, $x);
@@ -3180,7 +2889,7 @@ class ReportRun extends CRMEntity
 			if (isset($this->totallist)) {
 				if ($sSQL != "") {
 					$result = $adb->query($sSQL);
-					$y = $adb->num_fields($result);
+					$y = $adb->getFieldsCount($result);
 					$custom_field_values = $adb->fetch_array($result);
 
 					$coltotalhtml .= "<br /><table align='center' width='60%' cellpadding='3' cellspacing='0' border='1' class='printReport'><tr><td class='rptCellLabel'>" . $mod_strings['Totals'] . "</td><td><b>" . $mod_strings['SUM'] . "</b></td><td><b>" . $mod_strings['AVG'] . "</b></td><td><b>" . $mod_strings['MIN'] . "</b></td><td><b>" . $mod_strings['MAX'] . "</b></td></tr>";
@@ -3353,7 +3062,7 @@ class ReportRun extends CRMEntity
 				if (CheckColumnPermission($field_tablename, $field_columnname, $premod) != "false") {
 					$field_permitted = true;
 				} else {
-					$mod = split(":", $secmod);
+					$mod = explode(':', $secmod);
 					foreach ($mod as $key) {
 						if (CheckColumnPermission($field_tablename, $field_columnname, $key) != "false") {
 							$field_permitted = true;
@@ -3362,7 +3071,7 @@ class ReportRun extends CRMEntity
 				}
 
 				//Calculation fields of "Events" module should show in Calendar related report
-				$secondaryModules = split(":", $secmod);
+				$secondaryModules = explode(':', $secmod);
 				if ($field_permitted === false && ($premod === 'Calendar' || in_array('Calendar', $secondaryModules)) && CheckColumnPermission($field_tablename, $field_columnname, "Events") != "false") {
 					$field_permitted = true;
 				}
@@ -3421,9 +3130,6 @@ class ReportRun extends CRMEntity
 			// Query needs to be rebuild to get the value in user preferred currency. [innerProduct and actual_unit_price are table and column alias.]
 			$field = " innerService.actual_unit_price";
 			$this->queryPlanner->addTable("innerService");
-		}
-		if (($field_tablename == 'vtiger_invoice' || $field_tablename == 'vtiger_quotes' || $field_tablename == 'vtiger_purchaseorder' || $field_tablename == 'vtiger_salesorder') && ($field_columnname == 'total' || $field_columnname == 'subtotal' || $field_columnname == 'discount_amount' || $field_columnname == 'paid' || $field_columnname == 'balance' || $field_columnname == 'received')) {
-			$field = " $field_tablename.$field_columnname/$field_tablename.conversion_rate ";
 		}
 
 		if ($field_tablename == 'vtiger_inventoryproductrel') {
@@ -3586,107 +3292,6 @@ class ReportRun extends CRMEntity
 		return $fieldlists;
 	}
 
-	function getReportPDF($filterlist = false)
-	{
-		require_once 'libraries/tcpdf/tcpdf.php';
-
-		$reportData = $this->GenerateReport("PDF", $filterlist);
-		$arr_val = $reportData['data'];
-
-		if (isset($arr_val)) {
-			foreach ($arr_val as $wkey => $warray_value) {
-				foreach ($warray_value as $whd => $wvalue) {
-					if (strlen($wvalue) < strlen($whd)) {
-						$w_inner_array[] = strlen($whd);
-					} else {
-						$w_inner_array[] = strlen($wvalue);
-					}
-				}
-				$warr_val[] = $w_inner_array;
-				unset($w_inner_array);
-			}
-
-			foreach ($warr_val[0] as $fkey => $fvalue) {
-				foreach ($warr_val as $wkey => $wvalue) {
-					$f_inner_array[] = $warr_val[$wkey][$fkey];
-				}
-				sort($f_inner_array, 1);
-				$farr_val[] = $f_inner_array;
-				unset($f_inner_array);
-			}
-
-			foreach ($farr_val as $skkey => $skvalue) {
-				if ($skvalue[count($arr_val) - 1] == 1) {
-					$col_width[] = ($skvalue[count($arr_val) - 1] * 50);
-				} else {
-					$col_width[] = ($skvalue[count($arr_val) - 1] * 10) + 10;
-				}
-			}
-			$count = 0;
-			foreach ($arr_val[0] as $key => $value) {
-				$headerHTML .= '<td width="' . $col_width[$count] . '" bgcolor="#DDDDDD"><b>' . $this->getLstringforReportHeaders($key) . '</b></td>';
-				$count = $count + 1;
-			}
-
-			foreach ($arr_val as $key => $array_value) {
-				$valueHTML = "";
-				$count = 0;
-				foreach ($array_value as $hd => $value) {
-					$valueHTML .= '<td width="' . $col_width[$count] . '">' . $value . '</td>';
-					$count = $count + 1;
-				}
-				$dataHTML .= '<tr>' . $valueHTML . '</tr>';
-			}
-		}
-
-		$totalpdf = $this->GenerateReport("PRINT_TOTAL", $filterlist);
-		$html = '<table border="0.5"><tr>' . $headerHTML . '</tr>' . $dataHTML . '<tr><td>' . $totalpdf . '</td></tr>' . '</table>';
-		$columnlength = array_sum($col_width);
-		if ($columnlength > 14400) {
-			die("<br><br><center>" . $app_strings['LBL_PDF'] . " <a href='javascript:window.history.back()'>" . $app_strings['LBL_GO_BACK'] . ".</a></center>");
-		}
-		if ($columnlength <= 420) {
-			$pdf = new TCPDF('P', 'mm', 'A5', true);
-		} elseif ($columnlength >= 421 && $columnlength <= 1120) {
-			$pdf = new TCPDF('L', 'mm', 'A3', true);
-		} elseif ($columnlength >= 1121 && $columnlength <= 1600) {
-			$pdf = new TCPDF('L', 'mm', 'A2', true);
-		} elseif ($columnlength >= 1601 && $columnlength <= 2200) {
-			$pdf = new TCPDF('L', 'mm', 'A1', true);
-		} elseif ($columnlength >= 2201 && $columnlength <= 3370) {
-			$pdf = new TCPDF('L', 'mm', 'A0', true);
-		} elseif ($columnlength >= 3371 && $columnlength <= 4690) {
-			$pdf = new TCPDF('L', 'mm', '2A0', true);
-		} elseif ($columnlength >= 4691 && $columnlength <= 6490) {
-			$pdf = new TCPDF('L', 'mm', '4A0', true);
-		} else {
-			$columnhight = count($arr_val) * 15;
-			$format = array($columnhight, $columnlength);
-			$pdf = new TCPDF('L', 'mm', $format, true);
-		}
-		$pdf->SetMargins(10, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-		$pdf->setLanguageArray($l);
-		$pdf->AddPage();
-
-		$pdf->SetFillColor(224, 235, 255);
-		$pdf->SetTextColor(0);
-		$pdf->SetFont('FreeSerif', 'B', 14);
-		$pdf->Cell(($pdf->columnlength * 50), 10, getTranslatedString($oReport->reportname), 0, 0, 'C', 0);
-		//$pdf->writeHTML($oReport->reportname);
-		$pdf->Ln();
-
-		$pdf->SetFont('FreeSerif', '', 10);
-
-		$pdf->writeHTML($html);
-
-		return $pdf;
-	}
-
 	function writeReportToExcelFile($fileName, $filterlist = '')
 	{
 
@@ -3805,7 +3410,7 @@ class ReportRun extends CRMEntity
 		$num_rows = $adb->num_rows($groupByTimeRes);
 		for ($i = 0; $i < $num_rows; $i++) {
 			$sortColName = $adb->query_result($groupByTimeRes, $i, 'sortcolname');
-			list($tablename, $colname, $module_field, $fieldname, $single) = split(':', $sortColName);
+			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $sortColName);
 			$groupField = $module_field;
 			$groupCriteria = $adb->query_result($groupByTimeRes, $i, 'dategroupbycriteria');
 			if (in_array($groupCriteria, array_keys($this->groupByTimeParent))) {
@@ -3920,16 +3525,6 @@ class ReportRun extends CRMEntity
 					$referenceTableName = 'vtiger_contactdetailsCalendar';
 				} elseif ($moduleName == 'Calendar' && $referenceModule == 'Leads') {
 					$referenceTableName = 'vtiger_leaddetailsRelCalendar';
-				} elseif ($moduleName == 'Calendar' && $referenceModule == 'Potentials') {
-					$referenceTableName = 'vtiger_potentialRelCalendar';
-				} elseif ($moduleName == 'Calendar' && $referenceModule == 'Invoice') {
-					$referenceTableName = 'vtiger_invoiceRelCalendar';
-				} elseif ($moduleName == 'Calendar' && $referenceModule == 'Quotes') {
-					$referenceTableName = 'vtiger_quotesRelCalendar';
-				} elseif ($moduleName == 'Calendar' && $referenceModule == 'PurchaseOrder') {
-					$referenceTableName = 'vtiger_purchaseorderRelCalendar';
-				} elseif ($moduleName == 'Calendar' && $referenceModule == 'SalesOrder') {
-					$referenceTableName = 'vtiger_salesorderRelCalendar';
 				} elseif ($moduleName == 'Calendar' && $referenceModule == 'HelpDesk') {
 					$referenceTableName = 'vtiger_troubleticketsRelCalendar';
 				} elseif ($moduleName == 'Calendar' && $referenceModule == 'Campaigns') {
@@ -3944,36 +3539,8 @@ class ReportRun extends CRMEntity
 					$referenceTableName = 'vtiger_productsCampaigns';
 				} elseif ($moduleName == 'Faq' && $referenceModule == 'Products') {
 					$referenceTableName = 'vtiger_productsFaq';
-				} elseif ($moduleName == 'Invoice' && $referenceModule == 'SalesOrder') {
-					$referenceTableName = 'vtiger_salesorderInvoice';
-				} elseif ($moduleName == 'Invoice' && $referenceModule == 'Contacts') {
-					$referenceTableName = 'vtiger_contactdetailsInvoice';
-				} elseif ($moduleName == 'Invoice' && $referenceModule == 'Accounts') {
-					$referenceTableName = 'vtiger_accountInvoice';
-				} elseif ($moduleName == 'Potentials' && $referenceModule == 'Campaigns') {
-					$referenceTableName = 'vtiger_campaignPotentials';
 				} elseif ($moduleName == 'Products' && $referenceModule == 'Vendors') {
 					$referenceTableName = 'vtiger_vendorRelProducts';
-				} elseif ($moduleName == 'PurchaseOrder' && $referenceModule == 'Contacts') {
-					$referenceTableName = 'vtiger_contactdetailsPurchaseOrder';
-				} elseif ($moduleName == 'PurchaseOrder' && $referenceModule == 'Vendors') {
-					$referenceTableName = 'vtiger_vendorRelPurchaseOrder';
-				} elseif ($moduleName == 'Quotes' && $referenceModule == 'Potentials') {
-					$referenceTableName = 'vtiger_potentialRelQuotes';
-				} elseif ($moduleName == 'Quotes' && $referenceModule == 'Accounts') {
-					$referenceTableName = 'vtiger_accountQuotes';
-				} elseif ($moduleName == 'SalesOrder' && $referenceModule == 'Potentials') {
-					$referenceTableName = 'vtiger_potentialRelSalesOrder';
-				} elseif ($moduleName == 'SalesOrder' && $referenceModule == 'Accounts') {
-					$referenceTableName = 'vtiger_accountSalesOrder';
-				} elseif ($moduleName == 'SalesOrder' && $referenceModule == 'Contacts') {
-					$referenceTableName = 'vtiger_contactdetailsSalesOrder';
-				} elseif ($moduleName == 'SalesOrder' && $referenceModule == 'Quotes') {
-					$referenceTableName = 'vtiger_quotesSalesOrder';
-				} elseif ($moduleName == 'Potentials' && $referenceModule == 'Contacts') {
-					$referenceTableName = 'vtiger_contactdetailsPotentials';
-				} elseif ($moduleName == 'Potentials' && $referenceModule == 'Accounts') {
-					$referenceTableName = 'vtiger_accountPotentials';
 				} elseif ($moduleName == 'ModComments' && $referenceModule == 'Users') {
 					$referenceTableName = 'vtiger_usersModComments';
 				} elseif (in_array($referenceModule, $reportSecondaryModules)) {

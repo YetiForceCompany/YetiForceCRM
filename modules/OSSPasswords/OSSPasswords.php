@@ -331,31 +331,6 @@ class OSSPasswords extends CRMEntity {
         $handlerClass = 'SECURE';
 
  		if ( $eventType == 'module.postinstall' ) {
-			//Add OSSPasswords Module to Customer Portal  		
-            require_once 'vtlib/Vtiger/Module.php';
-
-            // add default oss_passwords configuration
-            $adb->pquery( "INSERT INTO vtiger_passwords_config values(?,?,?,?)", array('10', '15', 'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,W,X,Y,Z,0,1,2,3,4,5,6,7,8,9', '0') );
-            
-            // adds record prefix
-            $myCustomEntity = new CRMEntity();
-            $myCustomPrefix = "PASS"; // Your custom prefix string for the custom module
-            $sequenceStart = 1; // The starting sequence number
-            $myCustomEntity->setModuleSeqNumber( "configure", $moduleName, $myCustomPrefix, $sequenceStart );
-            
-            $registerLink = true; 
-			$addModTracker = true;
-        
-            // handler for obscuring password data in "update history"
-            $em = new VTEventsManager($adb);
-            $em->registerHandler('vtiger.entity.aftersave.final', 'modules/OSSPasswords/handlers/secure.php', $handlerClass);
-						            
-            // Module icon
-            copy( 'modules/OSSPasswords/OSSPasswords.png', 'layouts/vlayout/skins/images/OSSPasswords.png' );
-			
-			// block export of module
-			$sql = "UPDATE vtiger_tab SET customized=0 WHERE name='$moduleName' LIMIT 1;";
-			$adb->query( $sql, true );
 
 		}
         else if($eventType == 'module.disabled') {
