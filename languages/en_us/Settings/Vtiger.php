@@ -288,6 +288,7 @@ $languageStrings = [
 	'Mail Logs' => 'Mail – Download history',
 	'LBL_LOGS' => 'Logs',
 	'LBL_AUTOMATION' => 'Automation',
+	'LBL_MENU_SUMMARRY' => 'Summary',
 	/* Role */
 	'Board of Management' => 'Board of Management',
 	'Sales Department' => 'Sales Department',

@@ -287,6 +287,7 @@ $languageStrings = [
 	'LBL_LOGS' => 'Logi',
 	'LBL_AUTOMATION' => 'Automatyzacja',
 	'LBL_TIMECONTROL_PROCESSES' => 'Procesy czasu pracy',
+	'LBL_MENU_SUMMARRY' => 'Podsumowanie',
 	/* Role */
 	'Board of Management' => 'Zarząd',
 	'Sales Department' => 'Dział sprzedaży',
