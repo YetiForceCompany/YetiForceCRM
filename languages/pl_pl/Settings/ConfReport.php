@@ -44,6 +44,7 @@ $languageStrings = [
 	'LBL_JSON_LIBRARY' => 'JSON',
 	'LBL_SESSION_LIBRARY' => 'SESSION',
 	'LBL_DOM_LIBRARY' => 'DOM',
+	'LBL_ZIP_ARCHIVE' => 'ZIP',
 	'LBL_SPACE'=>'Pojemność',
 	'LBL_SPACE_TOTAL'=>'Całkowita',
 	'LBL_SPACE_FREE'=>'Wolnych',
