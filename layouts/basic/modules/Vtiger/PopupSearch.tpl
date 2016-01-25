@@ -21,8 +21,7 @@
 	<input type="hidden" id="popupType" value="{$POPUPTYPE}"/>
 	<div class="popupContainer row">
 		{if $POPUPTYPE == 1}
-			<div class="logo col-md-6"><img src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}" width="160px;"/></div>
-			<div class="col-md-6"><strong>{vtranslate($MODULE_NAME, $MODULE_NAME)}</strong></div>
+			<div class="col-md-6"><h3>{vtranslate($MODULE_NAME, $MODULE_NAME)}</h3></div>
 		</div>
 		<div class="row form-inline">
 		{/if}
