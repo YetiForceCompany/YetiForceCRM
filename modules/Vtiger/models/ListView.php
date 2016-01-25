@@ -160,9 +160,6 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	 */
 	public function getListViewHeaders()
 	{
-		if ($this->has('listViewHeaders')) {
-			return $this->get('listViewHeaders');
-		}
 		$listViewContoller = $this->get('listview_controller');
 		$module = $this->getModule();
 		$headerFieldModels = [];
@@ -172,7 +169,6 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				continue;
 			$headerFieldModels[$fieldName] = Vtiger_Field_Model::getInstance($fieldName, $module);
 		}
-		$this->set('listViewHeaders', $headerFieldModels);
 		return $headerFieldModels;
 	}
 
@@ -590,26 +586,5 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$listFields[] = 'id';
 		$listFields = array_merge($listFields, $fieldsList);
 		$queryGenerator->setFields($listFields);
-	}
-
-	public function getHiddenSearchParams()
-	{
-		$searchParamsFields = [];
-		$searchParams = $this->get('search_params');
-		if (count($searchParams) == 0) {
-			return $searchParamsFields;
-		}
-		$searchParams = $searchParams[0]['columns'];
-		foreach ($searchParams as &$param) {
-			$column = explode(':', $param['columnname']);
-			$searchParamsFields[] = $column[2];
-		}
-		foreach ($this->getListViewHeaders() as $fieldName => &$webserviceField) {
-			if (($key = array_search($fieldName, $searchParamsFields)) !== false) {
-				unset($searchParamsFields[$key]);
-			}
-		}
-		array_multisort($searchParamsFields, SORT_ASC);
-		return $searchParamsFields;
 	}
 }

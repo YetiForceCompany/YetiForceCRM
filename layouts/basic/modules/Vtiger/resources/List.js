@@ -2074,12 +2074,25 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			searchParams.push(searchInfo);
 		});
-		var hidden = this.getHiddenSearchParams();
-		searchParams = searchParams.concat(hidden);
+		var url = app.getUrlVar('search_params');
+		if (url != undefined) {
+			url = jQuery.parseJSON(decodeURIComponent(url));
+			$.each(url[0], function (index, value) {
+				var exist = false;
+				$.each(searchParams, function (index, searchParam) {
+					if (searchParam[0] == value[0]) {
+						exist = true;
+					}
+				});
+				if (exist == false) {
+					searchParams.push(value);
+				}
+			});
+		}
 		return new Array(searchParams);
 	},
 	registerListSearch: function () {
-		
+
 		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
 		listViewPageDiv.on('click', '[data-trigger="listSearch"]', function (e) {
@@ -2124,27 +2137,8 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			app.registerEventForDatePickerFields(dateElement, false, customParams);
 		});
-
 	},
 	registerTimeListSearch: function (container) {
 		app.registerEventForTimeFields(container, false);
-	},
-	getHiddenSearchParams: function () {
-		var hiddenSearchParams = jQuery('#searchParams').val();
-		var url = app.getUrlVar('search_params');
-		if(url == undefined){
-			return [];
-		}
-		var hiddenSearchParams = jQuery.parseJSON(hiddenSearchParams);
-		url = jQuery.parseJSON(decodeURIComponent(url));
-		var hidden = [];
-		$.each(hiddenSearchParams, function (index, hiddenSearchParam) {
-			$.each(url[0], function (index, value) {
-				if(hiddenSearchParam == value[0]){
-					hidden.push(value);
-				}
-			});
-		});
-		return hidden;
 	}
 });

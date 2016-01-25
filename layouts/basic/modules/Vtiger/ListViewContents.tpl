@@ -37,8 +37,6 @@
 	</div>
 	<div class="listViewEntriesDiv contents-bottomscroll">
 		<div class="bottomscroll-div">
-			{assign var=HIDDEN_SEARCH_PARAMS value=$LIST_VIEW_MODEL->getHiddenSearchParams()}
-			<input type="hidden" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($HIDDEN_SEARCH_PARAMS))}" id="searchParams"/>
 			<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
 			<div class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
