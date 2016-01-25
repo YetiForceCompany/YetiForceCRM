@@ -2424,15 +2424,6 @@ CREATE TABLE `vtiger_convertleadmapping` (
   PRIMARY KEY (`cfmid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_crmactivity` */
-
-CREATE TABLE `vtiger_crmactivity` (
-  `crmid` int(19) NOT NULL,
-  `crmactivity` smallint(6) DEFAULT NULL,
-  PRIMARY KEY (`crmid`),
-  CONSTRAINT `fk_1_vtiger_crmactivity` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_crmentity` */
 
 CREATE TABLE `vtiger_crmentity` (
@@ -3218,6 +3209,15 @@ CREATE TABLE `vtiger_end_hour` (
 
 CREATE TABLE `vtiger_end_hour_seq` (
   `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_entity_stats` */
+
+CREATE TABLE `vtiger_entity_stats` (
+  `crmid` int(19) NOT NULL,
+  `crmactivity` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`crmid`),
+  CONSTRAINT `fk_1_vtiger_entity_stats` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_entityname` */
