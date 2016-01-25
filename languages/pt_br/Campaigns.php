@@ -56,6 +56,7 @@ $languageStrings = [
 	'TargetSize' => 'Tamanho Alvo',
 	'Telemarketing' => 'Telemarketing',
 	'Webinar' => 'Webinar',
+	'Message sent' => 'Message sent',
 ];
 $jsLanguageStrings = [
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Tem certeza que deseja adicionar este filtro de registros?',
