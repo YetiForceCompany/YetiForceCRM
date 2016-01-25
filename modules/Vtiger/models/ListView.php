@@ -160,15 +160,19 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	 */
 	public function getListViewHeaders()
 	{
+		if ($this->has('listViewHeaders')) {
+			return $this->get('listViewHeaders');
+		}
 		$listViewContoller = $this->get('listview_controller');
 		$module = $this->getModule();
-		$headerFieldModels = array();
+		$headerFieldModels = [];
 		$headerFields = $listViewContoller->getListViewHeaderFields();
 		foreach ($headerFields as $fieldName => $webserviceField) {
-			if ($webserviceField && !in_array($webserviceField->getPresence(), array(0, 2)))
+			if ($webserviceField && !in_array($webserviceField->getPresence(), [0, 2]))
 				continue;
 			$headerFieldModels[$fieldName] = Vtiger_Field_Model::getInstance($fieldName, $module);
 		}
+		$this->set('listViewHeaders', $headerFieldModels);
 		return $headerFieldModels;
 	}
 
@@ -192,7 +196,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		if ($moduleName == $this->get('src_module') && !empty($srcRecord)) {
 			$queryGenerator->addCondition('id', $srcRecord, 'n');
 		}
-		
+
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {
 			$searchParams = array();
@@ -245,7 +249,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		
+
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
 
@@ -559,7 +563,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkicon' => ''
 			];
 		}
-		
+
 		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
@@ -586,5 +590,26 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$listFields[] = 'id';
 		$listFields = array_merge($listFields, $fieldsList);
 		$queryGenerator->setFields($listFields);
+	}
+
+	public function getHiddenSearchParams()
+	{
+		$searchParamsFields = [];
+		$searchParams = $this->get('search_params');
+		if (count($searchParams) == 0) {
+			return $searchParamsFields;
+		}
+		$searchParams = $searchParams[0]['columns'];
+		foreach ($searchParams as &$param) {
+			$column = explode(':', $param['columnname']);
+			$searchParamsFields[] = $column[2];
+		}
+		foreach ($this->getListViewHeaders() as $fieldName => &$webserviceField) {
+			if (($key = array_search($fieldName, $searchParamsFields)) !== false) {
+				unset($searchParamsFields[$key]);
+			}
+		}
+		array_multisort($searchParamsFields, SORT_ASC);
+		return $searchParamsFields;
 	}
 }

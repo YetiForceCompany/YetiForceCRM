@@ -38,6 +38,8 @@
 	<div class="listViewEntriesDiv" >
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+		{assign var=HIDDEN_SEARCH_PARAMS value=$LIST_VIEW_MODEL->getHiddenSearchParams()}
+		<input type="hidden" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($HIDDEN_SEARCH_PARAMS))}" id="searchParams"/>
 		<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{vtranslate('LBL_LOADING', $MODULE)}"/>
 			<p class="listViewLoadingMsg">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>

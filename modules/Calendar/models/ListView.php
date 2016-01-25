@@ -126,6 +126,9 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public function getListViewHeaders()
 	{
+		if ($this->has('listViewHeaders')) {
+			return $this->get('listViewHeaders');
+		}
 		$listViewContoller = $this->get('listview_controller');
 		$module = $this->getModule();
 		$moduleName = $module->get('name');
@@ -143,6 +146,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 			}
 			$headerFieldModels[$fieldName] = $fieldInstance;
 		}
+		$this->set('listViewHeaders', $headerFieldModels);
 		return $headerFieldModels;
 	}
 

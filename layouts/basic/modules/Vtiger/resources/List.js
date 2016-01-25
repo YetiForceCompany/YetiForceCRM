@@ -2074,9 +2074,12 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			searchParams.push(searchInfo);
 		});
+		var hidden = this.getHiddenSearchParams();
+		searchParams = searchParams.concat(hidden);
 		return new Array(searchParams);
 	},
 	registerListSearch: function () {
+		
 		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
 		listViewPageDiv.on('click', '[data-trigger="listSearch"]', function (e) {
@@ -2125,5 +2128,23 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	registerTimeListSearch: function (container) {
 		app.registerEventForTimeFields(container, false);
+	},
+	getHiddenSearchParams: function () {
+		var hiddenSearchParams = jQuery('#searchParams').val();
+		var url = app.getUrlVar('search_params');
+		if(url == undefined){
+			return [];
+		}
+		var hiddenSearchParams = jQuery.parseJSON(hiddenSearchParams);
+		url = jQuery.parseJSON(decodeURIComponent(url));
+		var hidden = [];
+		$.each(hiddenSearchParams, function (index, hiddenSearchParam) {
+			$.each(url[0], function (index, value) {
+				if(hiddenSearchParam == value[0]){
+					hidden.push(value);
+				}
+			});
+		});
+		return hidden;
 	}
 });
