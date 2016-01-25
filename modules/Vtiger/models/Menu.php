@@ -64,7 +64,7 @@ class Vtiger_Menu_Model
 		if ($parent !== 'Settings') {
 			if (empty($parent)) {
 				foreach ($parentList as &$parentItem) {
-					if ($moduleName == $parentItem['name']) {
+					if ($moduleName == $parentItem['mod']) {
 						$parent = $parentItem['parent'];
 						break;
 					}
@@ -75,10 +75,10 @@ class Vtiger_Menu_Model
 				$breadcrumbs = array_reverse($parentMenu);
 			}
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			if ($moduleModel && $moduleModel->getListViewUrl()) {
+			if ($moduleModel && $moduleModel->getDefaultUrl()) {
 				$breadcrumbs[] = [
 					'name' => vtranslate($moduleName, $moduleName),
-					'url' => $moduleModel->getListViewUrl()
+					'url' => $moduleModel->getDefaultUrl()
 				];
 			} else {
 				$breadcrumbs[] = [

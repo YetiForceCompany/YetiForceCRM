@@ -230,7 +230,8 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		$content = $menu['id'] . '=>[';
 		$content .= "'name'=>'" . $menu['name'] . "',";
 		$content .= "'url'=>'" . $menu['dataurl'] . "',";
-		$content .= "'parent'=>'" . $menu['parent'] . "'";
+		$content .= "'parent'=>'" . $menu['parent'] . "',";
+		$content .= "'mod'=>'" . $menu['mod'] . "'"; 
 		$content .= '],';
 		if (count($menu['childs']) > 0) {
 			foreach ($menu['childs'] as $child) {
