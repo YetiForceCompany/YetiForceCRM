@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Logo Directory' => 'Папка хранения Логотипа компании',
 	'Contact Image Directory' => 'Папка хранения изображения Контакта',
@@ -26,31 +26,30 @@ $languageStrings = [
 	'Tabdata File' => 'Файл Уровней доступа',
 	'Parent Tabdata File' => 'Файл Таблицы с данными',
 	'Configuration File' => 'Файл настроек',
-	'ConfReport'	=>	'Конфигурация сервера',
-	'LBL_CONFIGURATION'	=>	'Конфигурация сервера',
+	'ConfReport' => 'Конфигурация сервера',
+	'LBL_CONFIGURATION' => 'Конфигурация сервера',
 	'LBL_CONFREPORT_DESCRIPTION' => 'Здесь вы можете посмотреть конфигурацию сервера и получить информацию о том, какие основные настройки вашего сервера соответствуют рекоммендованным.',
-	'LBL_PARAMETER'	=>	'Параметр',
-	'LBL_VALUE'	=>	'Текущее значение',
-	'LBL_RECOMMENDED'	=>	'Рекомендуемое значение',
+	'LBL_PARAMETER' => 'Параметр',
+	'LBL_VALUE' => 'Текущее значение',
+	'LBL_RECOMMENDED' => 'Рекомендуемое значение',
 	'LBL_FILES_PERMISSIONS' => 'Папки / Файлы',
-	'LBL_FILE'	=>	'Название',
-	'LBL_PATH'	=>	'Путь к файлу',
-	'LBL_PERMISSION'	=>	'Запись в файл',
-	'LBL_TRUE_PERMISSION'	=>	'Разрешено',
-	'LBL_FAILED_PERMISSION'	=>	'Запрещено',
-	'On'	=>	'Вкл.',
-	'Off'	=>	'Выкл.',
-	'NOT RECOMMENDED'	=>	'Не рекомендуется',
+	'LBL_FILE' => 'Название',
+	'LBL_PATH' => 'Путь к файлу',
+	'LBL_PERMISSION' => 'Запись в файл',
+	'LBL_TRUE_PERMISSION' => 'Разрешено',
+	'LBL_FAILED_PERMISSION' => 'Запрещено',
+	'On' => 'Вкл.',
+	'Off' => 'Выкл.',
+	'NOT RECOMMENDED' => 'Не рекомендуется',
 	'LBL_YETIFORCE_ENGINE' => 'Параметры Системы',
 	'LBL_CHECK_CONFIG' => 'Параметры Почты',
-	
 	'LBL_MANDATORY' => 'Обязательно',
 	'LBL_OPTIONAL' => 'Необязательно',
 	'LBL_LIBRARY' => 'Поддержка для библиотек',
 	'LBL_INSTALLED' => 'Установлено',
-	'LBL_PDO_SUPPORT'=>'PDO',
-	'LBL_OPEN_SSL'=>'openssl',
-	'LBL_CURL'=>'cURL',
+	'LBL_PDO_SUPPORT' => 'PDO',
+	'LBL_OPEN_SSL' => 'openssl',
+	'LBL_CURL' => 'cURL',
 	'LBL_ZLIB_SUPPORT' => 'Zlib',
 	'LBL_IMAP_SUPPORT' => 'IMAP',
 	'LBL_GD_LIBRARY' => 'GD',

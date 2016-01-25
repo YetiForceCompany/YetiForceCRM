@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'PLL_B' => 'Б',
 	'PLL_A' => 'А',
@@ -17,10 +17,8 @@ $languageStrings = [
 	'SINGLE_LettersOut' => 'Исходящая корреспонденция',
 	'LBL_ADD_RECORD' => 'Документ',
 	'LBL_RECORDS_LIST' => 'Список документов',
-
 	// Blocks
 	'LBL_MAIN_INFORMATION' => 'Основная информация',
-
 	//Field Labels
 	'Number' => 'Номер',
 	'Title' => 'Тема',
@@ -35,7 +33,6 @@ $languageStrings = [
 	'Notes' => 'Примечание',
 	'Related' => 'Организация',
 	'Contact' => 'Контакт',
-
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Внутренняя почта',
 	'PLL_POST_OFFICE_PL' => 'Внешняя почта',
@@ -47,10 +44,10 @@ $languageStrings = [
 	'PLL_COURIER_DHL' => 'DHL',
 	'PLL_COURIER_UPS' => 'UPS',
 	'PLL_COURIER_GLS' => 'GLS',
-	'PLL_TELEX'						=> 'Telex',
-	'PLL_EMAIL'						=> 'E-mail',
-	'PLL_POCZTEX'					=> 'Pocztex',
-	'PLL_TNT'						=> 'TNT',
+	'PLL_TELEX' => 'Telex',
+	'PLL_EMAIL' => 'E-mail',
+	'PLL_POCZTEX' => 'Pocztex',
+	'PLL_TNT' => 'TNT',
 	'PLL_DEMAND_PAYMENT' => 'Уведомление',
 	'PLL_BANK_STATEMENTS' => 'Выписка',
 	'PLL_ORDER' => 'Заказ',
