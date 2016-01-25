@@ -91,7 +91,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
 			if ($securityParameter != '')
 				$query .= $securityParameter;
-			$query .= ' ORDER BY ossmailviewid DESC';
+			$query .= ' ORDER BY date DESC';
 			if ($config['widget_limit'] != '') {
 				$query .= ' LIMIT ' . $config['widget_limit'];
 			}
