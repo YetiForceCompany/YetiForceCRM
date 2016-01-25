@@ -12,6 +12,42 @@ vimport('~~include/utils/RecurringType.php');
 class Calendar_Record_Model extends Vtiger_Record_Model
 {
 
+	public static $referenceFields = ['link', 'process', 'subprocess'];
+
+	public static function getNameByReference($refModuleName)
+	{
+		$fieldName = Vtiger_Cache::get('NameRelatedField', $refModuleName . '-Calendar');
+		if (!empty($fieldName)) {
+			return $fieldName;
+		}
+		$parentModuleModel = Vtiger_Module_Model::getInstance($refModuleName);
+		$relatedModule = Vtiger_Module_Model::getInstance('Calendar');
+		$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
+		if ($relationModel && $relationModel->getRelationField()) {
+			$fieldName = $relationModel->getRelationField()->getFieldName();
+			Vtiger_Cache::set('NameRelatedField', $refModuleName . '-Calendar', $fieldName);
+		}
+		return $fieldName;
+	}
+
+	public static function setCrmActivity($referenceIds, $refModuleName = false)
+	{
+		$db = PearDatabase::getInstance();
+		foreach ($referenceIds as $ID => $fieldName) {
+			if (empty($fieldName)) {
+				$fieldName = self::getNameByReference($refModuleName);
+			}
+			$result = $db->pquery("SELECT vtiger_activity.status,date_start FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid WHERE vtiger_crmentity.deleted = ? AND vtiger_activity.$fieldName = ? AND vtiger_activity.status IN ('" . implode("','", Calendar_Module_Model::getComponentActivityStateLabel('current')) . "') ORDER BY date_start ASC LIMIT 1;", [0, $ID]);
+			if ($row = $db->getRow($result)) {
+				$date = new DateTime(date('Y-m-d'));
+				$diff = $date->diff(new DateTime($row['date_start']));
+				$db->update('vtiger_entity_stats', ['crmactivity' => (int) $diff->format("%r%a")], '`crmid` = ?', [$ID]);
+			} else {
+				$db->update('vtiger_entity_stats', ['crmactivity' => null], '`crmid` = ?', [$ID]);
+			}
+		}
+	}
+
 	/**
 	 * Function returns the Entity Name of Record Model
 	 * @return <String>

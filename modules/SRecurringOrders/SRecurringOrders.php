@@ -20,7 +20,7 @@ class SRecurringOrders extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'u_yf_srecurringorders', 'u_yf_srecurringorderscf', 'u_yf_recurring_info', 'u_yf_srecurringorders_address');
+	var $tab_name = Array('vtiger_crmentity', 'u_yf_srecurringorders', 'u_yf_srecurringorderscf', 'u_yf_recurring_info', 'u_yf_srecurringorders_address', 'vtiger_entity_stats');
 	var $related_tables = ['u_yf_recurring_info' => ['srecurringordersid', 'u_yf_srecurringorders', 'srecurringordersid']];
 
 	/**
@@ -31,7 +31,8 @@ class SRecurringOrders extends Vtiger_CRMEntity
 		'u_yf_srecurringorders' => 'srecurringordersid',
 		'u_yf_srecurringorderscf' => 'srecurringordersid',
 		'u_yf_recurring_info' => 'srecurringordersid',
-		'u_yf_srecurringorders_address' => 'srecurringordersaddressid');
+		'u_yf_srecurringorders_address' => 'srecurringordersaddressid',
+		'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory for Listing (Related listview)

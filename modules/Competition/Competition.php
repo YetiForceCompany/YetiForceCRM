@@ -20,7 +20,7 @@ class Competition extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'u_yf_competition', 'u_yf_competitioncf', 'u_yf_competition_address');
+	var $tab_name = Array('vtiger_crmentity', 'u_yf_competition', 'u_yf_competitioncf', 'u_yf_competition_address', 'vtiger_entity_stats');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
@@ -29,7 +29,8 @@ class Competition extends Vtiger_CRMEntity
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_competition' => 'competitionid',
 		'u_yf_competitioncf' => 'competitionid',
-		'u_yf_competition_address' => 'competitionaddressid');
+		'u_yf_competition_address' => 'competitionaddressid',
+		'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory for Listing (Related listview)

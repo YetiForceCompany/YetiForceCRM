@@ -998,6 +998,9 @@ class CRMEntity
 		if ($uitype == 57 && $fldvalue == '') {
 			return 0;
 		}
+		if ($uitype == 307 && $fldvalue == '') {
+			return null;
+		}
 		if (is_uitype($uitype, "_date_") && $fldvalue == '' || $uitype == '14') {
 			return null;
 		}

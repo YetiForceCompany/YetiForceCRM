@@ -20,7 +20,7 @@ class Partners extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'u_yf_partners', 'u_yf_partnerscf', 'u_yf_partners_address');
+	var $tab_name = Array('vtiger_crmentity', 'u_yf_partners', 'u_yf_partnerscf', 'u_yf_partners_address', 'vtiger_entity_stats', 'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.

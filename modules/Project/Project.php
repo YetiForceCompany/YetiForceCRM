@@ -25,7 +25,7 @@ class Project extends CRMEntity {
     /**
      * Mandatory for Saving, Include tables related to this module.
      */
-    var $tab_name = Array('vtiger_crmentity', 'vtiger_project', 'vtiger_projectcf');
+    var $tab_name = Array('vtiger_crmentity', 'vtiger_project', 'vtiger_projectcf', 'vtiger_entity_stats');
 
     /**
      * Mandatory for Saving, Include tablename and tablekey columnname here.
@@ -33,7 +33,8 @@ class Project extends CRMEntity {
     var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_project'   => 'projectid',
-	    'vtiger_projectcf' => 'projectid');
+	    'vtiger_projectcf' => 'projectid',
+		'vtiger_entity_stats' => 'crmid');
 
     /**
      * Mandatory for Listing (Related listview)

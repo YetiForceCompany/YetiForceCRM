@@ -20,8 +20,8 @@ class Campaigns extends CRMEntity
 	var $db;
 	var $table_name = "vtiger_campaign";
 	var $table_index = 'campaignid';
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_campaign', 'vtiger_campaignscf');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_campaign' => 'campaignid', 'vtiger_campaignscf' => 'campaignid');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_campaign', 'vtiger_campaignscf', 'vtiger_entity_stats');
+	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_campaign' => 'campaignid', 'vtiger_campaignscf' => 'campaignid', 'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory table for supporting custom fields.

@@ -42,6 +42,7 @@ $languageStrings = [
 	'MailScannerBind' => 'Mail Scanner Bind',
 	'LBL_CURRENCY_UPDATE' => 'Währungs Update',
 	'LBL_MULTI_REFERENCE_VALUE' => 'Multireferenzfelder Update',
+	'LBL_CRMACTIVITY_DAYS' => 'Update calendar activity fields in related modules',
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Die empfohlene Frequenz für den eingeplanten Import ist 15min',
