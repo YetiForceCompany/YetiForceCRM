@@ -172,7 +172,6 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 		var listInstance = new window[className]();
 		listInstance.registerEvents();
 		listInstance.markSelectedRecords();
-		this.registerRelatedListEvents();
 	},
 	registerEventForRelatedTabClick: function () {
 		var thisInstance = this;

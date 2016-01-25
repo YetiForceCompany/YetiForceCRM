@@ -449,7 +449,7 @@ class Leads extends CRMEntity
 				$adb->insert('vtiger_campaign_records', [
 					'campaignid' => $with_crmid,
 					'crmid' => $crmid,
-					'campaignrelstatusid' => 1
+					'campaignrelstatusid' => 0
 				]);
 			} else {
 				parent::save_related_module($module, $crmid, $with_module, $with_crmid);

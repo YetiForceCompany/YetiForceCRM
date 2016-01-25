@@ -17,13 +17,11 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 	 */
 	public function getCampaignRelationStatusValues()
 	{
-		$statusValues = array();
+		$statusValues = [];
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT campaignrelstatusid, campaignrelstatus FROM vtiger_campaignrelstatus", array());
-		$numOfRows = $db->num_rows($result);
-
-		for ($i = 0; $i < $numOfRows; $i++) {
-			$statusValues[$db->query_result($result, $i, 'campaignrelstatusid')] = $db->query_result($result, $i, 'campaignrelstatus');
+		$result = $db->pquery('SELECT campaignrelstatusid, campaignrelstatus FROM vtiger_campaignrelstatus WHERE presence = ?', [1]);
+		while ($row = $db->getRow($result)) {
+			$statusValues[$row['campaignrelstatusid']] = $row['campaignrelstatus'];
 		}
 		return $statusValues;
 	}
@@ -33,7 +31,7 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 	 * @param <Number> Campaign record id
 	 * @param <array> $statusDetails
 	 */
-	public function updateStatus($sourceRecordId, $statusDetails = array())
+	public function updateStatus($sourceRecordId, $statusDetails = [])
 	{
 		if ($sourceRecordId && $statusDetails) {
 			$relatedModuleName = $this->getRelationModuleModel()->getName();

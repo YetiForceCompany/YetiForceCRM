@@ -313,7 +313,7 @@ class Campaigns extends CRMEntity
 				$adb->insert('vtiger_campaign_records', [
 					'campaignid' => $crmid,
 					'crmid' => $withCrmid,
-					'campaignrelstatusid' => 1
+					'campaignrelstatusid' => 0
 				]);
 			} else {
 				parent::save_related_module($module, $crmid, $withModule, $withCrmid);

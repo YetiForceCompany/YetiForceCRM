@@ -940,7 +940,7 @@ class Contacts extends CRMEntity
 				$adb->insert('vtiger_campaign_records', [
 					'campaignid' => $with_crmid,
 					'crmid' => $crmid,
-					'campaignrelstatusid' => 1
+					'campaignrelstatusid' => 0
 				]);
 			} else if ($with_module == 'Vendors') {
 				$adb->insert('vtiger_vendorcontactrel', [

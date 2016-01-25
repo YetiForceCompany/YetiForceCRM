@@ -839,6 +839,7 @@ insert  into `vtiger_callhistorytype_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_campaignrelstatus` */
 
+insert  into `vtiger_campaignrelstatus`(`campaignrelstatusid`,`campaignrelstatus`,`sortorderid`,`presence`) values (1,'Message sent',0,0);
 insert  into `vtiger_campaignrelstatus`(`campaignrelstatusid`,`campaignrelstatus`,`sortorderid`,`presence`) values (2,'Contacted - Successful',1,1);
 insert  into `vtiger_campaignrelstatus`(`campaignrelstatusid`,`campaignrelstatus`,`sortorderid`,`presence`) values (3,'Contacted - Unsuccessful',2,1);
 insert  into `vtiger_campaignrelstatus`(`campaignrelstatusid`,`campaignrelstatus`,`sortorderid`,`presence`) values (4,'Contacted - Never Contact Again',3,1);

@@ -16,17 +16,16 @@ class OSSMailScanner_PrefixScannerAction_Model extends OSSMailScanner_BaseScanne
 		if (!$mailId) {
 			return 0;
 		}
-
-		$relationExist = false;
+		$returnIds = [];
 		$result = $db->pquery('SELECT crmid FROM vtiger_ossmailview_relation WHERE ossmailviewid = ?;', [$mailId]);
 		while ($crmid = $db->getSingleValue($result)) {
 			$type = Vtiger_Functions::getCRMRecordType($crmid);
 			if ($type == $moduleName) {
-				$relationExist = true;
+				$returnIds[] = $crmid;
 			}
 		}
-		if ($relationExist) {
-			return false;
+		if (count($returnIds) > 0) {
+			return $returnIds;
 		}
 
 		$prefix = $this->findEmailPrefix($moduleName, $mail->get('subject'));
@@ -47,7 +46,6 @@ class OSSMailScanner_PrefixScannerAction_Model extends OSSMailScanner_BaseScanne
 			$moduleObject = new $moduleName();
 			$tableIndex = $moduleObject->tab_name_index[$tableName];
 
-			$returnIds = [];
 			$result = $db->pquery('SELECT ' . $tableIndex . ' FROM ' . $tableName . ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = ' . $tableName . '.' . $tableIndex . ' WHERE vtiger_crmentity.deleted = 0  AND ' . $tableColumn . ' = ? ', [$prefix]);
 
 			if ($db->getRowCount($result) > 0) {

@@ -50,19 +50,16 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model {
 			$db = PearDatabase::getInstance();
 			$relatedRecordIdsList = array_keys($relatedRecordModelsList);
 
-			$query = "SELECT campaignrelstatus, crmid FROM vtiger_campaign_records
+			$query = 'SELECT campaignrelstatus, crmid FROM vtiger_campaign_records
 						INNER JOIN vtiger_campaignrelstatus ON vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaign_records.campaignrelstatusid
-						WHERE crmid IN (". generateQuestionMarks($relatedRecordIdsList).") AND campaignid = ?";
+						WHERE crmid IN ('. generateQuestionMarks($relatedRecordIdsList).') AND campaignid = ?';
 			array_push($relatedRecordIdsList, $parentRecordModel->getId());
 
 			$result = $db->pquery($query, $relatedRecordIdsList);
-			$numOfrows = $db->num_rows($result);
-
-			for($i=0; $i<$numOfrows; $i++) {
-				$recordId = $db->query_result($result, $i, $fieldName);
+			while ($row = $db->getRow($result)) {
+				$recordId = $row['crmid'];
 				$relatedRecordModel = $relatedRecordModelsList[$recordId];
-
-				$relatedRecordModel->set('status', $db->query_result($result, $i, 'campaignrelstatus'));
+				$relatedRecordModel->set('status', $row['campaignrelstatus']);
 				$relatedRecordModelsList[$recordId] = $relatedRecordModel;
 			}
 		}

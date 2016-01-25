@@ -56,6 +56,7 @@ $languageStrings = [
 	'TargetSize' => 'Rozmiar kampanii',
 	'Telemarketing' => 'Call center',
 	'Webinar' => 'Seminarium',
+	'Message sent' => 'Wysłano wiadomość',
 ];
 $jsLanguageStrings = [
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Czy jesteś pewien, że chcesz dodać ten filtr rekordów?',
