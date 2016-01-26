@@ -243,7 +243,7 @@ class Vtiger_Tools_Console_ModuleController extends Vtiger_Tools_Console_Control
 		$module->initTables();
 
 		$block = new Vtiger_Block();
-		$block->label = 'LBL_'. strtoupper($module->name) . '_INFORMATION';
+		$block->label = 'LBL_BASIC_DETAILS';
 		$module->addBlock($block);
 
 		$blockcf = new Vtiger_Block();
