@@ -19,7 +19,7 @@
 		<div class='editViewContainer' id="tpl">
 			<div class="row">
 				<div class="col-md-4 btn-toolbar paddingLRZero">
-					<a class="btn btn-default addButton" data-toggle="modal" data-target="#add_project_modal">
+					<a class="btn btn-default addButton">
 						<strong>{vtranslate('LBL_NEW_TPL', $MODULE_NAME)}</strong>
 					</a>
 				</div>
