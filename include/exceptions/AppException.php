@@ -32,6 +32,7 @@ class NoPermittedException extends Exception
 			'url' => Vtiger_Functions::getBrowserInfo()->url,
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'request' => json_encode($_REQUEST),
+			'referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''
 		]);
 	}
 }
@@ -56,6 +57,7 @@ class NoPermittedToRecordException extends Exception
 			'url' => Vtiger_Functions::getBrowserInfo()->url,
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'request' => json_encode($_REQUEST),
+			'referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''
 		]);
 	}
 }
@@ -79,6 +81,7 @@ class NoPermittedForAdminException extends Exception
 			'url' => Vtiger_Functions::getBrowserInfo()->url,
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'request' => json_encode($_REQUEST),
+			'referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''
 		]);
 	}
 }

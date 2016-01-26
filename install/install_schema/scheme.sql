@@ -485,6 +485,7 @@ CREATE TABLE `o_yf_access_for_admin` (
   `url` varchar(300) NOT NULL,
   `agent` varchar(255) NOT NULL,
   `request` varchar(300) NOT NULL,
+  `referer` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -512,6 +513,7 @@ CREATE TABLE `o_yf_access_for_user` (
   `url` varchar(300) NOT NULL,
   `agent` varchar(255) NOT NULL,
   `request` varchar(300) NOT NULL,
+  `referer` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -527,6 +529,7 @@ CREATE TABLE `o_yf_access_to_record` (
   `url` varchar(300) NOT NULL,
   `agent` varchar(255) NOT NULL,
   `request` varchar(300) NOT NULL,
+  `referer` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -658,8 +661,8 @@ CREATE TABLE `roundcube_contactgroupmembers` (
   `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
   PRIMARY KEY (`contactgroup_id`,`contact_id`),
   KEY `roundcube_contactgroupmembers_contact_index` (`contact_id`),
-  CONSTRAINT `roundcube_contactgroup_id_fk_contactgroups` FOREIGN KEY (`contactgroup_id`) REFERENCES `roundcube_contactgroups` (`contactgroup_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `roundcube_contact_id_fk_contacts` FOREIGN KEY (`contact_id`) REFERENCES `roundcube_contacts` (`contact_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `roundcube_contact_id_fk_contacts` FOREIGN KEY (`contact_id`) REFERENCES `roundcube_contacts` (`contact_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `roundcube_contactgroup_id_fk_contactgroups` FOREIGN KEY (`contactgroup_id`) REFERENCES `roundcube_contactgroups` (`contactgroup_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `roundcube_contactgroups` */
