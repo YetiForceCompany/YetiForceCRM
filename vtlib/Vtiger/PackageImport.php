@@ -576,14 +576,19 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	function import_Module()
 	{
 		$tabname = $this->_modulexml->name;
-		$tablabel = $this->_modulexml->label;
-		$tabversion = $this->_modulexml->version;
+		$tabLabel = $this->_modulexml->label;
+		$tabVersion = $this->_modulexml->version;
 
 		$isextension = false;
+		$moduleType = 0;
 		if (!empty($this->_modulexml->type)) {
 			$this->packageType = strtolower($this->_modulexml->type);
-			if ($this->packageType == 'extension' || $this->packageType == 'language')
+			if ($this->packageType == 'extension' || $this->packageType == 'language') {
 				$isextension = true;
+			}
+			if ($this->packageType == 'inventory') {
+				$moduleType = 1;
+			}
 		}
 
 		$vtigerMinVersion = $this->_modulexml->dependencies->vtiger_version;
@@ -591,11 +596,12 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 
 		$moduleInstance = new Vtiger_Module();
 		$moduleInstance->name = $tabname;
-		$moduleInstance->label = $tablabel;
+		$moduleInstance->label = $tabLabel;
 		$moduleInstance->isentitytype = ($isextension != true);
-		$moduleInstance->version = (!$tabversion) ? 0 : $tabversion;
+		$moduleInstance->version = (!$tabVersion) ? 0 : $tabVersion;
 		$moduleInstance->minversion = (!$vtigerMinVersion) ? false : $vtigerMinVersion;
 		$moduleInstance->maxversion = (!$vtigerMaxVersion) ? false : $vtigerMaxVersion;
+		$moduleInstance->type = $moduleType;
 
 		if ($this->packageType != 'update') {
 			$moduleInstance->save();
@@ -739,7 +745,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	function import_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode)
 	{
 		$fieldInstance = new Vtiger_Field();
-		$fieldInstance->name = (string)$fieldnode->fieldname;
+		$fieldInstance->name = (string) $fieldnode->fieldname;
 		$fieldInstance->label = $fieldnode->fieldlabel;
 		$fieldInstance->table = $fieldnode->tablename;
 		$fieldInstance->column = $fieldnode->columnname;

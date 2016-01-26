@@ -155,13 +155,13 @@ class Vtiger_PackageExport
 			$zip->copyDirectoryFromDisk("cron/modules/$module", "cron");
 
 		//Copy module templates files
-		if (is_dir('layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/modules/'.$module))
-			$zip->copyDirectoryFromDisk('layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/modules/'.$module, 'templates');
+		if (is_dir('layouts/' . Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module))
+			$zip->copyDirectoryFromDisk('layouts/' . Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'templates');
 
 		//Copy Settings module templates files, if any
-		if (is_dir("layouts/".Vtiger_Viewer::getDefaultLayoutName()."/modules/Settings/$module"))
-			$zip->copyDirectoryFromDisk("layouts/".Vtiger_Viewer::getDefaultLayoutName()."/modules/Settings/$module", "settings/templates");
-		
+		if (is_dir("layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module"))
+			$zip->copyDirectoryFromDisk("layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", "settings/templates");
+
 		//Support to multiple layouts of module
 		$layoutDirectories = glob('layouts' . '/*', GLOB_ONLYDIR);
 
@@ -181,10 +181,10 @@ class Vtiger_PackageExport
 		$this->__copyLanguageFiles($zip, $module);
 
 		//Copy image file
-		if (file_exists("layouts/".Vtiger_Viewer::getDefaultLayoutName()."/skins/images/$module.png")) {
-			$zip->copyFileFromDisk("layouts/".Vtiger_Viewer::getDefaultLayoutName()."/skins/images", "", "$module.png");
+		if (file_exists("layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png")) {
+			$zip->copyFileFromDisk("layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/skins/images", "", "$module.png");
 		}
-		
+
 		$zip->save();
 
 		if ($todir) {
@@ -273,12 +273,12 @@ class Vtiger_PackageExport
 
 		$moduleid = $moduleInstance->id;
 
-		$sqlresult = $adb->pquery("SELECT * FROM vtiger_tab WHERE tabid = ?", array($moduleid));
-		$tabresultrow = $adb->fetch_array($sqlresult);
+		$sqlresult = $adb->pquery('SELECT * FROM vtiger_tab WHERE tabid = ?', array($moduleid));
+		$tabInfo = $adb->getRow($sqlresult);
 
-		$tabname = $tabresultrow['name'];
-		$tablabel = $tabresultrow['tablabel'];
-		$tabversion = isset($tabresultrow['version']) ? $tabresultrow['version'] : false;
+		$tabname = $tabInfo['name'];
+		$tablabel = $tabInfo['tablabel'];
+		$tabVersion = isset($tabInfo['version']) ? $tabInfo['version'] : false;
 
 		$this->openNode('module');
 		$this->outputNode(date('Y-m-d H:i:s'), 'exporttime');
@@ -286,11 +286,16 @@ class Vtiger_PackageExport
 		$this->outputNode($tablabel, 'label');
 
 		if (!$moduleInstance->isentitytype) {
-			$this->outputNode('extension', 'type');
+			$type = 'extension';
+		} elseif ($tabInfo['type'] == 1) {
+			$type = 'inventory';
+		} else {
+			$type = 'entity';
 		}
+		$this->outputNode($type, 'type');
 
-		if ($tabversion) {
-			$this->outputNode($tabversion, 'version');
+		if ($tabVersion) {
+			$this->outputNode($tabVersion, 'version');
 		}
 
 		// Export dependency information
