@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * 
+ * @package YetiForce.Cron
+ * @license licenses/License.html
+ * @author Maciej Stencel <m.stencel@yetiforce.com>
+ */
 require_once('include/main/WebUI.php');
 
 $log = &LoggerManager::getLogger('CurrencyUpdate');

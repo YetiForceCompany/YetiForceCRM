@@ -7,25 +7,29 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-Class Services_List_View extends Vtiger_List_View {
-    /**
-    * Function to get the list of Script models to be included
-    * @param Vtiger_Request $request
-    * @return <Array> - List of Vtiger_JsScript_Model instances
-    */
-   function getFooterScripts(Vtiger_Request $request) {
-           $headerScriptInstances = parent::getFooterScripts($request);
 
-           $moduleName = $request->getModule();
-           $modulePopUpFile = 'modules.'.$moduleName.'.resources.Edit';
-           unset($headerScriptInstances[$modulePopUpFile]);
+Class Services_List_View extends Vtiger_List_View
+{
 
-           $jsFileNames = array(
-                'modules.Products.resources.Edit',
-           );
-           $jsFileNames[] = $modulePopUpFile;
-           $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-           $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-           return $headerScriptInstances;
-   }
+	/**
+	 * Function to get the list of Script models to be included
+	 * @param Vtiger_Request $request
+	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 */
+	function getFooterScripts(Vtiger_Request $request)
+	{
+		$headerScriptInstances = parent::getFooterScripts($request);
+
+		$moduleName = $request->getModule();
+		$modulePopUpFile = 'modules.' . $moduleName . '.resources.Edit';
+		unset($headerScriptInstances[$modulePopUpFile]);
+
+		$jsFileNames = array(
+			'modules.Products.resources.Edit',
+		);
+		$jsFileNames[] = $modulePopUpFile;
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+		return $headerScriptInstances;
+	}
 }

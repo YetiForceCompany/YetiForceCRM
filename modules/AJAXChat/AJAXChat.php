@@ -1,4 +1,10 @@
 <?php
+/**
+ * 
+ * @package YetiForce.handler
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 class AJAXChat {
 	function vtlib_handler($modulename, $event_type) {
 		if($event_type == 'module.postinstall') {
