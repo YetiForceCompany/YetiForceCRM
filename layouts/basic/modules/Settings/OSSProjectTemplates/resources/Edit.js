@@ -205,6 +205,9 @@ function OSSProjectTemplatesEdit() {
 				$('.addButton').click(function(){
 					app.showModalWindow($('#add_project_modal'));
 				});
+				$('.edit_tpl').click(function(){
+					app.showModalWindow($('#edit_project_modal'));
+				});
 			},
             this.registerEvents = function() {
                 this.getNextStep();
