@@ -191,7 +191,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('label', $label)
 			->set('typeofdata', $typeofdata)
 			->set('quickcreate', $quickCreate)
-			->set('fieldparams', Zend_Json::encode($fieldparams))
+			->set('fieldparams', $fieldparams ? Zend_Json::encode($fieldparams) : '')
 			->set('columntype', $dbType);
 
 		if (isset($details['displayType'])) {
