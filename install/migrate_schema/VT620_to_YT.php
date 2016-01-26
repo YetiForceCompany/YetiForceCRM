@@ -206,7 +206,7 @@ class VT620_to_YT {
 		$menu[] = array(68,0,67,0,0,getTabid('Project'),NULL,0,NULL,0,NULL,NULL,"");
 		$menu[] = array(69,0,67,0,1,getTabid('ProjectMilestone'),NULL,0,NULL,0,NULL,NULL,"");
 		$menu[] = array(70,0,67,0,2,getTabid('ProjectTask'),NULL,0,NULL,0,NULL,NULL,"");
-		$menu[] = array(71,0,0,2,6,NULL,'MEN_BOOKKEEPING',0,NULL,0,NULL,NULL,"");
+		$menu[] = array(71,0,0,2,6,NULL,'MEN_ACCOUNTING',0,NULL,0,NULL,NULL,"");
 		$menu[] = array(72,0,71,0,3,getTabid('PaymentsIn'),NULL,0,NULL,0,NULL,NULL,"");
 		$menu[] = array(73,0,71,0,2,getTabid('PaymentsOut'),NULL,0,NULL,0,NULL,NULL,"");
 		$menu[] = array(74,0,71,0,1,getTabid('Invoice'),NULL,0,NULL,0,NULL,NULL,"");
