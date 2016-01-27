@@ -30,7 +30,7 @@ class FInvoice extends Vtiger_CRMEntity
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_finvoice' => 'finvoiceid',
 		'u_yf_finvoicecf' => 'finvoiceid',
-		'u_yf_finvoice_address' => 'squotesaddressid'
+		'u_yf_finvoice_address' => 'finvoiceaddressid'
 	);
 
 	/**
