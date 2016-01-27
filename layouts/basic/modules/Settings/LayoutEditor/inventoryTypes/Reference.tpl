@@ -34,7 +34,7 @@
 				<label class="col-md-4 control-label">{vtranslate('LBL_PARAMS_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}:</label>
 				{assign var='functionName' value=$ITEM|cat:'Values'}
 				<div class="col-md-7">
-					<select class='form-control select2' name="{$ITEM}" data-validation-engine="validate[required]">
+					<select class='form-control select2' name="{$ITEM}" data-validation-engine="validate[required]" {if $ITEM eq 'modules'} multiple {/if}>
 						{foreach from=$MODULE_MODEL->$functionName() item=ITEMS key=KEY}
 							{assign var='CONDITION' value=0}
 							{if $PARAMS[$ITEM]|is_array && in_array($ITEMS.id,$PARAMS[$ITEM])}

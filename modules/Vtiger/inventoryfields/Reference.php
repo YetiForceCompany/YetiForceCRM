@@ -37,17 +37,25 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getEditValue($value)
 	{
-		$referenceModule = $this->getReferenceModule($value);
-		if ($referenceModule) {
-			$entityNames = getEntityName($referenceModule, [$value]);
-			return $entityNames[$value];
+		if (empty($value)) {
+			return '';
 		}
-		return '';
+		$value = Vtiger_Functions::getCRMRecordLabel($value, $default = '');
+		return $value;
 	}
 
-	public function getReferenceModule()
+	public function getReferenceModules()
 	{
 		$params = Zend_Json::decode($this->get('params'));
 		return $params['modules'];
+	}
+
+	public function getReferenceModule($record)
+	{
+		if (!empty($record)) {
+			$metadata = Vtiger_Functions::getCRMRecordMetadata($record);
+			return $metadata['setype'];
+		}
+		return '';
 	}
 }
