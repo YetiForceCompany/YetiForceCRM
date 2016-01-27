@@ -49,7 +49,6 @@ class Campaigns extends CRMEntity
 	//Added these variables which are used as default order by and sortorder in ListView
 	var $default_order_by = 'crmid';
 	var $default_sort_order = 'DESC';
-	//var $groupTable = Array('vtiger_campaigngrouprelation','campaignid');
 
 	var $search_fields = Array(
 		'Campaign Name' => Array('vtiger_campaign' => 'campaignname'),

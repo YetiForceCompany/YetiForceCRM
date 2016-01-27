@@ -67,8 +67,6 @@ class Leads extends CRMEntity
 	// For Alphabetical search
 	var $def_basicsearch_col = 'company';
 
-	//var $groupTable = Array('vtiger_leadgrouprelation','leadid');
-
 	function Leads()
 	{
 		$this->log = LoggerManager::getLogger('lead');

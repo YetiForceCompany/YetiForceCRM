@@ -92,8 +92,6 @@ class HelpDesk extends CRMEntity
 	// For Alphabetical search
 	var $def_basicsearch_col = 'ticket_title';
 
-	//var $groupTable = Array('vtiger_ticketgrouprelation','ticketid');
-
 	/** 	Constructor which will set the column_fields in this object
 	 */
 	function HelpDesk()
