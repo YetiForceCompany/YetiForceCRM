@@ -1,2 +1,1 @@
-# For security purpose we deny web-access to this folder.
 allow from all
