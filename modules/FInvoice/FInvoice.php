@@ -21,7 +21,7 @@ class FInvoice extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'u_yf_finvoice', 'u_yf_finvoicecf');
+	var $tab_name = Array('vtiger_crmentity', 'u_yf_finvoice', 'u_yf_finvoicecf', 'u_yf_finvoice_address');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
