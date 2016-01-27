@@ -116,6 +116,7 @@ padding: 20px 20px 20px 20px;
 													</a>
 													<div class="basicFieldOperations hide pull-right" style="width : 375px;">
 														<form class="form-horizontal fieldDetailsForm" method="POST">
+															<input type="hidden" name="type" class="" value="{$WIDGET_MODEL->get('linklabel')}">
 															<div class="modal-header contentsBackground">
 																<strong>{vtranslate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</strong>
 																<div class="pull-right"><a href="javascript:void(0)" class='cancel'>X</a></div>
@@ -171,6 +172,24 @@ padding: 20px 20px 20px 20px;
 																		&nbsp;{vtranslate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}&nbsp;
 																	</label>
 																</div>
+																{/if}
+																{if $WIDGET_MODEL->get('linklabel') == 'DW_SUMMATION_BY_MONTHS' }
+																	<div class="row padding1per">
+																		<div class="col-md-3 text-center">
+																			<input type="text" name="plotTickSize" class="col-md-1 form-control" value="{$WIDGET_INFO['plotTickSize']}" >
+																		</div>
+																		<label class="col-md-9 marginTop5 pull-left" >
+																			&nbsp;{vtranslate('LBL_TICK_SIZE', $QUALIFIED_MODULE)}&nbsp;
+																		</label>
+																	</div>
+																	<div class="row padding1per">
+																		<div class="col-md-3 text-center">
+																			<input type="text" name="plotLimit" class="col-md-1 form-control" value="{$WIDGET_INFO['plotLimit']}" >
+																		</div>
+																		<label class="col-md-9 marginTop5 pull-left" >
+																			&nbsp;{vtranslate('LBL_MAXIMUM_VALUE', $QUALIFIED_MODULE)}&nbsp;
+																		</label>
+																	</div>
 																{/if}
 															</div>
 															{if in_array($WIDGET_MODEL->get('linklabel'),$WIDGETS_WITH_FILTER_USERS)}

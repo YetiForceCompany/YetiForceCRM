@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_CHOISE_AUTHORIZED' => 'Wybierz rolę',
 	'LBL_ADD_DASHBOARD_BLOCK' => 'Dodaj blok widoku podsumowania dla modułu',
@@ -20,7 +20,6 @@ $languageStrings = [
 	'LBL_CREATE_CUSTOM_FIELD' => 'Dodaj widget do panelu',
 	'LBL_ADD_CONDITION' => 'Dodaj rolę',
 	'LBL_INVALID_DATA' => 'Błędne dane',
-
 	'WidgetsManagement' => 'Zarządzanie widgetami',
 	'LBL_WIDGETS_MANAGEMENT' => 'Widżety - konfiguracja',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
@@ -33,6 +32,8 @@ $languageStrings = [
 	'LBL_VIEW_CONFIGURATION' => 'Widok konfiguracyjny',
 	'LBL_WIDGET_ADDED' => 'Pomyślnie dodano widget',
 	'LBL_CACHE_WIDGET' => 'Pamięć podręczna',
+	'LBL_TICK_SIZE' => 'Wartość przeskoku (y)',
+	'LBL_MAXIMUM_VALUE' => 'Maksymalna wartość (y)',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Pomyślnie dodano blok',

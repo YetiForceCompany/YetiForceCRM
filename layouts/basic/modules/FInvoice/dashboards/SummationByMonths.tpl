@@ -1,4 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{assign var=DATA value=Zend_Json::decode(html_entity_decode($WIDGET->get('data')))}
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 		loadChart: function () {
@@ -16,6 +17,14 @@
 				xaxis: {
 					ticks: chartData['ticks'],
 					autoscaleMargin: .05
+				},
+				yaxis: {
+					{if $DATA['plotTickSize']}
+						tickSize: {$DATA['plotTickSize']},
+					{/if}
+					{if $DATA['plotLimit']}
+						max: {$DATA['plotLimit']},
+					{/if}
 				},
 				grid: {
 				}
@@ -52,7 +61,6 @@
 		</div>
 	</div>
 </div>
-
 <div class="dashboardWidgetContent">
 	{include file="dashboards/SummationByMonthsContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>

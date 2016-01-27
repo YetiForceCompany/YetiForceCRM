@@ -190,20 +190,26 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 					$active = 1;
 				$size = Zend_Json::encode(array('width' => $data['width'], 'height' => $data['height']));
 				$owners = Zend_Json::encode(array('default' => $data['default_owner'], 'available' => $data['owners_all']));
-				$query = 'UPDATE `vtiger_module_dashboard` SET `isdefault` = ?, `size` = ?, `limit` = ?, `owners` = ?, `cache` = ? WHERE `id` = ? ;';
-				$params = array($data['isdefault'], $size, $data['limit'], $owners, $data['cache'], $data['id']);
-				$adb->pquery($query, $params);
-
-				$query = 'UPDATE `vtiger_module_dashboard_widgets` SET `isdefault` = ?, `size` = ?, `limit` = ?, `cache` = ?, `owners` = ? ';
-				$params = array($data['isdefault'], $size, $data['limit'], $data['cache'], $owners);
-				if ($active) {
-					$query .= ', `active` = ? ';
-					$params[] = $active;
+				$owners = Zend_Json::encode(array('default' => $data['default_owner'], 'available' => $data['owners_all']));
+				$data_ = '';
+				if ($data['type'] == 'DW_SUMMATION_BY_MONTHS') {
+					$data_ = Zend_Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
 				}
-				$query .= ' WHERE `templateid` = ? ;';
-				$params[] = $data['id'];
-
-				$adb->pquery($query, $params);
+				$insert = [
+					'isdefault' => $data['isdefault'],
+					'size' => $size,
+					'limit' => $data['limit'],
+					'owners' => $owners,
+					'cache' => $data['cache'],
+				];
+				if (!empty($data_)) {
+					$insert['data'] = $data_;
+				}
+				$adb->update('vtiger_module_dashboard', $insert, '`id` = ?', [$data['id']]);
+				if ($active) {
+					$insert['active'] = $active;
+				}
+				$adb->update('vtiger_module_dashboard_widgets', $insert, '`templateid` = ?', [$data['id']]);
 			} catch (Exception $e) {
 				return array('success' => false, 'message' => $e->getMessage());
 			}
