@@ -15775,6 +15775,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (449,93,26,'get_campaigns',6,'Campaigns',0,'SELECT',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (450,6,94,'get_dependents_list',24,'FBookkeeping',0,'ADD',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (451,6,95,'get_dependents_list',25,'FInvoice',0,'ADD',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (452,6,86,'get_dependents_list',26,'SSalesProcesses',0,'ADD',0,0,0);
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
@@ -20189,6 +20190,7 @@ insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nom
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (100,86,'RelatedModule','Contacts',1,5,NULL,'{\"limit\":\"5\",\"relatedmodule\":\"4\",\"columns\":\"1\",\"action\":\"1\",\"actionSelect\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (101,92,'RelatedModule','Contacts',1,5,NULL,'{\"limit\":\"5\",\"relatedmodule\":\"4\",\"columns\":\"3\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (102,93,'RelatedModule','Contacts',1,5,NULL,'{\"limit\":\"5\",\"relatedmodule\":\"4\",\"columns\":\"3\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (103,6,'RelatedModule','',1,6,NULL,'{\"limit\":\"10\",\"relatedmodule\":\"86\",\"columns\":\"1\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"-\",\"checkbox\":\"-\"}');
 
 /*Data for the table `vtiger_ws_entity` */
 
