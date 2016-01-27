@@ -46,7 +46,7 @@
 											{else if $IMPORT_MODULE_TYPE eq 'update'}
 												{vtranslate('LBL_IMPORTED_UPDATE', $QUALIFIED_MODULE)}
 											{else}
-												{$IMPORT_MODULE_NAME} {vtranslate('LBL_IMPORTED_MODULE', $QUALIFIED_MODULE)}
+												{vtranslate('LBL_IMPORTED_MODULE', $QUALIFIED_MODULE, $IMPORT_MODULE_NAME)}
 											{/if}
 										{/if}
 									</td>

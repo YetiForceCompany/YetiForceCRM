@@ -23,6 +23,7 @@ class Vtiger_PackageExport
 	var $_export_tmpdir = 'cache/vtlib';
 	var $_export_modulexml_filename = null;
 	var $_export_modulexml_file = null;
+	protected $moduleInstance = false;
 
 	/**
 	 * Constructor
@@ -81,9 +82,9 @@ class Vtiger_PackageExport
 	 * Initialize Export
 	 * @access private
 	 */
-	function __initExport($module, $moduleInstance)
+	function __initExport($module)
 	{
-		if ($moduleInstance->isentitytype) {
+		if ($this->moduleInstance->isentitytype) {
 			// We will be including the file, so do a security check.
 			Vtiger_Utils::checkFileAccessForInclusion("modules/$module/$module.php");
 		}
@@ -123,25 +124,25 @@ class Vtiger_PackageExport
 	 */
 	function export($moduleInstance, $todir = '', $zipfilename = '', $directDownload = false)
 	{
+		$this->moduleInstance = $moduleInstance;
+		$module = $this->moduleInstance->name;
 
-		$module = $moduleInstance->name;
-
-		$this->__initExport($module, $moduleInstance);
+		$this->__initExport($module);
 
 		// Call module export function
-		$this->export_Module($moduleInstance);
+		$this->export_Module();
 
 		$this->__finishExport();
 
 		// Export as Zip
 		// if($zipfilename == '') $zipfilename = "$module-" . date('YmdHis') . ".zip";
-		$zipfilename = $moduleInstance->name . "_" . date('Y-m-d-Hi') . "_" . $moduleInstance->version . ".zip";
+		$zipfilename = $this->moduleInstance->name . '_' . date('Y-m-d-Hi') . '_' . $this->moduleInstance->version . '.zip';
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
 
 		$zip = new Vtiger_Zip($zipfilename);
 
 		// Add manifest file
-		$zip->addFile($this->__getManifestFilePath(), "manifest.xml");
+		$zip->addFile($this->__getManifestFilePath(), 'manifest.xml');
 
 		// Copy module directory
 		$zip->copyDirectoryFromDisk("modules/$module");
@@ -166,23 +167,25 @@ class Vtiger_PackageExport
 		$layoutDirectories = glob('layouts' . '/*', GLOB_ONLYDIR);
 
 		foreach ($layoutDirectories as $key => $layoutName) {
-			$moduleLayout = $layoutName . "/modules/$module";
-			if (is_dir($moduleLayout)) {
-				$zip->copyDirectoryFromDisk($moduleLayout, $moduleLayout);
-			}
+			if ($layoutName != 'layouts/' . Vtiger_Viewer::getDefaultLayoutName()) {
+				$moduleLayout = $layoutName . "/modules/$module";
+				if (is_dir($moduleLayout)) {
+					$zip->copyDirectoryFromDisk($moduleLayout, $moduleLayout);
+				}
 
-			$settingsLayout = $layoutName . "/modules/Settings/$module";
-			if (is_dir($settingsLayout)) {
-				$zip->copyDirectoryFromDisk($settingsLayout, $settingsLayout);
+				$settingsLayout = $layoutName . "/modules/Settings/$module";
+				if (is_dir($settingsLayout)) {
+					$zip->copyDirectoryFromDisk($settingsLayout, $settingsLayout);
+				}
 			}
 		}
 
 		//Copy language files
 		$this->__copyLanguageFiles($zip, $module);
-
+		
 		//Copy image file
-		if (file_exists("layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png")) {
-			$zip->copyFileFromDisk("layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/skins/images", "", "$module.png");
+		if (file_exists('layouts/' . Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png")) {
+			$zip->copyFileFromDisk('layouts/' . Vtiger_Viewer::getDefaultLayoutName() . '/skins/images', '', "$module.png");
 		}
 
 		$zip->save();
@@ -267,13 +270,13 @@ class Vtiger_PackageExport
 	 * Export Module Handler
 	 * @access private
 	 */
-	function export_Module($moduleInstance)
+	function export_Module()
 	{
 		$adb = PearDatabase::getInstance();
 
-		$moduleid = $moduleInstance->id;
+		$moduleid = $this->moduleInstance->id;
 
-		$sqlresult = $adb->pquery('SELECT * FROM vtiger_tab WHERE tabid = ?', array($moduleid));
+		$sqlresult = $adb->pquery('SELECT * FROM vtiger_tab WHERE tabid = ?', [$moduleid]);
 		$tabInfo = $adb->getRow($sqlresult);
 
 		$tabname = $tabInfo['name'];
@@ -285,7 +288,7 @@ class Vtiger_PackageExport
 		$this->outputNode($tabname, 'name');
 		$this->outputNode($tablabel, 'label');
 
-		if (!$moduleInstance->isentitytype) {
+		if (!$this->moduleInstance->isentitytype) {
 			$type = 'extension';
 		} elseif ($tabInfo['type'] == 1) {
 			$type = 'inventory';
@@ -299,34 +302,37 @@ class Vtiger_PackageExport
 		}
 
 		// Export dependency information
-		$this->export_Dependencies($moduleInstance);
+		$this->export_Dependencies($this->moduleInstance);
 
 		// Export module tables
-		$this->export_Tables($moduleInstance);
+		$this->export_Tables();
 
 		// Export module blocks
-		$this->export_Blocks($moduleInstance);
+		$this->export_Blocks($this->moduleInstance);
 
 		// Export module filters
-		$this->export_CustomViews($moduleInstance);
+		$this->export_CustomViews($this->moduleInstance);
+
+		// Export module inventory fields
+		$this->exportInventory();
 
 		// Export Sharing Access
-		$this->export_SharingAccess($moduleInstance);
+		$this->export_SharingAccess($this->moduleInstance);
 
 		// Export Events
-		$this->export_Events($moduleInstance);
+		$this->export_Events($this->moduleInstance);
 
 		// Export Actions
-		$this->export_Actions($moduleInstance);
+		$this->export_Actions($this->moduleInstance);
 
 		// Export Related Lists
-		$this->export_RelatedLists($moduleInstance);
+		$this->export_RelatedLists($this->moduleInstance);
 
 		// Export Custom Links
-		$this->export_CustomLinks($moduleInstance);
+		$this->export_CustomLinks($this->moduleInstance);
 
 		//Export cronTasks
-		$this->export_CronTasks($moduleInstance);
+		$this->export_CronTasks($this->moduleInstance);
 
 		$this->closeNode('module');
 	}
@@ -335,27 +341,22 @@ class Vtiger_PackageExport
 	 * Export module base and related tables
 	 * @access private
 	 */
-	function export_Tables($moduleInstance)
+	function export_Tables()
 	{
-
-		$_exportedTables = Array();
-
-		$modulename = $moduleInstance->name;
+		$_exportedTables = [];
+		$modulename = $this->moduleInstance->name;
 
 		$this->openNode('tables');
 
-		if ($moduleInstance->isentitytype) {
+		if ($this->moduleInstance->isentitytype) {
 			$focus = CRMEntity::getInstance($modulename);
 
 			// Setup required module variables which is need for vtlib API's
 			vtlib_setup_modulevars($modulename, $focus);
-
-			$tables = Array($focus->table_name);
-			if (!empty($focus->groupTable))
-				$tables[] = $focus->groupTable[0];
-			if (!empty($focus->customFieldTable))
-				$tables[] = $focus->customFieldTable[0];
-
+			$tables = $focus->tab_name;
+			if (($key = array_search('vtiger_crmentity', $tables)) !== false) {
+				unset($tables[$key]);
+			}
 			foreach ($tables as $table) {
 				$this->openNode('table');
 				$this->outputNode($table, 'name');
@@ -363,25 +364,6 @@ class Vtiger_PackageExport
 				$this->closeNode('table');
 
 				$_exportedTables[] = $table;
-			}
-		}
-
-		// Now export table information recorded in schema file
-		if (file_exists("modules/$modulename/schema.xml")) {
-			$schema = simplexml_load_file("modules/$modulename/schema.xml");
-
-			if (!empty($schema->tables) && !empty($schema->tables->table)) {
-				foreach ($schema->tables->table as $tablenode) {
-					$table = trim($tablenode->name);
-					if (!in_array($table, $_exportedTables)) {
-						$this->openNode('table');
-						$this->outputNode($table, 'name');
-						$this->outputNode('<![CDATA[' . Vtiger_Utils::CreateTableSql($table) . ']]>', 'sql');
-						$this->closeNode('table');
-
-						$_exportedTables[] = $table;
-					}
-				}
 			}
 		}
 		$this->closeNode('tables');
@@ -835,6 +817,40 @@ class Vtiger_PackageExport
 	{
 		Vtiger_Utils::Log($message, $delim);
 	}
-}
 
-?>
+	/**
+	 * Export module inventory fields
+	 * @access private
+	 */
+	function exportInventory()
+	{
+		$db = PearDatabase::getInstance();
+		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleInstance->name);
+		$tableName = $inventoryFieldModel->getTableName('fields');
+
+		$result = $db->query('SELECT * FROM ' . $tableName);
+		if ($db->getRowCount($result) == 0)
+			return false;
+
+		$this->openNode('inventory');
+		$this->openNode('fields');
+		while ($row = $db->getRow($result)) {
+			$this->openNode('field');
+
+			$this->outputNode($row['columnname'], 'columnname');
+			$this->outputNode($row['label'], 'label');
+			$this->outputNode($row['invtype'], 'invtype');
+			$this->outputNode($row['presence'], 'presence');
+			$this->outputNode($row['defaultvalue'], 'defaultvalue');
+			$this->outputNode($row['sequence'], 'sequence');
+			$this->outputNode($row['block'], 'block');
+			$this->outputNode($row['displaytype'], 'displaytype');
+			$this->outputNode($row['params'], 'params');
+			$this->outputNode($row['colspan'], 'colspan');
+
+			$this->closeNode('field');
+		}
+		$this->closeNode('fields');
+		$this->closeNode('inventory');
+	}
+}
