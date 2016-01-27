@@ -1107,6 +1107,7 @@ $languageStrings = [
 	'LBL_SU_UPDATED' => 'Record updated by a different user',
 	'LBL_CRMACTIVITY' => 'Calendar activity',
 	'FL_NUMBER' => 'Record number',
+	'DW_SUMMATION_BY_MONTHS' => 'Sales comparison',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
