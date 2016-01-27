@@ -100,13 +100,13 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function getWidgetsWithFilterUsers()
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getWidgetsWithFilterUsers() method ...");
-
-		$widgetsWithFilterUsers = array('Leads by Status Converted', 'Graf', 'Tickets by Status', 'Leads by Industry', 'Leads by Source', 'Leads by Status', 'Funnel', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Dos', 'Delegated (overdue) Events/ToDos', 'Calendar', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES');
-
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getWidgetsWithFilterUsers() method ...");
-		return $widgetsWithFilterUsers;
+		return [
+			'Leads by Status Converted', 'Graf', 'Tickets by Status', 'Leads by Industry',
+			'Leads by Source', 'Leads by Status', 'Funnel', 'Upcoming Activities', 'Overdue Activities',
+			'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks',
+			'Delagated Events/To Dos', 'Delegated (overdue) Events/ToDos', 'Calendar',
+			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'DW_SUMMATION_BY_MONTHS'
+		];
 	}
 
 	public function getSize()
@@ -244,7 +244,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$data['isdefault'] = 0;
 		$size = Zend_Json::encode(array('width' => $data['width'], 'height' => $data['height']));
 		$owners = Zend_Json::encode(array('default' => $data['default_owner'], 'available' => $data['owners_all']));
-		$params = array($data['linkid'], $data['blockid'], $data['filterid'], $data['title'], $data['data'], $size, $data['limit'], $owners, $data['isdefault'],$data['cache']);
+		$params = array($data['linkid'], $data['blockid'], $data['filterid'], $data['title'], $data['data'], $size, $data['limit'], $owners, $data['isdefault'], $data['cache']);
 
 		$adb->pquery($query, $params);
 		$templateId = $adb->getLastInsertID();
