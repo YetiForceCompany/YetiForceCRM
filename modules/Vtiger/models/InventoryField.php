@@ -224,6 +224,23 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	}
 
 	/**
+	 * Get Vtiger_InventoryField_Model instance
+	 * @param string $moduleName Module name
+	 * @return \modelClassName Vtiger_InventoryField_Model Instance
+	 */
+	public static function getFieldInstance($moduleName, $type)
+	{
+		$instance = Vtiger_Cache::get('inventoryFieldType', $moduleName . $type);
+		if (!$instance) {
+			$inventoryClassName = Vtiger_Loader::getComponentClassName('InventoryField', $type, $moduleName);
+			$instance = new $inventoryClassName();
+			$instance->set('module', $moduleName);
+			Vtiger_Cache::set('inventoryFieldType', $moduleName . $type, $instance);
+		}
+		return $instance;
+	}
+
+	/**
 	 * Get fields to auto-complete
 	 * @param string $moduleName
 	 * @return array
@@ -380,9 +397,8 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function addField($type, $params)
 	{
 		$adb = PearDatabase::getInstance();
+		$instance = self::getFieldInstance($this->get('module'), $type);
 
-		$inventoryClassName = Vtiger_Loader::getComponentClassName('InventoryField', $type, $this->get('module'));
-		$instance = new $inventoryClassName();
 		$table = $this->getTableName();
 		$columnName = $instance->getColumnName();
 		$label = $instance->getDefaultLabel();
@@ -406,7 +422,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		foreach ($instance->getCustomColumn() as $column => $criteria) {
 			Vtiger_Utils::AddColumn($table, $column, $criteria);
 		}
-		$result = $adb->query("SELECT MAX(sequence) AS max FROM " . $this->getTableName('fields'));
+		$result = $adb->query('SELECT MAX(sequence) AS max FROM ' . $this->getTableName('fields'));
 		$sequence = (int) $adb->getSingleValue($result) + 1;
 
 		return $adb->insert($this->getTableName('fields'), [
