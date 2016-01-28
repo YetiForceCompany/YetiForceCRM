@@ -177,39 +177,34 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 * */
 	function saveDetails($data, $moduleName)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::saveDetails(" . $data . ", " . $moduleName . ") method ...");
+		$log = LoggerManager::getInstance();
+		$log->debug("Entering Settings_WidgetsManagement_Module_Model::saveDetails($moduleName) method ...");
+
 		$adb = PearDatabase::getInstance();
-		$tabId = getTabid($moduleName);
 		$query = 'SELECT * FROM `vtiger_module_dashboard` WHERE `id` = ? LIMIT 1; ';
-		$params = array($data['id']);
+		$params = [$data['id']];
 		$result = $adb->pquery($query, $params);
 		if ($adb->num_rows($result) > 0) {
-			try {
-				$active = isset($data['isdefault']) ? 1 : 0;
-				$size = Zend_Json::encode(array('width' => $data['width'], 'height' => $data['height']));
-				$insert = [
-					'isdefault' => $data['isdefault'],
-					'size' => $size,
-					'limit' => $data['limit'],
-					'cache' => $data['cache'],
-				];
-				if (!empty($data['default_owner']) && !empty($data['owners_all'])) {
-					$insert['owners'] = Zend_Json::encode(array('default' => $data['default_owner'], 'available' => $data['owners_all']));
-				}
-				if ($data['type'] == 'DW_SUMMATION_BY_MONTHS') {
-					$insert['data'] = Zend_Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
-				}
-				if ($data['type'] == 'DW_SUMMATION_BY_USER') {
-					$insert['data'] = Zend_Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
-				}
-				$adb->update('vtiger_module_dashboard', $insert, '`id` = ?', [$data['id']]);
-
-				$insert['active'] = $active;
-				$adb->update('vtiger_module_dashboard_widgets', $insert, '`templateid` = ?', [$data['id']]);
-			} catch (Exception $e) {
-				return array('success' => false, 'message' => $e->getMessage());
+			$size = Zend_Json::encode(['width' => $data['width'], 'height' => $data['height']]);
+			$insert = [
+				'isdefault' => $data['isdefault'],
+				'size' => $size,
+				'limit' => $data['limit'],
+				'cache' => $data['cache'],
+			];
+			if (!empty($data['default_owner']) && !empty($data['owners_all'])) {
+				$insert['owners'] = Zend_Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
 			}
+			if ($data['type'] == 'DW_SUMMATION_BY_MONTHS') {
+				$insert['data'] = Zend_Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
+			}
+			if ($data['type'] == 'DW_SUMMATION_BY_USER') {
+				$insert['data'] = Zend_Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
+			}
+			$adb->update('vtiger_module_dashboard', $insert, '`id` = ?', [$data['id']]);
+
+			$insert['active'] = isset($data['isdefault']) ? 1 : 0;
+			$adb->update('vtiger_module_dashboard_widgets', $insert, '`templateid` = ?', [$data['id']]);
 		}
 		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::saveData() method ...");
 		return array('success' => true);
