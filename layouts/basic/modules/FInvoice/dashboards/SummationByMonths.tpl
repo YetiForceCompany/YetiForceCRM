@@ -1,5 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
-{assign var=DATA value=Zend_Json::decode(html_entity_decode($WIDGET->get('data')))}
+{assign var=CONF_DATA value=Zend_Json::decode(html_entity_decode($WIDGET->get('data')))}
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 		loadChart: function () {
@@ -21,17 +21,18 @@
 					autoscaleMargin: .05
 				},
 				yaxis: {
-					{if $DATA['plotTickSize']}
-						tickSize: {$DATA['plotTickSize']},
+					{if $CONF_DATA['plotTickSize']}
+						tickSize: {$CONF_DATA['plotTickSize']},
 					{/if}
-					{if $DATA['plotLimit']}
-						max: {$DATA['plotLimit']},
+					{if $CONF_DATA['plotLimit']}
+						max: {$CONF_DATA['plotLimit']},
 					{/if}
 				},
 				grid: {
 					hoverable: true
 				},
 			};
+			thisInstance.plotInstance = $.plot(chartArea, chartData['chartData'], options);
 			chartArea.bind('plothover', function (event, pos, item) {
 				if (item) {
 					var html = '';
@@ -56,7 +57,6 @@
 					$("#tooltip").fadeOut();
 				}
 			});
-			thisInstance.plotInstance = $.plot(chartArea, chartData['chartData'], options);
 		}
 	});
 </script>
