@@ -1042,6 +1042,10 @@ $languageStrings = [
 	'LBL_COMMENT' => 'Comment',
 	'LBL_CURRENT' => 'Current',
 	'LBL_SET_RECORD_STATUS' => 'Set status',
+
+	'LBL_FILTER_ALL' => 'All',
+	'LBL_FILTER_ACCOUNTS' => 'Accounts',
+	'LBL_FILTER_CONTACTS' => 'Contacts',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',
