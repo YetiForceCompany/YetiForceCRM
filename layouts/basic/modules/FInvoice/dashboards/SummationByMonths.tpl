@@ -6,7 +6,9 @@
 			var thisInstance = this;
 			var chartData = thisInstance.generateData();
 			var chartArea = thisInstance.getPlotContainer(false);
-
+			var months = [ "JS_JANUARY", "JS_FEBRUARY", "JS_MARCH", "JS_APRIL", "JS_MAY", "JS_JUNE",
+					"JS_JULY", "JS_AUGUST", "JS_SEPTEMBER", "JS_OCTOBER", "JS_NOVEMBER", "JS_DECEMBER" ];
+		   
 			var options = {
 				series: {
 					bars: {
@@ -27,8 +29,33 @@
 					{/if}
 				},
 				grid: {
-				}
+					hoverable: true
+				},
 			};
+			chartArea.bind('plothover', function (event, pos, item) {
+				if (item) {
+					var html = '';
+					$("#tooltip").remove();
+					var x = item.datapoint[0].toFixed(0),
+                        y = item.datapoint[1];
+					var html = '<div id="tooltip">';
+					html += item.series.label + "<br />" + app.vtranslate(months[x-1]) + "<br />" + y;
+
+					html += '</div>';
+					$(html).css( {
+								position: 'absolute',
+								top:  pos.pageY - 30,
+								left: pos.pageX+ 20,
+								border: '1px solid #DAD9D9',
+								padding: '2px',
+								'z-index': 1050,
+								'background-color': '#f5f5f5',
+							}).appendTo("body").fadeIn(200);
+	
+				} else {
+					$("#tooltip").fadeOut();
+				}
+			});
 			thisInstance.plotInstance = $.plot(chartArea, chartData['chartData'], options);
 		}
 	});

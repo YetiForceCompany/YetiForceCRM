@@ -42,11 +42,13 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	public function getWidgetData($moduleName, $owner)
 	{
 		$rawData = $data = $response = $ticks = $years = [];
+
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$instance = CRMEntity::getInstance($moduleName);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
 
-		$param = ['2014-02-01'];
+		$date = date('Y-m-01', strtotime('-23 month', strtotime(date('Y-m-d'))) ); 
+		$param = [$date];
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT Year(`saledate`) as y,  Month(`saledate`) as m,sum(`gross`) as s FROM u_yf_finvoice
 					INNER JOIN vtiger_crmentity ON u_yf_finvoice.finvoiceid = vtiger_crmentity.crmid
@@ -76,10 +78,9 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 			$data[] = [
 				'data' => $values,
 				'bars' => ['order' => (array_search($y, $years) + 1)],
-				'label' => vtranslate('LBL_YEAR') . ' ' . $y,
+				'label' => vtranslate('LBL_YEAR', $moduleName) . ' ' . $y,
 			];
 		}
-
 		$response['chart'] = $data;
 		$response['ticks'] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 		return $response;
