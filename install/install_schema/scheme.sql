@@ -3226,7 +3226,7 @@ CREATE TABLE `vtiger_def_org_share` (
   PRIMARY KEY (`ruleid`),
   KEY `fk_1_vtiger_def_org_share` (`permission`),
   CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_def_org_share_seq` */
 
@@ -7693,7 +7693,7 @@ CREATE TABLE `vtiger_widgets` (
   PRIMARY KEY (`id`),
   KEY `tabid` (`tabid`),
   CONSTRAINT `vtiger_widgets_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity` */
 
@@ -7704,7 +7704,7 @@ CREATE TABLE `vtiger_ws_entity` (
   `handler_class` varchar(64) NOT NULL,
   `ismodule` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity_fieldtype` */
 
