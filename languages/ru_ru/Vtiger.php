@@ -1346,7 +1346,8 @@ $languageStrings = [
 	'LBL_SU_UPDATED' => 'Record updated by a different user',
 	'LBL_CRMACTIVITY' => 'Calendar activity',
 	'FL_NUMBER' => 'Record number',
-	'DW_SUMMATION_BY_MONTHS' => 'Sales comparison',
+	'DW_SUMMATION_BY_MONTHS' => 'Sales comparison by month',
+	'DW_SUMMATION_BY_USER' => 'Sales comparison by user',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',
