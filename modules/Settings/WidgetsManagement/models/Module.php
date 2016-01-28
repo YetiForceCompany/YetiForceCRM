@@ -186,29 +186,26 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$result = $adb->pquery($query, $params);
 		if ($adb->num_rows($result) > 0) {
 			try {
-				if ($data['isdefault'])
-					$active = 1;
+				$active = isset($data['isdefault']) ? 1 : 0;
 				$size = Zend_Json::encode(array('width' => $data['width'], 'height' => $data['height']));
-				$owners = Zend_Json::encode(array('default' => $data['default_owner'], 'available' => $data['owners_all']));
-				$owners = Zend_Json::encode(array('default' => $data['default_owner'], 'available' => $data['owners_all']));
-				$data_ = '';
-				if ($data['type'] == 'DW_SUMMATION_BY_MONTHS') {
-					$data_ = Zend_Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
-				}
 				$insert = [
 					'isdefault' => $data['isdefault'],
 					'size' => $size,
 					'limit' => $data['limit'],
-					'owners' => $owners,
 					'cache' => $data['cache'],
 				];
-				if (!empty($data_)) {
-					$insert['data'] = $data_;
+				if (!empty($data['default_owner']) && !empty($data['owners_all'])) {
+					$insert['owners'] = Zend_Json::encode(array('default' => $data['default_owner'], 'available' => $data['owners_all']));
+				}
+				if ($data['type'] == 'DW_SUMMATION_BY_MONTHS') {
+					$insert['data'] = Zend_Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
+				}
+				if ($data['type'] == 'DW_SUMMATION_BY_USER') {
+					$insert['data'] = Zend_Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
 				}
 				$adb->update('vtiger_module_dashboard', $insert, '`id` = ?', [$data['id']]);
-				if ($active) {
-					$insert['active'] = $active;
-				}
+
+				$insert['active'] = $active;
 				$adb->update('vtiger_module_dashboard_widgets', $insert, '`templateid` = ?', [$data['id']]);
 			} catch (Exception $e) {
 				return array('success' => false, 'message' => $e->getMessage());
