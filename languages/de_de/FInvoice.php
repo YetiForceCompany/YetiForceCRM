@@ -27,4 +27,5 @@ $languageStrings = [
 	'PLL_TRANSFER' => 'transfer',
 	'PLL_CASH' => 'cash',
 	//OTHERS
+	'LBL_YEAR' => 'Year',
 ];
