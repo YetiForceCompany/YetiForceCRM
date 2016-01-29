@@ -27,7 +27,7 @@ $languageStrings = [
 	'LBL_KEY_HAS_BEEN_REMOVED' => 'Klucz został usunięty',
 	'LBL_SUCCESS_SAVE_CHANGES' => 'Zapisano zmiany',
 	'LBL_ALERT_MOBILE_NO_ACTIVE_TITLE' => 'Aplikacja mobilna jest nieaktywna',
-	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC' => 'Aplikacja mobilna nie została jeszcze aktywowana, proszę o włączenie usuługi "mobile" w pliku config/api.php',
+	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC' => 'Aplikacja mobilna nie została jeszcze aktywowana, proszę o włączenie usługi "mobile" w pliku config/api.php',
 	
 	// Mobile services
 	'LBL_MOBILE_HISTORYCALL' => 'Historia wykonanych połączeń',
