@@ -62,7 +62,7 @@ $languageStrings = [
 	'Action_Desc_validate_mandatory' => 'Checking whether all mandatory fields in quick edit are filled in.',
 	//
 	'Action_check_assigneduser' => 'Restriction change of ownership record',
-	'Action_Desc_check_assigneduser' => 'Action restriction the ability to change owner to a specific list.',
+	'Action_Desc_check_assigneduser' => 'Action limits the ability to change owner to a specific list.',
 	'LBL_SELECT_USER_OR_GROUP' => 'Select users or groups allowed',
 	'LBL_CURRENT_USER' => 'Current user',
 	//
