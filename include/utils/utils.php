@@ -413,7 +413,6 @@ function getColumnFields($module)
 {
 	$log = vglobal('log');
 	$log->debug("Entering getColumnFields(" . $module . ") method ...");
-	$log->debug("in getColumnFields " . $module);
 
 	// Lookup in cache for information
 	$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
