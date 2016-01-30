@@ -21,9 +21,9 @@
 		<div class="vtFooter">
 			{if AppConfig::main('isVisibleLogoInFooter') == 'true'}
 				<div class='pull-right'>
-					{assign var=ADDRESS value='http://www.yetiforce.com'}
+					{assign var=ADDRESS value='https://yetiforce.com'}
 					<a href='{$ADDRESS}'>
-						<img class="logoFooter" src="/storage/Logo/white_logo_yetiforce.png" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/>
+						<img class="logoFooter" src="storage/Logo/white_logo_yetiforce.png" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/>
 					</a>
 				</div>
 			{/if}
