@@ -672,6 +672,7 @@ var app = {
 					element.DatePickerHide();
 					element.blur();
 				}
+				element.data('prevVal',element.val());
 				element.val(formated).trigger('change').focusout();
 			},
 			onBeforeShow: function (formated) {
@@ -698,6 +699,7 @@ var app = {
 			}
 			params.date = selectedDate;
 			params.current = selectedDate;
+			jQelement.data('prevVal',jQelement.val());
 			jQelement.DatePicker(params)
 		});
 

@@ -1979,9 +1979,17 @@ jQuery.Class("Vtiger_List_Js", {
 			var select = $(domElement);
 			app.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
 		});
+
 		if (app.getMainParams('autoRefreshListOnChange') == '1') {
 			listViewContainer.find('.listViewEntriesTable select').on("change", function (e) {
 				Vtiger_List_Js.triggerListSearch();
+			});
+			listViewContainer.find('.listViewEntriesTable .dateField').on('DatePicker.onHide', function (e, y) {
+				var prevVal = $(this).data('prevVal');
+				var value = $(this).val();
+				if(prevVal != value){
+					Vtiger_List_Js.triggerListSearch();
+				}
 			});
 		}
 	},
@@ -2095,7 +2103,6 @@ jQuery.Class("Vtiger_List_Js", {
 		return new Array(searchParams);
 	},
 	registerListSearch: function () {
-
 		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
 		listViewPageDiv.on('click', '[data-trigger="listSearch"]', function (e) {
@@ -2135,7 +2142,11 @@ jQuery.Class("Vtiger_List_Js", {
 				mode: 'range',
 				className: 'rangeCalendar',
 				onChange: function (formated) {
+					dateElement.data('prevVal',dateElement.val());
 					dateElement.val(formated.join(','));
+				},
+				onHide: function (formated) {
+					dateElement.trigger(jQuery.Event('DatePicker.onHide'), formated);
 				}
 			}
 			app.registerEventForDatePickerFields(dateElement, false, customParams);
