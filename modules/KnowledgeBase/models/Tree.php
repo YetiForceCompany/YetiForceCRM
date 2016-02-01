@@ -76,7 +76,7 @@ class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
 	{
 		$records = $this->getAllRecords();
 		$fieldName = $this->getTreeField()['fieldname'];
-		foreach ($records as $item) {
+		foreach ($records as &$item) {
 			$this->lastIdinTree++;
 			$parent = (int) ltrim($item[$fieldName], 'T');
 			$tree[] = [

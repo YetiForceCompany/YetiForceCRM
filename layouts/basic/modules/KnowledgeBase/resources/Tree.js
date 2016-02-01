@@ -3,7 +3,7 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 	treeInstance: false,
 	generateTree: function (container, data) {
 		var thisInstance = this;
-		thisInstance.treeInstance = container.find("#treeContent");
+		thisInstance.treeInstance = container.find('#treeContent');
 		var values = data.result;
 		var plugins = ['search'];
 		thisInstance.treeInstance.jstree({
@@ -16,8 +16,8 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 			},
 			plugins: plugins
 		});
-	},	
-	loadTree: function(){
+	},
+	loadTree: function(reload){
 		var thisInstance = this;
 		var container = $('.treeContainer');
 		var params = {
@@ -30,11 +30,13 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 				enabled: true
 			}
 		});
+		if(reload){
+			thisInstance.treeInstance.jstree('destroy');
+		}
 		AppConnector.request(params).then(function(data){
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			thisInstance.generateTree(container, data);
 			thisInstance.registerTreeEvents(container);
-			
 		});
 	},
 	searchingInTree: function (text) {
@@ -61,7 +63,7 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 				var headerInstance = Vtiger_Header_Js.getInstance();
 				var moduleName = app.getModuleName();
 				var postQuickCreate = function(data){
-					thisInstance.loadTree();
+					thisInstance.loadTree(true);
 				} 
 				var relatedParams = {
 					category: data.node.original.record_id
@@ -80,7 +82,7 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 	},
 	registerEvents: function () {
 		var thisInstance = this;
-		thisInstance.loadTree();
+		thisInstance.loadTree(false);
 	
 	}
 });
