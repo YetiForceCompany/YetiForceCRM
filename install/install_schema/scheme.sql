@@ -1019,7 +1019,7 @@ CREATE TABLE `u_yf_knowledgebase` (
   `number` varchar(32) DEFAULT NULL,
   `content` text,
   `category` varchar(200) DEFAULT NULL,
-  `view` varchar(255) DEFAULT '',
+  `knowledgebase_view` varchar(255) DEFAULT '',
   PRIMARY KEY (`knowledgebaseid`),
   CONSTRAINT `fk_1_vtiger_knowledgebase` FOREIGN KEY (`knowledgebaseid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
