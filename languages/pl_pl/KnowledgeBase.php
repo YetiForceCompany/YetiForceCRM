@@ -9,4 +9,7 @@ $languageStrings = [
 	'LBL_KNOWLEDGEBASE_INFORMATION' => 'Informacje podstawowe',
 	'FL_CONTENT' => 'Treść',
 	'FL_CATEGORY' => 'Kategoria',
+	'FL_VIEWS' => 'Widok',
+	'PLL_PAGE' => 'Strona',
+	'PLL_PRESENTATION' => 'Prezentacja',
 ];
