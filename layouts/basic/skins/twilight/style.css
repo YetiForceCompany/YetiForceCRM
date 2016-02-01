@@ -5077,3 +5077,16 @@ select.form-control {
 	padding: 3px 10px !important;
 	margin: 2px 0px;
 }
+
+.knowledgePresentation .carousel-content {
+    color: black;
+    display: flex;
+    align-items: center;
+}
+
+@media screen and (min-width: 1024px){
+	.knowledgePresentationText {
+		font-size: 2em;
+	}
+}
+
