@@ -736,7 +736,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	showPdfModal: function (url) {
 		var params = {};
 		if (app.getViewName() == 'List') {
-			var selected = Vtiger_List_Js.getSelectedRecordsParams(false);
+			var selected = Vtiger_List_Js.getSelectedRecordsParams(false,true);
 			jQuery.extend(params, selected);
 		}
 		url += '&' + jQuery.param(params);
