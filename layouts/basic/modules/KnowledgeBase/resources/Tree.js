@@ -60,11 +60,16 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 			if(data.node.original.type == 'folder'){
 				var headerInstance = Vtiger_Header_Js.getInstance();
 				var moduleName = app.getModuleName();
+				var postQuickCreate = function(data){
+					thisInstance.loadTree();
+				} 
+				var relatedParams = {
+					category: data.node.original.record_id
+				};
 				var quickCreateParams = {
-					//callbackFunction: postQuickCreate,
-					//callbackPostShown: postShown,
-					//data: relatedParams,
-					//noCache: true
+					callbackFunction: postQuickCreate,
+					data: relatedParams,
+					noCache: true
 				};
 				headerInstance.quickCreateModule(moduleName, quickCreateParams);
 			}
