@@ -12,4 +12,5 @@ $languageStrings = [
 	'FL_VIEWS' => 'Widok',
 	'PLL_PAGE' => 'Strona',
 	'PLL_PRESENTATION' => 'Prezentacja',
+	'LBL_VIEW_TREE' => 'Drzewo rekordów',
 ];
