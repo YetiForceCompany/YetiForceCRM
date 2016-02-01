@@ -198,7 +198,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	function getListViewCount(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$cvId = $request->get('viewname');
+		$cvId = CustomView_Record_Model::getViewId($request);
 		if (empty($cvId)) {
 			$cvId = '0';
 		}

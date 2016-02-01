@@ -1149,7 +1149,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 					);
 			thisInstance.getCalendarView().find(".fc-event-container a").click(function () {
 				var container = thisInstance.getContainer();
-				var url = 'index.php?module=Calendar&view=List';
+				var url = 'index.php?module=Calendar&view=List&viewname=All';
 				if (customFilter) {
 					url += '&viewname=' + container.find('select.widgetFilter.customFilter').val();
 				}
@@ -1251,8 +1251,11 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 			} else {
 				status = 'PLL_PLANNED';
 			}
-			window.location.href = 'index.php?module=Calendar&view=List&search_params=[[["assigned_user_id","c","' + container.find('.widgetFilter.owner option:selected').data('name') + '"],["activitystatus","e","' + status + '"]]]';
-			;
+			var url = 'index.php?module=Calendar&view=List&viewname=All';
+			url += '&search_params=[[';
+			url += '["assigned_user_id","c","' + container.find('.widgetFilter.owner option:selected').data('name') + '"],';
+			url += '["activitystatus","e","' + status + '"]]]';
+			window.location.href = url;
 		});
 	}
 });
