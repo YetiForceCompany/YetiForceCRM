@@ -4551,6 +4551,9 @@ html,body,.baseContainer
 		-o-transition: all 0.5s ease;
 		transition: all 0.5s ease;
 	}
+	.knowledgePresentationText {
+		font-size: 2em;
+	}
 }
 @media only screen and (min-width: 767px) {
 	.quickCreateContent .fieldsLabelValue::before{
@@ -5077,16 +5080,20 @@ select.form-control {
 	padding: 3px 10px !important;
 	margin: 2px 0px;
 }
-
-.knowledgePresentation .carousel-content {
-    color: black;
-    display: flex;
-    align-items: center;
+.knowledgePresentationContent {
+	color: black;
+	display: flex;
+	min-height: 450px;
 }
-
-@media screen and (min-width: 1024px){
-	.knowledgePresentationText {
-		font-size: 2em;
-	}
+.knowledgePresentationControl {
+	width: 10%;
 }
-
+.knowledgePresentationInner {
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+	width: 80%;
+	margin-left: 10%;
+	float: left;
+}

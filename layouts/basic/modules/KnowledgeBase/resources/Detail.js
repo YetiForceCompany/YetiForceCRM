@@ -14,7 +14,7 @@ Vtiger_Detail_Js("KnowledgeBase_Detail_Js", {}, {
 		
 		var highestSlideHeight = Math.max.apply(null, slides);
 
-		$(id+' .knowledgePresentationContent').each(function () {
+		$(id + ' .knowledgePresentationContent').each(function () {
 			$(this).css('height', highestSlideHeight + 'px');
 		});
 		
