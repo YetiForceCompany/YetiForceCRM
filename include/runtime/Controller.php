@@ -287,6 +287,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/clockpicker/bootstrap-clockpicker.css',
 			'skins.icons.userIcons',
 			'skins.icons.adminIcons',
+			'skins.icons.additionalIcons',
 			'libraries.resources.styles',
 			'modules.OSSMail.resources.OSSMailBoxInfo',
 		];
