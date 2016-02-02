@@ -82,6 +82,7 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 		AppConnector.request(params).then(function(data){
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			contentData.html(data);
+			contentData.find('table').dataTable();
 		});
 	},
 	registerTreeEvents: function(){

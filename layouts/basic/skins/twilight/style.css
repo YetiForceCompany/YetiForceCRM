@@ -5100,3 +5100,12 @@ select.form-control {
 .panelTree{
 	border-right: 1px solid #eee;
 }
+.listLastDocuments li{
+	list-style: none;
+	font-size: 12px;
+	padding-bottom: 10px;
+	
+}
+.listLastDocuments li span{
+	padding-right: 5px;
+}
