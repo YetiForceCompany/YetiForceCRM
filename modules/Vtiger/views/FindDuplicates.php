@@ -37,12 +37,11 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View {
 	function getFooterScripts(Vtiger_Request $request) {
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
-		$jsFileNames = array(
+		unset($headerScriptInstances['modules.Vtiger.resources.FindDuplicates']);
+		$jsFileNames = [
 			'modules.Vtiger.resources.List',
 			'modules.Vtiger.resources.FindDuplicates',
-		);
-
+		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
@@ -60,7 +59,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View {
 		$massActionLink = array(
 			'linktype' => 'LISTVIEWBASIC',
 			'linklabel' => 'LBL_DELETE',
-			'linkurl' => 'Javascript:Vtiger_FindDuplicates_Js.massDeleteRecords("index.php?module='.$module.'&action=MassDelete");',
+			'linkurl' => 'Javascript:Vtiger_FindDuplicates_Js.massDeleteRecords("index.php?module='.$module.'&action=MassDelete")',
 			'linkicon' => ''
 		);
 		$massActionLinks[] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
