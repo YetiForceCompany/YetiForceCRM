@@ -9,7 +9,7 @@
 	font-weight: normal;
 	font-style: normal;
 }
-[class^="icon-"], [class*=" icon-"] {
+[class^="AdditionalIcon-"], [class*=" AdditionalIcon-"] {
 	font-family: 'AdditionalIcon' !important;
 	speak: none;
 	font-style: normal;
@@ -22,174 +22,174 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-.icon-NetworkInterfaceCards:before {
+.AdditionalIcon-NetworkInterfaceCards:before {
     content: "\e901";
 }
-.icon-UtmNgf:before {
+.AdditionalIcon-UtmNgf:before {
     content: "\e902";
 }
-.icon-Virtualization:before {
+.AdditionalIcon-Virtualization:before {
     content: "\e904";
 }
-.icon-Ups:before {
+.AdditionalIcon-Ups:before {
     content: "\e905";
 }
-.icon-TapeLibraries:before {
+.AdditionalIcon-TapeLibraries:before {
     content: "\e906";
 }
-.icon-Switches:before {
+.AdditionalIcon-Switches:before {
     content: "\e907";
 }
-.icon-Notebooks:before {
+.AdditionalIcon-Notebooks:before {
     content: "\e908";
 }
-.icon-VideoConference:before {
+.AdditionalIcon-VideoConference:before {
     content: "\e909";
 }
-.icon-Encryption:before {
+.AdditionalIcon-Encryption:before {
     content: "\e90b";
 }
-.icon-Servers:before {
+.AdditionalIcon-Servers:before {
     content: "\e90c";
 }
-.icon-Deslock:before {
+.AdditionalIcon-Deslock:before {
     content: "\e90d";
 }
-.icon-Eset .path1:before {
+.AdditionalIcon-Eset .path1:before {
     content: "\e90e";
     color: rgb(0, 0, 0);
 }
-.icon-Eset .path2:before {
+.AdditionalIcon-Eset .path2:before {
     content: "\e90f";
     margin-left: -1em;
     color: rgb(0, 0, 0);
 }
-.icon-Eset .path3:before {
+.AdditionalIcon-Eset .path3:before {
     content: "\e910";
     margin-left: -1em;
     color: rgb(255, 255, 255);
 }
-.icon-Symantec:before {
+.AdditionalIcon-Symantec:before {
     content: "\e911";
 }
-.icon-EmailProtection:before {
+.AdditionalIcon-EmailProtection:before {
     content: "\e912";
 }
-.icon-Other:before {
+.AdditionalIcon-Other:before {
     content: "\e913";
 }
-.icon-Avast:before {
+.AdditionalIcon-Avast:before {
     content: "\e914";
 }
-.icon-Cloudmark:before {
+.AdditionalIcon-Cloudmark:before {
     content: "\e915";
 }
-.icon-DrWeb .path1:before {
+.AdditionalIcon-DrWeb .path1:before {
     content: "\e916";
     color: rgb(0, 0, 0);
 }
-.icon-DrWeb .path2:before {
+.AdditionalIcon-DrWeb .path2:before {
     content: "\e917";
     margin-left: -1em;
     color: rgb(0, 0, 0);
 }
-.icon-DrWeb .path3:before {
+.AdditionalIcon-DrWeb .path3:before {
     content: "\e918";
     margin-left: -1em;
     color: rgb(0, 0, 0);
 }
-.icon-DrWeb .path4:before {
+.AdditionalIcon-DrWeb .path4:before {
     content: "\e919";
     margin-left: -1em;
     color: rgb(0, 0, 0);
 }
-.icon-DrWeb .path5:before {
+.AdditionalIcon-DrWeb .path5:before {
     content: "\e91a";
     margin-left: -1em;
     color: rgb(0, 0, 0);
 }
-.icon-DrWeb .path6:before {
+.AdditionalIcon-DrWeb .path6:before {
     content: "\e91b";
     margin-left: -1em;
     color: rgb(0, 0, 0);
 }
-.icon-DrWeb .path7:before {
+.AdditionalIcon-DrWeb .path7:before {
     content: "\e91c";
     margin-left: -1em;
     color: rgb(0, 0, 0);
 }
-.icon-DrWeb .path8:before {
+.AdditionalIcon-DrWeb .path8:before {
     content: "\e91d";
     margin-left: -1em;
     color: rgb(0, 0, 0);
 }
-.icon-DrWeb .path9:before {
+.AdditionalIcon-DrWeb .path9:before {
     content: "\e91e";
     margin-left: -1em;
     color: rgb(0, 0, 0);
 }
-.icon-DrWeb .path10:before {
+.AdditionalIcon-DrWeb .path10:before {
     content: "\e91f";
     margin-left: -1em;
     color: rgb(0, 0, 0);
 }
-.icon-DrWeb .path11:before {
+.AdditionalIcon-DrWeb .path11:before {
     content: "\e920";
     margin-left: -1em;
     color: rgb(0, 0, 0);
 }
-.icon-DrWeb .path12:before {
+.AdditionalIcon-DrWeb .path12:before {
     content: "\e921";
     margin-left: -1em;
     color: rgb(255, 255, 255);
 }
-.icon-DrWeb .path13:before {
+.AdditionalIcon-DrWeb .path13:before {
     content: "\e922";
     margin-left: -1em;
     color: rgb(255, 255, 255);
 }
-.icon-DrWeb .path14:before {
+.AdditionalIcon-DrWeb .path14:before {
     content: "\e923";
     margin-left: -1em;
     color: rgb(255, 255, 255);
 }
-.icon-FSecure:before {
+.AdditionalIcon-FSecure:before {
     content: "\e924";
 }
-.icon-GData:before {
+.AdditionalIcon-GData:before {
     content: "\e925";
 }
-.icon-Kaspersky:before {
+.AdditionalIcon-Kaspersky:before {
     content: "\e926";
 }
-.icon-BackUpCopies:before {
+.AdditionalIcon-BackUpCopies:before {
     content: "\e927";
 }
-.icon-Matrixes:before {
+.AdditionalIcon-Matrixes:before {
     content: "\e928";
 }
-.icon-Mcafee:before {
+.AdditionalIcon-Mcafee:before {
     content: "\e929";
 }
-.icon-Monitoring:before {
+.AdditionalIcon-Monitoring:before {
     content: "\e92b";
 }
-.icon-Panda:before {
+.AdditionalIcon-Panda:before {
     content: "\e92c";
 }
-.icon-Securedoc:before {
+.AdditionalIcon-Securedoc:before {
     content: "\e92d";
 }
-.icon-Sophos:before {
+.AdditionalIcon-Sophos:before {
     content: "\e92e";
 }
-.icon-TrendMicro:before {
+.AdditionalIcon-TrendMicro:before {
     content: "\e92f";
 }
-.icon-Webroot:before {
+.AdditionalIcon-Webroot:before {
     content: "\e930";
 }
-.icon-Antivirus:before {
+.AdditionalIcon-Antivirus:before {
     content: "\e931";
 }
 

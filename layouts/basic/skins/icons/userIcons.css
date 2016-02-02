@@ -22,13 +22,16 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-.userIcon-Vendors2:before {
+.userIcon-WithoutOwnersAccounts:before {
+    content: "\e949";
+}
+.userIcon-VendorsAccounts:before {
     content: "\e942";
 }
-.userIcon-Company:before {
+.userIcon-CompanyAccounts:before {
     content: "\e943";
 }
-.userIcon-Shutdown:before {
+.userIcon-ShutdownAccounts:before {
     content: "\e944";
 }
 .userIcon-MyAccounts:before {
@@ -37,10 +40,10 @@
 .userIcon-UnassignedAccounts:before {
     content: "\e946";
 }
-.userIcon-All:before {
+.userIcon-AllAccounts:before {
     content: "\e947";
 }
-.userIcon-Bin:before {
+.userIcon-RecycleBin:before {
     content: "\e948";
 }
 .userIcon-FInvoice:before {
@@ -73,7 +76,7 @@
 .userIcon-Accounts:before {
     content: "\e900";
 }
-.userIcon-CompainesAndContacts:before {
+.userIcon-CompaniesAndContact:before,.userIcon-CompainesAndContacts:before  {
     content: "\e901";
 }
 .userIcon-HolidaysEntitlement:before {
@@ -82,7 +85,7 @@
 .userIcon-Assets:before {
     content: "\e903";
 }
-.userIcon-BookKeeping:before {
+.userIcon-Bookkeeping:before {
     content: "\e904";
 }
 .userIcon-SCalculations:before {
@@ -241,4 +244,3 @@
 .userIcon-VirtualDesk:before {
     content: "\e938";
 }
-
