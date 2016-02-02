@@ -245,7 +245,7 @@ class CRMEntity
 			$this->mode = 'edit';
 		}
 
-		$date_var = date("Y-m-d H:i:s");
+		$date_var = date('Y-m-d H:i:s');
 		$insertion_mode = $this->mode;
 
 		$ownerid = $this->column_fields['assigned_user_id'];
@@ -303,8 +303,10 @@ class CRMEntity
 			$this->column_fields['modifiedby'] = $current_user->id;
 		} else {
 			//if this is the create mode and the group allocation is chosen, then do the following
-			if (empty($this->id)) {
+			if (empty($this->isNew)) {
 				$this->id = $adb->getUniqueID('vtiger_crmentity');
+			} else {
+				$this->id = $this->isNew;
 			}
 			if (empty($current_user->id))
 				$current_user->id = 0;
