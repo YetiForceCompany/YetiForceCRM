@@ -727,13 +727,16 @@ class Services extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule)
+	function setRelationTables($secmodule = false)
 	{
-		$rel_tables = array(
-			"PriceBooks" => array("vtiger_pricebookproductrel" => array("productid", "pricebookid"), "vtiger_service" => "serviceid"),
-			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"), "vtiger_service" => "serviceid"),
+		$relTables = array(
+			'PriceBooks' => array('vtiger_pricebookproductrel' => array('productid', 'pricebookid'), 'vtiger_service' => 'serviceid'),
+			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_service' => 'serviceid'),
 		);
-		return $rel_tables[$secmodule];
+		if($secmodule === false){
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 	// Function to unlink all the dependent entities of the given Entity by Id

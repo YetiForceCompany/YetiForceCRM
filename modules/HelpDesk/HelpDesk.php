@@ -476,14 +476,17 @@ class HelpDesk extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule)
+	function setRelationTables($secmodule = false)
 	{
-		$rel_tables = array(
-			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"), "vtiger_troubletickets" => "ticketid"),
-			"Products" => array("vtiger_troubletickets" => array("ticketid", "product_id")),
-			"Services" => array("vtiger_crmentityrel" => array("crmid", "relcrmid"), "vtiger_troubletickets" => "ticketid"),
+		$relTables = array(
+			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_troubletickets' => 'ticketid'),
+			'Products' => array('vtiger_troubletickets' => array('ticketid', 'product_id')),
+			'Services' => array('vtiger_crmentityrel' => array('crmid', 'relcrmid'), 'vtiger_troubletickets' => 'ticketid'),
 		);
-		return $rel_tables[$secmodule];
+		if($secmodule === false){
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 	// Function to unlink an entity with given Id from another entity

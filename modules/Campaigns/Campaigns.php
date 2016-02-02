@@ -265,9 +265,9 @@ class Campaigns extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule)
+	function setRelationTables($secmodule = false)
 	{
-		$rel_tables = array(
+		$relTables = array(
 			'Contacts' => array('vtiger_campaign_records' => array('campaignid', 'crmid'), 'vtiger_campaign' => 'campaignid'),
 			'Leads' => array('vtiger_campaign_records' => array('campaignid', 'crmid'), 'vtiger_campaign' => 'campaignid'),
 			'Accounts' => array('vtiger_campaign_records' => array('campaignid', 'crmid'), 'vtiger_campaign' => 'campaignid'),
@@ -276,7 +276,10 @@ class Campaigns extends CRMEntity
 			'Competition' => array('vtiger_campaign_records' => array('campaignid', 'crmid'), 'vtiger_campaign' => 'campaignid'),
 			'Products' => array('vtiger_campaign' => array('campaignid', 'product_id')),
 		);
-		return $rel_tables[$secmodule];
+		if($secmodule === false){
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 	// Function to unlink an entity with given Id from another entity

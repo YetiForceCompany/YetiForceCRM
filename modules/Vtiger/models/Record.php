@@ -488,7 +488,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 * @param <Array> $recordIds
 	 * @return <Boolean> true/false
 	 */
-	public function transferRelationInfoOfRecords($recordIds = array())
+	public function transferRelationInfoOfRecords($recordIds = [])
 	{
 		if ($recordIds) {
 			$moduleName = $this->getModuleName();

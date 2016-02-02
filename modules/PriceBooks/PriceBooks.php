@@ -317,12 +317,15 @@ class PriceBooks extends CRMEntity {
 	 * @param - $secmodule secondary module name
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
-	function setRelationTables($secmodule){
-		$rel_tables = array (
-			"Products" => array("vtiger_pricebookproductrel"=>array("pricebookid","productid"),"vtiger_pricebook"=>"pricebookid"),
-			"Services" => array("vtiger_pricebookproductrel"=>array("pricebookid","productid"),"vtiger_pricebook"=>"pricebookid"),
+	function setRelationTables($secmodule = false){
+		$relTables = array (
+			'Products' => array('vtiger_pricebookproductrel'=>array('pricebookid','productid'),'vtiger_pricebook'=>'pricebookid'),
+			'Services' => array('vtiger_pricebookproductrel'=>array('pricebookid','productid'),'vtiger_pricebook'=>'pricebookid'),
 		);
-		return $rel_tables[$secmodule];
+		if($secmodule === false){
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 }

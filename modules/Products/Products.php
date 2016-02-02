@@ -847,19 +847,22 @@ class Products extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule)
+	function setRelationTables($secmodule = false)
 	{
-		$rel_tables = array(
-			"HelpDesk" => array("vtiger_troubletickets" => array("product_id", "ticketid"), "vtiger_products" => "productid"),
-			"Quotes" => array("vtiger_inventoryproductrel" => array("productid", "id"), "vtiger_products" => "productid"),
-			"Leads" => array("vtiger_seproductsrel" => array("productid", "crmid"), "vtiger_products" => "productid"),
-			"Accounts" => array("vtiger_seproductsrel" => array("productid", "crmid"), "vtiger_products" => "productid"),
-			"Contacts" => array("vtiger_seproductsrel" => array("productid", "crmid"), "vtiger_products" => "productid"),
-			"Products" => array("vtiger_products" => array("productid", "product_id"), "vtiger_products" => "productid"),
-			"PriceBooks" => array("vtiger_pricebookproductrel" => array("productid", "pricebookid"), "vtiger_products" => "productid"),
-			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"), "vtiger_products" => "productid"),
+		$relTables = array(
+			'HelpDesk' => array('vtiger_troubletickets' => array('product_id', 'ticketid'), 'vtiger_products' => 'productid'),
+			'Quotes' => array('vtiger_inventoryproductrel' => array('productid', 'id'), 'vtiger_products' => 'productid'),
+			'Leads' => array('vtiger_seproductsrel' => array('productid', 'crmid'), 'vtiger_products' => 'productid'),
+			'Accounts' => array('vtiger_seproductsrel' => array('productid', 'crmid'), 'vtiger_products' => 'productid'),
+			'Contacts' => array('vtiger_seproductsrel' => array('productid', 'crmid'), 'vtiger_products' => 'productid'),
+			'Products' => array('vtiger_products' => array('productid', 'product_id'), 'vtiger_products' => 'productid'),
+			'PriceBooks' => array('vtiger_pricebookproductrel' => array('productid', 'pricebookid'), 'vtiger_products' => 'productid'),
+			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_products' => 'productid'),
 		);
-		return $rel_tables[$secmodule];
+		if($secmodule === false){
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 	function deleteProduct2ProductRelation($record, $return_id, $is_parent)
