@@ -1,8 +1,8 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'Storages' => 'Storages',
-	'SINGLE_Storages' => 'Storage',
+	'IStorages' => 'Storages',
+	'SINGLE_IStorages' => 'Storage',
 	'FL_PARENT_STORAGE' => 'Parent storage',
 	'FL_SUBJECT' => 'Subject',
 	'FL_STATUS' => 'Status',

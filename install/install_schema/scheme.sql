@@ -1012,6 +1012,28 @@ CREATE TABLE `u_yf_github` (
   KEY `github_id` (`github_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_istorages` */
+
+CREATE TABLE `u_yf_istorages` (
+  `istorageid` int(19) NOT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `number` varchar(32) DEFAULT NULL,
+  `storage_status` varchar(255) DEFAULT '',
+  `storage_type` varchar(255) DEFAULT '',
+  `parentid` int(19) DEFAULT NULL,
+  PRIMARY KEY (`istorageid`),
+  KEY `parentid` (`parentid`),
+  CONSTRAINT `u_yf_istorages_ibfk_1` FOREIGN KEY (`istorageid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_istoragescf` */
+
+CREATE TABLE `u_yf_istoragescf` (
+  `istorageid` int(19) NOT NULL,
+  PRIMARY KEY (`istorageid`),
+  CONSTRAINT `u_yf_istoragescf_ibfk_1` FOREIGN KEY (`istorageid`) REFERENCES `u_yf_istorages` (`istorageid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_knowledgebase` */
 
 CREATE TABLE `u_yf_knowledgebase` (
@@ -1615,28 +1637,6 @@ CREATE TABLE `u_yf_ssingleorderscf` (
   `ssingleordersid` int(19) NOT NULL,
   PRIMARY KEY (`ssingleordersid`),
   CONSTRAINT `fk_1_u_yf_ssingleorderscf` FOREIGN KEY (`ssingleordersid`) REFERENCES `u_yf_ssingleorders` (`ssingleordersid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `u_yf_storages` */
-
-CREATE TABLE `u_yf_storages` (
-  `storageid` int(19) NOT NULL,
-  `subject` varchar(255) DEFAULT NULL,
-  `number` varchar(32) DEFAULT NULL,
-  `storage_status` varchar(255) DEFAULT '',
-  `storage_type` varchar(255) DEFAULT '',
-  `parentid` int(19) DEFAULT NULL,
-  PRIMARY KEY (`storageid`),
-  KEY `parentid` (`parentid`),
-  CONSTRAINT `u_yf_storages_ibfk_1` FOREIGN KEY (`storageid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `u_yf_storagescf` */
-
-CREATE TABLE `u_yf_storagescf` (
-  `storageid` int(19) NOT NULL,
-  PRIMARY KEY (`storageid`),
-  CONSTRAINT `u_yf_storagescf_ibfk_1` FOREIGN KEY (`storageid`) REFERENCES `u_yf_storages` (`storageid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_account` */

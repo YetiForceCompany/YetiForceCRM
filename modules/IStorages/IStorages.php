@@ -1,35 +1,35 @@
 <?php
 /**
- * Storages CRMEntity Class
+ * IStorages CRMEntity Class
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
-class Storages extends Vtiger_CRMEntity
+class IStorages extends Vtiger_CRMEntity
 {
 
-	var $table_name = 'u_yf_storages';
-	var $table_index = 'storageid';
+	var $table_name = 'u_yf_istorages';
+	var $table_index = 'istorageid';
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('u_yf_storagescf', 'storageid');
+	var $customFieldTable = Array('u_yf_istoragescf', 'istorageid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'u_yf_storages', 'u_yf_storagescf');
+	var $tab_name = Array('vtiger_crmentity', 'u_yf_istorages', 'u_yf_istoragescf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
 	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
-		'u_yf_storages' => 'storageid',
-		'u_yf_storagescf' => 'storageid');
+		'u_yf_istorages' => 'istorageid',
+		'u_yf_istoragescf' => 'istorageid');
 
 	/**
 	 * Mandatory for Listing (Related listview)
@@ -37,7 +37,7 @@ class Storages extends Vtiger_CRMEntity
 	var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 // tablename should not have prefix 'vtiger_'
-		'subject' => Array('storages', 'subject'),
+		'subject' => Array('istorages', 'subject'),
 		'Assigned To' => Array('crmentity', 'smownerid')
 	);
 	var $list_fields_name = Array(
@@ -51,7 +51,7 @@ class Storages extends Vtiger_CRMEntity
 	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 // tablename should not have prefix 'vtiger_'
-		'subject' => Array('storages', 'subject'),
+		'subject' => Array('istorages', 'subject'),
 		'Assigned To' => Array('vtiger_crmentity', 'assigned_user_id'),
 	);
 	var $search_fields_name = Array(
