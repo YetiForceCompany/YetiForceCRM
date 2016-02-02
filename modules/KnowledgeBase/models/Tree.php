@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Model of tree
+ * @package YetiForce.Model
+ * @license licenses/License.html
+ * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
 class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
 {
 

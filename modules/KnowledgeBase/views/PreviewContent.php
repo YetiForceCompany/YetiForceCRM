@@ -1,5 +1,13 @@
 <?php
-class KnowledgeBase_PreviewContent_View extends Vtiger_Index_View{
+
+/**
+ * @package YetiForce.Views
+ * @license licenses/License.html
+ * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
+class KnowledgeBase_PreviewContent_View extends Vtiger_Index_View
+{
+
 	public function process(Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
@@ -9,11 +17,11 @@ class KnowledgeBase_PreviewContent_View extends Vtiger_Index_View{
 		$type = str_replace('PLL_', '', $recordModel->get('knowledgebase_view'));
 		// Changes views type to template name 
 		$template = ucfirst(strtolower($type)) . 'View.tpl';
-		
+
 		if ($type === 'PRESENTATION') {
 			$content = explode('<div><span> </span></div>', $recordModel->get('content'));
 		}
-		
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TEMPLATE', $template);
 		$viewer->assign('CONTENT', $content);
