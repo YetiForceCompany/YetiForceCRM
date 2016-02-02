@@ -29,9 +29,8 @@ class VTEntityData
 		$obj = new VTEntityData();
 		$obj->entityId = $entityId;
 		if (empty($moduleName)) {
-			$result = $adb->pquery("select setype from vtiger_crmentity where crmid=?", array($entityId));
-			$setype = $adb->query_result($result, 0, "setype");
-
+			$result = $adb->pquery('select setype from vtiger_crmentity where crmid=?', array($entityId));
+			$setype = $adb->getSingleValue($result);
 			if ($setype == 'Calendar') {
 				$setype = vtws_getCalendarEntityType($entityId);
 			}
@@ -84,8 +83,10 @@ class VTEntityData
 	static function fromCRMEntity($crmEntity)
 	{
 		$obj = new VTEntityData();
+		$obj->entityId = $crmEntity->id;
+		$obj->moduleName = $crmEntity->moduleName;
 		$obj->focus = $crmEntity;
-		$obj->isNew = !(isset($crmEntity->id) && $crmEntity->id != null);
+		$obj->isNew = $crmEntity->mode != 'edit';
 		return $obj;
 	}
 

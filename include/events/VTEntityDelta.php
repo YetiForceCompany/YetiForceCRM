@@ -31,9 +31,8 @@ class VTEntityDelta extends VTEventHandler
 		}
 		$moduleName = $entityData->getModuleName();
 		$recordId = $entityData->getId();
-
 		if ($eventName == 'vtiger.entity.beforesave' || $eventName == 'vtiger.entity.unlink.before') {
-			if (!empty($recordId)) {
+			if (!$entityData->isNew()) {
 				$entityData = VTEntityData::fromEntityId($adb, $recordId, $moduleName);
 				if ($moduleName == 'HelpDesk') {
 					$entityData->set('comments', getTicketComments($recordId));

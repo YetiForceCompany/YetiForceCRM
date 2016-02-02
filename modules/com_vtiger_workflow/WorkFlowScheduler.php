@@ -77,7 +77,7 @@ class WorkFlowScheduler {
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		@date_default_timezone_set($adminTimeZone);
-		$currentTimestamp  = date("Y-m-d H:i:s");
+		$currentTimestamp  = date('Y-m-d H:i:s');
 		@date_default_timezone_set($default_timezone);
 
 		$scheduledWorkflows = $vtWorflowManager->getScheduledWorkflows($currentTimestamp);
@@ -124,20 +124,20 @@ class WorkFlowScheduler {
 
 	function addWorkflowConditionsToQueryGenerator($queryGenerator, $conditions) {
 		$conditionMapping = array(
-			"equal to" => 'e',
-			"less than" => 'l',
-			"greater than" => 'g',
-			"does not equal" => 'n',
-			"less than or equal to" => 'm',
-			"greater than or equal to" => 'h',
-			"is" => 'e',
-			"contains" => 'c',
-			"does not contain" => 'k',
-			"starts with" => 's',
-			"ends with" => 'ew',
-			"is not" => 'n',
-			"is empty" => 'y',
-			"is not empty" => 'ny',
+			'equal to' => 'e',
+			'less than' => 'l',
+			'greater than' => 'g',
+			'does not equal' => 'n',
+			'less than or equal to' => 'm',
+			'greater than or equal to' => 'h',
+			'is' => 'e',
+			'contains' => 'c',
+			'does not contain' => 'k',
+			'starts with' => 's',
+			'ends with' => 'ew',
+			'is not' => 'n',
+			'is empty' => 'y',
+			'is not empty' => 'ny',
 			'before' => 'l',
 			'after' => 'g',
 			'between' => 'bw',
