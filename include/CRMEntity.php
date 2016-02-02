@@ -303,10 +303,10 @@ class CRMEntity
 			$this->column_fields['modifiedby'] = $current_user->id;
 		} else {
 			//if this is the create mode and the group allocation is chosen, then do the following
-			if (empty($this->isNew)) {
+			if (empty($this->newRecord)) {
 				$this->id = $adb->getUniqueID('vtiger_crmentity');
 			} else {
-				$this->id = $this->isNew;
+				$this->id = $this->newRecord;
 			}
 			if (empty($current_user->id))
 				$current_user->id = 0;

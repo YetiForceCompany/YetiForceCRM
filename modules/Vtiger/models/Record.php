@@ -262,7 +262,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		//Disabled generating record ID in transaction  in order to maintain data integrity
 		if ($this->get('mode') != 'edit') {
 			$recordId = $db->getUniqueID('vtiger_crmentity');
-			$this->set('isNew', $recordId);
+			$this->set('newRecord', $recordId);
 		}
 
 		$db->startTransaction();

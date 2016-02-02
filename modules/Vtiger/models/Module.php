@@ -177,7 +177,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		}
 		$focus->mode = $recordModel->get('mode');
 		$focus->id = $recordModel->getId();
-		$focus->isNew = $recordModel->get('isNew');
+		$focus->newRecord = $recordModel->get('newRecord');
 		$focus->save($moduleName);
 		$recordModel->setData($focus->column_fields)->setId($focus->id)->setEntity($focus);
 		if ($recordModel->has('shownerid')) {
