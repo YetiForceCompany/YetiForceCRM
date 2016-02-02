@@ -10,7 +10,7 @@ class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
 		return $this->get('moduleName');
 	}
 
-	public function &getFolders()
+	public function getFolders()
 	{
 		$folders = [];
 		$db = PearDatabase::getInstance();
@@ -57,11 +57,12 @@ class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
 		return $fieldTemp;
 	}
 
-	public function &getAllRecords()
+	public function getAllRecords()
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$queryGenerator = new QueryGenerator($this->getModuleName(), $currentUser);
-		$queryGenerator->setFields(['category', 'knowledgebase_view', 'knowledgebaseid', 'subject']);
+		$queryGenerator->setFields(['category', 'knowledgebase_view', 'subject']);
+		$queryGenerator->setCustomColumn('knowledgebaseid');
 		$listQuery = $queryGenerator->getQuery('SELECT');
 		$db = PearDatabase::getInstance();
 		$result = $db->query($listQuery);
@@ -72,7 +73,7 @@ class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
 		return $records;
 	}
 
-	public function &getDocuments()
+	public function getDocuments()
 	{
 		$records = $this->getAllRecords();
 		$fieldName = $this->getTreeField()['fieldname'];

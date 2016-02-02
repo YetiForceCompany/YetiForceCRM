@@ -5097,3 +5097,6 @@ select.form-control {
 	margin-left: 10%;
 	float: left;
 }
+.panelTree{
+	border-right: 1px solid #eee;
+}

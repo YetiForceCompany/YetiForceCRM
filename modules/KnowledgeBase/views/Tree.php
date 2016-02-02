@@ -12,9 +12,11 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+		$linkModels = $moduleModel->getSideBarLinks($linkParams);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('QUICK_LINKS', $linkModels);
 		$viewer->view('TreeHeader.tpl', $moduleName);
 	}
 	public function getFooterScripts(Vtiger_Request $request)

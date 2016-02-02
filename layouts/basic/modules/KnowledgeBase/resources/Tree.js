@@ -1,6 +1,13 @@
 jQuery.Class("KnowledgeBase_Tree_Js", {},
 {
 	treeInstance: false,
+	content: false,
+	getContent: function (){
+		if(!this.content){
+			this.content = $('.contentOfData');
+		}
+		return this.content;
+	},
 	generateTree: function (container, data) {
 		var thisInstance = this;
 		thisInstance.treeInstance = container.find('#treeContent');
@@ -55,34 +62,56 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 			thisInstance.searchingInTree(valueSearch.val());
 		});
 	},
+	loadContent: function(recordId){
+		var thisInstance = this;
+		var contentData = thisInstance.getContent();
+		var params = {
+			module: app.getModuleName(),
+			view: 'ContentAJAX',
+		};
+		if(typeof recordId != 'undefined'){
+			params['record'] = recordId;
+		}
+		var progressIndicatorElement = jQuery.progressIndicator({
+			position: 'html',
+			blockInfo: {
+				enabled: true
+			}
+		});
+		AppConnector.request(params).then(function(data){
+			progressIndicatorElement.progressIndicator({mode: 'hide'});
+			contentData.html(data);
+		});
+	},
 	registerTreeEvents: function(){
 		var thisInstance = this;
 		thisInstance.registerSearchEvent();
 		thisInstance.treeInstance.on('changed.jstree',function (e,data){
-			if(data.node.original.type == 'folder'){
-				var headerInstance = Vtiger_Header_Js.getInstance();
-				var moduleName = app.getModuleName();
-				var postQuickCreate = function(data){
-					thisInstance.loadTree(true);
-				} 
-				var relatedParams = {
-					category: data.node.original.record_id
-				};
-				var quickCreateParams = {
-					callbackFunction: postQuickCreate,
-					data: relatedParams,
-					noCache: true
-				};
-				headerInstance.quickCreateModule(moduleName, quickCreateParams);
+			if(data.node.original.type != 'folder'){
+				thisInstance.loadContent(data.node.original.record_id);
 			}
-			else{
-				
-			}
+		});
+	},
+	registerBasicEvents: function(){
+		var thisInstance = this;
+		$('.addRecord').click(function(){
+			var headerInstance = Vtiger_Header_Js.getInstance();
+			var moduleName = app.getModuleName();
+			var postQuickCreate = function(data){
+				thisInstance.loadTree(true);
+			};
+			var quickCreateParams = {
+				callbackFunction: postQuickCreate,
+				noCache: false
+			};
+			headerInstance.quickCreateModule(moduleName, quickCreateParams);
 		});
 	},
 	registerEvents: function () {
 		var thisInstance = this;
+		thisInstance.registerBasicEvents();
 		thisInstance.loadTree(false);
+		thisInstance.loadContent();
 	
 	}
 });
