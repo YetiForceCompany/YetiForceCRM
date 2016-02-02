@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Sharing privileges handler
  * @package YetiForce.Handler

@@ -202,7 +202,7 @@ class VTJsonCondition
 				$condition = ($condition == 'is') ? 'contains' : 'does not contain';
 			}
 		}
-		
+
 		switch ($condition) {
 			case 'equal to':
 				return $fieldValue == $value;

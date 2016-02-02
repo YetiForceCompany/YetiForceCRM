@@ -84,7 +84,7 @@ class CRMEntity
 		if (!$anyValue) {
 			throw new AppException(vtranslate('LBL_MANDATORY_FIELD_MISSING'));
 		}
-		
+
 		foreach ($this->tab_name as $table_name) {
 			if ($table_name == 'vtiger_crmentity') {
 				$this->insertIntoCrmEntity($module, $fileid);
@@ -303,7 +303,7 @@ class CRMEntity
 			$this->column_fields['modifiedby'] = $current_user->id;
 		} else {
 			//if this is the create mode and the group allocation is chosen, then do the following
-			if(empty($this->id)){
+			if (empty($this->id)) {
 				$this->id = $adb->getUniqueID('vtiger_crmentity');
 			}
 			if (empty($current_user->id))
