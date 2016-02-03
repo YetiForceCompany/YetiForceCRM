@@ -390,13 +390,12 @@ function isPermitted($module, $actionname, $record_id = '')
 			$parentRecord = Users_Privileges_Model::getParentRecord($record_id, $module, $role['previewrelatedrecord']);
 			if ($parentRecord) {
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($parentRecord);
-
 				if ($role['permissionsrelatedfield'] == 0) {
-					$relatedPermission = $current_user->id == $recordMetaData['smownerid'];
+					$relatedPermission = $recordMetaData['smownerid'] == $current_user->id || in_array($recordMetaData['smownerid'], $current_user_groups);
 				} else if ($role['permissionsrelatedfield'] == 1) {
 					$relatedPermission = in_array($current_user->id, Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
 				} else if ($role['permissionsrelatedfield'] == 2) {
-					$relatedPermission = $current_user->id == $recordMetaData['smownerid'] || in_array($current_user->id, Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
+					$relatedPermission = $current_user->id == $recordMetaData['smownerid'] || in_array($recordMetaData['smownerid'], $current_user_groups) || in_array($current_user->id, Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
 				}
 
 				if ($relatedPermission) {
