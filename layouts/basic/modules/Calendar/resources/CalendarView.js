@@ -455,7 +455,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		url += ']]';
 		return url;
 	},
-	registerListViewButton: function () {
+	registerAddButton: function () {
+		var thisInstance = this;
 		jQuery('.calendarViewContainer .widget_header .addButton').on('click', function (e) {
 			thisInstance.getCalendarCreateView().then(function (data) {
 				var headerInstance = new Vtiger_Header_Js();
@@ -465,7 +466,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			});
 		})
 	},
-	createAddButton: function () {
+	registerListViewButton: function () {
 		var thisInstance = this;
 		if (app.getMainParams('showListButtonInCalendar')) {
 			var calendarview = this.getCalendarView();
@@ -500,7 +501,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	},
 	registerEvents: function () {
 		this.registerCalendar();
-		this.createAddButton();
+		this.registerAddButton();
 		this.createAddSwitch();
 		this.loadCalendarData(true);
 		this.registerButtonSelectAll();
