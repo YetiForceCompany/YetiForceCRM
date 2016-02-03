@@ -16,14 +16,14 @@ class DataAccess_check_day_tasks
 		if (!in_array($moduleName, ['Calendar', 'Events'])) {
 			return ['save_record' => true];
 		}
-
+		$userRecordModel = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
 		$typeInfo = 'info';
 		$saveRecord = true;
 
 		$result = $db->pquery('SELECT count(*) as count FROM vtiger_activity 
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid 
-			WHERE vtiger_crmentity.deleted = ? AND vtiger_activity.date_start = ?', [0, $recordData['date_start']]);
+			WHERE vtiger_crmentity.deleted = ? AND vtiger_activity.date_start = ? AND vtiger_activity.smownerid = ?', [0, $recordData['date_start'], $userRecordModel->getId()]);
 
 		if ($config['lockSave'] == 1) {
 			$typeInfo = 'error';
