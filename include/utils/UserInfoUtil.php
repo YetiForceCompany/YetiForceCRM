@@ -1837,28 +1837,20 @@ function RecalculateSharingRules()
  */
 function getSharingModuleList($eliminateModules = false)
 {
-	$log = vglobal('log');
-
-	$sharingModuleArray = Array();
-
+	$log = LoggerManager::getInstance();
 	$adb = PearDatabase::getInstance();
+	$sharingModuleArray = [];
+
 	if (empty($eliminateModules))
-		$eliminateModules = Array();
+		$eliminateModules = [];
 
-	// Module that needs to be eliminated explicitly
-	if (!in_array('Calendar', $eliminateModules))
-		$eliminateModules[] = 'Calendar';
-	if (!in_array('Events', $eliminateModules))
-		$eliminateModules[] = 'Events';
-
-	$query = "SELECT name FROM vtiger_tab WHERE presence=0 AND ownedby = 0 AND isentitytype = 1";
+	$query = 'SELECT name FROM vtiger_tab WHERE presence=0 AND ownedby = 0 AND isentitytype = 1';
 	$query .= " AND name NOT IN('" . implode("','", $eliminateModules) . "')";
 
 	$result = $adb->query($query);
 	while ($resrow = $adb->fetch_array($result)) {
 		$sharingModuleArray[] = $resrow['name'];
 	}
-
 	return $sharingModuleArray;
 }
 
