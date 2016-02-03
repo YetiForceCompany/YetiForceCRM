@@ -5077,3 +5077,7 @@ select.form-control {
 	padding: 3px 10px !important;
 	margin: 2px 0px;
 }
+#calendarview .listViewButton{
+	padding-left: 0.8em !important;
+	padding-right: 0.8em !important;
+}

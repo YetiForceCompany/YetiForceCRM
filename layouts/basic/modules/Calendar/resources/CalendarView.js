@@ -209,11 +209,15 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			eventLimitText: app.vtranslate('JS_MORE')
 		});
 	},
-	getValuesFromSelect2: function(element, data){
+	getValuesFromSelect2: function(element, data, text){
 		if(element.hasClass('select2-hidden-accessible')){
 			var types = (element.select2('data'));
 			for (var i = 0; i < types.length; i++){
-				data.push(types[i].id);
+				if(text){
+					data.push(types[i].text);
+				}else{
+					data.push(types[i].id);
+				}
 			}
 		}
 		return data;
@@ -432,15 +436,34 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	},
 	registerChangeView: function () {
 		var thisInstance = this;
-		thisInstance.getCalendarView().find("button.fc-button:not(.dropdown-toggle)").click(function () {
+		thisInstance.getCalendarView().find("button.fc-button:not(.listViewButton)").click(function () {
 			thisInstance.loadCalendarData();
 		});
+	},
+	getSearchParams: function () {
+		var thisInstance = this;
+		var types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), []);
+		var user = thisInstance.getValuesFromSelect2($("#calendarUserList"), [], true);
+		user = thisInstance.getValuesFromSelect2($("#calendarGroupList"), user, true);
+		var url = 'index.php?module=Calendar&view=List&viewname=All&search_params=[[';
+		if (types.length) {
+			url += '["activitytype","e","' + types + '"]';
+		}
+		if (user.length) {
+			url += (types.length?',':'')+'["assigned_user_id","c","' + user + '"]';
+		}
+		url += ']]';
+		return url;
 	},
 	createAddButton: function () {
 		var thisInstance = this;
 		var calendarview = this.getCalendarView();
-		jQuery('<span class=""><button class="btn btn-default fc-button fc-state-default addButton">' + app.vtranslate('JS_ADD_EVENT_TASK') + '</button></span>')
-				.prependTo(calendarview.find('.fc-toolbar .fc-right')).on('click', 'button', function (e) {
+		jQuery('<button class="btn btn-default fc-button fc-state-default listViewButton" type="button"><span class="glyphicon glyphicon-list"></span></button>')
+				.prependTo(calendarview.find('.fc-toolbar .fc-right')).on('click', function (e) {
+			var url = thisInstance.getSearchParams();
+			window.location.href = url;
+		})
+		jQuery('.calendarViewContainer .widget_header .addButton').on('click', function (e) {
 			thisInstance.getCalendarCreateView().then(function (data) {
 				var headerInstance = new Vtiger_Header_Js();
 				headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {

@@ -30,7 +30,7 @@
 		<div>
 			<ul  class="nav">
 					<li>
-						<div class="row marginRightZero">
+						<div class="marginRightZero">
 							<select class="select2 form-control" multiple="multiple" id="calendarGroupList" >
 							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 									<option class="" value="{$OWNER_ID}">{$OWNER_NAME}</option>

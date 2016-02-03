@@ -37,7 +37,7 @@
 	<div class="widget_header row marginbottomZero marginRightMinus20">
 		<div class="btn-group listViewMassActions pull-left paddingLeftMd">
 			{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
-				<button class="btn btn-default fc-button fc-state-default dropdown-toggle" data-toggle="dropdown">
+				<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 					<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 					&nbsp;&nbsp;<span class="caret"></span>
 				</button>
@@ -52,8 +52,13 @@
 				</ul>
 			{/if}
 		</div>
-		<div class="col-xs-10">
+		<div class="col-xs-9 col-sm-6">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE_NAME}
+		</div>
+		<div class="pull-right col-xs-1 col-sm-1">
+			<button class="pull-right btn btn-default addButton">
+				<span class="glyphicon glyphicon-plus"></span>
+			</button>
 		</div>
 	</div>
 	<div class="bottom_margin">
