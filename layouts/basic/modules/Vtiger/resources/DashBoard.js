@@ -187,10 +187,12 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var dashboardWidgetHeader = jQuery('.dashboardWidgetHeader', widgetContainer);
 
 			var callbackFunction = function () {
-				jQuery('.dateRange').DatePickerHide();
+				var date = jQuery('.dateRange');
+				date.DatePickerHide();
+				date.blur();
 			}
 			//adding clickoutside event on the dashboardWidgetHeader
-			Vtiger_Helper_Js.addClickOutSideEvent(dashboardWidgetHeader, callbackFunction);
+			Vtiger_Helper_Js.addClickOutSideEvent(dashboardWidgetHeader.find('.dateRange'), callbackFunction);
 			return false;
 		})
 	},
