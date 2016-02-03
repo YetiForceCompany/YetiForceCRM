@@ -455,14 +455,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		url += ']]';
 		return url;
 	},
-	createAddButton: function () {
-		var thisInstance = this;
-		var calendarview = this.getCalendarView();
-		jQuery('<button class="btn btn-default fc-button fc-state-default listViewButton" type="button"><span class="glyphicon glyphicon-list"></span></button>')
-				.prependTo(calendarview.find('.fc-toolbar .fc-right')).on('click', function (e) {
-			var url = thisInstance.getSearchParams();
-			window.location.href = url;
-		})
+	registerListViewButton: function () {
 		jQuery('.calendarViewContainer .widget_header .addButton').on('click', function (e) {
 			thisInstance.getCalendarCreateView().then(function (data) {
 				var headerInstance = new Vtiger_Header_Js();
@@ -471,6 +464,17 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					}});
 			});
 		})
+	},
+	createAddButton: function () {
+		var thisInstance = this;
+		if (app.getMainParams('showListButtonInCalendar')) {
+			var calendarview = this.getCalendarView();
+			jQuery('<button class="btn btn-default fc-button fc-state-default listViewButton" type="button"><span class="glyphicon glyphicon-list"></span></button>')
+					.prependTo(calendarview.find('.fc-toolbar .fc-right')).on('click', function (e) {
+				var url = thisInstance.getSearchParams();
+				window.location.href = url;
+			})
+		}
 	},
 	createAddSwitch: function () {
 		var thisInstance = this;
@@ -501,6 +505,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		this.loadCalendarData(true);
 		this.registerButtonSelectAll();
 		this.registerChangeView();
+		this.registerListViewButton();
 	}
 });
 jQuery(document).ready(function () {

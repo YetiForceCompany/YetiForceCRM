@@ -19,4 +19,7 @@ $CONFIG = [
 	// Right calendar panel visible by default
 	// true - show right panel, false - hide right panel;
 	'SHOW_RIGHT_PANEL' => true, // Boolean
+	// Button referring to the list view that includes filters
+	// true - show, false - hide;
+	'SHOW_LIST_BUTTON' => true, // Boolean
 ];
