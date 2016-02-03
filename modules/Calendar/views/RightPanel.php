@@ -29,7 +29,12 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
 		switch ($clendarallorecords) {
 			case 3:
-				$users = $currentUser->getAccessibleUsers();
+				if(AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')){
+					$usersAndGroup = $currentUser->getUsersAndGroupForModuleList($moduleName);
+					$users = $usersAndGroup['users'];
+				}  else {
+					$users = $currentUser->getAccessibleUsers();
+				}
 				break;
 			case 1:
 			case 2:
