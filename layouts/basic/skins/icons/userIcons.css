@@ -22,6 +22,16 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
+.userIcon-ShoppingCart:before {
+    content: "\e94a";
+}
+.userIcon-Target:before {
+    content: "\e94b";
+}
+.userIcon-Plane:before {
+    content: "\e94c";
+}
 .userIcon-WithoutOwnersAccounts:before {
     content: "\e949";
 }
@@ -76,7 +86,7 @@
 .userIcon-Accounts:before {
     content: "\e900";
 }
-.userIcon-CompaniesAndContact:before,.userIcon-CompainesAndContacts:before  {
+.userIcon-CompaniesAndContact:before {
     content: "\e901";
 }
 .userIcon-HolidaysEntitlement:before {
@@ -118,7 +128,7 @@
 .userIcon-Faq:before {
     content: "\e90e";
 }
-.userIcon-Home:before,.userIcon-Home2:before {
+.userIcon-Home:before {
     content: "\e90f";
 }
 .userIcon-HumanResources:before {
@@ -181,7 +191,7 @@
 .userIcon-ProjectMilestone:before {
     content: "\e923";
 }
-.userIcon-Project:before, .userIcon-Projects2:before {
+.userIcon-Project:before {
     content: "\e924";
 }
 .userIcon-ProjectTask:before {
@@ -202,7 +212,7 @@
 .userIcon-Rss:before {
     content: "\e92a";
 }
-.userIcon-Sales:before,.userIcon-Potentials:before {
+.userIcon-Sales:before {
     content: "\e92b";
 }
 .userIcon-SQuoteEnquiries:before {
