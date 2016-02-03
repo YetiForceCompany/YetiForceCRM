@@ -786,12 +786,15 @@ jQuery.Class("Vtiger_Header_Js", {
 	registerScrollForMenu: function() {
 		app.showScrollBar($(".slimScrollMenu"),
 		{
-			height : 'calc(100% - 24px)',
+			height : '100%',
 			width : '100%',
+			position: 'left',
+			railVisible: true,
+			railOpacity: 0.5,
 		});
 		app.showScrollBar($(".slimScrollSubMenu"),
 		{
-			height : 'calc(100% - 50px)',
+			height : '100%',
 		});
 		$(".slimScrollSubMenu .slimScrollDiv").each(function(){
 			$(this).closest(' .slimScrollSubMenu').css('overflow','initial');

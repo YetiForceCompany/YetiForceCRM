@@ -3421,12 +3421,12 @@ span[name=existingImages] img{
 	font-size: 20px;
 }
 
-.leftPanel  .slimScrollDiv{
-	overflow: unset !important;
+.leftPanel li.menuLabel .slimScrollDiv{
 	position: static !important;
 }
-.leftPanel .slimScrollBar{
-	display: none !important;
+.leftPanel  .slimScrollDiv{
+	overflow: visible !important;
+	height: calc(100% - 50px) ! important;
 }
 .baseContainer .leftPanel:after {
 	content: "";
@@ -3495,7 +3495,7 @@ span[name=existingImages] img{
 	display: block;
 	position: absolute;
 	left: 230px;
-	top: 50px;
+	top: 0px;
 	height: calc(100% - 50px);
 }
 .nav li:hover > .slimScrollDiv >.subMenu > li > .slimScrollDiv >.subMenu{
