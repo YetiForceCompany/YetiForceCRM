@@ -21,7 +21,7 @@
 						{foreach item=HEADER from=$HEADERS}
 							{assign var=HEADERNAME value=$HEADER->get('name')}
 							<td>
-								{if $HEADER->getFieldDataType() eq 'sharedOwner' ||  $HEADER->getFieldDataType() eq 'category'}
+								{if $HEADER->getFieldDataType() eq 'sharedOwner' ||  $HEADER->getFieldDataType() eq 'tree'}
 									{$ENTRY->getDisplayValue($HEADERNAME)}
 								{else}
 									{$ENTRY->get($HEADERNAME)}
