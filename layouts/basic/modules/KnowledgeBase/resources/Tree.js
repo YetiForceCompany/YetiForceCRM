@@ -126,6 +126,7 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 			var moduleName = app.getModuleName();
 			var postQuickCreate = function(data){
 				thisInstance.loadTree(true);
+				thisInstance.loadContent();
 			};
 			var quickCreateParams = {
 				callbackFunction: postQuickCreate,

@@ -12,11 +12,11 @@
 						{foreach from=$CONTENT item=SLIDE name=carousel}
 						<div class="item{if $smarty.foreach.carousel.first} active{/if}">
 							<div class="carousel-content knowledgePresentationContent">
-								<div>
-									<h3>#{$smarty.foreach.carousel.iteration}</h3>
-									<span class="knowledgePresentationText">
-										{$SLIDE}
-									</span>
+								<div class="col-xs-12 text-center">
+									<h5>{$smarty.foreach.carousel.iteration}/{$smarty.foreach.carousel.total}</h5>
+								</div>
+								<div class="knowledgePresentationText col-xs-12">
+									{$SLIDE}
 								</div>
 							</div>
 						</div>
@@ -24,7 +24,6 @@
 					</div>
 				</div>
 			</div>
-
 			<a class="left carousel-control knowledgePresentationControl" href="#carouselPresentation" role="button" data-slide="prev">
 				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 				<span class="sr-only">{vtranslate('LBL_PREVIOUS',$MODULE_NAME)}</span>

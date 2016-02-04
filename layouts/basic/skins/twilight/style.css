@@ -5081,8 +5081,7 @@ select.form-control {
 	margin: 2px 0px;
 }
 .knowledgePresentationContent {
-	color: black;
-	display: flex;
+	color: #000;
 	min-height: 450px;
 }
 .knowledgePresentationControl {
