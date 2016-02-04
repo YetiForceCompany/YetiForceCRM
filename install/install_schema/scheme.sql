@@ -1520,6 +1520,14 @@ CREATE TABLE `u_yf_ssalesprocesses` (
   `category` varchar(255) DEFAULT NULL,
   `related_to` int(19) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
+  `estimated` decimal(25,8) DEFAULT NULL,
+  `actual_sale` decimal(25,8) DEFAULT NULL,
+  `estimated_date` date DEFAULT NULL,
+  `actual_date` date DEFAULT NULL,
+  `probability` decimal(5,2) DEFAULT NULL,
+  `ssalesprocesses_source` varchar(255) DEFAULT NULL,
+  `ssalesprocesses_type` varchar(255) DEFAULT NULL,
+  `ssalesprocesses_status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ssalesprocessesid`),
   KEY `related_to` (`related_to`),
   CONSTRAINT `fk_1_u_yf_ssalesprocesses` FOREIGN KEY (`ssalesprocessesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -3623,7 +3631,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2094 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2103 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6879,6 +6887,36 @@ CREATE TABLE `vtiger_srequirementscards_status` (
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`srequirementscards_statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_ssalesprocesses_source` */
+
+CREATE TABLE `vtiger_ssalesprocesses_source` (
+  `ssalesprocesses_sourceid` int(11) NOT NULL AUTO_INCREMENT,
+  `ssalesprocesses_source` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ssalesprocesses_sourceid`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_ssalesprocesses_status` */
+
+CREATE TABLE `vtiger_ssalesprocesses_status` (
+  `ssalesprocesses_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `ssalesprocesses_status` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ssalesprocesses_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_ssalesprocesses_type` */
+
+CREATE TABLE `vtiger_ssalesprocesses_type` (
+  `ssalesprocesses_typeid` int(11) NOT NULL AUTO_INCREMENT,
+  `ssalesprocesses_type` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ssalesprocesses_typeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ssingleorders_status` */
 
