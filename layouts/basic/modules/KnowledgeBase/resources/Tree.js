@@ -82,7 +82,32 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 		AppConnector.request(params).then(function(data){
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			contentData.html(data);
-			contentData.find('table').dataTable();
+			if(typeof recordId == 'undefined'){
+				$.extend($.fn.dataTable.defaults, {
+					language: {
+						sLengthMenu: app.vtranslate('JS_S_LENGTH_MENU'),
+						sZeroRecords: app.vtranslate('JS_NO_RESULTS_FOUND'),
+						sInfo: app.vtranslate('JS_S_INFO'),
+						sInfoEmpty: app.vtranslate('JS_S_INFO_EMPTY'),
+						sSearch: app.vtranslate('JS_SEARCH'),
+						sEmptyTable: app.vtranslate('JS_NO_RESULTS_FOUND'),
+						sInfoFiltered: app.vtranslate('JS_S_INFO_FILTERED'),
+						sLoadingRecords: app.vtranslate('JS_LOADING_OF_RECORDS'),
+						sProcessing: app.vtranslate('JS_LOADING_OF_RECORDS'),
+						oPaginate: {
+							sFirst: app.vtranslate('JS_S_FIRST'),
+							sPrevious: app.vtranslate('JS_S_PREVIOUS'),
+							sNext: app.vtranslate('JS_S_NEXT'),
+							sLast: app.vtranslate('JS_S_LAST')
+						},
+						oAria: {
+							sSortAscending: app.vtranslate('JS_S_SORT_ASCENDING'),
+							sSortDescending: app.vtranslate('JS_S_SORT_DESCENDING')
+						}
+					}
+				});
+				contentData.find('.dataTableWithDocuments').dataTable();
+			}
 		});
 	},
 	registerTreeEvents: function(){

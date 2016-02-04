@@ -14,5 +14,6 @@ $languageStrings = [
 	'PLL_PRESENTATION' => 'Prezentacja',
 	'LBL_VIEW_TREE' => 'Drzewo rekordów',
 	'LBL_PREVIOUS' => 'Poprzedni',
-	'LBL_NEXT' => 'Następny'
+	'LBL_NEXT' => 'Następny',
+	'LBL_LIST_RECORDS' => 'Lista dokumentów',
 ];

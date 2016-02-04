@@ -105,32 +105,4 @@ class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
 		$model->set('module', $moduleModel)->set('moduleName', $moduleName);
 		return $model;
 	}
-
-	public function getLastDocuments(&$headers)
-	{
-		$db = PearDatabase::getInstance();
-		$fieldsModule = [];
-		$fields = $db->pquery('SELECT fieldname, fieldlabel FROM vtiger_field WHERE tabid=?', [96]);
-		while ($field = $db->getRow($fields)) {
-			$fieldsModule [$field['fieldname']] = $field['fieldlabel'];
-		}
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$queryGenerator = new QueryGenerator($this->getModuleName(), $currentUser);
-		$queryGenerator->initForDefaultCustomView();
-		$queryGenerator->setCustomColumn('knowledgebaseid');
-		$listQuery = $queryGenerator->getQuery('SELECT');
-
-		$result = $db->query($listQuery);
-		$records = [];
-		while ($row = $db->getRow($result)) {
-			$key = $row['knowledgebaseid'];
-			unset($row['knowledgebaseid']);
-			$records [$key]=  $row;
-			$headersNames = array_keys($row);
-		}
-		foreach ($headersNames as $name) {
-			$headers[] = $fieldsModule[$name];
-		}
-		return $records;
-	}
 }

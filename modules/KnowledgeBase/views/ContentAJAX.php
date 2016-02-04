@@ -15,13 +15,15 @@ class KnowledgeBase_ContentAJAX_View extends Vtiger_IndexAjax_View
 			$previewContent->process($request);
 		} else {
 			$moduleName = $request->getModule();
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			$treeModel = KnowledgeBase_Tree_Model::getInstance($moduleModel);
-			$headers = [];
-			$documents = $treeModel->getLastDocuments($headers);
+			$pagingModel = new Vtiger_Paging_Model();
+			$pagingModel->set('limit', 'no_limit');
+			$listViewModel = Vtiger_ListView_Model::getInstance($moduleName);
+			$listEntries = $listViewModel->getListViewEntries($pagingModel, true);
+			$headers = $listViewModel->getListViewHeaders();
+			
 			$viewer = $this->getViewer($request);
 			$viewer->assign('VIEW', $request->get('view'));
-			$viewer->assign('DOCUMENTS', $documents);
+			$viewer->assign('ENTRIES', $listEntries);
 			$viewer->assign('HEADERS', $headers);
 			$viewer->assign('MODULE_NAME', $moduleName);
 			$viewer->view('ContentsDefault.tpl', $moduleName);
