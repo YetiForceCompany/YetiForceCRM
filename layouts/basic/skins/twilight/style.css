@@ -4432,6 +4432,10 @@ html,body,.baseContainer
 		background: none;
 		margin-bottom: 35px;
 	}
+	.responsiveVideo {
+		width: 100% !important;
+		height: auto !important;
+	}
 }
 @media screen and (min-width: 960px) {
 	.detailViewTable .fieldsLabelValue{
@@ -4553,6 +4557,10 @@ html,body,.baseContainer
 	}
 	.knowledgePresentationText {
 		font-size: 2em;
+	}
+	.responsiveVideo {
+		width: 50% !important;
+		height: auto !important;
 	}
 }
 @media only screen and (min-width: 767px) {
