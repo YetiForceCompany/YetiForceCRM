@@ -2721,7 +2721,6 @@ td.listViewEntryValue .row input {
 	text-align: right;
 }
 .cut-string {
-	width: 285px;
 	white-space: nowrap;
 	overflow: hidden;
 }
@@ -5080,4 +5079,11 @@ select.form-control {
 #calendarview .listViewButton{
 	padding-left: 0.8em !important;
 	padding-right: 0.8em !important;
+}
+.width1per7{
+	width: 14.28%;
+	float: left;
+}
+.quickCreateContent .addedNearCalendarEvent td{
+	padding: 4px;
 }
