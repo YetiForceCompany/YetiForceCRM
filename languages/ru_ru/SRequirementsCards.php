@@ -17,11 +17,10 @@ $languageStrings = [
 	'SINGLE_SSalesProcesses' => 'Сделка',
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Черновик',
-	'PLL_ACCEPTED' => 'Принято',
-	'PLL_REQUIRES_TO_BE_COMPLEMENTED' => 'Необходимо дополнить',
-	'PLL_REQUIRES_CONSULTATION' => 'Необходима консультация',
-	'PLL_WAITING_FOR_APPROVAL' => 'Ожидает подтверждения',
-	'PLL_DISCARDED' => 'Отклонено',
+	'PLL_IN_REALIZATION' => 'In realization',
+	'PLL_FOR_VERIFICATION' => 'For verification',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_COMPLETED' => 'Completed',
 	'LBL_CHANGE_STATUS' => 'Изменить статус',
 	'LBL_PREVIEW' => 'Предпросмотр',
 ];
