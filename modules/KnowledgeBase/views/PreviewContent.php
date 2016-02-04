@@ -21,6 +21,9 @@ class KnowledgeBase_PreviewContent_View extends Vtiger_Index_View
 		if ($type === 'PRESENTATION') {
 			$content = explode('<div><span> </span></div>', $recordModel->get('content'));
 		}
+		else{
+			$content = $recordModel->get('content');
+		}
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TEMPLATE', $template);

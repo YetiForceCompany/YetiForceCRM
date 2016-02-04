@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<div class="widget_header row marginBottom10px">
-		<div class="col-xs-8">
+		<div class="col-sm-8 col-xs-12">
 			<div class="btn-group paddingRight10">
 				{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
 					<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -34,13 +34,13 @@
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			</div>
 		</div>
-		<div class="col-xs-4">
+		<div class="col-sm-4 col-xs-12">
 			<div class="pull-right">
 				<button class="btn btn-success addRecord">{vtranslate('LBL_ADD', $MODULE_NAME)}</button>
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-3 panelTree">
+	<div class="col-sm-3 col-xs-12 panelTree">
 		<div class="col-xs-12 treeContainer paddingLRZero">
 			<div class="input-group paddingBottom10">
 				<input id="valueSearchTree" type="text" class="form-control" placeholder="{vtranslate('LBL_SEARCH', $MODULE_NAME)} ..." >
@@ -52,6 +52,6 @@
 			</div>
 		</div>
 	</div>	
-	<div class="col-xs-9 contentOfData">
+	<div class="col-sm-9 col-xs-12 contentOfData">
 	</div>
 {/strip}
