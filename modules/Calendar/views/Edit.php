@@ -154,7 +154,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		$accessibleUsers = $currentUser->getAccessibleUsers();
 
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Zend_Json::encode($picklistDependencyDatasource));
-		$mappingRelatedField = $moduleModel->getMappingRelatedField($moduleName);
+		$mappingRelatedField = $moduleModel->getRelationFieldByHierarchy($moduleName);
 		$viewer->assign('MAPPING_RELATED_FIELD', Zend_Json::encode($mappingRelatedField));
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());

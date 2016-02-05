@@ -57,7 +57,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Zend_Json::encode($picklistDependencyDatasource));
-		$mappingRelatedField = $moduleModel->getMappingRelatedField($moduleName);
+		$mappingRelatedField = $moduleModel->getRelationFieldByHierarchy($moduleName);
 		$viewer->assign('MAPPING_RELATED_FIELD', Zend_Json::encode($mappingRelatedField));
 		$viewer->assign('SOURCE_RELATED_FIELD', $sourceRelatedField);
 		$viewer->assign('THREEDAYSAGO', date('Y-n-j', strtotime('-3 day')));

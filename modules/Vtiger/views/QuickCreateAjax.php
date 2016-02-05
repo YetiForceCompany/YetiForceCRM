@@ -45,7 +45,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Zend_Json::encode($picklistDependencyDatasource));
 		$recordStructure = $recordStructureInstance->getStructure();
-		$mappingRelatedField = $moduleModel->getMappingRelatedField($moduleName);
+		$mappingRelatedField = $moduleModel->getRelationFieldByHierarchy($moduleName);
 
 		$sourceRelatedField = $moduleModel->getValuesFromSource($moduleName, $request->get('sourceModule'), $request->get('sourceRecord'));
 		foreach ($sourceRelatedField as $field => &$value) {
