@@ -1260,6 +1260,11 @@ CREATE TABLE `u_yf_squotes` (
   `response_time` decimal(10,2) DEFAULT '0.00',
   `company` varchar(255) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
+  `sum_total` decimal(27,8) DEFAULT NULL,
+  `sum_marginp` decimal(10,2) DEFAULT NULL,
+  `sum_margin` decimal(27,8) DEFAULT NULL,
+  `sum_gross` decimal(27,8) DEFAULT NULL,
+  `sum_discount` decimal(27,8) DEFAULT NULL,
   PRIMARY KEY (`squotesid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `scalculationsid` (`scalculationsid`),
@@ -1309,6 +1314,17 @@ CREATE TABLE `u_yf_squotes_inventory` (
   `marginp` decimal(27,8) DEFAULT '0.00000000',
   `margin` decimal(27,8) DEFAULT '0.00000000',
   `comment1` varchar(500) DEFAULT NULL,
+  `price` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `purchase` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `tax` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `taxparam` varchar(255) NOT NULL,
+  `gross` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `discountmode` tinyint(1) NOT NULL DEFAULT '0',
+  `taxmode` tinyint(1) NOT NULL DEFAULT '0',
+  `currency` int(10) DEFAULT NULL,
+  `currencyparam` varchar(200) DEFAULT NULL,
+  `net` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_squotes_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_squotes` (`squotesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1328,7 +1344,7 @@ CREATE TABLE `u_yf_squotes_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squotes_invmap` */
 
@@ -3639,7 +3655,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2106 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2111 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
