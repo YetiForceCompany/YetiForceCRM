@@ -17,14 +17,16 @@ $languageStrings = [
 	'LBL_STATUS' => 'Статус',
 	'LBL_RESPONSE_TIME' => 'Respone time',
 	'SINGLE_SSalesProcesses' => 'Сделка',
+	'FL_TOTAL_PRICE' => 'Net Total',
+	'FL_MARGINP' => 'Total margin Percentage',
+	'FL_MARGIN' => 'Total margin',
 
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Черновик',
-	'PLL_ACCEPTED' => 'Принято',
-	'PLL_REQUIRES_TO_BE_COMPLEMENTED' => 'Необходимо заполнить обязательные поля',
-	'PLL_REQUIRES_CONSULTATION' => 'Требуется консультация',
-	'PLL_WAITING_FOR_APPROVAL' => 'Ожидание подтверждения',
-	'PLL_DISCARDED' => 'Отмененный',
+	'PLL_IN_REALIZATION' => 'In realization',
+	'PLL_FOR_VERIFICATION' => 'For verification',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_COMPLETED' => 'Completed',
 
 	'LBL_CHANGE_STATUS' => 'Изменить статус',
 	'LBL_PREVIEW' => 'Предпросмотр',

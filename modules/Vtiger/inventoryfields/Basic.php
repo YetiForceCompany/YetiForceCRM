@@ -5,6 +5,7 @@
  * @package YetiForce.Fields
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 {
@@ -228,5 +229,16 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 			$modulesNames[] = ['module' => $module->getName(), 'name' => $module->getName(), 'id' => $module->getName()];
 		}
 		return $modulesNames;
+	}
+	
+	public function getSummaryValuesFromData($data)
+	{
+		$sum = 0;
+		if (is_array($data)) {
+			foreach ($data as $row) {
+				$sum += $row[$this->get('columnname')];
+			}
+		}
+		return $sum;
 	}
 }

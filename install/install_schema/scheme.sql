@@ -1121,6 +1121,9 @@ CREATE TABLE `u_yf_scalculations` (
   `accountid` int(19) DEFAULT NULL,
   `response_time` decimal(10,2) DEFAULT '0.00',
   `sum_time` decimal(10,2) DEFAULT '0.00',
+  `sum_total` decimal(27,8) DEFAULT NULL,
+  `sum_marginp` decimal(10,2) DEFAULT NULL,
+  `sum_margin` decimal(27,8) DEFAULT NULL,
   PRIMARY KEY (`scalculationsid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `accountid` (`accountid`),
@@ -1136,6 +1139,11 @@ CREATE TABLE `u_yf_scalculations_inventory` (
   `name` int(19) NOT NULL DEFAULT '0',
   `qty` decimal(25,3) NOT NULL DEFAULT '0.000',
   `comment1` varchar(500) DEFAULT NULL,
+  `price` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `purchase` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `marginp` decimal(27,8) DEFAULT '0.00000000',
+  `margin` decimal(27,8) DEFAULT '0.00000000',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_scalculations_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_scalculations` (`scalculationsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1155,7 +1163,7 @@ CREATE TABLE `u_yf_scalculations_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_scalculations_invmap` */
 
@@ -3631,7 +3639,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2103 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2106 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
