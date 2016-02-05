@@ -93,7 +93,7 @@ class Assets extends CRMEntity {
 	// Callback function list during Importing
 	var $special_functions = Array('set_import_assigned_user');
 
-	var $default_order_by = 'assetname';
+	var $default_order_by = '';
 	var $default_sort_order='ASC';
 
 	var $unit_price;

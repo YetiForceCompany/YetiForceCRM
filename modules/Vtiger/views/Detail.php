@@ -617,6 +617,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
+		$relationModel = $relationListView->getRelationModel();
+		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
+			$favorites = $relationListView->getFavoriteRecords();
+			if (!empty($favorites)) {
+				$whereCondition['crmid'] = ['comparison' => 'IN', 'value' => implode(', ', $favorites)];
+			}
+		}
 		if (!empty($whereCondition)) {
 			$relationListView->set('whereCondition', $whereCondition);
 		}
@@ -624,21 +631,15 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$relationListView->set('orderby', $orderBy);
 			$relationListView->set('sortorder', $sortOrder);
 		}
+
 		$models = $relationListView->getEntries($pagingModel);
 		$links = $relationListView->getLinks();
 		$header = $relationListView->getHeaders();
-		$relationModel = $relationListView->getRelationModel();
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
 
-		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
-			$favorites = $relationListView->getFavoriteRecords();
-			$favorites = array_intersect_key($models, $favorites);
-			if (!empty($favorites)) {
-				$models = $favorites;
-			}
-		}
+		
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);

@@ -270,6 +270,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		thisInstance.calculatDiscountSummary();
 		thisInstance.calculatTaxSummary();
 		thisInstance.calculatCurrenciesSummary();
+		thisInstance.calculatMarginPSummary();
 	},
 	calculatSummary: function (element, field) {
 		var thisInstance = this;
@@ -277,7 +278,22 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		this.getInventoryItemsContainer().find(thisInstance.rowClass).each(function (index) {
 			sum += app.parseNumberToFloat($(this).find('.' + field).val());
 		});
-		element.text(app.parseNumberToShow(sum));
+		if(element){
+			element.text(app.parseNumberToShow(sum));
+		}else{
+			return sum;
+		}
+	},
+	calculatMarginPSummary: function () {
+		var thisInstance = this;
+		var sumPurchase = thisInstance.calculatSummary(false, 'purchase');
+		var sumMargin = thisInstance.calculatSummary(false, 'margin');
+		var sumMarginP = '0';
+		if (sumPurchase !== 0) {
+			sumMarginP = (sumMargin / sumPurchase) * 100;
+		}
+		var summaryMarginP = thisInstance.getInventoryItemsContainer().find('tfoot .wisableTd[data-sumfield="marginP"]');
+		summaryMarginP.text(app.parseNumberToShow(sumMarginP));
 	},
 	calculatDiscountSummary: function () {
 		var thisInstance = this;
@@ -383,10 +399,13 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		this.setTotalPrice(row, netPriceBeforeDiscount);
 	},
 	calculateMargin: function (row) {
-		var netPrice = this.getNetPrice(row);
+		if (jQuery('.netPrice', row).length) {
+			var netPrice = this.getNetPrice(row);
+		} else {
+			var netPrice = this.getTotalPrice(row);
+		}
 		var purchase = this.getPurchase(row);
 		var margin = netPrice - purchase;
-
 		this.setMargin(row, margin);
 		var marginp = '0';
 		if (purchase !== 0) {

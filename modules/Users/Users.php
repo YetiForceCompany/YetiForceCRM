@@ -1126,7 +1126,7 @@ class Users extends CRMEntity
 		$log = vglobal('log');
 
 		//Event triggering code
-		require_once("include/events/include.inc");
+		require_once('include/events/include.inc');
 
 		//In Bulk mode stop triggering events
 		if (!self::isBulkSaveMode()) {
@@ -1135,9 +1135,9 @@ class Users extends CRMEntity
 			$em->initTriggerCache();
 			$entityData = VTEntityData::fromCRMEntity($this);
 
-			$em->triggerEvent("vtiger.entity.beforesave.modifiable", $entityData);
-			$em->triggerEvent("vtiger.entity.beforesave", $entityData);
-			$em->triggerEvent("vtiger.entity.beforesave.final", $entityData);
+			$em->triggerEvent('vtiger.entity.beforesave.modifiable', $entityData);
+			$em->triggerEvent('vtiger.entity.beforesave', $entityData);
+			$em->triggerEvent('vtiger.entity.beforesave.final', $entityData);
 		}
 
 		if ($this->mode != 'edit') {

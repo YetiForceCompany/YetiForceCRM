@@ -44,7 +44,7 @@ class PriceBooks extends CRMEntity {
                                      );
 
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'bookname';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 
 	var $mandatory_fields = Array('bookname','currency_id','pricebook_no','createdtime' ,'modifiedtime');
@@ -317,12 +317,15 @@ class PriceBooks extends CRMEntity {
 	 * @param - $secmodule secondary module name
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
-	function setRelationTables($secmodule){
-		$rel_tables = array (
-			"Products" => array("vtiger_pricebookproductrel"=>array("pricebookid","productid"),"vtiger_pricebook"=>"pricebookid"),
-			"Services" => array("vtiger_pricebookproductrel"=>array("pricebookid","productid"),"vtiger_pricebook"=>"pricebookid"),
+	function setRelationTables($secmodule = false){
+		$relTables = array (
+			'Products' => array('vtiger_pricebookproductrel'=>array('pricebookid','productid'),'vtiger_pricebook'=>'pricebookid'),
+			'Services' => array('vtiger_pricebookproductrel'=>array('pricebookid','productid'),'vtiger_pricebook'=>'pricebookid'),
 		);
-		return $rel_tables[$secmodule];
+		if($secmodule === false){
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 }

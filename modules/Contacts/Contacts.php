@@ -110,7 +110,7 @@ class Contacts extends CRMEntity
 	//Default Fields for Email Templates -- Pavani
 	var $emailTemplate_defaultFields = array('firstname', 'lastname', 'salutation', 'title', 'email', 'department', 'phone', 'mobile', 'support_start_date', 'support_end_date');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'lastname';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	// For Alphabetical search
 	var $def_basicsearch_col = 'lastname';
@@ -859,16 +859,19 @@ class Contacts extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule)
+	function setRelationTables($secmodule = false)
 	{
-		$rel_tables = array(
-			//"HelpDesk" => array("vtiger_troubletickets"=>array("contact_id","ticketid"),"vtiger_contactdetails"=>"contactid"),
-			"Products" => array("vtiger_seproductsrel" => array("crmid", "productid"), "vtiger_contactdetails" => "contactid"),
-			"Campaigns" => array("vtiger_campaign_records" => array("crmid", "campaignid"), "vtiger_contactdetails" => "contactid"),
-			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"), "vtiger_contactdetails" => "contactid"),
-			"Accounts" => array("vtiger_contactdetails" => array("contactid", "accountid"))
+		$relTables = array(
+			//'HelpDesk' => array('vtiger_troubletickets'=>array('contact_id','ticketid'),'vtiger_contactdetails'=>'contactid'),
+			'Products' => array('vtiger_seproductsrel' => array('crmid', 'productid'), 'vtiger_contactdetails' => 'contactid'),
+			'Campaigns' => array('vtiger_campaign_records' => array('crmid', 'campaignid'), 'vtiger_contactdetails' => 'contactid'),
+			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_contactdetails' => 'contactid'),
+			'Accounts' => array('vtiger_contactdetails' => array('contactid', 'accountid'))
 		);
-		return $rel_tables[$secmodule];
+		if($secmodule === false){
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 	// Function to unlink all the dependent entities of the given Entity by Id

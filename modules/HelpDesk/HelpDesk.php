@@ -87,7 +87,7 @@ class HelpDesk extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'ticket_title', 'update_log');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'modifiedtime';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	// For Alphabetical search
 	var $def_basicsearch_col = 'ticket_title';
@@ -476,14 +476,17 @@ class HelpDesk extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule)
+	function setRelationTables($secmodule = false)
 	{
-		$rel_tables = array(
-			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"), "vtiger_troubletickets" => "ticketid"),
-			"Products" => array("vtiger_troubletickets" => array("ticketid", "product_id")),
-			"Services" => array("vtiger_crmentityrel" => array("crmid", "relcrmid"), "vtiger_troubletickets" => "ticketid"),
+		$relTables = array(
+			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_troubletickets' => 'ticketid'),
+			'Products' => array('vtiger_troubletickets' => array('ticketid', 'product_id')),
+			'Services' => array('vtiger_crmentityrel' => array('crmid', 'relcrmid'), 'vtiger_troubletickets' => 'ticketid'),
 		);
-		return $rel_tables[$secmodule];
+		if($secmodule === false){
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 	// Function to unlink an entity with given Id from another entity

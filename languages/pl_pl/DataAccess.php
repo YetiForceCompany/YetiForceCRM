@@ -75,6 +75,10 @@ $languageStrings = [
 	'Action_test' => 'Test akcji',
 	'Action_Desc_test' => 'Opis testu akcji.',
 	//
+	'Action_check_day_tasks' => 'Sprawdź ilości wydarzeń dla zapisywanego dnia',
+	'Action_Desc_check_day_tasks' => 'Akcja sprawdza ilość wydarzeń dla daty rozpoczęcia wydarzenia i jeśli przekracza limit system blokuje/informacuje użytkownika.',
+	'LBL_MAXIMUM_NUMBER_EVENTS_PER_DAY' => 'Maksymalna ilość wydarzeń w jednym dniu',
+	//
 	'Action_unique_account' => 'Sprawdź czy istnieje duplikat dla kontrahenta',
 	'Action_Desc_unique_account' => 'Sprawdź czy kontrahent jest unikatowy w module.',
 	'LBL_DUPLICATED_FOUND' => 'Znaleziono duplikaty',

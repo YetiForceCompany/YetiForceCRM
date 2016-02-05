@@ -152,22 +152,22 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 		}
 		$menu = [];
 		foreach ($menuModels as $blockId => $menuModel) {
-			$childs = [];
-			foreach ($menuModel->getMenuItems() as $menuItem) {
-				$childs[] = [
-					'id' => $menuItem->getId(),
-					'active' => $menuItem->getId() == $fieldId ? true : false,
-					'name' => $menuItem->get('name'),
-					'type' => 'Shortcut',
-					'sequence' => $menuModel->get('sequence'),
-					'newwindow' => '0',
-					'icon' => $menuItem->get('iconpath'),
-					'dataurl' => $menuItem->getUrl(),
-					'parent' => 'Settings',
-					'moduleName' => Vtiger_Menu_Model::getModuleNameFromUrl($menuItem->getUrl()),
-				];
-			}
 			if ($menuModel->getType() != 1) {
+				$childs = [];
+				foreach ($menuModel->getMenuItems() as $menuItem) {
+					$childs[] = [
+						'id' => $menuItem->getId(),
+						'active' => $menuItem->getId() == $fieldId ? true : false,
+						'name' => $menuItem->get('name'),
+						'type' => 'Shortcut',
+						'sequence' => $menuModel->get('sequence'),
+						'newwindow' => '0',
+						'icon' => $menuItem->get('iconpath'),
+						'dataurl' => $menuItem->getUrl(),
+						'parent' => 'Settings',
+						'moduleName' => Vtiger_Menu_Model::getModuleNameFromUrl($menuItem->getUrl()),
+					];
+				}
 				$menu[] = [
 					'id' => $blockId,
 					'active' => ($selectedMenu && $selectedMenu->get('blockid') == $blockId) ? true : false,

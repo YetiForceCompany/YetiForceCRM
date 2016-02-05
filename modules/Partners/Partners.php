@@ -68,7 +68,7 @@ class Partners extends Vtiger_CRMEntity
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('subject', 'assigned_user_id');
-	var $default_order_by = 'subject';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 
 	/**
@@ -226,12 +226,15 @@ class Partners extends Vtiger_CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule)
+	function setRelationTables($secmodule = false)
 	{
-		$rel_tables = [
+		$relTables = [
 			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'u_yf_partners' => 'partnersid'],
 		];
-		return $rel_tables[$secmodule];
+		if($secmodule === false){
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 	// Function to unlink an entity with given Id from another entity

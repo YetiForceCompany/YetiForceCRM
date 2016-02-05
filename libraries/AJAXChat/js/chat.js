@@ -665,37 +665,54 @@ var ajaxChat = {
 		return null;
 	},
 	
-	playSoundOnNewMessage: function(dateObject, userID, userName, userRole, messageID, messageText, channelID, ip) {
-		if(this.settings['audio'] && this.sounds && this.lastID && !this.channelSwitch) {
-			switch(userID) {
-				case this.chatBotID:
-					var messageParts = messageText.split(' ', 1);
-					switch(messageParts[0]) {
-						case '/login':
-						case '/channelEnter':
-							this.playSound(this.settings['soundEnter']);
-							break;
-						case '/logout':
-						case '/channelLeave':
-						case '/kick':
-							this.playSound(this.settings['soundLeave']);
-							break;
-						case '/error':
-							this.playSound(this.settings['soundError']);
-							break;
-						default:
-							this.playSound(this.settings['soundChatBot']);
-					}
-					break;
-				case this.userID:
-					this.playSound(this.settings['soundSend']);
-					break;
-				default:
-					this.playSound(this.settings['soundReceive']);
-					break;
-			}
-		}
-	},
+playSoundOnNewMessage: function(dateObject, userID, userName, userRole, messageID, messageText, channelID, ip) {
+        if(this.settings['audio'] && this.sounds && this.lastID && !this.channelSwitch) {
+            switch(userID) {
+                case this.chatBotID:
+                    var messageParts = messageText.split(' ', 1);
+                    switch(messageParts[0]) {
+                        case '/login':
+                        case '/channelEnter':
+                            this.playSound(this.settings['soundEnter']);
+                            break;
+                        case '/logout':
+                        case '/channelLeave':
+                        case '/kick':
+                            this.playSound(this.settings['soundLeave']);
+                            break;
+                        case '/error':
+                            this.playSound(this.settings['soundError']);
+                            break;
+                        default:
+                            this.playSound(this.settings['soundChatBot']);
+                    }
+                    break;
+                case this.userID:
+                    this.playSound(this.settings['soundSend']);
+                    break;
+                default:
+                    this.playSound(this.settings['soundReceive']);
+                    break;
+            }
+            //Notification
+        var permission,
+                timer = setTimeout(function () {
+                    permission = "default"
+                });
+        Notification.requestPermission(function (state) {
+            clearTimeout(timer);
+            permission = state
+        });
+        var notify = new Notification(userName, {
+            tag: channelID,
+            body: messageText
+        });
+        notify.onerror = function () {
+            console.log("permission state = default or denied");
+        };
+        }
+
+    },
 
 	fillSoundSelection: function(selectionID, selectedSound) {
 		var selection = document.getElementById(selectionID);

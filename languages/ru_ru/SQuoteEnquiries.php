@@ -21,11 +21,10 @@ $languageStrings = [
 
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Draft',
-	'PLL_ACCEPTED' => 'Accepted',
-	'PLL_REQUIRES_TO_BE_COMPLEMENTED' => 'Requires to be complemented',
-	'PLL_REQUIRES_CONSULTATION' => 'Requires consultation',
-	'PLL_WAITING_FOR_APPROVAL' => 'Waiting for approval',
-	'PLL_DISCARDED' => 'Discarded',
+	'PLL_IN_REALIZATION' => 'In realization',
+	'PLL_FOR_VERIFICATION' => 'For verification',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_COMPLETED' => 'Completed',
 
 	'LBL_CHANGE_STATUS' => 'Change Status',
 	'LBL_PREVIEW' => 'Preview',

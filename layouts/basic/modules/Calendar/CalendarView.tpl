@@ -20,6 +20,7 @@
 <input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
 <input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 <input type="hidden" id="dayView" value="{$DAY_VIEW}" />
+<input type="hidden" id="showListButtonInCalendar" value="{AppConfig::module($MODULE_NAME, 'SHOW_LIST_BUTTON')}" />
 <style>
 {foreach from=Settings_Calendar_Module_Model::getCalendarConfig('colors') item=ITEM}
 	.calCol_{$ITEM.label}{ border: 1px solid {$ITEM.value}!important; }
@@ -37,7 +38,7 @@
 	<div class="widget_header row marginbottomZero marginRightMinus20">
 		<div class="btn-group listViewMassActions pull-left paddingLeftMd">
 			{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
-				<button class="btn btn-default fc-button fc-state-default dropdown-toggle" data-toggle="dropdown">
+				<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 					<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 					&nbsp;&nbsp;<span class="caret"></span>
 				</button>
@@ -52,8 +53,13 @@
 				</ul>
 			{/if}
 		</div>
-		<div class="col-xs-10">
+		<div class="col-xs-9 col-sm-6">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE_NAME}
+		</div>
+		<div class="pull-right col-xs-1 col-sm-1">
+			<button class="pull-right btn btn-default addButton">
+				<span class="glyphicon glyphicon-plus"></span>
+			</button>
 		</div>
 	</div>
 	<div class="bottom_margin">

@@ -4,7 +4,7 @@
 		<div class="mobileLeftPanelContainer">
 			<ul class='paddingLRZero' role='menubar'>
 	{else}
-		<nav class="contents-bottomscroll">
+		<nav>
 			<ul class="nav modulesList" role="menubar">
 	{/if}	
 			{assign var=PRIVILEGESMODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}

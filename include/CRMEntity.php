@@ -126,7 +126,7 @@ class CRMEntity
 
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$date_var = date("Y-m-d H:i:s");
+		$date_var = date('Y-m-d H:i:s');
 
 		//to get the owner id
 		$ownerid = $this->column_fields['assigned_user_id'];
@@ -245,7 +245,7 @@ class CRMEntity
 			$this->mode = 'edit';
 		}
 
-		$date_var = date("Y-m-d H:i:s");
+		$date_var = date('Y-m-d H:i:s');
 		$insertion_mode = $this->mode;
 
 		$ownerid = $this->column_fields['assigned_user_id'];
@@ -256,6 +256,7 @@ class CRMEntity
 		if ($module == 'Events') {
 			$module = 'Calendar';
 		}
+
 		if ($this->mode == 'edit') {
 			$description_val = from_html($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 			$attention_val = from_html($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
@@ -274,13 +275,12 @@ class CRMEntity
 				];
 			} else {
 				$profileList = getCurrentUserProfileList();
-				$perm_qry = "SELECT columnname FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid = vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid WHERE vtiger_field.tabid = ? AND vtiger_profile2field.visible = 0 AND vtiger_profile2field.readonly = 0 AND vtiger_profile2field.profileid IN (" . generateQuestionMarks($profileList) . ") AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename='vtiger_crmentity' and vtiger_field.presence in (0,2);";
-				$perm_result = $adb->pquery($perm_qry, array($tabid, $profileList));
-				$perm_rows = $adb->num_rows($perm_result);
-				for ($i = 0; $i < $perm_rows; $i++) {
-					$columname[] = $adb->query_result($perm_result, $i, "columnname");
+				$perm_qry = 'SELECT columnname FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid = vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid WHERE vtiger_field.tabid = ? AND vtiger_profile2field.visible = 0 AND vtiger_profile2field.readonly = 0 AND vtiger_profile2field.profileid IN (' . generateQuestionMarks($profileList) . ") AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename='vtiger_crmentity' and vtiger_field.presence in (0,2);";
+				$perm_result = $adb->pquery($perm_qry, [$tabid, $profileList]);
+				while ($columnname = $adb->getSingleValue($perm_result)) {
+					$columname[] = $columnname;
 				}
-				if (is_array($columname) && in_array("description", $columname)) {
+				if (is_array($columname) && in_array('description', $columname)) {
 					$columns = [
 						'smownerid' => $ownerid,
 						'modifiedby' => $current_user->id,
@@ -303,11 +303,13 @@ class CRMEntity
 			$this->column_fields['modifiedby'] = $current_user->id;
 		} else {
 			//if this is the create mode and the group allocation is chosen, then do the following
-			$current_id = $adb->getUniqueID("vtiger_crmentity");
-			$_REQUEST['currentid'] = $current_id;
-			if ($current_user->id == '')
+			if (empty($this->newRecord)) {
+				$this->id = $adb->getUniqueID('vtiger_crmentity');
+			} else {
+				$this->id = $this->newRecord;
+			}
+			if (empty($current_user->id))
 				$current_user->id = 0;
-
 
 			// Customization
 			$created_date_var = $adb->formatDate($date_var, true);
@@ -323,7 +325,7 @@ class CRMEntity
 			$description_val = from_html($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 			$attention_val = from_html($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$params = [
-				'crmid' => $current_id,
+				'crmid' => $this->id,
 				'smcreatorid' => $current_user->id,
 				'smownerid' => $ownerid,
 				'setype' => $module,
@@ -338,8 +340,6 @@ class CRMEntity
 			$this->column_fields['createdtime'] = $created_date_var;
 			$this->column_fields['modifiedtime'] = $modified_date_var;
 			$this->column_fields['modifiedby'] = $current_user->id;
-			//$this->column_fields['created_user_id'] = $current_user->id;
-			$this->id = $current_id;
 		}
 	}
 
@@ -805,9 +805,9 @@ class CRMEntity
 			$em->initTriggerCache();
 			$entityData = VTEntityData::fromCRMEntity($this);
 
-			$em->triggerEvent("vtiger.entity.beforesave.modifiable", $entityData);
-			$em->triggerEvent("vtiger.entity.beforesave", $entityData);
-			$em->triggerEvent("vtiger.entity.beforesave.final", $entityData);
+			$em->triggerEvent('vtiger.entity.beforesave.modifiable', $entityData);
+			$em->triggerEvent('vtiger.entity.beforesave', $entityData);
+			$em->triggerEvent('vtiger.entity.beforesave.final', $entityData);
 		}
 		//Event triggering code ends
 		//GS Save entity being called with the modulename as parameter
@@ -815,8 +815,8 @@ class CRMEntity
 
 		if ($em) {
 			//Event triggering code
-			$em->triggerEvent("vtiger.entity.aftersave", $entityData);
-			$em->triggerEvent("vtiger.entity.aftersave.final", $entityData);
+			$em->triggerEvent('vtiger.entity.aftersave', $entityData);
+			$em->triggerEvent('vtiger.entity.aftersave.final', $entityData);
 			//Event triggering code ends
 		}
 	}
@@ -1855,11 +1855,15 @@ class CRMEntity
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
-		foreach ($transferEntityIds as $transferId) {
 
+		$relTables = $this->setRelationTables();
+		if (key_exists('Documents', $relTables)) {
+			$relTables['Attachments'] = ['vtiger_seattachmentsrel' => ['crmid', 'attachmentsid']];
+		}
+		foreach ($transferEntityIds as $transferId) {
 			// Pick the records related to the entity to be transfered, but do not pick the once which are already related to the current entity.
-			$relatedRecords = $adb->pquery("SELECT relcrmid, relmodule FROM vtiger_crmentityrel WHERE crmid=? AND module=?" .
-				" AND relcrmid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid=? AND module=?)", array($transferId, $module, $entityId, $module));
+			$relatedRecords = $adb->pquery('SELECT relcrmid, relmodule FROM vtiger_crmentityrel WHERE crmid=? AND module=?' .
+				' AND relcrmid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid=? AND module=?)', array($transferId, $module, $entityId, $module));
 			$numOfRecords = $adb->num_rows($relatedRecords);
 			for ($i = 0; $i < $numOfRecords; $i++) {
 				$relcrmid = $adb->query_result($relatedRecords, $i, 'relcrmid');
@@ -1871,8 +1875,8 @@ class CRMEntity
 			}
 
 			// Pick the records to which the entity to be transfered is related, but do not pick the once to which current entity is already related.
-			$parentRecords = $adb->pquery("SELECT crmid, module FROM vtiger_crmentityrel WHERE relcrmid=? AND relmodule=?" .
-				" AND crmid NOT IN (SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid=? AND relmodule=?)", array($transferId, $module, $entityId, $module));
+			$parentRecords = $adb->pquery('SELECT crmid, module FROM vtiger_crmentityrel WHERE relcrmid=? AND relmodule=?' .
+				' AND crmid NOT IN (SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid=? AND relmodule=?)', array($transferId, $module, $entityId, $module));
 			$numOfRecords = $adb->num_rows($parentRecords);
 			for ($i = 0; $i < $numOfRecords; $i++) {
 				$parcrmid = $adb->query_result($parentRecords, $i, 'crmid');
@@ -1882,8 +1886,24 @@ class CRMEntity
 				$adb->update('vtiger_crmentityrel', ['relcrmid' => $entityId], $where, $params);
 			}
 			$adb->update('vtiger_modcomments', ['related_to' => $entityId], 'related_to = ?', [$transferId]);
+
+			foreach ($relTables as $relModule => $relTable) {
+				$idField = $relTable[0][1];
+				$entityIdField = $relTable[0][0];
+				// IN clause to avoid duplicate entries
+				$selResult = $adb->pquery("select $idField from $rel_table where $entityIdField=? " .
+					" and $idField not in (select $idField from $rel_table where $entityIdField=?)", [$transferId, $entityId]);
+				if ($adb->num_rows($selResult) > 0) {
+					while (($idFieldValue = $adb->getSingleValue($selResult)) !== false) {
+						$adb->update($rel_table, [
+							$entityIdField => $entityId
+							], "$entityIdField = ? and $idField = ?", [$transferId, $idFieldValue]
+						);
+					}
+				}
+			}
 		}
-		$log->debug("Exiting transferRelatedRecords...");
+		$log->debug('Exiting transferRelatedRecords...');
 	}
 	/*
 	 * Function to get the primary query part of a report for which generateReportsQuery Doesnt exist in module
@@ -2422,7 +2442,7 @@ class CRMEntity
 			$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-		global $shared_owners;
+
 		$is_admin = is_admin($current_user);
 		$sharedParameter = $securityParameter = '';
 		$query = '';
@@ -2449,7 +2469,7 @@ class CRMEntity
 			$shownerid = array_merge([$current_user->id], $current_user_groups);
 			$sharedParameter .= 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid IN (' . implode(',', $shownerid) . '))';
 		}
-		if ($shared_owners == true) {
+		if (AppConfig::main('shared_owners') == true) {
 			if ($securityParameter != '') {
 				$query .= " AND ( ($securityParameter) OR ($sharedParameter) )";
 			} elseif ($sharedParameter != '') {
@@ -2709,12 +2729,15 @@ class CRMEntity
 	 * @param <Boolean> $ignoreEmpty
 	 * @return string
 	 */
-	function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false)
+	function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false, $additionalColumns = '')
 	{
 		if (is_array($tableColumns)) {
 			$tableColumnsString = implode(',', $tableColumns);
 		}
-		$selectClause = "SELECT " . $this->table_name . "." . $this->table_index . " AS recordid," . $tableColumnsString;
+		if (!empty($additionalColumns)) {
+			$additionalColumns = ',' . implode(',', $additionalColumns);
+		}
+		$selectClause = 'SELECT ' . $this->table_name . '.' . $this->table_index . ' AS recordid,' . $tableColumnsString . $additionalColumns;
 
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))
@@ -2755,7 +2778,7 @@ class CRMEntity
 			}
 			$sub_query .= " WHERE crm.deleted=0 GROUP BY $selectedColumns HAVING COUNT(*)>1";
 		} else {
-			$sub_query = "SELECT $tableColumnsString $fromClause $whereClause GROUP BY $tableColumnsString HAVING COUNT(*)>1";
+			$sub_query = "SELECT $tableColumnsString $additionalColumns $fromClause $whereClause GROUP BY $tableColumnsString HAVING COUNT(*)>1";
 		}
 
 		$i = 1;
@@ -2763,7 +2786,7 @@ class CRMEntity
 			$tableInfo = explode('.', $tableColumn);
 			$duplicateCheckClause .= " ifnull($tableColumn,'null') = ifnull(temp.$tableInfo[1],'null')";
 			if (count($tableColumns) != $i++)
-				$duplicateCheckClause .= " AND ";
+				$duplicateCheckClause .= ' AND ';
 		}
 
 		$query = $selectClause . $fromClause .

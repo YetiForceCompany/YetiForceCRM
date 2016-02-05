@@ -67,7 +67,7 @@
 			{foreach from=$RESTRICTS_ITEM item=ITEM}
 				{if $CLOSECALCULATION && $RECORD->get('scalculations_status') neq $ITEM}
 					<div class="btn-group">
-						<button type="button" class="btn {if $ITEM eq 'PLL_ACCEPTED'} btn-success {else} btn-danger {/if} changeStatus" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
+						<button type="button" class="btn {if $ITEM eq 'PLL_COMPLETED'} btn-success {else} btn-danger {/if} changeStatus" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
 					</div>
 				{/if}
 			{/foreach}

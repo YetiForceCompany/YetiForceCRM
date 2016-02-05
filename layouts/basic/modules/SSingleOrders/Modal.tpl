@@ -64,7 +64,7 @@
 					</ul>
 				</div>
 			{/if}
-			{assign var=ITEM value='PLL_UNREALIZED'}
+			{assign var=ITEM value='PLL_CANCELLED'}
 			{if $CLOSESINGLEORDERS && $RECORD->get('ssingleorders_status') neq $ITEM}
 				<div class="btn-group">
 					<button type="button" class="btn btn-danger changeStatus" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>

@@ -202,21 +202,21 @@ class VTJsonCondition
 				$condition = ($condition == 'is') ? 'contains' : 'does not contain';
 			}
 		}
-		
+
 		switch ($condition) {
-			case "equal to":
+			case 'equal to':
 				return $fieldValue == $value;
-			case "less than":
+			case 'less than':
 				return $fieldValue < $value;
-			case "greater than":
+			case 'greater than':
 				return $fieldValue > $value;
-			case "does not equal":
+			case 'does not equal':
 				return $fieldValue != $value;
-			case "less than or equal to":
+			case 'less than or equal to':
 				return $fieldValue <= $value;
-			case "greater than or equal to":
+			case 'greater than or equal to':
 				return $fieldValue >= $value;
-			case "is":
+			case 'is':
 				if (preg_match('/([^:]+):boolean$/', $value, $match)) {
 					$value = $match[1];
 					if ($value == 'true') {
@@ -227,7 +227,7 @@ class VTJsonCondition
 				} else {
 					return $fieldValue == $value;
 				}
-			case "is not":
+			case 'is not':
 				if (preg_match('/([^:]+):boolean$/', $value, $match)) {
 					$value = $match[1];
 					if ($value == 'true') {
@@ -238,26 +238,26 @@ class VTJsonCondition
 				} else {
 					return $fieldValue != $value;
 				}
-			case "contains":
+			case 'contains':
 				if (is_array($value)) {
 					return in_array($fieldValue, $value);
 				}
 				return strpos($fieldValue, $value) !== FALSE;
-			case "does not contain":
+			case 'does not contain':
 				if (empty($value))
 					unset($value);
 				if (is_array($value)) {
 					return !in_array($fieldValue, $value);
 				}
 				return strpos($fieldValue, $value) === FALSE;
-			case "starts with":
+			case 'starts with':
 				return $this->startsWith($fieldValue, $value);
-			case "ends with":
+			case 'ends with':
 				return $this->endsWith($fieldValue, $value);
-			case "matches":
+			case 'matches':
 				return preg_match($value, $fieldValue);
 
-			case "has changed" :
+			case 'has changed' :
 				$entityDelta = new VTEntityDelta();
 				$idParts = vtws_getIdComponents($entityData->getId());
 				$hasChanged = $entityDelta->hasChanged($entityData->getModuleName(), $idParts[1], $cond['fieldname']);
@@ -266,17 +266,17 @@ class VTJsonCondition
 				} else {
 					return $hasChanged && $fieldValue == $value;
 				}
-			case "is empty":
+			case 'is empty':
 				if (empty($fieldValue)) {
 					return true;
 				}
 				return false;
-			case "is not empty":
+			case 'is not empty':
 				if (empty($fieldValue)) {
 					return false;
 				}
 				return true;
-			case "before":
+			case 'before':
 				if (empty($fieldValue)) {
 					return false;
 				}
@@ -284,7 +284,7 @@ class VTJsonCondition
 					return true;
 				}
 				return false;
-			case "after":
+			case 'after':
 				if (empty($fieldValue)) {
 					return false;
 				}
@@ -292,7 +292,7 @@ class VTJsonCondition
 					return true;
 				}
 				return false;
-			case "between":
+			case 'between':
 				if (empty($fieldValue)) {
 					return false;
 				}
@@ -415,7 +415,7 @@ class VTJsonCondition
 				return false;
 			default:
 				//Unexpected condition
-				throw new Exception("Found an unexpected condition: " . $condition);
+				throw new Exception('Found an unexpected condition: ' . $condition);
 		}
 	}
 }

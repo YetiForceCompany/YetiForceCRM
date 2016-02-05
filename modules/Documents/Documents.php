@@ -67,7 +67,7 @@ class Documents extends CRMEntity {
 	var $mandatory_fields = Array('notes_title','createdtime' ,'modifiedtime','filename','filesize','filetype','filedownloadcount','assigned_user_id');
 
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'createdtime';
+	var $default_order_by = '';
 	var $default_sort_order = 'DESC';
 	function Documents() {
 		$this->log = LoggerManager::getLogger('notes');
@@ -374,9 +374,12 @@ class Documents extends CRMEntity {
 	 * @param - $secmodule secondary module name
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
-	function setRelationTables($secmodule){
-		$rel_tables = array();
-		return $rel_tables[$secmodule];
+	function setRelationTables($secmodule = false){
+		$relTables = [];
+		if($secmodule === false){
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 	// Function to unlink all the dependent entities of the given Entity by Id
