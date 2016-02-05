@@ -110,7 +110,7 @@ class Contacts extends CRMEntity
 	//Default Fields for Email Templates -- Pavani
 	var $emailTemplate_defaultFields = array('firstname', 'lastname', 'salutation', 'title', 'email', 'department', 'phone', 'mobile', 'support_start_date', 'support_end_date');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'lastname';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	// For Alphabetical search
 	var $def_basicsearch_col = 'lastname';

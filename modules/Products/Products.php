@@ -55,7 +55,7 @@ class Products extends CRMEntity
 	var $sortby_fields = Array();
 	var $def_basicsearch_col = 'productname';
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'productname';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.

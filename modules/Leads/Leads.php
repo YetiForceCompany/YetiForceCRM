@@ -62,7 +62,7 @@ class Leads extends CRMEntity
 	//Default Fields for Email Templates -- Pavani
 	var $emailTemplate_defaultFields = array('leadsource', 'leadstatus', 'rating', 'industry', 'secondaryemail', 'email', 'annualrevenue', 'designation', 'salutation');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'modifiedtime';
+	var $default_order_by = '';
 	var $default_sort_order = 'DESC';
 	// For Alphabetical search
 	var $def_basicsearch_col = 'company';

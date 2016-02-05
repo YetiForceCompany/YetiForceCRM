@@ -99,7 +99,7 @@ class OSSMailView extends CRMEntity
 	var $mandatory_fields = Array('subject', 'from');
 	// Callback function list during Importing
 	var $special_functions = Array('set_import_assigned_user');
-	var $default_order_by = 'date';
+	var $default_order_by = '';
 	var $default_sort_order = 'DESC';
 	var $unit_price;
 

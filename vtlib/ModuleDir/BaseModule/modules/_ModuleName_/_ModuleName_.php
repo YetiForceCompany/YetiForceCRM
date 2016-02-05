@@ -72,7 +72,7 @@ class _ModuleName_ extends Vtiger_CRMEntity
 // Used when enabling/disabling the mandatory fields for the module.
 // Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('<entityfieldname>', 'assigned_user_id');
-	var $default_order_by = '<entityfieldname>';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 
 	/**

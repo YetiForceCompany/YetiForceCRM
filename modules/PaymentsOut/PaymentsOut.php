@@ -93,7 +93,7 @@ class PaymentsOut extends Vtiger_CRMEntity {
 	// Callback function list during Importing
 	var $special_functions = Array('set_import_assigned_user');
 
-	var $default_order_by = 'paymentsname';
+	var $default_order_by = '';
 	var $default_sort_order='ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.

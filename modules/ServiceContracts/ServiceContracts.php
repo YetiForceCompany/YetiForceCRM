@@ -90,7 +90,7 @@ class ServiceContracts extends CRMEntity
 	var $mandatory_fields = Array('subject', 'assigned_user_id');
 	// Callback function list during Importing
 	var $special_functions = Array('set_import_assigned_user');
-	var $default_order_by = 'subject';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 
 	function __construct()

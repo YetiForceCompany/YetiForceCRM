@@ -47,7 +47,7 @@ class Campaigns extends CRMEntity
 	);
 	var $list_link_field = 'campaignname';
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'crmid';
+	var $default_order_by = '';
 	var $default_sort_order = 'DESC';
 
 	var $search_fields = Array(

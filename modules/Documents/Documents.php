@@ -67,7 +67,7 @@ class Documents extends CRMEntity {
 	var $mandatory_fields = Array('notes_title','createdtime' ,'modifiedtime','filename','filesize','filetype','filedownloadcount','assigned_user_id');
 
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'createdtime';
+	var $default_order_by = '';
 	var $default_sort_order = 'DESC';
 	function Documents() {
 		$this->log = LoggerManager::getLogger('notes');

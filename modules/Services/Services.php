@@ -87,7 +87,7 @@ class Services extends CRMEntity
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('servicename', 'assigned_user_id');
-	var $default_order_by = 'servicename';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	var $unit_price;
 

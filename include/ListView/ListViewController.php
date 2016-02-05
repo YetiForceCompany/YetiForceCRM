@@ -41,11 +41,11 @@ class ListViewController
 		$this->queryGenerator = $generator;
 		$this->db = $db;
 		$this->user = $user;
-		$this->nameList = array();
-		$this->typeList = array();
-		$this->ownerNameList = array();
-		$this->picklistValueMap = array();
-		$this->picklistRoleMap = array();
+		$this->nameList = [];
+		$this->typeList = [];
+		$this->ownerNameList = [];
+		$this->picklistValueMap = [];
+		$this->picklistRoleMap = [];
 		$this->headerSortingEnabled = true;
 	}
 
@@ -74,7 +74,7 @@ class ListViewController
 		$fieldName = $field->getFieldName();
 		$rowCount = $this->db->num_rows($result);
 
-		$idList = array();
+		$idList = [];
 		for ($i = 0; $i < $rowCount; $i++) {
 			$id = $this->db->query_result($result, $i, $field->getColumnName());
 			if (!isset($this->nameList[$fieldName][$id])) {
@@ -104,7 +104,7 @@ class ListViewController
 				$this->typeList[$id] = $module;
 			}
 			if (empty($this->nameList[$fieldName])) {
-				$this->nameList[$fieldName] = array();
+				$this->nameList[$fieldName] = [];
 			}
 			foreach ($entityTypeList as $id) {
 				$this->typeList[$id] = $module;
@@ -118,7 +118,7 @@ class ListViewController
 		$meta = $this->queryGenerator->getMeta($this->queryGenerator->getModule());
 		$moduleFields = $this->queryGenerator->getModuleFields();
 		$fields = $this->queryGenerator->getFields();
-		$headerFields = array();
+		$headerFields = [];
 		foreach ($fields as $fieldName) {
 			if (array_key_exists($fieldName, $moduleFields)) {
 				$headerFields[$fieldName] = $moduleFields[$fieldName];
@@ -129,7 +129,8 @@ class ListViewController
 
 	function getListViewRecords($focus, $module, $result)
 	{
-		global $listview_max_textlength, $theme, $default_charset;
+		$listview_max_textlength = vglobal('listview_max_textlength');
+		$default_charset = vglobal('default_charset');
 
 		require('user_privileges/user_privileges_' . $this->user->id . '.php');
 		$fields = $this->queryGenerator->getFields();
@@ -153,7 +154,7 @@ class ListViewController
 		foreach ($ownerFieldList as $fieldName) {
 			if (in_array($fieldName, $listViewFields)) {
 				$field = $moduleFields[$fieldName];
-				$idList = array();
+				$idList = [];
 				for ($i = 0; $i < $rowCount; $i++) {
 					$id = $this->db->query_result($result, $i, $field->getColumnName());
 					if (!isset($this->ownerNameList[$fieldName][$id])) {
@@ -184,7 +185,7 @@ class ListViewController
 		}
 		$useAsterisk = get_use_asterisk($this->user->id);
 
-		$data = array();
+		$data = [];
 		for ($i = 0; $i < $rowCount; ++$i) {
 			//Getting the recordId
 			if ($module != 'Users') {
@@ -196,7 +197,7 @@ class ListViewController
 			} else {
 				$recordId = $db->query_result($result, $i, "id");
 			}
-			$row = array();
+			$row = [];
 
 			foreach ($listViewFields as $fieldName) {
 				$field = $moduleFields[$fieldName];
@@ -215,9 +216,9 @@ class ListViewController
 
 					$downloadType = $db->query_result($result, $i, 'filelocationtype');
 					$status = $db->query_result($result, $i, 'filestatus');
-					$fileIdQuery = "select attachmentsid from vtiger_seattachmentsrel where crmid=?";
-					$fileIdRes = $db->pquery($fileIdQuery, array($recordId));
-					$fileId = $db->query_result($fileIdRes, 0, 'attachmentsid');
+					$fileIdQuery = 'select attachmentsid from vtiger_seattachmentsrel where crmid=?';
+					$fileIdRes = $db->pquery($fileIdQuery, [$recordId]);
+					$fileId = $db->getSingleValue($fileIdRes);
 					if ($fileName != '' && $status == 1) {
 						if ($downloadType == 'I') {
 							$value = '<a onclick="Javascript:Documents_Index_Js.updateDownloadCount(\'index.php?module=Documents&action=UpdateDownloadCount&record=' . $recordId . '\');"' .
@@ -366,9 +367,9 @@ class ListViewController
 				} elseif ($field->getFieldDataType() == 'multipicklist') {
 					$value = ($value != "") ? str_replace(' |##| ', ', ', $value) : "";
 					if (!$is_admin && $value != '') {
-						$valueArray = ($rawValue != "") ? explode(' |##| ', $rawValue) : array();
+						$valueArray = ($rawValue != "") ? explode(' |##| ', $rawValue) : [];
 						$tmp = '';
-						$tmpArray = array();
+						$tmpArray = [];
 						foreach ($valueArray as $index => $val) {
 							if (!$listview_max_textlength || !(strlen(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $tmp)) > $listview_max_textlength)) {
 								$tmpArray[] = $val;
@@ -382,7 +383,7 @@ class ListViewController
 						$value = textlength_check($value);
 					}
 				} elseif ($field->getFieldDataType() == 'skype') {
-					$value = ($value != "") ? "<a href='skype:$value?call'>" . textlength_check($value) . "</a>" : "";
+					$value = ($value != '') ? "<a href='skype:$value?call'>" . textlength_check($value) . "</a>" : "";
 				} elseif ($field->getUIType() == 11) {
 					$outgoingCallPermission = Vtiger_Mobile_Model::checkPermissionForOutgoingCall();
 					if ($outgoingCallPermission && !empty($value)) {
@@ -410,7 +411,7 @@ class ListViewController
 					if (!empty($value) && !empty($this->nameList[$fieldName]) && !empty($parentModule)) {
 						$parentMeta = $this->queryGenerator->getMeta($parentModule);
 						$value = textlength_check($this->nameList[$fieldName][$value]);
-						if ($parentMeta->isModuleEntity() && $parentModule != "Users") {
+						if ($parentMeta->isModuleEntity() && $parentModule != 'Users') {
 							$value = "<a class='moduleColor_$parentModule' href='?module=$parentModule&view=Detail&" .
 								"record=$rawValue' title='" . getTranslatedString($parentModule, $parentModule) . "'>$value</a>";
 						}
@@ -419,16 +420,6 @@ class ListViewController
 					}
 				} elseif ($field->getFieldDataType() == 'owner') {
 					$value = textlength_check($this->ownerNameList[$fieldName][$value]);
-				} elseif ($field->getUIType() == 25) {
-					//TODO clean request object reference.
-					$contactId = $_REQUEST['record'];
-					$emailId = $this->db->query_result($result, $i, "activityid");
-					$result1 = $this->db->pquery("SELECT access_count FROM vtiger_email_track WHERE " .
-						"crmid=? AND mailid=?", array($contactId, $emailId));
-					$value = $this->db->query_result($result1, 0, "access_count");
-					if (!$value) {
-						$value = 0;
-					}
 				} elseif ($field->getUIType() == 8) {
 					if (!empty($value)) {
 						$temp_val = html_entity_decode($value, ENT_QUOTES, $default_charset);
@@ -437,7 +428,7 @@ class ListViewController
 					}
 				} elseif ($field->getFieldDataType() == 'taxes') {
 					if (!empty($value)) {
-						$valueArray = ($value != "") ? explode(',', $value) : [];
+						$valueArray = ($value != '') ? explode(',', $value) : [];
 						$tmp = '';
 						$tmpArray = [];
 						$taxs = Vtiger_Taxes_UIType::getTaxes();
@@ -478,11 +469,6 @@ class ListViewController
 				} else {
 					$value = Vtiger_Functions::textLength($value);
 				}
-
-//				// vtlib customization: For listview javascript triggers
-//				$value = "$value <span type='vtlib_metainfo' vtrecordid='{$recordId}' vtfieldname=".
-//					"'{$fieldName}' vtmodule='$module' style='display:none;'></span>";
-//				// END
 				$row[$fieldName] = $value;
 			}
 			$data[$recordId] = $row;
@@ -490,5 +476,3 @@ class ListViewController
 		return $data;
 	}
 }
-
-?>

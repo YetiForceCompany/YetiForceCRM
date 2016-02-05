@@ -59,7 +59,7 @@ class Vendors extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'vendorname', 'assigned_user_id');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'vendorname';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	// For Alphabetical search
 	var $def_basicsearch_col = 'vendorname';
