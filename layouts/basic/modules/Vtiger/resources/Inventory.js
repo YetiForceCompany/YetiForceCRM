@@ -278,9 +278,9 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		this.getInventoryItemsContainer().find(thisInstance.rowClass).each(function (index) {
 			sum += app.parseNumberToFloat($(this).find('.' + field).val());
 		});
-		if(element){
+		if (element) {
 			element.text(app.parseNumberToShow(sum));
-		}else{
+		} else {
 			return sum;
 		}
 	},
@@ -1089,7 +1089,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		modal.on('click', '.saveDiscount', function (e) {
 			thisInstance.saveDiscountsParameters(parentRow, modal);
 			if (params.discountType == 0) {
-				thisInstance.setDiscount(parentRow, modal.find('.valueDiscount').text());
+				thisInstance.setDiscount(parentRow, app.parseNumberToFloat(modal.find('.valueDiscount').text()));
 				thisInstance.quantityChangeActions(parentRow);
 			} else {
 				var rate = app.parseNumberToFloat(modal.find('.valueDiscount').text()) / app.parseNumberToFloat(modal.find('.valueTotalPrice').text());
