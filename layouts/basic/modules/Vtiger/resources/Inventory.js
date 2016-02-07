@@ -1186,7 +1186,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		modal.on('click', '.saveTaxs', function (e) {
 			thisInstance.saveTaxsParameters(parentRow, modal);
 			if (params.taxType == '0') {
-				thisInstance.setTax(parentRow, modal.find('.valueTax').text());
+				thisInstance.setTax(parentRow, app.parseNumberToFloat(modal.find('.valueTax').text()));
 				thisInstance.quantityChangeActions(parentRow);
 			} else {
 				var rate = app.parseNumberToFloat(modal.find('.valueTax').text()) / app.parseNumberToFloat(modal.find('.valueNetPrice').text());

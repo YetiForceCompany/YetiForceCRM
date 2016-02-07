@@ -1169,7 +1169,7 @@ var app = {
 	parseNumberToFloat: function (val) {
 		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
 		var groupingSeparator = app.getMainParams('currencyGroupingSeparator');
-		if (val == undefined) {
+		if (val == undefined || val == '') {
 			val = 0;
 		}
 		val = val.toString();
