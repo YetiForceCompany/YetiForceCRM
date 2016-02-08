@@ -36,11 +36,46 @@ jQuery.Class("Vtiger_Helper_Js", {
 		var emailMassEditInstance = new window[className]();
 		return emailMassEditInstance
 	},
+	getDayFromDate: function(date){
+		var dayOfWeek = this.getDay(date);
+		return this.getLabelDayFromDate(dayOfWeek);
+	},
+	getDay: function(date){
+		var dateObj = new Date(date);
+		return dateObj.getDay();
+	},
+	getLabelDayFromDate: function(day){
+		var dayOfWeek = day;
+		var dayOfWeekLabel = '';
+		switch(dayOfWeek) {
+			case 0:
+				dayOfWeekLabel = 'JS_SUN';
+				break;
+			case 1:
+				dayOfWeekLabel = 'JS_MON';
+				break;
+			case 2:
+				dayOfWeekLabel = 'JS_TUE';
+				break;
+			case 3:
+				dayOfWeekLabel = 'JS_WED';
+				break;
+			case 4:
+				dayOfWeekLabel = 'JS_THU';
+				break;
+			case 5:
+				dayOfWeekLabel = 'JS_FRI';
+				break;
+			case 6:
+				dayOfWeekLabel = 'JS_SAT';
+				break;
+		}
+		return app.vtranslate(dayOfWeekLabel);
+	},
 	/*
 	 * function to check server Configuration
 	 * returns boolean true or false
 	 */
-
 	checkServerConfig: function (module) {
 		var aDeferred = jQuery.Deferred();
 		var actionParams = {

@@ -5087,3 +5087,16 @@ select.form-control {
 .quickCreateContent .addedNearCalendarEvent td{
 	padding: 4px;
 }
+#cur_events td,
+#cur_events .table th{
+	background: #E1FFE5;
+}
+.quickCreateContent #Calendar_editView_fieldName_date_start{
+	background-color : #E1FFE5; 
+}
+.eventsTable table th{
+	border-bottom: 3px solid #000;
+}
+.quickCreateContent .weekend{
+	background: #D7EEFF;
+}
