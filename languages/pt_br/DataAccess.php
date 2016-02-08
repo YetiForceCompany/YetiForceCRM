@@ -75,6 +75,10 @@ $languageStrings = [
 	'Action_test' => 'Teste ação',
 	'Action_Desc_test' => 'Descrição teste ação.',
 	//
+	'Action_check_day_tasks' => 'Check the number of events for the saved day',
+	'Action_Desc_check_day_tasks' => 'The action checks the number of events for the event\'s start date, and in case it exceeds the limit, the system blocks/informs the user.',
+	'LBL_MAXIMUM_NUMBER_EVENTS_PER_DAY' => 'Maximum number of events per day',
+	//
 	'Action_unique_account' => 'Check for account duplicates',
 	'Action_Desc_unique_account' => 'Check if account is unique in the module.',
 	'LBL_DUPLICATED_FOUND' => 'Duplicates found',
