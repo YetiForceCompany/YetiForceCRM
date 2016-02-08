@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class KnowledgeBase_TreeAJAX_Action extends Vtiger_Action_Controller
+class KnowledgeBase_TreeAjax_Action extends Vtiger_Action_Controller
 {
 
 	function checkPermission(Vtiger_Request $request)

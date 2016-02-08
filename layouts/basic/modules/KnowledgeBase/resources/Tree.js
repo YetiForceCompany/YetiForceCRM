@@ -30,7 +30,7 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 		var container = $('.treeContainer');
 		var params = {
 			module  : app.getModuleName(),
-			action : 'TreeAJAX',
+			action : 'TreeAjax',
 		};
 		var progressIndicatorElement = jQuery.progressIndicator({
 			position: 'html',
