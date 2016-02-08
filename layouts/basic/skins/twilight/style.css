@@ -5097,6 +5097,7 @@ select.form-control {
 .eventsTable table th{
 	border-bottom: 3px solid #000;
 }
-.quickCreateContent .weekend{
-	background: #D7EEFF;
+.quickCreateContent .weekend,
+.quickCreateContent .weekend:hover{
+	background: #D7EEFF !important;
 }

@@ -103,7 +103,14 @@
 								<div class="row noSpaces col-xs-12 eventsTable" style="margin-top: 5px;">
 									<div class="width1per7 paddingLRZero" id="threeDaysAgo">
 										<table class="table">
-											<tr><th class="text-center taskPrevThreeDaysAgo">{Vtiger_Date_UIType::getDisplayDateValue($THREEDAYSAGO)}</th></tr>
+											<tr>
+												<th class="padding5">
+													<button type="button" class="btn btn-xs btn-primary previousDayBtn"><</button>
+												</th>
+												<th class="text-center taskPrevThreeDaysAgo">
+													{Vtiger_Date_UIType::getDisplayDateValue($THREEDAYSAGO)}
+												</th>
+											</tr>
 										</table>
 									</div>
 									<div class="width1per7 paddingLRZero" id="twoDaysAgo">
@@ -133,7 +140,14 @@
 									</div>
 									<div class="width1per7 paddingLRZero" id="threeDaysLater">
 										<table class="table">
-											<tr><th class="text-center taskNextThreeDaysLater">{Vtiger_Date_UIType::getDisplayDateValue($THREEDAYSLATER)}</th></tr>
+											<tr>
+												<th class="text-center taskNextThreeDaysLater">
+													{Vtiger_Date_UIType::getDisplayDateValue($THREEDAYSLATER)}
+												</th>
+												<th class="padding5">
+													<button type="button" class="btn btn-xs btn-primary nextDayBtn">></button>
+												</th>
+											</tr>
 										</table>
 									</div>
 								</div>
