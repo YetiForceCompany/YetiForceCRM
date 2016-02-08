@@ -145,7 +145,7 @@ class CRMEntity
 		$mimeType = Vtiger_Functions::getMimeContentType($file_details['tmp_name']);
 		$mimeTypeContents = explode('/', $mimeType);
 		// For contacts and products we are sending attachmentType as value 
-		if ($attachmentType == 'Image' || ($file_details['size'] && $mimeTypeContents[0] == 'image')) {
+		if ($attachmentType == 'Image' || ($file_details['size'] && $mimeTypeContents[0] == 'image') || ($module == 'Contacts' || $module == 'Products')) {
 			$saveFile = validateImageFile($file_details);
 		}
 		if ($saveFile == 'false') {
@@ -167,13 +167,7 @@ class CRMEntity
 		//upload the file in server
 		$upload_status = move_uploaded_file($filetmp_name, $upload_file_path . $current_id . '_' . $binFile);
 
-		$save_file = 'true';
-		//only images are allowed for these modules
-		if ($module == 'Contacts' || $module == 'Products') {
-			$save_file = validateImageFile($file_details);
-		}
-
-		if ($save_file == 'true' && $upload_status == 'true') {
+		if ($saveFile == 'true' && $upload_status == 'true') {
 			//This is only to update the attached filename in the vtiger_notes vtiger_table for the Notes module
 			$params = [
 				'crmid' => $current_id,
