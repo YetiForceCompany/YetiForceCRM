@@ -38,7 +38,6 @@ class Accounts extends CRMEntity
 	var $entity_table = "vtiger_crmentity";
 	var $column_fields = Array();
 	var $sortby_fields = Array('accountname', 'bill_city', 'website', 'phone', 'smownerid');
-
 	// This is the list of vtiger_fields that are in the lists.
 	var $list_fields = Array(
 		'Account Name' => Array('vtiger_account' => 'accountname'),
@@ -422,12 +421,12 @@ class Accounts extends CRMEntity
 		$log->debug("Exiting getColumnNames_Acnt method ...");
 		return $mergeflds;
 	}
-
 	/*
 	 * Function to get the relation tables for related modules
 	 * @param - $secmodule secondary module name
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
+
 	function setRelationTables($secmodule = false)
 	{
 		$relTables = array(
@@ -439,7 +438,7 @@ class Accounts extends CRMEntity
 			'Assets' => array('vtiger_assets' => array('parent_id', 'assetsid'), 'vtiger_account' => 'accountid'),
 			'Project' => array('vtiger_project' => array('linktoaccountscontacts', 'projectid'), 'vtiger_account' => 'accountid'),
 		);
-		if($secmodule === false){
+		if ($secmodule === false) {
 			return $relTables;
 		}
 		return $relTables[$secmodule];
@@ -519,7 +518,7 @@ class Accounts extends CRMEntity
 	function getAccountHierarchy($id)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
 		$log->debug("Entering getAccountHierarchy(" . $id . ") method ...");
 
@@ -547,7 +546,7 @@ class Accounts extends CRMEntity
 		$account_hierarchy = $this->getHierarchyData($id, $accounts_list[$baseId], $baseId, $listview_entries);
 
 		$account_hierarchy = array('header' => $listview_header, 'entries' => $listview_entries);
-		$log->debug("Exiting getAccountHierarchy method ...");
+		$log->debug('Exiting getAccountHierarchy method ...');
 		return $account_hierarchy;
 	}
 
@@ -561,8 +560,8 @@ class Accounts extends CRMEntity
 	 */
 	function getHierarchyData($id, $accountInfoBase, $accountId, &$listviewEntries)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering getHierarchyData(" . $id . "," . $accountInfoBase . "," . $accountId . "," . $listviewEntries . ") method ...");
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering getHierarchyData(' . $id . ',' . $accountId . ') method ...');
 		$currentUser = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
@@ -599,7 +598,7 @@ class Accounts extends CRMEntity
 				$listviewEntries = $this->getHierarchyData($id, $accountInfo, $accId, $listviewEntries);
 			}
 		}
-		$log->debug("Exiting getHierarchyData method ...");
+		$log->debug('Exiting getHierarchyData method ...');
 		return $listviewEntries;
 	}
 
@@ -612,58 +611,44 @@ class Accounts extends CRMEntity
 	function __getParentAccounts($id, &$parent_accounts, &$encountered_accounts)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering __getParentAccounts(" . $id . "," . $parent_accounts . ") method ...");
-
-		$query = "SELECT parentid FROM vtiger_account " .
-			" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_account.accountid" .
-			" WHERE vtiger_crmentity.deleted = 0 and vtiger_account.accountid = ?";
-		$params = array($id);
-
-		$res = $adb->pquery($query, $params);
-
-		if ($adb->num_rows($res) > 0 &&
-			$adb->query_result($res, 0, 'parentid') != '' && $adb->query_result($res, 0, 'parentid') != 0 &&
-			!in_array($adb->query_result($res, 0, 'parentid'), $encountered_accounts)) {
-
-			$parentid = $adb->query_result($res, 0, 'parentid');
-			$encountered_accounts[] = $parentid;
-			$this->__getParentAccounts($parentid, $parent_accounts, $encountered_accounts);
-		}
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering __getParentAccounts(' . $id . ') method ...');
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "SELECT vtiger_account.*, vtiger_accountaddress.*," .
+		$query = 'SELECT vtiger_account.*, vtiger_accountaddress.*,' .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
-			" FROM vtiger_account" .
-			" INNER JOIN vtiger_crmentity " .
-			" ON vtiger_crmentity.crmid = vtiger_account.accountid" .
-			" INNER JOIN vtiger_accountaddress" .
-			" ON vtiger_account.accountid = vtiger_accountaddress.accountaddressid " .
-			" LEFT JOIN vtiger_groups" .
-			" ON vtiger_groups.groupid = vtiger_crmentity.smownerid" .
-			" LEFT JOIN vtiger_users" .
-			" ON vtiger_users.id = vtiger_crmentity.smownerid" .
-			" WHERE vtiger_crmentity.deleted = 0 and vtiger_account.accountid = ?";
-		$params = array($id);
-		$res = $adb->pquery($query, $params);
+			' FROM vtiger_account' .
+			' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_account.accountid' .
+			' INNER JOIN vtiger_accountaddress ON vtiger_account.accountid = vtiger_accountaddress.accountaddressid ' .
+			' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid' .
+			' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid' .
+			' WHERE vtiger_crmentity.deleted = 0 and vtiger_account.accountid = ?';
+		$res = $adb->pquery($query, [$id]);
 
-		$parent_account_info = array();
-		$depth = 0;
-		$immediate_parentid = $adb->query_result($res, 0, 'parentid');
-		if (isset($parent_accounts[$immediate_parentid])) {
-			$depth = $parent_accounts[$immediate_parentid]['depth'] + 1;
-		}
-		$parent_account_info['depth'] = $depth;
-		foreach ($this->list_fields_name as $fieldname => $columnname) {
-			if ($columnname == 'assigned_user_id') {
-				$parent_account_info[$columnname] = $adb->query_result($res, 0, 'user_name');
-			} else {
-				$parent_account_info[$columnname] = $adb->query_result($res, 0, $columnname);
+		if ($adb->getRowCount($res) > 0) {
+			$row = $adb->getRow($res);
+			$parentid = $row['parentid'];
+			if ($parentid != '' && $parentid != 0 && !in_array($parentid, $encountered_accounts)) {
+				$encountered_accounts[] = $parentid;
+				$this->__getParentAccounts($parentid, $parent_accounts, $encountered_accounts);
 			}
+			$parent_account_info = [];
+			$depth = 0;
+			if (isset($parent_accounts[$parentid])) {
+				$depth = $parent_accounts[$parentid]['depth'] + 1;
+			}
+			$parent_account_info['depth'] = $depth;
+			foreach ($this->list_fields_name as $fieldname => $columnname) {
+				if ($columnname == 'assigned_user_id') {
+					$parent_account_info[$columnname] = $row['user_name'];
+				} else {
+					$parent_account_info[$columnname] = $row[$columnname];
+				}
+			}
+			$parent_accounts[$id] = $parent_account_info;
 		}
-		$parent_accounts[$id] = $parent_account_info;
-		$log->debug("Exiting __getParentAccounts method ...");
+		$log->debug('Exiting __getParentAccounts method ...');
 		return $parent_accounts;
 	}
 
@@ -677,46 +662,38 @@ class Accounts extends CRMEntity
 	function __getChildAccounts($id, &$child_accounts, $depthBase)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering __getChildAccounts(" . $id . "," . print_r($child_accounts, true) . "," . $depth . ") method ...");
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering __getChildAccounts(' . $id . ',' . $depth . ') method ...');
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT vtiger_account.*, vtiger_accountaddress.*," .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
-			" FROM vtiger_account" .
-			" INNER JOIN vtiger_crmentity " .
-			" ON vtiger_crmentity.crmid = vtiger_account.accountid" .
-			" INNER JOIN vtiger_accountaddress" .
-			" ON vtiger_account.accountid = vtiger_accountaddress.accountaddressid " .
-			" LEFT JOIN vtiger_groups" .
-			" ON vtiger_groups.groupid = vtiger_crmentity.smownerid" .
-			" LEFT JOIN vtiger_users" .
-			" ON vtiger_users.id = vtiger_crmentity.smownerid" .
-			" WHERE vtiger_crmentity.deleted = 0 and parentid = ?";
-		$params = array($id);
-		$res = $adb->pquery($query, $params);
-
-		$num_rows = $adb->num_rows($res);
-
-		if ($num_rows > 0) {
+			' FROM vtiger_account' .
+			' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_account.accountid' .
+			' INNER JOIN vtiger_accountaddress ON vtiger_account.accountid = vtiger_accountaddress.accountaddressid ' .
+			' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid' .
+			' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid' .
+			' WHERE vtiger_crmentity.deleted = 0 and parentid = ?';
+		$res = $adb->pquery($query, [$id]);
+		if ($adb->getRowCount($res) > 0) {
 			$depth = $depthBase + 1;
-			for ($i = 0; $i < $num_rows; $i++) {
-				$child_acc_id = $adb->query_result($res, $i, 'accountid');
+			while ($row = $adb->getRow($res)) {
+				$child_acc_id = $row['accountid'];
 				$child_account_info = [];
 				$child_account_info['depth'] = $depth;
 				foreach ($this->list_fields_name as $fieldname => $columnname) {
 					if ($columnname == 'assigned_user_id') {
-						$child_account_info[$columnname] = $adb->query_result($res, $i, 'user_name');
+						$child_account_info[$columnname] = $row['user_name'];
 					} else {
-						$child_account_info[$columnname] = $adb->query_result($res, $i, $columnname);
+						$child_account_info[$columnname] = $row[$columnname];
 					}
 				}
 				$child_accounts[$child_acc_id] = $child_account_info;
 				$this->__getChildAccounts($child_acc_id, $child_accounts[$child_acc_id], $depth);
 			}
 		}
-		$log->debug("Exiting __getChildAccounts method ...");
+		$log->debug('Exiting __getChildAccounts method ...');
 		return $child_accounts;
 	}
 
