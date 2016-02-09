@@ -135,6 +135,7 @@ $languageStrings = [
 	'LBL_RELATED_TO' => 'Powiązany z',
 	'LBL_RECURRENCE_INFORMATION' => 'Szczegóły powtarzalności terminu',
 	'LBL_INVITE_USER_BLOCK' => 'Zaproszeni użytkownicy',
+	'LBL_CALENDAR_FILTERS' => 'Filtry',
 ];
 
 $jsLanguageStrings = [
