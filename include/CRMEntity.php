@@ -768,8 +768,11 @@ class CRMEntity
 					if (isset($resultrow[$fieldkey])) {
 						$fieldvalue = $resultrow[$fieldkey];
 					}
-					if (in_array($fieldinfo['uitype'], array('10', '51', '73'))) {
+					if (in_array($fieldinfo['uitype'], array(10, 51, 73))) {
 						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = Vtiger_Functions::getCRMRecordLabel($fieldvalue);
+					}
+					if (in_array($fieldinfo['uitype'], [52, 53])) {
+						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = Vtiger_Functions::getOwnerRecordLabel($fieldvalue);
 					}
 					$this->column_fields[$fieldinfo['fieldname']] = $fieldvalue;
 				}
