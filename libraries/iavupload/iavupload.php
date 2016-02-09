@@ -124,7 +124,14 @@ if (isset($_FILES['upload']) && strlen($_FILES['upload']['name']) > 1) {
 function setFName($p, $fn, $ex, $i)
 {
 	if (RENAME == 1 && file_exists($p . $fn . $ex)) {
-		return setFName($p, $fn . '_' . ($i + 1), $ex, ($i + 1));
+		$en = '_' . $i;
+		
+		while (file_exists($p . $fn . $en . $ex)) {
+			$en = '_' . $i;
+			$i++;
+		}
+		
+		return $fn . $en . $ex;
 	} else {
 		return $fn . $ex;
 	}
