@@ -12,45 +12,63 @@
 class HTMLPurifier_AttrDef_CSS_URI extends HTMLPurifier_AttrDef_URI
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct(true); // always embedded
     }
 
-    public function validate($uri_string, $config, $context) {
+    /**
+     * @param string $uri_string
+     * @param HTMLPurifier_Config $config
+     * @param HTMLPurifier_Context $context
+     * @return bool|string
+     */
+    public function validate($uri_string, $config, $context)
+    {
         // parse the URI out of the string and then pass it onto
         // the parent object
 
         $uri_string = $this->parseCDATA($uri_string);
-        if (strpos($uri_string, 'url(') !== 0) return false;
+        if (strpos($uri_string, 'url(') !== 0) {
+            return false;
+        }
         $uri_string = substr($uri_string, 4);
         $new_length = strlen($uri_string) - 1;
-        if ($uri_string[$new_length] != ')') return false;
+        if ($uri_string[$new_length] != ')') {
+            return false;
+        }
         $uri = trim(substr($uri_string, 0, $new_length));
 
         if (!empty($uri) && ($uri[0] == "'" || $uri[0] == '"')) {
             $quote = $uri[0];
             $new_length = strlen($uri) - 1;
-            if ($uri[$new_length] !== $quote) return false;
+            if ($uri[$new_length] !== $quote) {
+                return false;
+            }
             $uri = substr($uri, 1, $new_length - 1);
         }
 
-        $keys   = array(  '(',   ')',   ',',   ' ',   '"',   "'");
-        $values = array('\\(', '\\)', '\\,', '\\ ', '\\"', "\\'");
-        $uri = str_replace($values, $keys, $uri);
+        $uri = $this->expandCSSEscape($uri);
 
         $result = parent::validate($uri, $config, $context);
 
-        if ($result === false) return false;
+        if ($result === false) {
+            return false;
+        }
 
-        // escape necessary characters according to CSS spec
-        // except for the comma, none of these should appear in the
-        // URI at all
-        $result = str_replace($keys, $values, $result);
+        // extra sanity check; should have been done by URI
+        $result = str_replace(array('"', "\\", "\n", "\x0c", "\r"), "", $result);
 
-        return "url($result)";
+        // suspicious characters are ()'; we're going to percent encode
+        // them for safety.
+        $result = str_replace(array('(', ')', "'"), array('%28', '%29', '%27'), $result);
 
+        // there's an extra bug where ampersands lose their escaping on
+        // an innerHTML cycle, so a very unlucky query parameter could
+        // then change the meaning of the URL.  Unfortunately, there's
+        // not much we can do about that...
+        return "url(\"$result\")";
     }
-
 }
 
 // vim: et sw=4 sts=4

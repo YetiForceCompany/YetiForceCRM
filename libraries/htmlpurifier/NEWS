@@ -9,6 +9,258 @@ NEWS ( CHANGELOG and HISTORY )                                     HTMLPurifier
     . Internal change
 ==========================
 
+4.7.0, released 2015-08-04
+# opacity is now considered a "tricky" CSS property rather than a
+  proprietary one.
+! %AutoFormat.RemoveEmpty.Predicate for specifying exactly when
+  an element should be considered "empty" (maybe preserve if it
+  has attributes), and modify iframe support so that the iframe
+  is removed if it is missing a src attribute.  Thanks meeva for
+  reporting.
+- Don't truncate upon encountering </div> when using DOMLex.  Thanks
+  Myrto Christina for finally convincing me to fix this.
+- Update YouTube filter for new code.
+- Fix parsing of rgb() values with spaces in them for 'border'
+  attribute.
+- Don't remove foo="" attributes if foo is a boolean attribute.  Thanks
+  valME for reporting.
+
+4.6.0, released 2013-11-30
+# Secure URI munge hashing algorithm has changed to hash_hmac("sha256", $url, $secret).
+  Please update any verification scripts you may have.
+# URI parsing algorithm was made more strict, so only prefixes which
+  looks like schemes will actually be schemes.  Thanks
+  Michael Gusev <mgusev@sugarcrm.com> for fixing.
+# %Core.EscapeInvalidChildren is no longer supported, and no longer does
+  anything.
+! New directive %Core.AllowHostnameUnderscore which allows underscores
+  in hostnames.
+- Eliminate quadratic behavior in DOMLex by using a proper queue.
+  Thanks Ole Laursen for noticing this.
+- Rewritten MakeWellFormed/FixNesting implementation eliminates quadratic
+  behavior in the rest of the purificaiton pipeline.  Thanks Chedburn
+  Networks for sponsoring this work.
+- Made Linkify URL parser a bit less permissive, so that non-breaking
+  spaces and commas are not included as part of URL.  Thanks nAS for fixing.
+- Fix some bad interactions with %HTML.Allowed and injectors.  Thanks
+  David Hirtz for reporting.
+- Fix infinite loop in DirectLex. Thanks Ashar Javed (@soaj1664ashar)
+  for reporting.
+
+4.5.0, released 2013-02-17
+# Fix bug where stacked attribute transforms clobber each other;
+  this also means it's no longer possible to override attribute
+  transforms in later modules.  No internal code was using this
+  but this may break some clients.
+# We now use SHA-1 to identify cached definitions, instead of MD5.
+! Support display:inline-block
+! Support for more white-space CSS values.
+! Permit underscores in font families
+! Support for page-break-* CSS3 properties when proprietary properties
+  are enabled.
+! New directive %Core.DisableExcludes; can be set to 'true' to turn off
+  SGML excludes checking.  If HTML Purifier is removing too much text
+  and you don't care about full standards compliance, try setting this to
+  'true'.
+- Use prepend for SPL autoloading on PHP 5.3 and later.
+- Fix bug with nofollow transform when pre-existing rel exists.
+- Fix bug where background:url() always gets lower-cased
+  (but not background-image:url())
+- Fix bug with non lower-case color names in HTML
+- Fix bug where data URI validation doesn't remove temporary files.
+  Thanks Javier Marín Ros <javiermarinros@gmail.com> for reporting.
+- Don't remove certain empty tags on RemoveEmpty.
+
+4.4.0, released 2012-01-18
+# Removed PEARSax3 handler.
+# URI.Munge now munges URIs inside the same host that go from https
+  to http.  Reported by Neike Taika-Tessaro.
+# Core.EscapeNonASCIICharacters now always transforms entities to
+  entities, even if target encoding is UTF-8.
+# Tighten up selector validation in ExtractStyleBlocks.
+  Non-syntactically valid selectors are now rejected, along with
+  some of the more obscure ones such as attribute selectors, the
+  :lang pseudoselector, and anything not in CSS2.1.  Furthermore,
+  ID and class selectors now work properly with the relevant
+  configuration attributes.  Also, mute errors when parsing CSS
+  with CSS Tidy.  Reported by Mario Heiderich and Norman Hippert.
+! Added support for 'scope' attribute on tables.
+! Added %HTML.TargetBlank, which adds target="blank" to all outgoing links.
+! Properly handle sub-lists directly nested inside of lists in
+  a standards compliant way, by moving them into the preceding <li>
+! Added %HTML.AllowedComments and %HTML.AllowedCommentsRegexp for
+  limited allowed comments in untrusted situations.
+! Implement iframes, and allow them to be used in untrusted mode with
+  %HTML.SafeIframe and %URI.SafeIframeRegexp.  Thanks Bradley M. Froehle
+  <brad.froehle@gmail.com> for submitting an initial version of the patch.
+! The Forms module now works properly for transitional doctypes.
+! Added support for internationalized domain names. You need the PEAR
+  Net_IDNA2 module to be in your path; if it is installed, ensure the
+  class can be loaded and then set %Core.EnableIDNA to true.
+- Color keywords are now case insensitive.  Thanks Yzmir Ramirez
+  <yramirez-htmlpurifier@adicio.com> for reporting.
+- Explicitly initialize anonModule variable to null.
+- Do not duplicate nofollow if already present.  Thanks 178
+  for reporting.
+- Do not add nofollow if hostname matches our current host.  Thanks 178
+  for reporting, and Neike Taika-Tessaro for helping diagnose.
+- Do not unset parser variable; this fixes intermittent serialization
+  problems.  Thanks Neike Taika-Tessaro for reporting, bill
+  <10010tiger@gmail.com> for diagnosing.
+- Fix iconv truncation bug, where non-UTF-8 target encodings see
+  output truncated after around 8000 characters.  Thanks Jörg Ludwig
+  <joerg.ludwig@iserv.eu> for reporting.
+- Fix broken table content model for XHTML1.1 (and also earlier
+  versions, although the W3C validator doesn't catch those violations).
+  Thanks GlitchMr <glitch.mr@gmail.com> for reporting.
+
+4.3.0, released 2011-03-27
+# Fixed broken caching of customized raw definitions, but requires an
+  API change.  The old API still works but will emit a warning,
+  see http://htmlpurifier.org/docs/enduser-customize.html#optimized
+  for how to upgrade your code.
+# Protect against Internet Explorer innerHTML behavior by specially
+  treating attributes with backticks but no angled brackets, quotes or
+  spaces.  This constitutes a slight semantic change, which can be
+  reverted using %Output.FixInnerHTML.  Reported by Neike Taika-Tessaro
+  and Mario Heiderich.
+# Protect against cssText/innerHTML by restricting allowed characters
+  used in fonts further than mandated by the specification and encoding
+  some extra special characters in URLs.  Reported by Neike
+  Taika-Tessaro and Mario Heiderich.
+! Added %HTML.Nofollow to add rel="nofollow" to external links.
+! More types of SPL autoloaders allowed on later versions of PHP.
+! Implementations for position, top, left, right, bottom, z-index
+  when %CSS.Trusted is on.
+! Add %Cache.SerializerPermissions option for custom serializer
+  directory/file permissions
+! Fix longstanding bug in Flash support for non-IE browsers, and
+  allow more wmode attributes.
+! Add %CSS.AllowedFonts to restrict permissible font names.
+- Switch to an iterative traversal of the DOM, which prevents us
+  from running out of stack space for deeply nested documents.
+  Thanks Maxim Krizhanovsky for contributing a patch.
+- Make removal of conditional IE comments ungreedy; thanks Bernd
+  for reporting.
+- Escape CDATA before removing Internet Explorer comments.
+- Fix removal of id attributes under certain conditions by ensuring
+  armor attributes are preserved when recreating tags.
+- Check if schema.ser was corrupted.
+- Check if zend.ze1_compatibility_mode is on, and error out if it is.
+  This safety check is only done for HTMLPurifier.auto.php; if you
+  are using standalone or the specialized includes files, you're
+  expected to know what you're doing.
+- Stop repeatedly writing the cache file after I'm done customizing a
+  raw definition.  Reported by ajh.
+- Switch to using require_once in the Bootstrap to work around bad
+  interaction with Zend Debugger and APC.  Reported by Antonio Parraga.
+- Fix URI handling when hostname is missing but scheme is present.
+  Reported by Neike Taika-Tessaro.
+- Fix missing numeric entities on DirectLex; thanks Neike Taika-Tessaro
+  for reporting.
+- Fix harmless notice from indexing into empty string.  Thanks Matthijs
+  Kooijman <matthijs@stdin.nl> for reporting.
+- Don't autoclose no parent elements are able to support the element
+  that triggered the autoclose.  In particular fixes strange behavior
+  of stray <li> tags.  Thanks pkuliga@gmail.com for reporting and
+  Neike Taika-Tessaro <pinkgothic@gmail.com> for debugging assistance.
+
+4.2.0, released 2010-09-15
+! Added %Core.RemoveProcessingInstructions, which lets you remove
+  <? ... ?> statements.
+! Added %URI.DisableResources functionality; the directive originally
+  did nothing.  Thanks David Rothstein for reporting.
+! Add documentation about configuration directive types.
+! Add %CSS.ForbiddenProperties configuration directive.
+! Add %HTML.FlashAllowFullScreen to permit embedded Flash objects
+  to utilize full-screen mode.
+! Add optional support for the <code>file</code> URI scheme, enable
+  by explicitly setting %URI.AllowedSchemes.
+! Add %Core.NormalizeNewlines options to allow turning off newline
+  normalization.
+- Fix improper handling of Internet Explorer conditional comments
+  by parser.  Thanks zmonteca for reporting.
+- Fix missing attributes bug when running on Mac Snow Leopard and APC.
+  Thanks sidepodcast for the fix.
+- Warn if an element is allowed, but an attribute it requires is
+  not allowed.
+
+4.1.1, released 2010-05-31
+- Fix undefined index warnings in maintenance scripts.
+- Fix bug in DirectLex for parsing elements with a single attribute
+  with entities.
+- Rewrite CSS output logic for font-family and url().  Thanks Mario
+  Heiderich <mario.heiderich@googlemail.com> for reporting and Takeshi
+  Terada <t-terada@violet.plala.or.jp> for suggesting the fix.
+- Emit an error for CollectErrors if a body is extracted
+- Fix bug where in background-position for center keyword handling.
+- Fix infinite loop when a wrapper element is inserted in a context
+  where it's not allowed.  Thanks Lars <lars@renoz.dk> for reporting.
+- Remove +x bit and shebang from index.php; only supported mode is to
+  explicitly call it with php.
+- Make test script less chatty when log_errors is on.
+
+4.1.0, released 2010-04-26
+! Support proprietary height attribute on table element
+! Support YouTube slideshows that contain /cp/ in their URL.
+! Support for data: URI scheme; not enabled by default, add it using
+  %URI.AllowedSchemes
+! Support flashvars when using %HTML.SafeObject and %HTML.SafeEmbed.
+! Support for Internet Explorer compatibility with %HTML.SafeObject
+  using %Output.FlashCompat.
+! Handle <ol><ol> properly, by inserting the necessary <li> tag.
+- Always quote the insides of url(...) in CSS.
+
+4.0.0, released 2009-07-07
+# APIs for ConfigSchema subsystem have substantially changed. See
+  docs/dev-config-bcbreaks.txt for details; in essence, anything that
+  had both namespace and directive now have a single unified key.
+# Some configuration directives were renamed, specifically:
+    %AutoFormatParam.PurifierLinkifyDocURL -> %AutoFormat.PurifierLinkify.DocURL
+    %FilterParam.ExtractStyleBlocksEscaping -> %Filter.ExtractStyleBlocks.Escaping
+    %FilterParam.ExtractStyleBlocksScope -> %Filter.ExtractStyleBlocks.Scope
+    %FilterParam.ExtractStyleBlocksTidyImpl -> %Filter.ExtractStyleBlocks.TidyImpl
+  As usual, the old directive names will still work, but will throw E_NOTICE
+  errors.
+# The allowed values for class have been relaxed to allow all of CDATA for
+  doctypes that are not XHTML 1.1 or XHTML 2.0.  For old behavior, set
+  %Attr.ClassUseCDATA to false.
+# Instead of appending the content model to an old content model, a blank
+  element will replace the old content model.  You can use #SUPER to get
+  the old content model.
+! More robust support for name="" and id=""
+! HTMLPurifier_Config::inherit($config) allows you to inherit one
+  configuration, and have changes to that configuration be propagated
+  to all of its children.
+! Implement %HTML.Attr.Name.UseCDATA, which relaxes validation rules on
+  the name attribute when set. Use with care. Thanks Ian Cook for
+  sponsoring.
+! Implement %AutoFormat.RemoveEmpty.RemoveNbsp, which removes empty
+  tags that contain non-breaking spaces as well other whitespace. You
+  can also modify which tags should have &nbsp; maintained with
+  %AutoFormat.RemoveEmpty.RemoveNbsp.Exceptions.
+! Implement %Attr.AllowedClasses, which allows administrators to restrict
+  classes users can use to a specified finite set of classes, and
+  %Attr.ForbiddenClasses, which is the logical inverse.
+! You can now maintain your own configuration schema directories by
+  creating a config-schema.php file or passing an extra argument. Check
+  docs/dev-config-schema.html for more details.
+! Added HTMLPurifier_Config->serialize() method, which lets you save away
+  your configuration in a compact serial file, which you can unserialize
+  and use directly without having to go through the overhead of setup.
+- Fix bug where URIDefinition would not get cleared if it's directives got
+  changed.
+- Fix fatal error in HTMLPurifier_Encoder on certain platforms (probably NetBSD 5.0)
+- Fix bug in Linkify autoformatter involving <a><span>http://foo</span></a>
+- Make %URI.Munge not apply to links that have the same host as your host.
+- Prevent stray </body> tag from truncating output, if a second </body>
+  is present.
+. Created script maintenance/rename-config.php for renaming a configuration
+  directive while maintaining its alias.  This script does not change source code.
+. Implement namespace locking for definition construction, to prevent
+  bugs where a directive is used for definition construction but is not
+  used to construct the cache hash.
+
 3.3.0, released 2009-02-16
 ! Implement CSS property 'overflow' when %CSS.AllowTricky is true.
 ! Implement generic property list classess
