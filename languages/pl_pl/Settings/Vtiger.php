@@ -66,7 +66,7 @@ $languageStrings = [
 	'LBL_FIELDFORMULAS' => 'Operacje na polach', //Duplicated key-value pair
 	'LBL_FIELDS_INFO_IS_EMPTY' => 'Brak informacji o polu',
 	'LBL_FROM_EMAIL' => 'Mail widoczny w "Od"',
-	'LBL_GROUP_DESCRIPTION' => 'Twórz i zarządzaj grupami które możesz powiązać z innymi grupami, rolami, podrolami oraz użytkownikami.',
+	'LBL_GROUP_DESCRIPTION' => 'Twórz i zarządzaj grupami, które możesz powiązać z innymi grupami, rolami, podrolami oraz użytkownikami.',
 	'LBL_HELPDESK_SUPPORT_EMAILID' => 'Helpdesk email',
 	'LBL_HELPDESK_SUPPORT_NAME' => 'Wyświetlana nazwa helpdesk-u',
 	'LBL_IMAGE_CORRUPTED' => 'Wykryto wirusa lub przesłano uszkodzony plik',
@@ -227,7 +227,7 @@ $languageStrings = [
 	'LBL_API_ADDRESS_DESCRIPTION' => 'Moduł umożliwiający wyszukiwanie/podpowiadanie adresu podczas tworzenia i edycji danych w systemie.',
 	'LBL_ACTIVITY_TYPES' => 'Filtry kalendarza',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Zarządzanie dostępnymi filtrami zdarzeń w kalendarzu.',
-	'LBL_BRUTEFORCE' => 'Hasła - ataki siłowe',
+	'LBL_BRUTEFORCE' => 'Hasła - ataki brute force',
 	'LBL_BRUTEFORCE_DESCRIPTION' => 'Ustaw po jakiej ilości błędnych prób logowania i na jak długo numer IP ma zostać zablokowany.',
 	'LBL_WIDGETS_DESCRIPTION' => ' ',
 	'LBL_CREDITS_DESCRIPTION' => ' ',
@@ -325,7 +325,7 @@ $languageStrings = [
 	//end history
 	//config editor
 	'LBL_POPUP_TYPE' => 'Wygląd okna popup z listą rekordów. 1 - podstawowe, 2 - rozszerzone',
-	'LBL_SHOWING_BREADCRUMBS' => 'Pokazuwanie menu okruszkowego',
+	'LBL_SHOWING_BREADCRUMBS' => 'Pokazywanie menu okruszkowego',
 	'LBL_SHOW_RESPONSE_TIME' => 'Informacja o czasie wygenerowania strony',
 	'LBL_TITLE_MAX_LENGHT' => 'Maksymalna długośc tytułu',
 	'LBL_MINIMUM_CRON_FREQUENCY' => 'Minimalna częstotliwość crona [min]',
@@ -379,5 +379,5 @@ $jsLanguageStrings = [
 	'LBL_PREFIX_IN_USE' => 'Prefiks w użyciu',
 	'LBL_WRONG_IMAGE_TYPE' => 'nie wspierany format pliku',
 	'JS_COLUMN_ADDED' => 'Pole dodane',
-	'JS_COLUMN_EXIST' => 'Bład przy dodaniu pola',
+	'JS_COLUMN_EXIST' => 'Błąd przy dodaniu pola',
 ];
