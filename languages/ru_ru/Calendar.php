@@ -159,6 +159,7 @@ $languageStrings = [
 	'LBL_RELATED_TO' => 'Связан с',
 	'LBL_NO_AVAILABLE_ACTIONS' => 'Нет доступных действий',
 	'LBL_INVITE_USER_BLOCK' => 'Пригласить',
+	'LBL_CALENDAR_FILTERS' => 'Filters',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_EVENT_TASK' => '+ Событие | Задача',
