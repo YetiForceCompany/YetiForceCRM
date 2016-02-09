@@ -734,7 +734,7 @@ var app = {
 			minutestep: 5,
 			ampmSubmit: false,
 		};
-		$('.clockPicker').clockpicker(params);
+		$('.clockPicker').closest('.time').clockpicker(params);
 	},
 	/**
 	 * Function which will register time fields
