@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'CustomerPortal' => 'Portal klienta',
-	'LBL_PORTAL_DESCRIPTION' => 'Ustaw uprawnienia do użytkowników portalu',
+	'LBL_PORTAL_DESCRIPTION' => 'Ustaw uprawnienia dla użytkowników portalu',
 
 	'LBL_PRIVILEGES' => 'Uprawnienia',
 	'LBL_DEFAULT_ASSIGNEE' => 'Powiązany użytkownik',
