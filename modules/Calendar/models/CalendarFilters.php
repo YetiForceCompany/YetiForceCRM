@@ -29,7 +29,10 @@ class Calendar_CalendarFilters_Model extends Vtiger_Base_Model
 				$name = $fileinfo->getFilename();
 				$name = rtrim($name, '.php');
 				$filterClassName = Vtiger_Loader::getComponentClassName('CalendarFilter', $name, 'Calendar');
-				$this->filters[] = new $filterClassName();
+				$filterInstance = new $filterClassName();
+				if (method_exists($filterInstance, 'checkPermissions') && $filterInstance->checkPermissions()) {
+					$this->filters[] = $filterInstance;
+				}
 			}
 		}
 	}
