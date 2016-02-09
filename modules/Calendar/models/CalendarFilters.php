@@ -9,7 +9,7 @@
 class Calendar_CalendarFilters_Model extends Vtiger_Base_Model
 {
 
-	protected $filterPath = 'modules/Calendar/calendarFilters';
+	protected $filterPath = 'modules/Calendar/calendarfilters';
 	protected $filters = false;
 
 	public static function getCleanInstance()
