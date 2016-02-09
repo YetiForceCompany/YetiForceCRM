@@ -20,6 +20,9 @@ class Calendar_CalendarFilters_Model extends Vtiger_Base_Model
 
 	public function __construct()
 	{
+		if (!is_dir($this->filterPath)) {
+			return false;
+		}
 		$dir = new DirectoryIterator($this->filterPath);
 		foreach ($dir as $fileinfo) {
 			if (!$fileinfo->isDot()) {
@@ -33,7 +36,7 @@ class Calendar_CalendarFilters_Model extends Vtiger_Base_Model
 
 	public function isActive()
 	{
-		return count($this->filters);
+		return $this->filters ? count($this->filters) : false;
 	}
 
 	public function getFilters()
