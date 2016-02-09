@@ -30,8 +30,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		if (method_exists($parentModuleModel, $functionName)) {
 			$query = $parentModuleModel->$functionName($recordModel, $relatedModuleModel);
 		} else {
-			$result = $focus->$functionName($recordModel->getId(), $parentModuleModel->getId(), $relatedModuleModel->getId(), $actions);
-			$query = $result['query'];
+			$query = $parentModuleModel->getRelationQuery($recordModel->getId(), $functionName, $relatedModuleModel, $this, $relationListView_Model);
 		}
 
 		//modify query if any module has summary fields, those fields we are displayed in related list of that module

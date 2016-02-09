@@ -1176,30 +1176,51 @@ class CRMEntity
 	}
 
 	/** Function to unlink an entity with given Id from another entity */
-	function unlinkRelationship($id, $return_module, $return_id)
+	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		global $log, $currentModule;
+		switch ($relatedName) {
+			case 'get_many_to_many':
+				$this->deleteRelatedM2M($currentModule, $id, $returnModule, $returnId);
+				break;
+			case 'get_dependents_list':
+				$this->deleteRelatedDependent($currentModule, $id, $returnModule, $returnId);
+				break;
+			case 'get_related_list':
+				$this->deleteRelatedFromDB($currentModule, $id, $returnModule, $returnId);
+				break;
+			default:
+				$this->deleteRelatedDependent($currentModule, $id, $returnModule, $returnId);
+				$this->deleteRelatedFromDB($currentModule, $id, $returnModule, $returnId);
+				break;
+		}
+	}
 
-		$where = '(crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
-		$params = [$id, $return_module, $return_id, $id, $return_module, $return_id];
-		$this->db->delete('vtiger_crmentityrel', $where, $params);
-
-		$fieldRes = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
-			SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule=?)', array($currentModule, $return_module));
-		$numOfFields = $this->db->num_rows($fieldRes);
-		for ($i = 0; $i < $numOfFields; $i++) {
-			$tabId = $this->db->query_result($fieldRes, $i, 'tabid');
-			$tableName = $this->db->query_result($fieldRes, $i, 'tablename');
-			$columnName = $this->db->query_result($fieldRes, $i, 'columnname');
-
-			$relatedModule = vtlib_getModuleNameById($tabId);
-			$focusObj = CRMEntity::getInstance($relatedModule);
-
+	function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
+	{
+		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule=?)', [$module, $withModule]);
+		$numOfFields = $this->db->getRowCount($fieldRes);
+		while ($row = $this->db->getRow($fieldRes)) {
+			$focusObj = CRMEntity::getInstance($row['name']);
+			$columnName = $row['columnname'];
 			$columns = [$columnName => null];
 			$where = "$columnName = ? AND $focusObj->table_index = ?";
-			$params = [$return_id, $id];
-			$this->db->update($tableName, $columns, $where, $params);
+			$this->db->update($row['tablename'], $columns, $where, [$withCrmid, $crmid]);
 		}
+	}
+
+	function deleteRelatedM2M($module, $crmid, $withModule, $withCrmid)
+	{
+		$db = PearDatabase::getInstance();
+		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
+		$db->delete($referenceInfo['table'], $referenceInfo['base'] . ' = ? AND ' . $referenceInfo['rel'] . ' = ?', [$withCrmid, $crmid]);
+	}
+
+	function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
+	{
+		$where = '(crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
+		$params = [$crmid, $withModule, $withCrmid, $crmid, $withModule, $withCrmid];
+		$this->db->delete('vtiger_crmentityrel', $where, $params);
 	}
 
 	/** Function to restore a deleted record of specified module with given crmid
@@ -1592,19 +1613,51 @@ class CRMEntity
 	 * @param Integer This module record number
 	 * @param String Related module name
 	 * @param mixed Integer or Array of related module record number
+	 * @param String function name
 	 */
-	function save_related_module($module, $crmid, $withModule, $withCrmid)
+	function save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName = false)
+	{
+		if (!is_array($withCrmid))
+			$withCrmid = [$withCrmid];
+		switch ($relatedName) {
+			case 'get_many_to_many':
+				$this->saveRelatedM2M($module, $crmid, $withModule, $withCrmid);
+				break;
+			case 'get_dependents_list':
+				break;
+			default:
+				$this->saveRelatedToDB($module, $crmid, $withModule, $withCrmid);
+				break;
+		}
+	}
+
+	function saveRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
 		$db = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
 
-		if (!is_array($withCrmid))
-			$withCrmid = [$withCrmid];
+		foreach ($withCrmid as $relcrmid) {
+			$check = $db->pquery('SELECT 1 FROM `' . $referenceInfo['table'] . '` WHERE ' . $referenceInfo['base'] . ' = ? AND ' . $referenceInfo['rel'] . ' = ?', [$relcrmid, $crmid]);
+			// Relation already exists? No need to add again
+			if ($check && $db->getRowCount($check))
+				continue;
+			$db->insert($referenceInfo['table'], [
+				$referenceInfo['base'] => $relcrmid,
+				$referenceInfo['rel'] => $crmid
+			]);
+		}
+	}
+
+	function saveRelatedToDB($module, $crmid, $withModule, $withCrmid)
+	{
+		$db = PearDatabase::getInstance();
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		foreach ($withCrmid as $relcrmid) {
 			if ($withModule == 'Documents') {
 				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_senotesrel WHERE crmid = ? AND notesid = ?', [$crmid, $relcrmid]);
 				// Relation already exists? No need to add again
-				if ($checkpresence && $db->num_rows($checkpresence))
+				if ($checkpresence && $db->getRowCount($checkpresence))
 					continue;
 
 				$db->insert('vtiger_senotesrel', [
@@ -1615,7 +1668,7 @@ class CRMEntity
 				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?', [$crmid, $module, $relcrmid, $withModule]
 				);
 				// Relation already exists? No need to add again
-				if ($checkpresence && $db->num_rows($checkpresence))
+				if ($checkpresence && $db->getRowCount($checkpresence))
 					continue;
 
 				$db->insert('vtiger_crmentityrel', [

@@ -556,7 +556,7 @@ class Project extends CRMEntity {
 	}
 
 	/** Function to unlink an entity with given Id from another entity */
-	function unlinkRelationship($id, $return_module, $return_id) {
+	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false) {
 		global $log, $currentModule;
 
 		if($return_module == 'Accounts') {
@@ -569,24 +569,27 @@ class Project extends CRMEntity {
 			$entityIds = $return_id;
 			$return_modules = "'".$return_module."'";
 		}
+		if ($relatedName == 'get_many_to_many') {
+			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
+		} else {
+			$query = 'DELETE FROM vtiger_crmentityrel WHERE (relcrmid=' . $id . ' AND module IN (' . $return_modules . ') AND crmid IN (' . $entityIds . ')) OR (crmid=' . $id . ' AND relmodule IN (' . $return_modules . ') AND relcrmid IN (' . $entityIds . '))';
+			$this->db->pquery($query, array());
 
-		$query = 'DELETE FROM vtiger_crmentityrel WHERE (relcrmid='.$id.' AND module IN ('.$return_modules.') AND crmid IN ('.$entityIds.')) OR (crmid='.$id.' AND relmodule IN ('.$return_modules.') AND relcrmid IN ('.$entityIds.'))';
-		$this->db->pquery($query, array());
+			$sql = 'SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule IN (' . $return_modules . '))';
+			$fieldRes = $this->db->pquery($sql, array($currentModule));
+			$numOfFields = $this->db->num_rows($fieldRes);
 
-		$sql = 'SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule IN ('.$return_modules.'))';
-		$fieldRes = $this->db->pquery($sql, array($currentModule));
-		$numOfFields = $this->db->num_rows($fieldRes);
+			for ($i = 0; $i < $numOfFields; $i++) {
+				$tabId = $this->db->query_result($fieldRes, $i, 'tabid');
+				$tableName = $this->db->query_result($fieldRes, $i, 'tablename');
+				$columnName = $this->db->query_result($fieldRes, $i, 'columnname');
+				$relatedModule = vtlib_getModuleNameById($tabId);
+				$focusObj = CRMEntity::getInstance($relatedModule);
 
-		for ($i = 0; $i < $numOfFields; $i++) {
-			$tabId = $this->db->query_result($fieldRes, $i, 'tabid');
-			$tableName = $this->db->query_result($fieldRes, $i, 'tablename');
-			$columnName = $this->db->query_result($fieldRes, $i, 'columnname');
-			$relatedModule = vtlib_getModuleNameById($tabId);
-			$focusObj = CRMEntity::getInstance($relatedModule);
-
-			$updateQuery = "UPDATE $tableName SET $columnName=? WHERE $columnName IN ($entityIds) AND $focusObj->table_index=?";
-			$updateParams = array(null, $id);
-			$this->db->pquery($updateQuery, $updateParams);
+				$updateQuery = "UPDATE $tableName SET $columnName=? WHERE $columnName IN ($entityIds) AND $focusObj->table_index=?";
+				$updateParams = array(null, $id);
+				$this->db->pquery($updateQuery, $updateParams);
+			}
 		}
 	}
 

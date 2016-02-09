@@ -123,13 +123,15 @@ class HelpDesk extends CRMEntity
 		}
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmid)
+	function save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName = false)
 	{
-		parent::save_related_module($module, $crmid, $with_module, $with_crmid);
 		if ($with_module == 'ServiceContracts') {
+			parent::save_related_module($module, $crmid, $with_module, $with_crmid);
 			$serviceContract = CRMEntity::getInstance("ServiceContracts");
 			$serviceContract->updateHelpDeskRelatedTo($with_crmid, $crmid);
 			$serviceContract->updateServiceContractState($with_crmid);
+		} else {
+			parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
 		}
 	}
 
@@ -490,7 +492,7 @@ class HelpDesk extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id)
+	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		$log = vglobal('log');
 		if (empty($return_module) || empty($return_id))
@@ -509,8 +511,10 @@ class HelpDesk extends CRMEntity
 		} elseif ($return_module == 'Products') {
 			$sql = 'UPDATE vtiger_troubletickets SET product_id=? WHERE ticketid=?';
 			$this->db->pquery($sql, array(null, $id));
-		} else {
+		} elseif ($return_module == 'ServiceContracts' && $relatedName != 'get_many_to_many') {
 			parent::unlinkRelationship($id, $return_module, $return_id);
+		} else {
+			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}
 	}
 

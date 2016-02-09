@@ -239,7 +239,7 @@ class Competition extends Vtiger_CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $returnModule, $returnId)
+	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		$log = LoggerManager::getInstance();
 		if (empty($returnModule) || empty($returnId))
@@ -247,11 +247,11 @@ class Competition extends Vtiger_CRMEntity
 		if ($returnModule == 'Campaigns') {
 			$this->db->delete('vtiger_campaign_records', 'crmid=? AND campaignid=?', [$id, $returnId]);
 		} else {
-			parent::unlinkRelationship($id, $returnModule, $returnId);
+			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmids)
+	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -265,7 +265,7 @@ class Competition extends Vtiger_CRMEntity
 					'campaignrelstatusid' => 0
 				]);
 			} else {
-				parent::save_related_module($module, $crmid, $with_module, $with_crmid);
+				parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
 			}
 		}
 	}
