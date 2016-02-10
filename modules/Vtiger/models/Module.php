@@ -506,6 +506,19 @@ class Vtiger_Module_Model extends Vtiger_Module
 		return $fieldList;
 	}
 
+	public function getFieldsByDisplayType($type)
+	{
+		$fields = $this->getFields();
+		$fieldList = [];
+		foreach ($fields as $field) {
+			$displayType = $field->get('displaytype');
+			if ($displayType == $type) {
+				$fieldList[$field->getName()] = $field;
+			}
+		}
+		return $fieldList;
+	}
+
 	/**
 	 * Function returns all the relation models
 	 * @return <Array of Vtiger_Relation_Model>

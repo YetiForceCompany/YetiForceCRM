@@ -50,6 +50,9 @@
 				<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
 				<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
 			{/if}
+			{foreach from=$RECORD->getModule()->getFieldsByDisplayType(9) item=FIELD key=FIELD_NAME}
+				<input type="hidden" name="{$FIELD_NAME}" value="{$RECORD->get($FIELD_NAME)}" />
+			{/foreach}
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
 			{if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 			{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
