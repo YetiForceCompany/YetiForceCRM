@@ -525,7 +525,11 @@ class Accounts extends CRMEntity
 		$listview_header = [];
 		$listview_entries = [];
 
-		foreach ($this->list_fields_name as $fieldname => $colname) {
+		$listColumns = AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
+		if(empty($listColumns)){
+			$listColumns = $this->list_fields_name;
+		}
+		foreach ($listColumns as $fieldname => $colname) {
 			if (getFieldVisibilityPermission('Accounts', $current_user->id, $colname) == '0') {
 				$listview_header[] = getTranslatedString($fieldname);
 			}
@@ -535,7 +539,7 @@ class Accounts extends CRMEntity
 		// Get the accounts hierarchy from the top most account in the hierarch of the current account, including the current account
 		$encountered_accounts = array($id);
 		$accounts_list = $this->__getParentAccounts($id, $accounts_list, $encountered_accounts);
-
+		
 		$baseId = current(array_keys($accounts_list));
 		$accounts_list = [$baseId => $accounts_list[$baseId]];
 
@@ -566,19 +570,20 @@ class Accounts extends CRMEntity
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
 		$hasRecordViewAccess = (is_admin($currentUser)) || (isPermitted('Accounts', 'DetailView', $accountId) == 'yes');
-
-		foreach ($this->list_fields_name as $fieldname => $colname) {
+		$listColumns = AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
+		if(empty($listColumns)){
+			$listColumns = $this->list_fields_name;
+		}
+		foreach ($listColumns as $fieldname => $colname) {
 			// Permission to view account is restricted, avoid showing field values (except account name)
-			if (!$hasRecordViewAccess && $colname != 'accountname') {
-				$accountInfoData[] = '';
-			} else if (getFieldVisibilityPermission('Accounts', $currentUser->id, $colname) == '0') {
+			if (getFieldVisibilityPermission('Accounts', $currentUser->id, $colname) == '0') {
 				$data = $accountInfoBase[$colname];
 				if ($colname == 'accountname') {
 					if ($accountId != $id) {
 						if ($hasRecordViewAccess) {
 							$data = '<a href="index.php?module=Accounts&action=DetailView&record=' . $accountId . '">' . $data . '</a>';
 						} else {
-							$data = '<span>' . $data . '</span>';
+							$data = '<span>' . $data . '&nbsp;<span class="glyphicon glyphicon-warning-sign"></span></span>';
 						}
 					} else {
 						$data = '<strong>' . $data . '</strong>';
@@ -639,7 +644,11 @@ class Accounts extends CRMEntity
 				$depth = $parent_accounts[$parentid]['depth'] + 1;
 			}
 			$parent_account_info['depth'] = $depth;
-			foreach ($this->list_fields_name as $fieldname => $columnname) {
+			$listColumns = AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
+			if(empty($listColumns)){
+				$listColumns = $this->list_fields_name;
+			}
+			foreach ($listColumns as $fieldname => $columnname) {
 				if ($columnname == 'assigned_user_id') {
 					$parent_account_info[$columnname] = $row['user_name'];
 				} else {
@@ -676,13 +685,17 @@ class Accounts extends CRMEntity
 			' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid' .
 			' WHERE vtiger_crmentity.deleted = 0 and parentid = ?';
 		$res = $adb->pquery($query, [$id]);
+		$listColumns = AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
+		if(empty($listColumns)){
+			$listColumns = $this->list_fields_name;
+		}
 		if ($adb->getRowCount($res) > 0) {
 			$depth = $depthBase + 1;
 			while ($row = $adb->getRow($res)) {
 				$child_acc_id = $row['accountid'];
 				$child_account_info = [];
 				$child_account_info['depth'] = $depth;
-				foreach ($this->list_fields_name as $fieldname => $columnname) {
+				foreach ($listColumns as $fieldname => $columnname) {
 					if ($columnname == 'assigned_user_id') {
 						$child_account_info[$columnname] = $row['user_name'];
 					} else {
