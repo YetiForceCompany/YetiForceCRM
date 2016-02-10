@@ -11,7 +11,7 @@ require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 class VTUpdateRelatedFieldTask extends VTTask
 {
 
-	public $executeImmediately = true;
+	public $executeImmediately = false;
 
 	public function getFieldNames()
 	{
