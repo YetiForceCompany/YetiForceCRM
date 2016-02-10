@@ -326,7 +326,7 @@ jQuery.Class("Vtiger_Helper_Js", {
 			}
 		} else {
 			if ('Calendar' != type) {
-				newDate.setDate(dateInstance.getDate() + parseInt(modDay));
+				newDate.setTime(dateInstance.getTime() + parseInt(modDay) * 24 * 60 * 60 * 1000);
 			}
 		}
 		return app.getStringDate(newDate);

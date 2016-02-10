@@ -264,7 +264,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		var fifthDay = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, '+1', ' ');
 		var sixthDay = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, '+2', ' ');
 		var seventhDay = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, '+3', ' ');
-		var dateEnd = Vtiger_Helper_Js.convertToDateString(seventhDay, 'yyyy-mm-dd', '+3', ' ');
+		var dateEnd = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, '+4', ' ');
 		
 		var firstDayWeek = Vtiger_Helper_Js.getDay(firstDay);
 		var secondDayWeek = Vtiger_Helper_Js.getDay(secondDay);
@@ -417,7 +417,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			var dateStartEl = data.find('[name="date_start"]')
 			var startDay = dateStartEl.val();
 			var dateStartFormat = dateStartEl.data('date-format');
-			startDay = Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '+1', ' ');
+			startDay = app.getDateInVtigerFormat(dateStartFormat, new Date(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '+1', ' ')));
 			dateStartEl.val(startDay);
 			dateEnd.val(startDay);
 			data.find('.addedNearCalendarEvent').remove();
@@ -427,7 +427,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			var dateStartEl = data.find('[name="date_start"]')
 			var startDay = dateStartEl.val();
 			var dateStartFormat = dateStartEl.data('date-format');
-			startDay = Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '-1', ' ');
+			startDay = app.getDateInVtigerFormat(dateStartFormat, new Date(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '-1', ' ')));
 			dateStartEl.val(startDay);
 			dateEnd.val(startDay);
 			data.find('.addedNearCalendarEvent').remove();
