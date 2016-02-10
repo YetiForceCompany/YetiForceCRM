@@ -130,7 +130,6 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 						$fieldvalue = $block[$field]->get('fieldvalue');
 						if (empty($fieldvalue)) {
 							$block[$field]->set('fieldvalue', $value);
-							unset($sourceRelatedField[$field]);
 						}
 					}
 				}

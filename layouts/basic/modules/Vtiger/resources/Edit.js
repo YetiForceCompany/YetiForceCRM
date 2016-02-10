@@ -172,7 +172,9 @@ jQuery.Class("Vtiger_Edit_Js", {
 						$.each(mappingRelatedField, function (key, value) {
 							if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
 								var mapFieldElement = formElement.find('input[name="' + key + '"]');
-								if (mapFieldElement.length > 0) {
+								if (mapFieldElement.length == 0) {
+									$("<input type='hidden'/>").attr("name", key).attr("value", response[value[0]]).appendTo(formElement);
+								} else {
 									mapFieldElement.val(response[value[0]]);
 								}
 								var mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
@@ -1330,7 +1332,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var placeholder = fieldDisplay.attr('placeholderDisabled');
 		fieldDisplay.removeAttr('placeholderDisabled');
 		fieldDisplay.attr('placeholder', placeholder);
-		fieldValue.find('.referenceModulesList').attr('required','required');
+		fieldValue.find('.referenceModulesList').attr('required', 'required');
 	},
 	setDisabledFields: function (element) {
 		var fieldValue = element.closest('.fieldValue');
@@ -1405,7 +1407,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 				thisInstance.clearFieldValue(element);
 				thisInstance.setDisabledFields(element);
 			}
-			
+
 			var t = true;
 			if (element.closest('.tab-pane').length > 0) {
 				t = false;
@@ -1413,7 +1415,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 					t = true;
 				}
 			}
-			
+
 			var referenceLink = element.val();
 			if (t && referenceLink != '' && referenceLink != '0') {
 				activeSubProcess = true;

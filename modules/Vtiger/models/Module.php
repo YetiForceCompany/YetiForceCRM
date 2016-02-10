@@ -1892,6 +1892,21 @@ class Vtiger_Module_Model extends Vtiger_Module
 					}
 				}
 			}
+			$mappingRelatedField = $moduleModel->getRelationFieldByHierarchy($moduleName);
+			if (!empty($mappingRelatedField)) {
+				foreach ($mappingRelatedField as $relatedModules) {
+					foreach ($relatedModules as $relatedModule => $relatedFields) {
+						if ($relatedModule == $sourceModule) {
+							foreach ($relatedFields as $to => $from) {
+								$fieldValue = $recordModel->get($from[0]);
+								if (!empty($fieldValue)) {
+									$data[$to] = $fieldValue;
+								}
+							}
+						}
+					}
+				}
+			}
 			if ($relationField && $moduleName != $sourceModule) {
 				$data[$relationField] = $sourceRecord;
 			}
