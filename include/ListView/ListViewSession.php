@@ -134,9 +134,10 @@ class ListViewSession
 				$sorder = $instance->getSortOrderForFolder($folderId);
 				$tablename = getTableNameForField($currentModule, $order_by);
 				$tablename = (($tablename != '') ? ($tablename . ".") : '');
+
 				if (!empty($order_by)) {
 					$list_query .= ' ORDER BY ' . $tablename . $order_by . ' ' . $sorder;
-				} else {
+				} elseif (!empty($default_orderby)) {
 					$list_query .= ' ORDER BY ' . $default_orderby . '';
 				}
 			}
