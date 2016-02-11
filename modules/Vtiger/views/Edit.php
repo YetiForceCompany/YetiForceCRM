@@ -24,9 +24,13 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $record);
-		$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $record);
-		if (!$recordPermission || ($lockEdit && $request->get('isDuplicate') != 'true')) {
+		if (!empty($record)) {
+			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		} else {
+			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		}
+
+		if (!$recordModel->isEditable() && $recordModel->isViewable() && $request->get('isDuplicate') != 'true') {
 			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}

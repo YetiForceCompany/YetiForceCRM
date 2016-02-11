@@ -122,8 +122,6 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 			}
 
 			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $rawData);
-			$listViewRecordModels[$recordId]->lockEditView = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
-			$listViewRecordModels[$recordId]->isPermittedToEditView = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId);
 			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $listViewRecordModels[$recordId]);
 		}
 		return $listViewRecordModels;

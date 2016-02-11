@@ -35,12 +35,7 @@
 			</thead>
 			{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 				<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}' 
-					{if $RELATED_MODULE_NAME eq 'Calendar'}
-						{assign var=DETAILVIEWPERMITTED value=isPermitted($RELATED_MODULE->get('name'), 'DetailView', $RELATED_RECORD->getId())}
-						{if $DETAILVIEWPERMITTED eq 'yes'}
-							data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
-						{/if}
-					{else}
+					{if $RELATED_RECORD->isViewable()}
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 					{/if}>
 					{assign var=COUNT value=0}

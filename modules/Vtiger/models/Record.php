@@ -17,6 +17,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	protected $module = false;
 	protected $inventoryData = false;
+	protected $privileges = [];
 	public $summaryRowCount = 4;
 
 	/**
@@ -412,22 +413,62 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		return $matchingRecords;
 	}
 
-	/**
-	 * Function to get details for user have the permissions to do actions
-	 * @return <Boolean> - true/false
-	 */
-	public function isEditable()
+	public function isViewable()
 	{
-		return Users_Privileges_Model::isPermitted($this->getModuleName(), 'EditView', $this->getId());
+		if (!isset($this->privileges['isViewable'])) {
+			$this->privileges['isViewable'] = Users_Privileges_Model::isPermitted($this->getModuleName(), 'DetailView', $this->getId());
+		}
+		return $this->privileges['isViewable'];
 	}
 
-	/**
-	 * Function to get details for user have the permissions to do actions
-	 * @return <Boolean> - true/false
-	 */
+	public function isEditable()
+	{
+		if (!isset($this->privileges['isEditable'])) {
+			$moduleName = $this->getModuleName();
+			$recordId = $this->getId();
+
+			$isPermitted = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId);
+			$checkLockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
+			$focus = $this->getEntity();
+			if (!$focus) {
+				$focus = CRMEntity::getInstance($moduleName);
+				$this->setEntity($focus);
+			}
+			$lockFields = $focus->getLockFields();
+			if ($lockFields) {
+				$loadData = false;
+				foreach ($lockFields as $fieldName => $values) {
+					if (!$this->has($fieldName)) {
+						$loadData = true;
+					}
+				}
+				if ($loadData && $recordId) {
+					$focus->id = $recordId;
+					$focus->retrieve_entity_info($recordId, $moduleName);
+					$this->setEntity($focus);
+				}
+				foreach ($lockFields as $fieldName => $values) {
+					foreach ($values as $value) {
+						if ($this->get($fieldName) == $value) {
+							$isPermitted = false;
+						}
+						if (isset($focus->column_fields[$fieldName]) && $focus->column_fields[$fieldName] == $value) {
+							$isPermitted = false;
+						}
+					}
+				}
+			}
+			$this->privileges['isEditable'] = $isPermitted && $checkLockEdit == false;
+		}
+		return $this->privileges['isEditable'];
+	}
+
 	public function isDeletable()
 	{
-		return Users_Privileges_Model::isPermitted($this->getModuleName(), 'Delete', $this->getId());
+		if (!isset($this->privileges['isDeletable'])) {
+			$this->privileges['isDeletable'] = Users_Privileges_Model::isPermitted($this->getModuleName(), 'Delete', $this->getId());
+		}
+		return $this->privileges['isDeletable'];
 	}
 
 	/**

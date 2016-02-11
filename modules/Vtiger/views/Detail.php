@@ -514,13 +514,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	function isAjaxEnabled($recordModel)
 	{
-		$record = $recordModel->getId();
-		$moduleName = $recordModel->getModuleName();
-		$recordPermissionToEditView = Users_Privileges_Model::checkLockEdit($moduleName, $record);
-		if (!$recordPermissionToEditView)
-			return $recordModel->isEditable();
-		else
-			return false;
+		return $recordModel->isEditable();
 	}
 
 	/**
@@ -639,7 +633,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
 
-		
+
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
@@ -690,7 +684,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
 		$relationModel = $relationListView->getRelationModel();
-		
+
 		$header = $relationListView->getTreeHeaders();
 		$entries = $relationListView->getTreeEntries();
 

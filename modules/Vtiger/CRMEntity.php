@@ -10,22 +10,22 @@
 
 class Vtiger_CRMEntity extends CRMEntity {
 	var $db, $log; // Used in class functions of CRMEntity
-	var $column_fields = Array();
+	var $column_fields = [];
 
 	/** Indicator if this is a custom module or standard module */
 	var $IsCustomModule = true;
 
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	var $sortby_fields = Array();
+	var $sortby_fields = [];
 
 	// Required Information for enabling Import feature
 	var $required_fields = Array ('assigned_user_id'=>1);
 
 	// Callback function list during Importing
 	var $special_functions = Array('set_import_assigned_user');
-
+	
 	function __construct() {
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$this->column_fields = getColumnFields(get_class($this));
 		$this->db = PearDatabase::getInstance();
 		$this->log = $log;

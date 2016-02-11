@@ -232,7 +232,7 @@ class CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 
 		if ($fileid != '') {
 			$this->id = $fileid;
@@ -353,7 +353,7 @@ class CRMEntity
 	 */
 	function insertIntoEntityTable($table_name, $module, $fileid = '')
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		global $current_user, $app_strings;
 		$log->info("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
 		$adb = PearDatabase::getInstance();
@@ -622,7 +622,7 @@ class CRMEntity
 	 */
 	function getOldFileName($notesid)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->info("in getOldFileName  " . $notesid);
 		$adb = PearDatabase::getInstance();
 		$query1 = "select * from vtiger_seattachmentsrel where crmid=?";
@@ -655,7 +655,7 @@ class CRMEntity
 	function retrieve_entity_info($record, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$app_strings = vglobal('app_strings');
 
 		if (!isset($record)) {
@@ -788,7 +788,7 @@ class CRMEntity
 	 */
 	function save($module_name, $fileid = '')
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("module name is " . $module_name);
 
 		//Event triggering code
@@ -988,7 +988,7 @@ class CRMEntity
 	 */
 	function get_column_value($columnname, $fldvalue, $fieldname, $uitype, $datatype = '')
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering function get_column_value ($columnname, $fldvalue, $fieldname, $uitype, $datatype='')");
 
 		// Added for the fields of uitype '57' which has datatype mismatch in crmentity table and particular entity table
@@ -1135,7 +1135,7 @@ class CRMEntity
 	/** Function to unlink all the dependent entities of the given Entity by Id */
 	function unlinkDependencies($module, $id)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 
 		$result = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
 			SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=?)', [$module]);
@@ -1300,7 +1300,7 @@ class CRMEntity
 	function initSortByField($module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering function initSortByField ($module)");
 		// Define the columnname's and uitype's which needs to be excluded
 		$exclude_columns = Array('parent_id', 'vendorid', 'access_count');
@@ -1436,7 +1436,7 @@ class CRMEntity
 	function updateMissingSeqNumber($module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entered updateMissingSeqNumber function");
 
 		vtlib_setup_modulevars($module, $this);
@@ -2707,7 +2707,7 @@ class CRMEntity
 	 */
 	function getSortOrder()
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$currentModule = vglobal('currentModule');
 		$log->debug("Entering getSortOrder() method ...");
 		if (isset($_REQUEST['sorder']))
@@ -2845,5 +2845,13 @@ class CRMEntity
 			$whereClause .
 			" ORDER BY $tableColumnsString," . $this->table_name . "." . $this->table_index . " ASC";
 		return $query;
+	}
+
+	function getLockFields()
+	{
+		if (isset($this->lockFields)) {
+			return $this->lockFields;
+		}
+		return false;
 	}
 }
