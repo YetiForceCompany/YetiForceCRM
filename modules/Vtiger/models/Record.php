@@ -314,6 +314,12 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{
+		$cacheName = $recordId . ':' . $module;
+		$instance = Vtiger_Cache::get('Vtiger_Record_Model', $cacheName);
+		if ($instance) {
+			return $instance;
+		}
+
 		//TODO: Handle permissions
 		if (is_object($module) && is_a($module, 'Vtiger_Module_Model')) {
 			$moduleName = $module->get('name');
@@ -330,7 +336,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$focus->retrieve_entity_info($recordId, $moduleName);
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
-		return $instance->setData($focus->column_fields)->set('id', $recordId)->setModuleFromInstance($module)->setEntity($focus);
+		$instance->setData($focus->column_fields)->set('id', $recordId)->setModuleFromInstance($module)->setEntity($focus);
+		Vtiger_Cache::set('Vtiger_Record_Model', $cacheName, $instance);
+		return $instance;
 	}
 
 	/**
