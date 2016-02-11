@@ -5,4 +5,5 @@ $languageStrings = [
 	'SINGLE_IGRN' => 'Przyjęcie zewnętrzne (PZ)',
 	'FL_SUBJECT' => 'Nazwa',
 	'FL_NUMBER' => 'Numer',
+	'FL_STORAGE' => 'Magazyn',
 ];

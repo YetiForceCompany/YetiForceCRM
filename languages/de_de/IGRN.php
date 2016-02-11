@@ -5,4 +5,5 @@ $languageStrings = [
 	'SINGLE_IGRN' => 'Goods Received Note',
 	'FL_NUMBER' => 'Number',
 	'FL_SUBJECT' => 'Subject',
+	'FL_STORAGE' => 'Storage',
 ];
