@@ -53,6 +53,11 @@ class CRMEntity
 			$modName = 'Activity';
 		}
 
+		$instance = Vtiger_Cache::get('CRMEntity', $module);
+		if ($instance) {
+			return clone $instance;
+		}
+
 		// File access security check
 		if (!class_exists($modName)) {
 			if (file_exists("custom/modules/$module/$modName.php")) {
@@ -65,7 +70,7 @@ class CRMEntity
 		}
 		$focus = new $modName();
 		$focus->moduleName = $module;
-
+		Vtiger_Cache::set('CRMEntity', $module, $focus);
 		return $focus;
 	}
 
