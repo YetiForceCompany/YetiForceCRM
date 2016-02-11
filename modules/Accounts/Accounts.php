@@ -526,7 +526,7 @@ class Accounts extends CRMEntity
 		$listview_entries = [];
 
 		$listColumns = AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
-		if(empty($listColumns)){
+		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
 		foreach ($listColumns as $fieldname => $colname) {
@@ -539,7 +539,7 @@ class Accounts extends CRMEntity
 		// Get the accounts hierarchy from the top most account in the hierarch of the current account, including the current account
 		$encountered_accounts = array($id);
 		$accounts_list = $this->__getParentAccounts($id, $accounts_list, $encountered_accounts);
-		
+
 		$baseId = current(array_keys($accounts_list));
 		$accounts_list = [$baseId => $accounts_list[$baseId]];
 
@@ -571,7 +571,7 @@ class Accounts extends CRMEntity
 
 		$hasRecordViewAccess = (is_admin($currentUser)) || (isPermitted('Accounts', 'DetailView', $accountId) == 'yes');
 		$listColumns = AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
-		if(empty($listColumns)){
+		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
 		foreach ($listColumns as $fieldname => $colname) {
@@ -613,11 +613,16 @@ class Accounts extends CRMEntity
 	 * @param  array   $parent_accounts   - Array of all the parent accounts
 	 * returns All the parent accounts of the given accountid in array format
 	 */
-	function __getParentAccounts($id, &$parent_accounts, &$encountered_accounts)
+	function __getParentAccounts($id, &$parent_accounts, &$encountered_accounts, $depthBase = 0)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering __getParentAccounts(' . $id . ') method ...');
+
+		if ($depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
+			$log->error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
+			return $parent_accounts;
+		}
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
@@ -636,7 +641,7 @@ class Accounts extends CRMEntity
 			$parentid = $row['parentid'];
 			if ($parentid != '' && $parentid != 0 && !in_array($parentid, $encountered_accounts)) {
 				$encountered_accounts[] = $parentid;
-				$this->__getParentAccounts($parentid, $parent_accounts, $encountered_accounts);
+				$this->__getParentAccounts($parentid, $parent_accounts, $encountered_accounts, $depthBase + 1);
 			}
 			$parent_account_info = [];
 			$depth = 0;
@@ -645,7 +650,7 @@ class Accounts extends CRMEntity
 			}
 			$parent_account_info['depth'] = $depth;
 			$listColumns = AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
-			if(empty($listColumns)){
+			if (empty($listColumns)) {
 				$listColumns = $this->list_fields_name;
 			}
 			foreach ($listColumns as $fieldname => $columnname) {
@@ -672,7 +677,12 @@ class Accounts extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
-		$log->debug('Entering __getChildAccounts(' . $id . ',' . $depth . ') method ...');
+		$log->debug('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
+
+		if ($depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
+			$log->error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
+			return $child_accounts;
+		}
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
@@ -686,7 +696,7 @@ class Accounts extends CRMEntity
 			' WHERE vtiger_crmentity.deleted = 0 and parentid = ?';
 		$res = $adb->pquery($query, [$id]);
 		$listColumns = AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
-		if(empty($listColumns)){
+		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
 		if ($adb->getRowCount($res) > 0) {
