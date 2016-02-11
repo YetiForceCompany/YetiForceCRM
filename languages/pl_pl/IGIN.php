@@ -6,4 +6,12 @@ $languageStrings = [
 	'FL_SUBJECT' => 'Nazwa',
 	'FL_NUMBER' => 'Numer',
 	'FL_STORAGE' => 'Magazyn',
+	'FL_STATUS' => 'Status',
+	
+	'PLL_DRAFT' => 'Draft',
+	'PLL_IN_REALIZATION' => 'In realization',
+	'PLL_OBJECTIONS' => 'Objections',
+	'PLL_FOR_APPROVAL' => 'For approval',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_ACCEPTED' => 'Accepted',
 ];

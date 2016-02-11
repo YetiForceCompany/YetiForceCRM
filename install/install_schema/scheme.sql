@@ -2,7 +2,8 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1123,6 +1124,7 @@ CREATE TABLE `u_yf_igdn` (
   `number` varchar(32) DEFAULT NULL,
   `subject` varchar(255) DEFAULT NULL,
   `storageid` int(19) DEFAULT NULL,
+  `igdn_status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`igdnid`),
   KEY `storageid` (`storageid`),
   CONSTRAINT `u_yf_igdn_ibfk_1` FOREIGN KEY (`igdnid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -1183,6 +1185,7 @@ CREATE TABLE `u_yf_igin` (
   `number` varchar(32) DEFAULT NULL,
   `subject` varchar(255) DEFAULT NULL,
   `storageid` int(19) DEFAULT NULL,
+  `igin_status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`iginid`),
   KEY `storageid` (`storageid`),
   CONSTRAINT `u_yf_igin_ibfk_1` FOREIGN KEY (`iginid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -1217,7 +1220,7 @@ CREATE TABLE `u_yf_igin_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igin_invmap` */
 
@@ -1243,6 +1246,7 @@ CREATE TABLE `u_yf_igrn` (
   `number` varchar(32) DEFAULT NULL,
   `subject` varchar(255) DEFAULT NULL,
   `storageid` int(19) DEFAULT NULL,
+  `igrn_status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`igrnid`),
   KEY `storageid` (`storageid`),
   CONSTRAINT `u_yf_igrn_ibfk_1` FOREIGN KEY (`igrnid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -1303,6 +1307,7 @@ CREATE TABLE `u_yf_iidn` (
   `number` varchar(32) DEFAULT NULL,
   `subject` varchar(255) DEFAULT NULL,
   `storageid` int(19) DEFAULT NULL,
+  `iidn_status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`iidnid`),
   KEY `storageid` (`storageid`),
   CONSTRAINT `u_yf_iidn_ibfk_1` FOREIGN KEY (`iidnid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -4011,7 +4016,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2178 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2182 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4357,6 +4362,46 @@ CREATE TABLE `vtiger_ideasstatus` (
 CREATE TABLE `vtiger_ideasstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_igdn_status` */
+
+CREATE TABLE `vtiger_igdn_status` (
+  `igdn_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `igdn_status` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`igdn_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_igin_status` */
+
+CREATE TABLE `vtiger_igin_status` (
+  `igin_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `igin_status` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`igin_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_igrn_status` */
+
+CREATE TABLE `vtiger_igrn_status` (
+  `igrn_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `igrn_status` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`igrn_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_iidn_status` */
+
+CREATE TABLE `vtiger_iidn_status` (
+  `iidn_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `iidn_status` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`iidn_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_import_locks` */
 
