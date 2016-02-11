@@ -2793,9 +2793,7 @@ table.listViewEntriesTable {
 .marginBottom5 {
 	margin-bottom: 5px;
 }
-.editViewContainer .recordEditView table.blockContainer tr td.fieldValue {
-	width: 45%;
-}
+
 .recordEditView[name=QuickCreate] .quickCreateContent table tr td.fieldValue,
 #massEditContainer .massEditContent table tr td.fieldValue,
 #tab_accounts td.functionList{
@@ -4979,8 +4977,11 @@ html,body,.baseContainer
 .tagInputs .form-control{
 	height: 20px !important;
 }
+.inventoryItems{
+	table-layout: fixed;
+}
 .inventoryItems .colName {
-	min-width: 250px;
+	width: 25%;
 }
 .modal-full{
 	width: 95% !important;

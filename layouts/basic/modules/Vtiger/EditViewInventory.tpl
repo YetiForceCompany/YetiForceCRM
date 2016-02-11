@@ -41,7 +41,7 @@
 							{/foreach}
 						</th>
 						{foreach item=FIELD from=$FIELDS[0]}
-							<th colspan="{$FIELD->get('colspan')}" {if !$FIELD->isEditable()}class="hide"{/if}>
+							<th {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan')}" {/if} {if !$FIELD->isEditable()}class="hide"{/if}>
 								<span class="inventoryLineItemHeader">{vtranslate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
@@ -56,9 +56,9 @@
 				{if count($FIELDS[1]) neq 0}
 					<thead>
 						<tr>
-							<th style="min-width: 50px">&nbsp;&nbsp;</th>
+							<th style="width: 5%;">&nbsp;&nbsp;</th>
 							{foreach item=FIELD from=$FIELDS[1]}
-								<th colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()} {if !$FIELD->isEditable()} hide{/if} textAlignCenter">
+								<th colspan="1" {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan') * 0.95}%"{/if} class="col{$FIELD->getName()} {if !$FIELD->isEditable()} hide{/if} textAlignCenter">
 									{vtranslate($FIELD->get('label'), $MODULE)}
 								</th>
 							{/foreach}
@@ -73,9 +73,9 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td class="hideTd" style="min-width: 50px">&nbsp;&nbsp;</td>
+						<td colspan="1" class="hideTd" style="min-width: 50px">&nbsp;&nbsp;</td>
 						{foreach item=FIELD from=$FIELDS[1]}
-							<td colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if} textAlignRight 
+							<td colspan="1" class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if} textAlignRight 
 								{if !$FIELD->isSummary()} hideTd{else} wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
 								{if $FIELD->isSummary()}
 									{assign var="SUM" value=0}

@@ -18,7 +18,7 @@
 			{/if}
 		</td>
 		{foreach item=FIELD from=$FIELDS[1]}
-			<td class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if} textAlignRight fieldValue" colspan="{$FIELD->get('colspan')}">
+			<td class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if} textAlignRight fieldValue">
 				{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 				{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$ITEM_DATA[$FIELD->get('columnname')]}
 			</td>
