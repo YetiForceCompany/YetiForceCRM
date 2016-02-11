@@ -734,7 +734,17 @@ var app = {
 			minutestep: 5,
 			ampmSubmit: false,
 		};
-		$('.clockPicker').closest('.time').clockpicker(params);
+		var elementClockBtn = $('.clockPicker')
+		var parentTimeElem = elementClockBtn.closest('.time');
+		jQuery('.input-group-addon', parentTimeElem).on('click', function (e) {
+			var elem = jQuery(e.currentTarget);
+			e.stopPropagation();
+			var tempElement = elem.closest('.time').find('input.clockPicker');
+			if(tempElement.attr('disabled') != 'disabled'){
+				tempElement.clockpicker('show');
+			}
+		});
+		elementClockBtn.clockpicker(params);
 	},
 	/**
 	 * Function which will register time fields
