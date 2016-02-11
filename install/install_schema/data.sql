@@ -378,6 +378,8 @@ insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`
 
 /*Data for the table `u_yf_istorages` */
 
+/*Data for the table `u_yf_istorages_products` */
+
 /*Data for the table `u_yf_istoragescf` */
 
 /*Data for the table `u_yf_knowledgebase` */
@@ -3507,10 +3509,11 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (49,'vtiger.entity.unlink.after','modules/Calendar/handlers/CalendarHandler.php','CalendarHandler','',1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (50,'vtiger.entity.aftersave.final','modules/Calendar/handlers/CalendarHandler.php','CalendarHandler','',1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (51,'vtiger.entity.afterrestore','modules/Calendar/handlers/CalendarHandler.php','CalendarHandler','',1,'[]');
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (52,'entity.inventory.aftersave','modules/IStorages/handlers/RecalculateStockHandler.php','RecalculateStockHandler','',1,'[]');
 
 /*Data for the table `vtiger_eventhandlers_seq` */
 
-insert  into `vtiger_eventhandlers_seq`(`id`) values (51);
+insert  into `vtiger_eventhandlers_seq`(`id`) values (52);
 
 /*Data for the table `vtiger_eventstatus` */
 
@@ -16976,6 +16979,8 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (459,97,98,'get_dependents_list',1,'IGRN',0,'ADD',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (460,102,8,'get_attachments',1,'Documents',0,'ADD,SELECT',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (461,97,102,'get_dependents_list',4,'IGIN',0,'ADD',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (462,97,14,'get_many_to_many',5,'Products',0,'',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (463,14,97,'get_many_to_many',17,'IStorages',0,'',0,0,0);
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
@@ -16983,7 +16988,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 
 /*Data for the table `vtiger_relatedlists_seq` */
 
-insert  into `vtiger_relatedlists_seq`(`id`) values (461);
+insert  into `vtiger_relatedlists_seq`(`id`) values (463);
 
 /*Data for the table `vtiger_relcriteria` */
 

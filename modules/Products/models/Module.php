@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Products_Module_Model extends Vtiger_Module_Model {
@@ -113,6 +114,21 @@ class Products_Module_Model extends Vtiger_Module_Model {
 					. Users_Privileges_Model::getNonAdminAccessControlQuery($relatedModuleModel->getName()) .'
 					WHERE vtiger_products.productid = '.$recordModel->getId().' and vtiger_crmentity.deleted = 0';
 					
+		return $query;
+	}
+	public function getRelationQueryM2M($recordId, $relatedModule, $relationModel)
+	{
+		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($this->getName(), $relatedModule->getName());
+		$basetable = $relatedModule->get('basetable');
+		if($relatedModule->getName() == 'IStorages'){
+			$field = ','.$referenceInfo['table'].'.qtyinstock';
+		}
+		$query = 'SELECT vtiger_crmentity.*, ' . $basetable . '.*' .$field. ' FROM ' . $basetable;
+		$query .= ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = ' . $basetable . '.' . $relatedModule->get('basetableid');
+		$query .= ' INNER JOIN ' . $referenceInfo['table'] . ' ON ' . $referenceInfo['table'] . '.' . $referenceInfo['base'] . ' = vtiger_crmentity.crmid';
+		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
+		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
+		$query .= ' WHERE vtiger_crmentity.deleted = 0 AND ' . $referenceInfo['table'] . '.' . $referenceInfo['rel'] . ' = ' . $recordId;
 		return $query;
 	}
 }

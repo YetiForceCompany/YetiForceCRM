@@ -8,6 +8,7 @@ $languageStrings = [
 	'FL_STATUS' => 'Status',
 	'FL_TYPE' => 'Typ',
 	'FL_NUMBER' => 'Numer',
+	'FL_QTY_IN_STOCK' => 'Ilość produktu na magazynie',
 	
 	'PLL_ACTIVE' => 'Aktywny',
 	'PLL_INACTIVE' => 'Nieaktywny',

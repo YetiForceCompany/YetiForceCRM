@@ -6,9 +6,17 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Products_RelationListView_Model extends Vtiger_RelationListView_Model {
+	
+	protected $addRelatedFieldToEntries = [
+		'IStorages' => ['qtyinstock' => 'qtyinstock'], 
+		'Calendar' => ['visibility' => 'visibility'], 
+		'PriceBooks' => ['unit_price' => 'unit_price', 'listprice' => 'listprice', 'currency_id' => 'currency_id'], 
+		'Documents' => ['filelocationtype' => 'filelocationtype', 'filestatus' => 'filestatus']
+		];
 
 	/**
 	 * Function to get the links for related list
@@ -30,6 +38,14 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model {
 	
 	public function getHeaders() {
 		$headerFields = parent::getHeaders();
+		if($this->getRelationModel()->get('modulename') == 'IStorages' && $this->getRelationModel()->get('name') == 'get_many_to_many'){
+			$unitPriceField = new Vtiger_Field_Model();
+			$unitPriceField->set('name', 'qtyinstock');
+			$unitPriceField->set('column', 'qtyinstock');
+			$unitPriceField->set('label', 'FL_QTY_IN_STOCK');
+			
+			$headerFields['qtyinstock'] = $unitPriceField;
+		}
 		if($this->getRelationModel()->getRelationModuleModel()->getName() == 'PriceBooks') {
 			//Added to support Unit Price
 			$unitPriceField = new Vtiger_Field_Model();
@@ -50,5 +66,4 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model {
 		
 		return $headerFields;
 	}
-	
 }

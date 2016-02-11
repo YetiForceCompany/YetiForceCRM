@@ -1373,6 +1373,18 @@ CREATE TABLE `u_yf_istorages` (
   CONSTRAINT `u_yf_istorages_ibfk_1` FOREIGN KEY (`istorageid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_istorages_products` */
+
+CREATE TABLE `u_yf_istorages_products` (
+  `crmid` int(19) DEFAULT NULL,
+  `relcrmid` int(19) DEFAULT NULL,
+  `qtyinstock` decimal(25,3) DEFAULT NULL,
+  KEY `crmid` (`crmid`),
+  KEY `relcrmid` (`relcrmid`),
+  CONSTRAINT `u_yf_istorages_products_ibfk_1` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `u_yf_istorages_products_ibfk_2` FOREIGN KEY (`relcrmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_istoragescf` */
 
 CREATE TABLE `u_yf_istoragescf` (
@@ -3863,7 +3875,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `dependent_on` varchar(255) DEFAULT '[]',
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventhandlers_seq` */
 
