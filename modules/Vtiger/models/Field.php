@@ -294,6 +294,10 @@ class Vtiger_Field_Model extends Vtiger_Field
 			if ($this->isRoleBased()) {
 				$userModel = Users_Record_Model::getCurrentUserModel();
 				$picklistValues = Vtiger_Util_Helper::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
+				if (!empty($this->get('fieldvalue')) && !in_array($this->get('fieldvalue'), $picklistValues)) {
+					$picklistValues[] = $this->get('fieldvalue');
+					$this->set('isEditableReadOnly', true);
+				}
 			} else {
 				$picklistValues = Vtiger_Util_Helper::getPickListValues($this->getName());
 			}
@@ -412,6 +416,19 @@ class Vtiger_Field_Model extends Vtiger_Field
 			return false;
 		}
 		return true;
+	}
+
+	public function isEditableReadOnly()
+	{
+		$isEditableReadOnly = $this->get('isEditableReadOnly');
+		if ($isEditableReadOnly !== null) {
+			return $isEditableReadOnly;
+		}
+		$displayType = (int) $this->get('displaytype');
+		if ($displayType == 10) {
+			return true;
+		}
+		return false;
 	}
 
 	public function isQuickCreateEnabled()
