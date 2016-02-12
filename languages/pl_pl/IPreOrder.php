@@ -10,6 +10,8 @@ $languageStrings = [
 	'FL_SUBJECT' => 'Nazwa',
 	'FL_NUMBER' => 'Numer',
 	'FL_STORAGE' => 'Magazyn',
+	'FL_STATUS' => 'Status',
+	'FL_STATUS' => 'Status',
 	
 	'PLL_DRAFT' => 'Wersja robocza',
 	'PLL_IN_REALIZATION' => 'W realizacji',
