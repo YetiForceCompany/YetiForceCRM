@@ -387,13 +387,13 @@ class CRMEntity
 			checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-				$sql = "select * from vtiger_field where tabid in (" . generateQuestionMarks($tabid) . ") and tablename=? and displaytype <> '2' and presence in (0,2) group by columnname";
+				$sql = "select * from vtiger_field where tabid in (" . generateQuestionMarks($tabid) . ") and tablename=? and presence in (0,2) group by columnname";
 				$params = array($tabid, $table_name);
 			} else {
 				$profileList = getCurrentUserProfileList();
 
 				if (count($profileList) > 0) {
-					$sql = "SELECT *
+					$sql = 'SELECT *
 			  			FROM vtiger_field
 			  			INNER JOIN vtiger_profile2field
 			  			ON vtiger_profile2field.fieldid = vtiger_field.fieldid
@@ -401,12 +401,12 @@ class CRMEntity
 			  			ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
 			  			WHERE vtiger_field.tabid = ?
 			  			AND vtiger_profile2field.visible = 0 AND vtiger_profile2field.readonly = 0
-			  			AND vtiger_profile2field.profileid IN (" . generateQuestionMarks($profileList) . ")
-			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.displaytype <> '2' and vtiger_field.presence in (0,2) group by columnname";
+			  			AND vtiger_profile2field.profileid IN (' . generateQuestionMarks($profileList) . ')
+			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.presence in (0,2) group by columnname';
 
 					$params = array($tabid, $profileList, $table_name);
 				} else {
-					$sql = "SELECT *
+					$sql = 'SELECT *
 			  			FROM vtiger_field
 			  			INNER JOIN vtiger_profile2field
 			  			ON vtiger_profile2field.fieldid = vtiger_field.fieldid
@@ -414,7 +414,7 @@ class CRMEntity
 			  			ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
 			  			WHERE vtiger_field.tabid = ?
 			  			AND vtiger_profile2field.visible = 0 AND vtiger_profile2field.readonly = 0
-			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.displaytype <> '2' and vtiger_field.presence in (0,2) group by columnname";
+			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.presence in (0,2) group by columnname';
 
 					$params = array($tabid, $table_name);
 				}
@@ -427,7 +427,7 @@ class CRMEntity
 			}
 			$column = array($table_index_column);
 			$value = array($this->id);
-			$sql = "select * from vtiger_field where tabid=? and tablename=? and displaytype <> '2' and vtiger_field.presence in (0,2)";
+			$sql = 'select * from vtiger_field where tabid=? and tablename=? and vtiger_field.presence in (0,2)';
 			$params = array($tabid, $table_name);
 		}
 
@@ -454,12 +454,11 @@ class CRMEntity
 		}
 
 		for ($i = 0; $i < $noofrows; $i++) {
-
-			$fieldname = $this->resolve_query_result_value($result, $i, "fieldname");
-			$columname = $this->resolve_query_result_value($result, $i, "columnname");
-			$uitype = $this->resolve_query_result_value($result, $i, "uitype");
-			$generatedtype = $this->resolve_query_result_value($result, $i, "generatedtype");
-			$typeofdata = $this->resolve_query_result_value($result, $i, "typeofdata");
+			$fieldname = $this->resolve_query_result_value($result, $i, 'fieldname');
+			$columname = $this->resolve_query_result_value($result, $i, 'columnname');
+			$uitype = $this->resolve_query_result_value($result, $i, 'uitype');
+			$generatedtype = $this->resolve_query_result_value($result, $i, 'generatedtype');
+			$typeofdata = $this->resolve_query_result_value($result, $i, 'typeofdata');
 
 			$typeofdata_array = explode("~", $typeofdata);
 			$datatype = $typeofdata_array[0];
