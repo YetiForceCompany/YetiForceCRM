@@ -12,6 +12,7 @@ class IPreOrder extends Vtiger_CRMEntity
 
 	var $table_name = 'u_yf_ipreorder';
 	var $table_index = 'ipreorderid';
+	protected $lockFields = ['ipreorder_status' => ['PLL_ACCEPTED']];
 
 	/**
 	 * Mandatory table for supporting custom fields.

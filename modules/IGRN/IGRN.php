@@ -12,6 +12,7 @@ class IGRN extends Vtiger_CRMEntity
 
 	var $table_name = 'u_yf_igrn';
 	var $table_index = 'igrnid';
+	protected $lockFields = ['igrn_status' => ['PLL_ACCEPTED']];
 
 	/**
 	 * Mandatory table for supporting custom fields.

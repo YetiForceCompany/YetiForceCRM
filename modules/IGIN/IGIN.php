@@ -12,6 +12,7 @@ class IGIN extends Vtiger_CRMEntity
 
 	var $table_name = 'u_yf_igin';
 	var $table_index = 'iginid';
+	protected $lockFields = ['igin_status' => ['PLL_ACCEPTED']];
 
 	/**
 	 * Mandatory table for supporting custom fields.

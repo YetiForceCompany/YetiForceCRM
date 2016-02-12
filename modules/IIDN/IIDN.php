@@ -12,6 +12,7 @@ class IIDN extends Vtiger_CRMEntity
 
 	var $table_name = 'u_yf_iidn';
 	var $table_index = 'iidnid';
+	protected $lockFields = ['iidn_status' => ['PLL_ACCEPTED']];
 
 	/**
 	 * Mandatory table for supporting custom fields.

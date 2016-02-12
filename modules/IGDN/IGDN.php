@@ -12,6 +12,7 @@ class IGDN extends Vtiger_CRMEntity
 
 	var $table_name = 'u_yf_igdn';
 	var $table_index = 'igdnid';
+	protected $lockFields = ['igdn_status' => ['PLL_ACCEPTED']];
 
 	/**
 	 * Mandatory table for supporting custom fields.
