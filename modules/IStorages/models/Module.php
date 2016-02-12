@@ -78,6 +78,9 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 		foreach (self::$modulesToCalculate as $type => $modules) {
 			$sql = [];
 			foreach ($modules as $moduleName) {
+				if (vtlib_isModuleActive($mod) == false) {
+					continue;
+				}
 				$inventoryTableName = Vtiger_InventoryField_Model::getInstance($moduleName)->getTableName();
 				$focus = CRMEntity::getInstance($moduleName);
 				$sql[] = 'SELECT ' . $inventoryTableName . '.name AS productid, ' . $focus->table_name . '.storageid AS storageid,  SUM( DISTINCT ' . $inventoryTableName . '.qty) AS p_sum FROM  ' . $focus->table_name . ' LEFT JOIN (' . $inventoryTableName . ' LEFT JOIN vtiger_crmentity AS cr ON cr.crmid = ' . $inventoryTableName . '.name) ON ' . $focus->table_name . '.' . $focus->table_index . ' = ' . $inventoryTableName . '.id LEFT JOIN vtiger_crmentity ON ' . $focus->table_name . '.' . $focus->table_index . ' = vtiger_crmentity.`crmid` WHERE vtiger_crmentity.`deleted` = 0 AND cr.`deleted` = 0 AND ' . $focus->table_name . '.' . strtolower($moduleName) . '_status = "PLL_ACCEPTED" GROUP BY productid, storageid';

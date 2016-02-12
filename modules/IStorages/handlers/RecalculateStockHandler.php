@@ -11,20 +11,29 @@ class RecalculateStockHandler extends VTEventHandler
 
 	function handleEvent($eventName, $data)
 	{
-		list($recordModel, $inventoryModel, $inventoryData) = $data;
-		$moduleName = $recordModel->getModuleName();
+		$moduleName = $data->getModuleName();
 		if (in_array($moduleName, ['IGRN', 'IIDN', 'IGDN', 'IGIN'])) {
 			$status = strtolower($moduleName) . '_status';
-			if ($recordModel->get($status) == 'PLL_ACCEPTED') {
-				IStorages_Module_Model::RecalculateStock($moduleName, $inventoryData, $recordModel->get('storageid'), 'add');
+			if ($data->get($status) == 'PLL_ACCEPTED') {
+				$this->getInventoryDataAndSend($data, 'add');
 			} else {
-				$recordId = $recordModel->getId();
 				$vtEntityDelta = new VTEntityDelta();
-				$delta = $vtEntityDelta->getEntityDelta($moduleName, $recordId, true);
+				$delta = $vtEntityDelta->getEntityDelta($moduleName, $data->getId(), true);
 				if (is_array($delta) && !empty($delta[$status]) && in_array('PLL_ACCEPTED', $delta[$status])) {
-					IStorages_Module_Model::RecalculateStock($moduleName, $inventoryData, $recordModel->get('storageid'), 'remove');
+					$this->getInventoryDataAndSend($data, 'remove');
 				}
 			}
+		}
+	}
+
+	function getInventoryDataAndSend($data, $action)
+	{
+		$moduleName = $data->getModuleName();
+		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$recordModel->set('id', $data->getId());
+		$inventoryData = $recordModel->getInventoryData();
+		if (!empty($inventoryData)) {
+			IStorages_Module_Model::RecalculateStock($moduleName, $inventoryData, $data->get('storageid'), $action);
 		}
 	}
 }
