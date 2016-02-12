@@ -78,7 +78,7 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 		foreach (self::$modulesToCalculate as $type => $modules) {
 			$sql = [];
 			foreach ($modules as $moduleName) {
-				if (vtlib_isModuleActive($mod) == false) {
+				if (vtlib_isModuleActive($moduleName) == false) {
 					continue;
 				}
 				$inventoryTableName = Vtiger_InventoryField_Model::getInstance($moduleName)->getTableName();
