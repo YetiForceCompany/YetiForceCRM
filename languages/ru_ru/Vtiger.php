@@ -1289,6 +1289,7 @@ $languageStrings = [
 	'LBL_SET_RECORD_STATUS' => 'Установить статус',
 	'LBL_SELECT_SOME_OPTIONS' => 'Выберите опцию',
 	'LBL_NO_DISCOUNTS' => 'Нет доступных скидок',
+	'LBL_ITEM_NUMBER' => 'No.',
 	//PDF
 	'LBL_EXPORT_PDF' => 'Экспорт в PDF',
 	'LBL_GENERATE_PDF_FILE' => 'Создать PDF',
