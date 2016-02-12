@@ -1045,6 +1045,7 @@ $languageStrings = [
 	'LBL_SET_RECORD_STATUS' => 'Status setzen',
 	'LBL_SELECT_SOME_OPTIONS' => 'Wählen Sie einige Werte',
 	'LBL_NO_DISCOUNTS' => 'Available discounts not found',
+	'LBL_ITEM_NUMBER' => 'No.',
 	//PDF
 	'LBL_EXPORT_PDF' => 'Export to PDF',
 	'LBL_GENERATE_PDF_FILE' => 'Generate PDF file',
