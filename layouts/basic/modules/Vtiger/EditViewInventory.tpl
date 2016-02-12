@@ -34,7 +34,7 @@
 								{assign var="CRMENTITY" value=CRMEntity::getInstance($MAIN_MODULE)}
 								<span class="btn-group">
 									<button type="button" data-module="{$MAIN_MODULE}" data-field="{$CRMENTITY->table_index}" 
-											data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}" class="btn btn-default addButton">
+											data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}" class="btn btn-default addItem">
 										<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate('LBL_ADD',$MODULE)} {vtranslate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
 									</button>
 								</span>

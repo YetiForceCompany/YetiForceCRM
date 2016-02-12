@@ -693,8 +693,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function initInventoryData()
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
+
 		$moduleName = $this->getModuleName();
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$fields = $inventory->getColumns();
@@ -738,10 +739,10 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function saveInventoryData()
 	{
 		//Event triggering code
-		require_once("include/events/include.inc");
+		require_once('include/events/include.inc');
 
 		$db = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
 
 		$moduleName = $this->getModuleName();

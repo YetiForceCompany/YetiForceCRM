@@ -13,7 +13,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	protected $name = '';
 	protected $defaultLabel = '';
 	protected $defaultValue = '';
-	protected $columnName = '';
+	protected $columnName = '-';
 	protected $colSpan = 1;
 	protected $dbType = 'varchar(100)';
 	protected $customColumn = [];
@@ -52,6 +52,11 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	public function getParams()
 	{
 		return $this->params;
+	}
+
+	public function getParamsConfig()
+	{
+		return Zend_Json::decode($this->get('params'));
 	}
 
 	/**
@@ -219,6 +224,18 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	}
 
 	/**
+	 * Function to check whether the current field is editable
+	 * @return <Boolean> - true/false
+	 */
+	public function isColumnType()
+	{
+		if (empty($this->columnName) || $this->columnName == '-') {
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Getting value to display
 	 * @return array
 	 */
@@ -230,7 +247,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 		}
 		return $modulesNames;
 	}
-	
+
 	public function getSummaryValuesFromData($data)
 	{
 		$sum = 0;
