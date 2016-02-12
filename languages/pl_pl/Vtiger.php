@@ -1032,6 +1032,7 @@ $languageStrings = [
 	'LBL_SELECT_SOME_OPTIONS' => 'Wybierz kilka wartości',
 	'LBL_NO_DISCOUNTS' => 'Nie znaleziono dostępnych rabatów',
 	'LBL_ITEM_NUMBER' => 'Lp.',
+	'LBL_UNIT'=>'Jednostka',
 	//PDF
 	'LBL_EXPORT_PDF' => 'Eksportuj do PDF',
 	'LBL_GENERATE_PDF_FILE' => 'Generowanie pliku PDF',

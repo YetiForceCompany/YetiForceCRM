@@ -1268,6 +1268,7 @@ CREATE TABLE `u_yf_igrn_inventory` (
   `price` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `comment1` varchar(500) DEFAULT NULL,
+  `picklistfield1` varchar(200) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_igrn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_igrn` (`igrnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1287,7 +1288,7 @@ CREATE TABLE `u_yf_igrn_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igrn_invmap` */
 
