@@ -893,7 +893,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	registerAddItem: function (container) {
 		var thisInstance = this;
 		var items = this.getInventoryItemsContainer();
-		container.find('.btn-toolbar .addButton').on('click', function (e, data) {
+		container.find('.btn-toolbar .addItem').on('click', function (e, data) {
 			var table = container.find('#blackIthemTable');
 			var newRow = thisInstance.getBasicRow();
 			var sequenceNumber = thisInstance.getNextLineItemRowNumber();
@@ -906,6 +906,16 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			newRow = newRow.find('tr').appendTo(items.find('tbody'));
 
 			newRow.find('.rowName input[name="popupReferenceModule"]').val(module).data('field', field);
+			newRow.find('select').each(function (index, select) {
+				select = $(select);
+				select.find('option').each(function (index, option) {
+					option = $(option);
+					if (option.data('module') != module) {
+						option.remove();
+					}
+				});
+				app.showSelect2ElementView(select);
+			})
 			thisInstance.initItem(newRow);
 		});
 	},
