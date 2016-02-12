@@ -4097,7 +4097,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2208 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2209 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6230,6 +6230,7 @@ CREATE TABLE `vtiger_products` (
   `imagename` text,
   `currency_id` int(19) NOT NULL DEFAULT '1',
   `taxes` varchar(50) DEFAULT NULL,
+  `ean` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`productid`),
   CONSTRAINT `fk_1_vtiger_products` FOREIGN KEY (`productid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -8312,7 +8313,7 @@ CREATE TABLE `vtiger_widgets` (
   PRIMARY KEY (`id`),
   KEY `tabid` (`tabid`),
   CONSTRAINT `vtiger_widgets_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity` */
 
