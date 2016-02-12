@@ -1158,7 +1158,7 @@ CREATE TABLE `u_yf_igdn_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igdn_invmap` */
 
@@ -1220,7 +1220,7 @@ CREATE TABLE `u_yf_igin_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igin_invmap` */
 
@@ -1250,6 +1250,7 @@ CREATE TABLE `u_yf_igrn` (
   `vendorid` int(19) DEFAULT NULL,
   `acceptance_date` date DEFAULT NULL,
   `accountid` int(19) DEFAULT NULL,
+  `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   PRIMARY KEY (`igrnid`),
   KEY `storageid` (`storageid`),
   KEY `vendorid` (`vendorid`),
@@ -1286,7 +1287,7 @@ CREATE TABLE `u_yf_igrn_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igrn_invmap` */
 
@@ -1346,7 +1347,7 @@ CREATE TABLE `u_yf_iidn_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_iidn_invmap` */
 
@@ -4097,7 +4098,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2209 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2210 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7395,7 +7396,7 @@ CREATE TABLE `vtiger_squoteenquiries_status` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`squoteenquiries_statusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_squotes_status` */
 
@@ -7425,7 +7426,7 @@ CREATE TABLE `vtiger_srequirementscards_status` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`srequirementscards_statusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ssalesprocesses_source` */
 
