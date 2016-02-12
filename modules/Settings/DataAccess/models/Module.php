@@ -56,7 +56,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_dataaccess WHERE presence='1'";
 		if ($module) {
-			$sql .= ", module_name IN ('All', ?)";
+			$sql .= " AND module_name IN ('All', ?)";
 			$result = $db->pquery($sql, array($module), true);
 		} else {
 			$result = $db->pquery($sql, array(), true);

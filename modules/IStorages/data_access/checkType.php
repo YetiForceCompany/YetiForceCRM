@@ -15,19 +15,19 @@ class DataAccess_checkType
 	{
 		$db = PearDatabase::getInstance();
 		if (empty($recordData['parentid'])) {
-			$query = "SELECT COUNT(*) AS num FROM u_yf_istorages WHERE parentid='0'";
+			$query = "SELECT 1 FROM u_yf_istorages WHERE parentid='0'";
 			$result = $db->query($query);
-			if ($db->query_result($result, 0, 'num') > 0) {
-				$save_record = false;
+			if ($db->getRowCount($result) > 0) {
+				$saveRecord = false;
 			} else {
-				$save_record = true;
+				$saveRecord = true;
 			}
 		} else {
-			$save_record = true;
+			$saveRecord = true;
 		}
-		if (!$save_record)
+		if (!$saveRecord)
 			return [
-				'save_record' => $save_record,
+				'save_record' => $saveRecord,
 				'type' => 0,
 				'info' => [
 					'title' => vtranslate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
