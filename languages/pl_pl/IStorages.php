@@ -16,4 +16,5 @@ $languageStrings = [
 	'PLL_INACTIVE' => 'Nieaktywny',
 	'PLL_INTERNAL' => 'Wewnętrzy',
 	'PLL_EXTERNAL' => 'Zewnętrzny',
+	'LBL_NOT_PARENT_STORAGE' => 'Musisz uzupełnić magazyn nadrzędny',
 ];

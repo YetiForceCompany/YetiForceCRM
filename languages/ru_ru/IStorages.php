@@ -16,4 +16,5 @@ $languageStrings = [
 	'PLL_INACTIVE' => 'Inactive',
 	'PLL_INTERNAL' => 'Internal',
 	'PLL_EXTERNAL' => 'External',
+	'LBL_NOT_PARENT_STORAGE' => 'You have to fill in the Parent Storage name',
 ];
