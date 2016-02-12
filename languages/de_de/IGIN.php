@@ -1,7 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'IGIN' => 'Goods Issued Note',
+	'IGIN' => 'Goods Issued Notes',
 	'SINGLE_IGIN' => 'Goods Issued Note',
 	'LBL_DESCRIPTION_BLOCK' => 'Description',
 	'LBL_ATTENTION_BLOCK' => 'Comments',
