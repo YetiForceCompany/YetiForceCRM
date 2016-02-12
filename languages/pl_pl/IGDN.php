@@ -3,6 +3,10 @@
 $languageStrings = [
 	'IGDN' => 'Wydanie na zewnątrz (WZ)',
 	'SINGLE_IGDN' => 'Wydanie na zewnątrz (WZ)',
+	'LBL_DESCRIPTION_BLOCK' => 'Opis',
+	'LBL_ATTENTION_BLOCK' => 'Uwagi',
+	'FL_ACCEPTANCE_DATE' => 'Data przyjęcia',
+	'FL_ACCOUNT' => 'Kontrahent',
 	'FL_SUBJECT' => 'Nazwa',
 	'FL_NUMBER' => 'Numer',
 	'FL_STORAGE' => 'Magazyn',

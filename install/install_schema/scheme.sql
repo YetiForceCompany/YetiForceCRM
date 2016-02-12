@@ -2,7 +2,8 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1185,6 +1186,7 @@ CREATE TABLE `u_yf_igin` (
   `subject` varchar(255) DEFAULT NULL,
   `storageid` int(19) DEFAULT NULL,
   `igin_status` varchar(255) DEFAULT NULL,
+  `acceptance_date` date DEFAULT NULL,
   PRIMARY KEY (`iginid`),
   KEY `storageid` (`storageid`),
   CONSTRAINT `u_yf_igin_ibfk_1` FOREIGN KEY (`iginid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -1246,8 +1248,13 @@ CREATE TABLE `u_yf_igrn` (
   `subject` varchar(255) DEFAULT NULL,
   `storageid` int(19) DEFAULT NULL,
   `igrn_status` varchar(255) DEFAULT NULL,
+  `vendorid` int(19) DEFAULT NULL,
+  `acceptance_date` date DEFAULT NULL,
+  `accountid` int(19) DEFAULT NULL,
   PRIMARY KEY (`igrnid`),
   KEY `storageid` (`storageid`),
+  KEY `vendorid` (`vendorid`),
+  KEY `accountid` (`accountid`),
   CONSTRAINT `u_yf_igrn_ibfk_1` FOREIGN KEY (`igrnid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1307,6 +1314,7 @@ CREATE TABLE `u_yf_iidn` (
   `subject` varchar(255) DEFAULT NULL,
   `storageid` int(19) DEFAULT NULL,
   `iidn_status` varchar(255) DEFAULT NULL,
+  `acceptance_date` date DEFAULT NULL,
   PRIMARY KEY (`iidnid`),
   KEY `storageid` (`storageid`),
   CONSTRAINT `u_yf_iidn_ibfk_1` FOREIGN KEY (`iidnid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -4085,7 +4093,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2189 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2203 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -8290,7 +8298,7 @@ CREATE TABLE `vtiger_widgets` (
   PRIMARY KEY (`id`),
   KEY `tabid` (`tabid`),
   CONSTRAINT `vtiger_widgets_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity` */
 

@@ -3,6 +3,9 @@
 $languageStrings = [
 	'IIDN' => 'Przyjęcie wewnętrzne (PW)',
 	'SINGLE_IIDN' => 'Przyjęcie wewnętrzne (PW)',
+	'LBL_DESCRIPTION_BLOCK' => 'Opis',
+	'LBL_ATTENTION_BLOCK' => 'Uwagi',
+	'FL_ACCEPTANCE_DATE' => 'Data przyjęcia',
 	'FL_SUBJECT' => 'Nazwa',
 	'FL_NUMBER' => 'Numer',
 	'FL_STORAGE' => 'Magazyn',

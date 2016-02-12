@@ -3,6 +3,8 @@
 $languageStrings = [
 	'IStorages' => 'Magazyny',
 	'SINGLE_IStorages' => 'Magazyn',
+	'LBL_DESCRIPTION_BLOCK' => 'Opis',
+	'LBL_ATTENTION_BLOCK' => 'Uwagi',
 	'FL_PARENT_STORAGE' => 'Magazyn nadrzędny',
 	'FL_SUBJECT' => 'Nazwa',
 	'FL_STATUS' => 'Status',

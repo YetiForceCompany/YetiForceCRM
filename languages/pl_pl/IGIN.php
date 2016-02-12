@@ -3,6 +3,9 @@
 $languageStrings = [
 	'IGIN' => 'Rozchód wewnetrzny (RW)',
 	'SINGLE_IGIN' => 'Rozchód wewnętrzny (RW)',
+	'LBL_DESCRIPTION_BLOCK' => 'Opis',
+	'LBL_ATTENTION_BLOCK' => 'Uwagi',
+	'FL_ACCEPTANCE_DATE' => 'Data przyjęcia',
 	'FL_SUBJECT' => 'Nazwa',
 	'FL_NUMBER' => 'Numer',
 	'FL_STORAGE' => 'Magazyn',

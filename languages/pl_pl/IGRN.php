@@ -3,6 +3,10 @@
 $languageStrings = [
 	'IGRN' => 'Przyjęcie zewnętrzne (PZ)',
 	'SINGLE_IGRN' => 'Przyjęcie zewnętrzne (PZ)',
+	'LBL_DESCRIPTION_BLOCK' => 'Opis',
+	'LBL_ATTENTION_BLOCK' => 'Uwagi',
+	'FL_ACCEPTANCE_DATE' => 'Data przyjęcia',
+	'FL_VENDOR' => 'Dostawca',
 	'FL_SUBJECT' => 'Nazwa',
 	'FL_NUMBER' => 'Numer',
 	'FL_STORAGE' => 'Magazyn',

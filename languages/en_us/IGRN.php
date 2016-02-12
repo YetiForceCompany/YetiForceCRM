@@ -3,6 +3,10 @@
 $languageStrings = [
 	'IGRN' => 'Goods Received Note',
 	'SINGLE_IGRN' => 'Goods Received Note',
+	'LBL_DESCRIPTION_BLOCK' => 'Description',
+	'LBL_ATTENTION_BLOCK' => 'Comments',
+	'FL_ACCEPTANCE_DATE' => 'Date of acceptance',
+	'FL_VENDOR' => 'Vendor',
 	'FL_NUMBER' => 'Number',
 	'FL_SUBJECT' => 'Subject',
 	'FL_STORAGE' => 'Storage',
