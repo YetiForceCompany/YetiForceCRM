@@ -1373,8 +1373,12 @@ CREATE TABLE `u_yf_ipreorder` (
   `number` varchar(32) DEFAULT NULL,
   `subject` varchar(255) DEFAULT NULL,
   `storageid` int(19) DEFAULT NULL,
+  `ipreorder_status` varchar(255) DEFAULT NULL,
+  `accountid` int(19) DEFAULT NULL,
+  `acceptance_date` date DEFAULT NULL,
   PRIMARY KEY (`ipreorderid`),
   KEY `storageid` (`storageid`),
+  KEY `accountid` (`accountid`),
   CONSTRAINT `u_yf_ipreorder_ibfk_1` FOREIGN KEY (`ipreorderid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4093,7 +4097,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2203 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2208 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4621,6 +4625,16 @@ CREATE TABLE `vtiger_invitees` (
   PRIMARY KEY (`activityid`,`inviteeid`),
   CONSTRAINT `vtiger_invitees_ibfk_1` FOREIGN KEY (`activityid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_ipreorder_status` */
+
+CREATE TABLE `vtiger_ipreorder_status` (
+  `ipreorder_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `ipreorder_status` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ipreorder_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_language` */
 

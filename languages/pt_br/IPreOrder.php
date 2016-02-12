@@ -3,7 +3,18 @@
 $languageStrings = [
 	'IPreOrder' => 'Pre-order',
 	'SINGLE_IPreOrder' => 'Pre-order',
+	'LBL_DESCRIPTION_BLOCK' => 'Description',
+	'LBL_ATTENTION_BLOCK' => 'Comments',
+	'FL_ACCEPTANCE_DATE' => 'Date of acceptance',
+	'FL_ACCOUNT' => 'Account',
 	'FL_NUMBER' => 'Number',
 	'FL_SUBJECT' => 'Subject',
 	'FL_STORAGE' => 'Storage',
+	
+	'PLL_DRAFT' => 'Draft',
+	'PLL_IN_REALIZATION' => 'In realization',
+	'PLL_OBJECTIONS' => 'Objections',
+	'PLL_FOR_APPROVAL' => 'For approval',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_ACCEPTED' => 'Accepted',
 ];
