@@ -9,7 +9,7 @@
 class IStorages_Module_Model extends Vtiger_Module_Model
 {
 
-	public static $modulesToCalculate = ['add' => ['IGRN', 'IIDN'], 'remove' => ['IGDN', 'IGIN']];
+	public static $modulesToCalculate = ['add' => ['IGRN', 'IIDN'], 'remove' => ['IGDN', 'IGIN', 'IPreOrder']];
 
 	public static function getOperator($moduleName, $action)
 	{

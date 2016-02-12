@@ -12,7 +12,7 @@ class RecalculateStockHandler extends VTEventHandler
 	function handleEvent($eventName, $data)
 	{
 		$moduleName = $data->getModuleName();
-		if (in_array($moduleName, ['IGRN', 'IIDN', 'IGDN', 'IGIN'])) {
+		if (in_array($moduleName, ['IGRN', 'IIDN', 'IGDN', 'IGIN', 'IPreOrder'])) {
 			$status = strtolower($moduleName) . '_status';
 			if ($data->get($status) == 'PLL_ACCEPTED') {
 				$this->getInventoryDataAndSend($data, 'add');
