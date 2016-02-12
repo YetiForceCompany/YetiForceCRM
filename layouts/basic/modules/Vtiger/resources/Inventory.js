@@ -261,6 +261,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		this.getInventoryItemsContainer().find(thisInstance.rowClass).each(function (index) {
 			thisInstance.quantityChangeActions($(this));
 		});
+		thisInstance.calculateItemNumbers();
 	},
 	summaryCalculations: function () {
 		var thisInstance = this;
@@ -1026,6 +1027,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var element = $(e.currentTarget);
 			thisInstance.getClosestRow(element).remove();
 			thisInstance.checkDeleteIcon();
+			thisInstance.rowsCalculations();
 		});
 	},
 	registerChangeDiscount: function (container) {
@@ -1245,6 +1247,15 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			);
 		});
 	},
+	calculateItemNumbers: function () {
+		var thisInstance = this;
+		var items = this.getInventoryItemsContainer();
+		var i = 1;
+		items.find(thisInstance.rowClass).each(function (index) {
+			$(this).find('.itemNumberText').text(i);
+			i++;
+		});
+	},
 	initItem: function (container) {
 		var thisInstance = this;
 		if (typeof container == 'undefined') {
@@ -1255,7 +1266,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		thisInstance.registerRowChangeEvent(container);
 		thisInstance.registerRowAutoComplete(container);
 		thisInstance.checkDeleteIcon();
-		thisInstance.summaryCalculations();
+		thisInstance.rowsCalculations();
 	},
 	/**
 	 * Function which will register all the events
