@@ -2,8 +2,7 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1104,12 +1103,6 @@ insert  into `vtiger_campaigntype_seq`(`id`) values (13);
 /*Data for the table `vtiger_contactaddress` */
 
 /*Data for the table `vtiger_contactdetails` */
-
-/*Data for the table `vtiger_contactdetails_inventory` */
-
-/*Data for the table `vtiger_contactdetails_invfield` */
-
-/*Data for the table `vtiger_contactdetails_invmap` */
 
 /*Data for the table `vtiger_contactsbookmails` */
 

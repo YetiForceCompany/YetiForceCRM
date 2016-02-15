@@ -2,8 +2,7 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -989,9 +988,9 @@ CREATE TABLE `u_yf_finvoice_invfield` (
 
 CREATE TABLE `u_yf_finvoice_invmap` (
   `module` varchar(50) NOT NULL,
-  `field` varchar(50) DEFAULT NULL,
-  `tofield` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`module`)
+  `field` varchar(50) NOT NULL,
+  `tofield` varchar(50) NOT NULL,
+  PRIMARY KEY (`module`,`field`,`tofield`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_finvoicecf` */
@@ -1094,9 +1093,9 @@ CREATE TABLE `u_yf_finvoiceproforma_invfield` (
 
 CREATE TABLE `u_yf_finvoiceproforma_invmap` (
   `module` varchar(50) NOT NULL,
-  `field` varchar(50) DEFAULT NULL,
-  `tofield` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`module`)
+  `field` varchar(50) NOT NULL,
+  `tofield` varchar(50) NOT NULL,
+  PRIMARY KEY (`module`,`field`,`tofield`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_finvoiceproformacf` */
@@ -1166,9 +1165,9 @@ CREATE TABLE `u_yf_igdn_invfield` (
 
 CREATE TABLE `u_yf_igdn_invmap` (
   `module` varchar(50) NOT NULL,
-  `field` varchar(50) DEFAULT NULL,
-  `tofield` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`module`)
+  `field` varchar(50) NOT NULL,
+  `tofield` varchar(50) NOT NULL,
+  PRIMARY KEY (`module`,`field`,`tofield`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igdncf` */
@@ -1229,9 +1228,9 @@ CREATE TABLE `u_yf_igin_invfield` (
 
 CREATE TABLE `u_yf_igin_invmap` (
   `module` varchar(50) NOT NULL,
-  `field` varchar(50) DEFAULT NULL,
-  `tofield` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`module`)
+  `field` varchar(50) NOT NULL,
+  `tofield` varchar(50) NOT NULL,
+  PRIMARY KEY (`module`,`field`,`tofield`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igincf` */
@@ -1297,9 +1296,9 @@ CREATE TABLE `u_yf_igrn_invfield` (
 
 CREATE TABLE `u_yf_igrn_invmap` (
   `module` varchar(50) NOT NULL,
-  `field` varchar(50) DEFAULT NULL,
-  `tofield` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`module`)
+  `field` varchar(50) NOT NULL,
+  `tofield` varchar(50) NOT NULL,
+  PRIMARY KEY (`module`,`field`,`tofield`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igrncf` */
@@ -1360,9 +1359,9 @@ CREATE TABLE `u_yf_iidn_invfield` (
 
 CREATE TABLE `u_yf_iidn_invmap` (
   `module` varchar(50) NOT NULL,
-  `field` varchar(50) DEFAULT NULL,
-  `tofield` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`module`)
+  `field` varchar(50) NOT NULL,
+  `tofield` varchar(50) NOT NULL,
+  PRIMARY KEY (`module`,`field`,`tofield`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_iidncf` */
@@ -1425,9 +1424,9 @@ CREATE TABLE `u_yf_ipreorder_invfield` (
 
 CREATE TABLE `u_yf_ipreorder_invmap` (
   `module` varchar(50) NOT NULL,
-  `field` varchar(50) DEFAULT NULL,
-  `tofield` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`module`)
+  `field` varchar(50) NOT NULL,
+  `tofield` varchar(50) NOT NULL,
+  PRIMARY KEY (`module`,`field`,`tofield`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_ipreordercf` */
@@ -1607,9 +1606,9 @@ CREATE TABLE `u_yf_scalculations_invfield` (
 
 CREATE TABLE `u_yf_scalculations_invmap` (
   `module` varchar(50) NOT NULL,
-  `field` varchar(50) DEFAULT NULL,
-  `tofield` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`module`)
+  `field` varchar(50) NOT NULL,
+  `tofield` varchar(50) NOT NULL,
+  PRIMARY KEY (`module`,`field`,`tofield`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_scalculationscf` */
@@ -1671,9 +1670,9 @@ CREATE TABLE `u_yf_squoteenquiries_invfield` (
 
 CREATE TABLE `u_yf_squoteenquiries_invmap` (
   `module` varchar(50) NOT NULL,
-  `field` varchar(50) DEFAULT NULL,
-  `tofield` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`module`)
+  `field` varchar(50) NOT NULL,
+  `tofield` varchar(50) NOT NULL,
+  PRIMARY KEY (`module`,`field`,`tofield`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squoteenquiriescf` */
@@ -1788,9 +1787,9 @@ CREATE TABLE `u_yf_squotes_invfield` (
 
 CREATE TABLE `u_yf_squotes_invmap` (
   `module` varchar(50) NOT NULL,
-  `field` varchar(50) DEFAULT NULL,
-  `tofield` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`module`)
+  `field` varchar(50) NOT NULL,
+  `tofield` varchar(50) NOT NULL,
+  PRIMARY KEY (`module`,`field`,`tofield`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squotescf` */
@@ -1894,9 +1893,9 @@ CREATE TABLE `u_yf_srecurringorders_invfield` (
 
 CREATE TABLE `u_yf_srecurringorders_invmap` (
   `module` varchar(50) NOT NULL,
-  `field` varchar(50) DEFAULT NULL,
-  `tofield` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`module`)
+  `field` varchar(50) NOT NULL,
+  `tofield` varchar(50) NOT NULL,
+  PRIMARY KEY (`module`,`field`,`tofield`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_srecurringorderscf` */
@@ -1960,9 +1959,9 @@ CREATE TABLE `u_yf_srequirementscards_invfield` (
 
 CREATE TABLE `u_yf_srequirementscards_invmap` (
   `module` varchar(50) NOT NULL,
-  `field` varchar(50) DEFAULT NULL,
-  `tofield` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`module`)
+  `field` varchar(50) NOT NULL,
+  `tofield` varchar(50) NOT NULL,
+  PRIMARY KEY (`module`,`field`,`tofield`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_srequirementscardscf` */
@@ -2110,9 +2109,9 @@ CREATE TABLE `u_yf_ssingleorders_invfield` (
 
 CREATE TABLE `u_yf_ssingleorders_invmap` (
   `module` varchar(50) NOT NULL,
-  `field` varchar(50) DEFAULT NULL,
-  `tofield` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`module`)
+  `field` varchar(50) NOT NULL,
+  `tofield` varchar(50) NOT NULL,
+  PRIMARY KEY (`module`,`field`,`tofield`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_ssingleorderscf` */
@@ -2966,41 +2965,6 @@ CREATE TABLE `vtiger_contactdetails` (
   KEY `email_idx` (`email`),
   KEY `lastname` (`lastname`),
   CONSTRAINT `fk_1_vtiger_contactdetails` FOREIGN KEY (`contactid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_contactdetails_inventory` */
-
-CREATE TABLE `vtiger_contactdetails_inventory` (
-  `id` int(19) DEFAULT NULL,
-  `seq` int(10) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_vtiger_contactdetails_inventory` FOREIGN KEY (`id`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_contactdetails_invfield` */
-
-CREATE TABLE `vtiger_contactdetails_invfield` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `columnname` varchar(30) NOT NULL,
-  `label` varchar(50) NOT NULL,
-  `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `defaultvalue` varchar(255) DEFAULT NULL,
-  `sequence` int(10) unsigned NOT NULL,
-  `block` tinyint(1) unsigned NOT NULL,
-  `displaytype` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `params` text,
-  `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_contactdetails_invmap` */
-
-CREATE TABLE `vtiger_contactdetails_invmap` (
-  `module` varchar(50) NOT NULL,
-  `field` varchar(50) DEFAULT NULL,
-  `tofield` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`module`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_contactsbookmails` */
@@ -7066,7 +7030,7 @@ CREATE TABLE `vtiger_scalculations_status` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`scalculations_statusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_scheduled_reports` */
 
@@ -7476,7 +7440,7 @@ CREATE TABLE `vtiger_ssingleorders_status` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`ssingleorders_statusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ssservicesstatus` */
 
