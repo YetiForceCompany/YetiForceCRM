@@ -255,18 +255,13 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 * @param string $moduleName
 	 * @return array
 	 */
-	public function getAutoCompleteField($moduleName)
+	public function getAutoCompleteFieldsByModule($moduleName)
 	{
-		$db = PearDatabase::getInstance();
-		$table = $this->getTableName('autofield');
-		$result = $db->query("SHOW TABLES LIKE '$table'");
-		if ($result->rowCount() == 0) {
-			return false;
-		}
-		$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE module = ?', [$moduleName]);
 		$fields = [];
-		while ($row = $db->fetch_array($result)) {
-			$fields[] = $row;
+		foreach ($this->getAutoCompleteFields() as $row) {
+			if($row['module'] == $moduleName) {
+				$fields[] = $row;
+			}
 		}
 		return $fields;
 	}
@@ -539,5 +534,23 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			}
 		}
 		return $summaryFields;
+	}
+
+	public function getAutoCompleteFields()
+	{
+		$instance = Vtiger_Cache::get('AutoCompleteFields', $this->get('module'));
+		if ($instance) {
+			return $instance;
+		}
+
+		$db = PearDatabase::getInstance();
+		$table = $this->getTableName('autofield');
+		$result = $db->pquery('SELECT * FROM ' . $table);
+		$fields = [];
+		while ($row = $db->getRow($result)) {
+			$fields[$row['tofield']] = $row;
+		}
+		Vtiger_Cache::set('AutoCompleteFields', $this->get('module'), $fields);
+		return $fields;
 	}
 }

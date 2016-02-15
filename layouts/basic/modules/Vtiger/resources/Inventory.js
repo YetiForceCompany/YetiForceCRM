@@ -629,7 +629,9 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 
 			for (var field in recordData['autoFields']) {
 				parentRow.find('input.' + field).val(recordData['autoFields'][field]);
-				parentRow.find('.' + field + 'Text').text(recordData['autoFields'][field]);
+				if (recordData['autoFields'][field + 'Text']){
+					parentRow.find('.' + field + 'Text').text(recordData['autoFields'][field + 'Text']);
+				}
 			}
 
 			var currencyId = thisInstance.getCurrency();

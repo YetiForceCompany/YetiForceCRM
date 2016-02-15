@@ -258,4 +258,21 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 		}
 		return $sum;
 	}
+
+	public function getMapDetail($returInstance = false)
+	{
+		$inventoryField = Vtiger_InventoryField_Model::getInstance($this->get('module'));
+		$fields = $inventoryField->getAutoCompleteFields();
+		$name = $this->getColumnName();
+		if (isset($fields[$name])) {
+			$mapDetail = $fields[$name];
+			if ($returInstance) {
+				$moduleModel = Vtiger_Module_Model::getInstance($mapDetail['module']);
+				return Vtiger_Field_Model::getInstance($mapDetail['field'], $moduleModel);
+			} else {
+				return $mapDetail;
+			}
+		}
+		return false;
+	}
 }
