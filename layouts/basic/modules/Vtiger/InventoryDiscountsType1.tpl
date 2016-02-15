@@ -17,7 +17,7 @@
 						<span class="input-group-addon">
 							<input type="checkbox" name="groupCheckbox" value="on" class="groupCheckbox">
 						</span>
-						<input type="text" class="form-control groupValue" name="groupDiscount" value="{$GROUP_DISCOUNT}" readonly="true">
+						<input type="text" class="form-control groupValue" name="groupDiscount" value="{CurrencyField::convertToUserFormat($GROUP_DISCOUNT, null, true)}" readonly="true">
 						<span class="input-group-addon">%</span>
 					</div>
 				</div>

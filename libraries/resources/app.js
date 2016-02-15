@@ -1183,15 +1183,14 @@ var app = {
 	},
 	parseNumberToFloat: function (val) {
 		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
-		var groupingSeparator = app.getMainParams('currencyGroupingSeparator');
+		var groupSeparator = app.getMainParams('currencyGroupingSeparator');
+		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
 		if (val == undefined || val == '') {
 			val = 0;
 		}
 		val = val.toString();
-		if (app.getMainParams('currencyDecimalSeparator') == ',') {
-			val = val.replace(/\s/g, "").replace(",", ".");
-		}
-		val = val.split(groupingSeparator).join("");
+		val = val.split(groupSeparator).join("");
+		val = val.replace(/\s/g, "").replace(decimalSeparator, ".");
 		return parseFloat(val);
 	},
 	errorLog: function (error, err, errorThrown) {

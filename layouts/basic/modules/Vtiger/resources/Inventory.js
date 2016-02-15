@@ -194,7 +194,12 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	},
 	getPurchase: function (row) {
 		var qty = this.getQuantityValue(row);
-		return app.parseNumberToFloat($('.purchase', row).val()) * qty;
+		var element = $('.purchase', row);
+		var purchase = 0;
+		if (element.length > 0) {
+			purchase = app.parseNumberToFloat(element.val());
+		}
+		return purchase * qty;
 	},
 	getSummaryGrossPrice: function () {
 		var thisInstance = this;
@@ -277,7 +282,10 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var thisInstance = this;
 		var sum = 0;
 		this.getInventoryItemsContainer().find(thisInstance.rowClass).each(function (index) {
-			sum += app.parseNumberToFloat($(this).find('.' + field).val());
+			var element = $(this).find('.' + field);
+			if (element.length > 0) {
+				sum += app.parseNumberToFloat(element.val());
+			}
 		});
 		if (element) {
 			element.text(app.parseNumberToShow(sum));
@@ -430,7 +438,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			}
 			if (modal.find('.activepanel .individualDiscountType').length > 0) {
 				var individualTypeDiscount = modal.find('.activepanel .individualDiscountType:checked').val();
-				var value = modal.find('.activepanel .individualDiscountValue').val();
+				var value = app.parseNumberToFloat(modal.find('.activepanel .individualDiscountValue').val());
 				if (individualTypeDiscount == 'percentage') {
 					individualDiscount = netPriceBeforeDiscount * (value / 100);
 				} else {
@@ -443,7 +451,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			}
 
 			valuePrices = valuePrices * ((100 - globalDiscount) / 100);
-			valuePrices = valuePrices - app.parseNumberToFloat(individualDiscount);
+			valuePrices = valuePrices - individualDiscount;
 			valuePrices = valuePrices - groupDiscount;
 		} else if (discountsType == '2') {
 			modal.find('.activepanel').each(function (index) {
@@ -475,12 +483,12 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				groupTax = 0,
 				regionalTax = 0,
 				individualTax = 0,
-				valueTax = 0;
+				globalTax = 0;
 
 		var taxType = modal.find('.taxsType').val();
 		if (taxType == '0' || taxType == '1') {
 			if (modal.find('.activepanel .globalTax').length > 0) {
-				var globalTax = modal.find('.activepanel .globalTax').val();
+				var globalTax = app.parseNumberToFloat(modal.find('.activepanel .globalTax').val());
 			}
 			if (modal.find('.activepanel .individualTaxValue').length > 0) {
 				var value = app.parseNumberToFloat(modal.find('.activepanel .individualTaxValue').val());
@@ -488,17 +496,17 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			}
 			if (modal.find('.activepanel .groupTax').length > 0) {
 				var groupTax = app.parseNumberToFloat(modal.find('.groupTax').val());
-				groupTax = netPriceWithoutTax * (app.parseNumberToFloat(groupTax) / 100);
+				groupTax = netPriceWithoutTax * (groupTax / 100);
 			}
 			if (modal.find('.activepanel .regionalTax').length > 0) {
 				var regionalTax = app.parseNumberToFloat(modal.find('.regionalTax').val());
-				regionalTax = netPriceWithoutTax * (app.parseNumberToFloat(regionalTax) / 100);
+				regionalTax = netPriceWithoutTax * (regionalTax / 100);
 			}
 
-			valuePrices = valuePrices * ((100 + app.parseNumberToFloat(globalTax)) / 100);
-			valuePrices = valuePrices + app.parseNumberToFloat(individualTax);
-			valuePrices = valuePrices + app.parseNumberToFloat(groupTax);
-			valuePrices = valuePrices + app.parseNumberToFloat(regionalTax);
+			valuePrices = valuePrices * ((100 + globalTax) / 100);
+			valuePrices = valuePrices + individualTax;
+			valuePrices = valuePrices + groupTax;
+			valuePrices = valuePrices + regionalTax;
 		} else if (taxType == '2') {
 			modal.find('.activepanel').each(function (index) {
 				var panel = $(this);
@@ -629,7 +637,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 
 			for (var field in recordData['autoFields']) {
 				parentRow.find('input.' + field).val(recordData['autoFields'][field]);
-				if (recordData['autoFields'][field + 'Text']){
+				if (recordData['autoFields'][field + 'Text']) {
 					parentRow.find('.' + field + 'Text').text(recordData['autoFields'][field + 'Text']);
 				}
 			}
